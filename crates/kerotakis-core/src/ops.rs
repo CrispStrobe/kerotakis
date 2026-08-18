@@ -100,9 +100,30 @@ pub enum Event {
         value: f64,
         unit: String,
     },
-    /// L0 refused the operation. Nothing was mutated.
+    /// L0 recognised a real-world hazard. The simulation proceeds — that is
+    /// the pedagogy — but this event always precedes the chemistry.
+    HazardWarning {
+        severity: crate::solve::Severity,
+        hazard: String,
+        real_world: String,
+    },
+    /// L0 refused the operation (product-safety boundary). Nothing was
+    /// mutated.
     SafetyVeto {
         reason: String,
+    },
+    /// A gas formed and left the open vessel. The balance notices.
+    GasEvolved {
+        vessel: VesselId,
+        species: SpeciesId,
+        moles: Moles,
+    },
+    /// A curated reaction transformed the contents. The equation is shown at
+    /// student register and above; the observations arrive as their own
+    /// events.
+    ReactionOccurred {
+        vessel: VesselId,
+        equation: String,
     },
     /// The state is one no wired solver models yet. State is unchanged
     /// except for the honest bookkeeping already performed; the renderer says

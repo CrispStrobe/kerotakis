@@ -8,6 +8,7 @@ use kerotakis_phreeqc::PhreeqcEquilibrator;
 fn stack() -> SolverStack {
     SolverStack::new(vec![
         Box::new(MixingEquilibrator),
+        Box::new(CuratedEquilibrator),
         Box::new(PhreeqcEquilibrator::new().expect("engine")),
         Box::new(HonestyEquilibrator),
     ])

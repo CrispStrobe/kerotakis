@@ -8,6 +8,7 @@ use kerotakis_safety::ReactiveGroupScreen;
 fn stack() -> SolverStack {
     SolverStack::new(vec![
         Box::new(MixingEquilibrator),
+        Box::new(CuratedEquilibrator),
         Box::new(PhreeqcEquilibrator::new().expect("engine")),
         Box::new(HonestyEquilibrator),
     ])
@@ -137,30 +138,49 @@ fn endothermic_salt_cools_slightly() {
 }
 
 #[test]
-fn bleach_and_ammonia_is_vetoed_in_the_loop() {
+fn bleach_and_ammonia_warns_then_shows_the_chloramine() {
+    // Pedagogy over prohibition: the warning always comes first, and then
+    // the virtual lab shows precisely what would happen.
     let mut bench = Bench::new();
     let mut stack = stack();
     let v = VesselId(0);
     add(&mut bench, &mut stack, v, "water", 5.55);
     add(&mut bench, &mut stack, v, "NaOCl", 0.1);
-    let before = serde_json::to_string(&bench.vessel(v).unwrap().contents).unwrap();
     let events = add(&mut bench, &mut stack, v, "NH3", 0.1);
 
+    let warn_pos = events
+        .iter()
+        .position(
+            |e| matches!(e, Event::HazardWarning { hazard, .. } if hazard.contains("chloramine")),
+        )
+        .expect("hazard warning must be present");
+    let gas_pos = events
+        .iter()
+        .position(
+            |e| matches!(e, Event::GasEvolved { species, moles, .. } if species.0 == "NH2Cl" && (moles.0 - 0.1).abs() < 1e-9),
+        )
+        .expect("chloramine gas must actually evolve");
+    assert!(warn_pos < gas_pos, "the warning precedes the chemistry");
     assert!(
-        events
-            .iter()
-            .any(|e| matches!(e, Event::SafetyVeto { reason } if reason.contains("chloramine"))),
-        "bleach + ammonia must be vetoed, got {events:?}"
+        events.iter().any(
+            |e| matches!(e, Event::ReactionOccurred { equation, .. } if equation.contains("NH2Cl"))
+        ),
+        "the equation is shown"
     );
-    assert_eq!(
-        before,
-        serde_json::to_string(&bench.vessel(v).unwrap().contents).unwrap(),
-        "a vetoed operation must not mutate the vessel"
+
+    // The reactants are consumed; the NaOH byproduct makes it basic.
+    let vessel = bench.vessel(v).unwrap();
+    assert!((vessel.moles_of(&SpeciesId::new("NaOCl")).0).abs() < 1e-9);
+    assert!((vessel.moles_of(&SpeciesId::new("NH3")).0).abs() < 1e-9);
+    let ph = vessel.solution.expect("characterised").ph;
+    assert!(
+        ph > 12.0,
+        "0.1 mol NaOH byproduct in 100 mL is strongly basic, got pH {ph}"
     );
 }
 
 #[test]
-fn decanting_bleach_into_ammonia_is_vetoed() {
+fn decanting_bleach_into_ammonia_warns_first() {
     let mut bench = Bench::new();
     let mut stack = stack();
     bench.step(Operator::NewVessel).unwrap();
@@ -179,14 +199,15 @@ fn decanting_bleach_into_ammonia_is_vetoed() {
         )
         .expect("step");
     assert!(
-        events.iter().any(|e| matches!(e, Event::SafetyVeto { .. })),
-        "pouring bleach into ammonia must be vetoed, got {events:?}"
+        events
+            .iter()
+            .any(|e| matches!(e, Event::HazardWarning { .. })),
+        "pouring bleach into ammonia must warn, got {events:?}"
     );
-    // Nothing moved.
-    let a_moles = bench
-        .vessel(a)
-        .unwrap()
-        .moles_of(&SpeciesId::new("NaOCl"))
-        .0;
-    assert!((a_moles - 0.1).abs() < 1e-12);
+    assert!(
+        events
+            .iter()
+            .any(|e| matches!(e, Event::GasEvolved { species, .. } if species.0 == "NH2Cl")),
+        "and the gas forms in the target vessel, got {events:?}"
+    );
 }

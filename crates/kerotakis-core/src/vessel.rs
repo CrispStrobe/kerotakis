@@ -102,6 +102,21 @@ impl Vessel {
         }
     }
 
+    /// Remove up to `moles` of a species across its portions (any phase).
+    /// Returns the amount actually removed.
+    pub fn withdraw(&mut self, species: &SpeciesId, moles: Moles) -> Moles {
+        let mut remaining = moles.0;
+        for p in self.contents.iter_mut() {
+            if &p.species == species && remaining > 0.0 {
+                let take = p.moles.0.min(remaining);
+                p.moles = Moles(p.moles.0 - take);
+                remaining -= take;
+            }
+        }
+        self.contents.retain(|p| p.moles.0 > 1e-15);
+        Moles(moles.0 - remaining)
+    }
+
     /// Total heat capacity of the contents, J/K. Zero for an empty vessel.
     pub fn heat_capacity(&self) -> f64 {
         self.contents

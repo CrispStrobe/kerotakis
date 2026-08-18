@@ -55,20 +55,50 @@ impl Equilibrator for SolverStack {
     }
 }
 
-/// L0. Runs before any chemistry; may veto.
-pub trait SafetyScreen {
-    /// `Some(reason)` vetoes the step.
-    fn veto(&self, vessel: &Vessel) -> Option<String>;
+/// How dangerous the real-world version of this state is.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Severity {
+    Caution,
+    Danger,
 }
 
-/// v0 screen: permissive. Replaced in P1 by the reimplemented NOAA
-/// reactive-group matrix — this type exists so the loop is wired for a veto
-/// from day one.
+/// L0's judgment of a prospective state.
+///
+/// This is a *pedagogical* tool: known hazards **warn strongly and then
+/// proceed** — being precise about what would happen is the lesson, and the
+/// virtual lab is the one place it can be watched safely. `Veto` exists for
+/// the product-safety boundary (states the product must not compute at all,
+/// e.g. anything shading into synthesis-oracle territory — see PLAN.md,
+/// "What this will not do"), not for curriculum hazards.
+#[derive(Debug, Clone, PartialEq)]
+pub enum SafetyVerdict {
+    Allow,
+    /// Proceed, but emit a strong warning first: what the hazard is, and what
+    /// it would mean outside the simulation.
+    Warn {
+        severity: Severity,
+        hazard: String,
+        real_world: String,
+    },
+    /// Refuse entirely. Reserved for the product-safety boundary.
+    Veto {
+        reason: String,
+    },
+}
+
+/// L0. Runs before any chemistry, on the prospective state.
+pub trait SafetyScreen {
+    fn assess(&self, vessel: &Vessel) -> SafetyVerdict;
+}
+
+/// v0 screen: permissive. The real screen lives in `kerotakis-safety`; this
+/// type exists so the loop is wired for L0 from day one.
 pub struct PermissiveScreen;
 
 impl SafetyScreen for PermissiveScreen {
-    fn veto(&self, _vessel: &Vessel) -> Option<String> {
-        None
+    fn assess(&self, _vessel: &Vessel) -> SafetyVerdict {
+        SafetyVerdict::Allow
     }
 }
 

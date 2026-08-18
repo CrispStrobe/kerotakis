@@ -1,17 +1,22 @@
 //! # kerotakis-safety
 //!
 //! The L0 reactivity screen: runs before any chemistry, on the *prospective*
-//! vessel state, and can veto the operation (PLAN.md, L0).
+//! vessel state (PLAN.md, L0).
 //!
-//! This is the seed of our own reimplementation of the reactive-group
+//! This is a pedagogical tool, so known hazards produce a **strong warning
+//! and then proceed** — being precise about what would happen is the lesson,
+//! and the virtual lab is the one place it can be watched safely. The actual
+//! outcome (chloramine gas, chlorine gas) is computed by the curated
+//! reaction layer; this screen's job is to make sure the warning always
+//! comes first. `Veto` is reserved for the product-safety boundary.
+//!
+//! The matrix is the seed of our own reimplementation of the reactive-group
 //! compatibility methodology published by NOAA's Office of Response and
-//! Restoration (open-access CRW papers; see PLAN.md for the exact sourcing
-//! and legal position). The matrix below is a hand-verified starter set of
-//! textbook incompatibilities — the full group set and SMARTS-driven group
-//! assignment arrive with the Indigo integration. Every entry is our own
-//! encoding of published, non-copyrightable reactivity facts.
+//! Restoration (see PLAN.md for sourcing and the legal position). Every
+//! entry is our own encoding of published, non-copyrightable reactivity
+//! facts.
 
-use kerotakis_core::{SafetyScreen, Vessel};
+use kerotakis_core::{SafetyScreen, SafetyVerdict, Severity, Vessel};
 
 /// Seed reactive groups. Grows toward the full published group set.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -35,45 +40,57 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
     }
 }
 
+struct Incompatibility {
+    a: ReactiveGroup,
+    b: ReactiveGroup,
+    severity: Severity,
+    hazard: &'static str,
+    real_world: &'static str,
+}
+
 /// The seed incompatibility matrix. Symmetric; checked both ways.
-/// (Reason strings are shown verbatim to the user by the veto event.)
-const INCOMPATIBLE: &[(ReactiveGroup, ReactiveGroup, &str)] = &[
-    (
-        ReactiveGroup::OxidizerHypochlorite,
-        ReactiveGroup::AmmoniaAmines,
-        "mixing bleach with ammonia releases toxic chloramine gases",
-    ),
-    (
-        ReactiveGroup::OxidizerHypochlorite,
-        ReactiveGroup::AcidStrong,
-        "mixing bleach with acid releases toxic chlorine gas",
-    ),
+const INCOMPATIBLE: &[Incompatibility] = &[
+    Incompatibility {
+        a: ReactiveGroup::OxidizerHypochlorite,
+        b: ReactiveGroup::AmmoniaAmines,
+        severity: Severity::Danger,
+        hazard: "mixing bleach with ammonia makes chloramine, a toxic gas",
+        real_world: "People are hospitalised every year from mixing these two household cleaners.",
+    },
+    Incompatibility {
+        a: ReactiveGroup::OxidizerHypochlorite,
+        b: ReactiveGroup::AcidStrong,
+        severity: Severity::Danger,
+        hazard: "mixing bleach with acid releases chlorine, a toxic gas",
+        real_world: "Chlorine gas was used as a chemical weapon; even small amounts damage lungs.",
+    },
 ];
 
-/// The L0 screen: vetoes any state whose species carry incompatible
-/// reactive groups.
+/// The L0 screen: warns (strongly, precisely) on states whose species carry
+/// incompatible reactive groups; the simulation then shows what happens.
 pub struct ReactiveGroupScreen;
 
 impl SafetyScreen for ReactiveGroupScreen {
-    fn veto(&self, vessel: &Vessel) -> Option<String> {
-        let present: Vec<(&str, ReactiveGroup)> = vessel
+    fn assess(&self, vessel: &Vessel) -> SafetyVerdict {
+        let present: Vec<ReactiveGroup> = vessel
             .contents
             .iter()
-            .flat_map(|p| {
-                let key = p.species.0.as_str();
-                groups(key).iter().map(move |g| (key, *g))
-            })
+            .flat_map(|p| groups(p.species.0.as_str()).iter().copied())
             .collect();
-        for (i, (_, a)) in present.iter().enumerate() {
-            for (_, b) in present.iter().skip(i + 1) {
-                for (x, y, reason) in INCOMPATIBLE {
-                    if (a == x && b == y) || (a == y && b == x) {
-                        return Some((*reason).to_string());
+        for (i, a) in present.iter().enumerate() {
+            for b in present.iter().skip(i + 1) {
+                for inc in INCOMPATIBLE {
+                    if (*a == inc.a && *b == inc.b) || (*a == inc.b && *b == inc.a) {
+                        return SafetyVerdict::Warn {
+                            severity: inc.severity,
+                            hazard: inc.hazard.to_string(),
+                            real_world: inc.real_world.to_string(),
+                        };
                     }
                 }
             }
         }
-        None
+        SafetyVerdict::Allow
     }
 }
 
@@ -91,29 +108,33 @@ mod tests {
     }
 
     #[test]
-    fn bleach_and_ammonia_is_vetoed() {
+    fn bleach_and_ammonia_warns_and_proceeds() {
         let v = vessel_with(&["water", "NaOCl", "NH3"]);
-        let veto = ReactiveGroupScreen.veto(&v);
-        assert!(veto.is_some_and(|r| r.contains("chloramine")));
+        match ReactiveGroupScreen.assess(&v) {
+            SafetyVerdict::Warn { hazard, .. } => assert!(hazard.contains("chloramine")),
+            other => panic!("expected Warn, got {other:?}"),
+        }
     }
 
     #[test]
-    fn bleach_and_acid_is_vetoed() {
+    fn bleach_and_acid_warns() {
         let v = vessel_with(&["NaOCl", "HCl"]);
-        let veto = ReactiveGroupScreen.veto(&v);
-        assert!(veto.is_some_and(|r| r.contains("chlorine")));
+        match ReactiveGroupScreen.assess(&v) {
+            SafetyVerdict::Warn { hazard, .. } => assert!(hazard.contains("chlorine")),
+            other => panic!("expected Warn, got {other:?}"),
+        }
     }
 
     #[test]
     fn acid_and_base_is_allowed() {
-        // Neutralisation is chemistry, not a hazard veto.
+        // Neutralisation is chemistry, not a hazard.
         let v = vessel_with(&["water", "HCl", "NaOH"]);
-        assert!(ReactiveGroupScreen.veto(&v).is_none());
+        assert_eq!(ReactiveGroupScreen.assess(&v), SafetyVerdict::Allow);
     }
 
     #[test]
     fn benign_mixtures_pass() {
         let v = vessel_with(&["water", "NaCl", "AgNO3"]);
-        assert!(ReactiveGroupScreen.veto(&v).is_none());
+        assert_eq!(ReactiveGroupScreen.assess(&v), SafetyVerdict::Allow);
     }
 }

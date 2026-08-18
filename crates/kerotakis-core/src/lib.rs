@@ -9,6 +9,7 @@
 //! See PLAN.md at the repository root for the architecture this implements.
 
 pub mod bench;
+pub mod curated;
 pub mod ops;
 pub mod render;
 pub mod solve;
@@ -17,11 +18,12 @@ pub mod units;
 pub mod vessel;
 
 pub use bench::{Bench, BenchError};
+pub use curated::CuratedEquilibrator;
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use render::{render_event, Register};
 pub use solve::{
     Equilibrator, HonestyEquilibrator, MixingEquilibrator, PermissiveScreen, SafetyScreen,
-    SolveError, SolverStack,
+    SafetyVerdict, Severity, SolveError, SolverStack,
 };
 pub use species::{Phase, SpeciesId};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};

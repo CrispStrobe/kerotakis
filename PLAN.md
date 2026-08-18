@@ -103,6 +103,17 @@ router → new state + explanation. Between operators the bench re-equilibrates.
 This is what makes it a *lab* rather than a reaction calculator — the pedagogy
 lives in the sequence, and the sequence is free once state is explicit.
 
+**L0 grades, it rarely refuses.** This is a pedagogical tool: for known
+hazards the screen emits a **strong, precise warning first** — what forms,
+what it would mean outside the simulation — and then the chemistry *proceeds
+and shows exactly what would happen* (curated outcome where no solver covers
+it). Mixing bleach and ammonia warns, then evolves chloramine you can watch
+leave the vessel on the balance. Prohibition teaches nothing; precision plus
+consequence does, and the virtual lab is the only place that is safe. The
+hard `Veto` verdict exists in the type but is reserved for the
+product-safety boundary ("What this will not do" — anything shading into
+synthesis-oracle territory), not for curriculum hazards.
+
 **Apparatus are operators.** Burette, distillation head, separating funnel,
 pneumatic trough, Soxhlet — each is an operator (or operator + constraint set)
 in `kerotakis-core`, drivable textually from day one; graphics come later.
@@ -171,7 +182,7 @@ the ones below resolve.
 
 | Layer | Role | Engine | Licence |
 |---|---|---|---|
-| **L0** | Safety & reactivity screen — runs first, can veto | Our reimplementation of the NOAA 43×43 reactive-group matrix (see below) | ours, from public-domain methodology |
+| **L0** | Safety & reactivity screen — runs first, grades the state | Our reimplementation of the NOAA reactive-group matrix (see below) | ours, from public-domain methodology |
 | **L1** | Species & property registry, canonical InChIKey identity | SQLite/static data + Indigo (bundles the InChI plugin) | Apache-2.0 / MIT |
 | **L2** | Aqueous equilibrium — **the workhorse** | IPhreeqc + phreeqc.dat, wateq4f.dat, minteq.v4.dat, **pitzer.dat** | USGS, public domain |
 | **L2g** | Gas + condensed-phase equilibrium — heat, ignite, decompose, burn | Gibbs minimiser over NASA CEA data (adopt/extend `cea-rs`, or write it) | Apache-2.0 data |
@@ -675,10 +686,14 @@ The single highest-information task. Everything else is downstream of it.
       slightly — computed, tested). Solver↔T iteration still single-pass
 - [x] `kerotakis-cli`: REPL + batch (`kero run x.lab`) + `--json` with a
       contract test pinning the JSON shape
-- [x] L0 wired as a veto before any chemistry, on the *prospective* state,
-      for `add` **and** `decant` (`kerotakis-safety`): seed reactive-group
-      matrix covers bleach×ammonia (chloramines) and bleach×acid (chlorine),
-      verified in the loop with no mutation on veto
+- [x] L0 wired before any chemistry, on the *prospective* state, for `add`
+      **and** `decant` (`kerotakis-safety`), with graded verdicts:
+      Allow / **Warn-then-show** (the pedagogical default — warning always
+      precedes the chemistry, tested) / Veto (reserved, product-safety
+      boundary). Seed matrix: bleach×ammonia, bleach×acid — both with
+      curated outcomes that actually run (chloramine/chlorine gas evolves,
+      mass measurably leaves the open vessel, NaOH byproduct turns the
+      solution basic)
 - [ ] Grow the seed matrix to the full published NOAA group set with
       SMARTS-driven group assignment (needs Indigo; legal sourcing per the
       L0 note)

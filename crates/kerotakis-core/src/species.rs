@@ -260,6 +260,32 @@ pub const REGISTRY: &[SpeciesData] = &[
         dissolution_enthalpy_kj: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; modelled as household bleach solution (safety screening only at this stage)",
     },
+    SpeciesData {
+        key: "NH2Cl",
+        name: "chloramine",
+        formula: "NH2Cl",
+        inchikey: "QDHHCQZDFGDHMP-UHFFFAOYSA-N",
+        molar_mass: 51.476,
+        heat_capacity: 35.0,
+        density: 1.0,
+        standard_phase: Phase::Gas,
+        appearance: Some("sharp-smelling, toxic"),
+        dissolution_enthalpy_kj: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; product of the curated bleach+ammonia entry",
+    },
+    SpeciesData {
+        key: "Cl2",
+        name: "chlorine gas",
+        formula: "Cl2",
+        inchikey: "KZBUYRJDOAKODT-UHFFFAOYSA-N",
+        molar_mass: 70.906,
+        heat_capacity: 33.9,
+        density: 1.0,
+        standard_phase: Phase::Gas,
+        appearance: Some("yellow-green, toxic"),
+        dissolution_enthalpy_kj: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(g): standard reference values",
+    },
 ];
 
 pub fn lookup(id: &SpeciesId) -> Option<&'static SpeciesData> {

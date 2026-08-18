@@ -140,10 +140,55 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 Register::Expert => format!("{vessel} {device}: {value:.4} {unit}"),
             }
         }
+        Event::HazardWarning {
+            severity,
+            hazard,
+            real_world,
+        } => match register {
+            Register::Child => format!(
+                "⚠️  STOP AND READ: {hazard}. {real_world} NEVER try this outside the virtual lab — here, we can watch what happens safely."
+            ),
+            Register::Student => format!(
+                "⚠ HAZARD ({severity:?}): {hazard} — {real_world} Safe only because this lab is virtual."
+            ),
+            Register::Expert => format!("HAZARD [{severity:?}] (L0): {hazard}; {real_world}"),
+        },
         Event::SafetyVeto { reason } => match register {
-            Register::Child => format!("Stop! That would be dangerous: {reason}"),
+            Register::Child => format!("The lab won't do that: {reason}"),
             _ => format!("SAFETY VETO (L0): {reason}"),
         },
+        Event::ReactionOccurred { vessel, equation } => match register {
+            Register::Child => format!("The mixture in {vessel} changes — something new is forming!"),
+            _ => format!("{vessel}: {equation}"),
+        },
+        Event::GasEvolved {
+            vessel,
+            species: sid,
+            moles,
+        } => {
+            let data = species::lookup(sid);
+            let name = data.map(|d| d.name).unwrap_or(sid.0.as_str());
+            let toxic = data
+                .and_then(|d| d.appearance)
+                .is_some_and(|a| a.contains("toxic"));
+            match register {
+                Register::Child => {
+                    if toxic {
+                        format!(
+                            "A gas rises out of {vessel} — this one is poisonous. In a real room you would have to leave NOW."
+                        )
+                    } else {
+                        format!("Bubbles! A gas rises out of {vessel}.")
+                    }
+                }
+                Register::Student => {
+                    format!("{vessel}: {:.4} mol {name} ↑ (gas escapes the open vessel)", moles.0)
+                }
+                Register::Expert => {
+                    format!("{vessel}: {:.6} mol {name} evolved (open system; mass leaves)", moles.0)
+                }
+            }
+        }
         Event::NotYetModeled { vessel, what } => match register {
             Register::Child => format!("Hmm — nothing visible happens in {vessel} (this part of the lab isn't awake yet)."),
             Register::Student => format!("{vessel}: not yet modelled — {what}"),

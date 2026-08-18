@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use crate::ops::{Event, Instrument, LogEntry, Operator};
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
-    PermissiveScreen, SafetyScreen, SolverStack,
+    PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Moles};
@@ -137,9 +137,21 @@ impl Bench {
                 // L0 runs against the prospective state, before mutation.
                 let mut probe = self.vessel(*vessel)?.clone();
                 probe.deposit(sid.clone(), *moles, data.standard_phase);
-                if let Some(reason) = screen.veto(&probe) {
-                    events.push(Event::SafetyVeto { reason });
-                    return Ok(events);
+                match screen.assess(&probe) {
+                    SafetyVerdict::Allow => {}
+                    SafetyVerdict::Warn {
+                        severity,
+                        hazard,
+                        real_world,
+                    } => events.push(Event::HazardWarning {
+                        severity,
+                        hazard,
+                        real_world,
+                    }),
+                    SafetyVerdict::Veto { reason } => {
+                        events.push(Event::SafetyVeto { reason });
+                        return Ok(events);
+                    }
                 }
 
                 let t_in = at.unwrap_or(Kelvin::STANDARD);
@@ -229,9 +241,21 @@ impl Bench {
                 for (s, n, phase) in &would_move {
                     probe.deposit(s.clone(), *n, *phase);
                 }
-                if let Some(reason) = screen.veto(&probe) {
-                    events.push(Event::SafetyVeto { reason });
-                    return Ok(events);
+                match screen.assess(&probe) {
+                    SafetyVerdict::Allow => {}
+                    SafetyVerdict::Warn {
+                        severity,
+                        hazard,
+                        real_world,
+                    } => events.push(Event::HazardWarning {
+                        severity,
+                        hazard,
+                        real_world,
+                    }),
+                    SafetyVerdict::Veto { reason } => {
+                        events.push(Event::SafetyVeto { reason });
+                        return Ok(events);
+                    }
                 }
 
                 // Apply: take the liquid fraction out of `from`…

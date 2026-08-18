@@ -24,7 +24,8 @@ struct Session {
 /// Physics + aqueous chemistry + honesty. If the PHREEQC engine cannot be
 /// initialised the session still works, honestly degraded.
 fn build_stack() -> SolverStack {
-    let mut solvers: Vec<Box<dyn Equilibrator>> = vec![Box::new(MixingEquilibrator)];
+    let mut solvers: Vec<Box<dyn Equilibrator>> =
+        vec![Box::new(MixingEquilibrator), Box::new(CuratedEquilibrator)];
     match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
         Ok(aqueous) => solvers.push(Box::new(aqueous)),
         Err(e) => eprintln!("kero: aqueous engine unavailable ({e}); running without it"),

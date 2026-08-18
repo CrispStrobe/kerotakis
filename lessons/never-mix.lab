@@ -1,6 +1,9 @@
-# The safety layer: some things the lab refuses to mix
+# The safety layer: precise about danger, honest about outcomes
 register 9
 add v1 water 200mL
-add v1 NaOCl 20mL
-add v1 NH3 20mL
+add v1 NaOCl 0.1mol
+measure v1 balance
+add v1 NH3 0.1mol
+measure v1 balance
+measure v1 ph
 inspect v1
