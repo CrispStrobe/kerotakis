@@ -1,0 +1,58 @@
+Kerotakis
+Copyright (C) 2026 Christian Ströbele
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU Affero General Public License, version 3 or (at your
+option) any later version. See the LICENSE file for the full text, or
+<https://www.gnu.org/licenses/agpl-3.0.html>.
+
+
+App Store / Google Play additional permission
+---------------------------------------------
+As the sole copyright holder of the original Kerotakis source code, the author
+additionally distributes official binary builds of Kerotakis through app stores
+(e.g. the Apple App Store and Google Play) under those stores' standard
+distribution terms and end-user license agreements, including for any in-app
+purchases.
+
+This dual availability is permitted because the author owns the copyright to
+all AGPL-3.0-licensed code in this project. It does not restrict the rights
+granted to you for the source code under the AGPL-3.0: you remain free to use,
+study, modify, and redistribute the source under that license.
+
+This permission applies only to binaries published by the copyright holder.
+Third parties redistributing this software remain bound by the AGPL-3.0.
+
+
+Third-party components
+----------------------
+Kerotakis links or embeds the following. All are permissively licensed and
+compatible with AGPL-3.0 distribution; their notices are preserved per their
+respective terms.
+
+Engines
+- IPhreeqc / PHREEQC — public domain (U.S. Geological Survey). Aqueous
+  speciation, mineral saturation, gas partitioning and redox. Embedded together
+  with its thermodynamic databases (phreeqc.dat, wateq4f.dat, minteq.v4.dat),
+  which are likewise public domain.
+- Indigo — Apache-2.0, Copyright (c) EPAM Systems. Structure handling, canonical
+  identity and reaction product enumeration.
+- CoolProp — MIT, Copyright (c) Ian Bell et al. Pure-component thermophysical
+  properties, via the coolprop-sys bindings.
+- diffsol — MIT, Copyright (c) Martin Robinson. Stiff ODE/DAE integration for
+  reaction kinetics.
+
+Reactivity data
+- CAMEO Chemicals reactive-group compatibility matrix — U.S. Government work,
+  produced by NOAA's Office of Response and Restoration with the EPA and the
+  Center for Chemical Process Safety.
+
+Rust crates
+- The full dependency set and its licenses are reproduced in-app under
+  About -> Open-source licenses, generated from cargo-about.
+
+Build-time only (not distributed with binaries)
+- xtb / CREST — LGPL-3.0, Copyright (c) Grimme group. Used offline to compute
+  reaction energetics that are baked into the curated library as data. Neither
+  binary nor library is shipped, so no LGPL-3.0 relinking obligation attaches to
+  distributed builds.

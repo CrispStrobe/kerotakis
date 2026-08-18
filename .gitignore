@@ -1,0 +1,10 @@
+/target
+**/*.rs.bk
+Cargo.lock
+.DS_Store
+.env
+/dist
+/build
+node_modules/
+*.wasm
+!/crates/**/vendor/**/*.wasm
