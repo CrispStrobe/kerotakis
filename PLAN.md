@@ -736,9 +736,22 @@ The single highest-information task. Everything else is downstream of it.
       acid–base via charge balance (0.001 m HCl → pH 3.0), **titration to
       equivalence** (pH 1.75 → 6.99 → 11.53), 200-seed fuzz with element
       conservation
-- [ ] Buffers, polyprotic acids, brines (pitzer.dat path), more of the
-      registry aqueous-mapped; surface true speciation in the expert register
-- [ ] Content-addressed result cache; pre-warming pipeline in `tools/`
+- [x] Weak acids and buffers from the database's own equilibria: 0.1 m
+      acetic acid pH 2.88, equimolar acetate buffer at pKa (4.63), buffer
+      absorbs 0.01 mol HCl with Δ0.08 while plain water crashes to pH 2.0,
+      half-neutralisation midpoint reads pKa — Henderson–Hasselbalch without
+      ever writing it down
+- [x] **Database routing by validity domain** (found the hard way: minteq.v4
+      gives halite solubility 3.7 instead of ~6.1 mol/kgw — its activity
+      model fails in brines): wateq4f for inorganic problems, minteq.v4 only
+      when organics (acetate) are involved; pitzer.dat is the eventual right
+      tool for real brines
+- [x] Content-addressed result cache (keyed by database + canonical input,
+      which is a deterministic function of species set, amounts and T);
+      identical replays served bit-identically with zero engine calls
+- [ ] Polyprotic acids, pitzer.dat routing for brines, more of the registry
+      aqueous-mapped; surface true speciation in the expert register
+- [ ] Cache pre-warming pipeline in `tools/` (lesson states)
 - [ ] The P2 CLI **is** the "strong product on its own" claim, tested literally
 
 ### P2g — Heat and fire

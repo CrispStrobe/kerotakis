@@ -1,0 +1,11 @@
+# Buffers: why your blood does not change pH when you drink lemonade
+add v1 water 1000mL
+add v1 CH3COOH 0.1mol
+add v1 NaOAc 0.1mol
+measure v1 ph
+add v1 HCl 0.01mol
+measure v1 ph
+new
+add v2 water 1000mL
+add v2 HCl 0.01mol
+measure v2 ph

@@ -52,6 +52,12 @@ fn role(key: &str) -> Option<Role> {
         // The ledger's ion imbalance carries the acidity across steps.
         "HCl" => Some(Role::Dissolves(&[("Cl", 1.0)])),
         "NaOH" => Some(Role::Dissolves(&[("Na", 1.0)])),
+        // Weak acid: the same counter-ion pattern, but the database's
+        // H+ + Acetate- = H(Acetate) equilibrium makes it weak — pKa physics
+        // comes from the data, not from us.
+        "CH3COOH" => Some(Role::Dissolves(&[("Acetate", 1.0)])),
+        "NaOAc" => Some(Role::Dissolves(&[("Na", 1.0), ("Acetate", 1.0)])),
+        "CH3COO-" => Some(Role::Dissolves(&[("Acetate", 1.0)])),
         "Na+" => Some(Role::Dissolves(&[("Na", 1.0)])),
         "Cl-" => Some(Role::Dissolves(&[("Cl", 1.0)])),
         "Ag+" => Some(Role::Dissolves(&[("Ag", 1.0)])),
@@ -67,6 +73,7 @@ fn element_ion(element: &str) -> Option<&'static str> {
         "Cl" => Some("Cl-"),
         "Ag" => Some("Ag+"),
         "N(5)" => Some("NO3-"),
+        "Acetate" => Some("CH3COO-"),
         _ => None,
     }
 }
@@ -88,15 +95,35 @@ const WATER_MOLAR_MASS: f64 = 18.015;
 const TRACE: f64 = 1e-12;
 
 pub struct PhreeqcEquilibrator {
-    engine: Phreeqc,
+    /// wateq4f: inorganic natural-water chemistry, valid to high ionic
+    /// strength — the default.
+    inorganic: Phreeqc,
+    /// minteq.v4: adds organic ligands (acetate), but its activity model is
+    /// poor for concentrated brines (halite solubility comes out ~3.7
+    /// instead of ~6.1 mol/kgw) — used only when the problem needs organics.
+    /// Databases have validity domains; routing by problem is the honest
+    /// answer. (Pitzer is the eventual right tool for real brines.)
+    organic: Phreeqc,
+    /// Content-addressed result cache: same species set, T and P is the
+    /// same answer (PLAN.md, P2). Keyed by database + canonical input.
+    cache: std::collections::HashMap<String, Vec<Vec<String>>>,
+    cache_hits: usize,
 }
 
 impl PhreeqcEquilibrator {
-    /// Uses the embedded wateq4f database (the seed species need Ag).
     pub fn new() -> Result<Self, PhreeqcError> {
         Ok(PhreeqcEquilibrator {
-            engine: Phreeqc::with_database(databases::WATEQ4F)?,
+            inorganic: Phreeqc::with_database(databases::WATEQ4F)?,
+            organic: Phreeqc::with_database(databases::MINTEQ_V4)?,
+            cache: std::collections::HashMap::new(),
+            cache_hits: 0,
         })
+    }
+
+    /// Cache hits so far (content-addressed on the canonical PHREEQC input,
+    /// which is a deterministic function of the vessel state).
+    pub fn cache_hits(&self) -> usize {
+        self.cache_hits
     }
 }
 
@@ -202,36 +229,62 @@ impl Equilibrator for PhreeqcEquilibrator {
             return Ok(Vec::new());
         };
 
+        // Route by validity domain: minteq.v4 only when organics are
+        // involved (it alone has acetate); wateq4f otherwise (better at high
+        // ionic strength).
+        let needs_organics = problem.elements.iter().any(|e| e == "Acetate");
+        let engine = if needs_organics {
+            &mut self.organic
+        } else {
+            &mut self.inorganic
+        };
+        let db_tag = if needs_organics {
+            "minteq.v4"
+        } else {
+            "wateq4f"
+        };
         let input = build_input(vessel, &problem);
-        self.engine
-            .run(&input)
-            .map_err(|e| SolveError::NotConverged {
+        let key = format!("#{db_tag}\n{input}");
+
+        // Content-addressed cache: database + input string is a
+        // deterministic canonicalisation of (species set, amounts, T) — same
+        // state, same answer, no engine call.
+        let rows = if let Some(rows) = self.cache.get(&key) {
+            self.cache_hits += 1;
+            rows.clone()
+        } else {
+            engine.run(&input).map_err(|e| SolveError::NotConverged {
                 solver: "phreeqc-aqueous".to_string(),
                 detail: e.to_string(),
             })?;
+            let rows = engine.selected_output();
+            if self.cache.len() >= 10_000 {
+                self.cache.clear(); // simple bound; refine when profiling says so
+            }
+            self.cache.insert(key, rows.clone());
+            rows
+        };
+        let value = |column: &str| -> Option<f64> {
+            let idx = rows.first()?.iter().position(|h| h == column)?;
+            rows.last()?.get(idx)?.parse().ok()
+        };
 
         // Read back: element totals (mol/kgw) and phase amounts (mol).
         // Molalities are per kg of *equilibrated* water (mass_H2O), which
         // differs slightly from the input water mass through speciation.
-        let kgw_out = self
-            .engine
-            .last_value("mass_H2O")
-            .ok_or_else(|| missing("mass_H2O"))?;
+        let kgw_out = value("mass_H2O").ok_or_else(|| missing("mass_H2O"))?;
         let mut new_ions: Vec<(String, f64)> = Vec::new();
         for el in &problem.elements {
-            let molality = self.engine.last_value(el).ok_or_else(|| missing(el))?;
+            let molality = value(el).ok_or_else(|| missing(el))?;
             new_ions.push((el.clone(), molality * kgw_out));
         }
         let mut new_phases: Vec<(String, f64)> = Vec::new();
         for (phase, _) in &problem.phases {
-            let moles = self
-                .engine
-                .last_value(phase)
-                .ok_or_else(|| missing(phase))?;
+            let moles = value(phase).ok_or_else(|| missing(phase))?;
             new_phases.push((phase.clone(), moles));
         }
-        let ph = self.engine.last_value("pH").ok_or_else(|| missing("pH"))?;
-        let mu = self.engine.last_value("mu").ok_or_else(|| missing("mu"))?;
+        let ph = value("pH").ok_or_else(|| missing("pH"))?;
+        let mu = value("mu").ok_or_else(|| missing("mu"))?;
 
         // Rebuild the vessel inventory: water stays; solutes are replaced by
         // the computed state.
