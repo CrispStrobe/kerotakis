@@ -39,7 +39,8 @@ if [ -z "$ARCHIVE" ]; then
     exit 1
 fi
 
-emcc "$ARCHIVE" \
+# em++ (not emcc): the archive is C++ and needs libc++ linked in.
+em++ "$ARCHIVE" \
     -o "$BUILD/iphreeqc.mjs" \
     -sMODULARIZE=1 \
     -sEXPORT_ES6=1 \
