@@ -70,6 +70,8 @@ verifier in `tools/`, and only *data* ships:
 | RDKit (Python) | Cross-validation of Indigo template applications and canonicalisations during curation — two independent toolkits agreeing is real QA |
 | RMG (MIT — verbatim MIT text under a custom header; GitHub shows NOASSERTION) | Benson group-additivity ΔHf/S/Cp(T) for arbitrary organics — the property gap PubChem/Wikidata cannot fill for the energy balance. **Blocker verified 2026-08-19: RMG-database has no LICENSE file.** Note `JacksonBurns/rmgdb` (active RMG developer, Aug 2026): vendors the database + SQLite/YAML repackaging under MIT — but with a *personal* copyright line, and one contributor cannot relicense a ~25-year collective work; no team licensing decision is on record (searched). It does make the upstream ask concrete: "affirm the licence upstream or correct rmgdb's copyright line to the RMG Team". Until then `thermo`'s Joback estimators (MIT) carry this role and no RMG parameter ships |
 | ORDerly / ORD | Validation oracle only, never ingestion: check curated conditions against literature without touching ORD's CC-BY-SA (the same oracle pattern as `thermo` and Cantera). Patent-chemistry distribution → low relevance to a school codex; third-tier |
+| UniChem (EMBL-EBI) | L1 identity crosswalk keyed on Standard InChI across 25 sources. EBI adds no restrictions beyond the original owners' — but no per-source licence field in the API, and a full dump includes DrugBank/CCDC accession lists (encumbered). **Use restricted to a cleared source whitelist** (PubChem, CompTox, Rhea) |
+| DeepChem (MIT, active) | Build-time featurisation/toolbox if ever needed; its bundled datasets carry their own upstream terms |
 | PyTorch | Weight export (safetensors/ONNX) if the ML tier ever ships |
 
 Tool licences (incl. geomeTRIC's "BSD 3-clause Non-AI" clause and Sella's
@@ -588,6 +590,7 @@ The traps are all about data, not code. Checked against primary sources
 | Open Reaction Database | **CC-BY-SA 4.0** on data; ShareAlike propagates to merged datasets under the mainstream reading | Keep out of the codex, or accept BY-SA on the whole dataset — decide before the first record is ingested |
 | `chemicals` (Python) | MIT code aggregating CRC/NIST/Yaws/Common Chemistry data | **Dropped as a data source** — it launders the SRD and NC problems into our binary. (Its sibling `thermo` remains a build-time *oracle*, generating test fixtures, not shipped data) |
 | UNIFAC parameters | Consortium tables proprietary; original journal tables usable | Source from the original publications, provenance per parameter |
+| USPTO reaction data (Lowe extraction) | **CC0 — verified via the figshare API**, patent text USPTO-confirmed copyright-free, reaction facts *Feist*-uncopyrightable | The clean chain under every USPTO-derived corpus/model; relevant only to the deferred ML tier and template tooling |
 
 ---
 
@@ -818,10 +821,24 @@ The single highest-information task. Everything else is downstream of it.
 
 ### ML tier — last or never
 
-Molecular Transformer is trained on USPTO patent reactions and is weakest
-exactly where our users are. If it ever ships: `tract`/`candle`/`burn` (pure
-Rust, real wasm stories), not `ort`. Optional download, never web-bundled,
-confidence always surfaced.
+USPTO-trained models are weakest exactly where our users are. If the tier
+ever ships: **T5Chem** is the reference forward-predictor (MIT code,
+**CC-BY-4.0 weights on Zenodo**, USPTO-trained on the verified-CC0 Lowe
+chain, deps modernised Dec 2024) — superseding the Molecular Transformer
+plan; runtime via `tract`/`candle`/`burn` (pure Rust, real wasm stories),
+not `ort`. Optional download, never web-bundled, confidence always surfaced.
+
+Evaluated and set aside (2026-08-19, licenses verified): **ReactionT5v2** —
+capable and popular, but its MIT tag over ORD-trained weights is the
+author's unilateral claim with the CC-BY-SA ShareAlike question simply
+unaddressed (data pulled from a Drive mirror, no licence notice); not while
+that stands. **mhn-react** — clean USPTO-50k template corpus, but its
+LICENSE file is textually defective (mangled BSD-2 granting use but
+omitting the redistribution conditions); get author confirmation before
+vendoring; frozen 2023. **MolReactGen** — thesis artifact, dead 2024,
+inherits mhn-react's data and its ambiguity. **The HF enzyme-interaction
+model** — zero downloads, no paper/metrics/config, bare pickle checkpoint:
+untouchable, and biochemistry is parked regardless.
 
 ---
 
