@@ -195,21 +195,48 @@ the ones below resolve.
 
 Notes per layer:
 
-- **L0** — the CAMEO/CRW4 *database* is not redistributable: its terms prohibit
-  duplicating contributed data, explicitly naming CAS registry numbers and
-  formulas (ACS property), NFPA ratings, AEGLs and ERPGs. The reactive-group
-  **methodology** is published and reimplementable, but state the legal
-  position precisely: facts (which groups react with which) are not
-  copyrightable under *Feist*, and our own SMARTS rules (run by Indigo) doing
-  the group assignment are ours — however, Gorman et al. 2014 is a Wiley
-  journal paper with CCPS (AIChE, non-government) co-authors, so "NOAA prose
-  is public domain" does not carry it. **Source the matrix specifically from
-  the NOAA Institutional Repository copy**
+- **L0** — no hardcoded compound pairs in the end state. The screen is a
+  cascade (mirroring L4's), each layer labeled with what produced it:
+  1. **Curated codex outcome** — shows exactly what forms (the current seed
+     entries live here).
+  2. **Computed outcome** where a solver genuinely covers it: chlorine
+     evolution from hypochlorite + acid is redox speciation (PHREEQC,
+     llnl.dat-class database — spike this; if it works the entry moves from
+     curated to computed); an L2g Gibbs minimisation finding a strongly
+     exothermic accessible state (high adiabatic flame T) *is* an
+     energetic-mixture detector; build-time RMG/xtb ΔH_rxn plus classical
+     indicators (oxygen balance, energetic functional groups) give
+     CHETAH-style screening — the ASTM tool is proprietary, the methods are
+     published.
+  3. **Reactive-group matrix** — two computable stages: structure → groups
+     is a SMARTS match (Indigo; the current key→group table is a placeholder
+     for this), and group × group → **predicted consequence category**
+     (toxic gas, heat, flammable gas, polymerisation — the published chart's
+     cells carry these). ~70 groups squared covers millions of compound
+     pairs; nothing per-pair is stored.
+  4. **Per-substance GHS data** — H-codes/pictograms/signal words from
+     **PubChem bulk** (no NCBI restrictions, per-record attribution) and
+     **CLP Annex VI via EUR-Lex** (EU legislation, reusable), keyed by
+     InChIKey into L1; concentration-awareness via the GHS's own published
+     mixture-classification rules (additivity formulas, cut-offs) — a drop
+     of bleach and a beaker of it get different verdicts, from arithmetic.
+
+  **Deliberately not computed: predicted toxicity (QSAR).** Authoritative
+  classification beats prediction on reliability and liability — a wrong
+  "safe" is the one failure mode this product cannot have. Below all four
+  layers the honest output is "outside the screened set", never a guess.
+
+  Legal position, stated precisely: the CAMEO/CRW4 *database* is not
+  redistributable (its terms fence off CAS RNs, NFPA ratings, AEGLs,
+  ERPGs — none of which the design needs). The methodology's facts are not
+  copyrightable under *Feist*, and the SMARTS assignment rules are ours —
+  but Gorman et al. 2014 is a Wiley paper with CCPS (AIChE) co-authors, so
+  **source the matrix from the NOAA Institutional Repository copy**
   (repository.library.noaa.gov/view/noaa/61941), record the derivation, and
-  put this on the counsel list rather than treating it as settled. Also
-  verify the group-set generation before encoding: the classic chart is
-  43×43, but current CAMEO materials reference more reactive groups (~68) —
-  encode whichever generation the shipped rules actually implement.
+  keep it on the counsel list. Verify the group-set generation before
+  encoding (classic 43×43 vs the ~68 groups current CAMEO materials
+  reference), and verify NITE/other national GHS sources' terms if used
+  beyond PubChem's aggregation.
 - **L1** — InChI/InChIKey has exactly one implementation, the IUPAC C library,
   **relicensed MIT with v1.07** (plain C, current 1.07.5). We get it through
   Indigo's bundled InChI plugin via the same FFI; a standalone `kerotakis-inchi`
