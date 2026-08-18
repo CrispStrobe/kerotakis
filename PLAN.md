@@ -68,10 +68,15 @@ verifier in `tools/`, and only *data* ships:
 | `thermo` (MIT, Python) | Golden-test fixture generation for `kerotakis-thermo` — thousands of reference flash/VLE results |
 | Cantera (desktop Python) | Reference solutions for combustion golden tests |
 | RDKit (Python) | Cross-validation of Indigo template applications and canonicalisations during curation — two independent toolkits agreeing is real QA |
+| RMG (MIT — verbatim MIT text under a custom header; GitHub shows NOASSERTION) | Benson group-additivity ΔHf/S/Cp(T) for arbitrary organics — the property gap PubChem/Wikidata cannot fill for the energy balance. **Blocker verified 2026-08-19: RMG-database has no LICENSE file at all** — email rmg_dev@mit.edu / PR one before its parameters are used; until then, `thermo`'s Joback/group-contribution estimators (MIT) carry this role |
+| ORDerly / ORD | Validation oracle only, never ingestion: check curated conditions against literature without touching ORD's CC-BY-SA (the same oracle pattern as `thermo` and Cantera). Patent-chemistry distribution → low relevance to a school codex; third-tier |
 | PyTorch | Weight export (safetensors/ONNX) if the ML tier ever ships |
 
 Tool licences (incl. geomeTRIC's "BSD 3-clause Non-AI" clause and Sella's
 LGPL) are recorded in `tools/` provenance files; none of it ships.
+(Evaluated and parked: `rxnfp` — MIT but dormant since 2021 and USPTO-trained,
+the same distribution mismatch as Molecular Transformer; at most an afternoon
+of codex-lint clustering someday, not a dependency.)
 
 ---
 
@@ -181,15 +186,19 @@ Notes per layer:
 
 - **L0** — the CAMEO/CRW4 *database* is not redistributable: its terms prohibit
   duplicating contributed data, explicitly naming CAS registry numbers and
-  formulas (ACS property), NFPA ratings, AEGLs and ERPGs. But the reactive-group
-  **methodology** — the 43×43 compatibility chart and the group-classification
-  logic — is published in open-access NOAA papers, and NOAA-authored technical
-  prose is US-government public domain. So: our own SMARTS rules (run by Indigo)
-  assign compounds to the 43 groups; we ship the matrix and our assignments,
-  never their database. The assignment rules become an asset we own.
-  Primary sources: NOAA Institutional Repository CRW4 paper
-  (repository.library.noaa.gov/view/noaa/61941); Gorman et al., *Process Safety
-  Progress* 2014.
+  formulas (ACS property), NFPA ratings, AEGLs and ERPGs. The reactive-group
+  **methodology** is published and reimplementable, but state the legal
+  position precisely: facts (which groups react with which) are not
+  copyrightable under *Feist*, and our own SMARTS rules (run by Indigo) doing
+  the group assignment are ours — however, Gorman et al. 2014 is a Wiley
+  journal paper with CCPS (AIChE, non-government) co-authors, so "NOAA prose
+  is public domain" does not carry it. **Source the matrix specifically from
+  the NOAA Institutional Repository copy**
+  (repository.library.noaa.gov/view/noaa/61941), record the derivation, and
+  put this on the counsel list rather than treating it as settled. Also
+  verify the group-set generation before encoding: the classic chart is
+  43×43, but current CAMEO materials reference more reactive groups (~68) —
+  encode whichever generation the shipped rules actually implement.
 - **L1** — InChI/InChIKey has exactly one implementation, the IUPAC C library,
   **relicensed MIT with v1.07** (plain C, current 1.07.5). We get it through
   Indigo's bundled InChI plugin via the same FFI; a standalone `kerotakis-inchi`
@@ -214,12 +223,16 @@ Notes per layer:
   Precedent: KiThe and Fauconneau/combustion in Rust; Arrhenius.jl and
   ReactionMechanismSimulator.jl in Julia.
 - **L6** — most of the age-9 register is *observations*, and they need a
-  computation path: species/precipitate colours and flame colours are curated
-  data; indicator colours follow from indicator pKa via PHREEQC; solution colour
-  comes from Beer–Lambert over per-species ε(λ). `palette` (wasm-fine) has no
-  spectral module, so we integrate CIE 1931 colour-matching functions against
-  the transmittance spectrum ourselves — small, well-documented math — and hand
-  the XYZ result to `palette` for Lab/sRGB.
+  computation path — but sized to its data sourcing. **Default: curated sRGB
+  per species + concentration-driven opacity** — 95% of the pedagogy at 5% of
+  the cost, and the data is a colour word per species, not a spectrum. The
+  full Beer–Lambert-over-ε(λ) + CIE path is reserved for **indicators only**,
+  where the dataset is small, classical and openly published. (Full spectra
+  for the interesting colours are the hard case: Cu²⁺/MnO₄⁻/Cr₂O₇²⁻ are d–d
+  and charge-transfer bands; sTDA-xTB *can* compute UV-Vis at build time but
+  is weakest exactly there, published spectra carry copyright, and NIST is
+  off-limits per the data table.) `palette` (wasm-fine) handles the colour
+  math either way; we supply the CIE integration for the indicator path.
 
 ### L4 is a cascade, not a choice
 
@@ -598,6 +611,27 @@ equations — trivial math, public-domain nuclide data, half-lives are a
 curriculum staple, and decay is the most necromantic chemistry there is).
 
 ---
+
+## The v1.0 cut
+
+Eight phases and thirteen crates have no floor without an explicit line.
+**v1.0 in a store is:**
+
+- P0 + P1 + P2 — the bench, the safety veto, and aqueous chemistry
+  (acid–base, precipitation, titration, solubility, buffers, brines)
+- a **~40-reaction codex slice** with full register copy, concept links and
+  observations — curated to one curriculum's inorganic aqueous block, not
+  breadth-first
+- the **curated-colour sliver of L6** (colour word + sRGB per species,
+  concentration-driven opacity): the age-9 register *is* observations, so
+  v1.0 cannot ship without "it went cloudy" — but it needs no spectra
+- **one UI** over the same `--json` contract the CLI already snapshot-tests
+- all three registers — they are the product's identity, not a feature
+
+Explicitly **not** in v1.0: P2g (v1.1, with `ignite`), P3 (v1.1, with
+distillation), the QM/orbital layer, Hückel, lessons beyond the codex slice,
+and everything ML. Each later phase extends the same bench; nothing in v1.0 is
+scaffolding to be thrown away.
 
 ## Build order
 

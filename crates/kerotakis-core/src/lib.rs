@@ -19,9 +19,13 @@ pub mod vessel;
 pub use bench::{Bench, BenchError};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use render::{render_event, Register};
+pub use solve::{
+    Equilibrator, HonestyEquilibrator, MixingEquilibrator, PermissiveScreen, SafetyScreen,
+    SolveError, SolverStack,
+};
 pub use species::{Phase, SpeciesId};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
-pub use vessel::{ThermalMode, Vessel, VesselId};
+pub use vessel::{Portion, SolutionInfo, ThermalMode, Vessel, VesselId};
 
 #[cfg(test)]
 mod tests {

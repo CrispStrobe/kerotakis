@@ -9,6 +9,7 @@ authors.workspace = true
 links = "IPhreeqc"
 
 [dependencies]
+kerotakis-core = { path = "../kerotakis-core" }
 thiserror = { workspace = true }
 
 [build-dependencies]

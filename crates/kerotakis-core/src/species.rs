@@ -54,6 +54,8 @@ pub struct SpeciesData {
     pub density: f64,
     /// Phase the pure substance is in at room conditions.
     pub standard_phase: Phase,
+    /// Colour word for observations ("white", "colourless", …), if curated.
+    pub appearance: Option<&'static str>,
     /// One-line provenance for the constants above.
     pub provenance: &'static str,
 }
@@ -78,6 +80,11 @@ impl SpeciesData {
 }
 
 /// Seed registry. Grows into the PubChem/Wikidata build-time export (L1).
+///
+/// Dissolved ions carry `heat_capacity: 0.0`: partial molar heat capacities
+/// of aqueous ions are small (often negative) and are not modelled at this
+/// stage — the solution's heat capacity is carried by its water. Ion
+/// densities are unused (solution volume is carried by the liquid phase).
 pub const REGISTRY: &[SpeciesData] = &[
     SpeciesData {
         key: "water",
@@ -88,6 +95,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         heat_capacity: 75.3,
         density: 0.997,
         standard_phase: Phase::Liquid,
+        appearance: Some("colourless"),
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: CODATA/standard reference values",
     },
     SpeciesData {
@@ -99,6 +107,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         heat_capacity: 112.3,
         density: 0.789,
         standard_phase: Phase::Liquid,
+        appearance: Some("colourless"),
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: standard reference values",
     },
     SpeciesData {
@@ -110,6 +119,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         heat_capacity: 50.5,
         density: 2.17,
         standard_phase: Phase::Solid,
+        appearance: Some("white"),
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
@@ -121,7 +131,68 @@ pub const REGISTRY: &[SpeciesData] = &[
         heat_capacity: 93.1,
         density: 4.35,
         standard_phase: Phase::Solid,
+        appearance: Some("white"),
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
+    },
+    SpeciesData {
+        key: "AgCl",
+        name: "silver chloride",
+        formula: "AgCl",
+        inchikey: "HKZLPVFGJNLROG-UHFFFAOYSA-M",
+        molar_mass: 143.32,
+        heat_capacity: 50.8,
+        density: 5.56,
+        standard_phase: Phase::Solid,
+        appearance: Some("white"),
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
+    },
+    SpeciesData {
+        key: "Na+",
+        name: "sodium ion",
+        formula: "Na+",
+        inchikey: "FKNQFGJONOIPTF-UHFFFAOYSA-N",
+        molar_mass: 22.990,
+        heat_capacity: 0.0,
+        density: 1.0,
+        standard_phase: Phase::Aqueous,
+        appearance: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
+    },
+    SpeciesData {
+        key: "Cl-",
+        name: "chloride ion",
+        formula: "Cl-",
+        inchikey: "VEXZGXHMUGYJMC-UHFFFAOYSA-M",
+        molar_mass: 35.453,
+        heat_capacity: 0.0,
+        density: 1.0,
+        standard_phase: Phase::Aqueous,
+        appearance: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
+    },
+    SpeciesData {
+        key: "Ag+",
+        name: "silver ion",
+        formula: "Ag+",
+        inchikey: "FOIXSVOLVBLSDH-UHFFFAOYSA-N",
+        molar_mass: 107.868,
+        heat_capacity: 0.0,
+        density: 1.0,
+        standard_phase: Phase::Aqueous,
+        appearance: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
+    },
+    SpeciesData {
+        key: "NO3-",
+        name: "nitrate ion",
+        formula: "NO3-",
+        inchikey: "NHNBFGGVMKEFGY-UHFFFAOYSA-N",
+        molar_mass: 62.004,
+        heat_capacity: 0.0,
+        density: 1.0,
+        standard_phase: Phase::Aqueous,
+        appearance: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
 ];
 

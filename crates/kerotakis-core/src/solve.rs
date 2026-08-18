@@ -19,7 +19,40 @@ pub enum SolveError {
 /// Re-equilibrates one vessel after an operator touched it.
 pub trait Equilibrator {
     fn name(&self) -> &'static str;
-    fn equilibrate(&self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError>;
+    /// Whether this solver has anything to say about this vessel's state.
+    fn applies(&self, _vessel: &Vessel) -> bool {
+        true
+    }
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError>;
+}
+
+/// Runs every applicable solver in order, concatenating their events. The
+/// order is the routing: physics first, chemistry engines next, the honesty
+/// pass last.
+pub struct SolverStack {
+    pub solvers: Vec<Box<dyn Equilibrator>>,
+}
+
+impl SolverStack {
+    pub fn new(solvers: Vec<Box<dyn Equilibrator>>) -> Self {
+        SolverStack { solvers }
+    }
+}
+
+impl Equilibrator for SolverStack {
+    fn name(&self) -> &'static str {
+        "solver-stack"
+    }
+
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        let mut events = Vec::new();
+        for solver in &mut self.solvers {
+            if solver.applies(vessel) {
+                events.append(&mut solver.equilibrate(vessel)?);
+            }
+        }
+        Ok(events)
+    }
 }
 
 /// L0. Runs before any chemistry; may veto.
@@ -39,12 +72,7 @@ impl SafetyScreen for PermissiveScreen {
     }
 }
 
-/// v0 equilibrator: honest physics, no chemistry.
-///
-/// - Thermostatted vessels relax to their bath temperature.
-/// - Solids sitting in liquid are reported as `NotYetModeled` (dissolution
-///   arrives with the aqueous solver in P2) rather than silently ignored or
-///   faked.
+/// Physics pass: thermostatted vessels relax to their bath temperature.
 ///
 /// Thermal mixing itself happens in the bench loop when matter enters at a
 /// different temperature; by the time this runs, the vessel already has a
@@ -56,7 +84,7 @@ impl Equilibrator for MixingEquilibrator {
         "mixing-v0"
     }
 
-    fn equilibrate(&self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         let mut events = Vec::new();
 
         if let ThermalMode::Thermostatted(bath) = vessel.thermal_mode {
@@ -70,6 +98,28 @@ impl Equilibrator for MixingEquilibrator {
             }
         }
 
+        Ok(events)
+    }
+}
+
+/// The honesty pass, last in every stack: any state no chemistry solver has
+/// characterised is said out loud rather than silently ignored or faked.
+///
+/// A vessel whose `solution` is set was handled by an aqueous solver, so a
+/// solid coexisting with liquid there is a real computed state (a
+/// precipitate), not a gap.
+pub struct HonestyEquilibrator;
+
+impl Equilibrator for HonestyEquilibrator {
+    fn name(&self) -> &'static str {
+        "honesty"
+    }
+
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        let mut events = Vec::new();
+        if vessel.solution.is_some() {
+            return Ok(events);
+        }
         let has_liquid = vessel
             .contents
             .iter()
@@ -82,12 +132,11 @@ impl Equilibrator for MixingEquilibrator {
                 events.push(Event::NotYetModeled {
                     vessel: vessel.id,
                     what: format!(
-                        "{name} in contact with liquid: dissolution/reaction needs the aqueous solver (not wired yet)"
+                        "{name} in contact with liquid: no wired solver models this dissolution/reaction"
                     ),
                 });
             }
         }
-
         Ok(events)
     }
 }

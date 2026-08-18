@@ -18,6 +18,19 @@ struct Session {
     bench: Bench,
     register: Register,
     json: bool,
+    stack: SolverStack,
+}
+
+/// Physics + aqueous chemistry + honesty. If the PHREEQC engine cannot be
+/// initialised the session still works, honestly degraded.
+fn build_stack() -> SolverStack {
+    let mut solvers: Vec<Box<dyn Equilibrator>> = vec![Box::new(MixingEquilibrator)];
+    match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
+        Ok(aqueous) => solvers.push(Box::new(aqueous)),
+        Err(e) => eprintln!("kero: aqueous engine unavailable ({e}); running without it"),
+    }
+    solvers.push(Box::new(HonestyEquilibrator));
+    SolverStack::new(solvers)
 }
 
 fn main() {
@@ -34,6 +47,7 @@ fn main() {
                 bench: Bench::new(),
                 register: Register::Student,
                 json,
+                stack: build_stack(),
             };
             for (lineno, line) in text.lines().enumerate() {
                 if let Err(e) = session.exec_line(line) {
@@ -76,7 +90,7 @@ fn usage() -> ! {
          \x20 cool <vessel> <energy><J|kJ>\n\
          \x20 stir <vessel>\n\
          \x20 decant <from> <to> <fraction>\n\
-         \x20 measure <vessel> <thermometer|balance>\n\
+         \x20 measure <vessel> <thermometer|balance|ph>\n\
          \x20 new                        create a vessel\n\
          \x20 inspect [vessel]           show state\n\
          \x20 register <9|15|expert>     switch rendering register\n\
@@ -91,6 +105,7 @@ fn repl() {
         bench: Bench::new(),
         register: Register::Student,
         json: false,
+        stack: build_stack(),
     };
     let stdin = std::io::stdin();
     loop {
@@ -109,7 +124,7 @@ fn repl() {
         if line == "help" {
             println!(
                 "add <v> <species> <amount><mol|g|mL> [@ <T>C] · heat/cool <v> <E><J|kJ>\n\
-                 stir <v> · decant <from> <to> <frac> · measure <v> <thermometer|balance>\n\
+                 stir <v> · decant <from> <to> <frac> · measure <v> <thermometer|balance|ph>\n\
                  new · inspect [v] · register <9|15|expert> · species · quit"
             );
             continue;
@@ -199,12 +214,13 @@ impl Session {
             }
             "measure" => {
                 if words.len() < 3 {
-                    return Err("usage: measure <vessel> <thermometer|balance>".into());
+                    return Err("usage: measure <vessel> <thermometer|balance|ph>".into());
                 }
                 let vessel = parse_vessel(words[1])?;
                 let instrument = match words[2] {
                     "thermometer" | "temp" => Instrument::Thermometer,
                     "balance" | "mass" => Instrument::Balance,
+                    "ph" | "phmeter" => Instrument::PhMeter,
                     other => return Err(format!("unknown instrument '{other}'")),
                 };
                 self.run_op(Operator::Measure { vessel, instrument })
@@ -214,7 +230,10 @@ impl Session {
     }
 
     fn run_op(&mut self, op: Operator) -> Result<(), String> {
-        let events = self.bench.step(op.clone()).map_err(|e| e.to_string())?;
+        let events = self
+            .bench
+            .step_with(op.clone(), &mut self.stack, &PermissiveScreen)
+            .map_err(|e| e.to_string())?;
         if self.json {
             let step = serde_json::json!({
                 "step": self.bench.log.len() - 1,
@@ -232,13 +251,17 @@ impl Session {
     }
 
     fn print_vessel(&self, v: &Vessel) {
+        let solution = v
+            .solution
+            .map(|s| format!(", pH {:.2}, I = {:.4} m", s.ph, s.ionic_strength))
+            .unwrap_or_default();
         println!(
-            "  {} ({}) — {:.2} °C, {:.1} g, {:.1} mL liquid",
+            "  {} ({}) — {:.2} °C, {:.1} g, {:.1} mL liquid{solution}",
             v.id,
             v.label,
             v.temperature.to_celsius(),
-            v.mass().0,
-            v.liquid_volume().0 * 1000.0
+            v.mass().0 + 0.0, // + 0.0 normalises negative zero
+            v.liquid_volume().0 * 1000.0 + 0.0
         );
         for p in &v.contents {
             let name = species::lookup(&p.species)

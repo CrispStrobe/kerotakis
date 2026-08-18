@@ -50,6 +50,7 @@ pub enum Operator {
 pub enum Instrument {
     Thermometer,
     Balance,
+    PhMeter,
 }
 
 /// What one step produced. Everything user-visible derives from this.
@@ -73,6 +74,25 @@ pub enum Event {
         from: VesselId,
         to: VesselId,
         fraction: f64,
+    },
+    /// A solid went into solution (computed by an aqueous solver).
+    Dissolved {
+        vessel: VesselId,
+        species: SpeciesId,
+        moles: Moles,
+    },
+    /// A solid formed out of solution (computed by an aqueous solver).
+    Precipitated {
+        vessel: VesselId,
+        species: SpeciesId,
+        moles: Moles,
+    },
+    /// The aqueous solver characterised the solution (reported when the
+    /// values change appreciably).
+    SolutionCharacterized {
+        vessel: VesselId,
+        ph: f64,
+        ionic_strength: f64,
     },
     Measured {
         vessel: VesselId,

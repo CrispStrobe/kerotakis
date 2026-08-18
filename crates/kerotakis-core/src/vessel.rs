@@ -32,6 +32,14 @@ pub struct Portion {
     pub phase: Phase,
 }
 
+/// What an aqueous solver last computed about this vessel's solution.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct SolutionInfo {
+    pub ph: f64,
+    /// Ionic strength, mol/kgw.
+    pub ionic_strength: f64,
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Vessel {
     pub id: VesselId,
@@ -40,6 +48,10 @@ pub struct Vessel {
     pub temperature: Kelvin,
     pub pressure: Pascal,
     pub thermal_mode: ThermalMode,
+    /// `Some` once an aqueous solver has characterised the solution; `None`
+    /// means no solver has — and the honesty pass says so.
+    #[serde(default)]
+    pub solution: Option<SolutionInfo>,
 }
 
 impl Vessel {
@@ -51,6 +63,7 @@ impl Vessel {
             temperature: Kelvin::STANDARD,
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,
+            solution: None,
         }
     }
 
@@ -116,12 +129,14 @@ impl Vessel {
     }
 
     /// Approximate liquid volume, additive-volume assumption (surfaced as an
-    /// approximation by the renderer). Solids and gases excluded.
+    /// approximation by the renderer). Solids, gases and dissolved species
+    /// excluded — the solution's volume is carried by its liquid phase, and
+    /// the volume contribution of solutes is not modelled at this stage.
     pub fn liquid_volume(&self) -> Liters {
         Liters(
             self.contents
                 .iter()
-                .filter(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))
+                .filter(|p| p.phase == Phase::Liquid)
                 .filter_map(|p| species::lookup(&p.species).map(|d| d.liters_from_moles(p.moles).0))
                 .sum(),
         )

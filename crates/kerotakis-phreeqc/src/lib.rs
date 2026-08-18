@@ -12,6 +12,9 @@
 
 use std::ffi::{CStr, CString};
 
+mod aqueous;
+pub use aqueous::PhreeqcEquilibrator;
+
 mod ffi {
     use std::os::raw::{c_char, c_int};
 

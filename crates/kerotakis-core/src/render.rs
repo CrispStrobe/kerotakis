@@ -70,6 +70,59 @@ pub fn render_event(event: &Event, register: Register) -> String {
             Register::Child => format!("You pour some of {from} into {to}."),
             _ => format!("{from} → {to}: {:.0}% of the liquid", fraction * 100.0),
         },
+        Event::Dissolved {
+            vessel,
+            species: sid,
+            moles,
+        } => {
+            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            match register {
+                Register::Child => format!("The {name} disappears into the water in {vessel}!"),
+                Register::Student => format!("{vessel}: {:.4} mol {name} dissolved", moles.0),
+                Register::Expert => format!("{vessel}: {:.6} mol {name} dissolved", moles.0),
+            }
+        }
+        Event::Precipitated {
+            vessel,
+            species: sid,
+            moles,
+        } => {
+            let data = species::lookup(sid);
+            let name = data.map(|d| d.name).unwrap_or(sid.0.as_str());
+            match register {
+                Register::Child => {
+                    let colour = data.and_then(|d| d.appearance).unwrap_or("new");
+                    format!(
+                        "It went cloudy in {vessel}! A {colour} solid appears at the bottom — that's called a precipitate."
+                    )
+                }
+                Register::Student => {
+                    format!("{vessel}: {:.4} mol {name} precipitated ↓", moles.0)
+                }
+                Register::Expert => {
+                    format!("{vessel}: {:.6} mol {name} precipitated", moles.0)
+                }
+            }
+        }
+        Event::SolutionCharacterized {
+            vessel,
+            ph,
+            ionic_strength,
+        } => match register {
+            Register::Child => {
+                if *ph < 6.0 {
+                    format!("The liquid in {vessel} is an acid.")
+                } else if *ph > 8.0 {
+                    format!("The liquid in {vessel} is a base (the opposite of an acid).")
+                } else {
+                    format!("The liquid in {vessel} is neutral — like pure water.")
+                }
+            }
+            Register::Student => format!("{vessel}: pH {ph:.2}"),
+            Register::Expert => {
+                format!("{vessel}: pH {ph:.3} · I = {ionic_strength:.4} mol/kgw")
+            }
+        },
         Event::Measured {
             vessel,
             instrument,
@@ -79,6 +132,7 @@ pub fn render_event(event: &Event, register: Register) -> String {
             let device = match instrument {
                 Instrument::Thermometer => "thermometer",
                 Instrument::Balance => "balance",
+                Instrument::PhMeter => "pH meter",
             };
             match register {
                 Register::Child => format!("The {device} on {vessel} reads {value:.0} {unit}."),

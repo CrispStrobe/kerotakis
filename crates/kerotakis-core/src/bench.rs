@@ -5,7 +5,8 @@ use serde::{Deserialize, Serialize};
 
 use crate::ops::{Event, Instrument, LogEntry, Operator};
 use crate::solve::{
-    adiabatic_mix_temperature, Equilibrator, MixingEquilibrator, PermissiveScreen, SafetyScreen,
+    adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
+    PermissiveScreen, SafetyScreen, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Moles};
@@ -61,25 +62,36 @@ impl Bench {
             .ok_or(BenchError::NoSuchVessel(id))
     }
 
-    /// Run one operator through the full loop with the default v0 solver and
-    /// screen. The returned events are also appended to the log.
+    /// Run one operator through the full loop with the default solver stack
+    /// (physics + honesty, no chemistry engines) and a permissive screen.
+    /// The returned events are also appended to the log.
     pub fn step(&mut self, op: Operator) -> Result<Vec<Event>, BenchError> {
-        self.step_with(op, &MixingEquilibrator, &PermissiveScreen)
+        let mut default_stack = SolverStack::new(vec![
+            Box::new(MixingEquilibrator),
+            Box::new(HonestyEquilibrator),
+        ]);
+        self.step_with(op, &mut default_stack, &PermissiveScreen)
     }
 
     /// Run one operator with explicit solver and safety screen.
     pub fn step_with(
         &mut self,
         op: Operator,
-        solver: &dyn Equilibrator,
+        solver: &mut dyn Equilibrator,
         screen: &dyn SafetyScreen,
     ) -> Result<Vec<Event>, BenchError> {
         let mut events = self.apply(&op, screen)?;
 
         // Re-equilibrate every vessel the operator touched (v0: mutating ops
-        // touch at most two).
+        // touch at most two). A touched vessel's previous solution
+        // characterisation is stale by definition; the solver stack either
+        // recomputes it or the honesty pass reports the gap.
         for id in op_touches(&op) {
             let vessel = self.vessel_mut(id)?;
+            vessel.solution = None;
+            if !solver.applies(vessel) {
+                continue;
+            }
             match solver.equilibrate(vessel) {
                 Ok(mut more) => events.append(&mut more),
                 Err(e) => events.push(Event::SolverFailed {
@@ -245,16 +257,33 @@ impl Bench {
             }
             Operator::Measure { vessel, instrument } => {
                 let v = self.vessel(*vessel)?;
-                let (value, unit) = match instrument {
-                    Instrument::Thermometer => (v.temperature.to_celsius(), "°C".to_string()),
-                    Instrument::Balance => (v.mass().0, "g".to_string()),
-                };
-                events.push(Event::Measured {
-                    vessel: *vessel,
-                    instrument: *instrument,
-                    value,
-                    unit,
-                });
+                match instrument {
+                    Instrument::Thermometer => events.push(Event::Measured {
+                        vessel: *vessel,
+                        instrument: *instrument,
+                        value: v.temperature.to_celsius(),
+                        unit: "°C".to_string(),
+                    }),
+                    Instrument::Balance => events.push(Event::Measured {
+                        vessel: *vessel,
+                        instrument: *instrument,
+                        value: v.mass().0,
+                        unit: "g".to_string(),
+                    }),
+                    Instrument::PhMeter => match v.solution {
+                        Some(info) => events.push(Event::Measured {
+                            vessel: *vessel,
+                            instrument: *instrument,
+                            value: info.ph,
+                            unit: "pH".to_string(),
+                        }),
+                        None => events.push(Event::NotYetModeled {
+                            vessel: *vessel,
+                            what: "the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+                                .to_string(),
+                        }),
+                    },
+                }
             }
         }
         Ok(events)
