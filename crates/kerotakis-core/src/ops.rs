@@ -1,0 +1,109 @@
+//! Operators: everything a person can do to the bench, and everything the
+//! bench can report back. The operator log is the save file and the API
+//! contract (PLAN.md).
+
+use serde::{Deserialize, Serialize};
+
+use crate::species::SpeciesId;
+use crate::units::{Joules, Kelvin, Moles};
+use crate::vessel::VesselId;
+
+/// A mutating or measuring action. One `Operator` in is one step of the bench
+/// loop: L0 safety pass → apply → re-equilibrate → events out.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "op", rename_all = "snake_case")]
+pub enum Operator {
+    /// Create a new empty vessel on the bench.
+    NewVessel,
+    /// Add an amount of a species to a vessel, entering at `at` temperature
+    /// (defaults to standard).
+    Add {
+        vessel: VesselId,
+        species: SpeciesId,
+        moles: Moles,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        at: Option<Kelvin>,
+    },
+    /// Put energy into a vessel (burner, heating mantle). Negative energy is
+    /// expressed with `Cool`.
+    Heat { vessel: VesselId, energy: Joules },
+    /// Remove energy from a vessel (ice bath).
+    Cool { vessel: VesselId, energy: Joules },
+    /// Stir. Currently affects nothing the solvers model; logged for the
+    /// record and honest about it.
+    Stir { vessel: VesselId },
+    /// Pour a fraction (0..=1) of the liquid contents into another vessel.
+    Decant {
+        from: VesselId,
+        to: VesselId,
+        fraction: f64,
+    },
+    /// Read an instrument. Never mutates state.
+    Measure {
+        vessel: VesselId,
+        instrument: Instrument,
+    },
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Instrument {
+    Thermometer,
+    Balance,
+}
+
+/// What one step produced. Everything user-visible derives from this.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "event", rename_all = "snake_case")]
+pub enum Event {
+    VesselCreated {
+        vessel: VesselId,
+    },
+    Added {
+        vessel: VesselId,
+        species: SpeciesId,
+        moles: Moles,
+    },
+    TemperatureChanged {
+        vessel: VesselId,
+        from: Kelvin,
+        to: Kelvin,
+    },
+    Transferred {
+        from: VesselId,
+        to: VesselId,
+        fraction: f64,
+    },
+    Measured {
+        vessel: VesselId,
+        instrument: Instrument,
+        value: f64,
+        unit: String,
+    },
+    /// L0 refused the operation. Nothing was mutated.
+    SafetyVeto {
+        reason: String,
+    },
+    /// The state is one no wired solver models yet. State is unchanged
+    /// except for the honest bookkeeping already performed; the renderer says
+    /// so at every register.
+    NotYetModeled {
+        vessel: VesselId,
+        what: String,
+    },
+    /// A solver was asked and could not converge / answer. First-class,
+    /// honest, never a crash.
+    SolverFailed {
+        vessel: VesselId,
+        solver: String,
+        detail: String,
+    },
+}
+
+/// One entry of the bench log: the operator plus what it produced.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct LogEntry {
+    pub step: usize,
+    pub operator: Operator,
+    pub events: Vec<Event>,
+}

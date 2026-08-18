@@ -1,0 +1,17 @@
+[package]
+name = "kerotakis-cli"
+description = "Kerotakis virtual laboratory — REPL, batch runner and JSON interface"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[[bin]]
+name = "kero"
+path = "src/main.rs"
+
+[dependencies]
+kerotakis-core = { path = "../kerotakis-core" }
+serde = { workspace = true }
+serde_json = { workspace = true }

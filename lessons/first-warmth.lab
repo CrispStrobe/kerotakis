@@ -1,0 +1,11 @@
+# First warmth: mix hot and cold water, watch the middle
+add v1 water 100mL @ 20C
+measure v1 thermometer
+add v1 water 100mL @ 80C
+measure v1 thermometer
+measure v1 balance
+new
+decant v1 v2 0.5
+measure v2 thermometer
+add v2 NaCl 5g
+inspect

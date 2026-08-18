@@ -1,0 +1,15 @@
+[package]
+name = "kerotakis-phreeqc"
+description = "IPhreeqc FFI with embedded thermodynamic databases — the L2 aqueous-equilibrium engine of Kerotakis"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+links = "IPhreeqc"
+
+[dependencies]
+thiserror = { workspace = true }
+
+[build-dependencies]
+cmake = "0.1"

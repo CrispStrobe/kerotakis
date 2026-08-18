@@ -1,0 +1,16 @@
+[package]
+name = "kerotakis-core"
+description = "Bench and vessel state machine, operators, energy balance and solver router for the Kerotakis virtual laboratory"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+proptest = "1"
+serde_json = { workspace = true }

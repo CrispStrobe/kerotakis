@@ -1,0 +1,19 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/kerotakis-core",
+    "crates/kerotakis-cli",
+    "crates/kerotakis-phreeqc",
+]
+
+[workspace.package]
+version = "0.0.1"
+edition = "2021"
+license = "AGPL-3.0-or-later"
+repository = "https://github.com/CrispStrobe/kerotakis"
+authors = ["Christian Ströbele"]
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "2"

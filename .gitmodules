@@ -1,0 +1,3 @@
+[submodule "vendor/iphreeqc"]
+	path = vendor/iphreeqc
+	url = https://github.com/phreeqc-dev/iphreeqc.git

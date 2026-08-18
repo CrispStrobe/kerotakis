@@ -609,16 +609,27 @@ phase's acceptance demo**.
 
 The single highest-information task. Everything else is downstream of it.
 
-- [ ] Build IPhreeqc natively (macOS first) and drive it through
+- [x] Build IPhreeqc natively (macOS) and drive it through
       `LoadDatabaseString` / `RunString` from Rust FFI with no filesystem
-- [ ] Build IPhreeqc with **Emscripten** (primary — three existence proofs);
-      time-box a **wasi-sdk / `wasm32-wasip1` single-module** attempt as a
-      stretch, never on the critical path
-- [ ] Embed all four databases via `include_str!`, confirm binary size
-- [ ] One end-to-end case: AgNO₃ + NaCl → saturation index out
-- [ ] Fuzz it: random inputs → no crash, honest failure state
-- [ ] **Gate:** if PHREEQC cross-compiles clean to web + one mobile target, the
-      offline premise holds
+      (`kerotakis-phreeqc`, vendored submodule + cmake build.rs; 4/4 tests)
+- [x] Build IPhreeqc with **Emscripten** (`tools/build-iphreeqc-wasm.sh`,
+      1.2 MB wasm module; needs `-fexceptions` at compile *and* link, plus
+      `-sSTACK_SIZE=8MB` — found the hard way). wasi-sdk single-module attempt
+      remains a time-boxed stretch, never on the critical path
+- [x] Embed all four databases (`include_bytes!` — pitzer.dat has Latin-1
+      comment bytes, so not `include_str!`)
+- [x] One end-to-end case: AgNO₃ + NaCl → SI(cerargyrite) = 0 at equilibrium,
+      0.0099848 mol AgCl precipitated — identical result native (Rust FFI) and
+      wasm (Node, `tools/test-iphreeqc-wasm.mjs`), both in CI
+- [x] Engine quirk, documented in the wrapper: **loading a database resets the
+      selected-output string flag** — `SetSelectedOutputStringOn` must be
+      called after `LoadDatabaseString` (and is re-asserted before every run)
+- [ ] Fuzz it: random inputs → no crash, honest failure state (basic
+      malformed-input test in place; real fuzzing pending)
+- [x] **Gate passed 2026-08-19:** the offline premise holds. Web ✓ (Emscripten
+      wasm, AgCl case green in Node, CI-enforced) · mobile ✓
+      (`cargo build -p kerotakis-phreeqc --target aarch64-apple-ios` clean) ·
+      native ✓ (macOS, 4/4 tests)
 
 ### P1 — Bench state machine + energy balance + L0 + CLI
 
