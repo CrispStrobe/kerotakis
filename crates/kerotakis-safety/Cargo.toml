@@ -1,0 +1,11 @@
+[package]
+name = "kerotakis-safety"
+description = "L0 reactivity screen for Kerotakis — runs before any chemistry and can veto"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+kerotakis-core = { path = "../kerotakis-core" }

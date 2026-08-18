@@ -1,0 +1,6 @@
+# The safety layer: some things the lab refuses to mix
+register 9
+add v1 water 200mL
+add v1 NaOCl 20mL
+add v1 NH3 20mL
+inspect v1

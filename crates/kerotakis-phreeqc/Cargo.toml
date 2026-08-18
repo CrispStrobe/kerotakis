@@ -14,3 +14,7 @@ thiserror = { workspace = true }
 
 [build-dependencies]
 cmake = "0.1"
+
+[dev-dependencies]
+kerotakis-safety = { path = "../kerotakis-safety" }
+serde_json = { workspace = true }

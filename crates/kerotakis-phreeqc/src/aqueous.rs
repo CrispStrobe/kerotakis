@@ -14,7 +14,8 @@
 //! fed into the vessel's energy balance (curated ΔH arrives with the codex).
 
 use kerotakis_core::{
-    Equilibrator, Event, Moles, Phase, Portion, SolutionInfo, SolveError, SpeciesId, Vessel,
+    species, Equilibrator, Event, Kelvin, Moles, Phase, Portion, SolutionInfo, SolveError,
+    SpeciesId, ThermalMode, Vessel,
 };
 
 use crate::{databases, Phreeqc, PhreeqcError};
@@ -45,6 +46,12 @@ fn role(key: &str) -> Option<Role> {
         }),
         // Very soluble; no phase needed at teaching concentrations.
         "AgNO3" => Some(Role::Dissolves(&[("Ag", 1.0), ("N(5)", 1.0)])),
+        // Strong acid/base: only the counter-ion enters the element totals;
+        // the H+/OH- side emerges from PHREEQC's charge balance (`pH 7
+        // charge`), which is exactly how a strong-acid solution is defined.
+        // The ledger's ion imbalance carries the acidity across steps.
+        "HCl" => Some(Role::Dissolves(&[("Cl", 1.0)])),
+        "NaOH" => Some(Role::Dissolves(&[("Na", 1.0)])),
         "Na+" => Some(Role::Dissolves(&[("Na", 1.0)])),
         "Cl-" => Some(Role::Dissolves(&[("Cl", 1.0)])),
         "Ag+" => Some(Role::Dissolves(&[("Ag", 1.0)])),
@@ -290,6 +297,55 @@ impl Equilibrator for PhreeqcEquilibrator {
         }
 
         vessel.contents = contents;
+
+        // Reaction heat: curated dissolution enthalpies feed the energy
+        // balance (PLAN.md). Dissolution of an endothermic salt cools the
+        // vessel; precipitation releases the corresponding heat. v1 applies
+        // the temperature change once rather than iterating solver ↔ T; the
+        // shifts at teaching concentrations are small against the ~25–100 °C
+        // range of the database.
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+            let mut q_joules = 0.0; // heat released into the vessel
+            for e in &events {
+                match e {
+                    Event::Dissolved {
+                        species: sid,
+                        moles,
+                        ..
+                    } => {
+                        if let Some(dh) =
+                            species::lookup(sid).and_then(|d| d.dissolution_enthalpy_kj)
+                        {
+                            q_joules -= dh * 1000.0 * moles.0;
+                        }
+                    }
+                    Event::Precipitated {
+                        species: sid,
+                        moles,
+                        ..
+                    } => {
+                        if let Some(dh) =
+                            species::lookup(sid).and_then(|d| d.dissolution_enthalpy_kj)
+                        {
+                            q_joules += dh * 1000.0 * moles.0;
+                        }
+                    }
+                    _ => {}
+                }
+            }
+            let cp = vessel.heat_capacity();
+            if q_joules.abs() > 1e-9 && cp > 0.0 {
+                let from = vessel.temperature;
+                let to = Kelvin((from.0 + q_joules / cp).max(0.0));
+                vessel.temperature = to;
+                events.push(Event::TemperatureChanged {
+                    vessel: vessel.id,
+                    from,
+                    to,
+                });
+            }
+        }
+
         let info = SolutionInfo {
             ph,
             ionic_strength: mu,

@@ -16,3 +16,4 @@ kerotakis-core = { path = "../kerotakis-core" }
 kerotakis-phreeqc = { path = "../kerotakis-phreeqc" }
 serde = { workspace = true }
 serde_json = { workspace = true }
+kerotakis-safety = { path = "../kerotakis-safety" }

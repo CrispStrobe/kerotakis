@@ -667,23 +667,35 @@ The single highest-information task. Everything else is downstream of it.
 
 ### P1 — Bench state machine + energy balance + L0 + CLI
 
-- [ ] `Bench`/`Vessel`, mutating + measuring operators, operator log,
+- [x] `Bench`/`Vessel`, mutating + measuring operators (thermometer, balance,
+      pH meter), operator log, solver stack (physics → chemistry → honesty),
       re-equilibration between steps
-- [ ] Enthalpy bookkeeping loop (ΔH + Cp → ΔT, iterate), vessel thermal modes
-- [ ] `kerotakis-cli`: REPL + batch (`kero run x.lab`) + `--json`, consuming
-      core only through the public API that `kerotakis-wasm` will share
-- [ ] **Reimplement** the 43×43 reactive-group matrix from the published NOAA
-      methodology: our SMARTS group-assignment rules, our matrix encoding;
-      strip every third-party field. Wire it as a veto before any chemistry
-- [ ] Conservation-invariant property tests from the first operator
-- [ ] Do this *first*. Retrofitting a safety layer into a shipped app is where
-      products get hurt.
+- [x] Enthalpy bookkeeping: thermal mixing on add/decant; curated dissolution
+      enthalpies feed ΔT (NaOH warms the beaker ~+10.6 K, NaCl cools
+      slightly — computed, tested). Solver↔T iteration still single-pass
+- [x] `kerotakis-cli`: REPL + batch (`kero run x.lab`) + `--json` with a
+      contract test pinning the JSON shape
+- [x] L0 wired as a veto before any chemistry, on the *prospective* state,
+      for `add` **and** `decant` (`kerotakis-safety`): seed reactive-group
+      matrix covers bleach×ammonia (chloramines) and bleach×acid (chlorine),
+      verified in the loop with no mutation on veto
+- [ ] Grow the seed matrix to the full published NOAA group set with
+      SMARTS-driven group assignment (needs Indigo; legal sourcing per the
+      L0 note)
+- [x] Conservation-invariant property tests from the first operator (256-case
+      proptest: mass and energy)
 
 ### P2 — PHREEQC, shippable on its own
 
-- [ ] `kerotakis-phreeqc` FFI surface (~15 functions matter)
-- [ ] Acid–base, precipitation, titration curves, solubility, buffers, brines
-      (pitzer.dat)
+- [x] `kerotakis-phreeqc` FFI surface (string-in/value-out, ~15 functions)
+- [x] `PhreeqcEquilibrator`: vessel → element totals + amount-limited
+      `EQUILIBRIUM_PHASES` → back to inventory. Precipitation (AgCl marquee),
+      **computed solubility limits** (8 mol NaCl/kgw leaves ~1.9 mol solid),
+      acid–base via charge balance (0.001 m HCl → pH 3.0), **titration to
+      equivalence** (pH 1.75 → 6.99 → 11.53), 200-seed fuzz with element
+      conservation
+- [ ] Buffers, polyprotic acids, brines (pitzer.dat path), more of the
+      registry aqueous-mapped; surface true speciation in the expert register
 - [ ] Content-addressed result cache; pre-warming pipeline in `tools/`
 - [ ] The P2 CLI **is** the "strong product on its own" claim, tested literally
 

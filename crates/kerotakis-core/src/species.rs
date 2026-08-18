@@ -56,6 +56,11 @@ pub struct SpeciesData {
     pub standard_phase: Phase,
     /// Colour word for observations ("white", "colourless", …), if curated.
     pub appearance: Option<&'static str>,
+    /// Enthalpy of dissolution in water, kJ/mol, positive = endothermic.
+    /// Feeds the vessel energy balance: dissolving NaOH warms the beaker,
+    /// dissolving ammonium nitrate would cool it. `None` = not curated yet
+    /// (no heat effect is applied, honestly).
+    pub dissolution_enthalpy_kj: Option<f64>,
     /// One-line provenance for the constants above.
     pub provenance: &'static str,
 }
@@ -96,6 +101,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         density: 0.997,
         standard_phase: Phase::Liquid,
         appearance: Some("colourless"),
+        dissolution_enthalpy_kj: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: CODATA/standard reference values",
     },
     SpeciesData {
@@ -108,6 +114,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         density: 0.789,
         standard_phase: Phase::Liquid,
         appearance: Some("colourless"),
+        dissolution_enthalpy_kj: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: standard reference values",
     },
     SpeciesData {
@@ -120,6 +127,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         density: 2.17,
         standard_phase: Phase::Solid,
         appearance: Some("white"),
+        dissolution_enthalpy_kj: Some(3.88),
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
@@ -132,6 +140,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         density: 4.35,
         standard_phase: Phase::Solid,
         appearance: Some("white"),
+        dissolution_enthalpy_kj: Some(22.6),
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
@@ -144,6 +153,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         density: 5.56,
         standard_phase: Phase::Solid,
         appearance: Some("white"),
+        dissolution_enthalpy_kj: Some(65.7),
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
@@ -156,6 +166,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         density: 1.0,
         standard_phase: Phase::Aqueous,
         appearance: None,
+        dissolution_enthalpy_kj: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -168,6 +179,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         density: 1.0,
         standard_phase: Phase::Aqueous,
         appearance: None,
+        dissolution_enthalpy_kj: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -180,6 +192,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         density: 1.0,
         standard_phase: Phase::Aqueous,
         appearance: None,
+        dissolution_enthalpy_kj: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -192,7 +205,60 @@ pub const REGISTRY: &[SpeciesData] = &[
         density: 1.0,
         standard_phase: Phase::Aqueous,
         appearance: None,
+        dissolution_enthalpy_kj: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
+    },
+    SpeciesData {
+        key: "HCl",
+        name: "hydrochloric acid",
+        formula: "HCl",
+        inchikey: "VEXZGXHMUGYJMC-UHFFFAOYSA-N",
+        molar_mass: 36.461,
+        heat_capacity: 75.3,
+        density: 1.19,
+        standard_phase: Phase::Liquid,
+        appearance: Some("colourless"),
+        dissolution_enthalpy_kj: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; modelled as concentrated aqueous acid, dilution heat not curated",
+    },
+    SpeciesData {
+        key: "NaOH",
+        name: "sodium hydroxide",
+        formula: "NaOH",
+        inchikey: "HEMHJVSKTPXQMS-UHFFFAOYSA-M",
+        molar_mass: 39.997,
+        heat_capacity: 59.5,
+        density: 2.13,
+        standard_phase: Phase::Solid,
+        appearance: Some("white"),
+        dissolution_enthalpy_kj: Some(-44.5),
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy: standard reference values",
+    },
+    SpeciesData {
+        key: "NH3",
+        name: "ammonia solution",
+        formula: "NH3(aq)",
+        inchikey: "QGZKDVFQNNGYKY-UHFFFAOYSA-N",
+        molar_mass: 17.031,
+        heat_capacity: 80.0,
+        density: 0.91,
+        standard_phase: Phase::Liquid,
+        appearance: Some("colourless, sharp smell"),
+        dissolution_enthalpy_kj: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; modelled as household ammonia solution (safety screening only at this stage)",
+    },
+    SpeciesData {
+        key: "NaOCl",
+        name: "bleach (sodium hypochlorite)",
+        formula: "NaOCl(aq)",
+        inchikey: "SUKJFIGYRHOWBL-UHFFFAOYSA-N",
+        molar_mass: 74.442,
+        heat_capacity: 75.0,
+        density: 1.1,
+        standard_phase: Phase::Liquid,
+        appearance: Some("pale yellow-green"),
+        dissolution_enthalpy_kj: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; modelled as household bleach solution (safety screening only at this stage)",
     },
 ];
 

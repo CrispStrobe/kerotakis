@@ -232,7 +232,11 @@ impl Session {
     fn run_op(&mut self, op: Operator) -> Result<(), String> {
         let events = self
             .bench
-            .step_with(op.clone(), &mut self.stack, &PermissiveScreen)
+            .step_with(
+                op.clone(),
+                &mut self.stack,
+                &kerotakis_safety::ReactiveGroupScreen,
+            )
             .map_err(|e| e.to_string())?;
         if self.json {
             let step = serde_json::json!({

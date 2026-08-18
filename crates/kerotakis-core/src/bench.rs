@@ -208,21 +208,42 @@ impl Bench {
                 if from == to {
                     return Err(BenchError::SelfTransfer);
                 }
-                // Take the liquid fraction out of `from`…
-                let (portions, t_from) = {
+                // Work out what would move, without mutating yet.
+                let (would_move, t_from) = {
+                    let src = self.vessel(*from)?;
+                    let moved: Vec<_> = src
+                        .contents
+                        .iter()
+                        .filter(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))
+                        .filter_map(|p| {
+                            let n = Moles(p.moles.0 * fraction);
+                            (n.0 > 0.0).then(|| (p.species.clone(), n, p.phase))
+                        })
+                        .collect();
+                    (moved, src.temperature)
+                };
+
+                // L0 on the prospective target state, before mutation —
+                // pouring one vessel into another can create the hazard.
+                let mut probe = self.vessel(*to)?.clone();
+                for (s, n, phase) in &would_move {
+                    probe.deposit(s.clone(), *n, *phase);
+                }
+                if let Some(reason) = screen.veto(&probe) {
+                    events.push(Event::SafetyVeto { reason });
+                    return Ok(events);
+                }
+
+                // Apply: take the liquid fraction out of `from`…
+                let portions = {
                     let src = self.vessel_mut(*from)?;
-                    let mut moved = Vec::new();
                     for p in src.contents.iter_mut() {
                         if matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
-                            let n = Moles(p.moles.0 * fraction);
-                            p.moles = Moles(p.moles.0 - n.0);
-                            if n.0 > 0.0 {
-                                moved.push((p.species.clone(), n, p.phase));
-                            }
+                            p.moles = Moles(p.moles.0 * (1.0 - fraction));
                         }
                     }
                     src.contents.retain(|p| p.moles.0 > 1e-15);
-                    (moved, src.temperature)
+                    would_move
                 };
                 // …and mix it into `to` with the energy balance.
                 let cp_in: f64 = portions
