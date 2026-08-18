@@ -11,10 +11,15 @@ gave us the bain-marie, and whose airtight seal is the origin of "hermetically
 sealed". The name describes the architecture: a sealed vessel you put things
 into, and reactions happen.
 
-See [PLAN.md](PLAN.md).
+See [PLAN.md](PLAN.md) for the architecture, verified engine/licence audit, and
+build order.
 
 ## Licence
 
 AGPL-3.0-or-later, with an App Store / Google Play additional permission for
-binaries published by the copyright holder. See [LICENSE](LICENSE) and
+binaries published by the copyright holders. See [LICENSE](LICENSE) and
 [NOTICE](NOTICE).
+
+Contributions are welcome and are accepted under AGPL-3.0-or-later **plus** the
+store additional permission — see [CONTRIBUTING.md](CONTRIBUTING.md) before
+your first PR.
