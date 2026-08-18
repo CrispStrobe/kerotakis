@@ -1,16 +1,21 @@
 # Kerotakis — Development Plan
 
-A virtual chemistry laboratory that computes real chemistry. Offline-first, no
-Python at runtime, one simulation served at every register from nine-year-old to
-expert.
+A virtual chemistry laboratory that computes real chemistry, accompanied by a
+codex of a few hundred curriculum reactions and every concept that explains
+them — from nine-year-old to expert, one simulation, rendered at every
+register. Offline-first, no Python at runtime, the complete apparatus of
+experimental chemistry as first-class operators.
 
 Named for the sealed reflux vessel invented by Maria the Jewess in Alexandria,
 1st–3rd century CE — the first named alchemist in recorded history. A sealed dome
 with a sample suspended above a heated solvent, so the vapours act on it. She also
 gave us the bain-marie; the airtight seal her apparatus needed is where
 "hermetically sealed" comes from; and von Soxhlet's 1879 modernisation of it is
-still in working labs today. The name describes the architecture: a sealed vessel
-you put things into, and reactions happen.
+still in working labs today — and is itself an apparatus this lab will model.
+The name describes the architecture: a sealed vessel you put things into, and
+reactions happen. The product's voice — steampunk brass to necromantic glow —
+lives entirely in data (operation names, narration templates, codex copy), never
+in the solvers.
 
 > Every licence, build flag and API claim in this document was verified against
 > upstream source, package metadata or primary legal text on **2026-08-18**.
@@ -32,7 +37,7 @@ truthful about which is which.
 | Heating & igniting solids and gases — decomposition, combustion, flame T | solved exactly | Gibbs minimisation over NASA CEA data |
 | What boils when, what mixes, azeotropes, distillation | solved predictively | feos + UNIFAC + cubic EOS |
 | Is this mixture dangerous | solved by database | reactive-group matrix (reimplemented from NOAA's published methodology) |
-| How fast, concentrations over time | solved | diffsol |
+| How fast, concentrations over time | solved | diffsol (+ Cantera-format mechanisms) |
 | Does an arbitrary organic reaction happen | **unsolved** | curate it |
 
 PHREEQC is the highest-value engine here and almost no educational app uses it.
@@ -41,13 +46,32 @@ strength *simultaneously* from thermodynamic data. Mix silver nitrate and table
 salt and it returns AgCl precipitate, how many moles, what ions remain, and the
 saturation index — derived, not hardcoded.
 
-The second row is new, and it matters: heating and burning things is half of
-school chemistry (CaCO₃ → CaO + CO₂, decomposing KMnO₄, dehydrating copper
-sulfate, magnesium in a flame) and neither PHREEQC (aqueous) nor VLE (liquids)
-touches it. NASA open-sourced CEA under **Apache-2.0 in 2026, including its
-thermodynamic database** (`data/thermo.inp`) — so a small Gibbs-energy minimiser
-over NASA polynomials with pure condensed phases turns "heat it" and "ignite it"
-into computed chemistry, adiabatic flame temperature included.
+The second row matters: heating and burning things is half of school chemistry
+(CaCO₃ → CaO + CO₂, decomposing KMnO₄, dehydrating copper sulfate, magnesium in
+a flame) and neither PHREEQC (aqueous) nor VLE (liquids) touches it. NASA
+open-sourced CEA under **Apache-2.0 in 2026, including its thermodynamic
+database** (`data/thermo.inp`) — so a small Gibbs-energy minimiser over NASA
+polynomials with pure condensed phases turns "heat it" and "ignite it" into
+computed chemistry, adiabatic flame temperature included.
+
+### The build-time principle
+
+**"No Python" is a runtime constraint. The build machine runs anything.**
+Every heavyweight scientific tool becomes a build-time oracle, exporter or
+verifier in `tools/`, and only *data* ships:
+
+| Build-time tool | Role |
+|---|---|
+| xtb / CREST (LGPL) | Reaction ΔG, Fukui indices, MO data, approximate reaction paths, vibrational frequencies → IR spectra |
+| PySCF (Apache-2.0) | Proper DFT wavefunctions for showcase FMO reactions; cube generation |
+| Multiwfn (custom, verified commercial-OK) | Wavefunction analysis where PySCF needs help; cite both required papers, pin the version |
+| `thermo` (MIT, Python) | Golden-test fixture generation for `kerotakis-thermo` — thousands of reference flash/VLE results |
+| Cantera (desktop Python) | Reference solutions for combustion golden tests |
+| RDKit (Python) | Cross-validation of Indigo template applications and canonicalisations during curation — two independent toolkits agreeing is real QA |
+| PyTorch | Weight export (safetensors/ONNX) if the ML tier ever ships |
+
+Tool licences (incl. geomeTRIC's "BSD 3-clause Non-AI" clause and Sella's
+LGPL) are recorded in `tools/` provenance files; none of it ships.
 
 ---
 
@@ -74,6 +98,11 @@ router → new state + explanation. Between operators the bench re-equilibrates.
 This is what makes it a *lab* rather than a reaction calculator — the pedagogy
 lives in the sequence, and the sequence is free once state is explicit.
 
+**Apparatus are operators.** Burette, distillation head, separating funnel,
+pneumatic trough, Soxhlet — each is an operator (or operator + constraint set)
+in `kerotakis-core`, drivable textually from day one; graphics come later.
+"Never dumb down the model, only the view" applies to equipment too.
+
 **Measuring ops are first-class and read-only.** They cost almost nothing (they
 read existing solver output), they give register-appropriate precision naturally
 — litmus for the nine-year-old, the same pH to three decimals for the expert —
@@ -81,7 +110,7 @@ and "measure before and after" *is* the scientific method being taught.
 
 **The operator log is the save file.** Bench state is tiny; persisting the full
 operator sequence gives undo, replay, sharing experiments as scripts, and golden
-tests for free. It is also the substrate for the lesson layer (below).
+tests for free. It is also the substrate for lessons and the API contract.
 
 **The vessel has an energy balance.** PHREEQC is isothermal — you *tell* it T.
 So the loop does its own enthalpy bookkeeping: reaction ΔH (curated data or
@@ -95,6 +124,41 @@ inputs are routine, not exceptional. The router surfaces an honest "couldn't
 compute this" state rather than a wrong answer or a crash — the same honesty
 rule that governs L4.
 
+**The cache ships pre-warmed.** Content-addressed: canonical species set + T +
+P (floats quantised) → result. Because lessons enumerate their reachable
+states, every vessel state in the curated lessons is computed at build time and
+shipped — most user actions in guided content never touch a solver even on
+first run, on any device. Also the graceful-degradation story for the rare
+convergence failure.
+
+### CLI first
+
+The engine is text-native by construction — the bench loop *is* a REPL — so the
+first client is a thorough CLI, and it is not a detour:
+
+- **It proves the thesis before any UI exists.** `--register 9|15|expert` on
+  the same session output tests "one simulation, many views" in the cheapest
+  possible medium. If the registers don't work in text, no UI will save them.
+- **It is the test harness.** Golden tests, conservation-invariant property
+  tests, fuzzing, lesson replays — all are `kero run experiment.lab --json`
+  under CI, diffing outputs.
+- **It is the curation tool.** `kero codex lint` validates every codex entry:
+  balanced equations, provenance records, register copy at all levels, and —
+  the killer check — that claimed observations match what the solvers actually
+  compute.
+- **It is shippable.** PHREEQC's power with a humane interface is a real
+  product for the expert register, publishable as `kerotakis` on crates.io
+  (claiming the name with substance). A `ratatui` TUI skin later is optional
+  flavour — brass-and-verdigris terminal chemistry — but REPL + batch + JSON
+  comes first.
+
+Two guardrails: **(1)** `kerotakis-cli` consumes `kerotakis-core` through the
+same public API `kerotakis-wasm` will — both are thin peers over one boundary,
+and `--json` output is the API contract, snapshot-tested. The moment the CLI
+reaches into internals, the boundary mobile and web depend on stops being
+hardened. **(2)** CLI comfort must not defer the P0 portability spike — a CLI
+on macOS proves the chemistry, not the premise that can kill the project.
+
 ### The solver stack
 
 Numbering is real: **L0 runs first and can veto**, and each layer depends on what
@@ -105,13 +169,13 @@ the ones below resolve.
 | **L0** | Safety & reactivity screen — runs first, can veto | Our reimplementation of the NOAA 43×43 reactive-group matrix (see below) | ours, from public-domain methodology |
 | **L1** | Species & property registry, canonical InChIKey identity | SQLite/static data + Indigo (bundles the InChI plugin) | Apache-2.0 / MIT |
 | **L2** | Aqueous equilibrium — **the workhorse** | IPhreeqc + phreeqc.dat, wateq4f.dat, minteq.v4.dat, **pitzer.dat** | USGS, public domain |
-| **L2g** | Gas + condensed-phase equilibrium — heat, ignite, decompose, burn | Gibbs minimiser over NASA CEA data (adopt/extend `cea-rs`, or write it — see adopt-and-extend policy) | Apache-2.0 data |
+| **L2g** | Gas + condensed-phase equilibrium — heat, ignite, decompose, burn | Gibbs minimiser over NASA CEA data (adopt/extend `cea-rs`, or write it) | Apache-2.0 data |
 | **L3** | Phase behaviour — boiling, miscibility, azeotropes | `feos` (SAFT family, flash) + own UNIFAC + `vle-thermo` (cubics, NRTL/Wilson) + `seuif97` (water) | MIT / Apache-2.0 |
 | **L3e** | Electrolysis | Faraday's law + standard-potential ordering, own module; PHREEQC supplies speciation and Eh | ours |
 | **L4** | Reaction — propose → filter → rank → verify | curated + Indigo templates | Apache-2.0 |
-| **L4′** | QM enrichment — **build time only, never in the app** | xtb / CREST | LGPL-3.0, never shipped |
-| **L5** | Kinetics & time evolution | diffsol | MIT |
-| **L6** | Appearance — colour, cloudiness, flames | curated colour data + Beer–Lambert over ε(λ) + CIE colour math via `palette` | ours / MIT |
+| **L4′** | QM enrichment — **build time only, never in the app** | xtb / CREST / PySCF | LGPL / Apache-2.0, never shipped |
+| **L5** | Kinetics & time evolution | diffsol + our rate evaluator over Cantera-format mechanisms | MIT / BSD-3 data |
+| **L6** | Appearance — colour, cloudiness, flames, orbitals | curated colour data + Beer–Lambert over ε(λ) + CIE via `palette`; precomputed orbital meshes | ours / MIT |
 
 Notes per layer:
 
@@ -122,8 +186,7 @@ Notes per layer:
   logic — is published in open-access NOAA papers, and NOAA-authored technical
   prose is US-government public domain. So: our own SMARTS rules (run by Indigo)
   assign compounds to the 43 groups; we ship the matrix and our assignments,
-  never their database. More work than an extract, but it is the only defensible
-  version, and the assignment rules become an asset we own.
+  never their database. The assignment rules become an asset we own.
   Primary sources: NOAA Institutional Repository CRW4 paper
   (repository.library.noaa.gov/view/noaa/61941); Gorman et al., *Process Safety
   Progress* 2014.
@@ -133,16 +196,23 @@ Notes per layer:
   binding is the fallback (wasm precedent: cheminfo's `inchi-js` npm package).
 - **L2** — `pitzer.dat` is only **37 KB** and public-domain like the rest; it
   unlocks brines and high ionic strength (seawater evaporation is a beautiful
-  teaching sequence). Embed it. **Do not embed `sit.dat`**: it is generated from
+  teaching sequence). Embed it. **Do not embed `sit.dat`**: generated from
   ANDRA's ThermoChimie database — non-USGS provenance; revisit only after a
-  terms check. Upstream is now the actively maintained `phreeqc-dev` GitHub org
+  terms check. Upstream is the actively maintained `phreeqc-dev` GitHub org
   (CMake, C++14).
 - **L2g** — a Gibbs minimiser over NASA polynomials is a well-understood,
   few-hundred-line solver. `cea-rs` (MIT OR Apache-2.0, wasm ✓) appeared on
   crates.io in Aug 2026 — embryonic, but proof the port is tractable and a
   candidate to adopt and extend rather than start from zero.
-- **L3** — see the crate table below for what each piece covers and why
-  CoolProp was demoted.
+- **L5** — reaction networks are **stiff**; explicit Runge–Kutta will not
+  integrate them. diffsol's default backends are pure Rust (nalgebra/faer);
+  the `diffsl` JIT stays off for iOS and wasm. For gas kinetics we parse the
+  **Cantera YAML mechanism format** (publicly documented; the shipped data
+  files — gri30.yaml etc. — are part of Cantera's BSD-3 distribution and
+  freely redistributable) and evaluate rates ourselves: GRI-Mech-class
+  education mechanisms need only **Arrhenius + three-body + Troe falloff**.
+  Precedent: KiThe and Fauconneau/combustion in Rust; Arrhenius.jl and
+  ReactionMechanismSimulator.jl in Julia.
 - **L6** — most of the age-9 register is *observations*, and they need a
   computation path: species/precipitate colours and flame colours are curated
   data; indicator colours follow from indicator pKa via PHREEQC; solution colour
@@ -155,45 +225,95 @@ Notes per layer:
 
 The stage that produced an answer is **shown to the user**.
 
-1. **Propose** — curated library first. A few thousand hand-verified reactions
-   with conditions, ΔH and observations covers all of school and most of
-   undergraduate chemistry, and it is *correct*, which matters more than coverage
-   in education. Indigo's `indigoReactionProductEnumerate` / `indigoTransform`
-   (both verified present in the current flat C API) generalise templates across
-   homologues.
+1. **Propose** — curated library first. A few hundred hand-verified curriculum
+   reactions with conditions, ΔH and observations covers all of school and most
+   of undergraduate chemistry, and it is *correct*, which matters more than
+   coverage in education. Indigo's `indigoReactionProductEnumerate` /
+   `indigoTransform` (both verified present in the current flat C API)
+   generalise templates across homologues.
 2. **Filter** — our own SMARTS incompatibility rules, plus the L0 pass. RDKit's
    shipped `FilterCatalog` (PAINS, BRENK, NIH, ChEMBL) is a set of
    *medicinal-chemistry alerts*, not reaction-feasibility rules. The rules are ours.
 3. **Rank** — surface confidence, never present a prediction as a fact.
 4. **Verify** — L4′, offline.
 
-### Why QM is build-time only
+### L4′: the QM pipeline, and what it ships
 
-GFN2-xTB gives real ΔG_rxn for structures handed to it. It is a *verifier*, not a
-generator — something else must propose the mechanism first. Barriers are harder
-still: CREST samples conformers, it does not find transition states, and a real
-ΔG‡ needs a supervised saddle-point search plus frequency and IRC confirmation.
-That pipeline fails often and is normally human-supervised, so it cannot sit
-behind a user tapping "mix".
+GFN2-xTB is a *verifier*, not a generator — something else proposes the
+mechanism. Barriers need a supervised saddle-point search plus frequency and
+IRC confirmation; that pipeline fails often and cannot sit behind a user
+tapping "mix". So it runs on the build machine, and ships as data. Batching it
+build-time also dissolves the LGPL-3.0 relinking conflict with App Store
+distribution — the binary never ships.
 
-Batching it on the build machine also dissolves the LGPL-3.0 relinking conflict
-with App Store distribution, because the binary never ships. The results ship as
-numbers in the curated library.
+What the pipeline emits per curated reaction/compound (capabilities verified
+against xtb docs):
 
-**Bonus from the same pipeline:** xtb computes vibrational frequencies, so the
-build machine can emit **synthetic IR spectra** for every curated compound —
-licence-clean spectra (computed, not scraped from NIST) that power the
-spectrophotometer instrument and an "identify the unknown" lesson mechanic no
-competitor has.
+- **Energetics** — ΔG_rxn (GFN2-xTB), the honesty backbone of L4.
+- **Fukui indices** — `xtb --vfukui`: per-atom condensed f⁺/f⁻/f⁰. Colouring
+  atoms by the dual descriptor explains regioselectivity *before a bond forms*
+  — tiny data, huge pedagogy.
+- **Frontier orbitals** — HOMO/LUMO energies and MOs (`--molden`); proper DFT
+  wavefunctions from **PySCF** for the showcase FMO set (Diels–Alder, SN2,
+  carbonyl additions) where orbital *shape* is the lesson. Honest-labelling
+  caveats: GFN2's minimal valence basis gives qualitatively sensible valence MO
+  ordering/symmetry but compressed gaps and no anion/diffuse orbitals — the
+  register system says which engine produced what.
+- **Reaction-path frames** — `xtb --path` (RMSD-PP) gives approximate paths
+  *without a transition state*: the SN2 umbrella inversion and carbonyl
+  sp²→sp³ animations. True IRC only where a supervised TS search earned it.
+- **IR spectra** — vibrational frequencies → synthetic spectra: licence-clean
+  (computed, not scraped from NIST), powering the spectrophotometer instrument
+  and "identify the unknown" lessons.
 
-### The lesson layer is the product
+**Orbitals ship as meshes, not cubes.** Build-time marching cubes → quantised
+glTF keyframes (KHR_mesh_quantization; skip Draco — its decoder outweighs the
+savings at these sizes). Verified ~60–300× smaller than cube files; the direct
+ancestor is Jmol's JVXL format (400–1000× published). Two-colour signed lobes
+give phase-matching visuals — [4+2]-allowed vs [2+2]-forbidden — as plain mesh
+rendering, so **no chemistry viewer is required at runtime**: the app's own 3D
+layer plays orbital animations like any other asset. For the web expert
+register, where raw-cube interaction earns its place: **3Dmol.js** (BSD-3,
+active, ~158 KB gzipped, native cube rendering with two-isovalue phase
+colouring). Mol* (MIT, very active, ~10× heavier; its `alpha-orbitals`
+extension computes MOs on-grid client-side) stays on the watch list; NGL is
+dormant — skip.
 
-The bench is the engine; guided sequences are what people buy. Lessons are
-declarative data driving the same operator loop: a scenario file names starting
-vessels, allowed operators, goals ("identify the unknown solution", "make 100 mL
-of pH 7 buffer") and register-specific narration hooks. The alchemical
-progression — nigredo, albedo, citrinitas, rubedo — is the difficulty ladder.
-Because lessons are data over the operator log, they are also replayable tests.
+**The runtime QM tier: Hückel, honestly labelled.** For molecules the *user*
+draws, no precomputation exists. No pure-Rust Hückel implementation exists, and
+tblite (LGPL Fortran) has no realistic wasm path (gfortran cannot target
+wasm). Options, per the adopt-and-extend policy: port or FFI **YAeHMOP**
+(extended Hückel, plain C, BSD-2-Clause, small, Landrum-maintained), or write
+simple Hückel ourselves — it is essentially an eigensolver over a connectivity
+matrix, which nalgebra/faer provide. Qualitative π-MO phases and energies,
+labelled approximate; textbook FMO diagrams *are* Hückel theory, so the
+approximation is literally the pedagogy.
+
+### The codex
+
+A few hundred curriculum reactions, and **every concept that explains them**,
+as one dataset:
+
+- **Concept graph** — a petgraph DAG: concepts → reactions they explain,
+  prerequisite edges between concepts. The difficulty ladder made explicit and
+  queryable; the nigredo → albedo → citrinitas → rubedo tiers are cuts through
+  this graph.
+- **Reaction entries** — balanced equation, conditions, ΔH, observations
+  (colour, gas, precipitate, heat, smell), provenance, register copy at every
+  level, and the L4′ enrichment block (ΔG, Fukui colouring, FMO pair + gap +
+  phase-match verdict, path frames, IR spectrum).
+- **Flavour is data.** Operation names, narration templates, codex voice — the
+  steampunk-to-necromancer register lives in these files and survives any UI
+  decision untouched.
+- **Markup decided early.** The codex rendering convention (register copy,
+  diagrams, concept pages) is chosen during authoring, not after hundreds of
+  entries exist — the renderer can come late, the format cannot.
+- `kero codex lint` enforces all of it mechanically, including that claimed
+  observations match solver output.
+
+Budget curation as a chemistry-editorial role, not an engineering task. This is
+the moat: nobody can scrape a well-curated pedagogical reaction set with
+observations, orbital stories and register copy attached.
 
 ---
 
@@ -205,14 +325,14 @@ Because lessons are data over the operator log, they are also replayable tests.
 | `num-dual` | MIT OR Apache-2.0 | active | AD backbone of feos; exact fugacity/enthalpy derivatives | ✓ |
 | `vle-thermo` | MIT | active, very young (May 2026) | 22+ cubic EOS, NRTL/Wilson/van Laar, Rachford–Rice flash, phase envelopes | ✓ |
 | `seuif97` | MIT | active | IAPWS-IF97 water/steam — most of our solvent story | ✓ |
-| `diffsol` | MIT | active | L5 stiff ODE/DAE (BDF), pure-Rust nalgebra/faer backends; keep `diffsl` JIT **off** for iOS/wasm | ✓ (JIT off) |
+| `diffsol` | MIT | active | L5 stiff ODE/DAE (BDF), pure-Rust nalgebra/faer backends; `diffsl` JIT **off** for iOS/wasm | ✓ (JIT off) |
 | `cea-rs` | MIT OR Apache-2.0 | embryonic (Aug 2026) | L2g seed — adopt/extend or rewrite over the same Apache-2.0 CEA data | ✓ |
-| `nalgebra` | Apache-2.0 | active | Stoichiometric null-space balancing, linear algebra | ✓ |
-| `petgraph` | MIT OR Apache-2.0 | active | Reaction-network DAGs, cascade routing | ✓ |
+| `nalgebra` | Apache-2.0 | active | Stoichiometric null-space balancing, eigensolver for Hückel, linear algebra | ✓ |
+| `petgraph` | MIT OR Apache-2.0 | active | Concept graph, reaction-network DAGs, cascade routing | ✓ |
 | `uom` | Apache-2.0 OR MIT | alive, ~1 release/yr | Compile-time units at `kerotakis-core` API boundaries — kills molarity-vs-molality bugs | ✓ |
 | `palette` | MIT OR Apache-2.0 | active | L6 colour math (XYZ/Lab/sRGB); we supply the spectral→XYZ integration | ✓ |
-| `rusqlite` ≥ 0.38 | MIT | active | Curated library + registry. wasm works via `sqlite-wasm-rs` (also Diesel's official wasm backend) | ✓ |
-| `postcard`/`rkyv` | MIT etc. | active | Alternative for read-only bundled data: `include_bytes!`, zero-copy, smaller than SQLite | ✓ |
+| `rusqlite` ≥ 0.38 | MIT | active | Registry/codex if queryable storage wins. wasm via `sqlite-wasm-rs` (also Diesel's official wasm backend) | ✓ |
+| `postcard`/`rkyv` | MIT etc. | active | Alternative for read-only bundled data: `include_bytes!`, zero-copy | ✓ |
 
 **Evaluated and set aside** (with the reason, so we don't re-litigate):
 
@@ -220,52 +340,61 @@ Because lessons are data over the operator log, they are also replayable tests.
   matching, no canonicalisation, no InChI. Their author, Rich Apodaca, died in
   2024; the successor `balsa` is also dormant. Not a base to build on.
 - `sundials-sys` — dormant ~20 months; no evidence anyone has ever built
-  SUNDIALS for wasm or iOS. diffsol already covers L5 in pure Rust.
+  SUNDIALS for wasm or iOS. diffsol covers L5 in pure Rust.
 - `coolprop-sys` — actively maintained but bundles **prebuilt desktop dylibs
-  only**: no wasm, no iOS/Android. CoolProp itself has an official Emscripten/JS
-  build, so it remains available as an optional *desktop/web extra*, not core.
-  `feos` multiparameter + `seuif97` cover the pure-fluid need.
-- `KiThe` — hard, non-optional `reqwest`/`tokio` deps (its NIST WebBook scraper)
-  fail on wasm ✗, and scraping WebBook is an SRD-licensing problem anyway (see
-  data provenance). Fork candidate only if its NASA-polynomial equilibrium code
-  outperforms our L2g — reassess once L2g exists.
+  only**: no wasm, no iOS/Android. CoolProp's official Emscripten/JS build
+  keeps it available as an optional *desktop/web extra*, not core.
+- `KiThe` — hard, non-optional `reqwest`/`tokio` deps (its NIST WebBook
+  scraper) fail on wasm ✗, and scraping WebBook is an SRD-licensing problem
+  anyway. Fork candidate only if its equilibrium code outperforms our L2g.
 - `ort` — iOS/Android static binaries exist, but the browser path is `ort-web`
-  bridging Microsoft's onnxruntime-web: two incompatible wasm contexts with
-  tensor sync. If the ML tier ever ships, `candle` (proven wasm demos, quantised
-  GGUF) or `burn` (working in-browser WebGPU) fit this stack better. Deferred
-  with the ML tier itself.
-- `rdkit-rs` — dormant ~20 months, needs native C++ RDKit, no wasm story; RDKit
-  MinimalLib's long-time maintainer stepped down 2026-04. Indigo is primary.
+  bridging onnxruntime-web: two incompatible wasm contexts. If the ML tier
+  ever ships: `tract` (pure Rust, wasm-clean) for small models, `candle` /
+  `burn` for larger. Deferred with the ML tier itself.
+- `rdkit-rs` — dormant, needs native C++ RDKit, no wasm story; RDKit
+  MinimalLib's maintainer stepped down 2026-04. Indigo is primary at runtime;
+  RDKit serves at build time (oracle table above).
+- NGL Viewer — MIT but dormant; its author moved to Mol*. Skip.
 
-**Watch list** (young or needs-work, but filling real gaps):
+**Watch list** (young or needs-work, but filling real gaps — see policy below):
 
 - `chematic` — pure-Rust cheminformatics with real SMARTS + VF2 substructure
   matching, canonical SMILES, 2D depiction, first-class wasm npm build. Three
   months old, bus-factor 1, self-reported RDKit parity. If it matures it
   replaces the Indigo FFI for everything except InChI; re-evaluate quarterly.
-- `teqp` (NIST) — **public-domain** multiparameter/GERG/SAFT EOS in C++. No
-  official wasm artifact, but CMake + a changelog hint at JS support make an
+- **Cantera via its generated C API** — Cantera 3.2 ships a generated clib
+  (handle-based, no C++ at the boundary) covering equilibrate, kinetics rates
+  and reactor networks, and **Emscripten/wasm support was merged upstream**
+  into the 4.0 dev branch (2026-03; lead maintainer: "essentially no issues
+  compiling Cantera and its dependencies as a WASM library"). Still SCons-built,
+  clib marked experimental, mobile unproven. Our slice reimplementation (L5)
+  covers the educational need; full Cantera-by-FFI becomes a real option when
+  4.0 ships — re-evaluate then.
+- `teqp` (NIST) — **public-domain** multiparameter/GERG/SAFT EOS in C++;
   Emscripten side-module feasible. The option if L3 ever needs
   reference-quality multiparameter mixtures beyond feos.
 - `GEMS3K` (PSI) — LGPL-3.0 Gibbs minimiser, markedly better than PHREEQC for
-  non-ideal solid solutions and melts, designed for embedding. LGPL is
-  manageable for desktop/server builds (dynamic linking) but awkward for a
-  static wasm bundle and App Store. The option if L2 ever hits the
-  solid-solution wall.
+  non-ideal solid solutions and melts. LGPL manageable for desktop/server,
+  awkward for static wasm/App Store. The option if L2 hits that wall.
+- `mcubes` — MIT marching cubes written for electron-density meshing; young
+  0.1.x. Build-time mesh pipeline first choice; vendoring the ~200-line
+  algorithm is the fallback.
+- **YAeHMOP** — extended Hückel, plain C, BSD-2-Clause, small,
+  Landrum-maintained. Port-to-Rust or FFI candidate for the runtime Hückel tier.
 - the alpha `phreeqc` npm package (Emscripten, MIT + USGS notice, Jan 2026) —
-  single-maintainer alpha; we do not depend on it, but it is the existence proof
-  for our own P0 build, and worth reading before writing ours.
+  single-maintainer alpha; not a dependency, but the existence proof for our
+  P0 build and worth reading first.
 
 ### Adopt-and-extend policy
 
 A tool is not disqualified because it needs work from us — forking, wasm
 compiles, FFI bindings, feature-gating out bad deps — **if it fills a gap no
-equally good, licence-compatible tool fills**. `cea-rs`, `chematic`, `teqp`, a
-KiThe fork and the `unifac` crate's algorithm are all in that category. A tool
-*is* disqualified by: incompatible licence on code we'd ship (GPL-only, NC),
-non-redistributable embedded data, or a dead upstream *plus* an equally good
-maintained alternative. When we extend, we upstream patches where the project is
-alive and fork visibly where it is not.
+equally good, licence-compatible tool fills**. `cea-rs`, `chematic`, `teqp`,
+YAeHMOP, the Cantera clib, a KiThe fork and the `unifac` crate's algorithm are
+all in that category. A tool *is* disqualified by: incompatible licence on code
+we'd ship (GPL-only, NC), non-redistributable embedded data, or a dead upstream
+*plus* an equally good maintained alternative. When we extend, we upstream
+patches where the project is alive and fork visibly where it is not.
 
 ### The UNIFAC question, precisely
 
@@ -276,8 +405,8 @@ write: the maintained UNIFAC Consortium tables are proprietary; the original
 open-literature tables (Fredenslund, Gmehling et al., 1970s–90s journals) are
 usable. So: reimplement the ~300-line algorithm (or fork the crate), source
 parameters from the original publications, and record provenance per parameter.
-Budget it as data curation, not coding. Acceptance test unchanged: the
-ethanol–water azeotrope at 95.6% — a genuine teaching moment most simulators miss.
+Budget it as data curation, not coding. Acceptance test: the ethanol–water
+azeotrope at 95.6% — a genuine teaching moment most simulators miss.
 
 ---
 
@@ -347,19 +476,23 @@ toolchain files. And the databases are small enough to compile into the binary:
 kerotakis/
 ├── crates/
 │   ├── kerotakis-core/       bench + vessel state machine, operators, energy
-│   │                         balance, solver router, measurement ops
+│   │                         balance, solver router, measurement ops, registers
+│   ├── kerotakis-cli/        REPL + batch + --json; the harness, the curation
+│   │                         tool, and the first shippable client
 │   ├── kerotakis-phreeqc/    IPhreeqc FFI + embedded databases (L2)
 │   ├── kerotakis-cea/        Gibbs minimiser over NASA CEA data (L2g)
 │   ├── kerotakis-indigo/     Indigo FFI — structures, InChI, templates (L1/L4)
 │   ├── kerotakis-thermo/     feos + own UNIFAC + vle-thermo + seuif97 (L3)
 │   ├── kerotakis-electro/    electrolysis — Faraday + potential ordering (L3e)
-│   ├── kerotakis-kinetics/   diffsol wrapper (L5)
+│   ├── kerotakis-kinetics/   diffsol + Cantera-YAML mechanism parser (L5)
 │   ├── kerotakis-appearance/ colour: curated data + Beer–Lambert + CIE (L6)
 │   ├── kerotakis-safety/     reimplemented reactive-group matrix + rules (L0)
-│   ├── kerotakis-data/       curated library + registry, embedded
+│   ├── kerotakis-huckel/     runtime qualitative MO tier (own / YAeHMOP)
+│   ├── kerotakis-data/       codex + registry + pre-warmed cache, embedded
 │   └── kerotakis-wasm/       wasm-bindgen surface for web (Track A)
-├── tools/                    build-time pipelines: xtb batches, IR spectra,
-│                             PubChem/Wikidata/CEA data exports, Indigo wasm build
+├── tools/                    build-time pipelines: xtb/PySCF batches, orbital
+│                             meshes, IR spectra, data exports, oracles,
+│                             Indigo wasm build
 ├── lessons/                  declarative scenario files
 └── app/                      UI — see the open decision below
 ```
@@ -371,13 +504,15 @@ aarch64-apple-darwin from one source.
 ### Testing is part of the architecture
 
 - **Conservation invariants** — property tests asserting mass and charge balance
-  across *every* operator, on random benches. This catches whole classes of bugs
-  no example test finds, and it is a moat: competitors with lookup tables cannot
-  even state the invariant.
+  across *every* operator, on random benches. Catches whole classes of bugs no
+  example test finds, and it is a moat: lookup-table competitors cannot even
+  state the invariant.
 - **Golden tests** — textbook values: acetic-acid titration curve, AgCl Ksp,
-  ethanol–water azeotrope, CaCO₃ decomposition temperature, adiabatic flame T.
+  ethanol–water azeotrope, CaCO₃ decomposition temperature, adiabatic flame T —
+  plus oracle-generated fixtures from `thermo` and Cantera (build-time Python).
 - **Fuzzing PHREEQC** — random vessel states in, no crash and honest failure out.
 - **Lessons as tests** — every scenario file replays in CI via the operator log.
+- **Snapshot tests on `--json`** — the CLI's JSON output is the API contract.
 
 ---
 
@@ -391,15 +526,16 @@ The traps are all about data, not code. Checked against primary sources
 | PubChem (NCBI bulk) | No NCBI restrictions, commercial OK; per-annotation source attribution expected | **Primary property + GHS source.** Keep attribution per record |
 | Wikidata | CC0 | Clean supplement; coverage is thin (≈2k boiling points, ≈310 pKa) — cannot carry the load |
 | NASA CEA (`github.com/nasa/cea`) | **Apache-2.0** incl. `data/thermo.inp` | **Primary thermochemistry source** for L2g and formation enthalpies |
+| Cantera data files (gri30.yaml etc.) | Part of Cantera's BSD-3 distribution | Redistributable mechanism data for L5. (GRI-Mech 3.0's own site imposes no restriction, but has no formal licence text — the BSD-3 Cantera copy is the clean channel) |
 | CLP Annex VI via EUR-Lex | EU legislation, reuse with acknowledgment | Harmonised GHS/CLP hazard classes — take from EUR-Lex, not ECHA dumps |
 | PHREEQC databases | USGS User Rights Notice (public-domain-like, attribution) | Embed (except `sit.dat` — ThermoChimie provenance, needs a terms check) |
-| CAS Common Chemistry | **CC BY-NC 4.0** | Unusable commercially. Also: never present CAS RNs as licensed-from-CAS data; identifiers come from PubChem/Wikidata |
+| CAS Common Chemistry | **CC BY-NC 4.0** | Unusable commercially. Never present CAS RNs as licensed-from-CAS data; identifiers come from PubChem/Wikidata |
 | NIST WebBook / JANAF-online | **NIST SRD — copyrighted**, permission required | Do not scrape or redistribute. (The 1971 NSRDS-NBS 37 JANAF tables are public domain but dated) |
-| CAMEO / CRW4 database | Contributed fields explicitly non-duplicable (CAS RNs, NFPA, AEGL, ERPG) | Never ship the database; reimplement the published methodology (L0 note above) |
+| CAMEO / CRW4 database | Contributed fields explicitly non-duplicable (CAS RNs, NFPA, AEGL, ERPG) | Never ship the database; reimplement the published methodology (L0 note) |
 | ECHA C&L exports | IP-encumbered (CAS data named) | Avoid; use EUR-Lex / PubChem routes |
-| Burcat (Third Millennium) | Free non-commercial only; commercial inclusion forbidden without written permission | Skip, or write for permission if CEA coverage falls short |
-| Open Reaction Database | **CC-BY-SA 4.0** on data; ShareAlike propagates to merged datasets under the mainstream reading | Keep out of the curated library, or accept BY-SA on the whole dataset — decide before the first record is ingested |
-| `chemicals` (Python) | MIT code aggregating CRC/NIST/Yaws/Common Chemistry data | **Dropped as a build-time source** — it launders the SRD and NC problems above into our binary |
+| Burcat (Third Millennium) | Free non-commercial only | Skip, or write for permission if CEA coverage falls short |
+| Open Reaction Database | **CC-BY-SA 4.0** on data; ShareAlike propagates to merged datasets under the mainstream reading | Keep out of the codex, or accept BY-SA on the whole dataset — decide before the first record is ingested |
+| `chemicals` (Python) | MIT code aggregating CRC/NIST/Yaws/Common Chemistry data | **Dropped as a data source** — it launders the SRD and NC problems into our binary. (Its sibling `thermo` remains a build-time *oracle*, generating test fixtures, not shipped data) |
 | UNIFAC parameters | Consortium tables proprietary; original journal tables usable | Source from the original publications, provenance per parameter |
 
 ---
@@ -415,10 +551,12 @@ whatever register the reader is in. The child and the postdoc see the same numbe
 | Age 15 | `AgNO₃ + NaCl → AgCl↓ + NaNO₃` · 0.010 mol · Ksp = 1.77 × 10⁻¹⁰ |
 | Expert | SI(AgCl) = +2.41 · I = 0.021 m · γ(Ag⁺) = 0.857 · full selected-output |
 
-Registers are a presentation concern and live entirely in the UI. The solver has
-no idea who is asking. Register copy is generated by deterministic templates
-over solver output ("SI > 0 and new solid phase → 'went cloudy'"), never by a
-language model — offline, reproducible, trustworthy.
+Registers are a presentation concern and live entirely in the UI (and the
+CLI's renderer). The solver has no idea who is asking. Register copy is
+generated by deterministic templates over solver output ("SI > 0 and new solid
+phase → 'went cloudy'"), never by a language model — offline, reproducible,
+trustworthy. The same registers apply to orbitals: age 9 gets "the electron
+clouds have to match up like puzzle pieces"; the expert gets the molden file.
 
 ### The alchemical layer earns its keep
 
@@ -431,8 +569,8 @@ the naming system *is* the difficulty ladder rather than decoration:
 | Let it settle | Precipitation | Coagulation |
 | Boil it off | Fractional distillation | Distillation |
 
-The four stages of the magnum opus — nigredo, albedo, citrinitas, rubedo — are a
-ready-made progression system, realised as lesson-file tiers.
+The four stages of the magnum opus — nigredo, albedo, citrinitas, rubedo — are
+cuts through the codex concept graph, realised as lesson-file tiers.
 
 ---
 
@@ -443,11 +581,11 @@ quietly fails.
 
 - **Predict arbitrary organic reactions.** Genuinely unsolved. Curate, and be
   visibly honest where we are predicting rather than knowing.
-- **Mechanisms and transition states.** Quantum chemistry, build-time at best.
+- **Mechanisms and transition states at runtime.** Quantum chemistry is
+  build-time; the runtime ceiling is honestly-labelled Hückel.
 - **Extremes.** Plasmas, exotic organometallics, solid-state band structure,
   high pressure. (L2g's CEA data does extend T range honestly for gases and
-  simple condensed phases; the databases' validity ranges are surfaced, not
-  hidden.)
+  simple condensed phases; database validity ranges are surfaced, not hidden.)
 - **Biochemistry.** A different stack; a later module, not an extension.
 
 A general-purpose engine that computes any reaction from first principles is also
@@ -456,38 +594,42 @@ an explicit, auditable boundary — a product-safety property, much easier to
 defend than a filter bolted onto a general predictor.
 
 Optional later module, cheap and on-theme: radioactive decay chains (Bateman
-equations — trivial math, public-domain nuclide data, and half-lives are a
-curriculum staple).
+equations — trivial math, public-domain nuclide data, half-lives are a
+curriculum staple, and decay is the most necromantic chemistry there is).
 
 ---
 
 ## Build order
 
-Genuinely sequential — each phase is shippable on its own, and each one depends
-on the state model the previous one hardened.
+Genuinely sequential — each phase is shippable on its own, each depends on the
+state model the previous one hardened, and **from P1 on, the CLI is each
+phase's acceptance demo**.
 
 ### P0 — Feasibility spike
 
 The single highest-information task. Everything else is downstream of it.
 
-- [ ] Build IPhreeqc with **Emscripten** (primary — three existence proofs) and
-      one mobile target; time-box a **wasi-sdk / `wasm32-wasip1` single-module**
-      attempt as a stretch, never on the critical path
-- [ ] Drive it through `LoadDatabaseString` / `RunString` with no filesystem
+- [ ] Build IPhreeqc natively (macOS first) and drive it through
+      `LoadDatabaseString` / `RunString` from Rust FFI with no filesystem
+- [ ] Build IPhreeqc with **Emscripten** (primary — three existence proofs);
+      time-box a **wasi-sdk / `wasm32-wasip1` single-module** attempt as a
+      stretch, never on the critical path
 - [ ] Embed all four databases via `include_str!`, confirm binary size
 - [ ] One end-to-end case: AgNO₃ + NaCl → saturation index out
 - [ ] Fuzz it: random inputs → no crash, honest failure state
 - [ ] **Gate:** if PHREEQC cross-compiles clean to web + one mobile target, the
       offline premise holds
 
-### P1 — Bench state machine + energy balance + L0
+### P1 — Bench state machine + energy balance + L0 + CLI
 
 - [ ] `Bench`/`Vessel`, mutating + measuring operators, operator log,
       re-equilibration between steps
 - [ ] Enthalpy bookkeeping loop (ΔH + Cp → ΔT, iterate), vessel thermal modes
+- [ ] `kerotakis-cli`: REPL + batch (`kero run x.lab`) + `--json`, consuming
+      core only through the public API that `kerotakis-wasm` will share
 - [ ] **Reimplement** the 43×43 reactive-group matrix from the published NOAA
-      methodology: our SMARTS group-assignment rules, our matrix encoding; strip
-      every third-party field. Wire it as a veto that runs before any chemistry
+      methodology: our SMARTS group-assignment rules, our matrix encoding;
+      strip every third-party field. Wire it as a veto before any chemistry
 - [ ] Conservation-invariant property tests from the first operator
 - [ ] Do this *first*. Retrofitting a safety layer into a shipped app is where
       products get hurt.
@@ -497,66 +639,68 @@ The single highest-information task. Everything else is downstream of it.
 - [ ] `kerotakis-phreeqc` FFI surface (~15 functions matter)
 - [ ] Acid–base, precipitation, titration curves, solubility, buffers, brines
       (pitzer.dat)
-- [ ] Content-addressed result cache — same species set, T and P is the same answer
-- [ ] This alone is a strong product
+- [ ] Content-addressed result cache; pre-warming pipeline in `tools/`
+- [ ] The P2 CLI **is** the "strong product on its own" claim, tested literally
 
 ### P2g — Heat and fire
 
 - [ ] Gibbs minimiser over NASA CEA `thermo.inp` (Apache-2.0): gas equilibrium +
       pure condensed phases. Evaluate adopting/extending `cea-rs` first
 - [ ] Acceptance: CaCO₃ decomposition vs temperature; CH₄/air adiabatic flame T
-- [ ] This is what makes `heat` and `ignite` computed chemistry rather than
-      curated lookups — and it feeds ΔH into the P1 energy balance
+      (validated against build-time Cantera oracle runs)
+- [ ] Feeds ΔH into the P1 energy balance
 
 ### P3 — Phase behaviour
 
 - [ ] `feos` integration (SAFT family + flash); `vle-thermo` for cubics +
       classical activity models; `seuif97` for water
 - [ ] Own UNIFAC (~300 lines) against original-literature parameter tables with
-      per-parameter provenance (see the UNIFAC section)
+      per-parameter provenance
+- [ ] Golden fixtures generated by build-time `thermo` (Python oracle)
 - [ ] Acceptance: ethanol–water azeotrope at 95.6%
 
-### P4 — Curated reaction library + appearance
+### P4 — Codex + curated reaction library + appearance
 
-The slow, expensive, valuable part. This is the moat: nobody can scrape a
-well-curated pedagogical reaction set with observations attached.
-
-- [ ] Schema: balanced equation, conditions, ΔH, observations (colour, gas,
-      precipitate, heat, smell), provenance, register-specific copy
-- [ ] Indigo template application over homologues; our SMARTS incompatibility rules
+- [ ] Codex schema: reaction entries, concept graph, register copy, flavour
+      layer, provenance; markup convention decided **now**
+- [ ] `kero codex lint` incl. observations-match-solver checks
+- [ ] Indigo template application over homologues; RDKit as build-time
+      cross-validator; our SMARTS incompatibility rules
 - [ ] Colour data: species/precipitate/flame colours, indicator ε(λ) sets;
       Beer–Lambert + CIE integration in `kerotakis-appearance`
-- [ ] Budget this as a chemistry-editorial hire, not an engineering task
-- [ ] ORD decision (in or out, per the BY-SA row above) **before** the first
-      record is ingested
+- [ ] ORD decision (in or out) **before** the first record is ingested
+- [ ] Chemistry-editorial hire
 
 ### P5 — Kinetics + electrolysis
 
-- [ ] diffsol integration. Reaction networks are **stiff** — explicit
-      Runge–Kutta will not integrate them. Pure-Rust backends only; `diffsl`
-      JIT stays off for iOS and wasm
+- [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
+      GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] `kerotakis-electro`: Faraday's law + standard-potential ordering over
       PHREEQC speciation
 
 ### P6 — Build-time QM enrichment
 
-- [ ] `tools/` pipeline batching xtb over the curated library
-- [ ] Vibrational frequencies → synthetic IR spectra per compound
+- [ ] `tools/` pipeline batching xtb + PySCF over the codex: ΔG, Fukui
+      (`--vfukui`), MOs (`--molden` / cubegen), path frames (`--path`),
+      frequencies → IR spectra
+- [ ] Marching cubes → quantised glTF orbital meshes (adopt `mcubes` or vendor)
 - [ ] Supervised TS searches only where a barrier genuinely matters
-- [ ] Output is data; no xtb binary or library ships
+- [ ] Output is data; no QM binary or library ships
 
-### P7 — Lessons
+### P7 — Lessons + runtime Hückel
 
-- [ ] Declarative scenario format over the operator log; register narration hooks
-- [ ] The nigredo → rubedo tier ladder
-- [ ] Every lesson replays in CI
+- [ ] Declarative scenario format over the operator log; register narration
+      hooks; nigredo → rubedo tiers as concept-graph cuts
+- [ ] Every lesson replays in CI; lesson states feed the pre-warmed cache
+- [ ] `kerotakis-huckel`: simple/extended Hückel for user-drawn molecules
+      (own eigensolver or YAeHMOP port), always labelled approximate
 
 ### ML tier — last or never
 
 Molecular Transformer is trained on USPTO patent reactions and is weakest
-exactly where our users are. If it ever ships: `candle` or `burn` (pure Rust,
-real wasm stories), not `ort` (browser path is a JS bridge). Optional download,
-never web-bundled, confidence always surfaced.
+exactly where our users are. If it ever ships: `tract`/`candle`/`burn` (pure
+Rust, real wasm stories), not `ort`. Optional download, never web-bundled,
+confidence always surfaced.
 
 ---
 
@@ -564,41 +708,31 @@ never web-bundled, confidence always surfaced.
 
 ### UI framework
 
-`kerotakis-core` is the invariant either way. This is a second-order choice.
+`kerotakis-core` is the invariant either way; the CLI defers the choice
+harmlessly. If web is a real target → Tauri (same Rust → wasm). If mobile UI
+polish outranks web → Flutter, accepting a thinner web story. The codex markup
+convention must **not** wait on this decision (P4).
 
-| | Tauri + React | Flutter |
-|---|---|---|
-| Web | same Rust → wasm | separate JS-interop path |
-| Mobile UI maturity | Tauri v2 mobile is newer | battle-tested |
-| Core integration | native | `dart:ffi` on 5 platforms |
+### Registry/codex storage
 
-If web is a real target → Tauri. If mobile UI polish outranks web → Flutter,
-accepting a thinner web story or shipping web later as a small app over the same
-wasm build.
-
-### Registry storage
-
-SQLite (via `rusqlite`/`sqlite-wasm-rs`, wasm-proven) if the registry wants real
-queries; `postcard`/`rkyv` + `include_bytes!` if it is read-only lookup. Decide
-when L1 is built; both are wasm-clean.
+SQLite (via `rusqlite`/`sqlite-wasm-rs`, wasm-proven) if it wants real queries;
+`postcard`/`rkyv` + `include_bytes!` if read-only lookup. Decide when L1 is
+built; both are wasm-clean.
 
 ---
 
 ## Governance
 
 - **Licence:** AGPL-3.0-or-later, with an App Store / Google Play additional
-  permission for binaries published by the copyright holder. See `LICENSE` and
-  `NOTICE`.
+  permission for binaries published by the copyright holders. See `LICENSE`
+  and `NOTICE`.
 - **The §7 trap, closed:** under GPLv3/AGPLv3 §7 only copyright holders can
-  grant additional permissions. The moment an outside contribution is merged
-  without a grant, the combined work can no longer ship under the store
-  exception (VLC had to chase every contributor to fix exactly this).
-  Therefore `CONTRIBUTING.md` requires, from the first PR, that all
-  contributions are licensed **AGPL-3.0-or-later + the store exception**
-  (inbound = outbound including the exception — the Nextcloud model; Signal's
-  CLA is the heavier alternative if needed later).
+  grant additional permissions. `CONTRIBUTING.md` therefore requires, from the
+  first PR, that all contributions are licensed **AGPL-3.0-or-later + the
+  store exception** (inbound = outbound including the exception — the
+  Nextcloud model; Signal's CLA is the heavier alternative if needed later).
 - **Data licences are tracked separately from code** — per-source provenance
-  files in `kerotakis-data`, reproduced in the app's about screen.
+  files in `kerotakis-data` and `tools/`, reproduced in the app's about screen.
 
 ---
 
@@ -618,7 +752,8 @@ Cleared 2026-08-18 via TMview (aggregates USPTO, EUIPO and 70+ national registri
 Outstanding:
 
 - [ ] Register the domains — the only item here with a race condition
-- [ ] Claim `kerotakis` on crates.io, npm, PyPI
+- [ ] Claim `kerotakis` on crates.io, npm, PyPI (the CLI publish does this with
+      substance behind it)
 - [ ] File classes 9 / 41 / 42 through an attorney nearer launch, once the
       goods-and-services wording is settled. What was done is a screen, not a
       clearance opinion.
