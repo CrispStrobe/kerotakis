@@ -66,6 +66,17 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 ),
             }
         }
+        Event::Filtered { from, to } => match register {
+            Register::Child => format!(
+                "You pour {from} through the filter paper — the liquid runs into {to}, and the solid stays behind on the paper."
+            ),
+            _ => format!("{from} → {to}: filtrate passed; residue retained"),
+        },
+        Event::Evaporated { vessel, moles } => match register {
+            Register::Child => format!("Steam rises from {vessel} — the water is boiling away!"),
+            Register::Student => format!("{vessel}: {:.3} mol water evaporated", moles.0),
+            Register::Expert => format!("{vessel}: {:.6} mol H2O evaporated (vaporisation enthalpy not yet in the balance)", moles.0),
+        },
         Event::Transferred { from, to, fraction } => match register {
             Register::Child => format!("You pour some of {from} into {to}."),
             _ => format!("{from} → {to}: {:.0}% of the liquid", fraction * 100.0),

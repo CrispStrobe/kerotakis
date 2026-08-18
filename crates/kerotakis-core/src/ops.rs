@@ -38,6 +38,13 @@ pub enum Operator {
         to: VesselId,
         fraction: f64,
     },
+    /// Pour everything through filter paper: liquid and dissolved matter
+    /// pass into `to` (the filtrate), solids stay behind in `from`.
+    Filter { from: VesselId, to: VesselId },
+    /// Boil/let evaporate a fraction (0..=1) of the water. Volatile
+    /// non-water liquids need L3 (relative volatility) and are honestly
+    /// flagged.
+    Evaporate { vessel: VesselId, fraction: f64 },
     /// Read an instrument. Never mutates state.
     Measure {
         vessel: VesselId,
@@ -111,6 +118,16 @@ pub enum Event {
     /// mutated.
     SafetyVeto {
         reason: String,
+    },
+    /// Everything liquid passed the filter; solids stayed behind.
+    Filtered {
+        from: VesselId,
+        to: VesselId,
+    },
+    /// Water left as vapour.
+    Evaporated {
+        vessel: VesselId,
+        moles: Moles,
     },
     /// A gas formed and left the open vessel. The balance notices.
     GasEvolved {

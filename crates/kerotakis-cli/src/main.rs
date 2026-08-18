@@ -91,6 +91,8 @@ fn usage() -> ! {
          \x20 cool <vessel> <energy><J|kJ>\n\
          \x20 stir <vessel>\n\
          \x20 decant <from> <to> <fraction>\n\
+         \x20 filter <from> <to>         solids stay, liquid passes\n\
+         \x20 evaporate <vessel> <fraction>\n\
          \x20 measure <vessel> <thermometer|balance|ph>\n\
          \x20 new                        create a vessel\n\
          \x20 inspect [vessel]           show state\n\
@@ -125,7 +127,7 @@ fn repl() {
         if line == "help" {
             println!(
                 "add <v> <species> <amount><mol|g|mL> [@ <T>C] · heat/cool <v> <E><J|kJ>\n\
-                 stir <v> · decant <from> <to> <frac> · measure <v> <thermometer|balance|ph>\n\
+                 stir <v> · decant/filter <from> <to> · evaporate <v> <frac> · measure <v> <thermometer|balance|ph>\n\
                  new · inspect [v] · register <9|15|expert> · species · quit"
             );
             continue;
@@ -201,6 +203,24 @@ impl Session {
             "stir" => {
                 let vessel = parse_vessel(words.get(1).ok_or("usage: stir <vessel>")?)?;
                 self.run_op(Operator::Stir { vessel })
+            }
+            "filter" => {
+                if words.len() < 3 {
+                    return Err("usage: filter <from> <to>".into());
+                }
+                let from = parse_vessel(words[1])?;
+                let to = parse_vessel(words[2])?;
+                self.run_op(Operator::Filter { from, to })
+            }
+            "evaporate" => {
+                if words.len() < 3 {
+                    return Err("usage: evaporate <vessel> <fraction>".into());
+                }
+                let vessel = parse_vessel(words[1])?;
+                let fraction: f64 = words[2]
+                    .parse()
+                    .map_err(|_| format!("bad fraction '{}'", words[2]))?;
+                self.run_op(Operator::Evaporate { vessel, fraction })
             }
             "decant" => {
                 if words.len() < 4 {

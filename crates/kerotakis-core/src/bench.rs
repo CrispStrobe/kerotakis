@@ -300,6 +300,103 @@ impl Bench {
                     fraction: *fraction,
                 });
             }
+            Operator::Filter { from, to } => {
+                if from == to {
+                    return Err(BenchError::SelfTransfer);
+                }
+                // Everything liquid + dissolved would move; probe the target.
+                let (would_move, t_from) = {
+                    let src = self.vessel(*from)?;
+                    let moved: Vec<_> = src
+                        .contents
+                        .iter()
+                        .filter(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))
+                        .map(|p| (p.species.clone(), p.moles, p.phase))
+                        .collect();
+                    (moved, src.temperature)
+                };
+                let mut probe = self.vessel(*to)?.clone();
+                for (s, n, phase) in &would_move {
+                    probe.deposit(s.clone(), *n, *phase);
+                }
+                match screen.assess(&probe) {
+                    SafetyVerdict::Allow => {}
+                    SafetyVerdict::Warn {
+                        severity,
+                        hazard,
+                        real_world,
+                    } => events.push(Event::HazardWarning {
+                        severity,
+                        hazard,
+                        real_world,
+                    }),
+                    SafetyVerdict::Veto { reason } => {
+                        events.push(Event::SafetyVeto { reason });
+                        return Ok(events);
+                    }
+                }
+
+                let src = self.vessel_mut(*from)?;
+                src.contents.retain(|p| p.phase == Phase::Solid);
+                let cp_in: f64 = would_move
+                    .iter()
+                    .filter_map(|(s, n, _)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
+                    .sum();
+                let dst = self.vessel_mut(*to)?;
+                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
+                    let t_new = adiabatic_mix_temperature(
+                        dst.temperature,
+                        dst.heat_capacity(),
+                        t_from,
+                        cp_in,
+                    );
+                    dst.temperature = t_new;
+                }
+                for (s, n, phase) in would_move {
+                    dst.deposit(s, n, phase);
+                }
+                events.push(Event::Filtered {
+                    from: *from,
+                    to: *to,
+                });
+            }
+            Operator::Evaporate { vessel, fraction } => {
+                if !(0.0..=1.0).contains(fraction) {
+                    return Err(BenchError::BadFraction);
+                }
+                let v = self.vessel_mut(*vessel)?;
+                let water = SpeciesId::new("water");
+                let present = v.moles_of(&water);
+                if present.0 <= 0.0 {
+                    events.push(Event::NotYetModeled {
+                        vessel: *vessel,
+                        what: "nothing to evaporate — no water in the vessel".to_string(),
+                    });
+                } else {
+                    let removed = v.withdraw(&water, Moles(present.0 * fraction));
+                    events.push(Event::Evaporated {
+                        vessel: *vessel,
+                        moles: removed,
+                    });
+                    // Other volatile liquids would co-evaporate by relative
+                    // volatility — that is L3's job; say so.
+                    let other_liquids: Vec<&str> = v
+                        .contents
+                        .iter()
+                        .filter(|p| p.phase == Phase::Liquid && p.species != water)
+                        .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
+                        .collect();
+                    if !other_liquids.is_empty() {
+                        events.push(Event::NotYetModeled {
+                            vessel: *vessel,
+                            what: format!(
+                                "co-evaporation of {} needs vapour-liquid equilibrium (L3, not wired yet) — only the water was removed",
+                                other_liquids.join(", ")
+                            ),
+                        });
+                    }
+                }
+            }
             Operator::Measure { vessel, instrument } => {
                 let v = self.vessel(*vessel)?;
                 match instrument {
@@ -353,7 +450,8 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::Heat { vessel, .. }
         | Operator::Cool { vessel, .. }
         | Operator::Stir { vessel } => vec![*vessel],
-        Operator::Decant { from, to, .. } => vec![*from, *to],
+        Operator::Evaporate { vessel, .. } => vec![*vessel],
+        Operator::Decant { from, to, .. } | Operator::Filter { from, to } => vec![*from, *to],
         Operator::Measure { .. } => vec![],
     }
 }
