@@ -1,0 +1,10 @@
+# The fizz: vinegar meets baking soda
+register 9
+add v1 water 250mL
+add v1 NaHCO3 4.2g
+measure v1 balance
+measure v1 thermometer
+add v1 CH3COOH 3.6g
+measure v1 balance
+measure v1 ph
+inspect v1

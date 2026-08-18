@@ -58,6 +58,11 @@ fn role(key: &str) -> Option<Role> {
         "CH3COOH" => Some(Role::Dissolves(&[("Acetate", 1.0)])),
         "NaOAc" => Some(Role::Dissolves(&[("Na", 1.0), ("Acetate", 1.0)])),
         "CH3COO-" => Some(Role::Dissolves(&[("Acetate", 1.0)])),
+        // Carbonates: booked as total dissolved C; supersaturated CO2
+        // escapes through the CO2(g) equilibrium phase (the fizz).
+        "NaHCO3" => Some(Role::Dissolves(&[("Na", 1.0), ("C", 1.0)])),
+        "Na2CO3" => Some(Role::Dissolves(&[("Na", 2.0), ("C", 1.0)])),
+        "HCO3-" => Some(Role::Dissolves(&[("C", 1.0)])),
         "Na+" => Some(Role::Dissolves(&[("Na", 1.0)])),
         "Cl-" => Some(Role::Dissolves(&[("Cl", 1.0)])),
         "Ag+" => Some(Role::Dissolves(&[("Ag", 1.0)])),
@@ -74,6 +79,7 @@ fn element_ion(element: &str) -> Option<&'static str> {
         "Ag" => Some("Ag+"),
         "N(5)" => Some("NO3-"),
         "Acetate" => Some("CH3COO-"),
+        "C" => Some("HCO3-"),
         _ => None,
     }
 }
@@ -90,6 +96,21 @@ fn phase_species(phase: &str) -> Option<&'static str> {
 /// Phases that can precipitate when their elements are present.
 const CANDIDATE_PHASES: &[(&str, &[&str])] =
     &[("Halite", &["Na", "Cl"]), ("Cerargyrite", &["Ag", "Cl"])];
+
+/// Gas phases that escape an open vessel: (phase, gas species booked in the
+/// GasEvolved event, target SI = log10 of the atmospheric partial pressure,
+/// water co-product per mole of gas, required elements). With 0 initial
+/// moles the phase can only grow, i.e. capture exsolving gas —
+/// supersaturation bubbles out until the solution sits at the atmospheric
+/// partial pressure; an undersaturated solution cannot absorb what is not
+/// there. One-way, like a real open beaker. (Whether it *bubbles* or seeps
+/// out over hours is kinetics — L5; equilibrium says where it ends.)
+///
+/// The water co-product keeps the mass ledger chemical: carbonate leaves
+/// the books as HCO3- (61 g/mol) but the gas only carries 44 g/mol — the
+/// difference is the H2O formed by HCO3- + H+ → CO2↑ + H2O (and likewise
+/// 2 HCO3- → CO3-- + CO2↑ + H2O), which stays in the beaker.
+const ESCAPE_PHASES: &[(&str, &str, f64, f64, &[&str])] = &[("CO2(g)", "CO2", -3.408, 1.0, &["C"])];
 
 const WATER_MOLAR_MASS: f64 = 18.015;
 const TRACE: f64 = 1e-12;
@@ -131,8 +152,8 @@ struct Problem {
     kgw: f64,
     /// Element totals in solution, mol.
     totals: Vec<(String, f64)>,
-    /// Mineral phases present as solids, mol.
-    phases: Vec<(String, f64)>,
+    /// Phases: (name, initial moles, target saturation index).
+    phases: Vec<(String, f64, f64)>,
     /// Every element to read back: dissolved totals plus the elements of all
     /// involved phases (a dissolving solid puts its elements into solution
     /// even when none started there).
@@ -144,7 +165,7 @@ struct Problem {
 fn partition(vessel: &Vessel) -> Option<Problem> {
     let mut kgw = 0.0;
     let mut totals: Vec<(String, f64)> = Vec::new();
-    let mut phases: Vec<(String, f64)> = Vec::new();
+    let mut phases: Vec<(String, f64, f64)> = Vec::new();
     let mut solutes = 0;
 
     let mut add_total = |el: &str, moles: f64| {
@@ -181,10 +202,10 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                     note_element(el);
                 }
                 if p.phase == Phase::Solid {
-                    if let Some(entry) = phases.iter_mut().find(|(name, _)| name == phase) {
+                    if let Some(entry) = phases.iter_mut().find(|(name, ..)| name == phase) {
                         entry.1 += p.moles.0;
                     } else {
-                        phases.push((phase.to_string(), p.moles.0));
+                        phases.push((phase.to_string(), p.moles.0, 0.0));
                     }
                 } else {
                     for (el, coeff) in els {
@@ -202,9 +223,16 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     // precipitate, amount 0 if no solid exists yet.
     for (phase, required) in CANDIDATE_PHASES {
         let all_present = required.iter().all(|el| elements.iter().any(|e| e == el));
-        let listed = phases.iter().any(|(name, _)| name == phase);
+        let listed = phases.iter().any(|(name, ..)| name == phase);
         if all_present && !listed {
-            phases.push((phase.to_string(), 0.0));
+            phases.push((phase.to_string(), 0.0, 0.0));
+        }
+    }
+    for (phase, _, target_si, _, required) in ESCAPE_PHASES {
+        let all_present = required.iter().all(|el| elements.iter().any(|e| e == el));
+        let listed = phases.iter().any(|(name, ..)| name == phase);
+        if all_present && !listed {
+            phases.push((phase.to_string(), 0.0, *target_si));
         }
     }
     Some(Problem {
@@ -279,7 +307,7 @@ impl Equilibrator for PhreeqcEquilibrator {
             new_ions.push((el.clone(), molality * kgw_out));
         }
         let mut new_phases: Vec<(String, f64)> = Vec::new();
-        for (phase, _) in &problem.phases {
+        for (phase, ..) in &problem.phases {
             let moles = value(phase).ok_or_else(|| missing(phase))?;
             new_phases.push((phase.clone(), moles));
         }
@@ -314,28 +342,51 @@ impl Equilibrator for PhreeqcEquilibrator {
             }
         }
         for (phase, moles) in &new_phases {
-            let species = phase_species(phase).expect("mapped phase");
-            let before = old_solid(species);
-            if *moles > TRACE {
-                contents.push(Portion {
-                    species: SpeciesId::new(species),
-                    moles: Moles(*moles),
-                    phase: Phase::Solid,
-                });
-            }
-            let delta = moles - before;
-            if delta > TRACE {
-                events.push(Event::Precipitated {
-                    vessel: vessel.id,
-                    species: SpeciesId::new(species),
-                    moles: Moles(delta),
-                });
-            } else if delta < -TRACE {
-                events.push(Event::Dissolved {
-                    vessel: vessel.id,
-                    species: SpeciesId::new(species),
-                    moles: Moles(-delta),
-                });
+            if let Some(species) = phase_species(phase) {
+                let before = old_solid(species);
+                if *moles > TRACE {
+                    contents.push(Portion {
+                        species: SpeciesId::new(species),
+                        moles: Moles(*moles),
+                        phase: Phase::Solid,
+                    });
+                }
+                let delta = moles - before;
+                if delta > TRACE {
+                    events.push(Event::Precipitated {
+                        vessel: vessel.id,
+                        species: SpeciesId::new(species),
+                        moles: Moles(delta),
+                    });
+                } else if delta < -TRACE {
+                    events.push(Event::Dissolved {
+                        vessel: vessel.id,
+                        species: SpeciesId::new(species),
+                        moles: Moles(-delta),
+                    });
+                }
+            } else if let Some((_, gas, _, water_coproduct, _)) =
+                ESCAPE_PHASES.iter().find(|(name, ..)| name == phase)
+            {
+                // Escaped the open vessel: reported, not booked — the
+                // balance notices the loss. The water co-product of the
+                // gas-forming reaction stays behind.
+                if *moles > TRACE {
+                    events.push(Event::GasEvolved {
+                        vessel: vessel.id,
+                        species: SpeciesId::new(gas),
+                        moles: Moles(*moles),
+                    });
+                    let formed_water = moles * water_coproduct;
+                    if formed_water > TRACE {
+                        if let Some(w) = contents
+                            .iter_mut()
+                            .find(|p| p.species.0 == "water" && p.phase == Phase::Liquid)
+                        {
+                            w.moles = Moles(w.moles.0 + formed_water);
+                        }
+                    }
+                }
             }
         }
         // Freely-soluble solids (no mineral phase) dissolved entirely.
@@ -440,8 +491,8 @@ fn build_input(vessel: &Vessel, problem: &Problem) -> String {
     }
     if !problem.phases.is_empty() {
         writeln!(input, "EQUILIBRIUM_PHASES 1").unwrap();
-        for (phase, moles) in &problem.phases {
-            writeln!(input, "    {phase} 0 {moles:.12e}").unwrap();
+        for (phase, moles, target_si) in &problem.phases {
+            writeln!(input, "    {phase} {target_si} {moles:.12e}").unwrap();
         }
     }
     writeln!(input, "SELECTED_OUTPUT").unwrap();
@@ -455,7 +506,7 @@ fn build_input(vessel: &Vessel, problem: &Problem) -> String {
     let elements: Vec<&str> = problem.elements.iter().map(String::as_str).collect();
     writeln!(input, "    -totals   {}", elements.join(" ")).unwrap();
     if !problem.phases.is_empty() {
-        let phases: Vec<&str> = problem.phases.iter().map(|(p, _)| p.as_str()).collect();
+        let phases: Vec<&str> = problem.phases.iter().map(|(p, ..)| p.as_str()).collect();
         writeln!(input, "    -equilibrium_phases {}", phases.join(" ")).unwrap();
     }
     writeln!(input, "END").unwrap();

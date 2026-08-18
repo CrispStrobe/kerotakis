@@ -749,8 +749,17 @@ The single highest-information task. Everything else is downstream of it.
 - [x] Content-addressed result cache (keyed by database + canonical input,
       which is a deterministic function of species set, amounts and T);
       identical replays served bit-identically with zero engine calls
-- [ ] Polyprotic acids, pitzer.dat routing for brines, more of the registry
-      aqueous-mapped; surface true speciation in the expert register
+- [x] Carbonate chemistry with an **open vessel**: escaping gas phases
+      (CO2(g) equilibrium phase pinned at atmospheric pCO2, one-way) —
+      vinegar + baking soda fizzes ~77% of its carbonate out, plain
+      bicarbonate degasses modestly and drifts basic (thermodynamic truth;
+      bubble-vs-seep is L5 kinetics), the balance sees the mass leave, and
+      the H2O co-product of HCO3- + H+ → CO2↑ + H2O keeps the ledger
+      chemical. NaHCO3 endothermic dissolution cools the beaker
+      (lessons/fizz.lab)
+- [ ] Polyprotic beyond carbonate (phosphate), pitzer.dat routing for
+      brines, more of the registry aqueous-mapped; surface true speciation
+      in the expert register
 - [ ] Cache pre-warming pipeline in `tools/` (lesson states)
 - [ ] The P2 CLI **is** the "strong product on its own" claim, tested literally
 
