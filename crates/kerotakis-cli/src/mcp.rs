@@ -305,7 +305,10 @@ fn tool_definitions() -> serde_json::Value {
             "description": "Execute bench commands, one per line, against this session's \
                 persistent bench. Returns one JSON object per step — the same contract as \
                 `kero run --json`. A stated refusal (solver_failed / not_yet_modeled) is a \
-                result, not a malfunction. Commands: add <v> <species> <amount><mol|g|mL> \
+                result, not a malfunction. The event stream is deliberately complete: events \
+                below the human-observability floor are included so the books always balance \
+                — presentation filtering (Event::is_observable) is a rendering concern and \
+                agents get the ledger. Commands: add <v> <species> <amount><mol|g|mL> \
                 [@ <T>C] · heat/cool <v> <E><J|kJ> · stir <v> · wait <n>s · ignite <v> · \
                 filter <from> <to> · decant <from> <to> <fraction> · evaporate <v> <fraction> \
                 · measure <v> <thermometer|balance|ph> · look <v> · new · inspect [v] · \
