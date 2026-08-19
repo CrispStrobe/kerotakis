@@ -1040,11 +1040,16 @@ aarch64-apple-darwin from one source.
   (`kerotakis-cli/tests/metamorphic.rs`, driven through the real binary and
   the `--json` contract), and the order-independence test earned its place
   on its first run: the same reagents added in a different order settle
-  ~8e-5 apart in pH, because each step rebuilds the vessel from solver
-  output and the rebuild's rounding is path-dependent. Not chemistry, but
-  real drift; the test's tolerance sits at 1e-3 (which still catches
-  order-dependent chemistry) with the note that tightening the rebuild is
-  the work item.
+  ~8e-5 apart in pH, because each step reconstitutes the vessel from
+  solver output and that round trip is path-dependent. Not chemistry, but
+  real drift — and one suspect is already ruled out by experiment:
+  rebuilding the solvent on the equilibrated mass_H2O (2026-08-20) left
+  the drift at 7.9e-5. The standing suspect is readback quantisation
+  (molality × mass_H2O through ~12 printed significant figures, at
+  intermediate states that differ between orders); the real fix is to
+  carry solver state forward rather than reconstitute from printed
+  output. The test's tolerance sits at 1e-3 — which still catches
+  order-dependent chemistry — until that lands.
 - **Mutation testing** (`cargo-mutants`) — distinguishes load-bearing
   invariants from decorative ones, which is this project's epistemics
   applied to its own test suite.

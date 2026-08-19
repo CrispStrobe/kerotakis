@@ -63,11 +63,16 @@ fn moles_of(vessel: &serde_json::Value, species: &str) -> f64 {
 /// change the state they equilibrate to.
 ///
 /// Tolerance, honestly stated: this test's first run (2026-08-19) measured
-/// a real path-dependent drift of ~8e-5 in pH, because each step rebuilds
-/// the vessel from solver output and the rebuild's rounding depends on
-/// which intermediate states were visited. 1e-3 still catches any
-/// order-dependent *chemistry*; tightening the rebuild so this can go back
-/// to 1e-6 is a known work item, not a mystery.
+/// a real path-dependent drift of ~8e-5 in pH. One suspect is already
+/// ruled out by experiment: rebuilding the solvent on the equilibrated
+/// mass_H2O (landed 2026-08-20) left the drift at 7.9e-5, unchanged. The
+/// standing suspect is the readback quantisation — every dissolved amount
+/// round-trips through the solver's printed output as molality × mass_H2O
+/// at ~12 significant figures, and the *intermediate* states differ
+/// between the two orders, so each path quantises at different values.
+/// The real fix is to carry solver state forward instead of reconstituting
+/// the vessel from printed output. Until then, 1e-3 still catches any
+/// order-dependent *chemistry*; going back to 1e-6 is the work item.
 #[test]
 fn order_independence_of_equilibrium() {
     let salt_first = run("add v1 water 100mL\nadd v1 NaCl 0.1mol\nadd v1 AgNO3 0.01mol");
