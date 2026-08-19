@@ -6,6 +6,11 @@ Offline-first, cross-platform, no runtime Python. One simulation, rendered at
 whatever level of detail the reader wants. Nothing in it is a lookup table:
 every number below came out of a thermodynamic database at run time.
 
+It exists because school chemistry overfeeds facts and underteaches the
+**models** that make facts predictable — and because an engine that actually
+computes can do something a textbook cannot: show you a model working, and
+then show you the same model failing.
+
 Named for the sealed reflux vessel invented by Maria the Jewess in Alexandria,
 1st–3rd century CE — the first named alchemist in recorded history, who also
 gave us the bain-marie, and whose airtight seal is the origin of "hermetically
@@ -70,7 +75,38 @@ kero> explain v1
 ```
 
 Three thermodynamic datasets, three answers, each with its model's validity
-range stated. Showing the disagreement is the lesson.
+range stated. **Showing the disagreement is the lesson** — that is philosophy
+of science as a computed result rather than a paragraph, and it falls out of
+the engine rather than being narrated.
+
+## Why it is built this way
+
+Chemistry lives at three levels — what you *see*, the *particles* underneath,
+and the *symbols* we write — and the research literature is clear that
+novices fail because instruction moves between them without saying so. Our
+engine computes the particle level for real (that AgCl(aq) complex above is
+an answer, not an illustration), so one vessel state renders consistently at
+all three. The levels are not a verbosity dial; they are the same truth told
+three ways.
+
+From that follow the rest of the design commitments:
+
+- **Models are content, not background.** The codex carries model entries
+  whose most important field is `fails_at` — a model shown without its
+  boundary is shown as truth, which is why the next model feels arbitrary
+  instead of necessary.
+- **Prediction comes before observation.** Entries carry a question whose
+  wrong options are the mistakes learners actually make; the engine is the
+  arbiter. Because it computes rather than looks up, a *quantitative*
+  prediction can be checked — which is what makes working out the moles
+  load-bearing rather than ritual.
+- **Order comes from prerequisites, not school years.** Years are an artefact
+  of national administration and differ by country; the dependency structure
+  of the ideas does not. Curriculum placements stay on each entry so a
+  learner who needs their syllabus topic can still find it.
+- **Honesty is a feature.** Solver failures are surfaced, unmodelled states
+  are named as such, and every answer can say which engine, which dataset and
+  which model produced it — see `explain` above.
 
 ## Try it
 
