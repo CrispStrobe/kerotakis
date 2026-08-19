@@ -1,0 +1,223 @@
+# The Kerotakis codex — models.
+#
+# School chemistry overfeeds facts and underteaches the models that make
+# facts predictable. These entries are the models, treated as content
+# rather than as background.
+#
+# The load-bearing field is `fails_at`. A model presented without its
+# boundary is presented as truth, which is false, and is why the next
+# model feels like an arbitrary replacement rather than an answer to a
+# problem the learner can already feel.
+#
+# `power` says what a model *buys* — what it lets you predict or order —
+# not what it says. `embodied_by` says where our engine implements it,
+# and is left out where it does not.
+#
+# Licence: the codex is CC BY-SA 4.0, separately from the AGPL code.
+
+# ============================================================ matter and particles
+
+[[model]]
+id = "teilchenmodell"
+name = "Particle model (Teilchenmodell)"
+power = "Lets you predict that matter is conserved when it appears to vanish — the sugar that dissolves, the puddle that dries — and to order the three states as one substance in three arrangements rather than as three substances. It is the first model that makes an invisible cause explain a visible effect."
+explains = [
+  "dissolving without any loss of mass",
+  "the three states of matter and every change between them",
+  "diffusion: why a smell crosses a room with nobody carrying it",
+  "why gases can be compressed and liquids and solids cannot",
+  "thermal expansion",
+  "why a solution is clear rather than cloudy",
+]
+fails_at = [
+  "Cannot say WHY sodium and chlorine react, only that they do — the particles have no parts to rearrange.",
+  "Has no answer to why one substance is a metal and another a gas: every particle is the same featureless sphere.",
+  "Cannot explain why oil and water refuse to mix, because it gives particles no way to attract each other differently.",
+  "Taken literally it invites the classic error of attributing macroscopic properties to single particles — a hot particle that expands, a copper particle that is orange — and of filling the space between particles with air.",
+]
+superseded_by = "dalton-atommodell"
+embodied_by = "kerotakis-core's vessel inventory. A vessel is nothing but a list of (species, moles, phase); dissolving salt moves an amount from the solid phase to the aqueous one and the ledger is unchanged. The particle model's central claim is enforced as a data structure and checked by a 256-case conservation property test."
+
+[model.registers]
+lv1 = "Everything is built from pieces far too small to see, and they never stop jiggling. In a solid they are packed tight and can only wobble; in a liquid they slide past each other; in a gas they fly apart with nothing but empty space between them. When sugar disappears into tea it has not gone anywhere — the pieces have slipped into the gaps between the water pieces, which is why the tea still tastes sweet and still weighs exactly the same."
+lv2 = "Matter consists of discrete particles (Teilchen) in constant motion, separated by empty space. Temperature measures their mean kinetic energy, and the states of matter differ in how much of that energy is available against the forces holding the particles together. Melting, boiling, dissolving and diffusion are all rearrangements of the same particles, so none of them changes the mass."
+lv3 = "The kinetic particle model — the school ancestor of kinetic gas theory. It is purely mechanical: particles have mass, volume and velocity and nothing else, which is precisely why it yields Boyle's and Gay-Lussac's laws and not one chemical fact. In Johnstone's terms it is the first submicroscopic model a learner meets, and it is not spontaneously acquired: continuous-matter intuitions persist for years, learners fill the inter-particle space with air, and they transfer macroscopic properties onto individual particles."
+
+[model.provenance]
+source = "Standard curriculum; documented misconceptions from Novick & Nussbaum, Junior high school pupils' understanding of the particulate nature of matter: an interview study, Science Education, 1978, and Andersson, Pupils' conceptions of matter and its transformations (age 12-16), Studies in Science Education, 1990"
+
+[[model]]
+id = "dalton-atommodell"
+name = "Dalton's atomic model (Atommodell nach Dalton)"
+power = "Turns stuff into countable, indestructible units with a fixed mass per element, which is what makes a chemical formula and a balanced equation possible at all. With Dalton you can predict the mass ratio in which two elements combine before you run the experiment."
+explains = [
+  "conservation of mass in a reaction",
+  "the law of constant proportions: every sample of water has the same composition",
+  "the law of multiple proportions: CO and CO2 but never CO1.5",
+  "the difference between element, compound and mixture",
+  "why a chemical equation must balance",
+]
+fails_at = [
+  "The atom is a solid indivisible sphere, so there is nothing that can be transferred: ions, charge, electrolysis and electricity are all outside the model.",
+  "All atoms of an element are identical is simply false — isotopes exist, and are the reason chlorine's relative atomic mass is 35.45 rather than a whole number.",
+  "Says nothing about why elements fall into families, so the periodic table has to be memorised rather than derived.",
+  "Atoms that cannot be divided cannot decay, so radioactivity has no place in it.",
+]
+superseded_by = "kern-huelle-modell"
+requires = ["teilchenmodell"]
+embodied_by = "The Gibbs minimiser (kerotakis-cea). Its constraint is one Lagrange multiplier per element, so every state it finds conserves atoms exactly — methane burns to CO2 and water with elements conserved to 1e-6. Dalton's claim is not an assumption inside the solver; it is the constraint the solver optimises under."
+
+[model.registers]
+lv1 = "Every substance is built from a small number of kinds of building block called atoms, and each kind has its own weight. Atoms are never made and never destroyed — a reaction only takes them apart and puts them together differently, like rebuilding a Lego model from the same bricks. That is why nothing ever weighs less afterwards."
+lv2 = "Elements consist of atoms; all atoms of one element share a mass; compounds contain atoms in fixed whole-number ratios; a reaction rearranges atoms without creating or destroying any. From this follow conservation of mass, the law of constant proportions and the law of multiple proportions — carbon and oxygen give CO and CO2, never anything between."
+lv3 = "Dalton (1808) is the first model here that is quantitative and predictive rather than descriptive, and the law of multiple proportions is its genuine prediction, made ahead of the evidence. It also carried an instructive error: the rule of greatest simplicity assigned water the formula HO, which put the whole atomic-mass table wrong until Avogadro's hypothesis and Cannizzaro's intervention at Karlsruhe separated atom from molecule. That fifty-year gap is the clearest available case of a model right in its structure and wrong in a parameter."
+
+[model.provenance]
+source = "Dalton, A New System of Chemical Philosophy (1808); Avogadro (1811); Cannizzaro, Sunto di un corso di filosofia chimica (1858), circulated at the Karlsruhe Congress in 1860"
+
+[[model]]
+id = "kern-huelle-modell"
+name = "Nuclear model (Kern-Hulle-Modell, Rutherford)"
+power = "Splits the atom into two parts with different jobs: a tiny heavy nucleus that fixes identity and mass, and an outer electron region that does all the chemistry. That single split is what makes ions, charge, radioactivity and the distinction between a chemical and a nuclear change explainable at all."
+explains = [
+  "the alpha-scattering experiment: most particles pass, a few bounce back",
+  "that an atom is almost entirely empty space",
+  "ions as atoms that have lost or gained electrons",
+  "electrolysis and electrical conduction in solutions",
+  "isotopes: same nuclear charge, different mass",
+  "why no chemical reaction ever changes which element you have",
+]
+fails_at = [
+  "A classical orbiting electron radiates and would spiral into the nucleus in about 10^-11 s. The model predicts that no atom can exist, which is the sharpest failure in the whole progression.",
+  "The shell has no structure, so it cannot say why the noble gases are inert or why sodium loses exactly one electron.",
+  "It predicts a continuous emission spectrum; glowing hydrogen actually gives a handful of sharp lines.",
+]
+superseded_by = "schalenmodell"
+requires = ["dalton-atommodell"]
+embodied_by = "The species registry is keyed by composition and charge, and the aqueous solver works entirely in ions — Na+ and Cl- are separate entries with separate thermodynamics. Nothing anywhere in the engine changes a nucleus: a chemistry solver is by construction a model of the shell alone."
+
+[model.registers]
+lv1 = "Fire tiny bullets at a sheet of gold foil and almost all of them go straight through as if nothing were there — but about one in ten thousand bounces straight back. So an atom must be mostly empty space with something very small, very heavy and positively charged right in the middle: the nucleus. Everything else is a cloud of light, negative electrons around it. Rub a balloon on your hair and you are stealing some of them."
+lv2 = "Rutherford (1911), from Geiger and Marsden's alpha scattering: an atom has a nucleus of protons and neutrons carrying essentially all the mass in roughly a hundred-thousandth of the diameter, surrounded by Z electrons. The nucleus fixes which element it is; only the shell takes part in chemistry. Removing or adding shell electrons gives ions, and ions are the raw material of all salt chemistry."
+lv3 = "This is where chemistry and physics separate cleanly: nuclear charge Z is identity, the electron shell is chemistry. It is also the model whose failure is quantitative and unambiguous — an accelerated charge radiating by the Larmor formula collapses the atom in about 10^-11 s — which is why the next step had to be a postulate against classical mechanics rather than a refinement of it. Presented with that failure named, Bohr's stationary states stop looking arbitrary."
+
+[model.provenance]
+source = "Rutherford, The scattering of alpha and beta particles by matter and the structure of the atom, Philosophical Magazine, 1911; Geiger & Marsden, 1909. The classical-collapse lifetime is the standard textbook estimate from the Larmor radiation formula"
+
+[[model]]
+id = "schalenmodell"
+name = "Shell model (Schalenmodell, Bohr)"
+power = "Puts electrons in numbered shells of fixed capacity, and that one move makes the periodic table derivable instead of memorised: group number is the count of outer electrons, period number is the shell being filled, and the octet rule then tells you which ion an element forms before you have ever seen it react."
+explains = [
+  "the line spectrum of hydrogen, quantitatively",
+  "why the noble gases are unreactive",
+  "the ion charges of the main groups, and hence salt formulae",
+  "why sodium and potassium behave alike",
+  "ionisation energy rising across a period and jumping between shells",
+  "flame colours as electrons falling back between shells",
+]
+fails_at = [
+  "Predicts the wrong spectrum for anything bigger than hydrogen. Helium, with two electrons, already has no solution and the model's numbers are simply wrong.",
+  "Cannot explain why the 4s shell fills before 3d, which is why the transition metals refuse to fit the tidy shell story.",
+  "Electrons run on circles, so molecules have no shape: it cannot say why water is bent at 104.5 degrees or methane tetrahedral.",
+  "No fine structure, and no account of lines splitting in a magnetic field.",
+  "It is a hybrid — classical orbits with a quantum rule bolted on — and nothing inside the model justifies the rule.",
+]
+superseded_by = "kugelwolkenmodell"
+requires = ["kern-huelle-modell"]
+embodied_by = "Only as curated data, and that is worth saying out loud. The lab's flame test shows sodium's yellow from a colour table, not from a computed transition — the very prediction Bohr is famous for is one this engine asserts rather than calculates."
+
+[model.registers]
+lv1 = "Electrons are not just anywhere. They live in layers around the nucleus, like the rings of an onion, and each layer has room for only so many. An atom is content when its outside layer is full, and that is the whole secret of chemistry: atoms give away, take, or share electrons until everyone's outer layer is full. Heat an atom and an electron jumps up a layer, then falls back and gives out light of one exact colour — which is why salt turns a flame yellow."
+lv2 = "Bohr (1913): electrons occupy shells K, L, M, N with capacities 2, 8, 18, 32 (that is 2n squared). Energy is emitted or absorbed only when an electron changes shell, and E = hf gives hydrogen's sharp lines. The number of electrons in the outermost shell is the valence, and the octet rule — the drive to a noble-gas configuration — then predicts Na+ and Cl-."
+lv3 = "Bohr quantises angular momentum by postulate and reproduces the Rydberg formula exactly for one-electron systems, E = -13.6 eV / n squared. That success is confined to H, He+ and Li2+; helium fails outright, because a postulate about single orbits has nowhere to put electron-electron repulsion. Sommerfeld's elliptical orbits patched the fine structure without curing the disease. The model survives in school because valence-shell counting is genuinely useful, but the planetary image it plants is documented to persist into university, and this engine's registers should never draw an atom as a solar system."
+
+[model.provenance]
+source = "Bohr, On the constitution of atoms and molecules, Philosophical Magazine, 1913; persistence of the planetary-orbit image documented in the conceptual-change literature, e.g. Taber, Building the structural concepts of chemistry, Chemistry Education Research and Practice, 2001"
+
+[[model]]
+id = "kugelwolkenmodell"
+name = "Charge-cloud model (Kugelwolkenmodell, Kimball)"
+power = "Gives molecules a shape. Once the outer electrons are four repelling clouds rather than dots on a circle, the tetrahedron falls out, and a learner can predict from the formula alone that methane is tetrahedral, ammonia pyramidal and water bent — and that each lone pair squeezes the angle further."
+explains = [
+  "the tetrahedral carbon atom, and hence the whole shape of organic chemistry",
+  "bond angles of 109.5, 107 and 104.5 degrees in methane, ammonia and water",
+  "why water is a dipole and carbon dioxide is not, despite both having polar bonds",
+  "the difference between bonding pairs and lone pairs",
+  "single, double and triple bonds as one, two or three shared clouds",
+]
+fails_at = [
+  "Every cloud is the same size and shape, so there is no s and no p, no subshells, and no way to say why an atom's outer electrons differ in energy at all.",
+  "The photoelectron spectrum of methane shows two different valence ionisation energies, not four identical ones: the four equivalent bonds the model draws are not what the experiment sees.",
+  "Transition metals break it. d electrons do not fit a four-cloud picture, and neither does an octahedral complex with six ligands.",
+  "It cannot describe delocalisation: benzene comes out as two alternating structures, neither of which exists, and metals and conjugated dyes are outside it entirely.",
+  "It is a geometry model with no spectroscopy and no energies in it — no ionisation energies, no colour, no bond strengths.",
+]
+superseded_by = "orbitalmodell"
+requires = ["schalenmodell"]
+
+[model.registers]
+lv1 = "Electrons go around in pairs, and each pair sits in its own little round cloud. The clouds push each other away, so they spread out as far as they can get. Four clouds around a carbon atom end up pointing at the four corners of a pyramid shape — and that really is the shape of methane. Water has two clouds doing the bonding and two just sitting there taking up room, which is why water is bent instead of straight."
+lv2 = "Kimball's charge clouds (Kugelwolken): each electron pair occupies a spherical cloud, clouds repel, and they take the arrangement of maximum separation — two linear, three trigonal planar, four tetrahedral. Lone pairs need more room than bonding pairs, so the H-O-H angle is 104.5 degrees rather than 109.5. A double bond is two clouds shared between the same pair of atoms."
+lv3 = "The German school Kugelwolkenmodell descends from G. E. Kimball's charge-cloud picture and is, in modern terms, a localised sp3 electron-pair model with the mathematics removed; it is a close cousin of VSEPR (the Elektronenpaar-Abstossungsmodell) and of Linnett's double-quartet. Its value is real — correct main-group geometry from a rule a fourteen-year-old can apply — and its cost is that it presents localised pairs as physical objects, which makes delocalisation, photoelectron spectra and metallic bonding all look anomalous instead of expected."
+
+[model.provenance]
+source = "Standard German curriculum (Kugelwolkenmodell); the underlying charge-cloud picture is G. E. Kimball's, and its close relative VSEPR is Gillespie & Nyholm, Quarterly Reviews of the Chemical Society, 1957. Editorial judgement (Kerotakis): placing the Kugelwolkenmodell between Bohr and the orbital model follows German didactic practice rather than the historical order, since Kimball's work postdates Schroedinger's"
+
+[[model]]
+id = "orbitalmodell"
+name = "Orbital model (Orbitalmodell)"
+power = "Replaces where the electron is with how likely it is to be there, and in doing so becomes the first model of the atom that is calculated rather than postulated. It gives the aufbau order and hence the shape of the periodic table including the d and f blocks; it gives molecular orbitals and hence bond order, magnetism and colour; and it is the only model in this progression whose error can be systematically reduced instead of patched."
+explains = [
+  "the aufbau principle, Pauli exclusion and Hund's rule",
+  "the s, p, d and f block structure of the periodic table",
+  "why 4s fills before 3d",
+  "why liquid oxygen sticks to a magnet: two unpaired electrons in pi-star orbitals",
+  "delocalisation, aromaticity and the colour of dyes",
+  "HOMO and LUMO, and hence where a molecule is attacked",
+]
+fails_at = [
+  "There are no orbitals in a many-electron atom. An orbital is a one-electron function; the true wavefunction of even helium is not a product of them, so the 2p orbital of oxygen is an approximation being spoken of as an object.",
+  "The Schroedinger equation has an exact solution for one electron only. Everything past hydrogen is an approximation whose accuracy has to be argued for rather than assumed.",
+  "A single-determinant orbital picture cannot even break the bond in H2 correctly at long distance, which is the simplest case of the static correlation that defeats it across transition-metal and excited-state chemistry.",
+  "As usually taught it is non-relativistic, so it gets gold's colour and mercury's liquidity wrong.",
+  "It is not a model a learner can compute with: the predictions come out of software, so it buys explanation rather than hand calculation.",
+]
+requires = ["schalenmodell", "kugelwolkenmodell"]
+embodied_by = "Nothing at runtime, deliberately. PLAN.md confines quantum chemistry to build time (L4'): orbital shapes would ship as precomputed meshes, never as a live calculation, and the honest runtime ceiling is a qualitative Hueckel tier. No orbital is computed anywhere in the shipped engine, because thermodynamics does not need one."
+
+[model.registers]
+lv1 = "Nobody can say exactly where an electron is — only where it is likely to be. So instead of a ring, picture a fuzzy cloud around the nucleus, thicker where the electron spends more of its time. Different clouds have different shapes: some are balls, some look like two balloons tied together. The shapes are the reason atoms join up pointing in particular directions instead of just anywhere."
+lv2 = "Electrons occupy orbitals — solutions of the Schroedinger equation labelled n, l and m — and the square of the wavefunction gives the probability density. Orbitals fill by the aufbau principle, the Pauli exclusion principle and Hund's rule, which reproduces the periodic table block by block. When atoms combine, atomic orbitals overlap into bonding and antibonding molecular orbitals; bond order is half the difference between them, and O2's two unpaired antibonding electrons are why liquid oxygen is paramagnetic."
+lv3 = "The orbital model is the one-electron (Hartree-Fock) approximation to the many-body problem: orbitals are basis functions of an approximation, not physical containers. What distinguishes it in kind from every earlier model here is that it comes with a theory of its own error and can be improved systematically — post-Hartree-Fock, density functional theory, multireference methods. The pedagogical hazard is the mirror image of Bohr's: learners who successfully abandon orbits often reify orbitals instead and treat them as places. This is also where school chemistry's models end and computational chemistry begins, which is why Kerotakis draws its line here."
+
+[model.provenance]
+source = "Schroedinger, Annalen der Physik, 1926; aufbau, Pauli and Hund per standard quantum chemistry (e.g. Atkins & Friedman, Molecular Quantum Mechanics). Learner reification of orbitals documented by Taber, Learning quanta: barriers to stimulating transitions in student understanding of orbital ideas, Science Education, 2005"
+
+[[model]]
+id = "periodensystem"
+name = "The periodic law (Periodensystem der Elemente)"
+power = "Compresses the properties of a hundred-odd elements into two coordinates. Group and period alone let you predict an element's ion charge, its formula with oxygen and chlorine, whether it is a metal, roughly how reactive it is and roughly how large its atoms are — for elements you have never met. Mendeleev's gaps show it is genuinely predictive rather than a filing system."
+explains = [
+  "why the alkali metals, the halogens and the noble gases each behave as a family",
+  "trends in atomic radius, ionisation energy and electronegativity",
+  "valency, and hence the formula of an unfamiliar oxide or chloride",
+  "Mendeleev's prediction of eka-silicon, found as germanium in 1886",
+]
+fails_at = [
+  "Ordering by atomic mass — Mendeleev's own criterion — puts tellurium after iodine and argon after potassium, both wrong. The law only became exact when Moseley replaced mass with nuclear charge in 1913.",
+  "The trends are trends, not laws: aluminium's ionisation energy is below magnesium's and oxygen's below nitrogen's, and only the orbital model explains the exceptions.",
+  "It orders without explaining. Nothing in the table says why a period ends where it does; the shell model supplies that, and the d and f blocks need orbitals.",
+  "Hydrogen has no home in it, and the lanthanides and actinides are printed underneath because they will not fit the page.",
+]
+requires = ["schalenmodell"]
+
+[model.registers]
+lv1 = "Line the elements up in the right order and the same kinds of behaviour keep coming round again, like the days of the week. Everything in the first column is a soft metal that fizzes in water; everything in the last column does nothing at all. Once you know which column something is in, you can say a great deal about it before you ever open the jar."
+lv2 = "Elements ordered by atomic number fall into 18 groups and 7 periods. The group number gives the number of valence electrons and hence the usual ion charge — group 1 gives +1, group 17 gives -1 — and the period number gives the shell being filled. Atomic radius falls left to right and grows down a group; ionisation energy and electronegativity do the opposite. Mendeleev (1869) left gaps and predicted the density and melting point of the missing eka-silicon; germanium turned up in 1886 and matched."
+lv3 = "Periodicity is a consequence, not an axiom: it follows from the aufbau filling of shells and subshells, and the period lengths 2, 8, 8, 18, 18, 32 are the 2n-squared degeneracies sliced by the filling order. Mendeleev's ordering by mass was empirically right and theoretically wrong; Moseley's 1913 X-ray work established that the true ordinal is nuclear charge, which fixed the tellurium-iodine inversion and fixed how many elements were still missing. Take the table as the archetype of this codex's thesis: a model whose whole value lies in ordering rather than in any fact it contains."
+
+[model.provenance]
+source = "Mendeleev, 1869 (Journal of the Russian Chemical Society; German abstract in Zeitschrift fuer Chemie); Moseley, The high-frequency spectra of the elements, Philosophical Magazine, 1913. Editorial judgement (Kerotakis): treating the periodic law as a model in its own right, rather than as a table of facts to be consulted, is our framing"
+
+# END-OF-MATTER-SECTION

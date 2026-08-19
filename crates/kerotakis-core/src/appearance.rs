@@ -41,57 +41,36 @@ const OPAQUE_AT: f64 = 0.05;
 pub fn observe(vessel: &Vessel) -> Appearance {
     let litres = vessel.liquid_volume().0.max(1e-9);
 
-    // --- Colour: how strongly each solute tints, and toward what hue.
+    // --- Colour: Beer–Lambert over the solutes' absorption spectra.
     //
-    // Not spectral mixing: an honest three-channel Beer–Lambert drives a
-    // concentrated solution to black, because absorbing 99% of red, green
-    // and blue leaves nothing — whereas a beaker of copper sulfate just
-    // looks *deeply blue*. So tint strength saturates (1 − e^−A) and the
-    // hue is the absorbance-weighted mean of the solutes present. This is
-    // a perceptual approximation and is documented as one; the spectral
-    // path belongs to the indicator work, where ε(λ) data exists.
-    let mut total_absorbance = 0.0f64;
-    let mut hue = [0.0f64; 3];
+    // Absorbances add, so mixtures compose correctly; concentration and
+    // path length enter the same way they do in a real beaker. A species
+    // with no curated spectrum contributes nothing rather than being
+    // guessed at.
+    let mut absorbance = [0.0f64; crate::spectrum::BANDS];
     for p in &vessel.contents {
         if !matches!(p.phase, Phase::Aqueous | Phase::Liquid) {
             continue;
         }
-        let Some(colour) = species::lookup(&p.species).and_then(|d| d.colour) else {
+        let Some(spectrum) = species::lookup(&p.species).and_then(|d| d.spectrum) else {
             continue;
         };
-        if colour.strength <= 0.0 {
-            continue;
+        let concentration = p.moles.0 / litres;
+        let eps = spectrum();
+        for (band, e) in absorbance.iter_mut().zip(eps.iter()) {
+            *band += e * concentration * crate::spectrum::BEAKER_PATH_CM;
         }
-        let a = colour.strength * (p.moles.0 / litres);
-        total_absorbance += a;
-        hue[0] += a * colour.r as f64;
-        hue[1] += a * colour.g as f64;
-        hue[2] += a * colour.b as f64;
     }
     let has_liquid = vessel
         .contents
         .iter()
         .any(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous));
     let liquid = has_liquid.then(|| {
-        if total_absorbance <= 0.0 {
-            return Colour {
-                r: 255,
-                g: 255,
-                b: 255,
-                strength: 0.0,
-            };
-        }
-        let saturation = 1.0 - (-total_absorbance).exp();
-        let channel = |i: usize| {
-            let target = hue[i] / total_absorbance;
-            (255.0 + (target - 255.0) * saturation)
-                .round()
-                .clamp(0.0, 255.0) as u8
-        };
+        let rgb = crate::spectrum::transmitted_colour(&absorbance);
         Colour {
-            r: channel(0),
-            g: channel(1),
-            b: channel(2),
+            r: rgb.r,
+            g: rgb.g,
+            b: rgb.b,
             strength: 0.0,
         }
     });

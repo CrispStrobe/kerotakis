@@ -371,7 +371,111 @@ impl Codex {
                 }
             }
         }
+        problems.extend(self.model_problems());
         problems
+    }
+
+    /// Structural checks on `[[model]]` entries.
+    ///
+    /// A model entry cannot be replayed through a solver the way a reaction
+    /// can — there is no beaker to look into. What *can* be enforced is that
+    /// it states the two things a model entry exists to state: what it buys
+    /// (`power`) and where it stops (`fails_at`). An entry missing either is
+    /// a definition dressed as a model, which is the failure mode this whole
+    /// file is against.
+    pub fn model_problems(&self) -> Vec<String> {
+        let mut problems = Vec::new();
+        let known: Vec<&str> = self.models.iter().map(|m| m.id.as_str()).collect();
+        let mut seen: Vec<&str> = Vec::new();
+        for m in &self.models {
+            if seen.contains(&m.id.as_str()) {
+                problems.push(format!("{}: duplicate model id", m.id));
+            }
+            seen.push(&m.id);
+            if m.name.trim().is_empty() {
+                problems.push(format!("{}: no name", m.id));
+            }
+            if m.power.trim().is_empty() {
+                problems.push(format!(
+                    "{}: states no power — a model that does not say what it lets you predict is a definition, not a model",
+                    m.id
+                ));
+            }
+            if m.fails_at.iter().all(|f| f.trim().is_empty()) {
+                problems.push(format!(
+                    "{}: states no boundary — a model presented without `fails_at` is presented as truth",
+                    m.id
+                ));
+            }
+            for level in [1u8, 2, 3] {
+                match m.registers.get(level) {
+                    Some(t) if !t.trim().is_empty() => {}
+                    _ => problems.push(format!("{}: nothing written at lv{level}", m.id)),
+                }
+            }
+            for key in m.registers.0.keys() {
+                if Register::parse(key).is_none() {
+                    problems.push(format!(
+                        "{}: register key '{key}' is not a level (use lv1, lv2, …)",
+                        m.id
+                    ));
+                }
+            }
+            if m.provenance.source.trim().is_empty() {
+                problems.push(format!("{}: no provenance", m.id));
+            }
+            for need in &m.requires {
+                if !known.contains(&need.as_str()) {
+                    problems.push(format!(
+                        "{}: requires '{need}', which no model entry defines",
+                        m.id
+                    ));
+                }
+            }
+            if let Some(next) = &m.superseded_by {
+                if !known.contains(&next.as_str()) {
+                    problems.push(format!(
+                        "{}: superseded by '{next}', which no model entry defines",
+                        m.id
+                    ));
+                }
+            }
+        }
+        problems
+    }
+
+    /// Model progressions, as chains of `superseded_by`.
+    ///
+    /// The chain is the pedagogy: each link is a model that failed at
+    /// something specific and the model that was built to survive it.
+    pub fn model_chains(&self) -> Vec<Vec<&str>> {
+        let succeeds: Vec<&str> = self
+            .models
+            .iter()
+            .filter_map(|m| m.superseded_by.as_deref())
+            .collect();
+        let mut chains = Vec::new();
+        for m in self
+            .models
+            .iter()
+            .filter(|m| !succeeds.contains(&m.id.as_str()))
+        {
+            let mut chain = vec![m.id.as_str()];
+            let mut cursor = m;
+            while let Some(next) = cursor.superseded_by.as_deref() {
+                match self.models.iter().find(|c| c.id == next) {
+                    Some(c) if !chain.contains(&next) => {
+                        chain.push(next);
+                        cursor = c;
+                    }
+                    _ => break,
+                }
+            }
+            if chain.len() > 1 {
+                chains.push(chain);
+            }
+        }
+        chains
     }
 
     /// Entries placed in a curriculum system, ordered by stage as that
@@ -563,6 +667,62 @@ source = "textbook"
                 .iter()
                 .any(|p| p.contains("claims nothing checkable")),
             "{problems:?}"
+        );
+    }
+
+    const MODEL: &str = r#"
+[[model]]
+id = "teilchenmodell"
+name = "Particle model (Teilchenmodell)"
+power = "lets you predict that a dissolved solid is still there"
+fails_at = ["cannot say why two substances react"]
+superseded_by = "dalton"
+
+[model.registers]
+lv1 = "c"
+lv2 = "s"
+lv3 = "e"
+
+[model.provenance]
+source = "standard curriculum"
+
+[[model]]
+id = "dalton"
+name = "Dalton's atomic model"
+power = "lets you balance an equation"
+fails_at = ["has no electrons, so it cannot explain ions"]
+requires = ["teilchenmodell"]
+
+[model.registers]
+lv1 = "c"
+lv2 = "s"
+lv3 = "e"
+
+[model.provenance]
+source = "Dalton, A New System of Chemical Philosophy (1808)"
+"#;
+
+    #[test]
+    fn models_parse_and_chain() {
+        let codex = Codex::parse(MODEL).expect("parses");
+        assert_eq!(codex.models.len(), 2);
+        assert!(codex.structural_problems().is_empty());
+        assert_eq!(codex.model_chains(), vec![vec!["teilchenmodell", "dalton"]]);
+    }
+
+    #[test]
+    fn catches_a_model_with_no_boundary() {
+        let text = MODEL.replace(
+            "fails_at = [\"cannot say why two substances react\"]",
+            "fails_at = []",
+        );
+        let codex = Codex::parse(&text).expect("parses");
+        assert!(
+            codex
+                .structural_problems()
+                .iter()
+                .any(|p| p.contains("states no boundary")),
+            "a model without fails_at must not pass"
         );
     }
 

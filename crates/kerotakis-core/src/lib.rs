@@ -22,6 +22,7 @@ pub mod render;
 pub mod script;
 pub mod solve;
 pub mod species;
+pub mod spectrum;
 pub mod units;
 pub mod vessel;
 
@@ -35,6 +36,7 @@ pub use solve::{
     SafetyVerdict, Severity, SolveError, SolverStack,
 };
 pub use species::{Colour, Phase, SpeciesId};
+pub use spectrum::{Rgb, Spectrum};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 pub use vessel::{Portion, Provenance, SolutionInfo, SpeciesDetail, ThermalMode, Vessel, VesselId};
 

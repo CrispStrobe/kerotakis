@@ -1,0 +1,1205 @@
+# The Kerotakis codex — solutions: what dissolves, what falls out, what
+# fizzes, and what the pH meter says about it.
+#
+# Companion to inorganic.toml. Everything here is aqueous-solution
+# chemistry the L2 engine genuinely computes: solubility limits, solubility
+# products, common-ion and complexation effects, acid–base speciation
+# including polyprotic ladders and buffers, carbonate systems venting to an
+# open atmosphere, hardness, hydrates, and the physical operations
+# (dilution, evaporation, filtration) that a bench actually performs.
+#
+# Every entry is replayed through the real solvers by `kero codex lint`:
+# the setup script runs, and the claimed observations, pH and temperature
+# must actually occur. Every number below was read off the engine, not
+# recalled from a textbook — and several of them disagree with the textbook
+# on purpose, which is noted at lv3 where it happens.
+#
+# Licence: the codex is CC BY-SA 4.0, separately from the AGPL code.
+
+# ------------------------------------------------------------------- bases
+
+[[reaction]]
+id = "strong-base"
+spine = ["herstellung-von-sauren-und-alkalischen-loesungen"]
+equation = "NaOH(s) → Na⁺(aq) + OH⁻(aq)"
+concepts = ["bases", "strong-bases"]
+requires = ["ph"]
+apparatus = ["beaker", "ph-meter"]
+calculations = ["concentration"]
+models = ["ionic-bonding"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB); the placement of alkaline-solution preparation inside LB4 is the same reading used for `strong-acid` in inorganic.toml"
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 NaOH 0.001mol
+"""
+
+[reaction.expect]
+events = ["dissolved:NaOH"]
+ph = { min = 10.8, max = 11.2 }
+
+[reaction.expect.predict]
+question = "One thousandth of a mole of sodium hydroxide goes into one litre of water. What will the pH meter read?"
+options = ["3", "7 — hydroxide is not an acid, so the pH cannot move", "11"]
+answer = 2
+misconception = "Answering 3 is the mirror-image slip: the exponent is right but the direction is not. A base raises pH as far above 7 as the matching acid lowers it below. Answering 7 treats pH as an acid-only scale, when it is a scale of hydrogen-ion activity that hydroxide moves by consuming H⁺."
+
+[reaction.registers]
+lv1 = "This liquid is the opposite of an acid. It feels slippery — that is your own skin dissolving very slightly — and it turns a red cabbage indicator green. Never touch it."
+lv2 = "Sodium hydroxide is a strong base: it dissociates completely, so 0.001 mol in a litre gives [OH⁻] = 10⁻³, pOH 3, and pH 14 − 3 = 11."
+lv3 = "The engine does not apply pH = 14 − pOH; it solves the charge balance with Kw at the solution's own temperature and reports 10.99, marginally below 11 because the activity coefficient of OH⁻ at I = 10⁻³ is ≈0.965."
+
+[reaction.provenance]
+source = "Standard curriculum acid–base chemistry; Kw and activity model from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "lye-warms-the-beaker"
+spine = ["kalorimetrie"]
+equation = "NaOH(s) → Na⁺(aq) + OH⁻(aq)   ΔH_dis = −44.5 kJ/mol"
+concepts = ["exothermic-dissolution", "concentrated-solutions"]
+requires = ["strong-bases", "enthalpy-of-solution"]
+apparatus = ["beaker", "thermometer", "ph-meter"]
+calculations = ["enthalpy-change", "concentration"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 NaOH 4g
+"""
+
+[reaction.expect]
+events = ["dissolved:NaOH"]
+ph = { min = 13.6, max = 14.0 }
+temperature_c = { min = 33.5, max = 38.0 }
+
+[reaction.expect.predict]
+question = "Four grams of drain cleaner (sodium hydroxide) go into 100 mL of cold water. What does the thermometer do?"
+options = [
+  "It rises by about 10 °C",
+  "Nothing — dissolving is not a chemical reaction, so no heat is involved",
+  "It falls, because the solid has to be pulled apart",
+]
+answer = 0
+misconception = "Both wrong answers come from the same picture: dissolving as pure disassembly. Breaking the lattice does cost energy — but hydrating the ions pays more back, and for NaOH it pays back 44.5 kJ per mole. Whether a solution warms or cools is the balance of those two, which is why potassium chloride goes cold and this goes hot."
+
+[reaction.registers]
+lv1 = "The jar gets hot enough to be uncomfortable to hold — and nothing was burning and nothing was heated. The heat came out of the powder as it disappeared."
+lv2 = "0.1 mol of NaOH in 100 mL releases about 4.5 kJ. With only ~100 g of water to warm, that is a rise of roughly 10 °C, and the resulting 1 mol/L solution reads pH ≈ 13.8."
+lv3 = "The vessel is adiabatic, so the whole −44.5 kJ/mol appears as sensible heat. The pH is 13.84 rather than 14.0: at I ≈ 1 mol/kgw the activity coefficient of OH⁻ has fallen to ≈0.68, and the engine reports activity, not concentration. This is the cleanest place in the codex to see the two diverge."
+
+[reaction.provenance]
+source = "Enthalpy of solution of NaOH, standard reference value; speciation from PHREEQC wateq4f.dat (USGS)"
+computed_by = "Kerotakis energy balance over curated ΔH_dis; pH from PHREEQC via Kerotakis L2"
+
+# ---------------------------------------------------------- neutralisation
+
+[[reaction]]
+id = "neutralisation"
+spine = ["neutralisationsreaktionen"]
+equation = "HCl(aq) + NaOH(aq) → NaCl(aq) + H₂O"
+concepts = ["neutralisation", "spectator-ions"]
+requires = ["acids", "bases"]
+apparatus = ["beaker", "burette", "ph-meter"]
+calculations = ["moles-from-mass", "titration-stoichiometry"]
+models = ["ionic-bonding"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — neutralisation is named content of LB4"
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 HCl 0.01mol
+add v1 NaOH 0.01mol
+"""
+
+[reaction.expect]
+events = ["dissolved:NaOH"]
+ph = { min = 6.9, max = 7.1 }
+
+[reaction.expect.predict]
+question = "A litre of pH 2 acid gets exactly enough sodium hydroxide to match it. What is in the beaker afterwards?"
+options = [
+  "Nothing — the acid and the base destroyed each other",
+  "Salt water: sodium and chloride ions in water, at pH 7",
+  "A weaker acid, around pH 5",
+]
+answer = 1
+misconception = "\"They cancel out\" is the commonest neutralisation mistake, and it quietly breaks conservation. Nothing is destroyed: H⁺ and OH⁻ combine into water, and the sodium and chloride ions are still there, untouched, as spectators. Put the beaker on a balance — it is heavier than before, not empty."
+
+[reaction.registers]
+lv1 = "Add the sour liquid and the slippery liquid together in just the right amounts and you get… salty water. Both of the dangerous things have turned into something you could (in principle) drink."
+lv2 = "H⁺ + OH⁻ → H₂O. Equal moles of a strong acid and a strong base leave only the spectator ions Na⁺ and Cl⁻, so the solution is 0.01 mol/L sodium chloride at pH 7."
+lv3 = "The engine reports 7.00 and carries the spectators explicitly: 0.01 mol each of Na⁺ and Cl⁻ remain in the inventory, [H⁺] = [OH⁻] = 1.10 × 10⁻⁷ mol/kgw with γ ≈ 0.90. The reaction is never written into the engine — it emerges from minimising the solution's free energy."
+
+[reaction.provenance]
+source = "Standard curriculum neutralisation"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "past-the-equivalence-point"
+spine = ["saeure-base-titration-ein-analytisches-verfahren"]
+equation = "HCl + 1.1 NaOH → NaCl + H₂O + 0.1 NaOH(excess)"
+concepts = ["equivalence-point", "titration-curve"]
+requires = ["neutralisation"]
+apparatus = ["burette", "conical-flask", "ph-meter"]
+calculations = ["titration-stoichiometry", "concentration"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — titration is named content of LB4"
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 HCl 0.01mol
+add v1 NaOH 0.011mol
+"""
+
+[reaction.expect]
+ph = { min = 10.7, max = 11.2 }
+
+[reaction.expect.predict]
+question = "You have neutralised the acid exactly, and then add 10% too much base. What happens to the pH?"
+options = [
+  "It creeps up to about 7.5",
+  "It jumps to about 11",
+  "It cannot go above 7, because the acid has already been used up",
+]
+answer = 1
+misconception = "Expecting a gentle creep treats the pH scale as linear when it is logarithmic. Near the equivalence point there is almost nothing left to absorb the added hydroxide, so a 10% overshoot moves the pH by nearly four units — which is exactly why an indicator can mark an endpoint at all, and why one drop too many ruins a titration."
+
+[reaction.registers]
+lv1 = "One drop too many and the colour flies past the shade you wanted. Right at the balance point the liquid is on a knife edge: the tiniest extra tips it a very long way."
+lv2 = "After equivalence the excess base sets the pH directly: 0.001 mol of leftover NaOH in a litre gives pOH 3, pH ≈ 11. The titration curve is nearly vertical here — that steepness is what makes the endpoint detectable."
+lv3 = "The computed value is 10.95, not 11.00: the excess hydroxide sits in a 0.011 mol/kgw ionic medium, and its activity is below its concentration. The steepness is a property of the charge balance near the point where the strong-acid and strong-base reservoirs are both exhausted, not a curve fitted for teaching."
+
+[reaction.provenance]
+source = "Standard curriculum titration behaviour"
+computed_by = "PHREEQC via Kerotakis L2"
+
+# ------------------------------------------------------------- polyprotic
+
+[[reaction]]
+id = "phosphoric-acid-three-protons"
+spine = ["ph-wert-berechnungen"]
+equation = "H₃PO₄ ⇌ H⁺ + H₂PO₄⁻ ⇌ 2 H⁺ + HPO₄²⁻ ⇌ 3 H⁺ + PO₄³⁻"
+concepts = ["polyprotic-acids"]
+requires = ["acids", "weak-acids"]
+apparatus = ["beaker", "ph-meter"]
+calculations = ["concentration", "ph-calculation"]
+models = ["equilibrium"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 H3PO4 0.1mol
+"""
+
+[reaction.expect]
+ph = { min = 1.5, max = 1.8 }
+
+[reaction.expect.predict]
+question = "Phosphoric acid has three acidic hydrogens. A 0.1 mol/L solution therefore behaves like…"
+options = [
+  "0.3 mol/L of a strong acid — pH about 0.5, since all three come off",
+  "0.1 mol/L of a weak acid — pH about 1.6, because essentially only the first proton comes off",
+  "0.1 mol/L of a strong acid — pH 1.0 exactly",
+]
+answer = 1
+misconception = "Counting protons on the formula and multiplying is the classic polyprotic error. The three ionisations are separated by about five powers of ten each; releasing the second proton means pulling a positive charge off an already-negative ion, which is far harder. At pH 1.6 the second stage has barely begun — the engine finds HPO₄²⁻ at 3 × 10⁻⁴ mol/kgw against H₂PO₄⁻ at 10⁻¹."
+
+[reaction.registers]
+lv1 = "This is the sour taste in cola. It has three sour parts in it, but only the first one lets go easily — the other two hold on tight."
+lv2 = "Only the first ionisation matters at this concentration (pKa₁ ≈ 2.15 against pKa₂ ≈ 7.2 and pKa₃ ≈ 12.3), so the solution behaves as a single weak acid and lands near pH 1.6."
+lv3 = "The engine solves all three equilibria simultaneously rather than choosing one. The resulting distribution at pH 1.64 is H₂PO₄⁻ 9.9 × 10⁻², H₃PO₄ 4.3 × 10⁻⁴, HPO₄²⁻ 3.4 × 10⁻⁴, PO₄³⁻ below 10⁻⁹ — the ladder is real, it is simply almost entirely on its first rung."
+
+[reaction.provenance]
+source = "Standard curriculum polyprotic acid chemistry; stepwise constants from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "phosphate-buffer"
+spine = ["puffersysteme"]
+equation = "H₂PO₄⁻ / HPO₄²⁻ buffer (1.5 equivalents of base per H₃PO₄)"
+concepts = ["phosphate-buffer", "amphiprotic-ions"]
+requires = ["polyprotic-acids", "buffers"]
+apparatus = ["beaker", "burette", "ph-meter"]
+calculations = ["titration-stoichiometry", "ph-calculation"]
+models = ["equilibrium"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 H3PO4 0.1mol
+add v1 NaOH 0.15mol
+"""
+
+[reaction.expect]
+ph = { min = 6.4, max = 6.9 }
+
+[reaction.expect.predict]
+question = "Half-way between the first and second equivalence points of phosphoric acid, the textbook rule says pH = pKa₂ ≈ 7.2. The engine computes 6.64. Why the gap?"
+options = [
+  "The engine is wrong — the Henderson–Hasselbalch equation is exact",
+  "The two phosphate species carry different charges, so ionic-strength effects do not cancel and the measured pH sits below the tabulated pKa",
+  "The base was added too fast",
+]
+answer = 1
+misconception = "Henderson–Hasselbalch is treated as a law rather than as an approximation that assumes activity equals concentration. Here the ratio is between a 1− and a 2− ion whose activity coefficients are 0.76 and 0.32 — they do not cancel, and the half-neutralisation pH falls about half a unit below pKa₂. This is why real buffer recipes are checked with a meter, not calculated and trusted."
+
+[reaction.registers]
+lv1 = "This mixture sits stubbornly near the pH of your own blood. Push acid or base at it and it barely moves — the same trick as the vinegar buffer, done with a different pair of partners."
+lv2 = "Adding 1.5 mol of base per mole of H₃PO₄ converts half the dihydrogen phosphate to hydrogen phosphate. That 1:1 pair is the buffer of blood, of cell interiors and of most biology bench work, working around pKa₂."
+lv3 = "Computed pH 6.64, against a naive pKa₂ of 7.2. The engine's speciation shows why: H₂PO₄⁻ 5.0 × 10⁻², HPO₄²⁻ 3.4 × 10⁻², and NaHPO₄⁻ 1.7 × 10⁻² — an ion pair holding a third of the divalent species out of play. Charge-asymmetric buffers are where the constant-activity shortcut fails first."
+
+[reaction.provenance]
+source = "Standard curriculum buffer chemistry; phosphate constants and ion pairing from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "half-neutralised-vinegar"
+spine = ["saeure-base-titration-ein-analytisches-verfahren"]
+equation = "CH₃COOH + 0.5 NaOH → 0.5 CH₃COOH + 0.5 CH₃COO⁻ + 0.5 Na⁺   (pH ≈ pKa)"
+concepts = ["half-equivalence-point", "pka-measurement"]
+requires = ["weak-acids", "neutralisation"]
+apparatus = ["burette", "conical-flask", "ph-meter"]
+calculations = ["titration-stoichiometry", "ph-calculation"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 CH3COOH 0.1mol
+add v1 NaOH 0.05mol
+"""
+
+[reaction.expect]
+events = ["dissolved:NaOH"]
+ph = { min = 4.5, max = 4.8 }
+
+[reaction.expect.predict]
+question = "You titrate vinegar and stop exactly half-way. What does the pH reading tell you?"
+options = [
+  "Half of the starting pH — about 1.4",
+  "The pKa of the acid, because acid and conjugate base are now present in equal amounts",
+  "Nothing useful; only the endpoint carries information",
+]
+answer = 1
+misconception = "Halving the pH treats a logarithm as a linear quantity. The half-equivalence point is the single most information-rich place on a weak-acid curve: with [HA] = [A⁻] the log-ratio term vanishes and the meter reads the acid's own pKa directly. It is how pKa values were measured before computers."
+
+[reaction.registers]
+lv1 = "Stop half-way through neutralising the vinegar and the liquid sits at pH 4.7 — and it will stubbornly stay near there. Half-done is the most stubborn place of all."
+lv2 = "With equal amounts of CH₃COOH and CH₃COO⁻ present, pH = pKa = 4.76. This is a buffer at maximum capacity, and it is the standard laboratory method for measuring an unknown acid's pKa."
+lv3 = "The engine reports 4.66, about a tenth of a unit below the thermodynamic pKa. At I = 0.049 mol/kgw the acetate ion's activity coefficient is 0.82 while the neutral acid's is 1.00; the ratio of activities is therefore not the ratio of concentrations, and the meter reads the difference."
+
+[reaction.provenance]
+source = "Standard curriculum titration of a weak acid; acetate constants from PHREEQC minteq.v4.dat"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "weak-acid-endpoint-is-alkaline"
+spine = ["saeure-base-titration-ein-analytisches-verfahren"]
+equation = "CH₃COOH + NaOH → CH₃COONa + H₂O;  CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻"
+concepts = ["weak-acid-equivalence", "conjugate-base"]
+requires = ["half-equivalence-point", "equivalence-point", "salt-of-a-weak-acid"]
+apparatus = ["burette", "conical-flask", "ph-meter"]
+calculations = ["titration-stoichiometry"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 CH3COOH 0.1mol
+add v1 NaOH 0.1mol
+"""
+
+[reaction.expect]
+events = ["dissolved:NaOH"]
+ph = { min = 8.6, max = 8.9 }
+
+[reaction.expect.predict]
+question = "You neutralise vinegar with exactly the matching amount of sodium hydroxide. What is the pH at the endpoint?"
+options = [
+  "7 — that is what neutral means",
+  "About 8.8 — the solution is alkaline",
+  "About 5 — some acid always survives",
+]
+answer = 1
+misconception = "\"Neutralised means pH 7\" is true only when both partners are strong. Here the acid is weak, so its conjugate base is strong enough to matter: acetate takes protons back off water and leaves hydroxide behind. This is exactly why phenolphthalein (colour change ≈ 8.2–10) is the right indicator for this titration and methyl orange is the wrong one — a choice that looks arbitrary until you know the endpoint is not at 7."
+
+[reaction.registers]
+lv1 = "The acid is exactly used up — and the liquid is not neutral. It is soapy-alkaline instead. The thing left behind is not innocent."
+lv2 = "The product is 0.1 mol/L sodium acetate. Acetate is the conjugate base of a weak acid, so it hydrolyses: CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻, giving pH ≈ 8.8 at the equivalence point."
+lv3 = "Computed 8.76. The speciation shows the mechanism directly: OH⁻ and undissociated H(Acetate) both at 7.5 × 10⁻⁶ mol/kgw, produced in exactly equal amounts by the hydrolysis, against 9.7 × 10⁻² of free acetate. Equivalence point and neutral point are different ideas that happen to coincide only for strong/strong pairs."
+
+[reaction.provenance]
+source = "Standard curriculum weak-acid titration; acetate constants from PHREEQC minteq.v4.dat"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "buffer-capacity-exceeded"
+spine = ["puffersysteme"]
+equation = "CH₃COOH/CH₃COO⁻ + excess HCl → buffer destroyed"
+concepts = ["buffer-capacity"]
+requires = ["buffers"]
+apparatus = ["beaker", "ph-meter"]
+calculations = ["concentration", "titration-stoichiometry"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 CH3COOH 0.1mol
+add v1 NaOAc 0.1mol
+add v1 HCl 0.15mol
+"""
+
+[reaction.expect]
+events = ["dissolved:NaOAc"]
+ph = { min = 1.2, max = 1.6 }
+
+[reaction.expect.predict]
+question = "A buffer holds pH 4.6 when you add 0.01 mol of strong acid. Now you add 0.15 mol at once — more than the buffer's reserve. What happens?"
+options = [
+  "It holds at about 4.6; that is what a buffer does",
+  "It slips a little, to about 3.5",
+  "It collapses to about 1.4 — once the reserve is spent the buffer is just salt water",
+]
+answer = 2
+misconception = "Treating buffering as a property of the liquid rather than a stock that gets spent. The reserve here is 0.1 mol of acetate; 0.15 mol of protons consumes all of it and 0.05 mol is left over as free strong acid. A buffer does not resist pH change — it *pays* for resisting it, out of a finite account."
+
+[reaction.registers]
+lv1 = "The stubborn liquid stops being stubborn. Push hard enough and it gives way all at once — like a shopping bag that holds and holds and then tears."
+lv2 = "The buffer contains 0.1 mol of acetate reserve. 0.15 mol of HCl converts all of it to acetic acid and leaves 0.05 mol of strong acid free in the litre, giving pH ≈ 1.4."
+lv3 = "Computed 1.42. The engine's inventory now holds 0.2 mol of total acetate and 0.15 mol of chloride against only 0.1 mol of sodium; the charge balance has nowhere to go but free H⁺. Buffer capacity β = 2.303·C·(fraction ratio) is finite by construction, and this run stands on the far side of it."
+
+[reaction.provenance]
+source = "Standard curriculum buffer capacity"
+computed_by = "PHREEQC via Kerotakis L2"
+
+# ---------------------------------------------------------------- dilution
+
+[[reaction]]
+id = "dilution-by-ten"
+spine = ["konzentrationsberechnungen"]
+equation = "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L"
+concepts = ["dilution", "concentration"]
+requires = ["acids", "ph"]
+apparatus = ["measuring-cylinder", "volumetric-flask", "ph-meter"]
+calculations = ["concentration", "dilution-factor"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 HCl 0.001mol
+add v1 water 900mL
+"""
+
+[reaction.expect]
+ph = { min = 2.9, max = 3.1 }
+
+[reaction.expect.predict]
+question = "An acid at pH 2 is diluted with nine times its own volume of water. What is the new pH?"
+options = ["4", "1", "3"]
+answer = 2
+misconception = "Answering 4 comes from thinking \"ten times weaker\" means \"multiply the pH by ten\" or \"add ten's worth\"; answering 1 confuses dilution with concentration. Because pH is −log₁₀ of hydrogen-ion activity, dividing the concentration by ten adds exactly one to the pH. Ninety-nine times the volume would add two."
+
+[reaction.registers]
+lv1 = "Take some acid and pour in nine glasses of water. It is still acid — just weaker. Nothing was taken out; it was spread thinner."
+lv2 = "The moles of HCl never change: 0.001 mol, first in 0.1 L (0.01 mol/L, pH 2) and then in 1 L (0.001 mol/L, pH 3). c₁V₁ = c₂V₂, and every factor of ten in concentration is one unit of pH."
+lv3 = "Computed 2.04 → 3.01. The slight offset from the round numbers is the activity coefficient: 0.90 at I = 0.01, 0.965 at I = 0.001. Dilution moves the answer toward the ideal-solution limit, which is why the more dilute value is the closer of the two to its textbook figure."
+
+[reaction.provenance]
+source = "Standard curriculum dilution calculation"
+computed_by = "PHREEQC via Kerotakis L2"
+
+# ---------------------------------------------------- salts that are not neutral
+
+[[reaction]]
+id = "washing-soda-is-alkaline"
+spine = ["der-ph-wert-als-eigenschaften-von-loesungen"]
+equation = "CO₃²⁻ + H₂O ⇌ HCO₃⁻ + OH⁻"
+concepts = ["salt-hydrolysis", "carbonate-equilibria"]
+requires = ["dissolving", "ph"]
+apparatus = ["beaker", "ph-meter"]
+calculations = ["moles-from-mass", "concentration"]
+models = ["equilibrium"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 Na2CO3 5.3g
+"""
+
+[reaction.expect]
+events = ["dissolved:Na2CO3"]
+ph = { min = 11.0, max = 11.4 }
+
+[reaction.expect.predict]
+question = "Washing soda is a salt, made from a metal and an acid residue. What pH does its solution have?"
+options = [
+  "7 — salts are neutral, that is what \"neutral salt\" means",
+  "About 11 — strongly alkaline",
+  "About 3 — it is a soda, and sodas are acidic",
+]
+answer = 1
+misconception = "\"Salt solutions are neutral\" is a rule learned from sodium chloride and then over-applied. It holds only when both parent ions are indifferent to water. Carbonate is the conjugate base of a very weak acid, so it takes protons off water and leaves hydroxide behind — which is precisely why washing soda cuts grease, and why it burns skin."
+
+[reaction.registers]
+lv1 = "Washing soda dissolves and the water turns as alkaline as household cleaner — because that is what it is. It is a salt that is not neutral at all."
+lv2 = "Na₂CO₃ dissolves to 2 Na⁺ and CO₃²⁻. Carbonate hydrolyses (CO₃²⁻ + H₂O ⇌ HCO₃⁻ + OH⁻, Kb ≈ 2 × 10⁻⁴), so a 0.05 mol/L solution reaches pH ≈ 11.2."
+lv3 = "Computed 11.19. The speciation is not a simple two-species picture: CO₃²⁻ 3.1 × 10⁻², NaCO₃⁻ 1.7 × 10⁻² — a third of the carbonate is tied up in a sodium ion pair — with OH⁻ and HCO₃⁻ each at 2 × 10⁻³, produced stoichiometrically by the hydrolysis."
+
+[reaction.provenance]
+source = "Standard curriculum salt hydrolysis; carbonate constants and ion pairing from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "baking-soda-vents-carbon-dioxide"
+equation = "2 HCO₃⁻ ⇌ CO₃²⁻ + H₂O + CO₂↑   (open to the atmosphere, log pCO₂ = −3.408)"
+concepts = ["open-system", "carbonate-speciation"]
+requires = ["carbonate-equilibria", "gas-evolution"]
+apparatus = ["beaker", "ph-meter"]
+calculations = ["moles-from-mass"]
+models = ["equilibrium"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 NaHCO3 8.4g
+"""
+
+[reaction.expect]
+events = ["dissolved:NaHCO3", "gas_evolved:CO2"]
+ph = { min = 9.5, max = 9.9 }
+
+[reaction.expect.predict]
+question = "Baking soda is stirred into water. No acid is added. What happens?"
+options = [
+  "Nothing but dissolving; you need an acid to get any gas",
+  "It dissolves and slowly gives off carbon dioxide anyway, ending up around pH 9.7",
+  "It dissolves and the solution ends at pH 8.3, the textbook value for bicarbonate",
+]
+answer = 1
+misconception = "Two ideas get corrected at once. First, gas evolution is not the exclusive privilege of acids — bicarbonate disproportionates on its own, and an open beaker keeps pulling the product away. Second, the familiar \"bicarbonate is pH 8.3\" is a *closed-system* number; a beaker on a bench is open, it vents until it matches the atmosphere's own CO₂ pressure, and it lands well above 8.3."
+
+[reaction.registers]
+lv1 = "Baking soda in plain water, with no vinegar anywhere: leave it a while and it still fizzes, very gently. The bubbles escape into the room and never come back."
+lv2 = "0.1 mol of NaHCO₃ per litre gives a solution that is supersaturated against the air's own carbon dioxide. About 30% of the carbonate leaves as CO₂, the remainder shifts toward CO₃²⁻, and the pH settles near 9.7."
+lv3 = "This is the entry that most disagrees with a textbook, and the disagreement is the lesson. The classic pH 8.3 for NaHCO₃ assumes a sealed system. The engine equilibrates the vessel against atmospheric CO₂ at log p = −3.408, vents 0.030 mol, and computes 9.71. Neither number is wrong; they answer different questions, and only one of them describes a beaker on a bench."
+
+[reaction.provenance]
+source = "Carbonate system in an open vessel; atmospheric pCO₂ and carbonate constants from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "sodium-acetate-hydrolysis"
+spine = ["reaktionen-von-saeuren-und-basen"]
+equation = "CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻   ΔH_dis = −17.3 kJ/mol"
+concepts = ["salt-of-a-weak-acid"]
+requires = ["salt-hydrolysis", "weak-acids"]
+apparatus = ["beaker", "thermometer", "ph-meter"]
+calculations = ["moles-from-mass", "enthalpy-change"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 NaOAc 8.2g
+"""
+
+[reaction.expect]
+events = ["dissolved:NaOAc"]
+ph = { min = 9.0, max = 9.4 }
+temperature_c = { min = 27.5, max = 31.0 }
+
+[reaction.registers]
+lv1 = "The salt of vinegar dissolves, warms the jar slightly, and leaves water that is soapy rather than sour. The sour has become its opposite."
+lv2 = "Sodium acetate is the salt of a weak acid and a strong base, so its solution is alkaline: 1 mol/L reads pH ≈ 9.2. Dissolution is exothermic (−17.3 kJ/mol), warming 100 mL of water by about 4 °C."
+lv3 = "Computed pH 9.16 at 29.2 °C and I = 0.77 mol/kgw. At this concentration 23% of the acetate is present as the neutral Na(Acetate) ion pair rather than as free acetate — the hydrolysis is running on less base than the label suggests, which is part of why the pH is below the ideal-solution estimate."
+
+[reaction.provenance]
+source = "Standard curriculum salt hydrolysis; enthalpy of solution of sodium acetate, standard reference value"
+computed_by = "PHREEQC via Kerotakis L2; energy balance over curated ΔH_dis"
+
+[[reaction]]
+id = "copper-sulfate-is-blue-and-acidic"
+spine = ["der-ph-wert-als-eigenschaften-von-loesungen"]
+equation = "CuSO₄ → Cu²⁺ + SO₄²⁻;  Cu²⁺ + H₂O ⇌ CuOH⁺ + H⁺"
+concepts = ["transition-metal-colour", "metal-ion-hydrolysis"]
+requires = ["dissolving", "ph"]
+apparatus = ["beaker", "thermometer", "ph-meter"]
+calculations = ["moles-from-mass", "concentration"]
+
+[reaction.setup]
+script = """
+add v1 water 500mL
+add v1 CuSO4 8g
+look v1
+"""
+
+[reaction.expect]
+events = ["dissolved:CuSO4", "observed"]
+ph = { min = 4.3, max = 4.7 }
+temperature_c = { min = 25.5, max = 28.0 }
+
+[reaction.expect.predict]
+question = "Copper sulfate dissolves to a beautiful blue. What does the pH meter read?"
+options = [
+  "7 — it is a salt of a strong acid and a metal, so neutral",
+  "About 4.5 — the solution is distinctly acidic",
+  "About 9 — metal ions are basic",
+]
+answer = 1
+misconception = "The tempting answer treats \"metal\" as automatically basic and \"salt\" as automatically neutral. A small, doubly charged cation pulls hard enough on the water molecules bound to it to loosen their protons: [Cu(H₂O)₆]²⁺ ⇌ [Cu(H₂O)₅OH]⁺ + H⁺. Copper(II) sulfate solution is acidic enough to taste sharp, and this is a general property of small highly charged cations, not a quirk of copper."
+
+[reaction.registers]
+lv1 = "White-ish crystals go in and the water turns a deep blue you cannot look away from. The jar also gets slightly warm. And — surprisingly — the water has turned sour."
+lv2 = "0.05 mol of CuSO₄ in 500 mL gives a 0.1 mol/L blue solution. Dissolution is exothermic (−73.1 kJ/mol), warming the beaker by about 1.8 °C. The hydrated Cu²⁺ ion is a weak acid, so the pH falls to about 4.5."
+lv3 = "Computed pH 4.52. The colour is curated — d–d transitions are not something a thermodynamic database can give honestly — but the acidity is computed, from CuOH⁺ at 7.8 × 10⁻⁶ and the dimer Cu₂(OH)₂²⁺ at 4.4 × 10⁻⁵ mol/kgw. Note also that half the copper is present as the neutral CuSO₄ ion pair, so \"0.1 M Cu²⁺\" is not what is in the beaker."
+
+[reaction.provenance]
+source = "Standard curriculum transition-metal salt chemistry; colour curated (sRGB and absorptivity in the species registry), speciation from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2; colour from the curated registry, stated as curated"
+
+# ------------------------------------------------------- carbonate + acid
+
+[[reaction]]
+id = "descaling-with-acid"
+spine = ["wasser-trinkwasser-und-mehr"]
+equation = "CaCO₃(s) + 2 H⁺ → Ca²⁺ + H₂O + CO₂↑"
+concepts = ["carbonate-test", "descaling"]
+requires = ["acid-carbonate", "sparingly-soluble-salts"]
+apparatus = ["beaker", "balance", "ph-meter"]
+calculations = ["moles-from-mass", "titration-stoichiometry"]
+
+[reaction.setup]
+script = """
+add v1 water 200mL
+add v1 CaCO3 1g
+add v1 HCl 0.03mol
+"""
+
+[reaction.expect]
+events = ["dissolved:CaCO3", "gas_evolved:CO2"]
+ph = { min = 1.2, max = 1.6 }
+
+[reaction.expect.predict]
+question = "A gram of chalk sits in water, barely dissolving. You pour in hydrochloric acid. What happens to the chalk?"
+options = [
+  "Nothing — insoluble is insoluble",
+  "It fizzes away completely; the acid destroys the carbonate and the gas escapes",
+  "It dissolves slowly but the solid stays; acid cannot dissolve a solid",
+]
+answer = 1
+misconception = "\"Insoluble\" reads as an absolute property of a substance, when it is a statement about one particular equilibrium. Chalk is insoluble *in water*. Acid does not dissolve it — acid removes one of its ions from the equilibrium by turning carbonate into escaping carbon dioxide, and the solid follows. Le Chatelier, applied to a solid, is how limescale removers and how caves work."
+
+[reaction.registers]
+lv1 = "The chalk that would not dissolve in water vanishes in seconds with a hiss when the acid goes in. This is how a limescale remover works, and how caves are carved out of limestone."
+lv2 = "CaCO₃ + 2 HCl → CaCl₂ + H₂O + CO₂↑. 0.01 mol of chalk needs 0.02 mol of acid; the 0.03 mol used leaves 0.01 mol spare, so the finished solution is strongly acidic at pH ≈ 1.4."
+lv3 = "The engine dissolves 0.00997 of the 0.00999 mol present and vents 0.00999 mol of CO₂ — the calcite saturation index has been driven far negative by the removal of carbonate, so the amount-limited phase runs out rather than reaching equilibrium. The residual dissolved CO₂ (1.3 × 10⁻⁵ mol/kgw) is fixed by Henry's law against the room, not by the reaction."
+
+[reaction.provenance]
+source = "Standard curriculum acid–carbonate reaction; calcite and carbonate constants from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+# -------------------------------------------------- how insoluble is insoluble
+
+[[reaction]]
+id = "chalk-in-water"
+spine = ["chemisches-gleichgewicht"]
+equation = "CaCO₃(s) ⇌ Ca²⁺ + CO₃²⁻   (K_sp ≈ 3.3 × 10⁻⁹)"
+concepts = ["sparingly-soluble-salts", "saturation-index"]
+requires = ["solubility-limit"]
+apparatus = ["beaker", "balance", "ph-meter"]
+calculations = ["concentration"]
+models = ["equilibrium"]
+
+[reaction.setup]
+script = """
+add v1 water 200mL
+add v1 CaCO3 1g
+"""
+
+[reaction.expect]
+events = ["dissolved:CaCO3"]
+ph = { min = 9.7, max = 10.1 }
+
+[reaction.expect.predict]
+question = "A gram of chalk is stirred into 200 mL of water and left. How much dissolves?"
+options = [
+  "None at all — chalk is insoluble",
+  "About a quarter of a percent of it — a tiny but real amount, and it makes the water alkaline",
+  "All of it, given long enough",
+]
+answer = 1
+misconception = "\"Insoluble\" is taught as zero and is never zero. The engine dissolves 0.24% of the chalk here — 2.4 × 10⁻⁵ mol — and that trace is enough to lift the pH to almost 10, because carbonate is a base. Every \"insoluble\" salt has a solubility product, and treating it as zero makes the whole of qualitative analysis look like magic instead of arithmetic."
+
+[reaction.registers]
+lv1 = "The chalk just sits there. It looks like nothing happened — but dip a pH strip in and the water has turned alkaline. A tiny bit did dissolve, too little to see."
+lv2 = "Calcium carbonate is sparingly soluble: 2.4 × 10⁻⁵ mol dissolves in 200 mL, about 0.24% of what was added. The dissolved carbonate hydrolyses, so the water reaches pH ≈ 9.9."
+lv3 = "Computed as a saturation-index problem, not from a memorised solubility: the calcite phase is amount-limited and dissolves until SI = 0. The pH of 9.91 is the carbonate hydrolysis of that trace, which is why hard-water streams running over limestone are alkaline while running almost clear."
+
+[reaction.provenance]
+source = "Standard curriculum solubility; calcite K_sp from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "silver-chloride-solubility-product"
+spine = ["chemisches-gleichgewicht"]
+equation = "AgCl(s) ⇌ Ag⁺ + Cl⁻   (K_sp ≈ 1.8 × 10⁻¹⁰)"
+concepts = ["ksp", "solubility-product"]
+requires = ["sparingly-soluble-salts", "precipitation"]
+apparatus = ["beaker", "balance"]
+calculations = ["concentration"]
+models = ["equilibrium"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 AgCl 1g
+"""
+
+[reaction.expect]
+events = ["dissolved:AgCl"]
+ph = { min = 6.9, max = 7.1 }
+
+[reaction.registers]
+lv1 = "The white powder that appeared when silver met salt will not dissolve again in water. Almost none of it — but not quite none."
+lv2 = "1.4 × 10⁻⁵ mol of AgCl dissolves per litre. That is the square root of K_sp: [Ag⁺] = [Cl⁻] = √(1.8 × 10⁻¹⁰) ≈ 1.3 × 10⁻⁵ mol/L."
+lv3 = "The measured solubility slightly exceeds √K_sp because dissolved silver is not only free Ag⁺: the neutral AgCl(aq) complex is present too. This is the same effect that makes the marquee precipitation entry's residual silver larger than naive arithmetic predicts, and it is the seed of the next entry's surprise."
+
+[reaction.provenance]
+source = "Standard curriculum solubility product; cerargyrite K_sp and silver chloro-complexes from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "common-ion-effect"
+spine = ["chemisches-gleichgewicht"]
+equation = "AgCl(s) ⇌ Ag⁺ + Cl⁻, suppressed by added Cl⁻"
+concepts = ["common-ion-effect"]
+requires = ["ksp", "le-chatelier"]
+apparatus = ["beaker", "balance"]
+calculations = ["concentration"]
+models = ["equilibrium"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 NaCl 0.58g
+add v1 AgCl 1g
+"""
+
+[reaction.expect]
+events = ["dissolved:NaCl"]
+absent = ["dissolved:AgCl"]
+ph = { min = 6.9, max = 7.1 }
+
+[reaction.expect.predict]
+question = "Silver chloride dissolves slightly in pure water. Put it in 0.01 mol/L salt water instead. Does more or less of it dissolve?"
+options = [
+  "More — there is already stuff dissolved, so the water is 'better at dissolving'",
+  "Less — the chloride already present pushes the equilibrium back toward the solid",
+  "The same — the solubility of a substance is a fixed number",
+]
+answer = 1
+misconception = "The third option is the deeper error: solubility is treated as a property of the solid alone, like its melting point. It is a property of the *system*. Here the added chloride is one of the products, so by Le Chatelier the dissolution is pushed back — the engine finds no measurable dissolution at all, where pure water dissolved 1.4 × 10⁻⁵ mol. This is why gravimetric analysis washes a precipitate with dilute salt solution rather than with pure water."
+
+[reaction.registers]
+lv1 = "The same white powder, in water that already has a little salt in it, dissolves even less than before — so little that the lab records none at all."
+lv2 = "Adding 0.01 mol/L Cl⁻ raises the chloride side of AgCl ⇌ Ag⁺ + Cl⁻, so the equilibrium shifts left. Dissolved silver falls roughly by the factor by which chloride rose, to below the engine's observable threshold."
+lv3 = "The suppression is computed from the ion-activity product against K_sp, not asserted. It is worth stating the boundary now: this monotonic suppression holds only while chloride stays low. Push it to 1 mol/L and the trend reverses — see `chloride-complexes-redissolve-silver`."
+
+[reaction.provenance]
+source = "Standard curriculum common-ion effect; constants from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "chloride-complexes-redissolve-silver"
+spine = ["chemisches-gleichgewicht"]
+equation = "AgCl(s) + Cl⁻ ⇌ AgCl₂⁻   (complexation beats the common-ion effect)"
+concepts = ["complex-ions", "model-boundaries"]
+requires = ["common-ion-effect"]
+apparatus = ["beaker", "balance"]
+models = ["equilibrium"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 NaCl 58.4g
+add v1 AgCl 1g
+"""
+
+[reaction.expect]
+events = ["dissolved:NaCl", "dissolved:AgCl"]
+ph = { min = 6.8, max = 7.1 }
+
+[reaction.expect.predict]
+question = "The common-ion effect says extra chloride suppresses silver chloride's solubility. So in 1 mol/L brine — a hundred times more chloride — how much AgCl dissolves?"
+options = [
+  "A hundred times less than in salt water, essentially nothing",
+  "About ten times MORE than in pure water",
+  "Exactly the same as in 0.01 mol/L salt water",
+]
+answer = 1
+misconception = "This is the entry where a correct rule is caught failing, and that is the point. Le Chatelier applied to AgCl ⇌ Ag⁺ + Cl⁻ predicts suppression, and it is right at low chloride. But that equation is not the whole chemistry: at high chloride a second reaction opens, AgCl(s) + Cl⁻ → AgCl₂⁻, and it consumes the solid. The engine dissolves 1.5 × 10⁻⁴ mol here against 1.4 × 10⁻⁵ mol in pure water. A rule without its domain of validity is a trap, and this is the trap."
+
+[reaction.registers]
+lv1 = "Strange: adding a lot more salt makes the stubborn white powder dissolve better, not worse. A little salt held it back; a lot of salt helps it go."
+lv2 = "Above roughly 0.1 mol/L chloride, complexation takes over from the common-ion effect: AgCl(s) + Cl⁻ ⇌ AgCl₂⁻ (and AgCl₃²⁻ beyond that). Solubility passes through a minimum and then rises — the classic U-shaped solubility curve."
+lv3 = "Computed: 1.47 × 10⁻⁴ mol dissolves at I = 1.00 mol/kgw, roughly ten times the pure-water figure and immeasurably more than in 0.01 mol/L NaCl. Nothing here is scripted; the chloro-complexes are in wateq4f.dat and the minimiser finds them. Two models — simple K_sp and full speciation — give opposite predictions, and the experiment decides. Show a learner this before telling them any solubility rule is a law."
+
+[reaction.provenance]
+source = "Silver chloro-complex formation, standard aqueous-geochemistry knowledge; constants from PHREEQC wateq4f.dat (USGS). Editorial judgement (Kerotakis): placing this immediately after the common-ion entry, as a deliberate falsification of the rule just taught, rather than in a later 'complex ions' unit."
+computed_by = "PHREEQC via Kerotakis L2"
+
+# --------------------------------------------------------------- hydrates
+
+[[reaction]]
+id = "gypsum-carries-water-in-its-crystals"
+spine = ["salze"]
+equation = "CaSO₄·2H₂O(s) ⇌ Ca²⁺ + SO₄²⁻ + 2 H₂O"
+concepts = ["waters-of-crystallisation", "hydrates"]
+requires = ["solubility-limit"]
+apparatus = ["beaker", "balance"]
+calculations = ["moles-from-mass", "percentage-composition"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 gypsum 5g
+"""
+
+[reaction.expect]
+events = ["dissolved:gypsum"]
+ph = { min = 6.9, max = 7.2 }
+
+[reaction.expect.predict]
+question = "Gypsum has the formula CaSO₄·2H₂O. When 5 g of it dissolves, the liquid volume in the beaker goes UP by more than the crystals' own volume. Why?"
+options = [
+  "The crystals were holding water inside them, and it joins the solution when they dissolve",
+  "Dissolving always makes liquid, so any solid would do this",
+  "It is a rounding error in the simulation",
+]
+answer = 0
+misconception = "Formula water reads like decoration in the formula — a dot and some water molecules that surely do not count. They count: 172 g of gypsum is 36 g of water, 21% by mass. That water is inside the crystal lattice in fixed proportion, and it is released on dissolution. Plaster of Paris is exactly this water driven off and then let back in, which is why plaster sets."
+
+[reaction.registers]
+lv1 = "Gypsum is the powder plaster casts are made of. It has water hidden inside the crystals — real water, locked in the pattern — and when the crystals dissolve, that water is set free."
+lv2 = "5 g of gypsum is 0.029 mol; only 0.0156 mol dissolves before the solution is saturated, so about 46% stays solid. Each mole that goes releases 2 mol of crystal water into the solvent, so the vessel's liquid inventory grows measurably."
+lv3 = "The hydrate waters are not curated: the engine derives them by matching the registry solid's formula against the database phase CaSO₄:2H₂O and moves 2 mol of H₂O between crystal and solvent per mole reacted. Computed pH 7.07 at I = 0.042 mol/kgw, with a third of the dissolved calcium present as the neutral CaSO₄(aq) ion pair — which is why gypsum's apparent solubility exceeds a free-ion K_sp estimate."
+
+[reaction.provenance]
+source = "Standard curriculum hydrates and water of crystallisation; gypsum phase, stoichiometry and hydrate waters derived from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+# ------------------------------------------ temperature and solubility
+
+[[reaction]]
+id = "heating-dissolves-more-salt"
+equation = "NaCl(s) ⇌ Na⁺ + Cl⁻, solubility rising with temperature"
+concepts = ["temperature-and-solubility"]
+requires = ["saturation"]
+apparatus = ["beaker", "bunsen", "thermometer"]
+calculations = ["moles-from-mass", "concentration"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 NaCl 400g
+heat v1 100kJ
+"""
+
+[reaction.expect]
+events = ["dissolved:NaCl"]
+temperature_c = { min = 40.0, max = 46.0 }
+
+[reaction.expect.predict]
+question = "A litre of water is saturated with salt — a heap of undissolved crystals sits at the bottom. You heat it from 19 °C to 43 °C. What happens to the heap?"
+options = [
+  "It disappears entirely; hot water dissolves far more of everything",
+  "It shrinks slightly — about 0.1 mol more dissolves",
+  "It grows; heating drives solids out of solution",
+]
+answer = 1
+misconception = "Sugar and potassium nitrate teach that heating dissolves dramatically more, and the lesson gets generalised. Salt is the counter-example every kitchen contains: its solubility rises by only a few percent from cold water to boiling. Whether heat helps depends on the sign of the enthalpy of solution, and for NaCl that enthalpy is nearly zero (+3.9 kJ/mol) — so temperature has almost nothing to push on."
+
+[reaction.registers]
+lv1 = "The salty water already has salt sitting on the bottom that will not go in. Heat it up and only a very little more disappears. Hot water is not magic."
+lv2 = "Saturation rises from about 6.11 to 6.21 mol/kgw between 19 °C and 43 °C — roughly 1.7%. Compare potassium nitrate, which more than doubles over the same range: the difference is the enthalpy of solution, and NaCl's is nearly zero."
+lv3 = "Both the temperature and the new saturation are computed, not tabulated: the 100 kJ is distributed over the vessel's heat capacity to give 43.05 °C, and the halite phase is re-equilibrated at that temperature, dissolving a further 0.1025 mol. Note the temperature also fell 5.6 °C on the initial dissolution — this run is a cold pack and a solubility experiment at once."
+
+[reaction.provenance]
+source = "Temperature dependence of halite solubility; van 't Hoff behaviour from log K temperature data in PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2; energy balance by Kerotakis"
+
+# ---------------------------------------------------------- precipitation
+
+[[reaction]]
+id = "any-chloride-precipitates-silver"
+spine = ["qualitative-nachweisverfahren"]
+equation = "Ag⁺ + Cl⁻ → AgCl(s)↓   (K⁺ and NO₃⁻ are spectators)"
+concepts = ["net-ionic-reaction"]
+requires = ["precipitation", "spectator-ions"]
+apparatus = ["beaker", "ph-meter"]
+calculations = ["moles-from-mass", "titration-stoichiometry"]
+models = ["ionic-bonding"]
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019, Amtsblatt 07-08/19) — the same IF6 placement cited for `silver-chloride-precipitation` in inorganic.toml; this entry varies the cation within that topic"
+
+[reaction.setup]
+script = """
+add v1 water 500mL
+add v1 KCl 0.75g
+add v1 AgNO3 1.70g
+"""
+
+[reaction.expect]
+events = ["precipitated:AgCl", "dissolved:AgNO3"]
+ph = { min = 6.9, max = 7.3 }
+
+[reaction.expect.predict]
+question = "The silver test used sodium chloride. This time it is potassium chloride. What happens?"
+options = [
+  "Nothing — the reaction was between silver nitrate and sodium chloride specifically",
+  "The same white precipitate, in the same amount",
+  "A different precipitate — potassium chloride is a different compound",
+]
+answer = 1
+misconception = "Reactions get memorised as compound-plus-compound, so swapping the cation looks like changing the reaction. In solution there are no compounds — there are ions. The only thing that happens is Ag⁺ + Cl⁻ → AgCl↓; potassium and nitrate never take part and could be replaced again without changing anything. This is what a net ionic equation *means*, and it is why the silver test detects chloride rather than detecting sodium chloride."
+
+[reaction.registers]
+lv1 = "Different salt, same result: the water goes milky white the instant the two are mixed. The important part was never the whole ingredient — it was one piece of it."
+lv2 = "Ag⁺ + Cl⁻ → AgCl↓. K⁺ and NO₃⁻ are spectators and stay dissolved. 0.01 mol of each reactant gives 0.01 mol of precipitate, exactly as with sodium chloride."
+lv3 = "The engine never sees 'potassium chloride' as a reactant — it books the solid as element totals and lets the minimiser find the stable assemblage, which is cerargyrite plus a K–NO₃ solution. Residual dissolved silver is 2.2 × 10⁻⁶ mol/kgw as Ag⁺ plus 3.3 × 10⁻⁷ as AgCl(aq): the test is sensitive, not absolute."
+
+[reaction.provenance]
+source = "Standard curriculum halide test; K_sp and speciation from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "acetates-stay-dissolved"
+spine = ["salzbildung"]
+equation = "Ca²⁺ + 2 CH₃COO⁻ → no precipitate (all acetates are soluble)"
+concepts = ["solubility-rules"]
+requires = ["precipitation", "net-ionic-reaction"]
+apparatus = ["beaker", "ph-meter"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 CaCl2 1.1g
+add v1 NaOAc 5g
+look v1
+"""
+
+[reaction.expect]
+events = ["dissolved:NaOAc", "observed"]
+absent = ["precipitated"]
+ph = { min = 8.4, max = 8.8 }
+
+[reaction.expect.predict]
+question = "Two clear salt solutions are poured together — calcium chloride and sodium acetate. What do you see?"
+options = [
+  "A white precipitate; mixing two salt solutions makes a new solid",
+  "Nothing visible — it stays clear, because every possible product is soluble",
+  "Fizzing, because acetate comes from an acid",
+]
+answer = 1
+misconception = "After a few precipitation demonstrations, 'mix two salt solutions and something falls out' becomes the expected rule. Most mixtures do nothing at all. A precipitate appears only if some cation–anion pairing happens to be insoluble; here calcium acetate and sodium chloride are both freely soluble, so all four ions simply carry on. Learning when nothing happens is what makes the solubility rules predictive rather than decorative."
+
+[reaction.registers]
+lv1 = "Two clear liquids, poured together — and it stays clear. Sometimes mixing chemicals does nothing you can see. That is an answer too."
+lv2 = "Calcium acetate and sodium chloride are both soluble, so no double displacement occurs. The four ions (Ca²⁺, Cl⁻, Na⁺, CH₃COO⁻) coexist. The pH of 8.6 comes from acetate hydrolysis, not from any reaction between the two salts."
+lv3 = "The absence of a precipitate is computed, not assumed: the minimiser is offered every candidate phase whose formula matches a registry solid and finds none supersaturated. An `absent` claim is checked by lint exactly as a positive one is, which is what stops this entry from quietly becoming false if the phase set grows."
+
+[reaction.provenance]
+source = "Standard curriculum solubility rules"
+computed_by = "PHREEQC via Kerotakis L2"
+
+# --------------------------------------------------------------- hardness
+
+[[reaction]]
+id = "softening-with-washing-soda"
+spine = ["wasser-trinkwasser-und-mehr"]
+equation = "Ca²⁺ + CO₃²⁻ → CaCO₃(s)↓"
+concepts = ["water-softening", "double-displacement"]
+requires = ["hard-water", "precipitation"]
+apparatus = ["beaker", "filter-funnel", "ph-meter"]
+calculations = ["moles-from-mass", "titration-stoichiometry"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 Na2CO3 5.3g
+add v1 CaCl2 5.5g
+"""
+
+[reaction.expect]
+events = ["precipitated:CaCO3", "dissolved:CaCl2"]
+ph = { min = 9.9, max = 10.3 }
+
+[reaction.expect.predict]
+question = "Hard water is water carrying dissolved calcium. Washing soda is added to soften it. Where does the calcium go?"
+options = [
+  "It is destroyed by the soda",
+  "It falls out of the water as solid chalk, which can be filtered or left behind in the machine",
+  "It stays dissolved but is somehow 'deactivated'",
+]
+answer = 1
+misconception = "Softening sounds like removing a property, so learners imagine the calcium being neutralised in place. Nothing is destroyed and nothing is deactivated: the calcium is moved from the solution to a solid. 99.8% of it here. That solid is the grey sludge in the washing machine — softening trades dissolved hardness for a precipitate you can separate."
+
+[reaction.registers]
+lv1 = "Hard water will not lather. Stir in washing soda and the water goes cloudy — the hardness has turned into a white powder you can filter away, and now the soap works."
+lv2 = "Na₂CO₃ + CaCl₂ → CaCO₃↓ + 2 NaCl. 0.05 mol of each removes 0.0495 mol of calcium as solid carbonate, leaving 0.0001 mol dissolved — a 99.8% removal, with sodium chloride left behind in solution."
+lv3 = "Computed as a saturation problem: calcite precipitates until SI = 0, and the residue is set by K_sp and the remaining carbonate, giving [Ca²⁺] = 1.0 × 10⁻⁴ mol/kgw at pH 10.13. The exchange of hardness for sodium is exactly why softened water is not recommended for drinking on a low-sodium diet."
+
+[reaction.provenance]
+source = "Standard curriculum water softening; calcite equilibrium from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "permanent-hardness-makes-gypsum"
+spine = ["wasser-trinkwasser-und-mehr"]
+equation = "Ca²⁺ + SO₄²⁻ + 2 H₂O → CaSO₄·2H₂O(s)↓"
+concepts = ["permanent-hardness"]
+requires = ["hard-water", "waters-of-crystallisation"]
+apparatus = ["beaker", "ph-meter"]
+calculations = ["moles-from-mass"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 CaCl2 11.1g
+add v1 MgSO4 12.0g
+"""
+
+[reaction.expect]
+events = ["precipitated:gypsum", "dissolved:MgSO4"]
+ph = { min = 6.3, max = 6.7 }
+
+[reaction.registers]
+lv1 = "Two clear liquids meet and a white solid grows — and this one is plaster. The same stuff a broken arm gets set in, made in a beaker out of two things that looked like water."
+lv2 = "Calcium from the chloride meets sulfate from the Epsom salts and precipitates gypsum, CaSO₄·2H₂O. 0.064 of the 0.1 mol of calcium comes out; the magnesium stays dissolved because magnesium sulfate is soluble."
+lv3 = "Temporary hardness (bicarbonate) is removed by boiling; permanent hardness (sulfate) is not — and this entry shows why the distinction is about which anion is present, not about how hard the water is. The engine also books 2 mol of water per mole of gypsum out of the solvent, so the free water in the vessel measurably falls: 55.34 mol to 55.21 mol."
+
+[reaction.provenance]
+source = "Standard curriculum permanent hardness; gypsum equilibrium and hydrate stoichiometry from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+# --------------------------------------------------------- separating things
+
+[[reaction]]
+id = "filtering-a-precipitate"
+spine = ["filtration"]
+equation = "AgCl(s) retained on the paper;  Na⁺, NO₃⁻ pass through"
+concepts = ["filtration", "separation"]
+requires = ["precipitation"]
+apparatus = ["filter-funnel", "filter-paper", "beaker"]
+calculations = ["percentage-yield"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 NaCl 0.58g
+add v1 AgNO3 1.70g
+new
+filter v1 v2
+look v1
+look v2
+"""
+
+[reaction.expect]
+events = ["precipitated:AgCl", "filtered", "observed"]
+
+[reaction.expect.predict]
+question = "A cloudy silver-chloride mixture is poured through filter paper. What is in the funnel, and what is in the flask underneath?"
+options = [
+  "Solid silver chloride in the funnel; a clear solution of sodium and nitrate ions in the flask",
+  "Everything in the flask — filter paper only stops big lumps, and dissolved things are small",
+  "Solid in the funnel; pure water in the flask, since the filter removes the chemicals",
+]
+answer = 0
+misconception = "The third option is the common one: filtration is imagined as purification. Filter paper separates by phase, not by cleanliness — anything dissolved goes straight through. The filtrate here is not water; it is a sodium nitrate solution, and it still contains 8 × 10⁻⁴ mol/kgw of dissolved silver. If you want the dissolved part back you must evaporate, not filter."
+
+[reaction.registers]
+lv1 = "Pour the cloudy mixture through the paper cone. The white solid stays behind in the paper, and what drips through is completely clear — but it is not pure water, and it is not safe to drink."
+lv2 = "Filtration separates by phase: 0.0099 mol of solid AgCl is retained (1.4 g), while the whole aqueous phase — water, Na⁺, NO₃⁻ and the trace dissolved silver — passes into v2. Weighing the dried residue is how a precipitation is quantified."
+lv3 = "The engine re-equilibrates both vessels after the transfer, which is why the filtrate is characterised separately: pH 7.23, I = 0.10 mol/kgw, with Ag⁺ at 8.1 × 10⁻⁴ mol/kgw. The residue vessel holds solid only and has no solution at all, so a pH meter in it reads nothing — the lab says so rather than inventing a number."
+
+[reaction.provenance]
+source = "Standard curriculum filtration and gravimetric separation"
+computed_by = "PHREEQC via Kerotakis L2; phase separation by the Kerotakis bench"
+
+[[reaction]]
+id = "crystallising-salt-from-brine"
+spine = ["eindampfen", "gewinnung-und-abbau-von-salzen"]
+equation = "Na⁺ + Cl⁻ → NaCl(s)  as water leaves"
+concepts = ["crystallisation", "evaporation"]
+requires = ["saturation", "solubility-limit"]
+apparatus = ["evaporating-basin", "bunsen", "balance"]
+calculations = ["moles-from-mass", "percentage-yield"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 NaCl 117g
+evaporate v1 0.8
+look v1
+"""
+
+[reaction.expect]
+events = ["dissolved:NaCl", "evaporated", "precipitated:NaCl", "observed"]
+ph = { min = 6.2, max = 6.6 }
+
+[reaction.expect.predict]
+question = "117 g of salt dissolves completely in a litre of water. You boil off four fifths of the water. What is in the basin?"
+options = [
+  "Nothing but very salty water; it all dissolved once, so it stays dissolved",
+  "All 117 g back as crystals, since the water has mostly gone",
+  "About 46 g of crystals, with the rest still dissolved in the remaining water",
+]
+answer = 2
+misconception = "The first answer forgets that solubility is per unit of *solvent*, not a one-way door: take the water away and the salt has nowhere to stay. The second overshoots — 200 mL of water can still hold 1.22 mol of salt, so only the excess crystallises. Working out which fraction comes back is the whole of salt-pan chemistry, and it is a subtraction: what you put in, minus what the remaining water can still hold."
+
+[reaction.registers]
+lv1 = "Salty water, boiled down. As the water leaves, white crystals appear on the bottom — the sea's oldest trick, and how every salt pan in the world works."
+lv2 = "2.00 mol of NaCl dissolves in 1 L. Removing 80% of the water leaves 200 mL, which can hold only 1.22 mol at saturation, so 0.78 mol (about 46 g) crystallises out."
+lv3 = "The remaining solution sits at I = 6.12 mol/kgw, far outside the Debye–Hückel domain — this problem routes to the Pitzer ion-interaction model, and `explain` will show wateq4f and minteq.v4 giving materially different answers for the same beaker. Note also γ(Na⁺) = 1.65 here: an activity coefficient above one is normal in concentrated brine and is not an error."
+
+[reaction.provenance]
+source = "Standard curriculum evaporation and crystallisation; halite solubility from PHREEQC (pitzer.dat)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+# -------------------------------------------------------- colour and mixtures
+
+[[reaction]]
+id = "permanganate-is-visible-when-almost-absent"
+spine = ["konzentrationsberechnungen"]
+equation = "KMnO₄ → K⁺ + MnO₄⁻   (ε ≈ 2400 L mol⁻¹ cm⁻¹ at 525 nm)"
+concepts = ["colour-intensity"]
+requires = ["dissolving", "concentration"]
+apparatus = ["beaker", "balance"]
+calculations = ["moles-from-mass", "concentration"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 KMnO4 0.016g
+look v1
+"""
+
+[reaction.expect]
+events = ["dissolved:KMnO4", "observed"]
+ph = { min = 6.9, max = 7.1 }
+
+[reaction.expect.predict]
+question = "Sixteen milligrams of potassium permanganate — a speck — go into a full litre of water. What do you see?"
+options = [
+  "Clear water; sixteen milligrams in a litre is far too little to see",
+  "Water that is clearly, obviously purple",
+  "A faint purple only if you look through the whole length of the beaker",
+]
+answer = 1
+misconception = "Amount and visibility get run together, so 'a tiny mass' is expected to mean 'a faint colour'. Visibility is set by molar absorptivity, and permanganate's is enormous — about 2400 L mol⁻¹ cm⁻¹. At 10⁻⁴ mol/L the solution is frankly purple. Copper sulfate at the same concentration would be invisible. The same reasoning is why a drop of food colouring tints a bath and a spoon of sugar does not."
+
+[reaction.registers]
+lv1 = "A speck of purple powder, less than a grain of rice, turns a whole litre of water purple. Some colours are astonishingly strong."
+lv2 = "0.016 g is 1.0 × 10⁻⁴ mol. In 1 L that is 10⁻⁴ mol/L, and with a molar absorptivity near 2400 the absorbance through a normal beaker is around 0.2 — plainly visible. The solution stays neutral at pH 7.00: neither K⁺ nor MnO₄⁻ reacts with water."
+lv3 = "Two different kinds of claim sit in one beaker, and the lab keeps them apart. The pH 7.00 and the speciation are computed. The colour is curated — the registry carries permanganate's sRGB and a tinting strength of 12 000, because a real d–d and charge-transfer spectrum is not something a thermodynamic database or a cheap calculation can give honestly. The provenance says which is which."
+
+[reaction.provenance]
+source = "Molar absorptivity of permanganate, standard spectrophotometric reference value; colour curated in the Kerotakis species registry. Speciation and pH from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2 for pH and speciation; colour is curated, not computed"
+
+[[reaction]]
+id = "ethanol-and-water-mix"
+spine = ["weitere-stoffeigenschaften"]
+equation = "C₂H₅OH(l) + H₂O(l) → one liquid phase (fully miscible)"
+concepts = ["miscibility", "mixtures"]
+requires = ["solutions"]
+apparatus = ["measuring-cylinder", "beaker"]
+calculations = ["concentration"]
+models = ["particle-model", "intermolecular-forces"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 ethanol 50mL
+look v1
+"""
+
+[reaction.expect]
+events = ["added:ethanol", "observed"]
+
+[reaction.expect.predict]
+question = "100 mL of water and 50 mL of ethanol are poured into one cylinder. What does the level read?"
+options = [
+  "150 mL — volumes add up",
+  "A little under 150 mL, because the two kinds of molecule pack together more tightly than either does alone",
+  "Two layers, like oil and water",
+]
+answer = 1
+misconception = "Volume is treated as a conserved quantity like mass. It is not: mass adds exactly, volume does not, because volume is a statement about packing. Ethanol's small hydrophobic tail slots into the gaps in water's hydrogen-bonded network, and the real mixture comes out around 145 mL. Kerotakis reports 150.0 mL — the engine assumes additive volumes, and this is a stated limitation, not a claim about the world."
+
+[reaction.registers]
+lv1 = "Alcohol and water mix into one single clear liquid — no layers, no line, no cloudiness. You cannot tell by looking that there are two things in there at all."
+lv2 = "Ethanol and water are miscible in all proportions: the OH group hydrogen-bonds to water while the small ethyl group is not big enough to force separation. Contrast oil, whose long hydrocarbon chains cannot pay the entropic cost of disrupting water's network."
+lv3 = "The honest boundary: the bench sums pure-component volumes (150.0 mL) where the real excess volume of mixing is about −3.5%, giving ≈145 mL. This is the volume of mixing, a real thermodynamic quantity that the current model does not carry. `evaporate` states a related gap out loud — separating ethanol from water needs vapour–liquid equilibrium, which is L3 and is not wired, so this vessel cannot be distilled."
+
+[reaction.provenance]
+source = "Standard curriculum miscibility and intermolecular forces. Editorial judgement (Kerotakis): this entry exists to expose the additive-volume assumption rather than to hide it, so the model boundary is taught alongside the phenomenon."
+computed_by = "Kerotakis bench (volumes additive, stated as an approximation); no aqueous solver applies — neither component ionises"
+
+# ---------------------------------------------------------------- hazards
+
+[[reaction]]
+id = "bleach-and-acid"
+spine = ["chemikalien-im-alltag", "sicherheitsregeln-in-chemieraeumen"]
+equation = "NaOCl + 2 HCl → Cl₂↑ + NaCl + H₂O"
+concepts = ["toxic-gas", "household-hazards"]
+requires = ["gas-evolution", "acids"]
+apparatus = ["fume-cupboard"]
+
+[reaction.setup]
+script = """
+add v1 water 200mL
+add v1 NaOCl 0.1mol
+add v1 HCl 0.2mol
+"""
+
+[reaction.expect]
+events = ["hazard_warning", "gas_evolved:Cl2"]
+ph = { min = 6.8, max = 7.1 }
+
+[reaction.expect.predict]
+question = "Bleach and limescale remover are both ordinary cleaning products. What happens if they are used in the same toilet bowl?"
+options = [
+  "Nothing much — both are cleaners, so they help each other",
+  "Chlorine gas is released, in quantities that send people to hospital every year",
+  "They neutralise each other and stop working",
+]
+answer = 1
+misconception = "\"Both are cleaning products\" is read as \"both are on the same side\", and the third option shows the near-miss version: something does get neutralised, but the product is a poison gas rather than a harmless dud. Household bleach is hypochlorite in alkali; descalers are acids. The acid protonates hypochlorite and drives out Cl₂ — the gas used as a weapon in 1915."
+
+[reaction.registers]
+lv1 = "Never mix bleach with anything else. Never. In the lab this is a picture on a screen; in a bathroom it is an ambulance. The lab will show you what happens and will not let you smell it."
+lv2 = "NaOCl + 2 HCl → Cl₂↑ + NaCl + H₂O. 0.1 mol of hypochlorite with 0.2 mol of acid releases 0.1 mol of chlorine — about 2.4 L at room temperature, in a room you are standing in. What remains in the beaker is only salt water, pH 6.96."
+lv3 = "The hazard is L0: the reactive-group screen assesses the prospective vessel state *before* the addition is applied and warns from the pairing itself, independently of whether any solver models the chemistry. The gas release is then curated stoichiometry, and the leftover brine is computed. Safety that depends on a solver having an opinion is safety that fails when the solver does not."
+
+[reaction.provenance]
+source = "Standard household-chemical safety guidance (bleach + acid → chlorine); reaction stoichiometry curated in the Kerotakis safety layer"
+computed_by = "L0 reactive-group screen (Kerotakis safety); residual solution by PHREEQC via Kerotakis L2"

@@ -1,0 +1,1067 @@
+# The Kerotakis codex — the quantitative and thermal half.
+#
+# This file exists because of one claim in PLAN.md: calculation should be
+# LOAD-BEARING. Every number below was produced by running the engine, not
+# recalled from a textbook, and `kero codex lint` replays every script here
+# through the real solvers. If the arithmetic a learner is asked to do stops
+# agreeing with what the beaker shows, the build breaks.
+#
+# The convention throughout: lv1 is the macroscopic level (what a person in
+# the room sees and can say truthfully), lv2 the symbolic level (the equation
+# and the number), lv3 the submicroscopic and computational level (what the
+# solver actually did, including where it is on thin ice). lv1 is not lv2
+# with short words — it is a different, complete, true account.
+#
+# Licence: the codex is CC BY-SA 4.0, separately from the AGPL code.
+
+# ============================================================ counting stuff
+
+[[reaction]]
+id = "moles-from-mass"
+spine = ["die-stoffmenge-und-das-mol"]
+equation = "n = m / M   ·   5.844 g NaCl ÷ 58.443 g/mol = 0.1000 mol"
+concepts = ["amount-of-substance", "molar-mass"]
+requires = ["dissolving"]
+calculations = ["moles-from-mass"]
+models = ["particle-model"]
+apparatus = ["beaker", "balance", "spatula"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 9, Quantitative Betrachtung chemischer Reaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB; Lehrplantexte nicht urheberrechtlich geschützt)"
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 NaCl 5.844g
+measure v1 balance
+"""
+
+[reaction.expect]
+events = ["dissolved:NaCl"]
+ph = { min = 6.8, max = 7.2 }
+
+[reaction.expect.predict]
+question = "You weigh out 5.844 g of table salt. The bench asks how many moles that is. Sodium chloride's molar mass is 58.443 g/mol. What does the engine report going in?"
+options = [
+  "5.844 mol — the number you weighed",
+  "0.1000 mol",
+  "58.443 mol — the molar mass",
+  "It depends how much water you put it in",
+]
+answer = 1
+misconception = "The last option is the common one: learners expect the amount of substance to change when the solution is diluted. It does not — n is a property of the sample you weighed, and only concentration depends on the volume. The first is the rawer error of using grams as if they were moles."
+
+[reaction.registers]
+lv1 = "Weighing tells you how heavy something is. Counting tells you how many pieces there are. Chemistry needs the count, because reactions pair pieces up — and the balance is how you get to the count, since every substance has a fixed weight per piece."
+lv2 = "n = m / M. 5.844 g ÷ 58.443 g/mol = 0.1000 mol, and the bench confirms 0.1000 mol going in. In 1.000 L that is a 0.1 mol/L solution; the total mass on the balance, 1002.84 g, is the litre of water plus the salt, because nothing left."
+lv3 = "The registry carries M = 58.443 g/mol from the IUPAC/CIAAW 2021 atomic weights, so the conversion is exact to the data's own precision rather than to a rounded 58.5. The 0.1000 mol then enters PHREEQC as a total-element constraint, and the pH of 6.98 rather than 7.00 is the ionic-strength correction on the water's own autoprotolysis, not an artefact."
+
+[reaction.provenance]
+source = "Standard curriculum stoichiometry; molar mass from IUPAC/CIAAW 2021 atomic weights via the Kerotakis species registry"
+computed_by = "Kerotakis bench; speciation via PHREEQC L2"
+
+[[reaction]]
+id = "concentration-is-a-ratio"
+spine = ["konzentrationsberechnungen"]
+equation = "c = n / V   ·   0.1000 mol in 0.100 L = 1.00 mol/L; the same 0.1000 mol in 0.200 L = 0.50 mol/L"
+concepts = ["concentration", "ionic-strength"]
+requires = ["amount-of-substance"]
+calculations = ["concentration"]
+models = ["particle-model"]
+apparatus = ["beaker", "measuring-cylinder", "balance"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 NaCl 5.844g
+new
+add v2 water 200mL
+add v2 NaCl 5.844g
+"""
+
+[reaction.expect]
+events = ["dissolved:NaCl"]
+ph = { min = 6.7, max = 7.1 }
+
+[reaction.expect.predict]
+question = "The same 5.844 g of salt goes into 100 mL in one beaker and 200 mL in another. Which beaker holds more sodium chloride?"
+options = [
+  "The 100 mL beaker — it is more concentrated",
+  "The 200 mL beaker — there is more liquid",
+  "Neither: both hold 0.1000 mol; only the concentration differs",
+]
+answer = 2
+misconception = "Concentration and amount get welded together. A strong cup of tea does not contain more tea than a weak bucket of it. The engine separates the two explicitly: both vessels report 0.1000 mol of chloride, and the ionic strengths differ by exactly a factor of two."
+
+[reaction.registers]
+lv1 = "Two beakers, the same spoonful of salt, different amounts of water. The small one tastes saltier — but there is not more salt in it. 'How much' and 'how strong' are two different questions, and mixing them up is one of the easiest mistakes to make."
+lv2 = "c = n / V. 0.1000 mol in 0.100 L is 1.00 mol/L; in 0.200 L it is 0.50 mol/L. The bench reports the ionic strength of the two solutions as 1.0030 m and 0.5015 m — exactly the halving, because for a 1:1 salt like NaCl the ionic strength equals the molality."
+lv3 = "Ionic strength I = ½ Σ cᵢ zᵢ², which for a 1:1 electrolyte collapses to the concentration itself; that identity is why the two numbers look like the concentrations. The small excess over 1.0000 (1.0030 m) is molality against molarity: the litre of solution is not a litre of water, and PHREEQC works in mol per kg of water throughout."
+
+[reaction.provenance]
+source = "Standard curriculum concentration calculations; ionic strength from PHREEQC (USGS) speciation"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "dilution-moves-ph-by-one"
+spine = ["konzentrationsberechnungen"]
+equation = "c₁V₁ = c₂V₂   ·   0.001 mol in 0.100 L → pH 2.04; the same acid in 1.000 L → pH 3.01"
+concepts = ["dilution"]
+requires = ["concentration", "ph"]
+calculations = ["dilution", "ph-from-concentration"]
+models = ["particle-model"]
+apparatus = ["beaker", "pipette", "ph-meter"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 HCl 0.001mol
+measure v1 ph
+add v1 water 900mL
+measure v1 ph
+"""
+
+[reaction.expect]
+ph = { min = 2.85, max = 3.15 }
+
+[reaction.expect.predict]
+question = "An acid reads pH 2.04. You add nine times as much water again, so the volume is ten times what it was. What does the meter read now?"
+options = [
+  "pH 3.0 — a tenfold dilution costs one pH unit",
+  "pH 7.0 — water is neutral, so diluting makes it neutral",
+  "pH 20.4 — ten times the pH",
+  "pH 2.04 — the acid is still in there",
+]
+answer = 0
+misconception = "Two errors are common and both are about the logarithm. 'Ten times the volume, ten times the pH' treats pH as if it were the concentration; and 'dilution neutralises' forgets that no amount of water reaches pH 7 — you approach it and never arrive, because the acid is still all there."
+
+[reaction.registers]
+lv1 = "Add water to an acid and it gets weaker — but it never turns into water. The acid you put in is still there; it just has more room. On the meter the number climbs, and it climbs by one step for every tenfold splash of water, not by ten."
+lv2 = "c₁V₁ = c₂V₂. 0.001 mol in 100 mL is 0.01 mol/L; the meter reads pH 2.04. Take the volume to 1.000 L and the concentration is 0.001 mol/L — the meter reads pH 3.01. One pH unit per factor of ten, because pH is a logarithm."
+lv3 = "The moles of H⁺ are conserved exactly across the dilution; what changes is the activity, and with it the measured pH. Note the reading is 2.04 rather than 2.00 and 3.01 rather than 3.00: at I ≈ 0.01 m the activity coefficient is ≈0.90, and PHREEQC reports pH as −log a(H⁺), not −log c(H⁺). Textbooks assume γ = 1 and quietly lose that hundredth."
+
+[reaction.provenance]
+source = "Standard curriculum dilution calculations; activity model from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+# ================================================ ratios, limits and yields
+
+[[reaction]]
+id = "stoichiometric-ratio-from-the-equation"
+spine = ["chemisches-rechnen"]
+equation = "2 Mg + O₂ → 2 MgO   ·   2.40 g Mg → 3.98 g MgO, a ratio of 40.304 : 24.305"
+concepts = ["stoichiometric-ratio", "balanced-equations"]
+requires = ["amount-of-substance", "combustion"]
+calculations = ["moles-from-mass", "stoichiometry", "mass-from-moles"]
+models = ["particle-model", "conservation-of-atoms"]
+apparatus = ["crucible", "balance", "tongs", "bunsen"]
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Erste Stufe (Jg. 7/8), IF3 Verbrennung — quantitative Betrachtung"
+ages = { min = 12.0, max = 14.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019, Amtsblatt 07-08/19)"
+
+[reaction.setup]
+script = """
+add v1 Mg 2.4g
+measure v1 balance
+ignite v1
+measure v1 balance
+"""
+
+[reaction.expect]
+events = ["ignited", "consumed:Mg", "precipitated:MgO"]
+temperature_c = { min = 2600.0, max = 2900.0 }
+
+[reaction.expect.predict]
+question = "Burn 2.40 g of magnesium ribbon completely. The balanced equation is 2 Mg + O₂ → 2 MgO. M(Mg) = 24.305, M(MgO) = 40.304 g/mol. What mass of white powder is left?"
+options = [
+  "2.40 g — mass is conserved",
+  "3.98 g",
+  "1.44 g — some burns away",
+  "4.80 g — one oxygen per magnesium doubles it",
+]
+answer = 1
+misconception = "The first option is conservation of mass misapplied: mass is conserved in the universe, not in an open crucible that is drawing oxygen out of the room. The last comes from reading '2 Mg + O₂' as though each magnesium takes a whole O₂ rather than half of one."
+
+[reaction.registers]
+lv1 = "Weigh the ribbon: 2.40 g. Burn it. Weigh the ash: 3.98 g. Do it again with twice as much ribbon and you get twice as much ash — the relationship between what you start with and what you end with is fixed, and once you know it for one piece you know it for every piece."
+lv2 = "0.0987 mol of Mg (2.40 g ÷ 24.305 g/mol) gives 0.0987 mol of MgO by the 2:2 ratio in the equation, which is 3.98 g (× 40.304 g/mol). The bench reports exactly 0.0987 mol of MgO and a balance reading of 3.98 g. The equation is not decoration — it is the conversion factor."
+lv3 = "The 1:1 mole ratio survives because the Gibbs minimiser conserves the magnesium element budget exactly; oxygen is drawn from the atmospheric reservoir rather than the vessel's inventory, which is what makes the mass ratio 40.304/24.305 = 1.658 appear on the balance. At the 3042 K the solve settles to, gaseous Mg and MgO are thermodynamically accessible; they do not appear in the products because the condensed oxide dominates at 1 bar."
+
+[reaction.provenance]
+source = "Standard curriculum combustion stoichiometry; thermochemistry from NASA CEA thermo.inp"
+licence = "NASA CEA data: Apache-2.0"
+computed_by = "Kerotakis L2g Gibbs minimiser"
+
+[[reaction]]
+id = "limiting-reagent"
+spine = ["chemisches-rechnen"]
+equation = "Ag⁺ + Cl⁻ → AgCl↓   ·   0.0200 mol Ag⁺ + 0.0100 mol Cl⁻ → 0.0100 mol AgCl (and the reverse)"
+concepts = ["limiting-reagent", "excess-reagent"]
+requires = ["stoichiometric-ratio", "precipitation"]
+calculations = ["moles-from-mass", "limiting-reagent"]
+models = ["particle-model", "ionic-bonding"]
+apparatus = ["beaker", "balance", "stirring-rod"]
+
+[reaction.setup]
+script = """
+add v1 water 500mL
+add v1 NaCl 0.5844g
+add v1 AgNO3 3.3974g
+new
+add v2 water 500mL
+add v2 NaCl 1.1689g
+add v2 AgNO3 1.6987g
+"""
+
+[reaction.expect]
+events = ["precipitated:AgCl", "dissolved:AgNO3"]
+
+[reaction.expect.predict]
+question = "Beaker 1: 0.0100 mol of chloride and 0.0200 mol of silver. Beaker 2: 0.0200 mol of chloride and 0.0100 mol of silver. Which makes more silver chloride?"
+options = [
+  "Beaker 1 — it has more silver, and silver is the heavy part",
+  "Beaker 2 — it has more chloride",
+  "Neither: both make 0.0100 mol, set by whichever ion runs out first",
+]
+answer = 2
+misconception = "Learners reliably add the reagents up rather than pairing them off. The reaction is one silver to one chloride: the partner in short supply decides the answer and the surplus simply sits there. Both beakers hold 0.0300 mol of reactant in total and both give exactly 0.0100 mol of precipitate."
+
+[reaction.registers]
+lv1 = "Two beakers get the same total amount of chemical, just split differently — one has extra silver, the other extra salt. Both go cloudy, and both produce exactly the same amount of white solid. Whatever runs out first is what stops the reaction; the leftovers do nothing but stay dissolved."
+lv2 = "Ag⁺ + Cl⁻ → AgCl↓ is a 1:1 reaction. Beaker 1: 0.0100 mol Cl⁻ is limiting against 0.0200 mol Ag⁺. Beaker 2: 0.0100 mol Ag⁺ is limiting against 0.0200 mol Cl⁻. The bench reports 0.0100 mol of AgCl in both. Work out the moles of each, take the smaller, and you have predicted the answer before running it."
+lv3 = "The solver does not apply a limiting-reagent rule — it minimises free energy subject to element balances, and the 1:1 stoichiometry falls out of the mass-action constraint on Ksp(AgCl) ≈ 1.8 × 10⁻¹⁰. The two beakers differ in what remains dissolved: excess Ag⁺ suppresses residual chloride and vice versa, the common-ion effect, and the final pH differs slightly (6.90 against 7.07) because nitrate and chloride do not affect the proton balance identically."
+
+[reaction.provenance]
+source = "Standard curriculum limiting-reagent problem; Ksp and speciation from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "theoretical-yield-and-what-a-real-lab-loses"
+spine = ["quantitative-analyseverfahren"]
+equation = "0.0100 mol AgCl × 143.32 g/mol = 1.43 g theoretical; the filter recovers 1.43 g"
+concepts = ["theoretical-yield", "percentage-yield"]
+requires = ["limiting-reagent"]
+calculations = ["limiting-reagent", "mass-from-moles", "percentage-yield"]
+models = ["particle-model"]
+apparatus = ["beaker", "filter-funnel", "filter-paper", "balance", "drying-oven"]
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen — quantitative Auswertung"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
+[reaction.setup]
+script = """
+add v1 water 500mL
+add v1 NaCl 0.5844g
+add v1 AgNO3 1.6987g
+new
+filter v1 v2
+measure v1 balance
+measure v2 balance
+"""
+
+[reaction.expect]
+events = ["precipitated:AgCl", "filtered"]
+
+[reaction.expect.predict]
+question = "0.0100 mol of each reagent, filtered and dried. The theoretical yield is 1.43 g. A class of thirty does this and reports yields between 71% and 96%. Where did the missing silver chloride go?"
+options = [
+  "The reaction did not finish — some silver stayed as Ag⁺",
+  "Mostly onto the filter paper, the beaker wall and the wash water",
+  "It decomposed while drying",
+]
+answer = 1
+misconception = "A yield under 100% gets read as a statement about the chemistry, so learners go looking for an incomplete reaction. Here it is almost entirely mechanical loss. The engine makes that visible by reporting 1.43 g — the full theoretical yield — because it models the chemistry and nothing else: no filter paper, no splashes, no scraping. The residual dissolved silver is real but tiny, around 10⁻⁶ mol."
+
+[reaction.registers]
+lv1 = "Filter the cloudy mixture and a white paste stays on the paper. Dry it and weigh it. The number you get is almost never the number you calculated — and in a real lab, that gap is mostly stuff stuck to the glass, not chemistry going wrong."
+lv2 = "The limiting reagent gives 0.0100 mol of AgCl, which at 143.32 g/mol is a theoretical yield of 1.43 g. The bench filters and weighs 1.43 g in v1, and the filtrate v2 weighs 499.35 g. Percentage yield = actual ÷ theoretical × 100; here it is essentially 100%, so any shortfall in a real experiment is loss, not incomplete reaction."
+lv3 = "The filtrate still holds silver and chloride at the level Ksp demands — the inspect view shows both at the fourth-decimal floor — so the 'complete' precipitation is complete only to within the solubility product, about 1.3 × 10⁻⁵ mol/L each in pure water. That residue is a real, calculable loss and is the reason gravimetric analysis washes with dilute nitric acid rather than water. What the engine cannot model is the paper, and it does not pretend to."
+
+[reaction.provenance]
+source = "Standard gravimetric determination of chloride; Ksp and speciation from PHREEQC wateq4f.dat (USGS). The interpretation of where real-lab losses come from is Editorial judgement (Kerotakis)."
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "the-carbon-came-from-the-baking-soda"
+spine = ["chemisches-rechnen"]
+equation = "NaHCO₃ → CO₂↑   ·   0.0500 mol bicarbonate gives 0.0500 mol of gas, whatever the acid"
+concepts = ["element-budget"]
+requires = ["limiting-reagent", "acid-carbonate"]
+calculations = ["moles-from-mass", "limiting-reagent"]
+models = ["conservation-of-atoms"]
+apparatus = ["beaker", "balance", "gas-syringe"]
+
+[reaction.setup]
+script = """
+add v1 water 250mL
+add v1 NaHCO3 4.2g
+add v1 CH3COOH 12g
+"""
+
+[reaction.expect]
+events = ["gas_evolved:CO2", "dissolved:NaHCO3"]
+ph = { min = 3.9, max = 4.4 }
+
+[reaction.expect.predict]
+question = "4.2 g of baking soda (0.0500 mol) is fizzed with a big excess of vinegar — four times more acid than needed. How much CO₂ comes off?"
+options = [
+  "More than with the exact amount, because more acid means more reaction",
+  "0.0500 mol — every carbon atom in the gas came from the bicarbonate",
+  "0.2000 mol — one per molecule of acid",
+]
+answer = 1
+misconception = "Pouring in more acid feels like it should give more fizz, and it does look more violent. But the carbon in the carbon dioxide can only have come from the carbonate, and there are 0.0500 mol of carbon atoms in the beaker. Excess acid changes the rate and the final pH; it cannot change the element budget."
+
+[reaction.registers]
+lv1 = "Baking soda plus vinegar fizzes. Use four times as much vinegar and it fizzes harder and faster — but exactly the same amount of gas comes out in the end. Every bubble is made of atoms that were sitting in the powder; when they have all left, there is nothing more to give."
+lv2 = "0.0500 mol NaHCO₃ carries 0.0500 mol of carbon. The bench releases 0.0183 mol on dissolving alone (the solution outgasses towards atmospheric pCO₂) and a further 0.0317 mol on acidification — 0.0500 mol exactly. Run it with 0.0599 mol of acid instead of 0.1998 and you get the same 0.0500 mol; only the final pH differs, 5.30 against 4.13."
+lv3 = "Total dissolved inorganic carbon is fixed by the addition; what the acid does is shift the carbonate speciation until the solution supersaturates against log p(CO₂) = −3.408 and the excess exsolves. The split between the two steps is therefore not a stoichiometric fact but a Henry's-law one, and it moves if the atmosphere does. The sum does not move: element budgets are the hardest constraint in the solve."
+
+[reaction.provenance]
+source = "Standard curriculum acid–carbonate stoichiometry; carbonate speciation from PHREEQC (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "mass-in-an-open-vessel"
+spine = ["massenerhaltung"]
+equation = "252.66 g + 3.60 g of acid = 256.26 g expected; the balance reads 254.84 g. The 1.4 g is 0.0317 mol of CO₂."
+concepts = ["open-system", "mass-accounting"]
+requires = ["conservation-of-mass", "gas-evolution"]
+calculations = ["mass-from-moles", "conservation-of-mass"]
+models = ["conservation-of-atoms", "particle-model"]
+apparatus = ["beaker", "balance", "conical-flask", "stopper"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen — Gesetz von der Erhaltung der Masse"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[reaction.setup]
+script = """
+add v1 water 250mL
+add v1 NaHCO3 4.2g
+measure v1 balance
+add v1 CH3COOH 3.6g
+measure v1 balance
+"""
+
+[reaction.expect]
+events = ["gas_evolved:CO2"]
+ph = { min = 5.0, max = 5.6 }
+
+[reaction.expect.predict]
+question = "The beaker reads 252.66 g. You add 3.60 g of vinegar and it fizzes. What does the balance read when the fizzing stops?"
+options = [
+  "256.26 g — mass is always conserved",
+  "254.84 g — about 1.4 g lighter than expected",
+  "252.66 g — the acid is consumed",
+]
+answer = 1
+misconception = "'Mass is conserved' is taught as a law and then applied to a container rather than to a system. It is the atoms that are conserved; they are simply not all in the beaker any more. Stopper the flask and the reading does become 256.26 g — which is why the closed-vessel version of this experiment is the one Lavoisier needed."
+
+[reaction.registers]
+lv1 = "Put the beaker on the scales and write the number down. Add the vinegar. Watch the number fall as it fizzes. Nothing was destroyed — the bubbles left the beaker and took their weight with them, and if you had put a lid on, the number would not have moved at all."
+lv2 = "252.66 g + 3.60 g = 256.26 g if nothing leaves. The balance reads 254.84 g, so 1.42 g went missing. The bench reports 0.0317 mol of CO₂ evolved; 0.0317 × 44.009 g/mol = 1.40 g. The missing mass is the gas, to within the accounting."
+lv3 = "The engine's element bookkeeping is exact; the vessel's mass is not conserved because the gas phase is modelled as escaping to the reservoir, exactly as an open beaker does. The small residual between 1.42 g measured and 1.40 g of CO₂ is water leaving with it and the rounding on the reported moles — worth stating rather than smoothing, because in a real experiment the same discrepancy is real and has the same cause."
+
+[reaction.provenance]
+source = "Standard curriculum conservation-of-mass demonstration; carbonate speciation from PHREEQC (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+# =================================================================== the pH
+
+[[reaction]]
+id = "ph-is-not-quite-minus-log-c"
+spine = ["ph-wert-berechnungen"]
+equation = "0.100 mol/L HCl: −log c = 1.00, and the meter reads 1.08"
+concepts = ["ph-calculation", "activity"]
+requires = ["concentration", "acids"]
+calculations = ["ph-from-concentration"]
+models = ["ionic-bonding", "activity-model"]
+apparatus = ["beaker", "ph-meter", "pipette"]
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 HCl 0.1mol
+measure v1 ph
+"""
+
+[reaction.expect]
+ph = { min = 1.0, max = 1.2 }
+
+[reaction.expect.predict]
+question = "0.100 mol of hydrochloric acid in a litre of water. The textbook formula pH = −log[H⁺] gives 1.00. What does the meter read?"
+options = [
+  "Exactly 1.00",
+  "1.08 — a little above, because the meter responds to activity, not concentration",
+  "0.92 — a little below",
+]
+answer = 1
+misconception = "pH = −log c is taught as a definition when it is an approximation that holds when ions are far apart. At 0.1 mol/L they are not: each proton is surrounded by a cloud of counter-ions that shields it, and the electrode feels the shielded version. The gap is small here and grows with concentration — which is exactly why lv3 exists."
+
+[reaction.registers]
+lv1 = "A pH meter does not count acid particles. It responds to how strongly the acid is pushing, and in a crowded solution the particles get in each other's way, so the push is slightly weaker than the count suggests. The meter tells you what the solution does, which is the number that matters."
+lv2 = "0.100 mol in 1.000 L is 0.100 mol/L. Complete dissociation gives [H⁺] = 0.100, so −log[H⁺] = 1.00. The meter reads 1.08. The formula is right about the count and slightly wrong about the reading, and the difference is not experimental error — it is reproducible."
+lv3 = "pH is defined as −log a(H⁺), and a = γc. At I = 0.1 m the WATEQ Debye–Hückel extension gives γ(H⁺) ≈ 0.83, so pH = −log(0.83 × 0.100) = 1.08 — which is what PHREEQC computes and reports. Compare the same acid at 0.001 mol/L, where γ ≈ 0.96 and the correction is a hundredth: the approximation is not wrong, it has a validity range, and this is a place where the learner can watch it expire."
+
+[reaction.provenance]
+source = "Standard curriculum pH calculation; activity coefficients from PHREEQC wateq4f.dat (USGS)"
+computed_by = "PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "a-weak-acid-breaks-the-naive-sum"
+spine = ["ph-wert-berechnungen"]
+equation = "0.100 mol/L: HCl → pH 1.08; CH₃COOH → pH 2.88"
+concepts = ["degree-of-dissociation"]
+requires = ["ph-calculation", "weak-acids"]
+calculations = ["ph-from-concentration", "equilibrium-constant"]
+models = ["equilibrium", "activity-model"]
+apparatus = ["beaker", "ph-meter", "pipette"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB)"
+
+[reaction.setup]
+script = """
+add v1 water 1000mL
+add v1 CH3COOH 0.1mol
+measure v1 ph
+new
+add v2 water 1000mL
+add v2 HCl 0.1mol
+measure v2 ph
+"""
+
+[reaction.expect]
+ph = { min = 2.7, max = 3.05 }
+
+[reaction.expect.predict]
+question = "Both beakers get 0.100 mol of acid in a litre. One is hydrochloric acid, one is vinegar's acetic acid. The hydrochloric reads pH 1.08. What does the acetic acid read?"
+options = [
+  "1.08 as well — same concentration, same pH",
+  "2.88 — about 60 times fewer free protons",
+  "4.76 — the pKa",
+  "7.00 — vinegar is food, so it must be neutral",
+]
+answer = 1
+misconception = "The pH = −log c habit, freshly learned, is applied to the acetic acid and produces 1.00 — the first option. It fails because the formula silently assumed the acid was fully dissociated. Choosing the pKa is the next mistake along: pH equals pKa only in a buffer, where acid and conjugate base are equal, and this beaker has almost no acetate in it."
+
+[reaction.registers]
+lv1 = "Same amount of acid, same amount of water, two very different meter readings. The strong one gives all its acidity up at once; the weak one holds most of it back and only lets a little go. That is why vinegar is safe to eat and hydrochloric acid at the same strength is not."
+lv2 = "The naive calculation, pH = −log(0.100) = 1.00, is right for HCl (to within the activity correction — 1.08) and badly wrong for acetic acid, where the meter reads 2.88. Acetic acid only partly dissociates: pH ≈ ½(pKa − log c) = ½(4.76 + 1.00) = 2.88. You must know the Ka before you can calculate the pH, and that is the whole difference between a strong acid and a weak one."
+lv3 = "PHREEQC does not apply the weak-acid formula either; it solves the mass-action equation H⁺ + CH₃COO⁻ ⇌ CH₃COOH (pKa ≈ 4.76 from minteq.v4.dat) simultaneously with charge and mass balance, and the pH falls out. The agreement with the ½(pKa − log c) shortcut at 2.88 is a check on the shortcut's assumptions — that dissociation is small and water's own protons are negligible — both of which hold here and both of which fail at 10⁻⁵ mol/L."
+
+[reaction.provenance]
+source = "Standard curriculum strong-versus-weak acid comparison; pKa from PHREEQC minteq.v4.dat"
+computed_by = "PHREEQC via Kerotakis L2"
+
+# ============================================================== heat, counted
+
+[[reaction]]
+id = "hot-pack-arithmetic"
+spine = ["kalorimetrie"]
+equation = "ΔT = q / (n·Cp)   ·   8.28 kJ ÷ (5.5343 mol × 75.3 J·mol⁻¹·K⁻¹) = 19.9 K"
+concepts = ["calorimetry", "heat-capacity"]
+requires = ["exothermic", "amount-of-substance"]
+calculations = ["moles-from-mass", "enthalpy-change", "temperature-rise"]
+models = ["energy-conservation", "particle-model"]
+apparatus = ["polystyrene-cup", "thermometer", "balance", "lid"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 9, LB Energie bei chemischen Reaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 CaCl2 11.098g
+measure v1 thermometer
+"""
+
+[reaction.expect]
+events = ["dissolved:CaCl2"]
+temperature_c = { min = 43.0, max = 47.0 }
+
+[reaction.expect.predict]
+question = "0.1000 mol of calcium chloride (ΔH_dis = −82.8 kJ/mol) dissolves in 100 mL of water. Water's molar heat capacity is 75.3 J·mol⁻¹·K⁻¹ and 100 mL is 5.53 mol. How warm does it get, starting from 25.0 °C?"
+options = [
+  "About 27 °C — a couple of degrees",
+  "About 45 °C",
+  "About 108 °C — it would boil",
+  "It stays at 25 °C; dissolving is a physical change, not a chemical one",
+]
+answer = 1
+misconception = "The last option is the deep one: dissolving gets filed under 'physical change' and physical changes are assumed not to involve energy. Breaking an ionic lattice and hydrating the ions are both large energy terms, and their difference is what the thermometer reads. The 108 °C answer comes from dividing by the mass in grams while using a molar heat capacity."
+
+[reaction.registers]
+lv1 = "The cup gets genuinely hot — too hot to hold comfortably — and nothing was burned and nothing was plugged in. Pulling a crystal apart and wrapping water round the pieces releases more energy than it costs, and the surplus has nowhere to go except into the water."
+lv2 = "q = n × ΔH_dis = 0.1000 mol × 82.8 kJ/mol = 8.28 kJ released. The water is 100 mL, 5.5343 mol, at 75.3 J·mol⁻¹·K⁻¹, so ΔT = 8280 J ÷ 416.7 J/K = 19.9 K. From 25.0 °C that predicts 44.9 °C, and the thermometer reads 44.87 °C. The calculation is not an exercise — it is the reading."
+lv3 = "The heat goes into the water alone: the dissolved Ca²⁺ and Cl⁻ carry no modelled heat capacity, since partial molar heat capacities of aqueous ions are small and often negative and are not curated at this stage. That is an approximation with a known sign, and it is why the computed 44.87 °C sits marginally above a full calorimetric treatment. The vessel is adiabatic, so nothing is lost to a cup or to the room — the real experiment always reads lower, and the gap is the calorimeter constant."
+
+[reaction.provenance]
+source = "Enthalpy of solution of anhydrous CaCl₂, standard reference value; heat capacity of water CODATA"
+computed_by = "Kerotakis energy balance over curated ΔH_dis"
+
+[[reaction]]
+id = "cold-from-baking-soda"
+spine = ["kalorimetrie"]
+equation = "NaHCO₃(s) → Na⁺(aq) + HCO₃⁻(aq)   ΔH_dis = +16.7 kJ/mol   ·   25.0 °C → 21.0 °C"
+concepts = ["endothermic-dissolution"]
+requires = ["calorimetry", "endothermic"]
+calculations = ["moles-from-mass", "enthalpy-change", "temperature-rise"]
+models = ["energy-conservation"]
+apparatus = ["polystyrene-cup", "thermometer", "balance"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 NaHCO3 8.4g
+measure v1 thermometer
+"""
+
+[reaction.expect]
+events = ["dissolved:NaHCO3", "gas_evolved:CO2"]
+temperature_c = { min = 19.5, max = 22.5 }
+
+[reaction.expect.predict]
+question = "0.1000 mol of baking soda goes into 100 mL of water at 25.0 °C. ΔH_dis = +16.7 kJ/mol. What does the thermometer say?"
+options = [
+  "Warmer — dissolving always releases energy",
+  "21.0 °C — about four degrees colder",
+  "Unchanged — the water is what holds the temperature",
+]
+answer = 1
+misconception = "Having just watched calcium chloride heat a cup, learners generalise: dissolving warms things. The sign of ΔH_dis is a property of the substance, not of dissolving. Baking soda, potassium chloride and ammonium nitrate all go the other way, and an instant cold pack is exactly this experiment."
+
+[reaction.registers]
+lv1 = "Same cup, same water, different powder — and this one goes cold instead of hot. That is not a trick or a different kind of stirring; some substances have to borrow energy from the water to come apart, and the water is left colder for lending it."
+lv2 = "q = 0.1000 mol × (+16.7 kJ/mol) = +1.67 kJ absorbed. ΔT = −1670 J ÷ 416.7 J/K = −4.0 K, so 25.0 °C → 21.0 °C, and the thermometer reads 21.02 °C. Potassium chloride at +17.2 kJ/mol gives 20.87 °C in the same cup — nearly the same, because the enthalpies are nearly the same."
+lv3 = "Endothermic dissolution means the lattice enthalpy exceeds the sum of the hydration enthalpies; the deficit comes out of the solution's sensible heat in an adiabatic vessel. Note the bench also reports 0.0424 mol of CO₂ leaving: a bicarbonate solution at pH 10.07 is supersaturated against atmospheric pCO₂ and outgasses. That carbonate chemistry is real and independent of the thermal effect, which is why both events appear."
+
+[reaction.provenance]
+source = "Enthalpy of solution of NaHCO₃, standard reference value; carbonate speciation from PHREEQC (USGS)"
+computed_by = "Kerotakis energy balance over curated ΔH_dis; speciation via PHREEQC L2"
+
+[[reaction]]
+id = "two-vessels-one-variable"
+spine = ["erkenntnisgewinnung"]
+equation = "Same 0.1000 mol CaCl₂; 100 mL → 44.87 °C, 200 mL → 34.93 °C"
+concepts = ["controlled-comparison", "fair-test"]
+requires = ["calorimetry"]
+calculations = ["temperature-rise"]
+models = ["energy-conservation"]
+apparatus = ["polystyrene-cup", "thermometer", "measuring-cylinder"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 CaCl2 11.098g
+measure v1 thermometer
+new
+add v2 water 200mL
+add v2 CaCl2 11.098g
+measure v2 thermometer
+"""
+
+[reaction.expect]
+events = ["dissolved:CaCl2"]
+temperature_c = { min = 43.0, max = 47.0 }
+
+[reaction.expect.predict]
+question = "The same 0.1000 mol of calcium chloride goes into 100 mL in one cup and 200 mL in another. The first reaches 44.87 °C. What does the second reach?"
+options = [
+  "44.87 °C — the same energy was released",
+  "34.93 °C — the same energy, spread through twice as much water",
+  "89.7 °C — twice the water, twice the heating",
+]
+answer = 1
+misconception = "The first option confuses energy with temperature — they are not the same quantity, and this pair of cups is the cheapest way to feel the difference. Exactly the same 8.28 kJ is released in both; the thermometer reads the energy per unit of stuff it has to warm, so doubling the water halves the rise."
+
+[reaction.registers]
+lv1 = "Change one thing and nothing else. Two cups, the same powder, the same starting temperature — only the amount of water is different. Then whatever the thermometers do differently, you know what caused it. Change two things at once and you have learned nothing, however carefully you measured."
+lv2 = "Identical q = 8.28 kJ in both cups. ΔT = q/(n·Cp): 8280 ÷ 416.7 = 19.9 K in 100 mL, and 8280 ÷ 833.5 = 9.9 K in 200 mL. The bench gives 44.87 °C and 34.93 °C from 25.0 °C — 19.87 K and 9.93 K. The halving is exact because the only thing that changed was the denominator."
+lv3 = "This is the controlled comparison in its cleanest form, and it is worth noticing what the engine holds constant for free that a real bench does not: identical starting temperature, identical heat loss (none), identical purity, identical stirring. A simulated fair test is trivially fair, which is precisely why the *habit* has to be taught here and the *difficulty* has to be met at a real bench. The virtual lab can teach the logic of control; it cannot teach the discipline of it."
+
+[reaction.provenance]
+source = "Editorial judgement (Kerotakis): the controlled-comparison design is ours, built on the standard reference enthalpy of solution of CaCl₂. The limits of a simulated fair test are also our judgement, not a cited claim."
+computed_by = "Kerotakis energy balance over curated ΔH_dis"
+
+# ================================================================ hot enough
+
+[[reaction]]
+id = "chalk-below-the-kiln"
+spine = ["der-energiebegriff"]
+equation = "CaCO₃(s) + heat → CaCO₃(s)   ·   147 °C is hot, and nothing happens"
+concepts = ["decomposition-threshold"]
+requires = ["thermal-decomposition"]
+calculations = ["temperature-rise", "enthalpy-change"]
+models = ["equilibrium", "particle-model"]
+apparatus = ["crucible", "thermometer", "balance", "bunsen"]
+
+[reaction.setup]
+script = """
+add v1 CaCO3 10g
+measure v1 balance
+heat v1 1kJ
+measure v1 thermometer
+measure v1 balance
+"""
+
+[reaction.expect]
+events = ["added:CaCO3"]
+absent = ["gas_evolved:CO2", "precipitated:CaO"]
+temperature_c = { min = 140.0, max = 155.0 }
+
+[reaction.expect.predict]
+question = "10 g of chalk in a crucible. Put 1 kJ of heat in — enough to take it to 147 °C, hotter than boiling water. What comes out?"
+options = [
+  "Quicklime and carbon dioxide — it decomposed",
+  "Hot chalk. Nothing else. The balance still reads 10.00 g",
+  "Some of it decomposes; the rest does not",
+]
+answer = 1
+misconception = "'Heating causes decomposition' becomes a rule with no threshold attached, so any heating is expected to do something. Decomposition has a temperature, and below it the reaction does not go slowly — it does not go. This entry exists to be the null result that gives the next one its meaning."
+
+[reaction.registers]
+lv1 = "Chalk in a crucible over a flame, hot enough to burn you badly, and when it cools down it is still chalk. Same white powder, same weight on the balance. Heating is not a magic ingredient: it has to be enough heat, and 'enough' is a specific number for every substance."
+lv2 = "1 kJ into 0.0999 mol of CaCO₃ at 81.9 J·mol⁻¹·K⁻¹ raises it by 122 K: 25 °C → 147.2 °C, and the bench confirms 147.21 °C. No CO₂ is evolved, no CaO appears, and the balance still reads 10.00 g. Calcium carbonate needs roughly 900 °C before the decomposition runs."
+lv3 = "The equilibrium partial pressure of CO₂ over calcite at 420 K is around 10⁻¹⁵ bar — vastly below the ambient 10⁻³·⁴ bar — so the thermodynamic driving force points the other way and the carbonate is the stable phase. The Gibbs minimiser is not switched off here; it is run and returns 'unchanged', which is a computed result and not an assumption. A learner can move the heat up and find the crossing themselves."
+
+[reaction.provenance]
+source = "Standard curriculum thermal decomposition; thermochemistry from NASA CEA thermo.inp"
+licence = "NASA CEA data: Apache-2.0"
+computed_by = "Kerotakis L2g Gibbs minimiser"
+
+[[reaction]]
+id = "chalk-in-the-kiln"
+spine = ["der-energiebegriff"]
+equation = "CaCO₃(s) → CaO(s) + CO₂↑   ·   8 kJ takes 10 g of chalk past 1000 °C and it gives way"
+concepts = ["computed-decomposition-temperature"]
+requires = ["decomposition-threshold"]
+calculations = ["temperature-rise", "enthalpy-change", "mass-from-moles"]
+models = ["equilibrium", "gibbs-minimisation"]
+apparatus = ["crucible", "thermometer", "balance", "furnace"]
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF Chemische Reaktion — Zersetzung"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
+[reaction.setup]
+script = """
+add v1 CaCO3 10g
+measure v1 balance
+heat v1 8kJ
+measure v1 balance
+"""
+
+[reaction.expect]
+events = ["gas_evolved:CO2", "precipitated:CaO", "consumed:CaCO3"]
+
+[reaction.expect.predict]
+question = "Same 10 g of chalk, but eight times the heat — past 1000 °C. The crucible gets lighter. Where is the temperature at which chalk decomposes written down in this program?"
+options = [
+  "In a table of decomposition temperatures the engine looks up",
+  "Nowhere — it is computed, from the point where the CO₂ pressure over the carbonate reaches the pressure in the room",
+  "It is hard-coded as 900 °C",
+]
+answer = 1
+misconception = "A simulator is assumed to be a lookup table with animation on top, so any number it produces is assumed to have been typed in by someone. This one was not: the same solve that says 147 °C changes nothing says 1000 °C changes everything, and neither answer was written down in advance. That is the difference between a model and a recording."
+
+[reaction.registers]
+lv1 = "Now the chalk really does change. It glows, then goes dull, and what is left is a different white powder that weighs much less — and if you drop water on it, it hisses and gets hot. This is how lime for mortar has been made for four thousand years, and the only thing you needed was a hot enough fire."
+lv2 = "8 kJ takes 0.0999 mol of chalk to about 1000 °C, above the decomposition point. CaCO₃ → CaO + CO₂: the carbon dioxide escapes and the balance falls from 10.00 g towards the mass of the quicklime alone. Every mole of chalk that decomposes gives up 44.009 g of gas and keeps 56.077 g of oxide — a loss of 44%."
+lv3 = "The threshold is not tabulated. The minimiser is handed the element budget of the vessel plus its share of the atmosphere and asked for the composition with the lowest Gibbs energy at the temperature the enthalpy balance settles at; calcite wins below the crossing and lime-plus-gas above it. A caveat stated rather than hidden: in this multi-condensed-phase problem the solver's element balance drifts by a few per cent, so the final mass is not exact to three figures. The direction, the threshold and the products are solid; the third decimal place is not, and the codex does not claim it."
+
+[reaction.provenance]
+source = "Standard curriculum calcination; thermochemistry from NASA CEA thermo.inp. The statement about condensed-phase balance drift is Editorial judgement (Kerotakis), from comparing solver output against the element budget."
+licence = "NASA CEA data: Apache-2.0"
+computed_by = "Kerotakis L2g Gibbs minimiser"
+
+# ================================================================== the fire
+
+[[reaction]]
+id = "burning-makes-it-heavier"
+spine = ["massenerhaltung"]
+equation = "2 Mg + O₂ → 2 MgO   ·   1.20 g of ribbon → 1.99 g of ash"
+concepts = ["mass-gain-on-oxidation"]
+requires = ["combustion", "mass-accounting"]
+calculations = ["moles-from-mass", "mass-from-moles", "conservation-of-mass"]
+models = ["conservation-of-atoms", "particle-model"]
+apparatus = ["crucible", "balance", "tongs", "bunsen", "eye-protection"]
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Erste Stufe (Jg. 7/8), IF3 Verbrennung"
+ages = { min = 12.0, max = 14.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
+[reaction.setup]
+script = """
+add v1 Mg 1.2g
+measure v1 balance
+ignite v1
+measure v1 balance
+"""
+
+[reaction.expect]
+events = ["ignited", "consumed:Mg", "precipitated:MgO"]
+temperature_c = { min = 2600.0, max = 2900.0 }
+
+[reaction.expect.predict]
+question = "Weigh a magnesium ribbon: 1.20 g. Burn it completely and weigh the white ash. Commit to a number before you look."
+options = [
+  "Less than 1.20 g — burning uses things up",
+  "Exactly 1.20 g — mass is conserved",
+  "1.99 g — more than you started with",
+  "Nothing left to weigh — it all went up in smoke",
+]
+answer = 2
+misconception = "This is the classic, and most people get it wrong. Every fire anyone has watched leaves less than it started with — a log becomes a handful of ash — so 'burning destroys matter' is learned from the world before it is unlearned in a classroom. The ash is lighter because the carbon left as gas. Magnesium's oxide is a solid and stays in the crucible, so the oxygen it took from the air is on the balance too. Burning is combination, not destruction; the log is the misleading case."
+
+[reaction.registers]
+lv1 = "It burns with a white light so fierce it hurts to look at, and leaves a powder that is whiter than the ribbon was. Put it back on the scales: it is heavier. Something came out of the air and joined it — the air is not nothing, and this is one of the few experiments where you can weigh that fact."
+lv2 = "0.0494 mol of Mg (1.20 g ÷ 24.305) becomes 0.0494 mol of MgO, which is 1.99 g. The gain of 0.79 g is 0.0247 mol of O₂ at 31.998 g/mol, taken from the atmosphere. Mass is conserved across the whole system; the crucible is not the whole system, and the missing accounting is the air."
+lv3 = "The oxygen is drawn from a reservoir rather than the vessel inventory, which is why the vessel's mass rises — a deliberate modelling choice matching an open crucible. The adiabatic solve settles at 3042 K with the condensed oxide dominant; at that temperature MgO(g) and atomic Mg are thermodynamically present in the NASA data but negligible at 1 bar, so essentially all of the metal is recovered as weighable solid."
+
+[reaction.provenance]
+source = "Standard curriculum combustion demonstration; thermochemistry from NASA CEA thermo.inp"
+licence = "NASA CEA data: Apache-2.0"
+computed_by = "Kerotakis L2g Gibbs minimiser"
+
+[[reaction]]
+id = "burning-makes-it-lighter"
+spine = ["massenerhaltung"]
+equation = "C + O₂ → CO₂↑   ·   1.20 g of charcoal → nothing on the balance"
+concepts = ["mass-loss-on-combustion"]
+requires = ["mass-gain-on-oxidation"]
+calculations = ["moles-from-mass", "mass-from-moles", "conservation-of-mass"]
+models = ["conservation-of-atoms"]
+apparatus = ["crucible", "balance", "tongs", "bunsen"]
+
+[reaction.setup]
+script = """
+add v1 C 1.2g
+measure v1 balance
+ignite v1
+measure v1 balance
+measure v1 thermometer
+"""
+
+[reaction.expect]
+events = ["ignited", "consumed:C", "gas_evolved:CO2"]
+temperature_c = { min = 2100.0, max = 2300.0 }
+
+[reaction.expect.predict]
+question = "1.20 g of charcoal, burned completely in the same crucible that made magnesium heavier. What is on the balance afterwards?"
+options = [
+  "1.20 g — mass is conserved",
+  "More than 1.20 g, as with the magnesium",
+  "Essentially nothing — the crucible is empty",
+]
+answer = 2
+misconception = "Having just been taught that burning adds mass, learners over-correct and expect every fire to gain. Both fires gain oxygen; the difference is entirely whether the oxide is a solid or a gas. Magnesium oxide stays; carbon dioxide leaves. Nothing about conservation changed between the two experiments — only the phase of the product."
+
+[reaction.registers]
+lv1 = "The charcoal glows orange and then there is nothing left to weigh. It did the same thing the magnesium did — it joined with the air — but what it made was invisible and floated off. That is why bonfires look like destruction and why people believed for centuries that burning destroyed things."
+lv2 = "0.0999 mol of C (1.20 g ÷ 12.011) becomes 0.0999 mol of CO₂ — 4.40 g of gas, all of it gone from the crucible, which reads 0.00 g. The system gained 3.20 g of oxygen and the vessel lost 1.20 g of carbon; the two experiments differ in the phase of the product and in nothing else."
+lv3 = "The adiabatic flame settles at 2216 °C against magnesium's 2769 °C, and the gap is not about which reaction is 'stronger' — carbon's ΔH per mole of O₂ is comparable — but about where the energy goes: the product here is a gas that carries it away in translational and vibrational modes, while magnesia is a condensed phase with far less to absorb. Flame temperature is an enthalpy balance, not a ranking of fuels."
+
+[reaction.provenance]
+source = "Standard curriculum combustion; thermochemistry from NASA CEA thermo.inp"
+licence = "NASA CEA data: Apache-2.0"
+computed_by = "Kerotakis L2g Gibbs minimiser"
+
+[[reaction]]
+id = "flame-temperature-is-a-balance-not-a-property"
+spine = ["entropie-und-enthalpie"]
+equation = "2 Mg + O₂ → 2 MgO from 228 °C → 2177 °C; the same reaction from 927 °C → 2769 °C"
+concepts = ["adiabatic-flame-temperature", "enthalpy-balance"]
+requires = ["combustion", "calorimetry"]
+calculations = ["enthalpy-change", "temperature-rise"]
+models = ["energy-conservation", "gibbs-minimisation"]
+apparatus = ["crucible", "thermometer", "bunsen", "furnace"]
+
+[reaction.setup]
+script = """
+add v1 Mg 1.2g
+heat v1 0.25kJ
+measure v1 thermometer
+new
+add v2 Mg 1.2g
+ignite v2
+measure v2 thermometer
+"""
+
+[reaction.expect]
+events = ["consumed:Mg", "precipitated:MgO", "ignited"]
+temperature_c = { min = 2100.0, max = 2250.0 }
+
+[reaction.expect.predict]
+question = "Two identical 1.2 g magnesium ribbons burn in identical air. One is barely warm when it catches (228 °C); the other is already glowing (927 °C). Do the two flames reach the same temperature?"
+options = [
+  "Yes — the flame temperature is a property of magnesium",
+  "No: 2177 °C and 2769 °C. The heat you put in first is still in the products",
+  "No — the hotter one burns faster and so ends up cooler",
+]
+answer = 1
+misconception = "'Adiabatic flame temperature of magnesium' gets memorised as a constant, like a melting point. It is not a property of the fuel; it is the answer to an enthalpy balance, and the enthalpy of the reactants is one of the inputs. Preheat the reactants and you get a hotter flame, which is exactly why industrial furnaces preheat their air."
+
+[reaction.registers]
+lv1 = "Two identical ribbons, both burned, both blindingly bright — and one flame is six hundred degrees hotter than the other. The only difference was how warm the metal was when it caught. Heat you put in beforehand does not disappear when the fire starts; it is still there, added on top."
+lv2 = "Adiabatic means no heat leaves, so the products' enthalpy equals the reactants'. Starting at 228 °C the solve lands at 2176.97 °C; starting at 926.9 °C — the ignition temperature the bench uses — it lands at 2768.67 °C. Same ΔH of reaction, −601 kJ/mol; different starting enthalpy, different answer."
+lv3 = "The solver bisects on temperature until the products' enthalpy matches the reactants', evaluating both from the NASA-9 polynomials rather than assuming a constant heat capacity — which matters, because Cp rises substantially over two thousand kelvin. The vessel's share of the atmosphere is in the balance too, and it is the dominant heat sink: a gram of magnesium heats the air around it far more than it heats the speck of oxide it leaves."
+
+[reaction.provenance]
+source = "Standard adiabatic-flame-temperature treatment (Gordon & McBride, NASA RP-1311); thermochemistry from NASA CEA thermo.inp"
+licence = "NASA CEA data: Apache-2.0"
+computed_by = "Kerotakis L2g Gibbs minimiser"
+
+[[reaction]]
+id = "why-the-shelf-is-not-on-fire"
+spine = ["kinetik"]
+equation = "Mg + ½O₂ → MgO is favourable at every temperature; at 224 °C the ribbon just sits there"
+concepts = ["kinetic-barrier", "thermodynamic-versus-kinetic"]
+requires = ["adiabatic-flame-temperature"]
+calculations = ["temperature-rise"]
+models = ["collision-theory", "gibbs-minimisation", "activation-energy"]
+apparatus = ["crucible", "thermometer", "balance", "bunsen"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[reaction.setup]
+script = """
+add v1 Mg 1.2g
+heat v1 0.245kJ
+measure v1 thermometer
+measure v1 balance
+new
+add v2 Mg 1.2g
+heat v2 0.25kJ
+measure v2 thermometer
+measure v2 balance
+"""
+
+[reaction.expect]
+events = ["precipitated:MgO", "consumed:Mg"]
+temperature_c = { min = 220.0, max = 227.0 }
+
+[reaction.expect.predict]
+question = "Magnesium and oxygen release 601 kJ per mole — thermodynamics says the metal should not exist in air at all. Two ribbons are heated: one to 224.3 °C, one to 228.4 °C. What happens?"
+options = [
+  "Both burn — the reaction is favourable at both temperatures",
+  "Neither burns — 228 °C is nowhere near hot enough",
+  "Only the second burns. Four degrees is the difference between nothing and everything",
+  "The first burns slowly, the second quickly",
+]
+answer = 2
+misconception = "'The reaction releases energy, so it happens' is the single most common conflation in chemistry, and the last option is its softer form — the belief that an unfavourable rate means a slow reaction rather than no reaction. Equilibrium says where a system would end up; it says nothing about whether it can get there. A magnesium ribbon in a drawer is thermodynamically desperate to become oxide and will sit there for a century, because an oxide skin stands in the way."
+
+[reaction.registers]
+lv1 = "Two identical ribbons. Heat one to 224 °C and it is just a hot ribbon. Heat the other four degrees further and it erupts into a two-thousand-degree fire. Nothing about the metal or the air changed — there is a line, and everything depends on which side of it you are."
+lv2 = "Equilibrium says magnesium in air should be magnesium oxide at every temperature: ΔH = −601 kJ/mol and ΔG is negative throughout. It is not, because a coherent oxide layer stops oxygen reaching the metal. The bench encodes that with an explicit threshold at 500 K (226.85 °C): below it the thermal solver stands down and leaves solids alone, and 224.29 °C leaves 1.20 g of metal while 228.4 °C gives 1.99 g of oxide."
+lv3 = "This threshold is an admitted stand-in, not a kinetic model. The engine computes equilibrium and equilibrium would oxidise every metal on the bench instantly; a real treatment needs activation energies, an Arrhenius rate and a diffusion model for the passivating layer, which is an L5 concern and not wired. The honest move is to make the boundary a named constant a learner can read — KINETIC_THRESHOLD_K — rather than to let equilibrium quietly lie about the world. Do not read 226.85 °C as magnesium's ignition temperature; read it as the engine saying 'kinetics lives here and I do not model it'."
+
+[reaction.provenance]
+source = "Standard treatment of thermodynamic versus kinetic control; the passivating-oxide explanation is textbook corrosion chemistry. That the engine's 500 K threshold is a placeholder for kinetics rather than a measured ignition temperature is Editorial judgement (Kerotakis), read from the solver's own documented constant."
+licence = "NASA CEA data: Apache-2.0"
+computed_by = "Kerotakis L2g Gibbs minimiser, gated by KINETIC_THRESHOLD_K"
+
+[[reaction]]
+id = "a-spark-that-changes-nothing"
+spine = ["spektroskopieverfahren"]
+equation = "KCl + spark → KCl (lilac flame, 5.00 g in, 5.00 g out)"
+concepts = ["negative-result", "flame-test-identification"]
+requires = ["flame-tests"]
+calculations = ["conservation-of-mass"]
+models = ["atomic-emission"]
+apparatus = ["nichrome-wire", "bunsen", "balance", "cobalt-glass"]
+
+[reaction.setup]
+script = """
+add v1 KCl 5g
+measure v1 balance
+ignite v1
+measure v1 balance
+measure v1 thermometer
+"""
+
+[reaction.expect]
+events = ["flame_test:KCl"]
+absent = ["ignited", "consumed:KCl", "gas_evolved:Cl2", "gas_evolved:CO2"]
+
+[reaction.expect.predict]
+question = "Hold a flame to 5.00 g of potassium chloride. The flame turns lilac. What does the balance read afterwards, and what is the temperature of the salt?"
+options = [
+  "Lighter, and hot — some of it burned off to make the colour",
+  "5.00 g and 25 °C. Nothing burned; the colour is light, not fire",
+  "Heavier — it combined with oxygen like the magnesium did",
+]
+answer = 1
+misconception = "A coloured flame looks like combustion, so the salt is assumed to be the fuel. It is not: the flame excites the potassium's outer electron and the colour is what that electron emits falling back. Nothing is consumed, and a flame test on a milligram will keep going as long as you hold it there. This is also the entry that shows what a negative result looks like — three things that did not happen, each of which is checked."
+
+[reaction.registers]
+lv1 = "Hold the salt in a flame and the flame turns lilac — a completely different colour from the same burner a moment earlier. Weigh the salt: unchanged. Touch it once it is out of the flame: cold. You have identified the metal without using any of it up, which is why this test is nearly two hundred years old and still in use."
+lv2 = "The bench reports a flame test and nothing else: no ignition, no consumption, no gas. 5.00 g in, 5.00 g out, 25.00 °C before and after. Potassium gives lilac, sodium gives yellow, calcium orange-red — the colour identifies the cation, and the anion is invisible to the test."
+lv3 = "Two separate things are being asserted, and they come from different places. That nothing burns is computed: the Gibbs minimiser finds no exothermic path and the bench restores the vessel exactly. That the flame is lilac is curated spectroscopy — potassium's 766.5/769.9 nm doublet plus the violet lines — because the thermodynamic databases hold no electronic-transition data and the lab does not invent any. Worth noticing too: the equilibrium composition contains traces of Cl₂ at the nanomole level, and the bench refuses to announce them, because a trace is not an observation."
+
+[reaction.provenance]
+source = "Curated: potassium flame emission, standard spectroscopic knowledge. The absence of combustion is computed by the Gibbs minimiser."
+licence = "NASA CEA data: Apache-2.0"
+computed_by = "Kerotakis L2g Gibbs minimiser (the null result); emission colours curated"
+
+# ================================================== measurement and its edges
+
+[[reaction]]
+id = "weigh-before-and-after"
+spine = ["eindampfen"]
+equation = "5.844 g NaCl + 100 mL water = 105.54 g; evaporate the water and 5.84 g remains"
+concepts = ["recovery", "before-and-after-measurement"]
+requires = ["dissolving", "mass-accounting"]
+calculations = ["moles-from-mass", "conservation-of-mass", "percentage-yield"]
+models = ["particle-model"]
+apparatus = ["evaporating-basin", "balance", "bunsen", "tripod"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften — Trennverfahren"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 NaCl 5.844g
+measure v1 balance
+evaporate v1 1.0
+measure v1 balance
+"""
+
+[reaction.expect]
+events = ["dissolved:NaCl", "evaporated"]
+
+[reaction.expect.predict]
+question = "Dissolve 5.844 g of salt in 100 mL of water — the basin reads 105.54 g. Boil the water away. What does the basin read now?"
+options = [
+  "0 g — it all evaporated",
+  "5.84 g — the salt is left behind",
+  "105.54 g — mass is conserved",
+  "Less than 5.84 g — some salt goes with the steam",
+]
+answer = 1
+misconception = "Young learners often think dissolving destroys the salt, so nothing should remain; older ones, having learned conservation, apply it to the basin and expect the whole 105.54 g. The measurement that settles it is the pair — before and after, on the same balance — which is why you write the first number down before you start rather than after you see the second."
+
+[reaction.registers]
+lv1 = "The salt vanished into the water and you cannot see it any more. Boil the water off and there it is again, the same amount as you started with. It was never gone — and the way you know, rather than believe, is that you wrote down the weight beforehand and can compare."
+lv2 = "105.54 g before, 5.84 g after: 99.70 g left as water vapour, which is the 100 mL of water at 0.997 g/mL. The salt recovered, 5.84 g, is the 5.844 g put in — a recovery of 99.9%. Amount of substance is conserved through the dissolving and the evaporating; only the water went anywhere."
+lv3 = "Nothing about this is trivial in the engine: the aqueous solver held 0.1000 mol of Na⁺ and 0.1000 mol of Cl⁻ in solution, and evaporation to dryness has to hand them back as solid NaCl without losing a mole. A useful boundary to try afterwards: evaporate in two steps rather than one and the bench emits 'not yet modelled' — solid salt in contact with the last film of liquid is a regime no wired solver owns. The single-step path is clean; the two-step path is honest about not being."
+
+[reaction.provenance]
+source = "Standard curriculum separation technique (evaporation to dryness)"
+computed_by = "PHREEQC via Kerotakis L2; mass bookkeeping by the Kerotakis bench"
+
+[[reaction]]
+id = "a-nanomole-is-not-a-cloud"
+spine = ["quantitative-analyseverfahren"]
+equation = "1.5 µmol Ag⁺ + 1.5 µmol Cl⁻ in 100 mL: silver chloride forms, and no precipitation is reported"
+concepts = ["detection-limit", "instrument-floor"]
+requires = ["precipitation", "concentration"]
+calculations = ["moles-from-mass", "concentration", "solubility-product"]
+models = ["equilibrium", "measurement-model"]
+apparatus = ["beaker", "analytical-balance", "volumetric-flask"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 NaCl 0.0000877g
+add v1 AgNO3 0.0002549g
+new
+add v2 water 100mL
+add v2 NaCl 0.000175g
+add v2 AgNO3 0.0005087g
+"""
+
+[reaction.expect]
+events = ["precipitated:AgCl"]
+ph = { min = 6.9, max = 7.1 }
+
+[reaction.expect.predict]
+question = "Two beakers, both above the solubility product, so silver chloride forms in both. In the first the amount formed is 0.16 µmol; in the second it is 1.7 µmol. What does the bench report?"
+options = [
+  "A precipitate in both — the chemistry is the same",
+  "A precipitate in neither — both are far too dilute to see",
+  "A precipitate in the second only: the first is below the observation floor of 1 µmol",
+]
+answer = 2
+misconception = "The unstated assumption is that whatever the chemistry does, the experiment shows. Every instrument has a floor, and below it a real change produces no signal — which is not the instrument lying, it is the instrument having a specification. Confusing 'I did not detect it' with 'it did not happen' is how a negative result gets over-read, and the fix is knowing your detection limit before you run."
+
+[reaction.registers]
+lv1 = "Two beakers with almost unmeasurably small pinches of chemical. Something really does happen in both. Only one of them shows you anything. Every measuring device has a smallest thing it can notice, and below that it says nothing at all — which is not the same as there being nothing."
+lv2 = "Both mixtures exceed Ksp(AgCl) ≈ 1.8 × 10⁻¹⁰, so solid forms in both. In v1 only about 0.16 µmol can form, below the bench's 1 µmol observation floor, and no precipitation event is emitted; in v2 about 1.7 µmol forms and the event fires. Inspecting v1 still shows silver chloride in its inventory — the bookkeeping is exact and only the reporting is floored."
+lv3 = "The floor is OBSERVABLE_MOLES = 10⁻⁶ mol, applied uniformly to precipitation, dissolution and gas evolution. It is a deliberate stand-in for an instrument specification: a real turbidimeter, a real nose and a real balance all have limits, and a simulation that announces every nanomole trains a learner to expect a sensitivity no bench possesses. The number is a modelling choice, not a measured constant, and it is worth saying out loud that a nephelometer would see AgCl well below it while an eye would not see it well above."
+
+[reaction.provenance]
+source = "Ksp and speciation from PHREEQC wateq4f.dat (USGS). That a uniform 10⁻⁶ mol reporting floor is the right stand-in for an instrument's detection limit is Editorial judgement (Kerotakis), and the engine's own documented rationale."
+computed_by = "PHREEQC via Kerotakis L2; reporting floor applied by the Kerotakis bench"
+
+[[reaction]]
+id = "when-the-lab-says-it-does-not-know"
+spine = ["natur-der-naturwissenschaft-nature-of-science"]
+equation = "NaCl(s) + ethanol(l) → not modelled"
+concepts = ["model-boundary", "stated-ignorance"]
+requires = ["dissolving", "solutions"]
+calculations = ["conservation-of-mass"]
+models = ["model-boundaries"]
+apparatus = ["beaker", "balance", "stirring-rod"]
+
+[reaction.setup]
+script = """
+add v1 ethanol 50mL
+add v1 NaCl 2g
+measure v1 balance
+"""
+
+[reaction.expect]
+events = ["not_yet_modelled", "added:NaCl"]
+absent = ["dissolved:NaCl", "solver_failed"]
+
+[reaction.expect.predict]
+question = "Salt is stirred into alcohol instead of water. What should a chemistry program do?"
+options = [
+  "Dissolve it — it dissolved in water, so it dissolves",
+  "Say 'not yet modelled': no wired solver covers salt in a non-aqueous solvent",
+  "Crash with an error",
+  "Silently leave the salt at the bottom, as if that were the computed answer",
+]
+answer = 1
+misconception = "Software is expected to answer. The tempting failure is the last option — quietly doing nothing and letting silence be read as a result, which is indistinguishable from 'it is insoluble' and happens to be roughly right here, for entirely the wrong reason. A model that cannot tell you where it stops has told you nothing you can trust anywhere."
+
+[reaction.registers]
+lv1 = "Ask the lab something it does not know and it tells you it does not know. It does not guess, and it does not pretend the silence was an answer. Knowing the edge of what you know is part of knowing anything at all — and a person who can say 'I have not got a method for that' is more useful than one who always has a number."
+lv2 = "The aqueous engine's databases are parameterised for water: activity models, solubility products and speciation are all built on aqueous standard states. Ethanol is a liquid the bench can hold and pour, but no wired solver models solute behaviour in it, so the honesty pass emits 'not yet modelled' rather than a number. The balance still works — 41.45 g, the ethanol plus the salt — because mass bookkeeping is not the thing in doubt."
+lv3 = "The event is `NotYetModeled`, raised by the honesty pass when a solid coexists with a liquid and no solver has characterised the solution. It is structurally different from `SolverFailed`, which means a wired solver tried and did not converge; the codex lint treats the second as an error and the first as a legitimate observation. Note the real answer would be interesting — NaCl is sparingly soluble in ethanol, around 0.65 g/L, and Pitzer parameters for mixed solvents exist — so this is a gap with a known shape, which is the only kind worth advertising."
+
+[reaction.provenance]
+source = "Editorial judgement (Kerotakis): the design decision to emit a stated gap rather than a guess, and the argument for teaching model boundaries as content, is ours. The solubility of NaCl in ethanol quoted at lv3 is a standard reference value and is not computed by the engine."
+computed_by = "Not computed — the honesty pass reports the gap, which is itself the checked claim"

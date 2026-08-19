@@ -175,7 +175,10 @@ fn load_codex(dir: &str) -> kerotakis_codex::Codex {
             std::process::exit(1);
         });
         match kerotakis_codex::Codex::parse(&text) {
-            Ok(mut c) => all.reactions.append(&mut c.reactions),
+            Ok(mut c) => {
+                all.reactions.append(&mut c.reactions);
+                all.models.append(&mut c.models);
+            }
             Err(e) => {
                 eprintln!("kero codex: {}: {e}", file.display());
                 std::process::exit(1);
@@ -287,9 +290,11 @@ fn codex_lint(dir: &str) -> ! {
 
     if problems.is_empty() {
         println!(
-            "codex ok: {} entries, {} concepts — every claim replayed through the solvers",
+            "codex ok: {} entries, {} concepts, {} models ({} progressions) — every claim replayed through the solvers",
             codex.reactions.len(),
-            codex.concept_index().len()
+            codex.concept_index().len(),
+            codex.models.len(),
+            codex.model_chains().len(),
         );
         std::process::exit(0);
     }
