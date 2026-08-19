@@ -35,6 +35,35 @@ pub struct PhaseInfo {
     pub is_gas: bool,
 }
 
+/// The activity model a database declares — derived from its own content,
+/// not asserted by us: a `PITZER` block means the specific-ion-interaction
+/// model; per-species `-gamma` parameters mean the WATEQ Debye-Hückel
+/// extension; otherwise PHREEQC's Davies default.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+pub enum ActivityModel {
+    /// Specific-ion interaction (Pitzer): valid to high ionic strength.
+    Pitzer,
+    /// WATEQ Debye-Hückel extension: reliable to roughly I = 1 mol/kgw.
+    WateqDebyeHuckel,
+    /// Davies equation: PHREEQC's default, roughly I < 0.5 mol/kgw.
+    #[default]
+    Davies,
+}
+
+impl ActivityModel {
+    pub fn describe(self) -> &'static str {
+        match self {
+            ActivityModel::Pitzer => {
+                "Pitzer specific-ion-interaction model (valid at high ionic strength)"
+            }
+            ActivityModel::WateqDebyeHuckel => {
+                "WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)"
+            }
+            ActivityModel::Davies => "Davies equation (reliable to about I = 0.5 mol/kgw)",
+        }
+    }
+}
+
 #[derive(Debug, Default)]
 pub struct DbIndex {
     /// Canonical element name → master species.
@@ -43,6 +72,21 @@ pub struct DbIndex {
     pub species_element: BTreeMap<String, String>,
     /// Phase name → info.
     pub phases: BTreeMap<String, PhaseInfo>,
+    /// Activity model, derived from the file's own declarations.
+    pub activity_model: ActivityModel,
+    /// Literature citations found in the file's comments, in file order.
+    /// These are the database's own record of where its numbers came from.
+    pub citations: Vec<String>,
+}
+
+/// A comment that names a year and an author-ish token is the database
+/// recording where a number came from ("Bénézeth et al., 2018, GCA 224").
+fn looks_like_citation(c: &str) -> bool {
+    let has_year = c
+        .split(|ch: char| !ch.is_ascii_digit())
+        .any(|t| t.len() == 4 && t.starts_with("19") || t.len() == 4 && t.starts_with("20"));
+    let has_name = c.contains("et al") || c.contains(", 19") || c.contains(", 20");
+    has_year && has_name
 }
 
 /// Canonicalise an element/valence name across databases: "C(+4)" and
@@ -64,7 +108,24 @@ impl DbIndex {
         let mut pending_phase: Option<String> = None;
         let mut last_inserted: Option<String> = None;
 
+        // Activity model: derived from what the file declares about itself.
+        idx.activity_model = if text.contains("\nPITZER") {
+            ActivityModel::Pitzer
+        } else if text.contains("-gamma") {
+            ActivityModel::WateqDebyeHuckel
+        } else {
+            ActivityModel::Davies
+        };
+
         for raw in text.lines() {
+            // A comment carrying a year is the database citing its source;
+            // keep it as provenance rather than discarding it.
+            if let Some((_, comment)) = raw.split_once('#') {
+                let c = comment.trim();
+                if c.len() > 12 && looks_like_citation(c) && !idx.citations.iter().any(|e| e == c) {
+                    idx.citations.push(c.to_string());
+                }
+            }
             // Strip comments.
             let line = raw.split('#').next().unwrap_or("");
             if line.trim().is_empty() {

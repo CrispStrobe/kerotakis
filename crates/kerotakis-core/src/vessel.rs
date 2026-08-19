@@ -44,6 +44,26 @@ pub struct SpeciesDetail {
     pub activity: f64,
 }
 
+/// Where an answer came from, so any number can be traced: which engine,
+/// which dataset, which model — and, where the dataset records it, the
+/// literature its numbers came from (PLAN.md: offer different paths and be
+/// open about where each came from).
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Provenance {
+    /// The solver that produced the answer, e.g. "PHREEQC (IPhreeqc)".
+    pub engine: String,
+    /// The dataset it consulted, e.g. "wateq4f.dat".
+    pub dataset: String,
+    /// The model that dataset applies, e.g. "Pitzer specific-ion-interaction".
+    pub model: String,
+    /// How the dataset itself documents its sources (a sample of the
+    /// literature citations carried in the data file).
+    #[serde(default)]
+    pub dataset_sources: Vec<String>,
+    /// Why this path was chosen over the alternatives.
+    pub routing: String,
+}
+
 /// What an aqueous solver last computed about this vessel's solution.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SolutionInfo {
@@ -54,6 +74,9 @@ pub struct SolutionInfo {
     /// register's raw material; empty when the solver did not report it.
     #[serde(default)]
     pub species: Vec<SpeciesDetail>,
+    /// Where this answer came from.
+    #[serde(default)]
+    pub provenance: Option<Provenance>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

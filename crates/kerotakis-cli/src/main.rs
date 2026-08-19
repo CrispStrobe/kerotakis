@@ -19,6 +19,9 @@ struct Session {
     register: Register,
     json: bool,
     stack: SolverStack,
+    /// A second engine instance used only for `explain`'s path comparison,
+    /// so comparing never disturbs the session's own solver state.
+    paths: Option<kerotakis_phreeqc::PhreeqcEquilibrator>,
 }
 
 /// Physics + aqueous chemistry + honesty. If the PHREEQC engine cannot be
@@ -49,6 +52,7 @@ fn main() {
                 register: Register::Student,
                 json,
                 stack: build_stack(),
+                paths: kerotakis_phreeqc::PhreeqcEquilibrator::new().ok(),
             };
             for (lineno, line) in text.lines().enumerate() {
                 if let Err(e) = session.exec_line(line) {
@@ -151,6 +155,8 @@ fn usage() -> ! {
          \x20 measure <vessel> <thermometer|balance|ph>\n\
          \x20 new                        create a vessel\n\
          \x20 inspect [vessel]           show state\n\
+         \x20 explain [vessel]           where the answer came from, and\n\
+         \x20                            what every other dataset says\n\
          \x20 register <9|15|expert>     switch rendering register\n\
          \x20 quit"
     );
@@ -164,6 +170,7 @@ fn repl() {
         register: Register::Student,
         json: false,
         stack: build_stack(),
+        paths: kerotakis_phreeqc::PhreeqcEquilibrator::new().ok(),
     };
     let stdin = std::io::stdin();
     loop {
@@ -214,6 +221,78 @@ impl Session {
                     Some("expert") => Register::Expert,
                     other => return Err(format!("unknown register {other:?}")),
                 };
+                Ok(())
+            }
+            "explain" => {
+                let target = words
+                    .get(1)
+                    .map(|w| parse_vessel(w))
+                    .transpose()?
+                    .unwrap_or(VesselId(0));
+                let vessel = self.bench.vessel(target).map_err(|e| e.to_string())?;
+                // Where the standing answer came from.
+                match vessel.solution.as_ref().and_then(|s| s.provenance.as_ref()) {
+                    Some(p) => {
+                        println!("  {target}: answered by {} using {}", p.engine, p.dataset);
+                        println!("    model:   {}", p.model);
+                        println!("    routing: {}", p.routing);
+                        if !p.dataset_sources.is_empty() {
+                            println!("    the dataset records its own sources, e.g.:");
+                            for src in &p.dataset_sources {
+                                println!("      · {src}");
+                            }
+                        }
+                    }
+                    None => println!("  {target}: no aqueous solver has characterised this vessel"),
+                }
+                // What every other dataset says about the same vessel.
+                let vessel = vessel.clone();
+                match self.paths.as_mut() {
+                    None => println!("    (no engine available to compare paths)"),
+                    Some(engine) => {
+                        let paths = engine.compare_paths(&vessel);
+                        if paths.is_empty() {
+                            println!("    (nothing aqueous to compare)");
+                        } else {
+                            println!("  the same question, asked of every dataset:");
+                            for path in paths {
+                                match path.outcome {
+                                    kerotakis_phreeqc::PathOutcome::Solved {
+                                        ph,
+                                        ionic_strength,
+                                        phases,
+                                    } => {
+                                        let solids: String = phases
+                                            .iter()
+                                            .filter(|(_, m)| *m > 1e-9)
+                                            .map(|(n, m)| format!(" · {n} {m:.4} mol"))
+                                            .collect();
+                                        println!(
+                                            "    {:<14} pH {ph:.3} · I = {ionic_strength:.4} m{solids}",
+                                            path.dataset
+                                        );
+                                        println!("      {}", path.model);
+                                    }
+                                    kerotakis_phreeqc::PathOutcome::CannotExpress {
+                                        missing_elements,
+                                    } => println!(
+                                        "    {:<14} cannot express this problem (no {})",
+                                        path.dataset,
+                                        missing_elements.join(", ")
+                                    ),
+                                    kerotakis_phreeqc::PathOutcome::Failed { detail } => {
+                                        let short: String =
+                                            detail.lines().next().unwrap_or("").into();
+                                        println!(
+                                            "    {:<14} could not solve it: {short}",
+                                            path.dataset
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 Ok(())
             }
             "inspect" => {
@@ -329,7 +408,7 @@ fn parse_op(line: &str) -> Result<Option<Operator>, String> {
     }
     let words: Vec<&str> = line.split_whitespace().collect();
     let op = match words[0] {
-        "register" | "inspect" | "species" | "help" => return Ok(None),
+        "register" | "inspect" | "explain" | "species" | "help" => return Ok(None),
         "new" => Operator::NewVessel,
         "add" => {
             if words.len() < 4 {

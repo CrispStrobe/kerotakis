@@ -14,8 +14,8 @@
 //! fed into the vessel's energy balance (curated ΔH arrives with the codex).
 
 use kerotakis_core::{
-    species, Equilibrator, Event, Kelvin, Moles, Phase, Portion, SolutionInfo, SolveError,
-    SpeciesDetail, SpeciesId, ThermalMode, Vessel,
+    species, Equilibrator, Event, Kelvin, Moles, Phase, Portion, Provenance, SolutionInfo,
+    SolveError, SpeciesDetail, SpeciesId, ThermalMode, Vessel,
 };
 
 use crate::{databases, Phreeqc, PhreeqcError};
@@ -24,6 +24,28 @@ use crate::derived::{self, DerivedRole, ATMOSPHERIC};
 
 const WATER_MOLAR_MASS: f64 = 18.015;
 const TRACE: f64 = 1e-12;
+
+/// What one dataset says about the same vessel.
+#[derive(Debug, Clone)]
+pub struct PathResult {
+    pub dataset: String,
+    pub model: String,
+    pub outcome: PathOutcome,
+}
+
+#[derive(Debug, Clone)]
+pub enum PathOutcome {
+    Solved {
+        ph: f64,
+        ionic_strength: f64,
+        /// Phase amounts this dataset predicts, mol.
+        phases: Vec<(String, f64)>,
+    },
+    /// The dataset does not carry the chemistry the question needs.
+    CannotExpress { missing_elements: Vec<String> },
+    /// It tried and could not answer — honest, first-class.
+    Failed { detail: String },
+}
 
 /// One cached solver result, keyed by database + canonical input.
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
@@ -105,8 +127,82 @@ impl PhreeqcEquilibrator {
     pub fn cache_len(&self) -> usize {
         self.cache.len()
     }
+
+    /// Answer the same question from **every** dataset that can express it,
+    /// so the paths can be compared rather than one being asserted
+    /// (PLAN.md: offer different paths, be open about where each came from).
+    ///
+    /// Datasets that lack an element or a phase the problem needs are
+    /// reported as such rather than silently skipped — a dataset declining
+    /// to answer is itself information.
+    pub fn compare_paths(&mut self, vessel: &Vessel) -> Vec<PathResult> {
+        let Some(problem) = partition(vessel) else {
+            return Vec::new();
+        };
+        let mut out = Vec::new();
+        for db_tag in ["wateq4f", "minteq.v4", "pitzer"] {
+            let idx = derived::index_for(db_tag);
+            let missing: Vec<String> = problem
+                .elements
+                .iter()
+                .filter(|el| !idx.has_element(el))
+                .cloned()
+                .collect();
+            if !missing.is_empty() {
+                out.push(PathResult {
+                    dataset: format!("{db_tag}.dat"),
+                    model: idx.activity_model.describe().to_string(),
+                    outcome: PathOutcome::CannotExpress {
+                        missing_elements: missing,
+                    },
+                });
+                continue;
+            }
+            let mut scoped = problem.clone();
+            scoped.phases.retain(|(name, ..)| idx.has_phase(name));
+            let input = build_input(vessel, &scoped);
+            let engine = match db_tag {
+                "minteq.v4" => &mut self.organic,
+                "pitzer" => &mut self.brine,
+                _ => &mut self.inorganic,
+            };
+            let outcome = match engine.run(&input) {
+                Err(e) => PathOutcome::Failed {
+                    detail: e.to_string(),
+                },
+                Ok(()) => {
+                    let rows = engine.selected_output();
+                    let value = |col: &str| -> Option<f64> {
+                        let i = rows.first()?.iter().position(|h| h == col)?;
+                        rows.last()?.get(i)?.parse().ok()
+                    };
+                    match (value("pH"), value("mu")) {
+                        (Some(ph), Some(mu)) => PathOutcome::Solved {
+                            ph,
+                            ionic_strength: mu,
+                            phases: scoped
+                                .phases
+                                .iter()
+                                .filter_map(|(name, ..)| value(name).map(|m| (name.clone(), m)))
+                                .collect(),
+                        },
+                        _ => PathOutcome::Failed {
+                            detail: "expected columns missing from the result".to_string(),
+                        },
+                    }
+                }
+            };
+            out.push(PathResult {
+                dataset: format!("{db_tag}.dat"),
+                model: idx.activity_model.describe().to_string(),
+                outcome,
+            });
+        }
+        out
+    }
 }
 
+#[derive(Clone)]
 struct Problem {
     kgw: f64,
     /// Element totals in solution, mol.
@@ -249,12 +345,26 @@ impl Equilibrator for PhreeqcEquilibrator {
             .elements
             .iter()
             .all(|el| derived::index_for("pitzer").has_element(el));
-        let (engine, db_tag) = if needs_extended {
-            (&mut self.organic, "minteq.v4")
+        let (engine, db_tag, routing) = if needs_extended {
+            (
+                &mut self.organic,
+                "minteq.v4",
+                "chosen because the problem needs chemistry the default dataset lacks (organic ligands or free phosphoric acid)".to_string(),
+            )
         } else if potential_molality > 1.0 && pitzer_capable {
-            (&mut self.brine, "pitzer")
+            (
+                &mut self.brine,
+                "pitzer",
+                format!(
+                    "chosen because the solution is concentrated (~{potential_molality:.1} mol/kgw), where the ion-interaction model is the valid one"
+                ),
+            )
         } else {
-            (&mut self.inorganic, "wateq4f")
+            (
+                &mut self.inorganic,
+                "wateq4f",
+                "the default for dilute inorganic aqueous chemistry".to_string(),
+            )
         };
         // Phases the routed database does not define must not reach the
         // input. Zero-amount candidates are dropped; a solid-backed
@@ -484,10 +594,18 @@ impl Equilibrator for PhreeqcEquilibrator {
             }
         }
 
+        let idx = derived::index_for(db_tag);
         let info = SolutionInfo {
             ph,
             ionic_strength: mu,
             species: speciation,
+            provenance: Some(Provenance {
+                engine: "PHREEQC (IPhreeqc, USGS)".to_string(),
+                dataset: format!("{db_tag}.dat"),
+                model: idx.activity_model.describe().to_string(),
+                dataset_sources: idx.citations.iter().take(3).cloned().collect(),
+                routing,
+            }),
         };
         let changed = vessel
             .solution

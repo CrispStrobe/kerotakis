@@ -347,6 +347,41 @@ matrix, which nalgebra/faer provide. Qualitative π-MO phases and energies,
 labelled approximate; textbook FMO diagrams *are* Hückel theory, so the
 approximation is literally the pedagogy.
 
+### Every answer carries its provenance, and the paths are shown
+
+An answer is not just a number. The bench records, for each result: which
+**engine** produced it, which **dataset** it consulted, which **model** that
+dataset applies (derived from the file's own declarations — a `PITZER`
+block means specific-ion interaction; per-species `-gamma` means the WATEQ
+Debye-Hückel extension), **why that path was routed** over the
+alternatives, and the **literature the dataset itself cites** — those
+citations sit in the data files as comments (minteq.v4 carries ~310) and we
+capture them instead of stripping them.
+
+And where more than one dataset can express the question, `kero explain`
+asks **all of them** and shows the disagreement rather than asserting one
+answer. Saturated brine, live:
+
+```
+v1: answered by PHREEQC (IPhreeqc, USGS) using pitzer.dat
+  model:   Pitzer specific-ion-interaction model (valid at high ionic strength)
+  routing: chosen because the solution is concentrated (~16 mol/kgw)
+the same question, asked of every dataset:
+  wateq4f.dat    pH 7.059 · I = 6.42 m · Halite 1.597 mol
+    WATEQ Debye-Hückel extension (reliable to about I = 1 mol/kgw)
+  minteq.v4.dat  pH 6.855 · I = 3.69 m · Halite 4.317 mol
+  pitzer.dat     pH 6.469 · I = 6.11 m · Halite 1.908 mol
+```
+
+A dataset that *cannot* express the question (pitzer.dat has no silver)
+says so and names what it lacks, rather than being skipped or answering
+wrongly. This is the honesty rule taken to its conclusion: not "here is the
+number" but "here is the number, here is what computed it, here is where
+that came from, and here is what the alternatives say." It is also the
+expert register's deepest layer and, for the codex, the model for how
+curated entries cite their sources — DB value, computed value, and which
+model produced each.
+
 ### The codex
 
 A few hundred curriculum reactions, and **every concept that explains them**,
@@ -592,7 +627,7 @@ The traps are all about data, not code. Checked against primary sources
 | CAMEO / CRW4 database | Contributed fields explicitly non-duplicable (CAS RNs, NFPA, AEGL, ERPG) | Never ship the database; reimplement the published methodology (L0 note) |
 | ECHA C&L exports | IP-encumbered (CAS data named) | Avoid; use EUR-Lex / PubChem routes |
 | Burcat (Third Millennium) | Free non-commercial only | Skip, or write for permission if CEA coverage falls short |
-| Open Reaction Database | **CC-BY-SA 4.0** on data; ShareAlike propagates to merged datasets under the mainstream reading | Keep out of the codex, or accept BY-SA on the whole dataset — decide before the first record is ingested |
+| Open Reaction Database | **CC-BY-SA 4.0** on data; ShareAlike propagates to merged datasets | **Decided: BY-SA is acceptable.** The curated dataset is published BY-SA (code stays AGPL — separate works, separate licences); an educational commons staying open is a feature, not a cost. What we do *not* accept is a licence being quietly dropped: where an upstream relabels BY-SA data as CC BY or MIT (ORDerly's Figshare deposits; the CaCS SQLite), we honour the **original** terms and say so |
 | `chemicals` (Python) | MIT code aggregating CRC/NIST/Yaws/Common Chemistry data | **Dropped as a data source** — it launders the SRD and NC problems into our binary. (Its sibling `thermo` remains a build-time *oracle*, generating test fixtures, not shipped data) |
 | UNIFAC parameters | Consortium tables proprietary; original journal tables usable | Source from the original publications, provenance per parameter |
 | USPTO reaction data (Lowe extraction) | **CC0 — verified via the figshare API**, patent text USPTO-confirmed copyright-free, reaction facts *Feist*-uncopyrightable | The clean chain under every USPTO-derived corpus/model; relevant only to the deferred ML tier and template tooling |
