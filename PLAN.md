@@ -1082,7 +1082,8 @@ Eight phases and thirteen crates have no floor without an explicit line.
   and deeper-symbolic views and Johnstone's triangle is not closed — which
   is the one pedagogical claim the whole design rests on. It may be humble
   (2-D dots at solved ratios) but it may not be absent
-- **the browser as a real bench, not a lesson player** — **built**. The two
+- **the browser as a real bench, not a lesson player** — **built and
+  published**, at <https://crispstrobe.github.io/kerotakis/>. The two
   wasm halves are wired together: `Lab.setSolver()` takes a JavaScript
   function, `web/kerotakis.mjs` backs it with the Emscripten build of
   IPhreeqc, and everything above the hook is unchanged — same routing, same

@@ -158,7 +158,17 @@ From that follow the rest of the design commitments:
   a paradigm case, a committed prediction and a model with a stated boundary;
   the free REPL is the faded end of the scaffold, not the front door.
 
-## Try it
+## Try it in a browser
+
+**[crispstrobe.github.io/kerotakis](https://crispstrobe.github.io/kerotakis/)** —
+the bench, with PHREEQC compiled to WebAssembly and solving in the tab. Not a
+recording: type something nobody anticipated and it computes an answer, or
+tells you it cannot. The header says which of the two it is.
+
+Experiments are shareable as links:
+[silver meets salt](https://crispstrobe.github.io/kerotakis/#run=add%20v1%20water%20200mL;add%20v1%20NaCl%200.1mol;add%20v1%20AgNO3%200.01mol;look%20v1;particles%20v1).
+
+## Try it locally
 
 ```bash
 git clone --recurse-submodules https://github.com/CrispStrobe/kerotakis
