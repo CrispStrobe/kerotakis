@@ -55,7 +55,17 @@ pub struct CacheEntry {
     pub key: String,
     pub rows: Vec<Vec<String>>,
     pub species: Vec<SpeciesDetail>,
+    /// (phase, saturation index) for every phase the database could form
+    /// from the elements present — including phases this lab cannot name.
+    #[serde(default)]
+    pub saturation: Vec<(String, f64)>,
 }
+
+/// How supersaturated a phase must be before we admit we are ignoring it,
+/// in log units. Small positive indices are ordinary in natural waters and
+/// reporting them would be noise; +1.0 is a tenfold excess over saturation,
+/// which is a solution a chemist would not expect to survive.
+const SUPERSATURATION_REPORTING_SI: f64 = 1.0;
 
 /// A shippable pre-warmed cache.
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
@@ -81,7 +91,11 @@ pub struct PhreeqcEquilibrator {
     brine: Phreeqc,
     /// Content-addressed result cache: same species set, T and P is the
     /// same answer (PLAN.md, P2). Keyed by database + canonical input.
-    cache: std::collections::HashMap<String, (Vec<Vec<String>>, Vec<SpeciesDetail>)>,
+    #[allow(clippy::type_complexity)]
+    cache: std::collections::HashMap<
+        String,
+        (Vec<Vec<String>>, Vec<SpeciesDetail>, Vec<(String, f64)>),
+    >,
     cache_hits: usize,
 }
 
@@ -123,10 +137,11 @@ impl PhreeqcEquilibrator {
             entries: self
                 .cache
                 .iter()
-                .map(|(k, (rows, species))| CacheEntry {
+                .map(|(k, (rows, species, saturation))| CacheEntry {
                     key: k.clone(),
                     rows: rows.clone(),
                     species: species.clone(),
+                    saturation: saturation.clone(),
                 })
                 .collect(),
         }
@@ -136,7 +151,9 @@ impl PhreeqcEquilibrator {
     pub fn import_cache(&mut self, data: CacheData) -> usize {
         let before = self.cache.len();
         for e in data.entries {
-            self.cache.entry(e.key).or_insert((e.rows, e.species));
+            self.cache
+                .entry(e.key)
+                .or_insert((e.rows, e.species, e.saturation));
         }
         self.cache.len() - before
     }
@@ -481,7 +498,7 @@ impl PhreeqcEquilibrator {
         // Content-addressed cache: database + input string is a
         // deterministic canonicalisation of (species set, amounts, T) — same
         // state, same answer, no engine call.
-        let (rows, speciation) = if let Some(hit) = self.cache.get(&key) {
+        let (rows, speciation, saturation) = if let Some(hit) = self.cache.get(&key) {
             self.cache_hits += 1;
             hit.clone()
         } else {
@@ -506,12 +523,15 @@ impl PhreeqcEquilibrator {
                     detail: e.to_string(),
                 })?;
                 let rows = engine.selected_output();
-                let speciation = parse_species_distribution(&engine.output_string());
+                let report = engine.output_string();
+                let speciation = parse_species_distribution(&report);
+                let saturation = parse_saturation_indices(&report);
                 if self.cache.len() >= 10_000 {
                     self.cache.clear(); // simple bound; refine when profiling says so
                 }
-                self.cache.insert(key, (rows.clone(), speciation.clone()));
-                (rows, speciation)
+                self.cache
+                    .insert(key, (rows.clone(), speciation.clone(), saturation.clone()));
+                (rows, speciation, saturation)
             }
         };
         let value = |column: &str| -> Option<f64> {
@@ -703,6 +723,49 @@ impl PhreeqcEquilibrator {
                 ionic_strength: mu,
             });
         }
+
+        // The honesty boundary, said out loud.
+        //
+        // Only phases this lab can *name* are offered to the solver, so that
+        // an equilibrium can never contain a mineral we would have to drop
+        // (losing mass) or display with no story attached. That filter is
+        // right and stays. What was wrong is that it was silent: copper
+        // sulfate and lye reported pH 9.9 holding 0.01 mol/L of Cu(2+), a
+        // solution that cannot exist, because both Cu(OH)2 and tenorite are
+        // in the database and neither is in our registry.
+        //
+        // A phase we *did* offer gets driven to SI 0 by the solver, so it
+        // never appears here. Anything left is a phase the database says
+        // would form and we declined to model.
+        let offered: Vec<&str> = problem.phases.iter().map(|(p, ..)| p.as_str()).collect();
+        let mut ignored: Vec<(&str, f64)> = saturation
+            .iter()
+            .filter(|(phase, si)| {
+                *si >= SUPERSATURATION_REPORTING_SI && !offered.contains(&phase.as_str())
+            })
+            .map(|(p, si)| (p.as_str(), *si))
+            .collect();
+        ignored.sort_by(|a, b| b.1.total_cmp(&a.1));
+        if !ignored.is_empty() {
+            let named: Vec<String> = ignored
+                .iter()
+                .take(3)
+                .map(|(p, si)| format!("{p} (SI {si:+.1})"))
+                .collect();
+            let rest = match ignored.len().saturating_sub(3) {
+                0 => String::new(),
+                n => format!(", and {n} more"),
+            };
+            events.push(Event::NotYetModeled {
+                vessel: vessel.id,
+                what: format!(
+                    "a real beaker would not stay like this: the solution is supersaturated against {}{}. Those phases are in {db_tag}.dat but not in this lab's registry, so nothing can precipitate out of it here",
+                    named.join(", "),
+                    rest
+                ),
+            });
+        }
+
         Ok((events, q_joules))
     }
 }
@@ -748,6 +811,41 @@ fn build_input(vessel: &Vessel, problem: &Problem) -> String {
     }
     writeln!(input, "END").unwrap();
     input
+}
+
+#[cfg(feature = "engine")]
+/// Parse the report's "Saturation indices" block into (phase, SI) pairs.
+///
+/// This is the one place PHREEQC volunteers information about phases we did
+/// *not* ask about: it lists every mineral the loaded database could build
+/// from the elements in solution, saturated or not. That makes it exactly
+/// the right source for the honesty question "is the solution you are
+/// looking at one that could not survive contact with a phase this lab
+/// cannot name?".
+///
+/// Block shape, stable across PHREEQC 3.x:
+/// `Phase   SI**  log IAP   log K(298 K, 1 atm)  [formula]`
+fn parse_saturation_indices(output: &str) -> Vec<(String, f64)> {
+    let Some(start) = output.rfind("Saturation indices") else {
+        return Vec::new();
+    };
+    let mut out = Vec::new();
+    for line in output[start..].lines().skip(1) {
+        let trimmed = line.trim();
+        if trimmed.starts_with("-----") && !out.is_empty() {
+            break;
+        }
+        let tokens: Vec<&str> = trimmed.split_whitespace().collect();
+        // name, SI, log IAP, log K — headers and rules have neither shape.
+        if tokens.len() < 4 || tokens[0] == "Phase" {
+            continue;
+        }
+        let Ok(si) = tokens[1].parse::<f64>() else {
+            continue;
+        };
+        out.push((tokens[0].to_string(), si));
+    }
+    out
 }
 
 #[cfg(feature = "engine")]
