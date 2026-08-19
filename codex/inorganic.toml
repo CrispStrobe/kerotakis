@@ -14,6 +14,12 @@ spine = ["die-eigenschaften-von-salzen"]
 equation = "NaCl(s) → Na⁺(aq) + Cl⁻(aq)"
 concepts = ["dissolving", "solutions", "ions"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -65,6 +71,12 @@ equation = "AgNO₃(aq) + NaCl(aq) → AgCl(s)↓ + NaNO₃(aq)"
 concepts = ["precipitation", "insoluble-salts", "ionic-equations"]
 requires = ["dissolving"]
 
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019, Amtsblatt 07-08/19)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -93,6 +105,12 @@ spine = ["eigenschaften-von-saeuren-und-basen"]
 equation = "HCl(aq) → H⁺(aq) + Cl⁻(aq)"
 concepts = ["acids", "ph"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB; Lehrplantexte nicht urheberrechtlich geschützt)"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -117,6 +135,12 @@ spine = ["reaktionen-von-saeuren-und-basen"]
 equation = "CH₃COOH(aq) ⇌ H⁺(aq) + CH₃COO⁻(aq)"
 concepts = ["weak-acids", "equilibrium", "ph"]
 requires = ["acids"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB)"
 
 [reaction.setup]
 script = """
@@ -304,6 +328,12 @@ spine = ["redox-reaktionen"]
 equation = "2 Mg(s) + O₂(g) → 2 MgO(s)   ΔH = −601 kJ/mol"
 concepts = ["combustion", "oxidation", "conservation-of-mass"]
 requires = ["thermal-decomposition"]
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Erste Stufe (Jg. 7/8), IF3 Verbrennung"
+ages = { min = 12.0, max = 14.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
 
 [reaction.setup]
 script = """

@@ -976,7 +976,44 @@ says NAP, book says Achieve 2013, Achieve has wound down).
 | **Netherlands** | `Auteurswet art. 11` | Take the examenprogramma from wetten.overheid.nl (no conditions), not Examenblad (ND) |
 | **Serlo / ZUM** | CC BY-SA | German OER; **filter per item** — Serlo's licence registry includes CC BY-ND and six state-ministry exam licences |
 
-**Germany: don't license it, derive it — and go to the Länder, not the KMK.**
+**Germany: Bayern first, and never the KMK.**
+
+Verified across five states. **Bayern is the only one that grants commercial
+use in writing**: the ISB's Nutzungsbedingungen state *"Die Texte der
+Lehrpläne unterliegen nicht dem Urheberrechtsschutz"* and expressly carve
+the Lehrplan Originaltexte **out** of the site's NC clause (which governs
+"alle weiteren Inhalte" — Servicematerialien, images). It also has the best
+machine-readability: stable URLs (`/fachlehrplan/gymnasium/9/chemie/ch`)
+and a working unauthenticated PDF export. Attribute the ISB; take text
+only, never the figures.
+
+Then **Baden-Württemberg** (published as Amtsblatt K.u.U. Ausgabe C; its
+only copyright note is inside the PDF and restricts reproducing *"des
+Satzes beziehungsweise der Satzordnung"* — the typesetting, not the text,
+so extracting competency statements as data and re-rendering them is
+outside it; best semantic IDs of the five, and verified: there is **no**
+XML/ZIP export, six `requestMode` values all fall back to PDF).
+**NRW and Niedersachsen** rest on the §5 argument alone — the underlying
+facts are verified (NRW: RdErl. 23.06.2019 in Amtsblatt 07-08/19 under §29
+SchulG), but neither state says so in writing. **Berlin-Brandenburg** is
+the only state with a real CC licence (Sek II RLP is **CC BY-ND 4.0** — not
+NC, so commercial use is fine, but ND plausibly forbids restructuring into
+an app data model, which makes it *less* useful than Bayern's
+public-domain status); its RLP 1–10 carries no licence at all.
+
+🚫 **The KMK Bildungsstandards are the one hard NC blocker** — their terms
+prohibit *"Einspeicherung, Verarbeitung bzw. Wiedergabe von Inhalten in
+Datenbanken"*, which is precisely what this app does. Source every
+competency statement from a **state** plan, never from a KMK document.
+
+And don't wait for open data: **GovData holds zero curriculum datasets**,
+and no Bundesland uses Datenlizenz Deutschland (all sixteen checked).
+
+Operationally: `WebFetch` is domain-blocked for lehrplanplus.bayern.de,
+schulentwicklung.nrw.de and bildungsplaene-bw.de, but `curl` works; and
+NRW's site has moved to lehrplannavigator.nrw.de.
+
+**Go to the Länder, not the KMK.**
 
 The decisive finding is not legal but structural: **the KMK Bildungsstandards
 contain no year-by-year sequencing at all.** In the 2024 Chemie MSA document
