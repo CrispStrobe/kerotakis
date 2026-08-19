@@ -560,6 +560,33 @@ labels, both charge notations, and `kero balance` for the exercise. It
 balances dichromate against iron(II) — 14 H⁺ and 7 H₂O — which is the
 university case, not a toy.
 
+**What the balancer does and does not do.** It solves the linear system:
+one row per element, one for charge, right-hand species negated, and the
+answer is the null space. That makes it exact where the system determines
+an answer, and it *refuses* where the system does not, which is the more
+important half:
+
+- **Under-determined skeletons are refused, not guessed.** `C + O₂ → CO +
+  CO₂` admits two independent reactions, and so does `MnO₄⁻ + H₂O₂ + H⁺ →
+  Mn²⁺ + O₂ + H₂O` — permanganate can take its oxygen from the peroxide or
+  from itself. Resolving those needs oxidation-state bookkeeping, which is
+  chemistry the linear system does not contain.
+- **It balances a skeleton; it cannot complete one.** `MnO₄⁻ + Fe²⁺ → Mn²⁺
+  + Fe³⁺` has nowhere to put the oxygen, and we report that rather than
+  inventing the H⁺ and H₂O a half-reaction method would add. Given them, it
+  is exact: `MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O`.
+- **Notation limits, all deliberate.** Element symbols are validated
+  against the periodic table, so `A + B → C` is not a formula rather than
+  an unbalanced one. Structural formulas (`CH₃-CH₂-OH`), SMILES, isotopes,
+  free electrons and organic placeholders (`R`, `Et`) are not formulas
+  either. Terms separate on a *spaced* plus, because a bare one is the
+  charge in `Ag+`.
+- **One notation conflict, resolved and documented.** `Ca2+` and `MnO4-`
+  are the same shape with different meanings. Digits before a trailing sign
+  are read as a subscript, which makes every oxyanion right at the cost of
+  `Ca2+`; write `Ca+2`, `Ca²⁺` or `Ca++`. The other convention was tried
+  first and silently broke permanganate.
+
 **They remain valuable as build-time oracles**, and that use is clean:
 running a program over public data does not make the output a derivative
 work, which is the same reasoning behind the Python `thermo` fixtures in
@@ -582,6 +609,30 @@ commercial-friendly, exactly as we already track for the PHREEQC databases.
 ChemReaX is a closed web application. It is legitimate to consult by hand
 as a chemist would; it is not a source we can automate against or
 redistribute from.
+
+### `equation` and `summary` are different claims
+
+An entry says what happens in one of two ways, and the schema now keeps
+them apart.
+
+`equation` is a **claim about chemistry** and is enforced: it must parse and
+it must conserve atoms *and* charge. Putting prose there is an error that
+names `summary` as the fix.
+
+`summary` is for entries whose point is not a reaction — a yield
+calculation, a measurement, a physical change, or a deliberate null result
+where nothing happens at all. It is never parsed.
+
+This was forced by evidence rather than taste. With one field doing both
+jobs, 27 of 66 entries held prose in a field documented as "balanced
+equation", and no checker can tell a deliberate summary from an equation
+someone got wrong. Splitting them turned an ambiguous silence into two
+explicit statements, and the count is now a fact rather than an apology:
+**51 balanced equations, 19 entries that describe something else.**
+
+One temptation worth naming: an entry whose point is that *nothing reacts*
+can be given an identity equation that balances trivially. That inflates
+the number and teaches nothing, so those keep a summary instead.
 
 ### Declining to model something must be loud
 

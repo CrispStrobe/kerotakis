@@ -369,20 +369,13 @@ fn codex_lint(dir: &str) -> ! {
             codex.models.len(),
             codex.model_chains().len(),
         );
-        // Say what was *not* checked. A checker that silently ignores what
-        // it cannot parse reports a clean bill of health it has not earned,
-        // and the equation field is used for prose as well as chemistry.
+        // Say what is checked and what is declared not to be. With
+        // `equation` and `summary` separate, an entry with no equation is
+        // making a statement rather than leaving a hole.
         let audit = codex.equation_audit();
         println!(
-            "  equations: {} balanced (atoms and charge){}",
-            audit.balanced,
-            match audit.unverified.len() {
-                0 => String::new(),
-                n => format!(
-                    ", {n} entries carry no checkable equation: {}",
-                    audit.unverified.join(", ")
-                ),
-            }
+            "  equations: {} balanced (atoms and charge); {} entries describe something that is not a reaction",
+            audit.balanced, audit.summary_only
         );
         std::process::exit(0);
     }

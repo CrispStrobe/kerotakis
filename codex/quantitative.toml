@@ -19,7 +19,7 @@
 [[reaction]]
 id = "moles-from-mass"
 spine = ["die-stoffmenge-und-das-mol"]
-equation = "n = m / M   ·   5.844 g NaCl ÷ 58.443 g/mol = 0.1000 mol"
+summary = "n = m / M   ·   5.844 g NaCl ÷ 58.443 g/mol = 0.1000 mol"
 concepts = ["amount-of-substance", "molar-mass"]
 requires = ["dissolving"]
 calculations = ["moles-from-mass"]
@@ -66,7 +66,7 @@ computed_by = "Kerotakis bench; speciation via PHREEQC L2"
 [[reaction]]
 id = "concentration-is-a-ratio"
 spine = ["konzentrationsberechnungen"]
-equation = "c = n / V   ·   0.1000 mol in 0.100 L = 1.00 mol/L; the same 0.1000 mol in 0.200 L = 0.50 mol/L"
+summary = "c = n / V   ·   0.1000 mol in 0.100 L = 1.00 mol/L; the same 0.1000 mol in 0.200 L = 0.50 mol/L"
 concepts = ["concentration", "ionic-strength"]
 requires = ["amount-of-substance"]
 calculations = ["concentration"]
@@ -108,7 +108,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "dilution-moves-ph-by-one"
 spine = ["konzentrationsberechnungen"]
-equation = "c₁V₁ = c₂V₂   ·   0.001 mol in 0.100 L → pH 2.04; the same acid in 1.000 L → pH 3.01"
+summary = "c₁V₁ = c₂V₂   ·   0.001 mol in 0.100 L → pH 2.04; the same acid in 1.000 L → pH 3.01"
 concepts = ["dilution"]
 requires = ["concentration", "ph"]
 calculations = ["dilution", "ph-from-concentration"]
@@ -244,7 +244,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "theoretical-yield-and-what-a-real-lab-loses"
 spine = ["quantitative-analyseverfahren"]
-equation = "0.0100 mol AgCl × 143.32 g/mol = 1.43 g theoretical; the filter recovers 1.43 g"
+summary = "0.0100 mol AgCl × 143.32 g/mol = 1.43 g theoretical; the filter recovers 1.43 g"
 concepts = ["theoretical-yield", "percentage-yield"]
 requires = ["limiting-reagent"]
 calculations = ["limiting-reagent", "mass-from-moles", "percentage-yield"]
@@ -333,7 +333,8 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "mass-in-an-open-vessel"
 spine = ["massenerhaltung"]
-equation = "252.66 g + 3.60 g of acid = 256.26 g expected; the balance reads 254.84 g. The 1.4 g is 0.0317 mol of CO₂."
+summary = "252.66 g + 3.60 g of acid = 256.26 g expected; the balance reads 254.84 g. The 1.4 g is 0.0317 mol of CO₂."
+equation = "CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂↑"
 concepts = ["open-system", "mass-accounting"]
 requires = ["conservation-of-mass", "gas-evolution"]
 calculations = ["mass-from-moles", "conservation-of-mass"]
@@ -383,7 +384,8 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "ph-is-not-quite-minus-log-c"
 spine = ["ph-wert-berechnungen"]
-equation = "0.100 mol/L HCl: −log c = 1.00, and the meter reads 1.08"
+summary = "0.100 mol/L HCl: −log c = 1.00, and the meter reads 1.08"
+equation = "HCl → H⁺ + Cl⁻"
 concepts = ["ph-calculation", "activity"]
 requires = ["concentration", "acids"]
 calculations = ["ph-from-concentration"]
@@ -422,7 +424,8 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "a-weak-acid-breaks-the-naive-sum"
 spine = ["ph-wert-berechnungen"]
-equation = "0.100 mol/L: HCl → pH 1.08; CH₃COOH → pH 2.88"
+summary = "0.100 mol/L: HCl → pH 1.08; CH₃COOH → pH 2.88"
+equation = "CH₃COOH ⇌ H⁺ + CH₃COO⁻"
 concepts = ["degree-of-dissociation"]
 requires = ["ph-calculation", "weak-acids"]
 calculations = ["ph-from-concentration", "equilibrium-constant"]
@@ -474,7 +477,8 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "hot-pack-arithmetic"
 spine = ["kalorimetrie"]
-equation = "ΔT = q / (n·Cp)   ·   8.28 kJ ÷ (5.5343 mol × 75.3 J·mol⁻¹·K⁻¹) = 19.9 K"
+summary = "ΔT = q / (n·Cp)   ·   8.28 kJ ÷ (5.5343 mol × 75.3 J·mol⁻¹·K⁻¹) = 19.9 K"
+equation = "CaCl₂ → Ca²⁺ + 2 Cl⁻"
 concepts = ["calorimetry", "heat-capacity"]
 requires = ["exothermic", "amount-of-substance"]
 calculations = ["moles-from-mass", "enthalpy-change", "temperature-rise"]
@@ -561,7 +565,7 @@ computed_by = "Kerotakis energy balance over curated ΔH_dis; speciation via PHR
 [[reaction]]
 id = "two-vessels-one-variable"
 spine = ["erkenntnisgewinnung"]
-equation = "Same 0.1000 mol CaCl₂; 100 mL → 44.87 °C, 200 mL → 34.93 °C"
+summary = "Same 0.1000 mol CaCl₂; 100 mL → 44.87 °C, 200 mL → 34.93 °C"
 concepts = ["controlled-comparison", "fair-test"]
 requires = ["calorimetry"]
 calculations = ["temperature-rise"]
@@ -607,7 +611,7 @@ computed_by = "Kerotakis energy balance over curated ΔH_dis"
 [[reaction]]
 id = "chalk-below-the-kiln"
 spine = ["der-energiebegriff"]
-equation = "CaCO₃(s) + heat → CaCO₃(s)   ·   147 °C is hot, and nothing happens"
+summary = "CaCO₃(s) + heat → CaCO₃(s)   ·   147 °C is hot, and nothing happens"
 concepts = ["decomposition-threshold"]
 requires = ["thermal-decomposition"]
 calculations = ["temperature-rise", "enthalpy-change"]
@@ -792,7 +796,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 [[reaction]]
 id = "flame-temperature-is-a-balance-not-a-property"
 spine = ["entropie-und-enthalpie"]
-equation = "2 Mg + O₂ → 2 MgO from 228 °C → 2177 °C; the same reaction from 927 °C → 2769 °C"
+summary = "2 Mg + O₂ → 2 MgO from 228 °C → 2177 °C; the same reaction from 927 °C → 2769 °C"
 concepts = ["adiabatic-flame-temperature", "enthalpy-balance"]
 requires = ["combustion", "calorimetry"]
 calculations = ["enthalpy-change", "temperature-rise"]
@@ -837,7 +841,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 [[reaction]]
 id = "why-the-shelf-is-not-on-fire"
 spine = ["kinetik"]
-equation = "Mg + ½O₂ → MgO is favourable at every temperature; at 224 °C the ribbon just sits there"
+summary = "Mg + ½O₂ → MgO is favourable at every temperature; at 224 °C the ribbon just sits there"
 concepts = ["kinetic-barrier", "thermodynamic-versus-kinetic"]
 requires = ["adiabatic-flame-temperature"]
 calculations = ["temperature-rise"]
@@ -891,7 +895,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser, gated by KINETIC_THRESHOLD_K"
 [[reaction]]
 id = "a-spark-that-changes-nothing"
 spine = ["spektroskopieverfahren"]
-equation = "KCl + spark → KCl (lilac flame, 5.00 g in, 5.00 g out)"
+summary = "KCl + spark → KCl (lilac flame, 5.00 g in, 5.00 g out)"
 concepts = ["negative-result", "flame-test-identification"]
 requires = ["flame-tests"]
 calculations = ["conservation-of-mass"]
@@ -936,7 +940,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser (the null result); emission colours
 [[reaction]]
 id = "weigh-before-and-after"
 spine = ["eindampfen"]
-equation = "5.844 g NaCl + 100 mL water = 105.54 g; evaporate the water and 5.84 g remains"
+summary = "5.844 g NaCl + 100 mL water = 105.54 g; evaporate the water and 5.84 g remains"
 concepts = ["recovery", "before-and-after-measurement"]
 requires = ["dissolving", "mass-accounting"]
 calculations = ["moles-from-mass", "conservation-of-mass", "percentage-yield"]
@@ -984,7 +988,7 @@ computed_by = "PHREEQC via Kerotakis L2; mass bookkeeping by the Kerotakis bench
 [[reaction]]
 id = "a-nanomole-is-not-a-cloud"
 spine = ["quantitative-analyseverfahren"]
-equation = "1.5 µmol Ag⁺ + 1.5 µmol Cl⁻ in 100 mL: silver chloride forms, and no precipitation is reported"
+summary = "1.5 µmol Ag⁺ + 1.5 µmol Cl⁻ in 100 mL: silver chloride forms, and no precipitation is reported"
 concepts = ["detection-limit", "instrument-floor"]
 requires = ["precipitation", "concentration"]
 calculations = ["moles-from-mass", "concentration", "solubility-product"]
@@ -1028,7 +1032,7 @@ computed_by = "PHREEQC via Kerotakis L2; reporting floor applied by the Kerotaki
 [[reaction]]
 id = "when-the-lab-says-it-does-not-know"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
-equation = "NaCl(s) + ethanol(l) → not modelled"
+summary = "NaCl(s) + ethanol(l) → not modelled"
 concepts = ["model-boundary", "stated-ignorance"]
 requires = ["dissolving", "solutions"]
 calculations = ["conservation-of-mass"]

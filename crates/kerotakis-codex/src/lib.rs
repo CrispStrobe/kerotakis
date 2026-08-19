@@ -22,8 +22,25 @@ use serde::{Deserialize, Serialize};
 pub struct Entry {
     /// Stable slug, used by lessons and the concept graph.
     pub id: String,
-    /// Balanced equation, shown from the student register up.
-    pub equation: String,
+    /// A **balanced chemical equation**, and nothing else.
+    ///
+    /// If this is present it is a claim, and the lint enforces it: the
+    /// string must parse as an equation and must conserve both atoms and
+    /// charge. Anything that is not an equation — a mass calculation, a
+    /// phrase like "CH₃COOH / CH₃COO⁻ buffer", a description of an
+    /// experiment where nothing reacts — belongs in `summary`.
+    ///
+    /// Splitting these apart was forced by evidence: with one field doing
+    /// both jobs, 27 of 66 entries held prose here, and a checker cannot
+    /// tell a deliberate summary from an equation someone got wrong. Now
+    /// the schema says which is which, so silence is no longer ambiguous.
+    #[serde(default)]
+    pub equation: Option<String>,
+    /// A plain-language or arithmetic characterisation, for entries whose
+    /// point is not a reaction: a yield calculation, a null result, a
+    /// measurement, a physical change. Never parsed, never checked.
+    #[serde(default)]
+    pub summary: Option<String>,
     /// Concepts this reaction teaches; the difficulty ladder is built from
     /// these edges.
     #[serde(default)]
@@ -156,9 +173,6 @@ pub fn equation_clauses(equation: &str) -> Vec<String> {
         // A spaced middot introduces prose; a flush one is a hydrate.
         let mut head = part.split("  ·  ").next().unwrap_or(part);
         head = head.split(" · ").next().unwrap_or(head);
-        // A comma never appears inside a formula, so it ends the chemistry:
-        // "AgCl ⇌ Ag⁺ + Cl⁻, suppressed by added Cl⁻".
-        head = head.split(", ").next().unwrap_or(head);
         head = match head.find("   Δ") {
             Some(i) => &head[..i],
             None => head,
@@ -166,7 +180,10 @@ pub fn equation_clauses(equation: &str) -> Vec<String> {
         let mut clause = head.trim().to_string();
         // Trailing asides: "(saturated at ≈6.1 mol/kgw)", "(K_sp ≈ …)".
         // A parenthetical containing a space is prose; state labels like
-        // "(aq)" never do, and are handled by the formula parser.
+        // "(aq)" never do, and are handled by the formula parser. This runs
+        // *before* the comma split below, because an aside may itself
+        // contain a comma — "(open to the atmosphere, log pCO₂ = −3.408)"
+        // was being cut in half and taking a real equation with it.
         while clause.ends_with(')') {
             let Some(open) = clause.rfind('(') else { break };
             if !clause[open..].contains(' ') {
@@ -174,6 +191,14 @@ pub fn equation_clauses(equation: &str) -> Vec<String> {
             }
             clause = clause[..open].trim_end().to_string();
         }
+        // A comma never appears inside a formula, so what follows one is
+        // prose: "AgCl ⇌ Ag⁺ + Cl⁻, suppressed by added Cl⁻".
+        clause = clause
+            .split(", ")
+            .next()
+            .unwrap_or(&clause)
+            .trim()
+            .to_string();
         if clause.is_empty() {
             continue;
         }
@@ -209,26 +234,29 @@ pub fn equation_clauses(equation: &str) -> Vec<String> {
 /// has not earned.
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct EquationAudit {
+    /// Equation clauses that parsed and balanced, atoms and charge.
     pub balanced: usize,
-    /// Entries whose equation field holds no parseable equation at all.
-    pub unverified: Vec<String>,
+    /// Entries that declare a `summary` instead of an equation — a
+    /// deliberate statement that this entry is not about a reaction, not a
+    /// gap in checking.
+    pub summary_only: usize,
 }
 
 impl Codex {
     pub fn equation_audit(&self) -> EquationAudit {
         let mut audit = EquationAudit::default();
         for r in &self.reactions {
-            let mut any = false;
-            for clause in equation_clauses(&r.equation) {
-                if let Ok(eq) = kerotakis_core::stoich::parse_equation(&clause) {
-                    any = true;
-                    if eq.is_balanced() {
-                        audit.balanced += 1;
+            match &r.equation {
+                Some(e) => {
+                    for clause in equation_clauses(e) {
+                        if let Ok(eq) = kerotakis_core::stoich::parse_equation(&clause) {
+                            if eq.is_balanced() {
+                                audit.balanced += 1;
+                            }
+                        }
                     }
                 }
-            }
-            if !any {
-                audit.unverified.push(r.id.clone());
+                None => audit.summary_only += 1,
             }
         }
         audit
@@ -402,31 +430,52 @@ impl Codex {
                 problems.push(format!("{}: duplicate id", r.id));
             }
             seen.push(&r.id);
-            if r.equation.trim().is_empty() {
-                problems.push(format!("{}: no equation", r.id));
+            match (&r.equation, &r.summary) {
+                (None, None) => problems.push(format!(
+                    "{}: neither an equation nor a summary — say what happens",
+                    r.id
+                )),
+                (Some(e), _) if e.trim().is_empty() => {
+                    problems.push(format!("{}: empty equation", r.id))
+                }
+                _ => {}
             }
-            // The field is documented as a *balanced* equation, so check
-            // it. Where the clause is prose rather than chemistry — some
-            // entries use this field for a summary — it is counted as
-            // unverified rather than waved through; see `equation_audit`.
-            for clause in equation_clauses(&r.equation) {
-                if let Ok(eq) = kerotakis_core::stoich::parse_equation(&clause) {
-                    let bad = eq.element_imbalance();
-                    if !bad.is_empty() {
-                        let detail: Vec<String> =
-                            bad.iter().map(|(el, d)| format!("{el} {d:+.0}")).collect();
-                        problems.push(format!(
-                            "{}: equation does not balance ({}): {clause}",
-                            r.id,
-                            detail.join(", ")
-                        ));
-                    } else if eq.charge_imbalance().abs() > 1e-6 {
-                        problems.push(format!(
-                            "{}: equation conserves atoms but not charge ({:+.0}): {clause}",
-                            r.id,
-                            eq.charge_imbalance()
-                        ));
+            // `equation` is a claim, so it is enforced: it must parse as
+            // chemistry and it must balance. Prose belongs in `summary`,
+            // and the schema now lets an entry say so — which means an
+            // unparseable equation is an error rather than a shrug.
+            if let Some(equation) = &r.equation {
+                let clauses = equation_clauses(equation);
+                let mut parsed_any = false;
+                for clause in &clauses {
+                    match kerotakis_core::stoich::parse_equation(clause) {
+                        Ok(eq) => {
+                            parsed_any = true;
+                            let bad = eq.element_imbalance();
+                            if !bad.is_empty() {
+                                let detail: Vec<String> =
+                                    bad.iter().map(|(el, d)| format!("{el} {d:+.0}")).collect();
+                                problems.push(format!(
+                                    "{}: equation does not balance ({}): {clause}",
+                                    r.id,
+                                    detail.join(", ")
+                                ));
+                            } else if eq.charge_imbalance().abs() > 1e-6 {
+                                problems.push(format!(
+                                    "{}: equation conserves atoms but not charge ({:+.0}): {clause}",
+                                    r.id,
+                                    eq.charge_imbalance()
+                                ));
+                            }
+                        }
+                        Err(_) => continue,
                     }
+                }
+                if !parsed_any && !equation.trim().is_empty() {
+                    problems.push(format!(
+                        "{}: `equation` does not parse as chemistry — put prose in `summary` instead: {equation}",
+                        r.id
+                    ));
                 }
             }
             if r.setup.script.trim().is_empty() {
@@ -761,7 +810,7 @@ mod tests {
     const SAMPLE: &str = r#"
 [[reaction]]
 id = "test"
-equation = "A + B → C"
+summary = "a placeholder, deliberately not a chemical equation"
 concepts = ["thing"]
 
 [reaction.setup]
@@ -934,7 +983,7 @@ source = "test"
         let toml = r#"
 [[reaction]]
 id = "prose"
-equation = "CH₃COOH / CH₃COO⁻ buffer"
+summary = "CH₃COOH / CH₃COO⁻ buffer"
 concepts = ["thing"]
 
 [reaction.setup]
@@ -964,7 +1013,7 @@ source = "test"
         );
         let audit = codex.equation_audit();
         assert_eq!(audit.balanced, 0);
-        assert_eq!(audit.unverified, vec!["prose".to_string()]);
+        assert_eq!(audit.summary_only, 1);
     }
 
     #[test]
@@ -975,5 +1024,66 @@ source = "test"
             let eq = kerotakis_core::stoich::parse_equation(&c).expect("parses");
             assert!(eq.is_balanced(), "{c}: {:?}", eq.element_imbalance());
         }
+    }
+
+    #[test]
+    fn prose_in_the_equation_field_is_now_an_error() {
+        // The point of splitting the fields: declaring something an
+        // equation is a claim, so an entry that puts prose there is told to
+        // use `summary` rather than being quietly waved through.
+        let toml = r#"
+[[reaction]]
+id = "confused"
+equation = "CH₃COOH / CH₃COO⁻ buffer"
+concepts = ["thing"]
+
+[reaction.setup]
+script = "add v1 water 100mL"
+
+[reaction.expect]
+events = []
+
+[reaction.registers]
+lv1 = "a"
+lv2 = "b"
+lv3 = "c"
+
+[reaction.provenance]
+source = "test"
+"#;
+        let codex: Codex = toml::from_str(toml).expect("parse");
+        let problems = codex.structural_problems();
+        assert!(
+            problems.iter().any(|p| p.contains("does not parse")),
+            "{problems:?}"
+        );
+    }
+
+    #[test]
+    fn an_entry_must_say_something() {
+        let toml = r#"
+[[reaction]]
+id = "silent"
+concepts = ["thing"]
+
+[reaction.setup]
+script = "add v1 water 100mL"
+
+[reaction.expect]
+events = []
+
+[reaction.registers]
+lv1 = "a"
+lv2 = "b"
+lv3 = "c"
+
+[reaction.provenance]
+source = "test"
+"#;
+        let codex: Codex = toml::from_str(toml).expect("parse");
+        assert!(codex
+            .structural_problems()
+            .iter()
+            .any(|p| p.contains("neither an equation nor a summary")));
     }
 }

@@ -149,7 +149,8 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "past-the-equivalence-point"
 spine = ["saeure-base-titration-ein-analytisches-verfahren"]
-equation = "HCl + 1.1 NaOH → NaCl + H₂O + 0.1 NaOH(excess)"
+summary = "HCl + 1.1 NaOH → NaCl + H₂O + 0.1 NaOH(excess)"
+equation = "HCl + NaOH → NaCl + H₂O"
 concepts = ["equivalence-point", "titration-curve"]
 requires = ["neutralisation"]
 apparatus = ["burette", "conical-flask", "ph-meter"]
@@ -233,7 +234,8 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "phosphate-buffer"
 spine = ["puffersysteme"]
-equation = "H₂PO₄⁻ / HPO₄²⁻ buffer (1.5 equivalents of base per H₃PO₄)"
+summary = "H₂PO₄⁻ / HPO₄²⁻ buffer (1.5 equivalents of base per H₃PO₄)"
+equation = "H₂PO₄⁻ ⇌ H⁺ + HPO₄²⁻"
 concepts = ["phosphate-buffer", "amphiprotic-ions"]
 requires = ["polyprotic-acids", "buffers"]
 apparatus = ["beaker", "burette", "ph-meter"]
@@ -350,7 +352,8 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "buffer-capacity-exceeded"
 spine = ["puffersysteme"]
-equation = "CH₃COOH/CH₃COO⁻ + excess HCl → buffer destroyed"
+summary = "CH₃COOH/CH₃COO⁻ + excess HCl → buffer destroyed"
+equation = "CH₃COO⁻ + H⁺ → CH₃COOH"
 concepts = ["buffer-capacity"]
 requires = ["buffers"]
 apparatus = ["beaker", "ph-meter"]
@@ -392,7 +395,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "dilution-by-ten"
 spine = ["konzentrationsberechnungen"]
-equation = "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L"
+summary = "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L"
 concepts = ["dilution", "concentration"]
 requires = ["acids", "ph"]
 apparatus = ["measuring-cylinder", "volumetric-flask", "ph-meter"]
@@ -893,7 +896,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "acetates-stay-dissolved"
 spine = ["salzbildung"]
-equation = "Ca²⁺ + 2 CH₃COO⁻ → no precipitate (all acetates are soluble)"
+summary = "Ca²⁺ + 2 CH₃COO⁻ → no precipitate (all acetates are soluble)"
 concepts = ["solubility-rules"]
 requires = ["precipitation", "net-ionic-reaction"]
 apparatus = ["beaker", "ph-meter"]
@@ -1005,7 +1008,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "filtering-a-precipitate"
 spine = ["filtration"]
-equation = "AgCl(s) retained on the paper;  Na⁺, NO₃⁻ pass through"
+summary = "AgCl(s) retained on the paper;  Na⁺, NO₃⁻ pass through"
 concepts = ["filtration", "separation"]
 requires = ["precipitation"]
 apparatus = ["filter-funnel", "filter-paper", "beaker"]
@@ -1047,7 +1050,7 @@ computed_by = "PHREEQC via Kerotakis L2; phase separation by the Kerotakis bench
 [[reaction]]
 id = "crystallising-salt-from-brine"
 spine = ["eindampfen", "gewinnung-und-abbau-von-salzen"]
-equation = "Na⁺ + Cl⁻ → NaCl(s)  as water leaves"
+summary = "Na⁺ + Cl⁻ → NaCl(s)  as water leaves"
 concepts = ["crystallisation", "evaporation"]
 requires = ["saturation", "solubility-limit"]
 apparatus = ["evaporating-basin", "bunsen", "balance"]
@@ -1128,7 +1131,7 @@ computed_by = "PHREEQC via Kerotakis L2 for pH and speciation; colour is curated
 [[reaction]]
 id = "ethanol-and-water-mix"
 spine = ["weitere-stoffeigenschaften"]
-equation = "C₂H₅OH(l) + H₂O(l) → one liquid phase (fully miscible)"
+summary = "C₂H₅OH(l) + H₂O(l) → one liquid phase (fully miscible)"
 concepts = ["miscibility", "mixtures"]
 requires = ["solutions"]
 apparatus = ["measuring-cylinder", "beaker"]

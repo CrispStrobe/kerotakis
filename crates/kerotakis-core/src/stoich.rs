@@ -219,15 +219,19 @@ pub fn parse_formula(input: &str) -> Result<Formula, ParseError> {
 
 /// Split a trailing charge from a formula body.
 ///
-/// Two notations have to coexist. PHREEQC and our registry write the sign
-/// first — `Ag+`, `SO4-2`, `Cu+2` — while chemists write it last, which
-/// normalisation turns into `SO4^2-`. Reading a trailing digit run blindly
-/// makes `SO4-2` a charge of −42, taking the subscript with it.
+/// Three notations have to coexist, and two of them genuinely conflict.
+/// PHREEQC and our registry put the magnitude *after* the sign — `Ag+`,
+/// `SO4-2`, `Cu+2`. Chemists superscript it, which normalisation turns
+/// into `SO4^2-`. Both are unambiguous. The third, `Ca2+`, is not: the
+/// same characters appear in `MnO4-`, where the 4 is a subscript and the
+/// charge is −1.
 ///
-/// One genuine ambiguity remains and is resolved by convention: in `Ca2+`
-/// the 2 is the charge, whereas in `H2` it is a subscript. A digit run
-/// directly before a trailing sign is therefore read as the magnitude of
-/// the charge, which is what everyone writing `Ca2+` means.
+/// **Digits before a trailing sign are read as a subscript.** That makes
+/// `MnO4-`, `NO3-`, `HCO3-`, `CrO4-2` and every other oxyanion right, at
+/// the cost of reading `Ca2+` as "Ca₂ with charge +1". Write `Ca+2`,
+/// `Ca²⁺` or `Ca++` for that, all three of which work. The alternative
+/// convention was tried first and quietly broke permanganate, which is a
+/// much more common thing to write than a bare `Ca2+`.
 fn split_charge(s: &str) -> (String, f64) {
     if let Some((body, sup)) = s.split_once('^') {
         return (body.to_string(), read_charge(sup));
@@ -235,29 +239,22 @@ fn split_charge(s: &str) -> (String, f64) {
     let t = s.trim_end();
     let chars: Vec<char> = t.chars().collect();
 
-    // Shape 1: ends with one or more signs, optionally preceded by digits.
+    // Shape 1: ends with one or more signs. Magnitude is how many, so that
+    // `Ca++` is a charge of two; any digits before them stay subscripts.
     let signs = chars
         .iter()
         .rev()
         .take_while(|c| **c == '+' || **c == '-')
         .count();
     if signs > 0 {
-        let before = &chars[..chars.len() - signs];
-        let digits = before
-            .iter()
-            .rev()
-            .take_while(|c| c.is_ascii_digit())
-            .count();
-        let magnitude: String = before[before.len() - digits..].iter().collect();
-        let sign_str: String = chars[chars.len() - signs..].iter().collect();
-        let body: String = before[..before.len() - digits].iter().collect();
-        let spec = format!("{sign_str}{magnitude}");
+        let body: String = chars[..chars.len() - signs].iter().collect();
+        let spec: String = chars[chars.len() - signs..].iter().collect();
         return (body, read_charge(&spec));
     }
 
     // Shape 2: a sign followed only by digits — the PHREEQC form.
     if let Some(pos) = t.rfind(['+', '-']) {
-        if t[pos + 1..].chars().all(|c| c.is_ascii_digit()) && !t[pos + 1..].is_empty() {
+        if !t[pos + 1..].is_empty() && t[pos + 1..].chars().all(|c| c.is_ascii_digit()) {
             return (t[..pos].to_string(), read_charge(&t[pos..]));
         }
     }
@@ -581,6 +578,38 @@ mod tests {
         assert_eq!(f("Ag+").charge, 1.0);
         assert_eq!(f("SO4-2").charge, -2.0);
         assert_eq!(f("Cu+2").charge, 2.0);
+    }
+
+    #[test]
+    fn a_digit_before_a_trailing_sign_is_a_subscript() {
+        // The conflict that matters: in `MnO4-` the 4 is a subscript and
+        // the charge is -1. Reading it as the charge magnitude gave "MnO
+        // with charge -4", and permanganate then failed to balance against
+        // anything.
+        let p = f("MnO4-");
+        assert_eq!(p.counts["O"], 4.0);
+        assert_eq!(p.counts["Mn"], 1.0);
+        assert_eq!(p.charge, -1.0);
+        for (formula, o, q) in [
+            ("NO3-", 3.0, -1.0),
+            ("HCO3-", 3.0, -1.0),
+            ("CrO4-2", 4.0, -2.0),
+        ] {
+            let x = f(formula);
+            assert_eq!(x.counts["O"], o, "{formula}");
+            assert_eq!(x.charge, q, "{formula}");
+        }
+        // Repeated signs still carry magnitude, which is how to write a
+        // divalent cation without the PHREEQC suffix.
+        assert_eq!(f("Ca++").charge, 2.0);
+    }
+
+    #[test]
+    fn permanganate_half_reaction_balances() {
+        // The case the notation bug broke. Textbook answer:
+        // MnO4- + 5 Fe2+ + 8 H+ -> Mn2+ + 5 Fe3+ + 4 H2O
+        let n = balance(&["MnO4-", "Fe+2", "H+"], &["Mn+2", "Fe+3", "H2O"]).expect("balances");
+        assert_eq!(n, vec![1, 5, 8, 1, 5, 4]);
     }
 
     #[test]
