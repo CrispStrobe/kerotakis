@@ -377,6 +377,11 @@ fn codex_lint(dir: &str) -> ! {
             "  equations: {} balanced (atoms and charge); {} entries describe something that is not a reaction",
             audit.balanced, audit.summary_only
         );
+        let pred = codex.prediction_audit();
+        println!(
+            "  predictions: {} questions, {}/{} wrong answers say what believing them reveals",
+            pred.predictions, pred.diagnosed, pred.distractors
+        );
         std::process::exit(0);
     }
     eprintln!("codex: {} problem(s)", problems.len());

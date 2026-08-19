@@ -512,8 +512,15 @@ load-bearing instead of ritual. Working out moles matters when the number
 you derive is the number the beaker will show.
 
 Two commitments follow. First, **distractors carry their own diagnosis**:
-each wrong option names the misconception it reveals and what to do about
-it, rather than the entry carrying one blanket note. Misconception
+each wrong option names the misconception it reveals *and the next move
+that puts pressure on exactly that idea* — a diagnosis without a next move
+is a label, not teaching. One blanket note per question cannot do this,
+because a learner who picks option 2 rarely holds the same idea as one who
+picks option 3, and the conceptual-change evidence is that instruction
+works by eliciting the learner's own model and confronting it. The schema
+carries it (`[[reaction.expect.predict.diagnosis]]`), the lint checks the
+indices, and `codex lint` reports how many distractors are diagnosed —
+currently **0 of 109**, which is a work list rather than a pass mark. Misconception
 *prevalence findings* are research facts rather than copyrightable
 expression, so we cite them and write our own options — AAAS Project 2061's
 item bank, Taber's *Chemical Misconceptions* (RSC), Barke's *Misconceptions

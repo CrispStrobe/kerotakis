@@ -142,9 +142,44 @@ pub struct Prediction {
     /// Index into `options`.
     pub answer: usize,
     /// Why the tempting wrong answer is tempting — the misconception this
-    /// question exists to surface.
+    /// question exists to surface. A single note covering the whole
+    /// question; `diagnosis` is the finer-grained form.
     #[serde(default)]
     pub misconception: Option<String>,
+    /// What each individual wrong answer reveals, and what to do about it.
+    ///
+    /// One blanket note per question is not enough to *teach* with. A
+    /// learner who picks option 2 has a specific idea in their head, and it
+    /// is rarely the same idea as the one that leads to option 3 — the
+    /// evidence on conceptual change is that instruction works by eliciting
+    /// the learner's own model and confronting it, which cannot be done
+    /// with a single averaged explanation.
+    ///
+    /// These are cheap to source honestly: misconception *prevalence
+    /// findings* are research facts rather than copyrightable expression,
+    /// so the finding is cited and the option is written by us. That is
+    /// also the better path, because a distractor has to match what this
+    /// engine actually computes rather than what a textbook rounds to.
+    #[serde(default)]
+    pub diagnosis: Vec<Diagnosis>,
+}
+
+/// What one particular wrong answer tells you about the learner.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Diagnosis {
+    /// Index into `Prediction::options`.
+    pub option: usize,
+    /// The idea that leads here, stated as the learner would hold it.
+    pub reveals: String,
+    /// What to do next: the experiment, comparison or question that puts
+    /// pressure on exactly this idea. A diagnosis without a next move is
+    /// a label, not teaching.
+    #[serde(default)]
+    pub next: Option<String>,
+    /// Where the misconception is documented, if it is. Left absent rather
+    /// than invented.
+    #[serde(default)]
+    pub source: Option<String>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -233,6 +268,15 @@ pub fn equation_clauses(equation: &str) -> Vec<String> {
 /// silently ignores what it cannot parse claims a clean bill of health it
 /// has not earned.
 #[derive(Debug, Clone, Default, PartialEq)]
+pub struct PredictionAudit {
+    pub predictions: usize,
+    /// Wrong options across all predictions.
+    pub distractors: usize,
+    /// Wrong options that say what believing them reveals.
+    pub diagnosed: usize,
+}
+
+#[derive(Debug, Clone, Default, PartialEq)]
 pub struct EquationAudit {
     /// Equation clauses that parsed and balanced, atoms and charge.
     pub balanced: usize,
@@ -243,6 +287,27 @@ pub struct EquationAudit {
 }
 
 impl Codex {
+    /// How much of the prediction layer actually diagnoses.
+    ///
+    /// Reported rather than enforced: requiring a diagnosis on every
+    /// distractor would be right and would also fail the build on entries
+    /// written before the field existed. A visible count is the honest
+    /// middle — it is a work list, not a pass mark.
+    pub fn prediction_audit(&self) -> PredictionAudit {
+        let mut audit = PredictionAudit::default();
+        for r in &self.reactions {
+            let Some(p) = &r.expect.predict else { continue };
+            audit.predictions += 1;
+            audit.distractors += p.options.len().saturating_sub(1);
+            audit.diagnosed += p
+                .diagnosis
+                .iter()
+                .filter(|d| d.option != p.answer && d.option < p.options.len())
+                .count();
+        }
+        audit
+    }
+
     pub fn equation_audit(&self) -> EquationAudit {
         let mut audit = EquationAudit::default();
         for r in &self.reactions {
@@ -484,6 +549,29 @@ impl Codex {
             if let Some(p) = &r.expect.predict {
                 if p.answer >= p.options.len() {
                     problems.push(format!("{}: prediction answer is out of range", r.id));
+                }
+                for d in &p.diagnosis {
+                    if d.option >= p.options.len() {
+                        problems.push(format!(
+                            "{}: diagnosis points at option {} of {}",
+                            r.id,
+                            d.option,
+                            p.options.len()
+                        ));
+                    }
+                    if d.option == p.answer {
+                        problems.push(format!(
+                            "{}: a diagnosis is for a wrong answer; option {} is the right one",
+                            r.id, d.option
+                        ));
+                    }
+                }
+                let mut seen_options: Vec<usize> = Vec::new();
+                for d in &p.diagnosis {
+                    if seen_options.contains(&d.option) {
+                        problems.push(format!("{}: two diagnoses for option {}", r.id, d.option));
+                    }
+                    seen_options.push(d.option);
                 }
                 if p.options.len() < 2 {
                     problems.push(format!(
@@ -1088,5 +1176,81 @@ source = "test"
             .structural_problems()
             .iter()
             .any(|p| p.contains("neither an equation nor a summary")));
+    }
+
+    fn with_predict(extra: &str) -> Codex {
+        let toml = format!(
+            r#"
+[[reaction]]
+id = "p"
+summary = "a test"
+concepts = ["thing"]
+
+[reaction.setup]
+script = "add v1 water 100mL"
+
+[reaction.expect]
+events = []
+
+[reaction.expect.predict]
+question = "what happens?"
+options = ["right", "wrong one", "wrong two"]
+answer = 0
+{extra}
+
+[reaction.registers]
+lv1 = "a"
+lv2 = "b"
+lv3 = "c"
+
+[reaction.provenance]
+source = "test"
+"#
+        );
+        toml::from_str(&toml).expect("parse")
+    }
+
+    #[test]
+    fn a_diagnosis_must_point_at_a_real_option() {
+        let codex =
+            with_predict("[[reaction.expect.predict.diagnosis]]\noption = 7\nreveals = \"nope\"");
+        assert!(codex
+            .structural_problems()
+            .iter()
+            .any(|p| p.contains("points at option 7")));
+    }
+
+    #[test]
+    fn a_diagnosis_may_not_be_attached_to_the_right_answer() {
+        // A diagnosis explains what believing a *wrong* answer reveals.
+        // Attaching one to the correct option means the entry has its
+        // answer index wrong, or has misunderstood the field.
+        let codex =
+            with_predict("[[reaction.expect.predict.diagnosis]]\noption = 0\nreveals = \"nope\"");
+        assert!(codex
+            .structural_problems()
+            .iter()
+            .any(|p| p.contains("is the right one")));
+    }
+
+    #[test]
+    fn two_diagnoses_for_one_option_is_an_error() {
+        let codex = with_predict(
+            "[[reaction.expect.predict.diagnosis]]\noption = 1\nreveals = \"a\"\n\n[[reaction.expect.predict.diagnosis]]\noption = 1\nreveals = \"b\"",
+        );
+        assert!(codex
+            .structural_problems()
+            .iter()
+            .any(|p| p.contains("two diagnoses")));
+    }
+
+    #[test]
+    fn the_audit_counts_distractors_not_options() {
+        let codex =
+            with_predict("[[reaction.expect.predict.diagnosis]]\noption = 1\nreveals = \"a\"");
+        let a = codex.prediction_audit();
+        assert_eq!(a.predictions, 1);
+        assert_eq!(a.distractors, 2, "three options, one of them right");
+        assert_eq!(a.diagnosed, 1);
     }
 }
