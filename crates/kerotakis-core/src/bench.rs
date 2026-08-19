@@ -88,12 +88,17 @@ impl Bench {
             _ => Kelvin::STANDARD,
         };
         let mut events = self.apply(&op, screen)?;
+        // Waiting advances the whole bench, so every vessel is re-settled.
+        let touched: Vec<VesselId> = match &op {
+            Operator::Wait { .. } => self.vessels.iter().map(|v| v.id).collect(),
+            _ => op_touches(&op),
+        };
 
         // Re-equilibrate every vessel the operator touched (v0: mutating ops
         // touch at most two). A touched vessel's previous solution
         // characterisation is stale by definition; the solver stack either
         // recomputes it or the honesty pass reports the gap.
-        for id in op_touches(&op) {
+        for id in touched.iter().copied() {
             let vessel = self.vessel_mut(id)?;
             vessel.solution = None;
             if !solver.applies(vessel) {
@@ -115,7 +120,7 @@ impl Bench {
         // and stayed there. Correct the last reading per vessel to the
         // temperature the vessel actually ended at, and drop it if nothing
         // moved after all.
-        for id in op_touches(&op) {
+        for id in touched.iter().copied() {
             let Ok(actual) = self.vessel(id).map(|v| v.temperature) else {
                 continue;
             };
@@ -511,6 +516,36 @@ impl Bench {
                     }
                 }
             }
+            Operator::Wait { seconds } => {
+                // Kinetics runs here, before the solver stack: rates change
+                // the composition, and the fast equilibria — speciation,
+                // acid-base — then re-settle around whatever is left. That
+                // ordering is operator splitting, and it is the right way
+                // round because equilibrium is the faster process.
+                let seconds = seconds.max(0.0);
+                for vessel in self.vessels.iter_mut() {
+                    vessel.elapsed_seconds += seconds;
+                    for (reaction, moles) in crate::kinetics::advance(vessel, seconds) {
+                        if moles.0 < crate::OBSERVABLE_MOLES {
+                            continue;
+                        }
+                        let (ea, catalyst) = reaction.effective_activation_energy(vessel);
+                        events.push(Event::Reacted {
+                            vessel: vessel.id,
+                            reaction: reaction.id.to_string(),
+                            equation: reaction.equation.to_string(),
+                            moles,
+                            seconds,
+                            catalyst: catalyst.map(|c| {
+                                species::lookup_key(c.species)
+                                    .map(|d| d.name.to_string())
+                                    .unwrap_or_else(|| c.species.to_string())
+                            }),
+                            activation_energy: ea,
+                        });
+                    }
+                }
+            }
             Operator::Measure { vessel, instrument } => {
                 let v = self.vessel(*vessel)?;
                 match instrument {
@@ -571,5 +606,8 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         Operator::Evaporate { vessel, .. } | Operator::Ignite { vessel } => vec![*vessel],
         Operator::Decant { from, to, .. } | Operator::Filter { from, to } => vec![*from, *to],
         Operator::Measure { .. } => vec![],
+        // Handled by the caller, which has the vessel list: waiting touches
+        // every vessel on the bench, because the clock is shared.
+        Operator::Wait { .. } => vec![],
     }
 }

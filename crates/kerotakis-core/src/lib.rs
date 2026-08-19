@@ -17,6 +17,7 @@ pub const OBSERVABLE_MOLES: f64 = 1e-6;
 pub mod appearance;
 pub mod bench;
 pub mod curated;
+pub mod kinetics;
 pub mod ops;
 pub mod render;
 pub mod script;

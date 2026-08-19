@@ -81,6 +81,15 @@ pub struct SolutionInfo {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Vessel {
+    /// Seconds of bench time this vessel has experienced.
+    ///
+    /// Time is a state dimension the moment rates are modelled, and it is
+    /// per-vessel only for bookkeeping: `wait` advances every vessel at
+    /// once, because time is not a per-beaker quantity. That is what makes
+    /// a fair test possible — two beakers, one variable, the same thirty
+    /// seconds.
+    #[serde(default)]
+    pub elapsed_seconds: f64,
     pub id: VesselId,
     pub label: String,
     pub contents: Vec<Portion>,
@@ -96,6 +105,7 @@ pub struct Vessel {
 impl Vessel {
     pub fn new(id: VesselId, label: impl Into<String>) -> Self {
         Vessel {
+            elapsed_seconds: 0.0,
             id,
             label: label.into(),
             contents: Vec::new(),

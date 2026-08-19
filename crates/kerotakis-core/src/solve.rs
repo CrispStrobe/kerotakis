@@ -357,11 +357,20 @@ impl Equilibrator for HonestyEquilibrator {
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());
+                let what = if species::lookup(&p.species)
+                    .is_some_and(|d| d.dissolves_without_speciation)
+                {
+                    format!(
+                        "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                    )
+                } else {
+                    format!(
+                        "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                    )
+                };
                 events.push(Event::NotYetModeled {
                     vessel: vessel.id,
-                    what: format!(
-                        "{name} in contact with liquid: no wired solver models this dissolution/reaction"
-                    ),
+                    what,
                 });
             }
         }

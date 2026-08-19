@@ -1,0 +1,27 @@
+# Rates: two beakers, one variable, one clock.
+#
+# The disappearing cross. Thiosulfate and acid make sulfur, the sulfur
+# clouds the liquid, and the time it takes to hide a mark under the beaker
+# is the measurement. Nothing here is scripted: both beakers run the same
+# rate law, and the only difference between them is temperature.
+register lv2
+
+add v1 water 100mL
+add v1 Na2S2O3 0.79g
+add v1 HCl 0.002mol
+
+new
+add v2 water 100mL
+add v2 Na2S2O3 0.79g
+add v2 HCl 0.002mol
+heat v2 8kJ
+
+# Time is shared. `wait` advances the whole bench, which is the only way a
+# fair test means anything.
+wait 20s
+look v1
+look v2
+
+wait 40s
+look v1
+look v2

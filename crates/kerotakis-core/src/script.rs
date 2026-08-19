@@ -46,6 +46,24 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 Operator::Cool { vessel, energy }
             }
         }
+        "wait" => {
+            // `wait 30s` — the clock the rate experiments need.
+            let raw = words.get(1).ok_or("usage: wait <n><s|min|h>")?;
+            let digits: String = raw
+                .chars()
+                .take_while(|c| c.is_ascii_digit() || *c == '.')
+                .collect();
+            let value: f64 = digits
+                .parse()
+                .map_err(|_| format!("bad duration '{raw}'"))?;
+            let seconds = match raw[digits.len()..].trim() {
+                "" | "s" | "sec" | "secs" | "seconds" => value,
+                "min" | "mins" | "minutes" => value * 60.0,
+                "h" | "hr" | "hours" => value * 3600.0,
+                other => return Err(format!("unknown time unit '{other}'")),
+            };
+            Operator::Wait { seconds }
+        }
         "ignite" => Operator::Ignite {
             vessel: parse_vessel(words.get(1).ok_or("usage: ignite <vessel>")?)?,
         },

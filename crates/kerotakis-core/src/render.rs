@@ -366,6 +366,43 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 ),
             }
         }
+        Event::Reacted {
+            vessel,
+            equation,
+            moles,
+            seconds,
+            catalyst,
+            activation_energy,
+            ..
+        } => match register.level() {
+            1 => match catalyst {
+                Some(c) => format!(
+                    "In {vessel}, the {c} is making it happen much faster — after {seconds:.0} seconds a lot has changed!"
+                ),
+                None => format!("After {seconds:.0} seconds, something has been happening in {vessel}."),
+            },
+            2 => {
+                let with = match catalyst {
+                    Some(c) => format!(", sped up by {c}"),
+                    None => String::new(),
+                };
+                format!(
+                    "{vessel}: {:.4} mol reacted in {seconds:.0} s{with}  —  {equation}",
+                    moles.0
+                )
+            }
+            _ => {
+                let with = match catalyst {
+                    Some(c) => format!(" (catalyst: {c})"),
+                    None => String::new(),
+                };
+                format!(
+                    "{vessel}: extent {:.6} mol over {seconds:.1} s, Ea = {:.1} kJ/mol{with}  —  {equation}",
+                    moles.0,
+                    activation_energy / 1000.0
+                )
+            }
+        },
         Event::NotYetModeled { vessel, what } => match register.level() {
             1 => format!("Hmm — nothing visible happens in {vessel} (this part of the lab isn't awake yet)."),
             2 => format!("{vessel}: not yet modelled — {what}"),

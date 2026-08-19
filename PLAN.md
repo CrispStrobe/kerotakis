@@ -1361,20 +1361,63 @@ electrons are counted, because both products are oxidations and nothing in
 the bookkeeping picks a ratio. That needs either a stated ratio or, better,
 the same treatment as above — let the thermodynamics decide.
 
-#### P3k — Rates, the cheap sliver
+#### P3k — Rates, the cheap sliver  ← **built**
 
-- [ ] Rate law + Arrhenius parameters as **codex data**, integrated by a
-      bench clock. This buys the thiosulfate disappearing-cross, catalyst
-      and temperature effects, and concentration dependence — the whole
-      school treatment of kinetics — without a mechanism engine.
-- [ ] Same reasoning as the L6 decision: ~95% of the pedagogy at ~5% of the
-      cost, with P5's real mechanism chemistry still ahead of it.
-- [ ] Honest flag: a clock makes **time a state dimension**, which is a
-      state-machine change rather than a data addition, and the one part of
-      this that is not cheap.
-- [ ] It also fills a hole the codex already admits: the `collision-theory`
-      model entry currently `embodied_by` nothing, and the 500 K thermal
-      stand-down is a placeholder for exactly this.
+- [x] `kerotakis-core/src/kinetics.rs`: rate = k·Π[Xᵢ]^nᵢ with k from
+      Arrhenius, orders and activation energies curated with provenance,
+      integrated by a bench clock. `wait 20s` in the `.lab` grammar.
+- [x] **Time is a state dimension**, and shared: `wait` advances *every*
+      vessel, because time is not something one beaker has more of than
+      another. That is the only way a fair test means anything, and the
+      disappearing-cross lesson is exactly two beakers, one variable and
+      one clock.
+- [x] Catalysis is modelled as **a lower activation energy**, not a factor
+      on the rate — which is what a catalyst is. Manganese dioxide and
+      catalase sit side by side on the same reaction so the enzyme's
+      advantage is a computed consequence.
+- [x] The ten-degree rule *falls out* rather than being applied: an
+      activation energy near 50 kJ/mol gives a factor of about two per ten
+      degrees at room temperature, and a steeper barrier visibly breaks the
+      rule of thumb.
+- [ ] Codex entries for the practicals (initial rates, catalyst comparison,
+      temperature series) — the engine is there, the curation is not.
+
+**Integration accuracy is checked against a closed form, not against
+another guess.** A first-order decay has an exact solution, so the
+integrator is compared with real arithmetic. That test earned its place
+immediately: it caught a 0.7% drift over two minutes that nothing else
+could see, which forced the switch from explicit Euler to the midpoint
+method. `tools/kinetics-oracle.py` is the second opinion for cases with no
+closed form — SciPy, out of the build graph, on the ChemicalFun terms.
+
+Three bugs that only a rate model could have exposed, all fixed:
+
+- **One unknown species disabled the whole aqueous engine.** `partition`
+  returned `None` if *any* species lacked a derived role, so adding
+  thiosulfate — which is in no database we ship — silently withdrew the pH
+  of the acid sitting beside it. The vessel simply stopped having a
+  solution.
+- **And then the solver deleted it.** The aqueous rebuild replaces the
+  vessel's contents with the computed state, so a species with no role was
+  not ignored but *destroyed*. It had been invisible only because the
+  first bug meant the solver never ran on such a vessel at all.
+- **The integrator could freeze.** The midpoint method evaluates on a copy;
+  once a half-step pushed the copy's last reactant below the threshold at
+  which `withdraw` discards a spent portion, the midpoint rate came back
+  zero and the full step applied nothing — two million substeps to advance
+  the clock by seven milliseconds.
+
+**Honest gaps.** A salt the aqueous engine cannot speciate now dissolves
+rather than sitting at the bottom of the beaker (`dissolves_without_
+speciation`), and the lab says exactly what that means: it contributes
+nothing to pH or ionic strength. The thiosulfate reaction treats acid as a
+rate influence read from the computed pH rather than as a consumed
+reactant, because the practical runs with acid in large excess and the
+vessel has no proton portion to draw down.
+
+It also fills a hole the codex already admitted: `collision-theory`
+`embodied_by` nothing, and the 500 K thermal stand-down is a placeholder
+for exactly this.
 
 #### P3p — Phase behaviour (was P3)
 

@@ -275,7 +275,16 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     };
 
     for p in &vessel.contents {
-        match derived::role(&p.species.0)? {
+        // A species this engine cannot place must not take the rest of the
+        // vessel down with it. Bailing out here meant that adding one salt
+        // PHREEQC has never heard of — thiosulfate, say — silently withdrew
+        // the pH of the acid sitting beside it, and the vessel simply
+        // stopped having a solution at all. The honesty pass names the
+        // unmodelled substance; the acid still gets its answer.
+        let Some(role) = derived::role(&p.species.0) else {
+            continue;
+        };
+        match role {
             DerivedRole::Solvent => kgw += p.moles.0 * WATER_MOLAR_MASS / 1000.0,
             DerivedRole::Dissolves(els) => {
                 solutes += 1;
@@ -571,8 +580,30 @@ impl PhreeqcEquilibrator {
         let mut events = Vec::new();
         let mut contents = Vec::new();
         for p in &vessel.contents {
-            if matches!(derived::role(&p.species.0), Some(DerivedRole::Solvent)) {
-                contents.push(p.clone());
+            match derived::role(&p.species.0) {
+                Some(DerivedRole::Solvent) => contents.push(p.clone()),
+                // Matter this engine does not model passes through
+                // untouched. The rebuild replaces the vessel's contents
+                // with the computed state, so anything without a role used
+                // to be *destroyed* here — not ignored, deleted. It was
+                // invisible only because an unmodelled species also made
+                // `partition` decline, so the solver never ran at all.
+                None => {
+                    // Freely soluble but unspeciated: it goes into
+                    // solution, and that is the whole claim.
+                    let dissolves =
+                        species::lookup(&p.species).is_some_and(|d| d.dissolves_without_speciation);
+                    if dissolves && p.phase == Phase::Solid {
+                        contents.push(Portion {
+                            species: p.species.clone(),
+                            moles: p.moles,
+                            phase: Phase::Aqueous,
+                        });
+                    } else {
+                        contents.push(p.clone());
+                    }
+                }
+                Some(_) => {}
             }
         }
         for (el, moles) in &new_ions {

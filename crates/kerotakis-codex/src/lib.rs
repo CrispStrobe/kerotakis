@@ -779,6 +779,9 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::VesselCreated { .. } => ("vessel_created", None),
         E::NotYetModeled { .. } => ("not_yet_modelled", None),
         E::SolverFailed { .. } => ("solver_failed", None),
+        // Keyed by reaction id, so an entry asserts `reacted:thiosulfate-acid`
+        // rather than the weaker "something reacted".
+        E::Reacted { reaction, .. } => ("reacted", Some(reaction.as_str())),
         // Named per direction so an entry can assert `froze:water` rather
         // than the weaker "some state changed".
         E::StateChanged {

@@ -49,6 +49,13 @@ pub enum Operator {
     /// non-water liquids need L3 (relative volatility) and are honestly
     /// flagged.
     Evaporate { vessel: VesselId, fraction: f64 },
+    /// Let time pass. Rates need a clock, and this is it.
+    ///
+    /// Deliberately not per-vessel: every vessel on the bench advances by
+    /// the same interval, because time is not something one beaker has more
+    /// of than another. Two beakers and one changed variable is the whole
+    /// design of a fair test, and it only works if the clock is shared.
+    Wait { seconds: f64 },
     /// Read an instrument. Never mutates state.
     Measure {
         vessel: VesselId,
@@ -206,6 +213,21 @@ pub enum Event {
         /// K away from the pure solvent's transition. Negative when
         /// dissolved particles have lowered it.
         shifted_by: f64,
+    },
+    /// Time passed, and this is what it did.
+    Reacted {
+        vessel: VesselId,
+        /// The kinetic reaction's id.
+        reaction: String,
+        equation: String,
+        /// How far it ran in this interval.
+        moles: Moles,
+        /// Seconds of bench time that elapsed.
+        seconds: f64,
+        /// The catalyst in force, if any, and the barrier it provided.
+        catalyst: Option<String>,
+        /// Activation energy actually used, J/mol.
+        activation_energy: f64,
     },
     /// A solver was asked and could not converge / answer. First-class,
     /// honest, never a crash.

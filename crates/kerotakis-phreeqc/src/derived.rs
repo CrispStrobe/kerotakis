@@ -96,6 +96,11 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     ("P", "H2PO4-"),
     ("Acetate", "CH3COO-"),
     ("Mn(7)", "MnO4-"),
+    // Bare manganese books as the reduced ion, which is what the databases
+    // treat as the master species and what dissolved manganese actually is
+    // at bench conditions. Needed once MnO2 entered the registry: it is the
+    // first substance to put Mn in solution as anything but permanganate.
+    ("Mn", "Mn+2"),
     ("Cu", "Cu+2"),
 ];
 
