@@ -182,6 +182,19 @@ impl Lab {
         .to_string())
     }
 
+    /// Empty the bench and start again.
+    ///
+    /// Without this, every experiment ran into whatever the last one left
+    /// behind: the freezing demonstration was cooling a beaker that already
+    /// held 74 mol of water and a silver chloride precipitate, so nothing
+    /// froze and the lesson looked broken rather than crowded. The solver
+    /// stack and the register survive — they are the session, not the
+    /// chemistry — and so does the pre-warmed cache, which is expensive to
+    /// rebuild and correct regardless of what is in the glassware.
+    pub fn reset(&mut self) {
+        self.bench = Bench::new();
+    }
+
     /// The submicroscopic view of one vessel, as JSON: the census plus the
     /// text a given register would show. Drawn at solved ratios, so it is a
     /// rendering of the answer rather than an illustration of it.

@@ -64,12 +64,12 @@
   <div id="transcript"></div>
   <aside id="side">
     <h2>Try these</h2>
-    <button data-run="add v1 water 200mL&#10;add v1 NaCl 0.1mol&#10;add v1 AgNO3 0.01mol&#10;look v1&#10;particles v1">Silver meets salt</button>
-    <button data-run="add v1 water 100mL&#10;add v1 CuSO4 0.01mol&#10;add v1 NaOH 0.02mol&#10;look v1&#10;heat v1 20kJ&#10;look v1">Blue gel, then black</button>
-    <button data-run="add v1 water 100mL&#10;add v1 Na2S2O3 0.79g&#10;add v1 HCl 0.002mol&#10;new&#10;add v2 water 100mL&#10;add v2 Na2S2O3 0.79g&#10;add v2 HCl 0.002mol&#10;heat v2 8kJ&#10;wait 20s&#10;look v1&#10;look v2">Rates: two beakers, one clock</button>
-    <button data-run="add v1 water 100mL&#10;add v1 H2O2 0.1mol&#10;add v1 MnO2 0.5g&#10;wait 90s&#10;look v1">Catalysis</button>
-    <button data-run="add v1 water 100mL&#10;cool v1 40kJ&#10;inspect v1">Freeze it</button>
-    <button data-run="add v1 water 1cup&#10;add v1 KMnO4 1pinch&#10;look v1">Permanganate</button>
+    <button data-run="reset&#10;add v1 water 200mL&#10;add v1 NaCl 0.1mol&#10;add v1 AgNO3 0.01mol&#10;look v1&#10;particles v1">Silver meets salt</button>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 CuSO4 0.01mol&#10;add v1 NaOH 0.02mol&#10;look v1&#10;heat v1 20kJ&#10;look v1">Blue gel, then black</button>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 Na2S2O3 0.79g&#10;add v1 HCl 0.002mol&#10;new&#10;add v2 water 100mL&#10;add v2 Na2S2O3 0.79g&#10;add v2 HCl 0.002mol&#10;heat v2 8kJ&#10;wait 20s&#10;look v1&#10;look v2">Rates: two beakers, one clock</button>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 H2O2 0.1mol&#10;add v1 MnO2 0.5g&#10;wait 90s&#10;look v1">Catalysis</button>
+    <button data-run="reset&#10;add v1 water 100mL&#10;cool v1 40kJ&#10;inspect v1">Freeze it</button>
+    <button data-run="reset&#10;add v1 water 1cup&#10;add v1 KMnO4 1pinch&#10;look v1">Permanganate</button>
     <h2>Detail</h2>
     <button data-cmd="register lv1">lv1 — what you see</button>
     <button data-cmd="register lv2">lv2 — equations and amounts</button>
@@ -188,8 +188,8 @@ function runOne(line) {
 
   if (trimmed === "help") return write(HELP, "note");
   if (trimmed === "reset") {
-    lab.reset?.();
-    return write("(the bench is not resettable yet — reload the page)", "note");
+    lab.reset();
+    return write("  the bench is clean again.", "note");
   }
   if (trimmed === "species") {
     const list = JSON.parse(lab.species());
@@ -211,7 +211,14 @@ function runOne(line) {
     }
     const doc = JSON.parse(lab.runScript(trimmed + "\n"));
     const lines = (doc.steps ?? []).flatMap((s) => s.rendered ?? []);
-    write(lines.length ? lines.map((l) => "  " + l).join("\n") : "  (nothing happened)");
+    if (lines.length) return write(lines.map((l) => "  " + l).join("\n"));
+    // `register` is consumed by the script runner and produces no events;
+    // reporting that as "nothing happened" made a successful command look
+    // like a failed one.
+    if (trimmed.startsWith("register ")) {
+      return write(`  detail is now ${trimmed.slice(9).trim()}.`, "note");
+    }
+    write("  (nothing happened)");
   } catch (e) {
     write(`  ${e.message ?? e}`, "err");
   }
