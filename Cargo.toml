@@ -5,6 +5,7 @@ members = [
     "crates/kerotakis-cli",
     "crates/kerotakis-phreeqc",
     "crates/kerotakis-safety",
+    "crates/kerotakis-cea",
 ]
 
 [workspace.package]

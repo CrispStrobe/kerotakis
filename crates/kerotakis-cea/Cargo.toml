@@ -1,0 +1,13 @@
+[package]
+name = "kerotakis-cea"
+description = "NASA CEA thermochemistry for Kerotakis — NASA-9 polynomials, formation enthalpies and gas/condensed-phase equilibrium (L2g)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+kerotakis-core = { path = "../kerotakis-core" }
+serde = { workspace = true }
+thiserror = { workspace = true }
