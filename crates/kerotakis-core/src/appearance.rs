@@ -4,15 +4,21 @@
 //! turns state into what the eye would report: a colour, how cloudy it is,
 //! what has settled, and whether anything is bubbling.
 //!
-//! The colour model is deliberately modest and says so. Solute colours are
-//! curated sRGB with a tinting strength per mol/L, combined subtractively
-//! (each solute removes light rather than adding it, which is why blue and
-//! yellow give green here as they do in a beaker). Turbidity comes from
-//! suspended solid volume. The plan reserves the honest spectral path —
-//! ε(λ) integrated against CIE colour-matching functions — for indicators,
-//! where the dataset is small and classical; everywhere else, real
-//! absorption spectra are d–d and charge-transfer bands that no data we can
-//! ship delivers honestly.
+//! Colour is computed, not tinted. Each dissolved species contributes its
+//! molar absorptivity spectrum ε(λ); the absorbances add, Beer–Lambert
+//! turns the total into a transmittance, and `crate::spectrum` integrates
+//! what is left against the CIE 1931 observer. So mixtures compose the way
+//! a beaker composes them, concentration changes hue rather than only
+//! depth, and the depth of liquid the light crosses is a parameter.
+//!
+//! Two things stay curated, for reasons rather than convenience. ε(λ)
+//! itself must: the ions that are actually coloured owe it to d–d and
+//! charge-transfer transitions, and no dataset we can ship — nor any
+//! affordable calculation, TD-DFT least of all here — delivers those
+//! honestly. And the colour of a *solid* stays a plain sRGB value, because
+//! a white powder is white by scattering, not by transmission; running it
+//! through Beer–Lambert would be the wrong physics wearing the right
+//! equations. Turbidity comes from suspended solid volume.
 
 use serde::{Deserialize, Serialize};
 
@@ -140,21 +146,29 @@ fn colour_word(c: &Colour, solid: bool) -> &'static str {
     };
     let hue = if hue < 0.0 { hue + 360.0 } else { hue };
     let dark = max < 120.0;
+    // Saturation, which is what separates pink from purple: they are the
+    // same hue. Dilute permanganate and concentrated permanganate are one
+    // spectrum at two concentrations, and a chemist calls the first pink
+    // and the second purple — so the word has to follow the washing-out,
+    // not the hue angle, or the whole point of computing the colour from
+    // ε(λ) is thrown away at the last step.
+    let saturation = chroma / max.max(1.0);
     match hue {
-        h if !(15.0..330.0).contains(&h) => "red",
+        h if !(15.0..330.0).contains(&h) => {
+            if saturation < 0.7 {
+                "pink"
+            } else {
+                "red"
+            }
+        }
         h if h < 45.0 => "orange",
         h if h < 70.0 => "yellow",
         h if h < 160.0 => "green",
         h if h < 200.0 => "blue-green",
         h if h < 250.0 => "blue",
-        h if h < 320.0 => {
-            if dark {
-                "deep purple"
-            } else {
-                "purple"
-            }
-        }
-        _ => "pink",
+        _ if saturation < 0.7 => "pink",
+        _ if dark => "deep purple",
+        _ => "purple",
     }
 }
 
@@ -268,6 +282,26 @@ mod tests {
         assert!(a.cloudiness > 0.1, "cloudiness {}", a.cloudiness);
         assert!(a.words.contains("cloudy"), "{}", a.words);
         assert!(a.words.contains("silver chloride"), "{}", a.words);
+    }
+
+    #[test]
+    fn permanganate_goes_from_pink_to_purple_as_it_concentrates() {
+        // The payoff of computing colour from a spectrum rather than
+        // tinting: one substance, one ε(λ), and the *word* changes with
+        // concentration exactly as it does in a beaker.
+        let word_at = |c: f64| {
+            let a = observe(&vessel_with(&[
+                ("water", 55.5, Phase::Liquid),
+                ("MnO4-", c, Phase::Aqueous),
+            ]));
+            colour_word(&a.liquid.expect("a colour"), false)
+        };
+        assert_eq!(word_at(1e-5), "pink", "dilute permanganate is pink");
+        assert_eq!(
+            word_at(1e-3),
+            "purple",
+            "concentrated permanganate is purple"
+        );
     }
 
     #[test]

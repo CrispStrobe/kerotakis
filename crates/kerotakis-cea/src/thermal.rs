@@ -347,7 +347,7 @@ impl Equilibrator for ThermalEquilibrator {
         if changed {
             events.push(Event::ThermalEquilibrium {
                 vessel: vessel.id,
-                temperature: Kelvin(t),
+                temperature: Kelvin(t_final),
                 provenance: Provenance {
                     engine: "Gibbs minimisation (Kerotakis)".to_string(),
                     dataset: "NASA CEA thermo.inp".to_string(),

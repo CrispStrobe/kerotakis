@@ -23,6 +23,17 @@ pub trait Equilibrator {
     fn applies(&self, _vessel: &Vessel) -> bool {
         true
     }
+    /// Whether a *chemistry* engine claims this state — one that decides
+    /// what reacts, as opposed to the physical mixing pass that moves heat
+    /// around and the honesty pass that only reports.
+    ///
+    /// The bench needs this to tell two very different situations apart:
+    /// a solver that examined the vessel and found no reaction, and no
+    /// solver having examined it at all. Reporting the second as the first
+    /// turns a gap in our modelling into a claim about the world.
+    fn chemistry_applies(&self, vessel: &Vessel) -> bool {
+        self.applies(vessel)
+    }
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError>;
 }
 
@@ -42,6 +53,10 @@ impl SolverStack {
 impl Equilibrator for SolverStack {
     fn name(&self) -> &'static str {
         "solver-stack"
+    }
+
+    fn chemistry_applies(&self, vessel: &Vessel) -> bool {
+        self.solvers.iter().any(|s| s.chemistry_applies(vessel))
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
@@ -114,6 +129,10 @@ impl Equilibrator for MixingEquilibrator {
         "mixing-v0"
     }
 
+    fn chemistry_applies(&self, _vessel: &Vessel) -> bool {
+        false
+    }
+
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         let mut events = Vec::new();
 
@@ -143,6 +162,10 @@ pub struct HonestyEquilibrator;
 impl Equilibrator for HonestyEquilibrator {
     fn name(&self) -> &'static str {
         "honesty"
+    }
+
+    fn chemistry_applies(&self, _vessel: &Vessel) -> bool {
+        false
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {

@@ -119,6 +119,13 @@ impl Bench {
                 Event::ReactionOccurred { .. } => true,
                 _ => false,
             });
+            // Asked *before* the revert, while the vessel is still at flame
+            // temperature: that is the state whose flammability was — or
+            // was not — evaluated.
+            let examined = self
+                .vessel(*vessel)
+                .map(|v| solver.chemistry_applies(v))
+                .unwrap_or(false);
             if !caught {
                 if let Ok(v) = self.vessel_mut(*vessel) {
                     v.temperature = temperature_before;
@@ -145,6 +152,16 @@ impl Bench {
                         vessel: *vessel,
                         species,
                         colour,
+                    }),
+                    // "Nothing ignited" is a claim about the substance, and
+                    // we may only make it if an engine actually looked.
+                    // Ethanol has no condensed form in the NASA data, so
+                    // the thermal solver never engages — and reporting that
+                    // silence as "it does not burn" would be a false
+                    // observation dressed as a result.
+                    None if !examined => events.push(Event::NotYetModeled {
+                        vessel: *vessel,
+                        what: "whether these contents burn: no wired solver models combustion for them, so the lab cannot say either way".to_string(),
                     }),
                     None => events.push(Event::DidNotIgnite { vessel: *vessel }),
                 }

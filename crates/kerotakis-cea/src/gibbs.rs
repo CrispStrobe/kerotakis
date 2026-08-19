@@ -75,6 +75,38 @@ impl Equilibrium {
 /// its own amount.
 const TRACE: f64 = 1e-18;
 
+/// How far out of element balance a composition may be and still count as
+/// solved, relative to each element's own budget. Atoms are conserved
+/// exactly in nature, so this is a numerical tolerance and nothing more:
+/// anything looser is not a rounding error but a wrong answer.
+const BALANCE_TOL: f64 = 1e-9;
+
+/// The worst relative element-balance violation in a composition.
+///
+/// `budget` says how many moles of each element went in; a valid answer
+/// accounts for every one of them. Returning this rather than trusting the
+/// formulation is the difference between claiming conservation and
+/// checking it.
+fn balance_residual(
+    pool: &[&Species],
+    n: &[f64],
+    elements: &[String],
+    budget: &BTreeMap<String, f64>,
+) -> f64 {
+    let mut worst: f64 = 0.0;
+    for (j, el) in elements.iter().enumerate() {
+        let target = budget.get(el).copied().unwrap_or(0.0);
+        let have: f64 = pool
+            .iter()
+            .zip(n)
+            .map(|(s, m)| s.composition.get(&elements[j]).copied().unwrap_or(0.0) * m)
+            .sum();
+        let _ = el;
+        worst = worst.max((have - target).abs() / target.max(1e-12));
+    }
+    worst
+}
+
 /// Solve the (T, P) equilibrium problem.
 ///
 /// `budget` maps element symbol → total moles of that element; the result
@@ -170,6 +202,27 @@ pub fn equilibrate_tp(
         }
     }
 
+    // How often each condensed phase has been admitted. A phase that is
+    // admitted, driven out, and admitted again is oscillating rather than
+    // converging; capping the retries keeps that from spinning the full 400
+    // iterations.
+    let mut admissions = vec![0u8; pool.len()];
+
+    // Which elements a gas can carry at all. An element with no gaseous
+    // form — calcium in a limestone kiln — lives entirely in the condensed
+    // phases, so the last solid holding it may not leave: its balance row
+    // would go all-zero and the next linear solve would be singular. This
+    // is the same guard the initial guess above applies, enforced for the
+    // rest of the iteration too.
+    let gas_carries: Vec<bool> = (0..elements.len())
+        .map(|j| gas.iter().any(|&i| a(i, j) > 0.0))
+        .collect();
+    let is_sole_carrier = |c: usize, active: &[usize]| -> bool {
+        (0..elements.len()).any(|j| {
+            a(c, j) > 0.0 && !gas_carries[j] && !active.iter().any(|&o| o != c && a(o, j) > 0.0)
+        })
+    };
+
     for iteration in 0..400 {
         let dim = elements.len() + active_cond.len() + 1;
         let mut m = vec![vec![0.0f64; dim + 1]; dim];
@@ -222,6 +275,13 @@ pub fn equilibrate_tp(
             n_total - sum_gas + gas.iter().map(|&i| n[i] * mu(i, &n, n_total)).sum::<f64>();
 
         let Some(sol) = solve(&mut m) else {
+            // Singular. This happens when one condensed phase is the sole
+            // repository of every element and the gas phase has collapsed:
+            // the element rows then differ only by a stoichiometric factor
+            // in that phase's single column, so the multipliers are
+            // underdetermined. The composition is not in doubt there, but
+            // this formulation cannot produce it, and saying so is better
+            // than returning whichever answer the arithmetic fell into.
             return Err(CeaError::NotConverged(iteration));
         };
         let pi: Vec<f64> = sol[..elements.len()].to_vec();
@@ -241,10 +301,22 @@ pub fn equilibrate_tp(
                 lambda = lambda.min(2.0 / d_ln[i].abs().max(2.0));
             }
         }
+        // A condensed phase being driven out must not be allowed to freeze
+        // the whole step. Limiting λ so the phase can only shrink by 90% is
+        // right while it is genuinely present, but a phase the solution
+        // wants *gone* demands λ→0, which stalls the iteration — and a
+        // stalled iteration used to be misread as a converged one. Below a
+        // tenth of a percent of a step, remove the phase instead.
+        let mut forced_drop: Vec<usize> = Vec::new();
         for (c_idx, &c) in active_cond.iter().enumerate() {
             let dn = sol[elements.len() + c_idx];
             if dn < 0.0 && n[c] > 0.0 {
-                lambda = lambda.min((0.9 * n[c] / -dn).min(1.0));
+                let limit = (0.9 * n[c] / -dn).min(1.0);
+                if limit < 1e-3 && !is_sole_carrier(c, &active_cond) {
+                    forced_drop.push(c);
+                } else {
+                    lambda = lambda.min(limit);
+                }
             }
         }
 
@@ -267,20 +339,54 @@ pub fn equilibrate_tp(
         n_total = (n_total.max(TRACE).ln() + step_n).exp();
         max_change = max_change.max(step_n.abs());
 
+        for c in forced_drop {
+            n[c] = 0.0;
+        }
+        // A sole carrier that the step drove to zero is floored back to a
+        // trace so it stays in the basis. The amount is far below the
+        // balance tolerance, and Newton solves condensed phases for Δn
+        // directly, so it climbs back to its true value in one step.
+        for &c in &active_cond {
+            if n[c] <= TRACE && is_sole_carrier(c, &active_cond) {
+                n[c] = (total_budget * 1e-14).max(1e-16);
+            }
+        }
+
+        // How badly the element budget is still violated, relative to each
+        // element's own total. This is the constraint the entire
+        // formulation exists to satisfy, and it is *not* implied by a small
+        // Newton step: damping can make steps vanish while the composition
+        // sits arbitrarily far from balance. Testing convergence on the
+        // step alone silently returned compositions that created matter —
+        // heating chalk produced twice the carbon it started with.
+        let residual = balance_residual(&pool, &n, &elements, budget);
+
         // Phase management: drop an exhausted condensed phase; admit one
         // whose chemical potential says it should exist.
         active_cond.retain(|&c| n[c] > TRACE);
-        if max_change < 1e-8 {
+        if max_change < 1e-8 && residual < BALANCE_TOL {
             let mut admitted = false;
             for &c in &cond {
-                if active_cond.contains(&c) {
+                if active_cond.contains(&c) || admissions[c] >= 3 {
                     continue;
                 }
+                // π is only meaningful once the balance holds, which is why
+                // this test lives behind the residual check: driving a phase
+                // in on the strength of Lagrange multipliers from an
+                // unconverged system is how solid carbon used to appear in
+                // an oxidising atmosphere.
                 let drive: f64 =
                     (0..elements.len()).map(|j| a(c, j) * pi[j]).sum::<f64>() - mu(c, &n, n_total);
                 if drive > 1e-8 {
                     active_cond.push(c);
-                    n[c] = (total_budget * 0.01).max(1e-8);
+                    admissions[c] += 1;
+                    // Seed a trace, not a lump. The old seed of 1% of the
+                    // whole budget injected matter that the next steps then
+                    // had to find a home for; Newton solves for Δn on
+                    // condensed phases directly, so a trace grows to its
+                    // true amount in a few iterations without ever putting
+                    // the balance in debt.
+                    n[c] = (total_budget * 1e-9).max(1e-14);
                     admitted = true;
                     break;
                 }
@@ -397,4 +503,161 @@ fn solve(m: &mut [Vec<f64>]) -> Option<Vec<f64>> {
         }
     }
     Some((0..n).map(|r| m[r][n]).collect())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn budget(pairs: &[(&str, f64)]) -> BTreeMap<String, f64> {
+        pairs.iter().map(|(k, v)| (k.to_string(), *v)).collect()
+    }
+
+    /// Every element that goes in comes out. This is not a quality metric
+    /// to be tuned — it is the one law the minimiser is not permitted to
+    /// break, and it broke silently for as long as convergence was tested
+    /// on the size of the Newton step instead of on the residual: heating
+    /// chalk produced 0.20 mol of CO2 from 0.10 mol of carbonate.
+    fn assert_conserved(eq: &Equilibrium, budget: &BTreeMap<String, f64>, what: &str) {
+        let db = crate::db();
+        for (el, target) in budget {
+            let have: f64 = eq
+                .composition
+                .iter()
+                .filter_map(|(name, m)| {
+                    let s = db.get(name)?;
+                    Some(s.composition.get(el).copied().unwrap_or(0.0) * m)
+                })
+                .sum();
+            let drift = (have - target).abs() / target.max(1e-12);
+            assert!(
+                drift < 1e-6,
+                "{what}: {el} went in at {target:.6} mol and came out at {have:.6} mol \
+                 ({:.2}% drift)",
+                drift * 100.0
+            );
+        }
+    }
+
+    /// Every name must resolve. Filtering silently is how a test pool
+    /// loses the very phase it was written to exercise — `CaO(a)` is not a
+    /// species in the NASA set, and a pool that quietly dropped it made
+    /// chalk look thermally stable at 1500 K.
+    fn pool_of(names: &[&str]) -> Vec<&'static crate::nasa9::Species> {
+        names
+            .iter()
+            .map(|n| {
+                crate::db()
+                    .get(n)
+                    .unwrap_or_else(|| panic!("{n} is not in the NASA data"))
+            })
+            .collect()
+    }
+
+    /// A vessel of chalk standing open, as `thermal.rs` actually charges
+    /// the solver: the atmosphere is always part of the problem.
+    fn chalk_in_air() -> (BTreeMap<String, f64>, Vec<&'static crate::nasa9::Species>) {
+        let b = budget(&[
+            ("Ca", 0.0999),
+            ("C", 0.0999),
+            ("O", 0.2997 + 0.336),
+            ("N", 1.248),
+        ]);
+        let pool = pool_of(&[
+            "CO2",
+            "CO",
+            "O2",
+            "N2",
+            "NO",
+            "CaO(cr)",
+            "CaCO3(cr)",
+            "Ca(a)",
+            "C(gr)",
+        ]);
+        (b, pool)
+    }
+
+    #[test]
+    fn calcining_chalk_conserves_every_element() {
+        // The case that exposed the bug: 0.1 mol of chalk heated in air
+        // used to yield 0.20 mol of CO2 and 0.11 mol of quicklime.
+        let (b, pool) = chalk_in_air();
+        for t in [800.0, 1100.0, 1400.0, 2000.0] {
+            let eq = equilibrate_tp(&b, &pool, t, 1.0).expect("a solution");
+            assert_conserved(&eq, &b, &format!("calcite at {t} K"));
+        }
+    }
+
+    #[test]
+    fn chalk_decomposes_when_it_is_hot_enough_and_not_before() {
+        // The decomposition temperature is a computed result, so the two
+        // sides of it are worth pinning: at 800 K the carbonate stands,
+        // near 1200 K it does not.
+        let (b, pool) = chalk_in_air();
+        let cold = equilibrate_tp(&b, &pool, 800.0, 1.0).expect("a solution");
+        let hot = equilibrate_tp(&b, &pool, 1500.0, 1.0).expect("a solution");
+        assert!(
+            cold.moles_of("CaCO3(cr)") > 0.09,
+            "chalk survives 800 K: {:?}",
+            cold.composition
+        );
+        assert!(
+            hot.moles_of("CaO(cr)") > 0.09,
+            "chalk calcines by 1500 K: {:?}",
+            hot.composition
+        );
+    }
+
+    #[test]
+    fn a_degenerate_problem_is_refused_rather_than_guessed() {
+        // Chalk alone, no atmosphere: one condensed phase holds every
+        // element and the gas phase collapses, so the element-balance rows
+        // become linearly dependent and the multipliers are
+        // underdetermined. The composition is obvious to a chemist and
+        // unavailable to this formulation; the solver must say so rather
+        // than return whichever answer the arithmetic fell into.
+        let b = budget(&[("Ca", 0.0999), ("C", 0.0999), ("O", 0.2997)]);
+        let pool = pool_of(&["CO2", "CO", "O2", "CaO(cr)", "CaCO3(cr)", "Ca(a)", "C(gr)"]);
+        match equilibrate_tp(&b, &pool, 800.0, 1.0) {
+            Err(CeaError::NotConverged(_)) => {}
+            Err(other) => panic!("expected a non-convergence, got {other}"),
+            Ok(eq) => {
+                // If it ever does solve, it must at least conserve.
+                assert_conserved(&eq, &b, "degenerate chalk");
+            }
+        }
+    }
+
+    #[test]
+    fn burning_magnesium_conserves_every_element() {
+        let b = budget(&[("Mg", 0.0494), ("O", 0.4), ("N", 1.5)]);
+        let pool = pool_of(&["MgO(cr)", "Mg(cr)", "O2", "N2", "MgO", "Mg"]);
+        assert!(!pool.is_empty());
+        let eq = equilibrate_tp(&b, &pool, 2450.0, 1.0).expect("a solution");
+        assert_conserved(&eq, &b, "magnesium in air");
+    }
+
+    #[test]
+    fn oxygen_does_not_leave_solid_carbon_behind() {
+        // Graphite condensing out of an oxidising atmosphere was the visible
+        // symptom of admitting phases on Lagrange multipliers taken from an
+        // unconverged system.
+        let b = budget(&[("C", 0.1), ("O", 1.0)]);
+        let pool = pool_of(&["CO2", "CO", "O2", "C(gr)"]);
+        let eq = equilibrate_tp(&b, &pool, 1500.0, 1.0).expect("a solution");
+        assert_conserved(&eq, &b, "carbon in excess oxygen");
+        assert!(
+            eq.moles_of("C(gr)") < 1e-9,
+            "carbon cannot stay solid in excess oxygen: {:?}",
+            eq.composition
+        );
+    }
+
+    #[test]
+    fn the_adiabatic_solve_conserves_too() {
+        let (b, pool) = chalk_in_air();
+        let warm = equilibrate_tp(&b, &pool, 1000.0, 1.0).expect("a reference");
+        let eq = equilibrate_hp(&b, &pool, warm.enthalpy, 1.0).expect("a solution");
+        assert_conserved(&eq, &b, "adiabatic calcite");
+    }
 }
