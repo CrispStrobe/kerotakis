@@ -336,9 +336,69 @@ impl Equilibrator for PhreeqcEquilibrator {
         partition(vessel).is_some()
     }
 
+    /// Solve, and keep solving until the temperature stops moving.
+    ///
+    /// Solubility depends on temperature and dissolution changes the
+    /// temperature, so the two have to be settled together. Solving once
+    /// and then applying the heat produces a vessel whose stated
+    /// composition and stated temperature describe *different* states:
+    /// 60 g of KCl in 100 mL used to report 0.4777 mol dissolved beside a
+    /// thermometer reading of 6.05 °C, when only ~0.40 mol will dissolve at
+    /// 6 °C. Twenty per cent out, at saturation, which is exactly where a
+    /// solubility lesson lives.
+    ///
+    /// The iteration is the physical statement T* = T₀ + q(T*)/c_p, and it
+    /// contracts: an endothermic salt that cools the beaker dissolves less,
+    /// which cools it less. Two or three passes settle it.
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
-        let Some(mut problem) = partition(vessel) else {
+        let start = vessel.clone();
+        let t0 = start.temperature.0;
+        let mut guess = t0;
+        let mut settled: Option<(Vessel, Vec<Event>, f64)> = None;
+
+        for _ in 0..8 {
+            let mut trial = start.clone();
+            trial.temperature = Kelvin(guess);
+            let (events, q_joules) = self.solve_once(&mut trial)?;
+            let cp = trial.heat_capacity();
+            let delta = if cp > 0.0 { q_joules / cp } else { 0.0 };
+            let next = t0 + delta;
+            let converged = (next - guess).abs() < 0.05;
+            settled = Some((trial, events, next));
+            guess = next;
+            if converged {
+                break;
+            }
+        }
+
+        let Some((solved, mut events, t_final)) = settled else {
             return Ok(Vec::new());
+        };
+        *vessel = solved;
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) && (t_final - t0).abs() > 0.01 {
+            // From where the vessel actually started, not from the last
+            // trial temperature the iteration happened to stop on.
+            let from = Kelvin(t0);
+            let to = Kelvin(t_final.max(0.0));
+            vessel.temperature = to;
+            events.push(Event::TemperatureChanged {
+                vessel: vessel.id,
+                from,
+                to,
+            });
+        }
+        Ok(events)
+    }
+}
+
+impl PhreeqcEquilibrator {
+    /// One pass at the vessel's current temperature. Returns the reaction
+    /// heat rather than applying it, so the caller can iterate temperature
+    /// and composition to a common answer instead of reporting one solved
+    /// before the other.
+    fn solve_once(&mut self, vessel: &mut Vessel) -> Result<(Vec<Event>, f64), SolveError> {
+        let Some(mut problem) = partition(vessel) else {
+            return Ok((Vec::new(), 0.0));
         };
 
         // Route by validity domain: minteq.v4 when its extended chemistry
@@ -586,8 +646,8 @@ impl Equilibrator for PhreeqcEquilibrator {
         // the temperature change once rather than iterating solver ↔ T; the
         // shifts at teaching concentrations are small against the ~25–100 °C
         // range of the database.
+        let mut q_joules = 0.0; // heat released into the vessel
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-            let mut q_joules = 0.0; // heat released into the vessel
             for e in &events {
                 match e {
                     Event::Dissolved {
@@ -614,17 +674,6 @@ impl Equilibrator for PhreeqcEquilibrator {
                     }
                     _ => {}
                 }
-            }
-            let cp = vessel.heat_capacity();
-            if q_joules.abs() > 1e-9 && cp > 0.0 {
-                let from = vessel.temperature;
-                let to = Kelvin((from.0 + q_joules / cp).max(0.0));
-                vessel.temperature = to;
-                events.push(Event::TemperatureChanged {
-                    vessel: vessel.id,
-                    from,
-                    to,
-                });
             }
         }
 
@@ -654,7 +703,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                 ionic_strength: mu,
             });
         }
-        Ok(events)
+        Ok((events, q_joules))
     }
 }
 

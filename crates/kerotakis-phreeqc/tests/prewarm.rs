@@ -52,11 +52,17 @@ fn a_prewarmed_cache_serves_a_cold_engine() {
     let added = device.import_cache(loaded);
     assert_eq!(added, exported.entries.len(), "all entries loaded");
 
+    let before = device.cache_len();
     let got = replay(&mut device);
     assert_eq!(got, expected, "cached answers are bit-identical");
+    // The invariant is that nothing reached the engine, and the way to say
+    // that without hard-coding a call count is that the cache never grew: a
+    // miss would compute a fresh answer and store it. How many solves a
+    // lesson makes is not fixed — solubility and temperature are iterated to
+    // a common answer, so a step with a heat effect solves more than once.
     assert_eq!(
-        device.cache_hits(),
-        device.cache_len().min(3),
+        device.cache_len(),
+        before,
         "every solver-reaching step was served from the cache"
     );
     assert!(device.cache_hits() > 0);

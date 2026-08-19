@@ -76,7 +76,7 @@ add v1 NaOH 4g
 
 [reaction.expect]
 events = ["dissolved:NaOH"]
-ph = { min = 13.6, max = 14.0 }
+ph = { min = 13.35, max = 13.7 }
 temperature_c = { min = 33.5, max = 38.0 }
 
 [reaction.expect.predict]
@@ -91,11 +91,11 @@ misconception = "Both wrong answers come from the same picture: dissolving as pu
 
 [reaction.registers]
 lv1 = "The jar gets hot enough to be uncomfortable to hold — and nothing was burning and nothing was heated. The heat came out of the powder as it disappeared."
-lv2 = "0.1 mol of NaOH in 100 mL releases about 4.5 kJ. With only ~100 g of water to warm, that is a rise of roughly 10 °C, and the resulting 1 mol/L solution reads pH ≈ 13.8."
-lv3 = "The vessel is adiabatic, so the whole −44.5 kJ/mol appears as sensible heat. The pH is 13.84 rather than 14.0: at I ≈ 1 mol/kgw the activity coefficient of OH⁻ has fallen to ≈0.68, and the engine reports activity, not concentration. This is the cleanest place in the codex to see the two diverge."
+lv2 = "0.1 mol of NaOH in 100 mL releases about 4.5 kJ. With only ~100 g of water to warm, that is a rise of roughly 10 °C, and the resulting 1 mol/L solution reads pH ≈ 13.5 — not the 14.0 the arithmetic promises."
+lv3 = "The vessel is adiabatic, so the whole −44.5 kJ/mol appears as sensible heat. The pH is 13.51 rather than 14.0, and *two* separate corrections take it there. First, at I ≈ 1 mol/kgw the activity coefficient of OH⁻ has fallen to ≈0.68, and the engine reports activity, not concentration. Second, the beaker warmed itself to 35.7 °C, and K_w is strongly temperature-dependent — pK_w falls from 14.00 at 25 °C to about 13.7 here — so the neutral point itself has moved under the measurement. The solution is solved at the temperature it actually reached rather than at the one it started from, which is why this number is lower than the textbook 13.8: the textbook figure quietly holds the beaker at 25 °C while telling you it got hot."
 
 [reaction.provenance]
-source = "Enthalpy of solution of NaOH, standard reference value; speciation from PHREEQC wateq4f.dat (USGS)"
+source = "Enthalpy of solution of NaOH, standard reference value; speciation and the temperature-dependent K_w from PHREEQC wateq4f.dat (USGS), solved at the temperature the dissolution itself produces"
 computed_by = "Kerotakis energy balance over curated ΔH_dis; pH from PHREEQC via Kerotakis L2"
 
 # ---------------------------------------------------------- neutralisation
