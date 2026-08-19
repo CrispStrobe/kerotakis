@@ -25,7 +25,7 @@ const check = (name, cond, detail = "") => {
 };
 
 const lab = new Lab();
-lab.setRegister("child");
+lab.setRegister("lv1");
 
 // The lab knows its shelf.
 const species = JSON.parse(lab.species());

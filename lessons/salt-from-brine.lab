@@ -1,5 +1,5 @@
 # Salt from brine: the oldest chemistry in the world
-register 9
+register lv1
 add v1 water 1000mL
 add v1 NaCl 117g
 measure v1 balance

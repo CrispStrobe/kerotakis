@@ -9,21 +9,59 @@ use serde::{Deserialize, Serialize};
 use crate::ops::{Event, Instrument};
 use crate::species;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum Register {
-    /// ~age 9: observations in plain words.
-    Child,
-    /// ~age 15: equations and quantities.
-    Student,
-    /// Full numeric output.
-    Expert,
+/// How much detail an answer is rendered with.
+///
+/// Deliberately a *number*, not a set of named audiences: ages and labels
+/// like "child" bake in an assumption about who a level is for, and the
+/// levels want to multiply later (a level between equations and full
+/// numerics, say). Adding one means adding a match arm where the wording
+/// genuinely differs — everything unspecified inherits the nearest level
+/// below, so nothing has to be rewritten to make room.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(transparent)]
+pub struct Register(pub u8);
+
+impl Register {
+    /// Plain observation: what you would see and say.
+    pub const LV1: Register = Register(1);
+    /// Equations, names and quantities.
+    pub const LV2: Register = Register(2);
+    /// Full numeric detail, models and provenance.
+    pub const LV3: Register = Register(3);
+
+    pub fn level(self) -> u8 {
+        self.0
+    }
+
+    /// Parse `lv2`, `2`, or `level2`. Unknown input is an error rather
+    /// than a silent default: rendering at the wrong level is the kind of
+    /// mistake nobody notices.
+    pub fn parse(text: &str) -> Option<Register> {
+        let t = text.trim().to_ascii_lowercase();
+        let digits = t
+            .trim_start_matches("level")
+            .trim_start_matches("lv")
+            .trim_start_matches('l');
+        digits.parse::<u8>().ok().filter(|n| *n >= 1).map(Register)
+    }
+}
+
+impl Default for Register {
+    fn default() -> Self {
+        Register::LV2
+    }
+}
+
+impl std::fmt::Display for Register {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "lv{}", self.0)
+    }
 }
 
 pub fn render_event(event: &Event, register: Register) -> String {
     match event {
-        Event::VesselCreated { vessel } => match register {
-            Register::Child => format!("A fresh beaker appears on the bench: {vessel}."),
+        Event::VesselCreated { vessel } => match register.level() {
+            1 => format!("A fresh beaker appears on the bench: {vessel}."),
             _ => format!("{vessel}: new vessel"),
         },
         Event::Added {
@@ -32,10 +70,10 @@ pub fn render_event(event: &Event, register: Register) -> String {
             moles,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
-            match register {
-                Register::Child => format!("You add {name} to {vessel}."),
-                Register::Student => format!("{vessel}: +{:.4} mol {name}", moles.0),
-                Register::Expert => {
+            match register.level() {
+                1 => format!("You add {name} to {vessel}."),
+                2 => format!("{vessel}: +{:.4} mol {name}", moles.0),
+                _ => {
                     let extra = species::lookup(sid)
                         .map(|d| format!(" ({}, M = {:.3} g/mol)", d.formula, d.molar_mass))
                         .unwrap_or_default();
@@ -45,8 +83,8 @@ pub fn render_event(event: &Event, register: Register) -> String {
         }
         Event::TemperatureChanged { vessel, from, to } => {
             let d = to.0 - from.0;
-            match register {
-                Register::Child => {
+            match register.level() {
+                1 => {
                     if d.abs() < 0.05 {
                         format!("{vessel} stays about the same temperature.")
                     } else if d > 0.0 {
@@ -55,30 +93,30 @@ pub fn render_event(event: &Event, register: Register) -> String {
                         format!("{vessel} gets colder!")
                     }
                 }
-                Register::Student => format!(
+                2 => format!(
                     "{vessel}: {:.1} °C → {:.1} °C",
                     from.to_celsius(),
                     to.to_celsius()
                 ),
-                Register::Expert => format!(
+                _ => format!(
                     "{vessel}: T {:.3} K → {:.3} K (ΔT = {d:+.3} K)",
                     from.0, to.0
                 ),
             }
         }
-        Event::Filtered { from, to } => match register {
-            Register::Child => format!(
+        Event::Filtered { from, to } => match register.level() {
+            1 => format!(
                 "You pour {from} through the filter paper — the liquid runs into {to}, and the solid stays behind on the paper."
             ),
             _ => format!("{from} → {to}: filtrate passed; residue retained"),
         },
-        Event::Evaporated { vessel, moles } => match register {
-            Register::Child => format!("Steam rises from {vessel} — the water is boiling away!"),
-            Register::Student => format!("{vessel}: {:.3} mol water evaporated", moles.0),
-            Register::Expert => format!("{vessel}: {:.6} mol H2O evaporated (vaporisation enthalpy not yet in the balance)", moles.0),
+        Event::Evaporated { vessel, moles } => match register.level() {
+            1 => format!("Steam rises from {vessel} — the water is boiling away!"),
+            2 => format!("{vessel}: {:.3} mol water evaporated", moles.0),
+            _ => format!("{vessel}: {:.6} mol H2O evaporated (vaporisation enthalpy not yet in the balance)", moles.0),
         },
-        Event::Transferred { from, to, fraction } => match register {
-            Register::Child => format!("You pour some of {from} into {to}."),
+        Event::Transferred { from, to, fraction } => match register.level() {
+            1 => format!("You pour some of {from} into {to}."),
             _ => format!("{from} → {to}: {:.0}% of the liquid", fraction * 100.0),
         },
         Event::Dissolved {
@@ -87,10 +125,10 @@ pub fn render_event(event: &Event, register: Register) -> String {
             moles,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
-            match register {
-                Register::Child => format!("The {name} disappears into the water in {vessel}!"),
-                Register::Student => format!("{vessel}: {:.4} mol {name} dissolved", moles.0),
-                Register::Expert => format!("{vessel}: {:.6} mol {name} dissolved", moles.0),
+            match register.level() {
+                1 => format!("The {name} disappears into the water in {vessel}!"),
+                2 => format!("{vessel}: {:.4} mol {name} dissolved", moles.0),
+                _ => format!("{vessel}: {:.6} mol {name} dissolved", moles.0),
             }
         }
         Event::Precipitated {
@@ -100,17 +138,17 @@ pub fn render_event(event: &Event, register: Register) -> String {
         } => {
             let data = species::lookup(sid);
             let name = data.map(|d| d.name).unwrap_or(sid.0.as_str());
-            match register {
-                Register::Child => {
+            match register.level() {
+                1 => {
                     let colour = data.and_then(|d| d.appearance).unwrap_or("new");
                     format!(
                         "It went cloudy in {vessel}! A {colour} solid appears at the bottom — that's called a precipitate."
                     )
                 }
-                Register::Student => {
+                2 => {
                     format!("{vessel}: {:.4} mol {name} precipitated ↓", moles.0)
                 }
-                Register::Expert => {
+                _ => {
                     format!("{vessel}: {:.6} mol {name} precipitated", moles.0)
                 }
             }
@@ -121,24 +159,24 @@ pub fn render_event(event: &Event, register: Register) -> String {
             moles,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
-            match register {
-                Register::Child => format!("The {name} in {vessel} is used up."),
-                Register::Student => format!("{vessel}: {:.4} mol {name} consumed", moles.0),
-                Register::Expert => format!("{vessel}: −{:.6} mol {name}", moles.0),
+            match register.level() {
+                1 => format!("The {name} in {vessel} is used up."),
+                2 => format!("{vessel}: {:.4} mol {name} consumed", moles.0),
+                _ => format!("{vessel}: −{:.6} mol {name}", moles.0),
             }
         }
-        Event::Ignited { vessel, flame } => match register {
-            Register::Child => match flame {
+        Event::Ignited { vessel, flame } => match register.level() {
+            1 => match flame {
                 Some(colour) => {
                     format!("It catches fire in {vessel} — burning with {colour} light!")
                 }
                 None => format!("It catches fire in {vessel}!"),
             },
-            Register::Student => match flame {
+            2 => match flame {
                 Some(colour) => format!("{vessel}: ignited — {colour} flame"),
                 None => format!("{vessel}: ignited"),
             },
-            Register::Expert => format!("{vessel}: ignition source applied"),
+            _ => format!("{vessel}: ignition source applied"),
         },
         Event::FlameTest {
             vessel,
@@ -146,20 +184,20 @@ pub fn render_event(event: &Event, register: Register) -> String {
             colour,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
-            match register {
-                Register::Child => format!(
+            match register.level() {
+                1 => format!(
                     "It does not catch fire — but look: it turns the flame {colour}! Every metal has its own colour, which is how you can tell them apart."
                 ),
-                Register::Student => {
+                2 => {
                     format!("{vessel}: flame test — {name} colours the flame {colour}")
                 }
-                Register::Expert => format!(
+                _ => format!(
                     "{vessel}: no combustion; characteristic emission of {name} ({colour})"
                 ),
             }
         }
-        Event::DidNotIgnite { vessel } => match register {
-            Register::Child => {
+        Event::DidNotIgnite { vessel } => match register.level() {
+            1 => {
                 format!("You hold the flame to {vessel} — and nothing happens. Not everything burns.")
             }
             _ => format!("{vessel}: nothing ignited"),
@@ -168,13 +206,13 @@ pub fn render_event(event: &Event, register: Register) -> String {
             vessel,
             temperature,
             provenance,
-        } => match register {
-            Register::Child => format!("Everything in {vessel} settles into what it wants to be at this heat."),
-            Register::Student => format!(
+        } => match register.level() {
+            1 => format!("Everything in {vessel} settles into what it wants to be at this heat."),
+            2 => format!(
                 "{vessel}: thermal equilibrium at {:.0} °C",
                 temperature.to_celsius()
             ),
-            Register::Expert => format!(
+            _ => format!(
                 "{vessel}: Gibbs minimum at {:.2} K · {} · {}",
                 temperature.0, provenance.dataset, provenance.model
             ),
@@ -183,8 +221,8 @@ pub fn render_event(event: &Event, register: Register) -> String {
             vessel,
             ph,
             ionic_strength,
-        } => match register {
-            Register::Child => {
+        } => match register.level() {
+            1 => {
                 if *ph < 6.0 {
                     format!("The liquid in {vessel} is an acid.")
                 } else if *ph > 8.0 {
@@ -193,8 +231,8 @@ pub fn render_event(event: &Event, register: Register) -> String {
                     format!("The liquid in {vessel} is neutral — like pure water.")
                 }
             }
-            Register::Student => format!("{vessel}: pH {ph:.2}"),
-            Register::Expert => {
+            2 => format!("{vessel}: pH {ph:.2}"),
+            _ => {
                 format!("{vessel}: pH {ph:.3} · I = {ionic_strength:.4} mol/kgw")
             }
         },
@@ -209,31 +247,31 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 Instrument::Balance => "balance",
                 Instrument::PhMeter => "pH meter",
             };
-            match register {
-                Register::Child => format!("The {device} on {vessel} reads {value:.0} {unit}."),
-                Register::Student => format!("{vessel} {device}: {value:.2} {unit}"),
-                Register::Expert => format!("{vessel} {device}: {value:.4} {unit}"),
+            match register.level() {
+                1 => format!("The {device} on {vessel} reads {value:.0} {unit}."),
+                2 => format!("{vessel} {device}: {value:.2} {unit}"),
+                _ => format!("{vessel} {device}: {value:.4} {unit}"),
             }
         }
         Event::HazardWarning {
             severity,
             hazard,
             real_world,
-        } => match register {
-            Register::Child => format!(
+        } => match register.level() {
+            1 => format!(
                 "⚠️  STOP AND READ: {hazard}. {real_world} NEVER try this outside the virtual lab — here, we can watch what happens safely."
             ),
-            Register::Student => format!(
+            2 => format!(
                 "⚠ HAZARD ({severity:?}): {hazard} — {real_world} Safe only because this lab is virtual."
             ),
-            Register::Expert => format!("HAZARD [{severity:?}] (L0): {hazard}; {real_world}"),
+            _ => format!("HAZARD [{severity:?}] (L0): {hazard}; {real_world}"),
         },
-        Event::SafetyVeto { reason } => match register {
-            Register::Child => format!("The lab won't do that: {reason}"),
+        Event::SafetyVeto { reason } => match register.level() {
+            1 => format!("The lab won't do that: {reason}"),
             _ => format!("SAFETY VETO (L0): {reason}"),
         },
-        Event::ReactionOccurred { vessel, equation } => match register {
-            Register::Child => format!("The mixture in {vessel} changes — something new is forming!"),
+        Event::ReactionOccurred { vessel, equation } => match register.level() {
+            1 => format!("The mixture in {vessel} changes — something new is forming!"),
             _ => format!("{vessel}: {equation}"),
         },
         Event::GasEvolved {
@@ -246,8 +284,8 @@ pub fn render_event(event: &Event, register: Register) -> String {
             let toxic = data
                 .and_then(|d| d.appearance)
                 .is_some_and(|a| a.contains("toxic"));
-            match register {
-                Register::Child => {
+            match register.level() {
+                1 => {
                     if toxic {
                         format!(
                             "A gas rises out of {vessel} — this one is poisonous. In a real room you would have to leave NOW."
@@ -256,25 +294,25 @@ pub fn render_event(event: &Event, register: Register) -> String {
                         format!("Bubbles! A gas rises out of {vessel}.")
                     }
                 }
-                Register::Student => {
+                2 => {
                     format!("{vessel}: {:.4} mol {name} ↑ (gas escapes the open vessel)", moles.0)
                 }
-                Register::Expert => {
+                _ => {
                     format!("{vessel}: {:.6} mol {name} evolved (open system; mass leaves)", moles.0)
                 }
             }
         }
-        Event::NotYetModeled { vessel, what } => match register {
-            Register::Child => format!("Hmm — nothing visible happens in {vessel} (this part of the lab isn't awake yet)."),
-            Register::Student => format!("{vessel}: not yet modelled — {what}"),
-            Register::Expert => format!("{vessel}: NOT MODELLED: {what}"),
+        Event::NotYetModeled { vessel, what } => match register.level() {
+            1 => format!("Hmm — nothing visible happens in {vessel} (this part of the lab isn't awake yet)."),
+            2 => format!("{vessel}: not yet modelled — {what}"),
+            _ => format!("{vessel}: NOT MODELLED: {what}"),
         },
         Event::SolverFailed {
             vessel,
             solver,
             detail,
-        } => match register {
-            Register::Child => format!(
+        } => match register.level() {
+            1 => format!(
                 "The lab couldn't work out what happens in {vessel}. That's honest — better than guessing!"
             ),
             _ => format!("{vessel}: solver '{solver}' failed: {detail}"),

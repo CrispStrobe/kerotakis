@@ -1,5 +1,5 @@
 # The kettle and the statue: hard water and limescale
-register 9
+register lv1
 add v1 water 500mL
 add v1 NaHCO3 1.7g
 add v1 CaCl2 1.1g

@@ -653,11 +653,18 @@ The traps are all about data, not code. Checked against primary sources
 Never dumb down the model, only the view. One PHREEQC result, rendered at
 whatever register the reader is in. The child and the postdoc see the same numbers.
 
-| Register | Output |
+| Level | Output |
 |---|---|
-| Age 9 | "It went cloudy! A white solid appeared — that's a *precipitate*." |
-| Age 15 | `AgNO₃ + NaCl → AgCl↓ + NaNO₃` · 0.010 mol · Ksp = 1.77 × 10⁻¹⁰ |
-| Expert | SI(AgCl) = +2.41 · I = 0.021 m · γ(Ag⁺) = 0.857 · full selected-output |
+| **lv1** | "It went cloudy! A white solid appeared — that's a *precipitate*." |
+| **lv2** | `AgNO₃ + NaCl → AgCl↓ + NaNO₃` · 0.010 mol · Ksp = 1.77 × 10⁻¹⁰ |
+| **lv3** | SI(AgCl) = +2.41 · I = 0.021 m · γ(Ag⁺) = 0.857 · full selected-output |
+
+Levels are numbers, not audiences: naming them "age 9" or "child" bakes in
+an assumption about who a level is for, and the levels will multiply (a
+step between equations and full numerics, say). `Register` is therefore a
+`u8` with named constants, unspecified levels inherit the nearest one
+below, and the codex keys its copy by `lv1`/`lv2`/`lv3`/… so adding
+granularity is a data change rather than a schema change.
 
 Registers are a presentation concern and live entirely in the UI (and the
 CLI's renderer). The solver has no idea who is asking. Register copy is

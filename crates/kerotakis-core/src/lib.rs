@@ -32,7 +32,7 @@ pub use solve::{
     Equilibrator, HonestyEquilibrator, MixingEquilibrator, PermissiveScreen, SafetyScreen,
     SafetyVerdict, Severity, SolveError, SolverStack,
 };
-pub use species::{Phase, SpeciesId};
+pub use species::{Colour, Phase, SpeciesId};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 pub use vessel::{Portion, Provenance, SolutionInfo, SpeciesDetail, ThermalMode, Vessel, VesselId};
 

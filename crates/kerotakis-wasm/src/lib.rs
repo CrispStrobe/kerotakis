@@ -44,7 +44,7 @@ impl Lab {
                 Box::new(HonestyEquilibrator),
             ]),
             aqueous,
-            register: Register::Student,
+            register: Register::default(),
         })
     }
 
@@ -57,15 +57,14 @@ impl Lab {
         Ok(self.aqueous.import_cache(data))
     }
 
-    /// `child`, `student` or `expert`.
+    /// How much detail to render: `lv1` (what you see), `lv2` (equations
+    /// and quantities), `lv3` (full numeric detail). More levels can be
+    /// added without changing this call.
     #[wasm_bindgen(js_name = setRegister)]
     pub fn set_register(&mut self, register: &str) -> Result<(), JsError> {
-        self.register = match register {
-            "child" | "9" => Register::Child,
-            "student" | "15" => Register::Student,
-            "expert" => Register::Expert,
-            other => return Err(JsError::new(&format!("unknown register '{other}'"))),
-        };
+        self.register = Register::parse(register).ok_or_else(|| {
+            JsError::new(&format!("unknown level '{register}' (try lv1, lv2, lv3)"))
+        })?;
         Ok(())
     }
 

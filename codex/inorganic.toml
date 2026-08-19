@@ -24,9 +24,9 @@ events = ["dissolved:NaCl"]
 ph = { min = 6.5, max = 7.5 }
 
 [reaction.registers]
-child = "The salt disappears into the water. It hasn't gone away — taste it and it's still there, hiding as tiny pieces too small to see."
-student = "Sodium chloride dissolves, separating into hydrated Na⁺ and Cl⁻ ions. The solution stays neutral because neither ion reacts with water."
-expert = "Congruent dissolution to fully dissociated Na⁺/Cl⁻; pH unaffected as neither ion hydrolyses appreciably. Activity coefficients follow the WATEQ Debye–Hückel extension at this ionic strength."
+lv1 = "The salt disappears into the water. It hasn't gone away — taste it and it's still there, hiding as tiny pieces too small to see."
+lv2 = "Sodium chloride dissolves, separating into hydrated Na⁺ and Cl⁻ ions. The solution stays neutral because neither ion reacts with water."
+lv3 = "Congruent dissolution to fully dissociated Na⁺/Cl⁻; pH unaffected as neither ion hydrolyses appreciably. Activity coefficients follow the WATEQ Debye–Hückel extension at this ionic strength."
 
 [reaction.provenance]
 source = "Standard curriculum chemistry; solubility and speciation from PHREEQC wateq4f.dat (USGS)"
@@ -48,9 +48,9 @@ add v1 NaCl 468g
 events = ["dissolved:NaCl"]
 
 [reaction.registers]
-child = "Keep stirring salt into the water and at some point it stops disappearing — the water is full. The rest just sits at the bottom."
-student = "Above the solubility limit (≈6.1 mol per kg of water at 25 °C) the solution is saturated: dissolved and solid salt sit in equilibrium, and any extra stays solid."
-expert = "Halite saturation. Note the datasets disagree in this regime — Pitzer's ion-interaction model gives ≈6.13 mol/kgw against wateq4f's 6.50 and minteq.v4's 3.7, which is why concentrated problems route to Pitzer. `explain` shows all three."
+lv1 = "Keep stirring salt into the water and at some point it stops disappearing — the water is full. The rest just sits at the bottom."
+lv2 = "Above the solubility limit (≈6.1 mol per kg of water at 25 °C) the solution is saturated: dissolved and solid salt sit in equilibrium, and any extra stays solid."
+lv3 = "Halite saturation. Note the datasets disagree in this regime — Pitzer's ion-interaction model gives ≈6.13 mol/kgw against wateq4f's 6.50 and minteq.v4's 3.7, which is why concentrated problems route to Pitzer. `explain` shows all three."
 
 [reaction.provenance]
 source = "Solubility of NaCl, standard reference value ≈ 6.1 mol/kgw at 25 °C"
@@ -76,9 +76,9 @@ events = ["precipitated:AgCl"]
 absent = ["hazard_warning"]
 
 [reaction.registers]
-child = "Two clear liquids — and the moment they meet, the water turns cloudy white! A brand-new solid has appeared out of nowhere."
-student = "Ag⁺ + Cl⁻ → AgCl↓. Silver chloride is insoluble (Ksp ≈ 1.8 × 10⁻¹⁰), so it drops out of solution while the sodium and nitrate ions stay dissolved as spectators."
-expert = "Cerargyrite precipitation to SI = 0. Residual dissolved silver is not free Ag⁺ alone: the AgCl(aq) neutral complex is present at ≈3 × 10⁻⁷ m, which is why the apparent solubility exceeds the naive √Ksp."
+lv1 = "Two clear liquids — and the moment they meet, the water turns cloudy white! A brand-new solid has appeared out of nowhere."
+lv2 = "Ag⁺ + Cl⁻ → AgCl↓. Silver chloride is insoluble (Ksp ≈ 1.8 × 10⁻¹⁰), so it drops out of solution while the sodium and nitrate ions stay dissolved as spectators."
+lv3 = "Cerargyrite precipitation to SI = 0. Residual dissolved silver is not free Ag⁺ alone: the AgCl(aq) neutral complex is present at ≈3 × 10⁻⁷ m, which is why the apparent solubility exceeds the naive √Ksp."
 
 [reaction.provenance]
 source = "Standard curriculum precipitation reaction; Ksp and speciation from PHREEQC wateq4f.dat (USGS)"
@@ -101,9 +101,9 @@ add v1 HCl 0.001mol
 ph = { min = 2.8, max = 3.2 }
 
 [reaction.registers]
-child = "This liquid is an acid. Acids taste sour — that's why lemons and vinegar are sour — but you never taste a chemical in a lab."
-student = "Hydrochloric acid is a strong acid: it dissociates completely, so 0.001 mol in a litre gives [H⁺] = 10⁻³ and pH 3."
-expert = "Complete dissociation; pH from charge balance rather than an assumed activity of one. At I ≈ 10⁻³ the activity coefficient is ≈0.96, so pH sits marginally above the concentration logarithm."
+lv1 = "This liquid is an acid. Acids taste sour — that's why lemons and vinegar are sour — but you never taste a chemical in a lab."
+lv2 = "Hydrochloric acid is a strong acid: it dissociates completely, so 0.001 mol in a litre gives [H⁺] = 10⁻³ and pH 3."
+lv3 = "Complete dissociation; pH from charge balance rather than an assumed activity of one. At I ≈ 10⁻³ the activity coefficient is ≈0.96, so pH sits marginally above the concentration logarithm."
 
 [reaction.provenance]
 source = "Standard curriculum acid–base chemistry"
@@ -125,9 +125,9 @@ add v1 CH3COOH 0.1mol
 ph = { min = 2.7, max = 3.1 }
 
 [reaction.registers]
-child = "This is the acid in vinegar. It's sour too, but much gentler than the strong one — most of it stays whole instead of breaking apart."
-student = "Acetic acid is weak: only a small fraction dissociates. 0.1 mol/L gives pH ≈ 2.9, not the 1.0 a strong acid of the same concentration would."
-expert = "Partial dissociation governed by the database's own H⁺ + Acetate⁻ ⇌ HAc equilibrium (pKa ≈ 4.76); the pH follows from that equilibrium, not from an assumed degree of dissociation."
+lv1 = "This is the acid in vinegar. It's sour too, but much gentler than the strong one — most of it stays whole instead of breaking apart."
+lv2 = "Acetic acid is weak: only a small fraction dissociates. 0.1 mol/L gives pH ≈ 2.9, not the 1.0 a strong acid of the same concentration would."
+lv3 = "Partial dissociation governed by the database's own H⁺ + Acetate⁻ ⇌ HAc equilibrium (pKa ≈ 4.76); the pH follows from that equilibrium, not from an assumed degree of dissociation."
 
 [reaction.provenance]
 source = "Standard curriculum weak-acid chemistry; pKa from PHREEQC minteq.v4.dat"
@@ -151,9 +151,9 @@ add v1 HCl 0.01mol
 ph = { min = 4.3, max = 4.9 }
 
 [reaction.registers]
-child = "Add acid to this liquid and — almost nothing happens. It's stubborn. Your blood does the same trick, which is why drinking lemonade doesn't hurt you."
-student = "An equimolar weak acid and its salt buffer near pKa (4.76). Adding 0.01 mol of strong acid shifts the pH by less than 0.1, where the same acid in plain water would take it to pH 2."
-expert = "Henderson–Hasselbalch behaviour emerging from the speciation rather than being applied: the reservoir of conjugate base absorbs added protons, and the shift follows the log ratio."
+lv1 = "Add acid to this liquid and — almost nothing happens. It's stubborn. Your blood does the same trick, which is why drinking lemonade doesn't hurt you."
+lv2 = "An equimolar weak acid and its salt buffer near pKa (4.76). Adding 0.01 mol of strong acid shifts the pH by less than 0.1, where the same acid in plain water would take it to pH 2."
+lv3 = "Henderson–Hasselbalch behaviour emerging from the speciation rather than being applied: the reservoir of conjugate base absorbs added protons, and the shift follows the log ratio."
 
 [reaction.provenance]
 source = "Standard curriculum buffer chemistry"
@@ -178,9 +178,9 @@ add v1 CH3COOH 3.6g
 events = ["gas_evolved:CO2"]
 
 [reaction.registers]
-child = "It fizzes! Bubbles everywhere. Put it on the scales before and after: the jar gets lighter, because the bubbles floated away and took some weight with them."
-student = "Acid protonates the bicarbonate, releasing carbon dioxide. In an open vessel the gas leaves, so the system loses mass — mass is conserved overall, but not inside the beaker."
-expert = "Carbonate speciation shifts with pH until the solution supersaturates against atmospheric pCO₂ (log p = −3.408), and the excess exsolves. Roughly 77% of the carbonate leaves; Henry's law keeps the rest dissolved."
+lv1 = "It fizzes! Bubbles everywhere. Put it on the scales before and after: the jar gets lighter, because the bubbles floated away and took some weight with them."
+lv2 = "Acid protonates the bicarbonate, releasing carbon dioxide. In an open vessel the gas leaves, so the system loses mass — mass is conserved overall, but not inside the beaker."
+lv3 = "Carbonate speciation shifts with pH until the solution supersaturates against atmospheric pCO₂ (log p = −3.408), and the excess exsolves. Roughly 77% of the carbonate leaves; Henry's law keeps the rest dissolved."
 
 [reaction.provenance]
 source = "Standard curriculum acid–carbonate reaction"
@@ -205,9 +205,9 @@ events = ["dissolved:CaCl2"]
 temperature_c = { min = 38.0, max = 52.0 }
 
 [reaction.registers]
-child = "Touch the beaker — it's got warm all by itself! Some things give out heat when they dissolve. That's how a hand-warmer works."
-student = "Dissolving calcium chloride is strongly exothermic (ΔH ≈ −82.8 kJ/mol): 0.1 mol in 100 mL of water raises the temperature by about 20 °C."
-expert = "Lattice enthalpy is more than repaid by the hydration enthalpies of Ca²⁺ and Cl⁻. The vessel is adiabatic here, so the whole release appears as sensible heat in the solution."
+lv1 = "Touch the beaker — it's got warm all by itself! Some things give out heat when they dissolve. That's how a hand-warmer works."
+lv2 = "Dissolving calcium chloride is strongly exothermic (ΔH ≈ −82.8 kJ/mol): 0.1 mol in 100 mL of water raises the temperature by about 20 °C."
+lv3 = "Lattice enthalpy is more than repaid by the hydration enthalpies of Ca²⁺ and Cl⁻. The vessel is adiabatic here, so the whole release appears as sensible heat in the solution."
 
 [reaction.provenance]
 source = "Enthalpy of solution of anhydrous CaCl₂, standard reference value"
@@ -230,9 +230,9 @@ events = ["dissolved:KCl"]
 temperature_c = { min = 15.0, max = 23.0 }
 
 [reaction.registers]
-child = "This one goes cold instead! Dissolving can take heat in as well as give it out — that's an ice pack."
-student = "Dissolving potassium chloride is endothermic (ΔH ≈ +17.2 kJ/mol): the solution draws heat from itself and cools by a few degrees."
-expert = "Endothermic dissolution: the lattice enthalpy exceeds the sum of the hydration enthalpies, and in an adiabatic vessel the deficit is taken from the solution's sensible heat."
+lv1 = "This one goes cold instead! Dissolving can take heat in as well as give it out — that's an ice pack."
+lv2 = "Dissolving potassium chloride is endothermic (ΔH ≈ +17.2 kJ/mol): the solution draws heat from itself and cools by a few degrees."
+lv3 = "Endothermic dissolution: the lattice enthalpy exceeds the sum of the hydration enthalpies, and in an adiabatic vessel the deficit is taken from the solution's sensible heat."
 
 [reaction.provenance]
 source = "Enthalpy of solution of KCl, standard reference value"
@@ -257,9 +257,9 @@ add v1 CaCl2 1.1g
 events = ["precipitated:CaCO3"]
 
 [reaction.registers]
-child = "The water goes cloudy and a white crust forms. This is what furs up a kettle in a hard-water town."
-student = "Calcium ions meeting carbonate precipitate calcium carbonate — limescale. Hard water is water carrying dissolved calcium and magnesium."
-expert = "Calcite precipitation; the polymorph is chosen by stability (calcite's log K is lower than aragonite's), and the carbonate speciation is pH-dependent throughout."
+lv1 = "The water goes cloudy and a white crust forms. This is what furs up a kettle in a hard-water town."
+lv2 = "Calcium ions meeting carbonate precipitate calcium carbonate — limescale. Hard water is water carrying dissolved calcium and magnesium."
+lv3 = "Calcite precipitation; the polymorph is chosen by stability (calcite's log K is lower than aragonite's), and the carbonate speciation is pH-dependent throughout."
 
 [reaction.provenance]
 source = "Standard curriculum hard-water chemistry"
@@ -283,9 +283,9 @@ heat v1 40kJ
 events = ["gas_evolved:CO2", "precipitated:CaO"]
 
 [reaction.registers]
-child = "Heat chalk until it glows and it turns into something new — quicklime. This is how people have made cement and mortar for thousands of years."
-student = "Thermal decomposition: above about 900 °C calcium carbonate breaks into calcium oxide and carbon dioxide, and the gas escapes."
-expert = "The decomposition temperature is computed, not assumed: it is where the equilibrium CO₂ pressure over the carbonate reaches the ambient partial pressure. Gibbs minimisation over NASA-9 polynomials, with the vessel's atmosphere in the problem."
+lv1 = "Heat chalk until it glows and it turns into something new — quicklime. This is how people have made cement and mortar for thousands of years."
+lv2 = "Thermal decomposition: above about 900 °C calcium carbonate breaks into calcium oxide and carbon dioxide, and the gas escapes."
+lv3 = "The decomposition temperature is computed, not assumed: it is where the equilibrium CO₂ pressure over the carbonate reaches the ambient partial pressure. Gibbs minimisation over NASA-9 polynomials, with the vessel's atmosphere in the problem."
 
 [reaction.provenance]
 source = "Standard curriculum thermal decomposition; thermochemistry from NASA CEA thermo.inp"
@@ -309,9 +309,9 @@ events = ["ignited", "consumed:Mg", "precipitated:MgO"]
 temperature_c = { min = 2200.0, max = 3400.0 }
 
 [reaction.registers]
-child = "It catches fire with a light so bright it hurts to look at, and leaves a white powder behind. Weigh it afterwards: it got HEAVIER. The extra weight came out of the air."
-student = "Magnesium burns in oxygen to magnesium oxide, releasing 601 kJ per mole. The mass increases because oxygen from the air is now part of the product — a classic demonstration that burning is combination, not destruction."
-expert = "Adiabatic combustion solved enthalpy-conserving with the atmosphere in the element budget, giving a flame temperature near 3000 K. The oxygen is drawn from the reservoir rather than the inventory, which is why the vessel gains mass."
+lv1 = "It catches fire with a light so bright it hurts to look at, and leaves a white powder behind. Weigh it afterwards: it got HEAVIER. The extra weight came out of the air."
+lv2 = "Magnesium burns in oxygen to magnesium oxide, releasing 601 kJ per mole. The mass increases because oxygen from the air is now part of the product — a classic demonstration that burning is combination, not destruction."
+lv3 = "Adiabatic combustion solved enthalpy-conserving with the atmosphere in the element budget, giving a flame temperature near 3000 K. The oxygen is drawn from the reservoir rather than the inventory, which is why the vessel gains mass."
 
 [reaction.provenance]
 source = "Standard curriculum combustion demonstration; thermochemistry from NASA CEA thermo.inp"
@@ -334,9 +334,9 @@ events = ["flame_test:NaCl"]
 absent = ["consumed:NaCl"]
 
 [reaction.registers]
-child = "Salt doesn't burn — but hold it in a flame and the flame turns bright yellow! Every metal has its own colour, which is how you can tell them apart."
-student = "Sodium does not combust; heating excites its outer electron, which emits at 589 nm as it falls back. Flame tests identify metals by these characteristic colours."
-expert = "Atomic emission, not combustion: the D-line doublet at 589.0/589.6 nm. This is spectroscopy and is therefore curated data — the thermodynamic databases have nothing to say about it, and the lab does not pretend otherwise."
+lv1 = "Salt doesn't burn — but hold it in a flame and the flame turns bright yellow! Every metal has its own colour, which is how you can tell them apart."
+lv2 = "Sodium does not combust; heating excites its outer electron, which emits at 589 nm as it falls back. Flame tests identify metals by these characteristic colours."
+lv3 = "Atomic emission, not combustion: the D-line doublet at 589.0/589.6 nm. This is spectroscopy and is therefore curated data — the thermodynamic databases have nothing to say about it, and the lab does not pretend otherwise."
 
 [reaction.provenance]
 source = "Curated: sodium D-line emission, standard spectroscopic knowledge"

@@ -1,5 +1,5 @@
 # The marquee: silver nitrate + table salt
-register 9
+register lv1
 add v1 water 100mL
 add v1 NaCl 0.58g
 measure v1 ph
@@ -8,5 +8,5 @@ add v2 water 100mL
 add v2 AgNO3 1.7g
 decant v2 v1 1.0
 inspect
-register expert
+register lv3
 inspect

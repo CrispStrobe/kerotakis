@@ -148,7 +148,7 @@ fn silver_nitrate_plus_salt_precipitates_silver_chloride() {
             species: SpeciesId::new("AgCl"),
             moles: Moles(agcl),
         },
-        Register::Child,
+        Register::LV1,
     );
     assert!(text.contains("cloudy") && text.contains("white"), "{text}");
 }

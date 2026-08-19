@@ -1,5 +1,5 @@
 # The safety layer: precise about danger, honest about outcomes
-register 9
+register lv1
 add v1 water 200mL
 add v1 NaOCl 0.1mol
 measure v1 balance

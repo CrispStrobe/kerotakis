@@ -23,7 +23,7 @@ $ kero run lessons/silver-and-salt.lab
   It went cloudy in v1! A white solid appears at the bottom — that's called a precipitate.
 ```
 
-The same bench, same solvers, at the expert register:
+The same bench, same solvers, at lv3:
 
 ```console
   v1 (beaker) — 25.00 °C, 201.7 g, 200.0 mL liquid, pH 7.10, I = 0.0502 m
@@ -77,7 +77,7 @@ cargo run -p kerotakis-cli -- run lessons/fizz.lab   # or: cargo run -p kerotaki
 ```
 
 `kero` with no arguments opens the bench as a REPL. `help` lists the
-operators; `register 9|15|expert` switches voice; `explain` traces an answer;
+operators; `register lv1|lv2|lv3` sets how much detail; `explain` traces an answer;
 `--json` on a script emits one JSON object per step (that stream is the API
 contract the future UI consumes).
 

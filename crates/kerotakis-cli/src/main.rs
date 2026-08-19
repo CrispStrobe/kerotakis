@@ -53,7 +53,7 @@ fn main() {
             });
             let mut session = Session {
                 bench: Bench::new(),
-                register: Register::Student,
+                register: Register::default(),
                 json,
                 stack: build_stack(),
                 paths: kerotakis_phreeqc::PhreeqcEquilibrator::new().ok(),
@@ -321,7 +321,7 @@ fn usage() -> ! {
          \x20 inspect [vessel]           show state\n\
          \x20 explain [vessel]           where the answer came from, and\n\
          \x20                            what every other dataset says\n\
-         \x20 register <9|15|expert>     switch rendering register\n\
+         \x20 register <lv1|lv2|lv3>     how much detail to show\n\
          \x20 quit"
     );
     std::process::exit(2);
@@ -331,7 +331,7 @@ fn repl() {
     println!("kerotakis 0.0.1 — the bench is ready. 'help' lists commands.");
     let mut session = Session {
         bench: Bench::new(),
-        register: Register::Student,
+        register: Register::default(),
         json: false,
         stack: build_stack(),
         paths: kerotakis_phreeqc::PhreeqcEquilibrator::new().ok(),
@@ -354,7 +354,7 @@ fn repl() {
             println!(
                 "add <v> <species> <amount><mol|g|mL> [@ <T>C] · heat/cool <v> <E><J|kJ>\n\
                  stir <v> · decant/filter <from> <to> · evaporate <v> <frac> · measure <v> <thermometer|balance|ph>\n\
-                 new · inspect [v] · register <9|15|expert> · species · quit"
+                 new · inspect [v] · register <lv1|lv2|lv3> · species · quit"
             );
             continue;
         }
@@ -379,11 +379,14 @@ impl Session {
         let words: Vec<&str> = trimmed.split_whitespace().collect();
         match words[0] {
             "register" => {
-                self.register = match words.get(1).copied() {
-                    Some("9") | Some("child") => Register::Child,
-                    Some("15") | Some("student") => Register::Student,
-                    Some("expert") => Register::Expert,
-                    other => return Err(format!("unknown register {other:?}")),
+                self.register = match words.get(1).and_then(|w| Register::parse(w)) {
+                    Some(r) => r,
+                    None => {
+                        return Err(format!(
+                            "unknown level {:?} — use lv1 (what you see), lv2 (equations), lv3 (full detail)",
+                            words.get(1)
+                        ))
+                    }
                 };
                 Ok(())
             }
@@ -540,7 +543,7 @@ impl Session {
             println!("      (empty)");
         }
         // Expert register: the true equilibrium speciation.
-        if self.register == Register::Expert {
+        if self.register >= Register::LV3 {
             if let Some(info) = &v.solution {
                 if !info.species.is_empty() {
                     println!("      speciation (mol/kgw · activity · γ):");
