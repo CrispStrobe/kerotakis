@@ -1401,8 +1401,19 @@ the same treatment as above — let the thermodynamics decide.
       activation energy near 50 kJ/mol gives a factor of about two per ten
       degrees at room temperature, and a steeper barrier visibly breaks the
       rule of thumb.
-- [ ] Codex entries for the practicals (initial rates, catalyst comparison,
-      temperature series) — the engine is there, the curation is not.
+- [x] Codex entries for the practicals: `codex/rates.toml`, 14 entries —
+      order by initial rates, the temperature series *and where the
+      ten-degree rule frays* (×1.90, ×1.80, ×1.69 over successive steps),
+      the three-beaker catalyst comparison, constant half-life, the fair
+      test, and four entries that exist to state a limit rather than a
+      result.
+- [x] **pe and Eh surfaced** (P3e's first step): reported only when the
+      beaker holds a redox couple the user put there, never when it is
+      PHREEQC's default dressed as a measurement. Known limitation written
+      into the source — the test is necessary but not sufficient, and the
+      engine's own "Adjusted to redox equilibrium" marker turned out to fire
+      on the water couple in plain brine, so it is parsed and cached against
+      a better understanding rather than trusted now.
 
 **Integration accuracy is checked against a closed form, not against
 another guess.** A first-order decay has an exact solution, so the
@@ -1412,7 +1423,17 @@ could see, which forced the switch from explicit Euler to the midpoint
 method. `tools/kinetics-oracle.py` is the second opinion for cases with no
 closed form — SciPy, out of the build graph, on the ChemicalFun terms.
 
-Three bugs that only a rate model could have exposed, all fixed:
+Four bugs that only a rate model could have exposed, all fixed:
+
+- **Neither curated rate law conserved mass**, and the conservation
+  proptest could not see it because it never issues a `wait`. Peroxide
+  destroyed the water its own equation string promised; thiosulfate
+  destroyed Na₂O, 62 g/mol per extent, visible on the balance. A rate law
+  is a reaction and has to balance like one — there is now a test that
+  audits every entry in the registry, and a second that checks the declared
+  equation string against the modelled stoichiometry, because when those
+  two disagree it is usually the code that is lying.
+
 
 - **One unknown species disabled the whole aqueous engine.** `partition`
   returned `None` if *any* species lacked a derived role, so adding

@@ -67,6 +67,16 @@ pub struct Provenance {
 /// What an aqueous solver last computed about this vessel's solution.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SolutionInfo {
+    /// Electron activity, −log a(e⁻): the redox axis.
+    ///
+    /// pe is to electrons what pH is to protons, and the symmetry is worth
+    /// making visible rather than describing. A solution has an acidity and
+    /// an oxidising power, and school chemistry teaches the first at length
+    /// while leaving the second as a table of standard potentials to
+    /// memorise. This is computed on every solve; it was simply being
+    /// thrown away.
+    #[serde(default)]
+    pub pe: Option<f64>,
     pub ph: f64,
     /// Ionic strength, mol/kgw.
     pub ionic_strength: f64,
@@ -77,6 +87,21 @@ pub struct SolutionInfo {
     /// Where this answer came from.
     #[serde(default)]
     pub provenance: Option<Provenance>,
+}
+
+impl SolutionInfo {
+    /// Redox potential in volts, from pe.
+    ///
+    /// Eh = pe · 2.303·R·T/F — the same quantity in the units a voltmeter
+    /// reads, which is how electrochemistry is taught and measured. The
+    /// factor is temperature-dependent (0.05916 V at 25 °C), so it takes
+    /// the temperature rather than assuming room conditions.
+    pub fn eh_volts(&self, temperature_k: f64) -> Option<f64> {
+        const FARADAY: f64 = 96_485.332;
+        const R: f64 = 8.314_462_618;
+        self.pe
+            .map(|pe| pe * std::f64::consts::LN_10 * R * temperature_k / FARADAY)
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

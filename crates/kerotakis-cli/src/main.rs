@@ -701,7 +701,16 @@ impl Session {
         let solution = v
             .solution
             .as_ref()
-            .map(|s| format!(", pH {:.2}, I = {:.4} m", s.ph, s.ionic_strength))
+            .map(|s| {
+                // pe beside pH: acidity and oxidising power are the two
+                // axes a solution has, and the second was computed and
+                // discarded until now.
+                let redox = match (s.pe, s.eh_volts(v.temperature.0)) {
+                    (Some(pe), Some(eh)) => format!(", pe {pe:.2} ({eh:+.3} V)"),
+                    _ => String::new(),
+                };
+                format!(", pH {:.2}{redox}, I = {:.4} m", s.ph, s.ionic_strength)
+            })
             .unwrap_or_default();
         println!(
             "  {} ({}) — {:.2} °C, {:.1} g, {:.1} mL liquid{solution}",

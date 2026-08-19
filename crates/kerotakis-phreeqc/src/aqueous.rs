@@ -59,6 +59,10 @@ pub struct CacheEntry {
     /// from the elements present — including phases this lab cannot name.
     #[serde(default)]
     pub saturation: Vec<(String, f64)>,
+    /// Whether PHREEQC solved for pe rather than using the value it was
+    /// handed. Its report says so in as many words.
+    #[serde(default)]
+    pub redox_adjusted: bool,
 }
 
 /// How supersaturated a phase must be before we admit we are ignoring it,
@@ -94,7 +98,12 @@ pub struct PhreeqcEquilibrator {
     #[allow(clippy::type_complexity)]
     cache: std::collections::HashMap<
         String,
-        (Vec<Vec<String>>, Vec<SpeciesDetail>, Vec<(String, f64)>),
+        (
+            Vec<Vec<String>>,
+            Vec<SpeciesDetail>,
+            Vec<(String, f64)>,
+            bool,
+        ),
     >,
     cache_hits: usize,
 }
@@ -137,11 +146,12 @@ impl PhreeqcEquilibrator {
             entries: self
                 .cache
                 .iter()
-                .map(|(k, (rows, species, saturation))| CacheEntry {
+                .map(|(k, (rows, species, saturation, redox))| CacheEntry {
                     key: k.clone(),
                     rows: rows.clone(),
                     species: species.clone(),
                     saturation: saturation.clone(),
+                    redox_adjusted: *redox,
                 })
                 .collect(),
         }
@@ -153,7 +163,7 @@ impl PhreeqcEquilibrator {
         for e in data.entries {
             self.cache
                 .entry(e.key)
-                .or_insert((e.rows, e.species, e.saturation));
+                .or_insert((e.rows, e.species, e.saturation, e.redox_adjusted));
         }
         self.cache.len() - before
     }
@@ -516,7 +526,8 @@ impl PhreeqcEquilibrator {
         // Content-addressed cache: database + input string is a
         // deterministic canonicalisation of (species set, amounts, T) — same
         // state, same answer, no engine call.
-        let (rows, speciation, saturation) = if let Some(hit) = self.cache.get(&key) {
+        let (rows, speciation, saturation, redox_adjusted) = if let Some(hit) = self.cache.get(&key)
+        {
             self.cache_hits += 1;
             hit.clone()
         } else {
@@ -544,12 +555,24 @@ impl PhreeqcEquilibrator {
                 let report = engine.output_string();
                 let speciation = parse_species_distribution(&report);
                 let saturation = parse_saturation_indices(&report);
+                // PHREEQC annotates its own report when it has solved for
+                // the electron activity rather than taken the default it was
+                // given. That sentence is the only trustworthy signal that
+                // pe is an answer, and it is the engine's own word.
+                let redox_adjusted = report.contains("Adjusted to redox equilibrium");
                 if self.cache.len() >= 10_000 {
                     self.cache.clear(); // simple bound; refine when profiling says so
                 }
-                self.cache
-                    .insert(key, (rows.clone(), speciation.clone(), saturation.clone()));
-                (rows, speciation, saturation)
+                self.cache.insert(
+                    key,
+                    (
+                        rows.clone(),
+                        speciation.clone(),
+                        saturation.clone(),
+                        redox_adjusted,
+                    ),
+                );
+                (rows, speciation, saturation, redox_adjusted)
             }
         };
         let value = |column: &str| -> Option<f64> {
@@ -738,7 +761,35 @@ impl PhreeqcEquilibrator {
         }
 
         let idx = derived::index_for(db_tag);
+        // pe is reported only when the beaker contains a redox couple the
+        // user actually put there. Left to itself PHREEQC reports the value
+        // it was handed — 4.0 by default — and printing that beside a
+        // computed pH would dress an assumption as a measurement.
+        //
+        // Hydrogen and oxygen are excluded even though the database gives
+        // them oxidation states, because they are in every aqueous solution
+        // and their presence says nothing about whether anything is being
+        // oxidised.
+        //
+        // KNOWN LIMITATION, stated rather than hidden: this is necessary
+        // but not sufficient. A beaker of permanganate with nothing to
+        // reduce it contains a redox-active element and still does not
+        // *determine* an electron activity — PHREEQC will report its
+        // default and we will show it. The engine annotates its report with
+        // "Adjusted to redox equilibrium", which looked like the right
+        // signal until it turned out to fire on the water couple in plain
+        // brine as well. Until that is understood, a test that can be
+        // explained is better than one that cannot: `redox_adjusted` is
+        // parsed and cached, and is where the eventual fix will hook.
+        let redox_constrained = problem.elements.iter().any(|el| {
+            // Element totals are keyed by valence where one is known —
+            // "Mn(7)" rather than "Mn" — while the redox set is canonical.
+            let canonical = el.split('(').next().unwrap_or(el);
+            canonical != "H" && canonical != "O" && idx.redox_elements.contains(canonical)
+        });
+        let _ = redox_adjusted;
         let info = SolutionInfo {
+            pe: redox_constrained.then(|| value("pe")).flatten(),
             ph,
             ionic_strength: mu,
             species: speciation,
@@ -867,6 +918,10 @@ fn build_input(vessel: &Vessel, problem: &Problem) -> String {
     // the mass balance; high precision prints 12.
     writeln!(input, "    -high_precision true").unwrap();
     writeln!(input, "    -ph       true").unwrap();
+    // pe is computed on every solve and was being discarded. It is the
+    // redox axis — the electron analogue of pH — and without it the lab
+    // cannot say anything about oxidation and reduction at all.
+    writeln!(input, "    -pe       true").unwrap();
     writeln!(input, "    -ionic_strength true").unwrap();
     writeln!(input, "    -water    true").unwrap();
     let elements: Vec<&str> = problem.elements.iter().map(String::as_str).collect();

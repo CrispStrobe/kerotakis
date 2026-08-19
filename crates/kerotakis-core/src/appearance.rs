@@ -108,12 +108,22 @@ pub fn observe(vessel: &Vessel) -> Appearance {
     };
     let deposit = biggest.map(|(name, _, colour)| (name.to_string(), colour));
 
-    let words = describe(&liquid, cloudiness, &deposit, has_liquid, vessel);
+    // Gas in a vessel that also holds liquid is gas coming *out* of the
+    // liquid, which is the single most visible thing in a school kinetics
+    // practical. This field existed and was hardcoded `false`, so a flask
+    // holding 0.05 mol of oxygen was described as "colourless and clear".
+    let bubbling = has_liquid
+        && vessel
+            .contents
+            .iter()
+            .any(|p| p.phase == Phase::Gas && p.moles.0 >= crate::OBSERVABLE_MOLES);
+
+    let words = describe(&liquid, cloudiness, &deposit, has_liquid, bubbling, vessel);
     Appearance {
         liquid,
         cloudiness,
         deposit,
-        bubbling: false,
+        bubbling,
         words,
     }
 }
@@ -177,6 +187,7 @@ fn describe(
     cloudiness: f64,
     deposit: &Option<(String, Colour)>,
     has_liquid: bool,
+    bubbling: bool,
     vessel: &Vessel,
 ) -> String {
     if vessel.is_empty() {
@@ -202,6 +213,9 @@ fn describe(
         } else {
             format!("The liquid is {word} {clarity}")
         });
+    }
+    if bubbling {
+        parts.push("bubbles of gas are rising through it".to_string());
     }
     if let Some((name, colour)) = deposit {
         let word = colour_word(colour, true);

@@ -77,6 +77,15 @@ pub struct DbIndex {
     /// Literature citations found in the file's comments, in file order.
     /// These are the database's own record of where its numbers came from.
     pub citations: Vec<String>,
+    /// Elements this database gives more than one oxidation state.
+    ///
+    /// Derived from the master-species block, which names them outright:
+    /// `Fe(+2)`, `Fe(+3)`, `Mn(7)`, `N(-3)`. It is the difference between a
+    /// solution whose redox state is *determined* by what is dissolved in
+    /// it and one where pe is simply the value PHREEQC was handed — and
+    /// reporting the second as a result would be reporting a default as a
+    /// measurement.
+    pub redox_elements: std::collections::BTreeSet<String>,
 }
 
 /// A comment that names a year and an author-ish token is the database
@@ -104,6 +113,7 @@ impl DbIndex {
     pub fn parse(db: &[u8]) -> DbIndex {
         let text = String::from_utf8_lossy(db);
         let mut idx = DbIndex::default();
+        let mut valences: BTreeMap<String, usize> = BTreeMap::new();
         let mut section = "";
         let mut pending_phase: Option<String> = None;
         let mut last_inserted: Option<String> = None;
@@ -155,6 +165,21 @@ impl DbIndex {
                     let element = canon_element(tokens[0]);
                     if element == "E" {
                         continue;
+                    }
+                    // A valence-tagged master line — `Fe(+2)`, `Mn(7)` — is
+                    // the database declaring that this element has more than
+                    // one oxidation state to be in.
+                    if tokens[0].contains('(') && tokens[0].contains(')') {
+                        // Keyed on the *base* element. `canon_element` keeps
+                        // the valence tag ("Mn(7)" stays "Mn(7)") because
+                        // element totals are queried by it, so counting on
+                        // that gave every oxidation state its own bucket and
+                        // nothing ever reached two.
+                        let base = tokens[0].split('(').next().unwrap_or(tokens[0]).to_string();
+                        valences
+                            .entry(base)
+                            .and_modify(|n| *n += 1)
+                            .or_insert(1usize);
                     }
                     if element == "Alkalinity" {
                         // Alkalinity's master species (HCO3-) belongs to the
@@ -210,6 +235,13 @@ impl DbIndex {
                 _ => {}
             }
         }
+        // Two or more valence-tagged master lines means the element really
+        // has a redox chemistry here; one alone is just a naming choice.
+        idx.redox_elements = valences
+            .into_iter()
+            .filter(|(_, n)| *n >= 2)
+            .map(|(el, _)| el)
+            .collect();
         idx
     }
 

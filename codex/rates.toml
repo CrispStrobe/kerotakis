@@ -1,0 +1,978 @@
+# The Kerotakis codex — rates.
+#
+# Every solver below the rate engine answers *where does this settle?*.
+# These entries are about the question a school lab actually spends its
+# afternoon on: how fast, and what changes it. The engine is P3k
+# (`kerotakis-core/src/kinetics.rs`): curated rate laws, orders taken from
+# the literature rather than read off the stoichiometry, k from Arrhenius,
+# catalysis as a lower activation energy, and a bench clock that `wait`
+# advances for every vessel at once.
+#
+# Every number in this file was produced by running the engine and reading
+# its output — the entry's own setup script wherever possible, and where a
+# claim needs a different clock or a different amount (a ten-millisecond
+# wait, a five-gram charge), the variant is named in the register that uses
+# it. Where a number is arithmetic performed on the engine's output rather
+# than printed by it, the entry says so. Where a judgement is ours, it says
+# `Editorial judgement (Kerotakis)`.
+#
+# Three approximations run through the whole file and are stated rather than
+# hidden, each with an entry of its own:
+#   · the thiosulfate rate law reads acid from the computed pH and never
+#     consumes it (`the-acid-is-never-used-up`);
+#   · thiosulfate is in no PHREEQC database we ship, so it dissolves but
+#     contributes nothing to pH or ionic strength (`a-salt-with-no-database`);
+#   · the pre-exponential factors are calibrated against the observable, not
+#     measured, so absolute times are ours and ratios are the chemistry
+#     (`the-cross-disappears`).
+#
+# Licence: the codex is CC BY-SA 4.0, separately from the AGPL code.
+
+# ==================================================== order and concentration
+
+[[reaction]]
+id = "doubling-the-thiosulfate-doubles-the-rate"
+spine = ["die-reaktionsgeschwindigkeit"]
+equation = "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O"
+concepts = ["reaction-rate", "reaction-order"]
+requires = ["concentration"]
+calculations = ["rate-from-extent"]
+models = ["collision-theory"]
+apparatus = ["beaker", "measuring-cylinder", "stopwatch", "balance"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 Na2S2O3 0.79g
+add v1 HCl 0.002mol
+new
+add v2 water 100mL
+add v2 Na2S2O3 1.58g
+add v2 HCl 0.002mol
+wait 10s
+"""
+
+[reaction.expect]
+events = ["reacted:thiosulfate-acid", "not_yet_modelled"]
+absent = ["solver_failed"]
+ph = { min = 1.70, max = 1.80 }
+
+[reaction.expect.predict]
+question = "Two beakers, the same acid, the same ten seconds. One holds 0.05 mol/L thiosulfate, the other 0.10 mol/L. The first deposits 0.000223 mol of sulfur. What does the second deposit?"
+options = [
+  "0.000223 mol — the same, because it is the same reaction",
+  "0.000446 mol — twice as much",
+  "0.000891 mol — four times as much, because rate goes with concentration squared",
+  "Somewhere between, because the stronger one runs out sooner",
+]
+answer = 1
+misconception = "The last option is the interesting wrong answer, and a lot of learners reach for it: they know depletion slows a reaction down and expect the stronger solution to be handicapped by it. It is not, and the reason is worth having — for a first-order reaction the *fraction* consumed in ten seconds is the same in both beakers, so the amounts stay in the ratio they started in at every instant. The squared option is order confused with coefficient: the equation has a 2 in front of H⁺ and none in front of thiosulfate, and neither number is the order."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "A reaction has one speed, the way a substance has one melting point — concentration changes how much there is, not how fast it goes."
+next = "Run the same pair with a `wait 5s` and then another `wait 5s`. If speed were a property of the reaction the two beakers would track each other; they separate on the first interval and stay separated."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "The order is read off the equation: there is a 2 in front of H⁺, so something must be squared."
+next = "Open the same experiment on the acid instead (`the-acid-term-is-an-activity`): the species with the coefficient 2 is the one that turns out to be first order, which is hard to explain if orders came from coefficients."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "Depletion is imagined as a penalty the faster beaker pays, so the strong solution should fall behind its own head start."
+next = "Compare the sulfur in the two beakers at 24 s, 49 s and 113 s in `the-cross-disappears`: the ratio is exactly 2 at every reading, because both beakers lose the same fraction, not the same amount."
+
+[reaction.registers]
+lv1 = "Two beakers of the same clear liquid, one twice as strong as the other, and one clock for both. After ten seconds the strong one has made exactly twice as much yellow cloudiness as the weak one. Not a bit more — twice. Crowd the pieces together twice as tightly and they meet twice as often."
+lv2 = "Rate = k·[S₂O₃²⁻]·[H⁺]. Both beakers hold the same acid (pH 1.7486), so the only difference is the thiosulfate: 0.05 mol/L against 0.10 mol/L. In ten seconds the bench reports 2.2275 × 10⁻⁴ mol of reaction in the first and 4.4551 × 10⁻⁴ mol in the second — a ratio of 2.000. First order in thiosulfate, measured rather than assumed."
+lv3 = "The exactness is worth pausing on, because it is a stronger statement than the practical usually makes. Initial rates are proportional to concentration for any first-order reaction by definition; here the *integrated* amounts are also in the ratio 2.000 after ten seconds, and that holds because the integrated first-order solution is c₀(1 − e^(−k′t)) with k′ = k[H⁺] identical in both vessels. So the c₀ factors straight out and the proportionality survives depletion. The order is curated data, not inferred: `kinetics.rs` keeps `orders` separate from `reactants` precisely so that the coefficient 2 on H⁺ cannot leak into the rate law, and neither order here matches a coefficient."
+
+[reaction.provenance]
+source = "Orders (1,1) for the thiosulfate–acid clock reaction are the standard result of the disappearing-cross practical (school practical literature). Editorial judgement (Kerotakis): the choice to demonstrate the order by comparing integrated extents over a shared ten seconds, rather than by tangent-fitting an initial rate, is ours — it is what the bench can show honestly."
+computed_by = "kerotakis-core kinetics (midpoint integration of the curated rate law); pH from PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "the-acid-term-is-an-activity"
+spine = ["die-reaktionsgeschwindigkeit"]
+summary = "Double the hydrochloric acid and the rate rises by 1.94, not 2.00 — the rate law reads the activity the solver computed, not the amount you weighed"
+concepts = ["activity-in-a-rate-law"]
+requires = ["reaction-order", "activity", "ph"]
+calculations = ["rate-from-extent", "ph-from-concentration"]
+models = ["collision-theory"]
+apparatus = ["beaker", "pipette", "ph-meter", "stopwatch"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 Na2S2O3 0.79g
+add v1 HCl 0.002mol
+new
+add v2 water 100mL
+add v2 Na2S2O3 0.79g
+add v2 HCl 0.004mol
+new
+add v3 water 100mL
+add v3 Na2S2O3 0.79g
+add v3 HCl 0.001mol
+wait 1s
+"""
+
+[reaction.expect]
+events = ["reacted:thiosulfate-acid"]
+absent = ["solver_failed"]
+ph = { min = 1.70, max = 1.80 }
+
+[reaction.expect.predict]
+question = "Three beakers, identical except for the acid: 0.001, 0.002 and 0.004 mol of HCl in 100 mL. The reaction is known to be first order in H⁺. Doubling the acid from 0.002 to 0.004 mol should multiply the rate by exactly two. The bench says 1.94. Who is wrong?"
+options = [
+  "The bench — a first-order term must double when you double the concentration",
+  "Nobody. The rate law is first order in the *activity* of H⁺, and doubling the amount raises the activity by only 1.94",
+  "The chemistry — the order in H⁺ must really be a bit less than one",
+  "It is rounding error in the integrator",
+]
+answer = 1
+misconception = "The third option is the trap that catches good students: a measured exponent slightly below one looks like evidence for a fractional order, and fractional orders are real. Here it is not one. The order in the model is exactly 1.000, and the shortfall comes from somewhere else entirely — the ionic strength doubled with the acid, the activity coefficient fell from 0.889 to 0.863, and the rate law reads activity. Mistaking a solution non-ideality for a mechanistic order is a live error in real kinetics work, not a schoolroom one."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "First order means the printed concentration doubles the rate — the number on the bottle is the number in the equation."
+next = "Read the three ionic strengths (0.01003, 0.02006, 0.04012 mol/kgw) beside the three pH values. The pH steps are 0.2895 and 0.2878, not the 0.3010 that a factor of two in concentration would give."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "A measured exponent below one is evidence about the mechanism, so the order must really be about 0.95."
+next = "Repeat with the thiosulfate instead of the acid, where no ionic-strength change is involved: that ratio comes out at 2.000. An order that appears only when the ionic strength moves is not an order."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "A discrepancy in the third significant figure must be numerical noise rather than chemistry."
+next = "Check the size: the integrator agrees with the closed-form first-order solution to better than 0.1%, and this discrepancy is 3%. Errors have magnitudes, and comparing them is the habit worth building."
+
+[reaction.registers]
+lv1 = "Put in twice as much acid and the reaction does not quite get twice as fast — it gets 1.94 times as fast. The missing bit is not a mistake. Ions in a crowded solution get in each other's way, so twice as many of them do not push twice as hard."
+lv2 = "The bench computes pH 2.0381, 1.7486 and 1.4608 for 0.001, 0.002 and 0.004 mol of HCl in 100 mL, and the rate law uses 10^(−pH). In one second the three vessels react by 1.1686 × 10⁻⁵, 2.2735 × 10⁻⁵ and 4.4010 × 10⁻⁵ mol. Halving the acid gives ×0.514 and doubling it gives ×1.936 — first order, but in the activity rather than in the amount weighed out."
+lv3 = "PHREEQC's pH is −log₁₀(a_H⁺), so `term_concentration` returning 10^(−pH) hands the rate law an activity, deliberately: adding HCl to water leaves chloride in the vessel inventory and puts the proton into the charge balance, where it has no inventory amount to read. The ionic strengths are 0.01003, 0.02006 and 0.04012 mol/kgw, giving activity coefficients 0.913, 0.889 and 0.863 under the WATEQ Debye–Hückel extension; 0.034609/0.017838 = 1.940 is the activity ratio, and the measured 1.936 falls just short of it because the faster vessel has already consumed slightly more thiosulfate within the second. This is the same γ that shows up in `ph-is-not-quite-minus-log-c`, met again where it changes a rate instead of a reading."
+
+[reaction.provenance]
+source = "Standard curriculum kinetics for the order in H⁺; activity coefficients from PHREEQC wateq4f.dat (USGS) under the WATEQ Debye–Hückel extension. Editorial judgement (Kerotakis): reading the acid term as an activity rather than a nominal concentration is an engine design decision, documented in `kinetics.rs`, and this entry exists to make that decision visible rather than to hide it behind a round number."
+computed_by = "kerotakis-core kinetics; pH and ionic strength from PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "the-cross-disappears"
+spine = ["die-reaktionsgeschwindigkeit"]
+equation = "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O"
+concepts = ["rate-from-a-fixed-observable"]
+requires = ["reaction-rate", "reaction-order"]
+calculations = ["rate-from-extent", "initial-rate"]
+models = ["collision-theory"]
+apparatus = ["beaker", "stopwatch", "paper-cross", "measuring-cylinder"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 Na2S2O3 0.79g
+add v1 HCl 0.002mol
+new
+add v2 water 100mL
+add v2 Na2S2O3 1.58g
+add v2 HCl 0.002mol
+new
+add v3 water 100mL
+add v3 Na2S2O3 0.395g
+add v3 HCl 0.002mol
+wait 24s
+look v1
+look v2
+look v3
+wait 25s
+look v1
+look v2
+look v3
+wait 64s
+look v1
+look v2
+look v3
+"""
+
+[reaction.expect]
+events = ["reacted:thiosulfate-acid", "observed"]
+absent = ["solver_failed"]
+ph = { min = 1.70, max = 1.80 }
+
+[reaction.expect.predict]
+question = "Three beakers at 0.025, 0.05 and 0.10 mol/L thiosulfate. You time how long each takes to hide a pencil cross under the beaker. The 0.10 mol/L beaker takes 24 s. The reaction is first order. How long does the 0.025 mol/L beaker take?"
+options = [
+  "48 s — twice as long, twice as long again would be silly",
+  "96 s — four times the time for a quarter of the concentration",
+  "113 s — longer than four times, because a fixed amount of sulfur is a much bigger bite out of a weak solution",
+  "It never gets there — there is not enough thiosulfate",
+]
+answer = 2
+misconception = "Both of the first two options assume the time to a fixed observable is exactly inversely proportional to concentration. It nearly is, and the practical is built on that assumption — but only while the sulfur you are waiting for is a small fraction of what you started with. Hiding the cross costs 0.01 mol/L of sulfur: a tenth of the strong beaker and two fifths of the weak one, which is why the weak one falls further behind than the simple ratio predicts. The last option is worth taking seriously and rejecting on the arithmetic: 0.025 mol/L is enough, with room to spare."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Quarter the concentration, double the time — the relationship between concentration and time is being applied once instead of twice."
+next = "Lay the three times out as a table with the three concentrations. 24, 49, 113 against 0.10, 0.05, 0.025: each halving of concentration costs rather more than a doubling of time, and the table makes that visible without any algebra."
+
+[[reaction.expect.predict.diagnosis]]
+option = 1
+reveals = "Time is exactly inversely proportional to concentration, always — 1/t *is* the rate rather than standing in for it."
+next = "Ask how much of each beaker's thiosulfate has been used at the moment the cross vanishes: 10%, 20%, 40%. The method assumes the answer is 'hardly any', and in the weakest beaker it is not."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "Sulfur has to be at 0.01 mol/L, so a 0.025 mol/L solution is nearly out of material and may never make it."
+next = "Do the stoichiometry before the kinetics: 1 mol of thiosulfate gives 1 mol of sulfur, so 0.025 mol/L can reach 0.01 mol/L with 60% to spare. Checking whether a reaction *can* finish before asking how fast is a habit worth having."
+
+[reaction.registers]
+lv1 = "Draw a cross on paper, stand the beaker on it, and start the clock when the acid goes in. The liquid slowly turns milky with sulfur until the cross vanishes. Strong solution: 24 seconds. Half as strong: 49. A quarter as strong: 113. Fainter mixture, longer wait — and the clock is the measuring instrument, which is the whole trick of the experiment."
+lv2 = "Taking 0.01 mol/L of suspended sulfur as the point where the cross is hidden, the bench reaches it at 24 s (0.10 mol/L), 49 s (0.05 mol/L) and 113 s (0.025 mol/L). 1/t is the usual stand-in for the rate: 0.0417, 0.0204 and 0.0088 s⁻¹, close to halving each time but not exactly — the successive time ratios are 2.04 and 2.31, not 2.00 and 2.00. At the moment each beaker is read it has used 10%, 20% and 40% of its thiosulfate, and the most dilute one is no longer anywhere near its initial rate."
+lv3 = "The absolute times belong to us and the ratios belong to the chemistry — that distinction is the honest content of this entry. The pre-exponential A = 2.2 × 10⁸ in `kinetics.rs` is calibrated so that 0.05 mol/L at pH 1.7 and 25 °C hides the cross in about forty seconds, which is the range the practical is designed around; it is not a measured Arrhenius A, and the file says so. Everything derived from *comparing* vessels — the order, the temperature ratios, the catalyst factors — is independent of A and survives any recalibration. The exact integrated form is t = −ln(1 − 0.01/c₀)/(k[H⁺]), which with the engine's own k[H⁺] = 4.561 × 10⁻³ s⁻¹ puts the crossings at 23.1, 48.9 and 112.0 s and the ratios at 2.12 and 2.29; reading the beaker once a second rounds those to 24, 49 and 113 and distorts the first ratio to 2.04. Nearly a second of quantisation is worth noticing, because a real practical reads its stopwatch to about the same precision. The 0.01 mol/L threshold is also ours — it is the criterion the engine's own regression test uses — and it is not the same thing as the renderer's vocabulary: `appearance` calls a beaker 'cloudy' from a cloudiness of 0.15, which is 0.0075 mol/L of sulfur and arrives about thirteen seconds earlier in the 0.05 mol/L beaker. Each beaker is therefore already being described as 'cloudy' by the time it reaches the criterion, and the two thresholds should not be read as one."
+
+[reaction.provenance]
+source = "The disappearing-cross practical is standard school chemistry; Ea ≈ 51 kJ/mol and orders (1,1) are its usual reported results (commonly 45–60 kJ/mol). Editorial judgement (Kerotakis): the pre-exponential is fixed by matching the observable rather than measured, and '0.01 mol/L of sulfur hides the cross' is our operational definition of the endpoint, chosen to match the engine's own regression test rather than taken from a source."
+computed_by = "kerotakis-core kinetics; appearance from kerotakis-core::appearance (cloudiness = suspended solid per litre against an opacity scale)"
+
+# ============================================================== temperature
+
+[[reaction]]
+id = "the-ten-degree-rule-and-where-it-frays"
+spine = ["die-reaktionsgeschwindigkeit"]
+summary = "25 → 35 → 45 → 55 °C multiplies the ten-second yield by 1.90, then 1.80, then 1.69 — the rule of thumb is a rule about one activation energy at one temperature"
+concepts = ["temperature-and-rate", "arrhenius-equation"]
+requires = ["reaction-rate"]
+calculations = ["rate-from-extent", "arrhenius-ratio"]
+models = ["collision-theory", "activation-energy"]
+apparatus = ["beaker", "water-bath", "thermometer", "stopwatch"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[reaction.setup]
+script = """
+add v1 water 100mL @ 25C
+add v1 Na2S2O3 0.79g @ 25C
+add v1 HCl 0.002mol @ 25C
+new
+add v2 water 100mL @ 35C
+add v2 Na2S2O3 0.79g @ 35C
+add v2 HCl 0.002mol @ 35C
+new
+add v3 water 100mL @ 45C
+add v3 Na2S2O3 0.79g @ 45C
+add v3 HCl 0.002mol @ 45C
+new
+add v4 water 100mL @ 55C
+add v4 Na2S2O3 0.79g @ 55C
+add v4 HCl 0.002mol @ 55C
+wait 10s
+"""
+
+[reaction.expect]
+events = ["reacted:thiosulfate-acid", "temperature_changed"]
+absent = ["solver_failed"]
+ph = { min = 1.70, max = 1.80 }
+temperature_c = { min = 24.5, max = 25.5 }
+
+[reaction.expect.predict]
+question = "Four beakers of the same mixture at 25, 35, 45 and 55 °C. 'The rate doubles every ten degrees.' If the 25 °C beaker deposits 0.000223 mol of sulfur in ten seconds, what does the 55 °C beaker deposit?"
+options = [
+  "0.00178 mol — eight times, three doublings",
+  "0.00128 mol — a bit less than eight times, because each ten-degree step is worth slightly less than the last",
+  "0.000669 mol — three times, one doubling per ten degrees added up",
+  "0.00223 mol — ten times, because the temperature went up by thirty degrees",
+]
+answer = 1
+misconception = "The third option is the commonest arithmetic slip in this topic: doublings multiply, they do not add. The first is the right arithmetic applied to a rule that is only approximately true, and it is the more instructive error — it treats 'doubles every ten degrees' as a law. It is not a law; it is what an activation energy near 50 kJ/mol happens to give near room temperature, and the factor shrinks steadily as the beaker gets hotter because the Arrhenius exponent depends on 1/T, not on T."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "'Doubles every ten degrees' is a law of nature, so three steps give exactly eight times."
+next = "Compute the three step factors from the bench's own numbers — 1.90, 1.80, 1.69 — and ask what would have to be true of Arrhenius for them all to be 2. The answer is that Ea would have to grow with temperature."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Three ten-degree steps means three doublings added together, so three times faster."
+next = "Do it on paper with a simpler case first: two doublings of £10 is £40, not £30. Then ask which operation 'per ten degrees' describes."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "Rate scales with temperature itself, so thirty degrees on top of twenty-five is roughly ten times as much heat and ten times the rate."
+next = "Try the same reasoning in kelvin: 298 K to 328 K is a 10% rise, which would predict almost no change. A rule that gives two different answers in two temperature scales is not describing a proportionality."
+
+[reaction.registers]
+lv1 = "Same mixture, four temperatures, one clock. In ten seconds the cold beaker makes a faint haze and the hot one is properly cloudy — roughly twice as much sulfur for every ten degrees you go up. Roughly. Each ten degrees buys a little less than the last one did, so 'it doubles' is a handy rule rather than a promise."
+lv2 = "In ten seconds the bench reports 2.2275 × 10⁻⁴, 4.2430 × 10⁻⁴, 7.6234 × 10⁻⁴ and 1.2847 × 10⁻³ mol of reaction at 25, 35, 45 and 55 °C. The step factors are 1.90, 1.80 and 1.69. Nobody applied a rule: k = A·e^(−Ea/RT) with Ea = 51 kJ/mol was evaluated at each temperature, and the near-doubling came out."
+lv3 = "Two separate reasons keep these below two, and they should not be confused. First, the Arrhenius ratio itself: k(308)/k(298) = e^(Ea/R · (1/298.15 − 1/308.15)) = 1.95 for Ea = 51 kJ/mol, and the same construction gives 1.87 and 1.80 for the higher steps, because the exponent goes as 1/T. Second, depletion: over ten seconds the hotter vessels have already eaten into their thiosulfate, which is why the measured 1.90/1.80/1.69 sit below those. Shortening the clock to one second, where almost nothing has been consumed, the bench gives 1.94/1.86/1.78 — within a percent of the pure rate-constant ratios. The 'rule' is therefore a statement about an activation energy near 50 kJ/mol at around 300 K, and the practical's real lesson is that it decays in a way you can predict."
+
+[reaction.provenance]
+source = "Arrhenius, Zeitschrift für physikalische Chemie, 1889, for the temperature dependence; Ea ≈ 51 kJ/mol for the thiosulfate–acid clock reaction per school practical literature (commonly reported 45–60 kJ/mol). Editorial judgement (Kerotakis): the four-temperature ladder and the decision to report the fraying of the rule rather than the rule alone are ours."
+computed_by = "kerotakis-core kinetics (Arrhenius k evaluated per vessel, midpoint integration); pH from PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "a-steeper-barrier-breaks-the-rule-of-thumb"
+spine = ["die-reaktionsgeschwindigkeit"]
+equation = "2 H₂O₂ → 2 H₂O + O₂↑"
+concepts = ["activation-energy"]
+requires = ["arrhenius-equation"]
+calculations = ["arrhenius-ratio"]
+models = ["activation-energy", "collision-theory"]
+apparatus = ["conical-flask", "water-bath", "thermometer", "stopwatch"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL @ 25C
+add v1 H2O2 0.1mol @ 25C
+new
+add v2 water 100mL @ 35C
+add v2 H2O2 0.1mol @ 35C
+new
+add v3 water 100mL @ 45C
+add v3 H2O2 0.1mol @ 45C
+wait 10s
+"""
+
+[reaction.expect]
+events = ["reacted:peroxide-decomposition", "temperature_changed"]
+absent = ["solver_failed"]
+temperature_c = { min = 24.5, max = 25.5 }
+
+[reaction.expect.predict]
+question = "The thiosulfate clock speeds up by 1.90 per ten degrees. Hydrogen peroxide decomposing on its own has a much steeper barrier — 75 kJ/mol against 51. Warm it by ten degrees. What happens to its rate?"
+options = [
+  "It also roughly doubles — the ten-degree rule applies to reactions, not to barriers",
+  "It rises by about 2.6 — a steeper barrier is more sensitive to temperature",
+  "It rises by less than two — a harder reaction is harder to speed up",
+  "Nothing measurable — the barrier is too high for ten degrees to matter",
+]
+answer = 1
+misconception = "The third option is the intuitive one and it has the physics backwards. A high barrier does not make a reaction sluggish to warm; it makes it *more* responsive, because the fraction of collisions clearing the barrier is an exponential in Ea/RT and a bigger Ea steepens that exponential. The first option is the rule of thumb mistaken for a law of nature. Both are cured by the same observation: the temperature sensitivity is a property of the barrier, and that is the only thing that changed between these two experiments."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The ten-degree rule is a property of temperature, so it applies to every reaction alike."
+next = "Put the two experiments side by side: same integrator, same clock, same ten degrees, factors of 1.90 and 2.62. The only thing that differs between them is Ea, so Ea is what the factor depends on."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "A high barrier means a stubborn reaction, and stubborn things respond less to being pushed."
+next = "Look at where Ea sits in the equation — inside the exponent, divided by RT. Try Ea = 150 kJ/mol in the same arithmetic: the ten-degree factor is over 6. Sensitivity and speed are different questions, and this is the cleanest place to separate them."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "A barrier of 75 kJ/mol is a wall, so ten degrees of thermal energy cannot matter."
+next = "Compare 75 kJ/mol against RT at 298 K, which is 2.5 kJ/mol. The barrier is thirty times the average thermal energy and the reaction still runs — because it is the tail of the distribution that reacts, not the average."
+
+[reaction.registers]
+lv1 = "The same ten degrees does not buy the same speed-up for every reaction. For the sulfur clock it was about double. For peroxide breaking down on its own it is about two and a half times — because peroxide's reaction is harder to start, and anything hard to start is more grateful for the extra warmth."
+lv2 = "Uncatalysed peroxide decomposition carries Ea = 75 kJ/mol against the clock reaction's 51. In ten seconds the bench reports 1.1474 × 10⁻³, 3.0044 × 10⁻³ and 7.2011 × 10⁻³ mol of reaction at 25, 35 and 45 °C — factors of 2.62 and 2.40 per ten degrees, where thiosulfate gave 1.90 and 1.80 over the same steps."
+lv3 = "e^(Ea/R · (1/298.15 − 1/308.15)) is 1.95 for Ea = 51 kJ/mol and 2.67 for 75 kJ/mol; the measured 1.90 and 2.62 sit just below because ten seconds is long enough for some depletion. This is the cleanest demonstration in the file that the ten-degree rule is a coincidence of magnitude rather than a principle: the same integrator, the same clock, two rate laws, and the only difference is one number in the exponent. Note also what the peroxide vessel cannot tell you: hydrogen peroxide is in none of the shipped PHREEQC databases, so there is no solute to speciate, no solution is characterised at all, and a pH meter held in it reports that it has nothing to read — the same answer a beaker of pure water gives on this bench. The rate engine does not need one; it reads the inventory, not the solution."
+
+[reaction.provenance]
+source = "Uncatalysed hydrogen peroxide decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); Arrhenius, 1889. Editorial judgement (Kerotakis): the side-by-side comparison of two curated activation energies as a way of showing the ten-degree rule's domain is ours; the pre-exponential for peroxide is calibrated rather than measured, so only the ratios here are load-bearing."
+computed_by = "kerotakis-core kinetics"
+
+# ================================================================= catalysis
+
+[[reaction]]
+id = "three-beakers-of-peroxide"
+spine = ["katalyse"]
+equation = "2 H₂O₂ → 2 H₂O + O₂↑"
+concepts = ["catalysis"]
+requires = ["activation-energy"]
+calculations = ["rate-from-extent"]
+models = ["activation-energy", "collision-theory"]
+apparatus = ["conical-flask", "gas-syringe", "spatula", "stopwatch"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 H2O2 0.1mol
+new
+add v2 water 100mL
+add v2 H2O2 0.1mol
+add v2 MnO2 0.5g
+new
+add v3 water 100mL
+add v3 H2O2 0.1mol
+add v3 catalase 0.001g
+wait 1s
+"""
+
+[reaction.expect]
+events = ["reacted:peroxide-decomposition"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "Three flasks of 1 mol/L hydrogen peroxide. One is left alone, one gets half a gram of manganese dioxide, one gets a milligram of catalase from liver. After one second, how much peroxide is left in each?"
+options = [
+  "Roughly the same in all three — one second is not long enough for anything",
+  "99.8%, 11%, and none at all",
+  "99.8%, 50%, and 25% — each catalyst roughly halves what is left",
+  "None in any of them — a catalyst makes the reaction happen, and it was going to happen anyway",
+]
+answer = 1
+misconception = "The third option treats catalysts as things that come in ordinary sizes, a few times better than nothing. The whole point of the pairing is that they do not: the enzyme is not a bit better than the mineral, it is about a million times better, because the two differ by 35 kJ/mol in the exponent and the exponent is where speed lives. The last option is the older confusion — that a catalyst decides *whether* a reaction happens. It does not. All three flasks end up as water and oxygen; the catalyst only decides when."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "One second is too short for chemistry — reactions happen on the timescale of a lesson."
+next = "Ask what sets the timescale. The catalysed flask finishes inside ten milliseconds; nothing about a second is short or long until an activation energy says so."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Catalysts are graded like everything else in a school lab: better, much better, a few times better."
+next = "Put the barriers on a diagram: 75, 58, 23 kJ/mol, and the speed-up is exponential in the difference. Between the mineral and the enzyme lies a factor of a million, which is not a difference of degree that anyone's intuition delivers unaided."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "A catalyst is what makes the reaction go; without one it would not happen at all."
+next = "Leave the plain flask for two hours (`same-destination-different-journey`). It ends up in exactly the same place, with the same 0.05 mol of oxygen. The catalyst decided when, not whether."
+
+[reaction.registers]
+lv1 = "Three flasks of the same peroxide. Leave one alone and after a second it has barely changed. Drop in a spatula of black powder and nine tenths of it has already gone. Drop in a speck of liver enzyme — a thousandth of a gram — and it is over before you have put the bottle down. Same liquid, same room, same second."
+lv2 = "Activation energies of 75, 58 and 23 kJ/mol for none, manganese dioxide and catalase. After one second the bench reports 1.1593 × 10⁻⁴, 4.4504 × 10⁻² and 5.0000 × 10⁻² mol of reaction, leaving 0.0998, 0.0110 and effectively zero mol of peroxide. The catalysed flasks are limited by how much peroxide there was, not by how fast they could go."
+lv3 = "Because the catalysed vessels saturate within the second, the *rate* ratio has to be read before they finish. Over ten milliseconds the bench gives 1.1606 × 10⁻⁶ mol uncatalysed against 1.0920 × 10⁻³ with MnO₂ — a factor of 941, against the barrier arithmetic e^(17000/RT) = 951 at 298.15 K (the small shortfall is the 2% of peroxide the catalysed flask has already consumed). Catalase cannot be measured this way at all: it is complete within ten milliseconds, and the same arithmetic puts it at e^(52000/RT) ≈ 1.3 × 10⁹ times the uncatalysed rate. That the enzyme's advantage is a computed consequence of one curated number, rather than a multiplier someone typed in, is the design point of `Catalyst` carrying an activation energy instead of a factor."
+
+[reaction.provenance]
+source = "Ea ≈ 58 kJ/mol for manganese dioxide and ≈ 23 kJ/mol for catalase on hydrogen peroxide (standard physical chemistry texts); uncatalysed ≈ 75 kJ/mol. Editorial judgement (Kerotakis): modelling catalysis as a substituted activation energy rather than a rate multiplier is an engine decision recorded in `kinetics.rs`; the exponential speed-up factors quoted at lv3 are arithmetic performed on those curated barriers, not separately measured values."
+computed_by = "kerotakis-core kinetics"
+
+[[reaction]]
+id = "a-catalyst-comes-out-as-it-went-in"
+spine = ["katalyse"]
+summary = "0.001 g of catalase destroys three successive 0.1 mol charges of peroxide, each in one second, and is still 4.16666667 × 10⁻⁹ mol at the end"
+concepts = ["catalyst-not-consumed"]
+requires = ["catalysis", "conservation-of-mass"]
+calculations = ["moles-from-mass"]
+models = ["activation-energy"]
+apparatus = ["conical-flask", "balance", "spatula"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 catalase 0.001g
+add v1 H2O2 0.1mol
+wait 1s
+add v1 H2O2 0.1mol
+wait 1s
+add v1 H2O2 0.1mol
+wait 1s
+"""
+
+[reaction.expect]
+events = ["reacted:peroxide-decomposition", "added:catalase"]
+absent = ["consumed:catalase", "solver_failed"]
+
+[reaction.expect.predict]
+question = "A milligram of catalase destroys 0.1 mol of hydrogen peroxide in one second. You add a second 0.1 mol charge to the same flask. What happens?"
+options = [
+  "Nothing — the catalase was used up destroying the first charge",
+  "It goes just as fast — the catalase is untouched and the second charge takes the same one second",
+  "It goes half as fast — half the catalase has been spent",
+  "It goes faster — the flask is now warmed up",
+]
+answer = 1
+misconception = "'Used up' is the default assumption about anything that takes part in a reaction, and it is reinforced by the fact that a catalyst has to be added at all. The first and third options are both versions of it. What makes the demonstration convincing is repetition: one charge proves nothing, three identical charges destroyed at identical speed by the same speck of enzyme is hard to explain any other way. The last option is a real effect in a real flask — this decomposition is exothermic — and the bench does not model it, which the entry says rather than letting the option quietly pass as wrong for the wrong reason."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Anything you add to a reaction is a reagent, and reagents get used up."
+next = "Add the third charge and watch it go at the same speed. Then ask what the catalase would have to be doing to survive being 'used up' twice."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "A catalyst is partly consumed — spent in proportion to how much reaction it has driven, like a fuel."
+next = "Compare the numbers: 4.17 × 10⁻⁹ mol of catalase against 0.1 mol of peroxide per charge, twenty-four million peroxide molecules per enzyme molecule. Anything consumed in proportion would have run out in the first microsecond."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "The flask is warming from an exothermic reaction, so the second charge should be faster."
+next = "Right physics, absent from this model. Check the thermometer: the bench holds the flask at 25.0 °C throughout, because no reaction enthalpy is wired into the rate engine. Worth knowing which of your correct predictions this lab cannot confirm."
+
+[reaction.registers]
+lv1 = "A speck of liver enzyme, too small to see properly, and a flask of peroxide. One second and the peroxide is gone. Add more peroxide: gone again, just as fast. Add more: gone again. The speck is still there and still working. It is not an ingredient — it is a doorway that the reaction goes through and leaves behind."
+lv2 = "0.001 g of catalase is 4.16666667 × 10⁻⁹ mol at M ≈ 240 kDa. Each of the three 0.1 mol charges is destroyed in one second, 5.0000 × 10⁻² mol of reaction apiece, and the bench's inventory reports the same 4.16666667 × 10⁻⁹ mol of catalase after the third as before the first — identical to every digit it prints. Oxygen accumulates to 0.15 mol, three times the yield of one charge, as it must."
+lv3 = "The mechanism of the claim is worth seeing, because it is structural rather than numerical. `KineticReaction` keeps `catalysts` outside `reactants` and `products`; the integrator withdraws and deposits only what those two lists name, so a catalyst is never a term in the mass update and cannot drift. What it does instead is chosen fresh at every substep by `effective_activation_energy`, which scans the vessel for the best catalyst present and substitutes its barrier. Two honest gaps sit beside this. The bench does not model the heat of the decomposition, so a real flask that grows warm and accelerates is not what you see here. And a real enzyme is not indestructible: catalase denatures with heat, is inhibited, and turns over at a finite maximum rate that no barrier substitution can express — a Michaelis–Menten saturation this engine has no term for."
+
+[reaction.provenance]
+source = "Standard curriculum treatment of catalysis; catalase molar mass ~240 kDa (bovine liver catalase, standard reference) via the Kerotakis species registry. Editorial judgement (Kerotakis): the three-charge protocol is our design, chosen because a single charge cannot distinguish an unconsumed catalyst from a generously supplied reagent. The absence of a reaction enthalpy and of enzyme saturation are stated gaps in the current engine, not claims about chemistry."
+computed_by = "kerotakis-core kinetics (catalysts are excluded from the mass update by construction)"
+
+[[reaction]]
+id = "more-catalyst-and-a-good-stir-change-nothing"
+spine = ["katalyse"]
+summary = "0.1 g of MnO₂, 1 g of MnO₂, and 0.1 g with a stir all give 4.450426 × 10⁻² mol of reaction in one second — identical to every digit. This engine has no surface-area or mixing model, and that is a real gap"
+concepts = ["unmodelled-variable"]
+requires = ["catalysis", "model-boundary"]
+calculations = ["rate-from-extent"]
+models = ["collision-theory", "model-boundaries"]
+apparatus = ["conical-flask", "spatula", "stirring-rod", "balance"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 H2O2 0.1mol
+add v1 MnO2 0.1g
+new
+add v2 water 100mL
+add v2 H2O2 0.1mol
+add v2 MnO2 1g
+new
+add v3 water 100mL
+add v3 H2O2 0.1mol
+add v3 MnO2 0.1g
+stir v3
+wait 1s
+"""
+
+[reaction.expect]
+events = ["reacted:peroxide-decomposition", "not_yet_modelled"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "Ten times as much manganese dioxide in the second flask, and the third gets a vigorous stir. After one second, how do the three compare?"
+options = [
+  "The flask with more catalyst is faster; stirring helps a little too",
+  "All three are identical, because a catalyst is not consumed and therefore its amount cannot matter",
+  "All three are identical in this engine — and in a real flask they would not be, because surface area and mixing are real variables this model does not contain",
+  "The stirred flask is slower, because stirring cools it",
+]
+answer = 2
+misconception = "The second option is the dangerous one, and it is dangerous precisely because it reasons correctly from a true premise to a false conclusion: a catalyst really is not consumed, and it really does not appear in the stoichiometry, so it is tempting to conclude its amount is irrelevant. It is not irrelevant. Heterogeneous catalysis happens on a surface, so ten times the powder is roughly ten times the surface and roughly ten times the rate, and grinding it finer does the same again. The first option is the chemistry a school course teaches and the right expectation for a real bench. Our engine gives neither — it gives the second answer for the second reason, and the point of this entry is that you should know that before you trust it."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The right chemistry for a real bench, offered as a prediction about this one."
+next = "Nothing to unlearn — check instead which of your correct expectations the engine can honour. Concentration and temperature it computes; surface area and mixing it does not represent at all, and `stir` says so out loud."
+
+[[reaction.expect.predict.diagnosis]]
+option = 1
+reveals = "A catalyst is not consumed and does not appear in the stoichiometry, therefore how much of it there is cannot matter."
+next = "Reason about where the reaction physically happens. On a solid catalyst it happens on the surface, so ten times the powder is ten times the surface; grinding it finer does the same again without adding any mass. 'Not consumed' and 'amount irrelevant' are different claims, and only the first is true."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "Stirring is a mechanical input, so it must change the energy of the flask."
+next = "Watch the thermometer through the stir: 25.0 °C before and after. Then separate the two ideas — stirring in a real flask helps by moving material to the surface, not by changing the temperature."
+
+[reaction.registers]
+lv1 = "Two flasks, one with a pinch of black powder and one with ten pinches, and a third that you stir hard. In this lab all three fizz at exactly the same speed. On a real bench they would not: more powder means more surface for the peroxide to meet, and stirring keeps fresh liquid arriving at that surface. This lab does not know about surfaces, and it says so rather than letting you think you have proved something."
+lv2 = "Rate = k·[H₂O₂] with k set by whichever catalyst is present, and 'present' is the only thing the model asks. 0.1 g and 1 g of MnO₂ both give 4.450426 × 10⁻² mol of reaction in one second, digit for digit, and stirring changes nothing — `stir` returns a 'not yet modelled' notice instead of an effect. Two of collision theory's four levers, surface area and mixing, have no representation here at all; concentration and temperature have full ones."
+lv3 = "The gap has a definite shape, which is what makes it worth stating rather than apologising for. `effective_activation_energy` tests `moles_of(catalyst) > 0` and then substitutes a barrier — a boolean, not a quantity — so catalyst loading is structurally invisible; there is no particle-size, surface-area or mass-transport term anywhere in `kinetics.rs`. Modelling it properly means a Langmuir–Hinshelwood surface treatment with a site density and a diffusion coefficient, which is a different engine, not a coefficient. Until then the honest reading of these three flasks is that they demonstrate the *absence* of a model. One caution for anyone extending the script: keep the manganese dioxide below about 4 g in 100 mL. At 4 g the bench leaves it as a solid with 4.6 × 10⁻¹² mol of Mn²⁺ in solution, as an insoluble oxide should; at 5 g the aqueous solver dissolves the entire charge, reporting 5.75 × 10⁻² mol of Mn²⁺ and pH 13.55. That discontinuity is a solver artefact, not chemistry, and it is flagged here because the rate results happen to survive it — the catalyst check only asks whether any MnO₂ is left."
+
+[reaction.provenance]
+source = "Editorial judgement (Kerotakis): this is a statement about our engine's boundary, not about chemistry. Real heterogeneous catalysis depends strongly on catalyst surface area and on mass transport, per any standard treatment of catalysis; nothing in the shipped rate model represents either, and `stir` is explicitly a no-op that reports itself as one."
+computed_by = "kerotakis-core kinetics; the `stir` notice comes from the bench's honesty pass"
+
+# ==================================================== the shape of a rate law
+
+[[reaction]]
+id = "first-order-means-a-constant-half-life"
+spine = ["die-reaktionsgeschwindigkeit"]
+equation = "2 H₂O₂ → 2 H₂O + O₂↑"
+concepts = ["half-life", "first-order-kinetics"]
+requires = ["reaction-order"]
+calculations = ["half-life", "rate-from-extent"]
+models = ["activation-energy"]
+apparatus = ["conical-flask", "gas-syringe", "stopwatch"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 H2O2 0.1mol
+wait 5min
+wait 5min
+wait 5min
+wait 60min
+"""
+
+[reaction.expect]
+events = ["reacted:peroxide-decomposition"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "0.1 mol of hydrogen peroxide, left alone at 25 °C. The first five minutes destroy 0.0502 mol — just over half. How much does the second five minutes destroy?"
+options = [
+  "0.0498 mol — the rest of it, at the same steady pace",
+  "0.0250 mol — half of what is left, because the rate falls with the concentration",
+  "0.0502 mol again — the reaction has a fixed speed until it runs out",
+  "Nothing — it is finished",
+]
+answer = 1
+misconception = "The first and third options are the same misconception in two costumes: that a reaction has a speed the way a car has a speed, so a fixed time destroys a fixed amount. That is what zero order looks like, and it is rare. First order means the rate is proportional to what is left, so each equal interval removes an equal *fraction* — which is why the half-life is a constant and why the reaction has a long, thin tail rather than an end."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The reaction has a speed in mol per minute, so it finishes the job in the next interval."
+next = "Add a fourth interval and a fifth. A fixed amount per interval would have hit zero and stopped; the bench is still removing measurable peroxide an hour later."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "The rate is fixed until the reagent is exhausted, at which point it stops — the zero-order picture, applied by default."
+next = "Plot the three amounts consumed: 0.0502, 0.0250, 0.0125. Equal amounts would be a straight line down to zero; equal fractions are a curve with a tail, and the difference is visible in three points."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "Just over half went in the first interval, so the reaction is essentially over."
+next = "Read the remaining amount rather than the amount consumed: 0.0498 mol is still there, half of what you started with. 'Most of the change happened' and 'most of the material is gone' are different statements."
+
+[reaction.registers]
+lv1 = "Peroxide left alone slowly falls apart into water and oxygen. Five minutes takes away half of it. The next five minutes takes away half of what is left, not half of what you started with — so a quarter. Then an eighth. It never quite gets to nothing, which is why old peroxide is weak rather than empty."
+lv2 = "Successive five-minute intervals consume 0.05016, 0.02500 and 0.01246 mol of peroxide, leaving 0.04984, 0.02484 and 0.01238 mol of the original 0.1 mol. Each interval leaves 49.84% of what it was given — the same fraction every time, which is the definition of first order. The half-life is therefore a constant, here about 299 s, and after a further hour only 2.91 × 10⁻⁶ mol is left."
+lv3 = "The constancy is the check, not the story. d[H₂O₂]/dt = −2k[H₂O₂] because the rate law is first order while the stoichiometric coefficient is 2, so [H₂O₂](t) = c₀·e^(−2kt) and t½ = ln2/(2k) — note the factor of two, which is exactly the place where order and coefficient are separate quantities and get conflated. With k = 1.161 × 10⁻³ s⁻¹ at 298.15 K that is 298.6 s, so a 300 s interval is a shade more than one half-life and leaves 49.84% rather than exactly 50% — the bench's number, recovered from the barrier rather than fitted to it. This closed form is also the integrator's oracle: `kinetics.rs` checks the adaptive midpoint solver against e^(−2kt) at four times rather than against another numerical method, which is how a 0.7% drift in the original explicit-Euler version was caught."
+
+[reaction.provenance]
+source = "First-order kinetics per any standard physical chemistry text; the closed-form half-life is arithmetic on the curated rate constant. Editorial judgement (Kerotakis): the absolute half-life follows from a calibrated pre-exponential and is not a measured property of real hydrogen peroxide, which at ordinary concentrations and purity is stable for months — the constancy of the fraction is the claim here, not the number of seconds."
+computed_by = "kerotakis-core kinetics (midpoint integration, checked against the analytic first-order solution)"
+
+# ===================================================== the experiment itself
+
+[[reaction]]
+id = "two-beakers-and-one-clock"
+spine = ["erkenntnisgewinnung"]
+summary = "Identical mixtures at 25 °C and 35 °C; one `wait 20s` advances both, and only the temperature differs — 4.3557 × 10⁻⁴ mol against 8.1256 × 10⁻⁴ mol"
+concepts = ["shared-clock"]
+requires = ["fair-test", "temperature-and-rate"]
+calculations = ["rate-from-extent"]
+models = ["collision-theory"]
+apparatus = ["beaker", "thermometer", "stopwatch", "water-bath"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL @ 25C
+add v1 Na2S2O3 0.79g @ 25C
+add v1 HCl 0.002mol @ 25C
+new
+add v2 water 100mL @ 35C
+add v2 Na2S2O3 0.79g @ 35C
+add v2 HCl 0.002mol @ 35C
+wait 20s
+look v1
+look v2
+wait 20s
+look v1
+look v2
+"""
+
+[reaction.expect]
+events = ["reacted:thiosulfate-acid", "observed", "temperature_changed"]
+absent = ["solver_failed"]
+ph = { min = 1.70, max = 1.80 }
+temperature_c = { min = 24.5, max = 25.5 }
+
+[reaction.expect.predict]
+question = "You want to know whether temperature changes the rate. You have one stopwatch. What is the flaw in timing the cold beaker first and then the hot one?"
+options = [
+  "No flaw — the stopwatch does not care which beaker it is timing",
+  "The hot beaker cools while it waits its turn, so the two are not really at the temperatures you wrote down",
+  "You cannot see both crosses vanish at once",
+  "There is no flaw, but it is slower to do it that way",
+]
+answer = 1
+misconception = "The first and last options treat 'fair test' as a rule about *which variables you change* and stop there. It is also a rule about when things happen. A virtual bench makes the point unusually sharply, because it had to be built in: `wait` advances every vessel on the bench, so the two beakers cannot drift apart in time, cannot be started at different moments and cannot sit around waiting their turn. A real bench gives you none of that for free, which is exactly why the habit has to be taught."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "A fair test is a rule about which variables you change; once the variables are right, the procedure is free."
+next = "List everything that differs between 'timed first' and 'timed second' — the beaker's temperature, how long the acid has been in, the room. A controlled comparison controls the procedure as well as the ingredients."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "The problem is the observer: one pair of eyes cannot watch two beakers."
+next = "A real constraint, and a soluble one — two crosses side by side, or a video. Ask instead what happens to the beaker that is not being watched, which is the part no amount of attention fixes."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "Sequential timing is merely inefficient, not invalid."
+next = "Estimate the size of the error. A beaker sitting for a minute between runs loses a degree or two, and this reaction changes rate by 1.9 per ten degrees — so a couple of degrees is several percent, comparable with the effect being measured."
+
+[reaction.registers]
+lv1 = "Two beakers, the same amounts of everything, one warm and one not. Start them together, watch them together, stop them together. After twenty seconds the cold one is faintly hazy and the warm one is properly cloudy — and because nothing else was different, the warmth is the only thing that can have caused it. Change two things at once and you have a nice-looking experiment that proves nothing."
+lv2 = "Same 0.05 mol/L thiosulfate, same 0.002 mol of HCl, same 100 mL, 25 °C against 35 °C. One `wait 20s` advances both vessels: 4.3557 × 10⁻⁴ mol of reaction in the cold beaker against 8.1256 × 10⁻⁴ in the warm one, a factor of 1.87. The second twenty seconds gives 3.9760 × 10⁻⁴ and 6.8042 × 10⁻⁴ — both beakers slowing as their thiosulfate runs down, the warm one faster because it has less left."
+lv3 = "Time is a state dimension on this bench, and it is shared rather than per-vessel: `Operator::Wait` iterates every vessel and advances each one's clock and chemistry by the same interval, and the bench then re-settles every vessel's fast equilibria around what is left. That ordering — kinetics first, then speciation — is operator splitting, and it is the right way round because equilibrium is the faster process. The design cost of the alternative is worth naming: had `wait` taken a vessel argument, every rate comparison in this file would have been a comparison of two separately-run experiments, and the fair test would have been a convention the user had to keep rather than a property the engine guarantees. What the simulation cannot supply is the difficulty: identical starting temperatures, zero heat loss and perfect timing are free here and are most of the work at a real bench."
+
+[reaction.provenance]
+source = "Editorial judgement (Kerotakis): the shared-clock design and the argument that it is what makes a fair test structural rather than conventional are ours, recorded in PLAN.md (P3k) and `kinetics.rs`. The controlled-comparison principle itself is standard scientific method."
+computed_by = "kerotakis-core kinetics; bench clock via Operator::Wait"
+
+# ============================================== where the model stops, plainly
+
+[[reaction]]
+id = "a-salt-with-no-database"
+spine = ["natur-der-naturwissenschaft-nature-of-science"]
+summary = "Sodium thiosulfate dissolves and reacts, and contributes exactly nothing to the pH: 1.74858175066 with it and 1.74858175066 without"
+concepts = ["species-without-a-database"]
+requires = ["stated-ignorance", "ph"]
+calculations = ["ph-from-concentration"]
+models = ["model-boundaries"]
+apparatus = ["beaker", "ph-meter", "spatula"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 Na2S2O3 0.79g
+add v1 HCl 0.002mol
+new
+add v2 water 100mL
+add v2 HCl 0.002mol
+new
+add v3 water 100mL
+add v3 Na2S2O3 0.79g
+measure v3 ph
+"""
+
+[reaction.expect]
+events = ["not_yet_modelled", "added:Na2S2O3"]
+absent = ["solver_failed", "dissolved:Na2S2O3"]
+ph = { min = 1.70, max = 1.80 }
+
+[reaction.expect.predict]
+question = "Sodium thiosulfate is a salt of a weak acid, so a solution of it should be slightly alkaline. What does this bench report for 0.79 g of it in 100 mL of pure water?"
+options = [
+  "About pH 8.5, as the chemistry requires",
+  "pH 7.00 — it treats the salt as neutral",
+  "Nothing at all: no solver can speciate thiosulfate, so no solution is characterised and the pH meter reads nothing",
+  "It refuses to add the salt",
+]
+answer = 2
+misconception = "The second option is what most software would do and is the failure this bench is built to avoid: a plausible number with nothing behind it. Thiosulfate is absent from every PHREEQC database we ship, so there is no equilibrium constant to compute a pH from. The bench therefore says so, and the salt sits in the vessel without a solution around it. The first option is the right chemistry — S₂O₃²⁻ is the conjugate base of a weak acid and a real solution is mildly alkaline — which makes the gap a real one rather than a technicality."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The software knows the chemistry, so it will give the chemically correct answer."
+next = "Ask where such an answer would come from. A pH needs an equilibrium constant, and no shipped database carries one for thiosulfate. Software knows what its data knows."
+
+[[reaction.expect.predict.diagnosis]]
+option = 1
+reveals = "Where a program has nothing to say it defaults to the neutral, unremarkable value."
+next = "This is the answer to watch for in any tool: a plausible number with nothing behind it, indistinguishable from a computed one. Compare with the same bench's `when-the-lab-says-it-does-not-know` — the design commitment is to say nothing rather than to say 7."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "A model that cannot handle something should refuse to proceed."
+next = "Notice what would be lost: the salt would be unusable, and its rate chemistry — which the engine models perfectly well — would go with it. The useful move is to accept the substance and name precisely which downstream numbers it invalidates."
+
+[reaction.registers]
+lv1 = "Some things this lab knows how to think about, and some it does not. It can hold this salt, dissolve it and let it react — but if you ask what it does to the acidity, it tells you plainly that it has no way to work that out. That is a better answer than a confident number nobody checked."
+lv2 = "The acid beaker reads pH 1.74858175066. The beaker with thiosulfate *and* the same acid reads pH 1.74858175066 — identical to twelve figures, because the thiosulfate contributes nothing to the charge balance or the ionic strength (0.02006 mol/kgw in both). The third beaker, thiosulfate in pure water, has no characterised solution at all: the salt stays in the vessel as a solid and the pH meter reports that it has nothing to read."
+lv3 = "The species registry marks sodium thiosulfate `dissolves_without_speciation`, and the bench raises `NotYetModeled` every time it is added, naming exactly what is affected: the pH and the ionic strength are for everything else in the beaker. This is not cosmetic — it was earned by two bugs that only a rate model could have exposed. Before the fix, one species without a derived role made `partition` return `None`, so adding thiosulfate silently withdrew the pH of the acid sitting beside it; and because the aqueous rebuild replaces a vessel's contents with the computed state, the unrecognised species was then destroyed rather than ignored. What remains is a vessel where two solvers coexist over the same liquid with different vocabularies, and the rate engine draws its acid term from the one that does know about protons. Worth naming the real chemistry that is missing: S₂O₃²⁻ has pKa₂ ≈ 1.6, so at pH 1.75 a real solution is roughly half protonated, and the reacting species is arguably HS₂O₃⁻ rather than the free anion."
+
+[reaction.provenance]
+source = "Editorial judgement (Kerotakis): the decision to let an unspeciated salt dissolve while reporting what that costs, rather than refusing it or inventing a pH, is ours and is recorded in PLAN.md (P3k, 'Honest gaps'). The absence of thiosulfate from wateq4f.dat, minteq.v4.dat and pitzer.dat is a property of the shipped PHREEQC databases (USGS). The pKa₂ ≈ 1.6 quoted at lv3 is a standard reference value and is not computed by this engine."
+computed_by = "PHREEQC via Kerotakis L2 for the two pH readings; the gap notice comes from the bench's honesty pass"
+
+[[reaction]]
+id = "the-acid-is-never-used-up"
+spine = ["natur-der-naturwissenschaft-nature-of-science"]
+summary = "Ten minutes consumes 4.6727 × 10⁻³ mol of thiosulfate — which would need 9.35 mmol of protons — while the beaker holds 2 mmol and the pH never moves off 1.74858175066"
+concepts = ["excess-reagent-approximation"]
+requires = ["reaction-order", "excess-reagent"]
+calculations = ["stoichiometric-ratio", "rate-from-extent"]
+models = ["model-boundaries", "collision-theory"]
+apparatus = ["beaker", "ph-meter", "stopwatch"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 Na2S2O3 0.79g
+add v1 HCl 0.002mol
+measure v1 ph
+wait 10min
+measure v1 ph
+look v1
+"""
+
+[reaction.expect]
+events = ["reacted:thiosulfate-acid", "measured", "observed"]
+absent = ["solver_failed"]
+ph = { min = 1.70, max = 1.80 }
+
+[reaction.expect.predict]
+question = "The equation is S₂O₃²⁻ + 2 H⁺ → S + SO₂ + H₂O. The beaker starts with 5.0 mmol of thiosulfate and 2.0 mmol of acid. After ten minutes, 4.67 mmol of thiosulfate has reacted. What has the pH done?"
+options = [
+  "Risen sharply — the protons were the limiting reagent and ran out after 1 mmol of thiosulfate",
+  "Risen a little, as protons were consumed",
+  "Not moved at all — this rate law reads the acid from the pH and never consumes it, which is a stated approximation and here it is being stretched past where it holds",
+  "Fallen, because sulfur dioxide dissolves to make an acid",
+]
+answer = 2
+misconception = "There is no misconception on offer here — all four options are chemically sensible, and the first is what a real beaker would do. The question exists to make a modelling decision visible. The rate law treats [H⁺] as an influence read from the solution rather than as a reactant with an inventory, because the practical is designed to run with acid in large excess and the vessel has no proton portion to draw down. Over the twenty to sixty seconds the practical actually uses, that is a good approximation. Over ten minutes with only 2 mmol of acid it is not, and the entry says so rather than letting the reader discover it as a surprise."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The right chemistry for a real beaker, and the right stoichiometry — offered as a prediction about this model."
+next = "Nothing to unlearn. Note instead which prediction the engine cannot honour and why: there is no proton portion in the vessel to draw down, so the limiting-reagent argument has nothing to act on here even though it is correct."
+
+[[reaction.expect.predict.diagnosis]]
+option = 1
+reveals = "Protons are consumed, but a solution buffers itself, so the pH drifts rather than jumps."
+next = "Check whether anything in this beaker could buffer: hydrochloric acid is fully dissociated and thiosulfate is invisible to the aqueous solver. Then read the pH — not drifted, not moved at all, twelve digits unchanged."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "Sulfur dioxide is an acid gas, so dissolving it should acidify the beaker further."
+next = "Chemically reasonable and also not modelled: the SO₂ is deposited straight into the gas phase and never enters the aqueous solver, so it cannot form sulfurous acid here. Two separate absences produce the same flat line, and it is worth being able to name both."
+
+[reaction.registers]
+lv1 = "Left for ten minutes, the beaker turns thick and yellow: almost all the thiosulfate has become sulfur. The acid meter reads exactly what it read at the start. In a real beaker it would not — the acid is meant to be used up too, and here it never is. This is a corner the model was not built for, and it is better to know where those corners are than to find one by accident."
+lv2 = "In 600 s the bench reports 4.6727 × 10⁻³ mol of reaction, 93.5% of the 4.9965 × 10⁻³ mol of thiosulfate present, and pH 1.74858175066 before and after — the same twelve digits. By the stated equation that much reaction would need 9.345 × 10⁻³ mol of protons, and the beaker was charged with 2.0 × 10⁻³ mol. A real beaker would have run out of acid after about 1 mmol of thiosulfate and stalled."
+lv3 = "The approximation is deliberate and documented: `orders` carries `(PROTON, 1.0)` while `reactants` does not, so the proton enters the rate through `10^(−pH)` and is never withdrawn. The reason it cannot simply be fixed by adding H⁺ to `reactants` is structural — the proton is not a vessel portion at all; it lives in PHREEQC's charge balance, and there is nothing there for the integrator to decrement. Doing this properly means the rate engine handing a consumed proton amount back to the aqueous solver as an alkalinity change between substeps, which is a coupling neither solver currently has. Until then the honest guidance is that thiosulfate results are trustworthy while the acid is in genuine excess — for these amounts, up to roughly the first fifth of the thiosulfate, which comfortably covers the disappearing-cross timings and does not cover this ten-minute run."
+
+[reaction.provenance]
+source = "Editorial judgement (Kerotakis): the excess-acid approximation and its boundary are ours, stated in `kinetics.rs` and stretched deliberately here so that the boundary can be seen. The stoichiometry S₂O₃²⁻ + 2 H⁺ → S + SO₂ + H₂O is standard."
+computed_by = "kerotakis-core kinetics; pH from PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "the-oxygen-is-counted-but-never-seen"
+spine = ["natur-der-naturwissenschaft-nature-of-science"]
+summary = "0.05 mol of oxygen — about 1.2 L — is in the flask; you can see it bubbling and you cannot measure it."
+concepts = ["unrendered-observable"]
+requires = ["catalysis", "model-boundary"]
+calculations = ["moles-from-mass"]
+models = ["model-boundaries"]
+apparatus = ["conical-flask", "gas-syringe"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 H2O2 0.1mol
+add v1 catalase 0.001g
+wait 1s
+look v1
+"""
+
+[reaction.expect]
+events = ["reacted:peroxide-decomposition", "observed"]
+absent = ["gas_evolved:O2", "solver_failed"]
+
+[reaction.expect.predict]
+question = "Catalase destroys 0.1 mol of peroxide, releasing 0.05 mol of oxygen — roughly 1.2 litres, the demonstration's whole point. The bench reports bubbles rising. What can you do with that gas?"
+options = [
+  "Read its volume off the gas syringe, which is how the rate is measured",
+  "See it, and nothing else — no volume is measurable here, and no gas-evolution event fires",
+  "Nothing: bubbles are only a picture, so the oxygen is not really counted",
+  "Collect and weigh it, since the balance tracks everything in the vessel",
+]
+answer = 1
+misconception = "This one is not about chemistry, and pretending otherwise would be the dishonest move. The engine's bookkeeping is right — 0.05 mol of O₂ is exactly half the peroxide, and it is there in the vessel and now visible as bubbles. What is still missing is downstream: there is no gas syringe, no volume reading, and the rate engine deposits products into a phase without raising the `gas_evolved` event the aqueous and thermal solvers raise. So the practical's actual measurement — millilitres against seconds — cannot be taken. A simulation has a model layer and a presentation layer and they fail independently, which is worth knowing about any simulation you are handed."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Whatever a real practical measures, the simulation must measure too — if the chemistry is right, the instruments must be there."
+next = "Separate the two. Read the vessel's inventory (0.05 mol of O₂, correct to the last digit), then ask what instrument would give you a number from it. Apparatus is a modelling decision, and this bench has not made it yet."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "A picture is decoration, so anything you can only see is not really in the model."
+next = "The opposite of the first mistake, and just as wrong. Ask the vessel what it holds: the oxygen is there to the last digit, and the bubbles are drawn *from* that number rather than instead of it."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "Any change in the flask should show up as a change in what you see, and oxygen is faintly blue in bulk."
+next = "True of liquid oxygen at −183 °C and irrelevant here. The bench computes colour from curated absorption spectra, and oxygen gas at 1 atm has none worth the name — so this is the rare case where 'no colour change' is the right answer for the right reason."
+
+[reaction.registers]
+lv1 = "The flask is full of oxygen — enough to fill a large drinks bottle — and you can see it bubbling up through the liquid. What you cannot do is measure it. In a real lab you would push the gas into a syringe and read off how many millilitres arrive each ten seconds, and that reading *is* the experiment. This lab has not been given a gas syringe yet. Knowing which part of an answer is the calculation and which part is the equipment is a useful habit to have about any simulation."
+lv2 = "The vessel holds 5.0000 × 10⁻² mol of O₂ in the gas phase after one second, which is 1.6 g and, as an ideal gas at 25 °C and 1 atm, about 1.22 L. `look` now reports bubbles rising through the liquid. What it cannot report is a volume: there is no gas-collection apparatus, and no `gas_evolved` event either, because the rate engine deposits its products into a phase while only the aqueous and thermal solvers raise gas-evolution events. The quantity is exact and the measurement is missing."
+lv3 = "`appearance::observe` builds three things — a transmitted colour from Beer–Lambert over curated ε(λ), a cloudiness from suspended solid per litre, and a deposit — and then sets `bubbling: false` as a literal, with the struct field documented as 'whether anything is visibly not-liquid-not-settled'. So the field exists, the data to fill it exists in the vessel's gas-phase portions, and the connection between them has not been made. This is a renderer gap rather than a modelling one, which puts it in a different category from the rest of this file: it is cheap to close, it costs no chemistry, and it currently makes the single most visual practical in school kinetics invisible. Stated here so that nobody builds a lesson around watching a flask fizz until it is."
+
+[reaction.provenance]
+source = "Editorial judgement (Kerotakis): this entry is a claim about the current renderer, not about chemistry. The molar volume used to convert 0.05 mol to 1.22 L is ideal-gas arithmetic at 298.15 K and 101325 Pa, performed here rather than by the engine."
+computed_by = "kerotakis-core kinetics for the oxygen; kerotakis-core::appearance for the description"
+
+# ================================================ thermodynamics and kinetics
+
+[[reaction]]
+id = "same-destination-different-journey"
+spine = ["kinetik"]
+equation = "2 H₂O₂ → 2 H₂O + O₂↑"
+concepts = ["kinetic-versus-thermodynamic-outcome"]
+requires = ["catalysis", "thermodynamic-versus-kinetic"]
+calculations = ["rate-from-extent"]
+models = ["activation-energy", "collision-theory"]
+apparatus = ["conical-flask", "gas-syringe", "stopwatch"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 H2O2 0.1mol
+new
+add v2 water 100mL
+add v2 H2O2 0.1mol
+add v2 catalase 0.001g
+wait 1s
+look v1
+look v2
+wait 2h
+look v1
+look v2
+"""
+
+[reaction.expect]
+events = ["reacted:peroxide-decomposition", "observed"]
+absent = ["solver_failed"]
+
+[reaction.expect.predict]
+question = "Two flasks of peroxide, one with catalase. After one second the catalysed flask is finished and the other has lost 0.2%. Two hours later, what is in them?"
+options = [
+  "The catalysed flask holds more oxygen — the catalyst made more reaction happen",
+  "The same thing: 0.05 mol of oxygen in each. The catalyst changed when, not whether or how much",
+  "The plain flask still holds most of its peroxide — without a catalyst the reaction does not go",
+  "The catalysed flask has started to reverse, since the catalyst works both ways",
+]
+answer = 1
+misconception = "The first option is the most common thing learners believe about catalysts and it is a claim about *yield*, which is the one thing a catalyst cannot touch. A catalyst lowers the barrier equally in both directions, so it moves the system towards equilibrium faster and moves equilibrium not at all. The third option is the mirror error — treating a barrier as a prohibition. The barrier here is 75 kJ/mol, which is enough to make one second look like nothing happening and not nearly enough to survive two hours."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "A catalyst increases the yield — more reaction happens because the catalyst helped it happen."
+next = "Count the oxygen in both flasks after two hours: 0.05 mol in each, exactly half the peroxide. Then ask what a catalyst could possibly change about a mass balance."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Without a catalyst the reaction does not occur — the barrier is a prohibition rather than a delay."
+next = "Look at the plain flask at 1 s and at 2 h: 0.0998 mol left, then 5.5 × 10⁻⁹. The same barrier that makes one second look like nothing lets two hours finish the job. 'Too slow to see' and 'does not happen' are different states, and only one of them is stable."
+
+[[reaction.expect.predict.diagnosis]]
+option = 3
+reveals = "A catalyst drives a reaction, so with nothing left to drive it should push the other way."
+next = "A catalyst lowers the barrier equally in both directions, so it accelerates the approach to equilibrium and cannot shift it. This decomposition's equilibrium lies essentially all the way over — there is nothing to come back to."
+
+[reaction.registers]
+lv1 = "Two flasks, and only one has the enzyme. After a second the enzyme's flask is finished and the other looks untouched. Come back in two hours and they are the same: both full of water and oxygen. The enzyme did not decide what would happen. It decided how long you would have to wait."
+lv2 = "After 1 s: 0.0998 mol of peroxide left in the plain flask, effectively zero in the catalysed one. After 2 h: 5.50 × 10⁻⁹ mol and 9.99 × 10⁻¹³ mol, with 0.05 mol of oxygen in each — the same destination, reached about a billion times more slowly. ΔG for the decomposition is strongly negative in both, and it is the same ΔG; the catalyst appears nowhere in it."
+lv3 = "This is the distinction `thermodynamische-vs-kinetische-kontrolle` is built on, met from the kinetics side rather than the equilibrium side, and the engine embodies both halves in different places. On the thermodynamic side it withholds tenorite below 340 K and stands the thermal solver down below 500 K — curated stand-ins for rates it could not compute. Here the rate is computed, so the same idea appears as an interval rather than as a threshold: nothing is suppressed, and 'it has not happened yet' is a state the vessel can be in and then leave. Worth stating where the analogy strains: our uncatalysed peroxide has a half-life of about five minutes, so it is not metastable in the way a magnesium ribbon in a drawer is. Real 3% peroxide in a brown bottle keeps for months, and this pre-exponential is calibrated for a school afternoon rather than for a shelf."
+
+[reaction.provenance]
+source = "Standard curriculum treatment of catalysis and of kinetic versus thermodynamic control. Editorial judgement (Kerotakis): the two-hour comparison is our design, and the caveat that the modelled uncatalysed half-life is far shorter than real bottled peroxide's is ours — it follows from a calibrated pre-exponential, not from a measurement."
+computed_by = "kerotakis-core kinetics"

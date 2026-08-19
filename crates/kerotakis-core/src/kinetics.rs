@@ -97,9 +97,19 @@ pub struct Catalyst {
 pub const REGISTRY: &[KineticReaction] = &[
     KineticReaction {
         id: "thiosulfate-acid",
-        equation: "S₂O₃²⁻ + 2 H⁺ → S↓ + SO₂ + H₂O",
+        equation: "Na₂S₂O₃ → S↓ + Na₂SO₃",
         reactants: &[("Na2S2O3", 1.0)],
-        products: &[("S", 1.0, Phase::Solid), ("SO2", 1.0, Phase::Gas)],
+        // Atoms must balance, and they did not: producing S and SO2 from
+        // Na2S2O3 destroyed Na2O on every extent — 62 g/mol, straight off
+        // the balance. The full chemistry is S2O3(2-) + 2H+ → S + SO2 + H2O,
+        // and it cannot be written here because the proton is not a vessel
+        // portion: it lives in PHREEQC's charge balance, so it can be read
+        // (see PROTON) but not withdrawn. What is modelled is therefore the
+        // sulfur-releasing half — which is the observable the practical
+        // times — with the sulfite left in solution. The second step,
+        // sulfite plus acid giving the SO2 you can smell, is stated as not
+        // modelled rather than faked by inventing hydrogen.
+        products: &[("S", 1.0, Phase::Solid), ("Na2SO3", 1.0, Phase::Aqueous)],
         // First order in each: the classic result of the initial-rates
         // experiment this reaction exists to teach. The acid term is read
         // from the solution's computed pH rather than from an inventory
@@ -124,7 +134,10 @@ pub const REGISTRY: &[KineticReaction] = &[
         id: "peroxide-decomposition",
         equation: "2 H₂O₂ → 2 H₂O + O₂↑",
         reactants: &[("H2O2", 2.0)],
-        products: &[("O2", 1.0, Phase::Gas)],
+        // The water is not optional. Leaving it out of the products
+        // destroyed 36 g/mol of matter per extent while the equation string
+        // right above claimed otherwise.
+        products: &[("water", 2.0, Phase::Liquid), ("O2", 1.0, Phase::Gas)],
         orders: &[("H2O2", 1.0)],
         rate: RateLaw {
             pre_exponential: 1.6e10,
@@ -389,6 +402,7 @@ mod tests {
         );
         // Acid enters through the solution's pH, as it does on the bench.
         v.solution = Some(crate::vessel::SolutionInfo {
+            pe: None,
             ph: 1.7,
             ionic_strength: 0.02,
             species: Vec::new(),
@@ -609,5 +623,83 @@ mod tests {
             (got - exact).abs() / exact.max(1e-30) < 5e-3 || (got.abs() < 1e-9 && exact < 1e-9),
             "catalysed: integrator {got:.6e}, exact {exact:.6e}"
         );
+    }
+
+    /// Element totals of a vessel, so a reaction can be audited the way a
+    /// balance audits a real one.
+    fn elements(v: &Vessel) -> std::collections::BTreeMap<String, f64> {
+        let mut totals: std::collections::BTreeMap<String, f64> = Default::default();
+        for p in &v.contents {
+            let Some(data) = species::lookup(&p.species) else {
+                panic!("{} is not in the registry", p.species.0)
+            };
+            let f = crate::stoich::parse_formula(data.formula)
+                .unwrap_or_else(|e| panic!("{}: {e}", data.formula));
+            for (el, n) in f.counts {
+                *totals.entry(el).or_insert(0.0) += n * p.moles.0;
+            }
+        }
+        totals
+    }
+
+    fn assert_conserved(before: &Vessel, after: &Vessel, what: &str) {
+        let (a, b) = (elements(before), elements(after));
+        let mut keys: Vec<&String> = a.keys().chain(b.keys()).collect();
+        keys.sort();
+        keys.dedup();
+        for k in keys {
+            let x = a.get(k).copied().unwrap_or(0.0);
+            let y = b.get(k).copied().unwrap_or(0.0);
+            let drift = (y - x).abs() / x.max(1e-12);
+            assert!(
+                drift < 1e-9,
+                "{what}: {k} went in at {x:.6} mol and came out at {y:.6} mol"
+            );
+        }
+    }
+
+    #[test]
+    fn every_rate_law_conserves_its_atoms() {
+        // The check that was missing. Both curated rate laws destroyed
+        // matter — peroxide lost the water it should have produced, and
+        // thiosulfate lost Na2O — and no test could see it, because the
+        // conservation proptest never issues a `wait` and tracks only
+        // water, ethanol and salt. A rate law is a reaction and has to
+        // balance like one.
+        for r in REGISTRY {
+            let mut v = Vessel::new(VesselId(0), "beaker");
+            v.deposit(SpeciesId::new("water"), Moles(5.5343), Phase::Liquid);
+            for (key, _) in r.reactants {
+                v.deposit(SpeciesId::new(key), Moles(0.02), Phase::Aqueous);
+            }
+            v.solution = Some(crate::vessel::SolutionInfo {
+                pe: None,
+                ph: 1.7,
+                ionic_strength: 0.02,
+                species: Vec::new(),
+                provenance: None,
+            });
+            let before = v.clone();
+            let moved = advance(&mut v, 600.0);
+            assert!(!moved.is_empty(), "{} did not run at all", r.id);
+            assert_conserved(&before, &v, r.id);
+        }
+    }
+
+    #[test]
+    fn the_declared_equation_balances_too() {
+        // A rate law carries an equation string for the learner. If the
+        // string and the modelled stoichiometry disagree, one of them is
+        // lying, and it is usually the code.
+        for r in REGISTRY {
+            let eq = crate::stoich::parse_equation(r.equation)
+                .unwrap_or_else(|e| panic!("{}: {e}", r.id));
+            assert!(
+                eq.is_balanced(),
+                "{}: declared equation does not balance: {:?}",
+                r.id,
+                eq.element_imbalance()
+            );
+        }
     }
 }

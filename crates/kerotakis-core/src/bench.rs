@@ -304,7 +304,7 @@ impl Bench {
                 events.push(Event::NotYetModeled {
                     vessel: v.id,
                     what:
-                        "stirring changes nothing the current solvers model (kinetics arrive in P5)"
+                        "stirring changes nothing this lab models: rates depend on concentration, temperature and catalysts here, and mixing and surface area are not modelled at all"
                             .to_string(),
                 });
             }
