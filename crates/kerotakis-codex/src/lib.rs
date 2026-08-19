@@ -101,11 +101,33 @@ pub struct Expect {
     /// starting to lie in the other direction.
     #[serde(default)]
     pub absent: Vec<String>,
+    /// A question put to the learner *before* the chemistry runs, with the
+    /// answer the engine will give. Predict-observe-explain is the
+    /// best-evidenced sequence in science education, and it only works if
+    /// the prediction is committed before the reveal.
+    #[serde(default)]
+    pub predict: Option<Prediction>,
     /// Optional numeric checks on the final state of a vessel.
     #[serde(default)]
     pub ph: Option<Range>,
     #[serde(default)]
     pub temperature_c: Option<Range>,
+}
+
+/// A prediction the learner commits to before running the experiment.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Prediction {
+    pub question: String,
+    /// Plausible answers to choose between; exactly one is right, and the
+    /// wrong ones should be the mistakes learners actually make, not
+    /// strawmen.
+    pub options: Vec<String>,
+    /// Index into `options`.
+    pub answer: usize,
+    /// Why the tempting wrong answer is tempting — the misconception this
+    /// question exists to surface.
+    #[serde(default)]
+    pub misconception: Option<String>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -212,10 +234,53 @@ impl Vocabulary {
     }
 }
 
+/// A model: the thing that explains, orders and systematises.
+///
+/// The codex treats models as first-class content rather than as
+/// background to reactions, because that is the whole argument — school
+/// chemistry overfeeds facts and underteaches the models that make facts
+/// predictable. A fact learned inside a model is retained and can be
+/// re-derived; a fact learned alone is a card in a deck.
+///
+/// The field that matters most is `fails_at`. A model without a stated
+/// boundary is presented as truth, which is both false and the reason
+/// learners are blindsided when the next model arrives. Knowing that the
+/// particle model cannot explain *why* sodium and chlorine react — and
+/// that this is exactly what the next model is for — is what makes the
+/// sequence feel like inquiry rather than an arbitrary series of
+/// replacements.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Model {
+    pub id: String,
+    pub name: String,
+    /// What this model lets a learner *predict or order* that they could
+    /// not before. Not "what it says" — what it buys.
+    pub power: String,
+    /// Phenomena it accounts for.
+    #[serde(default)]
+    pub explains: Vec<String>,
+    /// Where it stops working, in plain terms. The honest edge.
+    pub fails_at: Vec<String>,
+    /// The model that takes over, and why it is needed.
+    #[serde(default)]
+    pub superseded_by: Option<String>,
+    /// Models a learner needs first.
+    #[serde(default)]
+    pub requires: Vec<String>,
+    /// Where the *engine* stands on this model: which solver embodies it,
+    /// so a learner can be shown the boundary rather than told about it.
+    #[serde(default)]
+    pub embodied_by: Option<String>,
+    pub registers: Registers,
+    pub provenance: Provenance,
+}
+
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Codex {
     #[serde(default, rename = "reaction")]
     pub reactions: Vec<Entry>,
+    #[serde(default, rename = "model")]
+    pub models: Vec<Model>,
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -249,6 +314,17 @@ impl Codex {
             }
             if r.setup.script.trim().is_empty() {
                 problems.push(format!("{}: no setup script — nothing to verify", r.id));
+            }
+            if let Some(p) = &r.expect.predict {
+                if p.answer >= p.options.len() {
+                    problems.push(format!("{}: prediction answer is out of range", r.id));
+                }
+                if p.options.len() < 2 {
+                    problems.push(format!(
+                        "{}: a prediction with one option is not a prediction",
+                        r.id
+                    ));
+                }
             }
             if r.expect.events.is_empty() && r.expect.ph.is_none() {
                 problems.push(format!(
@@ -336,6 +412,43 @@ impl Codex {
             }
         }
         c
+    }
+
+    /// A teaching order derived from prerequisites, not from school years.
+    ///
+    /// School years are an artefact of national administration; the
+    /// dependency structure of the ideas is not. Topological order over
+    /// `requires` gives a sequence that is defensible from the subject
+    /// itself, and curriculum placements remain on each entry so a learner
+    /// who *does* need to find their syllabus topic still can.
+    ///
+    /// Entries whose prerequisites are missing come last rather than
+    /// vanishing: a broken chain should be visible, not silently dropped.
+    pub fn teaching_order(&self) -> Vec<&Entry> {
+        let mut placed: Vec<&str> = Vec::new();
+        let mut out: Vec<&Entry> = Vec::new();
+        let mut pending: Vec<&Entry> = self.reactions.iter().collect();
+        loop {
+            let (ready, rest): (Vec<&Entry>, Vec<&Entry>) = pending
+                .into_iter()
+                .partition(|e| e.requires.iter().all(|r| placed.contains(&r.as_str())));
+            if ready.is_empty() {
+                out.extend(rest);
+                return out;
+            }
+            for e in &ready {
+                for c in &e.concepts {
+                    if !placed.contains(&c.as_str()) {
+                        placed.push(c);
+                    }
+                }
+            }
+            out.extend(ready);
+            pending = rest;
+            if pending.is_empty() {
+                return out;
+            }
+        }
     }
 
     /// Every concept the codex teaches, with the entries that teach it.

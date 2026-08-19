@@ -382,6 +382,74 @@ expert register's deepest layer and, for the codex, the model for how
 curated entries cite their sources — DB value, computed value, and which
 model produced each.
 
+### The pedagogy is the architecture
+
+School chemistry overfeeds facts and underteaches the models that make
+facts predictable. That is not a complaint about teachers; it is what the
+chemistry-education literature has documented for forty years, and this
+app is unusually well placed to do something about it — because it
+*computes* the level that textbooks can only assert.
+
+**The core problem has a name.** Johnstone's triangle: chemistry lives at
+three levels — the **macroscopic** (what you see), the **submicroscopic**
+(particles, ions, species) and the **symbolic** (equations, formulae) —
+and novices fail because instruction moves between all three at once
+without saying so. A textbook shows a photograph, an equation and a
+particle diagram on one page and leaves the learner to guess how they
+relate.
+
+**Our engine closes that gap structurally.** PHREEQC computes the
+submicroscopic level for real: 3×10⁻⁷ mol/kgw of AgCl(aq) is not an
+illustration, it is the answer. So the same vessel state can be rendered
+at all three levels *simultaneously and consistently*, which is precisely
+the move the literature says learners cannot make unaided. Our levels
+therefore stop being a verbosity dial and become the triangle:
+
+| Level | Johnstone | What it shows |
+|---|---|---|
+| **lv1** | macroscopic | "It went cloudy. A white solid appeared." |
+| **lv2** | symbolic | `Ag⁺ + Cl⁻ → AgCl↓`, 0.0099 mol, Ksp |
+| **lv3** | submicroscopic | species distribution, activities, γ, the AgCl(aq) complex |
+
+**Models are content, not background.** The codex carries `[[model]]`
+entries beside its reactions, and the load-bearing field is `fails_at`.
+A model presented without its boundary is presented as truth — which is
+false, and is why the next model feels like an arbitrary replacement
+rather than an answer to a problem the learner can already feel. The
+particle model cannot say *why* sodium and chlorine react; knowing that is
+what makes the electron model worth having.
+
+**And we can show a model failing, live.** `kero explain` already asks
+every dataset the same question and prints the disagreement: three
+activity models give 1.60, 4.32 and 1.91 mol of undissolved salt, each
+with its validity range stated. That is philosophy of science as a
+computed result rather than a paragraph — the boundary of a model made
+visible by driving the model past it. No textbook can do this; we got it
+by accident, chasing honesty, and it turns out to be the pedagogical core.
+
+**Prediction comes before observation.** Predict-observe-explain is the
+best-evidenced sequence in science education, and it only works if the
+prediction is *committed* first. Codex entries therefore carry an optional
+`predict` block: a question, plausible options drawn from the mistakes
+learners actually make, and the misconception each wrong answer reveals.
+The engine is the arbiter — and because it computes rather than looks up,
+a quantitative prediction can be checked, which makes calculation
+load-bearing instead of ritual. Working out moles matters when the number
+you derive is the number the beaker will show.
+
+**The order is the dependency structure, not the school year.** School
+years are an artefact of national administration and differ by country;
+the order in which the ideas depend on each other is not. `teaching_order`
+is a topological sort over `requires`. Curriculum placements stay on each
+entry so a learner who needs to find their syllabus topic still can — the
+app follows the subject, and meets the school where it is.
+
+**Where we deviate from convention, we do it knowingly and say so.** The
+deviation is not novelty for its own sake: it is subordinating facts to
+models, making boundaries explicit, and asking for a prediction first.
+Facts are not fewer — they are *organised*, which is the condition under
+which they are retained at all.
+
 ### The codex
 
 A few hundred curriculum reactions, and **every concept that explains them**,
