@@ -53,7 +53,10 @@ check("a bare bench admits it cannot solve", bare.canSolve() === false);
 const bareOut = JSON.parse(
     bare.runScript("add v1 water 137mL\nadd v1 NaCl 0.037mol\n"),
 );
-const bareRendered = bareOut.rendered.join(" ");
+// `runScript` returns { steps: [{ operator, events, rendered }], bench }.
+const renderedText = (doc) =>
+    (doc.steps ?? []).flatMap((s) => s.rendered ?? []).join(" ");
+const bareRendered = renderedText(bareOut);
 check(
     "and reports a miss rather than inventing an answer",
     /not in the shipped results|could not|cache-only/i.test(bareRendered),
@@ -72,7 +75,7 @@ const vessel = out.bench.vessels[0];
 check(
     "a state nobody pre-computed is now solved",
     vessel.solution != null,
-    JSON.stringify(out.rendered).slice(0, 300),
+    renderedText(out).slice(0, 300),
 );
 
 if (vessel.solution) {
