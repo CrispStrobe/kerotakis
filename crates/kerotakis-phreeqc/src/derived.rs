@@ -101,6 +101,9 @@ const BOOKING_OVERRIDES: &[(&str, &str)] = &[
     // at bench conditions. Needed once MnO2 entered the registry: it is the
     // first substance to put Mn in solution as anything but permanganate.
     ("Mn", "Mn+2"),
+    // Iron books as the reduced ion, which is the databases' master
+    // species and what dissolving an iron(II) salt actually gives.
+    ("Fe", "Fe+2"),
     ("Cu", "Cu+2"),
 ];
 

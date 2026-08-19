@@ -1347,11 +1347,38 @@ Two mechanics matter, both learned the hard way:
 
 So the build order is:
 
-- [ ] Route redox-active additions through `REACTION` by formula rather than
-      as fixed-valence solution input, and stop pinning valences.
-- [ ] **Surface pe and Eh**, which we compute and discard today.
-- [ ] Report the redox distribution per element — "manganese: 100 % Mn(II)";
-      "iron: 50 % Fe(II), 50 % Fe(III)" — which is the observable.
+- [x] **Surface pe and Eh**, which we computed and discarded.
+- [x] **Report the redox distribution per element** — `redox — all Fe as
+      Fe(II); all Mn as Mn(VII)`. PHREEQC will split an element across its
+      oxidation states if you name them (`-totals Fe(2) Fe(3)`), and the
+      states themselves are read from the database's master-species block
+      rather than a list of ours. Iron enters the registry for it, since a
+      redox couple with nothing to reduce is not a demonstration.
+- [ ] **Couple the elements, so an oxidant and a reductant actually react.**
+      This is the substantive remainder and it is a design change, not a
+      switch. Naming an oxidation state in a `SOLUTION` block *decouples*
+      that element in PHREEQC: it gets its own mass balance and exchanges
+      electrons with nothing. So the bench will currently show permanganate
+      and iron(II) in one beaker — each state correct, their coexistence
+      impossible — and it now *says so* in the routing rather than
+      presenting it as an answer.
+
+      Two routes, both real work:
+
+      * **Reagents as `REACTION` blocks.** What the experiment proved:
+        `SOLUTION` with `Fe 5e-3` (no valence) plus `REACTION … KMnO4`
+        gives pe 12.674 and the exact 50/50 split. But it needs the vessel
+        to remember *what was added* rather than only its element totals,
+        which the bench does not currently do.
+      * **Bisect pe on the electron balance.** The electrons that went in
+        are fixed by what was added and its oxidation state; ask PHREEQC
+        for the distribution at a trial pe, count the electrons, and
+        bisect until it matches. Structurally the same move as
+        `equilibrate_hp` bisecting temperature on enthalpy, and it needs
+        no new state on the vessel.
+
+      The second is the better fit for this engine and is the one to
+      build.
 - [ ] Nernst over computed activities; the standard-potential ordering
       (activity series), displacement, why zinc protects iron.
 - [ ] Faraday's law for electrolysis: charge → moles → mass at an electrode.

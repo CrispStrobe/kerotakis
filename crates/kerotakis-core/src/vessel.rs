@@ -126,13 +126,7 @@ fn roman(n: i32) -> String {
     if v == 0 {
         return "0".to_string();
     }
-    let table = [
-        (10, "X"),
-        (9, "IX"),
-        (5, "V"),
-        (4, "IV"),
-        (1, "I"),
-    ];
+    let table = [(10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I")];
     let mut out = String::new();
     for (value, sym) in table {
         while v >= value {

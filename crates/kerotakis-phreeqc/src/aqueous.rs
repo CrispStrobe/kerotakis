@@ -860,7 +860,52 @@ impl PhreeqcEquilibrator {
             canonical != "H" && canonical != "O" && idx.redox_elements.contains(canonical)
         });
         let _ = redox_adjusted;
+        // The redox split, read back from the per-valence totals asked for
+        // in `build_input`. A state at zero is kept out: "0 mol of Mn(VII)"
+        // is true and is not what anyone means by a distribution.
+        let mut redox: Vec<kerotakis_core::RedoxState> = Vec::new();
+        for column in valence_totals(&problem, db_tag) {
+            let Some(moles) = value(&column) else {
+                continue;
+            };
+            // A state that would render as "0%" is noise, not a
+            // distribution: reporting "100% Fe(II), 0% Fe(III)" tells the
+            // reader less than "all iron as Fe(II)" does.
+            if moles <= 1e-12 {
+                continue;
+            }
+            let Some((element, rest)) = column.split_once('(') else {
+                continue;
+            };
+            let Ok(oxidation) = rest.trim_end_matches(')').parse::<i32>() else {
+                continue;
+            };
+            redox.push(kerotakis_core::RedoxState {
+                element: element.to_string(),
+                oxidation,
+                molality: moles,
+            });
+        }
+        // Say what the input does to redox, because it is load-bearing and
+        // otherwise invisible. Naming an oxidation state in a PHREEQC
+        // solution *decouples* that element: it gets its own mass balance
+        // and exchanges electrons with nothing. That is how this bench can
+        // show permanganate and iron(II) sitting in one beaker — a solution
+        // that cannot exist. Each state is right; their coexistence is not,
+        // and the difference has to be visible rather than inferred.
+        let redox_note = if redox.len() > 1 {
+            "each element's oxidation state is held as it was added: naming a valence decouples it in PHREEQC, so the elements here do not exchange electrons and an oxidant will sit beside a reductant without reacting".to_string()
+        } else {
+            String::new()
+        };
+        redox.sort_by(|a, b| {
+            a.element
+                .cmp(&b.element)
+                .then(b.molality.total_cmp(&a.molality))
+        });
+
         let info = SolutionInfo {
+            redox,
             pe: redox_constrained.then(|| value("pe")).flatten(),
             ph,
             ionic_strength: mu,
@@ -870,7 +915,11 @@ impl PhreeqcEquilibrator {
                 dataset: format!("{db_tag}.dat"),
                 model: idx.activity_model.describe().to_string(),
                 dataset_sources: idx.citations.iter().take(3).cloned().collect(),
-                routing,
+                routing: if redox_note.is_empty() {
+                    routing
+                } else {
+                    format!("{routing}. {redox_note}")
+                },
             }),
         };
         let changed = vessel
@@ -1028,7 +1077,7 @@ fn build_input(vessel: &Vessel, problem: &Problem, db_tag: &str) -> String {
     writeln!(input, "    -pe       true").unwrap();
     writeln!(input, "    -ionic_strength true").unwrap();
     writeln!(input, "    -water    true").unwrap();
-    let mut elements: Vec<String> = problem.elements.iter().cloned().collect();
+    let mut elements: Vec<String> = problem.elements.to_vec();
     // Per-oxidation-state totals for anything redox-active: the split
     // between them is what a redox experiment is *about*.
     elements.extend(valence_totals(problem, db_tag));

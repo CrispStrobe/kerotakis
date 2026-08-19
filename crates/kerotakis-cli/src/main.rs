@@ -230,6 +230,51 @@ fn main() {
     }
 }
 
+/// How each redox element is split between its oxidation states.
+///
+/// "iron: 50% Fe(II), 50% Fe(III)" is the sentence a redox experiment
+/// exists to produce, and it is a rendering of numbers PHREEQC already
+/// computes — the engine was simply never asked for them.
+fn redox_words(s: &kerotakis_core::SolutionInfo) -> String {
+    if s.redox.is_empty() {
+        return String::new();
+    }
+    let mut elements: Vec<&str> = s.redox.iter().map(|r| r.element.as_str()).collect();
+    elements.sort_unstable();
+    elements.dedup();
+    let mut parts = Vec::new();
+    for el in elements {
+        let all: Vec<&kerotakis_core::RedoxState> =
+            s.redox.iter().filter(|r| r.element == el).collect();
+        let total: f64 = all.iter().map(|r| r.molality).sum();
+        // Drop anything that would round to 0%: "100% Fe(II), 0% Fe(III)"
+        // reads as a distribution when it is a single state.
+        let states: Vec<&kerotakis_core::RedoxState> = all
+            .into_iter()
+            .filter(|r| total <= 0.0 || r.molality / total >= 0.005)
+            .collect();
+        if total <= 0.0 {
+            continue;
+        }
+        // A single state is not a distribution; say what it is rather than
+        // announcing that 100% of it is itself.
+        if states.len() == 1 {
+            parts.push(format!("all {} as {}", el, states[0].label()));
+            continue;
+        }
+        let split: Vec<String> = states
+            .iter()
+            .map(|r| format!("{:.0}% {}", 100.0 * r.molality / total, r.label()))
+            .collect();
+        parts.push(format!("{el}: {}", split.join(", ")));
+    }
+    if parts.is_empty() {
+        String::new()
+    } else {
+        format!("\n      redox — {}", parts.join("; "))
+    }
+}
+
 /// Load every codex file in a directory.
 fn load_codex(dir: &str) -> kerotakis_codex::Codex {
     let mut all = kerotakis_codex::Codex::default();
@@ -790,11 +835,15 @@ impl Session {
                 // pe beside pH: acidity and oxidising power are the two
                 // axes a solution has, and the second was computed and
                 // discarded until now.
+                let split = redox_words(s);
                 let redox = match (s.pe, s.eh_volts(v.temperature.0)) {
                     (Some(pe), Some(eh)) => format!(", pe {pe:.2} ({eh:+.3} V)"),
                     _ => String::new(),
                 };
-                format!(", pH {:.2}{redox}, I = {:.4} m", s.ph, s.ionic_strength)
+                format!(
+                    ", pH {:.2}{redox}, I = {:.4} m{split}",
+                    s.ph, s.ionic_strength
+                )
             })
             .unwrap_or_default();
         println!(

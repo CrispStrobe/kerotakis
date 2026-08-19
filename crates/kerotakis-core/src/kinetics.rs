@@ -421,6 +421,7 @@ mod tests {
         );
         // Acid enters through the solution's pH, as it does on the bench.
         v.solution = Some(crate::vessel::SolutionInfo {
+            redox: Vec::new(),
             pe: None,
             ph: 1.7,
             ionic_strength: 0.02,
@@ -692,6 +693,7 @@ mod tests {
                 v.deposit(SpeciesId::new(key), Moles(0.02), Phase::Aqueous);
             }
             v.solution = Some(crate::vessel::SolutionInfo {
+                redox: Vec::new(),
                 pe: None,
                 ph: 1.7,
                 ionic_strength: 0.02,
