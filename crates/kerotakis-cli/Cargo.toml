@@ -17,3 +17,4 @@ kerotakis-phreeqc = { path = "../kerotakis-phreeqc" }
 serde = { workspace = true }
 serde_json = { workspace = true }
 kerotakis-safety = { path = "../kerotakis-safety" }
+postcard = { version = "1", features = ["alloc"] }

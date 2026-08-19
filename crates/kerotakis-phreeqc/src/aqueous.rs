@@ -25,6 +25,20 @@ use crate::derived::{self, DerivedRole, ATMOSPHERIC};
 const WATER_MOLAR_MASS: f64 = 18.015;
 const TRACE: f64 = 1e-12;
 
+/// One cached solver result, keyed by database + canonical input.
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+pub struct CacheEntry {
+    pub key: String,
+    pub rows: Vec<Vec<String>>,
+    pub species: Vec<SpeciesDetail>,
+}
+
+/// A shippable pre-warmed cache.
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
+pub struct CacheData {
+    pub entries: Vec<CacheEntry>,
+}
+
 pub struct PhreeqcEquilibrator {
     /// wateq4f: inorganic natural-water chemistry, valid to high ionic
     /// strength — the default.
@@ -59,6 +73,37 @@ impl PhreeqcEquilibrator {
     /// which is a deterministic function of the vessel state).
     pub fn cache_hits(&self) -> usize {
         self.cache_hits
+    }
+
+    /// Export the cache for shipping (PLAN.md: pre-warmed cache — every
+    /// vessel state reachable in the curated lessons computed at build time,
+    /// so guided content never waits for a solver, on any device).
+    pub fn export_cache(&self) -> CacheData {
+        CacheData {
+            entries: self
+                .cache
+                .iter()
+                .map(|(k, (rows, species))| CacheEntry {
+                    key: k.clone(),
+                    rows: rows.clone(),
+                    species: species.clone(),
+                })
+                .collect(),
+        }
+    }
+
+    /// Load a pre-warmed cache. Entries already present are kept.
+    pub fn import_cache(&mut self, data: CacheData) -> usize {
+        let before = self.cache.len();
+        for e in data.entries {
+            self.cache.entry(e.key).or_insert((e.rows, e.species));
+        }
+        self.cache.len() - before
+    }
+
+    /// How many results are cached.
+    pub fn cache_len(&self) -> usize {
+        self.cache.len()
     }
 }
 

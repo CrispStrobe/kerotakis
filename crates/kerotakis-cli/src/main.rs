@@ -57,6 +57,61 @@ fn main() {
                 }
             }
         }
+        Some("prewarm") => {
+            // Build-time: replay lesson scripts through the real engine and
+            // export every solver result, so guided content never waits for
+            // an engine on device (PLAN.md: pre-warmed cache).
+            let out = args
+                .iter()
+                .position(|a| a == "-o" || a == "--out")
+                .and_then(|i| args.get(i + 1))
+                .cloned()
+                .unwrap_or_else(|| "cache.postcard".to_string());
+            let files: Vec<&String> = args[1..].iter().filter(|a| a.ends_with(".lab")).collect();
+            if files.is_empty() {
+                eprintln!("kero prewarm: no .lab files given");
+                std::process::exit(2);
+            }
+            let mut engine = kerotakis_phreeqc::PhreeqcEquilibrator::new().unwrap_or_else(|e| {
+                eprintln!("kero prewarm: aqueous engine unavailable: {e}");
+                std::process::exit(1);
+            });
+            let mut steps = 0usize;
+            for file in &files {
+                let text = std::fs::read_to_string(file).unwrap_or_else(|e| {
+                    eprintln!("kero prewarm: cannot read {file}: {e}");
+                    std::process::exit(1);
+                });
+                let mut bench = Bench::new();
+                for line in text.lines() {
+                    match parse_op(line) {
+                        Ok(Some(op)) => {
+                            bench
+                                .step_with(op, &mut engine, &kerotakis_safety::ReactiveGroupScreen)
+                                .ok();
+                            steps += 1;
+                        }
+                        Ok(None) => {}
+                        Err(e) => {
+                            eprintln!("kero prewarm: {file}: {e}");
+                            std::process::exit(1);
+                        }
+                    }
+                }
+            }
+            let data = engine.export_cache();
+            let bytes = postcard::to_allocvec(&data).expect("serialise cache");
+            std::fs::write(&out, &bytes).unwrap_or_else(|e| {
+                eprintln!("kero prewarm: cannot write {out}: {e}");
+                std::process::exit(1);
+            });
+            println!(
+                "pre-warmed {} solver results from {steps} steps across {} lessons → {out} ({} bytes)",
+                data.entries.len(),
+                files.len(),
+                bytes.len()
+            );
+        }
         Some("species") => {
             for s in species::REGISTRY {
                 println!(
@@ -146,11 +201,11 @@ fn repl() {
 
 impl Session {
     fn exec_line(&mut self, line: &str) -> Result<(), String> {
-        let line = line.trim();
-        if line.is_empty() || line.starts_with('#') {
+        let trimmed = line.trim();
+        if trimmed.is_empty() || trimmed.starts_with('#') {
             return Ok(());
         }
-        let words: Vec<&str> = line.split_whitespace().collect();
+        let words: Vec<&str> = trimmed.split_whitespace().collect();
         match words[0] {
             "register" => {
                 self.register = match words.get(1).copied() {
@@ -171,82 +226,10 @@ impl Session {
                 }
                 Ok(())
             }
-            "new" => self.run_op(Operator::NewVessel),
-            "add" => {
-                if words.len() < 4 {
-                    return Err("usage: add <vessel> <species> <amount><mol|g|mL> [@ <T>C]".into());
-                }
-                let vessel = parse_vessel(words[1])?;
-                let data = species::lookup_key(words[2])
-                    .ok_or_else(|| format!("unknown species '{}' (see 'species')", words[2]))?;
-                let moles = parse_amount(words[3], data)?;
-                let at = parse_at(&words[4..])?;
-                self.run_op(Operator::Add {
-                    vessel,
-                    species: SpeciesId::new(words[2]),
-                    moles,
-                    at,
-                })
-            }
-            "heat" | "cool" => {
-                if words.len() < 3 {
-                    return Err(format!("usage: {} <vessel> <energy><J|kJ>", words[0]));
-                }
-                let vessel = parse_vessel(words[1])?;
-                let energy = parse_energy(words[2])?;
-                if words[0] == "heat" {
-                    self.run_op(Operator::Heat { vessel, energy })
-                } else {
-                    self.run_op(Operator::Cool { vessel, energy })
-                }
-            }
-            "stir" => {
-                let vessel = parse_vessel(words.get(1).ok_or("usage: stir <vessel>")?)?;
-                self.run_op(Operator::Stir { vessel })
-            }
-            "filter" => {
-                if words.len() < 3 {
-                    return Err("usage: filter <from> <to>".into());
-                }
-                let from = parse_vessel(words[1])?;
-                let to = parse_vessel(words[2])?;
-                self.run_op(Operator::Filter { from, to })
-            }
-            "evaporate" => {
-                if words.len() < 3 {
-                    return Err("usage: evaporate <vessel> <fraction>".into());
-                }
-                let vessel = parse_vessel(words[1])?;
-                let fraction: f64 = words[2]
-                    .parse()
-                    .map_err(|_| format!("bad fraction '{}'", words[2]))?;
-                self.run_op(Operator::Evaporate { vessel, fraction })
-            }
-            "decant" => {
-                if words.len() < 4 {
-                    return Err("usage: decant <from> <to> <fraction>".into());
-                }
-                let from = parse_vessel(words[1])?;
-                let to = parse_vessel(words[2])?;
-                let fraction: f64 = words[3]
-                    .parse()
-                    .map_err(|_| format!("bad fraction '{}'", words[3]))?;
-                self.run_op(Operator::Decant { from, to, fraction })
-            }
-            "measure" => {
-                if words.len() < 3 {
-                    return Err("usage: measure <vessel> <thermometer|balance|ph>".into());
-                }
-                let vessel = parse_vessel(words[1])?;
-                let instrument = match words[2] {
-                    "thermometer" | "temp" => Instrument::Thermometer,
-                    "balance" | "mass" => Instrument::Balance,
-                    "ph" | "phmeter" => Instrument::PhMeter,
-                    other => return Err(format!("unknown instrument '{other}'")),
-                };
-                self.run_op(Operator::Measure { vessel, instrument })
-            }
-            other => Err(format!("unknown command '{other}' (try 'help')")),
+            _ => match parse_op(trimmed)? {
+                Some(op) => self.run_op(op),
+                None => Ok(()),
+            },
         }
     }
 
@@ -318,6 +301,99 @@ impl Session {
             }
         }
     }
+}
+
+/// Parse one bench command into an operator. Meta commands (register,
+/// inspect) return `None` — they are session state, not bench state. This
+/// is the single source of truth for the `.lab` grammar, shared by the
+/// REPL, the batch runner and the pre-warmer.
+fn parse_op(line: &str) -> Result<Option<Operator>, String> {
+    let line = line.trim();
+    if line.is_empty() || line.starts_with('#') {
+        return Ok(None);
+    }
+    let words: Vec<&str> = line.split_whitespace().collect();
+    let op = match words[0] {
+        "register" | "inspect" | "species" | "help" => return Ok(None),
+        "new" => Operator::NewVessel,
+        "add" => {
+            if words.len() < 4 {
+                return Err("usage: add <vessel> <species> <amount><mol|g|mL> [@ <T>C]".into());
+            }
+            let vessel = parse_vessel(words[1])?;
+            let data = species::lookup_key(words[2])
+                .ok_or_else(|| format!("unknown species '{}' (see 'species')", words[2]))?;
+            Operator::Add {
+                vessel,
+                species: SpeciesId::new(words[2]),
+                moles: parse_amount(words[3], data)?,
+                at: parse_at(&words[4..])?,
+            }
+        }
+        "heat" | "cool" => {
+            if words.len() < 3 {
+                return Err(format!("usage: {} <vessel> <energy><J|kJ>", words[0]));
+            }
+            let vessel = parse_vessel(words[1])?;
+            let energy = parse_energy(words[2])?;
+            if words[0] == "heat" {
+                Operator::Heat { vessel, energy }
+            } else {
+                Operator::Cool { vessel, energy }
+            }
+        }
+        "stir" => Operator::Stir {
+            vessel: parse_vessel(words.get(1).ok_or("usage: stir <vessel>")?)?,
+        },
+        "filter" => {
+            if words.len() < 3 {
+                return Err("usage: filter <from> <to>".into());
+            }
+            Operator::Filter {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+            }
+        }
+        "evaporate" => {
+            if words.len() < 3 {
+                return Err("usage: evaporate <vessel> <fraction>".into());
+            }
+            Operator::Evaporate {
+                vessel: parse_vessel(words[1])?,
+                fraction: words[2]
+                    .parse()
+                    .map_err(|_| format!("bad fraction '{}'", words[2]))?,
+            }
+        }
+        "decant" => {
+            if words.len() < 4 {
+                return Err("usage: decant <from> <to> <fraction>".into());
+            }
+            Operator::Decant {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+                fraction: words[3]
+                    .parse()
+                    .map_err(|_| format!("bad fraction '{}'", words[3]))?,
+            }
+        }
+        "measure" => {
+            if words.len() < 3 {
+                return Err("usage: measure <vessel> <thermometer|balance|ph>".into());
+            }
+            Operator::Measure {
+                vessel: parse_vessel(words[1])?,
+                instrument: match words[2] {
+                    "thermometer" | "temp" => Instrument::Thermometer,
+                    "balance" | "mass" => Instrument::Balance,
+                    "ph" | "phmeter" => Instrument::PhMeter,
+                    other => return Err(format!("unknown instrument '{other}'")),
+                },
+            }
+        }
+        other => return Err(format!("unknown command '{other}' (try 'help')")),
+    };
+    Ok(Some(op))
 }
 
 fn parse_vessel(word: &str) -> Result<VesselId, String> {

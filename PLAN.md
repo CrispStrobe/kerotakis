@@ -792,7 +792,13 @@ The single highest-information task. Everything else is downstream of it.
       overrides (protonation state at teaching pH), atmospheric partial
       pressures, and the safety layer
 - [ ] Registry breadth continues with L1 (PubChem/Wikidata export)
-- [ ] Cache pre-warming pipeline in `tools/` (lesson states)
+- [x] Cache pre-warming: `kero prewarm lessons/*.lab -o cache.postcard`
+      replays every lesson through the real engine and exports the results
+      (9 lessons, 73 steps → 26 unique solver results, 20 KB). A cold
+      engine that imports it serves the same lessons bit-identically with
+      zero engine calls — tested end to end through the postcard
+      round-trip. The `.lab` grammar is now one shared parser across REPL,
+      batch runner and pre-warmer
 - [ ] The P2 CLI **is** the "strong product on its own" claim, tested literally
 
 ### P2g — Heat and fire

@@ -15,7 +15,7 @@ use std::ffi::{CStr, CString};
 mod aqueous;
 pub mod dbindex;
 pub mod derived;
-pub use aqueous::PhreeqcEquilibrator;
+pub use aqueous::{CacheData, CacheEntry, PhreeqcEquilibrator};
 
 mod ffi {
     use std::os::raw::{c_char, c_int};
