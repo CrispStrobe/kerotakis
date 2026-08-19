@@ -68,6 +68,8 @@ verifier in `tools/`, and only *data* ships:
 | `thermo` (MIT, Python) | Golden-test fixture generation for `kerotakis-thermo` — thousands of reference flash/VLE results |
 | Cantera (desktop Python) | Reference solutions for combustion golden tests |
 | RDKit (Python) | Cross-validation of Indigo template applications and canonicalisations during curation — two independent toolkits agreeing is real QA |
+| **Reaktoro** (LGPL-2.1, verified 2026-08-19 via repo metadata) | **Differential oracle for L2** — the modern PHREEQC-class geochemical solver (Leal, ETH), which loads our exact PHREEQC databases natively: same pitzer.dat, independent solver. Diff a corpus against `PhreeqcEquilibrator` and check in fixtures; every disagreement is our bug, its bug, or genuinely interesting chemistry. Strictly stronger than ChemicalFun for this job (ChemicalFun balances, Reaktoro speciates). Build-time only, never linked, so the LGPL question never arises — the ChemicalFun reasoning |
+| ChemPy (BSD-2-Clause, verified 2026-08-19) | Cheap second opinion for textbook-level aqueous fixtures where a full geochemical solver is overkill |
 | RMG (MIT — verbatim MIT text under a custom header; GitHub shows NOASSERTION) | Benson group-additivity ΔHf/S/Cp(T) for arbitrary organics — the property gap PubChem/Wikidata cannot fill for the energy balance. **Blocker verified 2026-08-19: RMG-database has no LICENSE file.** Note `JacksonBurns/rmgdb` (active RMG developer, Aug 2026): vendors the database + SQLite/YAML repackaging under MIT — but with a *personal* copyright line, and one contributor cannot relicense a ~25-year collective work; no team licensing decision is on record (searched). It does make the upstream ask concrete: "affirm the licence upstream or correct rmgdb's copyright line to the RMG Team". Until then `thermo`'s Joback estimators (MIT) carry this role and no RMG parameter ships |
 | ORDerly / ORD | Validation oracle only, never ingestion: check curated conditions against literature without touching ORD's CC-BY-SA (the same oracle pattern as `thermo` and Cantera). Patent-chemistry distribution → low relevance to a school codex; third-tier |
 | UniChem (EMBL-EBI) | L1 identity crosswalk keyed on Standard InChI across 25 sources. EBI adds no restrictions beyond the original owners' — but no per-source licence field in the API, and a full dump includes DrugBank/CCDC accession lists (encumbered). **Use restricted to a cleared source whitelist** (PubChem, CompTox, Rhea) |
@@ -534,7 +536,11 @@ Second, **retrieval practice, spacing and interleaving are applied to
 model-use, not trivia**. "Given these two elements, predict the bond type
 and justify" is worth spacing; "what is the atomic number of vanadium" is
 not. The unit of review is a prediction, which is what the `predict` block
-already is.
+already is. The scheduler is not ours to invent: **FSRS** is the current
+state of the art, and `fsrs-rs` (BSD-3-Clause, verified 2026-08-19; the
+implementation Anki ships) is pure Rust and wasm-clean — zero licence or
+portability friction. Hand-rolling SM-2 would be re-solving a solved
+sub-problem, which is against the thesis.
 
 **The order is the dependency structure, not the school year.** School
 years are an artefact of national administration and differ by country;
@@ -617,7 +623,10 @@ P3p. Two jobs worth doing:
 - **Differential testing.** Run ChemicalFun/ThermoFun over a corpus at
   build time and diff against our Gibbs minimiser and PHREEQC, checked in
   as fixtures. The conservation bug found on 2026-08-19 would have been
-  caught in a day rather than by accident.
+  caught in a day rather than by accident. For the aqueous layer
+  specifically, **Reaktoro** is the stronger oracle (see the build-time
+  table): it speciates from the same PHREEQC databases with an
+  independent solver, so a diff isolates *our* code from the data.
 - **Completeness checking.** ChemicalFun can enumerate every balanced
   reaction among a substance set; diffing that against the codex yields
   "reactions our registry could already teach but does not" — a coverage
@@ -756,6 +765,40 @@ Budget curation as a chemistry-editorial role, not an engineering task. This is
 the moat: nobody can scrape a well-curated pedagogical reaction set with
 observations, orbital stories and register copy attached.
 
+### Curation is verifiable, so drafting can be assisted
+
+The no-language-model rule governs the *runtime*: narration is
+deterministic templates, and that stands untouched. Authoring is a
+different regime, and this project is the rare place where model-drafted
+content is safe to use — because it is **mechanically verifiable before a
+human reads it**. `codex lint` replays every numeric claim through the
+real solvers, equations must balance atoms and charge, spine anchors must
+resolve, and a model entry with an empty `fails_at` is refused. A draft
+that survives all of that is wrong in at most the ways a human draft is
+wrong.
+
+That matters because the two largest open work lists are editorial and
+exactly draft-then-verify shaped: **0 of 109 distractors carry a
+diagnosis**, and **156 of 189 spine topics are uncovered**. Budgeting
+those as pure hand-curation prices the moat wrong — the moat is the
+verification machinery and the editorial judgement, not the typing.
+
+The pipeline, honestly bounded:
+
+- A model drafts entries, distractor diagnoses, register copy,
+  translations. The lint is the first reader; the chemistry editor is the
+  second and remains the gate. Nothing merges on a model's say-so.
+- Model-assisted entries **say so in their provenance** — the same rule
+  as `Editorial judgement (Kerotakis)`. A model's confidence is not a
+  citation: misconception distractors still cite Taber, Barke, Driver or
+  the AAAS bank, or are marked editorial.
+- `kero serve --mcp` exposes the bench as an **MCP server** over the same
+  `--json` contract the CLI already snapshot-tests, so a drafting agent
+  can *run its own claims* — execute the entry's `.lab` setup, compare
+  the computed numbers against its prose, iterate — before a human sees
+  the draft. The CLI is text-native by construction; this is a thin
+  wrapper, not a new surface.
+
 ---
 
 ## The crate stack, verified
@@ -825,6 +868,20 @@ observations, orbital stories and register copy attached.
 - the alpha `phreeqc` npm package (Emscripten, MIT + USGS notice, Jan 2026) —
   single-maintainer alpha; not a dependency, but the existence proof for our
   P0 build and worth reading first.
+
+**Queued by the 2026-08-19 review** (adopted when their phase arrives;
+licences verified via repository metadata that day):
+
+- `fsrs-rs` (BSD-3-Clause) — spaced-retrieval scheduler; **ships**, so its
+  licence matters, and it is clean. See the retrieval-practice note in the
+  pedagogy section.
+- `fluent-rs` (Apache-2.0) — register narration templates; **ships**. See
+  the registers section.
+- Dev-tools that never ship, so their licences never propagate: `insta`
+  (snapshot-test the `--json` contract with a review workflow, replacing
+  hand-pinned shape tests), `cargo-mutants` (mutation testing — which
+  invariants are load-bearing and which decorative), `cargo-fuzz`,
+  `cargo-deny`, `cargo-about`, `release-plz`, `taplo`.
 
 ### Adopt-and-extend policy
 
@@ -964,8 +1021,48 @@ aarch64-apple-darwin from one source.
   ethanol–water azeotrope, CaCO₃ decomposition temperature, adiabatic flame T —
   plus oracle-generated fixtures from `thermo` and Cantera (build-time Python).
 - **Fuzzing PHREEQC** — random vessel states in, no crash and honest failure out.
+  Still open from P0, and the plan is now concrete: `cargo-fuzz` with
+  `arbitrary`-derived structured inputs over the `.lab` grammar, the
+  Unicode formula parser in `stoich.rs` (subscripts, hydrate dots, two
+  charge notations — a classic fuzz target), `dbindex`, and the
+  vessel → PHREEQC round trip. Nightly CI job; apply to **OSS-Fuzz**
+  (free continuous fuzzing, Rust supported — acceptance is not guaranteed
+  for a young project, but the application costs an afternoon).
+- **Metamorphic invariants** — properties conservation cannot see, each a
+  router/cache bug detector: order-independence (`add A; add B` ≡
+  `add B; add A` at equilibrium), dilution monotonicity (adding water
+  moves pH toward 7), scale invariance (double everything → intensive
+  properties unchanged), and — the thesis as a test — all three registers
+  and all three representations render from **one** solved state with no
+  re-solving. The kinetics work found four bugs the conservation proptest
+  could not see; metamorphic relations hunt that class systematically
+  instead of by accident. **First three built 2026-08-19**
+  (`kerotakis-cli/tests/metamorphic.rs`, driven through the real binary and
+  the `--json` contract), and the order-independence test earned its place
+  on its first run: the same reagents added in a different order settle
+  ~8e-5 apart in pH, because each step rebuilds the vessel from solver
+  output and the rebuild's rounding is path-dependent. Not chemistry, but
+  real drift; the test's tolerance sits at 1e-3 (which still catches
+  order-dependent chemistry) with the note that tightening the rebuild is
+  the work item.
+- **Mutation testing** (`cargo-mutants`) — distinguishes load-bearing
+  invariants from decorative ones, which is this project's epistemics
+  applied to its own test suite.
 - **Lessons as tests** — every scenario file replays in CI via the operator log: no lesson may go silent, hit a solver failure, or break the `--json` contract, and the pre-warmed cache must cover them. (This test immediately caught `inspect` printing prose into the JSON stream.)
-- **Snapshot tests on `--json`** — the CLI's JSON output is the API contract.
+- **Snapshot tests on `--json`** — the CLI's JSON output is the API
+  contract. Migrate the hand-pinned shape tests to `insta` with
+  redactions for volatile fields: `cargo insta review` makes an
+  intentional contract change an audited event rather than a test edit.
+- **CI must enforce what the plan claims — our own standard, applied to
+  us.** Two claims currently rot: the **iOS gate** (passed 2026-08-19)
+  has no CI step — add
+  `cargo build -p kerotakis-phreeqc --target aarch64-apple-ios` on the
+  macOS runner — and there is **no wasm size budget**, though the
+  offline/mobile premise depends on one: assert a byte ceiling on the
+  built module so a dependency cannot silently add megabytes. Smaller:
+  install `wasm-bindgen-cli` from a prebuilt binary rather than
+  `cargo install`, and let Dependabot watch the actions and the iphreeqc
+  submodule.
 
 ---
 
@@ -994,6 +1091,26 @@ The traps are all about data, not code. Checked against primary sources
 | CRD — Chemical Reaction Database (van der Lingen) | **CC BY 4.0** (Figshare, verified) — 1.37M reaction SMILES from US patents + literature (1.44M as of Jan 2026) | **The best-licensed bulk reaction corpus found** — attribution only, no ShareAlike. But SMILES only (no conditions/observations), patent-chemistry distribution, semi-automated with author-acknowledged errors. Build-time **template-mining** corpus at most; never codex content |
 | ORDerly benchmarks (Figshare 23298467 / 23502372) | Deposits say **CC BY 4.0** — but the data is extracted from **ORD (CC-BY-SA-4.0)**, and neither the deposits nor the JCIM paper mention ShareAlike anywhere | ⚠️ **Decision required before any use.** The data itself is attractive (≈919k/939k/691k reactions with solvents, agents, **temperature**, time, yield). If ever used: treat it as **BY-SA regardless of the depositors' claim**, attribute both ORDerly and ORD — or stay out. Note `procedure_details` is verbatim patent prose, not pedagogy. Do **not** run their toolchain (dormant, CI red since 2024-06) |
 
+### The licence discipline becomes a lint
+
+Everything above is enforced by prose and care, which is how the codex
+worked before `codex lint` existed — and the fix is the same fix:
+
+- **`cargo-deny`** in CI: a licence allowlist (an LGPL-2.1-only crate is
+  then blocked mechanically, not by someone remembering this document)
+  plus RustSec advisories.
+- **`cargo-about`** generates the attribution/about screen from crate
+  metadata instead of a maintained page.
+- **The provenance table above moves to machine-readable TOML**
+  (per source: licence, terms URL, retrieval date, verdict, what it may
+  touch) with a `kero provenance lint` that checks every entry in
+  `Cargo.lock` and `vendor/` appears in the audit and nothing ships from
+  an avoid-row source. The prose stays as commentary; the claims stop
+  being able to go stale silently — the `equation`/`summary` move,
+  applied to licensing.
+- **SPDX headers** (REUSE) on data files; a CycloneDX SBOM then falls
+  out for free.
+
 ---
 
 ## Nine to expert, one simulation
@@ -1020,6 +1137,13 @@ generated by deterministic templates over solver output ("SI > 0 and new solid
 phase → 'went cloudy'"), never by a language model — offline, reproducible,
 trustworthy. The same registers apply to orbitals: age 9 gets "the electron
 clouds have to match up like puzzle pieces"; the expert gets the molden file.
+
+The template format should be **Project Fluent** (`fluent-rs`, Apache-2.0,
+verified 2026-08-19) rather than ad-hoc strings: plural, case and gender
+rules live in the `.ftl` data, which is what the German line will need —
+ad-hoc templates fight German grammar — and it is the flavour-is-data
+commitment applied to grammar. Deterministic and offline either way;
+Fluent changes where the rules live, not who writes them.
 
 ### The alchemical layer earns its keep
 
@@ -1094,6 +1218,13 @@ Eight phases and thirteen crates have no floor without an explicit line.
   question and requiring the browser to match it to 1e-6 in pH. A bench with
   no solver attached reports `canSolve() == false` and refuses rather than
   guessing, which is the honest version of what shipped before
+- **the demo demonstrates the premise.** The published page is currently
+  plain HTML — no service worker, no manifest, and the Emscripten solver
+  runs on the main thread (checked 2026-08-19). Offline-first is the
+  thesis, so the demo becomes a **PWA** ("turn off wifi, it still
+  solves") and the solver moves to a **Web Worker** so a long solve
+  cannot freeze the page. A day of work each, and the first makes the
+  thesis tangible in the one place strangers meet it
 
 Explicitly **not** in v1.0: P2g (v1.1, with `ignite`), P3p (v1.1, with
 distillation), the QM/orbital layer, Hückel, lessons beyond the codex slice,
@@ -1703,6 +1834,18 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
       at once. Also checks structure: duplicate ids, empty registers,
       missing provenance, dangling prerequisites, and entries that claim
       nothing checkable ("a story, not chemistry")
+- [ ] **TOML schema served through `taplo`** (MIT, verified 2026-08-19):
+      "a chemistry editor must write it without a build step" gets teeth —
+      a JSON Schema in the taplo language server puts red squiggles in the
+      editor *before* lint runs
+- [x] `kero serve --mcp` — the bench as an MCP server over the `--json`
+      contract, so drafting agents run their own claims before a human
+      reads them (see "Curation is verifiable, so drafting can be
+      assisted"). Built 2026-08-19: JSON-RPC over stdio; bench tools emit
+      the contract through the *same* builders as the CLI's `--json` mode,
+      and the integration test requires the two answers to be identical,
+      not merely close; `codex_lint` spawns the same `kero codex lint` the
+      CI runs
 - [ ] Indigo template application over homologues; RDKit as build-time
       cross-validator; our SMARTS incompatibility rules
 - [ ] Colour data: species/precipitate/flame colours, indicator ε(λ) sets;
@@ -1811,6 +1954,10 @@ Outstanding:
 - [ ] Register the domains — the only item here with a race condition
 - [ ] Claim `kerotakis` on crates.io, npm, PyPI (the CLI publish does this with
       substance behind it)
+- [ ] Mechanise releases (`release-plz`, Apache-2.0, verified 2026-08-19)
+      and give each codex release a **Zenodo DOI** — the CC BY-SA dataset
+      becomes citable for the education-research audience we cite, and the
+      DOI timestamps the licence grant
 - [ ] File classes 9 / 41 / 42 through an attorney nearer launch, once the
       goods-and-services wording is settled. What was done is a screen, not a
       clearance opinion.

@@ -43,7 +43,16 @@ literature, that citation too. This is not paperwork; it is a product feature.
 `kero explain` shows users which engine, which dataset, which model, and what
 that dataset cites, and codex entries are expected to do the same. Data
 arriving without provenance cannot be displayed honestly, so it cannot be
-merged.
+merged. (Provenance records are moving to machine-readable TOML checked by
+a `kero provenance lint` — see PLAN.md; until that lands, the reviewer is
+the lint.)
+
+**Model-assisted drafts are welcome, disclosed.** Codex content drafted
+with an LLM is acceptable — the lint replays every claim through the real
+solvers regardless of who typed it — but say so in the entry's provenance,
+and expect the same editorial review as any draft. A model's confidence is
+not a citation: misconception distractors still cite the literature or are
+marked `Editorial judgement (Kerotakis)`.
 
 **Honour the original terms, not the convenient label.** Several upstream
 datasets relabel ShareAlike-derived data as CC BY or MIT without addressing
@@ -64,6 +73,10 @@ preference.
 - New solver code needs the conservation-invariant property tests and at least
   one golden test against a textbook value. If it produces an answer a user
   can see, it must populate `Provenance` — an unattributable number is a bug.
+- New parsers or grammars get a fuzz target (`cargo-fuzz`), and new solver
+  paths should hold the metamorphic invariants (order-independence,
+  dilution monotonicity, scale invariance) described in PLAN.md's testing
+  section, not only conservation.
 - New lessons live in `lessons/` and are replayed by CI; they must compute,
   not narrate.
 - `kerotakis-core` must keep compiling to `wasm32-unknown-unknown` and the five
