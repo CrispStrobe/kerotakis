@@ -1,0 +1,12 @@
+# Three protons: phosphoric acid meets the burette
+add v1 water 1000mL
+add v1 H3PO4 0.1mol
+measure v1 ph
+add v1 NaOH 0.05mol
+measure v1 ph
+add v1 NaOH 0.05mol
+measure v1 ph
+add v1 NaOH 0.05mol
+measure v1 ph
+add v1 NaOH 0.05mol
+measure v1 ph

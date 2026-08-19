@@ -36,7 +36,13 @@ fn add(
 }
 
 fn ph(bench: &Bench, v: VesselId) -> f64 {
-    bench.vessel(v).unwrap().solution.clone().expect("characterised").ph
+    bench
+        .vessel(v)
+        .unwrap()
+        .solution
+        .clone()
+        .expect("characterised")
+        .ph
 }
 
 #[test]

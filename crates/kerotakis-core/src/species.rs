@@ -377,6 +377,32 @@ pub const REGISTRY: &[SpeciesData] = &[
         dissolution_enthalpy_kj: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs); books total dissolved carbonate",
     },
+    SpeciesData {
+        key: "H3PO4",
+        name: "phosphoric acid",
+        formula: "H3PO4",
+        inchikey: "NBIIXXVUZAFLBC-UHFFFAOYSA-N",
+        molar_mass: 97.994,
+        heat_capacity: 106.1,
+        density: 1.88,
+        standard_phase: Phase::Liquid,
+        appearance: Some("colourless, syrupy"),
+        dissolution_enthalpy_kj: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; modelled as the concentrated syrupy acid",
+    },
+    SpeciesData {
+        key: "H2PO4-",
+        name: "dihydrogen phosphate ion",
+        formula: "H2PO4-",
+        inchikey: "NBIIXXVUZAFLBC-UHFFFAOYSA-M",
+        molar_mass: 96.987,
+        heat_capacity: 0.0,
+        density: 1.0,
+        standard_phase: Phase::Aqueous,
+        appearance: None,
+        dissolution_enthalpy_kj: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs); books total dissolved phosphate",
+    },
 ];
 
 pub fn lookup(id: &SpeciesId) -> Option<&'static SpeciesData> {

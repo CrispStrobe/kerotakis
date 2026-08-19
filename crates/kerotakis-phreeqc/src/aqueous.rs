@@ -63,6 +63,9 @@ fn role(key: &str) -> Option<Role> {
         "NaHCO3" => Some(Role::Dissolves(&[("Na", 1.0), ("C", 1.0)])),
         "Na2CO3" => Some(Role::Dissolves(&[("Na", 2.0), ("C", 1.0)])),
         "HCO3-" => Some(Role::Dissolves(&[("C", 1.0)])),
+        // Polyprotic: three protons, all three pKa's from the database.
+        "H3PO4" => Some(Role::Dissolves(&[("P", 1.0)])),
+        "H2PO4-" => Some(Role::Dissolves(&[("P", 1.0)])),
         "Na+" => Some(Role::Dissolves(&[("Na", 1.0)])),
         "Cl-" => Some(Role::Dissolves(&[("Cl", 1.0)])),
         "Ag+" => Some(Role::Dissolves(&[("Ag", 1.0)])),
@@ -80,6 +83,7 @@ fn element_ion(element: &str) -> Option<&'static str> {
         "N(5)" => Some("NO3-"),
         "Acetate" => Some("CH3COO-"),
         "C" => Some("HCO3-"),
+        "P" => Some("H2PO4-"),
         _ => None,
     }
 }
@@ -96,6 +100,11 @@ fn phase_species(phase: &str) -> Option<&'static str> {
 /// Phases that can precipitate when their elements are present.
 const CANDIDATE_PHASES: &[(&str, &[&str])] =
     &[("Halite", &["Na", "Cl"]), ("Cerargyrite", &["Ag", "Cl"])];
+
+/// Elements pitzer.dat's ion-interaction model covers (major brine ions).
+const PITZER_ELEMENTS: &[&str] = &[
+    "Na", "K", "Ca", "Mg", "Cl", "C", "S(6)", "Br", "B", "Li", "Sr", "Ba", "Mn", "Fe", "Si",
+];
 
 /// Gas phases that escape an open vessel: (phase, gas species booked in the
 /// GasEvolved event, target SI = log10 of the atmospheric partial pressure,
@@ -123,8 +132,11 @@ pub struct PhreeqcEquilibrator {
     /// poor for concentrated brines (halite solubility comes out ~3.7
     /// instead of ~6.1 mol/kgw) — used only when the problem needs organics.
     /// Databases have validity domains; routing by problem is the honest
-    /// answer. (Pitzer is the eventual right tool for real brines.)
+    /// answer.
     organic: Phreeqc,
+    /// pitzer.dat: the specific-ion-interaction model, the right tool for
+    /// concentrated brines — but it only knows the major-ion elements.
+    brine: Phreeqc,
     /// Content-addressed result cache: same species set, T and P is the
     /// same answer (PLAN.md, P2). Keyed by database + canonical input.
     cache: std::collections::HashMap<String, (Vec<Vec<String>>, Vec<SpeciesDetail>)>,
@@ -136,6 +148,7 @@ impl PhreeqcEquilibrator {
         Ok(PhreeqcEquilibrator {
             inorganic: Phreeqc::with_database(databases::WATEQ4F)?,
             organic: Phreeqc::with_database(databases::MINTEQ_V4)?,
+            brine: Phreeqc::with_database(databases::PITZER)?,
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
         })
@@ -257,19 +270,29 @@ impl Equilibrator for PhreeqcEquilibrator {
             return Ok(Vec::new());
         };
 
-        // Route by validity domain: minteq.v4 only when organics are
-        // involved (it alone has acetate); wateq4f otherwise (better at high
-        // ionic strength).
-        let needs_organics = problem.elements.iter().any(|e| e == "Acetate");
-        let engine = if needs_organics {
-            &mut self.organic
+        // Route by validity domain: minteq.v4 when its extended chemistry
+        // is needed — organics (it alone has acetate) or phosphate (wateq4f
+        // lacks the free H3PO4 species, so the first proton would come out
+        // artificially strong); pitzer for concentrated major-ion brines
+        // (the ion-interaction model is built for them: halite saturates at
+        // the textbook 6.13 mol/kgw where wateq4f gives 6.50); wateq4f
+        // otherwise.
+        let needs_extended = problem.elements.iter().any(|e| e == "Acetate" || e == "P");
+        // Rough concentration estimate: dissolved totals plus what the
+        // solid phases could dissolve (each formula unit ~2 ions).
+        let potential_molality = (problem.totals.iter().map(|(_, n)| n).sum::<f64>()
+            + 2.0 * problem.phases.iter().map(|(_, n, _)| n).sum::<f64>())
+            / problem.kgw;
+        let pitzer_capable = problem
+            .elements
+            .iter()
+            .all(|el| PITZER_ELEMENTS.contains(&el.as_str()));
+        let (engine, db_tag) = if needs_extended {
+            (&mut self.organic, "minteq.v4")
+        } else if potential_molality > 1.0 && pitzer_capable {
+            (&mut self.brine, "pitzer")
         } else {
-            &mut self.inorganic
-        };
-        let db_tag = if needs_organics {
-            "minteq.v4"
-        } else {
-            "wateq4f"
+            (&mut self.inorganic, "wateq4f")
         };
         let input = build_input(vessel, &problem);
         let key = format!("#{db_tag}\n{input}");

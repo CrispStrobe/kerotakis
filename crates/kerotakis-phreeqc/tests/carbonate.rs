@@ -57,7 +57,13 @@ fn baking_soda_alone_degasses_slowly_not_dramatically() {
         co2 > 0.005 && co2 < 0.02,
         "open-vessel equilibrium releases a modest fraction (~23%), got {co2} mol"
     );
-    let ph = bench.vessel(v).unwrap().solution.clone().expect("characterised").ph;
+    let ph = bench
+        .vessel(v)
+        .unwrap()
+        .solution
+        .clone()
+        .expect("characterised")
+        .ph;
     assert!(
         ph > 8.0 && ph < 9.7,
         "degassed bicarbonate drifts basic, got {ph}"
@@ -97,7 +103,13 @@ fn vinegar_and_baking_soda_fizz() {
     );
 
     // Excess weak acid leaves the solution mildly acidic.
-    let ph = bench.vessel(v).unwrap().solution.clone().expect("characterised").ph;
+    let ph = bench
+        .vessel(v)
+        .unwrap()
+        .solution
+        .clone()
+        .expect("characterised")
+        .ph;
     assert!(
         ph > 3.0 && ph < 6.0,
         "excess acetic acid over spent bicarbonate, got pH {ph}"

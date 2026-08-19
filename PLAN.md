@@ -765,8 +765,14 @@ The single highest-information task. Everything else is downstream of it.
       the engine's own report — γ(Ag⁺)=0.78 at I=0.1 m, the AgCl(aq)
       neutral complex, dissolved O₂/N₂ from redox; deduplicated, cached
       with the result
-- [ ] Polyprotic beyond carbonate (phosphate), pitzer.dat routing for
-      brines, more of the registry aqueous-mapped
+- [x] Phosphate (minteq routing — wateq4f lacks free H3PO4): 0.1 m
+      phosphoric acid pH 1.6, titration reads the *conditional* pKa2
+      (~6.65 at I≈0.25, γ(HPO4²⁻)≈0.4) — textbook-constant vs pH-meter
+      reality, an expert lesson in itself
+- [x] pitzer.dat routing for concentrated major-ion brines: halite
+      saturates at the textbook 6.13 mol/kgw (wateq4f: 6.50, minteq: 3.7 —
+      three databases, three validity domains, routed honestly)
+- [ ] More of the registry aqueous-mapped (K, Ca, Mg, sulfate)
 - [ ] Cache pre-warming pipeline in `tools/` (lesson states)
 - [ ] The P2 CLI **is** the "strong product on its own" claim, tested literally
 
