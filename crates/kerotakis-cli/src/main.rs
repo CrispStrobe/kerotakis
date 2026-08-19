@@ -218,11 +218,26 @@ impl Session {
             }
             "inspect" => {
                 let target = words.get(1).map(|w| parse_vessel(w)).transpose()?;
-                for v in &self.bench.vessels {
-                    if target.is_some() && target != Some(v.id) {
-                        continue;
+                let vessels: Vec<&Vessel> = self
+                    .bench
+                    .vessels
+                    .iter()
+                    .filter(|v| target.is_none() || target == Some(v.id))
+                    .collect();
+                if self.json {
+                    // The --json stream is the API contract: every line is a
+                    // JSON object, inspect included.
+                    let doc = serde_json::json!({
+                        "step": self.bench.log.len(),
+                        "operator": { "op": "inspect" },
+                        "events": [],
+                        "bench": { "vessels": vessels },
+                    });
+                    println!("{doc}");
+                } else {
+                    for v in vessels {
+                        self.print_vessel(v);
                     }
-                    self.print_vessel(v);
                 }
                 Ok(())
             }

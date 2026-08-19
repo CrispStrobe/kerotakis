@@ -569,7 +569,7 @@ aarch64-apple-darwin from one source.
   ethanol–water azeotrope, CaCO₃ decomposition temperature, adiabatic flame T —
   plus oracle-generated fixtures from `thermo` and Cantera (build-time Python).
 - **Fuzzing PHREEQC** — random vessel states in, no crash and honest failure out.
-- **Lessons as tests** — every scenario file replays in CI via the operator log.
+- **Lessons as tests** — every scenario file replays in CI via the operator log: no lesson may go silent, hit a solver failure, or break the `--json` contract, and the pre-warmed cache must cover them. (This test immediately caught `inspect` printing prose into the JSON stream.)
 - **Snapshot tests on `--json`** — the CLI's JSON output is the API contract.
 
 ---
