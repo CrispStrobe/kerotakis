@@ -30,20 +30,42 @@ as your assent to the above and to the
 
 ## 2. Data provenance
 
-Code and data have different rules here. Every dataset, parameter table, or
-constant that enters `kerotakis-data` (or any crate) must carry a provenance
-record: source, licence, retrieval date. PRs that add data without provenance,
-or from sources on the "avoid" list in [PLAN.md](PLAN.md) (NIST SRD/WebBook,
-CAS Common Chemistry, CAMEO database exports, ECHA dumps, Burcat, UNIFAC
-Consortium tables), will be declined regardless of code quality — this is a
-legal constraint, not a style preference.
+Code and data have different rules here.
+
+**Curated data is CC BY-SA 4.0**, separately from the AGPL-3.0 code. ShareAlike
+is deliberate, not reluctant: an educational chemistry commons should stay
+open, and it means we can use BY-SA sources (including the Open Reaction
+Database) without contortions.
+
+**Every dataset, parameter table, or constant must carry a provenance record**:
+source, licence, retrieval date — and, where the source itself cites
+literature, that citation too. This is not paperwork; it is a product feature.
+`kero explain` shows users which engine, which dataset, which model, and what
+that dataset cites, and codex entries are expected to do the same. Data
+arriving without provenance cannot be displayed honestly, so it cannot be
+merged.
+
+**Honour the original terms, not the convenient label.** Several upstream
+datasets relabel ShareAlike-derived data as CC BY or MIT without addressing
+the inconsistency (see the data table in [PLAN.md](PLAN.md)). Where a source's
+licence claim conflicts with its own stated provenance, we follow the original
+source and record why.
+
+PRs that add data without provenance, or from sources on the "avoid" list in
+[PLAN.md](PLAN.md) (NIST SRD/WebBook, CAS Common Chemistry, CAMEO database
+exports, ECHA dumps, Burcat, UNIFAC Consortium tables), will be declined
+regardless of code quality — that list is a legal constraint, not a style
+preference.
 
 ## 3. Ordinary courtesy
 
 - Open an issue before large changes; PLAN.md is the source of truth for
   architecture and build order.
 - New solver code needs the conservation-invariant property tests and at least
-  one golden test against a textbook value.
+  one golden test against a textbook value. If it produces an answer a user
+  can see, it must populate `Provenance` — an unattributable number is a bug.
+- New lessons live in `lessons/` and are replayed by CI; they must compute,
+  not narrate.
 - `kerotakis-core` must keep compiling to `wasm32-unknown-unknown` and the five
   native targets; CI enforces this.
 - Honesty is a feature: solver failures are surfaced, predictions are labelled

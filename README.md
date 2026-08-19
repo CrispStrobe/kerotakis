@@ -3,7 +3,8 @@
 A virtual chemistry laboratory that computes real chemistry.
 
 Offline-first, cross-platform, no runtime Python. One simulation, rendered at
-every register from nine-year-old to expert.
+every register from nine-year-old to expert. Nothing in it is a lookup table:
+every number below came out of a thermodynamic database at run time.
 
 Named for the sealed reflux vessel invented by Maria the Jewess in Alexandria,
 1st–3rd century CE — the first named alchemist in recorded history, who also
@@ -11,15 +12,102 @@ gave us the bain-marie, and whose airtight seal is the origin of "hermetically
 sealed". The name describes the architecture: a sealed vessel you put things
 into, and reactions happen.
 
-See [PLAN.md](PLAN.md) for the architecture, verified engine/licence audit, and
-build order.
+## What works today
+
+```console
+$ kero run lessons/silver-and-salt.lab
+  You add water to v1.
+  You add sodium chloride to v1.
+  The sodium chloride disappears into the water in v1!
+  ...
+  It went cloudy in v1! A white solid appears at the bottom — that's called a precipitate.
+```
+
+The same bench, same solvers, at the expert register:
+
+```console
+  v1 (beaker) — 25.00 °C, 201.7 g, 200.0 mL liquid, pH 7.10, I = 0.0502 m
+        0.0099 mol  silver chloride    Solid
+      speciation (mol/kgw · activity · γ):
+        Na+             1.0040e-1    7.8550e-2   γ=0.782
+        Ag+             9.5630e-6    7.4690e-6   γ=0.781
+        AgCl            3.2140e-7    3.2890e-7   γ=1.023   ← the neutral complex
+```
+
+Computed, not scripted:
+
+- **Dissolution and precipitation** with real solubility limits — 8 mol of salt
+  in a litre of water leaves ~1.9 mol undissolved.
+- **Acids and bases** from charge balance: strong (HCl → pH 3.0), weak
+  (acetic → 2.88), polyprotic (phosphoric, all three pKa's), and **buffers**
+  that resist acid where plain water crashes.
+- **Titration curves** walked with a burette, to equivalence and past it.
+- **Gas evolution in an open vessel** — vinegar and baking soda fizz, and the
+  balance sees the CO₂ leave.
+- **Heat**: dissolution enthalpies drive the vessel temperature, so calcium
+  chloride is a +20 K hot pack and potassium chloride a −4 K cold pack.
+- **Hard-water chemistry**: chalk, limescale, and gypsum binding its two
+  waters of crystallisation into the crystal.
+- **Separations**: filter a precipitate off, evaporate brine to crystals.
+- **Hazards that teach**: bleach + ammonia warns precisely and *then shows*
+  the chloramine forming and leaving the beaker. Prohibition teaches nothing.
+
+And every answer can explain itself:
+
+```console
+kero> explain v1
+  v1: answered by PHREEQC (IPhreeqc, USGS) using pitzer.dat
+    model:   Pitzer specific-ion-interaction model (valid at high ionic strength)
+    routing: chosen because the solution is concentrated (~16.0 mol/kgw)
+  the same question, asked of every dataset:
+    wateq4f.dat    pH 7.059 · I = 6.4224 m · Halite 1.5969 mol
+    minteq.v4.dat  pH 6.855 · I = 3.6940 m · Halite 4.3171 mol
+    pitzer.dat     pH 6.469 · I = 6.1108 m · Halite 1.9075 mol
+```
+
+Three thermodynamic datasets, three answers, each with its model's validity
+range stated. Showing the disagreement is the lesson.
+
+## Try it
+
+```bash
+git clone --recurse-submodules https://github.com/CrispStrobe/kerotakis
+cd kerotakis
+cargo run -p kerotakis-cli -- run lessons/fizz.lab   # or: cargo run -p kerotakis-cli
+```
+
+`kero` with no arguments opens the bench as a REPL. `help` lists the
+operators; `register 9|15|expert` switches voice; `explain` traces an answer;
+`--json` on a script emits one JSON object per step (that stream is the API
+contract the future UI consumes).
+
+## Status
+
+The feasibility gate is passed: PHREEQC cross-compiles and runs identically
+natively, in **WebAssembly** (Emscripten, no filesystem), and on
+**aarch64-apple-ios** — so the offline premise holds on every target. The
+aqueous layer (P2) is essentially complete; heat/ignite chemistry (P2g, a
+Gibbs minimiser over NASA CEA data) is next.
+
+| Crate | Role |
+|---|---|
+| `kerotakis-core` | Bench and vessel state machine, operators, energy balance, solver router, registers |
+| `kerotakis-phreeqc` | IPhreeqc FFI, embedded thermodynamic databases, the aqueous equilibrator |
+| `kerotakis-safety` | L0 reactivity screen — runs before any chemistry |
+| `kerotakis-cli` | `kero`: REPL, batch runner, JSON interface, cache pre-warmer |
+
+See [PLAN.md](PLAN.md) for the architecture, the verified engine and licence
+audit, and the build order.
 
 ## Licence
 
-AGPL-3.0-or-later, with an App Store / Google Play additional permission for
-binaries published by the copyright holders. See [LICENSE](LICENSE) and
+Code: AGPL-3.0-or-later, with an App Store / Google Play additional permission
+for binaries published by the copyright holders. See [LICENSE](LICENSE) and
 [NOTICE](NOTICE).
 
-Contributions are welcome and are accepted under AGPL-3.0-or-later **plus** the
-store additional permission — see [CONTRIBUTING.md](CONTRIBUTING.md) before
-your first PR.
+Curated data is licensed separately and openly (CC BY-SA 4.0), and every
+dataset we use is named with its own terms — including where an upstream's
+licence claim looks wrong to us, in which case we honour the original.
+
+Contributions are welcome under AGPL-3.0-or-later **plus** the store
+permission — see [CONTRIBUTING.md](CONTRIBUTING.md) before your first PR.

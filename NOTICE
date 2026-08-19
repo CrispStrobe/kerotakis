@@ -32,11 +32,19 @@ Kerotakis links or embeds the following. All are permissively licensed or
 public-domain and compatible with AGPL-3.0 distribution; their notices are
 preserved per their respective terms.
 
-Engines
+Currently shipped
 - IPhreeqc / PHREEQC — USGS User Rights Notice (public-domain-like, U.S.
   Geological Survey). Aqueous speciation, mineral saturation, gas partitioning
-  and redox. Embedded together with its thermodynamic databases (phreeqc.dat,
-  wateq4f.dat, minteq.v4.dat, pitzer.dat), distributed under the same terms.
+  and redox. Built from the vendored source and embedded together with its
+  thermodynamic databases (phreeqc.dat, wateq4f.dat, minteq.v4.dat,
+  pitzer.dat), distributed under the same terms. Those databases carry their
+  own literature citations in their comments; Kerotakis surfaces them rather
+  than stripping them, so an answer can name the work its numbers rest on.
+- Rust crates — serde, thiserror, postcard and their dependencies, all MIT
+  and/or Apache-2.0. The full dependency set and its licences are reproduced
+  in-app under About -> Open-source licenses, generated from cargo-about.
+
+Planned, not yet shipped (recorded here so the intent is public)
 - Indigo — Apache-2.0, Copyright (c) EPAM Systems. Structure handling, reaction
   product enumeration, and canonical identity via its bundled IUPAC InChI
   plugin (InChI v1.07+, MIT, Copyright (c) the InChI Project).
@@ -44,14 +52,22 @@ Engines
   family, cubic equations of state, flash) and IAPWS-IF97 water/steam.
 - diffsol — MIT, Copyright (c) Martin Robinson. Stiff ODE/DAE integration for
   reaction kinetics.
-
-Data
 - NASA CEA thermodynamic data — Apache-2.0 (github.com/nasa/cea). Gas and
   condensed-phase thermochemistry (NASA polynomials).
 - PubChem (NCBI/NLM) and Wikidata (CC0) — species properties and hazard
   classifications, with per-record source attribution reproduced in-app.
 - Harmonised hazard classifications from CLP Annex VI via EUR-Lex, reused with
   acknowledgment per EU legislation reuse policy.
+- Reaction-QM (CC BY 4.0, Kang et al., Sci Data 2026) — precomputed reaction
+  energetics, cited per record where used.
+
+Curated data
+- Kerotakis' own curated chemistry data (the codex: reactions, observations,
+  register copy, colour and property curation) is licensed CC BY-SA 4.0,
+  separately from the AGPL-3.0 code. Where it incorporates or is checked
+  against third-party datasets, those are named with their own terms per
+  record — and where an upstream's licence claim appears inconsistent with
+  its own sources, Kerotakis honours the original source's terms.
 
 Reactivity screening
 - The reactive-group compatibility screen is Kerotakis' own implementation of
@@ -59,10 +75,6 @@ Reactivity screening
   Response and Restoration with the EPA and the Center for Chemical Process
   Safety. It does not contain or reproduce the CAMEO Chemicals database or any
   of its contributed proprietary fields.
-
-Rust crates
-- The full dependency set and its licenses are reproduced in-app under
-  About -> Open-source licenses, generated from cargo-about.
 
 Optional, per-platform
 - CoolProp — MIT, Copyright (c) Ian Bell et al. Pure-component thermophysical
