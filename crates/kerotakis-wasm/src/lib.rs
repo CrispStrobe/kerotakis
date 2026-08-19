@@ -21,6 +21,7 @@ use kerotakis_core::{
     Register, SolverStack,
 };
 use wasm_bindgen::prelude::*;
+use wasm_bindgen::JsCast;
 
 /// A bench session: state, solvers and the register it speaks in.
 #[wasm_bindgen]
@@ -85,10 +86,16 @@ impl Lab {
                     &JsValue::from_str(input),
                 )
                 .map_err(|e| {
-                    format!(
-                        "the JavaScript solver threw: {}",
-                        e.as_string().unwrap_or_else(|| "(no message)".into())
-                    )
+                    // A thrown Error is not a string, and reporting it as
+                    // "(no message)" hides exactly the thing worth reading.
+                    let detail = e
+                        .as_string()
+                        .or_else(|| {
+                            e.dyn_ref::<js_sys::Error>()
+                                .map(|err| String::from(err.message()))
+                        })
+                        .unwrap_or_else(|| format!("{e:?}"));
+                    format!("the JavaScript solver threw: {detail}")
                 })?;
             let text = out
                 .as_string()
@@ -173,6 +180,32 @@ impl Lab {
             "bench": { "vessels": self.bench.vessels },
         })
         .to_string())
+    }
+
+    /// The submicroscopic view of one vessel, as JSON: the census plus the
+    /// text a given register would show. Drawn at solved ratios, so it is a
+    /// rendering of the answer rather than an illustration of it.
+    pub fn particles(&self, vessel: usize) -> Result<String, JsError> {
+        let v = self
+            .bench
+            .vessel(kerotakis_core::VesselId(vessel))
+            .map_err(|e| JsError::new(&e.to_string()))?;
+        let census = kerotakis_core::particles::census(v, 30);
+        let doc = serde_json::json!({
+            "census": census,
+            "rendered": census.render(self.register),
+        });
+        Ok(doc.to_string())
+    }
+
+    /// What the eye would report about one vessel.
+    pub fn look(&self, vessel: usize) -> Result<String, JsError> {
+        let v = self
+            .bench
+            .vessel(kerotakis_core::VesselId(vessel))
+            .map_err(|e| JsError::new(&e.to_string()))?;
+        Ok(serde_json::to_string(&kerotakis_core::observe(v))
+            .unwrap_or_else(|e| format!("{{\"error\":\"{e}\"}}")))
     }
 
     /// The bench state as JSON.

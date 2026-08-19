@@ -10,6 +10,7 @@
 //! the property that makes the engine portable to every target (PLAN.md,
 //! "PHREEQC runs on a phone").
 
+#[cfg(feature = "engine")]
 use std::ffi::{CStr, CString};
 
 mod aqueous;

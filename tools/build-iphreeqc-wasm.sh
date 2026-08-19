@@ -46,7 +46,7 @@ em++ "$ARCHIVE" \
     -sEXPORT_ES6=1 \
     -sEXPORT_NAME=createIPhreeqc \
     -sEXPORTED_FUNCTIONS="$EXPORTED_FUNCTIONS" \
-    -sEXPORTED_RUNTIME_METHODS='["ccall","cwrap","UTF8ToString","stringToNewUTF8"]' \
+    -sEXPORTED_RUNTIME_METHODS='["ccall","cwrap","UTF8ToString","stringToNewUTF8","HEAPU8"]' \
     -sALLOW_MEMORY_GROWTH=1 \
     -sSTACK_SIZE=8388608 \
     -sFILESYSTEM=0 \

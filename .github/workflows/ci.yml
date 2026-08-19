@@ -120,3 +120,47 @@ jobs:
         run: |
           node tools/test-wasm-bridge.mjs "$RUNNER_TEMP/kero-wasm" \
             "$RUNNER_TEMP/iphreeqc-wasm" "$RUNNER_TEMP/expected.json"
+
+  demo:
+    name: The demo page, in a real browser
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: mymindstorm/setup-emsdk@v14
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install wasm-bindgen
+        run: cargo install wasm-bindgen-cli --version 0.2.127
+      - name: Build the site
+        run: ./tools/build-web.sh "$RUNNER_TEMP/site"
+      # Node cannot catch what only a browser does. The first browser run of
+      # this page failed on Chrome refusing TextDecoder over a resizable
+      # ArrayBuffer, which Node does not reproduce at all.
+      - name: Run the page headlessly
+        run: node tools/test-web-demo.mjs "$RUNNER_TEMP/site"
+      - name: Package the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ runner.temp }}/site
+
+  publish:
+    name: Publish the demo
+    needs: demo
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4

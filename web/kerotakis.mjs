@@ -41,11 +41,26 @@ class PhreeqcPool {
     static async create(createIPhreeqc, loadDatabase) {
         const mod = await createIPhreeqc();
         const c = (name, ret, args) => mod.cwrap(name, ret, args);
+        // Read C strings by hand rather than letting the glue do it.
+        //
+        // Chrome refuses `TextDecoder.decode()` on a view into a *resizable*
+        // ArrayBuffer, and a growable wasm heap is exactly that — so the
+        // Emscripten helper throws on the first string that crosses the
+        // bridge, which is the run report. `slice` copies out of the heap
+        // first, and a copy is not resizable. Node never reproduced this,
+        // so it only appeared once the page ran in a real browser.
+        const str = (ptr) => {
+            if (!ptr) return "";
+            const heap = mod.HEAPU8;
+            let end = ptr;
+            while (heap[end] !== 0) end++;
+            return new TextDecoder("utf-8").decode(heap.slice(ptr, end));
+        };
         const api = {
             create: c("CreateIPhreeqc", "number", []),
             loadDb: c("LoadDatabaseString", "number", ["number", "string"]),
             run: c("RunString", "number", ["number", "string"]),
-            error: c("GetErrorString", "string", ["number"]),
+            errorPtr: c("GetErrorString", "number", ["number"]),
             outputFileOn: c("SetOutputFileOn", "number", ["number", "number"]),
             errorFileOn: c("SetErrorFileOn", "number", ["number", "number"]),
             logFileOn: c("SetLogFileOn", "number", ["number", "number"]),
@@ -53,9 +68,12 @@ class PhreeqcPool {
             selectedFileOn: c("SetSelectedOutputFileOn", "number", ["number", "number"]),
             selectedStringOn: c("SetSelectedOutputStringOn", "number", ["number", "number"]),
             outputStringOn: c("SetOutputStringOn", "number", ["number", "number"]),
-            outputString: c("GetOutputString", "string", ["number"]),
+            outputStringPtr: c("GetOutputString", "number", ["number"]),
             lineCount: c("GetSelectedOutputStringLineCount", "number", ["number"]),
-            line: c("GetSelectedOutputStringLine", "string", ["number", "number"]),
+            error: (id) => str(api.errorPtr(id)),
+            outputString: (id) => str(api.outputStringPtr(id)),
+            line: (id, i) => str(api.linePtr(id, i)),
+            linePtr: c("GetSelectedOutputStringLine", "number", ["number", "number"]),
         };
 
         const instances = {};
