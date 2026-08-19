@@ -62,26 +62,34 @@ fn moles_of(vessel: &serde_json::Value, species: &str) -> f64 {
 /// Equilibrium has no memory: the order reagents were added in must not
 /// change the state they equilibrate to.
 ///
-/// Tolerances, honestly stated — the diagnosis took three rounds, each
-/// ended by a measurement (2026-08-19/20):
+/// Tolerances, honestly stated — the diagnosis took four rounds of
+/// measurement (2026-08-19/20), and conditioning is the frame that
+/// survived: charge-balanced pH amplifies composition imbalance by
+/// ~1.5e6 pH per mol/kgw (measured by direct perturbation), so unbuffered
+/// NaCl + KCl drifts 1.4e-2 between addition orders while a buffered
+/// solution moves 2.3e-5; this scenario sits between, at 7.9e-5.
 ///
-/// The two orders' *compositions* agree to ~3e-11 mol; the input error is
-/// readback quantisation (vessels are reconstituted from the solver's
-/// printed selected output, 12 significant figures). The amplifier is
-/// conditioning: an unbuffered salt solution's charge-balanced pH sits on
-/// a residual at the rounding floor, so those same 3e-11 mol swing the pH
-/// by 1.4e-2 (plain NaCl + KCl), while a buffered solution shows 2.3e-5.
-/// This scenario sits between, at 7.9e-5. Ruled out by experiment:
-/// rebuilding the solvent on the equilibrated mass_H2O changed nothing.
+/// Each tier gets the assertion its conditioning earns (all measured on
+/// this scenario): *element totals* (conserved) agree to ~6e-11 mol →
+/// asserted at 1e-9; the *dissolved/solid split* (solved equilibrium)
+/// moves ~5e-9 → 1e-6; *pH* (a charge residual) → 1e-3, which still
+/// catches order-dependent chemistry.
 ///
-/// Conditioning worsens tier by tier, and each tier gets its own
-/// assertion (all three numbers measured on this scenario, 2026-08-20):
-/// *element totals* (conserved) agree to ~6e-11 mol and are asserted at
-/// 1e-9; the *dissolved/solid split* (solved equilibrium) moves ~5e-9 and
-/// is asserted at 1e-6; *pH* (a charge residual) moves 7.9e-5 and gets
-/// 1e-3, which still catches order-dependent chemistry. The input-side
-/// fix is IPhreeqc's GetSelectedOutputValue — doubles, no printing step —
-/// but even that cannot make unbuffered pH well-conditioned.
+/// Excluded by experiment, so nobody re-litigates them: the mass_H2O
+/// solvent rebuild fix (drift unchanged); print precision (the
+/// 12-significant-figure floor is worth ~1e-7 in pH, so IPhreeqc's
+/// numeric GetSelectedOutputValue would buy nothing); solver tolerance
+/// (KNOBS 1e-12: bit-identical); quantisation cancellation (a non-dyadic
+/// x1.7 scaling holds to 2.5e-11, so scale invariance is real). What
+/// remains: the rebuild rescales the solutes present at each
+/// *intermediate* step by a path-dependent mass_H2O (an equal absolute
+/// excess, ~3.45e-11 mol, stamped on exactly those ions and not on ones
+/// added later) — yet that excess is charge-balanced and explains ~1.5e-8
+/// of pH through the measured amplification, five orders short of the
+/// observed drift, so the quantity that actually carries the drift into
+/// the final solve is still unidentified. Fix direction either way: carry
+/// moles forward between steps instead of reconstituting them from
+/// molality x a water mass that moved.
 #[test]
 fn order_independence_of_equilibrium() {
     let salt_first = run("add v1 water 100mL\nadd v1 NaCl 0.1mol\nadd v1 AgNO3 0.01mol");

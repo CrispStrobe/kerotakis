@@ -1040,24 +1040,31 @@ aarch64-apple-darwin from one source.
   (`kerotakis-cli/tests/metamorphic.rs`, driven through the real binary and
   the `--json` contract), and the order-independence test earned its place
   on its first run: the same reagents added in a different order settle
-  ~8e-5 apart in pH. The diagnosis took three rounds of measurement
-  (2026-08-19/20) and is worth recording because each round *changed* it:
-  the compositions agree to ~3e-11 mol, so the input error is readback
-  quantisation (vessels are reconstituted from the solver's printed
-  selected output, 12 significant figures) — but the amplifier is
-  **conditioning**: an unbuffered salt solution's charge-balanced pH sits
-  on a residual at the rounding floor, and the same 3e-11 mol swing it by
-  1.4e-2 (plain NaCl + KCl) where a buffered solution moves 2.3e-5. Ruled
-  out by experiment en route: the mass_H2O solvent rebuild (drift
-  unchanged). Conditioning worsens tier by tier — element totals
-  (conserved) agree to ~6e-11 mol, the dissolved/solid split (solved)
-  moves ~5e-9, pH (a charge residual) 7.9e-5 — so the test asserts each
-  tier at its own tolerance (1e-9 / 1e-6 / 1e-3); the input-side fix is
-  reading selected output through
-  IPhreeqc's `GetSelectedOutputValue` (doubles, no printing step — the
-  wasm bridge must move off strings too), and even then unbuffered pH
-  stays ill-conditioned, which is itself a fact about pH rather than a
-  defect in the engine.
+  ~8e-5 apart in pH. The diagnosis took four rounds of measurement
+  (2026-08-19/20), each of which *changed* it — recorded because every
+  wrong turn was plausible. What survived: the amplifier is
+  **conditioning** — charge-balanced pH moves ~1.5e6 pH per mol/kgw of
+  imbalance (measured by direct perturbation), so unbuffered NaCl + KCl
+  drifts 1.4e-2 between orders while a buffered solution moves 2.3e-5 —
+  and conditioning worsens tier by tier: element totals (conserved)
+  agree to ~6e-11 mol, the dissolved/solid split (solved) moves ~5e-9,
+  pH (a charge residual) 7.9e-5, so the test asserts each tier at its
+  own tolerance (1e-9 / 1e-6 / 1e-3). Excluded by experiment: the
+  mass_H2O solvent rebuild fix (drift unchanged), print precision (the
+  12-significant-figure floor is worth ~1e-7 in pH, so IPhreeqc's numeric
+  `GetSelectedOutputValue` would buy nothing — struck from the work
+  list), solver tolerance (KNOBS 1e-12: bit-identical), and quantisation
+  cancellation (a non-dyadic ×1.7 scaling holds to 2.5e-11). What
+  remains: the rebuild rescales the solutes present at each intermediate
+  step by a path-dependent mass_H2O (an equal absolute excess,
+  ~3.45e-11 mol, stamped on exactly those ions and not on ones added
+  later) — yet that excess is charge-balanced and accounts for ~1.5e-8
+  of pH through the measured amplification, five orders short of the
+  observed drift, so the path-dependent quantity that actually drives
+  the final solve's pH is still unidentified. The fix direction is
+  structural either way: carry moles forward between steps instead of
+  reconstituting them from molality × a water mass that moved — scoped
+  as its own piece of work.
 - **Mutation testing** (`cargo-mutants`) — distinguishes load-bearing
   invariants from decorative ones, which is this project's epistemics
   applied to its own test suite.
