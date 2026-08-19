@@ -72,6 +72,9 @@ verifier in `tools/`, and only *data* ships:
 | ORDerly / ORD | Validation oracle only, never ingestion: check curated conditions against literature without touching ORD's CC-BY-SA (the same oracle pattern as `thermo` and Cantera). Patent-chemistry distribution → low relevance to a school codex; third-tier |
 | UniChem (EMBL-EBI) | L1 identity crosswalk keyed on Standard InChI across 25 sources. EBI adds no restrictions beyond the original owners' — but no per-source licence field in the API, and a full dump includes DrugBank/CCDC accession lists (encumbered). **Use restricted to a cleared source whitelist** (PubChem, CompTox, Rhea) |
 | DeepChem (MIT, active) | Build-time featurisation/toolbox if ever needed; its bundled datasets carry their own upstream terms |
+| **Reaction-QM** (code BSD-3; **data CC BY 4.0**, Zenodo DOI-pinned, *Sci Data* 2026) | **Precomputed reaction energetics** — 2.3M GFN2-xTB + 200k B3LYP-D3/TZVP reactions with IRC-validated transition states and **ΔE‡/ΔH‡/ΔG‡ already in plain CSV** (57–71 MB; the 35 GB is geometry files we can ignore). Clean provenance (PubChem-enumerated, no copyleft corpus). Cuts a large slice of the L4′ xtb pipeline: where a curated reaction appears here, its barrier is free and B3LYP-quality. Caveat: machine-enumerated, often exotic reactions, ≤10 heavy atoms, 9 elements — an *enrichment and validation* source, never a codex source; prefer the B3LYP subset for anything shown to learners |
+| cclib (BSD-3, actively maintained 2026-08) | Parses QC logfiles (Gaussian, ORCA, **xtb**, +17 more; PySCF via an in-memory bridge, not a parser). `ccget`/`ccwrite` slot into a Makefile as "QC output → structured JSON". Pin 1.8.1 (2.0 is alpha). May prove unnecessary — Reaction-QM ships parsed data |
+| ncsw-data (MIT, solo, untested) | **Download-only** fetcher for ~20 reaction/compound datasets — verified to ship no data and to fetch from original upstream URLs, so it launders nothing. Value is its **URL inventory**; treat as a reference, not a dependency. Warning: it is a URL map, **not a licence map** — it hands over CC-BY-SA data without a word |
 | PyTorch | Weight export (safetensors/ONNX) if the ML tier ever ships |
 
 Tool licences (incl. geomeTRIC's "BSD 3-clause Non-AI" clause and Sella's
@@ -318,6 +321,8 @@ against xtb docs):
 - **IR spectra** — vibrational frequencies → synthetic spectra: licence-clean
   (computed, not scraped from NIST), powering the spectrophotometer instrument
   and "identify the unknown" lessons.
+
+**Some of this is already computed.** Reaction-QM (CC BY 4.0, DOI-pinned) publishes IRC-validated transition states and ΔG‡ for 200k B3LYP-quality reactions in plain CSV — so for any curated reaction with a match there, the barrier is a lookup rather than a supervised saddle-point search. Our own xtb/CREST pipeline then covers what the dataset does not, which is most curriculum chemistry (it is machine-enumerated organic space, ≤10 heavy atoms). Check the dataset first, compute second.
 
 **Orbitals ship as meshes, not cubes.** Build-time marching cubes → quantised
 glTF keyframes (KHR_mesh_quantization; skip Draco — its decoder outweighs the
@@ -591,6 +596,8 @@ The traps are all about data, not code. Checked against primary sources
 | `chemicals` (Python) | MIT code aggregating CRC/NIST/Yaws/Common Chemistry data | **Dropped as a data source** — it launders the SRD and NC problems into our binary. (Its sibling `thermo` remains a build-time *oracle*, generating test fixtures, not shipped data) |
 | UNIFAC parameters | Consortium tables proprietary; original journal tables usable | Source from the original publications, provenance per parameter |
 | USPTO reaction data (Lowe extraction) | **CC0 — verified via the figshare API**, patent text USPTO-confirmed copyright-free, reaction facts *Feist*-uncopyrightable | The clean chain under every USPTO-derived corpus/model; relevant only to the deferred ML tier and template tooling |
+| CRD — Chemical Reaction Database (van der Lingen) | **CC BY 4.0** (Figshare, verified) — 1.37M reaction SMILES from US patents + literature (1.44M as of Jan 2026) | **The best-licensed bulk reaction corpus found** — attribution only, no ShareAlike. But SMILES only (no conditions/observations), patent-chemistry distribution, semi-automated with author-acknowledged errors. Build-time **template-mining** corpus at most; never codex content |
+| ORDerly benchmarks (Figshare 23298467 / 23502372) | Deposits say **CC BY 4.0** — but the data is extracted from **ORD (CC-BY-SA-4.0)**, and neither the deposits nor the JCIM paper mention ShareAlike anywhere | ⚠️ **Decision required before any use.** The data itself is attractive (≈919k/939k/691k reactions with solvents, agents, **temperature**, time, yield). If ever used: treat it as **BY-SA regardless of the depositors' claim**, attribute both ORDerly and ORD — or stay out. Note `procedure_details` is verbatim patent prose, not pedagogy. Do **not** run their toolchain (dormant, CI red since 2024-06) |
 
 ---
 
