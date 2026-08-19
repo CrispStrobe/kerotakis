@@ -31,6 +31,12 @@ pub struct Entry {
     /// Concepts a learner needs first.
     #[serde(default)]
     pub requires: Vec<String>,
+    /// Topics from the curriculum spine this entry covers. Our own
+    /// `concepts` are the words we teach in; these are the anchors into
+    /// somebody else's published taxonomy, which is what lets us measure
+    /// coverage honestly rather than declaring ourselves complete.
+    #[serde(default)]
+    pub spine: Vec<String>,
     /// Where this sits in a curriculum. Several may apply: the same
     /// reaction is met at different depths in different systems, and the
     /// same system meets it more than once.
@@ -151,6 +157,59 @@ pub struct Provenance {
     /// What computed the numbers, if any were computed.
     #[serde(default)]
     pub computed_by: Option<String>,
+}
+
+/// One topic from the curriculum spine.
+///
+/// The spine is not ours: it is the openeduhub / WirLernenOnline topic
+/// taxonomy, published **CC0**, extracted by
+/// `tools/extract-oeh-topics.py`. Using someone else's vocabulary is the
+/// point — it says what a German chemistry curriculum actually contains,
+/// rather than what we happened to think of, and it turns "extend the
+/// codex" from a guess into a checklist.
+///
+/// It carries no year mapping. Placing a topic in a school year is a
+/// separate claim, made per curriculum on the entry itself.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Concept {
+    pub id: String,
+    pub label_de: String,
+    #[serde(default)]
+    pub definition_de: Option<String>,
+    #[serde(default)]
+    pub broader: Option<String>,
+    /// The concept's id in the source vocabulary.
+    pub oeh: String,
+    pub source: String,
+}
+
+#[derive(Debug, Default, Serialize, Deserialize)]
+pub struct Vocabulary {
+    #[serde(default, rename = "concept")]
+    pub concepts: Vec<Concept>,
+}
+
+impl Vocabulary {
+    pub fn parse(text: &str) -> Result<Vocabulary, CodexError> {
+        Ok(toml::from_str(text)?)
+    }
+
+    pub fn get(&self, id: &str) -> Option<&Concept> {
+        self.concepts.iter().find(|c| c.id == id)
+    }
+
+    /// Spine topics no entry claims yet — the work list.
+    pub fn gaps<'a>(&'a self, codex: &Codex) -> Vec<&'a Concept> {
+        let claimed: Vec<&str> = codex
+            .reactions
+            .iter()
+            .flat_map(|r| r.spine.iter().map(String::as_str))
+            .collect();
+        self.concepts
+            .iter()
+            .filter(|c| !claimed.contains(&c.id.as_str()))
+            .collect()
+    }
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]

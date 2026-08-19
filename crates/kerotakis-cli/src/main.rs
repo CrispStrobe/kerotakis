@@ -76,8 +76,9 @@ fn main() {
             match sub {
                 "lint" => codex_lint(&dir),
                 "concepts" => codex_concepts(&dir),
+                "gaps" => codex_gaps(&dir),
                 other => {
-                    eprintln!("kero codex: unknown subcommand '{other}' (lint, concepts)");
+                    eprintln!("kero codex: unknown subcommand '{other}' (lint, concepts, gaps)");
                     std::process::exit(2);
                 }
             }
@@ -189,6 +190,7 @@ fn load_codex(dir: &str) -> kerotakis_codex::Codex {
 /// which is the whole point of the format.
 fn codex_lint(dir: &str) -> ! {
     let codex = load_codex(dir);
+    let vocabulary = load_vocabulary(dir);
     let mut problems = codex.structural_problems();
 
     for entry in &codex.reactions {
@@ -227,6 +229,14 @@ fn codex_lint(dir: &str) -> ! {
                 "{}: a solver could not answer during the setup",
                 entry.id
             ));
+        }
+        for anchor in &entry.spine {
+            if !vocabulary.concepts.is_empty() && vocabulary.get(anchor).is_none() {
+                problems.push(format!(
+                    "{}: spine anchor '{anchor}' is not a topic in concepts.toml",
+                    entry.id
+                ));
+            }
         }
         for claim in &entry.expect.events {
             if !observed
@@ -288,6 +298,55 @@ fn codex_lint(dir: &str) -> ! {
         eprintln!("  · {p}");
     }
     std::process::exit(1);
+}
+
+/// Load the curriculum spine, if the directory carries one.
+fn load_vocabulary(dir: &str) -> kerotakis_codex::Vocabulary {
+    let path = std::path::Path::new(dir).join("concepts.toml");
+    match std::fs::read_to_string(&path) {
+        Ok(text) => kerotakis_codex::Vocabulary::parse(&text).unwrap_or_else(|e| {
+            eprintln!("kero codex: {}: {e}", path.display());
+            std::process::exit(1);
+        }),
+        Err(_) => kerotakis_codex::Vocabulary::default(),
+    }
+}
+
+/// What the spine says a chemistry curriculum contains that we do not
+/// teach yet. This is the codex's work list, and it comes from someone
+/// else's published taxonomy rather than from our own imagination.
+fn codex_gaps(dir: &str) -> ! {
+    let codex = load_codex(dir);
+    let vocab = load_vocabulary(dir);
+    if vocab.concepts.is_empty() {
+        eprintln!("kero codex: no spine at {dir}/concepts.toml");
+        std::process::exit(1);
+    }
+    let gaps = vocab.gaps(&codex);
+    let covered = vocab.concepts.len() - gaps.len();
+    println!(
+        "spine: {} topics · covered {covered} · remaining {}",
+        vocab.concepts.len(),
+        gaps.len()
+    );
+    // Group by their parent topic so the list reads as areas of work.
+    let mut by_area: std::collections::BTreeMap<String, Vec<&str>> = Default::default();
+    for c in &gaps {
+        let area = c
+            .broader
+            .as_deref()
+            .and_then(|b| vocab.get(b).map(|p| p.label_de.clone()))
+            .unwrap_or_else(|| "—".to_string());
+        by_area.entry(area).or_default().push(&c.label_de);
+    }
+    for (area, mut topics) in by_area {
+        topics.sort_unstable();
+        println!("\n{area} ({}):", topics.len());
+        for t in topics {
+            println!("  · {t}");
+        }
+    }
+    std::process::exit(0);
 }
 
 fn codex_concepts(dir: &str) -> ! {

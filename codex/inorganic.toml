@@ -10,6 +10,7 @@
 
 [[reaction]]
 id = "salt-dissolves"
+spine = ["die-eigenschaften-von-salzen"]
 equation = "NaCl(s) → Na⁺(aq) + Cl⁻(aq)"
 concepts = ["dissolving", "solutions", "ions"]
 
@@ -88,6 +89,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "strong-acid"
+spine = ["eigenschaften-von-saeuren-und-basen"]
 equation = "HCl(aq) → H⁺(aq) + Cl⁻(aq)"
 concepts = ["acids", "ph"]
 
@@ -111,6 +113,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "weak-acid"
+spine = ["reaktionen-von-saeuren-und-basen"]
 equation = "CH₃COOH(aq) ⇌ H⁺(aq) + CH₃COO⁻(aq)"
 concepts = ["weak-acids", "equilibrium", "ph"]
 requires = ["acids"]
@@ -135,6 +138,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "buffer"
+spine = ["reaktionen-von-saeuren-und-basen"]
 equation = "CH₃COOH / CH₃COO⁻ buffer"
 concepts = ["buffers", "le-chatelier"]
 requires = ["weak-acids"]
@@ -190,6 +194,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
 id = "hot-pack"
+spine = ["der-energiebegriff"]
 equation = "CaCl₂(s) → Ca²⁺(aq) + 2 Cl⁻(aq)   ΔH_dis = −82.8 kJ/mol"
 concepts = ["exothermic", "enthalpy-of-solution"]
 requires = ["dissolving"]
@@ -215,6 +220,7 @@ computed_by = "Kerotakis energy balance over curated ΔH_dis"
 
 [[reaction]]
 id = "cold-pack"
+spine = ["der-energiebegriff"]
 equation = "KCl(s) → K⁺(aq) + Cl⁻(aq)   ΔH_dis = +17.2 kJ/mol"
 concepts = ["endothermic", "enthalpy-of-solution"]
 requires = ["dissolving"]
@@ -294,6 +300,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 
 [[reaction]]
 id = "burning-magnesium"
+spine = ["redox-reaktionen"]
 equation = "2 Mg(s) + O₂(g) → 2 MgO(s)   ΔH = −601 kJ/mol"
 concepts = ["combustion", "oxidation", "conservation-of-mass"]
 requires = ["thermal-decomposition"]
