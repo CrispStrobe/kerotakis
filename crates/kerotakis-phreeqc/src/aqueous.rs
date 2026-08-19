@@ -252,7 +252,7 @@ impl PhreeqcEquilibrator {
             }
             let mut scoped = problem.clone();
             scoped.phases.retain(|(name, ..)| idx.has_phase(name));
-            let input = build_input(vessel, &scoped);
+            let input = build_input(vessel, &scoped, db_tag);
             let engine = match db_tag {
                 "minteq.v4" => &mut self.organic,
                 "pitzer" => &mut self.brine,
@@ -566,7 +566,7 @@ impl PhreeqcEquilibrator {
                 problem.totals.push((el, n));
             }
         }
-        let input = build_input(vessel, &problem);
+        let input = build_input(vessel, &problem, db_tag);
         let key = format!("#{db_tag}\n{input}");
 
         // Content-addressed cache: database + input string is a
@@ -966,7 +966,39 @@ fn missing(column: &str) -> SolveError {
     }
 }
 
-fn build_input(vessel: &Vessel, problem: &Problem) -> String {
+/// The per-oxidation-state totals worth asking for.
+///
+/// PHREEQC will report an element split across its oxidation states if you
+/// name them — `-totals Fe(2) Fe(3)` — and that split *is* the observable
+/// of every redox experiment: half the iron oxidised, all the manganese
+/// reduced. The states themselves come from the database's master-species
+/// block rather than a list of ours, so a database that knows more redox
+/// chemistry than we do is not silently cut down to what we thought of.
+fn valence_totals(problem: &Problem, db_tag: &str) -> Vec<String> {
+    let idx = derived::index_for(db_tag);
+    let present: Vec<&str> = problem
+        .elements
+        .iter()
+        .map(|el| el.split('(').next().unwrap_or(el))
+        .filter(|el| idx.redox_elements.contains(*el))
+        // Hydrogen and oxygen have oxidation states in every database and
+        // are in every aqueous solution; reporting their split would be
+        // noise, not chemistry.
+        .filter(|el| *el != "H" && *el != "O")
+        .collect();
+    let mut out: Vec<String> = Vec::new();
+    for master in idx.masters.keys() {
+        let Some((base, _)) = master.split_once('(') else {
+            continue;
+        };
+        if present.contains(&base) && !out.contains(master) {
+            out.push(master.clone());
+        }
+    }
+    out
+}
+
+fn build_input(vessel: &Vessel, problem: &Problem, db_tag: &str) -> String {
     use std::fmt::Write;
     let mut input = String::new();
     let temp_c = vessel.temperature.to_celsius();
@@ -996,8 +1028,20 @@ fn build_input(vessel: &Vessel, problem: &Problem) -> String {
     writeln!(input, "    -pe       true").unwrap();
     writeln!(input, "    -ionic_strength true").unwrap();
     writeln!(input, "    -water    true").unwrap();
-    let elements: Vec<&str> = problem.elements.iter().map(String::as_str).collect();
-    writeln!(input, "    -totals   {}", elements.join(" ")).unwrap();
+    let mut elements: Vec<String> = problem.elements.iter().cloned().collect();
+    // Per-oxidation-state totals for anything redox-active: the split
+    // between them is what a redox experiment is *about*.
+    elements.extend(valence_totals(problem, db_tag));
+    // Element totals, plus the per-oxidation-state split for any redox
+    // element present. The split is the observable of every redox
+    // experiment and PHREEQC will report it if asked by name.
+    let mut totals: Vec<String> = elements.iter().map(|e| e.to_string()).collect();
+    for v in valence_totals(problem, db_tag) {
+        if !totals.contains(&v) {
+            totals.push(v);
+        }
+    }
+    writeln!(input, "    -totals   {}", totals.join(" ")).unwrap();
     if !problem.phases.is_empty() {
         let phases: Vec<&str> = problem.phases.iter().map(|(p, ..)| p.as_str()).collect();
         writeln!(input, "    -equilibrium_phases {}", phases.join(" ")).unwrap();

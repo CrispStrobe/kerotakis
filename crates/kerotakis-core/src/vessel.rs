@@ -77,6 +77,16 @@ pub struct SolutionInfo {
     /// thrown away.
     #[serde(default)]
     pub pe: Option<f64>,
+    /// How each redox-active element is split between its oxidation
+    /// states. Empty when nothing in the beaker has a redox chemistry.
+    ///
+    /// This is the observable a redox experiment is *for*: not "there is
+    /// iron", but "half of it is iron(II) and half is iron(III)". School
+    /// chemistry teaches acidity at length and leaves oxidation state as a
+    /// table of standard potentials to memorise, largely because the split
+    /// is invisible without an engine to compute it.
+    #[serde(default)]
+    pub redox: Vec<RedoxState>,
     pub ph: f64,
     /// Ionic strength, mol/kgw.
     pub ionic_strength: f64,
@@ -87,6 +97,50 @@ pub struct SolutionInfo {
     /// Where this answer came from.
     #[serde(default)]
     pub provenance: Option<Provenance>,
+}
+
+/// One oxidation state of one element, and how much of it there is.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct RedoxState {
+    /// "Fe", "Mn".
+    pub element: String,
+    /// The oxidation number: +2, +3, +7, −3.
+    pub oxidation: i32,
+    /// mol/kgw.
+    pub molality: f64,
+}
+
+impl RedoxState {
+    /// The state in the notation chemists read: `Fe(III)`.
+    pub fn label(&self) -> String {
+        format!("{}({})", self.element, roman(self.oxidation))
+    }
+}
+
+/// Roman numerals, as oxidation states are written. Negative states are
+/// written with a sign — nitrogen(−III) — because the Romans had no use
+/// for them and chemists do.
+fn roman(n: i32) -> String {
+    let sign = if n < 0 { "−" } else { "" };
+    let mut v = n.unsigned_abs();
+    if v == 0 {
+        return "0".to_string();
+    }
+    let table = [
+        (10, "X"),
+        (9, "IX"),
+        (5, "V"),
+        (4, "IV"),
+        (1, "I"),
+    ];
+    let mut out = String::new();
+    for (value, sym) in table {
+        while v >= value {
+            out.push_str(sym);
+            v -= value;
+        }
+    }
+    format!("{sign}{out}")
 }
 
 impl SolutionInfo {
