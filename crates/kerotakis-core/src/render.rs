@@ -8,6 +8,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::ops::{Event, Instrument};
 use crate::species;
+use crate::species::Phase;
 
 /// How much detail an answer is rendered with.
 ///
@@ -315,6 +316,54 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 _ => {
                     format!("{vessel}: {:.6} mol {name} evolved (open system; mass leaves)", moles.0)
                 }
+            }
+        }
+        Event::StateChanged {
+            vessel,
+            species,
+            from,
+            to,
+            at,
+            shifted_by,
+        } => {
+            let name = crate::species::lookup(species)
+                .map(|d| d.name)
+                .unwrap_or(species.0.as_str());
+            let verb = match (from, to) {
+                (Phase::Liquid, Phase::Solid) => "froze",
+                (Phase::Solid, Phase::Liquid) => "melted",
+                (Phase::Liquid, Phase::Gas) => "boiled",
+                _ => "changed state",
+            };
+            let c = at.to_celsius();
+            match register.level() {
+                1 => match (from, to) {
+                    (Phase::Liquid, Phase::Solid) => {
+                        format!("The {name} in {vessel} turned to ice!")
+                    }
+                    (Phase::Solid, Phase::Liquid) => {
+                        format!("The ice in {vessel} melted back into {name}.")
+                    }
+                    (Phase::Liquid, Phase::Gas) => {
+                        format!("The {name} in {vessel} is boiling — look at the steam!")
+                    }
+                    _ => format!("The {name} in {vessel} {verb}."),
+                },
+                2 => {
+                    if shifted_by.abs() < 0.05 {
+                        format!("{vessel}: {name} {verb} at {c:.1} °C")
+                    } else {
+                        format!(
+                            "{vessel}: {name} {verb} at {c:.1} °C — {:.1} °C {} than pure {name}, because of what is dissolved in it",
+                            shifted_by.abs(),
+                            if *shifted_by < 0.0 { "lower" } else { "higher" }
+                        )
+                    }
+                }
+                _ => format!(
+                    "{vessel}: {name} {from:?} → {to:?} at {:.2} K ({c:.2} °C), shifted {shifted_by:+.3} K by dissolved particles",
+                    at.0
+                ),
             }
         }
         Event::NotYetModeled { vessel, what } => match register.level() {

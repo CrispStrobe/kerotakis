@@ -37,6 +37,9 @@ fn build_stack() -> SolverStack {
         Ok(aqueous) => solvers.push(Box::new(aqueous)),
         Err(e) => eprintln!("kero: aqueous engine unavailable ({e}); running without it"),
     }
+    // After the aqueous engine: where a solution freezes depends on how
+    // many particles are dissolved in it, and only the speciation knows.
+    solvers.push(Box::new(kerotakis_core::StateEquilibrator));
     solvers.push(Box::new(HonestyEquilibrator));
     SolverStack::new(solvers)
 }

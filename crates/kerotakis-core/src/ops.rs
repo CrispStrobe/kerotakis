@@ -4,7 +4,7 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::species::SpeciesId;
+use crate::species::{Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Moles};
 use crate::vessel::VesselId;
 
@@ -189,6 +189,23 @@ pub enum Event {
     NotYetModeled {
         vessel: VesselId,
         what: String,
+    },
+    /// The solvent changed state: froze, melted or boiled.
+    ///
+    /// Carries the transition temperature *this* solution has rather than
+    /// the pure solvent's, plus how far the dissolved particles moved it.
+    /// That shift is the observable content of colligative properties — the
+    /// reason salt clears an icy road — so it travels with the event
+    /// instead of having to be recomputed by whoever renders it.
+    StateChanged {
+        vessel: VesselId,
+        species: SpeciesId,
+        from: Phase,
+        to: Phase,
+        at: Kelvin,
+        /// K away from the pure solvent's transition. Negative when
+        /// dissolved particles have lowered it.
+        shifted_by: f64,
     },
     /// A solver was asked and could not converge / answer. First-class,
     /// honest, never a crash.

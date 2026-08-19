@@ -41,6 +41,7 @@ impl Lab {
                 Box::new(MixingEquilibrator),
                 Box::new(kerotakis_core::CuratedEquilibrator),
                 Box::new(kerotakis_cea::ThermalEquilibrator),
+                Box::new(kerotakis_core::StateEquilibrator),
                 Box::new(HonestyEquilibrator),
             ]),
             aqueous,

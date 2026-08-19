@@ -109,6 +109,30 @@ impl Bench {
             }
         }
 
+        // A temperature announced mid-step may be overtaken by a later
+        // solver: a phase change pins the vessel at its transition point,
+        // so "cooled to -71 C" becomes false when the water froze at 0 C
+        // and stayed there. Correct the last reading per vessel to the
+        // temperature the vessel actually ended at, and drop it if nothing
+        // moved after all.
+        for id in op_touches(&op) {
+            let Ok(actual) = self.vessel(id).map(|v| v.temperature) else {
+                continue;
+            };
+            let last = events.iter().rposition(
+                |e| matches!(e, Event::TemperatureChanged { vessel, .. } if *vessel == id),
+            );
+            if let Some(i) = last {
+                if let Event::TemperatureChanged { from, to, .. } = &mut events[i] {
+                    *to = actual;
+                    let stale = (from.0 - to.0).abs() < 0.01;
+                    if stale {
+                        events.remove(i);
+                    }
+                }
+            }
+        }
+
         // A spark held to something that will not burn leaves nothing
         // behind: put the vessel back as it was, and say so.
         if let Operator::Ignite { vessel } = &op {

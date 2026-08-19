@@ -14,7 +14,7 @@
 //! entry that stops being true fails the build. Nothing else in this
 //! project would catch a curation error; this does.
 
-use kerotakis_core::Register;
+use kerotakis_core::{Phase, Register};
 use serde::{Deserialize, Serialize};
 
 /// One curated reaction.
@@ -613,6 +613,19 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::VesselCreated { .. } => ("vessel_created", None),
         E::NotYetModeled { .. } => ("not_yet_modelled", None),
         E::SolverFailed { .. } => ("solver_failed", None),
+        // Named per direction so an entry can assert `froze:water` rather
+        // than the weaker "some state changed".
+        E::StateChanged {
+            species, from, to, ..
+        } => (
+            match (from, to) {
+                (Phase::Liquid, Phase::Solid) => "froze",
+                (Phase::Solid, Phase::Liquid) => "melted",
+                (Phase::Liquid, Phase::Gas) => "boiled",
+                _ => "state_changed",
+            },
+            Some(species.0.as_str()),
+        ),
     };
     if actual_kind != kind {
         return false;

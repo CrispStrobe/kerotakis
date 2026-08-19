@@ -23,6 +23,7 @@ pub mod script;
 pub mod solve;
 pub mod species;
 pub mod spectrum;
+pub mod states;
 pub mod units;
 pub mod vessel;
 
@@ -33,7 +34,7 @@ pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use render::{render_event, Register};
 pub use solve::{
     Equilibrator, HonestyEquilibrator, MixingEquilibrator, PermissiveScreen, SafetyScreen,
-    SafetyVerdict, Severity, SolveError, SolverStack,
+    SafetyVerdict, Severity, SolveError, SolverStack, StateEquilibrator,
 };
 pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};
