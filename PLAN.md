@@ -760,9 +760,13 @@ The single highest-information task. Everything else is downstream of it.
       the H2O co-product of HCO3- + H+ → CO2↑ + H2O keeps the ledger
       chemical. NaHCO3 endothermic dissolution cools the beaker
       (lessons/fizz.lab)
+- [x] True speciation in the expert register: SolutionInfo carries the
+      full equilibrium distribution (molality, activity → γ) parsed from
+      the engine's own report — γ(Ag⁺)=0.78 at I=0.1 m, the AgCl(aq)
+      neutral complex, dissolved O₂/N₂ from redox; deduplicated, cached
+      with the result
 - [ ] Polyprotic beyond carbonate (phosphate), pitzer.dat routing for
-      brines, more of the registry aqueous-mapped; surface true speciation
-      in the expert register
+      brines, more of the registry aqueous-mapped
 - [ ] Cache pre-warming pipeline in `tools/` (lesson states)
 - [ ] The P2 CLI **is** the "strong product on its own" claim, tested literally
 
