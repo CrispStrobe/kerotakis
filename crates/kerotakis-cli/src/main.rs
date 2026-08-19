@@ -10,6 +10,8 @@
 //!   kero run FILE.lab --json  replay, one JSON object per step on stdout
 //!   kero species              list the registry
 
+mod mcp;
+
 use std::io::{BufRead, Write};
 
 use kerotakis_core::script::{parse_op, parse_vessel};
@@ -158,66 +160,34 @@ fn main() {
                 eprintln!("usage: kero balance \"Mg + O2 -> MgO\"");
                 std::process::exit(2);
             };
-            let arrows = ["->", "→", "=", "⇌"];
-            let Some((l, r)) = arrows.iter().find_map(|a| equation.split_once(a)) else {
+            if !ARROWS.iter().any(|a| equation.contains(a)) {
                 eprintln!("kero balance: no reaction arrow in '{equation}'");
                 std::process::exit(2);
-            };
-            let strip = |t: &str| -> String {
-                let t = t.trim();
-                let digits: String = t.chars().take_while(|c| c.is_ascii_digit()).collect();
-                if digits.is_empty() || digits.len() == t.len() {
-                    t.to_string()
-                } else {
-                    t[digits.len()..].trim().to_string()
-                }
-            };
-            // A spaced plus: a bare one is also the charge on `Ca+2`.
-            let lhs: Vec<String> = l.split(" + ").map(strip).collect();
-            let rhs: Vec<String> = r.split(" + ").map(strip).collect();
-            let lref: Vec<&str> = lhs.iter().map(String::as_str).collect();
-            let rref: Vec<&str> = rhs.iter().map(String::as_str).collect();
-
-            if let Ok(eq) = kerotakis_core::stoich::parse_equation(equation) {
-                if eq.is_balanced() {
-                    println!("already balanced");
-                    std::process::exit(0);
-                }
-                for (el, d) in eq.element_imbalance() {
-                    println!("  {el}: {d:+} on the right as written");
-                }
-                let c = eq.charge_imbalance();
-                if c.abs() > 1e-6 {
-                    println!("  charge: {c:+} on the right as written");
-                }
             }
-            match kerotakis_core::stoich::balance(&lref, &rref) {
-                Ok(n) => {
-                    let show = |names: &[&str], coeffs: &[i64]| -> String {
-                        names
-                            .iter()
-                            .zip(coeffs)
-                            .map(|(s, c)| {
-                                if *c == 1 {
-                                    (*s).to_string()
-                                } else {
-                                    format!("{c} {s}")
-                                }
-                            })
-                            .collect::<Vec<_>>()
-                            .join(" + ")
-                    };
-                    println!(
-                        "{} → {}",
-                        show(&lref, &n[..lref.len()]),
-                        show(&rref, &n[lref.len()..])
-                    );
-                }
+            match balance_text(equation) {
+                Ok(text) => print!("{text}"),
                 Err(e) => {
                     eprintln!("kero balance: {e}");
                     std::process::exit(1);
                 }
             }
+        }
+        Some("serve") => {
+            // The bench as an MCP server over stdio — the same public API
+            // and the same `--json` contract, so a drafting agent gets
+            // exactly the answers the CLI gets (PLAN.md, "Curation is
+            // verifiable, so drafting can be assisted").
+            if !args.iter().any(|a| a == "--mcp") {
+                eprintln!("kero serve: only --mcp is available (kero serve --mcp)");
+                std::process::exit(2);
+            }
+            let dir = args
+                .iter()
+                .position(|a| a == "--dir")
+                .and_then(|i| args.get(i + 1))
+                .cloned()
+                .unwrap_or_else(|| "codex".to_string());
+            mcp::serve(dir);
         }
         Some("help") | Some("--help") | Some("-h") => {
             usage();
@@ -228,6 +198,206 @@ fn main() {
         }
         None => repl(),
     }
+}
+
+// ---------------------------------------------------------------------
+// The `--json` contract, built in exactly one place. The CLI's `--json`
+// stream and the MCP server both call these, so the two can never drift —
+// which is the point of having a contract (PLAN.md, "CLI first").
+
+fn json_step(
+    step: usize,
+    op: &Operator,
+    events: &[Event],
+    vessels: &[Vessel],
+) -> serde_json::Value {
+    serde_json::json!({
+        "step": step,
+        "operator": op,
+        "events": events,
+        "bench": { "vessels": vessels },
+    })
+}
+
+fn json_inspect(step: usize, vessels: &[&Vessel]) -> serde_json::Value {
+    serde_json::json!({
+        "step": step,
+        "operator": { "op": "inspect" },
+        "events": [],
+        "bench": { "vessels": vessels },
+    })
+}
+
+fn json_particles(step: usize, v: &Vessel) -> serde_json::Value {
+    serde_json::json!({
+        "step": step,
+        "operator": { "op": "particles", "vessel": v.id },
+        "events": [],
+        "particles": kerotakis_core::particles::census(v, 30),
+    })
+}
+
+/// `explain` in the JSON stream: provenance is an answer too, and prose
+/// printed into an NDJSON stream is the same defect `inspect` once had.
+fn json_explain(step: usize, vessel: VesselId, text: &str) -> serde_json::Value {
+    serde_json::json!({
+        "step": step,
+        "operator": { "op": "explain", "vessel": vessel },
+        "events": [],
+        "text": text,
+    })
+}
+
+const ARROWS: [&str; 4] = ["->", "→", "=", "⇌"];
+
+/// Everything `kero balance` says, as a string — shared by the CLI arm and
+/// the MCP `balance` tool so the two cannot disagree.
+fn balance_text(equation: &str) -> Result<String, String> {
+    use std::fmt::Write as _;
+    let Some((l, r)) = ARROWS.iter().find_map(|a| equation.split_once(a)) else {
+        return Err(format!("no reaction arrow in '{equation}'"));
+    };
+    let strip = |t: &str| -> String {
+        let t = t.trim();
+        let digits: String = t.chars().take_while(|c| c.is_ascii_digit()).collect();
+        if digits.is_empty() || digits.len() == t.len() {
+            t.to_string()
+        } else {
+            t[digits.len()..].trim().to_string()
+        }
+    };
+    // A spaced plus: a bare one is also the charge on `Ca+2`.
+    let lhs: Vec<String> = l.split(" + ").map(strip).collect();
+    let rhs: Vec<String> = r.split(" + ").map(strip).collect();
+    let lref: Vec<&str> = lhs.iter().map(String::as_str).collect();
+    let rref: Vec<&str> = rhs.iter().map(String::as_str).collect();
+
+    let mut out = String::new();
+    if let Ok(eq) = kerotakis_core::stoich::parse_equation(equation) {
+        if eq.is_balanced() {
+            return Ok("already balanced\n".into());
+        }
+        for (el, d) in eq.element_imbalance() {
+            writeln!(out, "  {el}: {d:+} on the right as written").unwrap();
+        }
+        let c = eq.charge_imbalance();
+        if c.abs() > 1e-6 {
+            writeln!(out, "  charge: {c:+} on the right as written").unwrap();
+        }
+    }
+    match kerotakis_core::stoich::balance(&lref, &rref) {
+        Ok(n) => {
+            let show = |names: &[&str], coeffs: &[i64]| -> String {
+                names
+                    .iter()
+                    .zip(coeffs)
+                    .map(|(s, c)| {
+                        if *c == 1 {
+                            (*s).to_string()
+                        } else {
+                            format!("{c} {s}")
+                        }
+                    })
+                    .collect::<Vec<_>>()
+                    .join(" + ")
+            };
+            writeln!(
+                out,
+                "{} → {}",
+                show(&lref, &n[..lref.len()]),
+                show(&rref, &n[lref.len()..])
+            )
+            .unwrap();
+            Ok(out)
+        }
+        Err(e) => Err(e.to_string()),
+    }
+}
+
+/// Everything `explain` says, as a string — the REPL prints it, the MCP
+/// server returns it, and building it in one place keeps them identical.
+fn explain_text(
+    bench: &Bench,
+    paths: &mut Option<kerotakis_phreeqc::PhreeqcEquilibrator>,
+    target: VesselId,
+) -> Result<String, String> {
+    use std::fmt::Write as _;
+    let vessel = bench.vessel(target).map_err(|e| e.to_string())?;
+    let mut out = String::new();
+    // Where the standing answer came from.
+    match vessel.solution.as_ref().and_then(|s| s.provenance.as_ref()) {
+        Some(p) => {
+            writeln!(
+                out,
+                "  {target}: answered by {} using {}",
+                p.engine, p.dataset
+            )
+            .unwrap();
+            writeln!(out, "    model:   {}", p.model).unwrap();
+            writeln!(out, "    routing: {}", p.routing).unwrap();
+            if !p.dataset_sources.is_empty() {
+                writeln!(out, "    the dataset records its own sources, e.g.:").unwrap();
+                for src in &p.dataset_sources {
+                    writeln!(out, "      · {src}").unwrap();
+                }
+            }
+        }
+        None => writeln!(
+            out,
+            "  {target}: no aqueous solver has characterised this vessel"
+        )
+        .unwrap(),
+    }
+    // What every other dataset says about the same vessel.
+    let vessel = vessel.clone();
+    match paths.as_mut() {
+        None => writeln!(out, "    (no engine available to compare paths)").unwrap(),
+        Some(engine) => {
+            let compared = engine.compare_paths(&vessel);
+            if compared.is_empty() {
+                writeln!(out, "    (nothing aqueous to compare)").unwrap();
+            } else {
+                writeln!(out, "  the same question, asked of every dataset:").unwrap();
+                for path in compared {
+                    match path.outcome {
+                        kerotakis_phreeqc::PathOutcome::Solved {
+                            ph,
+                            ionic_strength,
+                            phases,
+                        } => {
+                            let solids: String = phases
+                                .iter()
+                                .filter(|(_, m)| *m > 1e-9)
+                                .map(|(n, m)| format!(" · {n} {m:.4} mol"))
+                                .collect();
+                            writeln!(
+                                out,
+                                "    {:<14} pH {ph:.3} · I = {ionic_strength:.4} m{solids}",
+                                path.dataset
+                            )
+                            .unwrap();
+                            writeln!(out, "      {}", path.model).unwrap();
+                        }
+                        kerotakis_phreeqc::PathOutcome::CannotExpress { missing_elements } => {
+                            writeln!(
+                                out,
+                                "    {:<14} cannot express this problem (no {})",
+                                path.dataset,
+                                missing_elements.join(", ")
+                            )
+                            .unwrap()
+                        }
+                        kerotakis_phreeqc::PathOutcome::Failed { detail } => {
+                            let short: String = detail.lines().next().unwrap_or("").into();
+                            writeln!(out, "    {:<14} could not solve it: {short}", path.dataset)
+                                .unwrap()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    Ok(out)
 }
 
 /// How each redox element is split between its oxidation states.
@@ -585,6 +755,7 @@ fn usage() -> ! {
          usage:\n\
          \x20 kero                       interactive bench\n\
          \x20 kero run FILE.lab [--json] replay a command script\n\
+         \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
          \n\
          bench commands (REPL and .lab files):\n\
@@ -676,69 +847,11 @@ impl Session {
                     .map(|w| parse_vessel(w))
                     .transpose()?
                     .unwrap_or(VesselId(0));
-                let vessel = self.bench.vessel(target).map_err(|e| e.to_string())?;
-                // Where the standing answer came from.
-                match vessel.solution.as_ref().and_then(|s| s.provenance.as_ref()) {
-                    Some(p) => {
-                        println!("  {target}: answered by {} using {}", p.engine, p.dataset);
-                        println!("    model:   {}", p.model);
-                        println!("    routing: {}", p.routing);
-                        if !p.dataset_sources.is_empty() {
-                            println!("    the dataset records its own sources, e.g.:");
-                            for src in &p.dataset_sources {
-                                println!("      · {src}");
-                            }
-                        }
-                    }
-                    None => println!("  {target}: no aqueous solver has characterised this vessel"),
-                }
-                // What every other dataset says about the same vessel.
-                let vessel = vessel.clone();
-                match self.paths.as_mut() {
-                    None => println!("    (no engine available to compare paths)"),
-                    Some(engine) => {
-                        let paths = engine.compare_paths(&vessel);
-                        if paths.is_empty() {
-                            println!("    (nothing aqueous to compare)");
-                        } else {
-                            println!("  the same question, asked of every dataset:");
-                            for path in paths {
-                                match path.outcome {
-                                    kerotakis_phreeqc::PathOutcome::Solved {
-                                        ph,
-                                        ionic_strength,
-                                        phases,
-                                    } => {
-                                        let solids: String = phases
-                                            .iter()
-                                            .filter(|(_, m)| *m > 1e-9)
-                                            .map(|(n, m)| format!(" · {n} {m:.4} mol"))
-                                            .collect();
-                                        println!(
-                                            "    {:<14} pH {ph:.3} · I = {ionic_strength:.4} m{solids}",
-                                            path.dataset
-                                        );
-                                        println!("      {}", path.model);
-                                    }
-                                    kerotakis_phreeqc::PathOutcome::CannotExpress {
-                                        missing_elements,
-                                    } => println!(
-                                        "    {:<14} cannot express this problem (no {})",
-                                        path.dataset,
-                                        missing_elements.join(", ")
-                                    ),
-                                    kerotakis_phreeqc::PathOutcome::Failed { detail } => {
-                                        let short: String =
-                                            detail.lines().next().unwrap_or("").into();
-                                        println!(
-                                            "    {:<14} could not solve it: {short}",
-                                            path.dataset
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
+                let text = explain_text(&self.bench, &mut self.paths, target)?;
+                if self.json {
+                    println!("{}", json_explain(self.bench.log.len(), target, &text));
+                } else {
+                    print!("{text}");
                 }
                 Ok(())
             }
@@ -754,18 +867,14 @@ impl Session {
                     .filter(|v| target.is_none() || target == Some(v.id))
                     .collect();
                 for v in vessels {
-                    let census = kerotakis_core::particles::census(v, 30);
                     if self.json {
-                        let doc = serde_json::json!({
-                            "step": self.bench.log.len(),
-                            "operator": { "op": "particles", "vessel": v.id },
-                            "events": [],
-                            "particles": census,
-                        });
-                        println!("{doc}");
+                        println!("{}", json_particles(self.bench.log.len(), v));
                     } else {
                         println!("  {} — what the particles are doing:", v.id);
-                        print!("{}", census.render(self.register));
+                        print!(
+                            "{}",
+                            kerotakis_core::particles::census(v, 30).render(self.register)
+                        );
                     }
                 }
                 Ok(())
@@ -781,13 +890,7 @@ impl Session {
                 if self.json {
                     // The --json stream is the API contract: every line is a
                     // JSON object, inspect included.
-                    let doc = serde_json::json!({
-                        "step": self.bench.log.len(),
-                        "operator": { "op": "inspect" },
-                        "events": [],
-                        "bench": { "vessels": vessels },
-                    });
-                    println!("{doc}");
+                    println!("{}", json_inspect(self.bench.log.len(), &vessels));
                 } else {
                     for v in vessels {
                         self.print_vessel(v);
@@ -812,13 +915,10 @@ impl Session {
             )
             .map_err(|e| e.to_string())?;
         if self.json {
-            let step = serde_json::json!({
-                "step": self.bench.log.len() - 1,
-                "operator": op,
-                "events": events,
-                "bench": { "vessels": self.bench.vessels },
-            });
-            println!("{step}");
+            println!(
+                "{}",
+                json_step(self.bench.log.len() - 1, &op, &events, &self.bench.vessels)
+            );
         } else {
             for event in &events {
                 println!("  {}", render_event(event, self.register));
