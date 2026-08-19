@@ -142,6 +142,99 @@ impl Range {
     }
 }
 
+/// Split an `equation` string into the clauses that might be equations.
+///
+/// The field carries more than equations in practice: annotations after a
+/// spaced middot, a parenthesised aside, a ΔH, or two reactions separated
+/// by a semicolon. Splitting is deliberately conservative — anything that
+/// does not come out as a chemical equation is reported as unverified
+/// rather than silently passed.
+pub fn equation_clauses(equation: &str) -> Vec<String> {
+    const ARROWS: [&str; 8] = ["⇌", "⟶", "→", "->", "<=>", "=>", "⇄", "↔"];
+    let mut out = Vec::new();
+    for part in equation.split(';') {
+        // A spaced middot introduces prose; a flush one is a hydrate.
+        let mut head = part.split("  ·  ").next().unwrap_or(part);
+        head = head.split(" · ").next().unwrap_or(head);
+        // A comma never appears inside a formula, so it ends the chemistry:
+        // "AgCl ⇌ Ag⁺ + Cl⁻, suppressed by added Cl⁻".
+        head = head.split(", ").next().unwrap_or(head);
+        head = match head.find("   Δ") {
+            Some(i) => &head[..i],
+            None => head,
+        };
+        let mut clause = head.trim().to_string();
+        // Trailing asides: "(saturated at ≈6.1 mol/kgw)", "(K_sp ≈ …)".
+        // A parenthetical containing a space is prose; state labels like
+        // "(aq)" never do, and are handled by the formula parser.
+        while clause.ends_with(')') {
+            let Some(open) = clause.rfind('(') else { break };
+            if !clause[open..].contains(' ') {
+                break;
+            }
+            clause = clause[..open].trim_end().to_string();
+        }
+        if clause.is_empty() {
+            continue;
+        }
+        // A chain of equilibria — "H₃PO₄ ⇌ H⁺ + H₂PO₄⁻ ⇌ 2 H⁺ + HPO₄²⁻" —
+        // is several equations sharing their intermediate terms. Check each
+        // consecutive pair rather than reading the first arrow and treating
+        // the rest of the chain as one enormous right-hand side.
+        let mut segments: Vec<String> = vec![clause.clone()];
+        for arrow in ARROWS {
+            if clause.contains(arrow) {
+                segments = clause.split(arrow).map(|s| s.trim().to_string()).collect();
+                if segments.len() > 2 {
+                    for pair in segments.windows(2) {
+                        out.push(format!("{} {arrow} {}", pair[0], pair[1]));
+                    }
+                    break;
+                }
+                segments = vec![clause.clone()];
+                break;
+            }
+        }
+        if segments.len() == 1 {
+            out.push(clause);
+        }
+    }
+    out
+}
+
+/// How much of the codex's equation field is actually verifiable.
+///
+/// Returned rather than logged so the caller can print it: a checker that
+/// silently ignores what it cannot parse claims a clean bill of health it
+/// has not earned.
+#[derive(Debug, Clone, Default, PartialEq)]
+pub struct EquationAudit {
+    pub balanced: usize,
+    /// Entries whose equation field holds no parseable equation at all.
+    pub unverified: Vec<String>,
+}
+
+impl Codex {
+    pub fn equation_audit(&self) -> EquationAudit {
+        let mut audit = EquationAudit::default();
+        for r in &self.reactions {
+            let mut any = false;
+            for clause in equation_clauses(&r.equation) {
+                if let Ok(eq) = kerotakis_core::stoich::parse_equation(&clause) {
+                    any = true;
+                    if eq.is_balanced() {
+                        audit.balanced += 1;
+                    }
+                }
+            }
+            if !any {
+                audit.unverified.push(r.id.clone());
+            }
+        }
+        audit
+    }
+}
+
 /// The same chemistry at each level of detail, keyed by level number
 /// (`lv1`, `lv2`, `lv3`, …). A map rather than named fields so that adding
 /// granularity later is a data change, not a schema change. Never
@@ -311,6 +404,30 @@ impl Codex {
             seen.push(&r.id);
             if r.equation.trim().is_empty() {
                 problems.push(format!("{}: no equation", r.id));
+            }
+            // The field is documented as a *balanced* equation, so check
+            // it. Where the clause is prose rather than chemistry — some
+            // entries use this field for a summary — it is counted as
+            // unverified rather than waved through; see `equation_audit`.
+            for clause in equation_clauses(&r.equation) {
+                if let Ok(eq) = kerotakis_core::stoich::parse_equation(&clause) {
+                    let bad = eq.element_imbalance();
+                    if !bad.is_empty() {
+                        let detail: Vec<String> =
+                            bad.iter().map(|(el, d)| format!("{el} {d:+.0}")).collect();
+                        problems.push(format!(
+                            "{}: equation does not balance ({}): {clause}",
+                            r.id,
+                            detail.join(", ")
+                        ));
+                    } else if eq.charge_imbalance().abs() > 1e-6 {
+                        problems.push(format!(
+                            "{}: equation conserves atoms but not charge ({:+.0}): {clause}",
+                            r.id,
+                            eq.charge_imbalance()
+                        ));
+                    }
+                }
             }
             if r.setup.script.trim().is_empty() {
                 problems.push(format!("{}: no setup script — nothing to verify", r.id));
@@ -750,5 +867,113 @@ source = "Dalton, A New System of Chemical Philosophy (1808)"
             .structural_problems()
             .iter()
             .any(|p| p.contains("which no entry teaches")));
+    }
+
+    #[test]
+    fn an_unbalanced_equation_fails_the_build() {
+        let toml = r#"
+[[reaction]]
+id = "wrong"
+equation = "Mg + O₂ → MgO"
+concepts = ["thing"]
+
+[reaction.setup]
+script = "add v1 water 100mL"
+
+[reaction.expect]
+events = []
+
+[reaction.registers]
+lv1 = "a"
+lv2 = "b"
+lv3 = "c"
+
+[reaction.provenance]
+source = "test"
+"#;
+        let codex: Codex = toml::from_str(toml).expect("parse");
+        let problems = codex.structural_problems();
+        assert!(
+            problems.iter().any(|p| p.contains("does not balance")),
+            "an equation claiming to be balanced must be checked: {problems:?}"
+        );
+    }
+
+    #[test]
+    fn atoms_balancing_is_not_enough_charge_is_checked_too() {
+        let toml = r#"
+[[reaction]]
+id = "charged"
+equation = "Fe²⁺ → Fe³⁺"
+concepts = ["thing"]
+
+[reaction.setup]
+script = "add v1 water 100mL"
+
+[reaction.expect]
+events = []
+
+[reaction.registers]
+lv1 = "a"
+lv2 = "b"
+lv3 = "c"
+
+[reaction.provenance]
+source = "test"
+"#;
+        let codex: Codex = toml::from_str(toml).expect("parse");
+        let problems = codex.structural_problems();
+        assert!(
+            problems.iter().any(|p| p.contains("not charge")),
+            "{problems:?}"
+        );
+    }
+
+    #[test]
+    fn prose_in_the_equation_field_is_counted_not_ignored() {
+        let toml = r#"
+[[reaction]]
+id = "prose"
+equation = "CH₃COOH / CH₃COO⁻ buffer"
+concepts = ["thing"]
+
+[reaction.setup]
+script = "add v1 water 100mL"
+
+[reaction.expect]
+events = []
+
+[reaction.registers]
+lv1 = "a"
+lv2 = "b"
+lv3 = "c"
+
+[reaction.provenance]
+source = "test"
+"#;
+        let codex: Codex = toml::from_str(toml).expect("parse");
+        // Not an equation error — the field is used for summaries too —
+        // but it must show up in the audit rather than passing as verified.
+        assert!(
+            !codex
+                .structural_problems()
+                .iter()
+                .any(|p| p.contains("balance")),
+            "prose is not an unbalanced equation: {:?}",
+            codex.structural_problems()
+        );
+        let audit = codex.equation_audit();
+        assert_eq!(audit.balanced, 0);
+        assert_eq!(audit.unverified, vec!["prose".to_string()]);
+    }
+
+    #[test]
+    fn a_chain_of_equilibria_is_checked_pairwise() {
+        let clauses = equation_clauses("H₃PO₄ ⇌ H⁺ + H₂PO₄⁻ ⇌ 2 H⁺ + HPO₄²⁻");
+        assert_eq!(clauses.len(), 2, "{clauses:?}");
+        for c in clauses {
+            let eq = kerotakis_core::stoich::parse_equation(&c).expect("parses");
+            assert!(eq.is_balanced(), "{c}: {:?}", eq.element_imbalance());
+        }
     }
 }

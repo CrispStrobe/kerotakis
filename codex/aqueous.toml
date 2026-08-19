@@ -272,7 +272,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "half-neutralised-vinegar"
 spine = ["saeure-base-titration-ein-analytisches-verfahren"]
-equation = "CH₃COOH + 0.5 NaOH → 0.5 CH₃COOH + 0.5 CH₃COO⁻ + 0.5 Na⁺   (pH ≈ pKa)"
+equation = "CH₃COOH + 0.5 NaOH → 0.5 CH₃COOH + 0.5 CH₃COO⁻ + 0.5 Na⁺ + 0.5 H₂O   (pH ≈ pKa)"
 concepts = ["half-equivalence-point", "pka-measurement"]
 requires = ["weak-acids", "neutralisation"]
 apparatus = ["burette", "conical-flask", "ph-meter"]

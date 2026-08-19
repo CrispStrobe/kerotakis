@@ -24,6 +24,7 @@ pub mod solve;
 pub mod species;
 pub mod spectrum;
 pub mod states;
+pub mod stoich;
 pub mod units;
 pub mod vessel;
 

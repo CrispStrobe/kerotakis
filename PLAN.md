@@ -536,6 +536,53 @@ models, making boundaries explicit, and asking for a prediction first.
 Facts are not fewer — they are *organised*, which is the condition under
 which they are retained at all.
 
+### Stoichiometry: ours, and why not ChemicalFun
+
+ChemicalFun (thermohub, LGPL-2.1) provides the stoichiometric layer we
+lacked — formula parsing, composition matrices, automatic balancing. We
+build it instead of linking it, for two reasons that point the same way.
+
+**Licence.** LGPL-2.1-*only* is incompatible with AGPL-3.0; the *or-later*
+form is compatible via LGPLv3. Even where compatible, LGPL's relink
+requirement is awkward for statically linked iOS and wasm store binaries,
+and our store exception grants nothing about third-party code. Linking is
+the problem; *running* is not.
+
+**Cost.** Balancing is the null space of the element-count matrix, with one
+extra row for charge. That is a few hundred lines against machinery we
+already had — a formula parser in two places and Gaussian elimination in
+the Gibbs minimiser — so the dependency buys little and costs a licence
+question on every target.
+
+`crates/kerotakis-core/src/stoich.rs` therefore does it: Unicode
+subscripts and superscripts, parenthesised groups, hydrate dots, state
+labels, both charge notations, and `kero balance` for the exercise. It
+balances dichromate against iron(II) — 14 H⁺ and 7 H₂O — which is the
+university case, not a toy.
+
+**They remain valuable as build-time oracles**, and that use is clean:
+running a program over public data does not make the output a derivative
+work, which is the same reasoning behind the Python `thermo` fixtures in
+P3p. Two jobs worth doing:
+
+- **Differential testing.** Run ChemicalFun/ThermoFun over a corpus at
+  build time and diff against our Gibbs minimiser and PHREEQC, checked in
+  as fixtures. The conservation bug found on 2026-08-19 would have been
+  caught in a day rather than by accident.
+- **Completeness checking.** ChemicalFun can enumerate every balanced
+  reaction among a substance set; diffing that against the codex yields
+  "reactions our registry could already teach but does not" — a coverage
+  metric derived from chemistry rather than from a topic list.
+
+Conditions: keep such a tool out of the build graph and out of `vendor/`
+so nothing links it accidentally, and keep the *tool* licence separate from
+the *dataset* licence — ThermoFun's data carries its own terms, some not
+commercial-friendly, exactly as we already track for the PHREEQC databases.
+
+ChemReaX is a closed web application. It is legitimate to consult by hand
+as a chemist would; it is not a source we can automate against or
+redistribute from.
+
 ### Declining to model something must be loud
 
 Three bugs found on 2026-08-19 were the same bug wearing different clothes,

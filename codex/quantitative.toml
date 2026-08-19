@@ -293,7 +293,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 [[reaction]]
 id = "the-carbon-came-from-the-baking-soda"
 spine = ["chemisches-rechnen"]
-equation = "NaHCO₃ → CO₂↑   ·   0.0500 mol bicarbonate gives 0.0500 mol of gas, whatever the acid"
+equation = "NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑   ·   0.0500 mol bicarbonate gives 0.0500 mol of gas, whatever the acid"
 concepts = ["element-budget"]
 requires = ["limiting-reagent", "acid-carbonate"]
 calculations = ["moles-from-mass", "limiting-reagent"]

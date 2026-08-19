@@ -66,6 +66,18 @@ Computed, not scripted:
   the chloramine forming and leaving the beaker. Prohibition teaches nothing.
   Hold a flame to salt and it does not burn — it gives the sodium flame test.
 
+Equations are balanced by the engine, not by memory — the coefficients are
+the null space of the element-count matrix, charge included:
+
+```console
+$ kero balance "Cr2O7-2 + Fe+2 + H+ -> Cr+3 + Fe+3 + H2O"
+  Cr2O7-2 + 6 Fe+2 + 14 H+ → 2 Cr+3 + 6 Fe+3 + 7 H2O
+```
+
+That makes "balance this equation" an exercise the lab can mark, and it
+turned into a lint: every codex equation is now checked for atom *and*
+charge balance, which caught two wrong ones on its first run.
+
 And every answer can explain itself:
 
 ```console

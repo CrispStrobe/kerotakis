@@ -149,6 +149,76 @@ fn main() {
                 );
             }
         }
+        Some("balance") => {
+            // Balancing is the null space of the element-count matrix, so
+            // the lab can *do* it rather than check a memorised answer —
+            // which makes "balance this equation" an exercise with the
+            // engine as the arbiter.
+            let Some(equation) = args.get(1) else {
+                eprintln!("usage: kero balance \"Mg + O2 -> MgO\"");
+                std::process::exit(2);
+            };
+            let arrows = ["->", "→", "=", "⇌"];
+            let Some((l, r)) = arrows.iter().find_map(|a| equation.split_once(a)) else {
+                eprintln!("kero balance: no reaction arrow in '{equation}'");
+                std::process::exit(2);
+            };
+            let strip = |t: &str| -> String {
+                let t = t.trim();
+                let digits: String = t.chars().take_while(|c| c.is_ascii_digit()).collect();
+                if digits.is_empty() || digits.len() == t.len() {
+                    t.to_string()
+                } else {
+                    t[digits.len()..].trim().to_string()
+                }
+            };
+            // A spaced plus: a bare one is also the charge on `Ca+2`.
+            let lhs: Vec<String> = l.split(" + ").map(strip).collect();
+            let rhs: Vec<String> = r.split(" + ").map(strip).collect();
+            let lref: Vec<&str> = lhs.iter().map(String::as_str).collect();
+            let rref: Vec<&str> = rhs.iter().map(String::as_str).collect();
+
+            if let Ok(eq) = kerotakis_core::stoich::parse_equation(equation) {
+                if eq.is_balanced() {
+                    println!("already balanced");
+                    std::process::exit(0);
+                }
+                for (el, d) in eq.element_imbalance() {
+                    println!("  {el}: {d:+} on the right as written");
+                }
+                let c = eq.charge_imbalance();
+                if c.abs() > 1e-6 {
+                    println!("  charge: {c:+} on the right as written");
+                }
+            }
+            match kerotakis_core::stoich::balance(&lref, &rref) {
+                Ok(n) => {
+                    let show = |names: &[&str], coeffs: &[i64]| -> String {
+                        names
+                            .iter()
+                            .zip(coeffs)
+                            .map(|(s, c)| {
+                                if *c == 1 {
+                                    (*s).to_string()
+                                } else {
+                                    format!("{c} {s}")
+                                }
+                            })
+                            .collect::<Vec<_>>()
+                            .join(" + ")
+                    };
+                    println!(
+                        "{} → {}",
+                        show(&lref, &n[..lref.len()]),
+                        show(&rref, &n[lref.len()..])
+                    );
+                }
+                Err(e) => {
+                    eprintln!("kero balance: {e}");
+                    std::process::exit(1);
+                }
+            }
+        }
         Some("help") | Some("--help") | Some("-h") => {
             usage();
         }
@@ -298,6 +368,21 @@ fn codex_lint(dir: &str) -> ! {
             codex.concept_index().len(),
             codex.models.len(),
             codex.model_chains().len(),
+        );
+        // Say what was *not* checked. A checker that silently ignores what
+        // it cannot parse reports a clean bill of health it has not earned,
+        // and the equation field is used for prose as well as chemistry.
+        let audit = codex.equation_audit();
+        println!(
+            "  equations: {} balanced (atoms and charge){}",
+            audit.balanced,
+            match audit.unverified.len() {
+                0 => String::new(),
+                n => format!(
+                    ", {n} entries carry no checkable equation: {}",
+                    audit.unverified.join(", ")
+                ),
+            }
         );
         std::process::exit(0);
     }
