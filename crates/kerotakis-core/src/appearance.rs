@@ -162,7 +162,7 @@ fn colour_word(c: &Colour, solid: bool) -> &'static str {
     let hue = if hue < 0.0 { hue + 360.0 } else { hue };
     let dark = max < 120.0;
     match hue {
-        h if h < 15.0 || h >= 330.0 => "red",
+        h if !(15.0..330.0).contains(&h) => "red",
         h if h < 45.0 => "orange",
         h if h < 70.0 => "yellow",
         h if h < 160.0 => "green",
