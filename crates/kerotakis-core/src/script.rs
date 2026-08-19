@@ -18,7 +18,9 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
     }
     let words: Vec<&str> = line.split_whitespace().collect();
     let op = match words[0] {
-        "register" | "inspect" | "explain" | "species" | "help" => return Ok(None),
+        "register" | "inspect" | "explain" | "species" | "help" | "particles" | "zoom" => {
+            return Ok(None)
+        }
         "new" => Operator::NewVessel,
         "add" => {
             if words.len() < 4 {

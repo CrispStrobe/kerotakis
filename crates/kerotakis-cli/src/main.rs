@@ -607,6 +607,34 @@ impl Session {
                 }
                 Ok(())
             }
+            "particles" | "zoom" => {
+                // The submicroscopic vertex of Johnstone's triangle. The
+                // ratios are solved, not drawn — which is the whole reason
+                // this is worth showing rather than illustrating.
+                let target = words.get(1).map(|w| parse_vessel(w)).transpose()?;
+                let vessels: Vec<&Vessel> = self
+                    .bench
+                    .vessels
+                    .iter()
+                    .filter(|v| target.is_none() || target == Some(v.id))
+                    .collect();
+                for v in vessels {
+                    let census = kerotakis_core::particles::census(v, 30);
+                    if self.json {
+                        let doc = serde_json::json!({
+                            "step": self.bench.log.len(),
+                            "operator": { "op": "particles", "vessel": v.id },
+                            "events": [],
+                            "particles": census,
+                        });
+                        println!("{doc}");
+                    } else {
+                        println!("  {} — what the particles are doing:", v.id);
+                        print!("{}", census.render(self.register));
+                    }
+                }
+                Ok(())
+            }
             "inspect" => {
                 let target = words.get(1).map(|w| parse_vessel(w)).transpose()?;
                 let vessels: Vec<&Vessel> = self

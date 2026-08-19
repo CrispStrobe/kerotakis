@@ -420,13 +420,28 @@ Representation and detail are **orthogonal**:
 | **submicroscopic** | a few dots, two kinds | dots at computed ratios, pairs touching | hydration shells, ion pairs, γ as crowding |
 | **symbolic** | `silver + salt → chalky stuff` | `Ag⁺ + Cl⁻ → AgCl↓`, Ksp | activities, log K, saturation indices |
 
-Every cell is a rendering of one solved state. The **submicroscopic row is
-the missing vertex**, and building it is not polish: the engine already
-computes the census (`Ag⁺ 9.56e-6 · AgCl(aq) 3.21e-7`), so drawing dots at
-solved ratios is honest in a way a textbook diagram is not — the picture
-is the answer, not an artist's impression of it. It can start humble: 2-D
-dots at representative ratios, no molecular dynamics. It belongs in the
-v1.0 UI spec.
+Every cell is a rendering of one solved state. The submicroscopic row was
+the missing vertex and is now **built** (`kero particles`,
+`kerotakis-core/src/particles.rs`): the engine already computes the census
+(`Ag⁺ 9.56e-6 · AgCl(aq) 3.21e-7`), so drawing dots at solved ratios is
+honest in a way a textbook diagram is not — the picture is the answer, not
+an artist's impression of it.
+
+Two things a particle picture can lie about, both handled explicitly:
+
+- **Scale.** You cannot draw 10²³ of anything, so each glyph stands for an
+  amount and the amount is printed. Water is drawn sparsely on purpose,
+  because a picture that is 99.9 % solvent teaches nothing about the
+  solute — and the renderer says that is what it has done.
+- **Omission.** A species too dilute to earn a glyph is *named* rather than
+  dropped. A picture that silently leaves out AgCl(aq) teaches that the
+  neutral complex is not there, which is the same silent-filter defect
+  found three times elsewhere in this engine.
+
+It also distinguishes a census drawn from solved speciation from one drawn
+off the raw inventory, and says which it is: without a characterised
+solution, ion pairs and complexes are unresolved and the picture is coarser
+than it looks.
 
 **Guided model-building, not discovery learning.** Pure discovery fails —
 Kirschner, Sweller & Clark (2006) is the decisive review: minimally

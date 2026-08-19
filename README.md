@@ -78,6 +78,23 @@ That makes "balance this equation" an exercise the lab can mark, and it
 turned into a lint: every codex equation is now checked for atom *and*
 charge balance, which caught two wrong ones on its first run.
 
+And you can look at the particles — the ratios are solved, not drawn:
+
+```console
+kero> particles v1
+  v1 — what the particles are doing:
+  ······   H2O  (solvent)
+  ●●●●●●●●●●●   Na+  (positive ion)
+  ○○○○○○○○○○   Cl-  (negative ion)
+  ▪   AgCl  (solid)
+  one ● ≈ 4.388e-2 mol/kgw; the water is drawn sparsely, not to scale
+  present below one glyph, so not drawn: AgCl2- (1.31e-5), AgCl (2.96e-7), …
+```
+
+That last line is the point. A species too dilute to earn a dot is *named*
+rather than dropped, because a picture that silently omits the neutral
+complex teaches that the complex is not there.
+
 And every answer can explain itself:
 
 ```console
@@ -107,9 +124,9 @@ at all three.
 
 Detail and representation are separate axes: `lv1|lv2|lv3` sets how much
 detail, and macroscopic/submicroscopic/symbolic sets *what kind of picture*.
-The submicroscopic renderer — dots drawn at solved ratios, not an artist's
-impression — is the piece still being built, and it is a v1.0 requirement
-rather than polish.
+`particles` is the submicroscopic one — dots drawn at solved ratios rather
+than an artist's impression — and every cell of that grid renders the same
+solved state.
 
 From that follow the rest of the design commitments:
 

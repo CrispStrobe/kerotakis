@@ -19,6 +19,7 @@ pub mod bench;
 pub mod curated;
 pub mod kinetics;
 pub mod ops;
+pub mod particles;
 pub mod render;
 pub mod script;
 pub mod solve;
