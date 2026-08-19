@@ -962,7 +962,7 @@ says NAP, book says Achieve 2013, Achieve has wound down).
 | Source | Basis | Why |
 |---|---|---|
 | **Norway (Udir Grep API)** | `åndsverkloven §14` — public domain | Best in Europe: læreplaner *are* forskrifter, stable codes, explicit year bands, open unauthenticated API |
-| **Austria (RIS OGD API)** | `UrhG §7 freie Werke` | Lehrpläne are Verordnungen in BGBl. II; **the cleanest German-language curriculum anywhere**, and no §5(2)-style Änderungsverbot |
+| **Austria (RIS OGD API)** | `UrhG §7 freie Werke` | Lehrpläne are Verordnungen in BGBl. II; **the cleanest German-language curriculum anywhere**, and no §5(2)-style Änderungsverbot. Documents: Mittelschule `Gesetzesnummer 20007850`/Anlage 1 (idF BGBl. II 178/2025), AHS `10008568`/Anlage A (idF BGBl. II 204/2024, Unterstufe and Oberstufe share one Anlage). API gotchas: `Titel` wants the plural official Kurztitel, `Fassung.FassungVom` rejects the literal `"Heute"`, and `GeltendeFassung.wxe` pages time out — use the API. First year-mapping fact banked: **Chemie is Schulstufe 8 only** (not 7–8), with a wirtschaftskundliches-Realgymnasium exception; Oberstufe runs Kompetenzmodul 5–8 |
 | **Sweden (Skolverket API)** | `URL 1960:729 §9` | Live, unauthenticated; kursplaner are författningar |
 | **England (DfE)** | Open Government Licence v3.0 | Richest chemistry content of any open source |
 | **Australia (ACARA v9)** | CC BY 4.0 | Excellent RDF/JSON-LD/SPARQL — but §5 mandates a fixed citation *including* an app-specific offline-cache clause, and teacher-support resources are carved out NC |
