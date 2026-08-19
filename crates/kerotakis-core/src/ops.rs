@@ -62,6 +62,9 @@ pub enum Instrument {
     Thermometer,
     Balance,
     PhMeter,
+    /// Your own eyes. The first instrument anyone uses, and the only one a
+    /// young learner needs to start.
+    Eyes,
 }
 
 /// What one step produced. Everything user-visible derives from this.
@@ -116,6 +119,11 @@ pub enum Event {
         instrument: Instrument,
         value: f64,
         unit: String,
+    },
+    /// What the vessel looks like.
+    Observed {
+        vessel: VesselId,
+        appearance: crate::appearance::Appearance,
     },
     /// L0 recognised a real-world hazard. The simulation proceeds — that is
     /// the pedagogy — but this event always precedes the chemistry.

@@ -84,6 +84,11 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     .map_err(|_| format!("bad fraction '{}'", words[3]))?,
             }
         }
+        // `look v1` — the youngest interaction there is.
+        "look" | "observe" => Operator::Measure {
+            vessel: parse_vessel(words.get(1).copied().unwrap_or("v1"))?,
+            instrument: Instrument::Eyes,
+        },
         "measure" => {
             if words.len() < 3 {
                 return Err("usage: measure <vessel> <thermometer|balance|ph>".into());
@@ -94,6 +99,7 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     "thermometer" | "temp" => Instrument::Thermometer,
                     "balance" | "mass" => Instrument::Balance,
                     "ph" | "phmeter" => Instrument::PhMeter,
+                    "eyes" | "look" => Instrument::Eyes,
                     other => return Err(format!("unknown instrument '{other}'")),
                 },
             }
@@ -119,10 +125,20 @@ pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, String> {
     let (value, unit) = split_unit(word)?;
     match unit {
         "mol" => Ok(Moles(value)),
+        // Household amounts. A child does not weigh things in grams, and
+        // demanding they do is the fastest way to lose them. These are
+        // ordinary kitchen measures, stated as such.
+        "spoon" | "spoons" | "tsp" => Ok(data.moles_from_grams(Grams(value * 5.0))),
+        "pinch" | "pinches" => Ok(data.moles_from_grams(Grams(value * 0.3))),
+        "cup" | "cups" => Ok(data.moles_from_liters(Liters(value * 0.25))),
+        "splash" | "splashes" => Ok(data.moles_from_liters(Liters(value * 0.02))),
+        "drop" | "drops" => Ok(data.moles_from_liters(Liters(value * 0.00005))),
         "g" => Ok(data.moles_from_grams(Grams(value))),
         "mL" | "ml" => Ok(data.moles_from_liters(Liters(value / 1000.0))),
         "L" | "l" => Ok(data.moles_from_liters(Liters(value))),
-        other => Err(format!("unknown amount unit '{other}' (mol, g, mL, L)")),
+        other => Err(format!(
+            "unknown amount '{other}' — try g, mL, L, mol, or a kitchen measure: spoon, pinch, cup, splash, drop"
+        )),
     }
 }
 

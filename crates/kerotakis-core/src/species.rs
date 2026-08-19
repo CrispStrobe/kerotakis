@@ -727,9 +727,9 @@ pub const REGISTRY: &[SpeciesData] = &[
         standard_phase: Phase::Aqueous,
         appearance: Some("blue"),
         flame_colour: Some("blue-green"),
-        colour: Some(Colour { r: 40, g: 110, b: 210, strength: 2.2 }),
+        colour: Some(Colour { r: 40, g: 110, b: 210, strength: 60.0 }),
         dissolution_enthalpy_kj: None,
-        provenance: "M from IUPAC/CIAAW 2021 atomic weights; colour curated (hexaaquacopper(II) absorbs in the red)",
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; colour curated, strength set from the published molar absorptivity of [Cu(H2O)6]2+ (ε ≈ 12 L/mol/cm) over a beaker-sized path",
     },
     SpeciesData {
         key: "KMnO4",
@@ -757,9 +757,9 @@ pub const REGISTRY: &[SpeciesData] = &[
         standard_phase: Phase::Aqueous,
         appearance: Some("intense purple"),
         flame_colour: None,
-        colour: Some(Colour { r: 120, g: 10, b: 140, strength: 900.0 }),
+        colour: Some(Colour { r: 120, g: 10, b: 140, strength: 12000.0 }),
         dissolution_enthalpy_kj: None,
-        provenance: "M from IUPAC/CIAAW 2021 atomic weights; colour curated (charge-transfer band, visible at ~1e-5 M)",
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; colour curated, strength set from the published molar absorptivity of MnO4- (ε ≈ 2400 L/mol/cm at 525 nm) — visible at 1e-5 M, which is why it is the classic titration indicator",
     },
 ];
 

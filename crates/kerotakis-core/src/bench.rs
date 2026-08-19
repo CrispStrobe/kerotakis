@@ -485,6 +485,10 @@ impl Bench {
                         value: v.mass().0,
                         unit: "g".to_string(),
                     }),
+                    Instrument::Eyes => events.push(Event::Observed {
+                        vessel: *vessel,
+                        appearance: crate::appearance::observe(v),
+                    }),
                     Instrument::PhMeter => match &v.solution {
                         Some(info) => events.push(Event::Measured {
                             vessel: *vessel,

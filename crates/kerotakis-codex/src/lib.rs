@@ -31,10 +31,52 @@ pub struct Entry {
     /// Concepts a learner needs first.
     #[serde(default)]
     pub requires: Vec<String>,
+    /// Where this sits in a curriculum. Several may apply: the same
+    /// reaction is met at different depths in different systems, and the
+    /// same system meets it more than once.
+    #[serde(default)]
+    pub curriculum: Vec<Placement>,
+    /// Apparatus the experiment needs, by registry-independent name
+    /// ("beaker", "burette", "crucible", "bunsen"). Drives what a UI puts
+    /// on the bench and what a real teacher would have to fetch.
+    #[serde(default)]
+    pub apparatus: Vec<String>,
+    /// Calculations a learner is expected to perform here
+    /// ("moles-from-mass", "concentration", "titration-stoichiometry",
+    /// "percentage-yield", "enthalpy-change").
+    #[serde(default)]
+    pub calculations: Vec<String>,
+    /// Models a learner is expected to reason with ("particle-model",
+    /// "ionic-bonding", "collision-theory", "equilibrium", "orbital").
+    /// The same reaction is explained by different models at different
+    /// levels, which is what makes a level more than a change of wording.
+    #[serde(default)]
+    pub models: Vec<String>,
     pub setup: Setup,
     pub expect: Expect,
     pub registers: Registers,
     pub provenance: Provenance,
+}
+
+/// One curriculum's placement of an entry.
+///
+/// Kept deliberately loose: a `system` string, a `stage` as that system
+/// writes it, and an approximate age band so entries can be compared
+/// across systems that number their years differently. The citation is
+/// required — a placement claim is a claim about someone's document.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Placement {
+    /// e.g. "england-national-curriculum", "australian-curriculum-v9",
+    /// "bayern-lehrplanplus", "openstax-chemistry-2e".
+    pub system: String,
+    /// The stage as that system names it: "KS3", "Year 10", "Jgst. 9",
+    /// "Chapter 4.2".
+    pub stage: String,
+    /// Approximate age band, for cross-system comparison.
+    #[serde(default)]
+    pub ages: Option<Range>,
+    /// Where the placement was read from, and under what licence.
+    pub source: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -177,6 +219,14 @@ impl Codex {
             if r.concepts.is_empty() {
                 problems.push(format!("{}: teaches no named concept", r.id));
             }
+            for p in &r.curriculum {
+                if p.source.trim().is_empty() {
+                    problems.push(format!(
+                        "{}: placement in '{}' cites no source — a placement is a claim about someone's document",
+                        r.id, p.system
+                    ));
+                }
+            }
             for need in &r.requires {
                 if !taught.contains(&need.as_str()) {
                     problems.push(format!(
@@ -189,6 +239,46 @@ impl Codex {
         problems
     }
 
+    /// Entries placed in a curriculum system, ordered by stage as that
+    /// system writes it.
+    pub fn by_system(&self, system: &str) -> Vec<(&str, &Entry)> {
+        let mut out: Vec<(&str, &Entry)> = self
+            .reactions
+            .iter()
+            .filter_map(|r| {
+                r.curriculum
+                    .iter()
+                    .find(|p| p.system == system)
+                    .map(|p| (p.stage.as_str(), r))
+            })
+            .collect();
+        out.sort_by_key(|(stage, _)| stage.to_string());
+        out
+    }
+
+    /// Coverage: what the codex teaches, grouped so gaps are visible.
+    pub fn coverage(&self) -> Coverage {
+        let mut c = Coverage::default();
+        for r in &self.reactions {
+            for x in &r.concepts {
+                push_unique(&mut c.concepts, x);
+            }
+            for x in &r.apparatus {
+                push_unique(&mut c.apparatus, x);
+            }
+            for x in &r.calculations {
+                push_unique(&mut c.calculations, x);
+            }
+            for x in &r.models {
+                push_unique(&mut c.models, x);
+            }
+            for p in &r.curriculum {
+                push_unique(&mut c.systems, &p.system);
+            }
+        }
+        c
+    }
+
     /// Every concept the codex teaches, with the entries that teach it.
     pub fn concept_index(&self) -> Vec<(String, Vec<String>)> {
         let mut index: std::collections::BTreeMap<String, Vec<String>> = Default::default();
@@ -198,6 +288,22 @@ impl Codex {
             }
         }
         index.into_iter().collect()
+    }
+}
+
+/// What the codex covers, for seeing what it does not.
+#[derive(Debug, Default, Serialize, Deserialize)]
+pub struct Coverage {
+    pub concepts: Vec<String>,
+    pub apparatus: Vec<String>,
+    pub calculations: Vec<String>,
+    pub models: Vec<String>,
+    pub systems: Vec<String>,
+}
+
+fn push_unique(v: &mut Vec<String>, item: &str) {
+    if !v.iter().any(|e| e == item) {
+        v.push(item.to_string());
     }
 }
 
@@ -227,6 +333,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Filtered { .. } => ("filtered", None),
         E::Transferred { .. } => ("transferred", None),
         E::Measured { .. } => ("measured", None),
+        E::Observed { .. } => ("observed", None),
         E::VesselCreated { .. } => ("vessel_created", None),
         E::NotYetModeled { .. } => ("not_yet_modelled", None),
         E::SolverFailed { .. } => ("solver_failed", None),

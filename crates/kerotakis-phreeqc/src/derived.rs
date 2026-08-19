@@ -62,6 +62,7 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
         ("NO3", "N(5)"),
         ("SO4", "S(6)"),
         ("PO4", "P"),
+        ("MnO4", "Mn(7)"),
     ]
 }
 
@@ -70,14 +71,19 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
 /// else left over (N, S, C, P outside a group; unbalanced O) means the
 /// compound's aqueous chemistry is not derivable — honestly unmappable.
 const RESIDUE_OK: &[&str] = &[
-    "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cl", "Br", "F",
+    "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cl", "Br", "F", "Cu", "Mn", "Fe", "Zn",
 ];
 
 /// How dissolved element totals are booked back into the vessel inventory:
 /// the database's master species, unless overridden by the documented
 /// protonation-state choice.
-const BOOKING_OVERRIDES: &[(&str, &str)] =
-    &[("C", "HCO3-"), ("P", "H2PO4-"), ("Acetate", "CH3COO-")];
+const BOOKING_OVERRIDES: &[(&str, &str)] = &[
+    ("C", "HCO3-"),
+    ("P", "H2PO4-"),
+    ("Acetate", "CH3COO-"),
+    ("Mn(7)", "MnO4-"),
+    ("Cu", "Cu+2"),
+];
 
 pub struct Derived {
     pub wateq4f: DbIndex,

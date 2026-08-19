@@ -14,6 +14,7 @@
 /// is a lie of scale.
 pub const OBSERVABLE_MOLES: f64 = 1e-6;
 
+pub mod appearance;
 pub mod bench;
 pub mod curated;
 pub mod ops;
@@ -24,6 +25,7 @@ pub mod species;
 pub mod units;
 pub mod vessel;
 
+pub use appearance::{observe, Appearance};
 pub use bench::{Bench, BenchError};
 pub use curated::CuratedEquilibrator;
 pub use ops::{Event, Instrument, LogEntry, Operator};

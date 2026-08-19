@@ -236,6 +236,20 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 format!("{vessel}: pH {ph:.3} · I = {ionic_strength:.4} mol/kgw")
             }
         },
+        Event::Observed { vessel, appearance } => match register.level() {
+            1 => format!("You look closely at {vessel}. {}", appearance.words),
+            2 => format!("{vessel}: {}", appearance.words),
+            _ => {
+                let colour = appearance
+                    .liquid
+                    .map(|c| format!("#{:02X}{:02X}{:02X}", c.r, c.g, c.b))
+                    .unwrap_or_else(|| "—".to_string());
+                format!(
+                    "{vessel}: {} (liquid {colour}, turbidity {:.2})",
+                    appearance.words, appearance.cloudiness
+                )
+            }
+        },
         Event::Measured {
             vessel,
             instrument,
@@ -246,6 +260,7 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 Instrument::Thermometer => "thermometer",
                 Instrument::Balance => "balance",
                 Instrument::PhMeter => "pH meter",
+                Instrument::Eyes => "eyes",
             };
             match register.level() {
                 1 => format!("The {device} on {vessel} reads {value:.0} {unit}."),
