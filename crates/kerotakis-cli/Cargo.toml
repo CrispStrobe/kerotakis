@@ -15,6 +15,7 @@ path = "src/main.rs"
 kerotakis-core = { path = "../kerotakis-core" }
 kerotakis-phreeqc = { path = "../kerotakis-phreeqc" }
 kerotakis-cea = { path = "../kerotakis-cea" }
+kerotakis-codex = { path = "../kerotakis-codex" }
 serde = { workspace = true }
 serde_json = { workspace = true }
 kerotakis-safety = { path = "../kerotakis-safety" }

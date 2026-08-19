@@ -1,0 +1,14 @@
+[package]
+name = "kerotakis-codex"
+description = "The Kerotakis codex — curated curriculum reactions, their concepts, and the check that they still compute"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+kerotakis-core = { path = "../kerotakis-core" }
+serde = { workspace = true }
+thiserror = { workspace = true }
+toml = "0.8"

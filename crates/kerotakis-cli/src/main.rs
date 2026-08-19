@@ -65,6 +65,23 @@ fn main() {
                 }
             }
         }
+        Some("codex") => {
+            let sub = args.get(1).map(String::as_str).unwrap_or("lint");
+            let dir = args
+                .iter()
+                .position(|a| a == "--dir")
+                .and_then(|i| args.get(i + 1))
+                .cloned()
+                .unwrap_or_else(|| "codex".to_string());
+            match sub {
+                "lint" => codex_lint(&dir),
+                "concepts" => codex_concepts(&dir),
+                other => {
+                    eprintln!("kero codex: unknown subcommand '{other}' (lint, concepts)");
+                    std::process::exit(2);
+                }
+            }
+        }
         Some("prewarm") => {
             // Build-time: replay lesson scripts through the real engine and
             // export every solver result, so guided content never waits for
@@ -137,6 +154,148 @@ fn main() {
         }
         None => repl(),
     }
+}
+
+/// Load every codex file in a directory.
+fn load_codex(dir: &str) -> kerotakis_codex::Codex {
+    let mut all = kerotakis_codex::Codex::default();
+    let entries = std::fs::read_dir(dir).unwrap_or_else(|e| {
+        eprintln!("kero codex: cannot read {dir}: {e}");
+        std::process::exit(1);
+    });
+    let mut files: Vec<std::path::PathBuf> = entries
+        .filter_map(|e| e.ok().map(|e| e.path()))
+        .filter(|p| p.extension().is_some_and(|x| x == "toml"))
+        .collect();
+    files.sort();
+    for file in files {
+        let text = std::fs::read_to_string(&file).unwrap_or_else(|e| {
+            eprintln!("kero codex: cannot read {}: {e}", file.display());
+            std::process::exit(1);
+        });
+        match kerotakis_codex::Codex::parse(&text) {
+            Ok(mut c) => all.reactions.append(&mut c.reactions),
+            Err(e) => {
+                eprintln!("kero codex: {}: {e}", file.display());
+                std::process::exit(1);
+            }
+        }
+    }
+    all
+}
+
+/// Validate the codex — structurally, and by replaying every entry through
+/// the real solvers. A claim the chemistry no longer supports is an error,
+/// which is the whole point of the format.
+fn codex_lint(dir: &str) -> ! {
+    let codex = load_codex(dir);
+    let mut problems = codex.structural_problems();
+
+    for entry in &codex.reactions {
+        let mut bench = Bench::new();
+        let mut stack = build_stack();
+        let mut observed: Vec<Event> = Vec::new();
+        let mut failed = false;
+        for line in entry.setup.script.lines() {
+            match kerotakis_core::script::parse_op(line) {
+                Ok(None) => {}
+                Ok(Some(op)) => {
+                    match bench.step_with(op, &mut stack, &kerotakis_safety::ReactiveGroupScreen) {
+                        Ok(mut events) => observed.append(&mut events),
+                        Err(e) => {
+                            problems.push(format!("{}: setup failed: {e}", entry.id));
+                            failed = true;
+                            break;
+                        }
+                    }
+                }
+                Err(e) => {
+                    problems.push(format!("{}: bad setup script: {e}", entry.id));
+                    failed = true;
+                    break;
+                }
+            }
+        }
+        if failed {
+            continue;
+        }
+        if observed
+            .iter()
+            .any(|e| matches!(e, Event::SolverFailed { .. }))
+        {
+            problems.push(format!(
+                "{}: a solver could not answer during the setup",
+                entry.id
+            ));
+        }
+        for claim in &entry.expect.events {
+            if !observed
+                .iter()
+                .any(|e| kerotakis_codex::event_matches(e, claim))
+            {
+                problems.push(format!(
+                    "{}: claims '{claim}', which the solvers did not produce",
+                    entry.id
+                ));
+            }
+        }
+        for claim in &entry.expect.absent {
+            if observed
+                .iter()
+                .any(|e| kerotakis_codex::event_matches(e, claim))
+            {
+                problems.push(format!(
+                    "{}: claims '{claim}' does NOT happen, but it did",
+                    entry.id
+                ));
+            }
+        }
+        let vessel = bench.vessel(VesselId(0)).expect("first vessel");
+        if let Some(range) = entry.expect.ph {
+            match vessel.solution.as_ref().map(|s| s.ph) {
+                Some(ph) if range.contains(ph) => {}
+                Some(ph) => problems.push(format!(
+                    "{}: claims pH {}–{}, computed {ph:.2}",
+                    entry.id, range.min, range.max
+                )),
+                None => problems.push(format!(
+                    "{}: claims a pH, but no solver characterised the solution",
+                    entry.id
+                )),
+            }
+        }
+        if let Some(range) = entry.expect.temperature_c {
+            let t = vessel.temperature.to_celsius();
+            if !range.contains(t) {
+                problems.push(format!(
+                    "{}: claims {}–{} °C, computed {t:.1} °C",
+                    entry.id, range.min, range.max
+                ));
+            }
+        }
+    }
+
+    if problems.is_empty() {
+        println!(
+            "codex ok: {} entries, {} concepts — every claim replayed through the solvers",
+            codex.reactions.len(),
+            codex.concept_index().len()
+        );
+        std::process::exit(0);
+    }
+    eprintln!("codex: {} problem(s)", problems.len());
+    for p in &problems {
+        eprintln!("  · {p}");
+    }
+    std::process::exit(1);
+}
+
+fn codex_concepts(dir: &str) -> ! {
+    let codex = load_codex(dir);
+    for (concept, entries) in codex.concept_index() {
+        println!("{concept:<28} {}", entries.join(", "));
+    }
+    std::process::exit(0);
 }
 
 fn usage() -> ! {

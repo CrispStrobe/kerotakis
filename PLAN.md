@@ -926,9 +926,22 @@ The single highest-information task. Everything else is downstream of it.
 
 ### P4 — Codex + curated reaction library + appearance
 
-- [ ] Codex schema: reaction entries, concept graph, register copy, flavour
-      layer, provenance; markup convention decided **now**
-- [ ] `kero codex lint` incl. observations-match-solver checks
+- [x] Codex schema and first slice: TOML (a chemistry editor must be able
+      to write it without a build step), 13 entries covering dissolving,
+      saturation, precipitation, strong/weak acids, buffers, the fizz,
+      hot/cold packs, limescale, calcination, combustion and the sodium
+      flame test — 27 concepts with prerequisite edges between them.
+      Every entry carries register copy at all three levels and its own
+      provenance (source, licence, and what computed the numbers).
+- [x] `kero codex lint` — **the check that makes the format worth having**:
+      each entry's setup is a `.lab` script, so lint replays it through the
+      real solvers and verifies the claimed observations, pH and
+      temperature actually occur. Claiming a strong acid is neutral fails
+      with "claims pH 6.8–7.2, computed 3.01". CI-enforced, so a curation
+      error cannot merge and a solver change that breaks a lesson is caught
+      at once. Also checks structure: duplicate ids, empty registers,
+      missing provenance, dangling prerequisites, and entries that claim
+      nothing checkable ("a story, not chemistry")
 - [ ] Indigo template application over homologues; RDKit as build-time
       cross-validator; our SMARTS incompatibility rules
 - [ ] Colour data: species/precipitate/flame colours, indicator ε(λ) sets;

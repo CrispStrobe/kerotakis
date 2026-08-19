@@ -27,6 +27,8 @@ jobs:
         run: cargo clippy --workspace --all-targets -- -D warnings
       - name: Test
         run: cargo test --workspace
+      - name: Codex — every claim must still compute
+        run: cargo run -p kerotakis-cli -- codex lint
 
   wasm-core:
     name: Core compiles to wasm32
