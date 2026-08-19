@@ -884,6 +884,23 @@ The single highest-information task. Everything else is downstream of it.
       otherwise oxidise every metal on the bench and only kinetics explains
       why the world is not like that. That gap is L5's, and it is stated
       rather than hidden.
+- [x] `ignite` operator: a spark that brings the vessel to flame
+      temperature and lets the solvers decide. Magnesium burns with a
+      blinding white light, is consumed into brilliant-white oxide,
+      reaches ~3040 K, and **gains mass** (1 g → 2 g) — the result that
+      surprises every student, because the oxygen came from the air.
+      A spark held to salt leaves *no trace*: the vessel goes back to
+      where it was, and instead of burning it gives the **flame test**
+      (sodium's bright yellow) — chemically right and better pedagogy
+      than either burning it or saying nothing happened.
+- [x] **Observation has a detection limit.** Bookkeeping stays exact, but
+      user-visible events need `OBSERVABLE_MOLES` (1e-6): equilibrium put
+      1.7 nanomoles of chlorine over the salt and the lab announced a
+      poisonous gas cloud. Instruments have detection limits and so does
+      this one; reporting a nanomole as a cloud is a lie of scale.
+- [x] Adiabatic vessels solve **enthalpy-conserving**, not ΔH ÷ Cp: a gram
+      of burning magnesium heats the air around it, not just the speck of
+      oxide it leaves behind (the naive version hit the 6000 K clamp)
 - [ ] Validate a wider set against build-time Cantera oracle runs
 
 ### P3 — Phase behaviour

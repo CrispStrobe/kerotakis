@@ -27,8 +27,11 @@ struct Session {
 /// Physics + aqueous chemistry + honesty. If the PHREEQC engine cannot be
 /// initialised the session still works, honestly degraded.
 fn build_stack() -> SolverStack {
-    let mut solvers: Vec<Box<dyn Equilibrator>> =
-        vec![Box::new(MixingEquilibrator), Box::new(CuratedEquilibrator)];
+    let mut solvers: Vec<Box<dyn Equilibrator>> = vec![
+        Box::new(MixingEquilibrator),
+        Box::new(CuratedEquilibrator),
+        Box::new(kerotakis_cea::ThermalEquilibrator),
+    ];
     match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
         Ok(aqueous) => solvers.push(Box::new(aqueous)),
         Err(e) => eprintln!("kero: aqueous engine unavailable ({e}); running without it"),
@@ -149,6 +152,7 @@ fn usage() -> ! {
          \x20 heat <vessel> <energy><J|kJ>\n\
          \x20 cool <vessel> <energy><J|kJ>\n\
          \x20 stir <vessel>\n\
+         \x20 ignite <vessel>            hold a flame to it\n\
          \x20 decant <from> <to> <fraction>\n\
          \x20 filter <from> <to>         solids stay, liquid passes\n\
          \x20 evaporate <vessel> <fraction>\n\
@@ -436,6 +440,9 @@ fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 Operator::Cool { vessel, energy }
             }
         }
+        "ignite" => Operator::Ignite {
+            vessel: parse_vessel(words.get(1).ok_or("usage: ignite <vessel>")?)?,
+        },
         "stir" => Operator::Stir {
             vessel: parse_vessel(words.get(1).ok_or("usage: stir <vessel>")?)?,
         },

@@ -41,6 +41,10 @@ pub enum Operator {
     /// Pour everything through filter paper: liquid and dissolved matter
     /// pass into `to` (the filtrate), solids stay behind in `from`.
     Filter { from: VesselId, to: VesselId },
+    /// Apply an ignition source — a match, a spark. If nothing in the
+    /// vessel catches, the spark's heat dissipates and the vessel is left
+    /// as it was.
+    Ignite { vessel: VesselId },
     /// Boil/let evaporate a fraction (0..=1) of the water. Volatile
     /// non-water liquids need L3 (relative volatility) and are honestly
     /// flagged.
@@ -147,6 +151,23 @@ pub enum Event {
     ReactionOccurred {
         vessel: VesselId,
         equation: String,
+    },
+    /// Something caught fire, with the light it gives off.
+    Ignited {
+        vessel: VesselId,
+        /// The flame's colour, where the burning substance has a
+        /// characteristic one.
+        flame: Option<String>,
+    },
+    /// An ignition source was applied and nothing caught.
+    DidNotIgnite {
+        vessel: VesselId,
+    },
+    /// It would not burn, but it coloured the flame — the flame test.
+    FlameTest {
+        vessel: VesselId,
+        species: SpeciesId,
+        colour: String,
     },
     /// A thermal (gas/condensed) equilibrium was computed for this vessel.
     ThermalEquilibrium {

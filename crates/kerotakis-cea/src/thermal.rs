@@ -224,15 +224,8 @@ impl Equilibrator for ThermalEquilibrator {
         let pool = pool_for(&elements);
         let t = vessel.temperature.0.clamp(200.0, 6000.0);
 
-        let eq = equilibrate_tp(&charge.budget, &pool, t, 1.0).map_err(|e| {
-            SolveError::NotConverged {
-                solver: "cea-thermal".to_string(),
-                detail: e.to_string(),
-            }
-        })?;
-
-        // Enthalpy before and after, at the same temperature: the reaction
-        // heat that the energy balance must absorb.
+        // Enthalpy the vessel and its share of the atmosphere carry into
+        // the problem.
         let h_before: f64 = charge
             .mapped
             .iter()
@@ -242,8 +235,23 @@ impl Equilibrator for ThermalEquilibrator {
             })
             .sum::<f64>()
             + air_enthalpy(&charge, t);
-        let h_after = eq.enthalpy;
-        let released = h_before - h_after; // > 0 means heat given out
+
+        // An adiabatic vessel conserves enthalpy, so the products *and*
+        // the temperature come out of one solve. Dividing a reaction's ΔH
+        // by the vessel's own heat capacity would be wrong by orders of
+        // magnitude here: a gram of burning magnesium heats the air around
+        // it, not just the speck of oxide it leaves behind.
+        let adiabatic = matches!(vessel.thermal_mode, ThermalMode::Adiabatic);
+        let eq = if adiabatic {
+            crate::gibbs::equilibrate_hp(&charge.budget, &pool, h_before, 1.0)
+        } else {
+            equilibrate_tp(&charge.budget, &pool, t, 1.0)
+        }
+        .map_err(|e| SolveError::NotConverged {
+            solver: "cea-thermal".to_string(),
+            detail: e.to_string(),
+        })?;
+        let t_final = eq.temperature;
 
         // Map the result back: condensed species become vessel contents,
         // product gases leave, atmospheric gases return to the reservoir.
@@ -279,7 +287,7 @@ impl Equilibrator for ThermalEquilibrator {
                 } else {
                     *moles
                 };
-                if produced > 1e-9 {
+                if produced >= kerotakis_core::OBSERVABLE_MOLES {
                     events.push(Event::GasEvolved {
                         vessel: vessel.id,
                         species: SpeciesId::new(reg.key),
@@ -299,7 +307,7 @@ impl Equilibrator for ThermalEquilibrator {
         for portion in &contents {
             let before = vessel.moles_of(&portion.species).0;
             let delta = portion.moles.0 - before;
-            if delta > 1e-9 {
+            if delta >= kerotakis_core::OBSERVABLE_MOLES {
                 events.push(Event::Precipitated {
                     vessel: vessel.id,
                     species: portion.species.clone(),
@@ -313,7 +321,7 @@ impl Equilibrator for ThermalEquilibrator {
                 .filter(|c| c.species == p.species)
                 .map(|c| c.moles.0)
                 .sum();
-            if p.phase == Phase::Solid && p.moles.0 - after > 1e-9 {
+            if p.phase == Phase::Solid && p.moles.0 - after >= kerotakis_core::OBSERVABLE_MOLES {
                 events.push(Event::Consumed {
                     vessel: vessel.id,
                     species: p.species.clone(),
@@ -325,19 +333,15 @@ impl Equilibrator for ThermalEquilibrator {
         let changed = !events.is_empty();
         vessel.contents = contents;
 
-        // Reaction heat into the energy balance.
-        if changed && matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-            let cp = vessel.heat_capacity();
-            if cp > 0.0 && released.abs() > 1.0 {
-                let from = vessel.temperature;
-                let to = Kelvin((from.0 + released / cp).clamp(1.0, 6000.0));
-                vessel.temperature = to;
-                events.push(Event::TemperatureChanged {
-                    vessel: vessel.id,
-                    from,
-                    to,
-                });
-            }
+        // The temperature the adiabatic solve found.
+        if changed && adiabatic && (t_final - vessel.temperature.0).abs() > 1.0 {
+            let from = vessel.temperature;
+            vessel.temperature = Kelvin(t_final);
+            events.push(Event::TemperatureChanged {
+                vessel: vessel.id,
+                from,
+                to: Kelvin(t_final),
+            });
         }
 
         if changed {

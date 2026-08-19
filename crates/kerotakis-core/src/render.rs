@@ -127,6 +127,43 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 Register::Expert => format!("{vessel}: −{:.6} mol {name}", moles.0),
             }
         }
+        Event::Ignited { vessel, flame } => match register {
+            Register::Child => match flame {
+                Some(colour) => {
+                    format!("It catches fire in {vessel} — burning with {colour} light!")
+                }
+                None => format!("It catches fire in {vessel}!"),
+            },
+            Register::Student => match flame {
+                Some(colour) => format!("{vessel}: ignited — {colour} flame"),
+                None => format!("{vessel}: ignited"),
+            },
+            Register::Expert => format!("{vessel}: ignition source applied"),
+        },
+        Event::FlameTest {
+            vessel,
+            species: sid,
+            colour,
+        } => {
+            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            match register {
+                Register::Child => format!(
+                    "It does not catch fire — but look: it turns the flame {colour}! Every metal has its own colour, which is how you can tell them apart."
+                ),
+                Register::Student => {
+                    format!("{vessel}: flame test — {name} colours the flame {colour}")
+                }
+                Register::Expert => format!(
+                    "{vessel}: no combustion; characteristic emission of {name} ({colour})"
+                ),
+            }
+        }
+        Event::DidNotIgnite { vessel } => match register {
+            Register::Child => {
+                format!("You hold the flame to {vessel} — and nothing happens. Not everything burns.")
+            }
+            _ => format!("{vessel}: nothing ignited"),
+        },
         Event::ThermalEquilibrium {
             vessel,
             temperature,

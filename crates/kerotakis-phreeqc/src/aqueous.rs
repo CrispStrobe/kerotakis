@@ -483,14 +483,15 @@ impl Equilibrator for PhreeqcEquilibrator {
                         phase: Phase::Solid,
                     });
                 }
+                // Bookkeeping keeps every trace; observation does not.
                 let delta = moles - before;
-                if delta > TRACE {
+                if delta >= kerotakis_core::OBSERVABLE_MOLES {
                     events.push(Event::Precipitated {
                         vessel: vessel.id,
                         species: SpeciesId::new(species),
                         moles: Moles(delta),
                     });
-                } else if delta < -TRACE {
+                } else if delta <= -kerotakis_core::OBSERVABLE_MOLES {
                     events.push(Event::Dissolved {
                         vessel: vessel.id,
                         species: SpeciesId::new(species),
@@ -513,7 +514,7 @@ impl Equilibrator for PhreeqcEquilibrator {
                 // Escaped the open vessel: reported, not booked — the
                 // balance notices the loss. The water co-product of the
                 // gas-forming reaction stays behind.
-                if *moles > TRACE {
+                if *moles >= kerotakis_core::OBSERVABLE_MOLES {
                     events.push(Event::GasEvolved {
                         vessel: vessel.id,
                         species: SpeciesId::new(gas),

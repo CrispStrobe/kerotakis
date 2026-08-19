@@ -8,6 +8,12 @@
 //!
 //! See PLAN.md at the repository root for the architecture this implements.
 
+/// The smallest amount worth telling a user about: bookkeeping stays
+/// exact, but observation has a detection limit, exactly as instruments
+/// do. A nanomole of chlorine is not a gas cloud, and reporting it as one
+/// is a lie of scale.
+pub const OBSERVABLE_MOLES: f64 = 1e-6;
+
 pub mod bench;
 pub mod curated;
 pub mod ops;

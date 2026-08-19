@@ -12,6 +12,9 @@ use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Moles};
 use crate::vessel::{ThermalMode, Vessel, VesselId};
 
+/// The temperature a match or spark brings its immediate surroundings to.
+pub const IGNITION_K: f64 = 1200.0;
+
 #[derive(Debug, thiserror::Error)]
 pub enum BenchError {
     #[error("no vessel {0}")]
@@ -80,6 +83,10 @@ impl Bench {
         solver: &mut dyn Equilibrator,
         screen: &dyn SafetyScreen,
     ) -> Result<Vec<Event>, BenchError> {
+        let temperature_before = match &op {
+            Operator::Ignite { vessel } => self.vessel(*vessel)?.temperature,
+            _ => Kelvin::STANDARD,
+        };
         let mut events = self.apply(&op, screen)?;
 
         // Re-equilibrate every vessel the operator touched (v0: mutating ops
@@ -99,6 +106,48 @@ impl Bench {
                     solver: solver.name().to_string(),
                     detail: e.to_string(),
                 }),
+            }
+        }
+
+        // A spark held to something that will not burn leaves nothing
+        // behind: put the vessel back as it was, and say so.
+        if let Operator::Ignite { vessel } = &op {
+            let caught = events.iter().any(|e| match e {
+                Event::Consumed { moles, .. }
+                | Event::GasEvolved { moles, .. }
+                | Event::Precipitated { moles, .. } => moles.0 >= crate::OBSERVABLE_MOLES,
+                Event::ReactionOccurred { .. } => true,
+                _ => false,
+            });
+            if !caught {
+                if let Ok(v) = self.vessel_mut(*vessel) {
+                    v.temperature = temperature_before;
+                }
+                events.retain(|e| {
+                    !matches!(
+                        e,
+                        Event::Ignited { .. }
+                            | Event::TemperatureChanged { .. }
+                            | Event::ThermalEquilibrium { .. }
+                    )
+                });
+                // It would not burn — but a metal salt still colours the
+                // flame, which is the flame test and worth seeing.
+                let painted = self.vessel(*vessel).ok().and_then(|v| {
+                    v.contents.iter().find_map(|p| {
+                        species::lookup(&p.species)
+                            .and_then(|d| d.flame_colour)
+                            .map(|c| (p.species.clone(), c.to_string()))
+                    })
+                });
+                match painted {
+                    Some((species, colour)) => events.push(Event::FlameTest {
+                        vessel: *vessel,
+                        species,
+                        colour,
+                    }),
+                    None => events.push(Event::DidNotIgnite { vessel: *vessel }),
+                }
             }
         }
 
@@ -360,6 +409,30 @@ impl Bench {
                     to: *to,
                 });
             }
+            Operator::Ignite { vessel } => {
+                let v = self.vessel_mut(*vessel)?;
+                if v.is_empty() {
+                    events.push(Event::DidNotIgnite { vessel: *vessel });
+                } else {
+                    // A match brings a small volume to flame temperature.
+                    // Whether anything catches is for the solvers to say;
+                    // if nothing does, `step_with` puts the spark back out.
+                    let from = v.temperature;
+                    if from.0 < IGNITION_K {
+                        v.temperature = Kelvin(IGNITION_K);
+                    }
+                    let flame = v
+                        .contents
+                        .iter()
+                        .filter_map(|p| species::lookup(&p.species))
+                        .find_map(|d| d.flame_colour)
+                        .map(str::to_string);
+                    events.push(Event::Ignited {
+                        vessel: *vessel,
+                        flame,
+                    });
+                }
+            }
             Operator::Evaporate { vessel, fraction } => {
                 if !(0.0..=1.0).contains(fraction) {
                     return Err(BenchError::BadFraction);
@@ -450,7 +523,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::Heat { vessel, .. }
         | Operator::Cool { vessel, .. }
         | Operator::Stir { vessel } => vec![*vessel],
-        Operator::Evaporate { vessel, .. } => vec![*vessel],
+        Operator::Evaporate { vessel, .. } | Operator::Ignite { vessel } => vec![*vessel],
         Operator::Decant { from, to, .. } | Operator::Filter { from, to } => vec![*from, *to],
         Operator::Measure { .. } => vec![],
     }

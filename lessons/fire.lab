@@ -1,0 +1,11 @@
+# Fire: what burns, what does not, and what it leaves behind
+register 9
+add v1 Mg 1.2g
+measure v1 balance
+ignite v1
+measure v1 balance
+measure v1 thermometer
+inspect v1
+new
+add v2 NaCl 5g
+ignite v2

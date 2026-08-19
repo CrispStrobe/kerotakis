@@ -182,3 +182,80 @@ fn a_solution_is_left_to_the_aqueous_engine() {
         "no aqueous engine in this stack, so the gap is stated: {events:?}"
     );
 }
+
+#[test]
+fn a_spark_held_to_something_that_will_not_burn_leaves_no_trace() {
+    // Salt does not burn. It must not be left hot, and a nanomole of
+    // equilibrium chlorine must not be announced as a gas cloud —
+    // bookkeeping is exact, observation has a detection limit.
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "NaCl", 0.085);
+    let before = bench.vessel(v).unwrap().temperature.0;
+
+    let events = bench
+        .step_with(
+            Operator::Ignite { vessel: v },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("step");
+
+    assert!(
+        !events.iter().any(|e| matches!(e, Event::GasEvolved { .. })),
+        "a trace is not an observation: {events:?}"
+    );
+    assert!(
+        (bench.vessel(v).unwrap().temperature.0 - before).abs() < 1.0,
+        "the spark dissipated"
+    );
+    assert!(
+        (bench.vessel(v).unwrap().moles_of(&SpeciesId::new("NaCl")).0 - 0.085).abs() < 1e-6,
+        "and the salt is untouched"
+    );
+    // But it does colour the flame — the flame test.
+    assert!(
+        events
+            .iter()
+            .any(|e| matches!(e, Event::FlameTest { colour, .. } if colour.contains("yellow"))),
+        "sodium paints the flame yellow: {events:?}"
+    );
+}
+
+#[test]
+fn igniting_magnesium_gains_mass_from_the_air() {
+    // The result that surprises every student: burning makes it heavier,
+    // because the oxygen it takes from the air is heavier than nothing.
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "Mg", 0.0494);
+    let before = bench.vessel(v).unwrap().mass().0;
+
+    let events = bench
+        .step_with(
+            Operator::Ignite { vessel: v },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("step");
+
+    assert!(
+        events
+            .iter()
+            .any(|e| matches!(e, Event::Ignited { flame: Some(f), .. } if f.contains("white"))),
+        "it burns with a blinding white light: {events:?}"
+    );
+    let after = bench.vessel(v).unwrap().mass().0;
+    assert!(
+        after > before * 1.5,
+        "burning magnesium gains mass: {before:.2} g → {after:.2} g"
+    );
+    // Magnesium's flame is genuinely around 3000 K.
+    let t = bench.vessel(v).unwrap().temperature.0;
+    assert!(
+        (2500.0..3600.0).contains(&t),
+        "flame temperature in the right range, got {t:.0} K"
+    );
+}
