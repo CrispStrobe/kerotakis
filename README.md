@@ -90,9 +90,14 @@ Chemistry lives at three levels — what you *see*, the *particles* underneath,
 and the *symbols* we write — and the research literature is clear that
 novices fail because instruction moves between them without saying so. Our
 engine computes the particle level for real (that AgCl(aq) complex above is
-an answer, not an illustration), so one vessel state renders consistently at
-all three. The levels are not a verbosity dial; they are the same truth told
-three ways.
+an answer, not an illustration), so one vessel state can render consistently
+at all three.
+
+Detail and representation are separate axes: `lv1|lv2|lv3` sets how much
+detail, and macroscopic/submicroscopic/symbolic sets *what kind of picture*.
+The submicroscopic renderer — dots drawn at solved ratios, not an artist's
+impression — is the piece still being built, and it is a v1.0 requirement
+rather than polish.
 
 From that follow the rest of the design commitments:
 
@@ -112,9 +117,17 @@ From that follow the rest of the design commitments:
   of national administration and differ by country; the dependency structure
   of the ideas does not. Curriculum placements stay on each entry so a
   learner who needs their syllabus topic can still find it.
-- **Honesty is a feature.** Solver failures are surfaced, unmodelled states
-  are named as such, and every answer can say which engine, which dataset and
-  which model produced it — see `explain` above.
+- **Honesty is a feature, and silence is not honesty.** Solver failures are
+  surfaced, unmodelled states are named as such, and every answer says which
+  engine, dataset and model produced it. The rule we had to learn: wherever
+  the engine declines to model something it must *say so*, because a silent
+  filter reads as a fact. Holding a flame to ethanol once reported "nothing
+  ignited" — which was not an observation about ethanol but the absence of a
+  solver. It now says which it is.
+- **Guided, not a sandbox.** Minimally guided discovery is the
+  best-documented failure mode in science education, so the codex leads with
+  a paradigm case, a committed prediction and a model with a stated boundary;
+  the free REPL is the faded end of the scaffold, not the front door.
 
 ## Try it
 

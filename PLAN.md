@@ -402,14 +402,62 @@ relate.
 submicroscopic level for real: 3×10⁻⁷ mol/kgw of AgCl(aq) is not an
 illustration, it is the answer. So the same vessel state can be rendered
 at all three levels *simultaneously and consistently*, which is precisely
-the move the literature says learners cannot make unaided. Our levels
-therefore stop being a verbosity dial and become the triangle:
+the move the literature says learners cannot make unaided.
 
-| Level | Johnstone | What it shows |
-|---|---|---|
-| **lv1** | macroscopic | "It went cloudy. A white solid appeared." |
-| **lv2** | symbolic | `Ag⁺ + Cl⁻ → AgCl↓`, 0.0099 mol, Ksp |
-| **lv3** | submicroscopic | species distribution, activities, γ, the AgCl(aq) complex |
+**Two axes, not one — and we had this wrong.** An earlier version of this
+plan mapped lv1/lv2/lv3 onto macroscopic/symbolic/submicroscopic. That is
+an error, and worth recording as one: a speciation table with molalities
+and activity coefficients is not the submicroscopic level, it is *deeper
+symbolic*. It is still numbers and formulae. Under that mapping the
+triangle was never closed — we had macroscopic, symbolic, and more
+symbolic.
+
+Representation and detail are **orthogonal**:
+
+|              | **lv1** | **lv2** | **lv3** |
+|---|---|---|---|
+| **macroscopic** | "It went cloudy." | "A white precipitate, ~1.4 g." | mass, turbidity, computed sRGB from ε(λ) |
+| **submicroscopic** | a few dots, two kinds | dots at computed ratios, pairs touching | hydration shells, ion pairs, γ as crowding |
+| **symbolic** | `silver + salt → chalky stuff` | `Ag⁺ + Cl⁻ → AgCl↓`, Ksp | activities, log K, saturation indices |
+
+Every cell is a rendering of one solved state. The **submicroscopic row is
+the missing vertex**, and building it is not polish: the engine already
+computes the census (`Ag⁺ 9.56e-6 · AgCl(aq) 3.21e-7`), so drawing dots at
+solved ratios is honest in a way a textbook diagram is not — the picture
+is the answer, not an artist's impression of it. It can start humble: 2-D
+dots at representative ratios, no molecular dynamics. It belongs in the
+v1.0 UI spec.
+
+**Guided model-building, not discovery learning.** Pure discovery fails —
+Kirschner, Sweller & Clark (2006) is the decisive review: minimally
+guided instruction overloads working memory and novices flounder. This is
+a real constraint on a virtual lab, because "here is a bench, try things"
+is exactly the failure mode. What works is *structured* model-building:
+a paradigm experiment, a model built from it, deployment on new cases,
+a case that breaks it, revision — with the guidance heavy early and faded
+as competence grows. Modeling Instruction (Hestenes) and POGIL are the
+best-evidenced structures. The codex's `requires` graph and its
+predict-then-run cycle are that shape; the free-form REPL is the *faded*
+end of the scaffold, not the entry point.
+
+**Simulation is the right medium for this specific job.** The PhET
+programme's finding is that for *concept* building, good simulations often
+beat real labs, because they make the invisible visible and strip the
+extraneous load of glassware logistics. The real lab keeps what software
+cannot honestly supply: measurement skill and the epistemic messiness of
+real data. We should say that plainly rather than pretend to replace the
+bench.
+
+**Organise around a few load-bearing models, not many topics.** The
+candidate spine: the particle model of matter; the mole as the bridge
+between mass and count; energy in bonds and reactions; structure-property
+relationships; the electron-shell/orbital family; and the acid-base and
+redox model families. Everything else is an application of one of these.
+Acid-base is the ideal nature-of-science vehicle because school chemistry
+already contains three models of expanding scope (Arrhenius → Brønsted →
+Lewis) — taught *as* successive models with explicit domains rather than
+as three facts, it is philosophy of science for free. `codex/models.toml`
+already carries that chain.
 
 **Models are content, not background.** The codex carries `[[model]]`
 entries beside its reactions, and the load-bearing field is `fails_at`.
@@ -418,6 +466,17 @@ false, and is why the next model feels like an arbitrary replacement
 rather than an answer to a problem the learner can already feel. The
 particle model cannot say *why* sodium and chlorine react; knowing that is
 what makes the electron model worth having.
+
+**Nature of science has to be named out loud.** Lederman and
+Abd-El-Khalick's finding is uncomfortable and load-bearing for us: simply
+*doing* labs teaches essentially nothing about how science works. Students
+learn what a model is, why models have domains, and how evidence
+adjudicates between them only when it is taught **explicitly and
+reflectively**. So the app must say the quiet part: "we are now comparing
+two models of acids; each explains some things and fails on others." An
+engine that silently routes between three thermodynamic databases teaches
+nothing about models. One that *says* it is routing, and shows the three
+answers disagreeing, teaches the central idea of the discipline.
 
 **And we can show a model failing, live.** `kero explain` already asks
 every dataset the same question and prints the disagreement: three
@@ -437,6 +496,24 @@ a quantitative prediction can be checked, which makes calculation
 load-bearing instead of ritual. Working out moles matters when the number
 you derive is the number the beaker will show.
 
+Two commitments follow. First, **distractors carry their own diagnosis**:
+each wrong option names the misconception it reveals and what to do about
+it, rather than the entry carrying one blanket note. Misconception
+*prevalence findings* are research facts rather than copyrightable
+expression, so we cite them and write our own options — AAAS Project 2061's
+item bank, Taber's *Chemical Misconceptions* (RSC), Barke's *Misconceptions
+in Chemistry* for the German line, Driver's *Making Sense of Secondary
+Science* as the compendium, and Treagust's two-tier format. Where no
+citation exists the entry says `Editorial judgement (Kerotakis)`. This is
+also the *better* path, because a distractor has to match what our engine
+actually computes, not what a textbook rounds to.
+
+Second, **retrieval practice, spacing and interleaving are applied to
+model-use, not trivia**. "Given these two elements, predict the bond type
+and justify" is worth spacing; "what is the atomic number of vanadium" is
+not. The unit of review is a prediction, which is what the `predict` block
+already is.
+
 **The order is the dependency structure, not the school year.** School
 years are an artefact of national administration and differ by country;
 the order in which the ideas depend on each other is not. `teaching_order`
@@ -444,11 +521,77 @@ is a topological sort over `requires`. Curriculum placements stay on each
 entry so a learner who needs to find their syllabus topic still can — the
 app follows the subject, and meets the school where it is.
 
+**Antecedents we are consciously working in.** Martin Wagenschein's
+*exemplarisches Lernen* (1956) — teach few phenomena genetically and
+deeply rather than covering everything thinly — is this manifesto seventy
+years early, and it is the German tradition the project is written from.
+*Chemie im Kontext* (ChiK, IPN Kiel) is the modern programme that anchors
+concepts in contexts and has real evaluation behind it. Neither is a
+licence question; both are prior art we should be honest about rather than
+present the approach as novel.
+
 **Where we deviate from convention, we do it knowingly and say so.** The
 deviation is not novelty for its own sake: it is subordinating facts to
 models, making boundaries explicit, and asking for a prediction first.
 Facts are not fewer — they are *organised*, which is the condition under
 which they are retained at all.
+
+### Declining to model something must be loud
+
+Three bugs found on 2026-08-19 were the same bug wearing different clothes,
+and the pattern is worth naming so it stops recurring.
+
+- `ignite` on ethanol reported **"nothing ignited"**. Ethanol has no
+  condensed form in the NASA data, so the thermal solver never engaged —
+  the bench was reporting the absence of a model as an observation about
+  the world.
+- Copper sulfate plus lye reported **pH 9.88 holding 0.01 mol/L of Cu²⁺**.
+  That solution cannot exist: it is grossly supersaturated against two
+  solids (`Cu(OH)2`, `Tenorite`) that are *already in the databases we
+  ship* but absent from our registry, so the phase could never be admitted.
+- Cooling a beaker past 0 °C reported **liquid water at −7.95 °C, with a
+  pH**, because nothing re-evaluates state.
+
+In every case a *filter* — the honesty boundary that says only species we
+can name may appear — behaved as a *fact*. The boundary itself is right and
+should stay: a solver that reaches for an exotic carbide we cannot name
+must either drop it (losing mass) or show a formula with no story attached.
+The defect is that the filter was **silent**.
+
+**The rule: every place the engine declines to model something, it says
+so.** A state we cannot characterise is reported as uncharacterised, never
+returned as the state. Concretely this means the honesty pass must read
+back **saturation indices** rather than only compositions, so "the solution
+you are looking at is supersaturated against a phase this lab cannot name"
+becomes a sentence the user sees. That single change closes the general
+class rather than the copper instance, and it surfaces SI — which the model
+audit independently flagged as computed-but-never-displayed.
+
+### Thermodynamic product versus kinetic product
+
+Copper turns out to be a *better* problem than a missing phase, and it earns
+a place in the plan rather than a patch.
+
+```text
+Cu(OH)2  + 2H⁺ = Cu²⁺ + 2H₂O    log_k 8.674
+Tenorite + 2H⁺ = Cu²⁺ +  H₂O    log_k 7.644   (CuO)
+```
+
+Tenorite is more stable by ~1.03 log units, so **equilibrium says black
+CuO while the beaker shows pale blue Cu(OH)₂ gel**. That is Ostwald's rule
+of stages: the metastable phase nucleates first because it is kinetically
+accessible, and heating converts blue to black — which is the classic
+school demonstration.
+
+So a Gibbs-minimising engine is *structurally* unable to reproduce one of
+the most-performed reactions in school chemistry, and the reason why is
+itself first-rate content. The design consequence: phases may be marked
+**metastable under stated conditions**, as *data with provenance*, not as
+special cases in code — the same shape as the thermal solver's 500 K
+stand-down, which is the same admission (equilibrium is not the whole
+story) made once already. Done properly, "heat the blue precipitate and it
+turns black" becomes a **computed prediction**: raise the temperature,
+lift the suppression, tenorite wins.
 
 ### The codex
 
@@ -797,8 +940,20 @@ Eight phases and thirteen crates have no floor without an explicit line.
   v1.0 cannot ship without "it went cloudy" — but it needs no spectra
 - **one UI** over the same `--json` contract the CLI already snapshot-tests
 - all three registers — they are the product's identity, not a feature
+- **the particle view**, added 2026-08-19: a submicroscopic renderer driven
+  by computed speciation. Without it the product has macroscopic, symbolic
+  and deeper-symbolic views and Johnstone's triangle is not closed — which
+  is the one pedagogical claim the whole design rests on. It may be humble
+  (2-D dots at solved ratios) but it may not be absent
+- **the browser as a real bench, not a lesson player.** Schools reach this
+  on locked-down devices with no installs, and today the web build serves
+  aqueous chemistry from pre-warmed cache only — so "a lab: try things"
+  silently degrades to "replay what we prepared" in exactly the channel
+  that matters most. The Emscripten IPhreeqc module already builds and
+  passes the AgCl gate; what is missing is the JS bridge in
+  `kerotakis-wasm`. This is worth more than any solver work below it
 
-Explicitly **not** in v1.0: P2g (v1.1, with `ignite`), P3 (v1.1, with
+Explicitly **not** in v1.0: P2g (v1.1, with `ignite`), P3p (v1.1, with
 distillation), the QM/orbital layer, Hückel, lessons beyond the codex slice,
 and everything ML. Each later phase extends the same bench; nothing in v1.0 is
 scaffolding to be thrown away.
@@ -990,7 +1145,58 @@ The single highest-information task. Everything else is downstream of it.
       oxide it leaves behind (the naive version hit the 6000 K clamp)
 - [ ] Validate a wider set against build-time Cantera oracle runs
 
-### P3 — Phase behaviour
+### P3 — Reordered by curriculum weight, 2026-08-19
+
+The original P3 was VLE/UNIFAC. That is now **demoted below P3e and P3k**,
+on a straightforward value-per-effort argument: distillation and azeotropes
+are a sliver of school chemistry, while redox and rates are enormous
+blocks, and both are *already most of the way there* underneath. Phase
+behaviour returns when the school-facing layers are covered.
+
+#### P3s — States, freezing and boiling  ← **first, it is a correctness bug**
+
+- [ ] The bench happily reports **liquid water at −7.95 °C with a pH**. It
+      has no model of state at all: `Phase` is assigned when matter is
+      added and never reconsidered, so cooling a beaker past its freezing
+      point changes nothing but the number on the thermometer.
+- [ ] Melting/boiling points per species from the registry; the solvent
+      state re-evaluated whenever temperature changes.
+- [ ] **Colligative properties fall straight out** and are core curriculum:
+      freezing-point depression and boiling-point elevation from the
+      computed ionic strength — salt on icy roads, why seawater freezes
+      below 0 °C. PHREEQC gives us the osmotic coefficient already.
+- [ ] Honest boundary: a frozen or boiling vessel is a state the aqueous
+      solver does not model, and must say so rather than keep answering.
+
+#### P3e — Redox and electrochemistry  ← the biggest missing curriculum block
+
+- [ ] **Surface pe/Eh, which PHREEQC already computes and we discard.** The
+      model audit found no pe, no Eh, no saturation index reaching the
+      user. Exposure first, new physics second.
+- [ ] Standard-potential ordering → the activity series, displacement
+      reactions, why zinc protects iron.
+- [ ] Nernst equation over computed activities — an equation whose inputs
+      the engine already has.
+- [ ] Faraday's law for electrolysis: charge → moles → mass at an
+      electrode.
+- [ ] Corrosion and batteries as the contexts.
+
+#### P3k — Rates, the cheap sliver
+
+- [ ] Rate law + Arrhenius parameters as **codex data**, integrated by a
+      bench clock. This buys the thiosulfate disappearing-cross, catalyst
+      and temperature effects, and concentration dependence — the whole
+      school treatment of kinetics — without a mechanism engine.
+- [ ] Same reasoning as the L6 decision: ~95% of the pedagogy at ~5% of the
+      cost, with P5's real mechanism chemistry still ahead of it.
+- [ ] Honest flag: a clock makes **time a state dimension**, which is a
+      state-machine change rather than a data addition, and the one part of
+      this that is not cheap.
+- [ ] It also fills a hole the codex already admits: the `collision-theory`
+      model entry currently `embodied_by` nothing, and the 500 K thermal
+      stand-down is a placeholder for exactly this.
+
+#### P3p — Phase behaviour (was P3)
 
 - [ ] `feos` integration (SAFT family + flash); `vle-thermo` for cubics +
       classical activity models; `seuif97` for water
@@ -1182,12 +1388,16 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
 - [ ] ORD decision (in or out) **before** the first record is ingested
 - [ ] Chemistry-editorial hire
 
-### P5 — Kinetics + electrolysis
+### P5 — Real mechanism kinetics
+
+School-level rates and electrochemistry moved forward to P3k/P3e; what is
+left here is the part that genuinely needs an engine.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
-- [ ] `kerotakis-electro`: Faraday's law + standard-potential ordering over
-      PHREEQC speciation
+- [ ] Multi-step mechanisms, rate-determining steps, steady-state
+      approximations — the university-level treatment that curated
+      Arrhenius parameters cannot reach
 
 ### P6 — Build-time QM enrichment
 
