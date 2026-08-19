@@ -40,6 +40,32 @@ jobs:
       - name: Check core on wasm
         run: cargo check -p kerotakis-core --target wasm32-unknown-unknown
 
+  wasm-lab:
+    name: The bench in WebAssembly
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install wasm-bindgen
+        run: cargo install wasm-bindgen-cli --version 0.2.127
+      - name: Build the wasm lab
+        run: |
+          cargo build -p kerotakis-wasm --target wasm32-unknown-unknown --release
+          wasm-bindgen --target nodejs --out-dir "$RUNNER_TEMP/kero-wasm" \
+            target/wasm32-unknown-unknown/release/kerotakis_wasm.wasm
+      - name: Pre-warm the lessons
+        run: cargo run -p kerotakis-cli -- prewarm lessons/*.lab -o "$RUNNER_TEMP/lessons.postcard"
+      - name: Run the bench in a wasm runtime
+        run: node tools/test-wasm-lab.mjs "$RUNNER_TEMP/kero-wasm" "$RUNNER_TEMP/lessons.postcard"
+
   wasm-engine:
     name: IPhreeqc wasm gate
     runs-on: ubuntu-latest

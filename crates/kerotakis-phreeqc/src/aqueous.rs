@@ -18,7 +18,9 @@ use kerotakis_core::{
     SolveError, SpeciesDetail, SpeciesId, ThermalMode, Vessel,
 };
 
-use crate::{databases, Phreeqc, PhreeqcError};
+use crate::PhreeqcError;
+#[cfg(feature = "engine")]
+use crate::{databases, Phreeqc};
 
 use crate::derived::{self, DerivedRole, ATMOSPHERIC};
 
@@ -64,15 +66,18 @@ pub struct CacheData {
 pub struct PhreeqcEquilibrator {
     /// wateq4f: inorganic natural-water chemistry, valid to high ionic
     /// strength — the default.
+    #[cfg(feature = "engine")]
     inorganic: Phreeqc,
     /// minteq.v4: adds organic ligands (acetate), but its activity model is
     /// poor for concentrated brines (halite solubility comes out ~3.7
     /// instead of ~6.1 mol/kgw) — used only when the problem needs organics.
     /// Databases have validity domains; routing by problem is the honest
     /// answer.
+    #[cfg(feature = "engine")]
     organic: Phreeqc,
     /// pitzer.dat: the specific-ion-interaction model, the right tool for
     /// concentrated brines — but it only knows the major-ion elements.
+    #[cfg(feature = "engine")]
     brine: Phreeqc,
     /// Content-addressed result cache: same species set, T and P is the
     /// same answer (PLAN.md, P2). Keyed by database + canonical input.
@@ -81,11 +86,24 @@ pub struct PhreeqcEquilibrator {
 }
 
 impl PhreeqcEquilibrator {
+    #[cfg(feature = "engine")]
     pub fn new() -> Result<Self, PhreeqcError> {
         Ok(PhreeqcEquilibrator {
             inorganic: Phreeqc::with_database(databases::WATEQ4F)?,
             organic: Phreeqc::with_database(databases::MINTEQ_V4)?,
             brine: Phreeqc::with_database(databases::PITZER)?,
+            cache: std::collections::HashMap::new(),
+            cache_hits: 0,
+        })
+    }
+
+    /// A cache-only equilibrator: no engine, answers come from shipped
+    /// results. This is the wasm/mobile path where a C++ library cannot be
+    /// linked — and the honest failure mode is a stated cache miss, never a
+    /// guess.
+    #[cfg(not(feature = "engine"))]
+    pub fn new() -> Result<Self, PhreeqcError> {
+        Ok(PhreeqcEquilibrator {
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
         })
@@ -128,6 +146,7 @@ impl PhreeqcEquilibrator {
         self.cache.len()
     }
 
+    #[cfg(feature = "engine")]
     /// Answer the same question from **every** dataset that can express it,
     /// so the paths can be compared rather than one being asserted
     /// (PLAN.md: offer different paths, be open about where each came from).
@@ -345,15 +364,13 @@ impl Equilibrator for PhreeqcEquilibrator {
             .elements
             .iter()
             .all(|el| derived::index_for("pitzer").has_element(el));
-        let (engine, db_tag, routing) = if needs_extended {
+        let (db_tag, routing) = if needs_extended {
             (
-                &mut self.organic,
                 "minteq.v4",
                 "chosen because the problem needs chemistry the default dataset lacks (organic ligands or free phosphoric acid)".to_string(),
             )
         } else if potential_molality > 1.0 && pitzer_capable {
             (
-                &mut self.brine,
                 "pitzer",
                 format!(
                     "chosen because the solution is concentrated (~{potential_molality:.1} mol/kgw), where the ion-interaction model is the valid one"
@@ -361,7 +378,6 @@ impl Equilibrator for PhreeqcEquilibrator {
             )
         } else {
             (
-                &mut self.inorganic,
                 "wateq4f",
                 "the default for dilute inorganic aqueous chemistry".to_string(),
             )
@@ -409,17 +425,34 @@ impl Equilibrator for PhreeqcEquilibrator {
             self.cache_hits += 1;
             hit.clone()
         } else {
-            engine.run(&input).map_err(|e| SolveError::NotConverged {
-                solver: "phreeqc-aqueous".to_string(),
-                detail: e.to_string(),
-            })?;
-            let rows = engine.selected_output();
-            let speciation = parse_species_distribution(&engine.output_string());
-            if self.cache.len() >= 10_000 {
-                self.cache.clear(); // simple bound; refine when profiling says so
+            #[cfg(not(feature = "engine"))]
+            {
+                // No engine in this build: the shipped cache is all there
+                // is, and a miss is stated rather than guessed at.
+                return Err(SolveError::NotConverged {
+                    solver: "phreeqc-aqueous (cache-only build)".to_string(),
+                    detail: "this state is not in the shipped results and there is no solver here to compute it".to_string(),
+                });
             }
-            self.cache.insert(key, (rows.clone(), speciation.clone()));
-            (rows, speciation)
+            #[cfg(feature = "engine")]
+            {
+                let engine = match db_tag {
+                    "minteq.v4" => &mut self.organic,
+                    "pitzer" => &mut self.brine,
+                    _ => &mut self.inorganic,
+                };
+                engine.run(&input).map_err(|e| SolveError::NotConverged {
+                    solver: "phreeqc-aqueous".to_string(),
+                    detail: e.to_string(),
+                })?;
+                let rows = engine.selected_output();
+                let speciation = parse_species_distribution(&engine.output_string());
+                if self.cache.len() >= 10_000 {
+                    self.cache.clear(); // simple bound; refine when profiling says so
+                }
+                self.cache.insert(key, (rows.clone(), speciation.clone()));
+                (rows, speciation)
+            }
         };
         let value = |column: &str| -> Option<f64> {
             let idx = rows.first()?.iter().position(|h| h == column)?;
@@ -668,6 +701,7 @@ fn build_input(vessel: &Vessel, problem: &Problem) -> String {
     input
 }
 
+#[cfg(feature = "engine")]
 /// Parse the last "Distribution of species" block of a PHREEQC output
 /// report into (name, molality, activity) triples, molality > 1e-9,
 /// descending. The block's shape is stable across PHREEQC 3.x: a header,

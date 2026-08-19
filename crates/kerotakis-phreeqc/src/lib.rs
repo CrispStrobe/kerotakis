@@ -17,6 +17,7 @@ pub mod dbindex;
 pub mod derived;
 pub use aqueous::{CacheData, CacheEntry, PathOutcome, PathResult, PhreeqcEquilibrator};
 
+#[cfg(feature = "engine")]
 mod ffi {
     use std::os::raw::{c_char, c_int};
 
@@ -71,6 +72,7 @@ pub enum PhreeqcError {
     Engine(String),
 }
 
+#[cfg(feature = "engine")]
 /// One IPhreeqc instance with a loaded database. All file output is disabled
 /// at construction; results are read from the selected-output string.
 pub struct Phreeqc {
@@ -79,8 +81,10 @@ pub struct Phreeqc {
 
 // IPhreeqc instances are independent; the id is only used from the owning
 // wrapper.
+#[cfg(feature = "engine")]
 unsafe impl Send for Phreeqc {}
 
+#[cfg(feature = "engine")]
 impl Phreeqc {
     /// Create an instance and load a thermodynamic database from memory
     /// (see [`databases`]).
@@ -179,6 +183,7 @@ impl Phreeqc {
     }
 }
 
+#[cfg(feature = "engine")]
 impl Drop for Phreeqc {
     fn drop(&mut self) {
         unsafe {

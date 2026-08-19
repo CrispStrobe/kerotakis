@@ -8,6 +8,13 @@ repository.workspace = true
 authors.workspace = true
 links = "IPhreeqc"
 
+[features]
+default = ["engine"]
+# The native IPhreeqc engine. Without it the crate still parses the
+# databases, maps vessels and replays a pre-warmed cache — the shipped-data
+# path a wasm client uses when it cannot link a C++ library.
+engine = ["dep:cmake"]
+
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }
 thiserror = { workspace = true }
@@ -15,7 +22,7 @@ serde = { workspace = true }
 postcard = { version = "1", features = ["alloc"] }
 
 [build-dependencies]
-cmake = "0.1"
+cmake = { version = "0.1", optional = true }
 
 [dev-dependencies]
 kerotakis-safety = { path = "../kerotakis-safety" }

@@ -520,6 +520,18 @@ project. Rust compiles one source to `wasm32` and to all five native targets.
 palette, sqlite-wasm-rs. All compile-verified or wasm-proven. No experiments
 needed; the same source serves all five native targets.
 
+**Done and CI-enforced:** `kerotakis-wasm` runs the bench in a wasm runtime —
+thermal chemistry computed live (magnesium ignites, burns to the oxide,
+~3000 K, narrated for a nine-year-old), the species shelf exposed with
+provenance, and **whole `.lab` lessons replayed** by the same grammar the CLI
+uses (moved into the core, so a lesson behaves identically in both and its
+pre-warmed results match exactly). Aqueous chemistry comes from the shipped
+results, because a browser cannot link IPhreeqc's C++: the marquee lesson
+replays with **no engine present**, and a state nobody pre-computed is
+reported as a stated miss rather than guessed at. The engine is now a cargo
+feature (`--no-default-features` gives the cache-only build), which is what
+makes that split clean rather than a fork.
+
 **Track B — the C/C++ engines (IPhreeqc, Indigo+InChI) → Emscripten side
 modules with a thin JS bridge on web; ordinary cargo + CMake FFI on native.**
 Three existence proofs de-risk the web side: the alpha `phreeqc` npm package,

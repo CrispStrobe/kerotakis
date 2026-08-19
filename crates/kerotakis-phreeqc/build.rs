@@ -5,8 +5,15 @@
 //! build: on wasm the engine is an Emscripten side module (Track B in
 //! PLAN.md), produced by `tools/build-iphreeqc-wasm.sh`.
 
+#[cfg(not(feature = "engine"))]
+fn main() {
+    // Cache-only build: nothing to compile, nothing to link.
+}
+
+#[cfg(feature = "engine")]
 use std::path::PathBuf;
 
+#[cfg(feature = "engine")]
 fn main() {
     let manifest = PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap());
     let vendor = manifest.join("../../vendor/iphreeqc");

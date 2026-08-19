@@ -1,0 +1,23 @@
+[package]
+name = "kerotakis-wasm"
+description = "WebAssembly surface for the Kerotakis bench — the same core, in a browser"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+kerotakis-core = { path = "../kerotakis-core" }
+kerotakis-cea = { path = "../kerotakis-cea" }
+kerotakis-safety = { path = "../kerotakis-safety" }
+# Cache-only: a browser cannot link the C++ engine, so aqueous answers come
+# from the results shipped alongside the lessons (PLAN.md, pre-warmed cache).
+kerotakis-phreeqc = { path = "../kerotakis-phreeqc", default-features = false }
+serde = { workspace = true }
+serde_json = { workspace = true }
+postcard = { version = "1", features = ["alloc"] }
+wasm-bindgen = "0.2"

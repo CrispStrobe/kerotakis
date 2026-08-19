@@ -18,6 +18,7 @@ pub mod bench;
 pub mod curated;
 pub mod ops;
 pub mod render;
+pub mod script;
 pub mod solve;
 pub mod species;
 pub mod units;

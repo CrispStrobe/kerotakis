@@ -1,0 +1,162 @@
+//! The `.lab` script grammar: one line, one bench command.
+//!
+//! This lives in the core so that every client runs the *same* lessons —
+//! the CLI, the wasm build, and anything later. A lesson is data, and its
+//! grammar is part of the engine rather than of one front end.
+
+use crate::ops::{Instrument, Operator};
+use crate::species::{self, SpeciesData, SpeciesId};
+use crate::units::{Grams, Joules, Kelvin, Liters, Moles};
+use crate::vessel::VesselId;
+
+/// Parse one bench command into an operator. Meta commands (register,
+/// inspect) return `None` — they are session state, not bench state.
+pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
+    let line = line.trim();
+    if line.is_empty() || line.starts_with('#') {
+        return Ok(None);
+    }
+    let words: Vec<&str> = line.split_whitespace().collect();
+    let op = match words[0] {
+        "register" | "inspect" | "explain" | "species" | "help" => return Ok(None),
+        "new" => Operator::NewVessel,
+        "add" => {
+            if words.len() < 4 {
+                return Err("usage: add <vessel> <species> <amount><mol|g|mL> [@ <T>C]".into());
+            }
+            let vessel = parse_vessel(words[1])?;
+            let data = species::lookup_key(words[2])
+                .ok_or_else(|| format!("unknown species '{}' (see 'species')", words[2]))?;
+            Operator::Add {
+                vessel,
+                species: SpeciesId::new(words[2]),
+                moles: parse_amount(words[3], data)?,
+                at: parse_at(&words[4..])?,
+            }
+        }
+        "heat" | "cool" => {
+            if words.len() < 3 {
+                return Err(format!("usage: {} <vessel> <energy><J|kJ>", words[0]));
+            }
+            let vessel = parse_vessel(words[1])?;
+            let energy = parse_energy(words[2])?;
+            if words[0] == "heat" {
+                Operator::Heat { vessel, energy }
+            } else {
+                Operator::Cool { vessel, energy }
+            }
+        }
+        "ignite" => Operator::Ignite {
+            vessel: parse_vessel(words.get(1).ok_or("usage: ignite <vessel>")?)?,
+        },
+        "stir" => Operator::Stir {
+            vessel: parse_vessel(words.get(1).ok_or("usage: stir <vessel>")?)?,
+        },
+        "filter" => {
+            if words.len() < 3 {
+                return Err("usage: filter <from> <to>".into());
+            }
+            Operator::Filter {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+            }
+        }
+        "evaporate" => {
+            if words.len() < 3 {
+                return Err("usage: evaporate <vessel> <fraction>".into());
+            }
+            Operator::Evaporate {
+                vessel: parse_vessel(words[1])?,
+                fraction: words[2]
+                    .parse()
+                    .map_err(|_| format!("bad fraction '{}'", words[2]))?,
+            }
+        }
+        "decant" => {
+            if words.len() < 4 {
+                return Err("usage: decant <from> <to> <fraction>".into());
+            }
+            Operator::Decant {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+                fraction: words[3]
+                    .parse()
+                    .map_err(|_| format!("bad fraction '{}'", words[3]))?,
+            }
+        }
+        "measure" => {
+            if words.len() < 3 {
+                return Err("usage: measure <vessel> <thermometer|balance|ph>".into());
+            }
+            Operator::Measure {
+                vessel: parse_vessel(words[1])?,
+                instrument: match words[2] {
+                    "thermometer" | "temp" => Instrument::Thermometer,
+                    "balance" | "mass" => Instrument::Balance,
+                    "ph" | "phmeter" => Instrument::PhMeter,
+                    other => return Err(format!("unknown instrument '{other}'")),
+                },
+            }
+        }
+        other => return Err(format!("unknown command '{other}' (try 'help')")),
+    };
+    Ok(Some(op))
+}
+
+pub fn parse_vessel(word: &str) -> Result<VesselId, String> {
+    let digits = word.trim_start_matches('v');
+    let n: usize = digits
+        .parse()
+        .map_err(|_| format!("bad vessel '{word}' (use v1, v2, …)"))?;
+    if n == 0 {
+        return Err("vessels are numbered from v1".into());
+    }
+    Ok(VesselId(n - 1))
+}
+
+/// `0.5mol`, `10g`, `100mL` (unit required, so units are never guessed).
+pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, String> {
+    let (value, unit) = split_unit(word)?;
+    match unit {
+        "mol" => Ok(Moles(value)),
+        "g" => Ok(data.moles_from_grams(Grams(value))),
+        "mL" | "ml" => Ok(data.moles_from_liters(Liters(value / 1000.0))),
+        "L" | "l" => Ok(data.moles_from_liters(Liters(value))),
+        other => Err(format!("unknown amount unit '{other}' (mol, g, mL, L)")),
+    }
+}
+
+pub fn parse_energy(word: &str) -> Result<Joules, String> {
+    let (value, unit) = split_unit(word)?;
+    match unit {
+        "J" | "j" => Ok(Joules(value)),
+        "kJ" | "kj" => Ok(Joules(value * 1000.0)),
+        other => Err(format!("unknown energy unit '{other}' (J, kJ)")),
+    }
+}
+
+/// Optional trailing `@ 60C` / `@ 333K` on `add`.
+pub fn parse_at(words: &[&str]) -> Result<Option<Kelvin>, String> {
+    match words {
+        [] => Ok(None),
+        ["@", t] => {
+            let (value, unit) = split_unit(t)?;
+            match unit {
+                "C" | "c" => Ok(Some(Kelvin::from_celsius(value))),
+                "K" | "k" => Ok(Some(Kelvin(value))),
+                other => Err(format!("unknown temperature unit '{other}' (C, K)")),
+            }
+        }
+        _ => Err("temperature goes last: … @ 60C".into()),
+    }
+}
+
+fn split_unit(word: &str) -> Result<(f64, &str), String> {
+    let split = word
+        .find(|c: char| c.is_ascii_alphabetic())
+        .ok_or_else(|| format!("'{word}' needs a unit suffix"))?;
+    let value: f64 = word[..split]
+        .parse()
+        .map_err(|_| format!("bad number in '{word}'"))?;
+    Ok((value, &word[split..]))
+}
