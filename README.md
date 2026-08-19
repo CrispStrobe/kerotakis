@@ -3,7 +3,7 @@
 A virtual chemistry laboratory that computes real chemistry.
 
 Offline-first, cross-platform, no runtime Python. One simulation, rendered at
-every register from nine-year-old to expert. Nothing in it is a lookup table:
+whatever level of detail the reader wants. Nothing in it is a lookup table:
 every number below came out of a thermodynamic database at run time.
 
 Named for the sealed reflux vessel invented by Maria the Jewess in Alexandria,
@@ -49,8 +49,12 @@ Computed, not scripted:
 - **Hard-water chemistry**: chalk, limescale, and gypsum binding its two
   waters of crystallisation into the crystal.
 - **Separations**: filter a precipitate off, evaporate brine to crystals.
+- **Fire**: chalk calcines to quicklime when heated hard enough (the
+  decomposition temperature is computed, not assumed), and magnesium burns at
+  ~3000 K, *gaining* mass because the oxygen came from the air.
 - **Hazards that teach**: bleach + ammonia warns precisely and *then shows*
   the chloramine forming and leaving the beaker. Prohibition teaches nothing.
+  Hold a flame to salt and it does not burn — it gives the sodium flame test.
 
 And every answer can explain itself:
 
@@ -85,16 +89,21 @@ contract the future UI consumes).
 
 The feasibility gate is passed: PHREEQC cross-compiles and runs identically
 natively, in **WebAssembly** (Emscripten, no filesystem), and on
-**aarch64-apple-ios** — so the offline premise holds on every target. The
-aqueous layer (P2) is essentially complete; heat/ignite chemistry (P2g, a
-Gibbs minimiser over NASA CEA data) is next.
+**aarch64-apple-ios**, so the offline premise holds on every target. The
+aqueous layer and the thermal layer both compute; **the whole bench runs in a
+browser** (`kerotakis-wasm`), with thermal chemistry live and aqueous answers
+from pre-warmed results — a state nobody pre-computed is reported as a stated
+miss rather than guessed at.
 
 | Crate | Role |
 |---|---|
-| `kerotakis-core` | Bench and vessel state machine, operators, energy balance, solver router, registers |
-| `kerotakis-phreeqc` | IPhreeqc FFI, embedded thermodynamic databases, the aqueous equilibrator |
+| `kerotakis-core` | Bench and vessel state machine, operators, energy balance, solver router, `.lab` grammar, levels |
+| `kerotakis-phreeqc` | IPhreeqc FFI, embedded thermodynamic databases, the aqueous equilibrator (engine optional at compile time) |
+| `kerotakis-cea` | NASA-9 thermochemistry and the Gibbs minimiser: heating, calcining, burning |
 | `kerotakis-safety` | L0 reactivity screen — runs before any chemistry |
-| `kerotakis-cli` | `kero`: REPL, batch runner, JSON interface, cache pre-warmer |
+| `kerotakis-codex` | Curated reactions, their concepts, and the lint that replays every claim through the solvers |
+| `kerotakis-cli` | `kero`: REPL, batch runner, JSON interface, cache pre-warmer, codex lint |
+| `kerotakis-wasm` | The same bench in a browser |
 
 See [PLAN.md](PLAN.md) for the architecture, the verified engine and licence
 audit, and the build order.
