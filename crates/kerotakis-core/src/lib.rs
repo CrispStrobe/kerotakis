@@ -27,7 +27,7 @@ pub use solve::{
 };
 pub use species::{Phase, SpeciesId};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
-pub use vessel::{Portion, SolutionInfo, ThermalMode, Vessel, VesselId};
+pub use vessel::{Portion, SolutionInfo, SpeciesDetail, ThermalMode, Vessel, VesselId};
 
 #[cfg(test)]
 mod tests {

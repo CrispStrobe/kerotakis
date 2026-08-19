@@ -15,7 +15,7 @@
 
 use kerotakis_core::{
     species, Equilibrator, Event, Kelvin, Moles, Phase, Portion, SolutionInfo, SolveError,
-    SpeciesId, ThermalMode, Vessel,
+    SpeciesDetail, SpeciesId, ThermalMode, Vessel,
 };
 
 use crate::{databases, Phreeqc, PhreeqcError};
@@ -127,7 +127,7 @@ pub struct PhreeqcEquilibrator {
     organic: Phreeqc,
     /// Content-addressed result cache: same species set, T and P is the
     /// same answer (PLAN.md, P2). Keyed by database + canonical input.
-    cache: std::collections::HashMap<String, Vec<Vec<String>>>,
+    cache: std::collections::HashMap<String, (Vec<Vec<String>>, Vec<SpeciesDetail>)>,
     cache_hits: usize,
 }
 
@@ -277,20 +277,21 @@ impl Equilibrator for PhreeqcEquilibrator {
         // Content-addressed cache: database + input string is a
         // deterministic canonicalisation of (species set, amounts, T) — same
         // state, same answer, no engine call.
-        let rows = if let Some(rows) = self.cache.get(&key) {
+        let (rows, speciation) = if let Some(hit) = self.cache.get(&key) {
             self.cache_hits += 1;
-            rows.clone()
+            hit.clone()
         } else {
             engine.run(&input).map_err(|e| SolveError::NotConverged {
                 solver: "phreeqc-aqueous".to_string(),
                 detail: e.to_string(),
             })?;
             let rows = engine.selected_output();
+            let speciation = parse_species_distribution(&engine.output_string());
             if self.cache.len() >= 10_000 {
                 self.cache.clear(); // simple bound; refine when profiling says so
             }
-            self.cache.insert(key, rows.clone());
-            rows
+            self.cache.insert(key, (rows.clone(), speciation.clone()));
+            (rows, speciation)
         };
         let value = |column: &str| -> Option<f64> {
             let idx = rows.first()?.iter().position(|h| h == column)?;
@@ -453,9 +454,11 @@ impl Equilibrator for PhreeqcEquilibrator {
         let info = SolutionInfo {
             ph,
             ionic_strength: mu,
+            species: speciation,
         };
         let changed = vessel
             .solution
+            .as_ref()
             .map(|prev| (prev.ph - ph).abs() > 0.01 || (prev.ionic_strength - mu).abs() > 1e-4)
             .unwrap_or(true);
         vessel.solution = Some(info);
@@ -511,4 +514,46 @@ fn build_input(vessel: &Vessel, problem: &Problem) -> String {
     }
     writeln!(input, "END").unwrap();
     input
+}
+
+/// Parse the last "Distribution of species" block of a PHREEQC output
+/// report into (name, molality, activity) triples, molality > 1e-9,
+/// descending. The block's shape is stable across PHREEQC 3.x: a header,
+/// element-total lines (2 columns), and species lines (>= 6 columns:
+/// name, molality, activity, log m, log a, log gamma[, volume]).
+fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
+    let Some(start) = output.rfind("Distribution of species") else {
+        return Vec::new();
+    };
+    let mut result: Vec<SpeciesDetail> = Vec::new();
+    for line in output[start..].lines().skip(1) {
+        let trimmed = line.trim();
+        // The next report section begins with a dashed rule.
+        if trimmed.starts_with("-----") {
+            break;
+        }
+        let tokens: Vec<&str> = trimmed.split_whitespace().collect();
+        if tokens.len() < 6 {
+            continue;
+        }
+        let (Ok(molality), Ok(activity)) = (tokens[1].parse::<f64>(), tokens[2].parse::<f64>())
+        else {
+            continue;
+        };
+        // Log columns must also parse, or this is a header/stray line.
+        if tokens[3].parse::<f64>().is_err() {
+            continue;
+        }
+        // A species appears once per element section it contains (AgCl is
+        // listed under both Ag and Cl); keep it once.
+        if molality > 1e-9 && !result.iter().any(|r| r.name == tokens[0]) {
+            result.push(SpeciesDetail {
+                name: tokens[0].to_string(),
+                molality,
+                activity,
+            });
+        }
+    }
+    result.sort_by(|a, b| b.molality.total_cmp(&a.molality));
+    result
 }

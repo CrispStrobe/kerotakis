@@ -32,12 +32,28 @@ pub struct Portion {
     pub phase: Phase,
 }
 
+/// One aqueous species in the true equilibrium distribution.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SpeciesDetail {
+    /// PHREEQC species name (e.g. "Ag+", "AgCl", "CO3-2").
+    pub name: String,
+    /// mol/kgw.
+    pub molality: f64,
+    /// Thermodynamic activity; activity/molality is the activity
+    /// coefficient γ.
+    pub activity: f64,
+}
+
 /// What an aqueous solver last computed about this vessel's solution.
-#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SolutionInfo {
     pub ph: f64,
     /// Ionic strength, mol/kgw.
     pub ionic_strength: f64,
+    /// Full species distribution (molality > 1e-9), descending. The expert
+    /// register's raw material; empty when the solver did not report it.
+    #[serde(default)]
+    pub species: Vec<SpeciesDetail>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

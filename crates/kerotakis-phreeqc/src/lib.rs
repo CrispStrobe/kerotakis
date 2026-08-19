@@ -35,6 +35,8 @@ mod ffi {
         pub fn SetSelectedOutputStringOn(id: c_int, value: c_int) -> c_int;
         pub fn GetSelectedOutputStringLineCount(id: c_int) -> c_int;
         pub fn GetSelectedOutputStringLine(id: c_int, n: c_int) -> *const c_char;
+        pub fn SetOutputStringOn(id: c_int, value: c_int) -> c_int;
+        pub fn GetOutputString(id: c_int) -> *const c_char;
     }
 }
 
@@ -92,6 +94,9 @@ impl Phreeqc {
             ffi::SetLogFileOn(id, 0);
             ffi::SetDumpFileOn(id, 0);
             ffi::SetSelectedOutputFileOn(id, 0);
+            // Full run output to memory: the "Distribution of species"
+            // block is the expert register's raw material.
+            ffi::SetOutputStringOn(id, 1);
         }
         let db = CString::new(database.as_ref()).map_err(|_| PhreeqcError::Nul)?;
         let errors = unsafe { ffi::LoadDatabaseString(id, db.as_ptr()) };
@@ -147,6 +152,18 @@ impl Phreeqc {
         let rows = self.selected_output();
         let idx = rows.first()?.iter().position(|h| h == column)?;
         rows.last()?.get(idx)?.parse().ok()
+    }
+
+    /// The complete PHREEQC output of the last run (the report a desktop
+    /// PHREEQC user would read), from memory.
+    pub fn output_string(&self) -> String {
+        let ptr = unsafe { ffi::GetOutputString(self.id) };
+        if ptr.is_null() {
+            return String::new();
+        }
+        unsafe { CStr::from_ptr(ptr) }
+            .to_string_lossy()
+            .into_owned()
     }
 
     fn error_string(&self) -> String {

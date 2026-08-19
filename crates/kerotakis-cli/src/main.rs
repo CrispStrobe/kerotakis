@@ -278,6 +278,7 @@ impl Session {
     fn print_vessel(&self, v: &Vessel) {
         let solution = v
             .solution
+            .as_ref()
             .map(|s| format!(", pH {:.2}, I = {:.4} m", s.ph, s.ionic_strength))
             .unwrap_or_default();
         println!(
@@ -296,6 +297,25 @@ impl Session {
         }
         if v.is_empty() {
             println!("      (empty)");
+        }
+        // Expert register: the true equilibrium speciation.
+        if self.register == Register::Expert {
+            if let Some(info) = &v.solution {
+                if !info.species.is_empty() {
+                    println!("      speciation (mol/kgw · activity · γ):");
+                    for sp in &info.species {
+                        let gamma = if sp.molality > 0.0 {
+                            sp.activity / sp.molality
+                        } else {
+                            0.0
+                        };
+                        println!(
+                            "        {:<12} {:>12.4e} {:>12.4e}   γ={:.3}",
+                            sp.name, sp.molality, sp.activity, gamma
+                        );
+                    }
+                }
+            }
         }
     }
 }

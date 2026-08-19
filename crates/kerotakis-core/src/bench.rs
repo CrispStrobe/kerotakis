@@ -412,7 +412,7 @@ impl Bench {
                         value: v.mass().0,
                         unit: "g".to_string(),
                     }),
-                    Instrument::PhMeter => match v.solution {
+                    Instrument::PhMeter => match &v.solution {
                         Some(info) => events.push(Event::Measured {
                             vessel: *vessel,
                             instrument: *instrument,
