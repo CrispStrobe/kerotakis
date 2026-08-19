@@ -1139,18 +1139,31 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
 
 ### P4 — Codex + curated reaction library + appearance
 
-- [x] Codex schema and first slice: TOML (a chemistry editor must be able
-      to write it without a build step), 13 entries covering dissolving,
-      saturation, precipitation, strong/weak acids, buffers, the fizz,
-      hot/cold packs, limescale, calcination, combustion and the sodium
-      flame test — 27 concepts with prerequisite edges between them.
-      Every entry carries register copy at all three levels and its own
-      provenance (source, licence, and what computed the numbers).
+- [x] Codex schema and content: TOML (a chemistry editor must be able to
+      write it without a build step). **66 reaction entries** across
+      `inorganic`, `aqueous` and `quantitative` — dissolving and
+      saturation, precipitation and the common-ion effect, strong, weak and
+      polyprotic acids, buffers and titration, salt hydrolysis, the fizz,
+      hot and cold packs, limescale and hardness, separations, calcination,
+      combustion and the flame tests — resting on **113 concepts** with
+      prerequisite edges between them. Every entry carries register copy at
+      all three levels and its own provenance (source, licence, and what
+      computed the numbers), and most carry a prediction whose wrong
+      answers are the mistakes learners actually make.
+- [x] **27 model entries** (`codex/models.toml`) in eight supersession
+      chains: particle → Dalton → Kern-Hülle → shell → charge-cloud →
+      orbital; Arrhenius → Brønsted → Lewis; ionic/covalent/metallic →
+      bond triangle. Every one names what it *lets you predict* and where
+      it *breaks* — Bohr fails at helium, Lewis predicts a diamagnetic O₂
+      that a magnet contradicts, the photoelectron spectrum of methane
+      shows two valence ionisations rather than four equivalent bonds. Lint
+      rejects a model with an empty `fails_at`, because a model shown
+      without its boundary is shown as truth.
 - [x] **Curriculum spine wired in**: `codex/concepts.toml` holds the 189
       CC0 topics; entries anchor to them with `spine = [...]`; lint rejects
       an anchor that is not a real topic; and **`kero codex gaps`** prints
       what the spine says a chemistry curriculum contains that we do not
-      teach yet, grouped by area. Currently **5 of 189 covered** — that is
+      teach yet, grouped by area. Currently **33 of 189 covered** — that is
       the extension work list, and it comes from somebody else's published
       taxonomy rather than from our imagination
 - [x] `kero codex lint` — **the check that makes the format worth having**:

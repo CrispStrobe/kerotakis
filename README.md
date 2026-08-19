@@ -57,6 +57,11 @@ Computed, not scripted:
 - **Fire**: chalk calcines to quicklime when heated hard enough (the
   decomposition temperature is computed, not assumed), and magnesium burns at
   ~3000 K, *gaining* mass because the oxygen came from the air.
+- **Colour, from absorption spectra rather than a tint per substance.**
+  Absorbances add and Beer–Lambert is applied over the CIE 1931 observer,
+  so mixtures compose the way a beaker composes them, the depth of liquid
+  matters, and *concentration changes hue*: one permanganate spectrum reads
+  pink at 10⁻⁵ M and purple at 10⁻³ M.
 - **Hazards that teach**: bleach + ammonia warns precisely and *then shows*
   the chloramine forming and leaving the beaker. Prohibition teaches nothing.
   Hold a flame to salt and it does not burn — it gives the sodium flame test.
@@ -91,10 +96,13 @@ three ways.
 
 From that follow the rest of the design commitments:
 
-- **Models are content, not background.** The codex carries model entries
-  whose most important field is `fails_at` — a model shown without its
-  boundary is shown as truth, which is why the next model feels arbitrary
-  instead of necessary.
+- **Models are content, not background.** The codex carries 27 model
+  entries whose most important field is `fails_at` — a model shown without
+  its boundary is shown as truth, which is why the next model feels
+  arbitrary instead of necessary. The lint refuses a model with an empty
+  `fails_at`. They form eight supersession chains, so a learner meets
+  Bohr's atom as the thing that fixed Rutherford's and then meets helium,
+  which breaks Bohr's.
 - **Prediction comes before observation.** Entries carry a question whose
   wrong options are the mistakes learners actually make; the engine is the
   arbiter. Because it computes rather than looks up, a *quantitative*
@@ -130,6 +138,12 @@ aqueous layer and the thermal layer both compute; **the whole bench runs in a
 browser** (`kerotakis-wasm`), with thermal chemistry live and aqueous answers
 from pre-warmed results — a state nobody pre-computed is reported as a stated
 miss rather than guessed at.
+
+The codex holds **66 reaction entries, 27 models and 113 concepts**, anchored
+to a 189-topic CC0 curriculum spine (33 covered; `kero codex gaps` prints the
+rest). Every numeric claim in it is replayed through the real solvers by
+`kero codex lint` in CI, so a curation error cannot merge and a solver change
+that breaks a lesson is caught the same day.
 
 | Crate | Role |
 |---|---|
