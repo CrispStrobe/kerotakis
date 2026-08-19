@@ -88,6 +88,12 @@ pub enum Event {
         species: SpeciesId,
         moles: Moles,
     },
+    /// A solid was used up by a reaction.
+    Consumed {
+        vessel: VesselId,
+        species: SpeciesId,
+        moles: Moles,
+    },
     /// A solid formed out of solution (computed by an aqueous solver).
     Precipitated {
         vessel: VesselId,
@@ -141,6 +147,12 @@ pub enum Event {
     ReactionOccurred {
         vessel: VesselId,
         equation: String,
+    },
+    /// A thermal (gas/condensed) equilibrium was computed for this vessel.
+    ThermalEquilibrium {
+        vessel: VesselId,
+        temperature: Kelvin,
+        provenance: crate::vessel::Provenance,
     },
     /// The state is one no wired solver models yet. State is unchanged
     /// except for the honest bookkeeping already performed; the renderer says

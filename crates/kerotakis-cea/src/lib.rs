@@ -10,6 +10,8 @@
 
 pub mod gibbs;
 pub mod nasa9;
+pub mod thermal;
 
 pub use gibbs::{equilibrate_hp, equilibrate_tp, CeaError, Equilibrium};
 pub use nasa9::{db, Species, ThermoDb, R, T_REF};
+pub use thermal::{cea_name, ThermalEquilibrator};

@@ -867,8 +867,23 @@ The single highest-information task. Everything else is downstream of it.
       vessel's **atmosphere is part of the problem**: with CO₂ as the only
       possible gas, calcite below its decomposition point has no gas phase
       at all — true, and numerically degenerate. Real beakers contain air
-- [ ] Wire L2g into the bench as a solver: `heat`/`ignite` operators,
-      vessel atmosphere, ΔH feeding the energy balance
+- [x] **L2g wired into the bench** (`ThermalEquilibrator`): heating chalk
+      calcines it (quicklime left, CO₂ gone), burning magnesium consumes
+      the ribbon into brilliant-white oxide and releases its enormous
+      exotherm into the vessel temperature. Registry species map to CEA
+      species **by composition** — nothing lists the pairs.
+- [x] Three design decisions the wiring forced, all now explicit:
+      **the atmosphere is a reservoir, not inventory** (a vessel stands
+      open in air: oxygen is available without being weighed in, product
+      gases leave — the same one-way exchange as the aqueous fizz);
+      **the species pool is exactly what the registry can name**, so the
+      minimiser can never reach for an exotic carbide we would have to drop
+      (mass loss) or show without a story — widening what the lab can
+      discover is a deliberate act of naming; and a **kinetic threshold**
+      (500 K) below which the solver stands down, because equilibrium would
+      otherwise oxidise every metal on the bench and only kinetics explains
+      why the world is not like that. That gap is L5's, and it is stated
+      rather than hidden.
 - [ ] Validate a wider set against build-time Cantera oracle runs
 
 ### P3 — Phase behaviour

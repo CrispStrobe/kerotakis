@@ -115,6 +115,33 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 }
             }
         }
+        Event::Consumed {
+            vessel,
+            species: sid,
+            moles,
+        } => {
+            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            match register {
+                Register::Child => format!("The {name} in {vessel} is used up."),
+                Register::Student => format!("{vessel}: {:.4} mol {name} consumed", moles.0),
+                Register::Expert => format!("{vessel}: −{:.6} mol {name}", moles.0),
+            }
+        }
+        Event::ThermalEquilibrium {
+            vessel,
+            temperature,
+            provenance,
+        } => match register {
+            Register::Child => format!("Everything in {vessel} settles into what it wants to be at this heat."),
+            Register::Student => format!(
+                "{vessel}: thermal equilibrium at {:.0} °C",
+                temperature.to_celsius()
+            ),
+            Register::Expert => format!(
+                "{vessel}: Gibbs minimum at {:.2} K · {} · {}",
+                temperature.0, provenance.dataset, provenance.model
+            ),
+        },
         Event::SolutionCharacterized {
             vessel,
             ph,
