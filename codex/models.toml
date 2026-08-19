@@ -819,3 +819,32 @@ source = "Gibbs, On the equilibrium of heterogeneous substances, Transactions of
 licence = "NASA CEA data: Apache-2.0; NASA RP-1311: US Government work"
 computed_by = "kerotakis-cea (Gibbs minimisation over NASA-9 polynomials)"
 
+[[model]]
+id = "thermodynamische-vs-kinetische-kontrolle"
+name = "Thermodynamic versus kinetic control"
+power = "Separates two questions that beginners hear as one: which product is the most stable, and which product you actually get. Once they come apart, a whole class of otherwise baffling observations becomes predictable — why the blue precipitate is not the black one, why diamond does not turn into graphite on the shelf, why the shelf itself is not on fire. It also tells you what to do about it: if the barrier is what stands in the way, heat it, and the stable product appears."
+explains = [
+  "why adding lye to copper sulfate gives pale blue Cu(OH)2 and not black CuO, even though CuO is the more stable solid",
+  "why warming that suspension turns it black — the classic demonstration",
+  "why diamond, graphite and every metastable mineral persist indefinitely",
+  "why a Gibbs-minimising calculation can be right about the destination and wrong about the beaker",
+  "Ostwald's rule of stages: the phase that appears first is often the least stable one available, because it nucleates fastest",
+  "why magnesium ribbon sits in air until you light it",
+]
+fails_at = [
+  "It says which product is kinetically preferred only after you already know the barriers. On its own it predicts nothing quantitative — it is a frame for two other models, not a third model that replaces them.",
+  "It gives no timescale. \"Metastable\" covers both a precipitate that converts in a minute of warming and a diamond that outlasts the solar system, and nothing in the idea distinguishes them.",
+  "Nucleation, not just the activation barrier, decides which solid appears first, and surface energy and supersaturation belong to a theory this framing does not contain.",
+  "Applied carelessly it becomes unfalsifiable: any disagreement between calculation and observation can be waved away as kinetics. It is only worth anything when the barrier is named and the conditions that overcome it are stated.",
+]
+requires = ["stossmodell", "gibbs-energie", "energieprofil"]
+embodied_by = "Directly, and with the seam visible. The aqueous engine minimises free energy, so left alone it returns tenorite (CuO) — more stable than Cu(OH)2 by 1.03 log units in minteq.v4. A beaker gives the blue hydroxide. The registry therefore carries `forms_only_above_k` on copper(II) oxide: below 340 K the phase is withheld from the solver, above it the engine is free to find it, and `heat v1 20kJ` really does turn the blue solid black at 77 C. The threshold is curated and says so — a stated stand-in for a rate we do not model, not a measurement. The same admission appears twice more in the engine: the thermal solver stands down below 500 K rather than oxidising every metal on the bench, and the aqueous solver now reports when a solution is supersaturated against a phase it is holding back, so the kinetic claim is visible rather than silent."
+
+[model.registers]
+lv1 = "Chemistry has a favourite answer and a fast answer, and they are not always the same one. Mix the blue copper liquid with drain cleaner and you get a pale blue jelly. That jelly is not what the chemistry would settle on if it had forever — the black powder is — but the jelly forms quickly and then just sits there, because turning into the black powder is hard work. Warm it up and it turns black in front of you. Most of the world is like this: your chair is not the most stable thing its atoms could be, it is just stuck."
+lv2 = "Two different questions: which product has the lowest free energy (thermodynamic control) and which product forms fastest (kinetic control). At low temperature the fastest-forming product wins and can persist indefinitely, because the barrier to rearranging into the stable one is far larger than the available thermal energy. Raise the temperature and the barrier becomes surmountable, so the stable product takes over. Cu(OH)2 versus CuO is the school case; Ostwald's rule of stages generalises it, saying that a crystallising system tends to pass through the least stable form first because that is the one that nucleates most easily."
+lv3 = "The distinction is between a state function and a rate. Equilibrium thermodynamics fixes the destination and is silent on the path, so a free-energy minimisation is answering a question the beaker may not be asking. Where barriers greatly exceed RT the observed composition is set by the relative heights of transition states, and Curtin-Hammett conditions describe when product ratios follow those barriers rather than the reactant populations. For precipitation the controlling quantity is nucleation: classical nucleation theory makes the critical radius depend on interfacial energy over supersaturation, so the phase with the lowest interfacial energy against the solution can nucleate first even when it is not the most stable bulk phase — Ostwald's rule made quantitative. The important epistemic point for a computational lab: any engine that minimises G is structurally incapable of discovering this, and must be told. That is why our kinetic thresholds are data with provenance rather than solver internals, and why the lab reports the phases it is deliberately withholding."
+
+[model.provenance]
+source = "Ostwald, Zeitschrift für physikalische Chemie, 1897, for the rule of stages; standard treatments of kinetic versus thermodynamic control; Curtin-Hammett per standard physical organic chemistry; classical nucleation theory per standard treatments. log_k values for Cu(OH)2 (8.674) and Tenorite (7.644) from minteq.v4.dat (USGS/MINTEQA2). Editorial judgement (Kerotakis): the 340 K threshold at which we let tenorite form is a stated stand-in for a rate we do not model — every source we have describes the blue-to-black conversion qualitatively, so the number is chosen to match the demonstration rather than measured"
+computed_by = "kerotakis-phreeqc (phase suppression via species::forms_only_above_k; saturation indices read back from the PHREEQC report)"

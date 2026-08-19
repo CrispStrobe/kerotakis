@@ -318,7 +318,16 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             .iter()
             .all(|(el, _)| elements.iter().any(|e| e == el));
         let listed = phases.iter().any(|(name, ..)| name == &cand.name);
-        if all_present && !listed {
+        // A phase with a kinetic barrier is withheld below its threshold.
+        // Equilibrium alone would hand back the *stable* copper solid,
+        // tenorite, and a beaker of copper sulfate and lye visibly gives
+        // the metastable blue hydroxide instead. Which phase is reachable
+        // is a statement about rates, so it lives in the registry as data
+        // rather than as a branch in this solver.
+        let reachable = species::lookup_key(cand.species)
+            .and_then(|d| d.forms_only_above_k)
+            .is_none_or(|floor| vessel.temperature.0 >= floor);
+        if all_present && !listed && reachable {
             phases.push((cand.name.clone(), 0.0, 0.0));
         }
     }
@@ -746,22 +755,48 @@ impl PhreeqcEquilibrator {
             .map(|(p, si)| (p.as_str(), *si))
             .collect();
         ignored.sort_by(|a, b| b.1.total_cmp(&a.1));
-        if !ignored.is_empty() {
-            let named: Vec<String> = ignored
+
+        // Two different admissions, and conflating them would be its own
+        // small dishonesty. A phase we cannot name at all is a gap in the
+        // registry. A phase we *can* name but withheld is a deliberate
+        // kinetic claim — tenorite is the stable copper solid and we are
+        // asserting it does not form fast enough to see at this
+        // temperature — and the user is entitled to know which they are
+        // looking at.
+        let (withheld, unnamed): (Vec<_>, Vec<_>) = ignored.iter().partition(|(phase, _)| {
+            derived::phase_by_name(phase)
+                .and_then(|p| species::lookup_key(p.species))
+                .and_then(|d| d.forms_only_above_k)
+                .is_some()
+        });
+        let describe = |list: &[&(&str, f64)]| {
+            let named: Vec<String> = list
                 .iter()
                 .take(3)
                 .map(|(p, si)| format!("{p} (SI {si:+.1})"))
                 .collect();
-            let rest = match ignored.len().saturating_sub(3) {
+            let rest = match list.len().saturating_sub(3) {
                 0 => String::new(),
                 n => format!(", and {n} more"),
             };
+            format!("{}{rest}", named.join(", "))
+        };
+        if !unnamed.is_empty() {
             events.push(Event::NotYetModeled {
                 vessel: vessel.id,
                 what: format!(
-                    "a real beaker would not stay like this: the solution is supersaturated against {}{}. Those phases are in {db_tag}.dat but not in this lab's registry, so nothing can precipitate out of it here",
-                    named.join(", "),
-                    rest
+                    "a real beaker would not stay like this: the solution is supersaturated against {}. Those phases are in {db_tag}.dat but not in this lab's registry, so nothing can precipitate out of it here",
+                    describe(&unnamed)
+                ),
+            });
+        }
+        if !withheld.is_empty() {
+            let t_c = vessel.temperature.to_celsius();
+            events.push(Event::NotYetModeled {
+                vessel: vessel.id,
+                what: format!(
+                    "the solution is supersaturated against {}, which this lab is deliberately holding back: it is the more stable solid, but at {t_c:.0} °C the metastable one forms first and stays. That is a claim about rates, not about equilibrium, and it is curated rather than computed",
+                    describe(&withheld)
                 ),
             });
         }

@@ -567,6 +567,23 @@ becomes a sentence the user sees. That single change closes the general
 class rather than the copper instance, and it surfaces SI — which the model
 audit independently flagged as computed-but-never-displayed.
 
+### Known gaps, written down where they can be found
+
+- **Solid-to-solid conversion carries no heat.** The energy balance reads
+  `Dissolved` and `Precipitated` events; a solid turning into a different
+  solid emits neither, so slaking lime (CaO + H₂O → Ca(OH)₂, about
+  −82 kJ/mol) shows the vessel *cooling*. A bucket of quicklime steams and
+  is a burn hazard, and we get the sign wrong. The fix is an event for a
+  consumed solid plus reaction enthalpies on phase conversions, not a
+  number bolted to the registry.
+- **Added gas does not dissolve.** `add v1 CO2` leaves the CO₂ sitting as a
+  gas phase, so limewater cannot go milky — one of the commonest school
+  tests. Open-vessel *venting* works (the fizz loses its CO₂ correctly);
+  it is the inward direction that is missing.
+- **Partial freezing is not modelled.** A freezing solution really gives ice
+  plus an ever more concentrated brine down to a eutectic; we freeze the
+  solvent and say the rest is not modelled.
+
 ### Thermodynamic product versus kinetic product
 
 Copper turns out to be a *better* problem than a missing phase, and it earns

@@ -74,6 +74,20 @@ const RESIDUE_OK: &[&str] = &[
     "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cl", "Br", "F", "Cu", "Mn", "Fe", "Zn",
 ];
 
+/// The subset of `RESIDUE_OK` that forms simple cations.
+///
+/// Oxygen left over after the hydrogen is accounted for is *oxide* oxygen
+/// when the only thing beside it is a metal: CuO dissolves as Cu²⁺ + H₂O,
+/// the oxide leaving as water exactly as hydroxide does, and PHREEQC's
+/// `pH charge` recovers the protons it consumed. With a halogen residue the
+/// same arithmetic would be wrong — the oxygen in hypochlorite is bound to
+/// chlorine and is not available as water — which is what the original
+/// oxygen guard was protecting against, rather more broadly than it needed
+/// to: it rejected every simple metal oxide in the databases.
+const CATION_RESIDUE: &[&str] = &[
+    "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cu", "Mn", "Fe", "Zn",
+];
+
 /// How dissolved element totals are booked back into the vessel inventory:
 /// the database's master species, unless overridden by the documented
 /// protonation-state choice.
@@ -300,8 +314,14 @@ fn contribution_from_counts(
     // charge-balance domain, and PHREEQC's `pH charge` recovers them.
     let h = counts.remove("H").unwrap_or(0.0);
     let o = counts.remove("O").unwrap_or(0.0);
-    if o > h {
-        return None; // oxygen unaccounted for (e.g. hypochlorite): not derivable
+    if o > h
+        && !counts
+            .keys()
+            .all(|el| CATION_RESIDUE.contains(&el.as_str()))
+    {
+        // Oxygen unaccounted for and not a metal oxide (e.g. hypochlorite):
+        // not derivable, and said so rather than guessed at.
+        return None;
     }
 
     for (el, n) in counts {

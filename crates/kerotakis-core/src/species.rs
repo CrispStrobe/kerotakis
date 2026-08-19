@@ -90,6 +90,20 @@ pub struct SpeciesData {
     /// (no heat effect is applied, honestly).
     pub dissolution_enthalpy_kj: Option<f64>,
     /// One-line provenance for the constants above.
+    /// Some solids are the *stable* phase and still do not appear on a
+    /// bench, because the metastable one nucleates first and then sits
+    /// there — Ostwald's rule of stages. Copper(II) hydroxide is the
+    /// classic case: tenorite (CuO) is more stable by ~1.0 log unit, yet
+    /// adding lye to copper sulfate gives the pale blue hydroxide gel, and
+    /// it is *heating* that turns it black.
+    ///
+    /// A Gibbs-minimising engine cannot discover that, because it is a
+    /// statement about rates. So it is recorded here as data with its own
+    /// provenance rather than special-cased in a solver: below this
+    /// temperature the phase is not offered, and above it the engine is
+    /// free to find it. `None` means no kinetic barrier is claimed.
+    #[serde(default)]
+    pub forms_only_above_k: Option<f64>,
     pub provenance: &'static str,
 }
 
@@ -133,6 +147,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: Some(Colour { r: 255, g: 255, b: 255, strength: 0.0 }),
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: CODATA/standard reference values",
     },
     SpeciesData {
@@ -149,6 +164,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: standard reference values",
     },
     SpeciesData {
@@ -165,6 +181,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: Some(Colour { r: 250, g: 250, b: 250, strength: 0.0 }),
         spectrum: None,
         dissolution_enthalpy_kj: Some(3.88),
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
@@ -181,6 +198,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: Some(22.6),
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
@@ -197,7 +215,67 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: Some(Colour { r: 248, g: 248, b: 246, strength: 0.0 }),
         spectrum: None,
         dissolution_enthalpy_kj: Some(65.7),
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
+    },
+    SpeciesData {
+        key: "Ca(OH)2",
+        name: "slaked lime (calcium hydroxide)",
+        formula: "CaH2O2",
+        inchikey: "AXCZMVOFGPJBDE-UHFFFAOYSA-L",
+        molar_mass: 74.09,
+        heat_capacity: 87.5,
+        density: 2.21,
+        standard_phase: Phase::Solid,
+        appearance: Some("white"),
+        flame_colour: Some("brick red"),
+        colour: Some(Colour { r: 246, g: 246, b: 244, strength: 0.0 }),
+        spectrum: None,
+        dissolution_enthalpy_kj: Some(-16.7),
+        forms_only_above_k: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, enthalpy of solution: standard reference values. Solubility and speciation computed by PHREEQC (Portlandite in wateq4f.dat/minteq.v4.dat)",
+    },
+    SpeciesData {
+        key: "Cu(OH)2",
+        name: "copper(II) hydroxide",
+        formula: "CuH2O2",
+        inchikey: "PTTPXKJBFFKCEK-UHFFFAOYSA-N",
+        molar_mass: 97.56,
+        heat_capacity: 96.0,
+        density: 3.37,
+        standard_phase: Phase::Solid,
+        appearance: Some("pale blue"),
+        flame_colour: None,
+        colour: Some(Colour { r: 137, g: 199, b: 214, strength: 0.0 }),
+        spectrum: None,
+        dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values. Colour: the pale blue gelatinous precipitate of the classic school demonstration",
+    },
+    SpeciesData {
+        key: "CuO",
+        name: "copper(II) oxide",
+        formula: "CuO",
+        inchikey: "QPLDLSVMHZLSFG-UHFFFAOYSA-N",
+        molar_mass: 79.55,
+        heat_capacity: 42.3,
+        density: 6.32,
+        standard_phase: Phase::Solid,
+        appearance: Some("black"),
+        flame_colour: None,
+        colour: Some(Colour { r: 26, g: 22, b: 20, strength: 0.0 }),
+        spectrum: None,
+        dissolution_enthalpy_kj: None,
+        // Tenorite is the thermodynamically stable copper(II) solid in
+        // water - by 1.03 log units against Cu(OH)2 in minteq.v4 - and it
+        // is still not what a beaker gives you at room temperature. The
+        // hydroxide nucleates first and persists; boiling the suspension
+        // is what turns it black, which is the demonstration. 340 K is the
+        // temperature at which that conversion becomes brisk enough to
+        // watch, and it is an editorial reading of a qualitative
+        // observation rather than a measured rate constant.
+        forms_only_above_k: Some(340.0),
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values. log_k for Cu(OH)2 (8.674) and Tenorite (7.644) from minteq.v4.dat (USGS/MINTEQA2). The 340 K kinetic threshold is Editorial judgement (Kerotakis): the blue-to-black conversion on warming is qualitative in every source we have, so the number is a stated stand-in for a rate we do not model, not a measurement",
     },
     SpeciesData {
         key: "Na+",
@@ -213,6 +291,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -229,6 +308,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -245,6 +325,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -261,6 +342,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -277,6 +359,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; modelled as concentrated aqueous acid, dilution heat not curated",
     },
     SpeciesData {
@@ -293,6 +376,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: Some(-44.5),
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy: standard reference values",
     },
     SpeciesData {
@@ -309,6 +393,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; modelled as household ammonia solution (safety screening only at this stage)",
     },
     SpeciesData {
@@ -325,6 +410,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; modelled as household bleach solution (safety screening only at this stage)",
     },
     SpeciesData {
@@ -341,6 +427,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; product of the curated bleach+ammonia entry",
     },
     SpeciesData {
@@ -357,6 +444,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(g): standard reference values",
     },
     SpeciesData {
@@ -373,6 +461,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density: standard reference values",
     },
     SpeciesData {
@@ -389,6 +478,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: Some(-17.3),
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy: standard reference values",
     },
     SpeciesData {
@@ -405,6 +495,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -421,6 +512,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: Some(16.7),
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy: standard reference values",
     },
     SpeciesData {
@@ -437,6 +529,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values; dissolution enthalpy not yet curated",
     },
     SpeciesData {
@@ -453,6 +546,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(g): standard reference values",
     },
     SpeciesData {
@@ -469,6 +563,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs); books total dissolved carbonate",
     },
     SpeciesData {
@@ -485,6 +580,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; modelled as the concentrated syrupy acid",
     },
     SpeciesData {
@@ -501,6 +597,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs); books total dissolved phosphate",
     },
     SpeciesData {
@@ -517,6 +614,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: Some(17.2),
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy: standard reference values",
     },
     SpeciesData {
@@ -533,6 +631,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: Some(-82.8),
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy (anhydrous): standard reference values",
     },
     SpeciesData {
@@ -549,6 +648,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: Some(Colour { r: 250, g: 250, b: 248, strength: 0.0 }),
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density (calcite): standard reference values",
     },
     SpeciesData {
@@ -565,6 +665,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values; dissolution enthalpy not curated (hydrate-dependent)",
     },
     SpeciesData {
@@ -581,6 +682,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
@@ -597,6 +699,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -613,6 +716,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -629,6 +733,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -645,6 +750,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
     },
     SpeciesData {
@@ -660,8 +766,16 @@ pub const REGISTRY: &[SpeciesData] = &[
         flame_colour: None,
         colour: Some(Colour { r: 252, g: 250, b: 245, strength: 0.0 }),
         spectrum: None,
+        // KNOWN GAP, stated rather than papered over. Slaking is violently
+        // exothermic - CaO + H2O -> Ca(OH)2 releases about 82 kJ/mol, which
+        // is why a bucket of quicklime steams and why it is a burn hazard.
+        // The bench currently shows the vessel *cooling* instead, because
+        // the energy balance only reads Dissolved and Precipitated events
+        // and a solid turning into a different solid emits neither. Putting
+        // the number here would not fix that; it would just look fixed.
         dissolution_enthalpy_kj: None,
-        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
+        forms_only_above_k: None,
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values. The heat of slaking is NOT modelled: see the note on dissolution_enthalpy_kj",
     },
     SpeciesData {
         key: "Mg",
@@ -677,6 +791,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: Some(Colour { r: 200, g: 202, b: 205, strength: 0.0 }),
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
@@ -693,6 +808,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: Some(Colour { r: 255, g: 255, b: 255, strength: 0.0 }),
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
@@ -709,6 +825,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: Some(Colour { r: 24, g: 24, b: 26, strength: 0.0 }),
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s, graphite), density: standard reference values",
     },
     SpeciesData {
@@ -725,6 +842,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(g): standard reference values",
     },
     SpeciesData {
@@ -741,6 +859,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: None,
         spectrum: None,
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(g): standard reference values",
     },
     SpeciesData {
@@ -757,6 +876,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: Some(Colour { r: 245, g: 245, b: 240, strength: 0.0 }),
         spectrum: None,
         dissolution_enthalpy_kj: Some(-73.1),
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy (anhydrous): standard reference values",
     },
     SpeciesData {
@@ -777,6 +897,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         // need tenths of a mole to see anything at all.
         spectrum: Some(|| crate::spectrum::edge(0.6, 11.0)),
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; colour curated, strength set from the published molar absorptivity of [Cu(H2O)6]2+ (ε ≈ 12 L/mol/cm) over a beaker-sized path",
     },
     SpeciesData {
@@ -793,6 +914,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         colour: Some(Colour { r: 60, g: 20, b: 70, strength: 0.0 }),
         spectrum: None,
         dissolution_enthalpy_kj: Some(16.2),
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density, dissolution enthalpy: standard reference values",
     },
     SpeciesData {
@@ -821,6 +943,7 @@ pub const REGISTRY: &[SpeciesData] = &[
             ])
         }),
         dissolution_enthalpy_kj: None,
+        forms_only_above_k: None,
         provenance: "M from IUPAC/CIAAW 2021 atomic weights; colour curated, strength set from the published molar absorptivity of MnO4- (ε ≈ 2400 L/mol/cm at 525 nm) — visible at 1e-5 M, which is why it is the classic titration indicator",
     },
 ];
