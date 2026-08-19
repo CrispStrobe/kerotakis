@@ -8,6 +8,8 @@
 //! Every species record carries its own literature citation, which we keep
 //! as provenance.
 
+pub mod gibbs;
 pub mod nasa9;
 
+pub use gibbs::{equilibrate_hp, equilibrate_tp, CeaError, Equilibrium};
 pub use nasa9::{db, Species, ThermoDb, R, T_REF};

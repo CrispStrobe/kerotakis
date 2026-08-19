@@ -845,11 +845,31 @@ The single highest-information task. Everything else is downstream of it.
 
 ### P2g — Heat and fire
 
-- [ ] Gibbs minimiser over NASA CEA `thermo.inp` (Apache-2.0): gas equilibrium +
-      pure condensed phases. Evaluate adopting/extending `cea-rs` first
-- [ ] Acceptance: CaCO₃ decomposition vs temperature; CH₄/air adiabatic flame T
-      (validated against build-time Cantera oracle runs)
-- [ ] Feeds ΔH into the P1 energy balance
+- [x] NASA-9 thermochemistry from CEA's `thermo.inp` (Apache-2.0, vendored
+      with NASA's own LICENSE/NOTICE): Cp(T), H(T), S(T), G(T), formation
+      enthalpies, composition, phase — CO₂ reproduces ΔHf = −393.51 kJ/mol,
+      Cp(298) = 37.13, S° = 213.8 from the coefficients. Species citations
+      kept as provenance. (Found en route: CEA writes element symbols
+      upper-case, "CA" — normalised, or every two-letter element breaks.)
+- [x] **Gibbs minimiser** (Gordon & McBride formulation, Lagrange
+      multipliers per element, damped Newton on ln n, condensed phases
+      admitted/dropped by chemical potential): methane burns to CO₂ + H₂O
+      with elements conserved to 1e-6; products visibly dissociate to
+      CO/OH/H at 3000 K; **CH₄/air adiabatic flame temperature ≈ 2225 K**
+      by bisection on enthalpy; chalk stable at 800 K and fully calcined by
+      1400 K, with the **decomposition temperature computed** (~1170 K
+      textbook window) rather than assumed
+- [x] Two design notes worth keeping: convergence is measured on each
+      species' *contribution*, not its log step (a trace radical doubling
+      every iteration must not hold the mixture hostage — RP-1311 eq 3.14);
+      and an element with no gaseous carrier (calcium) must enter through a
+      condensed phase from the start or its balance row is all zeros. A
+      vessel's **atmosphere is part of the problem**: with CO₂ as the only
+      possible gas, calcite below its decomposition point has no gas phase
+      at all — true, and numerically degenerate. Real beakers contain air
+- [ ] Wire L2g into the bench as a solver: `heat`/`ignite` operators,
+      vessel atmosphere, ΔH feeding the energy balance
+- [ ] Validate a wider set against build-time Cantera oracle runs
 
 ### P3 — Phase behaviour
 

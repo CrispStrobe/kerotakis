@@ -189,7 +189,18 @@ impl ThermoDb {
                 let Some(chunk) = meta.get(start..start + 8) else {
                     break;
                 };
-                let sym = chunk.get(..2).unwrap_or("").trim().to_string();
+                // CEA writes element symbols upper-case ("CA", "NA"):
+                // normalise to standard capitalisation so they match the
+                // rest of the world's "Ca", "Na".
+                let raw = chunk.get(..2).unwrap_or("").trim();
+                let mut chars = raw.chars();
+                let sym: String = match chars.next() {
+                    Some(first) => {
+                        first.to_ascii_uppercase().to_string()
+                            + &chars.as_str().to_ascii_lowercase()
+                    }
+                    None => String::new(),
+                };
                 let count = chunk.get(2..).and_then(parse_f64).unwrap_or(0.0);
                 if !sym.is_empty() && count != 0.0 {
                     *composition.entry(sym).or_insert(0.0) += count;
@@ -310,6 +321,18 @@ mod tests {
         let hot = n2.cp(2000.0).unwrap();
         assert!(cold > 28.0 && cold < 30.0, "Cp(N2, 300) = {cold}");
         assert!(hot > cold, "diatomic Cp rises with T: {cold} → {hot}");
+    }
+
+    #[test]
+    fn two_letter_elements_are_normalised() {
+        // CEA writes "CA"; the rest of chemistry writes "Ca".
+        let calcite = db().get("CaCO3(cr)").expect("calcite");
+        assert_eq!(calcite.composition["Ca"], 1.0);
+        assert_eq!(calcite.composition["C"], 1.0);
+        assert_eq!(calcite.composition["O"], 3.0);
+        assert!(!calcite.is_gas());
+        // ΔHf(calcite) = −1206.6 kJ/mol.
+        assert!((calcite.h_formation + 1_206_600.0).abs() < 500.0);
     }
 
     #[test]
