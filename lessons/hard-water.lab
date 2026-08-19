@@ -1,0 +1,11 @@
+# The kettle and the statue: hard water and limescale
+register 9
+add v1 water 500mL
+add v1 NaHCO3 1.7g
+add v1 CaCl2 1.1g
+inspect v1
+new
+add v2 water 200mL
+add v2 CaCO3 1g
+add v2 HCl 0.03mol
+measure v2 balance

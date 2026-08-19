@@ -772,7 +772,14 @@ The single highest-information task. Everything else is downstream of it.
 - [x] pitzer.dat routing for concentrated major-ion brines: halite
       saturates at the textbook 6.13 mol/kgw (wateq4f: 6.50, minteq: 3.7 —
       three databases, three validity domains, routed honestly)
-- [ ] More of the registry aqueous-mapped (K, Ca, Mg, sulfate)
+- [x] Hard-water chemistry (K, Ca, Mg, sulfate; Calcite/Gypsum/Sylvite
+      phases with per-database availability): chalk barely dissolves and
+      fizzes away in acid, hard water deposits limescale, gypsum's two
+      waters of crystallisation move between liquid and crystal in the
+      ledger (exact), CaCl2 is a +20 K hot pack and KCl a −4 K cold pack.
+      Fixed en route: phase-delta baseline is the phase's input amount, not
+      vessel solids (freely-soluble solids double-counted their heat)
+- [ ] Registry breadth continues with L1 (PubChem/Wikidata export)
 - [ ] Cache pre-warming pipeline in `tools/` (lesson states)
 - [ ] The P2 CLI **is** the "strong product on its own" claim, tested literally
 
