@@ -87,7 +87,7 @@ fn salt_dissolves_in_water() {
         "no solid salt should remain"
     );
     assert!((vessel.moles_of(&SpeciesId::new("Na+")).0 - 0.05).abs() < 1e-6);
-    let ph = vessel.solution.expect("characterised").ph;
+    let ph = vessel.solution.clone().expect("characterised").ph;
     assert!((ph - 7.0).abs() < 0.5, "NaCl solution is neutral, pH {ph}");
 }
 

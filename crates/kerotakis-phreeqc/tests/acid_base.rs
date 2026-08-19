@@ -36,7 +36,7 @@ fn add(
 }
 
 fn ph(bench: &Bench, v: VesselId) -> f64 {
-    bench.vessel(v).unwrap().solution.expect("characterised").ph
+    bench.vessel(v).unwrap().solution.clone().expect("characterised").ph
 }
 
 #[test]
@@ -172,7 +172,7 @@ fn bleach_and_ammonia_warns_then_shows_the_chloramine() {
     let vessel = bench.vessel(v).unwrap();
     assert!((vessel.moles_of(&SpeciesId::new("NaOCl")).0).abs() < 1e-9);
     assert!((vessel.moles_of(&SpeciesId::new("NH3")).0).abs() < 1e-9);
-    let ph = vessel.solution.expect("characterised").ph;
+    let ph = vessel.solution.clone().expect("characterised").ph;
     assert!(
         ph > 12.0,
         "0.1 mol NaOH byproduct in 100 mL is strongly basic, got pH {ph}"
