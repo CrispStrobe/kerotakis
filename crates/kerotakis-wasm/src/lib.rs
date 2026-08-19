@@ -132,6 +132,7 @@ impl Lab {
         let events = self.run(op)?;
         let rendered: Vec<String> = events
             .iter()
+            .filter(|e| e.is_observable())
             .map(|e| render_event(e, self.register))
             .collect();
         let doc = serde_json::json!({
@@ -162,6 +163,7 @@ impl Lab {
                     let events = self.run(op.clone())?;
                     let rendered: Vec<String> = events
                         .iter()
+                        .filter(|e| e.is_observable())
                         .map(|e| render_event(e, self.register))
                         .collect();
                     steps.push(serde_json::json!({

@@ -62,8 +62,23 @@ impl Equilibrator for SolverStack {
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         let mut events = Vec::new();
         for solver in &mut self.solvers {
-            if solver.applies(vessel) {
-                events.append(&mut solver.equilibrate(vessel)?);
+            if !solver.applies(vessel) {
+                continue;
+            }
+            match solver.equilibrate(vessel) {
+                Ok(mut more) => events.append(&mut more),
+                // One solver failing must not silence the rest. The stack is
+                // a sequence of independent questions — what dissolves, what
+                // burns, what state the solvent is in — and an aqueous
+                // engine that cannot answer the first has nothing to say
+                // about the third. Aborting here left water liquid at
+                // −24 °C, because the freezing pass never ran once PHREEQC
+                // had declined the solution.
+                Err(e) => events.push(Event::SolverFailed {
+                    vessel: vessel.id,
+                    solver: solver.name().to_string(),
+                    detail: e.to_string(),
+                }),
             }
         }
         Ok(events)
