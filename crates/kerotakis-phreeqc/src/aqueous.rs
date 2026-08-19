@@ -669,6 +669,9 @@ impl PhreeqcEquilibrator {
         // ledger losing their crystal water silently.
         let idx = derived::index_for(db_tag);
         let mut freed: Vec<(String, f64)> = Vec::new();
+        // What was freed, as phases rather than loose elements — the heat
+        // is owed to the *substance* that dissolved, not to its atoms.
+        let mut freed_phases: Vec<(String, f64)> = Vec::new();
         problem.phases.retain(|(name, moles, _)| {
             if idx.has_phase(name) {
                 return true;
@@ -679,6 +682,7 @@ impl PhreeqcEquilibrator {
                         for (el, c) in &p.elements {
                             freed.push((el.clone(), c * moles));
                         }
+                        freed_phases.push((name.clone(), *moles));
                         return false;
                     }
                 }
@@ -709,6 +713,14 @@ impl PhreeqcEquilibrator {
             // coupled and pe is solved for; everything else keeps the
             // oxidation state it was added in. Which is which is curated —
             // see FAST_REDOX — because it is a claim about rates.
+            // `KERO_DUMP_INPUT=1` shows the input only when the engine
+            // refuses it; `=all` shows every one. A wrong answer the engine
+            // was perfectly happy to give needs the same view as a refused
+            // one — diffing two of these is what found the missing
+            // dissolution enthalpy below.
+            if std::env::var("KERO_DUMP_INPUT").as_deref() == Ok("all") {
+                eprintln!("--- PHREEQC input ---\n{input}---");
+            }
             let out = match redox_coupling(&problem, db_tag) {
                 Some(coupling) => match self.solve_coupled(vessel, &problem, db_tag, &coupling) {
                     Ok(out) => out,
@@ -990,6 +1002,35 @@ impl PhreeqcEquilibrator {
                     // and a fizzing beaker lost 1.02 g where it should have
                     // lost the full 1.69 g of carbon dioxide.
                     let _ = water_coproduct;
+                }
+            }
+        }
+        // A phase the routed database does not define was dissolved into
+        // element totals above. The chemistry was right either way, but the
+        // *event* was never recorded — and the dissolution enthalpy rides on
+        // the event, so the vessel silently skipped the heat whenever the
+        // router happened to pick a database lacking that mineral.
+        //
+        // Sylvite is pitzer-only, and the router chooses by ionic strength,
+        // so potassium chloride cooled the beaker only once something else
+        // had already made the solution concentrated enough to route there.
+        // Dissolving KCl and then NaCl ended 0.82 K warmer than the same two
+        // salts in the other order: enthalpy had stopped being a state
+        // function. That temperature gap was also the whole of the
+        // order-dependent pH we chased for two sessions — equalising the
+        // temperature drops the pH difference from 1.36e-2 to 2.8e-10.
+        //
+        // Recorded whatever the size, as with the escaping gas above:
+        // `Event::is_observable` decides what is shown, but the energy
+        // balance must see all of it.
+        for (phase, moles) in &freed_phases {
+            if *moles > TRACE {
+                if let Some(dp) = derived::phase_by_name(phase) {
+                    events.push(Event::Dissolved {
+                        vessel: vessel.id,
+                        species: SpeciesId::new(dp.species),
+                        moles: Moles(*moles),
+                    });
                 }
             }
         }
