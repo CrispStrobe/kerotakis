@@ -15,7 +15,9 @@ use std::ffi::{CStr, CString};
 mod aqueous;
 pub mod dbindex;
 pub mod derived;
-pub use aqueous::{CacheData, CacheEntry, PathOutcome, PathResult, PhreeqcEquilibrator};
+pub use aqueous::{
+    CacheData, CacheEntry, PathOutcome, PathResult, PhreeqcEquilibrator, SolveHook, SolveOutput,
+};
 
 #[cfg(feature = "engine")]
 mod ffi {

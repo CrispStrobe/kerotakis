@@ -106,6 +106,50 @@ pub struct PhreeqcEquilibrator {
         ),
     >,
     cache_hits: usize,
+    /// An outside solver, for builds that cannot link IPhreeqc themselves.
+    ///
+    /// `wasm32-unknown-unknown` cannot host PHREEQC's C++, so the browser
+    /// build has always carried pre-warmed results and reported a stated
+    /// miss for anything nobody computed in advance. That is honest and it
+    /// is also not a laboratory: "try things" quietly degrades to "replay
+    /// what we prepared" in the one distribution channel schools can
+    /// actually use. IPhreeqc *does* build for Emscripten — the module and
+    /// its test have existed since P0 — so what was missing was a way to
+    /// hand it the question.
+    ///
+    /// The hook takes the database tag and the canonical input and returns
+    /// the engine's two outputs as JSON. Everything downstream — routing,
+    /// caching, parsing, the temperature fixed point — is unchanged, so the
+    /// browser gets the same answers by the same path rather than a second
+    /// implementation that could drift.
+    hook: Option<SolveHook>,
+}
+
+/// An outside aqueous solver: database tag and canonical input in, the
+/// engine's two outputs out.
+pub type SolveHook = Box<dyn FnMut(&str, &str) -> Result<SolveOutput, String>>;
+
+/// What an outside solver must return: exactly what the linked engine
+/// produces, so the code that reads it does not know the difference.
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
+pub struct SolveOutput {
+    /// Selected-output rows, header first.
+    pub selected: Vec<Vec<String>>,
+    /// The full run report, which carries the species distribution and the
+    /// saturation indices.
+    pub report: String,
+}
+
+impl PhreeqcEquilibrator {
+    /// Install an outside solver. See [`SolveOutput`].
+    pub fn set_hook(&mut self, hook: SolveHook) {
+        self.hook = Some(hook);
+    }
+
+    /// Whether this equilibrator can compute a state nobody pre-computed.
+    pub fn can_solve(&self) -> bool {
+        cfg!(feature = "engine") || self.hook.is_some()
+    }
 }
 
 impl PhreeqcEquilibrator {
@@ -117,6 +161,7 @@ impl PhreeqcEquilibrator {
             brine: Phreeqc::with_database(databases::PITZER)?,
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
+            hook: None,
         })
     }
 
@@ -129,6 +174,7 @@ impl PhreeqcEquilibrator {
         Ok(PhreeqcEquilibrator {
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
+            hook: None,
         })
     }
 
@@ -533,12 +579,38 @@ impl PhreeqcEquilibrator {
         } else {
             #[cfg(not(feature = "engine"))]
             {
-                // No engine in this build: the shipped cache is all there
-                // is, and a miss is stated rather than guessed at.
-                return Err(SolveError::NotConverged {
-                    solver: "phreeqc-aqueous (cache-only build)".to_string(),
-                    detail: "this state is not in the shipped results and there is no solver here to compute it".to_string(),
-                });
+                // No linked engine. An outside one may have been installed
+                // — that is how the browser build reaches real IPhreeqc —
+                // and everything downstream is identical either way.
+                let Some(hook) = self.hook.as_mut() else {
+                    // Nothing to ask: the shipped cache is all there is, and
+                    // a miss is stated rather than guessed at.
+                    return Err(SolveError::NotConverged {
+                        solver: "phreeqc-aqueous (cache-only build)".to_string(),
+                        detail: "this state is not in the shipped results and there is no solver here to compute it".to_string(),
+                    });
+                };
+                let out = hook(db_tag, &input).map_err(|e| SolveError::NotConverged {
+                    solver: "phreeqc-aqueous (external engine)".to_string(),
+                    detail: e,
+                })?;
+                let rows = out.selected;
+                let speciation = parse_species_distribution(&out.report);
+                let saturation = parse_saturation_indices(&out.report);
+                let redox_adjusted = out.report.contains("Adjusted to redox equilibrium");
+                if self.cache.len() >= 10_000 {
+                    self.cache.clear();
+                }
+                self.cache.insert(
+                    key,
+                    (
+                        rows.clone(),
+                        speciation.clone(),
+                        saturation.clone(),
+                        redox_adjusted,
+                    ),
+                );
+                (rows, speciation, saturation, redox_adjusted)
             }
             #[cfg(feature = "engine")]
             {
@@ -934,7 +1006,6 @@ fn build_input(vessel: &Vessel, problem: &Problem) -> String {
     input
 }
 
-#[cfg(feature = "engine")]
 /// Parse the report's "Saturation indices" block into (phase, SI) pairs.
 ///
 /// This is the one place PHREEQC volunteers information about phases we did
@@ -969,7 +1040,6 @@ fn parse_saturation_indices(output: &str) -> Vec<(String, f64)> {
     out
 }
 
-#[cfg(feature = "engine")]
 /// Parse the last "Distribution of species" block of a PHREEQC output
 /// report into (name, molality, activity) triples, molality > 1e-9,
 /// descending. The block's shape is stable across PHREEQC 3.x: a header,

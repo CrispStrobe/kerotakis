@@ -1082,13 +1082,17 @@ Eight phases and thirteen crates have no floor without an explicit line.
   and deeper-symbolic views and Johnstone's triangle is not closed — which
   is the one pedagogical claim the whole design rests on. It may be humble
   (2-D dots at solved ratios) but it may not be absent
-- **the browser as a real bench, not a lesson player.** Schools reach this
-  on locked-down devices with no installs, and today the web build serves
-  aqueous chemistry from pre-warmed cache only — so "a lab: try things"
-  silently degrades to "replay what we prepared" in exactly the channel
-  that matters most. The Emscripten IPhreeqc module already builds and
-  passes the AgCl gate; what is missing is the JS bridge in
-  `kerotakis-wasm`. This is worth more than any solver work below it
+- **the browser as a real bench, not a lesson player** — **built**. The two
+  wasm halves are wired together: `Lab.setSolver()` takes a JavaScript
+  function, `web/kerotakis.mjs` backs it with the Emscripten build of
+  IPhreeqc, and everything above the hook is unchanged — same routing, same
+  content cache, same temperature fixed point, same parsers. The web gets
+  the same answers **by the same path** rather than a second implementation
+  that could drift from the one the codex was linted against, and CI proves
+  it by recording the desktop build's answer to a deliberately un-warmed
+  question and requiring the browser to match it to 1e-6 in pH. A bench with
+  no solver attached reports `canSolve() == false` and refuses rather than
+  guessing, which is the honest version of what shipped before
 
 Explicitly **not** in v1.0: P2g (v1.1, with `ignite`), P3p (v1.1, with
 distillation), the QM/orbital layer, Hückel, lessons beyond the codex slice,

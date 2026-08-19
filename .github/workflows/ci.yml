@@ -83,3 +83,40 @@ jobs:
         run: ./tools/build-iphreeqc-wasm.sh "$RUNNER_TEMP/iphreeqc-wasm"
       - name: AgCl end-to-end in wasm
         run: node tools/test-iphreeqc-wasm.mjs "$RUNNER_TEMP/iphreeqc-wasm" vendor/iphreeqc/database/wateq4f.dat
+
+  wasm-bridge:
+    name: The two wasm halves, together
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: mymindstorm/setup-emsdk@v14
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install wasm-bindgen
+        run: cargo install wasm-bindgen-cli --version 0.2.127
+      - name: Build the bench for the browser
+        run: |
+          cargo build -p kerotakis-wasm --target wasm32-unknown-unknown --release
+          wasm-bindgen --target nodejs --out-dir "$RUNNER_TEMP/kero-wasm" \
+            target/wasm32-unknown-unknown/release/kerotakis_wasm.wasm
+      - name: Build IPhreeqc for the browser
+        run: ./tools/build-iphreeqc-wasm.sh "$RUNNER_TEMP/iphreeqc-wasm"
+      # The desktop build's answer to the identical question, so the web can
+      # be checked against it rather than merely checked for plausibility.
+      - name: Record the desktop answer
+        run: |
+          printf 'add v1 water 137mL\nadd v1 NaCl 0.037mol\n' > "$RUNNER_TEMP/bridge.lab"
+          cargo run -p kerotakis-cli -- run "$RUNNER_TEMP/bridge.lab" --json \
+            | python3 tools/extract-solution.py > "$RUNNER_TEMP/expected.json"
+          cat "$RUNNER_TEMP/expected.json"
+      - name: Solve in the browser and compare
+        run: |
+          node tools/test-wasm-bridge.mjs "$RUNNER_TEMP/kero-wasm" \
+            "$RUNNER_TEMP/iphreeqc-wasm" "$RUNNER_TEMP/expected.json"

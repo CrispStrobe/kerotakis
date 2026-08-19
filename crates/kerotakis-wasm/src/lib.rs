@@ -4,12 +4,15 @@
 //! `wasm32-unknown-unknown`, exposing the same `kerotakis-core` API the CLI
 //! drives. Two things differ from a native build, both deliberate:
 //!
-//! * **The aqueous engine is not linked.** A browser cannot load IPhreeqc's
-//!   C++ without a separate Emscripten module, so this build carries the
-//!   *pre-warmed results* instead. Guided content answers instantly; a
-//!   state nobody computed at build time is reported as a stated miss, not
-//!   a guess. (Track B — the Emscripten side module — restores full
-//!   solving on the web when it lands.)
+//! * **The aqueous engine is not linked, it is *attached*.** A browser
+//!   cannot load IPhreeqc's C++ into `wasm32-unknown-unknown`, so this
+//!   build carries pre-warmed results — and, once `setSolver` is called,
+//!   reaches the real engine through JavaScript to the Emscripten module
+//!   (Track B). Everything above that hook is unchanged: routing, cache,
+//!   parsers, the temperature fixed point. Without a solver attached the
+//!   bench answers only from shipped results and says so; `canSolve()`
+//!   reports which of the two it is, because the difference between a
+//!   laboratory and a lesson player is worth surfacing rather than hiding.
 //! * **Thermal chemistry is fully live.** The Gibbs minimiser is pure Rust,
 //!   so heating, calcining and burning are computed in the browser.
 
@@ -56,6 +59,51 @@ impl Lab {
         let data: kerotakis_phreeqc::CacheData =
             postcard::from_bytes(bytes).map_err(|e| JsError::new(&e.to_string()))?;
         Ok(self.aqueous.import_cache(data))
+    }
+
+    /// Hand the bench a real aqueous solver.
+    ///
+    /// `fn` is called as `fn(databaseTag, phreeqcInput)` and must return a
+    /// JSON string `{ "selected": [[...]], "report": "..." }` — exactly
+    /// what the linked engine produces. The intended supplier is the
+    /// Emscripten build of IPhreeqc (`tools/build-iphreeqc-wasm.sh`), and
+    /// `web/kerotakis.mjs` wires the two together.
+    ///
+    /// Until this is called the browser bench answers only from pre-warmed
+    /// results, which is honest and is also not a laboratory. With it, a
+    /// state nobody thought to pre-compute is solved rather than refused,
+    /// on the same routing and through the same cache as the desktop
+    /// build — so the web gets the same answers by the same path instead
+    /// of a second implementation that could drift.
+    #[wasm_bindgen(js_name = setSolver)]
+    pub fn set_solver(&mut self, f: js_sys::Function) {
+        self.aqueous.set_hook(Box::new(move |db_tag, input| {
+            let out = f
+                .call2(
+                    &JsValue::NULL,
+                    &JsValue::from_str(db_tag),
+                    &JsValue::from_str(input),
+                )
+                .map_err(|e| {
+                    format!(
+                        "the JavaScript solver threw: {}",
+                        e.as_string().unwrap_or_else(|| "(no message)".into())
+                    )
+                })?;
+            let text = out
+                .as_string()
+                .ok_or_else(|| "the solver must return a JSON string".to_string())?;
+            serde_json::from_str::<kerotakis_phreeqc::SolveOutput>(&text)
+                .map_err(|e| format!("the solver's JSON did not parse: {e}"))
+        }));
+    }
+
+    /// Whether this bench can compute a state nobody pre-computed, or is
+    /// limited to shipped results. Worth surfacing rather than hiding: it
+    /// is the difference between a laboratory and a lesson player.
+    #[wasm_bindgen(js_name = canSolve)]
+    pub fn can_solve(&self) -> bool {
+        self.aqueous.can_solve()
     }
 
     /// How much detail to render: `lv1` (what you see), `lv2` (equations
