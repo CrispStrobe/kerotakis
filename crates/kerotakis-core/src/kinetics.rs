@@ -76,6 +76,16 @@ pub struct KineticReaction {
     /// It lowers the activation energy — which is the whole content of what
     /// a catalyst *is*, so it is modelled that way rather than as a fudge
     /// factor on the rate.
+    ///
+    /// **How much catalyst there is makes no difference here, deliberately
+    /// and wrongly.** Presence is a boolean: a milligram of manganese
+    /// dioxide and a spoonful give bit-identical rates. For a heterogeneous
+    /// catalyst the real rate goes with available surface, so it depends on
+    /// both the amount and how finely it is ground — and this engine has no
+    /// particle-size or surface-area model to hang that on. Scaling the
+    /// rate by mass would be a fabricated number wearing the shape of a
+    /// real one. The gap is stated instead, and `codex/rates.toml` teaches
+    /// it as a limit rather than hiding it.
     pub catalysts: &'static [Catalyst],
     pub provenance: &'static str,
 }
@@ -140,7 +150,16 @@ pub const REGISTRY: &[KineticReaction] = &[
         products: &[("water", 2.0, Phase::Liquid), ("O2", 1.0, Phase::Gas)],
         orders: &[("H2O2", 1.0)],
         rate: RateLaw {
-            pre_exponential: 1.6e10,
+            // Calibrated so undisturbed peroxide has a half-life near a
+            // day, which is the point of the practical: without a catalyst
+            // *nothing happens while you watch*. An earlier value gave
+            // 299 s, so the bottle emptied itself in an afternoon and the
+            // catalyst looked like a convenience rather than the whole
+            // reason the reaction is usable. Real bottled peroxide is
+            // stabilised and keeps far longer; a day is chosen to read as
+            // clearly-nothing on a lesson timescale without pretending to
+            // model stabilisers.
+            pre_exponential: 5.6e7,
             activation_energy: 75_000.0,
         },
         catalysts: &[
@@ -155,7 +174,7 @@ pub const REGISTRY: &[KineticReaction] = &[
                 provenance: "Catalase, Ea ≈ 23 kJ/mol — the enzyme is dramatically better than the mineral, which is the point of putting them side by side",
             },
         ],
-        provenance: "Uncatalysed decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts). A chosen so that undisturbed peroxide is visibly stable on the bench while the catalysed reaction fizzes — Editorial judgement (Kerotakis)",
+        provenance: "Uncatalysed decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); catalysed barriers cited per catalyst. Editorial judgement (Kerotakis): the pre-exponential is chosen so the uncatalysed half-life is about a day and the catalysed reaction is watchable, not measured. Absolute rates are therefore indicative — the amount and surface area of a solid catalyst are not modelled at all, so it is the comparison between catalysts that carries meaning, not the seconds",
     },
 ];
 

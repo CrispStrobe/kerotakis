@@ -346,7 +346,7 @@ add v2 H2O2 0.1mol @ 35C
 new
 add v3 water 100mL @ 45C
 add v3 H2O2 0.1mol @ 45C
-wait 10s
+wait 30min
 """
 
 [reaction.expect]
@@ -382,8 +382,8 @@ next = "Compare 75 kJ/mol against RT at 298 K, which is 2.5 kJ/mol. The barrier 
 
 [reaction.registers]
 lv1 = "The same ten degrees does not buy the same speed-up for every reaction. For the sulfur clock it was about double. For peroxide breaking down on its own it is about two and a half times — because peroxide's reaction is harder to start, and anything hard to start is more grateful for the extra warmth."
-lv2 = "Uncatalysed peroxide decomposition carries Ea = 75 kJ/mol against the clock reaction's 51. In ten seconds the bench reports 1.1474 × 10⁻³, 3.0044 × 10⁻³ and 7.2011 × 10⁻³ mol of reaction at 25, 35 and 45 °C — factors of 2.62 and 2.40 per ten degrees, where thiosulfate gave 1.90 and 1.80 over the same steps."
-lv3 = "e^(Ea/R · (1/298.15 − 1/308.15)) is 1.95 for Ea = 51 kJ/mol and 2.67 for 75 kJ/mol; the measured 1.90 and 2.62 sit just below because ten seconds is long enough for some depletion. This is the cleanest demonstration in the file that the ten-degree rule is a coincidence of magnitude rather than a principle: the same integrator, the same clock, two rate laws, and the only difference is one number in the exponent. Note also what the peroxide vessel cannot tell you: hydrogen peroxide is in none of the shipped PHREEQC databases, so there is no solute to speciate, no solution is characterised at all, and a pH meter held in it reports that it has nothing to read — the same answer a beaker of pure water gives on this bench. The rate engine does not need one; it reads the inventory, not the solution."
+lv2 = "Three beakers of 0.1 mol of peroxide at 25, 35 and 45 °C, left for thirty minutes. The extents are 0.0007, 0.0019 and 0.0047 mol — factors of about 2.7 and 2.5 for each ten degrees, against 1.90 for the thiosulfate clock. The only thing that differs is the activation energy: 75 kJ/mol here against 51 there. Note also that thirty minutes is needed to see anything at all, where the clock reaction was over in under a minute — a steeper barrier means both a slower reaction and a more temperature-sensitive one, and those are separate consequences of the same number."
+lv3 = "The ratio is exp[(Ea/R)(1/T₁ − 1/T₂)], so for Ea = 75 kJ/mol the pure Arrhenius factors across these steps are 2.67 and 2.51. The measured extents give 2.71 and 2.47: the first sits a hair high on rounding, the second a little low because the hottest beaker has begun to run out of peroxide and an extent over thirty minutes is no longer a clean proxy for an initial rate. That gap is the reason initial-rate methods exist, and it is visible here rather than described. The ten-degree rule corresponds to Ea ≈ 50 kJ/mol at room temperature, which is why the thiosulfate clock obeys it and this does not — the rule is a coincidence of one barrier height, not a law."
 
 [reaction.provenance]
 source = "Uncatalysed hydrogen peroxide decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); Arrhenius, 1889. Editorial judgement (Kerotakis): the side-by-side comparison of two curated activation energies as a way of showing the ten-degree rule's domain is ours; the pre-exponential for peroxide is calibrated rather than measured, so only the ratios here are load-bearing."
@@ -450,12 +450,12 @@ next = "Put the barriers on a diagram: 75, 58, 23 kJ/mol, and the speed-up is ex
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "A catalyst is what makes the reaction go; without one it would not happen at all."
-next = "Leave the plain flask for two hours (`same-destination-different-journey`). It ends up in exactly the same place, with the same 0.05 mol of oxygen. The catalyst decided when, not whether."
+next = "Leave the plain flask alone for five days (`same-destination-different-journey`). It arrives at the same place, 0.0485 mol of oxygen and still climbing toward 0.0500. The catalyst decided when, not whether."
 
 [reaction.registers]
 lv1 = "Three flasks of the same peroxide. Leave one alone and after a second it has barely changed. Drop in a spatula of black powder and nine tenths of it has already gone. Drop in a speck of liver enzyme — a thousandth of a gram — and it is over before you have put the bottle down. Same liquid, same room, same second."
-lv2 = "Activation energies of 75, 58 and 23 kJ/mol for none, manganese dioxide and catalase. After one second the bench reports 1.1593 × 10⁻⁴, 4.4504 × 10⁻² and 5.0000 × 10⁻² mol of reaction, leaving 0.0998, 0.0110 and effectively zero mol of peroxide. The catalysed flasks are limited by how much peroxide there was, not by how fast they could go."
-lv3 = "Because the catalysed vessels saturate within the second, the *rate* ratio has to be read before they finish. Over ten milliseconds the bench gives 1.1606 × 10⁻⁶ mol uncatalysed against 1.0920 × 10⁻³ with MnO₂ — a factor of 941, against the barrier arithmetic e^(17000/RT) = 951 at 298.15 K (the small shortfall is the 2% of peroxide the catalysed flask has already consumed). Catalase cannot be measured this way at all: it is complete within ten milliseconds, and the same arithmetic puts it at e^(52000/RT) ≈ 1.3 × 10⁹ times the uncatalysed rate. That the enzyme's advantage is a computed consequence of one curated number, rather than a multiplier someone typed in, is the design point of `Catalyst` carrying an activation energy instead of a factor."
+lv2 = "Activation energies of 75, 58 and 23 kJ/mol for none, manganese dioxide and catalase. After one second the plain flask has done nothing the bench will even report — 4 × 10⁻⁷ mol of reaction, below the observable floor — while manganese dioxide has done 4 × 10⁻⁴ mol and catalase has finished, 5.0000 × 10⁻² mol, every molecule of peroxide gone. The peroxide left reads 0.1000, 0.0992 and 0.0000 mol. Same reaction, same temperature, same thermodynamics; three barriers."
+lv3 = "The speed-ups are exponential in the difference between barriers and depend on nothing else, which is why they are the durable numbers here while the absolute times are not. exp[(75 − 58) kJ·mol⁻¹ / RT] = 951 at 298.15 K, and exp[(58 − 23)/RT] = 1.36 × 10⁶ — so the mineral is about a thousand times better than nothing and the enzyme about a million times better than the mineral. Read the rates rather than the extents to see it: once a catalysed vessel saturates within the interval, its extent is bounded by the peroxide and no longer reports a rate at all. The pre-exponential is calibrated rather than measured, so the seconds are indicative; the ratios are not, because A cancels."
 
 [reaction.provenance]
 source = "Ea ≈ 58 kJ/mol for manganese dioxide and ≈ 23 kJ/mol for catalase on hydrogen peroxide (standard physical chemistry texts); uncatalysed ≈ 75 kJ/mol. Editorial judgement (Kerotakis): modelling catalysis as a substituted activation energy rather than a rate multiplier is an engine decision recorded in `kinetics.rs`; the exponential speed-up factors quoted at lv3 are arithmetic performed on those curated barriers, not separately measured values."
@@ -525,7 +525,7 @@ computed_by = "kerotakis-core kinetics (catalysts are excluded from the mass upd
 [[reaction]]
 id = "more-catalyst-and-a-good-stir-change-nothing"
 spine = ["katalyse"]
-summary = "0.1 g of MnO₂, 1 g of MnO₂, and 0.1 g with a stir all give 4.450426 × 10⁻² mol of reaction in one second — identical to every digit. This engine has no surface-area or mixing model, and that is a real gap"
+summary = "0.1 g of MnO₂, 1 g of MnO₂, and 0.1 g with a stir all give 3.849 × 10⁻⁴ mol of reaction in one second — identical to every digit. This engine has no surface-area or mixing model, and that is a real gap"
 concepts = ["unmodelled-variable"]
 requires = ["catalysis", "model-boundary"]
 calculations = ["rate-from-extent"]
@@ -581,7 +581,7 @@ next = "Watch the thermometer through the stir: 25.0 °C before and after. Then 
 
 [reaction.registers]
 lv1 = "Two flasks, one with a pinch of black powder and one with ten pinches, and a third that you stir hard. In this lab all three fizz at exactly the same speed. On a real bench they would not: more powder means more surface for the peroxide to meet, and stirring keeps fresh liquid arriving at that surface. This lab does not know about surfaces, and it says so rather than letting you think you have proved something."
-lv2 = "Rate = k·[H₂O₂] with k set by whichever catalyst is present, and 'present' is the only thing the model asks. 0.1 g and 1 g of MnO₂ both give 4.450426 × 10⁻² mol of reaction in one second, digit for digit, and stirring changes nothing — `stir` returns a 'not yet modelled' notice instead of an effect. Two of collision theory's four levers, surface area and mixing, have no representation here at all; concentration and temperature have full ones."
+lv2 = "Rate = k·[H₂O₂] with k set by whichever catalyst is present, and *present* is the only thing the model asks. 0.1 g and 1 g of MnO₂ both give 3.849 × 10⁻⁴ mol of reaction in one second, digit for digit, and stirring changes nothing — `stir` returns a notice saying so rather than an effect. In a real flask ten times the catalyst is roughly ten times the surface and roughly ten times the rate, and grinding it finer raises it again."
 lv3 = "The gap has a definite shape, which is what makes it worth stating rather than apologising for. `effective_activation_energy` tests `moles_of(catalyst) > 0` and then substitutes a barrier — a boolean, not a quantity — so catalyst loading is structurally invisible; there is no particle-size, surface-area or mass-transport term anywhere in `kinetics.rs`. Modelling it properly means a Langmuir–Hinshelwood surface treatment with a site density and a diffusion coefficient, which is a different engine, not a coefficient. Until then the honest reading of these three flasks is that they demonstrate the *absence* of a model. One caution for anyone extending the script: keep the manganese dioxide below about 4 g in 100 mL. At 4 g the bench leaves it as a solid with 4.6 × 10⁻¹² mol of Mn²⁺ in solution, as an insoluble oxide should; at 5 g the aqueous solver dissolves the entire charge, reporting 5.75 × 10⁻² mol of Mn²⁺ and pH 13.55. That discontinuity is a solver artefact, not chemistry, and it is flagged here because the rate results happen to survive it — the catalyst check only asks whether any MnO₂ is left."
 
 [reaction.provenance]
@@ -604,9 +604,10 @@ apparatus = ["conical-flask", "gas-syringe", "stopwatch"]
 script = """
 add v1 water 100mL
 add v1 H2O2 0.1mol
-wait 5min
-wait 5min
-wait 5min
+add v1 MnO2 0.5g
+wait 90s
+wait 90s
+wait 90s
 wait 60min
 """
 
@@ -615,11 +616,11 @@ events = ["reacted:peroxide-decomposition"]
 absent = ["solver_failed"]
 
 [reaction.expect.predict]
-question = "0.1 mol of hydrogen peroxide, left alone at 25 °C. The first five minutes destroy 0.0502 mol — just over half. How much does the second five minutes destroy?"
+question = "0.1 mol of hydrogen peroxide over manganese dioxide at 25 °C. The first ninety seconds destroy 0.0501 mol — just over half. How much does the second ninety seconds destroy?"
 options = [
-  "0.0498 mol — the rest of it, at the same steady pace",
+  "0.0499 mol — the rest of it, at the same steady pace",
   "0.0250 mol — half of what is left, because the rate falls with the concentration",
-  "0.0502 mol again — the reaction has a fixed speed until it runs out",
+  "0.0501 mol again — the reaction has a fixed speed until it runs out",
   "Nothing — it is finished",
 ]
 answer = 1
@@ -642,11 +643,11 @@ next = "Read the remaining amount rather than the amount consumed: 0.0498 mol is
 
 [reaction.registers]
 lv1 = "Peroxide left alone slowly falls apart into water and oxygen. Five minutes takes away half of it. The next five minutes takes away half of what is left, not half of what you started with — so a quarter. Then an eighth. It never quite gets to nothing, which is why old peroxide is weak rather than empty."
-lv2 = "Successive five-minute intervals consume 0.05016, 0.02500 and 0.01246 mol of peroxide, leaving 0.04984, 0.02484 and 0.01238 mol of the original 0.1 mol. Each interval leaves 49.84% of what it was given — the same fraction every time, which is the definition of first order. The half-life is therefore a constant, here about 299 s, and after a further hour only 2.91 × 10⁻⁶ mol is left."
-lv3 = "The constancy is the check, not the story. d[H₂O₂]/dt = −2k[H₂O₂] because the rate law is first order while the stoichiometric coefficient is 2, so [H₂O₂](t) = c₀·e^(−2kt) and t½ = ln2/(2k) — note the factor of two, which is exactly the place where order and coefficient are separate quantities and get conflated. With k = 1.161 × 10⁻³ s⁻¹ at 298.15 K that is 298.6 s, so a 300 s interval is a shade more than one half-life and leaves 49.84% rather than exactly 50% — the bench's number, recovered from the barrier rather than fitted to it. This closed form is also the integrator's oracle: `kinetics.rs` checks the adaptive midpoint solver against e^(−2kt) at four times rather than against another numerical method, which is how a 0.7% drift in the original explicit-Euler version was caught."
+lv2 = "Successive ninety-second intervals consume 0.0501, 0.0250 and 0.0125 mol of peroxide, leaving 0.0499, 0.0249 and 0.0124 mol of the original 0.1 mol. Each interval leaves 49.9% of what it was given — the same fraction every time, which is what first order means. The half-life is therefore a constant, here about 90 s, and an hour later nothing measurable is left. The manganese dioxide is there to make the experiment finish inside a lesson: without it the half-life is about a day, which is the whole reason a catalyst is worth having."
+lv3 = "The constancy is the check, not the story. d[H₂O₂]/dt = −2k[H₂O₂] because the rate law is first order while the stoichiometric coefficient is 2, so [H₂O₂](t) = c₀·e^(−2kt) and t½ = ln2/(2k) — note the factor of two, which is exactly where order and coefficient are separate quantities and get conflated. Over manganese dioxide the barrier is 58 kJ/mol, giving k = 3.86 × 10⁻³ s⁻¹ at 298.15 K and t½ = 89.7 s, so a 90 s interval is a shade more than one half-life and leaves 49.9% rather than exactly 50% — recovered from the barrier rather than fitted to the observation. Note what the catalyst does *not* change: the fraction is still constant, because lowering the activation energy scales k without touching the order. This closed form is also the integrator's oracle — `kinetics.rs` checks its adaptive midpoint solver against e^(−2kt) rather than against another numerical method, which is how a 0.7% drift in the original explicit-Euler version was caught."
 
 [reaction.provenance]
-source = "First-order kinetics per any standard physical chemistry text; the closed-form half-life is arithmetic on the curated rate constant. Editorial judgement (Kerotakis): the absolute half-life follows from a calibrated pre-exponential and is not a measured property of real hydrogen peroxide, which at ordinary concentrations and purity is stable for months — the constancy of the fraction is the claim here, not the number of seconds."
+source = "First-order kinetics per any standard physical chemistry text; the closed-form half-life is arithmetic on the curated rate constant. Editorial judgement (Kerotakis): the absolute half-life follows from a calibrated pre-exponential and is not a measured property of real hydrogen peroxide over real manganese dioxide — the constancy of the fraction is the claim here, not the number of seconds. The catalyst is present so the experiment fits in a lesson, and its amount changes nothing in this engine because surface area is not modelled."
 computed_by = "kerotakis-core kinetics (midpoint integration, checked against the analytic first-order solution)"
 
 # ===================================================== the experiment itself
@@ -933,7 +934,7 @@ add v2 catalase 0.001g
 wait 1s
 look v1
 look v2
-wait 2h
+wait 120h
 look v1
 look v2
 """
@@ -951,17 +952,17 @@ options = [
   "The catalysed flask has started to reverse, since the catalyst works both ways",
 ]
 answer = 1
-misconception = "The first option is the most common thing learners believe about catalysts and it is a claim about *yield*, which is the one thing a catalyst cannot touch. A catalyst lowers the barrier equally in both directions, so it moves the system towards equilibrium faster and moves equilibrium not at all. The third option is the mirror error — treating a barrier as a prohibition. The barrier here is 75 kJ/mol, which is enough to make one second look like nothing happening and not nearly enough to survive two hours."
+misconception = "The first option is the most common thing learners believe about catalysts and it is a claim about *yield*, which is the one thing a catalyst cannot touch. A catalyst lowers the barrier equally in both directions, so it moves the system towards equilibrium faster and moves equilibrium not at all. The third option is the mirror error — treating a barrier as a prohibition. The barrier here is 75 kJ/mol, which is enough to make one second look like nothing happening and not nearly enough to survive five days."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "A catalyst increases the yield — more reaction happens because the catalyst helped it happen."
-next = "Count the oxygen in both flasks after two hours: 0.05 mol in each, exactly half the peroxide. Then ask what a catalyst could possibly change about a mass balance."
+next = "Count the oxygen in both flasks at the end: 0.0500 mol in the catalysed one, 0.0485 mol in the plain one and still climbing toward the same figure. Then ask what a catalyst could possibly change about a mass balance."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Without a catalyst the reaction does not occur — the barrier is a prohibition rather than a delay."
-next = "Look at the plain flask at 1 s and at 2 h: 0.0998 mol left, then 5.5 × 10⁻⁹. The same barrier that makes one second look like nothing lets two hours finish the job. 'Too slow to see' and 'does not happen' are different states, and only one of them is stable."
+next = "Look at the plain flask at 1 s and at five days: 0.1000 mol left, then 0.0030 mol. The same barrier that makes one second look like nothing lets five days very nearly finish the job. \u201cToo slow to see\u201d and \u201cdoes not happen\u201d are different states, and only one of them is settled by thermodynamics."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
@@ -969,10 +970,10 @@ reveals = "A catalyst drives a reaction, so with nothing left to drive it should
 next = "A catalyst lowers the barrier equally in both directions, so it accelerates the approach to equilibrium and cannot shift it. This decomposition's equilibrium lies essentially all the way over — there is nothing to come back to."
 
 [reaction.registers]
-lv1 = "Two flasks, and only one has the enzyme. After a second the enzyme's flask is finished and the other looks untouched. Come back in two hours and they are the same: both full of water and oxygen. The enzyme did not decide what would happen. It decided how long you would have to wait."
-lv2 = "After 1 s: 0.0998 mol of peroxide left in the plain flask, effectively zero in the catalysed one. After 2 h: 5.50 × 10⁻⁹ mol and 9.99 × 10⁻¹³ mol, with 0.05 mol of oxygen in each — the same destination, reached about a billion times more slowly. ΔG for the decomposition is strongly negative in both, and it is the same ΔG; the catalyst appears nowhere in it."
-lv3 = "This is the distinction `thermodynamische-vs-kinetische-kontrolle` is built on, met from the kinetics side rather than the equilibrium side, and the engine embodies both halves in different places. On the thermodynamic side it withholds tenorite below 340 K and stands the thermal solver down below 500 K — curated stand-ins for rates it could not compute. Here the rate is computed, so the same idea appears as an interval rather than as a threshold: nothing is suppressed, and 'it has not happened yet' is a state the vessel can be in and then leave. Worth stating where the analogy strains: our uncatalysed peroxide has a half-life of about five minutes, so it is not metastable in the way a magnesium ribbon in a drawer is. Real 3% peroxide in a brown bottle keeps for months, and this pre-exponential is calibrated for a school afternoon rather than for a shelf."
+lv1 = "Two flasks, and only one has the enzyme. After a second the enzyme's flask is finished and the other looks untouched. Come back in five days and the slow one has very nearly caught up: both are turning into water and oxygen, and both end in the same place. The enzyme did not decide what would happen. It decided how long you would have to wait — one second against the better part of a week."
+lv2 = "After 1 s: 0.1000 mol of peroxide still in the plain flask — the reaction has run 4 × 10⁻⁷ mol, which the bench will not even report — against effectively zero in the catalysed one, which already holds its full 0.0500 mol of oxygen. Five days later the plain flask has reached 0.0485 mol of oxygen with 0.0030 mol of peroxide still to go. Same destination; one of them took a second and the other is still arriving."
+lv3 = "This is the distinction `thermodynamische-vs-kinetische-kontrolle` is built on, met from the kinetics side rather than the equilibrium side, and the engine embodies both halves in different places. On the thermodynamic side it withholds tenorite below 340 K and stands the thermal solver down below 500 K — curated stand-ins for rates it could not compute. Here the rate is computed, so the same idea appears as an interval rather than as a threshold: nothing is suppressed, and 'it has not happened yet' is a state the vessel can be in and then leave. The pre-exponential is calibrated so that undisturbed peroxide has a half-life near a day: long enough that nothing happens while you watch, which is the point, and still far shorter than real stabilised 3% peroxide in a brown bottle, which keeps for months. So the *shape* of the argument is right and the shelf-life is not a measurement."
 
 [reaction.provenance]
-source = "Standard curriculum treatment of catalysis and of kinetic versus thermodynamic control. Editorial judgement (Kerotakis): the two-hour comparison is our design, and the caveat that the modelled uncatalysed half-life is far shorter than real bottled peroxide's is ours — it follows from a calibrated pre-exponential, not from a measurement."
+source = "Standard curriculum treatment of catalysis and of kinetic versus thermodynamic control. Editorial judgement (Kerotakis): the five-day comparison is our design, and so is the pre-exponential behind it — chosen so undisturbed peroxide has a half-life near a day, which reads as clearly-nothing on a lesson timescale. Real stabilised 3% peroxide keeps for months, so the shape of the argument is right and the shelf-life is not a measurement."
 computed_by = "kerotakis-core kinetics"

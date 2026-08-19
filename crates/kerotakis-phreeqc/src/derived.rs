@@ -293,6 +293,23 @@ fn derive_contribution(formula: &str, indexes: [&DbIndex; 3]) -> Option<Vec<(Str
     contribution_from_counts(counts, indexes)
 }
 
+/// The charge this element books into solution as, resolved without
+/// touching `derived()` — see the note at the call site.
+fn cation_charge(element: &str, indexes: [&DbIndex; 3]) -> Option<f64> {
+    let ion = BOOKING_OVERRIDES
+        .iter()
+        .find(|(el, _)| *el == element)
+        .map(|(_, ion)| (*ion).to_string())
+        .or_else(|| {
+            indexes
+                .iter()
+                .find_map(|idx| idx.masters.get(element).map(|m| m.species.clone()))
+        })?;
+    kerotakis_core::stoich::parse_formula(&ion)
+        .ok()
+        .map(|f| f.charge)
+}
+
 fn contribution_from_counts(
     mut counts: BTreeMap<String, f64>,
     indexes: [&DbIndex; 3],
@@ -319,14 +336,40 @@ fn contribution_from_counts(
     // charge-balance domain, and PHREEQC's `pH charge` recovers them.
     let h = counts.remove("H").unwrap_or(0.0);
     let o = counts.remove("O").unwrap_or(0.0);
-    if o > h
-        && !counts
-            .keys()
-            .all(|el| CATION_RESIDUE.contains(&el.as_str()))
-    {
-        // Oxygen unaccounted for and not a metal oxide (e.g. hypochlorite):
-        // not derivable, and said so rather than guessed at.
-        return None;
+    if o > h {
+        // Oxide oxygen may be dropped as water only when doing so conserves
+        // electrons. Treating O as −2 and each O–H pair as hydroxide, the
+        // metal's oxidation state in the solid is (2·O − H) per metal atom;
+        // it must equal the charge on the ion the element books as.
+        //
+        // CuO booked as Cu²⁺ balances, so tenorite dissolves as itself.
+        // MnO2 booked as Mn²⁺ does not — that is Mn(IV) + 2e⁻ with no
+        // oxidant anywhere, and the orphaned oxygen leaves as alkalinity:
+        // 5 g of manganese dioxide dissolving completely to give a
+        // cation-only solution reading pH 13.55, which is not chemistry.
+        //
+        // Excluding every redox-active element instead was the first
+        // attempt and was too blunt: it took copper with it, and copper's
+        // oxide is not a redox problem at all.
+        let balanced = counts.len() == 1
+            && counts.iter().all(|(el, n)| {
+                if !CATION_RESIDUE.contains(&el.as_str()) || *n <= 0.0 {
+                    return false;
+                }
+                let implied = (2.0 * o - h) / n;
+                // Resolved from the indexes in hand, never through
+                // `booking_ion`: this runs inside the `derived()` one-time
+                // initialiser, and asking `derived()` for anything from in
+                // here deadlocks on its own lock.
+                cation_charge(el, indexes).is_some_and(|q| (q - implied).abs() < 1e-9)
+            });
+        if !balanced {
+            // Either an oxyanion (hypochlorite's oxygen is bound to
+            // chlorine, not available as water) or an oxide whose
+            // dissolution would be a redox step we do not model. Not
+            // derivable, and said so rather than guessed at.
+            return None;
+        }
     }
 
     for (el, n) in counts {

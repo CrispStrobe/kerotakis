@@ -1450,6 +1450,13 @@ Four bugs that only a rate model could have exposed, all fixed:
   zero and the full step applied nothing — two million substeps to advance
   the clock by seven milliseconds.
 
+**A prose number is not a checked number.** `codex lint` replays events,
+pH and temperature, so it caught nothing when the peroxide rate constant
+was recalibrated — while five entries went on quoting half-lives and
+extents in their register text that the engine no longer produced. Ranges
+are verified; sentences are not. Until that is closed, changing a curated
+rate constant means re-running every entry that mentions it, by hand.
+
 **Honest gaps.** A salt the aqueous engine cannot speciate now dissolves
 rather than sitting at the bottom of the beaker (`dissolves_without_
 speciation`), and the lab says exactly what that means: it contributes
