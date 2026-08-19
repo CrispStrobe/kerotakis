@@ -971,17 +971,46 @@ says NAP, book says Achieve 2013, Achieve has wound down).
 | **Netherlands** | `Auteurswet art. 11` | Take the examenprogramma from wetten.overheid.nl (no conditions), not Examenblad (ND) |
 | **Serlo / ZUM** | CC BY-SA | German OER; **filter per item** — Serlo's licence registry includes CC BY-ND and six state-ministry exam licences |
 
-**Germany: don't license it, derive it.** §5(1) UrhG puts Verordnungen and
-Erlasse outside copyright entirely (NRW's Kernlehrplan is a Runderlass);
-§5(2) covers other official works but drags in an Änderungsverbot that is
-functionally ND. Either way the *facts* are free: "Säure-Base-Reaktionen
-are taught in Jahrgangsstufe 9" is a fact about the world, not an authored
-expression, and *Football Dataco* (C-604/10) confirms a constraint-dictated
-sequence attracts no copyright. **The real constraint is §87a
-Datenbankherstellerrecht**, which protects the *investment* independently
-of §5 and has no official-works exemption — so extract the abstracted
-topic→year mapping into our own structure, and never mirror a source
-database.
+**Germany: don't license it, derive it — and go to the Länder, not the KMK.**
+
+The decisive finding is not legal but structural: **the KMK Bildungsstandards
+contain no year-by-year sequencing at all.** In the 2024 Chemie MSA document
+"Jahrgangsstufe" appears twice, both in the historical introduction; the
+content is organised by Kompetenzbereiche and Basiskonzepte, and sequencing
+is explicitly delegated downward ("landesspezifische Ergänzungen und
+Präzisierungen können vorgenommen werden"). **The year axis exists only in
+the 16 Länder Lehrpläne** — which is also where the §5(1) case is
+*stronger*, since e.g. NRW's Kernlehrpläne are set by Runderlass under §29
+SchulG and published in the Amtsblatt.
+
+Legally: §5(1) UrhG puts Verordnungen and Erlasse outside copyright
+entirely; §5(2) covers other official works but drags in an Änderungsverbot
+that is functionally ND, and the courts read Abs. 2 *narrowly*. Crucially
+**§5 draws no commercial/non-commercial distinction** — NC is simply not a
+feature of it. kmk.org's own Impressum does carry an NC clause that names
+database ingestion specifically, but it is self-limiting (it reserves only
+what the UrhG does not already permit) and an Impressum cannot re-copyright
+a §5 work.
+
+Either way the *facts* are free: "Säure-Base-Reaktionen are taught in
+Jahrgangsstufe 9" is a fact, not an authored expression, and *Football
+Dataco* (C-604/10) confirms a constraint-dictated sequence attracts no
+copyright. Two constraints shape how we take them:
+
+- **§4 UrhG** protects a distinctive *Auswahl oder Anordnung* even when
+  every entry is reworded. So we normalise into **our own** taxonomy —
+  which the CC0 spine already does — rather than mirroring any document's
+  architecture.
+- **§87a Datenbankherstellerrecht** protects investment in *obtaining*
+  data, not in creating it (the spin-off doctrine), so a ministry authoring
+  its own curriculum has a weak claim — but §87b catches "wiederholte und
+  systematische" extraction, which means **harvest from official ministry
+  sites, never from aggregators**.
+
+Caveat carried openly: **no court decision or commentary addresses Lehrpläne
+under §5**, and the widely-repeated claim that curricula may be used
+commercially traces to no primary source. This needs a German IP lawyer's
+sign-off before launch, not a confident reading of statute.
 
 **The topic spine, and it is CC0.** `oehTopics.ttl` from
 `openeduhub/oeh-metadata-vocabs` — the WirLernenOnline curriculum-topic
