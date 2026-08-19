@@ -1450,12 +1450,29 @@ Four bugs that only a rate model could have exposed, all fixed:
   zero and the full step applied nothing — two million substeps to advance
   the clock by seven milliseconds.
 
-**A prose number is not a checked number.** `codex lint` replays events,
-pH and temperature, so it caught nothing when the peroxide rate constant
-was recalibrated — while five entries went on quoting half-lives and
-extents in their register text that the engine no longer produced. Ranges
-are verified; sentences are not. Until that is closed, changing a curated
-rate constant means re-running every entry that mentions it, by hand.
+**Prose numbers are now checked too, advisorily.** `codex lint` caught
+nothing when the peroxide rate constant was recalibrated, while five
+entries went on quoting half-lives and extents the engine no longer
+produced: ranges were verified, sentences were not, and a sentence is what
+the learner reads. The lint now pulls unit-carrying numbers back *out* of
+the register text — handling `4.06 × 10⁻⁷` as well as `4.06e-7`, since the
+first is what the codex actually uses — and asks whether the replay
+produced anything like them, at the precision the author wrote. "Near
+pH 1.6" is a correct report of a computed 1.64 and is not flagged; a
+percentage tolerance would have called it stale.
+
+It is **advisory and stays advisory**, because a good entry legitimately
+quotes numbers this replay did not produce: an activation energy from the
+literature, a stoichiometric coefficient, a textbook figure held up for
+contrast (bicarbonate's famous pH 8.3 exists in the codex precisely to be
+contradicted), or another entry's result quoted for comparison. Making
+those errors would train authors to strip real content out of their
+writing. Currently **43 flagged across 80 entries**, most of them of
+exactly those kinds.
+
+What it is genuinely good at is the job it was built for: after changing a
+curated constant, the *new* entries in that list are the sentences that
+went stale.
 
 **Honest gaps.** A salt the aqueous engine cannot speciate now dissolves
 rather than sitting at the bottom of the beaker (`dissolves_without_

@@ -14,6 +14,8 @@
 //! entry that stops being true fails the build. Nothing else in this
 //! project would catch a curation error; this does.
 
+pub mod prose;
+
 use kerotakis_core::{Phase, Register};
 use serde::{Deserialize, Serialize};
 

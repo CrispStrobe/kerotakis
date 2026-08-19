@@ -268,6 +268,7 @@ fn codex_lint(dir: &str) -> ! {
     let codex = load_codex(dir);
     let vocabulary = load_vocabulary(dir);
     let mut problems = codex.structural_problems();
+    let mut stale: Vec<String> = Vec::new();
 
     for entry in &codex.reactions {
         let mut bench = Bench::new();
@@ -336,6 +337,78 @@ fn codex_lint(dir: &str) -> ! {
                 ));
             }
         }
+        // Collect what the engine actually produced, so the prose can be
+        // checked against it — see `kerotakis_codex::prose`.
+        let mut values = kerotakis_codex::prose::EngineValues::default();
+        for e in &observed {
+            match e {
+                Event::Added { moles, .. }
+                | Event::Dissolved { moles, .. }
+                | Event::Precipitated { moles, .. }
+                | Event::GasEvolved { moles, .. }
+                | Event::Consumed { moles, .. }
+                | Event::Reacted { moles, .. } => values.moles.push(moles.0),
+                _ => {}
+            }
+            // The mass equivalent of whatever moved. An entry that says
+            // "weigh out 5.844 g" is quoting an amount the bench knows,
+            // but once the salt dissolves there is no portion left to
+            // compute a mass from, so it has to be caught at the event.
+            if let Event::Added { species, moles, .. }
+            | Event::Dissolved { species, moles, .. }
+            | Event::Precipitated { species, moles, .. }
+            | Event::Consumed { species, moles, .. }
+            | Event::GasEvolved { species, moles, .. } = e
+            {
+                if let Some(d) = kerotakis_core::species::lookup(species) {
+                    values.grams.push(moles.0 * d.molar_mass);
+                }
+            }
+            match e {
+                Event::TemperatureChanged { from, to, .. } => {
+                    values.celsius.push(from.to_celsius());
+                    values.celsius.push(to.to_celsius());
+                    // Prose usually quotes the *rise*, not the reading: "a
+                    // rise of roughly 10 °C" is the sentence an author
+                    // writes, and it is as much a result as either endpoint.
+                    values.celsius.push((to.0 - from.0).abs());
+                }
+                Event::ThermalEquilibrium { temperature, .. } => {
+                    values.celsius.push(temperature.to_celsius())
+                }
+                Event::SolutionCharacterized { ph, .. } => values.ph.push(*ph),
+                _ => {}
+            }
+            if let Event::Reacted { seconds, .. } = e {
+                values.seconds.push(*seconds);
+            }
+        }
+        // Molar masses are engine-known quantities and get quoted as such
+        // — "172 g of gypsum is 36 g of water" is arithmetic on the
+        // registry, not a number from thin air.
+        for d in kerotakis_core::species::REGISTRY {
+            values.grams.push(d.molar_mass);
+        }
+        for v in &bench.vessels {
+            values.celsius.push(v.temperature.to_celsius());
+            values.grams.push(v.mass().0);
+            values.seconds.push(v.elapsed_seconds);
+            if let Some(info) = &v.solution {
+                values.ph.push(info.ph);
+            }
+            for p in &v.contents {
+                values.moles.push(p.moles.0);
+                if let Some(d) = kerotakis_core::species::lookup(&p.species) {
+                    values.grams.push(p.moles.0 * d.molar_mass);
+                }
+            }
+        }
+        stale.extend(
+            kerotakis_codex::prose::unsupported(entry, &values)
+                .into_iter()
+                .map(|q| format!("{}: {}", entry.id, q.describe())),
+        );
+
         let vessel = bench.vessel(VesselId(0)).expect("first vessel");
         if let Some(range) = entry.expect.ph {
             match vessel.solution.as_ref().map(|s| s.ph) {
@@ -377,6 +450,18 @@ fn codex_lint(dir: &str) -> ! {
             "  equations: {} balanced (atoms and charge); {} entries describe something that is not a reaction",
             audit.balanced, audit.summary_only
         );
+        if !stale.is_empty() {
+            println!(
+                "  prose: {} number(s) in register text that this replay does not account for —",
+                stale.len()
+            );
+            for s in stale.iter().take(20) {
+                println!("    · {s}");
+            }
+            if stale.len() > 20 {
+                println!("    · … and {} more", stale.len() - 20);
+            }
+        }
         let pred = codex.prediction_audit();
         println!(
             "  predictions: {} questions, {}/{} wrong answers say what believing them reveals",
