@@ -1,0 +1,365 @@
+//! Derived knowledge: everything this crate needs to know about a
+//! thermodynamic database is parsed from the database itself — master
+//! species per element (with formula weights), phase dissolution equations
+//! (stoichiometry, hydrate waters, gas-ness, log K), and element coverage.
+//! No hand-maintained tables of what the databases already state
+//! ("derived, not hardcoded" applies to our own glue too).
+
+use std::collections::BTreeMap;
+
+#[derive(Debug, Clone)]
+pub struct MasterSpecies {
+    /// The element name as the database writes it (e.g. "C(4)", "S(6)").
+    pub element: String,
+    /// The master species (e.g. "CO3-2", "SO4-2").
+    pub species: String,
+}
+
+#[derive(Debug, Clone)]
+pub struct PhaseInfo {
+    /// The solid/gas formula on the left of the dissolution equation,
+    /// e.g. "CaSO4:2H2O", "NaCl", "CO2".
+    pub formula: String,
+    /// Anhydrous element counts of the formula (charge ignored, hydrate
+    /// waters excluded), e.g. Gypsum → {Ca:1, S:1, O:4}.
+    pub composition: BTreeMap<String, f64>,
+    /// Waters of crystallisation per formula unit (the ":nH2O" suffix).
+    pub waters: f64,
+    /// Canonical elements the dissolution reaction moves into solution,
+    /// with stoichiometry, e.g. Gypsum → [(Ca,1),(S(6),1)].
+    pub elements: Vec<(String, f64)>,
+    /// log K of the dissolution reaction (for polymorph choice: the stable
+    /// polymorph has the lowest solubility, i.e. lowest log_k).
+    pub log_k: Option<f64>,
+    /// Name ends in "(g)".
+    pub is_gas: bool,
+}
+
+#[derive(Debug, Default)]
+pub struct DbIndex {
+    /// Canonical element name → master species.
+    pub masters: BTreeMap<String, MasterSpecies>,
+    /// Master species name → canonical element (reverse lookup).
+    pub species_element: BTreeMap<String, String>,
+    /// Phase name → info.
+    pub phases: BTreeMap<String, PhaseInfo>,
+}
+
+/// Canonicalise an element/valence name across databases: "C(+4)" and
+/// "C(4)" are the same; carbon valence states collapse to "C" (we book
+/// total dissolved carbonate). Others keep their valence tag.
+pub fn canon_element(el: &str) -> String {
+    let el = el.replace("(+", "(");
+    match el.as_str() {
+        "C(4)" => "C".to_string(),
+        _ => el,
+    }
+}
+
+impl DbIndex {
+    pub fn parse(db: &[u8]) -> DbIndex {
+        let text = String::from_utf8_lossy(db);
+        let mut idx = DbIndex::default();
+        let mut section = "";
+        let mut pending_phase: Option<String> = None;
+        let mut last_inserted: Option<String> = None;
+
+        for raw in text.lines() {
+            // Strip comments.
+            let line = raw.split('#').next().unwrap_or("");
+            if line.trim().is_empty() {
+                continue;
+            }
+            let first = line.split_whitespace().next().unwrap_or("");
+            // Keyword lines are upper-case at column 0.
+            if !line.starts_with([' ', '\t'])
+                && first.len() > 3
+                && first.chars().all(|c| c.is_ascii_uppercase() || c == '_')
+            {
+                section = match first {
+                    "SOLUTION_MASTER_SPECIES" => "masters",
+                    "PHASES" => "phases",
+                    _ => "",
+                };
+                pending_phase = None;
+                continue;
+            }
+
+            match section {
+                "masters" => {
+                    let tokens: Vec<&str> = line.split_whitespace().collect();
+                    if tokens.len() < 2 {
+                        continue;
+                    }
+                    let element = canon_element(tokens[0]);
+                    if element == "E" {
+                        continue;
+                    }
+                    if element == "Alkalinity" {
+                        // Alkalinity's master species (HCO3-) belongs to the
+                        // carbonate system: register the species→element
+                        // mapping without inventing an "Alkalinity" element.
+                        idx.species_element
+                            .entry(tokens[1].to_string())
+                            .or_insert_with(|| "C".to_string());
+                        continue;
+                    }
+                    let species = tokens[1].to_string();
+                    // A valence-specific element (S(6)) overrides the plain
+                    // one (S) as the species' canonical element — the
+                    // valence-tagged name is what totals are queried by.
+                    match idx.species_element.get(&species) {
+                        Some(existing) if existing.contains('(') => {}
+                        _ => {
+                            idx.species_element.insert(species.clone(), element.clone());
+                        }
+                    }
+                    idx.masters
+                        .entry(element.clone())
+                        .or_insert(MasterSpecies { element, species });
+                }
+                "phases" => {
+                    if !line.starts_with([' ', '\t']) {
+                        // Phase name line (column 0).
+                        pending_phase = Some(first.to_string());
+                        last_inserted = None;
+                    } else if line.contains('=') {
+                        if let Some(name) = pending_phase.take() {
+                            if let Some(info) = parse_phase_equation(line, &idx, &name) {
+                                idx.phases.insert(name.clone(), info);
+                                last_inserted = Some(name);
+                            }
+                        }
+                    } else if let Some(name) = &last_inserted {
+                        // log_k line for the phase just inserted.
+                        let tokens: Vec<&str> = line.split_whitespace().collect();
+                        if tokens.first().is_some_and(|t| {
+                            t.trim_start_matches('-').eq_ignore_ascii_case("log_k")
+                        }) {
+                            if let Some(k) = tokens.get(1).and_then(|t| t.parse::<f64>().ok()) {
+                                if let Some(p) = idx.phases.get_mut(name) {
+                                    if p.log_k.is_none() {
+                                        p.log_k = Some(k);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+        idx
+    }
+
+    pub fn has_element(&self, canon: &str) -> bool {
+        self.masters.contains_key(canon)
+    }
+
+    pub fn has_phase(&self, name: &str) -> bool {
+        self.phases.contains_key(name)
+    }
+}
+
+fn parse_phase_equation(line: &str, idx: &DbIndex, name: &str) -> Option<PhaseInfo> {
+    let (lhs, rhs) = line.split_once('=')?;
+    // The formula is the first LHS term (coefficient 1 by convention).
+    // Terms are separated by " + " — a bare '+' split would break charged
+    // species like Na+.
+    let formula = lhs.split(" + ").next()?.trim().to_string();
+    if formula.is_empty() {
+        return None;
+    }
+    let (base, waters) = split_hydrate(&formula);
+    let composition = parse_formula(&base)?;
+
+    // Elements moved into solution: read the RHS master species.
+    let mut elements: Vec<(String, f64)> = Vec::new();
+    for term in rhs.split(" + ") {
+        let term = term.trim();
+        if term.is_empty() {
+            continue;
+        }
+        let mut parts = term.split_whitespace();
+        let (coeff, species) = match (parts.next(), parts.next()) {
+            (Some(c), Some(s)) => match c.parse::<f64>() {
+                Ok(n) => (n, s),
+                Err(_) => (1.0, c),
+            },
+            (Some(s), None) => (1.0, s),
+            _ => continue,
+        };
+        if matches!(species, "H2O" | "H+" | "OH-" | "e-") {
+            continue;
+        }
+        if let Some(el) = idx.species_element.get(species) {
+            if let Some(entry) = elements.iter_mut().find(|(e, _)| e == el) {
+                entry.1 += coeff;
+            } else {
+                elements.push((el.clone(), coeff));
+            }
+        }
+    }
+
+    Some(PhaseInfo {
+        formula,
+        composition,
+        waters,
+        elements,
+        log_k: None,
+        is_gas: name.ends_with("(g)"),
+    })
+}
+
+/// Split "CaSO4:2H2O" → ("CaSO4", 2.0). Also accepts "·" as used in
+/// registry formulas.
+pub fn split_hydrate(formula: &str) -> (String, f64) {
+    for sep in [':', '·'] {
+        if let Some((base, hydrate)) = formula.split_once(sep) {
+            let digits: String = hydrate.chars().take_while(|c| c.is_ascii_digit()).collect();
+            if hydrate.ends_with("H2O") {
+                let n = if digits.is_empty() {
+                    1.0
+                } else {
+                    digits.parse().unwrap_or(1.0)
+                };
+                return (base.to_string(), n);
+            }
+        }
+    }
+    (formula.to_string(), 0.0)
+}
+
+/// Element counts of a simple formula (charge suffixes ignored, one level
+/// of parentheses supported). Returns None on anything unparseable.
+pub fn parse_formula(formula: &str) -> Option<BTreeMap<String, f64>> {
+    let mut counts: BTreeMap<String, f64> = BTreeMap::new();
+    let chars: Vec<char> = formula.chars().collect();
+    let mut i = 0;
+    let add = |counts: &mut BTreeMap<String, f64>, el: &str, n: f64| {
+        *counts.entry(el.to_string()).or_insert(0.0) += n;
+    };
+    while i < chars.len() {
+        let c = chars[i];
+        if c == '+' || c == '-' {
+            // Charge suffix: the rest is charge notation.
+            break;
+        }
+        if c == '(' {
+            // Find the matching ')', parse inside recursively.
+            let close = chars[i..].iter().position(|&c| c == ')')? + i;
+            let inner: String = chars[i + 1..close].iter().collect();
+            // "(aq)" / "(g)" / "(s)" state suffixes carry no composition.
+            if matches!(inner.as_str(), "aq" | "g" | "s" | "l") {
+                i = close + 1;
+                continue;
+            }
+            let inner_counts = parse_formula(&inner)?;
+            i = close + 1;
+            let mut digits = String::new();
+            while i < chars.len() && chars[i].is_ascii_digit() {
+                digits.push(chars[i]);
+                i += 1;
+            }
+            let mult: f64 = if digits.is_empty() {
+                1.0
+            } else {
+                digits.parse().ok()?
+            };
+            for (el, n) in inner_counts {
+                add(&mut counts, &el, n * mult);
+            }
+            continue;
+        }
+        if !c.is_ascii_uppercase() {
+            return None;
+        }
+        let mut symbol = c.to_string();
+        i += 1;
+        while i < chars.len() && chars[i].is_ascii_lowercase() {
+            symbol.push(chars[i]);
+            i += 1;
+        }
+        let mut digits = String::new();
+        while i < chars.len() && (chars[i].is_ascii_digit() || chars[i] == '.') {
+            digits.push(chars[i]);
+            i += 1;
+        }
+        let n: f64 = if digits.is_empty() {
+            1.0
+        } else {
+            digits.parse().ok()?
+        };
+        add(&mut counts, &symbol, n);
+    }
+    if counts.is_empty() {
+        None
+    } else {
+        Some(counts)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::databases;
+
+    #[test]
+    fn parses_the_three_databases() {
+        let wateq = DbIndex::parse(databases::WATEQ4F);
+        let minteq = DbIndex::parse(databases::MINTEQ_V4);
+        let pitzer = DbIndex::parse(databases::PITZER);
+
+        // Element coverage drives routing — derived, not listed.
+        assert!(pitzer.has_element("Na") && pitzer.has_element("Ca"));
+        assert!(!pitzer.has_element("N(5)") && !pitzer.has_element("Ag"));
+        assert!(minteq.has_element("Acetate"));
+        assert!(!wateq.has_element("Acetate"));
+        assert!(wateq.has_element("P"));
+
+        // Phase availability — derived.
+        assert!(pitzer.has_phase("Sylvite"));
+        assert!(!wateq.has_phase("Sylvite"));
+        assert!(wateq.has_phase("Calcite") && minteq.has_phase("Calcite"));
+
+        // Stoichiometry from the dissolution equations.
+        let gypsum = &wateq.phases["Gypsum"];
+        assert_eq!(gypsum.waters, 2.0, "CaSO4:2H2O carries two waters");
+        assert!(gypsum.elements.iter().any(|(e, n)| e == "Ca" && *n == 1.0));
+        assert!(gypsum
+            .elements
+            .iter()
+            .any(|(e, n)| e == "S(6)" && *n == 1.0));
+
+        let halite = &wateq.phases["Halite"];
+        assert_eq!(halite.formula, "NaCl");
+
+        // Polymorph choice: the stable form has the lower log_k.
+        let calcite = wateq.phases["Calcite"].log_k.expect("calcite log_k");
+        let aragonite = wateq.phases["Aragonite"].log_k.expect("aragonite log_k");
+        assert!(
+            calcite < aragonite,
+            "calcite ({calcite}) is less soluble than aragonite ({aragonite})"
+        );
+
+        // Gas phases identified.
+        assert!(wateq.phases["CO2(g)"].is_gas);
+    }
+
+    #[test]
+    fn formula_parser_handles_the_registry() {
+        let f = parse_formula("CaCO3").unwrap();
+        assert_eq!(f["Ca"], 1.0);
+        assert_eq!(f["C"], 1.0);
+        assert_eq!(f["O"], 3.0);
+        let (base, waters) = split_hydrate("CaSO4·2H2O");
+        assert_eq!(base, "CaSO4");
+        assert_eq!(waters, 2.0);
+        let f = parse_formula("Ca(NO3)2").unwrap();
+        assert_eq!(f["N"], 2.0);
+        assert_eq!(f["O"], 6.0);
+        // Charge and state suffixes ignored.
+        assert_eq!(parse_formula("SO4-2").unwrap()["S"], 1.0);
+        assert_eq!(parse_formula("NH3(aq)").unwrap()["N"], 1.0);
+    }
+}

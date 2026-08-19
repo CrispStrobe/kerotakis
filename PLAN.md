@@ -779,6 +779,18 @@ The single highest-information task. Everything else is downstream of it.
       ledger (exact), CaCl2 is a +20 K hot pack and KCl a −4 K cold pack.
       Fixed en route: phase-delta baseline is the phase's input amount, not
       vessel solids (freely-soluble solids double-counted their heat)
+- [x] **Derivation over tables**: the equilibrator's hand-maintained
+      mapping tables are gone. `dbindex` parses the embedded databases
+      (master species, phase dissolution equations → stoichiometry, hydrate
+      waters, log K, element coverage); `derived` computes each registry
+      species' aqueous role from its *formula* by oxyanion-group
+      decomposition, matches mineral phases by composition, picks the
+      stable polymorph by lowest log K, and derives routing capability and
+      per-database phase availability. All 18 suites pass unchanged — the
+      derivation reproduces the tables' chemistry exactly. What stays
+      curated is documented and small: ~6 oxyanion groups, 3 booking
+      overrides (protonation state at teaching pH), atmospheric partial
+      pressures, and the safety layer
 - [ ] Registry breadth continues with L1 (PubChem/Wikidata export)
 - [ ] Cache pre-warming pipeline in `tools/` (lesson states)
 - [ ] The P2 CLI **is** the "strong product on its own" claim, tested literally

@@ -20,150 +20,7 @@ use kerotakis_core::{
 
 use crate::{databases, Phreeqc, PhreeqcError};
 
-/// How a registry species participates in the aqueous problem.
-enum Role {
-    Solvent,
-    /// Contributes element totals when dissolved or freely soluble.
-    Dissolves(&'static [(&'static str, f64)]),
-    /// A solid with a mineral phase in the database: enters amount-limited.
-    Mineral {
-        phase: &'static str,
-        elements: &'static [(&'static str, f64)],
-    },
-}
-
-/// The v1 aqueous-mapping table over the seed registry. Grows with L1.
-fn role(key: &str) -> Option<Role> {
-    match key {
-        "water" => Some(Role::Solvent),
-        "NaCl" => Some(Role::Mineral {
-            phase: "Halite",
-            elements: &[("Na", 1.0), ("Cl", 1.0)],
-        }),
-        "AgCl" => Some(Role::Mineral {
-            phase: "Cerargyrite",
-            elements: &[("Ag", 1.0), ("Cl", 1.0)],
-        }),
-        // Very soluble; no phase needed at teaching concentrations.
-        "AgNO3" => Some(Role::Dissolves(&[("Ag", 1.0), ("N(5)", 1.0)])),
-        // Strong acid/base: only the counter-ion enters the element totals;
-        // the H+/OH- side emerges from PHREEQC's charge balance (`pH 7
-        // charge`), which is exactly how a strong-acid solution is defined.
-        // The ledger's ion imbalance carries the acidity across steps.
-        "HCl" => Some(Role::Dissolves(&[("Cl", 1.0)])),
-        "NaOH" => Some(Role::Dissolves(&[("Na", 1.0)])),
-        // Weak acid: the same counter-ion pattern, but the database's
-        // H+ + Acetate- = H(Acetate) equilibrium makes it weak — pKa physics
-        // comes from the data, not from us.
-        "CH3COOH" => Some(Role::Dissolves(&[("Acetate", 1.0)])),
-        "NaOAc" => Some(Role::Dissolves(&[("Na", 1.0), ("Acetate", 1.0)])),
-        "CH3COO-" => Some(Role::Dissolves(&[("Acetate", 1.0)])),
-        // Carbonates: booked as total dissolved C; supersaturated CO2
-        // escapes through the CO2(g) equilibrium phase (the fizz).
-        "NaHCO3" => Some(Role::Dissolves(&[("Na", 1.0), ("C", 1.0)])),
-        "Na2CO3" => Some(Role::Dissolves(&[("Na", 2.0), ("C", 1.0)])),
-        "HCO3-" => Some(Role::Dissolves(&[("C", 1.0)])),
-        // Polyprotic: three protons, all three pKa's from the database.
-        "H3PO4" => Some(Role::Dissolves(&[("P", 1.0)])),
-        "H2PO4-" => Some(Role::Dissolves(&[("P", 1.0)])),
-        // Hard-water chemistry. KCl is freely soluble at teaching
-        // concentrations (its Sylvite phase exists only in pitzer.dat, and
-        // brine-strength problems route there anyway).
-        "KCl" => Some(Role::Dissolves(&[("K", 1.0), ("Cl", 1.0)])),
-        "CaCl2" => Some(Role::Dissolves(&[("Ca", 1.0), ("Cl", 2.0)])),
-        "MgSO4" => Some(Role::Dissolves(&[("Mg", 1.0), ("S(6)", 1.0)])),
-        "CaCO3" => Some(Role::Mineral {
-            phase: "Calcite",
-            elements: &[("Ca", 1.0), ("C", 1.0)],
-        }),
-        "gypsum" => Some(Role::Mineral {
-            phase: "Gypsum",
-            elements: &[("Ca", 1.0), ("S(6)", 1.0)],
-        }),
-        "Na+" => Some(Role::Dissolves(&[("Na", 1.0)])),
-        "Cl-" => Some(Role::Dissolves(&[("Cl", 1.0)])),
-        "Ag+" => Some(Role::Dissolves(&[("Ag", 1.0)])),
-        "NO3-" => Some(Role::Dissolves(&[("N(5)", 1.0)])),
-        "K+" => Some(Role::Dissolves(&[("K", 1.0)])),
-        "Ca+2" => Some(Role::Dissolves(&[("Ca", 1.0)])),
-        "Mg+2" => Some(Role::Dissolves(&[("Mg", 1.0)])),
-        "SO4-2" => Some(Role::Dissolves(&[("S(6)", 1.0)])),
-        _ => None,
-    }
-}
-
-/// Element total → the ion it is booked as in the vessel inventory.
-fn element_ion(element: &str) -> Option<&'static str> {
-    match element {
-        "Na" => Some("Na+"),
-        "Cl" => Some("Cl-"),
-        "Ag" => Some("Ag+"),
-        "N(5)" => Some("NO3-"),
-        "Acetate" => Some("CH3COO-"),
-        "C" => Some("HCO3-"),
-        "P" => Some("H2PO4-"),
-        "K" => Some("K+"),
-        "Ca" => Some("Ca+2"),
-        "Mg" => Some("Mg+2"),
-        "S(6)" => Some("SO4-2"),
-        _ => None,
-    }
-}
-
-/// Mineral phase → (solid species it is booked as, waters of
-/// crystallisation per formula unit). Gypsum is CaSO4·2H2O: precipitation
-/// binds two waters out of the liquid, dissolution releases them — the
-/// ledger mirror of the CO2 escape's water co-product.
-fn phase_solid(phase: &str) -> Option<(&'static str, f64)> {
-    match phase {
-        "Halite" => Some(("NaCl", 0.0)),
-        "Cerargyrite" => Some(("AgCl", 0.0)),
-        "Calcite" => Some(("CaCO3", 0.0)),
-        "Gypsum" => Some(("gypsum", 2.0)),
-        "Sylvite" => Some(("KCl", 0.0)),
-        _ => None,
-    }
-}
-
-/// Whether a phase exists in the routed database (verified against the
-/// embedded files; Sylvite is pitzer-only).
-fn phase_available(db_tag: &str, phase: &str) -> bool {
-    match phase {
-        "Sylvite" => db_tag == "pitzer",
-        // Silver phases are absent from pitzer.dat, but Ag-bearing problems
-        // can never route there (Ag is not a pitzer element).
-        _ => true,
-    }
-}
-
-/// Phases that can precipitate when their elements are present.
-const CANDIDATE_PHASES: &[(&str, &[&str])] = &[
-    ("Halite", &["Na", "Cl"]),
-    ("Cerargyrite", &["Ag", "Cl"]),
-    ("Calcite", &["Ca", "C"]),
-    ("Gypsum", &["Ca", "S(6)"]),
-    ("Sylvite", &["K", "Cl"]),
-];
-
-/// Elements pitzer.dat's ion-interaction model covers (major brine ions).
-const PITZER_ELEMENTS: &[&str] = &[
-    "Na", "K", "Ca", "Mg", "Cl", "C", "S(6)", "Br", "B", "Li", "Sr", "Ba", "Mn", "Fe", "Si",
-];
-
-/// Gas phases that escape an open vessel: (phase, gas species booked in the
-/// GasEvolved event, target SI = log10 of the atmospheric partial pressure,
-/// water co-product per mole of gas, required elements). With 0 initial
-/// moles the phase can only grow, i.e. capture exsolving gas —
-/// supersaturation bubbles out until the solution sits at the atmospheric
-/// partial pressure; an undersaturated solution cannot absorb what is not
-/// there. One-way, like a real open beaker. (Whether it *bubbles* or seeps
-/// out over hours is kinetics — L5; equilibrium says where it ends.)
-///
-/// The water co-product keeps the mass ledger chemical: carbonate leaves
-/// the books as HCO3- (61 g/mol) but the gas only carries 44 g/mol — the
-/// difference is the H2O formed by HCO3- + H+ → CO2↑ + H2O (and likewise
-/// 2 HCO3- → CO3-- + CO2↑ + H2O), which stays in the beaker.
-const ESCAPE_PHASES: &[(&str, &str, f64, f64, &[&str])] = &[("CO2(g)", "CO2", -3.408, 1.0, &["C"])];
+use crate::derived::{self, DerivedRole, ATMOSPHERIC};
 
 const WATER_MOLAR_MASS: f64 = 18.015;
 const TRACE: f64 = 1e-12;
@@ -241,16 +98,16 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     };
 
     for p in &vessel.contents {
-        match role(&p.species.0)? {
-            Role::Solvent => kgw += p.moles.0 * WATER_MOLAR_MASS / 1000.0,
-            Role::Dissolves(els) => {
+        match derived::role(&p.species.0)? {
+            DerivedRole::Solvent => kgw += p.moles.0 * WATER_MOLAR_MASS / 1000.0,
+            DerivedRole::Dissolves(els) => {
                 solutes += 1;
                 for (el, coeff) in els {
                     add_total(el, p.moles.0 * coeff);
                     note_element(el);
                 }
             }
-            Role::Mineral {
+            DerivedRole::Mineral {
                 phase,
                 elements: els,
             } => {
@@ -262,7 +119,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
                     if let Some(entry) = phases.iter_mut().find(|(name, ..)| name == phase) {
                         entry.1 += p.moles.0;
                     } else {
-                        phases.push((phase.to_string(), p.moles.0, 0.0));
+                        phases.push((phase.clone(), p.moles.0, 0.0));
                     }
                 } else {
                     for (el, coeff) in els {
@@ -276,17 +133,27 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     if kgw <= 0.0 || solutes == 0 {
         return None;
     }
-    // Ensure every candidate phase whose elements can reach solution can
+    // Every derived candidate phase whose elements can reach solution can
     // precipitate, amount 0 if no solid exists yet.
-    for (phase, required) in CANDIDATE_PHASES {
-        let all_present = required.iter().all(|el| elements.iter().any(|e| e == el));
-        let listed = phases.iter().any(|(name, ..)| name == phase);
+    for cand in derived::candidate_phases() {
+        let all_present = cand
+            .elements
+            .iter()
+            .all(|(el, _)| elements.iter().any(|e| e == el));
+        let listed = phases.iter().any(|(name, ..)| name == &cand.name);
         if all_present && !listed {
-            phases.push((phase.to_string(), 0.0, 0.0));
+            phases.push((cand.name.clone(), 0.0, 0.0));
         }
     }
-    for (phase, _, target_si, _, required) in ESCAPE_PHASES {
-        let all_present = required.iter().all(|el| elements.iter().any(|e| e == el));
+    // Atmospheric venting: a gas phase joins when its non-water elements
+    // are present (derived from the gas formula itself).
+    for (phase, _, target_si, _) in ATMOSPHERIC {
+        let gas_formula = phase.trim_end_matches("(g)");
+        let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
+        let all_present = required
+            .keys()
+            .filter(|el| *el != "O" && *el != "H")
+            .all(|el| elements.iter().any(|e| e == el));
         let listed = phases.iter().any(|(name, ..)| name == phase);
         if all_present && !listed {
             phases.push((phase.to_string(), 0.0, *target_si));
@@ -321,7 +188,13 @@ impl Equilibrator for PhreeqcEquilibrator {
         // (the ion-interaction model is built for them: halite saturates at
         // the textbook 6.13 mol/kgw where wateq4f gives 6.50); wateq4f
         // otherwise.
-        let needs_extended = problem.elements.iter().any(|e| e == "Acetate" || e == "P");
+        // "Extended": any element wateq4f does not know (derived — e.g.
+        // Acetate), plus phosphate as a documented exception (wateq4f has
+        // the P element but no free H3PO4 species).
+        let needs_extended = problem
+            .elements
+            .iter()
+            .any(|e| !derived::index_for("wateq4f").has_element(e) || e == "P");
         // Rough concentration estimate: dissolved totals plus what the
         // solid phases could dissolve (each formula unit ~2 ions).
         let potential_molality = (problem.totals.iter().map(|(_, n)| n).sum::<f64>()
@@ -330,7 +203,7 @@ impl Equilibrator for PhreeqcEquilibrator {
         let pitzer_capable = problem
             .elements
             .iter()
-            .all(|el| PITZER_ELEMENTS.contains(&el.as_str()));
+            .all(|el| derived::index_for("pitzer").has_element(el));
         let (engine, db_tag) = if needs_extended {
             (&mut self.organic, "minteq.v4")
         } else if potential_molality > 1.0 && pitzer_capable {
@@ -338,12 +211,39 @@ impl Equilibrator for PhreeqcEquilibrator {
         } else {
             (&mut self.inorganic, "wateq4f")
         };
-        // Zero-amount candidate phases the routed database does not define
-        // must not reach the input (solid-backed phases are guaranteed
-        // universal by the role table).
-        problem
-            .phases
-            .retain(|(name, moles, _)| *moles > 0.0 || phase_available(db_tag, name));
+        // Phases the routed database does not define must not reach the
+        // input. Zero-amount candidates are dropped; a solid-backed
+        // anhydrous phase (e.g. solid KCl on the wateq4f route — Sylvite is
+        // pitzer-only) dissolves into element totals instead, i.e. is
+        // treated as freely soluble in that database's domain. Hydrate
+        // phases are kept so the engine errors honestly rather than the
+        // ledger losing their crystal water silently.
+        let idx = derived::index_for(db_tag);
+        let mut freed: Vec<(String, f64)> = Vec::new();
+        problem.phases.retain(|(name, moles, _)| {
+            if idx.has_phase(name) {
+                return true;
+            }
+            if *moles > 0.0 {
+                if let Some(p) = derived::phase_by_name(name) {
+                    if p.waters == 0.0 {
+                        for (el, c) in &p.elements {
+                            freed.push((el.clone(), c * moles));
+                        }
+                        return false;
+                    }
+                }
+                return true;
+            }
+            false
+        });
+        for (el, n) in freed {
+            if let Some(entry) = problem.totals.iter_mut().find(|(e, _)| *e == el) {
+                entry.1 += n;
+            } else {
+                problem.totals.push((el, n));
+            }
+        }
         let input = build_input(vessel, &problem);
         let key = format!("#{db_tag}\n{input}");
 
@@ -394,13 +294,13 @@ impl Equilibrator for PhreeqcEquilibrator {
         let mut events = Vec::new();
         let mut contents = Vec::new();
         for p in &vessel.contents {
-            if matches!(role(&p.species.0), Some(Role::Solvent)) {
+            if matches!(derived::role(&p.species.0), Some(DerivedRole::Solvent)) {
                 contents.push(p.clone());
             }
         }
         for (el, moles) in &new_ions {
             if *moles > TRACE {
-                let ion = element_ion(el).expect("mapped element");
+                let ion = derived::booking_ion(el).expect("booking ion covered by tests");
                 contents.push(Portion {
                     species: SpeciesId::new(ion),
                     moles: Moles(*moles),
@@ -409,7 +309,8 @@ impl Equilibrator for PhreeqcEquilibrator {
             }
         }
         for (phase, moles) in &new_phases {
-            if let Some((species, waters)) = phase_solid(phase) {
+            if let Some(dp) = derived::phase_by_name(phase) {
+                let (species, waters) = (dp.species, dp.waters);
                 // Baseline is the phase's INPUT amount, not the vessel's
                 // solids: a freely-soluble solid (e.g. KCl) contributes to
                 // the totals, not the phase, and comparing against vessel
@@ -451,8 +352,8 @@ impl Equilibrator for PhreeqcEquilibrator {
                         w.moles = Moles((w.moles.0 - waters * delta).max(0.0));
                     }
                 }
-            } else if let Some((_, gas, _, water_coproduct, _)) =
-                ESCAPE_PHASES.iter().find(|(name, ..)| name == phase)
+            } else if let Some((_, gas, _, water_coproduct)) =
+                ATMOSPHERIC.iter().find(|(name, ..)| name == phase)
             {
                 // Escaped the open vessel: reported, not booked — the
                 // balance notices the loss. The water co-product of the
@@ -477,7 +378,9 @@ impl Equilibrator for PhreeqcEquilibrator {
         }
         // Freely-soluble solids (no mineral phase) dissolved entirely.
         for p in &vessel.contents {
-            if p.phase == Phase::Solid && matches!(role(&p.species.0), Some(Role::Dissolves(_))) {
+            if p.phase == Phase::Solid
+                && matches!(derived::role(&p.species.0), Some(DerivedRole::Dissolves(_)))
+            {
                 events.push(Event::Dissolved {
                     vessel: vessel.id,
                     species: p.species.clone(),

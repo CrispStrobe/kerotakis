@@ -13,6 +13,8 @@
 use std::ffi::{CStr, CString};
 
 mod aqueous;
+pub mod dbindex;
+pub mod derived;
 pub use aqueous::PhreeqcEquilibrator;
 
 mod ffi {
