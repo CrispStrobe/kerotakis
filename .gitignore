@@ -10,3 +10,4 @@ node_modules/
 !/crates/**/vendor/**/*.wasm
 error.inp
 phreeqc.log
+.claude/worktrees/

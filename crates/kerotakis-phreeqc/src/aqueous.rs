@@ -146,6 +146,126 @@ impl PhreeqcEquilibrator {
         self.hook = Some(hook);
     }
 
+    /// Run one input and hand back the engine's two outputs.
+    ///
+    /// The single place the linked engine and an attached outside one are
+    /// told apart, so everything above this — routing, the redox
+    /// bisection, the caching — is written once and behaves identically in
+    /// a terminal and in a browser tab.
+    fn run_raw(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
+        #[cfg(feature = "engine")]
+        {
+            let engine = match db_tag {
+                "minteq.v4" => &mut self.organic,
+                "pitzer" => &mut self.brine,
+                _ => &mut self.inorganic,
+            };
+            engine.run(input).map_err(|e| {
+                // The input is the whole question; when the engine refuses
+                // it, being able to see it is the difference between a
+                // diagnosis and a guess.
+                if std::env::var("KERO_DUMP_INPUT").is_ok() {
+                    eprintln!("--- PHREEQC input that failed ---\n{input}---");
+                }
+                SolveError::NotConverged {
+                    solver: "phreeqc-aqueous".to_string(),
+                    detail: e.to_string(),
+                }
+            })?;
+            Ok(SolveOutput {
+                selected: engine.selected_output(),
+                report: engine.output_string(),
+            })
+        }
+        #[cfg(not(feature = "engine"))]
+        {
+            let Some(hook) = self.hook.as_mut() else {
+                return Err(SolveError::NotConverged {
+                    solver: "phreeqc-aqueous (cache-only build)".to_string(),
+                    detail: "this state is not in the shipped results and there is no solver here to compute it".to_string(),
+                });
+            };
+            hook(db_tag, input).map_err(|e| SolveError::NotConverged {
+                solver: "phreeqc-aqueous (external engine)".to_string(),
+                detail: e,
+            })
+        }
+    }
+
+    /// Solve the vessel with its redox elements *coupled*: find the
+    /// electron activity at which the electrons that went in are the
+    /// electrons that come out.
+    ///
+    /// Naming an oxidation state pins that element in its own mass balance,
+    /// so an oxidant and a reductant entered that way never react. Removing
+    /// the tags lets them react but leaves pe undetermined — and pe is
+    /// exactly what the electron budget fixes. Σ(oxidation × moles) rises
+    /// monotonically with pe, so this is a bisection, and it is the same
+    /// move `equilibrate_hp` makes when it bisects temperature to conserve
+    /// enthalpy.
+    fn solve_coupled(
+        &mut self,
+        vessel: &Vessel,
+        problem: &Problem,
+        db_tag: &str,
+        coupling: &RedoxCoupling,
+    ) -> Result<SolveOutput, SolveError> {
+        // pe outside roughly −12..22 is past the stability field of water
+        // at any pH, so nothing chemical lives there.
+        // Bracketed by the stability field of water rather than by
+        // arithmetic convenience. Above about pe 17 water itself is being
+        // oxidised and chloride goes with it, which is where the solver
+        // starts refusing — and a bracket that reaches into that region
+        // lets a run of failures march the search into it.
+        let (mut lo, mut hi) = (-10.0f64, 17.0f64);
+        let mut best: Option<SolveOutput> = None;
+        let mut last_sum: Option<f64> = None;
+        for _ in 0..34 {
+            let mid = 0.5 * (lo + hi);
+            let input = build_input_at(vessel, problem, db_tag, Some((mid, coupling)));
+            // A single awkward trial must not end the search. PHREEQC will
+            // refuse some electron activities outright — a residual of one
+            // part in a hundred thousand on chloride is enough — and those
+            // are scattered through the range rather than at its edges.
+            // Aborting on the first one threw away a titration the bisection
+            // had very nearly solved, and reported the reagents as unreacted.
+            let Ok(out) = self.run_raw(db_tag, &input) else {
+                // Keep moving in the direction the last usable answer
+                // pointed, so the bracket steps over the bad patch instead
+                // of stalling on it.
+                match last_sum {
+                    Some(sum) if sum < coupling.target => lo = mid,
+                    Some(_) => hi = mid,
+                    None => lo = mid,
+                }
+                continue;
+            };
+            let Some(sum) = oxidation_sum(&out.selected, &coupling.columns, problem.kgw) else {
+                return Err(SolveError::NotConverged {
+                    solver: "phreeqc-aqueous (redox)".to_string(),
+                    detail: "the coupled run reported no oxidation-state totals".to_string(),
+                });
+            };
+            if std::env::var("KERO_REDOX").is_ok() {
+                eprintln!("  pe={mid:.3} sum={sum:.6e} target={:.6e}", coupling.target);
+            }
+            last_sum = Some(sum);
+            best = Some(out);
+            if sum < coupling.target {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+            if hi - lo < 1e-6 {
+                break;
+            }
+        }
+        best.ok_or_else(|| SolveError::NotConverged {
+            solver: "phreeqc-aqueous (redox)".to_string(),
+            detail: "the electron balance did not converge".to_string(),
+        })
+    }
+
     /// Whether this equilibrator can compute a state nobody pre-computed.
     pub fn can_solve(&self) -> bool {
         cfg!(feature = "engine") || self.hook.is_some()
@@ -378,10 +498,17 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     // Every derived candidate phase whose elements can reach solution can
     // precipitate, amount 0 if no solid exists yet.
     for cand in derived::candidate_phases() {
-        let all_present = cand
-            .elements
-            .iter()
-            .all(|(el, _)| elements.iter().any(|e| e == el));
+        // Compare *base* elements. Once a dissolved species carries its
+        // oxidation state — copper(II) is "Cu(2)", not "Cu" — a phase whose
+        // elements are written plainly stops matching, and copper hydroxide
+        // silently left the candidate list: 0.01 mol of Cu(2+) sat at
+        // pH 9.9 in a solution that cannot exist.
+        let all_present = cand.elements.iter().all(|(el, _)| {
+            let want = el.split('(').next().unwrap_or(el);
+            elements
+                .iter()
+                .any(|e| e.split('(').next().unwrap_or(e) == want)
+        });
         let listed = phases.iter().any(|(name, ..)| name == &cand.name);
         // A phase with a kinetic barrier is withheld below its threshold.
         // Equilibrium alone would hand back the *stable* copper solid,
@@ -572,80 +699,51 @@ impl PhreeqcEquilibrator {
         // Content-addressed cache: database + input string is a
         // deterministic canonicalisation of (species set, amounts, T) — same
         // state, same answer, no engine call.
+        let mut coupling_failed: Option<String> = None;
         let (rows, speciation, saturation, redox_adjusted) = if let Some(hit) = self.cache.get(&key)
         {
             self.cache_hits += 1;
             hit.clone()
         } else {
-            #[cfg(not(feature = "engine"))]
-            {
-                // No linked engine. An outside one may have been installed
-                // — that is how the browser build reaches real IPhreeqc —
-                // and everything downstream is identical either way.
-                let Some(hook) = self.hook.as_mut() else {
-                    // Nothing to ask: the shipped cache is all there is, and
-                    // a miss is stated rather than guessed at.
-                    return Err(SolveError::NotConverged {
-                        solver: "phreeqc-aqueous (cache-only build)".to_string(),
-                        detail: "this state is not in the shipped results and there is no solver here to compute it".to_string(),
-                    });
-                };
-                let out = hook(db_tag, &input).map_err(|e| SolveError::NotConverged {
-                    solver: "phreeqc-aqueous (external engine)".to_string(),
-                    detail: e,
-                })?;
-                let rows = out.selected;
-                let speciation = parse_species_distribution(&out.report);
-                let saturation = parse_saturation_indices(&out.report);
-                let redox_adjusted = out.report.contains("Adjusted to redox equilibrium");
-                if self.cache.len() >= 10_000 {
-                    self.cache.clear();
-                }
-                self.cache.insert(
-                    key,
-                    (
-                        rows.clone(),
-                        speciation.clone(),
-                        saturation.clone(),
-                        redox_adjusted,
-                    ),
-                );
-                (rows, speciation, saturation, redox_adjusted)
+            // Redox elements that equilibrate on a bench timescale are
+            // coupled and pe is solved for; everything else keeps the
+            // oxidation state it was added in. Which is which is curated —
+            // see FAST_REDOX — because it is a claim about rates.
+            let out = match redox_coupling(&problem, db_tag) {
+                Some(coupling) => match self.solve_coupled(vessel, &problem, db_tag, &coupling) {
+                    Ok(out) => out,
+                    // A coupled solve can fail where an uncoupled one
+                    // succeeds, and the reason is chemistry rather than
+                    // arithmetic: iron(II) oxidised near neutral pH wants
+                    // to be iron(III), which is insoluble there, and no
+                    // iron hydroxide is in our registry for it to become.
+                    // Falling back keeps the rest of the answer — pH,
+                    // speciation, everything not about electrons — and the
+                    // failure is said out loud rather than swallowed.
+                    Err(e) => {
+                        coupling_failed = Some(e.to_string());
+                        self.run_raw(db_tag, &input)?
+                    }
+                },
+                None => self.run_raw(db_tag, &input)?,
+            };
+            let rows = out.selected;
+            let speciation = parse_species_distribution(&out.report);
+            let saturation = parse_saturation_indices(&out.report);
+            let redox_adjusted = out.report.contains("Adjusted to redox equilibrium");
+            if self.cache.len() >= 10_000 {
+                self.cache.clear(); // simple bound; refine when profiling says so
             }
-            #[cfg(feature = "engine")]
-            {
-                let engine = match db_tag {
-                    "minteq.v4" => &mut self.organic,
-                    "pitzer" => &mut self.brine,
-                    _ => &mut self.inorganic,
-                };
-                engine.run(&input).map_err(|e| SolveError::NotConverged {
-                    solver: "phreeqc-aqueous".to_string(),
-                    detail: e.to_string(),
-                })?;
-                let rows = engine.selected_output();
-                let report = engine.output_string();
-                let speciation = parse_species_distribution(&report);
-                let saturation = parse_saturation_indices(&report);
-                // PHREEQC annotates its own report when it has solved for
-                // the electron activity rather than taken the default it was
-                // given. That sentence is the only trustworthy signal that
-                // pe is an answer, and it is the engine's own word.
-                let redox_adjusted = report.contains("Adjusted to redox equilibrium");
-                if self.cache.len() >= 10_000 {
-                    self.cache.clear(); // simple bound; refine when profiling says so
-                }
-                self.cache.insert(
-                    key,
-                    (
-                        rows.clone(),
-                        speciation.clone(),
-                        saturation.clone(),
-                        redox_adjusted,
-                    ),
-                );
-                (rows, speciation, saturation, redox_adjusted)
-            }
+            self.cache.insert(
+                key,
+                (
+                    rows.clone(),
+                    speciation.clone(),
+                    saturation.clone(),
+                    redox_adjusted,
+                ),
+            );
+            (rows, speciation, saturation, redox_adjusted)
         };
         let value = |column: &str| -> Option<f64> {
             let idx = rows.first()?.iter().position(|h| h == column)?;
@@ -657,9 +755,95 @@ impl PhreeqcEquilibrator {
         // differs slightly from the input water mass through speciation.
         let kgw_out = value("mass_H2O").ok_or_else(|| missing("mass_H2O"))?;
         let mut new_ions: Vec<(String, f64)> = Vec::new();
+        let mut unnameable: Vec<(String, f64)> = Vec::new();
+        if std::env::var("KERO_READBACK").is_ok() {
+            eprintln!("readback: kgw_out={kgw_out:.12e}");
+            if let (Some(h), Some(r)) = (rows.first(), rows.last()) {
+                for (name, v) in h.iter().zip(r.iter()) {
+                    if !name.is_empty() {
+                        eprintln!("   {name:<12} {v}");
+                    }
+                }
+            }
+            eprintln!("   elements={:?}", problem.elements);
+        }
+        // A coupled element no longer sits in the one oxidation state it
+        // was added in — that is the point — so reading back only the state
+        // it came in as *loses the rest*. Permanganate in brine settles at
+        // 96% Mn(VII), 3% Mn(VI), 1% Mn(II), and reading the Mn(7) column
+        // alone quietly discarded 4% of the manganese on every step. Each
+        // state is booked as its own ion; a state with no name in the
+        // registry is reported rather than dropped.
+        // Not only the *coupled* elements: PHREEQC equilibrates an
+        // element's own oxidation states against pe whether or not it may
+        // trade electrons with anything else, so permanganate alone in
+        // brine still settles at 96/3/1 across Mn(VII), Mn(VI) and Mn(II).
+        // Every redox element present therefore has to be read state by
+        // state.
+        let coupled: Vec<String> = valence_totals(&problem, db_tag);
+        let coupled_bases: Vec<&str> = coupled.iter().filter_map(|c| c.split('(').next()).collect();
         for el in &problem.elements {
+            let base = el.split('(').next().unwrap_or(el);
+            if coupled_bases.contains(&base) {
+                continue; // handled per oxidation state below
+            }
             let molality = value(el).ok_or_else(|| missing(el))?;
             new_ions.push((el.clone(), molality * kgw_out));
+        }
+        // Conservation by construction: the element's own total is
+        // authoritative and its oxidation states only decide how to name
+        // it. Booking the states directly made their rounding the vessel's
+        // arithmetic, and the error compounded on every step — nitrogen
+        // drifted 0.25% each time the beaker was touched.
+        let bases: std::collections::BTreeSet<&str> = coupled_bases.iter().copied().collect();
+        for base in bases {
+            let split: Vec<(&String, f64)> = coupled
+                .iter()
+                .filter(|c| c.split('(').next() == Some(base))
+                .filter_map(|c| value(c).map(|m| (c, m.max(0.0))))
+                .collect();
+            let sum: f64 = split.iter().map(|(_, m)| m).sum();
+            let total = value(base).unwrap_or(sum) * kgw_out;
+            if total <= TRACE {
+                continue;
+            }
+            // An element can be redox-active and still have no *tagged*
+            // state carrying anything: the databases name carbon(IV) as
+            // plain "C", so bicarbonate's only tagged state is C(−IV) and
+            // it is empty. Skipping on a zero split threw the carbon away —
+            // every carbonate solution lost all of it. With nothing to
+            // distribute, the element is simply booked as itself.
+            if sum <= 0.0 {
+                match derived::booking_ion(base) {
+                    Some(_) => new_ions.push((base.to_string(), total)),
+                    None => unnameable.push((base.to_string(), total)),
+                }
+                continue;
+            }
+            for (column, molality) in split {
+                let moles = total * molality / sum;
+                if moles <= TRACE {
+                    continue;
+                }
+                // A specific oxidation state may have no name of its own
+                // while the element does: carbon(IV)'s master is CO3(2−),
+                // which this registry does not carry because it names
+                // dissolved carbonate as bicarbonate at teaching pH. The
+                // fallback is guarded — only for a state that *is*
+                // essentially the whole element — so a trace of manganese
+                // (VI) can never be quietly relabelled as manganese(II).
+                // Without it, every carbonate solution lost all of its
+                // carbon.
+                let dominant = molality / sum > 0.99;
+                let named = derived::booking_ion(column).is_some();
+                if named {
+                    new_ions.push((column.clone(), moles));
+                } else if dominant && derived::booking_ion(base).is_some() {
+                    new_ions.push((base.to_string(), moles));
+                } else {
+                    unnameable.push((column.clone(), moles));
+                }
+            }
         }
         let mut new_phases: Vec<(String, f64)> = Vec::new();
         for (phase, ..) in &problem.phases {
@@ -676,7 +860,20 @@ impl PhreeqcEquilibrator {
         let mut contents = Vec::new();
         for p in &vessel.contents {
             match derived::role(&p.species.0) {
-                Some(DerivedRole::Solvent) => contents.push(p.clone()),
+                // The solvent is rebuilt on the *equilibrated* water mass,
+                // not left at what went in. Speciation consumes and
+                // releases water — hydration, hydrolysis — so `mass_H2O`
+                // differs from the water poured in, and every dissolved
+                // amount below is `molality × mass_H2O`. Keeping the old
+                // water beside the new ions made the vessel inconsistent
+                // with itself, and the error *compounded*: nitrogen grew
+                // 0.25% per step, 0.010000 → 0.010025 → 0.010072, for as
+                // long as the beaker was touched.
+                Some(DerivedRole::Solvent) => contents.push(Portion {
+                    species: p.species.clone(),
+                    moles: Moles(kgw_out * 1000.0 / WATER_MOLAR_MASS),
+                    phase: p.phase,
+                }),
                 // Matter this engine does not model passes through
                 // untouched. The rebuild replaces the vessel's contents
                 // with the computed state, so anything without a role used
@@ -704,9 +901,21 @@ impl PhreeqcEquilibrator {
         for (el, moles) in &new_ions {
             if *moles > TRACE {
                 let ion = derived::booking_ion(el).expect("booking ion covered by tests");
+                // Moles of an *element* are not moles of the ion that
+                // carries it unless the ion holds exactly one atom of it.
+                // Nitrogen booked as N2 counted twice, so a beaker of
+                // silver nitrate gained a quarter of a percent of nitrogen
+                // every time it was touched — the element total went in as
+                // a molecule count and came back out as an atom count.
+                let base = el.split('(').next().unwrap_or(el);
+                let per_ion = species::lookup_key(ion)
+                    .and_then(|d| kerotakis_core::stoich::parse_formula(d.formula).ok())
+                    .and_then(|f| f.counts.get(base).copied())
+                    .filter(|n| *n > 0.0)
+                    .unwrap_or(1.0);
                 contents.push(Portion {
                     species: SpeciesId::new(ion),
-                    moles: Moles(*moles),
+                    moles: Moles(*moles / per_ion),
                     phase: Phase::Aqueous,
                 });
             }
@@ -747,36 +956,40 @@ impl PhreeqcEquilibrator {
                     });
                 }
                 // Waters of crystallisation move between the liquid and the
-                // solid (gypsum: 2 H2O per formula unit).
-                if waters != 0.0 && delta.abs() > TRACE {
-                    if let Some(w) = contents
-                        .iter_mut()
-                        .find(|p| p.species.0 == "water" && p.phase == Phase::Liquid)
-                    {
-                        w.moles = Moles((w.moles.0 - waters * delta).max(0.0));
-                    }
-                }
+                // solid (gypsum: 2 H2O per formula unit) — and PHREEQC has
+                // already moved them. `mass_H2O` is the water left *after*
+                // the crystal took its share, and the solvent is rebuilt
+                // from it, so subtracting them again here bound four waters
+                // per formula instead of two. The chemistry is unchanged;
+                // it is now counted once.
+                let _ = waters;
             } else if let Some((_, gas, _, water_coproduct)) =
                 ATMOSPHERIC.iter().find(|(name, ..)| name == phase)
             {
                 // Escaped the open vessel: reported, not booked — the
                 // balance notices the loss. The water co-product of the
                 // gas-forming reaction stays behind.
-                if *moles >= kerotakis_core::OBSERVABLE_MOLES {
+                // Recorded whatever the size. Gating this on
+                // observability meant a third of a micromole of CO2 could
+                // leave an open beaker with no entry against it — and the
+                // water co-product below was skipped with it, so the vessel
+                // lost matter twice over. `Event::is_observable` decides
+                // what gets *shown*.
+                if *moles > TRACE {
                     events.push(Event::GasEvolved {
                         vessel: vessel.id,
                         species: SpeciesId::new(gas),
                         moles: Moles(*moles),
                     });
-                    let formed_water = moles * water_coproduct;
-                    if formed_water > TRACE {
-                        if let Some(w) = contents
-                            .iter_mut()
-                            .find(|p| p.species.0 == "water" && p.phase == Phase::Liquid)
-                        {
-                            w.moles = Moles(w.moles.0 + formed_water);
-                        }
-                    }
+                    // The water this reaction makes is *not* added here.
+                    // It used to be, and it had to be while the solvent was
+                    // carried over unchanged from the previous step. Now
+                    // the solvent is rebuilt from PHREEQC's own `mass_H2O`,
+                    // which already counts water produced and consumed by
+                    // the reaction — adding it again put the mass in twice,
+                    // and a fizzing beaker lost 1.02 g where it should have
+                    // lost the full 1.69 g of carbon dioxide.
+                    let _ = water_coproduct;
                 }
             }
         }
@@ -893,10 +1106,16 @@ impl PhreeqcEquilibrator {
         // show permanganate and iron(II) sitting in one beaker — a solution
         // that cannot exist. Each state is right; their coexistence is not,
         // and the difference has to be visible rather than inferred.
-        let redox_note = if redox.len() > 1 {
-            "each element's oxidation state is held as it was added: naming a valence decouples it in PHREEQC, so the elements here do not exchange electrons and an oxidant will sit beside a reductant without reacting".to_string()
-        } else {
-            String::new()
+        let redox_note = match (&coupling_failed, redox.len()) {
+            (Some(why), _) => format!(
+                "the redox elements here could not be coupled, so each is shown in the oxidation state it was added in and they have not reacted with each other — {why}"
+            ),
+            (None, n) if n > 1 && redox_coupling(&problem, db_tag).is_none() => {
+                // Coupled elements are settled by the electron balance;
+                // this note is for the ones deliberately left pinned.
+                "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added".to_string()
+            }
+            _ => String::new(),
         };
         redox.sort_by(|a, b| {
             a.element
@@ -933,6 +1152,18 @@ impl PhreeqcEquilibrator {
                 vessel: vessel.id,
                 ph,
                 ionic_strength: mu,
+            });
+        }
+
+        // Matter the readback could not name. It is a small fraction of a
+        // minor oxidation state, and losing it silently is exactly the kind
+        // of quiet subtraction this engine keeps having to root out.
+        for (column, moles) in &unnameable {
+            events.push(Event::NotYetModeled {
+                vessel: vessel.id,
+                what: format!(
+                    "{moles:.3e} mol settled as {column}, an oxidation state this lab has no name for — it is not in the vessel's inventory, so there is slightly less of that element in the glass than went in"
+                ),
             });
         }
 
@@ -1015,6 +1246,112 @@ fn missing(column: &str) -> SolveError {
     }
 }
 
+/// Elements whose redox couples equilibrate fast enough to matter on a
+/// bench, and are therefore allowed to exchange electrons with each other.
+///
+/// This is curated kinetics, exactly like the thermal solver's 500 K
+/// stand-down and copper's metastability threshold, and for the same
+/// reason: thermodynamics alone gives the wrong answer about a beaker.
+/// Couple everything and a strong reductant drags pe down far enough to
+/// reduce sulfate to sulfide, which is real chemistry that takes bacteria
+/// and geological time and does not happen in a lesson. Couple nothing and
+/// permanganate sits placidly beside iron(II), which is what this engine
+/// did until now.
+///
+/// So: the couples a school actually titrates with are coupled, and the
+/// famously sluggish ones — sulfate/sulfide, nitrate/ammonium,
+/// carbonate/methane — keep the oxidation state they were added in and say
+/// so. Editorial judgement (Kerotakis): the membership of this list is a
+/// statement about rates that we do not compute.
+const FAST_REDOX: &[&str] = &["Fe", "Mn", "Cu", "Cr"];
+
+/// The gas phase an open vessel's redox state is set by, and its share of
+/// the atmosphere. log10(0.21) = −0.68.
+const ATMOSPHERIC_OXYGEN: &str = "O2(g)";
+const ATMOSPHERIC_LOG_PO2: &str = "-0.68";
+
+/// What the electrons in a vessel add up to, and the input that lets
+/// PHREEQC redistribute them.
+#[derive(Debug, Clone)]
+struct RedoxCoupling {
+    /// Σ (oxidation state × moles) over the coupled elements, as added.
+    /// Conserved by any real redox reaction, so it is what pe must be
+    /// solved to reproduce.
+    target: f64,
+    /// The coupled elements, for reading the answer back.
+    columns: Vec<String>,
+}
+
+/// The oxidation state written into an element key: `Mn(7)` → 7, `Fe` → None.
+fn tagged_state(key: &str) -> Option<i32> {
+    let (_, rest) = key.split_once('(')?;
+    rest.trim_end_matches(')').parse().ok()
+}
+
+/// Whether this vessel has a redox problem worth solving, and what the
+/// electron budget is.
+///
+/// Needs at least two coupled elements *in different oxidation states than
+/// each other would settle at* — in practice, two coupled elements at all.
+/// One element on its own has nothing to react with here, because water's
+/// own redox is deliberately not part of the budget.
+fn redox_coupling(problem: &Problem, db_tag: &str) -> Option<RedoxCoupling> {
+    let idx = derived::index_for(db_tag);
+    let mut target = 0.0;
+    let mut coupled: Vec<&str> = Vec::new();
+    for (key, moles) in &problem.totals {
+        let base = key.split('(').next().unwrap_or(key);
+        if !FAST_REDOX.contains(&base) || !idx.redox_elements.contains(base) {
+            continue;
+        }
+        // The oxidation state this element went in at. Usually the key
+        // carries it — `Mn(7)` from permanganate — but a simple salt books
+        // as a bare element, and then the state is the charge on the ion it
+        // books as: iron(II) sulfate gives `Fe`, which books as Fe+2.
+        // Without this, adding permanganate to iron(II) sulfate found no
+        // electron budget at all and the two sat side by side unreacted.
+        let state = match tagged_state(key) {
+            Some(n) => n,
+            None => derived::booking_ion(base)
+                .and_then(|ion| kerotakis_core::stoich::parse_formula(ion).ok())
+                .map(|f| f.charge as i32)?,
+        };
+        target += state as f64 * moles;
+        if !coupled.contains(&base) {
+            coupled.push(base);
+        }
+    }
+    if coupled.len() < 2 {
+        return None;
+    }
+    let mut columns: Vec<String> = Vec::new();
+    for master in idx.masters.keys() {
+        let Some((base, _)) = master.split_once('(') else {
+            continue;
+        };
+        if coupled.contains(&base) && !columns.contains(master) {
+            columns.push(master.clone());
+        }
+    }
+    Some(RedoxCoupling { target, columns })
+}
+
+/// Σ (oxidation state × moles) read back from a solved distribution.
+fn oxidation_sum(rows: &[Vec<String>], columns: &[String], kgw: f64) -> Option<f64> {
+    let header = rows.first()?;
+    let last = rows.last()?;
+    let mut sum = 0.0;
+    for column in columns {
+        let Some(i) = header.iter().position(|h| h == column) else {
+            continue;
+        };
+        let molality: f64 = last.get(i)?.parse().ok()?;
+        let state = tagged_state(column)? as f64;
+        sum += state * molality * kgw;
+    }
+    Some(sum)
+}
+
 /// The per-oxidation-state totals worth asking for.
 ///
 /// PHREEQC will report an element split across its oxidation states if you
@@ -1048,6 +1385,21 @@ fn valence_totals(problem: &Problem, db_tag: &str) -> Vec<String> {
 }
 
 fn build_input(vessel: &Vessel, problem: &Problem, db_tag: &str) -> String {
+    build_input_at(vessel, problem, db_tag, None)
+}
+
+/// The input, optionally with the fast-redox elements coupled at a trial pe.
+///
+/// Coupling is done by *removing* the valence tag: `Mn(7) 5e-4` pins
+/// manganese in its own mass balance, while `Mn 5e-4` lets pe decide where
+/// it sits. The elements left tagged stay pinned on purpose — see
+/// `FAST_REDOX`.
+fn build_input_at(
+    vessel: &Vessel,
+    problem: &Problem,
+    db_tag: &str,
+    couple: Option<(f64, &RedoxCoupling)>,
+) -> String {
     use std::fmt::Write;
     let mut input = String::new();
     let temp_c = vessel.temperature.to_celsius();
@@ -1056,7 +1408,47 @@ fn build_input(vessel: &Vessel, problem: &Problem, db_tag: &str) -> String {
     writeln!(input, "    temp      {temp_c:.4}").unwrap();
     writeln!(input, "    pH        7  charge").unwrap();
     writeln!(input, "    water     {:.9}", problem.kgw).unwrap();
+    match couple {
+        // Solving for the electron balance: pe is the unknown being
+        // bisected, so it is stated outright.
+        Some((pe, _)) => writeln!(input, "    pe        {pe:.6}").unwrap(),
+        // Otherwise the beaker is open to the room, and the air above it is
+        // what sets its redox state. PHREEQC's default of pe 4 is not a
+        // measurement, it is a placeholder, and it is mildly *reducing*:
+        // left at 4 the engine turned copper(II) into copper(I) and reduced
+        // sulfate to sulfide — real chemistry that needs bacteria and
+        // geological time, reported as the contents of a beaker. Fixing pe
+        // from atmospheric oxygen gives pe ≈ 19.6 at pH 1, copper stays
+        // copper(II) and sulfate stays sulfate, which is what is in the
+        // glass. log P(O2) = −0.68 is the atmosphere's own partial
+        // pressure, and it is the same reservoir the gas-venting path
+        // already equilibrates against.
+        // Only where the database defines the phase. pitzer.dat is a
+        // major-ion brine model and carries no O2(g) at all — asking it for
+        // one is an error, and it has no redox chemistry to get wrong
+        // anyway.
+        None if derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN) => writeln!(
+            input,
+            "    pe        4  {ATMOSPHERIC_OXYGEN}  {ATMOSPHERIC_LOG_PO2}"
+        )
+        .unwrap(),
+        None => {}
+    }
+    // Merge totals that lose their valence tag: Fe(2) and Fe(3) both become
+    // Fe, and PHREEQC takes one line per element.
+    let mut totals: Vec<(String, f64)> = Vec::new();
     for (el, moles) in &problem.totals {
+        let base = el.split('(').next().unwrap_or(el);
+        let key = match couple {
+            Some(_) if FAST_REDOX.contains(&base) => base.to_string(),
+            _ => el.clone(),
+        };
+        match totals.iter_mut().find(|(k, _)| *k == key) {
+            Some(entry) => entry.1 += moles,
+            None => totals.push((key, *moles)),
+        }
+    }
+    for (el, moles) in &totals {
         writeln!(input, "    {el} {:.12e}", moles / problem.kgw).unwrap();
     }
     if !problem.phases.is_empty() {
@@ -1084,10 +1476,14 @@ fn build_input(vessel: &Vessel, problem: &Problem, db_tag: &str) -> String {
     // Element totals, plus the per-oxidation-state split for any redox
     // element present. The split is the observable of every redox
     // experiment and PHREEQC will report it if asked by name.
-    let mut totals: Vec<String> = elements.iter().map(|e| e.to_string()).collect();
-    for v in valence_totals(problem, db_tag) {
-        if !totals.contains(&v) {
-            totals.push(v);
+    let mut totals: Vec<String> = Vec::new();
+    for e in elements
+        .iter()
+        .map(|e| e.to_string())
+        .chain(valence_totals(problem, db_tag))
+    {
+        if !totals.contains(&e) {
+            totals.push(e);
         }
     }
     writeln!(input, "    -totals   {}", totals.join(" ")).unwrap();

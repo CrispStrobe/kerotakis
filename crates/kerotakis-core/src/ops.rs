@@ -245,3 +245,26 @@ pub struct LogEntry {
     pub operator: Operator,
     pub events: Vec<Event>,
 }
+
+impl Event {
+    /// Whether a person would notice this.
+    ///
+    /// The event stream is the *ledger*: it has to account for everything
+    /// that happened, including the third of a micromole of carbon dioxide
+    /// that leaves an open beaker while nobody is looking. Applying the
+    /// observability floor at the moment of *recording* made the books not
+    /// balance — matter left the vessel with no entry against it — so the
+    /// floor belongs here, at the moment of *telling*, where it started as
+    /// a question about what a learner should be shown.
+    pub fn is_observable(&self) -> bool {
+        let amount = match self {
+            Event::Dissolved { moles, .. }
+            | Event::Precipitated { moles, .. }
+            | Event::GasEvolved { moles, .. }
+            | Event::Consumed { moles, .. }
+            | Event::Reacted { moles, .. } => moles.0,
+            _ => return true,
+        };
+        amount >= crate::OBSERVABLE_MOLES
+    }
+}

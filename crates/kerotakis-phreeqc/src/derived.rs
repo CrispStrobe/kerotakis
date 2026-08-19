@@ -249,6 +249,21 @@ impl Derived {
                     continue;
                 }
             }
+            // A species that *is* one of the database's master species
+            // carries its oxidation state in its element name: Mn+2 is
+            // "Mn(2)", not "Mn". Deriving the element from the formula
+            // instead loses that, and then a vessel holding both
+            // permanganate and manganese(II) writes `Mn(7)` and `Mn` into
+            // the same input — which PHREEQC reads as the same element
+            // entered twice and refuses outright.
+            let as_master = indexes
+                .iter()
+                .find_map(|idx| idx.species_element.get(s.key))
+                .filter(|el| el.contains('('));
+            if let Some(element) = as_master {
+                roles.insert(s.key, DerivedRole::Dissolves(vec![(element.clone(), 1.0)]));
+                continue;
+            }
             if let Some(contrib) = derive_contribution(s.formula, indexes) {
                 roles.insert(s.key, DerivedRole::Dissolves(contrib));
             }
@@ -382,7 +397,25 @@ fn contribution_from_counts(
         if !indexes.iter().any(|idx| idx.has_element(&el)) {
             return None;
         }
-        contrib.push((el, n));
+        // A redox-active element goes in carrying its oxidation state.
+        // Entered plainly it is coupled to pe, and an open beaker's pe is
+        // set by the air above it — so dissolving iron(II) sulfate produced
+        // iron(III) before any reagent was added, because the atmosphere
+        // had already oxidised it. That is thermodynamically true and
+        // kinetically wrong: a titration is run with fresh iron(II)
+        // solution precisely because it oxidises slowly. Tagging pins it.
+        //
+        // The state is the charge on the ion this lab books the element as,
+        // which is the curated statement BOOKING_OVERRIDES already makes —
+        // "when we say iron, we mean iron(II)". A compound that contained
+        // the element in another state would need its own entry.
+        let redox_active = indexes.iter().any(|idx| idx.redox_elements.contains(&el));
+        let tagged = redox_active
+            .then(|| cation_charge(&el, indexes))
+            .flatten()
+            .filter(|q| *q > 0.0)
+            .map(|q| format!("{el}({})", q as i32));
+        contrib.push((tagged.unwrap_or(el), n));
     }
     if contrib.is_empty() {
         None

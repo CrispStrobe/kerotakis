@@ -138,8 +138,14 @@ fn gypsum_precipitation_binds_water_into_the_crystal() {
         .moles_of(&SpeciesId::new("water"))
         .0;
     let bound = water_before - water_after;
+    // 1e-5, not 1e-6: the water is no longer adjusted by hand — PHREEQC
+    // moves it into the crystal and the vessel is rebuilt from its
+    // `mass_H2O`, so this now measures the engine's own bookkeeping rather
+    // than our arithmetic on top of it. What is left is the float residue
+    // of that round trip, about 2 µmol. The claim being tested — two waters
+    // per formula unit — is unchanged.
     assert!(
-        (bound - 2.0 * gypsum).abs() < 1e-6,
+        (bound - 2.0 * gypsum).abs() < 1e-5,
         "the crystal binds 2 waters per formula: {gypsum} mol gypsum should bind {} mol, ledger shows {bound}",
         2.0 * gypsum
     );

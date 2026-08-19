@@ -10,6 +10,8 @@
 //!   kero run FILE.lab --json  replay, one JSON object per step on stdout
 //!   kero species              list the registry
 
+mod sweep;
+
 use std::io::{BufRead, Write};
 
 use kerotakis_core::script::{parse_op, parse_vessel};
@@ -149,6 +151,12 @@ fn main() {
                 );
             }
         }
+        Some("sweep") => {
+            // Drive a matrix of states through the whole stack and check
+            // every invariant the engine claims about itself. Checking a
+            // claim is cheaper than believing it.
+            run_sweep(args.get(1).map(String::as_str));
+        }
         Some("balance") => {
             // Balancing is the null space of the element-count matrix, so
             // the lab can *do* it rather than check a memorised answer —
@@ -273,6 +281,139 @@ fn redox_words(s: &kerotakis_core::SolutionInfo) -> String {
     } else {
         format!("\n      redox — {}", parts.join("; "))
     }
+}
+
+/// The sweep: a matrix of vessel states through the real solver stack.
+///
+/// Cases are built from a small alphabet — a solvent, things to dissolve,
+/// acids and bases, an oxidant and a reductant, heat, cold, time — because
+/// the interesting failures have all come from *combinations* nobody
+/// thought to try, not from any one operator.
+fn run_sweep(filter: Option<&str>) -> ! {
+    let solvents = ["water 100mL", "water 250mL"];
+    let solutes = [
+        "NaCl 0.1mol",
+        "KCl 0.05mol",
+        "CaCl2 0.05mol",
+        "CuSO4 0.01mol",
+        "AgNO3 0.01mol",
+        "Na2CO3 0.02mol",
+        "NaHCO3 0.05mol",
+        "CaCO3 2g",
+        "MgSO4 0.02mol",
+        "KMnO4 0.001mol",
+        "FeSO4 0.005mol",
+        "Na2S2O3 0.5g",
+        "H2O2 0.05mol",
+        "gypsum 1g",
+        "CaO 1g",
+        "MnO2 0.2g",
+    ];
+    let reagents = [
+        "",
+        "HCl 0.02mol",
+        "NaOH 0.02mol",
+        "CH3COOH 0.05mol",
+        "H3PO4 0.02mol",
+        "AgNO3 0.005mol",
+        "KMnO4 0.0005mol",
+        "MnO2 0.1g",
+    ];
+    let finishers = [
+        "",
+        "heat v1 5kJ",
+        "cool v1 20kJ",
+        "wait 30s",
+        "stir v1",
+        "evaporate v1 0.3",
+    ];
+
+    let mut cases: Vec<(String, String)> = Vec::new();
+    for solvent in solvents {
+        for solute in solutes {
+            for reagent in reagents {
+                for finish in finishers {
+                    let mut script = format!("add v1 {solvent}\nadd v1 {solute}\n");
+                    if !reagent.is_empty() {
+                        script.push_str(&format!("add v1 {reagent}\n"));
+                    }
+                    if !finish.is_empty() {
+                        script.push_str(finish);
+                        script.push('\n');
+                    }
+                    let name = format!("{solvent} + {solute} + [{reagent}] + [{finish}]");
+                    cases.push((name, script));
+                }
+            }
+        }
+    }
+    if let Some(f) = filter {
+        cases.retain(|(name, _)| name.contains(f));
+    }
+
+    let total = cases.len();
+    eprintln!("sweeping {total} states…");
+    let mut findings: Vec<sweep::Finding> = Vec::new();
+    let mut refused = 0usize;
+    let mut solved = 0usize;
+
+    for (i, (name, script)) in cases.iter().enumerate() {
+        if i % 200 == 0 && i > 0 {
+            eprintln!("  {i}/{total}");
+        }
+        let mut bench = Bench::new();
+        let mut stack = build_stack();
+        let mut ok = true;
+        for line in script.lines() {
+            let Ok(Some(op)) = parse_op(line) else {
+                continue;
+            };
+            let before = bench.vessel(VesselId(0)).cloned().ok();
+            match bench.step_with(op, &mut stack, &kerotakis_safety::ReactiveGroupScreen) {
+                Ok(events) => {
+                    // A stated refusal is a correct outcome, not a failure.
+                    if events
+                        .iter()
+                        .any(|e| matches!(e, Event::SolverFailed { .. }))
+                    {
+                        refused += 1;
+                    }
+                    if let (Some(before), Ok(after)) = (before, bench.vessel(VesselId(0))) {
+                        findings.extend(sweep::check(name, &before, after, &events));
+                    }
+                }
+                Err(_) => ok = false,
+            }
+        }
+        if ok {
+            solved += 1;
+        }
+    }
+
+    println!("\nswept {total} states — {solved} ran, {refused} step(s) stated a refusal");
+    if findings.is_empty() {
+        println!("no invariant was violated.");
+        std::process::exit(0);
+    }
+    let mut by_kind: std::collections::BTreeMap<String, Vec<&sweep::Finding>> = Default::default();
+    for f in &findings {
+        by_kind
+            .entry(format!("{:?}", f.invariant))
+            .or_default()
+            .push(f);
+    }
+    println!("{} violation(s):", findings.len());
+    for (kind, group) in &by_kind {
+        println!("\n  {kind} — {} case(s)", group.len());
+        for f in group.iter().take(4) {
+            println!("    · {}", f.detail);
+            println!("      in: {}", f.case);
+        }
+        if group.len() > 4 {
+            println!("    · … and {} more", group.len() - 4);
+        }
+    }
+    std::process::exit(1);
 }
 
 /// Load every codex file in a directory.
@@ -821,7 +962,11 @@ impl Session {
             println!("{step}");
         } else {
             for event in &events {
-                println!("  {}", render_event(event, self.register));
+                // The ledger records everything; a person is shown what
+                // they could notice.
+                if event.is_observable() {
+                    println!("  {}", render_event(event, self.register));
+                }
             }
         }
         Ok(())
