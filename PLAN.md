@@ -950,7 +950,12 @@ LibreTexts except per-page tag-filtered, New Zealand's entire Ministry
 estate (BY-NC), NSW NESA (all rights reserved), BC/Ontario/Alberta,
 Singapore (and Cambridge co-owns the syllabuses), Ireland (no licence at
 all), Switzerland's Lehrplan 21 (**not** CC — "keinerlei Rechte
-übertragen"), European Schools, DDC (NC+ND, and dewey.info is dead).
+übertragen"; note the constraint is *legal, not technical*: a maintained
+JSON API and a ~20 MB XML export exist, but both sit behind a signed
+Nutzungsvereinbarung with the D-EDK, and the only credential-free routes
+are per-competence PDFs. The cantonal adoptions are arguably amtliche
+Erlasse under Art. 5 URG, which is the only path worth pursuing),
+European Schools, DDC (NC+ND, and dewey.info is dead).
 
 **NGSS is worse than NC:** not NC, but the grant is *enumerated* to states,
 districts, schools, teachers and non-profits — a commercial app is not on
