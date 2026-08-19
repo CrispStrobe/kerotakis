@@ -1285,16 +1285,81 @@ behaviour returns when the school-facing layers are covered.
 
 #### P3e — Redox and electrochemistry  ← the biggest missing curriculum block
 
-- [ ] **Surface pe/Eh, which PHREEQC already computes and we discard.** The
-      model audit found no pe, no Eh, no saturation index reaching the
-      user. Exposure first, new physics second.
-- [ ] Standard-potential ordering → the activity series, displacement
-      reactions, why zinc protects iron.
-- [ ] Nernst equation over computed activities — an equation whose inputs
-      the engine already has.
-- [ ] Faraday's law for electrolysis: charge → moles → mass at an
-      electrode.
-- [ ] Corrosion and batteries as the contexts.
+**Settled by experiment, 2026-08-19.** The question "how do we solve
+`MnO₄⁻ + Fe²⁺ → ?`" has an answer that needs no reaction rules at all:
+*ask the thermodynamics*. Probing IPhreeqc directly:
+
+```text
+1 mmol MnO4- into 5 mmol Fe2+ at pH 1
+  pe   = 18.345    "Adjusted to redox equilibrium"
+  Mn+2 = 9.999e-4     all the manganese reduced
+  Fe+3 = 4.827e-3 (+1.63e-4 as FeOH+2)   all the iron oxidised
+
+the same, with half the oxidant
+  pe   = 12.674
+  Mn+2 = 5.000e-4
+  Fe+3 = 2.418e-3     exactly half the iron oxidised
+  Fe+2 = 2.500e-3     exactly half left
+```
+
+The 5:1 stoichiometry is not encoded anywhere — it falls out of free-energy
+minimisation. And the half-oxidised case lands at pe 12.67, which is the
+Fe³⁺/Fe²⁺ standard potential: **a half-titrated redox couple sits at its
+own E°, exactly as a half-neutralised acid sits at its pKa.** That is one
+of the best results this engine can produce, and it is computed.
+
+Two mechanics matter, both learned the hard way:
+
+- **Naming a valence state in `SOLUTION` decouples that element.** Entering
+  `Mn(7) 1e-3` and `Fe(2) 5e-3` gives a solution where *nothing reacts*:
+  PHREEQC holds each valence in its own mass balance and reports pe 4 with
+  the permanganate untouched. Redox needs the elements *coupled*.
+- **Adding a reagent by formula is the idiom that works**, and it is what
+  the bench's `add` already means: `REACTION … KMnO4` supplies K, Mn and O
+  together, and PHREEQC finds the pe satisfying the electron balance.
+
+So the build order is:
+
+- [ ] Route redox-active additions through `REACTION` by formula rather than
+      as fixed-valence solution input, and stop pinning valences.
+- [ ] **Surface pe and Eh**, which we compute and discard today.
+- [ ] Report the redox distribution per element — "manganese: 100 % Mn(II)";
+      "iron: 50 % Fe(II), 50 % Fe(III)" — which is the observable.
+- [ ] Nernst over computed activities; the standard-potential ordering
+      (activity series), displacement, why zinc protects iron.
+- [ ] Faraday's law for electrolysis: charge → moles → mass at an electrode.
+
+**Oxidation-state bookkeeping is the explanation layer, not the solver.**
+It does not find the products — the free-energy minimisation does — but it
+turns a computed distribution into the sentence a learner needs: manganese
+fell from +7 to +2, five electrons each; iron rose from +2 to +3. It also
+supplies half-reaction display and the electron count. Where the numbers
+come from:
+
+1. **Derived from the databases first.** PHREEQC's master-species block
+   names oxidation states outright — `Mn(7) MnO4-`, `Fe(+3) Fe+3`,
+   `N(-3) NH4+`, `C(-4) CH4` — so for aqueous species the state is *data
+   with provenance*, not our opinion. `dbindex` already parses this block.
+2. **Rules where the database is silent**, as a constraint solve rather
+   than a lookup: F = −1, group 1 = +1, group 2 = +2, H = +1, O = −2, and
+   the sum over a species equals its charge. Fix what is known, solve for
+   the rest. One unknown element is then determined — possibly as a
+   *fraction*, which is honest: Fe₃O₄ really is +8/3 on average, and an
+   average is exactly what electron counting needs.
+3. **Inconsistency is the detector, not a special case.** Applying O = −2
+   to H₂O₂ gives a sum of −2 against a neutral species, and that failure
+   *is* the signal that the oxygen is peroxidic. Metal hydrides announce
+   themselves the same way. So the exceptions are found rather than listed.
+4. **Refuse when two elements remain unknown** and no database entry
+   settles it — the same discipline as the balancer refusing an
+   under-determined skeleton.
+
+What oxidation states will **not** do, stated so it is not promised: they
+do not resolve a skeleton with two products of the same element in
+different states. `C + O₂ → CO + CO₂` stays ambiguous however carefully the
+electrons are counted, because both products are oxidations and nothing in
+the bookkeeping picks a ratio. That needs either a stated ratio or, better,
+the same treatment as above — let the thermodynamics decide.
 
 #### P3k — Rates, the cheap sliver
 
