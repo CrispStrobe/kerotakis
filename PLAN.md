@@ -1040,16 +1040,24 @@ aarch64-apple-darwin from one source.
   (`kerotakis-cli/tests/metamorphic.rs`, driven through the real binary and
   the `--json` contract), and the order-independence test earned its place
   on its first run: the same reagents added in a different order settle
-  ~8e-5 apart in pH, because each step reconstitutes the vessel from
-  solver output and that round trip is path-dependent. Not chemistry, but
-  real drift — and one suspect is already ruled out by experiment:
-  rebuilding the solvent on the equilibrated mass_H2O (2026-08-20) left
-  the drift at 7.9e-5. The standing suspect is readback quantisation
-  (molality × mass_H2O through ~12 printed significant figures, at
-  intermediate states that differ between orders); the real fix is to
-  carry solver state forward rather than reconstitute from printed
-  output. The test's tolerance sits at 1e-3 — which still catches
-  order-dependent chemistry — until that lands.
+  ~8e-5 apart in pH. The diagnosis took three rounds of measurement
+  (2026-08-19/20) and is worth recording because each round *changed* it:
+  the compositions agree to ~3e-11 mol, so the input error is readback
+  quantisation (vessels are reconstituted from the solver's printed
+  selected output, 12 significant figures) — but the amplifier is
+  **conditioning**: an unbuffered salt solution's charge-balanced pH sits
+  on a residual at the rounding floor, and the same 3e-11 mol swing it by
+  1.4e-2 (plain NaCl + KCl) where a buffered solution moves 2.3e-5. Ruled
+  out by experiment en route: the mass_H2O solvent rebuild (drift
+  unchanged). Conditioning worsens tier by tier — element totals
+  (conserved) agree to ~6e-11 mol, the dissolved/solid split (solved)
+  moves ~5e-9, pH (a charge residual) 7.9e-5 — so the test asserts each
+  tier at its own tolerance (1e-9 / 1e-6 / 1e-3); the input-side fix is
+  reading selected output through
+  IPhreeqc's `GetSelectedOutputValue` (doubles, no printing step — the
+  wasm bridge must move off strings too), and even then unbuffered pH
+  stays ill-conditioned, which is itself a fact about pH rather than a
+  defect in the engine.
 - **Mutation testing** (`cargo-mutants`) — distinguishes load-bearing
   invariants from decorative ones, which is this project's epistemics
   applied to its own test suite.
