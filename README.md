@@ -1,4 +1,4 @@
-KO# Kerotakis
+# Kerotakis
 
 A virtual chemistry laboratory that computes real chemistry.
 
