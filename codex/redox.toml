@@ -1,0 +1,164 @@
+# The Kerotakis codex — redox: electrons changing hands, counted.
+#
+# These entries ride the coupled electron balance (P3e): an oxidant and a
+# reductant in one beaker genuinely react, the stoichiometry falls out of
+# free-energy minimisation rather than being encoded, and pe/Eh are
+# surfaced when a couple the user put there defines them. Boundaries,
+# stated because this lab states them: past the equivalence point the
+# coupling stands down (the excess would owe electrons to the solvent,
+# which is not modelled) — so no entry here claims an endpoint
+# observation; chloride is not oxidisable on this bench (a curated rate
+# claim); and sulfuric acid's dilution heat is not curated, so no entry
+# uses it as a warming demonstration.
+#
+# Licence: the codex is CC BY-SA 4.0, separately from the AGPL code.
+
+[[reaction]]
+id = "permanganate-counts-in-fives"
+spine = ["redox-reaktionen"]
+equation = "MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O"
+concepts = ["redox-reactions", "electron-transfer"]
+requires = ["oxidation", "acids"]
+apparatus = ["beaker", "burette"]
+calculations = ["moles-from-mass", "electron-bookkeeping"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 H2SO4 0.005mol
+add v1 FeSO4 0.005mol
+add v1 KMnO4 0.0005mol
+"""
+
+[reaction.expect]
+events = ["dissolved:FeSO4", "dissolved:KMnO4"]
+ph = { min = 1.6, max = 1.7 }
+
+[reaction.expect.predict]
+question = "Half a millimole of potassium permanganate goes into a beaker holding five millimoles of iron(II) in dilute sulfuric acid. How much of the iron ends up as iron(III)?"
+options = [
+  "0.0005 mol — one permanganate oxidises one iron",
+  "0.0025 mol — each permanganate takes exactly five",
+  "All 0.005 mol — permanganate is the strongest oxidiser in the school cupboard",
+]
+answer = 1
+misconception = "Two miscounts, same root: reactions imagined particle-to-particle. The exchange rate is set by electrons, not by formula units — each manganese falls from +7 to +2 and accepts five, each iron climbs one step and gives one. And strength is not appetite: how far an oxidiser can pull electrons says nothing about how many it can hold."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Reactions pair off formula unit to formula unit — one particle, one victim. The electron ledger underneath has no line in the picture."
+next = "Count electrons instead of particles: manganese falls from +7 to +2, five gained; each iron climbs from +2 to +3, one given. `inspect` shows the beaker did that arithmetic — 0.0025 mol oxidised, exactly five per permanganate."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Strength read as appetite: a strong oxidiser 'takes everything', as if potency multiplied capacity."
+next = "Strength says how far downhill the electrons fall, not how many the oxidant can catch: 0.0005 mol of Mn(VII) has room for exactly 0.0025 mol of them. `inspect` the rest of the iron — still Fe(II), waiting for more oxidant, which is what makes titrating it possible at all."
+
+[reaction.registers]
+lv1 = "The purple vanishes the moment it lands — the beaker drinks the colour. And it drinks by strict counts: every measure of purple uses up exactly five measures of the dissolved iron. Never four, never six."
+lv2 = "MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O. Manganese gains five electrons, each iron gives one, so 0.0005 mol of permanganate oxidises exactly 0.0025 mol of iron — and the bench reads: Fe: 50% Fe(III), 50% Fe(II)."
+lv3 = "The 5:1 is not encoded anywhere. The engine holds one electron balance across the coupled elements and minimises free energy; the ratio falls out, to four figures — 0.002500 mol of each iron state in the inventory. Two further things the careful reader should see: the pH rose from 1.42 to 1.65 because the reaction consumed eight protons per permanganate — the acid is a reagent, not scenery — and the bench names what it declines to model: the fresh Fe(III) is supersaturated against Hematite and Goethite, phases wateq4f.dat knows but this registry cannot yet name, so they are reported rather than silently precipitated."
+
+[reaction.provenance]
+source = "Standard curriculum permanganometry; coupled electron balance, speciation and log K data from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "PHREEQC via Kerotakis L2, coupled electron balance (P3e)"
+
+[[reaction]]
+id = "half-oxidised-iron-reads-its-own-potential"
+spine = ["redox-reaktionen", "die-elektrochemie"]
+summary = "At half-oxidation, Eh reads the Fe(III)/Fe(II) couple's own formal potential — +0.674 V here, below the tabulated 0.771 V, because sulfate binds Fe(III) harder than Fe(II)"
+concepts = ["formal-potential", "electron-transfer"]
+requires = ["redox-reactions"]
+apparatus = ["beaker", "burette"]
+calculations = ["nernst-at-the-midpoint"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 H2SO4 0.005mol
+add v1 FeSO4 0.005mol
+add v1 KMnO4 0.0005mol
+"""
+
+[reaction.expect]
+events = ["dissolved:KMnO4"]
+ph = { min = 1.6, max = 1.7 }
+
+[reaction.expect.predict]
+question = "Stop the permanganate titration exactly half-way: half the iron is Fe(II), half is Fe(III). A voltmeter against a standard hydrogen electrode reads…"
+options = [
+  "+0.77 V — the tabulated E° of Fe³⁺/Fe²⁺",
+  "About +0.67 V — noticeably below the table",
+  "+1.51 V — permanganate's own E°, since permanganate did the oxidising",
+]
+answer = 1
+misconception = "The tabulated 0.771 V describes bare aquo-ions at unit activity, and this beaker holds neither: sulfate binds Fe(III) far more strongly than Fe(II), pulling the free-Fe(III) activity down and the potential with it. What the meter reads is the formal potential in this medium — the number analysts actually use. And 1.51 V confuses the agent with the state: the permanganate is spent, and a couple with one member missing has no potential to impose."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The table is the meter: E° as the couple's fixed reading, medium irrelevant — the redox twin of reading pKa as the pH of any acid bottle."
+next = "This lab has taught the conditional-constant lesson twice already with protons — `half-neutralised-vinegar` and `phosphate-buffer` — and this is it carried to electrons. Look at the lv3 speciation: most Fe(III) sits bound as FeSO₄⁺ and Fe(SO₄)₂⁻ while Fe(II) swims nearly free; the imbalance is the missing 0.1 V."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "The potential belongs to the strongest actor: permanganate did the oxidising, so its number must be the answer — even after the permanganate is gone."
+next = "`inspect` the beaker: the permanganate is spent to the last nanomole, and a couple with only one member present has nothing to say to an electrode. The meter listens to the couple with both members swimming — Fe(III)/Fe(II), sitting at 50/50."
+
+[reaction.registers]
+lv1 = "Stop half-way and the beaker holds a perfect balance: half the iron changed, half not. A meter dipped in now reads the iron's own number — the mark it always shows when it is exactly half-way through changing."
+lv2 = "At [Fe³⁺] = [Fe²⁺] the log term of the Nernst equation vanishes and Eh = E°′ — exactly as a half-neutralised weak acid reads its own pKa. The bench reports pe 11.40, which is Eh = +0.674 V."
+lv3 = "The table says 0.771 V; this meter says 0.674 V, and both are right about different solutions. The tabulated E° assumes bare aquo-ions at unit activity. Here the computed speciation shows Fe(III) mostly bound as FeSO₄⁺ and Fe(SO₄)₂⁻ while Fe(II) is barely complexed, so the free-Fe(III) activity — the thing the electrode responds to — is depressed, and the potential falls with it. Analytical chemistry calls the result the formal potential and quotes about 0.68 V for this couple in sulfuric media; the bench arrived at it from the database's complexation constants rather than being told. It is the phosphate buffer's lesson — the constant is conditional on the medium — carried from protons to electrons."
+
+[reaction.provenance]
+source = "Standard curriculum electrochemistry; E° (Fe³⁺/Fe²⁺) = 0.771 V and the ≈0.68 V formal potential in sulfuric media are standard reference values; speciation and complexation from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "PHREEQC via Kerotakis L2, coupled electron balance (P3e); Eh from the computed pe"
+
+[[reaction]]
+id = "the-oxidant-is-spent-to-the-last-electron"
+spine = ["redox-reaktionen"]
+equation = "MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O"
+concepts = ["redox-reactions", "equivalence-point"]
+requires = ["redox-reactions"]
+apparatus = ["beaker", "burette", "ph-meter"]
+calculations = ["electron-bookkeeping", "titration-stoichiometry"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 H2SO4 0.005mol
+add v1 FeSO4 0.005mol
+add v1 KMnO4 0.001mol
+"""
+
+[reaction.expect]
+events = ["dissolved:KMnO4"]
+ph = { min = 2.0, max = 2.2 }
+
+[reaction.expect.predict]
+question = "Now the full 0.001 mol of permanganate — exactly one fifth of the iron's amount — has gone in. What is in the beaker?"
+options = [
+  "Some of everything — reactions reach equilibrium, so both sides always remain",
+  "Purple: an oxidiser this strong always ends up in excess",
+  "Iron(III) and manganese(II), complete to the limits of arithmetic — and less acid than before",
+]
+answer = 2
+misconception = "'Equilibrium means leftovers' is the weak-acid lesson over-applied: when the couples sit this far apart, the equilibrium residue is real but lands nine orders of magnitude below the starting amounts — equilibrium and completion are the same statement here. The quieter surprise is the acid: eight protons per permanganate went into the water product, 0.008 of the 0.010 mol in the beaker, and the pH climbed from 1.4 to 2.1 to prove it."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Equilibrium as universal residue: every reaction leaves some of everything, the way the vinegar beaker kept most of its acid intact."
+next = "Look at the residue the equilibrium actually leaves (lv3): Fe(II) at 7.1 × 10⁻⁸ mol/kgw — nine orders below where it started. The couples sit far enough apart that 'complete' and 'at equilibrium' are the same sentence, which is exactly what makes this reaction usable for analysis."
+
+[[reaction.expect.predict.diagnosis]]
+option = 1
+reveals = "Strength as inexhaustibility: the strong reagent always wins, so it must be the one left standing."
+next = "Strength is a potential, not a stock: 0.001 mol of permanganate holds room for exactly 0.005 mol of electrons, and the iron supplied exactly that. One drop more and this bench stands down — `explain` says why: the excess would have to take electrons from the solvent itself, which is not modelled — so the first permanent purple of a real burette's endpoint is chemistry this bench states rather than shows."
+
+[reaction.registers]
+lv1 = "The last of the purple disappears like all the rest. The beaker has changed every bit of its iron — and it used up most of its sourness doing it."
+lv2 = "0.001 mol of MnO₄⁻ × 5 = 0.005 mol of electron-room: exactly what 0.005 mol of Fe(II) can give. The bench reads: all Fe as Fe(III); all Mn as Mn(II). And 8 × 0.001 = 0.008 mol of the beaker's 0.010 mol of protons went with it — the pH climbed from 1.42 to 2.12."
+lv3 = "The equilibrium leftover of Fe(II) is 7.1 × 10⁻⁸ mol/kgw — the 'some of everything' answer is real and nine orders of magnitude too small to matter. Past this point the coupling stands down rather than guess: an oxidant in excess of the reductants would owe its remaining electrons to the solvent, which this bench does not model, so an over-titrated beaker shows its reagents uncoupled and `explain` states the unpaid balance in electron-equivalents. The real burette's endpoint — the first drop that stays purple — is therefore named here as chemistry the engine declines to compute, in this lab's tradition of saying so."
+
+[reaction.provenance]
+source = "Standard curriculum permanganometry; coupled electron balance and speciation from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "PHREEQC via Kerotakis L2, coupled electron balance (P3e)"
