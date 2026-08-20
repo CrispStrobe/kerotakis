@@ -145,3 +145,47 @@ fn the_refusal_does_not_depend_on_which_acid() {
          decides it: HCl {hydrochloric:?}, H2SO4 {sulfuric:?}"
     );
 }
+
+/// A metal put into a solution says that its metallic state is not modelled.
+///
+/// Magnesium enters at oxidation state 0 and is booked as Mg²⁺, so two
+/// moles of electrons per mole of ribbon cease to exist. Put it into copper
+/// sulfate and the bench returns copper *hydroxide*: the copper never sees
+/// the electrons that should have plated it out, so the classic
+/// displacement reads as ordinary precipitation.
+///
+/// `codex/models.toml` already states the boundary — "in solution, as a
+/// cation … nothing models the metallic state itself" — and that is where
+/// the fix has to stay for now, because plating the copper out needs metal
+/// phases as products. What was missing is saying so in the beaker. A
+/// documented limitation and a silent one look identical to whoever is
+/// running the experiment.
+#[test]
+fn a_metal_in_solution_says_its_oxidation_is_not_modelled() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    add(&mut bench, &mut eq, v, "water", 5.55);
+    add(&mut bench, &mut eq, v, "CuSO4", 0.01);
+    let events = bench
+        .step_with(
+            Operator::Add {
+                vessel: v,
+                species: SpeciesId::new("Mg"),
+                moles: Moles(0.01),
+                at: None,
+            },
+            &mut eq,
+            &PermissiveScreen,
+        )
+        .expect("step");
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::NotYetModeled { what, .. }
+                if what.contains("Displacement will not happen")
+        )),
+        "putting a metal into a solution must say that its oxidation is unaccounted \
+         for, rather than returning a confident precipitate: {events:?}"
+    );
+}

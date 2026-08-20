@@ -1078,6 +1078,36 @@ impl PhreeqcEquilibrator {
                     species: p.species.clone(),
                     moles: p.moles,
                 });
+                // A metal booked straight into its cation has been oxidised
+                // on the way, and nothing was reduced to pay for it.
+                //
+                // Magnesium enters at oxidation state 0 and is booked as
+                // Mg²⁺, so 2 mol of electrons per mole of ribbon simply
+                // cease to exist. Put a magnesium ribbon into copper
+                // sulfate and the bench returns copper *hydroxide* — the
+                // copper never sees the electrons that should have plated
+                // it out as metal, and the beaker looks like ordinary
+                // precipitation rather than the displacement it is.
+                //
+                // `codex/models.toml` already states this boundary — "in
+                // solution, as a cation … nothing models the metallic state
+                // itself" — but stating it in a model entry is not the same
+                // as saying it in the beaker where it bites. A confident
+                // wrong answer with the limitation documented elsewhere is
+                // still a silent filter reading as a fact.
+                if is_elemental_metal(&p.species.0) {
+                    events.push(Event::NotYetModeled {
+                        vessel: vessel.id,
+                        what: format!(
+                            "{} went in as the metal and is booked as its ion, so the \
+                             electrons its oxidation releases are not accounted for. \
+                             Displacement will not happen here: a more reactive metal \
+                             will not plate out a less reactive one, because the \
+                             metallic state is not modelled",
+                            p.species.0
+                        ),
+                    });
+                }
             }
         }
 
@@ -1359,6 +1389,25 @@ struct RedoxCoupling {
     /// inventory, so the balance residual can be judged against how much
     /// there was to balance rather than against an absolute number.
     scale: f64,
+}
+
+/// A registry species that is one element, solid, and not the solvent —
+/// a ribbon of magnesium rather than a salt of it.
+///
+/// Oxidation state 0 by definition, which is exactly what the booking
+/// machinery loses: `derived::booking_ion` answers with the *ion* the
+/// element books as, so a metal's electrons are spent before the electron
+/// balance ever sees them.
+fn is_elemental_metal(key: &str) -> bool {
+    let Some(d) = species::lookup_key(key) else {
+        return false;
+    };
+    if d.standard_phase != Phase::Solid {
+        return false;
+    }
+    kerotakis_core::stoich::parse_formula(d.formula)
+        .map(|f| f.counts.len() == 1 && f.counts.values().all(|n| *n == 1.0) && f.charge == 0.0)
+        .unwrap_or(false)
 }
 
 /// The oxidation state written into an element key: `Mn(7)` → 7, `Fe` → None.
