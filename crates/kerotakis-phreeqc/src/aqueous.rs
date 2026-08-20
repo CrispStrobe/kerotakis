@@ -565,6 +565,88 @@ struct Problem {
 
 /// Partition the vessel into a PHREEQC problem, or None if this vessel is
 /// not an aqueous problem this mapper fully understands.
+/// Re-express a hopelessly concentrated problem as solid plus brine.
+///
+/// PHREEQC speciates the `SOLUTION` block *before* it looks at
+/// `EQUILIBRIUM_PHASES`, so a beaker whose salt cannot possibly all be
+/// dissolved is asked an impossible question first and never reaches the
+/// step that would precipitate it. Evaporating brine to 1 mL hands the
+/// database 100 mol/kgw nominal and all three refuse it — even though the
+/// state they are being asked about, mostly solid beside a saturated
+/// brine, is comfortably inside pitzer's range.
+///
+/// The same equilibrium can be posed the other way round: put most of the
+/// salt in as solid and let it dissolve to saturation. Same elements, same
+/// answer, and a starting point the engine can actually speciate. The
+/// probe that settled it: 0.1 mol of NaCl in 1 mL fails as totals and
+/// solves as `Halite 0 9.46e-2` beside `Na 5.0`, returning I = 6.13 m.
+///
+/// Only reached after a failure, so nothing that already solves is
+/// disturbed by it.
+fn condense_supersaturated(problem: &Problem) -> Option<Problem> {
+    /// Past every shipped model's domain — pitzer, the widest, is good to
+    /// about 6 mol/kgw — so nothing that could have solved trips this.
+    const TRIGGER: f64 = 12.0;
+    /// Where to leave the solution: high enough to stay saturated, low
+    /// enough to speciate.
+    const TARGET: f64 = 5.0;
+
+    if problem.kgw <= 0.0 {
+        return None;
+    }
+    if !problem
+        .totals
+        .iter()
+        .any(|(_, n)| n / problem.kgw > TRIGGER)
+    {
+        return None;
+    }
+
+    let mut out = problem.clone();
+    let ceiling = TARGET * problem.kgw;
+    // Allocations are computed against a running copy of the totals so two
+    // phases sharing an element cannot each claim all of it.
+    let mut moved: Vec<(String, f64)> = Vec::new();
+    for (name, _, _) in &out.phases {
+        let Some(dp) = derived::phase_by_name(name) else {
+            continue;
+        };
+        if dp.elements.is_empty() || dp.waters != 0.0 {
+            continue;
+        }
+        let take = dp
+            .elements
+            .iter()
+            .map(|(el, coeff)| {
+                let have = out
+                    .totals
+                    .iter()
+                    .find(|(e, _)| e == el)
+                    .map(|(_, n)| *n)
+                    .unwrap_or(0.0);
+                ((have - ceiling) / coeff).max(0.0)
+            })
+            .fold(f64::INFINITY, f64::min);
+        if take.is_finite() && take > 0.0 {
+            for (el, coeff) in &dp.elements {
+                if let Some(entry) = out.totals.iter_mut().find(|(e, _)| e == el) {
+                    entry.1 -= take * coeff;
+                }
+            }
+            moved.push((name.clone(), take));
+        }
+    }
+    if moved.is_empty() {
+        return None;
+    }
+    for (name, take) in moved {
+        if let Some(entry) = out.phases.iter_mut().find(|(n, ..)| *n == name) {
+            entry.1 += take;
+        }
+    }
+    Some(out)
+}
+
 fn partition(vessel: &Vessel) -> Option<Problem> {
     let mut kgw = 0.0;
     let mut totals: Vec<(String, f64)> = Vec::new();
@@ -896,7 +978,25 @@ impl PhreeqcEquilibrator {
                         self.run_raw(db_tag, &input)?
                     }
                 },
-                None => self.run_raw(db_tag, &input)?,
+                None => match self.run_raw(db_tag, &input) {
+                    Ok(out) => out,
+                    // A refusal may be about how the question was posed
+                    // rather than about the chemistry. Ask it the other way
+                    // round — most of the salt as solid, dissolving to
+                    // saturation — before accepting the failure.
+                    //
+                    // Read back against the *original* problem, so the
+                    // precipitation the vessel is told about is measured
+                    // from the solid it actually had, not from the solid we
+                    // invented to make the question answerable.
+                    Err(e) => match condense_supersaturated(&problem) {
+                        Some(recast) => {
+                            let recast_input = build_input(vessel, &recast, db_tag);
+                            self.run_raw(db_tag, &recast_input).map_err(|_| e)?
+                        }
+                        None => return Err(e),
+                    },
+                },
             };
             let pe_determined = !out.pe_undetermined;
             let rows = out.selected;

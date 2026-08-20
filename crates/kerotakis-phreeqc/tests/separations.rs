@@ -133,3 +133,59 @@ fn evaporating_a_mixture_flags_the_missing_vle() {
         "co-evaporation of ethanol must be honestly flagged, got {events:?}"
     );
 }
+
+/// Boiling brine nearly dry is answerable, once the question is posed the
+/// way the engine can take it.
+///
+/// PHREEQC speciates the `SOLUTION` block before it looks at
+/// `EQUILIBRIUM_PHASES`, so a beaker whose salt cannot possibly all be
+/// dissolved is asked an impossible question first and never reaches the
+/// step that would precipitate it. At 99% evaporated the databases were
+/// handed 100 mol/kgw nominal and all three refused — though the state
+/// being asked about, mostly solid beside a saturated brine, is well
+/// inside pitzer's range.
+///
+/// Posed the other way round — most of the salt in as solid, dissolving to
+/// saturation — it is the same equilibrium and it solves. That recasting
+/// happens only after a refusal, so the range that already worked is
+/// untouched: 50% and 80% stay undersaturated with no crystals, and 90%
+/// and 95% crystallise exactly as they did before.
+#[test]
+fn brine_boiled_almost_dry_still_answers() {
+    let mut eq = stack();
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    add(&mut bench, &mut eq, v, "water", 5.534_276_991_396_059);
+    add(&mut bench, &mut eq, v, "NaCl", 0.1);
+    bench
+        .step_with(
+            Operator::Evaporate {
+                vessel: v,
+                fraction: 0.99,
+            },
+            &mut eq,
+            &PermissiveScreen,
+        )
+        .expect("evaporate");
+
+    let vessel = bench.vessel(v).expect("vessel");
+    let solid: f64 = vessel
+        .contents
+        .iter()
+        .filter(|p| p.phase == Phase::Solid)
+        .map(|p| p.moles.0)
+        .sum();
+    assert!(
+        solid > 0.08,
+        "nearly all the salt should be crystals by now, got {solid:.4} mol"
+    );
+    let solution = vessel
+        .solution
+        .as_ref()
+        .expect("the vessel must still be characterised, not refused");
+    assert!(
+        (solution.ionic_strength - 6.4).abs() < 1.0,
+        "what is left should be saturated brine, not an impossible one: I = {}",
+        solution.ionic_strength
+    );
+}
