@@ -62,34 +62,30 @@ fn moles_of(vessel: &serde_json::Value, species: &str) -> f64 {
 /// Equilibrium has no memory: the order reagents were added in must not
 /// change the state they equilibrate to.
 ///
-/// Tolerances, honestly stated — the diagnosis took four rounds of
-/// measurement (2026-08-19/20), and conditioning is the frame that
-/// survived: charge-balanced pH amplifies composition imbalance by
-/// ~1.5e6 pH per mol/kgw (measured by direct perturbation), so unbuffered
-/// NaCl + KCl drifts 1.4e-2 between addition orders while a buffered
-/// solution moves 2.3e-5; this scenario sits between, at 7.9e-5.
+/// Tolerances, derived rather than guessed — reaching them took five
+/// rounds of measurement across two sessions (2026-08-19/20; the wrong
+/// turns are chronicled in PLAN.md, "Testing is part of the
+/// architecture"):
 ///
-/// Each tier gets the assertion its conditioning earns (all measured on
-/// this scenario): *element totals* (conserved) agree to ~6e-11 mol →
-/// asserted at 1e-9; the *dissolved/solid split* (solved equilibrium)
-/// moves ~5e-9 → 1e-6; *pH* (a charge residual) → 1e-3, which still
-/// catches order-dependent chemistry.
+/// *Element totals* (conserved) agree to ~6e-11 mol → asserted at 1e-9.
+/// The *dissolved/solid split* (solved equilibrium) moves ~5e-9 → 1e-6.
+/// *pH* is the sharp one: charge-balanced pH amplifies composition
+/// imbalance by ~1.5e6 pH per mol/kgw and rides temperature at
+/// dpH/dT ≈ -0.0163/K — which is how a 0.82 K path-dependent temperature
+/// bug (dissolution enthalpy unrecorded for a phase the routed database
+/// cannot name; fixed generically in 39c592e, regression-tested
+/// engine-side) masqueraded as a 1.4e-2 composition mystery through
+/// three wrong mechanisms. What remains after the fix is the solver's
+/// own 0.05 K temperature convergence tolerance, worth 0.05 × 0.0163 ≈
+/// 8e-4 in pH — so the 1e-3 assertion is that bound with headroom.
+/// Measured here post-fix: 7.9e-5.
 ///
-/// Excluded by experiment, so nobody re-litigates them: the mass_H2O
-/// solvent rebuild fix (drift unchanged); print precision (the
-/// 12-significant-figure floor is worth ~1e-7 in pH, so IPhreeqc's
-/// numeric GetSelectedOutputValue would buy nothing); solver tolerance
-/// (KNOBS 1e-12: bit-identical); quantisation cancellation (a non-dyadic
-/// x1.7 scaling holds to 2.5e-11, so scale invariance is real). What
-/// remains: the rebuild rescales the solutes present at each
-/// *intermediate* step by a path-dependent mass_H2O (an equal absolute
-/// excess, ~3.45e-11 mol, stamped on exactly those ions and not on ones
-/// added later) — yet that excess is charge-balanced and explains ~1.5e-8
-/// of pH through the measured amplification, five orders short of the
-/// observed drift, so the quantity that actually carries the drift into
-/// the final solve is still unidentified. Fix direction either way: carry
-/// moles forward between steps instead of reconstituting them from
-/// molality x a water mass that moved.
+/// Excluded along the way, so nobody re-litigates them: print precision
+/// (~1e-7 against a 1.4e-2 symptom), solver KNOBS tolerance
+/// (bit-identical), quantisation cancellation (a non-dyadic x1.7 scaling
+/// holds to 2.5e-11), uniform solute rescaling (K+ carried none of the
+/// excess), and carrying moles forward as a pH fix (re-solving both
+/// final states at one temperature leaves 2.8e-10).
 #[test]
 fn order_independence_of_equilibrium() {
     let salt_first = run("add v1 water 100mL\nadd v1 NaCl 0.1mol\nadd v1 AgNO3 0.01mol");

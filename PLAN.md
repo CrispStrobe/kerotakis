@@ -377,7 +377,11 @@ the same question, asked of every dataset:
 
 A dataset that *cannot* express the question (pitzer.dat has no silver)
 says so and names what it lacks, rather than being skipped or answering
-wrongly. This is the honesty rule taken to its conclusion: not "here is the
+wrongly. The comparison should also say how much the datasets even
+share: only 22 of 696 mineral phases exist in all three, so three
+answers are partly answers about *different admissible solids*, not
+three opinions about one activity model — a sentence the `explain`
+rendering should carry rather than leave the reader to infer. This is the honesty rule taken to its conclusion: not "here is the
 number" but "here is the number, here is what computed it, here is where
 that came from, and here is what the alternatives say." It is also the
 expert register's deepest layer and, for the codex, the model for how
@@ -1039,32 +1043,27 @@ aarch64-apple-darwin from one source.
   instead of by accident. **First three built 2026-08-19**
   (`kerotakis-cli/tests/metamorphic.rs`, driven through the real binary and
   the `--json` contract), and the order-independence test earned its place
-  on its first run: the same reagents added in a different order settle
-  ~8e-5 apart in pH. The diagnosis took four rounds of measurement
-  (2026-08-19/20), each of which *changed* it — recorded because every
-  wrong turn was plausible. What survived: the amplifier is
-  **conditioning** — charge-balanced pH moves ~1.5e6 pH per mol/kgw of
-  imbalance (measured by direct perturbation), so unbuffered NaCl + KCl
-  drifts 1.4e-2 between orders while a buffered solution moves 2.3e-5 —
-  and conditioning worsens tier by tier: element totals (conserved)
-  agree to ~6e-11 mol, the dissolved/solid split (solved) moves ~5e-9,
-  pH (a charge residual) 7.9e-5, so the test asserts each tier at its
-  own tolerance (1e-9 / 1e-6 / 1e-3). Excluded by experiment: the
-  mass_H2O solvent rebuild fix (drift unchanged), print precision (the
-  12-significant-figure floor is worth ~1e-7 in pH, so IPhreeqc's numeric
-  `GetSelectedOutputValue` would buy nothing — struck from the work
-  list), solver tolerance (KNOBS 1e-12: bit-identical), and quantisation
-  cancellation (a non-dyadic ×1.7 scaling holds to 2.5e-11). What
-  remains: the rebuild rescales the solutes present at each intermediate
-  step by a path-dependent mass_H2O (an equal absolute excess,
-  ~3.45e-11 mol, stamped on exactly those ions and not on ones added
-  later) — yet that excess is charge-balanced and accounts for ~1.5e-8
-  of pH through the measured amplification, five orders short of the
-  observed drift, so the path-dependent quantity that actually drives
-  the final solve's pH is still unidentified. The fix direction is
-  structural either way: carry moles forward between steps instead of
-  reconstituting them from molality × a water mass that moved — scoped
-  as its own piece of work.
+  on its first run: the same reagents added in a different order settled
+  ~8e-5 apart in pH — and pulling that thread took five rounds of
+  measurement across two sessions before the root cause fell out, every
+  intermediate mechanism plausible and wrong (quantisation cancellation,
+  falsified by a non-dyadic ×1.7 scaling holding at 2.5e-11; uniform
+  solute rescaling, falsified by K+ carrying none of the excess; print
+  precision, worth ~1e-7 against a 1.4e-2 symptom, which struck
+  `GetSelectedOutputValue` from the work list; carrying moles forward,
+  worth 2.8e-10). The real chain: dissolution enthalpy rode on the
+  Dissolved event, no event was recorded for a phase the routed database
+  cannot name — and that is not a corner: **674 of 696 mineral phases
+  exist in only some of the three databases** (Sylvite is pitzer-only) —
+  so KCl cooled the beaker on one path and not the other, the two orders
+  ended 0.82 K apart, and dpH/dT ≈ −0.0163/K made a temperature bug
+  masquerade as a composition mystery. Enthalpy had stopped being a
+  state function; fixed generically in 39c592e (the fix keys on absence
+  from the routed database, not on any mineral). What remains is the
+  solver's own 0.05 K temperature convergence tolerance, worth ~8e-4 in
+  pH — so the test asserts each conditioning tier at a derived tolerance
+  (element totals 1e-9, phase split 1e-6, pH 1e-3), and the drift now
+  measures 6.5e-5 unbuffered, 7.9e-5 on the test's scenario.
 - **Mutation testing** (`cargo-mutants`) — distinguishes load-bearing
   invariants from decorative ones, which is this project's epistemics
   applied to its own test suite.
