@@ -98,7 +98,20 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         if p.phase != Phase::Solid {
             continue;
         }
-        solid_moles += p.moles.0;
+        // A plated metal is not a suspension.
+        //
+        // Every solid used to count towards turbidity, so copper displaced
+        // onto a magnesium ribbon made the beaker "so cloudy you cannot see
+        // through it" — but displaced metal deposits on the surface it grew
+        // on, or settles as a coherent sponge. It is the most *visible*
+        // thing in the beaker and the least cloudy. Silver chloride
+        // genuinely does hang in the water and still counts.
+        //
+        // It still names itself as the deposit below: what changes is that
+        // you can see through the liquid to look at it.
+        if !crate::displacement::is_elemental_metal(&p.species.0) {
+            solid_moles += p.moles.0;
+        }
         let data = species::lookup(&p.species);
         let colour = data.and_then(|d| d.colour).unwrap_or(Colour {
             r: 220,
@@ -295,6 +308,26 @@ mod tests {
             colour_word(&copper_same.liquid.unwrap(), false),
             "colourless"
         );
+    }
+
+    /// A plated metal is the most visible thing in the beaker and the
+    /// least cloudy.
+    ///
+    /// Displaced copper grows on the surface it came out on, or settles as
+    /// a coherent sponge; it does not hang in the water. Counting every
+    /// solid as turbidity made a magnesium ribbon in copper sulfate report
+    /// a liquid "so cloudy you cannot see through it", which is the one
+    /// thing that beaker is not.
+    #[test]
+    fn a_plated_metal_does_not_cloud_the_liquid() {
+        let a = observe(&vessel_with(&[
+            ("water", 5.55, Phase::Liquid),
+            ("Cu", 0.01, Phase::Solid),
+        ]));
+        assert!(a.cloudiness < 0.01, "cloudiness {}", a.cloudiness);
+        assert!(!a.words.contains("cloudy"), "{}", a.words);
+        // Still seen, still named — it is the deposit, not a suspension.
+        assert!(a.words.contains("copper"), "{}", a.words);
     }
 
     #[test]
