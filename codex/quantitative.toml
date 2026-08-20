@@ -1290,6 +1290,58 @@ source = "Standard curriculum separation technique (evaporation to dryness). Dia
 computed_by = "PHREEQC via Kerotakis L2; mass bookkeeping by the Kerotakis bench"
 
 [[reaction]]
+id = "the-salt-comes-back-the-ribbon-does-not"
+spine = ["die-chemische-reaktion", "stoffvernichtung-und-stoffneubildung"]
+summary = "Dissolving reverses when the water leaves; burning does not reverse at any temperature — the difference is whether a new substance formed"
+concepts = ["physical-vs-chemical-change", "reversibility"]
+requires = ["crystallisation", "mass-gain-on-oxidation"]
+apparatus = ["beaker", "crucible", "balance"]
+calculations = ["mass-bookkeeping"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 NaCl 5.844g
+evaporate v1 0.95
+new
+add v2 Mg 1.2g
+ignite v2
+"""
+
+[reaction.expect]
+events = ["dissolved:NaCl", "evaporated", "consumed:Mg", "ignited"]
+ph = { min = 6.0, max = 6.5 }
+
+[reaction.expect.predict]
+question = "Two things vanished on this bench: salt disappeared into water, and a magnesium ribbon disappeared into flame. Which of the two can you undo?"
+options = [
+  "Both — chemistry can always be run backwards if you are clever enough",
+  "Neither — once a substance is gone, it is gone",
+  "Only the salt: boil the water away and the crystals return; no amount of heating or cooling un-burns the ribbon",
+]
+answer = 2
+misconception = "The two disappearances are the same event to the eye and opposite events underneath. The salt is still sodium chloride, hiding as ions — remove the water and it must come back. The ribbon's atoms are all still there too, but in new company: magnesium oxide is a new substance, and temperature cannot dissolve a chemical bond that heat itself favours. Telling these two vanishings apart is the definition of a chemical reaction."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Reversibility as cleverness rather than as a property of what happened — dissolving and reacting filed as the same kind of vanishing, undone by the same kind of trick."
+next = "Try both on this bench: evaporate the brine and the crystals return, mass ledger intact. Heat the ash, cool it, wait at it — magnesium oxide it stays. Undoing it takes a new chemical partner and a great deal of energy (industry does it by electrolysis of the molten salt), not a cleverer application of heat."
+
+[[reaction.expect.predict.diagnosis]]
+option = 1
+reveals = "Dissolution as destruction — the young learner's default: the salt is gone the way the ribbon is gone, and gone is gone."
+next = "The balance never agreed: the brine weighs the salt the whole time (`weigh-before-and-after`), and evaporation hands it back as crystals you can count in grams. The two vanishings differ in what remains — the same substance hiding, or a new substance formed — and that difference is the whole content of the words 'chemical reaction'."
+
+[reaction.registers]
+lv1 = "The salt hid in the water — boil the water away and there it is again, white and sharp-cornered. The ribbon did not hide: it *became* something new, and no amount of un-heating brings it back. That is the difference between mixing something and really changing it."
+lv2 = "Dissolving is a physical change: NaCl(s) → Na⁺(aq) + Cl⁻(aq), reversed by removing the solvent — evaporate 95% of the water and 0.069 mol of crystals return, the rest still dissolved in the last 5 mL. Burning is a chemical change: 2 Mg + O₂ → 2 MgO, a new substance with new properties, and no temperature reverses it."
+lv3 = "Both halves are computed, and both carry their fine print. The brine at 95% evaporated holds 0.0692 mol of solid salt beside 0.031 mol still in solution — solubility stays a ratio to the remaining water down to the last millilitre, which is `crystallising-salt-from-brine`'s subtraction taken nearly to its end. The ash side: the thermal solver answers 'magnesium oxide' at every temperature this bench can reach, because the oxide is downhill from the metal everywhere — reversing it is not a temperature question but an electron question, which is why industry electrolyses the molten chloride instead of heating the oxide. One boundary named: evaporating to *total* dryness currently leaves the final trace of ions labelled aqueous with no water to be aqueous in — a state the registry has no story for yet — which is why this entry stops at 95%."
+
+[reaction.provenance]
+source = "Standard curriculum introduction to chemical change (physical vs chemical); solubility and crystallisation from PHREEQC wateq4f.dat (USGS); combustion from NASA CEA thermodynamic data. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "PHREEQC via Kerotakis L2 (brine); Gibbs minimisation over NASA-9 data via Kerotakis L2g (combustion)"
+
+[[reaction]]
 id = "a-nanomole-is-not-a-cloud"
 spine = ["quantitative-analyseverfahren"]
 summary = "1.5 µmol Ag⁺ + 1.5 µmol Cl⁻ in 100 mL: silver chloride forms, and no precipitation is reported"

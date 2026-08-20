@@ -1528,3 +1528,106 @@ lv3 = "The pinch of salt is scaffolding, stated as such: this bench declines to 
 [reaction.provenance]
 source = "Standard curriculum autoprotolysis; temperature-dependent K_w from PHREEQC wateq4f.dat (USGS), solved at the vessel's own temperature. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "PHREEQC via Kerotakis L2, solved at the temperature the heating produced"
+
+[[reaction]]
+id = "bicarbonate-plays-both-sides"
+spine = ["saeure-basen-konzepte"]
+equation = "HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O"
+concepts = ["amphiprotic-ions", "proton-transfer"]
+requires = ["conjugate-base"]
+models = ["broensted-lowry"]
+apparatus = ["beaker", "ph-meter"]
+calculations = ["ph-calculation"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 NaHCO3 0.01mol
+add v1 HCl 0.01mol
+new
+add v2 water 100mL
+add v2 NaHCO3 0.01mol
+add v2 NaOH 0.01mol
+"""
+
+[reaction.expect]
+events = ["dissolved:NaHCO3", "gas_evolved:CO2", "dissolved:NaOH"]
+ph = { min = 5.4, max = 5.8 }
+
+[reaction.expect.predict]
+question = "Baking soda fizzes furiously when acid is poured on it. Pour concentrated lye onto the same baking soda solution instead. What happens?"
+options = [
+  "It fizzes again — fizzing is what baking soda does",
+  "Nothing at all — soda answers acids, and lye is not an acid",
+  "No gas this time: the bicarbonate hands over its own proton and becomes carbonate",
+]
+answer = 2
+misconception = "Both wrong answers treat acid and base as badges a substance wears rather than roles in a transaction. Bicarbonate is amphiprotic: against an acid it accepts a proton (and the resulting carbonic acid leaves as CO₂ — the fizz); against a base it donates its own proton and becomes carbonate, silently. Brønsted's whole move is that acid and base name the two ends of one proton handover — and this beaker is that idea as an experiment."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The fizz as the substance's signature move — bicarbonate 'contains' the gas the way a balloon does, and any provocation releases it."
+next = "Ask what the gas is made of: CO₂ only forms when the bicarbonate *receives* a proton. Lye offers none. Watch the event stream — the lye step evolves nothing — and the lv3 speciation shows the carbon still in the beaker, now sitting as carbonate."
+
+[[reaction.expect.predict.diagnosis]]
+option = 1
+reveals = "Acid and base as fixed identities: bicarbonate is 'a base', and one base has no business with another — so nothing can happen."
+next = "Something did happen; it was just silent. The lv3 speciation shows the bicarbonate gone and carbonate in its place: a proton left the HCO₃⁻ ion itself. One substance, two roles depending on the partner — the Arrhenius → Brønsted step in `models.toml` is this beaker written as theory."
+
+[reaction.registers]
+lv1 = "Against sour stuff, baking soda fights back with bubbles. Against the slippery stuff it does something sneakier: it hands over a tiny piece of itself, without a single bubble. The same powder plays both sides, depending on who it meets."
+lv2 = "Amphiprotic behaviour: HCO₃⁻ + H⁺ → H₂O + CO₂↑ (base role — the fizz), but HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O (acid role — no gas). The acid beaker ends near pH 5.6 with all its carbon gone as gas; the lye beaker keeps its carbon as carbonate."
+lv3 = "The bookkeeping, honestly: an open 0.1 mol/kgw bicarbonate solution self-vents about 0.003 mol of CO₂ on dissolution (its own carbonate equilibrium against the atmosphere — `baking-soda-vents-carbon-dioxide`), so 0.003 mol of the lye finds no bicarbonate partner and the second beaker's final pH carries that excess hydroxide. The acid beaker's pH 5.6 is not leftover acid: it is a sodium chloride solution equilibrated with atmospheric CO₂ — the same chemistry that makes clean rain slightly acidic. The Brønsted point is in the speciation: the same ion appears as proton acceptor in one vessel and proton donor in the other, which no fixed acid/base label can say."
+
+[reaction.provenance]
+source = "Standard curriculum acid–base concepts (amphiprotic species, Brønsted–Lowry); carbonate equilibria from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria"
+
+[[reaction]]
+id = "the-antacid-runs-on-arithmetic"
+spine = ["verwendung-von-saeuren-und-basen"]
+equation = "NaHCO₃ + HCl → NaCl + H₂O + CO₂"
+concepts = ["neutralisation", "buffer-capacity"]
+requires = ["neutralisation"]
+apparatus = ["beaker", "ph-meter", "balance"]
+calculations = ["moles-from-mass", "concentration"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 HCl 0.01mol
+add v1 NaHCO3 1g
+"""
+
+[reaction.expect]
+events = ["dissolved:NaHCO3", "gas_evolved:CO2"]
+ph = { min = 9.0, max = 9.4 }
+
+[reaction.expect.predict]
+question = "Stomach acid is roughly 0.1 mol/L hydrochloric acid — this beaker of it reads pH 1.1. In goes a gram of baking soda, about what a heartburn tablet carries. What does the meter say when the fizzing stops?"
+options = [
+  "Still about 1 — a kitchen powder cannot touch a strong acid",
+  "About 9, with a burp of carbon dioxide on the way",
+  "14 — soda is a base, and a base sends the scale to the top",
+]
+answer = 1
+misconception = "Both wrong answers confuse what a substance IS with how much of it there is. 'Strong' describes how completely an acid gives up its protons, not how many it has: 0.01 mol of protons meets 0.012 mol of proton-acceptors and simply runs out. And a base does not teleport the scale to 14 — the leftover bicarbonate is a weak, gentle base that settles near 9, which is precisely why tablets are carbonates and not lye."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "'Strong acid' as invincible — strength read as power over any opponent, rather than as the completeness of its own dissociation."
+next = "Count instead of ranking: 0.01 mol of protons against 0.012 mol of bicarbonate. Strength decided how the protons were offered (all at once, fully dissociated); the counting decides who runs out, and the acid does. The fizz is its protons leaving the beaker as gas."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Bases as scale-flippers: adding 'a base' sends pH to the top of the scale, with the base's own strength and amount playing no part."
+next = "Look at what is actually left over: excess bicarbonate, a weak proton-acceptor that settles the beaker near pH 9 — for the lye that really does reach the top of the scale, run `strong-base`. Your stomach lining is the reason the gentle landing is the design goal: an antacid that overshot to 14 would be a worse burn than the acid it cured."
+
+[reaction.registers]
+lv1 = "Pretend stomach acid: sour enough to sting. In goes the white powder — it fizzes hard, and when the bubbles stop, the sting is gone. The burp is the acid itself, leaving as gas."
+lv2 = "HCO₃⁻ + H⁺ → H₂O + CO₂↑. One gram of NaHCO₃ is 0.0119 mol against 0.0100 mol of acid, so the acid is the limiting reagent: the pH climbs from 1.1 to about 9.2, the balance loses ~0.45 g of CO₂, and the ~0.002 mol of unspent bicarbonate is what holds the finish gentle."
+lv3 = "The tablet is dosed to outlast the acid it expects — `buffer-capacity-exceeded` run in reverse: there, the insult outlasted the reserve; here, the reserve outlasts the insult, by design and by arithmetic. Honesty about the model: a beaker is not a stomach — a stomach keeps secreting acid and regulating volume, so the real relief is a running battle rather than this one-shot titration; and the beaker's pH 9.2 endpoint is an open-vessel carbonate equilibrium, venting CO₂ until it matches the atmosphere. What the arithmetic does transfer to the pharmacy shelf: the dose works by moles, not by magic, which is why the packet specifies grams."
+
+[reaction.provenance]
+source = "Standard curriculum application of neutralisation (antacids); carbonate equilibria from PHREEQC wateq4f.dat (USGS); stomach-acid concentration ~0.1 mol/L is a standard physiology figure. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria; mass bookkeeping by the Kerotakis bench"
