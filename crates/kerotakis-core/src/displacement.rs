@@ -553,6 +553,7 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
                 vessel: vessel.id,
                 species: SpeciesId::new(red.reduced),
                 moles: Moles(metal_gone),
+                remaining: Some(Moles(moles_in(vessel, red.reduced, Phase::Solid))),
             },
         );
         done.push(record);

@@ -326,6 +326,7 @@ impl Equilibrator for ThermalEquilibrator {
                     vessel: vessel.id,
                     species: p.species.clone(),
                     moles: Moles(p.moles.0 - after),
+                    remaining: Some(Moles(after)),
                 });
             }
         }

@@ -207,16 +207,21 @@ pub fn render_event(event: &Event, register: Register) -> String {
             vessel,
             species: sid,
             moles,
+            remaining,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
             match register.level() {
-                // Present progressive on purpose: the event carries what
-                // was consumed, not what remains, so "is used up" was a
-                // claim of completeness it could not back — half a ribbon
-                // of magnesium left beside plated copper was being
-                // reported as gone. The amount-aware sentence needs the
-                // remainder, which is the proper fix and is on the ledger.
-                1 => format!("The {name} in {vessel} is being used up."),
+                // Says exactly as much as the event knows. With the
+                // remainder on the event: gone, or some of it gone. Without
+                // it, only that it is being used up — never a completeness
+                // the emitter did not report.
+                1 => match remaining {
+                    Some(left) if left.0 < crate::OBSERVABLE_MOLES => {
+                        format!("The {name} in {vessel} is used up.")
+                    }
+                    Some(_) => format!("Some of the {name} in {vessel} is used up."),
+                    None => format!("The {name} in {vessel} is being used up."),
+                },
                 2 => format!("{vessel}: {:.4} mol {name} consumed", moles.0),
                 _ => format!("{vessel}: −{:.6} mol {name}", moles.0),
             }
@@ -521,5 +526,56 @@ mod dedupe_tests {
     fn identical_lv1_lines_collapse_and_lv2_lines_do_not() {
         assert_eq!(render_events(&notes(), Register::LV1).len(), 1);
         assert_eq!(render_events(&notes(), Register::LV2).len(), 2);
+    }
+}
+
+#[cfg(test)]
+mod consumed_tests {
+    use super::*;
+    use crate::units::Moles;
+    use crate::vessel::VesselId;
+
+    fn consumed(remaining: Option<f64>) -> Event {
+        Event::Consumed {
+            vessel: VesselId(0),
+            species: crate::species::SpeciesId::new("Mg"),
+            moles: Moles(0.01),
+            remaining: remaining.map(Moles),
+        }
+    }
+
+    #[test]
+    fn lv1_says_only_what_the_event_knows() {
+        assert_eq!(
+            render_event(&consumed(Some(0.0)), Register::LV1),
+            "The magnesium in v1 is used up."
+        );
+        assert_eq!(
+            render_event(&consumed(Some(0.01)), Register::LV1),
+            "Some of the magnesium in v1 is used up."
+        );
+        assert_eq!(
+            render_event(&consumed(None), Register::LV1),
+            "The magnesium in v1 is being used up."
+        );
+    }
+
+    /// A log written before the field existed — or any client that never
+    /// sends it — must still read, and must read as "not reported".
+    #[test]
+    fn a_consumed_event_without_the_remainder_still_deserialises() {
+        let old = r#"{"event":"consumed","vessel":0,"species":"Mg","moles":0.01}"#;
+        let e: Event = serde_json::from_str(old).expect("old shape parses");
+        assert!(matches!(
+            e,
+            Event::Consumed {
+                remaining: None,
+                ..
+            }
+        ));
+        assert_eq!(
+            render_event(&e, Register::LV1),
+            "The magnesium in v1 is being used up."
+        );
     }
 }

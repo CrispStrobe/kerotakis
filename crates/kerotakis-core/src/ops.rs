@@ -111,6 +111,16 @@ pub enum Event {
         vessel: VesselId,
         species: SpeciesId,
         moles: Moles,
+        /// What is left of that species in the vessel afterwards, where
+        /// the emitter knows. The event used to carry only what went,
+        /// and the lv1 sentence "is used up" claimed a completeness it
+        /// could not see — half a magnesium ribbon beside its plated
+        /// copper was reported gone. `None` means the emitter did not
+        /// say; the renderer then claims only that it is being used up.
+        /// Defaulted so a log written before the field existed, or a
+        /// browser that never sends it, still reads.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        remaining: Option<Moles>,
     },
     /// A metal came out of solution onto a more reactive one — displacement
     /// (computed by the activity series over the solver's activities).
