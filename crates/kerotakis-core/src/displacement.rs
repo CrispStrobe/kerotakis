@@ -519,7 +519,10 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
                 .unwrap_or(red.reduced);
             if driving <= eta {
                 // Blocked by rate, not by thermodynamics — a different
-                // sentence, because a learner needs to know which.
+                // sentence, because a learner needs to know which. The
+                // codex entry `charging-fights-the-series` quotes the
+                // sentence below verbatim as its thesis: reword it and the
+                // entry's prose moves with it (its lint will say so).
                 events.push(Event::Inert {
                     vessel: vessel.id,
                     species: SpeciesId::new(red.reduced),
