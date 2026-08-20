@@ -1,0 +1,12 @@
+# Grit for the road: salt holds water liquid below zero
+register lv1
+add v1 water 100mL
+add v1 NaCl 0.1mol
+new
+add v2 water 100mL
+cool v1 15kJ
+cool v2 15kJ
+measure v1 temp
+measure v2 temp
+look v1
+look v2

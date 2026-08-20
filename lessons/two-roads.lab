@@ -1,0 +1,12 @@
+# Two roads, one temperature: Hess's law with a thermometer
+register lv2
+add v1 water 100mL
+add v1 HCl 0.1mol
+add v1 NaOH 4g
+measure v1 temp
+new
+add v2 water 100mL
+add v2 NaOH 4g
+measure v2 temp
+add v2 HCl 0.1mol
+measure v2 temp

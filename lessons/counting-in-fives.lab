@@ -1,0 +1,10 @@
+# Permanganate counts in fives: a redox titration, stopped at the endpoint
+register lv2
+add v1 water 100mL
+add v1 H2SO4 0.005mol
+add v1 FeSO4 0.005mol
+measure v1 ph
+add v1 KMnO4 0.0005mol
+inspect v1
+add v1 KMnO4 0.0005mol
+inspect v1

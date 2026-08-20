@@ -1865,17 +1865,20 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
 ### P4 — Codex + curated reaction library + appearance
 
 - [x] Codex schema and content: TOML (a chemistry editor must be able to
-      write it without a build step). **66 reaction entries** across
-      `inorganic`, `aqueous` and `quantitative` — dissolving and
+      write it without a build step). Entries span `inorganic`, `aqueous`,
+      `quantitative`, `rates`, `redox` and `states` — dissolving and
       saturation, precipitation and the common-ion effect, strong, weak and
       polyprotic acids, buffers and titration, salt hydrolysis, the fizz,
       hot and cold packs, limescale and hardness, separations, calcination,
-      combustion and the flame tests — resting on **113 concepts** with
-      prerequisite edges between them. Every entry carries register copy at
+      combustion and the flame tests, redox titration, autoprotolysis,
+      freezing-point depression and Hess's law — resting on a concept
+      graph with prerequisite edges. Every entry carries register copy at
       all three levels and its own provenance (source, licence, and what
-      computed the numbers), and most carry a prediction whose wrong
-      answers are the mistakes learners actually make.
-- [x] **27 model entries** (`codex/models.toml`) in eight supersession
+      computed the numbers), and every prediction's wrong answers carry
+      diagnoses. Live counts belong to `codex lint` and README (whose
+      copies are pinned by tests); this document stopped carrying them
+      after watching its own copies go stale.
+- [x] **Model entries** (`codex/models.toml`) in eight supersession
       chains: particle → Dalton → Kern-Hülle → shell → charge-cloud →
       orbital; Arrhenius → Brønsted → Lewis; ionic/covalent/metallic →
       bond triangle. Every one names what it *lets you predict* and where
@@ -1888,8 +1891,9 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
       CC0 topics; entries anchor to them with `spine = [...]`; lint rejects
       an anchor that is not a real topic; and **`kero codex gaps`** prints
       what the spine says a chemistry curriculum contains that we do not
-      teach yet, grouped by area. Currently **33 of 189 covered** — that is
-      the extension work list, and it comes from somebody else's published
+      teach yet, grouped by area. The covered count is `gaps`'s to print
+      and README's to quote (pinned by test) — the remainder is the
+      extension work list, and it comes from somebody else's published
       taxonomy rather than from our imagination
 - [x] `kero codex lint` — **the check that makes the format worth having**:
       each entry's setup is a `.lab` script, so lint replays it through the
