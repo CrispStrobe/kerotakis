@@ -939,6 +939,26 @@ parameters from the original publications, and record provenance per parameter.
 Budget it as data curation, not coding. Acceptance test: the ethanol–water
 azeotrope at 95.6% — a genuine teaching moment most simulators miss.
 
+**Built (2026-08-20): `kerotakis-thermo/src/unifac.rs`**, original UNIFAC
+reimplemented (~300 lines, as budgeted), first tranche CH₃/CH₂/OH/H₂O/COOH —
+water, ethanol, acetic acid. Every R, Q and a_mn carries its source on the
+row: Hansen, Rasmussen, Fredenslund, Schiller & Gmehling, *Ind. Eng. Chem.
+Res.* 30 (1991) 2352, as published openly by DDBST and read that day; nothing
+from the Consortium tables or the frozen crate. Checked two ways before a
+line of Rust existed: the parameters against the published table, and the
+algorithm against an independent oracle (`tools/fixtures/vle-ethanol-water.json`,
+the codex session's `thermo` run) — all ten γ points agree to 4.5e-7
+relative, the fixture's own print precision, and that agreement is a test.
+Two refusals are built in rather than guessed around: a molecule the table
+cannot build (`GroupError::UnknownSubgroup`) and a pair of main groups with
+no interaction parameter (`MissingInteraction`, checked at construction so
+it can never surface as a NaN). Stated limit, in the test that asserts it:
+original UNIFAC puts γ∞(ethanol in water) at ≈ 7.5 where measurement says
+about 4 — the 1975 model's known infinite-dilution overprediction, one of the
+reasons modified UNIFAC exists, asserted as what the model computes and left
+to the codex to teach. The azeotrope hook-up (Raoult → `None`, UNIFAC →
+`Some` near 0.894) is the flash's test once its γ closure takes temperature.
+
 ---
 
 ## Why Rust, and why offline works
