@@ -8,6 +8,7 @@ members = [
     "crates/kerotakis-cea",
     "crates/kerotakis-wasm",
     "crates/kerotakis-codex",
+    "crates/kerotakis-thermo",
 ]
 
 [workspace.package]

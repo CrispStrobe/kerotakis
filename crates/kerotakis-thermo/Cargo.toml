@@ -1,0 +1,17 @@
+[package]
+name = "kerotakis-thermo"
+description = "Phase behaviour for Kerotakis — vapour pressure, activity coefficients and the isothermal flash that finds an azeotrope (P3p)"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+serde = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+# The oracle fixtures are JSON, and a golden file only checks anything if
+# the test can read it.
+serde_json = { workspace = true }
