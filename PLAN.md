@@ -1511,7 +1511,7 @@ So the build order is:
       states themselves are read from the database's master-species block
       rather than a list of ours. Iron enters the registry for it, since a
       redox couple with nothing to reduce is not a demonstration.
-- [ ] **Couple the elements, so an oxidant and a reductant actually react.**
+- [x] **Couple the elements, so an oxidant and a reductant actually react.**
       This is the substantive remainder and it is a design change, not a
       switch. Naming an oxidation state in a `SOLUTION` block *decouples*
       that element in PHREEQC: it gets its own mass balance and exchanges
@@ -1534,8 +1534,30 @@ So the build order is:
         `equilibrate_hp` bisecting temperature on enthalpy, and it needs
         no new state on the vessel.
 
-      The second is the better fit for this engine and is the one to
-      build.
+      The second is the better fit for this engine and is the one that was
+      built. `redox_coupling` computes Σ(oxidation state × moles) as added
+      — conserved by any real redox reaction — and `solve_coupled` bisects
+      pe until the distribution PHREEQC reports reproduces it. Permanganate
+      into iron(II) sulfate now gives the 1:5 ratio the half-equations
+      demand, as an answer rather than a rule: a fifth of an equivalent
+      oxidises a fifth of the iron, and the manganese comes back as Mn(II).
+
+      **Its boundary, which is the interesting part.** A narrowed bracket
+      is not a struck balance. Past the equivalence point no pe in the
+      stability field of water balances the books, because the excess
+      oxidant would have to take its remaining electrons from the water or
+      the chloride. PHREEQC will do exactly that if asked; the bench does
+      not carry the oxygen it makes, so the ledger came out 12% short while
+      the beaker reported every last manganese as Mn(II) — a colourless
+      answer to the one titration whose entire point is that the excess
+      stays purple. The balance is now checked rather than assumed, and an
+      unbalanceable beaker is refused: the stack carries on, the elements
+      are shown in the states they were added in, and the routing says so.
+
+      That refusal is also a real result rather than only a gap. It is why
+      permanganate titrations are run in sulfuric acid and not in
+      hydrochloric — the chloride *does* get oxidised. Demonstrating that
+      wants H₂SO₄ in the registry, which it does not yet have.
 - [ ] Nernst over computed activities; the standard-potential ordering
       (activity series), displacement, why zinc protects iron.
 - [ ] Faraday's law for electrolysis: charge → moles → mass at an electrode.

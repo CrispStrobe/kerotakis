@@ -260,6 +260,37 @@ impl PhreeqcEquilibrator {
                 break;
             }
         }
+        // A narrowed bracket is not a struck balance. When the root lies
+        // outside the water-stability window the interval simply collapses
+        // onto an edge, and the last trial — an ordinary-looking
+        // distribution — was being returned as though it were the answer.
+        //
+        // Excess oxidant is what does this. 0.0015 mol of permanganate
+        // against 0.005 mol of iron(II) needs 0.0075 mol of electrons and
+        // the iron can supply 0.005; the missing 0.0025 mol would have to
+        // come from oxidising water or chloride. PHREEQC will do exactly
+        // that, but the bench does not carry the oxygen it makes, so the
+        // books came out 12% short while the beaker reported every last
+        // manganese as Mn(II) — a colourless answer to the one titration
+        // whose entire point is that the excess stays purple.
+        //
+        // Refusing here is the honest move and it costs nothing: the stack
+        // carries on past a solver that declines, and the vessel is
+        // reported as unmodelled rather than as solved.
+        let residual = last_sum.map_or(f64::INFINITY, |sum| (sum - coupling.target).abs());
+        if residual > 1e-9_f64.max(1e-4 * coupling.scale) {
+            return Err(SolveError::NotConverged {
+                solver: "phreeqc-aqueous (redox)".to_string(),
+                detail: format!(
+                    "no electron activity in the stability field of water balances this \
+                     beaker: {residual:.3e} mol of electron-equivalents are \
+                     unaccounted for out of {:.3e}. An oxidant in excess of what \
+                     the reductants can supply has to take its remaining electrons \
+                     from the water or the chloride, which this bench does not model",
+                    coupling.scale,
+                ),
+            });
+        }
         best.ok_or_else(|| SolveError::NotConverged {
             solver: "phreeqc-aqueous (redox)".to_string(),
             detail: "the electron balance did not converge".to_string(),
@@ -1321,6 +1352,10 @@ struct RedoxCoupling {
     target: f64,
     /// The coupled elements, for reading the answer back.
     columns: Vec<String>,
+    /// Σ |oxidation state × moles| as added — the size of the redox
+    /// inventory, so the balance residual can be judged against how much
+    /// there was to balance rather than against an absolute number.
+    scale: f64,
 }
 
 /// The oxidation state written into an element key: `Mn(7)` → 7, `Fe` → None.
@@ -1339,6 +1374,7 @@ fn tagged_state(key: &str) -> Option<i32> {
 fn redox_coupling(problem: &Problem, db_tag: &str) -> Option<RedoxCoupling> {
     let idx = derived::index_for(db_tag);
     let mut target = 0.0;
+    let mut scale = 0.0;
     let mut coupled: Vec<&str> = Vec::new();
     for (key, moles) in &problem.totals {
         let base = key.split('(').next().unwrap_or(key);
@@ -1358,6 +1394,7 @@ fn redox_coupling(problem: &Problem, db_tag: &str) -> Option<RedoxCoupling> {
                 .map(|f| f.charge as i32)?,
         };
         target += state as f64 * moles;
+        scale += (state as f64 * moles).abs();
         if !coupled.contains(&base) {
             coupled.push(base);
         }
@@ -1374,7 +1411,11 @@ fn redox_coupling(problem: &Problem, db_tag: &str) -> Option<RedoxCoupling> {
             columns.push(master.clone());
         }
     }
-    Some(RedoxCoupling { target, columns })
+    Some(RedoxCoupling {
+        target,
+        columns,
+        scale,
+    })
 }
 
 /// Σ (oxidation state × moles) read back from a solved distribution.
