@@ -250,24 +250,14 @@ fn fuzz_random_aqueous_benches() {
 fn dissolution_heat_does_not_depend_on_order() {
     let mut s = stack();
     let mut final_t = Vec::new();
-    for order in [["NaCl", "KCl"], ["KCl", "NaCl"]] {
+    let (salt, potash) = (("NaCl", 0.05), ("KCl", 0.02));
+    for order in [[salt, potash], [potash, salt]] {
         let mut bench = Bench::new();
         let v = VesselId(0);
         add(&mut bench, &mut s, v, "water", 5.534_276_991_396_059);
-        add(
-            &mut bench,
-            &mut s,
-            v,
-            order[0],
-            if order[0] == "NaCl" { 0.05 } else { 0.02 },
-        );
-        add(
-            &mut bench,
-            &mut s,
-            v,
-            order[1],
-            if order[1] == "NaCl" { 0.05 } else { 0.02 },
-        );
+        for (species, moles) in order {
+            add(&mut bench, &mut s, v, species, moles);
+        }
         final_t.push(bench.vessel(v).expect("vessel").temperature.to_celsius());
     }
     let drift = (final_t[0] - final_t[1]).abs();
