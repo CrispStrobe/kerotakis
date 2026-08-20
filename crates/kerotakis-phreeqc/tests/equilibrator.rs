@@ -254,8 +254,20 @@ fn dissolution_heat_does_not_depend_on_order() {
         let mut bench = Bench::new();
         let v = VesselId(0);
         add(&mut bench, &mut s, v, "water", 5.534_276_991_396_059);
-        add(&mut bench, &mut s, v, order[0], if order[0] == "NaCl" { 0.05 } else { 0.02 });
-        add(&mut bench, &mut s, v, order[1], if order[1] == "NaCl" { 0.05 } else { 0.02 });
+        add(
+            &mut bench,
+            &mut s,
+            v,
+            order[0],
+            if order[0] == "NaCl" { 0.05 } else { 0.02 },
+        );
+        add(
+            &mut bench,
+            &mut s,
+            v,
+            order[1],
+            if order[1] == "NaCl" { 0.05 } else { 0.02 },
+        );
         final_t.push(bench.vessel(v).expect("vessel").temperature.to_celsius());
     }
     let drift = (final_t[0] - final_t[1]).abs();
