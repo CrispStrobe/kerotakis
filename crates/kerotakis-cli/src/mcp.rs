@@ -311,7 +311,7 @@ fn tool_definitions() -> serde_json::Value {
                 agents get the ledger. Commands: add <v> <species> <amount><mol|g|mL> \
                 [@ <T>C] · heat/cool <v> <E><J|kJ> · stir <v> · wait <n>s · ignite <v> · \
                 filter <from> <to> · decant <from> <to> <fraction> · evaporate <v> <fraction> \
-                · measure <v> <thermometer|balance|ph> · look <v> · new · inspect [v] · \
+                · measure <v> <thermometer|balance|ph> · cell <v> <v> · look <v> · new · inspect [v] · \
                 particles [v] · explain [v]. Species names come from the `species` tool.",
             "inputSchema": script_schema,
         },

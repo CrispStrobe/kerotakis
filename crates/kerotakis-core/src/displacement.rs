@@ -640,6 +640,158 @@ pub fn bystanders(vessel: &Vessel, just_plated: &[&str]) -> Vec<Event> {
 /// see, because after a displacement that is the couple the solution has
 /// settled against; the nobler metal's ion is then below anything the
 /// solver resolves.
+/// A metal standing in a solution of its own ion, and the potential it
+/// holds there.
+#[derive(Debug, Clone, PartialEq)]
+pub struct Electrode {
+    pub couple: &'static Couple,
+    /// Activity of the ion, as the speciation reported it.
+    pub activity: f64,
+    /// Electrode potential vs SHE, V, by Nernst at the vessel temperature.
+    pub volts: f64,
+}
+
+impl Electrode {
+    /// `Zn | Zn+2` — the half-cell as it is written.
+    pub fn label(&self) -> String {
+        format!("{} | {}", self.couple.reduced, self.couple.oxidised)
+    }
+}
+
+/// The electrode a vessel presents, if it presents one: a metal of the
+/// series in contact with an observable amount of its own ion, whose
+/// activity the speciation can see. None is an answer too — a copper
+/// strip in brine is not a half-cell, and neither is a copper sulfate
+/// solution with no copper in it.
+pub fn electrode(vessel: &Vessel) -> Option<Electrode> {
+    let slope = nernst_slope(vessel.temperature);
+    let couple = SERIES
+        .iter()
+        .filter(|c| c.reduced_phase == Phase::Solid)
+        .filter(|c| moles_in(vessel, c.reduced, Phase::Solid) > crate::OBSERVABLE_MOLES)
+        .filter(|c| moles_in(vessel, c.oxidised, Phase::Aqueous) > crate::OBSERVABLE_MOLES)
+        .filter(|c| matches!(activity_of(vessel, c.oxidised), Some((a, true)) if a > 0.0))
+        .min_by(|a, b| a.e0_volts.total_cmp(&b.e0_volts))?;
+    let (activity, _) = activity_of(vessel, couple.oxidised)?;
+    let volts = couple.e0_volts + slope / couple.electrons * activity.log10();
+    Some(Electrode {
+        couple,
+        activity,
+        volts,
+    })
+}
+
+/// Why a vessel is not a half-cell, for the reader who wired it up.
+pub fn why_no_electrode(vessel: &Vessel) -> String {
+    let metals: Vec<&str> = SERIES
+        .iter()
+        .filter(|c| c.reduced_phase == Phase::Solid)
+        .filter(|c| moles_in(vessel, c.reduced, Phase::Solid) > crate::OBSERVABLE_MOLES)
+        .map(|c| c.reduced)
+        .collect();
+    let ions: Vec<&str> = SERIES
+        .iter()
+        .filter(|c| c.reduced_phase == Phase::Solid)
+        .filter(|c| moles_in(vessel, c.oxidised, Phase::Aqueous) > crate::OBSERVABLE_MOLES)
+        .map(|c| c.oxidised)
+        .collect();
+    match (metals.is_empty(), ions.is_empty()) {
+        (true, true) => format!(
+            "{} holds neither a metal of the series nor a dissolved metal ion, so there is nothing to be an electrode",
+            vessel.id
+        ),
+        (true, false) => format!(
+            "{} has {} in solution but no metal standing in it — an ion alone is not a half-cell; it needs its own metal as the electrode",
+            vessel.id,
+            ions.join(", ")
+        ),
+        (false, true) => format!(
+            "{} has {} but none of its ion in solution: a metal in water that does not contain its own ion has no defined potential here",
+            vessel.id,
+            metals.join(", ")
+        ),
+        (false, false) => format!(
+            "{} has {} and {} but no metal is standing in a solution of its *own* ion, so no half-cell is defined — or the solution has not been characterised yet",
+            vessel.id,
+            metals.join(", "),
+            ions.join(", ")
+        ),
+    }
+}
+
+/// An open-circuit galvanic cell between two half-cells.
+///
+/// No current flows, so nothing in either beaker changes: this is the
+/// voltmeter reading the moment the wires touch, which is what the
+/// activity series predicts and what a school cell is built to measure.
+/// The salt bridge is assumed ideal — no liquid-junction potential — and
+/// that is stated rather than corrected for.
+#[derive(Debug, Clone, PartialEq)]
+pub struct Cell {
+    pub anode: Electrode,
+    pub cathode: Electrode,
+    /// E(cathode) − E(anode), V; positive by construction.
+    pub volts: f64,
+    /// The standard cell potential the series alone predicts, E°c − E°a.
+    pub standard_volts: f64,
+    /// Whether the first vessel handed to [`cell`] is the anode.
+    pub anode_is_first: bool,
+}
+
+impl Cell {
+    /// The reaction that would run if the circuit were closed.
+    pub fn equation(&self) -> String {
+        Displacement {
+            reductant: self.anode.couple,
+            oxidant: self.cathode.couple,
+            electrons: 0.0,
+            equilibrium: false,
+            heat_joules: 0.0,
+        }
+        .equation()
+    }
+
+    /// Cell notation, anode on the left as it is written.
+    pub fn notation(&self) -> String {
+        format!(
+            "{} | {} ‖ {} | {}",
+            self.anode.couple.reduced,
+            self.anode.couple.oxidised,
+            self.cathode.couple.oxidised,
+            self.cathode.couple.reduced
+        )
+    }
+}
+
+/// Wire two vessels as a cell. The more negative electrode is the anode —
+/// that is not a choice, it is what the potentials say.
+pub fn cell(a: &Vessel, b: &Vessel) -> Result<Cell, String> {
+    let ea = electrode(a).ok_or_else(|| why_no_electrode(a))?;
+    let eb = electrode(b).ok_or_else(|| why_no_electrode(b))?;
+    if ea.couple.reduced == eb.couple.reduced {
+        // A concentration cell. Real, small, and not nothing: two copper
+        // electrodes in copper sulfate of different strengths give a few
+        // tens of millivolts. It is the same arithmetic.
+        if (ea.volts - eb.volts).abs() < 1e-12 {
+            return Err(format!(
+                "both vessels present the same {} electrode at the same activity: a cell of two identical half-cells reads 0 V",
+                ea.label()
+            ));
+        }
+    }
+    let anode_is_first = ea.volts <= eb.volts;
+    let (anode, cathode) = if anode_is_first { (ea, eb) } else { (eb, ea) };
+    let volts = cathode.volts - anode.volts;
+    let standard_volts = cathode.couple.e0_volts - anode.couple.e0_volts;
+    Ok(Cell {
+        anode,
+        cathode,
+        volts,
+        standard_volts,
+        anode_is_first,
+    })
+}
+
 pub fn pin_electrode(vessel: &mut Vessel) -> Option<(&'static Couple, f64)> {
     let slope = nernst_slope(vessel.temperature);
     // Both members at observable amounts, or there is no electrode. Zinc
@@ -650,15 +802,11 @@ pub fn pin_electrode(vessel: &mut Vessel) -> Option<(&'static Couple, f64)> {
     // couple left to set a potential, which is the same chemistry the
     // titration endpoint is built on, and the same rule: withhold rather
     // than publish a bracket edge.
-    let couple = SERIES
-        .iter()
-        .filter(|c| c.reduced_phase == Phase::Solid)
-        .filter(|c| moles_in(vessel, c.reduced, Phase::Solid) > crate::OBSERVABLE_MOLES)
-        .filter(|c| moles_in(vessel, c.oxidised, Phase::Aqueous) > crate::OBSERVABLE_MOLES)
-        .filter(|c| matches!(activity_of(vessel, c.oxidised), Some((a, true)) if a > 0.0))
-        .min_by(|a, b| a.e0_volts.total_cmp(&b.e0_volts))?;
-    let (activity, _) = activity_of(vessel, couple.oxidised)?;
-    let e = couple.e0_volts + slope / couple.electrons * activity.log10();
+    let Electrode {
+        couple,
+        activity,
+        volts: e,
+    } = electrode(vessel)?;
     let pe = e / slope;
     let info = vessel.solution.as_mut()?;
     // Water's own hydrogen line at this pH (P(H₂) = 1 atm). A metal whose

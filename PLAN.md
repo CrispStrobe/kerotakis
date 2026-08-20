@@ -1677,7 +1677,28 @@ So the build order is:
       (+0.02 V against the open-air +0.77 V). Same rule as the titration
       endpoint: no couple left, no potential published. Open follow-up:
       the speciation itself is still solved at the open-air pe, and
-      feeding the electrode's pe into the solve is the next step.
+      feeding the electrode's pe into the solve is the next step — which
+      waits on the initial-speciation-versus-air-equilibrium question the
+      engine session opened the same day (the two disagree by 2.2 pH
+      units on an iron beaker, and which side is right wants an oracle).
+
+      **The cell.** `cell v1 v2` wires two vessels as a galvanic cell and
+      reads the voltmeter: E = E(cathode) − E(anode) over each vessel's
+      electrode (`displacement::electrode`, the accessor the electrolysis
+      layer builds on), open circuit — no current, no internal resistance,
+      ideal salt bridge, and the event says so, because a learner's next
+      question after "1.10 V" is how long the torch runs, and that is
+      Faraday's question with a different answer. Zinc in zinc sulfate
+      against copper in copper sulfate, 1 mol/kgw each: **1.104 V**, zinc
+      the anode whichever side it is wired to, nothing in either beaker
+      changed. Copper against silver: 0.483 V against an E° of 0.458 —
+      above it, because at 1 mol/kgw most copper is paired with sulfate
+      and the free-ion activity is what Nernst sees. Diluting the copper
+      side tenfold costs 17.6 mV, not the ideal 29.6, for the same reason;
+      the test asserts that it is *less* than ideal, since exactly 29.6 mV
+      would mean concentrations had reached the equation instead of
+      activities. A copper strip in brine is refused as a half-cell with
+      the reason (`NoCell`), not as a modelling gap.
 - [ ] Faraday's law for electrolysis: charge → moles → mass at an electrode.
 
 **Oxidation-state bookkeeping is the explanation layer, not the solver.**

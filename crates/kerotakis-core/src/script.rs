@@ -124,6 +124,17 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 },
             }
         }
+        // `cell v1 v2` — touch the wires of two half-cells together and
+        // read the voltmeter. Nothing flows; the reading is the prediction.
+        "cell" | "voltmeter" => {
+            if words.len() < 3 {
+                return Err("usage: cell <vessel> <vessel>".into());
+            }
+            Operator::Cell {
+                a: parse_vessel(words[1])?,
+                b: parse_vessel(words[2])?,
+            }
+        }
         other => return Err(format!("unknown command '{other}' (try 'help')")),
     };
     Ok(Some(op))

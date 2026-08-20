@@ -930,6 +930,7 @@ fn usage() -> ! {
          \x20 filter <from> <to>         solids stay, liquid passes\n\
          \x20 evaporate <vessel> <fraction>\n\
          \x20 measure <vessel> <thermometer|balance|ph>\n\
+         \x20 cell <vessel> <vessel>          wire two half-cells, read the voltmeter\n\
          \x20 new                        create a vessel\n\
          \x20 inspect [vessel]           show state\n\
          \x20 explain [vessel]           where the answer came from, and\n\
@@ -966,7 +967,7 @@ fn repl() {
         if line == "help" {
             println!(
                 "add <v> <species> <amount><mol|g|mL> [@ <T>C] · heat/cool <v> <E><J|kJ>\n\
-                 stir <v> · decant/filter <from> <to> · evaporate <v> <frac> · measure <v> <thermometer|balance|ph>\n\
+                 stir <v> · decant/filter <from> <to> · evaporate <v> <frac> · measure <v> <thermometer|balance|ph> · cell <v> <v>\n\
                  new · inspect [v] · register <lv1|lv2|lv3> · species · quit"
             );
             continue;
