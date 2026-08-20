@@ -117,6 +117,9 @@ pub struct PhreeqcEquilibrator {
         ),
     >,
     cache_hits: usize,
+    /// Heat of neutralisation per database tag, kJ/mol, asked of the
+    /// database the first time that database is used.
+    neutralisation: std::collections::HashMap<String, f64>,
     /// An outside solver, for builds that cannot link IPhreeqc themselves.
     ///
     /// `wasm32-unknown-unknown` cannot host PHREEQC's C++, so the browser
@@ -161,6 +164,30 @@ pub struct SolveOutput {
     /// kept working while quietly never reporting a potential again.
     #[serde(default)]
     pub pe_undetermined: bool,
+}
+
+/// Heat of neutralisation, kJ per mole of water formed, from the routed
+/// database rather than from a constant of ours.
+///
+/// `H⁺ + OH⁻ → H₂O` is the reverse of the reaction that defines `OH-` in
+/// every PHREEQC database, so its enthalpy is `-DELTA_H_SPECIES("OH-")` —
+/// a BASIC function the engine already exposes. The three datasets answer
+/// 55.91, 55.81 and 56.36 kJ/mol, against a literature -55.8 for the ionic
+/// reaction. (The -57.3 that school textbooks quote for "the enthalpy of
+/// neutralisation" is the strong-acid/strong-base figure including dilution
+/// effects, which is a different measurement.)
+///
+/// Read rather than curated on purpose: it cannot go stale, it moves with
+/// the dataset the router chose, and the disagreement between the three is
+/// the same disagreement the bench already shows for everything else.
+fn neutralisation_enthalpy(engine: &mut Phreeqc) -> Option<f64> {
+    let probe = "SOLUTION 1\n    temp 25\n    pH 7\nSELECTED_OUTPUT\n\
+                 -reset false\nUSER_PUNCH\n    -headings dh\n\
+                 10 PUNCH DELTA_H_SPECIES(\"OH-\")\nEND\n";
+    engine.run(probe).ok()?;
+    let rows = engine.selected_output();
+    let v: f64 = rows.last()?.first()?.parse().ok()?;
+    (v.is_finite() && v > 0.0).then_some(-v)
 }
 
 impl PhreeqcEquilibrator {
@@ -358,13 +385,30 @@ impl PhreeqcEquilibrator {
 impl PhreeqcEquilibrator {
     #[cfg(feature = "engine")]
     pub fn new() -> Result<Self, PhreeqcError> {
+        let mut inorganic = Phreeqc::with_database(databases::WATEQ4F)?;
+        let mut organic = Phreeqc::with_database(databases::MINTEQ_V4)?;
+        let mut brine = Phreeqc::with_database(databases::PITZER)?;
+        // Asked once, of each dataset, rather than written down by us. A
+        // dataset that declines to answer simply contributes no
+        // neutralisation heat, which is the state the bench was in before.
+        let mut neutralisation = std::collections::HashMap::new();
+        for (tag, engine) in [
+            ("wateq4f", &mut inorganic),
+            ("minteq.v4", &mut organic),
+            ("pitzer", &mut brine),
+        ] {
+            if let Some(dh) = neutralisation_enthalpy(engine) {
+                neutralisation.insert(tag.to_string(), dh);
+            }
+        }
         Ok(PhreeqcEquilibrator {
-            inorganic: Phreeqc::with_database(databases::WATEQ4F)?,
-            organic: Phreeqc::with_database(databases::MINTEQ_V4)?,
-            brine: Phreeqc::with_database(databases::PITZER)?,
+            inorganic,
+            organic,
+            brine,
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
             hook: None,
+            neutralisation,
         })
     }
 
@@ -378,6 +422,7 @@ impl PhreeqcEquilibrator {
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
             hook: None,
+            neutralisation: std::collections::HashMap::new(),
         })
     }
 
@@ -1192,6 +1237,37 @@ impl PhreeqcEquilibrator {
             }
         }
 
+        // Neutralisation: the heat of the reaction the engine cannot see.
+        //
+        // PHREEQC is handed element totals, so it cannot tell an acid just
+        // added from one that was always there — and `H⁺ + OH⁻ → H₂O` never
+        // appears as a reaction it reports. Its heat was simply missing:
+        // 0.1 mol of hydrochloric acid neutralised by caustic soda left the
+        // beaker 13.7 K below where a real one lands, silently, in the most
+        // common thermochemistry experiment in school.
+        //
+        // The extent is recoverable from the solutes' net charge. A beaker
+        // holding chloride and nothing else is holding exactly that much
+        // free acid; one holding sodium is holding that much free base.
+        // What cancels when the opposite arrives is the overlap of the two,
+        // which is `(|A_before| + |ΔA| − |A_after|) / 2` — a quantity that
+        // is zero for adding more of what is already there, and correct
+        // when the sign flips straight past neutral (0.1 mol of acid met by
+        // 0.2 mol of base still neutralises 0.1).
+        let a_before = vessel.solute_charge;
+        let a_after: f64 = contents
+            .iter()
+            .filter(|p| p.phase == Phase::Aqueous)
+            .filter_map(|p| {
+                let d = species::lookup(&p.species)?;
+                let f = kerotakis_core::stoich::parse_formula(d.formula).ok()?;
+                Some(f.charge * p.moles.0)
+            })
+            .sum();
+        let neutralised =
+            0.5 * (a_before.abs() + (a_after - a_before).abs() - a_after.abs()).max(0.0);
+        vessel.solute_charge = a_after;
+
         vessel.contents = contents;
 
         // Reaction heat: curated dissolution enthalpies feed the energy
@@ -1201,6 +1277,13 @@ impl PhreeqcEquilibrator {
         // shifts at teaching concentrations are small against the ~25–100 °C
         // range of the database.
         let mut q_joules = 0.0; // heat released into the vessel
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+            && neutralised > kerotakis_core::OBSERVABLE_MOLES
+        {
+            if let Some(dh) = self.neutralisation.get(db_tag) {
+                q_joules -= dh * 1000.0 * neutralised;
+            }
+        }
         if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
             for e in &events {
                 match e {
