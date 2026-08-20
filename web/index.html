@@ -3,11 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#14120f">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>Kerotakis — a bench in the browser</title>
 <style>
   :root {
     --bg: #14120f; --panel: #1c1a16; --edge: #322e27;
-    --ink: #e8e2d6; --dim: #9a9déf; --dim: #948c7d;
+    --ink: #e8e2d6; --dim: #948c7d;
     --hot: #d98a4a; --cool: #6fa8c7; --good: #86b06a; --warn: #c9a227;
   }
   * { box-sizing: border-box; }
@@ -69,6 +72,10 @@
     <button data-run="reset&#10;add v1 water 100mL&#10;add v1 Na2S2O3 0.79g&#10;add v1 HCl 0.002mol&#10;new&#10;add v2 water 100mL&#10;add v2 Na2S2O3 0.79g&#10;add v2 HCl 0.002mol&#10;heat v2 8kJ&#10;wait 20s&#10;look v1&#10;look v2">Rates: two beakers, one clock</button>
     <button data-run="reset&#10;add v1 water 100mL&#10;add v1 H2O2 0.1mol&#10;add v1 MnO2 0.5g&#10;wait 90s&#10;look v1">Catalysis</button>
     <button data-run="reset&#10;add v1 water 100mL&#10;cool v1 40kJ&#10;inspect v1">Freeze it</button>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaCl 0.1mol&#10;new&#10;add v2 water 100mL&#10;cool v1 15kJ&#10;cool v2 15kJ&#10;inspect v1&#10;inspect v2">Grit: salt against frost</button>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaCl 0.001mol&#10;measure v1 ph&#10;heat v1 10.45kJ&#10;measure v1 temp&#10;measure v1 ph">Neutral is a moving target</button>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 H2SO4 0.005mol&#10;add v1 FeSO4 0.005mol&#10;add v1 KMnO4 0.0005mol&#10;inspect v1">Permanganate counts in fives</button>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 HCl 0.1mol&#10;add v1 NaOH 4g&#10;measure v1 temp&#10;new&#10;add v2 water 100mL&#10;add v2 NaOH 4g&#10;add v2 HCl 0.1mol&#10;measure v2 temp">Two roads, one temperature</button>
     <button data-run="reset&#10;add v1 water 1cup&#10;add v1 KMnO4 1pinch&#10;look v1">Permanganate</button>
     <h2>Detail</h2>
     <button data-cmd="register lv1">lv1 — what you see</button>
@@ -241,6 +248,14 @@ document.getElementById("side").addEventListener("click", (e) => {
 });
 
 boot();
+</script>
+<script>
+// Offline-first is this lab's premise; the service worker makes the demo
+// prove it. Registration is deliberately outside the module script: even
+// if the bench fails to boot, the shell still caches for next time.
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+  navigator.serviceWorker.register("./sw.js").catch(() => {});
+}
 </script>
 </body>
 </html>

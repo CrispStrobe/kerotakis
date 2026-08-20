@@ -24,16 +24,26 @@ wasm-bindgen --target web --out-dir "$OUT" \
     "$TARGET_DIR/wasm32-unknown-unknown/release/kerotakis_wasm.wasm"
 
 echo "== the page"
-cp "$ROOT/web/index.html" "$ROOT/web/kerotakis.mjs" "$OUT/"
+cp "$ROOT/web/index.html" "$ROOT/web/kerotakis.mjs" \
+   "$ROOT/web/manifest.webmanifest" "$ROOT/web/icon.svg" "$OUT/"
 cp "$ROOT/vendor/iphreeqc/database/wateq4f.dat" \
    "$ROOT/vendor/iphreeqc/database/minteq.v4.dat" \
    "$ROOT/vendor/iphreeqc/database/pitzer.dat" "$OUT/db/"
 
+# The service worker's cache is versioned by commit, so every deploy
+# retires the previous cache and an unchanged deploy keeps it warm.
+STAMP="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || date +%s)"
+sed "s/__KERO_CACHE__/$STAMP/" "$ROOT/web/sw.js" > "$OUT/sw.js"
+
 if command -v emcc >/dev/null 2>&1; then
     echo "== the aqueous engine (Emscripten)"
-    "$ROOT/tools/build-iphreeqc-wasm.sh" "$TARGET_DIR/iphreeqc-wasm" >/dev/null
-    cp "$TARGET_DIR/iphreeqc-wasm/iphreeqc.mjs" \
-       "$TARGET_DIR/iphreeqc-wasm/iphreeqc.wasm" "$OUT/"
+    # Key the CMake build dir to this checkout's path: a shared target dir
+    # serving several worktrees otherwise holds a cache generated from one
+    # source path and refuses every other (found the hard way, three
+    # parallel sessions in).
+    WASM_DIR="$TARGET_DIR/iphreeqc-wasm-$(printf %s "$ROOT" | shasum | cut -c1-8)"
+    "$ROOT/tools/build-iphreeqc-wasm.sh" "$WASM_DIR" >/dev/null
+    cp "$WASM_DIR/iphreeqc.mjs" "$WASM_DIR/iphreeqc.wasm" "$OUT/"
 else
     echo "== no emcc: the page will run from shipped results only"
 fi

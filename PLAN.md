@@ -1254,13 +1254,18 @@ Eight phases and thirteen crates have no floor without an explicit line.
   question and requiring the browser to match it to 1e-6 in pH. A bench with
   no solver attached reports `canSolve() == false` and refuses rather than
   guessing, which is the honest version of what shipped before
-- **the demo demonstrates the premise.** The published page is currently
-  plain HTML — no service worker, no manifest, and the Emscripten solver
-  runs on the main thread (checked 2026-08-19). Offline-first is the
-  thesis, so the demo becomes a **PWA** ("turn off wifi, it still
-  solves") and the solver moves to a **Web Worker** so a long solve
-  cannot freeze the page. A day of work each, and the first makes the
-  thesis tangible in the one place strangers meet it
+- **the demo demonstrates the premise** — **built, 2026-08-20**: the page
+  is a PWA (manifest, icon, versioned service worker precaching the
+  shell, both engines and all three databases), and the headless CI test
+  now *proves* the premise rather than assuming it — first load online,
+  then the server is killed and the page must boot from the worker's
+  cache with the engine live and the precipitate still forming. "Turn
+  off wifi, it still solves" is a test assertion. The Web-Worker half is
+  deliberately not done and recorded as its own piece of work: the
+  solver hook is synchronous *by design* (Rust calls JavaScript and
+  waits — that synchronicity is what makes the bridge possible at all),
+  so moving it off the main thread means Asyncify or SharedArrayBuffer
+  plumbing, not an afternoon
 
 Explicitly **not** in v1.0: P2g (v1.1, with `ignite`), P3p (v1.1, with
 distillation), the QM/orbital layer, Hückel, lessons beyond the codex slice,
