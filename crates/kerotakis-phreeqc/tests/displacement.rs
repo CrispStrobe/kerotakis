@@ -722,3 +722,35 @@ fn thermodynamic_and_kinetic_refusals_are_told_apart() {
     assert!(copper.contains("above hydrogen") && !copper.contains("Kinetically"));
     assert!(zinc.contains("Kinetically blocked") && !zinc.contains("above hydrogen"));
 }
+
+/// Lead is where the overpotential stops being a footnote. The series
+/// says lead dissolves in dilute acid — E° −0.126 V is below hydrogen —
+/// and a lead-acid accumulator sits in sulfuric acid for years because
+/// hydrogen on lead costs 0.88 V that 0.13 V cannot pay. Blocked by a
+/// factor of seven, said as kinetics; and the same lead is displaced by
+/// zinc without any such trouble, because no gas has to form for that.
+#[test]
+fn lead_in_acid_is_the_accumulator_not_fizzing() {
+    let (bench, events) = run(&[("HCl", 0.1), ("Pb", 0.02)]);
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::Inert { species, why, .. }
+                if species.0 == "Pb" && why.contains("Kinetically blocked") && why.contains("0.88")
+        )),
+        "{events:?}"
+    );
+    assert!(!events.iter().any(|e| matches!(e, Event::GasEvolved { .. })));
+    assert!((moles_of(&bench, "Pb", Phase::Solid) - 0.02).abs() < 1e-12);
+
+    let (bench, events) = run(&[("Pb(NO3)2", 0.01), ("Zn", 0.02)]);
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::Plated { species, onto, moles, .. }
+                if species.0 == "Pb" && onto.0 == "Zn" && (moles.0 - 0.01).abs() < 1e-9
+        )),
+        "zinc plates lead: {events:?}"
+    );
+    assert!((moles_of(&bench, "Zn", Phase::Solid) - 0.01).abs() < 1e-9);
+}

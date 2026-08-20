@@ -1764,8 +1764,11 @@ So the build order is:
       reported as plain reactions. Where it becomes decisive is lead:
       Pb²⁺/Pb at −0.126 V against 0.88 V of overpotential is blocked by a
       factor of seven, which is why a lead-acid accumulator can sit in a
-      car full of sulfuric acid for years — computed rather than caveated
-      once lead enters the registry (engine session, pending).
+      car full of sulfuric acid for years — and now computed: with lead
+      in the registry (83ec2fb), `Pb` in molar hydrochloric acid is
+      refused kinetically with the 0.88 V barrier named, while zinc
+      plates lead out of lead nitrate without any such trouble, because
+      no gas has to form for that.
 - [ ] Faraday's law for electrolysis: charge → moles → mass at an electrode.
 
 **Oxidation-state bookkeeping is the explanation layer, not the solver.**

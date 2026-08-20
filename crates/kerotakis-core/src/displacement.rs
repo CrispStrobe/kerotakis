@@ -138,6 +138,16 @@ pub const SERIES: &[Couple] = &[
             "the standard hydrogen electrode, E° = 0 by definition; ΔfH°(H⁺, aq) = 0 by convention",
     },
     Couple {
+        oxidised: "Pb+2",
+        oxidised_per_reduced: 1.0,
+        reduced: "Pb",
+        reduced_phase: Phase::Solid,
+        electrons: 2.0,
+        e0_volts: -0.1262,
+        dfh_oxidised_kj: -1.7,
+        source: CRC,
+    },
+    Couple {
         oxidised: "Fe+2",
         oxidised_per_reduced: 1.0,
         reduced: "Fe",
