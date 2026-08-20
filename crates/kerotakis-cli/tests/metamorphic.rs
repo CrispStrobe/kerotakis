@@ -68,30 +68,32 @@ fn moles_of(vessel: &serde_json::Value, species: &str) -> f64 {
 /// Equilibrium has no memory: the order reagents were added in must not
 /// change the state they equilibrate to.
 ///
-/// Tolerances, derived rather than guessed — reaching them took five
-/// rounds of measurement across two sessions (2026-08-19/20; the wrong
-/// turns are chronicled in PLAN.md, "Testing is part of the
-/// architecture"):
+/// Tolerances, derived rather than guessed — the diagnosis ran six
+/// rounds across two sessions (2026-08-19/20; chronicled in PLAN.md,
+/// "Testing is part of the architecture") and ended in two real bugs,
+/// both fixed and regression-tested engine-side: dissolution enthalpy
+/// unrecorded for phases the routed database cannot name (0.82 K of
+/// path-dependent temperature, 39c592e), and sensible heat destroyed by
+/// t0 + q/cp whenever speciation shrank the vessel's heat capacity — the
+/// residual everyone rationalised as solver tolerance until it was
+/// measured to be a bug (c1d493c). Post-fix, pure-salt
+/// order-independence sits at machine precision (2.3e-10 in pH); this
+/// precipitating scenario at 1.9e-6.
 ///
-/// *Element totals* (conserved) agree to ~6e-11 mol → asserted at 1e-9.
-/// The *dissolved/solid split* (solved equilibrium) moves ~5e-9 → 1e-6.
-/// *pH* is the sharp one: charge-balanced pH amplifies composition
-/// imbalance by ~1.5e6 pH per mol/kgw and rides temperature at
-/// dpH/dT ≈ -0.0163/K — which is how a 0.82 K path-dependent temperature
-/// bug (dissolution enthalpy unrecorded for a phase the routed database
-/// cannot name; fixed generically in 39c592e, regression-tested
-/// engine-side) masqueraded as a 1.4e-2 composition mystery through
-/// three wrong mechanisms. What remains after the fix is the solver's
-/// own 0.05 K temperature convergence tolerance, worth 0.05 × 0.0163 ≈
-/// 8e-4 in pH — so the 1e-3 assertion is that bound with headroom.
-/// Measured here post-fix: 7.9e-5.
+/// The tiers, re-derived from post-fix measurements: *element totals*
+/// (conserved) ~6e-11 mol → asserted at 1e-9; the *dissolved/solid
+/// split* ~1e-10 → 1e-8; *pH* and *ionic strength* 1.9e-6 → 1e-5,
+/// deliberately below the smallest historical bug signal (7.9e-5) so a
+/// recurrence of anything in the chronicle fails this suite, with ~5x
+/// headroom over the measured floor. Conditioning still amplifies
+/// composition noise into charge-balanced pH by ~1.5e6 per mol/kgw,
+/// which is why pH cannot join the 1e-8 tier.
 ///
-/// Excluded along the way, so nobody re-litigates them: print precision
-/// (~1e-7 against a 1.4e-2 symptom), solver KNOBS tolerance
-/// (bit-identical), quantisation cancellation (a non-dyadic x1.7 scaling
-/// holds to 2.5e-11), uniform solute rescaling (K+ carried none of the
-/// excess), and carrying moles forward as a pH fix (re-solving both
-/// final states at one temperature leaves 2.8e-10).
+/// Excluded along the way, so nobody re-litigates them: print precision,
+/// solver KNOBS tolerance, quantisation cancellation (non-dyadic x1.7
+/// holds to 2.5e-11), uniform solute rescaling, carrying moles forward,
+/// and "irreducible q/cp increments" — each plausible, each killed by a
+/// measurement rather than an argument.
 #[test]
 fn order_independence_of_equilibrium() {
     let salt_first = run("add v1 water 100mL\nadd v1 NaCl 0.1mol\nadd v1 AgNO3 0.01mol");
@@ -99,13 +101,13 @@ fn order_independence_of_equilibrium() {
     let (a, b) = (final_vessel(&salt_first), final_vessel(&silver_first));
 
     assert!(
-        (ph(&a) - ph(&b)).abs() < 1e-3,
+        (ph(&a) - ph(&b)).abs() < 1e-5,
         "pH depends on addition order: {} vs {}",
         ph(&a),
         ph(&b)
     );
     assert!(
-        (ionic_strength(&a) - ionic_strength(&b)).abs() < 1e-3,
+        (ionic_strength(&a) - ionic_strength(&b)).abs() < 1e-5,
         "ionic strength depends on addition order: {} vs {}",
         ionic_strength(&a),
         ionic_strength(&b)
@@ -116,7 +118,7 @@ fn order_independence_of_equilibrium() {
         "the marquee precipitate is missing: {agcl_a} mol"
     );
     assert!(
-        (agcl_a - agcl_b).abs() < 1e-6,
+        (agcl_a - agcl_b).abs() < 1e-8,
         "precipitate depends on addition order: {agcl_a} vs {agcl_b} mol"
     );
     // Element totals are the conserved, well-conditioned invariant (see

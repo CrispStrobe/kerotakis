@@ -1066,11 +1066,21 @@ aarch64-apple-darwin from one source.
   ended 0.82 K apart, and dpH/dT ≈ −0.0163/K made a temperature bug
   masquerade as a composition mystery. Enthalpy had stopped being a
   state function; fixed generically in 39c592e (the fix keys on absence
-  from the routed database, not on any mineral). What remains is the
-  solver's own 0.05 K temperature convergence tolerance, worth ~8e-4 in
-  pH — so the test asserts each conditioning tier at a derived tolerance
-  (element totals 1e-9, phase split 1e-6, pH 1e-3), and the drift now
-  measures 6.5e-5 unbuffered, 7.9e-5 on the test's scenario.
+  from the routed database, not on any mineral). The residual left after
+  that fix was then *rationalised* — "the solver's own 0.05 K convergence
+  tolerance, worth ~8e-4 in pH" — and a tolerance was derived on top of
+  the rationalisation, which is the sixth wrong turn and the most
+  instructive: the residual was a third bug wearing an explanation small
+  enough to be believed. Dissolved matter carries no heat capacity in
+  this model, so `t0 + q/cp` destroyed sensible heat whenever speciation
+  shrank the vessel's Cp; balancing enthalpy instead (c1d493c) took
+  pure-salt order-independence to machine precision (2.3e-10 in pH) and
+  the precipitating scenario to 1.9e-6 — and, en route, made Hess's law
+  hold exactly, which turned a dead codex entry writable. The test's
+  tiers are re-derived from post-fix measurements: element totals 1e-9,
+  phase split 1e-8, pH and ionic strength 1e-5 — the pH tier deliberately
+  below the smallest historical bug signal (7.9e-5), so a recurrence of
+  any bug in this chronicle fails the suite.
 - **Mutation testing** (`cargo-mutants`) — distinguishes load-bearing
   invariants from decorative ones, which is this project's epistemics
   applied to its own test suite.
