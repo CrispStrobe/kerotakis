@@ -224,3 +224,47 @@ fn fuzz_random_aqueous_benches() {
         }
     }
 }
+
+/// Enthalpy is a state function: the same two salts, dissolved in either
+/// order, must leave the beaker at the same temperature.
+///
+/// This failed for a long time, and the failure was invisible because the
+/// chemistry was right. Mineral phases are discovered per database by
+/// formula match, and Sylvite exists only in `pitzer.dat`. A phase the
+/// routed database does not define is dissolved into element totals
+/// instead — correct, and deliberate — but no `Dissolved` event was
+/// recorded for it, and the dissolution enthalpy rides on the event.
+///
+/// Since the router picks a database by ionic strength, potassium chloride
+/// therefore cooled the beaker only when something else had already made
+/// the solution concentrated enough to route to pitzer. KCl-then-NaCl
+/// ended 0.82 K warmer than NaCl-then-KCl, and that gap was also the whole
+/// of a long-standing order-dependent pH: 0.82 K against water's
+/// dpH/dT ≈ -0.0163/K is 1.34e-2, and the observed drift was 1.36e-2.
+/// Holding the temperature equal collapsed it to 2.8e-10.
+///
+/// The residual tolerance below is not slack for that bug — it is three
+/// orders larger than what remains (~4 mK), which comes from applying
+/// ΔT = q/cp incrementally while cp grows with each addition.
+#[test]
+fn dissolution_heat_does_not_depend_on_order() {
+    let mut s = stack();
+    let mut final_t = Vec::new();
+    for order in [["NaCl", "KCl"], ["KCl", "NaCl"]] {
+        let mut bench = Bench::new();
+        let v = VesselId(0);
+        add(&mut bench, &mut s, v, "water", 5.534_276_991_396_059);
+        add(&mut bench, &mut s, v, order[0], if order[0] == "NaCl" { 0.05 } else { 0.02 });
+        add(&mut bench, &mut s, v, order[1], if order[1] == "NaCl" { 0.05 } else { 0.02 });
+        final_t.push(bench.vessel(v).expect("vessel").temperature.to_celsius());
+    }
+    let drift = (final_t[0] - final_t[1]).abs();
+    assert!(
+        drift < 0.05,
+        "dissolving the same salts in a different order changed the final \
+         temperature by {drift:.4} K ({:.4} vs {:.4}) — enthalpy is not \
+         behaving as a state function",
+        final_t[0],
+        final_t[1],
+    );
+}
