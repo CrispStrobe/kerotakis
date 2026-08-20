@@ -1631,3 +1631,109 @@ lv3 = "The tablet is dosed to outlast the acid it expects — `buffer-capacity-e
 [reaction.provenance]
 source = "Standard curriculum application of neutralisation (antacids); carbonate equilibria from PHREEQC wateq4f.dat (USGS); stomach-acid concentration ~0.1 mol/L is a standard physiology figure. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria; mass bookkeeping by the Kerotakis bench"
+
+# ------------------------------------------------------------- indicators
+
+[[reaction]]
+id = "the-indicator-is-chosen-for-the-jump"
+spine = ["saeure-base-titration-ein-analytisches-verfahren"]
+summary = "Phenolphthalein turns at this titration's endpoint (pH 8.6); methyl orange fired long before, deep in the buffer — the indicator is chosen to sit on the jump, not for its looks"
+concepts = ["indicators"]
+requires = ["equivalence-point"]
+apparatus = ["burette", "conical-flask"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 CH3COOH 0.005mol
+add v1 NaOH 0.005mol
+add v1 phenolphthalein 0.000005mol
+new
+add v2 water 100mL
+add v2 CH3COOH 0.005mol
+add v2 NaOH 0.0025mol
+add v2 methyl_orange 0.000002mol
+"""
+
+[reaction.expect]
+events = ["added:phenolphthalein", "added:methyl_orange"]
+ph = { min = 8.5, max = 8.75 }
+
+[reaction.expect.predict]
+question = "This vinegar titration's equivalence point sits at pH 8.6, not 7. Which indicator marks it — phenolphthalein (turns 8.2–10) or methyl orange (turns 3.1–4.4)?"
+options = [
+  "Either — an indicator is a colour signal, and any colour signal will do",
+  "Phenolphthalein: its turn sits on the endpoint. Methyl orange fires long before, deep in the buffer region",
+  "Methyl orange — orange is easier to see against white than pale pink",
+]
+answer = 1
+misconception = "An indicator is not a bell that rings at 'done' — it is a weak acid that changes form at its own pKa, wherever that is. The choice is an alignment problem: the indicator's transition window must sit on the titration's pH jump. Phenolphthalein's window straddles this endpoint's 8.6; methyl orange's window was crossed back near pH 4, in the slow buffer climb, where its colour change marks nothing of analytical interest at all."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "All indicators are interchangeable signals: the chemistry of the dye plays no role, so any colour change means 'stop'."
+next = "Run the half-titrated flask (v2): methyl orange already reads orange at pH 4.69, half the base still unspent. An analyst stopping at that signal would report half the true concentration — the wrong indicator does not merely inconvenience, it answers a different question."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "The indicator is chosen for visibility — an aesthetic decision about colours, with the pH axis absent from the choice entirely."
+next = "Visibility is real but secondary: the question an indicator answers is WHERE it turns, not how prettily. `weak-acid-endpoint-is-alkaline` computed this endpoint at 8.8-adjacent rather than 7 — that number is the whole reason phenolphthalein is the standard choice for weak-acid titrations, and it looked arbitrary only until the endpoint was computed."
+
+[reaction.registers]
+lv1 = "Two magic dyes. One stays invisible until the very moment the sour is used up — then the flask blushes pink. The other changed colour ages ago, while there was still plenty of sour left. Only one of them is telling you when to stop."
+lv2 = "An indicator is a weak acid with differently coloured forms; it turns near its own pKa. Phenolphthalein (transition ≈8.2–10) straddles this titration's equivalence point — the bench reads pH 8.62 and renders the flask pink. Methyl orange (≈3.1–4.4) completed its change inside the buffer region: v2, only half-titrated, already shows orange at pH 4.69."
+lv3 = "The colours are computed, not curated per pH: each indicator carries two measured spectra (acid and base form), the engine populates the forms by the Henderson–Hasselbalch ratio at the solved pH, and Beer–Lambert over the CIE observer renders the mixture — the pink at 8.62 and the orange at 4.69 are the same arithmetic that makes permanganate purple. One dosing honesty: the bench doses pure substance, so the micromole amounts here play the role of the real lab's 'two drops of indicator solution' — drop-based doses of the pure dye would be a hundredfold overdose and saturate every hue toward black."
+
+[reaction.provenance]
+source = "Standard curriculum indicator selection; indicator pKa values and both-form spectra as curated in kerotakis-core::indicator with their own provenance. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "PHREEQC via Kerotakis L2 (pH); indicator speciation by Henderson–Hasselbalch at the solved pH; colour by Beer–Lambert over the CIE 1931 observer (Kerotakis L6)"
+
+[[reaction]]
+id = "the-in-between-colour-is-a-mixture"
+spine = ["eigenschaften-von-saeuren-und-basen"]
+summary = "Bromothymol blue near neutral is green — not a third colour of the dye, but the computed mixture of its yellow and blue forms at the solved ratio"
+concepts = ["indicators", "colour-from-mixed-spectra"]
+requires = ["indicators"]
+apparatus = ["beaker"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 NaCl 0.001mol
+add v1 bromothymol_blue 0.000002mol
+add v1 HCl 0.0005mol
+add v1 NaOH 0.001mol
+"""
+
+[reaction.expect]
+events = ["added:bromothymol_blue"]
+ph = { min = 11.4, max = 11.8 }
+
+[reaction.expect.predict]
+question = "Bromothymol blue is yellow in acid and blue in base. Near pH 7, what colour is the solution?"
+options = [
+  "Yellow or blue, whichever it has flipped to — an indicator is a switch",
+  "Green — both forms are present at once, and their colours mix",
+  "Colourless — halfway between, the two colours cancel out",
+]
+answer = 1
+misconception = "An indicator is not a switch but an equilibrium: at pH near its pKa, roughly half the molecules are in each form, simultaneously. Half the dye absorbing like the yellow form plus half absorbing like the blue form transmits green — the same way mixing paints does, because absorbances add. Cancellation is how opposing *lights* behave; absorbing dyes only ever subtract more."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The indicator as a binary switch: each molecule — or the whole beaker — is in exactly one state, and 'transition range' just means uncertainty about which."
+next = "Walk the beaker through all three colours in this entry's script: yellow in acid, blue-green near neutral, blue in base. A switch has no stable middle; an equilibrium population does, and the green IS the population statement — you are seeing the ratio."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Colours as opposites that annul: yellow plus blue equals nothing, the way positive and negative do."
+next = "Sort out lights from dyes: complementary LIGHTS can cancel to white, but a dye works by absorbing, and two absorbers in one beaker absorb the union — red taken by one form, orange-red by the other, leaving green to pass. Absorbances add; they never subtract. The bench's colour engine literally adds the two spectra before rendering."
+
+[reaction.registers]
+lv1 = "This dye is yellow in sour water and blue in soapy water. In plain water it is green — because it is half yellow-form and half blue-form at the same time, and your eye adds them up."
+lv2 = "The indicator equilibrium HInd ⇌ H⁺ + Ind⁻ sits at its pKa near 7: in acid the yellow HInd dominates, in base the blue Ind⁻, and near neutral both are populated — the bench renders yellow, then blue-green, then blue as this script swings the same beaker across the scale."
+lv3 = "The green never exists as a curated colour anywhere in the data: the engine holds one measured spectrum per form, populates the forms by the computed ratio at the solved pH, sums the absorbances, and integrates over the CIE 1931 observer. The mid-colour is therefore a *prediction* that mixing works — the same additivity claim the README makes for permanganate's concentration-dependent hue, here testable by eye at every pH in between. Endpoint honesty: the script parks the beaker at pH 11.63 (fully blue) so the pH claim is checkable; the blue-green reading occurs mid-script, at the near-neutral stop."
+
+[reaction.provenance]
+source = "Standard curriculum indicator behaviour; bromothymol blue pKa and both-form spectra as curated in kerotakis-core::indicator with their own provenance. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "PHREEQC via Kerotakis L2 (pH); indicator speciation by Henderson–Hasselbalch; colour by additive Beer–Lambert over the CIE 1931 observer (Kerotakis L6)"
