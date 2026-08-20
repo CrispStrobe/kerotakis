@@ -33,8 +33,8 @@ fn codex() -> kerotakis_codex::Codex {
     files.sort();
     for f in &files {
         let text = std::fs::read_to_string(f).expect("codex file is readable");
-        let mut c = kerotakis_codex::Codex::parse(&text)
-            .unwrap_or_else(|e| panic!("{}: {e}", f.display()));
+        let mut c =
+            kerotakis_codex::Codex::parse(&text).unwrap_or_else(|e| panic!("{}: {e}", f.display()));
         all.reactions.append(&mut c.reactions);
         all.models.append(&mut c.models);
     }
@@ -48,10 +48,7 @@ fn readme_counts_match_the_codex() {
     let c = codex();
     let readme = std::fs::read_to_string(repo_root().join("README.md")).expect("README.md");
     for (claim, actual) in [
-        (
-            format!("carries {} model", c.models.len()),
-            c.models.len(),
-        ),
+        (format!("carries {} model", c.models.len()), c.models.len()),
         (
             format!(
                 "**{} reaction entries, {} models and {} concepts**",
