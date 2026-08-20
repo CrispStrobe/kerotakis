@@ -180,6 +180,7 @@ pub struct SolveOutput {
 /// Read rather than curated on purpose: it cannot go stale, it moves with
 /// the dataset the router chose, and the disagreement between the three is
 /// the same disagreement the bench already shows for everything else.
+#[cfg(feature = "engine")]
 fn neutralisation_enthalpy(engine: &mut Phreeqc) -> Option<f64> {
     let probe = "SOLUTION 1\n    temp 25\n    pH 7\nSELECTED_OUTPUT\n\
                  -reset false\nUSER_PUNCH\n    -headings dh\n\

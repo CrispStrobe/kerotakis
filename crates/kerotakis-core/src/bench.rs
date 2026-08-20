@@ -284,13 +284,44 @@ impl Bench {
                 let cp = v.heat_capacity();
                 if cp > 0.0 {
                     let from = v.temperature;
-                    let to = Kelvin((from.0 + signed / cp).max(0.0));
+                    let wanted = from.0 + signed / cp;
+                    // A vessel can only give up the heat it has. Clamping
+                    // at absolute zero and saying nothing let a request for
+                    // more be silently granted: two grams of magnesia at
+                    // 2769 °C, asked for 10 kJ it did not hold, came back
+                    // at exactly −273.15 °C as though that were an answer.
+                    //
+                    // No coolant is modelled — `cool` removes energy without
+                    // a reservoir to remove it into — so the only bound
+                    // available is the vessel's own heat content, and the
+                    // bench has to say when a request runs past it. That
+                    // this bound is absolute zero is itself the tell: long
+                    // before it, constant heat capacities have stopped
+                    // describing anything, since every Cp here is a room-
+                    // temperature figure treated as temperature-independent.
+                    let to = Kelvin(wanted.max(0.0));
                     v.temperature = to;
                     events.push(Event::TemperatureChanged {
                         vessel: *vessel,
                         from,
                         to,
                     });
+                    if wanted < 0.0 {
+                        let could_pay = cp * from.0 / 1000.0;
+                        events.push(Event::NotYetModeled {
+                            vessel: *vessel,
+                            what: format!(
+                                "this vessel had only {could_pay:.2} kJ to give up before absolute \
+                                 zero, and {:.2} kJ were asked of it. No coolant \
+                                 is modelled here — nothing sets how cold the \
+                                 surroundings are — so the rest simply could not \
+                                 be removed. The heat capacities are room-\
+                                 temperature values held constant, which stops \
+                                 being true long before this",
+                                energy.0 / 1000.0,
+                            ),
+                        });
+                    }
                 } else {
                     events.push(Event::NotYetModeled {
                         vessel: *vessel,
@@ -497,6 +528,42 @@ impl Bench {
                         vessel: *vessel,
                         moles: removed,
                     });
+                    // Taking the last of the solvent leaves dissolved
+                    // matter with nothing to be dissolved in.
+                    //
+                    // The mass is right and the chemistry is not: 0.1 mol of
+                    // chloride ion, labelled Aqueous, in a beaker holding no
+                    // water. Nothing catches it either, because with no
+                    // solvent left no aqueous solver applies — so unlike
+                    // evaporating to 99%, where all three databases refuse
+                    // the 100 mol/kgw brine out loud, the impossible state
+                    // arrives in silence.
+                    //
+                    // The bench cannot fix it by crystallising, because
+                    // which solids form is not decidable from the ions
+                    // alone: sodium, potassium, chloride and nitrate in one
+                    // beaker can dry to more than one set of salts, and
+                    // guessing one would be inventing a result. So it says
+                    // what it is holding and what it cannot decide.
+                    let dry = v.moles_of(&water).0 <= 0.0;
+                    let stranded: Vec<&str> = v
+                        .contents
+                        .iter()
+                        .filter(|p| p.phase == Phase::Aqueous)
+                        .filter_map(|p| species::lookup(&p.species).map(|d| d.name))
+                        .collect();
+                    if dry && !stranded.is_empty() {
+                        events.push(Event::NotYetModeled {
+                            vessel: *vessel,
+                            what: format!(
+                                "the last of the water is gone and {} are still shown as \
+                                 dissolved, which is not a state a beaker can be in. What \
+                                 they crystallise into is not decidable from the ions alone, \
+                                 so the bench will not guess at the solids",
+                                stranded.join(", ")
+                            ),
+                        });
+                    }
                     // Other volatile liquids would co-evaporate by relative
                     // volatility — that is L3's job; say so.
                     let other_liquids: Vec<&str> = v
