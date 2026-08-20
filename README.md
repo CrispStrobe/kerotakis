@@ -1,4 +1,4 @@
-# Kerotakis
+KO# Kerotakis
 
 A virtual chemistry laboratory that computes real chemistry.
 
@@ -6,8 +6,7 @@ Offline-first, cross-platform, no runtime Python. One simulation, rendered at
 whatever level of detail the reader wants. Nothing in it is a lookup table:
 every number below came out of a thermodynamic database at run time.
 
-It exists because school chemistry overfeeds facts and underteaches the
-**models** that make facts predictable — and because an engine that actually
+It emphasizes **models** that make facts predictable — and because an engine that actually
 computes can do something a textbook cannot: show you a model working, and
 then show you the same model failing.
 
