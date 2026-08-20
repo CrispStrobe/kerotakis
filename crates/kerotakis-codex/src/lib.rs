@@ -853,6 +853,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Consumed { species, .. } => ("consumed", Some(species.0.as_str())),
         E::Plated { species, .. } => ("plated", Some(species.0.as_str())),
         E::Inert { species, .. } => ("inert", Some(species.0.as_str())),
+        E::Electrolysed { species, .. } => ("electrolysed", Some(species.0.as_str())),
         E::CellVoltage { .. } => ("cell_voltage", None),
         E::NoCell { .. } => ("no_cell", None),
         E::Added { species, .. } => ("added", Some(species.0.as_str())),

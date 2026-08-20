@@ -329,6 +329,34 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 _ => format!("{vessel} {device}: {value:.4} {unit}"),
             }
         }
+        Event::Electrolysed {
+            vessel,
+            species,
+            coulombs,
+            electrons,
+            moles,
+            grams,
+            per_ion,
+        } => {
+            let name = species::lookup(species).map(|d| d.name).unwrap_or(&species.0);
+            match register.level() {
+                1 => format!("{grams:.2} g of {name} builds up on the electrode in {vessel}."),
+                2 => format!(
+                    "{vessel}: {coulombs:.0} C → {:.4} mol e⁻ → {:.4} mol {name} = {grams:.3} g",
+                    electrons.0, moles.0
+                ),
+                // The chain, with the one step that is chemistry rather
+                // than arithmetic marked: everything else is division.
+                _ => format!(
+                    "{vessel}: Q = {coulombs:.1} C; n(e⁻) = Q/F = {:.6} mol; \
+                     n({name}) = n(e⁻)/{per_ion:.0} = {:.6} mol; \
+                     m = {grams:.4} g — only the {per_ion:.0} is chemistry. \
+                     Inert anode assumed: the water is oxidised there, so the \
+                     oxygen leaves and the acid stays",
+                    electrons.0, moles.0
+                ),
+            }
+        }
         Event::CellVoltage {
             anode,
             cathode,

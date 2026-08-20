@@ -723,6 +723,7 @@ fn codex_lint(dir: &str) -> ! {
                 | Event::GasEvolved { moles, .. }
                 | Event::Consumed { moles, .. }
                 | Event::Plated { moles, .. }
+                | Event::Electrolysed { moles, .. }
                 | Event::Reacted { moles, .. } => values.moles.push(moles.0),
                 _ => {}
             }
@@ -735,6 +736,7 @@ fn codex_lint(dir: &str) -> ! {
             | Event::Precipitated { species, moles, .. }
             | Event::Consumed { species, moles, .. }
             | Event::Plated { species, moles, .. }
+            | Event::Electrolysed { species, moles, .. }
             | Event::GasEvolved { species, moles, .. } = e
             {
                 if let Some(d) = kerotakis_core::species::lookup(species) {

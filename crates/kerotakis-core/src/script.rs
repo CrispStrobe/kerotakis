@@ -126,6 +126,37 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
         }
         // `cell v1 v2` — touch the wires of two half-cells together and
         // read the voltmeter. Nothing flows; the reading is the prediction.
+        "electrolyse" | "electrolyze" => {
+            // `electrolyse v1 0.5A 600s` — a current and a clock, which is
+            // exactly what the practical gives you.
+            if words.len() < 4 {
+                return Err("usage: electrolyse <vessel> <current>A <time><s|min|h>".into());
+            }
+            let vessel = parse_vessel(words[1])?;
+            let amps = parse_suffixed(words[2], &[("a", 1.0), ("ma", 1e-3), ("", 1.0)], "current")?;
+            let seconds = parse_suffixed(
+                words[3],
+                &[
+                    ("s", 1.0),
+                    ("sec", 1.0),
+                    ("secs", 1.0),
+                    ("seconds", 1.0),
+                    ("min", 60.0),
+                    ("mins", 60.0),
+                    ("minutes", 60.0),
+                    ("h", 3600.0),
+                    ("hr", 3600.0),
+                    ("hours", 3600.0),
+                    ("", 1.0),
+                ],
+                "time",
+            )?;
+            Operator::Electrolyse {
+                vessel,
+                amps,
+                seconds,
+            }
+        }
         "cell" | "voltmeter" => {
             if words.len() < 3 {
                 return Err("usage: cell <vessel> <vessel>".into());
@@ -206,4 +237,27 @@ fn split_unit(word: &str) -> Result<(f64, &str), String> {
         .parse()
         .map_err(|_| format!("bad number in '{word}'"))?;
     Ok((value, &word[split..]))
+}
+
+/// A number with a unit suffix, matched longest-first so `ms` cannot be
+/// read as `m`. Shared by the operators that take a physical quantity.
+fn parse_suffixed(raw: &str, units: &[(&str, f64)], what: &str) -> Result<f64, String> {
+    let digits: String = raw
+        .chars()
+        .take_while(|c| c.is_ascii_digit() || *c == '.')
+        .collect();
+    let value: f64 = digits.parse().map_err(|_| format!("bad {what} '{raw}'"))?;
+    let suffix = raw[digits.len()..].trim().to_ascii_lowercase();
+    let mut best: Option<f64> = None;
+    for (name, scale) in units {
+        if suffix == *name {
+            best = Some(*scale);
+            break;
+        }
+    }
+    match best {
+        Some(scale) if value > 0.0 => Ok(value * scale),
+        Some(_) => Err(format!("{what} must be positive")),
+        None => Err(format!("unknown {what} unit '{suffix}'")),
+    }
 }

@@ -583,3 +583,162 @@ lv3 = "The cleanest 'the number is the activities' witness this bench can stage:
 [reaction.provenance]
 source = "Standard curriculum concentration cells; E° cancellation is exact by construction; activities from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "Kerotakis cell operator (Nernst over PHREEQC activities per half-cell) via Kerotakis L2"
+
+# ------------------------------------------------------------ electrolysis
+
+[[reaction]]
+id = "only-the-two-is-chemistry"
+spine = ["elektrolyse"]
+summary = "Cu²⁺ + 2 e⁻ → Cu — a half-reaction, with the electrons supplied by the wire"
+concepts = ["electrolysis", "faraday-law"]
+requires = ["electron-transfer"]
+apparatus = ["beaker", "power-supply"]
+calculations = ["faraday"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 CuSO4 0.05mol
+add v1 Cu 0.01mol
+electrolyse v1 0.5A 1930s
+"""
+
+[reaction.expect]
+events = ["electrolysed:Cu", "gas_evolved:O2"]
+ph = { min = 1.75, max = 1.95 }
+
+[reaction.expect.predict]
+question = "Half an ampere runs for 1930 seconds through copper sulfate — 965 coulombs, almost exactly a hundredth of a faraday. How much copper lands on the cathode?"
+options = [
+  "0.0100 mol — one mole of electrons deposits one mole of metal",
+  "0.0050 mol — every copper ion demands two electrons",
+  "No saying without the voltage — volts are what drive electroplating",
+]
+answer = 1
+misconception = "The chain is Q = It, n(e⁻) = Q/F, n(metal) = n(e⁻)/z, m = nM — and three of those four steps are pure arithmetic. The divisor z is the single piece of chemistry in it: Cu²⁺ takes two electrons, so a hundredth of a faraday buys half a hundredth of copper. Voltage decides whether the deposition runs at all; the charge decides how much, to four figures."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Electrons and atoms pair one-to-one — the ion's charge, the only chemical input in the whole calculation, is the step that got skipped."
+next = "Run the zinc twin: the same 965 C into zinc sulfate deposits the same 0.0050 mol — 0.327 g against copper's 0.318, differing only by molar mass — because both ions are 2+. Then imagine silver: the same charge would deposit 0.0100 mol, since Ag⁺ takes one. The electron count sets the moles; the ion's charge is the exchange rate."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Voltage as the quantity dial: more volts, more metal — the roles of the two electrical quantities are merged into 'electricity'."
+next = "Separate them the way the meter does: voltage is the pressure that decides whether Cu²⁺ + 2e⁻ → Cu runs; charge is the count of electrons that actually crossed, and every single one is accounted for in the deposit. Faraday weighed exactly this in 1833 — the balance as an electron counter."
+
+[reaction.registers]
+lv1 = "Wire a battery to the blue bath and copper grows on the wire — and it grows by strict bookkeeping: run the current twice as long, get exactly twice the copper. Electricity is countable stuff, and the metal counts it for you."
+lv2 = "Q = 0.5 A × 1930 s = 965 C → n(e⁻) = Q/F = 0.0100 mol → n(Cu) = 0.0050 mol → m = 0.318 g. Dose it: 120 C gives 0.040 g, 3600 C gives 1.185 g — mass tracks charge through the whole series."
+lv3 = "Only the 2 is chemistry: the bench reads the divisor off the couple the vessel holds rather than being told, and the rest is arithmetic a learner can check by hand — which is the entry's point. Boundaries, stated by the bench where they bite: charge beyond what the solution's copper can absorb stops at the supply with the note that a real cell would electrolyse the water instead; and brine is refused outright, because chlorine chemistry is not modelled — the chlor-alkali cell, the most famous industrial electrolysis of all, is a named gap rather than a wrong answer."
+
+[reaction.provenance]
+source = "Standard curriculum electrolysis (Faraday's laws, 1833); F = 96485 C/mol (CODATA). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis electrolysis operator (charge → electrons → moles via the vessel's own couple) over PHREEQC via Kerotakis L2"
+
+[[reaction]]
+id = "the-plating-bath-turns-acid"
+spine = ["elektrolyse"]
+summary = "2 H₂O → O₂ + 4 H⁺ + 4 e⁻ — the inert anode pays the charge bill in protons"
+concepts = ["electrolysis", "charge-conservation"]
+requires = ["electrolysis"]
+apparatus = ["beaker", "power-supply", "ph-meter"]
+calculations = ["faraday"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 CuSO4 0.05mol
+add v1 Cu 0.01mol
+electrolyse v1 0.5A 1930s
+"""
+
+[reaction.expect]
+events = ["gas_evolved:O2", "electrolysed:Cu"]
+ph = { min = 1.75, max = 1.95 }
+
+[reaction.expect.predict]
+question = "You electroplate 0.318 g of copper out of the blue bath. What happens to the bath's pH?"
+options = [
+  "Nothing — plating moves metal, and metal is not acid",
+  "It crashes, from 4.3 to 1.8: every Cu²⁺ removed left its charge behind, and the anode pays the bill in protons",
+  "It rises — taking the metal out 'frees up' the solution",
+]
+answer = 1
+misconception = "Charge conservation runs the show: every Cu²⁺ that leaves the solution as metal takes two positive charges out of the water, and the solution cannot simply go negative. At the inert anode the books are balanced by oxidising water itself — 2 H₂O → O₂ + 4 H⁺ + 4 e⁻ — so oxygen bubbles away and acid accumulates, one proton per electron. Nobody expects electroplating to acidify the bath, and it falls straight out of the ledger."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The cathode is the whole story: metal moves there, so that is where the chemistry is — the anode is just the other wire."
+next = "Follow the electrons the cathode consumed back to their source: they came out of water molecules at the anode, and each departure left a proton. The bench books it exactly — 0.0025 mol of O₂ leaves the open vessel, the water inventory drops from 5.5342 to 5.5292 mol, and the pH lands at 1.84. A circuit has two ends, and both of them do chemistry."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Solutes as burden: removing anything 'frees' the solution and moves it toward pure water's 7 — dissolved copper and acidity filed as the same kind of impurity."
+next = "Check what was actually removed and what was created: the copper left, but its counter-charge did not — sulfate stays, and new H⁺ arrived to face it. The bath ends as dilute sulfuric acid, which is why industrial plating shops monitor and dose their baths instead of trusting them to self-purify."
+
+[reaction.registers]
+lv1 = "Plate the copper out and the bath turns sour — sharp enough to sting. The bubbles at the other wire are the clue: the water itself is being taken apart to pay for the copper you removed."
+lv2 = "Cathode: Cu²⁺ + 2e⁻ → Cu. Anode (inert): 2 H₂O → O₂↑ + 4 H⁺ + 4 e⁻. Per 0.0100 mol of electrons: 0.0050 mol copper deposited, 0.0025 mol oxygen out, 0.0100 mol H⁺ made — pH 4.27 → 1.84."
+lv3 = "Which anode is the load-bearing choice, and the bench names its own: the *inert* anode (the school's carbon rods), where water is oxidised and acid accumulates. A *copper* anode dissolves to replace exactly what plates out — Cu²⁺ constant, no acid, no oxygen — and that different cell is electrorefining, which this bench does not model. Same cathode, opposite bath chemistry, decided entirely at the electrode you were not watching."
+
+[reaction.provenance]
+source = "Standard curriculum electrolysis with inert electrodes; anode water oxidation stoichiometry is textbook; charge bookkeeping computed. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis electrolysis operator (inert anode; charge-conserving) over PHREEQC via Kerotakis L2"
+
+# ------------------------------------------------------------ accumulators
+
+[[reaction]]
+id = "charging-fights-the-series"
+spine = ["akkumulatoren"]
+summary = "Charging runs the cell's reaction backwards by outside current — and on pure thermodynamics the bath eats the fresh deposit again: real accumulators exist because kinetics protects the charge, a rate this bench does not model"
+concepts = ["accumulators", "electrolysis"]
+requires = ["galvanic-cells", "electrolysis"]
+apparatus = ["beaker", "voltmeter", "power-supply"]
+calculations = ["faraday", "cell-potential"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 ZnSO4 0.01mol
+add v1 Zn 0.05mol
+new
+add v2 water 100mL
+add v2 CuSO4 0.01mol
+add v2 Cu 0.05mol
+cell v1 v2
+electrolyse v1 0.5A 386s
+"""
+
+[reaction.expect]
+events = ["cell_voltage", "electrolysed:Zn", "consumed:Zn", "gas_evolved:H2"]
+ph = { min = 5.35, max = 5.65 }
+
+[reaction.expect.predict]
+question = "The Daniell cell offers 1.104 V, spending zinc as it discharges. What is 'charging' — the thing that makes an accumulator rechargeable?"
+options = [
+  "Refilling it with electricity, which it stores the way a tank stores fuel",
+  "Using an outside current to run the cell's own reaction backwards, rebuilding the metal that discharging consumed",
+  "Replacing the used-up chemicals with fresh ones",
+]
+answer = 1
+misconception = "A battery stores no electricity — it stores a chemical reaction held ready to run. Discharging lets the reaction run downhill through the wire; charging is an outside supply forcing the same reaction uphill, re-depositing the anode metal electron by electron (193 C here rebuilds 0.0010 mol of zinc, by the same Faraday arithmetic as any electrolysis). The tank picture fails at exactly the point that matters: what is stored is a chemical arrangement, not a substance called electricity."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Electricity as a stored fluid: charge goes in, sloshes about, comes back out — the oldest model of electricity, and inside a battery it is wrong in a way that matters."
+next = "Weigh the electrodes across a cycle instead of imagining the tank: discharging thins the zinc, charging thickens it back — matter moves, which no stored-fluid picture predicts. The bench shows the rebuild directly: 193 coulombs in, 0.065 g of zinc back on the metal."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Rechargeable and disposable batteries differ by service regime: someone, somewhere, swaps the chemicals — regeneration by current is not in the picture."
+next = "Nothing enters the cell but electrons: the 'fresh chemicals' are the old ones, pushed back up the hill they ran down. That is the whole distinction from a primary cell — an accumulator's chemistry is reversible in place, which is also why its electrodes must survive being rebuilt a thousand times."
+
+[reaction.registers]
+lv1 = "A rechargeable battery is a see-saw: letting it tip one way lights your torch; pushing it back up with the charger makes it ready again. Nothing is poured in — the same stuff is pushed back where it started."
+lv2 = "Discharge: Zn + Cu²⁺ → Zn²⁺ + Cu, offering 1.104 V. Charge: an external supply drives Zn²⁺ + 2e⁻ → Zn against the series — 0.5 A × 386 s = 193 C = 0.0020 mol of electrons rebuilds 0.0010 mol of zinc, Faraday's arithmetic in reverse gear."
+lv3 = "Watch what the bench does next, because it is the deepest thing in this entry: the inert-anode bath acidifies, zinc sits below hydrogen, and thermodynamics immediately eats the fresh deposit — Zn + 2 H⁺ → Zn²⁺ + H₂, 0.0010 mol consumed, hydrogen out, net zinc zero. Your charge current made gas, not stored metal. That is not a bug: it is why real accumulators are possible at all only because hydrogen evolution on zinc (and on lead, in every car battery) is kinetically SLOW — an overpotential this bench does not model, and says so. Gassing on overcharge is this exact chemistry escaping its kinetic leash. Honesty about scope: the cell and the electrolysis are not yet coupled here — nothing computes discharge under load, internal resistance or capacity, so 'a cell run backwards' is a computed statement about the two half-reactions, not about runtime."
+
+[reaction.provenance]
+source = "Standard curriculum accumulators (charge as reverse reaction); the kinetic-protection point (hydrogen overpotential on zinc and lead) is standard electrochemistry, stated as a boundary this bench does not compute. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis cell + electrolysis operators over PHREEQC via Kerotakis L2; the deposit's fate by the displacement layer"

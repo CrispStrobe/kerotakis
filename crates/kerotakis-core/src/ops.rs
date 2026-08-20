@@ -65,6 +65,16 @@ pub enum Operator {
     /// circuit: no current flows and nothing changes, which is what the
     /// activity series predicts — the voltage a battery *would* have.
     Cell { a: VesselId, b: VesselId },
+    /// Drive a current through a vessel for a time: electrolysis.
+    ///
+    /// The cell operator asks what voltage a pair *produces*. This asks
+    /// what a current *moves*, which is the other half of the same idea and
+    /// the one with a number a learner can weigh on a balance.
+    Electrolyse {
+        vessel: VesselId,
+        amps: f64,
+        seconds: f64,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -167,6 +177,23 @@ pub enum Event {
     /// voltmeter reading the moment the wires touch, not the voltage under
     /// load and not how long a torch would run (that is Faraday's
     /// question, answered elsewhere).
+    /// Charge went through, and this much metal moved with it.
+    ///
+    /// Every field is carried because Faraday's law is an arithmetic chain
+    /// a learner is expected to walk — coulombs, then moles of electrons,
+    /// then moles of substance, then grams — and a register that prints
+    /// only the last number teaches the answer instead of the method.
+    Electrolysed {
+        vessel: VesselId,
+        species: SpeciesId,
+        coulombs: f64,
+        electrons: Moles,
+        moles: Moles,
+        grams: f64,
+        /// Electrons per ion, the `z` that makes the division a chemistry
+        /// question rather than an arithmetic one.
+        per_ion: f64,
+    },
     CellVoltage {
         anode: VesselId,
         cathode: VesselId,
