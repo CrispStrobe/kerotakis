@@ -1003,7 +1003,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         dissolution_enthalpy_kj: None,
         dissolves_without_speciation: false,
         forms_only_above_k: None,
-        provenance: "TEMPORARY local entry (kerotakis-de's canonical entry replaces this at merge). M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
         key: "Zn",
@@ -1021,7 +1021,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         dissolution_enthalpy_kj: None,
         dissolves_without_speciation: false,
         forms_only_above_k: None,
-        provenance: "TEMPORARY local entry (kerotakis-de's canonical entry replaces this at merge). M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
         key: "Ag",
@@ -1039,7 +1039,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         dissolution_enthalpy_kj: None,
         dissolves_without_speciation: false,
         forms_only_above_k: None,
-        provenance: "TEMPORARY local entry (kerotakis-de's canonical entry replaces this at merge). M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
         key: "Fe",
@@ -1057,7 +1057,7 @@ pub const REGISTRY: &[SpeciesData] = &[
         dissolution_enthalpy_kj: None,
         dissolves_without_speciation: false,
         forms_only_above_k: None,
-        provenance: "TEMPORARY local entry (kerotakis-de's canonical entry replaces this at merge). M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
+        provenance: "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
     },
     SpeciesData {
         key: "MgO",
