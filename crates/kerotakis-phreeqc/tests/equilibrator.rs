@@ -317,3 +317,54 @@ fn hess_holds_when_a_reagent_arrives_into_a_warm_beaker() {
         final_t[1],
     );
 }
+
+/// The heat of neutralisation is counted, and counted only once.
+///
+/// `H⁺ + OH⁻ → H₂O` never appears as a reaction PHREEQC reports — it is
+/// handed element totals and cannot tell an acid just added from one that
+/// was always there — so its heat was simply absent. The classic school
+/// experiment came out 13.7 K cold, silently.
+///
+/// The enthalpy is read from the routed database rather than curated:
+/// `DELTA_H_SPECIES("OH-")` is the reverse of the reaction defining OH-,
+/// and the three datasets answer -55.91, -55.81 and -56.36 kJ/mol against a
+/// literature -55.8. The extent comes from the solutes' net charge, which
+/// is the vessel's unspent acidity: what cancels is the overlap of the acid
+/// already there with the base arriving.
+///
+/// The third case is the one that catches a naive extent. Acid onto acid
+/// must release nothing — a formula that merely watched |charge| change
+/// would happily invent heat for it.
+#[test]
+fn neutralisation_heat_is_counted_once() {
+    let warm = |steps: &[(&str, f64)]| -> f64 {
+        let mut s = stack();
+        let mut bench = Bench::new();
+        let v = VesselId(0);
+        add(&mut bench, &mut s, v, "water", 5.534_276_991_396_059);
+        for (species, moles) in steps {
+            add(&mut bench, &mut s, v, species, *moles);
+        }
+        bench.vessel(v).expect("vessel").temperature.to_celsius()
+    };
+
+    let acid_then_base = warm(&[("HCl", 0.1), ("NaOH", 0.100_007_5)]);
+    let base_then_acid = warm(&[("NaOH", 0.100_007_5), ("HCl", 0.1)]);
+    assert!(
+        (acid_then_base - 49.2).abs() < 0.5,
+        "0.1 mol neutralised should warm the beaker to about 49 °C, not {acid_then_base:.2}"
+    );
+    assert!(
+        (acid_then_base - base_then_acid).abs() < 1e-6,
+        "and both orders must agree: {acid_then_base:.6} vs {base_then_acid:.6}"
+    );
+
+    // More acid into acid neutralises nothing.
+    let acid_alone = warm(&[("HCl", 0.05)]);
+    let more_acid = warm(&[("HCl", 0.05), ("HCl", 0.05)]);
+    assert!(
+        (more_acid - acid_alone).abs() < 0.05,
+        "adding acid to acid must release no neutralisation heat: {acid_alone:.3} then \
+         {more_acid:.3}"
+    );
+}

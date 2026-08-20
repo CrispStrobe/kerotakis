@@ -783,8 +783,8 @@ add v2 HCl 0.1mol
 
 [reaction.expect]
 events = ["dissolved:NaOH"]
-ph = { min = 9.0, max = 9.6 }
-temperature_c = { min = 35.0, max = 36.5 }
+ph = { min = 8.7, max = 9.1 }
+temperature_c = { min = 48.5, max = 50.0 }
 
 [reaction.expect.predict]
 question = "Sodium hydroxide pellets can go straight into the acid — one violent step — or dissolve in water first and then meet the acid, two milder ones. Which route ends up hotter?"
@@ -799,7 +799,7 @@ misconception = "Enthalpy is a state function: the heat released between the sam
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Intensity mistaken for total: one dramatic step 'releases more' than two mild ones, as if energy rewarded doing everything at once."
-next = "Watch both thermometers: 35.68 °C and 35.68 °C. The journeys differ — one beaker jumps, the other climbs twice (13.51 pH lye water first, then the acid) — but the destination is fixed by the two endpoints, not by the path drawn between them."
+next = "Watch both thermometers: 49.20 °C and 49.20 °C. The journeys differ — one beaker jumps in a single violent step, the other climbs twice, pausing at 35.7 °C as pH 13.51 lye water — but the destination is fixed by the two endpoints, not by the path drawn between them."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
@@ -808,12 +808,12 @@ next = "Add the second route's two heats up: the dissolution's warmth plus the m
 
 [reaction.registers]
 lv1 = "Straight into the acid, or dissolve first and mix after — take either road. The thermometer ends on the same mark both ways. The heat doesn't care which road you took; only where you started and where you stopped."
-lv2 = "Hess's law: enthalpy is a state function, so the same reagents reaching the same final beaker release the same total heat, in any number of steps. Both routes read 35.68 °C — and the bench's energy balance conserves enthalpy through every intermediate state, so the agreement is exact rather than approximate."
-lv3 = "The agreement is the computed law; the absolute number carries a stated omission, and the omission may be the better lesson. A real bench reads roughly 13 K higher on both routes, because the heat of neutralisation itself (about −57.3 kJ/mol) is not yet modelled — only the dissolution enthalpies are curated. The law exact and the magnitude short, for a reason the bench can name, is the fails_at pattern applied to an energy balance. The exactness was expensive: enthalpy stopped being a state function three separate ways in this engine before it held (PLAN.md carries the chronicle), and this entry only became writable when the last of them was fixed. One more thing worth seeing: the final pH is 9.29, not 7 — four grams of NaOH is 0.100008 mol, and the 8 × 10⁻⁶ mol excess over the acid owns the pH of an unbuffered beaker."
+lv2 = "Hess's law: enthalpy is a state function, so the same reagents reaching the same final beaker release the same total heat, in any number of steps. Both routes read 49.20 °C — the dissolution's −44.5 kJ/mol and the neutralisation's ≈−56 kJ/mol are both paid, in different orders, into the same total — and the bench's energy balance conserves enthalpy through every intermediate state, so the agreement is exact rather than approximate."
+lv3 = "Both the law and the magnitude are computed, and the neutralisation enthalpy is read rather than curated: H⁺ + OH⁻ → H₂O is the reverse of the reaction that defines OH⁻ in every shipped database, so its ΔH comes from the data files themselves — wateq4f says −55.91 kJ/mol, minteq.v4 −55.81, pitzer −56.36, a half-kJ disagreement between datasets of exactly the kind `explain` exists to show. (The −57.3 kJ/mol that school tables quote is the strong–strong calorimetric figure with dilution effects included — a different measurement.) Two boundaries, stated: this counts only the water-forming step, so a weak acid's neutralisation would read about 2 kJ/mol too exothermic here, its dissociation enthalpy being folded into a real calorimeter's number but not into this one; and the final pH of 8.91 is the 8 × 10⁻⁶ mol excess of base (four grams of NaOH is 0.100008 mol) read at the 49.2 °C the beaker actually reached — K_w has moved with the temperature, which is `neutral-is-a-moving-target` arriving uninvited. The exactness of the path-agreement was expensive: enthalpy stopped being a state function three separate ways in this engine before it held (PLAN.md carries the chronicle), and this entry only became writable when the last of them was fixed."
 
 [reaction.provenance]
-source = "Standard curriculum thermochemistry (Hess's law); NaOH dissolution enthalpy −44.5 kJ/mol curated (standard reference value); the heat of neutralisation (−57.3 kJ/mol, standard reference value) is NOT modelled and the registers say so. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
-computed_by = "Kerotakis energy balance (enthalpy-conserving) over curated ΔH_dis; pH from PHREEQC via Kerotakis L2"
+source = "Standard curriculum thermochemistry (Hess's law); NaOH dissolution enthalpy −44.5 kJ/mol curated (standard reference value); neutralisation enthalpy computed from the shipped databases' own OH⁻ formation reactions (−55.8 to −56.4 kJ/mol across datasets; literature −55.8 for the ionic reaction, −57.3 for the strong–strong calorimetric figure). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis energy balance (enthalpy-conserving) over curated ΔH_dis and database-derived ΔH_neut; pH from PHREEQC via Kerotakis L2"
 
 # ================================================================ hot enough
 

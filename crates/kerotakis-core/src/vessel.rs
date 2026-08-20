@@ -169,6 +169,21 @@ pub struct Vessel {
     pub temperature: Kelvin,
     pub pressure: Pascal,
     pub thermal_mode: ThermalMode,
+    /// Net charge carried by the dissolved solutes, Σ z·n, mol.
+    ///
+    /// Not a physical excess — the solution is electroneutral, and the
+    /// balance is made up by H⁺ or OH⁻. That is exactly what makes this
+    /// useful: a beaker holding 0.1 mol of chloride and nothing else is
+    /// holding 0.1 mol of free acid, and one holding 0.1 mol of sodium is
+    /// holding 0.1 mol of free base. The number is the vessel's *unspent
+    /// acidity*, signed.
+    ///
+    /// Carried between steps because neutralisation is the amount of that
+    /// acidity which cancels when the opposite arrives, and the engine sees
+    /// only element totals — it cannot tell an acid that was just added
+    /// from one that was always there.
+    #[serde(default)]
+    pub solute_charge: f64,
     /// `Some` once an aqueous solver has characterised the solution; `None`
     /// means no solver has — and the honesty pass says so.
     #[serde(default)]
@@ -185,6 +200,7 @@ impl Vessel {
             temperature: Kelvin::STANDARD,
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,
+            solute_charge: 0.0,
             solution: None,
         }
     }
