@@ -1738,7 +1738,13 @@ So the build order is:
       the same reason: a claim about rates. Its limit: overpotential is
       current-density dependent and the bench has none, so one number per
       metal can say "blocked on the timescale of a lesson" and "marginal",
-      never "four hours".
+      never "four hours". The table is *uncited and says so*: the values
+      are electrochemistry-text folklore that neither session verified
+      against a primary table, they spread 0.1–0.2 V between compilations,
+      and magnesium's is an estimate (it corrodes too fast to hold a
+      Tafel line). Nothing computed is sensitive to 0.1 V except lead,
+      where the margin is sevenfold. A worse-looking provenance line than
+      a citation, and the true one.
 
       Checked before building that it changes no outcome for the metals
       already on the bench, which is the point — the model earns its

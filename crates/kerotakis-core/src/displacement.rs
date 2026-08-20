@@ -190,17 +190,22 @@ pub const SERIES: &[Couple] = &[
 /// bench has none, so one number per metal can say "blocked on the
 /// timescale of a lesson" and "marginal"; it cannot say "four hours".
 pub const HYDROGEN_OVERPOTENTIAL: &[(&str, f64)] = &[
+    // ESTIMATE. Magnesium corrodes too fast to hold a steady Tafel line
+    // and is not reliably tabulated at all; its driving force is 2.37 V
+    // against any plausible barrier, so nothing turns on this number.
     ("Mg", 0.70),
     ("Fe", 0.40),
     ("Cu", 0.60),
+    // Compilations spread 0.30–0.75 V. Silver is thermodynamically inert
+    // in acid regardless, so no outcome depends on which is right.
     ("Ag", 0.48),
     ("Zn", 0.72),
     ("Pb", 0.88),
 ];
 
-/// Where the overpotentials come from. A metal not in the table gets no
-/// barrier, which is the honest default: no claim is made.
-pub const HYDROGEN_OVERPOTENTIAL_SOURCE: &str = "Tafel overpotentials for H₂ evolution at ~1 mA/cm², 25 °C, as tabulated in standard electrochemistry references (e.g. Bockris & Reddy; CRC); curated by kerotakis-de, 2026-08-20";
+/// Where the overpotentials come from — stated as what it is. A metal not
+/// in the table gets no barrier, which is the honest default: no claim.
+pub const HYDROGEN_OVERPOTENTIAL_SOURCE: &str = "Hydrogen overpotentials at roughly 1 mA/cm² on the bare metal in acid, as commonly tabulated in electrochemistry texts. Values vary between compilations by 0.1-0.2 V and rise with current density — lead is quoted anywhere from 0.5 to 1.1 V — so these are the right order and the right ORDERING, not measurements. Curated, uncited, and labelled as such because no primary source was consulted.";
 
 /// Below this margin over the barrier the reaction runs, but how fast is
 /// a question the bench cannot answer, and it says so.
