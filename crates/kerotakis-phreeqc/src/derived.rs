@@ -15,7 +15,7 @@
 //! phases exist where, their stoichiometry, hydrate waters, polymorph
 //! choice) is derived.
 
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 use std::sync::OnceLock;
 
 use kerotakis_core::species::{self, Phase};
@@ -138,6 +138,52 @@ pub fn phase_by_name(name: &str) -> Option<&'static DerivedPhase> {
 /// no registry ion to book into (a registry gap, surfaced by tests).
 pub fn booking_ion(element: &str) -> Option<&'static str> {
     derived().bookings.get(element).copied()
+}
+
+/// The datasets the router chooses between, in the order `explain` reports
+/// them.
+pub const DB_TAGS: [&str; 3] = ["wateq4f", "minteq.v4", "pitzer"];
+
+/// How much of the mineral world each dataset admits, and how much of it
+/// they agree on.
+///
+/// Asking the same question of every dataset is one of the honest things
+/// the bench does, but three answers are not three opinions about one
+/// question unless the models are choosing from the same shelf — and they
+/// are not. Most phases exist in only one dataset, so part of any
+/// disagreement is not a disagreement about thermodynamics at all: it is
+/// one dataset being unable to precipitate a solid another one defines.
+/// A renderer that shows the three answers should be able to say so.
+#[derive(Debug, Clone)]
+pub struct PhaseCoverage {
+    /// Distinct phase names across every dataset.
+    pub total: usize,
+    /// Phase names present in *every* dataset.
+    pub shared: usize,
+    /// `(tag, count)` per dataset, in `DB_TAGS` order.
+    pub per_database: Vec<(&'static str, usize)>,
+}
+
+/// Computed on demand rather than cached: it is cheap, and a `OnceLock`
+/// reachable from `derived()` is how we deadlocked this module once before.
+pub fn phase_coverage() -> PhaseCoverage {
+    let idx: Vec<&DbIndex> = DB_TAGS.iter().map(|t| index_for(t)).collect();
+    let mut names: BTreeSet<&str> = BTreeSet::new();
+    for i in &idx {
+        names.extend(i.phases.keys().map(String::as_str));
+    }
+    PhaseCoverage {
+        shared: names
+            .iter()
+            .filter(|n| idx.iter().all(|i| i.has_phase(n)))
+            .count(),
+        total: names.len(),
+        per_database: DB_TAGS
+            .iter()
+            .zip(&idx)
+            .map(|(t, i)| (*t, i.phases.len()))
+            .collect(),
+    }
 }
 
 pub fn index_for(db_tag: &str) -> &'static DbIndex {
@@ -523,5 +569,23 @@ mod tests {
         // Aragonite lost the polymorph dedupe to calcite.
         assert!(phase_by_name("Aragonite").is_none());
         assert!(phase_by_name("Calcite").is_some());
+    }
+
+    /// Pinned to the vendored databases. These numbers are rendered to the
+    /// reader, so a vendor bump that moves them should be noticed and the
+    /// sentence re-read, not silently re-printed.
+    #[test]
+    fn phase_coverage_reports_how_little_the_datasets_share() {
+        let c = phase_coverage();
+        assert_eq!(c.total, 696, "distinct phases across all three datasets");
+        assert_eq!(c.shared, 22, "phases every dataset defines");
+        assert_eq!(
+            c.per_database,
+            vec![("wateq4f", 304), ("minteq.v4", 552), ("pitzer", 70)]
+        );
+        // The point the renderer needs to be able to make: agreement is the
+        // exception, so three answers are partly about three different
+        // shelves of admissible solids.
+        assert!(c.shared * 10 < c.total);
     }
 }
