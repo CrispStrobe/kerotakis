@@ -383,3 +383,230 @@ fn the_series_agrees_with_the_database_where_the_database_has_an_opinion() {
         );
     }
 }
+
+/// Build two half-cells on one bench: (metal, salt, moles of salt) each in
+/// 100 mL, and return the bench.
+fn half_cells(left: (&str, &str, f64), right: (&str, &str, f64)) -> (Bench, SolverStack) {
+    let mut stack = stack();
+    let mut bench = Bench::new();
+    bench
+        .step_with(Operator::NewVessel, &mut stack, &PermissiveScreen)
+        .expect("v2");
+    for (v, (metal, salt, moles)) in [(VesselId(0), left), (VesselId(1), right)] {
+        for (key, n) in [("water", 5.55), (salt, moles), (metal, 0.05)] {
+            bench
+                .step_with(
+                    Operator::Add {
+                        vessel: v,
+                        species: SpeciesId::new(key),
+                        moles: Moles(n),
+                        at: None,
+                    },
+                    &mut stack,
+                    &PermissiveScreen,
+                )
+                .expect("step");
+        }
+    }
+    (bench, stack)
+}
+
+fn wire(bench: &mut Bench, stack: &mut SolverStack) -> Vec<Event> {
+    bench
+        .step_with(
+            Operator::Cell {
+                a: VesselId(0),
+                b: VesselId(1),
+            },
+            stack,
+            &PermissiveScreen,
+        )
+        .expect("cell")
+}
+
+/// The Daniell cell. Zinc in zinc sulfate, copper in copper sulfate, a
+/// voltmeter across them: +1.10 V, zinc the anode, whichever side it was
+/// wired to — and nothing in either beaker changes, because no current
+/// flows.
+#[test]
+fn the_daniell_cell_reads_about_one_point_one_volts() {
+    let (mut bench, mut stack) = half_cells(("Zn", "ZnSO4", 0.1), ("Cu", "CuSO4", 0.1));
+    let before = serde_json::to_string(&bench.vessels).unwrap();
+    let events = wire(&mut bench, &mut stack);
+    let (anode, volts, standard, notation) = events
+        .iter()
+        .find_map(|e| match e {
+            Event::CellVoltage {
+                anode,
+                volts,
+                standard_volts,
+                notation,
+                ..
+            } => Some((*anode, *volts, *standard_volts, notation.clone())),
+            _ => None,
+        })
+        .unwrap_or_else(|| panic!("{events:?}"));
+    assert_eq!(anode, VesselId(0), "zinc is the anode");
+    assert_eq!(notation, "Zn | Zn+2 ‖ Cu+2 | Cu");
+    assert!(
+        (standard - 1.1037).abs() < 1e-4,
+        "E° from the series: {standard}"
+    );
+    // Equal molalities: the Nernst terms nearly cancel, leaving the γ
+    // ratio of two 2+ sulfates at 1 mol/kgw — a few millivolts.
+    assert!(
+        (1.07..1.13).contains(&volts),
+        "Daniell should read ~1.10 V, got {volts:.4}"
+    );
+    assert_eq!(
+        before,
+        serde_json::to_string(&bench.vessels).unwrap(),
+        "reading a voltmeter must not change either beaker"
+    );
+
+    // Wired the other way round, the same cell with the same anode.
+    let events = bench
+        .step_with(
+            Operator::Cell {
+                a: VesselId(1),
+                b: VesselId(0),
+            },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("cell");
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::CellVoltage { anode, volts: v, .. } if *anode == VesselId(0) && (v - volts).abs() < 1e-12
+        )),
+        "{events:?}"
+    );
+}
+
+/// The activities reach the equation: make the copper side ten times
+/// more dilute and the cell drops. Ideal solutions would drop by
+/// (RT ln10 / 2F) · log 10 = 29.6 mV; the bench drops 17.6 mV, because
+/// the speciation knows what a concentration does not — at 1 mol/kgw
+/// most of the copper is paired with sulfate, and diluting it frees a
+/// larger share, so the *activity* ratio is nearer 4 than 10. If the cell
+/// read 1.10 V regardless, Nernst would be decoration; if it dropped
+/// exactly 29.6 mV, it would be Nernst over concentrations.
+#[test]
+fn the_cell_voltage_moves_with_activity_not_concentration() {
+    let (mut a, mut sa) = half_cells(("Zn", "ZnSO4", 0.1), ("Cu", "CuSO4", 0.1));
+    let (mut b, mut sb) = half_cells(("Zn", "ZnSO4", 0.1), ("Cu", "CuSO4", 0.01));
+    let volts = |events: &[Event]| {
+        events
+            .iter()
+            .find_map(|e| match e {
+                Event::CellVoltage { volts, .. } => Some(*volts),
+                _ => None,
+            })
+            .expect("a cell")
+    };
+    let (ea, eb) = (volts(&wire(&mut a, &mut sa)), volts(&wire(&mut b, &mut sb)));
+    let drop = ea - eb;
+    assert!(
+        drop > 0.005,
+        "dilution must lower the cell: {ea:.4} → {eb:.4}"
+    );
+    assert!(
+        drop < 0.0296 * 0.9,
+        "a drop of the full ideal 29.6 mV would mean concentrations reached the equation, not activities: {:.1} mV",
+        drop * 1000.0
+    );
+    // And the drop is exactly what the two reported activities dictate.
+    let ca = displacement::electrode(a.vessel(VesselId(1)).unwrap()).unwrap();
+    let cb = displacement::electrode(b.vessel(VesselId(1)).unwrap()).unwrap();
+    assert!(
+        (drop - (ca.volts - cb.volts)).abs() < 1e-9,
+        "the cell moved by something other than its cathode: {drop} vs {}",
+        ca.volts - cb.volts
+    );
+    assert!(
+        ca.activity / cb.activity < 6.0,
+        "tenfold in molality, less in activity — got a ratio of {:.2}",
+        ca.activity / cb.activity
+    );
+}
+
+/// Silver against copper: the other school cell, +0.46 V by the series.
+#[test]
+fn copper_against_silver_reads_the_series_difference() {
+    let (mut bench, mut stack) = half_cells(("Cu", "CuSO4", 0.1), ("Ag", "AgNO3", 0.1));
+    let events = wire(&mut bench, &mut stack);
+    let (anode, volts, standard) = events
+        .iter()
+        .find_map(|e| match e {
+            Event::CellVoltage {
+                anode,
+                volts,
+                standard_volts,
+                ..
+            } => Some((*anode, *volts, *standard_volts)),
+            _ => None,
+        })
+        .unwrap_or_else(|| panic!("{events:?}"));
+    assert_eq!(anode, VesselId(0), "copper is the anode against silver");
+    assert!((standard - 0.4577).abs() < 1e-4, "{standard}");
+    // Ag⁺ enters at n = 1 and Cu²⁺ at n = 2, so the Nernst terms do not
+    // cancel at equal molality, and they do not cancel the way an ideal
+    // calculation says either: free Cu²⁺ sits far below its molality in
+    // 1 mol/kgw sulfate, which *raises* the cell above E°. The number is
+    // whatever the two electrodes say — checked as the identity
+    // E = E(cathode) − E(anode) over the reported activities, each vessel
+    // at its own temperature — and bounded only loosely.
+    let anode_e = displacement::electrode(bench.vessel(VesselId(0)).unwrap()).unwrap();
+    let cathode_e = displacement::electrode(bench.vessel(VesselId(1)).unwrap()).unwrap();
+    assert!(
+        (volts - (cathode_e.volts - anode_e.volts)).abs() < 1e-9,
+        "{volts} vs {} − {}",
+        cathode_e.volts,
+        anode_e.volts
+    );
+    assert!(
+        (0.40..0.52).contains(&volts),
+        "copper–silver should read within ~50 mV of its E° 0.458 V, got {volts:.4}"
+    );
+}
+
+/// A beaker without a half-cell is said to be one, with the reason; and
+/// that is a statement about the beaker, not a gap.
+#[test]
+fn a_vessel_without_an_electrode_is_not_a_half_cell() {
+    // Copper in brine: a metal, no ion of its own.
+    let (mut bench, mut stack) = half_cells(("Cu", "NaCl", 0.1), ("Zn", "ZnSO4", 0.1));
+    let events = wire(&mut bench, &mut stack);
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::NoCell { a, why, .. } if *a == VesselId(0) && why.contains("none of its ion")
+        )),
+        "{events:?}"
+    );
+    assert!(
+        !events
+            .iter()
+            .any(|e| matches!(e, Event::NotYetModeled { .. } | Event::CellVoltage { .. })),
+        "{events:?}"
+    );
+}
+
+/// The accessor the electrolysis layer builds on: what electrode is in
+/// this vessel, at what potential.
+#[test]
+fn a_vessel_exposes_its_electrode() {
+    let (bench, _) = run(&[("CuSO4", 0.1), ("Cu", 0.05)]);
+    let e = displacement::electrode(vessel(&bench)).expect("a copper electrode");
+    assert_eq!(e.couple.reduced, "Cu");
+    assert_eq!(e.label(), "Cu | Cu+2");
+    assert!(
+        e.activity > 0.0 && e.activity < 1.0,
+        "γ < 1 at 1 mol/kgw: {}",
+        e.activity
+    );
+    assert!((0.28..0.34).contains(&e.volts), "{}", e.volts);
+    let (bench, _) = run(&[("NaCl", 0.1), ("Cu", 0.05)]);
+    assert!(displacement::electrode(vessel(&bench)).is_none());
+}

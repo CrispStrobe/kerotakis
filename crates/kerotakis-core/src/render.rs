@@ -299,6 +299,29 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 _ => format!("{vessel} {device}: {value:.4} {unit}"),
             }
         }
+        Event::CellVoltage {
+            anode,
+            cathode,
+            volts,
+            standard_volts,
+            notation,
+            equation,
+        } => match register.level() {
+            1 => format!(
+                "The voltmeter between {anode} and {cathode} reads {volts:.2} V — you have made a battery! The electrons want to flow from {anode} to {cathode}. (Nothing is using the current yet, so nothing in the beakers changes.)"
+            ),
+            2 => format!(
+                "{notation}: E = {volts:.3} V open-circuit (E° = {standard_volts:.3} V); electrons would flow {anode} → {cathode}; closing the circuit would run {equation}. No current is drawn, so this is the voltage the cell *offers*, not what it delivers under load"
+            ),
+            _ => format!(
+                "{notation}: E_cell = {volts:.4} V open-circuit, no current, no internal resistance modelled (E°_cell = {standard_volts:.4} V; the difference is the Nernst term over the computed ion activities; ideal salt bridge, no liquid-junction potential); anode {anode}, cathode {cathode}; {equation}"
+            ),
+        },
+        Event::NoCell { a, b, why } => match register.level() {
+            1 => format!("The voltmeter between {a} and {b} reads nothing — one of them isn't a proper half-cell yet."),
+            2 => format!("{a}–{b}: no cell — {why}"),
+            _ => format!("{a}–{b}: no cell: {why}"),
+        },
         Event::HazardWarning {
             severity,
             hazard,

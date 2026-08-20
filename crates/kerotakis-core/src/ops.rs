@@ -61,6 +61,10 @@ pub enum Operator {
         vessel: VesselId,
         instrument: Instrument,
     },
+    /// Wire two vessels as a galvanic cell and read the voltmeter. Open
+    /// circuit: no current flows and nothing changes, which is what the
+    /// activity series predicts — the voltage a battery *would* have.
+    Cell { a: VesselId, b: VesselId },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -146,6 +150,31 @@ pub enum Event {
         instrument: Instrument,
         value: f64,
         unit: String,
+    },
+    /// The open-circuit voltage between two half-cells, and which way the
+    /// electrons would go. Open circuit means: no current drawn, no
+    /// internal resistance, nothing in either beaker changed — the
+    /// voltmeter reading the moment the wires touch, not the voltage under
+    /// load and not how long a torch would run (that is Faraday's
+    /// question, answered elsewhere).
+    CellVoltage {
+        anode: VesselId,
+        cathode: VesselId,
+        volts: f64,
+        /// The standard cell potential from E° alone, for the comparison
+        /// that makes Nernst visible.
+        standard_volts: f64,
+        /// `Zn | Zn+2 ‖ Cu+2 | Cu`.
+        notation: String,
+        /// The reaction that would run if the circuit were closed.
+        equation: String,
+    },
+    /// Two vessels were wired and no cell exists between them, with the
+    /// reason. A computed answer about the beakers, not a gap in the lab.
+    NoCell {
+        a: VesselId,
+        b: VesselId,
+        why: String,
     },
     /// What the vessel looks like.
     Observed {

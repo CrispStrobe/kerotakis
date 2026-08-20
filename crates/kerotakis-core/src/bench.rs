@@ -647,6 +647,30 @@ impl Bench {
                     },
                 }
             }
+            Operator::Cell { a, b } => {
+                if a == b {
+                    return Err(BenchError::SelfTransfer);
+                }
+                let (va, vb) = (self.vessel(*a)?, self.vessel(*b)?);
+                match crate::displacement::cell(va, vb) {
+                    Ok(cell) => {
+                        let (anode, cathode) = if cell.anode_is_first {
+                            (*a, *b)
+                        } else {
+                            (*b, *a)
+                        };
+                        events.push(Event::CellVoltage {
+                            anode,
+                            cathode,
+                            volts: cell.volts,
+                            standard_volts: cell.standard_volts,
+                            notation: cell.notation(),
+                            equation: cell.equation(),
+                        });
+                    }
+                    Err(why) => events.push(Event::NoCell { a: *a, b: *b, why }),
+                }
+            }
         }
         Ok(events)
     }
@@ -672,7 +696,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::Stir { vessel } => vec![*vessel],
         Operator::Evaporate { vessel, .. } | Operator::Ignite { vessel } => vec![*vessel],
         Operator::Decant { from, to, .. } | Operator::Filter { from, to } => vec![*from, *to],
-        Operator::Measure { .. } => vec![],
+        Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         // Handled by the caller, which has the vessel list: waiting touches
         // every vessel on the bench, because the clock is shared.
         Operator::Wait { .. } => vec![],
