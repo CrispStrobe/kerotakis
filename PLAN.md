@@ -720,6 +720,30 @@ audit independently flagged as computed-but-never-displayed.
 - **Partial freezing is not modelled.** A freezing solution really gives ice
   plus an ever more concentrated brine down to a eutectic; we freeze the
   solvent and say the rest is not modelled.
+- **`evaporate` is externally powered, and this is a decision rather than an
+  oversight.** Boiling off 5.5 mol of water costs about 223 kJ — vastly more
+  than any chemistry in the beaker — and the operator charges nothing for
+  it. That is deliberate: `evaporate` means *you put it on a hotplate*, and
+  the energy comes from outside the ledger, exactly as the heat for it would
+  in a real dish. Modelling the cost without modelling the burner would be
+  worse than not modelling either, because a beaker that froze itself while
+  evaporating is further from the truth than one that simply does not say.
+
+  The consequence has to be stated plainly, because it is not obvious: **the
+  thermometer after an `evaporate` is not a claim.** What it shows is only
+  the chemistry that happened in the beaker — crystallisation heat, mostly —
+  divided by a heat capacity that shrank as the water left. That is why
+  brine boiled to 99% reads 65 °C: 0.0936 mol of salt crystallising into a
+  gram of remaining water, with nothing to carry the heat away. The ionic
+  strength and the solid amount from that beaker are trustworthy; its
+  temperature is arithmetic about a system whose largest energy term has
+  been deliberately left out. No codex entry quotes a temperature after
+  evaporating, and none should.
+
+  The costed version wants a heat source as a first-class thing — a hotplate
+  with a power and a duration — at which point evaporation becomes a *rate*
+  rather than a fraction, and the operator changes shape. That is a real
+  feature and not a patch, and it is not scheduled.
 
 ### Thermodynamic product versus kinetic product
 

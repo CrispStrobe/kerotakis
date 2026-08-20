@@ -564,6 +564,16 @@ impl Bench {
                             ),
                         });
                     }
+                    // No energy is charged for the vaporisation, and that
+                    // is decided rather than forgotten: `evaporate` means
+                    // the dish is on a hotplate, and the ~40.7 kJ/mol comes
+                    // from outside the ledger as it does in the lab.
+                    // Charging for it without modelling the burner would
+                    // have a beaker freeze itself dry, which is further
+                    // from the truth than saying nothing. The consequence,
+                    // written up in PLAN's known gaps: the thermometer
+                    // after this operator is not a claim.
+                    //
                     // Other volatile liquids would co-evaporate by relative
                     // volatility — that is L3's job; say so.
                     let other_liquids: Vec<&str> = v
