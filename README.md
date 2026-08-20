@@ -130,7 +130,7 @@ solved state.
 
 From that follow the rest of the design commitments:
 
-- **Models are content, not background.** The codex carries 27 model
+- **Models are content, not background.** The codex carries 28 model
   entries whose most important field is `fails_at` — a model shown without
   its boundary is shown as truth, which is why the next model feels
   arbitrary instead of necessary. The lint refuses a model with an empty
@@ -191,8 +191,8 @@ browser** (`kerotakis-wasm`), with thermal chemistry live and aqueous answers
 from pre-warmed results — a state nobody pre-computed is reported as a stated
 miss rather than guessed at.
 
-The codex holds **66 reaction entries, 27 models and 113 concepts**, anchored
-to a 189-topic CC0 curriculum spine (33 covered; `kero codex gaps` prints the
+The codex holds **80 reaction entries, 28 models and 130 concepts**, anchored
+to a 189-topic CC0 curriculum spine (35 covered; `kero codex gaps` prints the
 rest). Every numeric claim in it is replayed through the real solvers by
 `kero codex lint` in CI, so a curation error cannot merge and a solver change
 that breaks a lesson is caught the same day.
