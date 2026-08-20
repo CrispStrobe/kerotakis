@@ -63,6 +63,16 @@ pub struct CacheEntry {
     /// handed. Its report says so in as many words.
     #[serde(default)]
     pub redox_adjusted: bool,
+    /// Set when the electron balance was struck but did not *pin* pe — the
+    /// equivalence point of a titration, where the potential is undefined.
+    ///
+    /// Stored the negative way round on purpose. `#[serde(default)]` gives
+    /// `false` for an entry written before this field existed, and `false`
+    /// has to mean "nothing unusual": the other polarity would have every
+    /// pre-warmed result in the shipped demo quietly stop reporting a
+    /// potential.
+    #[serde(default)]
+    pub pe_undetermined: bool,
 }
 
 /// How supersaturated a phase must be before we admit we are ignoring it,
@@ -103,6 +113,7 @@ pub struct PhreeqcEquilibrator {
             Vec<SpeciesDetail>,
             Vec<(String, f64)>,
             bool,
+            bool,
         ),
     >,
     cache_hits: usize,
@@ -138,6 +149,10 @@ pub struct SolveOutput {
     /// The full run report, which carries the species distribution and the
     /// saturation indices.
     pub report: String,
+    /// Whether pe is pinned by the electron balance, or merely a value the
+    /// search stopped at. False at a titration's equivalence point, where
+    /// the potential is genuinely undefined.
+    pub pe_determined: bool,
 }
 
 impl PhreeqcEquilibrator {
@@ -173,6 +188,7 @@ impl PhreeqcEquilibrator {
                 }
             })?;
             Ok(SolveOutput {
+                pe_determined: true,
                 selected: engine.selected_output(),
                 report: engine.output_string(),
             })
@@ -220,6 +236,10 @@ impl PhreeqcEquilibrator {
         let (mut lo, mut hi) = (-10.0f64, 17.0f64);
         let mut best: Option<SolveOutput> = None;
         let mut last_sum: Option<f64> = None;
+        // Whether the residual was ever seen on both sides of zero. A
+        // bisection that only ever approaches from one side never bracketed
+        // a root: it walked to an edge, and the edge is not a measurement.
+        let (mut saw_below, mut saw_above) = (false, false);
         for _ in 0..34 {
             let mid = 0.5 * (lo + hi);
             let input = build_input_at(vessel, problem, db_tag, Some((mid, coupling)));
@@ -252,8 +272,10 @@ impl PhreeqcEquilibrator {
             last_sum = Some(sum);
             best = Some(out);
             if sum < coupling.target {
+                saw_below = true;
                 lo = mid;
             } else {
+                saw_above = true;
                 hi = mid;
             }
             if hi - lo < 1e-6 {
@@ -294,10 +316,29 @@ impl PhreeqcEquilibrator {
                 ),
             });
         }
-        best.ok_or_else(|| SolveError::NotConverged {
+        // The balance can be struck without pe being pinned by it.
+        //
+        // At exact equivalence both couple members are spent, so the sum is
+        // flat in pe and approaches the target asymptotically instead of
+        // crossing it: 1.699941e-2, 1.699992e-2, 1.699999e-2 against a
+        // target of 1.7e-2, never once on the other side. The root is at
+        // infinite pe — the last trace of iron(II) is only consumed in the
+        // limit — so the search marches to the top of the bracket and the
+        // residual there is a passing 1e-8.
+        //
+        // Reporting that as "pe 17.00 (+1.006 V)" would be publishing the
+        // bracket ceiling as a measurement, which is the same fault the
+        // residual check was added to remove, wearing a convergence as a
+        // disguise. The distribution is right and is kept; the potential is
+        // withheld, because at equivalence a redox potential genuinely is
+        // undefined — that steepness is why the endpoint is detectable at
+        // all.
+        let mut out = best.ok_or_else(|| SolveError::NotConverged {
             solver: "phreeqc-aqueous (redox)".to_string(),
             detail: "the electron balance did not converge".to_string(),
-        })
+        })?;
+        out.pe_determined = saw_below && saw_above;
+        Ok(out)
     }
 
     /// Whether this equilibrator can compute a state nobody pre-computed.
@@ -346,13 +387,16 @@ impl PhreeqcEquilibrator {
             entries: self
                 .cache
                 .iter()
-                .map(|(k, (rows, species, saturation, redox))| CacheEntry {
-                    key: k.clone(),
-                    rows: rows.clone(),
-                    species: species.clone(),
-                    saturation: saturation.clone(),
-                    redox_adjusted: *redox,
-                })
+                .map(
+                    |(k, (rows, species, saturation, redox, pe_ok))| CacheEntry {
+                        key: k.clone(),
+                        rows: rows.clone(),
+                        species: species.clone(),
+                        saturation: saturation.clone(),
+                        redox_adjusted: *redox,
+                        pe_undetermined: !*pe_ok,
+                    },
+                )
                 .collect(),
         }
     }
@@ -361,9 +405,13 @@ impl PhreeqcEquilibrator {
     pub fn import_cache(&mut self, data: CacheData) -> usize {
         let before = self.cache.len();
         for e in data.entries {
-            self.cache
-                .entry(e.key)
-                .or_insert((e.rows, e.species, e.saturation, e.redox_adjusted));
+            self.cache.entry(e.key).or_insert((
+                e.rows,
+                e.species,
+                e.saturation,
+                e.redox_adjusted,
+                !e.pe_undetermined,
+            ));
         }
         self.cache.len() - before
     }
@@ -738,7 +786,8 @@ impl PhreeqcEquilibrator {
         // deterministic canonicalisation of (species set, amounts, T) — same
         // state, same answer, no engine call.
         let mut coupling_failed: Option<String> = None;
-        let (rows, speciation, saturation, redox_adjusted) = if let Some(hit) = self.cache.get(&key)
+        let (rows, speciation, saturation, redox_adjusted, pe_determined) = if let Some(hit) =
+            self.cache.get(&key)
         {
             self.cache_hits += 1;
             hit.clone()
@@ -773,6 +822,7 @@ impl PhreeqcEquilibrator {
                 },
                 None => self.run_raw(db_tag, &input)?,
             };
+            let pe_determined = out.pe_determined;
             let rows = out.selected;
             let speciation = parse_species_distribution(&out.report);
             let saturation = parse_saturation_indices(&out.report);
@@ -787,9 +837,10 @@ impl PhreeqcEquilibrator {
                     speciation.clone(),
                     saturation.clone(),
                     redox_adjusted,
+                    pe_determined,
                 ),
             );
-            (rows, speciation, saturation, redox_adjusted)
+            (rows, speciation, saturation, redox_adjusted, pe_determined)
         };
         let value = |column: &str| -> Option<f64> {
             let idx = rows.first()?.iter().position(|h| h == column)?;
@@ -1222,6 +1273,29 @@ impl PhreeqcEquilibrator {
             }
             _ => String::new(),
         };
+        // Say it in the stream, not only in `explain`.
+        //
+        // A beaker whose coupling stood down shows its elements in the
+        // states they were added in — permanganate still purple, iron still
+        // iron(II) — which is a perfectly ordinary-looking answer. The
+        // reason it is not one lives in the routing, and a reader has to
+        // think to ask for `explain` to find it. Whoever is most likely to
+        // be misled is exactly whoever does not know to ask.
+        //
+        // The state itself was already honest; the discoverability was
+        // asymmetric. Same precedent as a flame held to ethanol reporting
+        // that no solver looked, rather than reporting that nothing
+        // happened.
+        if let Some(why) = &coupling_failed {
+            events.push(Event::NotYetModeled {
+                vessel: vessel.id,
+                what: format!(
+                    "these elements have not reacted with each other — they are shown in \
+                     the oxidation states they were added in, which is not what the beaker \
+                     would do: {why}"
+                ),
+            });
+        }
         redox.sort_by(|a, b| {
             a.element
                 .cmp(&b.element)
@@ -1230,7 +1304,9 @@ impl PhreeqcEquilibrator {
 
         let info = SolutionInfo {
             redox,
-            pe: redox_constrained.then(|| value("pe")).flatten(),
+            pe: (redox_constrained && pe_determined)
+                .then(|| value("pe"))
+                .flatten(),
             ph,
             ionic_strength: mu,
             species: speciation,

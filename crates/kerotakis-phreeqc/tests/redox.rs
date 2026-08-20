@@ -189,3 +189,82 @@ fn a_metal_in_solution_says_its_oxidation_is_not_modelled() {
          for, rather than returning a confident precipitate: {events:?}"
     );
 }
+
+/// Solve a titration and hand back both what happened and what the beaker
+/// ended up being, since the honesty of a redox answer lives in both.
+fn titrate_in(acid: &str, kmno4: f64) -> (Vec<Event>, Option<SolutionInfo>) {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    add(&mut bench, &mut eq, v, "water", 5.55);
+    add(&mut bench, &mut eq, v, acid, 0.005);
+    add(&mut bench, &mut eq, v, "FeSO4", 0.005);
+    let events = bench
+        .step_with(
+            Operator::Add {
+                vessel: v,
+                species: SpeciesId::new("KMnO4"),
+                moles: Moles(kmno4),
+                at: None,
+            },
+            &mut eq,
+            &PermissiveScreen,
+        )
+        .expect("step");
+    (events, bench.vessel(v).expect("vessel").solution.clone())
+}
+
+/// At the equivalence point a potential is not a measurement.
+///
+/// Both couple members are spent there, so the electron sum goes flat and
+/// approaches the target asymptotically instead of crossing it —
+/// 1.699941e-2, 1.699992e-2, 1.699999e-2 against 1.7e-2, never once on the
+/// far side. The root is at infinite pe, the search runs to the top of its
+/// bracket, and the residual there passes at 1e-8. Printing that as
+/// "pe 17.00 (+1.006 V)" republishes the bracket ceiling as a measurement,
+/// which is the fault the residual check exists to remove, wearing a
+/// convergence as a disguise.
+///
+/// The distribution is right and is kept. Only the potential is withheld,
+/// and withholding it is the chemistry: at equivalence the potential really
+/// is undefined, which is precisely why an endpoint is detectable.
+#[test]
+fn the_equivalence_point_reports_no_potential() {
+    let (_, half) = titrate_in("H2SO4", 0.0005);
+    let half = half.expect("solution");
+    assert!(
+        half.pe.is_some(),
+        "half-titrated, the balance pins pe and it should be reported"
+    );
+
+    let (_, at) = titrate_in("H2SO4", 0.0010);
+    let at = at.expect("solution");
+    assert!(
+        at.pe.is_none(),
+        "at equivalence pe is undefined and must not be printed, got {:?}",
+        at.pe
+    );
+    assert!(
+        !at.redox.is_empty(),
+        "the oxidation-state split is still an answer and must survive"
+    );
+}
+
+/// A beaker whose coupling stood down says so in the stream.
+///
+/// It shows its elements in the states they went in as — permanganate still
+/// purple, iron still iron(II) — which looks like an ordinary answer. The
+/// reason it is not one used to live only in `explain`'s routing, and the
+/// reader most likely to be misled is exactly the one who does not know to
+/// ask for it.
+#[test]
+fn a_stood_down_coupling_is_announced_where_it_happens() {
+    let (events, _) = titrate_in("H2SO4", 0.0015);
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::NotYetModeled { what, .. } if what.contains("have not reacted with each other")
+        )),
+        "the stand-down must appear in the event stream, not only in explain: {events:?}"
+    );
+}
