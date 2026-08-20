@@ -58,7 +58,12 @@ use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Kelvin, Moles};
 use crate::vessel::{ThermalMode, Vessel};
 
-const FARADAY: f64 = 96_485.332;
+/// Charge on a mole of electrons, C/mol.
+///
+/// Exact since the 2019 SI redefinition — the elementary charge and the
+/// mole are both defined, so this is a product of two definitions rather
+/// than a measurement, unlike every other constant in this file.
+pub const FARADAY: f64 = 96_485.332_12;
 const GAS_CONSTANT: f64 = 8.314_462_618;
 /// Below this, an amount is bookkeeping noise rather than a reagent.
 const TRACE: f64 = 1e-12;
@@ -679,6 +684,63 @@ pub fn electrode(vessel: &Vessel) -> Option<Electrode> {
         couple,
         activity,
         volts,
+    })
+}
+
+/// What a current moves through a vessel, and what it cannot.
+pub struct Electrolysis {
+    pub species: SpeciesId,
+    /// The ion the metal came out of, and how many of it per metal atom,
+    /// so the caller can take it out of solution without re-deriving the
+    /// couple.
+    pub ion: SpeciesId,
+    pub ion_per_metal: f64,
+    pub coulombs: f64,
+    pub electrons: f64,
+    /// Moles of substance actually deposited — the demand, or the supply,
+    /// whichever ran out first.
+    pub moles: f64,
+    pub grams: f64,
+    pub per_ion: f64,
+    /// Moles the charge *asked* for. Larger than `moles` when the solution
+    /// ran out of ion before the charge ran out.
+    pub demanded: f64,
+}
+
+/// Faraday's law over a vessel's own electrode.
+///
+/// n = Q / (z·F), and every term is read rather than assumed: Q from the
+/// current and the clock, z from the couple the vessel actually holds, and
+/// the ion's supply from the speciation. The law is one division; the
+/// chemistry is in knowing which z, and that is what the bench supplies.
+///
+/// Returns `None` when the vessel is not a half-cell — `why_no_electrode`
+/// says so in words.
+pub fn electrolyse(vessel: &Vessel, amps: f64, seconds: f64) -> Option<Electrolysis> {
+    let e = electrode(vessel)?;
+    let coulombs = amps * seconds;
+    let electrons = coulombs / FARADAY;
+    let demanded = electrons / e.couple.electrons;
+    // A current cannot deposit an ion that is not there. Past that point a
+    // real cell starts electrolysing the water instead, which this bench
+    // does not model — so it stops at the supply and says so rather than
+    // inventing metal.
+    let available =
+        moles_in(vessel, e.couple.oxidised, Phase::Aqueous) / e.couple.oxidised_per_reduced;
+    let moles = demanded.min(available).max(0.0);
+    let grams = species::lookup_key(e.couple.reduced)
+        .map(|d| moles * d.molar_mass)
+        .unwrap_or(0.0);
+    Some(Electrolysis {
+        species: SpeciesId::new(e.couple.reduced),
+        ion: SpeciesId::new(e.couple.oxidised),
+        ion_per_metal: e.couple.oxidised_per_reduced,
+        coulombs,
+        electrons,
+        moles,
+        grams,
+        per_ion: e.couple.electrons,
+        demanded,
     })
 }
 

@@ -647,6 +647,84 @@ impl Bench {
                     },
                 }
             }
+            Operator::Electrolyse {
+                vessel,
+                amps,
+                seconds,
+            } => {
+                if *amps <= 0.0 || *seconds <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let v = self.vessel(*vessel)?;
+                match crate::displacement::electrolyse(v, *amps, *seconds) {
+                    Some(run) => {
+                        if run.moles > crate::OBSERVABLE_MOLES {
+                            let (species, moles) = (run.species.clone(), Moles(run.moles));
+                            let taken = (run.ion.clone(), Moles(run.moles * run.ion_per_metal));
+                            let v = self.vessel_mut(*vessel)?;
+                            v.deposit(species.clone(), moles, Phase::Solid);
+                            v.withdraw(&taken.0, taken.1);
+                            events.push(Event::Electrolysed {
+                                vessel: *vessel,
+                                species,
+                                coulombs: run.coulombs,
+                                electrons: Moles(run.electrons),
+                                moles,
+                                grams: run.grams,
+                                per_ion: run.per_ion,
+                            });
+                            // The other electrode has to be somewhere.
+                            //
+                            // Taking copper out of solution leaves its
+                            // charge behind, and the solve balances that
+                            // with acid: the beaker goes from pH 4.27 to
+                            // 1.84 on 0.01 mol of electrons. That is the
+                            // right chemistry for an *inert* anode —
+                            // 2 H₂O → O₂ + 4 H⁺ + 4 e⁻, carbon rods, the
+                            // school cell — but the acid was appearing
+                            // without the oxygen that pays for it.
+                            //
+                            // Booked here so the ledger closes. A copper
+                            // anode instead dissolves to replace what
+                            // plates out, holds Cu²⁺ constant and makes no
+                            // acid at all; that is electrorefining and it
+                            // is a different cell, which the register says.
+                            let oxygen = Moles(run.electrons / 4.0);
+                            if oxygen.0 > crate::OBSERVABLE_MOLES {
+                                let v = self.vessel_mut(*vessel)?;
+                                v.withdraw(&SpeciesId::new("water"), Moles(oxygen.0 * 2.0));
+                                events.push(Event::GasEvolved {
+                                    vessel: *vessel,
+                                    species: SpeciesId::new("O2"),
+                                    moles: oxygen,
+                                });
+                            }
+                        }
+                        // The charge asked for more than the beaker had.
+                        // A real cell answers that by electrolysing the
+                        // water instead; this one says it cannot.
+                        if run.demanded > run.moles * (1.0 + 1e-9) + crate::OBSERVABLE_MOLES {
+                            events.push(Event::NotYetModeled {
+                                vessel: *vessel,
+                                what: format!(
+                                    "the charge would deposit {:.4} mol and the solution \
+                                     holds only {:.4} mol. Past that a real cell starts \
+                                     electrolysing the water itself, which this bench does \
+                                     not model, so the rest of the charge went nowhere",
+                                    run.demanded, run.moles
+                                ),
+                            });
+                        }
+                    }
+                    None => {
+                        let why = crate::displacement::why_no_electrode(self.vessel(*vessel)?);
+                        events.push(Event::NotYetModeled {
+                            vessel: *vessel,
+                            what: format!("nothing here can be electrolysed: {why}"),
+                        });
+                    }
+                }
+            }
             Operator::Cell { a, b } => {
                 if a == b {
                     return Err(BenchError::SelfTransfer);
@@ -695,6 +773,8 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::Cool { vessel, .. }
         | Operator::Stir { vessel } => vec![*vessel],
         Operator::Evaporate { vessel, .. } | Operator::Ignite { vessel } => vec![*vessel],
+        // Electrolysis moves matter, so the vessel is re-settled after it.
+        Operator::Electrolyse { vessel, .. } => vec![*vessel],
         Operator::Decant { from, to, .. } | Operator::Filter { from, to } => vec![*from, *to],
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         // Handled by the caller, which has the vessel list: waiting touches
