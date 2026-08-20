@@ -58,11 +58,21 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         if !matches!(p.phase, Phase::Aqueous | Phase::Liquid) {
             continue;
         }
-        let Some(spectrum) = species::lookup(&p.species).and_then(|d| d.spectrum) else {
-            continue;
+        // An indicator has two spectra and the pH picks the mixture, so it
+        // is asked for one only once the solution has been characterised.
+        // Without a pH there is no answer to give, and guessing at one
+        // would make the bench assert a colour it has not computed.
+        let eps = match crate::indicator::lookup(&p.species.0) {
+            Some(ind) => match vessel.solution.as_ref() {
+                Some(sol) => ind.spectrum_at(sol.ph),
+                None => continue,
+            },
+            None => match species::lookup(&p.species).and_then(|d| d.spectrum) {
+                Some(spectrum) => spectrum(),
+                None => continue,
+            },
         };
         let concentration = p.moles.0 / litres;
-        let eps = spectrum();
         for (band, e) in absorbance.iter_mut().zip(eps.iter()) {
             *band += e * concentration * crate::spectrum::BEAKER_PATH_CM;
         }

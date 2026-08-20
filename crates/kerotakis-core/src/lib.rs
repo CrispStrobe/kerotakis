@@ -18,6 +18,7 @@ pub mod appearance;
 pub mod bench;
 pub mod curated;
 pub mod displacement;
+pub mod indicator;
 pub mod kinetics;
 pub mod ops;
 pub mod particles;
