@@ -503,10 +503,29 @@ pub fn balance(lhs: &[&str], rhs: &[&str]) -> Result<Vec<i64>, BalanceError> {
                 .all(|v| (v * *k as f64 - (v * *k as f64).round()).abs() < 1e-6)
         })
         .ok_or(BalanceError::Irrational)?;
-    let mut ints: Vec<i64> = sol
-        .iter()
-        .map(|v| (v * scale as f64).round() as i64)
-        .collect();
+    // A number too big to be a coefficient is not one.
+    //
+    // The null space of a degenerate element matrix throws out values of
+    // any magnitude, and `as i64` *saturates* rather than wrapping, so one
+    // of them landing on i64::MIN made the sign flip below panic with
+    // "attempt to negate with overflow" — reachable from `kero balance`
+    // and the MCP balance tool on crafted input, and found by fuzzing in
+    // under two minutes.
+    //
+    // Clamping would be the wrong repair: it would answer a nonsense
+    // equation with a nonsense coefficient. Real stoichiometric
+    // coefficients are single or double digits, so anything past this
+    // bound means the skeleton did not describe a reaction, and that is
+    // what gets said.
+    const MAX_COEFFICIENT: f64 = 1e15;
+    let mut ints: Vec<i64> = Vec::with_capacity(sol.len());
+    for v in &sol {
+        let scaled = v * scale as f64;
+        if !scaled.is_finite() || scaled.abs() > MAX_COEFFICIENT {
+            return Err(BalanceError::Impossible);
+        }
+        ints.push(scaled.round() as i64);
+    }
     if ints.iter().any(|v| *v < 0) {
         for v in ints.iter_mut() {
             *v = -*v;
@@ -549,6 +568,35 @@ pub enum BalanceError {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// A fuzzer's crash, kept as a test.
+    ///
+    /// Found by the peer session's `stoich` target in under two minutes,
+    /// and reachable from `kero balance` and the MCP balance tool, so it
+    /// was a user-facing panic on crafted input rather than a curiosity.
+    ///
+    /// The skeleton is nonsense, which is the point: a degenerate element
+    /// matrix has a null space that can throw out numbers of any size, and
+    /// `as i64` saturates instead of wrapping, so one arriving at i64::MIN
+    /// made the sign flip panic with "attempt to negate with overflow".
+    ///
+    /// Both harvested artifacts dedupe to this one site. The bytes below
+    /// are the valid UTF-8 prefix of the smaller one — which is all
+    /// libfuzzer's `&str` ever handed the parser.
+    #[test]
+    fn a_degenerate_skeleton_is_refused_rather_than_overflowing() {
+        let data = "HHI  + H+=B0I  + IH\n*2I44444444444444444444";
+        let (l, r) = data
+            .split_once('=')
+            .expect("the artifact contains an arrow");
+        let lhs: Vec<&str> = l.split(" + ").map(str::trim).collect();
+        let rhs: Vec<&str> = r.split(" + ").map(str::trim).collect();
+        // The assertion is that this returns at all.
+        assert!(
+            balance(&lhs, &rhs).is_err(),
+            "a skeleton with no sane coefficients must be refused, not balanced"
+        );
+    }
 
     fn f(s: &str) -> Formula {
         parse_formula(s).unwrap_or_else(|e| panic!("{s}: {e}"))
