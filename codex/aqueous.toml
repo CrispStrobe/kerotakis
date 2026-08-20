@@ -1476,3 +1476,55 @@ lv3 = "The hazard is L0: the reactive-group screen assesses the prospective vess
 [reaction.provenance]
 source = "Standard household-chemical safety guidance (bleach + acid → chlorine); reaction stoichiometry curated in the Kerotakis safety layer. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "L0 reactive-group screen (Kerotakis safety); residual solution by PHREEQC via Kerotakis L2"
+
+# ---------------------------------------------------------- water itself
+
+[[reaction]]
+id = "neutral-is-a-moving-target"
+spine = ["die-autoprotolyse-als-eigenschaft-von-wasser"]
+equation = "H₂O ⇌ H⁺ + OH⁻"
+concepts = ["autoprotolysis", "temperature-dependent-kw"]
+requires = ["ph"]
+apparatus = ["beaker", "ph-meter", "thermometer"]
+calculations = ["ph-calculation"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 NaCl 0.001mol
+heat v1 10.45kJ
+"""
+
+[reaction.expect]
+events = ["dissolved:NaCl"]
+ph = { min = 6.5, max = 6.75 }
+temperature_c = { min = 49.0, max = 51.0 }
+
+[reaction.expect.predict]
+question = "A beaker of (almost) pure water read pH 7.00 at 25 °C. You warm it to 50 °C and measure again. The meter shows 6.63. What happened?"
+options = [
+  "Nothing can have happened — pure water is neutral, and neutral is 7",
+  "The water is still exactly neutral; the neutral point itself moved",
+  "The heat made the water slightly acidic",
+]
+answer = 1
+misconception = "Both wrong answers hold 'pH 7 = neutral' as a definition when it is the 25 °C value of a temperature-dependent equilibrium. Water splits itself — H₂O ⇌ H⁺ + OH⁻ — and heating pushes the split further, so [H⁺] and [OH⁻] rise together. Neutral means they are equal, and at 50 °C they are equal at pH 6.63. Acidic would need an excess of H⁺ over OH⁻, and nothing donated one."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "pH 7 as the definition of neutral rather than as one temperature's reading of it — so a meter that says otherwise about plain water must be wrong."
+next = "Trust the meter and move the temperature both ways: 6.63 at 50 °C, 7.00 at 25 °C, 7.47 near 0 °C — the reading moves while nothing is added or removed. A definition cannot do that; an equilibrium constant with a temperature dependence must."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Acidic means 'below 7', as an absolute — the real definition of neutrality, equal H⁺ and OH⁻, is not in the picture."
+next = "Ask where an excess of H⁺ would have come from: heating water makes more H⁺ and more OH⁻ in exactly equal numbers, because each split of a water molecule yields one of each. At 50 °C that equality sits at 6.63; the water is as neutral as it ever was."
+
+[reaction.registers]
+lv1 = "Warm water is still just water — nothing sour about it. But the meter's idea of 'the middle of the scale' moves when the water warms. The middle is only 7 in a room-temperature beaker."
+lv2 = "Water splits itself a little: H₂O ⇌ H⁺ + OH⁻, with K_w = 10⁻¹⁴ at 25 °C. The split is endothermic, so heating pushes it further: K_w grows, [H⁺] and [OH⁻] rise together, and the pH falls to 6.63 while pOH falls to match. Neutral is where they are equal — and that is no longer 7."
+lv3 = "The pinch of salt is scaffolding, stated as such: this bench declines to characterise pure water — no solutes, no solve, and the meter honestly reads nothing — so 0.01 mol/kgw of NaCl gives it a solution to stand in without touching the autoprotolysis (both ions are spectators to it). K_w comes from the database at the vessel's own temperature: the engine reads 7.00 at 25 °C, 6.63 at 50 °C and 7.47 near 0 °C — the classic table values, computed rather than quoted. 'pH 7 = neutral' is a 25 °C fact that is usually taught as a definition; the lye entry's pH 13.51 is this same lesson from the other end of the scale."
+
+[reaction.provenance]
+source = "Standard curriculum autoprotolysis; temperature-dependent K_w from PHREEQC wateq4f.dat (USGS), solved at the vessel's own temperature. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "PHREEQC via Kerotakis L2, solved at the temperature the heating produced"
