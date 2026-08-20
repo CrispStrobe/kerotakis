@@ -1,0 +1,172 @@
+{
+ "_provenance": {
+  "generator": "tools/vle-oracle.py",
+  "oracle": "thermo 0.6.1 (MIT; build-time oracle only, never shipped)",
+  "activity_model": "original UNIFAC (version=0), UFSG/UFIP tables as shipped in thermo, derived from the original open-literature parameter publications",
+  "vapor_pressure_methods": {
+   "ethanol": "HEOS_FIT",
+   "water": "IAPWS_PSAT"
+  },
+  "phase_model": "modified Raoult, ideal vapour, P = 101325 Pa",
+  "note": "reference values for kerotakis-thermo golden tests; regenerate only deliberately and re-read every consumer when the numbers move"
+ },
+ "pure": {
+  "ethanol": {
+   "normal_boiling_point_K": 351.571,
+   "psat_Pa": {
+    "298.15": 7885.4,
+    "323.15": 29408.5,
+    "351.45": 100842.1,
+    "373.15": 224179.9
+   }
+  },
+  "water": {
+   "normal_boiling_point_K": 373.124,
+   "psat_Pa": {
+    "298.15": 3169.9,
+    "323.15": 12351.9,
+    "351.45": 44243.6,
+    "373.15": 101418.0
+   }
+  }
+ },
+ "unifac_gammas": [
+  {
+   "T_K": 298.15,
+   "x_ethanol": 0.05,
+   "gamma_ethanol": 4.832251,
+   "gamma_water": 1.011259
+  },
+  {
+   "T_K": 298.15,
+   "x_ethanol": 0.25,
+   "gamma_ethanol": 1.839149,
+   "gamma_water": 1.178898
+  },
+  {
+   "T_K": 298.15,
+   "x_ethanol": 0.5,
+   "gamma_ethanol": 1.203741,
+   "gamma_water": 1.496745
+  },
+  {
+   "T_K": 298.15,
+   "x_ethanol": 0.75,
+   "gamma_ethanol": 1.044479,
+   "gamma_water": 1.880606
+  },
+  {
+   "T_K": 298.15,
+   "x_ethanol": 0.95,
+   "gamma_ethanol": 1.002532,
+   "gamma_water": 2.401595
+  },
+  {
+   "T_K": 351.15,
+   "x_ethanol": 0.05,
+   "gamma_ethanol": 4.63508,
+   "gamma_water": 1.010102
+  },
+  {
+   "T_K": 351.15,
+   "x_ethanol": 0.25,
+   "gamma_ethanol": 1.883426,
+   "gamma_water": 1.16691
+  },
+  {
+   "T_K": 351.15,
+   "x_ethanol": 0.5,
+   "gamma_ethanol": 1.231417,
+   "gamma_water": 1.485329
+  },
+  {
+   "T_K": 351.15,
+   "x_ethanol": 0.75,
+   "gamma_ethanol": 1.050994,
+   "gamma_water": 1.921495
+  },
+  {
+   "T_K": 351.15,
+   "x_ethanol": 0.95,
+   "gamma_ethanol": 1.002499,
+   "gamma_water": 2.532895
+  }
+ ],
+ "txy_1atm": [
+  {
+   "x_ethanol": 0.0,
+   "T_K": 373.124,
+   "y_ethanol": 0.0
+  },
+  {
+   "x_ethanol": 0.05,
+   "T_K": 362.591,
+   "y_ethanol": 0.34944
+  },
+  {
+   "x_ethanol": 0.1,
+   "T_K": 358.988,
+   "y_ethanol": 0.45016
+  },
+  {
+   "x_ethanol": 0.2,
+   "T_K": 356.255,
+   "y_ethanol": 0.527
+  },
+  {
+   "x_ethanol": 0.3,
+   "T_K": 354.927,
+   "y_ethanol": 0.57015
+  },
+  {
+   "x_ethanol": 0.4,
+   "T_K": 353.927,
+   "y_ethanol": 0.61015
+  },
+  {
+   "x_ethanol": 0.5,
+   "T_K": 353.078,
+   "y_ethanol": 0.65358
+  },
+  {
+   "x_ethanol": 0.6,
+   "T_K": 352.365,
+   "y_ethanol": 0.70253
+  },
+  {
+   "x_ethanol": 0.7,
+   "T_K": 351.806,
+   "y_ethanol": 0.75817
+  },
+  {
+   "x_ethanol": 0.8,
+   "T_K": 351.434,
+   "y_ethanol": 0.82223
+  },
+  {
+   "x_ethanol": 0.85,
+   "T_K": 351.333,
+   "y_ethanol": 0.85851
+  },
+  {
+   "x_ethanol": 0.9,
+   "T_K": 351.305,
+   "y_ethanol": 0.8988
+  },
+  {
+   "x_ethanol": 0.95,
+   "T_K": 351.371,
+   "y_ethanol": 0.94487
+  },
+  {
+   "x_ethanol": 1.0,
+   "T_K": 351.571,
+   "y_ethanol": 1.0
+  }
+ ],
+ "azeotrope_1atm": {
+  "x_ethanol": 0.89216,
+  "mass_fraction_ethanol": 0.95486,
+  "T_K": 351.304
+ }
+}
