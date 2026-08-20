@@ -162,3 +162,254 @@ lv3 = "The equilibrium leftover of Fe(II) is 7.1 × 10⁻⁸ mol/kgw — the 'so
 [reaction.provenance]
 source = "Standard curriculum permanganometry; coupled electron balance and speciation from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "PHREEQC via Kerotakis L2, coupled electron balance (P3e)"
+
+# ------------------------------------------------------- the series itself
+
+[[reaction]]
+id = "the-series-decides-who-plates"
+spine = ["die-spannungsreihe-der-metalle"]
+equation = "Zn + Cu²⁺ → Zn²⁺ + Cu"
+concepts = ["activity-series", "displacement-reactions"]
+requires = ["redox-reactions"]
+apparatus = ["beaker", "thermometer"]
+calculations = ["electron-bookkeeping"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 CuSO4 0.05mol
+add v1 Zn 0.05mol
+"""
+
+[reaction.expect]
+events = ["dissolved:CuSO4", "plated:Cu", "consumed:Zn"]
+ph = { min = 4.9, max = 5.2 }
+temperature_c = { min = 58.5, max = 61.5 }
+
+[reaction.expect.predict]
+question = "A strip of zinc goes into blue copper sulfate solution. What happens?"
+options = [
+  "Nothing — a metal and a dissolved salt have no business with each other without an acid",
+  "Copper metal grows on the zinc, the blue fades, and the beaker gets noticeably hot",
+  "The zinc dissolves, but the copper stays dissolved too — they just swap places on paper",
+]
+answer = 1
+misconception = "The first answer reserves reactivity for acids; the third concedes the equation but not the matter. Displacement is electrons changing owner for real: zinc sits below copper in the series, so it hands its electrons over, dissolves as Zn²⁺, and the copper ions take the electrons and come out of solution as actual metal on the zinc's surface — with 218.7 kJ/mol to show for it."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Reactivity needs an acid: metals answer to sourness, and a mere salt solution has nothing to attack with."
+next = "The attacker is not the acid's proton but any ion below the metal in the series. Watch the beaker: no acid anywhere, and the zinc is consumed while copper plates out — then run `metals-below-hydrogen-fizz`, where the proton takes its turn as just another rung."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "The reaction happens in the equation only — ions swap labels, but nothing in the beaker moves; chemistry as bookkeeping rather than matter."
+next = "Check every observable at once: the blue is gone (the Cu²⁺ that carried it is now metal), the thermometer jumped from 33.7 to 59.9 °C, and `inspect` shows solid copper in the inventory where solid zinc used to be. Paper swaps do not release 218.7 kJ/mol."
+
+[reaction.registers]
+lv1 = "The grey strip goes into the blue water. Slowly the strip grows a brown-pink fur of real copper, the blue fades away, and the beaker gets properly hot. The zinc traded places with the copper — and the trade throws off heat."
+lv2 = "Zn + Cu²⁺ → Zn²⁺ + Cu. Zinc sits below copper in the activity series (E° −0.76 V against +0.34 V), so zinc is oxidised and copper reduced: 0.0500 mol plates out, the solution's blue goes with its Cu²⁺, and the beaker climbs from 33.7 to 59.9 °C — ΔH ≈ −218.7 kJ per mole displaced."
+lv3 = "The extent is decided by bisection on the Nernst cell potential over the activities PHREEQC reports, and the heat by the difference of the ions' formation enthalpies, balanced as enthalpy — nothing lists 'zinc displaces copper' anywhere. The same order answers the selective case: offer a zinc strip both Ag⁺ and Cu²⁺ at once and all the silver plates before any copper does, which the engine's own tests assert. Boundaries, stated: the series speaks of thermodynamics at the electrode, not of rates — passivation, overpotentials and oxidising acids are outside it, and the bench says so where they bite."
+
+[reaction.provenance]
+source = "Standard curriculum displacement chemistry; E° values from the CRC Handbook (Vanýsek), ion formation enthalpies from NBS/Wagman 1982; extent and heat computed, cross-checked against wateq4f's own metal phases to < 1 mV. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities, enthalpy-balanced) via Kerotakis L2"
+
+[[reaction]]
+id = "metals-below-hydrogen-fizz"
+spine = ["die-spannungsreihe-der-metalle"]
+equation = "Mg + 2 H⁺ → Mg²⁺ + H₂"
+concepts = ["activity-series", "hydrogen-as-a-rung"]
+requires = ["activity-series", "acids"]
+apparatus = ["beaker", "ph-meter"]
+calculations = ["electron-bookkeeping"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 HCl 0.1mol
+add v1 Mg 0.02mol
+new
+add v2 water 100mL
+add v2 HCl 0.1mol
+add v2 Cu 0.02mol
+"""
+
+[reaction.expect]
+events = ["gas_evolved:H2", "consumed:Mg", "inert:Cu"]
+ph = { min = 0.1, max = 0.4 }
+
+[reaction.expect.predict]
+question = "Two strips into two beakers of the same hydrochloric acid: magnesium in one, copper in the other. What happens?"
+options = [
+  "Both fizz — acid attacks metal, that is what acid does",
+  "Neither fizzes — solid metal is too tough for a liquid",
+  "Only the magnesium fizzes; the copper sits in acid indefinitely, untouched",
+]
+answer = 2
+misconception = "Both wrong answers treat 'metal' as one substance with one behaviour towards acid. The series is the correction: hydrogen has its own rung (E° = 0 by definition), and only metals below it can push electrons onto protons. Magnesium is far below and fizzes hydrogen; copper is above, so in this acid it has nothing to gain and does exactly nothing — which the bench states as a result, not an absence."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Acid attacks metal, universally — the fizz is a property of the acid, and any metal will do as the victim."
+next = "Run both beakers side by side: the acid is identical, the outcomes are not. The deciding rung is hydrogen's own place in the series — the acid can only oxidise metals that sit below it, and copper does not."
+
+[[reaction.expect.predict.diagnosis]]
+option = 1
+reveals = "Solids outrank liquids: a lump of metal is imagined as simply too substantial for a watery acid to touch."
+next = "Watch the magnesium vessel: 0.0200 mol of hydrogen leaves as gas and the metal is consumed entirely. Toughness is not a chemical category — position in the series is, and the same 'watery acid' that ignores copper eats magnesium completely."
+
+[reaction.registers]
+lv1 = "Same sour liquid, two different metals. The silvery magnesium fizzes furiously and disappears. The copper just sits there, day after day, completely unbothered. Metals take turns by rank — and the acid can only touch the ones below a certain line."
+lv2 = "Mg + 2 H⁺ → Mg²⁺ + H₂↑ (E° Mg²⁺/Mg = −2.37 V, well below hydrogen's 0.00 V): 0.0200 mol of H₂ evolves and the pH climbs from −0.04 to 0.23. Copper (E° +0.34 V, above hydrogen) is reported inert: nothing to gain, nothing happens."
+lv3 = "Two boundaries earn their sentence here. Non-oxidising acids only: nitric acid dissolves copper by a different oxidant (the nitrate), so 'copper resists acid' is a claim about HCl and its kin, and the series as computed here says nothing about HNO₃. And kinetics: thermodynamically even plain water should attack magnesium — drop it in salt water and the bench declines with a stated rate gap rather than either dissolving it or calling it stable. The inert verdict, meanwhile, is an Event, not a silence — the negative result is first-class, in this lab's tradition."
+
+[reaction.provenance]
+source = "Standard curriculum reactivity of metals with acids; E° values from the CRC Handbook (Vanýsek); H⁺/H₂ = 0 V by definition of the standard hydrogen electrode. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities) via Kerotakis L2"
+
+[[reaction]]
+id = "the-silver-tree"
+spine = ["die-spannungsreihe-der-metalle"]
+equation = "Cu + 2 Ag⁺ → Cu²⁺ + 2 Ag"
+concepts = ["activity-series", "displacement-reactions"]
+requires = ["activity-series"]
+apparatus = ["beaker"]
+calculations = ["electron-bookkeeping"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 AgNO3 0.02mol
+add v1 Cu 0.05mol
+"""
+
+[reaction.expect]
+events = ["dissolved:AgNO3", "plated:Ag", "consumed:Cu"]
+ph = { min = 4.0, max = 4.4 }
+
+[reaction.expect.predict]
+question = "A copper wire stands in a colourless silver nitrate solution. What do you see over the next hour?"
+options = [
+  "Nothing — silver is a noble metal, and noble metals do not react",
+  "Silver crystals grow on the wire while the solution turns blue",
+  "The wire dissolves completely and both metals end up in solution",
+]
+answer = 1
+misconception = "'Noble' describes the metal, not the ion — metallic silver resists attack, but a silver ion is silver that has already lost its electron and wants one back, and copper below it in the series is willing to pay. Two silvers plate per copper dissolved (one electron each against copper's two), and the arriving Cu²⁺ brings the blue: the colour change is the electron transfer made visible."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Nobility as a blanket property: silver is unreactive, so anything labelled silver — metal or ion — must stay as it is."
+next = "Separate the metal from its ion: `silver-does-not-stoop` shows metallic silver genuinely refusing copper sulfate, while this beaker shows the silver ION taking electrons eagerly. The nobility belongs to the filled state, not the name — an Ag⁺ is a silver that has already been robbed."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Displacement as mutual dissolution — reactions mix everything into solution; that one metal must leave solution for the other to enter is not in the picture."
+next = "Count the electrons: they have to go somewhere, and the only taker is Ag⁺, which becomes solid metal by accepting them — 0.0200 mol of silver plated for 0.0100 mol of copper dissolved, on the balance and in the inventory. Electrons conserved is why displacement is a swap, never a merger."
+
+[reaction.registers]
+lv1 = "The copper wire grows glittering needles of real silver, like frost — and as the tree grows, the water around it slowly turns blue. The wire is trading itself for silver, one electron at a time."
+lv2 = "Cu + 2 Ag⁺ → Cu²⁺ + 2 Ag: copper (E° +0.34 V) sits below silver (+0.80 V), so copper dissolves and silver plates — 0.0200 mol of Ag for 0.0100 mol of Cu, two-for-one by electron count. The blue is the arriving Cu²⁺; the pH drifts from 6.46 to 4.19 as the new copper ion hydrolyses (`copper-sulfate-is-blue-and-acidic` is that story on its own)."
+lv3 = "The stoichiometry is not written anywhere: one electron per silver against two per copper falls out of the same electron bookkeeping as permanganate's five (`permanganate-counts-in-fives`), and the colour is computed from the curated Cu²⁺ absorptivity, not asserted. The heat is small and real — 23.9 to 27.4 °C from the ions' formation enthalpies. This experiment is the one Faraday's silver coulometer industrialised: the two-for-one is an electron count you can weigh."
+
+[reaction.provenance]
+source = "Standard curriculum displacement (the silver tree); E° values from the CRC Handbook (Vanýsek), formation enthalpies NBS/Wagman 1982. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities, enthalpy-balanced) via Kerotakis L2"
+
+[[reaction]]
+id = "silver-does-not-stoop"
+spine = ["die-spannungsreihe-der-metalle"]
+summary = "The series is an order: metallic silver in copper sulfate does nothing, and the nothing is a computed result"
+concepts = ["activity-series"]
+requires = ["activity-series"]
+apparatus = ["beaker"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 CuSO4 0.01mol
+add v1 Ag 0.02mol
+"""
+
+[reaction.expect]
+events = ["dissolved:CuSO4", "inert:Ag"]
+ph = { min = 4.4, max = 4.7 }
+
+[reaction.expect.predict]
+question = "The silver tree showed copper metal trading itself for silver ions. Now reverse the cast: silver metal into copper sulfate. What happens?"
+options = [
+  "The mirror image — copper plates onto the silver",
+  "Nothing at all, ever: the trade only runs downhill",
+  "It works, but slower, because silver is heavier",
+]
+answer = 1
+misconception = "If A displaces B, learners often expect B to displace A in the right mood — reactions as reversible courtesies. The series is an order, not a mood: electrons run from the lower metal to the higher ion and never back up under these conditions. Silver sits above copper, so silver metal facing Cu²⁺ has nothing to gain, and the bench reports the nothing as a verdict with a reason, not as an empty transcript."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Displacement as a symmetric swap: if copper trades for silver, silver must trade for copper — direction is not part of the rule yet."
+next = "Put both experiments side by side (`the-silver-tree` and this beaker): same pair of metals, opposite castings, and only one direction moves. The order IS the chemistry — E° +0.80 V does not hand electrons to +0.34 V."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Rate reached for where thermodynamics is the barrier: 'slower' keeps the reaction possible, just lazy — the idea that a reaction can be flatly unavailable is missing."
+next = "Wait as long as you like: this is not `why-the-shelf-is-not-on-fire`, where the reaction is downhill and blocked by a barrier. Here there is no downhill — the electron would have to move against the potential difference, and no amount of patience pays that bill. Slow and never are different physics, and this beaker is the second kind."
+
+[reaction.registers]
+lv1 = "Last time, copper gave and silver took. Swap them around — silver metal into blue copper water — and nothing happens. Not slowly: not at all. The trade only ever runs one way down the ladder."
+lv2 = "Ag (E° +0.80 V) above Cu²⁺/Cu (+0.34 V): the cell potential for silver reducing copper is negative, so no reaction — the beaker keeps its blue, its copper stays dissolved, and the silver is reported inert with the potentials in the message."
+lv3 = "The pair of entries is the lesson: `the-silver-tree` and this beaker differ only in which side starts as metal, and the series decides both outcomes from one ordering. The inert verdict is an Event carrying its reason (E° +0.800 V against +0.342 V), which is what lets this codex claim `inert:Ag` and have the lint verify a nothing — a negative result checkable by machine, in the tradition of `a-spark-that-changes-nothing`."
+
+[reaction.provenance]
+source = "Standard curriculum activity series (direction of displacement); E° values from the CRC Handbook (Vanýsek). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities) via Kerotakis L2"
+
+[[reaction]]
+id = "zinc-guards-iron"
+spine = ["korrosion-und-korrosionsschutz"]
+equation = "Zn + Fe²⁺ → Zn²⁺ + Fe"
+concepts = ["activity-series", "sacrificial-protection"]
+requires = ["activity-series"]
+apparatus = ["beaker"]
+calculations = ["electron-bookkeeping"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 FeSO4 0.02mol
+add v1 Zn 0.01mol
+"""
+
+[reaction.expect]
+events = ["dissolved:FeSO4", "plated:Fe", "consumed:Zn"]
+ph = { min = 4.0, max = 4.4 }
+
+[reaction.expect.predict]
+question = "A lump of zinc sits in iron(II) sulfate solution. What happens — and why do steel ship hulls carry bolted-on zinc blocks?"
+options = [
+  "Nothing; zinc and iron are too similar to bother each other",
+  "Iron metal plates out while the zinc dissolves — zinc gives its electrons first, which is exactly the sacrifice the hull block makes",
+  "The zinc rusts instead of the iron, because rust prefers the more reactive metal",
+]
+answer = 1
+misconception = "The third answer has the right instinct dressed in the wrong mechanism: nothing 'prefers' — zinc simply sits below iron in the series, so wherever electrons are demanded, zinc pays before iron does. In this beaker that means dissolved iron is pushed back to metal at zinc's expense; on a hull it means the corrosion current drains the replaceable block instead of the irreplaceable plate. Same ordering, same sacrifice."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Similar metals, no chemistry: reactivity differences are imagined to need drama — acid against metal, not grey against grey."
+next = "The gap only has to be nonzero: −0.76 V against −0.45 V is enough for every last iron ion here. `inspect` afterwards: 0.0100 mol of iron plated out, the zinc gone into solution — a third of a volt, fully spent."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Rust as an agent with preferences, hopping to the more reactive metal — protection imagined as decoy behaviour rather than as electron bookkeeping."
+next = "Replace 'prefers' with a direction: electrons flow from the lower metal up to whatever is being reduced. The zinc block corrodes *because* it is the electron source of least resistance — no preference, just the same ordering that made iron plate out in this beaker."
+
+[reaction.registers]
+lv1 = "The zinc lump slowly gives itself away, and grey iron fur grows where it stood. On a ship it is the same trick: bolt on a lump of zinc and the sea eats the lump instead of the hull — a bodyguard that takes the hit on purpose."
+lv2 = "Zn + Fe²⁺ → Zn²⁺ + Fe (E° −0.76 V below −0.45 V): 0.0100 mol of iron plates onto the dissolving zinc. Sacrificial protection is this reaction run as a maintenance plan — the zinc is cheaper to replace than the steel it guards."
+lv3 = "This is P3e's 'why zinc protects iron', answered by computation rather than assertion: the direction falls out of the same Nernst comparison as every other pairing in the series. Honesty notes: real hull protection is an electrochemical cell with oxygen at the cathode, richer than this single beaker; and the fresh iron chemistry here sits near known engine boundaries (a supersaturation this registry cannot name may be reported), so this entry pins amounts and pH, not potentials."
+
+[reaction.provenance]
+source = "Standard curriculum corrosion protection (sacrificial anodes); E° values from the CRC Handbook (Vanýsek). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities) via Kerotakis L2"

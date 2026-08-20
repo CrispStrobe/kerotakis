@@ -13,6 +13,8 @@
 import { spawn } from "node:child_process";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { extname, join, resolve } from "node:path";
 
 const [siteDir, portArg] = process.argv.slice(2);
@@ -55,34 +57,69 @@ const SCRIPT = [
 ].join(";");
 const url = `http://127.0.0.1:${PORT}/index.html#run=${encodeURIComponent(SCRIPT)}`;
 
+// A persistent profile carries the service-worker registration between
+// the two renders: first load online (the worker installs and precaches),
+// second load with the server gone — offline-first, proven rather than
+// claimed.
+const profile = mkdtempSync(join(tmpdir(), "kero-profile-"));
+
 async function render(bin) {
     return new Promise((res, rej) => {
         const p = spawn(bin, [
             "--headless=new", "--disable-gpu", "--no-sandbox",
+            "--no-first-run", "--no-default-browser-check",
+            `--user-data-dir=${profile}`,
             "--virtual-time-budget=120000", "--dump-dom", url,
         ]);
         let dom = "";
+        let done = false;
+        // `--dump-dom` writes the document and can then linger: with a
+        // persistent profile, the service-worker process keeps new-headless
+        // alive past the dump. The dump ending is the completion signal;
+        // the process close is not to be waited for.
+        const finish = () => {
+            if (done) return;
+            done = true;
+            clearTimeout(guard);
+            try { p.kill("SIGKILL"); } catch { /* already gone */ }
+            res(dom);
+        };
+        const guard = setTimeout(finish, 240000);
         p.stdout.on("data", (d) => (dom += d));
-        p.on("error", rej);
-        p.on("close", () => res(dom));
+        p.stdout.on("end", finish);
+        p.on("close", finish);
+        p.on("error", (e) => {
+            if (done) return;
+            done = true;
+            clearTimeout(guard);
+            rej(e);
+        });
     });
 }
 
+let chrome = null;
 let dom = null;
 for (const bin of CHROME_CANDIDATES) {
     try {
         dom = await render(bin);
+        chrome = bin;
         break;
     } catch {
         /* try the next one */
     }
 }
-server.close();
 
 if (dom === null) {
+    server.close();
+    rmSync(profile, { recursive: true, force: true });
     console.error("no Chrome found; set CHROME_PATH");
     process.exit(2);
 }
+
+// Second render: the server is gone, the cache is all there is.
+server.close();
+const offlineDom = await render(chrome);
+rmSync(profile, { recursive: true, force: true });
 
 const m = /<div id="transcript">([\s\S]*?)<\/div>\s*<aside/.exec(dom);
 const transcript = m
@@ -109,5 +146,15 @@ check(
     "and the too-dilute complex is named rather than dropped",
     /present below one glyph/.test(transcript),
 );
+
+// Offline-first is the premise, so it gets its own assertions: with the
+// server dead, the service worker's cache must still boot the page, start
+// the engine, and solve the same experiment.
+const offStatus = /<span id="status" class="(\w+)">/.exec(offlineDom);
+const offM = /<div id="transcript">([\s\S]*?)<\/div>\s*<aside/.exec(offlineDom);
+const offTranscript = offM ? offM[1].replace(/<[^>]+>/g, "\n") : "";
+check("offline: the page still boots from the worker's cache", offM !== null);
+check("offline: the engine still reports live", offStatus?.[1] === "live");
+check("offline: the precipitate still forms", /silver chloride precipitated/.test(offTranscript));
 
 process.exit(failures === 0 ? 0 : 1);
