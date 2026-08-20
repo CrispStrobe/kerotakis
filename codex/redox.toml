@@ -743,3 +743,55 @@ lv3 = "The bench's own verdict is the entry's thesis, verbatim: 'zinc should dis
 [reaction.provenance]
 source = "Standard curriculum accumulators (charge as reverse reaction); hydrogen overpotential on zinc ~0.72 V curated (standard electrochemistry), applied as a kinetic gate on the series' verdict; the sulfate/chloride activity effects computed. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "Kerotakis cell + electrolysis operators over PHREEQC via Kerotakis L2; the deposit's fate by the displacement layer under the curated overpotential gate"
+
+[[reaction]]
+id = "lead-stands-in-its-own-acid"
+spine = ["akkumulatoren"]
+summary = "Lead sits below hydrogen in the series, yet a car battery's plates stand in acid for years — the +0.13 V driving force cannot pay hydrogen's ~0.88 V overpotential on lead, and that unpaid bill is the battery's existence"
+concepts = ["accumulators", "activity-series"]
+requires = ["activity-series"]
+apparatus = ["beaker"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 HCl 0.1mol
+add v1 Pb 0.02mol
+new
+add v2 water 100mL
+add v2 Pb(NO3)2 0.01mol
+add v2 Zn 0.02mol
+"""
+
+[reaction.expect]
+events = ["inert:Pb", "plated:Pb", "consumed:Zn"]
+ph = { min = -0.15, max = 0.05 }
+
+[reaction.expect.predict]
+question = "A car battery is lead plates standing in strong acid, for years. Lead sits below hydrogen in the activity series, so the acid should dissolve it. Why doesn't it?"
+options = [
+  "The series is simply wrong about lead",
+  "Kinetics: hydrogen formation on lead costs about 0.88 V of overpotential, far more than the +0.13 V the acid offers — blocked, not absent",
+  "The plates get a protective factory coating that keeps the acid off",
+]
+answer = 1
+misconception = "When an observation contradicts a rule, the tempting moves are to discard the rule or to invent a protector. Neither is needed: the series is an equilibrium statement and it is right — lead in acid is downhill. It is also barely downhill (+0.13 V), and the reaction's necessary first product, hydrogen gas on a lead surface, carries an activation toll of ~0.88 V. The bill exceeds the budget, so the reaction is blocked on any human timescale. The battery exists inside that gap."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Rules are right or wrong, never bounded: one contradicting observation and the series is discarded, rather than asked what it actually claims."
+next = "Test the series where no kinetic gate applies: v2 — lead plates out of its own ions onto zinc, 0.0100 mol, exactly the direction the ordering demands. The series is right about where equilibrium lies; it never claimed to be a clock, and this beaker pair is the difference."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Inertness needs an agent: 'nothing happens' must be caused by a thing — a coating, an additive — rather than by a barrier in the reaction's own mechanism."
+next = "No coating is modelled and none is invoked: the barrier is the surface chemistry of forming H₂ on lead itself, and the bench states the arithmetic — +0.13 V offered, ~0.88 V demanded. A century and a half of lead-acid batteries stands on that gap, not on a factory step."
+
+[reaction.registers]
+lv1 = "A car battery is metal standing in strong acid — for years on end. The acid would love to eat the lead, but making gas bubbles on lead is so hard that nothing happens at all. The battery exists because of that nothing."
+lv2 = "v1: lead in acid is reported inert — driving force +0.13 V against ~0.88 V of hydrogen overpotential on lead; no gas, no dissolution, pH unmoved. v2: the same series still works when kinetics allows it — Zn below Pb, so 0.0100 mol of lead plates onto the dissolving zinc."
+lv3 = "The comparison with zinc is the design lesson: zinc's grace is 0.03 V (`charging-fights-the-series` slips that leash with molar acid); lead's is ~0.75 V — the widest safe margin of any cheap metal below hydrogen, which is why lead was THE accumulator metal for a hundred and sixty years. Honesty: the overpotential is a curated kinetic constant with 'timescale of a lesson' as its stated scope, and the verdict here rests on it alone — real lead in sulfuric acid additionally grows a lead-sulfate film this bench does not model, so the real battery is even better protected than this beaker."
+
+[reaction.provenance]
+source = "Standard curriculum lead-acid accumulator chemistry; hydrogen overpotential on lead ~0.88 V curated (standard electrochemistry); E° values CRC Handbook (Vanýsek). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis displacement layer under the curated overpotential gate, over PHREEQC via Kerotakis L2"
