@@ -381,7 +381,9 @@ wrongly. The comparison should also say how much the datasets even
 share: only 22 of 696 mineral phases exist in all three, so three
 answers are partly answers about *different admissible solids*, not
 three opinions about one activity model — a sentence the `explain`
-rendering should carry rather than leave the reader to infer. This is the honesty rule taken to its conclusion: not "here is the
+rendering now carries, fed by `derived::phase_coverage()`, whose numbers
+are pinned by a test so that a vendored-database bump forces the
+sentence to be re-read rather than silently reprinted. This is the honesty rule taken to its conclusion: not "here is the
 number" but "here is the number, here is what computed it, here is where
 that came from, and here is what the alternatives say." It is also the
 expert register's deepest layer and, for the codex, the model for how

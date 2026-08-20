@@ -401,6 +401,21 @@ fn explain_text(
                         }
                     }
                 }
+                // Three answers are partly answers about different
+                // admissible solids, not three opinions about one activity
+                // model — say so rather than leave the reader to infer it.
+                let coverage = kerotakis_phreeqc::derived::phase_coverage();
+                writeln!(
+                    out,
+                    "  note: only {} of {} mineral phases exist in every dataset, so the answers",
+                    coverage.shared, coverage.total
+                )
+                .unwrap();
+                writeln!(
+                    out,
+                    "  can differ in which solids they may form, not only in activity model"
+                )
+                .unwrap();
             }
         }
     }

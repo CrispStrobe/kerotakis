@@ -196,10 +196,15 @@ fn bench_output_is_the_cli_json_contract() {
         "expected AgCl to precipitate"
     );
 
-    // The answer explains itself: which engine, which dataset.
+    // The answer explains itself: which engine, which dataset — and how
+    // comparable the datasets even are.
     let (text, is_error) = s.call("explain", serde_json::json!({ "vessel": "v1" }));
     assert!(!is_error, "{text}");
     assert!(text.contains("answered by"), "{text}");
+    assert!(
+        text.contains("mineral phases exist in every dataset"),
+        "the comparability note is part of the answer: {text}"
+    );
 
     std::fs::remove_dir_all(&dir).ok();
 }

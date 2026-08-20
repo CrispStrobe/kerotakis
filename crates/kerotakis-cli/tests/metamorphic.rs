@@ -4,13 +4,19 @@
 //! the `--json` contract, so what is checked is what every client sees.
 
 use std::process::Command;
+use std::sync::atomic::{AtomicUsize, Ordering};
+
+/// Distinguishes concurrent `run` calls: test threads run in parallel, and
+/// a content-derived name once collided (two scenarios share a script), so
+/// one thread removed the directory the other was writing into.
+static CASE: AtomicUsize = AtomicUsize::new(0);
 
 /// Run a script through `kero run --json` and parse the step stream.
 fn run(script: &str) -> Vec<serde_json::Value> {
     let dir = std::env::temp_dir().join(format!(
-        "kero-meta-{}-{:x}",
+        "kero-meta-{}-{}",
         std::process::id(),
-        script.len() + script.as_bytes().iter().map(|b| *b as usize).sum::<usize>()
+        CASE.fetch_add(1, Ordering::Relaxed)
     ));
     std::fs::create_dir_all(&dir).unwrap();
     let lab = dir.join("case.lab");
