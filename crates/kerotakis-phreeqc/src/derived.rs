@@ -71,7 +71,7 @@ fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
 /// else left over (N, S, C, P outside a group; unbalanced O) means the
 /// compound's aqueous chemistry is not derivable — honestly unmappable.
 const RESIDUE_OK: &[&str] = &[
-    "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cl", "Br", "F", "Cu", "Mn", "Fe", "Zn",
+    "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cl", "Br", "F", "Cu", "Mn", "Fe", "Zn", "Pb",
 ];
 
 /// The subset of `RESIDUE_OK` that forms simple cations.
@@ -85,7 +85,7 @@ const RESIDUE_OK: &[&str] = &[
 /// oxygen guard was protecting against, rather more broadly than it needed
 /// to: it rejected every simple metal oxide in the databases.
 const CATION_RESIDUE: &[&str] = &[
-    "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cu", "Mn", "Fe", "Zn",
+    "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cu", "Mn", "Fe", "Zn", "Pb",
 ];
 
 /// How dissolved element totals are booked back into the vessel inventory:
