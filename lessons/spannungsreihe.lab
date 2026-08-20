@@ -1,0 +1,38 @@
+# Die Spannungsreihe: who takes the electrons, and what a battery is worth
+# Part 1 — displacement: a more reactive metal pushes a less reactive one out of solution
+register lv1
+add v1 water 100mL
+add v1 CuSO4 0.01mol
+add v1 Mg 0.5g
+look v1
+measure v1 temp
+# Part 2 — the other way round does nothing, and the lab says why
+register lv2
+new
+add v2 water 100mL
+add v2 CuSO4 0.01mol
+add v2 Ag 0.02mol
+# Part 3 — metals and acid: below hydrogen fizzes, above hydrogen sits
+new
+add v3 water 100mL
+add v3 HCl 0.1mol
+add v3 Cu 0.02mol
+add v3 Mg 0.02mol
+# Part 4 — the series as a voltmeter reading: the Daniell cell
+new
+add v4 water 100mL
+add v4 ZnSO4 0.01mol
+add v4 Zn 0.05mol
+new
+add v5 water 100mL
+add v5 CuSO4 0.01mol
+add v5 Cu 0.05mol
+cell v4 v5
+# Part 5 — the same cell, ten times less copper: Nernst, over activities
+register lv3
+new
+add v6 water 100mL
+add v6 CuSO4 0.001mol
+add v6 Cu 0.05mol
+cell v4 v6
+cell v5 v6
