@@ -610,3 +610,33 @@ fn a_vessel_exposes_its_electrode() {
     let (bench, _) = run(&[("NaCl", 0.1), ("Cu", 0.05)]);
     assert!(displacement::electrode(vessel(&bench)).is_none());
 }
+
+/// Two copper electrodes, two strengths of copper sulfate: E° cancels
+/// exactly and what is left is the Nernst term alone — a few tens of
+/// millivolts, with the dilute side as the anode, because copper there
+/// would rather dissolve to raise its ion than the strong side would. The
+/// purest demonstration that the voltage is made of activities.
+#[test]
+fn a_concentration_cell_is_the_nernst_term_alone() {
+    let (mut bench, mut stack) = half_cells(("Cu", "CuSO4", 0.01), ("Cu", "CuSO4", 0.1));
+    let events = wire(&mut bench, &mut stack);
+    let (anode, volts, standard) = events
+        .iter()
+        .find_map(|e| match e {
+            Event::CellVoltage {
+                anode,
+                volts,
+                standard_volts,
+                ..
+            } => Some((*anode, *volts, *standard_volts)),
+            _ => None,
+        })
+        .unwrap_or_else(|| panic!("{events:?}"));
+    assert_eq!(standard, 0.0, "same couple both sides: E° cancels");
+    assert_eq!(anode, VesselId(0), "the dilute side is the anode");
+    assert!(
+        (0.005..0.040).contains(&volts),
+        "a tenfold concentration cell is tens of millivolts, got {:.1} mV",
+        volts * 1000.0
+    );
+}
