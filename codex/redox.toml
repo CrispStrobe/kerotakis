@@ -413,3 +413,173 @@ lv3 = "This is P3e's 'why zinc protects iron', answered by computation rather th
 [reaction.provenance]
 source = "Standard curriculum corrosion protection (sacrificial anodes); E° values from the CRC Handbook (Vanýsek). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities) via Kerotakis L2"
+
+# ---------------------------------------------------------- cells: the
+# series with a voltmeter attached
+
+[[reaction]]
+id = "the-daniell-cell-offers-its-voltage"
+spine = ["die-elektrochemie", "batterien"]
+summary = "Two half-cells and a salt bridge: the Daniell cell reads 1.104 V open-circuit — the distance between two rungs of the series, offered before any current flows"
+concepts = ["galvanic-cells", "activity-series"]
+requires = ["activity-series"]
+apparatus = ["beaker", "voltmeter"]
+calculations = ["cell-potential"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 ZnSO4 0.01mol
+add v1 Zn 0.05mol
+new
+add v2 water 100mL
+add v2 CuSO4 0.01mol
+add v2 Cu 0.05mol
+cell v1 v2
+"""
+
+[reaction.expect]
+events = ["cell_voltage"]
+ph = { min = 5.35, max = 5.65 }
+
+[reaction.expect.predict]
+question = "Zinc stands in zinc sulfate, copper in copper sulfate, a salt bridge between them and a voltmeter across the metals. What does the meter read?"
+options = [
+  "0 V — the metals never touch, so no chemistry connects them",
+  "About 1.1 V — the distance between the two metals' rungs on the series",
+  "About 0.4 V — the average of the two electrode potentials",
+]
+answer = 1
+misconception = "A voltage is a *difference*, not an average and not a contact: each metal sits at its own electrode potential against its own ions, and the meter reads the gap — E°(Cu²⁺/Cu) − E°(Zn²⁺/Zn) = 0.34 − (−0.76) ≈ 1.10 V. The displacement reaction and the battery are the same chemistry: put the metals in one beaker and the electrons jump directly as heat; separate the half-cells and the same electrons must take the wire, where they can be made to work."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Reaction requires contact: the metals never meet, so nothing can happen — the circuit as a whole is not yet the unit of chemistry."
+next = "Follow one electron's options: it leaves the zinc either directly onto a Cu²⁺ at the metal's surface (`the-series-decides-who-plates`, which turned the gap into 218.7 kJ/mol of heat) or through the wire to the copper electrode, doing the same chemistry at a distance. The salt bridge closes the loop of charge; the wire is where the trade becomes measurable."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Potentials are averaged rather than subtracted — two numbers on a chart combine the way marks on a test do."
+next = "Check the sign convention against the beaker: the meter reads which way electrons *want* to flow, and a want is a difference. The bench prints the arithmetic with the verdict: E° +0.342 minus −0.762 gives the 1.104 V it reports, electrons offered from v1 to v2."
+
+[reaction.registers]
+lv1 = "Two jars, two metals, a paper bridge of salt water, and a meter between them: it reads a real voltage — a battery made of nothing but the two metals' different appetites for electrons."
+lv2 = "Zn | Zn²⁺ ‖ Cu²⁺ | Cu: E = E°(cathode) − E°(anode) = 0.34 − (−0.76) ≈ 1.10 V, and the bench reads 1.104 V open-circuit. This is Daniell's cell of 1836 — the displacement reaction of `the-series-decides-who-plates` with the two halves separated, so the electrons take the wire."
+lv3 = "Open-circuit, and the bench says so: this is the voltage the cell *offers*, not what it delivers under load — current would drop it by internal resistance and polarisation, neither modelled here, and the report states as much. The 1.104 V is Nernst over the activities PHREEQC computes for each side (E° alone gives 1.1037; the two 0.01 mol/kgw solutions nearly cancel each other's corrections). Both half-cells sit within half a degree of 25 °C at these amounts — at 0.1 mol the dissolution heat would put the two electrodes at different temperatures, which is why this entry uses the dilute version."
+
+[reaction.provenance]
+source = "Standard curriculum electrochemistry (the Daniell cell, 1836); E° values from the CRC Handbook (Vanýsek). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis cell operator (Nernst over PHREEQC activities per half-cell) via Kerotakis L2"
+
+[[reaction]]
+id = "dilution-buys-less-than-the-slide-rule-says"
+spine = ["die-elektrochemie"]
+summary = "Tenfold dilution of the copper side costs 18.2 mV, not the Nernst slide-rule's 29.6 — the equation is exact over activities, and the concentrations are not the activities"
+concepts = ["nernst-over-activities", "galvanic-cells"]
+requires = ["galvanic-cells", "formal-potential"]
+apparatus = ["beaker", "voltmeter"]
+calculations = ["cell-potential"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 ZnSO4 0.01mol
+add v1 Zn 0.05mol
+new
+add v2 water 100mL
+add v2 CuSO4 0.01mol
+add v2 Cu 0.05mol
+cell v1 v2
+new
+add v3 water 100mL
+add v3 CuSO4 0.001mol
+add v3 Cu 0.05mol
+cell v1 v3
+"""
+
+[reaction.expect]
+events = ["cell_voltage"]
+ph = { min = 5.35, max = 5.65 }
+
+[reaction.expect.predict]
+question = "The textbook exercise: dilute the copper side of a Daniell cell tenfold, and E falls by 0.0592/2 volts per decade — 29.6 mV. The bench dilutes and reads the meter. By how much did the voltage actually fall?"
+options = [
+  "Exactly 29.6 mV — the Nernst equation is an equation",
+  "18.2 mV — noticeably less, because the free copper activity fell by a factor nearer 4 than 10",
+  "Nothing — dilution changes how much copper there is, not what copper is",
+]
+answer = 1
+misconception = "The Nernst equation IS exact — over activities. The slide-rule version quietly substitutes concentrations, which assumes the activity corrections cancel between the two solutions. They do not: in the stronger solution much of the copper is paired with sulfate, so tenfold less total copper is only about fourfold less *free* Cu²⁺, and the logarithm sees the four. The second witness clinches it: a copper–silver cell reads 0.445 V at 0.01 mol but 0.483 V at 0.1 — the deviation changes sign with concentration, so no 'always a bit less' patch-rule survives."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The equation as printed is the physics: concentrations go into the log because that is where the book put them — the activity footnote never made it into working memory."
+next = "This lab has taught the same lesson three times with different meters: `ph-is-not-quite-minus-log-c` (the pH electrode), `half-oxidised-iron-reads-its-own-potential` (the redox electrode), and now the whole cell. Look at v2's lv3 speciation: the CuSO₄ ion pair holds a third of the copper, and the pinned engine test asserts the drop is less than ideal rather than any particular number — the deviation is the chemistry."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Voltage as identity: what a metal 'is' sets its potential, and amount is bookkeeping — the log term has no physical meaning attached."
+next = "Run the strongest counterexample first (`a-battery-from-nothing-but-imbalance`): two identical copper electrodes, nothing different but the concentration, and a real 18 mV appears. If amount didn't move potentials, that cell would read zero forever."
+
+[reaction.registers]
+lv1 = "Water down one side of the battery and its push gets weaker — but less weak than the rule of thumb promised. The beaker knows something the slide rule doesn't: how much of the copper is really free."
+lv2 = "E = E° − (0.0592/2)·log(a(Zn²⁺)/a(Cu²⁺)). Tenfold less total copper should cost 29.6 mV if concentration were activity; the bench reads 1.104 → 1.086 V, a drop of 18.2 mV, because sulfate pairing means the free-Cu²⁺ ratio between the two solutions is nearer 4 than 10."
+lv3 = "The fails_at of the concentration-form Nernst, written as chemistry: in molar-strength sulfate media the ion pair CuSO₄(aq) carries a large share of the copper, and the share *changes with dilution*, so no fixed correction rescues the concentration form. The engine's regression test deliberately asserts an inequality (drop < ideal) rather than 18.2 mV, because the honest claim is the mechanism, not this scenario's number. The copper–silver pair supplies the sign-flip witness (0.445 V at 0.01 mol, 0.483 V at 0.1, against E° 0.458): at low concentration the n=1 silver term dominates the deficit, at high concentration the sulfate-starved copper term overpowers it."
+
+[reaction.provenance]
+source = "Standard curriculum Nernst equation; E° values from the CRC Handbook (Vanýsek); activity corrections from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis cell operator (Nernst over PHREEQC activities per half-cell) via Kerotakis L2"
+
+[[reaction]]
+id = "a-battery-from-nothing-but-imbalance"
+spine = ["die-elektrochemie"]
+summary = "A concentration cell: identical copper electrodes, tenfold different solutions — E° cancels to 0.000 and the meter still reads 18 mV, the Nernst term standing alone"
+concepts = ["concentration-cells", "nernst-over-activities"]
+requires = ["galvanic-cells"]
+apparatus = ["beaker", "voltmeter"]
+calculations = ["cell-potential"]
+
+[reaction.setup]
+script = """
+add v1 water 100mL
+add v1 CuSO4 0.001mol
+add v1 Cu 0.05mol
+new
+add v2 water 100mL
+add v2 CuSO4 0.01mol
+add v2 Cu 0.05mol
+cell v1 v2
+"""
+
+[reaction.expect]
+events = ["cell_voltage"]
+ph = { min = 4.75, max = 5.0 }
+
+[reaction.expect.predict]
+question = "Same metal both sides, same salt both sides — copper in copper sulfate twice, only the concentration differing tenfold. The voltmeter reads…"
+options = [
+  "0 V — identical electrodes cannot disagree about anything",
+  "About 18 mV, with the dilute side as the negative pole",
+  "About 1.1 V — two beakers and a bridge make a Daniell cell whatever is in them",
+]
+answer = 1
+misconception = "The standard potentials cancel identically — E° = 0.000, and the bench prints it — yet a real voltage remains, because the Nernst term reads the imbalance itself: the dilute side dissolves copper to gain ions and the strong side plates copper to shed them, the cell literally running on the urge to even out. A battery needs a difference, and a difference in concentration is a difference."
+
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Potential belongs to the substance: identical metals, identical potentials, zero forever — concentration has no seat at the electrode."
+next = "Read the bench's own arithmetic: E° = 0.000 exactly, E = 0.018 V anyway. The whole reading is the log term — cover the E° column of the table with your thumb and this cell works exactly the same, which no cell built on 'the metals differ' can say."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Any two beakers wired up make 'the battery from the book' — the apparatus is the cause, and 1.1 V is what apparatus of this shape produces."
+next = "The 1.104 V belonged to a specific pair of rungs, not to the glassware (`the-daniell-cell-offers-its-voltage`). Same glassware, same bridge, copper both sides: sixty times less voltage. The series sets the big number; here the series contributes nothing and the leftover is pure Nernst."
+
+[reaction.registers]
+lv1 = "Two jars of the same blue water — one strong, one weak — copper in both, bridge between. The meter still reads something! The strong side wants to give copper away, the weak side wants more: wanting-to-even-out is enough to make electricity."
+lv2 = "Cu | Cu²⁺(0.001) ‖ Cu²⁺(0.01) | Cu: E° cancels to 0.000 and E = (0.0592/2)·log(a₂/a₁) — the bench reads 0.018 V with the dilute side as anode. A concentration cell is the Nernst equation with everything else subtracted out."
+lv3 = "The cleanest 'the number is the activities' witness this bench can stage: no table value survives into the answer, so the 18.4 mV is entirely the computed activity ratio (which is why it is not the ideal 29.6/2-per-decade value either — the same pairing correction as `dilution-buys-less-than-the-slide-rule-says`). The direction is the second lesson: the *dilute* side is the anode, dissolving its own electrode to catch up — matter moving to erase a gradient, read out in volts. Nerve cells and pH electrodes run on this identical principle."
+
+[reaction.provenance]
+source = "Standard curriculum concentration cells; E° cancellation is exact by construction; activities from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis cell operator (Nernst over PHREEQC activities per half-cell) via Kerotakis L2"

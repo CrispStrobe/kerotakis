@@ -56,6 +56,16 @@ Computed, not scripted:
 - **Fire**: chalk calcines to quicklime when heated hard enough (the
   decomposition temperature is computed, not assumed), and magnesium burns at
   ~3000 K, *gaining* mass because the oxygen came from the air.
+- **The activity series, computed**: zinc pushes copper out of solution
+  (218.7 kJ/mol of heat with it), copper shrugs off acid but trades
+  itself for silver, and a sacrificial zinc block guards iron — each
+  verdict, including the refusals, decided by Nernst over computed
+  activities rather than a stored table of who beats whom. Two
+  half-cells make a battery: the Daniell cell offers 1.104 V
+  open-circuit, tenfold dilution costs 18.2 mV rather than the
+  textbook 29.6 (the activities are not the concentrations), and two
+  beakers differing only in concentration read a real 18 mV from
+  imbalance alone.
 - **Colour, from absorption spectra rather than a tint per substance.**
   Absorbances add and Beer–Lambert is applied over the CIE 1931 observer,
   so mixtures compose the way a beaker composes them, the depth of liquid
@@ -190,8 +200,8 @@ browser** (`kerotakis-wasm`), with thermal chemistry live and aqueous answers
 from pre-warmed results — a state nobody pre-computed is reported as a stated
 miss rather than guessed at.
 
-The codex holds **94 reaction entries, 28 models and 146 concepts**, anchored
-to a 189-topic CC0 curriculum spine (45 covered; `kero codex gaps` prints the
+The codex holds **97 reaction entries, 28 models and 149 concepts**, anchored
+to a 189-topic CC0 curriculum spine (46 covered; `kero codex gaps` prints the
 rest). Every numeric claim in it is replayed through the real solvers by
 `kero codex lint` in CI, so a curation error cannot merge and a solver change
 that breaks a lesson is caught the same day.
