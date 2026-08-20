@@ -154,11 +154,16 @@ pub const DB_TAGS: [&str; 3] = ["wateq4f", "minteq.v4", "pitzer"];
 /// disagreement is not a disagreement about thermodynamics at all: it is
 /// one dataset being unable to precipitate a solid another one defines.
 /// A renderer that shows the three answers should be able to say so.
+///
+/// Gas phases are excluded. The claim being made is about which *solids* a
+/// dataset may form, and `CO2(g)` is not one — it is also one of the 22
+/// names all three datasets happen to share, so counting it would inflate
+/// exactly the number the sentence leans on.
 #[derive(Debug, Clone)]
 pub struct PhaseCoverage {
-    /// Distinct phase names across every dataset.
+    /// Distinct mineral names across every dataset.
     pub total: usize,
-    /// Phase names present in *every* dataset.
+    /// Mineral names present in *every* dataset.
     pub shared: usize,
     /// `(tag, count)` per dataset, in `DB_TAGS` order.
     pub per_database: Vec<(&'static str, usize)>,
@@ -168,9 +173,16 @@ pub struct PhaseCoverage {
 /// reachable from `derived()` is how we deadlocked this module once before.
 pub fn phase_coverage() -> PhaseCoverage {
     let idx: Vec<&DbIndex> = DB_TAGS.iter().map(|t| index_for(t)).collect();
+    fn minerals(i: &'static DbIndex) -> Vec<&'static str> {
+        i.phases
+            .iter()
+            .filter(|(_, info)| !info.is_gas)
+            .map(|(n, _)| n.as_str())
+            .collect()
+    }
     let mut names: BTreeSet<&str> = BTreeSet::new();
     for i in &idx {
-        names.extend(i.phases.keys().map(String::as_str));
+        names.extend(minerals(i));
     }
     PhaseCoverage {
         shared: names
@@ -181,7 +193,7 @@ pub fn phase_coverage() -> PhaseCoverage {
         per_database: DB_TAGS
             .iter()
             .zip(&idx)
-            .map(|(t, i)| (*t, i.phases.len()))
+            .map(|(t, i)| (*t, minerals(i).len()))
             .collect(),
     }
 }
@@ -577,11 +589,26 @@ mod tests {
     #[test]
     fn phase_coverage_reports_how_little_the_datasets_share() {
         let c = phase_coverage();
-        assert_eq!(c.total, 696, "distinct phases across all three datasets");
-        assert_eq!(c.shared, 22, "phases every dataset defines");
+        assert_eq!(c.total, 672, "distinct minerals across all three datasets");
+        assert_eq!(c.shared, 21, "minerals every dataset defines");
         assert_eq!(
             c.per_database,
-            vec![("wateq4f", 304), ("minteq.v4", 552), ("pitzer", 70)]
+            vec![("wateq4f", 296), ("minteq.v4", 537), ("pitzer", 63)]
+        );
+        // Gases are excluded, and one of them would otherwise land in the
+        // shared count: all three datasets define CO2(g). Counting phases
+        // rather than minerals reads as 22 of 696, which overstates both
+        // the agreement and the shelf it is agreement about.
+        let idx: Vec<_> = DB_TAGS.iter().map(|t| index_for(t)).collect();
+        let mut every: BTreeSet<&str> = BTreeSet::new();
+        for i in &idx {
+            every.extend(i.phases.keys().map(String::as_str));
+        }
+        assert_eq!(every.len(), 696, "phases, gases included");
+        assert_eq!(every.iter().filter(|n| n.ends_with("(g)")).count(), 24);
+        assert!(
+            idx.iter().all(|i| i.has_phase("CO2(g)")),
+            "CO2(g) is shared by all three, so it inflates the shared count"
         );
         // The point the renderer needs to be able to make: agreement is the
         // exception, so three answers are partly about three different
