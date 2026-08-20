@@ -270,3 +270,50 @@ fn dissolution_heat_does_not_depend_on_order() {
         final_t[1],
     );
 }
+
+/// Hess's law, with a reagent arriving into a beaker that is no longer at
+/// room temperature.
+///
+/// The sibling test above swaps two salts into cold water, where every
+/// addition happens at 25 °C and the mixing term is zero. This one is the
+/// case that broke: caustic soda warms the beaker by ten degrees, and the
+/// acid then enters at 25 °C into a hot solution. Adding the acid first
+/// gave 35.68 °C and adding it second gave 35.49 °C — same reagents, same
+/// final solution, 0.19 K apart.
+///
+/// The cause was heat capacity appearing and vanishing. Dissolved matter
+/// carries none in this model, so an acid credited with a liquid's Cp while
+/// it mixed was stripped of it the moment the solver called it chloride,
+/// and the sensible heat that Cp was holding went with it. Balancing
+/// enthalpy across the solve — a relabelling of matter cannot change an
+/// adiabatic vessel's enthalpy — gives it back, and both orders land on
+/// T₀ + q/Cp(water).
+///
+/// NOTE the number this test does *not* check. Neutralisation enthalpy is
+/// not modelled, so both paths are short of a real bench by about 13 K
+/// (−57.3 kJ/mol over 0.1 mol). Hess's law holding is a statement about the
+/// two paths agreeing, and they now agree exactly; it is not yet a claim
+/// that either is the right temperature.
+#[test]
+fn hess_holds_when_a_reagent_arrives_into_a_warm_beaker() {
+    let mut s = stack();
+    let mut final_t = Vec::new();
+    let (acid, base) = (("HCl", 0.1), ("NaOH", 0.100_007_5));
+    for order in [[acid, base], [base, acid]] {
+        let mut bench = Bench::new();
+        let v = VesselId(0);
+        add(&mut bench, &mut s, v, "water", 5.534_276_991_396_059);
+        for (species, moles) in order {
+            add(&mut bench, &mut s, v, species, moles);
+        }
+        final_t.push(bench.vessel(v).expect("vessel").temperature.to_celsius());
+    }
+    let drift = (final_t[0] - final_t[1]).abs();
+    assert!(
+        drift < 1e-6,
+        "acid-then-base and base-then-acid must reach the same temperature: \
+         {:.6} vs {:.6}, {drift:.2e} K apart",
+        final_t[0],
+        final_t[1],
+    );
+}

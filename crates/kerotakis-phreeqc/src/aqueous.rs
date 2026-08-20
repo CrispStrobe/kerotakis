@@ -668,9 +668,31 @@ impl Equilibrator for PhreeqcEquilibrator {
             let mut trial = start.clone();
             trial.temperature = Kelvin(guess);
             let (events, q_joules) = self.solve_once(&mut trial)?;
+            // Enthalpy, not temperature, is what survives a solve.
+            //
+            // Dissolved matter carries no heat capacity in this model — the
+            // ions are all Cp 0 — so the vessel's Cp *drops* when a solute
+            // speciates. Computing `t0 + q/cp` then quietly destroys the
+            // sensible heat the pre-solve heat capacity was holding, and the
+            // loss shows up as a broken Hess's law: hydrochloric acid into
+            // a beaker already warmed by caustic soda ended 0.19 K below the
+            // same two reagents added the other way round. The acid was
+            // credited with a heat capacity while it was still a liquid, and
+            // stripped of it the moment the solver called it chloride.
+            //
+            // Balancing enthalpy instead makes the relabelling free, which
+            // is what it physically is. Working both orders through by hand,
+            // each lands on T₀ + q/Cp(water): the mixing term that cools the
+            // second beaker is exactly the term the enthalpy balance gives
+            // back.
             let cp = trial.heat_capacity();
-            let delta = if cp > 0.0 { q_joules / cp } else { 0.0 };
-            let next = t0 + delta;
+            let cp_before = start.heat_capacity();
+            let t_ref = Kelvin::STANDARD.0;
+            let next = if cp > 0.0 {
+                t_ref + (cp_before * (t0 - t_ref) + q_joules) / cp
+            } else {
+                t0
+            };
             let converged = (next - guess).abs() < 0.05;
             settled = Some((trial, events, next));
             guess = next;
