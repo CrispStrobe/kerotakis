@@ -149,10 +149,18 @@ pub struct SolveOutput {
     /// The full run report, which carries the species distribution and the
     /// saturation indices.
     pub report: String,
-    /// Whether pe is pinned by the electron balance, or merely a value the
-    /// search stopped at. False at a titration's equivalence point, where
-    /// the potential is genuinely undefined.
-    pub pe_determined: bool,
+    /// Set when the electron balance was struck but did not *pin* pe — the
+    /// equivalence point of a titration, where the potential is undefined.
+    ///
+    /// Negative, defaulted, and for the same reason as `CacheEntry`'s copy
+    /// of it: this struct is deserialised from whatever the browser's
+    /// solver hook hands back, and that JSON is written by
+    /// `web/kerotakis.mjs`, which knows nothing about electron balances. A
+    /// required field here broke the demo outright; a field defaulting to
+    /// "undetermined" would have been worse, because the demo would have
+    /// kept working while quietly never reporting a potential again.
+    #[serde(default)]
+    pub pe_undetermined: bool,
 }
 
 impl PhreeqcEquilibrator {
@@ -188,7 +196,7 @@ impl PhreeqcEquilibrator {
                 }
             })?;
             Ok(SolveOutput {
-                pe_determined: true,
+                pe_undetermined: false,
                 selected: engine.selected_output(),
                 report: engine.output_string(),
             })
@@ -337,7 +345,7 @@ impl PhreeqcEquilibrator {
             solver: "phreeqc-aqueous (redox)".to_string(),
             detail: "the electron balance did not converge".to_string(),
         })?;
-        out.pe_determined = saw_below && saw_above;
+        out.pe_undetermined = !(saw_below && saw_above);
         Ok(out)
     }
 
@@ -822,7 +830,7 @@ impl PhreeqcEquilibrator {
                 },
                 None => self.run_raw(db_tag, &input)?,
             };
-            let pe_determined = out.pe_determined;
+            let pe_determined = !out.pe_undetermined;
             let rows = out.selected;
             let speciation = parse_species_distribution(&out.report);
             let saturation = parse_saturation_indices(&out.report);
