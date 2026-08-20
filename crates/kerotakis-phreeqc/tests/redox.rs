@@ -105,3 +105,43 @@ fn excess_oxidant_is_refused_rather_than_balanced_from_nowhere() {
         "and the iron should be shown as added too: {states:?}"
     );
 }
+
+/// Swapping the acid changes nothing, and that is the point.
+///
+/// The tempting story about the refusal above is the textbook one: that
+/// permanganate titrations are run in sulfuric acid because hydrochloric
+/// acid's chloride gets oxidised. It is a good story and it is not what is
+/// happening here. The electrons are owed by the solvent, so the beaker is
+/// refused either way, with the same residual to four figures.
+///
+/// The test exists to stop that story being written back into a codex
+/// entry: an entry framed as "the bench refuses this, and the refusal is
+/// why your lab reaches for sulfuric" would be teaching something the
+/// engine does not show.
+#[test]
+fn the_refusal_does_not_depend_on_which_acid() {
+    let mut hydrochloric = None;
+    let mut sulfuric = None;
+    for (acid, slot) in [("HCl", &mut hydrochloric), ("H2SO4", &mut sulfuric)] {
+        let mut eq = PhreeqcEquilibrator::new().expect("engine");
+        let mut bench = Bench::new();
+        let v = VesselId(0);
+        add(&mut bench, &mut eq, v, "water", 5.55);
+        add(&mut bench, &mut eq, v, acid, 0.005);
+        add(&mut bench, &mut eq, v, "FeSO4", 0.005);
+        add(&mut bench, &mut eq, v, "KMnO4", 0.0015);
+        let states = bench
+            .vessel(v)
+            .expect("vessel")
+            .solution
+            .as_ref()
+            .map(|s| s.redox.clone())
+            .unwrap_or_default();
+        *slot = Some(fraction(&states, "Mn", 7));
+    }
+    assert!(
+        hydrochloric.expect("hcl") > 0.98 && sulfuric.expect("h2so4") > 0.98,
+        "excess permanganate is refused in both acids — the chloride is not what \
+         decides it: HCl {hydrochloric:?}, H2SO4 {sulfuric:?}"
+    );
+}

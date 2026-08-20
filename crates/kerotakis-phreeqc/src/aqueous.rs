@@ -268,7 +268,10 @@ impl PhreeqcEquilibrator {
         // Excess oxidant is what does this. 0.0015 mol of permanganate
         // against 0.005 mol of iron(II) needs 0.0075 mol of electrons and
         // the iron can supply 0.005; the missing 0.0025 mol would have to
-        // come from oxidising water or chloride. PHREEQC will do exactly
+        // come from oxidising the water itself. (Chloride would go too, but
+        // it is not what decides this: the same beaker made up with sulfuric
+        // acid instead of hydrochloric is refused with an identical 2.500e-3
+        // residual.) PHREEQC will do exactly
         // that, but the bench does not carry the oxygen it makes, so the
         // books came out 12% short while the beaker reported every last
         // manganese as Mn(II) — a colourless answer to the one titration
@@ -286,7 +289,7 @@ impl PhreeqcEquilibrator {
                      beaker: {residual:.3e} mol of electron-equivalents are \
                      unaccounted for out of {:.3e}. An oxidant in excess of what \
                      the reductants can supply has to take its remaining electrons \
-                     from the water or the chloride, which this bench does not model",
+                     from the solvent itself, which this bench does not model",
                     coupling.scale,
                 ),
             });

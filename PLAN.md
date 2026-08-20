@@ -1554,10 +1554,18 @@ So the build order is:
       unbalanceable beaker is refused: the stack carries on, the elements
       are shown in the states they were added in, and the routing says so.
 
-      That refusal is also a real result rather than only a gap. It is why
-      permanganate titrations are run in sulfuric acid and not in
-      hydrochloric — the chloride *does* get oxidised. Demonstrating that
-      wants H₂SO₄ in the registry, which it does not yet have.
+      **What the refusal is not.** It looked like the textbook reason
+      permanganate titrations are run in sulfuric acid rather than
+      hydrochloric — that the chloride gets oxidised. It is not: H₂SO₄ went
+      into the registry to check, and the same beaker made up with sulfuric
+      acid is refused with an identical 2.500e-3 residual. The electrons
+      are owed by the *solvent*, and swapping the acid changes nothing.
+      Chloride oxidation is real chemistry, but this bench does not model
+      it either — Cl is not in `FAST_REDOX`, which is a curated claim about
+      rates — so the HCl/H₂SO₄ distinction cannot be demonstrated here at
+      all, in either direction. Worth stating because the plausible
+      pedagogical story survived being written down and died on the first
+      experiment that could have confirmed it.
 - [ ] Nernst over computed activities; the standard-potential ordering
       (activity series), displacement, why zinc protects iron.
 - [ ] Faraday's law for electrolysis: charge → moles → mass at an electrode.
