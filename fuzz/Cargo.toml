@@ -1,0 +1,47 @@
+[package]
+name = "kerotakis-fuzz"
+version = "0.0.0"
+publish = false
+edition = "2021"
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys = "0.4"
+arbitrary = { version = "1", features = ["derive"] }
+kerotakis-core = { path = "../crates/kerotakis-core" }
+kerotakis-phreeqc = { path = "../crates/kerotakis-phreeqc", default-features = false }
+
+[[bin]]
+name = "lab_grammar"
+path = "fuzz_targets/lab_grammar.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "stoich"
+path = "fuzz_targets/stoich.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "dbindex"
+path = "fuzz_targets/dbindex.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "bench_ops"
+path = "fuzz_targets/bench_ops.rs"
+test = false
+doc = false
+bench = false
+
+# Deliberately its own workspace: the fuzz crate needs nightly and
+# libFuzzer, and must never make `cargo test --workspace` need either.
+[workspace]
+members = ["."]

@@ -1292,8 +1292,15 @@ The single highest-information task. Everything else is downstream of it.
 - [x] Engine quirk, documented in the wrapper: **loading a database resets the
       selected-output string flag** — `SetSelectedOutputStringOn` must be
       called after `LoadDatabaseString` (and is re-asserted before every run)
-- [ ] Fuzz it: random inputs → no crash, honest failure state (basic
-      malformed-input test in place; real fuzzing pending)
+- [x] Fuzz it: four libFuzzer targets in `fuzz/` (2026-08-20) — the `.lab`
+      grammar (4.4M runs clean), `dbindex` on corrupted database bytes
+      (2.3M clean), arbitrary operator sequences through the bench with
+      non-finite floats (3.2M clean), and the stoichiometry parser, which
+      paid for the whole exercise in its first two minutes: a negation
+      overflow when a balancing coefficient saturates to i64::MIN,
+      reachable from `kero balance` (reported engine-side with minimised
+      artifacts; regression test lands with the fix). Continuous fuzzing
+      (OSS-Fuzz) remains open
 - [x] **Gate passed 2026-08-19:** the offline premise holds. Web ✓ (Emscripten
       wasm, AgCl case green in Node, CI-enforced) · mobile ✓
       (`cargo build -p kerotakis-phreeqc --target aarch64-apple-ios` clean) ·
