@@ -50,13 +50,23 @@ options = ["3", "7 — hydroxide is not an acid, so the pH cannot move", "11"]
 answer = 2
 misconception = "Answering 3 is the mirror-image slip: the exponent is right but the direction is not. A base raises pH as far above 7 as the matching acid lowers it below. Answering 7 treats pH as an acid-only scale, when it is a scale of hydrogen-ion activity that hydroxide moves by consuming H⁺."
 
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The arithmetic landed and the direction did not: 0.001 mol gave the exponent 3, and every exponent is read as acidity — as if dissolving anything moves the pH downwards."
+next = "Run the mirror first: 0.001 mol of HCl in the same litre (`strong-acid`) reads pH 3.0 on this bench. Swap the acid for NaOH and the same exponent lands the same distance from 7 — on the other side."
+
+[[reaction.expect.predict.diagnosis]]
+option = 1
+reveals = "pH is held as a property acids have and other substances lack, so a base cannot move the meter — rather than a scale of hydrogen-ion activity, which hydroxide moves by consuming H⁺."
+next = "Measure plain water first (7.0), then add the hydroxide in tenths with a reading between each: the meter climbs from the first addition, which a scale only acids can touch has no way to do."
+
 [reaction.registers]
 lv1 = "This liquid is the opposite of an acid. It feels slippery — that is your own skin dissolving very slightly — and it turns a red cabbage indicator green. Never touch it."
 lv2 = "Sodium hydroxide is a strong base: it dissociates completely, so 0.001 mol in a litre gives [OH⁻] = 10⁻³, pOH 3, and pH 14 − 3 = 11."
 lv3 = "The engine does not apply pH = 14 − pOH; it solves the charge balance with Kw at the solution's own temperature and reports 10.99, marginally below 11 because the activity coefficient of OH⁻ at I = 10⁻³ is ≈0.965."
 
 [reaction.provenance]
-source = "Standard curriculum acid–base chemistry; Kw and activity model from PHREEQC wateq4f.dat (USGS)"
+source = "Standard curriculum acid–base chemistry; Kw and activity model from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
@@ -89,13 +99,23 @@ options = [
 answer = 0
 misconception = "Both wrong answers come from the same picture: dissolving as pure disassembly. Breaking the lattice does cost energy — but hydrating the ions pays more back, and for NaOH it pays back 44.5 kJ per mole. Whether a solution warms or cools is the balance of those two, which is why potassium chloride goes cold and this goes hot."
 
+[[reaction.expect.predict.diagnosis]]
+option = 1
+reveals = "Heat is reserved for 'real' chemical reactions, and dissolving is filed as mere mixing — the energy bookkeeping only opens once new substances are officially made."
+next = "Watch the thermometer from the first pellet: the rise begins before anything could be called a product. Then run `cold-pack` beside it — potassium chloride moves the same thermometer the other way, so dissolving itself carries the heat, in both directions."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Half of the energy story: pulling the lattice apart costs, and the account stops there — so every dissolution must cool. The paying half, water binding to the freed ions, is missing."
+next = "The comparison that isolates the missing half is `cold-pack` against this beaker: KCl really does cool the water, NaOH warms it. One lattice-breaking story cannot produce two signs; a second term must be paying in."
+
 [reaction.registers]
 lv1 = "The jar gets hot enough to be uncomfortable to hold — and nothing was burning and nothing was heated. The heat came out of the powder as it disappeared."
 lv2 = "0.1 mol of NaOH in 100 mL releases about 4.5 kJ. With only ~100 g of water to warm, that is a rise of roughly 10 °C, and the resulting 1 mol/L solution reads pH ≈ 13.5 — not the 14.0 the arithmetic promises."
 lv3 = "The vessel is adiabatic, so the whole −44.5 kJ/mol appears as sensible heat. The pH is 13.51 rather than 14.0, and *two* separate corrections take it there. First, at I ≈ 1 mol/kgw the activity coefficient of OH⁻ has fallen to ≈0.68, and the engine reports activity, not concentration. Second, the beaker warmed itself to 35.7 °C, and K_w is strongly temperature-dependent — pK_w falls from 14.00 at 25 °C to about 13.7 here — so the neutral point itself has moved under the measurement. The solution is solved at the temperature it actually reached rather than at the one it started from, which is why this number is lower than the textbook 13.8: the textbook figure quietly holds the beaker at 25 °C while telling you it got hot."
 
 [reaction.provenance]
-source = "Enthalpy of solution of NaOH, standard reference value; speciation and the temperature-dependent K_w from PHREEQC wateq4f.dat (USGS), solved at the temperature the dissolution itself produces"
+source = "Enthalpy of solution of NaOH, standard reference value; speciation and the temperature-dependent K_w from PHREEQC wateq4f.dat (USGS), solved at the temperature the dissolution itself produces. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "Kerotakis energy balance over curated ΔH_dis; pH from PHREEQC via Kerotakis L2"
 
 # ---------------------------------------------------------- neutralisation
@@ -137,13 +157,23 @@ options = [
 answer = 1
 misconception = "\"They cancel out\" is the commonest neutralisation mistake, and it quietly breaks conservation. Nothing is destroyed: H⁺ and OH⁻ combine into water, and the sodium and chloride ions are still there, untouched, as spectators. Put the beaker on a balance — it is heavier than before, not empty."
 
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Neutralisation as mutual destruction — 'they cancel out' taken literally, so the matter itself is gone. Conservation has been quietly suspended for chemistry that feels dramatic."
+next = "Put it on the balance: `measure v1 balance` before and after the base goes in. The beaker is heavier by exactly what was added — and evaporating it (`crystallising-salt-from-brine`) recovers the solid salt that was supposedly destroyed."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "Neutralisation as dilution: the base merely waters the acid down, so the pH drifts partway up and stalls. The stoichiometric point — the last H⁺ meeting the last OH⁻ — has no special status in this picture."
+next = "Add the base in ten portions with a pH reading between each. Watering-down would drift smoothly and stall below 7; the real curve crawls, then leaps across four units where both reservoirs run out together (`past-the-equivalence-point` is the far side of that leap)."
+
 [reaction.registers]
 lv1 = "Add the sour liquid and the slippery liquid together in just the right amounts and you get… salty water. Both of the dangerous things have turned into something you could (in principle) drink."
 lv2 = "H⁺ + OH⁻ → H₂O. Equal moles of a strong acid and a strong base leave only the spectator ions Na⁺ and Cl⁻, so the solution is 0.01 mol/L sodium chloride at pH 7."
 lv3 = "The engine reports 7.00 and carries the spectators explicitly: 0.01 mol each of Na⁺ and Cl⁻ remain in the inventory, [H⁺] = [OH⁻] = 1.10 × 10⁻⁷ mol/kgw with γ ≈ 0.90. The reaction is never written into the engine — it emerges from minimising the solution's free energy."
 
 [reaction.provenance]
-source = "Standard curriculum neutralisation"
+source = "Standard curriculum neutralisation. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]
@@ -182,13 +212,23 @@ options = [
 answer = 1
 misconception = "Expecting a gentle creep treats the pH scale as linear when it is logarithmic. Near the equivalence point there is almost nothing left to absorb the added hydroxide, so a 10% overshoot moves the pH by nearly four units — which is exactly why an indicator can mark an endpoint at all, and why one drop too many ruins a titration."
 
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "The pH axis is read linearly: ten percent more base should buy a ten-percent-sized nudge. That the scale is logarithmic — and that nothing is left to absorb the excess — has not landed."
+next = "Let the bench count what is left: 0.001 mol of unmatched hydroxide in a litre. That beaker already exists in this codex — `strong-base` — and it reads 11, not 7.5."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "pH stops at 7 because it is the acid's own property: with the acid used up there is nothing left to measure, and the excess base's effect on the water itself is invisible."
+next = "Delete the acid from the story: plain water plus the same 0.001 mol of NaOH (`strong-base`) reads 11 on this bench. The overshot titration is that beaker plus spectator ions."
+
 [reaction.registers]
 lv1 = "One drop too many and the colour flies past the shade you wanted. Right at the balance point the liquid is on a knife edge: the tiniest extra tips it a very long way."
 lv2 = "After equivalence the excess base sets the pH directly: 0.001 mol of leftover NaOH in a litre gives pOH 3, pH ≈ 11. The titration curve is nearly vertical here — that steepness is what makes the endpoint detectable."
 lv3 = "The computed value is 10.95, not 11.00: the excess hydroxide sits in a 0.011 mol/kgw ionic medium, and its activity is below its concentration. The steepness is a property of the charge balance near the point where the strong-acid and strong-base reservoirs are both exhausted, not a curve fitted for teaching."
 
 [reaction.provenance]
-source = "Standard curriculum titration behaviour"
+source = "Standard curriculum titration behaviour. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "PHREEQC via Kerotakis L2"
 
 # ------------------------------------------------------------- polyprotic
@@ -222,13 +262,23 @@ options = [
 answer = 1
 misconception = "Counting protons on the formula and multiplying is the classic polyprotic error. The three ionisations are separated by about five powers of ten each; releasing the second proton means pulling a positive charge off an already-negative ion, which is far harder. At pH 1.6 the second stage has barely begun — the engine finds HPO₄²⁻ at 3 × 10⁻⁴ mol/kgw against H₂PO₄⁻ at 10⁻¹."
 
+[[reaction.expect.predict.diagnosis]]
+option = 0
+reveals = "Protons are counted off the formula and multiplied: three written hydrogens means three delivered, as if ionisation were a property of the formula rather than an equilibrium that gets harder with every charge already removed."
+next = "Ask for the ladder itself at lv3: at pH 1.64 the second rung holds 3 × 10⁻⁴ mol/kgw against 10⁻¹ on the first — a thousand to one. All three rungs are real; the solution is simply standing on the first."
+
+[[reaction.expect.predict.diagnosis]]
+option = 2
+reveals = "One proton conceded, but conceded completely: 'acid' still implies full dissociation, so 0.1 mol/L must read 1.0 exactly. That most H₃PO₄ molecules are holding their first proton at any instant is missing."
+next = "Run the acid for which this answer is nearly right: 0.1 mol of HCl in the same litre reads 1.08 on this bench, this beaker 1.64. The gap between those two numbers is the fraction of phosphoric acid that never let go."
+
 [reaction.registers]
 lv1 = "This is the sour taste in cola. It has three sour parts in it, but only the first one lets go easily — the other two hold on tight."
 lv2 = "Only the first ionisation matters at this concentration (pKa₁ ≈ 2.15 against pKa₂ ≈ 7.2 and pKa₃ ≈ 12.3), so the solution behaves as a single weak acid and lands near pH 1.6."
 lv3 = "The engine solves all three equilibria simultaneously rather than choosing one. The resulting distribution at pH 1.64 is H₂PO₄⁻ 9.9 × 10⁻², H₃PO₄ 4.3 × 10⁻⁴, HPO₄²⁻ 3.4 × 10⁻⁴, PO₄³⁻ below 10⁻⁹ — the ladder is real, it is simply almost entirely on its first rung."
 
 [reaction.provenance]
-source = "Standard curriculum polyprotic acid chemistry; stepwise constants from PHREEQC wateq4f.dat (USGS)"
+source = "Standard curriculum polyprotic acid chemistry; stepwise constants from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
 computed_by = "PHREEQC via Kerotakis L2"
 
 [[reaction]]

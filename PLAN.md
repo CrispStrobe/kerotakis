@@ -527,8 +527,10 @@ because a learner who picks option 2 rarely holds the same idea as one who
 picks option 3, and the conceptual-change evidence is that instruction
 works by eliciting the learner's own model and confronting it. The schema
 carries it (`[[reaction.expect.predict.diagnosis]]`), the lint checks the
-indices, and `codex lint` reports how many distractors are diagnosed —
-currently **0 of 109**, which is a work list rather than a pass mark. Misconception
+indices, and `codex lint` reports how many distractors are diagnosed — a
+count this document deliberately does not carry, having watched its own
+copy go stale (rates.toml is complete and is the pattern to match;
+aqueous and quantitative are the work list). Misconception
 *prevalence findings* are research facts rather than copyrightable
 expression, so we cite them and write our own options — AAAS Project 2061's
 item bank, Taber's *Chemical Misconceptions* (RSC), Barke's *Misconceptions
@@ -784,10 +786,11 @@ that survives all of that is wrong in at most the ways a human draft is
 wrong.
 
 That matters because the two largest open work lists are editorial and
-exactly draft-then-verify shaped: **0 of 109 distractors carry a
-diagnosis**, and **156 of 189 spine topics are uncovered**. Budgeting
-those as pure hand-curation prices the moat wrong — the moat is the
-verification machinery and the editorial judgement, not the typing.
+exactly draft-then-verify shaped: **most distractors carry no diagnosis**
+(`codex lint` prints the live count) and **most spine topics are
+uncovered** (`kero codex gaps` prints them). Budgeting those as pure
+hand-curation prices the moat wrong — the moat is the verification
+machinery and the editorial judgement, not the typing.
 
 The pipeline, honestly bounded:
 
