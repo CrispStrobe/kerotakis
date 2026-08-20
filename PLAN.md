@@ -1699,6 +1699,43 @@ So the build order is:
       would mean concentrations had reached the equation instead of
       activities. A copper strip in brine is refused as a half-cell with
       the reason (`NoCell`), not as a modelling gap.
+
+      **The hydrogen overpotential** (proposed by the engine session when
+      the user asked why real batteries exist; built 2026-08-20). Hydrogen
+      has to *form* on the metal, and that costs an overpotential the
+      thermodynamics knows nothing about — platinum ~0.02 V, iron 0.40,
+      copper 0.60, zinc 0.72, lead 0.88 at a bench-scale current density.
+      It enters `displace` as a gate on one pair only, the H⁺/H₂ couple:
+      driving force = E_H(pH) − E(metal), Nernst as the beaker stands, and
+      if it is under the barrier the reaction is refused *kinetically*, in
+      a different sentence from copper's thermodynamic refusal, because a
+      learner needs to know which. Under 0.1 V of margin it runs and the
+      bench says the rate is not computed. Curated like `FAST_REDOX`, for
+      the same reason: a claim about rates. Its limit: overpotential is
+      current-density dependent and the bench has none, so one number per
+      metal can say "blocked on the timescale of a lesson" and "marginal",
+      never "four hours".
+
+      Checked before building that it changes no outcome for the metals
+      already on the bench, which is the point — the model earns its
+      place by predicting the observed five and getting the margins
+      right. Engine-read, 0.02 mol metal in 100 mL:
+
+      ```text
+      HCl 0.1 (pH −0.04)      Zn  reacts, margin 0.04 V  (marginal, said)
+                              Fe  reacts, margin 0.05 V  (marginal, said)
+      CH3COOH 0.1 (pH 2.38)   Zn  driving 0.62 V < 0.72: kinetically blocked
+                              Fe  driving 0.31 V < 0.40: kinetically blocked
+                              Mg  reacts; pH 2.38 → 4.27
+      ```
+
+      Zinc in vinegar really is an overnight job and zinc and iron really
+      do fizz far less eagerly than magnesium; both were previously
+      reported as plain reactions. Where it becomes decisive is lead:
+      Pb²⁺/Pb at −0.126 V against 0.88 V of overpotential is blocked by a
+      factor of seven, which is why a lead-acid accumulator can sit in a
+      car full of sulfuric acid for years — computed rather than caveated
+      once lead enters the registry (engine session, pending).
 - [ ] Faraday's law for electrolysis: charge → moles → mass at an electrode.
 
 **Oxidation-state bookkeeping is the explanation layer, not the solver.**

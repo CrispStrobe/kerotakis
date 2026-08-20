@@ -164,6 +164,51 @@ pub const SERIES: &[Couple] = &[
     },
 ];
 
+/// Hydrogen overpotential on each metal, V — the extra push hydrogen gas
+/// needs before it will form on that surface, at a bench-scale current
+/// density (~1 mA/cm²).
+///
+/// This is a curated claim about *rates*, in the same spirit as
+/// `FAST_REDOX` in the aqueous engine, and it is the reason real
+/// batteries exist: thermodynamics says lead should fizz its way out of
+/// sulfuric acid, and a lead-acid accumulator sits in a car for years
+/// because hydrogen on lead costs 0.88 V that the 0.13 V driving force
+/// cannot pay. For the metals this lab already has it changes no outcome
+/// — magnesium reacts hard, zinc and iron in strong acid clear the barrier
+/// by a few hundredths of a volt (which is why they fizz so much less
+/// enthusiastically than magnesium), copper and silver were inert
+/// already — and that is the point: the model earns its place by
+/// predicting the five outcomes already observed and getting the margins
+/// right.
+///
+/// Its limit, stated: overpotential depends on current density and the
+/// bench has none, so one number per metal can say "blocked on the
+/// timescale of a lesson" and "marginal"; it cannot say "four hours".
+pub const HYDROGEN_OVERPOTENTIAL: &[(&str, f64)] = &[
+    ("Mg", 0.70),
+    ("Fe", 0.40),
+    ("Cu", 0.60),
+    ("Ag", 0.48),
+    ("Zn", 0.72),
+    ("Pb", 0.88),
+];
+
+/// Where the overpotentials come from. A metal not in the table gets no
+/// barrier, which is the honest default: no claim is made.
+pub const HYDROGEN_OVERPOTENTIAL_SOURCE: &str = "Tafel overpotentials for H₂ evolution at ~1 mA/cm², 25 °C, as tabulated in standard electrochemistry references (e.g. Bockris & Reddy; CRC); curated by kerotakis-de, 2026-08-20";
+
+/// Below this margin over the barrier the reaction runs, but how fast is
+/// a question the bench cannot answer, and it says so.
+const MARGINAL_VOLTS: f64 = 0.1;
+
+pub fn hydrogen_overpotential(metal: &str) -> f64 {
+    HYDROGEN_OVERPOTENTIAL
+        .iter()
+        .find(|(m, _)| *m == metal)
+        .map(|(_, eta)| *eta)
+        .unwrap_or(0.0)
+}
+
 /// The couple a metal (or hydrogen) is the reduced member of.
 pub fn couple_of_metal(key: &str) -> Option<&'static Couple> {
     SERIES.iter().find(|c| c.reduced == key)
@@ -439,6 +484,51 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
         if f(0.0) <= 0.0 {
             settled.push((red.reduced, ox.oxidised));
             continue;
+        }
+        // Hydrogen has to *form* on the metal, and that costs an
+        // overpotential the thermodynamics knows nothing about. The
+        // driving force is the Nernst cell potential as the beaker stands
+        // — vinegar at pH 3 puts the hydrogen line at −0.18 V, which is
+        // why zinc in vinegar is an overnight job — with the metal's own
+        // ion at its activity where it is present and at unit activity
+        // where it is not, since a metal freshly dropped in has no ion to
+        // speak of and −∞ is not a driving force.
+        if ox.oxidised == HYDROGEN_ION {
+            let eta = hydrogen_overpotential(red.reduced);
+            let (a_h, _) = activity_of(vessel, HYDROGEN_ION).unwrap_or((1.0, false));
+            let e_h = ox.e0_volts + slope * a_h.max(f64::MIN_POSITIVE).log10();
+            let a_red = if red_ion_n0 > crate::OBSERVABLE_MOLES {
+                red_gamma * red_ion_n0 / w
+            } else {
+                1.0
+            };
+            let e_red = red.e0_volts + slope / red.electrons * a_red.log10();
+            let driving = e_h - e_red;
+            let name = species::lookup_key(red.reduced)
+                .map(|d| d.name)
+                .unwrap_or(red.reduced);
+            if driving <= eta {
+                // Blocked by rate, not by thermodynamics — a different
+                // sentence, because a learner needs to know which.
+                events.push(Event::Inert {
+                    vessel: vessel.id,
+                    species: SpeciesId::new(red.reduced),
+                    why: format!(
+                        "{name} should dissolve in this acid by the series (driving force {driving:+.2} V), but hydrogen has to form on {name}, and on that surface it costs an overpotential of about {eta:.2} V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery"
+                    ),
+                });
+                settled.push((red.reduced, ox.oxidised));
+                continue;
+            }
+            if driving - eta < MARGINAL_VOLTS {
+                events.push(Event::NotYetModeled {
+                    vessel: vessel.id,
+                    what: format!(
+                        "how fast {name} fizzes: the driving force clears the hydrogen overpotential on {name} by only {:.2} V, and a rate that close to its barrier is not something this lab computes — it reacts, slowly",
+                        driving - eta
+                    ),
+                });
+            }
         }
         // Complete if the potential is still positive with the last
         // representable trace of reagent left; otherwise bisect for the

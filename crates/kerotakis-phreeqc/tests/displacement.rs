@@ -640,3 +640,85 @@ fn a_concentration_cell_is_the_nernst_term_alone() {
         volts * 1000.0
     );
 }
+
+/// Hydrogen has to form on the metal, and that costs an overpotential.
+///
+/// Zinc in strong acid clears its 0.72 V barrier by a few hundredths of a
+/// volt and reacts, with the bench saying the rate is marginal. Zinc in
+/// vinegar does not: pH 3 moves the hydrogen line to −0.18 V and the
+/// 0.58 V left cannot pay for hydrogen on zinc — blocked on the timescale
+/// of a lesson, said as *kinetics*, in different words from copper's
+/// thermodynamic refusal. Magnesium in the same vinegar fizzes, because
+/// 2.2 V pays for anything.
+#[test]
+fn the_hydrogen_overpotential_gates_acid_on_the_metal_it_forms_on() {
+    // Strong acid: reacts, marginally.
+    let (bench, events) = run(&[("HCl", 0.1), ("Zn", 0.02)]);
+    assert!(
+        events
+            .iter()
+            .any(|e| matches!(e, Event::GasEvolved { species, .. } if species.0 == "H2")),
+        "zinc in hydrochloric acid fizzes: {events:?}"
+    );
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::NotYetModeled { what, .. } if what.contains("how fast zinc fizzes")
+        )),
+        "and the margin is named as a rate the lab does not compute: {events:?}"
+    );
+    assert!(moles_of(&bench, "Zn", Phase::Solid) < 1e-12);
+
+    // Vinegar: blocked, and blocked is said as kinetics.
+    let (bench, events) = run(&[("CH3COOH", 0.1), ("Zn", 0.02)]);
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::Inert { species, why, .. }
+                if species.0 == "Zn" && why.contains("Kinetically blocked") && why.contains("overpotential")
+        )),
+        "{events:?}"
+    );
+    assert!(
+        !events.iter().any(|e| matches!(e, Event::GasEvolved { .. })),
+        "no hydrogen: {events:?}"
+    );
+    assert!((moles_of(&bench, "Zn", Phase::Solid) - 0.02).abs() < 1e-12);
+
+    // The same vinegar dissolves magnesium without a second thought.
+    let (bench, events) = run(&[("CH3COOH", 0.1), ("Mg", 0.02)]);
+    assert!(
+        events
+            .iter()
+            .any(|e| matches!(e, Event::GasEvolved { species, .. } if species.0 == "H2")),
+        "{events:?}"
+    );
+    assert!(
+        !events.iter().any(|e| matches!(
+            e,
+            Event::NotYetModeled { what, .. } if what.contains("how fast")
+        )),
+        "magnesium's margin is not marginal: {events:?}"
+    );
+    assert!(moles_of(&bench, "Mg", Phase::Solid) < 1e-12);
+}
+
+/// Copper's refusal and zinc's are different refusals, and the words
+/// must not blur them: one is the series, the other is a rate.
+#[test]
+fn thermodynamic_and_kinetic_refusals_are_told_apart() {
+    let why = |metal: &str| {
+        let (_, events) = run(&[("CH3COOH", 0.1), (metal, 0.02)]);
+        events
+            .iter()
+            .find_map(|e| match e {
+                Event::Inert { why, .. } => Some(why.clone()),
+                _ => None,
+            })
+            .unwrap_or_else(|| panic!("{metal}: {events:?}"))
+    };
+    let copper = why("Cu");
+    let zinc = why("Zn");
+    assert!(copper.contains("above hydrogen") && !copper.contains("Kinetically"));
+    assert!(zinc.contains("Kinetically blocked") && !zinc.contains("above hydrogen"));
+}
