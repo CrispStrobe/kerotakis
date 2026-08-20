@@ -691,7 +691,7 @@ computed_by = "Kerotakis electrolysis operator (inert anode; charge-conserving) 
 [[reaction]]
 id = "charging-fights-the-series"
 spine = ["akkumulatoren"]
-summary = "Charging runs the cell's reaction backwards by outside current — and on pure thermodynamics the bath eats the fresh deposit again: real accumulators exist because kinetics protects the charge, a rate this bench does not model"
+summary = "Charging drives the cell backwards and the deposit survives on a kinetic leash — hydrogen formation on zinc costs ~0.72 V of overpotential, and gassing is what happens when the leash slips"
 concepts = ["accumulators", "electrolysis"]
 requires = ["galvanic-cells", "electrolysis"]
 apparatus = ["beaker", "voltmeter", "power-supply"]
@@ -708,11 +708,12 @@ add v2 CuSO4 0.01mol
 add v2 Cu 0.05mol
 cell v1 v2
 electrolyse v1 0.5A 386s
+add v1 HCl 0.05mol
 """
 
 [reaction.expect]
-events = ["cell_voltage", "electrolysed:Zn", "consumed:Zn", "gas_evolved:H2"]
-ph = { min = 5.35, max = 5.65 }
+events = ["cell_voltage", "electrolysed:Zn", "inert:Zn", "consumed:Zn", "gas_evolved:H2"]
+ph = { min = 4.75, max = 5.0 }
 
 [reaction.expect.predict]
 question = "The Daniell cell offers 1.104 V, spending zinc as it discharges. What is 'charging' — the thing that makes an accumulator rechargeable?"
@@ -735,10 +736,10 @@ reveals = "Rechargeable and disposable batteries differ by service regime: someo
 next = "Nothing enters the cell but electrons: the 'fresh chemicals' are the old ones, pushed back up the hill they ran down. That is the whole distinction from a primary cell — an accumulator's chemistry is reversible in place, which is also why its electrodes must survive being rebuilt a thousand times."
 
 [reaction.registers]
-lv1 = "A rechargeable battery is a see-saw: letting it tip one way lights your torch; pushing it back up with the charger makes it ready again. Nothing is poured in — the same stuff is pushed back where it started."
-lv2 = "Discharge: Zn + Cu²⁺ → Zn²⁺ + Cu, offering 1.104 V. Charge: an external supply drives Zn²⁺ + 2e⁻ → Zn against the series — 0.5 A × 386 s = 193 C = 0.0020 mol of electrons rebuilds 0.0010 mol of zinc, Faraday's arithmetic in reverse gear."
-lv3 = "Watch what the bench does next, because it is the deepest thing in this entry: the inert-anode bath acidifies, zinc sits below hydrogen, and thermodynamics immediately eats the fresh deposit — Zn + 2 H⁺ → Zn²⁺ + H₂, 0.0010 mol consumed, hydrogen out, net zinc zero. Your charge current made gas, not stored metal. That is not a bug: it is why real accumulators are possible at all only because hydrogen evolution on zinc (and on lead, in every car battery) is kinetically SLOW — an overpotential this bench does not model, and says so. Gassing on overcharge is this exact chemistry escaping its kinetic leash. Honesty about scope: the cell and the electrolysis are not yet coupled here — nothing computes discharge under load, internal resistance or capacity, so 'a cell run backwards' is a computed statement about the two half-reactions, not about runtime."
+lv1 = "Push the current backwards and fresh zinc grows onto the metal — and it stays there, even though the sour bath would love to eat it, because making hydrogen bubbles on zinc is hard work. That hardness is the battery's bodyguard. Overwhelm it with too much acid and the bodyguard loses: fizz, and your stored charge leaves as gas."
+lv2 = "Discharge: Zn + Cu²⁺ → Zn²⁺ + Cu, offering 1.104 V. Charge: an external supply drives Zn²⁺ + 2e⁻ → Zn against the series — 193 C = 0.0020 mol of electrons rebuilds 0.0010 mol (0.0654 g) of zinc while the inert anode acidifies the bath to pH 2.13. And the deposit holds: dissolving it would need hydrogen to form on zinc, and that costs ~0.72 V of overpotential against a driving force of only +0.69 V. Pour in strong acid and the barrier is cleared: Zn + 2 H⁺ → Zn²⁺ + H₂, 0.026 mol of gas, the charge undone."
+lv3 = "The bench's own verdict is the entry's thesis, verbatim: 'zinc should dissolve in this acid by the series (driving force +0.69 V), but hydrogen has to form on zinc, and on that surface it costs an overpotential of about 0.72 V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery.' That 0.03 V of grace is why rechargeable cells exist — on zinc here, on lead in every car battery — and gassing on overcharge is precisely the leash slipping, staged in this script's final act with molar acid. Honesty, three ways: the overdriven margin clears by only 0.07 V because the bath's own sulfate and chloride speciation holds a(H⁺) below one (at a true pH 0 it would be 0.04 V), and a rate that close to its barrier is not computed — the bench says 'it reacts, slowly' and claims no more; the overpotential itself is a curated kinetic constant, not a computed one; and the cell and electrolysis remain uncoupled — nothing here computes discharge under load, internal resistance or capacity, so 'a cell run backwards' is a statement about half-reactions, not runtime."
 
 [reaction.provenance]
-source = "Standard curriculum accumulators (charge as reverse reaction); the kinetic-protection point (hydrogen overpotential on zinc and lead) is standard electrochemistry, stated as a boundary this bench does not compute. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
-computed_by = "Kerotakis cell + electrolysis operators over PHREEQC via Kerotakis L2; the deposit's fate by the displacement layer"
+source = "Standard curriculum accumulators (charge as reverse reaction); hydrogen overpotential on zinc ~0.72 V curated (standard electrochemistry), applied as a kinetic gate on the series' verdict; the sulfate/chloride activity effects computed. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+computed_by = "Kerotakis cell + electrolysis operators over PHREEQC via Kerotakis L2; the deposit's fate by the displacement layer under the curated overpotential gate"
