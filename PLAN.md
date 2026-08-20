@@ -378,7 +378,7 @@ the same question, asked of every dataset:
 A dataset that *cannot* express the question (pitzer.dat has no silver)
 says so and names what it lacks, rather than being skipped or answering
 wrongly. The comparison should also say how much the datasets even
-share: only 22 of 696 mineral phases exist in all three, so three
+share: only 21 of 672 mineral phases exist in all three, so three
 answers are partly answers about *different admissible solids*, not
 three opinions about one activity model — a sentence the `explain`
 rendering now carries, fed by `derived::phase_coverage()`, whose numbers
@@ -1055,8 +1055,10 @@ aarch64-apple-darwin from one source.
   `GetSelectedOutputValue` from the work list; carrying moles forward,
   worth 2.8e-10). The real chain: dissolution enthalpy rode on the
   Dissolved event, no event was recorded for a phase the routed database
-  cannot name — and that is not a corner: **674 of 696 mineral phases
-  exist in only some of the three databases** (Sylvite is pitzer-only) —
+  cannot name — and that is not a corner: **651 of 672 mineral phases
+  exist in only some of the three databases** (Sylvite is pitzer-only;
+  the figures were themselves corrected once, when the word "mineral"
+  in the rendered sentence exposed 24 gas phases hiding in the count) —
   so KCl cooled the beaker on one path and not the other, the two orders
   ended 0.82 K apart, and dpH/dT ≈ −0.0163/K made a temperature bug
   masquerade as a composition mystery. Enthalpy had stopped being a
