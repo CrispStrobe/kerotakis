@@ -194,7 +194,7 @@ the ones below resolve.
 | **L2** | Aqueous equilibrium — **the workhorse** | IPhreeqc + phreeqc.dat, wateq4f.dat, minteq.v4.dat, **pitzer.dat** | USGS, public domain |
 | **L2g** | Gas + condensed-phase equilibrium — heat, ignite, decompose, burn | Gibbs minimiser over NASA CEA data (adopt/extend `cea-rs`, or write it) | Apache-2.0 data |
 | **L3** | Phase behaviour — boiling, miscibility, azeotropes | `feos` (SAFT family, flash) + own UNIFAC + `vle-thermo` (cubics, NRTL/Wilson) + `seuif97` (water) | MIT / Apache-2.0 |
-| **L3e** | Electrolysis | Faraday's law + standard-potential ordering, own module; PHREEQC supplies speciation and Eh | ours |
+| **L3e** | Electrochemistry | Standard-potential ordering + Nernst over PHREEQC's activities, own module (`kerotakis-core/src/displacement.rs`, **built** for displacement and the activity series); Faraday's law for electrolysis still open | ours |
 | **L4** | Reaction — propose → filter → rank → verify | curated + Indigo templates | Apache-2.0 |
 | **L4′** | QM enrichment — **build time only, never in the app** | xtb / CREST / PySCF | LGPL / Apache-2.0, never shipped |
 | **L5** | Kinetics & time evolution | diffsol + our rate evaluator over Cantera-format mechanisms | MIT / BSD-3 data |
@@ -1583,8 +1583,96 @@ So the build order is:
       all, in either direction. Worth stating because the plausible
       pedagogical story survived being written down and died on the first
       experiment that could have confirmed it.
-- [ ] Nernst over computed activities; the standard-potential ordering
-      (activity series), displacement, why zinc protects iron.
+- [x] **Nernst over computed activities; the standard-potential ordering
+      (activity series), displacement, why zinc protects iron.** Built
+      2026-08-20 as `kerotakis-core/src/displacement.rs`, a wrapper around
+      the aqueous solver: solve → let the series move electrons over the
+      activities that solve reported → solve the products again → pin the
+      potential to whatever electrode is left standing.
+
+      **The architecture question, and the experiment that decided it.**
+      Two candidates were on the table: native-metal phases through
+      `EQUILIBRIUM_PHASES`, or an own E° module. The first check was a
+      grep of the shipped datasets for metal phases, and its first answer
+      was wrong: searching for "Silver", "Copper" and bare element names
+      found nothing and the design was nearly written on "no shipped
+      dataset has them, only llnl.dat does". The truth, found by the
+      engine session's conservation fuzz test going red the moment
+      elemental silver entered the registry (silver precipitating out of
+      silver nitrate with no reductant in the beaker — the phase matcher
+      had paired the new solid with a database phase and PHREEQC walked
+      down the redox path at whatever pe it was holding):
+
+      ```text
+      wateq4f.dat   AgMetal  Ag = Ag+  + e-    log_k -13.51
+                    CuMetal  Cu = Cu+  + e-    log_k  -8.76   (the Cu⁺ couple)
+                    ZnMetal  Zn = Zn+2 + 2e-   log_k  25.757
+                    PbMetal, CdMetal; no Fe, no Mg
+      minteq.v4, pitzer, phreeqc.dat:  no metal phase at all
+      ```
+
+      So `EQUILIBRIUM_PHASES` could carry three metals on one routing
+      path, and not the magnesium ribbon the flagship reaction is made
+      of, nor the iron that zinc protects; it would also need the
+      electron balance in `solve_coupled` to count phase moles. The own
+      module covers the whole series on every route and *states its
+      model*. The database's metal phases then became the check on it
+      rather than its engine: `−log_k · (RT ln10/F) / n` from wateq4f
+      gives E°(Zn) = −0.7619 V and E°(Ag) = +0.7993 V against the CRC
+      values the module carries, −0.7618 and +0.7996 — agreement to
+      within a millivolt, pinned by a test. (llnl.dat, not shipped, gives
+      the same ordering with values 40–70 mV lower on its own O₂
+      convention.) Both `AgMetal`-class phases and the metals' cation
+      booking are now excluded in `derived`, so a metal is inert to
+      PHREEQC and only the series moves its electrons.
+
+      **What it computes.** Couples carry E° (CRC) and ΔfH° of the ion
+      (NBS); the extent is found by bisection on the cell potential, so a
+      pair that sits close together stops at a real Nernst root and the
+      school pairs run to the last ion (Mg/Cu²⁺ is 2.7 V apart, K ≈ 10⁹²;
+      copper into silver nitrate leaves 6e-10 mol of Ag⁺, written with →
+      because a learner cannot see it and ⇌ would teach a hesitation the
+      beaker does not show). Heat is the difference of formation
+      enthalpies, balanced as enthalpy across the inventory change rather
+      than as `t0 + q/cp`. Engine-read, 100 mL of water:
+
+      ```text
+      CuSO4 0.01 + Mg 0.02    0.0100 mol Cu plated, 0.0100 mol Mg left, pH 6.56,
+                              26.8 → 39.5 °C; identical either order
+      CuSO4 0.05 + Zn 0.05    +26.2 K  (ΔH −218.7 kJ/mol from ΔfH°, textbook −217),
+                              59.9 °C either order; T agrees to 1.7e-7 K, pH to 7e-10
+      HCl 0.1 + Mg 0.02       0.02 mol H2 up, pH 0.23, +22.4 K, and NO neutralisation
+                              heat — the acid the metal consumed is removed from
+                              the charge ledger before the next solve sees it
+      HCl 0.1 + Cu 0.02       "inert", with the reason (E° +0.342 V above 0.000 V)
+      AgNO3 0.02 + Cu 0.05    0.02 mol Ag plated, the solution turns blue, +3.5 K
+      AgNO3 0.01 + CuSO4 0.01 + Zn 0.005   all the silver, none of the copper
+      ```
+
+      **Its boundary, stated in the beaker.** Three different silences
+      were distinguished because conflating them is the silent-filter
+      fault in a new coat: copper in dilute acid is `Inert` — a computed
+      result about copper, with the potentials; magnesium in brine is
+      `NotYetModeled` — nothing to displace, and its slow reaction with
+      water itself is a *rate* this lab does not compute; a metal plated
+      out this step says nothing further. Kinetics, oxidising acids,
+      overpotentials and air oxidising a metal that merely stands in
+      solution are not modelled, and E° is used at the vessel temperature
+      without dE°/dT.
+
+      **The potential.** A metal in contact with its own ion is an
+      electrode, and the reported pe is that electrode's by Nernst, with
+      the provenance saying so — and saying, where the value lies below
+      water's hydrogen line (magnesium at −2.43 V), that the metal is not
+      at equilibrium with the water it stands in and a voltmeter would
+      read a mixed potential. It is pinned only when both members are
+      present in observable amounts: at exact Zn/Cu²⁺ equivalence the
+      pin keyed on a 2e-10 mol trace of copper one way round and on
+      nothing the other, and the answer depended on addition order
+      (+0.02 V against the open-air +0.77 V). Same rule as the titration
+      endpoint: no couple left, no potential published. Open follow-up:
+      the speciation itself is still solved at the open-air pe, and
+      feeding the electrode's pe into the solve is the next step.
 - [ ] Faraday's law for electrolysis: charge → moles → mass at an electrode.
 
 **Oxidation-state bookkeeping is the explanation layer, not the solver.**

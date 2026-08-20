@@ -226,6 +226,20 @@ impl Derived {
                 let Some(reg) = registry_solid_matching(&info.composition, info.waters) else {
                     continue;
                 };
+                // wateq4f defines AgMetal, CuMetal and ZnMetal, and the
+                // moment elemental silver entered the registry the matcher
+                // paired them — so PHREEQC began plating silver out of
+                // silver nitrate with no reductant in the beaker, at
+                // whatever electron activity it happened to be holding.
+                // Found by the conservation fuzz test (kerotakis-de,
+                // 2026-08-20): 6.16 mol of silver became 3.88. The
+                // metallic state is `kerotakis_core::displacement`'s, which
+                // accounts for the electrons; these phases stay out of the
+                // candidate list, and the database's log_k for them serves
+                // as the independent check on that module's E° table.
+                if kerotakis_core::displacement::is_elemental_metal(reg) {
+                    continue;
+                }
                 // Elements from the formula's own composition through the
                 // same group decomposition as registry formulas — robust
                 // against per-database equation quirks (e.g. wateq4f's
@@ -293,6 +307,17 @@ impl Derived {
             }
             if s.standard_phase == Phase::Gas {
                 continue; // gases don't enter aqueous problems directly
+            }
+            // A metal is not its cation. Deriving a role for magnesium
+            // ribbon from its formula booked it as Mg²⁺ on contact with
+            // water, spending two moles of electrons per mole before any
+            // electron balance saw them. The metallic state is modelled
+            // by `kerotakis_core::displacement`, which moves the electrons
+            // by the activity series and hands this engine the *ions* it
+            // produces; the metal itself stays an inventory solid that
+            // passes through a solve untouched.
+            if kerotakis_core::displacement::is_elemental_metal(s.key) {
+                continue;
             }
             // Mineral: a candidate phase books as this species.
             if s.standard_phase == Phase::Solid {

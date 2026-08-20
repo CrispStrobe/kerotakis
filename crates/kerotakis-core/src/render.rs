@@ -154,6 +154,36 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 }
             }
         }
+        Event::Plated {
+            vessel,
+            species: sid,
+            onto,
+            moles,
+        } => {
+            let data = species::lookup(sid);
+            let name = data.map(|d| d.name).unwrap_or(sid.0.as_str());
+            let host = species::lookup(onto).map(|d| d.name).unwrap_or(onto.0.as_str());
+            match register.level() {
+                1 => {
+                    let colour = data.and_then(|d| d.appearance).unwrap_or("new");
+                    format!(
+                        "A {colour} coating of {name} grows on the {host} in {vessel} — the {name} came out of the water onto it."
+                    )
+                }
+                2 => format!("{vessel}: {:.4} mol {name} plated out onto {host}", moles.0),
+                _ => format!("{vessel}: {:.6} mol {name} plated out onto {host}", moles.0),
+            }
+        }
+        Event::Inert { vessel, species: sid, why } => {
+            let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            match register.level() {
+                1 => format!(
+                    "Nothing happens to the {name} in {vessel} — and that is the real answer, not a gap: it is too unreactive for this."
+                ),
+                2 => format!("{vessel}: {name} does not react — {why}"),
+                _ => format!("{vessel}: {name} inert: {why}"),
+            }
+        }
         Event::Consumed {
             vessel,
             species: sid,

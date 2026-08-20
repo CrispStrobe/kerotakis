@@ -851,6 +851,8 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Dissolved { species, .. } => ("dissolved", Some(species.0.as_str())),
         E::GasEvolved { species, .. } => ("gas_evolved", Some(species.0.as_str())),
         E::Consumed { species, .. } => ("consumed", Some(species.0.as_str())),
+        E::Plated { species, .. } => ("plated", Some(species.0.as_str())),
+        E::Inert { species, .. } => ("inert", Some(species.0.as_str())),
         E::Added { species, .. } => ("added", Some(species.0.as_str())),
         E::FlameTest { species, .. } => ("flame_test", Some(species.0.as_str())),
         E::Ignited { .. } => ("ignited", None),

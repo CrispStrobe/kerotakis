@@ -37,7 +37,12 @@ fn build_stack() -> SolverStack {
         Box::new(kerotakis_cea::ThermalEquilibrator),
     ];
     match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
-        Ok(aqueous) => solvers.push(Box::new(aqueous)),
+        // The metallic state rides on top of the aqueous solve: the series
+        // moves electrons over the activities PHREEQC reports, and the
+        // products go back through it.
+        Ok(aqueous) => solvers.push(Box::new(
+            kerotakis_core::DisplacementEquilibrator::wrapping(Box::new(aqueous)),
+        )),
         Err(e) => eprintln!("kero: aqueous engine unavailable ({e}); running without it"),
     }
     // After the aqueous engine: where a solution freezes depends on how

@@ -108,6 +108,26 @@ pub enum Event {
         species: SpeciesId,
         moles: Moles,
     },
+    /// A metal came out of solution onto a more reactive one — displacement
+    /// (computed by the activity series over the solver's activities).
+    /// Not a precipitate: it grows as a coating on the metal that gave up
+    /// the electrons, which is how a learner recognises it.
+    Plated {
+        vessel: VesselId,
+        species: SpeciesId,
+        onto: SpeciesId,
+        moles: Moles,
+    },
+    /// A substance was examined by a chemistry model and found not to
+    /// react, with the reason. Distinct from `NotYetModeled` on purpose:
+    /// copper in dilute acid doing nothing is a computed result about
+    /// copper, and reporting it as a gap would be as wrong as reporting a
+    /// gap as a result.
+    Inert {
+        vessel: VesselId,
+        species: SpeciesId,
+        why: String,
+    },
     /// A solid formed out of solution (computed by an aqueous solver).
     Precipitated {
         vessel: VesselId,
@@ -262,6 +282,7 @@ impl Event {
             | Event::Precipitated { moles, .. }
             | Event::GasEvolved { moles, .. }
             | Event::Consumed { moles, .. }
+            | Event::Plated { moles, .. }
             | Event::Reacted { moles, .. } => moles.0,
             _ => return true,
         };

@@ -288,7 +288,10 @@ impl Equilibrator for CombinedSolver<'_> {
     ) -> Result<Vec<Event>, kerotakis_core::SolveError> {
         let mut events = Vec::new();
         if self.aqueous.applies(vessel) {
-            match self.aqueous.equilibrate(vessel) {
+            // The metallic state rides on the aqueous solve here exactly as
+            // it does natively: displacement over the reported activities,
+            // then the products back through the solver.
+            match kerotakis_core::displacement::over(self.aqueous, vessel) {
                 Ok(mut more) => events.append(&mut more),
                 // A cache miss is honest news, not a failure to hide.
                 Err(e) => events.push(Event::SolverFailed {
