@@ -17,7 +17,7 @@
 //!   so heating, calcining and burning are computed in the browser.
 
 use kerotakis_core::{
-    render_event, Bench, Equilibrator, Event, HonestyEquilibrator, MixingEquilibrator, Operator,
+    render_events, Bench, Equilibrator, Event, HonestyEquilibrator, MixingEquilibrator, Operator,
     Register, SolverStack,
 };
 use wasm_bindgen::prelude::*;
@@ -130,11 +130,7 @@ impl Lab {
         let op: Operator =
             serde_json::from_str(operator_json).map_err(|e| JsError::new(&e.to_string()))?;
         let events = self.run(op)?;
-        let rendered: Vec<String> = events
-            .iter()
-            .filter(|e| e.is_observable())
-            .map(|e| render_event(e, self.register))
-            .collect();
+        let rendered = render_events(&events, self.register);
         let doc = serde_json::json!({
             "events": events,
             "rendered": rendered,
@@ -161,11 +157,7 @@ impl Lab {
                 Ok(None) => {}
                 Ok(Some(op)) => {
                     let events = self.run(op.clone())?;
-                    let rendered: Vec<String> = events
-                        .iter()
-                        .filter(|e| e.is_observable())
-                        .map(|e| render_event(e, self.register))
-                        .collect();
+                    let rendered = render_events(&events, self.register);
                     steps.push(serde_json::json!({
                         "operator": op,
                         "events": events,
