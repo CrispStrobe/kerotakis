@@ -59,6 +59,25 @@ impl std::fmt::Display for Register {
     }
 }
 
+/// Render a step's events for a person: the observable ones, in order.
+///
+/// At lv1 identical lines collapse to one. Every unmodelled note renders
+/// there as the same sentence — "this part of the lab isn't awake yet" —
+/// and a step with two different notes read as a stutter; a young reader
+/// cannot use the distinction between them anyway. lv2 and above keep
+/// every line, because there the notes render distinctly.
+pub fn render_events(events: &[Event], register: Register) -> Vec<String> {
+    let mut out: Vec<String> = Vec::new();
+    for event in events.iter().filter(|e| e.is_observable()) {
+        let line = render_event(event, register);
+        if register.level() == 1 && out.contains(&line) {
+            continue;
+        }
+        out.push(line);
+    }
+    out
+}
+
 pub fn render_event(event: &Event, register: Register) -> String {
     match event {
         Event::VesselCreated { vessel } => match register.level() {
@@ -191,7 +210,13 @@ pub fn render_event(event: &Event, register: Register) -> String {
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
             match register.level() {
-                1 => format!("The {name} in {vessel} is used up."),
+                // Present progressive on purpose: the event carries what
+                // was consumed, not what remains, so "is used up" was a
+                // claim of completeness it could not back — half a ribbon
+                // of magnesium left beside plated copper was being
+                // reported as gone. The amount-aware sentence needs the
+                // remainder, which is the proper fix and is on the ledger.
+                1 => format!("The {name} in {vessel} is being used up."),
                 2 => format!("{vessel}: {:.4} mol {name} consumed", moles.0),
                 _ => format!("{vessel}: −{:.6} mol {name}", moles.0),
             }
@@ -471,5 +496,30 @@ pub fn render_event(event: &Event, register: Register) -> String {
             ),
             _ => format!("{vessel}: solver '{solver}' failed: {detail}"),
         },
+    }
+}
+
+#[cfg(test)]
+mod dedupe_tests {
+    use super::*;
+    use crate::vessel::VesselId;
+
+    fn notes() -> Vec<Event> {
+        vec![
+            Event::NotYetModeled {
+                vessel: VesselId(0),
+                what: "one thing".to_string(),
+            },
+            Event::NotYetModeled {
+                vessel: VesselId(0),
+                what: "another thing".to_string(),
+            },
+        ]
+    }
+
+    #[test]
+    fn identical_lv1_lines_collapse_and_lv2_lines_do_not() {
+        assert_eq!(render_events(&notes(), Register::LV1).len(), 1);
+        assert_eq!(render_events(&notes(), Register::LV2).len(), 2);
     }
 }

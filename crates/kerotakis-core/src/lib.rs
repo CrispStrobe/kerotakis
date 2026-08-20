@@ -37,7 +37,7 @@ pub use bench::{Bench, BenchError};
 pub use curated::CuratedEquilibrator;
 pub use displacement::DisplacementEquilibrator;
 pub use ops::{Event, Instrument, LogEntry, Operator};
-pub use render::{render_event, Register};
+pub use render::{render_event, render_events, Register};
 pub use solve::{
     Equilibrator, HonestyEquilibrator, MixingEquilibrator, PermissiveScreen, SafetyScreen,
     SafetyVerdict, Severity, SolveError, SolverStack, StateEquilibrator,

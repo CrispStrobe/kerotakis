@@ -1083,12 +1083,10 @@ impl Session {
                 json_step(self.bench.log.len() - 1, &op, &events, &self.bench.vessels)
             );
         } else {
-            for event in &events {
-                // The ledger records everything; a person is shown what
-                // they could notice.
-                if event.is_observable() {
-                    println!("  {}", render_event(event, self.register));
-                }
+            // The ledger records everything; a person is shown what they
+            // could notice, once each.
+            for line in render_events(&events, self.register) {
+                println!("  {line}");
             }
         }
         Ok(())
