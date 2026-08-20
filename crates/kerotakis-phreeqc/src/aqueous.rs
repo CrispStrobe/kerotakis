@@ -352,7 +352,7 @@ impl PhreeqcEquilibrator {
             return Vec::new();
         };
         let mut out = Vec::new();
-        for db_tag in ["wateq4f", "minteq.v4", "pitzer"] {
+        for db_tag in derived::DB_TAGS {
             let idx = derived::index_for(db_tag);
             let missing: Vec<String> = problem
                 .elements
