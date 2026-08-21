@@ -1322,6 +1322,7 @@ impl PhreeqcEquilibrator {
         // Molalities are per kg of *equilibrated* water (mass_H2O), which
         // differs slightly from the input water mass through speciation.
         let kgw_out = value("mass_H2O").ok_or_else(|| missing("mass_H2O"))?;
+        let mut solvent_kgw_out = kgw_out;
         let mut new_surfaces = problem.surfaces.clone();
         if !new_surfaces.is_empty() {
             let strong = value("m_Hfo_sOZn+").ok_or_else(|| missing("m_Hfo_sOZn+"))? * kgw_out;
@@ -1373,24 +1374,26 @@ impl PhreeqcEquilibrator {
                 SurfaceSorbate::Sulfate,
                 weak_sulfate,
             );
-            // `mass_H2O` is the authoritative net transfer into solution.
-            // The named water-producing complexes decide which site owners
-            // supplied it; their selected-output amounts can differ slightly
-            // from the water delta because the surface equations are solved
-            // in the electrostatic mass-action system, not as an extent log.
+            // Surface complex amounts are the authoritative *surface*
+            // transfer. `mass_H2O` is not representation-invariant here: a
+            // first solve fed by an amount-limited ZnSO4 phase includes this
+            // water, while the identical state rebuilt from aqueous totals
+            // does not. Booking the named ligand-exchange complexes against
+            // the neutral input reference makes both paths converge to the
+            // same typed interface and solvent ledgers.
             let modeled_water = strong_sulfate_water + weak_sulfate_water;
             if modeled_water > TRACE {
-                let water_release = ((kgw_out - problem.kgw) * 1000.0 / WATER_MOLAR_MASS).max(0.0);
                 distribute_surface_water_release(
                     &mut new_surfaces,
                     SurfaceSiteKind::Strong,
-                    water_release * strong_sulfate_water / modeled_water,
+                    strong_sulfate_water,
                 );
                 distribute_surface_water_release(
                     &mut new_surfaces,
                     SurfaceSiteKind::Weak,
-                    water_release * weak_sulfate_water / modeled_water,
+                    weak_sulfate_water,
                 );
+                solvent_kgw_out = problem.kgw + modeled_water * WATER_MOLAR_MASS / 1000.0;
             }
         }
         let mut new_ions: Vec<(String, f64)> = Vec::new();
@@ -1600,7 +1603,7 @@ impl PhreeqcEquilibrator {
                 // long as the beaker was touched.
                 Some(DerivedRole::Solvent) => contents.push(Portion {
                     species: p.species.clone(),
-                    moles: Moles(kgw_out * 1000.0 / WATER_MOLAR_MASS),
+                    moles: Moles(solvent_kgw_out * 1000.0 / WATER_MOLAR_MASS),
                     phase: p.phase,
                 }),
                 // Matter this engine does not model passes through
