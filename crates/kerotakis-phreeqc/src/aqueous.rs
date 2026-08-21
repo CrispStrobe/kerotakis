@@ -1840,75 +1840,84 @@ impl PhreeqcEquilibrator {
         // incoming solution-plus-exchanger inventory minus the new bound
         // amount. This makes both representations converge to one material
         // balance and prevents a no-op stir from duplicating cations.
-        for ion in [
-            ExchangeIon::Sodium,
-            ExchangeIon::Calcium,
-            ExchangeIon::Magnesium,
-        ] {
-            let Some(DerivedRole::Dissolves(elements)) = derived::role(&ion.species().0) else {
-                continue;
-            };
-            let initial_bound: f64 = problem
-                .exchanges
-                .iter()
-                .map(|exchange| exchange.bound(ion).0)
-                .sum();
-            let final_bound: f64 = new_exchanges
-                .iter()
-                .map(|exchange| exchange.bound(ion).0)
-                .sum();
-            for (element, coefficient) in elements {
-                let base = element.split('(').next().unwrap_or(element);
-                let solution_inventory: f64 = problem
-                    .totals
+        if !problem.exchanges.is_empty() {
+            for ion in [
+                ExchangeIon::Sodium,
+                ExchangeIon::Calcium,
+                ExchangeIon::Magnesium,
+            ] {
+                let Some(DerivedRole::Dissolves(elements)) = derived::role(&ion.species().0) else {
+                    continue;
+                };
+                let initial_bound: f64 = problem
+                    .exchanges
                     .iter()
-                    .filter(|(candidate, _)| {
-                        candidate.split('(').next().unwrap_or(candidate) == base
-                    })
-                    .map(|(_, moles)| moles)
+                    .map(|exchange| exchange.bound(ion).0)
                     .sum();
-                let phase_inventory: f64 = problem
-                    .phases
+                let final_bound: f64 = new_exchanges
                     .iter()
-                    .filter_map(|(phase, moles, _)| {
-                        let derived = derived::phase_by_name(phase)?;
-                        let in_phase: f64 = derived
-                            .elements
-                            .iter()
-                            .filter(|(candidate, _)| {
-                                candidate.split('(').next().unwrap_or(candidate) == base
-                            })
-                            .map(|(_, phase_coefficient)| phase_coefficient)
-                            .sum();
-                        Some(moles * in_phase)
-                    })
+                    .map(|exchange| exchange.bound(ion).0)
                     .sum();
-                let ceiling = (solution_inventory + initial_bound * coefficient + phase_inventory
-                    - final_bound * coefficient)
-                    .max(0.0);
-                let aqueous: f64 = new_ions
-                    .iter()
-                    .filter(|(candidate, _)| {
-                        candidate.split('(').next().unwrap_or(candidate) == base
-                    })
-                    .map(|(_, moles)| moles)
-                    .sum();
-                if aqueous > ceiling && aqueous > 0.0 {
-                    let scale = ceiling / aqueous;
-                    for (candidate, moles) in &mut new_ions {
-                        if candidate.split('(').next().unwrap_or(candidate) == base {
-                            *moles *= scale;
+                for (element, coefficient) in elements {
+                    let base = element.split('(').next().unwrap_or(element);
+                    let solution_inventory: f64 = problem
+                        .totals
+                        .iter()
+                        .filter(|(candidate, _)| {
+                            candidate.split('(').next().unwrap_or(candidate) == base
+                        })
+                        .map(|(_, moles)| moles)
+                        .sum();
+                    let phase_inventory: f64 = problem
+                        .phases
+                        .iter()
+                        .filter_map(|(phase, moles, _)| {
+                            let derived = derived::phase_by_name(phase)?;
+                            let in_phase: f64 = derived
+                                .elements
+                                .iter()
+                                .filter(|(candidate, _)| {
+                                    candidate.split('(').next().unwrap_or(candidate) == base
+                                })
+                                .map(|(_, phase_coefficient)| phase_coefficient)
+                                .sum();
+                            Some(moles * in_phase)
+                        })
+                        .sum();
+                    let ceiling =
+                        (solution_inventory + initial_bound * coefficient + phase_inventory
+                            - final_bound * coefficient)
+                            .max(0.0);
+                    let aqueous: f64 = new_ions
+                        .iter()
+                        .filter(|(candidate, _)| {
+                            candidate.split('(').next().unwrap_or(candidate) == base
+                        })
+                        .map(|(_, moles)| moles)
+                        .sum();
+                    if aqueous > ceiling && aqueous > 0.0 {
+                        let scale = ceiling / aqueous;
+                        for (candidate, moles) in &mut new_ions {
+                            if candidate.split('(').next().unwrap_or(candidate) == base {
+                                *moles *= scale;
+                            }
                         }
                     }
                 }
             }
         }
         // The typed mixed crystal owns its end-member formula units. Keep
-        // aqueous selected totals below the analytical inventory remaining
+        // aqueous selected totals equal the analytical inventory remaining
         // after that ownership is removed, regardless of whether a database
-        // reports SOLID_SOLUTIONS inside or outside its selected total.
+        // reports SOLID_SOLUTIONS inside or outside its selected total. In a
+        // closed headspace carbon also moves into CO2(g), so that owned gas
+        // is part of both sides of the ledger. An external gas boundary is
+        // deliberately open and therefore cannot be closed this way.
         if !problem.solid_solutions.is_empty() {
             for element in ["Ca", "Sr", "C"] {
+                if element == "C" && !problem.external_gases.is_empty() {
+                    continue;
+                }
                 let solution_inventory: f64 = problem
                     .totals
                     .iter()
@@ -1921,8 +1930,27 @@ impl PhreeqcEquilibrator {
                     solid_solution_element_inventory(&problem.solid_solutions, element);
                 let final_solid_solution =
                     solid_solution_element_inventory(&new_solid_solutions, element);
-                let ceiling =
-                    (solution_inventory + initial_solid_solution - final_solid_solution).max(0.0);
+                let (initial_gas, final_gas) = if element == "C" {
+                    let initial = vessel
+                        .contents
+                        .iter()
+                        .filter(|portion| portion.phase == Phase::Gas && portion.species.0 == "CO2")
+                        .map(|portion| portion.moles.0)
+                        .sum::<f64>();
+                    let final_amount = problem
+                        .gases
+                        .iter()
+                        .filter(|(_, species, _)| species == "CO2")
+                        .filter_map(|(phase, _, _)| value(&format!("g_{phase}")))
+                        .sum::<f64>();
+                    (initial, final_amount)
+                } else {
+                    (0.0, 0.0)
+                };
+                let target = (solution_inventory + initial_solid_solution + initial_gas
+                    - final_solid_solution
+                    - final_gas)
+                    .max(0.0);
                 let aqueous: f64 = new_ions
                     .iter()
                     .filter(|(candidate, _)| {
@@ -1930,13 +1958,15 @@ impl PhreeqcEquilibrator {
                     })
                     .map(|(_, moles)| moles)
                     .sum();
-                if aqueous > ceiling && aqueous > 0.0 {
-                    let scale = ceiling / aqueous;
+                if aqueous > 0.0 {
+                    let scale = target / aqueous;
                     for (candidate, moles) in &mut new_ions {
                         if candidate.split('(').next().unwrap_or(candidate) == element {
                             *moles *= scale;
                         }
                     }
+                } else if target > TRACE {
+                    new_ions.push((element.to_string(), target));
                 }
             }
         }
