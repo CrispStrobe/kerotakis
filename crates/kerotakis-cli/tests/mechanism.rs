@@ -20,6 +20,22 @@ reactions:
   rate-constant: {A: 1.0e12, b: 0.5, Ea: 41.84}
 "#;
 
+const SIMULATION_MECHANISM: &str = r#"
+description: CLI gas simulation
+phases:
+- name: gas
+  thermo: ideal-gas
+  species: [H2, H]
+species:
+- name: H2
+  composition: {H: 2}
+- name: H
+  composition: {H: 1}
+reactions:
+- equation: H2 => 2 H
+  rate-constant: {A: 1.0, b: 0, Ea: 0}
+"#;
+
 fn mechanism_file(name: &str, contents: &str) -> std::path::PathBuf {
     let dir = std::env::temp_dir().join(format!("kero-mechanism-{}-{}", std::process::id(), name));
     std::fs::create_dir_all(&dir).unwrap();
@@ -93,5 +109,77 @@ fn mechanism_inspect_rejects_unbalanced_input_with_reaction_number() {
     let stderr = String::from_utf8(output.stderr).unwrap();
     assert!(stderr.contains("reaction 1"), "{stderr}");
     assert!(stderr.contains("element H"), "{stderr}");
+    std::fs::remove_dir_all(path.parent().unwrap()).ok();
+}
+
+#[test]
+fn mechanism_simulate_advances_a_finite_gas_reactor_as_json() {
+    let path = mechanism_file("simulate", SIMULATION_MECHANISM);
+    let output = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args([
+            "mechanism",
+            "simulate",
+            path.to_str().unwrap(),
+            "--seconds",
+            "0.1",
+            "--volume-l",
+            "1.0",
+            "--temperature-k",
+            "300.0",
+            "--feed",
+            "H2=1.0",
+            "--json",
+        ])
+        .output()
+        .expect("kero runs");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let value: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(value["mechanism"], "CLI gas simulation");
+    assert_eq!(value["duration_seconds"], 0.1);
+    assert_eq!(value["volume_litres"], 1.0);
+    assert_eq!(value["temperature_k"], 300.0);
+    let remaining = value["final_moles"][0]["moles"].as_f64().unwrap();
+    let product = value["final_moles"][1]["moles"].as_f64().unwrap();
+    let expected_remaining = (-0.1f64).exp();
+    assert!((remaining - expected_remaining).abs() < 1e-6, "{value}");
+    assert!((product - 2.0 * (1.0 - expected_remaining)).abs() < 2e-6);
+    assert!(
+        value["final_pressure_pa"].as_f64().unwrap()
+            > value["initial_pressure_pa"].as_f64().unwrap()
+    );
+    assert_eq!(value["extents"][0]["reaction"], "reaction-1");
+    assert!(value["statistics"]["accepted_steps"].as_u64().unwrap() > 0);
+    std::fs::remove_dir_all(path.parent().unwrap()).ok();
+}
+
+#[test]
+fn mechanism_simulate_rejects_an_unknown_feed_species() {
+    let path = mechanism_file("unknown-feed", SIMULATION_MECHANISM);
+    let output = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args([
+            "mechanism",
+            "simulate",
+            path.to_str().unwrap(),
+            "--seconds",
+            "1",
+            "--volume-l",
+            "1",
+            "--temperature-k",
+            "300",
+            "--feed",
+            "NOPE=1",
+        ])
+        .output()
+        .expect("kero runs");
+    assert_eq!(output.status.code(), Some(2));
+    let stderr = String::from_utf8(output.stderr).unwrap();
+    assert!(
+        stderr.contains("feed species 'NOPE' is not declared"),
+        "{stderr}"
+    );
     std::fs::remove_dir_all(path.parent().unwrap()).ok();
 }

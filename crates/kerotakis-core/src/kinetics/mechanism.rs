@@ -505,6 +505,11 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
 }
 
 impl ParsedMechanism {
+    /// Species names admitted by this validated mechanism, in document order.
+    pub fn species_names(&self) -> impl ExactSizeIterator<Item = &str> {
+        self.species.iter().map(|species| species.name.as_str())
+    }
+
     pub fn summary(&self) -> MechanismSummary {
         let elements = self
             .species
