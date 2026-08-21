@@ -967,13 +967,17 @@ fn mechanism_command(args: &[String]) -> ! {
         );
         for reaction in summary.reaction_details {
             println!(
-                "  {}  {}  order {:.3}; A={:.6e}, b={:.6}, Ea={:.6} J/mol",
+                "  {}  {}  [{}] order {:.3}; A={:.6e}, b={:.6}, Ea={:.6} J/mol{}",
                 reaction.id,
                 reaction.equation,
+                reaction.rate_model,
                 reaction.total_order,
                 reaction.pre_exponential,
                 reaction.temperature_exponent,
-                reaction.activation_energy_j_per_mol
+                reaction.activation_energy_j_per_mol,
+                reaction
+                    .low_pressure_pre_exponential
+                    .map_or_else(String::new, |value| format!(", A0={value:.6e}"))
             );
         }
     }
