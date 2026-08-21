@@ -14,8 +14,8 @@ use serde::{Deserialize, Serialize};
 
 use super::{
     ColliderEfficiency, EquilibriumTerm, IdealGasEquilibrium, KineticReaction, Locality,
-    Nasa7Thermo, OrderTerm, PressureDependence, Range, RateExpression, RateLaw, ReactionNetwork,
-    SiteTerm, StoichiometricTerm, ThirdBody, Troe, Uncertainty, Validity,
+    Nasa7Thermo, OrderTerm, PressureDependence, PressureRate, Range, RateExpression, RateLaw,
+    ReactionNetwork, SiteTerm, StoichiometricTerm, ThirdBody, Troe, Uncertainty, Validity,
 };
 use crate::species::Phase;
 
@@ -56,6 +56,7 @@ pub struct MechanismReactionSummary {
     pub activation_energy_j_per_mol: f64,
     pub rate_model: String,
     pub low_pressure_pre_exponential: Option<f64>,
+    pub pressure_points_pa: Vec<f64>,
     pub reversible: bool,
 }
 
@@ -99,6 +100,9 @@ enum OwnedPressureDependence {
         low_pressure: RateLaw,
         troe: Option<Troe>,
     },
+    Plog {
+        rates: Vec<PressureRate>,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -126,6 +130,7 @@ struct ResolvedUnits {
     concentration_mol_per_litre: f64,
     seconds: f64,
     activation_j_per_mol: f64,
+    pressure_pa: f64,
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -200,6 +205,7 @@ struct RawUnits {
     time: Option<String>,
     quantity: Option<String>,
     activation_energy: Option<String>,
+    pressure: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -240,6 +246,8 @@ struct RawReaction {
     #[serde(default, rename = "low-P-rate-constant")]
     low_p_rate_constant: Option<RawRate>,
     #[serde(default)]
+    rate_constants: Vec<RawPressureRate>,
+    #[serde(default)]
     efficiencies: BTreeMap<String, f64>,
     #[serde(default = "unit_efficiency")]
     default_efficiency: f64,
@@ -266,6 +274,14 @@ struct RawRate {
 }
 
 #[derive(Debug, Deserialize)]
+struct RawPressureRate {
+    #[serde(rename = "P")]
+    pressure: Scalar,
+    #[serde(flatten)]
+    rate: RawRate,
+}
+
+#[derive(Debug, Deserialize)]
 struct RawTroe {
     #[serde(rename = "A")]
     a: f64,
@@ -282,6 +298,7 @@ enum ReactionKind {
     Elementary,
     ThirdBody,
     Falloff,
+    Plog,
 }
 
 #[derive(Debug, Deserialize)]
@@ -381,6 +398,7 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
             "elementary" => ReactionKind::Elementary,
             "three-body" => ReactionKind::ThirdBody,
             "falloff" => ReactionKind::Falloff,
+            "pressure-dependent-Arrhenius" => ReactionKind::Plog,
             _ => {
                 return Err(MechanismError::UnsupportedReactionType {
                     reaction: number,
@@ -397,7 +415,7 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
         }
         let reversible = equation.reversible;
         match (kind, equation.has_collider) {
-            (ReactionKind::Elementary, true) => {
+            (ReactionKind::Elementary | ReactionKind::Plog, true) => {
                 return Err(MechanismError::InvalidReaction {
                     reaction: number,
                     detail: "elementary reaction contains a third-body marker".to_string(),
@@ -497,6 +515,12 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
             (Vec::new(), None)
         };
         let total_order: f64 = orders.iter().map(|order| order.order).sum();
+        if kind != ReactionKind::Plog && !reaction.rate_constants.is_empty() {
+            return Err(MechanismError::InvalidReaction {
+                reaction: number,
+                detail: "rate-constants requires type pressure-dependent-Arrhenius".to_string(),
+            });
+        }
         let collider = validate_collider(
             number,
             reaction.default_efficiency,
@@ -556,6 +580,51 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
                         troe,
                     },
                 )
+            }
+            ReactionKind::Plog => {
+                if collider.is_some()
+                    || reaction.troe.is_some()
+                    || reaction.rate_constant.is_some()
+                    || reaction.high_p_rate_constant.is_some()
+                    || reaction.low_p_rate_constant.is_some()
+                {
+                    return Err(MechanismError::InvalidReaction {
+                        reaction: number,
+                        detail:
+                            "pressure-dependent-Arrhenius reaction declares incompatible rate fields"
+                                .to_string(),
+                    });
+                }
+                if reaction.rate_constants.is_empty() {
+                    return Err(missing_rate(number, "rate-constants"));
+                }
+                let mut rates = reaction
+                    .rate_constants
+                    .iter()
+                    .map(|entry| {
+                        Ok(PressureRate {
+                            pressure_pa: parse_reaction_pressure(
+                                &entry.pressure,
+                                units.pressure_pa,
+                                number,
+                            )?,
+                            arrhenius: normalize_rate(&entry.rate, total_order, units, number)?,
+                        })
+                    })
+                    .collect::<Result<Vec<_>, MechanismError>>()?;
+                rates.sort_by(|left, right| left.pressure_pa.total_cmp(&right.pressure_pa));
+                if rates
+                    .windows(2)
+                    .all(|pair| pair[0].pressure_pa == pair[1].pressure_pa)
+                {
+                    return Err(MechanismError::InvalidReaction {
+                        reaction: number,
+                        detail:
+                            "rate-constants requires at least two distinct interpolation pressures"
+                                .to_string(),
+                    });
+                }
+                (rates[0].arrhenius, OwnedPressureDependence::Plog { rates })
             }
         };
 
@@ -627,6 +696,7 @@ impl ParsedMechanism {
                         OwnedPressureDependence::ThirdBody { .. } => "three_body",
                         OwnedPressureDependence::Falloff { troe: Some(_), .. } => "troe",
                         OwnedPressureDependence::Falloff { troe: None, .. } => "lindemann",
+                        OwnedPressureDependence::Plog { .. } => "pressure_dependent_arrhenius",
                     }
                     .to_string(),
                     low_pressure_pre_exponential: match &reaction.pressure_dependence {
@@ -634,6 +704,10 @@ impl ParsedMechanism {
                             Some(low_pressure.pre_exponential)
                         }
                         _ => None,
+                    },
+                    pressure_points_pa: match &reaction.pressure_dependence {
+                        OwnedPressureDependence::Plog { rates } => unique_pressures(rates),
+                        _ => Vec::new(),
                     },
                     reversible: reaction.reverse_orders.is_some(),
                 })
@@ -708,6 +782,10 @@ impl ParsedMechanism {
                     low_pressure: *low_pressure,
                     troe: *troe,
                 }),
+                OwnedPressureDependence::Plog { rates } => {
+                    let rates = arena.storage.alloc_slice_copy(rates);
+                    Some(PressureDependence::Plog { rates })
+                }
             };
             KineticReaction {
                 id: arena.storage.alloc_str(&reaction.id),
@@ -749,6 +827,15 @@ impl ParsedMechanism {
     }
 }
 
+fn unique_pressures(rates: &[PressureRate]) -> Vec<f64> {
+    let mut pressures = rates
+        .iter()
+        .map(|rate| rate.pressure_pa)
+        .collect::<Vec<_>>();
+    pressures.dedup();
+    pressures
+}
+
 fn compile_collider<'a>(collider: &OwnedThirdBody, arena: &'a MechanismArena) -> ThirdBody<'a> {
     let efficiencies = arena
         .storage
@@ -785,10 +872,12 @@ impl ResolvedUnits {
         };
         let activation_j_per_mol =
             activation_unit(raw.activation_energy.as_deref().unwrap_or("J/kmol"))?;
+        let pressure_pa = pressure_unit(raw.pressure.as_deref().unwrap_or("Pa"))?;
         Ok(Self {
             concentration_mol_per_litre: quantity_moles / volume_litres,
             seconds,
             activation_j_per_mol,
+            pressure_pa,
         })
     }
 }
@@ -809,6 +898,17 @@ fn activation_unit(unit: &str) -> Result<f64, MechanismError> {
         "kcal/mol" => Ok(4_184.0),
         "K" => Ok(super::R),
         unit => Err(unsupported("activation-energy", unit)),
+    }
+}
+
+fn pressure_unit(unit: &str) -> Result<f64, MechanismError> {
+    match unit.trim() {
+        "Pa" => Ok(1.0),
+        "kPa" => Ok(1_000.0),
+        "MPa" => Ok(1_000_000.0),
+        "bar" => Ok(100_000.0),
+        "atm" => Ok(101_325.0),
+        unit => Err(unsupported("pressure", unit)),
     }
 }
 
@@ -919,6 +1019,39 @@ fn parse_activation_energy(value: &Scalar, default_scale: f64) -> Result<f64, Me
                 .map_err(|_| unsupported("activation-energy", text))?;
             Ok(number * activation_unit(unit.trim())?)
         }
+    }
+}
+
+fn parse_reaction_pressure(
+    value: &Scalar,
+    default_scale: f64,
+    reaction: usize,
+) -> Result<f64, MechanismError> {
+    let pressure = match value {
+        Scalar::Number(value) => *value * default_scale,
+        Scalar::Text(text) => {
+            let (number, unit) = text.trim().split_once(char::is_whitespace).ok_or_else(|| {
+                MechanismError::InvalidReaction {
+                    reaction,
+                    detail: format!("invalid pressure '{text}'"),
+                }
+            })?;
+            let number = number
+                .parse::<f64>()
+                .map_err(|_| MechanismError::InvalidReaction {
+                    reaction,
+                    detail: format!("invalid pressure '{text}'"),
+                })?;
+            number * pressure_unit(unit.trim())?
+        }
+    };
+    if pressure.is_finite() && pressure > 0.0 {
+        Ok(pressure)
+    } else {
+        Err(MechanismError::InvalidReaction {
+            reaction,
+            detail: format!("pressure must be finite and positive (got {pressure})"),
+        })
     }
 }
 
@@ -1362,6 +1495,92 @@ species:
         }
         vessel.refresh_pressure();
         vessel
+    }
+
+    const PLOG: &str = r#"
+description: pressure grid
+units: {pressure: atm, activation-energy: J/mol}
+phases:
+- name: gas
+  thermo: ideal-gas
+  species: [A, B]
+species:
+- name: A
+  composition: {X: 1}
+- name: B
+  composition: {X: 1}
+reactions:
+- equation: A => B
+  type: pressure-dependent-Arrhenius
+  rate-constants:
+  - {P: 1, A: 1, b: 0, Ea: 0}
+  - {P: 1, A: 3, b: 0, Ea: 0}
+  - {P: 100, A: 400, b: 0, Ea: 0}
+"#;
+
+    fn sealed_gas_at_pressure(species: &str, pressure_pa: f64) -> Vessel {
+        let temperature_k = 300.0;
+        let concentration = pressure_pa / (8_314.462_618 * temperature_k);
+        let mut vessel = sealed_gas(&[(species, concentration)]);
+        vessel.temperature = crate::Kelvin(temperature_k);
+        vessel.refresh_pressure();
+        vessel
+    }
+
+    #[test]
+    fn plog_sums_duplicate_pressures_interpolates_logs_and_executes_implicitly() {
+        let parsed = parse_yaml(PLOG).unwrap();
+        let summary = parsed.summary();
+        assert_eq!(
+            summary.reaction_details[0].rate_model,
+            "pressure_dependent_arrhenius"
+        );
+        assert_eq!(
+            summary.reaction_details[0].pressure_points_pa,
+            vec![101_325.0, 10_132_500.0]
+        );
+        let arena = MechanismArena::default();
+        let network = parsed.compile_in(&arena);
+        let reaction = &network.reactions[0];
+
+        for (pressure_pa, expected_k) in [
+            (10_132.5, 4.0),
+            (101_325.0, 4.0),
+            (1_013_250.0, 40.0),
+            (10_132_500.0, 400.0),
+            (101_325_000.0, 400.0),
+        ] {
+            let vessel = sealed_gas_at_pressure("A", pressure_pa);
+            let concentration = pressure_pa / (8_314.462_618 * 300.0);
+            let actual_k = reaction.rate_now(&vessel) / concentration;
+            assert!((actual_k - expected_k).abs() < 1e-10, "{actual_k}");
+        }
+
+        let mut vessel = sealed_gas_at_pressure("A", 1_013_250.0);
+        let initial = vessel.moles_of(&crate::SpeciesId::new("A")).0;
+        advance_network(&mut vessel, 0.01, &network).unwrap();
+        let remaining = vessel.moles_of(&crate::SpeciesId::new("A")).0;
+        assert!((remaining - initial * (-0.4f64).exp()).abs() < 1e-6);
+    }
+
+    #[test]
+    fn plog_rejects_missing_or_degenerate_pressure_grids() {
+        let missing = PLOG.replace(
+            "  - {P: 1, A: 1, b: 0, Ea: 0}\n  - {P: 1, A: 3, b: 0, Ea: 0}\n  - {P: 100, A: 400, b: 0, Ea: 0}",
+            "  - {P: 1, A: 1, b: 0, Ea: 0}",
+        );
+        let error = parse_yaml(&missing).unwrap_err().to_string();
+        assert!(
+            error.contains("two distinct interpolation pressures"),
+            "{error}"
+        );
+
+        let invalid = PLOG.replace("P: 100", "P: 0");
+        let error = parse_yaml(&invalid).unwrap_err().to_string();
+        assert!(
+            error.contains("pressure must be finite and positive"),
+            "{error}"
+        );
     }
 
     #[test]

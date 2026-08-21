@@ -2223,6 +2223,15 @@ fluxes with no false limiting candidate; multistep tests prove stoichiometric
 production accounting and step selection. All native, WebAssembly, browser, and
 combined-solver CI gates passed in run `32498166044`.
 
+**Active session — `codex-kin` (2026-08-21, KIN-012).** This session owns
+pressure-dependent Arrhenius gas kinetics: strict `rate-constants` pressure-grid
+parsing, same-pressure rate summation, logarithmic pressure interpolation,
+nearest-endpoint extrapolation, CLI inspection/rates/simulation coverage, and
+invalid-grid diagnostics. Work is isolated on branch `codex-kin/plog-rates` in
+a fresh worktree. It may modify kinetics mechanism/rate modules and focused CLI
+tests. It will not modify equilibrium/surface/VLE work, the PHREEQC BASIC
+replacement, vendored sources, or compatibility fixtures.
+
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
 reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy

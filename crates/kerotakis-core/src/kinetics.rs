@@ -244,6 +244,16 @@ impl Troe {
     }
 }
 
+/// One Arrhenius expression anchored at a pressure in a P-log rate table.
+///
+/// Entries are sorted by pressure. Multiple entries at the same pressure are
+/// retained because their rate constants must be summed before interpolation.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct PressureRate {
+    pub pressure_pa: f64,
+    pub arrhenius: RateLaw,
+}
+
 /// Pressure dependence applied to an elementary mass-action expression.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum PressureDependence<'a> {
@@ -255,12 +265,16 @@ pub enum PressureDependence<'a> {
         low_pressure: RateLaw,
         troe: Option<Troe>,
     },
+    Plog {
+        rates: &'a [PressureRate],
+    },
 }
 
 impl<'a> PressureDependence<'a> {
-    pub(crate) fn collider(self) -> ThirdBody<'a> {
+    pub(crate) fn collider(self) -> Option<ThirdBody<'a>> {
         match self {
-            Self::ThirdBody { collider } | Self::Falloff { collider, .. } => collider,
+            Self::ThirdBody { collider } | Self::Falloff { collider, .. } => Some(collider),
+            Self::Plog { .. } => None,
         }
     }
 
@@ -269,7 +283,11 @@ impl<'a> PressureDependence<'a> {
         high_pressure: RateLaw,
         temperature_k: f64,
         collider_concentration: f64,
+        pressure_pa: f64,
     ) -> f64 {
+        if let Self::Plog { rates } = self {
+            return plog_rate_constant(rates, temperature_k, pressure_pa);
+        }
         if collider_concentration <= 0.0 || !collider_concentration.is_finite() {
             return 0.0;
         }
@@ -290,8 +308,46 @@ impl<'a> PressureDependence<'a> {
                         parameters.broadening(temperature_k, reduced)
                     })
             }
+            Self::Plog { .. } => unreachable!("P-log rates return before collider evaluation"),
         }
     }
+}
+
+fn plog_rate_constant(rates: &[PressureRate], temperature_k: f64, pressure_pa: f64) -> f64 {
+    if rates.is_empty() || pressure_pa <= 0.0 || !pressure_pa.is_finite() {
+        return 0.0;
+    }
+    let group_rate = |start: usize| {
+        let pressure = rates[start].pressure_pa;
+        let mut end = start;
+        let mut rate = 0.0;
+        while end < rates.len() && rates[end].pressure_pa == pressure {
+            rate += rates[end].arrhenius.rate_constant(temperature_k);
+            end += 1;
+        }
+        (pressure, rate, end)
+    };
+    let (first_pressure, first_rate, mut next) = group_rate(0);
+    if pressure_pa <= first_pressure {
+        return first_rate;
+    }
+    let mut lower_pressure = first_pressure;
+    let mut lower_rate = first_rate;
+    while next < rates.len() {
+        let (upper_pressure, upper_rate, following) = group_rate(next);
+        if pressure_pa <= upper_pressure {
+            if lower_rate <= 0.0 || upper_rate <= 0.0 {
+                return 0.0;
+            }
+            let fraction =
+                (pressure_pa / lower_pressure).ln() / (upper_pressure / lower_pressure).ln();
+            return (lower_rate.ln() + fraction * (upper_rate.ln() - lower_rate.ln())).exp();
+        }
+        lower_pressure = upper_pressure;
+        lower_rate = upper_rate;
+        next = following;
+    }
+    lower_rate
 }
 
 impl RateExpression<'_> {
@@ -852,16 +908,22 @@ impl<'a> KineticReaction<'a> {
         let mut k = self.pressure_dependence.map_or_else(
             || law.rate_constant(vessel.temperature.0),
             |dependence| {
-                let collider = dependence.collider();
-                let concentration = vessel
-                    .contents
-                    .iter()
-                    .filter(|portion| portion.phase == Phase::Gas)
-                    .map(|portion| {
-                        portion.moles.0 * collider.efficiency(&portion.species.0) / litres
-                    })
-                    .sum();
-                dependence.rate_constant(law, vessel.temperature.0, concentration)
+                let concentration = dependence.collider().map_or(0.0, |collider| {
+                    vessel
+                        .contents
+                        .iter()
+                        .filter(|portion| portion.phase == Phase::Gas)
+                        .map(|portion| {
+                            portion.moles.0 * collider.efficiency(&portion.species.0) / litres
+                        })
+                        .sum()
+                });
+                dependence.rate_constant(
+                    law,
+                    vessel.temperature.0,
+                    concentration,
+                    vessel.pressure.0,
+                )
             },
         );
         if reverse {
