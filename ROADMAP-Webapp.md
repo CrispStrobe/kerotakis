@@ -1098,9 +1098,23 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   native/Wasm/browser matrix passed in CI run `32503082107`. This is evidence
   about numerical ownership, not a physical calcite-rate claim: the chosen
   constant has zero uncertainty only because it is an exact test parameter.
-- [ ] **AQ-010 — Implement partial freezing as two compartments/phases.** Remove
+- [x] **AQ-010 — Implement partial freezing as two compartments/phases.** Remove
   pure ice, re-equilibrate the residual brine, and stop at a stated eutectic or
   model boundary.
+  **Complete 2026-08-21:** the native and browser application stacks now couple
+  aqueous speciation to the water phase pass until liquid composition and the
+  ice fraction agree within the aqueous engine's declared `0.05 K` resolution.
+  PHREEQC receives only liquid solvent mass; solid water remains a pure ice
+  ledger, and each solvent transfer invalidates and re-solves the residual
+  brine. Core checks pin bounded convergence, stable repeat solves, water
+  conservation, and the explicit `252 K` low-temperature boundary. A live NaCl
+  check pins pure-ice exclusion, increased residual particle molality, sodium
+  and water conservation, common liquidus temperature, and stable repetition.
+  Below the boundary the app emits an explicit refusal because salt solids and
+  a solute-specific phase diagram are required. No external dataset or runtime
+  dependency was added. Native Ubuntu/macOS, strict codex lint, both MY-BASIC
+  previews, core/IPhreeqc/full/combined Wasm, and the real-browser demo passed
+  in CI run `32506920952`.
 - [ ] **AQ-011 — Add a 1-D cell chain.** Implement conservative transfer between
   cells before adding reaction; test a passive tracer.
 - [ ] **AQ-012 — Add exchange/transport coupling.** Produce a finite-column
