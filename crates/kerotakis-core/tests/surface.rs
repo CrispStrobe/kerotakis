@@ -11,6 +11,7 @@ fn hfo() -> SurfaceSites {
         strong_capacity: Moles(5e-6),
         weak_capacity: Moles(2e-4),
         occupancy: Vec::new(),
+        water_release: Moles(0.0),
     }
 }
 
@@ -75,11 +76,15 @@ fn vessel_mass_includes_the_interface_and_its_bound_sorbate() {
         sorbate: SurfaceSorbate::Sulfate,
         moles: Moles(2e-6),
     });
+    surface.water_release = Moles(1e-6);
     vessel.surfaces.push(surface);
 
     let zinc_mass = species::lookup_key("Zn+2").unwrap().molar_mass * 1e-6;
     let sulfate_mass = species::lookup_key("SO4-2").unwrap().molar_mass * 2e-6;
-    assert!((vessel.mass().0 - (0.09 + zinc_mass + sulfate_mass)).abs() < 1e-12);
+    let released_water_mass = species::lookup_key("water").unwrap().molar_mass * 1e-6;
+    assert!(
+        (vessel.mass().0 - (0.09 + zinc_mass + sulfate_mass - released_water_mass)).abs() < 1e-12
+    );
     assert!(
         !vessel.is_empty(),
         "a physical oxide interface is vessel contents"

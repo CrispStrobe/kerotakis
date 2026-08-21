@@ -14,6 +14,7 @@ fn hfo(label: &str, scale: f64) -> SurfaceSites {
         strong_capacity: Moles(5e-6 * scale),
         weak_capacity: Moles(2e-4 * scale),
         occupancy: Vec::new(),
+        water_release: Moles(0.0),
     }
 }
 
@@ -66,7 +67,9 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     bench.vessels[0].surfaces.push(hfo("oxide grains", 1.0));
 
     add(&mut bench, &mut solver, "water", 55.51);
-    let mass_before_zinc = bench.vessel(VesselId(0)).unwrap().mass().0;
+    let before_zinc = bench.vessel(VesselId(0)).unwrap();
+    let mass_before_zinc = before_zinc.mass().0;
+    let water_before_zinc = before_zinc.moles_of(&SpeciesId::new("water")).0;
     add(&mut bench, &mut solver, "ZnSO4", 1e-4);
 
     let state = bench.vessel(VesselId(0)).unwrap();
@@ -82,13 +85,20 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     assert!(surface.occupied(SurfaceSiteKind::Weak).0 <= surface.weak_capacity.0 + 1e-12);
     assert!((zinc_inventory(state) - 1e-4).abs() < 2e-8);
     assert!((sulfate_inventory(state) - 1e-4).abs() < 2e-8);
+    assert!(
+        (state.moles_of(&SpeciesId::new("water")).0 - water_before_zinc - surface.water_release.0)
+            .abs()
+            < 1e-10,
+        "the interface ledger must own water released by ligand exchange"
+    );
     let added_mass = species::lookup_key("ZnSO4").unwrap().molar_mass * 1e-4;
     let mass_error = state.mass().0 - mass_before_zinc - added_mass;
     assert!(
         mass_error.abs() < 2e-5,
-        "surface mass ledger: before={mass_before_zinc:.12e} g, after={:.12e} g, added={added_mass:.12e} g, error={mass_error:.12e} g; water={:.12e} mol, dissolved Zn={:.12e} mol, bound Zn={bound:.12e} mol, dissolved sulfate={:.12e} mol, bound sulfate={:.12e} mol",
+        "surface mass ledger: before={mass_before_zinc:.12e} g, after={:.12e} g, added={added_mass:.12e} g, error={mass_error:.12e} g; water={:.12e} mol, surface water release={:.12e} mol, dissolved Zn={:.12e} mol, bound Zn={bound:.12e} mol, dissolved sulfate={:.12e} mol, bound sulfate={:.12e} mol",
         state.mass().0,
         state.moles_of(&SpeciesId::new("water")).0,
+        surface.water_release.0,
         state.moles_of(&SpeciesId::new("Zn+2")).0,
         state.moles_of(&SpeciesId::new("SO4-2")).0,
         surface.bound(SurfaceSorbate::Sulfate).0,

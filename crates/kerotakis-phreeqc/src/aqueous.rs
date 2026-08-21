@@ -952,6 +952,26 @@ fn distribute_surface_occupancy(
     }
 }
 
+/// Return a site-reaction water transfer to the physical interfaces that
+/// supplied those pooled sites. Positive values are water released into the
+/// solution and therefore mass removed from the interface reference state.
+fn distribute_surface_water_release(
+    surfaces: &mut [SurfaceSites],
+    site: SurfaceSiteKind,
+    total_moles: f64,
+) {
+    let total_capacity: f64 = surfaces
+        .iter()
+        .map(|surface| surface.capacity(site).0)
+        .sum();
+    if total_capacity <= 0.0 || total_moles <= TRACE {
+        return;
+    }
+    for surface in surfaces {
+        surface.water_release.0 += total_moles * surface.capacity(site).0 / total_capacity;
+    }
+}
+
 impl Equilibrator for PhreeqcEquilibrator {
     fn name(&self) -> &'static str {
         "phreeqc-aqueous"
@@ -1306,19 +1326,23 @@ impl PhreeqcEquilibrator {
             // complexes contain one sulfate and occupy one site; failing to
             // round-trip them made sulfur (and its mass) disappear from the
             // vessel after every equilibrium pass.
-            let weak_sulfate = (value("m_Hfo_wSO4-").ok_or_else(|| missing("m_Hfo_wSO4-"))?
-                + value("m_Hfo_wOHSO4-2").ok_or_else(|| missing("m_Hfo_wOHSO4-2"))?)
-                * kgw_out;
+            let weak_sulfate_water =
+                value("m_Hfo_wSO4-").ok_or_else(|| missing("m_Hfo_wSO4-"))? * kgw_out;
+            let weak_sulfate_hydroxyl =
+                value("m_Hfo_wOHSO4-2").ok_or_else(|| missing("m_Hfo_wOHSO4-2"))? * kgw_out;
+            let weak_sulfate = weak_sulfate_water + weak_sulfate_hydroxyl;
             // MINTEQ additionally defines the equivalent strong-site pair.
-            let strong_sulfate = if db_tag == "minteq.v4" {
-                (value("m_Hfo_sSO4-").ok_or_else(|| missing("m_Hfo_sSO4-"))?
-                    + value("m_Hfo_sOHSO4-2").ok_or_else(|| missing("m_Hfo_sOHSO4-2"))?)
-                    * kgw_out
+            let (strong_sulfate, strong_sulfate_water) = if db_tag == "minteq.v4" {
+                let water = value("m_Hfo_sSO4-").ok_or_else(|| missing("m_Hfo_sSO4-"))? * kgw_out;
+                let hydroxyl =
+                    value("m_Hfo_sOHSO4-2").ok_or_else(|| missing("m_Hfo_sOHSO4-2"))? * kgw_out;
+                (water + hydroxyl, water)
             } else {
-                0.0
+                (0.0, 0.0)
             };
             for surface in &mut new_surfaces {
                 surface.occupancy.clear();
+                surface.water_release = Moles(0.0);
             }
             distribute_surface_occupancy(
                 &mut new_surfaces,
@@ -1343,6 +1367,16 @@ impl PhreeqcEquilibrator {
                 SurfaceSiteKind::Weak,
                 SurfaceSorbate::Sulfate,
                 weak_sulfate,
+            );
+            distribute_surface_water_release(
+                &mut new_surfaces,
+                SurfaceSiteKind::Strong,
+                strong_sulfate_water,
+            );
+            distribute_surface_water_release(
+                &mut new_surfaces,
+                SurfaceSiteKind::Weak,
+                weak_sulfate_water,
             );
         }
         let mut new_ions: Vec<(String, f64)> = Vec::new();
