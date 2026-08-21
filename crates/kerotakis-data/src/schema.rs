@@ -56,6 +56,15 @@ pub enum SourceLane {
     ExternalOracle,
 }
 
+impl SourceLane {
+    /// Whether records from this source are eligible to enter a distributed
+    /// runtime pack. Licence review assigns the lane; the pack compiler does
+    /// not reinterpret licence strings or copy oracle material.
+    pub const fn may_enter_runtime_pack(self) -> bool {
+        matches!(self, Self::Runtime)
+    }
+}
+
 /// Bibliographic and distribution identity for one source.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct SourceRecord {

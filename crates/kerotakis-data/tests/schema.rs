@@ -180,6 +180,22 @@ fn every_record_family_round_trips_and_validates() {
 }
 
 #[test]
+fn only_reviewed_runtime_sources_may_enter_a_distributed_pack() {
+    assert!(SourceLane::Runtime.may_enter_runtime_pack());
+    assert!(!SourceLane::BuildOracle.may_enter_runtime_pack());
+    assert!(!SourceLane::ExternalOracle.may_enter_runtime_pack());
+
+    assert_eq!(
+        serde_json::to_string(&SourceLane::BuildOracle).unwrap(),
+        "\"build_oracle\""
+    );
+    assert_eq!(
+        serde_json::to_string(&SourceLane::ExternalOracle).unwrap(),
+        "\"external_oracle\""
+    );
+}
+
+#[test]
 fn a_number_requires_a_real_source_and_a_described_method() {
     let mut document = document();
     let quantity = &mut document.phase_thermodynamics[0].quantity;
