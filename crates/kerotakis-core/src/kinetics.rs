@@ -110,6 +110,114 @@ pub struct RateExpression<'a> {
     pub orders: &'a [OrderTerm<'a>],
 }
 
+/// One species' contribution to the effective third-body concentration.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ColliderEfficiency<'a> {
+    pub species: &'a str,
+    pub efficiency: f64,
+}
+
+/// Collider model shared by ordinary three-body and falloff reactions.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ThirdBody<'a> {
+    pub default_efficiency: f64,
+    pub efficiencies: &'a [ColliderEfficiency<'a>],
+}
+
+impl ThirdBody<'_> {
+    pub(crate) fn efficiency(&self, species: &str) -> f64 {
+        self.efficiencies
+            .iter()
+            .find(|entry| entry.species == species)
+            .map_or(self.default_efficiency, |entry| entry.efficiency)
+    }
+}
+
+/// Troe broadening parameters for a falloff reaction.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Troe {
+    pub a: f64,
+    pub t3: f64,
+    pub t1: f64,
+    pub t2: Option<f64>,
+}
+
+impl Troe {
+    fn broadening(self, temperature_k: f64, reduced_pressure: f64) -> f64 {
+        if reduced_pressure <= 0.0 || !reduced_pressure.is_finite() {
+            return 0.0;
+        }
+        let temperature_k = temperature_k.max(1.0);
+        let mut f_cent = (1.0 - self.a) * (-temperature_k / self.t3).exp()
+            + self.a * (-temperature_k / self.t1).exp();
+        if let Some(t2) = self.t2 {
+            f_cent += (-t2 / temperature_k).exp();
+        }
+        if f_cent <= 0.0 || !f_cent.is_finite() {
+            return 0.0;
+        }
+        let log_f_cent = f_cent.log10();
+        let c = -0.4 - 0.67 * log_f_cent;
+        let n = 0.75 - 1.27 * log_f_cent;
+        let shifted = reduced_pressure.log10() + c;
+        let denominator = n - 0.14 * shifted;
+        if denominator.abs() <= f64::EPSILON {
+            return 0.0;
+        }
+        10f64.powf(log_f_cent / (1.0 + (shifted / denominator).powi(2)))
+    }
+}
+
+/// Pressure dependence applied to an elementary mass-action expression.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum PressureDependence<'a> {
+    ThirdBody {
+        collider: ThirdBody<'a>,
+    },
+    Falloff {
+        collider: ThirdBody<'a>,
+        low_pressure: RateLaw,
+        troe: Option<Troe>,
+    },
+}
+
+impl<'a> PressureDependence<'a> {
+    pub(crate) fn collider(self) -> ThirdBody<'a> {
+        match self {
+            Self::ThirdBody { collider } | Self::Falloff { collider, .. } => collider,
+        }
+    }
+
+    pub(crate) fn rate_constant(
+        self,
+        high_pressure: RateLaw,
+        temperature_k: f64,
+        collider_concentration: f64,
+    ) -> f64 {
+        if collider_concentration <= 0.0 || !collider_concentration.is_finite() {
+            return 0.0;
+        }
+        let high = high_pressure.rate_constant(temperature_k);
+        if high <= 0.0 || !high.is_finite() {
+            return 0.0;
+        }
+        match self {
+            Self::ThirdBody { .. } => high * collider_concentration,
+            Self::Falloff {
+                low_pressure, troe, ..
+            } => {
+                let reduced =
+                    low_pressure.rate_constant(temperature_k) * collider_concentration / high;
+                let lindemann = high * reduced / (1.0 + reduced);
+                lindemann
+                    * troe.map_or(1.0, |parameters| {
+                        parameters.broadening(temperature_k, reduced)
+                    })
+            }
+        }
+    }
+}
+
 impl RateExpression<'_> {
     pub fn dimensions(&self) -> RateDimensions {
         let order: f64 = self.orders.iter().map(|term| term.order).sum();
@@ -185,6 +293,8 @@ pub struct KineticReaction<'a> {
     /// A reverse expression makes the reaction reversible. Absence means the
     /// runtime is explicitly claiming only the forward direction.
     pub reverse: Option<RateExpression<'a>>,
+    /// Third-body or falloff correction for gas-phase mechanisms.
+    pub pressure_dependence: Option<PressureDependence<'a>>,
     /// A catalyst does not appear in the stoichiometry and is not consumed.
     /// It lowers the activation energy — which is the whole content of what
     /// a catalyst *is*, so it is modelled that way rather than as a fudge
@@ -288,6 +398,7 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
             },
         },
         reverse: None,
+        pressure_dependence: None,
         catalysts: &[],
         sites: &[],
         electrons: 0.0,
@@ -349,6 +460,7 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
             },
         },
         reverse: None,
+        pressure_dependence: None,
         catalysts: &[
             Catalyst {
                 species: "MnO2",
@@ -523,6 +635,16 @@ fn phase_moles(vessel: &Vessel, key: &str, phase: Phase) -> f64 {
         .sum()
 }
 
+fn reaction_volume_litres(vessel: &Vessel, locality: Locality) -> f64 {
+    match locality {
+        Locality::Bulk(Phase::Gas) => vessel.headspace_volume().map_or(0.0, |volume| volume.0),
+        Locality::Interface { from, to } if from == Phase::Gas || to == Phase::Gas => {
+            vessel.headspace_volume().map_or(0.0, |volume| volume.0)
+        }
+        _ => vessel.liquid_volume().0,
+    }
+}
+
 fn term_concentration(vessel: &Vessel, term: &OrderTerm<'_>, litres: f64) -> Option<f64> {
     if term.species == PROTON {
         // No characterised solution means no known acidity: the rate is
@@ -611,7 +733,7 @@ impl<'a> KineticReaction<'a> {
     }
 
     fn expression_rate(&self, vessel: &Vessel, expression: RateExpression<'a>) -> f64 {
-        let litres = vessel.liquid_volume().0;
+        let litres = reaction_volume_litres(vessel, self.locality);
         if litres <= 0.0 {
             return 0.0;
         }
@@ -629,7 +751,21 @@ impl<'a> KineticReaction<'a> {
             temperature_exponent: expression.arrhenius.temperature_exponent,
             activation_energy: ea,
         };
-        let k = law.rate_constant(vessel.temperature.0);
+        let k = self.pressure_dependence.map_or_else(
+            || law.rate_constant(vessel.temperature.0),
+            |dependence| {
+                let collider = dependence.collider();
+                let concentration = vessel
+                    .contents
+                    .iter()
+                    .filter(|portion| portion.phase == Phase::Gas)
+                    .map(|portion| {
+                        portion.moles.0 * collider.efficiency(&portion.species.0) / litres
+                    })
+                    .sum();
+                dependence.rate_constant(law, vessel.temperature.0, concentration)
+            },
+        );
         let mut rate = k;
         for term in expression.orders {
             let Some(c) = term_concentration(vessel, term, litres) else {
@@ -753,6 +889,7 @@ fn apply_coupled_extents(
             vessel.deposit(SpeciesId::new(species), Moles(accepted), phase);
         }
     }
+    vessel.refresh_pressure();
     accepted_fraction
 }
 
@@ -1190,6 +1327,7 @@ mod tests {
             locality: Locality::Bulk(Phase::Aqueous),
             forward,
             reverse,
+            pressure_dependence: None,
             catalysts: &[],
             sites: &[],
             electrons: 0.0,

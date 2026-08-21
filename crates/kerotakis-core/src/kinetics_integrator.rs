@@ -5,13 +5,14 @@
 //! matrix for every rate evaluation. This keeps conservation structural: the
 //! solver cannot independently drift two species that belong to one reaction.
 
+use std::collections::BTreeSet;
 use std::ops::{Index, IndexMut};
 
 use diffsol::{NalgebraLU, NalgebraMat, OdeBuilder, OdeSolverMethod, OdeSolverStopReason};
 
 use super::{
-    apply_coupled_extents, phase_moles, KineticReaction, Moles, Phase, RateExpression,
-    ReactionNetwork, Vessel, DEPLETED, PROTON,
+    apply_coupled_extents, phase_moles, reaction_volume_litres, KineticReaction, Moles, Phase,
+    RateExpression, ReactionNetwork, Vessel, DEPLETED, PROTON,
 };
 
 const DEPLETION_EVENT: f64 = DEPLETED * 10.0;
@@ -72,7 +73,6 @@ pub enum IntegrationError {
 struct ExtentSystem<'a> {
     vessel: &'a Vessel,
     reactions: &'a [KineticReaction<'a>],
-    litres: f64,
 }
 
 impl<'a> ExtentSystem<'a> {
@@ -149,6 +149,10 @@ impl<'a> ExtentSystem<'a> {
     where
         X: Index<usize, Output = f64>,
     {
+        let litres = reaction_volume_litres(self.vessel, reaction.locality);
+        if litres <= 0.0 {
+            return 0.0;
+        }
         let catalyst_ea = reaction
             .catalysts
             .iter()
@@ -158,12 +162,41 @@ impl<'a> ExtentSystem<'a> {
         let activation_energy = catalyst_ea
             .map(|candidate| candidate.min(expression.arrhenius.activation_energy))
             .unwrap_or(expression.arrhenius.activation_energy);
-        let mut rate = super::RateLaw {
+        let law = super::RateLaw {
             pre_exponential: expression.arrhenius.pre_exponential,
             temperature_exponent: expression.arrhenius.temperature_exponent,
             activation_energy,
-        }
-        .rate_constant(self.vessel.temperature.0);
+        };
+        let mut rate = reaction.pressure_dependence.map_or_else(
+            || law.rate_constant(self.vessel.temperature.0),
+            |dependence| {
+                let collider = dependence.collider();
+                let mut species = BTreeSet::new();
+                species.extend(
+                    self.vessel
+                        .contents
+                        .iter()
+                        .filter(|portion| portion.phase == Phase::Gas)
+                        .map(|portion| portion.species.0.as_str()),
+                );
+                for candidate in self.reactions {
+                    species.extend(
+                        candidate
+                            .stoichiometry
+                            .iter()
+                            .filter(|term| term.phase == Phase::Gas)
+                            .map(|term| term.species),
+                    );
+                }
+                let concentration = species
+                    .into_iter()
+                    .map(|name| {
+                        self.amount(extents, name, Phase::Gas) * collider.efficiency(name) / litres
+                    })
+                    .sum();
+                dependence.rate_constant(law, self.vessel.temperature.0, concentration)
+            },
+        );
 
         for term in expression.orders {
             let concentration = if term.species == PROTON {
@@ -173,9 +206,9 @@ impl<'a> ExtentSystem<'a> {
                     .map(|solution| 10f64.powf(-solution.ph))
                     .unwrap_or(0.0)
             } else if let Some(phase) = term.phase {
-                self.amount(extents, term.species, phase) / self.litres
+                self.amount(extents, term.species, phase) / litres
             } else {
-                self.total_amount(extents, term.species) / self.litres
+                self.total_amount(extents, term.species) / litres
             };
             if concentration <= 0.0 || !concentration.is_finite() {
                 return 0.0;
@@ -205,7 +238,8 @@ impl<'a> ExtentSystem<'a> {
                 .filter(|_| self.direction_available(reaction, extents, false))
                 .map(|expression| self.expression_rate(reaction, expression, extents))
                 .unwrap_or(0.0);
-            output[index] = (forward - reverse) * self.litres;
+            output[index] =
+                (forward - reverse) * reaction_volume_litres(self.vessel, reaction.locality);
         }
     }
 
@@ -302,14 +336,16 @@ pub fn advance_network_with_options<'a>(
         if remaining <= seconds.max(1.0) * f64::EPSILON {
             break;
         }
-        let litres = vessel.liquid_volume().0;
-        if litres <= 0.0 {
+        if network
+            .reactions
+            .iter()
+            .all(|reaction| reaction_volume_litres(vessel, reaction.locality) <= 0.0)
+        {
             break;
         }
         let system = ExtentSystem {
             vessel,
             reactions: network.reactions,
-            litres,
         };
         let zero = vec![0.0; network.reactions.len()];
         if system
