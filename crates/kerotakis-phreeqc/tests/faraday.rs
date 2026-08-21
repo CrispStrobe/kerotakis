@@ -4,6 +4,8 @@
 //! half of the same idea — what a current *moves* — and it is the half with
 //! a number a learner can put on a balance.
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 

@@ -1,6 +1,8 @@
 //! Weak-acid chemistry from the database's own equilibria (H+ + Acetate- =
 //! HAc, pKa ≈ 4.76 in minteq.v4), buffers, and the content-addressed cache.
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 use kerotakis_safety::ReactiveGroupScreen;

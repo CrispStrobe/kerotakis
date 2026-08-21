@@ -45,6 +45,9 @@ Currently shipped
   in-app under About -> Open-source licenses, generated from cargo-about.
 
 Planned, not yet shipped (recorded here so the intent is public)
+- MY-BASIC — MIT, Copyright (c) 2011–2026 Tony Wang. Pinned, in-progress
+  replacement language core for PHREEQC BASIC programs; currently available
+  only through the development-only `my-basic-preview` build feature.
 - Indigo — Apache-2.0, Copyright (c) EPAM Systems. Structure handling, reaction
   product enumeration, and canonical identity via its bundled IUPAC InChI
   plugin (InChI v1.07+, MIT, Copyright (c) the InChI Project).

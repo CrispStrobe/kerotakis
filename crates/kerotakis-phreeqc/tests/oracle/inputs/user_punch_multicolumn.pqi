@@ -1,0 +1,13 @@
+SOLUTION 1
+    units mol/kgw
+    pH 7
+    Na 0.01
+    Ca 0.001
+    C 0.001 as HCO3
+SELECTED_OUTPUT
+    -reset false
+    -high_precision true
+USER_PUNCH
+    -headings na_tot ca_tot log10_na
+    10 PUNCH TOT("Na"), TOT("Ca"), LOG10(TOT("Na"))
+END

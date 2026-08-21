@@ -16,7 +16,7 @@ if [ ! -f "$SRC/CMakeLists.txt" ]; then
     exit 1
 fi
 
-EXPORTED_FUNCTIONS='["_CreateIPhreeqc","_DestroyIPhreeqc","_LoadDatabaseString","_RunString","_GetErrorString","_SetOutputFileOn","_SetErrorFileOn","_SetLogFileOn","_SetDumpFileOn","_SetSelectedOutputFileOn","_SetSelectedOutputStringOn","_SetOutputStringOn","_GetOutputString","_GetOutputStringLineCount","_GetSelectedOutputStringLineCount","_GetSelectedOutputStringLine","_malloc","_free"]'
+EXPORTED_FUNCTIONS='["_CreateIPhreeqc","_DestroyIPhreeqc","_LoadDatabaseString","_RunString","_GetErrorString","_GetSpeciesDeltaH","_SetOutputFileOn","_SetErrorFileOn","_SetLogFileOn","_SetDumpFileOn","_SetSelectedOutputFileOn","_SetSelectedOutputStringOn","_SetOutputStringOn","_GetOutputString","_GetOutputStringLineCount","_GetSelectedOutputStringLineCount","_GetSelectedOutputStringLine","_malloc","_free"]'
 
 # -fexceptions is required: PHREEQC uses C++ exceptions for error control
 # flow, and Emscripten disables exception catching by default.
@@ -24,6 +24,7 @@ emcmake cmake -S "$SRC" -B "$BUILD" \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
     -DBUILD_SHARED_LIBS=OFF \
     -DIPHREEQC_ENABLE_MODULE=OFF \
+    -DIPHREEQC_WITH_BASIC=OFF \
     -DBUILD_TESTING=OFF \
     -DCMAKE_CXX_FLAGS="-fexceptions" \
     -DCMAKE_C_FLAGS="-fexceptions"

@@ -3,6 +3,8 @@
 //! pressure — supersaturation bubbles out, an undersaturated solution stays
 //! quiet, and the balance sees the mass leave.
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 use kerotakis_safety::ReactiveGroupScreen;

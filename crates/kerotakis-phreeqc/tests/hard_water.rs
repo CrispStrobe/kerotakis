@@ -1,6 +1,8 @@
 //! Hard-water chemistry: chalk, limescale, gypsum's waters of
 //! crystallisation, and the calcium chloride hot pack.
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 
