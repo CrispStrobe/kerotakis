@@ -982,10 +982,15 @@ fn inspect_mechanism(args: &[String]) -> ! {
         );
         for reaction in summary.reaction_details {
             println!(
-                "  {}  {}  [{}] order {:.3}; A={:.6e}, b={:.6}, Ea={:.6} J/mol{}",
+                "  {}  {}  [{}{}] order {:.3}; A={:.6e}, b={:.6}, Ea={:.6} J/mol{}",
                 reaction.id,
                 reaction.equation,
                 reaction.rate_model,
+                if reaction.reversible {
+                    ", reversible"
+                } else {
+                    ""
+                },
                 reaction.total_order,
                 reaction.pre_exponential,
                 reaction.temperature_exponent,

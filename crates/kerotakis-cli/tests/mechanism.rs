@@ -36,6 +36,30 @@ reactions:
   rate-constant: {A: 1.0, b: 0, Ea: 0}
 "#;
 
+const REVERSIBLE_MECHANISM: &str = r#"
+description: CLI reversible simulation
+phases:
+- name: gas
+  thermo: ideal-gas
+  species: [A, B]
+species:
+- name: A
+  composition: {X: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 3000.0]
+    data: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]]
+- name: B
+  composition: {X: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 3000.0]
+    data: [[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.3862943611198906]]
+reactions:
+- equation: A <=> B
+  rate-constant: {A: 1.0, b: 0, Ea: 0}
+"#;
+
 fn mechanism_file(name: &str, contents: &str) -> std::path::PathBuf {
     let dir = std::env::temp_dir().join(format!("kero-mechanism-{}-{}", std::process::id(), name));
     std::fs::create_dir_all(&dir).unwrap();
@@ -63,6 +87,7 @@ fn mechanism_inspect_json_is_machine_readable_and_normalized() {
     assert_eq!(value["reactions"], 1);
     assert_eq!(value["reaction_details"][0]["total_order"], 3.0);
     assert_eq!(value["reaction_details"][0]["rate_model"], "elementary");
+    assert_eq!(value["reaction_details"][0]["reversible"], false);
     assert!(value["reaction_details"][0]["low_pressure_pre_exponential"].is_null());
     assert_eq!(
         value["reaction_details"][0]["activation_energy_j_per_mol"],
@@ -169,6 +194,42 @@ fn mechanism_simulate_advances_a_finite_gas_reactor_as_json() {
     );
     assert_eq!(value["extents"][0]["reaction"], "reaction-1");
     assert!(value["statistics"]["accepted_steps"].as_u64().unwrap() > 0);
+    std::fs::remove_dir_all(path.parent().unwrap()).ok();
+}
+
+#[test]
+fn mechanism_simulate_reversible_gas_approaches_thermodynamic_equilibrium() {
+    let path = mechanism_file("reversible", REVERSIBLE_MECHANISM);
+    let output = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args([
+            "mechanism",
+            "simulate",
+            path.to_str().unwrap(),
+            "--seconds",
+            "20",
+            "--volume-l",
+            "1",
+            "--temperature-k",
+            "500",
+            "--feed",
+            "A=1",
+            "--samples",
+            "4",
+            "--json",
+        ])
+        .output()
+        .expect("kero runs");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let value: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    let a = value["final_moles"][0]["moles"].as_f64().unwrap();
+    let b = value["final_moles"][1]["moles"].as_f64().unwrap();
+    assert!((a - 0.2).abs() < 1e-6, "{value}");
+    assert!((b - 0.8).abs() < 1e-6, "{value}");
+    assert!((b / a - 4.0).abs() < 1e-5, "{value}");
     std::fs::remove_dir_all(path.parent().unwrap()).ok();
 }
 

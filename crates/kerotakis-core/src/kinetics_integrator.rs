@@ -145,6 +145,7 @@ impl<'a> ExtentSystem<'a> {
         reaction: &KineticReaction<'a>,
         expression: RateExpression<'a>,
         extents: &X,
+        reverse: bool,
     ) -> f64
     where
         X: Index<usize, Output = f64>,
@@ -197,6 +198,11 @@ impl<'a> ExtentSystem<'a> {
                 dependence.rate_constant(law, self.vessel.temperature.0, concentration)
             },
         );
+        if reverse {
+            if let Some(equilibrium) = reaction.equilibrium {
+                rate /= equilibrium.concentration_equilibrium_constant(self.vessel.temperature.0);
+            }
+        }
 
         for term in expression.orders {
             let concentration = if term.species == PROTON {
@@ -228,15 +234,19 @@ impl<'a> ExtentSystem<'a> {
         Y: IndexMut<usize, Output = f64>,
     {
         for (index, reaction) in self.reactions.iter().enumerate() {
+            if !reaction.in_validity_domain(self.vessel) {
+                output[index] = 0.0;
+                continue;
+            }
             let forward = if self.direction_available(reaction, extents, true) {
-                self.expression_rate(reaction, reaction.forward, extents)
+                self.expression_rate(reaction, reaction.forward, extents, false)
             } else {
                 0.0
             };
             let reverse = reaction
                 .reverse
                 .filter(|_| self.direction_available(reaction, extents, false))
-                .map(|expression| self.expression_rate(reaction, expression, extents))
+                .map(|expression| self.expression_rate(reaction, expression, extents, true))
                 .unwrap_or(0.0);
             output[index] =
                 (forward - reverse) * reaction_volume_litres(self.vessel, reaction.locality);

@@ -2204,6 +2204,16 @@ tests compare every sampled point with the analytic first-order solution, prove
 monotonic depletion and pressure growth, and reject zero intervals. All native,
 WebAssembly, browser, and combined-solver CI gates passed in run `32495335994`.
 
+**Completed session — `codex-kin` (2026-08-21, KIN-010).** This session added
+strict one- and two-region NASA7 thermochemistry, per-species reference-pressure
+parsing, ideal-gas concentration equilibrium constants, and elementary
+reversible detailed-balance execution in both direct and implicit evaluators.
+Product-side reverse orders and shared thermochemistry validity ranges are
+enforced. CLI inspection/simulation plus exact standard-state equilibrium,
+direct-rate, equilibrium-convergence, out-of-range, and schema tests are
+included. All native, WebAssembly, browser, and combined-solver CI gates passed
+in run `32496871088`. Pressure-dependent reverse reactions remain future work.
+
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
 reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy

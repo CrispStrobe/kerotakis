@@ -13,8 +13,9 @@ use bumpalo::Bump;
 use serde::{Deserialize, Serialize};
 
 use super::{
-    ColliderEfficiency, KineticReaction, Locality, OrderTerm, PressureDependence, RateExpression,
-    RateLaw, ReactionNetwork, SiteTerm, StoichiometricTerm, ThirdBody, Troe, Uncertainty, Validity,
+    ColliderEfficiency, EquilibriumTerm, IdealGasEquilibrium, KineticReaction, Locality,
+    Nasa7Thermo, OrderTerm, PressureDependence, Range, RateExpression, RateLaw, ReactionNetwork,
+    SiteTerm, StoichiometricTerm, ThirdBody, Troe, Uncertainty, Validity,
 };
 use crate::species::Phase;
 
@@ -55,6 +56,7 @@ pub struct MechanismReactionSummary {
     pub activation_energy_j_per_mol: f64,
     pub rate_model: String,
     pub low_pressure_pre_exponential: Option<f64>,
+    pub reversible: bool,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -62,6 +64,7 @@ struct MechanismSpecies {
     name: String,
     composition: BTreeMap<String, f64>,
     phase: Phase,
+    thermo: Option<Nasa7Thermo>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -70,9 +73,19 @@ struct OwnedReaction {
     equation: String,
     stoichiometry: Vec<OwnedTerm>,
     orders: Vec<OwnedOrder>,
+    reverse_orders: Option<Vec<OwnedOrder>>,
     rate: RateLaw,
     pressure_dependence: OwnedPressureDependence,
+    equilibrium: Vec<OwnedEquilibriumTerm>,
+    validity_temperature_k: Option<Range>,
     phase: Phase,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+struct OwnedEquilibriumTerm {
+    species: String,
+    coefficient: f64,
+    thermo: Nasa7Thermo,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -141,10 +154,10 @@ pub enum MechanismError {
         element: String,
         count: f64,
     },
+    #[error("species '{species}' has invalid NASA7 thermochemistry: {detail}")]
+    InvalidThermo { species: String, detail: String },
     #[error("reaction {reaction}: {detail}")]
     InvalidReaction { reaction: usize, detail: String },
-    #[error("reaction {reaction}: reversible elementary reactions need thermodynamic reverse rates, which are not in the KIN-006 subset")]
-    UnsupportedReversible { reaction: usize },
     #[error("reaction {reaction}: unsupported reaction type '{kind}'")]
     UnsupportedReactionType { reaction: usize, kind: String },
     #[error("reaction {reaction}: unknown species '{species}'")]
@@ -200,6 +213,18 @@ struct RawPhase {
 struct RawSpecies {
     name: String,
     composition: BTreeMap<String, f64>,
+    #[serde(default)]
+    thermo: Option<RawThermo>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+struct RawThermo {
+    model: String,
+    temperature_ranges: Vec<f64>,
+    data: Vec<Vec<f64>>,
+    #[serde(default)]
+    reference_pressure: Option<Scalar>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -331,10 +356,16 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
                     species: entry.name.clone(),
                 }
             })?;
+            let thermo = entry
+                .thermo
+                .as_ref()
+                .map(|raw| validate_nasa7(&entry.name, raw))
+                .transpose()?;
             Ok(MechanismSpecies {
                 name: entry.name,
                 composition: entry.composition,
                 phase,
+                thermo,
             })
         })
         .collect::<Result<_, MechanismError>>()?;
@@ -358,6 +389,13 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
             }
         };
         let equation = parse_equation(&reaction.equation, number)?;
+        if equation.reversible && kind != ReactionKind::Elementary {
+            return Err(MechanismError::InvalidReaction {
+                reaction: number,
+                detail: "reversible pressure-dependent reactions are not supported yet".to_string(),
+            });
+        }
+        let reversible = equation.reversible;
         match (kind, equation.has_collider) {
             (ReactionKind::Elementary, true) => {
                 return Err(MechanismError::InvalidReaction {
@@ -410,6 +448,54 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
                 order: -*coefficient,
             })
             .collect();
+        let reverse_orders = reversible.then(|| {
+            stoichiometry
+                .iter()
+                .filter(|(_, coefficient)| **coefficient > 0.0)
+                .map(|(name, coefficient)| OwnedOrder {
+                    species: name.clone(),
+                    phase: species_by_name[name.as_str()].phase,
+                    order: *coefficient,
+                })
+                .collect::<Vec<_>>()
+        });
+        let (equilibrium, validity_temperature_k) = if reversible {
+            let mut min_temperature_k: f64 = 0.0;
+            let mut max_temperature_k = f64::INFINITY;
+            let mut terms = Vec::with_capacity(stoichiometry.len());
+            for (name, coefficient) in &stoichiometry {
+                let thermo = species_by_name[name.as_str()].thermo.ok_or_else(|| {
+                    MechanismError::InvalidReaction {
+                        reaction: number,
+                        detail: format!(
+                            "reversible reaction species '{name}' is missing NASA7 thermochemistry"
+                        ),
+                    }
+                })?;
+                min_temperature_k = min_temperature_k.max(thermo.min_temperature_k);
+                max_temperature_k = max_temperature_k.min(thermo.max_temperature_k);
+                terms.push(OwnedEquilibriumTerm {
+                    species: name.clone(),
+                    coefficient: *coefficient,
+                    thermo,
+                });
+            }
+            if min_temperature_k > max_temperature_k {
+                return Err(MechanismError::InvalidReaction {
+                    reaction: number,
+                    detail: "reversible species have no shared NASA7 temperature range".to_string(),
+                });
+            }
+            (
+                terms,
+                Some(Range {
+                    min: min_temperature_k,
+                    max: max_temperature_k,
+                }),
+            )
+        } else {
+            (Vec::new(), None)
+        };
         let total_order: f64 = orders.iter().map(|order| order.order).sum();
         let collider = validate_collider(
             number,
@@ -486,8 +572,11 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
             equation: reaction.equation,
             stoichiometry: terms,
             orders,
+            reverse_orders,
             rate,
             pressure_dependence,
+            equilibrium,
+            validity_temperature_k,
             phase: Phase::Gas,
         });
     }
@@ -546,6 +635,7 @@ impl ParsedMechanism {
                         }
                         _ => None,
                     },
+                    reversible: reaction.reverse_orders.is_some(),
                 })
                 .collect(),
         }
@@ -558,7 +648,7 @@ impl ParsedMechanism {
             .alloc_str("runtime mechanism YAML; parameters supplied by the loaded document");
         let note = arena
             .storage
-            .alloc_str("validity range not declared by the loaded mechanism");
+            .alloc_str("runtime mechanism validity, including shared thermochemistry range");
         let reactions = self.reactions.iter().map(|reaction| {
             let stoichiometry =
                 arena
@@ -577,6 +667,31 @@ impl ParsedMechanism {
                     phase: Some(term.phase),
                     order: term.order,
                 }));
+            let reverse = reaction.reverse_orders.as_ref().map(|terms| {
+                let orders = arena
+                    .storage
+                    .alloc_slice_fill_iter(terms.iter().map(|term| OrderTerm {
+                        species: arena.storage.alloc_str(&term.species),
+                        phase: Some(term.phase),
+                        order: term.order,
+                    }));
+                RateExpression {
+                    arrhenius: reaction.rate,
+                    orders,
+                }
+            });
+            let equilibrium = (!reaction.equilibrium.is_empty()).then(|| {
+                let terms = arena
+                    .storage
+                    .alloc_slice_fill_iter(reaction.equilibrium.iter().map(|term| {
+                        EquilibriumTerm {
+                            species: arena.storage.alloc_str(&term.species),
+                            coefficient: term.coefficient,
+                            thermo: term.thermo,
+                        }
+                    }));
+                IdealGasEquilibrium { terms }
+            });
             let pressure_dependence = match &reaction.pressure_dependence {
                 OwnedPressureDependence::None => None,
                 OwnedPressureDependence::ThirdBody { collider } => {
@@ -603,13 +718,14 @@ impl ParsedMechanism {
                     arrhenius: reaction.rate,
                     orders,
                 },
-                reverse: None,
+                reverse,
+                equilibrium,
                 pressure_dependence,
                 catalysts: &[],
                 sites: &[] as &[SiteTerm<'_>],
                 electrons: 0.0,
                 validity: Validity {
-                    temperature_k: None,
+                    temperature_k: reaction.validity_temperature_k,
                     pressure_pa: None,
                     note,
                 },
@@ -694,6 +810,100 @@ fn activation_unit(unit: &str) -> Result<f64, MechanismError> {
         "K" => Ok(super::R),
         unit => Err(unsupported("activation-energy", unit)),
     }
+}
+
+fn thermo_error(species: &str, detail: impl Into<String>) -> MechanismError {
+    MechanismError::InvalidThermo {
+        species: species.to_string(),
+        detail: detail.into(),
+    }
+}
+
+fn parse_reference_pressure(species: &str, value: Option<&Scalar>) -> Result<f64, MechanismError> {
+    let pressure = match value {
+        None => 101_325.0,
+        Some(Scalar::Number(value)) => *value,
+        Some(Scalar::Text(text)) => {
+            let (number, unit) = text.trim().split_once(char::is_whitespace).ok_or_else(|| {
+                thermo_error(species, format!("invalid reference pressure '{text}'"))
+            })?;
+            let number = number.parse::<f64>().map_err(|_| {
+                thermo_error(species, format!("invalid reference pressure '{text}'"))
+            })?;
+            number
+                * match unit.trim() {
+                    "Pa" => 1.0,
+                    "kPa" => 1_000.0,
+                    "bar" => 100_000.0,
+                    "atm" => 101_325.0,
+                    _ => {
+                        return Err(thermo_error(
+                            species,
+                            format!("unsupported reference-pressure unit '{}'", unit.trim()),
+                        ))
+                    }
+                }
+        }
+    };
+    if pressure.is_finite() && pressure > 0.0 {
+        Ok(pressure)
+    } else {
+        Err(thermo_error(
+            species,
+            format!("reference pressure must be finite and positive (got {pressure})"),
+        ))
+    }
+}
+
+fn nasa_coefficients(species: &str, row: &[f64]) -> Result<[f64; 7], MechanismError> {
+    if row.len() != 7 || row.iter().any(|coefficient| !coefficient.is_finite()) {
+        return Err(thermo_error(
+            species,
+            "each NASA7 data row must contain seven finite coefficients",
+        ));
+    }
+    Ok(row.try_into().expect("NASA7 row length was checked"))
+}
+
+fn validate_nasa7(species: &str, raw: &RawThermo) -> Result<Nasa7Thermo, MechanismError> {
+    if raw.model != "NASA7" {
+        return Err(thermo_error(
+            species,
+            format!("unsupported model '{}'", raw.model),
+        ));
+    }
+    let (min_temperature_k, midpoint_temperature_k, max_temperature_k, low, high) =
+        match (raw.temperature_ranges.as_slice(), raw.data.as_slice()) {
+            ([min, max], [coefficients]) => (*min, *max, *max, coefficients, coefficients),
+            ([min, midpoint, max], [low, high]) => (*min, *midpoint, *max, low, high),
+            _ => {
+                return Err(thermo_error(
+                    species,
+                    "NASA7 requires two temperature bounds and one data row, or three bounds and two data rows",
+                ))
+            }
+        };
+    if !min_temperature_k.is_finite()
+        || !midpoint_temperature_k.is_finite()
+        || !max_temperature_k.is_finite()
+        || min_temperature_k <= 0.0
+        || min_temperature_k >= midpoint_temperature_k
+        || midpoint_temperature_k > max_temperature_k
+        || (raw.data.len() == 2 && midpoint_temperature_k >= max_temperature_k)
+    {
+        return Err(thermo_error(
+            species,
+            "temperature ranges must be finite, positive, and strictly increasing",
+        ));
+    }
+    Ok(Nasa7Thermo {
+        min_temperature_k,
+        midpoint_temperature_k,
+        max_temperature_k,
+        low_coefficients: nasa_coefficients(species, low)?,
+        high_coefficients: nasa_coefficients(species, high)?,
+        reference_pressure_pa: parse_reference_pressure(species, raw.reference_pressure.as_ref())?,
+    })
 }
 
 fn parse_activation_energy(value: &Scalar, default_scale: f64) -> Result<f64, MechanismError> {
@@ -848,18 +1058,20 @@ struct Equation {
     reactants: Vec<(String, f64)>,
     products: Vec<(String, f64)>,
     has_collider: bool,
+    reversible: bool,
 }
 
 fn parse_equation(text: &str, reaction: usize) -> Result<Equation, MechanismError> {
-    if text.contains("<=>") {
-        return Err(MechanismError::UnsupportedReversible { reaction });
-    }
-    let (left, right) = text
-        .split_once("=>")
-        .ok_or_else(|| MechanismError::InvalidReaction {
+    let (left, right, reversible) = if let Some((left, right)) = text.split_once("<=>") {
+        (left, right, true)
+    } else if let Some((left, right)) = text.split_once("=>") {
+        (left, right, false)
+    } else {
+        return Err(MechanismError::InvalidReaction {
             reaction,
-            detail: "expected the irreversible arrow '=>'".to_string(),
-        })?;
+            detail: "expected the reaction arrow '=>' or '<=>'".to_string(),
+        });
+    };
     let (reactants, left_collider) = parse_side(left, reaction)?;
     let (products, right_collider) = parse_side(right, reaction)?;
     if left_collider != right_collider {
@@ -872,6 +1084,7 @@ fn parse_equation(text: &str, reaction: usize) -> Result<Equation, MechanismErro
         reactants,
         products,
         has_collider: left_collider,
+        reversible,
     })
 }
 
@@ -1006,7 +1219,7 @@ reactions:
     }
 
     #[test]
-    fn rejects_unbalanced_unknown_and_reversible_reactions() {
+    fn rejects_unbalanced_unknown_and_uncharacterised_reversible_reactions() {
         let unbalanced = HYDROGEN.replace("2 H2O", "H2O");
         assert!(matches!(
             parse_yaml(&unbalanced),
@@ -1018,10 +1231,96 @@ reactions:
             Err(MechanismError::UnknownReactionSpecies { .. })
         ));
         let reversible = HYDROGEN.replace("=>", "<=>");
-        assert!(matches!(
-            parse_yaml(&reversible),
-            Err(MechanismError::UnsupportedReversible { .. })
-        ));
+        let error = parse_yaml(&reversible).unwrap_err().to_string();
+        assert!(error.contains("missing NASA7 thermochemistry"), "{error}");
+    }
+
+    const REVERSIBLE: &str = r#"
+description: reversible isomerisation
+phases:
+- name: gas
+  thermo: ideal-gas
+  species: [A, B]
+species:
+- name: A
+  composition: {X: 1}
+  thermo:
+    model: NASA7
+    temperature-ranges: [200.0, 1000.0, 3000.0]
+    data:
+    - [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    - [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+- name: B
+  composition: {X: 1}
+  thermo:
+    model: NASA7
+    reference-pressure: 1 atm
+    temperature-ranges: [200.0, 1000.0, 3000.0]
+    data:
+    - [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.3862943611198906]
+    - [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.3862943611198906]
+reactions:
+- equation: A <=> B
+  rate-constant: {A: 1.0, b: 0, Ea: 0}
+"#;
+
+    #[test]
+    fn nasa7_reversible_rate_obeys_detailed_balance() {
+        let parsed = parse_yaml(REVERSIBLE).unwrap();
+        assert!(parsed.summary().reaction_details[0].reversible);
+        let arena = MechanismArena::default();
+        let network = parsed.compile_in(&arena);
+        let reaction = &network.reactions[0];
+        assert_eq!(reaction.validity.temperature_k.unwrap().min, 200.0);
+        assert_eq!(reaction.validity.temperature_k.unwrap().max, 3000.0);
+        assert!(
+            (reaction
+                .equilibrium
+                .unwrap()
+                .concentration_equilibrium_constant(500.0)
+                - 4.0)
+                .abs()
+                < 1e-12
+        );
+
+        let mut vessel = sealed_gas(&[("A", 0.5), ("B", 0.5)]);
+        vessel.temperature = crate::Kelvin(500.0);
+        vessel.refresh_pressure();
+        assert!((reaction.rate_now(&vessel) - 0.375).abs() < 1e-12);
+
+        let equilibrium = sealed_gas(&[("A", 0.2), ("B", 0.8)]);
+        assert!(reaction.rate_now(&equilibrium).abs() < 1e-12);
+
+        let mut evolving = sealed_gas(&[("A", 1.0)]);
+        evolving.temperature = crate::Kelvin(500.0);
+        evolving.refresh_pressure();
+        advance_network(&mut evolving, 20.0, &network).unwrap();
+        let a = evolving.moles_of(&crate::SpeciesId::new("A")).0;
+        let b = evolving.moles_of(&crate::SpeciesId::new("B")).0;
+        assert!((a - 0.2).abs() < 1e-6, "{a}");
+        assert!((b - 0.8).abs() < 1e-6, "{b}");
+
+        let mut outside_validity = sealed_gas(&[("A", 1.0)]);
+        outside_validity.temperature = crate::Kelvin(100.0);
+        outside_validity.refresh_pressure();
+        assert!(advance_network(&mut outside_validity, 20.0, &network)
+            .unwrap()
+            .is_empty());
+        assert_eq!(
+            outside_validity.moles_of(&crate::SpeciesId::new("A")).0,
+            1.0
+        );
+    }
+
+    #[test]
+    fn nasa7_schema_errors_name_the_species() {
+        let malformed = REVERSIBLE.replace(
+            "temperature-ranges: [200.0, 1000.0, 3000.0]",
+            "temperature-ranges: [3000.0, 1000.0, 200.0]",
+        );
+        let error = parse_yaml(&malformed).unwrap_err().to_string();
+        assert!(error.contains("species 'A'"), "{error}");
+        assert!(error.contains("temperature ranges"), "{error}");
     }
 
     #[test]
