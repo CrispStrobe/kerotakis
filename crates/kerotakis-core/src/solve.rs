@@ -182,7 +182,6 @@ pub struct StateEquilibrator;
 /// The solvent. Every transition here is water's; a non-aqueous solvent is
 /// a separate problem and says so rather than borrowing water's constants.
 const SOLVENT: &str = "water";
-const PHASE_TRANSFER_EPSILON_MOLES: f64 = 1e-10;
 
 impl Equilibrator for StateEquilibrator {
     fn name(&self) -> &'static str {
@@ -280,7 +279,7 @@ impl Equilibrator for StateEquilibrator {
             let freezing = requested_freezing.min(maximum_freezing);
             let reached_boundary = requested_freezing > maximum_freezing + 1e-12;
 
-            if freezing <= PHASE_TRANSFER_EPSILON_MOLES {
+            if freezing <= crate::OBSERVABLE_MOLES {
                 if reached_boundary {
                     events.push(Event::NotYetModeled {
                         vessel: vessel.id,
@@ -337,7 +336,7 @@ impl Equilibrator for StateEquilibrator {
             let melting = (available_j / crate::states::WATER_H_FUS).min(frozen_moles);
             let latent_total = frozen_moles * crate::states::WATER_H_FUS;
 
-            if melting <= PHASE_TRANSFER_EPSILON_MOLES {
+            if melting <= crate::OBSERVABLE_MOLES {
                 return Ok(events);
             }
             for p in vessel.contents.iter_mut() {

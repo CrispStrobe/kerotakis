@@ -4,17 +4,17 @@
 # re-evaluated whenever temperature changes, the freezing point of a
 # solution is depressed by what is dissolved in it (read off the solved
 # speciation), and only as much water freezes as the withdrawn heat can
-# pay for, latent heat counted. Boundary, stated because this lab states
-# it: what freezing does to the leftover solution — concentrating it
-# toward a eutectic — is not yet modelled, and the bench says so in the
-# beaker.
+# pay for, latent heat counted. Pure ice leaves the dissolved species in
+# the liquid compartment, which is re-solved until its concentration and
+# liquidus agree. The model stops explicitly before salt crystallisation
+# would require a solute-specific phase diagram.
 #
 # Licence: the codex is CC BY-SA 4.0, separately from the AGPL code.
 
 [[reaction]]
 id = "salt-holds-the-water-liquid"
 spine = ["aggregatzustaende"]
-summary = "Dissolved particles depress the freezing point: 1 mol/kgw NaCl stays liquid to −3.7 °C while pure water freezes at 0 °C"
+summary = "Dissolved particles depress the freezing point: under the same cooling, salt water starts freezing near −4 °C and forms less ice than pure water"
 concepts = ["freezing-point-depression", "colligative-properties"]
 requires = ["concentration"]
 apparatus = ["beaker", "thermometer"]
@@ -32,22 +32,22 @@ cool v2 15kJ
 
 [reaction.expect]
 events = ["dissolved:NaCl"]
-temperature_c = { min = -4.0, max = -3.4 }
+temperature_c = { min = -4.3, max = -3.8 }
 
 [reaction.expect.predict]
-question = "Two identical beakers lose the same heat side by side: one holds pure water, the other has a big spoon of salt dissolved in it. Which one freezes?"
+question = "Two identical beakers lose the same heat side by side: one holds pure water, the other has a big spoon of salt dissolved in it. What differs?"
 options = [
   "Both, at 0 °C — freezing at zero is what water does",
   "The salty one first — salty water is thicker, and thicker is closer to solid",
-  "Only the pure one; the brine holds out, still liquid at −3.7 °C",
+  "The pure one starts at 0 °C; the brine starts near −4 °C and therefore makes less ice from the same cooling",
 ]
 answer = 2
-misconception = "The first answer makes the freezing point a fixed property of the solvent, with the dissolved salt as cargo that changes nothing. It is a property of the solution: the ions get in the way of water ordering itself into an ice lattice, so the brine must be colder before freezing pays. The 'thicker' answer runs viscosity and solidity together — how a liquid flows and whether its molecules can lock into a crystal are different questions with opposite answers here."
+misconception = "The first answer makes the freezing point a fixed property of the solvent, with the dissolved salt as cargo that changes nothing. It is a property of the solution: the ions get in the way of water ordering itself into an ice lattice, so the brine must be colder before freezing pays. The same removed energy consequently makes less ice in the brine. The 'thicker' answer runs viscosity and solidity together — how a liquid flows and whether its molecules can lock into a crystal are different questions with opposite answers here."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The freezing point belongs to the solvent, full stop — what is dissolved is cargo, riding along without a vote."
-next = "Count the cargo's votes: about 1.86 °C of hold-out per mole of dissolved particles per kilogram of water, and salt splits in two — 0.1 mol of NaCl in 100 g of water is 2 mol/kg of particles, so ≈3.7 °C. The bench reads the particle count off the solved speciation and freezes the brine at −3.7 °C, which is why road grit is dosed in degrees."
+next = "Count the cargo's votes: about 1.86 °C of hold-out per mole of dissolved particles per kilogram of water, and salt splits largely into two ions — 0.1 mol of NaCl in 100 g of water is roughly 2 mol/kg of particles. The bench reads the actual particle count off the solved speciation and starts freezing the brine near −4 °C, which is why road grit is dosed in degrees."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
@@ -55,9 +55,9 @@ reveals = "Thickness as nearness to solid: a heavier, saltier liquid feels half-
 next = "Separate the two ideas: flow is about how molecules slide past each other; freezing is about whether they can lock into a lattice. The dissolved ions obstruct the lattice, so more salt means the beaker holds out longer, not less — the saltier you make it, the colder it must get before ice pays."
 
 [reaction.registers]
-lv1 = "The plain water freezes solid. The salty water is still liquid at three degrees below zero — the salt gets in the way of the ice forming. That is the whole secret of gritting icy roads."
-lv2 = "Freezing-point depression: ΔT ≈ 1.86 K·kg/mol × molality of dissolved particles. 0.1 mol of NaCl in 100 g of water is 1.0 mol/kg of salt but 2.0 mol/kg of ions, so ΔT ≈ 3.7 K — and the bench freezes the brine at −3.7 °C while the pure beaker froze at 0.0 °C."
-lv3 = "The depression is computed from the solved speciation — the same particle census `particles` draws — rather than from the ×1.86 rule of thumb; they nearly agree here because NaCl at 1 mol/kgw is close to ideal. Two boundaries the bench states out loud: only as much water freezes as the withdrawn 15 kJ can pay for (0.57 mol of ice here, latent heat counted — the inventory shows liquid and solid water side by side), and what freezing does to the leftover brine — concentrating it toward a eutectic, which would depress the freezing point further still — is not yet modelled, and the beaker says so."
+lv1 = "The plain water starts freezing at zero. The salty water holds out until about four degrees below zero, so the same cooling makes less ice there — the salt gets in the way of the ice forming. That is the secret of gritting icy roads."
+lv2 = "Freezing-point depression: ΔT ≈ 1.86 K·kg/mol × molality of dissolved particles. 0.1 mol of NaCl in 100 g of water is 1.0 mol/kg of salt but roughly 2.0 mol/kg of dissolved particles, so the brine starts freezing about 4 K below pure water. As pure ice forms, the salt stays in the residual liquid; the bench re-solves that more concentrated brine and its lower liquidus."
+lv3 = "The depression is computed from the solved speciation — the same particle census `particles` draws — rather than from an integer van 't Hoff factor. Only as much water freezes as the withdrawn 15 kJ can pay for, latent heat counted, and the inventory keeps liquid water and pure ice side by side. Each ice transfer invalidates the old molalities, so PHREEQC re-speciates the smaller liquid compartment and the phase pass iterates to a common temperature/liquidus. Below the declared 252 K model boundary, salt solids and a solute-specific eutectic phase diagram would be required; the bench stops rather than extrapolating the dilute colligative relation."
 
 [reaction.provenance]
 source = "Standard curriculum colligative properties; freezing-point depression computed from the solved speciation (PHREEQC via Kerotakis L2) by the Kerotakis state layer; cryoscopic constant of water 1.86 K·kg/mol is a standard reference value quoted for comparison. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"

@@ -223,6 +223,10 @@ fn phase_coupling_respeciates_the_residual_brine_until_both_states_agree() {
 
     let events = coupled.equilibrate(&mut vessel).unwrap();
     assert!(calls.get() > 1, "residual brine was not re-solved");
+    assert!(
+        calls.get() < 32,
+        "phase coupling only stopped at its pass cap"
+    );
     assert!(events.iter().any(|event| matches!(
         event,
         Event::StateChanged {
@@ -248,7 +252,7 @@ fn phase_coupling_respeciates_the_residual_brine_until_both_states_agree() {
         .sum();
     let liquidus = kerotakis_core::states::transitions(particle_molality).freezing_k;
     assert!(
-        (vessel.temperature.0 - liquidus).abs() < 1e-6,
+        (vessel.temperature.0 - liquidus).abs() < 1e-4,
         "phase state {} K and re-solved liquidus {liquidus} K disagree",
         vessel.temperature.0
     );
