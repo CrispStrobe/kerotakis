@@ -57,6 +57,114 @@ pub struct Portion {
     pub phase: Phase,
 }
 
+/// The approved thermodynamic model for a finite population of surface sites.
+///
+/// The first slice deliberately names one model rather than accepting an
+/// arbitrary PHREEQC keyword. That keeps the saved state engine-independent
+/// and makes every supported surface chemistry an explicit reviewed claim.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SurfaceModel {
+    HydrousFerricOxide,
+}
+
+/// The two site populations in the Dzombak–Morel hydrous-ferric-oxide model.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SurfaceSiteKind {
+    Strong,
+    Weak,
+}
+
+/// Sorbates whose surface complexes Kerotakis can currently round-trip.
+///
+/// This is an enum rather than a free-form species string so a state cannot
+/// claim that an unsupported complex was equilibrated. Later reviewed
+/// surface reactions extend the enum and their readback mapping together.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SurfaceSorbate {
+    Zinc,
+}
+
+impl SurfaceSorbate {
+    pub fn species(self) -> SpeciesId {
+        match self {
+            Self::Zinc => SpeciesId::new("Zn+2"),
+        }
+    }
+}
+
+/// One amount of sorbate held on one surface-site population.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SurfaceOccupancy {
+    pub site: SurfaceSiteKind,
+    pub sorbate: SurfaceSorbate,
+    pub moles: Moles,
+}
+
+/// A finite, mass-owning oxide interface and its adsorption ledger.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SurfaceSites {
+    /// Stable user-facing identity when a vessel carries several interfaces.
+    pub label: String,
+    pub model: SurfaceModel,
+    /// Physical oxide mass used by the electrostatic surface model, g.
+    pub mass: Grams,
+    /// Specific surface area, m²/g.
+    pub specific_area_m2_per_g: f64,
+    pub strong_capacity: Moles,
+    pub weak_capacity: Moles,
+    /// Computed bound inventory. Empty before the first equilibrium pass.
+    #[serde(default)]
+    pub occupancy: Vec<SurfaceOccupancy>,
+}
+
+impl SurfaceSites {
+    pub fn capacity(&self, site: SurfaceSiteKind) -> Moles {
+        match site {
+            SurfaceSiteKind::Strong => self.strong_capacity,
+            SurfaceSiteKind::Weak => self.weak_capacity,
+        }
+    }
+
+    pub fn occupied(&self, site: SurfaceSiteKind) -> Moles {
+        Moles(
+            self.occupancy
+                .iter()
+                .filter(|entry| entry.site == site)
+                .map(|entry| entry.moles.0)
+                .sum(),
+        )
+    }
+
+    pub fn bound(&self, sorbate: SurfaceSorbate) -> Moles {
+        Moles(
+            self.occupancy
+                .iter()
+                .filter(|entry| entry.sorbate == sorbate)
+                .map(|entry| entry.moles.0)
+                .sum(),
+        )
+    }
+
+    pub fn has_valid_capacity(&self) -> bool {
+        self.mass.0.is_finite()
+            && self.mass.0 > 0.0
+            && self.specific_area_m2_per_g.is_finite()
+            && self.specific_area_m2_per_g > 0.0
+            && self.strong_capacity.0.is_finite()
+            && self.strong_capacity.0 > 0.0
+            && self.weak_capacity.0.is_finite()
+            && self.weak_capacity.0 > 0.0
+            && self.occupancy.iter().all(|entry| {
+                entry.moles.0.is_finite()
+                    && entry.moles.0 >= 0.0
+                    && self.occupied(entry.site).0 <= self.capacity(entry.site).0 + 1e-12
+            })
+    }
+}
+
 /// One aqueous species in the true equilibrium distribution.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SpeciesDetail {
@@ -198,6 +306,9 @@ pub struct Vessel {
     /// saves retain their historical open-beaker behavior.
     #[serde(default)]
     pub headspace: Headspace,
+    /// Finite solid/liquid interfaces. Defaulted for old save compatibility.
+    #[serde(default)]
+    pub surfaces: Vec<SurfaceSites>,
     /// Net charge carried by the dissolved solutes, Σ z·n, mol.
     ///
     /// Not a physical excess — the solution is electroneutral, and the
@@ -230,6 +341,7 @@ impl Vessel {
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,
             headspace: Headspace::Open,
+            surfaces: Vec::new(),
             solute_charge: 0.0,
             solution: None,
         }
@@ -322,12 +434,27 @@ impl Vessel {
 
     /// Total mass, g.
     pub fn mass(&self) -> Grams {
-        Grams(
-            self.contents
-                .iter()
-                .filter_map(|p| species::lookup(&p.species).map(|d| p.moles.0 * d.molar_mass))
-                .sum(),
-        )
+        let contents: f64 = self
+            .contents
+            .iter()
+            .filter_map(|p| species::lookup(&p.species).map(|d| p.moles.0 * d.molar_mass))
+            .sum();
+        let interfaces: f64 = self
+            .surfaces
+            .iter()
+            .map(|surface| {
+                surface.mass.0
+                    + surface
+                        .occupancy
+                        .iter()
+                        .filter_map(|entry| {
+                            species::lookup(&entry.sorbate.species())
+                                .map(|data| entry.moles.0 * data.molar_mass)
+                        })
+                        .sum::<f64>()
+            })
+            .sum();
+        Grams(contents + interfaces)
     }
 
     /// Approximate liquid volume, additive-volume assumption (surfaced as an
