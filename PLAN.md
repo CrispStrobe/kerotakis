@@ -2321,6 +2321,25 @@ gates, core/full/combined Wasm, IPhreeqc Wasm, and the real-browser demo. This
 session did not modify reaction-network/kinetics work, MY-BASIC or vendored
 sources, VLE, transport, licensing/dependency metadata, or the web UI.
 
+**Completed session — `codex-AQ` (2026-08-21, AQ-009).** Work was isolated in
+`/tmp/kerotakis-aq009.worktree.ddVJwWRg` on branch
+`codex-aq/aq-009-phreeqc-kinetics`. This session added one evidence-producing
+mineral-dissolution trajectory comparison between PHREEQC `KINETICS` and the
+already-merged Kerotakis reaction-network integrator. Five ordered points from
+a project-authored first-order calcite-dissolution case are checked against the
+analytic solution, against each other within `5e-5` relative error, and against
+independent solid/Ca/C ledgers. The evidence selects Kerotakis as owner of time
+integration and the vessel clock: its integrator is portable core state and
+already composes reaction networks, whereas PHREEQC `KINETICS` requires the
+opt-in BASIC path. PHREEQC remains the aqueous equilibrium/speciation engine
+and a development comparator behind `my-basic-preview`; production no-BASIC
+behavior is unchanged. No external kinetics corpus, new runtime data,
+vendored-source change, or physical calcite-rate claim was introduced. Local
+native compilation was skipped after the required one-minute load sample stayed
+at 5.30–6.58 (threshold below 4); hosted run `32503082107` passed native
+Ubuntu/macOS, strict lint, both MY-BASIC preview gates, core/full/combined Wasm,
+IPhreeqc Wasm, and the real-browser demo.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state

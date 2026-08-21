@@ -1086,9 +1086,18 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   and test a batch water-softening case.
 - [x] **AQ-008 — Add `SOLID_SOLUTIONS`.** Begin with one approved mineral pair;
   prove component and phase conservation across precipitation/dissolution.
-- [ ] **AQ-009 — Spike PHREEQC `KINETICS` behind the new rate contract.** Compare
+- [x] **AQ-009 — Spike PHREEQC `KINETICS` behind the new rate contract.** Compare
   its state trajectory with Kerotakis' integrator for one mineral-dissolution
   case; choose which layer owns time integration based on evidence.
+  **Decision:** Kerotakis owns time integration and the vessel clock; PHREEQC
+  remains the aqueous equilibrium/speciation engine plus an opt-in development
+  comparator. A project-authored first-order calcite dissolution case now
+  compares five ordered samples with the analytic solution and enforces a
+  maximum cross-engine remaining-mineral error of `5e-5` relative, while Ca/C
+  ledgers close independently. Both MY-BASIC preview platforms and the full
+  native/Wasm/browser matrix passed in CI run `32503082107`. This is evidence
+  about numerical ownership, not a physical calcite-rate claim: the chosen
+  constant has zero uncertainty only because it is an exact test parameter.
 - [ ] **AQ-010 — Implement partial freezing as two compartments/phases.** Remove
   pure ice, re-equilibrate the residual brine, and stop at a stated eutectic or
   model boundary.
