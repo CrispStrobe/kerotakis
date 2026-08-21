@@ -165,6 +165,13 @@ fn invalid_geometry_and_courant_numbers_are_rejected_before_mutation() {
         Err(TransportError::NonUniformCellVolume { cell: 1, .. })
     ));
 
+    let mut solver_resolution = cell(1, 0.0, Kelvin::STANDARD.0);
+    solver_resolution.withdraw(&SpeciesId::new("water"), Moles(WATER_MOLES * 5e-9));
+    assert!(
+        CellChain::new(vec![cell(0, 0.0, Kelvin::STANDARD.0), solver_resolution,]).is_ok(),
+        "parts-per-billion aqueous readback must not change hydraulic geometry"
+    );
+
     let inlet = cell(99, 0.0, Kelvin::STANDARD.0);
     let mut chain = CellChain::new(vec![cell(0, 0.0, Kelvin::STANDARD.0)]).unwrap();
     let before = chain.cells()[0].moles_of(&SpeciesId::new("water"));

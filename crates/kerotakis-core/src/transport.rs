@@ -19,7 +19,11 @@ use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles};
 use crate::vessel::{Portion, ThermalMode, Vessel};
 
-const VOLUME_RELATIVE_TOLERANCE: f64 = 1e-9;
+// PHREEQC's high-precision water readback can move a representative cell by
+// several parts per billion through aqueous bookkeeping. Treat that numerical
+// scale as the same hydraulic geometry; a material volume change remains an
+// error and the absolute floor still protects very small cells.
+const VOLUME_RELATIVE_TOLERANCE: f64 = 1e-8;
 const VOLUME_ABSOLUTE_TOLERANCE_L: f64 = 1e-12;
 
 #[derive(Debug, thiserror::Error)]
