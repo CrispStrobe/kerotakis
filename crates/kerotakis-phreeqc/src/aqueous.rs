@@ -15,8 +15,9 @@
 
 use kerotakis_core::{
     species, Equilibrator, Event, ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Kelvin,
-    Moles, Phase, Portion, Provenance, SolutionInfo, SolveError, SpeciesDetail, SpeciesId,
-    SurfaceOccupancy, SurfaceSiteKind, SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
+    Moles, Phase, Portion, Provenance, SolidSolution, SolidSolutionComponent, SolidSolutionModel,
+    SolutionInfo, SolveError, SpeciesDetail, SpeciesId, SurfaceOccupancy, SurfaceSiteKind,
+    SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
 };
 
 use crate::PhreeqcError;
