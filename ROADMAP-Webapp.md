@@ -1072,7 +1072,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   sequence conserves carbon.
 - [x] **AQ-004 — Add headspace energy accounting.** Include gas sensible
   enthalpy and pressure/volume constraints; test open versus sealed heating.
-- [ ] **AQ-005 — Add typed `SurfaceSites`.** Compile one oxide surface model to
+- [x] **AQ-005 — Add typed `SurfaceSites`.** Compile one oxide surface model to
   `SURFACE`; retain capacity and occupancy on the interface ledger.
 - [ ] **AQ-006 — Validate pH-dependent adsorption.** Add an independent oracle
   comparison that persists only approved benchmark values/error metrics.

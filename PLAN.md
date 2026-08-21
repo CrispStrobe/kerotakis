@@ -2163,12 +2163,14 @@ accounting and open/sealed/pressure-controlled checks reached DoD: core and
 strict-lint checks are green, and hosted Ubuntu/macOS native, IPhreeQC, Wasm
 runtime, browser, and combined solver checks passed in CI run `32481206425`.
 
-**Active concurrent session — `codex-AQ` (2026-08-21, AQ-005).** This session
-now owns typed finite-capacity HFO surface interfaces in the shared main
-checkout: `crates/kerotakis-core/src/vessel.rs`, its surface tests, and the
-PHREEQC `SURFACE` compiler/readback plus focused live tests. It will not modify
+**Completed concurrent session — `codex-AQ` (2026-08-21, AQ-005).** This
+session added typed finite-capacity HFO surface interfaces, strong/weak site
+ownership, zinc/sulfate occupancy and ligand-exchange water ledgers, PHREEQC
+`SURFACE` compilation/readback, explicit refusal for untracked sorbates, and
+focused conservation/re-equilibration/live-engine tests. It did not modify
 kinetics modules, dependency metadata, the BASIC runtime, vendored sources, or
-VLE work.
+VLE work. Hosted Ubuntu/macOS native, IPhreeqc, Wasm runtime, browser, and
+combined-solver gates passed in CI run `32491444035`.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
