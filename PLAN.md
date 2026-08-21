@@ -2133,12 +2133,36 @@ BASIC runtime, its adapter, vendored sources, or compatibility corpus. CI run
 checks. Stiff integration, mechanism-file parsing, and external mechanism data
 remain later, separately reviewed work.
 
+**Active session — `codex-kin` (2026-08-21, KIN-004/005).** This session owns
+the next kinetics solver slice: audit and add the approved implicit-solver
+dependency, then implement adaptive integration with positivity protection,
+step rejection/retry, event handling, and exact-solution tests. Work is isolated
+in `/Users/christianstrobele/code/kerotakis-codex-kin-integrator` on branch
+`codex-kin/adaptive-integrator`. It may modify kinetics modules, focused tests,
+and dependency/audit metadata. It will not modify equilibrium coupling,
+mechanism parsing or data, the PHREEQC BASIC replacement, vendored sources, or
+compatibility fixtures.
+
+KIN-004 audit checkpoint: `diffsol = =0.16.2` is MIT and is selected with
+`default-features = false` plus `nalgebra`. Upstream 0.16.2 still enables its
+pure-Rust `faer` implementation on the internal linear/nonlinear crates; that
+resolved graph is accepted. `diffsl`, LLVM/Cranelift JIT, CUDA, SuiteSparse,
+SUNDIALS, bindgen, and native C compilation are absent from the runtime graph.
+The Wasm CI gate remains part of KIN-004 acceptance.
+
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
 reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy
 accounting and open/sealed/pressure-controlled checks reached DoD: core and
 strict-lint checks are green, and hosted Ubuntu/macOS native, IPhreeQC, Wasm
 runtime, browser, and combined solver checks passed in CI run `32481206425`.
+
+**Active concurrent session — `codex-AQ` (2026-08-21, AQ-005).** This session
+now owns typed finite-capacity HFO surface interfaces in the shared main
+checkout: `crates/kerotakis-core/src/vessel.rs`, its surface tests, and the
+PHREEQC `SURFACE` compiler/readback plus focused live tests. It will not modify
+kinetics modules, dependency metadata, the BASIC runtime, vendored sources, or
+VLE work.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol

@@ -43,6 +43,14 @@ use crate::species::{Phase, SpeciesId};
 use crate::units::Moles;
 use crate::vessel::Vessel;
 
+#[path = "kinetics_integrator.rs"]
+mod integrator;
+
+pub use integrator::{
+    advance_network_with_options, IntegrationError, IntegrationOptions, IntegrationReport,
+    IntegrationStatistics,
+};
+
 /// Gas constant, J·mol⁻¹·K⁻¹.
 pub const R: f64 = 8.314_462_618;
 
@@ -644,11 +652,6 @@ impl KineticReaction {
     }
 }
 
-/// The largest fractional change any one substep may make to a reactant.
-/// Chosen for accuracy against the closed-form solution — see the oracle
-/// test — rather than for speed.
-const STEP_FRACTION: f64 = 0.01;
-
 /// Below this amount a reactant counts as gone.
 ///
 /// Not cosmetic: the step limiter sizes `dt` as a fraction of what remains,
@@ -666,7 +669,7 @@ const STEP_FRACTION: f64 = 0.01;
 /// step then applied nothing at all — the integrator froze, burning two
 /// million substeps to advance the clock by seven milliseconds. A
 /// picomole is far below anything observable and clears the floor.
-const DEPLETED: f64 = 1e-12;
+pub(super) const DEPLETED: f64 = 1e-12;
 
 /// How far each reaction has run, in mol/L of "extent".
 #[derive(Debug, Clone, Default, PartialEq, Serialize, Deserialize)]
@@ -674,123 +677,18 @@ pub struct Progress {
     pub steps: usize,
 }
 
-/// Advance this vessel's chemistry by `seconds`.
+/// Advance this vessel's chemistry by `seconds` with adaptive implicit BDF.
 ///
-/// Returns the extent of each reaction, in moles. The integration is
-/// explicit with adaptive substeps: a rate law is stiff exactly when it is
-/// interesting (a catalysed reaction can consume its reactant in under a
-/// second), so the step is chosen from the fastest relative change rather
-/// than fixed, and no substep is allowed to consume more than a small
-/// fraction of any reactant. That keeps a fast reaction from integrating
-/// past zero and producing negative concentrations, which is the classic
-/// way a naive Euler step lies.
+/// The fallible API is intentional: non-convergence is a simulation error,
+/// not evidence that no chemistry happened. The bench propagates it to CLI
+/// and GUI clients instead of silently accepting a partial trajectory.
 pub fn advance_network<'a>(
     vessel: &mut Vessel,
     seconds: f64,
     network: &'a ReactionNetwork<'a>,
-) -> Vec<(&'a KineticReaction, Moles)> {
-    if network.reactions.is_empty() || seconds <= 0.0 {
-        return Vec::new();
-    }
-    let reactions = network.reactions;
-    let mut extents: Vec<f64> = vec![0.0; reactions.len()];
-    let mut t = 0.0;
-    // Scratch vessel for the midpoint evaluation, reused rather than
-    // allocated per substep.
-    let mut probe = vessel.clone();
-
-    // A hard cap on substeps: an integration that will not finish is a
-    // solver failure, not something to grind at forever.
-    const MAX_STEPS: usize = 2_000_000;
-    let mut steps = 0;
-
-    while t < seconds && steps < MAX_STEPS {
-        steps += 1;
-        let litres = vessel.liquid_volume().0;
-        if litres <= 0.0 {
-            break;
-        }
-        let rates: Vec<f64> = reactions
-            .iter()
-            .map(|reaction| reaction.rate_now(vessel))
-            .collect();
-        if rates.iter().all(|rate| rate.abs() <= 1e-18) {
-            break;
-        }
-        let dt = limited_step(vessel, reactions, &rates, litres, seconds - t);
-        // NaN-safe: a rate that came out non-finite must stop the loop
-        // rather than propagate through the composition.
-        if dt.is_nan() || dt < 1e-12 {
-            break;
-        }
-
-        // Midpoint (RK2): step half way on the current rates, re-evaluate
-        // there, and take the whole step on *those*. Plain Euler always
-        // errs the same direction on a decaying reaction and the error
-        // accumulates — it drifted 0.7% from the closed-form answer over
-        // two minutes, which the analytic oracle caught. Evaluating in the
-        // middle cancels the first-order term.
-        probe.clone_from(vessel);
-        let half_extents: Vec<f64> = rates
-            .iter()
-            .map(|rate| rate * (dt * 0.5) * litres)
-            .collect();
-        apply_coupled_extents(&mut probe, reactions, &half_extents);
-        let mid: Vec<f64> = reactions
-            .iter()
-            .map(|reaction| reaction.rate_now(&probe))
-            .collect();
-
-        let proposed: Vec<f64> = mid.iter().map(|rate| rate * dt * litres).collect();
-        let accepted_fraction = apply_coupled_extents(vessel, reactions, &proposed);
-        for (total, extent) in extents.iter_mut().zip(proposed) {
-            *total += extent * accepted_fraction;
-        }
-        t += dt;
-    }
-
-    reactions
-        .iter()
-        .zip(extents)
-        .filter(|(_, e)| e.abs() > 0.0)
-        .map(|(r, e)| (r, Moles(e)))
-        .collect()
-}
-
-fn limited_step(
-    vessel: &Vessel,
-    reactions: &[KineticReaction],
-    rates: &[f64],
-    litres: f64,
-    remaining: f64,
-) -> f64 {
-    let mut consumption: Vec<(&str, Phase, f64)> = Vec::new();
-    for (reaction, rate) in reactions.iter().zip(rates) {
-        for term in reaction.stoichiometry {
-            let change = term.coefficient * rate;
-            if change < 0.0 {
-                if let Some((_, _, total)) = consumption
-                    .iter_mut()
-                    .find(|(species, phase, _)| *species == term.species && *phase == term.phase)
-                {
-                    *total += -change;
-                } else {
-                    consumption.push((term.species, term.phase, -change));
-                }
-            }
-        }
-    }
-    consumption
-        .into_iter()
-        .fold(remaining, |dt, (key, phase, rate)| {
-            let available = phase_moles(vessel, key, phase) / litres;
-            let limit = STEP_FRACTION * available / rate;
-            if limit.is_finite() && limit > 0.0 {
-                dt.min(limit)
-            } else {
-                dt
-            }
-        })
+) -> Result<Vec<(&'a KineticReaction, Moles)>, IntegrationError> {
+    advance_network_with_options(vessel, seconds, network, IntegrationOptions::default())
+        .map(|report| report.extents)
 }
 
 /// Commit all reaction extents as one state delta.
@@ -861,7 +759,10 @@ fn withdraw_phase(vessel: &mut Vessel, species: &str, phase: Phase, moles: f64) 
 }
 
 /// Advance the built-in curated network. This is the stable bench-facing API.
-pub fn advance(vessel: &mut Vessel, seconds: f64) -> Vec<(&'static KineticReaction, Moles)> {
+pub fn advance(
+    vessel: &mut Vessel,
+    seconds: f64,
+) -> Result<Vec<(&'static KineticReaction, Moles)>, IntegrationError> {
     advance_network(vessel, seconds, &NETWORK)
 }
 
@@ -954,8 +855,8 @@ mod tests {
         // by timing an early, fixed amount of cloudiness.
         let mut cold = thiosulfate(20.0, 0.005);
         let mut warm = thiosulfate(40.0, 0.005);
-        advance(&mut cold, 20.0);
-        advance(&mut warm, 20.0);
+        advance(&mut cold, 20.0).unwrap();
+        advance(&mut warm, 20.0).unwrap();
         let sulfur = |v: &Vessel| v.moles_of(&SpeciesId::new("S")).0;
         let ratio = sulfur(&warm) / sulfur(&cold);
         assert!(
@@ -980,7 +881,7 @@ mod tests {
         let mut v = thiosulfate(25.0, 0.005);
         let mut seconds = 0.0;
         while v.moles_of(&SpeciesId::new("S")).0 / 0.1 < 0.01 && seconds < 300.0 {
-            advance(&mut v, 1.0);
+            advance(&mut v, 1.0).unwrap();
             seconds += 1.0;
         }
         assert!(
@@ -994,7 +895,7 @@ mod tests {
         // The way a naive Euler step lies: a fast reaction integrated with
         // too large a step consumes more than exists.
         let mut v = thiosulfate(80.0, 0.005);
-        advance(&mut v, 3600.0);
+        advance(&mut v, 3600.0).unwrap();
         for p in &v.contents {
             assert!(p.moles.0 >= 0.0, "{:?}", p);
         }
@@ -1040,7 +941,7 @@ mod tests {
             ],
             25.0,
         );
-        advance(&mut v, 60.0);
+        advance(&mut v, 60.0).unwrap();
         assert!(
             (v.moles_of(&SpeciesId::new("MnO2")).0 - 0.001).abs() < 1e-12,
             "a catalyst comes out as it went in"
@@ -1072,7 +973,7 @@ mod tests {
             let litres = v.liquid_volume().0;
             let c0 = initial_moles / litres;
             let k = r.forward.arrhenius.rate_constant(298.15);
-            advance(&mut v, seconds);
+            advance(&mut v, seconds).unwrap();
             let got = v.moles_of(&SpeciesId::new("H2O2")).0 / litres;
             let exact = c0 * (-2.0 * k * seconds).exp();
             let error = (got - exact).abs() / exact;
@@ -1108,7 +1009,7 @@ mod tests {
         };
         let k = law.rate_constant(298.15);
         let seconds = 2.0;
-        advance(&mut v, seconds);
+        advance(&mut v, seconds).unwrap();
         let got = v.moles_of(&SpeciesId::new("H2O2")).0 / litres;
         let exact = c0 * (-2.0 * k * seconds).exp();
         assert!(
@@ -1173,7 +1074,7 @@ mod tests {
                 provenance: None,
             });
             let before = v.clone();
-            let moved = advance(&mut v, 600.0);
+            let moved = advance(&mut v, 600.0).unwrap();
             assert!(!moved.is_empty(), "{} did not run at all", r.id);
             assert_conserved(&before, &v, r.id);
         }
@@ -1361,7 +1262,7 @@ mod tests {
             25.0,
         );
         assert_eq!(phase_moles(&vessel, "H2O2", Phase::Gas), 0.0);
-        let moved = advance_network(&mut vessel, 1.0, &network);
+        let moved = advance_network(&mut vessel, 1.0, &network).unwrap();
         assert_eq!(
             moved.len(),
             2,
@@ -1412,7 +1313,7 @@ mod tests {
             25.0,
         );
         let mut reversed_vessel = vessel.clone();
-        let moved = advance_network(&mut vessel, 20.0, &network);
+        let moved = advance_network(&mut vessel, 20.0, &network).unwrap();
         assert_eq!(moved.len(), 2);
         assert!(phase_moles(&vessel, "H2O2", Phase::Aqueous) >= 0.0);
         let total = [Phase::Aqueous, Phase::Liquid, Phase::Gas]
@@ -1432,7 +1333,7 @@ mod tests {
             id: "reversed-competing-test",
             reactions: &reversed_reactions,
         };
-        advance_network(&mut reversed_vessel, 20.0, &reversed_network);
+        advance_network(&mut reversed_vessel, 20.0, &reversed_network).unwrap();
         for phase in [Phase::Aqueous, Phase::Liquid, Phase::Gas] {
             let forward = phase_moles(&vessel, "H2O2", phase);
             let reversed = phase_moles(&reversed_vessel, "H2O2", phase);
@@ -1524,7 +1425,7 @@ mod tests {
             ],
             25.0,
         );
-        advance_network(&mut vessel, 10.0, &network);
+        advance_network(&mut vessel, 10.0, &network).unwrap();
         let aqueous = phase_moles(&vessel, "H2O2", Phase::Aqueous);
         let liquid = phase_moles(&vessel, "H2O2", Phase::Liquid);
         assert!((aqueous - liquid).abs() < 2e-3, "{aqueous} versus {liquid}");
