@@ -124,8 +124,12 @@ pub struct SurfaceSites {
     /// solution by the current ligand-exchange species. PHREEQC includes it
     /// in `mass_H2O`; subtracting the same amount from the interface ledger
     /// prevents that site material from being counted twice.
-    #[serde(default)]
+    #[serde(default = "zero_moles")]
     pub water_release: Moles,
+}
+
+fn zero_moles() -> Moles {
+    Moles(0.0)
 }
 
 impl SurfaceSites {
