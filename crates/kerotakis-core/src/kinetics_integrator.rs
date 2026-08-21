@@ -386,6 +386,16 @@ pub fn advance_network_with_options<'a>(
                 detail: "solver returned a non-finite reaction extent".to_string(),
             });
         }
+        let advanced = match stop_reason {
+            OdeSolverStopReason::RootFound(time, _) => time,
+            OdeSolverStopReason::TstopReached => remaining,
+            OdeSolverStopReason::InternalTimestep => solver.state().t,
+        };
+        // Both values own closures borrowing the vessel snapshot. End those
+        // borrows before committing the calculated transition.
+        drop(solver);
+        drop(problem);
+
         let accepted_fraction = apply_coupled_extents(vessel, network.reactions, &proposed);
         if accepted_fraction < 1.0 {
             statistics.constrained_commits += 1;
@@ -394,14 +404,9 @@ pub fn advance_network_with_options<'a>(
             *total += extent * accepted_fraction;
         }
 
-        let advanced = match stop_reason {
-            OdeSolverStopReason::RootFound(time, _) => {
-                statistics.depletion_events += 1;
-                time
-            }
-            OdeSolverStopReason::TstopReached => remaining,
-            OdeSolverStopReason::InternalTimestep => solver.state().t,
-        };
+        if matches!(stop_reason, OdeSolverStopReason::RootFound(_, _)) {
+            statistics.depletion_events += 1;
+        }
         if advanced <= remaining.max(1.0) * f64::EPSILON {
             return Err(IntegrationError::NoProgress {
                 network: network.id.to_string(),

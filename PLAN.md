@@ -2149,6 +2149,9 @@ pure-Rust `faer` implementation on the internal linear/nonlinear crates; that
 resolved graph is accepted. `diffsl`, LLVM/Cranelift JIT, CUDA, SuiteSparse,
 SUNDIALS, bindgen, and native C compilation are absent from the runtime graph.
 The Wasm CI gate remains part of KIN-004 acceptance.
+The resolved matrix graph also reaches `getrandom` through `rand`; the Wasm
+target therefore selects its supported `wasm_js` backend explicitly. This is a
+target adapter, not solver randomness, and native targets remain unchanged.
 
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
