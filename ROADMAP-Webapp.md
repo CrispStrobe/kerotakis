@@ -1169,9 +1169,23 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
   core/IPhreeqc/combined Wasm, the Wasm bench, and the real-browser demo passed
   in CI run `32514634767`.
-- [ ] **AQ-014 — Publish the R1 acceptance suite.** Limewater, carbonated bottle,
+- [x] **AQ-014 — Publish the R1 acceptance suite.** Limewater, carbonated bottle,
   surface release, softener breakthrough, and partial freezing must work native,
   Wasm, cached replay, and offline.
+  **Complete 2026-08-21:** one typed, serialisable R1 runner now exercises all
+  five outcomes through the supplied `Equilibrator`; it contains no alternate
+  chemistry implementation. A native integration test runs the suite against
+  linked IPhreeqc, exports its content-addressed results, then proves exact
+  replay without growing the cache. `kero prewarm` makes the same states part
+  of the shipped postcard. Cache-only Wasm runs all five with no solver hook;
+  combined Wasm runs them through live Emscripten IPhreeqc. The built web app
+  loads and service-worker-caches the postcard, and its real-browser gate runs
+  all five both online and again after the HTTP server is stopped. Any missing
+  solver state becomes a named failed case rather than an approximation. No
+  external source, dataset, dependency, database, species, kinetics,
+  MY-BASIC, or vendored-source change was added. CI run `32516261610` passed
+  native Ubuntu/macOS, strict codex lint, both MY-BASIC previews, core,
+  IPhreeqc, cache-only and combined Wasm, and the online/offline browser demo.
 
 ### Phase 3 — Generated registry and property service
 
