@@ -652,14 +652,13 @@ fn codex_lint(dir: &str) -> ! {
         if failed {
             continue;
         }
-        if observed
-            .iter()
-            .any(|e| matches!(e, Event::SolverFailed { .. }))
-        {
-            problems.push(format!(
-                "{}: a solver could not answer during the setup",
-                entry.id
-            ));
+        for event in &observed {
+            if let Event::SolverFailed { solver, detail, .. } = event {
+                problems.push(format!(
+                    "{}: solver '{solver}' could not answer during the setup: {detail}",
+                    entry.id
+                ));
+            }
         }
         for anchor in &entry.spine {
             if !vocabulary.concepts.is_empty() && vocabulary.get(anchor).is_none() {
