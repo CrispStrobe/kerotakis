@@ -2252,6 +2252,20 @@ run; follow-up run `32495027486` executed and passed those now-enforced limits.
 The temporary hosted audit hook was then removed; the development-only export
 remains explicit and opt-in.
 
+**Active session — `codex-AQ` (2026-08-21, AQ-007).** This session owns the
+first finite-capacity cation-exchange slice in isolated worktree
+`/tmp/kerotakis-aq007.XXXXXXXX.worktree` on branch
+`codex-aq/aq-007-exchange`. Its boundary is typed exchanger state in
+`kerotakis-core`, PHREEQC `EXCHANGE` compilation/readback in
+`kerotakis-phreeqc`, and focused core/live batch-softening tests. The first
+reviewed ledger supports the unavoidable proton balance plus sodium, calcium
+and magnesium; every other exchangeable ion must fail explicitly rather than
+disappear. Acceptance
+requires charge-equivalent site capacity, Na/Ca/Mg material conservation,
+measurable hard-water softening, and stable repeated equilibration. This
+session will not modify kinetics/mechanism work, MY-BASIC or vendored sources,
+VLE, licensing/dependency metadata, the web UI, or compatibility fixtures.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state

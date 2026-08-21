@@ -31,6 +31,7 @@ fn old_vessels_deserialise_without_interfaces() {
     }"#;
     let vessel: Vessel = serde_json::from_str(json).expect("old vessel JSON remains readable");
     assert!(vessel.surfaces.is_empty());
+    assert!(vessel.exchanges.is_empty());
 }
 
 #[test]

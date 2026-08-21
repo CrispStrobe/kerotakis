@@ -46,8 +46,9 @@ pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 pub use vessel::{
-    Headspace, Portion, Provenance, RedoxState, SolutionInfo, SpeciesDetail, SurfaceModel,
-    SurfaceOccupancy, SurfaceSiteKind, SurfaceSites, SurfaceSorbate, ThermalMode, Vessel, VesselId,
+    ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Portion, Provenance, RedoxState,
+    SolutionInfo, SpeciesDetail, SurfaceModel, SurfaceOccupancy, SurfaceSiteKind, SurfaceSites,
+    SurfaceSorbate, ThermalMode, Vessel, VesselId,
 };
 
 #[cfg(test)]
