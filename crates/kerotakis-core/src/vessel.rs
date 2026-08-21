@@ -85,12 +85,14 @@ pub enum SurfaceSiteKind {
 #[serde(rename_all = "snake_case")]
 pub enum SurfaceSorbate {
     Zinc,
+    Sulfate,
 }
 
 impl SurfaceSorbate {
     pub fn species(self) -> SpeciesId {
         match self {
             Self::Zinc => SpeciesId::new("Zn+2"),
+            Self::Sulfate => SpeciesId::new("SO4-2"),
         }
     }
 }
@@ -348,7 +350,7 @@ impl Vessel {
     }
 
     pub fn is_empty(&self) -> bool {
-        self.contents.is_empty()
+        self.contents.is_empty() && self.surfaces.is_empty()
     }
 
     pub fn moles_of(&self, species: &SpeciesId) -> Moles {

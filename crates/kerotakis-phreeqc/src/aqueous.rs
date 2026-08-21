@@ -1120,7 +1120,7 @@ impl PhreeqcEquilibrator {
                 "minteq.v4",
                 "chosen because the problem needs chemistry the default dataset lacks (organic ligands or free phosphoric acid)".to_string(),
             )
-        } else if potential_molality > 1.0 && pitzer_capable {
+        } else if potential_molality > 1.0 && pitzer_capable && problem.surfaces.is_empty() {
             (
                 "pitzer",
                 format!(
@@ -1133,6 +1133,36 @@ impl PhreeqcEquilibrator {
                 "the default for dilute inorganic aqueous chemistry".to_string(),
             )
         };
+        if !problem.surfaces.is_empty() {
+            if potential_molality > 1.0 && db_tag != "minteq.v4" {
+                return Err(SolveError::NotConverged {
+                    solver: self.name().to_string(),
+                    detail: "no approved dataset currently covers both concentrated-solution activity and typed zinc HFO adsorption".to_string(),
+                });
+            }
+            let untracked = if db_tag == "minteq.v4" {
+                UNTRACKED_HFO_MINTEQ_ELEMENTS
+            } else {
+                UNTRACKED_HFO_WATEQ_ELEMENTS
+            };
+            let mut unsupported: Vec<&str> = problem
+                .elements
+                .iter()
+                .map(|element| element.split('(').next().unwrap_or(element))
+                .filter(|element| untracked.contains(element))
+                .collect();
+            unsupported.sort_unstable();
+            unsupported.dedup();
+            if !unsupported.is_empty() {
+                return Err(SolveError::NotConverged {
+                    solver: self.name().to_string(),
+                    detail: format!(
+                        "the {db_tag} HFO model can adsorb {}, but this version cannot yet retain those complexes on its typed interface ledger",
+                        unsupported.join(", ")
+                    ),
+                });
+            }
+        }
         // Phases the routed database does not define must not reach the
         // input. Zero-amount candidates are dropped; a solid-backed
         // anhydrous phase (e.g. solid KCl on the wateq4f route — Sylvite is
@@ -1271,6 +1301,22 @@ impl PhreeqcEquilibrator {
         if !new_surfaces.is_empty() {
             let strong = value("m_Hfo_sOZn+").ok_or_else(|| missing("m_Hfo_sOZn+"))? * kgw_out;
             let weak = value("m_Hfo_wOZn+").ok_or_else(|| missing("m_Hfo_wOZn+"))? * kgw_out;
+            // The reviewed HFO datasets also bind the sulfate
+            // counterion used by the zinc-sulfate lesson. Both weak-site
+            // complexes contain one sulfate and occupy one site; failing to
+            // round-trip them made sulfur (and its mass) disappear from the
+            // vessel after every equilibrium pass.
+            let weak_sulfate = (value("m_Hfo_wSO4-").ok_or_else(|| missing("m_Hfo_wSO4-"))?
+                + value("m_Hfo_wOHSO4-2").ok_or_else(|| missing("m_Hfo_wOHSO4-2"))?)
+                * kgw_out;
+            // MINTEQ additionally defines the equivalent strong-site pair.
+            let strong_sulfate = if db_tag == "minteq.v4" {
+                (value("m_Hfo_sSO4-").ok_or_else(|| missing("m_Hfo_sSO4-"))?
+                    + value("m_Hfo_sOHSO4-2").ok_or_else(|| missing("m_Hfo_sOHSO4-2"))?)
+                    * kgw_out
+            } else {
+                0.0
+            };
             for surface in &mut new_surfaces {
                 surface.occupancy.clear();
             }
@@ -1285,6 +1331,18 @@ impl PhreeqcEquilibrator {
                 SurfaceSiteKind::Weak,
                 SurfaceSorbate::Zinc,
                 weak,
+            );
+            distribute_surface_occupancy(
+                &mut new_surfaces,
+                SurfaceSiteKind::Strong,
+                SurfaceSorbate::Sulfate,
+                strong_sulfate,
+            );
+            distribute_surface_occupancy(
+                &mut new_surfaces,
+                SurfaceSiteKind::Weak,
+                SurfaceSorbate::Sulfate,
+                weak_sulfate,
             );
         }
         let mut new_ions: Vec<(String, f64)> = Vec::new();
@@ -1963,6 +2021,19 @@ fn missing(column: &str) -> SolveError {
 /// statement about rates that we do not compute.
 const FAST_REDOX: &[&str] = &["Fe", "Mn", "Cu", "Cr"];
 
+/// Elements with reviewed HFO complexes in the routed databases whose bound
+/// forms do not yet have a typed `SurfaceSorbate` readback. Refusing these
+/// combinations is essential: letting PHREEQC bind them would remove their
+/// dissolved totals while leaving no owned inventory in the vessel.
+const UNTRACKED_HFO_WATEQ_ELEMENTS: &[&str] = &[
+    "Ag", "As", "B", "Ba", "Ca", "Cd", "Cu", "F", "Fe", "Mg", "Mn", "Ni", "P", "Pb", "Se", "Sr",
+    "U",
+];
+const UNTRACKED_HFO_MINTEQ_ELEMENTS: &[&str] = &[
+    "Ag", "As", "B", "Ba", "Be", "Ca", "Cd", "Co", "Cr", "Cu", "Hg", "Mg", "Mo", "Ni", "P", "Pb",
+    "Sb", "Se", "Sn", "V",
+];
+
 /// The gas phase an open vessel's redox state is set by, and its share of
 /// the atmosphere. log10(0.21) = −0.68.
 const ATMOSPHERIC_OXYGEN: &str = "O2(g)";
@@ -2266,7 +2337,12 @@ fn build_input_at(
         writeln!(input, "    -gases    {}", gases.join(" ")).unwrap();
     }
     if !problem.surfaces.is_empty() {
-        writeln!(input, "    -molalities Hfo_sOZn+ Hfo_wOZn+").unwrap();
+        let molalities = if db_tag == "minteq.v4" {
+            "Hfo_sOZn+ Hfo_wOZn+ Hfo_sSO4- Hfo_sOHSO4-2 Hfo_wSO4- Hfo_wOHSO4-2"
+        } else {
+            "Hfo_sOZn+ Hfo_wOZn+ Hfo_wSO4- Hfo_wOHSO4-2"
+        };
+        writeln!(input, "    -molalities {molalities}").unwrap();
     }
     writeln!(input, "END").unwrap();
     input

@@ -50,6 +50,15 @@ fn zinc_inventory(vessel: &Vessel) -> f64 {
             .sum::<f64>()
 }
 
+fn sulfate_inventory(vessel: &Vessel) -> f64 {
+    vessel.moles_of(&SpeciesId::new("SO4-2")).0
+        + vessel
+            .surfaces
+            .iter()
+            .map(|surface| surface.bound(SurfaceSorbate::Sulfate).0)
+            .sum::<f64>()
+}
+
 #[test]
 fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     let mut solver = PhreeqcEquilibrator::new().expect("engine");
@@ -64,10 +73,15 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     let surface = &state.surfaces[0];
     let bound = surface.bound(SurfaceSorbate::Zinc).0;
     assert!(bound > 0.0, "the oxide should bind some dissolved zinc");
+    assert!(
+        surface.bound(SurfaceSorbate::Sulfate).0 > 0.0,
+        "the oxide should retain its adsorbed sulfate counterion"
+    );
     assert!(bound <= surface.strong_capacity.0 + surface.weak_capacity.0 + 1e-12);
     assert!(surface.occupied(SurfaceSiteKind::Strong).0 <= surface.strong_capacity.0 + 1e-12);
     assert!(surface.occupied(SurfaceSiteKind::Weak).0 <= surface.weak_capacity.0 + 1e-12);
     assert!((zinc_inventory(state) - 1e-4).abs() < 2e-8);
+    assert!((sulfate_inventory(state) - 1e-4).abs() < 2e-8);
     let added_mass = species::lookup_key("ZnSO4").unwrap().molar_mass * 1e-4;
     assert!((state.mass().0 - mass_before_zinc - added_mass).abs() < 2e-5);
 
@@ -81,6 +95,7 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     );
     let settled = bench.vessel(VesselId(0)).unwrap();
     assert!((zinc_inventory(settled) - 1e-4).abs() < 2e-8);
+    assert!((sulfate_inventory(settled) - 1e-4).abs() < 2e-8);
     assert!(
         (settled.surfaces[0].bound(SurfaceSorbate::Zinc).0 - first_bound).abs() < 2e-8,
         "re-equilibrating must not lose the previously bound inventory"
@@ -104,4 +119,28 @@ fn pooled_solver_result_returns_to_each_named_interface() {
     assert!(small > 0.0);
     assert!((large / small - 3.0).abs() < 1e-9);
     assert!((zinc_inventory(state) - 2e-4).abs() < 2e-8);
+}
+
+#[test]
+fn untracked_surface_complexes_fail_loudly_instead_of_losing_inventory() {
+    let mut solver = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    bench.vessels[0].surfaces.push(hfo("oxide grains", 1.0));
+
+    add(&mut bench, &mut solver, "water", 55.51);
+    let events = add(&mut bench, &mut solver, "CaCl2", 1e-4);
+
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::SolverFailed { detail, .. }
+            if detail.contains("can adsorb Ca") && detail.contains("typed interface ledger")
+    )));
+    assert_eq!(
+        bench
+            .vessel(VesselId(0))
+            .unwrap()
+            .moles_of(&SpeciesId::new("CaCl2")),
+        Moles(1e-4),
+        "a refused surface solve must leave the added material intact"
+    );
 }
