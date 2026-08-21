@@ -370,7 +370,7 @@ all string observables):
 | `iso2revised.bas` | Formatting-only | Four equations and the exact `4, 4` counters agree; only comma-`PRINT` spacing differs. |
 | `iso3revised.bas` | Formatting-only | 133 equations and the exact `133, 216` counters agree; only comma-`PRINT` spacing differs. |
 | `iso4revised.bas` | Formatting-only | 429 equations and the exact `429, 1296` counters agree; only comma-`PRINT` spacing differs. |
-| official `ex21` generator | Adapter bug (fixed) | MY-BASIC `STR$` originally omitted PHREEQC's positive sign column and concatenated `MIX` destination IDs with their fractions. The adapter now restores the separator; all 30 parsed observables are checked within focused tolerances. |
+| official `ex21` generator | Adapter bugs (fixed) | MY-BASIC `STR$` originally omitted PHREEQC's positive sign column and concatenated `MIX` destination IDs with their fractions; MY-BASIC `SQR` also means square root while PHREEQC `SQR` means square. The adapter now restores both dialect semantics, and all 30 parsed observables are checked within focused tolerances. |
 
 No adapter bug is waived by these fixtures. `iso1.bas` and
 `iso1revised.bas` already have identical preview and legacy digests.

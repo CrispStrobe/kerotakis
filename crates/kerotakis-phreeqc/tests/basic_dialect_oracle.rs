@@ -242,7 +242,7 @@ fn phreeqc_math_aliases_match_the_legacy_backend() {
             "CALCULATE_VALUES\n\
                  MathAliases\n\
                  -start\n\
-                 10 SAVE SQRT(9) + ARCTAN(1)\n\
+                 10 SAVE SQR(3) + SQRT(9) + ARCTAN(1)\n\
                  -end\n\
              SOLUTION 1\n\
                  pH 7\n\
@@ -253,6 +253,6 @@ fn phreeqc_math_aliases_match_the_legacy_backend() {
              END\n",
         )
         .unwrap();
-    let expected = 3.0 + std::f64::consts::FRAC_PI_4;
+    let expected = 9.0 + 3.0 + std::f64::consts::FRAC_PI_4;
     assert!((engine.last_value("V_MathAliases").unwrap() - expected).abs() < 1e-10);
 }
