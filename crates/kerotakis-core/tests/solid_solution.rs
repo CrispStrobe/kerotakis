@@ -51,7 +51,7 @@ fn old_vessel_json_defaults_to_no_solid_solutions() {
         "temperature": 298.15,
         "pressure": 101325.0,
         "thermal_mode": "adiabatic",
-        "headspace": "open",
+        "headspace": {"boundary": "open"},
         "surfaces": [],
         "exchanges": [],
         "solute_charge": 0.0,

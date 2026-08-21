@@ -86,13 +86,26 @@ fn calcium_and_strontium_co_precipitate_into_a_typed_mixed_crystal() {
         event,
         Event::Precipitated { species, .. } if species.0 == "SrCO3"
     )));
-    assert!((calcium_inventory(&vessel) - 5e-3).abs() < 2e-8);
-    assert!((strontium_inventory(&vessel) - 5e-3).abs() < 2e-8);
-    assert!((carbon_inventory(&vessel) - 2e-2).abs() < 2e-8);
+    assert!(
+        (calcium_inventory(&vessel) - 5e-3).abs() < 2e-8,
+        "calcium inventory changed: {:#?}",
+        vessel
+    );
+    assert!(
+        (strontium_inventory(&vessel) - 5e-3).abs() < 2e-8,
+        "strontium inventory changed: {:#?}",
+        vessel
+    );
+    assert!(
+        (carbon_inventory(&vessel) - 2e-2).abs() < 2e-8,
+        "carbon inventory changed: {:#?}",
+        vessel
+    );
     assert!(
         (vessel.mass().0 - mass_before).abs() < 2e-5,
-        "closed-vessel mass changed: before={mass_before:.12e} g, after={:.12e} g",
-        vessel.mass().0
+        "closed-vessel mass changed: before={mass_before:.12e} g, after={:.12e} g, state={:#?}",
+        vessel.mass().0,
+        vessel
     );
     assert!(vessel.solid_solutions[0].has_valid_state());
 }
@@ -121,9 +134,21 @@ fn acid_dissolves_both_end_members_without_losing_components() {
         event,
         Event::Dissolved { species, .. } if species.0 == "SrCO3"
     )));
-    assert!((calcium_inventory(&vessel) - 4e-3).abs() < 2e-8);
-    assert!((strontium_inventory(&vessel) - 4e-3).abs() < 2e-8);
-    assert!((carbon_inventory(&vessel) - 8e-3).abs() < 2e-8);
+    assert!(
+        (calcium_inventory(&vessel) - 4e-3).abs() < 2e-8,
+        "calcium inventory changed: {:#?}",
+        vessel
+    );
+    assert!(
+        (strontium_inventory(&vessel) - 4e-3).abs() < 2e-8,
+        "strontium inventory changed: {:#?}",
+        vessel
+    );
+    assert!(
+        (carbon_inventory(&vessel) - 8e-3).abs() < 2e-8,
+        "carbon inventory changed: {:#?}",
+        vessel
+    );
     assert!(
         (vessel.mass().0 - mass_before).abs() < 2e-5,
         "closed-vessel mass changed: before={mass_before:.12e} g, after={:.12e} g",
@@ -152,6 +177,11 @@ fn repeated_equilibration_preserves_the_mixed_phase_and_bulk_inventory() {
     }
     assert!((calcium_inventory(&vessel) - calcium_inventory(&first)).abs() < 2e-8);
     assert!((strontium_inventory(&vessel) - strontium_inventory(&first)).abs() < 2e-8);
-    assert!((carbon_inventory(&vessel) - carbon_inventory(&first)).abs() < 2e-8);
+    assert!(
+        (carbon_inventory(&vessel) - carbon_inventory(&first)).abs() < 2e-8,
+        "carbon inventory changed on repeat: first={:#?}, repeat={:#?}",
+        first,
+        vessel
+    );
     assert!((vessel.mass().0 - first.mass().0).abs() < 2e-5);
 }
