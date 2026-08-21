@@ -2421,6 +2421,19 @@ skipped under the load policy; CI run `32514634767` passed native
 Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
 core/IPhreeqc/combined Wasm, the Wasm bench, and the real-browser demo.
 
+**Active session — `codex-AQ` (2026-08-21, AQ-014).** Work is isolated in
+`/tmp/kerotakis-aq014.R1worktree` on branch
+`codex-aq/aq-014-r1-acceptance`. This session owns the R1 acceptance suite
+for limewater, a carbonated bottle, surface release, softener breakthrough,
+and partial freezing across native, Wasm, cached replay, and offline paths.
+It may consolidate existing evidence and add missing application-path checks,
+but will not expand chemistry scope, import data, add dependencies, alter
+kinetics or MY-BASIC, or modify vendored sources. Raw external engines remain
+development oracles only; shipped and offline behavior must use the existing
+AGPL-owned interfaces and bundled assets. Local native builds require a
+separate one-minute load check below 4 and remain capped at two Cargo/CMake
+jobs; otherwise validation runs on GitHub CI.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state
