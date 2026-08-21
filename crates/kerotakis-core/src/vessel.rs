@@ -120,6 +120,12 @@ pub struct SurfaceSites {
     /// Computed bound inventory. Empty before the first equilibrium pass.
     #[serde(default)]
     pub occupancy: Vec<SurfaceOccupancy>,
+    /// Water transferred from the neutral `Hfo_*OH` site reference into the
+    /// solution by the current ligand-exchange species. PHREEQC includes it
+    /// in `mass_H2O`; subtracting the same amount from the interface ledger
+    /// prevents that site material from being counted twice.
+    #[serde(default)]
+    pub water_release: Moles,
 }
 
 impl SurfaceSites {
@@ -159,6 +165,9 @@ impl SurfaceSites {
             && self.strong_capacity.0 > 0.0
             && self.weak_capacity.0.is_finite()
             && self.weak_capacity.0 > 0.0
+            && self.water_release.0.is_finite()
+            && self.water_release.0 >= 0.0
+            && self.water_release.0 <= self.bound(SurfaceSorbate::Sulfate).0 + 1e-12
             && self.occupancy.iter().all(|entry| {
                 entry.moles.0.is_finite()
                     && entry.moles.0 >= 0.0
@@ -446,6 +455,10 @@ impl Vessel {
             .iter()
             .map(|surface| {
                 surface.mass.0
+                    - surface.water_release.0
+                        * species::lookup_key("water")
+                            .map(|water| water.molar_mass)
+                            .unwrap_or(0.0)
                     + surface
                         .occupancy
                         .iter()
