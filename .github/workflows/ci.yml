@@ -45,6 +45,22 @@ jobs:
       - name: Differential and live preview corpus
         run: cargo test -p kerotakis-phreeqc --features my-basic-preview
 
+  legacy-basic-oracle:
+    name: Legacy BASIC oracle (development only)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Independently verify Stage 6 classifications
+        run: >-
+          cargo test -p kerotakis-phreeqc --features legacy-basic-oracle
+          --test basic_dialect_oracle
+          --test ex21_observable_parity
+          --test standalone_basic_corpus
+
   wasm-core:
     name: Core compiles to wasm32
     runs-on: ubuntu-latest
