@@ -1201,6 +1201,31 @@ impl PhreeqcEquilibrator {
         // What was freed, as phases rather than loose elements — the heat
         // is owed to the *substance* that dissolved, not to its atoms.
         let mut freed_phases: Vec<(String, f64)> = Vec::new();
+        // A soluble sorbate feed must have the same canonical input on its
+        // first and later surface solves. Presenting ZnSO4 first as a finite
+        // equilibrium phase but later as aqueous Zn/S totals changed HFO
+        // occupancy by about eight percent on an otherwise no-op stir. Fold
+        // this reviewed soluble reagent into totals up front, retain the
+        // zero-amount phase so precipitation remains possible, and retain
+        // the phase identity separately for its dissolution event/enthalpy.
+        if !problem.surfaces.is_empty() {
+            for (name, moles, _) in &mut problem.phases {
+                if *moles <= 0.0 {
+                    continue;
+                }
+                let Some(phase) = derived::phase_by_name(name) else {
+                    continue;
+                };
+                if phase.species != "ZnSO4" {
+                    continue;
+                }
+                for (element, coefficient) in &phase.elements {
+                    freed.push((element.clone(), coefficient * *moles));
+                }
+                freed_phases.push((name.clone(), *moles));
+                *moles = 0.0;
+            }
+        }
         problem.phases.retain(|(name, moles, _)| {
             if idx.has_phase(name) {
                 return true;
