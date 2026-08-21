@@ -1209,9 +1209,27 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   tests, strict Clippy and native tests on Ubuntu/macOS, the new data-crate
   `wasm32` gate, both MY-BASIC previews, IPhreeqc/cache/combined Wasm, the Wasm
   bench, and the real-browser demo.
-- [ ] **DATA-002 — Export the current 75 species.** Generate the new source
+- [x] **DATA-002 — Export the current 75 species.** Generate the new source
   records from existing Rust declarations, diff every field, and keep runtime
   behavior unchanged.
+  **Complete 2026-08-21:** the unpublished, build-only
+  `kerotakis-registry-export` crate converts all 75 current declarations into
+  the DATA-001 contract without becoming a dependency of the app or any
+  simulation crate. The checked-in human-readable export contains 75 sources,
+  identities, and compositions, 238 phase-property records, 64 optical
+  records, and 103 legacy model parameters. Tests compare every old field:
+  key, name, formula and parsed composition/charge, InChIKey, molar mass, heat
+  capacity, density, phase, appearance, flame/reflective colour, tint strength,
+  evaluated spectrum, dissolution enthalpy, both behavior flags, and verbatim
+  provenance. A second gate regenerates the JSON byte for byte, so registry
+  drift cannot silently pass. The roadmap's earlier count of 74 was corrected
+  to the actual 75. All exported sources remain `build_oracle` with an explicit
+  legacy-review-required license reference; zero are eligible for a runtime
+  pack. No external data was imported, no third-party dependency was added,
+  and lookup or simulation behavior did not change. CI run `32520759936`
+  passed the export/diff gates, strict Clippy and native tests on Ubuntu/macOS,
+  both MY-BASIC previews, core/data/IPhreeqc/cache/combined Wasm, the Wasm
+  bench, and the real-browser demo.
 - [ ] **DATA-003 — Compile a deterministic runtime pack.** Use a versioned binary
   format with reproducible ordering and content hash; provide a human-readable
   inspection command.
