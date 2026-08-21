@@ -213,6 +213,42 @@ fn surface_released_water_does_not_change_hydraulic_cell_geometry() {
 }
 
 #[test]
+fn reactive_surface_reference_water_has_a_capacity_bounded_geometry_allowance() {
+    fn surface() -> SurfaceSites {
+        SurfaceSites {
+            label: "hydrated oxide".to_string(),
+            model: SurfaceModel::HydrousFerricOxide,
+            mass: Grams(0.09),
+            specific_area_m2_per_g: 600.0,
+            strong_capacity: Moles(5e-6),
+            weak_capacity: Moles(2e-4),
+            occupancy: Vec::new(),
+            water_release: Moles(0.0),
+        }
+    }
+
+    let inlet = cell(99, 0.0, Kelvin::STANDARD.0);
+    let mut first = cell(0, 0.0, Kelvin::STANDARD.0);
+    first.surfaces.push(surface());
+    let mut second = cell(1, 0.0, Kelvin::STANDARD.0);
+    second.surfaces.push(surface());
+
+    let mut within_capacity = CellChain::new(vec![first.clone(), second.clone()]).unwrap();
+    within_capacity.cells_mut()[1].deposit(SpeciesId::new("water"), Moles(2e-4), Phase::Liquid);
+    assert!(
+        within_capacity.advance(&inlet, 0.0).is_ok(),
+        "surface reference-state water may shift by no more than site capacity"
+    );
+
+    let mut beyond_capacity = CellChain::new(vec![first, second]).unwrap();
+    beyond_capacity.cells_mut()[1].deposit(SpeciesId::new("water"), Moles(5e-4), Phase::Liquid);
+    assert!(matches!(
+        beyond_capacity.advance(&inlet, 0.0),
+        Err(TransportError::NonUniformCellVolume { cell: 1, .. })
+    ));
+}
+
+#[test]
 fn a_failed_reactive_cell_restores_the_complete_pre_step_chain() {
     let inlet = cell(99, 0.0, Kelvin::STANDARD.0);
     let mut chain = CellChain::new(vec![
