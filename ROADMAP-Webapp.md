@@ -1115,8 +1115,23 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   dependency was added. Native Ubuntu/macOS, strict codex lint, both MY-BASIC
   previews, core/IPhreeqc/full/combined Wasm, and the real-browser demo passed
   in CI run `32506920952`.
-- [ ] **AQ-011 — Add a 1-D cell chain.** Implement conservative transfer between
+- [x] **AQ-011 — Add a 1-D cell chain.** Implement conservative transfer between
   cells before adding reaction; test a passive tracer.
+  **Complete 2026-08-21:** `kerotakis-core` now provides a uniform chain of
+  existing `Vessel` cells with simultaneous first-order upwind transfer of
+  liquid and aqueous portions. Each step reports its injected and effluent
+  boundary parcels, invalidates stale solution metadata, and leaves solids,
+  surfaces, exchange sites, solid solutions, and headspaces owned by their
+  original cells. Typed pre-mutation checks reject invalid Courant numbers,
+  non-uniform or empty liquid geometry, incompatible inlet volume, invalid
+  mobile state, and thermostatted cells whose environmental heat would make a
+  hidden ledger term. The passive-tracer acceptance check pins the repeated
+  binomial profile, invariant cell water volume, stationary inventories, and
+  per-step species, analytical-charge, and sensible-energy closure. No
+  reaction coupling, PHREEQC `TRANSPORT`, new data, dependency, or external
+  source was added. Native Ubuntu/macOS, strict codex lint, both MY-BASIC
+  previews, core/IPhreeqc/full/combined Wasm, and the real-browser demo passed
+  in CI run `32508147378`.
 - [ ] **AQ-012 — Add exchange/transport coupling.** Produce a finite-column
   breakthrough curve while conserving each exchanged element.
 - [ ] **AQ-013 — Add surface/transport coupling.** Produce one adsorption-front

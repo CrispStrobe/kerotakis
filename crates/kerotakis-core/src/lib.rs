@@ -29,6 +29,7 @@ pub mod species;
 pub mod spectrum;
 pub mod states;
 pub mod stoich;
+pub mod transport;
 pub mod units;
 pub mod vessel;
 
@@ -45,6 +46,7 @@ pub use solve::{
 };
 pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};
+pub use transport::{CellChain, MobileParcel, TransportError, TransportStep};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 pub use vessel::{
     ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Portion, Provenance, RedoxState,

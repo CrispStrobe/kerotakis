@@ -2360,6 +2360,25 @@ CI run `32506920952` passed native Ubuntu/macOS, strict codex lint, both
 MY-BASIC preview gates, core/IPhreeqc/full/combined Wasm, and the real-browser
 demo.
 
+**Completed session — `codex-AQ` (2026-08-21, AQ-011).** Work was isolated in
+`/tmp/kerotakis-aq011.mKxoxd/worktree` on branch
+`codex-aq/aq-011-cell-chain`. `kerotakis-core` now owns a project-authored,
+uniform 1-D finite-volume chain over existing `Vessel` cells. A transport step
+snapshots every outflow before mutation, applies first-order upwind transfer to
+liquid/aqueous portions, and reports explicit injected and effluent parcels so
+open-system ledgers close. Solids, surfaces, exchange sites, solid solutions,
+and headspaces remain with their cell; moved cells lose stale solution
+metadata. Typed validation covers empty/non-uniform geometry, invalid Courant
+fractions, incompatible inlet volume, invalid mobile state, and thermostatted
+cells whose bath would add an unreported energy term. The passive-tracer test
+pins repeated binomial profiles, constant cell water, stationary inventory,
+and per-step species, analytical-charge, and sensible-energy conservation. No
+exchange/surface reaction coupling, PHREEQC `TRANSPORT`, public scripting/UI,
+kinetics or MY-BASIC change, data import, dependency, or vendored-source change
+was added. Local native compilation was skipped under the load policy; CI run
+`32508147378` passed native Ubuntu/macOS, strict codex lint, both MY-BASIC
+preview gates, core/IPhreeqc/full/combined Wasm, and the real-browser demo.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state
