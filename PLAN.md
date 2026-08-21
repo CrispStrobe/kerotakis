@@ -2185,6 +2185,26 @@ Native, WebAssembly, browser, and combined-solver CI gates passed in run
 `32492646325`. Pressure-log interpolation and external mechanism data remain
 future work.
 
+**Completed session — `codex-kin` (2026-08-21, KIN-008).** This session added
+CLI-first runtime gas-mechanism simulation: validated mechanism loading, an
+explicit finite sealed headspace, temperature, duration, repeatable species
+feeds, and implicit reaction-network advancement. Stable JSON reports complete
+initial/final mechanism composition, initial/final pressure, reaction extents,
+and solver diagnostics; human output exposes the same run. Exact CLI tests cover
+the analytic first-order solution, pressure increase, JSON fields, and refusal
+of undeclared feed species. All native, WebAssembly, browser, and combined
+solver CI gates passed in run `32494325781`.
+
+**Active session — `codex-kin` (2026-08-21, KIN-009).** This session owns
+sampled gas-mechanism trajectories in the CLI: an explicit positive interval
+count, an initial point plus exact evenly spaced requested times, composition
+and pressure at every point, cumulative reaction extents, and aggregate implicit
+solver diagnostics without breaking the KIN-008 endpoint JSON fields. Work is
+isolated on branch `codex-kin/mechanism-trajectories` in a fresh worktree. Its
+boundary is the mechanism simulation CLI and focused contract tests. It will
+not modify equilibrium/surface/VLE work, the PHREEQC BASIC replacement,
+vendored sources, or compatibility fixtures.
+
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
 reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy

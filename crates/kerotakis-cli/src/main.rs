@@ -902,6 +902,8 @@ fn usage() -> ! {
          \x20 kero species               list known species\n\
          \x20 kero provenance lint       validate source/distribution policy\n\
          \x20 kero mechanism inspect FILE.yaml [--json]\n\
+         \x20 kero mechanism simulate FILE.yaml --seconds S --volume-l L\n\
+         \x20        --temperature-k K --feed SPECIES=MOLES [--samples N] [--json]\n\
          \n\
          bench commands (REPL and .lab files):\n\
          \x20 add <vessel> <species> <amount><mol|g|mL> [@ <T>C]\n\
@@ -929,13 +931,26 @@ fn usage() -> ! {
 }
 
 fn mechanism_command(args: &[String]) -> ! {
-    let Some("inspect") = args.first().map(String::as_str) else {
-        eprintln!("usage: kero mechanism inspect FILE.yaml [--json]");
-        std::process::exit(2);
-    };
-    let Some(path) = args.get(1) else {
-        eprintln!("usage: kero mechanism inspect FILE.yaml [--json]");
-        std::process::exit(2);
+    match args.first().map(String::as_str) {
+        Some("inspect") => inspect_mechanism(&args[1..]),
+        Some("simulate") => simulate_mechanism(&args[1..]),
+        _ => mechanism_usage(),
+    }
+}
+
+fn mechanism_usage() -> ! {
+    eprintln!(
+        "usage:\n\
+         \x20 kero mechanism inspect FILE.yaml [--json]\n\
+         \x20 kero mechanism simulate FILE.yaml --seconds S --volume-l L \\\n\
+         \x20      --temperature-k K --feed SPECIES=MOLES [--feed ...] [--samples N] [--json]"
+    );
+    std::process::exit(2);
+}
+
+fn inspect_mechanism(args: &[String]) -> ! {
+    let Some(path) = args.first() else {
+        mechanism_usage();
     };
     let text = std::fs::read_to_string(path).unwrap_or_else(|error| {
         eprintln!("kero mechanism: cannot read {path}: {error}");
@@ -980,6 +995,320 @@ fn mechanism_command(args: &[String]) -> ! {
                     .map_or_else(String::new, |value| format!(", A0={value:.6e}"))
             );
         }
+    }
+    std::process::exit(0);
+}
+
+#[derive(Debug)]
+struct MechanismSimulationArgs {
+    path: String,
+    seconds: f64,
+    volume_litres: f64,
+    temperature_k: f64,
+    feeds: Vec<(String, f64)>,
+    sample_intervals: usize,
+    json: bool,
+}
+
+#[derive(serde::Serialize)]
+struct MechanismSimulationOutput<'a> {
+    mechanism: &'a str,
+    duration_seconds: f64,
+    volume_litres: f64,
+    temperature_k: f64,
+    initial_pressure_pa: f64,
+    final_pressure_pa: f64,
+    initial_moles: Vec<MechanismSpeciesAmount<'a>>,
+    final_moles: Vec<MechanismSpeciesAmount<'a>>,
+    sample_intervals: usize,
+    samples: Vec<MechanismTrajectoryPoint<'a>>,
+    extents: Vec<MechanismReactionExtent<'a>>,
+    statistics: MechanismSimulationStatistics,
+}
+
+#[derive(serde::Serialize)]
+struct MechanismSpeciesAmount<'a> {
+    species: &'a str,
+    moles: f64,
+}
+
+#[derive(serde::Serialize)]
+struct MechanismTrajectoryPoint<'a> {
+    elapsed_seconds: f64,
+    pressure_pa: f64,
+    moles: Vec<MechanismSpeciesAmount<'a>>,
+}
+
+#[derive(serde::Serialize)]
+struct MechanismReactionExtent<'a> {
+    reaction: &'a str,
+    equation: &'a str,
+    moles: f64,
+}
+
+#[derive(Default, serde::Serialize)]
+struct MechanismSimulationStatistics {
+    accepted_steps: usize,
+    rejected_steps: usize,
+    nonlinear_iterations: usize,
+    nonlinear_failures: usize,
+    depletion_events: usize,
+    constrained_commits: usize,
+}
+
+impl MechanismSimulationStatistics {
+    fn include(&mut self, statistics: kerotakis_core::kinetics::IntegrationStatistics) {
+        self.accepted_steps += statistics.accepted_steps;
+        self.rejected_steps += statistics.rejected_steps;
+        self.nonlinear_iterations += statistics.nonlinear_iterations;
+        self.nonlinear_failures += statistics.nonlinear_failures;
+        self.depletion_events += statistics.depletion_events;
+        self.constrained_commits += statistics.constrained_commits;
+    }
+}
+
+fn simulation_value(args: &[String], index: &mut usize, flag: &str) -> Result<String, String> {
+    *index += 1;
+    args.get(*index)
+        .cloned()
+        .ok_or_else(|| format!("{flag} requires a value"))
+}
+
+fn simulation_number(text: &str, flag: &str, allow_zero: bool) -> Result<f64, String> {
+    let value = text
+        .parse::<f64>()
+        .map_err(|_| format!("{flag} requires a number, got '{text}'"))?;
+    if !value.is_finite() || value < 0.0 || (!allow_zero && value == 0.0) {
+        let range = if allow_zero {
+            "non-negative"
+        } else {
+            "positive"
+        };
+        return Err(format!("{flag} must be finite and {range}, got {value}"));
+    }
+    Ok(value)
+}
+
+fn parse_mechanism_simulation_args(args: &[String]) -> Result<MechanismSimulationArgs, String> {
+    const MAX_SAMPLE_INTERVALS: usize = 100_000;
+    let path = args
+        .first()
+        .filter(|value| !value.starts_with('-'))
+        .cloned()
+        .ok_or_else(|| "simulate requires a mechanism file".to_string())?;
+    let mut seconds = None;
+    let mut volume_litres = None;
+    let mut temperature_k = None;
+    let mut feeds = Vec::new();
+    let mut sample_intervals = 1;
+    let mut json = false;
+    let mut index = 1;
+    while index < args.len() {
+        match args[index].as_str() {
+            "--seconds" => {
+                let text = simulation_value(args, &mut index, "--seconds")?;
+                seconds = Some(simulation_number(&text, "--seconds", true)?);
+            }
+            "--volume-l" => {
+                let text = simulation_value(args, &mut index, "--volume-l")?;
+                volume_litres = Some(simulation_number(&text, "--volume-l", false)?);
+            }
+            "--temperature-k" => {
+                let text = simulation_value(args, &mut index, "--temperature-k")?;
+                temperature_k = Some(simulation_number(&text, "--temperature-k", false)?);
+            }
+            "--feed" => {
+                let text = simulation_value(args, &mut index, "--feed")?;
+                let (species, amount) = text
+                    .split_once('=')
+                    .ok_or_else(|| format!("--feed expects SPECIES=MOLES, got '{text}'"))?;
+                if species.is_empty() {
+                    return Err("--feed species cannot be empty".to_string());
+                }
+                feeds.push((
+                    species.to_string(),
+                    simulation_number(amount, "--feed amount", false)?,
+                ));
+            }
+            "--samples" => {
+                let text = simulation_value(args, &mut index, "--samples")?;
+                sample_intervals = text
+                    .parse::<usize>()
+                    .map_err(|_| format!("--samples requires a positive integer, got '{text}'"))?;
+                if sample_intervals == 0 {
+                    return Err("--samples must be positive".to_string());
+                }
+                if sample_intervals > MAX_SAMPLE_INTERVALS {
+                    return Err(format!(
+                        "--samples cannot exceed {MAX_SAMPLE_INTERVALS} intervals"
+                    ));
+                }
+            }
+            "--json" => json = true,
+            option => return Err(format!("unknown simulate option '{option}'")),
+        }
+        index += 1;
+    }
+    if feeds.is_empty() {
+        return Err("simulate requires at least one --feed SPECIES=MOLES".to_string());
+    }
+    Ok(MechanismSimulationArgs {
+        path,
+        seconds: seconds.ok_or_else(|| "simulate requires --seconds".to_string())?,
+        volume_litres: volume_litres.ok_or_else(|| "simulate requires --volume-l".to_string())?,
+        temperature_k: temperature_k
+            .ok_or_else(|| "simulate requires --temperature-k".to_string())?,
+        feeds,
+        sample_intervals,
+        json,
+    })
+}
+
+fn mechanism_amounts<'a>(
+    mechanism: &'a kerotakis_core::kinetics::mechanism::ParsedMechanism,
+    vessel: &Vessel,
+) -> Vec<MechanismSpeciesAmount<'a>> {
+    mechanism
+        .species_names()
+        .map(|species| MechanismSpeciesAmount {
+            species,
+            moles: vessel.moles_of(&SpeciesId::new(species)).0,
+        })
+        .collect()
+}
+
+fn simulate_mechanism(args: &[String]) -> ! {
+    let args = parse_mechanism_simulation_args(args).unwrap_or_else(|error| {
+        eprintln!("kero mechanism simulate: {error}");
+        mechanism_usage();
+    });
+    let text = std::fs::read_to_string(&args.path).unwrap_or_else(|error| {
+        eprintln!("kero mechanism: cannot read {}: {error}", args.path);
+        std::process::exit(1);
+    });
+    let mechanism =
+        kerotakis_core::kinetics::mechanism::parse_yaml(&text).unwrap_or_else(|error| {
+            eprintln!("kero mechanism: {}: {error}", args.path);
+            std::process::exit(1);
+        });
+    for (species, _) in &args.feeds {
+        if !mechanism
+            .species_names()
+            .any(|candidate| candidate == species)
+        {
+            eprintln!(
+                "kero mechanism simulate: feed species '{species}' is not declared by the mechanism"
+            );
+            std::process::exit(2);
+        }
+    }
+
+    let arena = kerotakis_core::kinetics::mechanism::MechanismArena::default();
+    let network = mechanism.compile_in(&arena);
+    let mut vessel = Vessel::new(VesselId(0), "mechanism reactor");
+    vessel.temperature = Kelvin(args.temperature_k);
+    vessel.headspace = Headspace::Sealed {
+        volume: Liters(args.volume_litres),
+    };
+    for (species, moles) in &args.feeds {
+        vessel.deposit(SpeciesId::new(species), Moles(*moles), Phase::Gas);
+    }
+    vessel.refresh_pressure();
+    let initial_pressure_pa = vessel.pressure.0;
+    let initial_moles = mechanism_amounts(&mechanism, &vessel);
+    let mut samples = vec![MechanismTrajectoryPoint {
+        elapsed_seconds: 0.0,
+        pressure_pa: initial_pressure_pa,
+        moles: mechanism_amounts(&mechanism, &vessel),
+    }];
+    let mut total_extents = vec![0.0; network.reactions.len()];
+    let mut statistics = MechanismSimulationStatistics::default();
+    let interval_seconds = args.seconds / args.sample_intervals as f64;
+    for sample in 1..=args.sample_intervals {
+        let report = kerotakis_core::kinetics::advance_network_with_options(
+            &mut vessel,
+            interval_seconds,
+            &network,
+            kerotakis_core::kinetics::IntegrationOptions::default(),
+        )
+        .unwrap_or_else(|error| {
+            eprintln!("kero mechanism simulate: {error}");
+            std::process::exit(1);
+        });
+        for (reaction, extent) in &report.extents {
+            let index = network
+                .reactions
+                .iter()
+                .position(|candidate| candidate.id == reaction.id)
+                .expect("integration reports a reaction from its input network");
+            total_extents[index] += extent.0;
+        }
+        statistics.include(report.statistics);
+        samples.push(MechanismTrajectoryPoint {
+            elapsed_seconds: args.seconds * sample as f64 / args.sample_intervals as f64,
+            pressure_pa: vessel.pressure.0,
+            moles: mechanism_amounts(&mechanism, &vessel),
+        });
+    }
+    let final_moles = mechanism_amounts(&mechanism, &vessel);
+    let extents = network
+        .reactions
+        .iter()
+        .zip(total_extents)
+        .filter(|(_, extent)| extent.abs() > 0.0)
+        .map(|(reaction, extent)| MechanismReactionExtent {
+            reaction: reaction.id,
+            equation: reaction.equation,
+            moles: extent,
+        })
+        .collect();
+    let output = MechanismSimulationOutput {
+        mechanism: network.id,
+        duration_seconds: args.seconds,
+        volume_litres: args.volume_litres,
+        temperature_k: args.temperature_k,
+        initial_pressure_pa,
+        final_pressure_pa: vessel.pressure.0,
+        initial_moles,
+        final_moles,
+        sample_intervals: args.sample_intervals,
+        samples,
+        extents,
+        statistics,
+    };
+    if args.json {
+        println!(
+            "{}",
+            serde_json::to_string(&output).expect("mechanism simulation is serializable")
+        );
+    } else {
+        println!(
+            "{}: simulated {:.6} s at {:.3} K in {:.6} L; pressure {:.6e} -> {:.6e} Pa",
+            output.mechanism,
+            output.duration_seconds,
+            output.temperature_k,
+            output.volume_litres,
+            output.initial_pressure_pa,
+            output.final_pressure_pa
+        );
+        for amount in &output.final_moles {
+            println!("  {}: {:.9e} mol", amount.species, amount.moles);
+        }
+        for sample in &output.samples {
+            println!(
+                "  t={:.9e} s: pressure {:.9e} Pa",
+                sample.elapsed_seconds, sample.pressure_pa
+            );
+        }
+        for extent in &output.extents {
+            println!("  {}: extent {:.9e} mol", extent.reaction, extent.moles);
+        }
+        println!(
+            "  solver: {} accepted, {} rejected, {} nonlinear iterations",
+            output.statistics.accepted_steps,
+            output.statistics.rejected_steps,
+            output.statistics.nonlinear_iterations
+        );
     }
     std::process::exit(0);
 }
