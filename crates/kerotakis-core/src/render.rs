@@ -429,6 +429,109 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 }
             }
         }
+        Event::GasAbsorbed {
+            vessel,
+            species: sid,
+            moles,
+        } => {
+            let name = species::lookup(sid)
+                .map(|data| data.name)
+                .unwrap_or(sid.0.as_str());
+            match register.level() {
+                1 => format!("Gas bubbles into {vessel} and is taken up by the liquid."),
+                2 => format!(
+                    "{vessel}: {:.4} mol {name} absorbed from the gas boundary",
+                    moles.0
+                ),
+                _ => format!(
+                    "{vessel}: {:.6} mol {name} transferred gas → condensed inventory",
+                    moles.0
+                ),
+            }
+        }
+        Event::GasContained {
+            vessel,
+            species: sid,
+            moles,
+        } => {
+            let name = species::lookup(sid)
+                .map(|data| data.name)
+                .unwrap_or(sid.0.as_str());
+            match register.level() {
+                1 => format!("Bubbles form in {vessel}, but the gas stays inside."),
+                2 => format!(
+                    "{vessel}: {:.4} mol {name} formed and remains in the closed headspace",
+                    moles.0
+                ),
+                _ => format!(
+                    "{vessel}: {:.6} mol {name} transferred to the finite headspace (closed system; mass retained)",
+                    moles.0
+                ),
+            }
+        }
+        Event::VesselSealed {
+            vessel,
+            headspace_volume,
+            trapped_air,
+        } => match register.level() {
+            1 => format!("A lid seals {vessel}. Nothing gaseous can escape now."),
+            2 => format!(
+                "{vessel}: sealed over {:.3} L of headspace, trapping {:.4} mol of room air",
+                headspace_volume.0, trapped_air.0
+            ),
+            _ => format!(
+                "{vessel}: boundary=open → sealed; V_gas={:.6} L, trapped dry-air approximation={:.8} mol",
+                headspace_volume.0, trapped_air.0
+            ),
+        },
+        Event::VesselPressureControlled {
+            vessel,
+            pressure,
+            initial_volume,
+            trapped_gas,
+        } => match register.level() {
+            1 => format!("A movable piston holds {vessel} at constant pressure."),
+            2 => format!(
+                "{vessel}: pressure controlled at {:.3} bar; initial headspace {:.3} L",
+                pressure.0 / 100_000.0,
+                initial_volume.0
+            ),
+            _ => format!(
+                "{vessel}: boundary=pressure_controlled; P={:.3} Pa, V_initial={:.6} L, trapped gas={:.8} mol",
+                pressure.0, initial_volume.0, trapped_gas.0
+            ),
+        },
+        Event::VesselSwept { vessel, pressure } => match register.level() {
+            1 => format!("Nitrogen flows across {vessel} and carries gases away."),
+            2 => format!(
+                "{vessel}: swept by nitrogen at {:.3} bar; volatile products are purged",
+                pressure.0 / 100_000.0
+            ),
+            _ => format!(
+                "{vessel}: boundary=swept; inert N2 purge at P={:.3} Pa, gas inventory external",
+                pressure.0
+            ),
+        },
+        Event::VesselOpened { vessel } => match register.level() {
+            1 => format!("The lid comes off {vessel}; its gas can escape into the room."),
+            _ => format!("{vessel}: sealed boundary opened to the atmospheric reservoir"),
+        },
+        Event::HeadspaceEquilibrated {
+            vessel,
+            pressure,
+            total_moles,
+        } => match register.level() {
+            1 => format!("The gas under the lid of {vessel} settles with the liquid."),
+            2 => format!(
+                "{vessel}: headspace settled at {:.3} bar with {:.4} mol gas",
+                pressure.0 / 100_000.0,
+                total_moles.0
+            ),
+            _ => format!(
+                "{vessel}: finite-volume gas/liquid equilibrium; P={:.3} Pa, n_gas={:.8} mol",
+                pressure.0, total_moles.0
+            ),
+        },
         Event::StateChanged {
             vessel,
             species,

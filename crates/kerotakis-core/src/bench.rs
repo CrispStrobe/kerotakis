@@ -9,8 +9,8 @@ use crate::solve::{
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
-use crate::units::{Joules, Kelvin, Moles};
-use crate::vessel::{ThermalMode, Vessel, VesselId};
+use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
+use crate::vessel::{Headspace, ThermalMode, Vessel, VesselId};
 
 /// The temperature a match or spark brings its immediate surroundings to.
 pub const IGNITION_K: f64 = 1200.0;
@@ -103,17 +103,17 @@ impl Bench {
         for id in touched.iter().copied() {
             let vessel = self.vessel_mut(id)?;
             vessel.solution = None;
-            if !solver.applies(vessel) {
-                continue;
+            if solver.applies(vessel) {
+                match solver.equilibrate(vessel) {
+                    Ok(mut more) => events.append(&mut more),
+                    Err(e) => events.push(Event::SolverFailed {
+                        vessel: id,
+                        solver: solver.name().to_string(),
+                        detail: e.to_string(),
+                    }),
+                }
             }
-            match solver.equilibrate(vessel) {
-                Ok(mut more) => events.append(&mut more),
-                Err(e) => events.push(Event::SolverFailed {
-                    vessel: id,
-                    solver: solver.name().to_string(),
-                    detail: e.to_string(),
-                }),
-            }
+            vessel.refresh_pressure();
         }
 
         // A temperature announced mid-step may be overtaken by a later
@@ -146,6 +146,7 @@ impl Bench {
             let caught = events.iter().any(|e| match e {
                 Event::Consumed { moles, .. }
                 | Event::GasEvolved { moles, .. }
+                | Event::GasContained { moles, .. }
                 | Event::Precipitated { moles, .. } => moles.0 >= crate::OBSERVABLE_MOLES,
                 Event::ReactionOccurred { .. } => true,
                 _ => false,
@@ -340,6 +341,86 @@ impl Bench {
                         "stirring changes nothing this lab models: rates depend on concentration, temperature and catalysts here, and mixing and surface area are not modelled at all"
                             .to_string(),
                 });
+            }
+            Operator::Seal {
+                vessel,
+                headspace_volume,
+            } => {
+                if headspace_volume.0 <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let v = self.vessel_mut(*vessel)?;
+                let previous = v.headspace;
+                let source_pressure = v.pressure;
+                v.headspace = Headspace::Sealed {
+                    volume: *headspace_volume,
+                };
+                let trapped = trap_boundary_gas(v, previous, *headspace_volume, source_pressure);
+                v.refresh_pressure();
+                events.push(Event::VesselSealed {
+                    vessel: *vessel,
+                    headspace_volume: *headspace_volume,
+                    trapped_air: trapped,
+                });
+            }
+            Operator::Regulate {
+                vessel,
+                pressure,
+                initial_volume,
+            } => {
+                if pressure.0 <= 0.0 || initial_volume.0 <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let v = self.vessel_mut(*vessel)?;
+                let previous = v.headspace;
+                v.headspace = Headspace::PressureControlled {
+                    pressure: *pressure,
+                    volume: *initial_volume,
+                };
+                let trapped = trap_boundary_gas(v, previous, *initial_volume, *pressure);
+                v.refresh_pressure();
+                events.push(Event::VesselPressureControlled {
+                    vessel: *vessel,
+                    pressure: *pressure,
+                    initial_volume: *initial_volume,
+                    trapped_gas: trapped,
+                });
+            }
+            Operator::Sweep { vessel, pressure } => {
+                if pressure.0 <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let v = self.vessel_mut(*vessel)?;
+                let gases = vent_headspace(v);
+                v.headspace = Headspace::Swept {
+                    pressure: *pressure,
+                };
+                v.refresh_pressure();
+                events.push(Event::VesselSwept {
+                    vessel: *vessel,
+                    pressure: *pressure,
+                });
+                for (species, moles) in gases {
+                    events.push(Event::GasEvolved {
+                        vessel: *vessel,
+                        species,
+                        moles,
+                    });
+                }
+            }
+            Operator::Open { vessel } => {
+                let v = self.vessel_mut(*vessel)?;
+                let gases = vent_headspace(v);
+                v.headspace = Headspace::Open;
+                v.refresh_pressure();
+                events.push(Event::VesselOpened { vessel: *vessel });
+                for (species, moles) in gases {
+                    events.push(Event::GasEvolved {
+                        vessel: *vessel,
+                        species,
+                        moles,
+                    });
+                }
             }
             Operator::Decant { from, to, fraction } => {
                 if !(0.0..=1.0).contains(fraction) {
@@ -705,11 +786,20 @@ impl Bench {
                             if oxygen.0 > crate::OBSERVABLE_MOLES {
                                 let v = self.vessel_mut(*vessel)?;
                                 v.withdraw(&SpeciesId::new("water"), Moles(oxygen.0 * 2.0));
-                                events.push(Event::GasEvolved {
-                                    vessel: *vessel,
-                                    species: SpeciesId::new("O2"),
-                                    moles: oxygen,
-                                });
+                                let oxygen_id = SpeciesId::new("O2");
+                                if v.retain_gas(oxygen_id.clone(), oxygen) {
+                                    events.push(Event::GasContained {
+                                        vessel: *vessel,
+                                        species: oxygen_id,
+                                        moles: oxygen,
+                                    });
+                                } else {
+                                    events.push(Event::GasEvolved {
+                                        vessel: *vessel,
+                                        species: oxygen_id,
+                                        moles: oxygen,
+                                    });
+                                }
                             }
                         }
                         // The charge asked for more than the beaker had.
@@ -783,7 +873,11 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         Operator::Add { vessel, .. }
         | Operator::Heat { vessel, .. }
         | Operator::Cool { vessel, .. }
-        | Operator::Stir { vessel } => vec![*vessel],
+        | Operator::Stir { vessel }
+        | Operator::Seal { vessel, .. }
+        | Operator::Regulate { vessel, .. }
+        | Operator::Sweep { vessel, .. }
+        | Operator::Open { vessel } => vec![*vessel],
         Operator::Evaporate { vessel, .. } | Operator::Ignite { vessel } => vec![*vessel],
         // Electrolysis moves matter, so the vessel is re-settled after it.
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
@@ -793,4 +887,48 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         // every vessel on the bench, because the clock is shared.
         Operator::Wait { .. } => vec![],
     }
+}
+
+fn vent_headspace(vessel: &mut Vessel) -> Vec<(SpeciesId, Moles)> {
+    let gases = vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.phase == Phase::Gas)
+        .map(|portion| (portion.species.clone(), portion.moles))
+        .collect();
+    vessel
+        .contents
+        .retain(|portion| portion.phase != Phase::Gas);
+    gases
+}
+
+/// Fill a newly material-closed boundary from the environment it replaced.
+/// An open room contributes dry air; an inert sweep contributes nitrogen.
+/// Reconfiguring an already closed boundary preserves its existing inventory.
+fn trap_boundary_gas(
+    vessel: &mut Vessel,
+    previous: Headspace,
+    volume: Liters,
+    pressure: Pascal,
+) -> Moles {
+    if matches!(
+        previous,
+        Headspace::Sealed { .. } | Headspace::PressureControlled { .. }
+    ) {
+        return Moles(0.0);
+    }
+
+    const R_LITRE_PASCAL: f64 = 8_314.462_618;
+    const AIR_N2: f64 = 0.7901;
+    const AIR_O2: f64 = 0.2095;
+    const AIR_CO2: f64 = 0.0004;
+    let moles = pressure.0 * volume.0 / (R_LITRE_PASCAL * vessel.temperature.0);
+    if matches!(previous, Headspace::Swept { .. }) {
+        vessel.deposit(SpeciesId::new("N2"), Moles(moles), Phase::Gas);
+    } else {
+        vessel.deposit(SpeciesId::new("N2"), Moles(moles * AIR_N2), Phase::Gas);
+        vessel.deposit(SpeciesId::new("O2"), Moles(moles * AIR_O2), Phase::Gas);
+        vessel.deposit(SpeciesId::new("CO2"), Moles(moles * AIR_CO2), Phase::Gas);
+    }
+    Moles(moles)
 }

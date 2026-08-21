@@ -3,9 +3,10 @@
 //! stack — curated knowledge outranks generic solvers where it exists
 //! (PLAN.md, "L4 is a cascade").
 //!
-//! Gas products leave the open vessel: the balance notices, which is itself
-//! a lesson (conservation of mass in open systems). Reaction enthalpies for
-//! these entries are not yet curated; no heat effect is applied (honestly).
+//! Gas products leave a reservoir/swept boundary but remain in a materially
+//! closed headspace. The balance notices either way, which makes conservation
+//! of mass across the boundary explicit. Reaction enthalpies for these entries
+//! are not yet curated; no heat effect is applied (honestly).
 
 use crate::ops::Event;
 use crate::solve::{Equilibrator, SolveError};
@@ -19,7 +20,7 @@ pub struct CuratedReaction {
     pub equation: &'static str,
     pub reactants: &'static [(&'static str, f64)],
     /// Products with the phase they appear in. `Phase::Gas` products escape
-    /// the vessel and are reported via [`Event::GasEvolved`].
+    /// an external boundary or remain in a material-closed headspace.
     pub products: &'static [(&'static str, f64, Phase)],
 }
 
@@ -85,12 +86,20 @@ impl Equilibrator for CuratedEquilibrator {
                 for (key, coeff, phase) in reaction.products {
                     let n = Moles(x * coeff);
                     if *phase == Phase::Gas {
-                        // Escapes the open vessel.
-                        events.push(Event::GasEvolved {
-                            vessel: vessel.id,
-                            species: SpeciesId::new(key),
-                            moles: n,
-                        });
+                        let species = SpeciesId::new(key);
+                        if vessel.retain_gas(species.clone(), n) {
+                            events.push(Event::GasContained {
+                                vessel: vessel.id,
+                                species,
+                                moles: n,
+                            });
+                        } else {
+                            events.push(Event::GasEvolved {
+                                vessel: vessel.id,
+                                species,
+                                moles: n,
+                            });
+                        }
                     } else {
                         vessel.deposit(SpeciesId::new(key), n, *phase);
                     }

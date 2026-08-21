@@ -274,11 +274,30 @@ impl Equilibrator for CombinedSolver<'_> {
         "wasm-stack"
     }
 
+    fn chemistry_applies(&self, vessel: &kerotakis_core::Vessel) -> bool {
+        self.aqueous.chemistry_applies(vessel) || self.stack.chemistry_applies(vessel)
+    }
+
     fn equilibrate(
         &mut self,
         vessel: &mut kerotakis_core::Vessel,
     ) -> Result<Vec<Event>, kerotakis_core::SolveError> {
         let mut events = Vec::new();
+
+        // Keep the browser's routing identical to the native stack: physical
+        // mixing, curated and thermal chemistry first; aqueous equilibrium
+        // next; state changes and the honesty pass last. Running the whole
+        // Rust stack after the cached aqueous answer let the thermal pass
+        // overwrite the heat of precipitation. The next lesson step then
+        // described a state that had never existed during pre-warming, so a
+        // perfectly curated result looked like a cache miss on device.
+        let aqueous_at = self
+            .stack
+            .solvers
+            .iter()
+            .position(|solver| solver.name() == "states")
+            .unwrap_or(self.stack.solvers.len());
+        run_solvers(&mut self.stack.solvers[..aqueous_at], vessel, &mut events);
         if self.aqueous.applies(vessel) {
             // The metallic state rides on the aqueous solve here exactly as
             // it does natively: displacement over the reported activities,
@@ -293,7 +312,27 @@ impl Equilibrator for CombinedSolver<'_> {
                 }),
             }
         }
-        events.append(&mut self.stack.equilibrate(vessel)?);
+        run_solvers(&mut self.stack.solvers[aqueous_at..], vessel, &mut events);
         Ok(events)
+    }
+}
+
+fn run_solvers(
+    solvers: &mut [Box<dyn Equilibrator>],
+    vessel: &mut kerotakis_core::Vessel,
+    events: &mut Vec<Event>,
+) {
+    for solver in solvers {
+        if !solver.applies(vessel) {
+            continue;
+        }
+        match solver.equilibrate(vessel) {
+            Ok(mut more) => events.append(&mut more),
+            Err(error) => events.push(Event::SolverFailed {
+                vessel: vessel.id,
+                solver: solver.name().to_string(),
+                detail: error.to_string(),
+            }),
+        }
     }
 }

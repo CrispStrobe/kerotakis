@@ -44,6 +44,11 @@ fn a_prewarmed_cache_serves_a_cold_engine() {
     let expected = replay(&mut builder);
     let exported = builder.export_cache();
     assert!(!exported.entries.is_empty());
+    assert_eq!(
+        exported.neutralisation_kj_per_mol.len(),
+        3,
+        "the device also needs each database's thermochemistry"
+    );
 
     // Ship it: postcard round-trip, exactly as the binary would embed it.
     let bytes = postcard::to_allocvec(&exported).expect("serialise");

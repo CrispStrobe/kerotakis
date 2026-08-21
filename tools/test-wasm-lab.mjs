@@ -63,6 +63,50 @@ check(
     JSON.stringify(fire.rendered),
 );
 
+// Boundary state is core physics, so it works even without the aqueous side module.
+const closed = new Lab();
+const closedRun = JSON.parse(closed.runScript("seal v1 500mL\nheat v1 10J\n"));
+const closedVessel = closedRun.bench.vessels[0];
+check("a finite headspace survives the Wasm JSON boundary", closedVessel.headspace.boundary === "sealed");
+check(
+    "heating trapped gas raises its pressure",
+    closedVessel.pressure > 101325,
+    `${closedVessel.pressure.toFixed(0)} Pa`,
+);
+const energyControlled = new Lab();
+const energyRegulated = JSON.parse(
+    energyControlled.runScript("regulate v1 101.325kPa 500mL\nheat v1 10J\n"),
+);
+const energyRegulatedVessel = energyRegulated.bench.vessels[0];
+check(
+    "rigid trapped gas warms more than the same pressure-controlled gas",
+    closedVessel.temperature > energyRegulatedVessel.temperature,
+    `sealed=${closedVessel.temperature.toFixed(6)} K, regulated=${energyRegulatedVessel.temperature.toFixed(6)} K`,
+);
+const controlled = new Lab();
+const regulated = JSON.parse(
+    controlled.runScript("regulate v1 1.5bar 250mL\nheat v1 10J\n"),
+);
+const regulatedVessel = regulated.bench.vessels[0];
+check(
+    "a pressure controller crosses the Wasm boundary",
+    regulatedVessel.headspace.boundary === "pressure_controlled",
+);
+check(
+    "the controller holds its target pressure",
+    regulatedVessel.pressure === 150000,
+);
+const swept = JSON.parse(controlled.runScript("sweep v1 90kPa\n"));
+const sweptVessel = swept.bench.vessels[0];
+check(
+    "a swept boundary crosses the Wasm boundary",
+    sweptVessel.headspace.boundary === "swept",
+);
+check(
+    "the sweep owns no gas inventory",
+    !sweptVessel.contents.some((portion) => portion.phase === "gas"),
+);
+
 // Aqueous chemistry without an engine: a miss must be stated.
 const lab2 = new Lab();
 const salted = JSON.parse(
@@ -101,6 +145,21 @@ if (cachePath) {
         "narrated for a nine-year-old",
         child.some((l) => l.includes("cloudy")),
         JSON.stringify(child),
+    );
+
+    const lab4 = new Lab();
+    lab4.loadResults(readFileSync(cachePath));
+    const limewater = readFileSync(new URL("../lessons/limewater.lab", import.meta.url), "utf8");
+    const limewaterRun = JSON.parse(lab4.runScript(limewater));
+    const limewaterEvents = limewaterRun.steps.flatMap((s) => s.events);
+    check(
+        "a gas dose transfers inward from cached equilibrium",
+        limewaterEvents.some((e) => e.event === "gas_absorbed" && e.species === "CO2"),
+    );
+    check(
+        "limewater clouds and clears again in cached WebAssembly",
+        limewaterEvents.some((e) => e.event === "precipitated" && e.species === "CaCO3") &&
+            limewaterEvents.some((e) => e.event === "dissolved" && e.species === "CaCO3"),
     );
 }
 

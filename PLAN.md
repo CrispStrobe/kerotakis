@@ -713,10 +713,10 @@ audit independently flagged as computed-but-never-displayed.
   is a burn hazard, and we get the sign wrong. The fix is an event for a
   consumed solid plus reaction enthalpies on phase conversions, not a
   number bolted to the registry.
-- **Added gas does not dissolve.** `add v1 CO2` leaves the CO₂ sitting as a
-  gas phase, so limewater cannot go milky — one of the commonest school
-  tests. Open-vessel *venting* works (the fizz loses its CO₂ correctly);
-  it is the inward direction that is missing.
+- **Added gas now dissolves (resolved in AQ-003).** `add v1 CO2` is an
+  amount-limited dose through an external boundary: limewater goes milky,
+  continued excess CO₂ clears it again, and the event ledger separates what
+  entered the condensed inventory from what vented.
 - **Partial freezing is not modelled.** A freezing solution really gives ice
   plus an ever more concentrated brine down to a eutectic; we freeze the
   solvent and say the rest is not modelled.

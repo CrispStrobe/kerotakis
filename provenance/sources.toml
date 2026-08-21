@@ -1,0 +1,148 @@
+# Release provenance for external scientific code and data.
+#
+# This first inventory deliberately covers the vendored scientific runtime
+# inputs. Cargo packages, project-owned code/content, lessons, media, and
+# generated assets are the next inventory increment (ROADMAP-Webapp.md,
+# LIC-004). A record here approves only the named version, paths, outputs, and
+# targets; it is not a blanket approval of an upstream project.
+
+schema = 1
+policy = "store-permissive-v1"
+scope = "Vendored external scientific runtime code and data"
+
+[[source]]
+id = "usgs-iphreeqc-code"
+name = "Kerotakis IPhreeqc fork"
+kind = "code"
+lane = "runtime-code"
+decision = "approved"
+licence = "LicenseRef-USGS-User-Rights-Notice"
+origin = "https://github.com/CrispStrobe/iphreeqc"
+terms = "vendor/iphreeqc/doc/NOTICE"
+copyright = "United States Geological Survey and identified bundled contributors"
+retrieved = "2026-08-20"
+revision = "b178505b6e12d3b5400fbdad511d6deb8a0529c8"
+revision_path = "vendor/iphreeqc"
+attribution = "PHREEQC/IPhreeqc, United States Geological Survey; retain the USGS User Rights Notice and bundled third-party notices"
+paths = ["vendor/iphreeqc/src"]
+allowed_outputs = ["native-static-library", "emscripten-side-module"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis engineering policy audit"
+notes = "Forked from USGS IPhreeqc for the Kerotakis adapters. The vendored source also contains BSD-covered SUNDIALS files; their notice is retained by the source tree and release notices."
+
+[[source]]
+id = "usgs-phreeqc-database"
+name = "USGS PHREEQC thermodynamic database"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "LicenseRef-USGS-User-Rights-Notice"
+origin = "https://github.com/phreeqc-dev/iphreeqc"
+terms = "vendor/iphreeqc/doc/NOTICE"
+copyright = "United States Geological Survey and cited database contributors"
+retrieved = "2026-08-20"
+attribution = "PHREEQC database, United States Geological Survey; preserve database comments, citations, and the USGS notice"
+paths = ["vendor/iphreeqc/database/phreeqc.dat"]
+allowed_outputs = ["embedded-runtime-database", "web-runtime-database"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis engineering policy audit"
+
+[[source.checksum]]
+path = "vendor/iphreeqc/database/phreeqc.dat"
+sha256 = "5b80d45c989cd1db7aab485e198321ba550d5902be8097c8be26d85ba03da278"
+
+[[source]]
+id = "usgs-wateq4f-database"
+name = "USGS WATEQ4F thermodynamic database"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "LicenseRef-USGS-User-Rights-Notice"
+origin = "https://github.com/phreeqc-dev/iphreeqc"
+terms = "vendor/iphreeqc/doc/NOTICE"
+copyright = "United States Geological Survey and cited database contributors"
+retrieved = "2026-08-20"
+attribution = "WATEQ4F database distributed with PHREEQC; preserve database comments, citations, and the USGS notice"
+paths = ["vendor/iphreeqc/database/wateq4f.dat"]
+allowed_outputs = ["embedded-runtime-database", "web-runtime-database"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis engineering policy audit"
+
+[[source.checksum]]
+path = "vendor/iphreeqc/database/wateq4f.dat"
+sha256 = "93547b0343d9f151e73fb48e7927aa9e9c777399fedcb8c7497d00371af4d0ae"
+
+[[source]]
+id = "usgs-minteq-v4-database"
+name = "USGS MINTEQ version 4 thermodynamic database"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "LicenseRef-USGS-User-Rights-Notice"
+origin = "https://github.com/phreeqc-dev/iphreeqc"
+terms = "vendor/iphreeqc/doc/NOTICE"
+copyright = "United States Geological Survey and cited database contributors"
+retrieved = "2026-08-20"
+attribution = "MINTEQ version 4 database distributed with PHREEQC; preserve database comments, citations, and the USGS notice"
+paths = ["vendor/iphreeqc/database/minteq.v4.dat"]
+allowed_outputs = ["embedded-runtime-database", "web-runtime-database"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis engineering policy audit"
+
+[[source.checksum]]
+path = "vendor/iphreeqc/database/minteq.v4.dat"
+sha256 = "4a48bf5c357b3da3084606a5e322426c3ab1e969dd1c86f9c62a3a7995836ca3"
+
+[[source]]
+id = "usgs-pitzer-database"
+name = "USGS Pitzer thermodynamic database"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "LicenseRef-USGS-User-Rights-Notice"
+origin = "https://github.com/phreeqc-dev/iphreeqc"
+terms = "vendor/iphreeqc/doc/NOTICE"
+copyright = "United States Geological Survey and cited database contributors"
+retrieved = "2026-08-20"
+attribution = "Pitzer database distributed with PHREEQC; preserve database comments, citations, and the USGS notice"
+paths = ["vendor/iphreeqc/database/pitzer.dat"]
+allowed_outputs = ["embedded-runtime-database", "web-runtime-database"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis engineering policy audit"
+
+[[source.checksum]]
+path = "vendor/iphreeqc/database/pitzer.dat"
+sha256 = "3640e62aee63a118f800b115b46a2760576e63e05e1792022315a28f75dbe9bb"
+
+[[source]]
+id = "nasa-cea-thermodynamic-data"
+name = "NASA CEA thermodynamic database"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "Apache-2.0"
+origin = "https://github.com/nasa/cea"
+terms = "vendor/nasa-cea/LICENSE.txt"
+copyright = "2025 United States Government as represented by the Administrator of NASA"
+retrieved = "2026-08-20"
+attribution = "CEA — Chemical Equilibrium with Applications, NASA; retain Apache-2.0 licence, NOTICE, and dataset references"
+paths = [
+    "vendor/nasa-cea/thermo.inp",
+    "vendor/nasa-cea/LICENSE.txt",
+    "vendor/nasa-cea/NOTICE.txt",
+]
+allowed_outputs = ["embedded-runtime-database", "compiled-runtime-subset"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis engineering policy audit"
+
+[[source.checksum]]
+path = "vendor/nasa-cea/thermo.inp"
+sha256 = "fa7746572952d74e249e818a82a35c113829742fb421a308e167185528884363"
+
+[[source.checksum]]
+path = "vendor/nasa-cea/LICENSE.txt"
+sha256 = "a60026be9384468d074c19425e552f1bb4a6f507f805e55a96fad586716168ed"
+
+[[source.checksum]]
+path = "vendor/nasa-cea/NOTICE.txt"
+sha256 = "03b64364559d540d97615c31675a69e8eb1965e30de8859a2f8c5c9a38ecb55e"
