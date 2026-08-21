@@ -80,6 +80,27 @@ reactions:
   rate-constant: {A: 0.25, b: 0, Ea: 0}
 "#;
 
+const PLOG_MECHANISM: &str = r#"
+description: CLI pressure grid
+units: {pressure: atm, activation-energy: J/mol}
+phases:
+- name: gas
+  thermo: ideal-gas
+  species: [A, B]
+species:
+- name: A
+  composition: {X: 1}
+- name: B
+  composition: {X: 1}
+reactions:
+- equation: A => B
+  type: pressure-dependent-Arrhenius
+  rate-constants:
+  - {P: 1, A: 0.1, b: 0, Ea: 0}
+  - {P: 1, A: 0.3, b: 0, Ea: 0}
+  - {P: 100, A: 40, b: 0, Ea: 0}
+"#;
+
 fn mechanism_file(name: &str, contents: &str) -> std::path::PathBuf {
     let dir = std::env::temp_dir().join(format!("kero-mechanism-{}-{}", std::process::id(), name));
     std::fs::create_dir_all(&dir).unwrap();
@@ -344,6 +365,86 @@ fn mechanism_rates_exposes_balanced_forward_and_reverse_flux_at_equilibrium() {
     assert!((rates["reverse_moles_per_litre_second"].as_f64().unwrap() - 0.2).abs() < 1e-14);
     assert!(rates["net_moles_per_litre_second"].as_f64().unwrap().abs() < 1e-14);
     assert!(value["rate_determining_step"].is_null());
+    std::fs::remove_dir_all(path.parent().unwrap()).ok();
+}
+
+#[test]
+fn pressure_grid_is_inspectable_and_shared_by_rates_and_simulation() {
+    let path = mechanism_file("plog", PLOG_MECHANISM);
+    let inspect = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args(["mechanism", "inspect", path.to_str().unwrap(), "--json"])
+        .output()
+        .expect("kero runs");
+    assert!(
+        inspect.status.success(),
+        "{}",
+        String::from_utf8_lossy(&inspect.stderr)
+    );
+    let summary: serde_json::Value = serde_json::from_slice(&inspect.stdout).unwrap();
+    assert_eq!(
+        summary["reaction_details"][0]["rate_model"],
+        "pressure_dependent_arrhenius"
+    );
+    assert_eq!(
+        summary["reaction_details"][0]["pressure_points_pa"],
+        serde_json::json!([101_325.0, 10_132_500.0])
+    );
+
+    let temperature_k = 300.0;
+    let pressure_pa = 10.0 * 101_325.0;
+    let initial_moles = pressure_pa / (8_314.462_618 * temperature_k);
+    let feed = format!("A={initial_moles:.16}");
+    let rates = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args([
+            "mechanism",
+            "rates",
+            path.to_str().unwrap(),
+            "--volume-l",
+            "1",
+            "--temperature-k",
+            "300",
+            "--feed",
+            &feed,
+            "--json",
+        ])
+        .output()
+        .expect("kero runs");
+    assert!(
+        rates.status.success(),
+        "{}",
+        String::from_utf8_lossy(&rates.stderr)
+    );
+    let rates: serde_json::Value = serde_json::from_slice(&rates.stdout).unwrap();
+    let net = rates["reaction_rates"][0]["net_moles_per_litre_second"]
+        .as_f64()
+        .unwrap();
+    assert!((net - 4.0 * initial_moles).abs() < 1e-10, "{rates}");
+
+    let simulation = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args([
+            "mechanism",
+            "simulate",
+            path.to_str().unwrap(),
+            "--seconds",
+            "0.1",
+            "--volume-l",
+            "1",
+            "--temperature-k",
+            "300",
+            "--feed",
+            &feed,
+            "--json",
+        ])
+        .output()
+        .expect("kero runs");
+    assert!(
+        simulation.status.success(),
+        "{}",
+        String::from_utf8_lossy(&simulation.stderr)
+    );
+    let simulation: serde_json::Value = serde_json::from_slice(&simulation.stdout).unwrap();
+    let remaining = simulation["final_moles"][0]["moles"].as_f64().unwrap();
+    assert!((remaining - initial_moles * (-0.4f64).exp()).abs() < 1e-6);
     std::fs::remove_dir_all(path.parent().unwrap()).ok();
 }
 
