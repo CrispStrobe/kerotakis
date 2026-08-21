@@ -213,8 +213,8 @@ function runOne(line) {
       return write(doc.rendered || "  (nothing to draw)", "particles");
     }
     if (trimmed.startsWith("inspect")) {
-      const state = JSON.parse(lab.state());
-      return write(JSON.stringify(state.vessels, null, 1));
+      const doc = JSON.parse(lab.inspect(vesselArg(trimmed)));
+      return write(doc.rendered.map((line) => "  " + line).join("\n"));
     }
     const doc = JSON.parse(lab.runScript(trimmed + "\n"));
     const lines = (doc.steps ?? []).flatMap((s) => s.rendered ?? []);

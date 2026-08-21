@@ -448,51 +448,6 @@ fn explain_text(
     Ok(out)
 }
 
-/// How each redox element is split between its oxidation states.
-///
-/// "iron: 50% Fe(II), 50% Fe(III)" is the sentence a redox experiment
-/// exists to produce, and it is a rendering of numbers PHREEQC already
-/// computes — the engine was simply never asked for them.
-fn redox_words(s: &kerotakis_core::SolutionInfo) -> String {
-    if s.redox.is_empty() {
-        return String::new();
-    }
-    let mut elements: Vec<&str> = s.redox.iter().map(|r| r.element.as_str()).collect();
-    elements.sort_unstable();
-    elements.dedup();
-    let mut parts = Vec::new();
-    for el in elements {
-        let all: Vec<&kerotakis_core::RedoxState> =
-            s.redox.iter().filter(|r| r.element == el).collect();
-        let total: f64 = all.iter().map(|r| r.molality).sum();
-        // Drop anything that would round to 0%: "100% Fe(II), 0% Fe(III)"
-        // reads as a distribution when it is a single state.
-        let states: Vec<&kerotakis_core::RedoxState> = all
-            .into_iter()
-            .filter(|r| total <= 0.0 || r.molality / total >= 0.005)
-            .collect();
-        if total <= 0.0 {
-            continue;
-        }
-        // A single state is not a distribution; say what it is rather than
-        // announcing that 100% of it is itself.
-        if states.len() == 1 {
-            parts.push(format!("all {} as {}", el, states[0].label()));
-            continue;
-        }
-        let split: Vec<String> = states
-            .iter()
-            .map(|r| format!("{:.0}% {}", 100.0 * r.molality / total, r.label()))
-            .collect();
-        parts.push(format!("{el}: {}", split.join(", ")));
-    }
-    if parts.is_empty() {
-        String::new()
-    } else {
-        format!("\n      redox — {}", parts.join("; "))
-    }
-}
-
 /// The sweep: a matrix of vessel states through the real solver stack.
 ///
 /// Cases are built from a small alphabet — a solvent, things to dissolve,
@@ -1124,75 +1079,8 @@ impl Session {
     }
 
     fn print_vessel(&self, v: &Vessel) {
-        let solution = v
-            .solution
-            .as_ref()
-            .map(|s| {
-                // pe beside pH: acidity and oxidising power are the two
-                // axes a solution has, and the second was computed and
-                // discarded until now.
-                let split = redox_words(s);
-                let redox = match (s.pe, s.eh_volts(v.temperature.0)) {
-                    (Some(pe), Some(eh)) => format!(", pe {pe:.2} ({eh:+.3} V)"),
-                    _ => String::new(),
-                };
-                format!(
-                    ", pH {:.2}{redox}, I = {:.4} m{split}",
-                    s.ph, s.ionic_strength
-                )
-            })
-            .unwrap_or_default();
-        let boundary = match v.headspace {
-            Headspace::Open => ", open to atmosphere".to_string(),
-            Headspace::Sealed { volume } => format!(
-                ", sealed {:.1} mL headspace at {:.3} bar",
-                volume.0 * 1000.0,
-                v.pressure.0 / 100_000.0
-            ),
-            Headspace::PressureControlled { pressure, volume } => format!(
-                ", pressure-controlled {:.1} mL headspace at {:.3} bar",
-                volume.0 * 1000.0,
-                pressure.0 / 100_000.0
-            ),
-            Headspace::Swept { pressure } => {
-                format!(", nitrogen-swept at {:.3} bar", pressure.0 / 100_000.0)
-            }
-        };
-        println!(
-            "  {} ({}) — {:.2} °C, {:.1} g, {:.1} mL liquid{boundary}{solution}",
-            v.id,
-            v.label,
-            v.temperature.to_celsius(),
-            v.mass().0 + 0.0, // + 0.0 normalises negative zero
-            v.liquid_volume().0 * 1000.0 + 0.0
-        );
-        for p in &v.contents {
-            let name = species::lookup(&p.species)
-                .map(|d| d.name)
-                .unwrap_or(p.species.0.as_str());
-            println!("      {:>10.4} mol  {:<18} {:?}", p.moles.0, name, p.phase);
-        }
-        if v.is_empty() {
-            println!("      (empty)");
-        }
-        // Expert register: the true equilibrium speciation.
-        if self.register >= Register::LV3 {
-            if let Some(info) = &v.solution {
-                if !info.species.is_empty() {
-                    println!("      speciation (mol/kgw · activity · γ):");
-                    for sp in &info.species {
-                        let gamma = if sp.molality > 0.0 {
-                            sp.activity / sp.molality
-                        } else {
-                            0.0
-                        };
-                        println!(
-                            "        {:<12} {:>12.4e} {:>12.4e}   γ={:.3}",
-                            sp.name, sp.molality, sp.activity, gamma
-                        );
-                    }
-                }
-            }
+        for line in render_vessel(v, self.register) {
+            println!("  {line}");
         }
     }
 }
