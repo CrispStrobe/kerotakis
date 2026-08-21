@@ -191,7 +191,7 @@ lane so engineering work does not outrun it.
 | CRD | `oracle-only` / template-mining review | CC BY may permit derived artifacts, but attribution and database-extraction analysis precede committing mined templates. |
 | Open Reaction Database / ORDerly | `oracle-only` | CC BY-SA does not pass the direct-inclusion rule. No merged runtime dataset or committed extracted corpus. |
 | xTB and CREST | `oracle-only` | LGPL tools do not ship. Generated artifacts require an independent output/input rights review. |
-| Reaktoro and GEMS3K | `oracle-only` | LGPL code does not enter official app binaries; use only for differential checks. |
+| Reaktoro and GEMS3K | `oracle-only` | LGPL code does not enter official app binaries; use only for differential checks. Reaktoro 2.13 can load PHREEQC databases but does not implement PHREEQC surface complexation, so it is not an oracle for AQ-006. |
 | RDKit and PySCF | `oracle-only` / `development-tool` | Even where code is permissive, runtime inclusion is unnecessary; generated artifacts still need source/input provenance. |
 | Python `thermo` / `chemicals` aggregate data | restricted `oracle-only` | Never export its aggregated NIST/CRC/Yaws/CAS-derived tables or make fixtures from unclear records. |
 | NIST WebBook/SRD, CAS Common Chemistry, CAMEO exports, ECHA dumps, Burcat, proprietary UNIFAC tables, unlicensed RMG database | `blocked` | No scraping, ingestion, generated fixtures, or derived shipping tables without a new explicit grant. |
@@ -1074,8 +1074,14 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   enthalpy and pressure/volume constraints; test open versus sealed heating.
 - [x] **AQ-005 — Add typed `SurfaceSites`.** Compile one oxide surface model to
   `SURFACE`; retain capacity and occupancy on the interface ledger.
-- [ ] **AQ-006 — Validate pH-dependent adsorption.** Add an independent oracle
+- [x] **AQ-006 — Validate pH-dependent adsorption.** Add an independent oracle
   comparison that persists only approved benchmark values/error metrics.
+  Reaktoro 2.13 is not eligible for this case because surface complexation is
+  still an open upstream capability gap. The active implementation uses a
+  project-owned, development-only intrinsic mass-action/site-balance oracle
+  over the already-approved USGS constants; its stated omission of diffuse-
+  layer electrostatics makes it an edge-direction/position check, not another
+  full surface solver.
 - [ ] **AQ-007 — Add `ExchangeSites`.** Compile finite-capacity cation exchange
   and test a batch water-softening case.
 - [ ] **AQ-008 — Add `SOLID_SOLUTIONS`.** Begin with one approved mineral pair;

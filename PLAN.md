@@ -68,7 +68,7 @@ verifier in `tools/`, and only *data* ships:
 | `thermo` (MIT, Python) | Golden-test fixture generation for `kerotakis-thermo` — thousands of reference flash/VLE results |
 | Cantera (desktop Python) | Reference solutions for combustion golden tests |
 | RDKit (Python) | Cross-validation of Indigo template applications and canonicalisations during curation — two independent toolkits agreeing is real QA |
-| **Reaktoro** (LGPL-2.1, verified 2026-08-19 via repo metadata) | **Differential oracle for L2** — the modern PHREEQC-class geochemical solver (Leal, ETH), which loads our exact PHREEQC databases natively: same pitzer.dat, independent solver. Diff a corpus against `PhreeqcEquilibrator` and check in fixtures; every disagreement is our bug, its bug, or genuinely interesting chemistry. Strictly stronger than ChemicalFun for this job (ChemicalFun balances, Reaktoro speciates). Build-time only, never linked, so the LGPL question never arises — the ChemicalFun reasoning |
+| **Reaktoro** (LGPL-2.1, verified 2026-08-19 via repo metadata) | **Differential oracle for the supported parts of L2** — the modern PHREEQC-class geochemical solver (Leal, ETH), which loads our exact PHREEQC databases natively: same pitzer.dat, independent solver. Diff a corpus against `PhreeqcEquilibrator`; every disagreement is our bug, its bug, or genuinely interesting chemistry. **Boundary found in AQ-006:** Reaktoro 2.13 does not implement PHREEQC surface complexation (the upstream request remains open), so it cannot validate HFO adsorption. Build-time only, never linked; persist only approved facts or aggregate metrics, never an unreviewed fixture export. |
 | ChemPy (BSD-2-Clause, verified 2026-08-19) | Cheap second opinion for textbook-level aqueous fixtures where a full geochemical solver is overkill |
 | RMG (MIT — verbatim MIT text under a custom header; GitHub shows NOASSERTION) | Benson group-additivity ΔHf/S/Cp(T) for arbitrary organics — the property gap PubChem/Wikidata cannot fill for the energy balance. **Blocker verified 2026-08-19: RMG-database has no LICENSE file.** Note `JacksonBurns/rmgdb` (active RMG developer, Aug 2026): vendors the database + SQLite/YAML repackaging under MIT — but with a *personal* copyright line, and one contributor cannot relicense a ~25-year collective work; no team licensing decision is on record (searched). It does make the upstream ask concrete: "affirm the licence upstream or correct rmgdb's copyright line to the RMG Team". Until then `thermo`'s Joback estimators (MIT) carry this role and no RMG parameter ships |
 | ORDerly / ORD | Validation oracle only, never ingestion: check curated conditions against literature without touching ORD's CC-BY-SA (the same oracle pattern as `thermo` and Cantera). Patent-chemistry distribution → low relevance to a school codex; third-tier |
@@ -2220,6 +2220,38 @@ focused conservation/re-equilibration/live-engine tests. It did not modify
 kinetics modules, dependency metadata, the BASIC runtime, vendored sources, or
 VLE work. Hosted Ubuntu/macOS native, IPhreeqc, Wasm runtime, browser, and
 combined-solver gates passed in CI run `32491444035`.
+
+**Completed session — `codex-AQ` (2026-08-21, AQ-006).** Work was isolated in
+`/private/var/folders/53/8b_q74j10mv9xq84_j44tm1w0000gn/T/kerotakis-aq006.TwawJ86yJn.worktree`
+on branch `codex-aq/aq-006-oracle`. It owned the pH-dependent HFO adsorption
+benchmark, its PHREEQC-facing comparison test, and a development-only oracle
+runner. Reaktoro remains an external `oracle-only` tool: it must not enter any
+crate, app bundle, Wasm artifact, vendored directory, or required CI path. The
+repository may persist only reviewed scalar benchmark facts and aggregate error
+metrics with tool version, input/database identity, retrieval date, and an
+explicit distributability decision. This session did not modify kinetics,
+the BASIC runtime/vendor, VLE, exchange sites, or runtime dependency metadata.
+
+AQ-006 checkpoint: the live engine now exercises three ordered acid-side
+points while checking zinc conservation and finite site capacity. Reaktoro's
+documented PHREEQC database loader was investigated, but its still-open surface
+complexation gap makes it incapable of this benchmark. `tools/surface-oracle.py`
+therefore independently solves the intrinsic acid/base, zinc, sulfate and
+finite-site mass-action balances from the approved USGS `wateq4f.dat`
+constants. It explicitly omits diffuse-layer electrostatics and full aqueous
+side speciation. The live test can export per-case values only when given an
+explicit path and revision/date environment variables; that ephemeral file is
+fed to the tool, whose output contains aggregate errors and monotonic verdicts
+only. The tool and its four stdlib unit checks do not enter any crate, app,
+Wasm artifact or required CI path. Hosted audit run `32494550891` reviewed
+three cases and recorded only the approved aggregate result: strict monotonic
+agreement, mean absolute bound-fraction error 0.07210 and maximum error
+0.21626. Those pass the executable limits of 0.10 mean and 0.25 maximum for
+this deliberately reduced oracle. Native Ubuntu/macOS, strict lint, IPhreeqc
+Wasm, core/full/combined Wasm and the real-browser demo all passed in the same
+run; follow-up run `32495027486` executed and passed those now-enforced limits.
+The temporary hosted audit hook was then removed; the development-only export
+remains explicit and opt-in.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
