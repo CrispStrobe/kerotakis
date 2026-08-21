@@ -27,6 +27,18 @@ jobs:
         run: cargo clippy --workspace --all-targets -- -D warnings
       - name: Test
         run: cargo test --workspace
+      - name: AQ-006 hosted oracle audit
+        if: runner.os == 'Linux' && github.head_ref == 'codex-aq/aq-006-oracle'
+        env:
+          KERO_SURFACE_ORACLE_OUTPUT: ${{ runner.temp }}/hfo-candidate.json
+          KERO_SURFACE_ORACLE_VERSION: ${{ github.event.pull_request.head.sha }}
+          KERO_SURFACE_ORACLE_DATE: '2026-08-21'
+        run: |
+          cargo test -p kerotakis-phreeqc --test surface \
+            zinc_adsorption_increases_across_the_acid_side_ph_edge -- --exact
+          python3 tools/surface-oracle.py \
+            --candidate "$KERO_SURFACE_ORACLE_OUTPUT" \
+            --database vendor/iphreeqc/database/wateq4f.dat
       - name: Codex — every claim must still compute
         run: cargo run -p kerotakis-cli -- codex lint
 
