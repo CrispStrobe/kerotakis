@@ -14,6 +14,9 @@ default = ["engine"]
 # databases, maps vessels and replays a pre-warmed cache — the shipped-data
 # path a wasm client uses when it cannot link a C++ library.
 engine = ["dep:cmake"]
+# Development-only differential oracle. Official Kerotakis builds leave this
+# disabled and compile IPhreeqc without the legacy interpreter.
+legacy-basic-oracle = ["engine"]
 
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }

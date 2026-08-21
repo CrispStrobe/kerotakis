@@ -23,6 +23,10 @@ fn main() {
              to fetch the IPhreeqc source"
         );
     }
+    // The cmake helper does not make Cargo watch the vendored sources for us.
+    // Without this, a C++ edit can leave a stale static archive linked into
+    // tests until some unrelated Rust build input changes.
+    println!("cargo:rerun-if-changed={}", vendor.display());
 
     let target = std::env::var("TARGET").unwrap();
     if target.starts_with("wasm32") {
@@ -32,9 +36,11 @@ fn main() {
         return;
     }
 
+    let with_basic = std::env::var_os("CARGO_FEATURE_LEGACY_BASIC_ORACLE").is_some();
     let dst = cmake::Config::new(&vendor)
         .define("BUILD_SHARED_LIBS", "OFF")
         .define("IPHREEQC_ENABLE_MODULE", "OFF")
+        .define("IPHREEQC_WITH_BASIC", if with_basic { "ON" } else { "OFF" })
         .define("BUILD_TESTING", "OFF")
         .profile("Release")
         .build();

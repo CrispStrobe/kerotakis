@@ -2,6 +2,8 @@
 //! model) and polyprotic phosphate chemistry — three pKa's from the
 //! database, walked with a burette.
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 

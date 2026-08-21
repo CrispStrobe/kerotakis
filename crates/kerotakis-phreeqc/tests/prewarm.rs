@@ -1,6 +1,8 @@
 //! The pre-warmed cache: build-time solver results, shipped as data, so
 //! guided content never waits for an engine on device (PLAN.md, P2).
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 

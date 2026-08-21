@@ -41,6 +41,7 @@ mod ffi {
         pub fn SetSelectedOutputStringOn(id: c_int, value: c_int) -> c_int;
         pub fn GetSelectedOutputStringLineCount(id: c_int) -> c_int;
         pub fn GetSelectedOutputStringLine(id: c_int, n: c_int) -> *const c_char;
+        pub fn GetSpeciesDeltaH(id: c_int, name: *const c_char, delta_h: *mut f64) -> c_int;
         pub fn SetOutputStringOn(id: c_int, value: c_int) -> c_int;
         pub fn GetOutputString(id: c_int) -> *const c_char;
     }
@@ -73,6 +74,10 @@ pub enum PhreeqcError {
     /// (PLAN.md: "Solver failure is a first-class result").
     #[error("PHREEQC: {0}")]
     Engine(String),
+    #[error("species {0:?} is not present in the loaded PHREEQC database")]
+    UnknownSpecies(String),
+    #[error("PHREEQC returned a non-finite enthalpy for species {0:?}")]
+    NonFiniteSpeciesDeltaH(String),
 }
 
 #[cfg(feature = "engine")]
@@ -161,6 +166,28 @@ impl Phreeqc {
         let rows = self.selected_output();
         let idx = rows.first()?.iter().position(|h| h == column)?;
         rows.last()?.get(idx)?.parse().ok()
+    }
+
+    /// Reaction enthalpy for an aqueous species, in kJ/mol, evaluated by
+    /// PHREEQC's native thermodynamic implementation at its current
+    /// temperature and pressure state.
+    ///
+    /// Run a `SOLUTION` first when a state other than PHREEQC's initial
+    /// 25 °C, 1 atm defaults is required.
+    pub fn species_delta_h(&mut self, species: &str) -> Result<f64, PhreeqcError> {
+        let name = CString::new(species).map_err(|_| PhreeqcError::Nul)?;
+        let mut value = f64::NAN;
+        let status = unsafe { ffi::GetSpeciesDeltaH(self.id, name.as_ptr(), &mut value) };
+        if status == -3 {
+            return Err(PhreeqcError::UnknownSpecies(species.to_string()));
+        }
+        if status != 0 {
+            return Err(PhreeqcError::Engine(self.error_string()));
+        }
+        if !value.is_finite() {
+            return Err(PhreeqcError::NonFiniteSpeciesDeltaH(species.to_string()));
+        }
+        Ok(value)
     }
 
     /// The complete PHREEQC output of the last run (the report a desktop

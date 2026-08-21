@@ -21,6 +21,7 @@ const CreateIPhreeqc = call("CreateIPhreeqc", "number", []);
 const LoadDatabaseString = call("LoadDatabaseString", "number", ["number", "string"]);
 const RunString = call("RunString", "number", ["number", "string"]);
 const GetErrorString = call("GetErrorString", "string", ["number"]);
+const GetSpeciesDeltaH = call("GetSpeciesDeltaH", "number", ["number", "string", "number"]);
 const SetOutputFileOn = call("SetOutputFileOn", "number", ["number", "number"]);
 const SetSelectedOutputStringOn = call("SetSelectedOutputStringOn", "number", ["number", "number"]);
 const LineCount = call("GetSelectedOutputStringLineCount", "number", ["number"]);
@@ -74,4 +75,28 @@ if (Math.abs(si) > 0.01) throw new Error(`SI should be ~0 at equilibrium, got ${
 if (!(precipitated > 0.0099 && precipitated <= 0.01)) {
     throw new Error(`expected ~0.01 mol AgCl, got ${precipitated}`);
 }
-console.log("OK: PHREEQC computes AgCl precipitation in WebAssembly, no filesystem.");
+
+const deltaHPtr = mod._malloc(8);
+try {
+    const status = GetSpeciesDeltaH(id, "OH-", deltaHPtr);
+    const deltaH = new DataView(mod.HEAPU8.buffer).getFloat64(deltaHPtr, true);
+    if (status !== 0 || !Number.isFinite(deltaH) || !(deltaH > 50 && deltaH < 65)) {
+        throw new Error(`native OH- reaction enthalpy failed: status ${status}, value ${deltaH}`);
+    }
+} finally {
+    mod._free(deltaHPtr);
+}
+
+const basicStatus = RunString(
+    id,
+    `SOLUTION 2\n    pH 7\nSELECTED_OUTPUT\n    -reset false\nUSER_PUNCH\n10 PUNCH 12345\nEND\n`,
+);
+const basicError = GetErrorString(id);
+if (basicStatus === 0 || !basicError.includes("PHREEQC BASIC capability is disabled")) {
+    throw new Error(`USER_PUNCH was not rejected by the no-BASIC module: ${basicError}`);
+}
+
+console.log(
+    "OK: PHREEQC computes AgCl precipitation, exposes native thermochemistry, " +
+        "and rejects BASIC in WebAssembly without filesystem access.",
+);

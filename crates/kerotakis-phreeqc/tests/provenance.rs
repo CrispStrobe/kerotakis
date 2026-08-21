@@ -3,6 +3,8 @@
 //! (PLAN.md: be open about sources, offer the paths rather than asserting
 //! one).
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::{PathOutcome, PhreeqcEquilibrator};
 

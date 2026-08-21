@@ -2,6 +2,8 @@
 //! precipitation and solubility limits computed from thermodynamic data, and
 //! bounded fuzzing (P0: random inputs → no crash, honest failure state).
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 
