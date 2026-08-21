@@ -182,12 +182,14 @@ pub struct StateEquilibrator;
 /// The solvent. Every transition here is water's; a non-aqueous solvent is
 /// a separate problem and says so rather than borrowing water's constants.
 const SOLVENT: &str = "water";
-// PHREEQC's own temperature/enthalpy fixed point settles to 0.05 K. Once
-// liquid and ice coexist, asking the outer phase loop for a tighter common
-// temperature creates a two-point oscillation that additional passes cannot
-// resolve. This tolerance is only a coupled-solver stop; an initially
-// supercooled single liquid phase still undergoes its physical transfer.
-const PHASE_COUPLED_TEMPERATURE_TOLERANCE_K: f64 = 0.05;
+/// Resolution of the aqueous/ice common-temperature fixed point, K.
+///
+/// PHREEQC's own temperature/enthalpy fixed point settles to 0.05 K. Once
+/// liquid and ice coexist, asking the outer phase loop for a tighter common
+/// temperature creates a two-point oscillation that additional passes cannot
+/// resolve. This tolerance is only a coupled-solver stop; an initially
+/// supercooled single liquid phase still undergoes its physical transfer.
+pub const PHASE_COUPLED_TEMPERATURE_TOLERANCE_K: f64 = 0.05;
 
 fn dissolved_particle_molality(vessel: &Vessel) -> f64 {
     vessel.solution.as_ref().map_or(0.0, |info| {

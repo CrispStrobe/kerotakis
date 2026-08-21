@@ -103,7 +103,7 @@ fn cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine() {
     assert!(particle_molality(frozen) > initial_particles);
     let liquidus = kerotakis_core::states::transitions(particle_molality(frozen)).freezing_k;
     assert!(
-        (frozen.temperature.0 - liquidus).abs() < 0.02,
+        (frozen.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
         "temperature {} K and re-solved liquidus {liquidus} K disagree",
         frozen.temperature.0
     );

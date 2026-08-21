@@ -41,7 +41,7 @@ pub use render::{render_event, render_events, render_vessel, Register};
 pub use solve::{
     equilibrate_phase_coupled, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
     PermissiveScreen, PhaseEquilibrator, SafetyScreen, SafetyVerdict, Severity, SolveError,
-    SolverStack, StateEquilibrator,
+    SolverStack, StateEquilibrator, PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
 };
 pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};

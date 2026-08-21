@@ -252,7 +252,7 @@ fn phase_coupling_respeciates_the_residual_brine_until_both_states_agree() {
         .sum();
     let liquidus = kerotakis_core::states::transitions(particle_molality).freezing_k;
     assert!(
-        (vessel.temperature.0 - liquidus).abs() < 0.05,
+        (vessel.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
         "phase state {} K and re-solved liquidus {liquidus} K disagree",
         vessel.temperature.0
     );
