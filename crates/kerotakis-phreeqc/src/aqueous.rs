@@ -15,7 +15,8 @@
 
 use kerotakis_core::{
     species, Equilibrator, Event, Headspace, Kelvin, Moles, Phase, Portion, Provenance,
-    SolutionInfo, SolveError, SpeciesDetail, SpeciesId, ThermalMode, Vessel,
+    SolutionInfo, SolveError, SpeciesDetail, SpeciesId, SurfaceOccupancy, SurfaceSiteKind,
+    SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
 };
 
 use crate::PhreeqcError;
@@ -579,6 +580,10 @@ struct Problem {
     /// They are still amount-limited in PHREEQC so an added dose can be
     /// consumed by the liquid instead of only appearing as vented gas.
     external_gases: Vec<ExternalGas>,
+    /// Finite oxide interfaces. The first supported model is pooled into one
+    /// PHREEQC SURFACE assemblage and split back onto these ledgers by each
+    /// interface's share of strong and weak capacity.
+    surfaces: Vec<SurfaceSites>,
     /// Every element to read back: dissolved totals plus the elements of all
     /// involved phases (a dissolving solid puts its elements into solution
     /// even when none started there).
@@ -813,6 +818,25 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         }
     }
 
+    for surface in &vessel.surfaces {
+        solutes += 1;
+        // SURFACE is reconstructed from its neutral Hfo_*OH reference on
+        // every PHREEQC pass. Return water previously released by ligand
+        // exchange to that interface reference before solving again, just
+        // as the bound sorbates below are returned to the element totals.
+        kgw -= surface.water_release.0 * WATER_MOLAR_MASS / 1000.0;
+        for occupied in &surface.occupancy {
+            let sorbate = occupied.sorbate.species();
+            let Some(DerivedRole::Dissolves(els)) = derived::role(&sorbate.0) else {
+                continue;
+            };
+            for (el, coeff) in els {
+                add_total(el, occupied.moles.0 * coeff);
+                note_element(el);
+            }
+        }
+    }
+
     if kgw <= 0.0 || solutes == 0 {
         return None;
     }
@@ -899,8 +923,58 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         phases,
         gases,
         external_gases,
+        surfaces: vessel.surfaces.clone(),
         elements,
     })
+}
+
+/// Split the pooled PHREEQC surface result back across identical physical
+/// interfaces in proportion to the capacity each contributed. The solver
+/// sees one thermodynamic HFO assemblage; the vessel keeps ownership and
+/// finite capacity on each named interface.
+fn distribute_surface_occupancy(
+    surfaces: &mut [SurfaceSites],
+    site: SurfaceSiteKind,
+    sorbate: SurfaceSorbate,
+    total_moles: f64,
+) {
+    let total_capacity: f64 = surfaces
+        .iter()
+        .map(|surface| surface.capacity(site).0)
+        .sum();
+    if total_capacity <= 0.0 || total_moles <= TRACE {
+        return;
+    }
+    for surface in surfaces {
+        let share = total_moles * surface.capacity(site).0 / total_capacity;
+        if share > TRACE {
+            surface.occupancy.push(SurfaceOccupancy {
+                site,
+                sorbate,
+                moles: Moles(share),
+            });
+        }
+    }
+}
+
+/// Return a site-reaction water transfer to the physical interfaces that
+/// supplied those pooled sites. Positive values are water released into the
+/// solution and therefore mass removed from the interface reference state.
+fn distribute_surface_water_release(
+    surfaces: &mut [SurfaceSites],
+    site: SurfaceSiteKind,
+    total_moles: f64,
+) {
+    let total_capacity: f64 = surfaces
+        .iter()
+        .map(|surface| surface.capacity(site).0)
+        .sum();
+    if total_capacity <= 0.0 || total_moles <= TRACE {
+        return;
+    }
+    for surface in surfaces {
+        surface.water_release.0 += total_moles * surface.capacity(site).0 / total_capacity;
+    }
 }
 
 impl Equilibrator for PhreeqcEquilibrator {
@@ -927,6 +1001,19 @@ impl Equilibrator for PhreeqcEquilibrator {
     /// contracts: an endothermic salt that cools the beaker dissolves less,
     /// which cools it less. Two or three passes settle it.
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        if let Some(surface) = vessel
+            .surfaces
+            .iter()
+            .find(|surface| !surface.has_valid_capacity())
+        {
+            return Err(SolveError::NotConverged {
+                solver: self.name().to_string(),
+                detail: format!(
+                    "surface '{}' has non-positive geometry, invalid capacity, or occupancy above capacity",
+                    surface.label
+                ),
+            });
+        }
         let start = vessel.clone();
         let t0 = start.temperature.0;
         let mut guess = t0;
@@ -1058,7 +1145,7 @@ impl PhreeqcEquilibrator {
                 "minteq.v4",
                 "chosen because the problem needs chemistry the default dataset lacks (organic ligands or free phosphoric acid)".to_string(),
             )
-        } else if potential_molality > 1.0 && pitzer_capable {
+        } else if potential_molality > 1.0 && pitzer_capable && problem.surfaces.is_empty() {
             (
                 "pitzer",
                 format!(
@@ -1071,6 +1158,36 @@ impl PhreeqcEquilibrator {
                 "the default for dilute inorganic aqueous chemistry".to_string(),
             )
         };
+        if !problem.surfaces.is_empty() {
+            if potential_molality > 1.0 && db_tag != "minteq.v4" {
+                return Err(SolveError::NotConverged {
+                    solver: self.name().to_string(),
+                    detail: "no approved dataset currently covers both concentrated-solution activity and typed zinc HFO adsorption".to_string(),
+                });
+            }
+            let untracked = if db_tag == "minteq.v4" {
+                UNTRACKED_HFO_MINTEQ_ELEMENTS
+            } else {
+                UNTRACKED_HFO_WATEQ_ELEMENTS
+            };
+            let mut unsupported: Vec<&str> = problem
+                .elements
+                .iter()
+                .map(|element| element.split('(').next().unwrap_or(element))
+                .filter(|element| untracked.contains(element))
+                .collect();
+            unsupported.sort_unstable();
+            unsupported.dedup();
+            if !unsupported.is_empty() {
+                return Err(SolveError::NotConverged {
+                    solver: self.name().to_string(),
+                    detail: format!(
+                        "the {db_tag} HFO model can adsorb {}, but this version cannot yet retain those complexes on its typed interface ledger",
+                        unsupported.join(", ")
+                    ),
+                });
+            }
+        }
         // Phases the routed database does not define must not reach the
         // input. Zero-amount candidates are dropped; a solid-backed
         // anhydrous phase (e.g. solid KCl on the wateq4f route — Sylvite is
@@ -1084,6 +1201,31 @@ impl PhreeqcEquilibrator {
         // What was freed, as phases rather than loose elements — the heat
         // is owed to the *substance* that dissolved, not to its atoms.
         let mut freed_phases: Vec<(String, f64)> = Vec::new();
+        // A soluble sorbate feed must have the same canonical input on its
+        // first and later surface solves. Presenting ZnSO4 first as a finite
+        // equilibrium phase but later as aqueous Zn/S totals changed HFO
+        // occupancy by about eight percent on an otherwise no-op stir. Fold
+        // this reviewed soluble reagent into totals up front, retain the
+        // zero-amount phase so precipitation remains possible, and retain
+        // the phase identity separately for its dissolution event/enthalpy.
+        if !problem.surfaces.is_empty() {
+            for (name, moles, _) in &mut problem.phases {
+                if *moles <= 0.0 {
+                    continue;
+                }
+                let Some(phase) = derived::phase_by_name(name) else {
+                    continue;
+                };
+                if phase.species != "ZnSO4" {
+                    continue;
+                }
+                for (element, coefficient) in &phase.elements {
+                    freed.push((element.clone(), coefficient * *moles));
+                }
+                freed_phases.push((name.clone(), *moles));
+                *moles = 0.0;
+            }
+        }
         problem.phases.retain(|(name, moles, _)| {
             if idx.has_phase(name) {
                 return true;
@@ -1205,6 +1347,80 @@ impl PhreeqcEquilibrator {
         // Molalities are per kg of *equilibrated* water (mass_H2O), which
         // differs slightly from the input water mass through speciation.
         let kgw_out = value("mass_H2O").ok_or_else(|| missing("mass_H2O"))?;
+        let mut solvent_kgw_out = kgw_out;
+        let mut new_surfaces = problem.surfaces.clone();
+        if !new_surfaces.is_empty() {
+            let strong = value("m_Hfo_sOZn+").ok_or_else(|| missing("m_Hfo_sOZn+"))? * kgw_out;
+            let weak = value("m_Hfo_wOZn+").ok_or_else(|| missing("m_Hfo_wOZn+"))? * kgw_out;
+            // The reviewed HFO datasets also bind the sulfate
+            // counterion used by the zinc-sulfate lesson. Both weak-site
+            // complexes contain one sulfate and occupy one site; failing to
+            // round-trip them made sulfur (and its mass) disappear from the
+            // vessel after every equilibrium pass.
+            let weak_sulfate_water =
+                value("m_Hfo_wSO4-").ok_or_else(|| missing("m_Hfo_wSO4-"))? * kgw_out;
+            let weak_sulfate_hydroxyl =
+                value("m_Hfo_wOHSO4-2").ok_or_else(|| missing("m_Hfo_wOHSO4-2"))? * kgw_out;
+            let weak_sulfate = weak_sulfate_water + weak_sulfate_hydroxyl;
+            // MINTEQ additionally defines the equivalent strong-site pair.
+            let (strong_sulfate, strong_sulfate_water) = if db_tag == "minteq.v4" {
+                let water = value("m_Hfo_sSO4-").ok_or_else(|| missing("m_Hfo_sSO4-"))? * kgw_out;
+                let hydroxyl =
+                    value("m_Hfo_sOHSO4-2").ok_or_else(|| missing("m_Hfo_sOHSO4-2"))? * kgw_out;
+                (water + hydroxyl, water)
+            } else {
+                (0.0, 0.0)
+            };
+            for surface in &mut new_surfaces {
+                surface.occupancy.clear();
+                surface.water_release = Moles(0.0);
+            }
+            distribute_surface_occupancy(
+                &mut new_surfaces,
+                SurfaceSiteKind::Strong,
+                SurfaceSorbate::Zinc,
+                strong,
+            );
+            distribute_surface_occupancy(
+                &mut new_surfaces,
+                SurfaceSiteKind::Weak,
+                SurfaceSorbate::Zinc,
+                weak,
+            );
+            distribute_surface_occupancy(
+                &mut new_surfaces,
+                SurfaceSiteKind::Strong,
+                SurfaceSorbate::Sulfate,
+                strong_sulfate,
+            );
+            distribute_surface_occupancy(
+                &mut new_surfaces,
+                SurfaceSiteKind::Weak,
+                SurfaceSorbate::Sulfate,
+                weak_sulfate,
+            );
+            // Surface complex amounts are the authoritative *surface*
+            // transfer. `mass_H2O` is not representation-invariant here: a
+            // first solve fed by an amount-limited ZnSO4 phase includes this
+            // water, while the identical state rebuilt from aqueous totals
+            // does not. Booking the named ligand-exchange complexes against
+            // the neutral input reference makes both paths converge to the
+            // same typed interface and solvent ledgers.
+            let modeled_water = strong_sulfate_water + weak_sulfate_water;
+            if modeled_water > TRACE {
+                distribute_surface_water_release(
+                    &mut new_surfaces,
+                    SurfaceSiteKind::Strong,
+                    strong_sulfate_water,
+                );
+                distribute_surface_water_release(
+                    &mut new_surfaces,
+                    SurfaceSiteKind::Weak,
+                    weak_sulfate_water,
+                );
+                solvent_kgw_out = problem.kgw + modeled_water * WATER_MOLAR_MASS / 1000.0;
+            }
+        }
         let mut new_ions: Vec<(String, f64)> = Vec::new();
         let mut unnameable: Vec<(String, f64)> = Vec::new();
         if std::env::var("KERO_READBACK").is_ok() {
@@ -1296,6 +1512,79 @@ impl PhreeqcEquilibrator {
                 }
             }
         }
+        // PHREEQC selected totals are not consistent about whether a
+        // SURFACE contribution is included: the first zinc solve reports
+        // dissolved Zn, while a repeated solve can report the full
+        // analytical Zn total alongside non-zero Hfo_*OZn columns. The
+        // material balance is unambiguous. Bound typed inventory is owned by
+        // the interface, so aqueous readback cannot exceed analytical input
+        // minus that bound amount. `min` preserves any still-lower dissolved
+        // result caused by precipitation.
+        for sorbate in [SurfaceSorbate::Zinc, SurfaceSorbate::Sulfate] {
+            let Some(DerivedRole::Dissolves(elements)) = derived::role(&sorbate.species().0) else {
+                continue;
+            };
+            let bound: f64 = new_surfaces
+                .iter()
+                .map(|surface| surface.bound(sorbate).0)
+                .sum();
+            if bound <= 0.0 {
+                continue;
+            }
+            for (element, coefficient) in elements {
+                let base = element.split('(').next().unwrap_or(element);
+                // Analytical inventory can enter either as a SOLUTION
+                // total or as an amount-limited EQUILIBRIUM_PHASE.  The
+                // latter is the normal first pass for a registry solid such
+                // as ZnSO4; looking only at `problem.totals` therefore made
+                // its ceiling zero and discarded all dissolved zinc.
+                let solution_inventory: f64 = problem
+                    .totals
+                    .iter()
+                    .filter(|(candidate, _)| {
+                        candidate.split('(').next().unwrap_or(candidate) == base
+                    })
+                    .map(|(_, moles)| moles)
+                    .sum();
+                let phase_inventory: f64 = problem
+                    .phases
+                    .iter()
+                    .filter_map(|(phase, moles, _)| {
+                        let derived = derived::phase_by_name(phase)?;
+                        let in_phase: f64 = derived
+                            .elements
+                            .iter()
+                            .filter(|(candidate, _)| {
+                                candidate.split('(').next().unwrap_or(candidate) == base
+                            })
+                            .map(|(_, phase_coefficient)| phase_coefficient)
+                            .sum();
+                        Some(moles * in_phase)
+                    })
+                    .sum();
+                let analytical = solution_inventory + phase_inventory;
+                let ceiling = (analytical - bound * coefficient).max(0.0);
+                // Redox-active elements may be returned as several tagged
+                // entries. Cap their aggregate, not every entry separately,
+                // or each oxidation state could independently retain the
+                // full ceiling.
+                let aqueous: f64 = new_ions
+                    .iter()
+                    .filter(|(candidate, _)| {
+                        candidate.split('(').next().unwrap_or(candidate) == base
+                    })
+                    .map(|(_, moles)| moles)
+                    .sum();
+                if aqueous > ceiling && aqueous > 0.0 {
+                    let scale = ceiling / aqueous;
+                    for (candidate, moles) in &mut new_ions {
+                        if candidate.split('(').next().unwrap_or(candidate) == base {
+                            *moles *= scale;
+                        }
+                    }
+                }
+            }
+        }
         let mut new_phases: Vec<(String, f64)> = Vec::new();
         for (phase, ..) in &problem.phases {
             let moles = value(phase).ok_or_else(|| missing(phase))?;
@@ -1339,7 +1628,7 @@ impl PhreeqcEquilibrator {
                 // long as the beaker was touched.
                 Some(DerivedRole::Solvent) => contents.push(Portion {
                     species: p.species.clone(),
-                    moles: Moles(kgw_out * 1000.0 / WATER_MOLAR_MASS),
+                    moles: Moles(solvent_kgw_out * 1000.0 / WATER_MOLAR_MASS),
                     phase: p.phase,
                 }),
                 // Matter this engine does not model passes through
@@ -1582,6 +1871,7 @@ impl PhreeqcEquilibrator {
         vessel.solute_charge = a_after;
 
         vessel.contents = contents;
+        vessel.surfaces = new_surfaces;
         vessel.refresh_pressure();
         if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
             events.push(Event::HeadspaceEquilibrated {
@@ -1880,6 +2170,19 @@ fn missing(column: &str) -> SolveError {
 /// statement about rates that we do not compute.
 const FAST_REDOX: &[&str] = &["Fe", "Mn", "Cu", "Cr"];
 
+/// Elements with reviewed HFO complexes in the routed databases whose bound
+/// forms do not yet have a typed `SurfaceSorbate` readback. Refusing these
+/// combinations is essential: letting PHREEQC bind them would remove their
+/// dissolved totals while leaving no owned inventory in the vessel.
+const UNTRACKED_HFO_WATEQ_ELEMENTS: &[&str] = &[
+    "Ag", "As", "B", "Ba", "Ca", "Cd", "Cu", "F", "Fe", "Mg", "Mn", "Ni", "P", "Pb", "Se", "Sr",
+    "U",
+];
+const UNTRACKED_HFO_MINTEQ_ELEMENTS: &[&str] = &[
+    "Ag", "As", "B", "Ba", "Be", "Ca", "Cd", "Co", "Cr", "Cu", "Hg", "Mg", "Mo", "Ni", "P", "Pb",
+    "Sb", "Se", "Sn", "V",
+];
+
 /// The gas phase an open vessel's redox state is set by, and its share of
 /// the atmosphere. log10(0.21) = −0.68.
 const ATMOSPHERIC_OXYGEN: &str = "O2(g)";
@@ -2110,6 +2413,34 @@ fn build_input_at(
             writeln!(input, "    {phase} {:.12e}", partial_pressure).unwrap();
         }
     }
+    if !problem.surfaces.is_empty() {
+        let total_mass: f64 = problem.surfaces.iter().map(|surface| surface.mass.0).sum();
+        let total_area: f64 = problem
+            .surfaces
+            .iter()
+            .map(|surface| surface.mass.0 * surface.specific_area_m2_per_g)
+            .sum();
+        let specific_area = total_area / total_mass;
+        let strong_capacity: f64 = problem
+            .surfaces
+            .iter()
+            .map(|surface| surface.strong_capacity.0)
+            .sum();
+        let weak_capacity: f64 = problem
+            .surfaces
+            .iter()
+            .map(|surface| surface.weak_capacity.0)
+            .sum();
+        writeln!(input, "SURFACE 1").unwrap();
+        writeln!(
+            input,
+            "    Hfo_sOH {:.12e} {:.12e} {:.12e}",
+            strong_capacity, specific_area, total_mass
+        )
+        .unwrap();
+        writeln!(input, "    Hfo_wOH {:.12e}", weak_capacity).unwrap();
+        writeln!(input, "    -equilibrate 1").unwrap();
+    }
     writeln!(input, "SELECTED_OUTPUT").unwrap();
     writeln!(input, "    -reset    false").unwrap();
     // Default selected-output prints ~5 significant digits, which leaks into
@@ -2139,7 +2470,9 @@ fn build_input_at(
             totals.push(e);
         }
     }
-    writeln!(input, "    -totals   {}", totals.join(" ")).unwrap();
+    if !totals.is_empty() {
+        writeln!(input, "    -totals   {}", totals.join(" ")).unwrap();
+    }
     if !problem.phases.is_empty() {
         let phases: Vec<&str> = problem.phases.iter().map(|(p, ..)| p.as_str()).collect();
         writeln!(input, "    -equilibrium_phases {}", phases.join(" ")).unwrap();
@@ -2151,6 +2484,14 @@ fn build_input_at(
             .map(|(phase, ..)| phase.as_str())
             .collect();
         writeln!(input, "    -gases    {}", gases.join(" ")).unwrap();
+    }
+    if !problem.surfaces.is_empty() {
+        let molalities = if db_tag == "minteq.v4" {
+            "Hfo_sOZn+ Hfo_wOZn+ Hfo_sSO4- Hfo_sOHSO4-2 Hfo_wSO4- Hfo_wOHSO4-2"
+        } else {
+            "Hfo_sOZn+ Hfo_wOZn+ Hfo_wSO4- Hfo_wOHSO4-2"
+        };
+        writeln!(input, "    -molalities {molalities}").unwrap();
     }
     writeln!(input, "END").unwrap();
     input
