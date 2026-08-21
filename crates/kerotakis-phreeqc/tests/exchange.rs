@@ -133,8 +133,16 @@ fn an_untracked_exchangeable_cation_fails_loudly() {
     bench.vessels[0].exchanges.push(sodium_resin());
     add(&mut bench, &mut solver, "water", 55.51).expect("water");
 
-    let error = add(&mut bench, &mut solver, "KCl", 1e-3).expect_err("K can bind X sites");
-    let detail = error.to_string();
-    assert!(detail.contains("can bind K"), "unexpected error: {detail}");
-    assert!(detail.contains("retains only H, Na, Ca and Mg"));
+    let events = add(&mut bench, &mut solver, "KCl", 1e-3)
+        .expect("the bench records a solver refusal as an event");
+    assert!(
+        events.iter().any(|event| matches!(
+            event,
+            Event::SolverFailed { solver, detail, .. }
+                if solver == "phreeqc-aqueous"
+                    && detail.contains("can bind K")
+                    && detail.contains("retains only H, Na, Ca and Mg")
+        )),
+        "expected a precise refusal for untracked K exchange, got {events:#?}"
+    );
 }
