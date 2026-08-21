@@ -2421,6 +2421,24 @@ skipped under the load policy; CI run `32514634767` passed native
 Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
 core/IPhreeqc/combined Wasm, the Wasm bench, and the real-browser demo.
 
+**Completed session — `codex-AQ` (2026-08-21, AQ-014).** Work was isolated in
+`/tmp/kerotakis-aq014.R1worktree` on branch
+`codex-aq/aq-014-r1-acceptance`. One typed R1 runner now verifies limewater, a
+carbonated bottle, HFO surface release, four-cell softener breakthrough, and
+partial brine freezing through any supplied `Equilibrator`, without a second
+chemistry implementation. Native CI runs it live, then imports the resulting
+cache into a fresh engine and proves exact replay without any new cache entry.
+The CLI prewarms the same states into the shipped postcard; cache-only Wasm
+runs all five without a solver hook, combined Wasm runs them through live
+Emscripten IPhreeqc, and the real page repeats them after its HTTP server has
+been stopped. A missing state is a named failure, never a guessed answer. The
+web build and service worker now ship/cache the result pack used by the
+offline path. No external source, dataset, dependency, database/species,
+kinetics, MY-BASIC, or vendored-source change was added. Local native
+compilation was skipped under the load policy; CI run `32516261610` passed
+native Ubuntu/macOS, strict codex lint, both MY-BASIC previews, core,
+IPhreeqc, cache-only and combined Wasm, and the online/offline browser demo.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state

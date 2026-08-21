@@ -324,7 +324,7 @@ impl CellChain {
     /// runs once, then the supplied local solver sees cells from inlet to
     /// outlet. If any solve fails, the complete chain is restored to its
     /// pre-step state; solver-internal caches are outside this state contract.
-    pub fn advance_reactive<E: Equilibrator>(
+    pub fn advance_reactive<E: Equilibrator + ?Sized>(
         &mut self,
         inlet: &Vessel,
         courant_fraction: f64,

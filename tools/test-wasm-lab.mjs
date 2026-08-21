@@ -172,6 +172,16 @@ if (cachePath) {
         limewaterEvents.some((e) => e.event === "precipitated" && e.species === "CaCO3") &&
             limewaterEvents.some((e) => e.event === "dissolved" && e.species === "CaCO3"),
     );
+
+    const lab5 = new Lab();
+    lab5.loadResults(readFileSync(cachePath));
+    const r1 = JSON.parse(lab5.r1Acceptance());
+    check("the cached R1 report uses schema 1", r1.schema === 1);
+    check(
+        "all five R1 scenarios replay in cache-only WebAssembly",
+        r1.cases.length === 5 && r1.cases.every((test) => test.passed),
+        JSON.stringify(r1.cases.filter((test) => !test.passed)),
+    );
 }
 
 console.log("\nThe bench runs in WebAssembly.");
