@@ -50,7 +50,7 @@ pub struct IntegrationStatistics {
 /// A completed state transition and its numerical diagnostics.
 #[derive(Debug)]
 pub struct IntegrationReport<'a> {
-    pub extents: Vec<(&'a KineticReaction, Moles)>,
+    pub extents: Vec<(&'a KineticReaction<'a>, Moles)>,
     pub statistics: IntegrationStatistics,
 }
 
@@ -71,11 +71,11 @@ pub enum IntegrationError {
 #[derive(Clone, Copy)]
 struct ExtentSystem<'a> {
     vessel: &'a Vessel,
-    reactions: &'a [KineticReaction],
+    reactions: &'a [KineticReaction<'a>],
     litres: f64,
 }
 
-impl ExtentSystem<'_> {
+impl<'a> ExtentSystem<'a> {
     fn amount<X>(&self, extents: &X, species: &str, phase: Phase) -> f64
     where
         X: Index<usize, Output = f64>,
@@ -121,7 +121,12 @@ impl ExtentSystem<'_> {
         (initial + delta).max(0.0)
     }
 
-    fn direction_available<X>(&self, reaction: &KineticReaction, extents: &X, forward: bool) -> bool
+    fn direction_available<X>(
+        &self,
+        reaction: &KineticReaction<'a>,
+        extents: &X,
+        forward: bool,
+    ) -> bool
     where
         X: Index<usize, Output = f64>,
     {
@@ -137,8 +142,8 @@ impl ExtentSystem<'_> {
 
     fn expression_rate<X>(
         &self,
-        reaction: &KineticReaction,
-        expression: RateExpression,
+        reaction: &KineticReaction<'a>,
+        expression: RateExpression<'a>,
         extents: &X,
     ) -> f64
     where
@@ -155,6 +160,7 @@ impl ExtentSystem<'_> {
             .unwrap_or(expression.arrhenius.activation_energy);
         let mut rate = super::RateLaw {
             pre_exponential: expression.arrhenius.pre_exponential,
+            temperature_exponent: expression.arrhenius.temperature_exponent,
             activation_energy,
         }
         .rate_constant(self.vessel.temperature.0);

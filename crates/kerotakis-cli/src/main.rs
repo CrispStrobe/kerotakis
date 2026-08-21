@@ -178,6 +178,7 @@ fn main() {
                 );
             }
         }
+        Some("mechanism") => mechanism_command(&args[1..]),
         Some("sweep") => {
             // Drive a matrix of states through the whole stack and check
             // every invariant the engine claims about itself. Checking a
@@ -900,6 +901,7 @@ fn usage() -> ! {
          \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
          \x20 kero provenance lint       validate source/distribution policy\n\
+         \x20 kero mechanism inspect FILE.yaml [--json]\n\
          \n\
          bench commands (REPL and .lab files):\n\
          \x20 add <vessel> <species> <amount><mol|g|mL> [@ <T>C]\n\
@@ -924,6 +926,58 @@ fn usage() -> ! {
          \x20 quit"
     );
     std::process::exit(2);
+}
+
+fn mechanism_command(args: &[String]) -> ! {
+    let Some("inspect") = args.first().map(String::as_str) else {
+        eprintln!("usage: kero mechanism inspect FILE.yaml [--json]");
+        std::process::exit(2);
+    };
+    let Some(path) = args.get(1) else {
+        eprintln!("usage: kero mechanism inspect FILE.yaml [--json]");
+        std::process::exit(2);
+    };
+    let text = std::fs::read_to_string(path).unwrap_or_else(|error| {
+        eprintln!("kero mechanism: cannot read {path}: {error}");
+        std::process::exit(1);
+    });
+    let mechanism =
+        kerotakis_core::kinetics::mechanism::parse_yaml(&text).unwrap_or_else(|error| {
+            eprintln!("kero mechanism: {path}: {error}");
+            std::process::exit(1);
+        });
+    // Compilation is part of inspection: a file that parses but cannot lower
+    // into the runtime evaluator is not a usable mechanism.
+    let arena = kerotakis_core::kinetics::mechanism::MechanismArena::default();
+    let network = mechanism.compile_in(&arena);
+    debug_assert_eq!(network.reactions.len(), mechanism.summary().reactions);
+    let summary = mechanism.summary();
+    if args.iter().any(|arg| arg == "--json") {
+        println!(
+            "{}",
+            serde_json::to_string(&summary).expect("mechanism summary is serializable")
+        );
+    } else {
+        println!(
+            "{}: {} species, {} reactions; elements {}",
+            summary.name,
+            summary.species,
+            summary.reactions,
+            summary.elements.join(", ")
+        );
+        for reaction in summary.reaction_details {
+            println!(
+                "  {}  {}  order {:.3}; A={:.6e}, b={:.6}, Ea={:.6} J/mol",
+                reaction.id,
+                reaction.equation,
+                reaction.total_order,
+                reaction.pre_exponential,
+                reaction.temperature_exponent,
+                reaction.activation_energy_j_per_mol
+            );
+        }
+    }
+    std::process::exit(0);
 }
 
 fn repl() {

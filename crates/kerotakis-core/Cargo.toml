@@ -8,8 +8,10 @@ repository.workspace = true
 authors.workspace = true
 
 [dependencies]
+bumpalo = { workspace = true }
 diffsol = { workspace = true }
 serde = { workspace = true }
+serde_yaml_ng = { workspace = true }
 thiserror = { workspace = true }
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]

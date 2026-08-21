@@ -45,6 +45,7 @@ use crate::vessel::Vessel;
 
 #[path = "kinetics_integrator.rs"]
 mod integrator;
+pub mod mechanism;
 
 pub use integrator::{
     advance_network_with_options, IntegrationError, IntegrationOptions, IntegrationReport,
@@ -60,6 +61,10 @@ pub struct RateLaw {
     /// Pre-exponential factor A, in units that make k·Π[X]^n come out as
     /// mol·L⁻¹·s⁻¹ for the stated orders.
     pub pre_exponential: f64,
+    /// Temperature exponent b in the modified Arrhenius expression. The
+    /// curated school-level laws use zero; mechanism formats commonly carry
+    /// a measured non-zero exponent.
+    pub temperature_exponent: f64,
     /// Activation energy, J/mol.
     pub activation_energy: f64,
 }
@@ -70,16 +75,16 @@ pub struct RateLaw {
 /// it. Keeping one vector instead of unrelated reactant and product lists is
 /// what lets the conservation lint inspect exactly what the evaluator applies.
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub struct StoichiometricTerm {
-    pub species: &'static str,
+pub struct StoichiometricTerm<'a> {
+    pub species: &'a str,
     pub coefficient: f64,
     pub phase: Phase,
 }
 
 /// One concentration/activity dependency in a mass-action expression.
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub struct OrderTerm {
-    pub species: &'static str,
+pub struct OrderTerm<'a> {
+    pub species: &'a str,
     /// `None` is reserved for derived activities such as H+; ordinary
     /// species should name the phase whose concentration drives the rate.
     pub phase: Option<Phase>,
@@ -100,12 +105,12 @@ pub struct RateDimensions {
 
 /// A rate expression in the network IR.
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub struct RateExpression {
+pub struct RateExpression<'a> {
     pub arrhenius: RateLaw,
-    pub orders: &'static [OrderTerm],
+    pub orders: &'a [OrderTerm<'a>],
 }
 
-impl RateExpression {
+impl RateExpression<'_> {
     pub fn dimensions(&self) -> RateDimensions {
         let order: f64 = self.orders.iter().map(|term| term.order).sum();
         RateDimensions {
@@ -137,46 +142,49 @@ impl Range {
 
 /// Conditions under which the parameters are claimed to apply.
 #[derive(Debug, Clone, Copy, PartialEq, Default)]
-pub struct Validity {
+pub struct Validity<'a> {
     pub temperature_k: Option<Range>,
     pub pressure_pa: Option<Range>,
-    pub note: &'static str,
+    pub note: &'a str,
 }
 
 /// Quantified parameter confidence where one exists, with an honest note
 /// where it does not.
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub struct Uncertainty {
+pub struct Uncertainty<'a> {
     pub relative: Option<f64>,
-    pub note: &'static str,
+    pub note: &'a str,
 }
 
 /// Site bookkeeping is separate from molecular stoichiometry. Negative
 /// coefficients consume a site state and positive coefficients create one.
 #[derive(Debug, Clone, Copy, PartialEq)]
-pub struct SiteTerm {
-    pub site: &'static str,
+pub struct SiteTerm<'a> {
+    pub site: &'a str,
     pub coefficient: f64,
 }
 
 impl RateLaw {
-    /// k(T) = A·exp(−Ea/RT).
+    /// k(T) = A·T^b·exp(−Ea/RT).
     pub fn rate_constant(&self, temperature_k: f64) -> f64 {
-        self.pre_exponential * (-self.activation_energy / (R * temperature_k.max(1.0))).exp()
+        let temperature_k = temperature_k.max(1.0);
+        self.pre_exponential
+            * temperature_k.powf(self.temperature_exponent)
+            * (-self.activation_energy / (R * temperature_k)).exp()
     }
 }
 
 /// One reaction in the runtime reaction-network IR.
 #[derive(Debug, Clone, Copy)]
-pub struct KineticReaction {
-    pub id: &'static str,
-    pub equation: &'static str,
-    pub stoichiometry: &'static [StoichiometricTerm],
+pub struct KineticReaction<'a> {
+    pub id: &'a str,
+    pub equation: &'a str,
+    pub stoichiometry: &'a [StoichiometricTerm<'a>],
     pub locality: Locality,
-    pub forward: RateExpression,
+    pub forward: RateExpression<'a>,
     /// A reverse expression makes the reaction reversible. Absence means the
     /// runtime is explicitly claiming only the forward direction.
-    pub reverse: Option<RateExpression>,
+    pub reverse: Option<RateExpression<'a>>,
     /// A catalyst does not appear in the stoichiometry and is not consumed.
     /// It lowers the activation energy — which is the whole content of what
     /// a catalyst *is*, so it is modelled that way rather than as a fudge
@@ -191,24 +199,24 @@ pub struct KineticReaction {
     /// rate by mass would be a fabricated number wearing the shape of a
     /// real one. The gap is stated instead, and `codex/rates.toml` teaches
     /// it as a limit rather than hiding it.
-    pub catalysts: &'static [Catalyst],
-    pub sites: &'static [SiteTerm],
+    pub catalysts: &'a [Catalyst<'a>],
+    pub sites: &'a [SiteTerm<'a>],
     /// Electrons produced (positive) or consumed (negative) per mole of
     /// extent. The conservation lint balances their charge separately.
     pub electrons: f64,
-    pub validity: Validity,
-    pub uncertainty: Uncertainty,
-    pub source_ids: &'static [&'static str],
-    pub provenance: &'static str,
+    pub validity: Validity<'a>,
+    pub uncertainty: Uncertainty<'a>,
+    pub source_ids: &'a [&'a str],
+    pub provenance: &'a str,
 }
 
 #[derive(Debug, Clone, Copy)]
-pub struct Catalyst {
-    pub species: &'static str,
+pub struct Catalyst<'a> {
+    pub species: &'a str,
     /// The activation energy this catalyst provides, J/mol. Lower than the
     /// uncatalysed value; the ratio of the two is the speed-up.
     pub activation_energy: f64,
-    pub provenance: &'static str,
+    pub provenance: &'a str,
 }
 
 /// The reactions whose rates we model.
@@ -216,7 +224,7 @@ pub struct Catalyst {
 /// Small on purpose. Each is a school experiment that exists to *measure* a
 /// rate, and each carries the literature its numbers came from. Adding one
 /// is a curation act with a citation, not a tuning exercise.
-pub const REGISTRY: &[KineticReaction] = &[
+pub const REGISTRY: &[KineticReaction<'static>] = &[
     KineticReaction {
         id: "thiosulfate-acid",
         equation: "Na₂S₂O₃ → S↓ + Na₂SO₃",
@@ -275,6 +283,7 @@ pub const REGISTRY: &[KineticReaction] = &[
                 // which is the range the practical is designed around. Ea and
                 // the orders are the literature's; A is ours.
                 pre_exponential: 2.2e8,
+                temperature_exponent: 0.0,
                 activation_energy: 51_000.0,
             },
         },
@@ -335,6 +344,7 @@ pub const REGISTRY: &[KineticReaction] = &[
                 // clearly-nothing on a lesson timescale without pretending to
                 // model stabilisers.
                 pre_exponential: 5.6e7,
+                temperature_exponent: 0.0,
                 activation_energy: 75_000.0,
             },
         },
@@ -380,7 +390,7 @@ pub const PROTON: &str = "H+";
 #[derive(Debug, Clone, Copy)]
 pub struct ReactionNetwork<'a> {
     pub id: &'a str,
-    pub reactions: &'a [KineticReaction],
+    pub reactions: &'a [KineticReaction<'a>],
 }
 
 pub const NETWORK: ReactionNetwork<'static> = ReactionNetwork {
@@ -429,7 +439,7 @@ pub fn lint_network(network: &ReactionNetwork<'_>) -> Result<(), Vec<NetworkLint
     }
 }
 
-pub fn lint_reaction(reaction: &KineticReaction) -> Vec<NetworkLintError> {
+pub fn lint_reaction(reaction: &KineticReaction<'_>) -> Vec<NetworkLintError> {
     const TOLERANCE: f64 = 1e-9;
     let mut errors = Vec::new();
     let mut elements: BTreeMap<String, f64> = BTreeMap::new();
@@ -513,7 +523,7 @@ fn phase_moles(vessel: &Vessel, key: &str, phase: Phase) -> f64 {
         .sum()
 }
 
-fn term_concentration(vessel: &Vessel, term: &OrderTerm, litres: f64) -> Option<f64> {
+fn term_concentration(vessel: &Vessel, term: &OrderTerm<'_>, litres: f64) -> Option<f64> {
     if term.species == PROTON {
         // No characterised solution means no known acidity: the rate is
         // unknown rather than zero, and the caller treats it as "cannot
@@ -527,26 +537,26 @@ fn term_concentration(vessel: &Vessel, term: &OrderTerm, litres: f64) -> Option<
     Some(moles / litres)
 }
 
-pub fn lookup(id: &str) -> Option<&'static KineticReaction> {
+pub fn lookup(id: &str) -> Option<&'static KineticReaction<'static>> {
     REGISTRY.iter().find(|r| r.id == id)
 }
 
 /// Which reactions have all their reactants present in this vessel.
-pub fn applicable(vessel: &Vessel) -> Vec<&'static KineticReaction> {
+pub fn applicable(vessel: &Vessel) -> Vec<&'static KineticReaction<'static>> {
     REGISTRY
         .iter()
         .filter(|reaction| reaction.can_run(vessel))
         .collect()
 }
 
-impl KineticReaction {
-    pub fn reactants(&self) -> impl Iterator<Item = &StoichiometricTerm> {
+impl<'a> KineticReaction<'a> {
+    pub fn reactants(&self) -> impl Iterator<Item = &StoichiometricTerm<'a>> {
         self.stoichiometry
             .iter()
             .filter(|term| term.coefficient < 0.0)
     }
 
-    pub fn products(&self) -> impl Iterator<Item = &StoichiometricTerm> {
+    pub fn products(&self) -> impl Iterator<Item = &StoichiometricTerm<'a>> {
         self.stoichiometry
             .iter()
             .filter(|term| term.coefficient > 0.0)
@@ -585,8 +595,8 @@ impl KineticReaction {
 
     /// The activation energy in force, given what is in the vessel: the
     /// best catalyst present, or the uncatalysed value.
-    pub fn effective_activation_energy(&self, vessel: &Vessel) -> (f64, Option<&'static Catalyst>) {
-        let mut best: Option<&'static Catalyst> = None;
+    pub fn effective_activation_energy(&self, vessel: &Vessel) -> (f64, Option<&Catalyst<'a>>) {
+        let mut best: Option<&Catalyst<'a>> = None;
         for c in self.catalysts {
             if vessel.moles_of(&SpeciesId::new(c.species)).0 > 0.0
                 && best.is_none_or(|b| c.activation_energy < b.activation_energy)
@@ -600,7 +610,7 @@ impl KineticReaction {
         }
     }
 
-    fn expression_rate(&self, vessel: &Vessel, expression: RateExpression) -> f64 {
+    fn expression_rate(&self, vessel: &Vessel, expression: RateExpression<'a>) -> f64 {
         let litres = vessel.liquid_volume().0;
         if litres <= 0.0 {
             return 0.0;
@@ -616,6 +626,7 @@ impl KineticReaction {
             .unwrap_or(expression.arrhenius.activation_energy);
         let law = RateLaw {
             pre_exponential: expression.arrhenius.pre_exponential,
+            temperature_exponent: expression.arrhenius.temperature_exponent,
             activation_energy: ea,
         };
         let k = law.rate_constant(vessel.temperature.0);
@@ -686,7 +697,7 @@ pub fn advance_network<'a>(
     vessel: &mut Vessel,
     seconds: f64,
     network: &'a ReactionNetwork<'a>,
-) -> Result<Vec<(&'a KineticReaction, Moles)>, IntegrationError> {
+) -> Result<Vec<(&'a KineticReaction<'a>, Moles)>, IntegrationError> {
     advance_network_with_options(vessel, seconds, network, IntegrationOptions::default())
         .map(|report| report.extents)
 }
@@ -701,7 +712,7 @@ pub fn advance_network<'a>(
 /// become negative.
 fn apply_coupled_extents(
     vessel: &mut Vessel,
-    reactions: &[KineticReaction],
+    reactions: &[KineticReaction<'_>],
     extents: &[f64],
 ) -> f64 {
     let mut deltas: Vec<(&str, Phase, f64)> = Vec::new();
@@ -762,7 +773,7 @@ fn withdraw_phase(vessel: &mut Vessel, species: &str, phase: Phase, moles: f64) 
 pub fn advance(
     vessel: &mut Vessel,
     seconds: f64,
-) -> Result<Vec<(&'static KineticReaction, Moles)>, IntegrationError> {
+) -> Result<Vec<(&'static KineticReaction<'static>, Moles)>, IntegrationError> {
     advance_network(vessel, seconds, &NETWORK)
 }
 
@@ -804,6 +815,7 @@ mod tests {
     fn arrhenius_is_the_arrhenius_equation() {
         let law = RateLaw {
             pre_exponential: 1.0e10,
+            temperature_exponent: 0.0,
             activation_energy: 50_000.0,
         };
         let k = law.rate_constant(298.15);
@@ -818,6 +830,7 @@ mod tests {
         // The engine should reproduce it without being told.
         let law = RateLaw {
             pre_exponential: 1.0,
+            temperature_exponent: 0.0,
             activation_energy: 50_000.0,
         };
         let ratio = law.rate_constant(308.15) / law.rate_constant(298.15);
@@ -829,6 +842,7 @@ mod tests {
         // point of calling it a rule of thumb.
         let steep = RateLaw {
             pre_exponential: 1.0,
+            temperature_exponent: 0.0,
             activation_energy: 150_000.0,
         };
         let steep_ratio = steep.rate_constant(308.15) / steep.rate_constant(298.15);
@@ -1005,6 +1019,7 @@ mod tests {
         let c0 = initial_moles / litres;
         let law = RateLaw {
             pre_exponential: r.forward.arrhenius.pre_exponential,
+            temperature_exponent: r.forward.arrhenius.temperature_exponent,
             activation_energy: 23_000.0,
         };
         let k = law.rate_constant(298.15);
@@ -1139,6 +1154,7 @@ mod tests {
     const TEST_FORWARD_AQUEOUS: RateExpression = RateExpression {
         arrhenius: RateLaw {
             pre_exponential: 1.0,
+            temperature_exponent: 0.0,
             activation_energy: 0.0,
         },
         orders: &[OrderTerm {
@@ -1151,6 +1167,7 @@ mod tests {
     const TEST_FORWARD_LIQUID: RateExpression = RateExpression {
         arrhenius: RateLaw {
             pre_exponential: 1.0,
+            temperature_exponent: 0.0,
             activation_energy: 0.0,
         },
         orders: &[OrderTerm {
@@ -1162,10 +1179,10 @@ mod tests {
 
     fn test_reaction(
         id: &'static str,
-        stoichiometry: &'static [StoichiometricTerm],
-        forward: RateExpression,
-        reverse: Option<RateExpression>,
-    ) -> KineticReaction {
+        stoichiometry: &'static [StoichiometricTerm<'static>],
+        forward: RateExpression<'static>,
+        reverse: Option<RateExpression<'static>>,
+    ) -> KineticReaction<'static> {
         KineticReaction {
             id,
             equation: "H₂O₂ → H₂O₂",
