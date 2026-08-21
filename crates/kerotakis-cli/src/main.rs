@@ -159,6 +159,17 @@ fn main() {
                     }
                 }
             }
+            // The shipped cache is also the offline R1 contract. Keep these
+            // application scenarios beside the lesson states so a browser
+            // with no attached engine can prove the same five outcomes.
+            let r1 = kerotakis_phreeqc::acceptance::run_r1_acceptance(&mut engine);
+            if !r1.passed() {
+                eprintln!(
+                    "kero prewarm: R1 acceptance failed:\n{}",
+                    serde_json::to_string_pretty(&r1).expect("serialise R1 report")
+                );
+                std::process::exit(1);
+            }
             let data = engine.export_cache();
             let bytes = postcard::to_allocvec(&data).expect("serialise cache");
             std::fs::write(&out, &bytes).unwrap_or_else(|e| {
@@ -166,7 +177,7 @@ fn main() {
                 std::process::exit(1);
             });
             println!(
-                "pre-warmed {} solver results from {steps} steps across {} lessons → {out} ({} bytes)",
+                "pre-warmed {} solver results from {steps} lesson steps and 5 R1 scenarios across {} lessons → {out} ({} bytes)",
                 data.entries.len(),
                 files.len(),
                 bytes.len()

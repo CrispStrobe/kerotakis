@@ -112,6 +112,18 @@ impl Lab {
         self.aqueous.can_solve()
     }
 
+    /// Run the five release-one chemistry scenarios through this bench's
+    /// aqueous path. With a hook this is live IPhreeqc; without one it is an
+    /// exact replay from the shipped cache, and any missing state is reported
+    /// as a failed case rather than approximated.
+    #[wasm_bindgen(js_name = r1Acceptance)]
+    pub fn r1_acceptance(&mut self) -> String {
+        serde_json::to_string(&kerotakis_phreeqc::acceptance::run_r1_acceptance(
+            &mut self.aqueous,
+        ))
+        .expect("the R1 report is serialisable")
+    }
+
     /// How much detail to render: `lv1` (what you see), `lv2` (equations
     /// and quantities), `lv3` (full numeric detail). More levels can be
     /// added without changing this call.
