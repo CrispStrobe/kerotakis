@@ -352,7 +352,7 @@ impl CellChain {
         if !matches!(first.thermal_mode, ThermalMode::Adiabatic) {
             return Err(TransportError::ThermostattedCell { cell: 0 });
         }
-        let expected = first.liquid_volume().0;
+        let expected = hydraulic_liquid_volume(first).0;
         if !expected.is_finite() || expected <= 0.0 {
             return Err(TransportError::InvalidCellVolume {
                 cell: 0,
@@ -363,7 +363,7 @@ impl CellChain {
             if !matches!(cell.thermal_mode, ThermalMode::Adiabatic) {
                 return Err(TransportError::ThermostattedCell { cell: index });
             }
-            let actual = cell.liquid_volume().0;
+            let actual = hydraulic_liquid_volume(cell).0;
             if !actual.is_finite() || actual <= 0.0 {
                 return Err(TransportError::InvalidCellVolume {
                     cell: index,
@@ -384,6 +384,24 @@ impl CellChain {
 
 fn is_mobile(phase: Phase) -> bool {
     matches!(phase, Phase::Liquid | Phase::Aqueous)
+}
+
+/// Carrier-liquid volume, excluding water currently released from stationary
+/// surface reference sites. That water is mobile matter, but its matching
+/// deficit remains on the interface ledger; it must not look like a change in
+/// the fixed hydraulic cell geometry.
+fn hydraulic_liquid_volume(vessel: &Vessel) -> Liters {
+    let released_water = Moles(
+        vessel
+            .surfaces
+            .iter()
+            .map(|surface| surface.water_release.0)
+            .sum(),
+    );
+    let released_volume = species::lookup_key("water")
+        .map(|water| water.liters_from_moles(released_water).0)
+        .unwrap_or(0.0);
+    Liters(vessel.liquid_volume().0 - released_volume)
 }
 
 fn same_volume(expected: f64, actual: f64) -> bool {

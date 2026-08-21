@@ -190,6 +190,29 @@ fn invalid_geometry_and_courant_numbers_are_rejected_before_mutation() {
 }
 
 #[test]
+fn surface_released_water_does_not_change_hydraulic_cell_geometry() {
+    let reference = cell(0, 0.0, Kelvin::STANDARD.0);
+    let mut with_release = cell(1, 0.0, Kelvin::STANDARD.0);
+    with_release.deposit(SpeciesId::new("water"), Moles(1e-5), Phase::Liquid);
+    with_release.surfaces.push(SurfaceSites {
+        label: "hydrated oxide".to_string(),
+        model: SurfaceModel::HydrousFerricOxide,
+        mass: Grams(0.09),
+        specific_area_m2_per_g: 600.0,
+        strong_capacity: Moles(5e-6),
+        weak_capacity: Moles(2e-4),
+        occupancy: vec![SurfaceOccupancy {
+            site: SurfaceSiteKind::Weak,
+            sorbate: SurfaceSorbate::Sulfate,
+            moles: Moles(1e-5),
+        }],
+        water_release: Moles(1e-5),
+    });
+
+    assert!(CellChain::new(vec![reference, with_release]).is_ok());
+}
+
+#[test]
 fn a_failed_reactive_cell_restores_the_complete_pre_step_chain() {
     let inlet = cell(99, 0.0, Kelvin::STANDARD.0);
     let mut chain = CellChain::new(vec![
