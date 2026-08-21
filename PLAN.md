@@ -2401,6 +2401,20 @@ skipped under the load policy; CI run `32509744496` passed native
 Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
 core/IPhreeqc/full/combined Wasm, and the real-browser demo.
 
+**Active session — `codex-AQ` (2026-08-21, AQ-013).** Work is isolated in
+`/tmp/kerotakis-aq013.JrJDuc/worktree` on branch
+`codex-aq/aq-013-surface-transport`. This session owns a typed HFO adsorption
+front over the AQ-012 reactive cell chain, including zinc/sulfate ledgers and
+finite stationary surface capacity. The app path remains project-authored
+transport plus the existing typed `SURFACE` adapter. A raw PHREEQC `TRANSPORT`
+calculation may be used only as a development/test oracle to compare the
+outlet front; it is not an app runtime or public API dependency. This session
+will not expand surface species or databases, add public scripting/UI, change
+exchange transport, kinetics or MY-BASIC, import data, add dependencies, or
+modify vendored sources. Local native builds require a separate one-minute
+load check below 4 and remain capped at two Cargo/CMake jobs; otherwise
+validation runs on GitHub CI.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state
