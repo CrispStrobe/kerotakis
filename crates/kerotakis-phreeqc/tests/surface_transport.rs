@@ -180,7 +180,7 @@ PRINT
     -status false
 SELECTED_OUTPUT 1
     -reset false
-    -high_precision true
+    -high_precision false
     -totals Zn
 TRANSPORT
     -cells {CELL_COUNT}
