@@ -35,8 +35,8 @@ fn numbered_rate_program_receives_runtime_values_and_saves_moles() {
              30 moles = -1\n\
              40 GOTO 60\n\
              50 moles = -2\n\
-             60 moles = M * TIME\n\
-             70 SAVE moles\n\
+             60 rate_value = M * TIME\n\
+             70 SAVE rate_value\n\
              -end\n\
              SOLUTION 1\n\
                  pH 7\n\
@@ -89,4 +89,44 @@ fn independent_instances_compile_run_and_clean_up_safely() {
     for handle in handles {
         handle.join().unwrap();
     }
+}
+
+#[test]
+fn native_chemistry_callbacks_and_parm_execute_in_a_rate_program() {
+    let mut engine = Phreeqc::with_database(databases::PHREEQC).unwrap();
+    engine
+        .run(
+            "RATES\n\
+             NativeChemistry\n\
+             -start\n\
+             10 callback_sum = ACT(\"H+\") + MOL(\"H+\") + TOT(\"Na\")\n\
+             20 callback_sum = callback_sum + SI(\"Calcite\") + SR(\"Calcite\")\n\
+             30 callback_sum = callback_sum + LM(\"H+\") + DELTA_H_SPECIES(\"OH-\")\n\
+             40 SAVE callback_sum * 0 + PARM(1) * TIME\n\
+             -end\n\
+             SOLUTION 1\n\
+                 pH 7\n\
+                 Na 0.01\n\
+                 Ca 0.001\n\
+                 C 0.001 as HCO3\n\
+             KINETICS 1\n\
+                 NativeChemistry\n\
+                     -formula H2O 0\n\
+                     -m 1\n\
+                     -m0 1\n\
+                     -parms 0.5\n\
+                     -steps 0.25 seconds\n\
+             SELECTED_OUTPUT\n\
+                 -reset false\n\
+                 -kinetics NativeChemistry\n\
+             END\n",
+        )
+        .unwrap();
+    let remaining = engine
+        .last_value("k_NativeChemistry")
+        .expect("kinetics selected output");
+    assert!(
+        (remaining - 0.875).abs() < 1e-10,
+        "remaining moles: {remaining}"
+    );
 }

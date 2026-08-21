@@ -25,9 +25,11 @@ Status: migration in progress, 2026-08-21.
   clean `KeroBasicAdapter` owns its compiled programs, serializes the upstream
   runtime, normalizes PHREEQC's semicolon-delimited numbered source, translates
   labels and jumps without touching strings or comments, injects `M`, `M0`,
-  `TIME`, `TC`, and `TK`, and implements numeric `SAVE`. A live kinetics check
-  and explicit malformed-program check pass. Chemistry callbacks, `PARM`,
-  `PUNCH`, dialect coverage, and execution budgets remain incomplete, so this
+  `TIME`, `TC`, and `TK`, and implements `SAVE`, `PARM`, and numeric/string
+  `PUNCH`. Native callbacks cover `ACT`, `MOL`, `TOT`, `SI`, `SR`, `LM`, and
+  `DELTA_H_SPECIES`. Live kinetics, multiple-instance cleanup, malformed input,
+  and a USER_PUNCH oracle shared with the legacy backend pass. The broader
+  function/dialect corpus and execution budgets remain incomplete, so this
   backend is not enabled in official builds.
 - Stages 5 through 7 have not started. The legacy implementation remains in the
   source tree solely for the explicit `legacy-basic-oracle` development
