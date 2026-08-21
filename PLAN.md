@@ -2195,15 +2195,14 @@ the analytic first-order solution, pressure increase, JSON fields, and refusal
 of undeclared feed species. All native, WebAssembly, browser, and combined
 solver CI gates passed in run `32494325781`.
 
-**Active session — `codex-kin` (2026-08-21, KIN-009).** This session owns
-sampled gas-mechanism trajectories in the CLI: an explicit positive interval
-count, an initial point plus exact evenly spaced requested times, composition
-and pressure at every point, cumulative reaction extents, and aggregate implicit
-solver diagnostics without breaking the KIN-008 endpoint JSON fields. Work is
-isolated on branch `codex-kin/mechanism-trajectories` in a fresh worktree. Its
-boundary is the mechanism simulation CLI and focused contract tests. It will
-not modify equilibrium/surface/VLE work, the PHREEQC BASIC replacement,
-vendored sources, or compatibility fixtures.
+**Completed session — `codex-kin` (2026-08-21, KIN-009).** This session added
+bounded sampled gas-mechanism trajectories to the CLI. The stable JSON contract
+preserves all KIN-008 endpoint fields and adds the initial state plus exact
+evenly spaced requested times, composition and pressure at every point,
+cumulative reaction extents, and aggregate implicit-solver diagnostics. Exact
+tests compare every sampled point with the analytic first-order solution, prove
+monotonic depletion and pressure growth, and reject zero intervals. All native,
+WebAssembly, browser, and combined-solver CI gates passed in run `32495335994`.
 
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
