@@ -378,9 +378,11 @@ impl CellChain {
                     volume_l: actual,
                 });
             }
-            let surface_reference_tolerance = allow_surface_reference_transfer
-                .then(|| surface_reference_volume(first) + surface_reference_volume(cell))
-                .unwrap_or(0.0);
+            let surface_reference_tolerance = if allow_surface_reference_transfer {
+                surface_reference_volume(first) + surface_reference_volume(cell)
+            } else {
+                0.0
+            };
             if !same_volume(expected, actual, surface_reference_tolerance) {
                 return Err(TransportError::NonUniformCellVolume {
                     cell: index,
