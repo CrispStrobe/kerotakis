@@ -2340,6 +2340,19 @@ at 5.30–6.58 (threshold below 4); hosted run `32503082107` passed native
 Ubuntu/macOS, strict lint, both MY-BASIC preview gates, core/full/combined Wasm,
 IPhreeqc Wasm, and the real-browser demo.
 
+**Active session — `codex-AQ` (2026-08-21, AQ-010).** Work is isolated in
+`/tmp/kerotakis-aq010.worktree.JvxKka5a` on branch
+`codex-aq/aq-010-partial-freezing`. This session owns conservative partial
+freezing: pure water moves to the existing solid phase, solutes remain in the
+liquid compartment, the solver stack re-runs aqueous speciation after solvent
+mass changes, and iteration stops at a stated low-temperature model boundary
+rather than extrapolating colligative behavior indefinitely. It may add a
+bounded solver-stack convergence contract and focused core/PHREEQC checks. It
+will not add transport cells (AQ-011), redesign general compartments/interfaces,
+change kinetics or MY-BASIC, import new data, or modify vendored sources. Local
+native builds require a separate one-minute load check below 4 and remain
+capped at two Cargo/CMake jobs; otherwise validation runs on GitHub CI.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state
