@@ -128,6 +128,8 @@ fn mechanism_simulate_advances_a_finite_gas_reactor_as_json() {
             "300.0",
             "--feed",
             "H2=1.0",
+            "--samples",
+            "4",
             "--json",
         ])
         .output()
@@ -142,6 +144,20 @@ fn mechanism_simulate_advances_a_finite_gas_reactor_as_json() {
     assert_eq!(value["duration_seconds"], 0.1);
     assert_eq!(value["volume_litres"], 1.0);
     assert_eq!(value["temperature_k"], 300.0);
+    assert_eq!(value["sample_intervals"], 4);
+    assert_eq!(value["samples"].as_array().unwrap().len(), 5);
+    for (index, sample) in value["samples"].as_array().unwrap().iter().enumerate() {
+        let elapsed = index as f64 * 0.025;
+        assert!((sample["elapsed_seconds"].as_f64().unwrap() - elapsed).abs() < 1e-14);
+        let h2 = sample["moles"][0]["moles"].as_f64().unwrap();
+        assert!((h2 - (-elapsed).exp()).abs() < 1e-6, "{sample}");
+        if index > 0 {
+            let previous = value["samples"][index - 1]["moles"][0]["moles"]
+                .as_f64()
+                .unwrap();
+            assert!(h2 < previous);
+        }
+    }
     let remaining = value["final_moles"][0]["moles"].as_f64().unwrap();
     let product = value["final_moles"][1]["moles"].as_f64().unwrap();
     let expected_remaining = (-0.1f64).exp();
@@ -153,6 +169,33 @@ fn mechanism_simulate_advances_a_finite_gas_reactor_as_json() {
     );
     assert_eq!(value["extents"][0]["reaction"], "reaction-1");
     assert!(value["statistics"]["accepted_steps"].as_u64().unwrap() > 0);
+    std::fs::remove_dir_all(path.parent().unwrap()).ok();
+}
+
+#[test]
+fn mechanism_simulate_rejects_zero_sample_intervals() {
+    let path = mechanism_file("zero-samples", SIMULATION_MECHANISM);
+    let output = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args([
+            "mechanism",
+            "simulate",
+            path.to_str().unwrap(),
+            "--seconds",
+            "1",
+            "--volume-l",
+            "1",
+            "--temperature-k",
+            "300",
+            "--feed",
+            "H2=1",
+            "--samples",
+            "0",
+        ])
+        .output()
+        .expect("kero runs");
+    assert_eq!(output.status.code(), Some(2));
+    let stderr = String::from_utf8(output.stderr).unwrap();
+    assert!(stderr.contains("--samples must be positive"), "{stderr}");
     std::fs::remove_dir_all(path.parent().unwrap()).ok();
 }
 
