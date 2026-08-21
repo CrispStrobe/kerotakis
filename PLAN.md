@@ -2214,6 +2214,15 @@ direct-rate, equilibrium-convergence, out-of-range, and schema tests are
 included. All native, WebAssembly, browser, and combined-solver CI gates passed
 in run `32496871088`. Pressure-dependent reverse reactions remain future work.
 
+**Completed session — `codex-kin` (2026-08-21, KIN-011).** This session added
+instantaneous mechanism-rate diagnostics for university-level multi-step
+analysis: per-reaction forward/reverse/net progress, net species production,
+pressure, and an explicitly defined instantaneous rate-determining candidate in
+stable human and JSON output. Reversible equilibrium reports equal directional
+fluxes with no false limiting candidate; multistep tests prove stoichiometric
+production accounting and step selection. All native, WebAssembly, browser, and
+combined-solver CI gates passed in run `32498166044`.
+
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
 reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy
