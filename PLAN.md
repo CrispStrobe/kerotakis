@@ -2185,16 +2185,15 @@ Native, WebAssembly, browser, and combined-solver CI gates passed in run
 `32492646325`. Pressure-log interpolation and external mechanism data remain
 future work.
 
-**Active session — `codex-kin` (2026-08-21, KIN-008).** This session owns the
-CLI-first runtime mechanism simulation slice: load and compile a validated gas
-mechanism, create a finite sealed headspace from explicit temperature, volume,
-duration, and species feeds, advance it with the implicit reaction-network
-integrator, and report final composition, pressure, reaction extents, and solver
-diagnostics as stable JSON. Work is isolated on branch
-`codex-kin/mechanism-simulate` in a fresh worktree. Its boundary is focused CLI
-wiring/contracts and minimal public mechanism metadata needed for validation.
-It will not modify equilibrium/surface/VLE work, the PHREEQC BASIC replacement,
-vendored sources, or compatibility fixtures.
+**Completed session — `codex-kin` (2026-08-21, KIN-008).** This session added
+CLI-first runtime gas-mechanism simulation: validated mechanism loading, an
+explicit finite sealed headspace, temperature, duration, repeatable species
+feeds, and implicit reaction-network advancement. Stable JSON reports complete
+initial/final mechanism composition, initial/final pressure, reaction extents,
+and solver diagnostics; human output exposes the same run. Exact CLI tests cover
+the analytic first-order solution, pressure increase, JSON fields, and refusal
+of undeclared feed species. All native, WebAssembly, browser, and combined
+solver CI gates passed in run `32494325781`.
 
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
