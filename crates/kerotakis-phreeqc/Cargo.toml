@@ -17,6 +17,10 @@ engine = ["dep:cmake"]
 # Development-only differential oracle. Official Kerotakis builds leave this
 # disabled and compile IPhreeqc without the legacy interpreter.
 legacy-basic-oracle = ["engine"]
+# In-progress permissive replacement. This is opt-in until the supported
+# PHREEQC BASIC dialect has passed the differential oracle suite. The legacy
+# oracle takes precedence when both development features are selected.
+my-basic-preview = ["engine"]
 
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }

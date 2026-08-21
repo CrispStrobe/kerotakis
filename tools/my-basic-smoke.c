@@ -131,6 +131,7 @@ static void check_value_int(struct mb_interpreter_t* interpreter, const char* na
 
 static void check_language_and_callback(void) {
 	static const char program[] =
+		"begin:\n"
 		"DIM VALUES(3)\n"
 		"FOR I = 0 TO 2\n"
 		"  VALUES(I) = I * I\n"

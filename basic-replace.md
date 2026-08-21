@@ -21,7 +21,15 @@ Status: migration in progress, 2026-08-21.
   The disabled-file-loading C99 build passes smoke checks for values, arrays,
   control flow, callbacks, errors, and suspension. Toolchain integration and
   platform builds remain before the stage is complete.
-- Stages 4 through 7 have not started. The legacy implementation remains in the
+- Stage 4 is in progress behind the opt-in `my-basic-preview` feature. The
+  clean `KeroBasicAdapter` owns its compiled programs, serializes the upstream
+  runtime, normalizes PHREEQC's semicolon-delimited numbered source, translates
+  labels and jumps without touching strings or comments, injects `M`, `M0`,
+  `TIME`, `TC`, and `TK`, and implements numeric `SAVE`. A live kinetics check
+  and explicit malformed-program check pass. Chemistry callbacks, `PARM`,
+  `PUNCH`, dialect coverage, and execution budgets remain incomplete, so this
+  backend is not enabled in official builds.
+- Stages 5 through 7 have not started. The legacy implementation remains in the
   source tree solely for the explicit `legacy-basic-oracle` development
   feature; it is not part of default native or WebAssembly build inputs.
 

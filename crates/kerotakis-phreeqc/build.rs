@@ -17,6 +17,7 @@ use std::path::PathBuf;
 fn main() {
     let manifest = PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap());
     let vendor = manifest.join("../../vendor/iphreeqc");
+    let my_basic = manifest.join("../../vendor/my-basic");
     if !vendor.join("CMakeLists.txt").exists() {
         panic!(
             "vendor/iphreeqc is missing — run `git submodule update --init` \
@@ -37,10 +38,16 @@ fn main() {
     }
 
     let with_basic = std::env::var_os("CARGO_FEATURE_LEGACY_BASIC_ORACLE").is_some();
+    let with_my_basic = !with_basic && std::env::var_os("CARGO_FEATURE_MY_BASIC_PREVIEW").is_some();
     let dst = cmake::Config::new(&vendor)
         .define("BUILD_SHARED_LIBS", "OFF")
         .define("IPHREEQC_ENABLE_MODULE", "OFF")
         .define("IPHREEQC_WITH_BASIC", if with_basic { "ON" } else { "OFF" })
+        .define(
+            "IPHREEQC_WITH_MY_BASIC",
+            if with_my_basic { "ON" } else { "OFF" },
+        )
+        .define("KEROTAKIS_MY_BASIC_DIR", &my_basic)
         .define("BUILD_TESTING", "OFF")
         .profile("Release")
         .build();
