@@ -1018,6 +1018,45 @@ mod tests {
         );
     }
 
+    #[test]
+    fn stiff_depletion_is_detected_after_rejected_steps() {
+        let mut vessel = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 1e-4, Phase::Liquid),
+                ("catalase", 1e-6, Phase::Aqueous),
+            ],
+            25.0,
+        );
+        let report = advance_network_with_options(
+            &mut vessel,
+            0.1,
+            &NETWORK,
+            IntegrationOptions {
+                relative_tolerance: 1e-10,
+                absolute_tolerance_moles: 1e-16,
+                // Deliberately far too large for a millisecond-scale decay.
+                // Error control must reject and retry it rather than step
+                // across zero.
+                initial_step_seconds: 0.1,
+            },
+        )
+        .unwrap();
+
+        assert!(report.statistics.accepted_steps > 0);
+        assert!(
+            report.statistics.rejected_steps > 0,
+            "the deliberately overlarge first step was not rejected: {:?}",
+            report.statistics
+        );
+        assert!(
+            report.statistics.depletion_events > 0,
+            "reactant depletion did not produce a root event: {:?}",
+            report.statistics
+        );
+        assert!(phase_moles(&vessel, "H2O2", Phase::Liquid) >= 0.0);
+    }
+
     /// Element totals of a vessel, so a reaction can be audited the way a
     /// balance audits a real one.
     fn elements(v: &Vessel) -> std::collections::BTreeMap<String, f64> {
