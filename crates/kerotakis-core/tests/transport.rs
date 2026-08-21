@@ -4,6 +4,28 @@ use kerotakis_core::*;
 
 const WATER_MOLES: f64 = 5.5509;
 
+struct FailingSecondCell {
+    calls: usize,
+}
+
+impl Equilibrator for FailingSecondCell {
+    fn name(&self) -> &'static str {
+        "rollback-test"
+    }
+
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        self.calls += 1;
+        vessel.label.push_str(" (reacted)");
+        if self.calls == 2 {
+            return Err(SolveError::NotConverged {
+                solver: self.name().to_string(),
+                detail: "deliberate second-cell failure".to_string(),
+            });
+        }
+        Ok(Vec::new())
+    }
+}
+
 fn cell(id: usize, tracer_moles: f64, temperature_k: f64) -> Vessel {
     let mut vessel = Vessel::new(VesselId(id), format!("cell {id}"));
     vessel.deposit(SpeciesId::new("water"), Moles(WATER_MOLES), Phase::Liquid);
@@ -143,6 +165,13 @@ fn invalid_geometry_and_courant_numbers_are_rejected_before_mutation() {
         Err(TransportError::NonUniformCellVolume { cell: 1, .. })
     ));
 
+    let mut solver_resolution = cell(1, 0.0, Kelvin::STANDARD.0);
+    solver_resolution.withdraw(&SpeciesId::new("water"), Moles(WATER_MOLES * 5e-7));
+    assert!(
+        CellChain::new(vec![cell(0, 0.0, Kelvin::STANDARD.0), solver_resolution,]).is_ok(),
+        "sub-ppm aqueous readback must not change hydraulic geometry"
+    );
+
     let inlet = cell(99, 0.0, Kelvin::STANDARD.0);
     let mut chain = CellChain::new(vec![cell(0, 0.0, Kelvin::STANDARD.0)]).unwrap();
     let before = chain.cells()[0].moles_of(&SpeciesId::new("water"));
@@ -158,4 +187,28 @@ fn invalid_geometry_and_courant_numbers_are_rejected_before_mutation() {
         CellChain::new(vec![thermostatted]),
         Err(TransportError::ThermostattedCell { cell: 0 })
     ));
+}
+
+#[test]
+fn a_failed_reactive_cell_restores_the_complete_pre_step_chain() {
+    let inlet = cell(99, 0.0, Kelvin::STANDARD.0);
+    let mut chain = CellChain::new(vec![
+        cell(0, 1.0, Kelvin::STANDARD.0),
+        cell(1, 0.0, Kelvin::STANDARD.0),
+        cell(2, 0.0, Kelvin::STANDARD.0),
+    ])
+    .unwrap();
+    let before = serde_json::to_value(chain.cells()).unwrap();
+    let mut solver = FailingSecondCell { calls: 0 };
+
+    let error = chain
+        .advance_reactive(&inlet, 0.5, &mut solver)
+        .unwrap_err();
+
+    assert!(matches!(
+        error,
+        ReactiveTransportError::Reaction { cell: 1, .. }
+    ));
+    assert_eq!(solver.calls, 2, "the third cell must never be solved");
+    assert_eq!(serde_json::to_value(chain.cells()).unwrap(), before);
 }
