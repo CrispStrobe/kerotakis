@@ -92,11 +92,23 @@ const basicStatus = RunString(
     `SOLUTION 2\n    pH 7\nSELECTED_OUTPUT\n    -reset false\nUSER_PUNCH\n10 PUNCH 12345\nEND\n`,
 );
 const basicError = GetErrorString(id);
-if (basicStatus === 0 || !basicError.includes("PHREEQC BASIC capability is disabled")) {
+if (process.env.IPHREEQC_BASIC_MODE === "my-basic") {
+    const basicLines = [];
+    for (let n = 0; n < LineCount(id); n++) basicLines.push(Line(id, n));
+    const punched12345 = basicLines
+        .flatMap((line) => line.split("\t"))
+        .map((field) => field.trim())
+        .filter(Boolean)
+        .some((field) => Number(field) === 12345);
+    if (basicStatus !== 0 || !punched12345) {
+        throw new Error(`MY-BASIC USER_PUNCH failed: ${basicError}; ${basicLines.join(" | ")}`);
+    }
+} else if (basicStatus === 0 || !basicError.includes("PHREEQC BASIC capability is disabled")) {
     throw new Error(`USER_PUNCH was not rejected by the no-BASIC module: ${basicError}`);
 }
 
 console.log(
-    "OK: PHREEQC computes AgCl precipitation, exposes native thermochemistry, " +
-        "and rejects BASIC in WebAssembly without filesystem access.",
+    `OK: PHREEQC computes AgCl precipitation, exposes native thermochemistry, and ${
+        process.env.IPHREEQC_BASIC_MODE === "my-basic" ? "executes MY-BASIC" : "rejects BASIC"
+    } in WebAssembly without filesystem access.`,
 );
