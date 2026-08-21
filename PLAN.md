@@ -2379,6 +2379,22 @@ was added. Local native compilation was skipped under the load policy; CI run
 `32508147378` passed native Ubuntu/macOS, strict codex lint, both MY-BASIC
 preview gates, core/IPhreeqc/full/combined Wasm, and the real-browser demo.
 
+**Active session — `codex-AQ` (2026-08-21, AQ-012).** Work is isolated in
+`/tmp/kerotakis-aq012.7mpydZ/worktree` on branch
+`codex-aq/aq-012-exchange-transport`. This session owns conservative operator
+splitting between the AQ-011 cell chain and the existing typed cation-exchange
+equilibrium: transport first, then equilibrate each stationary exchanger cell,
+with rollback on a failed cell solve. Its acceptance case is a finite
+sodium-form softener column with a live calcium breakthrough curve and
+per-step calcium/sodium ledgers across solution, exchanger, inlet, and
+effluent. It may add a generic reactive-step seam in `kerotakis-core` and live
+PHREEQC integration tests. It will not add surface transport (AQ-013), invoke
+PHREEQC `TRANSPORT`, expose scripting/UI operations, change exchanger species
+coverage or databases, change kinetics or MY-BASIC, import data, add
+dependencies, or modify vendored sources. Local native builds require a
+separate one-minute load check below 4 and remain capped at two Cargo/CMake
+jobs; otherwise validation runs on GitHub CI.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state
