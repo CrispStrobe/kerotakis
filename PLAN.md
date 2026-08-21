@@ -2133,10 +2133,11 @@ BASIC runtime, its adapter, vendored sources, or compatibility corpus. CI run
 checks. Stiff integration, mechanism-file parsing, and external mechanism data
 remain later, separately reviewed work.
 
-**Active session — `codex-kin` (2026-08-21, KIN-004/005).** This session owns
-the next kinetics solver slice: audit and add the approved implicit-solver
-dependency, then implement adaptive integration with positivity protection,
-step rejection/retry, event handling, and exact-solution tests. Work is isolated
+**Completed session — `codex-kin` (2026-08-21, KIN-004/005).** This session
+audited and added the approved implicit-solver dependency, then replaced the
+explicit midpoint loop with adaptive BDF integration over reaction extents,
+including positivity protection, step rejection/retry, depletion events,
+diagnostics, propagated solver errors, and exact-solution tests. Work is isolated
 in `/Users/christianstrobele/code/kerotakis-codex-kin-integrator` on branch
 `codex-kin/adaptive-integrator`. It may modify kinetics modules, focused tests,
 and dependency/audit metadata. It will not modify equilibrium coupling,
@@ -2152,6 +2153,8 @@ The Wasm CI gate remains part of KIN-004 acceptance.
 The resolved matrix graph also reaches `getrandom` through `rand`; the Wasm
 target therefore selects its supported `wasm_js` backend explicitly. This is a
 target adapter, not solver randomness, and native targets remain unchanged.
+CI run `32484407871` passed strict lint, all native tests and claims on Ubuntu
+and macOS, core and full-bench Wasm, browser, and combined-solver checks.
 
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
