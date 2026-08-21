@@ -134,9 +134,12 @@ fn cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine() {
 
     let liquid_before = water_moles(frozen, Phase::Liquid);
     let temperature_before = frozen.temperature.0;
-    let repeat = solvers
-        .equilibrate(bench.vessel_mut(vessel_id).unwrap())
-        .expect("repeat equilibrium");
+    let vessel = bench
+        .vessels
+        .iter_mut()
+        .find(|vessel| vessel.id == vessel_id)
+        .expect("AQ-010 vessel");
+    let repeat = solvers.equilibrate(vessel).expect("repeat equilibrium");
     let settled = bench.vessel(vessel_id).unwrap();
     assert!(!repeat
         .iter()
