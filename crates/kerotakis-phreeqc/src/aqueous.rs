@@ -1501,6 +1501,9 @@ impl PhreeqcEquilibrator {
                 .iter()
                 .map(|surface| surface.bound(sorbate).0)
                 .sum();
+            if bound <= 0.0 {
+                continue;
+            }
             for (element, coefficient) in elements {
                 let base = element.split('(').next().unwrap_or(element);
                 let analytical: f64 = problem
