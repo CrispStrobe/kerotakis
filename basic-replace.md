@@ -15,7 +15,13 @@ Status: migration in progress, 2026-08-21.
   capability failures are covered directly, and the cache-only suite passes.
   The Emscripten module also builds in this configuration and its live AgCl
   precipitation check passes without filesystem access.
-- Stages 3 through 7 have not started. The legacy implementation remains in the
+- Stage 3 is in progress. MY-BASIC is pinned at
+  `38baab02ece70b650f5e687e485d879f80843256`; its two core files and full MIT
+  notice are vendored byte-for-byte with a provenance manifest and hash audit.
+  The disabled-file-loading C99 build passes smoke checks for values, arrays,
+  control flow, callbacks, errors, and suspension. Toolchain integration and
+  platform builds remain before the stage is complete.
+- Stages 4 through 7 have not started. The legacy implementation remains in the
   source tree solely for the explicit `legacy-basic-oracle` development
   feature; it is not part of default native or WebAssembly build inputs.
 
