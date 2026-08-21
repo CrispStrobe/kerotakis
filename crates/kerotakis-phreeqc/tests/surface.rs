@@ -112,6 +112,7 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     let first_bound = bound;
     let first_mass = state.mass().0;
     let first_water = state.moles_of(&SpeciesId::new("water")).0;
+    let first_water_release = state.surfaces[0].water_release.0;
     let stir_events = step(
         &mut bench,
         &mut solver,
@@ -137,7 +138,11 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     assert!((settled.mass().0 - first_mass).abs() < 2e-5);
     assert!(
         (settled.moles_of(&SpeciesId::new("water")).0 - first_water).abs() < 1e-10,
-        "re-equilibrating must not release the same ligand-exchange water twice"
+        "re-equilibrating must not release the same ligand-exchange water twice: first={first_water:.12e} mol, settled={:.12e} mol, delta={:.12e} mol, first release={:.12e} mol, settled release={:.12e} mol",
+        settled.moles_of(&SpeciesId::new("water")).0,
+        settled.moles_of(&SpeciesId::new("water")).0 - first_water,
+        first_water_release,
+        settled.surfaces[0].water_release.0,
     );
     assert!(
         (settled.surfaces[0].bound(SurfaceSorbate::Zinc).0 - first_bound).abs() < 2e-8,
