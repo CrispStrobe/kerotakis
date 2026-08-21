@@ -2439,17 +2439,21 @@ compilation was skipped under the load policy; CI run `32516261610` passed
 native Ubuntu/macOS, strict codex lint, both MY-BASIC previews, core,
 IPhreeqc, cache-only and combined Wasm, and the online/offline browser demo.
 
-**Active session — `codex-DATA` (2026-08-21, DATA-001).** Work is isolated in
+**Completed session — `codex-DATA` (2026-08-21, DATA-001).** Work was isolated in
 `/tmp/kerotakis-data001-schema` on branch `codex-data/data-001-schema`. This
-session owns only the typed source-registry contract: independently versioned
+session delivered the typed source-registry contract: independently versioned
 identity, composition, phase-thermodynamic, transport, optical, safety,
 microstate, and model-parameter records, plus their validation tests. Every
 numeric record must state units, applicability conditions, uncertainty,
-source id, and derivation method. It will not export or change the existing 74
-runtime species (DATA-002), compile a runtime pack (DATA-003), import external
-data, add third-party dependencies, or touch kinetics, MY-BASIC, PHREEQC, or
-vendored sources. Local native builds remain subject to the one-minute load
-gate and two-job cap; heavy validation runs on GitHub CI.
+source id, and derivation method. Only reviewed runtime-lane records can enter
+a future distributed pack; build and external oracles remain outside it. The
+work did not export or change the existing 74 runtime species (DATA-002),
+compile a runtime pack (DATA-003), import external data, add third-party
+dependencies, or touch kinetics, MY-BASIC, PHREEQC, or vendored sources. Local
+native builds were skipped under the load policy; CI run `32518836256` passed
+strict Clippy and native tests on Ubuntu/macOS, the data schema's `wasm32`
+compile gate, both MY-BASIC previews, IPhreeqc/cache/combined Wasm, the Wasm
+bench, and the real-browser demo.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
