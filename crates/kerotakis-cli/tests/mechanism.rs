@@ -60,6 +60,26 @@ reactions:
   rate-constant: {A: 1.0, b: 0, Ea: 0}
 "#;
 
+const MULTISTEP_MECHANISM: &str = r#"
+description: CLI multistep rates
+phases:
+- name: gas
+  thermo: ideal-gas
+  species: [A, B, C]
+species:
+- name: A
+  composition: {X: 1}
+- name: B
+  composition: {X: 1}
+- name: C
+  composition: {X: 1}
+reactions:
+- equation: A => B
+  rate-constant: {A: 1.0, b: 0, Ea: 0}
+- equation: B => C
+  rate-constant: {A: 0.25, b: 0, Ea: 0}
+"#;
+
 fn mechanism_file(name: &str, contents: &str) -> std::path::PathBuf {
     let dir = std::env::temp_dir().join(format!("kero-mechanism-{}-{}", std::process::id(), name));
     std::fs::create_dir_all(&dir).unwrap();
@@ -230,6 +250,100 @@ fn mechanism_simulate_reversible_gas_approaches_thermodynamic_equilibrium() {
     assert!((a - 0.2).abs() < 1e-6, "{value}");
     assert!((b - 0.8).abs() < 1e-6, "{value}");
     assert!((b / a - 4.0).abs() < 1e-5, "{value}");
+    std::fs::remove_dir_all(path.parent().unwrap()).ok();
+}
+
+#[test]
+fn mechanism_rates_reports_progress_species_production_and_limiting_step() {
+    let path = mechanism_file("multistep-rates", MULTISTEP_MECHANISM);
+    let output = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args([
+            "mechanism",
+            "rates",
+            path.to_str().unwrap(),
+            "--volume-l",
+            "1",
+            "--temperature-k",
+            "500",
+            "--feed",
+            "A=1",
+            "--feed",
+            "B=1",
+            "--json",
+        ])
+        .output()
+        .expect("kero runs");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let value: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(value["mechanism"], "CLI multistep rates");
+    assert_eq!(value["reaction_rates"][0]["reaction"], "reaction-1");
+    assert_eq!(
+        value["reaction_rates"][0]["forward_moles_per_litre_second"],
+        1.0
+    );
+    assert_eq!(
+        value["reaction_rates"][0]["reverse_moles_per_litre_second"],
+        0.0
+    );
+    assert_eq!(
+        value["reaction_rates"][1]["net_moles_per_litre_second"],
+        0.25
+    );
+    assert_eq!(
+        value["species_rates"][0]["net_production_moles_per_litre_second"],
+        -1.0
+    );
+    assert_eq!(
+        value["species_rates"][1]["net_production_moles_per_litre_second"],
+        0.75
+    );
+    assert_eq!(
+        value["species_rates"][2]["net_production_moles_per_litre_second"],
+        0.25
+    );
+    assert_eq!(value["rate_determining_step"]["reaction"], "reaction-2");
+    assert!(value["rate_determining_criterion"]
+        .as_str()
+        .unwrap()
+        .contains("smallest non-zero absolute net progress"));
+    std::fs::remove_dir_all(path.parent().unwrap()).ok();
+}
+
+#[test]
+fn mechanism_rates_exposes_balanced_forward_and_reverse_flux_at_equilibrium() {
+    let path = mechanism_file("equilibrium-rates", REVERSIBLE_MECHANISM);
+    let output = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args([
+            "mechanism",
+            "rates",
+            path.to_str().unwrap(),
+            "--volume-l",
+            "1",
+            "--temperature-k",
+            "500",
+            "--feed",
+            "A=0.2",
+            "--feed",
+            "B=0.8",
+            "--json",
+        ])
+        .output()
+        .expect("kero runs");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let value: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    let rates = &value["reaction_rates"][0];
+    assert_eq!(rates["forward_moles_per_litre_second"], 0.2);
+    assert!((rates["reverse_moles_per_litre_second"].as_f64().unwrap() - 0.2).abs() < 1e-14);
+    assert!(rates["net_moles_per_litre_second"].as_f64().unwrap().abs() < 1e-14);
+    assert!(value["rate_determining_step"].is_null());
     std::fs::remove_dir_all(path.parent().unwrap()).ok();
 }
 

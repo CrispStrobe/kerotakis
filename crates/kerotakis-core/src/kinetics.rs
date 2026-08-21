@@ -400,6 +400,17 @@ pub struct KineticReaction<'a> {
     pub provenance: &'a str,
 }
 
+/// Instantaneous progress rates for both directions of one reaction.
+///
+/// Every value is in mol·L⁻¹·s⁻¹. `net` is positive in the direction the
+/// equation is written and is exactly `forward - reverse`.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ReactionRates {
+    pub forward: f64,
+    pub reverse: f64,
+    pub net: f64,
+}
+
 #[derive(Debug, Clone, Copy)]
 pub struct Catalyst<'a> {
     pub species: &'a str,
@@ -875,11 +886,14 @@ impl<'a> KineticReaction<'a> {
         }
     }
 
-    /// Net rate in mol·L⁻¹·s⁻¹. Positive follows the declared equation;
-    /// negative follows the reverse expression.
-    pub fn rate_now(&self, vessel: &Vessel) -> f64 {
+    /// Forward, reverse, and net progress rates at the vessel's current state.
+    pub fn rates_now(&self, vessel: &Vessel) -> ReactionRates {
         if !self.in_validity_domain(vessel) {
-            return 0.0;
+            return ReactionRates {
+                forward: 0.0,
+                reverse: 0.0,
+                net: 0.0,
+            };
         }
         let forward = if self.direction_available(vessel, true) {
             self.expression_rate(vessel, self.forward, false)
@@ -891,7 +905,17 @@ impl<'a> KineticReaction<'a> {
             .filter(|_| self.direction_available(vessel, false))
             .map(|expression| self.expression_rate(vessel, expression, true))
             .unwrap_or(0.0);
-        forward - reverse
+        ReactionRates {
+            forward,
+            reverse,
+            net: forward - reverse,
+        }
+    }
+
+    /// Net rate in mol·L⁻¹·s⁻¹. Positive follows the declared equation;
+    /// negative follows the reverse expression.
+    pub fn rate_now(&self, vessel: &Vessel) -> f64 {
+        self.rates_now(vessel).net
     }
 }
 

@@ -2214,6 +2214,16 @@ direct-rate, equilibrium-convergence, out-of-range, and schema tests are
 included. All native, WebAssembly, browser, and combined-solver CI gates passed
 in run `32496871088`. Pressure-dependent reverse reactions remain future work.
 
+**Active session — `codex-kin` (2026-08-21, KIN-011).** This session owns an
+instantaneous mechanism-rate diagnostic for university-level multi-step analysis:
+CLI-configured gas state, per-reaction forward/reverse/net progress rates, net
+species production rates, and an explicit rate-determining-step result with
+stable human and JSON output. Work is isolated on branch
+`codex-kin/mechanism-rates` in a fresh worktree. It may modify kinetics modules,
+focused CLI wiring/tests, and this coordination record. It will not modify
+equilibrium/surface/VLE work, pressure-dependent reaction schemas, the PHREEQC
+BASIC replacement, vendored sources, or compatibility fixtures.
+
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
 reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy

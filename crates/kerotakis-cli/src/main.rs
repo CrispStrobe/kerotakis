@@ -902,6 +902,8 @@ fn usage() -> ! {
          \x20 kero species               list known species\n\
          \x20 kero provenance lint       validate source/distribution policy\n\
          \x20 kero mechanism inspect FILE.yaml [--json]\n\
+         \x20 kero mechanism rates FILE.yaml --volume-l L --temperature-k K\n\
+         \x20        --feed SPECIES=MOLES [--feed ...] [--json]\n\
          \x20 kero mechanism simulate FILE.yaml --seconds S --volume-l L\n\
          \x20        --temperature-k K --feed SPECIES=MOLES [--samples N] [--json]\n\
          \n\
@@ -933,6 +935,7 @@ fn usage() -> ! {
 fn mechanism_command(args: &[String]) -> ! {
     match args.first().map(String::as_str) {
         Some("inspect") => inspect_mechanism(&args[1..]),
+        Some("rates") => mechanism_rates(&args[1..]),
         Some("simulate") => simulate_mechanism(&args[1..]),
         _ => mechanism_usage(),
     }
@@ -942,6 +945,8 @@ fn mechanism_usage() -> ! {
     eprintln!(
         "usage:\n\
          \x20 kero mechanism inspect FILE.yaml [--json]\n\
+         \x20 kero mechanism rates FILE.yaml --volume-l L --temperature-k K \\\n\
+         \x20      --feed SPECIES=MOLES [--feed ...] [--json]\n\
          \x20 kero mechanism simulate FILE.yaml --seconds S --volume-l L \\\n\
          \x20      --temperature-k K --feed SPECIES=MOLES [--feed ...] [--samples N] [--json]"
     );
@@ -1002,6 +1007,49 @@ fn inspect_mechanism(args: &[String]) -> ! {
         }
     }
     std::process::exit(0);
+}
+
+#[derive(Debug)]
+struct MechanismRatesArgs {
+    path: String,
+    volume_litres: f64,
+    temperature_k: f64,
+    feeds: Vec<(String, f64)>,
+    json: bool,
+}
+
+#[derive(serde::Serialize)]
+struct MechanismRatesOutput<'a> {
+    mechanism: &'a str,
+    volume_litres: f64,
+    temperature_k: f64,
+    pressure_pa: f64,
+    reaction_rates: Vec<MechanismReactionRates<'a>>,
+    species_rates: Vec<MechanismSpeciesRate<'a>>,
+    rate_determining_step: Option<RateDeterminingStep<'a>>,
+    rate_determining_criterion: &'static str,
+}
+
+#[derive(serde::Serialize)]
+struct MechanismReactionRates<'a> {
+    reaction: &'a str,
+    equation: &'a str,
+    forward_moles_per_litre_second: f64,
+    reverse_moles_per_litre_second: f64,
+    net_moles_per_litre_second: f64,
+}
+
+#[derive(serde::Serialize)]
+struct MechanismSpeciesRate<'a> {
+    species: &'a str,
+    net_production_moles_per_litre_second: f64,
+}
+
+#[derive(serde::Serialize)]
+struct RateDeterminingStep<'a> {
+    reaction: &'a str,
+    equation: &'a str,
+    absolute_net_moles_per_litre_second: f64,
 }
 
 #[derive(Debug)]
@@ -1092,6 +1140,205 @@ fn simulation_number(text: &str, flag: &str, allow_zero: bool) -> Result<f64, St
         return Err(format!("{flag} must be finite and {range}, got {value}"));
     }
     Ok(value)
+}
+
+fn parse_mechanism_rates_args(args: &[String]) -> Result<MechanismRatesArgs, String> {
+    let path = args
+        .first()
+        .filter(|value| !value.starts_with('-'))
+        .cloned()
+        .ok_or_else(|| "rates requires a mechanism file".to_string())?;
+    let mut volume_litres = None;
+    let mut temperature_k = None;
+    let mut feeds = Vec::new();
+    let mut json = false;
+    let mut index = 1;
+    while index < args.len() {
+        match args[index].as_str() {
+            "--volume-l" => {
+                let text = simulation_value(args, &mut index, "--volume-l")?;
+                volume_litres = Some(simulation_number(&text, "--volume-l", false)?);
+            }
+            "--temperature-k" => {
+                let text = simulation_value(args, &mut index, "--temperature-k")?;
+                temperature_k = Some(simulation_number(&text, "--temperature-k", false)?);
+            }
+            "--feed" => {
+                let text = simulation_value(args, &mut index, "--feed")?;
+                let (species, amount) = text
+                    .split_once('=')
+                    .ok_or_else(|| format!("--feed expects SPECIES=MOLES, got '{text}'"))?;
+                if species.is_empty() {
+                    return Err("--feed species cannot be empty".to_string());
+                }
+                feeds.push((
+                    species.to_string(),
+                    simulation_number(amount, "--feed amount", false)?,
+                ));
+            }
+            "--json" => json = true,
+            option => return Err(format!("unknown rates option '{option}'")),
+        }
+        index += 1;
+    }
+    if feeds.is_empty() {
+        return Err("rates requires at least one --feed SPECIES=MOLES".to_string());
+    }
+    Ok(MechanismRatesArgs {
+        path,
+        volume_litres: volume_litres.ok_or_else(|| "rates requires --volume-l".to_string())?,
+        temperature_k: temperature_k.ok_or_else(|| "rates requires --temperature-k".to_string())?,
+        feeds,
+        json,
+    })
+}
+
+fn validate_mechanism_feeds(
+    mechanism: &kerotakis_core::kinetics::mechanism::ParsedMechanism,
+    feeds: &[(String, f64)],
+    command: &str,
+) {
+    for (species, _) in feeds {
+        if !mechanism
+            .species_names()
+            .any(|candidate| candidate == species)
+        {
+            eprintln!(
+                "kero mechanism {command}: feed species '{species}' is not declared by the mechanism"
+            );
+            std::process::exit(2);
+        }
+    }
+}
+
+fn mechanism_vessel(volume_litres: f64, temperature_k: f64, feeds: &[(String, f64)]) -> Vessel {
+    let mut vessel = Vessel::new(VesselId(0), "mechanism reactor");
+    vessel.temperature = Kelvin(temperature_k);
+    vessel.headspace = Headspace::Sealed {
+        volume: Liters(volume_litres),
+    };
+    for (species, moles) in feeds {
+        vessel.deposit(SpeciesId::new(species), Moles(*moles), Phase::Gas);
+    }
+    vessel.refresh_pressure();
+    vessel
+}
+
+fn mechanism_rates(args: &[String]) -> ! {
+    const RDS_CRITERION: &str =
+        "smallest non-zero absolute net progress rate among currently active reactions";
+    let args = parse_mechanism_rates_args(args).unwrap_or_else(|error| {
+        eprintln!("kero mechanism rates: {error}");
+        mechanism_usage();
+    });
+    let text = std::fs::read_to_string(&args.path).unwrap_or_else(|error| {
+        eprintln!("kero mechanism: cannot read {}: {error}", args.path);
+        std::process::exit(1);
+    });
+    let mechanism =
+        kerotakis_core::kinetics::mechanism::parse_yaml(&text).unwrap_or_else(|error| {
+            eprintln!("kero mechanism: {}: {error}", args.path);
+            std::process::exit(1);
+        });
+    validate_mechanism_feeds(&mechanism, &args.feeds, "rates");
+    let arena = kerotakis_core::kinetics::mechanism::MechanismArena::default();
+    let network = mechanism.compile_in(&arena);
+    let vessel = mechanism_vessel(args.volume_litres, args.temperature_k, &args.feeds);
+
+    let mut species_rates = mechanism
+        .species_names()
+        .map(|species| (species, 0.0))
+        .collect::<Vec<_>>();
+    let reaction_rates = network
+        .reactions
+        .iter()
+        .map(|reaction| {
+            let rates = reaction.rates_now(&vessel);
+            for term in reaction.stoichiometry {
+                let (_, rate) = species_rates
+                    .iter_mut()
+                    .find(|(species, _)| *species == term.species)
+                    .expect("compiled reaction species is declared by its mechanism");
+                *rate += term.coefficient * rates.net;
+            }
+            MechanismReactionRates {
+                reaction: reaction.id,
+                equation: reaction.equation,
+                forward_moles_per_litre_second: rates.forward,
+                reverse_moles_per_litre_second: rates.reverse,
+                net_moles_per_litre_second: rates.net,
+            }
+        })
+        .collect::<Vec<_>>();
+    let rate_determining_step = reaction_rates
+        .iter()
+        .filter(|rates| {
+            rates.net_moles_per_litre_second.abs()
+                > 1e-12
+                    * (rates.forward_moles_per_litre_second + rates.reverse_moles_per_litre_second)
+                        .max(f64::MIN_POSITIVE)
+        })
+        .min_by(|left, right| {
+            left.net_moles_per_litre_second
+                .abs()
+                .total_cmp(&right.net_moles_per_litre_second.abs())
+        })
+        .map(|rates| RateDeterminingStep {
+            reaction: rates.reaction,
+            equation: rates.equation,
+            absolute_net_moles_per_litre_second: rates.net_moles_per_litre_second.abs(),
+        });
+    let output = MechanismRatesOutput {
+        mechanism: network.id,
+        volume_litres: args.volume_litres,
+        temperature_k: args.temperature_k,
+        pressure_pa: vessel.pressure.0,
+        reaction_rates,
+        species_rates: species_rates
+            .into_iter()
+            .map(|(species, rate)| MechanismSpeciesRate {
+                species,
+                net_production_moles_per_litre_second: rate,
+            })
+            .collect(),
+        rate_determining_step,
+        rate_determining_criterion: RDS_CRITERION,
+    };
+    if args.json {
+        println!(
+            "{}",
+            serde_json::to_string(&output).expect("mechanism rates are serializable")
+        );
+    } else {
+        println!(
+            "{}: instantaneous rates at {:.3} K, {:.6e} Pa",
+            output.mechanism, output.temperature_k, output.pressure_pa
+        );
+        for rates in &output.reaction_rates {
+            println!(
+                "  {}: forward {:.9e}, reverse {:.9e}, net {:+.9e} mol/(L s)",
+                rates.reaction,
+                rates.forward_moles_per_litre_second,
+                rates.reverse_moles_per_litre_second,
+                rates.net_moles_per_litre_second
+            );
+        }
+        for rate in &output.species_rates {
+            println!(
+                "  {}: net production {:+.9e} mol/(L s)",
+                rate.species, rate.net_production_moles_per_litre_second
+            );
+        }
+        if let Some(step) = output.rate_determining_step {
+            println!(
+                "  instantaneous rate-determining candidate: {} ({:.9e} mol/(L s)); {}",
+                step.reaction, step.absolute_net_moles_per_litre_second, RDS_CRITERION
+            );
+        } else {
+            println!("  no active net reaction; no rate-determining candidate");
+        }
+    }
+    std::process::exit(0);
 }
 
 fn parse_mechanism_simulation_args(args: &[String]) -> Result<MechanismSimulationArgs, String> {
@@ -1196,29 +1443,11 @@ fn simulate_mechanism(args: &[String]) -> ! {
             eprintln!("kero mechanism: {}: {error}", args.path);
             std::process::exit(1);
         });
-    for (species, _) in &args.feeds {
-        if !mechanism
-            .species_names()
-            .any(|candidate| candidate == species)
-        {
-            eprintln!(
-                "kero mechanism simulate: feed species '{species}' is not declared by the mechanism"
-            );
-            std::process::exit(2);
-        }
-    }
+    validate_mechanism_feeds(&mechanism, &args.feeds, "simulate");
 
     let arena = kerotakis_core::kinetics::mechanism::MechanismArena::default();
     let network = mechanism.compile_in(&arena);
-    let mut vessel = Vessel::new(VesselId(0), "mechanism reactor");
-    vessel.temperature = Kelvin(args.temperature_k);
-    vessel.headspace = Headspace::Sealed {
-        volume: Liters(args.volume_litres),
-    };
-    for (species, moles) in &args.feeds {
-        vessel.deposit(SpeciesId::new(species), Moles(*moles), Phase::Gas);
-    }
-    vessel.refresh_pressure();
+    let mut vessel = mechanism_vessel(args.volume_litres, args.temperature_k, &args.feeds);
     let initial_pressure_pa = vessel.pressure.0;
     let initial_moles = mechanism_amounts(&mechanism, &vessel);
     let mut samples = vec![MechanismTrajectoryPoint {
