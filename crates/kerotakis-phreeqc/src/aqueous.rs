@@ -797,7 +797,12 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             continue;
         };
         match role {
-            DerivedRole::Solvent => kgw += p.moles.0 * WATER_MOLAR_MASS / 1000.0,
+            // Ice is a separate, pure compartment. Only liquid solvent
+            // defines the solution mass and its molalities.
+            DerivedRole::Solvent if p.phase == Phase::Liquid => {
+                kgw += p.moles.0 * WATER_MOLAR_MASS / 1000.0
+            }
+            DerivedRole::Solvent => {}
             DerivedRole::Dissolves(els) => {
                 solutes += 1;
                 for (el, coeff) in els {
@@ -2011,11 +2016,14 @@ impl PhreeqcEquilibrator {
                 // with itself, and the error *compounded*: nitrogen grew
                 // 0.25% per step, 0.010000 → 0.010025 → 0.010072, for as
                 // long as the beaker was touched.
-                Some(DerivedRole::Solvent) => contents.push(Portion {
+                Some(DerivedRole::Solvent) if p.phase == Phase::Liquid => contents.push(Portion {
                     species: p.species.clone(),
                     moles: Moles(solvent_kgw_out * 1000.0 / WATER_MOLAR_MASS),
-                    phase: p.phase,
+                    phase: Phase::Liquid,
                 }),
+                // Solid water is pure ice owned by the phase ledger, not
+                // PHREEQC's solution solvent. Preserve it byte-for-byte.
+                Some(DerivedRole::Solvent) => contents.push(p.clone()),
                 // Matter this engine does not model passes through
                 // untouched. The rebuild replaces the vessel's contents
                 // with the computed state, so anything without a role used

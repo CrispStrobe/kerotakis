@@ -41,14 +41,16 @@ fn build_stack() -> SolverStack {
         // The metallic state rides on top of the aqueous solve: the series
         // moves electrons over the activities PHREEQC reports, and the
         // products go back through it.
-        Ok(aqueous) => solvers.push(Box::new(
+        Ok(aqueous) => solvers.push(Box::new(PhaseEquilibrator::wrapping(Box::new(
             kerotakis_core::DisplacementEquilibrator::wrapping(Box::new(aqueous)),
-        )),
-        Err(e) => eprintln!("kero: aqueous engine unavailable ({e}); running without it"),
+        )))),
+        Err(e) => {
+            eprintln!("kero: aqueous engine unavailable ({e}); running without it");
+            // Pure-water phase changes still work in the honestly degraded
+            // stack; only brine re-speciation is unavailable.
+            solvers.push(Box::new(StateEquilibrator));
+        }
     }
-    // After the aqueous engine: where a solution freezes depends on how
-    // many particles are dissolved in it, and only the speciation knows.
-    solvers.push(Box::new(kerotakis_core::StateEquilibrator));
     solvers.push(Box::new(HonestyEquilibrator));
     SolverStack::new(solvers)
 }
@@ -650,14 +652,13 @@ fn codex_lint(dir: &str) -> ! {
         if failed {
             continue;
         }
-        if observed
-            .iter()
-            .any(|e| matches!(e, Event::SolverFailed { .. }))
-        {
-            problems.push(format!(
-                "{}: a solver could not answer during the setup",
-                entry.id
-            ));
+        for event in &observed {
+            if let Event::SolverFailed { solver, detail, .. } = event {
+                problems.push(format!(
+                    "{}: solver '{solver}' could not answer during the setup: {detail}",
+                    entry.id
+                ));
+            }
         }
         for anchor in &entry.spine {
             if !vocabulary.concepts.is_empty() && vocabulary.get(anchor).is_none() {
