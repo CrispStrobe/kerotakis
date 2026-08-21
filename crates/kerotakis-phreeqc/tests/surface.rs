@@ -54,11 +54,7 @@ fn zinc_inventory(vessel: &Vessel) -> f64 {
 fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     let mut solver = PhreeqcEquilibrator::new().expect("engine");
     let mut bench = Bench::new();
-    bench
-        .vessel_mut(VesselId(0))
-        .unwrap()
-        .surfaces
-        .push(hfo("oxide grains", 1.0));
+    bench.vessels[0].surfaces.push(hfo("oxide grains", 1.0));
 
     add(&mut bench, &mut solver, "water", 55.51);
     let mass_before_zinc = bench.vessel(VesselId(0)).unwrap().mass().0;
@@ -95,7 +91,7 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
 fn pooled_solver_result_returns_to_each_named_interface() {
     let mut solver = PhreeqcEquilibrator::new().expect("engine");
     let mut bench = Bench::new();
-    let vessel = bench.vessel_mut(VesselId(0)).unwrap();
+    let vessel = &mut bench.vessels[0];
     vessel.surfaces.push(hfo("small bed", 1.0));
     vessel.surfaces.push(hfo("large bed", 3.0));
 
