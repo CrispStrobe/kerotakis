@@ -293,7 +293,7 @@ pub const REGISTRY: &[KineticReaction] = &[
             StoichiometricTerm {
                 species: "H2O2",
                 coefficient: -2.0,
-                phase: Phase::Aqueous,
+                phase: Phase::Liquid,
             },
             StoichiometricTerm {
                 species: "water",
@@ -313,7 +313,7 @@ pub const REGISTRY: &[KineticReaction] = &[
         forward: RateExpression {
             orders: &[OrderTerm {
                 species: "H2O2",
-                phase: Some(Phase::Aqueous),
+                phase: Some(Phase::Liquid),
                 order: 1.0,
             }],
             arrhenius: RateLaw {
@@ -1006,14 +1006,14 @@ mod tests {
         let plain = vessel_with(
             &[
                 ("water", 5.5343, Phase::Liquid),
-                ("H2O2", 0.1, Phase::Aqueous),
+                ("H2O2", 0.1, Phase::Liquid),
             ],
             25.0,
         );
         let with_mno2 = vessel_with(
             &[
                 ("water", 5.5343, Phase::Liquid),
-                ("H2O2", 0.1, Phase::Aqueous),
+                ("H2O2", 0.1, Phase::Liquid),
                 ("MnO2", 0.001, Phase::Solid),
             ],
             25.0,
@@ -1035,7 +1035,7 @@ mod tests {
         let mut v = vessel_with(
             &[
                 ("water", 5.5343, Phase::Liquid),
-                ("H2O2", 0.1, Phase::Aqueous),
+                ("H2O2", 0.1, Phase::Liquid),
                 ("MnO2", 0.001, Phase::Solid),
             ],
             25.0,
@@ -1058,16 +1058,19 @@ mod tests {
         // d[H2O2]/dt = -2·k·[H2O2]  (order 1, stoichiometric coefficient 2)
         //   =>  [H2O2](t) = [H2O2]0 · exp(-2kt)
         let r = lookup("peroxide-decomposition").unwrap();
-        let c0 = 0.5;
-        let litres = 0.1;
+        // Keep peroxide dilute so the closed-form constant-volume assumption
+        // is the same approximation the model makes for an aqueous mixture.
+        let initial_moles = 1e-4;
         for seconds in [1.0, 10.0, 120.0, 600.0] {
             let mut v = vessel_with(
                 &[
                     ("water", 5.5343, Phase::Liquid),
-                    ("H2O2", c0 * litres, Phase::Aqueous),
+                    ("H2O2", initial_moles, Phase::Liquid),
                 ],
                 25.0,
             );
+            let litres = v.liquid_volume().0;
+            let c0 = initial_moles / litres;
             let k = r.forward.arrhenius.rate_constant(298.15);
             advance(&mut v, seconds);
             let got = v.moles_of(&SpeciesId::new("H2O2")).0 / litres;
@@ -1088,16 +1091,17 @@ mod tests {
         // essentially over in seconds, and a fixed step would overshoot
         // into negative concentrations.
         let r = lookup("peroxide-decomposition").unwrap();
-        let litres = 0.1;
-        let c0 = 0.5;
+        let initial_moles = 1e-4;
         let mut v = vessel_with(
             &[
                 ("water", 5.5343, Phase::Liquid),
-                ("H2O2", c0 * litres, Phase::Aqueous),
+                ("H2O2", initial_moles, Phase::Liquid),
                 ("catalase", 1e-6, Phase::Aqueous),
             ],
             25.0,
         );
+        let litres = v.liquid_volume().0;
+        let c0 = initial_moles / litres;
         let law = RateLaw {
             pre_exponential: r.forward.arrhenius.pre_exponential,
             activation_energy: 23_000.0,
