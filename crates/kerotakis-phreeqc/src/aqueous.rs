@@ -2754,6 +2754,12 @@ fn build_input_at(
     use std::fmt::Write;
     let mut input = String::new();
     let temp_c = vessel.temperature.to_celsius();
+    // IPhreeqc instances are reused across vessels. Numbered reactants can
+    // otherwise survive into the next RunString call (most dangerously a
+    // populated SURFACE 1), making one cell donate hidden inventory to the
+    // next. PHREEQC documents DELETE -all specifically for reinitializing
+    // IPhreeqc modules. Thermodynamic database definitions are unaffected.
+    writeln!(input, "DELETE\n    -all\nEND").unwrap();
     writeln!(input, "SOLUTION 1").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
     writeln!(input, "    temp      {temp_c:.4}").unwrap();
