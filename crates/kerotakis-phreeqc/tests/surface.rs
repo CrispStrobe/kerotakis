@@ -60,6 +60,56 @@ fn sulfate_inventory(vessel: &Vessel) -> f64 {
             .sum::<f64>()
 }
 
+fn zinc_adsorption_at_acid_dose(acid_moles: f64) -> (f64, f64, f64) {
+    let mut solver = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    bench.vessels[0].surfaces.push(hfo("oxide grains", 1.0));
+
+    add(&mut bench, &mut solver, "water", 55.51);
+    if acid_moles > 0.0 {
+        add(&mut bench, &mut solver, "HCl", acid_moles);
+    }
+    add(&mut bench, &mut solver, "ZnSO4", 1e-4);
+
+    let state = bench.vessel(VesselId(0)).expect("vessel");
+    let ph = state.solution.as_ref().expect("solution").ph;
+    let bound = state.surfaces[0].bound(SurfaceSorbate::Zinc).0;
+    (ph, bound, zinc_inventory(state))
+}
+
+#[test]
+fn zinc_adsorption_increases_across_the_acid_side_ph_edge() {
+    // Stay on the acid side of the adsorption edge: an alkaline endpoint
+    // would also make zinc hydroxide a candidate phase and stop being a
+    // clean test of surface affinity. The three systems differ only in HCl
+    // dose; surface capacity, water and analytical zinc are identical.
+    let acidic = zinc_adsorption_at_acid_dose(1e-2);
+    let shoulder = zinc_adsorption_at_acid_dose(1e-4);
+    let least_acidic = zinc_adsorption_at_acid_dose(0.0);
+    let cases = [acidic, shoulder, least_acidic];
+
+    for (ph, bound, inventory) in cases {
+        assert!(ph.is_finite(), "surface solve returned non-finite pH");
+        assert!(
+            (inventory - 1e-4).abs() < 2e-8,
+            "zinc must remain conserved at pH {ph:.4}: total={inventory:.12e} mol"
+        );
+        assert!(
+            (0.0..=2.05e-4 + 1e-12).contains(&bound),
+            "bound zinc must remain within finite site capacity at pH {ph:.4}: {bound:.12e} mol"
+        );
+    }
+
+    assert!(
+        acidic.0 < shoulder.0 && shoulder.0 < least_acidic.0,
+        "acid doses must produce an ordered pH edge: {acidic:?}, {shoulder:?}, {least_acidic:?}"
+    );
+    assert!(
+        acidic.1 < shoulder.1 && shoulder.1 < least_acidic.1,
+        "HFO-bound zinc must increase with pH: {acidic:?}, {shoulder:?}, {least_acidic:?}"
+    );
+}
+
 #[test]
 fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     let mut solver = PhreeqcEquilibrator::new().expect("engine");
