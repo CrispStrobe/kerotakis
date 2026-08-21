@@ -987,7 +987,7 @@ fn inspect_mechanism(args: &[String]) -> ! {
         );
         for reaction in summary.reaction_details {
             println!(
-                "  {}  {}  [{}{}] order {:.3}; A={:.6e}, b={:.6}, Ea={:.6} J/mol{}",
+                "  {}  {}  [{}{}] order {:.3}; A={:.6e}, b={:.6}, Ea={:.6} J/mol{}{}",
                 reaction.id,
                 reaction.equation,
                 reaction.rate_model,
@@ -1002,7 +1002,12 @@ fn inspect_mechanism(args: &[String]) -> ! {
                 reaction.activation_energy_j_per_mol,
                 reaction
                     .low_pressure_pre_exponential
-                    .map_or_else(String::new, |value| format!(", A0={value:.6e}"))
+                    .map_or_else(String::new, |value| format!(", A0={value:.6e}")),
+                if reaction.pressure_points_pa.is_empty() {
+                    String::new()
+                } else {
+                    format!(", pressure grid={:?} Pa", reaction.pressure_points_pa)
+                }
             );
         }
     }

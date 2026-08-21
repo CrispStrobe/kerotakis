@@ -171,7 +171,6 @@ impl<'a> ExtentSystem<'a> {
         let mut rate = reaction.pressure_dependence.map_or_else(
             || law.rate_constant(self.vessel.temperature.0),
             |dependence| {
-                let collider = dependence.collider();
                 let mut species = BTreeSet::new();
                 species.extend(
                     self.vessel
@@ -189,13 +188,21 @@ impl<'a> ExtentSystem<'a> {
                             .map(|term| term.species),
                     );
                 }
-                let concentration = species
+                let gas_amounts = species
                     .into_iter()
-                    .map(|name| {
-                        self.amount(extents, name, Phase::Gas) * collider.efficiency(name) / litres
-                    })
-                    .sum();
-                dependence.rate_constant(law, self.vessel.temperature.0, concentration)
+                    .map(|name| (name, self.amount(extents, name, Phase::Gas)))
+                    .collect::<Vec<_>>();
+                let concentration = dependence.collider().map_or(0.0, |collider| {
+                    gas_amounts
+                        .iter()
+                        .map(|(name, amount)| amount * collider.efficiency(name) / litres)
+                        .sum()
+                });
+                let pressure_pa = gas_amounts.iter().map(|(_, amount)| amount).sum::<f64>()
+                    * 8_314.462_618
+                    * self.vessel.temperature.0
+                    / litres;
+                dependence.rate_constant(law, self.vessel.temperature.0, concentration, pressure_pa)
             },
         );
         if reverse {

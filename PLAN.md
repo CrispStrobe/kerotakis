@@ -2223,6 +2223,15 @@ fluxes with no false limiting candidate; multistep tests prove stoichiometric
 production accounting and step selection. All native, WebAssembly, browser, and
 combined-solver CI gates passed in run `32498166044`.
 
+**Completed session — `codex-kin` (2026-08-21, KIN-012).** This session added
+pressure-dependent Arrhenius gas kinetics with pressure-unit parsing, strict
+pressure-grid validation, same-pressure rate summation, logarithmic pressure
+interpolation, and nearest-endpoint extrapolation shared by direct and implicit
+evaluation. CLI inspection exposes normalized pressure points; CLI rates and
+simulation tests exercise the same evaluator. Closed-form, analytic-decay, and
+invalid-grid tests are included. All native, WebAssembly, browser, combined
+solver, and BASIC transition CI gates passed in run `32499420214`.
+
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
 reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy
