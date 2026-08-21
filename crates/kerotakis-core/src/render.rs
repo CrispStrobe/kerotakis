@@ -112,6 +112,22 @@ pub fn render_vessel(v: &Vessel, register: Register) -> Vec<String> {
             p.moles.0, name, p.phase
         ));
     }
+    for solid_solution in &v.solid_solutions {
+        out.push(format!(
+            "    {:>10.4} mol  {} mixed crystal",
+            solid_solution.total_moles().0,
+            solid_solution.label
+        ));
+        if register >= Register::LV2 {
+            for component in &solid_solution.components {
+                out.push(format!(
+                    "      {:>10.4} mol  {}",
+                    component.moles.0,
+                    component.component.species()
+                ));
+            }
+        }
+    }
     if v.is_empty() {
         out.push("    (empty)".to_string());
     }

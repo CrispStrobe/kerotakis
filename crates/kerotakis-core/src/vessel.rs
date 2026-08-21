@@ -282,6 +282,121 @@ impl ExchangeSites {
     }
 }
 
+/// Reviewed thermodynamic models for a mixed crystalline phase.
+///
+/// A closed enum prevents a save from claiming that an arbitrary pair and
+/// arbitrary interaction parameters were validated. New pairs extend the
+/// model, component mapping, and live-engine checks together.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SolidSolutionModel {
+    /// The non-ideal CaCO3-SrCO3 pair from PHREEQC example 10.
+    AragoniteStrontianite,
+}
+
+/// One end member whose inventory Kerotakis can round-trip.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SolidSolutionComponent {
+    CalciumCarbonate,
+    StrontiumCarbonate,
+}
+
+impl SolidSolutionComponent {
+    pub const ALL: [Self; 2] = [Self::CalciumCarbonate, Self::StrontiumCarbonate];
+
+    pub fn species(self) -> SpeciesId {
+        match self {
+            Self::CalciumCarbonate => SpeciesId::new("CaCO3"),
+            Self::StrontiumCarbonate => SpeciesId::new("SrCO3"),
+        }
+    }
+
+    pub fn molar_mass(self) -> f64 {
+        match self {
+            Self::CalciumCarbonate => 100.087,
+            Self::StrontiumCarbonate => 147.628,
+        }
+    }
+}
+
+/// The amount of one end member in a mixed crystal, in formula-unit moles.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SolidSolutionAmount {
+    pub component: SolidSolutionComponent,
+    pub moles: Moles,
+}
+
+/// A finite, mass-owning mixed crystalline phase.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SolidSolution {
+    pub label: String,
+    pub model: SolidSolutionModel,
+    pub components: Vec<SolidSolutionAmount>,
+}
+
+impl SolidSolution {
+    pub fn aragonite_strontianite(
+        label: impl Into<String>,
+        calcium_carbonate: Moles,
+        strontium_carbonate: Moles,
+    ) -> Self {
+        Self {
+            label: label.into(),
+            model: SolidSolutionModel::AragoniteStrontianite,
+            components: vec![
+                SolidSolutionAmount {
+                    component: SolidSolutionComponent::CalciumCarbonate,
+                    moles: calcium_carbonate,
+                },
+                SolidSolutionAmount {
+                    component: SolidSolutionComponent::StrontiumCarbonate,
+                    moles: strontium_carbonate,
+                },
+            ],
+        }
+    }
+
+    pub fn moles_of(&self, component: SolidSolutionComponent) -> Moles {
+        Moles(
+            self.components
+                .iter()
+                .filter(|entry| entry.component == component)
+                .map(|entry| entry.moles.0)
+                .sum(),
+        )
+    }
+
+    pub fn total_moles(&self) -> Moles {
+        Moles(self.components.iter().map(|entry| entry.moles.0).sum())
+    }
+
+    pub fn mass(&self) -> Grams {
+        Grams(
+            self.components
+                .iter()
+                .map(|entry| entry.moles.0 * entry.component.molar_mass())
+                .sum(),
+        )
+    }
+
+    pub fn has_valid_state(&self) -> bool {
+        !self.label.trim().is_empty()
+            && self.components.len() == SolidSolutionComponent::ALL.len()
+            && SolidSolutionComponent::ALL.iter().all(|component| {
+                self.components
+                    .iter()
+                    .filter(|entry| entry.component == *component)
+                    .count()
+                    == 1
+            })
+            && self
+                .components
+                .iter()
+                .all(|entry| entry.moles.0.is_finite() && entry.moles.0 >= 0.0)
+    }
+}
+
 /// One aqueous species in the true equilibrium distribution.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SpeciesDetail {
@@ -429,6 +544,9 @@ pub struct Vessel {
     /// Finite cation-exchange interfaces. Defaulted for old save compatibility.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub exchanges: Vec<ExchangeSites>,
+    /// Finite mixed crystalline phases. Defaulted for old save compatibility.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub solid_solutions: Vec<SolidSolution>,
     /// Net charge carried by the dissolved solutes, Σ z·n, mol.
     ///
     /// Not a physical excess — the solution is electroneutral, and the
@@ -463,13 +581,17 @@ impl Vessel {
             headspace: Headspace::Open,
             surfaces: Vec::new(),
             exchanges: Vec::new(),
+            solid_solutions: Vec::new(),
             solute_charge: 0.0,
             solution: None,
         }
     }
 
     pub fn is_empty(&self) -> bool {
-        self.contents.is_empty() && self.surfaces.is_empty() && self.exchanges.is_empty()
+        self.contents.is_empty()
+            && self.surfaces.is_empty()
+            && self.exchanges.is_empty()
+            && self.solid_solutions.is_empty()
     }
 
     pub fn moles_of(&self, species: &SpeciesId) -> Moles {
@@ -591,7 +713,12 @@ impl Vessel {
                         .sum::<f64>()
             })
             .sum();
-        Grams(contents + interfaces + exchangers)
+        let solid_solutions: f64 = self
+            .solid_solutions
+            .iter()
+            .map(|solid_solution| solid_solution.mass().0)
+            .sum();
+        Grams(contents + interfaces + exchangers + solid_solutions)
     }
 
     /// Approximate liquid volume, additive-volume assumption (surfaced as an
