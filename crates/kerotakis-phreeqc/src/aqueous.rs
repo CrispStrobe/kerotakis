@@ -15,8 +15,9 @@
 
 use kerotakis_core::{
     species, Equilibrator, Event, ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Kelvin,
-    Moles, Phase, Portion, Provenance, SolutionInfo, SolveError, SpeciesDetail, SpeciesId,
-    SurfaceOccupancy, SurfaceSiteKind, SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
+    Moles, Phase, Portion, Provenance, SolidSolution, SolidSolutionComponent, SolidSolutionModel,
+    SolutionInfo, SolveError, SpeciesDetail, SpeciesId, SurfaceOccupancy, SurfaceSiteKind,
+    SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
 };
 
 use crate::PhreeqcError;
@@ -590,6 +591,9 @@ struct Problem {
     /// Finite cation exchangers, pooled for PHREEQC and split back by each
     /// named interface's share of total charge-equivalent capacity.
     exchanges: Vec<ExchangeSites>,
+    /// Finite mixed crystalline phases. The initial reviewed slice permits
+    /// one non-ideal aragonite-strontianite assemblage.
+    solid_solutions: Vec<SolidSolution>,
     /// Every element to read back: dissolved totals plus the elements of all
     /// involved phases (a dissolving solid puts its elements into solution
     /// even when none started there).
@@ -864,12 +868,37 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         }
     }
 
+    for solid_solution in &vessel.solid_solutions {
+        solutes += 1;
+        // SOLID_SOLUTIONS owns these formula units directly. Do not also
+        // return them to SOLUTION totals or a pure EQUILIBRIUM_PHASE.
+        for component in &solid_solution.components {
+            for element in solid_solution_component_elements(component.component) {
+                note_element(element);
+            }
+        }
+    }
+
     if kgw <= 0.0 || solutes == 0 {
         return None;
     }
     // Every derived candidate phase whose elements can reach solution can
     // precipitate, amount 0 if no solid exists yet.
     for cand in derived::candidate_phases() {
+        // A mixed crystal and a pure phase cannot both own the same mineral
+        // formula in this first slice. PHREEQC's documented example poses
+        // CaCO3 through the aragonite end member; allowing the normal
+        // calcite candidate beside it would silently move calcium carbonate
+        // out of the typed solid-solution ledger.
+        let owned_by_solid_solution = vessel.solid_solutions.iter().any(|solid_solution| {
+            solid_solution
+                .components
+                .iter()
+                .any(|component| component.component.species().0 == cand.species)
+        });
+        if owned_by_solid_solution {
+            continue;
+        }
         // Compare *base* elements. Once a dissolved species carries its
         // oxidation state — copper(II) is "Cu(2)", not "Cu" — a phase whose
         // elements are written plainly stops matching, and copper hydroxide
@@ -952,6 +981,7 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         external_gases,
         surfaces: vessel.surfaces.clone(),
         exchanges: vessel.exchanges.clone(),
+        solid_solutions: vessel.solid_solutions.clone(),
         elements,
     })
 }
@@ -1036,6 +1066,31 @@ fn phreeqc_exchange_species(ion: ExchangeIon) -> &'static str {
     }
 }
 
+fn phreeqc_solid_solution_component(component: SolidSolutionComponent) -> &'static str {
+    match component {
+        SolidSolutionComponent::CalciumCarbonate => "Aragonite",
+        SolidSolutionComponent::StrontiumCarbonate => "Strontianite",
+    }
+}
+
+fn solid_solution_component_elements(component: SolidSolutionComponent) -> &'static [&'static str] {
+    match component {
+        SolidSolutionComponent::CalciumCarbonate => &["Ca", "C"],
+        SolidSolutionComponent::StrontiumCarbonate => &["Sr", "C"],
+    }
+}
+
+fn solid_solution_element_inventory(solid_solutions: &[SolidSolution], element: &str) -> f64 {
+    solid_solutions
+        .iter()
+        .flat_map(|solid_solution| &solid_solution.components)
+        .filter(|amount| solid_solution_component_elements(amount.component).contains(&element))
+        // Both reviewed carbonate end members contain one mole of their
+        // cation and one mole of carbon per formula unit.
+        .map(|amount| amount.moles.0)
+        .sum()
+}
+
 impl Equilibrator for PhreeqcEquilibrator {
     fn name(&self) -> &'static str {
         "phreeqc-aqueous"
@@ -1083,6 +1138,26 @@ impl Equilibrator for PhreeqcEquilibrator {
                 detail: format!(
                     "exchange '{}' has non-positive support/capacity or occupancy that does not exactly counter-balance its finite capacity",
                     exchange.label
+                ),
+            });
+        }
+        if vessel.solid_solutions.len() > 1 {
+            return Err(SolveError::NotConverged {
+                solver: self.name().to_string(),
+                detail: "the first typed solid-solution slice supports one mixed crystalline phase per vessel"
+                    .to_string(),
+            });
+        }
+        if let Some(solid_solution) = vessel
+            .solid_solutions
+            .iter()
+            .find(|solid_solution| !solid_solution.has_valid_state())
+        {
+            return Err(SolveError::NotConverged {
+                solver: self.name().to_string(),
+                detail: format!(
+                    "solid solution '{}' must contain one finite, non-negative amount of each reviewed end member",
+                    solid_solution.label
                 ),
             });
         }
@@ -1206,7 +1281,13 @@ impl PhreeqcEquilibrator {
         // Rough concentration estimate: dissolved totals plus what the
         // solid phases could dissolve (each formula unit ~2 ions).
         let potential_molality = (problem.totals.iter().map(|(_, n)| n).sum::<f64>()
-            + 2.0 * problem.phases.iter().map(|(_, n, _)| n).sum::<f64>())
+            + 2.0 * problem.phases.iter().map(|(_, n, _)| n).sum::<f64>()
+            + 2.0
+                * problem
+                    .solid_solutions
+                    .iter()
+                    .map(|solid_solution| solid_solution.total_moles().0)
+                    .sum::<f64>())
             / problem.kgw;
         let pitzer_capable = problem
             .elements
@@ -1221,6 +1302,7 @@ impl PhreeqcEquilibrator {
             && pitzer_capable
             && problem.surfaces.is_empty()
             && problem.exchanges.is_empty()
+            && problem.solid_solutions.is_empty()
         {
             (
                 "pitzer",
@@ -1288,6 +1370,26 @@ impl PhreeqcEquilibrator {
                         unsupported.join(", ")
                     ),
                 });
+            }
+        }
+        if !problem.solid_solutions.is_empty() {
+            if db_tag != "wateq4f" || potential_molality > 1.0 {
+                return Err(SolveError::NotConverged {
+                    solver: self.name().to_string(),
+                    detail: "typed aragonite-strontianite solid solution is currently validated only for dilute inorganic water through wateq4f.dat"
+                        .to_string(),
+                });
+            }
+            for component in SolidSolutionComponent::ALL {
+                let phase = phreeqc_solid_solution_component(component);
+                if !derived::index_for(db_tag).has_phase(phase) {
+                    return Err(SolveError::NotConverged {
+                        solver: self.name().to_string(),
+                        detail: format!(
+                            "the routed database does not define the reviewed solid-solution end member {phase}"
+                        ),
+                    });
+                }
             }
         }
         // Phases the routed database does not define must not reach the
@@ -1551,6 +1653,23 @@ impl PhreeqcEquilibrator {
                 });
             }
         }
+        let mut new_solid_solutions = problem.solid_solutions.clone();
+        if let Some(solid_solution) = new_solid_solutions.first_mut() {
+            for amount in &mut solid_solution.components {
+                let phase = phreeqc_solid_solution_component(amount.component);
+                let column = format!("s_{phase}");
+                amount.moles = Moles(value(&column).ok_or_else(|| missing(&column))?.max(0.0));
+            }
+            if !solid_solution.has_valid_state() {
+                return Err(SolveError::NotConverged {
+                    solver: self.name().to_string(),
+                    detail: format!(
+                        "PHREEQC returned an invalid component inventory for solid solution '{}'",
+                        solid_solution.label
+                    ),
+                });
+            }
+        }
         let mut new_ions: Vec<(String, f64)> = Vec::new();
         let mut unnameable: Vec<(String, f64)> = Vec::new();
         if std::env::var("KERO_READBACK").is_ok() {
@@ -1721,66 +1840,133 @@ impl PhreeqcEquilibrator {
         // incoming solution-plus-exchanger inventory minus the new bound
         // amount. This makes both representations converge to one material
         // balance and prevents a no-op stir from duplicating cations.
-        for ion in [
-            ExchangeIon::Sodium,
-            ExchangeIon::Calcium,
-            ExchangeIon::Magnesium,
-        ] {
-            let Some(DerivedRole::Dissolves(elements)) = derived::role(&ion.species().0) else {
-                continue;
-            };
-            let initial_bound: f64 = problem
-                .exchanges
-                .iter()
-                .map(|exchange| exchange.bound(ion).0)
-                .sum();
-            let final_bound: f64 = new_exchanges
-                .iter()
-                .map(|exchange| exchange.bound(ion).0)
-                .sum();
-            for (element, coefficient) in elements {
-                let base = element.split('(').next().unwrap_or(element);
+        if !problem.exchanges.is_empty() {
+            for ion in [
+                ExchangeIon::Sodium,
+                ExchangeIon::Calcium,
+                ExchangeIon::Magnesium,
+            ] {
+                let Some(DerivedRole::Dissolves(elements)) = derived::role(&ion.species().0) else {
+                    continue;
+                };
+                let initial_bound: f64 = problem
+                    .exchanges
+                    .iter()
+                    .map(|exchange| exchange.bound(ion).0)
+                    .sum();
+                let final_bound: f64 = new_exchanges
+                    .iter()
+                    .map(|exchange| exchange.bound(ion).0)
+                    .sum();
+                for (element, coefficient) in elements {
+                    let base = element.split('(').next().unwrap_or(element);
+                    let solution_inventory: f64 = problem
+                        .totals
+                        .iter()
+                        .filter(|(candidate, _)| {
+                            candidate.split('(').next().unwrap_or(candidate) == base
+                        })
+                        .map(|(_, moles)| moles)
+                        .sum();
+                    let phase_inventory: f64 = problem
+                        .phases
+                        .iter()
+                        .filter_map(|(phase, moles, _)| {
+                            let derived = derived::phase_by_name(phase)?;
+                            let in_phase: f64 = derived
+                                .elements
+                                .iter()
+                                .filter(|(candidate, _)| {
+                                    candidate.split('(').next().unwrap_or(candidate) == base
+                                })
+                                .map(|(_, phase_coefficient)| phase_coefficient)
+                                .sum();
+                            Some(moles * in_phase)
+                        })
+                        .sum();
+                    let ceiling =
+                        (solution_inventory + initial_bound * coefficient + phase_inventory
+                            - final_bound * coefficient)
+                            .max(0.0);
+                    let aqueous: f64 = new_ions
+                        .iter()
+                        .filter(|(candidate, _)| {
+                            candidate.split('(').next().unwrap_or(candidate) == base
+                        })
+                        .map(|(_, moles)| moles)
+                        .sum();
+                    if aqueous > ceiling && aqueous > 0.0 {
+                        let scale = ceiling / aqueous;
+                        for (candidate, moles) in &mut new_ions {
+                            if candidate.split('(').next().unwrap_or(candidate) == base {
+                                *moles *= scale;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // The typed mixed crystal owns its end-member formula units. Keep
+        // aqueous selected totals equal the analytical inventory remaining
+        // after that ownership is removed, regardless of whether a database
+        // reports SOLID_SOLUTIONS inside or outside its selected total. In a
+        // closed headspace carbon also moves into CO2(g), so that owned gas
+        // is part of both sides of the ledger. An external gas boundary is
+        // deliberately open and therefore cannot be closed this way.
+        if !problem.solid_solutions.is_empty() {
+            for element in ["Ca", "Sr", "C"] {
+                if element == "C" && !problem.external_gases.is_empty() {
+                    continue;
+                }
                 let solution_inventory: f64 = problem
                     .totals
                     .iter()
                     .filter(|(candidate, _)| {
-                        candidate.split('(').next().unwrap_or(candidate) == base
+                        candidate.split('(').next().unwrap_or(candidate) == element
                     })
                     .map(|(_, moles)| moles)
                     .sum();
-                let phase_inventory: f64 = problem
-                    .phases
-                    .iter()
-                    .filter_map(|(phase, moles, _)| {
-                        let derived = derived::phase_by_name(phase)?;
-                        let in_phase: f64 = derived
-                            .elements
-                            .iter()
-                            .filter(|(candidate, _)| {
-                                candidate.split('(').next().unwrap_or(candidate) == base
-                            })
-                            .map(|(_, phase_coefficient)| phase_coefficient)
-                            .sum();
-                        Some(moles * in_phase)
-                    })
-                    .sum();
-                let ceiling = (solution_inventory + initial_bound * coefficient + phase_inventory
-                    - final_bound * coefficient)
+                let initial_solid_solution =
+                    solid_solution_element_inventory(&problem.solid_solutions, element);
+                let final_solid_solution =
+                    solid_solution_element_inventory(&new_solid_solutions, element);
+                let (initial_gas, final_gas) = if element == "C" {
+                    let initial = vessel
+                        .contents
+                        .iter()
+                        .filter(|portion| portion.phase == Phase::Gas && portion.species.0 == "CO2")
+                        .map(|portion| portion.moles.0)
+                        .sum::<f64>();
+                    let final_amount = problem
+                        .gases
+                        .iter()
+                        .filter(|(_, species, _)| species == "CO2")
+                        .filter_map(|(phase, _, _)| value(&format!("g_{phase}")))
+                        .sum::<f64>();
+                    (initial, final_amount)
+                } else {
+                    (0.0, 0.0)
+                };
+                let target = (solution_inventory + initial_solid_solution + initial_gas
+                    - final_solid_solution
+                    - final_gas)
                     .max(0.0);
                 let aqueous: f64 = new_ions
                     .iter()
                     .filter(|(candidate, _)| {
-                        candidate.split('(').next().unwrap_or(candidate) == base
+                        candidate.split('(').next().unwrap_or(candidate) == element
                     })
                     .map(|(_, moles)| moles)
                     .sum();
-                if aqueous > ceiling && aqueous > 0.0 {
-                    let scale = ceiling / aqueous;
+                if aqueous > 0.0 {
+                    let scale = target / aqueous;
                     for (candidate, moles) in &mut new_ions {
-                        if candidate.split('(').next().unwrap_or(candidate) == base {
+                        if candidate.split('(').next().unwrap_or(candidate) == element {
                             *moles *= scale;
                         }
                     }
+                } else if target > TRACE {
+                    new_ions.push((element.to_string(), target));
                 }
             }
         }
@@ -1996,6 +2182,31 @@ impl PhreeqcEquilibrator {
                 }
             }
         }
+        for solid_solution in &new_solid_solutions {
+            let before = problem
+                .solid_solutions
+                .iter()
+                .find(|candidate| candidate.label == solid_solution.label);
+            for amount in &solid_solution.components {
+                let initial = before
+                    .map(|candidate| candidate.moles_of(amount.component).0)
+                    .unwrap_or(0.0);
+                let delta = amount.moles.0 - initial;
+                if delta >= kerotakis_core::OBSERVABLE_MOLES {
+                    events.push(Event::Precipitated {
+                        vessel: vessel.id,
+                        species: amount.component.species(),
+                        moles: Moles(delta),
+                    });
+                } else if delta <= -kerotakis_core::OBSERVABLE_MOLES {
+                    events.push(Event::Dissolved {
+                        vessel: vessel.id,
+                        species: amount.component.species(),
+                        moles: Moles(-delta),
+                    });
+                }
+            }
+        }
         // A phase the routed database does not define was dissolved into
         // element totals above. The chemistry was right either way, but the
         // *event* was never recorded — and the dissolution enthalpy rides on
@@ -2072,6 +2283,7 @@ impl PhreeqcEquilibrator {
         vessel.contents = contents;
         vessel.surfaces = new_surfaces;
         vessel.exchanges = new_exchanges;
+        vessel.solid_solutions = new_solid_solutions;
         vessel.refresh_pressure();
         if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
             events.push(Event::HeadspaceEquilibrated {
@@ -2665,6 +2877,25 @@ fn build_input_at(
             }
         }
     }
+    if let Some(solid_solution) = problem.solid_solutions.first() {
+        writeln!(input, "SOLID_SOLUTIONS 1").unwrap();
+        writeln!(input, "    Kerotakis_CaSrCO3").unwrap();
+        match solid_solution.model {
+            SolidSolutionModel::AragoniteStrontianite => {
+                let calcium = solid_solution
+                    .moles_of(SolidSolutionComponent::CalciumCarbonate)
+                    .0;
+                let strontium = solid_solution
+                    .moles_of(SolidSolutionComponent::StrontiumCarbonate)
+                    .0;
+                writeln!(input, "        -comp1 Aragonite {calcium:.12e}").unwrap();
+                writeln!(input, "        -comp2 Strontianite {strontium:.12e}").unwrap();
+                // PHREEQC example 10's dimensionless Guggenheim parameters
+                // for the reviewed non-ideal Ca(x)Sr(1-x)CO3 pair.
+                writeln!(input, "        -Gugg_nondimensional 3.43 -1.82").unwrap();
+            }
+        }
+    }
     writeln!(input, "SELECTED_OUTPUT").unwrap();
     writeln!(input, "    -reset    false").unwrap();
     // Default selected-output prints ~5 significant digits, which leaks into
@@ -2719,6 +2950,9 @@ fn build_input_at(
     }
     if !problem.exchanges.is_empty() {
         writeln!(input, "    -molalities HX NaX CaX2 MgX2").unwrap();
+    }
+    if !problem.solid_solutions.is_empty() {
+        writeln!(input, "    -solid_solutions Aragonite Strontianite").unwrap();
     }
     writeln!(input, "END").unwrap();
     input
