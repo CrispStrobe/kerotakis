@@ -81,11 +81,26 @@ fn assert_step_ledger(
     effluent: f64,
     sorbate: SurfaceSorbate,
     shift: usize,
+    chain: &CellChain,
 ) {
     let residual = before + injected - after - effluent;
+    let cells: Vec<_> = chain
+        .cells()
+        .iter()
+        .map(|cell| {
+            (
+                cell.moles_of(&sorbate.species()).0,
+                bound(cell, sorbate),
+                cell.surfaces
+                    .iter()
+                    .map(|surface| surface.water_release.0)
+                    .sum::<f64>(),
+            )
+        })
+        .collect();
     assert!(
         residual.abs() < 2e-8,
-        "{sorbate:?} ledger failed after shift {shift}: before={before:.12e}, injected={injected:.12e}, after={after:.12e}, effluent={effluent:.12e}, residual={residual:.12e}"
+        "{sorbate:?} ledger failed after shift {shift}: before={before:.12e}, injected={injected:.12e}, after={after:.12e}, effluent={effluent:.12e}, residual={residual:.12e}, cells(dissolved,bound,released_water)={cells:?}"
     );
 }
 
@@ -111,6 +126,7 @@ fn typed_front() -> Vec<f64> {
             parcel_inventory(&step.transport.effluent, SurfaceSorbate::Zinc),
             SurfaceSorbate::Zinc,
             shift,
+            &chain,
         );
         assert_step_ledger(
             sulfate_before,
@@ -119,6 +135,7 @@ fn typed_front() -> Vec<f64> {
             parcel_inventory(&step.transport.effluent, SurfaceSorbate::Sulfate),
             SurfaceSorbate::Sulfate,
             shift,
+            &chain,
         );
 
         let outlet = chain.cells().last().unwrap();
