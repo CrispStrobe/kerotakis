@@ -731,25 +731,20 @@ pub fn advance_network<'a>(
         // two minutes, which the analytic oracle caught. Evaluating in the
         // middle cancels the first-order term.
         probe.clone_from(vessel);
-        for (reaction, rate) in reactions.iter().zip(&rates) {
-            let half_extent = rate * (dt * 0.5) * litres;
-            if half_extent.abs() <= 0.0 {
-                continue;
-            }
-            apply_extent(&mut probe, reaction, half_extent);
-        }
+        let half_extents: Vec<f64> = rates
+            .iter()
+            .map(|rate| rate * (dt * 0.5) * litres)
+            .collect();
+        apply_coupled_extents(&mut probe, reactions, &half_extents);
         let mid: Vec<f64> = reactions
             .iter()
             .map(|reaction| reaction.rate_now(&probe))
             .collect();
 
-        for (i, (reaction, rate)) in reactions.iter().zip(&mid).enumerate() {
-            let extent = rate * dt * litres; // moles
-            if extent.abs() <= 0.0 {
-                continue;
-            }
-            apply_extent(vessel, reaction, extent);
-            extents[i] += extent;
+        let proposed: Vec<f64> = mid.iter().map(|rate| rate * dt * litres).collect();
+        let accepted_fraction = apply_coupled_extents(vessel, reactions, &proposed);
+        for (total, extent) in extents.iter_mut().zip(proposed) {
+            *total += extent * accepted_fraction;
         }
         t += dt;
     }
@@ -798,15 +793,58 @@ fn limited_step(
         })
 }
 
-fn apply_extent(vessel: &mut Vessel, reaction: &KineticReaction, extent: f64) {
-    for term in reaction.stoichiometry {
-        let change = term.coefficient * extent;
-        if change < 0.0 {
-            withdraw_phase(vessel, term.species, term.phase, -change);
-        } else if change > 0.0 {
-            vessel.deposit(SpeciesId::new(term.species), Moles(change), term.phase);
+/// Commit all reaction extents as one state delta.
+///
+/// Rates are evaluated from one state, so their changes must be committed as
+/// one state transition too. Applying reactions one by one lets an earlier
+/// entry's product feed a later entry inside a nominally simultaneous step,
+/// making results depend on registry order. Aggregation also gives one place
+/// to scale an unexpectedly aggressive midpoint step before any reactant can
+/// become negative.
+fn apply_coupled_extents(
+    vessel: &mut Vessel,
+    reactions: &[KineticReaction],
+    extents: &[f64],
+) -> f64 {
+    let mut deltas: Vec<(&str, Phase, f64)> = Vec::new();
+    for (reaction, extent) in reactions.iter().zip(extents) {
+        for term in reaction.stoichiometry {
+            let change = term.coefficient * extent;
+            if let Some((_, _, total)) = deltas
+                .iter_mut()
+                .find(|(species, phase, _)| *species == term.species && *phase == term.phase)
+            {
+                *total += change;
+            } else {
+                deltas.push((term.species, term.phase, change));
+            }
         }
     }
+
+    let accepted_fraction = deltas.iter().filter(|(_, _, change)| *change < 0.0).fold(
+        1.0f64,
+        |fraction, (species, phase, change)| {
+            let available = phase_moles(vessel, species, *phase);
+            fraction.min((available / -change).clamp(0.0, 1.0))
+        },
+    );
+
+    // Withdraw first, then deposit. Because changes have been aggregated by
+    // species and phase, neither loop can observe an intermediate produced by
+    // another reaction in this same substep.
+    for (species, phase, change) in &deltas {
+        let accepted = change * accepted_fraction;
+        if accepted < 0.0 {
+            withdraw_phase(vessel, species, *phase, -accepted);
+        }
+    }
+    for (species, phase, change) in deltas {
+        let accepted = change * accepted_fraction;
+        if accepted > 0.0 {
+            vessel.deposit(SpeciesId::new(species), Moles(accepted), phase);
+        }
+    }
+    accepted_fraction
 }
 
 fn withdraw_phase(vessel: &mut Vessel, species: &str, phase: Phase, moles: f64) -> f64 {
@@ -1369,6 +1407,7 @@ mod tests {
             ],
             25.0,
         );
+        let mut reversed_vessel = vessel.clone();
         let moved = advance_network(&mut vessel, 20.0, &network);
         assert_eq!(moved.len(), 2);
         assert!(phase_moles(&vessel, "H2O2", Phase::Aqueous) >= 0.0);
@@ -1380,6 +1419,24 @@ mod tests {
             (total - 0.1).abs() < 1e-9,
             "network changed total matter: {total}"
         );
+
+        let reversed_reactions = [
+            test_reaction("path-gas", TO_GAS, TEST_FORWARD_AQUEOUS, None),
+            test_reaction("path-liquid", TO_LIQUID, TEST_FORWARD_AQUEOUS, None),
+        ];
+        let reversed_network = ReactionNetwork {
+            id: "reversed-competing-test",
+            reactions: &reversed_reactions,
+        };
+        advance_network(&mut reversed_vessel, 20.0, &reversed_network);
+        for phase in [Phase::Aqueous, Phase::Liquid, Phase::Gas] {
+            let forward = phase_moles(&vessel, "H2O2", phase);
+            let reversed = phase_moles(&reversed_vessel, "H2O2", phase);
+            assert!(
+                (forward - reversed).abs() < 1e-12,
+                "registry order changed {phase:?}: {forward} versus {reversed}"
+            );
+        }
     }
 
     #[test]
