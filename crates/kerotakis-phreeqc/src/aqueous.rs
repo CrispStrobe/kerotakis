@@ -15,7 +15,8 @@
 
 use kerotakis_core::{
     species, Equilibrator, Event, Headspace, Kelvin, Moles, Phase, Portion, Provenance,
-    SolutionInfo, SolveError, SpeciesDetail, SpeciesId, ThermalMode, Vessel,
+    SolutionInfo, SolveError, SpeciesDetail, SpeciesId, SurfaceOccupancy, SurfaceSiteKind,
+    SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
 };
 
 use crate::PhreeqcError;
@@ -580,6 +581,10 @@ struct Problem {
     /// They are still amount-limited in PHREEQC so an added dose can be
     /// consumed by the liquid instead of only appearing as vented gas.
     external_gases: Vec<ExternalGas>,
+    /// Finite oxide interfaces. The first supported model is pooled into one
+    /// PHREEQC SURFACE assemblage and split back onto these ledgers by each
+    /// interface's share of strong and weak capacity.
+    surfaces: Vec<SurfaceSites>,
     /// Every element to read back: dissolved totals plus the elements of all
     /// involved phases (a dissolving solid puts its elements into solution
     /// even when none started there).
@@ -814,6 +819,20 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         }
     }
 
+    for surface in &vessel.surfaces {
+        solutes += 1;
+        for occupied in &surface.occupancy {
+            let sorbate = occupied.sorbate.species();
+            let Some(DerivedRole::Dissolves(els)) = derived::role(&sorbate.0) else {
+                continue;
+            };
+            for (el, coeff) in els {
+                add_total(el, occupied.moles.0 * coeff);
+                note_element(el);
+            }
+        }
+    }
+
     if kgw <= 0.0 || solutes == 0 {
         return None;
     }
@@ -900,8 +919,38 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
         phases,
         gases,
         external_gases,
+        surfaces: vessel.surfaces.clone(),
         elements,
     })
+}
+
+/// Split the pooled PHREEQC surface result back across identical physical
+/// interfaces in proportion to the capacity each contributed. The solver
+/// sees one thermodynamic HFO assemblage; the vessel keeps ownership and
+/// finite capacity on each named interface.
+fn distribute_surface_occupancy(
+    surfaces: &mut [SurfaceSites],
+    site: SurfaceSiteKind,
+    sorbate: SurfaceSorbate,
+    total_moles: f64,
+) {
+    let total_capacity: f64 = surfaces
+        .iter()
+        .map(|surface| surface.capacity(site).0)
+        .sum();
+    if total_capacity <= 0.0 || total_moles <= TRACE {
+        return;
+    }
+    for surface in surfaces {
+        let share = total_moles * surface.capacity(site).0 / total_capacity;
+        if share > TRACE {
+            surface.occupancy.push(SurfaceOccupancy {
+                site,
+                sorbate,
+                moles: Moles(share),
+            });
+        }
+    }
 }
 
 impl Equilibrator for PhreeqcEquilibrator {
@@ -928,6 +977,19 @@ impl Equilibrator for PhreeqcEquilibrator {
     /// contracts: an endothermic salt that cools the beaker dissolves less,
     /// which cools it less. Two or three passes settle it.
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        if let Some(surface) = vessel
+            .surfaces
+            .iter()
+            .find(|surface| !surface.has_valid_capacity())
+        {
+            return Err(SolveError::NotConverged {
+                solver: self.name().to_string(),
+                detail: format!(
+                    "surface '{}' has non-positive geometry, invalid capacity, or occupancy above capacity",
+                    surface.label
+                ),
+            });
+        }
         let start = vessel.clone();
         let t0 = start.temperature.0;
         let mut guess = t0;
@@ -1206,6 +1268,26 @@ impl PhreeqcEquilibrator {
         // Molalities are per kg of *equilibrated* water (mass_H2O), which
         // differs slightly from the input water mass through speciation.
         let kgw_out = value("mass_H2O").ok_or_else(|| missing("mass_H2O"))?;
+        let mut new_surfaces = problem.surfaces.clone();
+        if !new_surfaces.is_empty() {
+            let strong = value("m_Hfo_sOZn+").ok_or_else(|| missing("m_Hfo_sOZn+"))? * kgw_out;
+            let weak = value("m_Hfo_wOZn+").ok_or_else(|| missing("m_Hfo_wOZn+"))? * kgw_out;
+            for surface in &mut new_surfaces {
+                surface.occupancy.clear();
+            }
+            distribute_surface_occupancy(
+                &mut new_surfaces,
+                SurfaceSiteKind::Strong,
+                SurfaceSorbate::Zinc,
+                strong,
+            );
+            distribute_surface_occupancy(
+                &mut new_surfaces,
+                SurfaceSiteKind::Weak,
+                SurfaceSorbate::Zinc,
+                weak,
+            );
+        }
         let mut new_ions: Vec<(String, f64)> = Vec::new();
         let mut unnameable: Vec<(String, f64)> = Vec::new();
         if std::env::var("KERO_READBACK").is_ok() {
@@ -1583,6 +1665,7 @@ impl PhreeqcEquilibrator {
         vessel.solute_charge = a_after;
 
         vessel.contents = contents;
+        vessel.surfaces = new_surfaces;
         vessel.refresh_pressure();
         if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
             events.push(Event::HeadspaceEquilibrated {
@@ -2111,6 +2194,34 @@ fn build_input_at(
             writeln!(input, "    {phase} {:.12e}", partial_pressure).unwrap();
         }
     }
+    if !problem.surfaces.is_empty() {
+        let total_mass: f64 = problem.surfaces.iter().map(|surface| surface.mass.0).sum();
+        let total_area: f64 = problem
+            .surfaces
+            .iter()
+            .map(|surface| surface.mass.0 * surface.specific_area_m2_per_g)
+            .sum();
+        let specific_area = total_area / total_mass;
+        let strong_capacity: f64 = problem
+            .surfaces
+            .iter()
+            .map(|surface| surface.strong_capacity.0)
+            .sum();
+        let weak_capacity: f64 = problem
+            .surfaces
+            .iter()
+            .map(|surface| surface.weak_capacity.0)
+            .sum();
+        writeln!(input, "SURFACE 1").unwrap();
+        writeln!(
+            input,
+            "    Hfo_sOH {:.12e} {:.12e} {:.12e}",
+            strong_capacity, specific_area, total_mass
+        )
+        .unwrap();
+        writeln!(input, "    Hfo_wOH {:.12e}", weak_capacity).unwrap();
+        writeln!(input, "    -equilibrate 1").unwrap();
+    }
     writeln!(input, "SELECTED_OUTPUT").unwrap();
     writeln!(input, "    -reset    false").unwrap();
     // Default selected-output prints ~5 significant digits, which leaks into
@@ -2140,7 +2251,9 @@ fn build_input_at(
             totals.push(e);
         }
     }
-    writeln!(input, "    -totals   {}", totals.join(" ")).unwrap();
+    if !totals.is_empty() {
+        writeln!(input, "    -totals   {}", totals.join(" ")).unwrap();
+    }
     if !problem.phases.is_empty() {
         let phases: Vec<&str> = problem.phases.iter().map(|(p, ..)| p.as_str()).collect();
         writeln!(input, "    -equilibrium_phases {}", phases.join(" ")).unwrap();
@@ -2152,6 +2265,9 @@ fn build_input_at(
             .map(|(phase, ..)| phase.as_str())
             .collect();
         writeln!(input, "    -gases    {}", gases.join(" ")).unwrap();
+    }
+    if !problem.surfaces.is_empty() {
+        writeln!(input, "    -molalities Hfo_sOZn+ Hfo_wOZn+").unwrap();
     }
     writeln!(input, "END").unwrap();
     input
