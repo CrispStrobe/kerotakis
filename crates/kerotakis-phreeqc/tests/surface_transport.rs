@@ -208,13 +208,18 @@ END
         .iter()
         .position(|heading| heading == "Zn")
         .expect("dissolved-zinc column");
-    let curve: Vec<f64> = rows
+    let mut curve: Vec<f64> = rows
         .iter()
         .skip(1)
         .filter_map(|row| row.get(zinc)?.parse::<f64>().ok())
         .map(|molality| molality / feed_molality)
         .collect();
-    assert_eq!(curve.len(), SHIFTS, "oracle rows: {rows:#?}");
+    assert_eq!(curve.len(), SHIFTS + 1, "oracle rows: {rows:#?}");
+    let initial = curve.remove(0);
+    assert!(
+        initial.abs() < 1e-12,
+        "PHREEQC's pre-transport outlet must be zinc-free, got {initial}"
+    );
     curve
 }
 
