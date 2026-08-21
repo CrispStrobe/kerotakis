@@ -27,12 +27,13 @@ Status: migration in progress, 2026-08-21.
   labels and jumps without touching strings or comments, injects `M`, `M0`,
   `TIME`, `TC`, and `TK`, and implements `SAVE`, `PARM`, and numeric/string
   `PUNCH`. Native callbacks cover `ACT`, `MOL`, `TOT`, `SI`, `SR`, `LM`, and
-  `DELTA_H_SPECIES`. Live kinetics, multiple-instance cleanup, malformed input,
-  and a USER_PUNCH oracle shared with the legacy backend pass. Execution has a
-  deterministic 100,000-statement ceiling and a two-second wall-clock ceiling;
-  cancellation leaves the owning PHREEQC instance reusable. The broader
-  function/dialect corpus and allocation, recursion, array, and output budgets
-  remain incomplete, so this backend is not enabled in official builds.
+  `DELTA_H_SPECIES`. Live kinetics, multiple-instance cleanup, and malformed
+  input pass; shared legacy/preview oracles cover `USER_PUNCH`, `USER_PRINT`,
+  and `CALCULATE_VALUES`. Execution has a deterministic 100,000-statement
+  ceiling and a two-second wall-clock ceiling; cancellation leaves the owning
+  PHREEQC instance reusable. The broader function/dialect corpus and
+  allocation, recursion, array, and output budgets remain incomplete, so this
+  backend is not enabled in official builds.
 - Stages 5 through 7 have not started. The legacy implementation remains in the
   source tree solely for the explicit `legacy-basic-oracle` development
   feature; it is not part of default native or WebAssembly build inputs.
