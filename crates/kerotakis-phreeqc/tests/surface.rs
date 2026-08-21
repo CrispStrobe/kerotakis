@@ -83,7 +83,16 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     assert!((zinc_inventory(state) - 1e-4).abs() < 2e-8);
     assert!((sulfate_inventory(state) - 1e-4).abs() < 2e-8);
     let added_mass = species::lookup_key("ZnSO4").unwrap().molar_mass * 1e-4;
-    assert!((state.mass().0 - mass_before_zinc - added_mass).abs() < 2e-5);
+    let mass_error = state.mass().0 - mass_before_zinc - added_mass;
+    assert!(
+        mass_error.abs() < 2e-5,
+        "surface mass ledger: before={mass_before_zinc:.12e} g, after={:.12e} g, added={added_mass:.12e} g, error={mass_error:.12e} g; water={:.12e} mol, dissolved Zn={:.12e} mol, bound Zn={bound:.12e} mol, dissolved sulfate={:.12e} mol, bound sulfate={:.12e} mol",
+        state.mass().0,
+        state.moles_of(&SpeciesId::new("water")).0,
+        state.moles_of(&SpeciesId::new("Zn+2")).0,
+        state.moles_of(&SpeciesId::new("SO4-2")).0,
+        surface.bound(SurfaceSorbate::Sulfate).0,
+    );
 
     let first_bound = bound;
     step(
