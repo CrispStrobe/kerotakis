@@ -158,20 +158,17 @@ fn phreeqc_transport_oracle() -> Vec<f64> {
         r#"
 PRINT
     -selected_output false
-KNOBS
-    # Pin PHREEQC's platform-dependent optimization zero threshold.
-    -tolerance 1e-14
 SOLUTION 0 zinc sulfate feed
     units mol/kgw
     temp 25
-    pH 7 charge
+    pH 7
     Zn {feed_molality:.12e}
     S(6) {feed_molality:.12e}
     -water {WATER_KG:.12e}
 SOLUTION 1-{CELL_COUNT} initial column water
     units mol/kgw
     temp 25
-    pH 7 charge
+    pH 7
     -water {WATER_KG:.12e}
 SURFACE 1-{CELL_COUNT}
     Hfo_sOH 5.000000000000e-6 600 0.09
