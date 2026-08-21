@@ -189,7 +189,7 @@ fn phreeqc_string_function_spellings_match_the_legacy_backend() {
                  StringFunctions\n\
                  -start\n\
                  10 s$ = CHR$(65) + MID$(\"xyz\", 2, 2)\n\
-                 20 SAVE ASC(MID$(s$, 1, 1)) + VAL(STR$(LEN(s$)))\n\
+                 20 SAVE ASC(MID$(s$, 1, 1)) + VAL(STR$(LEN(s$))) + ASC(STR$(LEN(s$))) + ASC(STR$(-1))\n\
                  -end\n\
              SOLUTION 1\n\
                  pH 7\n\
@@ -199,7 +199,9 @@ fn phreeqc_string_function_spellings_match_the_legacy_backend() {
              END\n",
         )
         .unwrap();
-    assert_eq!(engine.last_value("V_StringFunctions"), Some(68.0));
+    // PHREEQC STR$ reserves a sign column for positive values (ASCII space)
+    // and starts negative values with '-'. ex21 relies on that field separator.
+    assert_eq!(engine.last_value("V_StringFunctions"), Some(145.0));
 }
 
 #[test]

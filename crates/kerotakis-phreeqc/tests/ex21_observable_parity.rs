@@ -10,10 +10,10 @@ use std::path::Path;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 enum DifferenceClass {
-    FormattingOnly,
+    AdapterBugFixed,
 }
 
-const EX21_DIFFERENCE_CLASS: DifferenceClass = DifferenceClass::FormattingOnly;
+const EX21_DIFFERENCE_CLASS: DifferenceClass = DifferenceClass::AdapterBugFixed;
 
 struct NumericFixture {
     name: String,
@@ -141,7 +141,7 @@ fn fixtures() -> Vec<NumericFixture> {
 
 #[test]
 fn ex21_generator_matches_legacy_observables_with_declared_tolerances() {
-    assert_eq!(EX21_DIFFERENCE_CLASS, DifferenceClass::FormattingOnly);
+    assert_eq!(EX21_DIFFERENCE_CLASS, DifferenceClass::AdapterBugFixed);
     let vendor = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../vendor/iphreeqc");
     let database = fs::read(vendor.join("database/phreeqc.dat")).unwrap();
     let input = fs::read_to_string(vendor.join("phreeqc3-examples/ex21")).unwrap();
