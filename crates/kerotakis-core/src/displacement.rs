@@ -574,7 +574,13 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
             0.5 * (lo + hi)
         };
         settled.push((red.reduced, ox.oxidised));
-        if xi <= TRACE {
+        // A computed transfer below the lab's material detection boundary is
+        // not a reaction this model owns. In neutral brine, the Nernst root
+        // can otherwise consume tens of picomoles of magnesium as though it
+        // had displaced free acid, while the kinetic layer correctly says
+        // that reaction with water is not modelled. Keep the metal unchanged
+        // and let that explicit bystander diagnosis be the result.
+        if xi <= crate::OBSERVABLE_MOLES {
             continue;
         }
         // "Equilibrium" is a claim a learner can test — both sides still
