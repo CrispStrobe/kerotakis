@@ -62,7 +62,7 @@ jobs:
           --test standalone_basic_corpus
 
   wasm-core:
-    name: Core compiles to wasm32
+    name: Core and data schemas compile to wasm32
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -70,8 +70,8 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
       - uses: Swatinem/rust-cache@v2
-      - name: Check core on wasm
-        run: cargo check -p kerotakis-core --target wasm32-unknown-unknown
+      - name: Check core and data schemas on wasm
+        run: cargo check -p kerotakis-core -p kerotakis-data --target wasm32-unknown-unknown
 
   wasm-lab:
     name: The bench in WebAssembly
