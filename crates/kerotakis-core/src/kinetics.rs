@@ -1179,10 +1179,10 @@ mod tests {
 
     fn test_reaction(
         id: &'static str,
-        stoichiometry: &'static [StoichiometricTerm],
-        forward: RateExpression,
-        reverse: Option<RateExpression>,
-    ) -> KineticReaction {
+        stoichiometry: &'static [StoichiometricTerm<'static>],
+        forward: RateExpression<'static>,
+        reverse: Option<RateExpression<'static>>,
+    ) -> KineticReaction<'static> {
         KineticReaction {
             id,
             equation: "H₂O₂ → H₂O₂",
