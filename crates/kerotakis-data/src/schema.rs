@@ -151,6 +151,7 @@ pub enum PhaseProperty {
     VapourPressure,
     EnthalpyOfFusion,
     EnthalpyOfVaporisation,
+    EnthalpyOfDissolution,
     Other(String),
 }
 
@@ -164,7 +165,8 @@ impl PhaseProperty {
             Self::StandardEnthalpyOfFormation
             | Self::StandardGibbsEnergyOfFormation
             | Self::EnthalpyOfFusion
-            | Self::EnthalpyOfVaporisation => Some(MolarEnergy),
+            | Self::EnthalpyOfVaporisation
+            | Self::EnthalpyOfDissolution => Some(MolarEnergy),
             Self::StandardMolarEntropy => Some(MolarEntropy),
             Self::MeltingTemperature | Self::BoilingTemperature => Some(Temperature),
             Self::VapourPressure => Some(Pressure),
@@ -215,6 +217,10 @@ pub struct OpticalRecord {
     pub phase: Phase,
     #[serde(default)]
     pub appearance: Option<String>,
+    /// Characteristic atomic-emission observation, kept distinct from the
+    /// material's reflective or transmitted colour.
+    #[serde(default)]
+    pub flame_colour: Option<String>,
     /// `#RRGGBB`; encoded as text so an RGB triplet cannot become untraced
     /// scientific numeric data.
     #[serde(default)]

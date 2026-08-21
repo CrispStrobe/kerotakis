@@ -2447,13 +2447,29 @@ microstate, and model-parameter records, plus their validation tests. Every
 numeric record must state units, applicability conditions, uncertainty,
 source id, and derivation method. Only reviewed runtime-lane records can enter
 a future distributed pack; build and external oracles remain outside it. The
-work did not export or change the existing 74 runtime species (DATA-002),
+work did not export or change the existing 75 runtime species (DATA-002),
 compile a runtime pack (DATA-003), import external data, add third-party
 dependencies, or touch kinetics, MY-BASIC, PHREEQC, or vendored sources. Local
 native builds were skipped under the load policy; CI run `32518836256` passed
 strict Clippy and native tests on Ubuntu/macOS, the data schema's `wasm32`
 compile gate, both MY-BASIC previews, IPhreeqc/cache/combined Wasm, the Wasm
 bench, and the real-browser demo.
+
+**Completed session — `codex-DATA` (2026-08-21, DATA-002).** Work continued in
+`/tmp/kerotakis-data001-schema` on branch `codex-data/data-002-export`, based
+on remote-main merge `8c5ce090`. The live seed registry contains 75 entries
+(the roadmap's earlier count of 74 predated a later addition). This slice owns
+only the generated, human-reviewable source export of those existing
+declarations and exhaustive field-diff tests proving the export cannot drift.
+All 75 sources remain build oracles with a review-required license reference;
+none can enter an app pack. The work did not change registry lookup or
+simulation behavior, compile/load the runtime pack (DATA-003/004), import
+external data, add third-party dependencies, or touch kinetics, MY-BASIC,
+PHREEQC, or vendored sources. Local native builds were skipped under the load
+policy; CI run `32520759936` passed the exporter/diff and byte-regeneration
+gates, strict Clippy and native tests on Ubuntu/macOS, both MY-BASIC previews,
+core/data/IPhreeqc/cache/combined Wasm, the Wasm bench, and the real-browser
+demo.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol

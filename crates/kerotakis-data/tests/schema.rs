@@ -116,6 +116,7 @@ fn document() -> RegistryDocument {
         species_id: "water".to_string(),
         phase: Phase::Liquid,
         appearance: Some("colourless".to_string()),
+        flame_colour: None,
         reflective_srgb: Some("#FFFFFF".to_string()),
         spectrum: vec![SpectralSample {
             wavelength: number(500.0, "nm", Dimension::Wavelength),

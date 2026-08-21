@@ -230,6 +230,7 @@ impl<'a> Validator<'a> {
 
     fn optical_record(&mut self, path: &str, record: &OpticalRecord) {
         if record.appearance.is_none()
+            && record.flame_colour.is_none()
             && record.reflective_srgb.is_none()
             && record.spectrum.is_empty()
         {
