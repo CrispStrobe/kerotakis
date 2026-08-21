@@ -296,7 +296,12 @@ fn a_metal_with_nothing_to_displace_names_the_unmodelled_rate() {
         )),
         "{events:?}"
     );
-    assert!((moles_of(&bench, "Mg", Phase::Solid) - 0.02).abs() < 1e-12);
+    let magnesium = moles_of(&bench, "Mg", Phase::Solid);
+    assert!(
+        (magnesium - 0.02).abs() < 1e-12,
+        "unreacted magnesium must remain solid: actual={magnesium:.16e} mol; contents={:?}; events={events:?}",
+        vessel(&bench).contents
+    );
     assert!(
         moles_of(&bench, "Mg+2", Phase::Aqueous) < 1e-12,
         "the metal must not be booked as its cation any more: {:?}",

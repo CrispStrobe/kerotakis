@@ -180,6 +180,108 @@ impl SurfaceSites {
     }
 }
 
+/// Cations whose exchanger inventory Kerotakis can currently round-trip.
+///
+/// Keeping this closed prevents a PHREEQC database from binding an ion that
+/// the vessel ledger cannot retain. Extend the enum and the engine readback
+/// together whenever another ion is reviewed.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExchangeIon {
+    Hydrogen,
+    Sodium,
+    Calcium,
+    Magnesium,
+}
+
+impl ExchangeIon {
+    pub fn species(self) -> SpeciesId {
+        match self {
+            Self::Hydrogen => SpeciesId::new("H+"),
+            Self::Sodium => SpeciesId::new("Na+"),
+            Self::Calcium => SpeciesId::new("Ca+2"),
+            Self::Magnesium => SpeciesId::new("Mg+2"),
+        }
+    }
+
+    /// Charge equivalents consumed by one mole of exchanger complex.
+    pub fn equivalents(self) -> f64 {
+        match self {
+            Self::Hydrogen | Self::Sodium => 1.0,
+            Self::Calcium | Self::Magnesium => 2.0,
+        }
+    }
+
+    pub fn molar_mass(self) -> f64 {
+        match self {
+            // The registry represents acidity through analytical reagents,
+            // so the bare proton is not a depositable species of its own.
+            Self::Hydrogen => 1.007_94,
+            _ => species::lookup(&self.species())
+                .map(|data| data.molar_mass)
+                .expect("reviewed exchange ion is in the species registry"),
+        }
+    }
+}
+
+/// One cation inventory held on a finite exchanger.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ExchangeOccupancy {
+    pub ion: ExchangeIon,
+    /// Moles of cation, not charge equivalents.
+    pub moles: Moles,
+}
+
+/// A finite, mass-owning cation exchanger such as sodium-form softener resin.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ExchangeSites {
+    /// Stable user-facing identity when a vessel carries several exchangers.
+    pub label: String,
+    /// Dry support mass excluding the exchangeable cations, g.
+    pub dry_mass: Grams,
+    /// Total negative-site capacity, mol charge equivalents.
+    pub capacity: Moles,
+    /// Bound cation inventory. A valid exchanger is fully counter-balanced.
+    pub occupancy: Vec<ExchangeOccupancy>,
+}
+
+impl ExchangeSites {
+    pub fn bound(&self, ion: ExchangeIon) -> Moles {
+        Moles(
+            self.occupancy
+                .iter()
+                .filter(|entry| entry.ion == ion)
+                .map(|entry| entry.moles.0)
+                .sum(),
+        )
+    }
+
+    pub fn occupied_equivalents(&self) -> Moles {
+        Moles(
+            self.occupancy
+                .iter()
+                .map(|entry| entry.moles.0 * entry.ion.equivalents())
+                .sum(),
+        )
+    }
+
+    pub fn has_valid_capacity(&self) -> bool {
+        if !self.dry_mass.0.is_finite()
+            || self.dry_mass.0 <= 0.0
+            || !self.capacity.0.is_finite()
+            || self.capacity.0 <= 0.0
+            || self
+                .occupancy
+                .iter()
+                .any(|entry| !entry.moles.0.is_finite() || entry.moles.0 < 0.0)
+        {
+            return false;
+        }
+        let tolerance = (self.capacity.0 * 1e-9).max(1e-12);
+        (self.occupied_equivalents().0 - self.capacity.0).abs() <= tolerance
+    }
+}
+
 /// One aqueous species in the true equilibrium distribution.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SpeciesDetail {
@@ -324,6 +426,9 @@ pub struct Vessel {
     /// Finite solid/liquid interfaces. Defaulted for old save compatibility.
     #[serde(default)]
     pub surfaces: Vec<SurfaceSites>,
+    /// Finite cation-exchange interfaces. Defaulted for old save compatibility.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub exchanges: Vec<ExchangeSites>,
     /// Net charge carried by the dissolved solutes, Σ z·n, mol.
     ///
     /// Not a physical excess — the solution is electroneutral, and the
@@ -357,13 +462,14 @@ impl Vessel {
             thermal_mode: ThermalMode::Adiabatic,
             headspace: Headspace::Open,
             surfaces: Vec::new(),
+            exchanges: Vec::new(),
             solute_charge: 0.0,
             solution: None,
         }
     }
 
     pub fn is_empty(&self) -> bool {
-        self.contents.is_empty() && self.surfaces.is_empty()
+        self.contents.is_empty() && self.surfaces.is_empty() && self.exchanges.is_empty()
     }
 
     pub fn moles_of(&self, species: &SpeciesId) -> Moles {
@@ -473,7 +579,19 @@ impl Vessel {
                         .sum::<f64>()
             })
             .sum();
-        Grams(contents + interfaces)
+        let exchangers: f64 = self
+            .exchanges
+            .iter()
+            .map(|exchange| {
+                exchange.dry_mass.0
+                    + exchange
+                        .occupancy
+                        .iter()
+                        .map(|entry| entry.moles.0 * entry.ion.molar_mass())
+                        .sum::<f64>()
+            })
+            .sum();
+        Grams(contents + interfaces + exchangers)
     }
 
     /// Approximate liquid volume, additive-volume assumption (surfaced as an

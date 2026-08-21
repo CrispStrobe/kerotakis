@@ -1082,7 +1082,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   over the already-approved USGS constants; its stated omission of diffuse-
   layer electrostatics makes it an edge-direction/position check, not another
   full surface solver.
-- [ ] **AQ-007 — Add `ExchangeSites`.** Compile finite-capacity cation exchange
+- [x] **AQ-007 — Add `ExchangeSites`.** Compile finite-capacity cation exchange
   and test a batch water-softening case.
 - [ ] **AQ-008 — Add `SOLID_SOLUTIONS`.** Begin with one approved mineral pair;
   prove component and phase conservation across precipitation/dissolution.
