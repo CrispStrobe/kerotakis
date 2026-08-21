@@ -1,6 +1,8 @@
 //! Coupled redox: an oxidant and a reductant that actually react, and the
 //! refusal when the electron ledger cannot be made to balance.
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 

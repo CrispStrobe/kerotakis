@@ -2,6 +2,8 @@
 //! saturation index and the precipitated amount coming out of thermodynamic
 //! data — derived, not hardcoded.
 
+#![cfg(feature = "engine")]
+
 use kerotakis_phreeqc::{databases, Phreeqc};
 
 /// 10 mmol AgNO3 + 10 mmol NaCl in a kilogram of water: massively

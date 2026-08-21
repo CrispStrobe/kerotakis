@@ -1,6 +1,8 @@
 //! Separations: filtering a precipitate and evaporating to crystallisation
 //! — real lab workflow over computed chemistry.
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 use kerotakis_safety::ReactiveGroupScreen;

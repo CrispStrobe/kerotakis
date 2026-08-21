@@ -1,0 +1,20 @@
+CALCULATE_VALUES
+DoubleNa
+-start
+10 SAVE TOT("Na") * 2
+-end
+
+CALCULATE_VALUES
+TripleNa
+-start
+10 SAVE TOT("Na") * 3
+-end
+
+SOLUTION 1
+    units mol/kgw
+    pH 7
+    Na 0.01
+SELECTED_OUTPUT
+    -reset false
+    -calculate_values DoubleNa TripleNa
+END

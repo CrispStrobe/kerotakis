@@ -1,0 +1,144 @@
+# Kerotakis PHREEQC BASIC Dialect Manifest
+# Version: 0.3.0-preview
+# Engine: MY-BASIC (MIT, pinned 38baab02)
+
+[meta]
+version = "0.3.0-preview"
+status = "opt-in; the default engine build remains no-BASIC"
+engine = "my-basic"
+engine_commit = "38baab02ece70b650f5e687e485d879f80843256"
+
+[statements]
+supported = [
+    "LET",
+    "IF/THEN/ELSE",
+    "FOR/NEXT",
+    "WHILE/WEND",
+    "GOTO",
+    "GOSUB/RETURN",
+    "REM",
+    "PRINT",
+    "PUNCH",
+    "PUT",
+    "DIM",
+    "DATA/READ/RESTORE (runtime cursor; literal RESTORE targets)",
+    "USER_GRAPH",
+    "GRAPH_X",
+    "GRAPH_Y",
+    "GRAPH_SY",
+    "PLOT_XY",
+]
+pending_compatibility = [
+    "ON ERROR",
+    "OPEN/CLOSE/INPUT#",
+    "RUN/NEW/LOAD/MERGE/BYE/DEL/RENUM (sandboxed equivalents)",
+]
+
+[operators]
+supported = ["+", "-", "*", "/", "^", "MOD", "AND", "OR", "NOT", "=", "<>", "<", ">", "<=", ">="]
+
+[functions.math]
+supported = ["ABS", "SGN", "SQR", "SQRT", "FLOOR", "CEIL", "SIN", "COS", "TAN", "ARCTAN", "EXP", "LOG", "LOG10"]
+notes = "LOG is natural log (ln). LOG10 is base-10 log."
+
+[functions.string]
+supported = ["ASC", "CHR$", "EOL$", "INSTR", "MID$", "PAD", "STR$", "TRIM", "VAL", "LEN"]
+
+[functions.chemistry]
+supported = [
+    "ACT",
+    "MOL",
+    "TOT",
+    "LA",
+    "LM",
+    "SI",
+    "SR",
+    "KIN",
+    "EQUI",
+    "GAS",
+    "GFW",
+    "PHASE_FORMULA$",
+    "CALC_VALUE",
+    "SUM_SPECIES",
+    "SUM_GAS",
+    "SUM_S_S",
+    "LIST_S_S",
+    "SURF",
+    "EDL",
+    "MISC1",
+    "MISC2",
+    "ISO",
+    "PR_P",
+    "PR_PHI",
+    "GAS_P",
+    "GAS_VM",
+    "DELTA_H_SPECIES",
+    "DELTA_H_PHASE",
+    "DH_A0",
+    "DH_BDOT",
+    "DIFF_C",
+    "EQUI_DELTA",
+    "GAMMA",
+    "KIN_DELTA",
+    "LG",
+    "LK_NAMED",
+    "LK_PHASE",
+    "LK_SPECIES",
+    "PHASE_VM",
+    "T_SC",
+]
+pending_compatibility = [
+    "ADD_HEADING",
+    "CHANGE_POR",
+    "CHANGE_SURF",
+    "DEBYE_LENGTH",
+    "DESCRIPTION",
+    "DH_A",
+    "DH_Av",
+    "DH_B",
+    "EDL_SPECIES",
+    "SYS",
+    "EOL_NOTAB$",
+    "EQ_FRAC",
+    "ERASE",
+    "F_VISC",
+    "GET$",
+    "GET_POR",
+    "ISO_UNIT",
+    "KINETICS_FORMULA$",
+    "LTRIM",
+    "MCD_JCONC",
+    "MCD_JTOT",
+    "MEANG",
+    "NO_NEWLINE$",
+    "PHASE_EQUATION$",
+    "PUT$",
+    "RATE_HERMANSKA",
+    "RATE_PK",
+    "RATE_SVD",
+    "RTRIM",
+    "SETDIFF_C",
+    "SPECIES_EQUATION$",
+    "SPECIES_FORMULA$",
+    "STR_E$",
+    "STR_F$",
+    "TITLE",
+]
+experimental = ["S_S"] # callback exists but has no differential fixture yet
+
+[compatibility_goal]
+scope = "full PHREEQC BASIC and callback compatibility"
+notes = "Pending items are migration work, not product-scope exclusions. USER_GRAPH emits renderer-neutral plot series for CLI and Tauri consumers."
+
+[functions.special]
+supported = ["SAVE", "PUNCH", "PARM", "GET", "PUT", "EXISTS"]
+notes = "SAVE and PUNCH are adapter operations, not standard MY-BASIC."
+
+[variables.runtime]
+supported = ["M", "M0", "TIME", "TC", "TK", "SIM_TIME", "TOTAL_TIME", "CELL_NO", "SOLN_VOL", "DIST", "RXN", "SIM_NO", "STEP_NO", "GAS_P", "GAS_VM", "ALK", "APHI", "CHARGE_BALANCE", "CURRENT_A", "DH_A", "DH_Av", "DH_B", "EPS_R", "ITERATIONS", "KAPPA", "KIN_TIME", "MU", "OSMOTIC", "PERCENT_ERROR", "POT_V", "PRESSURE", "QBrn", "RHO", "RHO_0", "SC"]
+
+[limits]
+statement_budget = 1000000
+wall_clock_seconds = 2
+recursion_depth = 50
+output_bytes = 1048576

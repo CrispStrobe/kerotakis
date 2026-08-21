@@ -1,0 +1,14 @@
+CALCULATE_VALUES
+DataRead
+-start
+10 DATA 1.5, 2.5, 3.0
+20 RESTORE 10
+30 READ a, b, c
+40 SAVE a + b + c
+-end
+SOLUTION 1
+    pH 7
+SELECTED_OUTPUT
+    -reset false
+    -calculate_values DataRead
+END
