@@ -158,6 +158,9 @@ fn phreeqc_transport_oracle() -> Vec<f64> {
         r#"
 PRINT
     -selected_output false
+KNOBS
+    # Pin PHREEQC's platform-dependent optimization zero threshold.
+    -tolerance 1e-14
 SOLUTION 0 zinc sulfate feed
     units mol/kgw
     temp 25
