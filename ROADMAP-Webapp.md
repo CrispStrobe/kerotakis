@@ -1084,7 +1084,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   full surface solver.
 - [x] **AQ-007 — Add `ExchangeSites`.** Compile finite-capacity cation exchange
   and test a batch water-softening case.
-- [ ] **AQ-008 — Add `SOLID_SOLUTIONS`.** Begin with one approved mineral pair;
+- [x] **AQ-008 — Add `SOLID_SOLUTIONS`.** Begin with one approved mineral pair;
   prove component and phase conservation across precipitation/dissolution.
 - [ ] **AQ-009 — Spike PHREEQC `KINETICS` behind the new rate contract.** Compare
   its state trajectory with Kerotakis' integrator for one mineral-dissolution

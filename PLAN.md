@@ -2300,18 +2300,26 @@ and its full 19-case suite passed on both native platforms. This session did
 not modify kinetics/mechanism work, MY-BASIC or vendored sources, VLE,
 licensing/dependency metadata, the web UI, or compatibility fixtures.
 
-**Active session — `codex-AQ` (2026-08-21, AQ-008).** This session owns the
+**Completed session — `codex-AQ` (2026-08-21, AQ-008).** This session owned the
 first typed mineral solid-solution slice in isolated worktree
 `/tmp/kerotakis-aq008.worktree.iy7TjZ` on branch
 `codex-aq/aq-008-solid-solutions`. Its boundary is explicit solid-solution
 component state in `kerotakis-core`, PHREEQC `SOLID_SOLUTIONS`
 compilation/readback in `kerotakis-phreeqc`, and focused unit/live tests for
-one mineral pair already present in the approved USGS database. Acceptance
-requires conservation of every component and bulk phase inventory across both
-precipitation and dissolution, stable repeated equilibration, and legacy-state
-deserialization. This session will not modify reaction-network/kinetics work,
-MY-BASIC or vendored sources, VLE, transport, licensing/dependency metadata,
-the web UI, or compatibility fixtures.
+the non-ideal aragonite-strontianite pair already present in the approved USGS
+database. Typed state owns both end-member inventories and mass; the adapter
+uses the documented example-10 Guggenheim parameters and closes Ca, Sr, and C
+across solution, finite headspace, and mixed crystal. Live checks prove both
+end members co-precipitate, acid dissolves both, and a repeated equilibrium is
+stable without ledger drift; core checks cover invalid states, rendering, and
+legacy deserialization. A hosted diagnostic also caught and fixed two generic
+ownership leaks: exchanger reconciliation no longer caps calcium when no
+exchanger exists, and solid-solution reconciliation is inactive for ordinary
+aqueous vessels, preserving the limewater gas-dose contract. CI run
+`32501821856` passed Ubuntu/macOS native and strict lint, both MY-BASIC preview
+gates, core/full/combined Wasm, IPhreeqc Wasm, and the real-browser demo. This
+session did not modify reaction-network/kinetics work, MY-BASIC or vendored
+sources, VLE, transport, licensing/dependency metadata, or the web UI.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
