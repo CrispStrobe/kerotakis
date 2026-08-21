@@ -273,7 +273,10 @@ fn partial_freezing_stops_with_liquid_at_the_declared_model_boundary() {
         calls: Rc::new(Cell::new(0)),
     };
     let mut coupled = PhaseEquilibrator::wrapping(Box::new(chemistry));
-    let mut vessel = partially_frozen_test_vessel(240.0);
+    // Start far enough below the liquidus that the available sensible heat
+    // would freeze past the declared concentration boundary. At 240 K this
+    // fixture instead reaches an ordinary, warmer partial-freezing balance.
+    let mut vessel = partially_frozen_test_vessel(200.0);
     let events = coupled.equilibrate(&mut vessel).unwrap();
 
     assert!(water_phase_moles(&vessel, Phase::Liquid) > 0.0);
