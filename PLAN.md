@@ -2201,15 +2201,15 @@ kinetics modules, dependency metadata, the BASIC runtime, vendored sources, or
 VLE work. Hosted Ubuntu/macOS native, IPhreeqc, Wasm runtime, browser, and
 combined-solver gates passed in CI run `32491444035`.
 
-**Active session — `codex-AQ` (2026-08-21, AQ-006).** Work is isolated in
+**Completed session — `codex-AQ` (2026-08-21, AQ-006).** Work was isolated in
 `/private/var/folders/53/8b_q74j10mv9xq84_j44tm1w0000gn/T/kerotakis-aq006.TwawJ86yJn.worktree`
-on branch `codex-aq/aq-006-oracle`. It owns the pH-dependent HFO adsorption
+on branch `codex-aq/aq-006-oracle`. It owned the pH-dependent HFO adsorption
 benchmark, its PHREEQC-facing comparison test, and a development-only oracle
 runner. Reaktoro remains an external `oracle-only` tool: it must not enter any
 crate, app bundle, Wasm artifact, vendored directory, or required CI path. The
 repository may persist only reviewed scalar benchmark facts and aggregate error
 metrics with tool version, input/database identity, retrieval date, and an
-explicit distributability decision. This session will not modify kinetics,
+explicit distributability decision. This session did not modify kinetics,
 the BASIC runtime/vendor, VLE, exchange sites, or runtime dependency metadata.
 
 AQ-006 checkpoint: the live engine now exercises three ordered acid-side
@@ -2222,9 +2222,15 @@ constants. It explicitly omits diffuse-layer electrostatics and full aqueous
 side speciation. The live test can export per-case values only when given an
 explicit path and revision/date environment variables; that ephemeral file is
 fed to the tool, whose output contains aggregate errors and monotonic verdicts
-only. The tool and its three stdlib unit checks do not enter any crate, app,
-Wasm artifact or required CI path. The task remains active until a hosted run
-records and reviews the aggregate comparison and all required gates are green.
+only. The tool and its four stdlib unit checks do not enter any crate, app,
+Wasm artifact or required CI path. Hosted audit run `32494550891` reviewed
+three cases and recorded only the approved aggregate result: strict monotonic
+agreement, mean absolute bound-fraction error 0.07210 and maximum error
+0.21626. Those pass the executable limits of 0.10 mean and 0.25 maximum for
+this deliberately reduced oracle. Native Ubuntu/macOS, strict lint, IPhreeqc
+Wasm, core/full/combined Wasm and the real-browser demo all passed in the same
+run. The temporary hosted audit hook was then removed; the development-only
+export remains explicit and opt-in.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol

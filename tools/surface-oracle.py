@@ -55,6 +55,8 @@ from typing import Any
 SCHEMA = 1
 BENCHMARK = "hfo-zinc-ph-edge-v1"
 ORACLE_VERSION = "1"
+MAX_ABSOLUTE_BOUND_FRACTION_ERROR = 0.25
+MAX_MEAN_BOUND_FRACTION_ERROR = 0.10
 
 # HFO site populations used by SurfaceSites in the live benchmark.
 STRONG_CAPACITY_MOL = 5.0e-6
@@ -227,6 +229,15 @@ def summarize(document: dict[str, Any], database_sha256: str) -> dict[str, Any]:
         for left, right in zip(by_ph, by_ph[1:])
     )
 
+    maximum_error = max(errors)
+    mean_error = sum(errors) / len(errors)
+    passed = (
+        maximum_error <= MAX_ABSOLUTE_BOUND_FRACTION_ERROR
+        and mean_error <= MAX_MEAN_BOUND_FRACTION_ERROR
+        and candidate_monotonic
+        and oracle_monotonic
+    )
+
     return {
         "schema": SCHEMA,
         "benchmark": BENCHMARK,
@@ -241,11 +252,17 @@ def summarize(document: dict[str, Any], database_sha256: str) -> dict[str, Any]:
         "candidate_retrieved": document["retrieved"],
         "case_count": len(cases),
         "metrics": {
-            "max_absolute_bound_fraction_error": max(errors),
-            "mean_absolute_bound_fraction_error": sum(errors) / len(errors),
+            "max_absolute_bound_fraction_error": maximum_error,
+            "mean_absolute_bound_fraction_error": mean_error,
             "candidate_strictly_increases_with_ph": candidate_monotonic,
             "oracle_strictly_increases_with_ph": oracle_monotonic,
             "monotonic_agreement": candidate_monotonic == oracle_monotonic,
+        },
+        "acceptance": {
+            "max_absolute_bound_fraction_error": MAX_ABSOLUTE_BOUND_FRACTION_ERROR,
+            "max_mean_bound_fraction_error": MAX_MEAN_BOUND_FRACTION_ERROR,
+            "requires_both_strictly_increase_with_ph": True,
+            "passed": passed,
         },
         "distributability": {
             "decision": "approved-aggregate-only",
@@ -275,7 +292,7 @@ def main(argv: list[str] | None = None) -> int:
         return 2
     json.dump(result, sys.stdout, indent=2, sort_keys=True)
     print()
-    return 0
+    return 0 if result["acceptance"]["passed"] else 1
 
 
 if __name__ == "__main__":

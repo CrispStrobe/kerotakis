@@ -1074,7 +1074,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   enthalpy and pressure/volume constraints; test open versus sealed heating.
 - [x] **AQ-005 — Add typed `SurfaceSites`.** Compile one oxide surface model to
   `SURFACE`; retain capacity and occupancy on the interface ledger.
-- [ ] **AQ-006 — Validate pH-dependent adsorption.** Add an independent oracle
+- [x] **AQ-006 — Validate pH-dependent adsorption.** Add an independent oracle
   comparison that persists only approved benchmark values/error metrics.
   Reaktoro 2.13 is not eligible for this case because surface complexation is
   still an open upstream capability gap. The active implementation uses a

@@ -38,7 +38,23 @@ class SurfaceOracleTests(unittest.TestCase):
         summary = ORACLE.summarize(document, "a" * 64)
         self.assertEqual(summary["metrics"]["max_absolute_bound_fraction_error"], 0.0)
         self.assertTrue(summary["metrics"]["monotonic_agreement"])
+        self.assertTrue(summary["acceptance"]["passed"])
         self.assertNotIn("cases", summary)
+
+    def test_large_or_non_monotonic_disagreement_fails_acceptance(self):
+        document = {
+            "schema": 1,
+            "benchmark": "hfo-zinc-ph-edge-v1",
+            "producer": {"name": "wrong-solver", "version": "unit"},
+            "retrieved": "2026-08-21",
+            "cases": [
+                {"id": f"ph-{ph}", "ph": ph, "bound_zinc_mol": 0.0, "total_zinc_mol": 1.0e-4}
+                for ph in (2.0, 6.0, 8.0)
+            ],
+        }
+        summary = ORACLE.summarize(document, "a" * 64)
+        self.assertFalse(summary["acceptance"]["passed"])
+        self.assertFalse(summary["metrics"]["candidate_strictly_increases_with_ph"])
 
     def test_invalid_inventory_is_refused(self):
         document = {
