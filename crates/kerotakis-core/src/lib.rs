@@ -39,8 +39,9 @@ pub use displacement::DisplacementEquilibrator;
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use render::{render_event, render_events, render_vessel, Register};
 pub use solve::{
-    Equilibrator, HonestyEquilibrator, MixingEquilibrator, PermissiveScreen, SafetyScreen,
-    SafetyVerdict, Severity, SolveError, SolverStack, StateEquilibrator,
+    equilibrate_phase_coupled, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
+    PermissiveScreen, PhaseEquilibrator, SafetyScreen, SafetyVerdict, Severity, SolveError,
+    SolverStack, StateEquilibrator,
 };
 pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};

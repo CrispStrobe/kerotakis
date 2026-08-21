@@ -171,17 +171,18 @@ impl Equilibrator for MixingEquilibrator {
 /// Runs *after* the aqueous engine, because where a solution freezes
 /// depends on what is dissolved in it, and only the speciation knows how
 /// many particles that is. If the vessel turns out to be outside its
-/// liquid range, the aqueous answer is **withdrawn** — a block of ice does
-/// not have a pH, and continuing to report one was the original bug.
-///
-/// Partial freezing is deliberately not modelled. A real solution freezing
-/// gives ice plus an ever more concentrated brine, down to a eutectic, and
-/// pretending otherwise would be a worse lie than admitting the gap.
+/// liquid range, the aqueous answer is **invalidated**. A block of ice does
+/// not have a pH; when liquid remains, [`PhaseEquilibrator`] re-runs the
+/// chemistry solver against that smaller solvent compartment before the
+/// state is exposed. Pure ice removal stops at the explicit low-temperature
+/// boundary where salt crystallisation and a solute-specific phase diagram
+/// would be required.
 pub struct StateEquilibrator;
 
 /// The solvent. Every transition here is water's; a non-aqueous solvent is
 /// a separate problem and says so rather than borrowing water's constants.
 const SOLVENT: &str = "water";
+const PHASE_TRANSFER_EPSILON_MOLES: f64 = 1e-10;
 
 impl Equilibrator for StateEquilibrator {
     fn name(&self) -> &'static str {
@@ -247,11 +248,50 @@ impl Equilibrator for StateEquilibrator {
         let cp = vessel.heat_capacity().max(1e-9);
 
         if liquid_water && now < t.freezing_k {
+            if solute_molality > 0.0
+                && t.freezing_k <= crate::states::BRINE_MODEL_MIN_K
+                && now <= crate::states::BRINE_MODEL_MIN_K
+            {
+                events.push(Event::NotYetModeled {
+                    vessel: vessel.id,
+                    what: format!(
+                        "the partial-freezing model boundary at {:.1} °C: below this point salt crystallisation and a solute-specific eutectic phase diagram are required, so the bench will not extrapolate the dilute colligative relation",
+                        Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
+                    ),
+                });
+                return Ok(events);
+            }
             // Energy that would have to leave to get this cold, spent on
             // freezing instead.
             let excess_j = cp * (t.freezing_k - now);
             let latent_total = liquid_moles * crate::states::WATER_H_FUS;
-            let freezing = (excess_j / crate::states::WATER_H_FUS).min(liquid_moles);
+            let requested_freezing = (excess_j / crate::states::WATER_H_FUS).min(liquid_moles);
+            // Keep enough liquid water to stay inside the explicit brine
+            // boundary. Solutes remain in the liquid compartment, so their
+            // particle amount is current molality times current solvent kg.
+            let liquid_kg = liquid_moles * 0.018_015;
+            let particle_moles = solute_molality * liquid_kg;
+            let minimum_liquid_moles = if particle_moles > 0.0 {
+                particle_moles / crate::states::brine_model_max_particle_molality() / 0.018_015
+            } else {
+                0.0
+            };
+            let maximum_freezing = (liquid_moles - minimum_liquid_moles).max(0.0);
+            let freezing = requested_freezing.min(maximum_freezing);
+            let reached_boundary = requested_freezing > maximum_freezing + 1e-12;
+
+            if freezing <= PHASE_TRANSFER_EPSILON_MOLES {
+                if reached_boundary {
+                    events.push(Event::NotYetModeled {
+                        vessel: vessel.id,
+                        what: format!(
+                            "the partial-freezing model boundary at {:.1} °C: further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
+                            Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
+                        ),
+                    });
+                }
+                return Ok(events);
+            }
 
             for p in vessel.contents.iter_mut() {
                 if p.species == solvent && p.phase == Phase::Liquid {
@@ -261,7 +301,9 @@ impl Equilibrator for StateEquilibrator {
             vessel.contents.retain(|p| p.moles.0 > 1e-12);
             vessel.deposit(solvent.clone(), Moles(freezing), Phase::Solid);
 
-            vessel.temperature = if excess_j < latent_total {
+            vessel.temperature = if reached_boundary {
+                Kelvin(crate::states::BRINE_MODEL_MIN_K)
+            } else if excess_j < latent_total {
                 Kelvin(t.freezing_k) // still freezing: the plateau
             } else {
                 // All of it froze; what is left over chills the ice.
@@ -280,10 +322,13 @@ impl Equilibrator for StateEquilibrator {
             // Ice has no pH. Withdraw the aqueous answer rather than
             // leave a stale one beside a frozen vessel.
             vessel.solution = None;
-            if solute_molality > 1e-6 {
+            if reached_boundary {
                 events.push(Event::NotYetModeled {
                     vessel: vessel.id,
-                    what: "what the dissolved substances do as the water freezes: real freezing concentrates them into a brine and ends at a eutectic, and this lab does not model that yet".to_string(),
+                    what: format!(
+                        "the partial-freezing model boundary at {:.1} °C: pure ice was removed and the residual brine retained, but further cooling needs salt crystallisation and a solute-specific eutectic phase diagram",
+                        Kelvin(crate::states::BRINE_MODEL_MIN_K).to_celsius()
+                    ),
                 });
             }
         } else if frozen_water && now > t.freezing_k {
@@ -292,6 +337,9 @@ impl Equilibrator for StateEquilibrator {
             let melting = (available_j / crate::states::WATER_H_FUS).min(frozen_moles);
             let latent_total = frozen_moles * crate::states::WATER_H_FUS;
 
+            if melting <= PHASE_TRANSFER_EPSILON_MOLES {
+                return Ok(events);
+            }
             for p in vessel.contents.iter_mut() {
                 if p.species == solvent && p.phase == Phase::Solid {
                     p.moles = Moles((p.moles.0 - melting).max(0.0));
@@ -314,6 +362,9 @@ impl Equilibrator for StateEquilibrator {
                 at: Kelvin(t.freezing_k),
                 shifted_by: -t.freezing_depression(),
             });
+            // The solvent mass changed; molalities and activities describe
+            // the old brine until the phase-coupled solver re-runs chemistry.
+            vessel.solution = None;
         } else if liquid_water && now >= t.boiling_k {
             events.push(Event::StateChanged {
                 vessel: vessel.id,
@@ -331,6 +382,97 @@ impl Equilibrator for StateEquilibrator {
         }
 
         Ok(events)
+    }
+}
+
+/// Couples an aqueous/speciation solver to the solvent phase pass until the
+/// liquid composition and ice fraction describe the same state.
+///
+/// Freezing removes pure solvent while leaving solutes in the liquid phase.
+/// That invalidates molality and therefore the freezing point, so a one-pass
+/// stack cannot be self-consistent. This bounded loop is intentionally narrow:
+/// it revisits only chemistry and solvent phase state, not every solver in the
+/// application stack.
+pub fn equilibrate_phase_coupled(
+    chemistry: &mut dyn Equilibrator,
+    vessel: &mut Vessel,
+) -> Result<Vec<Event>, SolveError> {
+    const MAX_PASSES: usize = 32;
+    let mut events = Vec::new();
+    let mut states = StateEquilibrator;
+
+    for pass in 0..MAX_PASSES {
+        if chemistry.applies(vessel) {
+            match chemistry.equilibrate(vessel) {
+                Ok(mut more) => events.append(&mut more),
+                Err(error) => {
+                    events.push(Event::SolverFailed {
+                        vessel: vessel.id,
+                        solver: chemistry.name().to_string(),
+                        detail: error.to_string(),
+                    });
+                    return Ok(events);
+                }
+            }
+        }
+
+        let mut phase_events = states.equilibrate(vessel)?;
+        let transferred_water = phase_events.iter().any(|event| {
+            matches!(
+                event,
+                Event::StateChanged {
+                    species,
+                    from: Phase::Liquid,
+                    to: Phase::Solid,
+                    ..
+                } | Event::StateChanged {
+                    species,
+                    from: Phase::Solid,
+                    to: Phase::Liquid,
+                    ..
+                } if species.0 == SOLVENT
+            )
+        });
+        events.append(&mut phase_events);
+        if !transferred_water {
+            return Ok(events);
+        }
+        if pass + 1 == MAX_PASSES {
+            events.push(Event::SolverFailed {
+                vessel: vessel.id,
+                solver: "phase-coupled".to_string(),
+                detail: format!(
+                    "aqueous/ice state did not settle within {MAX_PASSES} bounded passes"
+                ),
+            });
+        }
+    }
+    Ok(events)
+}
+
+/// An application-stack adapter for one chemistry solver coupled to solvent
+/// freezing/melting.
+pub struct PhaseEquilibrator {
+    chemistry: Box<dyn Equilibrator>,
+}
+
+impl PhaseEquilibrator {
+    pub fn wrapping(chemistry: Box<dyn Equilibrator>) -> Self {
+        Self { chemistry }
+    }
+}
+
+impl Equilibrator for PhaseEquilibrator {
+    fn name(&self) -> &'static str {
+        "phase-coupled"
+    }
+
+    fn chemistry_applies(&self, vessel: &Vessel) -> bool {
+        self.chemistry.chemistry_applies(vessel)
+    }
+
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        equilibrate_phase_coupled(self.chemistry.as_mut(), vessel)
     }
 }
 
