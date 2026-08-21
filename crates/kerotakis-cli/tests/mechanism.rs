@@ -46,12 +46,39 @@ fn mechanism_inspect_json_is_machine_readable_and_normalized() {
     assert_eq!(value["species"], 3);
     assert_eq!(value["reactions"], 1);
     assert_eq!(value["reaction_details"][0]["total_order"], 3.0);
+    assert_eq!(value["reaction_details"][0]["rate_model"], "elementary");
+    assert!(value["reaction_details"][0]["low_pressure_pre_exponential"].is_null());
     assert_eq!(
         value["reaction_details"][0]["activation_energy_j_per_mol"],
         41_840.0
     );
     // mol/cm³ -> mol/L and a third-order rate gives a C^-2 conversion.
     assert_eq!(value["reaction_details"][0]["pre_exponential"], 1.0e6);
+    std::fs::remove_dir_all(path.parent().unwrap()).ok();
+}
+
+#[test]
+fn mechanism_inspect_reports_troe_falloff_parameters() {
+    let mechanism = MECHANISM.replace(
+        "- equation: 2 H2 + O2 => 2 H2O\n  rate-constant: {A: 1.0e12, b: 0.5, Ea: 41.84}",
+        "- equation: 2 H2 + O2 (+M) => 2 H2O (+M)\n  type: falloff\n  high-P-rate-constant: {A: 1.0e12, b: 0.5, Ea: 41.84}\n  low-P-rate-constant: {A: 1.0e15, b: 0.5, Ea: 41.84}\n  efficiencies: {H2O: 4.0}\n  Troe: {A: 0.5, T3: 1000.0, T1: 10000.0}",
+    );
+    let path = mechanism_file("troe", &mechanism);
+    let output = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args(["mechanism", "inspect", path.to_str().unwrap(), "--json"])
+        .output()
+        .expect("kero runs");
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    let value: serde_json::Value = serde_json::from_slice(&output.stdout).unwrap();
+    assert_eq!(value["reaction_details"][0]["rate_model"], "troe");
+    assert_eq!(
+        value["reaction_details"][0]["low_pressure_pre_exponential"],
+        1.0e6
+    );
     std::fs::remove_dir_all(path.parent().unwrap()).ok();
 }
 

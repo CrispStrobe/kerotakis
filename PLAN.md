@@ -2174,6 +2174,17 @@ mechanisms a borrowed IR without leaking allocations. Native and Wasm CI gates
 passed in run `32489657046`, including strict lint and all tests/claims on
 Ubuntu and macOS, core and full-bench Wasm, browser, and combined-solver checks.
 
+**Active session — `codex-kin` (2026-08-21, KIN-007).** This session owns the
+next mechanism-kinetics slice: third-body concentration and efficiencies,
+Lindemann/Troe falloff parsing and rate evaluation, and execution through the
+existing implicit reaction-network integrator using finite gas headspace when
+available. Work is isolated on branch `codex-kin/third-body-falloff` in a fresh
+worktree. Its code boundary is kinetics IR/evaluator/mechanism modules, focused
+CLI summaries, and kinetics tests. It will not modify surface/equilibrium
+coupling, VLE, the PHREEQC BASIC replacement, vendored sources, or compatibility
+fixtures. Pressure-dependent logarithmic interpolation and external mechanism
+data remain later work unless required by this slice's exact acceptance tests.
+
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
 reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy
