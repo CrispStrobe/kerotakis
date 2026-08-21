@@ -63,8 +63,14 @@ Status: migration in progress, 2026-08-21.
   USER_PUNCH, DATA initialization, chemistry/assemblage callbacks, runtime
   variables, PHREEQC string/math aliases, malformed programs, and resource
   limits. The expected-value files identify the retained legacy backend as
-  their oracle. Full kinetics trajectories, error-location parity, allocation
-  budgets, and platform-wide differential runs remain. The live completion
+  their oracle. Official example `ex21` now compares the 30 generated chemical
+  observables (solution water masses, radial mixing factors, transport time,
+  and shift count) with per-observable absolute/relative tolerances instead of
+  comparing BASIC-rendered text. Array allocation is capped deterministically
+  at one million elements per outer execution, including multidimensional
+  products, and cancellation leaves the engine reusable. Full kinetics
+  trajectories, error-location parity, general non-array allocation budgets,
+  and platform-wide differential runs remain. The live completion
   gate runs all 32 official PHREEQC examples with their documented databases
   and isolated auxiliary files; all 32 pass on the preview as of 2026-08-21.
   The `ex20b` harness preserves its documented two-phase generated-input flow.
@@ -352,6 +358,22 @@ Checks:
 - Native and Emscripten live checks use the same corpus and tolerances.
 - Any mismatch is classified as adapter bug, expected semantic difference,
   stock-PHREEQC issue, or unsupported feature before it can be waived.
+
+Current standalone-generator classifications (zero line-count tolerance for
+all string observables):
+
+| Fixture | Classification | Explanation |
+| --- | --- | --- |
+| `iso.bas`, `iso2.bas` | Expected semantic difference | Parenthesized logical `NOT` makes the same/different branches exclusive in MY-BASIC (21 equations); the legacy development oracle emits six extras. |
+| `iso3.bas` | Expected semantic difference | The source's exclusive three-ligand branches produce 56 equations; the legacy development oracle emits 92. |
+| `iso4.bas` | Expected semantic difference | The source's exclusive four-ligand branches produce 126 equations; the legacy development oracle emits 237. |
+| `iso2revised.bas` | Formatting-only | Four equations and the exact `4, 4` counters agree; only comma-`PRINT` spacing differs. |
+| `iso3revised.bas` | Formatting-only | 133 equations and the exact `133, 216` counters agree; only comma-`PRINT` spacing differs. |
+| `iso4revised.bas` | Formatting-only | 429 equations and the exact `429, 1296` counters agree; only comma-`PRINT` spacing differs. |
+| official `ex21` generator | Formatting-only | Generated string spelling may differ, while all 30 parsed numerical/structural observables agree within their focused tolerances. |
+
+No adapter bug is waived by these fixtures. `iso1.bas` and
+`iso1revised.bas` already have identical preview and legacy digests.
 
 Exit gate:
 
