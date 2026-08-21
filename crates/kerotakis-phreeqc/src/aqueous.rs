@@ -1505,7 +1505,12 @@ impl PhreeqcEquilibrator {
             }
             for (element, coefficient) in elements {
                 let base = element.split('(').next().unwrap_or(element);
-                let analytical: f64 = problem
+                // Analytical inventory can enter either as a SOLUTION
+                // total or as an amount-limited EQUILIBRIUM_PHASE.  The
+                // latter is the normal first pass for a registry solid such
+                // as ZnSO4; looking only at `problem.totals` therefore made
+                // its ceiling zero and discarded all dissolved zinc.
+                let solution_inventory: f64 = problem
                     .totals
                     .iter()
                     .filter(|(candidate, _)| {
@@ -1513,10 +1518,41 @@ impl PhreeqcEquilibrator {
                     })
                     .map(|(_, moles)| moles)
                     .sum();
+                let phase_inventory: f64 = problem
+                    .phases
+                    .iter()
+                    .filter_map(|(phase, moles, _)| {
+                        let derived = derived::phase_by_name(phase)?;
+                        let in_phase: f64 = derived
+                            .elements
+                            .iter()
+                            .filter(|(candidate, _)| {
+                                candidate.split('(').next().unwrap_or(candidate) == base
+                            })
+                            .map(|(_, phase_coefficient)| phase_coefficient)
+                            .sum();
+                        Some(moles * in_phase)
+                    })
+                    .sum();
+                let analytical = solution_inventory + phase_inventory;
                 let ceiling = (analytical - bound * coefficient).max(0.0);
-                for (candidate, moles) in &mut new_ions {
-                    if candidate.split('(').next().unwrap_or(candidate) == base {
-                        *moles = (*moles).min(ceiling);
+                // Redox-active elements may be returned as several tagged
+                // entries. Cap their aggregate, not every entry separately,
+                // or each oxidation state could independently retain the
+                // full ceiling.
+                let aqueous: f64 = new_ions
+                    .iter()
+                    .filter(|(candidate, _)| {
+                        candidate.split('(').next().unwrap_or(candidate) == base
+                    })
+                    .map(|(_, moles)| moles)
+                    .sum();
+                if aqueous > ceiling && aqueous > 0.0 {
+                    let scale = ceiling / aqueous;
+                    for (candidate, moles) in &mut new_ions {
+                        if candidate.split('(').next().unwrap_or(candidate) == base {
+                            *moles *= scale;
+                        }
                     }
                 }
             }
