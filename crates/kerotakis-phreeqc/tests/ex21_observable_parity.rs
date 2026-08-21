@@ -157,7 +157,8 @@ fn ex21_generator_matches_legacy_observables_with_declared_tolerances() {
     assert_eq!(
         actual.len(),
         30,
-        "ex21 generated structure is exact (14 solutions, 14 MIX entries, time, shifts)"
+        "ex21 generated structure is exact (14 solutions, 14 MIX entries, time, shifts); keys={:?}",
+        actual.keys().collect::<Vec<_>>()
     );
     for fixture in fixtures() {
         let actual = actual

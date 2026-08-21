@@ -95,7 +95,12 @@ const basicError = GetErrorString(id);
 if (process.env.IPHREEQC_BASIC_MODE === "my-basic") {
     const basicLines = [];
     for (let n = 0; n < LineCount(id); n++) basicLines.push(Line(id, n));
-    if (basicStatus !== 0 || !basicLines.some((line) => line.includes("12345"))) {
+    const punched12345 = basicLines
+        .flatMap((line) => line.split("\t"))
+        .map((field) => field.trim())
+        .filter(Boolean)
+        .some((field) => Number(field) === 12345);
+    if (basicStatus !== 0 || !punched12345) {
         throw new Error(`MY-BASIC USER_PUNCH failed: ${basicError}; ${basicLines.join(" | ")}`);
     }
 } else if (basicStatus === 0 || !basicError.includes("PHREEQC BASIC capability is disabled")) {
