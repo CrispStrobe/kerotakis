@@ -1189,10 +1189,26 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 
 ### Phase 3 — Generated registry and property service
 
-- [ ] **DATA-001 — Define typed registry schemas.** Separate identity,
+- [x] **DATA-001 — Define typed registry schemas.** Separate identity,
   composition, phase thermodynamics, transport, optical data, safety,
   microstates, and model parameters. Include units, conditions, uncertainty,
   source id, and method on every numeric record.
+  **Complete 2026-08-21:** the new project-owned `kerotakis-data` crate keeps
+  those eight independently reviewable record families in a versioned source
+  document joined by stable species and source ids. Every numeric claim is a
+  typed value/unit/dimension plus applicability, explicit uncertainty, source,
+  and described method; qualitative claims carry the same evidence boundary.
+  Validation rejects duplicate and dangling ids, empty evidence, non-finite
+  values, invalid intervals/uncertainties, and known property/condition
+  dimension mismatches, reporting all issues deterministically. Source lanes
+  make the AGPL distribution boundary executable: only material already
+  reviewed into `runtime` may enter a future pack, while build and external
+  oracles remain non-distributable. No external data was imported, no current
+  species or runtime behavior changed, and no third-party dependency was
+  added. CI run `32518836256` passed schema round trips and negative validation
+  tests, strict Clippy and native tests on Ubuntu/macOS, the new data-crate
+  `wasm32` gate, both MY-BASIC previews, IPhreeqc/cache/combined Wasm, the Wasm
+  bench, and the real-browser demo.
 - [ ] **DATA-002 — Export the current 74 species.** Generate the new source
   records from existing Rust declarations, diff every field, and keep runtime
   behavior unchanged.
