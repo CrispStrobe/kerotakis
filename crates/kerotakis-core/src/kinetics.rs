@@ -1440,6 +1440,54 @@ mod tests {
     }
 
     #[test]
+    fn an_overlarge_coupled_step_is_scaled_before_any_product_is_deposited() {
+        const TO_LIQUID: &[StoichiometricTerm] = &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: 1.0,
+                phase: Phase::Liquid,
+            },
+        ];
+        const TO_GAS: &[StoichiometricTerm] = &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: 1.0,
+                phase: Phase::Gas,
+            },
+        ];
+        let reactions = [
+            test_reaction("path-liquid", TO_LIQUID, TEST_FORWARD_AQUEOUS, None),
+            test_reaction("path-gas", TO_GAS, TEST_FORWARD_AQUEOUS, None),
+        ];
+        let mut vessel = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Aqueous),
+            ],
+            25.0,
+        );
+
+        // Each path proposes consuming the entire inventory. The coupled
+        // commit must accept half of both, not let the first path win and
+        // then create the second path's product from a truncated withdrawal.
+        let accepted = apply_coupled_extents(&mut vessel, &reactions, &[0.1, 0.1]);
+        assert!((accepted - 0.5).abs() < 1e-12);
+        assert!(phase_moles(&vessel, "H2O2", Phase::Aqueous) < 1e-12);
+        assert!((phase_moles(&vessel, "H2O2", Phase::Liquid) - 0.05).abs() < 1e-12);
+        assert!((phase_moles(&vessel, "H2O2", Phase::Gas) - 0.05).abs() < 1e-12);
+    }
+
+    #[test]
     fn a_reverse_expression_drives_back_toward_balance() {
         const PHASE_CHANGE: &[StoichiometricTerm] = &[
             StoichiometricTerm {
