@@ -54,6 +54,10 @@ const SCRIPT = [
     "add v1 AgNO3 0.01mol",
     "look v1",
     "particles v1",
+    "reset",
+    "add v1 water 100mL",
+    "cool v1 40kJ",
+    "inspect v1",
 ].join(";");
 const url = `http://127.0.0.1:${PORT}/index.html#run=${encodeURIComponent(SCRIPT)}`;
 
@@ -145,6 +149,12 @@ check("particles came from the speciation", /Na\+\s+\(positive ion\)/.test(trans
 check(
     "and the too-dilute complex is named rather than dropped",
     /present below one glyph/.test(transcript),
+);
+check("inspect shows the remaining liquid water", /water\s+Liquid/.test(transcript));
+check("inspect shows the frozen solid water", /water\s+Solid/.test(transcript));
+check(
+    "inspect is human text, not the state JSON",
+    !/\"contents\"|\"thermal_mode\"/.test(transcript),
 );
 
 // Offline-first is the premise, so it gets its own assertions: with the

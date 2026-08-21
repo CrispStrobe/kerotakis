@@ -17,8 +17,8 @@
 //!   so heating, calcining and burning are computed in the browser.
 
 use kerotakis_core::{
-    render_events, Bench, Equilibrator, Event, HonestyEquilibrator, MixingEquilibrator, Operator,
-    Register, SolverStack,
+    render_events, render_vessel, Bench, Equilibrator, Event, HonestyEquilibrator,
+    MixingEquilibrator, Operator, Register, SolverStack,
 };
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -213,6 +213,20 @@ impl Lab {
             .map_err(|e| JsError::new(&e.to_string()))?;
         Ok(serde_json::to_string(&kerotakis_core::observe(v))
             .unwrap_or_else(|e| format!("{{\"error\":\"{e}\"}}")))
+    }
+
+    /// The full state of one vessel, rendered for a person. The JSON state
+    /// remains available separately as the machine contract.
+    pub fn inspect(&self, vessel: usize) -> Result<String, JsError> {
+        let v = self
+            .bench
+            .vessel(kerotakis_core::VesselId(vessel))
+            .map_err(|e| JsError::new(&e.to_string()))?;
+        Ok(serde_json::json!({
+            "rendered": render_vessel(v, self.register),
+            "vessel": v,
+        })
+        .to_string())
     }
 
     /// The bench state as JSON.

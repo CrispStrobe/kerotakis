@@ -63,6 +63,17 @@ check(
     JSON.stringify(fire.rendered),
 );
 
+const freezer = new Lab();
+freezer.runScript("add v1 water 100mL\ncool v1 40kJ\n");
+const inspected = JSON.parse(freezer.inspect(0)).rendered.join("\n");
+check("inspect renders the frozen liquid inventory", /water\s+Liquid/.test(inspected), inspected);
+check("inspect renders the frozen solid inventory", /water\s+Solid/.test(inspected), inspected);
+check(
+    "inspect prose does not leak the machine state contract",
+    !/\"contents\"|\"thermal_mode\"|^\s*\{/.test(inspected),
+    inspected,
+);
+
 // Boundary state is core physics, so it works even without the aqueous side module.
 const closed = new Lab();
 const closedRun = JSON.parse(closed.runScript("seal v1 500mL\nheat v1 10J\n"));
