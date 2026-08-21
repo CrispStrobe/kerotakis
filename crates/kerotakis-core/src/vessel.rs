@@ -120,10 +120,10 @@ pub struct SurfaceSites {
     /// Computed bound inventory. Empty before the first equilibrium pass.
     #[serde(default)]
     pub occupancy: Vec<SurfaceOccupancy>,
-    /// Water transferred from the neutral `Hfo_*OH` site reference into the
-    /// solution by the current ligand-exchange species. PHREEQC includes it
-    /// in `mass_H2O`; subtracting the same amount from the interface ledger
-    /// prevents that site material from being counted twice.
+    /// Net water transferred from the neutral `Hfo_*OH` site reference into
+    /// the solution by the current ligand-exchange state. The aqueous engine
+    /// includes it in solvent mass; subtracting the same amount from the
+    /// interface ledger prevents that site material from being counted twice.
     #[serde(default = "zero_moles")]
     pub water_release: Moles,
 }
