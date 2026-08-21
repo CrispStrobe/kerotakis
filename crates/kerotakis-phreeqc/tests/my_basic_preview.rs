@@ -276,18 +276,21 @@ fn data_read_restore_pattern_compiles_and_runs() {
 }
 
 #[test]
-fn dynamic_data_cursor_is_rejected_instead_of_misexecuted() {
+fn data_cursor_can_be_restored_inside_control_flow() {
     let mut engine = Phreeqc::with_database(databases::PHREEQC).unwrap();
-    let error = engine
+    engine
         .run(
             "CALCULATE_VALUES\n\
                  DynamicData\n\
                  -start\n\
                  10 DATA 1, 2\n\
-                 20 RESTORE 10\n\
-                 30 READ a\n\
-                 40 GOTO 20\n\
-                 50 SAVE a\n\
+                 20 total = 0\n\
+                 30 FOR i = 1 TO 2\n\
+                 40 RESTORE 10\n\
+                 50 READ a, b\n\
+                 60 total = total + a + b\n\
+                 70 NEXT i\n\
+                 80 SAVE total\n\
                  -end\n\
              SOLUTION 1\n\
                  pH 7\n\
@@ -296,12 +299,8 @@ fn dynamic_data_cursor_is_rejected_instead_of_misexecuted() {
                  -calculate_values DynamicData\n\
              END\n",
         )
-        .unwrap_err()
-        .to_string();
-    assert!(
-        error.contains("control flow into a DATA initialization prefix"),
-        "{error}"
-    );
+        .unwrap();
+    assert_eq!(engine.last_value("V_DynamicData"), Some(6.0));
 }
 
 #[test]
