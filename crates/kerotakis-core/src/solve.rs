@@ -396,7 +396,10 @@ pub fn equilibrate_phase_coupled(
     chemistry: &mut dyn Equilibrator,
     vessel: &mut Vessel,
 ) -> Result<Vec<Event>, SolveError> {
-    const MAX_PASSES: usize = 32;
+    // Dilute cases settle in a handful of passes. Concentrated activity
+    // models can contract much more slowly, so retain a generous hard cap
+    // while the observable-matter threshold below remains the actual DoD.
+    const MAX_PASSES: usize = 128;
     let mut events = Vec::new();
     let mut states = StateEquilibrator;
 
@@ -415,7 +418,20 @@ pub fn equilibrate_phase_coupled(
             }
         }
 
+        let liquid_before: f64 = vessel
+            .contents
+            .iter()
+            .filter(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Liquid)
+            .map(|portion| portion.moles.0)
+            .sum();
         let mut phase_events = states.equilibrate(vessel)?;
+        let liquid_after: f64 = vessel
+            .contents
+            .iter()
+            .filter(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Liquid)
+            .map(|portion| portion.moles.0)
+            .sum();
+        let last_transfer_moles = (liquid_after - liquid_before).abs();
         let transferred_water = phase_events.iter().any(|event| {
             matches!(
                 event,
@@ -441,7 +457,8 @@ pub fn equilibrate_phase_coupled(
                 vessel: vessel.id,
                 solver: "phase-coupled".to_string(),
                 detail: format!(
-                    "aqueous/ice state did not settle within {MAX_PASSES} bounded passes"
+                    "aqueous/ice state did not settle within {MAX_PASSES} bounded passes (last water transfer {last_transfer_moles:.3e} mol at {:.6} K)",
+                    vessel.temperature.0
                 ),
             });
         }
