@@ -2252,19 +2252,25 @@ run; follow-up run `32495027486` executed and passed those now-enforced limits.
 The temporary hosted audit hook was then removed; the development-only export
 remains explicit and opt-in.
 
-**Active session — `codex-AQ` (2026-08-21, AQ-007).** This session owns the
+**Completed session — `codex-AQ` (2026-08-21, AQ-007).** This session owned the
 first finite-capacity cation-exchange slice in isolated worktree
 `/tmp/kerotakis-aq007.XXXXXXXX.worktree` on branch
-`codex-aq/aq-007-exchange`. Its boundary is typed exchanger state in
+`codex-aq/aq-007-exchange`. Its boundary was typed exchanger state in
 `kerotakis-core`, PHREEQC `EXCHANGE` compilation/readback in
 `kerotakis-phreeqc`, and focused core/live batch-softening tests. The first
 reviewed ledger supports the unavoidable proton balance plus sodium, calcium
 and magnesium; every other exchangeable ion must fail explicitly rather than
-disappear. Acceptance
-requires charge-equivalent site capacity, Na/Ca/Mg material conservation,
-measurable hard-water softening, and stable repeated equilibration. This
-session will not modify kinetics/mechanism work, MY-BASIC or vendored sources,
-VLE, licensing/dependency metadata, the web UI, or compatibility fixtures.
+disappear. Tests prove charge-equivalent site capacity, Na/Ca/Mg material
+conservation, measurable hard-water softening, stable repeated equilibration,
+mass stability, legacy-state deserialization, and an explicit refusal event
+for potassium rather than silent loss. Hosted Ubuntu/macOS native, strict
+lint, IPhreeqc Wasm, core/full/combined Wasm and real-browser gates all passed
+in CI run `32498332301`. Hosted diagnostics also exposed a pre-existing
+sub-observable magnesium displacement at 3.16e-11 mol; the generic displacement
+router now ignores changes below the project's observable-moles threshold,
+and its full 19-case suite passed on both native platforms. This session did
+not modify kinetics/mechanism work, MY-BASIC or vendored sources, VLE,
+licensing/dependency metadata, the web UI, or compatibility fixtures.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
