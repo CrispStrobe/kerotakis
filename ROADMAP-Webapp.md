@@ -1132,8 +1132,23 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   source was added. Native Ubuntu/macOS, strict codex lint, both MY-BASIC
   previews, core/IPhreeqc/full/combined Wasm, and the real-browser demo passed
   in CI run `32508147378`.
-- [ ] **AQ-012 — Add exchange/transport coupling.** Produce a finite-column
+- [x] **AQ-012 — Add exchange/transport coupling.** Produce a finite-column
   breakthrough curve while conserving each exchanged element.
+  **Complete 2026-08-21:** `CellChain::advance_reactive` now performs one
+  conservative transport step followed by inlet-to-outlet local equilibrium,
+  returns indexed solver events, and restores the complete pre-step chain if
+  any cell solve fails. A live four-cell sodium-form resin column uses the
+  existing typed PHREEQC `EXCHANGE` adapter for 12 pore volumes. Its calcium
+  effluent begins below `1e-8` of feed, exceeds 80% of feed by pore volume 12,
+  and rises by more than 25 percentage points from the midpoint; dissolved plus
+  exchanger-bound calcium and sodium close against inlet and effluent after
+  every step within `2e-8 mol`, and every finite exchanger remains capacity
+  balanced. Core also pins whole-chain rollback and the one-part-per-million
+  hydraulic equality appropriate to the app's explicitly approximate
+  water-only volume proxy. No PHREEQC `TRANSPORT`, new source, dataset,
+  dependency, or vendored change was added. Native Ubuntu/macOS, strict codex
+  lint, both MY-BASIC previews, core/IPhreeqc/full/combined Wasm, and the
+  real-browser demo passed in CI run `32509744496`.
 - [ ] **AQ-013 — Add surface/transport coupling.** Produce one adsorption-front
   case and compare it with PHREEQC's own transport result.
 - [ ] **AQ-014 — Publish the R1 acceptance suite.** Limewater, carbonated bottle,

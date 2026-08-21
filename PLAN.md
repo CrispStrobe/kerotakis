@@ -2379,21 +2379,27 @@ was added. Local native compilation was skipped under the load policy; CI run
 `32508147378` passed native Ubuntu/macOS, strict codex lint, both MY-BASIC
 preview gates, core/IPhreeqc/full/combined Wasm, and the real-browser demo.
 
-**Active session — `codex-AQ` (2026-08-21, AQ-012).** Work is isolated in
+**Completed session — `codex-AQ` (2026-08-21, AQ-012).** Work was isolated in
 `/tmp/kerotakis-aq012.7mpydZ/worktree` on branch
-`codex-aq/aq-012-exchange-transport`. This session owns conservative operator
-splitting between the AQ-011 cell chain and the existing typed cation-exchange
-equilibrium: transport first, then equilibrate each stationary exchanger cell,
-with rollback on a failed cell solve. Its acceptance case is a finite
-sodium-form softener column with a live calcium breakthrough curve and
-per-step calcium/sodium ledgers across solution, exchanger, inlet, and
-effluent. It may add a generic reactive-step seam in `kerotakis-core` and live
-PHREEQC integration tests. It will not add surface transport (AQ-013), invoke
-PHREEQC `TRANSPORT`, expose scripting/UI operations, change exchanger species
-coverage or databases, change kinetics or MY-BASIC, import data, add
-dependencies, or modify vendored sources. Local native builds require a
-separate one-minute load check below 4 and remain capped at two Cargo/CMake
-jobs; otherwise validation runs on GitHub CI.
+`codex-aq/aq-012-exchange-transport`. The core cell chain now supports atomic
+first-order operator splitting: conservative transport, then inlet-to-outlet
+local equilibrium with indexed event results. A failed cell solve restores the
+complete pre-step chain; a deliberate second-cell failure test pins that
+contract. The live acceptance case drives a four-cell sodium-form resin column
+through the existing typed PHREEQC `EXCHANGE` adapter for 12 pore volumes.
+Calcium effluent starts below `1e-8` of feed, exceeds 80% by pore volume 12,
+and rises by more than 25 percentage points from its midpoint. Per-step
+calcium and sodium inventories close across dissolved, exchanger-bound, inlet,
+and effluent ledgers within `2e-8 mol`, and every exchanger retains valid finite
+capacity. The hydraulic geometry comparison now admits one part per million,
+consistent with the app's documented water-only additive-volume proxy and the
+observed reactive solvent readback, while still rejecting material geometry
+changes. No surface transport, PHREEQC `TRANSPORT`, public scripting/UI,
+database/species expansion, kinetics or MY-BASIC change, data import,
+dependency, or vendored-source change was added. Local native compilation was
+skipped under the load policy; CI run `32509744496` passed native
+Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
+core/IPhreeqc/full/combined Wasm, and the real-browser demo.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
