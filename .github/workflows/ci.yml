@@ -86,11 +86,8 @@ jobs:
         run: >-
           cargo run -p kerotakis-registry-export --
           "$RUNNER_TEMP/registry-source-v1.json"
-      - uses: actions/upload-artifact@v4
-        with:
-          name: registry-source-v1
-          path: ${{ runner.temp }}/registry-source-v1.json
-          if-no-files-found: error
+      - name: Generated source document is checked in exactly
+        run: cmp data/registry/registry-source-v1.json "$RUNNER_TEMP/registry-source-v1.json"
 
   wasm-lab:
     name: The bench in WebAssembly

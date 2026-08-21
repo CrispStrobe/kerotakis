@@ -14,6 +14,30 @@ use kerotakis_registry_export::export_current_registry;
 const IMPORT_METHOD: &str = "verbatim export from kerotakis_core::species::REGISTRY";
 
 #[test]
+fn checked_in_source_document_is_current_byte_for_byte() {
+    let mut generated =
+        serde_json::to_string_pretty(&export_current_registry().expect("export current registry"))
+            .expect("serialize current registry");
+    generated.push('\n');
+    let checked_in = include_str!("../../../data/registry/registry-source-v1.json");
+    if generated != checked_in {
+        let mismatch = generated
+            .lines()
+            .zip(checked_in.lines())
+            .position(|(current, committed)| current != committed)
+            .map_or_else(
+                || generated.lines().count().min(checked_in.lines().count()) + 1,
+                |index| index + 1,
+            );
+        panic!(
+            "checked-in source registry differs at line {mismatch}; regenerate with \
+             `cargo run -p kerotakis-registry-export -- \
+             data/registry/registry-source-v1.json`"
+        );
+    }
+}
+
+#[test]
 fn every_legacy_field_is_present_and_unchanged() {
     let document = export_current_registry().expect("export current registry");
     document.validate().expect("export validates");
