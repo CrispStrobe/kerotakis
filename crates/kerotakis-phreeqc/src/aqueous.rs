@@ -20,6 +20,9 @@ use kerotakis_core::{
     SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
 };
 
+#[cfg(feature = "engine")]
+const RESET_NUMBERED_REACTANTS: &str = "DELETE\n    -all\nEND\n";
+
 use crate::PhreeqcError;
 #[cfg(feature = "engine")]
 use crate::{databases, Phreeqc};
@@ -221,6 +224,12 @@ impl PhreeqcEquilibrator {
                 "pitzer" => &mut self.brine,
                 _ => &mut self.inorganic,
             };
+            engine
+                .run(RESET_NUMBERED_REACTANTS)
+                .map_err(|e| SolveError::NotConverged {
+                    solver: "phreeqc-aqueous".to_string(),
+                    detail: format!("could not reset reused IPhreeqc state: {e}"),
+                })?;
             engine.run(input).map_err(|e| {
                 // The input is the whole question; when the engine refuses
                 // it, being able to see it is the difference between a
@@ -534,7 +543,10 @@ impl PhreeqcEquilibrator {
                 "pitzer" => &mut self.brine,
                 _ => &mut self.inorganic,
             };
-            let outcome = match engine.run(&input) {
+            let outcome = match engine
+                .run(RESET_NUMBERED_REACTANTS)
+                .and_then(|()| engine.run(&input))
+            {
                 Err(e) => PathOutcome::Failed {
                     detail: e.to_string(),
                 },
@@ -2754,12 +2766,6 @@ fn build_input_at(
     use std::fmt::Write;
     let mut input = String::new();
     let temp_c = vessel.temperature.to_celsius();
-    // IPhreeqc instances are reused across vessels. Numbered reactants can
-    // otherwise survive into the next RunString call (most dangerously a
-    // populated SURFACE 1), making one cell donate hidden inventory to the
-    // next. PHREEQC documents DELETE -all specifically for reinitializing
-    // IPhreeqc modules. Thermodynamic database definitions are unaffected.
-    writeln!(input, "DELETE\n    -all\nEND").unwrap();
     writeln!(input, "SOLUTION 1").unwrap();
     writeln!(input, "    units     mol/kgw").unwrap();
     writeln!(input, "    temp      {temp_c:.4}").unwrap();
