@@ -2156,11 +2156,11 @@ target adapter, not solver randomness, and native targets remain unchanged.
 CI run `32484407871` passed strict lint, all native tests and claims on Ubuntu
 and macOS, core and full-bench Wasm, browser, and combined-solver checks.
 
-**Active session — `codex-kin` (2026-08-21, KIN-006).** This session owns the
-first mechanism-file front-end slice: strict parsing and validation of portable
-Cantera-YAML species composition plus elementary Arrhenius reactions, lowering
-them into the existing reaction-network IR, and a CLI inspection path with
-machine-readable output. Work is isolated on branch
+**Completed session — `codex-kin` (2026-08-21, KIN-006).** This session
+delivered the first mechanism-file front-end slice: strict parsing and
+validation of portable Cantera-YAML species composition plus elementary
+Arrhenius reactions, lowering them into the existing reaction-network IR, and a
+CLI inspection path with machine-readable output. Work is isolated on branch
 `codex-kin/mechanism-yaml` in a fresh worktree. Its code boundary is new
 kinetics-mechanism modules, focused CLI wiring/tests, and narrowly required
 pure-Rust parsing dependencies. It will not modify equilibrium or surface
@@ -2171,7 +2171,8 @@ KIN-006 dependency checkpoint: `serde_yaml_ng = =0.10.0` is MIT and resolves to
 the MIT `unsafe-libyaml` Rust translation (no system libyaml link); `bumpalo`
 `=3.20.3` is MIT OR Apache-2.0 with no default features. The arena gives runtime-owned
 mechanisms a borrowed IR without leaking allocations. Native and Wasm CI gates
-are required before this dependency boundary is accepted.
+passed in run `32489657046`, including strict lint and all tests/claims on
+Ubuntu and macOS, core and full-bench Wasm, browser, and combined-solver checks.
 
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
