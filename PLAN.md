@@ -2447,13 +2447,25 @@ microstate, and model-parameter records, plus their validation tests. Every
 numeric record must state units, applicability conditions, uncertainty,
 source id, and derivation method. Only reviewed runtime-lane records can enter
 a future distributed pack; build and external oracles remain outside it. The
-work did not export or change the existing 74 runtime species (DATA-002),
+work did not export or change the existing 75 runtime species (DATA-002),
 compile a runtime pack (DATA-003), import external data, add third-party
 dependencies, or touch kinetics, MY-BASIC, PHREEQC, or vendored sources. Local
 native builds were skipped under the load policy; CI run `32518836256` passed
 strict Clippy and native tests on Ubuntu/macOS, the data schema's `wasm32`
 compile gate, both MY-BASIC previews, IPhreeqc/cache/combined Wasm, the Wasm
 bench, and the real-browser demo.
+
+**Active session — `codex-DATA` (2026-08-21, DATA-002).** Work continues in
+`/tmp/kerotakis-data001-schema` on branch `codex-data/data-002-export`, based
+on remote-main merge `8c5ce090`. The live seed registry contains 75 entries
+(the roadmap's earlier count of 74 predated a later addition). This slice owns
+only a generated, human-reviewable source export of those existing declarations
+and exhaustive field-diff tests proving the export cannot drift. It will not
+change registry lookup or simulation behavior, compile/load the runtime pack
+(DATA-003/004), import external data, add third-party dependencies, or touch
+kinetics, MY-BASIC, PHREEQC, or vendored sources. Local native builds remain
+subject to the one-minute load gate and two-job cap; heavy validation runs on
+GitHub CI.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol

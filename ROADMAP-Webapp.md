@@ -1209,7 +1209,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   tests, strict Clippy and native tests on Ubuntu/macOS, the new data-crate
   `wasm32` gate, both MY-BASIC previews, IPhreeqc/cache/combined Wasm, the Wasm
   bench, and the real-browser demo.
-- [ ] **DATA-002 — Export the current 74 species.** Generate the new source
+- [ ] **DATA-002 — Export the current 75 species.** Generate the new source
   records from existing Rust declarations, diff every field, and keep runtime
   behavior unchanged.
 - [ ] **DATA-003 — Compile a deterministic runtime pack.** Use a versioned binary
