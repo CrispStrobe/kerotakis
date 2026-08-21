@@ -2291,6 +2291,19 @@ and its full 19-case suite passed on both native platforms. This session did
 not modify kinetics/mechanism work, MY-BASIC or vendored sources, VLE,
 licensing/dependency metadata, the web UI, or compatibility fixtures.
 
+**Active session — `codex-AQ` (2026-08-21, AQ-008).** This session owns the
+first typed mineral solid-solution slice in isolated worktree
+`/tmp/kerotakis-aq008.worktree.iy7TjZ` on branch
+`codex-aq/aq-008-solid-solutions`. Its boundary is explicit solid-solution
+component state in `kerotakis-core`, PHREEQC `SOLID_SOLUTIONS`
+compilation/readback in `kerotakis-phreeqc`, and focused unit/live tests for
+one mineral pair already present in the approved USGS database. Acceptance
+requires conservation of every component and bulk phase inventory across both
+precipitation and dissolution, stable repeated equilibration, and legacy-state
+deserialization. This session will not modify reaction-network/kinetics work,
+MY-BASIC or vendored sources, VLE, transport, licensing/dependency metadata,
+the web UI, or compatibility fixtures.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state
