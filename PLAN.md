@@ -713,10 +713,10 @@ audit independently flagged as computed-but-never-displayed.
   is a burn hazard, and we get the sign wrong. The fix is an event for a
   consumed solid plus reaction enthalpies on phase conversions, not a
   number bolted to the registry.
-- **Added gas does not dissolve.** `add v1 CO2` leaves the CO₂ sitting as a
-  gas phase, so limewater cannot go milky — one of the commonest school
-  tests. Open-vessel *venting* works (the fizz loses its CO₂ correctly);
-  it is the inward direction that is missing.
+- **Added gas now dissolves (resolved in AQ-003).** `add v1 CO2` is an
+  amount-limited dose through an external boundary: limewater goes milky,
+  continued excess CO₂ clears it again, and the event ledger separates what
+  entered the condensed inventory from what vented.
 - **Partial freezing is not modelled.** A freezing solution really gives ice
   plus an ever more concentrated brine down to a eutectic; we freeze the
   solvent and say the rest is not modelled.
@@ -2118,6 +2118,17 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
 
 School-level rates and electrochemistry moved forward to P3k/P3e; what is
 left here is the part that genuinely needs an engine.
+
+**Active session — `codex-kin` (2026-08-21).** This session owns the first
+generic-kinetics slice: define the reaction-network IR, compile the two current
+rate laws through it without changing lesson or JSON output, and add
+element/charge/site/electron conservation lint. Its implementation worktree is
+`/Users/christianstrobele/code/kerotakis-codex-kin` on branch
+`codex-kin/reaction-network`; its code boundary is
+`crates/kerotakis-core/src/kinetics.rs` plus new kinetics-focused modules and
+tests. It will not modify the PHREEQC BASIC runtime, its adapter, vendored
+sources, or compatibility corpus. Stiff integration, mechanism-file parsing,
+and external mechanism data remain later, separately reviewed work.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol

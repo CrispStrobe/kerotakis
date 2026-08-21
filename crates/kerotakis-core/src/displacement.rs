@@ -611,11 +611,21 @@ pub fn displace(vessel: &mut Vessel) -> (Vec<Event>, Vec<Displacement>) {
         if ox.oxidised == HYDROGEN_ION {
             // Free acid has no portion; it is spent through the charge
             // balance, which is recomputed below.
-            events.push(Event::GasEvolved {
-                vessel: vessel.id,
-                species: SpeciesId::new(ox.reduced),
-                moles: Moles(reduced_made),
-            });
+            let species = SpeciesId::new(ox.reduced);
+            let moles = Moles(reduced_made);
+            if vessel.retain_gas(species.clone(), moles) {
+                events.push(Event::GasContained {
+                    vessel: vessel.id,
+                    species,
+                    moles,
+                });
+            } else {
+                events.push(Event::GasEvolved {
+                    vessel: vessel.id,
+                    species,
+                    moles,
+                });
+            }
         } else {
             vessel.withdraw(
                 &SpeciesId::new(ox.oxidised),

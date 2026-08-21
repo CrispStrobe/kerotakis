@@ -11,6 +11,7 @@
 //!   kero species              list the registry
 
 mod mcp;
+mod provenance;
 mod sweep;
 
 use std::io::{BufRead, Write};
@@ -93,6 +94,26 @@ fn main() {
                     std::process::exit(2);
                 }
             }
+        }
+        Some("provenance") => {
+            let sub = args.get(1).map(String::as_str).unwrap_or("lint");
+            if sub != "lint" {
+                eprintln!("kero provenance: unknown subcommand '{sub}' (lint)");
+                std::process::exit(2);
+            }
+            let manifest = args
+                .iter()
+                .position(|a| a == "--manifest")
+                .and_then(|i| args.get(i + 1))
+                .cloned()
+                .unwrap_or_else(|| "provenance/sources.toml".to_string());
+            let root = args
+                .iter()
+                .position(|a| a == "--root")
+                .and_then(|i| args.get(i + 1))
+                .cloned()
+                .unwrap_or_else(|| ".".to_string());
+            provenance::lint_command(&manifest, &root);
         }
         Some("prewarm") => {
             // Build-time: replay lesson scripts through the real engine and
@@ -721,6 +742,7 @@ fn codex_lint(dir: &str) -> ! {
                 | Event::Dissolved { moles, .. }
                 | Event::Precipitated { moles, .. }
                 | Event::GasEvolved { moles, .. }
+                | Event::GasAbsorbed { moles, .. }
                 | Event::Consumed { moles, .. }
                 | Event::Plated { moles, .. }
                 | Event::Electrolysed { moles, .. }
@@ -737,7 +759,8 @@ fn codex_lint(dir: &str) -> ! {
             | Event::Consumed { species, moles, .. }
             | Event::Plated { species, moles, .. }
             | Event::Electrolysed { species, moles, .. }
-            | Event::GasEvolved { species, moles, .. } = e
+            | Event::GasEvolved { species, moles, .. }
+            | Event::GasAbsorbed { species, moles, .. } = e
             {
                 if let Some(d) = kerotakis_core::species::lookup(species) {
                     values.grams.push(moles.0 * d.molar_mass);
@@ -921,12 +944,17 @@ fn usage() -> ! {
          \x20 kero run FILE.lab [--json] replay a command script\n\
          \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
+         \x20 kero provenance lint       validate source/distribution policy\n\
          \n\
          bench commands (REPL and .lab files):\n\
          \x20 add <vessel> <species> <amount><mol|g|mL> [@ <T>C]\n\
          \x20 heat <vessel> <energy><J|kJ>\n\
          \x20 cool <vessel> <energy><J|kJ>\n\
          \x20 stir <vessel>\n\
+         \x20 seal <vessel> <volume><mL|L> close over a finite headspace\n\
+         \x20 regulate <vessel> <pressure> <volume> hold gas at fixed pressure\n\
+         \x20 sweep <vessel> <pressure> purge volatile gases with nitrogen\n\
+         \x20 open <vessel>             vent the headspace to the room\n\
          \x20 ignite <vessel>            hold a flame to it\n\
          \x20 decant <from> <to> <fraction>\n\
          \x20 filter <from> <to>         solids stay, liquid passes\n\
@@ -969,7 +997,8 @@ fn repl() {
         if line == "help" {
             println!(
                 "add <v> <species> <amount><mol|g|mL> [@ <T>C] · heat/cool <v> <E><J|kJ>\n\
-                 stir <v> · decant/filter <from> <to> · evaporate <v> <frac> · measure <v> <thermometer|balance|ph> · cell <v> <v>\n\
+                 stir <v> · seal <v> <volume><mL|L> · open <v> · decant/filter <from> <to> · evaporate <v> <frac>\n\
+                 measure <v> <thermometer|balance|ph> · cell <v> <v>\n\
                  new · inspect [v] · register <lv1|lv2|lv3> · species · quit"
             );
             continue;
@@ -1113,8 +1142,24 @@ impl Session {
                 )
             })
             .unwrap_or_default();
+        let boundary = match v.headspace {
+            Headspace::Open => ", open to atmosphere".to_string(),
+            Headspace::Sealed { volume } => format!(
+                ", sealed {:.1} mL headspace at {:.3} bar",
+                volume.0 * 1000.0,
+                v.pressure.0 / 100_000.0
+            ),
+            Headspace::PressureControlled { pressure, volume } => format!(
+                ", pressure-controlled {:.1} mL headspace at {:.3} bar",
+                volume.0 * 1000.0,
+                pressure.0 / 100_000.0
+            ),
+            Headspace::Swept { pressure } => {
+                format!(", nitrogen-swept at {:.3} bar", pressure.0 / 100_000.0)
+            }
+        };
         println!(
-            "  {} ({}) — {:.2} °C, {:.1} g, {:.1} mL liquid{solution}",
+            "  {} ({}) — {:.2} °C, {:.1} g, {:.1} mL liquid{boundary}{solution}",
             v.id,
             v.label,
             v.temperature.to_celsius(),

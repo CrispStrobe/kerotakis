@@ -25,6 +25,31 @@ pub enum ThermalMode {
     Thermostatted(Kelvin),
 }
 
+/// The gas boundary above a vessel's contents.
+///
+/// Reservoir and swept boundaries exchange gas with the surroundings. Sealed
+/// and pressure-controlled boundaries own their gas portions, which therefore
+/// contribute to vessel mass; the latter lets volume move to hold a set
+/// pressure.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize, Default)]
+#[serde(tag = "boundary", rename_all = "snake_case")]
+pub enum Headspace {
+    #[default]
+    Open,
+    Sealed {
+        volume: Liters,
+    },
+    PressureControlled {
+        pressure: Pascal,
+        volume: Liters,
+    },
+    /// An inert nitrogen purge carries volatile products away at the stated
+    /// total pressure. No carrier-gas inventory is booked into the vessel.
+    Swept {
+        pressure: Pascal,
+    },
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Portion {
     pub species: SpeciesId,
@@ -169,6 +194,10 @@ pub struct Vessel {
     pub temperature: Kelvin,
     pub pressure: Pascal,
     pub thermal_mode: ThermalMode,
+    /// Open atmosphere or a finite sealed gas volume. Defaulted so existing
+    /// saves retain their historical open-beaker behavior.
+    #[serde(default)]
+    pub headspace: Headspace,
     /// Net charge carried by the dissolved solutes, Σ z·n, mol.
     ///
     /// Not a physical excess — the solution is electroneutral, and the
@@ -200,6 +229,7 @@ impl Vessel {
             temperature: Kelvin::STANDARD,
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,
+            headspace: Headspace::Open,
             solute_charge: 0.0,
             solution: None,
         }
@@ -255,18 +285,37 @@ impl Vessel {
         Moles(moles.0 - remaining)
     }
 
-    /// Total heat capacity of the contents, J/K. Zero for an empty vessel.
+    /// Effective heat capacity of the contents under this vessel's current
+    /// mechanical boundary, J/K. Zero for an empty vessel.
+    ///
+    /// Condensed phases use their tabulated constant-pressure capacity. Gas
+    /// does too when a pressure controller may move the boundary. A rigid,
+    /// sealed headspace cannot spend heat on `P dV` work, so its ideal-gas
+    /// contribution is `Cv = Cp - R`. Open and swept vessels own no ambient
+    /// gas inventory; an explicit gas portion there is a finite dose and
+    /// carries sensible heat until the chemistry pass absorbs or vents it.
     pub fn heat_capacity(&self) -> f64 {
+        const R_JOULE: f64 = 8.314_462_618;
         self.contents
             .iter()
-            .filter_map(|p| species::lookup(&p.species).map(|d| p.moles.0 * d.heat_capacity))
+            .filter_map(|portion| {
+                let data = species::lookup(&portion.species)?;
+                let molar = if portion.phase == Phase::Gas && self.is_sealed() {
+                    (data.heat_capacity - R_JOULE).max(0.0)
+                } else {
+                    data.heat_capacity
+                };
+                Some(portion.moles.0 * molar)
+            })
             .sum()
     }
 
-    /// Sensible enthalpy of the contents relative to 298.15 K, J.
+    /// Sensible energy of the contents relative to 298.15 K, J.
     ///
-    /// H = Σ n·Cp·(T − T_ref); Cp treated as T-independent at this stage.
-    /// The conservation property tests rest on this definition.
+    /// This is enthalpy for constant-pressure and condensed portions, and
+    /// internal energy for gas in a rigid sealed headspace. Heat capacities
+    /// are treated as temperature-independent at this stage. The historical
+    /// method name remains the public ledger API.
     pub fn enthalpy(&self) -> Joules {
         Joules(self.heat_capacity() * (self.temperature.0 - Kelvin::STANDARD.0))
     }
@@ -293,5 +342,73 @@ impl Vessel {
                 .filter_map(|p| species::lookup(&p.species).map(|d| d.liters_from_moles(p.moles).0))
                 .sum(),
         )
+    }
+
+    pub fn is_sealed(&self) -> bool {
+        matches!(self.headspace, Headspace::Sealed { .. })
+    }
+
+    /// Whether gas belongs to the vessel rather than an external reservoir.
+    pub fn owns_headspace_gas(&self) -> bool {
+        matches!(
+            self.headspace,
+            Headspace::Sealed { .. } | Headspace::PressureControlled { .. }
+        )
+    }
+
+    pub fn uses_atmospheric_reservoir(&self) -> bool {
+        matches!(self.headspace, Headspace::Open)
+    }
+
+    pub fn headspace_volume(&self) -> Option<Liters> {
+        match self.headspace {
+            Headspace::Open | Headspace::Swept { .. } => None,
+            Headspace::Sealed { volume } => Some(volume),
+            Headspace::PressureControlled { volume, .. } => Some(volume),
+        }
+    }
+
+    pub fn gas_moles(&self) -> Moles {
+        Moles(
+            self.contents
+                .iter()
+                .filter(|portion| portion.phase == Phase::Gas)
+                .map(|portion| portion.moles.0)
+                .sum(),
+        )
+    }
+
+    /// Recompute pressure from the owned gas inventory. The first model is
+    /// deliberately the ideal-gas law; PHREEQC owns gas/liquid partitioning,
+    /// while this method keeps pressure correct after generic operations.
+    pub fn refresh_pressure(&mut self) {
+        const R_LITRE_PASCAL: f64 = 8_314.462_618;
+        match self.headspace {
+            Headspace::Open => self.pressure = Pascal::ATMOSPHERIC,
+            Headspace::Sealed { volume } if volume.0 > 0.0 => {
+                self.pressure =
+                    Pascal(self.gas_moles().0 * R_LITRE_PASCAL * self.temperature.0 / volume.0);
+            }
+            Headspace::Sealed { .. } => self.pressure = Pascal(0.0),
+            Headspace::PressureControlled { pressure, .. } if pressure.0 > 0.0 => {
+                let volume =
+                    Liters(self.gas_moles().0 * R_LITRE_PASCAL * self.temperature.0 / pressure.0);
+                self.headspace = Headspace::PressureControlled { pressure, volume };
+                self.pressure = pressure;
+            }
+            Headspace::PressureControlled { .. } => self.pressure = Pascal(0.0),
+            Headspace::Swept { pressure } => self.pressure = pressure,
+        }
+    }
+
+    /// Put a gas product in an owned headspace. Returns `false` for reservoir
+    /// and swept boundaries, whose caller should report the amount as escaped.
+    pub fn retain_gas(&mut self, species: SpeciesId, moles: Moles) -> bool {
+        if !self.owns_headspace_gas() {
+            return false;
+        }
+        self.deposit(species, moles, Phase::Gas);
+        self.refresh_pressure();
+        true
     }
 }

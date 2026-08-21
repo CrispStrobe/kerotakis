@@ -5,7 +5,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::species::{Phase, SpeciesId};
-use crate::units::{Joules, Kelvin, Moles};
+use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::VesselId;
 
 /// A mutating or measuring action. One `Operator` in is one step of the bench
@@ -32,6 +32,23 @@ pub enum Operator {
     /// Stir. Currently affects nothing the solvers model; logged for the
     /// record and honest about it.
     Stir { vessel: VesselId },
+    /// Close a vessel over a finite gas volume, trapping the room air that
+    /// occupied it at the current temperature.
+    Seal {
+        vessel: VesselId,
+        headspace_volume: Liters,
+    },
+    /// Close the material boundary under a movable piston. Gas remains in
+    /// the vessel while its volume changes to maintain the target pressure.
+    Regulate {
+        vessel: VesselId,
+        pressure: Pascal,
+        initial_volume: Liters,
+    },
+    /// Apply an inert purge that carries volatile products away.
+    Sweep { vessel: VesselId, pressure: Pascal },
+    /// Open a vessel and release every gas portion to the room.
+    Open { vessel: VesselId },
     /// Pour a fraction (0..=1) of the liquid contents into another vessel.
     Decant {
         from: VesselId,
@@ -240,11 +257,49 @@ pub enum Event {
         vessel: VesselId,
         moles: Moles,
     },
-    /// A gas formed and left the open vessel. The balance notices.
+    /// A gas formed and left through a reservoir or swept boundary. The
+    /// balance notices.
     GasEvolved {
         vessel: VesselId,
         species: SpeciesId,
         moles: Moles,
+    },
+    /// Gas crossed inward from an external boundary and remains in the
+    /// liquid or a condensed phase.
+    GasAbsorbed {
+        vessel: VesselId,
+        species: SpeciesId,
+        moles: Moles,
+    },
+    /// A gas formed but remained in a material-closed headspace.
+    GasContained {
+        vessel: VesselId,
+        species: SpeciesId,
+        moles: Moles,
+    },
+    VesselSealed {
+        vessel: VesselId,
+        headspace_volume: Liters,
+        trapped_air: Moles,
+    },
+    VesselPressureControlled {
+        vessel: VesselId,
+        pressure: Pascal,
+        initial_volume: Liters,
+        trapped_gas: Moles,
+    },
+    VesselSwept {
+        vessel: VesselId,
+        pressure: Pascal,
+    },
+    VesselOpened {
+        vessel: VesselId,
+    },
+    /// Gas/liquid equilibrium settled in a finite headspace.
+    HeadspaceEquilibrated {
+        vessel: VesselId,
+        pressure: Pascal,
+        total_moles: Moles,
     },
     /// A curated reaction transformed the contents. The equation is shown at
     /// student register and above; the observations arrive as their own
@@ -347,6 +402,8 @@ impl Event {
             Event::Dissolved { moles, .. }
             | Event::Precipitated { moles, .. }
             | Event::GasEvolved { moles, .. }
+            | Event::GasAbsorbed { moles, .. }
+            | Event::GasContained { moles, .. }
             | Event::Consumed { moles, .. }
             | Event::Plated { moles, .. }
             | Event::Reacted { moles, .. } => moles.0,

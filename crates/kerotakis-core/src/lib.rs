@@ -46,7 +46,8 @@ pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 pub use vessel::{
-    Portion, Provenance, RedoxState, SolutionInfo, SpeciesDetail, ThermalMode, Vessel, VesselId,
+    Headspace, Portion, Provenance, RedoxState, SolutionInfo, SpeciesDetail, ThermalMode, Vessel,
+    VesselId,
 };
 
 #[cfg(test)]

@@ -1,0 +1,8 @@
+# Carbon dioxide enters as well as leaves an open vessel.
+# The first dose turns limewater milky; genuine excess clears it again.
+add v1 water 1L
+add v1 Ca(OH)2 0.01mol
+add v1 CO2 0.01mol
+look v1
+add v1 CO2 0.05mol
+look v1

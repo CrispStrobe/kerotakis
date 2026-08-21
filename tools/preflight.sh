@@ -25,6 +25,7 @@ step "tests";         cargo test --workspace
 step "no-engine";     cargo check -p kerotakis-phreeqc --no-default-features
 step "wasm32";        cargo build -p kerotakis-wasm --target wasm32-unknown-unknown
 step "codex lint";    cargo run --release -p kerotakis-cli -- codex lint
+step "provenance";    cargo run --release -p kerotakis-cli -- provenance lint
 step "sweep";         cargo run --release -p kerotakis-cli -- sweep
 
 printf '\n\033[1;32mpreflight clean\033[0m\n'
