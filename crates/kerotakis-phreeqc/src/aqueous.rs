@@ -821,6 +821,11 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
 
     for surface in &vessel.surfaces {
         solutes += 1;
+        // SURFACE is reconstructed from its neutral Hfo_*OH reference on
+        // every PHREEQC pass. Return water previously released by ligand
+        // exchange to that interface reference before solving again, just
+        // as the bound sorbates below are returned to the element totals.
+        kgw -= surface.water_release.0 * WATER_MOLAR_MASS / 1000.0;
         for occupied in &surface.occupancy {
             let sorbate = occupied.sorbate.species();
             let Some(DerivedRole::Dissolves(els)) = derived::role(&sorbate.0) else {
@@ -1369,16 +1374,25 @@ impl PhreeqcEquilibrator {
                 SurfaceSorbate::Sulfate,
                 weak_sulfate,
             );
-            distribute_surface_water_release(
-                &mut new_surfaces,
-                SurfaceSiteKind::Strong,
-                strong_sulfate_water,
-            );
-            distribute_surface_water_release(
-                &mut new_surfaces,
-                SurfaceSiteKind::Weak,
-                weak_sulfate_water,
-            );
+            // `mass_H2O` is the authoritative net transfer into solution.
+            // The named water-producing complexes decide which site owners
+            // supplied it; their selected-output amounts can differ slightly
+            // from the water delta because the surface equations are solved
+            // in the electrostatic mass-action system, not as an extent log.
+            let modeled_water = strong_sulfate_water + weak_sulfate_water;
+            if modeled_water > TRACE {
+                let water_release = ((kgw_out - problem.kgw) * 1000.0 / WATER_MOLAR_MASS).max(0.0);
+                distribute_surface_water_release(
+                    &mut new_surfaces,
+                    SurfaceSiteKind::Strong,
+                    water_release * strong_sulfate_water / modeled_water,
+                );
+                distribute_surface_water_release(
+                    &mut new_surfaces,
+                    SurfaceSiteKind::Weak,
+                    water_release * weak_sulfate_water / modeled_water,
+                );
+            }
         }
         let mut new_ions: Vec<(String, f64)> = Vec::new();
         let mut unnameable: Vec<(String, f64)> = Vec::new();

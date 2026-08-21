@@ -105,6 +105,8 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     );
 
     let first_bound = bound;
+    let first_mass = state.mass().0;
+    let first_water = state.moles_of(&SpeciesId::new("water")).0;
     step(
         &mut bench,
         &mut solver,
@@ -115,6 +117,11 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     let settled = bench.vessel(VesselId(0)).unwrap();
     assert!((zinc_inventory(settled) - 1e-4).abs() < 2e-8);
     assert!((sulfate_inventory(settled) - 1e-4).abs() < 2e-8);
+    assert!((settled.mass().0 - first_mass).abs() < 2e-5);
+    assert!(
+        (settled.moles_of(&SpeciesId::new("water")).0 - first_water).abs() < 1e-10,
+        "re-equilibrating must not release the same ligand-exchange water twice"
+    );
     assert!(
         (settled.surfaces[0].bound(SurfaceSorbate::Zinc).0 - first_bound).abs() < 2e-8,
         "re-equilibrating must not lose the previously bound inventory"
