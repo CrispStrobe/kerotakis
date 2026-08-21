@@ -1,0 +1,11 @@
+{
+  "description": "Simple first-order decay: rate=0.5*M*TIME, 0.5s step",
+  "oracle": "legacy-basic-oracle (vendored PHREEQC PBasic)",
+  "observables": {
+    "k_Decay": {
+      "value": 0.7788,
+      "absolute_tolerance": 0.00005,
+      "notes": "Runge-Kutta integration of rate=0.5*M*TIME over 0.5s"
+    }
+  }
+}

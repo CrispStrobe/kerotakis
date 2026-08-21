@@ -1,0 +1,19 @@
+{
+  "description": "USER_PUNCH with multicolumn output including LOG10",
+  "oracle": "legacy-basic-oracle (vendored PHREEQC PBasic)",
+  "observables": {
+    "na_tot": {
+      "value": 0.01,
+      "absolute_tolerance": 1e-8
+    },
+    "ca_tot": {
+      "value": 0.001,
+      "absolute_tolerance": 1e-8
+    },
+    "log10_na": {
+      "value": -2.0,
+      "absolute_tolerance": 0.001,
+      "notes": "LOG10(0.01) = -2"
+    }
+  }
+}

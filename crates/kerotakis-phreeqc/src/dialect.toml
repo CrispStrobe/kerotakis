@@ -1,0 +1,87 @@
+# Kerotakis PHREEQC BASIC Dialect Manifest
+# Version: 0.2.0-preview
+# Engine: MY-BASIC (MIT, pinned 38baab02)
+
+[meta]
+version = "0.2.0-preview"
+status = "opt-in; the default engine build remains no-BASIC"
+engine = "my-basic"
+engine_commit = "38baab02ece70b650f5e687e485d879f80843256"
+
+[statements]
+supported = [
+    "LET",
+    "IF/THEN/ELSE",
+    "FOR/NEXT",
+    "WHILE/WEND",
+    "GOTO",
+    "GOSUB/RETURN",
+    "REM",
+    "PRINT",
+    "DIM",
+    "DATA/READ/RESTORE (straight-line initialization prefix only)",
+]
+unsupported = [
+    "USER_GRAPH",
+    "GRAPH_X",
+    "GRAPH_Y",
+    "PLOT_XY",
+    "ON ERROR",
+    "OPEN/CLOSE/INPUT#",
+]
+
+[operators]
+supported = ["+", "-", "*", "/", "^", "MOD", "AND", "OR", "NOT", "=", "<>", "<", ">", "<=", ">="]
+
+[functions.math]
+supported = ["ABS", "SGN", "SQR", "SQRT", "FLOOR", "CEIL", "SIN", "COS", "TAN", "ARCTAN", "EXP", "LOG", "LOG10"]
+notes = "LOG is natural log (ln). LOG10 is base-10 log."
+
+[functions.string]
+supported = ["ASC", "CHR$", "MID$", "STR$", "VAL", "LEN"]
+
+[functions.chemistry]
+supported = [
+    "ACT",
+    "MOL",
+    "TOT",
+    "LA",
+    "LM",
+    "SI",
+    "SR",
+    "KIN",
+    "EQUI",
+    "GAS",
+    "GFW",
+    "PHASE_FORMULA$",
+    "CALC_VALUE",
+    "SUM_SPECIES",
+    "SUM_GAS",
+    "DELTA_H_SPECIES",
+]
+unsupported = [
+    "SURF",
+    "MISC1",
+    "MISC2",
+    "EDL",
+    "CHARGE_BALANCE",
+    "PERCENT_ERROR",
+    "ALKALINITY",
+    "OSMOTIC",
+    "SYS",
+    "KINETICS_FORMULA",
+]
+experimental = ["S_S"] # callback exists but has no differential fixture yet
+
+[functions.special]
+supported = ["SAVE", "PUNCH", "PARM"]
+notes = "SAVE and PUNCH are adapter operations, not standard MY-BASIC."
+
+[variables.runtime]
+supported = ["M", "M0", "TIME", "TC", "TK", "SIM_TIME", "TOTAL_TIME", "CELL_NO", "SOLN_VOL"]
+
+[limits]
+statement_budget = 100000
+wall_clock_seconds = 2
+recursion_depth = 50
+output_bytes = 1048576

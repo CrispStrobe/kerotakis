@@ -157,3 +157,191 @@ fn runaway_program_stops_at_the_statement_budget() {
         .run("SOLUTION 2\n    pH 7\nEND\n")
         .expect("engine remains usable after budget cancellation");
 }
+
+#[test]
+fn log10_and_floor_evaluate_correctly() {
+    let mut engine = Phreeqc::with_database(databases::PHREEQC).unwrap();
+    engine
+        .run(
+            "CALCULATE_VALUES\n\
+                 LogFloorTest\n\
+                 -start\n\
+                 10 x = LOG10(1000)\n\
+                 20 y = FLOOR(3.7)\n\
+                 30 SAVE x + y\n\
+                 -end\n\
+             SOLUTION 1\n\
+                 pH 7\n\
+             SELECTED_OUTPUT\n\
+                 -reset false\n\
+                 -calculate_values LogFloorTest\n\
+             END\n",
+        )
+        .unwrap();
+    let value = engine
+        .last_value("V_LogFloorTest")
+        .expect("calculated value");
+    assert!(
+        (value - 6.0).abs() < 1e-10,
+        "LOG10(1000)+FLOOR(3.7) = {value}"
+    );
+}
+
+#[test]
+fn calc_value_recursive_invocation_succeeds() {
+    let mut engine = Phreeqc::with_database(databases::PHREEQC).unwrap();
+    engine
+        .run(
+            "CALCULATE_VALUES\n\
+                 DoubleNa\n\
+                 -start\n\
+                 10 SAVE TOT(\"Na\") * 2\n\
+                 -end\n\
+             RATES\n\
+                 CalcUser\n\
+                 -start\n\
+                 10 SAVE CALC_VALUE(\"DoubleNa\") * TIME\n\
+                 -end\n\
+             SOLUTION 1\n\
+                 units mol/kgw\n\
+                 pH 7\n\
+                 Na 0.01\n\
+             KINETICS 1\n\
+                 CalcUser\n\
+                     -formula H2O 0\n\
+                     -m 1\n\
+                     -m0 1\n\
+                     -steps 0.5 seconds\n\
+             SELECTED_OUTPUT\n\
+                 -reset false\n\
+                 -kinetics CalcUser\n\
+             END\n",
+        )
+        .unwrap();
+    let value = engine.last_value("k_CalcUser").expect("kinetics output");
+    let expected = 1.0 - 0.02 * 0.5;
+    assert!(
+        (value - expected).abs() < 1e-6,
+        "remaining after CALC_VALUE(DoubleNa)*TIME = {value}, expected {expected}"
+    );
+}
+
+#[test]
+fn calc_value_circular_reference_hits_recursion_budget() {
+    let mut engine = Phreeqc::with_database(databases::PHREEQC).unwrap();
+    let error = engine
+        .run(
+            "CALCULATE_VALUES\n\
+                 Circular\n\
+                 -start\n\
+                 10 SAVE CALC_VALUE(\"Circular\") + 1\n\
+                 -end\n\
+             SOLUTION 1\n\
+                 pH 7\n\
+             SELECTED_OUTPUT\n\
+                 -reset false\n\
+                 -calculate_values Circular\n\
+             END\n",
+        )
+        .unwrap_err()
+        .to_string();
+    assert!(error.contains("recursion budget"), "{error}");
+}
+
+#[test]
+fn data_read_restore_pattern_compiles_and_runs() {
+    let mut engine = Phreeqc::with_database(databases::PHREEQC).unwrap();
+    engine
+        .run(
+            "CALCULATE_VALUES\n\
+                 DataTest\n\
+                 -start\n\
+                 10 DATA 2.5, 3.5, 4.0\n\
+                 20 RESTORE 10\n\
+                 30 READ a, b, c\n\
+                 40 REM GOTO 10 is not control flow\n\
+                 50 note$ = \"GOTO 10\"\n\
+                 60 SAVE a + b + c\n\
+                 -end\n\
+             SOLUTION 1\n\
+                 pH 7\n\
+             SELECTED_OUTPUT\n\
+                 -reset false\n\
+                 -calculate_values DataTest\n\
+             END\n",
+        )
+        .unwrap();
+    let value = engine.last_value("V_DataTest").expect("calculated value");
+    assert!((value - 10.0).abs() < 1e-10, "DATA sum = {value}");
+}
+
+#[test]
+fn dynamic_data_cursor_is_rejected_instead_of_misexecuted() {
+    let mut engine = Phreeqc::with_database(databases::PHREEQC).unwrap();
+    let error = engine
+        .run(
+            "CALCULATE_VALUES\n\
+                 DynamicData\n\
+                 -start\n\
+                 10 DATA 1, 2\n\
+                 20 RESTORE 10\n\
+                 30 READ a\n\
+                 40 GOTO 20\n\
+                 50 SAVE a\n\
+                 -end\n\
+             SOLUTION 1\n\
+                 pH 7\n\
+             SELECTED_OUTPUT\n\
+                 -reset false\n\
+                 -calculate_values DynamicData\n\
+             END\n",
+        )
+        .unwrap_err()
+        .to_string();
+    assert!(
+        error.contains("control flow into a DATA initialization prefix"),
+        "{error}"
+    );
+}
+
+#[test]
+fn gfw_executes_in_a_rate_program() {
+    let mut engine = Phreeqc::with_database(databases::PHREEQC).unwrap();
+    engine
+        .run(
+            "CALCULATE_VALUES\n\
+                 GfwTest\n\
+                 -start\n\
+                 10 SAVE GFW(\"H2O\")\n\
+                 -end\n\
+             SOLUTION 1\n\
+                 pH 7\n\
+             SELECTED_OUTPUT\n\
+                 -reset false\n\
+                 -calculate_values GfwTest\n\
+             END\n",
+        )
+        .unwrap();
+    let value = engine.last_value("V_GfwTest").expect("calculated value");
+    assert!((value - 18.015).abs() < 0.01, "GFW(H2O) = {value}");
+}
+
+#[test]
+fn output_budget_stops_excessive_print() {
+    let mut engine = Phreeqc::with_database(databases::PHREEQC).unwrap();
+    let error = engine
+        .run(
+            "SOLUTION 1\n\
+                 pH 7\n\
+             PRINT\n\
+                 -user_print true\n\
+             USER_PRINT\n\
+                 10 FOR i = 1 TO 100000\n\
+                 20 PRINT \"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\"\n\
+                 30 NEXT i\n\
+             END\n",
+        )
+        .unwrap_err()
+        .to_string();
+    assert!(error.contains("output budget"), "{error}");
+}

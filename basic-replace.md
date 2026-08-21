@@ -15,28 +15,45 @@ Status: migration in progress, 2026-08-21.
   capability failures are covered directly, and the cache-only suite passes.
   The Emscripten module also builds in this configuration and its live AgCl
   precipitation check passes without filesystem access.
-- Stage 3 is in progress. MY-BASIC is pinned at
+- Stage 3 is complete for the native and Emscripten toolchains used by this
+  repository. MY-BASIC is pinned at
   `38baab02ece70b650f5e687e485d879f80843256`; its two core files and full MIT
   notice are vendored byte-for-byte with a provenance manifest and hash audit.
   The disabled-file-loading C99 build passes smoke checks for values, arrays,
   control flow, callbacks, errors, and suspension. Toolchain integration and
-  platform builds remain before the stage is complete.
+  platform-specific application packaging remains part of release validation.
 - Stage 4 is in progress behind the opt-in `my-basic-preview` feature. The
   clean `KeroBasicAdapter` owns its compiled programs, serializes the upstream
   runtime, normalizes PHREEQC's semicolon-delimited numbered source, translates
   labels and jumps without touching strings or comments, injects `M`, `M0`,
   `TIME`, `TC`, and `TK`, and implements `SAVE`, `PARM`, and numeric/string
   `PUNCH`. Native callbacks cover `ACT`, `MOL`, `TOT`, `SI`, `SR`, `LM`, and
-  `DELTA_H_SPECIES`. Live kinetics, multiple-instance cleanup, and malformed
-  input pass; shared legacy/preview oracles cover `USER_PUNCH`, `USER_PRINT`,
-  and `CALCULATE_VALUES`. Execution has a deterministic 100,000-statement
-  ceiling and a two-second wall-clock ceiling; cancellation leaves the owning
-  PHREEQC instance reusable. The broader function/dialect corpus and
-  allocation, recursion, array, and output budgets remain incomplete, so this
-  backend is not enabled in official builds.
-- Stages 5 through 7 have not started. The legacy implementation remains in the
-  source tree solely for the explicit `legacy-basic-oracle` development
-  feature; it is not part of default native or WebAssembly build inputs.
+  `DELTA_H_SPECIES`, `LA`, `KIN`, `EQUI`, `GAS`, `GFW`, `PHASE_FORMULA$`,
+  `CALC_VALUE`, `SUM_SPECIES`, and `SUM_GAS`. The runtime uses MY-BASIC's
+  double-precision mode; state-dependent `CELL_NO`, `SOLN_VOL`, `SIM_TIME`,
+  and `TOTAL_TIME` are callbacks rather than stale injected constants.
+  PHREEQC spellings and semantics for `MID$`, `STR$`, `CHR$`, `SQRT`, and
+  `ARCTAN` have differential checks. Execution has shared nested-call
+  statement, wall-clock, recursion, and output budgets, and cancellation
+  leaves the owning PHREEQC instance reusable.
+- Stage 5 is in progress. `src/dialect.toml` records the opt-in compatibility
+  level. A shared legacy/preview corpus now executes all seven bundled `RATES`
+  programs from both embedded databases that contain rates (`phreeqc.dat` and
+  `wateq4f.dat`) and checks their selected output against captured legacy
+  values. `DATA/READ/RESTORE` is intentionally limited to the straight-line
+  initialization prefix used by the bundled feldspar programs; dynamic cursor
+  control is rejected explicitly. `USER_GRAPH` is also rejected explicitly.
+- Stage 6 is in progress. Shared fixtures cover kinetics, calculated values,
+  USER_PUNCH, DATA initialization, chemistry/assemblage callbacks, runtime
+  variables, PHREEQC string/math aliases, malformed programs, and resource
+  limits. The expected-value files identify the retained legacy backend as
+  their oracle. Full kinetics trajectories, error-location parity, arrays,
+  allocation budgets, and platform-wide differential runs remain.
+- Stage 7 has not started. An attempted deletion was rolled back after audit:
+  the replacement is still opt-in, and the legacy files remain referenced by
+  non-CMake upstream build metadata. The legacy implementation remains solely
+  for the explicit `legacy-basic-oracle` development feature and is omitted
+  from default native and WebAssembly build inputs.
 
 ## Goal
 

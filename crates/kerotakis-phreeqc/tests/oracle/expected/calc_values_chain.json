@@ -1,0 +1,14 @@
+{
+  "description": "Independent CALCULATE_VALUES definitions evaluated by both backends",
+  "oracle": "legacy-basic-oracle (vendored PHREEQC PBasic)",
+  "observables": {
+    "V_DoubleNa": {
+      "value": 0.02,
+      "absolute_tolerance": 1e-8
+    },
+    "V_TripleNa": {
+      "value": 0.03,
+      "absolute_tolerance": 1e-8
+    }
+  }
+}
