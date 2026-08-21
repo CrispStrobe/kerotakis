@@ -145,8 +145,12 @@ fn ex21_generator_matches_legacy_observables_with_declared_tolerances() {
     let vendor = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../vendor/iphreeqc");
     let database = fs::read(vendor.join("database/phreeqc.dat")).unwrap();
     let input = fs::read_to_string(vendor.join("phreeqc3-examples/ex21")).unwrap();
+    let generator = input
+        .split_once("INCLUDE$ radial")
+        .expect("ex21 generated-input include marker")
+        .0;
     let mut engine = Phreeqc::with_database(&database).unwrap();
-    engine.run(&input).unwrap();
+    engine.run(generator).unwrap();
 
     let generated = engine.selected_output_string();
     let actual = generated_observables(&generated);
