@@ -195,7 +195,7 @@ pub struct CellChain {
 impl CellChain {
     pub fn new(cells: Vec<Vessel>) -> Result<Self, TransportError> {
         let chain = Self { cells };
-        chain.uniform_cell_volume()?;
+        chain.uniform_cell_volume(false)?;
         Ok(chain)
     }
 
@@ -239,11 +239,16 @@ impl CellChain {
             });
         }
 
-        let cell_volume = self.uniform_cell_volume()?;
+        let cell_volume = self.uniform_cell_volume(true)?;
         let inlet = MobileParcel::from_vessel(inlet);
         inlet.validate("transport inlet")?;
         let inlet_volume = inlet.liquid_volume().0;
-        if !same_volume(cell_volume, inlet_volume) {
+        let surface_reference_tolerance = self
+            .cells
+            .first()
+            .map(surface_reference_volume)
+            .unwrap_or(0.0);
+        if !same_volume(cell_volume, inlet_volume, surface_reference_tolerance) {
             return Err(TransportError::InletVolume {
                 expected_l: cell_volume,
                 actual_l: inlet_volume,
@@ -345,14 +350,17 @@ impl CellChain {
         })
     }
 
-    fn uniform_cell_volume(&self) -> Result<f64, TransportError> {
+    fn uniform_cell_volume(
+        &self,
+        allow_surface_reference_transfer: bool,
+    ) -> Result<f64, TransportError> {
         let Some(first) = self.cells.first() else {
             return Err(TransportError::EmptyChain);
         };
         if !matches!(first.thermal_mode, ThermalMode::Adiabatic) {
             return Err(TransportError::ThermostattedCell { cell: 0 });
         }
-        let expected = first.liquid_volume().0;
+        let expected = hydraulic_liquid_volume(first).0;
         if !expected.is_finite() || expected <= 0.0 {
             return Err(TransportError::InvalidCellVolume {
                 cell: 0,
@@ -363,14 +371,19 @@ impl CellChain {
             if !matches!(cell.thermal_mode, ThermalMode::Adiabatic) {
                 return Err(TransportError::ThermostattedCell { cell: index });
             }
-            let actual = cell.liquid_volume().0;
+            let actual = hydraulic_liquid_volume(cell).0;
             if !actual.is_finite() || actual <= 0.0 {
                 return Err(TransportError::InvalidCellVolume {
                     cell: index,
                     volume_l: actual,
                 });
             }
-            if !same_volume(expected, actual) {
+            let surface_reference_tolerance = if allow_surface_reference_transfer {
+                surface_reference_volume(first) + surface_reference_volume(cell)
+            } else {
+                0.0
+            };
+            if !same_volume(expected, actual, surface_reference_tolerance) {
                 return Err(TransportError::NonUniformCellVolume {
                     cell: index,
                     expected_l: expected,
@@ -386,7 +399,41 @@ fn is_mobile(phase: Phase) -> bool {
     matches!(phase, Phase::Liquid | Phase::Aqueous)
 }
 
-fn same_volume(expected: f64, actual: f64) -> bool {
+/// Carrier-liquid volume, excluding water currently released from stationary
+/// surface reference sites. That water is mobile matter, but its matching
+/// deficit remains on the interface ledger; it must not look like a change in
+/// the fixed hydraulic cell geometry.
+fn hydraulic_liquid_volume(vessel: &Vessel) -> Liters {
+    let released_water = Moles(
+        vessel
+            .surfaces
+            .iter()
+            .map(|surface| surface.water_release.0)
+            .sum(),
+    );
+    let released_volume = species::lookup_key("water")
+        .map(|water| water.liters_from_moles(released_water).0)
+        .unwrap_or(0.0);
+    Liters(vessel.liquid_volume().0 - released_volume)
+}
+
+/// Maximum solvent volume that a cell's finite surface sites can exchange
+/// with the mobile phase while moving between neutral reference states.
+fn surface_reference_volume(vessel: &Vessel) -> f64 {
+    let capacity = Moles(
+        vessel
+            .surfaces
+            .iter()
+            .map(|surface| surface.strong_capacity.0 + surface.weak_capacity.0)
+            .sum(),
+    );
+    species::lookup_key("water")
+        .map(|water| water.liters_from_moles(capacity).0)
+        .unwrap_or(0.0)
+}
+
+fn same_volume(expected: f64, actual: f64, additional_absolute_tolerance_l: f64) -> bool {
     (expected - actual).abs()
         <= (expected.abs() * VOLUME_RELATIVE_TOLERANCE).max(VOLUME_ABSOLUTE_TOLERANCE_L)
+            + additional_absolute_tolerance_l
 }

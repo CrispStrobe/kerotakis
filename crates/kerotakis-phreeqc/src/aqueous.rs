@@ -20,6 +20,9 @@ use kerotakis_core::{
     SurfaceSites, SurfaceSorbate, ThermalMode, Vessel,
 };
 
+#[cfg(feature = "engine")]
+const RESET_NUMBERED_REACTANTS: &str = "DELETE\n    -all\nEND\n";
+
 use crate::PhreeqcError;
 #[cfg(feature = "engine")]
 use crate::{databases, Phreeqc};
@@ -221,6 +224,12 @@ impl PhreeqcEquilibrator {
                 "pitzer" => &mut self.brine,
                 _ => &mut self.inorganic,
             };
+            engine
+                .run(RESET_NUMBERED_REACTANTS)
+                .map_err(|e| SolveError::NotConverged {
+                    solver: "phreeqc-aqueous".to_string(),
+                    detail: format!("could not reset reused IPhreeqc state: {e}"),
+                })?;
             engine.run(input).map_err(|e| {
                 // The input is the whole question; when the engine refuses
                 // it, being able to see it is the difference between a
@@ -534,7 +543,10 @@ impl PhreeqcEquilibrator {
                 "pitzer" => &mut self.brine,
                 _ => &mut self.inorganic,
             };
-            let outcome = match engine.run(&input) {
+            let outcome = match engine
+                .run(RESET_NUMBERED_REACTANTS)
+                .and_then(|()| engine.run(&input))
+            {
                 Err(e) => PathOutcome::Failed {
                     detail: e.to_string(),
                 },
@@ -1778,7 +1790,7 @@ impl PhreeqcEquilibrator {
             let Some(DerivedRole::Dissolves(elements)) = derived::role(&sorbate.species().0) else {
                 continue;
             };
-            let bound: f64 = new_surfaces
+            let mut bound: f64 = new_surfaces
                 .iter()
                 .map(|surface| surface.bound(sorbate).0)
                 .sum();
@@ -1817,6 +1829,28 @@ impl PhreeqcEquilibrator {
                     })
                     .sum();
                 let analytical = solution_inventory + phase_inventory;
+                // Selected surface-species molalities can exceed the
+                // analytical sorbate available at low loading. Capping only
+                // the aqueous side still creates matter because the typed
+                // interface owns that impossible excess. Scale this
+                // sorbate's occupancy to the hard material ceiling first;
+                // sulfate ligand exchange carries its released-water ledger
+                // with the same complexes.
+                let maximum_bound = (analytical / coefficient).max(0.0);
+                if bound > maximum_bound && bound > 0.0 {
+                    let scale = maximum_bound / bound;
+                    for surface in &mut new_surfaces {
+                        for entry in &mut surface.occupancy {
+                            if entry.sorbate == sorbate {
+                                entry.moles = Moles(entry.moles.0 * scale);
+                            }
+                        }
+                        if sorbate == SurfaceSorbate::Sulfate {
+                            surface.water_release = Moles(surface.water_release.0 * scale);
+                        }
+                    }
+                    bound = maximum_bound;
+                }
                 let ceiling = (analytical - bound * coefficient).max(0.0);
                 // Redox-active elements may be returned as several tagged
                 // entries. Cap their aggregate, not every entry separately,

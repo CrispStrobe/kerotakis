@@ -2401,6 +2401,26 @@ skipped under the load policy; CI run `32509744496` passed native
 Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
 core/IPhreeqc/full/combined Wasm, and the real-browser demo.
 
+**Completed session — `codex-AQ` (2026-08-21, AQ-013).** Work was isolated in
+`/tmp/kerotakis-aq013.JrJDuc/worktree` on branch
+`codex-aq/aq-013-surface-transport`. A live four-cell HFO column now advances
+20 full-cell shifts over the AQ-012 reactive chain with finite stationary
+strong/weak sites. Per-step zinc and sulfate ledgers close across dissolved,
+surface-bound, inlet, and effluent inventory within `2e-8 mol`. Against a
+separate raw PHREEQC `TRANSPORT` calculation, the normalized outlet front
+agrees within one shift at half-breakthrough, 2.5% mean absolute curve error,
+and 25% at every individual grid sample. Solver reuse is isolated between
+vessels, typed surface readback is capped by analytical inventory, and the
+hydraulic allowance for surface reference water is bounded by finite site
+capacity. Raw `TRANSPORT` remains an engine-gated development oracle only;
+the app path is project-authored transport plus the existing typed `SURFACE`
+adapter. No surface-species/database expansion, public scripting/UI,
+exchange-transport change, kinetics or MY-BASIC change, imported data, new
+dependency, or vendored-source change was added. Local native compilation was
+skipped under the load policy; CI run `32514634767` passed native
+Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
+core/IPhreeqc/combined Wasm, the Wasm bench, and the real-browser demo.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state

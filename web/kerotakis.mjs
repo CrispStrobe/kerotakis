@@ -109,6 +109,13 @@ class PhreeqcPool {
     /// The solver hook the Rust bench calls. Synchronous by necessity.
     solve(dbTag, input) {
         const id = this.instances[dbTag] ?? this.instances["wateq4f"];
+        // Instances are pooled across vessels. Clear numbered solutions and
+        // reactants in a separate run so a populated SURFACE 1 cannot leak
+        // into the next cell, while the real run retains one clean selected-
+        // output schema. Thermodynamic database definitions are unaffected.
+        if (this.api.run(id, "DELETE\n    -all\nEND\n") !== 0) {
+            throw new Error(`resetting reused IPhreeqc state: ${this.api.error(id)}`);
+        }
         this.api.selectedStringOn(id, 1);
         if (this.api.run(id, input) !== 0) {
             throw new Error(this.api.error(id));

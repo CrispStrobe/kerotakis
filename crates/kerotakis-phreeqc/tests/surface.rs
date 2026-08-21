@@ -263,6 +263,33 @@ fn pooled_solver_result_returns_to_each_named_interface() {
 }
 
 #[test]
+fn sequential_surface_solves_do_not_share_numbered_reactants() {
+    let mut solver = PhreeqcEquilibrator::new().expect("engine");
+    let solve = |solver: &mut PhreeqcEquilibrator, id: usize, zinc: f64| {
+        let mut vessel = Vessel::new(VesselId(id), format!("surface cell {id}"));
+        vessel.deposit(SpeciesId::new("water"), Moles(5.5509), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("Zn+2"), Moles(zinc), Phase::Aqueous);
+        vessel.deposit(SpeciesId::new("SO4-2"), Moles(zinc), Phase::Aqueous);
+        vessel.surfaces.push(hfo(&format!("oxide {id}"), 1.0));
+        solver
+            .equilibrate(&mut vessel)
+            .expect("surface equilibrium");
+        vessel
+    };
+
+    let first = solve(&mut solver, 0, 1e-4);
+    let second = solve(&mut solver, 1, 1e-5);
+
+    assert!((zinc_inventory(&first) - 1e-4).abs() < 2e-8);
+    assert!(
+        (zinc_inventory(&second) - 1e-5).abs() < 2e-8,
+        "the second vessel must own only its own zinc: dissolved={:.12e}, bound={:.12e}",
+        second.moles_of(&SpeciesId::new("Zn+2")).0,
+        second.surfaces[0].bound(SurfaceSorbate::Zinc).0,
+    );
+}
+
+#[test]
 fn untracked_surface_complexes_fail_loudly_instead_of_losing_inventory() {
     let mut solver = PhreeqcEquilibrator::new().expect("engine");
     let mut bench = Bench::new();
