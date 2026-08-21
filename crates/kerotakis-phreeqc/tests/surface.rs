@@ -145,7 +145,9 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     );
     assert!(
         (settled.surfaces[0].bound(SurfaceSorbate::Zinc).0 - first_bound).abs() < 2e-8,
-        "re-equilibrating must not lose the previously bound inventory"
+        "re-equilibrating must not change the equilibrium bound inventory: first={first_bound:.12e} mol, settled={:.12e} mol, delta={:.12e} mol",
+        settled.surfaces[0].bound(SurfaceSorbate::Zinc).0,
+        settled.surfaces[0].bound(SurfaceSorbate::Zinc).0 - first_bound,
     );
 }
 
