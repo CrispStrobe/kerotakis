@@ -1070,7 +1070,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [x] **AQ-003 — Support inward and outward gas transfer.** Replace the current
   one-way atmospheric treatment. Acceptance: the complete limewater/excess-CO₂
   sequence conserves carbon.
-- [ ] **AQ-004 — Add headspace energy accounting.** Include gas sensible
+- [x] **AQ-004 — Add headspace energy accounting.** Include gas sensible
   enthalpy and pressure/volume constraints; test open versus sealed heating.
 - [ ] **AQ-005 — Add typed `SurfaceSites`.** Compile one oxide surface model to
   `SURFACE`; retain capacity and occupancy on the interface ledger.
