@@ -42,14 +42,15 @@ fn surface_capacity_and_occupancy_are_separate_ledgers() {
     });
     surface.occupancy.push(SurfaceOccupancy {
         site: SurfaceSiteKind::Weak,
-        sorbate: SurfaceSorbate::Zinc,
-        moles: Moles(3e-5),
+        sorbate: SurfaceSorbate::Sulfate,
+        moles: Moles(1e-5),
     });
 
     assert_eq!(surface.capacity(SurfaceSiteKind::Strong), Moles(5e-6));
     assert_eq!(surface.occupied(SurfaceSiteKind::Strong), Moles(2e-6));
-    assert_eq!(surface.occupied(SurfaceSiteKind::Weak), Moles(3e-5));
-    assert_eq!(surface.bound(SurfaceSorbate::Zinc), Moles(3.2e-5));
+    assert_eq!(surface.occupied(SurfaceSiteKind::Weak), Moles(1e-5));
+    assert_eq!(surface.bound(SurfaceSorbate::Zinc), Moles(2e-6));
+    assert_eq!(surface.bound(SurfaceSorbate::Sulfate), Moles(1e-5));
     assert!(surface.has_valid_capacity());
 
     surface.occupancy.push(SurfaceOccupancy {
@@ -69,8 +70,18 @@ fn vessel_mass_includes_the_interface_and_its_bound_sorbate() {
         sorbate: SurfaceSorbate::Zinc,
         moles: Moles(1e-6),
     });
+    surface.occupancy.push(SurfaceOccupancy {
+        site: SurfaceSiteKind::Weak,
+        sorbate: SurfaceSorbate::Sulfate,
+        moles: Moles(2e-6),
+    });
     vessel.surfaces.push(surface);
 
     let zinc_mass = species::lookup_key("Zn+2").unwrap().molar_mass * 1e-6;
-    assert!((vessel.mass().0 - (0.09 + zinc_mass)).abs() < 1e-12);
+    let sulfate_mass = species::lookup_key("SO4-2").unwrap().molar_mass * 2e-6;
+    assert!((vessel.mass().0 - (0.09 + zinc_mass + sulfate_mass)).abs() < 1e-12);
+    assert!(
+        !vessel.is_empty(),
+        "a physical oxide interface is vessel contents"
+    );
 }
