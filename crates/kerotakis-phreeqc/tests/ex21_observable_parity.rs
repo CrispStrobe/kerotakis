@@ -108,9 +108,9 @@ fn fixtures() -> Vec<NumericFixture> {
             name: format!("solution_{}_water_kg", index + 4),
             expected,
             absolute_tolerance: 1e-12,
-            relative_tolerance: 5e-6,
+            relative_tolerance: 5e-5,
             explanation:
-                "generated water masses may differ in STR$ digits, but not in chemical meaning",
+                "the legacy oracle renders water masses with five significant digits; half a last-place unit is formatting-only",
         });
     }
     for (index, expected) in mixes.into_iter().enumerate() {
@@ -118,8 +118,8 @@ fn fixtures() -> Vec<NumericFixture> {
             name: format!("mix_{}_factor", index + 3),
             expected,
             absolute_tolerance: 1e-12,
-            relative_tolerance: 5e-6,
-            explanation: "generated radial mixing factors are compared numerically, independent of BASIC formatting",
+            relative_tolerance: 5e-5,
+            explanation: "the legacy oracle renders mixing factors with five significant digits; half a last-place unit is formatting-only",
         });
     }
     result.push(NumericFixture {
