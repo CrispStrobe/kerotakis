@@ -130,3 +130,30 @@ fn native_chemistry_callbacks_and_parm_execute_in_a_rate_program() {
         "remaining moles: {remaining}"
     );
 }
+
+#[test]
+fn runaway_program_stops_at_the_statement_budget() {
+    let mut engine = Phreeqc::with_database(databases::PHREEQC).unwrap();
+    let error = engine
+        .run(
+            "RATES\n\
+             Runaway\n\
+             -start\n\
+             10 GOTO 10\n\
+             -end\n\
+             SOLUTION 1\n\
+                 pH 7\n\
+             KINETICS 1\n\
+                 Runaway\n\
+                     -formula H2O 0\n\
+                     -m 1\n\
+                     -steps 1 second\n\
+             END\n",
+        )
+        .unwrap_err()
+        .to_string();
+    assert!(error.contains("statement budget exceeded"), "{error}");
+    engine
+        .run("SOLUTION 2\n    pH 7\nEND\n")
+        .expect("engine remains usable after budget cancellation");
+}
