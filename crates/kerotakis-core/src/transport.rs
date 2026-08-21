@@ -6,13 +6,15 @@
 //! a Courant fraction in `[0, 1]`. Every outflow is snapshotted before any cell
 //! mutates, so the result does not depend on iteration order.
 //!
-//! This first slice deliberately performs no chemistry. It invalidates stale
-//! solution metadata after matter moves, leaving AQ-012 to equilibrate each
-//! cell between transport steps.
+//! [`CellChain::advance`] deliberately performs no chemistry and invalidates
+//! stale solution metadata after matter moves. [`CellChain::advance_reactive`]
+//! adds the operator-splitting seam: transport first, then local equilibrium,
+//! with whole-chain rollback if any cell solve fails.
 
 use serde::{Deserialize, Serialize};
 
-use crate::solve::adiabatic_mix_temperature;
+use crate::ops::Event;
+use crate::solve::{adiabatic_mix_temperature, Equilibrator, SolveError};
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles};
 use crate::vessel::{Portion, ThermalMode, Vessel};
@@ -44,6 +46,18 @@ pub enum TransportError {
     InvalidMobileState { location: String },
     #[error("transport cell {cell} is thermostatted; conservative AQ-011 transport requires adiabatic cells")]
     ThermostattedCell { cell: usize },
+}
+
+#[derive(Debug, thiserror::Error)]
+pub enum ReactiveTransportError {
+    #[error(transparent)]
+    Transport(#[from] TransportError),
+    #[error("reaction solve failed in transport cell {cell}: {source}")]
+    Reaction {
+        cell: usize,
+        #[source]
+        source: SolveError,
+    },
 }
 
 /// A mobile boundary parcel reported by one transport step.
@@ -151,6 +165,20 @@ pub struct TransportStep {
     pub courant_fraction: f64,
     pub injected: MobileParcel,
     pub effluent: MobileParcel,
+}
+
+/// Solver output associated with one cell after a reactive transport step.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CellReaction {
+    pub cell: usize,
+    pub events: Vec<Event>,
+}
+
+/// One conservative transport step followed by local cell equilibria.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ReactiveTransportStep {
+    pub transport: TransportStep,
+    pub reactions: Vec<CellReaction>,
 }
 
 /// A uniform one-dimensional finite-volume chain.
@@ -277,6 +305,38 @@ impl CellChain {
             courant_fraction,
             injected,
             effluent,
+        })
+    }
+
+    /// Transport mobile matter, then equilibrate every stationary cell.
+    ///
+    /// This is first-order operator splitting: the conservative AQ-011 step
+    /// runs once, then the supplied local solver sees cells from inlet to
+    /// outlet. If any solve fails, the complete chain is restored to its
+    /// pre-step state; solver-internal caches are outside this state contract.
+    pub fn advance_reactive<E: Equilibrator>(
+        &mut self,
+        inlet: &Vessel,
+        courant_fraction: f64,
+        equilibrator: &mut E,
+    ) -> Result<ReactiveTransportStep, ReactiveTransportError> {
+        let before = self.cells.clone();
+        let transport = self.advance(inlet, courant_fraction)?;
+        let mut reactions = Vec::with_capacity(self.cells.len());
+
+        for (cell, vessel) in self.cells.iter_mut().enumerate() {
+            match equilibrator.equilibrate(vessel) {
+                Ok(events) => reactions.push(CellReaction { cell, events }),
+                Err(source) => {
+                    self.cells = before;
+                    return Err(ReactiveTransportError::Reaction { cell, source });
+                }
+            }
+        }
+
+        Ok(ReactiveTransportStep {
+            transport,
+            reactions,
         })
     }
 
