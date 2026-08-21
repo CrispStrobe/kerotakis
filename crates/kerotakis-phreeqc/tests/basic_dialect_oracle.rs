@@ -199,9 +199,10 @@ fn phreeqc_string_function_spellings_match_the_legacy_backend() {
              END\n",
         )
         .unwrap();
-    // PHREEQC STR$ reserves a sign column for positive values (ASCII space)
-    // and starts negative values with '-'. ex21 relies on that field separator.
-    assert_eq!(engine.last_value("V_StringFunctions"), Some(145.0));
+    // PHREEQC STR$ reserves a leading field-separator column for both signs.
+    // Thus ASC(STR$(3)) and ASC(STR$(-1)) are both ASCII space; ex21 relies on
+    // the same separator when concatenating generated numeric fields.
+    assert_eq!(engine.last_value("V_StringFunctions"), Some(132.0));
 }
 
 #[test]
