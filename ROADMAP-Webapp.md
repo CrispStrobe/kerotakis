@@ -1149,8 +1149,26 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   dependency, or vendored change was added. Native Ubuntu/macOS, strict codex
   lint, both MY-BASIC previews, core/IPhreeqc/full/combined Wasm, and the
   real-browser demo passed in CI run `32509744496`.
-- [ ] **AQ-013 — Add surface/transport coupling.** Produce one adsorption-front
+- [x] **AQ-013 — Add surface/transport coupling.** Produce one adsorption-front
   case and compare it with PHREEQC's own transport result.
+  **Complete 2026-08-21:** a live four-cell HFO column now advances 20
+  full-cell shifts through the project-authored reactive cell chain and the
+  existing typed `SURFACE` adapter. Dissolved plus surface-bound zinc and
+  sulfate close against inlet and effluent after every shift within
+  `2e-8 mol`; finite strong/weak site capacities remain valid. The normalized outlet
+  starts below `1e-8`, reaches at least 80% of feed, and agrees with a separate
+  PHREEQC `TRANSPORT` calculation to within one shift at half-breakthrough,
+  2.5% mean absolute curve error, and 25% at every individual grid sample.
+  Pooled native/browser engines are reset between vessel solves, surface
+  readback cannot create more bound sorbate than the vessel's analytical
+  inventory, and reactive hydraulic drift is bounded by finite surface-site
+  capacity rather than a global relaxed tolerance. Raw PHREEQC `TRANSPORT`
+  remains an engine-gated development oracle only; the shipped app continues
+  to use AGPL-owned transport and exposes no raw transport API. No external
+  source, dataset, dependency, or vendored-source change was added. Native
+  Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
+  core/IPhreeqc/combined Wasm, the Wasm bench, and the real-browser demo passed
+  in CI run `32514634767`.
 - [ ] **AQ-014 — Publish the R1 acceptance suite.** Limewater, carbonated bottle,
   surface release, softener breakthrough, and partial freezing must work native,
   Wasm, cached replay, and offline.
