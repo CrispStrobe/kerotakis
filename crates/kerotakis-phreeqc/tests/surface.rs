@@ -83,7 +83,12 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     assert!(bound <= surface.strong_capacity.0 + surface.weak_capacity.0 + 1e-12);
     assert!(surface.occupied(SurfaceSiteKind::Strong).0 <= surface.strong_capacity.0 + 1e-12);
     assert!(surface.occupied(SurfaceSiteKind::Weak).0 <= surface.weak_capacity.0 + 1e-12);
-    assert!((zinc_inventory(state) - 1e-4).abs() < 2e-8);
+    assert!(
+        (zinc_inventory(state) - 1e-4).abs() < 2e-8,
+        "first zinc inventory: total={:.12e}, dissolved={:.12e}, bound={bound:.12e}",
+        zinc_inventory(state),
+        state.moles_of(&SpeciesId::new("Zn+2")).0,
+    );
     assert!((sulfate_inventory(state) - 1e-4).abs() < 2e-8);
     assert!(
         (state.moles_of(&SpeciesId::new("water")).0 - water_before_zinc - surface.water_release.0)
@@ -156,7 +161,13 @@ fn pooled_solver_result_returns_to_each_named_interface() {
     let large = state.surfaces[1].bound(SurfaceSorbate::Zinc).0;
     assert!(small > 0.0);
     assert!((large / small - 3.0).abs() < 1e-9);
-    assert!((zinc_inventory(state) - 2e-4).abs() < 2e-8);
+    assert!(
+        (zinc_inventory(state) - 2e-4).abs() < 2e-8,
+        "pooled zinc inventory: total={:.12e}, dissolved={:.12e}, bound={:.12e}",
+        zinc_inventory(state),
+        state.moles_of(&SpeciesId::new("Zn+2")).0,
+        small + large,
+    );
 }
 
 #[test]
