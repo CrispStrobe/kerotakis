@@ -77,6 +77,36 @@ fn zinc_adsorption_at_acid_dose(acid_moles: f64) -> (f64, f64, f64) {
     (ph, bound, zinc_inventory(state))
 }
 
+fn export_oracle_candidate(cases: &[(&str, (f64, f64, f64))]) {
+    let Some(path) = std::env::var_os("KERO_SURFACE_ORACLE_OUTPUT") else {
+        return;
+    };
+    let version = std::env::var("KERO_SURFACE_ORACLE_VERSION")
+        .expect("set KERO_SURFACE_ORACLE_VERSION to the tested git revision when exporting");
+    let retrieved = std::env::var("KERO_SURFACE_ORACLE_DATE")
+        .expect("set KERO_SURFACE_ORACLE_DATE to YYYY-MM-DD when exporting");
+    let cases: Vec<_> = cases
+        .iter()
+        .map(|(id, (ph, bound, inventory))| {
+            serde_json::json!({
+                "id": id,
+                "ph": ph,
+                "bound_zinc_mol": bound,
+                "total_zinc_mol": inventory,
+            })
+        })
+        .collect();
+    let document = serde_json::json!({
+        "schema": 1,
+        "benchmark": "hfo-zinc-ph-edge-v1",
+        "producer": {"name": "kerotakis-phreeqc", "version": version},
+        "retrieved": retrieved,
+        "cases": cases,
+    });
+    let bytes = serde_json::to_vec_pretty(&document).expect("serialize surface oracle candidate");
+    std::fs::write(path, bytes).expect("write surface oracle candidate outside the repository");
+}
+
 #[test]
 fn zinc_adsorption_increases_across_the_acid_side_ph_edge() {
     // Stay on the acid side of the adsorption edge: an alkaline endpoint
@@ -87,6 +117,12 @@ fn zinc_adsorption_increases_across_the_acid_side_ph_edge() {
     let shoulder = zinc_adsorption_at_acid_dose(1e-4);
     let least_acidic = zinc_adsorption_at_acid_dose(0.0);
     let cases = [acidic, shoulder, least_acidic];
+
+    export_oracle_candidate(&[
+        ("hcl-1e-2-mol", acidic),
+        ("hcl-1e-4-mol", shoulder),
+        ("no-added-acid", least_acidic),
+    ]);
 
     for (ph, bound, inventory) in cases {
         assert!(ph.is_finite(), "surface solve returned non-finite pH");
