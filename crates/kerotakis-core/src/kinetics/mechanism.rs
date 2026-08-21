@@ -1054,7 +1054,7 @@ species:
             volume: Liters(1.0),
         };
         for (species, moles) in contents {
-            vessel.deposit(crate::SpeciesId::new(*species), Moles(*moles), Phase::Gas);
+            vessel.deposit(crate::SpeciesId::new(species), Moles(*moles), Phase::Gas);
         }
         vessel.refresh_pressure();
         vessel
