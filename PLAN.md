@@ -2119,6 +2119,27 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
 School-level rates and electrochemistry moved forward to P3k/P3e; what is
 left here is the part that genuinely needs an engine.
 
+**Completed session — `codex-kin` (2026-08-21).** This session delivered the
+first generic-kinetics slice: a reaction-network IR, both current rate laws
+compiled through it without changing lesson or JSON output, and
+element/charge/site/electron conservation lint. Its implementation worktree is
+`/Users/christianstrobele/code/kerotakis-codex-kin` on branch
+`codex-kin/reaction-network`; its code boundary is
+`crates/kerotakis-core/src/kinetics.rs` plus new kinetics-focused modules and
+tests. The slice also executes reversible, consecutive, and competing reactions
+with atomic, availability-scaled coupled extents. It did not modify the PHREEQC
+BASIC runtime, its adapter, vendored sources, or compatibility corpus. CI run
+`32481885344` passed native Ubuntu/macOS, Wasm, browser, and combined-solver
+checks. Stiff integration, mechanism-file parsing, and external mechanism data
+remain later, separately reviewed work.
+
+**Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
+AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
+reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy
+accounting and open/sealed/pressure-controlled checks reached DoD: core and
+strict-lint checks are green, and hosted Ubuntu/macOS native, IPhreeQC, Wasm
+runtime, browser, and combined solver checks passed in CI run `32481206425`.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state
