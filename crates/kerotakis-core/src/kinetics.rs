@@ -12,14 +12,16 @@
 //! This module is the admission made properly. It is deliberately the
 //! *cheap* version, and the boundary is worth stating plainly:
 //!
-//! - **We integrate curated rate laws.** rate = k·Π[Xᵢ]^nᵢ with k from
-//!   Arrhenius. The orders are experimental facts, taken from the
-//!   literature with provenance, not read off the stoichiometry — reaction
-//!   order is a statement about mechanism and is frequently not the
-//!   coefficient, which is itself one of the things worth teaching.
-//! - **We do not derive mechanisms.** Elementary steps, rate-determining
-//!   steps and steady-state approximations are P5's job and need a real
-//!   mechanism engine. Nothing here discovers a rate law; it applies one.
+//! - **We integrate curated rate laws through a reaction-network IR.**
+//!   rate = k·Π[Xᵢ]^nᵢ with k from Arrhenius. The orders are experimental
+//!   facts, taken from the literature with provenance, not read off the
+//!   stoichiometry — reaction order is a statement about mechanism and is
+//!   frequently not the coefficient, which is itself one of the things
+//!   worth teaching.
+//! - **We do not derive or import mechanisms yet.** The IR can execute
+//!   reversible, consecutive and competing reactions, but every admitted
+//!   rate expression is still curated. Nothing here discovers a rate law;
+//!   it applies one.
 //!
 //! That buys the whole school treatment of kinetics — the thiosulfate
 //! disappearing cross, catalysis, the temperature rule, order by initial
@@ -33,6 +35,8 @@
 //! That last point is what makes a fair test possible — two beakers, one
 //! variable, the same thirty seconds.
 
+use std::collections::BTreeMap;
+
 use serde::{Deserialize, Serialize};
 
 use crate::species::{Phase, SpeciesId};
@@ -42,14 +46,109 @@ use crate::vessel::Vessel;
 /// Gas constant, J·mol⁻¹·K⁻¹.
 pub const R: f64 = 8.314_462_618;
 
-/// A rate law: the orders, and the Arrhenius parameters behind `k`.
-#[derive(Debug, Clone, Copy)]
+/// Arrhenius parameters behind a mass-action rate expression.
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct RateLaw {
     /// Pre-exponential factor A, in units that make k·Π[X]^n come out as
     /// mol·L⁻¹·s⁻¹ for the stated orders.
     pub pre_exponential: f64,
     /// Activation energy, J/mol.
     pub activation_energy: f64,
+}
+
+/// One signed entry in a reaction's stoichiometric vector.
+///
+/// Negative coefficients consume material and positive coefficients produce
+/// it. Keeping one vector instead of unrelated reactant and product lists is
+/// what lets the conservation lint inspect exactly what the evaluator applies.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct StoichiometricTerm {
+    pub species: &'static str,
+    pub coefficient: f64,
+    pub phase: Phase,
+}
+
+/// One concentration/activity dependency in a mass-action expression.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct OrderTerm {
+    pub species: &'static str,
+    /// `None` is reserved for derived activities such as H+; ordinary
+    /// species should name the phase whose concentration drives the rate.
+    pub phase: Option<Phase>,
+    pub order: f64,
+}
+
+/// Dimensional exponents of a rate constant.
+///
+/// For a concentration law of total order `n`, `k` has dimensions
+/// mol^(1-n) L^(n-1) s^-1. Exposing that fact prevents a mechanism importer
+/// from treating every pre-exponential factor as though it had the same unit.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct RateDimensions {
+    pub mole: f64,
+    pub litre: f64,
+    pub second: f64,
+}
+
+/// A rate expression in the network IR.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct RateExpression {
+    pub arrhenius: RateLaw,
+    pub orders: &'static [OrderTerm],
+}
+
+impl RateExpression {
+    pub fn dimensions(&self) -> RateDimensions {
+        let order: f64 = self.orders.iter().map(|term| term.order).sum();
+        RateDimensions {
+            mole: 1.0 - order,
+            litre: order - 1.0,
+            second: -1.0,
+        }
+    }
+}
+
+/// Where a kinetic transition is allowed to occur.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Locality {
+    Bulk(Phase),
+    Interface { from: Phase, to: Phase },
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Range {
+    pub min: f64,
+    pub max: f64,
+}
+
+impl Range {
+    fn contains(self, value: f64) -> bool {
+        value >= self.min && value <= self.max
+    }
+}
+
+/// Conditions under which the parameters are claimed to apply.
+#[derive(Debug, Clone, Copy, PartialEq, Default)]
+pub struct Validity {
+    pub temperature_k: Option<Range>,
+    pub pressure_pa: Option<Range>,
+    pub note: &'static str,
+}
+
+/// Quantified parameter confidence where one exists, with an honest note
+/// where it does not.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Uncertainty {
+    pub relative: Option<f64>,
+    pub note: &'static str,
+}
+
+/// Site bookkeeping is separate from molecular stoichiometry. Negative
+/// coefficients consume a site state and positive coefficients create one.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct SiteTerm {
+    pub site: &'static str,
+    pub coefficient: f64,
 }
 
 impl RateLaw {
@@ -59,19 +158,17 @@ impl RateLaw {
     }
 }
 
-/// One reaction whose *rate* we model.
+/// One reaction in the runtime reaction-network IR.
 #[derive(Debug, Clone, Copy)]
 pub struct KineticReaction {
     pub id: &'static str,
     pub equation: &'static str,
-    /// Species consumed, with stoichiometric coefficients.
-    pub reactants: &'static [(&'static str, f64)],
-    /// Species produced, with coefficients and the phase they appear in.
-    pub products: &'static [(&'static str, f64, Phase)],
-    /// The concentration dependence: (species, order). Orders are
-    /// experimental, and deliberately not inferred from `reactants`.
-    pub orders: &'static [(&'static str, f64)],
-    pub rate: RateLaw,
+    pub stoichiometry: &'static [StoichiometricTerm],
+    pub locality: Locality,
+    pub forward: RateExpression,
+    /// A reverse expression makes the reaction reversible. Absence means the
+    /// runtime is explicitly claiming only the forward direction.
+    pub reverse: Option<RateExpression>,
     /// A catalyst does not appear in the stoichiometry and is not consumed.
     /// It lowers the activation energy — which is the whole content of what
     /// a catalyst *is*, so it is modelled that way rather than as a fudge
@@ -87,6 +184,13 @@ pub struct KineticReaction {
     /// real one. The gap is stated instead, and `codex/rates.toml` teaches
     /// it as a limit rather than hiding it.
     pub catalysts: &'static [Catalyst],
+    pub sites: &'static [SiteTerm],
+    /// Electrons produced (positive) or consumed (negative) per mole of
+    /// extent. The conservation lint balances their charge separately.
+    pub electrons: f64,
+    pub validity: Validity,
+    pub uncertainty: Uncertainty,
+    pub source_ids: &'static [&'static str],
     pub provenance: &'static str,
 }
 
@@ -108,7 +212,23 @@ pub const REGISTRY: &[KineticReaction] = &[
     KineticReaction {
         id: "thiosulfate-acid",
         equation: "Na₂S₂O₃ → S↓ + Na₂SO₃",
-        reactants: &[("Na2S2O3", 1.0)],
+        stoichiometry: &[
+            StoichiometricTerm {
+                species: "Na2S2O3",
+                coefficient: -1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "S",
+                coefficient: 1.0,
+                phase: Phase::Solid,
+            },
+            StoichiometricTerm {
+                species: "Na2SO3",
+                coefficient: 1.0,
+                phase: Phase::Aqueous,
+            },
+        ],
         // Atoms must balance, and they did not: producing S and SO2 from
         // Na2S2O3 destroyed Na2O on every extent — 62 g/mol, straight off
         // the balance. The full chemistry is S2O3(2-) + 2H+ → S + SO2 + H2O,
@@ -119,7 +239,7 @@ pub const REGISTRY: &[KineticReaction] = &[
         // times — with the sulfite left in solution. The second step,
         // sulfite plus acid giving the SO2 you can smell, is stated as not
         // modelled rather than faked by inventing hydrogen.
-        products: &[("S", 1.0, Phase::Solid), ("Na2SO3", 1.0, Phase::Aqueous)],
+        locality: Locality::Bulk(Phase::Aqueous),
         // First order in each: the classic result of the initial-rates
         // experiment this reaction exists to teach. The acid term is read
         // from the solution's computed pH rather than from an inventory
@@ -127,41 +247,90 @@ pub const REGISTRY: &[KineticReaction] = &[
         // PHREEQC's charge balance. It is also not consumed here, which is
         // a stated approximation: the practical runs with acid in large
         // excess, so [H+] barely moves while the thiosulfate is used up.
-        orders: &[("Na2S2O3", 1.0), (PROTON, 1.0)],
-        rate: RateLaw {
-            // Calibrated, and the calibration is the honest part: A is set
-            // so that 0.05 M thiosulfate at pH 1.7 and 25 °C takes about
-            // forty seconds to deposit enough sulfur to hide the cross,
-            // which is the range the practical is designed around. Ea and
-            // the orders are the literature's; A is ours.
-            pre_exponential: 2.2e8,
-            activation_energy: 51_000.0,
+        forward: RateExpression {
+            orders: &[
+                OrderTerm {
+                    species: "Na2S2O3",
+                    phase: Some(Phase::Aqueous),
+                    order: 1.0,
+                },
+                OrderTerm {
+                    species: PROTON,
+                    phase: None,
+                    order: 1.0,
+                },
+            ],
+            arrhenius: RateLaw {
+                // Calibrated, and the calibration is the honest part: A is set
+                // so that 0.05 M thiosulfate at pH 1.7 and 25 °C takes about
+                // forty seconds to deposit enough sulfur to hide the cross,
+                // which is the range the practical is designed around. Ea and
+                // the orders are the literature's; A is ours.
+                pre_exponential: 2.2e8,
+                activation_energy: 51_000.0,
+            },
         },
+        reverse: None,
         catalysts: &[],
+        sites: &[],
+        electrons: 0.0,
+        validity: Validity {
+            temperature_k: None,
+            pressure_pa: None,
+            note: "calibrated near room temperature for aqueous school-practical conditions with acid in excess; Arrhenius extrapolation is not independently validated",
+        },
+        uncertainty: Uncertainty {
+            relative: None,
+            note: "absolute rate is calibrated to the disappearing-cross observation",
+        },
+        source_ids: &["kerotakis:kinetics:thiosulfate-acid"],
         provenance: "Orders (1,1) and Ea ≈ 51 kJ/mol are the standard results of the disappearing-cross experiment (school practical literature; Ea commonly reported 45–60 kJ/mol). Editorial judgement (Kerotakis): the pre-exponential is fixed by matching the observable rather than measured, and the acid is treated as a rate influence read from the solution's pH rather than as a consumed reactant — the practical runs with acid in large excess, and the vessel has no proton portion to draw down",
     },
     KineticReaction {
         id: "peroxide-decomposition",
         equation: "2 H₂O₂ → 2 H₂O + O₂↑",
-        reactants: &[("H2O2", 2.0)],
+        stoichiometry: &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -2.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "water",
+                coefficient: 2.0,
+                phase: Phase::Liquid,
+            },
+            StoichiometricTerm {
+                species: "O2",
+                coefficient: 1.0,
+                phase: Phase::Gas,
+            },
+        ],
         // The water is not optional. Leaving it out of the products
         // destroyed 36 g/mol of matter per extent while the equation string
         // right above claimed otherwise.
-        products: &[("water", 2.0, Phase::Liquid), ("O2", 1.0, Phase::Gas)],
-        orders: &[("H2O2", 1.0)],
-        rate: RateLaw {
-            // Calibrated so undisturbed peroxide has a half-life near a
-            // day, which is the point of the practical: without a catalyst
-            // *nothing happens while you watch*. An earlier value gave
-            // 299 s, so the bottle emptied itself in an afternoon and the
-            // catalyst looked like a convenience rather than the whole
-            // reason the reaction is usable. Real bottled peroxide is
-            // stabilised and keeps far longer; a day is chosen to read as
-            // clearly-nothing on a lesson timescale without pretending to
-            // model stabilisers.
-            pre_exponential: 5.6e7,
-            activation_energy: 75_000.0,
+        locality: Locality::Bulk(Phase::Aqueous),
+        forward: RateExpression {
+            orders: &[OrderTerm {
+                species: "H2O2",
+                phase: Some(Phase::Aqueous),
+                order: 1.0,
+            }],
+            arrhenius: RateLaw {
+                // Calibrated so undisturbed peroxide has a half-life near a
+                // day, which is the point of the practical: without a catalyst
+                // *nothing happens while you watch*. An earlier value gave
+                // 299 s, so the bottle emptied itself in an afternoon and the
+                // catalyst looked like a convenience rather than the whole
+                // reason the reaction is usable. Real bottled peroxide is
+                // stabilised and keeps far longer; a day is chosen to read as
+                // clearly-nothing on a lesson timescale without pretending to
+                // model stabilisers.
+                pre_exponential: 5.6e7,
+                activation_energy: 75_000.0,
+            },
         },
+        reverse: None,
         catalysts: &[
             Catalyst {
                 species: "MnO2",
@@ -174,6 +343,18 @@ pub const REGISTRY: &[KineticReaction] = &[
                 provenance: "Catalase, Ea ≈ 23 kJ/mol — the enzyme is dramatically better than the mineral, which is the point of putting them side by side",
             },
         ],
+        sites: &[],
+        electrons: 0.0,
+        validity: Validity {
+            temperature_k: None,
+            pressure_pa: None,
+            note: "calibrated near room temperature for dilute aqueous peroxide; stabilisers are not represented and Arrhenius extrapolation is not independently validated",
+        },
+        uncertainty: Uncertainty {
+            relative: None,
+            note: "absolute rates are indicative; catalyst surface area is not represented",
+        },
+        source_ids: &["kerotakis:kinetics:peroxide-decomposition"],
         provenance: "Uncatalysed decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); catalysed barriers cited per catalyst. Editorial judgement (Kerotakis): the pre-exponential is chosen so the uncatalysed half-life is about a day and the catalysed reaction is watchable, not measured. Absolute rates are therefore indicative — the amount and surface area of a solid catalyst are not modelled at all, so it is the comparison between catalysts that carries meaning, not the seconds",
     },
 ];
@@ -187,15 +368,155 @@ pub const REGISTRY: &[KineticReaction] = &[
 /// actually solved for, not a nominal concentration.
 pub const PROTON: &str = "H+";
 
+/// A compiled set of reactions evaluated together.
+#[derive(Debug, Clone, Copy)]
+pub struct ReactionNetwork<'a> {
+    pub id: &'a str,
+    pub reactions: &'a [KineticReaction],
+}
+
+pub const NETWORK: ReactionNetwork<'static> = ReactionNetwork {
+    id: "kerotakis-curated-kinetics",
+    reactions: REGISTRY,
+};
+
+#[derive(Debug, Clone, PartialEq, thiserror::Error)]
+pub enum NetworkLintError {
+    #[error("{reaction}: stoichiometric coefficient for {species} is not finite and non-zero")]
+    InvalidCoefficient { reaction: String, species: String },
+    #[error("{reaction}: species '{species}' is absent from the registry")]
+    UnknownSpecies { reaction: String, species: String },
+    #[error("{reaction}: formula for '{species}' cannot be parsed: {detail}")]
+    InvalidFormula {
+        reaction: String,
+        species: String,
+        detail: String,
+    },
+    #[error("{reaction}: element {element} has net coefficient {imbalance:+.6}")]
+    ElementImbalance {
+        reaction: String,
+        element: String,
+        imbalance: f64,
+    },
+    #[error("{reaction}: charge/electron bookkeeping has net coefficient {imbalance:+.6}")]
+    ChargeImbalance { reaction: String, imbalance: f64 },
+    #[error("{reaction}: site '{site}' has net coefficient {imbalance:+.6}")]
+    SiteImbalance {
+        reaction: String,
+        site: String,
+        imbalance: f64,
+    },
+}
+
+/// Audit the exact stoichiometric vectors the runtime applies.
+pub fn lint_network(network: &ReactionNetwork<'_>) -> Result<(), Vec<NetworkLintError>> {
+    let mut errors = Vec::new();
+    for reaction in network.reactions {
+        errors.extend(lint_reaction(reaction));
+    }
+    if errors.is_empty() {
+        Ok(())
+    } else {
+        Err(errors)
+    }
+}
+
+pub fn lint_reaction(reaction: &KineticReaction) -> Vec<NetworkLintError> {
+    const TOLERANCE: f64 = 1e-9;
+    let mut errors = Vec::new();
+    let mut elements: BTreeMap<String, f64> = BTreeMap::new();
+    let mut charge = 0.0;
+
+    for term in reaction.stoichiometry {
+        if !term.coefficient.is_finite() || term.coefficient == 0.0 {
+            errors.push(NetworkLintError::InvalidCoefficient {
+                reaction: reaction.id.to_string(),
+                species: term.species.to_string(),
+            });
+            continue;
+        }
+        let Some(data) = crate::species::lookup_key(term.species) else {
+            errors.push(NetworkLintError::UnknownSpecies {
+                reaction: reaction.id.to_string(),
+                species: term.species.to_string(),
+            });
+            continue;
+        };
+        let formula = match crate::stoich::parse_formula(data.formula) {
+            Ok(formula) => formula,
+            Err(error) => {
+                errors.push(NetworkLintError::InvalidFormula {
+                    reaction: reaction.id.to_string(),
+                    species: term.species.to_string(),
+                    detail: error.to_string(),
+                });
+                continue;
+            }
+        };
+        for (element, count) in formula.counts {
+            *elements.entry(element).or_default() += term.coefficient * count;
+        }
+        charge += term.coefficient * formula.charge;
+    }
+
+    for (element, imbalance) in elements {
+        if imbalance.abs() > TOLERANCE {
+            errors.push(NetworkLintError::ElementImbalance {
+                reaction: reaction.id.to_string(),
+                element,
+                imbalance,
+            });
+        }
+    }
+
+    // An electron on the product side has coefficient +1 and charge -1.
+    // `electrons` therefore subtracts from the molecular charge delta.
+    let charge_imbalance = charge - reaction.electrons;
+    if charge_imbalance.abs() > TOLERANCE {
+        errors.push(NetworkLintError::ChargeImbalance {
+            reaction: reaction.id.to_string(),
+            imbalance: charge_imbalance,
+        });
+    }
+
+    let mut sites: BTreeMap<&str, f64> = BTreeMap::new();
+    for term in reaction.sites {
+        *sites.entry(term.site).or_default() += term.coefficient;
+    }
+    for (site, imbalance) in sites {
+        if imbalance.abs() > TOLERANCE {
+            errors.push(NetworkLintError::SiteImbalance {
+                reaction: reaction.id.to_string(),
+                site: site.to_string(),
+                imbalance,
+            });
+        }
+    }
+    errors
+}
+
 /// Concentration to use for one order term, mol/L.
-fn term_concentration(vessel: &Vessel, key: &str, litres: f64) -> Option<f64> {
-    if key == PROTON {
+fn phase_moles(vessel: &Vessel, key: &str, phase: Phase) -> f64 {
+    vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.species.0 == key && portion.phase == phase)
+        .map(|portion| portion.moles.0)
+        .sum()
+}
+
+fn term_concentration(vessel: &Vessel, term: &OrderTerm, litres: f64) -> Option<f64> {
+    if term.species == PROTON {
         // No characterised solution means no known acidity: the rate is
         // unknown rather than zero, and the caller treats it as "cannot
         // proceed" rather than "does not react".
         return vessel.solution.as_ref().map(|s| 10f64.powf(-s.ph));
     }
-    Some(vessel.moles_of(&SpeciesId::new(key)).0 / litres)
+    let moles = term
+        .phase
+        .map(|phase| phase_moles(vessel, term.species, phase))
+        .unwrap_or_else(|| vessel.moles_of(&SpeciesId::new(term.species)).0);
+    Some(moles / litres)
 }
 
 pub fn lookup(id: &str) -> Option<&'static KineticReaction> {
@@ -206,15 +527,54 @@ pub fn lookup(id: &str) -> Option<&'static KineticReaction> {
 pub fn applicable(vessel: &Vessel) -> Vec<&'static KineticReaction> {
     REGISTRY
         .iter()
-        .filter(|r| {
-            r.reactants
-                .iter()
-                .all(|(key, _)| vessel.moles_of(&SpeciesId::new(key)).0 > 0.0)
-        })
+        .filter(|reaction| reaction.can_run(vessel))
         .collect()
 }
 
 impl KineticReaction {
+    pub fn reactants(&self) -> impl Iterator<Item = &StoichiometricTerm> {
+        self.stoichiometry
+            .iter()
+            .filter(|term| term.coefficient < 0.0)
+    }
+
+    pub fn products(&self) -> impl Iterator<Item = &StoichiometricTerm> {
+        self.stoichiometry
+            .iter()
+            .filter(|term| term.coefficient > 0.0)
+    }
+
+    pub fn is_reversible(&self) -> bool {
+        self.reverse.is_some()
+    }
+
+    fn in_validity_domain(&self, vessel: &Vessel) -> bool {
+        self.validity
+            .temperature_k
+            .is_none_or(|range| range.contains(vessel.temperature.0))
+            && self
+                .validity
+                .pressure_pa
+                .is_none_or(|range| range.contains(vessel.pressure.0))
+    }
+
+    fn direction_available(&self, vessel: &Vessel, forward: bool) -> bool {
+        self.stoichiometry.iter().all(|term| {
+            let consumed = if forward {
+                term.coefficient < 0.0
+            } else {
+                term.coefficient > 0.0
+            };
+            !consumed || phase_moles(vessel, term.species, term.phase) > DEPLETED
+        })
+    }
+
+    pub fn can_run(&self, vessel: &Vessel) -> bool {
+        self.in_validity_domain(vessel)
+            && (self.direction_available(vessel, true)
+                || (self.reverse.is_some() && self.direction_available(vessel, false)))
+    }
+
     /// The activation energy in force, given what is in the vessel: the
     /// best catalyst present, or the uncatalysed value.
     pub fn effective_activation_energy(&self, vessel: &Vessel) -> (f64, Option<&'static Catalyst>) {
@@ -228,40 +588,59 @@ impl KineticReaction {
         }
         match best {
             Some(c) => (c.activation_energy, Some(c)),
-            None => (self.rate.activation_energy, None),
+            None => (self.forward.arrhenius.activation_energy, None),
         }
     }
 
-    /// Rate in mol·L⁻¹·s⁻¹ for the vessel's current state.
-    pub fn rate_now(&self, vessel: &Vessel) -> f64 {
+    fn expression_rate(&self, vessel: &Vessel, expression: RateExpression) -> f64 {
         let litres = vessel.liquid_volume().0;
         if litres <= 0.0 {
             return 0.0;
         }
-        // Nothing left to react is not a slow reaction, it is a finished
-        // one — and saying so is what lets the clock move on.
-        for (key, _) in self.reactants {
-            if vessel.moles_of(&SpeciesId::new(key)).0 <= DEPLETED {
-                return 0.0;
-            }
-        }
-        let (ea, _) = self.effective_activation_energy(vessel);
+        let catalyst_ea = self
+            .catalysts
+            .iter()
+            .filter(|catalyst| vessel.moles_of(&SpeciesId::new(catalyst.species)).0 > 0.0)
+            .map(|catalyst| catalyst.activation_energy)
+            .reduce(f64::min);
+        let ea = catalyst_ea
+            .map(|candidate| candidate.min(expression.arrhenius.activation_energy))
+            .unwrap_or(expression.arrhenius.activation_energy);
         let law = RateLaw {
-            pre_exponential: self.rate.pre_exponential,
+            pre_exponential: expression.arrhenius.pre_exponential,
             activation_energy: ea,
         };
         let k = law.rate_constant(vessel.temperature.0);
         let mut rate = k;
-        for (key, order) in self.orders {
-            let Some(c) = term_concentration(vessel, key, litres) else {
+        for term in expression.orders {
+            let Some(c) = term_concentration(vessel, term, litres) else {
                 return 0.0;
             };
             if c <= 0.0 {
                 return 0.0;
             }
-            rate *= c.powf(*order);
+            rate *= c.powf(term.order);
         }
         rate
+    }
+
+    /// Net rate in mol·L⁻¹·s⁻¹. Positive follows the declared equation;
+    /// negative follows the reverse expression.
+    pub fn rate_now(&self, vessel: &Vessel) -> f64 {
+        if !self.in_validity_domain(vessel) {
+            return 0.0;
+        }
+        let forward = if self.direction_available(vessel, true) {
+            self.expression_rate(vessel, self.forward)
+        } else {
+            0.0
+        };
+        let reverse = self
+            .reverse
+            .filter(|_| self.direction_available(vessel, false))
+            .map(|expression| self.expression_rate(vessel, expression))
+            .unwrap_or(0.0);
+        forward - reverse
     }
 }
 
@@ -305,11 +684,15 @@ pub struct Progress {
 /// fraction of any reactant. That keeps a fast reaction from integrating
 /// past zero and producing negative concentrations, which is the classic
 /// way a naive Euler step lies.
-pub fn advance(vessel: &mut Vessel, seconds: f64) -> Vec<(&'static KineticReaction, Moles)> {
-    let reactions = applicable(vessel);
-    if reactions.is_empty() || seconds <= 0.0 {
+pub fn advance_network<'a>(
+    vessel: &mut Vessel,
+    seconds: f64,
+    network: &'a ReactionNetwork<'a>,
+) -> Vec<(&'a KineticReaction, Moles)> {
+    if network.reactions.is_empty() || seconds <= 0.0 {
         return Vec::new();
     }
+    let reactions = network.reactions;
     let mut extents: Vec<f64> = vec![0.0; reactions.len()];
     let mut t = 0.0;
     // Scratch vessel for the midpoint evaluation, reused rather than
@@ -327,25 +710,14 @@ pub fn advance(vessel: &mut Vessel, seconds: f64) -> Vec<(&'static KineticReacti
         if litres <= 0.0 {
             break;
         }
-        let rates: Vec<f64> = reactions.iter().map(|r| r.rate_now(vessel)).collect();
-        if rates.iter().all(|r| *r <= 1e-18) {
+        let rates: Vec<f64> = reactions
+            .iter()
+            .map(|reaction| reaction.rate_now(vessel))
+            .collect();
+        if rates.iter().all(|rate| rate.abs() <= 1e-18) {
             break;
         }
-        let mut dt = seconds - t;
-        for (r, rate) in reactions.iter().zip(&rates) {
-            if *rate <= 0.0 {
-                continue;
-            }
-            for (key, coeff) in r.reactants {
-                let available = vessel.moles_of(&SpeciesId::new(key)).0 / litres;
-                // No substep may change any reactant by more than this
-                // fraction — see STEP_FRACTION.
-                let limit = STEP_FRACTION * available / (rate * coeff);
-                if limit > 0.0 && limit < dt {
-                    dt = limit;
-                }
-            }
-        }
+        let dt = limited_step(vessel, reactions, &rates, litres, seconds - t);
         // NaN-safe: a rate that came out non-finite must stop the loop
         // rather than propagate through the composition.
         if dt.is_nan() || dt < 1e-12 {
@@ -359,42 +731,100 @@ pub fn advance(vessel: &mut Vessel, seconds: f64) -> Vec<(&'static KineticReacti
         // two minutes, which the analytic oracle caught. Evaluating in the
         // middle cancels the first-order term.
         probe.clone_from(vessel);
-        for (r, rate) in reactions.iter().zip(&rates) {
-            let half = rate * (dt * 0.5) * litres;
-            if half <= 0.0 {
+        for (reaction, rate) in reactions.iter().zip(&rates) {
+            let half_extent = rate * (dt * 0.5) * litres;
+            if half_extent.abs() <= 0.0 {
                 continue;
             }
-            for (key, coeff) in r.reactants {
-                probe.withdraw(&SpeciesId::new(key), Moles(half * coeff));
-            }
-            for (key, coeff, phase) in r.products {
-                probe.deposit(SpeciesId::new(key), Moles(half * coeff), *phase);
-            }
+            apply_extent(&mut probe, reaction, half_extent);
         }
-        let mid: Vec<f64> = reactions.iter().map(|r| r.rate_now(&probe)).collect();
+        let mid: Vec<f64> = reactions
+            .iter()
+            .map(|reaction| reaction.rate_now(&probe))
+            .collect();
 
-        for (i, (r, rate)) in reactions.iter().zip(&mid).enumerate() {
+        for (i, (reaction, rate)) in reactions.iter().zip(&mid).enumerate() {
             let extent = rate * dt * litres; // moles
-            if extent <= 0.0 {
+            if extent.abs() <= 0.0 {
                 continue;
             }
-            for (key, coeff) in r.reactants {
-                vessel.withdraw(&SpeciesId::new(key), Moles(extent * coeff));
-            }
-            for (key, coeff, phase) in r.products {
-                vessel.deposit(SpeciesId::new(key), Moles(extent * coeff), *phase);
-            }
+            apply_extent(vessel, reaction, extent);
             extents[i] += extent;
         }
         t += dt;
     }
 
     reactions
-        .into_iter()
+        .iter()
         .zip(extents)
-        .filter(|(_, e)| *e > 0.0)
+        .filter(|(_, e)| e.abs() > 0.0)
         .map(|(r, e)| (r, Moles(e)))
         .collect()
+}
+
+fn limited_step(
+    vessel: &Vessel,
+    reactions: &[KineticReaction],
+    rates: &[f64],
+    litres: f64,
+    remaining: f64,
+) -> f64 {
+    let mut consumption: Vec<(&str, Phase, f64)> = Vec::new();
+    for (reaction, rate) in reactions.iter().zip(rates) {
+        for term in reaction.stoichiometry {
+            let change = term.coefficient * rate;
+            if change < 0.0 {
+                if let Some((_, _, total)) = consumption
+                    .iter_mut()
+                    .find(|(species, phase, _)| *species == term.species && *phase == term.phase)
+                {
+                    *total += -change;
+                } else {
+                    consumption.push((term.species, term.phase, -change));
+                }
+            }
+        }
+    }
+    consumption
+        .into_iter()
+        .fold(remaining, |dt, (key, phase, rate)| {
+            let available = phase_moles(vessel, key, phase) / litres;
+            let limit = STEP_FRACTION * available / rate;
+            if limit.is_finite() && limit > 0.0 {
+                dt.min(limit)
+            } else {
+                dt
+            }
+        })
+}
+
+fn apply_extent(vessel: &mut Vessel, reaction: &KineticReaction, extent: f64) {
+    for term in reaction.stoichiometry {
+        let change = term.coefficient * extent;
+        if change < 0.0 {
+            withdraw_phase(vessel, term.species, term.phase, -change);
+        } else if change > 0.0 {
+            vessel.deposit(SpeciesId::new(term.species), Moles(change), term.phase);
+        }
+    }
+}
+
+fn withdraw_phase(vessel: &mut Vessel, species: &str, phase: Phase, moles: f64) -> f64 {
+    let mut remaining = moles;
+    for portion in &mut vessel.contents {
+        if portion.species.0 == species && portion.phase == phase && remaining > 0.0 {
+            let take = portion.moles.0.min(remaining);
+            portion.moles.0 -= take;
+            remaining -= take;
+        }
+    }
+    vessel.contents.retain(|portion| portion.moles.0 > 1e-15);
+    moles - remaining
+}
+
+/// Advance the built-in curated network. This is the stable bench-facing API.
+pub fn advance(vessel: &mut Vessel, seconds: f64) -> Vec<(&'static KineticReaction, Moles)> {
+    advance_network(vessel, seconds, &NETWORK)
 }
 
 #[cfg(test)]
@@ -600,7 +1030,7 @@ mod tests {
                 ],
                 25.0,
             );
-            let k = r.rate.rate_constant(298.15);
+            let k = r.forward.arrhenius.rate_constant(298.15);
             advance(&mut v, seconds);
             let got = v.moles_of(&SpeciesId::new("H2O2")).0 / litres;
             let exact = c0 * (-2.0 * k * seconds).exp();
@@ -631,7 +1061,7 @@ mod tests {
             25.0,
         );
         let law = RateLaw {
-            pre_exponential: r.rate.pre_exponential,
+            pre_exponential: r.forward.arrhenius.pre_exponential,
             activation_energy: 23_000.0,
         };
         let k = law.rate_constant(298.15);
@@ -689,8 +1119,8 @@ mod tests {
         for r in REGISTRY {
             let mut v = Vessel::new(VesselId(0), "beaker");
             v.deposit(SpeciesId::new("water"), Moles(5.5343), Phase::Liquid);
-            for (key, _) in r.reactants {
-                v.deposit(SpeciesId::new(key), Moles(0.02), Phase::Aqueous);
+            for term in r.reactants() {
+                v.deposit(SpeciesId::new(term.species), Moles(0.02), term.phase);
             }
             v.solution = Some(crate::vessel::SolutionInfo {
                 redox: Vec::new(),
@@ -722,5 +1152,272 @@ mod tests {
                 eq.element_imbalance()
             );
         }
+    }
+
+    const TEST_FORWARD_AQUEOUS: RateExpression = RateExpression {
+        arrhenius: RateLaw {
+            pre_exponential: 1.0,
+            activation_energy: 0.0,
+        },
+        orders: &[OrderTerm {
+            species: "H2O2",
+            phase: Some(Phase::Aqueous),
+            order: 1.0,
+        }],
+    };
+
+    const TEST_FORWARD_LIQUID: RateExpression = RateExpression {
+        arrhenius: RateLaw {
+            pre_exponential: 1.0,
+            activation_energy: 0.0,
+        },
+        orders: &[OrderTerm {
+            species: "H2O2",
+            phase: Some(Phase::Liquid),
+            order: 1.0,
+        }],
+    };
+
+    fn test_reaction(
+        id: &'static str,
+        stoichiometry: &'static [StoichiometricTerm],
+        forward: RateExpression,
+        reverse: Option<RateExpression>,
+    ) -> KineticReaction {
+        KineticReaction {
+            id,
+            equation: "H₂O₂ → H₂O₂",
+            stoichiometry,
+            locality: Locality::Bulk(Phase::Aqueous),
+            forward,
+            reverse,
+            catalysts: &[],
+            sites: &[],
+            electrons: 0.0,
+            validity: Validity::default(),
+            uncertainty: Uncertainty {
+                relative: Some(0.0),
+                note: "exact test parameter",
+            },
+            source_ids: &["kerotakis:test"],
+            provenance: "project-authored test mechanism",
+        }
+    }
+
+    #[test]
+    fn built_in_network_passes_structural_conservation_lint() {
+        lint_network(&NETWORK).unwrap();
+        for reaction in REGISTRY {
+            assert!(!reaction.source_ids.is_empty(), "{}", reaction.id);
+            assert!(!reaction.validity.note.is_empty(), "{}", reaction.id);
+            assert!(!reaction.uncertainty.note.is_empty(), "{}", reaction.id);
+        }
+        assert_eq!(
+            lookup("thiosulfate-acid").unwrap().forward.dimensions(),
+            RateDimensions {
+                mole: -1.0,
+                litre: 1.0,
+                second: -1.0,
+            }
+        );
+    }
+
+    #[test]
+    fn lint_reports_elements_charge_sites_and_declared_electrons() {
+        const BAD_MATTER: &[StoichiometricTerm] = &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "water",
+                coefficient: 1.0,
+                phase: Phase::Liquid,
+            },
+        ];
+        let mut bad = test_reaction("bad-network-entry", BAD_MATTER, TEST_FORWARD_AQUEOUS, None);
+        bad.sites = &[SiteTerm {
+            site: "surface-vacancy",
+            coefficient: -1.0,
+        }];
+        let errors = lint_reaction(&bad);
+        assert!(errors.iter().any(|e| matches!(
+            e,
+            NetworkLintError::ElementImbalance { element, .. } if element == "O"
+        )));
+        assert!(errors
+            .iter()
+            .any(|e| matches!(e, NetworkLintError::SiteImbalance { .. })));
+
+        const ZINC_HALF_REACTION: &[StoichiometricTerm] = &[
+            StoichiometricTerm {
+                species: "Zn",
+                coefficient: -1.0,
+                phase: Phase::Solid,
+            },
+            StoichiometricTerm {
+                species: "Zn+2",
+                coefficient: 1.0,
+                phase: Phase::Aqueous,
+            },
+        ];
+        let mut half = test_reaction(
+            "zinc-half-reaction",
+            ZINC_HALF_REACTION,
+            TEST_FORWARD_AQUEOUS,
+            None,
+        );
+        assert!(lint_reaction(&half)
+            .iter()
+            .any(|e| matches!(e, NetworkLintError::ChargeImbalance { .. })));
+        half.electrons = 2.0;
+        assert!(lint_reaction(&half).is_empty());
+    }
+
+    #[test]
+    fn a_product_can_activate_the_next_reaction_during_one_wait() {
+        const TO_LIQUID: &[StoichiometricTerm] = &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: 1.0,
+                phase: Phase::Liquid,
+            },
+        ];
+        const TO_GAS: &[StoichiometricTerm] = &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Liquid,
+            },
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: 1.0,
+                phase: Phase::Gas,
+            },
+        ];
+        let reactions = [
+            test_reaction("aqueous-to-liquid", TO_LIQUID, TEST_FORWARD_AQUEOUS, None),
+            test_reaction("liquid-to-gas", TO_GAS, TEST_FORWARD_LIQUID, None),
+        ];
+        let network = ReactionNetwork {
+            id: "consecutive-test",
+            reactions: &reactions,
+        };
+        lint_network(&network).unwrap();
+
+        let mut vessel = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Aqueous),
+            ],
+            25.0,
+        );
+        assert_eq!(phase_moles(&vessel, "H2O2", Phase::Gas), 0.0);
+        let moved = advance_network(&mut vessel, 1.0, &network);
+        assert_eq!(
+            moved.len(),
+            2,
+            "the second step must activate in the same wait"
+        );
+        assert!(phase_moles(&vessel, "H2O2", Phase::Gas) > 0.0);
+    }
+
+    #[test]
+    fn competing_paths_share_a_reactant_without_overdrawing_it() {
+        const TO_LIQUID: &[StoichiometricTerm] = &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: 1.0,
+                phase: Phase::Liquid,
+            },
+        ];
+        const TO_GAS: &[StoichiometricTerm] = &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: 1.0,
+                phase: Phase::Gas,
+            },
+        ];
+        let reactions = [
+            test_reaction("path-liquid", TO_LIQUID, TEST_FORWARD_AQUEOUS, None),
+            test_reaction("path-gas", TO_GAS, TEST_FORWARD_AQUEOUS, None),
+        ];
+        let network = ReactionNetwork {
+            id: "competing-test",
+            reactions: &reactions,
+        };
+        let mut vessel = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Aqueous),
+            ],
+            25.0,
+        );
+        let moved = advance_network(&mut vessel, 20.0, &network);
+        assert_eq!(moved.len(), 2);
+        assert!(phase_moles(&vessel, "H2O2", Phase::Aqueous) >= 0.0);
+        let total = [Phase::Aqueous, Phase::Liquid, Phase::Gas]
+            .into_iter()
+            .map(|phase| phase_moles(&vessel, "H2O2", phase))
+            .sum::<f64>();
+        assert!(
+            (total - 0.1).abs() < 1e-9,
+            "network changed total matter: {total}"
+        );
+    }
+
+    #[test]
+    fn a_reverse_expression_drives_back_toward_balance() {
+        const PHASE_CHANGE: &[StoichiometricTerm] = &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: 1.0,
+                phase: Phase::Liquid,
+            },
+        ];
+        let reaction = test_reaction(
+            "reversible-test",
+            PHASE_CHANGE,
+            TEST_FORWARD_AQUEOUS,
+            Some(TEST_FORWARD_LIQUID),
+        );
+        assert!(reaction.is_reversible());
+        let reactions = [reaction];
+        let network = ReactionNetwork {
+            id: "reversible-network",
+            reactions: &reactions,
+        };
+        let mut vessel = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Aqueous),
+            ],
+            25.0,
+        );
+        advance_network(&mut vessel, 10.0, &network);
+        let aqueous = phase_moles(&vessel, "H2O2", Phase::Aqueous);
+        let liquid = phase_moles(&vessel, "H2O2", Phase::Liquid);
+        assert!((aqueous - liquid).abs() < 2e-3, "{aqueous} versus {liquid}");
     }
 }

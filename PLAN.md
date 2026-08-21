@@ -2119,6 +2119,17 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
 School-level rates and electrochemistry moved forward to P3k/P3e; what is
 left here is the part that genuinely needs an engine.
 
+**Active session — `codex-kin` (2026-08-21).** This session owns the first
+generic-kinetics slice: define the reaction-network IR, compile the two current
+rate laws through it without changing lesson or JSON output, and add
+element/charge/site/electron conservation lint. Its implementation worktree is
+`/Users/christianstrobele/code/kerotakis-codex-kin` on branch
+`codex-kin/reaction-network`; its code boundary is
+`crates/kerotakis-core/src/kinetics.rs` plus new kinetics-focused modules and
+tests. It will not modify the PHREEQC BASIC runtime, its adapter, vendored
+sources, or compatibility corpus. Stiff integration, mechanism-file parsing,
+and external mechanism data remain later, separately reviewed work.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state
