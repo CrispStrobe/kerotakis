@@ -29,26 +29,45 @@ Status: migration in progress, 2026-08-21.
   `TIME`, `TC`, and `TK`, and implements `SAVE`, `PARM`, and numeric/string
   `PUNCH`. Native callbacks cover `ACT`, `MOL`, `TOT`, `SI`, `SR`, `LM`, and
   `DELTA_H_SPECIES`, `LA`, `KIN`, `EQUI`, `GAS`, `GFW`, `PHASE_FORMULA$`,
-  `CALC_VALUE`, `SUM_SPECIES`, and `SUM_GAS`. The runtime uses MY-BASIC's
+  `CALC_VALUE`, `SUM_SPECIES`, `SUM_GAS`, `SUM_S_S`, `LIST_S_S`, `SURF`,
+  `EDL`, `MISC1`, `MISC2`, `ISO`, `PR_P`, `GAS_P`, and `GAS_VM`. Persistent
+  numeric `GET`/`PUT`/`EXISTS`, PHREEQC single-quoted strings, constant DATA
+  expressions, and `EOL$`, `PAD`, and `TRIM` are implemented. The runtime uses MY-BASIC's
   double-precision mode; state-dependent `CELL_NO`, `SOLN_VOL`, `SIM_TIME`,
-  and `TOTAL_TIME` are callbacks rather than stale injected constants.
+  `TOTAL_TIME`, `DIST`, `RXN`, `SIM_NO`, and `STEP_NO` are callbacks rather
+  than stale injected constants.
   PHREEQC spellings and semantics for `MID$`, `STR$`, `CHR$`, `SQRT`, and
   `ARCTAN` have differential checks. Execution has shared nested-call
   statement, wall-clock, recursion, and output budgets, and cancellation
-  leaves the owning PHREEQC instance reusable.
+  leaves the owning PHREEQC instance reusable. Runtime `DATA/READ/RESTORE`,
+  inclusive and multi-array `DIM`, `INSTR`, line-oriented `PRINT`, numbered
+  `END`, and `FOR/NEXT` around `GOSUB` now cover all nine repository `.bas`
+  generators. `USER_GRAPH`, `GRAPH_X`, `GRAPH_Y`, `GRAPH_SY`, and `PLOT_XY`
+  populate renderer-neutral chart objects; the public Rust API returns typed
+  chart metadata, styles, axes, and points for CLI and Tauri renderers. String
+  variables whose names overlap runtime scalars remain distinct (for example,
+  `sc$` is not rewritten as the numeric `SC` callback), as required by the
+  official `ex21` input generator. This
+  is still a partial adapter: the manifest enumerates the remaining legacy
+  callback inventory instead of treating omissions as scope.
 - Stage 5 is in progress. `src/dialect.toml` records the opt-in compatibility
   level. A shared legacy/preview corpus now executes all seven bundled `RATES`
   programs from both embedded databases that contain rates (`phreeqc.dat` and
   `wateq4f.dat`) and checks their selected output against captured legacy
-  values. `DATA/READ/RESTORE` is intentionally limited to the straight-line
-  initialization prefix used by the bundled feldspar programs; dynamic cursor
-  control is rejected explicitly. `USER_GRAPH` is also rejected explicitly.
+  values. `DATA/READ/RESTORE` now has a per-program runtime cursor, literal
+  `RESTORE` targets, and control-flow coverage. The nine standalone isotope
+  BASIC generators are a permanent corpus. Conditional plot commands retain
+  their source-line styles, secondary axes are preserved, and graph values are
+  asserted through the renderer-neutral API.
 - Stage 6 is in progress. Shared fixtures cover kinetics, calculated values,
   USER_PUNCH, DATA initialization, chemistry/assemblage callbacks, runtime
   variables, PHREEQC string/math aliases, malformed programs, and resource
   limits. The expected-value files identify the retained legacy backend as
-  their oracle. Full kinetics trajectories, error-location parity, arrays,
-  allocation budgets, and platform-wide differential runs remain.
+  their oracle. Full kinetics trajectories, error-location parity, allocation
+  budgets, and platform-wide differential runs remain. The live completion
+  gate runs all 32 official PHREEQC examples with their documented databases
+  and isolated auxiliary files; all 32 pass on the preview as of 2026-08-21.
+  The `ex20b` harness preserves its documented two-phase generated-input flow.
 - Stage 7 has not started. An attempted deletion was rolled back after audit:
   the replacement is still opt-in, and the legacy files remain referenced by
   non-CMake upstream build metadata. The legacy implementation remains solely
@@ -58,9 +77,8 @@ Status: migration in progress, 2026-08-21.
 ## Goal
 
 Remove the Gillespie-derived `PBasic` implementation from every Kerotakis
-source and release artifact, first without losing chemistry Kerotakis currently
-uses and then, where justified, restoring PHREEQC BASIC compatibility on top of
-the MIT-licensed MY-BASIC interpreter.
+source and release artifact while restoring full PHREEQC BASIC compatibility
+on top of the MIT-licensed MY-BASIC interpreter.
 
 The final runtime must satisfy the project's direct-inclusion policy: only
 Kerotakis-owned code with the required grant, MIT, Apache-2.0, BSD-2/3-Clause,

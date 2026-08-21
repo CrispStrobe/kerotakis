@@ -39,6 +39,8 @@ mod ffi {
         pub fn SetDumpFileOn(id: c_int, value: c_int) -> c_int;
         pub fn SetSelectedOutputFileOn(id: c_int, value: c_int) -> c_int;
         pub fn SetSelectedOutputStringOn(id: c_int, value: c_int) -> c_int;
+        pub fn GetSelectedOutputString(id: c_int) -> *const c_char;
+        pub fn GetUserGraphJson(id: c_int) -> *const c_char;
         pub fn GetSelectedOutputStringLineCount(id: c_int) -> c_int;
         pub fn GetSelectedOutputStringLine(id: c_int, n: c_int) -> *const c_char;
         pub fn GetSpeciesDeltaH(id: c_int, name: *const c_char, delta_h: *mut f64) -> c_int;
@@ -85,6 +87,31 @@ pub enum PhreeqcError {
 /// at construction; results are read from the selected-output string.
 pub struct Phreeqc {
     id: i32,
+}
+
+/// Renderer-neutral data produced by PHREEQC `USER_GRAPH` blocks.
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize, PartialEq)]
+pub struct UserGraphData {
+    pub charts: Vec<UserGraphChart>,
+}
+
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize, PartialEq)]
+pub struct UserGraphChart {
+    pub user_number: i32,
+    pub title: String,
+    pub axis_titles: Vec<String>,
+    pub series: Vec<UserGraphSeries>,
+}
+
+#[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize, PartialEq)]
+pub struct UserGraphSeries {
+    pub id: String,
+    pub color: String,
+    pub symbol: String,
+    pub line_width: f64,
+    pub symbol_size: f64,
+    pub y_axis: i32,
+    pub points: Vec<[f64; 2]>,
 }
 
 // IPhreeqc instances are independent; the id is only used from the owning
@@ -159,6 +186,36 @@ impl Phreeqc {
                 )
             })
             .collect()
+    }
+
+    /// The selected-output stream exactly as emitted by IPhreeqc.
+    ///
+    /// Unlike [`Self::selected_output`], this preserves tabs, leading spaces,
+    /// and embedded newlines. It is useful for PHREEQC programs that generate
+    /// another PHREEQC input through `USER_PUNCH`.
+    pub fn selected_output_string(&self) -> String {
+        let ptr = unsafe { ffi::GetSelectedOutputString(self.id) };
+        if ptr.is_null() {
+            String::new()
+        } else {
+            unsafe { CStr::from_ptr(ptr) }
+                .to_string_lossy()
+                .into_owned()
+        }
+    }
+
+    /// Renderer-neutral chart metadata and points emitted by `USER_GRAPH`.
+    /// A CLI can serialize this directly; a Tauri frontend can render it with
+    /// any native or web plotting library without coupling PHREEQC to a GUI.
+    pub fn user_graph_data(&self) -> Result<UserGraphData, PhreeqcError> {
+        let ptr = unsafe { ffi::GetUserGraphJson(self.id) };
+        if ptr.is_null() {
+            return Ok(UserGraphData::default());
+        }
+        let json = unsafe { CStr::from_ptr(ptr) }.to_string_lossy();
+        serde_json::from_str(&json).map_err(|error| {
+            PhreeqcError::Engine(format!("invalid USER_GRAPH JSON from IPhreeqc: {error}"))
+        })
     }
 
     /// Value of a named selected-output column in the last data row.
