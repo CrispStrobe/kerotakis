@@ -2185,6 +2185,16 @@ Native, WebAssembly, browser, and combined-solver CI gates passed in run
 `32492646325`. Pressure-log interpolation and external mechanism data remain
 future work.
 
+**Completed session — `codex-kin` (2026-08-21, KIN-008).** This session added
+CLI-first runtime gas-mechanism simulation: validated mechanism loading, an
+explicit finite sealed headspace, temperature, duration, repeatable species
+feeds, and implicit reaction-network advancement. Stable JSON reports complete
+initial/final mechanism composition, initial/final pressure, reaction extents,
+and solver diagnostics; human output exposes the same run. Exact CLI tests cover
+the analytic first-order solution, pressure increase, JSON fields, and refusal
+of undeclared feed species. All native, WebAssembly, browser, and combined
+solver CI gates passed in run `32494325781`.
+
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
 reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy
