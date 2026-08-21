@@ -73,6 +73,25 @@ jobs:
       - name: Check core and data schemas on wasm
         run: cargo check -p kerotakis-core -p kerotakis-data --target wasm32-unknown-unknown
 
+  registry-export:
+    name: Current registry source export
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Diff every legacy registry field
+        run: cargo test -p kerotakis-registry-export
+      - name: Generate the reviewable source document
+        run: >-
+          cargo run -p kerotakis-registry-export --
+          "$RUNNER_TEMP/registry-source-v1.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: registry-source-v1
+          path: ${{ runner.temp }}/registry-source-v1.json
+          if-no-files-found: error
+
   wasm-lab:
     name: The bench in WebAssembly
     runs-on: ubuntu-latest

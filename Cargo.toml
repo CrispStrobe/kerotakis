@@ -10,6 +10,7 @@ members = [
     "crates/kerotakis-codex",
     "crates/kerotakis-thermo",
     "crates/kerotakis-data",
+    "crates/kerotakis-registry-export",
 ]
 
 [workspace.package]
