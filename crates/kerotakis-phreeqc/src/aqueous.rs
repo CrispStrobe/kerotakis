@@ -1485,6 +1485,40 @@ impl PhreeqcEquilibrator {
                 }
             }
         }
+        // PHREEQC selected totals are not consistent about whether a
+        // SURFACE contribution is included: the first zinc solve reports
+        // dissolved Zn, while a repeated solve can report the full
+        // analytical Zn total alongside non-zero Hfo_*OZn columns. The
+        // material balance is unambiguous. Bound typed inventory is owned by
+        // the interface, so aqueous readback cannot exceed analytical input
+        // minus that bound amount. `min` preserves any still-lower dissolved
+        // result caused by precipitation.
+        for sorbate in [SurfaceSorbate::Zinc, SurfaceSorbate::Sulfate] {
+            let Some(DerivedRole::Dissolves(elements)) = derived::role(&sorbate.species().0) else {
+                continue;
+            };
+            let bound: f64 = new_surfaces
+                .iter()
+                .map(|surface| surface.bound(sorbate).0)
+                .sum();
+            for (element, coefficient) in elements {
+                let base = element.split('(').next().unwrap_or(element);
+                let analytical: f64 = problem
+                    .totals
+                    .iter()
+                    .filter(|(candidate, _)| {
+                        candidate.split('(').next().unwrap_or(candidate) == base
+                    })
+                    .map(|(_, moles)| moles)
+                    .sum();
+                let ceiling = (analytical - bound * coefficient).max(0.0);
+                for (candidate, moles) in &mut new_ions {
+                    if candidate.split('(').next().unwrap_or(candidate) == base {
+                        *moles = (*moles).min(ceiling);
+                    }
+                }
+            }
+        }
         let mut new_phases: Vec<(String, f64)> = Vec::new();
         for (phase, ..) in &problem.phases {
             let moles = value(phase).ok_or_else(|| missing(phase))?;
