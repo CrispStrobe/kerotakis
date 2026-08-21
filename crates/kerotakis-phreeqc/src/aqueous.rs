@@ -1907,33 +1907,35 @@ impl PhreeqcEquilibrator {
         // aqueous selected totals below the analytical inventory remaining
         // after that ownership is removed, regardless of whether a database
         // reports SOLID_SOLUTIONS inside or outside its selected total.
-        for element in ["Ca", "Sr", "C"] {
-            let solution_inventory: f64 = problem
-                .totals
-                .iter()
-                .filter(|(candidate, _)| {
-                    candidate.split('(').next().unwrap_or(candidate) == element
-                })
-                .map(|(_, moles)| moles)
-                .sum();
-            let initial_solid_solution =
-                solid_solution_element_inventory(&problem.solid_solutions, element);
-            let final_solid_solution =
-                solid_solution_element_inventory(&new_solid_solutions, element);
-            let ceiling =
-                (solution_inventory + initial_solid_solution - final_solid_solution).max(0.0);
-            let aqueous: f64 = new_ions
-                .iter()
-                .filter(|(candidate, _)| {
-                    candidate.split('(').next().unwrap_or(candidate) == element
-                })
-                .map(|(_, moles)| moles)
-                .sum();
-            if aqueous > ceiling && aqueous > 0.0 {
-                let scale = ceiling / aqueous;
-                for (candidate, moles) in &mut new_ions {
-                    if candidate.split('(').next().unwrap_or(candidate) == element {
-                        *moles *= scale;
+        if !problem.solid_solutions.is_empty() {
+            for element in ["Ca", "Sr", "C"] {
+                let solution_inventory: f64 = problem
+                    .totals
+                    .iter()
+                    .filter(|(candidate, _)| {
+                        candidate.split('(').next().unwrap_or(candidate) == element
+                    })
+                    .map(|(_, moles)| moles)
+                    .sum();
+                let initial_solid_solution =
+                    solid_solution_element_inventory(&problem.solid_solutions, element);
+                let final_solid_solution =
+                    solid_solution_element_inventory(&new_solid_solutions, element);
+                let ceiling =
+                    (solution_inventory + initial_solid_solution - final_solid_solution).max(0.0);
+                let aqueous: f64 = new_ions
+                    .iter()
+                    .filter(|(candidate, _)| {
+                        candidate.split('(').next().unwrap_or(candidate) == element
+                    })
+                    .map(|(_, moles)| moles)
+                    .sum();
+                if aqueous > ceiling && aqueous > 0.0 {
+                    let scale = ceiling / aqueous;
+                    for (candidate, moles) in &mut new_ions {
+                        if candidate.split('(').next().unwrap_or(candidate) == element {
+                            *moles *= scale;
+                        }
                     }
                 }
             }
