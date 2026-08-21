@@ -521,7 +521,7 @@ mod tests {
     use super::*;
 
     fn valid_manifest() -> Manifest {
-        Manifest::parse(
+        let mut manifest = Manifest::parse(
             r#"
 schema = 1
 policy = "store-permissive-v1"
@@ -546,10 +546,13 @@ reviewer = "test"
 
 [[source.checksum]]
 path = "Cargo.toml"
-sha256 = "f4f979ec38b2f5b113a223eee6b4e3ce0a70838e78735ca69cdf6871c02556e4"
+sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
 "#,
         )
-        .unwrap()
+        .unwrap();
+        let bytes = std::fs::read(Path::new("../..").join("Cargo.toml")).unwrap();
+        manifest.sources[0].checksums[0].sha256 = format!("{:x}", Sha256::digest(bytes));
+        manifest
     }
 
     #[test]
