@@ -125,9 +125,9 @@ fn fixtures() -> Vec<NumericFixture> {
     result.push(NumericFixture {
         name: "transport_time_s".into(),
         expected: 1542.857142857143,
-        absolute_tolerance: 5e-3,
+        absolute_tolerance: 5e-2,
         relative_tolerance: 0.0,
-        explanation: "ex21 renders time with six significant digits (1542.86), so half of the last displayed decimal place is formatting-only",
+        explanation: "legacy ex21 renders time with five significant digits (1542.9), so half of the last displayed decimal place is formatting-only",
     });
     result.push(NumericFixture {
         name: "transport_shifts".into(),
