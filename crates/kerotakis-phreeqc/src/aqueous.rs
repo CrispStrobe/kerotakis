@@ -177,8 +177,8 @@ pub struct SolveOutput {
 /// database rather than from a constant of ours.
 ///
 /// `H⁺ + OH⁻ → H₂O` is the reverse of the reaction that defines `OH-` in
-/// every PHREEQC database, so its enthalpy is `-DELTA_H_SPECIES("OH-")` —
-/// a BASIC function the engine already exposes. The three datasets answer
+/// every PHREEQC database, so its enthalpy is the negative of PHREEQC's
+/// native species reaction-enthalpy calculation for `OH-`. The three datasets answer
 /// 55.91, 55.81 and 56.36 kJ/mol, against a literature -55.8 for the ionic
 /// reaction. (The -57.3 that school textbooks quote for "the enthalpy of
 /// neutralisation" is the strong-acid/strong-base figure including dilution
@@ -189,12 +189,11 @@ pub struct SolveOutput {
 /// the same disagreement the bench already shows for everything else.
 #[cfg(feature = "engine")]
 fn neutralisation_enthalpy(engine: &mut Phreeqc) -> Option<f64> {
-    let probe = "SOLUTION 1\n    temp 25\n    pH 7\nSELECTED_OUTPUT\n\
-                 -reset false\nUSER_PUNCH\n    -headings dh\n\
-                 10 PUNCH DELTA_H_SPECIES(\"OH-\")\nEND\n";
+    // Establish the temperature and pressure state explicitly rather than
+    // relying on PHREEQC's constructor defaults.
+    let probe = "SOLUTION 1\n    temp 25\n    pH 7\nEND\n";
     engine.run(probe).ok()?;
-    let rows = engine.selected_output();
-    let v: f64 = rows.last()?.first()?.parse().ok()?;
+    let v = engine.species_delta_h("OH-").ok()?;
     (v.is_finite() && v > 0.0).then_some(-v)
 }
 

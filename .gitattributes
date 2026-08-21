@@ -1,0 +1,4 @@
+# Preserve the reviewed MY-BASIC payload byte-for-byte from its pinned commit.
+vendor/my-basic/LICENSE -text
+vendor/my-basic/my_basic.c -text
+vendor/my-basic/my_basic.h -text

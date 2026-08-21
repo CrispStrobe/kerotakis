@@ -1,6 +1,8 @@
 //! The expert register's raw material: true equilibrium speciation with
 //! activity coefficients, parsed from the engine's own report.
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 

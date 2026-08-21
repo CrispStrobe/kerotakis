@@ -1,0 +1,37 @@
+name = "MY-BASIC"
+upstream = "https://github.com/paladin-t/my_basic"
+revision = "38baab02ece70b650f5e687e485d879f80843256"
+retrieved = "2026-08-21"
+license = "MIT"
+copyright = "Copyright (C) 2011 - 2026 Tony Wang"
+modifications = "None; the vendored files are byte-identical to the pinned revision."
+
+# The Kerotakis adapter supplies in-memory source and explicit output/input
+# callbacks. The interpreter must never open an imported program from disk.
+build_definitions = ["MB_DISABLE_LOAD_FILE"]
+
+included = [
+  "LICENSE",
+  "core/my_basic.c as my_basic.c",
+  "core/my_basic.h as my_basic.h",
+]
+
+excluded = [
+  "standalone shell",
+  "samples",
+  "precompiled binaries",
+  "documentation assets",
+  "project files",
+]
+
+[[files]]
+path = "LICENSE"
+sha256 = "8156be51115207259348d3e553ae9b61ab305b8fe3d74ff358cb4d3fe992b6c3"
+
+[[files]]
+path = "my_basic.c"
+sha256 = "669994f258dec9efd1a4e93f03d406cd5087ce9096d28825439bc58a76dfc846"
+
+[[files]]
+path = "my_basic.h"
+sha256 = "3a72d47d50c8f56084682a36d2a54252fdac33d481f0a5a6b065d8d2f44a35ea"

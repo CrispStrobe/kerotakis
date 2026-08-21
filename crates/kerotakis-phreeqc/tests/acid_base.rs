@@ -1,6 +1,8 @@
 //! Acid–base chemistry through charge balance, titration to equivalence,
 //! reaction heat in the energy balance, and the L0 veto in the full loop.
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 use kerotakis_safety::ReactiveGroupScreen;

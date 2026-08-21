@@ -2,6 +2,8 @@
 //! the activities the aqueous engine reports, and checked against the
 //! engine's own data where it has any.
 
+#![cfg(feature = "engine")]
+
 use kerotakis_core::displacement::{self, SERIES};
 use kerotakis_core::*;
 use kerotakis_phreeqc::derived;

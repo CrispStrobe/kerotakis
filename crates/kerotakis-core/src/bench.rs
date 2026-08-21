@@ -27,6 +27,8 @@ pub enum BenchError {
     BadFraction,
     #[error("source and target vessel are the same")]
     SelfTransfer,
+    #[error(transparent)]
+    Kinetics(#[from] crate::kinetics::IntegrationError),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -683,7 +685,7 @@ impl Bench {
                 let seconds = seconds.max(0.0);
                 for vessel in self.vessels.iter_mut() {
                     vessel.elapsed_seconds += seconds;
-                    for (reaction, moles) in crate::kinetics::advance(vessel, seconds) {
+                    for (reaction, moles) in crate::kinetics::advance(vessel, seconds)? {
                         if moles.0 < crate::OBSERVABLE_MOLES {
                             continue;
                         }
