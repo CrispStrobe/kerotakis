@@ -110,6 +110,82 @@ pub struct RateExpression<'a> {
     pub orders: &'a [OrderTerm<'a>],
 }
 
+/// A one- or two-region NASA7 ideal-gas reference-state parameterization.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Nasa7Thermo {
+    pub min_temperature_k: f64,
+    pub midpoint_temperature_k: f64,
+    pub max_temperature_k: f64,
+    pub low_coefficients: [f64; 7],
+    pub high_coefficients: [f64; 7],
+    pub reference_pressure_pa: f64,
+}
+
+impl Nasa7Thermo {
+    fn coefficients(self, temperature_k: f64) -> [f64; 7] {
+        if temperature_k <= self.midpoint_temperature_k {
+            self.low_coefficients
+        } else {
+            self.high_coefficients
+        }
+    }
+
+    /// Standard-state Gibbs energy divided by `R*T`.
+    pub fn dimensionless_gibbs(self, temperature_k: f64) -> f64 {
+        let temperature_k = temperature_k.max(1.0);
+        let [a1, a2, a3, a4, a5, a6, a7] = self.coefficients(temperature_k);
+        let t2 = temperature_k * temperature_k;
+        let t3 = t2 * temperature_k;
+        let t4 = t3 * temperature_k;
+        let enthalpy_rt = a1
+            + a2 * temperature_k / 2.0
+            + a3 * t2 / 3.0
+            + a4 * t3 / 4.0
+            + a5 * t4 / 5.0
+            + a6 / temperature_k;
+        let entropy_r = a1 * temperature_k.ln()
+            + a2 * temperature_k
+            + a3 * t2 / 2.0
+            + a4 * t3 / 3.0
+            + a5 * t4 / 4.0
+            + a7;
+        enthalpy_rt - entropy_r
+    }
+}
+
+/// One stoichiometric contribution to an ideal-gas equilibrium constant.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct EquilibriumTerm<'a> {
+    pub species: &'a str,
+    pub coefficient: f64,
+    pub thermo: Nasa7Thermo,
+}
+
+/// Thermodynamic detailed balance for an ideal-gas reaction.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct IdealGasEquilibrium<'a> {
+    pub terms: &'a [EquilibriumTerm<'a>],
+}
+
+impl IdealGasEquilibrium<'_> {
+    /// Concentration equilibrium constant for concentrations in mol/L.
+    pub fn concentration_equilibrium_constant(self, temperature_k: f64) -> f64 {
+        const R_LITRE_PASCAL: f64 = 8_314.462_618;
+        let temperature_k = temperature_k.max(1.0);
+        let log_kc = self
+            .terms
+            .iter()
+            .map(|term| {
+                term.coefficient
+                    * (-term.thermo.dimensionless_gibbs(temperature_k)
+                        + (term.thermo.reference_pressure_pa / (R_LITRE_PASCAL * temperature_k))
+                            .ln())
+            })
+            .sum::<f64>();
+        log_kc.clamp(-700.0, 700.0).exp()
+    }
+}
+
 /// One species' contribution to the effective third-body concentration.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct ColliderEfficiency<'a> {
@@ -293,6 +369,10 @@ pub struct KineticReaction<'a> {
     /// A reverse expression makes the reaction reversible. Absence means the
     /// runtime is explicitly claiming only the forward direction.
     pub reverse: Option<RateExpression<'a>>,
+    /// Ideal-gas thermodynamics used to derive `k_reverse = k_forward / Kc`.
+    /// This is mutually exclusive with an independently parameterized reverse
+    /// law in the mechanism front end.
+    pub equilibrium: Option<IdealGasEquilibrium<'a>>,
     /// Third-body or falloff correction for gas-phase mechanisms.
     pub pressure_dependence: Option<PressureDependence<'a>>,
     /// A catalyst does not appear in the stoichiometry and is not consumed.
@@ -398,6 +478,7 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
             },
         },
         reverse: None,
+        equilibrium: None,
         pressure_dependence: None,
         catalysts: &[],
         sites: &[],
@@ -460,6 +541,7 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
             },
         },
         reverse: None,
+        equilibrium: None,
         pressure_dependence: None,
         catalysts: &[
             Catalyst {
@@ -732,7 +814,12 @@ impl<'a> KineticReaction<'a> {
         }
     }
 
-    fn expression_rate(&self, vessel: &Vessel, expression: RateExpression<'a>) -> f64 {
+    fn expression_rate(
+        &self,
+        vessel: &Vessel,
+        expression: RateExpression<'a>,
+        reverse: bool,
+    ) -> f64 {
         let litres = reaction_volume_litres(vessel, self.locality);
         if litres <= 0.0 {
             return 0.0;
@@ -751,7 +838,7 @@ impl<'a> KineticReaction<'a> {
             temperature_exponent: expression.arrhenius.temperature_exponent,
             activation_energy: ea,
         };
-        let k = self.pressure_dependence.map_or_else(
+        let mut k = self.pressure_dependence.map_or_else(
             || law.rate_constant(vessel.temperature.0),
             |dependence| {
                 let collider = dependence.collider();
@@ -766,6 +853,11 @@ impl<'a> KineticReaction<'a> {
                 dependence.rate_constant(law, vessel.temperature.0, concentration)
             },
         );
+        if reverse {
+            if let Some(equilibrium) = self.equilibrium {
+                k /= equilibrium.concentration_equilibrium_constant(vessel.temperature.0);
+            }
+        }
         let mut rate = k;
         for term in expression.orders {
             let Some(c) = term_concentration(vessel, term, litres) else {
@@ -776,7 +868,11 @@ impl<'a> KineticReaction<'a> {
             }
             rate *= c.powf(term.order);
         }
-        rate
+        if rate.is_finite() {
+            rate
+        } else {
+            0.0
+        }
     }
 
     /// Net rate in mol·L⁻¹·s⁻¹. Positive follows the declared equation;
@@ -786,14 +882,14 @@ impl<'a> KineticReaction<'a> {
             return 0.0;
         }
         let forward = if self.direction_available(vessel, true) {
-            self.expression_rate(vessel, self.forward)
+            self.expression_rate(vessel, self.forward, false)
         } else {
             0.0
         };
         let reverse = self
             .reverse
             .filter(|_| self.direction_available(vessel, false))
-            .map(|expression| self.expression_rate(vessel, expression))
+            .map(|expression| self.expression_rate(vessel, expression, true))
             .unwrap_or(0.0);
         forward - reverse
     }
@@ -1288,6 +1384,33 @@ mod tests {
         }
     }
 
+    #[test]
+    fn ideal_gas_equilibrium_converts_pressure_standard_states_to_moles_per_litre() {
+        let thermo = Nasa7Thermo {
+            min_temperature_k: 200.0,
+            midpoint_temperature_k: 1_000.0,
+            max_temperature_k: 3_000.0,
+            low_coefficients: [0.0; 7],
+            high_coefficients: [0.0; 7],
+            reference_pressure_pa: 101_325.0,
+        };
+        let terms = [
+            EquilibriumTerm {
+                species: "A2",
+                coefficient: -1.0,
+                thermo,
+            },
+            EquilibriumTerm {
+                species: "A",
+                coefficient: 2.0,
+                thermo,
+            },
+        ];
+        let equilibrium = IdealGasEquilibrium { terms: &terms };
+        let expected = 101_325.0 / (8_314.462_618 * 300.0);
+        assert!((equilibrium.concentration_equilibrium_constant(300.0) - expected).abs() < 1e-14);
+    }
+
     const TEST_FORWARD_AQUEOUS: RateExpression = RateExpression {
         arrhenius: RateLaw {
             pre_exponential: 1.0,
@@ -1327,6 +1450,7 @@ mod tests {
             locality: Locality::Bulk(Phase::Aqueous),
             forward,
             reverse,
+            equilibrium: None,
             pressure_dependence: None,
             catalysts: &[],
             sites: &[],

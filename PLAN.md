@@ -2204,6 +2204,16 @@ tests compare every sampled point with the analytic first-order solution, prove
 monotonic depletion and pressure growth, and reject zero intervals. All native,
 WebAssembly, browser, and combined-solver CI gates passed in run `32495335994`.
 
+**Active session — `codex-kin` (2026-08-21, KIN-010).** This session owns the
+first thermodynamically reversible gas-mechanism slice: strict NASA7 species
+thermochemistry parsing/validation, standard Gibbs and concentration-equilibrium
+evaluation, and elementary `<=>` reactions whose reverse rate follows detailed
+balance in both direct and implicit execution. CLI inspection/simulation and
+exact thermodynamic/equilibrium tests are included. Work is isolated on branch
+`codex-kin/reversible-nasa7` in a fresh worktree. It will not modify
+equilibrium/surface/VLE work, pressure-dependent reverse reactions, the PHREEQC
+BASIC replacement, vendored sources, or compatibility fixtures.
+
 **Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
 AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
 reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy
