@@ -14,8 +14,8 @@
 //! fed into the vessel's energy balance (curated ΔH arrives with the codex).
 
 use kerotakis_core::{
-    species, Equilibrator, Event, Kelvin, Moles, Phase, Portion, Provenance, SolutionInfo,
-    SolveError, SpeciesDetail, SpeciesId, ThermalMode, Vessel,
+    species, Equilibrator, Event, Headspace, Kelvin, Moles, Phase, Portion, Provenance,
+    SolutionInfo, SolveError, SpeciesDetail, SpeciesId, ThermalMode, Vessel,
 };
 
 use crate::PhreeqcError;
@@ -85,6 +85,12 @@ const SUPERSATURATION_REPORTING_SI: f64 = 1.0;
 #[derive(Debug, Clone, Default, serde::Serialize, serde::Deserialize)]
 pub struct CacheData {
     pub entries: Vec<CacheEntry>,
+    /// Thermochemical values derived from the same databases as the cached
+    /// equilibria. A cache-only device needs these too: otherwise it can
+    /// reproduce the composition but not the temperature, and its next
+    /// content-addressed lookup describes a different state.
+    #[serde(default)]
+    pub neutralisation_kj_per_mol: Vec<(String, f64)>,
 }
 
 pub struct PhreeqcEquilibrator {
@@ -437,6 +443,12 @@ impl PhreeqcEquilibrator {
     /// vessel state reachable in the curated lessons computed at build time,
     /// so guided content never waits for a solver, on any device).
     pub fn export_cache(&self) -> CacheData {
+        let mut neutralisation_kj_per_mol: Vec<_> = self
+            .neutralisation
+            .iter()
+            .map(|(database, enthalpy)| (database.clone(), *enthalpy))
+            .collect();
+        neutralisation_kj_per_mol.sort_by(|a, b| a.0.cmp(&b.0));
         CacheData {
             entries: self
                 .cache
@@ -452,6 +464,7 @@ impl PhreeqcEquilibrator {
                     },
                 )
                 .collect(),
+            neutralisation_kj_per_mol,
         }
     }
 
@@ -466,6 +479,9 @@ impl PhreeqcEquilibrator {
                 e.redox_adjusted,
                 !e.pe_undetermined,
             ));
+        }
+        for (database, enthalpy) in data.neutralisation_kj_per_mol {
+            self.neutralisation.entry(database).or_insert(enthalpy);
         }
         self.cache.len() - before
     }
@@ -557,10 +573,34 @@ struct Problem {
     totals: Vec<(String, f64)>,
     /// Phases: (name, initial moles, target saturation index).
     phases: Vec<(String, f64, f64)>,
+    /// Finite-headspace components: PHREEQC phase, registry species, and
+    /// initial partial pressure in atmospheres.
+    gases: Vec<(String, String, f64)>,
+    /// Gas phases owned by an external boundary rather than the vessel.
+    /// They are still amount-limited in PHREEQC so an added dose can be
+    /// consumed by the liquid instead of only appearing as vented gas.
+    external_gases: Vec<ExternalGas>,
     /// Every element to read back: dissolved totals plus the elements of all
     /// involved phases (a dissolving solid puts its elements into solution
     /// even when none started there).
     elements: Vec<String>,
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum ExternalGasKind {
+    /// A boundary phase that starts outside the vessel (currently the
+    /// atmospheric/swept sink used for outward transfer).
+    Reservoir,
+    /// A finite gas amount explicitly added through an external boundary.
+    Dose,
+}
+
+#[derive(Clone)]
+struct ExternalGas {
+    phase: String,
+    species: String,
+    initial_moles: f64,
+    kind: ExternalGasKind,
 }
 
 /// Partition the vessel into a PHREEQC problem, or None if this vessel is
@@ -651,6 +691,8 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     let mut kgw = 0.0;
     let mut totals: Vec<(String, f64)> = Vec::new();
     let mut phases: Vec<(String, f64, f64)> = Vec::new();
+    let mut gases: Vec<(String, String, f64)> = Vec::new();
+    let mut external_gases: Vec<ExternalGas> = Vec::new();
     let mut solutes = 0;
 
     let mut add_total = |el: &str, moles: f64| {
@@ -669,6 +711,68 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
     };
 
     for p in &vessel.contents {
+        if p.phase == Phase::Gas {
+            if let Some(volume) = vessel.headspace_volume() {
+                // Only gases whose liquid exchange this adapter explicitly
+                // supports enter PHREEQC. Nitrogen and oxygen are retained
+                // as inert pressure/mass inventory: unrestricted equilibrium
+                // turns room air into nitrate, a thermodynamic endpoint that
+                // is kinetically impossible on a bench. CO2 is the first
+                // approved gas/liquid model; later gases grow this list.
+                if !ATMOSPHERIC
+                    .iter()
+                    .any(|(_, species, ..)| *species == p.species.0)
+                {
+                    continue;
+                }
+                const R_LITRE_ATM: f64 = 0.082_057_366;
+                let Some(data) = species::lookup(&p.species) else {
+                    continue;
+                };
+                let phase = format!("{}(g)", data.formula);
+                let partial_pressure = p.moles.0 * R_LITRE_ATM * vessel.temperature.0 / volume.0;
+                gases.push((phase, p.species.0.clone(), partial_pressure));
+                if let Some(formula) = crate::dbindex::parse_formula(data.formula) {
+                    for element in formula
+                        .keys()
+                        .filter(|element| *element != "H" && *element != "O")
+                    {
+                        note_element(element);
+                    }
+                }
+                solutes += 1;
+            } else if let Some((phase, species, ..)) = ATMOSPHERIC
+                .iter()
+                .find(|(_, species, ..)| *species == p.species.0)
+            {
+                // A gas explicitly added to an external boundary is a
+                // finite dose passing through the liquid. Pure CO2 sets SI
+                // 0 while it is available; whatever remains then vents.
+                match external_gases
+                    .iter_mut()
+                    .find(|exchange| exchange.phase == *phase)
+                {
+                    Some(exchange) => exchange.initial_moles += p.moles.0,
+                    None => external_gases.push(ExternalGas {
+                        phase: phase.to_string(),
+                        species: species.to_string(),
+                        initial_moles: p.moles.0,
+                        kind: ExternalGasKind::Dose,
+                    }),
+                }
+                let gas_formula = phase.trim_end_matches("(g)");
+                if let Some(formula) = crate::dbindex::parse_formula(gas_formula) {
+                    for element in formula
+                        .keys()
+                        .filter(|element| *element != "H" && *element != "O")
+                    {
+                        note_element(element);
+                    }
+                }
+                solutes += 1;
+            }
+            continue;
+        }
         // A species this engine cannot place must not take the rest of the
         // vessel down with it. Bailing out here meant that adding one salt
         // PHREEQC has never heard of — thiosulfate, say — silently withdrew
@@ -741,24 +845,61 @@ fn partition(vessel: &Vessel) -> Option<Problem> {
             phases.push((cand.name.clone(), 0.0, 0.0));
         }
     }
-    // Atmospheric venting: a gas phase joins when its non-water elements
-    // are present (derived from the gas formula itself).
-    for (phase, _, target_si, _) in ATMOSPHERIC {
-        let gas_formula = phase.trim_end_matches("(g)");
-        let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
-        let all_present = required
-            .keys()
-            .filter(|el| *el != "O" && *el != "H")
-            .all(|el| elements.iter().any(|e| e == el));
-        let listed = phases.iter().any(|(name, ..)| name == phase);
-        if all_present && !listed {
-            phases.push((phase.to_string(), 0.0, *target_si));
+    if vessel.owns_headspace_gas() {
+        // A finite headspace must admit gases that can form from the
+        // solution even when none was initially present.
+        for (phase, species, _) in ATMOSPHERIC {
+            let gas_formula = phase.trim_end_matches("(g)");
+            let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
+            let all_present = required
+                .keys()
+                .filter(|el| *el != "O" && *el != "H")
+                .all(|el| elements.iter().any(|e| e == el));
+            if all_present && !gases.iter().any(|(name, ..)| name == phase) {
+                gases.push((phase.to_string(), species.to_string(), 0.0));
+            }
+        }
+    } else {
+        // Reservoir boundaries do not own a gas inventory. An open vessel
+        // sees room-air partial pressures; an inert nitrogen sweep drives
+        // volatile products toward a near-zero partial pressure.
+        let target = match vessel.headspace {
+            Headspace::Open => None,
+            Headspace::Swept { .. } => Some(SWEPT_LOG_PARTIAL_PRESSURE),
+            _ => unreachable!("finite gas boundaries handled above"),
+        };
+        for (phase, species, target_si) in ATMOSPHERIC {
+            if let Some(exchange) = external_gases
+                .iter()
+                .find(|exchange| exchange.phase == *phase)
+            {
+                phases.push((phase.to_string(), exchange.initial_moles, 0.0));
+                continue;
+            }
+            let gas_formula = phase.trim_end_matches("(g)");
+            let required = crate::dbindex::parse_formula(gas_formula).unwrap_or_default();
+            let all_present = required
+                .keys()
+                .filter(|el| *el != "O" && *el != "H")
+                .all(|el| elements.iter().any(|e| e == el));
+            let listed = phases.iter().any(|(name, ..)| name == phase);
+            if all_present && !listed {
+                phases.push((phase.to_string(), 0.0, target.unwrap_or(*target_si)));
+                external_gases.push(ExternalGas {
+                    phase: phase.to_string(),
+                    species: species.to_string(),
+                    initial_moles: 0.0,
+                    kind: ExternalGasKind::Reservoir,
+                });
+            }
         }
     }
     Some(Problem {
         kgw,
         totals,
         phases,
+        gases,
+        external_gases,
         elements,
     })
 }
@@ -790,11 +931,17 @@ impl Equilibrator for PhreeqcEquilibrator {
         let start = vessel.clone();
         let t0 = start.temperature.0;
         let mut guess = t0;
+        let mut volume_guess = start.headspace_volume();
         let mut settled: Option<(Vessel, Vec<Event>, f64)> = None;
 
         for _ in 0..8 {
             let mut trial = start.clone();
             trial.temperature = Kelvin(guess);
+            if let (Headspace::PressureControlled { pressure, .. }, Some(volume)) =
+                (trial.headspace, volume_guess)
+            {
+                trial.headspace = Headspace::PressureControlled { pressure, volume };
+            }
             let (events, q_joules) = self.solve_once(&mut trial)?;
             // Enthalpy, not temperature, is what survives a solve.
             //
@@ -821,9 +968,17 @@ impl Equilibrator for PhreeqcEquilibrator {
             } else {
                 t0
             };
-            let converged = (next - guess).abs() < 0.05;
+            let next_volume = trial.headspace_volume();
+            let volume_converged = match (volume_guess, next_volume) {
+                (Some(before), Some(after)) if start.owns_headspace_gas() => {
+                    (after.0 - before.0).abs() < (before.0.abs() * 1e-7).max(1e-9)
+                }
+                _ => true,
+            };
+            let converged = (next - guess).abs() < 0.05 && volume_converged;
             settled = Some((trial, events, next));
             guess = next;
+            volume_guess = next_volume;
             if converged {
                 break;
             }
@@ -844,6 +999,23 @@ impl Equilibrator for PhreeqcEquilibrator {
                 from,
                 to,
             });
+        }
+        // The last chemistry pass ran at the converged temperature guess,
+        // while the assignment above records the final enthalpy-balanced
+        // temperature. Keep the derived ideal-gas pressure—and the event
+        // that reports it—on that same final state.
+        vessel.refresh_pressure();
+        if let Some(Event::HeadspaceEquilibrated {
+            pressure,
+            total_moles,
+            ..
+        }) = events
+            .iter_mut()
+            .rev()
+            .find(|event| matches!(event, Event::HeadspaceEquilibrated { .. }))
+        {
+            *pressure = vessel.pressure;
+            *total_moles = vessel.gas_moles();
         }
         Ok(events)
     }
@@ -908,6 +1080,7 @@ impl PhreeqcEquilibrator {
         // phases are kept so the engine errors honestly rather than the
         // ledger losing their crystal water silently.
         let idx = derived::index_for(db_tag);
+        problem.gases.retain(|(phase, ..)| idx.has_phase(phase));
         let mut freed: Vec<(String, f64)> = Vec::new();
         // What was freed, as phases rather than loose elements — the heat
         // is owed to the *substance* that dissolved, not to its atoms.
@@ -929,6 +1102,12 @@ impl PhreeqcEquilibrator {
                 return true;
             }
             false
+        });
+        problem.external_gases.retain(|exchange| {
+            problem
+                .phases
+                .iter()
+                .any(|(phase, ..)| phase == &exchange.phase)
         });
         for (el, n) in freed {
             if let Some(entry) = problem.totals.iter_mut().find(|(e, _)| *e == el) {
@@ -1123,6 +1302,12 @@ impl PhreeqcEquilibrator {
             let moles = value(phase).ok_or_else(|| missing(phase))?;
             new_phases.push((phase.clone(), moles));
         }
+        let mut new_gases: Vec<(String, String, f64)> = Vec::new();
+        for (phase, species, _) in &problem.gases {
+            let column = format!("g_{phase}");
+            let moles = value(&column).ok_or_else(|| missing(&column))?;
+            new_gases.push((phase.clone(), species.clone(), moles.max(0.0)));
+        }
         let ph = value("pH").ok_or_else(|| missing("pH"))?;
         let mu = value("mu").ok_or_else(|| missing("mu"))?;
 
@@ -1132,6 +1317,17 @@ impl PhreeqcEquilibrator {
         let mut events = Vec::new();
         let mut contents = Vec::new();
         for p in &vessel.contents {
+            if p.phase == Phase::Gas
+                && problem
+                    .external_gases
+                    .iter()
+                    .any(|exchange| exchange.species == p.species.0)
+            {
+                // This portion was a finite dose through an external
+                // boundary. The equilibrium delta below decides how much
+                // entered the condensed inventory and how much vented.
+                continue;
+            }
             match derived::role(&p.species.0) {
                 // The solvent is rebuilt on the *equilibrated* water mass,
                 // not left at what went in. Speciation consumes and
@@ -1154,6 +1350,14 @@ impl PhreeqcEquilibrator {
                 // invisible only because an unmodelled species also made
                 // `partition` decline, so the solver never ran at all.
                 None => {
+                    if p.phase == Phase::Gas
+                        && problem
+                            .gases
+                            .iter()
+                            .any(|(_, species, _)| species == &p.species.0)
+                    {
+                        continue;
+                    }
                     // Freely soluble but unspeciated: it goes into
                     // solution, and that is the whole claim.
                     let dissolves =
@@ -1190,6 +1394,29 @@ impl PhreeqcEquilibrator {
                     species: SpeciesId::new(ion),
                     moles: Moles(*moles / per_ion),
                     phase: Phase::Aqueous,
+                });
+            }
+        }
+        for (_, species, moles) in &new_gases {
+            if *moles > TRACE {
+                contents.push(Portion {
+                    species: SpeciesId::new(species),
+                    moles: Moles(*moles),
+                    phase: Phase::Gas,
+                });
+            }
+            let before = vessel
+                .contents
+                .iter()
+                .filter(|portion| portion.phase == Phase::Gas && portion.species.0 == *species)
+                .map(|portion| portion.moles.0)
+                .sum::<f64>();
+            let formed = *moles - before;
+            if formed > TRACE {
+                events.push(Event::GasContained {
+                    vessel: vessel.id,
+                    species: SpeciesId::new(species),
+                    moles: Moles(formed),
                 });
             }
         }
@@ -1236,33 +1463,49 @@ impl PhreeqcEquilibrator {
                 // per formula instead of two. The chemistry is unchanged;
                 // it is now counted once.
                 let _ = waters;
-            } else if let Some((_, gas, _, water_coproduct)) =
-                ATMOSPHERIC.iter().find(|(name, ..)| name == phase)
+            } else if let Some(exchange) = problem
+                .external_gases
+                .iter()
+                .find(|exchange| exchange.phase == *phase)
             {
-                // Escaped the open vessel: reported, not booked — the
-                // balance notices the loss. The water co-product of the
-                // gas-forming reaction stays behind.
-                // Recorded whatever the size. Gating this on
-                // observability meant a third of a micromole of CO2 could
-                // leave an open beaker with no entry against it — and the
-                // water co-product below was skipped with it, so the vessel
-                // lost matter twice over. `Event::is_observable` decides
-                // what gets *shown*.
-                if *moles > TRACE {
-                    events.push(Event::GasEvolved {
-                        vessel: vessel.id,
-                        species: SpeciesId::new(gas),
-                        moles: Moles(*moles),
-                    });
-                    // The water this reaction makes is *not* added here.
-                    // It used to be, and it had to be while the solvent was
-                    // carried over unchanged from the previous step. Now
-                    // the solvent is rebuilt from PHREEQC's own `mass_H2O`,
-                    // which already counts water produced and consumed by
-                    // the reaction — adding it again put the mass in twice,
-                    // and a fizzing beaker lost 1.02 g where it should have
-                    // lost the full 1.69 g of carbon dioxide.
-                    let _ = water_coproduct;
+                match exchange.kind {
+                    ExternalGasKind::Reservoir => {
+                        let transferred = *moles - exchange.initial_moles;
+                        if transferred > TRACE {
+                            events.push(Event::GasEvolved {
+                                vessel: vessel.id,
+                                species: SpeciesId::new(&exchange.species),
+                                moles: Moles(transferred),
+                            });
+                        } else if transferred < -TRACE {
+                            events.push(Event::GasAbsorbed {
+                                vessel: vessel.id,
+                                species: SpeciesId::new(&exchange.species),
+                                moles: Moles(-transferred),
+                            });
+                        }
+                    }
+                    ExternalGasKind::Dose => {
+                        let absorbed = exchange.initial_moles - moles;
+                        if absorbed > TRACE {
+                            events.push(Event::GasAbsorbed {
+                                vessel: vessel.id,
+                                species: SpeciesId::new(&exchange.species),
+                                moles: Moles(absorbed),
+                            });
+                        }
+                        // Whatever remains from the finite dose is outside
+                        // the vessel after it has bubbled through. If the
+                        // solution produced additional gas, it is included
+                        // in this same outward amount.
+                        if *moles > TRACE {
+                            events.push(Event::GasEvolved {
+                                vessel: vessel.id,
+                                species: SpeciesId::new(&exchange.species),
+                                moles: Moles(*moles),
+                            });
+                        }
+                    }
                 }
             }
         }
@@ -1340,6 +1583,14 @@ impl PhreeqcEquilibrator {
         vessel.solute_charge = a_after;
 
         vessel.contents = contents;
+        vessel.refresh_pressure();
+        if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
+            events.push(Event::HeadspaceEquilibrated {
+                vessel: vessel.id,
+                pressure: vessel.pressure,
+                total_moles: vessel.gas_moles(),
+            });
+        }
 
         // Reaction heat: curated dissolution enthalpies feed the energy
         // balance (PLAN.md). Dissolution of an endothermic salt cools the
@@ -1634,6 +1885,9 @@ const FAST_REDOX: &[&str] = &["Fe", "Mn", "Cu", "Cr"];
 /// the atmosphere. log10(0.21) = −0.68.
 const ATMOSPHERIC_OXYGEN: &str = "O2(g)";
 const ATMOSPHERIC_LOG_PO2: &str = "-0.68";
+/// Effective volatile-gas partial pressure under an ideal continuous purge.
+/// It is small rather than zero because equilibrium constants are logarithmic.
+const SWEPT_LOG_PARTIAL_PRESSURE: f64 = -12.0;
 
 /// What the electrons in a vessel add up to, and the input that lets
 /// PHREEQC redistribute them.
@@ -1802,11 +2056,15 @@ fn build_input_at(
         // major-ion brine model and carries no O2(g) at all — asking it for
         // one is an error, and it has no redox chemistry to get wrong
         // anyway.
-        None if derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN) => writeln!(
-            input,
-            "    pe        4  {ATMOSPHERIC_OXYGEN}  {ATMOSPHERIC_LOG_PO2}"
-        )
-        .unwrap(),
+        None if vessel.uses_atmospheric_reservoir()
+            && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN) =>
+        {
+            writeln!(
+                input,
+                "    pe        4  {ATMOSPHERIC_OXYGEN}  {ATMOSPHERIC_LOG_PO2}"
+            )
+            .unwrap()
+        }
         None => {}
     }
     // Merge totals that lose their valence tag: Fe(2) and Fe(3) both become
@@ -1830,6 +2088,27 @@ fn build_input_at(
         writeln!(input, "EQUILIBRIUM_PHASES 1").unwrap();
         for (phase, moles, target_si) in &problem.phases {
             writeln!(input, "    {phase} {target_si} {moles:.12e}").unwrap();
+        }
+    }
+    if !problem.gases.is_empty() {
+        writeln!(input, "GAS_PHASE 1").unwrap();
+        match vessel.headspace {
+            Headspace::Sealed { volume } => {
+                writeln!(input, "    -fixed_volume").unwrap();
+                writeln!(input, "    -volume {:.12e}", volume.0).unwrap();
+            }
+            Headspace::PressureControlled { volume, .. } => {
+                // The wrapper iterates this fixed-volume solve with V=nRT/P
+                // until the requested controller pressure and gas/liquid
+                // partition agree. This keeps inert carrier gas out of
+                // PHREEQC's unrestricted redox equilibrium.
+                writeln!(input, "    -fixed_volume").unwrap();
+                writeln!(input, "    -volume {:.12e}", volume.0).unwrap();
+            }
+            _ => unreachable!("gas components require a material-closed headspace"),
+        }
+        for (phase, _, partial_pressure) in &problem.gases {
+            writeln!(input, "    {phase} {:.12e}", partial_pressure).unwrap();
         }
     }
     writeln!(input, "SELECTED_OUTPUT").unwrap();
@@ -1865,6 +2144,14 @@ fn build_input_at(
     if !problem.phases.is_empty() {
         let phases: Vec<&str> = problem.phases.iter().map(|(p, ..)| p.as_str()).collect();
         writeln!(input, "    -equilibrium_phases {}", phases.join(" ")).unwrap();
+    }
+    if !problem.gases.is_empty() {
+        let gases: Vec<&str> = problem
+            .gases
+            .iter()
+            .map(|(phase, ..)| phase.as_str())
+            .collect();
+        writeln!(input, "    -gases    {}", gases.join(" ")).unwrap();
     }
     writeln!(input, "END").unwrap();
     input

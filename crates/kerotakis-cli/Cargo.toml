@@ -20,6 +20,8 @@ serde = { workspace = true }
 serde_json = { workspace = true }
 kerotakis-safety = { path = "../kerotakis-safety" }
 postcard = { version = "1", features = ["alloc"] }
+sha2 = "0.10"
+toml = "0.8"
 
 [dev-dependencies]
 postcard = { version = "1", features = ["alloc"] }

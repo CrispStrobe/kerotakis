@@ -46,8 +46,16 @@ Computed, not scripted:
   (acetic → 2.88), polyprotic (phosphoric, all three pKa's), and **buffers**
   that resist acid where plain water crashes.
 - **Titration curves** walked with a burette, to equivalence and past it.
-- **Gas evolution in an open vessel** — vinegar and baking soda fizz, and the
-  balance sees the CO₂ leave.
+- **Explicit gas boundaries** — vinegar and baking soda can vent CO₂ to room
+  air, retain it at fixed volume, expand a pressure-controlled headspace, or
+  lose it under a nitrogen sweep. Use `seal v1 500mL`,
+  `regulate v1 1.5bar 500mL`, `sweep v1 1bar`, and `open v1`; gas/liquid
+  partitioning, pressure, volume, energy, and the balance respond to the
+  constraint. Rigid trapped gas uses its constant-volume heat capacity, while
+  a pressure-controlled headspace includes expansion work.
+- **Bidirectional gas transfer** — `add v1 CO2 0.01mol` bubbles a finite dose
+  through an open vessel. Limewater turns milky as calcite forms; continued
+  excess CO₂ redissolves it, with absorbed and vented carbon accounted for.
 - **Heat**: dissolution enthalpies drive the vessel temperature, so calcium
   chloride is a +20 K hot pack and potassium chloride a −4 K cold pack.
 - **Hard-water chemistry**: chalk, limescale, and gypsum binding its two

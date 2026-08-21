@@ -6,7 +6,7 @@
 
 use crate::ops::{Instrument, Operator};
 use crate::species::{self, SpeciesData, SpeciesId};
-use crate::units::{Grams, Joules, Kelvin, Liters, Moles};
+use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::VesselId;
 
 /// Parse one bench command into an operator. Meta commands (register,
@@ -71,6 +71,40 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
         },
         "stir" => Operator::Stir {
             vessel: parse_vessel(words.get(1).ok_or("usage: stir <vessel>")?)?,
+        },
+        "seal" => {
+            if words.len() != 3 {
+                return Err("usage: seal <vessel> <headspace-volume><mL|L>".into());
+            }
+            Operator::Seal {
+                vessel: parse_vessel(words[1])?,
+                headspace_volume: parse_volume(words[2])?,
+            }
+        }
+        "regulate" => {
+            if words.len() != 4 {
+                return Err(
+                    "usage: regulate <vessel> <pressure><Pa|kPa|bar|atm> <initial-volume><mL|L>"
+                        .into(),
+                );
+            }
+            Operator::Regulate {
+                vessel: parse_vessel(words[1])?,
+                pressure: parse_pressure(words[2])?,
+                initial_volume: parse_volume(words[3])?,
+            }
+        }
+        "sweep" => {
+            if words.len() != 3 {
+                return Err("usage: sweep <vessel> <pressure><Pa|kPa|bar|atm>".into());
+            }
+            Operator::Sweep {
+                vessel: parse_vessel(words[1])?,
+                pressure: parse_pressure(words[2])?,
+            }
+        }
+        "open" => Operator::Open {
+            vessel: parse_vessel(words.get(1).ok_or("usage: open <vessel>")?)?,
         },
         "filter" => {
             if words.len() < 3 {
@@ -210,6 +244,34 @@ pub fn parse_energy(word: &str) -> Result<Joules, String> {
         "J" | "j" => Ok(Joules(value)),
         "kJ" | "kj" => Ok(Joules(value * 1000.0)),
         other => Err(format!("unknown energy unit '{other}' (J, kJ)")),
+    }
+}
+
+pub fn parse_volume(word: &str) -> Result<Liters, String> {
+    let (value, unit) = split_unit(word)?;
+    if value <= 0.0 {
+        return Err("headspace volume must be positive".into());
+    }
+    match unit {
+        "mL" | "ml" => Ok(Liters(value / 1000.0)),
+        "L" | "l" => Ok(Liters(value)),
+        other => Err(format!("unknown volume unit '{other}' (mL, L)")),
+    }
+}
+
+pub fn parse_pressure(word: &str) -> Result<Pascal, String> {
+    let (value, unit) = split_unit(word)?;
+    if value <= 0.0 {
+        return Err("pressure must be positive".into());
+    }
+    match unit {
+        "Pa" | "pa" => Ok(Pascal(value)),
+        "kPa" | "kpa" => Ok(Pascal(value * 1_000.0)),
+        "bar" => Ok(Pascal(value * 100_000.0)),
+        "atm" => Ok(Pascal(value * Pascal::ATMOSPHERIC.0)),
+        other => Err(format!(
+            "unknown pressure unit '{other}' (Pa, kPa, bar, atm)"
+        )),
     }
 }
 

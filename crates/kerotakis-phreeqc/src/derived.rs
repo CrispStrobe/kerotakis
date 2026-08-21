@@ -8,8 +8,8 @@
 //! - `BOOKING_OVERRIDES`: the protonation state dissolved element totals
 //!   are booked as at teaching pH (bicarbonate rather than the database's
 //!   carbonate master, dihydrogen phosphate rather than PO4-3);
-//! - `ATMOSPHERIC`: physical constants — log10 partial pressures of the
-//!   gases an open vessel vents against.
+//! - `ATMOSPHERIC`: physical constants — log10 partial pressures and registry
+//!   identities for gases exchanged across an external boundary.
 //!
 //! Everything else (which compounds map to which elements, which mineral
 //! phases exist where, their stoichiometry, hydrate waters, polymorph
@@ -46,11 +46,10 @@ pub struct DerivedPhase {
     pub elements: Vec<(String, f64)>,
 }
 
-/// Gas phases an open vessel vents, with the log10 atmospheric partial
-/// pressure it equilibrates against and the water co-product per mole of
-/// gas (HCO3- + H+ → CO2↑ + H2O). Physical constants, not chemistry the
+/// Gas phases an open vessel exchanges, with registry identity and log10
+/// atmospheric partial pressure. Physical constants, not chemistry the
 /// databases know.
-pub const ATMOSPHERIC: &[(&str, &str, f64, f64)] = &[("CO2(g)", "CO2", -3.408, 1.0)];
+pub const ATMOSPHERIC: &[(&str, &str, f64)] = &[("CO2(g)", "CO2", -3.408)];
 
 /// Oxyanion groups: the valence-carrying units formulas decompose into.
 /// (Element-count signatures; order matters — longest/most specific first.)
