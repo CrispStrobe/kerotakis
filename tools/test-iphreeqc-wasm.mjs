@@ -87,7 +87,6 @@ try {
     mod._free(deltaHPtr);
 }
 
-const linesBeforeBasic = LineCount(id);
 const basicStatus = RunString(
     id,
     `SOLUTION 2\n    pH 7\nSELECTED_OUTPUT\n    -reset false\nUSER_PUNCH\n10 PUNCH 12345\nEND\n`,
@@ -95,7 +94,7 @@ const basicStatus = RunString(
 const basicError = GetErrorString(id);
 if (process.env.IPHREEQC_BASIC_MODE === "my-basic") {
     const basicLines = [];
-    for (let n = linesBeforeBasic; n < LineCount(id); n++) basicLines.push(Line(id, n));
+    for (let n = 0; n < LineCount(id); n++) basicLines.push(Line(id, n));
     if (basicStatus !== 0 || !basicLines.some((line) => line.includes("12345"))) {
         throw new Error(`MY-BASIC USER_PUNCH failed: ${basicError}; ${basicLines.join(" | ")}`);
     }
