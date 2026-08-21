@@ -2229,8 +2229,9 @@ agreement, mean absolute bound-fraction error 0.07210 and maximum error
 0.21626. Those pass the executable limits of 0.10 mean and 0.25 maximum for
 this deliberately reduced oracle. Native Ubuntu/macOS, strict lint, IPhreeqc
 Wasm, core/full/combined Wasm and the real-browser demo all passed in the same
-run. The temporary hosted audit hook was then removed; the development-only
-export remains explicit and opt-in.
+run; follow-up run `32495027486` executed and passed those now-enforced limits.
+The temporary hosted audit hook was then removed; the development-only export
+remains explicit and opt-in.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
