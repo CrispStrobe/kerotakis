@@ -2321,6 +2321,19 @@ gates, core/full/combined Wasm, IPhreeqc Wasm, and the real-browser demo. This
 session did not modify reaction-network/kinetics work, MY-BASIC or vendored
 sources, VLE, transport, licensing/dependency metadata, or the web UI.
 
+**Active session — `codex-AQ` (2026-08-21, AQ-009).** Work is isolated in
+`/tmp/kerotakis-aq009.worktree.ddVJwWRg` on branch
+`codex-aq/aq-009-phreeqc-kinetics`. This session owns one evidence-producing
+mineral-dissolution trajectory comparison between PHREEQC `KINETICS` and the
+already-merged Kerotakis reaction-network integrator. The PHREEQC path remains
+development-only behind `my-basic-preview`; its rate program will be
+project-authored, and no external kinetics corpus or new runtime data enters
+the app. This session may add a narrowly scoped comparison contract/test but
+will not redesign the KIN reaction-network parser, import mechanisms, modify
+vendored BASIC sources, or change production no-BASIC behavior. Local native
+builds require a separate one-minute load check below 4 and remain capped at
+two Cargo/CMake jobs; otherwise validation runs on GitHub CI.
+
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol
 - [ ] Multi-step mechanisms, rate-determining steps, steady-state
