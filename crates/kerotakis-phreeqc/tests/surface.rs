@@ -107,7 +107,7 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
     let first_bound = bound;
     let first_mass = state.mass().0;
     let first_water = state.moles_of(&SpeciesId::new("water")).0;
-    step(
+    let stir_events = step(
         &mut bench,
         &mut solver,
         Operator::Stir {
@@ -115,8 +115,20 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
         },
     );
     let settled = bench.vessel(VesselId(0)).unwrap();
-    assert!((zinc_inventory(settled) - 1e-4).abs() < 2e-8);
-    assert!((sulfate_inventory(settled) - 1e-4).abs() < 2e-8);
+    assert!(
+        (zinc_inventory(settled) - 1e-4).abs() < 2e-8,
+        "repeat zinc inventory: total={:.12e}, dissolved={:.12e}, bound={:.12e}; events={stir_events:?}",
+        zinc_inventory(settled),
+        settled.moles_of(&SpeciesId::new("Zn+2")).0,
+        settled.surfaces[0].bound(SurfaceSorbate::Zinc).0,
+    );
+    assert!(
+        (sulfate_inventory(settled) - 1e-4).abs() < 2e-8,
+        "repeat sulfate inventory: total={:.12e}, dissolved={:.12e}, bound={:.12e}; events={stir_events:?}",
+        sulfate_inventory(settled),
+        settled.moles_of(&SpeciesId::new("SO4-2")).0,
+        settled.surfaces[0].bound(SurfaceSorbate::Sulfate).0,
+    );
     assert!((settled.mass().0 - first_mass).abs() < 2e-5);
     assert!(
         (settled.moles_of(&SpeciesId::new("water")).0 - first_water).abs() < 1e-10,
