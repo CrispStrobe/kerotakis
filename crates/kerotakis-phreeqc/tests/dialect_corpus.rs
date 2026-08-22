@@ -479,3 +479,25 @@ fn phreeqc_string_format_and_line_control_helpers_work() {
     assert_eq!(values[1].trim(), "12.50");
     assert_eq!(values[2], "done");
 }
+
+#[test]
+fn erase_statement_is_accepted_without_error() {
+    let mut engine = Phreeqc::with_database(databases::PHREEQC).unwrap();
+    engine
+        .run(
+            "SOLUTION 1\n\
+                 pH 7\n\
+             SELECTED_OUTPUT\n\
+                 -reset false\n\
+             USER_PUNCH\n\
+                 -headings result\n\
+                 10 DIM arr(5)\n\
+                 20 arr(1) = 42\n\
+                 30 ERASE arr\n\
+                 40 PUNCH 1\n\
+             END\n",
+        )
+        .expect("ERASE should not cause an error");
+    let val = engine.last_value("result").unwrap();
+    assert!((val - 1.0).abs() < 1e-10, "program should complete after ERASE");
+}

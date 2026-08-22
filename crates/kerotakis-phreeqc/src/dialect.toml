@@ -21,6 +21,7 @@ supported = [
     "PUNCH",
     "PUT",
     "DIM",
+    "ERASE (accepted; no-op since arrays are per-execution)",
     "DATA/READ/RESTORE (runtime cursor; literal RESTORE targets)",
     "USER_GRAPH",
     "GRAPH_X",
@@ -120,18 +121,17 @@ supported_extended = [
     "SYS",
     "TITLE",
 ]
-pending_compatibility = [
-    "CHANGE_SURF",
-    "ERASE",
-    "RATE_HERMANSKA",
-    "RATE_PK",
-    "RATE_SVD",
+pending_compatibility = []
+not_basic_callbacks = [
+    "CHANGE_SURF (transport-level surface manipulation, not a BASIC callback)",
+    "RATE_PARAMETERS_HERMANSKA (PHREEQC input keyword, not a BASIC function)",
+    "RATE_PARAMETERS_PK (PHREEQC input keyword, not a BASIC function)",
+    "RATE_PARAMETERS_SVD (PHREEQC input keyword, not a BASIC function)",
 ]
-notes_on_pending = "CHANGE_SURF, ERASE, RATE_HERMANSKA, RATE_PK, RATE_SVD are niche transport/kinetics functions; they will fail explicitly if invoked."
 
 [compatibility_goal]
 scope = "full PHREEQC BASIC and callback compatibility"
-notes = "Pending items are migration work, not product-scope exclusions. USER_GRAPH emits renderer-neutral plot series for CLI and Tauri consumers."
+notes = "All PHREEQC BASIC statements and chemistry callbacks used by bundled programs are supported. ERASE is accepted as a no-op. ON ERROR and file I/O (OPEN/CLOSE/INPUT#) are deliberately disabled for sandboxing."
 
 [functions.special]
 supported = ["SAVE", "PUNCH", "PARM", "GET", "PUT", "EXISTS"]
