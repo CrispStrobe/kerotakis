@@ -23,6 +23,7 @@ pub mod coverage;
 pub mod curated;
 pub mod delta;
 pub mod displacement;
+pub mod electrochemistry;
 pub mod indicator;
 pub mod instrument;
 pub mod kinetics;

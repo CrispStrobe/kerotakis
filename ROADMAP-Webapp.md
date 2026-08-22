@@ -1360,21 +1360,21 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 
 - [x] **ELEC-001 — Add explicit electrode/interface state.** Material, area,
   roughness, deposits, and connected compartment must serialize and replay.
-- [ ] **ELEC-002 — Move current Nernst/Faraday behavior onto electrodes.** Keep
+- [x] **ELEC-002 — Move current Nernst/Faraday behavior onto electrodes.** Keep
   all existing cell and electrolysis tests unchanged.
-- [ ] **ELEC-003 — Add reviewed kinetic parameter records.** No folklore table
+- [x] **ELEC-003 — Add reviewed kinetic parameter records.** No folklore table
   enters runtime; each exchange-current/Tafel/overpotential value needs an
   allowlisted source and validity conditions.
-- [ ] **ELEC-004 — Implement Butler–Volmer/Tafel kinetics.** Test equilibrium,
+- [x] **ELEC-004 — Implement Butler–Volmer/Tafel kinetics.** Test equilibrium,
   low-overpotential, and Tafel limits analytically.
-- [ ] **ELEC-005 — Add galvanostatic and potentiostatic control.** Keep charge,
+- [x] **ELEC-005 — Add galvanostatic and potentiostatic control.** Keep charge,
   electrical work, and chemical conversion in the ledger.
-- [ ] **ELEC-006 — Add ohmic and diffusion limits.** Begin with a boundary-layer
+- [x] **ELEC-006 — Add ohmic and diffusion limits.** Begin with a boundary-layer
   model; surface the geometry assumption.
-- [ ] **ELEC-007 — Add competing electrode reactions.** Choose deposition versus
+- [x] **ELEC-007 — Add competing electrode reactions.** Choose deposition versus
   gas evolution from thermodynamics, kinetics, activities, and available
   parameters; otherwise refuse quantitative efficiency.
-- [ ] **ELEC-008 — Add deposit/passivation state.** Let surface coverage alter
+- [x] **ELEC-008 — Add deposit/passivation state.** Let surface coverage alter
   subsequent kinetics without changing elemental inventory.
 - [ ] **ELEC-009 — Publish electrochemical acceptance cases.** Electroplating,
   cell discharge, concentration polarization, corrosion, and sacrificial
