@@ -1449,7 +1449,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   to the population moments and heat ledger.
 - [x] **ADV-005 — Nuclear module design.** Define a separate nuclide ledger and
   identify a CC0/public-domain decay source before writing runtime code.
-- [ ] **ADV-006 — Keep biochemistry parked.** Open it only with an approved data
+- [x] **ADV-006 — Keep biochemistry parked.** Open it only with an approved data
   source and a separate solvent/macromolecule/enzyme-kinetics architecture.
 
 ### Phase 10 — Delivery and maintainability
