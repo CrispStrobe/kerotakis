@@ -239,8 +239,297 @@ where
     bubble_point(&mix, pressure_kpa).map(|bp| (x, bp))
 }
 
+// ── THERMO-005: Dew point and TP flash ─────────────────────────────
+
+/// What a condensing mixture is doing.
+#[derive(Debug, Clone, PartialEq)]
+pub struct DewPoint {
+    /// Temperature at which the first liquid drop forms, °C.
+    pub t_celsius: f64,
+    /// Liquid composition at that temperature.
+    pub x: Vec<f64>,
+}
+
+/// The dew-point temperature of a vapour mixture.
+///
+/// Bisection on Σ yᵢ/(γᵢ·P°ᵢ(T)) − 1/P = 0.
+/// `mix[i].x` is treated as the vapour mole fraction yᵢ.
+pub fn dew_point(mix: &[Volatile], pressure_kpa: f64) -> Option<DewPoint> {
+    if mix.is_empty() || pressure_kpa <= 0.0 {
+        return None;
+    }
+    let total_y: f64 = mix.iter().map(|c| c.x).sum();
+    if total_y <= 0.0 {
+        return None;
+    }
+    let residual = |t: f64| -> f64 {
+        let sum: f64 = mix
+            .iter()
+            .map(|c| {
+                let p_sat = c.antoine.pressure_kpa_unchecked(t);
+                (c.x / total_y) / (c.gamma * p_sat)
+            })
+            .sum();
+        sum - 1.0 / pressure_kpa
+    };
+    let (mut lo, mut hi) = (-100.0f64, 400.0f64);
+    if residual(lo).signum() == residual(hi).signum() {
+        return None;
+    }
+    let r_lo = residual(lo);
+    for _ in 0..200 {
+        let mid = 0.5 * (lo + hi);
+        if residual(mid).signum() == r_lo.signum() {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+        if hi - lo < 1e-9 {
+            break;
+        }
+    }
+    let t = 0.5 * (lo + hi);
+    let x_raw: Vec<f64> = mix
+        .iter()
+        .map(|c| {
+            let p_sat = c.antoine.pressure_kpa_unchecked(t);
+            (c.x / total_y) / (c.gamma * p_sat) * pressure_kpa
+        })
+        .collect();
+    let x_sum: f64 = x_raw.iter().sum();
+    let x: Vec<f64> = x_raw.iter().map(|xi| xi / x_sum).collect();
+    Some(DewPoint { t_celsius: t, x })
+}
+
+/// Result of an isothermal (TP) flash calculation.
+#[derive(Debug, Clone, PartialEq)]
+pub struct FlashResult {
+    /// Vapour fraction (0 = all liquid, 1 = all vapour).
+    pub vapour_fraction: f64,
+    /// Liquid-phase mole fractions.
+    pub x: Vec<f64>,
+    /// Vapour-phase mole fractions.
+    pub y: Vec<f64>,
+    /// K-values: Kᵢ = yᵢ/xᵢ = γᵢ·P°ᵢ(T)/P.
+    pub k: Vec<f64>,
+}
+
+/// Isothermal TP flash via the Rachford-Rice equation.
+///
+/// `components[i].x` is the overall feed mole fraction zᵢ.
+pub fn tp_flash(
+    components: &[Volatile],
+    pressure_kpa: f64,
+    t_celsius: f64,
+) -> Option<FlashResult> {
+    if components.is_empty() || pressure_kpa <= 0.0 {
+        return None;
+    }
+    let z_total: f64 = components.iter().map(|c| c.x).sum();
+    if z_total <= 0.0 {
+        return None;
+    }
+    let z: Vec<f64> = components.iter().map(|c| c.x / z_total).collect();
+
+    let k: Vec<f64> = components
+        .iter()
+        .map(|c| c.gamma * c.antoine.pressure_kpa_unchecked(t_celsius) / pressure_kpa)
+        .collect();
+
+    // Check subcooled liquid: Σ zᵢ·Kᵢ ≤ 1
+    let sum_zk: f64 = z.iter().zip(&k).map(|(zi, ki)| zi * ki).sum();
+    if sum_zk <= 1.0 {
+        return Some(FlashResult {
+            vapour_fraction: 0.0,
+            x: z.clone(),
+            y: z.iter().zip(&k).map(|(zi, ki)| zi * ki / sum_zk).collect(),
+            k,
+        });
+    }
+    // Check superheated vapour: Σ zᵢ/Kᵢ ≤ 1
+    let sum_z_over_k: f64 = z.iter().zip(&k).map(|(zi, ki)| zi / ki).sum();
+    if sum_z_over_k <= 1.0 {
+        return Some(FlashResult {
+            vapour_fraction: 1.0,
+            x: z.iter().zip(&k).map(|(zi, ki)| zi / ki / sum_z_over_k).collect(),
+            y: z.clone(),
+            k,
+        });
+    }
+
+    // Two-phase: solve Rachford-Rice
+    let rr = |v: f64| -> f64 {
+        z.iter()
+            .zip(&k)
+            .map(|(zi, ki)| zi * (ki - 1.0) / (1.0 + v * (ki - 1.0)))
+            .sum()
+    };
+
+    let (mut lo, mut hi) = (0.0f64, 1.0f64);
+    let rr_lo = rr(lo);
+    for _ in 0..200 {
+        let mid = 0.5 * (lo + hi);
+        if rr(mid).signum() == rr_lo.signum() {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+        if hi - lo < 1e-12 {
+            break;
+        }
+    }
+    let v = 0.5 * (lo + hi);
+
+    let x: Vec<f64> = z
+        .iter()
+        .zip(&k)
+        .map(|(zi, ki)| zi / (1.0 + v * (ki - 1.0)))
+        .collect();
+    let y: Vec<f64> = x.iter().zip(&k).map(|(xi, ki)| xi * ki).collect();
+
+    Some(FlashResult {
+        vapour_fraction: v,
+        x,
+        y,
+        k,
+    })
+}
+
 /// Mass fraction of the first component, from its mole fraction.
 pub fn mass_fraction(x1: f64, m1: f64, m2: f64) -> f64 {
     let (a, b) = (x1 * m1, (1.0 - x1) * m2);
     a / (a + b)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn pure_water_bubble_point() {
+        let mix = [Volatile {
+            antoine: WATER,
+            x: 1.0,
+            gamma: 1.0,
+        }];
+        let bp = bubble_point(&mix, ATMOSPHERE_KPA).unwrap();
+        assert!(
+            (bp.t_celsius - 100.0).abs() < 0.5,
+            "water boils at {:.2} °C",
+            bp.t_celsius
+        );
+    }
+
+    #[test]
+    fn pure_water_dew_point() {
+        let mix = [Volatile {
+            antoine: WATER,
+            x: 1.0,
+            gamma: 1.0,
+        }];
+        let dp = dew_point(&mix, ATMOSPHERE_KPA).unwrap();
+        assert!(
+            (dp.t_celsius - 100.0).abs() < 0.5,
+            "water dew point at {:.2} °C",
+            dp.t_celsius
+        );
+    }
+
+    #[test]
+    fn bubble_below_dew_for_binary() {
+        let mix = [
+            Volatile { antoine: ETHANOL, x: 0.5, gamma: 1.0 },
+            Volatile { antoine: WATER, x: 0.5, gamma: 1.0 },
+        ];
+        let bp = bubble_point(&mix, ATMOSPHERE_KPA).unwrap();
+        let dp = dew_point(&mix, ATMOSPHERE_KPA).unwrap();
+        assert!(
+            bp.t_celsius < dp.t_celsius,
+            "bubble {:.2} should be below dew {:.2}",
+            bp.t_celsius,
+            dp.t_celsius
+        );
+    }
+
+    #[test]
+    fn tp_flash_subcooled_liquid() {
+        // At 20°C, 1 atm: water-ethanol is all liquid
+        let mix = [
+            Volatile { antoine: ETHANOL, x: 0.5, gamma: 1.0 },
+            Volatile { antoine: WATER, x: 0.5, gamma: 1.0 },
+        ];
+        let result = tp_flash(&mix, ATMOSPHERE_KPA, 20.0).unwrap();
+        assert!(
+            result.vapour_fraction < 1e-10,
+            "should be all liquid at 20°C, V = {}",
+            result.vapour_fraction
+        );
+    }
+
+    #[test]
+    fn tp_flash_superheated_vapour() {
+        // At 200°C, 1 atm: everything is vapour
+        let mix = [
+            Volatile { antoine: ETHANOL, x: 0.5, gamma: 1.0 },
+            Volatile { antoine: WATER, x: 0.5, gamma: 1.0 },
+        ];
+        let result = tp_flash(&mix, ATMOSPHERE_KPA, 200.0).unwrap();
+        assert!(
+            (result.vapour_fraction - 1.0).abs() < 1e-10,
+            "should be all vapour at 200°C, V = {}",
+            result.vapour_fraction
+        );
+    }
+
+    #[test]
+    fn tp_flash_two_phase() {
+        // At bubble point + a few degrees: partial vaporization
+        let mix_bp = [
+            Volatile { antoine: ETHANOL, x: 0.3, gamma: 1.0 },
+            Volatile { antoine: WATER, x: 0.7, gamma: 1.0 },
+        ];
+        let bp = bubble_point(&mix_bp, ATMOSPHERE_KPA).unwrap();
+
+        // Flash a few degrees above the bubble point
+        let mix_flash = [
+            Volatile { antoine: ETHANOL, x: 0.3, gamma: 1.0 },
+            Volatile { antoine: WATER, x: 0.7, gamma: 1.0 },
+        ];
+        let result = tp_flash(&mix_flash, ATMOSPHERE_KPA, bp.t_celsius + 2.0).unwrap();
+        assert!(
+            result.vapour_fraction > 0.0 && result.vapour_fraction < 1.0,
+            "should be two-phase at T_bubble + 2°C, V = {}",
+            result.vapour_fraction
+        );
+        // Ethanol should be enriched in the vapour
+        assert!(
+            result.y[0] > result.x[0],
+            "ethanol should enrich in vapour: y={:.4} vs x={:.4}",
+            result.y[0],
+            result.x[0]
+        );
+    }
+
+    #[test]
+    fn flash_compositions_sum_to_one() {
+        let mix = [
+            Volatile { antoine: ETHANOL, x: 0.4, gamma: 1.0 },
+            Volatile { antoine: WATER, x: 0.6, gamma: 1.0 },
+        ];
+        let bp = bubble_point(&mix, ATMOSPHERE_KPA).unwrap();
+        let result = tp_flash(&mix, ATMOSPHERE_KPA, bp.t_celsius + 3.0).unwrap();
+
+        let x_sum: f64 = result.x.iter().sum();
+        let y_sum: f64 = result.y.iter().sum();
+        assert!(
+            (x_sum - 1.0).abs() < 1e-10,
+            "liquid fractions sum to {}",
+            x_sum
+        );
+        assert!(
+            (y_sum - 1.0).abs() < 1e-10,
+            "vapour fractions sum to {}",
+            y_sum
+        );
+    }
 }

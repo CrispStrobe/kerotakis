@@ -5,7 +5,7 @@
 //! routes the same way regardless of which activity-coefficient model is
 //! selected — or whether a cubic equation of state replaces Raoult entirely.
 
-use crate::vle::{Antoine, BubblePoint, Volatile};
+use crate::vle::{Antoine, BubblePoint, DewPoint, FlashResult, Volatile};
 
 /// Activity coefficient model: given composition and temperature, return
 /// activity coefficients for each component.
@@ -38,6 +38,21 @@ pub trait FluidModel {
 
     /// Bubble-point temperature at a given total pressure.
     fn bubble_point(&self, components: &[Volatile], pressure_kpa: f64) -> Option<BubblePoint>;
+
+    /// THERMO-005: Dew-point temperature at a given total pressure.
+    fn dew_point(&self, components: &[Volatile], pressure_kpa: f64) -> Option<DewPoint> {
+        crate::vle::dew_point(components, pressure_kpa)
+    }
+
+    /// THERMO-005: Isothermal TP flash at given temperature and pressure.
+    fn tp_flash(
+        &self,
+        components: &[Volatile],
+        pressure_kpa: f64,
+        t_celsius: f64,
+    ) -> Option<FlashResult> {
+        crate::vle::tp_flash(components, pressure_kpa, t_celsius)
+    }
 
     /// Saturation pressure for a pure component at a given temperature.
     fn saturation_pressure_kpa(&self, antoine: &Antoine, t_celsius: f64) -> Option<f64> {
