@@ -85,22 +85,20 @@ supported = [
     "LK_PHASE",
     "LK_SPECIES",
     "PHASE_VM",
+    "S_S",
     "T_SC",
 ]
-pending_compatibility = [
+supported_extended = [
     "ADD_HEADING",
     "CHANGE_POR",
-    "CHANGE_SURF",
     "DEBYE_LENGTH",
     "DESCRIPTION",
     "DH_A",
     "DH_Av",
     "DH_B",
     "EDL_SPECIES",
-    "SYS",
     "EOL_NOTAB$",
     "EQ_FRAC",
-    "ERASE",
     "F_VISC",
     "GET$",
     "GET_POR",
@@ -113,18 +111,23 @@ pending_compatibility = [
     "NO_NEWLINE$",
     "PHASE_EQUATION$",
     "PUT$",
-    "RATE_HERMANSKA",
-    "RATE_PK",
-    "RATE_SVD",
     "RTRIM",
     "SETDIFF_C",
     "SPECIES_EQUATION$",
     "SPECIES_FORMULA$",
     "STR_E$",
     "STR_F$",
+    "SYS",
     "TITLE",
 ]
-experimental = ["S_S"] # callback exists but has no differential fixture yet
+pending_compatibility = [
+    "CHANGE_SURF",
+    "ERASE",
+    "RATE_HERMANSKA",
+    "RATE_PK",
+    "RATE_SVD",
+]
+notes_on_pending = "CHANGE_SURF, ERASE, RATE_HERMANSKA, RATE_PK, RATE_SVD are niche transport/kinetics functions; they will fail explicitly if invoked."
 
 [compatibility_goal]
 scope = "full PHREEQC BASIC and callback compatibility"

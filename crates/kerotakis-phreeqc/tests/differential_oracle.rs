@@ -82,3 +82,8 @@ fn oracle_user_punch_multicolumn() {
 fn oracle_data_read_rate() {
     run_and_check("data_read_rate");
 }
+
+#[test]
+fn oracle_ss_callback() {
+    run_and_check("ss_callback");
+}
