@@ -40,7 +40,10 @@ pub mod vessel;
 
 pub use appearance::{observe, Appearance};
 pub use bench::{Bench, BenchError};
-pub use compartment::{Compartment, Environment, Interface, InterfaceKind, VolumeMode};
+pub use compartment::{
+    Compartment, ElectrodeDeposit, ElectrodeState, Environment, Interface, InterfaceKind,
+    VolumeMode,
+};
 pub use coverage::{coverage_manifest, CoverageReport, SolverCoverage};
 pub use curated::CuratedEquilibrator;
 pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};

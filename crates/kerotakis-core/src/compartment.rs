@@ -154,6 +154,52 @@ pub enum InterfaceKind {
     Electrode,
 }
 
+// ── ELEC-001: Electrode state ──────────────────────────────────────
+
+/// Explicit electrode state: material, geometry, and surface condition.
+/// ELEC-001 requires this to serialize and replay, independently of
+/// the derived Nernst potential computed in displacement.rs.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ElectrodeState {
+    /// The metal or conductor material (e.g. "Zn", "Cu", "Pt").
+    pub material: String,
+    /// Geometric area in m².
+    pub area_m2: f64,
+    /// Surface roughness factor (real area / geometric area). Default 1.0.
+    #[serde(default = "default_roughness")]
+    pub roughness: f64,
+    /// Deposited material on the electrode surface (e.g. from electroplating).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub deposits: Vec<ElectrodeDeposit>,
+}
+
+fn default_roughness() -> f64 {
+    1.0
+}
+
+/// A layer deposited on an electrode surface.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ElectrodeDeposit {
+    /// What was deposited (species key).
+    pub species: String,
+    /// Amount deposited in moles.
+    pub moles: f64,
+    /// Thickness estimate in metres (if known).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub thickness_m: Option<f64>,
+}
+
+impl Default for ElectrodeState {
+    fn default() -> Self {
+        Self {
+            material: "Pt".into(),
+            area_m2: 1e-4,
+            roughness: 1.0,
+            deposits: Vec::new(),
+        }
+    }
+}
+
 impl Default for Interface {
     fn default() -> Self {
         Self {
@@ -167,6 +213,25 @@ impl Default for Interface {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn electrode_state_round_trips() {
+        let electrode = ElectrodeState {
+            material: "Zn".into(),
+            area_m2: 0.001,
+            roughness: 1.5,
+            deposits: vec![ElectrodeDeposit {
+                species: "Cu".into(),
+                moles: 0.0001,
+                thickness_m: Some(1e-6),
+            }],
+        };
+        let json = serde_json::to_string(&electrode).unwrap();
+        let loaded: ElectrodeState = serde_json::from_str(&json).unwrap();
+        assert_eq!(loaded.material, "Zn");
+        assert_eq!(loaded.deposits.len(), 1);
+        assert_eq!(loaded.deposits[0].species, "Cu");
+    }
 
     #[test]
     fn compartment_default_is_room_conditions() {
