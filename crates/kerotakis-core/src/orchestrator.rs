@@ -123,22 +123,39 @@ impl Orchestrator {
                 continue;
             }
 
-            // Phase 2: Adapt — run solver on a clone, diff to get delta
-            let mut copy = vessel.clone();
-            copy.solution = None;
-            let events = match solver.equilibrate(&mut copy) {
-                Ok(events) => events,
-                Err(e) => {
-                    all_events.push(Event::SolverFailed {
-                        vessel: vessel.id,
-                        solver: solver.name().to_string(),
-                        detail: e.to_string(),
-                    });
-                    continue;
+            // Phase 2: Adapt
+            // ARCH-012: prefer native delta path for migrated solvers
+            let (delta, events) = if let Some(result) = solver.equilibrate_delta(vessel) {
+                // Migrated solver — produces delta directly, no clone needed
+                match result {
+                    Ok(pair) => pair,
+                    Err(e) => {
+                        all_events.push(Event::SolverFailed {
+                            vessel: vessel.id,
+                            solver: solver.name().to_string(),
+                            detail: e.to_string(),
+                        });
+                        continue;
+                    }
                 }
+            } else {
+                // Legacy solver — clone-mutate-diff adaptation path
+                let mut copy = vessel.clone();
+                copy.solution = None;
+                let events = match solver.equilibrate(&mut copy) {
+                    Ok(events) => events,
+                    Err(e) => {
+                        all_events.push(Event::SolverFailed {
+                            vessel: vessel.id,
+                            solver: solver.name().to_string(),
+                            detail: e.to_string(),
+                        });
+                        continue;
+                    }
+                };
+                (diff_vessels(vessel, &copy, solver.name()), events)
             };
 
-            let delta = diff_vessels(vessel, &copy, solver.name());
             if delta.is_empty() {
                 // Solver ran but made no changes — still report events
                 all_events.extend(events);
@@ -147,7 +164,6 @@ impl Orchestrator {
 
             // Phase 3+4: Audit + Commit
             if cap.is_chemistry {
-                // Chemistry solvers get conservation-audited commit
                 match delta.commit_conserved(vessel, self.conservation_tolerance) {
                     Ok(()) => all_events.extend(events),
                     Err(errors) => {
@@ -159,7 +175,6 @@ impl Orchestrator {
                     }
                 }
             } else {
-                // Physical solvers (mixing, honesty) get simple commit
                 match delta.commit(vessel) {
                     Ok(()) => all_events.extend(events),
                     Err(errors) => {
@@ -262,5 +277,77 @@ mod tests {
         let v = water_vessel();
         let delta = diff_vessels(&v, &v, "test");
         assert!(delta.is_empty());
+    }
+
+    // ── ARCH-012: migration tests ─────────────────────────────────
+
+    #[test]
+    fn mixing_produces_native_delta() {
+        let mut v = water_vessel();
+        v.thermal_mode = crate::vessel::ThermalMode::Thermostatted(Kelvin(310.0));
+        v.temperature = Kelvin(298.15);
+
+        let mut mixing = MixingEquilibrator;
+        let result = mixing.equilibrate_delta(&v);
+        assert!(result.is_some(), "mixing should return a delta");
+
+        let (delta, events) = result.unwrap().unwrap();
+        assert!(!delta.is_empty(), "delta should have a thermal change");
+        assert!(delta.thermal.is_some());
+        assert_eq!(events.len(), 1);
+        assert!(matches!(events[0], Event::TemperatureChanged { .. }));
+    }
+
+    #[test]
+    fn honesty_produces_native_delta() {
+        let mut v = water_vessel();
+        v.deposit(SpeciesId::new("NaCl"), Moles(0.1), Phase::Solid);
+
+        let mut honesty = HonestyEquilibrator;
+        let result = honesty.equilibrate_delta(&v);
+        assert!(result.is_some(), "honesty should return a delta");
+
+        let (delta, events) = result.unwrap().unwrap();
+        assert!(delta.is_empty(), "honesty should produce no mutations");
+        // Should report the unmodeled solid
+        assert!(
+            events.iter().any(|e| matches!(e, Event::NotYetModeled { .. })),
+            "honesty should report unmodeled solids"
+        );
+    }
+
+    #[test]
+    fn orchestrator_uses_native_delta_path() {
+        // Thermostatted vessel: mixing should change temperature via native delta
+        let mut v = water_vessel();
+        v.thermal_mode = crate::vessel::ThermalMode::Thermostatted(Kelvin(310.0));
+        v.temperature = Kelvin(298.15);
+
+        let mut orch = Orchestrator::new(vec![
+            Box::new(MixingEquilibrator),
+            Box::new(HonestyEquilibrator),
+        ]);
+
+        let events = orch.equilibrate(&mut v).unwrap();
+        // Temperature should have changed to the thermostat value
+        assert!(
+            (v.temperature.0 - 310.0).abs() < 1e-10,
+            "temperature should be 310K, got {}",
+            v.temperature.0
+        );
+        // Should have a TemperatureChanged event
+        assert!(
+            events
+                .iter()
+                .any(|e| matches!(e, Event::TemperatureChanged { .. })),
+            "expected TemperatureChanged event: {:?}",
+            events
+        );
+        // No solver failures
+        assert!(
+            !events.iter().any(|e| matches!(e, Event::SolverFailed { .. })),
+            "unexpected solver failure: {:?}",
+            events
+        );
     }
 }

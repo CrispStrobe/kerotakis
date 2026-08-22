@@ -81,6 +81,21 @@ pub trait Equilibrator {
     }
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError>;
 
+    /// ARCH-012: produce a delta and events without mutating the vessel.
+    ///
+    /// Migrated solvers override this to return a `StateDelta` directly.
+    /// The default falls back to clone-mutate-diff (the orchestrator's
+    /// adaptation path), which works for any old-style equilibrator.
+    ///
+    /// Returns `None` if the solver has no native delta implementation
+    /// (orchestrator should use clone-and-diff instead).
+    fn equilibrate_delta(
+        &mut self,
+        _vessel: &Vessel,
+    ) -> Option<Result<(crate::delta::StateDelta, Vec<Event>), SolveError>> {
+        None
+    }
+
     /// ARCH-010: structured capability report.
     /// Default adapter wraps the existing boolean `applies()`/`chemistry_applies()`.
     fn capability(&self, vessel: &Vessel) -> CapabilityReport {
@@ -226,6 +241,30 @@ impl Equilibrator for MixingEquilibrator {
         }
 
         Ok(events)
+    }
+
+    /// ARCH-012: native delta-producing implementation.
+    fn equilibrate_delta(
+        &mut self,
+        vessel: &Vessel,
+    ) -> Option<Result<(crate::delta::StateDelta, Vec<Event>), SolveError>> {
+        use crate::delta::{StateDelta, ThermalDelta};
+
+        let mut delta = StateDelta::new("mixing-v0");
+        let mut events = Vec::new();
+
+        if let ThermalMode::Thermostatted(bath) = vessel.thermal_mode {
+            if (vessel.temperature.0 - bath.0).abs() > 1e-9 {
+                events.push(Event::TemperatureChanged {
+                    vessel: vessel.id,
+                    from: vessel.temperature,
+                    to: bath,
+                });
+                delta = delta.with_thermal(ThermalDelta::SetTemperature(bath));
+            }
+        }
+
+        Some(Ok((delta, events)))
     }
 }
 
@@ -634,6 +673,53 @@ impl Equilibrator for HonestyEquilibrator {
             }
         }
         Ok(events)
+    }
+
+    /// ARCH-012: native delta-producing implementation.
+    /// HonestyEquilibrator produces no mutations, only diagnostic events.
+    fn equilibrate_delta(
+        &mut self,
+        vessel: &Vessel,
+    ) -> Option<Result<(crate::delta::StateDelta, Vec<Event>), SolveError>> {
+        let delta = crate::delta::StateDelta::new("honesty");
+        let mut events = Vec::new();
+
+        if vessel.solution.is_some() {
+            return Some(Ok((delta, events)));
+        }
+
+        let has_liquid = vessel
+            .contents
+            .iter()
+            .any(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous));
+
+        for p in &vessel.contents {
+            if p.species == SpeciesId::new(SOLVENT) {
+                continue;
+            }
+            if p.phase == Phase::Solid && has_liquid {
+                let name = species::lookup(&p.species)
+                    .map(|d| d.name)
+                    .unwrap_or(p.species.0.as_str());
+                let what = if species::lookup(&p.species)
+                    .is_some_and(|d| d.dissolves_without_speciation)
+                {
+                    format!(
+                        "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+                    )
+                } else {
+                    format!(
+                        "{name} in contact with liquid: no wired solver models this dissolution/reaction"
+                    )
+                };
+                events.push(Event::NotYetModeled {
+                    vessel: vessel.id,
+                    what,
+                });
+            }
+        }
+
+        Some(Ok((delta, events)))
     }
 }
 
