@@ -42,7 +42,7 @@ impl From<SolveError> for OrchestratorError {
 }
 
 /// Diff two vessel states to produce a StateDelta.
-fn diff_vessels(before: &Vessel, after: &Vessel, source: &'static str) -> StateDelta {
+pub fn diff_vessels(before: &Vessel, after: &Vessel, source: &'static str) -> StateDelta {
     let mut delta = StateDelta::new(source);
 
     // Collect (species, phase) → moles for both states
@@ -84,7 +84,7 @@ fn diff_vessels(before: &Vessel, after: &Vessel, source: &'static str) -> StateD
     delta
 }
 
-fn species_amounts(vessel: &Vessel) -> std::collections::HashMap<(String, Phase), f64> {
+pub(crate) fn species_amounts(vessel: &Vessel) -> std::collections::HashMap<(String, Phase), f64> {
     let mut amounts = std::collections::HashMap::new();
     for portion in &vessel.contents {
         *amounts
@@ -123,37 +123,18 @@ impl Orchestrator {
                 continue;
             }
 
-            // Phase 2: Adapt
-            // ARCH-012: prefer native delta path for migrated solvers
-            let (delta, events) = if let Some(result) = solver.equilibrate_delta(vessel) {
-                // Migrated solver — produces delta directly, no clone needed
-                match result {
-                    Ok(pair) => pair,
-                    Err(e) => {
-                        all_events.push(Event::SolverFailed {
-                            vessel: vessel.id,
-                            solver: solver.name().to_string(),
-                            detail: e.to_string(),
-                        });
-                        continue;
-                    }
+            // Phase 2: Adapt — all solvers produce deltas via equilibrate_delta().
+            // Native implementations skip the clone; the default clones + diffs.
+            let (delta, events) = match solver.equilibrate_delta(vessel) {
+                Ok(pair) => pair,
+                Err(e) => {
+                    all_events.push(Event::SolverFailed {
+                        vessel: vessel.id,
+                        solver: solver.name().to_string(),
+                        detail: e.to_string(),
+                    });
+                    continue;
                 }
-            } else {
-                // Legacy solver — clone-mutate-diff adaptation path
-                let mut copy = vessel.clone();
-                copy.solution = None;
-                let events = match solver.equilibrate(&mut copy) {
-                    Ok(events) => events,
-                    Err(e) => {
-                        all_events.push(Event::SolverFailed {
-                            vessel: vessel.id,
-                            solver: solver.name().to_string(),
-                            detail: e.to_string(),
-                        });
-                        continue;
-                    }
-                };
-                (diff_vessels(vessel, &copy, solver.name()), events)
             };
 
             if delta.is_empty() {
@@ -288,10 +269,7 @@ mod tests {
         v.temperature = Kelvin(298.15);
 
         let mut mixing = MixingEquilibrator;
-        let result = mixing.equilibrate_delta(&v);
-        assert!(result.is_some(), "mixing should return a delta");
-
-        let (delta, events) = result.unwrap().unwrap();
+        let (delta, events) = mixing.equilibrate_delta(&v).unwrap();
         assert!(!delta.is_empty(), "delta should have a thermal change");
         assert!(delta.thermal.is_some());
         assert_eq!(events.len(), 1);
@@ -304,10 +282,7 @@ mod tests {
         v.deposit(SpeciesId::new("NaCl"), Moles(0.1), Phase::Solid);
 
         let mut honesty = HonestyEquilibrator;
-        let result = honesty.equilibrate_delta(&v);
-        assert!(result.is_some(), "honesty should return a delta");
-
-        let (delta, events) = result.unwrap().unwrap();
+        let (delta, events) = honesty.equilibrate_delta(&v).unwrap();
         assert!(delta.is_empty(), "honesty should produce no mutations");
         // Should report the unmodeled solid
         assert!(
