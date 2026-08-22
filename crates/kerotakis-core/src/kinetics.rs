@@ -48,8 +48,8 @@ mod integrator;
 pub mod mechanism;
 
 pub use integrator::{
-    advance_network_with_options, IntegrationError, IntegrationOptions, IntegrationReport,
-    IntegrationStatistics,
+    advance_network_with_options, amount_at_extents, commit_extents, consumable_keys, extent_rhs,
+    IntegrationError, IntegrationOptions, IntegrationReport, IntegrationStatistics,
 };
 
 /// Gas constant, J·mol⁻¹·K⁻¹.

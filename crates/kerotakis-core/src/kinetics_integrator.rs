@@ -495,3 +495,66 @@ pub fn advance_network_with_options<'a>(
         statistics,
     })
 }
+
+// ──────────────────────────────────────────────────────────────────────
+// Public API for external integrators (e.g. kerotakis-sundials)
+// ──────────────────────────────────────────────────────────────────────
+
+/// Evaluate the extent-space RHS for a reaction network at the given extents.
+///
+/// `extents` and `output` must both have length `network.reactions.len()`.
+/// Each `output[i]` receives d(extent_i)/dt in mol/s.
+///
+/// This is the same RHS used by the built-in diffsol integrator, exposed so
+/// alternative backends can produce identical trajectories.
+pub fn extent_rhs(vessel: &Vessel, network: &ReactionNetwork<'_>, extents: &[f64], output: &mut [f64]) {
+    let system = ExtentSystem {
+        vessel,
+        reactions: network.reactions,
+    };
+    let ext_vec: Vec<f64> = extents.to_vec();
+    let mut out_vec = output.to_vec();
+    system.rhs(&ext_vec, &mut out_vec);
+    output.copy_from_slice(&out_vec);
+}
+
+/// Return the (species, phase) keys that can be consumed by the network from
+/// the current vessel state. External integrators use these for root-finding
+/// (depletion detection).
+pub fn consumable_keys<'a>(
+    vessel: &'a Vessel,
+    network: &'a ReactionNetwork<'a>,
+) -> Vec<(&'a str, Phase)> {
+    let system = ExtentSystem {
+        vessel,
+        reactions: network.reactions,
+    };
+    consumed_keys(&system)
+}
+
+/// Compute the amount of a species in a given phase after applying reaction
+/// extents to the vessel snapshot.
+pub fn amount_at_extents(
+    vessel: &Vessel,
+    network: &ReactionNetwork<'_>,
+    extents: &[f64],
+    species: &str,
+    phase: Phase,
+) -> f64 {
+    let system = ExtentSystem {
+        vessel,
+        reactions: network.reactions,
+    };
+    let ext_vec: Vec<f64> = extents.to_vec();
+    system.amount(&ext_vec, species, phase)
+}
+
+/// Commit extents to a vessel, returning the fraction actually applied
+/// (may be < 1.0 if a reactant would go negative).
+pub fn commit_extents(
+    vessel: &mut Vessel,
+    network: &ReactionNetwork<'_>,
+    extents: &[f64],
+) -> f64 {
+    apply_coupled_extents(vessel, network.reactions, extents)
+}
