@@ -448,6 +448,10 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 Instrument::Balance => "balance",
                 Instrument::PhMeter => "pH meter",
                 Instrument::Eyes => "eyes",
+                Instrument::PressureGauge => "pressure gauge",
+                Instrument::VolumeMeter => "volume meter",
+                Instrument::ConductivityMeter => "conductivity meter",
+                Instrument::Spectrophotometer => "spectrophotometer",
             };
             match register.level() {
                 1 => format!("The {device} on {vessel} reads {value:.0} {unit}."),

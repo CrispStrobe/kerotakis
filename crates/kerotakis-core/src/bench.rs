@@ -738,6 +738,41 @@ impl Bench {
                                 .to_string(),
                         }),
                     },
+                    Instrument::PressureGauge => events.push(Event::Measured {
+                        vessel: *vessel,
+                        instrument: *instrument,
+                        value: v.pressure.0 / 1000.0,
+                        unit: "kPa".to_string(),
+                    }),
+                    Instrument::VolumeMeter => {
+                        let vol_ml = match v.headspace {
+                            crate::vessel::Headspace::Sealed { volume } |
+                            crate::vessel::Headspace::PressureControlled { volume, .. } => volume.0 * 1000.0,
+                            _ => 0.0,
+                        };
+                        events.push(Event::Measured {
+                            vessel: *vessel,
+                            instrument: *instrument,
+                            value: vol_ml,
+                            unit: "mL".to_string(),
+                        })
+                    }
+                    Instrument::ConductivityMeter => match &v.solution {
+                        Some(info) => events.push(Event::Measured {
+                            vessel: *vessel,
+                            instrument: *instrument,
+                            value: info.ionic_strength * 100_000.0,
+                            unit: "µS/cm".to_string(),
+                        }),
+                        None => events.push(Event::NotYetModeled {
+                            vessel: *vessel,
+                            what: "the conductivity meter reads nothing — no aqueous solution has been characterised".to_string(),
+                        }),
+                    },
+                    Instrument::Spectrophotometer => events.push(Event::NotYetModeled {
+                        vessel: *vessel,
+                        what: "spectrophotometer reading requires UV-Vis spectrum computation (INST-005)".to_string(),
+                    }),
                 }
             }
             Operator::Electrolyse {

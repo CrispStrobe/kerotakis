@@ -48,7 +48,8 @@ pub use compartment::{
 pub use coverage::{coverage_manifest, CoverageReport, SolverCoverage};
 pub use curated::CuratedEquilibrator;
 pub use instrument::{
-    Balance, InstrumentContract, InstrumentMode, PhMeter, Reading, Thermometer,
+    Balance, ConductivityMeter, InstrumentContract, InstrumentMode, PhMeter, PressureGauge,
+    Reading, Thermometer,
 };
 pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
 pub use displacement::DisplacementEquilibrator;

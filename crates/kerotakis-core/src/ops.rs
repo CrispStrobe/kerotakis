@@ -103,6 +103,14 @@ pub enum Instrument {
     /// Your own eyes. The first instrument anyone uses, and the only one a
     /// young learner needs to start.
     Eyes,
+    /// INST-003: Gas pressure gauge — reads headspace pressure.
+    PressureGauge,
+    /// INST-003: Gas volume meter — reads headspace volume.
+    VolumeMeter,
+    /// INST-004: Conductivity meter — reads solution conductivity.
+    ConductivityMeter,
+    /// INST-005: UV-Vis spectrophotometer — reads absorbance spectrum.
+    Spectrophotometer,
 }
 
 /// What one step produced. Everything user-visible derives from this.
