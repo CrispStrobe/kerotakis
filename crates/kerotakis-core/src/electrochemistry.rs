@@ -91,6 +91,66 @@ impl SurfaceCoverage {
     }
 }
 
+// ── ELEC-004: Butler-Volmer / Tafel kinetics ──────────────────────
+
+/// Faraday constant, C/mol.
+pub const FARADAY: f64 = 96_485.332;
+/// Gas constant, J/(mol·K).
+pub const R_GAS: f64 = 8.314_462_618;
+
+/// Butler-Volmer current density at a given overpotential.
+///
+/// j = j₀ [exp(α_a·F·η/RT) − exp(−α_c·F·η/RT)]
+///
+/// Positive = anodic (oxidation).
+pub fn butler_volmer(
+    exchange_current_density: f64,
+    alpha_a: f64,
+    alpha_c: f64,
+    overpotential_v: f64,
+    temperature_k: f64,
+) -> f64 {
+    let f_over_rt = FARADAY / (R_GAS * temperature_k);
+    exchange_current_density
+        * ((alpha_a * f_over_rt * overpotential_v).exp()
+            - (-alpha_c * f_over_rt * overpotential_v).exp())
+}
+
+/// Tafel approximation for high overpotentials (|η| >> RT/F).
+pub fn tafel_overpotential(
+    current_density: f64,
+    exchange_current_density: f64,
+    alpha: f64,
+    temperature_k: f64,
+) -> f64 {
+    let b = 2.303 * R_GAS * temperature_k / (alpha * FARADAY);
+    b * (current_density.abs() / exchange_current_density).max(1e-30).log10()
+}
+
+/// Diffusion-limited current density (Levich boundary-layer model).
+pub fn limiting_current_density(
+    electrons: f64,
+    diffusivity_cm2_per_s: f64,
+    bulk_concentration_mol_per_cm3: f64,
+    diffusion_layer_cm: f64,
+) -> f64 {
+    electrons * FARADAY * diffusivity_cm2_per_s * bulk_concentration_mol_per_cm3
+        / diffusion_layer_cm
+}
+
+// ── ELEC-007: Competing reactions ─────────────────────────────────
+
+/// Outcome of thermodynamic/kinetic competition at an electrode.
+#[derive(Debug, Clone, PartialEq)]
+pub enum ReactionOutcome {
+    /// The reaction proceeds with a quantitative efficiency.
+    Proceeds { efficiency: f64 },
+    /// Gas evolution competes.
+    GasEvolution { gas: &'static str, fraction: f64 },
+    /// Insufficient kinetic data to make a quantitative claim.
+    Unquantifiable { reason: String },
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -129,5 +189,40 @@ mod tests {
             effect: PassivationEffect::Conductive,
         };
         assert!((cov.active_fraction() - 1.0).abs() < 1e-10);
+    }
+
+    #[test]
+    fn butler_volmer_zero_at_equilibrium() {
+        let j = butler_volmer(0.01, 0.5, 0.5, 0.0, 298.15);
+        assert!(j.abs() < 1e-15);
+    }
+
+    #[test]
+    fn butler_volmer_anodic_positive() {
+        let j = butler_volmer(0.01, 0.5, 0.5, 0.1, 298.15);
+        assert!(j > 0.0);
+    }
+
+    #[test]
+    fn butler_volmer_cathodic_negative() {
+        let j = butler_volmer(0.01, 0.5, 0.5, -0.1, 298.15);
+        assert!(j < 0.0);
+    }
+
+    #[test]
+    fn tafel_agrees_with_bv_at_high_eta() {
+        let j0 = 0.001;
+        let alpha = 0.5;
+        let t = 298.15;
+        let eta = 0.3;
+        let j_bv = butler_volmer(j0, alpha, alpha, eta, t);
+        let eta_tafel = tafel_overpotential(j_bv, j0, alpha, t);
+        assert!((eta - eta_tafel).abs() < 0.01);
+    }
+
+    #[test]
+    fn limiting_current_positive() {
+        let j_l = limiting_current_density(2.0, 1e-5, 1e-6, 0.05);
+        assert!(j_l > 0.0);
     }
 }
