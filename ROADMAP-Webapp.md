@@ -1294,7 +1294,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [x] **THERMO-002 — Put the existing ideal VLE behind a `FluidModel` trait.**
   Preserve water/ethanol tests and expose validity/errors through the model
   contract.
-- [ ] **THERMO-003 — Add phase-specific property records.** Heat capacities,
+- [x] **THERMO-003 — Add phase-specific property records.** Heat capacities,
   vapour-pressure correlations, densities, and latent heats must carry ranges
   and sources.
 - [ ] **THERMO-004 — Complete UNIFAC only from approved parameters.** Every
@@ -1427,7 +1427,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [ ] **INST-005 — Complete UV–Vis/indicator measurements.** Every spectrum or
   coefficient must be CC BY/CC0/public-domain/project-cleared; published images
   and restricted spectral databases stay out.
-- [ ] **INST-006 — Add calorimetry.** Model calorimeter heat capacity and loss;
+- [x] **INST-006 — Add calorimetry.** Model calorimeter heat capacity and loss;
   recover the ideal enthalpy in the zero-loss limit.
 - [ ] **INST-007 — Add chromatography.** Begin with ideal plates and approved
   partition parameters; connect peak area to the conserved material recovered.
