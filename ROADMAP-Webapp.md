@@ -1001,10 +1001,10 @@ gate is complete.
 - [ ] **LIC-008 — Generate an SBOM.** Produce CycloneDX/SPDX manifests for CLI,
   web, iOS, and Android release payloads. Done when CI can diff the actual
   payload against approved runtime sources.
-- [ ] **LIC-009 — Define the model-pack manifest.** Include content hash,
+- [x] **LIC-009 — Define the model-pack manifest.** Include content hash,
   engine/data ABI, licence, attribution, source URL, signature, minimum app
   version, and lane. Reject unsigned or unapproved packs.
-- [ ] **LIC-010 — Segregate oracle jobs.** Give oracle jobs separate caches and
+- [x] **LIC-010 — Segregate oracle jobs.** Give oracle jobs separate caches and
   output directories; add a CI assertion that their raw inputs/outputs are not
   copied into release or source artifacts.
 - [x] **LIC-011 — Add the dependency/data PR checklist.** Every new source must
@@ -1416,9 +1416,9 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 
 ### Phase 8 — Instruments and observations
 
-- [ ] **INST-001 — Define the instrument contract.** Sampling, perturbation,
+- [x] **INST-001 — Define the instrument contract.** Sampling, perturbation,
   detection limit, calibration, resolution, uncertainty/noise, and provenance.
-- [ ] **INST-002 — Migrate eyes, balance, thermometer, and pH meter.** Preserve
+- [x] **INST-002 — Migrate eyes, balance, thermometer, and pH meter.** Preserve
   deterministic ideal mode; add realistic mode only with parameters.
 - [ ] **INST-003 — Add gas pressure/volume instruments.** Validate ideal and
   non-ideal model routing.
