@@ -1018,7 +1018,7 @@ LIC-002.
 - [ ] **ARCH-001 — Freeze current behavior.** Snapshot the JSON contract and
   accepted outputs of every lesson at all registers. Record intentionally
   unstable numeric fields separately from structural compatibility.
-- [ ] **ARCH-002 — Add typed quantity gaps.** Introduce types for power,
+- [x] **ARCH-002 — Add typed quantity gaps.** Introduce types for power,
   current, potential, area, amount density, flow, and photon flux, with unit
   round-trip tests.
 - [ ] **ARCH-003 — Introduce `ConservedLedger` in shadow mode.** Derive it from
