@@ -1467,10 +1467,10 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [x] **PERF-001 — Add bundle/model-pack budgets.** Measure compressed size,
   parsed memory, initialization, and solve latency on a low-end reference
   device.
-- [ ] **PERF-002 — Add node-level cache keys.** Include model version, dataset
+- [x] **PERF-002 — Add node-level cache keys.** Include model version, dataset
   manifest hash, constraints, and canonical inputs; test invalidation on every
   component.
-- [ ] **CI-001 — Build scientific artifacts once.** Reuse signed/payload-audited
+- [x] **CI-001 — Build scientific artifacts once.** Reuse signed/payload-audited
   outputs across Wasm, bridge, browser, and publication jobs.
 - [x] **CI-002 — Separate fast, full, and oracle validation.** PRs run fast
   invariants; main runs all cleared acceptance cases; scheduled jobs run
