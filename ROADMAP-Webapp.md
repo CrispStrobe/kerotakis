@@ -1349,7 +1349,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [ ] **KIN-010 — Add build-time mechanism reduction.** Emit the reduced
   network, declared envelope, source lineage, and maximum error against the
   full oracle.
-- [ ] **KIN-011 — Add heterogeneous-rate inputs.** Surface area, effective
+- [x] **KIN-011 — Add heterogeneous-rate inputs.** Surface area, effective
   particle radius, site density, and mixing regime must be explicit before
   catalyst amount affects rate.
 - [ ] **KIN-012 — Add batch and plug-flow apparatus models.** Reuse one network
@@ -1386,7 +1386,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [ ] **ORG-001 — Audit the exact structure toolkit path.** Approve Indigo/InChI
   versions and bundled data/notices for runtime, or keep them build-time and
   implement the minimal runtime graph in Kerotakis.
-- [ ] **ORG-002 — Define the molecule graph.** Bond orders, formal charge,
+- [x] **ORG-002 — Define the molecule graph.** Bond orders, formal charge,
   isotope, stereochemistry, atom ids, and serialization round-trip.
 - [ ] **ORG-003 — Add canonical identity and formula derivation.** Cross-check a
   cleared corpus with two independent tools without importing either corpus.
@@ -1401,7 +1401,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   Persist discrepancies and approved small factual fixtures, not RDKit exports.
 - [ ] **ORG-008 — Add conditions and incompatibility filters.** A template match
   is a proposal; conditions and forbidden context decide whether it is claimed.
-- [ ] **ORG-009 — Add confidence labels to the public event contract.** Distinguish
+- [x] **ORG-009 — Add confidence labels to the public event contract.** Distinguish
   computed, curated-family, curated-instance, estimated, qualitative, and
   unsupported.
 - [ ] **ORG-010 — Add families one at a time.** Each PR includes source audit,
