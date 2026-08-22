@@ -393,4 +393,117 @@ mod tests {
         assert_eq!(result.recovered_moles, 0.0);
         assert_eq!(result.recovery, 0.0);
     }
+
+    // ── KIN-012: batch and plug-flow reactor models ───────────────
+
+    #[test]
+    fn batch_reactor_conversion_increases_with_time() {
+        // First-order: X = 1 - exp(-k*t)
+        let x1 = batch_conversion(0.1, 1.0);
+        let x2 = batch_conversion(0.1, 10.0);
+        assert!(x2 > x1);
+    }
+
+    #[test]
+    fn pfr_conversion_equals_batch_for_first_order() {
+        // For first-order reactions, batch and PFR give the same conversion
+        // at the same k*tau product.
+        let k = 0.1;
+        let tau = 10.0;
+        let x_batch = batch_conversion(k, tau);
+        let x_pfr = pfr_conversion(k, tau);
+        assert!(
+            (x_batch - x_pfr).abs() < 1e-10,
+            "batch {:.6} vs PFR {:.6}",
+            x_batch,
+            x_pfr
+        );
+    }
+
+    #[test]
+    fn cstr_conversion_less_than_pfr() {
+        // For the same residence time, CSTR gives less conversion than PFR
+        let k = 0.5;
+        let tau = 5.0;
+        let x_pfr = pfr_conversion(k, tau);
+        let x_cstr = cstr_conversion(k, tau);
+        assert!(
+            x_cstr < x_pfr,
+            "CSTR {:.4} should be less than PFR {:.4}",
+            x_cstr,
+            x_pfr
+        );
+    }
+}
+
+// ── KIN-012: Batch and plug-flow apparatus models ─────────────────
+
+/// First-order batch reactor conversion: X = 1 - exp(-k*t).
+pub fn batch_conversion(rate_constant: f64, time_s: f64) -> f64 {
+    1.0 - (-rate_constant * time_s).exp()
+}
+
+/// First-order PFR conversion: X = 1 - exp(-k*τ).
+/// For first-order reactions, PFR and batch are equivalent.
+pub fn pfr_conversion(rate_constant: f64, residence_time_s: f64) -> f64 {
+    1.0 - (-rate_constant * residence_time_s).exp()
+}
+
+/// First-order CSTR (well-mixed) conversion: X = k*τ / (1 + k*τ).
+pub fn cstr_conversion(rate_constant: f64, residence_time_s: f64) -> f64 {
+    let kt = rate_constant * residence_time_s;
+    kt / (1.0 + kt)
+}
+
+/// Result of a reactor design calculation.
+#[derive(Debug, Clone)]
+pub struct ReactorResult {
+    /// Fractional conversion of the limiting reactant.
+    pub conversion: f64,
+    /// Exit concentration of the limiting reactant, mol/L.
+    pub exit_concentration: f64,
+    /// Space time (residence time), s.
+    pub residence_time_s: f64,
+}
+
+/// Design a batch reactor for a first-order reaction.
+pub fn batch_reactor(
+    initial_concentration: f64,
+    rate_constant: f64,
+    time_s: f64,
+) -> ReactorResult {
+    let x = batch_conversion(rate_constant, time_s);
+    ReactorResult {
+        conversion: x,
+        exit_concentration: initial_concentration * (1.0 - x),
+        residence_time_s: time_s,
+    }
+}
+
+/// Design a PFR for a first-order reaction.
+pub fn pfr_reactor(
+    initial_concentration: f64,
+    rate_constant: f64,
+    residence_time_s: f64,
+) -> ReactorResult {
+    let x = pfr_conversion(rate_constant, residence_time_s);
+    ReactorResult {
+        conversion: x,
+        exit_concentration: initial_concentration * (1.0 - x),
+        residence_time_s,
+    }
+}
+
+/// Design a CSTR for a first-order reaction.
+pub fn cstr_reactor(
+    initial_concentration: f64,
+    rate_constant: f64,
+    residence_time_s: f64,
+) -> ReactorResult {
+    let x = cstr_conversion(rate_constant, residence_time_s);
+    ReactorResult {
+        conversion: x,
+        exit_concentration: initial_concentration * (1.0 - x),
+        residence_time_s,
+    }
 }
