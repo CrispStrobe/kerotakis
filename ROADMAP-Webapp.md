@@ -1288,7 +1288,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 
 ### Phase 4 — Phase behavior and apparatus
 
-- [ ] **THERMO-001 — Audit candidate code and parameter data separately.** Add
+- [x] **THERMO-001 — Audit candidate code and parameter data separately.** Add
   source records for the exact FeOS/vle/water-property versions and every
   parameter file before adding dependencies.
 - [x] **THERMO-002 — Put the existing ideal VLE behind a `FluidModel` trait.**

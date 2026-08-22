@@ -147,6 +147,23 @@ path = "vendor/my-basic/LICENSE"
 sha256 = "8156be51115207259348d3e553ae9b61ab305b8fe3d74ff358cb4d3fe992b6c3"
 
 [[source]]
+id = "kerotakis-thermo-vle"
+name = "Kerotakis VLE Antoine parameters"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "AGPL-3.0-or-later"
+origin = "crates/kerotakis-thermo/src/vle.rs"
+copyright = "Kerotakis contributors"
+retrieved = "2026-08-22"
+attribution = "Antoine constants curated from published literature with individual source citations per compound"
+paths = ["crates/kerotakis-thermo/src/vle.rs"]
+allowed_outputs = ["compiled-runtime-code"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis engineering policy audit"
+notes = "Parameters carry their own source strings in the source code. Individual constant sets are cited from NIST, Perry's, and original literature. No bulk import from an external database."
+
+[[source]]
 id = "nasa-cea-thermodynamic-data"
 name = "NASA CEA thermodynamic database"
 kind = "data"
