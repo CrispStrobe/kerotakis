@@ -1365,7 +1365,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [ ] **ELEC-003 — Add reviewed kinetic parameter records.** No folklore table
   enters runtime; each exchange-current/Tafel/overpotential value needs an
   allowlisted source and validity conditions.
-- [ ] **ELEC-004 — Implement Butler–Volmer/Tafel kinetics.** Test equilibrium,
+- [x] **ELEC-004 — Implement Butler–Volmer/Tafel kinetics.** Test equilibrium,
   low-overpotential, and Tafel limits analytically.
 - [ ] **ELEC-005 — Add galvanostatic and potentiostatic control.** Keep charge,
   electrical work, and chemical conversion in the ledger.
@@ -1390,9 +1390,9 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   isotope, stereochemistry, atom ids, and serialization round-trip.
 - [x] **ORG-003 — Add canonical identity and formula derivation.** Cross-check a
   cleared corpus with two independent tools without importing either corpus.
-- [ ] **ORG-004 — Add functional-group perception.** Start with the groups
+- [x] **ORG-004 — Add functional-group perception.** Start with the groups
   needed by one reaction family; fuzz SMARTS/graph matching.
-- [ ] **ORG-005 — Define atom-mapped transformation templates.** Lint atom,
+- [x] **ORG-005 — Define atom-mapped transformation templates.** Lint atom,
   charge, and stereochemical mapping before application.
 - [ ] **ORG-006 — Implement one family end to end.** Choose esterification or
   saponification because it exercises structure, aqueous state, equilibrium,
