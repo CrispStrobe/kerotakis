@@ -769,10 +769,22 @@ impl Bench {
                             what: "the conductivity meter reads nothing — no aqueous solution has been characterised".to_string(),
                         }),
                     },
-                    Instrument::Spectrophotometer => events.push(Event::NotYetModeled {
-                        vessel: *vessel,
-                        what: "spectrophotometer reading requires UV-Vis spectrum computation (INST-005)".to_string(),
-                    }),
+                    Instrument::Spectrophotometer => {
+                        let spec = crate::instrument::Spectrophotometer::default();
+                        if let Some(reading) = spec.measure(v) {
+                            events.push(Event::Measured {
+                                vessel: *vessel,
+                                instrument: *instrument,
+                                value: reading.value,
+                                unit: reading.observable,
+                            });
+                        } else {
+                            events.push(Event::NotYetModeled {
+                                vessel: *vessel,
+                                what: "no aqueous solution for spectrophotometer".to_string(),
+                            });
+                        }
+                    }
                 }
             }
             Operator::Electrolyse {

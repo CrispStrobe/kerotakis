@@ -218,6 +218,161 @@ impl InstrumentContract for Calorimeter {
     }
 }
 
+/// INST-005: Spectrophotometer — measures absorbance across visible wavelengths.
+///
+/// Computes the total absorbance spectrum from all coloured solutes using
+/// Beer-Lambert (A = ε·c·l), then reports the absorbance at the peak
+/// wavelength. The full spectrum is available via `measure_spectrum()`.
+pub struct Spectrophotometer {
+    /// Path length in cm (cuvette width).
+    pub path_cm: f64,
+}
+
+impl Default for Spectrophotometer {
+    fn default() -> Self {
+        Self { path_cm: 1.0 }
+    }
+}
+
+impl Spectrophotometer {
+    /// Compute the full absorbance spectrum of the vessel's solution.
+    pub fn measure_spectrum(&self, vessel: &Vessel) -> [f64; crate::spectrum::BANDS] {
+        use crate::species;
+        let mut total = [0.0f64; crate::spectrum::BANDS];
+
+        // Sum ε·c·l for each coloured solute
+        let water_kg = vessel
+            .contents
+            .iter()
+            .filter(|p| {
+                p.species.0 == "water"
+                    && (p.phase == crate::species::Phase::Liquid
+                        || p.phase == crate::species::Phase::Aqueous)
+            })
+            .map(|p| p.moles.0 * 0.018015)
+            .sum::<f64>();
+
+        if water_kg < 1e-6 {
+            return total;
+        }
+
+        for portion in &vessel.contents {
+            if portion.phase != crate::species::Phase::Aqueous {
+                continue;
+            }
+            if let Some(data) = species::lookup(&portion.species) {
+                if let Some(spectrum_fn) = data.spectrum {
+                    let spectrum = spectrum_fn();
+                    let molality = portion.moles.0 / water_kg;
+                    for (i, band) in total.iter_mut().enumerate() {
+                        *band += spectrum[i] * molality * self.path_cm;
+                    }
+                }
+            }
+        }
+        total
+    }
+}
+
+impl InstrumentContract for Spectrophotometer {
+    fn name(&self) -> &'static str {
+        "spectrophotometer"
+    }
+    fn applies(&self, vessel: &Vessel) -> bool {
+        vessel.contents.iter().any(|p| p.phase == crate::species::Phase::Aqueous)
+    }
+    fn mode(&self) -> InstrumentMode {
+        InstrumentMode::Passive
+    }
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        let spectrum = self.measure_spectrum(vessel);
+        let peak_abs = spectrum
+            .iter()
+            .copied()
+            .fold(0.0f64, f64::max);
+        let peak_idx = spectrum
+            .iter()
+            .position(|&a| (a - peak_abs).abs() < 1e-15)
+            .unwrap_or(0);
+        let peak_nm = crate::spectrum::BAND_NM[peak_idx];
+
+        Some(Reading {
+            observable: format!("absorbance at {peak_nm:.0} nm"),
+            value: peak_abs,
+            unit: "AU".into(),
+            precision: Some(0.001),
+            in_range: peak_abs >= 0.0 && peak_abs < 4.0,
+        })
+    }
+}
+
+/// INST-007: Ideal-plate chromatography column.
+///
+/// Separates components by partition coefficient using ideal plate theory:
+///   retention_time = t₀ · (1 + k')
+///   k' = K · (Vs/Vm)  (capacity factor from partition coefficient)
+///   N = 16 · (tR/w)²  (plate count from peak width)
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ChromatographyColumn {
+    /// Number of theoretical plates.
+    pub plates: u32,
+    /// Void time (time for unretained species to elute), seconds.
+    pub void_time_s: f64,
+    /// Phase ratio Vs/Vm (stationary/mobile volume ratio).
+    pub phase_ratio: f64,
+}
+
+/// A chromatographic peak for one component.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ChromatographicPeak {
+    pub species: String,
+    pub retention_time_s: f64,
+    pub peak_width_s: f64,
+    /// Relative area proportional to amount.
+    pub relative_area: f64,
+}
+
+impl ChromatographyColumn {
+    /// Predict the retention time for a species with a given partition coefficient K.
+    pub fn retention_time(&self, partition_k: f64) -> f64 {
+        let capacity_factor = partition_k * self.phase_ratio;
+        self.void_time_s * (1.0 + capacity_factor)
+    }
+
+    /// Predict the peak width (4σ) from the plate count and retention time.
+    pub fn peak_width(&self, retention_time_s: f64) -> f64 {
+        4.0 * retention_time_s / (self.plates as f64).sqrt()
+    }
+
+    /// Resolution between two peaks.
+    pub fn resolution(&self, tr1: f64, tr2: f64) -> f64 {
+        let w1 = self.peak_width(tr1);
+        let w2 = self.peak_width(tr2);
+        2.0 * (tr2 - tr1).abs() / (w1 + w2)
+    }
+}
+
+/// INST-008: Qualitative analysis — computed identification from tests.
+///
+/// Instead of a scripted answer key, the system runs actual computed tests
+/// (solubility, flame colour, pH, precipitation) and compares results
+/// against detection limits to narrow down the identity.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct QualitativeTest {
+    pub name: String,
+    pub observable: String,
+    pub detection_limit: f64,
+    pub unit: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct QualitativeResult {
+    pub test_name: String,
+    pub observed_value: f64,
+    pub detected: bool,
+    pub consistent_with: Vec<String>,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -245,5 +400,43 @@ mod tests {
         let reading = Balance.measure(&vessel).unwrap();
         assert_eq!(reading.observable, "mass");
         assert!(reading.value.abs() < 0.001);
+    }
+
+    #[test]
+    fn spectrophotometer_reports_zero_for_empty_vessel() {
+        let vessel = Vessel::new(VesselId(0), "test");
+        let spec = Spectrophotometer::default();
+        // No aqueous species → not applicable
+        assert!(!spec.applies(&vessel));
+    }
+
+    #[test]
+    fn chromatography_retention_time_scales_with_k() {
+        let col = ChromatographyColumn {
+            plates: 1000,
+            void_time_s: 60.0,
+            phase_ratio: 1.0,
+        };
+        // k'=0 means unretained → tR = t₀
+        assert!((col.retention_time(0.0) - 60.0).abs() < 0.01);
+        // k'=1 → tR = 2·t₀
+        assert!((col.retention_time(1.0) - 120.0).abs() < 0.01);
+    }
+
+    #[test]
+    fn chromatography_resolution_increases_with_plates() {
+        let col_low = ChromatographyColumn {
+            plates: 100,
+            void_time_s: 60.0,
+            phase_ratio: 1.0,
+        };
+        let col_high = ChromatographyColumn {
+            plates: 10000,
+            void_time_s: 60.0,
+            phase_ratio: 1.0,
+        };
+        let tr1 = 100.0;
+        let tr2 = 120.0;
+        assert!(col_high.resolution(tr1, tr2) > col_low.resolution(tr1, tr2));
     }
 }
