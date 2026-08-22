@@ -122,6 +122,43 @@ fn wikidata_cc0_import_round_trips_through_pack() {
 }
 
 #[test]
+fn pubchem_compatible_fields_are_accepted_and_incompatible_rejected() {
+    let path = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../../data/imports/pubchem-approved-properties.json");
+    let content = std::fs::read_to_string(&path).unwrap();
+    let import: serde_json::Value = serde_json::from_str(&content).unwrap();
+
+    let properties = import["properties"].as_array().unwrap();
+    let compatible: Vec<_> = properties
+        .iter()
+        .filter(|p| p["compatible"].as_bool() == Some(true))
+        .collect();
+    let incompatible: Vec<_> = properties
+        .iter()
+        .filter(|p| p["compatible"].as_bool() == Some(false))
+        .collect();
+
+    // 3 compatible fields should be accepted.
+    assert_eq!(compatible.len(), 3, "expected 3 compatible PubChem fields");
+
+    // 1 incompatible field should be rejected.
+    assert_eq!(
+        incompatible.len(),
+        1,
+        "expected 1 incompatible PubChem field"
+    );
+    assert_eq!(incompatible[0]["field"].as_str(), Some("patent_count"));
+    assert!(incompatible[0]["rejection_reason"]
+        .as_str()
+        .unwrap()
+        .contains("not a chemical property"));
+
+    // The source is build_oracle, not runtime — PubChem data is used for
+    // validation only, not shipped in the app pack.
+    assert_eq!(import["source"]["lane"].as_str(), Some("build_oracle"));
+}
+
+#[test]
 fn wikidata_identities_carry_crosswalk_ids() {
     let import = load_wikidata_import();
     let doc = wikidata_to_registry(&import);
