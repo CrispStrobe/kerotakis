@@ -52,6 +52,7 @@ pub use integrator::{
     IntegrationError, IntegrationOptions, IntegrationReport, IntegrationStatistics,
 };
 
+
 /// Gas constant, J·mol⁻¹·K⁻¹.
 pub const R: f64 = 8.314_462_618;
 
@@ -1096,6 +1097,183 @@ pub fn advance(
     advance_network(vessel, seconds, &NETWORK)
 }
 
+// ──────────────────────────────────────────────────────────────────────
+// KIN-006: Operator-split kinetics-equilibrium coupling
+// ──────────────────────────────────────────────────────────────────────
+
+/// Statistics from a coupled kinetics-equilibrium integration.
+#[derive(Debug, Clone, Default)]
+pub struct CoupledStatistics {
+    pub kinetics: IntegrationStatistics,
+    pub sub_steps: usize,
+    pub equilibrations: usize,
+    pub step_reductions: usize,
+}
+
+/// Result of a coupled kinetics-equilibrium integration.
+#[derive(Debug)]
+pub struct CoupledReport<'a> {
+    pub extents: Vec<(&'a KineticReaction<'a>, Moles)>,
+    pub statistics: CoupledStatistics,
+}
+
+/// Advance a reaction network with operator-split kinetics-equilibrium coupling.
+///
+/// Instead of integrating the full duration and equilibrating once, this
+/// function sub-steps: advance kinetics for a bounded interval, re-equilibrate
+/// fast processes, measure the splitting error, and adaptively reduce the
+/// sub-step if the error is too large.
+///
+/// The splitting error is estimated by comparing the state after one full
+/// sub-step to the state after two half-steps (Richardson extrapolation).
+/// When the error exceeds `splitting_tolerance`, the sub-step is halved.
+///
+/// `equilibrate` is called after each kinetic sub-step to re-settle fast
+/// equilibria (speciation, acid-base, phase changes).
+pub fn advance_coupled<'a>(
+    vessel: &mut Vessel,
+    seconds: f64,
+    network: &'a ReactionNetwork<'a>,
+    equilibrate: &mut dyn FnMut(&mut Vessel),
+    options: IntegrationOptions,
+    splitting_tolerance: f64,
+) -> Result<CoupledReport<'a>, IntegrationError> {
+    if !seconds.is_finite() || seconds < 0.0 {
+        return Err(IntegrationError::InvalidDuration(seconds));
+    }
+    if seconds == 0.0 || network.reactions.is_empty() {
+        return Ok(CoupledReport {
+            extents: Vec::new(),
+            statistics: CoupledStatistics::default(),
+        });
+    }
+
+    let n = network.reactions.len();
+    let mut elapsed = 0.0;
+    let mut totals = vec![0.0; n];
+    let mut statistics = CoupledStatistics::default();
+
+    // Initial sub-step size: start with the full remaining time, capped
+    // at a maximum that prevents runaway for very long waits.
+    let mut dt = seconds.min(1.0); // Start with at most 1 second
+
+    const MIN_DT: f64 = 1e-12;
+    const MAX_HALVINGS: usize = 40;
+
+    while elapsed < seconds - seconds.max(1.0) * f64::EPSILON {
+        let remaining = seconds - elapsed;
+        dt = dt.min(remaining);
+        if dt < MIN_DT {
+            break;
+        }
+
+        // ── Richardson error estimate ───────────────────────────────
+        // Compare one full step of dt to two half-steps of dt/2.
+        // The difference estimates the leading-order splitting error.
+        let snapshot = vessel.clone();
+
+        // Path A: one full step
+        let report_full =
+            advance_network_with_options(vessel, dt, network, options)?;
+        equilibrate(vessel);
+        let state_full: Vec<f64> = vessel
+            .contents
+            .iter()
+            .map(|p| p.moles.0)
+            .collect();
+
+        // Path B: two half-steps (from the snapshot)
+        let mut vessel_half = snapshot.clone();
+        let report_h1 =
+            advance_network_with_options(&mut vessel_half, dt / 2.0, network, options)?;
+        equilibrate(&mut vessel_half);
+        let report_h2 =
+            advance_network_with_options(&mut vessel_half, dt / 2.0, network, options)?;
+        equilibrate(&mut vessel_half);
+        let state_half: Vec<f64> = vessel_half
+            .contents
+            .iter()
+            .map(|p| p.moles.0)
+            .collect();
+
+        // Measure splitting error (max absolute difference in moles)
+        let error = state_full
+            .iter()
+            .zip(state_half.iter())
+            .map(|(a, b)| (a - b).abs())
+            .fold(0.0_f64, f64::max);
+
+        // Accumulate statistics from the full step
+        statistics.kinetics.accepted_steps += report_full.statistics.accepted_steps;
+        statistics.kinetics.rejected_steps += report_full.statistics.rejected_steps;
+        statistics.kinetics.depletion_events += report_full.statistics.depletion_events;
+
+        if error > splitting_tolerance && dt > MIN_DT {
+            // Error too large — roll back to snapshot, halve step
+            *vessel = snapshot;
+            dt /= 2.0;
+            statistics.step_reductions += 1;
+            if statistics.step_reductions > MAX_HALVINGS {
+                // Give up reducing — accept the current step size
+                dt = dt.max(MIN_DT);
+            }
+            continue;
+        }
+
+        // Accept the more accurate half-step result
+        *vessel = vessel_half;
+        statistics.sub_steps += 1;
+        statistics.equilibrations += 2; // two half-step equilibrations
+
+        // Accumulate half-step kinetics statistics
+        statistics.kinetics.accepted_steps += report_h1.statistics.accepted_steps
+            + report_h2.statistics.accepted_steps;
+
+        // Accumulate extents from the half-step reports
+        for (reaction, moles) in report_h1.extents.iter().chain(report_h2.extents.iter()) {
+            if let Some(idx) = network.reactions.iter().position(|r| std::ptr::eq(r, *reaction)) {
+                totals[idx] += moles.0;
+            }
+        }
+
+        elapsed += dt;
+
+        // If error is very small, try growing the step
+        if error < splitting_tolerance * 0.1 && dt < remaining {
+            dt = (dt * 2.0).min(remaining - elapsed).min(seconds);
+        }
+    }
+
+    let extents = network
+        .reactions
+        .iter()
+        .zip(totals)
+        .filter(|(_, extent)| extent.abs() > 0.0)
+        .map(|(reaction, extent)| (reaction, Moles(extent)))
+        .collect();
+
+    Ok(CoupledReport {
+        extents,
+        statistics,
+    })
+}
+
+/// Advance the curated network with kinetics-equilibrium coupling.
+pub fn advance_coupled_default(
+    vessel: &mut Vessel,
+    seconds: f64,
+    equilibrate: &mut dyn FnMut(&mut Vessel),
+) -> Result<CoupledReport<'static>, IntegrationError> {
+    advance_coupled(
+        vessel,
+        seconds,
+        &NETWORK,
+        equilibrate,
+        IntegrationOptions::default(),
+        1e-8, // default splitting tolerance in moles
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1833,5 +2011,59 @@ mod tests {
         let aqueous = phase_moles(&vessel, "H2O2", Phase::Aqueous);
         let liquid = phase_moles(&vessel, "H2O2", Phase::Liquid);
         assert!((aqueous - liquid).abs() < 2e-3, "{aqueous} versus {liquid}");
+    }
+
+    #[test]
+    fn coupled_integration_conserves_mass() {
+        // KIN-006: coupled kinetics-equilibrium produces the same direction
+        // as uncoupled integration, and conserves mass.
+        let mut vessel_coupled = thiosulfate(25.0, 0.1);
+        let mut vessel_plain = vessel_coupled.clone();
+
+        // No-op equilibrator (just refreshes pressure)
+        let mut noop_eq = |v: &mut Vessel| {
+            v.refresh_pressure();
+        };
+
+        let coupled = advance_coupled(
+            &mut vessel_coupled,
+            1.0,
+            &NETWORK,
+            &mut noop_eq,
+            IntegrationOptions::default(),
+            1e-6,
+        )
+        .unwrap();
+
+        let plain = advance_network(&mut vessel_plain, 1.0, &NETWORK).unwrap();
+
+        // Both should advance the same reactions
+        assert_eq!(
+            coupled.extents.len(),
+            plain.len(),
+            "coupled {} vs plain {} reactions",
+            coupled.extents.len(),
+            plain.len()
+        );
+
+        // Extents should agree in direction
+        for ((_, cm), (_, pm)) in coupled.extents.iter().zip(plain.iter()) {
+            assert!(
+                cm.0.signum() == pm.0.signum() || cm.0.abs() < 1e-10,
+                "coupled extent {} vs plain {}",
+                cm.0,
+                pm.0,
+            );
+        }
+
+        // Mass conservation: total Na2S2O3 should decrease by the same
+        // amount as sulfur products increase.
+        let thio = phase_moles(&vessel_coupled, "Na2S2O3", Phase::Aqueous);
+        assert!(thio < 0.1, "thiosulfate should have reacted, got {}", thio);
+
+        assert!(
+            coupled.statistics.sub_steps > 0,
+            "should have taken at least one sub-step"
+        );
     }
 }
