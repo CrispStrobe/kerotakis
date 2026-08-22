@@ -1021,7 +1021,7 @@ LIC-002.
 
 ### Phase 1 — State and orchestration foundation
 
-- [ ] **ARCH-001 — Freeze current behavior.** Snapshot the JSON contract and
+- [x] **ARCH-001 — Freeze current behavior.** Snapshot the JSON contract and
   accepted outputs of every lesson at all registers. Record intentionally
   unstable numeric fields separately from structural compatibility.
 - [x] **ARCH-002 — Add typed quantity gaps.** Introduce types for power,
@@ -1030,16 +1030,16 @@ LIC-002.
 - [x] **ARCH-003 — Introduce `ConservedLedger` in shadow mode.** Derive it from
   every current vessel without changing behavior. Assert element, mass, charge,
   and sensible-energy agreement after every existing operation.
-- [ ] **ARCH-004 — Introduce `MaterialLot`.** Record additions and transfers
+- [x] **ARCH-004 — Introduce `MaterialLot`.** Record additions and transfers
   independently of resolved species. Prove that two lots can merge physically
   without losing their provenance or particle-size metadata.
-- [ ] **ARCH-005 — Introduce `ResolvedState`.** Move aqueous `SolutionInfo`,
+- [x] **ARCH-005 — Introduce `ResolvedState`.** Move aqueous `SolutionInfo`,
   thermal equilibrium, saturation, and phase interpretation behind an
   invalidatable derived-state container.
-- [ ] **ARCH-006 — Add `Compartment` and `Environment`.** Wrap the current
+- [x] **ARCH-006 — Add `Compartment` and `Environment`.** Wrap the current
   vessel as one well-mixed liquid/solid compartment with the existing open-air
   behavior expressed as boundary conditions.
-- [ ] **ARCH-007 — Add `Headspace` and `Interface` types.** Land data structures
+- [x] **ARCH-007 — Add `Headspace` and `Interface` types.** Land data structures
   and serialization first, with no new chemistry. Preserve old save/log replay
   through migration defaults.
 - [x] **ARCH-008 — Define `StateDelta`.** Require models to propose ledger,
