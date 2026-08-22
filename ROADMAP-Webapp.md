@@ -1042,7 +1042,7 @@ LIC-002.
 - [ ] **ARCH-007 — Add `Headspace` and `Interface` types.** Land data structures
   and serialization first, with no new chemistry. Preserve old save/log replay
   through migration defaults.
-- [ ] **ARCH-008 — Define `StateDelta`.** Require models to propose ledger,
+- [x] **ARCH-008 — Define `StateDelta`.** Require models to propose ledger,
   phase, energy, and environment transfers rather than mutate a vessel.
 - [ ] **ARCH-009 — Add transactional commit/rollback.** Validate positivity and
   conservation before commit. Inject failures at each stage and prove the
