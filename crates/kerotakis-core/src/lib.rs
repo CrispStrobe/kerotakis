@@ -23,6 +23,7 @@ pub mod indicator;
 pub mod kinetics;
 pub mod ledger;
 pub mod ops;
+pub mod orchestrator;
 pub mod particles;
 pub mod render;
 pub mod script;
@@ -41,6 +42,7 @@ pub use curated::CuratedEquilibrator;
 pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
 pub use displacement::DisplacementEquilibrator;
 pub use ops::{Event, Instrument, LogEntry, Operator};
+pub use orchestrator::Orchestrator;
 pub use render::{render_event, render_events, render_vessel, Register};
 pub use solve::{
     equilibrate_phase_coupled, Applicability, CapabilityReport, Equilibrator,

@@ -1050,7 +1050,7 @@ LIC-002.
 - [x] **ARCH-010 — Define capability/validity reports.** Replace the boolean
   concept of `applies` with a structured result while keeping an adapter for
   current equilibrators.
-- [ ] **ARCH-011 — Build the first orchestrator path.** Route one simple water
+- [x] **ARCH-011 — Build the first orchestrator path.** Route one simple water
   operation through problem planning, old-solver adaptation, audit, and atomic
   commit.
 - [ ] **ARCH-012 — Migrate current solvers one at a time.** Suggested order:
