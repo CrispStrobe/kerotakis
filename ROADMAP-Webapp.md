@@ -1420,9 +1420,9 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   detection limit, calibration, resolution, uncertainty/noise, and provenance.
 - [x] **INST-002 — Migrate eyes, balance, thermometer, and pH meter.** Preserve
   deterministic ideal mode; add realistic mode only with parameters.
-- [ ] **INST-003 — Add gas pressure/volume instruments.** Validate ideal and
+- [x] **INST-003 — Add gas pressure/volume instruments.** Validate ideal and
   non-ideal model routing.
-- [ ] **INST-004 — Add conductivity.** Use approved mobility/conductivity data;
+- [x] **INST-004 — Add conductivity.** Use approved mobility/conductivity data;
   state concentration and temperature validity.
 - [ ] **INST-005 — Complete UV–Vis/indicator measurements.** Every spectrum or
   coefficient must be CC BY/CC0/public-domain/project-cleared; published images
