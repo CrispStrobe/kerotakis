@@ -113,6 +113,33 @@ pub enum Instrument {
     Spectrophotometer,
 }
 
+/// ORG-009: How confident the engine is in a claimed result.
+///
+/// This distinguishes "the thermodynamics say so" from "a template
+/// matched but no rate was computed" from "we guessed." Displayed
+/// to users so they know which answers are predictions.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum Confidence {
+    /// Thermodynamic equilibrium or exact stoichiometry — the engine's
+    /// strongest claim. PHREEQC speciation, CEA equilibrium, exact
+    /// precipitation stoichiometry.
+    Computed,
+    /// A kinetic model ran and produced this trajectory. The mechanism
+    /// is validated but the rate constants carry uncertainty.
+    Modeled,
+    /// A reaction template matched and the products are correct, but
+    /// no rate or equilibrium constant was available. The engine reports
+    /// "this reacts" but not "how much" or "how fast."
+    TemplateMatch,
+    /// A curated lookup or editorial estimate. Useful but not computed
+    /// from first principles.
+    Curated,
+    /// The engine could not determine an answer and is reporting the
+    /// honest absence of knowledge.
+    Unknown,
+}
+
 /// What one step produced. Everything user-visible derives from this.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "event", rename_all = "snake_case")]

@@ -25,6 +25,7 @@ pub mod indicator;
 pub mod instrument;
 pub mod kinetics;
 pub mod ledger;
+pub mod molecule;
 pub mod ops;
 pub mod orchestrator;
 pub mod particles;

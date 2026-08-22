@@ -2067,3 +2067,77 @@ mod tests {
         );
     }
 }
+
+// ── KIN-011: Heterogeneous-rate inputs ─────────────────────────────
+
+/// Surface-area model for heterogeneous kinetics. The rate of a
+/// solid-liquid or solid-gas reaction scales with available surface,
+/// not just with the amount of solid present.
+#[derive(Debug, Clone, Copy, PartialEq, serde::Serialize, serde::Deserialize)]
+#[serde(tag = "model", rename_all = "snake_case")]
+pub enum SurfaceAreaModel {
+    /// Constant surface area (e.g. a polished electrode or a packed bed).
+    Constant { area_m2: f64 },
+    /// Shrinking sphere: area decreases as the solid dissolves.
+    /// `initial_area_m2` is the area at the initial amount; it scales
+    /// with (m/m0)^(2/3).
+    ShrinkingSphere { initial_area_m2: f64 },
+    /// BET or measured area per gram of solid.
+    SpecificArea { m2_per_g: f64 },
+}
+
+/// Effective diffusion coefficient for porous or stagnant-layer limited
+/// reactions. Units: m²/s.
+#[derive(Debug, Clone, Copy, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct EffectiveDiffusion {
+    /// Diffusion coefficient through the boundary layer or pore, m²/s.
+    pub d_eff_m2_per_s: f64,
+    /// Boundary-layer thickness, m (Nernst film model).
+    pub layer_thickness_m: f64,
+}
+
+/// Complete heterogeneous-rate specification for a reaction at an interface.
+#[derive(Debug, Clone, PartialEq, serde::Serialize, serde::Deserialize)]
+pub struct HeterogeneousRate {
+    /// How surface area is modeled.
+    pub surface: SurfaceAreaModel,
+    /// Optional mass-transport limitation.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub diffusion: Option<EffectiveDiffusion>,
+    /// Mean particle diameter in metres (for shrinking-sphere models).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub particle_diameter_m: Option<f64>,
+}
+
+#[cfg(test)]
+mod heterogeneous_tests {
+    use super::*;
+
+    #[test]
+    fn surface_area_models_serialize() {
+        let constant = SurfaceAreaModel::Constant { area_m2: 0.01 };
+        let shrinking = SurfaceAreaModel::ShrinkingSphere { initial_area_m2: 0.05 };
+        let specific = SurfaceAreaModel::SpecificArea { m2_per_g: 10.0 };
+
+        for model in [constant, shrinking, specific] {
+            let json = serde_json::to_string(&model).unwrap();
+            let loaded: SurfaceAreaModel = serde_json::from_str(&json).unwrap();
+            assert_eq!(loaded, model);
+        }
+    }
+
+    #[test]
+    fn heterogeneous_rate_round_trips() {
+        let rate = HeterogeneousRate {
+            surface: SurfaceAreaModel::ShrinkingSphere { initial_area_m2: 0.01 },
+            diffusion: Some(EffectiveDiffusion {
+                d_eff_m2_per_s: 1e-9,
+                layer_thickness_m: 1e-4,
+            }),
+            particle_diameter_m: Some(50e-6),
+        };
+        let json = serde_json::to_string(&rate).unwrap();
+        let loaded: HeterogeneousRate = serde_json::from_str(&json).unwrap();
+        assert_eq!(loaded, rate);
+    }
+}
