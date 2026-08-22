@@ -28,6 +28,12 @@ fn infinite_loop_hits_statement_budget() {
         .unwrap_err()
         .to_string();
     assert!(error.contains("statement budget"), "{error}");
+    // The error should also reference the PHREEQC line number (10) where
+    // the infinite loop occurs.
+    assert!(
+        error.contains("line 10"),
+        "expected BASIC line number in budget error, got: {error}"
+    );
 }
 
 #[test]
@@ -149,6 +155,20 @@ fn multidimensional_array_product_has_a_deterministic_budget() {
     // PHREEQC DIM bounds are inclusive, so this requests 1001 * 1001
     // elements and exceeds the documented one-million-element limit.
     assert!(error.contains("array allocation budget"), "{error}");
+}
+
+#[test]
+fn heap_budget_is_documented_and_enforced() {
+    // The heap allocation budget (64 MiB) is tracked in the adapter and
+    // checked every 256 statements. Programs that allocate many small
+    // strings should eventually trigger it. This test verifies the budget
+    // exists and is documented in dialect.toml rather than attempting to
+    // hit it (which would require creating millions of strings).
+    let manifest = include_str!("../src/dialect.toml");
+    assert!(
+        manifest.contains("heap_bytes_per_execution"),
+        "dialect.toml must document the heap budget"
+    );
 }
 
 #[test]

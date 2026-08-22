@@ -1,0 +1,25 @@
+RATES
+TempDecay
+-start
+# Rate proportional to temperature: k * (TC/25) * M * TIME
+10 k = PARM(1) * (TC / 25.0)
+20 rate = k * M * TIME
+30 IF rate > M THEN rate = M
+40 SAVE rate
+-end
+SOLUTION 1
+    temp 50
+    pH 7
+KINETICS 1
+    TempDecay
+        -formula H2O 0
+        -m 1
+        -m0 1
+        -parms 0.5
+        -tol 1e-12
+        -steps 0.5 0.5 1.0 seconds
+SELECTED_OUTPUT
+    -reset false
+    -high_precision true
+    -kinetics TempDecay
+END

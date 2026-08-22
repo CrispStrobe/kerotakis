@@ -143,3 +143,4 @@ wall_clock_seconds = 2
 recursion_depth = 50
 output_bytes = 1048576
 array_elements_per_execution = 1000000
+heap_bytes_per_execution = 268435456

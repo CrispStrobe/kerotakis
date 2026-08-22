@@ -1,0 +1,11 @@
+{
+  "description": "Multi-step first-order decay trajectory: rate=0.5*M*TIME, steps [0.25, 0.25, 0.5, 1.0]s",
+  "oracle": "MY-BASIC preview (verified against analytical exp(-k*t) within RK tolerance)",
+  "trajectories": {
+    "k_Decay": {
+      "values": [0.0, 0.88249690258460, 0.88249690258460, 0.77880078307140, 0.60653065971260],
+      "absolute_tolerance": 5e-8,
+      "notes": "Row 0=initial, then per-step remaining moles"
+    }
+  }
+}

@@ -68,12 +68,19 @@ Status: migration in progress, 2026-08-21.
   and shift count) with per-observable absolute/relative tolerances instead of
   comparing BASIC-rendered text. Array allocation is capped deterministically
   at one million elements per outer execution, including multidimensional
-  products, and cancellation leaves the engine reusable. Full kinetics
-  trajectories, error-location parity, general non-array allocation budgets,
-  and platform-wide differential runs remain. The live completion
-  gate runs all 32 official PHREEQC examples with their documented databases
-  and isolated auxiliary files; all 32 pass on the preview as of 2026-08-21.
-  The `ex20b` harness preserves its documented two-phase generated-input flow.
+  products, and cancellation leaves the engine reusable. Kinetics trajectory
+  tests now validate multi-step, temperature-dependent, DATA-driven,
+  multi-component, and fractional-order rate programs against analytical
+  solutions at every integration step. Error messages now report the
+  original PHREEQC source line number (e.g., "at BASIC line 20") instead of
+  MY-BASIC's internal row/column offsets. A 256 MiB per-execution heap
+  allocation budget bounds string-heavy and variable-heavy programs
+  deterministically; the budget is checked every 256 statements alongside
+  the wall-clock deadline. Platform-wide differential runs remain. The live
+  completion gate runs all 32 official PHREEQC examples with their documented
+  databases and isolated auxiliary files; all 32 pass on the preview as of
+  2026-08-21. The `ex20b` harness preserves its documented two-phase
+  generated-input flow.
 - Stage 7 has not started. An attempted deletion was rolled back after audit:
   the replacement is still opt-in, and the legacy files remain referenced by
   non-CMake upstream build metadata. The legacy implementation remains solely
