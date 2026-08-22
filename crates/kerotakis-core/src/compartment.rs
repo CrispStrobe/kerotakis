@@ -12,45 +12,8 @@ use std::collections::BTreeMap;
 
 use crate::species::Phase;
 use crate::units::{Kelvin, Liters, Moles, Pascal};
-use crate::vessel::{Headspace, SolutionInfo};
+use crate::vessel::{Headspace, ResolvedState};
 use crate::SpeciesId;
-
-// ── ARCH-005: ResolvedState ────────────────────────────────────────────
-
-/// Derived chemistry state that may become stale when the conserved
-/// ledger changes. The container is invalidated (`valid = false`) after
-/// any mutation and recomputed on the next equilibration pass.
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
-pub struct ResolvedState {
-    /// Full aqueous speciation from PHREEQC or another solver.
-    #[serde(default)]
-    pub aqueous: Option<SolutionInfo>,
-    /// Saturation indices for mineral phases in the loaded database.
-    #[serde(default)]
-    pub saturation_indices: BTreeMap<String, f64>,
-    /// Name of the last solver that populated this state.
-    #[serde(default)]
-    pub last_solver: Option<String>,
-    /// Whether this state is consistent with the current ledger.
-    /// Set to `false` after any mole/thermal change; set to `true`
-    /// after a successful equilibration.
-    #[serde(default)]
-    pub valid: bool,
-}
-
-impl ResolvedState {
-    /// Mark the resolved state as stale. Called after any mutation to
-    /// the conserved ledger (deposit, withdraw, temperature change).
-    pub fn invalidate(&mut self) {
-        self.valid = false;
-    }
-
-    /// Mark the resolved state as current after a successful solve.
-    pub fn mark_valid(&mut self, solver_name: &str) {
-        self.valid = true;
-        self.last_solver = Some(solver_name.to_string());
-    }
-}
 
 // ── ARCH-006: Compartment and Environment ──────────────────────────────
 
@@ -204,21 +167,6 @@ impl Default for Interface {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn resolved_state_invalidation() {
-        let mut resolved = ResolvedState::default();
-        assert!(!resolved.valid);
-
-        resolved.mark_valid("PHREEQC");
-        assert!(resolved.valid);
-        assert_eq!(resolved.last_solver.as_deref(), Some("PHREEQC"));
-
-        resolved.invalidate();
-        assert!(!resolved.valid);
-        // Solver name is preserved for diagnostics.
-        assert_eq!(resolved.last_solver.as_deref(), Some("PHREEQC"));
-    }
 
     #[test]
     fn compartment_default_is_room_conditions() {
