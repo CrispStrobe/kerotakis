@@ -1325,7 +1325,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   feature graph; keep JIT/native extras off mobile and Wasm.
 - [x] **KIN-005 — Implement adaptive implicit integration.** Add positivity,
   event detection, rejection/retry, and exact-solution tests.
-- [ ] **KIN-006 — Couple kinetics to fast equilibrium.** Advance one bounded
+- [x] **KIN-006 — Couple kinetics to fast equilibrium.** Advance one bounded
   kinetic step, re-equilibrate, measure splitting error, and reduce the step
   when needed.
 - [x] **KIN-007 — Implement the Cantera YAML parser without importing data.**
