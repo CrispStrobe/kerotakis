@@ -1,8 +1,10 @@
 //! DATA-004: Load a deterministic runtime pack.
 //!
 //! The pack format is: `KREG` (4 bytes) + version (u32 LE) + SHA-256 (32 bytes)
-//! + postcard payload. The content hash covers only the payload, so a correct
-//! pack is self-verifying.
+//! + compact JSON payload. The content hash covers only the payload, so a
+//! correct pack is self-verifying. JSON is used because the schema's tagged
+//! enums (Uncertainty, Method, ModelSubject) are not compatible with binary
+//! formats that lack self-describing type information.
 
 use crate::RegistryDocument;
 
@@ -17,7 +19,7 @@ pub enum PackError {
     BadMagic,
     UnsupportedVersion(u32),
     HashMismatch,
-    DeserializeFailed(postcard::Error),
+    DeserializeFailed(serde_json::Error),
 }
 
 impl std::fmt::Display for PackError {
@@ -33,6 +35,11 @@ impl std::fmt::Display for PackError {
 }
 
 impl std::error::Error for PackError {}
+
+/// Serialize a registry document to the pack payload format (compact JSON).
+pub fn serialize_pack_payload(doc: &RegistryDocument) -> Vec<u8> {
+    serde_json::to_vec(doc).expect("JSON serialization should not fail")
+}
 
 /// Load a registry document from a compiled `.pack` byte slice.
 ///
@@ -51,24 +58,21 @@ pub fn load_pack(data: &[u8]) -> Result<RegistryDocument, PackError> {
     let expected_hash = &data[8..40];
     let payload = &data[HEADER_LEN..];
 
-    // Verify content hash.
     use sha2::{Digest, Sha256};
     let actual_hash = Sha256::digest(payload);
     if actual_hash.as_slice() != expected_hash {
         return Err(PackError::HashMismatch);
     }
 
-    postcard::from_bytes(payload).map_err(PackError::DeserializeFailed)
+    serde_json::from_slice(payload).map_err(PackError::DeserializeFailed)
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
 
-    #[test]
-    fn round_trip_empty_document() {
-        let doc = RegistryDocument::empty();
-        let payload = postcard::to_allocvec(&doc).unwrap();
+    fn build_pack(doc: &RegistryDocument) -> Vec<u8> {
+        let payload = serialize_pack_payload(doc);
         use sha2::{Digest, Sha256};
         let hash = Sha256::digest(&payload);
         let mut pack = Vec::new();
@@ -76,7 +80,13 @@ mod tests {
         pack.extend_from_slice(&PACK_VERSION.to_le_bytes());
         pack.extend_from_slice(&hash);
         pack.extend_from_slice(&payload);
+        pack
+    }
 
+    #[test]
+    fn round_trip_empty_document() {
+        let doc = RegistryDocument::empty();
+        let pack = build_pack(&doc);
         let loaded = load_pack(&pack).unwrap();
         assert_eq!(loaded, doc);
     }
@@ -91,17 +101,13 @@ mod tests {
     #[test]
     fn hash_mismatch_rejected() {
         let doc = RegistryDocument::empty();
-        let payload = postcard::to_allocvec(&doc).unwrap();
-        use sha2::{Digest, Sha256};
-        let hash = Sha256::digest(&payload);
-        let mut pack = Vec::new();
-        pack.extend_from_slice(PACK_MAGIC);
-        pack.extend_from_slice(&PACK_VERSION.to_le_bytes());
-        pack.extend_from_slice(&hash);
-        pack.extend_from_slice(&payload);
-        // Corrupt one byte.
-        let last = pack.len() - 1;
-        pack[last] ^= 0xff;
-        assert!(matches!(load_pack(&pack), Err(PackError::HashMismatch)));
+        let pack = build_pack(&doc);
+        let mut corrupted = pack;
+        let last = corrupted.len() - 1;
+        corrupted[last] ^= 0xff;
+        assert!(matches!(
+            load_pack(&corrupted),
+            Err(PackError::HashMismatch)
+        ));
     }
 }

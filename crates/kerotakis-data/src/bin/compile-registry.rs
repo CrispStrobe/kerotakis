@@ -1,20 +1,16 @@
 //! DATA-003: Compile a deterministic runtime pack from the source registry.
 //!
-//! Reads the JSON source registry, validates it, serializes to postcard
-//! binary format with a content-addressed header, and writes a `.pack` file.
+//! Reads the JSON source registry, validates it, serializes to compact JSON
+//! with a content-addressed header, and writes a `.pack` file.
 //!
-//! Usage: cargo run -p kerotakis-data --features compile --bin compile-registry \
+//! Usage: cargo run -p kerotakis-data --bin compile-registry \
 //!            -- data/registry/registry-source-v1.json data/registry/registry.pack
 
-use kerotakis_data::{RegistryDocument, ValidationError};
+use kerotakis_data::{serialize_pack_payload, RegistryDocument, ValidationError, PACK_MAGIC, PACK_VERSION};
 use sha2::{Digest, Sha256};
 use std::fs;
 use std::io::Write;
 use std::path::PathBuf;
-
-/// Pack file magic bytes and version.
-const PACK_MAGIC: &[u8; 4] = b"KREG";
-const PACK_VERSION: u32 = 1;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -50,11 +46,8 @@ fn main() {
         }
     }
 
-    // Serialize to postcard.
-    let payload = postcard::to_allocvec(&document).unwrap_or_else(|e| {
-        eprintln!("postcard serialization failed: {e}");
-        std::process::exit(1);
-    });
+    // Serialize to bincode.
+    let payload = serialize_pack_payload(&document);
 
     // Content hash.
     let hash = Sha256::digest(&payload);
