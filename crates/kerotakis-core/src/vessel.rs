@@ -517,6 +517,56 @@ impl SolutionInfo {
     }
 }
 
+// ── ARCH-004: MaterialLot ──────────────────────────────────────────
+
+/// A batch of material with its addition provenance (ARCH-004).
+///
+/// Lots track what was added, when, and from where, independently of
+/// how solvers resolve species. Two lots can merge physically without
+/// losing provenance.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MaterialLot {
+    /// What was added (the user-facing name, e.g. "NaCl", "water").
+    pub species: SpeciesId,
+    /// How much was added, in moles.
+    pub moles: Moles,
+    /// Which phase was intended.
+    pub phase: Phase,
+    /// When this lot was added (elapsed seconds at time of addition).
+    pub added_at: f64,
+    /// Where this came from (e.g. "reagent bottle", "transfer from v2").
+    #[serde(default)]
+    pub source: Option<String>,
+    /// Particle-size metadata for solids, if relevant (mean diameter in µm).
+    #[serde(default)]
+    pub particle_size_um: Option<f64>,
+}
+
+// ── ARCH-005: ResolvedState ───────────────────────────────────────
+
+/// Derived state that is invalidated when primary state changes (ARCH-005).
+///
+/// Contains everything that solvers compute from the primary contents:
+/// aqueous characterization, phase equilibrium, saturation indices.
+/// Setting `valid = false` marks the state as stale; solvers must
+/// recompute before the next observation.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ResolvedState {
+    /// Whether the resolved state is current (false after any mutation).
+    #[serde(default)]
+    pub valid: bool,
+    /// Aqueous solver output, if any.
+    #[serde(default)]
+    pub solution: Option<SolutionInfo>,
+}
+
+impl ResolvedState {
+    pub fn invalidate(&mut self) {
+        self.valid = false;
+        self.solution = None;
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Vessel {
     /// Seconds of bench time this vessel has experienced.
@@ -566,6 +616,12 @@ pub struct Vessel {
     /// means no solver has — and the honesty pass says so.
     #[serde(default)]
     pub solution: Option<SolutionInfo>,
+    /// ARCH-004: Material lots tracking provenance of additions.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub lots: Vec<MaterialLot>,
+    /// ARCH-005: Solver-derived state, invalidated on mutation.
+    #[serde(default)]
+    pub resolved: ResolvedState,
 }
 
 impl Vessel {
@@ -584,6 +640,8 @@ impl Vessel {
             solid_solutions: Vec::new(),
             solute_charge: 0.0,
             solution: None,
+            lots: Vec::new(),
+            resolved: ResolvedState::default(),
         }
     }
 
@@ -623,6 +681,27 @@ impl Vessel {
                 phase,
             });
         }
+    }
+
+    /// Deposit with provenance tracking (ARCH-004).
+    pub fn deposit_lot(
+        &mut self,
+        species: SpeciesId,
+        moles: Moles,
+        phase: Phase,
+        source: Option<String>,
+        particle_size_um: Option<f64>,
+    ) {
+        self.deposit(species.clone(), moles, phase);
+        self.lots.push(MaterialLot {
+            species,
+            moles,
+            phase,
+            added_at: self.elapsed_seconds,
+            source,
+            particle_size_um,
+        });
+        self.resolved.invalidate();
     }
 
     /// Remove up to `moles` of a species across its portions (any phase).

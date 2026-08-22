@@ -1030,10 +1030,10 @@ LIC-002.
 - [x] **ARCH-003 — Introduce `ConservedLedger` in shadow mode.** Derive it from
   every current vessel without changing behavior. Assert element, mass, charge,
   and sensible-energy agreement after every existing operation.
-- [ ] **ARCH-004 — Introduce `MaterialLot`.** Record additions and transfers
+- [x] **ARCH-004 — Introduce `MaterialLot`.** Record additions and transfers
   independently of resolved species. Prove that two lots can merge physically
   without losing their provenance or particle-size metadata.
-- [ ] **ARCH-005 — Introduce `ResolvedState`.** Move aqueous `SolutionInfo`,
+- [x] **ARCH-005 — Introduce `ResolvedState`.** Move aqueous `SolutionInfo`,
   thermal equilibrium, saturation, and phase interpretation behind an
   invalidatable derived-state container.
 - [ ] **ARCH-006 — Add `Compartment` and `Environment`.** Wrap the current
