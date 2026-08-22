@@ -1,6 +1,6 @@
 #![cfg(all(
     feature = "engine",
-    any(feature = "legacy-basic-oracle", feature = "my-basic")
+    feature = "my-basic"
 ))]
 
 use kerotakis_phreeqc::{databases, Phreeqc};
@@ -208,11 +208,7 @@ fn every_standalone_basic_file_matches_its_backend_oracle() {
                 if std::env::var_os("BASIC_PROBE_SHOW_OUTPUT").is_some() {
                     eprintln!("BASIC_OUTPUT name={name} value={output:?}");
                 }
-                let expected = if cfg!(feature = "legacy-basic-oracle") {
-                    legacy_expected[index]
-                } else {
-                    preview_expected[index]
-                };
+                let expected = preview_expected[index];
                 assert_eq!(normalized.lines().count(), expected.0, "{name} line count");
                 assert_eq!(
                     digest(normalized.as_bytes()),
@@ -223,11 +219,7 @@ fn every_standalone_basic_file_matches_its_backend_oracle() {
                 if let Some(fixture) = DIFFERENCES.iter().find(|fixture| fixture.name == name) {
                     match fixture.class {
                         DifferenceClass::ExpectedSemanticDifference => {
-                            let expected_equations = if cfg!(feature = "legacy-basic-oracle") {
-                                fixture.legacy_lines
-                            } else {
-                                fixture.preview_lines
-                            };
+                            let expected_equations = fixture.preview_lines;
                             assert_eq!(
                                 normalized.lines().count().abs_diff(expected_equations),
                                 fixture.observable_tolerance,
@@ -244,11 +236,7 @@ fn every_standalone_basic_file_matches_its_backend_oracle() {
                                 _ => unreachable!(),
                             };
                             let lines = normalized.lines().collect::<Vec<_>>();
-                            let expected_lines = if cfg!(feature = "legacy-basic-oracle") {
-                                fixture.legacy_lines
-                            } else {
-                                fixture.preview_lines
-                            };
+                            let expected_lines = fixture.preview_lines;
                             assert_eq!(
                                 lines.len().abs_diff(expected_lines),
                                 fixture.observable_tolerance,

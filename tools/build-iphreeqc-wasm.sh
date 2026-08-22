@@ -20,11 +20,10 @@ EXPORTED_FUNCTIONS='["_CreateIPhreeqc","_DestroyIPhreeqc","_LoadDatabaseString",
 
 case "${IPHREEQC_BASIC_MODE:-disabled}" in
     disabled)
-        BASIC_CMAKE_ARGS=(-DIPHREEQC_WITH_BASIC=OFF -DIPHREEQC_WITH_MY_BASIC=OFF)
+        BASIC_CMAKE_ARGS=(-DIPHREEQC_WITH_MY_BASIC=OFF)
         ;;
     my-basic)
         BASIC_CMAKE_ARGS=(
-            -DIPHREEQC_WITH_BASIC=OFF
             -DIPHREEQC_WITH_MY_BASIC=ON
             -DKEROTAKIS_MY_BASIC_DIR="$ROOT/vendor/my-basic"
         )

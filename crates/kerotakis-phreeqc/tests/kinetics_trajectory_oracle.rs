@@ -9,7 +9,6 @@
 #![cfg(all(
     feature = "engine",
     feature = "my-basic",
-    not(feature = "legacy-basic-oracle")
 ))]
 
 use kerotakis_phreeqc::{databases, Phreeqc};
@@ -31,7 +30,7 @@ struct TrajectoryExpected {
 /// ```json
 /// {
 ///   "description": "...",
-///   "oracle": "legacy-basic-oracle",
+///   "oracle": "MY-BASIC adapter",
 ///   "trajectories": {
 ///     "k_Decay": {
 ///       "values": [0.882, 0.778, 0.606, 0.367],

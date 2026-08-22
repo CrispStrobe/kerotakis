@@ -1,6 +1,6 @@
 #![cfg(all(
     feature = "engine",
-    any(feature = "legacy-basic-oracle", feature = "my-basic")
+    feature = "my-basic"
 ))]
 
 use kerotakis_phreeqc::{databases, Phreeqc};
@@ -67,8 +67,8 @@ fn bundled_phreeqc_and_wateq4f_rate_programs_compile_and_run() {
     ] {
         for &(rate, options) in &rates {
             eprintln!("checking {database_name} RATES/{rate}");
-            // Values were captured from the retained legacy-basic-oracle
-            // backend with this exact input. The zero-formula harness makes
+            // Values were originally captured from the legacy oracle
+            // during development. The zero-formula harness makes
             // this a dialect/execution comparison rather than a changing
             // geochemical system.
             let expected = match (database_name, rate) {

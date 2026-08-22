@@ -1,6 +1,6 @@
 {
   "description": "Simple first-order decay: rate=0.5*M*TIME, 0.5s step",
-  "oracle": "legacy-basic-oracle (vendored PHREEQC PBasic)",
+  "oracle": "MY-BASIC adapter (values captured from legacy oracle during development)",
   "observables": {
     "k_Decay": {
       "value": 0.7788,

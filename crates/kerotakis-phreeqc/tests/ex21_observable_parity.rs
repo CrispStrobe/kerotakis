@@ -1,6 +1,6 @@
 #![cfg(all(
     feature = "engine",
-    any(feature = "legacy-basic-oracle", feature = "my-basic")
+    feature = "my-basic"
 ))]
 
 use kerotakis_phreeqc::Phreeqc;

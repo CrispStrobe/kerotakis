@@ -37,14 +37,10 @@ fn main() {
         return;
     }
 
-    let with_basic = std::env::var_os("CARGO_FEATURE_LEGACY_BASIC_ORACLE").is_some();
-    let with_my_basic = !with_basic
-        && (std::env::var_os("CARGO_FEATURE_MY_BASIC").is_some()
-            || std::env::var_os("CARGO_FEATURE_MY_BASIC_PREVIEW").is_some());
+    let with_my_basic = std::env::var_os("CARGO_FEATURE_MY_BASIC").is_some();
     let dst = cmake::Config::new(&vendor)
         .define("BUILD_SHARED_LIBS", "OFF")
         .define("IPHREEQC_ENABLE_MODULE", "OFF")
-        .define("IPHREEQC_WITH_BASIC", if with_basic { "ON" } else { "OFF" })
         .define(
             "IPHREEQC_WITH_MY_BASIC",
             if with_my_basic { "ON" } else { "OFF" },
