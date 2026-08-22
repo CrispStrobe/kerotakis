@@ -1440,7 +1440,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [ ] **ADV-001 — Environmental pack.** Assemble only approved PHREEQC data and
   project-authored scenarios for soils, treatment, weathering, and ocean
   acidification.
-- [ ] **ADV-002 — Photochemistry IR.** Add light-source state and photolysis
+- [x] **ADV-002 — Photochemistry IR.** Add light-source state and photolysis
   rates; admit a network only with approved spectra/cross sections and quantum
   yields.
 - [ ] **ADV-003 — Materials/metallurgy pilot.** Expand the cleared CEA subset for
@@ -1454,7 +1454,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 
 ### Phase 10 — Delivery and maintainability
 
-- [ ] **WEB-001 — Ship the generated pre-warmed cache.** Give it a
+- [x] **WEB-001 — Ship the generated pre-warmed cache.** Give it a
   `generated-shipping-artifact` record and prove the cache contains no
   unapproved oracle-derived material.
 - [ ] **WEB-002 — Move both Wasm engines into one module Worker.** Keep their
