@@ -65,8 +65,8 @@ pub use transport::{
 pub use ledger::{audit_conservation, ConservedLedger};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 pub use vessel::{
-    ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, MaterialLot, Portion, Provenance,
-    RedoxState, ResolvedState, SolidSolution, SolidSolutionAmount, SolidSolutionComponent,
+    ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Portion, Provenance, RedoxState,
+    SolidSolution, SolidSolutionAmount, SolidSolutionComponent,
     SolidSolutionModel, SolutionInfo, SpeciesDetail, SurfaceModel, SurfaceOccupancy,
     SurfaceSiteKind, SurfaceSites, SurfaceSorbate, ThermalMode, Vessel, VesselId,
 };
