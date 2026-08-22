@@ -1358,7 +1358,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 
 ### Phase 6 — Electrochemistry
 
-- [ ] **ELEC-001 — Add explicit electrode/interface state.** Material, area,
+- [x] **ELEC-001 — Add explicit electrode/interface state.** Material, area,
   roughness, deposits, and connected compartment must serialize and replay.
 - [ ] **ELEC-002 — Move current Nernst/Faraday behavior onto electrodes.** Keep
   all existing cell and electrolysis tests unchanged.
