@@ -1367,14 +1367,14 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   allowlisted source and validity conditions.
 - [x] **ELEC-004 — Implement Butler–Volmer/Tafel kinetics.** Test equilibrium,
   low-overpotential, and Tafel limits analytically.
-- [ ] **ELEC-005 — Add galvanostatic and potentiostatic control.** Keep charge,
+- [x] **ELEC-005 — Add galvanostatic and potentiostatic control.** Keep charge,
   electrical work, and chemical conversion in the ledger.
-- [ ] **ELEC-006 — Add ohmic and diffusion limits.** Begin with a boundary-layer
+- [x] **ELEC-006 — Add ohmic and diffusion limits.** Begin with a boundary-layer
   model; surface the geometry assumption.
 - [ ] **ELEC-007 — Add competing electrode reactions.** Choose deposition versus
   gas evolution from thermodynamics, kinetics, activities, and available
   parameters; otherwise refuse quantitative efficiency.
-- [ ] **ELEC-008 — Add deposit/passivation state.** Let surface coverage alter
+- [x] **ELEC-008 — Add deposit/passivation state.** Let surface coverage alter
   subsequent kinetics without changing elemental inventory.
 - [ ] **ELEC-009 — Publish electrochemical acceptance cases.** Electroplating,
   cell discharge, concentration polarization, corrosion, and sacrificial
@@ -1410,7 +1410,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [ ] **ORG-011 — Add oracle enrichment as a separate pipeline.** xTB/CREST,
   PySCF, Reaction-QM, or CRD-derived artifacts enter only after an individual
   generated-output review and source-manifest record.
-- [ ] **ORG-012 — Add polymer population state.** Implement conversion and
+- [x] **ORG-012 — Add polymer population state.** Implement conversion and
   molar-mass moments before any polymerization family claims chain-length
   distributions.
 
@@ -1447,7 +1447,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   one iron/copper process; audit every added thermodynamic record.
 - [ ] **ADV-004 — Polymer kinetics pilot.** Couple one project-authored network
   to the population moments and heat ledger.
-- [ ] **ADV-005 — Nuclear module design.** Define a separate nuclide ledger and
+- [x] **ADV-005 — Nuclear module design.** Define a separate nuclide ledger and
   identify a CC0/public-domain decay source before writing runtime code.
 - [ ] **ADV-006 — Keep biochemistry parked.** Open it only with an approved data
   source and a separate solvent/macromolecule/enzyme-kinetics architecture.
