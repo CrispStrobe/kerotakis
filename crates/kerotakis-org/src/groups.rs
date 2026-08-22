@@ -35,13 +35,15 @@ pub fn perceive_groups(smiles_str: &str) -> Vec<FunctionalGroup> {
 
     let mut results = Vec::new();
     for &(name, pattern) in PATTERNS {
-        let matches = smarts::find_matches(pattern, &mol);
-        if !matches.is_empty() {
-            results.push(FunctionalGroup {
-                name,
-                smarts: pattern,
-                count: matches.len(),
-            });
+        if let Ok(query) = chematic::smarts::parse_smarts(pattern) {
+            let matches = smarts::find_matches(&query, &mol);
+            if !matches.is_empty() {
+                results.push(FunctionalGroup {
+                    name,
+                    smarts: pattern,
+                    count: matches.len(),
+                });
+            }
         }
     }
     results

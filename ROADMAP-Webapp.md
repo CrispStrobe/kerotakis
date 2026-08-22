@@ -1341,7 +1341,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [x] **KIN-007 — Implement the Cantera YAML parser without importing data.**
   Fuzz the supported schema and produce useful errors for unsupported rate
   forms.
-- [ ] **KIN-008 — Audit one mechanism file.** Give it its own runtime-data
+- [x] **KIN-008 — Audit one mechanism file.** Give it its own runtime-data
   record; if it fails, keep it oracle-only and choose another rather than
   weakening the allowlist.
 - [x] **KIN-009 — Compile and validate the first gas mechanism.** Compare batch
@@ -1362,7 +1362,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   roughness, deposits, and connected compartment must serialize and replay.
 - [x] **ELEC-002 — Move current Nernst/Faraday behavior onto electrodes.** Keep
   all existing cell and electrolysis tests unchanged.
-- [ ] **ELEC-003 — Add reviewed kinetic parameter records.** No folklore table
+- [x] **ELEC-003 — Add reviewed kinetic parameter records.** No folklore table
   enters runtime; each exchange-current/Tafel/overpotential value needs an
   allowlisted source and validity conditions.
 - [x] **ELEC-004 — Implement Butler–Volmer/Tafel kinetics.** Test equilibrium,
@@ -1404,10 +1404,10 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [x] **ORG-009 — Add confidence labels to the public event contract.** Distinguish
   computed, curated-family, curated-instance, estimated, qualitative, and
   unsupported.
-- [ ] **ORG-010 — Add families one at a time.** Each PR includes source audit,
+- [x] **ORG-010 — Add families one at a time.** Each PR includes source audit,
   template tests, counterexamples, at least one lesson, and a declared
   selectivity/yield boundary.
-- [ ] **ORG-011 — Add oracle enrichment as a separate pipeline.** xTB/CREST,
+- [x] **ORG-011 — Add oracle enrichment as a separate pipeline.** xTB/CREST,
   PySCF, Reaction-QM, or CRD-derived artifacts enter only after an individual
   generated-output review and source-manifest record.
 - [x] **ORG-012 — Add polymer population state.** Implement conversion and

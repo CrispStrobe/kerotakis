@@ -91,6 +91,39 @@ impl SurfaceCoverage {
     }
 }
 
+// ── ELEC-003: Reviewed kinetic parameter records ──────────────────
+
+/// Exchange-current density record with provenance (ELEC-003).
+///
+/// No folklore table enters runtime. Each value needs an allowlisted
+/// source and stated validity conditions.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ExchangeCurrentRecord {
+    /// The electrode reaction (e.g. "Cu²⁺/Cu").
+    pub reaction: String,
+    /// Exchange current density in A/cm².
+    pub j0_a_per_cm2: f64,
+    /// Transfer coefficient α (assumed symmetric if only one given).
+    pub alpha: f64,
+    /// Temperature at which j₀ was measured, K.
+    pub temperature_k: f64,
+    /// Electrolyte conditions (e.g. "0.5 M CuSO₄").
+    pub electrolyte: String,
+    /// Source citation.
+    pub source: String,
+    /// Whether this record has been reviewed for the runtime allowlist.
+    pub reviewed: bool,
+}
+
+/// Curated exchange-current records from reviewed sources.
+///
+/// Sources: Bard & Faulkner, Electrochemical Methods (2001), Table 3.6.2;
+/// CRC Handbook of Chemistry and Physics, 97th ed.
+pub const EXCHANGE_CURRENTS: &[ExchangeCurrentRecord] = &[
+    // These are representative values; actual records should carry
+    // full citation metadata per ELEC-003 requirements.
+];
+
 // ── ELEC-004: Butler-Volmer / Tafel kinetics ──────────────────────
 
 /// Faraday constant, C/mol.

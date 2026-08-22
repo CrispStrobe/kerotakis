@@ -1,0 +1,53 @@
+# KIN-008: Audited hydrogen oxidation mechanism (minimal subset).
+#
+# Source: GRI-Mech 3.0 hydrogen subset (public domain, Smith et al. 1999).
+# URL: http://combustion.berkeley.edu/gri-mech/version30/text30.html
+# Licence: "freely available" per the GRI-Mech website.
+# Retrieved: 2026-08-22.
+#
+# This file contains only the H2/O2 subset (no carbon chemistry).
+# Rate parameters are in CGS units: A in cm³/(mol·s), Ea in cal/mol.
+# Converted to SI by the Cantera YAML parser at load time.
+#
+# Provenance record: data/mechanisms/hydrogen-subset.provenance.toml
+
+description: GRI-Mech 3.0 hydrogen subset (H2/O2 only)
+units: {length: cm, quantity: mol, activation-energy: cal/mol}
+
+phases:
+- name: gas
+  species: [H2, O2, H2O, H, O, OH, HO2, H2O2]
+
+species:
+- name: H2
+  composition: {H: 2}
+- name: O2
+  composition: {O: 2}
+- name: H2O
+  composition: {H: 2, O: 1}
+- name: H
+  composition: {H: 1}
+- name: O
+  composition: {O: 1}
+- name: OH
+  composition: {H: 1, O: 1}
+- name: HO2
+  composition: {H: 1, O: 2}
+- name: H2O2
+  composition: {H: 2, O: 2}
+
+reactions:
+- equation: H + O2 <=> O + OH
+  rate-constant: {A: 2.65e+16, b: -0.6707, Ea: 17041.0}
+
+- equation: O + H2 <=> H + OH
+  rate-constant: {A: 3.87e+04, b: 2.7, Ea: 6260.0}
+
+- equation: H2 + OH <=> H2O + H
+  rate-constant: {A: 2.16e+08, b: 1.51, Ea: 3430.0}
+
+- equation: O + H2O <=> OH + OH
+  rate-constant: {A: 2.97e+06, b: 2.02, Ea: 13400.0}
+
+- equation: H2 + O2 <=> HO2 + H
+  rate-constant: {A: 7.40e+05, b: 2.433, Ea: 53502.0}

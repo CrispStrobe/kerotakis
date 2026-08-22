@@ -9,6 +9,7 @@ use crate::solve::{
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
+use crate::instrument::InstrumentContract;
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::{Headspace, ThermalMode, Vessel, VesselId};
 
