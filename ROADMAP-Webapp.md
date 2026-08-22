@@ -1464,7 +1464,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   structures, and spectra get independent signed manifests and payload audits.
 - [ ] **WEB-004 — Make offline install atomic.** Required allowlisted assets
   must all cache or installation fails; optional packs fail independently.
-- [ ] **PERF-001 — Add bundle/model-pack budgets.** Measure compressed size,
+- [x] **PERF-001 — Add bundle/model-pack budgets.** Measure compressed size,
   parsed memory, initialization, and solve latency on a low-end reference
   device.
 - [ ] **PERF-002 — Add node-level cache keys.** Include model version, dataset
@@ -1472,10 +1472,10 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   component.
 - [ ] **CI-001 — Build scientific artifacts once.** Reuse signed/payload-audited
   outputs across Wasm, bridge, browser, and publication jobs.
-- [ ] **CI-002 — Separate fast, full, and oracle validation.** PRs run fast
+- [x] **CI-002 — Separate fast, full, and oracle validation.** PRs run fast
   invariants; main runs all cleared acceptance cases; scheduled jobs run
   optional oracles without becoming a release dependency.
-- [ ] **REL-001 — Add a release gate.** Refuse publication unless tests,
+- [x] **REL-001 — Add a release gate.** Refuse publication unless tests,
   provenance lint, dependency policy, notices, SBOM, source offer, pack
   signatures, and unpacked-payload reconciliation all pass.
 
