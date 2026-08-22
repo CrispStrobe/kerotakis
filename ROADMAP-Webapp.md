@@ -1007,7 +1007,7 @@ gate is complete.
 - [ ] **LIC-010 — Segregate oracle jobs.** Give oracle jobs separate caches and
   output directories; add a CI assertion that their raw inputs/outputs are not
   copied into release or source artifacts.
-- [ ] **LIC-011 — Add the dependency/data PR checklist.** Every new source must
+- [x] **LIC-011 — Add the dependency/data PR checklist.** Every new source must
   answer: what is conveyed, under which exact terms, whether outputs ship,
   whether database rights exist, whether store terms are compatible, and how
   removal works.
