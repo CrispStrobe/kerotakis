@@ -1056,7 +1056,7 @@ LIC-002.
 - [x] **ARCH-012 — Migrate current solvers one at a time.** Suggested order:
   mixing → state transitions → aqueous → curated → kinetics → thermal →
   electrochemistry → honesty. Run the frozen corpus after each migration.
-- [ ] **ARCH-013 — Remove sequential direct mutation.** Delete the compatibility
+- [x] **ARCH-013 — Remove sequential direct mutation.** Delete the compatibility
   path only when every solver returns deltas and an order-randomization test
   proves independent model ordering does not change accepted state.
 - [x] **ARCH-014 — Emit a coverage manifest.** For every registered operation
