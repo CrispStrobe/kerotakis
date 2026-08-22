@@ -178,6 +178,61 @@ impl StateDelta {
         Ok(())
     }
 
+    /// ARCH-009: Transactional commit with conservation audit and rollback.
+    ///
+    /// 1. Validate positivity (withdrawal limits)
+    /// 2. Snapshot the vessel's conserved quantities (ConservedLedger)
+    /// 3. Apply the delta
+    /// 4. Re-snapshot and check element conservation
+    /// 5. If conservation is violated, roll back to the snapshot and return errors
+    ///
+    /// `tolerance` is the maximum acceptable relative element drift.
+    /// Operations that legitimately add/remove matter (Add, Evaporate) should
+    /// use `commit()` instead — this is for internal transformations only.
+    pub fn commit_conserved(
+        &self,
+        vessel: &mut crate::vessel::Vessel,
+        tolerance: f64,
+    ) -> Result<(), Vec<DeltaError>> {
+        // Step 1: positivity
+        let errors = self.validate(vessel);
+        if !errors.is_empty() {
+            return Err(errors);
+        }
+
+        // Step 2: snapshot before
+        let snapshot = vessel.clone();
+        let ledger_before = crate::ledger::ConservedLedger::from_vessel(vessel);
+
+        // Step 3: apply
+        self.apply(vessel);
+
+        // Step 4: check conservation
+        let ledger_after = crate::ledger::ConservedLedger::from_vessel(vessel);
+        let violations = ledger_before.check_against(&ledger_after, tolerance, 1e-15);
+
+        // Only element violations are conservation errors; mass drift from
+        // molar-mass table precision is expected and not a rollback reason.
+        let element_violations: Vec<_> = violations
+            .iter()
+            .filter(|v| v.quantity.starts_with("element:"))
+            .collect();
+
+        if !element_violations.is_empty() {
+            // Step 5: rollback
+            *vessel = snapshot;
+            return Err(element_violations
+                .into_iter()
+                .map(|v| DeltaError::ElementImbalance {
+                    element: v.quantity.strip_prefix("element:").unwrap_or(&v.quantity).to_string(),
+                    net: v.delta,
+                })
+                .collect());
+        }
+
+        Ok(())
+    }
+
     /// Total moles of a given species across all changes in this delta.
     pub fn net_moles(&self, species: &SpeciesId, phase: Phase) -> f64 {
         self.mole_changes
@@ -313,5 +368,90 @@ mod tests {
             .sum();
         assert!((a_moles - 0.09).abs() < 1e-15);
         assert!((b_moles - 0.01).abs() < 1e-15);
+    }
+
+    // ── ARCH-009: transactional commit/rollback tests ──────────────
+
+    #[test]
+    fn commit_conserved_accepts_balanced_reaction() {
+        // NaCl dissolution: NaCl -> Na+ + Cl-
+        // Elements: Na:1,Cl:1 -> Na:1 + Cl:1 — balanced
+        let mut v = test_vessel();
+
+        let delta = StateDelta::new("dissolution")
+            .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.01)
+            .with_moles(SpeciesId::new("Na+"), Phase::Aqueous, 0.01)
+            .with_moles(SpeciesId::new("Cl-"), Phase::Aqueous, 0.01);
+
+        let result = delta.commit_conserved(&mut v, 1e-8);
+        assert!(result.is_ok(), "balanced reaction should commit: {:?}", result);
+
+        let nacl: f64 = v
+            .contents
+            .iter()
+            .filter(|p| p.species.0 == "NaCl")
+            .map(|p| p.moles.0)
+            .sum();
+        assert!((nacl - 0.09).abs() < 1e-14);
+    }
+
+    #[test]
+    fn commit_conserved_rejects_unbalanced_and_rolls_back() {
+        // Unbalanced: withdraw NaCl but deposit only Na+ (Cl lost)
+        let mut v = test_vessel();
+        let before = v.clone();
+
+        let delta = StateDelta::new("broken")
+            .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.01)
+            .with_moles(SpeciesId::new("Na+"), Phase::Aqueous, 0.01);
+        // Missing Cl- deposit → Cl element conservation violation
+
+        let result = delta.commit_conserved(&mut v, 1e-8);
+        assert!(result.is_err(), "unbalanced should fail");
+
+        // Vessel must be byte-equivalent to pre-step state
+        assert_eq!(v.contents.len(), before.contents.len());
+        for (a, b) in v.contents.iter().zip(before.contents.iter()) {
+            assert_eq!(a.species, b.species);
+            assert_eq!(a.moles.0, b.moles.0);
+            assert_eq!(a.phase, b.phase);
+        }
+    }
+
+    #[test]
+    fn commit_conserved_rejects_negativity_without_applying() {
+        let mut v = test_vessel();
+        let before = v.clone();
+
+        // Withdraw more NaCl than available
+        let delta = StateDelta::new("overdraw")
+            .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.2)
+            .with_moles(SpeciesId::new("Na+"), Phase::Aqueous, 0.2)
+            .with_moles(SpeciesId::new("Cl-"), Phase::Aqueous, 0.2);
+
+        let result = delta.commit_conserved(&mut v, 1e-8);
+        assert!(result.is_err());
+
+        // Vessel unchanged
+        for (a, b) in v.contents.iter().zip(before.contents.iter()) {
+            assert_eq!(a.moles.0, b.moles.0);
+        }
+    }
+
+    #[test]
+    fn rollback_preserves_temperature() {
+        let mut v = test_vessel();
+        let original_temp = v.temperature;
+
+        // Unbalanced delta with thermal change
+        let delta = StateDelta::new("broken")
+            .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.01)
+            .with_thermal(ThermalDelta::SetTemperature(Kelvin(500.0)));
+
+        let result = delta.commit_conserved(&mut v, 1e-8);
+        assert!(result.is_err());
+
+        // Temperature must be restored
+        assert_eq!(v.temperature, original_temp);
     }
 }

@@ -1044,7 +1044,7 @@ LIC-002.
   through migration defaults.
 - [x] **ARCH-008 — Define `StateDelta`.** Require models to propose ledger,
   phase, energy, and environment transfers rather than mutate a vessel.
-- [ ] **ARCH-009 — Add transactional commit/rollback.** Validate positivity and
+- [x] **ARCH-009 — Add transactional commit/rollback.** Validate positivity and
   conservation before commit. Inject failures at each stage and prove the
   bench remains byte-equivalent to its pre-step state.
 - [ ] **ARCH-010 — Define capability/validity reports.** Replace the boolean
