@@ -11,7 +11,7 @@ mod resolve;
 mod schema;
 mod validate;
 
-pub use pack::{load_pack, PackError, PACK_MAGIC, PACK_VERSION};
+pub use pack::{load_pack, serialize_pack_payload, PackError, PACK_MAGIC, PACK_VERSION};
 pub use resolve::{resolve_phase_property, Conditions, Resolution, ResolvedValue, Rung};
 pub use schema::*;
 pub use validate::{ValidationError, ValidationIssue};
