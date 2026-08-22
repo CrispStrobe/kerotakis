@@ -1537,6 +1537,35 @@ arbitrary synthesis oracle.
   and [CC BY-SA 4.0 legal code](https://creativecommons.org/licenses/by-sa/4.0/legalcode.en)
   — the direct-data allowlist and the existing ShareAlike-data mismatch.
 
+## Implementation status (2026-08-22)
+
+**104 of 119 roadmap items complete (87%).**
+
+### What the .lab grammar can already express
+
+17 commands, 8 instruments, 50 event types. Covers aqueous chemistry,
+phase transitions, thermal chemistry, kinetics, electrochemistry,
+UV-Vis spectroscopy, and 1-D reactive transport.
+
+### Remaining 15 items by category
+
+**Legal (3):** LIC-001/002/012 — human review needed.
+**Parameter data (5):** THERMO-004, KIN-008, ELEC-003, ORG-010, ADV-001/003/004
+— modules exist, data sourcing is the blocker.
+**Oracle (1):** ORG-011 — separate build pipeline.
+**Pipeline gate (1):** DATA-010 — pack round-trip verification.
+**Frontend (3):** WEB-002/003/004 — JavaScript service-worker work.
+
+### Types implemented but awaiting grammar or data
+
+Molecule graphs, functional groups, reaction templates, photochemistry,
+polymer populations, nuclide ledgers, Butler-Volmer kinetics,
+heterogeneous rate models, compartments, interfaces, and electrode
+states all have Rust types, serialization, and unit tests. They need
+grammar extensions (`structure`, `react`, `irradiate`, `grind`,
+`chromatograph`, `calorimeter`) and curated parameter data to become
+user-facing.
+
 ## Primary technical references
 
 - [USGS PHREEQC Version 3 manual](https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqc3-html/phreeqc3.htm) — equilibrium, gas phases, exchange, surfaces, solid solutions, kinetics, and transport.
