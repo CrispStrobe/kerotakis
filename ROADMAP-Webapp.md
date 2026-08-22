@@ -1304,10 +1304,10 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   pure-component limits, and phase/material balance.
 - [x] **THERMO-006 — Add HP and UV flashes.** Couple energy and phase state;
   verify latent-heat plateaus and sealed-vessel pressure.
-- [ ] **THERMO-007 — Integrate an approved equation-of-state backend.** Start
+- [x] **THERMO-007 — Integrate an approved equation-of-state backend.** Start
   with one model and a small cleared parameter set; do not bundle upstream
   databases wholesale.
-- [ ] **THERMO-008 — Add liquid–liquid split.** Validate one binary/ternary
+- [x] **THERMO-008 — Add liquid–liquid split.** Validate one binary/ternary
   extraction case from an allowlisted experimental source.
 - [x] **APP-001 — Add powered heat sources.** Replace “free” evaporation with
   power, duration, heat loss, and boundary conditions while retaining the old
@@ -1352,7 +1352,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [x] **KIN-011 — Add heterogeneous-rate inputs.** Surface area, effective
   particle radius, site density, and mixing regime must be explicit before
   catalyst amount affects rate.
-- [ ] **KIN-012 — Add batch and plug-flow apparatus models.** Reuse one network
+- [x] **KIN-012 — Add batch and plug-flow apparatus models.** Reuse one network
   and prove that residence-time behavior follows from apparatus, not different
   reaction data.
 
