@@ -1344,9 +1344,9 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [ ] **KIN-008 — Audit one mechanism file.** Give it its own runtime-data
   record; if it fails, keep it oracle-only and choose another rather than
   weakening the allowlist.
-- [ ] **KIN-009 — Compile and validate the first gas mechanism.** Compare batch
+- [x] **KIN-009 — Compile and validate the first gas mechanism.** Compare batch
   trajectories with Cantera while persisting only approved benchmarks/errors.
-- [ ] **KIN-010 — Add build-time mechanism reduction.** Emit the reduced
+- [x] **KIN-010 — Add build-time mechanism reduction.** Emit the reduced
   network, declared envelope, source lineage, and maximum error against the
   full oracle.
 - [x] **KIN-011 — Add heterogeneous-rate inputs.** Surface area, effective
@@ -1376,7 +1376,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   parameters; otherwise refuse quantitative efficiency.
 - [x] **ELEC-008 — Add deposit/passivation state.** Let surface coverage alter
   subsequent kinetics without changing elemental inventory.
-- [ ] **ELEC-009 — Publish electrochemical acceptance cases.** Electroplating,
+- [x] **ELEC-009 — Publish electrochemical acceptance cases.** Electroplating,
   cell discharge, concentration polarization, corrosion, and sacrificial
   protection must identify which of thermodynamics, kinetics, transport, or
   inventory limits each result.
@@ -1394,10 +1394,10 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   needed by one reaction family; fuzz SMARTS/graph matching.
 - [x] **ORG-005 — Define atom-mapped transformation templates.** Lint atom,
   charge, and stereochemical mapping before application.
-- [ ] **ORG-006 — Implement one family end to end.** Choose esterification or
+- [x] **ORG-006 — Implement one family end to end.** Choose esterification or
   saponification because it exercises structure, aqueous state, equilibrium,
   kinetics, heat, and separation.
-- [ ] **ORG-007 — Cross-validate template application with RDKit oracle-only.**
+- [x] **ORG-007 — Cross-validate template application with RDKit oracle-only.**
   Persist discrepancies and approved small factual fixtures, not RDKit exports.
 - [x] **ORG-008 — Add conditions and incompatibility filters.** A template match
   is a proposal; conditions and forbidden context decide whether it is claimed.
