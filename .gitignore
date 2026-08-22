@@ -13,3 +13,5 @@ phreeqc.log
 .claude/worktrees/
 data/registry/registry.pack
 data/dbindex/
+tools/oracle/cache/
+tools/oracle/output/

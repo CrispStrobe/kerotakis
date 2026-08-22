@@ -22,6 +22,7 @@ pub mod curated;
 pub mod delta;
 pub mod displacement;
 pub mod indicator;
+pub mod instrument;
 pub mod kinetics;
 pub mod ledger;
 pub mod ops;
@@ -46,6 +47,9 @@ pub use compartment::{
 };
 pub use coverage::{coverage_manifest, CoverageReport, SolverCoverage};
 pub use curated::CuratedEquilibrator;
+pub use instrument::{
+    Balance, InstrumentContract, InstrumentMode, PhMeter, Reading, Thermometer,
+};
 pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
 pub use displacement::DisplacementEquilibrator;
 pub use ops::{Event, Instrument, LogEntry, Operator};
