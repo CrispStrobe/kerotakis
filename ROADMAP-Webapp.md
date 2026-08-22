@@ -1266,6 +1266,9 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [ ] **DATA-008 — Generate PHREEQC derived indexes at build time.** Remove the
   duplicate runtime parsing copy while retaining the engine's approved raw
   databases where required.
+  *In progress 2026-08-22:* DbIndex, MasterSpecies, PhaseInfo, and
+  ActivityModel now have serde Serialize/Deserialize derives. The actual
+  build-time generation tool and runtime loading remain.
 - [ ] **DATA-009 — Generate the reachable CEA subset.** Include only admitted
   registry species plus citations/notices; compare all existing thermal cases
   bit-for-bit or within declared tolerances.
