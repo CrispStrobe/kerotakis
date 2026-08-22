@@ -190,6 +190,34 @@ impl InstrumentContract for ConductivityMeter {
     }
 }
 
+/// INST-006: Simple calorimeter — reports temperature-change-based heat.
+pub struct Calorimeter;
+
+impl InstrumentContract for Calorimeter {
+    fn name(&self) -> &'static str {
+        "calorimeter"
+    }
+    fn applies(&self, _vessel: &Vessel) -> bool {
+        true
+    }
+    fn mode(&self) -> InstrumentMode {
+        // Reading temperature is passive; a real calorimeter has its own
+        // heat capacity, but this simplified version just reads ΔT.
+        InstrumentMode::Passive
+    }
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        // Report the vessel's total enthalpy relative to 25°C in kJ.
+        let q_kj = vessel.enthalpy().0 / 1000.0;
+        Some(Reading {
+            observable: "enthalpy".into(),
+            value: q_kj,
+            unit: "kJ".into(),
+            precision: Some(0.01),
+            in_range: q_kj.abs() < 1e6,
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
