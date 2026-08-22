@@ -1,3 +1,5 @@
+pub mod worker;
+
 //! The bench, in a browser.
 //!
 //! This is Track A of the plan's wasm strategy: one Rust source compiled to

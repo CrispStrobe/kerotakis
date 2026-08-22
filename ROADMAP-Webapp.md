@@ -1437,15 +1437,15 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 
 ### Phase 9 — Bounded advanced packs
 
-- [ ] **ADV-001 — Environmental pack.** Assemble only approved PHREEQC data and
+- [x] **ADV-001 — Environmental pack.** Assemble only approved PHREEQC data and
   project-authored scenarios for soils, treatment, weathering, and ocean
   acidification.
 - [x] **ADV-002 — Photochemistry IR.** Add light-source state and photolysis
   rates; admit a network only with approved spectra/cross sections and quantum
   yields.
-- [ ] **ADV-003 — Materials/metallurgy pilot.** Expand the cleared CEA subset for
+- [x] **ADV-003 — Materials/metallurgy pilot.** Expand the cleared CEA subset for
   one iron/copper process; audit every added thermodynamic record.
-- [ ] **ADV-004 — Polymer kinetics pilot.** Couple one project-authored network
+- [x] **ADV-004 — Polymer kinetics pilot.** Couple one project-authored network
   to the population moments and heat ledger.
 - [x] **ADV-005 — Nuclear module design.** Define a separate nuclide ledger and
   identify a CC0/public-domain decay source before writing runtime code.
@@ -1457,12 +1457,12 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [x] **WEB-001 — Ship the generated pre-warmed cache.** Give it a
   `generated-shipping-artifact` record and prove the cache contains no
   unapproved oracle-derived material.
-- [ ] **WEB-002 — Move both Wasm engines into one module Worker.** Keep their
+- [x] **WEB-002 — Move both Wasm engines into one module Worker.** Keep their
   synchronous internal bridge; expose asynchronous command/progress/cancel to
   clients.
-- [ ] **WEB-003 — Split model packs.** Core aqueous, phase, combustion,
+- [x] **WEB-003 — Split model packs.** Core aqueous, phase, combustion,
   structures, and spectra get independent signed manifests and payload audits.
-- [ ] **WEB-004 — Make offline install atomic.** Required allowlisted assets
+- [x] **WEB-004 — Make offline install atomic.** Required allowlisted assets
   must all cache or installation fails; optional packs fail independently.
 - [x] **PERF-001 — Add bundle/model-pack budgets.** Measure compressed size,
   parsed memory, initialization, and solve latency on a low-end reference

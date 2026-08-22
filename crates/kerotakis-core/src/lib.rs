@@ -34,6 +34,7 @@ pub mod nuclide;
 pub mod polymer;
 pub mod ops;
 pub mod orchestrator;
+pub mod packs;
 pub mod particles;
 pub mod photochem;
 pub mod render;
