@@ -7,7 +7,7 @@
 
 use std::collections::BTreeMap;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct MasterSpecies {
     /// The element name as the database writes it (e.g. "C(4)", "S(6)").
     pub element: String,
@@ -15,7 +15,7 @@ pub struct MasterSpecies {
     pub species: String,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 pub struct PhaseInfo {
     /// The solid/gas formula on the left of the dissolution equation,
     /// e.g. "CaSO4:2H2O", "NaCl", "CO2".
@@ -39,7 +39,7 @@ pub struct PhaseInfo {
 /// not asserted by us: a `PITZER` block means the specific-ion-interaction
 /// model; per-species `-gamma` parameters mean the WATEQ Debye-Hückel
 /// extension; otherwise PHREEQC's Davies default.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, serde::Serialize, serde::Deserialize)]
 pub enum ActivityModel {
     /// Specific-ion interaction (Pitzer): valid to high ionic strength.
     Pitzer,
@@ -64,7 +64,7 @@ impl ActivityModel {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Clone, serde::Serialize, serde::Deserialize)]
 pub struct DbIndex {
     /// Canonical element name → master species.
     pub masters: BTreeMap<String, MasterSpecies>,
