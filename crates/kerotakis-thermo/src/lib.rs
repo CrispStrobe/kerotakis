@@ -29,5 +29,6 @@
 //! flash itself is arithmetic on top of both. Nothing here is a lookup of
 //! the answer.
 
+pub mod fluid;
 pub mod unifac;
 pub mod vle;
