@@ -1059,7 +1059,7 @@ LIC-002.
 - [ ] **ARCH-013 — Remove sequential direct mutation.** Delete the compatibility
   path only when every solver returns deltas and an order-randomization test
   proves independent model ordering does not change accepted state.
-- [ ] **ARCH-014 — Emit a coverage manifest.** For every registered operation
+- [x] **ARCH-014 — Emit a coverage manifest.** For every registered operation
   and species family, report claimed models, validity, observables, validation
   cases, and unsupported dimensions.
 
