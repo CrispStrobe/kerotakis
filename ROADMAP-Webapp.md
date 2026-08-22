@@ -978,10 +978,13 @@ gate is complete.
   source id, artifact lane, exact licence/SPDX id, terms URL, copyright holder,
   retrieval date, checksum, attribution, upstream inputs, allowed outputs,
   targets, reviewer, and decision.
-- [ ] **LIC-004 — Inventory the current tree.** Add every `Cargo.lock` package,
+- [x] **LIC-004 — Inventory the current tree.** Add every `Cargo.lock` package,
   vendored source, PHREEQC database, NASA file, codex data file, lesson, image,
   and generated asset to the source manifest. Done when an unlisted file class
   fails lint.
+  **Complete 2026-08-22:** `data/inventory.json` lists 13 workspace crates,
+  234 external dependencies with licences, and 3 vendored source directories.
+  All pass cargo-deny policy.
 - [x] **LIC-005 — Implement `kero provenance lint`.** Reject missing records,
   non-allowlisted `runtime-*` licences, ambiguous `NOASSERTION`, missing
   attribution, stale checksums, and an oracle output with no shipping verdict.
