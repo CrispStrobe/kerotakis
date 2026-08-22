@@ -1053,7 +1053,7 @@ LIC-002.
 - [x] **ARCH-011 — Build the first orchestrator path.** Route one simple water
   operation through problem planning, old-solver adaptation, audit, and atomic
   commit.
-- [ ] **ARCH-012 — Migrate current solvers one at a time.** Suggested order:
+- [x] **ARCH-012 — Migrate current solvers one at a time.** Suggested order:
   mixing → state transitions → aqueous → curated → kinetics → thermal →
   electrochemistry → honesty. Run the frozen corpus after each migration.
 - [ ] **ARCH-013 — Remove sequential direct mutation.** Delete the compatibility

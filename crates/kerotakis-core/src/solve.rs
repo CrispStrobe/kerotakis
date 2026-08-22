@@ -83,17 +83,16 @@ pub trait Equilibrator {
 
     /// ARCH-012: produce a delta and events without mutating the vessel.
     ///
-    /// Migrated solvers override this to return a `StateDelta` directly.
-    /// The default falls back to clone-mutate-diff (the orchestrator's
-    /// adaptation path), which works for any old-style equilibrator.
-    ///
-    /// Returns `None` if the solver has no native delta implementation
-    /// (orchestrator should use clone-and-diff instead).
+    /// The default clones the vessel, runs `equilibrate()` on the clone,
+    /// and diffs the result into a `StateDelta`. Solvers that can produce
+    /// deltas directly (without cloning) override this for efficiency.
     fn equilibrate_delta(
         &mut self,
-        _vessel: &Vessel,
-    ) -> Option<Result<(crate::delta::StateDelta, Vec<Event>), SolveError>> {
-        None
+        vessel: &Vessel,
+    ) -> Result<(crate::delta::StateDelta, Vec<Event>), SolveError> {
+        let mut copy = vessel.clone();
+        let events = self.equilibrate(&mut copy)?;
+        Ok((crate::orchestrator::diff_vessels(vessel, &copy, self.name()), events))
     }
 
     /// ARCH-010: structured capability report.
@@ -243,11 +242,11 @@ impl Equilibrator for MixingEquilibrator {
         Ok(events)
     }
 
-    /// ARCH-012: native delta-producing implementation.
+    /// ARCH-012: native delta — no clone needed for thermostat check.
     fn equilibrate_delta(
         &mut self,
         vessel: &Vessel,
-    ) -> Option<Result<(crate::delta::StateDelta, Vec<Event>), SolveError>> {
+    ) -> Result<(crate::delta::StateDelta, Vec<Event>), SolveError> {
         use crate::delta::{StateDelta, ThermalDelta};
 
         let mut delta = StateDelta::new("mixing-v0");
@@ -264,7 +263,7 @@ impl Equilibrator for MixingEquilibrator {
             }
         }
 
-        Some(Ok((delta, events)))
+        Ok((delta, events))
     }
 }
 
@@ -675,17 +674,16 @@ impl Equilibrator for HonestyEquilibrator {
         Ok(events)
     }
 
-    /// ARCH-012: native delta-producing implementation.
-    /// HonestyEquilibrator produces no mutations, only diagnostic events.
+    /// ARCH-012: native delta — no mutations, only diagnostic events.
     fn equilibrate_delta(
         &mut self,
         vessel: &Vessel,
-    ) -> Option<Result<(crate::delta::StateDelta, Vec<Event>), SolveError>> {
+    ) -> Result<(crate::delta::StateDelta, Vec<Event>), SolveError> {
         let delta = crate::delta::StateDelta::new("honesty");
         let mut events = Vec::new();
 
         if vessel.solution.is_some() {
-            return Some(Ok((delta, events)));
+            return Ok((delta, events));
         }
 
         let has_liquid = vessel
@@ -719,7 +717,7 @@ impl Equilibrator for HonestyEquilibrator {
             }
         }
 
-        Some(Ok((delta, events)))
+        Ok((delta, events))
     }
 }
 
