@@ -3,8 +3,8 @@
 # Engine: MY-BASIC (MIT, pinned 38baab02)
 
 [meta]
-version = "0.3.0-preview"
-status = "opt-in; the default engine build remains no-BASIC"
+version = "0.3.0"
+status = "default; MY-BASIC is the official BASIC backend"
 engine = "my-basic"
 engine_commit = "38baab02ece70b650f5e687e485d879f80843256"
 

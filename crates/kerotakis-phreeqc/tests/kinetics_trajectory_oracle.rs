@@ -8,7 +8,7 @@
 
 #![cfg(all(
     feature = "engine",
-    feature = "my-basic-preview",
+    feature = "my-basic",
     not(feature = "legacy-basic-oracle")
 ))]
 

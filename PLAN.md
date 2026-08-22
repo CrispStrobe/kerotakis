@@ -2332,7 +2332,7 @@ independent solid/Ca/C ledgers. The evidence selects Kerotakis as owner of time
 integration and the vessel clock: its integrator is portable core state and
 already composes reaction networks, whereas PHREEQC `KINETICS` requires the
 opt-in BASIC path. PHREEQC remains the aqueous equilibrium/speciation engine
-and a development comparator behind `my-basic-preview`; production no-BASIC
+and a development comparator behind `my-basic`; production no-BASIC
 behavior is unchanged. No external kinetics corpus, new runtime data,
 vendored-source change, or physical calcite-rate claim was introduced. Local
 native compilation was skipped after the required one-minute load sample stayed

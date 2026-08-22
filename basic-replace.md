@@ -1,6 +1,6 @@
 # Replacing PHREEQC BASIC
 
-Status: migration in progress, 2026-08-21.
+Status: Stage 6 complete, Stage 7 ready. MY-BASIC promoted to default, 2026-08-22.
 
 ## Implementation progress
 
@@ -81,11 +81,12 @@ Status: migration in progress, 2026-08-21.
   databases and isolated auxiliary files; all 32 pass on the preview as of
   2026-08-21. The `ex20b` harness preserves its documented two-phase
   generated-input flow.
-- Stage 7 has not started. An attempted deletion was rolled back after audit:
-  the replacement is still opt-in, and the legacy files remain referenced by
-  non-CMake upstream build metadata. The legacy implementation remains solely
-  for the explicit `legacy-basic-oracle` development feature and is omitted
-  from default native and WebAssembly build inputs.
+- Stage 7 is ready to begin. MY-BASIC has been promoted from `my-basic-preview`
+  (opt-in) to `my-basic` (default). Default Kerotakis builds now compile with
+  the MY-BASIC adapter. The `legacy-basic-oracle` development feature remains
+  available for differential testing but does not ship. The next step is to
+  delete `PBasic.cpp`, `PBasic.h`, and all build-system references, then prove
+  their absence from source, symbols, binaries, and release artifacts.
 
 ## Goal
 
