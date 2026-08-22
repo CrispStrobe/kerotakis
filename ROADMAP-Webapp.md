@@ -985,11 +985,11 @@ gate is complete.
 - [ ] **LIC-005 — Implement `kero provenance lint`.** Reject missing records,
   non-allowlisted `runtime-*` licences, ambiguous `NOASSERTION`, missing
   attribution, stale checksums, and an oracle output with no shipping verdict.
-- [ ] **LIC-006 — Add `cargo-deny`.** Configure an explicit runtime/development
+- [x] **LIC-006 — Add `cargo-deny`.** Configure an explicit runtime/development
   graph policy. Resolve dual-licensed crates through an approved permissive
   branch; do not allow an LGPL alternative merely because it appears in an
   `OR` expression.
-- [ ] **LIC-007 — Generate notices.** Use `cargo-about` or an equivalent pinned
+- [x] **LIC-007 — Generate notices.** Use `cargo-about` or an equivalent pinned
   tool to generate the in-app/source attribution bundle; compare it with the
   source manifest in CI.
 - [ ] **LIC-008 — Generate an SBOM.** Produce CycloneDX/SPDX manifests for CLI,
@@ -1301,21 +1301,21 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 
 ### Phase 5 — Generic kinetics
 
-- [ ] **KIN-001 — Define the reaction-network IR.** Include stoichiometry,
+- [x] **KIN-001 — Define the reaction-network IR.** Include stoichiometry,
   locality, reversibility, dimensional rate law, catalysts/sites, validity,
   uncertainty, and source ids.
-- [ ] **KIN-002 — Compile the two current rate laws into the IR.** Require
+- [x] **KIN-002 — Compile the two current rate laws into the IR.** Require
   identical lesson outputs before deleting their bespoke evaluator path.
-- [ ] **KIN-003 — Add reaction-network conservation lint.** Balance elements,
+- [x] **KIN-003 — Add reaction-network conservation lint.** Balance elements,
   charge, sites, and declared electron transfer for every compiled reaction.
-- [ ] **KIN-004 — Audit and add DiffSol.** Allow only the approved permissive
+- [x] **KIN-004 — Audit and add DiffSol.** Allow only the approved permissive
   feature graph; keep JIT/native extras off mobile and Wasm.
-- [ ] **KIN-005 — Implement adaptive implicit integration.** Add positivity,
+- [x] **KIN-005 — Implement adaptive implicit integration.** Add positivity,
   event detection, rejection/retry, and exact-solution tests.
 - [ ] **KIN-006 — Couple kinetics to fast equilibrium.** Advance one bounded
   kinetic step, re-equilibrate, measure splitting error, and reduce the step
   when needed.
-- [ ] **KIN-007 — Implement the Cantera YAML parser without importing data.**
+- [x] **KIN-007 — Implement the Cantera YAML parser without importing data.**
   Fuzz the supported schema and produce useful errors for unsupported rate
   forms.
 - [ ] **KIN-008 — Audit one mechanism file.** Give it its own runtime-data
