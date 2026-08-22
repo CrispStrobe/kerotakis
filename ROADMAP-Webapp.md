@@ -998,7 +998,7 @@ gate is complete.
 - [x] **LIC-007 — Generate notices.** Use `cargo-about` or an equivalent pinned
   tool to generate the in-app/source attribution bundle; compare it with the
   source manifest in CI.
-- [ ] **LIC-008 — Generate an SBOM.** Produce CycloneDX/SPDX manifests for CLI,
+- [x] **LIC-008 — Generate an SBOM.** Produce CycloneDX/SPDX manifests for CLI,
   web, iOS, and Android release payloads. Done when CI can diff the actual
   payload against approved runtime sources.
 - [x] **LIC-009 — Define the model-pack manifest.** Include content hash,
