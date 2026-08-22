@@ -1383,12 +1383,12 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 
 ### Phase 7 — Structural and organic chemistry
 
-- [ ] **ORG-001 — Audit the exact structure toolkit path.** Approve Indigo/InChI
+- [x] **ORG-001 — Audit the exact structure toolkit path.** Approve Indigo/InChI
   versions and bundled data/notices for runtime, or keep them build-time and
   implement the minimal runtime graph in Kerotakis.
 - [x] **ORG-002 — Define the molecule graph.** Bond orders, formal charge,
   isotope, stereochemistry, atom ids, and serialization round-trip.
-- [ ] **ORG-003 — Add canonical identity and formula derivation.** Cross-check a
+- [x] **ORG-003 — Add canonical identity and formula derivation.** Cross-check a
   cleared corpus with two independent tools without importing either corpus.
 - [ ] **ORG-004 — Add functional-group perception.** Start with the groups
   needed by one reaction family; fuzz SMARTS/graph matching.
