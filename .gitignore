@@ -12,3 +12,4 @@ error.inp
 phreeqc.log
 .claude/worktrees/
 data/registry/registry.pack
+data/dbindex/

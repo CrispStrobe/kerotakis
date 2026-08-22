@@ -28,5 +28,10 @@ postcard = { version = "1", features = ["alloc"] }
 [build-dependencies]
 cmake = { version = "0.1", optional = true }
 
+[[bin]]
+name = "generate-dbindex"
+# No engine feature needed — database parsing is pure Rust.
+required-features = []
+
 [dev-dependencies]
 kerotakis-safety = { path = "../kerotakis-safety" }
