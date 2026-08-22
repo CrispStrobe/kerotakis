@@ -11,6 +11,7 @@ members = [
     "crates/kerotakis-thermo",
     "crates/kerotakis-data",
     "crates/kerotakis-registry-export",
+    "crates/kerotakis-org",
     "crates/kerotakis-sundials",
 ]
 
