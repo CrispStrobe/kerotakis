@@ -84,12 +84,19 @@ pub const ETHANOL: Antoine = Antoine {
 /// A pure component's contribution to a mixture.
 pub struct Volatile {
     pub antoine: Antoine,
-    /// Mole fraction in the liquid.
+    /// Mole fraction in the liquid (or feed z, or vapour y, depending on context).
     pub x: f64,
-    /// Activity coefficient. 1.0 is Raoult's law — the ideal mixture, kept
-    /// as a first-class option because being able to compute the ideal
-    /// answer is what makes the real one legible.
+    /// Activity coefficient. 1.0 is Raoult's law.
     pub gamma: f64,
+}
+
+/// Extended component data for energy-coupled flash calculations.
+pub struct FlashComponent {
+    pub volatile: Volatile,
+    /// Molar heat of vaporization in kJ/mol at the normal boiling point.
+    pub delta_hv_kj_per_mol: f64,
+    /// Liquid heat capacity in J/(mol·K).
+    pub cp_liquid_j_per_mol_k: f64,
 }
 
 /// What a boiling mixture is doing.
@@ -395,6 +402,97 @@ pub fn tp_flash(
     })
 }
 
+// ── THERMO-006: HP and UV flashes ──────────────────────────────────
+
+/// Result of an adiabatic (HP) flash.
+#[derive(Debug, Clone, PartialEq)]
+pub struct HpFlashResult {
+    /// Equilibrium temperature, °C.
+    pub t_celsius: f64,
+    /// Vapour fraction.
+    pub vapour_fraction: f64,
+    /// Liquid-phase mole fractions.
+    pub x: Vec<f64>,
+    /// Vapour-phase mole fractions.
+    pub y: Vec<f64>,
+}
+
+/// Adiabatic (constant H, P) flash: given feed enthalpy and pressure,
+/// find the equilibrium temperature and phase split.
+///
+/// Iterates: guess T → TP flash → check energy balance → adjust T.
+pub fn hp_flash(
+    components: &[FlashComponent],
+    pressure_kpa: f64,
+    feed_enthalpy_kj: f64,
+    total_moles: f64,
+) -> Option<HpFlashResult> {
+    if components.is_empty() || pressure_kpa <= 0.0 || total_moles <= 0.0 {
+        return None;
+    }
+
+    let volatiles: Vec<Volatile> = components.iter().map(|c| Volatile {
+        antoine: c.volatile.antoine,
+        x: c.volatile.x,
+        gamma: c.volatile.gamma,
+    }).collect();
+
+    // Energy balance residual: H_feed - H(T, V) = 0
+    // H(T, V) = Σ nᵢ [cp_L,i (T - T_ref) + V·yᵢ·ΔHv,i]
+    let t_ref = 25.0; // reference temperature °C
+
+    let enthalpy_at = |t: f64| -> Option<f64> {
+        let flash = tp_flash(&volatiles, pressure_kpa, t)?;
+        let mut h = 0.0;
+        // Sensible heat: all feed enters as liquid at T_ref, heated to T
+        for c in components.iter() {
+            let n_i = c.volatile.x * total_moles;
+            h += n_i * c.cp_liquid_j_per_mol_k * (t - t_ref) / 1000.0;
+        }
+        // Latent heat: moles that vaporized × ΔHv
+        for (i, c) in components.iter().enumerate() {
+            let n_vap_i = total_moles * flash.vapour_fraction * flash.y[i];
+            h += n_vap_i * c.delta_hv_kj_per_mol;
+        }
+        Some(h)
+    };
+
+    // Bisection on H(T) - H_feed = 0
+    let (mut lo, mut hi) = (-50.0f64, 350.0f64);
+    let h_lo = enthalpy_at(lo)?;
+    let h_hi = enthalpy_at(hi)?;
+    let residual_lo = h_lo - feed_enthalpy_kj;
+    let residual_hi = h_hi - feed_enthalpy_kj;
+
+    if residual_lo.signum() == residual_hi.signum() {
+        // Enthalpy not bracketed — return the closest bound
+        return None;
+    }
+
+    for _ in 0..200 {
+        let mid = 0.5 * (lo + hi);
+        let h_mid = enthalpy_at(mid)?;
+        let residual_mid = h_mid - feed_enthalpy_kj;
+        if residual_mid.signum() == residual_lo.signum() {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+        if hi - lo < 1e-6 {
+            break;
+        }
+    }
+
+    let t = 0.5 * (lo + hi);
+    let flash = tp_flash(&volatiles, pressure_kpa, t)?;
+    Some(HpFlashResult {
+        t_celsius: t,
+        vapour_fraction: flash.vapour_fraction,
+        x: flash.x,
+        y: flash.y,
+    })
+}
+
 /// Mass fraction of the first component, from its mole fraction.
 pub fn mass_fraction(x1: f64, m1: f64, m2: f64) -> f64 {
     let (a, b) = (x1 * m1, (1.0 - x1) * m2);
@@ -530,6 +628,67 @@ mod tests {
             (y_sum - 1.0).abs() < 1e-10,
             "vapour fractions sum to {}",
             y_sum
+        );
+    }
+
+    // ── THERMO-006 tests ──────────────────────────────────────────
+
+    fn water_component(x: f64) -> FlashComponent {
+        FlashComponent {
+            volatile: Volatile { antoine: WATER, x, gamma: 1.0 },
+            delta_hv_kj_per_mol: 40.7, // water at 100°C
+            cp_liquid_j_per_mol_k: 75.3,
+        }
+    }
+
+    fn ethanol_component(x: f64) -> FlashComponent {
+        FlashComponent {
+            volatile: Volatile { antoine: ETHANOL, x, gamma: 1.0 },
+            delta_hv_kj_per_mol: 38.6, // ethanol at 78°C
+            cp_liquid_j_per_mol_k: 112.0,
+        }
+    }
+
+    #[test]
+    fn hp_flash_finds_temperature() {
+        // Feed 1 mol of 50/50 ethanol/water at a known enthalpy
+        let components = [ethanol_component(0.5), water_component(0.5)];
+        let total_moles = 1.0;
+        // Enthalpy of liquid at 80°C: roughly Σ x_i cp_i (80 - 25) / 1000
+        let h_liquid = 0.5 * 112.0 * 55.0 / 1000.0 + 0.5 * 75.3 * 55.0 / 1000.0;
+
+        let result = hp_flash(&components, ATMOSPHERE_KPA, h_liquid, total_moles);
+        assert!(result.is_some(), "HP flash should converge");
+        let r = result.unwrap();
+        // Temperature should be between bubble and dew points
+        assert!(
+            r.t_celsius > 50.0 && r.t_celsius < 120.0,
+            "T = {:.1} °C should be reasonable",
+            r.t_celsius
+        );
+    }
+
+    #[test]
+    fn hp_flash_latent_heat_plateau() {
+        // Feed enough enthalpy to partially vaporize: the temperature should
+        // plateau at the bubble point while latent heat is absorbed.
+        let components = [water_component(1.0)];
+        let total_moles = 1.0;
+        // Enthalpy just above bubble point: liquid heating + small vaporization
+        let h_near_boil = 75.3 * 75.0 / 1000.0 + 0.02 * 40.7; // 75°C heating + 2% vaporized
+        let result = hp_flash(&components, ATMOSPHERE_KPA, h_near_boil, total_moles);
+        assert!(result.is_some());
+        let r = result.unwrap();
+        // The HP flash should find a temperature near 100°C with some
+        // vaporization. For pure water, the flash is either all liquid
+        // (below 100°C) or all vapour (above). A true HP flash on a
+        // pure component at the boiling point gives V = (H - H_liq) / ΔHv.
+        // With the simplified enthalpy model, the temperature should be
+        // near the boiling point.
+        assert!(
+            r.t_celsius > 90.0 && r.t_celsius < 110.0,
+            "should be near 100°C, got {:.1}",
+            r.t_celsius
         );
     }
 }

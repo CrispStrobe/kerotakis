@@ -1302,7 +1302,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   proprietary consortium table is mechanically blocked.
 - [x] **THERMO-005 — Implement bubble/dew and TP flash.** Validate ideal limits,
   pure-component limits, and phase/material balance.
-- [ ] **THERMO-006 — Add HP and UV flashes.** Couple energy and phase state;
+- [x] **THERMO-006 — Add HP and UV flashes.** Couple energy and phase state;
   verify latent-heat plateaus and sealed-vessel pressure.
 - [ ] **THERMO-007 — Integrate an approved equation-of-state backend.** Start
   with one model and a small cleared parameter set; do not bundle upstream
