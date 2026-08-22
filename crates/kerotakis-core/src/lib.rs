@@ -20,6 +20,7 @@ pub mod curated;
 pub mod displacement;
 pub mod indicator;
 pub mod kinetics;
+pub mod ledger;
 pub mod ops;
 pub mod particles;
 pub mod render;
@@ -50,6 +51,7 @@ pub use transport::{
     CellChain, CellReaction, MobileParcel, ReactiveTransportError, ReactiveTransportStep,
     TransportError, TransportStep,
 };
+pub use ledger::{audit_conservation, ConservedLedger};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 pub use vessel::{
     ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Portion, Provenance, RedoxState,
