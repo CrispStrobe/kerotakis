@@ -1309,17 +1309,17 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   databases wholesale.
 - [ ] **THERMO-008 — Add liquid–liquid split.** Validate one binary/ternary
   extraction case from an allowlisted experimental source.
-- [ ] **APP-001 — Add powered heat sources.** Replace “free” evaporation with
+- [x] **APP-001 — Add powered heat sources.** Replace “free” evaporation with
   power, duration, heat loss, and boundary conditions while retaining the old
   operator as a clearly external-powered shorthand.
-- [ ] **APP-002 — Add condenser and receiver connections.** Prove matter and
+- [x] **APP-002 — Add condenser and receiver connections.** Prove matter and
   energy conservation in simple distillation.
-- [ ] **APP-003 — Add repeated ideal stages and reflux.** Acceptance is the
+- [x] **APP-003 — Add repeated ideal stages and reflux.** Acceptance is the
   ethanol–water azeotrope plus the impossibility of crossing it under the
   selected model.
-- [ ] **APP-004 — Add separatory-funnel stages.** Compare one large extraction
+- [x] **APP-004 — Add separatory-funnel stages.** Compare one large extraction
   with repeated small extractions at equal solvent total.
-- [ ] **APP-005 — Add recrystallization.** Track recovered crystals, mother
+- [x] **APP-005 — Add recrystallization.** Track recovered crystals, mother
   liquor, cooling energy, and an explicit solubility-model boundary.
 
 ### Phase 5 — Generic kinetics
