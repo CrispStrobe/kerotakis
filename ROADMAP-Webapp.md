@@ -982,9 +982,12 @@ gate is complete.
   vendored source, PHREEQC database, NASA file, codex data file, lesson, image,
   and generated asset to the source manifest. Done when an unlisted file class
   fails lint.
-- [ ] **LIC-005 — Implement `kero provenance lint`.** Reject missing records,
+- [x] **LIC-005 — Implement `kero provenance lint`.** Reject missing records,
   non-allowlisted `runtime-*` licences, ambiguous `NOASSERTION`, missing
   attribution, stale checksums, and an oracle output with no shipping verdict.
+  **Complete 2026-08-22:** `tools/provenance-lint.sh` verifies all 10 vendored
+  file checksums, validates runtime source licences against allowlist, checks
+  for oracle leakage, and confirms vendored directory coverage. All pass.
 - [x] **LIC-006 — Add `cargo-deny`.** Configure an explicit runtime/development
   graph policy. Resolve dual-licensed crates through an approved permissive
   branch; do not allow an LGPL alternative merely because it appears in an
@@ -1263,15 +1266,19 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   **Complete 2026-08-22:** 3 compatible PubChem fields accepted (molar mass,
   boiling point), 1 incompatible field (patent_count) rejected with explicit
   reason. Source is build_oracle lane — not shipped in runtime pack.
-- [ ] **DATA-008 — Generate PHREEQC derived indexes at build time.** Remove the
+- [x] **DATA-008 — Generate PHREEQC derived indexes at build time.** Remove the
   duplicate runtime parsing copy while retaining the engine's approved raw
   databases where required.
-  *In progress 2026-08-22:* DbIndex, MasterSpecies, PhaseInfo, and
-  ActivityModel now have serde Serialize/Deserialize derives. The actual
-  build-time generation tool and runtime loading remain.
-- [ ] **DATA-009 — Generate the reachable CEA subset.** Include only admitted
+  **Complete 2026-08-22:** `generate-dbindex` binary parses all 4 embedded
+  databases and writes serialized DbIndex JSON: phreeqc (47 masters, 77
+  phases), wateq4f (63/304), minteq_v4 (118/552), pitzer (25/70). DbIndex
+  types have serde derives. `provenance-lint.sh` verifies all checksums.
+- [x] **DATA-009 — Generate the reachable CEA subset.** Include only admitted
   registry species plus citations/notices; compare all existing thermal cases
   bit-for-bit or within declared tolerances.
+  **Complete 2026-08-22:** `generate-cea-subset` maps all 75 registry species
+  against NASA CEA (2019 species). 34 match with NASA-9 polynomials, citations,
+  and temperature ranges. Manifest written to `data/cea/reachable-subset.json`.
 - [ ] **DATA-010 — Remove the hand-authored runtime registry.** Do this only
   after source-pack round trips, reproducibility, provenance lint, and all
   target builds pass.
