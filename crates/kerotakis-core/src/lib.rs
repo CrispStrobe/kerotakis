@@ -35,6 +35,7 @@ pub mod polymer;
 pub mod ops;
 pub mod orchestrator;
 pub mod particles;
+pub mod photochem;
 pub mod render;
 pub mod script;
 pub mod solve;
