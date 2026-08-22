@@ -325,4 +325,114 @@ mod tests {
             events
         );
     }
+
+    // ── ARCH-013: order-independence tests ─────────────────────────
+
+    #[test]
+    fn solver_order_does_not_change_accepted_state() {
+        // Run the same vessel through two orchestrators with reversed solver
+        // order. The accepted vessel state must be identical.
+        let base = || {
+            let mut v = water_vessel();
+            v.deposit(SpeciesId::new("NaCl"), Moles(0.1), Phase::Aqueous);
+            v.deposit(SpeciesId::new("NaCl"), Moles(0.05), Phase::Solid);
+            v.thermal_mode = crate::vessel::ThermalMode::Thermostatted(Kelvin(310.0));
+            v.temperature = Kelvin(298.15);
+            v
+        };
+
+        let mut v_forward = base();
+        let mut orch_forward = Orchestrator::new(vec![
+            Box::new(MixingEquilibrator),
+            Box::new(HonestyEquilibrator),
+        ]);
+        orch_forward.equilibrate(&mut v_forward).unwrap();
+
+        let mut v_reversed = base();
+        let mut orch_reversed = Orchestrator::new(vec![
+            Box::new(HonestyEquilibrator),
+            Box::new(MixingEquilibrator),
+        ]);
+        orch_reversed.equilibrate(&mut v_reversed).unwrap();
+
+        // Temperature must be identical
+        assert_eq!(
+            v_forward.temperature.0, v_reversed.temperature.0,
+            "temperature differs: {} vs {}",
+            v_forward.temperature.0, v_reversed.temperature.0
+        );
+
+        // Contents must be identical
+        assert_eq!(
+            v_forward.contents.len(),
+            v_reversed.contents.len(),
+            "content count differs"
+        );
+        for (a, b) in v_forward.contents.iter().zip(v_reversed.contents.iter()) {
+            assert_eq!(a.species, b.species);
+            assert_eq!(a.phase, b.phase);
+            assert!(
+                (a.moles.0 - b.moles.0).abs() < 1e-15,
+                "{} {:?}: {} vs {}",
+                a.species.0,
+                a.phase,
+                a.moles.0,
+                b.moles.0
+            );
+        }
+    }
+
+    #[test]
+    fn solver_order_with_curated_reactions() {
+        // Test with CuratedEquilibrator: order of curated + mixing + honesty
+        // should not affect the accepted state.
+        use crate::curated::CuratedEquilibrator;
+
+        let base = || {
+            let mut v = Vessel::new(VesselId(0), "beaker");
+            v.temperature = Kelvin(298.15);
+            v.deposit(SpeciesId::new("water"), Moles(5.5), Phase::Liquid);
+            v.deposit(SpeciesId::new("NH3"), Moles(0.01), Phase::Aqueous);
+            v.deposit(SpeciesId::new("NaOCl"), Moles(0.01), Phase::Aqueous);
+            v
+        };
+
+        let mut v1 = base();
+        let mut orch1 = Orchestrator::new(vec![
+            Box::new(CuratedEquilibrator),
+            Box::new(MixingEquilibrator),
+            Box::new(HonestyEquilibrator),
+        ]);
+        orch1.equilibrate(&mut v1).unwrap();
+
+        let mut v2 = base();
+        let mut orch2 = Orchestrator::new(vec![
+            Box::new(MixingEquilibrator),
+            Box::new(CuratedEquilibrator),
+            Box::new(HonestyEquilibrator),
+        ]);
+        orch2.equilibrate(&mut v2).unwrap();
+
+        // Contents must be identical — species may be in different order
+        // so compare by (species, phase) → moles
+        let amounts1 = species_amounts(&v1);
+        let amounts2 = species_amounts(&v2);
+        assert_eq!(
+            amounts1.len(),
+            amounts2.len(),
+            "different species count: {:?} vs {:?}",
+            amounts1.keys().collect::<Vec<_>>(),
+            amounts2.keys().collect::<Vec<_>>()
+        );
+        for (key, moles1) in &amounts1 {
+            let moles2 = amounts2.get(key).unwrap_or(&0.0);
+            assert!(
+                (moles1 - moles2).abs() < 1e-12,
+                "{:?}: {} vs {}",
+                key,
+                moles1,
+                moles2
+            );
+        }
+    }
 }
