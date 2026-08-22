@@ -856,8 +856,13 @@ The pipeline, honestly bounded:
 - `purr`, `gamma`, `chemcore` — frozen at 2021 proof-of-concept state; no SMARTS
   matching, no canonicalisation, no InChI. Their author, Rich Apodaca, died in
   2024; the successor `balsa` is also dormant. Not a base to build on.
-- `sundials-sys` — dormant ~20 months; no evidence anyone has ever built
-  SUNDIALS for wasm or iOS. diffsol covers L5 in pure Rust.
+- `sundials-sys` — the upstream crate is dormant ~20 months. Our own
+  `sundials-kinetics-rs` (MIT, in-tree at `sundials-kinetics-rs/`) now
+  provides complete SUNDIALS 7.x bindings with CVODE/IDA/ARKode/KINSOL,
+  iterative solvers, preconditioners, adjoint sensitivity, and feature-gated
+  KLU. `kerotakis-sundials` wraps it as a native-only Track B oracle and
+  optional desktop backend behind `advance_network_cvode()`. diffsol remains
+  the portable L5 default for wasm and iOS.
 - `coolprop-sys` — actively maintained but bundles **prebuilt desktop dylibs
   only**: no wasm, no iOS/Android. CoolProp's official Emscripten/JS build
   keeps it available as an optional *desktop/web extra*, not core.
@@ -2148,7 +2153,10 @@ KIN-004 audit checkpoint: `diffsol = =0.16.2` is MIT and is selected with
 `default-features = false` plus `nalgebra`. Upstream 0.16.2 still enables its
 pure-Rust `faer` implementation on the internal linear/nonlinear crates; that
 resolved graph is accepted. `diffsl`, LLVM/Cranelift JIT, CUDA, SuiteSparse,
-SUNDIALS, bindgen, and native C compilation are absent from the runtime graph.
+SUNDIALS, bindgen, and native C compilation are absent from the portable
+runtime graph. The optional `kerotakis-sundials` crate (Track B, native-only)
+does pull SUNDIALS/bindgen/cmake but is never a dependency of the wasm or iOS
+targets.
 The Wasm CI gate remains part of KIN-004 acceptance.
 The resolved matrix graph also reaches `getrandom` through `rand`; the Wasm
 target therefore selects its supported `wasm_js` backend explicitly. This is a
