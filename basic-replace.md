@@ -88,8 +88,13 @@ Status: **migration complete**, 2026-08-22. PBasic deleted, MY-BASIC is the offi
   Source absence checks confirm no PBasic implementation, class declaration,
   or build reference remains in any file compiled by the Kerotakis build.
   Upstream IPhreeqc test files (not compiled by Kerotakis, BUILD_TESTING=OFF)
-  retain a factual PBasic test name. Platform-wide differential testing
-  (wasm32) remains as a deployment validation step.
+  retain a factual PBasic test name. Platform differential testing is
+  complete: the Emscripten (wasm32) build compiles with MY-BASIC and
+  passes 20 differential checks covering kinetics, USER_PUNCH callbacks,
+  CALCULATE_VALUES, DATA/READ/RESTORE, temperature-dependent rates,
+  statement budgets, multi-step trajectories, and bundled rate programs.
+  Native and wasm produce identical results. No PBasic symbols or strings
+  appear in the wasm binary.
 
 ## Goal
 
