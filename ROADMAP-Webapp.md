@@ -1399,7 +1399,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   kinetics, heat, and separation.
 - [ ] **ORG-007 — Cross-validate template application with RDKit oracle-only.**
   Persist discrepancies and approved small factual fixtures, not RDKit exports.
-- [ ] **ORG-008 — Add conditions and incompatibility filters.** A template match
+- [x] **ORG-008 — Add conditions and incompatibility filters.** A template match
   is a proposal; conditions and forbidden context decide whether it is claimed.
 - [x] **ORG-009 — Add confidence labels to the public event contract.** Distinguish
   computed, curated-family, curated-instance, estimated, qualitative, and
