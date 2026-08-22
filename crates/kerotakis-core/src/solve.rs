@@ -10,6 +10,51 @@ use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Kelvin, Moles};
 use crate::vessel::{ThermalMode, Vessel};
 
+// ── ARCH-010: structured capability/validity reports ───────────────
+
+/// Why a solver does or does not apply to a given vessel state.
+#[derive(Debug, Clone)]
+pub enum Applicability {
+    /// The solver can handle this vessel state.
+    Applicable,
+    /// The solver cannot handle this state and explains why.
+    NotApplicable { reason: String },
+    /// The solver can handle it partially (some species/phases covered).
+    Partial {
+        covered: Vec<String>,
+        uncovered: Vec<String>,
+    },
+}
+
+impl Applicability {
+    pub fn is_applicable(&self) -> bool {
+        matches!(self, Applicability::Applicable | Applicability::Partial { .. })
+    }
+
+    pub fn is_fully_applicable(&self) -> bool {
+        matches!(self, Applicability::Applicable)
+    }
+}
+
+/// A structured report of what a solver can do with a given vessel.
+#[derive(Debug, Clone)]
+pub struct CapabilityReport {
+    pub solver: &'static str,
+    pub applicability: Applicability,
+    /// Whether this solver claims to handle chemistry (not just physics).
+    pub is_chemistry: bool,
+    /// Optional validity bounds on the result.
+    pub validity: Option<ValidityBounds>,
+}
+
+/// Bounds within which the solver's result is expected to be valid.
+#[derive(Debug, Clone)]
+pub struct ValidityBounds {
+    pub temperature_range: Option<(f64, f64)>,
+    pub pressure_range: Option<(f64, f64)>,
+    pub ionic_strength_max: Option<f64>,
+}
+
 #[derive(Debug, thiserror::Error)]
 pub enum SolveError {
     #[error("{solver} could not solve this state: {detail}")]
@@ -35,6 +80,24 @@ pub trait Equilibrator {
         self.applies(vessel)
     }
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError>;
+
+    /// ARCH-010: structured capability report.
+    /// Default adapter wraps the existing boolean `applies()`/`chemistry_applies()`.
+    fn capability(&self, vessel: &Vessel) -> CapabilityReport {
+        let applicability = if self.applies(vessel) {
+            Applicability::Applicable
+        } else {
+            Applicability::NotApplicable {
+                reason: format!("{} does not apply to this vessel state", self.name()),
+            }
+        };
+        CapabilityReport {
+            solver: self.name(),
+            applicability,
+            is_chemistry: self.chemistry_applies(vessel),
+            validity: None,
+        }
+    }
 }
 
 /// Runs every applicable solver in order, concatenating their events. The

@@ -1047,7 +1047,7 @@ LIC-002.
 - [x] **ARCH-009 — Add transactional commit/rollback.** Validate positivity and
   conservation before commit. Inject failures at each stage and prove the
   bench remains byte-equivalent to its pre-step state.
-- [ ] **ARCH-010 — Define capability/validity reports.** Replace the boolean
+- [x] **ARCH-010 — Define capability/validity reports.** Replace the boolean
   concept of `applies` with a structured result while keeping an adapter for
   current equilibrators.
 - [ ] **ARCH-011 — Build the first orchestrator path.** Route one simple water
