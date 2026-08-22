@@ -9,7 +9,7 @@ authors.workspace = true
 
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }
-chematic = { version = "0.18", features = ["smiles", "perception", "chem", "inchi"] }
+chematic = { version = "0.18", features = ["smiles", "perception", "chem", "inchi", "smarts", "rxn"] }
 serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }

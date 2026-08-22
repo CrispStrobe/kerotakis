@@ -17,6 +17,7 @@ pub const OBSERVABLE_MOLES: f64 = 1e-6;
 pub mod apparatus;
 pub mod appearance;
 pub mod bench;
+pub mod butler_volmer;
 pub mod cache_key;
 pub mod compartment;
 pub mod coverage;

@@ -7,6 +7,11 @@
 //! - SMILES parsing and canonical identity (ORG-001, ORG-003)
 //! - InChI/InChIKey generation for cross-checking (ORG-003)
 //! - Molecular formula and weight (ORG-003)
+//! - Functional group perception via SMARTS (ORG-004)
+//! - Atom-mapped transformation templates via SMIRKS (ORG-005)
+
+pub mod groups;
+pub mod templates;
 
 use serde::{Deserialize, Serialize};
 
