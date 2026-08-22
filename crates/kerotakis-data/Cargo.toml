@@ -9,13 +9,16 @@ authors.workspace = true
 
 [features]
 default = []
-compile = ["dep:serde_json", "dep:sha2"]
+compile = ["dep:serde_json"]
 
 [dependencies]
 serde = { workspace = true }
 postcard = { version = "1", features = ["alloc"] }
+sha2 = "0.10"
 serde_json = { workspace = true, optional = true }
-sha2 = { version = "0.10", optional = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
 
 [[bin]]
 name = "compile-registry"
