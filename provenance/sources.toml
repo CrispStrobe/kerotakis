@@ -164,6 +164,23 @@ reviewer = "Kerotakis engineering policy audit"
 notes = "Parameters carry their own source strings in the source code. Individual constant sets are cited from NIST, Perry's, and original literature. No bulk import from an external database."
 
 [[source]]
+id = "chematic-toolkit"
+name = "chematic — pure-Rust cheminformatics"
+kind = "code"
+lane = "runtime-code"
+decision = "approved"
+licence = "MIT OR Apache-2.0"
+origin = "https://github.com/kent-tokyo/chematic"
+copyright = "kent-tokyo contributors"
+retrieved = "2026-08-22"
+attribution = "chematic, MIT or Apache-2.0; pure Rust, wasm-compatible"
+paths = []
+allowed_outputs = ["compiled-runtime-code"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis engineering policy audit"
+notes = "Pure Rust SMILES/InChI/functional groups. No C/C++ deps. Version 0.18 pinned via Cargo.lock."
+
+[[source]]
 id = "nasa-cea-thermodynamic-data"
 name = "NASA CEA thermodynamic database"
 kind = "data"
