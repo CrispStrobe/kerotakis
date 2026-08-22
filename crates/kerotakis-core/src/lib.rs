@@ -16,9 +16,11 @@ pub const OBSERVABLE_MOLES: f64 = 1e-6;
 
 pub mod appearance;
 pub mod bench;
+pub mod compartment;
 pub mod curated;
 pub mod delta;
 pub mod displacement;
+pub mod lot;
 pub mod indicator;
 pub mod kinetics;
 pub mod ledger;
@@ -37,7 +39,9 @@ pub mod vessel;
 
 pub use appearance::{observe, Appearance};
 pub use bench::{Bench, BenchError};
+pub use compartment::{Compartment, Environment, Interface, InterfaceKind, ResolvedState, VolumeMode};
 pub use curated::CuratedEquilibrator;
+pub use lot::{LotId, LotSource, MaterialLot};
 pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
 pub use displacement::DisplacementEquilibrator;
 pub use ops::{Event, Instrument, LogEntry, Operator};
