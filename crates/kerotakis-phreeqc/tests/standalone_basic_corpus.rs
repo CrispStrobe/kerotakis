@@ -16,7 +16,6 @@ struct DifferenceFixture {
     class: DifferenceClass,
     observable_tolerance: usize,
     preview_lines: usize,
-    legacy_lines: usize,
     explanation: &'static str,
 }
 
@@ -31,7 +30,6 @@ const DIFFERENCES: &[DifferenceFixture] = &[
         class: DifferenceClass::ExpectedSemanticDifference,
         observable_tolerance: 0,
         preview_lines: 21,
-        legacy_lines: 27,
         explanation: "MY-BASIC applies logical NOT to the parenthesized equality, so the same/different branches are exclusive; the legacy oracle emits six extra equations",
     },
     DifferenceFixture {
@@ -39,7 +37,6 @@ const DIFFERENCES: &[DifferenceFixture] = &[
         class: DifferenceClass::ExpectedSemanticDifference,
         observable_tolerance: 0,
         preview_lines: 21,
-        legacy_lines: 27,
         explanation: "MY-BASIC applies logical NOT to the parenthesized equality, so the same/different branches are exclusive; the legacy oracle emits six extra equations",
     },
     DifferenceFixture {
@@ -47,7 +44,6 @@ const DIFFERENCES: &[DifferenceFixture] = &[
         class: DifferenceClass::ExpectedSemanticDifference,
         observable_tolerance: 0,
         preview_lines: 56,
-        legacy_lines: 92,
         explanation: "the source's mutually exclusive equality branches follow standard parenthesized NOT semantics; the legacy oracle emits 36 extra equations",
     },
     DifferenceFixture {
@@ -55,7 +51,6 @@ const DIFFERENCES: &[DifferenceFixture] = &[
         class: DifferenceClass::ExpectedSemanticDifference,
         observable_tolerance: 0,
         preview_lines: 126,
-        legacy_lines: 237,
         explanation: "the source's mutually exclusive equality branches follow standard parenthesized NOT semantics; the legacy oracle emits 111 extra equations",
     },
     DifferenceFixture {
@@ -63,7 +58,6 @@ const DIFFERENCES: &[DifferenceFixture] = &[
         class: DifferenceClass::FormattingOnly,
         observable_tolerance: 0,
         preview_lines: 5,
-        legacy_lines: 5,
         explanation: "the four equations and final 4/4 counters agree; only comma-PRINT field spacing differs",
     },
     DifferenceFixture {
@@ -71,7 +65,6 @@ const DIFFERENCES: &[DifferenceFixture] = &[
         class: DifferenceClass::FormattingOnly,
         observable_tolerance: 0,
         preview_lines: 134,
-        legacy_lines: 134,
         explanation: "the 133 equations and final 133/216 counters agree; only comma-PRINT field spacing differs",
     },
     DifferenceFixture {
@@ -79,7 +72,6 @@ const DIFFERENCES: &[DifferenceFixture] = &[
         class: DifferenceClass::FormattingOnly,
         observable_tolerance: 0,
         preview_lines: 430,
-        legacy_lines: 430,
         explanation: "the 429 equations and final 429/1296 counters agree; only comma-PRINT field spacing differs",
     },
 ];
@@ -160,7 +152,7 @@ fn every_standalone_basic_file_matches_its_backend_oracle() {
     ];
 
     let preview_expected = [
-        (21, 0xe7e4ec4fee4e6f95),
+        (21, 0xe7e4ec4fee4e6f95u64),
         (6, 0x7abcd8d539780975),
         (72, 0x90fb594757a27dab),
         (21, 0xa88de414828188d5),
@@ -169,17 +161,6 @@ fn every_standalone_basic_file_matches_its_backend_oracle() {
         (134, 0x14a4d93b194b0ec4),
         (126, 0x3490192127692d7d),
         (430, 0x954fd6e1ffe321cb),
-    ];
-    let legacy_expected = [
-        (27, 0xf5dbfb20b1affffd),
-        (6, 0x7abcd8d539780975),
-        (72, 0x90fb594757a27dab),
-        (27, 0x3484d653182c4435),
-        (5, 0x14b37be633dfcc59),
-        (92, 0x5f4562b9fbc5281f),
-        (134, 0x4fa8f410be42515d),
-        (237, 0xd19457a55c83510f),
-        (430, 0x9274fdadd32499d0),
     ];
 
     for (index, (name, program)) in programs.into_iter().enumerate() {
