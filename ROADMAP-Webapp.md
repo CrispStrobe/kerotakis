@@ -1021,7 +1021,7 @@ LIC-002.
 - [x] **ARCH-002 — Add typed quantity gaps.** Introduce types for power,
   current, potential, area, amount density, flow, and photon flux, with unit
   round-trip tests.
-- [ ] **ARCH-003 — Introduce `ConservedLedger` in shadow mode.** Derive it from
+- [x] **ARCH-003 — Introduce `ConservedLedger` in shadow mode.** Derive it from
   every current vessel without changing behavior. Assert element, mass, charge,
   and sensible-energy agreement after every existing operation.
 - [ ] **ARCH-004 — Introduce `MaterialLot`.** Record additions and transfers
