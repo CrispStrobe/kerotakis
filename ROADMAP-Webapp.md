@@ -1300,7 +1300,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [ ] **THERMO-004 — Complete UNIFAC only from approved parameters.** Every
   group and interaction parameter points to an allowlisted source record; the
   proprietary consortium table is mechanically blocked.
-- [ ] **THERMO-005 — Implement bubble/dew and TP flash.** Validate ideal limits,
+- [x] **THERMO-005 — Implement bubble/dew and TP flash.** Validate ideal limits,
   pure-component limits, and phase/material balance.
 - [ ] **THERMO-006 — Add HP and UV flashes.** Couple energy and phase state;
   verify latent-heat plateaus and sealed-vessel pressure.
