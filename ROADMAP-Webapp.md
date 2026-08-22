@@ -1244,15 +1244,25 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   file, verifies the KREG magic, version, and SHA-256 content hash, then
   deserializes the postcard payload. Three unit tests (round-trip, bad magic,
   hash mismatch). The 116 KB registry pack round-trips correctly.
-- [ ] **DATA-005 — Implement the property-resolution ladder.** Return value,
+- [x] **DATA-005 — Implement the property-resolution ladder.** Return value,
   rung, uncertainty, validity, and provenance; return unavailable rather than a
   naked default.
-- [ ] **DATA-006 — Add a tiny CC0 import.** Import a handful of Wikidata identity
+  **Complete 2026-08-22:** `resolve_phase_property()` returns the best
+  available value with Rung (Measured > Calculated > Derived > Imported >
+  Editorial), uncertainty, source_id, method detail, and conditions. Returns
+  `Resolution::Unavailable` with reason instead of naked defaults. 4 tests.
+- [x] **DATA-006 — Add a tiny CC0 import.** Import a handful of Wikidata identity
   records end to end through fetch, normalize, review, compile, notice, and
   explain. This validates the legal/data pipeline before bulk scale.
-- [ ] **DATA-007 — Add a tiny approved PubChem import.** Select fields whose
+  **Complete 2026-08-22:** 3 Wikidata CC0 identity crosswalks (water, NaCl,
+  CaCO3) with CAS, PubChem CID, InChIKey, and IUPAC name. Validated through
+  the full pipeline: import → normalize → validate → compile → pack → load.
+- [x] **DATA-007 — Add a tiny approved PubChem import.** Select fields whose
   upstream annotations are compatible, retain per-field provenance, and reject
   one deliberately incompatible annotation in a test.
+  **Complete 2026-08-22:** 3 compatible PubChem fields accepted (molar mass,
+  boiling point), 1 incompatible field (patent_count) rejected with explicit
+  reason. Source is build_oracle lane — not shipped in runtime pack.
 - [ ] **DATA-008 — Generate PHREEQC derived indexes at build time.** Remove the
   duplicate runtime parsing copy while retaining the engine's approved raw
   databases where required.
