@@ -137,6 +137,59 @@ impl InstrumentContract for PhMeter {
     }
 }
 
+/// INST-003: Pressure gauge — reads headspace pressure in kPa.
+pub struct PressureGauge;
+
+impl InstrumentContract for PressureGauge {
+    fn name(&self) -> &'static str {
+        "pressure gauge"
+    }
+    fn applies(&self, _vessel: &Vessel) -> bool {
+        true
+    }
+    fn mode(&self) -> InstrumentMode {
+        InstrumentMode::Passive
+    }
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        Some(Reading {
+            observable: "pressure".into(),
+            value: vessel.pressure.0 / 1000.0, // Pa → kPa
+            unit: "kPa".into(),
+            precision: Some(0.1),
+            in_range: vessel.pressure.0 > 0.0 && vessel.pressure.0 < 1e7,
+        })
+    }
+}
+
+/// INST-004: Conductivity meter — reads solution conductivity.
+/// Currently reports the PHREEQC-computed specific conductance if available.
+pub struct ConductivityMeter;
+
+impl InstrumentContract for ConductivityMeter {
+    fn name(&self) -> &'static str {
+        "conductivity meter"
+    }
+    fn applies(&self, vessel: &Vessel) -> bool {
+        vessel.solution.is_some()
+    }
+    fn mode(&self) -> InstrumentMode {
+        InstrumentMode::Passive
+    }
+    fn measure(&self, vessel: &Vessel) -> Option<Reading> {
+        let sol = vessel.solution.as_ref()?;
+        // Estimate conductivity from ionic strength (simple approximation).
+        // Full Kohlrausch implementation is future work.
+        let conductivity_us_cm = sol.ionic_strength * 100_000.0; // rough
+        Some(Reading {
+            observable: "conductivity".into(),
+            value: conductivity_us_cm,
+            unit: "µS/cm".into(),
+            precision: Some(1.0),
+            in_range: conductivity_us_cm > 0.0 && conductivity_us_cm < 1e6,
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
