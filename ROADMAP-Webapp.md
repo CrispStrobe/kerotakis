@@ -1230,11 +1230,20 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   passed the export/diff gates, strict Clippy and native tests on Ubuntu/macOS,
   both MY-BASIC previews, core/data/IPhreeqc/cache/combined Wasm, the Wasm
   bench, and the real-browser demo.
-- [ ] **DATA-003 — Compile a deterministic runtime pack.** Use a versioned binary
+- [x] **DATA-003 — Compile a deterministic runtime pack.** Use a versioned binary
   format with reproducible ordering and content hash; provide a human-readable
   inspection command.
-- [ ] **DATA-004 — Load the pack behind the current registry API.** Keep static
+  **Complete 2026-08-22:** `compile-registry` binary reads the JSON source
+  registry, validates it, serializes to postcard binary with a KREG header
+  (magic + version + SHA-256 content hash), and writes a `.pack` file.
+  586 KB JSON → 116 KB binary (5x reduction). Deterministic: same input
+  produces identical hash `cd14829b...`.
+- [x] **DATA-004 — Load the pack behind the current registry API.** Keep static
   Rust data as a fallback until all tests pass on native and Wasm.
+  **Complete 2026-08-22:** `load_pack()` in `kerotakis-data` reads a `.pack`
+  file, verifies the KREG magic, version, and SHA-256 content hash, then
+  deserializes the postcard payload. Three unit tests (round-trip, bad magic,
+  hash mismatch). The 116 KB registry pack round-trips correctly.
 - [ ] **DATA-005 — Implement the property-resolution ladder.** Return value,
   rung, uncertainty, validity, and provenance; return unavailable rather than a
   naked default.
