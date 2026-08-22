@@ -11,3 +11,4 @@ node_modules/
 error.inp
 phreeqc.log
 .claude/worktrees/
+data/registry/registry.pack
