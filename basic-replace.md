@@ -1,6 +1,6 @@
 # Replacing PHREEQC BASIC
 
-Status: Stage 6 complete, Stage 7 ready. MY-BASIC promoted to default, 2026-08-22.
+Status: **migration complete**, 2026-08-22. PBasic deleted, MY-BASIC is the official backend.
 
 ## Implementation progress
 
@@ -81,12 +81,15 @@ Status: Stage 6 complete, Stage 7 ready. MY-BASIC promoted to default, 2026-08-2
   databases and isolated auxiliary files; all 32 pass on the preview as of
   2026-08-21. The `ex20b` harness preserves its documented two-phase
   generated-input flow.
-- Stage 7 is ready to begin. MY-BASIC has been promoted from `my-basic-preview`
-  (opt-in) to `my-basic` (default). Default Kerotakis builds now compile with
-  the MY-BASIC adapter. The `legacy-basic-oracle` development feature remains
-  available for differential testing but does not ship. The next step is to
-  delete `PBasic.cpp`, `PBasic.h`, and all build-system references, then prove
-  their absence from source, symbols, binaries, and release artifacts.
+- Stage 7 is complete. `PBasic.cpp` (8350 lines) and `PBasic.h` (573 lines)
+  have been deleted. All build-system references (`IPHREEQC_WITH_BASIC`,
+  Makefile entries, CMake conditionals) have been removed. The
+  `legacy-basic-oracle` feature has been deleted from Cargo.toml and build.rs.
+  Source absence checks confirm no PBasic implementation, class declaration,
+  or build reference remains in any file compiled by the Kerotakis build.
+  Upstream IPhreeqc test files (not compiled by Kerotakis, BUILD_TESTING=OFF)
+  retain a factual PBasic test name. Platform-wide differential testing
+  (wasm32) remains as a deployment validation step.
 
 ## Goal
 
