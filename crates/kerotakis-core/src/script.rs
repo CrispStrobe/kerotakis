@@ -19,9 +19,7 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
     let words: Vec<&str> = line.split_whitespace().collect();
     let op = match words[0] {
         "register" | "inspect" | "explain" | "species" | "help" | "particles" | "zoom"
-        | "structure" | "identify" | "react" | "coverage" => {
-            return Ok(None)
-        }
+        | "structure" | "identify" | "react" | "coverage" => return Ok(None),
         "new" => Operator::NewVessel,
         "add" => {
             if words.len() < 4 {
@@ -139,6 +137,18 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     .map_err(|_| format!("bad fraction '{}'", words[3]))?,
             }
         }
+        "distil" | "distill" => {
+            if words.len() < 4 {
+                return Err("usage: distil <from> <to> <fraction>".into());
+            }
+            Operator::Distil {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+                fraction: words[3]
+                    .parse()
+                    .map_err(|_| format!("bad fraction '{}'", words[3]))?,
+            }
+        }
         // `look v1` — the youngest interaction there is.
         "look" | "observe" => Operator::Measure {
             vessel: parse_vessel(words.get(1).copied().unwrap_or("v1"))?,
@@ -215,7 +225,11 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
             let species_key = words[2];
             let _ = species::lookup_key(species_key)
                 .ok_or_else(|| format!("unknown species '{species_key}'"))?;
-            let diameter = parse_suffixed(words[3], &[("um", 1.0), ("μm", 1.0), ("mm", 1000.0), ("", 1.0)], "diameter")?;
+            let diameter = parse_suffixed(
+                words[3],
+                &[("um", 1.0), ("μm", 1.0), ("mm", 1000.0), ("", 1.0)],
+                "diameter",
+            )?;
             Operator::Grind {
                 vessel,
                 species: SpeciesId::new(species_key),

@@ -52,7 +52,6 @@ pub use integrator::{
     IntegrationError, IntegrationOptions, IntegrationReport, IntegrationStatistics,
 };
 
-
 /// Gas constant, J·mol⁻¹·K⁻¹.
 pub const R: f64 = 8.314_462_618;
 
@@ -1173,28 +1172,17 @@ pub fn advance_coupled<'a>(
         let snapshot = vessel.clone();
 
         // Path A: one full step
-        let report_full =
-            advance_network_with_options(vessel, dt, network, options)?;
+        let report_full = advance_network_with_options(vessel, dt, network, options)?;
         equilibrate(vessel);
-        let state_full: Vec<f64> = vessel
-            .contents
-            .iter()
-            .map(|p| p.moles.0)
-            .collect();
+        let state_full: Vec<f64> = vessel.contents.iter().map(|p| p.moles.0).collect();
 
         // Path B: two half-steps (from the snapshot)
         let mut vessel_half = snapshot.clone();
-        let report_h1 =
-            advance_network_with_options(&mut vessel_half, dt / 2.0, network, options)?;
+        let report_h1 = advance_network_with_options(&mut vessel_half, dt / 2.0, network, options)?;
         equilibrate(&mut vessel_half);
-        let report_h2 =
-            advance_network_with_options(&mut vessel_half, dt / 2.0, network, options)?;
+        let report_h2 = advance_network_with_options(&mut vessel_half, dt / 2.0, network, options)?;
         equilibrate(&mut vessel_half);
-        let state_half: Vec<f64> = vessel_half
-            .contents
-            .iter()
-            .map(|p| p.moles.0)
-            .collect();
+        let state_half: Vec<f64> = vessel_half.contents.iter().map(|p| p.moles.0).collect();
 
         // Measure splitting error (max absolute difference in moles)
         let error = state_full
@@ -1226,12 +1214,16 @@ pub fn advance_coupled<'a>(
         statistics.equilibrations += 2; // two half-step equilibrations
 
         // Accumulate half-step kinetics statistics
-        statistics.kinetics.accepted_steps += report_h1.statistics.accepted_steps
-            + report_h2.statistics.accepted_steps;
+        statistics.kinetics.accepted_steps +=
+            report_h1.statistics.accepted_steps + report_h2.statistics.accepted_steps;
 
         // Accumulate extents from the half-step reports
         for (reaction, moles) in report_h1.extents.iter().chain(report_h2.extents.iter()) {
-            if let Some(idx) = network.reactions.iter().position(|r| std::ptr::eq(r, *reaction)) {
+            if let Some(idx) = network
+                .reactions
+                .iter()
+                .position(|r| std::ptr::eq(r, *reaction))
+            {
                 totals[idx] += moles.0;
             }
         }
@@ -2116,7 +2108,9 @@ mod heterogeneous_tests {
     #[test]
     fn surface_area_models_serialize() {
         let constant = SurfaceAreaModel::Constant { area_m2: 0.01 };
-        let shrinking = SurfaceAreaModel::ShrinkingSphere { initial_area_m2: 0.05 };
+        let shrinking = SurfaceAreaModel::ShrinkingSphere {
+            initial_area_m2: 0.05,
+        };
         let specific = SurfaceAreaModel::SpecificArea { m2_per_g: 10.0 };
 
         for model in [constant, shrinking, specific] {
@@ -2129,7 +2123,9 @@ mod heterogeneous_tests {
     #[test]
     fn heterogeneous_rate_round_trips() {
         let rate = HeterogeneousRate {
-            surface: SurfaceAreaModel::ShrinkingSphere { initial_area_m2: 0.01 },
+            surface: SurfaceAreaModel::ShrinkingSphere {
+                initial_area_m2: 0.01,
+            },
             diffusion: Some(EffectiveDiffusion {
                 d_eff_m2_per_s: 1e-9,
                 layer_thickness_m: 1e-4,

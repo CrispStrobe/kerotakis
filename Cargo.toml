@@ -1,5 +1,6 @@
 [workspace]
 resolver = "2"
+exclude = ["sundials-kinetics-rs"]
 members = [
     "crates/kerotakis-core",
     "crates/kerotakis-cli",

@@ -3,13 +3,13 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::instrument::InstrumentContract;
 use crate::ops::{Event, Instrument, LogEntry, Operator};
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
-use crate::instrument::InstrumentContract;
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::{Headspace, ThermalMode, Vessel, VesselId};
 
@@ -670,10 +670,129 @@ impl Bench {
                         events.push(Event::NotYetModeled {
                             vessel: *vessel,
                             what: format!(
-                                "co-evaporation of {} needs vapour-liquid equilibrium (L3, not wired yet) — only the water was removed",
+                                "co-evaporation of {} needs vapour-liquid equilibrium — that is `distil`'s job; only the water was removed",
                                 other_liquids.join(", ")
                             ),
                         });
+                    }
+                }
+            }
+            Operator::Distil { from, to, fraction } => {
+                if !(0.0..=1.0).contains(fraction) {
+                    return Err(BenchError::BadFraction);
+                }
+                if from == to {
+                    return Err(BenchError::SelfTransfer);
+                }
+                self.vessel(*to)?; // the receiver must exist before the boil
+                let water = SpeciesId::new("water");
+                let ethanol = SpeciesId::new("ethanol");
+                let src = self.vessel_mut(*from)?;
+                // Ethanol counts in either label: with water present the
+                // aqueous pass files it as dissolved (it has no derived
+                // role, so it dissolves without speciation), and alone it
+                // is a liquid. Both are the same volatile matter.
+                let w: f64 = src
+                    .contents
+                    .iter()
+                    .filter(|p| p.species == water && p.phase == Phase::Liquid)
+                    .map(|p| p.moles.0)
+                    .sum();
+                let e: f64 = src
+                    .contents
+                    .iter()
+                    .filter(|p| {
+                        p.species == ethanol
+                            && (p.phase == Phase::Liquid || p.phase == Phase::Aqueous)
+                    })
+                    .map(|p| p.moles.0)
+                    .sum();
+                let volatile = w + e;
+                if volatile <= 0.0 {
+                    events.push(Event::NotYetModeled {
+                        vessel: *from,
+                        what: "distillation of a vessel with no liquid water or ethanol — \
+                               other volatile liquids need their Antoine constants curated \
+                               first"
+                            .to_string(),
+                    });
+                } else {
+                    let x_e = e / volatile;
+                    let pressure_kpa = src.pressure.0 / 1000.0;
+                    match kerotakis_thermo::vle::ethanol_water_bubble_point(x_e, pressure_kpa) {
+                        None => events.push(Event::NotYetModeled {
+                            vessel: *from,
+                            what: format!(
+                                "a bubble point for this mixture at {pressure_kpa:.1} kPa — \
+                                 outside the fitted Antoine ranges"
+                            ),
+                        }),
+                        Some(bp) => {
+                            // One equilibrium stage, vapour composition
+                            // frozen at the starting liquid's bubble point.
+                            // A real batch distillation is the Rayleigh
+                            // integral — y drifts as the pot composition
+                            // does — so this over-separates slightly for
+                            // large fractions. The azeotrope is where that
+                            // approximation is exact: y = x and nothing
+                            // drifts.
+                            let over = volatile * fraction;
+                            let e_over = (over * bp.y[0]).min(e);
+                            let w_over = (over - e_over).min(w);
+                            let removed_e = src.withdraw(&ethanol, Moles(e_over));
+                            let removed_w = src.withdraw(&water, Moles(w_over));
+                            let at = Kelvin(bp.t_celsius + 273.15);
+                            let azeotropic = bp.azeotropic;
+                            // The condensate carries the source's sensible
+                            // enthalpy into the receiver (adiabatic mixing,
+                            // the decant rule): the boil's latent and
+                            // sensible surplus came from the burner and is
+                            // externally powered, so the ledger must not
+                            // invent it. `at` reports where it boiled, not
+                            // what the receiver's thermometer reads.
+                            let t_from = src.temperature;
+                            let cp_in: f64 = [(&water, removed_w), (&ethanol, removed_e)]
+                                .iter()
+                                .filter_map(|(s, n)| {
+                                    species::lookup(s).map(|d| n.0 * d.heat_capacity)
+                                })
+                                .sum();
+                            let dst = self.vessel_mut(*to)?;
+                            if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
+                                let t_new = adiabatic_mix_temperature(
+                                    dst.temperature,
+                                    dst.heat_capacity(),
+                                    t_from,
+                                    cp_in,
+                                );
+                                if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
+                                    events.push(Event::TemperatureChanged {
+                                        vessel: *to,
+                                        from: dst.temperature,
+                                        to: t_new,
+                                    });
+                                }
+                                dst.temperature = t_new;
+                            }
+                            if removed_w.0 > 0.0 {
+                                dst.deposit(water.clone(), removed_w, Phase::Liquid);
+                            }
+                            if removed_e.0 > 0.0 {
+                                dst.deposit(ethanol.clone(), removed_e, Phase::Liquid);
+                            }
+                            // Like `evaporate`, the still is externally
+                            // powered: no vaporisation enthalpy is charged
+                            // to the ledger, and the thermometer after this
+                            // operator is not a claim (PLAN, known gaps).
+                            events.push(Event::Distilled {
+                                from: *from,
+                                to: *to,
+                                water: removed_w,
+                                ethanol: removed_e,
+                                at,
+                                azeotropic,
+                            });
+                        }
                     }
                 }
             }
@@ -910,7 +1029,11 @@ impl Bench {
                     Err(why) => events.push(Event::NoCell { a: *a, b: *b, why }),
                 }
             }
-            Operator::Grind { vessel, species, diameter_um } => {
+            Operator::Grind {
+                vessel,
+                species,
+                diameter_um,
+            } => {
                 let _v = self.vessel(*vessel)?;
                 events.push(Event::NotYetModeled {
                     vessel: *vessel,
@@ -921,7 +1044,11 @@ impl Bench {
                     ),
                 });
             }
-            Operator::Irradiate { vessel, wavelength_nm, irradiance_w_m2 } => {
+            Operator::Irradiate {
+                vessel,
+                wavelength_nm,
+                irradiance_w_m2,
+            } => {
                 let _v = self.vessel(*vessel)?;
                 events.push(Event::NotYetModeled {
                     vessel: *vessel,
@@ -961,7 +1088,9 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         Operator::Evaporate { vessel, .. } | Operator::Ignite { vessel } => vec![*vessel],
         // Electrolysis moves matter, so the vessel is re-settled after it.
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
-        Operator::Decant { from, to, .. } | Operator::Filter { from, to } => vec![*from, *to],
+        Operator::Decant { from, to, .. }
+        | Operator::Filter { from, to }
+        | Operator::Distil { from, to, .. } => vec![*from, *to],
         Operator::Grind { vessel, .. } | Operator::Irradiate { vessel, .. } => vec![*vessel],
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         Operator::Wait { .. } => vec![],

@@ -211,7 +211,12 @@ pub fn check(case: &str, before: &Vessel, after: &Vessel, events: &[Event]) -> V
     // *species*, so ion pairing puts the two a few tenths of a kelvin
     // apart. That gap is real information, not noise to be papered over
     // with a margin — it is only used when the engine made no claim at all.
-    let claimed_freezing = events.iter().find_map(|e| match e {
+    //
+    // The claim to check is the engine's *last* one: partial freezing
+    // settles iteratively — freeze, concentrate the residual brine,
+    // re-state the transition at the lower liquidus — so earlier events
+    // record the onset, not where the vessel ended up.
+    let claimed_freezing = events.iter().rev().find_map(|e| match e {
         Event::StateChanged { at, .. } => Some(at.0),
         _ => None,
     });

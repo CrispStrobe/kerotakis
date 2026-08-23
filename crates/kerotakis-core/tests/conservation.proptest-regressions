@@ -1,0 +1,7 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc da32d24b98f29a40f571f969b757e26b52bc16c7d01ee03fc40d380086867b3c # shrinks to ops = [AddWater { celsius: 0.0, moles: 0.001 }, NewVessel, Distil { from: 0, to: 1, fraction: 0.4357638271163302 }]

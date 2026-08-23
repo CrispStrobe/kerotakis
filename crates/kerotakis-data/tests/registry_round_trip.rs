@@ -23,10 +23,7 @@ fn source_registry_loads_and_validates() {
         serde_json::from_str(&json).expect("registry source must parse");
 
     // Verify basic structure
-    assert!(
-        !doc.sources.is_empty(),
-        "registry must have source records"
-    );
+    assert!(!doc.sources.is_empty(), "registry must have source records");
     assert!(
         !doc.identities.is_empty(),
         "registry must have identity records"
@@ -66,10 +63,17 @@ fn pack_covers_all_hand_authored_species() {
     let pack_names: Vec<&str> = doc.identities.iter().map(|id| id.name.as_str()).collect();
 
     // Check a representative sample of the 75 species
-    let expected = ["water", "sodium chloride", "hydrochloric acid", "sodium hydroxide"];
+    let expected = [
+        "water",
+        "sodium chloride",
+        "hydrochloric acid",
+        "sodium hydroxide",
+    ];
     for name in &expected {
         assert!(
-            pack_names.iter().any(|n| n.to_lowercase().contains(&name.to_lowercase())),
+            pack_names
+                .iter()
+                .any(|n| n.to_lowercase().contains(&name.to_lowercase())),
             "species '{}' missing from pack registry (names: {:?})",
             name,
             &pack_names[..5]
@@ -94,9 +98,6 @@ fn provenance_records_all_have_lanes() {
     for source in &doc.sources {
         // lane is an enum (Runtime, BuildOracle, ExternalOracle) — always set
         let _ = &source.lane; // type check: SourceLane is not Option
-        assert!(
-            !source.id.is_empty(),
-            "source record has empty id"
-        );
+        assert!(!source.id.is_empty(), "source record has empty id");
     }
 }

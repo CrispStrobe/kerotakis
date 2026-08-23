@@ -5,7 +5,7 @@
 //! with explicit energy and mass accounting.
 
 use crate::species::{Phase, SpeciesId};
-use crate::units::{Joules, Kelvin, Moles, Watts, Seconds};
+use crate::units::{Joules, Kelvin, Moles, Seconds, Watts};
 use crate::vessel::Vessel;
 
 /// A heat source with explicit power and heat-loss model (APP-001).
@@ -59,9 +59,9 @@ impl HeatSource {
         let final_temp = if h > 1e-15 {
             // Analytical solution for dT/dt = (P - h*(T - T_amb)) / Cp
             let t_amb = self.ambient.0;
-            let t_eq = t_amb + p / h; // equilibrium temperature
-            t_amb + (from.0 - t_amb) * (-h * dt / cp).exp()
-                + (p / h) * (1.0 - (-h * dt / cp).exp())
+            // The (p / h) terms below are the approach to the equilibrium
+            // temperature t_amb + p/h.
+            t_amb + (from.0 - t_amb) * (-h * dt / cp).exp() + (p / h) * (1.0 - (-h * dt / cp).exp())
         } else {
             // No heat loss: linear temperature rise
             from.0 + p * dt / cp
@@ -223,7 +223,9 @@ pub struct RecrystallizationResult {
 /// hot and cold determines how much crystallizes out.
 pub fn recrystallize(
     dissolved_moles: f64,
-    solubility_hot_mol_per_l: f64,
+    // Unused until the model checks that the hot solution was actually
+    // unsaturated; kept in the signature because that check belongs here.
+    _solubility_hot_mol_per_l: f64,
     solubility_cold_mol_per_l: f64,
     volume_l: f64,
     solution_cp_j_per_k: f64,
@@ -387,8 +389,7 @@ mod tests {
             1.0,  // hot solubility
             0.5,  // cold solubility
             0.1,  // 100 mL → can hold 0.05 mol cold
-            418.0,
-            50.0,
+            418.0, 50.0,
         );
         assert_eq!(result.recovered_moles, 0.0);
         assert_eq!(result.recovery, 0.0);
@@ -467,11 +468,7 @@ pub struct ReactorResult {
 }
 
 /// Design a batch reactor for a first-order reaction.
-pub fn batch_reactor(
-    initial_concentration: f64,
-    rate_constant: f64,
-    time_s: f64,
-) -> ReactorResult {
+pub fn batch_reactor(initial_concentration: f64, rate_constant: f64, time_s: f64) -> ReactorResult {
     let x = batch_conversion(rate_constant, time_s);
     ReactorResult {
         conversion: x,

@@ -7,7 +7,6 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::units::{Joules, Kelvin};
 use crate::vessel::Vessel;
 
 /// What an instrument does to the system when it measures.
@@ -279,17 +278,17 @@ impl InstrumentContract for Spectrophotometer {
         "spectrophotometer"
     }
     fn applies(&self, vessel: &Vessel) -> bool {
-        vessel.contents.iter().any(|p| p.phase == crate::species::Phase::Aqueous)
+        vessel
+            .contents
+            .iter()
+            .any(|p| p.phase == crate::species::Phase::Aqueous)
     }
     fn mode(&self) -> InstrumentMode {
         InstrumentMode::Passive
     }
     fn measure(&self, vessel: &Vessel) -> Option<Reading> {
         let spectrum = self.measure_spectrum(vessel);
-        let peak_abs = spectrum
-            .iter()
-            .copied()
-            .fold(0.0f64, f64::max);
+        let peak_abs = spectrum.iter().copied().fold(0.0f64, f64::max);
         let peak_idx = spectrum
             .iter()
             .position(|&a| (a - peak_abs).abs() < 1e-15)
@@ -301,7 +300,7 @@ impl InstrumentContract for Spectrophotometer {
             value: peak_abs,
             unit: "AU".into(),
             precision: Some(0.001),
-            in_range: peak_abs >= 0.0 && peak_abs < 4.0,
+            in_range: (0.0..4.0).contains(&peak_abs),
         })
     }
 }

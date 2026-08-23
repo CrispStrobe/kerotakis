@@ -88,7 +88,7 @@ mod tests {
         // Water Antoine constants (NIST, kPa form)
         let water = Volatile {
             antoine: Antoine {
-                a: 8.07131 - 2.0,   // adjusted to kPa
+                a: 8.07131 - 2.0, // adjusted to kPa
                 b: 1730.63,
                 c: 233.426,
                 valid_c: (1.0, 100.0),

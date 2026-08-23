@@ -873,9 +873,19 @@ The pipeline, honestly bounded:
   bridging onnxruntime-web: two incompatible wasm contexts. If the ML tier
   ever ships: `tract` (pure Rust, wasm-clean) for small models, `candle` /
   `burn` for larger. Deferred with the ML tier itself.
-- `rdkit-rs` — dormant, needs native C++ RDKit, no wasm story; RDKit
-  MinimalLib's maintainer stepped down 2026-04. Indigo is primary at runtime;
-  RDKit serves at build time (oracle table above).
+- `rdkit-rs` — dormant, needs native C++ RDKit, no wasm story. Indigo is
+  primary at runtime; RDKit serves at build time (oracle table above).
+  **Corrected 2026-08-23:** what lost its maintainer in 2026-04 was the
+  `rdkit-js` npm/wrapper repo — RDKit's actual wasm core
+  (`Code/MinimalLib`, including its C-ABI `cffi` build) lives in the core
+  repo and is maintained by the core team. We consume wasm modules
+  directly (the IPhreeqc pattern), so the orphaned wrapper is irrelevant
+  and there is nothing to adopt. MinimalLib/cffi is hereby the recorded
+  **fallback for L4's runtime** — best-in-class `RunReactants`, C ABI
+  usable from Rust without `rdkit-rs` — if the self-built Indigo wasm
+  with `indigoTransform`/`indigoReactionProductEnumerate` disappoints.
+  Decide by compile-test when L4 arrives; heavier wasm than Indigo and a
+  curated API subset are the known costs. Not re-litigated before then.
 - NGL Viewer — MIT but dormant; its author moved to Mol*. Skip.
 
 **Watch list** (young or needs-work, but filling real gaps — see policy below):
@@ -884,7 +894,8 @@ The pipeline, honestly bounded:
   matching, canonical SMILES, 2D depiction, first-class wasm npm build. Three
   months old, bus-factor 1, self-reported RDKit parity. If it matures it
   replaces the Indigo FFI for everything except InChI; re-evaluate quarterly.
-- **Cantera via its generated C API** — Cantera 3.2 ships a generated clib
+- **Cantera via its generated C API** (BSD-3-Clause, verified 2026-08-23 —
+  clean under the shipping bar below) — Cantera 3.2 ships a generated clib
   (handle-based, no C++ at the boundary) covering equilibrate, kinetics rates
   and reactor networks, and **Emscripten/wasm support was merged upstream**
   into the 4.0 dev branch (2026-03; lead maintainer: "essentially no issues
@@ -896,8 +907,11 @@ The pipeline, honestly bounded:
   Emscripten side-module feasible. The option if L3 ever needs
   reference-quality multiparameter mixtures beyond feos.
 - `GEMS3K` (PSI) — LGPL-3.0 Gibbs minimiser, markedly better than PHREEQC for
-  non-ideal solid solutions and melts. LGPL manageable for desktop/server,
-  awkward for static wasm/App Store. The option if L2 hits that wall.
+  non-ideal solid solutions and melts. **Excluded from shipping by the
+  permissive-only bar (2026-08-23)** — previously "manageable for
+  desktop/server", no longer: nothing copyleft links into a shipped
+  artifact. Remains available as a build-time differential oracle if L2
+  hits that wall.
 - `mcubes` — MIT marching cubes written for electron-density meshing; young
   0.1.x. Build-time mesh pipeline first choice; vendoring the ~200-line
   algorithm is the fallback.
@@ -921,16 +935,63 @@ licences verified via repository metadata that day):
   invariants are load-bearing and which decorative), `cargo-fuzz`,
   `cargo-deny`, `cargo-about`, `release-plz`, `taplo`.
 
+**Queued by the 2026-08-23 review** (mapped to CAP/OPT tasks in
+[CAPABILITIES.md](CAPABILITIES.md) and [OPTIMIZATION.md](OPTIMIZATION.md);
+licences verified against upstream that day unless marked):
+
+- **Official IUPAC InChI ≥ 1.07.1** (MIT since 2024-08; upstream
+  demonstrates an Emscripten/wasm build) — the identity layer's real
+  library, vendorable native + wasm on the IPhreeqc pattern. CAP-13.
+- `contour` (Apache-2.0) — marching-squares isolines/regions for
+  predominance diagrams (CAP-4). Its sibling `contour-isobands` is
+  AGPL-3.0 and barred by the shipping bar.
+- `argmin` (MIT OR Apache-2.0, active) — pure-Rust 1-D/derivative-free
+  optimization for CAP-9; rust-cv's `levenberg-marquardt` (MINPACK port)
+  if multi-parameter fitting ever arrives.
+- `rand` + `rand_distr` + `rand_chacha`, `statrs` (MIT/Apache-2.0) —
+  seeded, named PRNG and distributions for Monte Carlo (CAP-8).
+- `rayon` (MIT OR Apache-2.0) — native parallelism for studies, grids
+  and the sweep harness (CAP-2); wasm stays serial.
+- `num-rational`/`num-bigint` (MIT OR Apache-2.0) — exact null-space
+  arithmetic for underdetermined balancing (CAP-7).
+- `csv` (Unlicense OR MIT) — learner measurement import (CAP-9).
+- `physical_constants` (MIT OR Apache-2.0, CODATA) — fundamental
+  constants with provenance still recorded per value (CAP-6).
+- `talc` (MIT) — maintained small wasm allocator (`wee_alloc` is dead);
+  `mimalloc` (MIT) native CLI allocator; both adopted only on measured
+  deltas (OPT-2). `lasso`/`string-interner` (MIT/Apache-2.0) if
+  `SpeciesId` interning gets filed (OPT-4 follow-up).
+- `poloto` or `plotters` (MIT; licences to re-verify at adoption) —
+  only if hand-rolled SVG from the CAP-3 chart contract proves
+  insufficient; prototype without them first.
+- Vendored KaTeX (MIT) — optional lv2 equation rendering in the PWA;
+  polish, not architecture.
+
 ### Adopt-and-extend policy
 
 A tool is not disqualified because it needs work from us — forking, wasm
 compiles, FFI bindings, feature-gating out bad deps — **if it fills a gap no
 equally good, licence-compatible tool fills**. `cea-rs`, `chematic`, `teqp`,
 YAeHMOP, the Cantera clib, a KiThe fork and the `unifac` crate's algorithm are
-all in that category. A tool *is* disqualified by: incompatible licence on code
-we'd ship (GPL-only, NC), non-redistributable embedded data, or a dead upstream
-*plus* an equally good maintained alternative. When we extend, we upstream
-patches where the project is alive and fork visibly where it is not.
+all in that category. A tool *is* disqualified by: a non-permissive licence
+on code we'd ship (see the shipping bar), non-redistributable embedded data,
+or a dead upstream *plus* an equally good maintained alternative. When we
+extend, we upstream patches where the project is alive and fork visibly
+where it is not.
+
+**The shipping bar, hardened 2026-08-23.** Code that ships — linked into
+any binary, wasm module or app-store build — must be MIT, Apache-2.0,
+BSD-2/3-Clause, Zlib, Unlicense/CC0 or public domain (USGS). **No GPL-family
+licence ships, LGPL included** — this supersedes every earlier "LGPL is
+manageable on desktop" reasoning in this document. Two independent reasons:
+static wasm and app-store builds have no honest relink story, and the
+NOTICE §7 app-store permission can only be granted by copyright holders, so
+a copyleft dependency would poison the store binaries. Build-time tools and
+oracles that never link into a shipped artifact (xtb, CREST, Reaktoro,
+PySCF, GEMS3K-as-oracle …) are exempt and stay recorded in `tools/`
+provenance. Enforcement is a CI lint — `cargo-deny` licence allowlist,
+scoped as CAP-14 in [CAPABILITIES.md](CAPABILITIES.md) — not reviewer
+memory.
 
 #### Shipping bar, hardened 2026-08-23
 
@@ -2565,6 +2626,37 @@ vendoring; frozen 2023. **MolReactGen** — thesis artifact, dead 2024,
 inherits mhn-react's data and its ambiguity. **The HF enzyme-interaction
 model** — zero downloads, no paper/metrics/config, bare pickle checkpoint:
 untouchable, and biochemistry is parked regardless.
+
+### Performance pass — cross-cutting, gated on measurement
+
+A full-workspace survey (2026-08-23) found the hot paths concentrated in
+two places — the redox bisection around uncached engine calls in
+`kerotakis-phreeqc` (worst case ~272 full PHREEQC solves per vessel
+equilibration, each one a wasm↔JS round trip in the browser) and
+per-iteration allocation inside the CEA Newton loop — plus free wins
+nobody has claimed (no `[profile.release]`, no `wasm-opt` pass, a
+`const` species table inlined into five crates). The tasks are scoped,
+ordered and agent-executable in **[OPTIMIZATION.md](OPTIMIZATION.md)**,
+under one rule: benchmarks land first, and no optimization merges
+without a before/after number recorded next to it. Chemistry output is
+the contract throughout — the one task allowed to move a converged pe
+in its last digits (OPT-7) says so explicitly and must still pass every
+existing test unchanged.
+
+### Capability parity — measured against the neighbours
+
+A capability inventory (2026-08-23) compared the shipped product
+surface against ChemPy (the open-source reference for exposed
+relations, properties and balancing) and against the commercial
+PHREEQC-workbench class (parameter studies, Monte Carlo, predominance
+diagrams, fitting). Verdict: our solver depth already exceeds both in
+places, but whole finished capabilities are unreachable — the VLE
+crate has no dependent, the `USER_GRAPH` plumbing feeds no chart, and
+there is no user-facing sweep, diagram, or uncertainty anywhere. The
+gaps worth closing are scoped as CAP-1…CAP-14 in
+**[CAPABILITIES.md](CAPABILITIES.md)**, which also records what is
+deliberately declined as off-mission and points at the R-stages that
+already own the rest.
 
 ---
 

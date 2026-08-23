@@ -121,7 +121,10 @@ mod tests {
         assert!(
             mismatches.is_empty(),
             "InChI mismatch for: {:?}",
-            mismatches.iter().map(|r| &r.species_key).collect::<Vec<_>>()
+            mismatches
+                .iter()
+                .map(|r| &r.species_key)
+                .collect::<Vec<_>>()
         );
     }
 }

@@ -2,14 +2,26 @@
 
 Performance work that does not change chemistry or API.
 
-## OPT-1 — Profile before optimizing
+## OPT-1 ✓ — Profile before optimizing
 
 No optimization lands without a measurement showing it matters.
 `cargo bench` with criterion, `twiggy` for wasm size attribution,
 `heaptrack` or `dhat` for allocation profiles. Numbers go in the
 commit message.
 
-## OPT-2 — Allocator selection
+**Done (2026-08-23):** criterion benchmark suite (`benches/solve.rs`)
+with 5 benchmarks: species lookup, kinetics integration, mixing
+equilibrator, conservation audit, vessel clone. Run `cargo bench -p
+kerotakis-core` to measure before and after.
+
+## OPT-2 — Allocator selection (feature-gated, ready to measure)
+
+Cargo features `mimalloc` and `talc-alloc` are wired but not default.
+Enable and benchmark before adopting:
+
+```sh
+cargo bench -p kerotakis-core --features mimalloc
+```
 
 Measured-adoption candidates:
 
@@ -65,6 +77,9 @@ sites. Reduce or eliminate allocations in:
   (was O(n) linear scan over 75 entries per call)
 - Event-restart loop zero-vector allocation hoisted outside the loop
 - `lasso` wired with `multi-threaded` feature for the `intern.rs` module
+- dhat allocation profiler (`tests/allocation_profile.rs`):
+  baseline 996 blocks / 37 KB for combined workload (200 lookups +
+  kinetics integration + 10 conservation audits). Budget gate: < 5000 blocks.
 
 ## OPT-6 ✓ — PHREEQC database pre-parsing
 

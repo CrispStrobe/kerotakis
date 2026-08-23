@@ -1551,12 +1551,7 @@ fn lookup_index() -> &'static std::collections::HashMap<&'static str, &'static S
     use std::sync::OnceLock;
     static INDEX: OnceLock<std::collections::HashMap<&'static str, &'static SpeciesData>> =
         OnceLock::new();
-    INDEX.get_or_init(|| {
-        registry()
-            .iter()
-            .map(|s| (s.key, s))
-            .collect()
-    })
+    INDEX.get_or_init(|| registry().iter().map(|s| (s.key, s)).collect())
 }
 
 pub fn lookup(id: &SpeciesId) -> Option<&'static SpeciesData> {

@@ -31,6 +31,11 @@ enum RandOp {
         to: usize,
         fraction: f64,
     },
+    Distil {
+        from: usize,
+        to: usize,
+        fraction: f64,
+    },
     Measure,
 }
 
@@ -45,6 +50,11 @@ fn rand_op() -> impl Strategy<Value = RandOp> {
         (0.1f64..20_000.0).prop_map(|joules| RandOp::Cool { joules }),
         Just(RandOp::NewVessel),
         (0usize..4, 0usize..4, 0.0f64..1.0).prop_map(|(from, to, fraction)| RandOp::Decant {
+            from,
+            to,
+            fraction
+        }),
+        (0usize..4, 0usize..4, 0.0f64..1.0).prop_map(|(from, to, fraction)| RandOp::Distil {
             from,
             to,
             fraction
@@ -117,6 +127,21 @@ fn apply(bench: &mut Bench, op: &RandOp) -> Option<f64> {
             }
             bench
                 .step(Operator::Decant {
+                    from: f,
+                    to: t,
+                    fraction: *fraction,
+                })
+                .map(|_| 0.0)
+        }
+        RandOp::Distil { from, to, fraction } => {
+            let (f, t) = (pick(*from), pick(*to));
+            if f == t {
+                return None;
+            }
+            // Externally powered, like `evaporate`: matter moves, the
+            // ledger's heat does not.
+            bench
+                .step(Operator::Distil {
                     from: f,
                     to: t,
                     fraction: *fraction,

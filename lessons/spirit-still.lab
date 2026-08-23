@@ -1,0 +1,20 @@
+# The spirit still — and the wall at 96 percent
+#
+# Wine is a few percent ethanol. One pass through a still enriches it,
+# a second pass more — and then the climb stops. Near 89 mol percent
+# the vapour has the same composition as the liquid, and boiling harder
+# enriches nothing. That wall is the azeotrope, and here it is computed
+# from activity coefficients, not looked up.
+register lv2
+new
+new
+new
+add v1 water 9.4mol
+add v1 ethanol 0.6mol
+inspect v1
+distil v1 v2 0.1
+inspect v2
+distil v2 v3 0.3
+inspect v3
+distil v3 v4 0.3
+inspect v4

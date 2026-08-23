@@ -38,7 +38,7 @@ pub fn apply_template(
 
     Ok(products
         .iter()
-        .flat_map(|p| p.iter().map(|m| chematic::smiles::write(m)))
+        .flat_map(|p| p.iter().map(chematic::smiles::write))
         .collect())
 }
 

@@ -41,8 +41,8 @@ pub struct ParsedMolecule {
 
 /// Parse a SMILES string and compute canonical identifiers.
 pub fn parse_smiles(smiles: &str) -> Result<ParsedMolecule, OrgError> {
-    let mol = chematic::smiles::parse(smiles)
-        .map_err(|e| OrgError::InvalidSmiles(format!("{e}")))?;
+    let mol =
+        chematic::smiles::parse(smiles).map_err(|e| OrgError::InvalidSmiles(format!("{e}")))?;
 
     let canonical = chematic::smiles::write(&mol);
     let mw = chematic::chem::molecular_weight(&mol);
@@ -61,17 +61,23 @@ pub fn parse_smiles(smiles: &str) -> Result<ParsedMolecule, OrgError> {
         let mut f = String::new();
         if let Some(&c) = counts.get("C") {
             f.push('C');
-            if c > 1 { f.push_str(&c.to_string()); }
+            if c > 1 {
+                f.push_str(&c.to_string());
+            }
             counts.remove("C");
         }
         if let Some(&h) = counts.get("H") {
             f.push('H');
-            if h > 1 { f.push_str(&h.to_string()); }
+            if h > 1 {
+                f.push_str(&h.to_string());
+            }
             counts.remove("H");
         }
         for (el, count) in &counts {
             f.push_str(el);
-            if *count > 1 { f.push_str(&count.to_string()); }
+            if *count > 1 {
+                f.push_str(&count.to_string());
+            }
         }
         f
     };

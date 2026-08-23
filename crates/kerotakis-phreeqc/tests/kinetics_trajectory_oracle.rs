@@ -6,10 +6,7 @@
 //! moles at every integration step — not just the final value. This catches
 //! cumulative drift between interpreter backends.
 
-#![cfg(all(
-    feature = "engine",
-    feature = "my-basic",
-))]
+#![cfg(all(feature = "engine", feature = "my-basic",))]
 
 use kerotakis_phreeqc::{databases, Phreeqc};
 use std::fs;
@@ -110,12 +107,10 @@ fn run_and_check_trajectory(name: &str) {
             expected.values.len(),
             data_rows.len()
         );
-        for (step, (row, &oracle_value)) in
-            data_rows.iter().zip(&expected.values).enumerate()
-        {
-            let actual: f64 = row[col_idx]
-                .parse()
-                .unwrap_or_else(|e| panic!("{name}/{} step {step}: not numeric: {e}", expected.column));
+        for (step, (row, &oracle_value)) in data_rows.iter().zip(&expected.values).enumerate() {
+            let actual: f64 = row[col_idx].parse().unwrap_or_else(|e| {
+                panic!("{name}/{} step {step}: not numeric: {e}", expected.column)
+            });
             assert!(
                 (actual - oracle_value).abs() <= expected.tolerance,
                 "{name}/{} step {step}: actual={actual:.15e}, oracle={oracle_value:.15e}, \

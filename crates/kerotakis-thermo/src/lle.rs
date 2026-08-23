@@ -148,9 +148,7 @@ mod tests {
         });
         match result {
             LleResult::TwoPhase {
-                x1_alpha,
-                x1_beta,
-                ..
+                x1_alpha, x1_beta, ..
             } => {
                 assert!(
                     x1_alpha < 0.5 && x1_beta > 0.5,

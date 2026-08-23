@@ -232,6 +232,25 @@ chemistry without one model silently undoing another.
 | Capability manifests and explicit validity | New model packs compose safely because the router knows what each one can and cannot claim. |
 | Differential oracles plus invariant tests | Coverage can grow rapidly without making correctness depend on one implementation or one dataset. |
 
+Orthogonal to coverage: the browser currently pays a wasm→JS→wasm round
+trip with full-report JSON marshalling for *every* PHREEQC engine call,
+and one vessel equilibration can make hundreds of them. The scoped fixes
+— fewer calls first, cheaper crossings only if measurement then says so —
+are OPT-7 and OPT-9 in [OPTIMIZATION.md](OPTIMIZATION.md), with the wasm
+bundle-size items (release profiles, `wasm-opt`, `const`→`static` species
+table) as OPT-2 and OPT-4 there.
+
+Also orthogonal: the capability-parity tasks in
+[CAPABILITIES.md](CAPABILITIES.md) (CAP-1…CAP-14) pull three of this
+roadmap's items forward as thin slices — `EXCHANGE`/`MIX` from R1
+(CAP-10), one VLE stage from R2 (CAP-1) — and add the product surface
+neither R-stage covers: user-facing parameter studies, charts,
+predominance diagrams, Monte Carlo uncertainty, named relations and
+property correlations with provenance. **Both files predate the R-stage
+execution sprint merged 2026-08-23 — cross-check each task against the
+current tree before starting it** (several are partly or wholly done;
+see the status notes added in those files).
+
 ## The target state model
 
 The most important backend change is to separate what the user put into the

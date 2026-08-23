@@ -60,9 +60,17 @@ impl Experiment {
         let b = (n * sxy - sx * sy) / denom;
         let a = (sy - b * sx) / n;
 
-        let ss_res: f64 = x.iter().zip(y).map(|(xi, yi)| (yi - a - b * xi).powi(2)).sum();
+        let ss_res: f64 = x
+            .iter()
+            .zip(y)
+            .map(|(xi, yi)| (yi - a - b * xi).powi(2))
+            .sum();
         let ss_tot = n * syy - sy * sy;
-        let r2 = if ss_tot.abs() > 1e-30 { 1.0 - n * ss_res / ss_tot } else { f64::NAN };
+        let r2 = if ss_tot.abs() > 1e-30 {
+            1.0 - n * ss_res / ss_tot
+        } else {
+            f64::NAN
+        };
 
         (a, b, r2)
     }

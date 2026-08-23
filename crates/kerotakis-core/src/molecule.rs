@@ -70,17 +70,23 @@ impl MoleculeGraph {
         // Hill system: C first, H second, then alphabetical
         if let Some(&c) = counts.get("C") {
             formula.push('C');
-            if c > 1 { formula.push_str(&c.to_string()); }
+            if c > 1 {
+                formula.push_str(&c.to_string());
+            }
             counts.remove("C");
             if let Some(&h) = counts.get("H") {
                 formula.push('H');
-                if h > 1 { formula.push_str(&h.to_string()); }
+                if h > 1 {
+                    formula.push_str(&h.to_string());
+                }
                 counts.remove("H");
             }
         }
         for (el, count) in &counts {
             formula.push_str(el);
-            if *count > 1 { formula.push_str(&count.to_string()); }
+            if *count > 1 {
+                formula.push_str(&count.to_string());
+            }
         }
         formula
     }
@@ -92,9 +98,13 @@ mod tests {
 
     fn water() -> MoleculeGraph {
         MoleculeGraph {
-            atoms: vec![
-                Atom { index: 0, element: "O".into(), formal_charge: 0, isotope: None, implicit_hydrogens: Some(2) },
-            ],
+            atoms: vec![Atom {
+                index: 0,
+                element: "O".into(),
+                formal_charge: 0,
+                isotope: None,
+                implicit_hydrogens: Some(2),
+            }],
             bonds: vec![],
             canonical_id: Some("XLYOFNOQVPJJNP-UHFFFAOYSA-N".into()),
         }
@@ -103,10 +113,26 @@ mod tests {
     fn nacl() -> MoleculeGraph {
         MoleculeGraph {
             atoms: vec![
-                Atom { index: 0, element: "Na".into(), formal_charge: 1, isotope: None, implicit_hydrogens: None },
-                Atom { index: 1, element: "Cl".into(), formal_charge: -1, isotope: None, implicit_hydrogens: None },
+                Atom {
+                    index: 0,
+                    element: "Na".into(),
+                    formal_charge: 1,
+                    isotope: None,
+                    implicit_hydrogens: None,
+                },
+                Atom {
+                    index: 1,
+                    element: "Cl".into(),
+                    formal_charge: -1,
+                    isotope: None,
+                    implicit_hydrogens: None,
+                },
             ],
-            bonds: vec![Bond { from: 0, to: 1, order: BondOrder::Single }],
+            bonds: vec![Bond {
+                from: 0,
+                to: 1,
+                order: BondOrder::Single,
+            }],
             canonical_id: None,
         }
     }

@@ -125,8 +125,6 @@ origin = "https://github.com/paladin-t/my_basic"
 terms = "vendor/my-basic/LICENSE"
 copyright = "2011-2026 Tony Wang"
 retrieved = "2026-08-21"
-revision = "38baab02ece70b650f5e687e485d879f80843256"
-revision_path = "vendor/my-basic"
 attribution = "MY-BASIC, Copyright (c) Tony Wang; MIT license; retain LICENSE file"
 paths = ["vendor/my-basic/my_basic.c", "vendor/my-basic/my_basic.h", "vendor/my-basic/LICENSE"]
 allowed_outputs = ["native-static-library", "emscripten-side-module"]
@@ -145,57 +143,6 @@ sha256 = "3a72d47d50c8f56084682a36d2a54252fdac33d481f0a5a6b065d8d2f44a35ea"
 [[source.checksum]]
 path = "vendor/my-basic/LICENSE"
 sha256 = "8156be51115207259348d3e553ae9b61ab305b8fe3d74ff358cb4d3fe992b6c3"
-
-[[source]]
-id = "iupac-inchi-library"
-name = "IUPAC InChI reference implementation"
-kind = "code"
-lane = "runtime-code"
-decision = "approved"
-licence = "MIT"
-origin = "https://github.com/nickvdg/InChI"
-copyright = "IUPAC and InChI Trust"
-retrieved = "2026-08-23"
-attribution = "IUPAC InChI, MIT licence since v1.07.1; vendored via inchi-sys crate"
-paths = []
-allowed_outputs = ["compiled-runtime-code"]
-targets = ["native"]
-reviewer = "Kerotakis engineering policy audit"
-notes = "The official IUPAC InChI C library (MIT since v1.07.1). Used for cross-validation against the pure-Rust chematic-inchi on native targets. Not available on wasm — the chematic path covers that target."
-
-[[source]]
-id = "kerotakis-thermo-vle"
-name = "Kerotakis VLE Antoine parameters"
-kind = "data"
-lane = "runtime-data"
-decision = "approved"
-licence = "AGPL-3.0-or-later"
-origin = "crates/kerotakis-thermo/src/vle.rs"
-copyright = "Kerotakis contributors"
-retrieved = "2026-08-22"
-attribution = "Antoine constants curated from published literature with individual source citations per compound"
-paths = ["crates/kerotakis-thermo/src/vle.rs"]
-allowed_outputs = ["compiled-runtime-code"]
-targets = ["native", "web", "ios", "android"]
-reviewer = "Kerotakis engineering policy audit"
-notes = "Parameters carry their own source strings in the source code. Individual constant sets are cited from NIST, Perry's, and original literature. No bulk import from an external database."
-
-[[source]]
-id = "chematic-toolkit"
-name = "chematic — pure-Rust cheminformatics"
-kind = "code"
-lane = "runtime-code"
-decision = "approved"
-licence = "MIT OR Apache-2.0"
-origin = "https://github.com/kent-tokyo/chematic"
-copyright = "kent-tokyo contributors"
-retrieved = "2026-08-22"
-attribution = "chematic, MIT or Apache-2.0; pure Rust, wasm-compatible"
-paths = []
-allowed_outputs = ["compiled-runtime-code"]
-targets = ["native", "web", "ios", "android"]
-reviewer = "Kerotakis engineering policy audit"
-notes = "Pure Rust SMILES/InChI/functional groups. No C/C++ deps. Version 0.18 pinned via Cargo.lock."
 
 [[source]]
 id = "nasa-cea-thermodynamic-data"
@@ -229,3 +176,12 @@ sha256 = "a60026be9384468d074c19425e552f1bb4a6f507f805e55a96fad586716168ed"
 [[source.checksum]]
 path = "vendor/nasa-cea/NOTICE.txt"
 sha256 = "03b64364559d540d97615c31675a69e8eb1965e30de8859a2f8c5c9a38ecb55e"
+
+# Scope, twice re-litigated on 2026-08-23 and twice resolved the same way:
+# first-party curated constants (the Antoine sets in vle.rs) carry their
+# provenance per-value in the code's `source` fields; crates.io
+# dependencies (chematic, contour, ...) are governed by deny.toml and
+# about.toml; the vendored IUPAC InChI gets its entry when the vendor
+# directory holds actual sources with checksums rather than a scaffold.
+# Entries for any of these that cannot pass this file's own lint do not
+# ship half-finished.

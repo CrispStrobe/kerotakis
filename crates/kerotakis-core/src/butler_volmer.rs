@@ -60,7 +60,7 @@ mod tests {
 
     fn typical_params() -> ButlerVolmerParams {
         ButlerVolmerParams {
-            j0: 1e-3,    // 1 mA/m²
+            j0: 1e-3, // 1 mA/m²
             alpha_a: 0.5,
             alpha_c: 0.5,
             n: 1.0,

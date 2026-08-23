@@ -26,7 +26,10 @@ pub fn txy_envelope(
         let x = i as f64 / n_points as f64;
         if let Some((t_bubble, y_vapor)) = bubble_fn(x) {
             bubble.push(PhasePoint { x, t: t_bubble });
-            dew.push(PhasePoint { x: y_vapor, t: t_bubble });
+            dew.push(PhasePoint {
+                x: y_vapor,
+                t: t_bubble,
+            });
         }
     }
 
@@ -50,13 +53,13 @@ pub fn contour_lines(
         let contours = builder.contours(grid, &[threshold]);
         if let Ok(features) = contours {
             for feature in features {
+                // Extract the contour coordinates. In contour 0.13
+                // `geometry()` returns the MultiPolygon directly, not an
+                // Option.
                 let geom = feature.geometry();
                 for ring in geom.0.iter() {
-                    let points: Vec<(f64, f64)> = ring
-                        .exterior()
-                        .points()
-                        .map(|p| (p.x(), p.y()))
-                        .collect();
+                    let points: Vec<(f64, f64)> =
+                        ring.exterior().points().map(|p| (p.x(), p.y())).collect();
                     if !points.is_empty() {
                         all_lines.push(points);
                     }
@@ -82,5 +85,10 @@ mod tests {
         assert_eq!(bubble.len(), 11);
         assert!((bubble[0].t - 80.0).abs() < 0.1);
         assert!((bubble[10].t - 100.0).abs() < 0.1);
+        // The dew curve shares the temperatures but sits at the vapour
+        // composition — here y = 0.9 x by construction.
+        assert_eq!(dew.len(), 11);
+        assert!((dew[10].x - 0.9).abs() < 1e-9);
+        assert!((dew[10].t - bubble[10].t).abs() < 1e-9);
     }
 }

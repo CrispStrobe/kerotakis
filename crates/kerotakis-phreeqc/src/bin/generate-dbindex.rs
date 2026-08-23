@@ -19,10 +19,22 @@ fn main() {
     fs::create_dir_all(&output_dir).unwrap();
 
     let databases = [
-        ("phreeqc", include_bytes!("../../../../vendor/iphreeqc/database/phreeqc.dat").as_slice()),
-        ("wateq4f", include_bytes!("../../../../vendor/iphreeqc/database/wateq4f.dat").as_slice()),
-        ("minteq_v4", include_bytes!("../../../../vendor/iphreeqc/database/minteq.v4.dat").as_slice()),
-        ("pitzer", include_bytes!("../../../../vendor/iphreeqc/database/pitzer.dat").as_slice()),
+        (
+            "phreeqc",
+            include_bytes!("../../../../vendor/iphreeqc/database/phreeqc.dat").as_slice(),
+        ),
+        (
+            "wateq4f",
+            include_bytes!("../../../../vendor/iphreeqc/database/wateq4f.dat").as_slice(),
+        ),
+        (
+            "minteq_v4",
+            include_bytes!("../../../../vendor/iphreeqc/database/minteq.v4.dat").as_slice(),
+        ),
+        (
+            "pitzer",
+            include_bytes!("../../../../vendor/iphreeqc/database/pitzer.dat").as_slice(),
+        ),
     ];
 
     for (name, data) in &databases {

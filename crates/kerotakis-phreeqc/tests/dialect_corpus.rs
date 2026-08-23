@@ -1,7 +1,4 @@
-#![cfg(all(
-    feature = "engine",
-    feature = "my-basic",
-))]
+#![cfg(all(feature = "engine", feature = "my-basic",))]
 
 use kerotakis_phreeqc::{databases, Phreeqc};
 
@@ -499,5 +496,8 @@ fn erase_statement_is_accepted_without_error() {
         )
         .expect("ERASE should not cause an error");
     let val = engine.last_value("result").unwrap();
-    assert!((val - 1.0).abs() < 1e-10, "program should complete after ERASE");
+    assert!(
+        (val - 1.0).abs() < 1e-10,
+        "program should complete after ERASE"
+    );
 }

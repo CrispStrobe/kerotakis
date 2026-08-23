@@ -57,11 +57,7 @@ pub fn diff_vessels(before: &Vessel, after: &Vessel, source: &'static str) -> St
             .unwrap_or(0.0);
         let change = after_moles - before_moles;
         if change.abs() > 1e-15 {
-            delta = delta.with_moles(
-                crate::species::SpeciesId::new(species),
-                *phase,
-                change,
-            );
+            delta = delta.with_moles(crate::species::SpeciesId::new(species), *phase, change);
         }
     }
 
@@ -176,7 +172,7 @@ impl Orchestrator {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::solve::{MixingEquilibrator, HonestyEquilibrator};
+    use crate::solve::{HonestyEquilibrator, MixingEquilibrator};
     use crate::species::SpeciesId;
     use crate::units::{Kelvin, Moles};
     use crate::vessel::VesselId;
@@ -205,7 +201,9 @@ mod tests {
         assert!(!v.contents.is_empty());
         // No solver failures
         assert!(
-            !events.iter().any(|e| matches!(e, Event::SolverFailed { .. })),
+            !events
+                .iter()
+                .any(|e| matches!(e, Event::SolverFailed { .. })),
             "unexpected solver failure: {:?}",
             events
         );
@@ -237,9 +235,7 @@ mod tests {
 
         let delta = diff_vessels(&before, &after, "test");
         assert!(!delta.is_empty());
-        assert!(
-            delta.net_moles(&SpeciesId::new("NaCl"), Phase::Aqueous) > 0.0
-        );
+        assert!(delta.net_moles(&SpeciesId::new("NaCl"), Phase::Aqueous) > 0.0);
     }
 
     #[test]
@@ -286,7 +282,9 @@ mod tests {
         assert!(delta.is_empty(), "honesty should produce no mutations");
         // Should report the unmodeled solid
         assert!(
-            events.iter().any(|e| matches!(e, Event::NotYetModeled { .. })),
+            events
+                .iter()
+                .any(|e| matches!(e, Event::NotYetModeled { .. })),
             "honesty should report unmodeled solids"
         );
     }
@@ -320,7 +318,9 @@ mod tests {
         );
         // No solver failures
         assert!(
-            !events.iter().any(|e| matches!(e, Event::SolverFailed { .. })),
+            !events
+                .iter()
+                .any(|e| matches!(e, Event::SolverFailed { .. })),
             "unexpected solver failure: {:?}",
             events
         );

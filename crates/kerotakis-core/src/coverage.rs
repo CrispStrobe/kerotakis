@@ -29,10 +29,7 @@ pub struct CoverageReport {
 }
 
 /// Generate a coverage manifest by querying each solver in the stack.
-pub fn coverage_manifest(
-    solvers: &[&dyn Equilibrator],
-    vessel: &Vessel,
-) -> CoverageReport {
+pub fn coverage_manifest(solvers: &[&dyn Equilibrator], vessel: &Vessel) -> CoverageReport {
     let solver_reports: Vec<SolverCoverage> = solvers
         .iter()
         .map(|s| {
@@ -41,14 +38,14 @@ pub fn coverage_manifest(
                 solver_name: s.name(),
                 applicable: cap.applicability.is_applicable(),
                 is_chemistry: cap.is_chemistry,
-                validity_notes: cap
-                    .validity
-                    .map(|v| format!("{v:?}")),
+                validity_notes: cap.validity.map(|v| format!("{v:?}")),
             }
         })
         .collect();
 
-    let any_chemistry = solver_reports.iter().any(|s| s.applicable && s.is_chemistry);
+    let any_chemistry = solver_reports
+        .iter()
+        .any(|s| s.applicable && s.is_chemistry);
     let mut uncovered = Vec::new();
     if !any_chemistry {
         uncovered.push("No chemistry solver applicable for this vessel state".into());

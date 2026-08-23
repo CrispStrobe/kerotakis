@@ -52,10 +52,7 @@ pub enum DeltaError {
         requested: f64,
     },
     /// Element totals don't balance (for reaction deltas).
-    ElementImbalance {
-        element: String,
-        net: f64,
-    },
+    ElementImbalance { element: String, net: f64 },
 }
 
 impl std::fmt::Display for DeltaError {
@@ -224,7 +221,11 @@ impl StateDelta {
             return Err(element_violations
                 .into_iter()
                 .map(|v| DeltaError::ElementImbalance {
-                    element: v.quantity.strip_prefix("element:").unwrap_or(&v.quantity).to_string(),
+                    element: v
+                        .quantity
+                        .strip_prefix("element:")
+                        .unwrap_or(&v.quantity)
+                        .to_string(),
                     net: v.delta,
                 })
                 .collect());
@@ -273,42 +274,33 @@ mod tests {
     #[test]
     fn deposit_delta_validates_and_applies() {
         let mut v = test_vessel();
-        let delta = StateDelta::new("test")
-            .with_moles(SpeciesId::new("HCl"), Phase::Aqueous, 0.05);
+        let delta = StateDelta::new("test").with_moles(SpeciesId::new("HCl"), Phase::Aqueous, 0.05);
 
         assert!(delta.validate(&v).is_empty());
         delta.apply(&mut v);
 
-        let hcl = v
-            .contents
-            .iter()
-            .find(|p| p.species.0 == "HCl")
-            .unwrap();
+        let hcl = v.contents.iter().find(|p| p.species.0 == "HCl").unwrap();
         assert!((hcl.moles.0 - 0.05).abs() < 1e-15);
     }
 
     #[test]
     fn withdrawal_within_limits_succeeds() {
         let mut v = test_vessel();
-        let delta = StateDelta::new("test")
-            .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.05);
+        let delta =
+            StateDelta::new("test").with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.05);
 
         assert!(delta.validate(&v).is_empty());
         delta.commit(&mut v).unwrap();
 
-        let nacl = v
-            .contents
-            .iter()
-            .find(|p| p.species.0 == "NaCl")
-            .unwrap();
+        let nacl = v.contents.iter().find(|p| p.species.0 == "NaCl").unwrap();
         assert!((nacl.moles.0 - 0.05).abs() < 1e-15);
     }
 
     #[test]
     fn withdrawal_beyond_limits_rejected() {
         let v = test_vessel();
-        let delta = StateDelta::new("test")
-            .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.2);
+        let delta =
+            StateDelta::new("test").with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.2);
 
         let errors = delta.validate(&v);
         assert_eq!(errors.len(), 1);
@@ -318,25 +310,21 @@ mod tests {
     #[test]
     fn commit_rejects_invalid_delta() {
         let mut v = test_vessel();
-        let delta = StateDelta::new("test")
-            .with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.2);
+        let delta =
+            StateDelta::new("test").with_moles(SpeciesId::new("NaCl"), Phase::Aqueous, -0.2);
 
         let result = delta.commit(&mut v);
         assert!(result.is_err());
         // Vessel should be unchanged
-        let nacl = v
-            .contents
-            .iter()
-            .find(|p| p.species.0 == "NaCl")
-            .unwrap();
+        let nacl = v.contents.iter().find(|p| p.species.0 == "NaCl").unwrap();
         assert!((nacl.moles.0 - 0.1).abs() < 1e-15);
     }
 
     #[test]
     fn thermal_delta_changes_temperature() {
         let mut v = test_vessel();
-        let delta = StateDelta::new("test")
-            .with_thermal(ThermalDelta::SetTemperature(Kelvin(373.15)));
+        let delta =
+            StateDelta::new("test").with_thermal(ThermalDelta::SetTemperature(Kelvin(373.15)));
 
         delta.commit(&mut v).unwrap();
         assert!((v.temperature.0 - 373.15).abs() < 1e-10);
@@ -384,7 +372,11 @@ mod tests {
             .with_moles(SpeciesId::new("Cl-"), Phase::Aqueous, 0.01);
 
         let result = delta.commit_conserved(&mut v, 1e-8);
-        assert!(result.is_ok(), "balanced reaction should commit: {:?}", result);
+        assert!(
+            result.is_ok(),
+            "balanced reaction should commit: {:?}",
+            result
+        );
 
         let nacl: f64 = v
             .contents

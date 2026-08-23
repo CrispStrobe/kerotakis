@@ -9,10 +9,7 @@
 //! program. The adapter translates numbered lines into MY-BASIC labels;
 //! errors must map back to the original line numbers.
 
-#![cfg(all(
-    feature = "engine",
-    feature = "my-basic",
-))]
+#![cfg(all(feature = "engine", feature = "my-basic",))]
 
 use kerotakis_phreeqc::{databases, Phreeqc};
 

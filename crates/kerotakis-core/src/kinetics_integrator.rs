@@ -508,7 +508,12 @@ pub fn advance_network_with_options<'a>(
 ///
 /// This is the same RHS used by the built-in diffsol integrator, exposed so
 /// alternative backends can produce identical trajectories.
-pub fn extent_rhs(vessel: &Vessel, network: &ReactionNetwork<'_>, extents: &[f64], output: &mut [f64]) {
+pub fn extent_rhs(
+    vessel: &Vessel,
+    network: &ReactionNetwork<'_>,
+    extents: &[f64],
+    output: &mut [f64],
+) {
     let system = ExtentSystem {
         vessel,
         reactions: network.reactions,
@@ -552,10 +557,6 @@ pub fn amount_at_extents(
 
 /// Commit extents to a vessel, returning the fraction actually applied
 /// (may be < 1.0 if a reactant would go negative).
-pub fn commit_extents(
-    vessel: &mut Vessel,
-    network: &ReactionNetwork<'_>,
-    extents: &[f64],
-) -> f64 {
+pub fn commit_extents(vessel: &mut Vessel, network: &ReactionNetwork<'_>, extents: &[f64]) -> f64 {
     apply_coupled_extents(vessel, network.reactions, extents)
 }

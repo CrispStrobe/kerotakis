@@ -100,8 +100,7 @@ pub fn materials_pack() -> PackManifest {
             Scenario {
                 name: "iron-rusting".into(),
                 description: "Aqueous corrosion of iron in aerated brine".into(),
-                script: "new\nadd v1 water 55.5\nadd v1 NaCl 0.1\nadd v1 Fe 0.01\nwait 3600"
-                    .into(),
+                script: "new\nadd v1 water 55.5\nadd v1 NaCl 0.1\nadd v1 Fe 0.01\nwait 3600".into(),
             },
         ],
         content_hash: None,
