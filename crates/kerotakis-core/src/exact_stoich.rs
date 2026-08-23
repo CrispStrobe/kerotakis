@@ -12,10 +12,7 @@ use num_rational::Rational64;
 ///
 /// This is a simplified balancer for common school reactions. Full
 /// matrix-based balancing for arbitrary reactions is future work.
-pub fn balance_simple(
-    reactant_formulas: &[&str],
-    product_formulas: &[&str],
-) -> Option<Vec<i64>> {
+pub fn balance_simple(reactant_formulas: &[&str], product_formulas: &[&str]) -> Option<Vec<i64>> {
     // For now, return None — the full balancing algorithm needs
     // element parsing and null-space computation over rationals.
     // The type infrastructure (Rational64) is ready for that.

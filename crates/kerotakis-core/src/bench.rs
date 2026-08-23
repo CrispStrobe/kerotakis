@@ -910,7 +910,11 @@ impl Bench {
                     Err(why) => events.push(Event::NoCell { a: *a, b: *b, why }),
                 }
             }
-            Operator::Grind { vessel, species, diameter_um } => {
+            Operator::Grind {
+                vessel,
+                species,
+                diameter_um,
+            } => {
                 let _v = self.vessel(*vessel)?;
                 events.push(Event::NotYetModeled {
                     vessel: *vessel,
@@ -921,7 +925,11 @@ impl Bench {
                     ),
                 });
             }
-            Operator::Irradiate { vessel, wavelength_nm, irradiance_w_m2 } => {
+            Operator::Irradiate {
+                vessel,
+                wavelength_nm,
+                irradiance_w_m2,
+            } => {
                 let _v = self.vessel(*vessel)?;
                 events.push(Event::NotYetModeled {
                     vessel: *vessel,
