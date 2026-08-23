@@ -1020,8 +1020,6 @@ pub fn ethanol_water_still(
                 // The burner's budget ends mid-step: take the affordable
                 // share of this step and stop.
                 let share = ((kj - energy_kj) / step_kj).clamp(0.0, 1.0);
-                e -= de * share;
-                w -= dw * share;
                 e_over += de * share;
                 w_over += dw * share;
                 energy_kj = kj;
