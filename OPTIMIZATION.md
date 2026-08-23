@@ -60,6 +60,12 @@ sites. Reduce or eliminate allocations in:
 - Species lookup (intern, see OPT-4)
 - Selected-output string splitting (avoid per-row allocation)
 
+**Done (2026-08-23):**
+- `species::lookup()` now uses a `OnceLock<HashMap>` for O(1) lookups
+  (was O(n) linear scan over 75 entries per call)
+- Event-restart loop zero-vector allocation hoisted outside the loop
+- `lasso` wired with `multi-threaded` feature for the `intern.rs` module
+
 ## OPT-6 ✓ — PHREEQC database pre-parsing
 
 `generate-dbindex` already produces serialized indexes. Wire the
