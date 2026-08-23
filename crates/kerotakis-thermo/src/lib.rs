@@ -32,5 +32,6 @@
 pub mod eos;
 pub mod fluid;
 pub mod lle;
+pub mod phase_diagram;
 pub mod unifac;
 pub mod vle;

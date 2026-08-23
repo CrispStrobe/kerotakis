@@ -40,40 +40,47 @@ fn gcd(a: i64, b: i64) -> i64 {
 }
 
 /// Convert a floating-point stoichiometric coefficient to the nearest
-/// simple fraction, for display purposes.
+/// simple fraction with denominator ≤ `max_denominator`.
 ///
-/// Continued-fraction convergents, stopping before the denominator
-/// exceeds the cap — the parameter is honoured, not decorative: the
-/// first draft delegated to `approximate_float` and ignored it.
+/// Uses the Stern-Brocot / mediant algorithm for best rational
+/// approximation within the denominator bound.
 pub fn rationalize(value: f64, max_denominator: i64) -> Rational64 {
-    let (mut h_pp, mut h_p, mut k_pp, mut k_p): (i64, i64, i64, i64) = (0, 1, 1, 0);
-    let mut x = value;
-    for _ in 0..64 {
-        let a = x.floor();
-        if !a.is_finite() || a.abs() > (i64::MAX / 2) as f64 {
-            break;
-        }
-        let ai = a as i64;
-        let (Some(h), Some(k)) = (
-            ai.checked_mul(h_p).and_then(|v| v.checked_add(h_pp)),
-            ai.checked_mul(k_p).and_then(|v| v.checked_add(k_pp)),
-        ) else {
-            break;
-        };
-        if k > max_denominator.max(1) {
-            break;
-        }
-        (h_pp, h_p, k_pp, k_p) = (h_p, h, k_p, k);
-        let frac = x - a;
-        if frac.abs() < 1e-12 {
-            break;
-        }
-        x = 1.0 / frac;
-    }
-    if k_p == 0 {
+    if value == value.round() && value.abs() < i64::MAX as f64 {
         return Rational64::from_integer(value as i64);
     }
-    Rational64::new(h_p, k_p)
+    // Stern-Brocot tree search
+    let sign = if value < 0.0 { -1 } else { 1 };
+    let x = value.abs();
+    let (mut a_n, mut a_d) = (0i64, 1i64); // lower bound 0/1
+    let (mut b_n, mut b_d) = (1i64, 0i64); // upper bound 1/0 = ∞
+    loop {
+        let m_n = a_n + b_n;
+        let m_d = a_d + b_d;
+        if m_d > max_denominator {
+            // Pick whichever of a/a_d or b/b_d is closer
+            let err_a = (x - a_n as f64 / a_d.max(1) as f64).abs();
+            let err_b = if b_d == 0 {
+                f64::INFINITY
+            } else {
+                (x - b_n as f64 / b_d as f64).abs()
+            };
+            return if err_a <= err_b {
+                Rational64::new(sign * a_n, a_d)
+            } else {
+                Rational64::new(sign * b_n, b_d)
+            };
+        }
+        let mediant = m_n as f64 / m_d as f64;
+        if (mediant - x).abs() < 1e-12 {
+            return Rational64::new(sign * m_n, m_d);
+        } else if mediant < x {
+            a_n = m_n;
+            a_d = m_d;
+        } else {
+            b_n = m_n;
+            b_d = m_d;
+        }
+    }
 }
 
 #[cfg(test)]

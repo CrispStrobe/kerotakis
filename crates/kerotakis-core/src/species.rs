@@ -1543,10 +1543,21 @@ pub fn registry() -> &'static [SpeciesData] {
     REGISTRY
 }
 
+/// OPT-4: O(1) species lookup via a lazily-built index.
+///
+/// The first call builds a HashMap from key → &SpeciesData; subsequent
+/// calls are a single hash probe instead of a linear scan of 75+ entries.
+fn lookup_index() -> &'static std::collections::HashMap<&'static str, &'static SpeciesData> {
+    use std::sync::OnceLock;
+    static INDEX: OnceLock<std::collections::HashMap<&'static str, &'static SpeciesData>> =
+        OnceLock::new();
+    INDEX.get_or_init(|| registry().iter().map(|s| (s.key, s)).collect())
+}
+
 pub fn lookup(id: &SpeciesId) -> Option<&'static SpeciesData> {
-    registry().iter().find(|s| s.key == id.0)
+    lookup_index().get(id.0.as_str()).copied()
 }
 
 pub fn lookup_key(key: &str) -> Option<&'static SpeciesData> {
-    registry().iter().find(|s| s.key == key)
+    lookup_index().get(key).copied()
 }

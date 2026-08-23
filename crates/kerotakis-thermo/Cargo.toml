@@ -8,6 +8,7 @@ repository.workspace = true
 authors.workspace = true
 
 [dependencies]
+contour = "0.13"
 serde = { workspace = true }
 thiserror = { workspace = true }
 

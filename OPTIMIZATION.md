@@ -28,13 +28,13 @@ Measured-adoption candidates:
 - **Warning: `wee_alloc` is unmaintained.** Do not adopt. Last release
   2020, known memory-leak bugs. `talc` is the maintained alternative.
 
-## OPT-3 — Wasm binary size budget
+## OPT-3 ✓ — Wasm binary size budget
 
 Current: 1.9 MB raw, 572 KB gzipped. Budget: 1 MiB gzipped.
 Tools: `wasm-opt -Oz`, `twiggy top`, LTO, `codegen-units = 1`.
 Measured in `tools/bundle-budget.sh`.
 
-## OPT-4 — SpeciesId interning
+## OPT-4 ✓ — SpeciesId interning
 
 The current `SpeciesId(String)` allocates a new string for every
 species reference. For the DATA-010 refactor (pack-loaded registry),
@@ -60,7 +60,13 @@ sites. Reduce or eliminate allocations in:
 - Species lookup (intern, see OPT-4)
 - Selected-output string splitting (avoid per-row allocation)
 
-## OPT-6 — PHREEQC database pre-parsing
+**Done (2026-08-23):**
+- `species::lookup()` now uses a `OnceLock<HashMap>` for O(1) lookups
+  (was O(n) linear scan over 75 entries per call)
+- Event-restart loop zero-vector allocation hoisted outside the loop
+- `lasso` wired with `multi-threaded` feature for the `intern.rs` module
+
+## OPT-6 ✓ — PHREEQC database pre-parsing
 
 `generate-dbindex` already produces serialized indexes. Wire the
 runtime to load the pre-parsed index instead of re-parsing the

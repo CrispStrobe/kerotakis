@@ -8,13 +8,13 @@ criterion.
 
 Already shipped. USGS public domain. The L2 engine.
 
-## CAP-2 — Data parallelism (rayon)
+## CAP-2 ✓ — Data parallelism (rayon)
 
 `rayon` (MIT/Apache-2.0). Multi-vessel benchmarks and batch lesson
 replay. Acceptance: `cargo bench` shows wall-clock improvement on a
 4-vessel benchmark without changing any answer.
 
-## CAP-3 — Charting
+## CAP-3 ✓ — Charting
 
 Hand-roll first: the renderer-neutral `ChartObject`/`CurveObject` is
 already implemented and serves USER_GRAPH, CLI sparklines, and the
@@ -24,7 +24,7 @@ version proves insufficient for interactive phase diagrams.
 **Explicit ban:** `plotters`' AGPL sibling must never be a dependency.
 Only MIT/Apache-2.0/BSD charting libraries are eligible.
 
-## CAP-4 — Phase diagrams (contour)
+## CAP-4 ✓ — Phase diagrams (contour)
 
 `contour` (MIT). Contour line generation from grid data for
 Txy/Pxy/ternary phase diagrams. Acceptance: a binary VLE system
@@ -49,7 +49,7 @@ the CODATA 2018 adjustment to full published precision.
 stoichiometric coefficients. Acceptance: balancing a combustion
 equation yields integer coefficients without floating-point drift.
 
-## CAP-8 — Statistics (rand_chacha, rand_distr, statrs)
+## CAP-8 ✓ — Statistics (rand_chacha, rand_distr, statrs)
 
 `rand_chacha` (MIT/Apache-2.0), `rand_distr` (MIT/Apache-2.0),
 `statrs` (MIT). Reproducible RNG and statistical distributions for
@@ -78,7 +78,7 @@ events, and equilibrium coupling.
 Already shipped. Apache-2.0. NASA-9 polynomials for combustion and
 decomposition.
 
-## CAP-13 — Vendor the official InChI library
+## CAP-13 ✓ — Vendor the official InChI library
 
 Vendor the IUPAC InChI C library (MIT since v1.07.1) on the IPhreeqc
 pattern: vendored source, cmake build, bindgen FFI. Add a CI check

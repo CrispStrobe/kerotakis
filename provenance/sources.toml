@@ -177,11 +177,11 @@ sha256 = "a60026be9384468d074c19425e552f1bb4a6f507f805e55a96fad586716168ed"
 path = "vendor/nasa-cea/NOTICE.txt"
 sha256 = "03b64364559d540d97615c31675a69e8eb1965e30de8859a2f8c5c9a38ecb55e"
 
-# First-party curated constants (e.g. the Antoine sets in
-# crates/kerotakis-thermo/src/vle.rs) are not external sources: their
-# provenance lives per-value in the code's `source` fields, and their
-# licence is the project's own. They do not belong in this manifest.
-#
-# Cargo dependencies from crates.io (chematic, diffsol, ...) are governed
-# by deny.toml (licence allowlist) and about.toml (attribution inventory),
-# not by this manifest, which tracks vendored and imported material.
+# Scope, twice re-litigated on 2026-08-23 and twice resolved the same way:
+# first-party curated constants (the Antoine sets in vle.rs) carry their
+# provenance per-value in the code's `source` fields; crates.io
+# dependencies (chematic, contour, ...) are governed by deny.toml and
+# about.toml; the vendored IUPAC InChI gets its entry when the vendor
+# directory holds actual sources with checksums rather than a scaffold.
+# Entries for any of these that cannot pass this file's own lint do not
+# ship half-finished.
