@@ -85,7 +85,7 @@ mod tests {
 
     #[test]
     fn ideal_fluid_delegates_to_vle() {
-        // Water Antoine constants (NIST, kPa form)
+        // Water Antoine constants (Stull 1947, kPa form)
         let water = Volatile {
             antoine: Antoine {
                 a: 8.07131 - 2.0, // adjusted to kPa

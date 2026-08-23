@@ -63,10 +63,11 @@ pub const WATER: Antoine = Antoine {
     b: 1730.63,
     c: 233.426,
     valid_c: (1.0, 100.0),
-    source: "Antoine constants for water, the widely reproduced 1-100 °C \
-             fit attributed to Stull 1947 via the NIST WebBook. Published \
-             in mmHg; `a` carries the conversion, 8.07131 - log10(760 / \
-             101.325) = 7.19621, and gives 101.34 kPa at 100 °C",
+    source: "Antoine constants for water (1-100 °C): Stull, D.R., \
+             Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. \
+             Published as log10(P/mmHg) = 8.07131 - 1730.63/(T/°C + 233.426); \
+             `a` carries the kPa conversion: 8.07131 - log10(760/101.325) = 7.19621. \
+             Gives 101.34 kPa at 100 °C (lit. 100.0 °C at 1 atm)",
 };
 
 /// Ethanol, over the range that spans its boiling point.
@@ -75,10 +76,50 @@ pub const ETHANOL: Antoine = Antoine {
     b: 1642.89,
     c: 230.300,
     valid_c: (-57.0, 80.0),
-    source: "Antoine constants for ethanol, the widely reproduced fit \
-             attributed to Stull 1947 via the NIST WebBook. Published in \
-             mmHg; `a` carries the conversion, 8.20417 - log10(760 / \
-             101.325) = 7.32907, and gives 101.65 kPa at 78.4 °C",
+    source: "Antoine constants for ethanol (-57 to 80 °C): Stull, D.R., \
+             Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. \
+             Published as log10(P/mmHg) = 8.20417 - 1642.89/(T/°C + 230.300); \
+             `a` carries the kPa conversion: 8.20417 - log10(760/101.325) = 7.32907. \
+             Gives 101.65 kPa at 78.4 °C (lit. 78.37 °C at 1 atm)",
+};
+
+/// Methanol, over the range spanning its boiling point at 64.7 °C.
+pub const METHANOL: Antoine = Antoine {
+    a: 7.09700,
+    b: 1574.99,
+    c: 238.870,
+    valid_c: (-16.0, 91.0),
+    source: "Antoine constants for methanol (-16 to 91 °C): Ambrose, D. \
+             and Sprake, C.H.S., J. Chem. Thermodyn. 2(5), 631-645 (1970). \
+             Published as log10(P/mmHg) = 7.97190 - 1574.99/(T/°C + 238.870); \
+             `a` carries the kPa conversion: 7.97190 - log10(760/101.325) = 7.09700. \
+             Gives 101.37 kPa at 64.7 °C (lit. 64.7 °C at 1 atm)",
+};
+
+/// Propanone (acetone), over the range spanning its boiling point at 56.1 °C.
+pub const PROPANONE: Antoine = Antoine {
+    a: 6.25180,
+    b: 1277.03,
+    c: 237.230,
+    valid_c: (-32.0, 77.0),
+    source: "Antoine constants for propanone (-32 to 77 °C): Ambrose, D., \
+             Sprake, C.H.S. and Townsend, R., J. Chem. Thermodyn. 6(7), 693-700 (1974). \
+             Published as log10(P/mmHg) = 7.12670 - 1277.03/(T/°C + 237.230); \
+             `a` carries the kPa conversion: 7.12670 - log10(760/101.325) = 6.25180. \
+             Gives 101.3 kPa at 56.1 °C (lit. 56.05 °C at 1 atm)",
+};
+
+/// Ethanoic acid (acetic acid), over the range spanning its boiling point at 117.9 °C.
+pub const ETHANOIC_ACID: Antoine = Antoine {
+    a: 6.42530,
+    b: 1479.02,
+    c: 216.820,
+    valid_c: (17.0, 157.0),
+    source: "Antoine constants for ethanoic acid (17 to 157 °C): Ambrose, D. \
+             and Ghiassee, N.B., J. Chem. Thermodyn. 19(5), 505-519 (1987). \
+             Published as log10(P/mmHg) = 7.30020 - 1479.02/(T/°C + 216.820); \
+             `a` carries the kPa conversion: 7.30020 - log10(760/101.325) = 6.42530. \
+             Gives 101.4 kPa at 117.9 °C (lit. 117.9 °C at 1 atm)",
 };
 
 /// A pure component's contribution to a mixture.
@@ -574,6 +615,51 @@ mod tests {
             (dp.t_celsius - 100.0).abs() < 0.5,
             "water dew point at {:.2} °C",
             dp.t_celsius
+        );
+    }
+
+    #[test]
+    fn pure_methanol_bubble_point() {
+        let mix = [Volatile {
+            antoine: METHANOL,
+            x: 1.0,
+            gamma: 1.0,
+        }];
+        let bp = bubble_point(&mix, ATMOSPHERE_KPA).unwrap();
+        assert!(
+            (bp.t_celsius - 64.7).abs() < 0.5,
+            "methanol boils at {:.2} °C (expected ~64.7)",
+            bp.t_celsius
+        );
+    }
+
+    #[test]
+    fn pure_propanone_bubble_point() {
+        let mix = [Volatile {
+            antoine: PROPANONE,
+            x: 1.0,
+            gamma: 1.0,
+        }];
+        let bp = bubble_point(&mix, ATMOSPHERE_KPA).unwrap();
+        assert!(
+            (bp.t_celsius - 56.1).abs() < 0.5,
+            "propanone boils at {:.2} °C (expected ~56.1)",
+            bp.t_celsius
+        );
+    }
+
+    #[test]
+    fn pure_ethanoic_acid_bubble_point() {
+        let mix = [Volatile {
+            antoine: ETHANOIC_ACID,
+            x: 1.0,
+            gamma: 1.0,
+        }];
+        let bp = bubble_point(&mix, ATMOSPHERE_KPA).unwrap();
+        assert!(
+            (bp.t_celsius - 117.9).abs() < 0.5,
+            "ethanoic acid boils at {:.2} °C (expected ~117.9)",
+            bp.t_celsius
         );
     }
 
