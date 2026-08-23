@@ -2180,16 +2180,124 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
 School-level rates and electrochemistry moved forward to P3k/P3e; what is
 left here is the part that genuinely needs an engine.
 
-**Active session — `codex-kin` (2026-08-21).** This session owns the first
-generic-kinetics slice: define the reaction-network IR, compile the two current
-rate laws through it without changing lesson or JSON output, and add
+**Completed session — `codex-kin` (2026-08-21).** This session delivered the
+first generic-kinetics slice: a reaction-network IR, both current rate laws
+compiled through it without changing lesson or JSON output, and
 element/charge/site/electron conservation lint. Its implementation worktree is
 `/Users/christianstrobele/code/kerotakis-codex-kin` on branch
 `codex-kin/reaction-network`; its code boundary is
 `crates/kerotakis-core/src/kinetics.rs` plus new kinetics-focused modules and
-tests. It will not modify the PHREEQC BASIC runtime, its adapter, vendored
-sources, or compatibility corpus. Stiff integration, mechanism-file parsing,
-and external mechanism data remain later, separately reviewed work.
+tests. The slice also executes reversible, consecutive, and competing reactions
+with atomic, availability-scaled coupled extents. It did not modify the PHREEQC
+BASIC runtime, its adapter, vendored sources, or compatibility corpus. CI run
+`32481885344` passed native Ubuntu/macOS, Wasm, browser, and combined-solver
+checks. Stiff integration, mechanism-file parsing, and external mechanism data
+remain later, separately reviewed work.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-004/005).** This session
+audited and added the approved implicit-solver dependency, then replaced the
+explicit midpoint loop with adaptive BDF integration over reaction extents,
+including positivity protection, step rejection/retry, depletion events,
+diagnostics, propagated solver errors, and exact-solution tests. Work is isolated
+in `/Users/christianstrobele/code/kerotakis-codex-kin-integrator` on branch
+`codex-kin/adaptive-integrator`. It may modify kinetics modules, focused tests,
+and dependency/audit metadata. It will not modify equilibrium coupling,
+mechanism parsing or data, the PHREEQC BASIC replacement, vendored sources, or
+compatibility fixtures.
+
+KIN-004 audit checkpoint: `diffsol = =0.16.2` is MIT and is selected with
+`default-features = false` plus `nalgebra`. Upstream 0.16.2 still enables its
+pure-Rust `faer` implementation on the internal linear/nonlinear crates; that
+resolved graph is accepted. `diffsl`, LLVM/Cranelift JIT, CUDA, SuiteSparse,
+SUNDIALS, bindgen, and native C compilation are absent from the runtime graph.
+The Wasm CI gate remains part of KIN-004 acceptance.
+The resolved matrix graph also reaches `getrandom` through `rand`; the Wasm
+target therefore selects its supported `wasm_js` backend explicitly. This is a
+target adapter, not solver randomness, and native targets remain unchanged.
+CI run `32484407871` passed strict lint, all native tests and claims on Ubuntu
+and macOS, core and full-bench Wasm, browser, and combined-solver checks.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-006).** This session
+delivered the first mechanism-file front-end slice: strict parsing and
+validation of portable Cantera-YAML species composition plus elementary
+Arrhenius reactions, lowering them into the existing reaction-network IR, and a
+CLI inspection path with machine-readable output. Work is isolated on branch
+`codex-kin/mechanism-yaml` in a fresh worktree. Its code boundary is new
+kinetics-mechanism modules, focused CLI wiring/tests, and narrowly required
+pure-Rust parsing dependencies. It will not modify equilibrium or surface
+coupling, vessel state, VLE, the PHREEQC BASIC replacement, vendored sources,
+or compatibility fixtures. Three-body and falloff/Troe evaluation remain a
+separate follow-on slice after this schema and diagnostic boundary is proven.
+KIN-006 dependency checkpoint: `serde_yaml_ng = =0.10.0` is MIT and resolves to
+the MIT `unsafe-libyaml` Rust translation (no system libyaml link); `bumpalo`
+`=3.20.3` is MIT OR Apache-2.0 with no default features. The arena gives runtime-owned
+mechanisms a borrowed IR without leaking allocations. Native and Wasm CI gates
+passed in run `32489657046`, including strict lint and all tests/claims on
+Ubuntu and macOS, core and full-bench Wasm, browser, and combined-solver checks.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-007).** This session added
+third-body concentrations and species efficiencies, Lindemann/Troe falloff
+parsing and exact rate evaluation, and gas-network execution through the
+implicit integrator using finite headspace volume. Mechanism inspection now
+reports each rate model and normalized low-pressure prefactor. Exact tests cover
+third-body efficiencies, closed-form Lindemann/Troe rates, schema failures,
+finite-headspace advancement with pressure refresh, and the CLI JSON contract.
+Native, WebAssembly, browser, and combined-solver CI gates passed in run
+`32492646325`. Pressure-log interpolation and external mechanism data remain
+future work.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-008).** This session added
+CLI-first runtime gas-mechanism simulation: validated mechanism loading, an
+explicit finite sealed headspace, temperature, duration, repeatable species
+feeds, and implicit reaction-network advancement. Stable JSON reports complete
+initial/final mechanism composition, initial/final pressure, reaction extents,
+and solver diagnostics; human output exposes the same run. Exact CLI tests cover
+the analytic first-order solution, pressure increase, JSON fields, and refusal
+of undeclared feed species. All native, WebAssembly, browser, and combined
+solver CI gates passed in run `32494325781`.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-009).** This session added
+bounded sampled gas-mechanism trajectories to the CLI. The stable JSON contract
+preserves all KIN-008 endpoint fields and adds the initial state plus exact
+evenly spaced requested times, composition and pressure at every point,
+cumulative reaction extents, and aggregate implicit-solver diagnostics. Exact
+tests compare every sampled point with the analytic first-order solution, prove
+monotonic depletion and pressure growth, and reject zero intervals. All native,
+WebAssembly, browser, and combined-solver CI gates passed in run `32495335994`.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-010).** This session added
+strict one- and two-region NASA7 thermochemistry, per-species reference-pressure
+parsing, ideal-gas concentration equilibrium constants, and elementary
+reversible detailed-balance execution in both direct and implicit evaluators.
+Product-side reverse orders and shared thermochemistry validity ranges are
+enforced. CLI inspection/simulation plus exact standard-state equilibrium,
+direct-rate, equilibrium-convergence, out-of-range, and schema tests are
+included. All native, WebAssembly, browser, and combined-solver CI gates passed
+in run `32496871088`. Pressure-dependent reverse reactions remain future work.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-011).** This session added
+instantaneous mechanism-rate diagnostics for university-level multi-step
+analysis: per-reaction forward/reverse/net progress, net species production,
+pressure, and an explicitly defined instantaneous rate-determining candidate in
+stable human and JSON output. Reversible equilibrium reports equal directional
+fluxes with no false limiting candidate; multistep tests prove stoichiometric
+production accounting and step selection. All native, WebAssembly, browser, and
+combined-solver CI gates passed in run `32498166044`.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-012).** This session added
+pressure-dependent Arrhenius gas kinetics with pressure-unit parsing, strict
+pressure-grid validation, same-pressure rate summation, logarithmic pressure
+interpolation, and nearest-endpoint extrapolation shared by direct and implicit
+evaluation. CLI inspection exposes normalized pressure points; CLI rates and
+simulation tests exercise the same evaluator. Closed-form, analytic-decay, and
+invalid-grid tests are included. All native, WebAssembly, browser, combined
+solver, and BASIC transition CI gates passed in run `32499420214`.
+
+**Active concurrent session — `codex-AQ` (2026-08-21, AQ-005).** This session
+owns typed finite-capacity HFO surface interfaces in the shared main checkout:
+`crates/kerotakis-core/src/vessel.rs`, its surface tests, and the PHREEQC
+`SURFACE` compiler/readback plus focused live tests. It will not modify kinetics
+modules, dependency metadata, the BASIC runtime, vendored sources, or VLE work.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol

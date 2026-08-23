@@ -65,7 +65,7 @@ fn lower_pressure_boils_water_cooler() {
 /// and the UNIFAC one are the same experiment run twice.
 #[test]
 fn an_ideal_mixture_separates_all_the_way() {
-    let found = azeotrope(ETHANOL, WATER, ATMOSPHERE_KPA, |_| (1.0, 1.0));
+    let found = azeotrope(ETHANOL, WATER, ATMOSPHERE_KPA, |_, _| (1.0, 1.0));
     assert!(
         found.is_none(),
         "Raoult's law cannot produce an azeotrope, and got {found:?}"
