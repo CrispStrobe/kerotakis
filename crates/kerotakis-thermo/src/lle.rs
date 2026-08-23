@@ -48,7 +48,7 @@ where
         return LleResult::SinglePhase;
     }
 
-    let mut g_mix = |x1: f64, gammas: &mut F| -> f64 {
+    let g_mix = |x1: f64, gammas: &mut F| -> f64 {
         let x2 = 1.0 - x1;
         let (g1, g2) = gammas(x1);
         let t1 = if x1 > 1e-15 {
@@ -91,11 +91,11 @@ where
     };
 
     // Log-activities, for conditioning where γ spans decades.
-    let mut ln_a1 = |x: f64, g: &mut F| -> f64 {
+    let ln_a1 = |x: f64, g: &mut F| -> f64 {
         let (g1, _) = g(x);
         (x * g1).max(1e-300).ln()
     };
-    let mut ln_a2 = |x: f64, g: &mut F| -> f64 {
+    let ln_a2 = |x: f64, g: &mut F| -> f64 {
         let (_, g2) = g(x);
         ((1.0 - x) * g2).max(1e-300).ln()
     };
@@ -105,7 +105,7 @@ where
     // branch with matching component-1 activity (ln a₁ rises with x on a
     // stable branch, so this bisection is well-posed); None when the
     // right branch never reaches that activity.
-    let mut beta_for = |x_alpha: f64, g: &mut F| -> Option<f64> {
+    let beta_for = |x_alpha: f64, g: &mut F| -> Option<f64> {
         let target = ln_a1(x_alpha, g);
         let (mut lo, mut hi) = (s_hi, 1.0 - EPS);
         let f_lo = ln_a1(lo, g) - target;
@@ -135,7 +135,7 @@ where
     };
 
     // Component 2's mismatch along the x_α axis; drive it to zero.
-    let mut residual = |x_alpha: f64, g: &mut F| -> Option<f64> {
+    let residual = |x_alpha: f64, g: &mut F| -> Option<f64> {
         let x_beta = beta_for(x_alpha, g)?;
         Some(ln_a2(x_alpha, g) - ln_a2(x_beta, g))
     };
