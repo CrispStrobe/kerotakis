@@ -256,6 +256,18 @@ pub fn render_event(event: &Event, register: Register) -> String {
             ),
             _ => format!("{from} → {to}: filtrate passed; residue retained"),
         },
+        Event::Drained { from, to, solvent, moles } => match register.level() {
+            1 => format!("You open the tap and the bottom layer runs from {from} into {to}."),
+            2 => format!(
+                "{from} → {to}: the lower layer drained — {:.3} mol {} with everything dissolved in it; the upper layer stays behind",
+                moles.0,
+                species::lookup(solvent).map(|d| d.name).unwrap_or(solvent.0.as_str()),
+            ),
+            _ => format!(
+                "{from} → {to}: lower layer ({}, {:.6} mol solvent) plus its aqueous solutes; solids left behind — a stopcock passes liquid, and a settled solid is a filtration question",
+                solvent.0, moles.0,
+            ),
+        },
         Event::LayersFormed { vessel, upper, lower } => match register.level() {
             1 => format!("The liquid in {vessel} separates into two layers."),
             2 => format!(

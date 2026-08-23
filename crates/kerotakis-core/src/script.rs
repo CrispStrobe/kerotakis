@@ -137,6 +137,15 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     .map_err(|_| format!("bad fraction '{}'", words[3]))?,
             }
         }
+        "drain" => {
+            if words.len() < 3 {
+                return Err("usage: drain <from> <to>".into());
+            }
+            Operator::Drain {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+            }
+        }
         "distil" | "distill" => {
             if words.len() < 4 {
                 return Err(

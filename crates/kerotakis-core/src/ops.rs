@@ -90,6 +90,12 @@ pub enum Operator {
         #[serde(default = "one_stage")]
         stages: u32,
     },
+    /// Open the stopcock of a separating funnel: the lower liquid layer
+    /// — and everything dissolved in it — runs into the receiver, and
+    /// the upper layer stays behind. Only meaningful when the computed
+    /// liquid–liquid equilibrium says there *are* layers; one phase has
+    /// nothing to drain separately, and the bench says so.
+    Drain { from: VesselId, to: VesselId },
     /// Let time pass. Rates need a clock, and this is it.
     ///
     /// Deliberately not per-vessel: every vessel on the bench advances by
@@ -350,6 +356,13 @@ pub enum Event {
         #[serde(default)]
         energy_kj: f64,
         azeotropic: bool,
+    },
+    /// The lower layer ran out through the stopcock, solutes and all.
+    Drained {
+        from: VesselId,
+        to: VesselId,
+        solvent: SpeciesId,
+        moles: Moles,
     },
     /// Two liquid layers formed: mixing these liquids raises the Gibbs
     /// energy instead of lowering it, so they split — computed

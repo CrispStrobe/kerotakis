@@ -222,6 +222,42 @@ impl SafetyScreen for PermissiveScreen {
 /// single well-defined T.
 pub struct MixingEquilibrator;
 
+/// The curated liquid–liquid pairs and the computed verdict: which two
+/// layers, if any, this vessel's liquids separate into. Two liquids in
+/// one vessel are not automatically one solution — the computed activity
+/// decides, and where mixing would raise the Gibbs energy the bench
+/// shows what a beaker shows. One source of truth for the solver (which
+/// reports the layers) and the bench (whose `drain` verb taps them).
+/// Growing the table is data work: a pair enters when its UNIFAC groups
+/// are curated and the split is oracle-checked.
+pub fn layered_pair(vessel: &Vessel) -> Option<(&'static str, &'static str)> {
+    const LLE_PAIRS: &[(&str, &str)] = &[
+        // (upper by density, lower)
+        ("hexane", "water"),
+    ];
+    for (upper, lower) in LLE_PAIRS {
+        let moles_of = |key: &str| -> f64 {
+            vessel
+                .contents
+                .iter()
+                .filter(|p| p.species.0 == key && p.phase == Phase::Liquid)
+                .map(|p| p.moles.0)
+                .sum()
+        };
+        let a = moles_of(upper);
+        let b = moles_of(lower);
+        if a > crate::OBSERVABLE_MOLES && b > crate::OBSERVABLE_MOLES {
+            let z = a / (a + b);
+            if let kerotakis_thermo::lle::LleResult::TwoPhase { .. } =
+                kerotakis_thermo::lle::water_hexane_lle(z, vessel.temperature.0)
+            {
+                return Some((upper, lower));
+            }
+        }
+    }
+    None
+}
+
 impl Equilibrator for MixingEquilibrator {
     fn name(&self) -> &'static str {
         "mixing-v0"
@@ -245,39 +281,12 @@ impl Equilibrator for MixingEquilibrator {
             }
         }
 
-        // Liquid–liquid demixing for the curated pairs. Two liquids in
-        // one vessel are not automatically one solution: the computed
-        // activity decides, and where mixing would raise the Gibbs
-        // energy the bench shows what a beaker shows — layers. Growing
-        // this table is data work: a pair enters when its UNIFAC groups
-        // are curated and the split is oracle-checked.
-        const LLE_PAIRS: &[(&str, &str)] = &[
-            // (upper by density, lower)
-            ("hexane", "water"),
-        ];
-        for (upper, lower) in LLE_PAIRS {
-            let moles_of = |key: &str| -> f64 {
-                vessel
-                    .contents
-                    .iter()
-                    .filter(|p| p.species.0 == key && p.phase == Phase::Liquid)
-                    .map(|p| p.moles.0)
-                    .sum()
-            };
-            let a = moles_of(upper);
-            let b = moles_of(lower);
-            if a > crate::OBSERVABLE_MOLES && b > crate::OBSERVABLE_MOLES {
-                let z = a / (a + b);
-                if let kerotakis_thermo::lle::LleResult::TwoPhase { .. } =
-                    kerotakis_thermo::lle::water_hexane_lle(z, vessel.temperature.0)
-                {
-                    events.push(Event::LayersFormed {
-                        vessel: vessel.id,
-                        upper: SpeciesId::new(upper),
-                        lower: SpeciesId::new(lower),
-                    });
-                }
-            }
+        if let Some((upper, lower)) = layered_pair(vessel) {
+            events.push(Event::LayersFormed {
+                vessel: vessel.id,
+                upper: SpeciesId::new(upper),
+                lower: SpeciesId::new(lower),
+            });
         }
 
         Ok(events)

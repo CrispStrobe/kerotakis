@@ -777,8 +777,17 @@ pipeline (#77, CIAAW/CRC provenance); and water+hexane in a vessel
 now emits a computed `LayersFormed` event (hexane floating, three
 registers, lv3 stating the alkane–water γ∞ honesty bound) while
 water+ethanol provably does not — same machinery, opposite verdict,
-which is the lesson. The `extract` verb on top of this is the next
-slice. **Acceptance.** Each verb demonstrable in a replayed lesson;
+which is the lesson. The `drain` verb followed the same
+day: the separating funnel's stopcock, gated on the computed layers —
+the lower layer runs out with everything dissolved in it (engine test:
+brine drains from under hexane, salt travelling with its water, the
+organic layer left alone), a settled solid stays (a stopcock passes
+liquid; filtration is a different question, and lv3 says so), and
+draining a computed single phase is refused out loud. `layered_pair`
+is the one source of truth the solver's report and the bench's verb
+both consult. Remaining in this task: computed partitioning of neutral
+solutes between the layers (the K from γ∞ ratios), and the transport /
+chromatograph / calorimeter / react verbs. **Acceptance.** Each verb demonstrable in a replayed lesson;
 `kerotakis-org` gains a dependent; preflight green. **Size.** Medium
 per verb — they are independent; take them one per branch.
 **Depends on:** nothing.

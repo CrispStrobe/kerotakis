@@ -823,6 +823,75 @@ impl Bench {
                     }
                 }
             }
+            Operator::Drain { from, to } => {
+                if from == to {
+                    return Err(BenchError::SelfTransfer);
+                }
+                self.vessel(*to)?;
+                let src = self.vessel_mut(*from)?;
+                let Some((_upper, lower)) = crate::solve::layered_pair(src) else {
+                    events.push(Event::NotYetModeled {
+                        vessel: *from,
+                        what: "draining a single-phase liquid — the funnel only separates \
+                               what the thermodynamics has already split into layers"
+                            .to_string(),
+                    });
+                    return Ok(events);
+                };
+                let lower_id = SpeciesId::new(lower);
+                // The lower layer takes its solvent and everything dissolved
+                // in it. Solids stay behind: a stopcock passes liquid, and a
+                // solid sitting in the funnel is a filtration question, not
+                // a separation one.
+                let moved: Vec<(SpeciesId, Moles, Phase)> = src
+                    .contents
+                    .iter()
+                    .filter(|p| {
+                        (p.species == lower_id && p.phase == Phase::Liquid)
+                            || p.phase == Phase::Aqueous
+                    })
+                    .map(|p| (p.species.clone(), p.moles, p.phase))
+                    .collect();
+                let solvent_moles = moved
+                    .iter()
+                    .filter(|(s, ..)| *s == lower_id)
+                    .map(|(_, m, _)| m.0)
+                    .sum::<f64>();
+                for (spec, m, _) in &moved {
+                    src.withdraw(spec, *m);
+                }
+                let t_from = src.temperature;
+                let cp_in: f64 = moved
+                    .iter()
+                    .filter_map(|(s, n, _)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
+                    .sum();
+                let dst = self.vessel_mut(*to)?;
+                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
+                    let t_new = adiabatic_mix_temperature(
+                        dst.temperature,
+                        dst.heat_capacity(),
+                        t_from,
+                        cp_in,
+                    );
+                    if !moved.is_empty() && (t_new.0 - dst.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: *to,
+                            from: dst.temperature,
+                            to: t_new,
+                        });
+                    }
+                    dst.temperature = t_new;
+                }
+                for (spec, m, phase) in moved {
+                    dst.deposit(spec, m, phase);
+                }
+                events.push(Event::Drained {
+                    from: *from,
+                    to: *to,
+                    solvent: lower_id,
+                    moles: Moles(solvent_moles),
+                });
+            }
             Operator::Wait { seconds } => {
                 // Kinetics runs here, before the solver stack: rates change
                 // the composition, and the fast equilibria — speciation,
@@ -1117,7 +1186,8 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
         Operator::Decant { from, to, .. }
         | Operator::Filter { from, to }
-        | Operator::Distil { from, to, .. } => vec![*from, *to],
+        | Operator::Distil { from, to, .. }
+        | Operator::Drain { from, to } => vec![*from, *to],
         Operator::Grind { vessel, .. } | Operator::Irradiate { vessel, .. } => vec![*vessel],
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         Operator::Wait { .. } => vec![],
