@@ -1535,5 +1535,23 @@
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 81.1 J/(mol.K) and density 0.7914 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed.",
     "spectrum_bands": null,
     "standard_phase": "liquid"
+  },
+  {
+    "appearance": null,
+    "colour": null,
+    "density": 0.6606,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C6H14",
+    "heat_capacity": 195.6,
+    "inchikey": "VLKZOEOYAKHREP-UHFFFAOYSA-N",
+    "key": "hexane",
+    "molar_mass": 86.178,
+    "name": "hexane",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 195.6 J/(mol.K) and density 0.6606 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed.",
+    "spectrum_bands": null,
+    "standard_phase": "liquid"
   }
 ]
