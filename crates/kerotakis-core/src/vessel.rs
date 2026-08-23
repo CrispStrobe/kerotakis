@@ -510,10 +510,8 @@ impl SolutionInfo {
     /// factor is temperature-dependent (0.05916 V at 25 °C), so it takes
     /// the temperature rather than assuming room conditions.
     pub fn eh_volts(&self, temperature_k: f64) -> Option<f64> {
-        const FARADAY: f64 = 96_485.332;
-        const R: f64 = 8.314_462_618;
         self.pe
-            .map(|pe| pe * std::f64::consts::LN_10 * R * temperature_k / FARADAY)
+            .map(|pe| pe * crate::relations::nernst_slope(crate::units::Kelvin(temperature_k)))
     }
 }
 

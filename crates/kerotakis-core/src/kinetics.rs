@@ -52,9 +52,6 @@ pub use integrator::{
     IntegrationError, IntegrationOptions, IntegrationReport, IntegrationStatistics,
 };
 
-/// Gas constant, J·mol⁻¹·K⁻¹.
-pub const R: f64 = 8.314_462_618;
-
 /// Arrhenius parameters behind a mass-action rate expression.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct RateLaw {
@@ -407,10 +404,12 @@ pub struct SiteTerm<'a> {
 impl RateLaw {
     /// k(T) = A·T^b·exp(−Ea/RT).
     pub fn rate_constant(&self, temperature_k: f64) -> f64 {
-        let temperature_k = temperature_k.max(1.0);
-        self.pre_exponential
-            * temperature_k.powf(self.temperature_exponent)
-            * (-self.activation_energy / (R * temperature_k)).exp()
+        crate::relations::arrhenius(
+            self.pre_exponential,
+            self.temperature_exponent,
+            self.activation_energy,
+            temperature_k,
+        )
     }
 }
 
@@ -1308,7 +1307,7 @@ mod tests {
             activation_energy: 50_000.0,
         };
         let k = law.rate_constant(298.15);
-        let expected = 1.0e10 * (-50_000.0f64 / (R * 298.15)).exp();
+        let expected = 1.0e10 * (-50_000.0f64 / (crate::constants::GAS_CONSTANT * 298.15)).exp();
         assert!((k - expected).abs() / expected < 1e-12);
     }
 

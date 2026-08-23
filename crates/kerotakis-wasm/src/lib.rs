@@ -268,8 +268,7 @@ impl Lab {
 
     /// Parse a SMILES string and return molecular identity data.
     pub fn structure(&self, smiles: &str) -> Result<String, JsError> {
-        let mol = kerotakis_org::parse_smiles(smiles)
-            .map_err(|e| JsError::new(&e.to_string()))?;
+        let mol = kerotakis_org::parse_smiles(smiles).map_err(|e| JsError::new(&e.to_string()))?;
         Ok(serde_json::to_string(&mol).unwrap())
     }
 

@@ -8,10 +8,10 @@
 
 use serde::{Deserialize, Serialize};
 
-/// Faraday constant, C/mol.
-pub const F: f64 = 96485.332;
-/// Gas constant, J/(mol·K).
-pub const R: f64 = 8.314_462;
+use crate::constants;
+
+const F: f64 = constants::FARADAY;
+const R: f64 = constants::GAS_CONSTANT;
 
 /// Butler–Volmer parameters for one electrode reaction.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]

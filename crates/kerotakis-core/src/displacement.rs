@@ -64,7 +64,6 @@ use crate::vessel::{ThermalMode, Vessel};
 /// mole are both defined, so this is a product of two definitions rather
 /// than a measurement, unlike every other constant in this file.
 pub const FARADAY: f64 = 96_485.332_12;
-const GAS_CONSTANT: f64 = 8.314_462_618;
 /// Below this, an amount is bookkeeping noise rather than a reagent.
 const TRACE: f64 = 1e-12;
 /// The acid pseudo-species. Free acid has no portion of its own in the
@@ -267,7 +266,7 @@ pub fn is_elemental_metal(key: &str) -> bool {
 
 /// RT ln10 / F at this temperature: 0.05916 V at 25 °C.
 fn nernst_slope(t: Kelvin) -> f64 {
-    GAS_CONSTANT * t.0 * std::f64::consts::LN_10 / FARADAY
+    crate::relations::nernst_slope(t)
 }
 
 fn moles_in(vessel: &Vessel, key: &str, phase: Phase) -> f64 {

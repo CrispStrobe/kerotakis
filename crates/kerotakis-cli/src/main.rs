@@ -216,6 +216,43 @@ fn main() {
                 }
             }
         }
+        Some("calc") => {
+            if args.len() < 2 {
+                calc_usage();
+            }
+            let name = &args[1];
+            if name == "help" || name == "--help" {
+                calc_usage();
+            }
+            let relation_args: Vec<String> = args[2..].to_vec();
+            match kerotakis_core::relations::evaluate(name, &relation_args) {
+                Ok(result) => {
+                    if args.iter().any(|a| a == "--json") {
+                        let relation_args_clean: Vec<&String> =
+                            relation_args.iter().filter(|a| *a != "--json").collect();
+                        println!(
+                            "{}",
+                            serde_json::json!({
+                                "relation": name,
+                                "args": relation_args_clean,
+                                "value": result.value,
+                                "unit": result.unit,
+                                "provenance": result.provenance,
+                                "lv1": result.lv1,
+                                "lv2": result.lv2,
+                                "lv3": result.lv3,
+                            })
+                        );
+                    } else {
+                        println!("{}", result.lv3);
+                    }
+                }
+                Err(e) => {
+                    eprintln!("kero calc: {e}");
+                    std::process::exit(2);
+                }
+            }
+        }
         Some("balance") => {
             // Balancing is the null space of the element-count matrix, so
             // the lab can *do* it rather than check a memorised answer —
@@ -921,6 +958,15 @@ fn codex_concepts(dir: &str) -> ! {
     std::process::exit(0);
 }
 
+fn calc_usage() -> ! {
+    eprint!("kero calc — evaluate a named physical relation\n\nusage: kero calc <relation> <arg>=<value>... [--json]\n\nrelations:\n");
+    for r in kerotakis_core::relations::RELATIONS {
+        eprintln!("  {:<24} {}\n{:>28}{}", r.name, r.equation, "", r.args);
+    }
+    eprintln!("\nexamples:\n  kero calc nernst e0=0.3419 n=2 a=0.01 T=298.15\n  kero calc arrhenius A=1e10 Ea=50000 T=298.15\n  kero calc henderson-hasselbalch pKa=4.76 cA=0.1 cB=0.01\n  kero calc debye-huckel z=2 I=0.01\n  kero calc ionic-strength 1:0.1 -1:0.1 2:0.05 -2:0.1\n  kero calc van-t-hoff dH=-57000 K1=1e14 T1=298.15 T2=373.15\n  kero calc eyring dG=65000 T=298.15");
+    std::process::exit(2);
+}
+
 fn usage() -> ! {
     eprintln!(
         "kerotakis — a virtual laboratory that computes real chemistry\n\
@@ -930,6 +976,7 @@ fn usage() -> ! {
          \x20 kero run FILE.lab [--json] replay a command script\n\
          \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
+         \x20 kero calc <relation> ...   evaluate a named physical relation\n\
          \x20 kero provenance lint       validate source/distribution policy\n\
          \x20 kero mechanism inspect FILE.yaml [--json]\n\
          \x20 kero mechanism rates FILE.yaml --volume-l L --temperature-k K\n\
