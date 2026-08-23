@@ -626,14 +626,26 @@
     ]
   },
   "never-mix": {
-    "event_count": 6,
+    "event_count": 18,
     "events_sample": [
       "v1: +11.0686 mol water",
       "v1: +0.1000 mol bleach (sodium hypochlorite)",
-      "v1 balance: 206.84 g",
       "v1: +0.1000 mol ammonia solution",
       "v1 balance: 208.55 g",
-      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+      "v2: new vessel",
+      "v2: +0.0100 mol potassium permanganate",
+      "v2: +0.8563 mol ethanol",
+      "v2: not yet modelled — potassium permanganate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +0.1000 mol hydrochloric acid",
+      "v3: +0.0500 mol magnesium",
+      "v3: not yet modelled — magnesium in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +0.1000 mol hydrochloric acid",
+      "v4: +0.0500 mol chalk (calcium carbonate)",
+      "v4: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction"
     ],
     "lesson": "never-mix.lab",
     "vessels": [
@@ -651,6 +663,67 @@
           },
           {
             "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "KMnO4"
+          },
+          {
+            "moles": 0.85632421,
+            "phase": "Liquid",
+            "species": "ethanol"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Mg"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 5.53427699,
             "phase": "Liquid",
             "species": "water"
           }

@@ -66,8 +66,8 @@ below attack:
   invariants), not a user-facing parameter study.
 - **No uncertainty propagation**; uncertainty lives only in provenance
   prose.
-- **Safety is a 4-species, 2-rule stub** despite being the L0 gate on
-  every step.
+- **~~Safety is a 4-species, 2-rule stub~~ (CAP-11 done)** — 77 species,
+  11 groups, 7+1 rules; totality enforced in CI.
 - PHREEQC vocabulary not yet wired: `EXCHANGE`, `MIX`,
   `KINETICS`/`RATES`, `SOLID_SOLUTIONS`, `TRANSPORT`,
   `INVERSE_MODELING`.
@@ -84,8 +84,8 @@ exist via LIC-006/007) — what remains is wiring `cargo deny` into
 `tools/preflight.sh` and CI plus the synthetic-failure proof;
 **CAP-1 stands undiminished** — `kerotakis-thermo` grew EOS, LLE,
 fluid-model and flash modules and *still* has no dependent crate;
-CAP-11 stands (safety is still the 140-line stub); CAP-12 stands (no
-titration verbs). The instrument lines of the old inventory are stale:
+CAP-11 done (77 species, 11 groups, 7+1 rules); CAP-12 done (titrate
+and dilute verbs landed). The instrument lines of the old inventory are stale:
 gas pressure/volume, conductivity, spectrophotometer, calorimeter,
 chromatography and qualitative analysis landed (INST-003–008). New
 crates since the inventory: `kerotakis-data`, `kerotakis-org`
@@ -110,9 +110,10 @@ Audit of the day's completion claims, each verified against the tree:
   (`phase_diagram.rs` is library-only; no grid solve, no CLI), CAP-5
   (no relations module, no `kero calc`), CAP-6 (no properties module),
   CAP-8 (`statistics.rs` types, no `--mc` surface), CAP-9 (no
-  `kero fit`), CAP-11 (safety still the 140-line stub), CAP-12 (no
-  titrate/dilute verbs), CAP-13 (`vendor/inchi/` holds one README —
+  `kero fit`), CAP-13 (`vendor/inchi/` holds one README —
   a scaffold is not a vendored library).
+  **Now true (2026-08-23 evening):** CAP-11 (77-species safety matrix),
+  CAP-12 (titrate and dilute verbs).
 
 ## Parity matrix
 
@@ -527,7 +528,20 @@ Medium. **Depends on:** coordinate with OPT-6/7.
 
 ## CAP-11 — Safety matrix: from stub to methodology
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23.** Expanded from 4 species / 4 groups /
+      2 rules to 77 species / 11 reactive groups / 7 incompatibility
+      rules plus water-reactive special case. All 77 registry species
+      have explicit group assignments (totality test
+      `totality_of_covered_keys` enforced in CI). Groups: AcidStrong,
+      BaseStrong, OxidizerStrong, OxidizerHypochlorite, ReducingAgent,
+      ActiveMetal, FlammableLiquid, FlammableGas, WaterReactive,
+      AmmoniaAmines, Carbonate. Rules: hypochlorite+ammonia (Danger),
+      hypochlorite+acid (Danger), oxidizer+flammable liquid (Danger),
+      oxidizer+flammable gas (Danger), oxidizer+reducing agent (Danger),
+      acid+metal (Caution), acid+carbonate (Caution), water-reactive+water
+      (Caution). `never-mix.lab` exercises 4 rules (1 existing + 3 new:
+      oxidizer+flammable, acid+metal, acid+carbonate). 13 unit tests,
+      preflight green.
 
 **Why.** PLAN.md's thesis table lists "is this mixture dangerous —
 solved by database (reactive-group matrix reimplemented from NOAA's
