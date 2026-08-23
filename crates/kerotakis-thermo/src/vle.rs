@@ -324,11 +324,7 @@ pub struct FlashResult {
 /// Isothermal TP flash via the Rachford-Rice equation.
 ///
 /// `components[i].x` is the overall feed mole fraction zᵢ.
-pub fn tp_flash(
-    components: &[Volatile],
-    pressure_kpa: f64,
-    t_celsius: f64,
-) -> Option<FlashResult> {
+pub fn tp_flash(components: &[Volatile], pressure_kpa: f64, t_celsius: f64) -> Option<FlashResult> {
     if components.is_empty() || pressure_kpa <= 0.0 {
         return None;
     }
@@ -358,7 +354,10 @@ pub fn tp_flash(
     if sum_z_over_k <= 1.0 {
         return Some(FlashResult {
             vapour_fraction: 1.0,
-            x: z.iter().zip(&k).map(|(zi, ki)| zi / ki / sum_z_over_k).collect(),
+            x: z.iter()
+                .zip(&k)
+                .map(|(zi, ki)| zi / ki / sum_z_over_k)
+                .collect(),
             y: z.clone(),
             k,
         });
@@ -431,11 +430,14 @@ pub fn hp_flash(
         return None;
     }
 
-    let volatiles: Vec<Volatile> = components.iter().map(|c| Volatile {
-        antoine: c.volatile.antoine,
-        x: c.volatile.x,
-        gamma: c.volatile.gamma,
-    }).collect();
+    let volatiles: Vec<Volatile> = components
+        .iter()
+        .map(|c| Volatile {
+            antoine: c.volatile.antoine,
+            x: c.volatile.x,
+            gamma: c.volatile.gamma,
+        })
+        .collect();
 
     // Energy balance residual: H_feed - H(T, V) = 0
     // H(T, V) = Σ nᵢ [cp_L,i (T - T_ref) + V·yᵢ·ΔHv,i]
@@ -536,8 +538,16 @@ mod tests {
     #[test]
     fn bubble_below_dew_for_binary() {
         let mix = [
-            Volatile { antoine: ETHANOL, x: 0.5, gamma: 1.0 },
-            Volatile { antoine: WATER, x: 0.5, gamma: 1.0 },
+            Volatile {
+                antoine: ETHANOL,
+                x: 0.5,
+                gamma: 1.0,
+            },
+            Volatile {
+                antoine: WATER,
+                x: 0.5,
+                gamma: 1.0,
+            },
         ];
         let bp = bubble_point(&mix, ATMOSPHERE_KPA).unwrap();
         let dp = dew_point(&mix, ATMOSPHERE_KPA).unwrap();
@@ -553,8 +563,16 @@ mod tests {
     fn tp_flash_subcooled_liquid() {
         // At 20°C, 1 atm: water-ethanol is all liquid
         let mix = [
-            Volatile { antoine: ETHANOL, x: 0.5, gamma: 1.0 },
-            Volatile { antoine: WATER, x: 0.5, gamma: 1.0 },
+            Volatile {
+                antoine: ETHANOL,
+                x: 0.5,
+                gamma: 1.0,
+            },
+            Volatile {
+                antoine: WATER,
+                x: 0.5,
+                gamma: 1.0,
+            },
         ];
         let result = tp_flash(&mix, ATMOSPHERE_KPA, 20.0).unwrap();
         assert!(
@@ -568,8 +586,16 @@ mod tests {
     fn tp_flash_superheated_vapour() {
         // At 200°C, 1 atm: everything is vapour
         let mix = [
-            Volatile { antoine: ETHANOL, x: 0.5, gamma: 1.0 },
-            Volatile { antoine: WATER, x: 0.5, gamma: 1.0 },
+            Volatile {
+                antoine: ETHANOL,
+                x: 0.5,
+                gamma: 1.0,
+            },
+            Volatile {
+                antoine: WATER,
+                x: 0.5,
+                gamma: 1.0,
+            },
         ];
         let result = tp_flash(&mix, ATMOSPHERE_KPA, 200.0).unwrap();
         assert!(
@@ -583,15 +609,31 @@ mod tests {
     fn tp_flash_two_phase() {
         // At bubble point + a few degrees: partial vaporization
         let mix_bp = [
-            Volatile { antoine: ETHANOL, x: 0.3, gamma: 1.0 },
-            Volatile { antoine: WATER, x: 0.7, gamma: 1.0 },
+            Volatile {
+                antoine: ETHANOL,
+                x: 0.3,
+                gamma: 1.0,
+            },
+            Volatile {
+                antoine: WATER,
+                x: 0.7,
+                gamma: 1.0,
+            },
         ];
         let bp = bubble_point(&mix_bp, ATMOSPHERE_KPA).unwrap();
 
         // Flash a few degrees above the bubble point
         let mix_flash = [
-            Volatile { antoine: ETHANOL, x: 0.3, gamma: 1.0 },
-            Volatile { antoine: WATER, x: 0.7, gamma: 1.0 },
+            Volatile {
+                antoine: ETHANOL,
+                x: 0.3,
+                gamma: 1.0,
+            },
+            Volatile {
+                antoine: WATER,
+                x: 0.7,
+                gamma: 1.0,
+            },
         ];
         let result = tp_flash(&mix_flash, ATMOSPHERE_KPA, bp.t_celsius + 2.0).unwrap();
         assert!(
@@ -611,8 +653,16 @@ mod tests {
     #[test]
     fn flash_compositions_sum_to_one() {
         let mix = [
-            Volatile { antoine: ETHANOL, x: 0.4, gamma: 1.0 },
-            Volatile { antoine: WATER, x: 0.6, gamma: 1.0 },
+            Volatile {
+                antoine: ETHANOL,
+                x: 0.4,
+                gamma: 1.0,
+            },
+            Volatile {
+                antoine: WATER,
+                x: 0.6,
+                gamma: 1.0,
+            },
         ];
         let bp = bubble_point(&mix, ATMOSPHERE_KPA).unwrap();
         let result = tp_flash(&mix, ATMOSPHERE_KPA, bp.t_celsius + 3.0).unwrap();
@@ -635,7 +685,11 @@ mod tests {
 
     fn water_component(x: f64) -> FlashComponent {
         FlashComponent {
-            volatile: Volatile { antoine: WATER, x, gamma: 1.0 },
+            volatile: Volatile {
+                antoine: WATER,
+                x,
+                gamma: 1.0,
+            },
             delta_hv_kj_per_mol: 40.7, // water at 100°C
             cp_liquid_j_per_mol_k: 75.3,
         }
@@ -643,7 +697,11 @@ mod tests {
 
     fn ethanol_component(x: f64) -> FlashComponent {
         FlashComponent {
-            volatile: Volatile { antoine: ETHANOL, x, gamma: 1.0 },
+            volatile: Volatile {
+                antoine: ETHANOL,
+                x,
+                gamma: 1.0,
+            },
             delta_hv_kj_per_mol: 38.6, // ethanol at 78°C
             cp_liquid_j_per_mol_k: 112.0,
         }

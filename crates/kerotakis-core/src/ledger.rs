@@ -58,8 +58,7 @@ impl ConservedLedger {
             if let Some(data) = species::lookup(&portion.species) {
                 if let Ok(formula) = stoich::parse_formula(data.formula) {
                     for (el, count) in &formula.counts {
-                        *elements.entry(el.clone()).or_insert(0.0) +=
-                            count * portion.moles.0;
+                        *elements.entry(el.clone()).or_insert(0.0) += count * portion.moles.0;
                     }
                     charge += formula.charge * portion.moles.0;
                 }
@@ -73,8 +72,7 @@ impl ConservedLedger {
                 if let Some(data) = species::lookup(&sid) {
                     if let Ok(formula) = stoich::parse_formula(data.formula) {
                         for (el, count) in &formula.counts {
-                            *elements.entry(el.clone()).or_insert(0.0) +=
-                                count * occ.moles.0;
+                            *elements.entry(el.clone()).or_insert(0.0) += count * occ.moles.0;
                         }
                         charge += formula.charge * occ.moles.0;
                     }
@@ -89,8 +87,7 @@ impl ConservedLedger {
                 if let Some(data) = species::lookup(&sid) {
                     if let Ok(formula) = stoich::parse_formula(data.formula) {
                         for (el, count) in &formula.counts {
-                            *elements.entry(el.clone()).or_insert(0.0) +=
-                                count * occ.moles.0;
+                            *elements.entry(el.clone()).or_insert(0.0) += count * occ.moles.0;
                         }
                         charge += formula.charge * occ.moles.0;
                     }
@@ -105,8 +102,7 @@ impl ConservedLedger {
                 if let Some(data) = species::lookup(&sid) {
                     if let Ok(formula) = stoich::parse_formula(data.formula) {
                         for (el, count) in &formula.counts {
-                            *elements.entry(el.clone()).or_insert(0.0) +=
-                                count * component.moles.0;
+                            *elements.entry(el.clone()).or_insert(0.0) += count * component.moles.0;
                         }
                         charge += formula.charge * component.moles.0;
                     }
@@ -136,11 +132,8 @@ impl ConservedLedger {
         let mut violations = Vec::new();
 
         // Check element conservation
-        let mut all_elements: Vec<&String> = self
-            .elements
-            .keys()
-            .chain(after.elements.keys())
-            .collect();
+        let mut all_elements: Vec<&String> =
+            self.elements.keys().chain(after.elements.keys()).collect();
         all_elements.sort();
         all_elements.dedup();
 

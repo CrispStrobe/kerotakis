@@ -7,8 +7,8 @@ use std::path::Path;
 
 #[test]
 fn registry_phase_properties_resolve_with_provenance() {
-    let path = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../data/registry/registry-source-v1.json");
+    let path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../data/registry/registry-source-v1.json");
     let content = fs::read_to_string(&path).unwrap();
     let doc: RegistryDocument = serde_json::from_str(&content).unwrap();
 
@@ -49,8 +49,8 @@ fn registry_phase_properties_resolve_with_provenance() {
 
 #[test]
 fn every_phase_property_has_a_source() {
-    let path = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../data/registry/registry-source-v1.json");
+    let path =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../data/registry/registry-source-v1.json");
     let content = fs::read_to_string(&path).unwrap();
     let doc: RegistryDocument = serde_json::from_str(&content).unwrap();
 

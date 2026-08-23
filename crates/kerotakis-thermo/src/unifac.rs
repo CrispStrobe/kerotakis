@@ -60,37 +60,153 @@ pub fn approved_table() -> UnifacTable {
     UnifacTable {
         groups: vec![
             // Main group 1: CH2 (alkanes)
-            UnifacGroup { id: 1, name: "CH3", main_group: 1, r: 0.9011, q: 0.848, source: SOURCE },
-            UnifacGroup { id: 2, name: "CH2", main_group: 1, r: 0.6744, q: 0.540, source: SOURCE },
-            UnifacGroup { id: 3, name: "CH",  main_group: 1, r: 0.4469, q: 0.228, source: SOURCE },
-            UnifacGroup { id: 4, name: "C",   main_group: 1, r: 0.2195, q: 0.000, source: SOURCE },
+            UnifacGroup {
+                id: 1,
+                name: "CH3",
+                main_group: 1,
+                r: 0.9011,
+                q: 0.848,
+                source: SOURCE,
+            },
+            UnifacGroup {
+                id: 2,
+                name: "CH2",
+                main_group: 1,
+                r: 0.6744,
+                q: 0.540,
+                source: SOURCE,
+            },
+            UnifacGroup {
+                id: 3,
+                name: "CH",
+                main_group: 1,
+                r: 0.4469,
+                q: 0.228,
+                source: SOURCE,
+            },
+            UnifacGroup {
+                id: 4,
+                name: "C",
+                main_group: 1,
+                r: 0.2195,
+                q: 0.000,
+                source: SOURCE,
+            },
             // Main group 5: OH (alcohols)
-            UnifacGroup { id: 14, name: "OH", main_group: 5, r: 1.0000, q: 1.200, source: SOURCE },
+            UnifacGroup {
+                id: 14,
+                name: "OH",
+                main_group: 5,
+                r: 1.0000,
+                q: 1.200,
+                source: SOURCE,
+            },
             // Main group 7: H2O
-            UnifacGroup { id: 16, name: "H2O", main_group: 7, r: 0.9200, q: 1.400, source: SOURCE },
+            UnifacGroup {
+                id: 16,
+                name: "H2O",
+                main_group: 7,
+                r: 0.9200,
+                q: 1.400,
+                source: SOURCE,
+            },
             // Main group 9: CH2CO (ketones)
-            UnifacGroup { id: 18, name: "CH3CO", main_group: 9, r: 1.6724, q: 1.488, source: SOURCE },
-            UnifacGroup { id: 19, name: "CH2CO", main_group: 9, r: 1.4457, q: 1.180, source: SOURCE },
+            UnifacGroup {
+                id: 18,
+                name: "CH3CO",
+                main_group: 9,
+                r: 1.6724,
+                q: 1.488,
+                source: SOURCE,
+            },
+            UnifacGroup {
+                id: 19,
+                name: "CH2CO",
+                main_group: 9,
+                r: 1.4457,
+                q: 1.180,
+                source: SOURCE,
+            },
         ],
         interactions: vec![
             // CH2-OH
-            InteractionParam { m: 1, n: 5, a_mn: 986.5, source: SOURCE },
-            InteractionParam { m: 5, n: 1, a_mn: 156.4, source: SOURCE },
+            InteractionParam {
+                m: 1,
+                n: 5,
+                a_mn: 986.5,
+                source: SOURCE,
+            },
+            InteractionParam {
+                m: 5,
+                n: 1,
+                a_mn: 156.4,
+                source: SOURCE,
+            },
             // CH2-H2O
-            InteractionParam { m: 1, n: 7, a_mn: 1318.0, source: SOURCE },
-            InteractionParam { m: 7, n: 1, a_mn: 300.0, source: SOURCE },
+            InteractionParam {
+                m: 1,
+                n: 7,
+                a_mn: 1318.0,
+                source: SOURCE,
+            },
+            InteractionParam {
+                m: 7,
+                n: 1,
+                a_mn: 300.0,
+                source: SOURCE,
+            },
             // OH-H2O
-            InteractionParam { m: 5, n: 7, a_mn: 353.5, source: SOURCE },
-            InteractionParam { m: 7, n: 5, a_mn: -229.1, source: SOURCE },
+            InteractionParam {
+                m: 5,
+                n: 7,
+                a_mn: 353.5,
+                source: SOURCE,
+            },
+            InteractionParam {
+                m: 7,
+                n: 5,
+                a_mn: -229.1,
+                source: SOURCE,
+            },
             // CH2-CH2CO
-            InteractionParam { m: 1, n: 9, a_mn: 476.4, source: SOURCE },
-            InteractionParam { m: 9, n: 1, a_mn: 26.76, source: SOURCE },
+            InteractionParam {
+                m: 1,
+                n: 9,
+                a_mn: 476.4,
+                source: SOURCE,
+            },
+            InteractionParam {
+                m: 9,
+                n: 1,
+                a_mn: 26.76,
+                source: SOURCE,
+            },
             // OH-CH2CO
-            InteractionParam { m: 5, n: 9, a_mn: 164.5, source: SOURCE },
-            InteractionParam { m: 9, n: 5, a_mn: -150.0, source: SOURCE },
+            InteractionParam {
+                m: 5,
+                n: 9,
+                a_mn: 164.5,
+                source: SOURCE,
+            },
+            InteractionParam {
+                m: 9,
+                n: 5,
+                a_mn: -150.0,
+                source: SOURCE,
+            },
             // H2O-CH2CO
-            InteractionParam { m: 7, n: 9, a_mn: -195.4, source: SOURCE },
-            InteractionParam { m: 9, n: 7, a_mn: 472.5, source: SOURCE },
+            InteractionParam {
+                m: 7,
+                n: 9,
+                a_mn: -195.4,
+                source: SOURCE,
+            },
+            InteractionParam {
+                m: 9,
+                n: 7,
+                a_mn: 472.5,
+                source: SOURCE,
+            },
         ],
     }
 }
@@ -133,18 +249,24 @@ pub fn activity_coefficients(
 
     let mut ln_gamma_c = vec![0.0; n];
     for i in 0..n {
-        if x[i] < 1e-30 { continue; }
+        if x[i] < 1e-30 {
+            continue;
+        }
         let phi_i = r_i[i] / r_sum;
         let theta_i = q_i[i] / q_sum;
         let l_i = z / 2.0 * (r_i[i] - q_i[i]) - (r_i[i] - 1.0);
 
-        let l_sum: f64 = x.iter().enumerate().map(|(j, xj)| {
-            let l_j = z / 2.0 * (r_i[j] - q_i[j]) - (r_i[j] - 1.0);
-            xj * l_j
-        }).sum();
+        let l_sum: f64 = x
+            .iter()
+            .enumerate()
+            .map(|(j, xj)| {
+                let l_j = z / 2.0 * (r_i[j] - q_i[j]) - (r_i[j] - 1.0);
+                xj * l_j
+            })
+            .sum();
 
-        ln_gamma_c[i] = (phi_i / x[i]).ln() + z / 2.0 * q_i[i] * (theta_i / phi_i).ln()
-            + l_i - phi_i / x[i] * l_sum;
+        ln_gamma_c[i] = (phi_i / x[i]).ln() + z / 2.0 * q_i[i] * (theta_i / phi_i).ln() + l_i
+            - phi_i / x[i] * l_sum;
     }
 
     // For the residual part, a full implementation would compute
@@ -173,10 +295,7 @@ mod tests {
         let mut water = GroupDecomposition::new();
         water.insert(16, 1); // H2O
 
-        let compositions = vec![
-            (ethanol, 0.5),
-            (water, 0.5),
-        ];
+        let compositions = vec![(ethanol, 0.5), (water, 0.5)];
 
         let gammas = activity_coefficients(&table, &compositions, 298.15);
         assert_eq!(gammas.len(), 2);
@@ -195,7 +314,12 @@ mod tests {
             assert!(!g.source.is_empty(), "group {} has no source", g.name);
         }
         for p in &table.interactions {
-            assert!(!p.source.is_empty(), "interaction {}-{} has no source", p.m, p.n);
+            assert!(
+                !p.source.is_empty(),
+                "interaction {}-{} has no source",
+                p.m,
+                p.n
+            );
         }
     }
 }

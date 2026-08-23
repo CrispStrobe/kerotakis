@@ -31,12 +31,12 @@ pub mod kinetics;
 pub mod ledger;
 pub mod molecule;
 pub mod nuclide;
-pub mod polymer;
 pub mod ops;
 pub mod orchestrator;
 pub mod packs;
 pub mod particles;
 pub mod photochem;
+pub mod polymer;
 pub mod render;
 pub mod script;
 pub mod solve;
@@ -56,19 +56,20 @@ pub use compartment::{
 };
 pub use coverage::{coverage_manifest, CoverageReport, SolverCoverage};
 pub use curated::CuratedEquilibrator;
+pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
+pub use displacement::DisplacementEquilibrator;
 pub use instrument::{
     Balance, ConductivityMeter, InstrumentContract, InstrumentMode, PhMeter, PressureGauge,
     Reading, Thermometer,
 };
-pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
-pub use displacement::DisplacementEquilibrator;
+pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use orchestrator::Orchestrator;
 pub use render::{render_event, render_events, render_vessel, Register};
 pub use solve::{
-    equilibrate_phase_coupled, Applicability, CapabilityReport, Equilibrator,
-    HonestyEquilibrator, MixingEquilibrator, PermissiveScreen, PhaseEquilibrator, SafetyScreen,
-    SafetyVerdict, Severity, SolveError, SolverStack, StateEquilibrator, ValidityBounds,
+    equilibrate_phase_coupled, Applicability, CapabilityReport, Equilibrator, HonestyEquilibrator,
+    MixingEquilibrator, PermissiveScreen, PhaseEquilibrator, SafetyScreen, SafetyVerdict, Severity,
+    SolveError, SolverStack, StateEquilibrator, ValidityBounds,
     PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
 };
 pub use species::{Colour, Phase, SpeciesId};
@@ -77,13 +78,12 @@ pub use transport::{
     CellChain, CellReaction, MobileParcel, ReactiveTransportError, ReactiveTransportStep,
     TransportError, TransportStep,
 };
-pub use ledger::{audit_conservation, ConservedLedger};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 pub use vessel::{
     ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Portion, Provenance, RedoxState,
-    SolidSolution, SolidSolutionAmount, SolidSolutionComponent,
-    SolidSolutionModel, SolutionInfo, SpeciesDetail, SurfaceModel, SurfaceOccupancy,
-    SurfaceSiteKind, SurfaceSites, SurfaceSorbate, ThermalMode, Vessel, VesselId,
+    SolidSolution, SolidSolutionAmount, SolidSolutionComponent, SolidSolutionModel, SolutionInfo,
+    SpeciesDetail, SurfaceModel, SurfaceOccupancy, SurfaceSiteKind, SurfaceSites, SurfaceSorbate,
+    ThermalMode, Vessel, VesselId,
 };
 
 #[cfg(test)]

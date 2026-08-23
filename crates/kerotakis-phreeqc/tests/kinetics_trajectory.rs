@@ -5,10 +5,7 @@
 //! and carbonate however its approved database requires; the shared state
 //! contract is remaining mineral plus analytical Ca/C totals.
 
-#![cfg(all(
-    feature = "engine",
-    feature = "my-basic",
-))]
+#![cfg(all(feature = "engine", feature = "my-basic",))]
 
 use kerotakis_core::kinetics::{
     advance_network, lint_network, KineticReaction, Locality, OrderTerm, RateExpression, RateLaw,

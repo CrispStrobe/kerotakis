@@ -279,17 +279,17 @@ impl InstrumentContract for Spectrophotometer {
         "spectrophotometer"
     }
     fn applies(&self, vessel: &Vessel) -> bool {
-        vessel.contents.iter().any(|p| p.phase == crate::species::Phase::Aqueous)
+        vessel
+            .contents
+            .iter()
+            .any(|p| p.phase == crate::species::Phase::Aqueous)
     }
     fn mode(&self) -> InstrumentMode {
         InstrumentMode::Passive
     }
     fn measure(&self, vessel: &Vessel) -> Option<Reading> {
         let spectrum = self.measure_spectrum(vessel);
-        let peak_abs = spectrum
-            .iter()
-            .copied()
-            .fold(0.0f64, f64::max);
+        let peak_abs = spectrum.iter().copied().fold(0.0f64, f64::max);
         let peak_idx = spectrum
             .iter()
             .position(|&a| (a - peak_abs).abs() < 1e-15)

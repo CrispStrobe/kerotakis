@@ -14,14 +14,10 @@ use crate::units::Kelvin;
 pub enum CellControl {
     /// Constant current (galvanostatic): the power supply delivers a
     /// fixed current regardless of voltage.
-    Galvanostatic {
-        current_amps: f64,
-    },
+    Galvanostatic { current_amps: f64 },
     /// Constant voltage (potentiostatic): the power supply maintains a
     /// fixed potential difference.
-    Potentiostatic {
-        voltage: f64,
-    },
+    Potentiostatic { voltage: f64 },
     /// Open circuit: no external current flows.
     OpenCircuit,
 }
@@ -157,7 +153,9 @@ pub fn tafel_overpotential(
     temperature_k: f64,
 ) -> f64 {
     let b = 2.303 * R_GAS * temperature_k / (alpha * FARADAY);
-    b * (current_density.abs() / exchange_current_density).max(1e-30).log10()
+    b * (current_density.abs() / exchange_current_density)
+        .max(1e-30)
+        .log10()
 }
 
 /// Diffusion-limited current density (Levich boundary-layer model).

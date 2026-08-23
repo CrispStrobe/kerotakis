@@ -1,7 +1,4 @@
-#![cfg(all(
-    feature = "engine",
-    not(feature = "my-basic")
-))]
+#![cfg(all(feature = "engine", not(feature = "my-basic")))]
 
 use kerotakis_phreeqc::{databases, Phreeqc};
 

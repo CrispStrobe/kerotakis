@@ -1,7 +1,4 @@
-#![cfg(all(
-    feature = "engine",
-    feature = "my-basic"
-))]
+#![cfg(all(feature = "engine", feature = "my-basic"))]
 
 use kerotakis_phreeqc::{databases, Phreeqc};
 use std::collections::HashMap;

@@ -16,9 +16,9 @@ use kerotakis_core::kinetics::{
 use kerotakis_core::units::Moles;
 use kerotakis_core::vessel::Vessel;
 
-use sundials::{Context, CvodeBuilder, Lmm, NVector};
-use sundials::linsol::{DenseLinearSolver, SpgmrSolver, PrecType};
+use sundials::linsol::{DenseLinearSolver, PrecType, SpgmrSolver};
 use sundials::matrix::DenseMatrix;
+use sundials::{Context, CvodeBuilder, Lmm, NVector};
 
 const DEPLETION_EVENT: f64 = 1e-11; // matches kerotakis-core
 const MAX_EVENT_RESTARTS: usize = 128;
@@ -86,10 +86,11 @@ pub fn advance_network_cvode<'a>(
             reactions: network.reactions,
         };
 
-        let mut solver = CvodeBuilder::new(Lmm::Bdf, &ctx).init(0.0, &y0, move |_t, extents, ydot| {
-            extent_rhs(&vessel_snapshot, &rhs_network, extents, ydot);
-            Ok(())
-        });
+        let mut solver =
+            CvodeBuilder::new(Lmm::Bdf, &ctx).init(0.0, &y0, move |_t, extents, ydot| {
+                extent_rhs(&vessel_snapshot, &rhs_network, extents, ydot);
+                Ok(())
+            });
 
         solver.set_ss_tolerances(options.relative_tolerance, options.absolute_tolerance_moles);
 
@@ -187,10 +188,7 @@ pub fn oracle_compare<'a>(
     seconds: f64,
     network: &'a ReactionNetwork<'a>,
     options: IntegrationOptions,
-) -> Result<
-    (IntegrationReport<'a>, IntegrationReport<'a>),
-    IntegrationError,
-> {
+) -> Result<(IntegrationReport<'a>, IntegrationReport<'a>), IntegrationError> {
     use kerotakis_core::kinetics::advance_network_with_options;
 
     let mut vessel_cvode = vessel.clone();
@@ -207,10 +205,10 @@ pub fn oracle_compare<'a>(
 mod tests {
     use super::*;
     use kerotakis_core::kinetics::{self, NETWORK};
-    use kerotakis_core::vessel::VesselId;
     use kerotakis_core::species::Phase;
     use kerotakis_core::units::Moles;
     use kerotakis_core::vessel::Vessel;
+    use kerotakis_core::vessel::VesselId;
 
     fn vessel_with(items: &[(&str, f64, Phase)], celsius: f64) -> Vessel {
         use kerotakis_core::species::SpeciesId;
@@ -239,7 +237,10 @@ mod tests {
     #[test]
     fn test_cvode_zero_duration() {
         let mut vessel = vessel_with(
-            &[("Na2S2O3", 0.1, Phase::Aqueous), ("HCl", 0.1, Phase::Aqueous)],
+            &[
+                ("Na2S2O3", 0.1, Phase::Aqueous),
+                ("HCl", 0.1, Phase::Aqueous),
+            ],
             25.0,
         );
         let report =
@@ -288,8 +289,7 @@ mod tests {
                     cvode.extents.iter().zip(diffsol.extents.iter())
                 {
                     assert!(
-                        cvode_ext.0.signum() == diffsol_ext.0.signum()
-                            || cvode_ext.0.abs() < 1e-10,
+                        cvode_ext.0.signum() == diffsol_ext.0.signum() || cvode_ext.0.abs() < 1e-10,
                         "Extent signs differ: CVODE={}, diffsol={}",
                         cvode_ext.0,
                         diffsol_ext.0,

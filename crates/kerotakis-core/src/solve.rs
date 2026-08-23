@@ -28,7 +28,10 @@ pub enum Applicability {
 
 impl Applicability {
     pub fn is_applicable(&self) -> bool {
-        matches!(self, Applicability::Applicable | Applicability::Partial { .. })
+        matches!(
+            self,
+            Applicability::Applicable | Applicability::Partial { .. }
+        )
     }
 
     pub fn is_fully_applicable(&self) -> bool {
@@ -92,7 +95,10 @@ pub trait Equilibrator {
     ) -> Result<(crate::delta::StateDelta, Vec<Event>), SolveError> {
         let mut copy = vessel.clone();
         let events = self.equilibrate(&mut copy)?;
-        Ok((crate::orchestrator::diff_vessels(vessel, &copy, self.name()), events))
+        Ok((
+            crate::orchestrator::diff_vessels(vessel, &copy, self.name()),
+            events,
+        ))
     }
 
     /// ARCH-010: structured capability report.

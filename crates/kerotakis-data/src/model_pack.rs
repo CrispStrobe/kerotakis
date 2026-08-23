@@ -128,7 +128,9 @@ mod tests {
 
     #[test]
     fn reject_reasons_display() {
-        assert!(PackRejectReason::UnsignedPack.to_string().contains("not signed"));
+        assert!(PackRejectReason::UnsignedPack
+            .to_string()
+            .contains("not signed"));
         assert!(PackRejectReason::DevelopmentOnlyInRelease
             .to_string()
             .contains("development"));

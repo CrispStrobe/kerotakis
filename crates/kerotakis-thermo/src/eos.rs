@@ -58,8 +58,8 @@ impl PengRobinson {
             let f = z * z * z - (1.0 - cap_b) * z * z
                 + (cap_a - 3.0 * cap_b * cap_b - 2.0 * cap_b) * z
                 - (cap_a * cap_b - cap_b * cap_b - cap_b * cap_b * cap_b);
-            let fp = 3.0 * z * z - 2.0 * (1.0 - cap_b) * z
-                + (cap_a - 3.0 * cap_b * cap_b - 2.0 * cap_b);
+            let fp =
+                3.0 * z * z - 2.0 * (1.0 - cap_b) * z + (cap_a - 3.0 * cap_b * cap_b - 2.0 * cap_b);
             if fp.abs() < 1e-30 {
                 break;
             }
@@ -144,11 +144,7 @@ mod tests {
         // At low pressure, Z → 1
         let pr = PengRobinson::new(NITROGEN_CRITICAL);
         let z = pr.z_vapour(300.0, 100.0); // 300K, 100 Pa
-        assert!(
-            (z - 1.0).abs() < 0.01,
-            "Z should be ~1 at low P, got {}",
-            z
-        );
+        assert!((z - 1.0).abs() < 0.01, "Z should be ~1 at low P, got {}", z);
     }
 
     #[test]

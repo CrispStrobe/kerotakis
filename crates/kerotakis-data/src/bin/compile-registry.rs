@@ -6,7 +6,9 @@
 //! Usage: cargo run -p kerotakis-data --bin compile-registry \
 //!            -- data/registry/registry-source-v1.json data/registry/registry.pack
 
-use kerotakis_data::{serialize_pack_payload, RegistryDocument, ValidationError, PACK_MAGIC, PACK_VERSION};
+use kerotakis_data::{
+    serialize_pack_payload, RegistryDocument, ValidationError, PACK_MAGIC, PACK_VERSION,
+};
 use sha2::{Digest, Sha256};
 use std::fs;
 use std::io::Write;
@@ -15,9 +17,7 @@ use std::path::PathBuf;
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     if args.len() < 3 {
-        eprintln!(
-            "usage: compile-registry <source.json> <output.pack> [--inspect]"
-        );
+        eprintln!("usage: compile-registry <source.json> <output.pack> [--inspect]");
         std::process::exit(2);
     }
     let input_path = PathBuf::from(&args[1]);

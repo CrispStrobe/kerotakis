@@ -3,13 +3,13 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::instrument::InstrumentContract;
 use crate::ops::{Event, Instrument, LogEntry, Operator};
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
-use crate::instrument::InstrumentContract;
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::{Headspace, ThermalMode, Vessel, VesselId};
 

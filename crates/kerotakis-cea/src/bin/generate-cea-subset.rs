@@ -52,7 +52,10 @@ fn main() {
         }
     }
 
-    eprintln!("\n{matched} matched, {unmatched} unmatched, {} total", registry.len());
+    eprintln!(
+        "\n{matched} matched, {unmatched} unmatched, {} total",
+        registry.len()
+    );
     eprintln!("CEA database: {} species total", thermo_db.species.len());
 
     // Output manifest
