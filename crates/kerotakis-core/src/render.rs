@@ -256,6 +256,19 @@ pub fn render_event(event: &Event, register: Register) -> String {
             ),
             _ => format!("{from} → {to}: filtrate passed; residue retained"),
         },
+        Event::Partitioned { vessel, species, fraction_lower } => match register.level() {
+            1 => format!("Some of the {} in {vessel} moves into each layer.",
+                species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str())),
+            2 => format!(
+                "{vessel}: {} split between the layers — {:.0}% in the lower, the rest dissolved in the upper",
+                species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str()),
+                fraction_lower * 100.0,
+            ),
+            _ => format!(
+                "{vessel}: {} partitioned at K from UNIFAC γ∞ ratio; fraction in lower layer {:.4} (equal-activity split over the layer sizes)",
+                species.0, fraction_lower,
+            ),
+        },
         Event::Drained { from, to, solvent, moles } => match register.level() {
             1 => format!("You open the tap and the bottom layer runs from {from} into {to}."),
             2 => format!(

@@ -839,19 +839,55 @@ impl Bench {
                     return Ok(events);
                 };
                 let lower_id = SpeciesId::new(lower);
+                let upper_id = SpeciesId::new(_upper);
                 // The lower layer takes its solvent and everything dissolved
-                // in it. Solids stay behind: a stopcock passes liquid, and a
-                // solid sitting in the funnel is a filtration question, not
-                // a separation one.
-                let moved: Vec<(SpeciesId, Moles, Phase)> = src
+                // in it — except that a neutral solute with a curated UNIFAC
+                // decomposition obeys its computed partition coefficient and
+                // leaves some of itself dissolved in the upper layer. Solids
+                // stay behind: a stopcock passes liquid, and a solid sitting
+                // in the funnel is a filtration question, not a separation
+                // one.
+                let lower_solvent_moles: f64 = src
                     .contents
                     .iter()
-                    .filter(|p| {
-                        (p.species == lower_id && p.phase == Phase::Liquid)
-                            || p.phase == Phase::Aqueous
-                    })
-                    .map(|p| (p.species.clone(), p.moles, p.phase))
-                    .collect();
+                    .filter(|p| p.species == lower_id && p.phase == Phase::Liquid)
+                    .map(|p| p.moles.0)
+                    .sum();
+                let upper_solvent_moles: f64 = src
+                    .contents
+                    .iter()
+                    .filter(|p| p.species == upper_id && p.phase == Phase::Liquid)
+                    .map(|p| p.moles.0)
+                    .sum();
+                let t_k = src.temperature.0;
+                let mut partitioned: Vec<(SpeciesId, f64)> = Vec::new();
+                let mut moved: Vec<(SpeciesId, Moles, Phase)> = Vec::new();
+                for p in src.contents.iter() {
+                    let is_lower_solvent = p.species == lower_id && p.phase == Phase::Liquid;
+                    let dissolved = p.phase == Phase::Aqueous
+                        || (p.phase == Phase::Liquid
+                            && p.species != lower_id
+                            && p.species != upper_id);
+                    if is_lower_solvent {
+                        moved.push((p.species.clone(), p.moles, p.phase));
+                    } else if dissolved {
+                        match partition_groups(&p.species) {
+                            Some(solute) => {
+                                let f = kerotakis_thermo::lle::partition_fraction_lower(
+                                    &solute,
+                                    &water_groups(),
+                                    &hexane_groups(),
+                                    lower_solvent_moles,
+                                    upper_solvent_moles,
+                                    t_k,
+                                );
+                                moved.push((p.species.clone(), Moles(p.moles.0 * f), p.phase));
+                                partitioned.push((p.species.clone(), f));
+                            }
+                            None => moved.push((p.species.clone(), p.moles, p.phase)),
+                        }
+                    }
+                }
                 let solvent_moles = moved
                     .iter()
                     .filter(|(s, ..)| *s == lower_id)
@@ -884,6 +920,13 @@ impl Bench {
                 }
                 for (spec, m, phase) in moved {
                     dst.deposit(spec, m, phase);
+                }
+                for (species, f) in partitioned {
+                    events.push(Event::Partitioned {
+                        vessel: *from,
+                        species,
+                        fraction_lower: f,
+                    });
                 }
                 events.push(Event::Drained {
                     from: *from,
@@ -1236,4 +1279,38 @@ fn trap_boundary_gas(
         vessel.deposit(SpeciesId::new("CO2"), Moles(moles * AIR_CO2), Phase::Gas);
     }
     Moles(moles)
+}
+
+/// UNIFAC group decompositions for the partitioning solutes and the two
+/// curated layer solvents. A solute earns partitioning by entering this
+/// table; everything else travels entirely with the water it is
+/// dissolved in, which is exactly right for ions.
+fn partition_groups(species: &SpeciesId) -> Option<kerotakis_thermo::unifac::GroupDecomposition> {
+    let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
+    match species.0.as_str() {
+        "ethanol" => {
+            g.insert(1, 1); // CH3
+            g.insert(2, 1); // CH2
+            g.insert(14, 1); // OH
+        }
+        "methanol" => {
+            g.insert(1, 1); // CH3
+            g.insert(14, 1); // OH
+        }
+        _ => return None,
+    }
+    Some(g)
+}
+
+fn water_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
+    let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
+    g.insert(16, 1);
+    g
+}
+
+fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
+    let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
+    g.insert(1, 2);
+    g.insert(2, 4);
+    g
 }

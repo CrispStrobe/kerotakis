@@ -357,6 +357,16 @@ pub enum Event {
         energy_kj: f64,
         azeotropic: bool,
     },
+    /// A neutral solute split between the two layers on its computed
+    /// partition coefficient — the ratio of its infinite-dilution
+    /// activity coefficients in the two solvents.
+    Partitioned {
+        vessel: VesselId,
+        species: SpeciesId,
+        /// Fraction of the solute that sat in the lower layer (and so
+        /// left with it when the stopcock opened).
+        fraction_lower: f64,
+    },
     /// The lower layer ran out through the stopcock, solutes and all.
     Drained {
         from: VesselId,

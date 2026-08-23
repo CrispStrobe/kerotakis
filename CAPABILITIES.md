@@ -785,9 +785,14 @@ organic layer left alone), a settled solid stays (a stopcock passes
 liquid; filtration is a different question, and lv3 says so), and
 draining a computed single phase is refused out loud. `layered_pair`
 is the one source of truth the solver's report and the bench's verb
-both consult. Remaining in this task: computed partitioning of neutral
-solutes between the layers (the K from γ∞ ratios), and the transport /
-chromatograph / calorimeter / react verbs. **Acceptance.** Each verb demonstrable in a replayed lesson;
+both consult. Computed partitioning followed the same day: at
+the stopcock a curated neutral solute splits on K = γ∞(upper)/γ∞(lower)
+from the same UNIFAC (ethanol 88% with the water at 2:1 layers,
+methanol 96% — the hydrophilicity ordering emerging from group counts
+alone), a `Partitioned` event says so in three registers, ions still
+travel entirely with their water, and the engine test pins the split
+window and exact solute conservation. Remaining in this task: the
+transport / chromatograph / calorimeter / react verbs. **Acceptance.** Each verb demonstrable in a replayed lesson;
 `kerotakis-org` gains a dependent; preflight green. **Size.** Medium
 per verb — they are independent; take them one per branch.
 **Depends on:** nothing.

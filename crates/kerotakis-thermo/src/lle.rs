@@ -320,3 +320,46 @@ mod tests {
         assert_eq!(result, LleResult::SinglePhase);
     }
 }
+
+/// Infinite-dilution activity coefficient of a solute in a solvent, from
+/// full UNIFAC at the given temperature — the γ∞ whose ratio between two
+/// immiscible solvents is the partition coefficient a separating funnel
+/// runs on.
+pub fn infinite_dilution_gamma(
+    solute: &crate::unifac::GroupDecomposition,
+    solvent: &crate::unifac::GroupDecomposition,
+    t_kelvin: f64,
+) -> f64 {
+    let table = crate::unifac::approved_table();
+    let g = crate::unifac::activity_coefficients(
+        &table,
+        &[(solute.clone(), 1e-9), (solvent.clone(), 1.0 - 1e-9)],
+        t_kelvin,
+    );
+    g[0]
+}
+
+/// How a neutral solute splits between two liquid layers at equilibrium:
+/// the mole-fraction ratio is set by equal activity,
+/// x_low γ∞_low = x_up γ∞_up, so with layer sizes N_low and N_up the
+/// mole *amounts* split as
+///
+/// ```text
+/// n_low / n_up = (γ∞_up / γ∞_low) · (N_low / N_up)
+/// ```
+///
+/// Returns the fraction of the solute in the *lower* layer. Curated
+/// solutes only — a solute enters when its UNIFAC decomposition exists.
+pub fn partition_fraction_lower(
+    solute: &crate::unifac::GroupDecomposition,
+    lower_solvent: &crate::unifac::GroupDecomposition,
+    upper_solvent: &crate::unifac::GroupDecomposition,
+    lower_moles: f64,
+    upper_moles: f64,
+    t_kelvin: f64,
+) -> f64 {
+    let g_low = infinite_dilution_gamma(solute, lower_solvent, t_kelvin);
+    let g_up = infinite_dilution_gamma(solute, upper_solvent, t_kelvin);
+    let ratio = (g_up / g_low) * (lower_moles / upper_moles.max(1e-12));
+    (ratio / (1.0 + ratio)).clamp(0.0, 1.0)
+}
