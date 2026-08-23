@@ -830,7 +830,22 @@ green. **Size.** Medium-large. **Depends on:** nothing.
 
 ## CAP-22 — Oracle coverage for the sprint's new surfaces
 
-- [ ] Status: open
+- [ ] Status: **in progress 2026-08-23** (Fable) — and already paying:
+      the first oracle caught a real curation error. The
+      spectrophotometer is now anchored to the literature through the
+      full pipeline (bench → engine → registry spectrum → instrument):
+      permanganate's ε(525) had been curated at 4363 L/(mol·cm), 1.8×
+      the classic ~2455 — every permanganate solution rendered nearly
+      twice too intense. Rescaled to 2400 through the pack pipeline
+      with the correction's provenance on the record. Landed:
+      spectrophotometer literature anchor + Beer–Lambert linearity as
+      a metamorphic invariant; chromatography vs a hand-worked
+      plate-theory example plus limiting identities (void-time,
+      √N-scaling); calorimeter vs the closed-form energy ledger.
+      Remaining: conductivity carries its written statement (a stub by
+      its own comment; the oracle would rightly fail it — CAP task
+      material, not tolerance material); nuclide/photochem oracles
+      wait until those subsystems are wired to anything.
 
 **Why.** The differential-oracle discipline that makes the PHREEQC
 core trustworthy stops at that crate's border: instruments, apparatus,
