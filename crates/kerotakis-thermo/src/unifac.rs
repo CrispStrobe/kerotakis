@@ -272,12 +272,54 @@ pub fn activity_coefficients(
             - phi_i / x[i] * l_sum;
     }
 
-    // For the residual part, a full implementation would compute
-    // group activity coefficients in the mixture vs pure component.
-    // This is a simplification that returns the combinatorial part only.
-    // TODO: add residual contribution for full UNIFAC accuracy.
-
-    ln_gamma_c.iter().map(|lng| lng.exp()).collect()
+    // Residual part: ln γ_i^R = Σ_k ν_ki [ln Γ_k - ln Γ_k^(i)]
+    let all_main: Vec<u32> = {
+        let mut v: Vec<u32> = table.groups.iter().map(|g| g.main_group).collect();
+        v.sort(); v.dedup(); v
+    };
+    let psi = |m: u32, n_g: u32| -> f64 {
+        if m == n_g { return 1.0; }
+        table.interaction(m, n_g).map_or(1.0, |a| (-a / t_kelvin).exp())
+    };
+    let ln_gamma_groups = |xg: &BTreeMap<u32, f64>| -> BTreeMap<u32, f64> {
+        let qt: f64 = xg.iter()
+            .filter_map(|(&gid, &f)| table.group(gid).map(|g| f * g.q)).sum();
+        if qt < 1e-30 { return BTreeMap::new(); }
+        let theta: BTreeMap<u32, f64> = xg.iter()
+            .filter_map(|(&gid, &f)| table.group(gid).map(|g| (g.main_group, f * g.q / qt)))
+            .fold(BTreeMap::new(), |mut a, (m, v)| { *a.entry(m).or_insert(0.0) += v; a });
+        let mut res = BTreeMap::new();
+        for (&gid, _) in xg {
+            if let Some(g) = table.group(gid) {
+                let mk = g.main_group;
+                let s1: f64 = all_main.iter().map(|&m| theta.get(&m).unwrap_or(&0.0) * psi(m, mk)).sum();
+                let mut s2 = 0.0;
+                for &m in &all_main {
+                    let d: f64 = all_main.iter().map(|&nn| theta.get(&nn).unwrap_or(&0.0) * psi(nn, m)).sum();
+                    if d > 1e-30 { s2 += theta.get(&m).unwrap_or(&0.0) * psi(mk, m) / d; }
+                }
+                res.insert(gid, g.q * (1.0 - s1.max(1e-30).ln() - s2));
+            }
+        }
+        res
+    };
+    let mut xmix: BTreeMap<u32, f64> = BTreeMap::new();
+    for (groups, xi) in compositions {
+        for (&gid, &c) in groups { *xmix.entry(gid).or_insert(0.0) += xi * c as f64; }
+    }
+    let tot: f64 = xmix.values().sum();
+    if tot > 0.0 { for v in xmix.values_mut() { *v /= tot; } }
+    let lg_mix = ln_gamma_groups(&xmix);
+    let mut ln_gamma_r = vec![0.0; n];
+    for (i, (groups, _)) in compositions.iter().enumerate() {
+        let pt: f64 = groups.values().map(|&c| c as f64).sum();
+        let xp: BTreeMap<u32, f64> = groups.iter().map(|(&g, &c)| (g, c as f64 / pt.max(1.0))).collect();
+        let lg_pure = ln_gamma_groups(&xp);
+        for (&gid, &c) in groups {
+            ln_gamma_r[i] += c as f64 * (lg_mix.get(&gid).unwrap_or(&0.0) - lg_pure.get(&gid).unwrap_or(&0.0));
+        }
+    }
+    (0..n).map(|i| (ln_gamma_c[i] + ln_gamma_r[i]).exp()).collect()
 }
 
 #[cfg(test)]
@@ -303,11 +345,32 @@ mod tests {
         let gammas = activity_coefficients(&table, &compositions, 298.15);
         assert_eq!(gammas.len(), 2);
 
-        // Activity coefficients should be > 1 for this positive-deviation system
-        // (combinatorial part only; full UNIFAC would give ~1.5-2.5)
-        assert!(gammas[0] > 0.5, "γ_ethanol = {}", gammas[0]);
-        assert!(gammas[1] > 0.5, "γ_water = {}", gammas[1]);
-        eprintln!("γ_ethanol = {:.4}, γ_water = {:.4}", gammas[0], gammas[1]);
+        // Full UNIFAC: ethanol-water at x=0.5 should show positive deviation
+        assert!(gammas[0] > 1.0, "γ_ethanol should be > 1, got {}", gammas[0]);
+        assert!(gammas[1] > 1.0, "γ_water should be > 1, got {}", gammas[1]);
+    }
+
+    #[test]
+    fn pure_component_gamma_is_unity() {
+        let table = approved_table();
+        let mut ethanol = GroupDecomposition::new();
+        ethanol.insert(1, 1);
+        ethanol.insert(2, 1);
+        ethanol.insert(14, 1);
+        let gammas = activity_coefficients(&table, &[(ethanol, 1.0)], 298.15);
+        assert!((gammas[0] - 1.0).abs() < 1e-6, "pure γ = {}", gammas[0]);
+    }
+
+    #[test]
+    fn dilute_ethanol_higher_gamma() {
+        let table = approved_table();
+        let mut ethanol = GroupDecomposition::new();
+        ethanol.insert(1, 1); ethanol.insert(2, 1); ethanol.insert(14, 1);
+        let mut water = GroupDecomposition::new();
+        water.insert(16, 1);
+        let dilute = activity_coefficients(&table, &[(ethanol.clone(), 0.05), (water.clone(), 0.95)], 298.15);
+        let conc = activity_coefficients(&table, &[(ethanol, 0.5), (water, 0.5)], 298.15);
+        assert!(dilute[0] > conc[0], "dilute γ ({:.3}) > concentrated ({:.3})", dilute[0], conc[0]);
     }
 
     #[test]

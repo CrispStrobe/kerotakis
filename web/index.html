@@ -77,6 +77,13 @@
     <button data-run="reset&#10;add v1 water 100mL&#10;add v1 H2SO4 0.005mol&#10;add v1 FeSO4 0.005mol&#10;add v1 KMnO4 0.0005mol&#10;inspect v1">Permanganate counts in fives</button>
     <button data-run="reset&#10;add v1 water 100mL&#10;add v1 HCl 0.1mol&#10;add v1 NaOH 4g&#10;measure v1 temp&#10;new&#10;add v2 water 100mL&#10;add v2 NaOH 4g&#10;add v2 HCl 0.1mol&#10;measure v2 temp">Two roads, one temperature</button>
     <button data-run="reset&#10;add v1 water 1cup&#10;add v1 KMnO4 1pinch&#10;look v1">Permanganate</button>
+    <h2>Electrochemistry</h2>
+    <button data-run="reset&#10;add v1 water 200mL&#10;add v1 CuSO4 2g&#10;add v1 Zn 3g&#10;wait 60s&#10;look v1">Zinc displaces copper</button>
+    <button data-run="reset&#10;add v1 water 200mL&#10;add v1 CuSO4 5g&#10;electrolyze v1 0.5A 30min&#10;measure v1 balance">Copper plating</button>
+    <h2>Instruments</h2>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaCl 5.8g&#10;measure v1 conductivity&#10;measure v1 ph&#10;new&#10;add v2 water 100mL&#10;add v2 CH3COOH 6g&#10;measure v2 conductivity&#10;measure v2 ph">Strong vs weak electrolyte</button>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaOH 2g&#10;measure v1 calorimeter&#10;add v1 HCl 2g&#10;measure v1 calorimeter&#10;measure v1 temp">Neutralisation heat</button>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaHCO3 4.2g&#10;seal v1 200mL&#10;measure v1 pressure&#10;add v1 CH3COOH 3.6g&#10;measure v1 pressure&#10;measure v1 volume">Gas laws (sealed)</button>
     <h2>Detail</h2>
     <button data-cmd="register lv1">lv1 — what you see</button>
     <button data-cmd="register lv2">lv2 — equations and amounts</button>
@@ -124,9 +131,17 @@ const HELP = `Commands are the same .lab grammar the desktop tool reads.
   wait 30s                  let time pass — every vessel advances together
   ignite v1                 hold a flame to it
   stir v1 / filter v1 v2 / decant v1 v2 0.5 / evaporate v1 0.5
+  seal v1 200mL             close over a gas headspace
+  open v1                   vent back to atmosphere
   new                       another vessel
   look v1                   what the eye reports
-  particles v1              the submicroscopic view, drawn at solved ratios
+  electrolyze v1 0.5A 30min drive current through it
+  cell v1 v2                galvanic cell voltage
+  measure v1 thermometer    also: balance, ph, pressure, volume,
+                            conductivity, uvvis, calorimeter
+  grind v1 NaCl 50um        set particle size (heterogeneous rates)
+  irradiate v1 254nm 10W/m2 UV light source
+  particles v1              the submicroscopic view
   inspect v1                the full state
   register lv1|lv2|lv3      how much detail
   species                   what is on the shelf

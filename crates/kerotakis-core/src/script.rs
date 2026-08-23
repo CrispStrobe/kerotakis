@@ -18,7 +18,8 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
     }
     let words: Vec<&str> = line.split_whitespace().collect();
     let op = match words[0] {
-        "register" | "inspect" | "explain" | "species" | "help" | "particles" | "zoom" => {
+        "register" | "inspect" | "explain" | "species" | "help" | "particles" | "zoom"
+        | "structure" | "identify" | "react" | "coverage" => {
             return Ok(None)
         }
         "new" => Operator::NewVessel,
@@ -158,6 +159,7 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     "volume" => Instrument::VolumeMeter,
                     "conductivity" => Instrument::ConductivityMeter,
                     "spectrophotometer" | "uvvis" => Instrument::Spectrophotometer,
+                    "calorimeter" => Instrument::Calorimeter,
                     other => return Err(format!("unknown instrument '{other}'")),
                 },
             }
@@ -202,6 +204,36 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
             Operator::Cell {
                 a: parse_vessel(words[1])?,
                 b: parse_vessel(words[2])?,
+            }
+        }
+        "grind" => {
+            // `grind v1 NaCl 50um` — set particle size for heterogeneous rates
+            if words.len() < 4 {
+                return Err("usage: grind <vessel> <species> <diameter>um".into());
+            }
+            let vessel = parse_vessel(words[1])?;
+            let species_key = words[2];
+            let _ = species::lookup_key(species_key)
+                .ok_or_else(|| format!("unknown species '{species_key}'"))?;
+            let diameter = parse_suffixed(words[3], &[("um", 1.0), ("μm", 1.0), ("mm", 1000.0), ("", 1.0)], "diameter")?;
+            Operator::Grind {
+                vessel,
+                species: SpeciesId::new(species_key),
+                diameter_um: diameter,
+            }
+        }
+        "irradiate" => {
+            // `irradiate v1 254nm 10W/m2` — turn on UV lamp
+            if words.len() < 4 {
+                return Err("usage: irradiate <vessel> <wavelength>nm <irradiance>W/m2".into());
+            }
+            let vessel = parse_vessel(words[1])?;
+            let wavelength = parse_suffixed(words[2], &[("nm", 1.0), ("", 1.0)], "wavelength")?;
+            let irradiance = parse_suffixed(words[3], &[("w/m2", 1.0), ("", 1.0)], "irradiance")?;
+            Operator::Irradiate {
+                vessel,
+                wavelength_nm: wavelength,
+                irradiance_w_m2: irradiance,
             }
         }
         other => return Err(format!("unknown command '{other}' (try 'help')")),

@@ -786,6 +786,17 @@ impl Bench {
                             });
                         }
                     }
+                    Instrument::Calorimeter => {
+                        let cal = crate::instrument::Calorimeter;
+                        if let Some(reading) = cal.measure(v) {
+                            events.push(Event::Measured {
+                                vessel: *vessel,
+                                instrument: *instrument,
+                                value: reading.value,
+                                unit: reading.unit,
+                            });
+                        }
+                    }
                 }
             }
             Operator::Electrolyse {
@@ -899,6 +910,27 @@ impl Bench {
                     Err(why) => events.push(Event::NoCell { a: *a, b: *b, why }),
                 }
             }
+            Operator::Grind { vessel, species, diameter_um } => {
+                let _v = self.vessel(*vessel)?;
+                events.push(Event::NotYetModeled {
+                    vessel: *vessel,
+                    what: format!(
+                        "particle size set to {diameter_um} µm for {} — heterogeneous rate \
+                         scaling requires surface-area model integration",
+                        species.0
+                    ),
+                });
+            }
+            Operator::Irradiate { vessel, wavelength_nm, irradiance_w_m2 } => {
+                let _v = self.vessel(*vessel)?;
+                events.push(Event::NotYetModeled {
+                    vessel: *vessel,
+                    what: format!(
+                        "UV source at {wavelength_nm} nm, {irradiance_w_m2} W/m² — \
+                         photolysis rate integration requires coupled kinetics",
+                    ),
+                });
+            }
         }
         Ok(events)
     }
@@ -930,9 +962,8 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         // Electrolysis moves matter, so the vessel is re-settled after it.
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
         Operator::Decant { from, to, .. } | Operator::Filter { from, to } => vec![*from, *to],
+        Operator::Grind { vessel, .. } | Operator::Irradiate { vessel, .. } => vec![*vessel],
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
-        // Handled by the caller, which has the vessel list: waiting touches
-        // every vessel on the bench, because the clock is shared.
         Operator::Wait { .. } => vec![],
     }
 }

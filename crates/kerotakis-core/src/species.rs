@@ -1536,10 +1536,17 @@ pub const REGISTRY: &[SpeciesData] = &[
     },
 ];
 
+/// The active registry. Currently the static REGISTRY; when the pack
+/// loading path is wired (DATA-010), this will return pack-loaded data
+/// with the same `&'static` lifetime via `OnceLock` + `Box::leak`.
+pub fn registry() -> &'static [SpeciesData] {
+    REGISTRY
+}
+
 pub fn lookup(id: &SpeciesId) -> Option<&'static SpeciesData> {
-    REGISTRY.iter().find(|s| s.key == id.0)
+    registry().iter().find(|s| s.key == id.0)
 }
 
 pub fn lookup_key(key: &str) -> Option<&'static SpeciesData> {
-    REGISTRY.iter().find(|s| s.key == key)
+    registry().iter().find(|s| s.key == key)
 }
