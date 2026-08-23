@@ -378,7 +378,7 @@ the same question, asked of every dataset:
 A dataset that *cannot* express the question (pitzer.dat has no silver)
 says so and names what it lacks, rather than being skipped or answering
 wrongly. The comparison should also say how much the datasets even
-share: only 21 of 672 mineral phases exist in all three, so three
+share: only 21 of 683 mineral phases exist in all three, so three
 answers are partly answers about *different admissible solids*, not
 three opinions about one activity model — a sentence the `explain`
 rendering now carries, fed by `derived::phase_coverage()`, whose numbers
