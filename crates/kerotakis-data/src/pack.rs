@@ -1,10 +1,11 @@
 //! DATA-004: Load a deterministic runtime pack.
 //!
-//! The pack format is: `KREG` (4 bytes) + version (u32 LE) + SHA-256 (32 bytes)
-//! + compact JSON payload. The content hash covers only the payload, so a
-//! correct pack is self-verifying. JSON is used because the schema's tagged
-//! enums (Uncertainty, Method, ModelSubject) are not compatible with binary
-//! formats that lack self-describing type information.
+//! The pack format is: `KREG` (4 bytes), version (u32 LE), SHA-256 (32
+//! bytes), then a compact JSON payload. The content hash covers only the
+//! payload, so a correct pack is self-verifying. JSON is used because the
+//! schema's tagged enums (Uncertainty, Method, ModelSubject) are not
+//! compatible with binary formats that lack self-describing type
+//! information.
 
 use crate::RegistryDocument;
 

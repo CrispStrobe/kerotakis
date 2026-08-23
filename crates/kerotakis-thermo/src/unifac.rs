@@ -222,7 +222,10 @@ pub type GroupDecomposition = BTreeMap<u32, u32>;
 pub fn activity_coefficients(
     table: &UnifacTable,
     compositions: &[(GroupDecomposition, f64)],
-    t_kelvin: f64,
+    // Unused until the residual contribution lands (see the TODO below);
+    // kept in the signature because the residual term is temperature-dependent
+    // and the API should not break when it does.
+    _t_kelvin: f64,
 ) -> Vec<f64> {
     let n = compositions.len();
     if n == 0 {

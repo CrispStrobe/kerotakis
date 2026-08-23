@@ -5,7 +5,7 @@
 //! provenance. Return `Unavailable` rather than a naked default.
 
 use crate::{
-    Applicability, Interval, Method, NumericRecord, Phase, PhaseProperty, PhaseThermodynamicRecord,
+    Applicability, Interval, Method, Phase, PhaseProperty, PhaseThermodynamicRecord,
     RegistryDocument, Uncertainty,
 };
 
@@ -56,7 +56,7 @@ pub struct ResolvedValue {
 #[derive(Debug, Clone, serde::Serialize)]
 #[serde(tag = "status", rename_all = "snake_case")]
 pub enum Resolution {
-    Resolved(ResolvedValue),
+    Resolved(Box<ResolvedValue>),
     Unavailable { reason: String },
 }
 
@@ -156,7 +156,7 @@ pub fn resolve_phase_property(
         })
         .unwrap();
 
-    Resolution::Resolved(ResolvedValue {
+    Resolution::Resolved(Box::new(ResolvedValue {
         value: best.quantity.value,
         unit_symbol: best.quantity.unit.symbol.clone(),
         rung: Rung::from_method(&best.quantity.method),
@@ -164,7 +164,7 @@ pub fn resolve_phase_property(
         source_id: best.quantity.source_id.clone(),
         method_detail: best.quantity.method.detail().to_string(),
         conditions: best.quantity.conditions.clone(),
-    })
+    }))
 }
 
 #[cfg(test)]
