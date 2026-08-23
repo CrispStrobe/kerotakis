@@ -532,6 +532,15 @@ capability.
   the InChI version.
 - Keep it feature-gated so the engine-less and minimal wasm builds do
   not grow unless they use it.
+- **Relation to the Indigo plan.** PLAN.md's L1/L4 design reaches InChI
+  through Indigo's bundled plugin once `kerotakis-indigo` exists.
+  CAP-13 deliberately takes the standalone route *first* — the official
+  library is small, MIT, and needed years before template chemistry is.
+  When the Indigo FFI lands, decide once: keep the standalone build as
+  the single InChI source (Indigo's copy feature-gated off if its build
+  allows) or switch to Indigo's bundled copy and retire this one — but
+  never link two InChI implementations into one artifact. Record the
+  decision here.
 
 **Acceptance.** All 74 registry InChIKeys recompute and match (or the
 curation is fixed); native + wasm builds green in preflight/CI;
