@@ -1265,7 +1265,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   **Complete 2026-08-22:** `generate-cea-subset` maps all 75 registry species
   against NASA CEA (2019 species). 34 match with NASA-9 polynomials, citations,
   and temperature ranges. Manifest written to `data/cea/reachable-subset.json`.
-- [ ] **DATA-010 — Remove the hand-authored runtime registry.** Do this only
+- [x] **DATA-010 — Remove the hand-authored runtime registry.** Do this only
   after source-pack round trips, reproducibility, provenance lint, and all
   target builds pass.
 
@@ -1280,7 +1280,7 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
 - [x] **THERMO-003 — Add phase-specific property records.** Heat capacities,
   vapour-pressure correlations, densities, and latent heats must carry ranges
   and sources.
-- [ ] **THERMO-004 — Complete UNIFAC only from approved parameters.** Every
+- [x] **THERMO-004 — Complete UNIFAC only from approved parameters.** Every
   group and interaction parameter points to an allowlisted source record; the
   proprietary consortium table is mechanically blocked.
 - [x] **THERMO-005 — Implement bubble/dew and TP flash.** Validate ideal limits,
