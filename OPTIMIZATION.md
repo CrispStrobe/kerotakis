@@ -119,9 +119,18 @@ sites. Reduce or eliminate allocations in:
   (was O(n) linear scan over 75 entries per call)
 - Event-restart loop zero-vector allocation hoisted outside the loop
 - `lasso` wired with `multi-threaded` feature for the `intern.rs` module
+- `apply_coupled_extents` deltas Vec and proposed-extents Vec hoisted
+  outside the event-restart loop; reused via `clear()` across iterations
+- Stoichiometric matrix is already static (`&[StoichiometricTerm]`
+  slices in the `NETWORK` definition) — no reconstruction to cache
 - dhat allocation profiler (`tests/allocation_profile.rs`):
   baseline 996 blocks / 37 KB for combined workload (200 lookups +
   kinetics integration + 10 conservation audits). Budget gate: < 5000 blocks.
+
+**Remaining:** `selected_output` per-cell String allocation is
+per-PHREEQC-run (not per-timestep), so it is low priority. The
+public API returns `Vec<Vec<String>>` and callers in `aqueous.rs`
+depend on the owned strings.
 
 ## OPT-6 ✓ — PHREEQC database pre-parsing
 
