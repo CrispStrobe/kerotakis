@@ -84,6 +84,8 @@
     <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaCl 5.8g&#10;measure v1 conductivity&#10;measure v1 ph&#10;new&#10;add v2 water 100mL&#10;add v2 CH3COOH 6g&#10;measure v2 conductivity&#10;measure v2 ph">Strong vs weak electrolyte</button>
     <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaOH 2g&#10;measure v1 calorimeter&#10;add v1 HCl 2g&#10;measure v1 calorimeter&#10;measure v1 temp">Neutralisation heat</button>
     <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaHCO3 4.2g&#10;seal v1 200mL&#10;measure v1 pressure&#10;add v1 CH3COOH 3.6g&#10;measure v1 pressure&#10;measure v1 volume">Gas laws (sealed)</button>
+    <h2>Distillation</h2>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 ethanol 50mL&#10;new&#10;distil v1 v2 0.3&#10;inspect v1&#10;inspect v2">Ethanol–water still</button>
     <h2>Organic chemistry</h2>
     <button data-cmd="structure CCO">Ethanol structure</button>
     <button data-cmd="structure CC(=O)O">Acetic acid structure</button>
@@ -144,6 +146,7 @@ const HELP = `Commands are the same .lab grammar the desktop tool reads.
   wait 30s                  let time pass — every vessel advances together
   ignite v1                 hold a flame to it
   stir v1 / filter v1 v2 / decant v1 v2 0.5 / evaporate v1 0.5
+  distil v1 v2 0.3          boil off a fraction into a receiver
   seal v1 200mL             close over a gas headspace
   open v1                   vent back to atmosphere
   new                       another vessel
