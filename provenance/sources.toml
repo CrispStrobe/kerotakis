@@ -125,8 +125,6 @@ origin = "https://github.com/paladin-t/my_basic"
 terms = "vendor/my-basic/LICENSE"
 copyright = "2011-2026 Tony Wang"
 retrieved = "2026-08-21"
-revision = "38baab02ece70b650f5e687e485d879f80843256"
-revision_path = "vendor/my-basic"
 attribution = "MY-BASIC, Copyright (c) Tony Wang; MIT license; retain LICENSE file"
 paths = ["vendor/my-basic/my_basic.c", "vendor/my-basic/my_basic.h", "vendor/my-basic/LICENSE"]
 allowed_outputs = ["native-static-library", "emscripten-side-module"]
@@ -145,40 +143,6 @@ sha256 = "3a72d47d50c8f56084682a36d2a54252fdac33d481f0a5a6b065d8d2f44a35ea"
 [[source.checksum]]
 path = "vendor/my-basic/LICENSE"
 sha256 = "8156be51115207259348d3e553ae9b61ab305b8fe3d74ff358cb4d3fe992b6c3"
-
-[[source]]
-id = "kerotakis-thermo-vle"
-name = "Kerotakis VLE Antoine parameters"
-kind = "data"
-lane = "runtime-data"
-decision = "approved"
-licence = "AGPL-3.0-or-later"
-origin = "crates/kerotakis-thermo/src/vle.rs"
-copyright = "Kerotakis contributors"
-retrieved = "2026-08-22"
-attribution = "Antoine constants curated from published literature with individual source citations per compound"
-paths = ["crates/kerotakis-thermo/src/vle.rs"]
-allowed_outputs = ["compiled-runtime-code"]
-targets = ["native", "web", "ios", "android"]
-reviewer = "Kerotakis engineering policy audit"
-notes = "Parameters carry their own source strings in the source code. Individual constant sets are cited from NIST, Perry's, and original literature. No bulk import from an external database."
-
-[[source]]
-id = "chematic-toolkit"
-name = "chematic — pure-Rust cheminformatics"
-kind = "code"
-lane = "runtime-code"
-decision = "approved"
-licence = "MIT OR Apache-2.0"
-origin = "https://github.com/kent-tokyo/chematic"
-copyright = "kent-tokyo contributors"
-retrieved = "2026-08-22"
-attribution = "chematic, MIT or Apache-2.0; pure Rust, wasm-compatible"
-paths = []
-allowed_outputs = ["compiled-runtime-code"]
-targets = ["native", "web", "ios", "android"]
-reviewer = "Kerotakis engineering policy audit"
-notes = "Pure Rust SMILES/InChI/functional groups. No C/C++ deps. Version 0.18 pinned via Cargo.lock."
 
 [[source]]
 id = "nasa-cea-thermodynamic-data"
@@ -212,3 +176,12 @@ sha256 = "a60026be9384468d074c19425e552f1bb4a6f507f805e55a96fad586716168ed"
 [[source.checksum]]
 path = "vendor/nasa-cea/NOTICE.txt"
 sha256 = "03b64364559d540d97615c31675a69e8eb1965e30de8859a2f8c5c9a38ecb55e"
+
+# First-party curated constants (e.g. the Antoine sets in
+# crates/kerotakis-thermo/src/vle.rs) are not external sources: their
+# provenance lives per-value in the code's `source` fields, and their
+# licence is the project's own. They do not belong in this manifest.
+#
+# Cargo dependencies from crates.io (chematic, diffsol, ...) are governed
+# by deny.toml (licence allowlist) and about.toml (attribution inventory),
+# not by this manifest, which tracks vendored and imported material.
