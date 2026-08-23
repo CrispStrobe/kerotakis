@@ -868,9 +868,19 @@ The pipeline, honestly bounded:
   bridging onnxruntime-web: two incompatible wasm contexts. If the ML tier
   ever ships: `tract` (pure Rust, wasm-clean) for small models, `candle` /
   `burn` for larger. Deferred with the ML tier itself.
-- `rdkit-rs` — dormant, needs native C++ RDKit, no wasm story; RDKit
-  MinimalLib's maintainer stepped down 2026-04. Indigo is primary at runtime;
-  RDKit serves at build time (oracle table above).
+- `rdkit-rs` — dormant, needs native C++ RDKit, no wasm story. Indigo is
+  primary at runtime; RDKit serves at build time (oracle table above).
+  **Corrected 2026-08-23:** what lost its maintainer in 2026-04 was the
+  `rdkit-js` npm/wrapper repo — RDKit's actual wasm core
+  (`Code/MinimalLib`, including its C-ABI `cffi` build) lives in the core
+  repo and is maintained by the core team. We consume wasm modules
+  directly (the IPhreeqc pattern), so the orphaned wrapper is irrelevant
+  and there is nothing to adopt. MinimalLib/cffi is hereby the recorded
+  **fallback for L4's runtime** — best-in-class `RunReactants`, C ABI
+  usable from Rust without `rdkit-rs` — if the self-built Indigo wasm
+  with `indigoTransform`/`indigoReactionProductEnumerate` disappoints.
+  Decide by compile-test when L4 arrives; heavier wasm than Indigo and a
+  curated API subset are the known costs. Not re-litigated before then.
 - NGL Viewer — MIT but dormant; its author moved to Mol*. Skip.
 
 **Watch list** (young or needs-work, but filling real gaps — see policy below):
