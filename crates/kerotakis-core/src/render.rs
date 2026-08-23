@@ -833,6 +833,48 @@ pub fn render_event(event: &Event, register: Register) -> String {
             ),
             _ => format!("{vessel}: solver '{solver}' failed: {detail}"),
         },
+        Event::Diluted {
+            vessel,
+            volume,
+            moles,
+        } => match register.level() {
+            1 => format!("You add water to {vessel} — the solution gets weaker."),
+            2 => format!(
+                "{vessel}: diluted with {:.1} mL water ({:.4} mol)",
+                volume.0 * 1000.0,
+                moles.0
+            ),
+            _ => format!(
+                "{vessel}: +{:.6} mol H₂O from {:.4} L dilution water",
+                moles.0, volume.0
+            ),
+        },
+        Event::Titrated {
+            vessel,
+            titrant,
+            steps,
+            total_volume,
+            final_ph,
+            ..
+        } => {
+            let name = species::lookup(titrant)
+                .map(|d| d.name)
+                .unwrap_or(titrant.0.as_str());
+            match register.level() {
+                1 => format!(
+                    "You titrate {vessel} with {name} — after {steps} additions the pH reaches {final_ph:.1}."
+                ),
+                2 => format!(
+                    "{vessel}: titrated with {name}; {steps} steps, {:.1} mL total, final pH {final_ph:.2}",
+                    total_volume.0 * 1000.0
+                ),
+                _ => format!(
+                    "{vessel}: auto-titration with {} ({steps} steps, {:.3} mL cumulative); final pH {final_ph:.3}",
+                    titrant.0,
+                    total_volume.0 * 1000.0
+                ),
+            }
+        }
     }
 }
 

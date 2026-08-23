@@ -3,6 +3,7 @@
 //! destroyed by any operator, and energy changes only by exactly the heat
 //! that operators put in or take out.
 
+use kerotakis_core::units::Liters;
 use kerotakis_core::*;
 use proptest::prelude::*;
 
@@ -37,6 +38,9 @@ enum RandOp {
         fraction: f64,
     },
     Measure,
+    Dilute {
+        volume_ml: f64,
+    },
 }
 
 fn rand_op() -> impl Strategy<Value = RandOp> {
@@ -60,6 +64,7 @@ fn rand_op() -> impl Strategy<Value = RandOp> {
             fraction
         }),
         Just(RandOp::Measure),
+        (1.0f64..500.0).prop_map(|volume_ml| RandOp::Dilute { volume_ml }),
     ]
 }
 
@@ -156,6 +161,12 @@ fn apply(bench: &mut Bench, op: &RandOp) -> Option<f64> {
                 instrument: Instrument::Thermometer,
             })
             .map(|_| 0.0),
+        RandOp::Dilute { volume_ml } => bench
+            .step(Operator::Dilute {
+                vessel: pick(0),
+                volume: Liters(*volume_ml / 1000.0),
+            })
+            .map(|_| 0.0),
     };
     result.ok()
 }
@@ -184,6 +195,11 @@ proptest! {
                 }
                 if let RandOp::AddSalt { moles } = op {
                     *added.entry("NaCl").or_default() += moles;
+                }
+                if let RandOp::Dilute { volume_ml } = op {
+                    let data = kerotakis_core::species::lookup(&SpeciesId::new("water")).unwrap();
+                    *added.entry("water").or_default() +=
+                        data.moles_from_liters(Liters(*volume_ml / 1000.0)).0;
                 }
             } else {
                 // A rejected op must not have mutated anything.

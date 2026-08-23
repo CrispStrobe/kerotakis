@@ -322,7 +322,13 @@ in CLI SVG and PWA; preflight green. **Size.** Medium-large.
 
 ## CAP-5 — The named-relations layer (ChemPy's core, our registers)
 
-- [ ] Status: open
+- [x] Status: **done** (f0af26a). `relations.rs` with Arrhenius,
+      Eyring, Nernst, Henderson-Hasselbalch, ionic strength,
+      Debye-Hückel limiting law, van 't Hoff — each with typed inputs,
+      `Provenance`, lv1/lv2/lv3 register text. `kero calc` CLI command.
+      ChemPy differential oracle (`tools/check-relations-vs-chempy.py`)
+      with 28-case fixture; in-solver Nernst/Arrhenius/H-H call sites
+      refactored to the shared implementations with bit-identical results.
 
 **Why.** ChemPy's most-used surface is not a solver — it is named
 equations you can *ask*: Debye-Hückel, Arrhenius, Eyring, Nernst,
@@ -362,7 +368,13 @@ CAP-3).
 
 ## CAP-6 — Property correlations with provenance
 
-- [ ] Status: open
+- [x] Status: **done** (3e79ed2). `properties.rs` with water ρ(T),
+      η(T), ε(T) from IAPWS formulations plus Henry coefficients for
+      CO₂, O₂, N₂, H₂, Cl₂, NH₃ from primary literature. Validity
+      ranges enforced with loud refusal. `kero properties` CLI command.
+      ChemPy differential oracle (`tools/check-properties-vs-chempy.py`)
+      with 43-case fixture. CODATA 2018 R constant unified across
+      `heat_capacity()` and tests.
 
 **Why.** ChemPy ships temperature-dependent water density,
 permittivity, viscosity and diffusivity, and Henry coefficients — the
@@ -396,7 +408,13 @@ preflight green. **Size.** Small-medium. **Depends on:** nothing.
 
 ## CAP-7 — Balancer parity: underdetermined systems
 
-- [ ] Status: open
+- [x] Status: **done** (94bbdb7). Replaced f64 Gaussian elimination
+      with exact `Rational64` arithmetic. Underdetermined systems return
+      `BalanceResult::Family` with particular solution + basis vectors.
+      CLI displays parametric families with usage guidance. 21 stoich
+      tests including two textbook underdetermined cases (C+O₂→CO+CO₂
+      and MnO₄⁻+H₂O₂+H⁺→Mn²⁺+O₂+H₂O); `verify_balances` helper
+      confirms element and charge conservation for every solution.
 
 **Why.** ChemPy balances underdetermined reactions and returns the
 parametric family. Our null-space balancer (`stoich.rs`) already
@@ -540,7 +558,20 @@ heavy). **Depends on:** nothing.
 
 ## CAP-12 — `titrate` and `dilute` as first-class verbs
 
-- [ ] Status: open
+- [x] Status: **done.** `Operator::Dilute` and `Operator::Titrate`
+      wired through the full pattern: parser (`dilute v1 100mL`,
+      `titrate v1 NaOH 1mL until ph 7`), `apply()` for dilute with
+      adiabatic mixing, `titrate_loop()` in `step_with()` with
+      per-step add → equilibrate → read pH → crossing detection,
+      `Event::Diluted` and `Event::Titrated` (carrying the full
+      (mL, pH) curve), three-register rendering, codex event mapping,
+      conservation proptest `RandOp::Dilute` arm (mass + energy
+      conserved, 256 cases green), 6 integration tests
+      (`tests/dilute.rs`), `lessons/titration.lab` rewritten with
+      `titrate`, old spelling preserved as `lessons/titration-manual.lab`,
+      golden regenerated with both lessons, help text completed for
+      all verbs. Titrate reports `NotYetModeled` when no aqueous
+      solver is wired — the verb is honest.
 
 **Why.** Titration — the quantitative heart of school chemistry — is
 currently spelled as a dozen hand-written `add` lines, and there is no

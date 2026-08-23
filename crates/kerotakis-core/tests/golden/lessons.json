@@ -1170,6 +1170,41 @@
     ]
   },
   "titration": {
+    "event_count": 5,
+    "events_sample": [
+      "v1: +27.6714 mol water",
+      "v1: +0.0100 mol hydrochloric acid",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — titration needs an aqueous solver to compute pH after each addition — none is wired"
+    ],
+    "lesson": "titration.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.05325399,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 27.67138496,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "titration-manual": {
     "event_count": 15,
     "events_sample": [
       "v1: +27.6714 mol water",
@@ -1188,7 +1223,7 @@
       "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
     ],
-    "lesson": "titration.lab",
+    "lesson": "titration-manual.lab",
     "vessels": [
       {
         "contents": [

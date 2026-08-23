@@ -1153,21 +1153,30 @@ fn usage() -> ! {
          \x20 heat <vessel> <energy><J|kJ>\n\
          \x20 cool <vessel> <energy><J|kJ>\n\
          \x20 stir <vessel>\n\
-         \x20 seal <vessel> <volume><mL|L> close over a finite headspace\n\
-         \x20 regulate <vessel> <pressure> <volume> hold gas at fixed pressure\n\
-         \x20 sweep <vessel> <pressure> purge volatile gases with nitrogen\n\
-         \x20 open <vessel>             vent the headspace to the room\n\
-         \x20 ignite <vessel>            hold a flame to it\n\
+         \x20 wait <duration><s|min|h>\n\
+         \x20 seal <vessel> <volume><mL|L>          close over a finite headspace\n\
+         \x20 regulate <vessel> <pressure> <volume>  hold gas at fixed pressure\n\
+         \x20 sweep <vessel> <pressure>              purge with nitrogen\n\
+         \x20 open <vessel>                          vent headspace to the room\n\
+         \x20 ignite <vessel>                        hold a flame to it\n\
          \x20 decant <from> <to> <fraction>\n\
-         \x20 filter <from> <to>         solids stay, liquid passes\n\
+         \x20 filter <from> <to>                     solids stay, liquid passes\n\
          \x20 evaporate <vessel> <fraction>\n\
-         \x20 measure <vessel> <thermometer|balance|ph>\n\
-         \x20 cell <vessel> <vessel>          wire two half-cells, read the voltmeter\n\
-         \x20 new                        create a vessel\n\
-         \x20 inspect [vessel]           show state\n\
-         \x20 explain [vessel]           where the answer came from, and\n\
-         \x20                            what every other dataset says\n\
-         \x20 register <lv1|lv2|lv3>     how much detail to show\n\
+         \x20 dilute <vessel> <volume><mL|L>         add water by volume\n\
+         \x20 distil <from> <to> <frac|energy> [stages <n>]\n\
+         \x20 drain <from> <to>                      lower layer through stopcock\n\
+         \x20 titrate <v> <titrant> <step><mL|L> until ph <target> [max <n>]\n\
+         \x20 measure <vessel> <thermometer|balance|ph|pressure|conductivity|uvvis|calorimeter>\n\
+         \x20 look <vessel>                          observe with your eyes\n\
+         \x20 cell <vessel> <vessel>                 wire two half-cells\n\
+         \x20 electrolyse <vessel> <current>A <time><s|min|h>\n\
+         \x20 grind <vessel> <species> <diameter>um\n\
+         \x20 irradiate <vessel> <wavelength>nm <irradiance>W/m2\n\
+         \x20 new                                    create a vessel\n\
+         \x20 inspect [vessel]                       show state\n\
+         \x20 explain [vessel]                       provenance\n\
+         \x20 register <lv1|lv2|lv3>                 detail level\n\
+         \x20 species                                list available species\n\
          \x20 quit"
     );
     std::process::exit(2);
@@ -1819,8 +1828,12 @@ fn repl() {
         if line == "help" {
             println!(
                 "add <v> <species> <amount><mol|g|mL> [@ <T>C] · heat/cool <v> <E><J|kJ>\n\
-                 stir <v> · seal <v> <volume><mL|L> · open <v> · decant/filter <from> <to> · evaporate <v> <frac>\n\
-                 measure <v> <thermometer|balance|ph> · cell <v> <v>\n\
+                 stir <v> · wait <t><s|min|h> · seal/open <v> · ignite <v>\n\
+                 decant/filter <from> <to> · evaporate <v> <frac> · dilute <v> <vol><mL|L>\n\
+                 distil <from> <to> <frac|energy> · drain <from> <to>\n\
+                 titrate <v> <species> <step><mL|L> until ph <target>\n\
+                 measure <v> <thermometer|balance|ph|…> · look <v> · cell <v> <v>\n\
+                 electrolyse <v> <A> <t> · grind <v> <species> <um>\n\
                  new · inspect [v] · register <lv1|lv2|lv3> · species · quit"
             );
             continue;

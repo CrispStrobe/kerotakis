@@ -284,6 +284,52 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 irradiance_w_m2: irradiance,
             }
         }
+        "dilute" => {
+            if words.len() < 3 {
+                return Err("usage: dilute <vessel> <volume><mL|L>".into());
+            }
+            Operator::Dilute {
+                vessel: parse_vessel(words[1])?,
+                volume: parse_volume(words[2])?,
+            }
+        }
+        "titrate" => {
+            // titrate v1 NaOH 1mL until ph 7
+            // titrate v1 NaOH 1mL until ph 7 max 200
+            if words.len() < 7 {
+                return Err(
+                    "usage: titrate <vessel> <titrant> <step><mL|L> until ph <target> [max <n>]"
+                        .into(),
+                );
+            }
+            let vessel = parse_vessel(words[1])?;
+            let titrant_key = words[2];
+            let _ = species::lookup_key(titrant_key)
+                .ok_or_else(|| format!("unknown species '{titrant_key}' (see 'species')"))?;
+            let step = parse_volume(words[3])?;
+            if words[4] != "until" || words[5] != "ph" {
+                return Err(
+                    "usage: titrate <vessel> <titrant> <step> until ph <target> [max <n>]".into(),
+                );
+            }
+            let target_ph: f64 = words[6]
+                .parse()
+                .map_err(|_| format!("bad pH target '{}'", words[6]))?;
+            let max_steps = match (words.get(7), words.get(8)) {
+                (Some(&"max"), Some(n)) => {
+                    n.parse().map_err(|_| format!("bad max step count '{n}'"))?
+                }
+                (None, _) => 100,
+                _ => return Err("after the pH target, only `max <n>` may follow".into()),
+            };
+            Operator::Titrate {
+                vessel,
+                titrant: SpeciesId::new(titrant_key),
+                step,
+                target_ph,
+                max_steps,
+            }
+        }
         other => return Err(format!("unknown command '{other}' (try 'help')")),
     };
     Ok(Some(op))
