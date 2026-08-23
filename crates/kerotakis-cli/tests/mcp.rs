@@ -290,13 +290,23 @@ fn refusals_and_errors_are_stated() {
     assert!(!is_error, "{text}");
     assert!(text.contains("2 Mg + O2 → 2 MgO"), "{text}");
 
-    // …and a refusal where it does not (two independent reactions).
+    // …and a *stated family* where it does not (CAP-7): an
+    // under-determined skeleton is no longer refused — it returns the
+    // parametric family, said out loud as exactly that. The old
+    // expectation here was a refusal; presenting the family with its
+    // under-determinedness named is the same honesty with more
+    // chemistry in it.
     let (text, is_error) = s.call(
         "balance",
         serde_json::json!({ "equation": "C + O2 -> CO + CO2" }),
     );
+    assert!(!is_error, "{text}");
     assert!(
-        is_error,
-        "an under-determined skeleton must be refused, got: {text}"
+        text.contains("under-determined"),
+        "the family must say what it is, got: {text}"
+    );
+    assert!(
+        text.contains("basis vector"),
+        "the family must show its degrees of freedom, got: {text}"
     );
 }
