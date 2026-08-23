@@ -27,6 +27,8 @@ ignore = [
 [licenses]
 # Kerotakis' direct-inclusion policy: only code with these grants may
 # enter the official payload.
+# Shipping bar, hardened 2026-08-23 (see PLAN.md).
+# No GPL family including LGPL.
 allow = [
     "AGPL-3.0-or-later",
     "MIT",
@@ -34,6 +36,7 @@ allow = [
     "Apache-2.0 WITH LLVM-exception",
     "BSD-2-Clause",
     "BSD-3-Clause",
+    "Unlicense",
     "BSL-1.0",
     "CC0-1.0",
     "ISC",
