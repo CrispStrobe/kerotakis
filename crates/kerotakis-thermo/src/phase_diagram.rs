@@ -85,5 +85,10 @@ mod tests {
         assert_eq!(bubble.len(), 11);
         assert!((bubble[0].t - 80.0).abs() < 0.1);
         assert!((bubble[10].t - 100.0).abs() < 0.1);
+        // The dew curve shares the temperatures but sits at the vapour
+        // composition — here y = 0.9 x by construction.
+        assert_eq!(dew.len(), 11);
+        assert!((dew[10].x - 0.9).abs() < 1e-9);
+        assert!((dew[10].t - bubble[10].t).abs() < 1e-9);
     }
 }
