@@ -252,6 +252,14 @@ pub fn activity_coefficients(
         if x[i] < 1e-30 {
             continue;
         }
+        // These are φ_i/x_i and θ_i/x_i, not φ_i and θ_i: the numerators
+        // omit x_i while the denominators carry every x_j. Staverman-
+        // Guggenheim only ever needs the ratios-over-x — term one is
+        // ln(φ_i/x_i), term four multiplies by φ_i/x_i, and θ_i/φ_i equals
+        // theta_i/phi_i because the x_i cancels. Dividing by x[i] again
+        // here is the bug that sent γ to 10²² at dilution: ln(φ/x²) grows
+        // by −ln x on top of the real term, invisible at x = 1 where every
+        // test looked.
         let phi_i = r_i[i] / r_sum;
         let theta_i = q_i[i] / q_sum;
         let l_i = z / 2.0 * (r_i[i] - q_i[i]) - (r_i[i] - 1.0);
@@ -265,8 +273,8 @@ pub fn activity_coefficients(
             })
             .sum();
 
-        ln_gamma_c[i] = (phi_i / x[i]).ln() + z / 2.0 * q_i[i] * (theta_i / phi_i).ln() + l_i
-            - phi_i / x[i] * l_sum;
+        ln_gamma_c[i] =
+            phi_i.ln() + z / 2.0 * q_i[i] * (theta_i / phi_i).ln() + l_i - phi_i * l_sum;
     }
 
     // Residual part: ln γ_i^R = Σ_k ν_ki [ln Γ_k - ln Γ_k^(i)]
@@ -300,7 +308,7 @@ pub fn activity_coefficients(
                 a
             });
         let mut res = BTreeMap::new();
-        for (&gid, _) in xg {
+        for &gid in xg.keys() {
             if let Some(g) = table.group(gid) {
                 let mk = g.main_group;
                 let s1: f64 = all_main

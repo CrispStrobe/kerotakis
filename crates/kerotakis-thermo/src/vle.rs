@@ -118,33 +118,61 @@ pub struct BubblePoint {
 /// could act on.
 const AZEOTROPE_TOLERANCE: f64 = 1e-3;
 
+/// Absolute zero, °C — the one conversion this module admits.
+pub const KELVIN_OFFSET: f64 = 273.15;
+
 /// The temperature at which a liquid mixture starts to boil, and what
-/// comes off it first.
+/// comes off it first, with activity coefficients that follow the
+/// temperature.
 ///
-/// Bisection on Σ xᵢ γᵢ P°ᵢ(T) − P, which is monotonic in T because every
-/// vapour pressure is, so there is exactly one root and no need for
-/// anything cleverer. Bracketed between the coldest and hottest
-/// temperatures any of the components' fits admit.
-pub fn bubble_point(mix: &[Volatile], pressure_kpa: f64) -> Option<BubblePoint> {
-    if mix.is_empty() || pressure_kpa <= 0.0 {
+/// Bisection on Σ xᵢ γᵢ(T) P°ᵢ(T) − P. Both factors move with T and that is
+/// why `gammas` is called *inside* the loop rather than once: UNIFAC's
+/// ψ_mn = exp(−a_mn/T) is temperature-dependent, and γ(water) at x = 0.95
+/// is 2.40 at 298 K against 2.53 at 351 K. Evaluating γ once at a guessed
+/// temperature and then solving for a different one would be a subtle way
+/// to be wrong by a few per cent — which is the size of the azeotrope's
+/// whole displacement from pure ethanol.
+///
+/// `gammas` takes **kelvin**, because every thermodynamic expression on the
+/// other side of the seam is in kelvin and a +273.15 at a boundary is a
+/// bug waiting for a tired reader. Antoine is in Celsius on this side; the
+/// conversion happens here, once, where it can be seen.
+pub fn bubble_point_with<F>(
+    antoines: &[Antoine],
+    x: &[f64],
+    pressure_kpa: f64,
+    mut gammas: F,
+) -> Option<BubblePoint>
+where
+    F: FnMut(f64) -> Vec<f64>,
+{
+    if antoines.is_empty() || antoines.len() != x.len() || pressure_kpa <= 0.0 {
         return None;
     }
-    let total_x: f64 = mix.iter().map(|c| c.x).sum();
+    let total_x: f64 = x.iter().sum();
     if total_x <= 0.0 {
         return None;
     }
-    let total = |t: f64| -> f64 {
-        mix.iter()
-            .map(|c| c.x / total_x * c.gamma * c.antoine.pressure_kpa_unchecked(t))
-            .sum::<f64>()
+    let partials = |t_c: f64, gammas: &mut F| -> Vec<f64> {
+        let g = gammas(t_c + KELVIN_OFFSET);
+        antoines
+            .iter()
+            .zip(x)
+            .enumerate()
+            .map(|(i, (a, xi))| {
+                xi / total_x * g.get(i).copied().unwrap_or(1.0) * a.pressure_kpa_unchecked(t_c)
+            })
+            .collect()
     };
+    let total = |t_c: f64, gammas: &mut F| -> f64 { partials(t_c, gammas).iter().sum() };
+
     let (mut lo, mut hi) = (-100.0f64, 400.0f64);
-    if total(lo) > pressure_kpa || total(hi) < pressure_kpa {
+    if total(lo, &mut gammas) > pressure_kpa || total(hi, &mut gammas) < pressure_kpa {
         return None;
     }
     for _ in 0..200 {
         let mid = 0.5 * (lo + hi);
-        if total(mid) < pressure_kpa {
+        if total(mid, &mut gammas) < pressure_kpa {
             lo = mid;
         } else {
             hi = mid;
@@ -154,22 +182,29 @@ pub fn bubble_point(mix: &[Volatile], pressure_kpa: f64) -> Option<BubblePoint> 
         }
     }
     let t = 0.5 * (lo + hi);
-    let p_total = total(t);
-    let y: Vec<f64> = mix
-        .iter()
-        .map(|c| c.x / total_x * c.gamma * c.antoine.pressure_kpa_unchecked(t) / p_total)
-        .collect();
+    let p = partials(t, &mut gammas);
+    let p_total: f64 = p.iter().sum();
+    let y: Vec<f64> = p.iter().map(|pi| pi / p_total).collect();
     // An azeotrope is not a special case in the arithmetic — it is what the
     // arithmetic says when the vapour comes out the same as the liquid.
-    let azeotropic = mix
+    let azeotropic = x
         .iter()
         .zip(&y)
-        .all(|(c, yi)| (c.x / total_x - yi).abs() < AZEOTROPE_TOLERANCE);
+        .all(|(xi, yi)| (xi / total_x - yi).abs() < AZEOTROPE_TOLERANCE);
     Some(BubblePoint {
         t_celsius: t,
         y,
         azeotropic,
     })
+}
+
+/// The same, for a mixture whose activity coefficients do not move with
+/// temperature — an ideal one, or a curated γ held fixed.
+pub fn bubble_point(mix: &[Volatile], pressure_kpa: f64) -> Option<BubblePoint> {
+    let antoines: Vec<Antoine> = mix.iter().map(|c| c.antoine).collect();
+    let x: Vec<f64> = mix.iter().map(|c| c.x).collect();
+    let g: Vec<f64> = mix.iter().map(|c| c.gamma).collect();
+    bubble_point_with(&antoines, &x, pressure_kpa, |_| g.clone())
 }
 
 /// Where, if anywhere, a binary mixture stops separating.
@@ -189,36 +224,26 @@ pub fn azeotrope<F>(
     mut gammas: F,
 ) -> Option<(f64, BubblePoint)>
 where
-    F: FnMut(f64) -> (f64, f64),
+    F: FnMut(f64, f64) -> (f64, f64),
 {
-    let enrichment = |x1: f64, gammas: &mut F| -> Option<f64> {
-        let (g1, g2) = gammas(x1);
-        let mix = [
-            Volatile {
-                antoine: a,
-                x: x1,
-                gamma: g1,
-            },
-            Volatile {
-                antoine: b,
-                x: 1.0 - x1,
-                gamma: g2,
-            },
-        ];
-        let bp = bubble_point(&mix, pressure_kpa)?;
-        Some(bp.y[0] - x1)
+    let point = |x1: f64, gammas: &mut F| -> Option<BubblePoint> {
+        bubble_point_with(&[a, b], &[x1, 1.0 - x1], pressure_kpa, |t_k| {
+            let (g1, g2) = gammas(x1, t_k);
+            vec![g1, g2]
+        })
     };
     // The ends are excluded: at x = 0 and x = 1 the vapour trivially
     // matches the liquid, and calling that an azeotrope would report every
     // mixture as having two.
     let (mut lo, mut hi) = (0.001f64, 0.999f64);
-    let (mut f_lo, f_hi) = (enrichment(lo, &mut gammas)?, enrichment(hi, &mut gammas)?);
+    let mut f_lo = point(lo, &mut gammas)?.y[0] - lo;
+    let f_hi = point(hi, &mut gammas)?.y[0] - hi;
     if f_lo.signum() == f_hi.signum() {
         return None;
     }
     for _ in 0..200 {
         let mid = 0.5 * (lo + hi);
-        let f_mid = enrichment(mid, &mut gammas)?;
+        let f_mid = point(mid, &mut gammas)?.y[0] - mid;
         if f_mid.signum() == f_lo.signum() {
             lo = mid;
             f_lo = f_mid;
@@ -230,20 +255,7 @@ where
         }
     }
     let x = 0.5 * (lo + hi);
-    let (g1, g2) = gammas(x);
-    let mix = [
-        Volatile {
-            antoine: a,
-            x,
-            gamma: g1,
-        },
-        Volatile {
-            antoine: b,
-            x: 1.0 - x,
-            gamma: g2,
-        },
-    ];
-    bubble_point(&mix, pressure_kpa).map(|bp| (x, bp))
+    point(x, &mut gammas).map(|bp| (x, bp))
 }
 
 // ── THERMO-005: Dew point and TP flash ─────────────────────────────

@@ -65,7 +65,7 @@ fn lower_pressure_boils_water_cooler() {
 /// and the UNIFAC one are the same experiment run twice.
 #[test]
 fn an_ideal_mixture_separates_all_the_way() {
-    let found = azeotrope(ETHANOL, WATER, ATMOSPHERE_KPA, |_| (1.0, 1.0));
+    let found = azeotrope(ETHANOL, WATER, ATMOSPHERE_KPA, |_, _| (1.0, 1.0));
     assert!(
         found.is_none(),
         "Raoult's law cannot produce an azeotrope, and got {found:?}"
@@ -105,5 +105,53 @@ fn extrapolation_is_refused_rather_than_returned() {
     assert!(
         WATER.pressure_kpa(300.0).is_none(),
         "300 °C is far outside the 1–100 °C fit and must not be extrapolated"
+    );
+}
+
+/// PLAN.md's P3p acceptance test: the ethanol–water azeotrope near 95.6 %
+/// ethanol by mass — the teaching moment most simulators miss. γ comes
+/// from full UNIFAC (combinatorial + residual, Fredenslund 1975
+/// parameters) and follows the temperature inside the bubble-point
+/// bisection, which is the coupling `bubble_point_with` exists for.
+#[test]
+fn unifac_finds_the_ethanol_water_azeotrope() {
+    use kerotakis_thermo::unifac::{activity_coefficients, approved_table, GroupDecomposition};
+
+    let table = approved_table();
+    let mut ethanol_groups = GroupDecomposition::new();
+    ethanol_groups.insert(1, 1); // CH3
+    ethanol_groups.insert(2, 1); // CH2
+    ethanol_groups.insert(14, 1); // OH
+    let mut water_groups = GroupDecomposition::new();
+    water_groups.insert(16, 1); // H2O
+
+    let (x, bp) = azeotrope(ETHANOL, WATER, ATMOSPHERE_KPA, |x1, t_k| {
+        let g = activity_coefficients(
+            &table,
+            &[(ethanol_groups.clone(), x1), (water_groups.clone(), 1.0 - x1)],
+            t_k,
+        );
+        (g[0], g[1])
+    })
+    .expect("full UNIFAC must produce the ethanol-water azeotrope");
+
+    let w = mass_fraction(x, 46.068, 18.015);
+    assert!(
+        (bp.t_celsius - 78.2).abs() < 1.5,
+        "azeotrope boils near 78.2 °C, got {:.2}",
+        bp.t_celsius
+    );
+    assert!(
+        (0.85..0.97).contains(&x),
+        "azeotrope near x = 0.894 mol fraction ethanol, got {x:.3}"
+    );
+    assert!(
+        (0.93..0.99).contains(&w),
+        "azeotrope near 95.6 % ethanol by mass, got {:.1} %",
+        w * 100.0
+    );
+    assert!(
+        bp.azeotropic,
+        "the bubble point at the azeotrope must report itself azeotropic"
     );
 }

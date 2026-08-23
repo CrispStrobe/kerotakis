@@ -1,0 +1,938 @@
+{
+  "buffer": {
+    "event_count": 12,
+    "events_sample": [
+      "v1: +55.3428 mol water",
+      "v1: +0.1000 mol acetic acid",
+      "v1: +0.1000 mol sodium acetate",
+      "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +0.0100 mol hydrochloric acid",
+      "v1: not yet modelled — sodium acetate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: new vessel",
+      "v2: +55.3428 mol water",
+      "v2: +0.0100 mol hydrochloric acid",
+      "v2: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+    ],
+    "lesson": "buffer.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.1,
+            "phase": "Solid",
+            "species": "NaOAc"
+          },
+          {
+            "moles": 55.34276991,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 55.34276991,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "counting-in-fives": {
+    "event_count": 11,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.0050 mol sulfuric acid",
+      "v1: +0.0050 mol iron(II) sulfate",
+      "v1: not yet modelled — iron(II) sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +0.0005 mol potassium permanganate",
+      "v1: not yet modelled — iron(II) sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — potassium permanganate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: +0.0005 mol potassium permanganate",
+      "v1: not yet modelled — iron(II) sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — potassium permanganate in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "counting-in-fives.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.005,
+            "phase": "Solid",
+            "species": "FeSO4"
+          },
+          {
+            "moles": 0.005,
+            "phase": "Liquid",
+            "species": "H2SO4"
+          },
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "KMnO4"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "fire": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +0.0494 mol magnesium",
+      "v1 balance: 1.20 g",
+      "v1: flame test — magnesium colours the flame a blinding white",
+      "v1 balance: 1.20 g",
+      "v1 thermometer: 25.00 °C",
+      "v2: new vessel",
+      "v2: +0.0856 mol sodium chloride",
+      "v2: flame test — sodium chloride colours the flame bright yellow"
+    ],
+    "lesson": "fire.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.04937256,
+            "phase": "Solid",
+            "species": "Mg"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.08555345,
+            "phase": "Solid",
+            "species": "NaCl"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "first-warmth": {
+    "event_count": 14,
+    "events_sample": [
+      "v1: 25.0 °C → 20.0 °C",
+      "v1: +5.5343 mol water",
+      "v1 thermometer: 20.00 °C",
+      "v1: 20.0 °C → 50.0 °C",
+      "v1: +5.5343 mol water",
+      "v1 thermometer: 50.00 °C",
+      "v1 balance: 199.40 g",
+      "v2: new vessel",
+      "v2: 25.0 °C → 50.0 °C",
+      "v1 → v2: 50% of the liquid",
+      "v2 thermometer: 50.00 °C",
+      "v2: 50.0 °C → 49.7 °C",
+      "v2: +0.0856 mol sodium chloride",
+      "v2: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "first-warmth.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 323.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.08555345,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 322.8935
+      }
+    ]
+  },
+  "fizz": {
+    "event_count": 9,
+    "events_sample": [
+      "v1: +13.8357 mol water",
+      "v1: +0.0500 mol baking soda (sodium bicarbonate)",
+      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 balance: 253.45 g",
+      "v1 thermometer: 25.00 °C",
+      "v1: +0.0599 mol acetic acid",
+      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 balance: 257.05 g",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+    ],
+    "lesson": "fizz.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.05994805,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.04999583,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "grit": {
+    "event_count": 12,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.1000 mol sodium chloride",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v1: 25.0 °C → -10.6 °C",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: 25.0 °C → -11.0 °C",
+      "v1 thermometer: -10.56 °C",
+      "v2 thermometer: -10.99 °C",
+      "v1: The liquid is colourless and so cloudy you cannot see through it, there is white sodium chloride at the bottom.",
+      "v2: The liquid is colourless and clear."
+    ],
+    "lesson": "grit.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 262.5865
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 262.1556
+      }
+    ]
+  },
+  "hard-water": {
+    "event_count": 13,
+    "events_sample": [
+      "v1: +27.6714 mol water",
+      "v1: +0.0202 mol baking soda (sodium bicarbonate)",
+      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: +0.0099 mol calcium chloride",
+      "v1: not yet modelled — baking soda (sodium bicarbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v2: +11.0686 mol water",
+      "v2: +0.0100 mol chalk (calcium carbonate)",
+      "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: +0.0300 mol hydrochloric acid",
+      "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2 balance: 201.49 g"
+    ],
+    "lesson": "hard-water.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0099117,
+            "phase": "Solid",
+            "species": "CaCl2"
+          },
+          {
+            "moles": 0.02023641,
+            "phase": "Solid",
+            "species": "NaHCO3"
+          },
+          {
+            "moles": 27.67138496,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00999131,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.03,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "limewater": {
+    "event_count": 9,
+    "events_sample": [
+      "v1: +55.3428 mol water",
+      "v1: +0.0100 mol slaked lime (calcium hydroxide)",
+      "v1: not yet modelled — slaked lime (calcium hydroxide) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: +0.0100 mol carbon dioxide",
+      "v1: not yet modelled — slaked lime (calcium hydroxide) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is colourless and cloudy, bubbles of gas are rising through it, there is white slaked lime (calcium hydroxide) at the bottom.",
+      "v1: +0.0500 mol carbon dioxide",
+      "v1: not yet modelled — slaked lime (calcium hydroxide) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is colourless and cloudy, bubbles of gas are rising through it, there is white slaked lime (calcium hydroxide) at the bottom."
+    ],
+    "lesson": "limewater.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.06,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "Ca(OH)2"
+          },
+          {
+            "moles": 55.34276991,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "neutral-moves": {
+    "event_count": 12,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.0010 mol sodium chloride",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: 25.0 °C → 50.1 °C",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 thermometer: 50.07 °C",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: 50.1 °C → 3.3 °C",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 thermometer: 3.29 °C",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+    ],
+    "lesson": "neutral-moves.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 276.436
+      }
+    ]
+  },
+  "never-mix": {
+    "event_count": 6,
+    "events_sample": [
+      "v1: +11.0686 mol water",
+      "v1: +0.1000 mol bleach (sodium hypochlorite)",
+      "v1 balance: 206.84 g",
+      "v1: +0.1000 mol ammonia solution",
+      "v1 balance: 208.55 g",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+    ],
+    "lesson": "never-mix.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "NH3"
+          },
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "NaOCl"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "rates": {
+    "event_count": 21,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.0050 mol sodium thiosulfate",
+      "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: +0.0020 mol hydrochloric acid",
+      "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.0050 mol sodium thiosulfate",
+      "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: +0.0020 mol hydrochloric acid",
+      "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: 25.0 °C → 44.2 °C",
+      "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: The liquid is colourless and so cloudy you cannot see through it, there is white sodium thiosulfate at the bottom.",
+      "v2: The liquid is colourless and so cloudy you cannot see through it, there is white sodium thiosulfate at the bottom.",
+      "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: The liquid is colourless and so cloudy you cannot see through it, there is white sodium thiosulfate at the bottom."
+    ],
+    "lesson": "rates.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.002,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.00499652,
+            "phase": "Solid",
+            "species": "Na2S2O3"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.002,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.00499652,
+            "phase": "Solid",
+            "species": "Na2S2O3"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 317.3068
+      }
+    ]
+  },
+  "salt-from-brine": {
+    "event_count": 6,
+    "events_sample": [
+      "v1: +55.3428 mol water",
+      "v1: +2.0020 mol sodium chloride",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 balance: 1114.00 g",
+      "v1: 44.274 mol water evaporated",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "salt-from-brine.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 2.00195062,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "silver-and-salt": {
+    "event_count": 10,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.0099 mol sodium chloride",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.0100 mol silver nitrate",
+      "v2: not yet modelled — silver nitrate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2 → v1: 100% of the liquid",
+      "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "silver-and-salt.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0099242,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01000765,
+            "phase": "Solid",
+            "species": "AgNO3"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "spannungsreihe": {
+    "event_count": 47,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.0100 mol copper sulfate",
+      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: +0.0206 mol magnesium",
+      "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — magnesium in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: The liquid is colourless and so cloudy you cannot see through it, there is white magnesium at the bottom.",
+      "v1 thermometer: 25.00 °C",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.0100 mol copper sulfate",
+      "v2: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: +0.0200 mol silver",
+      "v2: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: not yet modelled — silver in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +0.1000 mol hydrochloric acid",
+      "v3: +0.0200 mol copper",
+      "v3: not yet modelled — copper in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "spannungsreihe.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "CuSO4"
+          },
+          {
+            "moles": 0.0205719,
+            "phase": "Solid",
+            "species": "Mg"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02,
+            "phase": "Solid",
+            "species": "Ag"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "CuSO4"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.02,
+            "phase": "Solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.02,
+            "phase": "Solid",
+            "species": "Mg"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Zn"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "ZnSO4"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "CuSO4"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Cu"
+          },
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "CuSO4"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "three-protons": {
+    "event_count": 15,
+    "events_sample": [
+      "v1: +55.3428 mol water",
+      "v1: +0.1000 mol phosphoric acid",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +0.0500 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +0.0500 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +0.0500 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +0.0500 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+    ],
+    "lesson": "three-protons.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "H3PO4"
+          },
+          {
+            "moles": 0.2,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 55.34276991,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "titration": {
+    "event_count": 15,
+    "events_sample": [
+      "v1: +27.6714 mol water",
+      "v1: +0.0100 mol hydrochloric acid",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +0.0050 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +0.0040 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +0.0010 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: +0.0020 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+    ],
+    "lesson": "titration.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.012,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 27.67138496,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "two-roads": {
+    "event_count": 13,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.1000 mol hydrochloric acid",
+      "v1: +0.1000 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1 thermometer: 25.00 °C",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +0.1000 mol sodium hydroxide",
+      "v2: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2 thermometer: 25.00 °C",
+      "v2: +0.1000 mol hydrochloric acid",
+      "v2: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2 thermometer: 25.00 °C"
+    ],
+    "lesson": "two-roads.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.1000075,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.1000075,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  }
+}
