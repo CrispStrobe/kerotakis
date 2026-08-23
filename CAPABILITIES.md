@@ -661,7 +661,15 @@ the check. **Size.** Small. **Depends on:** nothing.
 
 ## CAP-15 — Re-source and grow the Antoine data
 
-- [ ] Status: open — **a standing avoid-list violation until done**
+- [x] Status: **done 2026-08-23** (kero-basic, 8e7e461; audited by
+      Fable 2026-08-23). Every `source` string now cites Stull 1947
+      (Ind. Eng. Chem. 39(4), 517-540, Table I) directly, carrying its
+      own mmHg→kPa conversion arithmetic; a tree-wide grep finds no
+      avoid-list citation. The school set landed with it — methanol,
+      propanone, ethanoic acid — each constant with a golden
+      bubble-point test at its tabulated boiling point (64.7, 56.1,
+      117.9 °C; `pure_*_bubble_point` in vle.rs). Preflight green on
+      the pushes that carried and followed it.
 
 **Why.** Both shipped Antoine sets cite "Stull 1947 *via the NIST
 WebBook*" in their `source` fields; the WebBook is on PLAN.md's
