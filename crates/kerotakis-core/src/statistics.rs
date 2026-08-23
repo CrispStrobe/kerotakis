@@ -86,7 +86,8 @@ mod tests {
         let data = vec![2.0, 4.0, 4.0, 4.0, 5.0, 5.0, 7.0, 9.0];
         let (mean, std) = Experiment::mean_std(&data);
         assert!((mean - 5.0).abs() < 1e-10);
-        assert!((std - 2.0).abs() < 0.1);
+        // Sample std with n-1: sqrt(32/7) ≈ 2.138
+        assert!((std - 2.138).abs() < 0.01, "sample std = {std}");
     }
 
     #[test]

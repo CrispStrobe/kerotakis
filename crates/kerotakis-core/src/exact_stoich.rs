@@ -43,9 +43,47 @@ fn gcd(a: i64, b: i64) -> i64 {
 }
 
 /// Convert a floating-point stoichiometric coefficient to the nearest
-/// simple fraction, for display purposes.
+/// simple fraction with denominator ≤ `max_denominator`.
+///
+/// Uses the Stern-Brocot / mediant algorithm for best rational
+/// approximation within the denominator bound.
 pub fn rationalize(value: f64, max_denominator: i64) -> Rational64 {
-    Rational64::approximate_float(value).unwrap_or(Rational64::from_integer(value as i64))
+    if value == value.round() && value.abs() < i64::MAX as f64 {
+        return Rational64::from_integer(value as i64);
+    }
+    // Stern-Brocot tree search
+    let sign = if value < 0.0 { -1 } else { 1 };
+    let x = value.abs();
+    let (mut a_n, mut a_d) = (0i64, 1i64); // lower bound 0/1
+    let (mut b_n, mut b_d) = (1i64, 0i64); // upper bound 1/0 = ∞
+    loop {
+        let m_n = a_n + b_n;
+        let m_d = a_d + b_d;
+        if m_d > max_denominator {
+            // Pick whichever of a/a_d or b/b_d is closer
+            let err_a = (x - a_n as f64 / a_d.max(1) as f64).abs();
+            let err_b = if b_d == 0 {
+                f64::INFINITY
+            } else {
+                (x - b_n as f64 / b_d as f64).abs()
+            };
+            return if err_a <= err_b {
+                Rational64::new(sign * a_n, a_d)
+            } else {
+                Rational64::new(sign * b_n, b_d)
+            };
+        }
+        let mediant = m_n as f64 / m_d as f64;
+        if (mediant - x).abs() < 1e-12 {
+            return Rational64::new(sign * m_n, m_d);
+        } else if mediant < x {
+            a_n = m_n;
+            a_d = m_d;
+        } else {
+            b_n = m_n;
+            b_d = m_d;
+        }
+    }
 }
 
 #[cfg(test)]

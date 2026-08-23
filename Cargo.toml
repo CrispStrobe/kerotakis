@@ -26,7 +26,7 @@ authors = ["Christian Ströbele"]
 diffsol = { version = "=0.16.2", default-features = false, features = ["nalgebra"] }
 bumpalo = "=3.20.3"
 csv = "1"
-lasso = "0.7"
+lasso = { version = "0.7", features = ["multi-threaded"] }
 num-rational = "0.4"
 rand = "0.9"
 rand_chacha = "0.9"

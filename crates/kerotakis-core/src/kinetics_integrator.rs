@@ -347,6 +347,8 @@ pub fn advance_network_with_options<'a>(
     let mut elapsed = 0.0;
     let mut totals = vec![0.0; network.reactions.len()];
     let mut statistics = IntegrationStatistics::default();
+    // OPT-5: hoist zero-vector allocation outside the event-restart loop
+    let zero = vec![0.0; network.reactions.len()];
 
     for _ in 0..MAX_EVENT_RESTARTS {
         let remaining = seconds - elapsed;
@@ -364,7 +366,6 @@ pub fn advance_network_with_options<'a>(
             vessel,
             reactions: network.reactions,
         };
-        let zero = vec![0.0; network.reactions.len()];
         if system
             .rhs_values(&zero)
             .iter()
