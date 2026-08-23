@@ -10,6 +10,7 @@
 //!   kero run FILE.lab --json  replay, one JSON object per step on stdout
 //!   kero species              list the registry
 
+mod chart_svg;
 mod diagram;
 mod mcp;
 mod provenance;
@@ -199,6 +200,39 @@ fn main() {
             // claim is cheaper than believing it.
             run_sweep(args.get(1).map(String::as_str));
         }
+        Some("chart") => {
+            // The universal outlet: any chart-contract JSON becomes SVG.
+            // Producers write the contract; this renders it — the study
+            // runner and the titration curve plug in here the day they
+            // exist.
+            let Some(input) = args.get(1) else {
+                eprintln!("usage: kero chart <chart.json> [-o out.svg]");
+                std::process::exit(2);
+            };
+            let out = match (args.get(2).map(String::as_str), args.get(3)) {
+                (Some("-o") | Some("--out"), Some(p)) => p.clone(),
+                _ => format!("{}.svg", input.trim_end_matches(".json")),
+            };
+            let text = match std::fs::read_to_string(input) {
+                Ok(t) => t,
+                Err(e) => {
+                    eprintln!("kero chart: cannot read {input}: {e}");
+                    std::process::exit(2);
+                }
+            };
+            let chart: kerotakis_core::chart::Chart = match serde_json::from_str(&text) {
+                Ok(c) => c,
+                Err(e) => {
+                    eprintln!("kero chart: {input} is not chart-contract JSON: {e}");
+                    std::process::exit(2);
+                }
+            };
+            if let Err(e) = std::fs::write(&out, chart_svg::render(&chart)) {
+                eprintln!("kero chart: cannot write {out}: {e}");
+                std::process::exit(2);
+            }
+            eprintln!("wrote {out}");
+        }
         Some("diagram") => {
             // The workbench-class artefact, computed: `diagram pourbaix Fe`
             // solves a pe-pH grid cell by cell and draws what the
@@ -206,6 +240,12 @@ fn main() {
             match args.get(1).map(String::as_str) {
                 Some("pourbaix") => {
                     if let Err(e) = diagram::run(&args[2..]) {
+                        eprintln!("kero diagram: {e}");
+                        std::process::exit(2);
+                    }
+                }
+                Some("txy") => {
+                    if let Err(e) = diagram::run_txy(&args[2..]) {
                         eprintln!("kero diagram: {e}");
                         std::process::exit(2);
                     }

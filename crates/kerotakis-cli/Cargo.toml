@@ -13,6 +13,7 @@ path = "src/main.rs"
 
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }
+kerotakis-thermo = { path = "../kerotakis-thermo" }
 kerotakis-phreeqc = { path = "../kerotakis-phreeqc" }
 kerotakis-cea = { path = "../kerotakis-cea" }
 kerotakis-codex = { path = "../kerotakis-codex" }
