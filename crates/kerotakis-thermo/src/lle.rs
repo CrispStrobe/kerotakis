@@ -222,53 +222,6 @@ where
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn ideal_mixture_no_split() {
-        // Ideal solution (γ=1): always miscible
-        let result = lle_binary(0.5, &mut |_x| (1.0, 1.0));
-        assert_eq!(result, LleResult::SinglePhase);
-    }
-
-    #[test]
-    fn highly_nonideal_mixture_splits() {
-        // Margules one-parameter with A=3 (strongly non-ideal)
-        // γ₁ = exp(A·x₂²), γ₂ = exp(A·x₁²)
-        let a = 3.0;
-        let result = lle_binary(0.5, &mut |x1| {
-            let x2 = 1.0 - x1;
-            ((a * x2 * x2).exp(), (a * x1 * x1).exp())
-        });
-        match result {
-            LleResult::TwoPhase {
-                x1_alpha, x1_beta, ..
-            } => {
-                assert!(
-                    x1_alpha < 0.5 && x1_beta > 0.5,
-                    "α={:.3}, β={:.3}",
-                    x1_alpha,
-                    x1_beta
-                );
-            }
-            LleResult::SinglePhase => panic!("should split at A=3"),
-        }
-    }
-
-    #[test]
-    fn weakly_nonideal_no_split() {
-        // Margules A=1 — not enough to cause splitting
-        let a = 1.0;
-        let result = lle_binary(0.5, &mut |x1| {
-            let x2 = 1.0 - x1;
-            ((a * x2 * x2).exp(), (a * x1 * x1).exp())
-        });
-        assert_eq!(result, LleResult::SinglePhase);
-    }
-}
-
 // ── CAP-20: LLE from UNIFAC, reaching for the bench ────────────────
 
 /// Binary LLE with γ from full UNIFAC at a given temperature.
@@ -319,4 +272,51 @@ pub fn water_ethanol_lle(z_ethanol: f64, t_kelvin: f64) -> LleResult {
     let mut water = crate::unifac::GroupDecomposition::new();
     water.insert(16, 1);
     binary_lle_unifac(&ethanol, &water, z_ethanol, t_kelvin)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn ideal_mixture_no_split() {
+        // Ideal solution (γ=1): always miscible
+        let result = lle_binary(0.5, &mut |_x| (1.0, 1.0));
+        assert_eq!(result, LleResult::SinglePhase);
+    }
+
+    #[test]
+    fn highly_nonideal_mixture_splits() {
+        // Margules one-parameter with A=3 (strongly non-ideal)
+        // γ₁ = exp(A·x₂²), γ₂ = exp(A·x₁²)
+        let a = 3.0;
+        let result = lle_binary(0.5, &mut |x1| {
+            let x2 = 1.0 - x1;
+            ((a * x2 * x2).exp(), (a * x1 * x1).exp())
+        });
+        match result {
+            LleResult::TwoPhase {
+                x1_alpha, x1_beta, ..
+            } => {
+                assert!(
+                    x1_alpha < 0.5 && x1_beta > 0.5,
+                    "α={:.3}, β={:.3}",
+                    x1_alpha,
+                    x1_beta
+                );
+            }
+            LleResult::SinglePhase => panic!("should split at A=3"),
+        }
+    }
+
+    #[test]
+    fn weakly_nonideal_no_split() {
+        // Margules A=1 — not enough to cause splitting
+        let a = 1.0;
+        let result = lle_binary(0.5, &mut |x1| {
+            let x2 = 1.0 - x1;
+            ((a * x2 * x2).exp(), (a * x1 * x1).exp())
+        });
+        assert_eq!(result, LleResult::SinglePhase);
+    }
 }
