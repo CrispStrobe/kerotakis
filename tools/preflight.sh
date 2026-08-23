@@ -28,4 +28,14 @@ step "codex lint";    cargo run --release -p kerotakis-cli -- codex lint
 step "provenance";    cargo run --release -p kerotakis-cli -- provenance lint
 step "sweep";         cargo run --release -p kerotakis-cli -- sweep
 
+# CAP-14: licence bar as cargo-deny lint (2026-08-23)
+if command -v cargo-deny >/dev/null 2>&1; then
+  step "cargo-deny";  cargo deny check
+fi
+
+# Provenance checksums (vendored files)
+if [ -f tools/provenance-lint.sh ]; then
+  step "provenance checksums"; bash tools/provenance-lint.sh
+fi
+
 printf '\n\033[1;32mpreflight clean\033[0m\n'
