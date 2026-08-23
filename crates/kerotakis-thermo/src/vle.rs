@@ -513,6 +513,36 @@ pub fn mass_fraction(x1: f64, m1: f64, m2: f64) -> f64 {
     a / (a + b)
 }
 
+/// Bubble point of the ethanol–water binary with full UNIFAC γ(T)
+/// (Fredenslund 1975 parameters) — the mixture the school still is built
+/// around, packaged so a bench does not need to know group
+/// decompositions. `x_ethanol` is the ethanol mole fraction of the
+/// volatile liquid.
+pub fn ethanol_water_bubble_point(x_ethanol: f64, pressure_kpa: f64) -> Option<BubblePoint> {
+    let table = crate::unifac::approved_table();
+    let mut ethanol_groups = crate::unifac::GroupDecomposition::new();
+    ethanol_groups.insert(1, 1); // CH3
+    ethanol_groups.insert(2, 1); // CH2
+    ethanol_groups.insert(14, 1); // OH
+    let mut water_groups = crate::unifac::GroupDecomposition::new();
+    water_groups.insert(16, 1); // H2O
+    bubble_point_with(
+        &[ETHANOL, WATER],
+        &[x_ethanol, 1.0 - x_ethanol],
+        pressure_kpa,
+        |t_k| {
+            crate::unifac::activity_coefficients(
+                &table,
+                &[
+                    (ethanol_groups.clone(), x_ethanol),
+                    (water_groups.clone(), 1.0 - x_ethanol),
+                ],
+                t_k,
+            )
+        },
+    )
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -761,34 +791,4 @@ mod tests {
             r.t_celsius
         );
     }
-}
-
-/// Bubble point of the ethanol–water binary with full UNIFAC γ(T)
-/// (Fredenslund 1975 parameters) — the mixture the school still is built
-/// around, packaged so a bench does not need to know group
-/// decompositions. `x_ethanol` is the ethanol mole fraction of the
-/// volatile liquid.
-pub fn ethanol_water_bubble_point(x_ethanol: f64, pressure_kpa: f64) -> Option<BubblePoint> {
-    let table = crate::unifac::approved_table();
-    let mut ethanol_groups = crate::unifac::GroupDecomposition::new();
-    ethanol_groups.insert(1, 1); // CH3
-    ethanol_groups.insert(2, 1); // CH2
-    ethanol_groups.insert(14, 1); // OH
-    let mut water_groups = crate::unifac::GroupDecomposition::new();
-    water_groups.insert(16, 1); // H2O
-    bubble_point_with(
-        &[ETHANOL, WATER],
-        &[x_ethanol, 1.0 - x_ethanol],
-        pressure_kpa,
-        |t_k| {
-            crate::unifac::activity_coefficients(
-                &table,
-                &[
-                    (ethanol_groups.clone(), x_ethanol),
-                    (water_groups.clone(), 1.0 - x_ethanol),
-                ],
-                t_k,
-            )
-        },
-    )
 }

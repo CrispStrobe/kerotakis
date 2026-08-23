@@ -41,8 +41,39 @@ fn gcd(a: i64, b: i64) -> i64 {
 
 /// Convert a floating-point stoichiometric coefficient to the nearest
 /// simple fraction, for display purposes.
+///
+/// Continued-fraction convergents, stopping before the denominator
+/// exceeds the cap — the parameter is honoured, not decorative: the
+/// first draft delegated to `approximate_float` and ignored it.
 pub fn rationalize(value: f64, max_denominator: i64) -> Rational64 {
-    Rational64::approximate_float(value).unwrap_or(Rational64::from_integer(value as i64))
+    let (mut h_pp, mut h_p, mut k_pp, mut k_p): (i64, i64, i64, i64) = (0, 1, 1, 0);
+    let mut x = value;
+    for _ in 0..64 {
+        let a = x.floor();
+        if !a.is_finite() || a.abs() > (i64::MAX / 2) as f64 {
+            break;
+        }
+        let ai = a as i64;
+        let (Some(h), Some(k)) = (
+            ai.checked_mul(h_p).and_then(|v| v.checked_add(h_pp)),
+            ai.checked_mul(k_p).and_then(|v| v.checked_add(k_pp)),
+        ) else {
+            break;
+        };
+        if k > max_denominator.max(1) {
+            break;
+        }
+        (h_pp, h_p, k_pp, k_p) = (h_p, h, k_p, k);
+        let frac = x - a;
+        if frac.abs() < 1e-12 {
+            break;
+        }
+        x = 1.0 / frac;
+    }
+    if k_p == 0 {
+        return Rational64::from_integer(value as i64);
+    }
+    Rational64::new(h_p, k_p)
 }
 
 #[cfg(test)]
