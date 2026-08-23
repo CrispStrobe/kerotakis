@@ -2174,6 +2174,37 @@ inherits mhn-react's data and its ambiguity. **The HF enzyme-interaction
 model** — zero downloads, no paper/metrics/config, bare pickle checkpoint:
 untouchable, and biochemistry is parked regardless.
 
+### Performance pass — cross-cutting, gated on measurement
+
+A full-workspace survey (2026-08-23) found the hot paths concentrated in
+two places — the redox bisection around uncached engine calls in
+`kerotakis-phreeqc` (worst case ~272 full PHREEQC solves per vessel
+equilibration, each one a wasm↔JS round trip in the browser) and
+per-iteration allocation inside the CEA Newton loop — plus free wins
+nobody has claimed (no `[profile.release]`, no `wasm-opt` pass, a
+`const` species table inlined into five crates). The tasks are scoped,
+ordered and agent-executable in **[OPTIMIZATION.md](OPTIMIZATION.md)**,
+under one rule: benchmarks land first, and no optimization merges
+without a before/after number recorded next to it. Chemistry output is
+the contract throughout — the one task allowed to move a converged pe
+in its last digits (OPT-7) says so explicitly and must still pass every
+existing test unchanged.
+
+### Capability parity — measured against the neighbours
+
+A capability inventory (2026-08-23) compared the shipped product
+surface against ChemPy (the open-source reference for exposed
+relations, properties and balancing) and against the commercial
+PHREEQC-workbench class (parameter studies, Monte Carlo, predominance
+diagrams, fitting). Verdict: our solver depth already exceeds both in
+places, but whole finished capabilities are unreachable — the VLE
+crate has no dependent, the `USER_GRAPH` plumbing feeds no chart, and
+there is no user-facing sweep, diagram, or uncertainty anywhere. The
+gaps worth closing are scoped as CAP-1…CAP-12 in
+**[CAPABILITIES.md](CAPABILITIES.md)**, which also records what is
+deliberately declined as off-mission and points at the R-stages that
+already own the rest.
+
 ---
 
 ## Open decisions
