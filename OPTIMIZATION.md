@@ -60,7 +60,7 @@ sites. Reduce or eliminate allocations in:
 - Species lookup (intern, see OPT-4)
 - Selected-output string splitting (avoid per-row allocation)
 
-## OPT-6 — PHREEQC database pre-parsing
+## OPT-6 ✓ — PHREEQC database pre-parsing
 
 `generate-dbindex` already produces serialized indexes. Wire the
 runtime to load the pre-parsed index instead of re-parsing the
