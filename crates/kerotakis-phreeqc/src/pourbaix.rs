@@ -140,7 +140,7 @@ fn classify(eq: &mut PhreeqcEquilibrator, sys: &ElementSystem, ph: f64, pe: f64)
             for m in sys.minerals {
                 if let Some(idx) = header.iter().position(|h| h.trim() == *m) {
                     if let Some(moles) = row.get(idx).and_then(|v| v.trim().parse::<f64>().ok()) {
-                        if best_phase.map_or(true, |(_, b)| moles > b) {
+                        if best_phase.is_none_or(|(_, b)| moles > b) {
                             best_phase = Some((m, moles));
                         }
                     }
@@ -218,6 +218,9 @@ pub fn diagram(
     })
 }
 
+/// A polyline in (pH, pe) coordinates.
+pub type PePhLine = Vec<(f64, f64)>;
+
 /// The water-stability lines at 25 °C, for drawing over the grid.
 ///
 /// Upper: O2(g) at 1 atm, O2 + 4 H+ + 4 e− = 2 H2O, pe = 20.75 − pH.
@@ -226,7 +229,7 @@ pub fn diagram(
 /// PHREEQC databases themselves (O2 log_k 83.1 per 4 e− at 25 °C → 20.775,
 /// conventionally quoted 20.75); the hydrogen line is exact by the
 /// definition of pe.
-pub fn water_stability_lines(ph: &[f64]) -> (Vec<(f64, f64)>, Vec<(f64, f64)>) {
+pub fn water_stability_lines(ph: &[f64]) -> (PePhLine, PePhLine) {
     let upper = ph.iter().map(|&x| (x, 20.75 - x)).collect();
     let lower = ph.iter().map(|&x| (x, -x)).collect();
     (upper, lower)
