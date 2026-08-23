@@ -765,7 +765,20 @@ tests → lesson): `extract` (on `apparatus::extract`, upgraded to use
 `transport.rs`), `chromatograph` and `calorimeter` (instrument enum
 entries plus grammar), `react` (the two `kerotakis-org` templates —
 the crate's first dependent). Refusals stay loud where data is
-missing. **Acceptance.** Each verb demonstrable in a replayed lesson;
+missing.
+
+**First slice done 2026-08-23** (Fable): computed liquid–liquid
+demixing reaches the bench. `lle_binary` was rebuilt as a real
+solver — spinodal scan then the equal-activity tie line by nested
+bisection with an activity-overlap-trimmed bracket (the old ±0.005
+alternating walk stalled a quarter of the composition axis from the
+answer); hexane entered the registry as pure data through the CAP-21
+pipeline (#77, CIAAW/CRC provenance); and water+hexane in a vessel
+now emits a computed `LayersFormed` event (hexane floating, three
+registers, lv3 stating the alkane–water γ∞ honesty bound) while
+water+ethanol provably does not — same machinery, opposite verdict,
+which is the lesson. The `extract` verb on top of this is the next
+slice. **Acceptance.** Each verb demonstrable in a replayed lesson;
 `kerotakis-org` gains a dependent; preflight green. **Size.** Medium
 per verb — they are independent; take them one per branch.
 **Depends on:** nothing.

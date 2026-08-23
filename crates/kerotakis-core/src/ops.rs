@@ -351,6 +351,15 @@ pub enum Event {
         energy_kj: f64,
         azeotropic: bool,
     },
+    /// Two liquid layers formed: mixing these liquids raises the Gibbs
+    /// energy instead of lowering it, so they split — computed
+    /// liquid–liquid equilibrium, not a solubility table. `upper`
+    /// floats on `lower` by density.
+    LayersFormed {
+        vessel: VesselId,
+        upper: SpeciesId,
+        lower: SpeciesId,
+    },
     /// A gas formed and left through a reservoir or swept boundary. The
     /// balance notices.
     GasEvolved {

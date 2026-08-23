@@ -22,9 +22,22 @@ pub enum LleResult {
 
 /// Check liquid-liquid miscibility for a binary system.
 ///
-/// Uses the tangent-plane distance (TPD) criterion on the Gibbs energy
-/// of mixing: g_mix = Σ xᵢ ln(xᵢ γᵢ). A negative TPD means the mixture
-/// is unstable and will split.
+/// Stability first: scan the Gibbs energy of mixing
+/// g = x₁ ln(x₁γ₁) + x₂ ln(x₂γ₂) for a concave (spinodal) interval —
+/// no concavity, no split. Then the binodal properly: the tie line is
+/// where *both* components have equal activity in the two phases,
+///
+/// ```text
+/// x_α γ₁(x_α) = x_β γ₁(x_β)   and   (1−x_α) γ₂(x_α) = (1−x_β) γ₂(x_β)
+/// ```
+///
+/// solved by nested bisection — for a trial x_α on the left stable
+/// branch, find the x_β on the right branch matching component 1's
+/// activity, then drive component 2's mismatch to zero. The first
+/// version walked a fixed ±0.005 step on the two equations
+/// alternately and stalled a quarter of the composition axis away
+/// from the answer on the water–hexane pair; equal activities are a
+/// pair of equations and get solved as one.
 ///
 /// `gammas_fn` returns (γ₁, γ₂) at a given x₁.
 pub fn lle_binary<F>(z1: f64, gammas_fn: &mut F) -> LleResult
@@ -35,8 +48,7 @@ where
         return LleResult::SinglePhase;
     }
 
-    // Gibbs energy of mixing per mole: g = x₁ ln(x₁γ₁) + x₂ ln(x₂γ₂)
-    let g_mix = |x1: f64, gammas: &mut F| -> f64 {
+    let mut g_mix = |x1: f64, gammas: &mut F| -> f64 {
         let x2 = 1.0 - x1;
         let (g1, g2) = gammas(x1);
         let t1 = if x1 > 1e-15 {
@@ -52,66 +64,150 @@ where
         t1 + t2
     };
 
-    // Scan for a local maximum in g_mix (spinodal region indicator)
-    let n = 100;
-    let mut found_concave = false;
+    // Spinodal interval from the concavity scan.
+    let n = 400usize;
     let dx = 1.0 / n as f64;
+    let (mut s_lo, mut s_hi) = (None, None);
     let mut g_prev = g_mix(dx, gammas_fn);
     let mut g_curr = g_mix(2.0 * dx, gammas_fn);
     for i in 3..n {
         let x = i as f64 * dx;
         let g_next = g_mix(x, gammas_fn);
-        // Check for concavity (second derivative > 0 → convex → stable;
-        // second derivative < 0 → concave → unstable)
         let d2g = (g_next - 2.0 * g_curr + g_prev) / (dx * dx);
         if d2g < -1e-10 {
-            found_concave = true;
-            break;
+            if s_lo.is_none() {
+                s_lo = Some(x - 2.0 * dx);
+            }
+            s_hi = Some(x);
         }
         g_prev = g_curr;
         g_curr = g_next;
     }
+    if std::env::var("KERO_LLE").is_ok() {
+        eprintln!("  lle: spinodal {s_lo:?}..{s_hi:?}");
+    }
+    let (Some(s_lo), Some(s_hi)) = (s_lo, s_hi) else {
+        return LleResult::SinglePhase;
+    };
 
-    if !found_concave {
+    // Log-activities, for conditioning where γ spans decades.
+    let mut ln_a1 = |x: f64, g: &mut F| -> f64 {
+        let (g1, _) = g(x);
+        (x * g1).max(1e-300).ln()
+    };
+    let mut ln_a2 = |x: f64, g: &mut F| -> f64 {
+        let (_, g2) = g(x);
+        ((1.0 - x) * g2).max(1e-300).ln()
+    };
+
+    const EPS: f64 = 1e-9;
+    // For a trial x_α on the left stable branch, the x_β on the right
+    // branch with matching component-1 activity (ln a₁ rises with x on a
+    // stable branch, so this bisection is well-posed); None when the
+    // right branch never reaches that activity.
+    let mut beta_for = |x_alpha: f64, g: &mut F| -> Option<f64> {
+        let target = ln_a1(x_alpha, g);
+        let (mut lo, mut hi) = (s_hi, 1.0 - EPS);
+        let f_lo = ln_a1(lo, g) - target;
+        let f_hi = ln_a1(hi, g) - target;
+        // Endpoint tolerance: for a violently asymmetric pair the
+        // feasible window is microns wide and its edges land on the
+        // branch ends to within float noise — a target that matches an
+        // endpoint to 1e-9 in log-activity *is* that endpoint.
+        if f_lo.abs() <= 1e-9 {
+            return Some(lo);
+        }
+        if f_hi.abs() <= 1e-9 {
+            return Some(hi);
+        }
+        if f_lo.signum() == f_hi.signum() {
+            return None;
+        }
+        for _ in 0..80 {
+            let mid = 0.5 * (lo + hi);
+            if (ln_a1(mid, g) - target).signum() == f_lo.signum() {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+        }
+        Some(0.5 * (lo + hi))
+    };
+
+    // Component 2's mismatch along the x_α axis; drive it to zero.
+    let mut residual = |x_alpha: f64, g: &mut F| -> Option<f64> {
+        let x_beta = beta_for(x_alpha, g)?;
+        Some(ln_a2(x_alpha, g) - ln_a2(x_beta, g))
+    };
+
+    // The x_α bracket starts where the left branch's component-1
+    // activity first reaches the right branch's minimum — below that
+    // point no tie line exists to test, and the bisection would be
+    // asked for a β that is not there.
+    let a1_floor = ln_a1(s_hi, gammas_fn);
+    let x_min = if ln_a1(EPS, gammas_fn) >= a1_floor {
+        EPS
+    } else {
+        let (mut l, mut h) = (EPS, s_lo);
+        for _ in 0..80 {
+            let m = 0.5 * (l + h);
+            if ln_a1(m, gammas_fn) < a1_floor {
+                l = m;
+            } else {
+                h = m;
+            }
+        }
+        h
+    };
+    // And it ends where the left branch's activity exceeds the right
+    // branch's ceiling — near the spinodal the metastable branch
+    // overshoots anything a β phase can match.
+    let a1_ceil = ln_a1(1.0 - EPS, gammas_fn);
+    let x_max = if ln_a1(s_lo, gammas_fn) <= a1_ceil {
+        s_lo
+    } else {
+        let (mut l, mut h) = (x_min, s_lo);
+        for _ in 0..80 {
+            let m = 0.5 * (l + h);
+            if ln_a1(m, gammas_fn) > a1_ceil {
+                h = m;
+            } else {
+                l = m;
+            }
+        }
+        l
+    };
+    let (mut lo, mut hi) = (x_min, x_max);
+    let (r_lo_opt, r_hi_opt) = (residual(lo, gammas_fn), residual(hi, gammas_fn));
+    if std::env::var("KERO_LLE").is_ok() {
+        eprintln!("  lle: x_min={x_min:.6} x_max={x_max:.6} r_lo={r_lo_opt:?} r_hi={r_hi_opt:?}");
+    }
+    let (Some(r_lo), Some(r_hi)) = (r_lo_opt, r_hi_opt) else {
+        return LleResult::SinglePhase;
+    };
+    if r_lo.signum() == r_hi.signum() {
         return LleResult::SinglePhase;
     }
-
-    // Two-phase split: find the common tangent by bisecting for equal
-    // chemical potentials. For a binary, this means finding x_α and x_β
-    // such that μ₁(x_α) = μ₁(x_β) and μ₂(x_α) = μ₂(x_β).
-    //
-    // Simplified: scan for the two compositions where the tangent line
-    // from the feed composition touches the g_mix curve.
-    let mut x_alpha = 0.01;
-    let mut x_beta = 0.99;
-
-    // Refine by equal-activity iteration (simplified)
-    for _ in 0..50 {
-        let (g1a, _) = gammas_fn(x_alpha);
-        let (g1b, _) = gammas_fn(x_beta);
-        // Equal activity: x_α·γ₁(x_α) = x_β·γ₁(x_β)
-        let act_a = x_alpha * g1a;
-        let act_b = x_beta * g1b;
-        if act_a > act_b {
-            x_alpha += 0.005;
+    for _ in 0..80 {
+        let mid = 0.5 * (lo + hi);
+        let Some(r_mid) = residual(mid, gammas_fn) else {
+            return LleResult::SinglePhase;
+        };
+        if r_mid.signum() == r_lo.signum() {
+            lo = mid;
         } else {
-            x_alpha -= 0.005;
+            hi = mid;
         }
-        x_alpha = x_alpha.clamp(0.001, z1);
-
-        let (_, g2a) = gammas_fn(x_alpha);
-        let (_, g2b) = gammas_fn(x_beta);
-        let act2_a = (1.0 - x_alpha) * g2a;
-        let act2_b = (1.0 - x_beta) * g2b;
-        if act2_a > act2_b {
-            x_beta -= 0.005;
-        } else {
-            x_beta += 0.005;
-        }
-        x_beta = x_beta.clamp(z1, 0.999);
     }
+    let x_alpha = 0.5 * (lo + hi);
+    let Some(x_beta) = beta_for(x_alpha, gammas_fn) else {
+        return LleResult::SinglePhase;
+    };
 
-    // Lever rule: fraction in phase α
+    // A feed outside the tie line is a stable single phase.
+    if z1 <= x_alpha || z1 >= x_beta {
+        return LleResult::SinglePhase;
+    }
     let denom = x_beta - x_alpha;
     let phase_fraction = if denom.abs() > 1e-10 {
         ((x_beta - z1) / denom).clamp(0.0, 1.0)
@@ -171,4 +267,56 @@ mod tests {
         });
         assert_eq!(result, LleResult::SinglePhase);
     }
+}
+
+// ── CAP-20: LLE from UNIFAC, reaching for the bench ────────────────
+
+/// Binary LLE with γ from full UNIFAC at a given temperature.
+///
+/// Component 1 is `groups_a`; `z1` is its overall mole fraction.
+pub fn binary_lle_unifac(
+    groups_a: &crate::unifac::GroupDecomposition,
+    groups_b: &crate::unifac::GroupDecomposition,
+    z1: f64,
+    t_kelvin: f64,
+) -> LleResult {
+    let table = crate::unifac::approved_table();
+    lle_binary(z1, &mut |x1| {
+        let g = crate::unifac::activity_coefficients(
+            &table,
+            &[(groups_a.clone(), x1), (groups_b.clone(), 1.0 - x1)],
+            t_kelvin,
+        );
+        (g[0], g[1])
+    })
+}
+
+/// The water–hexane binary: the school's immiscible pair, computed.
+///
+/// Hexane is 2×CH3 + 4×CH2 — pure main-group 1, whose interaction with
+/// H2O (a₁₂ = 1318 K, a₂₁ = 300 K, Fredenslund 1975) is what makes oil
+/// and water demix. Stated honesty: UNIFAC-VLE parameters are known to
+/// *underestimate* alkane–water γ∞ by orders of magnitude, so the
+/// computed mutual solubilities here are upper bounds — the split
+/// itself, and which layer is which, are robust; the trace
+/// concentrations are not quantitative claims.
+pub fn water_hexane_lle(z_hexane: f64, t_kelvin: f64) -> LleResult {
+    let mut hexane = crate::unifac::GroupDecomposition::new();
+    hexane.insert(1, 2); // CH3 × 2
+    hexane.insert(2, 4); // CH2 × 4
+    let mut water = crate::unifac::GroupDecomposition::new();
+    water.insert(16, 1); // H2O
+    binary_lle_unifac(&hexane, &water, z_hexane, t_kelvin)
+}
+
+/// Ethanol–water for the negative control: miscible in all proportions,
+/// and the same machinery must say so.
+pub fn water_ethanol_lle(z_ethanol: f64, t_kelvin: f64) -> LleResult {
+    let mut ethanol = crate::unifac::GroupDecomposition::new();
+    ethanol.insert(1, 1);
+    ethanol.insert(2, 1);
+    ethanol.insert(14, 1);
+    let mut water = crate::unifac::GroupDecomposition::new();
+    water.insert(16, 1);
+    binary_lle_unifac(&ethanol, &water, z_ethanol, t_kelvin)
 }

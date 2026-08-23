@@ -256,6 +256,17 @@ pub fn render_event(event: &Event, register: Register) -> String {
             ),
             _ => format!("{from} → {to}: filtrate passed; residue retained"),
         },
+        Event::LayersFormed { vessel, upper, lower } => match register.level() {
+            1 => format!("The liquid in {vessel} separates into two layers."),
+            2 => format!(
+                "{vessel}: two layers — {} floating on {}; mixing them would raise the Gibbs energy, so they split",
+                species::lookup(upper).map(|d| d.name).unwrap_or(upper.0.as_str()),
+                species::lookup(lower).map(|d| d.name).unwrap_or(lower.0.as_str()),
+            ),
+            _ => format!(
+                "{vessel}: liquid–liquid split (UNIFAC LLE, common-tangent construction). The split and the layer order are robust; the trace mutual solubilities are upper bounds — VLE-fitted UNIFAC parameters underestimate alkane–water γ∞ — and are deliberately not reported",
+            ),
+        },
         Event::Evaporated { vessel, moles } => match register.level() {
             1 => format!("Steam rises from {vessel} — the water is boiling away!"),
             2 => format!("{vessel}: {:.3} mol water evaporated", moles.0),

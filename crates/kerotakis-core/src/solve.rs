@@ -245,6 +245,41 @@ impl Equilibrator for MixingEquilibrator {
             }
         }
 
+        // Liquid–liquid demixing for the curated pairs. Two liquids in
+        // one vessel are not automatically one solution: the computed
+        // activity decides, and where mixing would raise the Gibbs
+        // energy the bench shows what a beaker shows — layers. Growing
+        // this table is data work: a pair enters when its UNIFAC groups
+        // are curated and the split is oracle-checked.
+        const LLE_PAIRS: &[(&str, &str)] = &[
+            // (upper by density, lower)
+            ("hexane", "water"),
+        ];
+        for (upper, lower) in LLE_PAIRS {
+            let moles_of = |key: &str| -> f64 {
+                vessel
+                    .contents
+                    .iter()
+                    .filter(|p| p.species.0 == key && p.phase == Phase::Liquid)
+                    .map(|p| p.moles.0)
+                    .sum()
+            };
+            let a = moles_of(upper);
+            let b = moles_of(lower);
+            if a > crate::OBSERVABLE_MOLES && b > crate::OBSERVABLE_MOLES {
+                let z = a / (a + b);
+                if let kerotakis_thermo::lle::LleResult::TwoPhase { .. } =
+                    kerotakis_thermo::lle::water_hexane_lle(z, vessel.temperature.0)
+                {
+                    events.push(Event::LayersFormed {
+                        vessel: vessel.id,
+                        upper: SpeciesId::new(upper),
+                        lower: SpeciesId::new(lower),
+                    });
+                }
+            }
+        }
+
         Ok(events)
     }
 
