@@ -681,6 +681,9 @@ impl Bench {
                 if !(0.0..=1.0).contains(fraction) {
                     return Err(BenchError::BadFraction);
                 }
+                if from == to {
+                    return Err(BenchError::SelfTransfer);
+                }
                 self.vessel(*to)?; // the receiver must exist before the boil
                 let water = SpeciesId::new("water");
                 let ethanol = SpeciesId::new("ethanol");
@@ -740,7 +743,37 @@ impl Bench {
                             let removed_w = src.withdraw(&water, Moles(w_over));
                             let at = Kelvin(bp.t_celsius + 273.15);
                             let azeotropic = bp.azeotropic;
+                            // The condensate carries the source's sensible
+                            // enthalpy into the receiver (adiabatic mixing,
+                            // the decant rule): the boil's latent and
+                            // sensible surplus came from the burner and is
+                            // externally powered, so the ledger must not
+                            // invent it. `at` reports where it boiled, not
+                            // what the receiver's thermometer reads.
+                            let t_from = src.temperature;
+                            let cp_in: f64 = [(&water, removed_w), (&ethanol, removed_e)]
+                                .iter()
+                                .filter_map(|(s, n)| {
+                                    species::lookup(s).map(|d| n.0 * d.heat_capacity)
+                                })
+                                .sum();
                             let dst = self.vessel_mut(*to)?;
+                            if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
+                                let t_new = adiabatic_mix_temperature(
+                                    dst.temperature,
+                                    dst.heat_capacity(),
+                                    t_from,
+                                    cp_in,
+                                );
+                                if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
+                                    events.push(Event::TemperatureChanged {
+                                        vessel: *to,
+                                        from: dst.temperature,
+                                        to: t_new,
+                                    });
+                                }
+                                dst.temperature = t_new;
+                            }
                             if removed_w.0 > 0.0 {
                                 dst.deposit(water.clone(), removed_w, Phase::Liquid);
                             }
