@@ -239,7 +239,7 @@ fn rigid_and_pressure_controlled_gas_spend_the_same_heat_differently() {
     assert!((sealed_before.gas_moles().0 - regulated_before.gas_moles().0).abs() < 1e-12);
     assert!(sealed_before.heat_capacity() < regulated_before.heat_capacity());
     let capacity_gap = regulated_before.heat_capacity() - sealed_before.heat_capacity();
-    let expected_gap = sealed_before.gas_moles().0 * 8.314_462_618;
+    let expected_gap = sealed_before.gas_moles().0 * 8.314_462_618_153_24;
     assert!(
         (capacity_gap - expected_gap).abs() < 1e-12,
         "Cp - Cv must equal nR for the trapped ideal gas"

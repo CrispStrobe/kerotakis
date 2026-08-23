@@ -727,13 +727,12 @@ impl Vessel {
     /// gas inventory; an explicit gas portion there is a finite dose and
     /// carries sensible heat until the chemistry pass absorbs or vents it.
     pub fn heat_capacity(&self) -> f64 {
-        const R_JOULE: f64 = 8.314_462_618;
         self.contents
             .iter()
             .filter_map(|portion| {
                 let data = species::lookup(&portion.species)?;
                 let molar = if portion.phase == Phase::Gas && self.is_sealed() {
-                    (data.heat_capacity - R_JOULE).max(0.0)
+                    (data.heat_capacity - crate::constants::GAS_CONSTANT).max(0.0)
                 } else {
                     data.heat_capacity
                 };

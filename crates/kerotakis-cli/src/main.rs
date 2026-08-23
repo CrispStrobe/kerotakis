@@ -253,6 +253,109 @@ fn main() {
                 }
             }
         }
+        Some("properties") => {
+            if args.len() < 2 {
+                properties_usage();
+            }
+            let name = &args[1];
+            if name == "help" || name == "--help" {
+                properties_usage();
+            }
+            if *name == "water" {
+                let t_k = args
+                    .iter()
+                    .position(|a| a == "--at")
+                    .and_then(|i| args.get(i + 1))
+                    .map(|s| s.as_str())
+                    .or_else(|| args.iter().find_map(|a| a.strip_prefix("--at=")))
+                    .map(|val| {
+                        if val.ends_with('C') {
+                            val.trim_end_matches('C').parse::<f64>().unwrap_or(25.0) + 273.15
+                        } else {
+                            val.trim_end_matches('K').parse::<f64>().unwrap_or(298.15)
+                        }
+                    })
+                    .unwrap_or(298.15);
+                let json = args.iter().any(|a| a == "--json");
+                let table = kerotakis_core::properties::water_table(t_k);
+                if json {
+                    let entries: Vec<serde_json::Value> = table
+                        .iter()
+                        .map(|(name, r)| match r {
+                            Ok(r) => serde_json::json!({
+                                "property": name,
+                                "value": r.value,
+                                "unit": r.unit,
+                                "provenance": r.provenance,
+                            }),
+                            Err(e) => serde_json::json!({
+                                "property": name,
+                                "error": e,
+                            }),
+                        })
+                        .collect();
+                    println!(
+                        "{}",
+                        serde_json::json!({
+                            "species": "water",
+                            "T_K": t_k,
+                            "T_C": t_k - 273.15,
+                            "properties": entries,
+                        })
+                    );
+                } else {
+                    println!("water at {:.2} K ({:.1} °C)\n", t_k, t_k - 273.15);
+                    for (name, r) in &table {
+                        match r {
+                            Ok(r) => println!(
+                                "  {:<16} {:.6} {:<16} {}",
+                                name, r.value, r.unit, r.provenance
+                            ),
+                            Err(e) => println!("  {:<16} {}", name, e),
+                        }
+                    }
+                    // Henry coefficients for all gases
+                    println!("\nHenry's constants at {:.2} K:\n", t_k);
+                    for c in kerotakis_core::properties::HENRY_COEFFICIENTS {
+                        let h = kerotakis_core::properties::henry_at_t(c, t_k);
+                        println!(
+                            "  {:<6} ({:<16}) H = {:.4e} {}",
+                            c.formula, c.gas, h.value, h.unit
+                        );
+                    }
+                    println!(
+                        "\n  {}",
+                        kerotakis_core::properties::HENRY_COEFFICIENTS[0].provenance
+                    );
+                }
+            } else {
+                let prop_args: Vec<String> = args[2..].to_vec();
+                match kerotakis_core::properties::evaluate(name, &prop_args) {
+                    Ok(result) => {
+                        if args.iter().any(|a| a == "--json") {
+                            println!(
+                                "{}",
+                                serde_json::json!({
+                                    "property": name,
+                                    "value": result.value,
+                                    "unit": result.unit,
+                                    "provenance": result.provenance,
+                                })
+                            );
+                        } else {
+                            println!(
+                                "{:.6} {} — {}",
+                                result.value, result.unit, result.provenance
+                            );
+                        }
+                    }
+                    Err(e) => {
+                        eprintln!("kero properties: {e}");
+                        std::process::exit(2);
+                    }
+                }
+            }
+        }
         Some("balance") => {
             // Balancing is the null space of the element-count matrix, so
             // the lab can *do* it rather than check a memorised answer —
@@ -958,6 +1061,15 @@ fn codex_concepts(dir: &str) -> ! {
     std::process::exit(0);
 }
 
+fn properties_usage() -> ! {
+    eprint!("kero properties — temperature-dependent property correlations\n\nusage:\n  kero properties water [--at 25C] [--json]   full water property table\n  kero properties <property> <arg>=<value>...  single property lookup\n\nproperties:\n");
+    for p in kerotakis_core::properties::PROPERTIES {
+        eprintln!("  {:<24} {}", p.name, p.description);
+    }
+    eprintln!("\nexamples:\n  kero properties water\n  kero properties water --at 50C\n  kero properties water --at 310K --json\n  kero properties water-density T=298.15\n  kero properties henry gas=CO2 T=298.15");
+    std::process::exit(2);
+}
+
 fn calc_usage() -> ! {
     eprint!("kero calc — evaluate a named physical relation\n\nusage: kero calc <relation> <arg>=<value>... [--json]\n\nrelations:\n");
     for r in kerotakis_core::relations::RELATIONS {
@@ -977,6 +1089,7 @@ fn usage() -> ! {
          \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
          \x20 kero calc <relation> ...   evaluate a named physical relation\n\
+         \x20 kero properties water     temperature-dependent property table\n\
          \x20 kero provenance lint       validate source/distribution policy\n\
          \x20 kero mechanism inspect FILE.yaml [--json]\n\
          \x20 kero mechanism rates FILE.yaml --volume-l L --temperature-k K\n\
