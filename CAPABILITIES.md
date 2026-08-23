@@ -109,7 +109,13 @@ CAP-2 (study runner) ──► CAP-3 (charts) ──► CAP-4 (diagrams)
 CAP-12 (titrate verb) ────────┘  (titration curves are CAP-3's first plot)
 CAP-6 (properties) — independent, feeds CAP-1's water story
 CAP-10 (EXCHANGE/MIX) — independent, big win per line
+CAP-13 (InChI) — independent      CAP-14 (licence lint) — independent, land early
 ```
+
+Library choices below were licence-verified 2026-08-23 and are listed in
+PLAN.md's "Queued by the 2026-08-23 review"; all shipped dependencies must
+clear the shipping bar there (MIT/Apache-2.0/BSD/Zlib/Unlicense/public
+domain — no GPL family, LGPL included). CAP-14 turns that bar into CI.
 
 OPT-7 (OPTIMIZATION.md) multiplies CAP-2/-4/-8: grid studies and
 Monte Carlo are thousands of engine calls, and today each one can cost
@@ -174,6 +180,10 @@ no command.
 - Output is NDJSON (one object per run) and CSV; every row carries the
   varied value and the provenance of the collected quantities.
 - Reuse the replay path `prewarm` uses; no new solver code.
+- Parallelize native runs with `rayon` (MIT OR Apache-2.0) — one engine
+  instance per thread (IPhreeqc instances are per-object); wasm stays
+  serial. Determinism must survive parallelism: results ordered by run
+  index, never by completion.
 
 **Out of scope.** Plotting (CAP-3), distributions (CAP-8),
 optimization (CAP-9).
@@ -205,6 +215,9 @@ chapter of prose.
   output (no terminal graphics heroics); (b) web — a small hand-rolled
   SVG line/scatter renderer in `web/` (the PWA is deliberately
   framework-free and must stay that way; no chart library, no CDN).
+  Prototype both hand-rolled from the one contract; reach for `poloto`
+  or `plotters` (MIT — re-verify at adoption) only if that genuinely
+  drags, and say so in the commit.
 - Every chart displays its provenance line. A chart is a claim.
 
 **Acceptance.** `kero study … --chart` writes an SVG titration curve;
@@ -229,6 +242,9 @@ grid of PHREEQC solves we already know how to run.
   an N×M pe–pH grid, record the dominant aqueous species or stable
   phase per cell, emit region polygons in the CAP-3 chart contract
   (region/heatmap series type — extend the contract, don't fork it).
+  Region boundaries via the `contour` crate (Apache-2.0, marching
+  squares). Its sibling `contour-isobands` is AGPL-3.0 — barred by the
+  shipping bar; do not substitute it.
 - Start with Fe and Cu (both in the registry and the displacement
   series); water-stability lines drawn from the same thermodynamics,
   not hardcoded.
@@ -301,7 +317,9 @@ honest with ρ(T) and real ΔvapH(T).
   IAPWS formulations (freely published releases — cite the specific
   release document in provenance; the avoid-list still applies to
   *compilations*); Henry coefficients for the gases we ship (CO₂, O₂,
-  N₂, H₂, Cl₂, NH₃) from primary literature.
+  N₂, H₂, Cl₂, NH₃) from primary literature. Fundamental constants may
+  come via the `physical_constants` crate (MIT OR Apache-2.0, CODATA) —
+  provenance still recorded per value.
 - Each correlation: validity range enforced (outside it, return the
   refusal, loudly), provenance record, golden tests at tabulated
   points.
@@ -331,7 +349,9 @@ one-dimensional case.
 - When the null space has dimension > 1, present the family: a
   smallest-integer particular solution plus basis vectors, with lv2
   text explaining *why* the equation is underdetermined (the classic
-  case: parallel oxidation products).
+  case: parallel oxidation products). Do the arithmetic exactly —
+  `num-rational`/`num-bigint` (MIT OR Apache-2.0) — so integer families
+  never pass through floating point.
 - Charge-balanced ionic equations (electrons as a pseudo-element if
   not already).
 - Extend the existing `stoich` fuzz target and unit tests.
@@ -357,8 +377,9 @@ project's brand.
 - `kero study … --mc N --seed S` with per-input distributions
   (`normal(μ,σ)`, `uniform(a,b)`) on varied quantities; output
   percentiles (p5/p50/p95) per collected probe, plus the raw NDJSON.
-- Deterministic: seed required, PRNG named and pinned; two runs with
-  the same seed are byte-identical.
+- Deterministic: seed required, PRNG named and pinned (`rand_chacha`);
+  distributions from `rand_distr`, percentiles via `statrs` (all
+  MIT/Apache-2.0); two runs with the same seed are byte-identical.
 - CAP-3 chart contract extension: shaded uncertainty band.
 
 **Out of scope.** Sampling *curated constants* (that touches the codex
@@ -384,8 +405,10 @@ loop between the virtual bench and a real one.
 
 - `kero fit <lesson.lab> --param <selector> --data <csv> --loss sse`
   — **one scalar parameter, v1**; golden-section or Brent on the
-  replay loss, no derivative machinery, pure Rust, no new heavy
-  dependency.
+  replay loss via `argmin` (MIT OR Apache-2.0, pure Rust), data read
+  with the `csv` crate (Unlicense OR MIT). No derivative machinery —
+  rust-cv's `levenberg-marquardt` only if multi-parameter fitting is
+  ever actually asked for.
 - Report the fitted value with a residual plot (CAP-3) and — pointedly
   — the curated value with its provenance next to it.
 
@@ -482,6 +505,69 @@ artefact: the auto-generated titration curve.
 solver precision; grammar fuzz clean; preflight green. **Size.**
 Small-medium. **Depends on:** CAP-3 for the curve (verb itself:
 nothing).
+
+---
+
+## CAP-13 — Adopt the official InChI library (MIT since 1.07.1)
+
+- [ ] Status: open
+
+**Why.** The IUPAC InChI reference implementation was relicensed to
+plain MIT with v1.07.1 (2024-08) and lives on GitHub, and upstream
+demonstrates its own Emscripten/wasm build. The registry already
+carries an InChIKey per species, but nothing can *compute or verify*
+one — identity is currently a hand-curated string. The L1 identity
+crosswalk (UniChem, keyed on Standard InChI) assumes exactly this
+capability.
+
+**Scope.**
+
+- Vendor the official `IUPAC-InChI/InChI` source on the IPhreeqc
+  pattern (submodule + build.rs behind a feature; Emscripten side for
+  the web, following upstream's own wasm recipe).
+- CI check: every registry entry's stored InChIKey is recomputed from
+  its structure input and must match — a mismatch is a curation bug
+  and fails the build (totality, like the CAP-11 safety rows).
+- `kero species` gains a verified-identity marker; provenance names
+  the InChI version.
+- Keep it feature-gated so the engine-less and minimal wasm builds do
+  not grow unless they use it.
+
+**Acceptance.** All 74 registry InChIKeys recompute and match (or the
+curation is fixed); native + wasm builds green in preflight/CI;
+`cargo-deny` (CAP-14) passes with the vendored code declared.
+**Size.** Medium (FFI + build plumbing). **Depends on:** nothing;
+CAP-14 first is tidier.
+
+---
+
+## CAP-14 — Turn the licence policy into a CI lint
+
+- [ ] Status: open — **land early; it guards every other task here**
+
+**Why.** PLAN.md's shipping bar (hardened 2026-08-23) says shipped code
+is MIT/Apache-2.0/BSD/Zlib/Unlicense/public-domain only — no GPL
+family, LGPL included. PLAN queued `cargo-deny` for exactly this; no
+`deny.toml` exists yet. Until the bar is a lint, it is reviewer memory,
+and reviewer memory is how an AGPL transitive dependency arrives
+quietly.
+
+**Scope.**
+
+- `deny.toml` at the workspace root: licence allowlist per the
+  shipping bar; explicit documented exceptions for the vendored
+  public-domain USGS code (IPhreeqc) and any crate with a nonstandard
+  but permissive declaration (each exception carries a comment saying
+  who verified what, when).
+- `cargo deny check licenses bans` wired into `tools/preflight.sh`
+  **and** CI; duplicate-version and yanked-crate checks on, advisories
+  optional (decide and say).
+- `cargo-about` generating the shipped attribution inventory (the
+  NOTICE-adjacent list app stores want) as a build artifact.
+
+**Acceptance.** CI fails on a synthetic copyleft dev-branch dependency
+(prove it once, then revert); current tree passes; preflight includes
+the check. **Size.** Small. **Depends on:** nothing.
 
 ---
 

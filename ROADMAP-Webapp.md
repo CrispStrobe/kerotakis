@@ -258,7 +258,7 @@ bundle-size items (release profiles, `wasm-opt`, `const`→`static` species
 table) as OPT-2 and OPT-4 there.
 
 Also orthogonal: the capability-parity tasks in
-[CAPABILITIES.md](CAPABILITIES.md) (CAP-1…CAP-12) pull three of this
+[CAPABILITIES.md](CAPABILITIES.md) (CAP-1…CAP-14) pull three of this
 roadmap's items forward as thin slices — `EXCHANGE`/`MIX` from R1
 (CAP-10), one VLE stage from R2 (CAP-1) — and add the product surface
 neither R-stage covers: user-facing parameter studies, charts,

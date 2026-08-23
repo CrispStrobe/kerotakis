@@ -140,7 +140,13 @@ browser target this is free speed and free bundle size.
   used; drop it if not.
 - Measure: `kerotakis-wasm` module size before/after (and the Emscripten
   IPhreeqc module if the flags reach it); native bench deltas once OPT-1
-  exists.
+  exists. `twiggy` (dev-only) attributes where the wasm bytes actually
+  go before and after.
+- Optional, each adopted only if its measured delta earns it: `talc`
+  (MIT) as the wasm allocator — the old default suggestion `wee_alloc`
+  is unmaintained, do not use it; `mimalloc` (MIT) as the native CLI's
+  global allocator (the aqueous hot path is allocation-heavy until
+  OPT-3/OPT-7 land, and remains String-heavy after).
 
 **Out of scope.** Compressing the shipped PHREEQC `.dat` databases
 (worthwhile, but it touches the service worker and load path — file it
@@ -220,7 +226,8 @@ wasm bundle pays for.
 **Out of scope.** Interning `SpeciesId` (it holds a `String` and is
 cloned wholesale in the vessel fixed-point loop — real, but it spreads
 into every crate; file separately if OPT-7's numbers say vessel clones
-still matter afterwards).
+still matter afterwards — `lasso` or `string-interner`, both
+MIT/Apache-2.0, are the ready-made answer when that day comes).
 
 **Acceptance.** Bit-identical tests; preflight green; wasm module size
 delta recorded (this is where the `const`→`static` change shows up).
