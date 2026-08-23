@@ -337,70 +337,22 @@ pub fn split_hydrate(formula: &str) -> (String, f64) {
 /// Element counts of a simple formula (charge suffixes ignored, one level
 /// of parentheses supported). Returns None on anything unparseable.
 pub fn parse_formula(formula: &str) -> Option<BTreeMap<String, f64>> {
-    let mut counts: BTreeMap<String, f64> = BTreeMap::new();
-    let chars: Vec<char> = formula.chars().collect();
-    let mut i = 0;
-    let add = |counts: &mut BTreeMap<String, f64>, el: &str, n: f64| {
-        *counts.entry(el.to_string()).or_insert(0.0) += n;
-    };
-    while i < chars.len() {
-        let c = chars[i];
-        if c == '+' || c == '-' {
-            // Charge suffix: the rest is charge notation.
-            break;
-        }
-        if c == '(' {
-            // Find the matching ')', parse inside recursively.
-            let close = chars[i..].iter().position(|&c| c == ')')? + i;
-            let inner: String = chars[i + 1..close].iter().collect();
-            // "(aq)" / "(g)" / "(s)" state suffixes carry no composition.
-            if matches!(inner.as_str(), "aq" | "g" | "s" | "l") {
-                i = close + 1;
-                continue;
-            }
-            let inner_counts = parse_formula(&inner)?;
-            i = close + 1;
-            let mut digits = String::new();
-            while i < chars.len() && chars[i].is_ascii_digit() {
-                digits.push(chars[i]);
-                i += 1;
-            }
-            let mult: f64 = if digits.is_empty() {
-                1.0
-            } else {
-                digits.parse().ok()?
-            };
-            for (el, n) in inner_counts {
-                add(&mut counts, &el, n * mult);
-            }
-            continue;
-        }
-        if !c.is_ascii_uppercase() {
-            return None;
-        }
-        let mut symbol = c.to_string();
-        i += 1;
-        while i < chars.len() && chars[i].is_ascii_lowercase() {
-            symbol.push(chars[i]);
-            i += 1;
-        }
-        let mut digits = String::new();
-        while i < chars.len() && (chars[i].is_ascii_digit() || chars[i] == '.') {
-            digits.push(chars[i]);
-            i += 1;
-        }
-        let n: f64 = if digits.is_empty() {
-            1.0
-        } else {
-            digits.parse().ok()?
-        };
-        add(&mut counts, &symbol, n);
+    // OPT-8: this used to be a second, independent formula parser. The
+    // 2026-08-23 differential over all 641 formulas in the shipped
+    // databases found zero numeric disagreements with stoich's parser
+    // and exactly one dialect difference — PHREEQC's pseudo-element
+    // master species — so the second implementation died and this is
+    // now an adapter over the one parser, asked in the PhreeqcMaster
+    // dialect. tests/formula_parser_diff.rs holds the corpus.
+    let f = kerotakis_core::stoich::parse_formula_with(
+        formula,
+        kerotakis_core::stoich::FormulaDialect::PhreeqcMaster,
+    )
+    .ok()?;
+    if f.counts.is_empty() {
+        return None;
     }
-    if counts.is_empty() {
-        None
-    } else {
-        Some(counts)
-    }
+    Some(f.counts)
 }
 
 #[cfg(test)]

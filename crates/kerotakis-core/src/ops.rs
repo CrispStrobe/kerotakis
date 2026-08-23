@@ -134,6 +134,20 @@ pub enum Operator {
         wavelength_nm: f64,
         irradiance_w_m2: f64,
     },
+    /// Add solvent (water) by volume. The pedagogical complement of
+    /// `evaporate`: where evaporate concentrates, dilute spreads.
+    Dilute { vessel: VesselId, volume: Liters },
+    /// Auto-stepped titration: add `titrant` to `vessel` in increments of
+    /// `step` volume, re-equilibrating after each addition, until the pH
+    /// crosses `target_ph` or `max_steps` additions are exhausted. Records
+    /// (cumulative volume, pH) at every step.
+    Titrate {
+        vessel: VesselId,
+        titrant: SpeciesId,
+        step: Liters,
+        target_ph: f64,
+        max_steps: u32,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -502,6 +516,22 @@ pub enum Event {
         vessel: VesselId,
         solver: String,
         detail: String,
+    },
+    /// Solvent (water) was added by volume to dilute the contents.
+    Diluted {
+        vessel: VesselId,
+        volume: Liters,
+        moles: Moles,
+    },
+    /// An auto-stepped titration ran to completion (or exhausted its step
+    /// budget). The curve carries (cumulative mL, pH) at every step.
+    Titrated {
+        vessel: VesselId,
+        titrant: SpeciesId,
+        steps: u32,
+        total_volume: Liters,
+        final_ph: f64,
+        curve: Vec<(f64, f64)>,
     },
 }
 

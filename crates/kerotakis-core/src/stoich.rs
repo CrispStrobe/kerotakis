@@ -189,7 +189,30 @@ fn strip_states(s: &str) -> String {
 }
 
 /// Parse a formula: element groups, parentheses, hydrate dots, charge.
+/// Which language a formula is written in.
+///
+/// The lexer is shared; the dialects differ in exactly one judgement:
+/// what counts as an element. `Textbook` admits the periodic table and
+/// nothing else — a learner typing "Unicorn2O" deserves a refusal.
+/// `PhreeqcMaster` additionally admits PHREEQC's pseudo-elements: the
+/// databases define organic ligands (Cyanide, Edta, Butylamine…),
+/// exchanger sites (X) and DOM fragments (Hdg, Mtg…) as master-species
+/// symbols, and a database parser that refused them would go blind to
+/// minteq.v4. The 2026-08-23 differential over all 641 shipped database
+/// formulas found the two old independent parsers disagreed on exactly
+/// this class and on nothing numeric — which is why this is one parser
+/// with a switch, not two parsers.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FormulaDialect {
+    Textbook,
+    PhreeqcMaster,
+}
+
 pub fn parse_formula(input: &str) -> Result<Formula, ParseError> {
+    parse_formula_with(input, FormulaDialect::Textbook)
+}
+
+pub fn parse_formula_with(input: &str, dialect: FormulaDialect) -> Result<Formula, ParseError> {
     let cleaned = strip_states(&normalise(input));
     let body = cleaned.trim();
     if body.is_empty() {
@@ -200,9 +223,9 @@ pub fn parse_formula(input: &str) -> Result<Formula, ParseError> {
     // character is used in this codex as a prose separator.
     if let Some((a, b)) = body.split_once('·').or_else(|| body.split_once('*')) {
         if !a.ends_with(' ') && !b.starts_with(' ') {
-            let mut left = parse_formula(a)?;
+            let mut left = parse_formula_with(a, dialect)?;
             let (mult, rest) = leading_number(b);
-            let right = parse_formula(rest)?;
+            let right = parse_formula_with(rest, dialect)?;
             for (el, n) in right.counts {
                 *left.counts.entry(el).or_insert(0.0) += n * mult;
             }
@@ -211,7 +234,7 @@ pub fn parse_formula(input: &str) -> Result<Formula, ParseError> {
         }
     }
     let (body, charge) = split_charge(body);
-    let counts = parse_groups(&body, input)?;
+    let counts = parse_groups(&body, input, dialect)?;
     if counts.is_empty() {
         return Err(ParseError::NotAFormula(input.to_string()));
     }
@@ -283,7 +306,11 @@ fn leading_number(s: &str) -> (f64, &str) {
     }
 }
 
-fn parse_groups(s: &str, original: &str) -> Result<BTreeMap<String, f64>, ParseError> {
+fn parse_groups(
+    s: &str,
+    original: &str,
+    dialect: FormulaDialect,
+) -> Result<BTreeMap<String, f64>, ParseError> {
     let chars: Vec<char> = s.chars().collect();
     let mut counts: BTreeMap<String, f64> = BTreeMap::new();
     let mut i = 0;
@@ -315,7 +342,7 @@ fn parse_groups(s: &str, original: &str) -> Result<BTreeMap<String, f64>, ParseE
                 } else {
                     digits.parse().unwrap_or(1.0)
                 };
-                for (el, n) in parse_groups(&inner, original)? {
+                for (el, n) in parse_groups(&inner, original, dialect)? {
                     *counts.entry(el).or_insert(0.0) += n * mult;
                 }
                 i = j + digits.len();
@@ -337,7 +364,7 @@ fn parse_groups(s: &str, original: &str) -> Result<BTreeMap<String, f64>, ParseE
                     digits.parse().unwrap_or(1.0)
                 };
                 i += digits.len();
-                if !is_element(&sym) {
+                if dialect == FormulaDialect::Textbook && !is_element(&sym) {
                     return Err(ParseError::NotAFormula(original.to_string()));
                 }
                 *counts.entry(sym).or_insert(0.0) += n;

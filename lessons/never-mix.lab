@@ -1,9 +1,25 @@
 # The safety layer: precise about danger, honest about outcomes
 register lv1
+
+# 1. Bleach + ammonia → chloramine gas (existing rule)
 add v1 water 200mL
 add v1 NaOCl 0.1mol
-measure v1 balance
 add v1 NH3 0.1mol
 measure v1 balance
-measure v1 ph
-inspect v1
+
+# 2. Strong oxidizer + flammable liquid → fire risk
+new
+add v2 KMnO4 0.01mol
+add v2 ethanol 50mL
+
+# 3. Strong acid + active metal → hydrogen gas
+new
+add v3 water 100mL
+add v3 HCl 0.1mol
+add v3 Mg 0.05mol
+
+# 4. Strong acid + carbonate → CO₂ spattering
+new
+add v4 water 100mL
+add v4 HCl 0.1mol
+add v4 CaCO3 0.05mol

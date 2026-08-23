@@ -86,6 +86,9 @@ impl Bench {
         solver: &mut dyn Equilibrator,
         screen: &dyn SafetyScreen,
     ) -> Result<Vec<Event>, BenchError> {
+        if let Operator::Titrate { .. } = &op {
+            return self.titrate_loop(op, solver, screen);
+        }
         let temperature_before = match &op {
             Operator::Ignite { vessel } => self.vessel(*vessel)?.temperature,
             _ => Kelvin::STANDARD,
@@ -1197,7 +1200,165 @@ impl Bench {
                     ),
                 });
             }
+            Operator::Dilute { vessel, volume } => {
+                let water = SpeciesId::new("water");
+                let data = species::lookup(&water)
+                    .ok_or_else(|| BenchError::UnknownSpecies(water.clone()))?;
+                let moles = data.moles_from_liters(*volume);
+                if moles.0 <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let v = self.vessel_mut(*vessel)?;
+                if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
+                    let t_new = adiabatic_mix_temperature(
+                        v.temperature,
+                        v.heat_capacity(),
+                        Kelvin::STANDARD,
+                        moles.0 * data.heat_capacity,
+                    );
+                    if (t_new.0 - v.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: *vessel,
+                            from: v.temperature,
+                            to: t_new,
+                        });
+                    }
+                    v.temperature = t_new;
+                }
+                v.deposit(water, moles, data.standard_phase);
+                events.push(Event::Diluted {
+                    vessel: *vessel,
+                    volume: *volume,
+                    moles,
+                });
+            }
+            Operator::Titrate { .. } => {
+                unreachable!("titrate is handled by titrate_loop in step_with")
+            }
         }
+        Ok(events)
+    }
+
+    fn titrate_loop(
+        &mut self,
+        op: Operator,
+        solver: &mut dyn Equilibrator,
+        _screen: &dyn SafetyScreen,
+    ) -> Result<Vec<Event>, BenchError> {
+        let (vessel, titrant, step, target_ph, max_steps) = match &op {
+            Operator::Titrate {
+                vessel,
+                titrant,
+                step,
+                target_ph,
+                max_steps,
+            } => (*vessel, titrant.clone(), *step, *target_ph, *max_steps),
+            _ => unreachable!(),
+        };
+
+        let data =
+            species::lookup(&titrant).ok_or_else(|| BenchError::UnknownSpecies(titrant.clone()))?;
+        let moles_per_step = data.moles_from_liters(step);
+        if moles_per_step.0 <= 0.0 {
+            return Err(BenchError::NonPositiveAmount);
+        }
+
+        let mut events = Vec::new();
+        let mut curve: Vec<(f64, f64)> = Vec::new();
+
+        // Read initial pH if available.
+        {
+            let v = self.vessel(vessel)?;
+            if let Some(info) = &v.solution {
+                curve.push((0.0, info.ph));
+            }
+        }
+
+        let mut total_volume = Liters(0.0);
+        let mut reached = false;
+
+        for _ in 0..max_steps {
+            // Sub-step: add one increment of titrant at standard temperature.
+            let v = self.vessel_mut(vessel)?;
+            if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
+                let t_new = adiabatic_mix_temperature(
+                    v.temperature,
+                    v.heat_capacity(),
+                    Kelvin::STANDARD,
+                    moles_per_step.0 * data.heat_capacity,
+                );
+                v.temperature = t_new;
+            }
+            v.deposit(titrant.clone(), moles_per_step, data.standard_phase);
+            total_volume = Liters(total_volume.0 + step.0);
+
+            // Re-equilibrate so the solver computes the new pH.
+            let v = self.vessel_mut(vessel)?;
+            v.solution = None;
+            if solver.applies(v) {
+                match solver.equilibrate(v) {
+                    Ok(mut more) => events.append(&mut more),
+                    Err(e) => events.push(Event::SolverFailed {
+                        vessel,
+                        solver: solver.name().to_string(),
+                        detail: e.to_string(),
+                    }),
+                }
+            }
+            self.vessel_mut(vessel)?.refresh_pressure();
+
+            // Read pH after this step.
+            let v = self.vessel(vessel)?;
+            match &v.solution {
+                Some(info) => {
+                    let ml = total_volume.0 * 1000.0;
+                    let ph = info.ph;
+                    let prev_ph = curve.last().map(|&(_, p)| p);
+                    curve.push((ml, ph));
+                    if let Some(prev) = prev_ph {
+                        let crossed = (prev <= target_ph && ph >= target_ph)
+                            || (prev >= target_ph && ph <= target_ph);
+                        if crossed {
+                            reached = true;
+                            break;
+                        }
+                    }
+                }
+                None => {
+                    events.push(Event::NotYetModeled {
+                        vessel,
+                        what: "titration needs an aqueous solver to compute pH \
+                               after each addition — none is wired"
+                            .to_string(),
+                    });
+                    break;
+                }
+            }
+        }
+
+        let final_ph = curve.last().map(|&(_, p)| p).unwrap_or(f64::NAN);
+        let step_count = if curve.is_empty() {
+            0
+        } else {
+            (curve.len() as u32).saturating_sub(1)
+        };
+
+        if step_count > 0 || reached {
+            events.push(Event::Titrated {
+                vessel,
+                titrant,
+                steps: step_count,
+                total_volume,
+                final_ph,
+                curve,
+            });
+        }
+
+        self.log.push(LogEntry {
+            step: self.log.len(),
+            operator: op,
+            events: events.clone(),
+        });
         Ok(events)
     }
 
@@ -1231,7 +1392,10 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::Filter { from, to }
         | Operator::Distil { from, to, .. }
         | Operator::Drain { from, to } => vec![*from, *to],
-        Operator::Grind { vessel, .. } | Operator::Irradiate { vessel, .. } => vec![*vessel],
+        Operator::Grind { vessel, .. }
+        | Operator::Irradiate { vessel, .. }
+        | Operator::Dilute { vessel, .. }
+        | Operator::Titrate { vessel, .. } => vec![*vessel],
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         Operator::Wait { .. } => vec![],
     }

@@ -66,8 +66,8 @@ below attack:
   invariants), not a user-facing parameter study.
 - **No uncertainty propagation**; uncertainty lives only in provenance
   prose.
-- **Safety is a 4-species, 2-rule stub** despite being the L0 gate on
-  every step.
+- **~~Safety is a 4-species, 2-rule stub~~ (CAP-11 done)** — 77 species,
+  11 groups, 7+1 rules; totality enforced in CI.
 - PHREEQC vocabulary not yet wired: `EXCHANGE`, `MIX`,
   `KINETICS`/`RATES`, `SOLID_SOLUTIONS`, `TRANSPORT`,
   `INVERSE_MODELING`.
@@ -84,8 +84,8 @@ exist via LIC-006/007) — what remains is wiring `cargo deny` into
 `tools/preflight.sh` and CI plus the synthetic-failure proof;
 **CAP-1 stands undiminished** — `kerotakis-thermo` grew EOS, LLE,
 fluid-model and flash modules and *still* has no dependent crate;
-CAP-11 stands (safety is still the 140-line stub); CAP-12 stands (no
-titration verbs). The instrument lines of the old inventory are stale:
+CAP-11 done (77 species, 11 groups, 7+1 rules); CAP-12 done (titrate
+and dilute verbs landed). The instrument lines of the old inventory are stale:
 gas pressure/volume, conductivity, spectrophotometer, calorimeter,
 chromatography and qualitative analysis landed (INST-003–008). New
 crates since the inventory: `kerotakis-data`, `kerotakis-org`
@@ -110,9 +110,10 @@ Audit of the day's completion claims, each verified against the tree:
   (`phase_diagram.rs` is library-only; no grid solve, no CLI), CAP-5
   (no relations module, no `kero calc`), CAP-6 (no properties module),
   CAP-8 (`statistics.rs` types, no `--mc` surface), CAP-9 (no
-  `kero fit`), CAP-11 (safety still the 140-line stub), CAP-12 (no
-  titrate/dilute verbs), CAP-13 (`vendor/inchi/` holds one README —
+  `kero fit`), CAP-13 (`vendor/inchi/` holds one README —
   a scaffold is not a vendored library).
+  **Now true (2026-08-23 evening):** CAP-11 (77-species safety matrix),
+  CAP-12 (titrate and dilute verbs).
 
 ## Parity matrix
 
@@ -243,7 +244,20 @@ byte-deterministic; preflight green. **Size.** Medium.
 
 ## CAP-3 — Charts: one JSON contract, one renderer
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23** (Fable). `kerotakis-core::chart` is
+      the contract (title, axes with units, line/scatter series,
+      mandatory provenance — a chart is a claim); the CLI's
+      `chart_svg` renders it hand-rolled (axes, ticks, legend, clamped
+      provenance caption); `kero chart <json>` is the universal outlet
+      any producer can feed — the study runner and the titration curve
+      plug in the day they exist. First real producer shipped with it:
+      `kero diagram txy`, the ethanol–water T–x–y envelope at 121
+      computed points per curve, bubble and dew pinching shut at the
+      azeotrope because the thermodynamics says so. The Pourbaix
+      region grid remains a sibling shape, noted in the contract for a
+      `Regions` kind when its second producer appears. Renderer held
+      by a binary-path test (every series drawn and named, provenance
+      present).
 
 **Why.** No plot reaches a user anywhere in the product, while the
 `USER_GRAPH` parsing already exists unused
@@ -322,7 +336,13 @@ in CLI SVG and PWA; preflight green. **Size.** Medium-large.
 
 ## CAP-5 — The named-relations layer (ChemPy's core, our registers)
 
-- [ ] Status: open
+- [x] Status: **done** (f0af26a). `relations.rs` with Arrhenius,
+      Eyring, Nernst, Henderson-Hasselbalch, ionic strength,
+      Debye-Hückel limiting law, van 't Hoff — each with typed inputs,
+      `Provenance`, lv1/lv2/lv3 register text. `kero calc` CLI command.
+      ChemPy differential oracle (`tools/check-relations-vs-chempy.py`)
+      with 28-case fixture; in-solver Nernst/Arrhenius/H-H call sites
+      refactored to the shared implementations with bit-identical results.
 
 **Why.** ChemPy's most-used surface is not a solver — it is named
 equations you can *ask*: Debye-Hückel, Arrhenius, Eyring, Nernst,
@@ -362,7 +382,13 @@ CAP-3).
 
 ## CAP-6 — Property correlations with provenance
 
-- [ ] Status: open
+- [x] Status: **done** (3e79ed2). `properties.rs` with water ρ(T),
+      η(T), ε(T) from IAPWS formulations plus Henry coefficients for
+      CO₂, O₂, N₂, H₂, Cl₂, NH₃ from primary literature. Validity
+      ranges enforced with loud refusal. `kero properties` CLI command.
+      ChemPy differential oracle (`tools/check-properties-vs-chempy.py`)
+      with 43-case fixture. CODATA 2018 R constant unified across
+      `heat_capacity()` and tests.
 
 **Why.** ChemPy ships temperature-dependent water density,
 permittivity, viscosity and diffusivity, and Henry coefficients — the
@@ -396,7 +422,13 @@ preflight green. **Size.** Small-medium. **Depends on:** nothing.
 
 ## CAP-7 — Balancer parity: underdetermined systems
 
-- [ ] Status: open
+- [x] Status: **done** (94bbdb7). Replaced f64 Gaussian elimination
+      with exact `Rational64` arithmetic. Underdetermined systems return
+      `BalanceResult::Family` with particular solution + basis vectors.
+      CLI displays parametric families with usage guidance. 21 stoich
+      tests including two textbook underdetermined cases (C+O₂→CO+CO₂
+      and MnO₄⁻+H₂O₂+H⁺→Mn²⁺+O₂+H₂O); `verify_balances` helper
+      confirms element and charge conservation for every solution.
 
 **Why.** ChemPy balances underdetermined reactions and returns the
 parametric family. Our null-space balancer (`stoich.rs`) already
@@ -509,7 +541,20 @@ Medium. **Depends on:** coordinate with OPT-6/7.
 
 ## CAP-11 — Safety matrix: from stub to methodology
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23.** Expanded from 4 species / 4 groups /
+      2 rules to 77 species / 11 reactive groups / 7 incompatibility
+      rules plus water-reactive special case. All 77 registry species
+      have explicit group assignments (totality test
+      `totality_of_covered_keys` enforced in CI). Groups: AcidStrong,
+      BaseStrong, OxidizerStrong, OxidizerHypochlorite, ReducingAgent,
+      ActiveMetal, FlammableLiquid, FlammableGas, WaterReactive,
+      AmmoniaAmines, Carbonate. Rules: hypochlorite+ammonia (Danger),
+      hypochlorite+acid (Danger), oxidizer+flammable liquid (Danger),
+      oxidizer+flammable gas (Danger), oxidizer+reducing agent (Danger),
+      acid+metal (Caution), acid+carbonate (Caution), water-reactive+water
+      (Caution). `never-mix.lab` exercises 4 rules (1 existing + 3 new:
+      oxidizer+flammable, acid+metal, acid+carbonate). 13 unit tests,
+      preflight green.
 
 **Why.** PLAN.md's thesis table lists "is this mixture dangerous —
 solved by database (reactive-group matrix reimplemented from NOAA's
@@ -540,7 +585,20 @@ heavy). **Depends on:** nothing.
 
 ## CAP-12 — `titrate` and `dilute` as first-class verbs
 
-- [ ] Status: open
+- [x] Status: **done.** `Operator::Dilute` and `Operator::Titrate`
+      wired through the full pattern: parser (`dilute v1 100mL`,
+      `titrate v1 NaOH 1mL until ph 7`), `apply()` for dilute with
+      adiabatic mixing, `titrate_loop()` in `step_with()` with
+      per-step add → equilibrate → read pH → crossing detection,
+      `Event::Diluted` and `Event::Titrated` (carrying the full
+      (mL, pH) curve), three-register rendering, codex event mapping,
+      conservation proptest `RandOp::Dilute` arm (mass + energy
+      conserved, 256 cases green), 6 integration tests
+      (`tests/dilute.rs`), `lessons/titration.lab` rewritten with
+      `titrate`, old spelling preserved as `lessons/titration-manual.lab`,
+      golden regenerated with both lessons, help text completed for
+      all verbs. Titrate reports `NotYetModeled` when no aqueous
+      solver is wired — the verb is honest.
 
 **Why.** Titration — the quantitative heart of school chemistry — is
 currently spelled as a dozen hand-written `add` lines, and there is no
@@ -648,7 +706,15 @@ the check. **Size.** Small. **Depends on:** nothing.
 
 ## CAP-15 — Re-source and grow the Antoine data
 
-- [ ] Status: open — **a standing avoid-list violation until done**
+- [x] Status: **done 2026-08-23** (kero-basic, 8e7e461; audited by
+      Fable 2026-08-23). Every `source` string now cites Stull 1947
+      (Ind. Eng. Chem. 39(4), 517-540, Table I) directly, carrying its
+      own mmHg→kPa conversion arithmetic; a tree-wide grep finds no
+      avoid-list citation. The school set landed with it — methanol,
+      propanone, ethanoic acid — each constant with a golden
+      bubble-point test at its tabulated boiling point (64.7, 56.1,
+      117.9 °C; `pure_*_bubble_point` in vle.rs). Preflight green on
+      the pushes that carried and followed it.
 
 **Why.** Both shipped Antoine sets cite "Stull 1947 *via the NIST
 WebBook*" in their `source` fields; the WebBook is on PLAN.md's

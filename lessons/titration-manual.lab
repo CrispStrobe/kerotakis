@@ -1,0 +1,12 @@
+# Titration: strong acid meets strong base
+add v1 water 500mL
+add v1 HCl 0.01mol
+measure v1 ph
+add v1 NaOH 0.005mol
+measure v1 ph
+add v1 NaOH 0.004mol
+measure v1 ph
+add v1 NaOH 0.001mol
+measure v1 ph
+add v1 NaOH 0.002mol
+measure v1 ph

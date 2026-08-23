@@ -19,6 +19,84 @@ const PALETTE: &[&str] = &[
     "#4e79a7", "#f28e2b", "#59a14f", "#e15759", "#b07aa1", "#76b7b2", "#edc948", "#9c755f",
 ];
 
+/// `kero diagram txy` — the ethanol–water temperature–composition
+/// envelope, the McCabe–Thiele backdrop, computed point by point with
+/// full UNIFAC γ(x, T) and emitted as the CAP-3 chart contract before
+/// rendering. The bubble and dew curves meet at the azeotrope because
+/// the thermodynamics says so, not because the plot was drawn that way.
+pub fn run_txy(args: &[String]) -> Result<(), String> {
+    let mut out_path: Option<String> = None;
+    let mut json = false;
+    let mut n = 120usize;
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" | "-o" => {
+                i += 1;
+                out_path = Some(args.get(i).ok_or("--out needs a file path")?.to_string());
+            }
+            "--json" => json = true,
+            "--points" => {
+                i += 1;
+                n = args
+                    .get(i)
+                    .and_then(|v| v.parse().ok())
+                    .ok_or("--points needs a number")?;
+            }
+            other => return Err(format!("unknown argument '{other}'")),
+        }
+        i += 1;
+    }
+    let n = n.clamp(16, 2000);
+    let mut bubble = Vec::with_capacity(n + 1);
+    let mut dew = Vec::with_capacity(n + 1);
+    for k in 0..=n {
+        let x = k as f64 / n as f64;
+        if let Some(bp) = kerotakis_thermo::vle::ethanol_water_bubble_point(
+            x,
+            kerotakis_thermo::vle::ATMOSPHERE_KPA,
+        ) {
+            bubble.push([x, bp.t_celsius]);
+            dew.push([bp.y[0], bp.t_celsius]);
+        }
+    }
+    dew.sort_by(|a, b| a[0].total_cmp(&b[0]));
+    let chart = kerotakis_core::chart::Chart {
+        title: "Ethanol–water T–x–y at 1 atm — computed".to_string(),
+        x: kerotakis_core::chart::Axis {
+            label: "mole fraction ethanol".to_string(),
+            unit: None,
+        },
+        y: kerotakis_core::chart::Axis {
+            label: "temperature".to_string(),
+            unit: Some("°C".to_string()),
+        },
+        series: vec![
+            kerotakis_core::chart::Series::Line {
+                name: "bubble (liquid)".to_string(),
+                points: bubble,
+            },
+            kerotakis_core::chart::Series::Line {
+                name: "dew (vapour)".to_string(),
+                points: dew,
+            },
+        ],
+        provenance: "bubble points from UNIFAC γ(x, T) (Fredenslund 1975 parameters) over                      Stull-fit Antoine constants; dew curve is the same points read at their                      vapour composition; cross-checked against the Python thermo package to                      a part in a million (tests/thermo_oracle.rs)"
+            .to_string(),
+    };
+    if json {
+        println!(
+            "{}",
+            serde_json::to_string(&chart).map_err(|e| e.to_string())?
+        );
+    }
+    let path = out_path.unwrap_or_else(|| "txy-ethanol-water.svg".to_string());
+    std::fs::write(&path, crate::chart_svg::render(&chart))
+        .map_err(|e| format!("cannot write {path}: {e}"))?;
+    eprintln!("wrote {path} — {} computed points per curve", n + 1);
+    Ok(())
+}
+
 pub fn run(args: &[String]) -> Result<(), String> {
     let mut element: Option<&str> = None;
     let mut grid = (48usize, 40usize);
