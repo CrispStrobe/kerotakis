@@ -932,6 +932,49 @@ we'd ship (GPL-only, NC), non-redistributable embedded data, or a dead upstream
 *plus* an equally good maintained alternative. When we extend, we upstream
 patches where the project is alive and fork visibly where it is not.
 
+#### Shipping bar, hardened 2026-08-23
+
+Shipped code is **MIT / Apache-2.0 / BSD-2-Clause / BSD-3-Clause / Zlib /
+Unlicense / public-domain only**. No GPL family including LGPL.
+
+Two reasons:
+
+1. **No honest relink story in static wasm/store builds.** A statically linked
+   LGPL library in an Emscripten `.wasm` or a store `.ipa`/`.apk` cannot be
+   relinked by the user. The LGPL requires offering that capability; we cannot
+   offer it honestly for these targets, so we do not ship LGPL code in them.
+2. **The NOTICE §7 store permission can only be granted by copyright holders.**
+   A copyleft dependency's copyright belongs to its upstream authors, who have
+   not granted the store-distribution permission in NOTICE. Adding copyleft
+   code to the shipped payload would poison the store binaries.
+
+Build-time oracle tools (Reaktoro LGPL, xtb LGPL, etc.) are fine — they never
+enter a distributed binary.
+
+**Queued by the 2026-08-23 review** (adopted when their phase arrives;
+licences verified via repository metadata that day):
+
+- **IUPAC InChI library** (MIT since v1.07.1) — the official canonical chemical
+  identity engine. Upstream-proven wasm build exists. Vendored on the IPhreeqc
+  pattern with a CI check that every registry InChIKey recomputes and matches.
+- **Cantera** (BSD-3-Clause, verified 2026-08-23) — reaction mechanism format
+  and rate-law definitions. Mechanism YAML files are part of the BSD-3
+  distribution. Already used for the GRI-Mech hydrogen subset (KIN-008).
+- `contour` (MIT) — contour line generation for phase diagrams.
+- `rayon` (MIT/Apache-2.0) — data parallelism for multi-vessel benchmarks.
+- `rand_chacha` / `rand_distr` / `statrs` (MIT/Apache-2.0) — reproducible
+  random number generation and statistics for Monte Carlo and stochastic
+  kinetics.
+- `argmin` (MIT/Apache-2.0) — numerical optimization for parameter fitting.
+- `csv` (MIT/Unlicense) — CSV export for selected output.
+- `num-rational` (MIT/Apache-2.0) — exact stoichiometric coefficients.
+- `physical_constants` (MIT) — CODATA physical constants.
+- Chart libraries: hand-roll first (the renderer-neutral `ChartObject` is
+  already implemented); adopt a library only when the hand-rolled version
+  proves insufficient. Explicitly **ban `plotters`' AGPL sibling**.
+- `lasso` / `string-interner` (MIT/Apache-2.0) — eventual SpeciesId interning
+  for the DATA-010 registry refactor.
+
 ### The UNIFAC question, precisely
 
 No clean-licensed, maintained Rust UNIFAC exists. The `unifac` crate (frozen
