@@ -1191,7 +1191,7 @@ aarch64-apple-darwin from one source.
   `GetSelectedOutputValue` from the work list; carrying moles forward,
   worth 2.8e-10). The real chain: dissolution enthalpy rode on the
   Dissolved event, no event was recorded for a phase the routed database
-  cannot name — and that is not a corner: **651 of 672 mineral phases
+  cannot name — and that is not a corner: **662 of 683 mineral phases
   exist in only some of the three databases** (Sylvite is pitzer-only;
   the figures were themselves corrected once, when the word "mineral"
   in the rendered sentence exposed 24 gas phases hiding in the count) —
