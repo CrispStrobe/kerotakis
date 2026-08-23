@@ -610,14 +610,21 @@ mod tests {
     /// Pinned to the vendored databases. These numbers are rendered to the
     /// reader, so a vendor bump that moves them should be noticed and the
     /// sentence re-read, not silently re-printed.
+    ///
+    /// Re-pinned 672 → 683 on 2026-08-23 (OPT-8): the unified formula
+    /// parser reads nested parentheses and decimal solid-solution
+    /// occupancies the old dbindex parser was blind to — eleven real
+    /// minerals (the cobalt ammine complexes, jarosite and its
+    /// hydronium/sodium family, the autunites) joined the index, each
+    /// hand-verified against its formula.
     #[test]
     fn phase_coverage_reports_how_little_the_datasets_share() {
         let c = phase_coverage();
-        assert_eq!(c.total, 672, "distinct minerals across all three datasets");
+        assert_eq!(c.total, 683, "distinct minerals across all three datasets");
         assert_eq!(c.shared, 21, "minerals every dataset defines");
         assert_eq!(
             c.per_database,
-            vec![("wateq4f", 296), ("minteq.v4", 537), ("pitzer", 63)]
+            vec![("wateq4f", 296), ("minteq.v4", 547), ("pitzer", 64)]
         );
         // Gases are excluded, and one of them would otherwise land in the
         // shared count: all three datasets define CO2(g). Counting phases
