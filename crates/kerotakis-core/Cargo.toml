@@ -7,8 +7,16 @@ license.workspace = true
 repository.workspace = true
 authors.workspace = true
 
+[features]
+default = []
+# OPT-2: alternative allocators (measure before enabling)
+mimalloc = ["dep:mimalloc"]
+talc-alloc = ["dep:talc"]
+
 [dependencies]
 bumpalo = { workspace = true }
+mimalloc = { version = "0.1", default-features = false, optional = true }
+talc = { version = "4", optional = true }
 diffsol = { workspace = true }
 kerotakis-thermo = { path = "../kerotakis-thermo" }
 lasso = { workspace = true }
@@ -28,5 +36,11 @@ thiserror = { workspace = true }
 getrandom = { version = "0.3", features = ["wasm_js"] }
 
 [dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
+dhat = "0.3"
 proptest = "1"
 serde_json = { workspace = true }
+
+[[bench]]
+name = "solve"
+harness = false
