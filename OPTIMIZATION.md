@@ -28,13 +28,13 @@ Measured-adoption candidates:
 - **Warning: `wee_alloc` is unmaintained.** Do not adopt. Last release
   2020, known memory-leak bugs. `talc` is the maintained alternative.
 
-## OPT-3 — Wasm binary size budget
+## OPT-3 ✓ — Wasm binary size budget
 
 Current: 1.9 MB raw, 572 KB gzipped. Budget: 1 MiB gzipped.
 Tools: `wasm-opt -Oz`, `twiggy top`, LTO, `codegen-units = 1`.
 Measured in `tools/bundle-budget.sh`.
 
-## OPT-4 — SpeciesId interning
+## OPT-4 ✓ — SpeciesId interning
 
 The current `SpeciesId(String)` allocates a new string for every
 species reference. For the DATA-010 refactor (pack-loaded registry),
