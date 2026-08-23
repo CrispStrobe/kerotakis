@@ -661,7 +661,21 @@ green. **Size.** Small-medium, curation-heavy. **Depends on:** nothing.
 
 ## CAP-16 — γ(T) for the flash paths
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23** (Fable). dew_point, tp_flash and
+      hp_flash gained _with variants taking γ as a function of the
+      *liquid composition* and kelvin — the honest signature, because
+      dew and flash solve for the very liquid their γ belongs to. The
+      γ–φ successive-substitution loop wraps the existing bisections
+      (measured contraction ~0.6 per pass on the worst mid-range case;
+      eighty passes clear 1e-9 with margin, and non-convergence refuses
+      rather than publishing a drifting split). The fixed-γ functions
+      are now delegating wrappers, so the formulas cannot fork, and the
+      old suites pass unchanged. Proven by thermodynamic *consistency*,
+      not self-consistency: bubble↔dew roundtrips recover T within
+      0.05 °C and x within 5e-3 at three compositions (two of them to
+      eleven decimals), azeotropic vapour condenses to itself, and a
+      mid-boil flash brackets its feed with the first bubble matching
+      the bubble-point vapour (tests/flash_gamma.rs).
 
 **Why.** `bubble_point_with` couples γ to temperature inside the
 bisection; `dew_point`, `tp_flash` and `hp_flash` still take a fixed
