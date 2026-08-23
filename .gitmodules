@@ -1,3 +1,6 @@
 [submodule "vendor/iphreeqc"]
 	path = vendor/iphreeqc
 	url = https://github.com/CrispStrobe/iphreeqc.git
+[submodule "sundials-kinetics-rs"]
+	path = sundials-kinetics-rs
+	url = https://github.com/CrispStrobe/sundials-kinetics-rs.git
