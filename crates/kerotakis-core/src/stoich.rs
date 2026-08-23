@@ -24,6 +24,7 @@
 //! elsewhere in this engine, so the outcome here is three-valued: balanced,
 //! unbalanced, or *not verifiable*, with the last one visible.
 
+use num_rational::Rational64;
 use std::collections::BTreeMap;
 
 /// The element symbols. A parser that accepts any capital letter will
@@ -398,17 +399,33 @@ pub fn parse_equation(input: &str) -> Result<Equation, ParseError> {
     })
 }
 
+/// The result of balancing a reaction skeleton.
+#[derive(Debug, Clone, PartialEq)]
+pub enum BalanceResult {
+    /// A unique set of smallest positive integer coefficients.
+    Unique(Vec<i64>),
+    /// The skeleton admits more than one independent reaction. The result
+    /// is one smallest-integer particular solution plus the remaining
+    /// null-space basis vectors (each also in smallest integers).
+    Family {
+        particular: Vec<i64>,
+        basis: Vec<Vec<i64>>,
+    },
+}
+
 /// Balance a skeleton reaction: given formulas on each side, find the
 /// smallest positive integer coefficients that conserve every element and
 /// the charge.
 ///
-/// This is the null space of the composition matrix. A balanced reaction is
-/// a vector **n** with A·**n** = 0, where A has one row per element (plus
-/// one for charge) and one column per species, right-hand species entering
-/// negated. A unique reaction gives a one-dimensional null space; zero
-/// dimensions means it cannot be balanced, and more than one means the
-/// skeleton is ambiguous — both are reported rather than guessed at.
-pub fn balance(lhs: &[&str], rhs: &[&str]) -> Result<Vec<i64>, BalanceError> {
+/// This is the null space of the composition matrix, computed with exact
+/// rational arithmetic (`Rational64`) so integer families never pass
+/// through floating point. A balanced reaction is a vector **n** with
+/// A·**n** = 0, where A has one row per element (plus one for charge) and
+/// one column per species, right-hand species entering negated.
+///
+/// Returns `BalanceResult::Unique` for a one-dimensional null space, or
+/// `BalanceResult::Family` when the skeleton is underdetermined.
+pub fn balance(lhs: &[&str], rhs: &[&str]) -> Result<BalanceResult, BalanceError> {
     let species: Vec<Formula> = lhs
         .iter()
         .chain(rhs.iter())
@@ -426,128 +443,195 @@ pub fn balance(lhs: &[&str], rhs: &[&str]) -> Result<Vec<i64>, BalanceError> {
     elements.dedup();
 
     let n = species.len();
-    let mut rows: Vec<Vec<f64>> = Vec::new();
-    for el in &elements {
-        rows.push(
-            species
-                .iter()
-                .enumerate()
-                .map(|(i, f)| {
-                    let sign = if i < lhs.len() { 1.0 } else { -1.0 };
-                    sign * f.counts.get(el).copied().unwrap_or(0.0)
-                })
-                .collect(),
-        );
-    }
-    rows.push(
-        species
-            .iter()
-            .enumerate()
-            .map(|(i, f)| {
-                let sign = if i < lhs.len() { 1.0 } else { -1.0 };
-                sign * f.charge
-            })
-            .collect(),
-    );
+    let zero = Rational64::from_integer(0);
+    let one = Rational64::from_integer(1);
 
-    // Gaussian elimination to reduced row echelon form.
-    let mut pivots: Vec<usize> = Vec::new();
-    let mut row = 0;
-    for col in 0..n {
-        let Some(sel) =
-            (row..rows.len()).max_by(|a, b| rows[*a][col].abs().total_cmp(&rows[*b][col].abs()))
-        else {
-            break;
-        };
-        if rows[sel][col].abs() < 1e-9 {
-            continue;
+    let to_r = |v: f64| -> Result<Rational64, BalanceError> {
+        let rounded = v.round();
+        if (v - rounded).abs() > 1e-6 || !rounded.is_finite() || rounded.abs() > 1e15 {
+            return Err(BalanceError::Impossible);
         }
-        rows.swap(row, sel);
-        let d = rows[row][col];
-        for v in rows[row].iter_mut() {
+        Ok(Rational64::from_integer(rounded as i64))
+    };
+
+    let mut rows: Vec<Vec<Rational64>> = Vec::new();
+    for el in &elements {
+        let mut row_vec = Vec::with_capacity(n);
+        for (i, f) in species.iter().enumerate() {
+            let sign = if i < lhs.len() { one } else { -one };
+            let count = to_r(f.counts.get(el).copied().unwrap_or(0.0))?;
+            row_vec.push(sign * count);
+        }
+        rows.push(row_vec);
+    }
+    {
+        let mut charge_row = Vec::with_capacity(n);
+        for (i, f) in species.iter().enumerate() {
+            let sign = if i < lhs.len() { one } else { -one };
+            let charge = to_r(f.charge)?;
+            charge_row.push(sign * charge);
+        }
+        rows.push(charge_row);
+    }
+
+    // Gaussian elimination to reduced row echelon form, exact arithmetic.
+    let mut pivots: Vec<usize> = Vec::new();
+    let mut cur_row = 0;
+    for col in 0..n {
+        let sel = (cur_row..rows.len()).find(|&r| rows[r][col] != zero);
+        let Some(sel) = sel else { continue };
+        rows.swap(cur_row, sel);
+        let d = rows[cur_row][col];
+        for v in rows[cur_row].iter_mut() {
             *v /= d;
         }
         for r in 0..rows.len() {
-            if r != row && rows[r][col].abs() > 1e-12 {
+            if r != cur_row && rows[r][col] != zero {
                 let f = rows[r][col];
-                let pivot_row = rows[row].clone();
+                let pivot_row = rows[cur_row].clone();
                 for (target, p) in rows[r].iter_mut().zip(&pivot_row) {
                     *target -= f * p;
                 }
             }
         }
         pivots.push(col);
-        row += 1;
-        if row == rows.len() {
+        cur_row += 1;
+        if cur_row == rows.len() {
             break;
         }
     }
 
     let free: Vec<usize> = (0..n).filter(|c| !pivots.contains(c)).collect();
-    match free.len() {
-        0 => return Err(BalanceError::Impossible),
-        1 => {}
-        d => return Err(BalanceError::Ambiguous(d)),
-    }
-    let f = free[0];
-    let mut sol = vec![0.0f64; n];
-    sol[f] = 1.0;
-    for (i, &p) in pivots.iter().enumerate() {
-        sol[p] = -rows[i][f];
-    }
-
-    // Scale to the smallest positive integers.
-    let scale = (1..=5040)
-        .find(|k| {
-            sol.iter()
-                .all(|v| (v * *k as f64 - (v * *k as f64).round()).abs() < 1e-6)
-        })
-        .ok_or(BalanceError::Irrational)?;
-    // A number too big to be a coefficient is not one.
-    //
-    // The null space of a degenerate element matrix throws out values of
-    // any magnitude, and `as i64` *saturates* rather than wrapping, so one
-    // of them landing on i64::MIN made the sign flip below panic with
-    // "attempt to negate with overflow" — reachable from `kero balance`
-    // and the MCP balance tool on crafted input, and found by fuzzing in
-    // under two minutes.
-    //
-    // Clamping would be the wrong repair: it would answer a nonsense
-    // equation with a nonsense coefficient. Real stoichiometric
-    // coefficients are single or double digits, so anything past this
-    // bound means the skeleton did not describe a reaction, and that is
-    // what gets said.
-    const MAX_COEFFICIENT: f64 = 1e15;
-    let mut ints: Vec<i64> = Vec::with_capacity(sol.len());
-    for v in &sol {
-        let scaled = v * scale as f64;
-        if !scaled.is_finite() || scaled.abs() > MAX_COEFFICIENT {
-            return Err(BalanceError::Impossible);
-        }
-        ints.push(scaled.round() as i64);
-    }
-    if ints.iter().any(|v| *v < 0) {
-        for v in ints.iter_mut() {
-            *v = -*v;
-        }
-    }
-    if ints.iter().any(|v| *v <= 0) {
+    if free.is_empty() {
         return Err(BalanceError::Impossible);
     }
-    let g = ints.iter().copied().fold(0i64, gcd);
-    if g > 1 {
-        for v in ints.iter_mut() {
-            *v /= g;
+
+    // Extract one null-space basis vector per free variable.
+    let mut basis_vecs: Vec<Vec<Rational64>> = Vec::with_capacity(free.len());
+    for &fv in &free {
+        let mut v = vec![zero; n];
+        v[fv] = one;
+        for (i, &p) in pivots.iter().enumerate() {
+            v[p] = -rows[i][fv];
+        }
+        basis_vecs.push(v);
+    }
+
+    // Convert a rational vector to smallest positive integers.
+    let to_ints = |v: &[Rational64]| -> Result<Vec<i64>, BalanceError> {
+        // Find the LCM of all denominators.
+        let mut lcm_d: i64 = 1;
+        for r in v {
+            if *r != zero {
+                let d = *r.denom();
+                lcm_d = lcm(lcm_d, d);
+            }
+        }
+        let mut ints: Vec<i64> = v
+            .iter()
+            .map(|r| {
+                let scaled = *r * Rational64::from_integer(lcm_d);
+                *scaled.numer()
+            })
+            .collect();
+        let g = ints.iter().copied().fold(0i64, gcd);
+        if g > 1 {
+            for c in ints.iter_mut() {
+                *c /= g;
+            }
+        }
+        // Ensure first nonzero is positive.
+        if ints.iter().find(|&&c| c != 0).copied().unwrap_or(1) < 0 {
+            for c in ints.iter_mut() {
+                *c = -*c;
+            }
+        }
+        Ok(ints)
+    };
+
+    if free.len() == 1 {
+        let ints = to_ints(&basis_vecs[0])?;
+        if ints.iter().any(|&c| c <= 0) {
+            return Err(BalanceError::Impossible);
+        }
+        return Ok(BalanceResult::Unique(ints));
+    }
+
+    // Underdetermined: find one particular all-positive solution, then
+    // return the full basis alongside it. Try each basis vector, their
+    // sum, and small positive linear combinations.
+    let find_positive = |v: &[Rational64]| -> bool {
+        match to_ints(v) {
+            Ok(ints) => ints.iter().all(|&c| c > 0),
+            Err(_) => false,
+        }
+    };
+
+    let mut particular: Option<Vec<Rational64>> = None;
+    // Try each basis vector individually.
+    for bv in &basis_vecs {
+        if find_positive(bv) {
+            particular = Some(bv.clone());
+            break;
         }
     }
-    Ok(ints)
+    // Try small positive linear combinations.
+    if particular.is_none() && basis_vecs.len() == 2 {
+        'search: for a in 1i64..=5 {
+            for b in 1i64..=5 {
+                let ra = Rational64::from_integer(a);
+                let rb = Rational64::from_integer(b);
+                let combo: Vec<Rational64> = (0..n)
+                    .map(|j| ra * basis_vecs[0][j] + rb * basis_vecs[1][j])
+                    .collect();
+                if find_positive(&combo) {
+                    particular = Some(combo);
+                    break 'search;
+                }
+            }
+        }
+    }
+    if particular.is_none() {
+        // General fallback: sum all basis vectors.
+        let mut sum = vec![zero; n];
+        for bv in &basis_vecs {
+            for (j, val) in bv.iter().enumerate() {
+                sum[j] += *val;
+            }
+        }
+        if find_positive(&sum) {
+            particular = Some(sum);
+        }
+    }
+    let particular = particular.ok_or(BalanceError::Impossible)?;
+    let part_ints = to_ints(&particular)?;
+
+    let basis_ints: Vec<Vec<i64>> = basis_vecs
+        .iter()
+        .map(|bv| to_ints(bv))
+        .collect::<Result<_, _>>()?;
+
+    Ok(BalanceResult::Family {
+        particular: part_ints,
+        basis: basis_ints,
+    })
 }
 
 fn gcd(a: i64, b: i64) -> i64 {
-    if b == 0 {
-        a.abs()
+    let (mut a, mut b) = (a.abs(), b.abs());
+    while b != 0 {
+        let t = b;
+        b = a % b;
+        a = t;
+    }
+    a
+}
+
+fn lcm(a: i64, b: i64) -> i64 {
+    if a == 0 || b == 0 {
+        0
     } else {
-        gcd(b, a % b)
+        (a / gcd(a, b)) * b
     }
 }
 
@@ -559,10 +643,6 @@ pub enum BalanceError {
     TooFewSpecies,
     #[error("no set of positive coefficients balances this")]
     Impossible,
-    #[error("under-determined: {0} independent reactions fit this skeleton")]
-    Ambiguous(usize),
-    #[error("no small integer coefficients found")]
-    Irrational,
 }
 
 #[cfg(test)]
@@ -652,11 +732,18 @@ mod tests {
         assert_eq!(f("Ca++").charge, 2.0);
     }
 
+    fn unique(r: Result<BalanceResult, BalanceError>) -> Vec<i64> {
+        match r {
+            Ok(BalanceResult::Unique(v)) => v,
+            other => panic!("expected Unique, got {other:?}"),
+        }
+    }
+
     #[test]
     fn permanganate_half_reaction_balances() {
         // The case the notation bug broke. Textbook answer:
         // MnO4- + 5 Fe2+ + 8 H+ -> Mn2+ + 5 Fe3+ + 4 H2O
-        let n = balance(&["MnO4-", "Fe+2", "H+"], &["Mn+2", "Fe+3", "H2O"]).expect("balances");
+        let n = unique(balance(&["MnO4-", "Fe+2", "H+"], &["Mn+2", "Fe+3", "H2O"]));
         assert_eq!(n, vec![1, 5, 8, 1, 5, 4]);
     }
 
@@ -719,23 +806,22 @@ mod tests {
 
     #[test]
     fn balancing_finds_the_coefficients() {
-        assert_eq!(balance(&["Mg", "O2"], &["MgO"]).unwrap(), vec![2, 1, 2]);
+        assert_eq!(unique(balance(&["Mg", "O2"], &["MgO"])), vec![2, 1, 2]);
         assert_eq!(
-            balance(&["CH4", "O2"], &["CO2", "H2O"]).unwrap(),
+            unique(balance(&["CH4", "O2"], &["CO2", "H2O"])),
             vec![1, 2, 1, 2]
         );
         assert_eq!(
-            balance(&["Fe2O3", "C"], &["Fe", "CO2"]).unwrap(),
+            unique(balance(&["Fe2O3", "C"], &["Fe", "CO2"])),
             vec![2, 3, 4, 3]
         );
     }
 
     #[test]
     fn balancing_respects_charge() {
-        // Balanced only if the electrons are accounted for.
-        assert_eq!(balance(&["Ag+", "Cl-"], &["AgCl"]).unwrap(), vec![1, 1, 1]);
+        assert_eq!(unique(balance(&["Ag+", "Cl-"], &["AgCl"])), vec![1, 1, 1]);
         assert_eq!(
-            balance(&["Ca+2", "PO4-3"], &["Ca3(PO4)2"]).unwrap(),
+            unique(balance(&["Ca+2", "PO4-3"], &["Ca3(PO4)2"])),
             vec![3, 2, 1]
         );
     }
@@ -744,7 +830,89 @@ mod tests {
     fn an_impossible_skeleton_is_refused() {
         assert!(matches!(
             balance(&["H2O"], &["NaCl"]),
-            Err(BalanceError::Impossible) | Err(BalanceError::Ambiguous(_))
+            Err(BalanceError::Impossible)
         ));
+    }
+
+    #[test]
+    fn underdetermined_carbon_oxidation_returns_family() {
+        // C + O₂ → CO + CO₂ admits two independent reactions:
+        //   2C + O₂ → 2CO     (partial oxidation)
+        //   C + O₂ → CO₂      (complete oxidation)
+        let r = balance(&["C", "O2"], &["CO", "CO2"]).unwrap();
+        match r {
+            BalanceResult::Family {
+                particular, basis, ..
+            } => {
+                assert!(
+                    particular.iter().all(|&c| c > 0),
+                    "particular solution must be all-positive: {particular:?}"
+                );
+                assert!(
+                    !basis.is_empty(),
+                    "underdetermined system must have at least one basis vector"
+                );
+                // Verify the particular solution actually balances.
+                let lhs_formulas = ["C", "O2"];
+                let rhs_formulas = ["CO", "CO2"];
+                verify_balances(&lhs_formulas, &rhs_formulas, &particular);
+            }
+            BalanceResult::Unique(_) => {
+                panic!("C + O₂ → CO + CO₂ is underdetermined, expected Family");
+            }
+        }
+    }
+
+    #[test]
+    fn underdetermined_permanganate_peroxide() {
+        // MnO₄⁻ + H₂O₂ + H⁺ → Mn²⁺ + O₂ + H₂O
+        // Underdetermined because both MnO₄⁻ and H₂O₂ can provide oxygen.
+        let r = balance(&["MnO4-", "H2O2", "H+"], &["Mn+2", "O2", "H2O"]).unwrap();
+        match r {
+            BalanceResult::Family {
+                particular, basis, ..
+            } => {
+                assert!(
+                    particular.iter().all(|&c| c > 0),
+                    "particular solution must be all-positive: {particular:?}"
+                );
+                assert!(!basis.is_empty());
+                let lhs_formulas = ["MnO4-", "H2O2", "H+"];
+                let rhs_formulas = ["Mn+2", "O2", "H2O"];
+                verify_balances(&lhs_formulas, &rhs_formulas, &particular);
+            }
+            BalanceResult::Unique(_) => {
+                panic!("expected underdetermined");
+            }
+        }
+    }
+
+    fn verify_balances(lhs: &[&str], rhs: &[&str], coeffs: &[i64]) {
+        let all_formulas: Vec<Formula> = lhs
+            .iter()
+            .chain(rhs.iter())
+            .map(|s| parse_formula(s).unwrap())
+            .collect();
+        let mut elements: Vec<String> = all_formulas
+            .iter()
+            .flat_map(|f| f.counts.keys().cloned())
+            .collect();
+        elements.sort();
+        elements.dedup();
+        for el in &elements {
+            let mut sum = 0i64;
+            for (i, f) in all_formulas.iter().enumerate() {
+                let sign = if i < lhs.len() { 1 } else { -1 };
+                let count = f.counts.get(el).copied().unwrap_or(0.0) as i64;
+                sum += sign * coeffs[i] * count;
+            }
+            assert_eq!(sum, 0, "element {el} does not balance");
+        }
+        let mut charge_sum = 0i64;
+        for (i, f) in all_formulas.iter().enumerate() {
+            let sign = if i < lhs.len() { 1 } else { -1 };
+            charge_sum += sign * coeffs[i] * f.charge as i64;
+        }
+        assert_eq!(charge_sum, 0, "charge does not balance");
     }
 }

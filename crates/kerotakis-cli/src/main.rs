@@ -490,27 +490,78 @@ fn balance_text(equation: &str) -> Result<String, String> {
             writeln!(out, "  charge: {c:+} on the right as written").unwrap();
         }
     }
+    let show = |names: &[&str], coeffs: &[i64]| -> String {
+        names
+            .iter()
+            .zip(coeffs)
+            .map(|(s, c)| {
+                if *c == 1 {
+                    (*s).to_string()
+                } else {
+                    format!("{c} {s}")
+                }
+            })
+            .collect::<Vec<_>>()
+            .join(" + ")
+    };
+    let show_signed = |names: &[&str], coeffs: &[i64]| -> String {
+        names
+            .iter()
+            .zip(coeffs)
+            .map(|(s, c)| {
+                if *c == 0 {
+                    String::new()
+                } else if *c == 1 {
+                    format!("+{s}")
+                } else if *c == -1 {
+                    format!("-{s}")
+                } else {
+                    format!("{c:+} {s}")
+                }
+            })
+            .filter(|s| !s.is_empty())
+            .collect::<Vec<_>>()
+            .join(" ")
+    };
     match kerotakis_core::stoich::balance(&lref, &rref) {
-        Ok(n) => {
-            let show = |names: &[&str], coeffs: &[i64]| -> String {
-                names
-                    .iter()
-                    .zip(coeffs)
-                    .map(|(s, c)| {
-                        if *c == 1 {
-                            (*s).to_string()
-                        } else {
-                            format!("{c} {s}")
-                        }
-                    })
-                    .collect::<Vec<_>>()
-                    .join(" + ")
-            };
+        Ok(kerotakis_core::stoich::BalanceResult::Unique(n)) => {
             writeln!(
                 out,
                 "{} → {}",
                 show(&lref, &n[..lref.len()]),
                 show(&rref, &n[lref.len()..])
+            )
+            .unwrap();
+            Ok(out)
+        }
+        Ok(kerotakis_core::stoich::BalanceResult::Family { particular, basis }) => {
+            let all: Vec<&str> = lref.iter().chain(rref.iter()).copied().collect();
+            writeln!(
+                out,
+                "under-determined: {} independent reactions\n",
+                basis.len() + 1
+            )
+            .unwrap();
+            writeln!(
+                out,
+                "particular solution:\n  {} → {}",
+                show(&lref, &particular[..lref.len()]),
+                show(&rref, &particular[lref.len()..])
+            )
+            .unwrap();
+            for (i, bv) in basis.iter().enumerate() {
+                writeln!(
+                    out,
+                    "\nbasis vector {}:\n  {}",
+                    i + 1,
+                    show_signed(&all, bv)
+                )
+                .unwrap();
+            }
+            writeln!(
+                out,
+                "\nany non-negative integer combination (particular + k₁·v₁ + …) \
+                 with all coefficients > 0 is a valid balanced equation."
             )
             .unwrap();
             Ok(out)
