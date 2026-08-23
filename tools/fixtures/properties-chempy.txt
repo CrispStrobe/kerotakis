@@ -1,0 +1,50 @@
+Using: /tmp/kero-basic-target/debug/kero
+
+=== Water density (Tanaka 2001) ===
+  [OK] density T=273.15K: kero=9.9984282562e+02 ref=9.9984282562e+02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Tanaka)
+  [OK] density T=277.13K: kero=9.9997494993e+02 ref=9.9997494993e+02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Tanaka)
+  [OK] density T=283.15K: kero=9.9970270163e+02 ref=9.9970270163e+02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Tanaka)
+  [OK] density T=293.15K: kero=9.9820674556e+02 ref=9.9820674556e+02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Tanaka)
+  [OK] density T=298.15K: kero=9.9704702167e+02 ref=9.9704702167e+02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Tanaka)
+  [OK] density T=303.15K: kero=9.9564879718e+02 ref=9.9564879718e+02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Tanaka)
+  [OK] density T=313.15K: kero=9.9221520913e+02 ref=9.9221520913e+02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Tanaka)
+
+=== Water viscosity (Korson 1969) ===
+  [OK] viscosity T=273.15K: kero=1.7911994052e+00 ref=1.7911994052e+00 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Korson)
+  [OK] viscosity T=283.15K: kero=1.3068070301e+00 ref=1.3068070301e+00 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Korson)
+  [OK] viscosity T=293.15K: kero=1.0020000000e+00 ref=1.0020000000e+00 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Korson)
+  [OK] viscosity T=298.15K: kero=8.9028817144e-01 ref=8.9028817144e-01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Korson)
+  [OK] viscosity T=313.15K: kero=6.5314204701e-01 ref=6.5314204701e-01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Korson)
+  [OK] viscosity T=333.15K: kero=4.6664309390e-01 ref=4.6664309390e-01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Korson)
+  [OK] viscosity T=353.15K: kero=3.5378002904e-01 ref=3.5378002904e-01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Korson)
+  [OK] viscosity T=373.15K: kero=2.7932625506e-01 ref=2.7932625506e-01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Korson)
+
+=== Water permittivity (Bradley–Pitzer 1979) ===
+  [OK] permittivity T=273.15K: kero=8.7856365008e+01 ref=8.7856365008e+01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Bradley-Pitzer)
+  [OK] permittivity T=298.15K: kero=7.8384368742e+01 ref=7.8384368742e+01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Bradley-Pitzer)
+  [OK] permittivity T=323.15K: kero=6.9876589441e+01 ref=6.9876589441e+01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Bradley-Pitzer)
+  [OK] permittivity T=373.15K: kero=5.5459388424e+01 ref=5.5459388424e+01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Bradley-Pitzer)
+  [OK] permittivity T=423.15K: kero=4.3897797546e+01 ref=4.3897797546e+01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Bradley-Pitzer)
+  [OK] permittivity T=523.15K: kero=2.6579602599e+01 ref=2.6579602599e+01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Bradley-Pitzer)
+
+=== Henry's constants (Sander 2015) ===
+  [OK] henry CO2 T=278.15K: kero=6.0652385970e-02 ref=6.0652385970e-02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry CO2 T=298.15K: kero=3.4000000000e-02 ref=3.4000000000e-02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry CO2 T=323.15K: kero=1.8239920349e-02 ref=1.8239920349e-02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry O2 T=278.15K: kero=1.8665901100e-03 ref=1.8665901100e-03 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry O2 T=298.15K: kero=1.3000000000e-03 ref=1.3000000000e-03 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry O2 T=323.15K: kero=8.8086299380e-04 ref=8.8086299380e-04 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry N2 T=278.15K: kero=8.3461854175e-04 ref=8.3461854175e-04 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry N2 T=298.15K: kero=6.1000000000e-04 ref=6.1000000000e-04 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry N2 T=323.15K: kero=4.3534428348e-04 ref=4.3534428348e-04 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry H2 T=278.15K: kero=8.7996042080e-04 ref=8.7996042080e-04 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry H2 T=298.15K: kero=7.8000000000e-04 ref=7.8000000000e-04 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry H2 T=323.15K: kero=6.8509312124e-04 ref=6.8509312124e-04 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry Cl2 T=278.15K: kero=1.6812430712e-01 ref=1.6812430712e-01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry Cl2 T=298.15K: kero=9.2000000000e-02 ref=9.2000000000e-02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry Cl2 T=323.15K: kero=4.8090893786e-02 ref=4.8090893786e-02 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry NH3 T=278.15K: kero=1.5695333868e+02 ref=1.5695333868e+02 rel_diff=1.81e-16 tol=1e-10 (ChemPy/Sander)
+  [OK] henry NH3 T=298.15K: kero=5.7000000000e+01 ref=5.7000000000e+01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+  [OK] henry NH3 T=323.15K: kero=1.9168004006e+01 ref=1.9168004006e+01 rel_diff=0.00e+00 tol=1e-10 (ChemPy/Sander)
+
+All cases passed.

@@ -49,7 +49,7 @@ impl Indicator {
     /// The fraction in the base form at this pH — Henderson–Hasselbalch,
     /// which is all an indicator's "range" ever was.
     pub fn base_fraction(&self, ph: f64) -> f64 {
-        1.0 / (1.0 + 10f64.powf(self.pka - ph))
+        crate::relations::henderson_hasselbalch_fraction(self.pka, ph)
     }
 
     /// The two spectra mixed in the ratio the pH sets.

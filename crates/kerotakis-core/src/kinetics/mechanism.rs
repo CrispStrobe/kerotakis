@@ -896,7 +896,7 @@ fn activation_unit(unit: &str) -> Result<f64, MechanismError> {
         "kJ/mol" => Ok(1_000.0),
         "cal/mol" => Ok(4.184),
         "kcal/mol" => Ok(4_184.0),
-        "K" => Ok(super::R),
+        "K" => Ok(crate::constants::GAS_CONSTANT),
         unit => Err(unsupported("activation-energy", unit)),
     }
 }
