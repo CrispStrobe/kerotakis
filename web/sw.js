@@ -13,6 +13,7 @@ const SHELL = [
   "kerotakis.mjs",
   "kerotakis_wasm.js",
   "kerotakis_wasm_bg.wasm",
+  "results.postcard",
   "iphreeqc.mjs",
   "iphreeqc.wasm",
   "db/wateq4f.dat",

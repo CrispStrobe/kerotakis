@@ -13,6 +13,7 @@
 #[cfg(feature = "engine")]
 use std::ffi::{CStr, CString};
 
+pub mod acceptance;
 mod aqueous;
 pub mod dbindex;
 pub mod derived;

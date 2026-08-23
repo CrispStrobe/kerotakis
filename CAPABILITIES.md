@@ -74,6 +74,25 @@ below attack:
 - No `titrate`, `dilute` or `mix` verb — titration is hand-rolled
   repeated `add`.
 
+**Post-merge status (2026-08-23, after the R-stage execution sprint
+landed on main).** The inventory above predates that sprint; verified
+against the merged tree the same day: **CAP-10's `EXCHANGE` half is
+done upstream** (typed cation-exchange ledgers plus 1-D transport,
+AQ-007/011–014) — the task re-scopes to the `MIX` routing and the
+softening lesson; **CAP-14 is half done** (`deny.toml` and `about.toml`
+exist via LIC-006/007) — what remains is wiring `cargo deny` into
+`tools/preflight.sh` and CI plus the synthetic-failure proof;
+**CAP-1 stands undiminished** — `kerotakis-thermo` grew EOS, LLE,
+fluid-model and flash modules and *still* has no dependent crate;
+CAP-11 stands (safety is still the 140-line stub); CAP-12 stands (no
+titration verbs). The instrument lines of the old inventory are stale:
+gas pressure/volume, conductivity, spectrophotometer, calorimeter,
+chromatography and qualitative analysis landed (INST-003–008). New
+crates since the inventory: `kerotakis-data`, `kerotakis-org`
+(`chematic` adopted off the watch list), `kerotakis-sundials`,
+`kerotakis-registry-export`. Cross-check every remaining task against
+the tree before starting it.
+
 ## Parity matrix
 
 | Capability | ChemPy | Workbench class | Kerotakis today | Lands in |

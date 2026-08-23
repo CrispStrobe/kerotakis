@@ -1,0 +1,16 @@
+{
+  "description": "Two-component kinetics: fast k=1.0 and slow k=0.1, steps [0.5, 0.5, 1.0]s",
+  "oracle": "MY-BASIC preview (verified against analytical exp(-k*t) within RK tolerance)",
+  "trajectories": {
+    "k_FastDecay": {
+      "values": [0.0, 0.60653065971260, 0.60653065971260, 0.36787944117140],
+      "absolute_tolerance": 5e-8,
+      "notes": "Row 0=initial, then per-step remaining moles"
+    },
+    "k_SlowDecay": {
+      "values": [0.0, 0.95122942450070, 0.95122942450070, 0.90483741803600],
+      "absolute_tolerance": 5e-8,
+      "notes": "Row 0=initial, then per-step remaining moles"
+    }
+  }
+}

@@ -68,7 +68,7 @@ verifier in `tools/`, and only *data* ships:
 | `thermo` (MIT, Python) | Golden-test fixture generation for `kerotakis-thermo` — thousands of reference flash/VLE results |
 | Cantera (desktop Python) | Reference solutions for combustion golden tests |
 | RDKit (Python) | Cross-validation of Indigo template applications and canonicalisations during curation — two independent toolkits agreeing is real QA |
-| **Reaktoro** (LGPL-2.1, verified 2026-08-19 via repo metadata) | **Differential oracle for L2** — the modern PHREEQC-class geochemical solver (Leal, ETH), which loads our exact PHREEQC databases natively: same pitzer.dat, independent solver. Diff a corpus against `PhreeqcEquilibrator` and check in fixtures; every disagreement is our bug, its bug, or genuinely interesting chemistry. Strictly stronger than ChemicalFun for this job (ChemicalFun balances, Reaktoro speciates). Build-time only, never linked, so the LGPL question never arises — the ChemicalFun reasoning |
+| **Reaktoro** (LGPL-2.1, verified 2026-08-19 via repo metadata) | **Differential oracle for the supported parts of L2** — the modern PHREEQC-class geochemical solver (Leal, ETH), which loads our exact PHREEQC databases natively: same pitzer.dat, independent solver. Diff a corpus against `PhreeqcEquilibrator`; every disagreement is our bug, its bug, or genuinely interesting chemistry. **Boundary found in AQ-006:** Reaktoro 2.13 does not implement PHREEQC surface complexation (the upstream request remains open), so it cannot validate HFO adsorption. Build-time only, never linked; persist only approved facts or aggregate metrics, never an unreviewed fixture export. |
 | ChemPy (BSD-2-Clause, verified 2026-08-19) | Cheap second opinion for textbook-level aqueous fixtures where a full geochemical solver is overkill |
 | RMG (MIT — verbatim MIT text under a custom header; GitHub shows NOASSERTION) | Benson group-additivity ΔHf/S/Cp(T) for arbitrary organics — the property gap PubChem/Wikidata cannot fill for the energy balance. **Blocker verified 2026-08-19: RMG-database has no LICENSE file.** Note `JacksonBurns/rmgdb` (active RMG developer, Aug 2026): vendors the database + SQLite/YAML repackaging under MIT — but with a *personal* copyright line, and one contributor cannot relicense a ~25-year collective work; no team licensing decision is on record (searched). It does make the upstream ask concrete: "affirm the licence upstream or correct rmgdb's copyright line to the RMG Team". Until then `thermo`'s Joback estimators (MIT) carry this role and no RMG parameter ships |
 | ORDerly / ORD | Validation oracle only, never ingestion: check curated conditions against literature without touching ORD's CC-BY-SA (the same oracle pattern as `thermo` and Cantera). Patent-chemistry distribution → low relevance to a school codex; third-tier |
@@ -856,8 +856,13 @@ The pipeline, honestly bounded:
 - `purr`, `gamma`, `chemcore` — frozen at 2021 proof-of-concept state; no SMARTS
   matching, no canonicalisation, no InChI. Their author, Rich Apodaca, died in
   2024; the successor `balsa` is also dormant. Not a base to build on.
-- `sundials-sys` — dormant ~20 months; no evidence anyone has ever built
-  SUNDIALS for wasm or iOS. diffsol covers L5 in pure Rust.
+- `sundials-sys` — the upstream crate is dormant ~20 months. Our own
+  `sundials-kinetics-rs` (MIT, in-tree at `sundials-kinetics-rs/`) now
+  provides complete SUNDIALS 7.x bindings with CVODE/IDA/ARKode/KINSOL,
+  iterative solvers, preconditioners, adjoint sensitivity, and feature-gated
+  KLU. `kerotakis-sundials` wraps it as a native-only Track B oracle and
+  optional desktop backend behind `advance_network_cvode()`. diffsol remains
+  the portable L5 default for wasm and iOS.
 - `coolprop-sys` — actively maintained but bundles **prebuilt desktop dylibs
   only**: no wasm, no iOS/Android. CoolProp's official Emscripten/JS build
   keeps it available as an optional *desktop/web extra*, not core.
@@ -2180,16 +2185,360 @@ ontologies, not teaching topics), IEEE LOM (paywalled).
 School-level rates and electrochemistry moved forward to P3k/P3e; what is
 left here is the part that genuinely needs an engine.
 
-**Active session — `codex-kin` (2026-08-21).** This session owns the first
-generic-kinetics slice: define the reaction-network IR, compile the two current
-rate laws through it without changing lesson or JSON output, and add
+**Completed session — `codex-kin` (2026-08-21).** This session delivered the
+first generic-kinetics slice: a reaction-network IR, both current rate laws
+compiled through it without changing lesson or JSON output, and
 element/charge/site/electron conservation lint. Its implementation worktree is
 `/Users/christianstrobele/code/kerotakis-codex-kin` on branch
 `codex-kin/reaction-network`; its code boundary is
 `crates/kerotakis-core/src/kinetics.rs` plus new kinetics-focused modules and
-tests. It will not modify the PHREEQC BASIC runtime, its adapter, vendored
-sources, or compatibility corpus. Stiff integration, mechanism-file parsing,
-and external mechanism data remain later, separately reviewed work.
+tests. The slice also executes reversible, consecutive, and competing reactions
+with atomic, availability-scaled coupled extents. It did not modify the PHREEQC
+BASIC runtime, its adapter, vendored sources, or compatibility corpus. CI run
+`32481885344` passed native Ubuntu/macOS, Wasm, browser, and combined-solver
+checks. Stiff integration, mechanism-file parsing, and external mechanism data
+remain later, separately reviewed work.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-004/005).** This session
+audited and added the approved implicit-solver dependency, then replaced the
+explicit midpoint loop with adaptive BDF integration over reaction extents,
+including positivity protection, step rejection/retry, depletion events,
+diagnostics, propagated solver errors, and exact-solution tests. Work is isolated
+in `/Users/christianstrobele/code/kerotakis-codex-kin-integrator` on branch
+`codex-kin/adaptive-integrator`. It may modify kinetics modules, focused tests,
+and dependency/audit metadata. It will not modify equilibrium coupling,
+mechanism parsing or data, the PHREEQC BASIC replacement, vendored sources, or
+compatibility fixtures.
+
+KIN-004 audit checkpoint: `diffsol = =0.16.2` is MIT and is selected with
+`default-features = false` plus `nalgebra`. Upstream 0.16.2 still enables its
+pure-Rust `faer` implementation on the internal linear/nonlinear crates; that
+resolved graph is accepted. `diffsl`, LLVM/Cranelift JIT, CUDA, SuiteSparse,
+SUNDIALS, bindgen, and native C compilation are absent from the portable
+runtime graph. The optional `kerotakis-sundials` crate (Track B, native-only)
+does pull SUNDIALS/bindgen/cmake but is never a dependency of the wasm or iOS
+targets.
+The Wasm CI gate remains part of KIN-004 acceptance.
+The resolved matrix graph also reaches `getrandom` through `rand`; the Wasm
+target therefore selects its supported `wasm_js` backend explicitly. This is a
+target adapter, not solver randomness, and native targets remain unchanged.
+CI run `32484407871` passed strict lint, all native tests and claims on Ubuntu
+and macOS, core and full-bench Wasm, browser, and combined-solver checks.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-006).** This session
+delivered the first mechanism-file front-end slice: strict parsing and
+validation of portable Cantera-YAML species composition plus elementary
+Arrhenius reactions, lowering them into the existing reaction-network IR, and a
+CLI inspection path with machine-readable output. Work is isolated on branch
+`codex-kin/mechanism-yaml` in a fresh worktree. Its code boundary is new
+kinetics-mechanism modules, focused CLI wiring/tests, and narrowly required
+pure-Rust parsing dependencies. It will not modify equilibrium or surface
+coupling, vessel state, VLE, the PHREEQC BASIC replacement, vendored sources,
+or compatibility fixtures. Three-body and falloff/Troe evaluation remain a
+separate follow-on slice after this schema and diagnostic boundary is proven.
+KIN-006 dependency checkpoint: `serde_yaml_ng = =0.10.0` is MIT and resolves to
+the MIT `unsafe-libyaml` Rust translation (no system libyaml link); `bumpalo`
+`=3.20.3` is MIT OR Apache-2.0 with no default features. The arena gives runtime-owned
+mechanisms a borrowed IR without leaking allocations. Native and Wasm CI gates
+passed in run `32489657046`, including strict lint and all tests/claims on
+Ubuntu and macOS, core and full-bench Wasm, browser, and combined-solver checks.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-007).** This session added
+third-body concentrations and species efficiencies, Lindemann/Troe falloff
+parsing and exact rate evaluation, and gas-network execution through the
+implicit integrator using finite headspace volume. Mechanism inspection now
+reports each rate model and normalized low-pressure prefactor. Exact tests cover
+third-body efficiencies, closed-form Lindemann/Troe rates, schema failures,
+finite-headspace advancement with pressure refresh, and the CLI JSON contract.
+Native, WebAssembly, browser, and combined-solver CI gates passed in run
+`32492646325`. Pressure-log interpolation and external mechanism data remain
+future work.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-008).** This session added
+CLI-first runtime gas-mechanism simulation: validated mechanism loading, an
+explicit finite sealed headspace, temperature, duration, repeatable species
+feeds, and implicit reaction-network advancement. Stable JSON reports complete
+initial/final mechanism composition, initial/final pressure, reaction extents,
+and solver diagnostics; human output exposes the same run. Exact CLI tests cover
+the analytic first-order solution, pressure increase, JSON fields, and refusal
+of undeclared feed species. All native, WebAssembly, browser, and combined
+solver CI gates passed in run `32494325781`.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-009).** This session added
+bounded sampled gas-mechanism trajectories to the CLI. The stable JSON contract
+preserves all KIN-008 endpoint fields and adds the initial state plus exact
+evenly spaced requested times, composition and pressure at every point,
+cumulative reaction extents, and aggregate implicit-solver diagnostics. Exact
+tests compare every sampled point with the analytic first-order solution, prove
+monotonic depletion and pressure growth, and reject zero intervals. All native,
+WebAssembly, browser, and combined-solver CI gates passed in run `32495335994`.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-010).** This session added
+strict one- and two-region NASA7 thermochemistry, per-species reference-pressure
+parsing, ideal-gas concentration equilibrium constants, and elementary
+reversible detailed-balance execution in both direct and implicit evaluators.
+Product-side reverse orders and shared thermochemistry validity ranges are
+enforced. CLI inspection/simulation plus exact standard-state equilibrium,
+direct-rate, equilibrium-convergence, out-of-range, and schema tests are
+included. All native, WebAssembly, browser, and combined-solver CI gates passed
+in run `32496871088`. Pressure-dependent reverse reactions remain future work.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-011).** This session added
+instantaneous mechanism-rate diagnostics for university-level multi-step
+analysis: per-reaction forward/reverse/net progress, net species production,
+pressure, and an explicitly defined instantaneous rate-determining candidate in
+stable human and JSON output. Reversible equilibrium reports equal directional
+fluxes with no false limiting candidate; multistep tests prove stoichiometric
+production accounting and step selection. All native, WebAssembly, browser, and
+combined-solver CI gates passed in run `32498166044`.
+
+**Completed session — `codex-kin` (2026-08-21, KIN-012).** This session added
+pressure-dependent Arrhenius gas kinetics with pressure-unit parsing, strict
+pressure-grid validation, same-pressure rate summation, logarithmic pressure
+interpolation, and nearest-endpoint extrapolation shared by direct and implicit
+evaluation. CLI inspection exposes normalized pressure points; CLI rates and
+simulation tests exercise the same evaluator. Closed-form, analytic-decay, and
+invalid-grid tests are included. All native, WebAssembly, browser, combined
+solver, and BASIC transition CI gates passed in run `32499420214`.
+
+**Completed concurrent session — `codex-AQ` (2026-08-21).** This session owned
+AQ-004 in the shared main checkout and did not modify `kinetics.rs`,
+reaction-network modules, or KIN-001–003 tests. Boundary-aware headspace energy
+accounting and open/sealed/pressure-controlled checks reached DoD: core and
+strict-lint checks are green, and hosted Ubuntu/macOS native, IPhreeQC, Wasm
+runtime, browser, and combined solver checks passed in CI run `32481206425`.
+
+**Completed concurrent session — `codex-AQ` (2026-08-21, AQ-005).** This
+session added typed finite-capacity HFO surface interfaces, strong/weak site
+ownership, zinc/sulfate occupancy and ligand-exchange water ledgers, PHREEQC
+`SURFACE` compilation/readback, explicit refusal for untracked sorbates, and
+focused conservation/re-equilibration/live-engine tests. It did not modify
+kinetics modules, dependency metadata, the BASIC runtime, vendored sources, or
+VLE work. Hosted Ubuntu/macOS native, IPhreeqc, Wasm runtime, browser, and
+combined-solver gates passed in CI run `32491444035`.
+
+**Completed session — `codex-AQ` (2026-08-21, AQ-006).** Work was isolated in
+`/private/var/folders/53/8b_q74j10mv9xq84_j44tm1w0000gn/T/kerotakis-aq006.TwawJ86yJn.worktree`
+on branch `codex-aq/aq-006-oracle`. It owned the pH-dependent HFO adsorption
+benchmark, its PHREEQC-facing comparison test, and a development-only oracle
+runner. Reaktoro remains an external `oracle-only` tool: it must not enter any
+crate, app bundle, Wasm artifact, vendored directory, or required CI path. The
+repository may persist only reviewed scalar benchmark facts and aggregate error
+metrics with tool version, input/database identity, retrieval date, and an
+explicit distributability decision. This session did not modify kinetics,
+the BASIC runtime/vendor, VLE, exchange sites, or runtime dependency metadata.
+
+AQ-006 checkpoint: the live engine now exercises three ordered acid-side
+points while checking zinc conservation and finite site capacity. Reaktoro's
+documented PHREEQC database loader was investigated, but its still-open surface
+complexation gap makes it incapable of this benchmark. `tools/surface-oracle.py`
+therefore independently solves the intrinsic acid/base, zinc, sulfate and
+finite-site mass-action balances from the approved USGS `wateq4f.dat`
+constants. It explicitly omits diffuse-layer electrostatics and full aqueous
+side speciation. The live test can export per-case values only when given an
+explicit path and revision/date environment variables; that ephemeral file is
+fed to the tool, whose output contains aggregate errors and monotonic verdicts
+only. The tool and its four stdlib unit checks do not enter any crate, app,
+Wasm artifact or required CI path. Hosted audit run `32494550891` reviewed
+three cases and recorded only the approved aggregate result: strict monotonic
+agreement, mean absolute bound-fraction error 0.07210 and maximum error
+0.21626. Those pass the executable limits of 0.10 mean and 0.25 maximum for
+this deliberately reduced oracle. Native Ubuntu/macOS, strict lint, IPhreeqc
+Wasm, core/full/combined Wasm and the real-browser demo all passed in the same
+run; follow-up run `32495027486` executed and passed those now-enforced limits.
+The temporary hosted audit hook was then removed; the development-only export
+remains explicit and opt-in.
+
+**Completed session — `codex-AQ` (2026-08-21, AQ-007).** This session owned the
+first finite-capacity cation-exchange slice in isolated worktree
+`/tmp/kerotakis-aq007.XXXXXXXX.worktree` on branch
+`codex-aq/aq-007-exchange`. Its boundary was typed exchanger state in
+`kerotakis-core`, PHREEQC `EXCHANGE` compilation/readback in
+`kerotakis-phreeqc`, and focused core/live batch-softening tests. The first
+reviewed ledger supports the unavoidable proton balance plus sodium, calcium
+and magnesium; every other exchangeable ion must fail explicitly rather than
+disappear. Tests prove charge-equivalent site capacity, Na/Ca/Mg material
+conservation, measurable hard-water softening, stable repeated equilibration,
+mass stability, legacy-state deserialization, and an explicit refusal event
+for potassium rather than silent loss. Hosted Ubuntu/macOS native, strict
+lint, IPhreeqc Wasm, core/full/combined Wasm and real-browser gates all passed
+in CI run `32498332301`. Hosted diagnostics also exposed a pre-existing
+sub-observable magnesium displacement at 3.16e-11 mol; the generic displacement
+router now ignores changes below the project's observable-moles threshold,
+and its full 19-case suite passed on both native platforms. This session did
+not modify kinetics/mechanism work, MY-BASIC or vendored sources, VLE,
+licensing/dependency metadata, the web UI, or compatibility fixtures.
+
+**Completed session — `codex-AQ` (2026-08-21, AQ-008).** This session owned the
+first typed mineral solid-solution slice in isolated worktree
+`/tmp/kerotakis-aq008.worktree.iy7TjZ` on branch
+`codex-aq/aq-008-solid-solutions`. Its boundary is explicit solid-solution
+component state in `kerotakis-core`, PHREEQC `SOLID_SOLUTIONS`
+compilation/readback in `kerotakis-phreeqc`, and focused unit/live tests for
+the non-ideal aragonite-strontianite pair already present in the approved USGS
+database. Typed state owns both end-member inventories and mass; the adapter
+uses the documented example-10 Guggenheim parameters and closes Ca, Sr, and C
+across solution, finite headspace, and mixed crystal. Live checks prove both
+end members co-precipitate, acid dissolves both, and a repeated equilibrium is
+stable without ledger drift; core checks cover invalid states, rendering, and
+legacy deserialization. A hosted diagnostic also caught and fixed two generic
+ownership leaks: exchanger reconciliation no longer caps calcium when no
+exchanger exists, and solid-solution reconciliation is inactive for ordinary
+aqueous vessels, preserving the limewater gas-dose contract. CI run
+`32501821856` passed Ubuntu/macOS native and strict lint, both MY-BASIC preview
+gates, core/full/combined Wasm, IPhreeqc Wasm, and the real-browser demo. This
+session did not modify reaction-network/kinetics work, MY-BASIC or vendored
+sources, VLE, transport, licensing/dependency metadata, or the web UI.
+
+**Completed session — `codex-AQ` (2026-08-21, AQ-009).** Work was isolated in
+`/tmp/kerotakis-aq009.worktree.ddVJwWRg` on branch
+`codex-aq/aq-009-phreeqc-kinetics`. This session added one evidence-producing
+mineral-dissolution trajectory comparison between PHREEQC `KINETICS` and the
+already-merged Kerotakis reaction-network integrator. Five ordered points from
+a project-authored first-order calcite-dissolution case are checked against the
+analytic solution, against each other within `5e-5` relative error, and against
+independent solid/Ca/C ledgers. The evidence selects Kerotakis as owner of time
+integration and the vessel clock: its integrator is portable core state and
+already composes reaction networks, whereas PHREEQC `KINETICS` requires the
+opt-in BASIC path. PHREEQC remains the aqueous equilibrium/speciation engine
+and a development comparator behind `my-basic`; production no-BASIC
+behavior is unchanged. No external kinetics corpus, new runtime data,
+vendored-source change, or physical calcite-rate claim was introduced. Local
+native compilation was skipped after the required one-minute load sample stayed
+at 5.30–6.58 (threshold below 4); hosted run `32503082107` passed native
+Ubuntu/macOS, strict lint, both MY-BASIC preview gates, core/full/combined Wasm,
+IPhreeqc Wasm, and the real-browser demo.
+
+**Completed session — `codex-AQ` (2026-08-21, AQ-010).** Work was isolated in
+`/tmp/kerotakis-aq010.worktree.JvxKka5a` on branch
+`codex-aq/aq-010-partial-freezing`. Conservative partial freezing now moves
+pure water into the existing solid phase while retaining solutes in the liquid
+compartment; native and browser stacks re-run aqueous speciation after solvent
+mass changes and settle liquidus/temperature within the aqueous engine's
+declared `0.05 K` resolution. PHREEQC counts only liquid water as solvent and
+preserves solid ice outside its solution reconstruction. Core checks cover
+bounded convergence, repeated stability, conservation, and the explicit
+`252 K` model boundary; a live NaCl check covers pure-ice exclusion, residual
+brine concentration, water/sodium ledgers, common liquidus temperature, and
+repeat stability. The boundary refuses further extrapolation because salt
+solids and a solute-specific phase diagram are then required. No transport
+cells (AQ-011), general compartment redesign, kinetics/MY-BASIC changes, data
+imports, dependencies, or vendored-source changes were added. Local native
+compilation was skipped because the required load samples remained above 4;
+CI run `32506920952` passed native Ubuntu/macOS, strict codex lint, both
+MY-BASIC preview gates, core/IPhreeqc/full/combined Wasm, and the real-browser
+demo.
+
+**Completed session — `codex-AQ` (2026-08-21, AQ-011).** Work was isolated in
+`/tmp/kerotakis-aq011.mKxoxd/worktree` on branch
+`codex-aq/aq-011-cell-chain`. `kerotakis-core` now owns a project-authored,
+uniform 1-D finite-volume chain over existing `Vessel` cells. A transport step
+snapshots every outflow before mutation, applies first-order upwind transfer to
+liquid/aqueous portions, and reports explicit injected and effluent parcels so
+open-system ledgers close. Solids, surfaces, exchange sites, solid solutions,
+and headspaces remain with their cell; moved cells lose stale solution
+metadata. Typed validation covers empty/non-uniform geometry, invalid Courant
+fractions, incompatible inlet volume, invalid mobile state, and thermostatted
+cells whose bath would add an unreported energy term. The passive-tracer test
+pins repeated binomial profiles, constant cell water, stationary inventory,
+and per-step species, analytical-charge, and sensible-energy conservation. No
+exchange/surface reaction coupling, PHREEQC `TRANSPORT`, public scripting/UI,
+kinetics or MY-BASIC change, data import, dependency, or vendored-source change
+was added. Local native compilation was skipped under the load policy; CI run
+`32508147378` passed native Ubuntu/macOS, strict codex lint, both MY-BASIC
+preview gates, core/IPhreeqc/full/combined Wasm, and the real-browser demo.
+
+**Completed session — `codex-AQ` (2026-08-21, AQ-012).** Work was isolated in
+`/tmp/kerotakis-aq012.7mpydZ/worktree` on branch
+`codex-aq/aq-012-exchange-transport`. The core cell chain now supports atomic
+first-order operator splitting: conservative transport, then inlet-to-outlet
+local equilibrium with indexed event results. A failed cell solve restores the
+complete pre-step chain; a deliberate second-cell failure test pins that
+contract. The live acceptance case drives a four-cell sodium-form resin column
+through the existing typed PHREEQC `EXCHANGE` adapter for 12 pore volumes.
+Calcium effluent starts below `1e-8` of feed, exceeds 80% by pore volume 12,
+and rises by more than 25 percentage points from its midpoint. Per-step
+calcium and sodium inventories close across dissolved, exchanger-bound, inlet,
+and effluent ledgers within `2e-8 mol`, and every exchanger retains valid finite
+capacity. The hydraulic geometry comparison now admits one part per million,
+consistent with the app's documented water-only additive-volume proxy and the
+observed reactive solvent readback, while still rejecting material geometry
+changes. No surface transport, PHREEQC `TRANSPORT`, public scripting/UI,
+database/species expansion, kinetics or MY-BASIC change, data import,
+dependency, or vendored-source change was added. Local native compilation was
+skipped under the load policy; CI run `32509744496` passed native
+Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
+core/IPhreeqc/full/combined Wasm, and the real-browser demo.
+
+**Completed session — `codex-AQ` (2026-08-21, AQ-013).** Work was isolated in
+`/tmp/kerotakis-aq013.JrJDuc/worktree` on branch
+`codex-aq/aq-013-surface-transport`. A live four-cell HFO column now advances
+20 full-cell shifts over the AQ-012 reactive chain with finite stationary
+strong/weak sites. Per-step zinc and sulfate ledgers close across dissolved,
+surface-bound, inlet, and effluent inventory within `2e-8 mol`. Against a
+separate raw PHREEQC `TRANSPORT` calculation, the normalized outlet front
+agrees within one shift at half-breakthrough, 2.5% mean absolute curve error,
+and 25% at every individual grid sample. Solver reuse is isolated between
+vessels, typed surface readback is capped by analytical inventory, and the
+hydraulic allowance for surface reference water is bounded by finite site
+capacity. Raw `TRANSPORT` remains an engine-gated development oracle only;
+the app path is project-authored transport plus the existing typed `SURFACE`
+adapter. No surface-species/database expansion, public scripting/UI,
+exchange-transport change, kinetics or MY-BASIC change, imported data, new
+dependency, or vendored-source change was added. Local native compilation was
+skipped under the load policy; CI run `32514634767` passed native
+Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
+core/IPhreeqc/combined Wasm, the Wasm bench, and the real-browser demo.
+
+**Completed session — `codex-AQ` (2026-08-21, AQ-014).** Work was isolated in
+`/tmp/kerotakis-aq014.R1worktree` on branch
+`codex-aq/aq-014-r1-acceptance`. One typed R1 runner now verifies limewater, a
+carbonated bottle, HFO surface release, four-cell softener breakthrough, and
+partial brine freezing through any supplied `Equilibrator`, without a second
+chemistry implementation. Native CI runs it live, then imports the resulting
+cache into a fresh engine and proves exact replay without any new cache entry.
+The CLI prewarms the same states into the shipped postcard; cache-only Wasm
+runs all five without a solver hook, combined Wasm runs them through live
+Emscripten IPhreeqc, and the real page repeats them after its HTTP server has
+been stopped. A missing state is a named failure, never a guessed answer. The
+web build and service worker now ship/cache the result pack used by the
+offline path. No external source, dataset, dependency, database/species,
+kinetics, MY-BASIC, or vendored-source change was added. Local native
+compilation was skipped under the load policy; CI run `32516261610` passed
+native Ubuntu/macOS, strict codex lint, both MY-BASIC previews, core,
+IPhreeqc, cache-only and combined Wasm, and the online/offline browser demo.
+
+**Completed session — `codex-DATA` (2026-08-21, DATA-001).** Work was isolated in
+`/tmp/kerotakis-data001-schema` on branch `codex-data/data-001-schema`. This
+session delivered the typed source-registry contract: independently versioned
+identity, composition, phase-thermodynamic, transport, optical, safety,
+microstate, and model-parameter records, plus their validation tests. Every
+numeric record must state units, applicability conditions, uncertainty,
+source id, and derivation method. Only reviewed runtime-lane records can enter
+a future distributed pack; build and external oracles remain outside it. The
+work did not export or change the existing 75 runtime species (DATA-002),
+compile a runtime pack (DATA-003), import external data, add third-party
+dependencies, or touch kinetics, MY-BASIC, PHREEQC, or vendored sources. Local
+native builds were skipped under the load policy; CI run `32518836256` passed
+strict Clippy and native tests on Ubuntu/macOS, the data schema's `wasm32`
+compile gate, both MY-BASIC previews, IPhreeqc/cache/combined Wasm, the Wasm
+bench, and the real-browser demo.
+
+**Completed session — `codex-DATA` (2026-08-21, DATA-002).** Work continued in
+`/tmp/kerotakis-data001-schema` on branch `codex-data/data-002-export`, based
+on remote-main merge `8c5ce090`. The live seed registry contains 75 entries
+(the roadmap's earlier count of 74 predated a later addition). This slice owns
+only the generated, human-reviewable source export of those existing
+declarations and exhaustive field-diff tests proving the export cannot drift.
+All 75 sources remain build oracles with a review-required license reference;
+none can enter an app pack. The work did not change registry lookup or
+simulation behavior, compile/load the runtime pack (DATA-003/004), import
+external data, add third-party dependencies, or touch kinetics, MY-BASIC,
+PHREEQC, or vendored sources. Local native builds were skipped under the load
+policy; CI run `32520759936` passed the exporter/diff and byte-regeneration
+gates, strict Clippy and native tests on Ubuntu/macOS, both MY-BASIC previews,
+core/data/IPhreeqc/cache/combined Wasm, the Wasm bench, and the real-browser
+demo.
 
 - [ ] Cantera-YAML mechanism parser (Arrhenius + three-body + Troe covers
       GRI-Mech-class) + rate evaluator feeding diffsol

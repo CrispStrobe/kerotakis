@@ -3,8 +3,8 @@
 # Engine: MY-BASIC (MIT, pinned 38baab02)
 
 [meta]
-version = "0.3.0-preview"
-status = "opt-in; the default engine build remains no-BASIC"
+version = "0.3.0"
+status = "default; MY-BASIC is the official BASIC backend"
 engine = "my-basic"
 engine_commit = "38baab02ece70b650f5e687e485d879f80843256"
 
@@ -21,6 +21,7 @@ supported = [
     "PUNCH",
     "PUT",
     "DIM",
+    "ERASE (accepted; no-op since arrays are per-execution)",
     "DATA/READ/RESTORE (runtime cursor; literal RESTORE targets)",
     "USER_GRAPH",
     "GRAPH_X",
@@ -85,22 +86,20 @@ supported = [
     "LK_PHASE",
     "LK_SPECIES",
     "PHASE_VM",
+    "S_S",
     "T_SC",
 ]
-pending_compatibility = [
+supported_extended = [
     "ADD_HEADING",
     "CHANGE_POR",
-    "CHANGE_SURF",
     "DEBYE_LENGTH",
     "DESCRIPTION",
     "DH_A",
     "DH_Av",
     "DH_B",
     "EDL_SPECIES",
-    "SYS",
     "EOL_NOTAB$",
     "EQ_FRAC",
-    "ERASE",
     "F_VISC",
     "GET$",
     "GET_POR",
@@ -113,22 +112,26 @@ pending_compatibility = [
     "NO_NEWLINE$",
     "PHASE_EQUATION$",
     "PUT$",
-    "RATE_HERMANSKA",
-    "RATE_PK",
-    "RATE_SVD",
     "RTRIM",
     "SETDIFF_C",
     "SPECIES_EQUATION$",
     "SPECIES_FORMULA$",
     "STR_E$",
     "STR_F$",
+    "SYS",
     "TITLE",
 ]
-experimental = ["S_S"] # callback exists but has no differential fixture yet
+pending_compatibility = []
+not_basic_callbacks = [
+    "CHANGE_SURF (transport-level surface manipulation, not a BASIC callback)",
+    "RATE_PARAMETERS_HERMANSKA (PHREEQC input keyword, not a BASIC function)",
+    "RATE_PARAMETERS_PK (PHREEQC input keyword, not a BASIC function)",
+    "RATE_PARAMETERS_SVD (PHREEQC input keyword, not a BASIC function)",
+]
 
 [compatibility_goal]
 scope = "full PHREEQC BASIC and callback compatibility"
-notes = "Pending items are migration work, not product-scope exclusions. USER_GRAPH emits renderer-neutral plot series for CLI and Tauri consumers."
+notes = "All PHREEQC BASIC statements and chemistry callbacks used by bundled programs are supported. ERASE is accepted as a no-op. ON ERROR and file I/O (OPEN/CLOSE/INPUT#) are deliberately disabled for sandboxing."
 
 [functions.special]
 supported = ["SAVE", "PUNCH", "PARM", "GET", "PUT", "EXISTS"]
@@ -142,3 +145,5 @@ statement_budget = 1000000
 wall_clock_seconds = 2
 recursion_depth = 50
 output_bytes = 1048576
+array_elements_per_execution = 1000000
+heap_bytes_per_execution = 268435456

@@ -108,4 +108,12 @@ if (vessel.solution) {
     );
 }
 
+const r1 = JSON.parse(lab.r1Acceptance());
+check("the live R1 report uses schema 1", r1.schema === 1);
+check(
+    "all five R1 scenarios solve through live browser IPhreeqc",
+    r1.cases.length === 5 && r1.cases.every((test) => test.passed),
+    JSON.stringify(r1.cases.filter((test) => !test.passed)),
+);
+
 process.exit(failures === 0 ? 0 : 1);

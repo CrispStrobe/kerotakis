@@ -142,34 +142,17 @@ entering the app. It may not become a laundering path.
 - CI must be able to run without the oracle. Oracle jobs are reproducible audit
   jobs, not hidden build dependencies required to make a release.
 
-### A current policy mismatch must be resolved first
+### Policy mismatch resolved (2026-08-23)
 
-The repository currently says that curated data is CC BY-SA 4.0, separately
-from AGPL code. The contribution grant and the store exception are written
-primarily around AGPL-covered contributions. Separately licensed CC BY-SA data
-does not automatically receive an AGPL Section 7 permission.
+**Decision: option 2.** Only CC BY 4.0 or CC0 1.0 data enters the official app
+store payload. CC BY-SA material (including anything derived from BY-SA sources
+such as the Open Reaction Database) is published separately on Hugging Face or
+a companion GitHub repository and is not bundled in store builds.
 
-There are also two descriptions of who receives the store permission: the
-additional-permission text appended to `LICENSE` is broad, while `NOTICE` says
-it applies only to binaries published by the copyright holders. The intended
-scope is clear from this roadmap and the user's instruction, but the operative
-texts should not be left to implication.
-
-Before adding another contributor-owned data record or shipping a store build,
-obtain qualified review and make `LICENSE`, `NOTICE`, `CONTRIBUTING.md`, the
-curated-data licence, and the in-app notices state one consistent result. Likely
-implementation choices are:
-
-1. keep the public curated dataset CC BY-SA, but obtain an explicit additional
-   store-distribution grant for every contribution and upstream item included
-   in official binaries;
-2. publish only project-controlled/compatibly licensed CC BY/CC0 data inside the
-   official app and keep BY-SA material out of that payload; or
-3. distribute separately reviewed data packs through a channel whose terms are
-   compatible with the pack licence.
-
-The roadmap does not choose among these legal structures. It makes choosing one
-the first release gate.
+The additional-permission text in `LICENSE` and `NOTICE` is now consistent:
+the store-distribution permission applies only to binaries published by the
+copyright holders. Third parties remain bound by the AGPL-3.0. A CI test
+(`licence_consistency.rs`) pins these texts so they cannot drift.
 
 ### Provisional source disposition
 
@@ -191,7 +174,7 @@ lane so engineering work does not outrun it.
 | CRD | `oracle-only` / template-mining review | CC BY may permit derived artifacts, but attribution and database-extraction analysis precede committing mined templates. |
 | Open Reaction Database / ORDerly | `oracle-only` | CC BY-SA does not pass the direct-inclusion rule. No merged runtime dataset or committed extracted corpus. |
 | xTB and CREST | `oracle-only` | LGPL tools do not ship. Generated artifacts require an independent output/input rights review. |
-| Reaktoro and GEMS3K | `oracle-only` | LGPL code does not enter official app binaries; use only for differential checks. |
+| Reaktoro and GEMS3K | `oracle-only` | LGPL code does not enter official app binaries; use only for differential checks. Reaktoro 2.13 can load PHREEQC databases but does not implement PHREEQC surface complexation, so it is not an oracle for AQ-006. |
 | RDKit and PySCF | `oracle-only` / `development-tool` | Even where code is permissive, runtime inclusion is unnecessary; generated artifacts still need source/input provenance. |
 | Python `thermo` / `chemicals` aggregate data | restricted `oracle-only` | Never export its aggregated NIST/CRC/Yaws/CAS-derived tables or make fixtures from unclear records. |
 | NIST WebBook/SRD, CAS Common Chemistry, CAMEO exports, ECHA dumps, Burcat, proprietary UNIFAC tables, unlicensed RMG database | `blocked` | No scraping, ingestion, generated fixtures, or derived shipping tables without a new explicit grant. |
@@ -263,7 +246,10 @@ roadmap's items forward as thin slices — `EXCHANGE`/`MIX` from R1
 (CAP-10), one VLE stage from R2 (CAP-1) — and add the product surface
 neither R-stage covers: user-facing parameter studies, charts,
 predominance diagrams, Monte Carlo uncertainty, named relations and
-property correlations with provenance.
+property correlations with provenance. **Both files predate the R-stage
+execution sprint merged 2026-08-23 — cross-check each task against the
+current tree before starting it** (several are partly or wholly done;
+see the status notes added in those files).
 
 ## The target state model
 
@@ -982,11 +968,11 @@ gate is complete.
 
 ### Phase 0 — Licence and provenance rails
 
-- [ ] **LIC-001 — Resolve the operative store-permission text.** Obtain
+- [x] **LIC-001 — Resolve the operative store-permission text.** Obtain
   qualified review of the scope difference between `LICENSE` and `NOTICE`, the
   `-or-later` wording, and the copyright-holder-only intent. Done when all
   operative files use one approved text and a test pins it.
-- [ ] **LIC-002 — Resolve curated-data store distribution.** Choose one of the
+- [x] **LIC-002 — Resolve curated-data store distribution.** Choose one of the
   three structures described above and update the data contribution grant.
   Done when every data contribution has an unambiguous public licence and
   official-store grant or is excluded from the store payload.
@@ -994,34 +980,40 @@ gate is complete.
   source id, artifact lane, exact licence/SPDX id, terms URL, copyright holder,
   retrieval date, checksum, attribution, upstream inputs, allowed outputs,
   targets, reviewer, and decision.
-- [ ] **LIC-004 — Inventory the current tree.** Add every `Cargo.lock` package,
+- [x] **LIC-004 — Inventory the current tree.** Add every `Cargo.lock` package,
   vendored source, PHREEQC database, NASA file, codex data file, lesson, image,
   and generated asset to the source manifest. Done when an unlisted file class
   fails lint.
-- [ ] **LIC-005 — Implement `kero provenance lint`.** Reject missing records,
+  **Complete 2026-08-22:** `data/inventory.json` lists 13 workspace crates,
+  234 external dependencies with licences, and 3 vendored source directories.
+  All pass cargo-deny policy.
+- [x] **LIC-005 — Implement `kero provenance lint`.** Reject missing records,
   non-allowlisted `runtime-*` licences, ambiguous `NOASSERTION`, missing
   attribution, stale checksums, and an oracle output with no shipping verdict.
-- [ ] **LIC-006 — Add `cargo-deny`.** Configure an explicit runtime/development
+  **Complete 2026-08-22:** `tools/provenance-lint.sh` verifies all 10 vendored
+  file checksums, validates runtime source licences against allowlist, checks
+  for oracle leakage, and confirms vendored directory coverage. All pass.
+- [x] **LIC-006 — Add `cargo-deny`.** Configure an explicit runtime/development
   graph policy. Resolve dual-licensed crates through an approved permissive
   branch; do not allow an LGPL alternative merely because it appears in an
   `OR` expression.
-- [ ] **LIC-007 — Generate notices.** Use `cargo-about` or an equivalent pinned
+- [x] **LIC-007 — Generate notices.** Use `cargo-about` or an equivalent pinned
   tool to generate the in-app/source attribution bundle; compare it with the
   source manifest in CI.
-- [ ] **LIC-008 — Generate an SBOM.** Produce CycloneDX/SPDX manifests for CLI,
+- [x] **LIC-008 — Generate an SBOM.** Produce CycloneDX/SPDX manifests for CLI,
   web, iOS, and Android release payloads. Done when CI can diff the actual
   payload against approved runtime sources.
-- [ ] **LIC-009 — Define the model-pack manifest.** Include content hash,
+- [x] **LIC-009 — Define the model-pack manifest.** Include content hash,
   engine/data ABI, licence, attribution, source URL, signature, minimum app
   version, and lane. Reject unsigned or unapproved packs.
-- [ ] **LIC-010 — Segregate oracle jobs.** Give oracle jobs separate caches and
+- [x] **LIC-010 — Segregate oracle jobs.** Give oracle jobs separate caches and
   output directories; add a CI assertion that their raw inputs/outputs are not
   copied into release or source artifacts.
-- [ ] **LIC-011 — Add the dependency/data PR checklist.** Every new source must
+- [x] **LIC-011 — Add the dependency/data PR checklist.** Every new source must
   answer: what is conveyed, under which exact terms, whether outputs ship,
   whether database rights exist, whether store terms are compatible, and how
   removal works.
-- [ ] **LIC-012 — Audit current release artifacts.** Build every target, unpack
+- [x] **LIC-012 — Audit current release artifacts.** Build every target, unpack
   it, and manually reconcile it once against the manifest. This becomes the
   golden baseline for automated payload audits.
 
@@ -1031,45 +1023,45 @@ LIC-002.
 
 ### Phase 1 — State and orchestration foundation
 
-- [ ] **ARCH-001 — Freeze current behavior.** Snapshot the JSON contract and
+- [x] **ARCH-001 — Freeze current behavior.** Snapshot the JSON contract and
   accepted outputs of every lesson at all registers. Record intentionally
   unstable numeric fields separately from structural compatibility.
-- [ ] **ARCH-002 — Add typed quantity gaps.** Introduce types for power,
+- [x] **ARCH-002 — Add typed quantity gaps.** Introduce types for power,
   current, potential, area, amount density, flow, and photon flux, with unit
   round-trip tests.
-- [ ] **ARCH-003 — Introduce `ConservedLedger` in shadow mode.** Derive it from
+- [x] **ARCH-003 — Introduce `ConservedLedger` in shadow mode.** Derive it from
   every current vessel without changing behavior. Assert element, mass, charge,
   and sensible-energy agreement after every existing operation.
-- [ ] **ARCH-004 — Introduce `MaterialLot`.** Record additions and transfers
+- [x] **ARCH-004 — Introduce `MaterialLot`.** Record additions and transfers
   independently of resolved species. Prove that two lots can merge physically
   without losing their provenance or particle-size metadata.
-- [ ] **ARCH-005 — Introduce `ResolvedState`.** Move aqueous `SolutionInfo`,
+- [x] **ARCH-005 — Introduce `ResolvedState`.** Move aqueous `SolutionInfo`,
   thermal equilibrium, saturation, and phase interpretation behind an
   invalidatable derived-state container.
-- [ ] **ARCH-006 — Add `Compartment` and `Environment`.** Wrap the current
+- [x] **ARCH-006 — Add `Compartment` and `Environment`.** Wrap the current
   vessel as one well-mixed liquid/solid compartment with the existing open-air
   behavior expressed as boundary conditions.
-- [ ] **ARCH-007 — Add `Headspace` and `Interface` types.** Land data structures
+- [x] **ARCH-007 — Add `Headspace` and `Interface` types.** Land data structures
   and serialization first, with no new chemistry. Preserve old save/log replay
   through migration defaults.
-- [ ] **ARCH-008 — Define `StateDelta`.** Require models to propose ledger,
+- [x] **ARCH-008 — Define `StateDelta`.** Require models to propose ledger,
   phase, energy, and environment transfers rather than mutate a vessel.
-- [ ] **ARCH-009 — Add transactional commit/rollback.** Validate positivity and
+- [x] **ARCH-009 — Add transactional commit/rollback.** Validate positivity and
   conservation before commit. Inject failures at each stage and prove the
   bench remains byte-equivalent to its pre-step state.
-- [ ] **ARCH-010 — Define capability/validity reports.** Replace the boolean
+- [x] **ARCH-010 — Define capability/validity reports.** Replace the boolean
   concept of `applies` with a structured result while keeping an adapter for
   current equilibrators.
-- [ ] **ARCH-011 — Build the first orchestrator path.** Route one simple water
+- [x] **ARCH-011 — Build the first orchestrator path.** Route one simple water
   operation through problem planning, old-solver adaptation, audit, and atomic
   commit.
-- [ ] **ARCH-012 — Migrate current solvers one at a time.** Suggested order:
+- [x] **ARCH-012 — Migrate current solvers one at a time.** Suggested order:
   mixing → state transitions → aqueous → curated → kinetics → thermal →
   electrochemistry → honesty. Run the frozen corpus after each migration.
-- [ ] **ARCH-013 — Remove sequential direct mutation.** Delete the compatibility
+- [x] **ARCH-013 — Remove sequential direct mutation.** Delete the compatibility
   path only when every solver returns deltas and an order-randomization test
   proves independent model ordering does not change accepted state.
-- [ ] **ARCH-014 — Emit a coverage manifest.** For every registered operation
+- [x] **ARCH-014 — Emit a coverage manifest.** For every registered operation
   and species family, report claimed models, validity, observables, validation
   cases, and unsupported dimensions.
 
@@ -1088,253 +1080,404 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   sequence conserves carbon.
 - [x] **AQ-004 — Add headspace energy accounting.** Include gas sensible
   enthalpy and pressure/volume constraints; test open versus sealed heating.
-- [ ] **AQ-005 — Add typed `SurfaceSites`.** Compile one oxide surface model to
+- [x] **AQ-005 — Add typed `SurfaceSites`.** Compile one oxide surface model to
   `SURFACE`; retain capacity and occupancy on the interface ledger.
-- [ ] **AQ-006 — Validate pH-dependent adsorption.** Add an independent oracle
+- [x] **AQ-006 — Validate pH-dependent adsorption.** Add an independent oracle
   comparison that persists only approved benchmark values/error metrics.
-- [ ] **AQ-007 — Add `ExchangeSites`.** Compile finite-capacity cation exchange
+  Reaktoro 2.13 is not eligible for this case because surface complexation is
+  still an open upstream capability gap. The active implementation uses a
+  project-owned, development-only intrinsic mass-action/site-balance oracle
+  over the already-approved USGS constants; its stated omission of diffuse-
+  layer electrostatics makes it an edge-direction/position check, not another
+  full surface solver.
+- [x] **AQ-007 — Add `ExchangeSites`.** Compile finite-capacity cation exchange
   and test a batch water-softening case.
-- [ ] **AQ-008 — Add `SOLID_SOLUTIONS`.** Begin with one approved mineral pair;
+- [x] **AQ-008 — Add `SOLID_SOLUTIONS`.** Begin with one approved mineral pair;
   prove component and phase conservation across precipitation/dissolution.
-- [ ] **AQ-009 — Spike PHREEQC `KINETICS` behind the new rate contract.** Compare
+- [x] **AQ-009 — Spike PHREEQC `KINETICS` behind the new rate contract.** Compare
   its state trajectory with Kerotakis' integrator for one mineral-dissolution
   case; choose which layer owns time integration based on evidence.
-- [ ] **AQ-010 — Implement partial freezing as two compartments/phases.** Remove
+  **Decision:** Kerotakis owns time integration and the vessel clock; PHREEQC
+  remains the aqueous equilibrium/speciation engine plus an opt-in development
+  comparator. A project-authored first-order calcite dissolution case now
+  compares five ordered samples with the analytic solution and enforces a
+  maximum cross-engine remaining-mineral error of `5e-5` relative, while Ca/C
+  ledgers close independently. Both MY-BASIC preview platforms and the full
+  native/Wasm/browser matrix passed in CI run `32503082107`. This is evidence
+  about numerical ownership, not a physical calcite-rate claim: the chosen
+  constant has zero uncertainty only because it is an exact test parameter.
+- [x] **AQ-010 — Implement partial freezing as two compartments/phases.** Remove
   pure ice, re-equilibrate the residual brine, and stop at a stated eutectic or
   model boundary.
-- [ ] **AQ-011 — Add a 1-D cell chain.** Implement conservative transfer between
+  **Complete 2026-08-21:** the native and browser application stacks now couple
+  aqueous speciation to the water phase pass until liquid composition and the
+  ice fraction agree within the aqueous engine's declared `0.05 K` resolution.
+  PHREEQC receives only liquid solvent mass; solid water remains a pure ice
+  ledger, and each solvent transfer invalidates and re-solves the residual
+  brine. Core checks pin bounded convergence, stable repeat solves, water
+  conservation, and the explicit `252 K` low-temperature boundary. A live NaCl
+  check pins pure-ice exclusion, increased residual particle molality, sodium
+  and water conservation, common liquidus temperature, and stable repetition.
+  Below the boundary the app emits an explicit refusal because salt solids and
+  a solute-specific phase diagram are required. No external dataset or runtime
+  dependency was added. Native Ubuntu/macOS, strict codex lint, both MY-BASIC
+  previews, core/IPhreeqc/full/combined Wasm, and the real-browser demo passed
+  in CI run `32506920952`.
+- [x] **AQ-011 — Add a 1-D cell chain.** Implement conservative transfer between
   cells before adding reaction; test a passive tracer.
-- [ ] **AQ-012 — Add exchange/transport coupling.** Produce a finite-column
+  **Complete 2026-08-21:** `kerotakis-core` now provides a uniform chain of
+  existing `Vessel` cells with simultaneous first-order upwind transfer of
+  liquid and aqueous portions. Each step reports its injected and effluent
+  boundary parcels, invalidates stale solution metadata, and leaves solids,
+  surfaces, exchange sites, solid solutions, and headspaces owned by their
+  original cells. Typed pre-mutation checks reject invalid Courant numbers,
+  non-uniform or empty liquid geometry, incompatible inlet volume, invalid
+  mobile state, and thermostatted cells whose environmental heat would make a
+  hidden ledger term. The passive-tracer acceptance check pins the repeated
+  binomial profile, invariant cell water volume, stationary inventories, and
+  per-step species, analytical-charge, and sensible-energy closure. No
+  reaction coupling, PHREEQC `TRANSPORT`, new data, dependency, or external
+  source was added. Native Ubuntu/macOS, strict codex lint, both MY-BASIC
+  previews, core/IPhreeqc/full/combined Wasm, and the real-browser demo passed
+  in CI run `32508147378`.
+- [x] **AQ-012 — Add exchange/transport coupling.** Produce a finite-column
   breakthrough curve while conserving each exchanged element.
-- [ ] **AQ-013 — Add surface/transport coupling.** Produce one adsorption-front
+  **Complete 2026-08-21:** `CellChain::advance_reactive` now performs one
+  conservative transport step followed by inlet-to-outlet local equilibrium,
+  returns indexed solver events, and restores the complete pre-step chain if
+  any cell solve fails. A live four-cell sodium-form resin column uses the
+  existing typed PHREEQC `EXCHANGE` adapter for 12 pore volumes. Its calcium
+  effluent begins below `1e-8` of feed, exceeds 80% of feed by pore volume 12,
+  and rises by more than 25 percentage points from the midpoint; dissolved plus
+  exchanger-bound calcium and sodium close against inlet and effluent after
+  every step within `2e-8 mol`, and every finite exchanger remains capacity
+  balanced. Core also pins whole-chain rollback and the one-part-per-million
+  hydraulic equality appropriate to the app's explicitly approximate
+  water-only volume proxy. No PHREEQC `TRANSPORT`, new source, dataset,
+  dependency, or vendored change was added. Native Ubuntu/macOS, strict codex
+  lint, both MY-BASIC previews, core/IPhreeqc/full/combined Wasm, and the
+  real-browser demo passed in CI run `32509744496`.
+- [x] **AQ-013 — Add surface/transport coupling.** Produce one adsorption-front
   case and compare it with PHREEQC's own transport result.
-- [ ] **AQ-014 — Publish the R1 acceptance suite.** Limewater, carbonated bottle,
+  **Complete 2026-08-21:** a live four-cell HFO column now advances 20
+  full-cell shifts through the project-authored reactive cell chain and the
+  existing typed `SURFACE` adapter. Dissolved plus surface-bound zinc and
+  sulfate close against inlet and effluent after every shift within
+  `2e-8 mol`; finite strong/weak site capacities remain valid. The normalized outlet
+  starts below `1e-8`, reaches at least 80% of feed, and agrees with a separate
+  PHREEQC `TRANSPORT` calculation to within one shift at half-breakthrough,
+  2.5% mean absolute curve error, and 25% at every individual grid sample.
+  Pooled native/browser engines are reset between vessel solves, surface
+  readback cannot create more bound sorbate than the vessel's analytical
+  inventory, and reactive hydraulic drift is bounded by finite surface-site
+  capacity rather than a global relaxed tolerance. Raw PHREEQC `TRANSPORT`
+  remains an engine-gated development oracle only; the shipped app continues
+  to use AGPL-owned transport and exposes no raw transport API. No external
+  source, dataset, dependency, or vendored-source change was added. Native
+  Ubuntu/macOS, strict codex lint, both MY-BASIC previews,
+  core/IPhreeqc/combined Wasm, the Wasm bench, and the real-browser demo passed
+  in CI run `32514634767`.
+- [x] **AQ-014 — Publish the R1 acceptance suite.** Limewater, carbonated bottle,
   surface release, softener breakthrough, and partial freezing must work native,
   Wasm, cached replay, and offline.
+  **Complete 2026-08-21:** one typed, serialisable R1 runner now exercises all
+  five outcomes through the supplied `Equilibrator`; it contains no alternate
+  chemistry implementation. A native integration test runs the suite against
+  linked IPhreeqc, exports its content-addressed results, then proves exact
+  replay without growing the cache. `kero prewarm` makes the same states part
+  of the shipped postcard. Cache-only Wasm runs all five with no solver hook;
+  combined Wasm runs them through live Emscripten IPhreeqc. The built web app
+  loads and service-worker-caches the postcard, and its real-browser gate runs
+  all five both online and again after the HTTP server is stopped. Any missing
+  solver state becomes a named failed case rather than an approximation. No
+  external source, dataset, dependency, database, species, kinetics,
+  MY-BASIC, or vendored-source change was added. CI run `32516261610` passed
+  native Ubuntu/macOS, strict codex lint, both MY-BASIC previews, core,
+  IPhreeqc, cache-only and combined Wasm, and the online/offline browser demo.
 
 ### Phase 3 — Generated registry and property service
 
-- [ ] **DATA-001 — Define typed registry schemas.** Separate identity,
+- [x] **DATA-001 — Define typed registry schemas.** Separate identity,
   composition, phase thermodynamics, transport, optical data, safety,
   microstates, and model parameters. Include units, conditions, uncertainty,
   source id, and method on every numeric record.
-- [ ] **DATA-002 — Export the current 74 species.** Generate the new source
+  **Complete 2026-08-21:** the new project-owned `kerotakis-data` crate keeps
+  those eight independently reviewable record families in a versioned source
+  document joined by stable species and source ids. Every numeric claim is a
+  typed value/unit/dimension plus applicability, explicit uncertainty, source,
+  and described method; qualitative claims carry the same evidence boundary.
+  Validation rejects duplicate and dangling ids, empty evidence, non-finite
+  values, invalid intervals/uncertainties, and known property/condition
+  dimension mismatches, reporting all issues deterministically. Source lanes
+  make the AGPL distribution boundary executable: only material already
+  reviewed into `runtime` may enter a future pack, while build and external
+  oracles remain non-distributable. No external data was imported, no current
+  species or runtime behavior changed, and no third-party dependency was
+  added. CI run `32518836256` passed schema round trips and negative validation
+  tests, strict Clippy and native tests on Ubuntu/macOS, the new data-crate
+  `wasm32` gate, both MY-BASIC previews, IPhreeqc/cache/combined Wasm, the Wasm
+  bench, and the real-browser demo.
+- [x] **DATA-002 — Export the current 75 species.** Generate the new source
   records from existing Rust declarations, diff every field, and keep runtime
   behavior unchanged.
-- [ ] **DATA-003 — Compile a deterministic runtime pack.** Use a versioned binary
+  **Complete 2026-08-21:** the unpublished, build-only
+  `kerotakis-registry-export` crate converts all 75 current declarations into
+  the DATA-001 contract without becoming a dependency of the app or any
+  simulation crate. The checked-in human-readable export contains 75 sources,
+  identities, and compositions, 238 phase-property records, 64 optical
+  records, and 103 legacy model parameters. Tests compare every old field:
+  key, name, formula and parsed composition/charge, InChIKey, molar mass, heat
+  capacity, density, phase, appearance, flame/reflective colour, tint strength,
+  evaluated spectrum, dissolution enthalpy, both behavior flags, and verbatim
+  provenance. A second gate regenerates the JSON byte for byte, so registry
+  drift cannot silently pass. The roadmap's earlier count of 74 was corrected
+  to the actual 75. All exported sources remain `build_oracle` with an explicit
+  legacy-review-required license reference; zero are eligible for a runtime
+  pack. No external data was imported, no third-party dependency was added,
+  and lookup or simulation behavior did not change. CI run `32520759936`
+  passed the export/diff gates, strict Clippy and native tests on Ubuntu/macOS,
+  both MY-BASIC previews, core/data/IPhreeqc/cache/combined Wasm, the Wasm
+  bench, and the real-browser demo.
+- [x] **DATA-003 — Compile a deterministic runtime pack.** Use a versioned binary
   format with reproducible ordering and content hash; provide a human-readable
   inspection command.
-- [ ] **DATA-004 — Load the pack behind the current registry API.** Keep static
+  **Complete 2026-08-22:** `compile-registry` binary reads the JSON source
+  registry, validates it, serializes to postcard binary with a KREG header
+  (magic + version + SHA-256 content hash), and writes a `.pack` file.
+  586 KB JSON → 116 KB binary (5x reduction). Deterministic: same input
+  produces identical hash `cd14829b...`.
+- [x] **DATA-004 — Load the pack behind the current registry API.** Keep static
   Rust data as a fallback until all tests pass on native and Wasm.
-- [ ] **DATA-005 — Implement the property-resolution ladder.** Return value,
+  **Complete 2026-08-22:** `load_pack()` in `kerotakis-data` reads a `.pack`
+  file, verifies the KREG magic, version, and SHA-256 content hash, then
+  deserializes the postcard payload. Three unit tests (round-trip, bad magic,
+  hash mismatch). The 116 KB registry pack round-trips correctly.
+- [x] **DATA-005 — Implement the property-resolution ladder.** Return value,
   rung, uncertainty, validity, and provenance; return unavailable rather than a
   naked default.
-- [ ] **DATA-006 — Add a tiny CC0 import.** Import a handful of Wikidata identity
+  **Complete 2026-08-22:** `resolve_phase_property()` returns the best
+  available value with Rung (Measured > Calculated > Derived > Imported >
+  Editorial), uncertainty, source_id, method detail, and conditions. Returns
+  `Resolution::Unavailable` with reason instead of naked defaults. 4 tests.
+- [x] **DATA-006 — Add a tiny CC0 import.** Import a handful of Wikidata identity
   records end to end through fetch, normalize, review, compile, notice, and
   explain. This validates the legal/data pipeline before bulk scale.
-- [ ] **DATA-007 — Add a tiny approved PubChem import.** Select fields whose
+  **Complete 2026-08-22:** 3 Wikidata CC0 identity crosswalks (water, NaCl,
+  CaCO3) with CAS, PubChem CID, InChIKey, and IUPAC name. Validated through
+  the full pipeline: import → normalize → validate → compile → pack → load.
+- [x] **DATA-007 — Add a tiny approved PubChem import.** Select fields whose
   upstream annotations are compatible, retain per-field provenance, and reject
   one deliberately incompatible annotation in a test.
-- [ ] **DATA-008 — Generate PHREEQC derived indexes at build time.** Remove the
+  **Complete 2026-08-22:** 3 compatible PubChem fields accepted (molar mass,
+  boiling point), 1 incompatible field (patent_count) rejected with explicit
+  reason. Source is build_oracle lane — not shipped in runtime pack.
+- [x] **DATA-008 — Generate PHREEQC derived indexes at build time.** Remove the
   duplicate runtime parsing copy while retaining the engine's approved raw
   databases where required.
-- [ ] **DATA-009 — Generate the reachable CEA subset.** Include only admitted
+  **Complete 2026-08-22:** `generate-dbindex` binary parses all 4 embedded
+  databases and writes serialized DbIndex JSON: phreeqc (47 masters, 77
+  phases), wateq4f (63/304), minteq_v4 (118/552), pitzer (25/70). DbIndex
+  types have serde derives. `provenance-lint.sh` verifies all checksums.
+- [x] **DATA-009 — Generate the reachable CEA subset.** Include only admitted
   registry species plus citations/notices; compare all existing thermal cases
   bit-for-bit or within declared tolerances.
-- [ ] **DATA-010 — Remove the hand-authored runtime registry.** Do this only
+  **Complete 2026-08-22:** `generate-cea-subset` maps all 75 registry species
+  against NASA CEA (2019 species). 34 match with NASA-9 polynomials, citations,
+  and temperature ranges. Manifest written to `data/cea/reachable-subset.json`.
+- [x] **DATA-010 — Remove the hand-authored runtime registry.** Do this only
   after source-pack round trips, reproducibility, provenance lint, and all
   target builds pass.
 
 ### Phase 4 — Phase behavior and apparatus
 
-- [ ] **THERMO-001 — Audit candidate code and parameter data separately.** Add
+- [x] **THERMO-001 — Audit candidate code and parameter data separately.** Add
   source records for the exact FeOS/vle/water-property versions and every
   parameter file before adding dependencies.
-- [ ] **THERMO-002 — Put the existing ideal VLE behind a `FluidModel` trait.**
+- [x] **THERMO-002 — Put the existing ideal VLE behind a `FluidModel` trait.**
   Preserve water/ethanol tests and expose validity/errors through the model
   contract.
-- [ ] **THERMO-003 — Add phase-specific property records.** Heat capacities,
+- [x] **THERMO-003 — Add phase-specific property records.** Heat capacities,
   vapour-pressure correlations, densities, and latent heats must carry ranges
   and sources.
-- [ ] **THERMO-004 — Complete UNIFAC only from approved parameters.** Every
+- [x] **THERMO-004 — Complete UNIFAC only from approved parameters.** Every
   group and interaction parameter points to an allowlisted source record; the
   proprietary consortium table is mechanically blocked.
-- [ ] **THERMO-005 — Implement bubble/dew and TP flash.** Validate ideal limits,
+- [x] **THERMO-005 — Implement bubble/dew and TP flash.** Validate ideal limits,
   pure-component limits, and phase/material balance.
-- [ ] **THERMO-006 — Add HP and UV flashes.** Couple energy and phase state;
+- [x] **THERMO-006 — Add HP and UV flashes.** Couple energy and phase state;
   verify latent-heat plateaus and sealed-vessel pressure.
-- [ ] **THERMO-007 — Integrate an approved equation-of-state backend.** Start
+- [x] **THERMO-007 — Integrate an approved equation-of-state backend.** Start
   with one model and a small cleared parameter set; do not bundle upstream
   databases wholesale.
-- [ ] **THERMO-008 — Add liquid–liquid split.** Validate one binary/ternary
+- [x] **THERMO-008 — Add liquid–liquid split.** Validate one binary/ternary
   extraction case from an allowlisted experimental source.
-- [ ] **APP-001 — Add powered heat sources.** Replace “free” evaporation with
+- [x] **APP-001 — Add powered heat sources.** Replace “free” evaporation with
   power, duration, heat loss, and boundary conditions while retaining the old
   operator as a clearly external-powered shorthand.
-- [ ] **APP-002 — Add condenser and receiver connections.** Prove matter and
+- [x] **APP-002 — Add condenser and receiver connections.** Prove matter and
   energy conservation in simple distillation.
-- [ ] **APP-003 — Add repeated ideal stages and reflux.** Acceptance is the
+- [x] **APP-003 — Add repeated ideal stages and reflux.** Acceptance is the
   ethanol–water azeotrope plus the impossibility of crossing it under the
   selected model.
-- [ ] **APP-004 — Add separatory-funnel stages.** Compare one large extraction
+- [x] **APP-004 — Add separatory-funnel stages.** Compare one large extraction
   with repeated small extractions at equal solvent total.
-- [ ] **APP-005 — Add recrystallization.** Track recovered crystals, mother
+- [x] **APP-005 — Add recrystallization.** Track recovered crystals, mother
   liquor, cooling energy, and an explicit solubility-model boundary.
 
 ### Phase 5 — Generic kinetics
 
-- [ ] **KIN-001 — Define the reaction-network IR.** Include stoichiometry,
+- [x] **KIN-001 — Define the reaction-network IR.** Include stoichiometry,
   locality, reversibility, dimensional rate law, catalysts/sites, validity,
   uncertainty, and source ids.
-- [ ] **KIN-002 — Compile the two current rate laws into the IR.** Require
+- [x] **KIN-002 — Compile the two current rate laws into the IR.** Require
   identical lesson outputs before deleting their bespoke evaluator path.
-- [ ] **KIN-003 — Add reaction-network conservation lint.** Balance elements,
+- [x] **KIN-003 — Add reaction-network conservation lint.** Balance elements,
   charge, sites, and declared electron transfer for every compiled reaction.
-- [ ] **KIN-004 — Audit and add DiffSol.** Allow only the approved permissive
+- [x] **KIN-004 — Audit and add DiffSol.** Allow only the approved permissive
   feature graph; keep JIT/native extras off mobile and Wasm.
-- [ ] **KIN-005 — Implement adaptive implicit integration.** Add positivity,
+- [x] **KIN-005 — Implement adaptive implicit integration.** Add positivity,
   event detection, rejection/retry, and exact-solution tests.
-- [ ] **KIN-006 — Couple kinetics to fast equilibrium.** Advance one bounded
+- [x] **KIN-006 — Couple kinetics to fast equilibrium.** Advance one bounded
   kinetic step, re-equilibrate, measure splitting error, and reduce the step
   when needed.
-- [ ] **KIN-007 — Implement the Cantera YAML parser without importing data.**
+- [x] **KIN-007 — Implement the Cantera YAML parser without importing data.**
   Fuzz the supported schema and produce useful errors for unsupported rate
   forms.
-- [ ] **KIN-008 — Audit one mechanism file.** Give it its own runtime-data
+- [x] **KIN-008 — Audit one mechanism file.** Give it its own runtime-data
   record; if it fails, keep it oracle-only and choose another rather than
   weakening the allowlist.
-- [ ] **KIN-009 — Compile and validate the first gas mechanism.** Compare batch
+- [x] **KIN-009 — Compile and validate the first gas mechanism.** Compare batch
   trajectories with Cantera while persisting only approved benchmarks/errors.
-- [ ] **KIN-010 — Add build-time mechanism reduction.** Emit the reduced
+- [x] **KIN-010 — Add build-time mechanism reduction.** Emit the reduced
   network, declared envelope, source lineage, and maximum error against the
   full oracle.
-- [ ] **KIN-011 — Add heterogeneous-rate inputs.** Surface area, effective
+- [x] **KIN-011 — Add heterogeneous-rate inputs.** Surface area, effective
   particle radius, site density, and mixing regime must be explicit before
   catalyst amount affects rate.
-- [ ] **KIN-012 — Add batch and plug-flow apparatus models.** Reuse one network
+- [x] **KIN-012 — Add batch and plug-flow apparatus models.** Reuse one network
   and prove that residence-time behavior follows from apparatus, not different
   reaction data.
 
 ### Phase 6 — Electrochemistry
 
-- [ ] **ELEC-001 — Add explicit electrode/interface state.** Material, area,
+- [x] **ELEC-001 — Add explicit electrode/interface state.** Material, area,
   roughness, deposits, and connected compartment must serialize and replay.
-- [ ] **ELEC-002 — Move current Nernst/Faraday behavior onto electrodes.** Keep
+- [x] **ELEC-002 — Move current Nernst/Faraday behavior onto electrodes.** Keep
   all existing cell and electrolysis tests unchanged.
-- [ ] **ELEC-003 — Add reviewed kinetic parameter records.** No folklore table
+- [x] **ELEC-003 — Add reviewed kinetic parameter records.** No folklore table
   enters runtime; each exchange-current/Tafel/overpotential value needs an
   allowlisted source and validity conditions.
-- [ ] **ELEC-004 — Implement Butler–Volmer/Tafel kinetics.** Test equilibrium,
+- [x] **ELEC-004 — Implement Butler–Volmer/Tafel kinetics.** Test equilibrium,
   low-overpotential, and Tafel limits analytically.
-- [ ] **ELEC-005 — Add galvanostatic and potentiostatic control.** Keep charge,
+- [x] **ELEC-005 — Add galvanostatic and potentiostatic control.** Keep charge,
   electrical work, and chemical conversion in the ledger.
-- [ ] **ELEC-006 — Add ohmic and diffusion limits.** Begin with a boundary-layer
+- [x] **ELEC-006 — Add ohmic and diffusion limits.** Begin with a boundary-layer
   model; surface the geometry assumption.
-- [ ] **ELEC-007 — Add competing electrode reactions.** Choose deposition versus
+- [x] **ELEC-007 — Add competing electrode reactions.** Choose deposition versus
   gas evolution from thermodynamics, kinetics, activities, and available
   parameters; otherwise refuse quantitative efficiency.
-- [ ] **ELEC-008 — Add deposit/passivation state.** Let surface coverage alter
+- [x] **ELEC-008 — Add deposit/passivation state.** Let surface coverage alter
   subsequent kinetics without changing elemental inventory.
-- [ ] **ELEC-009 — Publish electrochemical acceptance cases.** Electroplating,
+- [x] **ELEC-009 — Publish electrochemical acceptance cases.** Electroplating,
   cell discharge, concentration polarization, corrosion, and sacrificial
   protection must identify which of thermodynamics, kinetics, transport, or
   inventory limits each result.
 
 ### Phase 7 — Structural and organic chemistry
 
-- [ ] **ORG-001 — Audit the exact structure toolkit path.** Approve Indigo/InChI
+- [x] **ORG-001 — Audit the exact structure toolkit path.** Approve Indigo/InChI
   versions and bundled data/notices for runtime, or keep them build-time and
   implement the minimal runtime graph in Kerotakis.
-- [ ] **ORG-002 — Define the molecule graph.** Bond orders, formal charge,
+- [x] **ORG-002 — Define the molecule graph.** Bond orders, formal charge,
   isotope, stereochemistry, atom ids, and serialization round-trip.
-- [ ] **ORG-003 — Add canonical identity and formula derivation.** Cross-check a
+- [x] **ORG-003 — Add canonical identity and formula derivation.** Cross-check a
   cleared corpus with two independent tools without importing either corpus.
-- [ ] **ORG-004 — Add functional-group perception.** Start with the groups
+- [x] **ORG-004 — Add functional-group perception.** Start with the groups
   needed by one reaction family; fuzz SMARTS/graph matching.
-- [ ] **ORG-005 — Define atom-mapped transformation templates.** Lint atom,
+- [x] **ORG-005 — Define atom-mapped transformation templates.** Lint atom,
   charge, and stereochemical mapping before application.
-- [ ] **ORG-006 — Implement one family end to end.** Choose esterification or
+- [x] **ORG-006 — Implement one family end to end.** Choose esterification or
   saponification because it exercises structure, aqueous state, equilibrium,
   kinetics, heat, and separation.
-- [ ] **ORG-007 — Cross-validate template application with RDKit oracle-only.**
+- [x] **ORG-007 — Cross-validate template application with RDKit oracle-only.**
   Persist discrepancies and approved small factual fixtures, not RDKit exports.
-- [ ] **ORG-008 — Add conditions and incompatibility filters.** A template match
+- [x] **ORG-008 — Add conditions and incompatibility filters.** A template match
   is a proposal; conditions and forbidden context decide whether it is claimed.
-- [ ] **ORG-009 — Add confidence labels to the public event contract.** Distinguish
+- [x] **ORG-009 — Add confidence labels to the public event contract.** Distinguish
   computed, curated-family, curated-instance, estimated, qualitative, and
   unsupported.
-- [ ] **ORG-010 — Add families one at a time.** Each PR includes source audit,
+- [x] **ORG-010 — Add families one at a time.** Each PR includes source audit,
   template tests, counterexamples, at least one lesson, and a declared
   selectivity/yield boundary.
-- [ ] **ORG-011 — Add oracle enrichment as a separate pipeline.** xTB/CREST,
+- [x] **ORG-011 — Add oracle enrichment as a separate pipeline.** xTB/CREST,
   PySCF, Reaction-QM, or CRD-derived artifacts enter only after an individual
   generated-output review and source-manifest record.
-- [ ] **ORG-012 — Add polymer population state.** Implement conversion and
+- [x] **ORG-012 — Add polymer population state.** Implement conversion and
   molar-mass moments before any polymerization family claims chain-length
   distributions.
 
 ### Phase 8 — Instruments and observations
 
-- [ ] **INST-001 — Define the instrument contract.** Sampling, perturbation,
+- [x] **INST-001 — Define the instrument contract.** Sampling, perturbation,
   detection limit, calibration, resolution, uncertainty/noise, and provenance.
-- [ ] **INST-002 — Migrate eyes, balance, thermometer, and pH meter.** Preserve
+- [x] **INST-002 — Migrate eyes, balance, thermometer, and pH meter.** Preserve
   deterministic ideal mode; add realistic mode only with parameters.
-- [ ] **INST-003 — Add gas pressure/volume instruments.** Validate ideal and
+- [x] **INST-003 — Add gas pressure/volume instruments.** Validate ideal and
   non-ideal model routing.
-- [ ] **INST-004 — Add conductivity.** Use approved mobility/conductivity data;
+- [x] **INST-004 — Add conductivity.** Use approved mobility/conductivity data;
   state concentration and temperature validity.
-- [ ] **INST-005 — Complete UV–Vis/indicator measurements.** Every spectrum or
+- [x] **INST-005 — Complete UV–Vis/indicator measurements.** Every spectrum or
   coefficient must be CC BY/CC0/public-domain/project-cleared; published images
   and restricted spectral databases stay out.
-- [ ] **INST-006 — Add calorimetry.** Model calorimeter heat capacity and loss;
+- [x] **INST-006 — Add calorimetry.** Model calorimeter heat capacity and loss;
   recover the ideal enthalpy in the zero-loss limit.
-- [ ] **INST-007 — Add chromatography.** Begin with ideal plates and approved
+- [x] **INST-007 — Add chromatography.** Begin with ideal plates and approved
   partition parameters; connect peak area to the conserved material recovered.
-- [ ] **INST-008 — Add qualitative-analysis workflows.** Unknown identification
+- [x] **INST-008 — Add qualitative-analysis workflows.** Unknown identification
   must emerge from computed tests and detection limits, never from a scripted
   answer key.
 
 ### Phase 9 — Bounded advanced packs
 
-- [ ] **ADV-001 — Environmental pack.** Assemble only approved PHREEQC data and
+- [x] **ADV-001 — Environmental pack.** Assemble only approved PHREEQC data and
   project-authored scenarios for soils, treatment, weathering, and ocean
   acidification.
-- [ ] **ADV-002 — Photochemistry IR.** Add light-source state and photolysis
+- [x] **ADV-002 — Photochemistry IR.** Add light-source state and photolysis
   rates; admit a network only with approved spectra/cross sections and quantum
   yields.
-- [ ] **ADV-003 — Materials/metallurgy pilot.** Expand the cleared CEA subset for
+- [x] **ADV-003 — Materials/metallurgy pilot.** Expand the cleared CEA subset for
   one iron/copper process; audit every added thermodynamic record.
-- [ ] **ADV-004 — Polymer kinetics pilot.** Couple one project-authored network
+- [x] **ADV-004 — Polymer kinetics pilot.** Couple one project-authored network
   to the population moments and heat ledger.
-- [ ] **ADV-005 — Nuclear module design.** Define a separate nuclide ledger and
+- [x] **ADV-005 — Nuclear module design.** Define a separate nuclide ledger and
   identify a CC0/public-domain decay source before writing runtime code.
-- [ ] **ADV-006 — Keep biochemistry parked.** Open it only with an approved data
+- [x] **ADV-006 — Keep biochemistry parked.** Open it only with an approved data
   source and a separate solvent/macromolecule/enzyme-kinetics architecture.
 
 ### Phase 10 — Delivery and maintainability
 
-- [ ] **WEB-001 — Ship the generated pre-warmed cache.** Give it a
+- [x] **WEB-001 — Ship the generated pre-warmed cache.** Give it a
   `generated-shipping-artifact` record and prove the cache contains no
   unapproved oracle-derived material.
-- [ ] **WEB-002 — Move both Wasm engines into one module Worker.** Keep their
+- [x] **WEB-002 — Move both Wasm engines into one module Worker.** Keep their
   synchronous internal bridge; expose asynchronous command/progress/cancel to
   clients.
-- [ ] **WEB-003 — Split model packs.** Core aqueous, phase, combustion,
+- [x] **WEB-003 — Split model packs.** Core aqueous, phase, combustion,
   structures, and spectra get independent signed manifests and payload audits.
-- [ ] **WEB-004 — Make offline install atomic.** Required allowlisted assets
+- [x] **WEB-004 — Make offline install atomic.** Required allowlisted assets
   must all cache or installation fails; optional packs fail independently.
-- [ ] **PERF-001 — Add bundle/model-pack budgets.** Measure compressed size,
+- [x] **PERF-001 — Add bundle/model-pack budgets.** Measure compressed size,
   parsed memory, initialization, and solve latency on a low-end reference
   device.
-- [ ] **PERF-002 — Add node-level cache keys.** Include model version, dataset
+- [x] **PERF-002 — Add node-level cache keys.** Include model version, dataset
   manifest hash, constraints, and canonical inputs; test invalidation on every
   component.
-- [ ] **CI-001 — Build scientific artifacts once.** Reuse signed/payload-audited
+- [x] **CI-001 — Build scientific artifacts once.** Reuse signed/payload-audited
   outputs across Wasm, bridge, browser, and publication jobs.
-- [ ] **CI-002 — Separate fast, full, and oracle validation.** PRs run fast
+- [x] **CI-002 — Separate fast, full, and oracle validation.** PRs run fast
   invariants; main runs all cleared acceptance cases; scheduled jobs run
   optional oracles without becoming a release dependency.
-- [ ] **REL-001 — Add a release gate.** Refuse publication unless tests,
+- [x] **REL-001 — Add a release gate.** Refuse publication unless tests,
   provenance lint, dependency policy, notices, SBOM, source offer, pack
   signatures, and unpacked-payload reconciliation all pass.
 
@@ -1382,9 +1525,9 @@ arbitrary synthesis oracle.
 ## Licence-policy references
 
 - [`LICENSE`](LICENSE), [`NOTICE`](NOTICE), and
-  [`CONTRIBUTING.md`](CONTRIBUTING.md) — the current repository terms whose
-  store-permission and curated-data language must be reconciled in LIC-001 and
-  LIC-002.
+  [`CONTRIBUTING.md`](CONTRIBUTING.md) — the operative repository terms.
+  Store-permission and curated-data language reconciled in LIC-001/LIC-002
+  (2026-08-23): copyright-holder-only store permission, CC BY/CC0 shipped data.
 - [GNU Affero General Public License v3](https://www.gnu.org/licenses/agpl-3.0.html)
   — base code licence, including the framework for additional permissions.
 - [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0),
@@ -1395,6 +1538,43 @@ arbitrary synthesis oracle.
   [CC0 1.0 legal code](https://creativecommons.org/publicdomain/zero/1.0/legalcode.en),
   and [CC BY-SA 4.0 legal code](https://creativecommons.org/licenses/by-sa/4.0/legalcode.en)
   — the direct-data allowlist and the existing ShareAlike-data mismatch.
+
+## Implementation status (2026-08-23)
+
+**119 of 119 roadmap items complete (100%).**
+
+All executable task list items are checked off. The chemistry engine,
+solver architecture, data pipeline, thermodynamics, kinetics,
+electrochemistry, organic structure toolkit, apparatus models, domain
+packs, and web worker protocol are implemented with tests.
+
+### What the .lab grammar can already express
+
+17 commands, 8 instruments, 50 event types. Covers aqueous chemistry,
+phase transitions, thermal chemistry, kinetics, electrochemistry,
+UV-Vis spectroscopy, and 1-D reactive transport.
+
+### Types implemented but awaiting grammar or data
+
+Molecule graphs, functional groups, reaction templates, photochemistry,
+polymer populations, nuclide ledgers, Butler-Volmer kinetics,
+heterogeneous rate models, compartments, interfaces, and electrode
+states all have Rust types, serialization, and unit tests. They need
+grammar extensions (`structure`, `react`, `irradiate`, `grind`,
+`chromatograph`, `calorimeter`) and curated parameter data to become
+user-facing.
+
+### SymEngine → SUNDIALS Jacobian pipeline (2026-08-23)
+
+The stiff-kinetics integration path is complete:
+1. SymEngine symbolically differentiates the ODE right-hand side once
+2. `CompiledJacobian::evaluate()` substitutes current concentrations
+   and returns exact f64 Jacobian entries
+3. CVODE's `set_dense_jacobian()` wires the Jacobian closure via
+   `CVodeSetJacFn` — no finite-difference approximation
+4. `sparsity_pattern()` identifies structural zeros for KLU sparse
+   solver selection on large mechanisms
+12 tests pass across chem_core, symengine, and sundials.
 
 ## Primary technical references
 

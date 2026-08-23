@@ -1,0 +1,16 @@
+{
+  "description": "S_S callback: solid-solution mole fractions after Ca-Sr sulfate equilibration",
+  "oracle": "MY-BASIC adapter",
+  "observables": {
+    "ss_anhydrite": {
+      "value": 0.90242,
+      "absolute_tolerance": 5e-4,
+      "notes": "Anhydrite component fraction in Ca(x)Sr(1-x)SO4 solid solution"
+    },
+    "ss_celestite": {
+      "value": 0.10199,
+      "absolute_tolerance": 5e-4,
+      "notes": "Celestite component fraction in Ca(x)Sr(1-x)SO4 solid solution"
+    }
+  }
+}

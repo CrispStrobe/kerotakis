@@ -1,7 +1,6 @@
 #![cfg(all(
     feature = "engine",
-    feature = "my-basic-preview",
-    not(feature = "legacy-basic-oracle")
+    feature = "my-basic",
 ))]
 
 use kerotakis_phreeqc::Phreeqc;
@@ -23,6 +22,14 @@ fn every_official_phreeqc_example_runs() {
             fs::copy(entry.path(), scratch.join(entry.file_name())).unwrap();
         }
     }
+    // The stock example generates `ex21_Hto_rad.tsv`, while its bundled input
+    // file is named `ex21_HTO_rad.tsv`. Supply the spelling the example asks
+    // for so the official corpus is portable to case-sensitive runners.
+    fs::copy(
+        scratch.join("ex21_HTO_rad.tsv"),
+        scratch.join("ex21_Hto_rad.tsv"),
+    )
+    .unwrap();
 
     let cases: [(&str, PathBuf); 32] = [
         ("ex1", databases.join("phreeqc.dat")),

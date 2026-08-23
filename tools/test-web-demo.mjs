@@ -54,8 +54,12 @@ const SCRIPT = [
     "add v1 AgNO3 0.01mol",
     "look v1",
     "particles v1",
+    "reset",
+    "add v1 water 100mL",
+    "cool v1 40kJ",
+    "inspect v1",
 ].join(";");
-const url = `http://127.0.0.1:${PORT}/index.html#run=${encodeURIComponent(SCRIPT)}`;
+const url = `http://127.0.0.1:${PORT}/index.html?r1=1#run=${encodeURIComponent(SCRIPT)}`;
 
 // A persistent profile carries the service-worker registration between
 // the two renders: first load online (the worker installs and precaches),
@@ -146,6 +150,23 @@ check(
     "and the too-dilute complex is named rather than dropped",
     /present below one glyph/.test(transcript),
 );
+check("inspect shows the remaining liquid water", /water\s+Liquid/.test(transcript));
+check("inspect shows the frozen solid water", /water\s+Solid/.test(transcript));
+check(
+    "inspect is human text, not the state JSON",
+    !/\"contents\"|\"thermal_mode\"/.test(transcript),
+);
+const R1_CASES = [
+    "limewater",
+    "carbonated_bottle",
+    "surface_release",
+    "softener_breakthrough",
+    "partial_freezing",
+];
+check(
+    "all five R1 scenarios pass in the live page",
+    R1_CASES.every((id) => transcript.includes(`R1 ${id}: PASS`)),
+);
 
 // Offline-first is the premise, so it gets its own assertions: with the
 // server dead, the service worker's cache must still boot the page, start
@@ -156,5 +177,9 @@ const offTranscript = offM ? offM[1].replace(/<[^>]+>/g, "\n") : "";
 check("offline: the page still boots from the worker's cache", offM !== null);
 check("offline: the engine still reports live", offStatus?.[1] === "live");
 check("offline: the precipitate still forms", /silver chloride precipitated/.test(offTranscript));
+check(
+    "offline: all five R1 scenarios pass",
+    R1_CASES.every((id) => offTranscript.includes(`R1 ${id}: PASS`)),
+);
 
 process.exit(failures === 0 ? 0 : 1);

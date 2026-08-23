@@ -1,6 +1,6 @@
 {
   "description": "DATA/READ/RESTORE static pattern",
-  "oracle": "legacy-basic-oracle (vendored PHREEQC PBasic)",
+  "oracle": "MY-BASIC adapter (values captured from legacy oracle during development)",
   "observables": {
     "V_DataRead": {
       "value": 7.0,

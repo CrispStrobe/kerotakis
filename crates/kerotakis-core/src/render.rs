@@ -9,6 +9,7 @@ use serde::{Deserialize, Serialize};
 use crate::ops::{Event, Instrument};
 use crate::species;
 use crate::species::Phase;
+use crate::vessel::{Headspace, SolutionInfo, Vessel};
 
 /// How much detail an answer is rendered with.
 ///
@@ -57,6 +58,131 @@ impl std::fmt::Display for Register {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "lv{}", self.0)
     }
+}
+
+/// Render a vessel for a person. CLI, Wasm, and future clients share this
+/// instead of teaching each interface how to turn the state contract back
+/// into laboratory prose.
+pub fn render_vessel(v: &Vessel, register: Register) -> Vec<String> {
+    let mut out = Vec::new();
+    let solution = v
+        .solution
+        .as_ref()
+        .map(|s| {
+            let redox = match (s.pe, s.eh_volts(v.temperature.0)) {
+                (Some(pe), Some(eh)) => format!(", pe {pe:.2} ({eh:+.3} V)"),
+                _ => String::new(),
+            };
+            format!(", pH {:.2}{redox}, I = {:.4} m", s.ph, s.ionic_strength)
+        })
+        .unwrap_or_default();
+    let boundary = match v.headspace {
+        Headspace::Open => ", open to atmosphere".to_string(),
+        Headspace::Sealed { volume } => format!(
+            ", sealed {:.1} mL headspace at {:.3} bar",
+            volume.0 * 1000.0,
+            v.pressure.0 / 100_000.0
+        ),
+        Headspace::PressureControlled { pressure, volume } => format!(
+            ", pressure-controlled {:.1} mL headspace at {:.3} bar",
+            volume.0 * 1000.0,
+            pressure.0 / 100_000.0
+        ),
+        Headspace::Swept { pressure } => {
+            format!(", nitrogen-swept at {:.3} bar", pressure.0 / 100_000.0)
+        }
+    };
+    out.push(format!(
+        "{} ({}) — {:.2} °C, {:.1} g, {:.1} mL liquid{boundary}{solution}",
+        v.id,
+        v.label,
+        v.temperature.to_celsius(),
+        v.mass().0 + 0.0,
+        v.liquid_volume().0 * 1000.0 + 0.0
+    ));
+    if let Some(redox) = redox_words(v.solution.as_ref()) {
+        out.push(format!("    redox — {redox}"));
+    }
+    for p in &v.contents {
+        let name = species::lookup(&p.species)
+            .map(|d| d.name)
+            .unwrap_or(p.species.0.as_str());
+        out.push(format!(
+            "    {:>10.4} mol  {:<18} {:?}",
+            p.moles.0, name, p.phase
+        ));
+    }
+    for solid_solution in &v.solid_solutions {
+        out.push(format!(
+            "    {:>10.4} mol  {} mixed crystal",
+            solid_solution.total_moles().0,
+            solid_solution.label
+        ));
+        if register >= Register::LV2 {
+            for component in &solid_solution.components {
+                out.push(format!(
+                    "      {:>10.4} mol  {}",
+                    component.moles.0,
+                    component.component.species()
+                ));
+            }
+        }
+    }
+    if v.is_empty() {
+        out.push("    (empty)".to_string());
+    }
+    if register >= Register::LV3 {
+        if let Some(info) = &v.solution {
+            if !info.species.is_empty() {
+                out.push("    speciation (mol/kgw · activity · γ):".to_string());
+                for sp in &info.species {
+                    let gamma = if sp.molality > 0.0 {
+                        sp.activity / sp.molality
+                    } else {
+                        0.0
+                    };
+                    out.push(format!(
+                        "      {:<12} {:>12.4e} {:>12.4e}   γ={:.3}",
+                        sp.name, sp.molality, sp.activity, gamma
+                    ));
+                }
+            }
+        }
+    }
+    out
+}
+
+fn redox_words(solution: Option<&SolutionInfo>) -> Option<String> {
+    let s = solution?;
+    let mut elements: Vec<&str> = s.redox.iter().map(|r| r.element.as_str()).collect();
+    elements.sort_unstable();
+    elements.dedup();
+    let mut parts = Vec::new();
+    for element in elements {
+        let states: Vec<_> = s
+            .redox
+            .iter()
+            .filter(|state| state.element == element)
+            .collect();
+        let total: f64 = states.iter().map(|state| state.molality).sum();
+        if total <= 0.0 {
+            continue;
+        }
+        let visible: Vec<_> = states
+            .into_iter()
+            .filter(|state| state.molality / total >= 0.005)
+            .collect();
+        if visible.len() == 1 {
+            parts.push(format!("all {element} as {}", visible[0].label()));
+        } else if !visible.is_empty() {
+            let split: Vec<_> = visible
+                .iter()
+                .map(|state| format!("{:.0}% {}", 100.0 * state.molality / total, state.label()))
+                .collect();
+            parts.push(format!("{element}: {}", split.join(", ")));
+        }
+    }
+    (!parts.is_empty()).then(|| parts.join("; "))
 }
 
 /// Render a step's events for a person: the observable ones, in order.
@@ -322,6 +448,10 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 Instrument::Balance => "balance",
                 Instrument::PhMeter => "pH meter",
                 Instrument::Eyes => "eyes",
+                Instrument::PressureGauge => "pressure gauge",
+                Instrument::VolumeMeter => "volume meter",
+                Instrument::ConductivityMeter => "conductivity meter",
+                Instrument::Spectrophotometer => "spectrophotometer",
             };
             match register.level() {
                 1 => format!("The {device} on {vessel} reads {value:.0} {unit}."),
@@ -708,5 +838,28 @@ mod consumed_tests {
             render_event(&e, Register::LV1),
             "The magnesium in v1 is being used up."
         );
+    }
+}
+
+#[cfg(test)]
+mod vessel_tests {
+    use super::*;
+    use crate::{Kelvin, Moles, SpeciesId, VesselId};
+
+    #[test]
+    fn a_frozen_vessel_is_prose_not_the_state_contract() {
+        let mut vessel = Vessel::new(VesselId(0), "beaker");
+        vessel.temperature = Kelvin::from_celsius(0.0);
+        vessel.deposit(SpeciesId::new("water"), Moles(0.6122), Phase::Liquid);
+        vessel.deposit(SpeciesId::new("water"), Moles(4.9221), Phase::Solid);
+
+        let rendered = render_vessel(&vessel, Register::LV2).join("\n");
+        assert!(rendered.contains("v1 (beaker) — 0.00 °C"), "{rendered}");
+        assert!(rendered.contains("0.6122 mol  water"), "{rendered}");
+        assert!(rendered.contains("Liquid"), "{rendered}");
+        assert!(rendered.contains("4.9221 mol  water"), "{rendered}");
+        assert!(rendered.contains("Solid"), "{rendered}");
+        assert!(!rendered.contains("\"contents\""), "{rendered}");
+        assert!(!rendered.contains('{'), "{rendered}");
     }
 }

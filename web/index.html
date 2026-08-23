@@ -146,8 +146,16 @@ async function boot() {
     createIPhreeqc = null;
   }
   try {
+    let results = null;
+    try {
+      const response = await fetch("./results.postcard");
+      if (response.ok) results = new Uint8Array(await response.arrayBuffer());
+    } catch (e) {
+      results = null;
+    }
     lab = await openLab(Lab, {
       createIPhreeqc,
+      results,
       loadDatabase: async (file) => {
         const r = await fetch(`./db/${file}`);
         if (!r.ok) throw new Error(`${file}: ${r.status}`);
@@ -178,6 +186,16 @@ async function boot() {
     "note",
   );
   write("Type a command, or pick one from the right. `help` lists them.\n", "note");
+
+  // A stable diagnostic used by CI and useful to a deployed/offline page.
+  // It deliberately goes through the same Lab instance and solver/cache
+  // boundary as an experiment typed by a person.
+  if (new URLSearchParams(location.search).has("r1")) {
+    const report = JSON.parse(lab.r1Acceptance());
+    for (const test of report.cases) {
+      write(`R1 ${test.id}: ${test.passed ? "PASS" : `FAIL — ${test.detail}`}`);
+    }
+  }
 
   // A shareable bench: everything after `#run=` is run on load, with `;`
   // between commands. Makes a link to a specific experiment possible, and
@@ -213,8 +231,8 @@ function runOne(line) {
       return write(doc.rendered || "  (nothing to draw)", "particles");
     }
     if (trimmed.startsWith("inspect")) {
-      const state = JSON.parse(lab.state());
-      return write(JSON.stringify(state.vessels, null, 1));
+      const doc = JSON.parse(lab.inspect(vesselArg(trimmed)));
+      return write(doc.rendered.map((line) => "  " + line).join("\n"));
     }
     const doc = JSON.parse(lab.runScript(trimmed + "\n"));
     const lines = (doc.steps ?? []).flatMap((s) => s.rendered ?? []);

@@ -32,10 +32,13 @@ as your assent to the above and to the
 
 Code and data have different rules here.
 
-**Curated data is CC BY-SA 4.0**, separately from the AGPL-3.0 code. ShareAlike
-is deliberate, not reluctant: an educational chemistry commons should stay
-open, and it means we can use BY-SA sources (including the Open Reaction
-Database) without contortions.
+**Curated data shipped in official binaries is CC BY 4.0 or CC0 1.0**, separately
+from the AGPL-3.0 code. Only CC BY or CC0 data enters the app store payload.
+CC BY-SA material (including anything derived from BY-SA sources such as the
+Open Reaction Database) is published separately on Hugging Face or a companion
+GitHub repository and is not bundled in store builds. This separation keeps the
+educational chemistry commons open while ensuring store-distribution
+compatibility.
 
 **Every dataset, parameter table, or constant must carry a provenance record**:
 source, licence, retrieval date — and, where the source itself cites
@@ -66,7 +69,30 @@ exports, ECHA dumps, Burcat, UNIFAC Consortium tables), will be declined
 regardless of code quality — that list is a legal constraint, not a style
 preference.
 
-## 3. Ordinary courtesy
+## 3. Dependency and data PR checklist
+
+Every PR that adds a new Cargo dependency, vendored source, data import, or
+external data file must include:
+
+- [ ] **Source record** in `provenance/sources.toml` with id, licence, origin,
+      retrieval date, and SHA-256 checksums for vendored files.
+- [ ] **Lane assignment**: `runtime` (ships in app), `build_oracle` (dev only),
+      or `external_oracle` (never fetched in CI).
+- [ ] **Licence on the allowlist**: MIT, Apache-2.0, BSD-2/3-Clause, CC0, ISC,
+      Zlib, or USGS User Rights Notice for runtime sources. LGPL and copyleft
+      sources are build-only.
+- [ ] **`cargo deny check` passes** after the addition.
+- [ ] **`tools/provenance-lint.sh` passes** with the new checksums.
+- [ ] **Attribution text** in NOTICE if the source ships in binaries.
+- [ ] **No oracle output** in `crates/`, `web/`, or `data/` paths.
+
+For data imports specifically:
+- [ ] **Per-field compatibility review** — incompatible upstream fields are
+      rejected with an explicit reason (see DATA-007 pattern).
+- [ ] **Per-record provenance** — every `NumericRecord` carries its own
+      `source_id` and `method`.
+
+## 4. Ordinary courtesy
 
 - Open an issue before large changes; PLAN.md is the source of truth for
   architecture and build order.

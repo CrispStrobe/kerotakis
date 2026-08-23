@@ -14,14 +14,29 @@
 /// is a lie of scale.
 pub const OBSERVABLE_MOLES: f64 = 1e-6;
 
+pub mod apparatus;
 pub mod appearance;
 pub mod bench;
+pub mod butler_volmer;
+pub mod cache_key;
+pub mod compartment;
+pub mod coverage;
 pub mod curated;
+pub mod delta;
 pub mod displacement;
+pub mod electrochemistry;
 pub mod indicator;
+pub mod instrument;
 pub mod kinetics;
+pub mod ledger;
+pub mod molecule;
+pub mod nuclide;
+pub mod polymer;
 pub mod ops;
+pub mod orchestrator;
+pub mod packs;
 pub mod particles;
+pub mod photochem;
 pub mod render;
 pub mod script;
 pub mod solve;
@@ -29,25 +44,46 @@ pub mod species;
 pub mod spectrum;
 pub mod states;
 pub mod stoich;
+pub mod transport;
 pub mod units;
 pub mod vessel;
 
 pub use appearance::{observe, Appearance};
 pub use bench::{Bench, BenchError};
+pub use compartment::{
+    Compartment, ElectrodeDeposit, ElectrodeState, Environment, Interface, InterfaceKind,
+    VolumeMode,
+};
+pub use coverage::{coverage_manifest, CoverageReport, SolverCoverage};
 pub use curated::CuratedEquilibrator;
+pub use instrument::{
+    Balance, ConductivityMeter, InstrumentContract, InstrumentMode, PhMeter, PressureGauge,
+    Reading, Thermometer,
+};
+pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
 pub use displacement::DisplacementEquilibrator;
 pub use ops::{Event, Instrument, LogEntry, Operator};
-pub use render::{render_event, render_events, Register};
+pub use orchestrator::Orchestrator;
+pub use render::{render_event, render_events, render_vessel, Register};
 pub use solve::{
-    Equilibrator, HonestyEquilibrator, MixingEquilibrator, PermissiveScreen, SafetyScreen,
-    SafetyVerdict, Severity, SolveError, SolverStack, StateEquilibrator,
+    equilibrate_phase_coupled, Applicability, CapabilityReport, Equilibrator,
+    HonestyEquilibrator, MixingEquilibrator, PermissiveScreen, PhaseEquilibrator, SafetyScreen,
+    SafetyVerdict, Severity, SolveError, SolverStack, StateEquilibrator, ValidityBounds,
+    PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
 };
 pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};
+pub use transport::{
+    CellChain, CellReaction, MobileParcel, ReactiveTransportError, ReactiveTransportStep,
+    TransportError, TransportStep,
+};
+pub use ledger::{audit_conservation, ConservedLedger};
 pub use units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 pub use vessel::{
-    Headspace, Portion, Provenance, RedoxState, SolutionInfo, SpeciesDetail, SurfaceModel,
-    SurfaceOccupancy, SurfaceSiteKind, SurfaceSites, SurfaceSorbate, ThermalMode, Vessel, VesselId,
+    ExchangeIon, ExchangeOccupancy, ExchangeSites, Headspace, Portion, Provenance, RedoxState,
+    SolidSolution, SolidSolutionAmount, SolidSolutionComponent,
+    SolidSolutionModel, SolutionInfo, SpeciesDetail, SurfaceModel, SurfaceOccupancy,
+    SurfaceSiteKind, SurfaceSites, SurfaceSorbate, ThermalMode, Vessel, VesselId,
 };
 
 #[cfg(test)]

@@ -12,23 +12,23 @@ scope = "Vendored external scientific runtime code and data"
 
 [[source]]
 id = "usgs-iphreeqc-code"
-name = "USGS IPhreeqc"
+name = "Kerotakis IPhreeqc fork"
 kind = "code"
 lane = "runtime-code"
 decision = "approved"
 licence = "LicenseRef-USGS-User-Rights-Notice"
-origin = "https://github.com/phreeqc-dev/iphreeqc"
+origin = "https://github.com/CrispStrobe/iphreeqc"
 terms = "vendor/iphreeqc/doc/NOTICE"
 copyright = "United States Geological Survey and identified bundled contributors"
 retrieved = "2026-08-20"
-revision = "f107fcb2f2e1e3167ce4c1328e477b54dee3d21b"
+revision = "47b459c4a5e3e20b9990fa304e207eca0dcc6ff1"
 revision_path = "vendor/iphreeqc"
 attribution = "PHREEQC/IPhreeqc, United States Geological Survey; retain the USGS User Rights Notice and bundled third-party notices"
 paths = ["vendor/iphreeqc/src"]
 allowed_outputs = ["native-static-library", "emscripten-side-module"]
 targets = ["native", "web", "ios", "android"]
 reviewer = "Kerotakis engineering policy audit"
-notes = "The vendored source also contains BSD-covered SUNDIALS files; their notice is retained by the source tree and release notices."
+notes = "Forked from USGS IPhreeqc for the Kerotakis adapters. The vendored source also contains BSD-covered SUNDIALS files; their notice is retained by the source tree and release notices."
 
 [[source]]
 id = "usgs-phreeqc-database"
@@ -113,6 +113,72 @@ reviewer = "Kerotakis engineering policy audit"
 [[source.checksum]]
 path = "vendor/iphreeqc/database/pitzer.dat"
 sha256 = "3640e62aee63a118f800b115b46a2760576e63e05e1792022315a28f75dbe9bb"
+
+[[source]]
+id = "my-basic-interpreter"
+name = "MY-BASIC"
+kind = "code"
+lane = "runtime-code"
+decision = "approved"
+licence = "MIT"
+origin = "https://github.com/paladin-t/my_basic"
+terms = "vendor/my-basic/LICENSE"
+copyright = "2011-2026 Tony Wang"
+retrieved = "2026-08-21"
+revision = "38baab02ece70b650f5e687e485d879f80843256"
+revision_path = "vendor/my-basic"
+attribution = "MY-BASIC, Copyright (c) Tony Wang; MIT license; retain LICENSE file"
+paths = ["vendor/my-basic/my_basic.c", "vendor/my-basic/my_basic.h", "vendor/my-basic/LICENSE"]
+allowed_outputs = ["native-static-library", "emscripten-side-module"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis engineering policy audit"
+notes = "Pinned embeddable BASIC interpreter core. File I/O disabled at compile time (MB_DISABLE_LOAD_FILE). Double-precision mode (MB_DOUBLE_FLOAT). Provenance manifest at vendor/my-basic/PROVENANCE.toml."
+
+[[source.checksum]]
+path = "vendor/my-basic/my_basic.c"
+sha256 = "669994f258dec9efd1a4e93f03d406cd5087ce9096d28825439bc58a76dfc846"
+
+[[source.checksum]]
+path = "vendor/my-basic/my_basic.h"
+sha256 = "3a72d47d50c8f56084682a36d2a54252fdac33d481f0a5a6b065d8d2f44a35ea"
+
+[[source.checksum]]
+path = "vendor/my-basic/LICENSE"
+sha256 = "8156be51115207259348d3e553ae9b61ab305b8fe3d74ff358cb4d3fe992b6c3"
+
+[[source]]
+id = "kerotakis-thermo-vle"
+name = "Kerotakis VLE Antoine parameters"
+kind = "data"
+lane = "runtime-data"
+decision = "approved"
+licence = "AGPL-3.0-or-later"
+origin = "crates/kerotakis-thermo/src/vle.rs"
+copyright = "Kerotakis contributors"
+retrieved = "2026-08-22"
+attribution = "Antoine constants curated from published literature with individual source citations per compound"
+paths = ["crates/kerotakis-thermo/src/vle.rs"]
+allowed_outputs = ["compiled-runtime-code"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis engineering policy audit"
+notes = "Parameters carry their own source strings in the source code. Individual constant sets are cited from NIST, Perry's, and original literature. No bulk import from an external database."
+
+[[source]]
+id = "chematic-toolkit"
+name = "chematic — pure-Rust cheminformatics"
+kind = "code"
+lane = "runtime-code"
+decision = "approved"
+licence = "MIT OR Apache-2.0"
+origin = "https://github.com/kent-tokyo/chematic"
+copyright = "kent-tokyo contributors"
+retrieved = "2026-08-22"
+attribution = "chematic, MIT or Apache-2.0; pure Rust, wasm-compatible"
+paths = []
+allowed_outputs = ["compiled-runtime-code"]
+targets = ["native", "web", "ios", "android"]
+reviewer = "Kerotakis engineering policy audit"
+notes = "Pure Rust SMILES/InChI/functional groups. No C/C++ deps. Version 0.18 pinned via Cargo.lock."
 
 [[source]]
 id = "nasa-cea-thermodynamic-data"

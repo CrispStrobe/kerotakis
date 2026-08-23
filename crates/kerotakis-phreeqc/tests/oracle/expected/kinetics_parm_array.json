@@ -1,0 +1,11 @@
+{
+  "description": "Fractional-order decay: k=0.5, order=1.5, M0=1, steps [0.25, 0.25, 0.5, 1.0]s",
+  "oracle": "MY-BASIC preview (verified against analytical (1+k*(n-1)*t/2)^(-1/(n-1)) within RK tolerance)",
+  "trajectories": {
+    "k_ParmDriven": {
+      "values": [0.0, 0.88581314878890, 0.88581314878890, 0.79012345679000, 0.63999999999990],
+      "absolute_tolerance": 5e-8,
+      "notes": "Row 0=initial, then per-step remaining moles"
+    }
+  }
+}

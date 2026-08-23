@@ -30,6 +30,10 @@ cp "$ROOT/vendor/iphreeqc/database/wateq4f.dat" \
    "$ROOT/vendor/iphreeqc/database/minteq.v4.dat" \
    "$ROOT/vendor/iphreeqc/database/pitzer.dat" "$OUT/db/"
 
+echo "== pre-warmed lessons and R1 acceptance states"
+cargo run -p kerotakis-cli -- prewarm "$ROOT"/lessons/*.lab \
+    -o "$OUT/results.postcard"
+
 # The service worker's cache is versioned by commit, so every deploy
 # retires the previous cache and an unchanged deploy keeps it warm.
 STAMP="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || date +%s)"

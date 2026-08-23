@@ -1,0 +1,11 @@
+{
+  "description": "Temperature-dependent decay: k_eff=0.5*(TC/25)=1.0 at 50C, steps [0.5, 0.5, 1.0]s",
+  "oracle": "MY-BASIC preview (verified against analytical exp(-k_eff*t) within RK tolerance)",
+  "trajectories": {
+    "k_TempDecay": {
+      "values": [0.0, 0.60653065971260, 0.60653065971260, 0.36787944117140],
+      "absolute_tolerance": 5e-8,
+      "notes": "Row 0=initial, then per-step remaining moles"
+    }
+  }
+}

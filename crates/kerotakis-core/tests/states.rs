@@ -5,6 +5,8 @@
 //! and the transition itself moves with how many particles are dissolved.
 
 use kerotakis_core::*;
+use std::cell::Cell;
+use std::rc::Rc;
 
 fn stack() -> SolverStack {
     SolverStack::new(vec![
@@ -149,4 +151,143 @@ fn a_frozen_vessel_has_no_ph() {
     let mut bench = water_bench(5.5343);
     cool(&mut bench, 200_000.0);
     assert!(bench.vessel(VesselId(0)).unwrap().solution.is_none());
+}
+
+struct ParticleBalanceSolver {
+    particle_moles: f64,
+    calls: Rc<Cell<usize>>,
+}
+
+impl Equilibrator for ParticleBalanceSolver {
+    fn name(&self) -> &'static str {
+        "particle-balance-test"
+    }
+
+    fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        self.calls.set(self.calls.get() + 1);
+        let liquid_water_moles: f64 = vessel
+            .contents
+            .iter()
+            .filter(|portion| portion.species.0 == "water" && portion.phase == Phase::Liquid)
+            .map(|portion| portion.moles.0)
+            .sum();
+        let liquid_kg = liquid_water_moles * 0.018_015;
+        if liquid_kg <= 0.0 {
+            vessel.solution = None;
+            return Ok(Vec::new());
+        }
+        let particle_molality = self.particle_moles / liquid_kg;
+        vessel.solution = Some(SolutionInfo {
+            pe: None,
+            redox: Vec::new(),
+            ph: 7.0,
+            ionic_strength: particle_molality / 2.0,
+            species: vec![SpeciesDetail {
+                name: "test particles".to_string(),
+                molality: particle_molality,
+                activity: particle_molality,
+            }],
+            provenance: None,
+        });
+        Ok(Vec::new())
+    }
+}
+
+fn partially_frozen_test_vessel(temperature_k: f64) -> Vessel {
+    let mut vessel = Vessel::new(VesselId(0), "brine");
+    vessel.deposit(SpeciesId::new("water"), Moles(5.5509), Phase::Liquid);
+    vessel.deposit(SpeciesId::new("NaCl"), Moles(0.05), Phase::Aqueous);
+    vessel.temperature = Kelvin(temperature_k);
+    vessel
+}
+
+fn water_phase_moles(vessel: &Vessel, phase: Phase) -> f64 {
+    vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.species.0 == "water" && portion.phase == phase)
+        .map(|portion| portion.moles.0)
+        .sum()
+}
+
+#[test]
+fn phase_coupling_respeciates_the_residual_brine_until_both_states_agree() {
+    let calls = Rc::new(Cell::new(0));
+    let chemistry = ParticleBalanceSolver {
+        particle_moles: 0.1,
+        calls: calls.clone(),
+    };
+    let mut coupled = PhaseEquilibrator::wrapping(Box::new(chemistry));
+    let mut vessel = partially_frozen_test_vessel(260.0);
+    let initial_water = vessel.moles_of(&SpeciesId::new("water")).0;
+
+    let events = coupled.equilibrate(&mut vessel).unwrap();
+    assert!(calls.get() > 1, "residual brine was not re-solved");
+    assert!(
+        calls.get() < 32,
+        "phase coupling only stopped at its pass cap"
+    );
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::StateChanged {
+            from: Phase::Liquid,
+            to: Phase::Solid,
+            ..
+        }
+    )));
+    assert!(!events
+        .iter()
+        .any(|event| matches!(event, Event::SolverFailed { .. })));
+    assert!(water_phase_moles(&vessel, Phase::Liquid) > 0.0);
+    assert!(water_phase_moles(&vessel, Phase::Solid) > 0.0);
+    assert!((vessel.moles_of(&SpeciesId::new("water")).0 - initial_water).abs() < 1e-12);
+
+    let particle_molality: f64 = vessel
+        .solution
+        .as_ref()
+        .expect("residual brine remains a solution")
+        .species
+        .iter()
+        .map(|species| species.molality)
+        .sum();
+    let liquidus = kerotakis_core::states::transitions(particle_molality).freezing_k;
+    assert!(
+        (vessel.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
+        "phase state {} K and re-solved liquidus {liquidus} K disagree",
+        vessel.temperature.0
+    );
+
+    let settled = vessel.clone();
+    let second = coupled.equilibrate(&mut vessel).unwrap();
+    assert!(!second
+        .iter()
+        .any(|event| matches!(event, Event::StateChanged { .. })));
+    assert!((vessel.temperature.0 - settled.temperature.0).abs() < 1e-12);
+    assert!(
+        (water_phase_moles(&vessel, Phase::Liquid) - water_phase_moles(&settled, Phase::Liquid))
+            .abs()
+            < 1e-12
+    );
+}
+
+#[test]
+fn partial_freezing_stops_with_liquid_at_the_declared_model_boundary() {
+    let chemistry = ParticleBalanceSolver {
+        particle_moles: 0.6,
+        calls: Rc::new(Cell::new(0)),
+    };
+    let mut coupled = PhaseEquilibrator::wrapping(Box::new(chemistry));
+    // Start far enough below the liquidus that the available sensible heat
+    // would freeze past the declared concentration boundary. At 240 K this
+    // fixture instead reaches an ordinary, warmer partial-freezing balance.
+    let mut vessel = partially_frozen_test_vessel(200.0);
+    let events = coupled.equilibrate(&mut vessel).unwrap();
+
+    assert!(water_phase_moles(&vessel, Phase::Liquid) > 0.0);
+    assert!(water_phase_moles(&vessel, Phase::Solid) > 0.0);
+    assert!((vessel.temperature.0 - kerotakis_core::states::BRINE_MODEL_MIN_K).abs() < 1e-9);
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::NotYetModeled { what, .. } if what.contains("partial-freezing model boundary")
+    )));
 }

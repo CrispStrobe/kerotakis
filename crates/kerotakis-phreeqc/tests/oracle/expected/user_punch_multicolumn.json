@@ -1,6 +1,6 @@
 {
   "description": "USER_PUNCH with multicolumn output including LOG10",
-  "oracle": "legacy-basic-oracle (vendored PHREEQC PBasic)",
+  "oracle": "MY-BASIC adapter (values captured from legacy oracle during development)",
   "observables": {
     "na_tot": {
       "value": 0.01,

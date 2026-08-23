@@ -1,3 +1,5 @@
+pub mod worker;
+
 //! The bench, in a browser.
 //!
 //! This is Track A of the plan's wasm strategy: one Rust source compiled to
@@ -17,8 +19,8 @@
 //!   so heating, calcining and burning are computed in the browser.
 
 use kerotakis_core::{
-    render_events, Bench, Equilibrator, Event, HonestyEquilibrator, MixingEquilibrator, Operator,
-    Register, SolverStack,
+    render_events, render_vessel, Bench, Equilibrator, Event, HonestyEquilibrator,
+    MixingEquilibrator, Operator, Register, SolverStack,
 };
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -45,7 +47,6 @@ impl Lab {
                 Box::new(MixingEquilibrator),
                 Box::new(kerotakis_core::CuratedEquilibrator),
                 Box::new(kerotakis_cea::ThermalEquilibrator),
-                Box::new(kerotakis_core::StateEquilibrator),
                 Box::new(HonestyEquilibrator),
             ]),
             aqueous,
@@ -111,6 +112,18 @@ impl Lab {
     #[wasm_bindgen(js_name = canSolve)]
     pub fn can_solve(&self) -> bool {
         self.aqueous.can_solve()
+    }
+
+    /// Run the five release-one chemistry scenarios through this bench's
+    /// aqueous path. With a hook this is live IPhreeqc; without one it is an
+    /// exact replay from the shipped cache, and any missing state is reported
+    /// as a failed case rather than approximated.
+    #[wasm_bindgen(js_name = r1Acceptance)]
+    pub fn r1_acceptance(&mut self) -> String {
+        serde_json::to_string(&kerotakis_phreeqc::acceptance::run_r1_acceptance(
+            &mut self.aqueous,
+        ))
+        .expect("the R1 report is serialisable")
     }
 
     /// How much detail to render: `lv1` (what you see), `lv2` (equations
@@ -215,6 +228,20 @@ impl Lab {
             .unwrap_or_else(|e| format!("{{\"error\":\"{e}\"}}")))
     }
 
+    /// The full state of one vessel, rendered for a person. The JSON state
+    /// remains available separately as the machine contract.
+    pub fn inspect(&self, vessel: usize) -> Result<String, JsError> {
+        let v = self
+            .bench
+            .vessel(kerotakis_core::VesselId(vessel))
+            .map_err(|e| JsError::new(&e.to_string()))?;
+        Ok(serde_json::json!({
+            "rendered": render_vessel(v, self.register),
+            "vessel": v,
+        })
+        .to_string())
+    }
+
     /// The bench state as JSON.
     pub fn state(&self) -> String {
         serde_json::json!({ "vessels": self.bench.vessels, "steps": self.bench.log.len() })
@@ -285,8 +312,8 @@ impl Equilibrator for CombinedSolver<'_> {
         let mut events = Vec::new();
 
         // Keep the browser's routing identical to the native stack: physical
-        // mixing, curated and thermal chemistry first; aqueous equilibrium
-        // next; state changes and the honesty pass last. Running the whole
+        // mixing, curated and thermal chemistry first; aqueous/ice phase
+        // coupling next; the honesty pass last. Running the whole
         // Rust stack after the cached aqueous answer let the thermal pass
         // overwrite the heat of precipitation. The next lesson step then
         // described a state that had never existed during pre-warming, so a
@@ -295,25 +322,43 @@ impl Equilibrator for CombinedSolver<'_> {
             .stack
             .solvers
             .iter()
-            .position(|solver| solver.name() == "states")
+            .position(|solver| solver.name() == "honesty")
             .unwrap_or(self.stack.solvers.len());
         run_solvers(&mut self.stack.solvers[..aqueous_at], vessel, &mut events);
-        if self.aqueous.applies(vessel) {
-            // The metallic state rides on the aqueous solve here exactly as
-            // it does natively: displacement over the reported activities,
-            // then the products back through the solver.
-            match kerotakis_core::displacement::over(self.aqueous, vessel) {
-                Ok(mut more) => events.append(&mut more),
-                // A cache miss is honest news, not a failure to hide.
-                Err(e) => events.push(Event::SolverFailed {
-                    vessel: vessel.id,
-                    solver: "phreeqc-aqueous (shipped results)".to_string(),
-                    detail: e.to_string(),
-                }),
-            }
-        }
+        let mut aqueous = BrowserAqueous {
+            inner: &mut *self.aqueous,
+        };
+        let mut more = kerotakis_core::equilibrate_phase_coupled(&mut aqueous, vessel)?;
+        events.append(&mut more);
         run_solvers(&mut self.stack.solvers[aqueous_at..], vessel, &mut events);
         Ok(events)
+    }
+}
+
+/// Borrow the browser's cache/hook-backed aqueous engine while preserving the
+/// same displacement-over-speciation layer used by the native stack.
+struct BrowserAqueous<'a> {
+    inner: &'a mut kerotakis_phreeqc::PhreeqcEquilibrator,
+}
+
+impl Equilibrator for BrowserAqueous<'_> {
+    fn name(&self) -> &'static str {
+        "phreeqc-aqueous (shipped results)"
+    }
+
+    fn applies(&self, vessel: &kerotakis_core::Vessel) -> bool {
+        self.inner.applies(vessel)
+    }
+
+    fn chemistry_applies(&self, vessel: &kerotakis_core::Vessel) -> bool {
+        self.inner.chemistry_applies(vessel)
+    }
+
+    fn equilibrate(
+        &mut self,
+        vessel: &mut kerotakis_core::Vessel,
+    ) -> Result<Vec<Event>, kerotakis_core::SolveError> {
+        kerotakis_core::displacement::over(self.inner, vessel)
     }
 }
 

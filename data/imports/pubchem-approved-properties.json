@@ -1,0 +1,49 @@
+{
+  "_comment": "DATA-007: Tiny approved PubChem import. Per-field provenance with one deliberately incompatible annotation rejected in test. PubChem Compound data is in the public domain (NCBI/NLM).",
+  "source": {
+    "id": "pubchem-compound-001",
+    "citation": "PubChem Compound, National Center for Biotechnology Information, NLM/NIH; public domain",
+    "licence": "LicenseRef-PubChem-Public-Domain",
+    "lane": "build_oracle",
+    "origin": "https://pubchem.ncbi.nlm.nih.gov",
+    "retrieved": "2026-08-22"
+  },
+  "properties": [
+    {
+      "species_id": "water",
+      "pubchem_cid": 962,
+      "field": "molar_mass",
+      "value": 18.015,
+      "unit": "g/mol",
+      "compatible": true,
+      "notes": "IUPAC standard atomic weights"
+    },
+    {
+      "species_id": "sodium-chloride",
+      "pubchem_cid": 5234,
+      "field": "molar_mass",
+      "value": 58.44,
+      "unit": "g/mol",
+      "compatible": true,
+      "notes": "IUPAC standard atomic weights"
+    },
+    {
+      "species_id": "water",
+      "pubchem_cid": 962,
+      "field": "boiling_point",
+      "value": 100.0,
+      "unit": "degC",
+      "compatible": true,
+      "notes": "Standard boiling point at 1 atm"
+    },
+    {
+      "species_id": "water",
+      "pubchem_cid": 962,
+      "field": "patent_count",
+      "value": 12345,
+      "unit": "count",
+      "compatible": false,
+      "rejection_reason": "Patent count is a database administrative field, not a chemical property. PubChem does not licence patent metadata for redistribution."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 #![cfg(all(
     feature = "engine",
-    any(feature = "legacy-basic-oracle", feature = "my-basic-preview")
+    feature = "my-basic"
 ))]
 
 use kerotakis_phreeqc::{databases, Phreeqc};
@@ -189,7 +189,7 @@ fn phreeqc_string_function_spellings_match_the_legacy_backend() {
                  StringFunctions\n\
                  -start\n\
                  10 s$ = CHR$(65) + MID$(\"xyz\", 2, 2)\n\
-                 20 SAVE ASC(MID$(s$, 1, 1)) + VAL(STR$(LEN(s$)))\n\
+                 20 SAVE ASC(MID$(s$, 1, 1)) + VAL(STR$(LEN(s$))) + ASC(STR$(LEN(s$))) + ASC(STR$(-1))\n\
                  -end\n\
              SOLUTION 1\n\
                  pH 7\n\
@@ -199,7 +199,10 @@ fn phreeqc_string_function_spellings_match_the_legacy_backend() {
              END\n",
         )
         .unwrap();
-    assert_eq!(engine.last_value("V_StringFunctions"), Some(68.0));
+    // PHREEQC STR$ reserves a leading field-separator column for both signs.
+    // Thus ASC(STR$(3)) and ASC(STR$(-1)) are both ASCII space; ex21 relies on
+    // the same separator when concatenating generated numeric fields.
+    assert_eq!(engine.last_value("V_StringFunctions"), Some(132.0));
 }
 
 #[test]
@@ -240,7 +243,7 @@ fn phreeqc_math_aliases_match_the_legacy_backend() {
             "CALCULATE_VALUES\n\
                  MathAliases\n\
                  -start\n\
-                 10 SAVE SQRT(9) + ARCTAN(1)\n\
+                 10 SAVE SQR(3) + SQRT(9) + ARCTAN(1)\n\
                  -end\n\
              SOLUTION 1\n\
                  pH 7\n\
@@ -251,6 +254,6 @@ fn phreeqc_math_aliases_match_the_legacy_backend() {
              END\n",
         )
         .unwrap();
-    let expected = 3.0 + std::f64::consts::FRAC_PI_4;
+    let expected = 9.0 + 3.0 + std::f64::consts::FRAC_PI_4;
     assert!((engine.last_value("V_MathAliases").unwrap() - expected).abs() < 1e-10);
 }

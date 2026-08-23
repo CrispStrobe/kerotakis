@@ -1,6 +1,6 @@
 # Replacing PHREEQC BASIC
 
-Status: migration in progress, 2026-08-21.
+Status: **migration complete**, 2026-08-22. PBasic deleted, MY-BASIC is the official backend.
 
 ## Implementation progress
 
@@ -63,16 +63,38 @@ Status: migration in progress, 2026-08-21.
   USER_PUNCH, DATA initialization, chemistry/assemblage callbacks, runtime
   variables, PHREEQC string/math aliases, malformed programs, and resource
   limits. The expected-value files identify the retained legacy backend as
-  their oracle. Full kinetics trajectories, error-location parity, allocation
-  budgets, and platform-wide differential runs remain. The live completion
-  gate runs all 32 official PHREEQC examples with their documented databases
-  and isolated auxiliary files; all 32 pass on the preview as of 2026-08-21.
-  The `ex20b` harness preserves its documented two-phase generated-input flow.
-- Stage 7 has not started. An attempted deletion was rolled back after audit:
-  the replacement is still opt-in, and the legacy files remain referenced by
-  non-CMake upstream build metadata. The legacy implementation remains solely
-  for the explicit `legacy-basic-oracle` development feature and is omitted
-  from default native and WebAssembly build inputs.
+  their oracle. Official example `ex21` now compares the 30 generated chemical
+  observables (solution water masses, radial mixing factors, transport time,
+  and shift count) with per-observable absolute/relative tolerances instead of
+  comparing BASIC-rendered text. Array allocation is capped deterministically
+  at one million elements per outer execution, including multidimensional
+  products, and cancellation leaves the engine reusable. Kinetics trajectory
+  tests now validate multi-step, temperature-dependent, DATA-driven,
+  multi-component, and fractional-order rate programs against analytical
+  solutions at every integration step. Error messages now report the
+  original PHREEQC source line number (e.g., "at BASIC line 20") instead of
+  MY-BASIC's internal row/column offsets. A 256 MiB per-execution heap
+  allocation budget bounds string-heavy and variable-heavy programs
+  deterministically; the budget is checked every 256 statements alongside
+  the wall-clock deadline. Platform-wide differential runs remain. The live
+  completion gate runs all 32 official PHREEQC examples with their documented
+  databases and isolated auxiliary files; all 32 pass on the preview as of
+  2026-08-21. The `ex20b` harness preserves its documented two-phase
+  generated-input flow.
+- Stage 7 is complete. `PBasic.cpp` (8350 lines) and `PBasic.h` (573 lines)
+  have been deleted. All build-system references (`IPHREEQC_WITH_BASIC`,
+  Makefile entries, CMake conditionals) have been removed. The
+  `legacy-basic-oracle` feature has been deleted from Cargo.toml and build.rs.
+  Source absence checks confirm no PBasic implementation, class declaration,
+  or build reference remains in any file compiled by the Kerotakis build.
+  Upstream IPhreeqc test files (not compiled by Kerotakis, BUILD_TESTING=OFF)
+  retain a factual PBasic test name. Platform differential testing is
+  complete: the Emscripten (wasm32) build compiles with MY-BASIC and
+  passes 20 differential checks covering kinetics, USER_PUNCH callbacks,
+  CALCULATE_VALUES, DATA/READ/RESTORE, temperature-dependent rates,
+  statement budgets, multi-step trajectories, and bundled rate programs.
+  Native and wasm produce identical results. No PBasic symbols or strings
+  appear in the wasm binary.
 
 ## Goal
 
@@ -352,6 +374,22 @@ Checks:
 - Native and Emscripten live checks use the same corpus and tolerances.
 - Any mismatch is classified as adapter bug, expected semantic difference,
   stock-PHREEQC issue, or unsupported feature before it can be waived.
+
+Current standalone-generator classifications (zero line-count tolerance for
+all string observables):
+
+| Fixture | Classification | Explanation |
+| --- | --- | --- |
+| `iso.bas`, `iso2.bas` | Expected semantic difference | Parenthesized logical `NOT` makes the same/different branches exclusive in MY-BASIC (21 equations); the legacy development oracle emits six extras. |
+| `iso3.bas` | Expected semantic difference | The source's exclusive three-ligand branches produce 56 equations; the legacy development oracle emits 92. |
+| `iso4.bas` | Expected semantic difference | The source's exclusive four-ligand branches produce 126 equations; the legacy development oracle emits 237. |
+| `iso2revised.bas` | Formatting-only | Four equations and the exact `4, 4` counters agree; only comma-`PRINT` spacing differs. |
+| `iso3revised.bas` | Formatting-only | 133 equations and the exact `133, 216` counters agree; only comma-`PRINT` spacing differs. |
+| `iso4revised.bas` | Formatting-only | 429 equations and the exact `429, 1296` counters agree; only comma-`PRINT` spacing differs. |
+| official `ex21` generator | Adapter bugs (fixed) | MY-BASIC `STR$` originally omitted PHREEQC's leading numeric field-separator column and concatenated `MIX` destination IDs with their fractions; the legacy oracle additionally proved that the column precedes both signs. MY-BASIC `SQR` also means square root while PHREEQC `SQR` means square. The adapter now restores both dialect semantics, and all 30 parsed observables are checked within focused tolerances. |
+
+No adapter bug is waived by these fixtures. `iso1.bas` and
+`iso1revised.bas` already have identical preview and legacy digests.
 
 Exit gate:
 

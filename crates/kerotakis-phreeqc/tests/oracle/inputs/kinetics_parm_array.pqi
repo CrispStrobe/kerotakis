@@ -1,0 +1,23 @@
+RATES
+ParmDriven
+-start
+# Use multiple PARM values: PARM(1)=k, PARM(2)=order exponent
+10 rate = PARM(1) * M ^ PARM(2) * TIME
+20 IF rate > M THEN rate = M
+30 SAVE rate
+-end
+SOLUTION 1
+    pH 7
+KINETICS 1
+    ParmDriven
+        -formula H2O 0
+        -m 1
+        -m0 1
+        -parms 0.5 1.5
+        -tol 1e-12
+        -steps 0.25 0.25 0.5 1.0 seconds
+SELECTED_OUTPUT
+    -reset false
+    -high_precision true
+    -kinetics ParmDriven
+END

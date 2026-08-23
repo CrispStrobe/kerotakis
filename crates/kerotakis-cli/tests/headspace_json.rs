@@ -68,11 +68,16 @@ fn every_gas_boundary_round_trips_through_the_cli_contract() {
         .unwrap()
         .iter()
         .any(|event| event["event"] == "gas_absorbed" && event["species"] == "CO2"));
-    assert!(steps[7]["events"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .any(|event| event["event"] == "precipitated" && event["species"] == "CaCO3"));
+    assert!(
+        steps[7]["events"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .any(|event| event["event"] == "precipitated" && event["species"] == "CaCO3"),
+        "limewater result had no calcite precipitation: events={}, vessel={}",
+        steps[7]["events"],
+        steps[7]["bench"]["vessels"][0]
+    );
 
     std::fs::remove_dir_all(dir).ok();
 }

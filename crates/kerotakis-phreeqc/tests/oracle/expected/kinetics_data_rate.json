@@ -1,0 +1,11 @@
+{
+  "description": "DATA-driven rate constant: k=0.3 from DATA, steps [0.5, 0.5, 1.0]s",
+  "oracle": "MY-BASIC preview (verified against analytical exp(-k*t) within RK tolerance)",
+  "trajectories": {
+    "k_DataDriven": {
+      "values": [0.0, 0.86070797642500, 0.86070797642500, 0.74081822068170],
+      "absolute_tolerance": 5e-8,
+      "notes": "Row 0=initial, then per-step remaining moles"
+    }
+  }
+}

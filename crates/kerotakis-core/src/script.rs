@@ -154,6 +154,10 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     "balance" | "mass" => Instrument::Balance,
                     "ph" | "phmeter" => Instrument::PhMeter,
                     "eyes" | "look" => Instrument::Eyes,
+                    "pressure" | "gauge" => Instrument::PressureGauge,
+                    "volume" => Instrument::VolumeMeter,
+                    "conductivity" => Instrument::ConductivityMeter,
+                    "spectrophotometer" | "uvvis" => Instrument::Spectrophotometer,
                     other => return Err(format!("unknown instrument '{other}'")),
                 },
             }

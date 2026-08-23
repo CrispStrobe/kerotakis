@@ -1,0 +1,38 @@
+{
+  "_comment": "DATA-006: Tiny CC0 import from Wikidata. Three species identity crosswalks verifying the end-to-end import pipeline. Wikidata content is CC0 1.0.",
+  "source": {
+    "id": "wikidata-cc0-identity-001",
+    "citation": "Wikidata, https://www.wikidata.org; CC0 1.0 Universal",
+    "licence": "CC0-1.0",
+    "lane": "runtime",
+    "origin": "https://www.wikidata.org/wiki/Q283",
+    "revision": null,
+    "retrieved": "2026-08-22"
+  },
+  "identities": [
+    {
+      "species_id": "water",
+      "wikidata_qid": "Q283",
+      "cas_rn": "7732-18-5",
+      "pubchem_cid": "962",
+      "inchikey": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+      "iupac_name": "oxidane"
+    },
+    {
+      "species_id": "sodium-chloride",
+      "wikidata_qid": "Q2314",
+      "cas_rn": "7647-14-5",
+      "pubchem_cid": "5234",
+      "inchikey": "FAPWRFPIFSIZLT-UHFFFAOYSA-M",
+      "iupac_name": "sodium chloride"
+    },
+    {
+      "species_id": "calcium-carbonate",
+      "wikidata_qid": "Q23767",
+      "cas_rn": "471-34-1",
+      "pubchem_cid": "10112",
+      "inchikey": "VTYYLEPIZMXCLO-UHFFFAOYSA-L",
+      "iupac_name": "calcium carbonate"
+    }
+  ]
+}

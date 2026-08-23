@@ -1,0 +1,25 @@
+RATES
+DataDriven
+-start
+# Rate constant read from DATA
+10 DATA 0.3
+20 RESTORE 10
+30 READ k
+40 rate = k * M * TIME
+50 IF rate > M THEN rate = M
+60 SAVE rate
+-end
+SOLUTION 1
+    pH 7
+KINETICS 1
+    DataDriven
+        -formula H2O 0
+        -m 1
+        -m0 1
+        -tol 1e-12
+        -steps 0.5 0.5 1.0 seconds
+SELECTED_OUTPUT
+    -reset false
+    -high_precision true
+    -kinetics DataDriven
+END

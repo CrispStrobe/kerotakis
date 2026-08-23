@@ -18,13 +18,29 @@ fi
 
 EXPORTED_FUNCTIONS='["_CreateIPhreeqc","_DestroyIPhreeqc","_LoadDatabaseString","_RunString","_GetErrorString","_GetSpeciesDeltaH","_SetOutputFileOn","_SetErrorFileOn","_SetLogFileOn","_SetDumpFileOn","_SetSelectedOutputFileOn","_SetSelectedOutputStringOn","_SetOutputStringOn","_GetOutputString","_GetOutputStringLineCount","_GetSelectedOutputStringLineCount","_GetSelectedOutputStringLine","_malloc","_free"]'
 
+case "${IPHREEQC_BASIC_MODE:-disabled}" in
+    disabled)
+        BASIC_CMAKE_ARGS=(-DIPHREEQC_WITH_MY_BASIC=OFF)
+        ;;
+    my-basic)
+        BASIC_CMAKE_ARGS=(
+            -DIPHREEQC_WITH_MY_BASIC=ON
+            -DKEROTAKIS_MY_BASIC_DIR="$ROOT/vendor/my-basic"
+        )
+        ;;
+    *)
+        echo "IPHREEQC_BASIC_MODE must be 'disabled' or 'my-basic'" >&2
+        exit 2
+        ;;
+esac
+
 # -fexceptions is required: PHREEQC uses C++ exceptions for error control
 # flow, and Emscripten disables exception catching by default.
 emcmake cmake -S "$SRC" -B "$BUILD" \
     -DCMAKE_BUILD_TYPE=MinSizeRel \
     -DBUILD_SHARED_LIBS=OFF \
     -DIPHREEQC_ENABLE_MODULE=OFF \
-    -DIPHREEQC_WITH_BASIC=OFF \
+    "${BASIC_CMAKE_ARGS[@]}" \
     -DBUILD_TESTING=OFF \
     -DCMAKE_CXX_FLAGS="-fexceptions" \
     -DCMAKE_C_FLAGS="-fexceptions"

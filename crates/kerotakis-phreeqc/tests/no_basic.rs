@@ -1,7 +1,6 @@
 #![cfg(all(
     feature = "engine",
-    not(feature = "legacy-basic-oracle"),
-    not(feature = "my-basic-preview")
+    not(feature = "my-basic")
 ))]
 
 use kerotakis_phreeqc::{databases, Phreeqc};

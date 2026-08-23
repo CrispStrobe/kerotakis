@@ -1,0 +1,439 @@
+//! Conservative one-dimensional transport before reactive coupling.
+//!
+//! A transport cell is an ordinary [`Vessel`]. Liquid and aqueous portions
+//! move; solids, headspaces, surfaces, exchangers, and solid solutions remain
+//! owned by their cell. One step is an explicit first-order upwind update with
+//! a Courant fraction in `[0, 1]`. Every outflow is snapshotted before any cell
+//! mutates, so the result does not depend on iteration order.
+//!
+//! [`CellChain::advance`] deliberately performs no chemistry and invalidates
+//! stale solution metadata after matter moves. [`CellChain::advance_reactive`]
+//! adds the operator-splitting seam: transport first, then local equilibrium,
+//! with whole-chain rollback if any cell solve fails.
+
+use serde::{Deserialize, Serialize};
+
+use crate::ops::Event;
+use crate::solve::{adiabatic_mix_temperature, Equilibrator, SolveError};
+use crate::species::{self, Phase, SpeciesId};
+use crate::units::{Joules, Kelvin, Liters, Moles};
+use crate::vessel::{Portion, ThermalMode, Vessel};
+
+// `Vessel::liquid_volume` is an additive solvent-volume proxy and deliberately
+// excludes solute volume. Aqueous/exchange bookkeeping can therefore move it
+// by tenths of a part per million without changing the hydraulic cell. Treat
+// that scale as the same geometry; a material volume change remains an error
+// and the absolute floor still protects very small cells.
+const VOLUME_RELATIVE_TOLERANCE: f64 = 1e-6;
+const VOLUME_ABSOLUTE_TOLERANCE_L: f64 = 1e-12;
+
+#[derive(Debug, thiserror::Error)]
+pub enum TransportError {
+    #[error("a 1-D cell chain needs at least one cell")]
+    EmptyChain,
+    #[error("Courant fraction must be finite and between 0 and 1, got {fraction}")]
+    InvalidCourant { fraction: f64 },
+    #[error("transport cell {cell} has no finite positive liquid volume (got {volume_l} L)")]
+    InvalidCellVolume { cell: usize, volume_l: f64 },
+    #[error(
+        "transport cell {cell} has {actual_l} L of liquid; the uniform chain requires {expected_l} L"
+    )]
+    NonUniformCellVolume {
+        cell: usize,
+        expected_l: f64,
+        actual_l: f64,
+    },
+    #[error(
+        "the inlet represents {actual_l} L of liquid; one full transport cell requires {expected_l} L"
+    )]
+    InletVolume { expected_l: f64, actual_l: f64 },
+    #[error("{location} contains a non-finite temperature, charge, or mobile amount")]
+    InvalidMobileState { location: String },
+    #[error("transport cell {cell} is thermostatted; conservative AQ-011 transport requires adiabatic cells")]
+    ThermostattedCell { cell: usize },
+}
+
+#[derive(Debug, thiserror::Error)]
+pub enum ReactiveTransportError {
+    #[error(transparent)]
+    Transport(#[from] TransportError),
+    #[error("reaction solve failed in transport cell {cell}: {source}")]
+    Reaction {
+        cell: usize,
+        #[source]
+        source: SolveError,
+    },
+}
+
+/// A mobile boundary parcel reported by one transport step.
+///
+/// The inlet is a representative full-cell composition; [`TransportStep`]
+/// records only the fraction actually injected. The effluent is the matching
+/// fraction removed from the last cell. Keeping both makes an open-column
+/// conservation equation explicit: `old + injected = new + effluent`.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MobileParcel {
+    pub contents: Vec<Portion>,
+    pub temperature: Kelvin,
+    /// Net analytical solute charge, in moles of charge equivalents.
+    pub solute_charge: f64,
+}
+
+impl MobileParcel {
+    /// Extract every liquid/aqueous portion from a vessel without mutation.
+    pub fn from_vessel(vessel: &Vessel) -> Self {
+        Self {
+            contents: vessel
+                .contents
+                .iter()
+                .filter(|portion| is_mobile(portion.phase))
+                .cloned()
+                .collect(),
+            temperature: vessel.temperature,
+            solute_charge: vessel.solute_charge,
+        }
+    }
+
+    pub fn moles_of(&self, species: &SpeciesId) -> Moles {
+        Moles(
+            self.contents
+                .iter()
+                .filter(|portion| &portion.species == species)
+                .map(|portion| portion.moles.0)
+                .sum(),
+        )
+    }
+
+    pub fn liquid_volume(&self) -> Liters {
+        Liters(
+            self.contents
+                .iter()
+                .filter(|portion| portion.phase == Phase::Liquid)
+                .filter_map(|portion| {
+                    species::lookup(&portion.species)
+                        .map(|data| data.liters_from_moles(portion.moles).0)
+                })
+                .sum(),
+        )
+    }
+
+    pub fn heat_capacity(&self) -> f64 {
+        self.contents
+            .iter()
+            .filter_map(|portion| {
+                species::lookup(&portion.species).map(|data| portion.moles.0 * data.heat_capacity)
+            })
+            .sum()
+    }
+
+    pub fn sensible_energy(&self) -> Joules {
+        Joules(self.heat_capacity() * (self.temperature.0 - Kelvin::STANDARD.0))
+    }
+
+    fn scaled(&self, fraction: f64) -> Self {
+        Self {
+            contents: self
+                .contents
+                .iter()
+                .filter_map(|portion| {
+                    let moles = portion.moles.0 * fraction;
+                    (moles > 0.0).then(|| Portion {
+                        species: portion.species.clone(),
+                        moles: Moles(moles),
+                        phase: portion.phase,
+                    })
+                })
+                .collect(),
+            temperature: self.temperature,
+            solute_charge: self.solute_charge * fraction,
+        }
+    }
+
+    fn validate(&self, location: impl Into<String>) -> Result<(), TransportError> {
+        if !self.temperature.0.is_finite()
+            || self.temperature.0 <= 0.0
+            || !self.solute_charge.is_finite()
+            || self.contents.iter().any(|portion| {
+                !is_mobile(portion.phase) || !portion.moles.0.is_finite() || portion.moles.0 < 0.0
+            })
+        {
+            return Err(TransportError::InvalidMobileState {
+                location: location.into(),
+            });
+        }
+        Ok(())
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct TransportStep {
+    pub courant_fraction: f64,
+    pub injected: MobileParcel,
+    pub effluent: MobileParcel,
+}
+
+/// Solver output associated with one cell after a reactive transport step.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CellReaction {
+    pub cell: usize,
+    pub events: Vec<Event>,
+}
+
+/// One conservative transport step followed by local cell equilibria.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ReactiveTransportStep {
+    pub transport: TransportStep,
+    pub reactions: Vec<CellReaction>,
+}
+
+/// A uniform one-dimensional finite-volume chain.
+#[derive(Debug, Clone)]
+pub struct CellChain {
+    cells: Vec<Vessel>,
+}
+
+impl CellChain {
+    pub fn new(cells: Vec<Vessel>) -> Result<Self, TransportError> {
+        let chain = Self { cells };
+        chain.uniform_cell_volume(false)?;
+        Ok(chain)
+    }
+
+    pub fn cells(&self) -> &[Vessel] {
+        &self.cells
+    }
+
+    /// Mutable cell access is the coupling seam for AQ-012. Geometry is
+    /// validated again before every transport step, so a reaction cannot
+    /// silently leave an invalid chain behind.
+    pub fn cells_mut(&mut self) -> &mut [Vessel] {
+        &mut self.cells
+    }
+
+    pub fn total_moles(&self, species: &SpeciesId) -> Moles {
+        Moles(self.cells.iter().map(|cell| cell.moles_of(species).0).sum())
+    }
+
+    pub fn total_solute_charge(&self) -> f64 {
+        self.cells.iter().map(|cell| cell.solute_charge).sum()
+    }
+
+    pub fn total_sensible_energy(&self) -> Joules {
+        Joules(self.cells.iter().map(|cell| cell.enthalpy().0).sum())
+    }
+
+    /// Advance one explicit upwind step.
+    ///
+    /// `inlet` represents one complete cell volume at the boundary
+    /// composition. `courant_fraction` is the fraction of each cell volume
+    /// replaced during this step. The update is simultaneous and keeps cell
+    /// liquid volumes fixed when the validated uniform-volume contract holds.
+    pub fn advance(
+        &mut self,
+        inlet: &Vessel,
+        courant_fraction: f64,
+    ) -> Result<TransportStep, TransportError> {
+        if !courant_fraction.is_finite() || !(0.0..=1.0).contains(&courant_fraction) {
+            return Err(TransportError::InvalidCourant {
+                fraction: courant_fraction,
+            });
+        }
+
+        let cell_volume = self.uniform_cell_volume(true)?;
+        let inlet = MobileParcel::from_vessel(inlet);
+        inlet.validate("transport inlet")?;
+        let inlet_volume = inlet.liquid_volume().0;
+        let surface_reference_tolerance = self
+            .cells
+            .first()
+            .map(surface_reference_volume)
+            .unwrap_or(0.0);
+        if !same_volume(cell_volume, inlet_volume, surface_reference_tolerance) {
+            return Err(TransportError::InletVolume {
+                expected_l: cell_volume,
+                actual_l: inlet_volume,
+            });
+        }
+
+        let outgoing: Vec<MobileParcel> = self
+            .cells
+            .iter()
+            .enumerate()
+            .map(|(index, cell)| {
+                let parcel = MobileParcel::from_vessel(cell);
+                parcel.validate(format!("transport cell {index}"))?;
+                Ok(parcel.scaled(courant_fraction))
+            })
+            .collect::<Result<_, TransportError>>()?;
+        let injected = inlet.scaled(courant_fraction);
+        let effluent = outgoing
+            .last()
+            .cloned()
+            .expect("uniform_cell_volume rejects an empty chain");
+
+        if courant_fraction == 0.0 {
+            return Ok(TransportStep {
+                courant_fraction,
+                injected,
+                effluent,
+            });
+        }
+
+        for cell in &mut self.cells {
+            for portion in &mut cell.contents {
+                if is_mobile(portion.phase) {
+                    portion.moles = Moles(portion.moles.0 * (1.0 - courant_fraction));
+                }
+            }
+            cell.contents.retain(|portion| portion.moles.0 > 1e-15);
+            cell.solute_charge *= 1.0 - courant_fraction;
+            cell.solution = None;
+        }
+
+        for index in 0..self.cells.len() {
+            let incoming = if index == 0 {
+                &injected
+            } else {
+                &outgoing[index - 1]
+            };
+            let cell = &mut self.cells[index];
+            if matches!(cell.thermal_mode, ThermalMode::Adiabatic) {
+                cell.temperature = adiabatic_mix_temperature(
+                    cell.temperature,
+                    cell.heat_capacity(),
+                    incoming.temperature,
+                    incoming.heat_capacity(),
+                );
+            }
+            for portion in &incoming.contents {
+                cell.deposit(portion.species.clone(), portion.moles, portion.phase);
+            }
+            cell.solute_charge += incoming.solute_charge;
+        }
+
+        Ok(TransportStep {
+            courant_fraction,
+            injected,
+            effluent,
+        })
+    }
+
+    /// Transport mobile matter, then equilibrate every stationary cell.
+    ///
+    /// This is first-order operator splitting: the conservative AQ-011 step
+    /// runs once, then the supplied local solver sees cells from inlet to
+    /// outlet. If any solve fails, the complete chain is restored to its
+    /// pre-step state; solver-internal caches are outside this state contract.
+    pub fn advance_reactive<E: Equilibrator + ?Sized>(
+        &mut self,
+        inlet: &Vessel,
+        courant_fraction: f64,
+        equilibrator: &mut E,
+    ) -> Result<ReactiveTransportStep, ReactiveTransportError> {
+        let before = self.cells.clone();
+        let transport = self.advance(inlet, courant_fraction)?;
+        let mut reactions = Vec::with_capacity(self.cells.len());
+
+        for (cell, vessel) in self.cells.iter_mut().enumerate() {
+            match equilibrator.equilibrate(vessel) {
+                Ok(events) => reactions.push(CellReaction { cell, events }),
+                Err(source) => {
+                    self.cells = before;
+                    return Err(ReactiveTransportError::Reaction { cell, source });
+                }
+            }
+        }
+
+        Ok(ReactiveTransportStep {
+            transport,
+            reactions,
+        })
+    }
+
+    fn uniform_cell_volume(
+        &self,
+        allow_surface_reference_transfer: bool,
+    ) -> Result<f64, TransportError> {
+        let Some(first) = self.cells.first() else {
+            return Err(TransportError::EmptyChain);
+        };
+        if !matches!(first.thermal_mode, ThermalMode::Adiabatic) {
+            return Err(TransportError::ThermostattedCell { cell: 0 });
+        }
+        let expected = hydraulic_liquid_volume(first).0;
+        if !expected.is_finite() || expected <= 0.0 {
+            return Err(TransportError::InvalidCellVolume {
+                cell: 0,
+                volume_l: expected,
+            });
+        }
+        for (index, cell) in self.cells.iter().enumerate().skip(1) {
+            if !matches!(cell.thermal_mode, ThermalMode::Adiabatic) {
+                return Err(TransportError::ThermostattedCell { cell: index });
+            }
+            let actual = hydraulic_liquid_volume(cell).0;
+            if !actual.is_finite() || actual <= 0.0 {
+                return Err(TransportError::InvalidCellVolume {
+                    cell: index,
+                    volume_l: actual,
+                });
+            }
+            let surface_reference_tolerance = if allow_surface_reference_transfer {
+                surface_reference_volume(first) + surface_reference_volume(cell)
+            } else {
+                0.0
+            };
+            if !same_volume(expected, actual, surface_reference_tolerance) {
+                return Err(TransportError::NonUniformCellVolume {
+                    cell: index,
+                    expected_l: expected,
+                    actual_l: actual,
+                });
+            }
+        }
+        Ok(expected)
+    }
+}
+
+fn is_mobile(phase: Phase) -> bool {
+    matches!(phase, Phase::Liquid | Phase::Aqueous)
+}
+
+/// Carrier-liquid volume, excluding water currently released from stationary
+/// surface reference sites. That water is mobile matter, but its matching
+/// deficit remains on the interface ledger; it must not look like a change in
+/// the fixed hydraulic cell geometry.
+fn hydraulic_liquid_volume(vessel: &Vessel) -> Liters {
+    let released_water = Moles(
+        vessel
+            .surfaces
+            .iter()
+            .map(|surface| surface.water_release.0)
+            .sum(),
+    );
+    let released_volume = species::lookup_key("water")
+        .map(|water| water.liters_from_moles(released_water).0)
+        .unwrap_or(0.0);
+    Liters(vessel.liquid_volume().0 - released_volume)
+}
+
+/// Maximum solvent volume that a cell's finite surface sites can exchange
+/// with the mobile phase while moving between neutral reference states.
+fn surface_reference_volume(vessel: &Vessel) -> f64 {
+    let capacity = Moles(
+        vessel
+            .surfaces
+            .iter()
+            .map(|surface| surface.strong_capacity.0 + surface.weak_capacity.0)
+            .sum(),
+    );
+    species::lookup_key("water")
+        .map(|water| water.liters_from_moles(capacity).0)
+        .unwrap_or(0.0)
+}
+
+fn same_volume(expected: f64, actual: f64, additional_absolute_tolerance_l: f64) -> bool {
+    (expected - actual).abs()
+        <= (expected.abs() * VOLUME_RELATIVE_TOLERANCE).max(VOLUME_ABSOLUTE_TOLERANCE_L)
+            + additional_absolute_tolerance_l
+}

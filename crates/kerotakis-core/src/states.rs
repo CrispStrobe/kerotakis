@@ -47,10 +47,24 @@ const WATER_MOLAR_MASS_KG: f64 = 0.018_015;
 pub const WATER_H_FUS: f64 = 6010.0;
 /// Enthalpy of vaporisation of water at the boiling point, J/mol (CRC).
 pub const WATER_H_VAP: f64 = 40650.0;
+/// Lowest temperature at which the linear colligative partial-freezing model
+/// is allowed to claim a liquid/ice split.
+///
+/// 252 K is approximately the sodium-chloride/water eutectic temperature,
+/// but this is deliberately a *model boundary*, not a claim that every brine
+/// shares that eutectic. Below it the identity and composition of the solid
+/// salt phases matter and the linear dilute-solution relation is no longer an
+/// adequate phase diagram.
+pub const BRINE_MODEL_MIN_K: f64 = 252.0;
 
 /// Cryoscopic constant of water, K·kg·mol⁻¹ — derived, not looked up.
 pub fn cryoscopic_constant() -> f64 {
     R * WATER_FREEZING_K.powi(2) * WATER_MOLAR_MASS_KG / WATER_H_FUS
+}
+
+/// Particle molality at the stated low-temperature boundary.
+pub fn brine_model_max_particle_molality() -> f64 {
+    (WATER_FREEZING_K - BRINE_MODEL_MIN_K) / cryoscopic_constant()
 }
 
 /// Ebullioscopic constant of water, K·kg·mol⁻¹ — likewise derived.
@@ -154,5 +168,12 @@ mod tests {
         // water for a higher boiling point are wasting their time.
         let t = transitions(2.0);
         assert!(t.boiling_elevation() < t.freezing_depression() / 3.0);
+    }
+
+    #[test]
+    fn brine_boundary_is_finite_and_matches_its_declared_temperature() {
+        let maximum = brine_model_max_particle_molality();
+        assert!(maximum.is_finite() && maximum > 10.0);
+        assert!((transitions(maximum).freezing_k - BRINE_MODEL_MIN_K).abs() < 1e-12);
     }
 }

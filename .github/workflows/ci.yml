@@ -30,8 +30,39 @@ jobs:
       - name: Codex — every claim must still compute
         run: cargo run -p kerotakis-cli -- codex lint
 
+  my-basic-preview:
+    name: MY-BASIC preview (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Differential and live preview corpus
+        run: cargo test -p kerotakis-phreeqc --features my-basic-preview
+
+  legacy-basic-oracle:
+    name: Legacy BASIC oracle (development only)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Independently verify Stage 6 classifications
+        run: >-
+          cargo test -p kerotakis-phreeqc --features legacy-basic-oracle
+          --test basic_dialect_oracle
+          --test ex21_observable_parity
+          --test standalone_basic_corpus
+
   wasm-core:
-    name: Core compiles to wasm32
+    name: Core and data schemas compile to wasm32
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -39,8 +70,24 @@ jobs:
         with:
           targets: wasm32-unknown-unknown
       - uses: Swatinem/rust-cache@v2
-      - name: Check core on wasm
-        run: cargo check -p kerotakis-core --target wasm32-unknown-unknown
+      - name: Check core and data schemas on wasm
+        run: cargo check -p kerotakis-core -p kerotakis-data --target wasm32-unknown-unknown
+
+  registry-export:
+    name: Current registry source export
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Diff every legacy registry field
+        run: cargo test -p kerotakis-registry-export
+      - name: Generate the reviewable source document
+        run: >-
+          cargo run -p kerotakis-registry-export --
+          "$RUNNER_TEMP/registry-source-v1.json"
+      - name: Generated source document is checked in exactly
+        run: cmp data/registry/registry-source-v1.json "$RUNNER_TEMP/registry-source-v1.json"
 
   wasm-lab:
     name: The bench in WebAssembly
@@ -71,6 +118,8 @@ jobs:
   wasm-engine:
     name: IPhreeqc wasm gate
     runs-on: ubuntu-latest
+    env:
+      IPHREEQC_BASIC_MODE: my-basic
     steps:
       - uses: actions/checkout@v4
         with:
@@ -87,6 +136,8 @@ jobs:
   wasm-bridge:
     name: The two wasm halves, together
     runs-on: ubuntu-latest
+    env:
+      IPHREEQC_BASIC_MODE: my-basic
     steps:
       - uses: actions/checkout@v4
         with:

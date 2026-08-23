@@ -17,6 +17,14 @@ an improvement. Hence the ordering rule below.
 OPT-1 exists to make that number obtainable. Until OPT-1 has landed, only
 behavior-preserving, test-proven changes (OPT-2, OPT-8) may merge.
 
+**Status check after the R-sprint merge (2026-08-23, same day):** the
+survey's hot-path findings survive the sprint — the 34-iteration pe
+bisection with its bracket-width-only exit now sits at
+`aqueous.rs:298`/`336` in a file grown to 3,077 lines; there are still
+no benches, no `[profile.release]`, and no `wasm-opt` pass. Every line
+number in the tasks below is pre-merge — re-verify per ground rule
+before editing.
+
 ---
 
 ## Ground rules — read before starting any task

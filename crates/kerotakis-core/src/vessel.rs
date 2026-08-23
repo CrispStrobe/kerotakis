@@ -180,6 +180,223 @@ impl SurfaceSites {
     }
 }
 
+/// Cations whose exchanger inventory Kerotakis can currently round-trip.
+///
+/// Keeping this closed prevents a PHREEQC database from binding an ion that
+/// the vessel ledger cannot retain. Extend the enum and the engine readback
+/// together whenever another ion is reviewed.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ExchangeIon {
+    Hydrogen,
+    Sodium,
+    Calcium,
+    Magnesium,
+}
+
+impl ExchangeIon {
+    pub fn species(self) -> SpeciesId {
+        match self {
+            Self::Hydrogen => SpeciesId::new("H+"),
+            Self::Sodium => SpeciesId::new("Na+"),
+            Self::Calcium => SpeciesId::new("Ca+2"),
+            Self::Magnesium => SpeciesId::new("Mg+2"),
+        }
+    }
+
+    /// Charge equivalents consumed by one mole of exchanger complex.
+    pub fn equivalents(self) -> f64 {
+        match self {
+            Self::Hydrogen | Self::Sodium => 1.0,
+            Self::Calcium | Self::Magnesium => 2.0,
+        }
+    }
+
+    pub fn molar_mass(self) -> f64 {
+        match self {
+            // The registry represents acidity through analytical reagents,
+            // so the bare proton is not a depositable species of its own.
+            Self::Hydrogen => 1.007_94,
+            _ => species::lookup(&self.species())
+                .map(|data| data.molar_mass)
+                .expect("reviewed exchange ion is in the species registry"),
+        }
+    }
+}
+
+/// One cation inventory held on a finite exchanger.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ExchangeOccupancy {
+    pub ion: ExchangeIon,
+    /// Moles of cation, not charge equivalents.
+    pub moles: Moles,
+}
+
+/// A finite, mass-owning cation exchanger such as sodium-form softener resin.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ExchangeSites {
+    /// Stable user-facing identity when a vessel carries several exchangers.
+    pub label: String,
+    /// Dry support mass excluding the exchangeable cations, g.
+    pub dry_mass: Grams,
+    /// Total negative-site capacity, mol charge equivalents.
+    pub capacity: Moles,
+    /// Bound cation inventory. A valid exchanger is fully counter-balanced.
+    pub occupancy: Vec<ExchangeOccupancy>,
+}
+
+impl ExchangeSites {
+    pub fn bound(&self, ion: ExchangeIon) -> Moles {
+        Moles(
+            self.occupancy
+                .iter()
+                .filter(|entry| entry.ion == ion)
+                .map(|entry| entry.moles.0)
+                .sum(),
+        )
+    }
+
+    pub fn occupied_equivalents(&self) -> Moles {
+        Moles(
+            self.occupancy
+                .iter()
+                .map(|entry| entry.moles.0 * entry.ion.equivalents())
+                .sum(),
+        )
+    }
+
+    pub fn has_valid_capacity(&self) -> bool {
+        if !self.dry_mass.0.is_finite()
+            || self.dry_mass.0 <= 0.0
+            || !self.capacity.0.is_finite()
+            || self.capacity.0 <= 0.0
+            || self
+                .occupancy
+                .iter()
+                .any(|entry| !entry.moles.0.is_finite() || entry.moles.0 < 0.0)
+        {
+            return false;
+        }
+        let tolerance = (self.capacity.0 * 1e-9).max(1e-12);
+        (self.occupied_equivalents().0 - self.capacity.0).abs() <= tolerance
+    }
+}
+
+/// Reviewed thermodynamic models for a mixed crystalline phase.
+///
+/// A closed enum prevents a save from claiming that an arbitrary pair and
+/// arbitrary interaction parameters were validated. New pairs extend the
+/// model, component mapping, and live-engine checks together.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SolidSolutionModel {
+    /// The non-ideal CaCO3-SrCO3 pair from PHREEQC example 10.
+    AragoniteStrontianite,
+}
+
+/// One end member whose inventory Kerotakis can round-trip.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SolidSolutionComponent {
+    CalciumCarbonate,
+    StrontiumCarbonate,
+}
+
+impl SolidSolutionComponent {
+    pub const ALL: [Self; 2] = [Self::CalciumCarbonate, Self::StrontiumCarbonate];
+
+    pub fn species(self) -> SpeciesId {
+        match self {
+            Self::CalciumCarbonate => SpeciesId::new("CaCO3"),
+            Self::StrontiumCarbonate => SpeciesId::new("SrCO3"),
+        }
+    }
+
+    pub fn molar_mass(self) -> f64 {
+        match self {
+            Self::CalciumCarbonate => 100.087,
+            Self::StrontiumCarbonate => 147.628,
+        }
+    }
+}
+
+/// The amount of one end member in a mixed crystal, in formula-unit moles.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SolidSolutionAmount {
+    pub component: SolidSolutionComponent,
+    pub moles: Moles,
+}
+
+/// A finite, mass-owning mixed crystalline phase.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SolidSolution {
+    pub label: String,
+    pub model: SolidSolutionModel,
+    pub components: Vec<SolidSolutionAmount>,
+}
+
+impl SolidSolution {
+    pub fn aragonite_strontianite(
+        label: impl Into<String>,
+        calcium_carbonate: Moles,
+        strontium_carbonate: Moles,
+    ) -> Self {
+        Self {
+            label: label.into(),
+            model: SolidSolutionModel::AragoniteStrontianite,
+            components: vec![
+                SolidSolutionAmount {
+                    component: SolidSolutionComponent::CalciumCarbonate,
+                    moles: calcium_carbonate,
+                },
+                SolidSolutionAmount {
+                    component: SolidSolutionComponent::StrontiumCarbonate,
+                    moles: strontium_carbonate,
+                },
+            ],
+        }
+    }
+
+    pub fn moles_of(&self, component: SolidSolutionComponent) -> Moles {
+        Moles(
+            self.components
+                .iter()
+                .filter(|entry| entry.component == component)
+                .map(|entry| entry.moles.0)
+                .sum(),
+        )
+    }
+
+    pub fn total_moles(&self) -> Moles {
+        Moles(self.components.iter().map(|entry| entry.moles.0).sum())
+    }
+
+    pub fn mass(&self) -> Grams {
+        Grams(
+            self.components
+                .iter()
+                .map(|entry| entry.moles.0 * entry.component.molar_mass())
+                .sum(),
+        )
+    }
+
+    pub fn has_valid_state(&self) -> bool {
+        !self.label.trim().is_empty()
+            && self.components.len() == SolidSolutionComponent::ALL.len()
+            && SolidSolutionComponent::ALL.iter().all(|component| {
+                self.components
+                    .iter()
+                    .filter(|entry| entry.component == *component)
+                    .count()
+                    == 1
+            })
+            && self
+                .components
+                .iter()
+                .all(|entry| entry.moles.0.is_finite() && entry.moles.0 >= 0.0)
+    }
+}
+
 /// One aqueous species in the true equilibrium distribution.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct SpeciesDetail {
@@ -300,6 +517,56 @@ impl SolutionInfo {
     }
 }
 
+// ── ARCH-004: MaterialLot ──────────────────────────────────────────
+
+/// A batch of material with its addition provenance (ARCH-004).
+///
+/// Lots track what was added, when, and from where, independently of
+/// how solvers resolve species. Two lots can merge physically without
+/// losing provenance.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct MaterialLot {
+    /// What was added (the user-facing name, e.g. "NaCl", "water").
+    pub species: SpeciesId,
+    /// How much was added, in moles.
+    pub moles: Moles,
+    /// Which phase was intended.
+    pub phase: Phase,
+    /// When this lot was added (elapsed seconds at time of addition).
+    pub added_at: f64,
+    /// Where this came from (e.g. "reagent bottle", "transfer from v2").
+    #[serde(default)]
+    pub source: Option<String>,
+    /// Particle-size metadata for solids, if relevant (mean diameter in µm).
+    #[serde(default)]
+    pub particle_size_um: Option<f64>,
+}
+
+// ── ARCH-005: ResolvedState ───────────────────────────────────────
+
+/// Derived state that is invalidated when primary state changes (ARCH-005).
+///
+/// Contains everything that solvers compute from the primary contents:
+/// aqueous characterization, phase equilibrium, saturation indices.
+/// Setting `valid = false` marks the state as stale; solvers must
+/// recompute before the next observation.
+#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+pub struct ResolvedState {
+    /// Whether the resolved state is current (false after any mutation).
+    #[serde(default)]
+    pub valid: bool,
+    /// Aqueous solver output, if any.
+    #[serde(default)]
+    pub solution: Option<SolutionInfo>,
+}
+
+impl ResolvedState {
+    pub fn invalidate(&mut self) {
+        self.valid = false;
+        self.solution = None;
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Vessel {
     /// Seconds of bench time this vessel has experienced.
@@ -324,6 +591,12 @@ pub struct Vessel {
     /// Finite solid/liquid interfaces. Defaulted for old save compatibility.
     #[serde(default)]
     pub surfaces: Vec<SurfaceSites>,
+    /// Finite cation-exchange interfaces. Defaulted for old save compatibility.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub exchanges: Vec<ExchangeSites>,
+    /// Finite mixed crystalline phases. Defaulted for old save compatibility.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub solid_solutions: Vec<SolidSolution>,
     /// Net charge carried by the dissolved solutes, Σ z·n, mol.
     ///
     /// Not a physical excess — the solution is electroneutral, and the
@@ -343,6 +616,12 @@ pub struct Vessel {
     /// means no solver has — and the honesty pass says so.
     #[serde(default)]
     pub solution: Option<SolutionInfo>,
+    /// ARCH-004: Material lots tracking provenance of additions.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub lots: Vec<MaterialLot>,
+    /// ARCH-005: Solver-derived state, invalidated on mutation.
+    #[serde(default)]
+    pub resolved: ResolvedState,
 }
 
 impl Vessel {
@@ -357,13 +636,20 @@ impl Vessel {
             thermal_mode: ThermalMode::Adiabatic,
             headspace: Headspace::Open,
             surfaces: Vec::new(),
+            exchanges: Vec::new(),
+            solid_solutions: Vec::new(),
             solute_charge: 0.0,
             solution: None,
+            lots: Vec::new(),
+            resolved: ResolvedState::default(),
         }
     }
 
     pub fn is_empty(&self) -> bool {
-        self.contents.is_empty() && self.surfaces.is_empty()
+        self.contents.is_empty()
+            && self.surfaces.is_empty()
+            && self.exchanges.is_empty()
+            && self.solid_solutions.is_empty()
     }
 
     pub fn moles_of(&self, species: &SpeciesId) -> Moles {
@@ -395,6 +681,27 @@ impl Vessel {
                 phase,
             });
         }
+    }
+
+    /// Deposit with provenance tracking (ARCH-004).
+    pub fn deposit_lot(
+        &mut self,
+        species: SpeciesId,
+        moles: Moles,
+        phase: Phase,
+        source: Option<String>,
+        particle_size_um: Option<f64>,
+    ) {
+        self.deposit(species.clone(), moles, phase);
+        self.lots.push(MaterialLot {
+            species,
+            moles,
+            phase,
+            added_at: self.elapsed_seconds,
+            source,
+            particle_size_um,
+        });
+        self.resolved.invalidate();
     }
 
     /// Remove up to `moles` of a species across its portions (any phase).
@@ -473,7 +780,24 @@ impl Vessel {
                         .sum::<f64>()
             })
             .sum();
-        Grams(contents + interfaces)
+        let exchangers: f64 = self
+            .exchanges
+            .iter()
+            .map(|exchange| {
+                exchange.dry_mass.0
+                    + exchange
+                        .occupancy
+                        .iter()
+                        .map(|entry| entry.moles.0 * entry.ion.molar_mass())
+                        .sum::<f64>()
+            })
+            .sum();
+        let solid_solutions: f64 = self
+            .solid_solutions
+            .iter()
+            .map(|solid_solution| solid_solution.mass().0)
+            .sum();
+        Grams(contents + interfaces + exchangers + solid_solutions)
     }
 
     /// Approximate liquid volume, additive-volume assumption (surfaced as an

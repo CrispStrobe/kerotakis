@@ -32,8 +32,8 @@ fn safe_bridge_rejects_unknown_species_and_returns_finite_values() {
 }
 
 #[test]
-#[cfg(feature = "legacy-basic-oracle")]
-fn native_delta_h_matches_the_legacy_basic_oracle_for_embedded_databases() {
+#[cfg(feature = "my-basic")]
+fn native_delta_h_matches_the_basic_callback_for_embedded_databases() {
     let cases = [
         ("phreeqc", databases::PHREEQC),
         ("wateq4f", databases::WATEQ4F),

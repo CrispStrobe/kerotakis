@@ -1,0 +1,16 @@
+SOLID_SOLUTIONS 1
+    Ca(x)Sr(1-x)SO4
+        -comp Anhydrite 0.9
+        -comp Celestite 0.1
+SOLUTION 1
+    units mol/kgw
+    pH 7
+    Ca 0.02
+    Sr 0.002
+    S(6) 0.03
+SELECTED_OUTPUT
+    -reset false
+USER_PUNCH
+    -headings ss_anhydrite ss_celestite
+    10 PUNCH S_S("Anhydrite"), S_S("Celestite")
+END

@@ -1,6 +1,6 @@
 #![cfg(all(
     feature = "engine",
-    any(feature = "legacy-basic-oracle", feature = "my-basic-preview")
+    feature = "my-basic"
 ))]
 
 use kerotakis_phreeqc::{databases, Phreeqc};
@@ -81,4 +81,9 @@ fn oracle_user_punch_multicolumn() {
 #[test]
 fn oracle_data_read_rate() {
     run_and_check("data_read_rate");
+}
+
+#[test]
+fn oracle_ss_callback() {
+    run_and_check("ss_callback");
 }

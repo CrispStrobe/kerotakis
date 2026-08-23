@@ -1,0 +1,349 @@
+{
+  "cea_total_species": 2019,
+  "description": "DATA-009: Reachable CEA subset — registry species with NASA-9 polynomial data",
+  "matched_count": 34,
+  "registry_count": 75,
+  "species": [
+    {
+      "cea_name": "H2O(L)",
+      "citation": "Liquid. Cox,1989. Haar,1984. Keenan,1984. Stimson,1969.",
+      "formation_enthalpy_j_mol": -285830.0,
+      "molar_mass_g_mol": 18.01528,
+      "phase": "Liquid",
+      "registry_key": "water",
+      "t_max_k": 600.0,
+      "t_min_k": 273.15
+    },
+    {
+      "cea_name": "NaCL(cr)",
+      "citation": "Cubic. Gurvich,1982 pt1 p335 pt2 p374.",
+      "formation_enthalpy_j_mol": -411260.0,
+      "molar_mass_g_mol": 58.44277,
+      "phase": "Solid",
+      "registry_key": "NaCl",
+      "t_max_k": 1074.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "C(gr)",
+      "citation": "Graphite. Ref-Elm. TRC(4/83) vc,uc,tc1000-1002.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 12.0107,
+      "phase": "Aqueous",
+      "registry_key": "catalase",
+      "t_max_k": 6000.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "Na2SO3(cr)",
+      "citation": "Crystal. Barin,1989 pt2 p1002.",
+      "formation_enthalpy_j_mol": -1100802.0,
+      "molar_mass_g_mol": 126.04274,
+      "phase": "Solid",
+      "registry_key": "Na2SO3",
+      "t_max_k": 1184.0,
+      "t_min_k": 298.15
+    },
+    {
+      "cea_name": "S(a)",
+      "citation": "Alpha. Ref-Elm. Gurvich,1989 pt1 p265 pt2 p160.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 32.065,
+      "phase": "Solid",
+      "registry_key": "S",
+      "t_max_k": 368.3,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "SO2",
+      "citation": "Gurvich,1989 pt1 p288 pt2 p175.",
+      "formation_enthalpy_j_mol": -296810.0,
+      "molar_mass_g_mol": 64.0638,
+      "phase": "Gas",
+      "registry_key": "SO2",
+      "t_max_k": 6000.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "Ca(OH)2(cr)",
+      "citation": "Hexagonal Gurvich,1996a pt1 p454 pt2 p357.",
+      "formation_enthalpy_j_mol": -985900.0,
+      "molar_mass_g_mol": 74.09268,
+      "phase": "Solid",
+      "registry_key": "Ca(OH)2",
+      "t_max_k": 1023.0,
+      "t_min_k": 100.0
+    },
+    {
+      "cea_name": "Cu(OH)2(cr)",
+      "citation": "Crystal. King,1973 p62.",
+      "formation_enthalpy_j_mol": -443085.6,
+      "molar_mass_g_mol": 97.56068,
+      "phase": "Solid",
+      "registry_key": "Cu(OH)2",
+      "t_max_k": 2000.0,
+      "t_min_k": 298.15
+    },
+    {
+      "cea_name": "CuO(cr)",
+      "citation": "Crystal. King,1973 p56.",
+      "formation_enthalpy_j_mol": -155644.8,
+      "molar_mass_g_mol": 79.5454,
+      "phase": "Solid",
+      "registry_key": "CuO",
+      "t_max_k": 1400.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "H2SO4(L)",
+      "citation": "Chase,1998 p1335.",
+      "formation_enthalpy_j_mol": -813988.832,
+      "molar_mass_g_mol": 98.07848,
+      "phase": "Liquid",
+      "registry_key": "H2SO4",
+      "t_max_k": 1000.0,
+      "t_min_k": 283.456
+    },
+    {
+      "cea_name": "NaOH(b)",
+      "citation": "Beta.  Gurvich,1996b.",
+      "formation_enthalpy_j_mol": -425800.0,
+      "molar_mass_g_mol": 39.99711,
+      "phase": "Solid",
+      "registry_key": "NaOH",
+      "t_max_k": 568.0,
+      "t_min_k": 514.0
+    },
+    {
+      "cea_name": "CL2",
+      "citation": "Ref-Elm. Gurvich,1989 pt1 p177 pt2 p88.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 70.906,
+      "phase": "Gas",
+      "registry_key": "Cl2",
+      "t_max_k": 6000.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "Na2CO3(a)",
+      "citation": "Alpha,monoclinic. Gurvich,1982 pt1 p356 pt2 p390.",
+      "formation_enthalpy_j_mol": -1129190.0,
+      "molar_mass_g_mol": 105.98844,
+      "phase": "Solid",
+      "registry_key": "Na2CO3",
+      "t_max_k": 623.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "CO2",
+      "citation": "Gurvich,1991 pt1 p27 pt2 p24.",
+      "formation_enthalpy_j_mol": -393510.0,
+      "molar_mass_g_mol": 44.0095,
+      "phase": "Gas",
+      "registry_key": "CO2",
+      "t_max_k": 20000.0,
+      "t_min_k": 200.0
+    },
+    {
+      "cea_name": "H3PO4(cr)",
+      "citation": "Crystal,Phosphoric acid. Chase,1998 p1345-7.",
+      "formation_enthalpy_j_mol": -1284488.0,
+      "molar_mass_g_mol": 97.995181,
+      "phase": "Liquid",
+      "registry_key": "H3PO4",
+      "t_max_k": 315.5,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "KCL(cr)",
+      "citation": "Cubic. Gurvich,1982 pt1 p390 pt2 p419.",
+      "formation_enthalpy_j_mol": -436490.0,
+      "molar_mass_g_mol": 74.5513,
+      "phase": "Solid",
+      "registry_key": "KCl",
+      "t_max_k": 1044.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "CaCL2(L)",
+      "citation": "Liquid. Gurvich,1996a pt1 p467 pt2 p365.",
+      "formation_enthalpy_j_mol": -795800.0,
+      "molar_mass_g_mol": 110.984,
+      "phase": "Solid",
+      "registry_key": "CaCl2",
+      "t_max_k": 6000.0,
+      "t_min_k": 1048.0
+    },
+    {
+      "cea_name": "CaCO3(cr)",
+      "citation": "Hexagonal Gurvich,1996a pt1 p483 pt2 p376.",
+      "formation_enthalpy_j_mol": -1206600.0,
+      "molar_mass_g_mol": 100.0869,
+      "phase": "Solid",
+      "registry_key": "CaCO3",
+      "t_max_k": 1603.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "MgSO4(I)",
+      "citation": "CrI,rhombic. Gurvich,1996a pt1 p426 pt2 p339.",
+      "formation_enthalpy_j_mol": -1288800.0,
+      "molar_mass_g_mol": 120.3676,
+      "phase": "Solid",
+      "registry_key": "MgSO4",
+      "t_max_k": 1410.0,
+      "t_min_k": 1283.0
+    },
+    {
+      "cea_name": "CaO(cr)",
+      "citation": "Cubic Gurvich,1996a pt1 p442 pt2 p348.",
+      "formation_enthalpy_j_mol": -634920.0,
+      "molar_mass_g_mol": 56.0774,
+      "phase": "Solid",
+      "registry_key": "CaO",
+      "t_max_k": 3172.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "Mg(cr)",
+      "citation": "Hexagonal. Ref-Elm. Alcock,1993.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 24.305,
+      "phase": "Solid",
+      "registry_key": "Mg",
+      "t_max_k": 923.0,
+      "t_min_k": 100.0
+    },
+    {
+      "cea_name": "Cu(cr)",
+      "citation": "Cubic. Ref-Elm.Cox,1989 p226.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 63.546,
+      "phase": "Solid",
+      "registry_key": "Cu",
+      "t_max_k": 1358.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "Zn(cr)",
+      "citation": "Crystal. Ref-Elm. Cox,1989 p221.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 65.39,
+      "phase": "Solid",
+      "registry_key": "Zn",
+      "t_max_k": 692.73,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "Ag(cr)",
+      "citation": "Cubic. Ref-Elm. Cox,1989 p228.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 107.8682,
+      "phase": "Solid",
+      "registry_key": "Ag",
+      "t_max_k": 1235.08,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "Fe(c)",
+      "citation": "Gamma. Ref-Elm. Chase,1998 pp1221-5.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 55.845,
+      "phase": "Solid",
+      "registry_key": "Fe",
+      "t_max_k": 1665.0,
+      "t_min_k": 1184.0
+    },
+    {
+      "cea_name": "MgO(cr)",
+      "citation": "Cubic Gurvich,1996a pt1 p397 pt2 p317.",
+      "formation_enthalpy_j_mol": -601600.0,
+      "molar_mass_g_mol": 40.3044,
+      "phase": "Solid",
+      "registry_key": "MgO",
+      "t_max_k": 3100.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "C(gr)",
+      "citation": "Graphite. Ref-Elm. TRC(4/83) vc,uc,tc1000-1002.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 12.0107,
+      "phase": "Solid",
+      "registry_key": "C",
+      "t_max_k": 6000.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "O2",
+      "citation": "Ref-Elm. Gurvich,1989 pt1 p94 pt2 p9.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 31.9988,
+      "phase": "Gas",
+      "registry_key": "O2",
+      "t_max_k": 20000.0,
+      "t_min_k": 200.0
+    },
+    {
+      "cea_name": "N2",
+      "citation": "Ref-Elm. Gurvich,1978 pt1 p280 pt2 p207.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 28.0134,
+      "phase": "Gas",
+      "registry_key": "N2",
+      "t_max_k": 20000.0,
+      "t_min_k": 200.0
+    },
+    {
+      "cea_name": "CuSO4(cr)",
+      "citation": "Crystal. King,1973 p68.",
+      "formation_enthalpy_j_mol": -768600.8,
+      "molar_mass_g_mol": 159.6086,
+      "phase": "Solid",
+      "registry_key": "CuSO4",
+      "t_max_k": 1500.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "FeSO4(cr)",
+      "citation": "Chase,1998 p1240.",
+      "formation_enthalpy_j_mol": -928848.0,
+      "molar_mass_g_mol": 151.9076,
+      "phase": "Solid",
+      "registry_key": "FeSO4",
+      "t_max_k": 2000.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "ZnSO4(a)",
+      "citation": "Alpha. Chase,1998 p1788.",
+      "formation_enthalpy_j_mol": -980143.84,
+      "molar_mass_g_mol": 161.4526,
+      "phase": "Solid",
+      "registry_key": "ZnSO4",
+      "t_max_k": 540.0,
+      "t_min_k": 300.0
+    },
+    {
+      "cea_name": "H2",
+      "citation": "Ref-Elm. Gurvich,1978 pt1 p103 pt2 p31.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 2.01588,
+      "phase": "Gas",
+      "registry_key": "H2",
+      "t_max_k": 20000.0,
+      "t_min_k": 200.0
+    },
+    {
+      "cea_name": "Pb(cr)",
+      "citation": "Cubic. Ref-Elm. Gurvich,1991 pt1 p400 pt2 p337.",
+      "formation_enthalpy_j_mol": 0.0,
+      "molar_mass_g_mol": 207.2,
+      "phase": "Solid",
+      "registry_key": "Pb",
+      "t_max_k": 600.65,
+      "t_min_k": 300.0
+    }
+  ],
+  "unmatched_count": 41
+}
