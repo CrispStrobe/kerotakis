@@ -1048,21 +1048,21 @@
       "v4: new vessel",
       "v1: +9.4000 mol water",
       "v1: +0.6000 mol ethanol",
-      "v1 → v2: 0.620 mol water + 0.380 mol ethanol over, boiling at 88.4 °C",
-      "v2 → v3: 0.119 mol water + 0.181 mol ethanol over, boiling at 80.9 °C",
-      "v3 → v4: 0.026 mol water + 0.064 mol ethanol over, boiling at 79.1 °C"
+      "v1 → v2: 0.670 mol water + 0.330 mol ethanol over; the pot boiled at 88.4 °C and climbed to 92.2 °C as the light component left",
+      "v2 → v3: 0.130 mol water + 0.170 mol ethanol over; the pot boiled at 81.4 °C and climbed to 82.6 °C as the light component left",
+      "v3 → v4: 0.017 mol water + 0.073 mol ethanol over through a 4-stage column; the pot boiled at 79.4 °C and climbed to 80.2 °C as the light component left"
     ],
     "lesson": "spirit-still.lab",
     "vessels": [
       {
         "contents": [
           {
-            "moles": 0.21995268,
+            "moles": 0.26999435,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 8.78004732,
+            "moles": 8.73000565,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1074,12 +1074,12 @@
       {
         "contents": [
           {
-            "moles": 0.19889421,
+            "moles": 0.16029052,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.50110579,
+            "moles": 0.53970948,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1091,12 +1091,12 @@
       {
         "contents": [
           {
-            "moles": 0.11760566,
+            "moles": 0.09663826,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.09239434,
+            "moles": 0.11336174,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1108,12 +1108,12 @@
       {
         "contents": [
           {
-            "moles": 0.06354744,
+            "moles": 0.07307687,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.02645256,
+            "moles": 0.01692313,
             "phase": "Liquid",
             "species": "water"
           }

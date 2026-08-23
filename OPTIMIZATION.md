@@ -9,12 +9,48 @@ No optimization lands without a measurement showing it matters.
 `heaptrack` or `dhat` for allocation profiles. Numbers go in the
 commit message.
 
-**Done (2026-08-23):** criterion benchmark suite (`benches/solve.rs`)
-with 5 benchmarks: species lookup, kinetics integration, mixing
-equilibrator, conservation audit, vessel clone. Run `cargo bench -p
-kerotakis-core` to measure before and after.
+**Done (2026-08-23):** criterion benchmark suites across all three
+engine crates. Run commands:
 
-## OPT-2 — Allocator selection (feature-gated, ready to measure)
+```sh
+cargo bench -p kerotakis-core
+cargo bench -p kerotakis-phreeqc
+cargo bench -p kerotakis-cea
+```
+
+### Baselines (2026-08-23, Linux x86-64, stable Rust)
+
+#### kerotakis-core (`benches/solve.rs`)
+
+| Benchmark | Median |
+|---|---|
+| species::lookup (8 keys, HashMap) | 401 ns |
+| kinetics::advance (thiosulfate, 0.1 s) | 74 µs |
+| MixingEquilibrator::equilibrate | 423 ns |
+| ConservedLedger::from_vessel | 9.7 µs |
+| Vessel::clone (3 species) | 509 ns |
+
+#### kerotakis-phreeqc (`benches/equilibrate.rs`)
+
+| Benchmark | Median |
+|---|---|
+| PhreeqcEquilibrator::new (3 databases) | 123 ms |
+| equilibrate (NaCl 0.1 mol) | 30 µs |
+| equilibrate (HCl 0.01 mol) | 27 µs |
+| equilibrate (cache hit) | 55 µs |
+| dbindex::parse (wateq4f) | 3.7 ms |
+
+#### kerotakis-cea (`benches/thermo.rs`)
+
+| Benchmark | Median |
+|---|---|
+| ThermoDb::parse (thermo.inp) | 42 ms |
+| nasa9::db lookup (10 species) | 3.0 µs |
+| Species::cp (CO2, 10 temperatures) | 216 ns |
+| equilibrate_tp (chalk in air, 1500 K) | 1.0 ms |
+| equilibrate_hp (chalk adiabatic) | 7.5 ms |
+
+## OPT-2 ✓ — Release profiles + wasm-opt
 
 Cargo features `mimalloc` and `talc-alloc` are wired but not default.
 Enable and benchmark before adopting:
@@ -39,6 +75,12 @@ Measured-adoption candidates:
   functions dominate the 1.9 MB wasm binary.
 - **Warning: `wee_alloc` is unmaintained.** Do not adopt. Last release
   2020, known memory-leak bugs. `talc` is the maintained alternative.
+
+**Done (2026-08-23):**
+- `[profile.release]` in workspace Cargo.toml: `lto = "thin"`,
+  `codegen-units = 1`, `strip = "debuginfo"`.
+- `wasm-opt -Oz` pass added to `tools/build-web.sh` (runs when
+  `wasm-opt` is installed; reports size reduction).
 
 ## OPT-3 ✓ — Wasm binary size budget
 
@@ -77,9 +119,18 @@ sites. Reduce or eliminate allocations in:
   (was O(n) linear scan over 75 entries per call)
 - Event-restart loop zero-vector allocation hoisted outside the loop
 - `lasso` wired with `multi-threaded` feature for the `intern.rs` module
+- `apply_coupled_extents` deltas Vec and proposed-extents Vec hoisted
+  outside the event-restart loop; reused via `clear()` across iterations
+- Stoichiometric matrix is already static (`&[StoichiometricTerm]`
+  slices in the `NETWORK` definition) — no reconstruction to cache
 - dhat allocation profiler (`tests/allocation_profile.rs`):
   baseline 996 blocks / 37 KB for combined workload (200 lookups +
   kinetics integration + 10 conservation audits). Budget gate: < 5000 blocks.
+
+**Remaining:** `selected_output` per-cell String allocation is
+per-PHREEQC-run (not per-timestep), so it is low priority. The
+public API returns `Vec<Vec<String>>` and callers in `aqueous.rs`
+depend on the owned strings.
 
 ## OPT-6 ✓ — PHREEQC database pre-parsing
 

@@ -347,8 +347,10 @@ pub fn advance_network_with_options<'a>(
     let mut elapsed = 0.0;
     let mut totals = vec![0.0; network.reactions.len()];
     let mut statistics = IntegrationStatistics::default();
-    // OPT-5: hoist zero-vector allocation outside the event-restart loop
+    // OPT-5: hoist allocations outside the event-restart loop
     let zero = vec![0.0; network.reactions.len()];
+    let mut deltas_buf: Vec<(&str, Phase, f64)> = Vec::new();
+    let mut proposed_buf = vec![0.0; network.reactions.len()];
 
     for _ in 0..MAX_EVENT_RESTARTS {
         let remaining = seconds - elapsed;
@@ -437,10 +439,10 @@ pub fn advance_network_with_options<'a>(
         statistics.nonlinear_iterations += solver_statistics.number_of_nonlinear_solver_iterations;
         statistics.nonlinear_failures += solver_statistics.number_of_nonlinear_solver_fails;
 
-        let proposed = (0..network.reactions.len())
-            .map(|index| solver.state().y[index])
-            .collect::<Vec<_>>();
-        if proposed.iter().any(|extent| !extent.is_finite()) {
+        for (slot, index) in proposed_buf.iter_mut().zip(0..) {
+            *slot = solver.state().y[index];
+        }
+        if proposed_buf.iter().any(|extent| !extent.is_finite()) {
             return Err(IntegrationError::Solver {
                 network: network.id.to_string(),
                 detail: "solver returned a non-finite reaction extent".to_string(),
@@ -456,11 +458,12 @@ pub fn advance_network_with_options<'a>(
         drop(solver);
         drop(problem);
 
-        let accepted_fraction = apply_coupled_extents(vessel, network.reactions, &proposed);
+        let accepted_fraction =
+            apply_coupled_extents(vessel, network.reactions, &proposed_buf, &mut deltas_buf);
         if accepted_fraction < 1.0 {
             statistics.constrained_commits += 1;
         }
-        for (total, extent) in totals.iter_mut().zip(proposed) {
+        for (total, extent) in totals.iter_mut().zip(proposed_buf.iter()) {
             *total += extent * accepted_fraction;
         }
 
@@ -558,5 +561,6 @@ pub fn amount_at_extents(
 /// Commit extents to a vessel, returning the fraction actually applied
 /// (may be < 1.0 if a reactant would go negative).
 pub fn commit_extents(vessel: &mut Vessel, network: &ReactionNetwork<'_>, extents: &[f64]) -> f64 {
-    apply_coupled_extents(vessel, network.reactions, extents)
+    let mut deltas = Vec::new();
+    apply_coupled_extents(vessel, network.reactions, extents, &mut deltas)
 }

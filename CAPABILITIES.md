@@ -612,11 +612,13 @@ CAP-14 first is tidier.
 
 ## CAP-14 — Turn the licence policy into a CI lint
 
-- [x] Status: **mostly done 2026-08-23** — `deny.toml` passes all four
-      checks and `cargo deny` is wired into `tools/preflight.sh`
-      (guarded on availability). Remaining: `cargo-about` attribution
-      inventory as a build artifact, and the synthetic copyleft
-      failure proof.
+- [x] Status: **done 2026-08-23** — `deny.toml` passes all four
+      checks; `cargo deny` wired into `tools/preflight.sh`; `cargo-about`
+      generates `THIRD_PARTY_LICENSES.html` from `about.hbs` template
+      (164 KB, 81 licences); synthetic copyleft proof: adding
+      `gpl-session = "2.0.0"` as a dependency triggers
+      `error[rejected]: GPL-3.0 ... license is not explicitly allowed`
+      (tested and reverted 2026-08-23).
 
 **Why.** PLAN.md's shipping bar (hardened 2026-08-23) says shipped code
 is MIT/Apache-2.0/BSD/Zlib/Unlicense/public-domain only — no GPL
@@ -661,7 +663,21 @@ green. **Size.** Small-medium, curation-heavy. **Depends on:** nothing.
 
 ## CAP-16 — γ(T) for the flash paths
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23** (Fable). dew_point, tp_flash and
+      hp_flash gained _with variants taking γ as a function of the
+      *liquid composition* and kelvin — the honest signature, because
+      dew and flash solve for the very liquid their γ belongs to. The
+      γ–φ successive-substitution loop wraps the existing bisections
+      (measured contraction ~0.6 per pass on the worst mid-range case;
+      eighty passes clear 1e-9 with margin, and non-convergence refuses
+      rather than publishing a drifting split). The fixed-γ functions
+      are now delegating wrappers, so the formulas cannot fork, and the
+      old suites pass unchanged. Proven by thermodynamic *consistency*,
+      not self-consistency: bubble↔dew roundtrips recover T within
+      0.05 °C and x within 5e-3 at three compositions (two of them to
+      eleven decimals), azeotropic vapour condenses to itself, and a
+      mid-boil flash brackets its feed with the first bubble matching
+      the bubble-point vapour (tests/flash_gamma.rs).
 
 **Why.** `bubble_point_with` couples γ to temperature inside the
 bisection; `dew_point`, `tp_flash` and `hp_flash` still take a fixed
@@ -676,7 +692,22 @@ existing fixed-γ tests unchanged; preflight green. **Size.** Medium.
 
 ## CAP-17 — Batch distillation and the column
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23** (Fable). (a) Rayleigh integration:
+      `ethanol_water_still` walks 256 steps with the vapour composition
+      following the pot, so long cuts deplete honestly and the boil
+      climbs — the spirit-still lesson now reads "boiled at 88.4 °C and
+      climbed to 92.2 °C as the light component left". (b) The column:
+      `distil … stages N` runs an N-stage cascade at total reflux (the
+      stated upper bound a real column cannot beat); a 40-stage column
+      from wine lands on the azeotrope at x = 0.894 ± 0.02 and reports
+      the wall. (c) Energy: `distil … <E>kJ` boils exactly what that
+      latent-heat budget lifts (ΔHvap: water 40.657 IAPWS-95, ethanol
+      38.56 Majer & Svoboda 1985), and every Distilled event now bills
+      the latent heat the burner paid and the condenser dumped —
+      quantified on the event, deliberately outside the vessel ledger;
+      full coupling through `hp_flash` remains for the feed-flash case.
+      Tests: `thermo/tests/still.rs` (drift, azeotrope wall, exact
+      energy meter) + extended bench suites.
 
 **Why.** `distil` is one equilibrium stage with y frozen at the
 starting composition, stated as such in lv3; `IdealStage` still has no
@@ -736,14 +767,55 @@ tests → lesson): `extract` (on `apparatus::extract`, upgraded to use
 `transport.rs`), `chromatograph` and `calorimeter` (instrument enum
 entries plus grammar), `react` (the two `kerotakis-org` templates —
 the crate's first dependent). Refusals stay loud where data is
-missing. **Acceptance.** Each verb demonstrable in a replayed lesson;
+missing.
+
+**First slice done 2026-08-23** (Fable): computed liquid–liquid
+demixing reaches the bench. `lle_binary` was rebuilt as a real
+solver — spinodal scan then the equal-activity tie line by nested
+bisection with an activity-overlap-trimmed bracket (the old ±0.005
+alternating walk stalled a quarter of the composition axis from the
+answer); hexane entered the registry as pure data through the CAP-21
+pipeline (#77, CIAAW/CRC provenance); and water+hexane in a vessel
+now emits a computed `LayersFormed` event (hexane floating, three
+registers, lv3 stating the alkane–water γ∞ honesty bound) while
+water+ethanol provably does not — same machinery, opposite verdict,
+which is the lesson. The `drain` verb followed the same
+day: the separating funnel's stopcock, gated on the computed layers —
+the lower layer runs out with everything dissolved in it (engine test:
+brine drains from under hexane, salt travelling with its water, the
+organic layer left alone), a settled solid stays (a stopcock passes
+liquid; filtration is a different question, and lv3 says so), and
+draining a computed single phase is refused out loud. `layered_pair`
+is the one source of truth the solver's report and the bench's verb
+both consult. Computed partitioning followed the same day: at
+the stopcock a curated neutral solute splits on K = γ∞(upper)/γ∞(lower)
+from the same UNIFAC (ethanol 88% with the water at 2:1 layers,
+methanol 96% — the hydrophilicity ordering emerging from group counts
+alone), a `Partitioned` event says so in three registers, ions still
+travel entirely with their water, and the engine test pins the split
+window and exact solute conservation. Remaining in this task: the
+transport / chromatograph / calorimeter / react verbs. **Acceptance.** Each verb demonstrable in a replayed lesson;
 `kerotakis-org` gains a dependent; preflight green. **Size.** Medium
 per verb — they are independent; take them one per branch.
 **Depends on:** nothing.
 
 ## CAP-21 — Make the data pipeline load-bearing
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23** (Fable). The registry table is now
+      generated at build time from
+      `data/registry/registry-source-v1.json` — `species.rs` shrank
+      from 1,563 lines to 179, the table stays `static` with
+      `&'static str` fields at zero runtime cost (completing OPT-4's
+      binary-size half on the way), and wasm ships unchanged.
+      Faithfulness proven, not assumed: `tests/registry_snapshot.rs`
+      pins every field and every evaluated spectrum band against a
+      golden captured from the hand-written table before the switch —
+      the migration surfaced and fixed three placeholder InChIKeys and
+      two sub-ulp export-rounding deltas, and nothing else moved. The
+      ceiling itself is demonstrably gone: methanol became the 76th
+      species through a JSON-only commit (identity, composition,
+      three thermodynamic records, provenance citing CIAAW + CRC), and
+      `kero species` lists it with no `.rs` edit anywhere.
 
 **Why.** The pack compiler, resolution ladder and 238-record registry
 JSON exist, and the runtime still reads 77 hand-written Rust literals

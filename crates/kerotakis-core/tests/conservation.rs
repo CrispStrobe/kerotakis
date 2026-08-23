@@ -144,7 +144,9 @@ fn apply(bench: &mut Bench, op: &RandOp) -> Option<f64> {
                 .step(Operator::Distil {
                     from: f,
                     to: t,
-                    fraction: *fraction,
+                    fraction: Some(*fraction),
+                    energy: None,
+                    stages: 1 + (*from as u32 % 3),
                 })
                 .map(|_| 0.0)
         }

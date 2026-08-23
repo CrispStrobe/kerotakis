@@ -137,16 +137,50 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     .map_err(|_| format!("bad fraction '{}'", words[3]))?,
             }
         }
+        "drain" => {
+            if words.len() < 3 {
+                return Err("usage: drain <from> <to>".into());
+            }
+            Operator::Drain {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+            }
+        }
         "distil" | "distill" => {
             if words.len() < 4 {
-                return Err("usage: distil <from> <to> <fraction>".into());
+                return Err(
+                    "usage: distil <from> <to> <fraction | energy J|kJ> [stages <n>]".into(),
+                );
             }
+            let (fraction, energy) = if let Some(kj) = words[3].strip_suffix("kJ") {
+                let v: f64 = kj
+                    .parse()
+                    .map_err(|_| format!("bad energy '{}'", words[3]))?;
+                (None, Some(Joules(v * 1000.0)))
+            } else if let Some(j) = words[3].strip_suffix('J') {
+                let v: f64 = j
+                    .parse()
+                    .map_err(|_| format!("bad energy '{}'", words[3]))?;
+                (None, Some(Joules(v)))
+            } else {
+                let f: f64 = words[3]
+                    .parse()
+                    .map_err(|_| format!("bad fraction '{}'", words[3]))?;
+                (Some(f), None)
+            };
+            let stages = match (words.get(4), words.get(5)) {
+                (Some(&"stages"), Some(n)) => {
+                    n.parse().map_err(|_| format!("bad stage count '{n}'"))?
+                }
+                (None, _) => 1,
+                _ => return Err("after the amount, only `stages <n>` may follow".into()),
+            };
             Operator::Distil {
                 from: parse_vessel(words[1])?,
                 to: parse_vessel(words[2])?,
-                fraction: words[3]
-                    .parse()
-                    .map_err(|_| format!("bad fraction '{}'", words[3]))?,
+                fraction,
+                energy,
+                stages,
             }
         }
         // `look v1` — the youngest interaction there is.

@@ -34,4 +34,9 @@ name = "generate-dbindex"
 required-features = []
 
 [dev-dependencies]
+criterion = { version = "0.5", features = ["html_reports"] }
 kerotakis-safety = { path = "../kerotakis-safety" }
+
+[[bench]]
+name = "equilibrate"
+harness = false

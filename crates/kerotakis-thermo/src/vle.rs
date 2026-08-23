@@ -314,51 +314,98 @@ pub struct DewPoint {
 ///
 /// Bisection on Σ yᵢ/(γᵢ·P°ᵢ(T)) − 1/P = 0.
 /// `mix[i].x` is treated as the vapour mole fraction yᵢ.
+/// The same, for fixed activity coefficients: γ pinned per component.
 pub fn dew_point(mix: &[Volatile], pressure_kpa: f64) -> Option<DewPoint> {
-    if mix.is_empty() || pressure_kpa <= 0.0 {
+    let antoines: Vec<Antoine> = mix.iter().map(|c| c.antoine).collect();
+    let y: Vec<f64> = mix.iter().map(|c| c.x).collect();
+    let g: Vec<f64> = mix.iter().map(|c| c.gamma).collect();
+    dew_point_with(&antoines, &y, pressure_kpa, &mut |_, _| g.clone())
+}
+
+/// The dew point with γ following the *liquid* composition and the
+/// temperature (CAP-16).
+///
+/// Dew is the calculation where a fixed γ is most quietly wrong: the
+/// activity coefficients belong to the condensing liquid, and the liquid
+/// composition is exactly what the calculation is solving for. So γ here
+/// is a function of (x, kelvin), and the answer is found by successive
+/// substitution — start from x = y, bisect the temperature with γ(x, T)
+/// live inside the residual, back the liquid composition out, repeat
+/// until x stops moving. Constant γ converges on the first pass to the
+/// same arithmetic the fixed wrapper always did.
+pub fn dew_point_with(
+    antoines: &[Antoine],
+    y: &[f64],
+    pressure_kpa: f64,
+    gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>,
+) -> Option<DewPoint> {
+    if antoines.is_empty() || antoines.len() != y.len() || pressure_kpa <= 0.0 {
         return None;
     }
-    let total_y: f64 = mix.iter().map(|c| c.x).sum();
+    let total_y: f64 = y.iter().sum();
     if total_y <= 0.0 {
         return None;
     }
-    let residual = |t: f64| -> f64 {
-        let sum: f64 = mix
+    let y: Vec<f64> = y.iter().map(|v| v / total_y).collect();
+    let mut x = y.clone();
+    for _ in 0..80 {
+        let mut residual = |t: f64, x: &[f64]| -> f64 {
+            let g = gammas(x, t + KELVIN_OFFSET);
+            let sum: f64 = antoines
+                .iter()
+                .zip(&y)
+                .enumerate()
+                .map(|(i, (a, yi))| {
+                    yi / (g.get(i).copied().unwrap_or(1.0) * a.pressure_kpa_unchecked(t))
+                })
+                .sum();
+            sum - 1.0 / pressure_kpa
+        };
+        let (mut lo, mut hi) = (-100.0f64, 400.0f64);
+        if residual(lo, &x).signum() == residual(hi, &x).signum() {
+            return None;
+        }
+        let r_lo = residual(lo, &x);
+        for _ in 0..200 {
+            let mid = 0.5 * (lo + hi);
+            if residual(mid, &x).signum() == r_lo.signum() {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+            if hi - lo < 1e-9 {
+                break;
+            }
+        }
+        let t = 0.5 * (lo + hi);
+        let g = gammas(&x, t + KELVIN_OFFSET);
+        let x_raw: Vec<f64> = antoines
             .iter()
-            .map(|c| {
-                let p_sat = c.antoine.pressure_kpa_unchecked(t);
-                (c.x / total_y) / (c.gamma * p_sat)
+            .zip(&y)
+            .enumerate()
+            .map(|(i, (a, yi))| {
+                yi / (g.get(i).copied().unwrap_or(1.0) * a.pressure_kpa_unchecked(t)) * pressure_kpa
             })
-            .sum();
-        sum - 1.0 / pressure_kpa
-    };
-    let (mut lo, mut hi) = (-100.0f64, 400.0f64);
-    if residual(lo).signum() == residual(hi).signum() {
-        return None;
-    }
-    let r_lo = residual(lo);
-    for _ in 0..200 {
-        let mid = 0.5 * (lo + hi);
-        if residual(mid).signum() == r_lo.signum() {
-            lo = mid;
-        } else {
-            hi = mid;
-        }
-        if hi - lo < 1e-9 {
-            break;
+            .collect();
+        let x_sum: f64 = x_raw.iter().sum();
+        let x_new: Vec<f64> = x_raw.iter().map(|xi| xi / x_sum).collect();
+        let moved = x
+            .iter()
+            .zip(&x_new)
+            .map(|(a, b)| (a - b).abs())
+            .fold(0.0f64, f64::max);
+        // Plain substitution: measured on the worst mid-range
+        // ethanol–water case this contracts monotonically at a ratio near
+        // 0.6 per pass, so eighty passes clear 1e-9 with a wide margin —
+        // damping was tried and only slowed the walk down.
+        x = x_new;
+        if moved < 1e-9 {
+            return Some(DewPoint { t_celsius: t, x });
         }
     }
-    let t = 0.5 * (lo + hi);
-    let x_raw: Vec<f64> = mix
-        .iter()
-        .map(|c| {
-            let p_sat = c.antoine.pressure_kpa_unchecked(t);
-            (c.x / total_y) / (c.gamma * p_sat) * pressure_kpa
-        })
-        .collect();
-    let x_sum: f64 = x_raw.iter().sum();
-    let x: Vec<f64> = x_raw.iter().map(|xi| xi / x_sum).collect();
-    Some(DewPoint { t_celsius: t, x })
+    // Eighty passes without settling: refuse rather than return a drifting
+    // composition dressed as an answer.
+    None
 }
 
 /// Result of an isothermal (TP) flash calculation.
@@ -374,84 +421,134 @@ pub struct FlashResult {
     pub k: Vec<f64>,
 }
 
-/// Isothermal TP flash via the Rachford-Rice equation.
-///
-/// `components[i].x` is the overall feed mole fraction zᵢ.
+/// Isothermal TP flash via the Rachford-Rice equation, γ fixed per
+/// component. `components[i].x` is the overall feed mole fraction zᵢ.
 pub fn tp_flash(components: &[Volatile], pressure_kpa: f64, t_celsius: f64) -> Option<FlashResult> {
-    if components.is_empty() || pressure_kpa <= 0.0 {
+    let antoines: Vec<Antoine> = components.iter().map(|c| c.antoine).collect();
+    let z: Vec<f64> = components.iter().map(|c| c.x).collect();
+    let g: Vec<f64> = components.iter().map(|c| c.gamma).collect();
+    tp_flash_with(&antoines, &z, pressure_kpa, t_celsius, &mut |_, _| {
+        g.clone()
+    })
+}
+
+/// TP flash with γ following the liquid composition and temperature
+/// (CAP-16): the γ–φ successive-substitution loop. K-values are built
+/// from γ(x, T); Rachford–Rice gives a new liquid; repeat until the
+/// liquid stops moving. Constant γ converges on the first pass to the
+/// same arithmetic the fixed wrapper always did.
+pub fn tp_flash_with(
+    antoines: &[Antoine],
+    z: &[f64],
+    pressure_kpa: f64,
+    t_celsius: f64,
+    gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>,
+) -> Option<FlashResult> {
+    if antoines.is_empty() || antoines.len() != z.len() || pressure_kpa <= 0.0 {
         return None;
     }
-    let z_total: f64 = components.iter().map(|c| c.x).sum();
+    let z_total: f64 = z.iter().sum();
     if z_total <= 0.0 {
         return None;
     }
-    let z: Vec<f64> = components.iter().map(|c| c.x / z_total).collect();
+    let z: Vec<f64> = z.iter().map(|v| v / z_total).collect();
+    let mut x_guess = z.clone();
+    for _ in 0..60 {
+        let g = gammas(&x_guess, t_celsius + KELVIN_OFFSET);
+        let k: Vec<f64> = antoines
+            .iter()
+            .enumerate()
+            .map(|(i, a)| {
+                g.get(i).copied().unwrap_or(1.0) * a.pressure_kpa_unchecked(t_celsius)
+                    / pressure_kpa
+            })
+            .collect();
 
-    let k: Vec<f64> = components
-        .iter()
-        .map(|c| c.gamma * c.antoine.pressure_kpa_unchecked(t_celsius) / pressure_kpa)
-        .collect();
-
-    // Check subcooled liquid: Σ zᵢ·Kᵢ ≤ 1
-    let sum_zk: f64 = z.iter().zip(&k).map(|(zi, ki)| zi * ki).sum();
-    if sum_zk <= 1.0 {
-        return Some(FlashResult {
-            vapour_fraction: 0.0,
-            x: z.clone(),
-            y: z.iter().zip(&k).map(|(zi, ki)| zi * ki / sum_zk).collect(),
-            k,
-        });
-    }
-    // Check superheated vapour: Σ zᵢ/Kᵢ ≤ 1
-    let sum_z_over_k: f64 = z.iter().zip(&k).map(|(zi, ki)| zi / ki).sum();
-    if sum_z_over_k <= 1.0 {
-        return Some(FlashResult {
-            vapour_fraction: 1.0,
-            x: z.iter()
+        // Subcooled liquid: Σ zᵢ·Kᵢ ≤ 1. The liquid is the feed itself, so
+        // γ(z) is already self-consistent and the answer stands.
+        let sum_zk: f64 = z.iter().zip(&k).map(|(zi, ki)| zi * ki).sum();
+        if sum_zk <= 1.0 {
+            return Some(FlashResult {
+                vapour_fraction: 0.0,
+                x: z.clone(),
+                y: z.iter().zip(&k).map(|(zi, ki)| zi * ki / sum_zk).collect(),
+                k,
+            });
+        }
+        // Superheated vapour: Σ zᵢ/Kᵢ ≤ 1. The trace liquid is dew-implied;
+        // iterate its composition like the two-phase branch.
+        let sum_z_over_k: f64 = z.iter().zip(&k).map(|(zi, ki)| zi / ki).sum();
+        if sum_z_over_k <= 1.0 {
+            let x_new: Vec<f64> = z
+                .iter()
                 .zip(&k)
                 .map(|(zi, ki)| zi / ki / sum_z_over_k)
-                .collect(),
-            y: z.clone(),
-            k,
-        });
-    }
+                .collect();
+            let moved = x_guess
+                .iter()
+                .zip(&x_new)
+                .map(|(a, b)| (a - b).abs())
+                .fold(0.0f64, f64::max);
+            x_guess = x_new.clone();
+            if moved < 1e-10 {
+                return Some(FlashResult {
+                    vapour_fraction: 1.0,
+                    x: x_new,
+                    y: z.clone(),
+                    k,
+                });
+            }
+            continue;
+        }
 
-    // Two-phase: solve Rachford-Rice
-    let rr = |v: f64| -> f64 {
-        z.iter()
+        // Two-phase: solve Rachford-Rice
+        let rr = |v: f64| -> f64 {
+            z.iter()
+                .zip(&k)
+                .map(|(zi, ki)| zi * (ki - 1.0) / (1.0 + v * (ki - 1.0)))
+                .sum()
+        };
+
+        let (mut lo, mut hi) = (0.0f64, 1.0f64);
+        let rr_lo = rr(lo);
+        for _ in 0..200 {
+            let mid = 0.5 * (lo + hi);
+            if rr(mid).signum() == rr_lo.signum() {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+            if hi - lo < 1e-12 {
+                break;
+            }
+        }
+        let v = 0.5 * (lo + hi);
+
+        let x: Vec<f64> = z
+            .iter()
             .zip(&k)
-            .map(|(zi, ki)| zi * (ki - 1.0) / (1.0 + v * (ki - 1.0)))
-            .sum()
-    };
+            .map(|(zi, ki)| zi / (1.0 + v * (ki - 1.0)))
+            .collect();
+        let y: Vec<f64> = x.iter().zip(&k).map(|(xi, ki)| xi * ki).collect();
 
-    let (mut lo, mut hi) = (0.0f64, 1.0f64);
-    let rr_lo = rr(lo);
-    for _ in 0..200 {
-        let mid = 0.5 * (lo + hi);
-        if rr(mid).signum() == rr_lo.signum() {
-            lo = mid;
-        } else {
-            hi = mid;
-        }
-        if hi - lo < 1e-12 {
-            break;
+        let moved = x_guess
+            .iter()
+            .zip(&x)
+            .map(|(a, b)| (a - b).abs())
+            .fold(0.0f64, f64::max);
+        x_guess = x.clone();
+        if moved < 1e-10 {
+            return Some(FlashResult {
+                vapour_fraction: v,
+                x,
+                y,
+                k,
+            });
         }
     }
-    let v = 0.5 * (lo + hi);
-
-    let x: Vec<f64> = z
-        .iter()
-        .zip(&k)
-        .map(|(zi, ki)| zi / (1.0 + v * (ki - 1.0)))
-        .collect();
-    let y: Vec<f64> = x.iter().zip(&k).map(|(xi, ki)| xi * ki).collect();
-
-    Some(FlashResult {
-        vapour_fraction: v,
-        x,
-        y,
-        k,
-    })
+    // Sixty passes without settling: refuse rather than publish a drifting
+    // split as an equilibrium.
+    None
 }
 
 // ── THERMO-006: HP and UV flashes ──────────────────────────────────
@@ -469,53 +566,65 @@ pub struct HpFlashResult {
     pub y: Vec<f64>,
 }
 
-/// Adiabatic (constant H, P) flash: given feed enthalpy and pressure,
-/// find the equilibrium temperature and phase split.
-///
-/// Iterates: guess T → TP flash → check energy balance → adjust T.
+/// Adiabatic (constant H, P) flash with fixed per-component γ: given
+/// feed enthalpy and pressure, find the temperature and phase split.
 pub fn hp_flash(
     components: &[FlashComponent],
     pressure_kpa: f64,
     feed_enthalpy_kj: f64,
     total_moles: f64,
 ) -> Option<HpFlashResult> {
+    let g: Vec<f64> = components.iter().map(|c| c.volatile.gamma).collect();
+    hp_flash_with(
+        components,
+        pressure_kpa,
+        feed_enthalpy_kj,
+        total_moles,
+        &mut |_, _| g.clone(),
+    )
+}
+
+/// The adiabatic flash with γ following the liquid composition and
+/// temperature (CAP-16): the enthalpy bisection unchanged, every inner
+/// TP flash running the γ–φ loop.
+pub fn hp_flash_with(
+    components: &[FlashComponent],
+    pressure_kpa: f64,
+    feed_enthalpy_kj: f64,
+    total_moles: f64,
+    gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>,
+) -> Option<HpFlashResult> {
     if components.is_empty() || pressure_kpa <= 0.0 || total_moles <= 0.0 {
         return None;
     }
-
-    let volatiles: Vec<Volatile> = components
-        .iter()
-        .map(|c| Volatile {
-            antoine: c.volatile.antoine,
-            x: c.volatile.x,
-            gamma: c.volatile.gamma,
-        })
-        .collect();
+    let antoines: Vec<Antoine> = components.iter().map(|c| c.volatile.antoine).collect();
+    let z: Vec<f64> = components.iter().map(|c| c.volatile.x).collect();
 
     // Energy balance residual: H_feed - H(T, V) = 0
     // H(T, V) = Σ nᵢ [cp_L,i (T - T_ref) + V·yᵢ·ΔHv,i]
     let t_ref = 25.0; // reference temperature °C
 
-    let enthalpy_at = |t: f64| -> Option<f64> {
-        let flash = tp_flash(&volatiles, pressure_kpa, t)?;
-        let mut h = 0.0;
-        // Sensible heat: all feed enters as liquid at T_ref, heated to T
-        for c in components.iter() {
-            let n_i = c.volatile.x * total_moles;
-            h += n_i * c.cp_liquid_j_per_mol_k * (t - t_ref) / 1000.0;
-        }
-        // Latent heat: moles that vaporized × ΔHv
-        for (i, c) in components.iter().enumerate() {
-            let n_vap_i = total_moles * flash.vapour_fraction * flash.y[i];
-            h += n_vap_i * c.delta_hv_kj_per_mol;
-        }
-        Some(h)
-    };
+    let enthalpy_at =
+        |t: f64, gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>| -> Option<(f64, FlashResult)> {
+            let flash = tp_flash_with(&antoines, &z, pressure_kpa, t, gammas)?;
+            let mut h = 0.0;
+            // Sensible heat: all feed enters as liquid at T_ref, heated to T
+            for c in components.iter() {
+                let n_i = c.volatile.x * total_moles;
+                h += n_i * c.cp_liquid_j_per_mol_k * (t - t_ref) / 1000.0;
+            }
+            // Latent heat: moles that vaporized × ΔHv
+            for (i, c) in components.iter().enumerate() {
+                let n_vap_i = total_moles * flash.vapour_fraction * flash.y[i];
+                h += n_vap_i * c.delta_hv_kj_per_mol;
+            }
+            Some((h, flash))
+        };
 
     // Bisection on H(T) - H_feed = 0
     let (mut lo, mut hi) = (-50.0f64, 350.0f64);
-    let h_lo = enthalpy_at(lo)?;
-    let h_hi = enthalpy_at(hi)?;
+    let (h_lo, _) = enthalpy_at(lo, gammas)?;
+    let (h_hi, _) = enthalpy_at(hi, gammas)?;
     let residual_lo = h_lo - feed_enthalpy_kj;
     let residual_hi = h_hi - feed_enthalpy_kj;
 
@@ -526,7 +635,7 @@ pub fn hp_flash(
 
     for _ in 0..200 {
         let mid = 0.5 * (lo + hi);
-        let h_mid = enthalpy_at(mid)?;
+        let (h_mid, _) = enthalpy_at(mid, gammas)?;
         let residual_mid = h_mid - feed_enthalpy_kj;
         if residual_mid.signum() == residual_lo.signum() {
             lo = mid;
@@ -537,9 +646,8 @@ pub fn hp_flash(
             break;
         }
     }
-
     let t = 0.5 * (lo + hi);
-    let flash = tp_flash(&volatiles, pressure_kpa, t)?;
+    let (_, flash) = enthalpy_at(t, gammas)?;
     Some(HpFlashResult {
         t_celsius: t,
         vapour_fraction: flash.vapour_fraction,
@@ -554,12 +662,10 @@ pub fn mass_fraction(x1: f64, m1: f64, m2: f64) -> f64 {
     a / (a + b)
 }
 
-/// Bubble point of the ethanol–water binary with full UNIFAC γ(T)
-/// (Fredenslund 1975 parameters) — the mixture the school still is built
-/// around, packaged so a bench does not need to know group
-/// decompositions. `x_ethanol` is the ethanol mole fraction of the
-/// volatile liquid.
-pub fn ethanol_water_bubble_point(x_ethanol: f64, pressure_kpa: f64) -> Option<BubblePoint> {
+/// Full-UNIFAC activity coefficients for the ethanol–water binary at a
+/// liquid composition and temperature — the one seam every ethanol–water
+/// helper shares, so the formulas cannot fork (the CAP-5 rule).
+pub fn ethanol_water_activity(x_ethanol: f64, t_kelvin: f64) -> (f64, f64) {
     let table = crate::unifac::approved_table();
     let mut ethanol_groups = crate::unifac::GroupDecomposition::new();
     ethanol_groups.insert(1, 1); // CH3
@@ -567,19 +673,60 @@ pub fn ethanol_water_bubble_point(x_ethanol: f64, pressure_kpa: f64) -> Option<B
     ethanol_groups.insert(14, 1); // OH
     let mut water_groups = crate::unifac::GroupDecomposition::new();
     water_groups.insert(16, 1); // H2O
+    let g = crate::unifac::activity_coefficients(
+        &table,
+        &[(ethanol_groups, x_ethanol), (water_groups, 1.0 - x_ethanol)],
+        t_kelvin,
+    );
+    (g[0], g[1])
+}
+
+/// Bubble point of the ethanol–water binary with full UNIFAC γ(T)
+/// (Fredenslund 1975 parameters) — the mixture the school still is built
+/// around, packaged so a bench does not need to know group
+/// decompositions. `x_ethanol` is the ethanol mole fraction of the
+/// volatile liquid.
+pub fn ethanol_water_bubble_point(x_ethanol: f64, pressure_kpa: f64) -> Option<BubblePoint> {
     bubble_point_with(
         &[ETHANOL, WATER],
         &[x_ethanol, 1.0 - x_ethanol],
         pressure_kpa,
         |t_k| {
-            crate::unifac::activity_coefficients(
-                &table,
-                &[
-                    (ethanol_groups.clone(), x_ethanol),
-                    (water_groups.clone(), 1.0 - x_ethanol),
-                ],
-                t_k,
-            )
+            let (ge, gw) = ethanol_water_activity(x_ethanol, t_k);
+            vec![ge, gw]
+        },
+    )
+}
+
+/// Dew point of ethanol–water vapour with full UNIFAC γ(x, T): the γ of
+/// the condensing liquid follows the successive-substitution loop in
+/// [`dew_point_with`].
+pub fn ethanol_water_dew_point(y_ethanol: f64, pressure_kpa: f64) -> Option<DewPoint> {
+    dew_point_with(
+        &[ETHANOL, WATER],
+        &[y_ethanol, 1.0 - y_ethanol],
+        pressure_kpa,
+        &mut |x, t_k| {
+            let (ge, gw) = ethanol_water_activity(x[0], t_k);
+            vec![ge, gw]
+        },
+    )
+}
+
+/// TP flash of an ethanol–water feed with full UNIFAC γ(x, T).
+pub fn ethanol_water_tp_flash(
+    z_ethanol: f64,
+    pressure_kpa: f64,
+    t_celsius: f64,
+) -> Option<FlashResult> {
+    tp_flash_with(
+        &[ETHANOL, WATER],
+        &[z_ethanol, 1.0 - z_ethanol],
+        pressure_kpa,
+        t_celsius,
+        &mut |x, t_k| {
+            let (ge, gw) = ethanol_water_activity(x[0], t_k);
+            vec![ge, gw]
         },
     )
 }
@@ -877,4 +1024,167 @@ mod tests {
             r.t_celsius
         );
     }
+}
+
+// ── CAP-17: the batch still — Rayleigh drift, stages, latent energy ──
+
+/// Molar enthalpy of vaporisation, kJ/mol, at each component's normal
+/// boiling point. Water from the IAPWS-95 formulation (Wagner & Pruß,
+/// J. Phys. Chem. Ref. Data 31, 2002): 40.657 kJ/mol at 100 °C. Ethanol
+/// from Majer & Svoboda, "Enthalpies of Vaporization of Organic
+/// Compounds" (IUPAC Chemical Data Series No. 32, 1985): 38.56 kJ/mol
+/// at 78.3 °C. Held constant over the still's narrow temperature range —
+/// a stated approximation worth ~1 % across 78–100 °C.
+pub const WATER_HVAP_KJ_PER_MOL: f64 = 40.657;
+pub const ETHANOL_HVAP_KJ_PER_MOL: f64 = 38.56;
+
+/// How much a still is asked to take overhead.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum StillTake {
+    /// This fraction (0..=1) of the volatile liquid, by moles.
+    Fraction(f64),
+    /// As much as this much latent heat can lift, kJ.
+    EnergyKj(f64),
+}
+
+/// What one batch cut produced.
+#[derive(Debug, Clone, PartialEq)]
+pub struct StillCut {
+    /// Moles of each component condensed into the receiver.
+    pub water_over: f64,
+    pub ethanol_over: f64,
+    /// Pot boiling temperature at the start and end of the cut, °C —
+    /// the drift between them is the Rayleigh story made visible.
+    pub t_start_c: f64,
+    pub t_end_c: f64,
+    /// Latent heat the cut consumed, kJ — what the burner really paid
+    /// and the condenser really dumped.
+    pub energy_kj: f64,
+    /// The column ran into the azeotrope: the top-stage vapour matches
+    /// its liquid and more stages change nothing.
+    pub azeotrope_limited: bool,
+}
+
+/// One ideal-stage cascade at total reflux: the vapour of stage n is the
+/// liquid of stage n+1. Returns the top-stage vapour composition and
+/// whether the walk hit the azeotrope on the way up. The total-reflux
+/// idealisation is stated, not hidden: a real column at finite reflux
+/// separates less, never more, so this is the honest *upper bound* a
+/// learner's column cannot beat.
+fn cascade(x_pot: f64, stages: u32, pressure_kpa: f64) -> Option<(f64, BubblePoint, bool)> {
+    let pot_bp = ethanol_water_bubble_point(x_pot, pressure_kpa)?;
+    let mut y = pot_bp.y[0];
+    let mut hit = pot_bp.azeotropic;
+    for _ in 1..stages {
+        let bp = ethanol_water_bubble_point(y, pressure_kpa)?;
+        if bp.azeotropic {
+            hit = true;
+            break;
+        }
+        y = bp.y[0];
+    }
+    Some((y, pot_bp, hit))
+}
+
+/// A batch distillation cut of the ethanol–water binary with full UNIFAC
+/// γ(T): Rayleigh integration — the vapour composition follows the pot as
+/// it drifts — through an `stages`-stage column at total reflux.
+///
+/// Integration is 256 fixed steps of the overhead amount; halving the
+/// step count moves the answers in the fourth decimal, which is far
+/// inside the model's own honesty budget.
+pub fn ethanol_water_still(
+    water_moles: f64,
+    ethanol_moles: f64,
+    take: StillTake,
+    stages: u32,
+    pressure_kpa: f64,
+) -> Option<StillCut> {
+    if water_moles < 0.0 || ethanol_moles < 0.0 {
+        return None;
+    }
+    let total0 = water_moles + ethanol_moles;
+    if total0 <= 0.0 {
+        return None;
+    }
+    let stages = stages.max(1);
+    let (mut w, mut e) = (water_moles, ethanol_moles);
+    let (mut w_over, mut e_over) = (0.0f64, 0.0f64);
+    let mut energy_kj = 0.0f64;
+    let mut azeo = false;
+
+    let budget = match take {
+        StillTake::Fraction(f) => {
+            if !(0.0..=1.0).contains(&f) {
+                return None;
+            }
+            f * total0
+        }
+        // Provisional mole budget for step sizing; the loop stops on the
+        // real energy meter below.
+        StillTake::EnergyKj(kj) => {
+            if kj < 0.0 {
+                return None;
+            }
+            (kj / WATER_HVAP_KJ_PER_MOL.min(ETHANOL_HVAP_KJ_PER_MOL)).min(total0)
+        }
+    };
+
+    let (y0, bp0, _) = cascade(e / (w + e), stages, pressure_kpa)?;
+    let _ = y0;
+    let t_start_c = bp0.t_celsius;
+    let mut t_end_c = t_start_c;
+
+    const STEPS: usize = 256;
+    let dn = budget / STEPS as f64;
+    if dn <= 0.0 {
+        return Some(StillCut {
+            water_over: 0.0,
+            ethanol_over: 0.0,
+            t_start_c,
+            t_end_c,
+            energy_kj: 0.0,
+            azeotrope_limited: false,
+        });
+    }
+    for _ in 0..STEPS {
+        let pot = w + e;
+        if pot <= 1e-12 {
+            break;
+        }
+        let x = e / pot;
+        let Some((y_top, pot_bp, hit)) = cascade(x, stages, pressure_kpa) else {
+            break;
+        };
+        t_end_c = pot_bp.t_celsius;
+        azeo |= hit;
+        let dn = dn.min(pot);
+        let de = (dn * y_top).min(e);
+        let dw = (dn - de).min(w);
+        let step_kj = de * ETHANOL_HVAP_KJ_PER_MOL + dw * WATER_HVAP_KJ_PER_MOL;
+        if let StillTake::EnergyKj(kj) = take {
+            if energy_kj + step_kj > kj {
+                // The burner's budget ends mid-step: take the affordable
+                // share of this step and stop.
+                let share = ((kj - energy_kj) / step_kj).clamp(0.0, 1.0);
+                e_over += de * share;
+                w_over += dw * share;
+                energy_kj = kj;
+                break;
+            }
+        }
+        e -= de;
+        w -= dw;
+        e_over += de;
+        w_over += dw;
+        energy_kj += step_kj;
+    }
+    Some(StillCut {
+        water_over: w_over,
+        ethanol_over: e_over,
+        t_start_c,
+        t_end_c,
+        energy_kj,
+        azeotrope_limited: azeo,
+    })
 }
