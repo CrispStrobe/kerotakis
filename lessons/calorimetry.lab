@@ -1,0 +1,12 @@
+# Neutralisation enthalpy: how much heat does an acid-base reaction produce?
+register lv2
+new
+add v1 water 100mL
+add v1 NaOH 2g
+measure v1 thermometer
+measure v1 calorimeter
+add v1 HCl 2g
+measure v1 thermometer
+measure v1 calorimeter
+measure v1 ph
+inspect v1

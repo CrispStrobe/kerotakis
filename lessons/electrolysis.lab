@@ -1,0 +1,11 @@
+# Electrolysis of copper sulfate: Faraday's law
+register lv2
+new
+add v1 water 200mL
+add v1 CuSO4 5g
+measure v1 balance
+measure v1 eyes
+electrolyze v1 0.5A 30 minutes
+measure v1 balance
+measure v1 eyes
+inspect v1

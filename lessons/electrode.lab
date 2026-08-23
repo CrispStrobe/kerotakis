@@ -1,0 +1,12 @@
+# The electrochemical series: zinc displaces copper
+register lv2
+new
+add v1 water 200mL
+add v1 CuSO4 2g
+add v1 Zn 3g
+measure v1 ph
+measure v1 eyes
+wait 60 seconds
+measure v1 eyes
+measure v1 balance
+inspect v1

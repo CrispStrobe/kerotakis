@@ -92,6 +92,18 @@ pub enum Operator {
         amps: f64,
         seconds: f64,
     },
+    /// Set particle size of a solid in the vessel (for heterogeneous rates).
+    Grind {
+        vessel: VesselId,
+        species: SpeciesId,
+        diameter_um: f64,
+    },
+    /// Turn a light source on or off for photolysis.
+    Irradiate {
+        vessel: VesselId,
+        wavelength_nm: f64,
+        irradiance_w_m2: f64,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -111,6 +123,8 @@ pub enum Instrument {
     ConductivityMeter,
     /// INST-005: UV-Vis spectrophotometer — reads absorbance spectrum.
     Spectrophotometer,
+    /// INST-006: Calorimeter — reads enthalpy.
+    Calorimeter,
 }
 
 /// ORG-009: How confident the engine is in a claimed result.

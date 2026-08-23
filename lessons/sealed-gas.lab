@@ -1,0 +1,13 @@
+# Gas laws in a sealed vessel
+register lv2
+new
+add v1 water 100mL
+add v1 NaHCO3 4.2g
+seal v1 200mL
+measure v1 pressure
+measure v1 volume
+add v1 CH3COOH 3.6g
+measure v1 pressure
+measure v1 volume
+measure v1 thermometer
+inspect v1

@@ -1,0 +1,16 @@
+# Ionic conductivity: strong vs weak electrolytes
+register lv2
+new
+new
+# Strong electrolyte: NaCl fully dissociates
+add v1 water 200mL
+add v1 NaCl 5.8g
+measure v1 conductivity
+measure v1 ph
+# Weak electrolyte: acetic acid partially dissociates
+add v2 water 200mL
+add v2 CH3COOH 6g
+measure v2 conductivity
+measure v2 ph
+inspect v1
+inspect v2
