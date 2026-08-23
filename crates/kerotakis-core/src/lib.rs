@@ -41,6 +41,8 @@ pub mod parallel;
 pub mod particles;
 pub mod photochem;
 pub mod polymer;
+pub mod properties;
+pub mod relations;
 pub mod render;
 pub mod script;
 pub mod solve;

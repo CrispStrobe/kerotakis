@@ -34,8 +34,7 @@
 
 use serde::{Deserialize, Serialize};
 
-/// Gas constant, J·mol⁻¹·K⁻¹.
-const R: f64 = 8.314_462_618;
+const R: f64 = crate::constants::GAS_CONSTANT;
 
 /// Water's normal melting point at 1 atm, K.
 pub const WATER_FREEZING_K: f64 = 273.15;
