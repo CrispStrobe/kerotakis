@@ -878,3 +878,168 @@ mod tests {
         );
     }
 }
+
+// ── CAP-17: the batch still — Rayleigh drift, stages, latent energy ──
+
+/// Molar enthalpy of vaporisation, kJ/mol, at each component's normal
+/// boiling point. Water from the IAPWS-95 formulation (Wagner & Pruß,
+/// J. Phys. Chem. Ref. Data 31, 2002): 40.657 kJ/mol at 100 °C. Ethanol
+/// from Majer & Svoboda, "Enthalpies of Vaporization of Organic
+/// Compounds" (IUPAC Chemical Data Series No. 32, 1985): 38.56 kJ/mol
+/// at 78.3 °C. Held constant over the still's narrow temperature range —
+/// a stated approximation worth ~1 % across 78–100 °C.
+pub const WATER_HVAP_KJ_PER_MOL: f64 = 40.657;
+pub const ETHANOL_HVAP_KJ_PER_MOL: f64 = 38.56;
+
+/// How much a still is asked to take overhead.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum StillTake {
+    /// This fraction (0..=1) of the volatile liquid, by moles.
+    Fraction(f64),
+    /// As much as this much latent heat can lift, kJ.
+    EnergyKj(f64),
+}
+
+/// What one batch cut produced.
+#[derive(Debug, Clone, PartialEq)]
+pub struct StillCut {
+    /// Moles of each component condensed into the receiver.
+    pub water_over: f64,
+    pub ethanol_over: f64,
+    /// Pot boiling temperature at the start and end of the cut, °C —
+    /// the drift between them is the Rayleigh story made visible.
+    pub t_start_c: f64,
+    pub t_end_c: f64,
+    /// Latent heat the cut consumed, kJ — what the burner really paid
+    /// and the condenser really dumped.
+    pub energy_kj: f64,
+    /// The column ran into the azeotrope: the top-stage vapour matches
+    /// its liquid and more stages change nothing.
+    pub azeotrope_limited: bool,
+}
+
+/// One ideal-stage cascade at total reflux: the vapour of stage n is the
+/// liquid of stage n+1. Returns the top-stage vapour composition and
+/// whether the walk hit the azeotrope on the way up. The total-reflux
+/// idealisation is stated, not hidden: a real column at finite reflux
+/// separates less, never more, so this is the honest *upper bound* a
+/// learner's column cannot beat.
+fn cascade(x_pot: f64, stages: u32, pressure_kpa: f64) -> Option<(f64, BubblePoint, bool)> {
+    let pot_bp = ethanol_water_bubble_point(x_pot, pressure_kpa)?;
+    let mut y = pot_bp.y[0];
+    let mut hit = pot_bp.azeotropic;
+    for _ in 1..stages {
+        let bp = ethanol_water_bubble_point(y, pressure_kpa)?;
+        if bp.azeotropic {
+            hit = true;
+            break;
+        }
+        y = bp.y[0];
+    }
+    Some((y, pot_bp, hit))
+}
+
+/// A batch distillation cut of the ethanol–water binary with full UNIFAC
+/// γ(T): Rayleigh integration — the vapour composition follows the pot as
+/// it drifts — through an `stages`-stage column at total reflux.
+///
+/// Integration is 256 fixed steps of the overhead amount; halving the
+/// step count moves the answers in the fourth decimal, which is far
+/// inside the model's own honesty budget.
+pub fn ethanol_water_still(
+    water_moles: f64,
+    ethanol_moles: f64,
+    take: StillTake,
+    stages: u32,
+    pressure_kpa: f64,
+) -> Option<StillCut> {
+    if water_moles < 0.0 || ethanol_moles < 0.0 {
+        return None;
+    }
+    let total0 = water_moles + ethanol_moles;
+    if total0 <= 0.0 {
+        return None;
+    }
+    let stages = stages.max(1);
+    let (mut w, mut e) = (water_moles, ethanol_moles);
+    let (mut w_over, mut e_over) = (0.0f64, 0.0f64);
+    let mut energy_kj = 0.0f64;
+    let mut azeo = false;
+
+    let budget = match take {
+        StillTake::Fraction(f) => {
+            if !(0.0..=1.0).contains(&f) {
+                return None;
+            }
+            f * total0
+        }
+        // Provisional mole budget for step sizing; the loop stops on the
+        // real energy meter below.
+        StillTake::EnergyKj(kj) => {
+            if kj < 0.0 {
+                return None;
+            }
+            (kj / WATER_HVAP_KJ_PER_MOL.min(ETHANOL_HVAP_KJ_PER_MOL)).min(total0)
+        }
+    };
+
+    let (y0, bp0, _) = cascade(e / (w + e), stages, pressure_kpa)?;
+    let _ = y0;
+    let t_start_c = bp0.t_celsius;
+    let mut t_end_c = t_start_c;
+
+    const STEPS: usize = 256;
+    let dn = budget / STEPS as f64;
+    if dn <= 0.0 {
+        return Some(StillCut {
+            water_over: 0.0,
+            ethanol_over: 0.0,
+            t_start_c,
+            t_end_c,
+            energy_kj: 0.0,
+            azeotrope_limited: false,
+        });
+    }
+    for _ in 0..STEPS {
+        let pot = w + e;
+        if pot <= 1e-12 {
+            break;
+        }
+        let x = e / pot;
+        let Some((y_top, pot_bp, hit)) = cascade(x, stages, pressure_kpa) else {
+            break;
+        };
+        t_end_c = pot_bp.t_celsius;
+        azeo |= hit;
+        let dn = dn.min(pot);
+        let de = (dn * y_top).min(e);
+        let dw = (dn - de).min(w);
+        let step_kj = de * ETHANOL_HVAP_KJ_PER_MOL + dw * WATER_HVAP_KJ_PER_MOL;
+        if let StillTake::EnergyKj(kj) = take {
+            if energy_kj + step_kj > kj {
+                // The burner's budget ends mid-step: take the affordable
+                // share of this step and stop.
+                let share = ((kj - energy_kj) / step_kj).clamp(0.0, 1.0);
+                e -= de * share;
+                w -= dw * share;
+                e_over += de * share;
+                w_over += dw * share;
+                energy_kj = kj;
+                break;
+            }
+        }
+        e -= de;
+        w -= dw;
+        e_over += de;
+        w_over += dw;
+        energy_kj += step_kj;
+    }
+    Some(StillCut {
+        water_over: w_over,
+        ethanol_over: e_over,
+        t_start_c,
+        t_end_c,
+        energy_kj,
+        azeotrope_limited: azeo,
+    })
+}

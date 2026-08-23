@@ -8,6 +8,13 @@ use crate::species::{Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::VesselId;
 
+fn one_stage() -> u32 {
+    1
+}
+fn kelvin_zero() -> Kelvin {
+    Kelvin(0.0)
+}
+
 /// A mutating or measuring action. One `Operator` in is one step of the bench
 /// loop: L0 safety pass → apply → re-equilibrate → events out.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -66,15 +73,22 @@ pub enum Operator {
     /// non-water liquids need L3 (relative volatility) and are honestly
     /// flagged.
     Evaporate { vessel: VesselId, fraction: f64 },
-    /// Boil a fraction (0..=1) of the volatile liquid over into another
-    /// vessel through a condenser: one equilibrium stage, vapour
-    /// composition from the bubble point (UNIFAC γ(T) for ethanol–water).
-    /// Non-volatile matter stays behind — which is why distilling brine
-    /// makes distilled water.
+    /// Boil volatile liquid over into another vessel through a condenser:
+    /// a Rayleigh batch cut — the vapour composition follows the pot as
+    /// it drifts — through `stages` ideal stages at total reflux, with
+    /// UNIFAC γ(T) for ethanol–water. Ask for a mole fraction of the
+    /// charge or for what a latent-heat budget can lift; non-volatile
+    /// matter stays behind, which is why distilling brine makes
+    /// distilled water.
     Distil {
         from: VesselId,
         to: VesselId,
-        fraction: f64,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        fraction: Option<f64>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        energy: Option<Joules>,
+        #[serde(default = "one_stage")]
+        stages: u32,
     },
     /// Let time pass. Rates need a clock, and this is it.
     ///
@@ -317,15 +331,24 @@ pub enum Event {
         moles: Moles,
     },
     /// Volatile liquid boiled over into a receiver through a condenser.
-    /// `at` is the boiling temperature of the source mixture; when
-    /// `azeotropic`, the vapour composition matches the liquid and further
-    /// distillation no longer separates.
+    /// `at` and `ended` are the pot's boiling temperature at the start
+    /// and end of the cut — the Rayleigh drift made visible; `energy_kj`
+    /// is the latent heat the burner paid and the condenser dumped (the
+    /// still is externally powered, and this is the bill); when
+    /// `azeotropic`, the column ran into the azeotrope and further
+    /// stages or boiling no longer enrich.
     Distilled {
         from: VesselId,
         to: VesselId,
         water: Moles,
         ethanol: Moles,
         at: Kelvin,
+        #[serde(default = "kelvin_zero")]
+        ended: Kelvin,
+        #[serde(default = "one_stage")]
+        stages: u32,
+        #[serde(default)]
+        energy_kj: f64,
         azeotropic: bool,
     },
     /// A gas formed and left through a reservoir or swept boundary. The

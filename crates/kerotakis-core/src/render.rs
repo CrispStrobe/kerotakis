@@ -261,26 +261,38 @@ pub fn render_event(event: &Event, register: Register) -> String {
             2 => format!("{vessel}: {:.3} mol water evaporated", moles.0),
             _ => format!("{vessel}: {:.6} mol H2O evaporated (vaporisation enthalpy not yet in the balance)", moles.0),
         },
-        Event::Distilled { from, to, water, ethanol, at, azeotropic } => match register.level() {
+        Event::Distilled { from, to, water, ethanol, at, ended, stages, energy_kj, azeotropic } => match register.level() {
             1 => format!("Vapour rises from {from}, cools in the tube, and drips into {to}."),
             2 => {
-                let t = at.to_celsius();
+                let t0 = at.to_celsius();
+                let t1 = ended.to_celsius();
+                let column = if *stages > 1 {
+                    format!(" through a {stages}-stage column")
+                } else {
+                    String::new()
+                };
                 if *azeotropic {
                     format!(
-                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over at {t:.1} °C — the vapour now matches the liquid (azeotrope), so boiling harder enriches nothing",
+                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over{column} — the vapour matches the liquid now (azeotrope), so more stages or harder boiling enrich nothing",
+                        water.0, ethanol.0
+                    )
+                } else if (t1 - t0).abs() > 0.05 {
+                    format!(
+                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over{column}; the pot boiled at {t0:.1} °C and climbed to {t1:.1} °C as the light component left",
                         water.0, ethanol.0
                     )
                 } else {
                     format!(
-                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over, boiling at {t:.1} °C",
+                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over{column}, boiling at {t0:.1} °C",
                         water.0, ethanol.0
                     )
                 }
             }
             _ => format!(
-                "{from} → {to}: one-stage distillation at {:.2} K; vapour composition from the bubble point with UNIFAC γ(T), held at the starting liquid composition (Rayleigh integration not modelled); externally powered, vaporisation enthalpy not in the ledger{}",
+                "{from} → {to}: Rayleigh batch cut, {stages} ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot {:.2} K → {:.2} K; latent heat {energy_kj:.2} kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger{}",
                 at.0,
-                if *azeotropic { "; azeotropic: y = x" } else { "" }
+                ended.0,
+                if *azeotropic { "; azeotrope reached: y = x" } else { "" }
             ),
         },
         Event::Transferred { from, to, fraction } => match register.level() {

@@ -677,10 +677,30 @@ impl Bench {
                     }
                 }
             }
-            Operator::Distil { from, to, fraction } => {
-                if !(0.0..=1.0).contains(fraction) {
-                    return Err(BenchError::BadFraction);
-                }
+            Operator::Distil {
+                from,
+                to,
+                fraction,
+                energy,
+                stages,
+            } => {
+                let take = match (fraction, energy) {
+                    (Some(f), None) => {
+                        if !(0.0..=1.0).contains(f) {
+                            return Err(BenchError::BadFraction);
+                        }
+                        kerotakis_thermo::vle::StillTake::Fraction(*f)
+                    }
+                    (None, Some(e)) => {
+                        if e.0 < 0.0 {
+                            return Err(BenchError::BadFraction);
+                        }
+                        kerotakis_thermo::vle::StillTake::EnergyKj(e.0 / 1000.0)
+                    }
+                    // Exactly one way of asking; both or neither is a
+                    // malformed request, not a chemistry question.
+                    _ => return Err(BenchError::BadFraction),
+                };
                 if from == to {
                     return Err(BenchError::SelfTransfer);
                 }
@@ -717,9 +737,14 @@ impl Bench {
                             .to_string(),
                     });
                 } else {
-                    let x_e = e / volatile;
                     let pressure_kpa = src.pressure.0 / 1000.0;
-                    match kerotakis_thermo::vle::ethanol_water_bubble_point(x_e, pressure_kpa) {
+                    match kerotakis_thermo::vle::ethanol_water_still(
+                        w,
+                        e,
+                        take,
+                        *stages,
+                        pressure_kpa,
+                    ) {
                         None => events.push(Event::NotYetModeled {
                             vessel: *from,
                             what: format!(
@@ -727,22 +752,20 @@ impl Bench {
                                  outside the fitted Antoine ranges"
                             ),
                         }),
-                        Some(bp) => {
-                            // One equilibrium stage, vapour composition
-                            // frozen at the starting liquid's bubble point.
-                            // A real batch distillation is the Rayleigh
-                            // integral — y drifts as the pot composition
-                            // does — so this over-separates slightly for
-                            // large fractions. The azeotrope is where that
-                            // approximation is exact: y = x and nothing
-                            // drifts.
-                            let over = volatile * fraction;
-                            let e_over = (over * bp.y[0]).min(e);
-                            let w_over = (over - e_over).min(w);
-                            let removed_e = src.withdraw(&ethanol, Moles(e_over));
-                            let removed_w = src.withdraw(&water, Moles(w_over));
-                            let at = Kelvin(bp.t_celsius + 273.15);
-                            let azeotropic = bp.azeotropic;
+                        Some(cut) => {
+                            // The Rayleigh cut: vapour composition follows
+                            // the pot as it drifts, through `stages` ideal
+                            // stages at total reflux — the honest upper
+                            // bound a real column cannot beat. The energy
+                            // number is the latent heat the burner paid
+                            // and the condenser dumped; it never touches
+                            // the vessel ledger, and the event says so.
+                            let removed_e = src.withdraw(&ethanol, Moles(cut.ethanol_over));
+                            let removed_w = src.withdraw(&water, Moles(cut.water_over));
+                            let at = Kelvin(cut.t_start_c + 273.15);
+                            let ended = Kelvin(cut.t_end_c + 273.15);
+                            let energy_kj = cut.energy_kj;
+                            let azeotropic = cut.azeotrope_limited;
                             // The condensate carries the source's sensible
                             // enthalpy into the receiver (adiabatic mixing,
                             // the decant rule): the boil's latent and
@@ -781,15 +804,19 @@ impl Bench {
                                 dst.deposit(ethanol.clone(), removed_e, Phase::Liquid);
                             }
                             // Like `evaporate`, the still is externally
-                            // powered: no vaporisation enthalpy is charged
-                            // to the ledger, and the thermometer after this
-                            // operator is not a claim (PLAN, known gaps).
+                            // powered: the latent heat is billed on the
+                            // event, not the ledger, and the thermometer
+                            // after this operator is not a claim (PLAN,
+                            // known gaps).
                             events.push(Event::Distilled {
                                 from: *from,
                                 to: *to,
                                 water: removed_w,
                                 ethanol: removed_e,
                                 at,
+                                ended,
+                                stages: *stages,
+                                energy_kj,
                                 azeotropic,
                             });
                         }

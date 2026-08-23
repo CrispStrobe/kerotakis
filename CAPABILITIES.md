@@ -676,7 +676,22 @@ existing fixed-γ tests unchanged; preflight green. **Size.** Medium.
 
 ## CAP-17 — Batch distillation and the column
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23** (Fable). (a) Rayleigh integration:
+      `ethanol_water_still` walks 256 steps with the vapour composition
+      following the pot, so long cuts deplete honestly and the boil
+      climbs — the spirit-still lesson now reads "boiled at 88.4 °C and
+      climbed to 92.2 °C as the light component left". (b) The column:
+      `distil … stages N` runs an N-stage cascade at total reflux (the
+      stated upper bound a real column cannot beat); a 40-stage column
+      from wine lands on the azeotrope at x = 0.894 ± 0.02 and reports
+      the wall. (c) Energy: `distil … <E>kJ` boils exactly what that
+      latent-heat budget lifts (ΔHvap: water 40.657 IAPWS-95, ethanol
+      38.56 Majer & Svoboda 1985), and every Distilled event now bills
+      the latent heat the burner paid and the condenser dumped —
+      quantified on the event, deliberately outside the vessel ledger;
+      full coupling through `hp_flash` remains for the feed-flash case.
+      Tests: `thermo/tests/still.rs` (drift, azeotrope wall, exact
+      energy meter) + extended bench suites.
 
 **Why.** `distil` is one equilibrium stage with y frozen at the
 starting composition, stated as such in lv3; `IdealStage` still has no
