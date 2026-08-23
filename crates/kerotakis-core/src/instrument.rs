@@ -7,7 +7,6 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::units::{Joules, Kelvin};
 use crate::vessel::Vessel;
 
 /// What an instrument does to the system when it measures.
@@ -301,7 +300,7 @@ impl InstrumentContract for Spectrophotometer {
             value: peak_abs,
             unit: "AU".into(),
             precision: Some(0.001),
-            in_range: peak_abs >= 0.0 && peak_abs < 4.0,
+            in_range: (0.0..4.0).contains(&peak_abs),
         })
     }
 }

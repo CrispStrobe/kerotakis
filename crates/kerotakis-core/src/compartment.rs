@@ -8,10 +8,9 @@
 //! conditions.
 
 use serde::{Deserialize, Serialize};
-use std::collections::BTreeMap;
 
 use crate::species::Phase;
-use crate::units::{Kelvin, Liters, Moles, Pascal};
+use crate::units::{Kelvin, Moles, Pascal};
 use crate::vessel::{Headspace, ResolvedState};
 use crate::SpeciesId;
 

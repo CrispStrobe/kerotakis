@@ -3,8 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-use crate::compartment::ElectrodeState;
-use crate::units::Kelvin;
 
 // ── ELEC-005: Galvanostatic and potentiostatic control ─────────────
 

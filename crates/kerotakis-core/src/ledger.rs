@@ -11,7 +11,6 @@ use std::collections::BTreeMap;
 
 use crate::species;
 use crate::stoich;
-use crate::units::{Grams, Joules};
 use crate::vessel::Vessel;
 
 /// A snapshot of conserved quantities for one vessel.

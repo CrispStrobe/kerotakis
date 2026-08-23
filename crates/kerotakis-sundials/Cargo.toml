@@ -7,5 +7,8 @@ description = "CVODE-based kinetics integrator backend for kerotakis (native-onl
 
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }
-sundials = { path = "../../sundials-kinetics-rs/sundials" }
+# default-features = false drops the `klu` sparse-solver feature: this crate
+# uses dense CVODE only, and KLU would demand a SuiteSparse system install
+# on every build machine for capability nothing here exercises.
+sundials = { path = "../../sundials-kinetics-rs/sundials", default-features = false }
 thiserror = { workspace = true }
