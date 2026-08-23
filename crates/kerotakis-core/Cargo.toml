@@ -10,7 +10,12 @@ authors.workspace = true
 [dependencies]
 bumpalo = { workspace = true }
 diffsol = { workspace = true }
+lasso = { workspace = true }
 num-rational = { workspace = true }
+rand = { workspace = true }
+rand_chacha = { workspace = true }
+rand_distr = { workspace = true }
+rayon = { workspace = true }
 serde = { workspace = true }
 serde_yaml_ng = { workspace = true }
 thiserror = { workspace = true }
