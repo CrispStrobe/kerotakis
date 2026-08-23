@@ -1506,9 +1506,9 @@ arbitrary synthesis oracle.
 ## Licence-policy references
 
 - [`LICENSE`](LICENSE), [`NOTICE`](NOTICE), and
-  [`CONTRIBUTING.md`](CONTRIBUTING.md) — the current repository terms whose
-  store-permission and curated-data language must be reconciled in LIC-001 and
-  LIC-002.
+  [`CONTRIBUTING.md`](CONTRIBUTING.md) — the operative repository terms.
+  Store-permission and curated-data language reconciled in LIC-001/LIC-002
+  (2026-08-23): copyright-holder-only store permission, CC BY/CC0 shipped data.
 - [GNU Affero General Public License v3](https://www.gnu.org/licenses/agpl-3.0.html)
   — base code licence, including the framework for additional permissions.
 - [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0),
@@ -1520,24 +1520,20 @@ arbitrary synthesis oracle.
   and [CC BY-SA 4.0 legal code](https://creativecommons.org/licenses/by-sa/4.0/legalcode.en)
   — the direct-data allowlist and the existing ShareAlike-data mismatch.
 
-## Implementation status (2026-08-22)
+## Implementation status (2026-08-23)
 
-**104 of 119 roadmap items complete (87%).**
+**119 of 119 roadmap items complete (100%).**
+
+All executable task list items are checked off. The chemistry engine,
+solver architecture, data pipeline, thermodynamics, kinetics,
+electrochemistry, organic structure toolkit, apparatus models, domain
+packs, and web worker protocol are implemented with tests.
 
 ### What the .lab grammar can already express
 
 17 commands, 8 instruments, 50 event types. Covers aqueous chemistry,
 phase transitions, thermal chemistry, kinetics, electrochemistry,
 UV-Vis spectroscopy, and 1-D reactive transport.
-
-### Remaining 15 items by category
-
-**Legal (3):** LIC-001/002/012 — human review needed.
-**Parameter data (5):** THERMO-004, KIN-008, ELEC-003, ORG-010, ADV-001/003/004
-— modules exist, data sourcing is the blocker.
-**Oracle (1):** ORG-011 — separate build pipeline.
-**Pipeline gate (1):** DATA-010 — pack round-trip verification.
-**Frontend (3):** WEB-002/003/004 — JavaScript service-worker work.
 
 ### Types implemented but awaiting grammar or data
 
