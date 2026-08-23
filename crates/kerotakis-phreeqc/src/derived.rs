@@ -628,14 +628,16 @@ mod tests {
         );
         // Gases are excluded, and one of them would otherwise land in the
         // shared count: all three datasets define CO2(g). Counting phases
-        // rather than minerals reads as 22 of 696, which overstates both
+        // rather than minerals reads as 22 of 707, which overstates both
         // the agreement and the shelf it is agreement about.
         let idx: Vec<_> = DB_TAGS.iter().map(|t| index_for(t)).collect();
         let mut every: BTreeSet<&str> = BTreeSet::new();
         for i in &idx {
             every.extend(i.phases.keys().map(String::as_str));
         }
-        assert_eq!(every.len(), 696, "phases, gases included");
+        // 696 → 707 with OPT-8: the same eleven parser-dividend minerals,
+        // counted here before polymorph dedupe.
+        assert_eq!(every.len(), 707, "phases, gases included");
         assert_eq!(every.iter().filter(|n| n.ends_with("(g)")).count(), 24);
         assert!(
             idx.iter().all(|i| i.has_phase("CO2(g)")),
