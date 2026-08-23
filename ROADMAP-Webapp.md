@@ -1549,6 +1549,18 @@ grammar extensions (`structure`, `react`, `irradiate`, `grind`,
 `chromatograph`, `calorimeter`) and curated parameter data to become
 user-facing.
 
+### SymEngine → SUNDIALS Jacobian pipeline (2026-08-23)
+
+The stiff-kinetics integration path is complete:
+1. SymEngine symbolically differentiates the ODE right-hand side once
+2. `CompiledJacobian::evaluate()` substitutes current concentrations
+   and returns exact f64 Jacobian entries
+3. CVODE's `set_dense_jacobian()` wires the Jacobian closure via
+   `CVodeSetJacFn` — no finite-difference approximation
+4. `sparsity_pattern()` identifies structural zeros for KLU sparse
+   solver selection on large mechanisms
+12 tests pass across chem_core, symengine, and sundials.
+
 ## Primary technical references
 
 - [USGS PHREEQC Version 3 manual](https://water.usgs.gov/water-resources/software/PHREEQC/documentation/phreeqc3-html/phreeqc3.htm) — equilibrium, gas phases, exchange, surfaces, solid solutions, kinetics, and transport.
