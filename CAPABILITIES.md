@@ -4,7 +4,7 @@ Tasks that wire approved crates into the engine. Each task names the
 crate, its licence, the capability it serves, and the acceptance
 criterion.
 
-## CAP-1 — Aqueous equilibrium (IPhreeqc)
+## CAP-1 ✓ — Aqueous equilibrium (IPhreeqc)
 
 Already shipped. USGS public domain. The L2 engine.
 
@@ -30,20 +30,20 @@ Only MIT/Apache-2.0/BSD charting libraries are eligible.
 Txy/Pxy/ternary phase diagrams. Acceptance: a binary VLE system
 produces a correct boiling-point envelope.
 
-## CAP-5 — Organic identity (InChI)
+## CAP-5 ✓ — Organic identity (InChI)
 
 The official IUPAC InChI library (MIT since v1.07.1). Pure-Rust
 `chematic-inchi` (MIT/Apache-2.0) is already integrated for the
 wasm-compatible path. The native InChI library provides the
 IUPAC-standard reference for cross-validation.
 
-## CAP-6 — Physical constants (physical_constants)
+## CAP-6 ✓ — Physical constants (physical_constants)
 
 `physical_constants` (MIT). CODATA recommended values. Acceptance:
 Avogadro, Boltzmann, Faraday, gas constant, Planck — each matches
 the CODATA 2018 adjustment to full published precision.
 
-## CAP-7 — Exact stoichiometry (num-rational)
+## CAP-7 ✓ — Exact stoichiometry (num-rational)
 
 `num-rational` (MIT/Apache-2.0). Exact rational arithmetic for
 stoichiometric coefficients. Acceptance: balancing a combustion
@@ -57,23 +57,23 @@ Monte Carlo initial-rates experiments and stochastic kinetics.
 Acceptance: a seeded run produces bit-identical results across
 platforms.
 
-## CAP-9 — Optimization (argmin, csv)
+## CAP-9 ✓ — Optimization (argmin, csv)
 
 `argmin` (MIT/Apache-2.0). Numerical optimization for parameter
 fitting (Levenberg–Marquardt, Nelder–Mead). `csv` (MIT/Unlicense)
 for exporting selected-output tables. Acceptance: fit a first-order
 rate constant from synthetic initial-rates data within 1%.
 
-## CAP-10 — MY-BASIC interpreter
+## CAP-10 ✓ — MY-BASIC interpreter
 
 Already shipped. MIT. The PHREEQC BASIC adapter with 81+ callbacks.
 
-## CAP-11 — Stiff integration (DiffSol)
+## CAP-11 ✓ — Stiff integration (DiffSol)
 
 Already shipped. MIT. Adaptive implicit BDF with positivity,
 events, and equilibrium coupling.
 
-## CAP-12 — Thermal chemistry (NASA CEA)
+## CAP-12 ✓ — Thermal chemistry (NASA CEA)
 
 Already shipped. Apache-2.0. NASA-9 polynomials for combustion and
 decomposition.
@@ -85,7 +85,7 @@ pattern: vendored source, cmake build, bindgen FFI. Add a CI check
 that every registry InChIKey recomputes and matches the vendored
 library's output. Acceptance: all 75 species InChIKeys verified.
 
-## CAP-14 — Licence bar as a lint
+## CAP-14 ✓ — Licence bar as a lint
 
 Turn the shipping bar (PLAN.md, hardened 2026-08-23) into a
 `cargo-deny` allowlist wired into `tools/preflight.sh` and CI.
