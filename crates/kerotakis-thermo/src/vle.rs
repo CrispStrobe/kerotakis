@@ -604,7 +604,7 @@ pub fn hp_flash_with(
     // H(T, V) = Σ nᵢ [cp_L,i (T - T_ref) + V·yᵢ·ΔHv,i]
     let t_ref = 25.0; // reference temperature °C
 
-    let mut enthalpy_at =
+    let enthalpy_at =
         |t: f64, gammas: &mut dyn FnMut(&[f64], f64) -> Vec<f64>| -> Option<(f64, FlashResult)> {
             let flash = tp_flash_with(&antoines, &z, pressure_kpa, t, gammas)?;
             let mut h = 0.0;
