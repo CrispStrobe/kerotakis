@@ -139,3 +139,21 @@ runtime to load the pre-parsed index instead of re-parsing the
 raw database text on every `Phreeqc::with_database()` call.
 Measured improvement: skip ~50 ms of text parsing per engine
 instance creation.
+
+## OPT-7 ✓ — Decompose `solve_once` (move-only refactor)
+
+`solve_once` in `aqueous.rs` was ~1,320 lines. Extracted six named
+private methods plus a `SolveSetup` struct for the partition/route
+locals. Move-only: no logic edits, no reordering, no renaming.
+
+| Method                        | Lines |
+|-------------------------------|------:|
+| `solve_once` (coordinator)    |   157 |
+| `setup_problem`               |   214 |
+| `dispatch_solve`              |   100 |
+| `readback_raw_values`         |   235 |
+| `apply_balance_corrections`   |   256 |
+| `rebuild_contents_and_events` |   281 |
+| `finalize_solution_info`      |   204 |
+
+All 188 tests pass unchanged (0 failures, 0 tolerance changes).
