@@ -1,5 +1,3 @@
-pub mod worker;
-
 //! The bench, in a browser.
 //!
 //! This is Track A of the plan's wasm strategy: one Rust source compiled to
@@ -17,6 +15,8 @@ pub mod worker;
 //!   laboratory and a lesson player is worth surfacing rather than hiding.
 //! * **Thermal chemistry is fully live.** The Gibbs minimiser is pure Rust,
 //!   so heating, calcining and burning are computed in the browser.
+
+pub mod worker;
 
 use kerotakis_core::{
     render_events, render_vessel, Bench, Equilibrator, Event, HonestyEquilibrator,
