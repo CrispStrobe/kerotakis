@@ -243,7 +243,20 @@ byte-deterministic; preflight green. **Size.** Medium.
 
 ## CAP-3 — Charts: one JSON contract, one renderer
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23** (Fable). `kerotakis-core::chart` is
+      the contract (title, axes with units, line/scatter series,
+      mandatory provenance — a chart is a claim); the CLI's
+      `chart_svg` renders it hand-rolled (axes, ticks, legend, clamped
+      provenance caption); `kero chart <json>` is the universal outlet
+      any producer can feed — the study runner and the titration curve
+      plug in the day they exist. First real producer shipped with it:
+      `kero diagram txy`, the ethanol–water T–x–y envelope at 121
+      computed points per curve, bubble and dew pinching shut at the
+      azeotrope because the thermodynamics says so. The Pourbaix
+      region grid remains a sibling shape, noted in the contract for a
+      `Regions` kind when its second producer appears. Renderer held
+      by a binary-path test (every series drawn and named, provenance
+      present).
 
 **Why.** No plot reaches a user anywhere in the product, while the
 `USER_GRAPH` parsing already exists unused

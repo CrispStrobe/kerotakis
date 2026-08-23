@@ -19,6 +19,7 @@ pub mod appearance;
 pub mod bench;
 pub mod butler_volmer;
 pub mod cache_key;
+pub mod chart;
 pub mod compartment;
 pub mod constants;
 pub mod coverage;
