@@ -85,40 +85,40 @@ pub const ETHANOL: Antoine = Antoine {
 
 /// Methanol, over the range spanning its boiling point at 64.7 °C.
 pub const METHANOL: Antoine = Antoine {
-    a: 7.09700,
-    b: 1574.99,
-    c: 238.870,
-    valid_c: (-16.0, 91.0),
-    source: "Antoine constants for methanol (-16 to 91 °C): Ambrose, D. \
-             and Sprake, C.H.S., J. Chem. Thermodyn. 2(5), 631-645 (1970). \
-             Published as log10(P/mmHg) = 7.97190 - 1574.99/(T/°C + 238.870); \
-             `a` carries the kPa conversion: 7.97190 - log10(760/101.325) = 7.09700. \
-             Gives 101.37 kPa at 64.7 °C (lit. 64.7 °C at 1 atm)",
+    a: 7.20607,
+    b: 1582.271,
+    c: 239.726,
+    valid_c: (15.0, 84.0),
+    source: "Antoine constants for methanol (15-84 °C): Stull, D.R., \
+             Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. \
+             Published as log10(P/mmHg) = 8.08097 - 1582.271/(T/°C + 239.726); \
+             `a` carries the kPa conversion: 8.08097 - log10(760/101.325) = 7.20607. \
+             Gives 102.3 kPa at 64.7 °C (lit. 64.7 °C at 1 atm)",
 };
 
-/// Propanone (acetone), over the range spanning its boiling point at 56.1 °C.
+/// Propanone (acetone), over the range spanning its boiling point at 56.05 °C.
 pub const PROPANONE: Antoine = Antoine {
-    a: 6.25180,
-    b: 1277.03,
-    c: 237.230,
-    valid_c: (-32.0, 77.0),
-    source: "Antoine constants for propanone (-32 to 77 °C): Ambrose, D., \
-             Sprake, C.H.S. and Townsend, R., J. Chem. Thermodyn. 6(7), 693-700 (1974). \
-             Published as log10(P/mmHg) = 7.12670 - 1277.03/(T/°C + 237.230); \
-             `a` carries the kPa conversion: 7.12670 - log10(760/101.325) = 6.25180. \
-             Gives 101.3 kPa at 56.1 °C (lit. 56.05 °C at 1 atm)",
+    a: 6.14957,
+    b: 1161.0,
+    c: 224.0,
+    valid_c: (-20.0, 77.0),
+    source: "Antoine constants for propanone (-20 to 77 °C): Stull, D.R., \
+             Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. \
+             Published as log10(P/mmHg) = 7.02447 - 1161.0/(T/°C + 224.0); \
+             `a` carries the kPa conversion: 7.02447 - log10(760/101.325) = 6.14957. \
+             Gives 100.7 kPa at 56.05 °C (lit. 56.05 °C at 1 atm)",
 };
 
 /// Ethanoic acid (acetic acid), over the range spanning its boiling point at 117.9 °C.
 pub const ETHANOIC_ACID: Antoine = Antoine {
-    a: 6.42530,
-    b: 1479.02,
-    c: 216.820,
+    a: 6.51292,
+    b: 1533.313,
+    c: 222.309,
     valid_c: (17.0, 157.0),
-    source: "Antoine constants for ethanoic acid (17 to 157 °C): Ambrose, D. \
-             and Ghiassee, N.B., J. Chem. Thermodyn. 19(5), 505-519 (1987). \
-             Published as log10(P/mmHg) = 7.30020 - 1479.02/(T/°C + 216.820); \
-             `a` carries the kPa conversion: 7.30020 - log10(760/101.325) = 6.42530. \
+    source: "Antoine constants for ethanoic acid (17-157 °C): Stull, D.R., \
+             Ind. Eng. Chem. 39(4), 517-540 (1947), Table I. \
+             Published as log10(P/mmHg) = 7.38782 - 1533.313/(T/°C + 222.309); \
+             `a` carries the kPa conversion: 7.38782 - log10(760/101.325) = 6.51292. \
              Gives 101.4 kPa at 117.9 °C (lit. 117.9 °C at 1 atm)",
 };
 
