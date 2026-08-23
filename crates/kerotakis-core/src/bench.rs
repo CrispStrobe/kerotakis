@@ -962,9 +962,8 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         // Electrolysis moves matter, so the vessel is re-settled after it.
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
         Operator::Decant { from, to, .. } | Operator::Filter { from, to } => vec![*from, *to],
+        Operator::Grind { vessel, .. } | Operator::Irradiate { vessel, .. } => vec![*vessel],
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
-        // Handled by the caller, which has the vessel list: waiting touches
-        // every vessel on the bench, because the clock is shared.
         Operator::Wait { .. } => vec![],
     }
 }
