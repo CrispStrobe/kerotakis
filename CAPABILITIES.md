@@ -58,8 +58,9 @@ below attack:
 
 - **`kerotakis-thermo` is dead weight**: VLE, azeotrope and UNIFAC code
   exists and is tested, but *no crate depends on it* — no operator, CLI
-  command or wasm call can reach it. Two Antoine datasets (water,
-  ethanol).
+  command or wasm call can reach it. ~~Four groups, twelve interactions~~
+  **(CAP-18 done)** — six main groups, 30 interactions, five golden
+  γ∞ binaries.
 - **No plotting anywhere**, though the PHREEQC `USER_GRAPH` parsing
   plumbing already exists unused (`kerotakis-phreeqc/src/lib.rs:94`).
 - **`kero sweep` is a self-check harness** (1536 fixed cases, 8
@@ -85,7 +86,8 @@ exist via LIC-006/007) — what remains is wiring `cargo deny` into
 **CAP-1 stands undiminished** — `kerotakis-thermo` grew EOS, LLE,
 fluid-model and flash modules and *still* has no dependent crate;
 CAP-11 done (77 species, 11 groups, 7+1 rules); CAP-12 done (titrate
-and dilute verbs landed). The instrument lines of the old inventory are stale:
+and dilute verbs landed); CAP-18 done (UNIFAC: 6 main groups, 30
+interactions, 5 golden γ∞ binaries, OH↔CH2CO parameter bug fixed). The instrument lines of the old inventory are stale:
 gas pressure/volume, conductivity, spectrophotometer, calorimeter,
 chromatography and qualitative analysis landed (INST-003–008). New
 crates since the inventory: `kerotakis-data`, `kerotakis-org`
@@ -790,7 +792,19 @@ green with the latent term in the ledger. **Size.** Medium-large.
 
 ## CAP-18 — Grow the UNIFAC table, provenance per parameter
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23.** Expanded from 4 main groups (CH2,
+      OH, H2O, CH2CO) / 8 subgroups / 12 interactions to 6 main groups /
+      10 subgroups / 30 interactions. Added CH3OH (main 6, Fredenslund
+      1975) for methanol, COOH (main 20, Gmehling 1982) for acetic acid.
+      Fixed pre-existing OH↔CH2CO parameter swap (a(5,9) was 164.5,
+      should be 84.0; a(9,5) was −150.0, should be 164.5 — invisible
+      before because no computed binary used both groups). Source
+      citations split: `SOURCE_1975` (groups 1–9 interactions) vs
+      `SOURCE_1982` (group 20 interactions). Five golden γ∞ tests
+      validated against Python `thermo` oracle: methanol–water (2.25),
+      propanone–water (11.47), acetic acid–water (3.51),
+      methanol–propanone (1.96), acetic acid–ethanol (0.96). All
+      existing thermo oracle and LLE tests still pass.
 
 **Why.** Eight groups and twelve interactions cover
 alkane/OH/H₂O/ketone — enough for the ethanol–water proof, far short
