@@ -50,17 +50,15 @@ pub fn contour_lines(
         let contours = builder.contours(grid, &[threshold]);
         if let Ok(features) = contours {
             for feature in features {
-                // Extract the contour coordinates
-                if let Some(geom) = feature.geometry() {
-                    for ring in geom.0.iter() {
-                        let points: Vec<(f64, f64)> = ring
-                            .exterior()
-                            .points()
-                            .map(|p| (p.x(), p.y()))
-                            .collect();
-                        if !points.is_empty() {
-                            all_lines.push(points);
-                        }
+                let geom = feature.geometry();
+                for ring in geom.0.iter() {
+                    let points: Vec<(f64, f64)> = ring
+                        .exterior()
+                        .points()
+                        .map(|p| (p.x(), p.y()))
+                        .collect();
+                    if !points.is_empty() {
+                        all_lines.push(points);
                     }
                 }
             }

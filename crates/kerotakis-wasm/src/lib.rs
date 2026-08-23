@@ -1,5 +1,3 @@
-pub mod worker;
-
 //! The bench, in a browser.
 //!
 //! This is Track A of the plan's wasm strategy: one Rust source compiled to
@@ -17,6 +15,8 @@ pub mod worker;
 //!   laboratory and a lesson player is worth surfacing rather than hiding.
 //! * **Thermal chemistry is fully live.** The Gibbs minimiser is pure Rust,
 //!   so heating, calcining and burning are computed in the browser.
+
+pub mod worker;
 
 use kerotakis_core::{
     render_events, render_vessel, Bench, Equilibrator, Event, HonestyEquilibrator,
@@ -264,6 +264,36 @@ impl Lab {
             })
             .collect();
         serde_json::Value::Array(list).to_string()
+    }
+
+    /// Parse a SMILES string and return molecular identity data.
+    pub fn structure(&self, smiles: &str) -> Result<String, JsError> {
+        let mol = kerotakis_org::parse_smiles(smiles)
+            .map_err(|e| JsError::new(&e.to_string()))?;
+        Ok(serde_json::to_string(&mol).unwrap())
+    }
+
+    /// Identify functional groups in a SMILES string.
+    #[wasm_bindgen(js_name = identifyGroups)]
+    pub fn identify_groups(&self, smiles: &str) -> String {
+        let groups = kerotakis_org::groups::perceive_groups(smiles);
+        serde_json::to_string(&groups).unwrap()
+    }
+
+    /// Coverage report: which solvers apply to a vessel's current state.
+    pub fn coverage(&self, vessel: usize) -> Result<String, JsError> {
+        let v = self
+            .bench
+            .vessel(kerotakis_core::VesselId(vessel))
+            .map_err(|e| JsError::new(&e.to_string()))?;
+        let mixing = kerotakis_core::MixingEquilibrator;
+        let curated = kerotakis_core::CuratedEquilibrator;
+        let thermal = kerotakis_cea::ThermalEquilibrator;
+        let honesty = kerotakis_core::HonestyEquilibrator;
+        let solvers: Vec<&dyn kerotakis_core::Equilibrator> =
+            vec![&mixing, &curated, &thermal, &honesty];
+        let report = kerotakis_core::coverage::coverage_manifest(&solvers, v);
+        Ok(serde_json::to_string(&report).unwrap())
     }
 
     fn run(&mut self, op: Operator) -> Result<Vec<Event>, JsError> {
