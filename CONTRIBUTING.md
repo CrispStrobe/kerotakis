@@ -32,10 +32,13 @@ as your assent to the above and to the
 
 Code and data have different rules here.
 
-**Curated data is CC BY-SA 4.0**, separately from the AGPL-3.0 code. ShareAlike
-is deliberate, not reluctant: an educational chemistry commons should stay
-open, and it means we can use BY-SA sources (including the Open Reaction
-Database) without contortions.
+**Curated data shipped in official binaries is CC BY 4.0 or CC0 1.0**, separately
+from the AGPL-3.0 code. Only CC BY or CC0 data enters the app store payload.
+CC BY-SA material (including anything derived from BY-SA sources such as the
+Open Reaction Database) is published separately on Hugging Face or a companion
+GitHub repository and is not bundled in store builds. This separation keeps the
+educational chemistry commons open while ensuring store-distribution
+compatibility.
 
 **Every dataset, parameter table, or constant must carry a provenance record**:
 source, licence, retrieval date — and, where the source itself cites

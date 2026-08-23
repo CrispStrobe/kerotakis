@@ -66,12 +66,16 @@ Planned, not yet shipped (recorded here so the intent is public)
   energetics, cited per record where used.
 
 Curated data
-- Kerotakis' own curated chemistry data (the codex: reactions, observations,
-  register copy, colour and property curation) is licensed CC BY-SA 4.0,
-  separately from the AGPL-3.0 code. Where it incorporates or is checked
-  against third-party datasets, those are named with their own terms per
-  record — and where an upstream's licence claim appears inconsistent with
-  its own sources, Kerotakis honours the original source's terms.
+- Curated chemistry data shipped in official binaries (the codex: reactions,
+  observations, register copy, colour and property curation) is licensed
+  CC BY 4.0 or CC0 1.0, separately from the AGPL-3.0 code. Only CC BY or
+  CC0 data enters the app payload; CC BY-SA material is published separately
+  (on Hugging Face or a companion GitHub repository) and is not bundled in
+  store builds.
+- Where curated data incorporates or is checked against third-party datasets,
+  those are named with their own terms per record — and where an upstream's
+  licence claim appears inconsistent with its own sources, Kerotakis honours
+  the original source's terms.
 
 Reactivity screening
 - The reactive-group compatibility screen is Kerotakis' own implementation of

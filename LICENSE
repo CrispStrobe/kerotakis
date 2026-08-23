@@ -663,11 +663,18 @@ For more information on this, and how to apply and follow the GNU AGPL, see
 
 ## Additional Permission under GNU Affero General Public License version 3, Section 7
 
-As a special exception to the GNU Affero General Public License version 3 ("this License"),
-the copyright holder(s) of this program give permission to distribute a covered work through
-app marketplaces whose terms of service would otherwise conflict with Section 10 of this
-License, provided that you continue to make the Corresponding Source available under this
-License to all recipients as required by Sections 5 and 6.
+As an additional permission under section 7 of the GNU Affero General Public
+License version 3 ("this License"), the copyright holders of this program
+additionally permit the distribution of official binaries published by the
+copyright holders through app marketplaces (such as the Apple App Store and
+Google Play) whose terms of service would otherwise conflict with Section 10
+of this License, provided that the Corresponding Source continues to be made
+available under this License to all recipients as required by Sections 5 and 6.
 
-This is an additional permission under section 7 of the GNU Affero General Public License,
-version 3. It does not modify or waive any other term of this License.
+This permission applies only to binaries published by the copyright holders of
+this program. Third parties redistributing this software remain bound by the
+AGPL-3.0.
+
+This is an additional permission under section 7 of the GNU Affero General
+Public License, version 3. It does not modify or waive any other term of this
+License.

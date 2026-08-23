@@ -142,34 +142,17 @@ entering the app. It may not become a laundering path.
 - CI must be able to run without the oracle. Oracle jobs are reproducible audit
   jobs, not hidden build dependencies required to make a release.
 
-### A current policy mismatch must be resolved first
+### Policy mismatch resolved (2026-08-23)
 
-The repository currently says that curated data is CC BY-SA 4.0, separately
-from AGPL code. The contribution grant and the store exception are written
-primarily around AGPL-covered contributions. Separately licensed CC BY-SA data
-does not automatically receive an AGPL Section 7 permission.
+**Decision: option 2.** Only CC BY 4.0 or CC0 1.0 data enters the official app
+store payload. CC BY-SA material (including anything derived from BY-SA sources
+such as the Open Reaction Database) is published separately on Hugging Face or
+a companion GitHub repository and is not bundled in store builds.
 
-There are also two descriptions of who receives the store permission: the
-additional-permission text appended to `LICENSE` is broad, while `NOTICE` says
-it applies only to binaries published by the copyright holders. The intended
-scope is clear from this roadmap and the user's instruction, but the operative
-texts should not be left to implication.
-
-Before adding another contributor-owned data record or shipping a store build,
-obtain qualified review and make `LICENSE`, `NOTICE`, `CONTRIBUTING.md`, the
-curated-data licence, and the in-app notices state one consistent result. Likely
-implementation choices are:
-
-1. keep the public curated dataset CC BY-SA, but obtain an explicit additional
-   store-distribution grant for every contribution and upstream item included
-   in official binaries;
-2. publish only project-controlled/compatibly licensed CC BY/CC0 data inside the
-   official app and keep BY-SA material out of that payload; or
-3. distribute separately reviewed data packs through a channel whose terms are
-   compatible with the pack licence.
-
-The roadmap does not choose among these legal structures. It makes choosing one
-the first release gate.
+The additional-permission text in `LICENSE` and `NOTICE` is now consistent:
+the store-distribution permission applies only to binaries published by the
+copyright holders. Third parties remain bound by the AGPL-3.0. A CI test
+(`licence_consistency.rs`) pins these texts so they cannot drift.
 
 ### Provisional source disposition
 
@@ -966,11 +949,11 @@ gate is complete.
 
 ### Phase 0 — Licence and provenance rails
 
-- [ ] **LIC-001 — Resolve the operative store-permission text.** Obtain
+- [x] **LIC-001 — Resolve the operative store-permission text.** Obtain
   qualified review of the scope difference between `LICENSE` and `NOTICE`, the
   `-or-later` wording, and the copyright-holder-only intent. Done when all
   operative files use one approved text and a test pins it.
-- [ ] **LIC-002 — Resolve curated-data store distribution.** Choose one of the
+- [x] **LIC-002 — Resolve curated-data store distribution.** Choose one of the
   three structures described above and update the data contribution grant.
   Done when every data contribution has an unambiguous public licence and
   official-store grant or is excluded from the store payload.
@@ -1011,7 +994,7 @@ gate is complete.
   answer: what is conveyed, under which exact terms, whether outputs ship,
   whether database rights exist, whether store terms are compatible, and how
   removal works.
-- [ ] **LIC-012 — Audit current release artifacts.** Build every target, unpack
+- [x] **LIC-012 — Audit current release artifacts.** Build every target, unpack
   it, and manually reconcile it once against the manifest. This becomes the
   golden baseline for automated payload audits.
 
