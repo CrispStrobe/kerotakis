@@ -3,7 +3,6 @@
 
 use serde::{Deserialize, Serialize};
 
-
 // ── ELEC-005: Galvanostatic and potentiostatic control ─────────────
 
 /// How the electrochemical cell is driven.
