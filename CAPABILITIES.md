@@ -275,7 +275,20 @@ preflight green (wasm build included). **Size.** Medium.
 
 ## CAP-4 — Predominance (Pourbaix) diagrams
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23** (Fable). `kero diagram pourbaix <El>
+      [--grid NxM] [--out F.svg] [--json]` computes the pe–pH grid cell
+      by cell (one plain engine solve each — pe is the axis, not an
+      unknown), classifies dominance as majority-precipitate else
+      top element-bearing species from the engine's own distribution,
+      and renders SVG with computed water-stability lines, region
+      boundaries, legend and provenance caption. Refusals outside the
+      water-stability field render as the pale wash physics predicts;
+      in-field refusals render dark so a hole can never pass for a
+      region. Curated systems: Fe, Cu (`pourbaix.rs::SYSTEMS` — growing
+      it is data work). Topology pinned by
+      `tests/pourbaix.rs` (ferric/ferrous/hydroxide fields + in-field
+      refusals rare); `--json` emits the CAP-3 chart-contract seed.
+      Fe at 48×40: 1,920 solves, 8 regions.
 
 **Why.** The single most recognisable artefact of the workbench class,
 and pure pedagogy: *computed* pe–pH predominance regions for iron make

@@ -10,6 +10,7 @@
 //!   kero run FILE.lab --json  replay, one JSON object per step on stdout
 //!   kero species              list the registry
 
+mod diagram;
 mod mcp;
 mod provenance;
 mod sweep;
@@ -197,6 +198,23 @@ fn main() {
             // every invariant the engine claims about itself. Checking a
             // claim is cheaper than believing it.
             run_sweep(args.get(1).map(String::as_str));
+        }
+        Some("diagram") => {
+            // The workbench-class artefact, computed: `diagram pourbaix Fe`
+            // solves a pe-pH grid cell by cell and draws what the
+            // thermodynamics says, with refusals kept visible.
+            match args.get(1).map(String::as_str) {
+                Some("pourbaix") => {
+                    if let Err(e) = diagram::run(&args[2..]) {
+                        eprintln!("kero diagram: {e}");
+                        std::process::exit(2);
+                    }
+                }
+                _ => {
+                    eprintln!("usage: kero diagram pourbaix <element> [--grid NxM] [--out FILE.svg] [--json]");
+                    std::process::exit(2);
+                }
+            }
         }
         Some("balance") => {
             // Balancing is the null space of the element-count matrix, so

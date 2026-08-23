@@ -151,6 +151,37 @@ pub struct PhreeqcEquilibrator {
     /// browser gets the same answers by the same path rather than a second
     /// implementation that could drift.
     hook: Option<SolveHook>,
+    /// Cache of raw coupled-trial runs, keyed by database tag + exact input
+    /// text. The redox bisection asks the engine dozens of nearly identical
+    /// questions per equilibration, and the temperature fixed point re-asks
+    /// many of them verbatim on its way to convergence; identical text is an
+    /// identical answer. The key is the full text, deliberately: a hash key
+    /// would trade a collision — however improbable — for a wrong chemical
+    /// answer, and that is not a trade this codebase makes.
+    trial_cache: std::collections::HashMap<(String, String), SolveOutput>,
+    trial_cache_hits: usize,
+    /// The electron activity the last successfully *bracketed* coupled solve
+    /// converged to, carried across the temperature fixed point's
+    /// iterations: the pe root barely moves between temperature guesses, so
+    /// the next bisection starts from a narrow window around it instead of
+    /// the full water-stability bracket. Reset per equilibration; a stale
+    /// value costs one narrow pass that falls back to the full bracket.
+    warm_pe: Option<f64>,
+    /// Raw engine invocations since construction — OPT-7's before/after
+    /// number, kept as a counter so a test can hold the budget.
+    engine_calls: usize,
+}
+
+/// What one pe-bisection pass saw, for the caller to judge. The pass
+/// narrows a bracket; whether that narrowing was a *struck balance* — root
+/// bracketed, residual paid — is a separate question, answered in
+/// `solve_coupled` exactly once, whichever bracket produced the numbers.
+struct PeSearch {
+    best: Option<SolveOutput>,
+    last_sum: Option<f64>,
+    saw_below: bool,
+    saw_above: bool,
+    mid: f64,
 }
 
 /// An outside aqueous solver: database tag and canonical input in, the
@@ -216,7 +247,8 @@ impl PhreeqcEquilibrator {
     /// told apart, so everything above this — routing, the redox
     /// bisection, the caching — is written once and behaves identically in
     /// a terminal and in a browser tab.
-    fn run_raw(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
+    pub(crate) fn run_raw(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
+        self.engine_calls += 1;
         #[cfg(feature = "engine")]
         {
             let engine = match db_tag {
@@ -288,55 +320,65 @@ impl PhreeqcEquilibrator {
         // oxidised and chloride goes with it, which is where the solver
         // starts refusing — and a bracket that reaches into that region
         // lets a run of failures march the search into it.
-        let (mut lo, mut hi) = (-10.0f64, 17.0f64);
-        let mut best: Option<SolveOutput> = None;
-        let mut last_sum: Option<f64> = None;
-        // Whether the residual was ever seen on both sides of zero. A
-        // bisection that only ever approaches from one side never bracketed
-        // a root: it walked to an edge, and the edge is not a measurement.
-        let (mut saw_below, mut saw_above) = (false, false);
-        for _ in 0..34 {
-            let mid = 0.5 * (lo + hi);
-            let input = build_input_at(vessel, problem, db_tag, Some((mid, coupling)));
-            // A single awkward trial must not end the search. PHREEQC will
-            // refuse some electron activities outright — a residual of one
-            // part in a hundred thousand on chloride is enough — and those
-            // are scattered through the range rather than at its edges.
-            // Aborting on the first one threw away a titration the bisection
-            // had very nearly solved, and reported the reagents as unreacted.
-            let Ok(out) = self.run_raw(db_tag, &input) else {
-                // Keep moving in the direction the last usable answer
-                // pointed, so the bracket steps over the bad patch instead
-                // of stalling on it.
-                match last_sum {
-                    Some(sum) if sum < coupling.target => lo = mid,
-                    Some(_) => hi = mid,
-                    None => lo = mid,
+        const FULL: (f64, f64) = (-10.0, 17.0);
+        // The tolerance the balance is finally judged by; the search is
+        // allowed to stop the moment it is met, because grinding the
+        // bracket to 1e-6 pe after the residual is paid only re-prices an
+        // answer already bought (OPT-7).
+        let residual_tol = 1e-9_f64.max(1e-4 * coupling.scale);
+        // Warm start (OPT-7): across the temperature fixed point's
+        // iterations the pe root barely moves, so a narrow window around
+        // the last *bracketed* answer usually contains it. The narrow pass
+        // must prove itself by the same two standards as any other — root
+        // seen from both sides, residual paid — and anything less falls
+        // back to the full bracket, so refusals and undetermined-pe
+        // verdicts are only ever pronounced on the full-bracket evidence
+        // they were designed for.
+        let search = match self.warm_pe {
+            Some(pe) => {
+                let warm = self.bisect_pe(
+                    vessel,
+                    problem,
+                    db_tag,
+                    coupling,
+                    (pe - 0.75).max(FULL.0),
+                    (pe + 0.75).min(FULL.1),
+                    residual_tol,
+                )?;
+                let warm_residual = warm
+                    .last_sum
+                    .map_or(f64::INFINITY, |s| (s - coupling.target).abs());
+                if warm.saw_below && warm.saw_above && warm_residual <= residual_tol {
+                    warm
+                } else {
+                    self.bisect_pe(
+                        vessel,
+                        problem,
+                        db_tag,
+                        coupling,
+                        FULL.0,
+                        FULL.1,
+                        residual_tol,
+                    )?
                 }
-                continue;
-            };
-            let Some(sum) = oxidation_sum(&out.selected, &coupling.columns, problem.kgw) else {
-                return Err(SolveError::NotConverged {
-                    solver: "phreeqc-aqueous (redox)".to_string(),
-                    detail: "the coupled run reported no oxidation-state totals".to_string(),
-                });
-            };
-            if std::env::var("KERO_REDOX").is_ok() {
-                eprintln!("  pe={mid:.3} sum={sum:.6e} target={:.6e}", coupling.target);
             }
-            last_sum = Some(sum);
-            best = Some(out);
-            if sum < coupling.target {
-                saw_below = true;
-                lo = mid;
-            } else {
-                saw_above = true;
-                hi = mid;
-            }
-            if hi - lo < 1e-6 {
-                break;
-            }
-        }
+            None => self.bisect_pe(
+                vessel,
+                problem,
+                db_tag,
+                coupling,
+                FULL.0,
+                FULL.1,
+                residual_tol,
+            )?,
+        };
+        let PeSearch {
+            best,
+            last_sum,
+            saw_below,
+            saw_above,
+            mid,
+        } = search;
         // A narrowed bracket is not a struck balance. When the root lies
         // outside the water-stability window the interval simply collapses
         // onto an edge, and the last trial — an ordinary-looking
@@ -358,7 +400,7 @@ impl PhreeqcEquilibrator {
         // carries on past a solver that declines, and the vessel is
         // reported as unmodelled rather than as solved.
         let residual = last_sum.map_or(f64::INFINITY, |sum| (sum - coupling.target).abs());
-        if residual > 1e-9_f64.max(1e-4 * coupling.scale) {
+        if residual > residual_tol {
             return Err(SolveError::NotConverged {
                 solver: "phreeqc-aqueous (redox)".to_string(),
                 detail: format!(
@@ -393,7 +435,93 @@ impl PhreeqcEquilibrator {
             detail: "the electron balance did not converge".to_string(),
         })?;
         out.pe_undetermined = !(saw_below && saw_above);
+        if !out.pe_undetermined {
+            // Only a genuinely bracketed root seeds the next warm start; an
+            // asymptotic equivalence point has no pe worth starting from.
+            self.warm_pe = Some(mid);
+        }
         Ok(out)
+    }
+
+    /// One bisection pass of the electron-balance search over `[lo, hi]`.
+    ///
+    /// Returns what it saw and leaves the judging — was the balance
+    /// struck, was the root bracketed — to `solve_coupled`, so the warm
+    /// and full brackets are held to identical standards.
+    #[allow(clippy::too_many_arguments)]
+    fn bisect_pe(
+        &mut self,
+        vessel: &Vessel,
+        problem: &Problem,
+        db_tag: &str,
+        coupling: &RedoxCoupling,
+        mut lo: f64,
+        mut hi: f64,
+        residual_tol: f64,
+    ) -> Result<PeSearch, SolveError> {
+        let mut best: Option<SolveOutput> = None;
+        let mut last_sum: Option<f64> = None;
+        // Whether the residual was ever seen on both sides of zero. A
+        // bisection that only ever approaches from one side never bracketed
+        // a root: it walked to an edge, and the edge is not a measurement.
+        let (mut saw_below, mut saw_above) = (false, false);
+        let mut mid = 0.5 * (lo + hi);
+        for _ in 0..34 {
+            mid = 0.5 * (lo + hi);
+            let input = build_input_at(vessel, problem, db_tag, Some((mid, coupling)));
+            // A single awkward trial must not end the search. PHREEQC will
+            // refuse some electron activities outright — a residual of one
+            // part in a hundred thousand on chloride is enough — and those
+            // are scattered through the range rather than at its edges.
+            // Aborting on the first one threw away a titration the bisection
+            // had very nearly solved, and reported the reagents as unreacted.
+            let Ok(out) = self.run_trial(db_tag, &input) else {
+                // Keep moving in the direction the last usable answer
+                // pointed, so the bracket steps over the bad patch instead
+                // of stalling on it.
+                match last_sum {
+                    Some(sum) if sum < coupling.target => lo = mid,
+                    Some(_) => hi = mid,
+                    None => lo = mid,
+                }
+                continue;
+            };
+            let Some(sum) = oxidation_sum(&out.selected, &coupling.columns, problem.kgw) else {
+                return Err(SolveError::NotConverged {
+                    solver: "phreeqc-aqueous (redox)".to_string(),
+                    detail: "the coupled run reported no oxidation-state totals".to_string(),
+                });
+            };
+            if std::env::var("KERO_REDOX").is_ok() {
+                eprintln!("  pe={mid:.3} sum={sum:.6e} target={:.6e}", coupling.target);
+            }
+            last_sum = Some(sum);
+            best = Some(out);
+            if sum < coupling.target {
+                saw_below = true;
+                lo = mid;
+            } else {
+                saw_above = true;
+                hi = mid;
+            }
+            // Residual break (OPT-7): stopping here is judged by the same
+            // tolerance the post-check enforces, so nothing that would have
+            // been refused gets waved through — the search just stops
+            // paying for precision the verdict cannot use.
+            if (sum - coupling.target).abs() <= residual_tol {
+                break;
+            }
+            if hi - lo < 1e-6 {
+                break;
+            }
+        }
+        Ok(PeSearch {
+            best,
+            last_sum,
+            saw_below,
+            saw_above,
+            mid,
+        })
     }
 
     /// Whether this equilibrator can compute a state nobody pre-computed.
@@ -427,6 +555,10 @@ impl PhreeqcEquilibrator {
             brine,
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
+            trial_cache: std::collections::HashMap::new(),
+            trial_cache_hits: 0,
+            warm_pe: None,
+            engine_calls: 0,
             hook: None,
             neutralisation,
         })
@@ -441,6 +573,10 @@ impl PhreeqcEquilibrator {
         Ok(PhreeqcEquilibrator {
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
+            trial_cache: std::collections::HashMap::new(),
+            trial_cache_hits: 0,
+            warm_pe: None,
+            engine_calls: 0,
             hook: None,
             neutralisation: std::collections::HashMap::new(),
         })
@@ -450,6 +586,41 @@ impl PhreeqcEquilibrator {
     /// which is a deterministic function of the vessel state).
     pub fn cache_hits(&self) -> usize {
         self.cache_hits
+    }
+
+    /// Raw engine invocations since construction. This is OPT-7's
+    /// measurement: a coupled equilibration used to cost up to ~272 of
+    /// these; the trial cache, the warm-started bracket and the residual
+    /// break exist to shrink this number, and a test holds the budget.
+    pub fn engine_calls(&self) -> usize {
+        self.engine_calls
+    }
+
+    /// Bisection trials answered from the trial cache instead of the
+    /// engine.
+    pub fn trial_cache_hits(&self) -> usize {
+        self.trial_cache_hits
+    }
+
+    /// One bisection trial, answered from the trial cache when the exact
+    /// same question was asked before. Only the coupled search comes
+    /// through here: its trials are the repetitive traffic. The main
+    /// content-addressed cache stays where it is — it caches *parsed*
+    /// results one level up.
+    fn run_trial(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
+        let key = (db_tag.to_string(), input.to_string());
+        if let Some(hit) = self.trial_cache.get(&key) {
+            self.trial_cache_hits += 1;
+            return Ok(hit.clone());
+        }
+        let out = self.run_raw(db_tag, input)?;
+        if self.trial_cache.len() >= 2048 {
+            // The same simple bound the result cache uses; refine when
+            // profiling says so.
+            self.trial_cache.clear();
+        }
+        self.trial_cache.insert(key, out.clone());
+        Ok(out)
     }
 
     /// Export the cache for shipping (PLAN.md: pre-warmed cache — every
@@ -1132,6 +1303,10 @@ impl Equilibrator for PhreeqcEquilibrator {
     /// contracts: an endothermic salt that cools the beaker dissolves less,
     /// which cools it less. Two or three passes settle it.
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        // Each equilibration is its own question; a pe carried over from a
+        // different vessel is a guess, not a memory. The warm start exists
+        // for the temperature fixed point *inside* this call.
+        self.warm_pe = None;
         if let Some(surface) = vessel
             .surfaces
             .iter()
@@ -3039,7 +3214,7 @@ fn parse_saturation_indices(output: &str) -> Vec<(String, f64)> {
 /// descending. The block's shape is stable across PHREEQC 3.x: a header,
 /// element-total lines (2 columns), and species lines (>= 6 columns:
 /// name, molality, activity, log m, log a, log gamma[, volume]).
-fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
+pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
     let Some(start) = output.rfind("Distribution of species") else {
         return Vec::new();
     };
