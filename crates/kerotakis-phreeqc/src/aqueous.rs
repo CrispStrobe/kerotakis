@@ -247,7 +247,7 @@ impl PhreeqcEquilibrator {
     /// told apart, so everything above this — routing, the redox
     /// bisection, the caching — is written once and behaves identically in
     /// a terminal and in a browser tab.
-    fn run_raw(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
+    pub(crate) fn run_raw(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
         self.engine_calls += 1;
         #[cfg(feature = "engine")]
         {
@@ -3214,7 +3214,7 @@ fn parse_saturation_indices(output: &str) -> Vec<(String, f64)> {
 /// descending. The block's shape is stable across PHREEQC 3.x: a header,
 /// element-total lines (2 columns), and species lines (>= 6 columns:
 /// name, molality, activity, log m, log a, log gamma[, volume]).
-fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
+pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
     let Some(start) = output.rfind("Distribution of species") else {
         return Vec::new();
     };
