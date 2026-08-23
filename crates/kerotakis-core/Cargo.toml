@@ -35,6 +35,9 @@ thiserror = { workspace = true }
 # valid on the web target; native targets do not acquire this dependency.
 getrandom = { version = "0.3", features = ["wasm_js"] }
 
+[build-dependencies]
+serde_json = { workspace = true }
+
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
 dhat = "0.3"

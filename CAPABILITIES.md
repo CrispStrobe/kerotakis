@@ -758,7 +758,21 @@ per verb — they are independent; take them one per branch.
 
 ## CAP-21 — Make the data pipeline load-bearing
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-23** (Fable). The registry table is now
+      generated at build time from
+      `data/registry/registry-source-v1.json` — `species.rs` shrank
+      from 1,563 lines to 179, the table stays `static` with
+      `&'static str` fields at zero runtime cost (completing OPT-4's
+      binary-size half on the way), and wasm ships unchanged.
+      Faithfulness proven, not assumed: `tests/registry_snapshot.rs`
+      pins every field and every evaluated spectrum band against a
+      golden captured from the hand-written table before the switch —
+      the migration surfaced and fixed three placeholder InChIKeys and
+      two sub-ulp export-rounding deltas, and nothing else moved. The
+      ceiling itself is demonstrably gone: methanol became the 76th
+      species through a JSON-only commit (identity, composition,
+      three thermodynamic records, provenance citing CIAAW + CRC), and
+      `kero species` lists it with no `.rs` edit anywhere.
 
 **Why.** The pack compiler, resolution ladder and 238-record registry
 JSON exist, and the runtime still reads 77 hand-written Rust literals
