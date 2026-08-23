@@ -11,6 +11,7 @@
 //! - Atom-mapped transformation templates via SMIRKS (ORG-005)
 
 pub mod groups;
+pub mod inchi_validate;
 pub mod templates;
 
 use serde::{Deserialize, Serialize};

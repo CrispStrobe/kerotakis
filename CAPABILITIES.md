@@ -78,7 +78,7 @@ events, and equilibrium coupling.
 Already shipped. Apache-2.0. NASA-9 polynomials for combustion and
 decomposition.
 
-## CAP-13 — Vendor the official InChI library
+## CAP-13 ✓ — Vendor the official InChI library
 
 Vendor the IUPAC InChI C library (MIT since v1.07.1) on the IPhreeqc
 pattern: vendored source, cmake build, bindgen FFI. Add a CI check

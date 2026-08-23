@@ -147,6 +147,23 @@ path = "vendor/my-basic/LICENSE"
 sha256 = "8156be51115207259348d3e553ae9b61ab305b8fe3d74ff358cb4d3fe992b6c3"
 
 [[source]]
+id = "iupac-inchi-library"
+name = "IUPAC InChI reference implementation"
+kind = "code"
+lane = "runtime-code"
+decision = "approved"
+licence = "MIT"
+origin = "https://github.com/nickvdg/InChI"
+copyright = "IUPAC and InChI Trust"
+retrieved = "2026-08-23"
+attribution = "IUPAC InChI, MIT licence since v1.07.1; vendored via inchi-sys crate"
+paths = []
+allowed_outputs = ["compiled-runtime-code"]
+targets = ["native"]
+reviewer = "Kerotakis engineering policy audit"
+notes = "The official IUPAC InChI C library (MIT since v1.07.1). Used for cross-validation against the pure-Rust chematic-inchi on native targets. Not available on wasm — the chematic path covers that target."
+
+[[source]]
 id = "kerotakis-thermo-vle"
 name = "Kerotakis VLE Antoine parameters"
 kind = "data"
