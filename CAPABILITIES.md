@@ -612,11 +612,13 @@ CAP-14 first is tidier.
 
 ## CAP-14 — Turn the licence policy into a CI lint
 
-- [x] Status: **mostly done 2026-08-23** — `deny.toml` passes all four
-      checks and `cargo deny` is wired into `tools/preflight.sh`
-      (guarded on availability). Remaining: `cargo-about` attribution
-      inventory as a build artifact, and the synthetic copyleft
-      failure proof.
+- [x] Status: **done 2026-08-23** — `deny.toml` passes all four
+      checks; `cargo deny` wired into `tools/preflight.sh`; `cargo-about`
+      generates `THIRD_PARTY_LICENSES.html` from `about.hbs` template
+      (164 KB, 81 licences); synthetic copyleft proof: adding
+      `gpl-session = "2.0.0"` as a dependency triggers
+      `error[rejected]: GPL-3.0 ... license is not explicitly allowed`
+      (tested and reverted 2026-08-23).
 
 **Why.** PLAN.md's shipping bar (hardened 2026-08-23) says shipped code
 is MIT/Apache-2.0/BSD/Zlib/Unlicense/public-domain only — no GPL
