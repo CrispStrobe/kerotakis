@@ -261,6 +261,28 @@ pub fn render_event(event: &Event, register: Register) -> String {
             2 => format!("{vessel}: {:.3} mol water evaporated", moles.0),
             _ => format!("{vessel}: {:.6} mol H2O evaporated (vaporisation enthalpy not yet in the balance)", moles.0),
         },
+        Event::Distilled { from, to, water, ethanol, at, azeotropic } => match register.level() {
+            1 => format!("Vapour rises from {from}, cools in the tube, and drips into {to}."),
+            2 => {
+                let t = at.to_celsius();
+                if *azeotropic {
+                    format!(
+                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over at {t:.1} °C — the vapour now matches the liquid (azeotrope), so boiling harder enriches nothing",
+                        water.0, ethanol.0
+                    )
+                } else {
+                    format!(
+                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over, boiling at {t:.1} °C",
+                        water.0, ethanol.0
+                    )
+                }
+            }
+            _ => format!(
+                "{from} → {to}: one-stage distillation at {:.2} K; vapour composition from the bubble point with UNIFAC γ(T), held at the starting liquid composition (Rayleigh integration not modelled); externally powered, vaporisation enthalpy not in the ledger{}",
+                at.0,
+                if *azeotropic { "; azeotropic: y = x" } else { "" }
+            ),
+        },
         Event::Transferred { from, to, fraction } => match register.level() {
             1 => format!("You pour some of {from} into {to}."),
             _ => format!("{from} → {to}: {:.0}% of the liquid", fraction * 100.0),

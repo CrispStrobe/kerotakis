@@ -66,6 +66,16 @@ pub enum Operator {
     /// non-water liquids need L3 (relative volatility) and are honestly
     /// flagged.
     Evaporate { vessel: VesselId, fraction: f64 },
+    /// Boil a fraction (0..=1) of the volatile liquid over into another
+    /// vessel through a condenser: one equilibrium stage, vapour
+    /// composition from the bubble point (UNIFAC γ(T) for ethanol–water).
+    /// Non-volatile matter stays behind — which is why distilling brine
+    /// makes distilled water.
+    Distil {
+        from: VesselId,
+        to: VesselId,
+        fraction: f64,
+    },
     /// Let time pass. Rates need a clock, and this is it.
     ///
     /// Deliberately not per-vessel: every vessel on the bench advances by
@@ -305,6 +315,18 @@ pub enum Event {
     Evaporated {
         vessel: VesselId,
         moles: Moles,
+    },
+    /// Volatile liquid boiled over into a receiver through a condenser.
+    /// `at` is the boiling temperature of the source mixture; when
+    /// `azeotropic`, the vapour composition matches the liquid and further
+    /// distillation no longer separates.
+    Distilled {
+        from: VesselId,
+        to: VesselId,
+        water: Moles,
+        ethanol: Moles,
+        at: Kelvin,
+        azeotropic: bool,
     },
     /// A gas formed and left through a reservoir or swept boundary. The
     /// balance notices.

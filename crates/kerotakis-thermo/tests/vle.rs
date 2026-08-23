@@ -128,7 +128,10 @@ fn unifac_finds_the_ethanol_water_azeotrope() {
     let (x, bp) = azeotrope(ETHANOL, WATER, ATMOSPHERE_KPA, |x1, t_k| {
         let g = activity_coefficients(
             &table,
-            &[(ethanol_groups.clone(), x1), (water_groups.clone(), 1.0 - x1)],
+            &[
+                (ethanol_groups.clone(), x1),
+                (water_groups.clone(), 1.0 - x1),
+            ],
             t_k,
         );
         (g[0], g[1])

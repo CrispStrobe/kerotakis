@@ -137,6 +137,18 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     .map_err(|_| format!("bad fraction '{}'", words[3]))?,
             }
         }
+        "distil" | "distill" => {
+            if words.len() < 4 {
+                return Err("usage: distil <from> <to> <fraction>".into());
+            }
+            Operator::Distil {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+                fraction: words[3]
+                    .parse()
+                    .map_err(|_| format!("bad fraction '{}'", words[3]))?,
+            }
+        }
         // `look v1` — the youngest interaction there is.
         "look" | "observe" => Operator::Measure {
             vessel: parse_vessel(words.get(1).copied().unwrap_or("v1"))?,
