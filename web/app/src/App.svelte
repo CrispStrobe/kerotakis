@@ -11,6 +11,8 @@
   import Timeline from "./lib/components/Timeline.svelte";
   import LessonBar from "./lib/components/LessonBar.svelte";
   import { defaultAmount } from "./lib/amounts";
+  import { notebookMarkdown } from "./lib/notebook";
+  import HelpDialog from "./lib/components/HelpDialog.svelte";
 
   const session = new Session(WorkerHost.create());
   let lessons = $state<{ file: string; name: string }[]>([]);
@@ -31,19 +33,43 @@
     if (res.ok) session.startLesson(file.replace(/\.lab$/, ""), await res.text());
   }
 
-  function saveLab() {
-    const blob = new Blob([session.exportLab()], { type: "text/plain" });
+  let helpOpen = $state(false);
+
+  function download(name: string, text: string, type = "text/plain") {
+    const blob = new Blob([text], { type });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "session.lab";
+    a.download = name;
     a.click();
     URL.revokeObjectURL(a.href);
   }
 
+  const saveLab = () => download("session.lab", session.exportLab());
+  const saveNotes = () =>
+    download(
+      "notebook.md",
+      notebookMarkdown(session.feed, {
+        date: new Date().toISOString().slice(0, 10),
+        register: session.register,
+      }),
+      "text/markdown",
+    );
+
   function onkeydown(e: KeyboardEvent) {
-    if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
+    const mod = e.ctrlKey || e.metaKey;
+    const typing =
+      e.target instanceof HTMLElement && ["INPUT", "TEXTAREA"].includes(e.target.tagName);
+    if (mod && e.key.toLowerCase() === "z") {
       e.preventDefault();
-      void session.undo();
+      void (e.shiftKey ? session.redo() : session.undo());
+    } else if (mod && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      document.querySelector<HTMLInputElement>(".bar input")?.focus();
+    } else if (e.key === "?" && !typing) {
+      helpOpen = true;
+    } else if (e.key === "Escape") {
+      if (helpOpen) helpOpen = false;
+      else session.closeInspector();
     }
   }
 </script>
@@ -62,6 +88,9 @@
   </button>
   <button class="tool" onclick={saveLab} disabled={session.commandLog.length === 0}>
     save .lab
+  </button>
+  <button class="tool" onclick={saveNotes} disabled={session.feed.length === 0}>
+    save notes
   </button>
   <button
     class="tool"
@@ -142,6 +171,10 @@
 </main>
 
 <CommandBar onsubmit={(line) => void session.submit(line)} busy={session.busy} />
+
+{#if helpOpen}
+  <HelpDialog onclose={() => (helpOpen = false)} />
+{/if}
 
 <style>
   header {

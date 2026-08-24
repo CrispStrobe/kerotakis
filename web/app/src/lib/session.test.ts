@@ -184,6 +184,28 @@ describe("Session", () => {
     );
   });
 
+  it("a step carrying charts renders them into the feed", async () => {
+    const host = new FakeHost();
+    const base = host.runScript.bind(host);
+    host.runScript = async (script: string) => {
+      const result = await base(script);
+      (result.steps[0] as Record<string, unknown>).charts = [
+        {
+          chart: 1,
+          title: "titration",
+          x: { label: "volume", unit: "mL" },
+          y: { label: "pH" },
+          series: [{ label: "pH", points: [[0, 1]] }],
+        },
+      ];
+      return result;
+    };
+    const s = new Session(host);
+    await s.submit("titrate v1 NaOH 0.1M");
+    const chart = s.feed.find((f) => f.kind === "chart");
+    expect(chart?.chart?.title).toBe("titration");
+  });
+
   it("a failed command is not logged and cannot be undone into", async () => {
     const host = new FakeHost();
     host.runScript = async () => {
