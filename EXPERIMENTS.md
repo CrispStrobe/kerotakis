@@ -738,7 +738,7 @@ coverage. Yield: three. Curve: 16 → 9 → 7 → 1 → 3 → 0 → **3**.
     (NaOH strong, water weak), temperature threshold 80°C. 15 tests
     including 3 condition-flip tests and 2 mass-conservation checks.
     8 new species (including Br- for PHREEQC booking). Verb: `react
-    v1 haloalkane`. Preflight --light clean; awaiting full workspace.
+    v1 haloalkane`. Preflight --light clean; full workspace green.
 - **EXP-51 — Enzyme kinetics** — Michaelis–Menten as a curated rate
   family with Km/Vmax and competitive vs non-competitive inhibition,
   riding the existing kinetics integrator and the catalase
