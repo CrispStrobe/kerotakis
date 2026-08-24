@@ -32,6 +32,10 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     // --- bases ---
     ("NaOH", "[Na+].[OH-]"),
     ("Ca(OH)2", "O[Ca]O"),
+    ("Mg(OH)2", "O[Mg]O"),
+    ("Zn(OH)2", "O[Zn]O"),
+    ("Fe(OH)2", "O[Fe]O"),
+    ("Fe(OH)3", "O[Fe](O)O"),
     // --- organic solvents ---
     ("ethanol", "CCO"),
     ("methanol", "CO"),
