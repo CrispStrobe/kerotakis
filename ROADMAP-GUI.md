@@ -437,11 +437,12 @@ every new dependency before its first import.
   at the bench's current register, so the dial reaches the calculator
   too. Remaining for this item: property correlations (CAP-6) and unit
   conversion join the same drawer when their engine surfaces exist.
-- [ ] **GUI-028 — Voice input.** Speech-to-command over the existing
-  grammar (Web Speech API, progressive enhancement, browser-gated), with
-  the parse endpoint validating live — voice access serves students who
-  cannot use a physical lab or a keyboard, and a command language is
-  uniquely suited to it.
+- [x] **GUI-028 — Voice input.** *Shipped 2026-08-24:* a microphone
+  button on the command bar (drawn only where the Web Speech API
+  exists). The transcript lands IN the input — read it, correct it,
+  then run it; nothing executes straight from the microphone, and the
+  live parse validation judges spoken lines exactly like typed ones.
+  Speaker's locale, lowercased into the grammar's case.
 
 ### The sandbox completeness invariant
 
