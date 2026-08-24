@@ -1110,6 +1110,19 @@ impl Bench {
                 let seconds = seconds.max(0.0);
                 for vessel in self.vessels.iter_mut() {
                     vessel.elapsed_seconds += seconds;
+                    // EXP-49: decay is the slowest clock on the bench;
+                    // it runs beside kinetics on the same shared time.
+                    for step in crate::nuclide::advance(&mut vessel.nuclides, seconds) {
+                        events.push(Event::Decayed {
+                            vessel: vessel.id,
+                            parent: step.parent.to_string(),
+                            daughter: step.daughter.to_string(),
+                            mode: format!("{:?}", step.mode),
+                            moles: Moles(step.moles),
+                            half_life_s: step.half_life_s,
+                            equation: step.equation,
+                        });
+                    }
                     for (reaction, moles) in crate::kinetics::advance(vessel, seconds)? {
                         if moles.0 < crate::OBSERVABLE_MOLES {
                             continue;
@@ -1220,6 +1233,14 @@ impl Bench {
                                 unit: reading.unit,
                             });
                         }
+                    }
+                    Instrument::GeigerCounter => {
+                        events.push(Event::Measured {
+                            vessel: *vessel,
+                            instrument: *instrument,
+                            value: crate::nuclide::total_activity_bq(&v.nuclides),
+                            unit: "Bq".to_string(),
+                        });
                     }
                     Instrument::Chromatograph => {
                         // The mobile phase is water: the sample is whatever
@@ -1461,6 +1482,55 @@ impl Bench {
                         "UV source at {wavelength_nm} nm, {irradiance_w_m2} W/m² — \
                          photolysis rate integration requires coupled kinetics",
                     ),
+                });
+            }
+            Operator::SpikeNuclide {
+                vessel,
+                nuclide,
+                moles,
+            } => {
+                if moles.0 <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let Some(data) = crate::nuclide::lookup_notation(nuclide) else {
+                    let known: Vec<&str> = crate::nuclide::TEACHING_NUCLIDES
+                        .iter()
+                        .map(|n| n.nuclide)
+                        .collect();
+                    events.push(Event::NotYetModeled {
+                        vessel: *vessel,
+                        what: format!(
+                            "no curated nuclide '{nuclide}' — the teaching set: {}",
+                            known.join(", ")
+                        ),
+                    });
+                    return Ok(events);
+                };
+                let v = self.vessel_mut(*vessel)?;
+                let parsed = crate::nuclide::Nuclide::parse(nuclide)
+                    .expect("lookup_notation vetted the notation");
+                v.nuclides.deposit(parsed, moles.0);
+                let activity = data
+                    .decay
+                    .as_ref()
+                    .map(|d| {
+                        let lambda = (2.0_f64).ln() / d.half_life_s;
+                        moles.0 * 6.022e23 * lambda
+                    })
+                    .unwrap_or(0.0);
+                events.push(Event::HazardWarning {
+                    severity: crate::solve::Severity::Caution,
+                    hazard: "radioactive source: ionising radiation".to_string(),
+                    real_world: "on a real bench this needs shielding, \
+                                 dosimetry and a licence; safe only because \
+                                 this lab is virtual"
+                        .to_string(),
+                });
+                events.push(Event::NuclideSpiked {
+                    vessel: *vessel,
+                    nuclide: nuclide.clone(),
+                    moles: *moles,
+                    activity_bq: activity,
                 });
             }
             Operator::React { vessel, reaction } => {
@@ -1821,6 +1891,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::Irradiate { vessel, .. }
         | Operator::Dilute { vessel, .. }
         | Operator::React { vessel, .. }
+        | Operator::SpikeNuclide { vessel, .. }
         | Operator::Titrate { vessel, .. } => vec![*vessel],
         Operator::Transport {
             chain, receiver, ..

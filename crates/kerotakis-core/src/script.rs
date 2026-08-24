@@ -101,6 +101,25 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 return Err("usage: add <vessel> <species> <amount><mol|g|mL> [@ <T>C]".into());
             }
             let vessel = parse_vessel(words[1])?;
+            // EXP-49: El-A notation with a curated nuclide entry routes
+            // to the tracer ledger, not the chemical registry.
+            if crate::nuclide::lookup_notation(words[2]).is_some() {
+                let amount = words[3];
+                let moles = amount
+                    .strip_suffix("mol")
+                    .and_then(|v| v.parse::<f64>().ok())
+                    .ok_or_else(|| {
+                        format!(
+                            "nuclide amounts are stated in moles (got '{amount}') — \
+                             tracer scale, e.g. 1e-9mol"
+                        )
+                    })?;
+                return Ok(Some(Operator::SpikeNuclide {
+                    vessel,
+                    nuclide: words[2].to_string(),
+                    moles: Moles(moles),
+                }));
+            }
             let data = species::lookup_key(words[2])
                 .ok_or_else(|| format!("unknown species '{}' (see 'species')", words[2]))?;
             Operator::Add {
@@ -280,6 +299,7 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     "spectrophotometer" | "uvvis" => Instrument::Spectrophotometer,
                     "calorimeter" => Instrument::Calorimeter,
                     "chromatograph" | "column" => Instrument::Chromatograph,
+                    "geiger" => Instrument::GeigerCounter,
                     other => return Err(format!("unknown instrument '{other}'")),
                 },
             }
