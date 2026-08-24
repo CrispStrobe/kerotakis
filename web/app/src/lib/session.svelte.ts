@@ -94,6 +94,14 @@ export class Session {
           ? "The bench is live: states nobody pre-computed are solved."
           : "The bench answers from shipped results only — the live aqueous engine is not attached.",
       });
+      // A silently degraded engine hides real failures (salts that never
+      // dissolve, colours that never appear). Say WHY, loudly.
+      if (!this.canSolve && hello.aqueous_note) {
+        this.feed.push({
+          kind: "error",
+          text: `the aqueous engine failed to attach: ${hello.aqueous_note}`,
+        });
+      }
       await this.restore();
       // One patient retry: a slow engine download must degrade to a wait,
       // never to a bench that stays "warming up" forever.

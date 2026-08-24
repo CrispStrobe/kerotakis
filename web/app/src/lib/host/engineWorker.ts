@@ -75,7 +75,19 @@ async function init(engineBase: string) {
   // Attach the live aqueous engine in this same worker (GUI-004/OPT-11).
   try {
     const iph = await import(/* @vite-ignore */ new URL("iphreeqc.mjs", base).href);
-    const pool = await PhreeqcPool.create(iph.default, async (file: string) => {
+    // The Emscripten glue mis-detects module workers and resolves its
+    // .wasm relative to the WORKER bundle's URL — fetch the bytes
+    // ourselves and hand them over, so no path arithmetic can go wrong.
+    const wasmRes = await fetch(new URL("iphreeqc.wasm", base).href);
+    if (!wasmRes.ok) throw new Error(`fetching iphreeqc.wasm: HTTP ${wasmRes.status}`);
+    const wasmBinary = new Uint8Array(await wasmRes.arrayBuffer());
+    const factory = (opts: object = {}) =>
+      iph.default({
+        wasmBinary,
+        locateFile: (p: string) => new URL(p, base).href,
+        ...opts,
+      });
+    const pool = await PhreeqcPool.create(factory, async (file: string) => {
       const res = await fetch(new URL(`db/${file}`, base).href);
       if (!res.ok) throw new Error(`fetching ${file}: HTTP ${res.status}`);
       return res.text();

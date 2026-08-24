@@ -50,6 +50,14 @@
     ),
   );
   const rgb = (c: [number, number, number]) => `rgb(${c[0]},${c[1]},${c[2]})`;
+  // The engine's srgb is TRANSMITTED light: pure water transmits white,
+  // and painting that as an opaque white block is the wrong physics on
+  // screen. Opacity follows how much the liquid tints — colourless water
+  // reads as glassy, saturated permanganate as nearly solid colour.
+  const liquidOpacity = (c: [number, number, number]) => {
+    const tint = 1 - Math.min(c[0], c[1], c[2]) / 255;
+    return 0.16 + 0.78 * tint;
+  };
   const tempC = $derived(vessel.temperature_k - 273.15);
   const sealed = $derived(vessel.boundary !== "open");
 </script>
@@ -80,7 +88,7 @@
         width={INNER_W}
         height={liquidH}
         fill={rgb(vessel.liquid.srgb)}
-        opacity="0.92"
+        opacity={liquidOpacity(vessel.liquid.srgb)}
       />
       {#if vessel.liquid.cloudiness > 0.01}
         <rect
