@@ -19,6 +19,7 @@ import { PhreeqcPool } from "../../../../kerotakis.mjs";
 type Lab = {
   step(operatorJson: string): string;
   runScript(text: string): string;
+  parse(line: string): string;
   setRegister(level: string): void;
   setSolver(hook: (dbTag: string, input: string) => string): void;
   scene(): string;
@@ -120,6 +121,9 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "run_script":
         done(id, lab.runScript(String(msg.script)));
+        break;
+      case "parse":
+        done(id, lab.parse(String(msg.line)));
         break;
       case "set_register":
         lab.setRegister(String(msg.level));

@@ -83,6 +83,10 @@ export class WorkerHost implements EngineHost {
     return JSON.parse(await this.channel.request("run_script", { script }));
   }
 
+  async parse(line: string): Promise<{ ok: boolean; operator?: unknown; error?: string }> {
+    return JSON.parse(await this.channel.request("parse", { line }));
+  }
+
   async setRegister(level: string): Promise<void> {
     await this.channel.request("set_register", { level });
   }

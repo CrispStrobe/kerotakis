@@ -440,6 +440,23 @@ export class Session {
     this.inspector = null;
   }
 
+  /**
+   * Validate a command line without executing it (GUI-005). Register
+   * lines are session grammar, not engine grammar — always valid here.
+   */
+  async parse(line: string): Promise<{ ok: boolean; error?: string }> {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("register ") || trimmed.startsWith("#")) {
+      return { ok: true };
+    }
+    try {
+      return await this.host.parse(trimmed);
+    } catch {
+      // A host that cannot parse yet must not paint valid input as wrong.
+      return { ok: true };
+    }
+  }
+
   /** The session as a .lab script — every session is one. */
   exportLab(): string {
     return this.commandLog.join("\n") + "\n";
