@@ -106,6 +106,9 @@ export class Session {
    * itself uses — "what the teacher put out for you" — derived from its
    * own command lines, so it can never drift from the lesson. */
   lesson = $state<{ lesson: Lesson; cursor: number; kit: string[] } | null>(null);
+  /** Log position after the lesson's last own step — the point "return
+   * to the script" rewinds to. Free commands past it are the deviation. */
+  private lessonBaseline = $state(0);
   /** The registry, for the shelf. */
   shelf = $state<ShelfItem[]>([]);
   /** Curated reaction names the `react` verb accepts (from the grammar). */
@@ -506,6 +509,7 @@ export class Session {
       if (m) kit.add(m[1]!);
     }
     this.lesson = { lesson: parseLesson(name, text), cursor: 0, kit: [...kit] };
+    this.lessonBaseline = this.position;
     this.feed.push({ kind: "note", text: `lesson started: ${name}` });
     this.advanceLessonNotes();
   }
@@ -539,8 +543,27 @@ export class Session {
     const line = this.lessonNextCommand;
     if (!line || !this.lesson) return;
     await this.submit(line);
+    this.lessonBaseline = this.position;
     this.lesson.cursor += 1;
     this.advanceLessonNotes();
+  }
+
+  /** How far the learner has wandered off the script, in commands. */
+  get lessonDeviation(): number {
+    if (!this.lesson) return 0;
+    return Math.max(0, this.position - this.lessonBaseline);
+  }
+
+  /**
+   * Rewind the deviation: the bench returns to the exact state after the
+   * lesson's last own step (snapshot-fast where cached). The wandering
+   * stays in the log's undone future until the next command truncates
+   * it — return is an undo, not an erasure.
+   */
+  async lessonReturn(): Promise<void> {
+    if (!this.lesson || this.lessonDeviation === 0) return;
+    await this.jumpTo(this.lessonBaseline);
+    this.feed.push({ kind: "note", text: "back on the script." });
   }
 
   exitLesson(): void {

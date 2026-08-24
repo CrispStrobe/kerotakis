@@ -209,6 +209,14 @@
   <button class="tool" onclick={saveNotes} disabled={session.feed.length === 0}>
     save notes
   </button>
+  <button
+    class="tool"
+    onclick={() => window.print()}
+    disabled={session.feed.length === 0}
+    title="print the notebook — or save it as PDF from the print dialog"
+  >
+    print
+  </button>
   <button class="tool" onclick={() => labFileInput?.click()} disabled={session.busy}>
     open .lab
   </button>
@@ -348,7 +356,9 @@
     name={session.lesson.lesson.name}
     next={session.lessonNextCommand}
     busy={session.busy}
+    deviation={session.lessonDeviation}
     onnext={() => void session.lessonNext()}
+    onreturn={() => void session.lessonReturn()}
     onexit={() => session.exitLesson()}
   />
 {/if}

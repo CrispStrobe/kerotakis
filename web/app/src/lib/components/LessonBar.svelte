@@ -3,13 +3,19 @@
     name,
     next,
     busy,
+    deviation = 0,
     onnext,
+    onreturn,
     onexit,
   }: {
     name: string;
     next: string | null;
     busy: boolean;
+    /** Free commands run since the lesson's last own step. */
+    deviation?: number;
     onnext: () => void;
+    /** Rewind the deviation (an undo, not an erasure). */
+    onreturn?: () => void;
     onexit: () => void;
   } = $props();
 </script>
@@ -19,6 +25,12 @@
   {#if next}
     <code>{next}</code>
     <button class="next" onclick={onnext} disabled={busy}>do it</button>
+  {/if}
+  {#if deviation > 0}
+    <span class="deviation">
+      off the script by {deviation} {deviation === 1 ? "step" : "steps"} — exploring is allowed
+    </span>
+    <button onclick={onreturn} disabled={busy}>return to the script</button>
   {/if}
   <button class="leave" onclick={onexit}>leave lesson</button>
 </div>
@@ -56,6 +68,10 @@
   }
   .next {
     border-color: var(--hot);
+  }
+  .deviation {
+    color: var(--dim);
+    font-size: 0.78rem;
   }
   .leave {
     margin-left: auto;

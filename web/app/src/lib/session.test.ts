@@ -202,6 +202,27 @@ describe("Session", () => {
     expect(s.feed.at(-1)!.text).toContain("lesson finished");
   });
 
+  it("lesson deviation counts free commands; return rewinds them", async () => {
+    const host = new FakeHost();
+    const s = new Session(host);
+    s.startLesson("salt", "# Salt in water\nadd v1 water 100mL\nadd v1 NaCl 1g\n");
+    await s.lessonNext();
+    expect(s.lessonDeviation).toBe(0);
+
+    await s.submit("measure v1 ph");
+    await s.submit("wait 30s");
+    expect(s.lessonDeviation).toBe(2);
+
+    await s.lessonReturn();
+    expect(s.lessonDeviation).toBe(0);
+    // The bench rewound; the lesson cursor did not move.
+    expect(s.position).toBe(1);
+    expect(s.lessonNextCommand).toBe("add v1 NaCl 1g");
+    // And the lesson continues cleanly from there.
+    await s.lessonNext();
+    expect(s.commandLog).toEqual(["add v1 water 100mL", "add v1 NaCl 1g"]);
+  });
+
   it("typed events become transient vessel effects, and only typed events", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

@@ -383,8 +383,13 @@ every new dependency before its first import.
 
 ### Phase G2 — Learning surfaces
 
-- [ ] **GUI-020 — Lesson player.** Lessons as guided overlays with
-  deviation + return; curriculum graph as map screen.
+- [x] **GUI-020 — Lesson player.** *Done 2026-08-24:* lessons walk as
+  guided overlays (LessonBar; free commands never move the cursor);
+  deviation is counted and NAMED ("off the script by N — exploring is
+  allowed"), and "return to the script" rewinds it as an undo to the
+  state after the lesson's last own step (snapshot-fast, never an
+  erasure — the wandering stays in the undone future). The map screen
+  is GUI-053's. Vitest-pinned.
 - [ ] **GUI-021 — Charts.** CAP-3 contract renderer (d3 primitives); first
   chart is the live titration curve (with CAP-12); SVG/PNG export.
   *Status 2026-08-24: renderer half done, dependency-free (hand-rolled
@@ -392,14 +397,22 @@ every new dependency before its first import.
   in PROTOCOL.md, `Chart.svelte` renders it (nice ticks, uncertainty
   bands for CAP-8, confidence-encoded strokes, screen-reader data table,
   SVG export; core vitest-covered), and the feed renders any step
-  carrying `charts` today. Open: the engine emitting the contract
-  (CAP-3's other half, with CAP-12's titrate verb) and PNG export.*
+  carrying `charts` today. Export pass (same day): the SVG export now
+  inlines each element's COMPUTED style plus a theme background —
+  serializing the live node had silently dropped the scoped CSS and
+  theme variables, saving an invisible file — and PNG export renders
+  that styled clone at 2× through a canvas. Open: the engine emitting
+  the contract (CAP-3's other half, with CAP-12's titrate verb).*
 - [ ] **GUI-022 — Notebook export.** Markdown/PDF with inline charts and
   provenance footer.
   *Status 2026-08-24: Markdown half done (`notebook.ts` + "save notes") —
   commands as code, observations as prose, hazards as severity-labelled
-  quotes, charts as data tables with provenance. Open: PDF, inline chart
-  images.*
+  quotes, charts as data tables with provenance. PDF half (same day):
+  a print stylesheet strips the chrome so the feed prints AS the
+  notebook, charts drawn (not tabled) with their provenance lines; the
+  header's "print" button opens the dialog and the browser's save-as-PDF
+  is the PDF export — no dependency earns its keep against that. Open:
+  inline chart images in the Markdown export.*
 - [ ] **GUI-023 — Hazard cards + honest-boundary panels.** The fixed visual
   encoding for the confidence vocabulary, everywhere.
 - [ ] **GUI-024 — Challenges v1.** Equation balancing, endpoint, buffer

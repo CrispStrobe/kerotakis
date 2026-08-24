@@ -90,3 +90,34 @@ body {
   content: " ?";
   color: var(--warn);
 }
+
+/* Print = the lab notebook (GUI-022's PDF half, browser-native).
+   Chrome goes away; the feed IS the document, charts and all. The
+   provenance line each chart carries prints with it. */
+@media print {
+  header,
+  .tabs,
+  .bar,
+  .shelf-pane,
+  .bench-pane,
+  .transfer-banner,
+  .lesson {
+    display: none !important;
+  }
+  main,
+  aside {
+    display: block !important;
+    width: 100% !important;
+    border: 0 !important;
+    overflow: visible !important;
+  }
+  .feed {
+    overflow: visible !important;
+    color: #000;
+    background: #fff;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+}

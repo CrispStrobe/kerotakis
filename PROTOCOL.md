@@ -8,8 +8,13 @@ implement it:
 - **TauriHost** — desktop/mobile: native `kerotakis-core` on a background
   thread behind `tauri::command` (GUI-030).
 
-The UI must not be able to tell them apart. One conformance suite runs
-against both (GUI-001 acceptance).
+The UI must not be able to tell them apart. Conformance is checked per
+transport: the wasm host by `tools/test-protocol-conformance.mjs` (CI's
+wasm job), the shell by `cargo test` in `web/app/src-tauri` — its
+`protocol_conformance` module exercises the same `dispatch` the GUI
+reaches through `engine_request`, no webview needed (GUI-001
+acceptance). A command answering differently across the two is a
+protocol bug even when both GUIs happen to work.
 
 This document canonizes what already exists — the wasm `Lab` API, the
 WEB-002 `WorkerCommand`/`WorkerResponse` enums in
