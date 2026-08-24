@@ -11,6 +11,40 @@ use crate::vessel::VesselId;
 
 /// Parse one bench command into an operator. Meta commands (register,
 /// inspect) return `None` — they are session state, not bench state.
+/// The grammar's public inventory: every verb `parse_op` accepts, with a
+/// canonical example line (GUI-029). A UI's affordance manifest is checked
+/// against this list by the protocol conformance suite, and the test at
+/// the bottom of this file keeps each example honest against the parser.
+/// Aliases share their canonical verb's row.
+pub const VERBS: &[(&str, &str)] = &[
+    ("new", "new"),
+    ("add", "add v1 water 100mL"),
+    ("heat", "heat v1 10kJ"),
+    ("cool", "cool v1 10kJ"),
+    ("wait", "wait 30s"),
+    ("ignite", "ignite v1"),
+    ("stir", "stir v1"),
+    ("seal", "seal v1 500mL"),
+    ("regulate", "regulate v1 1.5bar 500mL"),
+    ("sweep", "sweep v1 1bar"),
+    ("open", "open v1"),
+    ("filter", "filter v1 v2"),
+    ("evaporate", "evaporate v1 0.5"),
+    ("decant", "decant v1 v2 0.5"),
+    ("drain", "drain v1 v2"),
+    ("distil", "distil v1 v2 0.5"),
+    ("measure", "measure v1 ph"),
+    ("chromatograph", "chromatograph v1"),
+    ("electrolyse", "electrolyse v1 0.5A 30min"),
+    ("cell", "cell v1 v2"),
+    ("grind", "grind v1 NaCl 50um"),
+    ("irradiate", "irradiate v1 254nm 10W/m2"),
+    ("dilute", "dilute v1 100mL"),
+    ("titrate", "titrate v1 NaOH 1M 1mL until ph 7"),
+    ("transport", "transport v1 v2 v3 from v4 to v5 steps 3"),
+    ("react", "react v1 esterification"),
+];
+
 pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
     let line = line.trim();
     if line.is_empty() || line.starts_with('#') {
@@ -568,5 +602,42 @@ fn parse_suffixed(raw: &str, units: &[(&str, f64)], what: &str) -> Result<f64, S
         Some(scale) if value > 0.0 => Ok(value * scale),
         Some(_) => Err(format!("{what} must be positive")),
         None => Err(format!("unknown {what} unit '{suffix}'")),
+    }
+}
+
+#[cfg(test)]
+mod grammar_inventory {
+    use super::*;
+
+    /// Every inventory row's example must parse to an operator, and its
+    /// first word must be the row's verb — the inventory cannot claim a
+    /// grammar the parser does not have.
+    #[test]
+    fn every_verb_example_parses() {
+        for (verb, example) in VERBS {
+            assert_eq!(
+                example.split_whitespace().next(),
+                Some(*verb),
+                "inventory row '{verb}' must exemplify its own verb"
+            );
+            match parse_op(example) {
+                Ok(Some(_)) => {}
+                other => panic!("VERBS example '{example}' did not parse: {other:?}"),
+            }
+        }
+    }
+
+    /// The inventory is unique and non-trivial.
+    #[test]
+    fn the_inventory_is_well_formed() {
+        let mut seen = std::collections::HashSet::new();
+        for (verb, _) in VERBS {
+            assert!(seen.insert(verb), "duplicate inventory verb '{verb}'");
+        }
+        assert!(
+            VERBS.len() >= 25,
+            "the inventory lost verbs: {}",
+            VERBS.len()
+        );
     }
 }

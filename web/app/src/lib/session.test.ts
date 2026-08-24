@@ -160,6 +160,26 @@ describe("Session", () => {
     expect(s.feed.at(-1)!.text).toContain("lesson finished");
   });
 
+  it("the latest rendered equation is pinned for the strip", async () => {
+    const host = new FakeHost();
+    host.runScript = async (script: string) => ({
+      steps: [
+        {
+          operator: {},
+          events: [],
+          rendered: [
+            "The silver and the chloride find each other.",
+            "Ag+ + Cl- → AgCl",
+          ],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("add v1 AgNO3 1.7g");
+    expect(s.lastEquation).toBe("Ag+ + Cl- → AgCl");
+  });
+
   it("hazard events become cards; a veto reads as a refusal", async () => {
     const host = new FakeHost();
     host.runScript = async (script: string) => ({

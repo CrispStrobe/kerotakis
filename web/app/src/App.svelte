@@ -26,6 +26,31 @@
     })),
   );
 
+  // CI self-test hook (?selftest=1): report readiness to the harness once
+  // the scene has arrived — a worker-driven app cannot be probed by
+  // dumping the DOM at a fixed instant, so it phones home instead.
+  const selftest =
+    typeof location !== "undefined" &&
+    new URLSearchParams(location.search).has("selftest");
+  let selftestReported = false;
+  $effect(() => {
+    if (!selftest || selftestReported) return;
+    const ready = session.engineReady && session.scene !== null;
+    const failed = session.feed.find((f) => f.kind === "error");
+    if (!ready && !failed) return;
+    selftestReported = true;
+    void fetch("/selftest", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        ready,
+        can_solve: session.canSolve,
+        vessels: session.scene?.vessels.length ?? 0,
+        error: failed?.text ?? null,
+      }),
+    });
+  });
+
   onMount(() => {
     void session.connect();
     // Lessons ship beside the engine payload; their absence is quiet —
@@ -184,6 +209,11 @@
     />
   </nav>
   <div class="bench-pane">
+    {#if session.register !== "lv1" && session.lastEquation}
+      <p class="equation" aria-label="latest reaction equation">
+        {session.lastEquation}
+      </p>
+    {/if}
     <Bench
       scene={session.scene}
       register={session.register}
@@ -315,8 +345,20 @@
   .bench-pane {
     flex: 1;
     display: flex;
+    flex-direction: column;
     min-width: 0;
     min-height: 0;
+  }
+  .equation {
+    margin: 0;
+    padding: 0.45rem 1rem;
+    border-bottom: 1px solid var(--edge);
+    font-size: 0.95rem;
+    text-align: center;
+    color: var(--ink);
+    background: var(--panel);
+    overflow-x: auto;
+    white-space: nowrap;
   }
   .bench-pane > :global(.bench) {
     flex: 1;

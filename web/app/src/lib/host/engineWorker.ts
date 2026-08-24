@@ -20,6 +20,7 @@ type Lab = {
   step(operatorJson: string): string;
   runScript(text: string): string;
   parse(line: string): string;
+  grammar(): string;
   setRegister(level: string): void;
   setSolver(hook: (dbTag: string, input: string) => string): void;
   scene(): string;
@@ -146,6 +147,9 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "parse":
         done(id, lab.parse(String(msg.line)));
+        break;
+      case "grammar":
+        done(id, lab.grammar());
         break;
       case "set_register":
         lab.setRegister(String(msg.level));
