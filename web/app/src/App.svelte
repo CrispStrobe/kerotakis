@@ -26,6 +26,31 @@
     })),
   );
 
+  // CI self-test hook (?selftest=1): report readiness to the harness once
+  // the scene has arrived — a worker-driven app cannot be probed by
+  // dumping the DOM at a fixed instant, so it phones home instead.
+  const selftest =
+    typeof location !== "undefined" &&
+    new URLSearchParams(location.search).has("selftest");
+  let selftestReported = false;
+  $effect(() => {
+    if (!selftest || selftestReported) return;
+    const ready = session.engineReady && session.scene !== null;
+    const failed = session.feed.find((f) => f.kind === "error");
+    if (!ready && !failed) return;
+    selftestReported = true;
+    void fetch("/selftest", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        ready,
+        can_solve: session.canSolve,
+        vessels: session.scene?.vessels.length ?? 0,
+        error: failed?.text ?? null,
+      }),
+    });
+  });
+
   onMount(() => {
     void session.connect();
     // Lessons ship beside the engine payload; their absence is quiet —

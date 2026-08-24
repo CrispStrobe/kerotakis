@@ -30,8 +30,23 @@ const TYPES = {
     ".wasm": "application/wasm", ".dat": "text/plain", ".ts": "text/plain",
 };
 
+// The app phones its readiness home (POST /selftest) — a worker-driven
+// page cannot be probed by dumping the DOM at a fixed instant, because
+// headless virtual time does not advance dedicated workers.
+let reportSelftest;
+const selftestReport = new Promise((r) => (reportSelftest = r));
+
 const server = createServer(async (req, res) => {
     const path = decodeURIComponent(req.url.split("?")[0].split("#")[0]);
+    if (req.method === "POST" && path === "/selftest") {
+        let body = "";
+        req.on("data", (d) => (body += d));
+        req.on("end", () => {
+            try { reportSelftest(JSON.parse(body)); } catch { reportSelftest({ ready: false, error: "unparseable report" }); }
+            res.writeHead(204).end();
+        });
+        return;
+    }
     try {
         const body = await readFile(join(ROOT, path === "/" ? "index.html" : path));
         res.writeHead(200, { "content-type": TYPES[extname(path)] ?? "application/octet-stream" });
@@ -122,10 +137,20 @@ if (dom === null) {
 
 // The bench app is a different page with a different failure surface:
 // its worker must download the engine and attach the solver before the
-// scene renders. Both of the app's shipped regressions — the init race
-// that stranded "warming up…", and the silent solver-attach failure that
-// turned every experiment white — are visible in this one DOM.
-const appDom = await render(chrome, `http://127.0.0.1:${PORT}/app/index.html`);
+// scene renders. It runs in REAL time (virtual time starves workers) and
+// reports its own readiness via POST /selftest.
+const appProc = spawn(chrome, [
+    "--headless=new", "--disable-gpu", "--no-sandbox",
+    "--no-first-run", "--no-default-browser-check",
+    `--user-data-dir=${profile}-app`,
+    `http://127.0.0.1:${PORT}/app/index.html?selftest=1`,
+]);
+const appReport = await Promise.race([
+    selftestReport,
+    new Promise((r) => setTimeout(() => r({ ready: false, error: "no selftest report within 90s" }), 90000)),
+]);
+try { appProc.kill("SIGKILL"); } catch { /* already gone */ }
+rmSync(`${profile}-app`, { recursive: true, force: true });
 
 // Second render: the server is gone, the cache is all there is.
 server.close();
@@ -148,13 +173,17 @@ const status = /<span id="status" class="(\w+)">([^<]*)</.exec(dom);
 check("the page reports a live engine", status?.[1] === "live");
 
 // --- The bench app (web/app) -------------------------------------------
-check("the app rendered the bench (scene arrived)", /class="[^"]*vessel/.test(appDom));
-check("the app is not stuck warming up", !/warming up/.test(appDom));
-check("the app's aqueous engine attached (status: live)", />\s*live\s*</.test(appDom));
+// Both of the app's shipped regressions — the init race that stranded
+// "warming up…", and the silent solver-attach failure that turned every
+// experiment white — are visible in this one report.
+check("the app reached ready (scene arrived)", appReport.ready === true);
+check("the app rendered a bench with a vessel", (appReport.vessels ?? 0) >= 1);
+check("the app's aqueous engine attached (can_solve)", appReport.can_solve === true);
 check(
     "no engine-loading failure surfaced in the app",
-    !/engine is not loaded|failed to attach|failed to load/.test(appDom),
+    appReport.error == null,
 );
+if (appReport.error) console.error(`  app error: ${appReport.error}`);
 check("nothing threw across the bridge", !/threw|did not start/.test(transcript));
 check("no solver failed", !/solver '[^']*' failed/.test(transcript));
 // The marquee result: silver and chloride find each other.
