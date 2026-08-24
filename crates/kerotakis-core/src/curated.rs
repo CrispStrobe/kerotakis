@@ -60,6 +60,31 @@ pub const REACTIONS: &[CuratedReaction] = &[
             ("water", 1.0, Phase::Liquid),
         ],
     },
+    // ── EXP-5: hypochlorite bleaching of dyes ──────────────────────
+    CuratedReaction {
+        equation: "betanin + NaOCl → betanin(ox) + NaCl",
+        reactants: &[("betanin", 1.0), ("NaOCl", 1.0)],
+        products: &[
+            ("betanin_ox", 1.0, Phase::Aqueous),
+            ("NaCl", 1.0, Phase::Aqueous),
+        ],
+    },
+    CuratedReaction {
+        equation: "curcumin + NaOCl → curcumin(ox) + NaCl",
+        reactants: &[("curcumin", 1.0), ("NaOCl", 1.0)],
+        products: &[
+            ("curcumin_ox", 1.0, Phase::Aqueous),
+            ("NaCl", 1.0, Phase::Aqueous),
+        ],
+    },
+    CuratedReaction {
+        equation: "indigo carmine + NaOCl → isatin sulfonate + NaCl",
+        reactants: &[("indigo_carmine", 1.0), ("NaOCl", 1.0)],
+        products: &[
+            ("indigo_carmine_ox", 1.0, Phase::Aqueous),
+            ("NaCl", 1.0, Phase::Aqueous),
+        ],
+    },
 ];
 
 /// A named organic transformation the `react` verb applies on command.

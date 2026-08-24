@@ -127,7 +127,8 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "Ca+2" | "Mg+2" | "Sr+2" | "SO4-2" | "Cu" | "Ag" | "MgO" | "C" | "O2" | "N2"
         | "CuSO4" | "Cu+2" | "FeSO4" | "Fe+2" | "Fe+3" | "Cu+1" | "Mn+2" | "MnO4-2" | "Mn+3"
         | "phenolphthalein" | "methyl_orange" | "bromothymol_blue" | "Zn+2" | "ZnSO4" | "Pb+2"
-        | "Pb(NO3)2" | "PE" | "PP" | "PET" | "PS" => &[],
+        | "Pb(NO3)2" | "PE" | "PP" | "PET" | "PS" | "betanin" | "betanin_ox"
+        | "curcumin" | "curcumin_ox" | "indigo_carmine" | "indigo_carmine_ox" => &[],
 
         _ => &[],
     }
@@ -140,6 +141,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "Ag",
     "Ag+",
     "AgCl",
+    "betanin",
+    "betanin_ox",
     "AgNO3",
     "C",
     "CO2",
@@ -154,6 +157,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "Cl2",
     "Cu",
     "Cu+1",
+    "curcumin",
+    "curcumin_ox",
     "Cu+2",
     "CuO",
     "Cu(OH)2",
@@ -217,6 +222,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "ethyl_acetate",
     "gypsum",
     "hexane",
+    "indigo_carmine",
+    "indigo_carmine_ox",
     "methanol",
     "methyl_orange",
     "phenolphthalein",

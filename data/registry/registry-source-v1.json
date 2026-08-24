@@ -765,6 +765,60 @@
       "origin": "EXPERIMENTS.md EXP-12",
       "revision": null,
       "retrieved": "2026-08-24"
+    },
+    {
+      "id": "exp5/betanin",
+      "citation": "ε: Stintzing & Carle, Trends in Food Science & Technology 15 (2004) 64-72; M from molecular formula; density estimated for organic solid",
+      "licence": "LicenseRef-Kerotakis-Curated",
+      "lane": "experiment_data",
+      "origin": "EXPERIMENTS.md EXP-5",
+      "revision": null,
+      "retrieved": "2026-08-24"
+    },
+    {
+      "id": "exp5/curcumin",
+      "citation": "ε: Tonnesen & Karlsen, Z Lebensm Unters Forsch 180 (1985) 132-134; M from molecular formula; density estimated for organic solid",
+      "licence": "LicenseRef-Kerotakis-Curated",
+      "lane": "experiment_data",
+      "origin": "EXPERIMENTS.md EXP-5",
+      "revision": null,
+      "retrieved": "2026-08-24"
+    },
+    {
+      "id": "exp5/indigo_carmine",
+      "citation": "ε: Bhasikuttan et al., J Phys Chem B 108 (2004) 3657-3662; M from molecular formula; density estimated for organic solid",
+      "licence": "LicenseRef-Kerotakis-Curated",
+      "lane": "experiment_data",
+      "origin": "EXPERIMENTS.md EXP-5",
+      "revision": null,
+      "retrieved": "2026-08-24"
+    },
+    {
+      "id": "exp5/betanin_ox",
+      "citation": "Bleaching product of betanin; simplified stoichiometry (one O addition from NaOCl)",
+      "licence": "LicenseRef-Kerotakis-Curated",
+      "lane": "experiment_data",
+      "origin": "EXPERIMENTS.md EXP-5",
+      "revision": null,
+      "retrieved": "2026-08-24"
+    },
+    {
+      "id": "exp5/curcumin_ox",
+      "citation": "Bleaching product of curcumin; simplified stoichiometry (one O addition from NaOCl)",
+      "licence": "LicenseRef-Kerotakis-Curated",
+      "lane": "experiment_data",
+      "origin": "EXPERIMENTS.md EXP-5",
+      "revision": null,
+      "retrieved": "2026-08-24"
+    },
+    {
+      "id": "exp5/indigo_carmine_ox",
+      "citation": "Bleaching product of indigo_carmine; simplified stoichiometry (one O addition from NaOCl)",
+      "licence": "LicenseRef-Kerotakis-Curated",
+      "lane": "experiment_data",
+      "origin": "EXPERIMENTS.md EXP-5",
+      "revision": null,
+      "retrieved": "2026-08-24"
     }
   ],
   "identities": [
@@ -2119,6 +2173,102 @@
         "method": {
           "kind": "curated",
           "detail": "EXP-12 polymer species for float/sink density separation"
+        }
+      }
+    },
+    {
+      "id": "betanin",
+      "canonical_key": "",
+      "name": "betanin (beetroot red)",
+      "identifiers": {
+        "inchikey": ""
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "exp5/betanin",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5 dye/bleaching species"
+        }
+      }
+    },
+    {
+      "id": "curcumin",
+      "canonical_key": "",
+      "name": "curcumin (turmeric yellow)",
+      "identifiers": {
+        "inchikey": ""
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "exp5/curcumin",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5 dye/bleaching species"
+        }
+      }
+    },
+    {
+      "id": "indigo_carmine",
+      "canonical_key": "",
+      "name": "indigo carmine (E132)",
+      "identifiers": {
+        "inchikey": ""
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "exp5/indigo_carmine",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5 dye/bleaching species"
+        }
+      }
+    },
+    {
+      "id": "betanin_ox",
+      "canonical_key": "",
+      "name": "oxidised betanin (colourless)",
+      "identifiers": {
+        "inchikey": ""
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "exp5/betanin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5 dye/bleaching species"
+        }
+      }
+    },
+    {
+      "id": "curcumin_ox",
+      "canonical_key": "",
+      "name": "oxidised curcumin (colourless)",
+      "identifiers": {
+        "inchikey": ""
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "exp5/curcumin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5 dye/bleaching species"
+        }
+      }
+    },
+    {
+      "id": "indigo_carmine_ox",
+      "canonical_key": "",
+      "name": "oxidised indigo carmine (colourless)",
+      "identifiers": {
+        "inchikey": ""
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "exp5/indigo_carmine_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5 dye/bleaching species"
         }
       }
     }
@@ -10321,6 +10471,936 @@
           "detail": "repeat-unit composition"
         }
       }
+    },
+    {
+      "id": "composition/betanin",
+      "species_id": "betanin",
+      "formula": "C24H26N2O13",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 24.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 26.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 13.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/betanin",
+        "method": {
+          "kind": "derived",
+          "detail": "neutral molecule"
+        }
+      },
+      "evidence": {
+        "source_id": "exp5/betanin",
+        "method": {
+          "kind": "curated",
+          "detail": "molecular formula"
+        }
+      }
+    },
+    {
+      "id": "composition/curcumin",
+      "species_id": "curcumin",
+      "formula": "C21H20O6",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 21.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 20.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/curcumin",
+        "method": {
+          "kind": "derived",
+          "detail": "neutral molecule"
+        }
+      },
+      "evidence": {
+        "source_id": "exp5/curcumin",
+        "method": {
+          "kind": "curated",
+          "detail": "molecular formula"
+        }
+      }
+    },
+    {
+      "id": "composition/indigo_carmine",
+      "species_id": "indigo_carmine",
+      "formula": "C16H8N2Na2O8S2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 16.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "Na",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/indigo_carmine",
+        "method": {
+          "kind": "derived",
+          "detail": "disodium salt, net neutral"
+        }
+      },
+      "evidence": {
+        "source_id": "exp5/indigo_carmine",
+        "method": {
+          "kind": "curated",
+          "detail": "molecular formula"
+        }
+      }
+    },
+    {
+      "id": "composition/betanin_ox",
+      "species_id": "betanin_ox",
+      "formula": "C24H26N2O14",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 24.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/betanin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 26.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/betanin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/betanin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 14.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/betanin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/betanin_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "neutral molecule"
+        }
+      },
+      "evidence": {
+        "source_id": "exp5/betanin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "molecular formula"
+        }
+      }
+    },
+    {
+      "id": "composition/curcumin_ox",
+      "species_id": "curcumin_ox",
+      "formula": "C21H20O7",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 21.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/curcumin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 20.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/curcumin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 7.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/curcumin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/curcumin_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "neutral molecule"
+        }
+      },
+      "evidence": {
+        "source_id": "exp5/curcumin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "molecular formula"
+        }
+      }
+    },
+    {
+      "id": "composition/indigo_carmine_ox",
+      "species_id": "indigo_carmine_ox",
+      "formula": "C16H8N2Na2O9S2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 16.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "Na",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 9.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp5/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "from molecular formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/indigo_carmine_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "disodium salt, net neutral"
+        }
+      },
+      "evidence": {
+        "source_id": "exp5/indigo_carmine_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "molecular formula"
+        }
+      }
     }
   ],
   "phase_thermodynamics": [
@@ -18393,6 +19473,546 @@
           "detail": "EXP-12: mass_density per repeat unit"
         }
       }
+    },
+    {
+      "id": "molar-mass/betanin",
+      "species_id": "betanin",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 550.47,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/betanin",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_mass"
+        }
+      }
+    },
+    {
+      "id": "molar-heat-capacity/betanin",
+      "species_id": "betanin",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 450.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/betanin",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_heat_capacity"
+        }
+      }
+    },
+    {
+      "id": "mass-density/betanin",
+      "species_id": "betanin",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.5,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/betanin",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: mass_density"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/curcumin",
+      "species_id": "curcumin",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 368.38,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/curcumin",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_mass"
+        }
+      }
+    },
+    {
+      "id": "molar-heat-capacity/curcumin",
+      "species_id": "curcumin",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 300.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/curcumin",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_heat_capacity"
+        }
+      }
+    },
+    {
+      "id": "mass-density/curcumin",
+      "species_id": "curcumin",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.3,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/curcumin",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: mass_density"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/indigo_carmine",
+      "species_id": "indigo_carmine",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 466.35,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/indigo_carmine",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_mass"
+        }
+      }
+    },
+    {
+      "id": "molar-heat-capacity/indigo_carmine",
+      "species_id": "indigo_carmine",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 380.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/indigo_carmine",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_heat_capacity"
+        }
+      }
+    },
+    {
+      "id": "mass-density/indigo_carmine",
+      "species_id": "indigo_carmine",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.6,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/indigo_carmine",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: mass_density"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/betanin_ox",
+      "species_id": "betanin_ox",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 566.47,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/betanin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_mass"
+        }
+      }
+    },
+    {
+      "id": "molar-heat-capacity/betanin_ox",
+      "species_id": "betanin_ox",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 460.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/betanin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_heat_capacity"
+        }
+      }
+    },
+    {
+      "id": "mass-density/betanin_ox",
+      "species_id": "betanin_ox",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.5,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/betanin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: mass_density"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/curcumin_ox",
+      "species_id": "curcumin_ox",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 384.38,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/curcumin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_mass"
+        }
+      }
+    },
+    {
+      "id": "molar-heat-capacity/curcumin_ox",
+      "species_id": "curcumin_ox",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 310.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/curcumin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_heat_capacity"
+        }
+      }
+    },
+    {
+      "id": "mass-density/curcumin_ox",
+      "species_id": "curcumin_ox",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.3,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/curcumin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: mass_density"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/indigo_carmine_ox",
+      "species_id": "indigo_carmine_ox",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 482.35,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/indigo_carmine_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_mass"
+        }
+      }
+    },
+    {
+      "id": "molar-heat-capacity/indigo_carmine_ox",
+      "species_id": "indigo_carmine_ox",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 390.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/indigo_carmine_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: molar_heat_capacity"
+        }
+      }
+    },
+    {
+      "id": "mass-density/indigo_carmine_ox",
+      "species_id": "indigo_carmine_ox",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.6,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/indigo_carmine_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-5: mass_density"
+        }
+      }
     }
   ],
   "transport": [],
@@ -21100,6 +22720,2505 @@
         "method": {
           "kind": "curated",
           "detail": "visual appearance of common plastic"
+        }
+      }
+    },
+    {
+      "id": "optical/betanin",
+      "species_id": "betanin",
+      "phase": "aqueous",
+      "appearance": "dark red powder",
+      "flame_colour": null,
+      "reflective_srgb": "#8B0A50",
+      "spectrum": [
+        {
+          "wavelength": {
+            "value": 405,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 65.6398752173243,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 425,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 465.6186906097491,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 445,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 2382.7727269695697,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 465,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 8796.793410379825,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 485,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 23429.106258858366,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 505,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 45017.006073337856,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 525,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 62400.35368355605,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 545,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 62400.35368355605,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 565,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 45017.006073337856,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 585,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 23429.106258858366,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 605,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 8796.793410379825,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 625,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 2382.7727269695697,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 645,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 465.6186906097491,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 665,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 65.6398752173243,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 685,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 6.675666700277601,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 705,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.48979133845089096,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/betanin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "source_id": "exp5/betanin",
+        "method": {
+          "kind": "curated",
+          "detail": "visual appearance of dye"
+        }
+      }
+    },
+    {
+      "id": "optical/curcumin",
+      "species_id": "curcumin",
+      "phase": "aqueous",
+      "appearance": "bright yellow powder",
+      "flame_colour": null,
+      "reflective_srgb": "#FFD54F",
+      "spectrum": [
+        {
+          "wavelength": {
+            "value": 405,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 44040.55716042445,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 425,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 55000.0,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 445,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 44040.55716042445,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 465,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 22611.17597789531,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 485,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 7443.4405780136985,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 505,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1571.1025431502708,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 525,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 212.62560767100422,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 545,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 18.45044453463815,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 565,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1.0265458012436295,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 585,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.03662098808421523,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 605,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.0008376488859591947,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 625,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1.2284972899117371e-05,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 645,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1.1552251110027431e-07,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 665,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 6.965291052001797e-10,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 685,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 2.6927258955223627e-12,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 705,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 6.6746001746918315e-15,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/curcumin",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "source_id": "exp5/curcumin",
+        "method": {
+          "kind": "curated",
+          "detail": "visual appearance of dye"
+        }
+      }
+    },
+    {
+      "id": "optical/indigo_carmine",
+      "species_id": "indigo_carmine",
+      "phase": "aqueous",
+      "appearance": "dark blue powder",
+      "flame_colour": null,
+      "reflective_srgb": "#003399",
+      "spectrum": [
+        {
+          "wavelength": {
+            "value": 405,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.03958421119340269,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 425,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.4530173076645862,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 445,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 4.037699312018316,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 465,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 28.02718837770784,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 485,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 151.5135488851987,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 505,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 637.895867243142,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 525,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 2091.5800257800292,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 545,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 5341.036704526867,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 565,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 10621.919820706904,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 585,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 16451.551247973293,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 605,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 19844.35876520487,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 625,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 18642.049847190552,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 645,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 13638.815023806963,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 665,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 7771.1625502472825,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 685,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 3448.4324778750565,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 705,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1191.7463752397216,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "exp5/indigo_carmine",
+            "method": {
+              "kind": "curated",
+              "detail": "Gaussian band model from published λmax and ε"
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "source_id": "exp5/indigo_carmine",
+        "method": {
+          "kind": "curated",
+          "detail": "visual appearance of dye"
+        }
+      }
+    },
+    {
+      "id": "optical/betanin_ox",
+      "species_id": "betanin_ox",
+      "phase": "aqueous",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": "#F8F8F0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "exp5/betanin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "bleached product is colourless"
+        }
+      }
+    },
+    {
+      "id": "optical/curcumin_ox",
+      "species_id": "curcumin_ox",
+      "phase": "aqueous",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": "#FFFFF0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "exp5/curcumin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "bleached product is colourless"
+        }
+      }
+    },
+    {
+      "id": "optical/indigo_carmine_ox",
+      "species_id": "indigo_carmine_ox",
+      "phase": "aqueous",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": "#F0F0FF",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "exp5/indigo_carmine_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "bleached product is colourless"
         }
       }
     }
@@ -24965,6 +29084,402 @@
         "method": {
           "kind": "curated",
           "detail": "opaque solid — no solution tint"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/betanin",
+      "subject": {
+        "kind": "species",
+        "id": "betanin"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/betanin",
+        "method": {
+          "kind": "derived",
+          "detail": "dissolves freely in water"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/betanin",
+      "subject": {
+        "kind": "species",
+        "id": "betanin"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 65000.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/betanin",
+        "method": {
+          "kind": "curated",
+          "detail": "molar absorptivity at λmax"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/curcumin",
+      "subject": {
+        "kind": "species",
+        "id": "curcumin"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/curcumin",
+        "method": {
+          "kind": "derived",
+          "detail": "dissolves freely in water"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/curcumin",
+      "subject": {
+        "kind": "species",
+        "id": "curcumin"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 55000.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/curcumin",
+        "method": {
+          "kind": "curated",
+          "detail": "molar absorptivity at λmax"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/indigo_carmine",
+      "subject": {
+        "kind": "species",
+        "id": "indigo_carmine"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/indigo_carmine",
+        "method": {
+          "kind": "derived",
+          "detail": "dissolves freely in water"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/indigo_carmine",
+      "subject": {
+        "kind": "species",
+        "id": "indigo_carmine"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 20000.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/indigo_carmine",
+        "method": {
+          "kind": "curated",
+          "detail": "molar absorptivity at λmax"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/betanin_ox",
+      "subject": {
+        "kind": "species",
+        "id": "betanin_ox"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/betanin_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "dissolves freely in water"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/betanin_ox",
+      "subject": {
+        "kind": "species",
+        "id": "betanin_ox"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/betanin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "colourless bleaching product"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/curcumin_ox",
+      "subject": {
+        "kind": "species",
+        "id": "curcumin_ox"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/curcumin_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "dissolves freely in water"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/curcumin_ox",
+      "subject": {
+        "kind": "species",
+        "id": "curcumin_ox"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/curcumin_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "colourless bleaching product"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/indigo_carmine_ox",
+      "subject": {
+        "kind": "species",
+        "id": "indigo_carmine_ox"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp5/indigo_carmine_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "dissolves freely in water"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/indigo_carmine_ox",
+      "subject": {
+        "kind": "species",
+        "id": "indigo_carmine_ox"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp5/indigo_carmine_ox",
+        "method": {
+          "kind": "curated",
+          "detail": "colourless bleaching product"
         }
       }
     }

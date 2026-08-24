@@ -223,6 +223,10 @@ for main, claim-audit statuses with acceptance evidence.
   bleaching; quest compares oxidant vs oxidant-free wash. Acceptance:
   dye colour is bleached only with NaOCl; the colour-safe wash keeps
   it; three registers say the mechanism.
+  **Data landed 2026-08-24 (kero-basic):** betanin (red, λmax 535 nm),
+  curcumin (yellow, 425 nm), indigo carmine (blue, 610 nm) with
+  16-band Gaussian spectra + oxidised products; 3 curated NaOCl
+  bleaching reactions; colour-safe wash verified. Quest remains.
 - **EXP-6 Photovoltaik** — codex model-boundary note ONLY (declined
   as computation); GUI decides on a labelled data widget.
 - **EXP-7 Dämmung** — per-vessel U-value Newton cooling; quest
