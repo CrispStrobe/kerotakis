@@ -15,7 +15,7 @@
   import HelpDialog from "./lib/components/HelpDialog.svelte";
 
   const session = new Session(WorkerHost.create());
-  let lessons = $state<{ file: string; name: string }[]>([]);
+  let lessons = $state<{ file: string; name: string; blurb?: string }[]>([]);
 
   onMount(() => {
     void session.connect();
@@ -34,6 +34,8 @@
   }
 
   let helpOpen = $state(false);
+  /** Narrow screens show one pane at a time; wide screens show all three. */
+  let pane = $state<"bench" | "shelf" | "notes">("bench");
 
   function download(name: string, text: string, type = "text/plain") {
     const blob = new Blob([text], { type });
@@ -136,7 +138,7 @@
     >
       <option value="">lessons…</option>
       {#each lessons as l (l.file)}
-        <option value={l.file}>{l.name}</option>
+        <option value={l.file} title={l.blurb}>{l.name}</option>
       {/each}
     </select>
   {/if}
@@ -156,26 +158,34 @@
   />
 {/if}
 
-<main>
+<main data-pane={pane}>
   <nav class="shelf-pane">
     <Shelf
       items={session.shelf}
       register={session.register}
       target={session.selected}
-      onadd={(line) => void session.submit(line)}
+      onadd={(line) => {
+        void session.submit(line);
+        pane = "bench";
+      }}
     />
   </nav>
-  <Bench
-    scene={session.scene}
-    register={session.register}
-    selected={session.selected}
-    onselect={(id) => void session.inspect(id)}
-    pristine={session.commandLog.length === 0 && !session.lesson}
-    ondropspecies={(id, p) =>
-      void session.submit(
-        `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
-      )}
-  />
+  <div class="bench-pane">
+    <Bench
+      scene={session.scene}
+      register={session.register}
+      selected={session.selected}
+      onselect={(id) => {
+        void session.inspect(id);
+        pane = "notes";
+      }}
+      pristine={session.commandLog.length === 0 && !session.lesson}
+      ondropspecies={(id, p) =>
+        void session.submit(
+          `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
+        )}
+    />
+  </div>
   <aside>
     {#if session.inspector}
       <Inspector
@@ -191,6 +201,18 @@
 </main>
 
 <CommandBar onsubmit={(line) => void session.submit(line)} busy={session.busy} />
+
+<nav class="tabs" aria-label="panes">
+  {#each [["bench", "bench"], ["shelf", "shelf"], ["notes", "notes"]] as [key, label] (key)}
+    <button
+      aria-pressed={pane === key}
+      class:active={pane === key}
+      onclick={() => (pane = key as typeof pane)}
+    >
+      {label}
+    </button>
+  {/each}
+</nav>
 
 {#if helpOpen}
   <HelpDialog onclose={() => (helpOpen = false)} />
@@ -273,21 +295,55 @@
   aside > :global(.feed) {
     flex: 1;
   }
+  .bench-pane {
+    flex: 1;
+    display: flex;
+    min-width: 0;
+    min-height: 0;
+  }
+  .bench-pane > :global(.bench) {
+    flex: 1;
+  }
+  /* The tab bar exists only on narrow screens. */
+  .tabs {
+    display: none;
+  }
   @media (max-width: 900px) {
-    main {
-      flex-direction: column;
+    /* One pane at a time, chosen by the tab bar. */
+    main[data-pane="bench"] .shelf-pane,
+    main[data-pane="bench"] aside,
+    main[data-pane="shelf"] .bench-pane,
+    main[data-pane="shelf"] aside,
+    main[data-pane="notes"] .bench-pane,
+    main[data-pane="notes"] .shelf-pane {
+      display: none;
     }
-    .shelf-pane {
-      width: auto;
-      max-height: 26vh;
-      border-right: 0;
-      border-bottom: 1px solid var(--edge);
-    }
+    .shelf-pane,
     aside {
       width: auto;
+      flex: 1;
       border-left: 0;
+      border-right: 0;
+    }
+    .tabs {
+      display: flex;
       border-top: 1px solid var(--edge);
-      max-height: 38vh;
+      background: var(--panel);
+    }
+    .tabs button {
+      flex: 1;
+      background: none;
+      border: 0;
+      color: var(--dim);
+      font: inherit;
+      font-size: 0.85rem;
+      padding: 0.55rem;
+      min-height: 44px;
+      cursor: pointer;
+    }
+    .tabs button.active {
+      color: var(--ink);
+      box-shadow: inset 0 2px 0 var(--hot);
     }
   }
 </style>

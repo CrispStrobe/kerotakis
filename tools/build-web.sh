@@ -33,9 +33,23 @@ cp "$ROOT/vendor/iphreeqc/database/wateq4f.dat" \
 echo "== lessons for the app's player"
 mkdir -p "$OUT/lessons"
 cp "$ROOT"/lessons/*.lab "$OUT/lessons/"
-(cd "$OUT/lessons" && ls *.lab \
-    | python3 -c 'import sys,json; files=[l.strip() for l in sys.stdin]; print(json.dumps([{"file": f, "name": f.removesuffix(".lab").replace("-", " ")} for f in files]))' \
-    > index.json)
+(cd "$OUT/lessons" && python3 - > index.json <<'PYEOF'
+import json, pathlib
+out = []
+for p in sorted(pathlib.Path(".").glob("*.lab")):
+    # The first comment line is the lesson's own description.
+    blurb = next(
+        (l.lstrip("#").strip() for l in p.read_text().splitlines() if l.startswith("#")),
+        "",
+    )
+    out.append({
+        "file": p.name,
+        "name": p.stem.replace("-", " "),
+        "blurb": blurb,
+    })
+print(json.dumps(out))
+PYEOF
+)
 
 echo "== pre-warmed lessons and R1 acceptance states"
 cargo run -p kerotakis-cli -- prewarm "$ROOT"/lessons/*.lab \
