@@ -14,6 +14,16 @@ fn main() {
 use std::path::PathBuf;
 
 #[cfg(feature = "engine")]
+fn has_tool(name: &str) -> bool {
+    std::process::Command::new(name)
+        .arg("--version")
+        .stdout(std::process::Stdio::null())
+        .stderr(std::process::Stdio::null())
+        .status()
+        .is_ok()
+}
+
+#[cfg(feature = "engine")]
 fn main() {
     let manifest = PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap());
     let vendor = manifest.join("../../vendor/iphreeqc");
@@ -38,8 +48,8 @@ fn main() {
     }
 
     let with_my_basic = std::env::var_os("CARGO_FEATURE_MY_BASIC").is_some();
-    let dst = cmake::Config::new(&vendor)
-        .define("BUILD_SHARED_LIBS", "OFF")
+    let mut cfg = cmake::Config::new(&vendor);
+    cfg.define("BUILD_SHARED_LIBS", "OFF")
         .define("IPHREEQC_ENABLE_MODULE", "OFF")
         .define(
             "IPHREEQC_WITH_MY_BASIC",
@@ -47,8 +57,17 @@ fn main() {
         )
         .define("KEROTAKIS_MY_BASIC_DIR", &my_basic)
         .define("BUILD_TESTING", "OFF")
-        .profile("Release")
-        .build();
+        .profile("Release");
+
+    if has_tool("ninja") {
+        cfg.generator("Ninja");
+    }
+    if has_tool("ccache") {
+        cfg.define("CMAKE_C_COMPILER_LAUNCHER", "ccache");
+        cfg.define("CMAKE_CXX_COMPILER_LAUNCHER", "ccache");
+    }
+
+    let dst = cfg.build();
 
     println!("cargo:rustc-link-search=native={}/lib", dst.display());
     println!("cargo:rustc-link-lib=static=IPhreeqc");
