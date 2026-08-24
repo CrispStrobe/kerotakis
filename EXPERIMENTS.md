@@ -465,3 +465,54 @@ EXP-0..45. Yield per corpus: 16 → 9 → 7 — the registry is converging
 on the actual span of school and early-university wet chemistry,
 which is the strongest evidence yet that the bench's subject is
 finite and coverable.
+
+---
+
+# Part 6: directories, simulations, and the university tail (2026-08-24)
+
+A fifth paste, different in kind: mostly **directories of
+collections** — catalogs pointing at other catalogs. By construction
+those add nothing: their contents are the corpora already audited
+above or the public curricula they index. Audited for real: the five
+simulations the directory highlights, and three university organic
+experiments from an academic teaching collection (no source named,
+as ever). The yield curve completes: 16 → 9 → 7 → **1**.
+
+## Where the highlighted simulations land
+- Acid–base strong/weak with pH probe and conductivity: covered
+  (EXP-22; both instruments landed).
+- Molarity exploration: covered (EXP-17).
+- Balancing-equations game: the machinery is `kero balance` (null-
+  space balancer, under-determined families stated) plus 103 balanced
+  codex reactions to generate rounds from — folded into **EXP-38** as
+  a quiz mode: strip coefficients from a codex reaction, learner
+  balances, the balancer grades, the under-determined cases become
+  the advanced rounds. Authoring, not building.
+- Build-a-molecule and molecule-shapes (3D/VSEPR play): GUI-workline
+  territory — the wasm structure panel already parses SMILES and
+  perceives groups; 3D play is its call, not engine chemistry.
+- The design lesson those simulations carry (game-like exploration,
+  the invisible made visible at particle level) is already CAP-24's
+  open-world DNA and the GUI's landed particle view.
+
+## The one new task
+- **EXP-46 — Cross-coupling template class** — the university tail's
+  substance: modern C–C and C–N bond chemistry (biaryl coupling from
+  aryl halide + boronate; amide C–N activation) as curated SMIRKS
+  templates on the org machinery, proven at the molecule level like
+  esterification, with the **catalyst as a required condition**
+  (nickel-class species present or the reaction refuses) — and the
+  boundary stated in every register: the bench books the
+  transformation and its conditions; it does not simulate the
+  catalytic cycle, and says so. Acceptance: two templates proven at
+  molecule level; refusal without catalyst; boundary line in lv3;
+  green-chemistry framing left to the quest prose. HARDER (org).
+- Spectroscopy-interpretation coursework at the same tail: already
+  declined in Part 4 (instrument-interpretation is not wet-bench
+  chemistry); the decline holds consistently.
+
+## Registry state after five corpora
+EXP-0..46, yield 16 → 9 → 7 → 1. The span is effectively closed:
+new corpora now audit into coverage confirmations, GUI affordances,
+and quest authoring rather than new chemistry. The build order
+stands: EXP-0 unlocks everything; the tiers fan out behind it.
