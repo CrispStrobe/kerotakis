@@ -2,12 +2,42 @@
   let { onsubmit, busy }: { onsubmit: (line: string) => void; busy: boolean } = $props();
 
   let line = $state("");
+  let history: string[] = [];
+  let cursor = $state(-1);
+  let draft = "";
 
   function submit(event: SubmitEvent) {
     event.preventDefault();
-    if (!line.trim()) return;
-    onsubmit(line);
+    const trimmed = line.trim();
+    if (!trimmed) return;
+    if (history.at(-1) !== trimmed) history.push(trimmed);
+    cursor = -1;
+    onsubmit(trimmed);
     line = "";
+  }
+
+  function onkeydown(e: KeyboardEvent) {
+    if (e.key === "ArrowUp") {
+      if (history.length === 0) return;
+      e.preventDefault();
+      if (cursor === -1) {
+        draft = line;
+        cursor = history.length - 1;
+      } else if (cursor > 0) {
+        cursor -= 1;
+      }
+      line = history[cursor] ?? "";
+    } else if (e.key === "ArrowDown") {
+      if (cursor === -1) return;
+      e.preventDefault();
+      if (cursor < history.length - 1) {
+        cursor += 1;
+        line = history[cursor] ?? "";
+      } else {
+        cursor = -1;
+        line = draft;
+      }
+    }
   }
 </script>
 
@@ -16,6 +46,7 @@
   <input
     type="text"
     bind:value={line}
+    {onkeydown}
     placeholder="add v1 water 100mL"
     aria-label="command"
     autocomplete="off"
