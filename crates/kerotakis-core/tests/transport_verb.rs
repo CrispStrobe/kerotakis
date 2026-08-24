@@ -18,7 +18,7 @@ fn setup_column() -> Bench {
         })
         .unwrap();
     // v2
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     bench
         .step(Operator::Add {
             vessel: VesselId(1),
@@ -28,7 +28,7 @@ fn setup_column() -> Bench {
         })
         .unwrap();
     // v3
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     bench
         .step(Operator::Add {
             vessel: VesselId(2),
@@ -38,7 +38,7 @@ fn setup_column() -> Bench {
         })
         .unwrap();
     // v4 = inlet (same water volume + NaCl as aqueous tracer)
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     bench
         .step(Operator::Add {
             vessel: VesselId(3),
@@ -51,7 +51,7 @@ fn setup_column() -> Bench {
     // dissolve it, but transport moves aqueous portions.
     bench.vessels[3].deposit(SpeciesId::new("NaCl"), Moles(0.1), Phase::Aqueous);
     // v5 = receiver
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     bench
 }
 

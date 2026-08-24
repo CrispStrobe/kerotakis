@@ -65,8 +65,10 @@ export class Session {
    * command while the cursor sits mid-history truncates the future.
    */
   position = $state(0);
-  /** The lesson being walked, if any. */
-  lesson = $state<{ lesson: Lesson; cursor: number } | null>(null);
+  /** The lesson being walked, if any. `kit` is the reagent set the lesson
+   * itself uses — "what the teacher put out for you" — derived from its
+   * own command lines, so it can never drift from the lesson. */
+  lesson = $state<{ lesson: Lesson; cursor: number; kit: string[] } | null>(null);
   /** The registry, for the shelf. */
   shelf = $state<ShelfItem[]>([]);
   /** Vessel the user last selected (0-based id), target of shelf adds. */
@@ -408,7 +410,13 @@ export class Session {
   /** Begin walking a lesson. The bench keeps whatever is on it — a lesson
    * is an overlay on the real bench, not a sandbox swap. */
   startLesson(name: string, text: string): void {
-    this.lesson = { lesson: parseLesson(name, text), cursor: 0 };
+    // The kit: every species the lesson's own commands touch.
+    const kit = new Set<string>();
+    for (const line of text.split("\n")) {
+      const m = line.trim().match(/^(?:add|titrate|grind)\s+\S+\s+(\S+)/);
+      if (m) kit.add(m[1]!);
+    }
+    this.lesson = { lesson: parseLesson(name, text), cursor: 0, kit: [...kit] };
     this.feed.push({ kind: "note", text: `lesson started: ${name}` });
     this.advanceLessonNotes();
   }

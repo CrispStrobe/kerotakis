@@ -7,19 +7,28 @@
     register,
     target,
     onadd,
+    kit = null,
   }: {
     items: ShelfItem[];
     register: string;
     target: number;
     onadd: (line: string) => void;
+    /** During a lesson: the reagents its own commands use. */
+    kit?: string[] | null;
   } = $props();
 
   let query = $state("");
+  /** Kit view on by default while a lesson runs; the sandbox is one tap away. */
+  let kitOnly = $state(true);
+  const kitActive = $derived(kitOnly && kit !== null && kit.length > 0);
+  const visible = $derived(
+    kitActive ? items.filter((s) => kit!.includes(s.key)) : items,
+  );
   let open = $state<string | null>(null);
   let custom = $state("");
 
   const filtered = $derived(
-    items.filter((s) => {
+    visible.filter((s) => {
       const q = query.trim().toLowerCase();
       if (!q) return true;
       return (
@@ -42,6 +51,16 @@
 </script>
 
 <section class="shelf" aria-label="reagent shelf">
+  {#if kit !== null && kit.length > 0}
+    <div class="kit-toggle" role="radiogroup" aria-label="shelf contents">
+      <button role="radio" aria-checked={kitOnly} class:on={kitOnly} onclick={() => (kitOnly = true)}>
+        the kit ({kit.length})
+      </button>
+      <button role="radio" aria-checked={!kitOnly} class:on={!kitOnly} onclick={() => (kitOnly = false)}>
+        everything
+      </button>
+    </div>
+  {/if}
   <input
     type="search"
     placeholder="find a substance…"
@@ -99,6 +118,28 @@
     display: flex;
     flex-direction: column;
     min-height: 0;
+  }
+  .kit-toggle {
+    display: flex;
+    margin: 0.8rem 0.8rem 0;
+    border: 1px solid var(--edge);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .kit-toggle button {
+    flex: 1;
+    background: none;
+    border: 0;
+    color: var(--dim);
+    font: inherit;
+    font-size: 0.78rem;
+    padding: 0.35rem;
+    cursor: pointer;
+    min-height: 36px;
+  }
+  .kit-toggle button.on {
+    background: var(--panel-raised);
+    color: var(--ink);
   }
   input[type="search"] {
     margin: 0.8rem;

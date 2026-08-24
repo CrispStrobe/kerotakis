@@ -40,7 +40,7 @@ fn filtering_separates_the_precipitate_from_the_filtrate() {
     // Make AgCl in solution, then filter: the solid stays, the ions pass.
     let mut bench = Bench::new();
     let mut stack = stack();
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     let (a, b) = (VesselId(0), VesselId(1));
     add(&mut bench, &mut stack, a, "water", 55.51);
     add(&mut bench, &mut stack, a, "NaCl", 0.01);

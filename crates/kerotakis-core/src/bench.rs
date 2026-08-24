@@ -254,9 +254,10 @@ impl Bench {
     ) -> Result<Vec<Event>, BenchError> {
         let mut events = Vec::new();
         match op {
-            Operator::NewVessel => {
+            Operator::NewVessel { kind } => {
+                let label = kind.as_deref().unwrap_or("beaker");
                 let id = VesselId(self.vessels.iter().map(|v| v.id.0 + 1).max().unwrap_or(0));
-                self.vessels.push(Vessel::new(id, "beaker"));
+                self.vessels.push(Vessel::new(id, label));
                 events.push(Event::VesselCreated { vessel: id });
             }
             Operator::Add {
@@ -1799,7 +1800,7 @@ impl Bench {
 /// Which vessels an operator touches (for re-equilibration).
 fn op_touches(op: &Operator) -> Vec<VesselId> {
     match op {
-        Operator::NewVessel => vec![],
+        Operator::NewVessel { .. } => vec![],
         Operator::Add { vessel, .. }
         | Operator::Heat { vessel, .. }
         | Operator::Cool { vessel, .. }

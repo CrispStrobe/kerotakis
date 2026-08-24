@@ -137,6 +137,15 @@ describe("Session", () => {
     expect(s.position).toBe(2);
   });
 
+  it("a lesson's kit is exactly the species its own commands use", () => {
+    const s = new Session(new FakeHost());
+    s.startLesson(
+      "titration",
+      "# neutralise it\nadd v1 water 100mL\nadd v1 HCl 0.1mol\ntitrate v1 NaOH 1M 1mL until ph 7\n",
+    );
+    expect([...s.lesson!.kit].sort()).toEqual(["HCl", "NaOH", "water"]);
+  });
+
   it("walks a lesson: narration to the feed, commands one Next at a time", async () => {
     const host = new FakeHost();
     const s = new Session(host);

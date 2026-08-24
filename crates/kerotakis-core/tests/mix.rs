@@ -5,8 +5,8 @@ use kerotakis_core::*;
 #[test]
 fn mix_transfers_correct_fractions() {
     let mut bench = Bench::new();
-    bench.step(Operator::NewVessel).unwrap(); // v2
-    bench.step(Operator::NewVessel).unwrap(); // v3
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v2
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v3
 
     bench
         .step(Operator::Add {
@@ -81,7 +81,7 @@ fn mix_transfers_correct_fractions() {
 #[test]
 fn mix_rejects_same_source_and_target() {
     let mut bench = Bench::new();
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     bench
         .step(Operator::Add {
             vessel: VesselId(0),
@@ -112,8 +112,8 @@ fn mix_rejects_same_source_and_target() {
 #[test]
 fn mix_rejects_same_sources() {
     let mut bench = Bench::new();
-    bench.step(Operator::NewVessel).unwrap();
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     bench
         .step(Operator::Add {
             vessel: VesselId(0),
@@ -136,8 +136,8 @@ fn mix_rejects_same_sources() {
 #[test]
 fn mix_rejects_bad_fraction() {
     let mut bench = Bench::new();
-    bench.step(Operator::NewVessel).unwrap();
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     bench
         .step(Operator::Add {
             vessel: VesselId(0),
@@ -185,8 +185,8 @@ fn mix_verb_parses() {
 #[test]
 fn mix_adiabatic_temperature_balance() {
     let mut bench = Bench::new();
-    bench.step(Operator::NewVessel).unwrap(); // v2
-    bench.step(Operator::NewVessel).unwrap(); // v3
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v2
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v3
 
     bench
         .step(Operator::Add {

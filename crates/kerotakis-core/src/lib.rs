@@ -151,7 +151,7 @@ mod tests {
     #[test]
     fn decant_conserves_mass_and_enthalpy() {
         let mut bench = Bench::new();
-        bench.step(Operator::NewVessel).unwrap();
+        bench.step(Operator::NewVessel { kind: None }).unwrap();
         let (a, b) = (VesselId(0), VesselId(1));
         bench
             .step(Operator::Add {

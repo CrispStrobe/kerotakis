@@ -9,7 +9,7 @@ use kerotakis_core::*;
 fn bench_with(pairs: &[(&str, f64)]) -> Vec<Event> {
     let mut bench = Bench::new();
     let mut events = Vec::new();
-    events.extend(bench.step(Operator::NewVessel).expect("new"));
+    events.extend(bench.step(Operator::NewVessel { kind: None }).expect("new"));
     for (key, moles) in pairs {
         events.extend(
             bench
@@ -51,8 +51,8 @@ fn ethanol_does_not_layer_on_water() {
 #[test]
 fn draining_takes_the_brine_and_leaves_the_hexane() {
     let mut bench = Bench::new();
-    bench.step(Operator::NewVessel).unwrap();
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     for (key, moles) in [("water", 2.0), ("NaCl", 0.2), ("hexane", 1.0)] {
         bench
             .step(Operator::Add {
@@ -103,8 +103,8 @@ fn draining_takes_the_brine_and_leaves_the_hexane() {
 #[test]
 fn draining_one_phase_is_refused_out_loud() {
     let mut bench = Bench::new();
-    bench.step(Operator::NewVessel).unwrap();
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     for (key, moles) in [("water", 2.0), ("ethanol", 1.0)] {
         bench
             .step(Operator::Add {

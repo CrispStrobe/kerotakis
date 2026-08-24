@@ -29,8 +29,8 @@ fn moles_in(bench: &Bench, vessel: usize, key: &str) -> f64 {
 #[test]
 fn distilling_brine_makes_distilled_water() {
     let (bench, events) = bench_with(&[
-        Operator::NewVessel,
-        Operator::NewVessel,
+        Operator::NewVessel { kind: None },
+        Operator::NewVessel { kind: None },
         Operator::Add {
             vessel: VesselId(1),
             species: SpeciesId::new("water"),
@@ -80,8 +80,8 @@ fn distilling_dilute_ethanol_enriches_the_receiver() {
     // Wine-strength: x_ethanol ≈ 0.06. One stage should lift the receiver
     // well above the pot — that is what a still is for.
     let (bench, events) = bench_with(&[
-        Operator::NewVessel,
-        Operator::NewVessel,
+        Operator::NewVessel { kind: None },
+        Operator::NewVessel { kind: None },
         Operator::Add {
             vessel: VesselId(1),
             species: SpeciesId::new("water"),
@@ -126,8 +126,8 @@ fn the_azeotrope_refuses_to_enrich() {
     // At the azeotrope the vapour is the liquid; the receiver's composition
     // matches the pot and the event says so.
     let (bench, events) = bench_with(&[
-        Operator::NewVessel,
-        Operator::NewVessel,
+        Operator::NewVessel { kind: None },
+        Operator::NewVessel { kind: None },
         Operator::Add {
             vessel: VesselId(1),
             species: SpeciesId::new("ethanol"),
@@ -172,8 +172,8 @@ fn the_azeotrope_refuses_to_enrich() {
 #[test]
 fn distillation_conserves_matter() {
     let (bench, _) = bench_with(&[
-        Operator::NewVessel,
-        Operator::NewVessel,
+        Operator::NewVessel { kind: None },
+        Operator::NewVessel { kind: None },
         Operator::Add {
             vessel: VesselId(1),
             species: SpeciesId::new("water"),
