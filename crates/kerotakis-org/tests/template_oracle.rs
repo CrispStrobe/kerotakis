@@ -123,7 +123,7 @@ fn references_agree_with_the_registry() {
         let (_, f) = key_and_formula(smi);
         assert_eq!(&f, formula, "{id}");
         assert!(
-            species::lookup(&SpeciesId::new(*id)).is_some(),
+            species::lookup(&SpeciesId::new(id)).is_some(),
             "{id} must be in the registry"
         );
     }
