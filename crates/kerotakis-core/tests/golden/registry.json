@@ -1625,5 +1625,97 @@
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; aqueous ion — Cp and density carried by the solvent",
     "spectrum_bands": null,
     "standard_phase": "aqueous"
+  },
+  {
+    "appearance": "translucent white plastic",
+    "colour": {
+      "b": 232,
+      "g": 237,
+      "r": 240,
+      "strength": 0.0
+    },
+    "density": 0.95,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "(C2H4)n",
+    "heat_capacity": 51.0,
+    "inchikey": "",
+    "key": "PE",
+    "molar_mass": 28.054,
+    "name": "polyethylene (HDPE)",
+    "provenance": "Density: CRC Handbook, 97th ed., HDPE 0.94-0.97 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "translucent white plastic",
+    "colour": {
+      "b": 224,
+      "g": 232,
+      "r": 237,
+      "strength": 0.0
+    },
+    "density": 0.9,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "(C3H6)n",
+    "heat_capacity": 73.0,
+    "inchikey": "",
+    "key": "PP",
+    "molar_mass": 42.081,
+    "name": "polypropylene",
+    "provenance": "Density: CRC Handbook, 97th ed., isotactic PP 0.85-0.92 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "clear plastic",
+    "colour": {
+      "b": 240,
+      "g": 232,
+      "r": 216,
+      "strength": 0.0
+    },
+    "density": 1.38,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "(C10H8O4)n",
+    "heat_capacity": 200.0,
+    "inchikey": "",
+    "key": "PET",
+    "molar_mass": 192.17,
+    "name": "polyethylene terephthalate",
+    "provenance": "Density: CRC Handbook, 97th ed., amorphous/semicrystalline PET 1.33-1.45 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "white opaque plastic",
+    "colour": {
+      "b": 245,
+      "g": 245,
+      "r": 245,
+      "strength": 0.0
+    },
+    "density": 1.05,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "(C8H8)n",
+    "heat_capacity": 130.0,
+    "inchikey": "",
+    "key": "PS",
+    "molar_mass": 104.15,
+    "name": "polystyrene",
+    "provenance": "Density: CRC Handbook, 97th ed., general-purpose PS 1.04-1.065 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

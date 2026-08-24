@@ -729,6 +729,42 @@
       "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
       "retrieved": null
+    },
+    {
+      "id": "exp12/PE",
+      "citation": "Density: CRC Handbook, 97th ed., HDPE 0.94-0.97 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+      "licence": "LicenseRef-Kerotakis-Curated",
+      "lane": "experiment_data",
+      "origin": "EXPERIMENTS.md EXP-12",
+      "revision": null,
+      "retrieved": "2026-08-24"
+    },
+    {
+      "id": "exp12/PP",
+      "citation": "Density: CRC Handbook, 97th ed., isotactic PP 0.85-0.92 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+      "licence": "LicenseRef-Kerotakis-Curated",
+      "lane": "experiment_data",
+      "origin": "EXPERIMENTS.md EXP-12",
+      "revision": null,
+      "retrieved": "2026-08-24"
+    },
+    {
+      "id": "exp12/PET",
+      "citation": "Density: CRC Handbook, 97th ed., amorphous/semicrystalline PET 1.33-1.45 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+      "licence": "LicenseRef-Kerotakis-Curated",
+      "lane": "experiment_data",
+      "origin": "EXPERIMENTS.md EXP-12",
+      "revision": null,
+      "retrieved": "2026-08-24"
+    },
+    {
+      "id": "exp12/PS",
+      "citation": "Density: CRC Handbook, 97th ed., general-purpose PS 1.04-1.065 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+      "licence": "LicenseRef-Kerotakis-Curated",
+      "lane": "experiment_data",
+      "origin": "EXPERIMENTS.md EXP-12",
+      "revision": null,
+      "retrieved": "2026-08-24"
     }
   ],
   "identities": [
@@ -2019,6 +2055,70 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "PE",
+      "canonical_key": "",
+      "name": "polyethylene (HDPE)",
+      "identifiers": {
+        "inchikey": ""
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "exp12/PE",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12 polymer species for float/sink density separation"
+        }
+      }
+    },
+    {
+      "id": "PP",
+      "canonical_key": "",
+      "name": "polypropylene",
+      "identifiers": {
+        "inchikey": ""
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "exp12/PP",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12 polymer species for float/sink density separation"
+        }
+      }
+    },
+    {
+      "id": "PET",
+      "canonical_key": "",
+      "name": "polyethylene terephthalate",
+      "identifiers": {
+        "inchikey": ""
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "exp12/PET",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12 polymer species for float/sink density separation"
+        }
+      }
+    },
+    {
+      "id": "PS",
+      "canonical_key": "",
+      "name": "polystyrene",
+      "identifiers": {
+        "inchikey": ""
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "exp12/PS",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12 polymer species for float/sink density separation"
         }
       }
     }
@@ -9826,6 +9926,401 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "composition/PE",
+      "species_id": "PE",
+      "formula": "(C2H4)n",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp12/PE",
+            "method": {
+              "kind": "derived",
+              "detail": "from repeat-unit formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp12/PE",
+            "method": {
+              "kind": "derived",
+              "detail": "from repeat-unit formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp12/PE",
+        "method": {
+          "kind": "derived",
+          "detail": "polymer, uncharged"
+        }
+      },
+      "evidence": {
+        "source_id": "exp12/PE",
+        "method": {
+          "kind": "curated",
+          "detail": "repeat-unit composition"
+        }
+      }
+    },
+    {
+      "id": "composition/PP",
+      "species_id": "PP",
+      "formula": "(C3H6)n",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp12/PP",
+            "method": {
+              "kind": "derived",
+              "detail": "from repeat-unit formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp12/PP",
+            "method": {
+              "kind": "derived",
+              "detail": "from repeat-unit formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp12/PP",
+        "method": {
+          "kind": "derived",
+          "detail": "polymer, uncharged"
+        }
+      },
+      "evidence": {
+        "source_id": "exp12/PP",
+        "method": {
+          "kind": "curated",
+          "detail": "repeat-unit composition"
+        }
+      }
+    },
+    {
+      "id": "composition/PET",
+      "species_id": "PET",
+      "formula": "(C10H8O4)n",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 10.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp12/PET",
+            "method": {
+              "kind": "derived",
+              "detail": "from repeat-unit formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp12/PET",
+            "method": {
+              "kind": "derived",
+              "detail": "from repeat-unit formula"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp12/PET",
+            "method": {
+              "kind": "derived",
+              "detail": "from repeat-unit formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp12/PET",
+        "method": {
+          "kind": "derived",
+          "detail": "polymer, uncharged"
+        }
+      },
+      "evidence": {
+        "source_id": "exp12/PET",
+        "method": {
+          "kind": "curated",
+          "detail": "repeat-unit composition"
+        }
+      }
+    },
+    {
+      "id": "composition/PS",
+      "species_id": "PS",
+      "formula": "(C8H8)n",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp12/PS",
+            "method": {
+              "kind": "derived",
+              "detail": "from repeat-unit formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp12/PS",
+            "method": {
+              "kind": "derived",
+              "detail": "from repeat-unit formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp12/PS",
+        "method": {
+          "kind": "derived",
+          "detail": "polymer, uncharged"
+        }
+      },
+      "evidence": {
+        "source_id": "exp12/PS",
+        "method": {
+          "kind": "curated",
+          "detail": "repeat-unit composition"
+        }
+      }
     }
   ],
   "phase_thermodynamics": [
@@ -17538,6 +18033,366 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/PE",
+      "species_id": "PE",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 28.054,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PE",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: molar_mass per repeat unit"
+        }
+      }
+    },
+    {
+      "id": "molar-heat-capacity/PE",
+      "species_id": "PE",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 51.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PE",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: molar_heat_capacity per repeat unit"
+        }
+      }
+    },
+    {
+      "id": "mass-density/PE",
+      "species_id": "PE",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.95,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PE",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: mass_density per repeat unit"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/PP",
+      "species_id": "PP",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 42.081,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PP",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: molar_mass per repeat unit"
+        }
+      }
+    },
+    {
+      "id": "molar-heat-capacity/PP",
+      "species_id": "PP",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 73.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PP",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: molar_heat_capacity per repeat unit"
+        }
+      }
+    },
+    {
+      "id": "mass-density/PP",
+      "species_id": "PP",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.9,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PP",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: mass_density per repeat unit"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/PET",
+      "species_id": "PET",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 192.17,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PET",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: molar_mass per repeat unit"
+        }
+      }
+    },
+    {
+      "id": "molar-heat-capacity/PET",
+      "species_id": "PET",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 200.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PET",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: molar_heat_capacity per repeat unit"
+        }
+      }
+    },
+    {
+      "id": "mass-density/PET",
+      "species_id": "PET",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.38,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PET",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: mass_density per repeat unit"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/PS",
+      "species_id": "PS",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 104.15,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PS",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: molar_mass per repeat unit"
+        }
+      }
+    },
+    {
+      "id": "molar-heat-capacity/PS",
+      "species_id": "PS",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 130.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PS",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: molar_heat_capacity per repeat unit"
+        }
+      }
+    },
+    {
+      "id": "mass-density/PS",
+      "species_id": "PS",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.05,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PS",
+        "method": {
+          "kind": "curated",
+          "detail": "EXP-12: mass_density per repeat unit"
+        }
+      }
     }
   ],
   "transport": [],
@@ -20181,6 +21036,70 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/PE",
+      "species_id": "PE",
+      "phase": "solid",
+      "appearance": "translucent white plastic",
+      "flame_colour": null,
+      "reflective_srgb": "#F0EDE8",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "exp12/PE",
+        "method": {
+          "kind": "curated",
+          "detail": "visual appearance of common plastic"
+        }
+      }
+    },
+    {
+      "id": "optical/PP",
+      "species_id": "PP",
+      "phase": "solid",
+      "appearance": "translucent white plastic",
+      "flame_colour": null,
+      "reflective_srgb": "#EDE8E0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "exp12/PP",
+        "method": {
+          "kind": "curated",
+          "detail": "visual appearance of common plastic"
+        }
+      }
+    },
+    {
+      "id": "optical/PET",
+      "species_id": "PET",
+      "phase": "solid",
+      "appearance": "clear plastic",
+      "flame_colour": null,
+      "reflective_srgb": "#D8E8F0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "exp12/PET",
+        "method": {
+          "kind": "curated",
+          "detail": "visual appearance of common plastic"
+        }
+      }
+    },
+    {
+      "id": "optical/PS",
+      "species_id": "PS",
+      "phase": "solid",
+      "appearance": "white opaque plastic",
+      "flame_colour": null,
+      "reflective_srgb": "#F5F5F5",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "exp12/PS",
+        "method": {
+          "kind": "curated",
+          "detail": "visual appearance of common plastic"
         }
       }
     }
@@ -23782,6 +24701,270 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/PE",
+      "subject": {
+        "kind": "species",
+        "id": "PE"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp12/PE",
+        "method": {
+          "kind": "derived",
+          "detail": "polymer solid, does not dissolve"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PE",
+      "subject": {
+        "kind": "species",
+        "id": "PE"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PE",
+        "method": {
+          "kind": "curated",
+          "detail": "opaque solid — no solution tint"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/PP",
+      "subject": {
+        "kind": "species",
+        "id": "PP"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp12/PP",
+        "method": {
+          "kind": "derived",
+          "detail": "polymer solid, does not dissolve"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PP",
+      "subject": {
+        "kind": "species",
+        "id": "PP"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PP",
+        "method": {
+          "kind": "curated",
+          "detail": "opaque solid — no solution tint"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/PET",
+      "subject": {
+        "kind": "species",
+        "id": "PET"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp12/PET",
+        "method": {
+          "kind": "derived",
+          "detail": "polymer solid, does not dissolve"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PET",
+      "subject": {
+        "kind": "species",
+        "id": "PET"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PET",
+        "method": {
+          "kind": "curated",
+          "detail": "opaque solid — no solution tint"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/PS",
+      "subject": {
+        "kind": "species",
+        "id": "PS"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp12/PS",
+        "method": {
+          "kind": "derived",
+          "detail": "polymer solid, does not dissolve"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PS",
+      "subject": {
+        "kind": "species",
+        "id": "PS"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp12/PS",
+        "method": {
+          "kind": "curated",
+          "detail": "opaque solid — no solution tint"
         }
       }
     }

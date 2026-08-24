@@ -241,6 +241,9 @@ for main, claim-audit statuses with acceptance evidence.
 - **EXP-12 Plastik** — PE/PP/PET/PS density species; float/sink
   separation quest in water/brine. Acceptance: the four sort by
   density exactly as their data say; provenance per polymer.
+  **Data landed 2026-08-24 (kero-basic):** PE 0.95, PP 0.90,
+  PET 1.38, PS 1.05 g/mL; registry pipeline (safety rows, golden
+  regen, model parameters). Quest authoring remains.
 - **EXP-13 Vitamin C** — ascorbic acid species + curated iodine
   decolorisation + starch indicator. Acceptance: titration-style
   counting of drops to endpoint works; juice-vs-water contrast.
