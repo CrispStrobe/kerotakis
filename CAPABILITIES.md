@@ -1283,6 +1283,28 @@ honest apology.
       (starch-positive without enzyme, starch-negative after),
       three-register rendering. SMILES for maltose.
 
+## CAP-25 — The senses of the bench (the visuals' honest sources)
+
+- [x] Slice 1: **done 2026-08-24** (Fable). The GUI's effects layer
+      renders only what the engine emits — so the engine grew the two
+      sources the ask needed most: **smell** (`smell`/`waft` verb;
+      curated odour rows in `senses.rs` with the qualitative-analysis
+      vocabulary; hazardous vapours warn the way a real bench would;
+      an empty answer is spoken because "odourless" is data — CO2
+      teaches why a nose is not a gas detector) and **Burst** (sealed
+      glassware has a teaching limit, ~4 atm editorial constant; a
+      sealed gas-maker now fails as an event with Danger severity,
+      the seal gone, every vented gas an event, the ledger exact
+      through the bang — the GUI explosion is THIS, never a script).
+      Acceptance: tests/senses.rs.
+      **The apparatus catalog** (user-supplied ~70-item palette)
+      lives in APPARATUS.md, each item classed SKIN / PROP /
+      BEHAVIOR(task): ~45 are drawable today over landed verbs; the
+      remainder map to EXP-8/18/30/31/32/33/34 plus three new small
+      behaviours (reduced-pressure boiling, programmed dosing,
+      accelerated settling). GUI workline: the catalog is the
+      requirements list; visuals are our own.
+
 ## Declined — off-mission, recorded so nobody re-litigates silently
 
 The workbench class serves professional geochemists managing field

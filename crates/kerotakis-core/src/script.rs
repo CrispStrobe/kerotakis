@@ -304,6 +304,10 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 },
             }
         }
+        // `smell v1` — waft, never huff. The taught technique is the verb.
+        "smell" | "waft" => Operator::Smell {
+            vessel: parse_vessel(words.get(1).copied().unwrap_or("v1"))?,
+        },
         // `chromatograph v1` — inject the solution onto the column and
         // read the peak table. Sugar for `measure v1 chromatograph`,
         // first-class because running a separation is a verb in any lab.

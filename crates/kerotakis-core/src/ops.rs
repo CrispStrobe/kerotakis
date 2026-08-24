@@ -147,6 +147,11 @@ pub enum Operator {
     /// Add solvent (water) by volume. The pedagogical complement of
     /// `evaporate`: where evaporate concentrates, dilute spreads.
     Dilute { vessel: VesselId, volume: Liters },
+    /// Waft the vessel's air toward your nose — the taught technique,
+    /// never a direct huff. Reports curated odours of headspace gases
+    /// and volatile species; hazardous vapours come with the warning a
+    /// real bench would enforce.
+    Smell { vessel: VesselId },
     /// Spike a vessel with a tracer amount of a curated radionuclide
     /// (EXP-49). Separate from `Add` because nuclides live in the
     /// nuclide ledger, not the chemical registry.
@@ -472,6 +477,24 @@ pub enum Event {
         /// Fraction of the solute that sat in the lower layer (and so
         /// left with it when the stopcock opened).
         fraction_lower: f64,
+    },
+    /// What a careful waft noticed: species and their curated odour
+    /// words. Empty means "nothing your nose picks out", which for
+    /// many gases is exactly the danger worth teaching.
+    Smelled {
+        vessel: VesselId,
+        notes: Vec<(SpeciesId, String)>,
+    },
+    /// A sealed vessel exceeded what glass can hold. The headspace let
+    /// go: the seal is gone, the gases vented, and the safety line is
+    /// not decorative. The GUI's explosion is THIS event, never a
+    /// script.
+    Burst {
+        vessel: VesselId,
+        /// Pressure at failure, Pa.
+        at_pa: f64,
+        /// The rating it exceeded, Pa.
+        rating_pa: f64,
     },
     /// A radionuclide tracer entered the vessel's nuclide ledger.
     NuclideSpiked {
