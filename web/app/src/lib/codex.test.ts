@@ -48,3 +48,87 @@ describe("the codex checker compares, never computes", () => {
     expect(parseCodexIndex(null)).toEqual([]);
   });
 });
+
+describe("codex grouping for the browsers", () => {
+  const mk = (id: string, concepts: string[], curriculum?: unknown) =>
+    ({
+      id,
+      concepts,
+      curriculum,
+      setup: { script: "new" },
+      expect: {},
+      registers: {},
+    }) as unknown as import("./codex").CodexEntry;
+
+  it("conceptIndex counts and orders, most-taught first", async () => {
+    const { conceptIndex } = await import("./codex");
+    const idx = conceptIndex([
+      mk("a", ["solubility", "equilibrium"]),
+      mk("b", ["solubility"]),
+      mk("c", ["acids"]),
+    ]);
+    expect(idx[0]).toEqual({ concept: "solubility", count: 2 });
+    expect(idx.map((i) => i.concept)).toEqual(["solubility", "acids", "equilibrium"]);
+  });
+
+  it("relatedConcepts ranks co-occurrence, excluding the concept itself", async () => {
+    const { relatedConcepts } = await import("./codex");
+    const entries = [
+      mk("a", ["solubility", "equilibrium"]),
+      mk("b", ["solubility", "equilibrium", "ksp"]),
+      mk("c", ["solubility", "ksp"]),
+      mk("d", ["acids"]),
+    ];
+    expect(relatedConcepts(entries, "solubility")).toEqual(["equilibrium", "ksp"]);
+  });
+
+  it("conceptGraph layers by longest prerequisite chain and survives cycles", async () => {
+    const { conceptGraph } = await import("./codex");
+    const mkq = (id: string, concepts: string[], requires: string[]) =>
+      ({ id, concepts, requires, setup: { script: "new" }, expect: {}, registers: {} }) as never;
+    const g = conceptGraph([
+      mkq("a", ["dissolution"], []),
+      mkq("b", ["equilibrium"], ["dissolution"]),
+      mkq("c", ["ksp"], ["equilibrium", "dissolution"]),
+    ]);
+    const byName = Object.fromEntries(g.nodes.map((n) => [n.concept, n.depth]));
+    expect(byName).toEqual({ dissolution: 0, equilibrium: 1, ksp: 2 });
+    expect(g.edges).toContainEqual({ from: "equilibrium", to: "ksp" });
+    // A cycle parks its members rather than hanging.
+    const cyclic = conceptGraph([mkq("x", ["p"], ["q"]), mkq("y", ["q"], ["p"])]);
+    expect(cyclic.nodes.length).toBe(2);
+  });
+
+  it("metConcepts and entryReady gate on completed runs only", async () => {
+    const { metConcepts, entryReady } = await import("./codex");
+    const mkq = (id: string, concepts: string[], requires: string[]) =>
+      ({ id, concepts, requires, setup: { script: "new" }, expect: {}, registers: {} }) as never;
+    const entries = [
+      mkq("a", ["dissolution"], []),
+      mkq("b", ["equilibrium"], ["dissolution"]),
+    ];
+    const met = metConcepts(entries, new Set(["a"]));
+    expect([...met]).toEqual(["dissolution"]);
+    expect(entryReady(entries[1]!, met)).toBe(true);
+    expect(entryReady(entries[1]!, new Set())).toBe(false);
+  });
+
+  it("curriculumIndex groups system → stage, ordered by age band then name", async () => {
+    const { curriculumIndex } = await import("./codex");
+    const entries = [
+      mk("a", [], [
+        { system: "england", stage: "KS4", ages: { min: 14 }, source: "doc-1" },
+      ]),
+      mk("b", [], [
+        { system: "england", stage: "KS3", ages: { min: 11 }, source: "doc-1" },
+        { system: "bayern", stage: "Jgst. 9", source: "lehrplan" },
+      ]),
+    ];
+    const idx = curriculumIndex(entries);
+    expect(idx.map((s) => s.system)).toEqual(["bayern", "england"]);
+    const england = idx[1]!;
+    expect(england.stages.map((s) => s.stage)).toEqual(["KS3", "KS4"]);
+    expect(england.stages[0]!.entries.map((e) => e.id)).toEqual(["b"]);
+    expect(england.stages[0]!.sources).toEqual(["doc-1"]);
+  });
+});

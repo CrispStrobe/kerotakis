@@ -40,6 +40,16 @@ class FakeHost implements EngineHost {
   async relations() {
     return [];
   }
+  /** Set to true to model an engine predating snapshots. */
+  noSnapshots = false;
+  async snapshot(): Promise<string> {
+    if (this.noSnapshots) throw new Error("no snapshot support");
+    this.calls.push("snapshot");
+    return `snap@${this.calls.filter((c) => c === "snapshot").length}`;
+  }
+  async restore(snapshot: string): Promise<void> {
+    this.calls.push(`restore:${snapshot}`);
+  }
   async calc() {
     return { ok: false as const, error: "not in the fake" };
   }
@@ -110,8 +120,36 @@ describe("Session", () => {
     expect(s.exportLab()).toBe("add v1 water 100mL\nadd v1 NaCl 1g\n");
   });
 
-  it("undo/redo/scrub are one cursor over a replayed log", async () => {
+  it("undo/redo/scrub restore snapshots in O(1), with replay as fallback", async () => {
     const host = new FakeHost();
+    const s = new Session(host);
+    await s.submit("add v1 water 100mL");
+    await s.submit("add v1 NaCl 1g");
+    host.calls.length = 0;
+
+    // Each submit snapshotted its position, so the cursor RESTORES.
+    await s.undo();
+    expect(host.calls).toEqual(["restore:snap@1", "scene"]);
+    // The log survives; only the cursor moved.
+    expect(s.commandLog).toHaveLength(2);
+    expect(s.position).toBe(1);
+
+    await s.redo();
+    expect(s.position).toBe(2);
+    expect(host.calls.slice(2)).toEqual(["restore:snap@2", "scene"]);
+
+    await s.jumpTo(0);
+    expect(s.position).toBe(0);
+    // No snapshot at position 0: reset then a plain scene fetch.
+    expect(host.calls.slice(4)).toEqual(["reset", "scene"]);
+
+    await s.jumpTo(0); // no-op at the same position
+    expect(host.calls).toHaveLength(6);
+  });
+
+  it("an engine without snapshots keeps the replay path", async () => {
+    const host = new FakeHost();
+    host.noSnapshots = true;
     const s = new Session(host);
     await s.submit("add v1 water 100mL");
     await s.submit("add v1 NaCl 1g");
@@ -119,21 +157,6 @@ describe("Session", () => {
 
     await s.undo();
     expect(host.calls).toEqual(["reset", "run:add v1 water 100mL"]);
-    // The log survives; only the cursor moved.
-    expect(s.commandLog).toHaveLength(2);
-    expect(s.position).toBe(1);
-
-    await s.redo();
-    expect(s.position).toBe(2);
-    expect(host.calls.slice(2)).toEqual(["reset", "run:add v1 water 100mL\nadd v1 NaCl 1g"]);
-
-    await s.jumpTo(0);
-    expect(s.position).toBe(0);
-    // Empty prefix: reset then a plain scene fetch, no replay.
-    expect(host.calls.slice(4)).toEqual(["reset", "scene"]);
-
-    await s.jumpTo(0); // no-op at the same position
-    expect(host.calls).toHaveLength(6);
   });
 
   it("a new command mid-history truncates the undone future", async () => {
@@ -188,6 +211,9 @@ describe("Session", () => {
           events: [
             { event: "precipitated", vessel: 0, species: "AgCl", moles: 0.01 },
             { event: "electrolysed", vessel: 1, species: "Cu", coulombs: 900 },
+            { event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.002 },
+            { event: "titrated", vessel: 1, added_ml: 12.4 },
+            { event: "mixed", vessel: 1 },
             { event: "solution_characterized", vessel: 0, ph: 7 },
           ],
           rendered: ["It went cloudy!"],
@@ -197,8 +223,8 @@ describe("Session", () => {
     });
     const s = new Session(host);
     await s.submit("add v1 AgNO3 1.7g");
-    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["precipitate"]);
-    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse"]);
+    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["precipitate", "vent"]);
+    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse", "drip", "swirl"]);
   });
 
   it("the latest rendered equation is pinned for the strip", async () => {

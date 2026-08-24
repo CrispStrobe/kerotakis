@@ -116,6 +116,30 @@ for (const file of lessons) {
     if (lab.state() !== before) fail(file, "parse mutated the bench");
 }
 
+// --- snapshot / restore (O(1) undo) --------------------------------------
+// A snapshot taken mid-session, restored after further work, must give
+// back the exact state it captured — restore is replay's equal, or undo
+// silently lies.
+{
+    const lab = new Lab();
+    lab.runScript("new\nadd v1 water 100mL\nadd v1 NaCl 1g");
+    const snap = lab.snapshot();
+    const stateAt = lab.state();
+    lab.runScript("add v1 KMnO4 1pinch\nnew flask");
+    checks++;
+    if (lab.state() === stateAt) fail("snapshot", "further work did not change state (test is vacuous)");
+    lab.restore(snap);
+    checks++;
+    if (lab.state() !== stateAt) fail("restore", "restored state differs from the captured one");
+    checks++;
+    let refused = false;
+    try { lab.restore("{ not json"); } catch { refused = true; }
+    if (!refused) fail("restore", "a garbage snapshot must refuse, not corrupt the bench");
+    // And the bench still works after the refusal.
+    lab.runScript("add v1 water 10mL");
+    console.log("snapshot/restore: round-trip exact, garbage refused");
+}
+
 // --- relations / calc (GUI-027) -----------------------------------------
 // The catalogue rows must be form-buildable, and an evaluation must come
 // back with value, unit, provenance, and all three registers — or an

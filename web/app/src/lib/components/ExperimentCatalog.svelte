@@ -1,22 +1,57 @@
 <script lang="ts">
-  import { checkExpect, type CheckResult, type CodexEntry } from "../codex";
+  import {
+    checkExpect,
+    conceptIndex,
+    curriculumIndex,
+    relatedConcepts,
+    type CheckResult,
+    type CodexEntry,
+  } from "../codex";
   import type { Session } from "../session.svelte";
 
   let {
     entries,
     session,
     onclose,
+    initial = null,
   }: {
     entries: CodexEntry[];
     session: Session;
     onclose: () => void;
+    /** Open directly on one entry (the concept map hands entries over). */
+    initial?: CodexEntry | null;
   } = $props();
 
-  let open = $state<CodexEntry | null>(null);
+  let open = $state<CodexEntry | null>(initial);
   let tab = $state<"theory" | "procedure" | "run">("theory");
   let predicted = $state<number | null>(null);
   let result = $state<CheckResult | null>(null);
   let running = $state(false);
+
+  /** The catalog's three doors: everything, by concept, by curriculum. */
+  let view = $state<"all" | "concepts" | "curriculum">("all");
+  let filter = $state("");
+  let concept = $state<string | null>(null);
+  const concepts = $derived(conceptIndex(entries));
+  const curricula = $derived(curriculumIndex(entries));
+  const related = $derived(concept ? relatedConcepts(entries, concept).slice(0, 8) : []);
+  const shown = $derived.by(() => {
+    let list = entries;
+    if (view === "concepts" && concept) {
+      list = list.filter((e) => e.concepts?.includes(concept!));
+    }
+    const q = filter.trim().toLowerCase();
+    if (q) {
+      list = list.filter(
+        (e) =>
+          e.id.includes(q) ||
+          (e.equation ?? "").toLowerCase().includes(q) ||
+          (e.summary ?? "").toLowerCase().includes(q) ||
+          e.concepts?.some((c) => c.includes(q)),
+      );
+    }
+    return list;
+  });
 
   function openEntry(e: CodexEntry) {
     open = e;
@@ -44,6 +79,8 @@
     try {
       const observed = await session.runExperiment(open.setup.script);
       result = checkExpect(open.expect ?? {}, observed, session.finalStateForCheck());
+      // A green check is learner progress: it feeds the concept map.
+      if (result.allOk) session.markExperimentDone(open.id);
     } finally {
       running = false;
     }
@@ -62,16 +99,89 @@
         <span class="hint">{entries.length} from the codex — each one computed, checked, and yours to break</span>
         <button class="close" onclick={onclose}>close</button>
       </header>
-      <ul class="list">
-        {#each entries as e (e.id)}
-          <li>
-            <button class="entry" onclick={() => openEntry(e)}>
-              <strong>{e.id.replace(/-/g, " ")}</strong>
-              <span class="eq">{e.equation ?? e.summary ?? ""}</span>
-            </button>
-          </li>
+      <nav class="tabs">
+        {#each [["all", "all"], ["concepts", "by concept"], ["curriculum", "by curriculum"]] as [key, label] (key)}
+          <button class:on={view === key} onclick={() => (view = key as typeof view)}>{label}</button>
         {/each}
-      </ul>
+        <input
+          class="filter"
+          type="search"
+          placeholder="filter…"
+          bind:value={filter}
+          aria-label="filter experiments"
+        />
+      </nav>
+
+      {#if view === "concepts"}
+        <div class="chips" role="group" aria-label="concepts">
+          {#each concepts as c (c.concept)}
+            <button
+              class="chip"
+              class:on={concept === c.concept}
+              onclick={() => (concept = concept === c.concept ? null : c.concept)}
+            >
+              {c.concept.replace(/-/g, " ")} <small>{c.count}</small>
+            </button>
+          {/each}
+          {#if concepts.length === 0}
+            <p class="empty">these entries name no concepts yet</p>
+          {/if}
+        </div>
+        {#if concept && related.length > 0}
+          <p class="meta">
+            taught alongside:
+            {#each related as r, i (r)}
+              <button class="link" onclick={() => (concept = r)}>{r.replace(/-/g, " ")}</button
+              >{i < related.length - 1 ? ", " : ""}
+            {/each}
+          </p>
+        {/if}
+      {/if}
+
+      {#if view === "curriculum"}
+        {#if curricula.length === 0}
+          <p class="empty">no curriculum placements in this export yet</p>
+        {/if}
+        {#each curricula as sys (sys.system)}
+          <section class="system">
+            <h3>{sys.system.replace(/-/g, " ")}</h3>
+            {#each sys.stages as st (st.stage)}
+              <details>
+                <summary>
+                  {st.stage} <small>{st.entries.length}</small>
+                </summary>
+                <ul class="list">
+                  {#each st.entries as e (e.id)}
+                    <li>
+                      <button class="entry" onclick={() => openEntry(e)}>
+                        <strong>{e.id.replace(/-/g, " ")}</strong>
+                        <span class="eq">{e.equation ?? e.summary ?? ""}</span>
+                      </button>
+                    </li>
+                  {/each}
+                </ul>
+                {#if st.sources.length > 0}
+                  <p class="meta">placed per: {st.sources.join("; ")}</p>
+                {/if}
+              </details>
+            {/each}
+          </section>
+        {/each}
+      {:else}
+        <ul class="list">
+          {#each shown as e (e.id)}
+            <li>
+              <button class="entry" onclick={() => openEntry(e)}>
+                <strong>{e.id.replace(/-/g, " ")}</strong>
+                <span class="eq">{e.equation ?? e.summary ?? ""}</span>
+              </button>
+            </li>
+          {/each}
+          {#if shown.length === 0}
+            <li><p class="empty">nothing matches that filter</p></li>
+          {/if}
+        </ul>
+      {/if}
     {:else}
       <header>
         <button class="back" onclick={() => (open = null)}>←</button>
@@ -345,5 +455,68 @@
   }
   .verdict li.ok {
     color: var(--good);
+  }
+  .filter {
+    margin-left: auto;
+    background: var(--panel);
+    border: 1px solid var(--edge);
+    border-radius: 999px;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.8rem;
+    min-width: 8rem;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin: 0.5rem 0;
+  }
+  .chip {
+    background: var(--panel);
+    border: 1px solid var(--edge);
+    border-radius: 999px;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.78rem;
+    padding: 0.2rem 0.7rem;
+    cursor: pointer;
+  }
+  .chip.on {
+    border-color: var(--hot);
+  }
+  .chip small {
+    color: var(--dim);
+  }
+  .link {
+    background: none;
+    border: 0;
+    color: var(--cool);
+    font: inherit;
+    font-size: inherit;
+    padding: 0;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .empty {
+    color: var(--dim);
+    font-size: 0.8rem;
+  }
+  .system h3 {
+    font-size: 0.85rem;
+    margin: 0.7rem 0 0.2rem;
+    text-transform: capitalize;
+  }
+  details {
+    border-bottom: 1px solid var(--edge);
+    padding: 0.25rem 0;
+  }
+  summary {
+    cursor: pointer;
+    font-size: 0.85rem;
+  }
+  summary small {
+    color: var(--dim);
   }
 </style>

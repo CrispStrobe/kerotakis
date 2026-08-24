@@ -23,6 +23,7 @@
   import ExperimentCatalog from "./lib/components/ExperimentCatalog.svelte";
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
+  import ConceptMap from "./lib/components/ConceptMap.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
 
   // In the Tauri shell the engine is native and in-process; on the web it
@@ -86,6 +87,9 @@
   let helpOpen = $state(false);
   let tableOpen = $state(false);
   let toolboxOpen = $state(false);
+  let mapOpen = $state(false);
+  /** An entry handed from the map straight to the experiment page. */
+  let catalogInitial = $state<CodexEntry | null>(null);
   let catalogOpen = $state(false);
   /** A tapped badge, magnified (the visual bar's reading inset). */
   let inset = $state<{ vessel: number; reading: { key: string; value: number; confidence: string } } | null>(null);
@@ -179,6 +183,7 @@
       helpOpen = true;
     } else if (e.key === "Escape") {
       if (inset) inset = null;
+      else if (mapOpen) mapOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
       else session.closeInspector();
@@ -312,6 +317,9 @@
   {#if codexEntries.length > 0}
     <button class="tool" onclick={() => (catalogOpen = true)} title="codex experiments: predict, run, check">
       experiments
+    </button>
+    <button class="tool" onclick={() => (mapOpen = true)} title="the concept map: what you have met, what is ready">
+      map
     </button>
   {/if}
   <a class="console-link" href="../">console</a>
@@ -469,7 +477,24 @@
   <ExperimentCatalog
     entries={codexEntries}
     {session}
-    onclose={() => (catalogOpen = false)}
+    initial={catalogInitial}
+    onclose={() => {
+      catalogOpen = false;
+      catalogInitial = null;
+    }}
+  />
+{/if}
+
+{#if mapOpen}
+  <ConceptMap
+    entries={codexEntries}
+    {session}
+    onopenentry={(e) => {
+      mapOpen = false;
+      catalogInitial = e;
+      catalogOpen = true;
+    }}
+    onclose={() => (mapOpen = false)}
   />
 {/if}
 

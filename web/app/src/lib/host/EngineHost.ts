@@ -141,6 +141,10 @@ export interface EngineHost {
     | { ok: true; value: number; unit: string; provenance: string; lv1: string; lv2: string; lv3: string }
     | { ok: false; error: string }
   >;
+  /** The bench as an opaque restorable token (O(1) undo/scrub). */
+  snapshot(): Promise<string>;
+  /** Replace the bench with a `snapshot()` token; session state survives. */
+  restore(snapshot: string): Promise<void>;
   setRegister(level: string): Promise<void>;
   scene(): Promise<Scene>;
   state(): Promise<unknown>;

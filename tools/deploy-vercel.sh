@@ -27,3 +27,10 @@ VERCEL_TOKEN="$(grep '^VERCEL_TOKEN=' ~/.env | cut -d= -f2-)"
 cd "$PAYLOAD"
 npx --yes vercel deploy --token "$VERCEL_TOKEN" --scope "$SCOPE" --yes $PROD 2>&1 \
     | tee /tmp/kero-vercel-deploy.log | tail -5
+
+# The CLI can print "Error: …" (rate limits, auth) and still exit 0 —
+# a capped deploy must not masquerade as a shipped one.
+if grep -q '^Error:' /tmp/kero-vercel-deploy.log; then
+    echo "deploy FAILED (see /tmp/kero-vercel-deploy.log)"
+    exit 1
+fi

@@ -57,6 +57,9 @@ export interface StorageLike {
 }
 
 const SAVE_KEY = "kero.session.v1";
+/** Learner progress: ids of codex entries whose run checked out. Kept
+ * apart from the bench save — clearing the bench must not unlearn. */
+const DONE_KEY = "kero.codex.done.v1";
 
 export class Session {
   register = $state<string>("lv1");
@@ -67,6 +70,30 @@ export class Session {
   canSolve = $state(false);
   /** Engine identity from hello (GUI-001): "0.0.1 @ abc1234" or null. */
   engineIdentity = $state<string | null>(null);
+  /** Codex entries this learner has run to a green check (GUI-053). */
+  completedExperiments = $state<ReadonlySet<string>>(new Set());
+
+  /**
+   * Bench snapshots keyed by log position: undo/scrub restores in O(1)
+   * instead of replaying. A missing key falls back to replay; a key must
+   * therefore NEVER outlive the prefix it was taken after — truncation
+   * and clear drop the affected entries. Not reactive, not persisted.
+   */
+  private snapshots = new Map<number, string>();
+  private static readonly SNAPSHOT_CAP = 40;
+
+  private async takeSnapshot(position: number): Promise<void> {
+    try {
+      this.snapshots.set(position, await this.host.snapshot());
+      // Evict oldest-inserted beyond the cap; replay covers the rest.
+      while (this.snapshots.size > Session.SNAPSHOT_CAP) {
+        const oldest = this.snapshots.keys().next().value as number;
+        this.snapshots.delete(oldest);
+      }
+    } catch {
+      // An engine without snapshots simply keeps the replay path.
+    }
+  }
   /** Successful chemistry commands, in order — the session's .lab script. */
   commandLog = $state<string[]>([]);
   /**
@@ -134,6 +161,7 @@ export class Session {
           text: `the aqueous engine failed to attach: ${hello.aqueous_note}`,
         });
       }
+      this.restoreProgress();
       await this.restore();
       // One patient retry: a slow engine download must degrade to a wait,
       // never to a bench that stays "warming up" forever.
@@ -228,6 +256,7 @@ export class Session {
       await this.host.reset();
       this.commandLog = [];
       this.position = 0;
+      this.snapshots.clear();
       this.storage?.removeItem(SAVE_KEY);
       this.scene = await this.host.scene();
       this.inspector = null;
@@ -304,10 +333,14 @@ export class Session {
       // A command issued mid-history truncates the undone future first.
       if (this.position < this.commandLog.length) {
         this.commandLog = this.commandLog.slice(0, this.position);
+        for (const k of [...this.snapshots.keys()]) {
+          if (k > this.position) this.snapshots.delete(k);
+        }
       }
       this.commandLog.push(trimmed);
       this.position = this.commandLog.length;
       this.persist();
+      await this.takeSnapshot(this.position);
       // The inspected vessel's detail is stale after any step.
       if (this.inspector) await this.inspect(this.inspector.vessel);
       return true;
@@ -358,6 +391,11 @@ export class Session {
       ignited: "ignite",
       evaporated: "evaporate",
       distilled: "evaporate",
+      gas_evolved: "vent",
+      titrated: "drip",
+      mixed: "swirl",
+      diluted: "swirl",
+      flame_test: "ignite",
     };
     const kind = EFFECTS[String(event?.event ?? "")];
     if (!kind) return;
@@ -411,12 +449,21 @@ export class Session {
     this.busy = true;
     const prefix = this.commandLog.slice(0, target);
     try {
-      await this.host.reset();
-      if (prefix.length > 0) {
-        const replay = await this.host.runScript(prefix.join("\n"));
-        if (replay.scene) this.scene = replay.scene;
-      } else {
+      // O(1) path first: a snapshot taken at this position restores in
+      // one call. Replay stays as the fallback and the semantics — a
+      // restore must be indistinguishable from replaying the prefix.
+      const snap = this.snapshots.get(target);
+      if (snap !== undefined) {
+        await this.host.restore(snap);
         this.scene = await this.host.scene();
+      } else {
+        await this.host.reset();
+        if (prefix.length > 0) {
+          const replay = await this.host.runScript(prefix.join("\n"));
+          if (replay.scene) this.scene = replay.scene;
+        } else {
+          this.scene = await this.host.scene();
+        }
       }
       const was = this.position;
       this.position = target;
@@ -540,6 +587,33 @@ export class Session {
 
   closeInspector(): void {
     this.inspector = null;
+  }
+
+  /** Record a codex entry whose bench run agreed with its claims. */
+  markExperimentDone(id: string): void {
+    if (this.completedExperiments.has(id)) return;
+    const next = new Set(this.completedExperiments);
+    next.add(id);
+    this.completedExperiments = next;
+    try {
+      this.storage?.setItem(DONE_KEY, JSON.stringify([...next]));
+    } catch {
+      // Progress persistence is a convenience, never a requirement.
+    }
+  }
+
+  /** Load learner progress; called from connect, harmless without storage. */
+  restoreProgress(): void {
+    try {
+      const raw = this.storage?.getItem(DONE_KEY);
+      if (!raw) return;
+      const ids = JSON.parse(raw) as unknown;
+      if (Array.isArray(ids)) {
+        this.completedExperiments = new Set(ids.filter((i) => typeof i === "string"));
+      }
+    } catch {
+      // A corrupt progress blob reads as no progress, not a crash.
+    }
   }
 
   /** The named-relations catalogue (GUI-027's toolbox drawer). */

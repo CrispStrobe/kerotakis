@@ -72,6 +72,8 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 | `species` | existing | `{}` → shelf list: key, name, formula, phase, appearance, provenance — plus the visual fields (additive, 2026-08-24): `srgb` (reflective colour), `solution_srgb` (computed 0.1 M / 1 cm transmitted tint), `flame` (characteristic flame-colour word). Hazard classes join when the safety-matrix export lands. |
 | `look` / `inspect` / `particles` | existing (`Lab` methods, not yet WorkerCommands) | `{ vessel }` → observation / `{rendered, vessel}` / `{census, rendered}`. |
 | `reset` | existing | `{}` → `{}`. Bench only; session (register, packs, cache) survives. |
+| `snapshot` | done (O(1) undo) | `{}` → `{ snapshot }` — the bench as an OPAQUE token (today: `Bench` serde JSON; clients must not parse it). Session state is not in it. |
+| `restore` | done (O(1) undo) | `{ snapshot }` → `{}`. Replace the bench with a `snapshot` token; must be indistinguishable from replaying the prefix the snapshot was taken after. Session survives, exactly like `reset`. |
 | `load_cache` / `load_pack` | existing | per WEB-002/WEB-003; pack manifests are signed per LIC-009. |
 | `cancel` | existing (needs `target`) | terminal `cancelled` for the target id. |
 
