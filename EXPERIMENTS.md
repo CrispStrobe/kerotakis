@@ -90,13 +90,13 @@ on what the learner actually does. Design:
 
 # Part 2: the aqueous virtual-lab problem collection (audit 2026-08-24)
 
-A second corpus, user-supplied: ~40 problems from a public NSF-funded
-university virtual-lab collection, spanning stoichiometry through
-analytical chemistry. **License boundary first:** that collection is
-CC BY-NC-ND — its problem texts and scenarios must never be copied or
-adapted into this repo. What is audited here is the *capability
-class* of each problem; our own problems get written against those
-classes from scratch.
+A second corpus: ~40 classic quantitative-chemistry teaching
+problems, spanning stoichiometry through analytical chemistry.
+**Rule first:** no external problem texts, scenarios, or data are
+ever copied or adapted into this repo, from anywhere. What is audited
+here is the *capability class* of each problem; our own problems get
+written against those classes from scratch. The source does not
+matter and is deliberately not named.
 
 This corpus sits closer to the engine's core than Part 1: it is
 almost entirely aqueous quantitative chemistry. Several of its
@@ -181,8 +181,8 @@ can honestly grow into.
 # Part 3: the task registry (EXP numbers are stable identifiers)
 
 The audits above become work here. Rules restated because they are
-load-bearing: **ideas, concepts, and task-classes only — never the
-CC BY-NC-ND collection's texts, scenarios, or data**; every problem
+load-bearing: **ideas, concepts, and task-classes only — never any external
+collection's texts, scenarios, or data**; every problem
 we ship is written from scratch against the capability class. EXP
 numbers are never re-bound (same law as CAP/OPT). Every task follows
 the established discipline: registry pipeline for new species (safety
