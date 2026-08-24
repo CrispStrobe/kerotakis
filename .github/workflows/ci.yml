@@ -252,6 +252,11 @@ jobs:
     needs: demo
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    # One Pages deployment at a time, queued not cancelled — two racing
+    # deployers is exactly the 400 "in progress deployment" failure.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     permissions:
       pages: write
       id-token: write

@@ -67,13 +67,13 @@ const url = `http://127.0.0.1:${PORT}/index.html?r1=1#run=${encodeURIComponent(S
 // claimed.
 const profile = mkdtempSync(join(tmpdir(), "kero-profile-"));
 
-async function render(bin) {
+async function render(bin, target = url) {
     return new Promise((res, rej) => {
         const p = spawn(bin, [
             "--headless=new", "--disable-gpu", "--no-sandbox",
             "--no-first-run", "--no-default-browser-check",
             `--user-data-dir=${profile}`,
-            "--virtual-time-budget=120000", "--dump-dom", url,
+            "--virtual-time-budget=120000", "--dump-dom", target,
         ]);
         let dom = "";
         let done = false;
@@ -120,6 +120,13 @@ if (dom === null) {
     process.exit(2);
 }
 
+// The bench app is a different page with a different failure surface:
+// its worker must download the engine and attach the solver before the
+// scene renders. Both of the app's shipped regressions — the init race
+// that stranded "warming up…", and the silent solver-attach failure that
+// turned every experiment white — are visible in this one DOM.
+const appDom = await render(chrome, `http://127.0.0.1:${PORT}/app/index.html`);
+
 // Second render: the server is gone, the cache is all there is.
 server.close();
 const offlineDom = await render(chrome);
@@ -139,6 +146,15 @@ const check = (name, cond) => {
 
 const status = /<span id="status" class="(\w+)">([^<]*)</.exec(dom);
 check("the page reports a live engine", status?.[1] === "live");
+
+// --- The bench app (web/app) -------------------------------------------
+check("the app rendered the bench (scene arrived)", /class="[^"]*vessel/.test(appDom));
+check("the app is not stuck warming up", !/warming up/.test(appDom));
+check("the app's aqueous engine attached (status: live)", />\s*live\s*</.test(appDom));
+check(
+    "no engine-loading failure surfaced in the app",
+    !/engine is not loaded|failed to attach|failed to load/.test(appDom),
+);
 check("nothing threw across the bridge", !/threw|did not start/.test(transcript));
 check("no solver failed", !/solver '[^']*' failed/.test(transcript));
 // The marquee result: silver and chloride find each other.
