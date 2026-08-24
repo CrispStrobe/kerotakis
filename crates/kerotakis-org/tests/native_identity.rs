@@ -41,8 +41,11 @@ fn registry_inchikeys_are_recomputed_and_match() {
 #[test]
 fn the_tranche_only_grows_deliberately() {
     assert_eq!(
+        // 76 → 80 (2026-08-25, EXP-30): the four qualitative-analysis
+        // hydroxides — Fe(OH)2, Fe(OH)3, Mg(OH)2, Zn(OH)2 — precipitate
+        // now, so their registry identities need the native check.
         CURATED_STRUCTURES.len(),
-        76,
+        80,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );

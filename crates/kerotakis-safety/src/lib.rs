@@ -111,6 +111,10 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "S"
         | "SO2"
         | "Cu(OH)2"
+        | "Fe(OH)2"
+        | "Fe(OH)3"
+        | "Mg(OH)2"
+        | "Zn(OH)2"
         | "CuO"
         | "Na+"
         | "Cl-"
@@ -194,6 +198,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "Fe",
     "Fe+2",
     "Fe+3",
+    "Fe(OH)2",
+    "Fe(OH)3",
     "FeSO4",
     "H2",
     "H2O2",
@@ -212,6 +218,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "KNO3",
     "Mg",
     "Mg+2",
+    "Mg(OH)2",
     "MgO",
     "MgSO4",
     "Mn+2",
@@ -246,6 +253,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "SO4-2",
     "Sr+2",
     "Zn",
+    "Zn(OH)2",
     "Zn+2",
     "ZnSO4",
     "amylase",

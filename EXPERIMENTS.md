@@ -338,7 +338,23 @@ What follows is only what is genuinely NEW.
 ## New tasks (EXP numbers continue; same laws apply)
 
 - **EXP-30 — Qualitative inorganic analysis** (the crown of the
-  school analytical canon; "salt analysis"). The INST-008
+  school analytical canon; "salt analysis"). FIRST SLICE LANDED
+  (2026-08-25): the hydroxide precipitation matrix computes — Cu²⁺,
+  Fe³⁺, Fe²⁺, Mg²⁺, Zn²⁺, Ca²⁺ with NaOH; AgCl from chloride;
+  CO₂ effervescence from carbonate; the dilute-PbCl₂ non-verdict —
+  pinned in `kerotakis-phreeqc/tests/qualitative.rs`. Getting Fe²⁺
+  to give the *green* hydroxide (and not the ferric one) forced four
+  engine repairs: per-database polymorph translation (Ferrihydrite ↔
+  Fe(OH)3(a)), a reviewed foreign-phase injection (wateq4f has no
+  ferrous hydroxide at all), state-reachability admission for
+  uncoupled redox elements, and in-solve oxidation-state pinning so
+  phantom redistribution stops leaking water (order-independence
+  guarded by the displacement metamorphic test). STILL OPEN: NH3/SO2
+  gas test observables (EXP-31 overlap), flame tests wiring,
+  sealed-unknown salt quests, BaCl2 sulfate row, MIX-path parity
+  (the MIX input builder still filters phases to native names, so
+  polymorph translation and foreign injection do not apply when two
+  solutions are combined by fraction). The INST-008
   `QualitativeTest`/`QualitativeResult` types exist unwired. Scope:
   the classic scheme as computed chemistry — cation tests (NaOH/NH3
   precipitation with excess behaviour), anion tests (AgNO3 halide
