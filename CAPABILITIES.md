@@ -1282,6 +1282,18 @@ honest apology.
       consumed, element conservation, Lugol assay contrast
       (starch-positive without enzyme, starch-negative after),
       three-register rendering. SMILES for maltose.
+- **EXP-43 Clock kinetics (iodine-clock class):** two curated kinetic
+      rate laws joining the landed thiosulfate clock: iodide–peroxide
+      `H₂O₂ + 2 KI → I₂ + 2 KOH` (acid-catalysed, first order in
+      each, Ea 56 kJ/mol) and iodate–bisulfite Landolt
+      `KIO₃ + 3 NaHSO₃ → KI + 3 NaHSO₄` (first order in each,
+      Ea 48 kJ/mol). Four new registry species: KI, KIO₃, NaHSO₃,
+      NaHSO₄. Safety: KI as ReducingAgent, KIO₃ as OxidizerStrong,
+      NaHSO₃ as ReducingAgent, NaHSO₄ as AcidStrong. SMILES for all
+      four. 12 tests: registry lookup, I₂ production, concentration
+      doubling, temperature acceleration, clock time in practical
+      range, product formation, bisulfite consumption, network
+      conservation lint.
 
 ## CAP-25 — The senses of the bench (the visuals' honest sources)
 

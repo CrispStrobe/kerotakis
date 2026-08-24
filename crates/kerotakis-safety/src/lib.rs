@@ -51,7 +51,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
     match species_key {
         // ── strong acids ──────────────────────────────────────────
         "HCl" | "HI" => &[AcidStrong],
-        "H2SO4" => &[AcidStrong],
+        "H2SO4" | "NaHSO4" => &[AcidStrong],
 
         // ── strong bases ──────────────────────────────────────────
         "NaOH" => &[BaseStrong],
@@ -61,7 +61,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
 
         // ── strong oxidizers ──────────────────────────────────────
         "H2O2" => &[OxidizerStrong],
-        "KMnO4" => &[OxidizerStrong],
+        "KMnO4" | "KIO3" => &[OxidizerStrong],
         "Cl2" | "I2" => &[OxidizerStrong],
         "MnO4-" => &[OxidizerStrong],
 
@@ -69,8 +69,9 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "NaOCl" => &[OxidizerHypochlorite],
 
         // ── reducing agents ───────────────────────────────────────
-        "Na2SO3" => &[ReducingAgent],
+        "Na2SO3" | "NaHSO3" => &[ReducingAgent],
         "Na2S2O3" => &[ReducingAgent],
+        "KI" => &[ReducingAgent],
         "ascorbic_acid" => &[ReducingAgent],
 
         // ── active metals (above H in activity series) ────────────
@@ -205,6 +206,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "I2",
     "K+",
     "KCl",
+    "KI",
+    "KIO3",
     "KMnO4",
     "KNO3",
     "Mg",
@@ -227,6 +230,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "NaCl",
     "NaNO3",
     "NaHCO3",
+    "NaHSO3",
+    "NaHSO4",
     "NaOAc",
     "NaOCl",
     "KOH",

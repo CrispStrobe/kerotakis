@@ -1,0 +1,79 @@
+# EXP-43: the iodine-clock experiment — timing a reaction and proving
+# what makes it faster. Two routes to completion: the iodide–peroxide
+# clock (H₂O₂ + KI) or the iodate–bisulfite Landolt clock (KIO₃ +
+# NaHSO₃). Either one satisfies the claims; both can be run, and the
+# comparison is the real lesson.
+id = "iodine-clock"
+
+[title]
+lv1 = "The iodine clock"
+lv2 = "The iodine clock: how fast and why"
+lv3 = "Clock-reaction kinetics: concentration and temperature dependence of curated rate laws"
+
+[goal]
+lv1 = "Mix something that makes I₂ appear — then prove you can make it faster or slower."
+lv2 = "Run an iodine-clock reaction, then show that changing concentration or temperature changes the clock time. Two different clock chemistries are on the shelf; either one counts."
+lv3 = "Produce I₂ via a curated kinetic rate law (iodide–peroxide or iodate–bisulfite), then demonstrate the concentration dependence (first order) or the temperature dependence (Arrhenius) by comparing two runs. Claims complete in any order."
+
+[[nudges]]
+id = "added-ki"
+when = "added:KI"
+[nudges.say]
+lv1 = "Iodide is in — it wants something to oxidise it."
+lv2 = "KI is a reducing agent. What oxidises iodide to iodine? The shelf has peroxide."
+lv3 = "Iodide (I⁻) is oxidised to I₂ by hydrogen peroxide in acidic solution: rate = k·[H₂O₂]·[KI]·[H⁺]. Needs acid — add H₂SO₄ and wait."
+
+[[nudges]]
+id = "added-kio3"
+when = "added:KIO3"
+[nudges.say]
+lv1 = "Iodate is in the beaker — it needs something to react with."
+lv2 = "KIO₃ is an oxidiser. The Landolt clock pairs it with bisulfite — NaHSO₃ is on the shelf."
+lv3 = "The Landolt reaction: IO₃⁻ oxidises HSO₃⁻ in the slow step. When bisulfite is exhausted the Dushman reaction releases I₂ — that is the clock endpoint."
+
+[[nudges]]
+id = "clock-fired"
+when = "reacted:iodide-peroxide-clock"
+[nudges.say]
+lv1 = "Something brown is forming — that is iodine."
+lv2 = "I₂ is appearing. In the real lab you would see the solution turn brown, or blue-black with starch. Now — can you make it happen faster?"
+lv3 = "The iodide–peroxide rate law is running: I₂ production at rate k·[H₂O₂]·[I⁻]·[H⁺]. To demonstrate the kinetics, run a second beaker with a different concentration or temperature and compare."
+
+[[nudges]]
+id = "landolt-fired"
+when = "reacted:iodate-bisulfite-clock"
+[nudges.say]
+lv1 = "The bisulfite is being used up — something sudden happens when it runs out."
+lv2 = "The Landolt clock is ticking. When the bisulfite is gone, I₂ appears all at once. Try a second beaker at a different temperature to see the Arrhenius effect."
+lv3 = "The iodate–bisulfite rate law is consuming NaHSO₃. The clock endpoint is bisulfite exhaustion; a second run at a different temperature or iodate concentration demonstrates the rate law's dependence."
+
+# ── Claims ──────────────────────────────────────────────────────────
+# Minimum two; satisfiable in any order; at least two completion
+# routes (either clock chemistry counts for the first claim).
+
+[[claims]]
+id = "ran-a-clock"
+matches = "reacted"
+[claims.title]
+lv1 = "Get a clock reaction going"
+lv2 = "Run any clock reaction to produce a visible change"
+lv3 = "At least one Reacted event from a kinetic rate law in the REGISTRY"
+
+[[claims]]
+id = "i2-appeared"
+vessel = "v1"
+quantity = "moles:I2"
+target = 0.0005
+tolerance = 0.0005
+[claims.title]
+lv1 = "See iodine form in your beaker"
+lv2 = "Produce a detectable amount of I₂ (the brown colour, or blue with starch)"
+lv3 = "Value claim: moles of I₂ in v1 > 0 (target 5×10⁻⁴ ± 5×10⁻⁴)"
+
+[[claims]]
+id = "changed-something"
+matches = "added"
+[claims.title]
+lv1 = "Set up a second beaker to compare"
+lv2 = "Prepare a comparison run — different concentration or temperature"
+lv3 = "At least one Added event in a second vessel (the fair-test comparison)"
