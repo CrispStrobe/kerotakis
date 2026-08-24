@@ -90,6 +90,12 @@ fi
 if command -v npm >/dev/null 2>&1; then
     echo "== the bench app (web/app)"
     (cd "$ROOT/web/app" \
+        && { # emsdk_env.sh prepends its bundled ancient node; the app
+             # needs a modern npm — prefer the system one when the PATH
+             # winner is prehistoric.
+             if [ "$(npm --version | cut -d. -f1)" -lt 9 ] && [ -x /usr/bin/npm ]; then
+                 export PATH="/usr/bin:$PATH"
+             fi; } \
         && npm ci --no-audit --no-fund >/dev/null \
         && node tools/licence-lint.mjs \
         && npx vitest run --silent >/dev/null \
