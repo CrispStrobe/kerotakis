@@ -736,6 +736,62 @@ impl Bench {
                     to: *to,
                 });
             }
+            Operator::Magnet { from, to } => {
+                if from == to {
+                    return Err(BenchError::SelfTransfer);
+                }
+                let (magnetic_solids, remained_ids) = {
+                    let src = self.vessel(*from)?;
+                    let mag: Vec<_> = src
+                        .contents
+                        .iter()
+                        .filter(|p| {
+                            p.phase == Phase::Solid
+                                && species::lookup(&p.species)
+                                    .is_some_and(|d| d.magnetic)
+                        })
+                        .map(|p| (p.species.clone(), p.moles, p.phase))
+                        .collect();
+                    let rem: Vec<_> = src
+                        .contents
+                        .iter()
+                        .filter(|p| {
+                            p.phase == Phase::Solid
+                                && !species::lookup(&p.species)
+                                    .is_some_and(|d| d.magnetic)
+                        })
+                        .map(|p| p.species.clone())
+                        .collect();
+                    (mag, rem)
+                };
+                if magnetic_solids.is_empty() {
+                    events.push(Event::MagnetSeparated {
+                        from: *from,
+                        to: *to,
+                        attracted: vec![],
+                        remained: remained_ids,
+                    });
+                } else {
+                    let src = self.vessel_mut(*from)?;
+                    src.contents.retain(|p| {
+                        !(p.phase == Phase::Solid
+                            && species::lookup(&p.species)
+                                .is_some_and(|d| d.magnetic))
+                    });
+                    let dst = self.vessel_mut(*to)?;
+                    let attracted_ids: Vec<_> =
+                        magnetic_solids.iter().map(|(s, _, _)| s.clone()).collect();
+                    for (s, n, phase) in magnetic_solids {
+                        dst.deposit(s, n, phase);
+                    }
+                    events.push(Event::MagnetSeparated {
+                        from: *from,
+                        to: *to,
+                        attracted: attracted_ids,
+                        remained: remained_ids,
+                    });
+                }
+            }
             Operator::Ignite { vessel } => {
                 let v = self.vessel_mut(*vessel)?;
                 if v.is_empty() {
@@ -1814,6 +1870,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
         Operator::Decant { from, to, .. }
         | Operator::Filter { from, to }
+        | Operator::Magnet { from, to }
         | Operator::Distil { from, to, .. }
         | Operator::Drain { from, to } => vec![*from, *to],
         Operator::Mix { a, b, into, .. } => vec![*a, *b, *into],

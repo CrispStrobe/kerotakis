@@ -24,6 +24,7 @@
   "irradiate": "Apparatus form: lamp (wavelength + irradiance)",
   "dilute": "Apparatus form: wash bottle",
   "titrate": "Burette apparatus (clamps over the selected vessel; form compiles the titrate line)",
+  "magnet": "Transfer tool: tap source, tap target",
   "transport": "planned:GUI-033 (column train)",
   "react": "planned:GUI-033 (curated-reaction picker)"
 }

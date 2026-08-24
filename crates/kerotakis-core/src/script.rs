@@ -41,6 +41,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("irradiate", "irradiate v1 254nm 10W/m2"),
     ("dilute", "dilute v1 100mL"),
     ("titrate", "titrate v1 NaOH 1M 1mL until ph 7"),
+    ("magnet", "magnet v1 v2"),
     ("transport", "transport v1 v2 v3 from v4 to v5 steps 3"),
     ("react", "react v1 esterification"),
 ];
@@ -185,6 +186,15 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 return Err("usage: filter <from> <to>".into());
             }
             Operator::Filter {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+            }
+        }
+        "magnet" => {
+            if words.len() < 3 {
+                return Err("usage: magnet <from> <to>".into());
+            }
+            Operator::Magnet {
                 from: parse_vessel(words[1])?,
                 to: parse_vessel(words[2])?,
             }

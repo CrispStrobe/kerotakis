@@ -59,6 +59,7 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("HCO3-", "OC([O-])=O"),
     ("H2PO4-", "OP(=O)(O)[O-]"),
     // --- metals ---
+    ("Al", "[Al]"),
     ("Cu", "[Cu]"),
     ("Zn", "[Zn]"),
     ("Ag", "[Ag]"),

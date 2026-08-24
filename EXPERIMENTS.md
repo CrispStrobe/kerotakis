@@ -207,6 +207,8 @@ for main, claim-audit statuses with acceptance evidence.
 - **EXP-1 Magnet** — magnetic property + `magnet` separation verb +
   recycling quest. Acceptance: mixed Fe/Cu/Al solids separate; the
   non-magnetic remainder is stated; conservation exact.
+  Data landed 2026-08-24 (kero-basic): Al species added, `magnetic` bool on
+  SpeciesData (Fe=true), `magnet v1 v2` verb moves ferromagnetic solids.
 - **EXP-2 Backpulver** — curated thermal decomposition
   2 NaHCO3 →Δ Na2CO3 + H2O + CO2↑ (threshold ~50–100 °C stated with
   source); quest links the fizz route and the heat route as two paths

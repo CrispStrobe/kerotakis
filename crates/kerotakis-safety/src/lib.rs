@@ -94,6 +94,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "Na2S2O3" => &[ReducingAgent],
 
         // ── active metals (above H in activity series) ────────────
+        "Al" => &[ActiveMetal],
         "Mg" => &[ActiveMetal],
         "Zn" => &[ActiveMetal],
         "Fe" => &[ActiveMetal],
@@ -141,6 +142,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "Ag",
     "Ag+",
     "AgCl",
+    "Al",
     "betanin",
     "betanin_ox",
     "AgNO3",

@@ -819,6 +819,14 @@
       "origin": "EXPERIMENTS.md EXP-5",
       "revision": null,
       "retrieved": "2026-08-24"
+    },
+    {
+      "id": "exp/Al",
+      "licence": "LicenseRef-Kerotakis-Curated",
+      "lane": "experiment_data",
+      "origin": "EXPERIMENTS.md EXP-1",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 2.70 g/cm3",
+      "revision": "2026-08-24"
     }
   ],
   "identities": [
@@ -2269,6 +2277,24 @@
         "method": {
           "kind": "curated",
           "detail": "EXP-5 dye/bleaching species"
+        }
+      }
+    },
+    {
+      "id": "Al",
+      "canonical_key": "XAGFODPZIPBFFR-UHFFFAOYSA-N",
+      "name": "aluminium",
+      "identifiers": {
+        "inchikey": "XAGFODPZIPBFFR-UHFFFAOYSA-N"
+      },
+      "synonyms": [
+        "aluminum"
+      ],
+      "evidence": {
+        "source_id": "exp/Al",
+        "method": {
+          "kind": "curated",
+          "detail": "EXPERIMENTS.md EXP-1 magnet separation"
         }
       }
     }
@@ -11401,6 +11427,71 @@
           "detail": "molecular formula"
         }
       }
+    },
+    {
+      "id": "composition/Al",
+      "species_id": "Al",
+      "formula": "Al",
+      "elements": [
+        {
+          "element": "Al",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "exp/Al",
+            "method": {
+              "kind": "derived",
+              "detail": "single element"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp/Al",
+        "method": {
+          "kind": "derived",
+          "detail": "single element"
+        }
+      },
+      "evidence": {
+        "source_id": "exp/Al",
+        "method": {
+          "kind": "curated",
+          "detail": "EXPERIMENTS.md EXP-1 magnet separation"
+        }
+      }
     }
   ],
   "phase_thermodynamics": [
@@ -20013,6 +20104,96 @@
           "detail": "EXP-5: mass_density"
         }
       }
+    },
+    {
+      "id": "molar-mass/Al",
+      "species_id": "Al",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 26.982,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp/Al",
+        "method": {
+          "kind": "curated",
+          "detail": "EXPERIMENTS.md EXP-1"
+        }
+      }
+    },
+    {
+      "id": "molar-heat-capacity/Al",
+      "species_id": "Al",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 24.2,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp/Al",
+        "method": {
+          "kind": "curated",
+          "detail": "EXPERIMENTS.md EXP-1"
+        }
+      }
+    },
+    {
+      "id": "mass-density/Al",
+      "species_id": "Al",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.7,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp/Al",
+        "method": {
+          "kind": "curated",
+          "detail": "EXPERIMENTS.md EXP-1"
+        }
+      }
     }
   ],
   "transport": [],
@@ -25221,6 +25402,22 @@
           "detail": "bleached product is colourless"
         }
       }
+    },
+    {
+      "id": "optical/Al",
+      "species_id": "Al",
+      "phase": "solid",
+      "appearance": "silver",
+      "flame_colour": null,
+      "reflective_srgb": "#C0C0C0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "exp/Al",
+        "method": {
+          "kind": "curated",
+          "detail": "EXPERIMENTS.md EXP-1"
+        }
+      }
     }
   ],
   "safety": [],
@@ -29480,6 +29677,171 @@
         "method": {
           "kind": "curated",
           "detail": "colourless bleaching product"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Al",
+      "subject": {
+        "kind": "species",
+        "id": "Al"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp/Al",
+        "method": {
+          "kind": "curated",
+          "detail": "EXPERIMENTS.md EXP-1"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Al",
+      "subject": {
+        "kind": "species",
+        "id": "Al"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "exp/Al",
+        "method": {
+          "kind": "curated",
+          "detail": "EXPERIMENTS.md EXP-1"
+        }
+      }
+    },
+    {
+      "id": "magnetic/Fe",
+      "subject": {
+        "kind": "species",
+        "id": "Fe"
+      },
+      "model": "legacy-runtime",
+      "parameter": "magnetic",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Fe",
+        "method": {
+          "kind": "curated",
+          "detail": "ferromagnetic at room temperature"
+        }
+      }
+    },
+    {
+      "id": "magnetic/Cu",
+      "subject": {
+        "kind": "species",
+        "id": "Cu"
+      },
+      "model": "legacy-runtime",
+      "parameter": "magnetic",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Cu",
+        "method": {
+          "kind": "curated",
+          "detail": "non-magnetic"
+        }
+      }
+    },
+    {
+      "id": "magnetic/Al",
+      "subject": {
+        "kind": "species",
+        "id": "Al"
+      },
+      "model": "legacy-runtime",
+      "parameter": "magnetic",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "exp/Al",
+        "method": {
+          "kind": "curated",
+          "detail": "non-magnetic"
         }
       }
     }

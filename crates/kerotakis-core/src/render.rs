@@ -7,7 +7,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::ops::{Event, Instrument};
-use crate::species;
+use crate::species::{self, SpeciesId};
 use crate::species::Phase;
 use crate::vessel::{Headspace, SolutionInfo, Vessel};
 
@@ -256,6 +256,39 @@ pub fn render_event(event: &Event, register: Register) -> String {
             ),
             _ => format!("{from} → {to}: filtrate passed; residue retained"),
         },
+        Event::MagnetSeparated { from, to, attracted, remained } => {
+            let name = |s: &SpeciesId| species::lookup(s).map(|d| d.name).unwrap_or(s.0.as_str()).to_string();
+            if attracted.is_empty() {
+                match register.level() {
+                    1 => format!("You hold a magnet over {from} — nothing jumps to it."),
+                    _ => format!("{from}: no magnetic species present"),
+                }
+            } else {
+                let att: Vec<String> = attracted.iter().map(name).collect();
+                let rem: Vec<String> = remained.iter().map(name).collect();
+                match register.level() {
+                    1 => {
+                        let rem_part = if rem.is_empty() {
+                            String::new()
+                        } else {
+                            format!(" The {} stay{} behind.", rem.join(", "),
+                                if rem.len() == 1 { "s" } else { "" })
+                        };
+                        format!(
+                            "You hold a magnet over {from} — the {} jump{} to it. You drop {} into {to}.{rem_part}",
+                            att.join(", "),
+                            if att.len() == 1 { "s" } else { "" },
+                            if att.len() == 1 { "it" } else { "them" },
+                        )
+                    }
+                    _ => format!(
+                        "{from} → {to}: magnetic {} attracted; non-magnetic {} remained",
+                        att.join(", "),
+                        if rem.is_empty() { "none".to_string() } else { rem.join(", ") },
+                    ),
+                }
+            }
+        }
         Event::Partitioned { vessel, species, fraction_lower } => match register.level() {
             1 => format!("Some of the {} in {vessel} moves into each layer.",
                 species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str())),

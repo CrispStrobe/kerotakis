@@ -180,6 +180,9 @@ pub enum Operator {
         fraction_a: f64,
         fraction_b: f64,
     },
+    /// Hold a magnet over the vessel: ferromagnetic solids jump to the
+    /// magnet and are dropped into `to`; everything else stays behind.
+    Magnet { from: VesselId, to: VesselId },
     /// Push liquid through a 1-D chain of vessels: conservative upwind
     /// transport with an explicit Courant fraction. The inlet provides the
     /// feed composition (unchanged); the effluent collects in the receiver.
@@ -424,6 +427,13 @@ pub enum Event {
     Filtered {
         from: VesselId,
         to: VesselId,
+    },
+    /// Magnetic solids jumped to the magnet; non-magnetic matter stayed.
+    MagnetSeparated {
+        from: VesselId,
+        to: VesselId,
+        attracted: Vec<SpeciesId>,
+        remained: Vec<SpeciesId>,
     },
     /// Water left as vapour.
     Evaporated {
