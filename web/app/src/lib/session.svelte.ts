@@ -95,7 +95,14 @@ export class Session {
           : "The bench answers from shipped results only — the live aqueous engine is not attached.",
       });
       await this.restore();
-      this.scene = await this.host.scene();
+      // One patient retry: a slow engine download must degrade to a wait,
+      // never to a bench that stays "warming up" forever.
+      try {
+        this.scene = await this.host.scene();
+      } catch {
+        await new Promise((r) => setTimeout(r, 2000));
+        this.scene = await this.host.scene();
+      }
       const species = (await this.host.species()) as ShelfItem[];
       this.shelf = species.map((s) => ({
         key: s.key,

@@ -36,6 +36,13 @@ let lab: Lab | null = null;
 let loadFailure: string | null = null;
 /** Why the live aqueous engine is absent, when it is. */
 let aqueousNote: string | null = null;
+/**
+ * Loading the engine takes real seconds on a school line (the bench wasm
+ * alone is ~4 MB). Every command that arrives before init settles WAITS
+ * for it instead of failing — the race where the UI's first scene request
+ * outruns the download must not strand the bench on "warming up".
+ */
+let initPromise: Promise<void> | null = null;
 
 const PROTOCOL = 1;
 
@@ -86,10 +93,13 @@ onmessage = async (ev: MessageEvent) => {
   const { id, cmd } = msg;
 
   if (cmd === "init") {
-    await init(String(msg.engine_base ?? "./engine/"));
+    initPromise = init(String(msg.engine_base ?? "./engine/"));
+    await initPromise;
     done(id, "{}");
     return;
   }
+  // Everything else waits for the engine load to settle first.
+  if (initPromise) await initPromise;
   if (cmd === "hello") {
     done(
       id,

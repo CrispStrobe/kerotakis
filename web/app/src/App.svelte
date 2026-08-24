@@ -18,7 +18,13 @@
   // In the Tauri shell the engine is native and in-process; on the web it
   // lives in the module worker. The session cannot tell the difference.
   const session = new Session(isTauri() ? new TauriHost() : WorkerHost.create());
-  let lessons = $state<{ file: string; name: string; blurb?: string }[]>([]);
+  let lessons = $state<{ file: string; name: string; blurb?: string; topic?: string }[]>([]);
+  const lessonTopics = $derived(
+    [...new Set(lessons.map((l) => l.topic ?? "more"))].map((topic) => ({
+      topic,
+      entries: lessons.filter((l) => (l.topic ?? "more") === topic),
+    })),
+  );
 
   onMount(() => {
     void session.connect();
@@ -140,8 +146,12 @@
       }}
     >
       <option value="">lessons…</option>
-      {#each lessons as l (l.file)}
-        <option value={l.file} title={l.blurb}>{l.name}</option>
+      {#each lessonTopics as group (group.topic)}
+        <optgroup label={group.topic}>
+          {#each group.entries as l (l.file)}
+            <option value={l.file} title={l.blurb}>{l.name}</option>
+          {/each}
+        </optgroup>
       {/each}
     </select>
   {/if}

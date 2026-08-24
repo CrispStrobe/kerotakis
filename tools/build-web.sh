@@ -47,6 +47,26 @@ mkdir -p "$OUT/lessons"
 cp "$ROOT"/lessons/*.lab "$OUT/lessons/"
 (cd "$OUT/lessons" && python3 - > index.json <<'PYEOF'
 import json, pathlib
+
+# Topic grouping for the picker — the curated order the console page's
+# example buttons had, which a flat alphabetical list lost.
+TOPICS = {
+    "start here": ["silver-and-salt", "first-warmth", "one-thing-at-a-time"],
+    "acids & bases": ["fizz", "neutral-moves", "three-protons", "buffer",
+                      "titration", "titration-manual", "two-roads",
+                      "there-and-back"],
+    "heat & fire": ["calorimetry", "fire", "grit"],
+    "redox & electricity": ["spannungsreihe", "electrode", "electrolysis",
+                            "counting-in-fives"],
+    "water chemistry": ["hard-water", "limewater", "salt-from-brine"],
+    "gases & pressure": ["sealed-gas"],
+    "rates": ["rates"],
+    "separations": ["spirit-still", "transport-column"],
+    "safety": ["never-mix"],
+}
+topic_of = {stem: topic for topic, stems in TOPICS.items() for stem in stems}
+order = {stem: i for stems in TOPICS.values() for i, stem in enumerate(stems)}
+
 out = []
 for p in sorted(pathlib.Path(".").glob("*.lab")):
     # The first comment line is the lesson's own description.
@@ -58,7 +78,10 @@ for p in sorted(pathlib.Path(".").glob("*.lab")):
         "file": p.name,
         "name": p.stem.replace("-", " "),
         "blurb": blurb,
+        "topic": topic_of.get(p.stem, "more"),
     })
+topics = list(TOPICS) + ["more"]
+out.sort(key=lambda e: (topics.index(e["topic"]), order.get(e["file"][:-4], 99)))
 print(json.dumps(out))
 PYEOF
 )
