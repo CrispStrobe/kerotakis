@@ -71,6 +71,28 @@
   let helpOpen = $state(false);
   /** The burette: clamped over the selected vessel when out (GUI-033). */
   let buretteOut = $state(false);
+  /** The transfer tool: filter/decant/drain share click-source-then-
+   * target; decant carries its fraction. */
+  let transfer = $state<{ verb: "filter" | "decant" | "drain"; fraction: number; from: number | null } | null>(null);
+  function vesselTapped(id: number) {
+    if (!transfer) {
+      void session.inspect(id);
+      pane = "notes";
+      return;
+    }
+    if (transfer.from === null) {
+      transfer = { ...transfer, from: id };
+      return;
+    }
+    if (transfer.from === id) return; // same vessel: keep waiting
+    const { verb, fraction, from } = transfer;
+    const line =
+      verb === "decant"
+        ? `decant v${from + 1} v${id + 1} ${fraction}`
+        : `${verb} v${from + 1} v${id + 1}`;
+    transfer = null;
+    void session.submit(line);
+  }
   let titrating = $state(false);
   async function startTitration(line: string) {
     titrating = true;
@@ -183,6 +205,20 @@
   >
     burette
   </button>
+  {#each ["filter", "decant", "drain"] as verb (verb)}
+    <button
+      class="tool"
+      class:active-tool={transfer?.verb === verb}
+      onclick={() =>
+        (transfer =
+          transfer?.verb === verb
+            ? null
+            : { verb: verb as "filter" | "decant" | "drain", fraction: 0.5, from: null })}
+      title={`${verb}: pick the source vessel, then the target`}
+    >
+      {verb}
+    </button>
+  {/each}
   <Timeline
     position={session.position}
     total={session.commandLog.length}
@@ -213,6 +249,24 @@
   </span>
   <a class="console-link" href="../">console</a>
 </header>
+
+{#if transfer}
+  <div class="transfer-banner" role="status">
+    <strong>{transfer.verb}</strong>
+    {#if transfer.verb === "decant"}
+      — pour
+      {#each [0.25, 0.5, 0.75, 1.0] as f (f)}
+        <button class:on={transfer.fraction === f} onclick={() => (transfer = { ...transfer!, fraction: f })}>
+          {f * 100}%
+        </button>
+      {/each}
+    {/if}
+    {transfer.from === null
+      ? " · tap the source vessel"
+      : ` · from v${transfer.from + 1} — now tap the target`}
+    <button class="cancel" onclick={() => (transfer = null)}>cancel</button>
+  </div>
+{/if}
 
 {#if session.lesson}
   <LessonBar
@@ -257,10 +311,7 @@
       scene={session.scene}
       register={session.register}
       selected={session.selected}
-      onselect={(id) => {
-        void session.inspect(id);
-        pane = "notes";
-      }}
+      onselect={(id) => vesselTapped(id)}
       pristine={session.commandLog.length === 0 && !session.lesson}
       effects={session.vesselEffects}
       onnewvessel={(kind) => void session.submit(kind === "beaker" ? "new" : `new ${kind}`)}
@@ -346,6 +397,34 @@
   }
   .active-tool {
     border-color: var(--hot);
+  }
+  .transfer-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    padding: 0.4rem 1rem;
+    border-bottom: 1px solid var(--warn);
+    background: var(--panel);
+    font-size: 0.85rem;
+  }
+  .transfer-banner button {
+    background: var(--panel-raised);
+    border: 1px solid var(--edge);
+    border-radius: 999px;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.76rem;
+    padding: 0.15rem 0.55rem;
+    cursor: pointer;
+    min-height: 30px;
+  }
+  .transfer-banner button.on {
+    border-color: var(--hot);
+  }
+  .transfer-banner .cancel {
+    margin-left: auto;
+    color: var(--dim);
   }
   .status {
     margin-left: auto;
