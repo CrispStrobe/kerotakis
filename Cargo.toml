@@ -1,6 +1,9 @@
 [workspace]
 resolver = "2"
-exclude = ["sundials-kinetics-rs"]
+# web/app/src-tauri is the desktop/mobile shell (GUI-030): excluded so the
+# workspace never needs the platform webview toolchains; it builds on its
+# own against the path dependencies.
+exclude = ["sundials-kinetics-rs", "web/app/src-tauri"]
 members = [
     "crates/kerotakis-core",
     "crates/kerotakis-cli",

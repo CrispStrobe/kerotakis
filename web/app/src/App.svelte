@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { Session } from "./lib/session.svelte";
   import { WorkerHost, resolvePayloadBase } from "./lib/host/WorkerHost";
+  import { TauriHost, isTauri } from "./lib/host/TauriHost";
   import Bench from "./lib/components/Bench.svelte";
   import Feed from "./lib/components/Feed.svelte";
   import CommandBar from "./lib/components/CommandBar.svelte";
@@ -14,7 +15,9 @@
   import { notebookMarkdown } from "./lib/notebook";
   import HelpDialog from "./lib/components/HelpDialog.svelte";
 
-  const session = new Session(WorkerHost.create());
+  // In the Tauri shell the engine is native and in-process; on the web it
+  // lives in the module worker. The session cannot tell the difference.
+  const session = new Session(isTauri() ? new TauriHost() : WorkerHost.create());
   let lessons = $state<{ file: string; name: string; blurb?: string }[]>([]);
 
   onMount(() => {
