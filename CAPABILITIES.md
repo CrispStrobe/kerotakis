@@ -1092,6 +1092,43 @@ across subsystems. **Depends on:** nothing.
 - **Coupled electrochemistry** (concentration cells beyond the shared
   couple, internal resistance, discharge curves): ROADMAP R4.
 
+## CAP-23 — The single-solvent organic bench answers with chemistry
+
+- [x] Rung 1: **done 2026-08-24** (Fable). A REPL transcript motivated
+      this task: salts and a metal in a beaker of ethanol drew a wall
+      of "not yet modelled" — but "NaCl is practically insoluble in
+      ethanol (0.065 g/100 mL, CRC)" is an answer, and "zinc does not
+      react with dry ethanol at bench conditions" is knowledge.
+      `nonaqueous::NonAqueousEquilibrator` (wired into all three
+      stacks between the curated reactions and the aqueous engine)
+      applies curated per-(solute, solvent) handbook solubilities —
+      dissolution to the limit as undissociated solute, remainder
+      solid — and curated metal-inertness verdicts with the reason a
+      learner can check. The honesty pass stands aside exactly where a
+      verdict exists and keeps apologising everywhere else; KMnO4 in
+      ethanol is deliberately NOT tabled, because it reacts (rung 2's
+      job) and tabulating it as soluble would be a lie. Model boundary
+      carried in every lv3 line: no speciation, no activity model, no
+      conductivity claim in an organic phase. Acceptance: the
+      motivating transcript replays with numbered verdicts and zero
+      apologies for covered pairs (`tests/nonaqueous.rs`); settled
+      species are not re-verdicted every step; water present means the
+      rung stands aside.
+
+**Remaining rungs.** Rung 2 (kero1, in flight): the curated
+permanganate–ethanol oxidation — the reaction the safety screen warns
+about becomes a modelled reaction; silver-halide metathesis in ethanol
+follows the same pattern. Rung 1 data growth (kero-basic, in flight):
+the solubility table toward every registry solid × four solvents,
+handbook-sourced, reactive pairs excluded by rule. Rung 3 (open):
+mixed water/organic solvents — route to PHREEQC above a stated water
+mole-fraction threshold with the co-solvent named as unmodelled for
+activity; refuse below it with the dielectric reason; Born-corrected
+mixed-solvent log K is **declined** until someone brings data worth
+trusting. Bare dissolved ions in an organic phase (MnO4-, HCO3- typed
+straight into ethanol) remain outside every rung and keep their
+honest refusal.
+
 ## Declined — off-mission, recorded so nobody re-litigates silently
 
 The workbench class serves professional geochemists managing field

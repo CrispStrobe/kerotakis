@@ -269,6 +269,38 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 species.0, fraction_lower,
             ),
         },
+        Event::DissolvedInSolvent { vessel, species, solvent, dissolved, undissolved } => {
+            let name = species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str());
+            let solv = species::lookup(solvent).map(|d| d.name).unwrap_or(solvent.0.as_str());
+            match register.level() {
+                1 => {
+                    if dissolved.0 <= 0.0 {
+                        format!("The {name} just sits at the bottom of the {solv} — it will not dissolve.")
+                    } else if undissolved.0 <= 0.0 {
+                        format!("The {name} disappears into the {solv}.")
+                    } else {
+                        format!("A little of the {name} dissolves in the {solv}; the rest sits on the bottom.")
+                    }
+                }
+                2 => format!(
+                    "{vessel}: {name} in {solv} — {:.4} mol dissolved (handbook limit), {:.4} mol left as solid",
+                    dissolved.0, undissolved.0
+                ),
+                _ => format!(
+                    "{vessel}: {} in {}: dissolved {:.6} mol to the curated solubility limit, {:.6} mol solid remains. Model boundary: undissociated solute, no speciation or activity model in an organic phase",
+                    species.0, solvent.0, dissolved.0, undissolved.0
+                ),
+            }
+        }
+        Event::InertInSolvent { vessel, species, solvent, why } => {
+            let name = species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str());
+            let solv = species::lookup(solvent).map(|d| d.name).unwrap_or(solvent.0.as_str());
+            match register.level() {
+                1 => format!("The {name} just sits in the {solv} — nothing happens to it."),
+                2 => format!("{vessel}: {name} does not react with {solv} — computed no-reaction, not a gap"),
+                _ => format!("{vessel}: {} inert in {}: {why}", species.0, solvent.0),
+            }
+        }
         Event::OrgReacted { vessel, name, equation, extent, boundary } => match register.level() {
             1 => format!(
                 "Something new forms in {vessel} — the {name} reaction turns the mixture into different substances."

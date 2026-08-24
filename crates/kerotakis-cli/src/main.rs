@@ -38,6 +38,7 @@ fn build_stack() -> SolverStack {
     let mut solvers: Vec<Box<dyn Equilibrator>> = vec![
         Box::new(MixingEquilibrator),
         Box::new(CuratedEquilibrator),
+        Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
         Box::new(kerotakis_cea::ThermalEquilibrator),
     ];
     match kerotakis_phreeqc::PhreeqcEquilibrator::new() {

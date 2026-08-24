@@ -701,6 +701,14 @@ impl Equilibrator for HonestyEquilibrator {
                 continue;
             }
             if p.phase == Phase::Solid && has_liquid {
+                // A pair the non-aqueous rung has a computed verdict for
+                // was already answered; an apology after an answer is
+                // noise dressed as honesty.
+                if let Some(solvent) = crate::nonaqueous::single_organic_solvent(vessel) {
+                    if crate::nonaqueous::verdict_exists(&p.species, solvent) {
+                        continue;
+                    }
+                }
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());
@@ -746,6 +754,14 @@ impl Equilibrator for HonestyEquilibrator {
                 continue;
             }
             if p.phase == Phase::Solid && has_liquid {
+                // A pair the non-aqueous rung has a computed verdict for
+                // was already answered; an apology after an answer is
+                // noise dressed as honesty.
+                if let Some(solvent) = crate::nonaqueous::single_organic_solvent(vessel) {
+                    if crate::nonaqueous::verdict_exists(&p.species, solvent) {
+                        continue;
+                    }
+                }
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());

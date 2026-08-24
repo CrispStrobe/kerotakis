@@ -265,6 +265,24 @@ pub enum Event {
         to: VesselId,
         fraction: f64,
     },
+    /// A solid met an organic solvent and the curated handbook limit
+    /// decided how much dissolves (CAP-23 rung 1). Undissociated solute,
+    /// no speciation or activity claim — the boundary is the model.
+    DissolvedInSolvent {
+        vessel: VesselId,
+        species: SpeciesId,
+        solvent: SpeciesId,
+        dissolved: Moles,
+        undissolved: Moles,
+    },
+    /// A metal sat in an organic solvent and the computed answer is
+    /// "no reaction at bench conditions", with the reason.
+    InertInSolvent {
+        vessel: VesselId,
+        species: SpeciesId,
+        solvent: SpeciesId,
+        why: String,
+    },
     /// A solid went into solution (computed by an aqueous solver).
     Dissolved {
         vessel: VesselId,
