@@ -314,6 +314,39 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 extent.0
             ),
         },
+        Event::Smelled { vessel, notes } => {
+            if notes.is_empty() {
+                match register.level() {
+                    1 => format!("You waft the air from {vessel} toward your nose — nothing you can pick out."),
+                    2 => format!("{vessel}: no odour a careful waft detects"),
+                    _ => format!("{vessel}: no curated odour among the volatile species — and 'odourless' is itself data: CO2 and CO teach why a nose is not a gas detector"),
+                }
+            } else {
+                let list: Vec<String> = notes
+                    .iter()
+                    .map(|(sp, d)| {
+                        let name = species::lookup(sp).map(|x| x.name).unwrap_or(sp.0.as_str());
+                        format!("{name}: {d}")
+                    })
+                    .collect();
+                match register.level() {
+                    1 => format!("You waft the air from {vessel} toward your nose — {}.", list.join("; ")),
+                    2 => format!("{vessel}: wafted — {}", list.join("; ")),
+                    _ => format!("{vessel}: waft (taught technique — never a direct huff): {}. Odour words are editorial curation in the qualitative-analysis register", list.join("; ")),
+                }
+            }
+        }
+        Event::Burst { vessel, at_pa, rating_pa } => match register.level() {
+            1 => format!("BANG — the sealed {vessel} could not hold the pressure and let go!"),
+            2 => format!(
+                "{vessel}: BURST at {:.0} kPa (glass rating ~{:.0} kPa) — seal gone, gases vented",
+                at_pa / 1000.0, rating_pa / 1000.0
+            ),
+            _ => format!(
+                "{vessel}: sealed headspace exceeded the teaching burst constant ({:.3e} Pa > {:.3e} Pa); the seal failed, the headspace is open, every gas vented as events, and the ledger is exact through the failure. The constant is editorial — the model's claim is that sealed vessels HAVE limits, not a certification of any flask",
+                at_pa, rating_pa
+            ),
+        },
         Event::NuclideSpiked { vessel, nuclide, moles, activity_bq } => match register.level() {
             1 => format!("A tiny radioactive sample of {nuclide} goes into {vessel} — the counter near it starts clicking."),
             2 => format!(
