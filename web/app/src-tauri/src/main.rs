@@ -7,12 +7,14 @@
 //! contract (PROTOCOL.md).
 //!
 //! The engine here is fully native: IPhreeqc linked in-process, the same
-//! solver stack the CLI builds, on a background thread via Tauri's command
-//! pool. No wasm, no marshalling across a JS boundary.
+//! solver stack the CLI builds, owned by ONE dedicated engine thread and
+//! reached over a channel — the same actor shape as the web worker, and
+//! required besides: the solver stack is deliberately !Send (Rc-shared
+//! caches), so it must live where it was born.
 
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use std::sync::Mutex;
+use std::sync::{mpsc, Mutex};
 
 use kerotakis_core::{
     render_events, render_vessel, Bench, CuratedEquilibrator, Equilibrator, HonestyEquilibrator,
@@ -197,17 +199,43 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
     }
 }
 
+type Reply = mpsc::Sender<Result<String, String>>;
+
+/// The engine actor: one thread owns the (!Send) lab for the process's
+/// lifetime; commands arrive as (request, reply) pairs and are answered
+/// strictly in order — the same serialization the web worker provides.
+struct EngineHandle {
+    tx: Mutex<mpsc::Sender<(Value, Reply)>>,
+}
+
+fn spawn_engine() -> EngineHandle {
+    let (tx, rx) = mpsc::channel::<(Value, Reply)>();
+    std::thread::spawn(move || {
+        let mut lab = NativeLab::new();
+        for (req, reply) in rx {
+            let _ = reply.send(dispatch(&mut lab, &req));
+        }
+    });
+    EngineHandle { tx: Mutex::new(tx) }
+}
+
 #[tauri::command]
-fn engine_request(state: tauri::State<'_, Mutex<NativeLab>>, req: Value) -> Result<String, String> {
-    let mut lab = state
+fn engine_request(state: tauri::State<'_, EngineHandle>, req: Value) -> Result<String, String> {
+    let (reply_tx, reply_rx) = mpsc::channel();
+    state
+        .tx
         .lock()
-        .map_err(|_| "the engine state is poisoned".to_string())?;
-    dispatch(&mut lab, &req)
+        .map_err(|_| "the engine handle is poisoned".to_string())?
+        .send((req, reply_tx))
+        .map_err(|_| "the engine thread is gone".to_string())?;
+    reply_rx
+        .recv()
+        .map_err(|_| "the engine thread is gone".to_string())?
 }
 
 fn main() {
     tauri::Builder::default()
-        .manage(Mutex::new(NativeLab::new()))
+        .manage(spawn_engine())
         .invoke_handler(tauri::generate_handler![engine_request])
         .run(tauri::generate_context!())
         .expect("error while running the Kerotakis shell");

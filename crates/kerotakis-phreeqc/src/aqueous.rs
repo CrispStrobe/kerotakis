@@ -23,9 +23,32 @@ use kerotakis_core::{
 #[cfg(feature = "engine")]
 const RESET_NUMBERED_REACTANTS: &str = "DELETE\n    -all\nEND\n";
 
+use std::rc::Rc;
+use std::sync::OnceLock;
+
 use crate::PhreeqcError;
 #[cfg(feature = "engine")]
 use crate::{databases, Phreeqc};
+
+fn env_dump_input_all() -> bool {
+    static V: OnceLock<bool> = OnceLock::new();
+    *V.get_or_init(|| std::env::var("KERO_DUMP_INPUT").as_deref() == Ok("all"))
+}
+
+fn env_dump_input() -> bool {
+    static V: OnceLock<bool> = OnceLock::new();
+    *V.get_or_init(|| std::env::var("KERO_DUMP_INPUT").is_ok())
+}
+
+fn env_redox() -> bool {
+    static V: OnceLock<bool> = OnceLock::new();
+    *V.get_or_init(|| std::env::var("KERO_REDOX").is_ok())
+}
+
+fn env_readback() -> bool {
+    static V: OnceLock<bool> = OnceLock::new();
+    *V.get_or_init(|| std::env::var("KERO_READBACK").is_ok())
+}
 
 use crate::derived::{self, DerivedRole, ATMOSPHERIC};
 
@@ -119,17 +142,9 @@ pub struct PhreeqcEquilibrator {
     brine: Phreeqc,
     /// Content-addressed result cache: same species set, T and P is the
     /// same answer (PLAN.md, P2). Keyed by database + canonical input.
-    #[allow(clippy::type_complexity)]
-    cache: std::collections::HashMap<
-        String,
-        (
-            Vec<Vec<String>>,
-            Vec<SpeciesDetail>,
-            Vec<(String, f64)>,
-            bool,
-            bool,
-        ),
-    >,
+    /// Rc-wrapped so cache hits avoid deep-cloning the selected-output
+    /// rows, speciation and saturation vectors (OPT-3).
+    cache: std::collections::HashMap<String, Rc<CachedSolve>>,
     cache_hits: usize,
     /// Heat of neutralisation per database tag, kJ/mol, asked of the
     /// database the first time that database is used.
@@ -158,7 +173,7 @@ pub struct PhreeqcEquilibrator {
     /// identical answer. The key is the full text, deliberately: a hash key
     /// would trade a collision — however improbable — for a wrong chemical
     /// answer, and that is not a trade this codebase makes.
-    trial_cache: std::collections::HashMap<(String, String), SolveOutput>,
+    trial_cache: std::collections::HashMap<(String, String), Rc<SolveOutput>>,
     trial_cache_hits: usize,
     /// The electron activity the last successfully *bracketed* coupled solve
     /// converged to, carried across the temperature fixed point's
@@ -177,11 +192,20 @@ pub struct PhreeqcEquilibrator {
 /// bracketed, residual paid — is a separate question, answered in
 /// `solve_coupled` exactly once, whichever bracket produced the numbers.
 struct PeSearch {
-    best: Option<SolveOutput>,
+    best: Option<Rc<SolveOutput>>,
     last_sum: Option<f64>,
     saw_below: bool,
     saw_above: bool,
     mid: f64,
+}
+
+#[derive(Clone)]
+struct CachedSolve {
+    rows: Vec<Vec<String>>,
+    speciation: Vec<SpeciesDetail>,
+    saturation: Vec<(String, f64)>,
+    redox_adjusted: bool,
+    pe_determined: bool,
 }
 
 /// An outside aqueous solver: database tag and canonical input in, the
@@ -266,7 +290,7 @@ impl PhreeqcEquilibrator {
                 // The input is the whole question; when the engine refuses
                 // it, being able to see it is the difference between a
                 // diagnosis and a guess.
-                if std::env::var("KERO_DUMP_INPUT").is_ok() {
+                if env_dump_input() {
                     eprintln!("--- PHREEQC input that failed ---\n{input}---");
                 }
                 SolveError::NotConverged {
@@ -430,10 +454,11 @@ impl PhreeqcEquilibrator {
         // withheld, because at equivalence a redox potential genuinely is
         // undefined — that steepness is why the endpoint is detectable at
         // all.
-        let mut out = best.ok_or_else(|| SolveError::NotConverged {
+        let rc = best.ok_or_else(|| SolveError::NotConverged {
             solver: "phreeqc-aqueous (redox)".to_string(),
             detail: "the electron balance did not converge".to_string(),
         })?;
+        let mut out = Rc::unwrap_or_clone(rc);
         out.pe_undetermined = !(saw_below && saw_above);
         if !out.pe_undetermined {
             // Only a genuinely bracketed root seeds the next warm start; an
@@ -459,7 +484,7 @@ impl PhreeqcEquilibrator {
         mut hi: f64,
         residual_tol: f64,
     ) -> Result<PeSearch, SolveError> {
-        let mut best: Option<SolveOutput> = None;
+        let mut best: Option<Rc<SolveOutput>> = None;
         let mut last_sum: Option<f64> = None;
         // Whether the residual was ever seen on both sides of zero. A
         // bisection that only ever approaches from one side never bracketed
@@ -492,7 +517,7 @@ impl PhreeqcEquilibrator {
                     detail: "the coupled run reported no oxidation-state totals".to_string(),
                 });
             };
-            if std::env::var("KERO_REDOX").is_ok() {
+            if env_redox() {
                 eprintln!("  pe={mid:.3} sum={sum:.6e} target={:.6e}", coupling.target);
             }
             last_sum = Some(sum);
@@ -607,19 +632,17 @@ impl PhreeqcEquilibrator {
     /// through here: its trials are the repetitive traffic. The main
     /// content-addressed cache stays where it is — it caches *parsed*
     /// results one level up.
-    fn run_trial(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
+    fn run_trial(&mut self, db_tag: &str, input: &str) -> Result<Rc<SolveOutput>, SolveError> {
         let key = (db_tag.to_string(), input.to_string());
         if let Some(hit) = self.trial_cache.get(&key) {
             self.trial_cache_hits += 1;
-            return Ok(hit.clone());
+            return Ok(Rc::clone(hit));
         }
-        let out = self.run_raw(db_tag, input)?;
+        let out = Rc::new(self.run_raw(db_tag, input)?);
         if self.trial_cache.len() >= 2048 {
-            // The same simple bound the result cache uses; refine when
-            // profiling says so.
             self.trial_cache.clear();
         }
-        self.trial_cache.insert(key, out.clone());
+        self.trial_cache.insert(key, Rc::clone(&out));
         Ok(out)
     }
 
@@ -637,16 +660,14 @@ impl PhreeqcEquilibrator {
             entries: self
                 .cache
                 .iter()
-                .map(
-                    |(k, (rows, species, saturation, redox, pe_ok))| CacheEntry {
-                        key: k.clone(),
-                        rows: rows.clone(),
-                        species: species.clone(),
-                        saturation: saturation.clone(),
-                        redox_adjusted: *redox,
-                        pe_undetermined: !*pe_ok,
-                    },
-                )
+                .map(|(k, c)| CacheEntry {
+                    key: k.clone(),
+                    rows: c.rows.clone(),
+                    species: c.speciation.clone(),
+                    saturation: c.saturation.clone(),
+                    redox_adjusted: c.redox_adjusted,
+                    pe_undetermined: !c.pe_determined,
+                })
                 .collect(),
             neutralisation_kj_per_mol,
         }
@@ -656,13 +677,15 @@ impl PhreeqcEquilibrator {
     pub fn import_cache(&mut self, data: CacheData) -> usize {
         let before = self.cache.len();
         for e in data.entries {
-            self.cache.entry(e.key).or_insert((
-                e.rows,
-                e.species,
-                e.saturation,
-                e.redox_adjusted,
-                !e.pe_undetermined,
-            ));
+            self.cache.entry(e.key).or_insert_with(|| {
+                Rc::new(CachedSolve {
+                    rows: e.rows,
+                    speciation: e.species,
+                    saturation: e.saturation,
+                    redox_adjusted: e.redox_adjusted,
+                    pe_determined: !e.pe_undetermined,
+                })
+            });
         }
         for (database, enthalpy) in data.neutralisation_kj_per_mol {
             self.neutralisation.entry(database).or_insert(enthalpy);
@@ -1473,12 +1496,12 @@ impl PhreeqcEquilibrator {
             return Ok((Vec::new(), 0.0));
         };
 
-        let (rows, speciation, saturation, coupling_failed, pe_determined, redox_adjusted) =
+        let (cached, coupling_failed) =
             self.dispatch_solve(vessel, &problem, db_tag, &input, key)?;
 
         let value = |column: &str| -> Option<f64> {
-            let idx = rows.first()?.iter().position(|h| h == column)?;
-            rows.last()?.get(idx)?.parse().ok()
+            let idx = cached.rows.first()?.iter().position(|h| h == column)?;
+            cached.rows.last()?.get(idx)?.parse().ok()
         };
 
         let (
@@ -1488,7 +1511,7 @@ impl PhreeqcEquilibrator {
             new_solid_solutions,
             mut new_ions,
             unnameable,
-        ) = self.readback_raw_values(&problem, db_tag, &rows, &value)?;
+        ) = self.readback_raw_values(&problem, db_tag, &cached.rows, &value)?;
 
         let (new_phases, new_gases, ph, mu) = Self::apply_balance_corrections(
             vessel,
@@ -1626,17 +1649,17 @@ impl PhreeqcEquilibrator {
             let canonical = el.split('(').next().unwrap_or(el);
             canonical != "H" && canonical != "O" && idx.redox_elements.contains(canonical)
         });
-        let _ = redox_adjusted;
+        let _ = cached.redox_adjusted;
 
         Self::finalize_solution_info(
             vessel,
             &problem,
             db_tag,
             routing,
-            speciation,
-            &saturation,
+            cached.speciation.clone(),
+            &cached.saturation,
             coupling_failed,
-            pe_determined,
+            cached.pe_determined,
             redox_constrained,
             &value,
             &unnameable,
@@ -1863,7 +1886,6 @@ impl PhreeqcEquilibrator {
         }))
     }
 
-    #[allow(clippy::type_complexity)]
     fn dispatch_solve(
         &mut self,
         vessel: &Vessel,
@@ -1871,26 +1893,14 @@ impl PhreeqcEquilibrator {
         db_tag: &str,
         input: &str,
         key: String,
-    ) -> Result<
-        (
-            Vec<Vec<String>>,
-            Vec<SpeciesDetail>,
-            Vec<(String, f64)>,
-            Option<String>,
-            bool,
-            bool,
-        ),
-        SolveError,
-    > {
+    ) -> Result<(Rc<CachedSolve>, Option<String>), SolveError> {
         // Content-addressed cache: database + input string is a
         // deterministic canonicalisation of (species set, amounts, T) — same
         // state, same answer, no engine call.
         let mut coupling_failed: Option<String> = None;
-        let (rows, speciation, saturation, redox_adjusted, pe_determined) = if let Some(hit) =
-            self.cache.get(&key)
-        {
+        let cached = if let Some(hit) = self.cache.get(&key) {
             self.cache_hits += 1;
-            hit.clone()
+            Rc::clone(hit)
         } else {
             // Redox elements that equilibrate on a bench timescale are
             // coupled and pe is solved for; everything else keeps the
@@ -1901,7 +1911,7 @@ impl PhreeqcEquilibrator {
             // was perfectly happy to give needs the same view as a refused
             // one — diffing two of these is what found the missing
             // dissolution enthalpy below.
-            if std::env::var("KERO_DUMP_INPUT").as_deref() == Ok("all") {
+            if env_dump_input_all() {
                 eprintln!("--- PHREEQC input ---\n{input}---");
             }
             let out = match redox_coupling(problem, db_tag) {
@@ -1940,34 +1950,20 @@ impl PhreeqcEquilibrator {
                     },
                 },
             };
-            let pe_determined = !out.pe_undetermined;
-            let rows = out.selected;
-            let speciation = parse_species_distribution(&out.report);
-            let saturation = parse_saturation_indices(&out.report);
-            let redox_adjusted = out.report.contains("Adjusted to redox equilibrium");
+            let cached = Rc::new(CachedSolve {
+                pe_determined: !out.pe_undetermined,
+                rows: out.selected,
+                speciation: parse_species_distribution(&out.report),
+                saturation: parse_saturation_indices(&out.report),
+                redox_adjusted: out.report.contains("Adjusted to redox equilibrium"),
+            });
             if self.cache.len() >= 10_000 {
                 self.cache.clear(); // simple bound; refine when profiling says so
             }
-            self.cache.insert(
-                key,
-                (
-                    rows.clone(),
-                    speciation.clone(),
-                    saturation.clone(),
-                    redox_adjusted,
-                    pe_determined,
-                ),
-            );
-            (rows, speciation, saturation, redox_adjusted, pe_determined)
+            self.cache.insert(key, Rc::clone(&cached));
+            cached
         };
-        Ok((
-            rows,
-            speciation,
-            saturation,
-            coupling_failed,
-            pe_determined,
-            redox_adjusted,
-        ))
+        Ok((cached, coupling_failed))
     }
 
     #[allow(clippy::type_complexity)]
@@ -2113,7 +2109,7 @@ impl PhreeqcEquilibrator {
         }
         let mut new_ions: Vec<(String, f64)> = Vec::new();
         let mut unnameable: Vec<(String, f64)> = Vec::new();
-        if std::env::var("KERO_READBACK").is_ok() {
+        if env_readback() {
             eprintln!("readback: kgw_out={kgw_out:.12e}");
             if let (Some(h), Some(r)) = (rows.first(), rows.last()) {
                 for (name, v) in h.iter().zip(r.iter()) {

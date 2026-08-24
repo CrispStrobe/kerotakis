@@ -65,7 +65,15 @@ jobs:
       - name: Fetch SUNDIALS (not vendored; pinned by checksum)
         run: bash tools/fetch-sundials.sh
       - name: Differential and live preview corpus
-        run: cargo test -p kerotakis-phreeqc --features my-basic-preview
+        # The feature lives on the MY-BASIC branch until its merge; a
+        # job that fails on a feature main does not carry teaches
+        # people to ignore red. Skip loudly instead.
+        run: |
+          if grep -q "my-basic-preview" crates/kerotakis-phreeqc/Cargo.toml; then
+            cargo test -p kerotakis-phreeqc --features my-basic-preview
+          else
+            echo "feature my-basic-preview not on main yet — skipping"
+          fi
 
   legacy-basic-oracle:
     name: Legacy BASIC oracle (development only)
@@ -79,17 +87,23 @@ jobs:
       - name: Fetch SUNDIALS (not vendored; pinned by checksum)
         run: bash tools/fetch-sundials.sh
       - name: Independently verify Stage 6 classifications
-        run: >-
-          cargo test -p kerotakis-phreeqc --features legacy-basic-oracle
-          --test basic_dialect_oracle
-          --test ex21_observable_parity
-          --test standalone_basic_corpus
+        run: |
+          if grep -q "legacy-basic-oracle" crates/kerotakis-phreeqc/Cargo.toml; then
+            cargo test -p kerotakis-phreeqc --features legacy-basic-oracle \
+              --test basic_dialect_oracle \
+              --test ex21_observable_parity \
+              --test standalone_basic_corpus
+          else
+            echo "feature legacy-basic-oracle not on main yet — skipping"
+          fi
 
   wasm-core:
     name: Core and data schemas compile to wasm32
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
@@ -104,6 +118,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          submodules: recursive
       - uses: dtolnay/rust-toolchain@stable
       - uses: Swatinem/rust-cache@v2
       - name: Fetch SUNDIALS (not vendored; pinned by checksum)
@@ -142,6 +158,8 @@ jobs:
         run: cargo run -p kerotakis-cli -- prewarm lessons/*.lab -o "$RUNNER_TEMP/lessons.postcard"
       - name: Run the bench in a wasm runtime
         run: node tools/test-wasm-lab.mjs "$RUNNER_TEMP/kero-wasm" "$RUNNER_TEMP/lessons.postcard"
+      - name: Protocol conformance against the wasm host
+        run: node tools/test-protocol-conformance.mjs "$RUNNER_TEMP/kero-wasm"
 
   wasm-engine:
     name: IPhreeqc wasm gate
@@ -234,6 +252,11 @@ jobs:
     needs: demo
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    # One Pages deployment at a time, queued not cancelled — two racing
+    # deployers is exactly the 400 "in progress deployment" failure.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     permissions:
       pages: write
       id-token: write

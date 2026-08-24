@@ -115,7 +115,13 @@ export class EngineError extends Error {
  */
 export interface EngineHost {
   /** Protocol + engine identity; answerable before any pack loads. */
-  hello(): Promise<{ protocol: number; can_solve?: boolean }>;
+  hello(): Promise<{
+    protocol: number;
+    can_solve?: boolean;
+    engine_loaded?: boolean;
+    load_failure?: string | null;
+    aqueous_note?: string | null;
+  }>;
   step(operatorJson: string): Promise<StepResult>;
   runScript(script: string): Promise<ScriptResult>;
   /** Validate one line without executing it (GUI-005). */
