@@ -80,6 +80,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "ethanol" => &[FlammableLiquid],
         "methanol" => &[FlammableLiquid],
         "hexane" => &[FlammableLiquid],
+        "propanone" => &[FlammableLiquid],
 
         // ── flammable gas ─────────────────────────────────────────
         "H2" => &[FlammableGas],
@@ -188,6 +189,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "methanol",
     "methyl_orange",
     "phenolphthalein",
+    "propanone",
     "water",
 ];
 
