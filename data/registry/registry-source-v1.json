@@ -848,102 +848,102 @@
       "retrieved": null
     },
     {
-      "id": "exp12/PE",
+      "id": "legacy/PE",
       "citation": "Density: CRC Handbook, 97th ed., HDPE 0.94-0.97 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
-      "licence": "LicenseRef-Kerotakis-Curated",
-      "lane": "experiment_data",
-      "origin": "EXPERIMENTS.md EXP-12",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
-      "retrieved": "2026-08-24"
+      "retrieved": null
     },
     {
-      "id": "exp12/PP",
+      "id": "legacy/PP",
       "citation": "Density: CRC Handbook, 97th ed., isotactic PP 0.85-0.92 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
-      "licence": "LicenseRef-Kerotakis-Curated",
-      "lane": "experiment_data",
-      "origin": "EXPERIMENTS.md EXP-12",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
-      "retrieved": "2026-08-24"
+      "retrieved": null
     },
     {
-      "id": "exp12/PET",
+      "id": "legacy/PET",
       "citation": "Density: CRC Handbook, 97th ed., amorphous/semicrystalline PET 1.33-1.45 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
-      "licence": "LicenseRef-Kerotakis-Curated",
-      "lane": "experiment_data",
-      "origin": "EXPERIMENTS.md EXP-12",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
-      "retrieved": "2026-08-24"
+      "retrieved": null
     },
     {
-      "id": "exp12/PS",
+      "id": "legacy/PS",
       "citation": "Density: CRC Handbook, 97th ed., general-purpose PS 1.04-1.065 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
-      "licence": "LicenseRef-Kerotakis-Curated",
-      "lane": "experiment_data",
-      "origin": "EXPERIMENTS.md EXP-12",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
-      "retrieved": "2026-08-24"
+      "retrieved": null
     },
     {
-      "id": "exp5/betanin",
+      "id": "legacy/betanin",
       "citation": "ε: Stintzing & Carle, Trends in Food Science & Technology 15 (2004) 64-72; M from molecular formula; density estimated for organic solid",
-      "licence": "LicenseRef-Kerotakis-Curated",
-      "lane": "experiment_data",
-      "origin": "EXPERIMENTS.md EXP-5",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
-      "retrieved": "2026-08-24"
+      "retrieved": null
     },
     {
-      "id": "exp5/curcumin",
+      "id": "legacy/curcumin",
       "citation": "ε: Tonnesen & Karlsen, Z Lebensm Unters Forsch 180 (1985) 132-134; M from molecular formula; density estimated for organic solid",
-      "licence": "LicenseRef-Kerotakis-Curated",
-      "lane": "experiment_data",
-      "origin": "EXPERIMENTS.md EXP-5",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
-      "retrieved": "2026-08-24"
+      "retrieved": null
     },
     {
-      "id": "exp5/indigo_carmine",
+      "id": "legacy/indigo_carmine",
       "citation": "ε: Bhasikuttan et al., J Phys Chem B 108 (2004) 3657-3662; M from molecular formula; density estimated for organic solid",
-      "licence": "LicenseRef-Kerotakis-Curated",
-      "lane": "experiment_data",
-      "origin": "EXPERIMENTS.md EXP-5",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
-      "retrieved": "2026-08-24"
+      "retrieved": null
     },
     {
-      "id": "exp5/betanin_ox",
+      "id": "legacy/betanin_ox",
       "citation": "Bleaching product of betanin; simplified stoichiometry (one O addition from NaOCl)",
-      "licence": "LicenseRef-Kerotakis-Curated",
-      "lane": "experiment_data",
-      "origin": "EXPERIMENTS.md EXP-5",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
-      "retrieved": "2026-08-24"
+      "retrieved": null
     },
     {
-      "id": "exp5/curcumin_ox",
+      "id": "legacy/curcumin_ox",
       "citation": "Bleaching product of curcumin; simplified stoichiometry (one O addition from NaOCl)",
-      "licence": "LicenseRef-Kerotakis-Curated",
-      "lane": "experiment_data",
-      "origin": "EXPERIMENTS.md EXP-5",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
-      "retrieved": "2026-08-24"
+      "retrieved": null
     },
     {
-      "id": "exp5/indigo_carmine_ox",
+      "id": "legacy/indigo_carmine_ox",
       "citation": "Bleaching product of indigo_carmine; simplified stoichiometry (one O addition from NaOCl)",
-      "licence": "LicenseRef-Kerotakis-Curated",
-      "lane": "experiment_data",
-      "origin": "EXPERIMENTS.md EXP-5",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
-      "retrieved": "2026-08-24"
+      "retrieved": null
     },
     {
-      "id": "exp/Al",
+      "id": "legacy/Al",
       "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 2.70 g/cm3",
-      "licence": "LicenseRef-Kerotakis-Curated",
-      "lane": "experiment_data",
-      "origin": "EXPERIMENTS.md EXP-1",
-      "revision": "2026-08-24",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
       "retrieved": null
     }
   ],
@@ -2451,10 +2451,10 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "exp12/PE",
+        "source_id": "legacy/PE",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12 polymer species for float/sink density separation"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -2467,10 +2467,10 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "exp12/PP",
+        "source_id": "legacy/PP",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12 polymer species for float/sink density separation"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -2483,10 +2483,10 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "exp12/PET",
+        "source_id": "legacy/PET",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12 polymer species for float/sink density separation"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -2499,10 +2499,10 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "exp12/PS",
+        "source_id": "legacy/PS",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12 polymer species for float/sink density separation"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -2515,10 +2515,10 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "exp5/betanin",
+        "source_id": "legacy/betanin",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5 dye/bleaching species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -2531,10 +2531,10 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "exp5/curcumin",
+        "source_id": "legacy/curcumin",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5 dye/bleaching species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -2547,10 +2547,10 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "exp5/indigo_carmine",
+        "source_id": "legacy/indigo_carmine",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5 dye/bleaching species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -2563,10 +2563,10 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "exp5/betanin_ox",
+        "source_id": "legacy/betanin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5 dye/bleaching species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -2579,10 +2579,10 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "exp5/curcumin_ox",
+        "source_id": "legacy/curcumin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5 dye/bleaching species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -2595,10 +2595,10 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "exp5/indigo_carmine_ox",
+        "source_id": "legacy/indigo_carmine_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5 dye/bleaching species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -2609,14 +2609,12 @@
       "identifiers": {
         "inchikey": "XAGFODPZIPBFFR-UHFFFAOYSA-N"
       },
-      "synonyms": [
-        "aluminum"
-      ],
+      "synonyms": [],
       "evidence": {
-        "source_id": "exp/Al",
+        "source_id": "legacy/Al",
         "method": {
-          "kind": "curated",
-          "detail": "EXPERIMENTS.md EXP-1 magnet separation"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
@@ -11867,7 +11865,7 @@
     {
       "id": "composition/PE",
       "species_id": "PE",
-      "formula": "(C2H4)n",
+      "formula": "C2H4",
       "elements": [
         {
           "element": "C",
@@ -11889,10 +11887,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp12/PE",
+            "source_id": "legacy/PE",
             "method": {
               "kind": "derived",
-              "detail": "from repeat-unit formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -11916,10 +11914,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp12/PE",
+            "source_id": "legacy/PE",
             "method": {
               "kind": "derived",
-              "detail": "from repeat-unit formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -11942,24 +11940,24 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp12/PE",
+        "source_id": "legacy/PE",
         "method": {
           "kind": "derived",
-          "detail": "polymer, uncharged"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "exp12/PE",
+        "source_id": "legacy/PE",
         "method": {
-          "kind": "curated",
-          "detail": "repeat-unit composition"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
       "id": "composition/PP",
       "species_id": "PP",
-      "formula": "(C3H6)n",
+      "formula": "C3H6",
       "elements": [
         {
           "element": "C",
@@ -11981,10 +11979,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp12/PP",
+            "source_id": "legacy/PP",
             "method": {
               "kind": "derived",
-              "detail": "from repeat-unit formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12008,10 +12006,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp12/PP",
+            "source_id": "legacy/PP",
             "method": {
               "kind": "derived",
-              "detail": "from repeat-unit formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -12034,24 +12032,24 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp12/PP",
+        "source_id": "legacy/PP",
         "method": {
           "kind": "derived",
-          "detail": "polymer, uncharged"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "exp12/PP",
+        "source_id": "legacy/PP",
         "method": {
-          "kind": "curated",
-          "detail": "repeat-unit composition"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
       "id": "composition/PET",
       "species_id": "PET",
-      "formula": "(C10H8O4)n",
+      "formula": "C10H8O4",
       "elements": [
         {
           "element": "C",
@@ -12073,10 +12071,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp12/PET",
+            "source_id": "legacy/PET",
             "method": {
               "kind": "derived",
-              "detail": "from repeat-unit formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12100,10 +12098,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp12/PET",
+            "source_id": "legacy/PET",
             "method": {
               "kind": "derived",
-              "detail": "from repeat-unit formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12127,10 +12125,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp12/PET",
+            "source_id": "legacy/PET",
             "method": {
               "kind": "derived",
-              "detail": "from repeat-unit formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -12153,24 +12151,24 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp12/PET",
+        "source_id": "legacy/PET",
         "method": {
           "kind": "derived",
-          "detail": "polymer, uncharged"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "exp12/PET",
+        "source_id": "legacy/PET",
         "method": {
-          "kind": "curated",
-          "detail": "repeat-unit composition"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
       "id": "composition/PS",
       "species_id": "PS",
-      "formula": "(C8H8)n",
+      "formula": "C8H8",
       "elements": [
         {
           "element": "C",
@@ -12192,10 +12190,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp12/PS",
+            "source_id": "legacy/PS",
             "method": {
               "kind": "derived",
-              "detail": "from repeat-unit formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12219,10 +12217,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp12/PS",
+            "source_id": "legacy/PS",
             "method": {
               "kind": "derived",
-              "detail": "from repeat-unit formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -12245,17 +12243,17 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp12/PS",
+        "source_id": "legacy/PS",
         "method": {
           "kind": "derived",
-          "detail": "polymer, uncharged"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "exp12/PS",
+        "source_id": "legacy/PS",
         "method": {
-          "kind": "curated",
-          "detail": "repeat-unit composition"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -12284,10 +12282,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12311,10 +12309,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12338,10 +12336,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12365,10 +12363,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -12391,17 +12389,17 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/betanin",
+        "source_id": "legacy/betanin",
         "method": {
           "kind": "derived",
-          "detail": "neutral molecule"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "exp5/betanin",
+        "source_id": "legacy/betanin",
         "method": {
-          "kind": "curated",
-          "detail": "molecular formula"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -12430,10 +12428,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12457,10 +12455,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12484,10 +12482,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -12510,17 +12508,17 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/curcumin",
+        "source_id": "legacy/curcumin",
         "method": {
           "kind": "derived",
-          "detail": "neutral molecule"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "exp5/curcumin",
+        "source_id": "legacy/curcumin",
         "method": {
-          "kind": "curated",
-          "detail": "molecular formula"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -12549,10 +12547,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12576,10 +12574,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12603,10 +12601,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12630,10 +12628,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12657,10 +12655,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12684,10 +12682,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -12710,17 +12708,17 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/indigo_carmine",
+        "source_id": "legacy/indigo_carmine",
         "method": {
           "kind": "derived",
-          "detail": "disodium salt, net neutral"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "exp5/indigo_carmine",
+        "source_id": "legacy/indigo_carmine",
         "method": {
-          "kind": "curated",
-          "detail": "molecular formula"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -12749,10 +12747,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/betanin_ox",
+            "source_id": "legacy/betanin_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12776,10 +12774,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/betanin_ox",
+            "source_id": "legacy/betanin_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12803,10 +12801,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/betanin_ox",
+            "source_id": "legacy/betanin_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12830,10 +12828,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/betanin_ox",
+            "source_id": "legacy/betanin_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -12856,17 +12854,17 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/betanin_ox",
+        "source_id": "legacy/betanin_ox",
         "method": {
           "kind": "derived",
-          "detail": "neutral molecule"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "exp5/betanin_ox",
+        "source_id": "legacy/betanin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "molecular formula"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -12895,10 +12893,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/curcumin_ox",
+            "source_id": "legacy/curcumin_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12922,10 +12920,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/curcumin_ox",
+            "source_id": "legacy/curcumin_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -12949,10 +12947,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/curcumin_ox",
+            "source_id": "legacy/curcumin_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -12975,17 +12973,17 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/curcumin_ox",
+        "source_id": "legacy/curcumin_ox",
         "method": {
           "kind": "derived",
-          "detail": "neutral molecule"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "exp5/curcumin_ox",
+        "source_id": "legacy/curcumin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "molecular formula"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -13014,10 +13012,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine_ox",
+            "source_id": "legacy/indigo_carmine_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -13041,10 +13039,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine_ox",
+            "source_id": "legacy/indigo_carmine_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -13068,10 +13066,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine_ox",
+            "source_id": "legacy/indigo_carmine_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -13095,10 +13093,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine_ox",
+            "source_id": "legacy/indigo_carmine_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -13122,10 +13120,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine_ox",
+            "source_id": "legacy/indigo_carmine_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -13149,10 +13147,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp5/indigo_carmine_ox",
+            "source_id": "legacy/indigo_carmine_ox",
             "method": {
               "kind": "derived",
-              "detail": "from molecular formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -13175,17 +13173,17 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/indigo_carmine_ox",
+        "source_id": "legacy/indigo_carmine_ox",
         "method": {
           "kind": "derived",
-          "detail": "disodium salt, net neutral"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "exp5/indigo_carmine_ox",
+        "source_id": "legacy/indigo_carmine_ox",
         "method": {
-          "kind": "curated",
-          "detail": "molecular formula"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -13214,10 +13212,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "exp/Al",
+            "source_id": "legacy/Al",
             "method": {
               "kind": "derived",
-              "detail": "single element"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -13240,17 +13238,17 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp/Al",
+        "source_id": "legacy/Al",
         "method": {
           "kind": "derived",
-          "detail": "single element"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "exp/Al",
+        "source_id": "legacy/Al",
         "method": {
-          "kind": "curated",
-          "detail": "EXPERIMENTS.md EXP-1 magnet separation"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
@@ -22153,21 +22151,21 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": null,
+          "phase": "solid",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PE",
+        "source_id": "legacy/PE",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: molar_mass per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "molar-heat-capacity/PE",
+      "id": "heat-capacity/PE",
       "species_id": "PE",
       "phase": "solid",
       "property": "molar_heat_capacity",
@@ -22189,15 +22187,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PE",
+        "source_id": "legacy/PE",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: molar_heat_capacity per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "mass-density/PE",
+      "id": "density/PE",
       "species_id": "PE",
       "phase": "solid",
       "property": "mass_density",
@@ -22219,10 +22217,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PE",
+        "source_id": "legacy/PE",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: mass_density per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -22243,21 +22241,21 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": null,
+          "phase": "solid",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PP",
+        "source_id": "legacy/PP",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: molar_mass per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "molar-heat-capacity/PP",
+      "id": "heat-capacity/PP",
       "species_id": "PP",
       "phase": "solid",
       "property": "molar_heat_capacity",
@@ -22279,15 +22277,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PP",
+        "source_id": "legacy/PP",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: molar_heat_capacity per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "mass-density/PP",
+      "id": "density/PP",
       "species_id": "PP",
       "phase": "solid",
       "property": "mass_density",
@@ -22309,10 +22307,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PP",
+        "source_id": "legacy/PP",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: mass_density per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -22333,21 +22331,21 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": null,
+          "phase": "solid",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PET",
+        "source_id": "legacy/PET",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: molar_mass per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "molar-heat-capacity/PET",
+      "id": "heat-capacity/PET",
       "species_id": "PET",
       "phase": "solid",
       "property": "molar_heat_capacity",
@@ -22369,15 +22367,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PET",
+        "source_id": "legacy/PET",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: molar_heat_capacity per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "mass-density/PET",
+      "id": "density/PET",
       "species_id": "PET",
       "phase": "solid",
       "property": "mass_density",
@@ -22399,10 +22397,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PET",
+        "source_id": "legacy/PET",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: mass_density per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -22423,21 +22421,21 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": null,
+          "phase": "solid",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PS",
+        "source_id": "legacy/PS",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: molar_mass per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "molar-heat-capacity/PS",
+      "id": "heat-capacity/PS",
       "species_id": "PS",
       "phase": "solid",
       "property": "molar_heat_capacity",
@@ -22459,15 +22457,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PS",
+        "source_id": "legacy/PS",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: molar_heat_capacity per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "mass-density/PS",
+      "id": "density/PS",
       "species_id": "PS",
       "phase": "solid",
       "property": "mass_density",
@@ -22489,10 +22487,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PS",
+        "source_id": "legacy/PS",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-12: mass_density per repeat unit"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -22513,21 +22511,21 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": null,
+          "phase": "aqueous",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/betanin",
+        "source_id": "legacy/betanin",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_mass"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "molar-heat-capacity/betanin",
+      "id": "heat-capacity/betanin",
       "species_id": "betanin",
       "phase": "aqueous",
       "property": "molar_heat_capacity",
@@ -22549,15 +22547,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/betanin",
+        "source_id": "legacy/betanin",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_heat_capacity"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "mass-density/betanin",
+      "id": "density/betanin",
       "species_id": "betanin",
       "phase": "aqueous",
       "property": "mass_density",
@@ -22579,10 +22577,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/betanin",
+        "source_id": "legacy/betanin",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: mass_density"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -22603,21 +22601,21 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": null,
+          "phase": "aqueous",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/curcumin",
+        "source_id": "legacy/curcumin",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_mass"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "molar-heat-capacity/curcumin",
+      "id": "heat-capacity/curcumin",
       "species_id": "curcumin",
       "phase": "aqueous",
       "property": "molar_heat_capacity",
@@ -22639,15 +22637,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/curcumin",
+        "source_id": "legacy/curcumin",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_heat_capacity"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "mass-density/curcumin",
+      "id": "density/curcumin",
       "species_id": "curcumin",
       "phase": "aqueous",
       "property": "mass_density",
@@ -22669,10 +22667,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/curcumin",
+        "source_id": "legacy/curcumin",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: mass_density"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -22693,21 +22691,21 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": null,
+          "phase": "aqueous",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/indigo_carmine",
+        "source_id": "legacy/indigo_carmine",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_mass"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "molar-heat-capacity/indigo_carmine",
+      "id": "heat-capacity/indigo_carmine",
       "species_id": "indigo_carmine",
       "phase": "aqueous",
       "property": "molar_heat_capacity",
@@ -22729,15 +22727,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/indigo_carmine",
+        "source_id": "legacy/indigo_carmine",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_heat_capacity"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "mass-density/indigo_carmine",
+      "id": "density/indigo_carmine",
       "species_id": "indigo_carmine",
       "phase": "aqueous",
       "property": "mass_density",
@@ -22759,10 +22757,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/indigo_carmine",
+        "source_id": "legacy/indigo_carmine",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: mass_density"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -22783,21 +22781,21 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": null,
+          "phase": "aqueous",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/betanin_ox",
+        "source_id": "legacy/betanin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_mass"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "molar-heat-capacity/betanin_ox",
+      "id": "heat-capacity/betanin_ox",
       "species_id": "betanin_ox",
       "phase": "aqueous",
       "property": "molar_heat_capacity",
@@ -22819,15 +22817,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/betanin_ox",
+        "source_id": "legacy/betanin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_heat_capacity"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "mass-density/betanin_ox",
+      "id": "density/betanin_ox",
       "species_id": "betanin_ox",
       "phase": "aqueous",
       "property": "mass_density",
@@ -22849,10 +22847,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/betanin_ox",
+        "source_id": "legacy/betanin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: mass_density"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -22873,21 +22871,21 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": null,
+          "phase": "aqueous",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/curcumin_ox",
+        "source_id": "legacy/curcumin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_mass"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "molar-heat-capacity/curcumin_ox",
+      "id": "heat-capacity/curcumin_ox",
       "species_id": "curcumin_ox",
       "phase": "aqueous",
       "property": "molar_heat_capacity",
@@ -22909,15 +22907,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/curcumin_ox",
+        "source_id": "legacy/curcumin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_heat_capacity"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "mass-density/curcumin_ox",
+      "id": "density/curcumin_ox",
       "species_id": "curcumin_ox",
       "phase": "aqueous",
       "property": "mass_density",
@@ -22939,10 +22937,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/curcumin_ox",
+        "source_id": "legacy/curcumin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: mass_density"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -22963,21 +22961,21 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": null,
+          "phase": "aqueous",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/indigo_carmine_ox",
+        "source_id": "legacy/indigo_carmine_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_mass"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "molar-heat-capacity/indigo_carmine_ox",
+      "id": "heat-capacity/indigo_carmine_ox",
       "species_id": "indigo_carmine_ox",
       "phase": "aqueous",
       "property": "molar_heat_capacity",
@@ -22999,15 +22997,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/indigo_carmine_ox",
+        "source_id": "legacy/indigo_carmine_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: molar_heat_capacity"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "mass-density/indigo_carmine_ox",
+      "id": "density/indigo_carmine_ox",
       "species_id": "indigo_carmine_ox",
       "phase": "aqueous",
       "property": "mass_density",
@@ -23029,10 +23027,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/indigo_carmine_ox",
+        "source_id": "legacy/indigo_carmine_ox",
         "method": {
-          "kind": "curated",
-          "detail": "EXP-5: mass_density"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -23059,15 +23057,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp/Al",
+        "source_id": "legacy/Al",
         "method": {
-          "kind": "curated",
-          "detail": "EXPERIMENTS.md EXP-1"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "molar-heat-capacity/Al",
+      "id": "heat-capacity/Al",
       "species_id": "Al",
       "phase": "solid",
       "property": "molar_heat_capacity",
@@ -23089,15 +23087,15 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp/Al",
+        "source_id": "legacy/Al",
         "method": {
-          "kind": "curated",
-          "detail": "EXPERIMENTS.md EXP-1"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
     {
-      "id": "mass-density/Al",
+      "id": "density/Al",
       "species_id": "Al",
       "phase": "solid",
       "property": "mass_density",
@@ -23119,10 +23117,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp/Al",
+        "source_id": "legacy/Al",
         "method": {
-          "kind": "curated",
-          "detail": "EXPERIMENTS.md EXP-1"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
@@ -25988,10 +25986,10 @@
       "reflective_srgb": "#F0EDE8",
       "spectrum": [],
       "evidence": {
-        "source_id": "exp12/PE",
+        "source_id": "legacy/PE",
         "method": {
-          "kind": "curated",
-          "detail": "visual appearance of common plastic"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -26004,10 +26002,10 @@
       "reflective_srgb": "#EDE8E0",
       "spectrum": [],
       "evidence": {
-        "source_id": "exp12/PP",
+        "source_id": "legacy/PP",
         "method": {
-          "kind": "curated",
-          "detail": "visual appearance of common plastic"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -26020,10 +26018,10 @@
       "reflective_srgb": "#D8E8F0",
       "spectrum": [],
       "evidence": {
-        "source_id": "exp12/PET",
+        "source_id": "legacy/PET",
         "method": {
-          "kind": "curated",
-          "detail": "visual appearance of common plastic"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -26036,10 +26034,10 @@
       "reflective_srgb": "#F5F5F5",
       "spectrum": [],
       "evidence": {
-        "source_id": "exp12/PS",
+        "source_id": "legacy/PS",
         "method": {
-          "kind": "curated",
-          "detail": "visual appearance of common plastic"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -26070,10 +26068,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26094,10 +26092,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26120,10 +26118,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26144,10 +26142,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26170,10 +26168,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26194,10 +26192,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26220,10 +26218,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26244,10 +26242,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26270,10 +26268,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26294,10 +26292,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26320,10 +26318,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26344,10 +26342,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26370,10 +26368,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26394,10 +26392,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26420,10 +26418,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26444,10 +26442,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26470,10 +26468,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26494,10 +26492,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26520,10 +26518,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26544,10 +26542,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26570,10 +26568,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26594,10 +26592,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26620,10 +26618,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26644,10 +26642,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26670,10 +26668,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26694,10 +26692,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26720,10 +26718,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26744,10 +26742,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26770,10 +26768,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26794,10 +26792,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26820,10 +26818,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26844,19 +26842,19 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/betanin",
+            "source_id": "legacy/betanin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         }
       ],
       "evidence": {
-        "source_id": "exp5/betanin",
+        "source_id": "legacy/betanin",
         "method": {
-          "kind": "curated",
-          "detail": "visual appearance of dye"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -26887,10 +26885,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26911,10 +26909,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26937,10 +26935,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -26961,10 +26959,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -26987,10 +26985,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27011,10 +27009,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27037,10 +27035,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27061,10 +27059,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27087,10 +27085,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27111,10 +27109,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27137,10 +27135,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27161,10 +27159,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27187,10 +27185,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27211,10 +27209,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27237,10 +27235,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27261,10 +27259,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27287,10 +27285,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27311,10 +27309,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27337,10 +27335,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27361,10 +27359,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27387,10 +27385,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27411,10 +27409,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27437,10 +27435,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27461,10 +27459,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27487,10 +27485,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27511,10 +27509,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27537,10 +27535,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27561,10 +27559,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27587,10 +27585,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27611,10 +27609,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27637,10 +27635,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27661,19 +27659,19 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/curcumin",
+            "source_id": "legacy/curcumin",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         }
       ],
       "evidence": {
-        "source_id": "exp5/curcumin",
+        "source_id": "legacy/curcumin",
         "method": {
-          "kind": "curated",
-          "detail": "visual appearance of dye"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -27704,10 +27702,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27728,10 +27726,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27754,10 +27752,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27778,10 +27776,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27804,10 +27802,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27828,10 +27826,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27854,10 +27852,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27878,10 +27876,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27904,10 +27902,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27928,10 +27926,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -27954,10 +27952,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -27978,10 +27976,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -28004,10 +28002,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -28028,10 +28026,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -28054,10 +28052,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -28078,10 +28076,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -28104,10 +28102,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -28128,10 +28126,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -28154,10 +28152,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -28178,10 +28176,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -28204,10 +28202,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -28228,10 +28226,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -28254,10 +28252,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -28278,10 +28276,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -28304,10 +28302,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -28328,10 +28326,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -28354,10 +28352,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -28378,10 +28376,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -28404,10 +28402,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -28428,10 +28426,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         },
@@ -28454,10 +28452,10 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           },
           "molar_absorptivity": {
@@ -28478,19 +28476,19 @@
             "uncertainty": {
               "kind": "not_reported"
             },
-            "source_id": "exp5/indigo_carmine",
+            "source_id": "legacy/indigo_carmine",
             "method": {
-              "kind": "curated",
-              "detail": "Gaussian band model from published λmax and ε"
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
             }
           }
         }
       ],
       "evidence": {
-        "source_id": "exp5/indigo_carmine",
+        "source_id": "legacy/indigo_carmine",
         "method": {
-          "kind": "curated",
-          "detail": "visual appearance of dye"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -28503,10 +28501,10 @@
       "reflective_srgb": "#F8F8F0",
       "spectrum": [],
       "evidence": {
-        "source_id": "exp5/betanin_ox",
+        "source_id": "legacy/betanin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "bleached product is colourless"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -28519,10 +28517,10 @@
       "reflective_srgb": "#FFFFF0",
       "spectrum": [],
       "evidence": {
-        "source_id": "exp5/curcumin_ox",
+        "source_id": "legacy/curcumin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "bleached product is colourless"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -28535,10 +28533,10 @@
       "reflective_srgb": "#F0F0FF",
       "spectrum": [],
       "evidence": {
-        "source_id": "exp5/indigo_carmine_ox",
+        "source_id": "legacy/indigo_carmine_ox",
         "method": {
-          "kind": "curated",
-          "detail": "bleached product is colourless"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -28551,10 +28549,10 @@
       "reflective_srgb": "#C0C0C0",
       "spectrum": [],
       "evidence": {
-        "source_id": "exp/Al",
+        "source_id": "legacy/Al",
         "method": {
-          "kind": "curated",
-          "detail": "EXPERIMENTS.md EXP-1"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
@@ -32713,10 +32711,10 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp12/PE",
+        "source_id": "legacy/PE",
         "method": {
           "kind": "derived",
-          "detail": "polymer solid, does not dissolve"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
@@ -32746,10 +32744,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PE",
+        "source_id": "legacy/PE",
         "method": {
-          "kind": "curated",
-          "detail": "opaque solid — no solution tint"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -32779,10 +32777,10 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp12/PP",
+        "source_id": "legacy/PP",
         "method": {
           "kind": "derived",
-          "detail": "polymer solid, does not dissolve"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
@@ -32812,10 +32810,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PP",
+        "source_id": "legacy/PP",
         "method": {
-          "kind": "curated",
-          "detail": "opaque solid — no solution tint"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -32845,10 +32843,10 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp12/PET",
+        "source_id": "legacy/PET",
         "method": {
           "kind": "derived",
-          "detail": "polymer solid, does not dissolve"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
@@ -32878,10 +32876,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PET",
+        "source_id": "legacy/PET",
         "method": {
-          "kind": "curated",
-          "detail": "opaque solid — no solution tint"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -32911,10 +32909,10 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp12/PS",
+        "source_id": "legacy/PS",
         "method": {
           "kind": "derived",
-          "detail": "polymer solid, does not dissolve"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
@@ -32944,10 +32942,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp12/PS",
+        "source_id": "legacy/PS",
         "method": {
-          "kind": "curated",
-          "detail": "opaque solid — no solution tint"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -32977,10 +32975,10 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/betanin",
+        "source_id": "legacy/betanin",
         "method": {
           "kind": "derived",
-          "detail": "dissolves freely in water"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
@@ -33010,10 +33008,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/betanin",
+        "source_id": "legacy/betanin",
         "method": {
-          "kind": "curated",
-          "detail": "molar absorptivity at λmax"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -33043,10 +33041,10 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/curcumin",
+        "source_id": "legacy/curcumin",
         "method": {
           "kind": "derived",
-          "detail": "dissolves freely in water"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
@@ -33076,10 +33074,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/curcumin",
+        "source_id": "legacy/curcumin",
         "method": {
-          "kind": "curated",
-          "detail": "molar absorptivity at λmax"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -33109,10 +33107,10 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/indigo_carmine",
+        "source_id": "legacy/indigo_carmine",
         "method": {
           "kind": "derived",
-          "detail": "dissolves freely in water"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
@@ -33142,10 +33140,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/indigo_carmine",
+        "source_id": "legacy/indigo_carmine",
         "method": {
-          "kind": "curated",
-          "detail": "molar absorptivity at λmax"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -33175,10 +33173,10 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/betanin_ox",
+        "source_id": "legacy/betanin_ox",
         "method": {
           "kind": "derived",
-          "detail": "dissolves freely in water"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
@@ -33202,16 +33200,16 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": "solid",
+          "phase": "aqueous",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/betanin_ox",
+        "source_id": "legacy/betanin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "colourless bleaching product"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -33241,10 +33239,10 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/curcumin_ox",
+        "source_id": "legacy/curcumin_ox",
         "method": {
           "kind": "derived",
-          "detail": "dissolves freely in water"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
@@ -33268,16 +33266,16 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": "solid",
+          "phase": "aqueous",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/curcumin_ox",
+        "source_id": "legacy/curcumin_ox",
         "method": {
-          "kind": "curated",
-          "detail": "colourless bleaching product"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -33307,10 +33305,10 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp5/indigo_carmine_ox",
+        "source_id": "legacy/indigo_carmine_ox",
         "method": {
           "kind": "derived",
-          "detail": "dissolves freely in water"
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
@@ -33334,16 +33332,16 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": "solid",
+          "phase": "aqueous",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp5/indigo_carmine_ox",
+        "source_id": "legacy/indigo_carmine_ox",
         "method": {
-          "kind": "curated",
-          "detail": "colourless bleaching product"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -33373,10 +33371,10 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "exp/Al",
+        "source_id": "legacy/Al",
         "method": {
-          "kind": "curated",
-          "detail": "EXPERIMENTS.md EXP-1"
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
@@ -33400,115 +33398,16 @@
           "ph": null,
           "ionic_strength": null,
           "medium": null,
-          "phase": null,
+          "phase": "solid",
           "notes": null
         },
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "exp/Al",
+        "source_id": "legacy/Al",
         "method": {
-          "kind": "curated",
-          "detail": "EXPERIMENTS.md EXP-1"
-        }
-      }
-    },
-    {
-      "id": "magnetic/Fe",
-      "subject": {
-        "kind": "species",
-        "id": "Fe"
-      },
-      "model": "legacy-runtime",
-      "parameter": "magnetic",
-      "quantity": {
-        "value": 1.0,
-        "unit": {
-          "symbol": "1",
-          "dimension": "dimensionless"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": null,
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "exact"
-        },
-        "source_id": "legacy/Fe",
-        "method": {
-          "kind": "curated",
-          "detail": "ferromagnetic at room temperature"
-        }
-      }
-    },
-    {
-      "id": "magnetic/Cu",
-      "subject": {
-        "kind": "species",
-        "id": "Cu"
-      },
-      "model": "legacy-runtime",
-      "parameter": "magnetic",
-      "quantity": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "1",
-          "dimension": "dimensionless"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": null,
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "exact"
-        },
-        "source_id": "legacy/Cu",
-        "method": {
-          "kind": "curated",
-          "detail": "non-magnetic"
-        }
-      }
-    },
-    {
-      "id": "magnetic/Al",
-      "subject": {
-        "kind": "species",
-        "id": "Al"
-      },
-      "model": "legacy-runtime",
-      "parameter": "magnetic",
-      "quantity": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "1",
-          "dimension": "dimensionless"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": null,
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "exact"
-        },
-        "source_id": "exp/Al",
-        "method": {
-          "kind": "curated",
-          "detail": "non-magnetic"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
