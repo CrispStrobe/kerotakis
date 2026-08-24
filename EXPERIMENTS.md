@@ -384,3 +384,84 @@ What follows is only what is genuinely NEW.
 - Water-system phase rule (triple point P–T manipulation): parked as
   investigate-only — the states machinery covers bench pressure;
   full P–T phase-diagram control is a real model decision, not a row.
+
+---
+
+# Part 5: the guided-practical corpus, classes 9–12 (audit 2026-08-24)
+
+A fourth corpus (publicly funded national virtual-lab collection; not
+named, as no source is). The convergence is the finding: after
+mapping every experiment against EXP-0..38, nearly all of it is
+covered — pH, titration, EMF, displacement single and double,
+thermochemistry and neutralisation enthalpy, saponification and soap
+comparisons, esterification, alcohol oxidation (CAP-23 rung 2 IS
+their oxidation practical), separations, MP/BP, sublimation,
+crystallisation and hydrate water, colloids, filtration, evaporation,
+conductivity-as-electrolytes, equilibrium shifts (cobalt is EXP-28;
+iron–thiocyanate becomes a quest on EXP-27+28 and is noted there),
+sealed-unknown identifications (bleaching powder, washing vs baking
+soda are EXP-30 quests), and the thiosulfate–acid kinetics clock,
+which is already a curated rate law in kinetics.rs. What follows is
+only the genuinely new remainder.
+
+## New tasks
+
+- **EXP-39 — Redox titrimetry** — the titrate verb targets pH only;
+  redox titration needs endpoint modes: self-indicating permanganate
+  (colour persists past equivalence) and potentiometric (pe from the
+  solver the engine already computes). Oxalic acid joins the registry
+  as the classic primary standard. Acceptance: KMnO4 standardised
+  against oxalic acid to a value-claim; endpoint within one drop;
+  both endpoint modes tested.
+- **EXP-40 — Biomolecule assays** — the food-test canon: reducing
+  sugars (Fehling/Benedict class), proteins (Biuret), starch (Lugol,
+  already in EXP-14), fats (grease-spot/emulsion tie to EXP-10).
+  Curated test rows with colour outcomes over real registry species
+  (glucose from EXP-9/17 data). Acceptance: sealed food-sample quests
+  identify composition from test patterns.
+- **EXP-41 — Organic qualitative analysis** — functional-group wet
+  tests paired with what the org crate can already do:
+  `perceive_groups` computes the groups from structure, the curated
+  wet tests (carbonyl, alcohol, acid, amine classes; Lassaigne-class
+  elemental detection for N/S/halogens) confirm them — the pairing
+  makes every test verdict checkable against a computed perception.
+  Acceptance: an unknown organic narrowed by tests alone, each test
+  backed by curated chemistry + the perception cross-check. HARDER.
+- **EXP-42 — Preparative chemistry pack** — the classic preparations:
+  double salts by crystallisation (Mohr's-salt/alum class, riding
+  EXP-33's hydrate bookkeeping), gas preparation with property study
+  (SO2 class, riding EXP-31's tests), amphoteric aluminium (Al +
+  NaOH → aluminate + H2 beside Al + HCl — the two-front metal),
+  azo-dye class synthesis on the org machinery (EXP-36 family).
+  Acceptance: each preparation conserves exactly, yields honestly,
+  and its product survives an identification test from EXP-30/33.
+- **EXP-43 — Clock kinetics** — the iodine-clock class (iodide +
+  peroxide; iodate + sulfite) joining the landed thiosulfate clock:
+  curated rate laws with the sudden visual endpoint, concentration
+  and temperature sweeps via `kero study`. Acceptance: clock time
+  scales with concentration and temperature as the rate law says;
+  the sweep reproduces the classic linearisation.
+- **EXP-44 — Excess enthalpy of mixing** — the
+  acetone–chloroform-class negative deviation: h^E from the
+  temperature dependence of UNIFAC activity coefficients
+  (h^E = -RT² Σ xᵢ ∂ln γᵢ/∂T). Needs chloroform-class groups added
+  to the UNIFAC table (CAP-18 growth) with sources. Acceptance: the
+  mixing calorimetry quest shows warming for the associating pair
+  and cooling for a positive-deviation pair, both computed. HARDER.
+- **EXP-45 — The conservation quest** — the law of conservation of
+  mass in a sealed reaction, weighed before and after. Pure
+  authoring: the ledger IS the engine's thesis, and this quest is
+  the product stating its own soul to a learner. Acceptance: at
+  least three reaction types (precipitation, gas-in-sealed-flask,
+  neutralisation) each balance on the vessel balance to the digit.
+
+## Declined from this corpus
+- Rutherford scattering and periodic-table study: physics
+  demonstration and reference material, not bench chemistry — the
+  GUI's interactive table already serves the second.
+
+## Registry state after four corpora
+EXP-0..45. Yield per corpus: 16 → 9 → 7 — the registry is converging
+on the actual span of school and early-university wet chemistry,
+which is the strongest evidence yet that the bench's subject is
+finite and coverable.
