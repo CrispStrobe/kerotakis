@@ -598,6 +598,12 @@ pub struct Vessel {
     /// seconds.
     #[serde(default)]
     pub elapsed_seconds: f64,
+    /// EXP-49: tracer-scale radionuclide inventory, deliberately
+    /// separate from the chemical contents (¹⁴C and ¹²C are one
+    /// element to the chemistry and two nuclides here). Chemically
+    /// inert at tracer scale — the stated v1 boundary.
+    #[serde(default)]
+    pub nuclides: crate::nuclide::NuclideLedger,
     pub id: VesselId,
     pub label: String,
     pub contents: Vec<Portion>,
@@ -648,6 +654,7 @@ impl Vessel {
     pub fn new(id: VesselId, label: impl Into<String>) -> Self {
         Vessel {
             elapsed_seconds: 0.0,
+            nuclides: Default::default(),
             id,
             label: label.into(),
             contents: Vec::new(),

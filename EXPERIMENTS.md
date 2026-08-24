@@ -191,7 +191,24 @@ for main, claim-audit statuses with acceptance evidence.
 
 ## Infrastructure
 
-- **EXP-0 — Quest engine** (Fable; everything below depends on it).
+- **EXP-0 — Quest engine** — [x] **done 2026-08-24** (Fable).
+  `kerotakis-codex::quest`: TOML specs linted like the codex (a
+  single-claim quest is rejected as "a corridor with a door at the
+  end"), event claims on the codex's own `kind:detail` matcher, value
+  claims (ph / temperature_c / mass_g / moles:<sp> / molarity:<sp>,
+  target ± tolerance read from the solved state, with the
+  solution-volume model stated), identify claims closing the
+  sealed-unknown loop, nudges that fire exactly once and never block.
+  REPL: `quest list/start/status/answer`; sealed aliases are a pure
+  display layer — input unmasked before parsing, rendered lines
+  re-masked, chemistry untouched. Preflight gained the "quest lint"
+  step. Acceptance held: the demo quest (the-white-unknown) exercises
+  every feature; two distinct command orders complete through the
+  full solver stack; the unknown stays sealed in every rendered line
+  until named; a wrong answer is spoken, locks nothing, and the right
+  answer still completes (`tests/quest_engine.rs`, cli
+  `tests/quest.rs`). Original scope line follows.
+  (Fable; everything below depends on it).
   Schema (TOML beside the codex, linted), event-claim matcher,
   **value claims** (target ± tolerance read from solved state:
   concentration, mass, volume, temperature, pH), **sealed unknowns**
@@ -569,7 +586,27 @@ EXP-21 with the energy input booked honestly.
   all on the shelf). Acceptance: curated values sourced; capillary
   rise computed from them; the soap quest (EXP-10) gains the
   surface-tension drop as a measurable.
-- **EXP-49 — The nuclear bench** — `nuclide.rs` has nuclides, decay
+- **EXP-49 — The nuclear bench** — [x] **done 2026-08-24** (Fable),
+  first slice. The teaching set (C-14, I-131, Rn-222/α, Co-60,
+  Tc-99m/γ, and the real Sr-90 → Y-90 → Zr-90 chain; NUBASE2020
+  half-lives and masses) lives in a curated table; `add v1 I-131
+  1e-9mol` routes El-A notation to the vessel's tracer-scale
+  `NuclideLedger` (chemically inert, boundary stated) with a
+  radioactivity hazard warning; decay runs inside `wait` beside
+  kinetics on the shared clock; the Geiger counter reads total Bq.
+  The invariant is the point: elements do NOT conserve across
+  `Decayed` events — nucleons do, exactly, because α parcels keep
+  their He-4 in the ledger; β/ν departures and the mass defect are
+  stated boundaries in every lv3 line. The metastable flag keeps
+  Tc-99m distinct from Tc-99 (found by the test that would have made
+  the γ transition a ledger no-op). Acceptance held: half-life
+  recovered from the activity series to 3 decimals over three
+  half-lives; every curated equation balances A and Z in a test that
+  reads the table itself; the chain propagates; uncurated nuclides
+  refuse with the shelf listed (`tests/nuclear.rs`). Remaining rungs:
+  decay-series depth (Bateman), codex radioactivity concept family,
+  the half-life quest (EXP-0 authoring). Original scope follows.
+  `nuclide.rs` has nuclides, decay
   chains, half-lives, and activity in becquerels, built and unwired
   (CAP-22 recorded the wait; this is its task number). Scope: decay
   as first-class bench chemistry — sealed sample, activity
