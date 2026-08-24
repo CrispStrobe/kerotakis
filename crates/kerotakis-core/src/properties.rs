@@ -550,7 +550,10 @@ mod tests {
         let r0 = ethanol_water_density_g_ml(0.0).unwrap().value;
         let r50 = ethanol_water_density_g_ml(0.5).unwrap().value;
         let r100 = ethanol_water_density_g_ml(1.0).unwrap().value;
-        assert!(r0 > r50 && r50 > r100, "density decreases: {r0} > {r50} > {r100}");
+        assert!(
+            r0 > r50 && r50 > r100,
+            "density decreases: {r0} > {r50} > {r100}"
+        );
     }
 
     #[test]

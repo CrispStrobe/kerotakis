@@ -747,8 +747,7 @@ impl Bench {
                         .iter()
                         .filter(|p| {
                             p.phase == Phase::Solid
-                                && species::lookup(&p.species)
-                                    .is_some_and(|d| d.magnetic)
+                                && species::lookup(&p.species).is_some_and(|d| d.magnetic)
                         })
                         .map(|p| (p.species.clone(), p.moles, p.phase))
                         .collect();
@@ -757,8 +756,7 @@ impl Bench {
                         .iter()
                         .filter(|p| {
                             p.phase == Phase::Solid
-                                && !species::lookup(&p.species)
-                                    .is_some_and(|d| d.magnetic)
+                                && !species::lookup(&p.species).is_some_and(|d| d.magnetic)
                         })
                         .map(|p| p.species.clone())
                         .collect();
@@ -775,8 +773,7 @@ impl Bench {
                     let src = self.vessel_mut(*from)?;
                     src.contents.retain(|p| {
                         !(p.phase == Phase::Solid
-                            && species::lookup(&p.species)
-                                .is_some_and(|d| d.magnetic))
+                            && species::lookup(&p.species).is_some_and(|d| d.magnetic))
                     });
                     let dst = self.vessel_mut(*to)?;
                     let attracted_ids: Vec<_> =

@@ -7,8 +7,8 @@
 use serde::{Deserialize, Serialize};
 
 use crate::ops::{Event, Instrument};
-use crate::species::{self, SpeciesId};
 use crate::species::Phase;
+use crate::species::{self, SpeciesId};
 use crate::vessel::{Headspace, SolutionInfo, Vessel};
 
 /// How much detail an answer is rendered with.
