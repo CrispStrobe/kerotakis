@@ -42,7 +42,7 @@ fn registry_inchikeys_are_recomputed_and_match() {
 fn the_tranche_only_grows_deliberately() {
     assert_eq!(
         CURATED_STRUCTURES.len(),
-        72,
+        76,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );

@@ -42,27 +42,24 @@ struct Session {
 /// Physics + aqueous chemistry + honesty. If the PHREEQC engine cannot be
 /// initialised the session still works, honestly degraded.
 fn build_stack() -> SolverStack {
-    let mut solvers: Vec<Box<dyn Equilibrator>> = vec![
-        Box::new(MixingEquilibrator),
-        Box::new(CuratedEquilibrator),
-        Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
-        Box::new(kerotakis_cea::ThermalEquilibrator),
-    ];
-    match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
+    // The order is kerotakis-stack's, shared with the shell and the wasm
+    // bench — chemistry must not depend on which host ran it. Only the
+    // aqueous tail is this host's to choose.
+    let tail: Vec<Box<dyn Equilibrator>> = match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
         // The metallic state rides on top of the aqueous solve: the series
         // moves electrons over the activities PHREEQC reports, and the
         // products go back through it.
-        Ok(aqueous) => solvers.push(Box::new(PhaseEquilibrator::wrapping(Box::new(
+        Ok(aqueous) => vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
             kerotakis_core::DisplacementEquilibrator::wrapping(Box::new(aqueous)),
-        )))),
+        )))],
         Err(e) => {
             eprintln!("kero: aqueous engine unavailable ({e}); running without it");
             // Pure-water phase changes still work in the honestly degraded
             // stack; only brine re-speciation is unavailable.
-            solvers.push(Box::new(StateEquilibrator));
+            vec![Box::new(StateEquilibrator)]
         }
-    }
-    solvers.push(Box::new(HonestyEquilibrator));
+    };
+    let solvers = kerotakis_stack::standard_solvers(tail);
     SolverStack::new(solvers)
 }
 

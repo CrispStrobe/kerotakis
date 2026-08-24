@@ -29,14 +29,82 @@
 
   let svgEl: SVGSVGElement | undefined = $state();
 
-  function exportSvg() {
-    if (!svgEl) return;
-    const blob = new Blob([svgEl.outerHTML], { type: "image/svg+xml" });
+  /**
+   * A serialized copy with the theme baked in. The live SVG is styled by
+   * the component's scoped CSS and theme variables — both lost on
+   * serialization, leaving an invisible file. So the export walks the
+   * clone and inlines each element's COMPUTED style: what you saved is
+   * what you saw, in whichever theme you saw it.
+   */
+  const STYLE_PROPS = [
+    "fill",
+    "stroke",
+    "stroke-width",
+    "opacity",
+    "font-size",
+    "font-family",
+    "text-anchor",
+  ] as const;
+
+  function styledClone(): SVGSVGElement | null {
+    if (!svgEl) return null;
+    const clone = svgEl.cloneNode(true) as SVGSVGElement;
+    const live = svgEl.querySelectorAll<SVGElement>("*");
+    const copied = clone.querySelectorAll<SVGElement>("*");
+    live.forEach((el, i) => {
+      const computed = getComputedStyle(el);
+      const target = copied[i]!;
+      for (const prop of STYLE_PROPS) {
+        target.style.setProperty(prop, computed.getPropertyValue(prop));
+      }
+      target.removeAttribute("class");
+    });
+    // A background, so dark-theme exports do not land on transparency.
+    const bg = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    bg.setAttribute("width", String(W));
+    bg.setAttribute("height", String(H));
+    bg.style.fill = getComputedStyle(svgEl.parentElement!).backgroundColor;
+    clone.insertBefore(bg, clone.firstChild);
+    clone.setAttribute("width", String(W));
+    clone.setAttribute("height", String(H));
+    return clone;
+  }
+
+  const stem = () => spec.title.replace(/\s+/g, "-") || "chart";
+
+  function save(href: string, name: string) {
     const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `${spec.title.replace(/\s+/g, "-") || "chart"}.svg`;
+    a.href = href;
+    a.download = name;
     a.click();
-    URL.revokeObjectURL(a.href);
+  }
+
+  function exportSvg() {
+    const clone = styledClone();
+    if (!clone) return;
+    const blob = new Blob([clone.outerHTML], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(blob);
+    save(url, `${stem()}.svg`);
+    URL.revokeObjectURL(url);
+  }
+
+  function exportPng() {
+    const clone = styledClone();
+    if (!clone) return;
+    const url = URL.createObjectURL(
+      new Blob([clone.outerHTML], { type: "image/svg+xml" }),
+    );
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = W * 2; // 2x for slide decks and print
+      canvas.height = H * 2;
+      canvas.getContext("2d")?.drawImage(img, 0, 0, W * 2, H * 2);
+      URL.revokeObjectURL(url);
+      save(canvas.toDataURL("image/png"), `${stem()}.png`);
+    };
+    img.onerror = () => URL.revokeObjectURL(url);
+    img.src = url;
   }
 </script>
 
@@ -87,6 +155,7 @@
 
   <figcaption>
     <button class="export" onclick={exportSvg}>save SVG</button>
+    <button class="export" onclick={exportPng}>save PNG</button>
     <span class="prov">{spec.provenance}</span>
   </figcaption>
 

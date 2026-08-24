@@ -276,6 +276,36 @@
         {/each}
       {/each}
     {/if}
+    {#if active("vent", 2600) && !sealed}
+      <!-- Gas leaving the open mouth: wisps above the rim, not in the liquid. -->
+      {#each [42, 50, 58] as x, i (x)}
+        <path
+          class="vent"
+          d={`M ${x} 8 q 3 -5 0 -10 q -3 -5 0 -10`}
+          style={`animation-delay:${i * 0.4}s`}
+        />
+      {/each}
+    {/if}
+    {#if active("drip", 2400)}
+      <!-- The burette's drop: falls from above the mouth to the surface. -->
+      <circle
+        class="drip"
+        cx="50"
+        cy="2"
+        r="2"
+        style={`--fall-to:${BOTTOM_Y - Math.max(liquidH, 6) - 2}px`}
+      />
+    {/if}
+    {#if active("swirl", 2000) && liquidH > 0}
+      <!-- Mixing: one dashed eddy mid-liquid, one revolution. -->
+      <ellipse
+        class="swirl"
+        cx="50"
+        cy={BOTTOM_Y - liquidH / 2}
+        rx={INNER_W / 2 - 6}
+        ry={Math.min(8, liquidH / 3)}
+      />
+    {/if}
     {#if active("plate", 2000)}
       <rect class="shimmer" x={INNER_X} y={BOTTOM_Y - Math.max(solidH, 6)} width={INNER_W} height={Math.max(solidH, 6)} />
     {/if}
@@ -418,6 +448,66 @@
   .solid-rim {
     stroke: rgb(255 255 255 / 30%);
     stroke-width: 1;
+  }
+  .vent {
+    fill: none;
+    stroke: var(--cloud);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    opacity: 0;
+    animation: vent-rise 1.6s ease-out infinite;
+  }
+  @keyframes vent-rise {
+    0% {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    30% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+  .drip {
+    fill: var(--cool);
+    animation: drip-fall 0.8s ease-in infinite;
+  }
+  @keyframes drip-fall {
+    0% {
+      opacity: 0;
+      transform: translateY(0);
+    }
+    15% {
+      opacity: 0.9;
+    }
+    90% {
+      opacity: 0.9;
+      transform: translateY(var(--fall-to, 90px));
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(var(--fall-to, 90px));
+    }
+  }
+  .swirl {
+    fill: none;
+    stroke: var(--cloud);
+    stroke-width: 1.3;
+    stroke-dasharray: 6 5;
+    opacity: 0.45;
+    animation: swirl-turn 2s linear forwards;
+  }
+  @keyframes swirl-turn {
+    0% {
+      stroke-dashoffset: 0;
+      opacity: 0.45;
+    }
+    100% {
+      stroke-dashoffset: -44;
+      opacity: 0;
+    }
   }
   .splash ellipse {
     fill: none;

@@ -349,7 +349,7 @@ every new dependency before its first import.
   register, refreshed after every step and register switch, with a
   particles append. Open: completion + parse-only validation in the bar
   (waits on GUI-005).*
-- [ ] **GUI-015 — Undo/replay + timeline.** Log-prefix replay with snapshot
+- [x] **GUI-015 — Undo/replay + timeline.** Log-prefix replay with snapshot
   cache; timeline scrubber; session autosave/restore; `.lab` import/export.
   *Status 2026-08-24 (2nd pass): undo/redo/scrubber are one cursor over
   the replayed log (jumpTo = reset + prefix replay; range-input timeline
@@ -357,8 +357,12 @@ every new dependency before its first import.
   localStorage with replay-based restore, corrupt saves dropped; `.lab`
   export AND import (import composes onto the current bench, stops at
   the first rejected line naming file:line, fully undoable); `clear`
-  distinct from jumpTo(0). All vitest-pinned. Open: snapshot cache for
-  O(1) undo on long sessions.*
+  distinct from jumpTo(0). All vitest-pinned.*
+  *3rd pass (same day): snapshot cache landed — `snapshot`/`restore`
+  protocol commands (opaque token, `Bench` serde round-trip; conformance
+  proves restore ≡ replay and that garbage refuses cleanly), Session
+  keeps one per log position (cap 40, truncation/clear invalidate) so
+  undo/scrub is O(1); replay stays the fallback and the semantics.*
 
 - [ ] **GUI-016 — Test deploy.** One payload from `tools/build-web.sh` —
   console at `/`, app at `/app/`, cross-linked, one shared engine — pushed
@@ -379,8 +383,13 @@ every new dependency before its first import.
 
 ### Phase G2 — Learning surfaces
 
-- [ ] **GUI-020 — Lesson player.** Lessons as guided overlays with
-  deviation + return; curriculum graph as map screen.
+- [x] **GUI-020 — Lesson player.** *Done 2026-08-24:* lessons walk as
+  guided overlays (LessonBar; free commands never move the cursor);
+  deviation is counted and NAMED ("off the script by N — exploring is
+  allowed"), and "return to the script" rewinds it as an undo to the
+  state after the lesson's last own step (snapshot-fast, never an
+  erasure — the wandering stays in the undone future). The map screen
+  is GUI-053's. Vitest-pinned.
 - [ ] **GUI-021 — Charts.** CAP-3 contract renderer (d3 primitives); first
   chart is the live titration curve (with CAP-12); SVG/PNG export.
   *Status 2026-08-24: renderer half done, dependency-free (hand-rolled
@@ -388,14 +397,22 @@ every new dependency before its first import.
   in PROTOCOL.md, `Chart.svelte` renders it (nice ticks, uncertainty
   bands for CAP-8, confidence-encoded strokes, screen-reader data table,
   SVG export; core vitest-covered), and the feed renders any step
-  carrying `charts` today. Open: the engine emitting the contract
-  (CAP-3's other half, with CAP-12's titrate verb) and PNG export.*
+  carrying `charts` today. Export pass (same day): the SVG export now
+  inlines each element's COMPUTED style plus a theme background —
+  serializing the live node had silently dropped the scoped CSS and
+  theme variables, saving an invisible file — and PNG export renders
+  that styled clone at 2× through a canvas. Open: the engine emitting
+  the contract (CAP-3's other half, with CAP-12's titrate verb).*
 - [ ] **GUI-022 — Notebook export.** Markdown/PDF with inline charts and
   provenance footer.
   *Status 2026-08-24: Markdown half done (`notebook.ts` + "save notes") —
   commands as code, observations as prose, hazards as severity-labelled
-  quotes, charts as data tables with provenance. Open: PDF, inline chart
-  images.*
+  quotes, charts as data tables with provenance. PDF half (same day):
+  a print stylesheet strips the chrome so the feed prints AS the
+  notebook, charts drawn (not tabled) with their provenance lines; the
+  header's "print" button opens the dialog and the browser's save-as-PDF
+  is the PDF export — no dependency earns its keep against that. Open:
+  inline chart images in the Markdown export.*
 - [ ] **GUI-023 — Hazard cards + honest-boundary panels.** The fixed visual
   encoding for the confidence vocabulary, everywhere.
 - [ ] **GUI-024 — Challenges v1.** Equation balancing, endpoint, buffer
@@ -404,10 +421,13 @@ every new dependency before its first import.
 - [ ] **GUI-025 — The equation strip.** Reactions as balanced equations
   pinned beside the bench at lv2+, live as they happen. We already
   compute them; today they are buried in the feed.
-- [ ] **GUI-026 — Pour and stir.** Drop-to-add gets a pour animation and
-  a stir gesture on the Canvas2D effects layer — strictly driven by
-  computed events, decorative in style, never in fact. Today the reagent
-  teleports; a lab should *feel* like handling things.
+- [x] **GUI-026 — Pour and stir.** *Shipped 2026-08-24 (SVG, not
+  Canvas2D — the vessels' own layer was enough):* drop-to-add splashes a
+  ripple at the surface; `gas_evolved` vents wisps from an open mouth
+  (sealed vessels honestly show nothing); `titrated` drips from above;
+  `mixed`/`diluted` swirl a dashed eddy one revolution; `flame_test`
+  reuses the flame. Every one fires only on its typed engine event
+  (session map is unit-tested). Decorative in style, never in fact.
 - [x] **GUI-027 — Utilities drawer.** *Toolbox shipped 2026-08-24:*
   `relations`/`calc` are protocol commands on all three hosts (PROTOCOL.md;
   conformance checks the catalogue shape, one known-good evaluation, and
@@ -455,9 +475,16 @@ puts on the bench"), concept/prerequisite edges into 189 defined concepts,
 calculation and model taxonomies, and curriculum placements. The GUI has
 been ignoring all of it:
 
-- [ ] **GUI-053 — The concept map.** The codex concept graph as the map
-  screen the UX section promised: at lv1 a skill tree, at lv3 the DAG;
-  entries light up as their concepts are met in the learner's own log.
+- [x] **GUI-053 — The concept map.** *Shipped 2026-08-24, armed on the
+  export:* the map screen draws the concept DAG layered by longest
+  prerequisite chain (edges = each entry's `requires` → its `concepts`;
+  pure, tested layering in codex.ts with a cycle guard). Below lv3 it
+  reads as a skill tree — edges only for the concept in hand; at lv3 the
+  full DAG shows. A concept fills when the learner ran an entry teaching
+  it to a green check on this device (progress in localStorage, separate
+  from the bench save; nothing is met by reading). Tapping a concept
+  lists its entries ready-first with the missing prerequisites named,
+  and hands an entry straight to the experiment page.
 - [ ] **GUI-054 — The experiment page.** Every codex entry as a one-tap
   experiment rendered in the shape the national school-lab platforms
   proved on millions of students — one experiment, tabbed:
@@ -478,9 +505,14 @@ been ignoring all of it:
   never recomputing chemistry; vitest-pinned). Lights up the moment the
   codex export ships `codex/index.json` in the payload (kero-basic's
   task); quiet absence until then.*
-- [ ] **GUI-055 — The curriculum browser.** Placements (per-system stages
-  with citations) as a teacher-facing index: pick a curriculum stage, see
-  the entries and concepts that serve it, launch them.
+- [x] **GUI-055 — The curriculum browser.** *Client shipped 2026-08-24,
+  armed on the codex export:* the experiments dialog gained three doors —
+  all (with a filter), by concept (chips with counts; a selected concept
+  filters the list and names its co-occurring neighbours, the GUI-053
+  down payment), by curriculum (system → stage ordered by age band,
+  placement citations shown, entries launch straight into the tabbed
+  page). Grouping is pure, tested code in codex.ts; the export must
+  carry `concepts` and `curriculum` per entry for the doors to light up.
 - [ ] **Codex expansion (engine/content side, tracked here for the GUI's
   sake):** more entries toward 200+, more curriculum spines beyond the two
   German systems, apparatus vocabulary kept in lockstep with GUI-033, and

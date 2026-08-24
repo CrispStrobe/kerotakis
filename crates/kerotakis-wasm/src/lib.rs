@@ -19,8 +19,7 @@
 pub mod worker;
 
 use kerotakis_core::{
-    render_events, render_vessel, Bench, Equilibrator, Event, HonestyEquilibrator,
-    MixingEquilibrator, Operator, Register, SolverStack,
+    render_events, render_vessel, Bench, Equilibrator, Event, Operator, Register, SolverStack,
 };
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -43,13 +42,10 @@ impl Lab {
             .map_err(|e| JsError::new(&e.to_string()))?;
         Ok(Lab {
             bench: Bench::new(),
-            stack: SolverStack::new(vec![
-                Box::new(MixingEquilibrator),
-                Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
-                Box::new(kerotakis_core::CuratedEquilibrator),
-                Box::new(kerotakis_cea::ThermalEquilibrator),
-                Box::new(HonestyEquilibrator),
-            ]),
+            // The shared standard order (kerotakis-stack); the aqueous
+            // engine is attached through the JS hook, not in the stack,
+            // so the tail is empty here.
+            stack: kerotakis_stack::standard_stack(vec![]),
             aqueous,
             register: Register::default(),
         })
@@ -331,6 +327,22 @@ impl Lab {
             .to_string(),
             Err(e) => serde_json::json!({ "ok": false, "error": e.to_string() }).to_string(),
         }
+    }
+
+    /// The whole bench as a restorable snapshot (serde round-trip of
+    /// `Bench`). The GUI keeps one per log position so undo/scrub is a
+    /// restore instead of a reset-and-replay — same determinism, O(1).
+    pub fn snapshot(&self) -> Result<String, JsError> {
+        serde_json::to_string(&self.bench).map_err(|e| JsError::new(&e.to_string()))
+    }
+
+    /// Replace the bench with a snapshot taken by `snapshot()`. The
+    /// session (register, solver, caches) survives — this is bench state
+    /// only, exactly like `reset`.
+    pub fn restore(&mut self, snapshot: &str) -> Result<(), JsError> {
+        self.bench = serde_json::from_str(snapshot)
+            .map_err(|e| JsError::new(&format!("the snapshot did not parse: {e}")))?;
+        Ok(())
     }
 
     /// The bench state as JSON.

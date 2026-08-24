@@ -1282,6 +1282,40 @@ honest apology.
       consumed, element conservation, Lugol assay contrast
       (starch-positive without enzyme, starch-negative after),
       three-register rendering. SMILES for maltose.
+- **EXP-43 Clock kinetics (iodine-clock class):** two curated kinetic
+      rate laws joining the landed thiosulfate clock: iodide–peroxide
+      `H₂O₂ + 2 KI → I₂ + 2 KOH` (acid-catalysed, first order in
+      each, Ea 56 kJ/mol) and iodate–bisulfite Landolt
+      `KIO₃ + 3 NaHSO₃ → KI + 3 NaHSO₄` (first order in each,
+      Ea 48 kJ/mol). Four new registry species: KI, KIO₃, NaHSO₃,
+      NaHSO₄. Safety: KI as ReducingAgent, KIO₃ as OxidizerStrong,
+      NaHSO₃ as ReducingAgent, NaHSO₄ as AcidStrong. SMILES for all
+      four. 12 tests: registry lookup, I₂ production, concentration
+      doubling, temperature acceleration, clock time in practical
+      range, product formation, bisulfite consumption, network
+      conservation lint.
+
+## CAP-25 — The senses of the bench (the visuals' honest sources)
+
+- [x] Slice 1: **done 2026-08-24** (Fable). The GUI's effects layer
+      renders only what the engine emits — so the engine grew the two
+      sources the ask needed most: **smell** (`smell`/`waft` verb;
+      curated odour rows in `senses.rs` with the qualitative-analysis
+      vocabulary; hazardous vapours warn the way a real bench would;
+      an empty answer is spoken because "odourless" is data — CO2
+      teaches why a nose is not a gas detector) and **Burst** (sealed
+      glassware has a teaching limit, ~4 atm editorial constant; a
+      sealed gas-maker now fails as an event with Danger severity,
+      the seal gone, every vented gas an event, the ledger exact
+      through the bang — the GUI explosion is THIS, never a script).
+      Acceptance: tests/senses.rs.
+      **The apparatus catalog** (user-supplied ~70-item palette)
+      lives in APPARATUS.md, each item classed SKIN / PROP /
+      BEHAVIOR(task): ~45 are drawable today over landed verbs; the
+      remainder map to EXP-8/18/30/31/32/33/34 plus three new small
+      behaviours (reduced-pressure boiling, programmed dosing,
+      accelerated settling). GUI workline: the catalog is the
+      requirements list; visuals are our own.
 
 ## Declined — off-mission, recorded so nobody re-litigates silently
 

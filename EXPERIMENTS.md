@@ -474,7 +474,28 @@ only the genuinely new remainder.
   and temperature sweeps via `kero study`. Acceptance: clock time
   scales with concentration and temperature as the rate law says;
   the sweep reproduces the classic linearisation.
+  **DONE** (2026-08-24): two curated rate laws (iodide–peroxide,
+  iodate–bisulfite Landolt), 4 new registry species, safety rows,
+  SMILES, 12 tests all green.
 - **EXP-44 — Excess enthalpy of mixing** — the
+- **EXP-44 — Excess enthalpy of mixing** — [x] **first half done
+  2026-08-24** (Fable). hᴱ = −RT²·Σxᵢ·∂lnγᵢ/∂T from UNIFAC's own
+  temperature dependence (central difference, step stated), wired
+  into the bench as a STATE FUNCTION: the vessel stores its total Hᴱ
+  and each settle releases/absorbs only the difference, so one pour
+  or five reach the same temperature to machine precision — proven,
+  after the first attempt failed for a real thermodynamic reason
+  (evaluating hᴱ at current T lets the path leak back in; the 25 °C
+  reference is the stated model choice that restores exactness). The
+  honesty core is the ALLOWLIST: acetone–water applies (its derived
+  curve reproduces the literature S-shape); ethanol–water is
+  WITHHELD, because this parameter set inverts the dilute-end sign
+  and a wrong sign taught with confidence is worse than a stated gap
+  — the thermo suite pins the deviation so a parameter upgrade
+  (modified-UNIFAC/T-dependent aₘₙ) reopens the question loudly.
+  Remaining: the acetone–chloroform pair (needs CCl-group growth —
+  agent data task), the mixing-calorimetry quest. Original scope
+  follows. — the
   acetone–chloroform-class negative deviation: h^E from the
   temperature dependence of UNIFAC activity coefficients
   (h^E = -RT² Σ xᵢ ∂ln γᵢ/∂T). Needs chloroform-class groups added
