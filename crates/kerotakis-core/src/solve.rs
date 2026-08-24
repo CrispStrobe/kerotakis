@@ -672,6 +672,11 @@ impl Equilibrator for PhaseEquilibrator {
 /// A vessel whose `solution` is set was handled by an aqueous solver, so a
 /// solid coexisting with liquid there is a real computed state (a
 /// precipitate), not a gap.
+/// Pairing requirement (CAP-23): this pass stands aside for solids the
+/// non-aqueous rung has a curated verdict for, so any stack that
+/// carries it must carry `nonaqueous::NonAqueousEquilibrator` earlier —
+/// otherwise a covered pair gets neither the verdict nor the apology.
+/// All three production stacks and the engine test stack do.
 pub struct HonestyEquilibrator;
 
 impl Equilibrator for HonestyEquilibrator {
