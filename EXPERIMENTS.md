@@ -248,6 +248,8 @@ for main, claim-audit statuses with acceptance evidence.
   enzymatic hydrolysis + Lugol assay. Acceptance: starch negative
   after enzyme+time+warmth, positive without; the sweetness line at
   lv1 is the maltose the ledger shows.
+  **DONE** (2026-08-24): curated reaction with catalyst gate, 2 new
+  registry species, safety rows, maltose SMILES, 10 tests all green.
 - **EXP-15 Boden** — clay/sand/silt column materials with retention
   parameters on the landed CellChain. Acceptance: percolation-time
   and retention orderings match the curated data; three-column

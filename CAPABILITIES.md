@@ -1172,8 +1172,23 @@ across subsystems. **Depends on:** nothing.
       NotYetModeled, MnO₂ solid deposited, three registers, limiting
       reagent; safety screen warning unchanged.
 
-**Remaining rungs.** Silver-halide metathesis in ethanol
-follows the permanganate pattern. Rung 1 data growth (kero-basic, in flight):
+- [x] Rung 2b: **done 2026-08-24** (kero1). Silver metathesis in
+      ethanol: `AgNO₃ + NaCl → AgCl↓ + NaNO₃` and `AgNO₃ + KCl →
+      AgCl↓ + KNO₃`. Fires only in single-organic-solvent bench (no
+      water — PHREEQC handles aqueous). Solvent-gated reactions draw
+      from the dissolved fraction only: undissolved NaCl on the bottom
+      does not participate. NaNO₃ and KNO₃ added to the species
+      registry (with safety rows, golden regen, SMILES in
+      CURATED_STRUCTURES, and exporter canonicalization). CuratedReaction
+      gains an optional `solvent` gate with `available_dissolved()`
+      computing the would-dissolve solid up to the handbook limit.
+      Solvent-gated reactions fire at most once per equilibration step.
+      Acceptance: 10 tests in `tests/silver_metathesis.rs` — stoich
+      balance, AgCl precipitates as solid, dissolved-fractions-only
+      constraint, element conservation, water suppression, no
+      NotYetModeled, three registers.
+
+**Remaining rungs.** Rung 1 data growth (kero-basic, in flight):
 the solubility table toward every registry solid × four solvents,
 handbook-sourced, reactive pairs excluded by rule. Rung 3 (open):
 mixed water/organic solvents — route to PHREEQC above a stated water
@@ -1235,6 +1250,38 @@ honest apology.
       (value ± tolerance read from the solved state) and sealed
       "unknown" reagents (identity hidden by the UI, computed
       truthfully underneath) — both land in the quest engine.
+- **EXP-2 Backpulver (thermal decomposition):** curated reaction
+      `2 NaHCO₃ →Δ Na₂CO₃ + H₂O + CO₂↑` with temperature threshold
+      353 K (80 °C; CRC Handbook 97th ed., Merck Index 15th ed.).
+      `CuratedReaction` gains `min_temp_k: Option<f64>` — the reaction
+      fires only when the vessel temperature reaches the threshold.
+      11 tests: equation balance, temperature gating (fires above,
+      silent below), CO₂ gas evolution (open + sealed headspace),
+      Na₂CO₃ solid product, stoichiometry, element conservation,
+      honesty silence, three-register rendering. No new species
+      required (NaHCO₃, Na₂CO₃, CO₂, water already in registry).
+- **EXP-13 Vitamin C (iodine decolorisation):** curated reaction
+      `C₆H₈O₆ + I₂ → C₆H₆O₆ + 2 HI`. Five new registry species:
+      ascorbic_acid, I₂, dehydroascorbic_acid, HI, starch (indicator).
+      Safety: I₂ as OxidizerStrong, HI as AcidStrong,
+      ascorbic_acid as ReducingAgent, dehydroascorbic_acid + starch
+      inert. 10 tests: equation balance, fires when both present,
+      silent without vitamin C, titration endpoint (I₂ consumed
+      while vitamin C remains, persists past endpoint), product
+      stoichiometry, element conservation, juice-vs-water contrast,
+      three-register rendering. SMILES for 4 molecular species.
+- **EXP-14 Amylase (enzymatic hydrolysis):** curated reaction
+      `2 (C₆H₁₀O₅) + H₂O →[amylase] C₁₂H₂₂O₁₁`. `CuratedReaction`
+      gains `catalyst: Option<&'static str>` — the reaction fires only
+      when the named catalyst species is present; catalyst is not
+      consumed. Two new registry species: amylase (enzyme, formula "C"
+      placeholder following catalase convention, 55 kDa), maltose
+      (C₁₂H₂₂O₁₁, 342.3 g/mol). Safety: amylase + maltose inert.
+      10 tests: equation balance, enzyme gating (fires with, silent
+      without), catalyst not consumed, product stoichiometry, starch
+      consumed, element conservation, Lugol assay contrast
+      (starch-positive without enzyme, starch-negative after),
+      three-register rendering. SMILES for maltose.
 
 ## Declined — off-mission, recorded so nobody re-litigates silently
 

@@ -50,7 +50,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
     use ReactiveGroup::*;
     match species_key {
         // ── strong acids ──────────────────────────────────────────
-        "HCl" => &[AcidStrong],
+        "HCl" | "HI" => &[AcidStrong],
         "H2SO4" => &[AcidStrong],
 
         // ── strong bases ──────────────────────────────────────────
@@ -62,7 +62,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // ── strong oxidizers ──────────────────────────────────────
         "H2O2" => &[OxidizerStrong],
         "KMnO4" => &[OxidizerStrong],
-        "Cl2" => &[OxidizerStrong],
+        "Cl2" | "I2" => &[OxidizerStrong],
         "MnO4-" => &[OxidizerStrong],
 
         // ── hypochlorite (specific sub-class of oxidizer) ─────────
@@ -71,6 +71,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         // ── reducing agents ───────────────────────────────────────
         "Na2SO3" => &[ReducingAgent],
         "Na2S2O3" => &[ReducingAgent],
+        "ascorbic_acid" => &[ReducingAgent],
 
         // ── active metals (above H in activity series) ────────────
         "Mg" => &[ActiveMetal],
@@ -100,13 +101,65 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "NaHCO3" => &[Carbonate],
 
         // ── inert: solvents, salts, oxides, ions, indicators ──────
-        "water" | "NaCl" | "AgNO3" | "AgCl" | "catalase" | "MnO2" | "S" | "SO2" | "Cu(OH)2"
-        | "CuO" | "Na+" | "Cl-" | "Ag+" | "NO3-" | "NH2Cl" | "CH3COOH" | "NaOAc" | "CH3COO-"
-        | "CO2" | "HCO3-" | "H3PO4" | "H2PO4-" | "KCl" | "CaCl2" | "MgSO4" | "gypsum" | "K+"
-        | "Ca+2" | "Mg+2" | "Sr+2" | "SO4-2" | "Cu" | "Ag" | "MgO" | "C" | "O2" | "N2"
-        | "CuSO4" | "Cu+2" | "FeSO4" | "Fe+2" | "Fe+3" | "Cu+1" | "Mn+2" | "MnO4-2" | "Mn+3"
-        | "phenolphthalein" | "methyl_orange" | "bromothymol_blue" | "Zn+2" | "ZnSO4" | "Pb+2"
-        | "Pb(NO3)2" => &[],
+        "water"
+        | "NaCl"
+        | "AgNO3"
+        | "AgCl"
+        | "catalase"
+        | "MnO2"
+        | "S"
+        | "SO2"
+        | "Cu(OH)2"
+        | "CuO"
+        | "Na+"
+        | "Cl-"
+        | "Ag+"
+        | "NO3-"
+        | "NH2Cl"
+        | "CH3COOH"
+        | "NaOAc"
+        | "CH3COO-"
+        | "CO2"
+        | "HCO3-"
+        | "H3PO4"
+        | "H2PO4-"
+        | "KCl"
+        | "CaCl2"
+        | "MgSO4"
+        | "gypsum"
+        | "K+"
+        | "Ca+2"
+        | "Mg+2"
+        | "Sr+2"
+        | "SO4-2"
+        | "Cu"
+        | "Ag"
+        | "MgO"
+        | "C"
+        | "O2"
+        | "N2"
+        | "CuSO4"
+        | "Cu+2"
+        | "FeSO4"
+        | "Fe+2"
+        | "Fe+3"
+        | "Cu+1"
+        | "Mn+2"
+        | "MnO4-2"
+        | "Mn+3"
+        | "phenolphthalein"
+        | "methyl_orange"
+        | "bromothymol_blue"
+        | "Zn+2"
+        | "ZnSO4"
+        | "Pb+2"
+        | "Pb(NO3)2"
+        | "NaNO3"
+        | "KNO3"
+        | "dehydroascorbic_acid"
+        | "starch"
+        | "amylase"
+        | "maltose" => &[],
 
         _ => &[],
     }
@@ -148,9 +201,12 @@ pub const COVERED_KEYS: &[&str] = &[
     "H3PO4",
     "HCl",
     "HCO3-",
+    "HI",
+    "I2",
     "K+",
     "KCl",
     "KMnO4",
+    "KNO3",
     "Mg",
     "Mg+2",
     "MgO",
@@ -169,6 +225,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "Na2S2O3",
     "Na2SO3",
     "NaCl",
+    "NaNO3",
     "NaHCO3",
     "NaOAc",
     "NaOCl",
@@ -186,16 +243,21 @@ pub const COVERED_KEYS: &[&str] = &[
     "Zn",
     "Zn+2",
     "ZnSO4",
+    "amylase",
+    "ascorbic_acid",
     "bromothymol_blue",
     "catalase",
+    "dehydroascorbic_acid",
     "ethanol",
     "ethyl_acetate",
     "gypsum",
     "hexane",
+    "maltose",
     "methanol",
     "methyl_orange",
     "phenolphthalein",
     "propanone",
+    "starch",
     "water",
 ];
 
