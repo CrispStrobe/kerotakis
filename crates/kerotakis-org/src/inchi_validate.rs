@@ -96,6 +96,14 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("HI", "I"),
     // --- EXP-14: amylase/starch hydrolysis ---
     ("maltose", "OCC1OC(OC2C(O)C(O)C(O)OC2CO)C(O)C(O)C1O"),
+    // --- EXP-50: mechanistic selectivity (SN1/SN2/E1/E2) ---
+    ("bromoethane", "CCBr"),
+    ("tert_butyl_bromide", "CC(C)(C)Br"),
+    ("NaBr", "[Na+].[Br-]"),
+    ("ethene", "C=C"),
+    ("tert_butanol", "CC(C)(C)O"),
+    ("isobutylene", "CC(C)=C"),
+    ("HBr", "Br"),
 ];
 
 /// Result of cross-validating one species' InChIKey.

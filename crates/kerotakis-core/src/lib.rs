@@ -48,6 +48,7 @@ pub mod relations;
 pub mod render;
 pub mod scene;
 pub mod script;
+pub mod selectivity;
 pub mod solve;
 pub mod species;
 pub mod spectrum;

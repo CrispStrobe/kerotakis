@@ -50,7 +50,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
     use ReactiveGroup::*;
     match species_key {
         // ── strong acids ──────────────────────────────────────────
-        "HCl" | "HI" => &[AcidStrong],
+        "HCl" | "HI" | "HBr" => &[AcidStrong],
         "H2SO4" => &[AcidStrong],
 
         // ── strong bases ──────────────────────────────────────────
@@ -85,9 +85,12 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "hexane" => &[FlammableLiquid],
         "propanone" => &[FlammableLiquid],
         "ethyl_acetate" => &[FlammableLiquid],
+        "bromoethane" | "tert_butyl_bromide" => &[FlammableLiquid],
+        "tert_butanol" => &[FlammableLiquid],
 
         // ── flammable gas ─────────────────────────────────────────
         "H2" => &[FlammableGas],
+        "ethene" | "isobutylene" => &[FlammableGas],
 
         // ── water-reactive ────────────────────────────────────────
         "CaO" => &[WaterReactive],
@@ -159,7 +162,8 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "dehydroascorbic_acid"
         | "starch"
         | "amylase"
-        | "maltose" => &[],
+        | "maltose"
+        | "NaBr" => &[],
 
         _ => &[],
     }
@@ -200,6 +204,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "H2SO4",
     "H3PO4",
     "HCl",
+    "HBr",
     "HCO3-",
     "HI",
     "I2",
@@ -221,6 +226,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "NH3",
     "NO3-",
     "Na+",
+    "NaBr",
     "Na2CO3",
     "Na2S2O3",
     "Na2SO3",
@@ -245,19 +251,24 @@ pub const COVERED_KEYS: &[&str] = &[
     "ZnSO4",
     "amylase",
     "ascorbic_acid",
+    "bromoethane",
     "bromothymol_blue",
     "catalase",
     "dehydroascorbic_acid",
     "ethanol",
+    "ethene",
     "ethyl_acetate",
     "gypsum",
     "hexane",
+    "isobutylene",
     "maltose",
     "methanol",
     "methyl_orange",
     "phenolphthalein",
     "propanone",
     "starch",
+    "tert_butanol",
+    "tert_butyl_bromide",
     "water",
 ];
 
