@@ -285,6 +285,9 @@ every new dependency before its first import.
   (step/runScript/state/scene/events/species/parse/chart) as a versioned
   document + conformance test that both hosts must pass. The current wasm
   API is the seed.
+  *Status 2026-08-24: spec half written — [PROTOCOL.md](PROTOCOL.md),
+  built on the WEB-002 worker enums. Open: the `validation/protocol/`
+  conformance corpus + CI run (checkbox waits on that evidence).*
 - [ ] **GUI-002 — Events as structured JSON.** Expose the typed `Event`
   enum over the boundary with stable ids + params; decide engine-side vs
   client-side register rendering and the locale-pack shape.
