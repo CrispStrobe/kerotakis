@@ -326,11 +326,19 @@ every new dependency before its first import.
   register dial wired end to end.
 - [ ] **GUI-012 — Shelf v1.** Registry-driven, searchable, drag/tap-to-add,
   register-aware amount picker (pinch/cup ↔ g/mol/mL).
-  *Status 2026-08-24: tap-to-add landed (`Shelf.svelte`) — registry-fed via
-  `species`, search over name/formula/key, register-aware quick amounts
-  (lv1 kitchen units, lv2+ lab units + free input), compiles to
-  `add v{n} …` through the session. Open: drag-to-vessel, hazard chips,
-  appearance swatches.*
+  *Status 2026-08-24 (2nd pass): tap-to-add and drag-to-vessel landed —
+  registry-fed via `species`, search over name/formula/key, register-aware
+  quick amounts. Open: hazard chips, appearance swatches — and SCALE: the
+  shelf is structurally complete (it lists whatever the registry serves,
+  79 today) but its flat list stops working past ~150 species. As the
+  generated-registry tranches (CAP-21/CAP-23 pipeline, 23→65 landed
+  2026-08-24) climb toward the hundreds, the shelf needs grouping
+  (phase/family sections, codex-topic cross-links) with search staying
+  primary. The species COUNT is data-side work and is deliberately
+  tranche-gated: every entry arrives with molar wiring, appearance,
+  safety row, provenance, and InChI identity — a shelf of hundreds of
+  unverified names is the lookup-table failure this project exists to
+  avoid.*
 - [ ] **GUI-013 — Feed v1.** Event stream at current register with command
   echo; this is also the a11y acceptance gate: run a full lesson from
   keyboard + screen reader.
