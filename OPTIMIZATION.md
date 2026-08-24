@@ -211,11 +211,16 @@ report rather than adjusting the tolerance).
 
 ## OPT-3 — Hot-path mechanics in `aqueous.rs`
 
-- [ ] Status: open. **Audit 2026-08-24:** an earlier "Mark OPT-3/4
-      complete" over-claimed this half — verified against the tree:
-      `hit.clone()` still at aqueous.rs:614 and :1893, the
-      `#[allow(clippy::type_complexity)]` tuple still at :122/:1866,
-      and no `OnceLock` env-flag hoists exist in the file.
+- [x] Status: **done 2026-08-24** (kero1, 87e4608; reviewed and landed
+      by Fable). `CachedSolve` named struct replaces the anonymous
+      5-tuple, both caches hold `Rc` so hits and inserts are refcount
+      bumps, all four env-flag reads (`KERO_DUMP_INPUT` ×2,
+      `KERO_REDOX`, `KERO_READBACK`) hoisted into `OnceLock`, eviction
+      policy untouched as scoped. Verified compatible with the study
+      runner's one-engine-per-rayon-thread pattern (`Rc` keeps the
+      equilibrator `!Send`; per-thread state needs no `Send`). An
+      earlier same-day audit had recorded this task as open after a
+      prior over-claim — this landing is the real one.
 
 **Why.** Three independently small costs sit on the path of *every*
 engine call, and one more on every cache hit.
