@@ -182,16 +182,16 @@ export class Session {
     }
   }
 
-  /** Run one command line — from the command bar or compiled from a gesture. */
-  async submit(line: string): Promise<void> {
+  /** Run one command line — from the command bar or compiled from a
+   * gesture. Returns whether the engine accepted it. */
+  async submit(line: string): Promise<boolean> {
     const trimmed = line.trim();
-    if (!trimmed || this.busy) return;
+    if (!trimmed || this.busy) return false;
     this.busy = true;
     this.feed.push({ kind: "command", text: trimmed });
     try {
       if (trimmed.startsWith("register ")) {
-        await this.applyRegister(trimmed.slice("register ".length).trim());
-        return;
+        return await this.applyRegister(trimmed.slice("register ".length).trim());
       }
       const result = await this.host.runScript(trimmed);
       for (const step of result.steps) {
@@ -236,15 +236,42 @@ export class Session {
       this.persist();
       // The inspected vessel's detail is stale after any step.
       if (this.inspector) await this.inspect(this.inspector.vessel);
+      return true;
     } catch (e) {
       const refusal = e instanceof EngineError && e.kind === "refused";
       this.feed.push({
         kind: refusal ? "refusal" : "error",
         text: e instanceof Error ? e.message : String(e),
       });
+      return false;
     } finally {
       this.busy = false;
     }
+  }
+
+  /**
+   * Run a .lab file line by line onto the CURRENT bench — import composes
+   * rather than destroys (clear first for a fresh start). Comments and
+   * blanks are skipped; the walk stops at the first line the engine
+   * rejects, naming it. Every accepted line enters the log, so an import
+   * is undoable like anything else.
+   */
+  async importLab(name: string, text: string): Promise<void> {
+    this.feed.push({ kind: "note", text: `running ${name} on this bench` });
+    let lineno = 0;
+    for (const raw of text.split("\n")) {
+      lineno += 1;
+      const line = raw.trim();
+      if (!line || line.startsWith("#")) continue;
+      if (!(await this.submit(line))) {
+        this.feed.push({
+          kind: "note",
+          text: `stopped at ${name}:${lineno} — the rest of the file did not run`,
+        });
+        return;
+      }
+    }
+    this.feed.push({ kind: "note", text: `${name} finished` });
   }
 
   async setRegister(level: string): Promise<void> {
@@ -258,18 +285,20 @@ export class Session {
     }
   }
 
-  private async applyRegister(level: string): Promise<void> {
+  private async applyRegister(level: string): Promise<boolean> {
     try {
       await this.host.setRegister(level);
       this.register = level;
       this.persist();
       this.feed.push({ kind: "note", text: `speaking at ${level}` });
       if (this.inspector) await this.inspect(this.inspector.vessel);
+      return true;
     } catch (e) {
       this.feed.push({
         kind: "error",
         text: e instanceof Error ? e.message : String(e),
       });
+      return false;
     } finally {
       this.busy = false;
     }

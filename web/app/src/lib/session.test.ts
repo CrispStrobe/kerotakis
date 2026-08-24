@@ -261,6 +261,22 @@ describe("Session", () => {
     expect(host.calls.at(-2)).toBe("reset");
   });
 
+  it("importLab composes onto the bench, skips comments, stops at a bad line", async () => {
+    const host = new FakeHost();
+    const s = new Session(host);
+    await s.importLab("demo.lab", "# a demo\nadd v1 water 100mL\n\nadd v1 NaCl 1g\n");
+    expect(s.commandLog).toEqual(["add v1 water 100mL", "add v1 NaCl 1g"]);
+    expect(s.feed.at(-1)!.text).toContain("demo.lab finished");
+
+    // A rejected line stops the walk and names the line number.
+    host.runScript = async () => {
+      throw new Error("no");
+    };
+    await s.importLab("bad.lab", "# comment\nboom v9\nadd v1 water 1mL\n");
+    expect(s.commandLog).toHaveLength(2);
+    expect(s.feed.at(-1)!.text).toContain("bad.lab:2");
+  });
+
   it("inspect opens register-dependent detail and refreshes after steps", async () => {
     const host = new FakeHost();
     const s = new Session(host);

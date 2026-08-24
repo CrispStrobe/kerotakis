@@ -4,6 +4,13 @@
 
   let { entries }: { entries: FeedEntry[] } = $props();
 
+  // Render only the tail of a very long session: the exports keep every
+  // entry, the DOM does not have to (low-end budget). 400 entries is far
+  // beyond what a screen shows and well within what a Chromebook lays out.
+  const WINDOW = 400;
+  const shown = $derived(entries.length > WINDOW ? entries.slice(-WINDOW) : entries);
+  const trimmed = $derived(entries.length - shown.length);
+
   let list: HTMLElement | undefined = $state();
   $effect(() => {
     // Track length so new entries keep the latest line in view.
@@ -15,7 +22,10 @@
 <!-- The feed is the notebook and the screen-reader surface: everything the
      bench does is a legible line here, announced as it happens. -->
 <section class="feed" aria-label="lab notebook" aria-live="polite" bind:this={list}>
-  {#each entries as entry, i (i)}
+  {#if trimmed > 0}
+    <p class="note">…{trimmed} earlier entries not shown (the exports keep them)</p>
+  {/if}
+  {#each shown as entry, i (i)}
     {#if entry.kind === "hazard"}
       <div class="hazard" role="alert">
         <span class="chip">{entry.severity || "hazard"}</span>

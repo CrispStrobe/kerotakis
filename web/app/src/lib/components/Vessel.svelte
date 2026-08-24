@@ -126,8 +126,26 @@
       class="glass"
       d="M 12 14 L 12 122 Q 12 128 20 128 L 80 128 Q 88 128 88 122 L 88 14"
     />
-    {#if sealed}
-      <rect class="lid" x="10" y="9" width="80" height="5" rx="2" />
+    {#if vessel.boundary === "sealed"}
+      <rect class="lid" x="10" y="9" width="80" height="5" rx="2">
+        <title>sealed</title>
+      </rect>
+    {:else if vessel.boundary === "pressure_controlled"}
+      <!-- A floating piston: the lid that moves to hold the set pressure. -->
+      <rect class="lid" x="14" y="16" width="72" height="4" rx="1">
+        <title>pressure-controlled</title>
+      </rect>
+      <line class="piston" x1="50" y1="4" x2="50" y2="16" />
+      <line class="piston" x1="42" y1="4" x2="58" y2="4" />
+    {:else if vessel.boundary === "swept"}
+      <!-- Carrier gas in one side, out the other. -->
+      <g class="sweep" aria-hidden="true">
+        <line x1="2" y1="18" x2="30" y2="18" />
+        <path d="M 30 18 l -5 -3 v 6 z" />
+        <line x1="70" y1="12" x2="98" y2="12" />
+        <path d="M 98 12 l -5 -3 v 6 z" />
+        <title>swept with carrier gas</title>
+      </g>
     {/if}
   </svg>
 
@@ -196,6 +214,17 @@
   }
   .lid {
     fill: var(--edge-strong);
+  }
+  .piston {
+    stroke: var(--edge-strong);
+    stroke-width: 2;
+  }
+  .sweep line {
+    stroke: var(--dim);
+    stroke-width: 1.2;
+  }
+  .sweep path {
+    fill: var(--dim);
   }
   .metallic {
     stroke: var(--ink);

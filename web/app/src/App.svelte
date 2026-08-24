@@ -45,6 +45,14 @@
   }
 
   const saveLab = () => download("session.lab", session.exportLab());
+  let labFileInput: HTMLInputElement | undefined = $state();
+  async function openLabFile(e: Event) {
+    const input = e.currentTarget as HTMLInputElement;
+    const file = input.files?.[0];
+    input.value = "";
+    if (!file) return;
+    await session.importLab(file.name, await file.text());
+  }
   const saveNotes = () =>
     download(
       "notebook.md",
@@ -92,6 +100,18 @@
   <button class="tool" onclick={saveNotes} disabled={session.feed.length === 0}>
     save notes
   </button>
+  <button class="tool" onclick={() => labFileInput?.click()} disabled={session.busy}>
+    open .lab
+  </button>
+  <input
+    bind:this={labFileInput}
+    type="file"
+    accept=".lab,text/plain"
+    onchange={openLabFile}
+    style="display:none"
+    aria-hidden="true"
+    tabindex="-1"
+  />
   <button
     class="tool"
     onclick={() => void session.clear()}
