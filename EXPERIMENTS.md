@@ -272,6 +272,11 @@ for main, claim-audit statuses with acceptance evidence.
 - **EXP-19 Mixture-density data** — curated ethanol-water (then
   sucrose-water) density correlations with sources; unlocks
   concentration-from-density quests.
+  **Ethanol-water landed 2026-08-24 (kero-basic):**
+  `ethanol_water_density_g_ml(w)` in properties.rs, 5th-order fit
+  to CRC Handbook 97th ed. at 20 °C, max 1.5 mg/mL residual, 6 tests.
+  CLI: `kero properties ethanol-water-density w=0.4`. Sucrose-water
+  remains.
 - **EXP-20 Limiting-reagent pack** — precipitation and gas routes,
   predict-then-check quests with value claims.
 - **EXP-21 Thermochemistry pack** — reaction enthalpy, Hess

@@ -223,6 +223,50 @@ pub fn henry_lookup(formula: &str) -> Option<&'static HenryCoefficient> {
         .find(|c| c.formula.eq_ignore_ascii_case(formula) || c.gas == formula)
 }
 
+// ── Ethanol-water mixture density ──────────────────────────────────
+//
+// Polynomial fit to CRC Handbook of Chemistry and Physics, 97th ed.,
+// Table "Density of aqueous ethanol solutions at 20 °C".
+// 21 data points (0–100 % w/w in 5 % steps), 5th-order polynomial.
+// Valid: 0 ≤ w ≤ 1 (mass fraction ethanol), T = 20 °C.
+// Max residual: 1.5 mg/mL against the tabulated values.
+
+const ETHANOL_WATER_DENSITY_PROV: &str =
+    "CRC Handbook, 97th ed., density of ethanol-water at 20 °C; \
+     5th-order polynomial fit, max residual 1.5 mg/mL";
+
+const EW_COEFFS: [f64; 6] = [
+    9.977_472_131_347e-01,
+    -1.873_665_046_600e-01,
+    4.305_337_838_453e-01,
+    -1.410_997_305_338,
+    1.565_239_129_337,
+    -6.066_534_820_230e-01,
+];
+
+/// Density of an ethanol-water mixture in g/mL at 20 °C.
+/// `w_ethanol` is the mass fraction of ethanol, 0.0–1.0.
+pub fn ethanol_water_density_g_ml(w_ethanol: f64) -> Result<PropertyResult, String> {
+    if !(0.0..=1.0).contains(&w_ethanol) {
+        return Err(format!(
+            "ethanol mass fraction {w_ethanol:.3} is outside the valid range 0–1"
+        ));
+    }
+    let w = w_ethanol;
+    let rho = EW_COEFFS[0]
+        + EW_COEFFS[1] * w
+        + EW_COEFFS[2] * w * w
+        + EW_COEFFS[3] * w * w * w
+        + EW_COEFFS[4] * w * w * w * w
+        + EW_COEFFS[5] * w * w * w * w * w;
+    Ok(PropertyResult {
+        value: rho,
+        unit: "g/mL",
+        provenance: ETHANOL_WATER_DENSITY_PROV,
+        note: None,
+    })
+}
+
 // ── CLI dispatcher ──────────────────────────────────────────────────
 
 pub struct PropertyInfo {
@@ -246,6 +290,10 @@ pub const PROPERTIES: &[PropertyInfo] = &[
     PropertyInfo {
         name: "henry",
         description: "Henry's constant H(T) mol/(L·atm), Sander 2015: CO2, O2, N2, H2, Cl2, NH3",
+    },
+    PropertyInfo {
+        name: "ethanol-water-density",
+        description: "ρ(w) g/mL at 20 °C, CRC 97th ed., w = mass fraction ethanol 0–1",
     },
 ];
 
@@ -300,6 +348,10 @@ pub fn evaluate(name: &str, args: &[String]) -> Result<PropertyResult, String> {
                 format!("no Henry data for '{gas}'; available: CO2, O2, N2, H2, Cl2, NH3")
             })?;
             Ok(henry_at_t(coeff, t))
+        }
+        "ethanol-water-density" => {
+            let w = get("w")?;
+            ethanol_water_density_g_ml(w)
         }
         _ => Err(format!("unknown property '{name}'")),
     }
@@ -471,6 +523,50 @@ mod tests {
     }
 
     // ── evaluate dispatcher ─────────────────────────────────────────
+
+    // ── Ethanol-water density reference points ───────────────────────
+    // CRC Handbook 97th ed., density of aqueous ethanol at 20 °C
+
+    #[test]
+    fn ethanol_water_pure_water() {
+        let rho = ethanol_water_density_g_ml(0.0).unwrap().value;
+        assert!((rho - 0.998).abs() < 0.002, "ρ(0 %) ≈ 0.998: {rho}");
+    }
+
+    #[test]
+    fn ethanol_water_pure_ethanol() {
+        let rho = ethanol_water_density_g_ml(1.0).unwrap().value;
+        assert!((rho - 0.789).abs() < 0.002, "ρ(100 %) ≈ 0.789: {rho}");
+    }
+
+    #[test]
+    fn ethanol_water_fifty_percent() {
+        let rho = ethanol_water_density_g_ml(0.5).unwrap().value;
+        assert!((rho - 0.914).abs() < 0.002, "ρ(50 %) ≈ 0.914: {rho}");
+    }
+
+    #[test]
+    fn ethanol_water_density_decreases_with_ethanol() {
+        let r0 = ethanol_water_density_g_ml(0.0).unwrap().value;
+        let r50 = ethanol_water_density_g_ml(0.5).unwrap().value;
+        let r100 = ethanol_water_density_g_ml(1.0).unwrap().value;
+        assert!(r0 > r50 && r50 > r100, "density decreases: {r0} > {r50} > {r100}");
+    }
+
+    #[test]
+    fn ethanol_water_density_refuses_outside_range() {
+        assert!(ethanol_water_density_g_ml(-0.1).is_err());
+        assert!(ethanol_water_density_g_ml(1.1).is_err());
+    }
+
+    // ── evaluate dispatcher ─────────────────────────────────────────
+
+    #[test]
+    fn evaluate_dispatches_ethanol_water_density() {
+        let args: Vec<String> = ["w=0.5"].iter().map(|s| s.to_string()).collect();
+        let r = evaluate("ethanol-water-density", &args).unwrap();
+        assert!((r.value - 0.914).abs() < 0.002);
+    }
 
     #[test]
     fn evaluate_dispatches_water_density() {
