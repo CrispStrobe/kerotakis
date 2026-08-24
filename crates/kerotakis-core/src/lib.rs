@@ -34,6 +34,7 @@ pub mod intern;
 pub mod kinetics;
 pub mod ledger;
 pub mod molecule;
+pub mod nonaqueous;
 pub mod nuclide;
 pub mod ops;
 pub mod orchestrator;

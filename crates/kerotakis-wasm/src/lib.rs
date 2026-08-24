@@ -45,6 +45,7 @@ impl Lab {
             bench: Bench::new(),
             stack: SolverStack::new(vec![
                 Box::new(MixingEquilibrator),
+                Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
                 Box::new(kerotakis_core::CuratedEquilibrator),
                 Box::new(kerotakis_cea::ThermalEquilibrator),
                 Box::new(HonestyEquilibrator),

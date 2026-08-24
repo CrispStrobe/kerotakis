@@ -76,6 +76,7 @@ impl Bench {
     pub fn step(&mut self, op: Operator) -> Result<Vec<Event>, BenchError> {
         let mut default_stack = SolverStack::new(vec![
             Box::new(MixingEquilibrator),
+            Box::new(crate::nonaqueous::NonAqueousEquilibrator),
             Box::new(HonestyEquilibrator),
         ]);
         self.step_with(op, &mut default_stack, &PermissiveScreen)

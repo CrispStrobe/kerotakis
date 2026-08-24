@@ -672,6 +672,11 @@ impl Equilibrator for PhaseEquilibrator {
 /// A vessel whose `solution` is set was handled by an aqueous solver, so a
 /// solid coexisting with liquid there is a real computed state (a
 /// precipitate), not a gap.
+/// Pairing requirement (CAP-23): this pass stands aside for solids the
+/// non-aqueous rung has a curated verdict for, so any stack that
+/// carries it must carry `nonaqueous::NonAqueousEquilibrator` earlier —
+/// otherwise a covered pair gets neither the verdict nor the apology.
+/// All three production stacks and the engine test stack do.
 pub struct HonestyEquilibrator;
 
 impl Equilibrator for HonestyEquilibrator {
@@ -701,6 +706,14 @@ impl Equilibrator for HonestyEquilibrator {
                 continue;
             }
             if p.phase == Phase::Solid && has_liquid {
+                // A pair the non-aqueous rung has a computed verdict for
+                // was already answered; an apology after an answer is
+                // noise dressed as honesty.
+                if let Some(solvent) = crate::nonaqueous::single_organic_solvent(vessel) {
+                    if crate::nonaqueous::verdict_exists(&p.species, solvent) {
+                        continue;
+                    }
+                }
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());
@@ -746,6 +759,14 @@ impl Equilibrator for HonestyEquilibrator {
                 continue;
             }
             if p.phase == Phase::Solid && has_liquid {
+                // A pair the non-aqueous rung has a computed verdict for
+                // was already answered; an apology after an answer is
+                // noise dressed as honesty.
+                if let Some(solvent) = crate::nonaqueous::single_organic_solvent(vessel) {
+                    if crate::nonaqueous::verdict_exists(&p.species, solvent) {
+                        continue;
+                    }
+                }
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());

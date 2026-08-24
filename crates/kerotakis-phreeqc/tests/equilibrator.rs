@@ -11,6 +11,10 @@ fn stack() -> SolverStack {
     SolverStack::new(vec![
         Box::new(MixingEquilibrator),
         Box::new(CuratedEquilibrator),
+        // CAP-23: the honesty pass stands aside for pairs this rung
+        // covers, so every stack that carries Honesty must carry this
+        // before it — mirroring all three production stacks.
+        Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
         Box::new(PhreeqcEquilibrator::new().expect("engine")),
         Box::new(HonestyEquilibrator),
     ])
@@ -156,9 +160,12 @@ fn silver_nitrate_plus_salt_precipitates_silver_chloride() {
 }
 
 #[test]
-fn ethanol_mixture_is_honestly_out_of_scope() {
-    // Ethanol is not aqueous-mappable yet: the aqueous solver must decline
-    // (not guess), and the honesty pass must speak up about the salt.
+fn ethanol_bench_answers_with_the_curated_verdict() {
+    // CAP-23 superseded the old expectation here: salt in ethanol used
+    // to demand an unmodelled flag, but "NaCl is practically insoluble
+    // in ethanol" is a handbook answer, not a gap. The aqueous solver
+    // still declines (no solution is claimed) and the verdict comes
+    // from the non-aqueous rung with numbers.
     let mut bench = Bench::new();
     let mut stack = stack();
     let v = VesselId(0);
@@ -166,12 +173,22 @@ fn ethanol_mixture_is_honestly_out_of_scope() {
     let events = add(&mut bench, &mut stack, v, "NaCl", 0.01);
 
     assert!(
-        events
+        events.iter().any(|e| matches!(
+            e,
+            Event::DissolvedInSolvent { species, .. } if species.0 == "NaCl"
+        )),
+        "salt in ethanol gets the handbook verdict, got {events:?}"
+    );
+    assert!(
+        !events
             .iter()
             .any(|e| matches!(e, Event::NotYetModeled { .. })),
-        "salt in ethanol must be flagged as unmodelled, got {events:?}"
+        "an answered pair must not also apologise, got {events:?}"
     );
-    assert!(bench.vessel(v).unwrap().solution.is_none());
+    assert!(
+        bench.vessel(v).unwrap().solution.is_none(),
+        "no aqueous solution is claimed for an organic phase"
+    );
 }
 
 /// Bounded fuzz (P0): random additions of mapped species in random amounts —
