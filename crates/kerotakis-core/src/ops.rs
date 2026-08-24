@@ -147,6 +147,15 @@ pub enum Operator {
     /// Add solvent (water) by volume. The pedagogical complement of
     /// `evaporate`: where evaporate concentrates, dilute spreads.
     Dilute { vessel: VesselId, volume: Liters },
+    /// Spike a vessel with a tracer amount of a curated radionuclide
+    /// (EXP-49). Separate from `Add` because nuclides live in the
+    /// nuclide ledger, not the chemical registry.
+    SpikeNuclide {
+        vessel: VesselId,
+        /// Notation like "I-131"; must be in the curated teaching set.
+        nuclide: String,
+        moles: Moles,
+    },
     /// Apply a named curated organic transformation on command:
     /// `react v1 esterification`. Deliberate, not automatic — the
     /// mixture does not do this on its own at the bench's conditions;
@@ -214,6 +223,9 @@ pub enum Instrument {
     Spectrophotometer,
     /// INST-006: Calorimeter — reads enthalpy.
     Calorimeter,
+    /// EXP-49: Geiger counter — total activity of the vessel's
+    /// nuclide inventory, in becquerels.
+    GeigerCounter,
     /// INST-007: Chromatography column — separates dissolved neutral
     /// solutes by their computed partition coefficients and reports the
     /// peak table. Non-destructive here: an analytical injection is an
@@ -470,6 +482,26 @@ pub enum Event {
         /// Fraction of the solute that sat in the lower layer (and so
         /// left with it when the stopcock opened).
         fraction_lower: f64,
+    },
+    /// A radionuclide tracer entered the vessel's nuclide ledger.
+    NuclideSpiked {
+        vessel: VesselId,
+        nuclide: String,
+        moles: Moles,
+        /// Initial activity, Bq — the number the Geiger will read.
+        activity_bq: f64,
+    },
+    /// Radioactive decay ran during a wait: a parcel of the parent
+    /// became the daughter. Elements do NOT conserve across this event
+    /// — nucleons do, and the equation says exactly how.
+    Decayed {
+        vessel: VesselId,
+        parent: String,
+        daughter: String,
+        mode: String,
+        moles: Moles,
+        half_life_s: f64,
+        equation: String,
     },
     /// A named organic transformation ran to the stated extent. The
     /// boundary line carries what the model does NOT claim.

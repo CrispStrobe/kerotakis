@@ -30,6 +30,13 @@ struct Session {
     /// A second engine instance used only for `explain`'s path comparison,
     /// so comparing never disturbs the session's own solver state.
     paths: Option<kerotakis_phreeqc::PhreeqcEquilibrator>,
+    /// EXP-0: loaded quest specs (lazy, from ./quests) and live states.
+    quests: Vec<kerotakis_codex::quest::QuestSpec>,
+    quest_states: std::collections::BTreeMap<String, kerotakis_codex::quest::QuestState>,
+    /// Sealed-unknown display layer: alias → real species key. Chemistry
+    /// is never touched — input words are unmasked before parsing, and
+    /// rendered lines are re-masked before printing.
+    aliases: std::collections::BTreeMap<String, String>,
 }
 
 /// Physics + aqueous chemistry + honesty. If the PHREEQC engine cannot be
@@ -75,6 +82,9 @@ fn main() {
                 json,
                 stack: build_stack(),
                 paths: kerotakis_phreeqc::PhreeqcEquilibrator::new().ok(),
+                quests: Vec::new(),
+                quest_states: Default::default(),
+                aliases: Default::default(),
             };
             for (lineno, line) in text.lines().enumerate() {
                 if let Err(e) = session.exec_line(line) {
@@ -129,6 +139,39 @@ fn main() {
                 .cloned()
                 .unwrap_or_else(|| ".".to_string());
             provenance::lint_command(&manifest, &root);
+        }
+        Some("quest") => {
+            let sub = args.get(1).map(String::as_str).unwrap_or("lint");
+            if sub != "lint" {
+                eprintln!(
+                    "kero quest: only 'lint' works outside the REPL (quests are interactive)"
+                );
+                std::process::exit(2);
+            }
+            let dir = args
+                .iter()
+                .position(|a| a == "--dir")
+                .and_then(|i| args.get(i + 1))
+                .cloned()
+                .unwrap_or_else(|| "quests".to_string());
+            match kerotakis_codex::quest::load_dir(std::path::Path::new(&dir)) {
+                Ok(specs) => {
+                    let problems = kerotakis_codex::quest::lint(&specs);
+                    if problems.is_empty() {
+                        println!("quests: {} spec(s), all sound", specs.len());
+                    } else {
+                        for p in &problems {
+                            eprintln!("quest lint: {p}");
+                        }
+                        eprintln!("quests: {} problem(s)", problems.len());
+                        std::process::exit(1);
+                    }
+                }
+                Err(e) => {
+                    eprintln!("kero quest lint: {e}");
+                    std::process::exit(1);
+                }
+            }
         }
         Some("study") => {
             study::study_command(&args[1..]);
@@ -1913,6 +1956,9 @@ fn repl() {
         json: false,
         stack: build_stack(),
         paths: kerotakis_phreeqc::PhreeqcEquilibrator::new().ok(),
+        quests: Vec::new(),
+        quest_states: Default::default(),
+        aliases: Default::default(),
     };
     let stdin = std::io::stdin();
     loop {
@@ -2030,10 +2076,158 @@ impl Session {
                 }
                 Ok(())
             }
-            _ => match parse_op(trimmed)? {
-                Some(op) => self.run_op(op),
-                None => Ok(()),
-            },
+            "quest" => self.quest_command(&words[1..]),
+            _ => {
+                // Sealed unknowns: the learner types the alias; the parser
+                // gets the truth. Whole-word substitution only.
+                let unmasked = if self.aliases.is_empty() {
+                    trimmed.to_string()
+                } else {
+                    trimmed
+                        .split_whitespace()
+                        .map(|w| self.aliases.get(w).map(String::as_str).unwrap_or(w))
+                        .collect::<Vec<_>>()
+                        .join(" ")
+                };
+                match parse_op(&unmasked)? {
+                    Some(op) => self.run_op(op),
+                    None => Ok(()),
+                }
+            }
+        }
+    }
+
+    /// Re-mask a rendered line for sealed unknowns: the species' key and
+    /// display name both become the alias. Display-layer only.
+    fn mask(&self, line: &str) -> String {
+        let mut out = line.to_string();
+        for (alias, real) in &self.aliases {
+            out = out.replace(real, alias);
+            if let Some(d) = kerotakis_core::species::lookup(&SpeciesId::new(real)) {
+                out = out.replace(d.name, alias);
+            }
+        }
+        out
+    }
+
+    fn quest_command(&mut self, words: &[&str]) -> Result<(), String> {
+        use kerotakis_codex::quest;
+        if self.quests.is_empty() {
+            if let Ok(specs) = quest::load_dir(std::path::Path::new("quests")) {
+                self.quests = specs;
+            }
+        }
+        match words.first().copied() {
+            Some("list") | None => {
+                if self.quests.is_empty() {
+                    println!("  no quests found (looked in ./quests)");
+                }
+                for spec in &self.quests {
+                    let state = self.quest_states.get(&spec.id);
+                    let mark = match state {
+                        Some(st) if st.complete => "done",
+                        Some(_) => "active",
+                        None => "     ",
+                    };
+                    println!(
+                        "  {:6} {} — {}",
+                        mark,
+                        spec.id,
+                        spec.title.at(self.register.level())
+                    );
+                }
+                Ok(())
+            }
+            Some("start") => {
+                let id = words.get(1).ok_or("usage: quest start <id>")?;
+                let spec = self
+                    .quests
+                    .iter()
+                    .find(|s| s.id == *id)
+                    .ok_or_else(|| format!("no quest '{id}' — `quest list`"))?
+                    .clone();
+                self.quest_states.entry(spec.id.clone()).or_default();
+                for (alias, real) in &spec.unknowns {
+                    self.aliases.insert(alias.clone(), real.clone());
+                }
+                println!("  quest started: {}", spec.title.at(self.register.level()));
+                println!("  {}", spec.goal.at(self.register.level()));
+                if !spec.unknowns.is_empty() {
+                    let names: Vec<&str> = spec.unknowns.keys().map(String::as_str).collect();
+                    println!(
+                        "  sealed on your shelf: {} — add them like any reagent;                          name one with `quest answer <alias> <species>`",
+                        names.join(", ")
+                    );
+                }
+                Ok(())
+            }
+            Some("status") => {
+                for spec in &self.quests {
+                    let Some(state) = self.quest_states.get(&spec.id) else {
+                        continue;
+                    };
+                    let done = spec
+                        .claims
+                        .iter()
+                        .filter(|c| state.satisfied.contains(&c.id))
+                        .count();
+                    println!(
+                        "  {} — {}/{} claims{}",
+                        spec.id,
+                        done,
+                        spec.claims.len(),
+                        if state.complete { " — COMPLETE" } else { "" }
+                    );
+                    for claim in &spec.claims {
+                        let mark = if state.satisfied.contains(&claim.id) {
+                            "✓"
+                        } else {
+                            "·"
+                        };
+                        println!("    {mark} {}", claim.title.at(self.register.level()));
+                    }
+                }
+                Ok(())
+            }
+            Some("answer") => {
+                let alias = words
+                    .get(1)
+                    .ok_or("usage: quest answer <alias> <species>")?;
+                let guess = words
+                    .get(2)
+                    .ok_or("usage: quest answer <alias> <species>")?;
+                match quest::answer(&self.quests, &mut self.quest_states, alias, guess) {
+                    Ok(outputs) => {
+                        self.print_quest_outputs(&outputs);
+                        Ok(())
+                    }
+                    Err(msg) => {
+                        println!("  {msg}");
+                        Ok(())
+                    }
+                }
+            }
+            Some(other) => Err(format!(
+                "unknown quest command '{other}' (list, start, status, answer)"
+            )),
+        }
+    }
+
+    fn print_quest_outputs(&self, outputs: &[kerotakis_codex::quest::QuestOutput]) {
+        use kerotakis_codex::quest::QuestOutput as Q;
+        for o in outputs {
+            match o {
+                Q::Nudge { say, .. } => {
+                    println!("  ❯ {}", self.mask(say.at(self.register.level())))
+                }
+                Q::ClaimSatisfied { title, .. } => {
+                    println!("  ✓ {}", self.mask(title.at(self.register.level())))
+                }
+                Q::Completed { title, .. } => println!(
+                    "  ★ quest complete: {}",
+                    self.mask(title.at(self.register.level()))
+                ),
+            }
         }
     }
 
@@ -2055,8 +2249,17 @@ impl Session {
             // The ledger records everything; a person is shown what they
             // could notice, once each.
             for line in render_events(&events, self.register) {
-                println!("  {line}");
+                println!("  {}", self.mask(&line));
             }
+        }
+        if !self.quest_states.is_empty() {
+            let outputs = kerotakis_codex::quest::observe(
+                &self.quests,
+                &mut self.quest_states,
+                &events,
+                &self.bench,
+            );
+            self.print_quest_outputs(&outputs);
         }
         Ok(())
     }

@@ -347,6 +347,28 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 extent.0
             ),
         },
+        Event::NuclideSpiked { vessel, nuclide, moles, activity_bq } => match register.level() {
+            1 => format!("A tiny radioactive sample of {nuclide} goes into {vessel} — the counter near it starts clicking."),
+            2 => format!(
+                "{vessel}: spiked with {:.3e} mol {nuclide} — initial activity {:.3e} Bq",
+                moles.0, activity_bq
+            ),
+            _ => format!(
+                "{vessel}: {nuclide} tracer, {:.6e} mol, A₀ = {:.6e} Bq (λN, NUBASE2020 half-life). Boundary: tracer-scale, chemically inert in this model; ionising-radiation practice is real-world, not simulated",
+                moles.0, activity_bq
+            ),
+        },
+        Event::Decayed { vessel, parent, daughter, mode, moles, half_life_s, equation } => match register.level() {
+            1 => format!("Inside {vessel}, some of the {parent} quietly turned into {daughter} while you waited."),
+            2 => format!(
+                "{vessel}: {equation} — {:.3e} mol decayed ({mode}, t½ = {:.3e} s)",
+                moles.0, half_life_s
+            ),
+            _ => format!(
+                "{vessel}: {equation}; {:.6e} mol transmuted. Elements do NOT conserve across this event — nucleons do (α parcels keep their He-4 in the ledger), charge bookkeeping notes the departing β/ν, and the mass defect is a stated model boundary",
+                moles.0
+            ),
+        },
         Event::Chromatographed { vessel, plates, void_time_s, peaks, outside_method } => match register.level() {
             1 => {
                 let order = peaks
@@ -674,6 +696,7 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 // The column never emits a scalar Measured — it reports a
                 // peak table via Chromatographed — but the name must exist.
                 Instrument::Chromatograph => "chromatograph",
+                Instrument::GeigerCounter => "Geiger counter",
             };
             match register.level() {
                 1 => format!("The {device} on {vessel} reads {value:.0} {unit}."),

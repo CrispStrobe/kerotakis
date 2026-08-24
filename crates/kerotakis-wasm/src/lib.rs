@@ -271,7 +271,17 @@ impl Lab {
     pub fn grammar(&self) -> String {
         let list: Vec<serde_json::Value> = kerotakis_core::script::VERBS
             .iter()
-            .map(|(verb, example)| serde_json::json!({ "verb": verb, "example": example }))
+            .map(|(verb, example)| {
+                if *verb == "react" {
+                    let names: Vec<&str> = kerotakis_core::curated::ORG_REACTIONS
+                        .iter()
+                        .map(|r| r.name)
+                        .collect();
+                    serde_json::json!({ "verb": verb, "example": example, "options": names })
+                } else {
+                    serde_json::json!({ "verb": verb, "example": example })
+                }
+            })
             .collect();
         serde_json::Value::Array(list).to_string()
     }
@@ -288,12 +298,16 @@ impl Lab {
             .iter()
             .map(|s| {
                 let hazards = kerotakis_safety::hazard_labels(s.key);
+                let (srgb, solution_srgb) = kerotakis_core::species::shelf_swatch(s);
                 serde_json::json!({
                     "key": s.key,
                     "name": s.name,
                     "formula": s.formula,
                     "phase": s.standard_phase,
                     "appearance": s.appearance,
+                    "srgb": srgb,
+                    "solution_srgb": solution_srgb,
+                    "flame": s.flame_colour,
                     "provenance": s.provenance,
                     "hazards": hazards,
                 })

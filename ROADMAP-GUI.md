@@ -453,12 +453,26 @@ been ignoring all of it:
 - [ ] **GUI-053 — The concept map.** The codex concept graph as the map
   screen the UX section promised: at lv1 a skill tree, at lv3 the DAG;
   entries light up as their concepts are met in the learner's own log.
-- [ ] **GUI-054 — The experiment catalog.** Every codex entry as a
-  one-tap experiment: `setup` pre-populates the bench (its apparatus list
-  driving GUI-033's palette), `expect` becomes engine-marked checking,
-  registers supply the prose — 103 catalogued experiments on day one
-  without writing a lesson, and every new codex entry is a new catalog
-  item for free.
+- [ ] **GUI-054 — The experiment page.** Every codex entry as a one-tap
+  experiment rendered in the shape the national school-lab platforms
+  proved on millions of students — one experiment, tabbed:
+  **Theory** (the entry's register prose, concepts and models, at the
+  dial's level), **Procedure** (setup narrated + apparatus list docking
+  GUI-033's palette + the kit), **Bench** (the live simulator — where we
+  beat that genre: computed, not scripted), and **Check** (the `expect`
+  predictions as engine-marked viva questions, usable before, during and
+  after). 103 catalogued experiments on day one without writing a
+  lesson; every new codex entry is a new page for free. The guided
+  what-do-I-do-next instruction panel those platforms center on is our
+  LessonBar, extended with the entry's own narration.
+  *Status 2026-08-24: the client side is BUILT and waiting — catalog +
+  tabbed page (theory at the dial's register, procedure,
+  predict-observe-explain with committed predictions and per-wrong-
+  answer diagnoses, and an honest checker that COMPARES the engine's
+  actual events and final state against the entry's expect claims,
+  never recomputing chemistry; vitest-pinned). Lights up the moment the
+  codex export ships `codex/index.json` in the payload (kero-basic's
+  task); quiet absence until then.*
 - [ ] **GUI-055 — The curriculum browser.** Placements (per-system stages
   with citations) as a teacher-facing index: pick a curriculum stage, see
   the entries and concepts that serve it, launch them.
@@ -467,6 +481,31 @@ been ignoring all of it:
   German systems, apparatus vocabulary kept in lockstep with GUI-033, and
   registry growth (CAP-21's pack-generated registry is the mechanism)
   toward the reagent breadth the genre's benches offer.
+
+- [ ] **GUI-057 — The elements, wired to the lab.** An interactive
+  periodic table (all 118, structural facts only: number, symbol, name,
+  group/period/block, category — category tinted AND worded) whose
+  detail panel answers "what does the lab have of this element": shelf
+  species containing it (parsed from their formulas), their chips and
+  flame tests, tap-to-add to the bench. Deliberately NO transcribed
+  numeric properties: masses and measured values come from the
+  registry's provenance-carrying records, and broader element data
+  (electronegativity, radii, configurations) arrives only via the
+  licence-clean data ETL (Wikidata CC0 per the data roadmap) — the
+  standalone-table genre's breadth, with our sourcing discipline.
+  *Status 2026-08-24: v1 landed as described; ETL-fed properties open.*
+
+### The visual bar (2026-08-24 addendum)
+
+The national school-lab platforms set the visual/UX bar the user holds
+us to: illustrated 2-D benches with believable drawn glassware on a
+bench surface, guided next-step instruction, zoomed insets for
+readings, and the tabbed experiment page above. Our structural answer
+is GUI-054; the ART answer is a polish pass on the canvas — a drawn
+bench surface and stand, glass with highlights and shadow, meniscus
+curves, reading insets (zoom on the badge tap) — tracked as the
+GUI-033/026 finishing pass. The physics stays ours; the drawing must
+stop looking like wireframes.
 
 ### What the virtual-lab genre teaches (survey 2026-08-24, contenders
 deliberately unnamed here)

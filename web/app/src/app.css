@@ -15,6 +15,9 @@
   --warn: #c9a227;
   --bad: #d2694f;
   --cloud: #f2efe8;
+  --bench-top: #4a4337;
+  --bench-front: #3a352c;
+  --shadow: rgb(0 0 0 / 35%);
 }
 
 @media (prefers-color-scheme: light) {
@@ -32,6 +35,9 @@
     --warn: #8a6d10;
     --bad: #a83c22;
     --cloud: #ffffff;
+    --bench-top: #c9bda6;
+    --bench-front: #b3a68e;
+    --shadow: rgb(60 50 30 / 25%);
   }
 }
 

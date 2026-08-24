@@ -15,6 +15,62 @@
 //! project would catch a curation error; this does.
 
 pub mod prose;
+pub mod quest;
+
+/// Every event kind `event_matches` knows, for lint use. Kept beside
+/// the matcher on purpose: a new Event arm extends both or the quest
+/// lint names the gap.
+pub const KNOWN_EVENT_KINDS: &[&str] = &[
+    "added",
+    "cell_voltage",
+    "chromatographed",
+    "consumed",
+    "did_not_ignite",
+    "diluted",
+    "dissolved",
+    "dissolved_in_solvent",
+    "distilled",
+    "drained",
+    "electrolysed",
+    "evaporated",
+    "filtered",
+    "flame_test",
+    "gas_absorbed",
+    "gas_contained",
+    "gas_evolved",
+    "hazard_warning",
+    "headspace_equilibrated",
+    "ignited",
+    "inert",
+    "inert_in_solvent",
+    "layers_formed",
+    "measured",
+    "mixed",
+    "no_cell",
+    "not_yet_modelled",
+    "observed",
+    "org_reacted",
+    "partitioned",
+    "plated",
+    "precipitated",
+    "reacted",
+    "reaction",
+    "safety_veto",
+    "solution",
+    "solver_failed",
+    "temperature_changed",
+    "thermal_equilibrium",
+    "titrated",
+    "transferred",
+    "transported",
+    "vessel_created",
+    "vessel_opened",
+    "vessel_pressure_controlled",
+    "vessel_sealed",
+    "vessel_swept",
+    "nuclide_spiked",
+    "decayed",
+];
 
 use kerotakis_core::{Phase, Register};
 use serde::{Deserialize, Serialize};
@@ -900,6 +956,8 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Partitioned { species, .. } => ("partitioned", Some(species.0.as_str())),
         E::Chromatographed { .. } => ("chromatographed", None),
         E::OrgReacted { name, .. } => ("org_reacted", Some(name.as_str())),
+        E::NuclideSpiked { nuclide, .. } => ("nuclide_spiked", Some(nuclide.as_str())),
+        E::Decayed { parent, .. } => ("decayed", Some(parent.as_str())),
         E::DissolvedInSolvent { species, .. } => ("dissolved_in_solvent", Some(species.0.as_str())),
         E::InertInSolvent { species, .. } => ("inert_in_solvent", Some(species.0.as_str())),
         E::Filtered { .. } => ("filtered", None),

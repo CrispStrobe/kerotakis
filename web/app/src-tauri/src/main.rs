@@ -140,7 +140,17 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
         "grammar" => {
             let list: Vec<Value> = kerotakis_core::script::VERBS
                 .iter()
-                .map(|(verb, example)| json!({ "verb": verb, "example": example }))
+                .map(|(verb, example)| {
+                    if *verb == "react" {
+                        let names: Vec<&str> = kerotakis_core::curated::ORG_REACTIONS
+                            .iter()
+                            .map(|r| r.name)
+                            .collect();
+                        json!({ "verb": verb, "example": example, "options": names })
+                    } else {
+                        json!({ "verb": verb, "example": example })
+                    }
+                })
                 .collect();
             Ok(Value::Array(list).to_string())
         }
@@ -167,12 +177,16 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             let list: Vec<Value> = kerotakis_core::species::REGISTRY
                 .iter()
                 .map(|s| {
+                    let (srgb, solution_srgb) = kerotakis_core::species::shelf_swatch(s);
                     json!({
                         "key": s.key,
                         "name": s.name,
                         "formula": s.formula,
                         "phase": s.standard_phase,
                         "appearance": s.appearance,
+                        "srgb": srgb,
+                        "solution_srgb": solution_srgb,
+                        "flame": s.flame_colour,
                         "provenance": s.provenance,
                     })
                 })

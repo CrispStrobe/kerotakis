@@ -80,6 +80,8 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("Na2SO3", "[Na+].[Na+].[O-]S([O-])=O"),
     ("Na2S2O3", "[Na+].[Na+].[O-]S(=O)(=O)[S-]"),
     ("AgNO3", "[Ag+].[O-][N+](=O)[O-]"),
+    ("NaNO3", "[Na+].[O-][N+](=O)[O-]"),
+    ("KNO3", "[K+].[O-][N+](=O)[O-]"),
     ("CaCl2", "[Ca+2].[Cl-].[Cl-]"),
     ("CaCO3", "[Ca+2].[O-]C([O-])=O"),
     ("MgSO4", "[Mg+2].[O-]S(=O)(=O)[O-]"),
@@ -88,6 +90,13 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("KMnO4", "[K+].[O-][Mn](=O)(=O)=O"),
     ("FeSO4", "[Fe+2].[O-]S(=O)(=O)[O-]"),
     ("ZnSO4", "[Zn+2].[O-]S(=O)(=O)[O-]"),
+    // --- EXP-13: vitamin C iodine assay ---
+    ("ascorbic_acid", "OCC(O)C1OC(=O)C(O)=C1O"),
+    ("I2", "II"),
+    ("dehydroascorbic_acid", "OCC(O)C1OC(=O)C(=O)C1=O"),
+    ("HI", "I"),
+    // --- EXP-14: amylase/starch hydrolysis ---
+    ("maltose", "OCC1OC(OC2C(O)C(O)C(O)OC2CO)C(O)C(O)C1O"),
 ];
 
 /// Result of cross-validating one species' InChIKey.

@@ -15,16 +15,16 @@
   "evaporate": "Apparatus form: evaporating dish",
   "decant": "Transfer tool with fraction chips (25/50/75/100%)",
   "drain": "Transfer tool: tap source, tap target",
-  "distil": "planned:GUI-033 (still)",
+  "distil": "Two-vessel tool: still (tap source, tap receiver; fraction chips)",
   "measure": "Instrument tray in the Inspector (10 instruments incl. UV-Vis and eyes)",
   "chromatograph": "Instrument tray in the Inspector",
   "electrolyse": "Apparatus form: electrodes and supply",
-  "cell": "planned:GUI-033 (voltmeter and wires)",
+  "cell": "Two-vessel tool: voltmeter (tap two half-cells)",
   "grind": "Apparatus form: mortar (species + grain size)",
   "irradiate": "Apparatus form: lamp (wavelength + irradiance)",
   "dilute": "Apparatus form: wash bottle",
   "titrate": "Burette apparatus (clamps over the selected vessel; form compiles the titrate line)",
   "magnet": "Transfer tool: tap source, tap target",
-  "transport": "planned:GUI-033 (column train)",
-  "react": "planned:GUI-033 (curated-reaction picker)"
+  "transport": "Column-train builder (cells, inlet, receiver, steps)",
+  "react": "Curated-reaction picker (options from the grammar itself)"
 }

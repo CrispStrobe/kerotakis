@@ -12,11 +12,17 @@
   import Timeline from "./lib/components/Timeline.svelte";
   import LessonBar from "./lib/components/LessonBar.svelte";
   import Burette from "./lib/components/Burette.svelte";
+  import ReactPicker from "./lib/components/ReactPicker.svelte";
+  import TransportBuilder from "./lib/components/TransportBuilder.svelte";
   import ApparatusForm from "./lib/components/ApparatusForm.svelte";
   import { APPARATUS } from "./lib/apparatus";
   import { defaultAmount } from "./lib/amounts";
   import { notebookMarkdown } from "./lib/notebook";
   import HelpDialog from "./lib/components/HelpDialog.svelte";
+  import PeriodicTable from "./lib/components/PeriodicTable.svelte";
+  import ExperimentCatalog from "./lib/components/ExperimentCatalog.svelte";
+  import ReadingInset from "./lib/components/ReadingInset.svelte";
+  import { parseCodexIndex, type CodexEntry } from "./lib/codex";
 
   // In the Tauri shell the engine is native and in-process; on the web it
   // lives in the module worker. The session cannot tell the difference.
@@ -58,6 +64,12 @@
     void session.connect();
     // Lessons ship beside the engine payload; their absence is quiet —
     // the sandbox is complete without them.
+    // The codex export ships beside the payload once `kero codex export`
+    // lands; until then the catalog button simply stays hidden.
+    void fetch(new URL("codex/index.json", resolvePayloadBase()).href)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => (codexEntries = parseCodexIndex(raw)))
+      .catch(() => {});
     void fetch(new URL("lessons/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : []))
       .then((list) => (lessons = list))
@@ -71,6 +83,11 @@
   }
 
   let helpOpen = $state(false);
+  let tableOpen = $state(false);
+  let catalogOpen = $state(false);
+  /** A tapped badge, magnified (the visual bar's reading inset). */
+  let inset = $state<{ vessel: number; reading: { key: string; value: number; confidence: string } } | null>(null);
+  let codexEntries = $state<CodexEntry[]>([]);
   /** The burette: clamped over the selected vessel when out (GUI-033). */
   let buretteOut = $state(false);
   /** Which parameter-form apparatus is out, by verb (GUI-033). */
@@ -78,7 +95,15 @@
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
-  let transfer = $state<{ verb: "filter" | "decant" | "drain"; fraction: number; from: number | null } | null>(null);
+  type TwoVesselVerb = "filter" | "decant" | "drain" | "cell" | "distil";
+  let transfer = $state<{ verb: TwoVesselVerb; fraction: number; from: number | null } | null>(null);
+  const TWO_VESSEL_TOOLS: { verb: TwoVesselVerb; label: string }[] = [
+    { verb: "filter", label: "filter" },
+    { verb: "decant", label: "decant" },
+    { verb: "drain", label: "drain" },
+    { verb: "cell", label: "voltmeter" },
+    { verb: "distil", label: "still" },
+  ];
   function vesselTapped(id: number) {
     if (!transfer) {
       void session.inspect(id);
@@ -92,8 +117,8 @@
     if (transfer.from === id) return; // same vessel: keep waiting
     const { verb, fraction, from } = transfer;
     const line =
-      verb === "decant"
-        ? `decant v${from + 1} v${id + 1} ${fraction}`
+      verb === "decant" || verb === "distil"
+        ? `${verb} v${from + 1} v${id + 1} ${fraction}`
         : `${verb} v${from + 1} v${id + 1}`;
     transfer = null;
     void session.submit(line);
@@ -151,7 +176,8 @@
     } else if (e.key === "?" && !typing) {
       helpOpen = true;
     } else if (e.key === "Escape") {
-      if (helpOpen) helpOpen = false;
+      if (inset) inset = null;
+      else if (helpOpen) helpOpen = false;
       else session.closeInspector();
     }
   }
@@ -223,19 +249,23 @@
     {#each APPARATUS as s (s.verb)}
       <option value={s.verb}>{s.title}</option>
     {/each}
+    {#if session.reactOptions.length > 0}
+      <option value="react">curated reaction</option>
+    {/if}
+    <option value="transport">column train</option>
   </select>
-  {#each ["filter", "decant", "drain"] as verb (verb)}
+  {#each TWO_VESSEL_TOOLS as tool (tool.verb)}
     <button
       class="tool"
-      class:active-tool={transfer?.verb === verb}
+      class:active-tool={transfer?.verb === tool.verb}
       onclick={() =>
         (transfer =
-          transfer?.verb === verb
+          transfer?.verb === tool.verb
             ? null
-            : { verb: verb as "filter" | "decant" | "drain", fraction: 0.5, from: null })}
-      title={`${verb}: pick the source vessel, then the target`}
+            : { verb: tool.verb, fraction: 0.5, from: null })}
+      title={`${tool.verb}: pick the source vessel, then the target`}
     >
-      {verb}
+      {tool.label}
     </button>
   {/each}
   <Timeline
@@ -266,13 +296,21 @@
   <span class="status" class:live={session.canSolve}>
     {session.engineReady ? (session.canSolve ? "live" : "shipped results") : "starting…"}
   </span>
+  <button class="tool" onclick={() => (tableOpen = true)} title="the periodic table, wired to the shelf">
+    elements
+  </button>
+  {#if codexEntries.length > 0}
+    <button class="tool" onclick={() => (catalogOpen = true)} title="codex experiments: predict, run, check">
+      experiments
+    </button>
+  {/if}
   <a class="console-link" href="../">console</a>
 </header>
 
 {#if transfer}
   <div class="transfer-banner" role="status">
     <strong>{transfer.verb}</strong>
-    {#if transfer.verb === "decant"}
+    {#if transfer.verb === "decant" || transfer.verb === "distil"}
       — pour
       {#each [0.25, 0.5, 0.75, 1.0] as f (f)}
         <button class:on={transfer.fraction === f} onclick={() => (transfer = { ...transfer!, fraction: f })}>
@@ -311,6 +349,22 @@
     />
   </nav>
   <div class="bench-pane">
+    {#if apparatusOut === "react"}
+      <ReactPicker
+        vessel={session.selected}
+        options={session.reactOptions}
+        busy={session.busy}
+        onrun={(line) => void session.submit(line)}
+        onclose={() => (apparatusOut = null)}
+      />
+    {:else if apparatusOut === "transport"}
+      <TransportBuilder
+        vessels={session.scene?.vessels ?? []}
+        busy={session.busy}
+        onrun={(line) => void session.submit(line)}
+        onclose={() => (apparatusOut = null)}
+      />
+    {/if}
     {#if apparatusSpec}
       {#key apparatusSpec.verb}
         <ApparatusForm
@@ -346,6 +400,7 @@
       pristine={session.commandLog.length === 0 && !session.lesson}
       effects={session.vesselEffects}
       onnewvessel={(kind) => void session.submit(kind === "beaker" ? "new" : `new ${kind}`)}
+      onbadge={(vessel, reading) => (inset = { vessel, reading })}
       ondropspecies={(id, p) =>
         void session.submit(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
@@ -388,8 +443,34 @@
   {/each}
 </nav>
 
+{#if inset}
+  <ReadingInset vessel={inset.vessel} reading={inset.reading} onclose={() => (inset = null)} />
+{/if}
+
 {#if helpOpen}
   <HelpDialog onclose={() => (helpOpen = false)} />
+{/if}
+
+{#if catalogOpen}
+  <ExperimentCatalog
+    entries={codexEntries}
+    {session}
+    onclose={() => (catalogOpen = false)}
+  />
+{/if}
+
+{#if tableOpen}
+  <PeriodicTable
+    shelf={session.shelf}
+    register={session.register}
+    onadd={(item) => {
+      tableOpen = false;
+      void session.submit(
+        `add v${session.selected + 1} ${item.key} ${defaultAmount(session.register, item.phase)}`,
+      );
+    }}
+    onclose={() => (tableOpen = false)}
+  />
 {/if}
 
 <style>
