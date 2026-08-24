@@ -475,6 +475,12 @@ pub const INERT_IN_SOLVENT: &[(&str, &str, &str)] = &[
         "ethanol",
         "silver is noble against everything this solvent can offer",
     ),
+    (
+        "MnO2",
+        "ethanol",
+        "manganese dioxide is an insoluble oxide; it sits as a brown-black \
+         precipitate in ethanol unchanged",
+    ),
     // ── hexane ──────────────────────────────────────────────────────
     (
         "Zn",

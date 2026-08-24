@@ -40,6 +40,26 @@ pub const REACTIONS: &[CuratedReaction] = &[
             ("water", 1.0, Phase::Liquid),
         ],
     },
+    CuratedReaction {
+        equation: "4 KMnO4 + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 KOH + H₂O",
+        reactants: &[("KMnO4", 4.0), ("ethanol", 3.0)],
+        products: &[
+            ("MnO2", 4.0, Phase::Solid),
+            ("CH3COOH", 3.0, Phase::Liquid),
+            ("KOH", 4.0, Phase::Liquid),
+            ("water", 1.0, Phase::Liquid),
+        ],
+    },
+    CuratedReaction {
+        equation: "4 MnO₄⁻ + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 OH⁻ + H₂O",
+        reactants: &[("MnO4-", 4.0), ("ethanol", 3.0)],
+        products: &[
+            ("MnO2", 4.0, Phase::Solid),
+            ("CH3COOH", 3.0, Phase::Aqueous),
+            ("OH-", 4.0, Phase::Aqueous),
+            ("water", 1.0, Phase::Liquid),
+        ],
+    },
 ];
 
 /// A named organic transformation the `react` verb applies on command.

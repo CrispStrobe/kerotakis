@@ -1589,5 +1589,41 @@
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 126.3 J/(mol.K) and density 0.9003 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed.",
     "spectrum_bands": null,
     "standard_phase": "liquid"
+  },
+  {
+    "appearance": "white",
+    "colour": null,
+    "density": 2.044,
+    "dissolution_enthalpy_kj": -57.6,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "KOH",
+    "heat_capacity": 64.9,
+    "inchikey": "KWYUFKZDYYNOEZ-UHFFFAOYSA-M",
+    "key": "KOH",
+    "molar_mass": 56.1056,
+    "name": "potassium hydroxide",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook 97th ed. (64.9 J/(mol·K)); density: 2.044 g/mL (CRC); dissolution enthalpy: −57.6 kJ/mol (CRC)",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": null,
+    "colour": null,
+    "density": 1.0,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "OH-",
+    "heat_capacity": 0.0,
+    "inchikey": "XLYOFNOQVPJJNP-UHFFFAOYSA-M",
+    "key": "OH-",
+    "molar_mass": 17.008,
+    "name": "hydroxide ion",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; aqueous ion — Cp and density carried by the solvent",
+    "spectrum_bands": null,
+    "standard_phase": "aqueous"
   }
 ]
