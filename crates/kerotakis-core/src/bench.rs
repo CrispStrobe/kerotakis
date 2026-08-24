@@ -77,6 +77,7 @@ impl Bench {
         let mut default_stack = SolverStack::new(vec![
             Box::new(MixingEquilibrator),
             Box::new(crate::nonaqueous::NonAqueousEquilibrator),
+            Box::new(crate::hmix::MixingEnthalpyEquilibrator),
             Box::new(HonestyEquilibrator),
         ]);
         self.step_with(op, &mut default_stack, &PermissiveScreen)
