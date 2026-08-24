@@ -1238,6 +1238,44 @@
       }
     ]
   },
+  "there-and-back": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +13.8357 mol water",
+      "v1: +0.1000 mol acetic acid",
+      "v1: +0.1000 mol ethanol",
+      "v1: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.100 mol reacted)",
+      "v1: The liquid is colourless and clear.",
+      "v1: +0.1000 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: saponification ran — CH3COOC2H5 + NaOH → NaOAc + C2H5OH (0.100 mol reacted)"
+    ],
+    "lesson": "there-and-back.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Aqueous",
+            "species": "NaOAc"
+          },
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 13.93569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "three-protons": {
     "event_count": 15,
     "events_sample": [
@@ -1353,6 +1391,94 @@
           },
           {
             "moles": 27.67138496,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "transport-column": {
+    "event_count": 15,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +0.0856 mol sodium chloride",
+      "v4: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v5: new vessel",
+      "3 cells × 3 steps (Cf=0.50); effluent → v5: 8.3014 mol water",
+      "v1 balance: 99.70 g",
+      "v2 balance: 99.70 g",
+      "v3 balance: 99.70 g",
+      "v5 balance: 149.55 g"
+    ],
+    "lesson": "transport-column.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.08555345,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.30141549,
             "phase": "Liquid",
             "species": "water"
           }

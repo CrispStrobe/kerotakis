@@ -269,6 +269,19 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 species.0, fraction_lower,
             ),
         },
+        Event::OrgReacted { vessel, name, equation, extent, boundary } => match register.level() {
+            1 => format!(
+                "Something new forms in {vessel} — the {name} reaction turns the mixture into different substances."
+            ),
+            2 => format!(
+                "{vessel}: {name} ran — {equation} ({:.3} mol reacted)",
+                extent.0
+            ),
+            _ => format!(
+                "{vessel}: {name}, {equation}, extent {:.6} mol. Boundary: {boundary}",
+                extent.0
+            ),
+        },
         Event::Chromatographed { vessel, plates, void_time_s, peaks, outside_method } => match register.level() {
             1 => {
                 let order = peaks
@@ -933,6 +946,45 @@ pub fn render_event(event: &Event, register: Register) -> String {
                     titrant.0,
                     total_volume.0 * 1000.0,
                     concentration * total_volume.0,
+                ),
+            }
+        }
+        Event::Transported {
+            chain,
+            receiver,
+            steps,
+            courant,
+            effluent_moles,
+        } => {
+            let cells = chain.len();
+            let total: f64 = effluent_moles.iter().map(|(_, m)| m.0).sum();
+            match register.level() {
+                1 => format!(
+                    "Solution flows through {cells} column cells and collects in {receiver}."
+                ),
+                2 => {
+                    let species_list: Vec<String> = effluent_moles
+                        .iter()
+                        .filter(|(_, m)| m.0 > crate::OBSERVABLE_MOLES)
+                        .map(|(s, m)| {
+                            let name = species::lookup(s)
+                                .map(|d| d.name)
+                                .unwrap_or(s.0.as_str());
+                            format!("{:.4} mol {name}", m.0)
+                        })
+                        .collect();
+                    let what = if species_list.is_empty() {
+                        "solvent only".to_string()
+                    } else {
+                        species_list.join(", ")
+                    };
+                    format!(
+                        "{cells} cells × {steps} steps (Cf={courant:.2}); effluent → {receiver}: {what}"
+                    )
+                }
+                _ => format!(
+                    "1-D upwind transport: {cells} cells × {steps} steps @ Cf={courant:.4}; \
+                     effluent total {total:.6} mol → {receiver}"
                 ),
             }
         }

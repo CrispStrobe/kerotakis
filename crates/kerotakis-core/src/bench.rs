@@ -30,6 +30,8 @@ pub enum BenchError {
     SelfTransfer,
     #[error(transparent)]
     Kinetics(#[from] crate::kinetics::IntegrationError),
+    #[error(transparent)]
+    Transport(#[from] crate::transport::TransportError),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1300,6 +1302,61 @@ impl Bench {
                     ),
                 });
             }
+            Operator::React { vessel, reaction } => {
+                match crate::curated::ORG_REACTIONS
+                    .iter()
+                    .find(|r| r.name == reaction)
+                {
+                    None => {
+                        // The parser vets names, but an operator can arrive
+                        // by JSON; refuse out loud rather than panic.
+                        events.push(Event::NotYetModeled {
+                            vessel: *vessel,
+                            what: format!(
+                                "no curated reaction named '{reaction}' — curated: {}",
+                                crate::curated::ORG_REACTIONS
+                                    .iter()
+                                    .map(|r| r.name)
+                                    .collect::<Vec<_>>()
+                                    .join(", ")
+                            ),
+                        });
+                    }
+                    Some(r) => {
+                        let v = self.vessel_mut(*vessel)?;
+                        let extent = r
+                            .reactants
+                            .iter()
+                            .map(|(key, coeff)| v.moles_of(&SpeciesId::new(key)).0 / coeff)
+                            .fold(f64::INFINITY, f64::min);
+                        if !(extent.is_finite() && extent > 1e-12) {
+                            let needs: Vec<&str> = r.reactants.iter().map(|(k, _)| *k).collect();
+                            events.push(Event::NotYetModeled {
+                                vessel: *vessel,
+                                what: format!(
+                                    "nothing for {} to work on — it needs {} together                                      in the vessel",
+                                    r.name,
+                                    needs.join(" and ")
+                                ),
+                            });
+                        } else {
+                            for (key, coeff) in r.reactants {
+                                v.withdraw(&SpeciesId::new(key), Moles(extent * coeff));
+                            }
+                            for (key, coeff, phase) in r.products {
+                                v.deposit(SpeciesId::new(key), Moles(extent * coeff), *phase);
+                            }
+                            events.push(Event::OrgReacted {
+                                vessel: *vessel,
+                                name: r.name.to_string(),
+                                equation: r.equation.to_string(),
+                                extent: Moles(extent),
+                                boundary: r.boundary.to_string(),
+                            });
+                        }
+                    }
+                }
+            }
             Operator::Dilute { vessel, volume } => {
                 let water = SpeciesId::new("water");
                 let data = species::lookup(&water)
@@ -1330,6 +1387,92 @@ impl Bench {
                     vessel: *vessel,
                     volume: *volume,
                     moles,
+                });
+            }
+            Operator::Transport {
+                chain,
+                inlet,
+                receiver,
+                steps,
+                courant,
+            } => {
+                if chain.is_empty() {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                if *steps == 0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                for cid in chain.iter() {
+                    self.vessel(*cid)?;
+                }
+                self.vessel(*inlet)?;
+                self.vessel(*receiver)?;
+                let inlet_vessel = self.vessel(*inlet)?.clone();
+                let chain_vessels: Vec<crate::vessel::Vessel> = chain
+                    .iter()
+                    .map(|id| self.vessel(*id).cloned())
+                    .collect::<Result<_, _>>()?;
+                let mut cell_chain = crate::transport::CellChain::new(chain_vessels)?;
+
+                let mut total_effluent: Vec<(SpeciesId, Moles)> = Vec::new();
+                for _ in 0..*steps {
+                    let step = cell_chain.advance(&inlet_vessel, *courant)?;
+                    for portion in &step.effluent.contents {
+                        if let Some(entry) = total_effluent
+                            .iter_mut()
+                            .find(|(s, _)| *s == portion.species)
+                        {
+                            entry.1 = Moles(entry.1 .0 + portion.moles.0);
+                        } else {
+                            total_effluent.push((portion.species.clone(), portion.moles));
+                        }
+                    }
+                }
+
+                for (i, cid) in chain.iter().enumerate() {
+                    let updated = &cell_chain.cells()[i];
+                    let v = self.vessel_mut(*cid)?;
+                    v.contents = updated.contents.clone();
+                    v.temperature = updated.temperature;
+                    v.solute_charge = updated.solute_charge;
+                    v.solution = None;
+                }
+
+                let t_eff = inlet_vessel.temperature;
+                let cp_eff: f64 = total_effluent
+                    .iter()
+                    .filter_map(|(s, n)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
+                    .sum();
+                let dst = self.vessel_mut(*receiver)?;
+                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) && cp_eff > 0.0 {
+                    let t_new = adiabatic_mix_temperature(
+                        dst.temperature,
+                        dst.heat_capacity(),
+                        t_eff,
+                        cp_eff,
+                    );
+                    if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: *receiver,
+                            from: dst.temperature,
+                            to: t_new,
+                        });
+                    }
+                    dst.temperature = t_new;
+                }
+                for (spec, moles) in &total_effluent {
+                    let phase = species::lookup(spec)
+                        .map(|d| d.standard_phase)
+                        .unwrap_or(Phase::Aqueous);
+                    dst.deposit(spec.clone(), *moles, phase);
+                }
+
+                events.push(Event::Transported {
+                    chain: chain.clone(),
+                    receiver: *receiver,
+                    steps: *steps,
+                    courant: *courant,
+                    effluent_moles: total_effluent,
                 });
             }
             Operator::Titrate { .. } => {
@@ -1515,7 +1658,15 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         Operator::Grind { vessel, .. }
         | Operator::Irradiate { vessel, .. }
         | Operator::Dilute { vessel, .. }
+        | Operator::React { vessel, .. }
         | Operator::Titrate { vessel, .. } => vec![*vessel],
+        Operator::Transport {
+            chain, receiver, ..
+        } => {
+            let mut touched = chain.clone();
+            touched.push(*receiver);
+            touched
+        }
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         Operator::Wait { .. } => vec![],
     }

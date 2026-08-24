@@ -1,0 +1,319 @@
+//! GUI-003: the scene — a versioned render model of the bench.
+//!
+//! A bench canvas needs to *paint* a vessel: how much liquid, what colour,
+//! what sits at the bottom with which texture, whether gas is rising,
+//! whether the top is open or sealed, and which numbers deserve a badge.
+//! All of that is already computed — by `appearance::observe` (colour from
+//! spectra, cloudiness from suspended solid), by the vessel state itself,
+//! and by the aqueous solvers — but a client would have to re-derive it
+//! from raw `Vessel` JSON, and two clients would re-derive it differently.
+//!
+//! The scene is that derivation done once, engine-side, so the web canvas
+//! and a native canvas paint the same picture and a golden test can pin the
+//! frame. It is a *render model*, not more state: everything here is a
+//! projection of the vessel, recomputed on demand, never stored.
+//!
+//! Contract rules (PROTOCOL.md): the serialized shape is protocol API.
+//! Evolution is additive — new fields arrive with `#[serde(default)]`, and
+//! consumers ignore fields they do not know. Effects and apparatus are
+//! deliberately absent from v1: an effect must never fire without a
+//! computed event behind it, so they enter when their state does.
+
+use serde::{Deserialize, Serialize};
+
+use crate::appearance::{self, colour_word};
+use crate::ops::Confidence;
+use crate::species::{self, Colour, Phase};
+use crate::vessel::{Headspace, Vessel, VesselId};
+use crate::Bench;
+
+/// Bumped only for a breaking change, which the evolution rules exist to
+/// prevent. Expect this to stay 1.
+pub const SCENE_VERSION: u32 = 1;
+
+/// Everything a bench canvas needs, nothing it must derive.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Scene {
+    /// Format version, always [`SCENE_VERSION`].
+    pub scene: u32,
+    pub vessels: Vec<SceneVessel>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneVessel {
+    pub id: VesselId,
+    /// "beaker" — the drawable kind, from the vessel's label.
+    pub label: String,
+    /// `None` when the vessel holds no liquid phase.
+    pub liquid: Option<SceneLiquid>,
+    /// Solids present, aggregated per species, largest first.
+    pub solids: Vec<SceneSolid>,
+    /// Gas visibly rising through the liquid.
+    pub bubbling: bool,
+    /// The gas boundary, serialized with its existing `boundary` tag:
+    /// open, sealed, pressure_controlled, or swept.
+    #[serde(flatten)]
+    pub headspace: Headspace,
+    pub temperature_k: f64,
+    pub pressure_pa: f64,
+    /// Bench time this vessel has experienced, seconds.
+    pub elapsed_s: f64,
+    /// The plain-words observation from `appearance::observe` — the lv1
+    /// sentence, and the accessibility text for the drawn vessel.
+    pub words: String,
+    /// Numbers worth pinning to the vessel, each with the confidence class
+    /// its visual encoding follows (GUI-023).
+    pub badges: Vec<Badge>,
+}
+
+/// The liquid, ready to paint.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneLiquid {
+    pub volume_l: f64,
+    /// Transmitted colour through `path_length_cm` of this liquid,
+    /// computed by Beer–Lambert over the CIE 1931 observer.
+    pub srgb: [u8; 3],
+    /// The colour in plain words ("blue", "pink") — colour never carries
+    /// meaning alone, so the word travels with the value.
+    pub colour_word: String,
+    /// 0 = clear, 1 = opaque, from suspended solid.
+    pub cloudiness: f64,
+    /// The path length the colour was computed for. A canvas drawing a
+    /// wider or narrower vessel may rescale absorbance against this basis.
+    pub path_length_cm: f64,
+}
+
+/// One solid species in the vessel, ready to paint.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneSolid {
+    /// Registry key ("AgCl").
+    pub species: String,
+    /// Display name ("silver chloride").
+    pub name: String,
+    pub moles: f64,
+    pub srgb: [u8; 3],
+    pub colour_word: String,
+    /// An elemental metal deposits as a coating or coherent sponge and does
+    /// not cloud the liquid; anything else is a precipitate that suspends
+    /// and settles. Decides texture, and matches the turbidity physics in
+    /// `appearance::observe`.
+    pub metallic: bool,
+}
+
+/// A number pinned to the drawn vessel.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Badge {
+    /// Stable key: "ph", "ionic_strength", "pe".
+    pub key: String,
+    pub value: f64,
+    /// How strongly the engine stands behind it (GUI-023's fixed visual
+    /// encoding follows this).
+    pub confidence: Confidence,
+}
+
+/// The whole bench, as a canvas paints it.
+pub fn scene(bench: &Bench) -> Scene {
+    scene_of(&bench.vessels)
+}
+
+/// The render model over any vessel slice — for callers that hold vessels
+/// without a `Bench` (the CLI/MCP `--json` contract builder).
+pub fn scene_of(vessels: &[Vessel]) -> Scene {
+    Scene {
+        scene: SCENE_VERSION,
+        vessels: vessels.iter().map(scene_vessel).collect(),
+    }
+}
+
+/// One vessel's render model.
+pub fn scene_vessel(v: &Vessel) -> SceneVessel {
+    let seen = appearance::observe(v);
+
+    let liquid = seen.liquid.as_ref().map(|c| SceneLiquid {
+        volume_l: v.liquid_volume().0,
+        srgb: [c.r, c.g, c.b],
+        colour_word: colour_word(c, false).to_string(),
+        cloudiness: seen.cloudiness,
+        path_length_cm: crate::spectrum::BEAKER_PATH_CM,
+    });
+
+    // Aggregate solids per species, keeping first-seen order, then sort by
+    // amount so the biggest deposit paints first.
+    let mut solids: Vec<SceneSolid> = Vec::new();
+    for p in v.contents.iter().filter(|p| p.phase == Phase::Solid) {
+        if let Some(existing) = solids.iter_mut().find(|s| s.species == p.species.0) {
+            existing.moles += p.moles.0;
+            continue;
+        }
+        let data = species::lookup(&p.species);
+        let colour = data.and_then(|d| d.colour).unwrap_or(Colour {
+            r: 220,
+            g: 220,
+            b: 220,
+            strength: 0.0,
+        });
+        solids.push(SceneSolid {
+            species: p.species.0.to_string(),
+            name: data
+                .map(|d| d.name.to_string())
+                .unwrap_or_else(|| p.species.0.to_string()),
+            moles: p.moles.0,
+            srgb: [colour.r, colour.g, colour.b],
+            colour_word: colour_word(&colour, true).to_string(),
+            metallic: crate::displacement::is_elemental_metal(&p.species.0),
+        });
+    }
+    solids.sort_by(|a, b| b.moles.total_cmp(&a.moles));
+
+    let mut badges = Vec::new();
+    if let Some(sol) = &v.solution {
+        badges.push(Badge {
+            key: "ph".into(),
+            value: sol.ph,
+            confidence: Confidence::Computed,
+        });
+        badges.push(Badge {
+            key: "ionic_strength".into(),
+            value: sol.ionic_strength,
+            confidence: Confidence::Computed,
+        });
+        if let Some(pe) = sol.pe {
+            badges.push(Badge {
+                key: "pe".into(),
+                value: pe,
+                confidence: Confidence::Computed,
+            });
+        }
+    }
+
+    SceneVessel {
+        id: v.id,
+        label: v.label.clone(),
+        liquid,
+        solids,
+        bubbling: seen.bubbling,
+        headspace: v.headspace,
+        temperature_k: v.temperature.0,
+        pressure_pa: v.pressure.0,
+        elapsed_s: v.elapsed_seconds,
+        words: seen.words,
+        badges,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::{Moles, SpeciesId};
+
+    fn vessel_with(items: &[(&str, f64, Phase)]) -> Vessel {
+        let mut v = Vessel::new(VesselId(0), "beaker");
+        for (key, moles, phase) in items {
+            v.deposit(SpeciesId::new(key), Moles(*moles), *phase);
+        }
+        v
+    }
+
+    #[test]
+    fn a_new_bench_is_one_empty_beaker() {
+        let s = scene(&Bench::new());
+        assert_eq!(s.scene, SCENE_VERSION);
+        assert_eq!(s.vessels.len(), 1);
+        let v = &s.vessels[0];
+        assert!(v.liquid.is_none());
+        assert!(v.solids.is_empty());
+        assert!(!v.bubbling);
+        assert!(v.words.contains("empty"), "{}", v.words);
+    }
+
+    #[test]
+    fn copper_solution_paints_blue_with_the_word_attached() {
+        let s = scene_vessel(&vessel_with(&[
+            ("water", 5.55, Phase::Liquid),
+            ("Cu+2", 0.05, Phase::Aqueous),
+        ]));
+        let liquid = s.liquid.expect("a liquid");
+        assert!(liquid.srgb[2] > liquid.srgb[0], "blue dominates");
+        assert_eq!(liquid.colour_word, "blue");
+        assert!(liquid.volume_l > 0.09, "≈100 mL of water");
+        assert_eq!(liquid.path_length_cm, crate::spectrum::BEAKER_PATH_CM);
+    }
+
+    #[test]
+    fn a_precipitate_is_textured_a_plated_metal_is_metallic() {
+        let s = scene_vessel(&vessel_with(&[
+            ("water", 5.55, Phase::Liquid),
+            ("AgCl", 0.01, Phase::Solid),
+            ("Cu", 0.002, Phase::Solid),
+        ]));
+        let agcl = s.solids.iter().find(|x| x.species == "AgCl").unwrap();
+        let cu = s.solids.iter().find(|x| x.species == "Cu").unwrap();
+        assert!(!agcl.metallic);
+        assert!(cu.metallic);
+        // Largest deposit paints first.
+        assert_eq!(s.solids[0].species, "AgCl");
+        // The precipitate clouds the liquid; the sponge does not add to it.
+        assert!(s.liquid.unwrap().cloudiness > 0.1);
+    }
+
+    #[test]
+    fn the_gas_boundary_keeps_its_tag() {
+        let mut v = vessel_with(&[("water", 5.55, Phase::Liquid)]);
+        v.headspace = Headspace::Sealed {
+            volume: crate::Liters(0.2),
+        };
+        let json = serde_json::to_value(scene_vessel(&v)).unwrap();
+        assert_eq!(json["boundary"], "sealed");
+        assert!(json["volume"].is_number());
+    }
+
+    /// The serialized field names are protocol API (PROTOCOL.md). This is
+    /// the tripwire: renaming a field fails here before it breaks a client.
+    #[test]
+    fn the_scene_shape_is_pinned() {
+        let s = scene_vessel(&vessel_with(&[
+            ("water", 5.55, Phase::Liquid),
+            ("AgCl", 0.01, Phase::Solid),
+        ]));
+        let json = serde_json::to_value(&s).unwrap();
+        for key in [
+            "id",
+            "label",
+            "liquid",
+            "solids",
+            "bubbling",
+            "boundary",
+            "temperature_k",
+            "pressure_pa",
+            "elapsed_s",
+            "words",
+            "badges",
+        ] {
+            assert!(json.get(key).is_some(), "missing scene key {key}");
+        }
+        let liquid = &json["liquid"];
+        for key in [
+            "volume_l",
+            "srgb",
+            "colour_word",
+            "cloudiness",
+            "path_length_cm",
+        ] {
+            assert!(liquid.get(key).is_some(), "missing liquid key {key}");
+        }
+        let solid = &json["solids"][0];
+        for key in [
+            "species",
+            "name",
+            "moles",
+            "srgb",
+            "colour_word",
+            "metallic",
+        ] {
+            assert!(solid.get(key).is_some(), "missing solid key {key}");
+        }
+        // And it round-trips.
+        let back: SceneVessel = serde_json::from_value(json).unwrap();
+        assert_eq!(back, s);
+    }
+}

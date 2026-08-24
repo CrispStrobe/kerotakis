@@ -58,10 +58,11 @@ file. They exist because each was violated once and cost a day.
    under an identical fingerprint — observed as a compile error demanding
    an enum variant that existed only in a peer's in-progress sources.
    `export CARGO_TARGET_DIR="$(pwd)/.target-local"` (gitignored) is fine.
-3. **`tools/preflight.sh` gates every push, on its exit code.**
-   `cargo test` alone misses the engine-less and wasm32 build variants
-   that CI checks. Never chain "check; push" with semicolons — that pushes
-   on red.
+3. **`tools/preflight.sh --light` gates every branch push** (fmt +
+   clippy + no-engine; <2 min warm). **Main moves only by PR with the
+   full CI `preflight-gate` job green.** The full `tools/preflight.sh`
+   (without `--light`) runs in CI on every PR and push to main. Never
+   chain "check; push" with semicolons — that pushes on red.
 4. **Commit *and push* at every checkpoint.** A commit that was never
    pushed is invisible to the other sessions and dies with the window.
 5. **Chemistry output is the contract.** The conservation proptests, the
@@ -548,3 +549,37 @@ equilibrate_tp 1.0 ms, equilibrate_hp 7.5 ms.
 | cea: `equilibrate_tp` | — | | | | | |
 | cea: temperature-bisecting solve | — | | | | | |
 | wasm: `kerotakis-wasm` module size | — | | | | | |
+
+## OPT-10 — ccache + ninja auto-detection for vendored C/C++ builds
+
+Owner: kero1 (commits b77260f/18a0649 on its branch, there labelled
+"OPT-8" — renumber to this at merge; this file's OPT-8 is the formula
+parser, already landed). build.rs for kerotakis-phreeqc and sundials-sys
+adds CMAKE_*_COMPILER_LAUNCHER=ccache and the Ninja generator ONLY when
+the tools are on PATH; a machine without them builds exactly as before.
+The cache is system-wide and shared across projects: /etc/ccache.conf
+pins cache_dir=/mnt/volume1/ccache, max_size=5G; never set CCACHE_DIR in
+env or scripts. Acceptance: `ccache -s` evidence of a near-100%-hit
+second clean build of kerotakis-phreeqc, plus one configure proving the
+no-ccache path still builds.
+
+## OPT-11 — One-worker web engine (GUI-004's engine half)
+
+Owner: keromaster. Run kerotakis-wasm and IPhreeqc in ONE module Web
+Worker and reduce the number of engine calls per vessel equilibration
+(ROADMAP-Webapp.md's "fewer calls first"; the per-crossing cost question
+stays OPT-9's measure-then-decide). Client half landed 2026-08-24 (the
+worker attaches IPhreeqc in-process via the shared bridge; see
+ROADMAP-GUI.md GUI-004). Open: the engine-side call-count reduction and
+the before/after measurement on the wasm path.
+
+## Number allocation rule (2026-08-24)
+
+A task number exists when — and only when — it has a section in THIS
+file on origin/main. Allocate here first, then commit work against the
+number. Recorded incident: two different "canonical restores" (70ec6fb
+and 5f649ab) restored two DIFFERENT lineages of this file with
+conflicting OPT-3/6/7/8/9 meanings; this version (the detailed lineage,
+which all of 2026-08-24's landed work references) is authoritative, and
+the 90-line lineage's bindings are void. Cross-references in
+ROADMAP-Webapp.md/ROADMAP-GUI.md/PROTOCOL.md updated to match.

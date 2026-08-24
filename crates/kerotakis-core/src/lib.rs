@@ -45,6 +45,7 @@ pub mod polymer;
 pub mod properties;
 pub mod relations;
 pub mod render;
+pub mod scene;
 pub mod script;
 pub mod solve;
 pub mod species;
@@ -74,6 +75,7 @@ pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use orchestrator::Orchestrator;
 pub use render::{render_event, render_events, render_vessel, Register};
+pub use scene::{scene, scene_of, scene_vessel, Scene, SceneVessel};
 pub use solve::{
     equilibrate_phase_coupled, Applicability, CapabilityReport, Equilibrator, HonestyEquilibrator,
     MixingEquilibrator, PermissiveScreen, PhaseEquilibrator, SafetyScreen, SafetyVerdict, Severity,

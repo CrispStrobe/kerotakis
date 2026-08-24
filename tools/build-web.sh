@@ -42,14 +42,33 @@ cp "$ROOT/vendor/iphreeqc/database/wateq4f.dat" \
    "$ROOT/vendor/iphreeqc/database/minteq.v4.dat" \
    "$ROOT/vendor/iphreeqc/database/pitzer.dat" "$OUT/db/"
 
+echo "== lessons for the app's player"
+mkdir -p "$OUT/lessons"
+cp "$ROOT"/lessons/*.lab "$OUT/lessons/"
+(cd "$OUT/lessons" && python3 - > index.json <<'PYEOF'
+import json, pathlib
+out = []
+for p in sorted(pathlib.Path(".").glob("*.lab")):
+    # The first comment line is the lesson's own description.
+    blurb = next(
+        (l.lstrip("#").strip() for l in p.read_text().splitlines() if l.startswith("#")),
+        "",
+    )
+    out.append({
+        "file": p.name,
+        "name": p.stem.replace("-", " "),
+        "blurb": blurb,
+    })
+print(json.dumps(out))
+PYEOF
+)
+
 echo "== pre-warmed lessons and R1 acceptance states"
 cargo run -p kerotakis-cli -- prewarm "$ROOT"/lessons/*.lab \
     -o "$OUT/results.postcard"
 
-# The service worker's cache is versioned by commit, so every deploy
-# retires the previous cache and an unchanged deploy keeps it warm.
-STAMP="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || date +%s)"
-sed "s/__KERO_CACHE__/$STAMP/" "$ROOT/web/sw.js" > "$OUT/sw.js"
+# (The service worker is stamped at the end of this script, once the app's
+# content-hashed assets exist and can enter its precache list.)
 
 if command -v emcc >/dev/null 2>&1; then
     echo "== the aqueous engine (Emscripten)"
@@ -63,6 +82,35 @@ if command -v emcc >/dev/null 2>&1; then
 else
     echo "== no emcc: the page will run from shipped results only"
 fi
+
+# The bench app (web/app, GUI-010): built when node is available, served
+# under app/ beside the console page. Its engine base points one level up,
+# where this script already put the wasm modules and databases — the app
+# and the console share one engine payload.
+if command -v npm >/dev/null 2>&1; then
+    echo "== the bench app (web/app)"
+    (cd "$ROOT/web/app" \
+        && npm ci --no-audit --no-fund >/dev/null \
+        && node tools/licence-lint.mjs \
+        && npx vitest run --silent >/dev/null \
+        && VITE_ENGINE_BASE="../" npm run build >/dev/null)
+    cp -r "$ROOT/web/app/dist" "$OUT/app"
+else
+    echo "== no npm: skipping the bench app; the console page still works"
+fi
+
+# The service worker's cache is versioned by commit, so every deploy
+# retires the previous cache and an unchanged deploy keeps it warm. Stamped
+# last so the precache list includes the app's hashed assets.
+STAMP="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || date +%s)"
+APP_ASSETS="$(cd "$OUT" && find app -type f 2>/dev/null | sort | sed 's|.*|"&"|' | paste -sd, -)"
+sed -e "s|__KERO_CACHE__|$STAMP|" \
+    -e "s|\"__KERO_APP_ASSETS__\"|${APP_ASSETS:-\"__no_app__\"}|" \
+    "$ROOT/web/sw.js" > "$OUT/sw.js"
+
+# Vercel serves the same payload; the config only tightens caching for the
+# app's content-hashed assets.
+cp "$ROOT/web/vercel.json" "$OUT/vercel.json"
 
 # Pages serves what it is given; without this it would try to run the
 # output through Jekyll and drop the underscore-prefixed files.

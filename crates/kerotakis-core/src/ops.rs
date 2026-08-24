@@ -141,6 +141,11 @@ pub enum Operator {
     /// Add solvent (water) by volume. The pedagogical complement of
     /// `evaporate`: where evaporate concentrates, dilute spreads.
     Dilute { vessel: VesselId, volume: Liters },
+    /// Apply a named curated organic transformation on command:
+    /// `react v1 esterification`. Deliberate, not automatic — the
+    /// mixture does not do this on its own at the bench's conditions;
+    /// see `curated::ORG_REACTIONS`.
+    React { vessel: VesselId, reaction: String },
     /// Auto-stepped titration: add `titrant` to `vessel` in increments of
     /// `step` volume, re-equilibrating after each addition, until the pH
     /// crosses `target_ph` or `max_steps` additions are exhausted. Records
@@ -157,6 +162,16 @@ pub enum Operator {
         step: Liters,
         target_ph: f64,
         max_steps: u32,
+    },
+    /// Push liquid through a 1-D chain of vessels: conservative upwind
+    /// transport with an explicit Courant fraction. The inlet provides the
+    /// feed composition (unchanged); the effluent collects in the receiver.
+    Transport {
+        chain: Vec<VesselId>,
+        inlet: VesselId,
+        receiver: VesselId,
+        steps: u32,
+        courant: f64,
     },
 }
 
@@ -411,6 +426,16 @@ pub enum Event {
         /// left with it when the stopcock opened).
         fraction_lower: f64,
     },
+    /// A named organic transformation ran to the stated extent. The
+    /// boundary line carries what the model does NOT claim.
+    OrgReacted {
+        vessel: VesselId,
+        name: String,
+        equation: String,
+        /// Reaction extent in moles of the equation as written.
+        extent: Moles,
+        boundary: String,
+    },
     /// The column spoke: each dissolved neutral solute with a curated
     /// group decomposition eluted at the time its partition coefficient
     /// sets, and anything the method cannot see is named rather than
@@ -585,6 +610,15 @@ pub enum Event {
         total_volume: Liters,
         final_ph: f64,
         curve: Vec<(f64, f64)>,
+    },
+    /// Liquid flowed through a 1-D column of vessels. The effluent —
+    /// what came out the far end — was deposited into the receiver.
+    Transported {
+        chain: Vec<VesselId>,
+        receiver: VesselId,
+        steps: u32,
+        courant: f64,
+        effluent_moles: Vec<(SpeciesId, Moles)>,
     },
 }
 

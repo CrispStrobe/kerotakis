@@ -19,7 +19,31 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
     let words: Vec<&str> = line.split_whitespace().collect();
     let op = match words[0] {
         "register" | "inspect" | "explain" | "species" | "help" | "particles" | "zoom"
-        | "structure" | "identify" | "react" | "coverage" => return Ok(None),
+        | "structure" | "identify" | "coverage" => return Ok(None),
+        // `react v1 esterification` — apply a named curated organic
+        // transformation. The name is checked here so a typo fails at
+        // parse time, with the shelf listed.
+        "react" => {
+            if words.len() < 3 {
+                return Err("usage: react <vessel> <reaction> (see curated::ORG_REACTIONS)".into());
+            }
+            let vessel = parse_vessel(words[1])?;
+            let name = words[2];
+            if !crate::curated::ORG_REACTIONS.iter().any(|r| r.name == name) {
+                let known: Vec<&str> = crate::curated::ORG_REACTIONS
+                    .iter()
+                    .map(|r| r.name)
+                    .collect();
+                return Err(format!(
+                    "unknown reaction '{name}' — curated: {}",
+                    known.join(", ")
+                ));
+            }
+            Operator::React {
+                vessel,
+                reaction: name.to_string(),
+            }
+        }
         "new" => Operator::NewVessel,
         "add" => {
             if words.len() < 4 {
@@ -358,6 +382,69 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 step,
                 target_ph,
                 max_steps,
+            }
+        }
+        "transport" => {
+            // transport v1 v2 v3 from v4 to v5 steps 5 [courant 0.5]
+            let from_pos = words.iter().position(|&w| w == "from");
+            let to_pos = words.iter().position(|&w| w == "to");
+            let steps_pos = words.iter().position(|&w| w == "steps");
+            let (from_pos, to_pos, steps_pos) = match (from_pos, to_pos, steps_pos) {
+                (Some(f), Some(t), Some(s)) => (f, t, s),
+                _ => {
+                    return Err(
+                        "usage: transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>]"
+                            .into(),
+                    )
+                }
+            };
+            if from_pos < 2 {
+                return Err("transport needs at least one cell vessel before 'from'".into());
+            }
+            let chain: Vec<VesselId> = words[1..from_pos]
+                .iter()
+                .map(|w| parse_vessel(w))
+                .collect::<Result<_, _>>()?;
+            let inlet = parse_vessel(
+                words
+                    .get(from_pos + 1)
+                    .ok_or("expected inlet vessel after 'from'")?,
+            )?;
+            let receiver = parse_vessel(
+                words
+                    .get(to_pos + 1)
+                    .ok_or("expected receiver vessel after 'to'")?,
+            )?;
+            let steps: u32 = words
+                .get(steps_pos + 1)
+                .ok_or("expected step count after 'steps'")?
+                .parse()
+                .map_err(|_| {
+                    format!(
+                        "bad step count '{}'",
+                        words.get(steps_pos + 1).unwrap_or(&"")
+                    )
+                })?;
+            let courant_pos = words.iter().position(|&w| w == "courant");
+            let courant: f64 = match courant_pos {
+                Some(cp) => words
+                    .get(cp + 1)
+                    .ok_or("expected Courant fraction after 'courant'")?
+                    .parse()
+                    .map_err(|_| {
+                        format!(
+                            "bad Courant fraction '{}'",
+                            words.get(cp + 1).unwrap_or(&"")
+                        )
+                    })?,
+                None => 1.0,
+            };
+            Operator::Transport {
+                chain,
+                inlet,
+                receiver,
+                steps,
+                courant,
             }
         }
         other => return Err(format!("unknown command '{other}' (try 'help')")),

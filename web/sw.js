@@ -23,11 +23,19 @@ const SHELL = [
   "icon.svg",
 ];
 
+// The bench app (web/app): entries stamped by build-web.sh from the built
+// output, because the filenames are content-hashed. The placeholder is one
+// unfetchable entry in an unstamped checkout, and allSettled tolerates it
+// exactly as it tolerates absent engine files.
+const APP = ["__KERO_APP_ASSETS__"];
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
     caches
       .open(CACHE)
-      .then((cache) => Promise.allSettled(SHELL.map((url) => cache.add(url))))
+      .then((cache) =>
+        Promise.allSettled(SHELL.concat(APP).map((url) => cache.add(url))),
+      )
       .then(() => self.skipWaiting()),
   );
 });

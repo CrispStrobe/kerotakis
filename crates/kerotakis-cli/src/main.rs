@@ -191,11 +191,23 @@ fn main() {
         }
         Some("species") => {
             for s in species::REGISTRY {
+                // ✓ marks a verified identity: this species has a curated
+                // SMILES whose recomputation by the official IUPAC InChI
+                // library (v1.07.5, vendored in inchi-sys) must reproduce
+                // the registry InChIKey — enforced in the gate.
+                let verified = kerotakis_org::inchi_validate::CURATED_STRUCTURES
+                    .iter()
+                    .any(|(id, _)| *id == s.key);
+                let mark = if verified { "✓" } else { " " };
                 println!(
-                    "{:<10} {:<18} {:<8} M={:>8.3} g/mol   [{}]",
+                    "{:<10} {mark} {:<18} {:<8} M={:>8.3} g/mol   [{}]",
                     s.key, s.name, s.formula, s.molar_mass, s.provenance
                 );
             }
+            println!(
+                "
+✓ = identity verified: curated structure recomputed by the                  official IUPAC InChI library (1.07.5) matches the registry key"
+            );
         }
         Some("mechanism") => mechanism_command(&args[1..]),
         Some("sweep") => {
@@ -464,6 +476,9 @@ fn json_step(
         "step": step,
         "operator": op,
         "events": events,
+        // The render model (PROTOCOL.md, GUI-003): the same object the wasm
+        // step() carries, so every host repaints from one round trip.
+        "scene": kerotakis_core::scene_of(vessels),
         "bench": { "vessels": vessels },
     })
 }
@@ -1211,6 +1226,7 @@ fn usage() -> ! {
          \x20 dilute <vessel> <volume><mL|L>         add water by volume\n\
          \x20 distil <from> <to> <frac|energy> [stages <n>]\n\
          \x20 drain <from> <to>                      lower layer through stopcock\n\
+         \x20 transport <v..> from <inlet> to <recv> steps <n> [courant <f>]\n\
          \x20 titrate <v> <titrant> <step><mL|L> until ph <target> [max <n>]\n\
          \x20 measure <vessel> <thermometer|balance|ph|pressure|conductivity|uvvis|calorimeter>\n\
          \x20 look <vessel>                          observe with your eyes\n\

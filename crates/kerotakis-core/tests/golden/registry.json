@@ -1571,5 +1571,23 @@
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 126.3 J/(mol.K) and density 0.7845 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed.",
     "spectrum_bands": null,
     "standard_phase": "liquid"
+  },
+  {
+    "appearance": null,
+    "colour": null,
+    "density": 0.9003,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "CH3COOC2H5",
+    "heat_capacity": 170.1,
+    "inchikey": "XEKOWRVHYACXOJ-UHFFFAOYSA-N",
+    "key": "ethyl_acetate",
+    "molar_mass": 88.106,
+    "name": "ethyl_acetate",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 126.3 J/(mol.K) and density 0.9003 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed.",
+    "spectrum_bands": null,
+    "standard_phase": "liquid"
   }
 ]

@@ -17,6 +17,13 @@ branch). Two additions specific to capability work:
    dilution monotonicity, scale invariance) plus at least one golden
    test against a textbook value.
 
+> **GUI consumers (2026-08-24):** [ROADMAP-GUI.md](ROADMAP-GUI.md) plans the
+> cross-platform GUI and binds several CAP tasks as its dependencies: CAP-3's
+> chart contract renders in the app (GUI-021), CAP-12's titrate verb drives
+> the first live chart, CAP-2/CAP-8/CAP-4 get their user surface in Phase G5
+> (GUI-050/051). Scoping those CAPs should treat the GUI contract as a
+> consumer, not an afterthought.
+
 ## The yardsticks
 
 Feature inventories taken **2026-08-23**, verified against each
@@ -666,8 +673,29 @@ nothing).
 
 ## CAP-13 — Adopt the official InChI library (MIT since 1.07.1)
 
-- [ ] Status: open — `vendor/inchi/` currently holds a README scaffold
-      only; the task starts when sources with checksums land
+- [x] Status: **done 2026-08-24** (Fable), with one scoping deviation
+      stated: the official sources are vendored *inside the
+      checksummed `inchi-sys` 0.1.4 crate* (IUPAC InChI v1.07.5
+      bundled, MIT, statically linked, no network at build) rather
+      than as a git submodule — the Cargo.lock checksum is the pin,
+      and a submodule would duplicate the same tree. The
+      `native-inchi` feature now actually compiles (its previous call
+      site named a function that did not exist — the feature had
+      never been built): SMILES → chematic molecule → V2000 molfile →
+      official library → standard InChIKey
+      (`native_inchikey_from_smiles`). The identity contract:
+      `CURATED_STRUCTURES` pins a SMILES for 23 registry species, and
+      `tests/native_identity.rs` recomputes each key and requires it
+      to equal the registry's `canonical_key` — all 23 matched on
+      first run, and the check is a preflight step ("inchi
+      identity"), so a curation bug now fails the gate. `kero
+      species` marks verified identities with ✓ and names the
+      library version. Cross-validation semantics corrected:
+      chematic's canonical key is a different algorithm, so
+      chematic-vs-native Mismatch is expected and documented, not
+      asserted away. Remaining (not claimed): the Emscripten/wasm
+      InChI build, and growing the tranche to species without simple
+      SMILES (minerals, enzymes, aromatic dyes).
 
 **Why.** The IUPAC InChI reference implementation was relicensed to
 plain MIT with v1.07.1 (2024-08) and lives on GitHub, and upstream
@@ -937,8 +965,40 @@ a settled solid was never injected and says so (core test); a
 solute-free or dry sample refuses out loud; the injection provably
 moves no ledger. Lesson: `one-thing-at-a-time.lab`. The calorimeter
 half of the remainder was already served: `Instrument::Calorimeter`,
-its grammar, and `calorimetry.lab` predate this task. Remaining in
-this task: the transport and react verbs (extract's upgrade to lle.rs
+its grammar, and `calorimetry.lab` predate this task. The `react` verb landed
+2026-08-24 (Fable): `react v1 esterification` applies a curated
+`OrgReaction` on command — deliberately NOT auto-fired by
+`CuratedEquilibrator`, because vinegar and spirit standing in one
+beaker do not visibly esterify; the verb *is* the conditions. Two
+rows: Fischer esterification (CH3COOH + ethanol ⇌ ethyl acetate +
+water, boundary stating the equilibrium it drives past) and
+saponification (ester + NaOH → NaOAc + ethanol). Ethyl acetate became
+species #79 through the CAP-21 pipeline (CRC/CIAAW; golden diff one
+added record) with its safety row. `kerotakis-org` is now
+load-bearing twice over: the wasm structure panel consumed it already,
+and its SMIRKS templates are the oracle for the curated table —
+`tests/template_oracle.rs` applies each template to reference
+molecules and requires molecule-level identity (chematic canonical
+keys + formulas; standard-InChIKey anchoring is CAP-13's upgrade)
+with the acetate-anion→NaOAc ledger bridge stated. Engine tests pin
+exact mass conservation, limiting-reagent extents, the there-and-back
+round trip (ester made then unmade, the alcohol returns), loud
+refusal naming the missing reactant, and a parse-time shelf listing
+for unknown reactions. Lesson: `there-and-back.lab`.
+
+**Transport verb done 2026-08-24** (Opus): the existing 1-D upwind
+`CellChain` in `transport.rs` now has the full bench wiring.
+`transport v1 v2 v3 from v4 to v5 steps N [courant F]` parses,
+builds an `Operator::Transport`, runs N `CellChain::advance()`
+steps with the inlet as a non-consumed template, deposits
+accumulated effluent into the receiver with adiabatic temperature
+mixing, and emits `Event::Transported` rendered at three register
+levels.  Six integration tests (`transport_verb.rs`) verify the
+binomial dispersion profile, mass conservation, empty-chain and
+zero-steps refusal, water-volume invariance across chain cells,
+and effluent collection.  `transport-column.lab` is the lesson
+(salt pulse through a 3-cell water column at Cf = 0.5).
+CAP-20 done — all verb slots filled (extract's upgrade to lle.rs
 folded into the funnel work above). **Acceptance.** Each verb demonstrable in a replayed lesson;
 `kerotakis-org` gains a dependent; preflight green. **Size.** Medium
 per verb — they are independent; take them one per branch.
