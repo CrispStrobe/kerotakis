@@ -476,7 +476,25 @@ not errors; fuzz clean; preflight green. **Size.** Small.
 
 ## CAP-8 — Monte Carlo uncertainty over studies
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-24** (Fable). `kero study … --vary
+      <sel>=normal(μ,σ)|uniform(a,b) --mc N --seed S`: samples drawn
+      by the existing seeded `statistics::Experiment` (ChaCha20), rows
+      emitted in run order as before, and a summary carrying
+      p5/p50/p95 + mean/sd per probe (NDJSON object, CSV comments).
+      Percentiles are a sort and an interpolation in `statistics.rs` —
+      one formula did not earn the `statrs` dependency the scope
+      offered, and the code says so. The flag contract refuses out
+      loud: a distribution without `--mc`, `--mc` without `--seed`
+      (the seed is spoken, never invented), `--mc` over a linear
+      range. Acceptance met: the titration-endpoint distribution
+      under a 1 % acid-amount uncertainty on a 0.1 mL burette
+      reproduces the linear-case analytic expectation — mean at
+      equivalence plus the half-step overshoot, σ carrying the input
+      1e-4 through, p95−p5 against 2·1.645σ on the step grid
+      (`tests/study_mc.rs`); same seed twice is byte-identical, a
+      different seed is not. The CAP-3 chart contract gained
+      `Series::Band` (lower/upper envelopes) rendered as a shaded
+      polygon with legend entry.
 
 **Why.** The workbench class propagates input uncertainty by sampling;
 we propagate nothing, while our provenance strings admit "good to

@@ -16,11 +16,7 @@ pub fn render(chart: &Chart) -> String {
     let (ml, mt, mr, mb) = (70.0, 48.0, 180.0, 78.0);
     let (w, h) = (ml + px + mr, mt + py + mb);
 
-    let all: Vec<[f64; 2]> = chart
-        .series
-        .iter()
-        .flat_map(|s| s.points().iter().copied())
-        .collect();
+    let all: Vec<[f64; 2]> = chart.series.iter().flat_map(|s| s.points()).collect();
     let (mut x0, mut x1) = (f64::INFINITY, f64::NEG_INFINITY);
     let (mut y0, mut y1) = (f64::INFINITY, f64::NEG_INFINITY);
     for [x, y] in &all {
@@ -138,6 +134,21 @@ pub fn render(chart: &Chart) -> String {
                     )
                     .unwrap();
                 }
+            }
+            Series::Band { lower, upper, .. } => {
+                // One closed polygon: along the lower envelope, back
+                // along the upper — the shaded region between them.
+                let path: Vec<String> = lower
+                    .iter()
+                    .chain(upper.iter().rev())
+                    .map(|[x, y]| format!("{:.2},{:.2}", xs(*x), ys(*y)))
+                    .collect();
+                write!(
+                    s,
+                    r##"<polygon points="{}" fill="{colour}" fill-opacity="0.25" stroke="{colour}" stroke-width="1" stroke-opacity="0.5"/>"##,
+                    path.join(" ")
+                )
+                .unwrap();
             }
         }
         let ly = mt + 16.0 + i as f64 * 20.0;

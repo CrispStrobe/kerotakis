@@ -62,3 +62,54 @@ fn renderer_draws_every_series_and_the_provenance() {
     );
     std::fs::remove_dir_all(&dir).ok();
 }
+
+#[test]
+fn a_band_renders_as_a_shaded_polygon() {
+    let chart = Chart {
+        title: "Endpoint uncertainty".into(),
+        x: Axis {
+            label: "acid".into(),
+            unit: Some("mol".into()),
+        },
+        y: Axis {
+            label: "endpoint".into(),
+            unit: Some("L".into()),
+        },
+        series: vec![
+            Series::Band {
+                name: "p5–p95".into(),
+                lower: vec![[0.005, 0.0048], [0.02, 0.0198]],
+                upper: vec![[0.005, 0.0052], [0.02, 0.0202]],
+            },
+            Series::Line {
+                name: "median".into(),
+                points: vec![[0.005, 0.005], [0.02, 0.02]],
+            },
+        ],
+        provenance: "test fixture".into(),
+    };
+    let dir = std::env::temp_dir().join(format!("kero-band-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let json_path = dir.join("b.json");
+    let svg_path = dir.join("b.svg");
+    std::fs::write(&json_path, serde_json::to_string(&chart).unwrap()).unwrap();
+    let out = std::process::Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args([
+            "chart",
+            json_path.to_str().unwrap(),
+            "-o",
+            svg_path.to_str().unwrap(),
+        ])
+        .output()
+        .expect("kero chart runs");
+    assert!(
+        out.status.success(),
+        "{}",
+        String::from_utf8_lossy(&out.stderr)
+    );
+    let svg = std::fs::read_to_string(&svg_path).unwrap();
+    assert!(svg.contains("polygon"), "the band is a filled polygon");
+    assert!(svg.contains("fill-opacity"), "shaded, not solid");
+    assert!(svg.contains("p5–p95"), "the band appears in the legend");
+    assert!(svg.contains("polyline"), "the median line still draws");
+}

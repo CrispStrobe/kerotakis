@@ -33,6 +33,27 @@ impl Experiment {
         (0..n).map(|_| dist.sample(&mut self.rng)).collect()
     }
 
+    /// Percentiles by sorting and linear interpolation between order
+    /// statistics — the standard empirical quantile. One formula did
+    /// not earn the `statrs` dependency the CAP-8 scope offered; the
+    /// deviation is deliberate and this comment is its record.
+    pub fn percentiles(values: &[f64], ps: &[f64]) -> Vec<f64> {
+        let mut sorted: Vec<f64> = values.to_vec();
+        sorted.sort_by(f64::total_cmp);
+        ps.iter()
+            .map(|&p| {
+                if sorted.is_empty() {
+                    return f64::NAN;
+                }
+                let rank = (p / 100.0) * (sorted.len() - 1) as f64;
+                let lo = rank.floor() as usize;
+                let hi = rank.ceil() as usize;
+                let frac = rank - lo as f64;
+                sorted[lo] + (sorted[hi] - sorted[lo]) * frac
+            })
+            .collect()
+    }
+
     /// Compute mean and standard deviation of a sample.
     pub fn mean_std(values: &[f64]) -> (f64, f64) {
         let n = values.len() as f64;

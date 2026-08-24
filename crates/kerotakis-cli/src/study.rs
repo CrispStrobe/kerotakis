@@ -25,13 +25,21 @@ enum Selector {
     Line(usize),
 }
 
+/// How the varied quantity sweeps: a deterministic linear grid, or a
+/// seeded distribution for Monte Carlo (CAP-8).
+enum Sweep {
+    Linear { from: f64, to: f64, steps: usize },
+    Normal { mean: f64, sd: f64 },
+    Uniform { lo: f64, hi: f64 },
+}
+
 struct Vary {
     selector: Selector,
     /// The selector exactly as the user wrote it, echoed in every row.
     spoken: String,
-    from: f64,
-    to: f64,
-    steps: usize,
+    /// The range exactly as written, echoed in the provenance.
+    range_spoken: String,
+    sweep: Sweep,
 }
 
 /// One thing to read after each run.
@@ -104,10 +112,36 @@ impl Probe {
     }
 }
 
-fn parse_vary(spec: &str) -> Result<Vary, String> {
-    let (sel, range) = spec
-        .split_once('=')
-        .ok_or("expected <selector>=<from>..<to>[:steps]")?;
+fn parse_two(args: &str, what: &str) -> Result<(f64, f64), String> {
+    let (a, b) = args.split_once(',').ok_or(format!(
+        "{what} takes two numbers, e.g. {what}(0.01,0.0001)"
+    ))?;
+    let a: f64 = a.trim().parse().map_err(|_| format!("bad number '{a}'"))?;
+    let b: f64 = b.trim().parse().map_err(|_| format!("bad number '{b}'"))?;
+    Ok((a, b))
+}
+
+fn parse_sweep(range: &str) -> Result<Sweep, String> {
+    if let Some(rest) = range
+        .strip_prefix("normal(")
+        .and_then(|r| r.strip_suffix(')'))
+    {
+        let (mean, sd) = parse_two(rest, "normal")?;
+        if sd <= 0.0 {
+            return Err("normal needs a positive standard deviation".into());
+        }
+        return Ok(Sweep::Normal { mean, sd });
+    }
+    if let Some(rest) = range
+        .strip_prefix("uniform(")
+        .and_then(|r| r.strip_suffix(')'))
+    {
+        let (lo, hi) = parse_two(rest, "uniform")?;
+        if hi <= lo {
+            return Err("uniform needs lo < hi".into());
+        }
+        return Ok(Sweep::Uniform { lo, hi });
+    }
     let (span, steps) = match range.rsplit_once(':') {
         Some((span, n)) => (
             span,
@@ -121,9 +155,17 @@ fn parse_vary(spec: &str) -> Result<Vary, String> {
     }
     let (from, to) = span
         .split_once("..")
-        .ok_or("expected <from>..<to> (e.g. 0.005..0.02)")?;
+        .ok_or("expected <from>..<to> (e.g. 0.005..0.02) or normal(μ,σ) / uniform(a,b)")?;
     let from: f64 = from.parse().map_err(|_| format!("bad number '{from}'"))?;
     let to: f64 = to.parse().map_err(|_| format!("bad number '{to}'"))?;
+    Ok(Sweep::Linear { from, to, steps })
+}
+
+fn parse_vary(spec: &str) -> Result<Vary, String> {
+    let (sel, range) = spec
+        .split_once('=')
+        .ok_or("expected <selector>=<from>..<to>[:steps] or <selector>=normal(μ,σ)")?;
+    let sweep = parse_sweep(range)?;
     let selector = match sel.split(':').collect::<Vec<_>>().as_slice() {
         ["add", vessel, species] => Selector::Add {
             vessel: kerotakis_core::script::parse_vessel(vessel)?,
@@ -142,9 +184,8 @@ fn parse_vary(spec: &str) -> Result<Vary, String> {
     Ok(Vary {
         selector,
         spoken: sel.to_string(),
-        from,
-        to,
-        steps,
+        range_spoken: range.to_string(),
+        sweep,
     })
 }
 
@@ -218,6 +259,26 @@ pub fn study_command(args: &[String]) {
     let csv = args.iter().any(|a| a == "--csv");
 
     let vary = parse_vary(&vary_spec).unwrap_or_else(|e| die(&format!("kero study: {e}")));
+    let mc: Option<usize> = flag_value(args, "--mc").map(|n| {
+        n.parse()
+            .unwrap_or_else(|_| die(&format!("kero study: bad --mc count '{n}'")))
+    });
+    let seed: Option<u64> = flag_value(args, "--seed").map(|n| {
+        n.parse()
+            .unwrap_or_else(|_| die(&format!("kero study: bad --seed '{n}'")))
+    });
+    match (&vary.sweep, mc, seed) {
+        (Sweep::Linear { .. }, Some(_), _) => die("kero study: --mc needs a distribution — write \
+             --vary <sel>=normal(μ,σ) or uniform(a,b), not a linear range"),
+        (Sweep::Normal { .. } | Sweep::Uniform { .. }, None, _) => {
+            die("kero study: a distribution needs --mc <N>")
+        }
+        (Sweep::Normal { .. } | Sweep::Uniform { .. }, Some(_), None) => die(
+            "kero study: --mc needs --seed <S> — determinism is the contract, \
+             so the seed is spoken, never invented",
+        ),
+        _ => {}
+    }
     let probes: Vec<(String, Probe)> = collect_spec
         .split(',')
         .map(|w| Probe::parse(w.trim()).unwrap_or_else(|e| die(&format!("kero study: {e}"))))
@@ -232,9 +293,20 @@ pub fn study_command(args: &[String]) {
     kerotakis_phreeqc::PhreeqcEquilibrator::new()
         .unwrap_or_else(|e| die(&format!("kero study: aqueous engine unavailable: {e}")));
 
-    let values: Vec<f64> = (0..vary.steps)
-        .map(|i| vary.from + (vary.to - vary.from) * (i as f64) / ((vary.steps - 1) as f64))
-        .collect();
+    let values: Vec<f64> = match (&vary.sweep, mc) {
+        (Sweep::Linear { from, to, steps }, _) => (0..*steps)
+            .map(|i| from + (to - from) * (i as f64) / ((steps - 1) as f64))
+            .collect(),
+        (Sweep::Normal { mean, sd }, Some(n)) => {
+            kerotakis_core::statistics::Experiment::new(seed.expect("checked above"))
+                .normal_samples(*mean, *sd, n)
+        }
+        (Sweep::Uniform { lo, hi }, Some(n)) => {
+            kerotakis_core::statistics::Experiment::new(seed.expect("checked above"))
+                .uniform_samples(*lo, *hi, n)
+        }
+        _ => unreachable!("validated above"),
+    };
 
     let mut rows: Vec<Row> = values
         .par_iter()
@@ -276,10 +348,17 @@ pub fn study_command(args: &[String]) {
         .collect();
     rows.sort_by_key(|r| r.run);
 
+    let sweep_said = match (&vary.sweep, mc, seed) {
+        (Sweep::Linear { .. }, ..) => format!("{} over {}", vary.spoken, vary.range_spoken),
+        (_, Some(n), Some(sd)) => format!(
+            "{} ~ {} sampled {n} times (ChaCha20, seed {sd})",
+            vary.spoken, vary.range_spoken
+        ),
+        _ => unreachable!("validated above"),
+    };
     let provenance = format!(
-        "computed replay of {lab}; varied {} over [{}, {}] in {} steps; \
-         solver: kerotakis PHREEQC stack; probes read from solved state and events",
-        vary.spoken, vary.from, vary.to, vary.steps
+        "computed replay of {lab}; varied {sweep_said}; \
+         solver: kerotakis PHREEQC stack; probes read from solved state and events"
     );
 
     let mut out = std::io::stdout().lock();
@@ -302,6 +381,18 @@ pub fn study_command(args: &[String]) {
             writeln!(out, "{}", cells.join(",")).unwrap();
         }
         writeln!(out, "# {provenance}").unwrap();
+        if mc.is_some() {
+            for (pi, (name, _)) in probes.iter().enumerate() {
+                if let Some(sm) = summarize(&rows, pi) {
+                    writeln!(
+                        out,
+                        "# {name}: p5={} p50={} p95={} mean={} sd={} (n={})",
+                        sm.p5, sm.p50, sm.p95, sm.mean, sm.sd, sm.n
+                    )
+                    .unwrap();
+                }
+            }
+        }
     } else {
         for r in &rows {
             let mut probe_obj = serde_json::Map::new();
@@ -323,7 +414,55 @@ pub fn study_command(args: &[String]) {
             });
             writeln!(out, "{row}").unwrap();
         }
+        if mc.is_some() {
+            let mut sums = serde_json::Map::new();
+            for (pi, (name, _)) in probes.iter().enumerate() {
+                if let Some(sm) = summarize(&rows, pi) {
+                    sums.insert(
+                        name.clone(),
+                        serde_json::json!({
+                            "p5": sm.p5, "p50": sm.p50, "p95": sm.p95,
+                            "mean": sm.mean, "sd": sm.sd, "n": sm.n,
+                        }),
+                    );
+                }
+            }
+            writeln!(
+                out,
+                "{}",
+                serde_json::json!({ "summary": sums, "provenance": provenance })
+            )
+            .unwrap();
+        }
     }
+}
+
+struct Summary {
+    p5: f64,
+    p50: f64,
+    p95: f64,
+    mean: f64,
+    sd: f64,
+    n: usize,
+}
+
+/// Percentiles over the non-null readings of one probe. `None` when no
+/// run produced a reading — an absent summary, not a fabricated one.
+fn summarize(rows: &[Row], probe_index: usize) -> Option<Summary> {
+    let vals: Vec<f64> = rows.iter().filter_map(|r| r.probes[probe_index]).collect();
+    if vals.is_empty() {
+        return None;
+    }
+    let ps = kerotakis_core::statistics::Experiment::percentiles(&vals, &[5.0, 50.0, 95.0]);
+    let (mean, sd) = kerotakis_core::statistics::Experiment::mean_std(&vals);
+    Some(Summary {
+        p5: ps[0],
+        p50: ps[1],
+        p95: ps[2],
+        mean,
+        sd,
+        n: vals.len(),
+    })
 }
 
 fn flag_value(args: &[String], flag: &str) -> Option<String> {
