@@ -17,9 +17,8 @@
 use std::sync::{mpsc, Mutex};
 
 use kerotakis_core::{
-    render_events, render_vessel, Bench, CuratedEquilibrator, Equilibrator, HonestyEquilibrator,
-    MixingEquilibrator, Operator, PhaseEquilibrator, Register, SolverStack, StateEquilibrator,
-    VesselId,
+    render_events, render_vessel, Bench, Equilibrator, Operator, PhaseEquilibrator, Register,
+    SolverStack, StateEquilibrator, VesselId,
 };
 use serde_json::{json, Value};
 
@@ -34,25 +33,19 @@ struct NativeLab {
 /// verbatim in structure. If PHREEQC cannot initialise, the shell still
 /// runs, honestly degraded, and `hello` says so.
 fn build_stack() -> (SolverStack, bool) {
-    let mut solvers: Vec<Box<dyn Equilibrator>> = vec![
-        Box::new(MixingEquilibrator),
-        Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
-        Box::new(kerotakis_core::hmix::MixingEnthalpyEquilibrator),
-        Box::new(CuratedEquilibrator),
-        Box::new(kerotakis_cea::ThermalEquilibrator),
-    ];
+    // The shared standard order (kerotakis-stack); only the aqueous tail
+    // is this host's to choose — the same wrapping as the CLI's.
     let mut can_solve = true;
-    match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
-        Ok(aqueous) => solvers.push(Box::new(PhaseEquilibrator::wrapping(Box::new(
+    let tail: Vec<Box<dyn Equilibrator>> = match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
+        Ok(aqueous) => vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
             kerotakis_core::DisplacementEquilibrator::wrapping(Box::new(aqueous)),
-        )))),
+        )))],
         Err(_) => {
             can_solve = false;
-            solvers.push(Box::new(StateEquilibrator));
+            vec![Box::new(StateEquilibrator)]
         }
-    }
-    solvers.push(Box::new(HonestyEquilibrator));
-    (SolverStack::new(solvers), can_solve)
+    };
+    (kerotakis_stack::standard_stack(tail), can_solve)
 }
 
 impl NativeLab {

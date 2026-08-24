@@ -10,6 +10,7 @@ members = [
     "crates/kerotakis-phreeqc",
     "crates/kerotakis-safety",
     "crates/kerotakis-cea",
+    "crates/kerotakis-stack",
     "crates/kerotakis-wasm",
     "crates/kerotakis-codex",
     "crates/kerotakis-thermo",

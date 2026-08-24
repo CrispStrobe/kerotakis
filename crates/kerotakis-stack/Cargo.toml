@@ -1,0 +1,12 @@
+[package]
+name = "kerotakis-stack"
+description = "The one standard solver stack for Kerotakis hosts — CLI, shell and wasm assemble the same equilibrator order from here, so transports cannot drift"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+authors.workspace = true
+
+[dependencies]
+kerotakis-core = { path = "../kerotakis-core" }
+kerotakis-cea = { path = "../kerotakis-cea" }
