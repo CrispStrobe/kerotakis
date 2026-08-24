@@ -154,6 +154,36 @@ describe("Session", () => {
     expect(s.feed.at(-1)!.text).toContain("lesson finished");
   });
 
+  it("hazard events become cards; a veto reads as a refusal", async () => {
+    const host = new FakeHost();
+    host.runScript = async (script: string) => ({
+      steps: [
+        {
+          operator: {},
+          events: [
+            {
+              event: "hazard_warning",
+              severity: "danger",
+              hazard: "chloramine gas",
+              real_world: "bleach and ammonia make a gas that hurts to breathe",
+            },
+            { event: "safety_veto", reason: "this the bench will not do" },
+          ],
+          rendered: [`did: ${script}`],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("add v1 NaOCl 10mL");
+    const hazard = s.feed.find((f) => f.kind === "hazard");
+    expect(hazard?.severity).toBe("danger");
+    expect(hazard?.text).toContain("chloramine");
+    expect(s.feed.some((f) => f.kind === "refusal" && f.text.includes("will not do"))).toBe(
+      true,
+    );
+  });
+
   it("a failed command is not logged and cannot be undone into", async () => {
     const host = new FakeHost();
     host.runScript = async () => {

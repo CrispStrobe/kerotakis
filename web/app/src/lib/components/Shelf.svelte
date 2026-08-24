@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ShelfItem } from "../session.svelte";
+  import { quickAmounts as amountsFor } from "../amounts";
 
   let {
     items,
@@ -29,14 +30,7 @@
     }),
   );
 
-  // Register-aware quick amounts: lv1 speaks kitchen units the grammar
-  // already parses; lv2/lv3 speak the lab's. Free text always available.
-  function quickAmounts(phase: string): string[] {
-    if (register === "lv1") {
-      return phase === "liquid" ? ["1cup", "100mL"] : ["1pinch", "1g"];
-    }
-    return phase === "liquid" ? ["10mL", "100mL", "1mol"] : ["1g", "0.01mol", "0.1mol"];
-  }
+  const quickAmounts = (phase: string) => amountsFor(register, phase);
 
   function add(item: ShelfItem, amount: string) {
     const a = amount.trim();
@@ -60,6 +54,13 @@
         <button
           class="species"
           aria-expanded={open === item.key}
+          draggable="true"
+          ondragstart={(e) => {
+            e.dataTransfer?.setData(
+              "application/x-kero-species",
+              JSON.stringify({ key: item.key, phase: item.phase }),
+            );
+          }}
           onclick={() => (open = open === item.key ? null : item.key)}
         >
           <span class="name">{item.name}</span>

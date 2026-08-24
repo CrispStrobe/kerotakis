@@ -18,8 +18,10 @@ import { EngineError } from "./host/EngineHost";
 import { type Lesson, parseLesson } from "./lesson";
 
 export type FeedEntry = {
-  kind: "command" | "line" | "error" | "refusal" | "note";
+  kind: "command" | "line" | "error" | "refusal" | "note" | "hazard";
   text: string;
+  /** Hazard entries: the engine's severity, for the card's chip. */
+  severity?: string;
 };
 
 export type ShelfItem = {
@@ -190,6 +192,23 @@ export class Session {
       }
       const result = await this.host.runScript(trimmed);
       for (const step of result.steps) {
+        // Hazard events become cards, from the typed event itself — the
+        // warning always precedes the chemistry, and the chemistry then
+        // runs and shows why (the engine's "hazards teach" rule).
+        for (const event of step.events as Array<Record<string, unknown>>) {
+          if (event?.event === "hazard_warning") {
+            this.feed.push({
+              kind: "hazard",
+              severity: String(event.severity ?? ""),
+              text: `${event.hazard} — ${event.real_world}`,
+            });
+          } else if (event?.event === "safety_veto") {
+            this.feed.push({
+              kind: "refusal",
+              text: String(event.reason ?? "the bench refused this operation"),
+            });
+          }
+        }
         for (const rendered of step.rendered) {
           this.feed.push({ kind: "line", text: rendered });
         }

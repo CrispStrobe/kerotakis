@@ -10,6 +10,7 @@
   import Inspector from "./lib/components/Inspector.svelte";
   import Timeline from "./lib/components/Timeline.svelte";
   import LessonBar from "./lib/components/LessonBar.svelte";
+  import { defaultAmount } from "./lib/amounts";
 
   const session = new Session(WorkerHost.create());
   let lessons = $state<{ file: string; name: string }[]>([]);
@@ -120,6 +121,11 @@
     register={session.register}
     selected={session.selected}
     onselect={(id) => void session.inspect(id)}
+    pristine={session.commandLog.length === 0 && !session.lesson}
+    ondropspecies={(id, p) =>
+      void session.submit(
+        `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
+      )}
   />
   <aside>
     {#if session.inspector}

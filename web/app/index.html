@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#14120f" />
     <link rel="icon" href="../icon.svg" type="image/svg+xml" />
+    <!-- In the deployed layout the payload root's manifest and service
+         worker cover this page's scope; in dev the link 404s harmlessly. -->
+    <link rel="manifest" href="../manifest.webmanifest" />
     <title>Kerotakis — the bench</title>
   </head>
   <body>

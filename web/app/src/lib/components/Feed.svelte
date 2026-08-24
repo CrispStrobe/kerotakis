@@ -15,10 +15,17 @@
      bench does is a legible line here, announced as it happens. -->
 <section class="feed" aria-label="lab notebook" aria-live="polite" bind:this={list}>
   {#each entries as entry, i (i)}
-    <p class={entry.kind}>
-      {#if entry.kind === "command"}<span class="prompt">kero&gt;</span>{/if}
-      {entry.text}
-    </p>
+    {#if entry.kind === "hazard"}
+      <div class="hazard" role="alert">
+        <span class="chip">{entry.severity || "hazard"}</span>
+        {entry.text}
+      </div>
+    {:else}
+      <p class={entry.kind}>
+        {#if entry.kind === "command"}<span class="prompt">kero&gt;</span>{/if}
+        {entry.text}
+      </p>
+    {/if}
   {/each}
 </section>
 
@@ -53,5 +60,23 @@
     color: var(--warn);
     border-left: 3px solid var(--warn);
     padding-left: 0.6rem;
+  }
+  .hazard {
+    border: 1px solid var(--warn);
+    border-left-width: 4px;
+    border-radius: 6px;
+    padding: 0.5rem 0.7rem;
+    margin: 0.2rem 0;
+    background: var(--panel-raised);
+  }
+  .hazard .chip {
+    display: inline-block;
+    background: var(--warn);
+    color: var(--bg);
+    border-radius: 999px;
+    font-size: 0.7rem;
+    padding: 0 0.5rem;
+    margin-right: 0.5rem;
+    text-transform: lowercase;
   }
 </style>

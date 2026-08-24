@@ -62,3 +62,25 @@ body {
   height: 100vh;
   height: 100dvh;
 }
+
+/* GUI-023: the one visual encoding of the engine's confidence vocabulary,
+   used wherever a number appears. Border style carries the class (never
+   colour alone): computed = solid, modeled = dashed, template_match/
+   curated = dotted, unknown = faded with a trailing question mark. */
+[data-confidence] {
+  border-style: solid;
+}
+[data-confidence="modeled"] {
+  border-style: dashed;
+}
+[data-confidence="curated"],
+[data-confidence="template_match"] {
+  border-style: dotted;
+}
+[data-confidence="unknown"] {
+  opacity: 0.6;
+}
+[data-confidence="unknown"]::after {
+  content: " ?";
+  color: var(--warn);
+}

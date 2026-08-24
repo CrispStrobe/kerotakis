@@ -6,12 +6,28 @@
     register,
     selected = false,
     onselect,
+    ondropspecies,
   }: {
     vessel: SceneVessel;
     register: string;
     selected?: boolean;
     onselect?: (id: number) => void;
+    ondropspecies?: (id: number, payload: { key: string; phase: string }) => void;
   } = $props();
+
+  let dropReady = $state(false);
+
+  function ondrop(e: DragEvent) {
+    dropReady = false;
+    const raw = e.dataTransfer?.getData("application/x-kero-species");
+    if (!raw) return;
+    e.preventDefault();
+    try {
+      ondropspecies?.(vessel.id, JSON.parse(raw));
+    } catch {
+      // A malformed drag payload is simply not a drop.
+    }
+  }
 
   // Drawing basis: a 400 mL beaker drawn 84 units tall inside a 100×140 box.
   const INNER_X = 14;
@@ -41,9 +57,18 @@
 <button
   class="vessel"
   class:selected
+  class:drop-ready={dropReady}
   aria-label={`${vessel.label} v${vessel.id + 1}: ${vessel.words}`}
   aria-pressed={selected}
   onclick={() => onselect?.(vessel.id)}
+  ondragover={(e) => {
+    if (e.dataTransfer?.types.includes("application/x-kero-species")) {
+      e.preventDefault();
+      dropReady = true;
+    }
+  }}
+  ondragleave={() => (dropReady = false)}
+  {ondrop}
 >
   <svg viewBox="0 0 100 140" role="img">
     <title>{vessel.words}</title>
@@ -141,6 +166,10 @@
   }
   .vessel.selected {
     border-color: var(--hot);
+  }
+  .vessel.drop-ready {
+    border-color: var(--good);
+    background: var(--panel);
   }
   svg {
     width: clamp(96px, 18vw, 150px);
