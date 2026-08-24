@@ -167,12 +167,16 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             let list: Vec<Value> = kerotakis_core::species::REGISTRY
                 .iter()
                 .map(|s| {
+                    let (srgb, solution_srgb) = kerotakis_core::species::shelf_swatch(s);
                     json!({
                         "key": s.key,
                         "name": s.name,
                         "formula": s.formula,
                         "phase": s.standard_phase,
                         "appearance": s.appearance,
+                        "srgb": srgb,
+                        "solution_srgb": solution_srgb,
+                        "flame": s.flame_colour,
                         "provenance": s.provenance,
                     })
                 })

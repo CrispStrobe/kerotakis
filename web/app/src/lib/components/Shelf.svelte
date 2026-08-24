@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ShelfItem } from "../session.svelte";
   import { quickAmounts as amountsFor } from "../amounts";
+  import SpeciesChip from "./SpeciesChip.svelte";
 
   let {
     items,
@@ -82,6 +83,7 @@
           }}
           onclick={() => (open = open === item.key ? null : item.key)}
         >
+          <SpeciesChip {item} />
           <span class="name">{item.name}</span>
           <span class="formula">{item.formula}</span>
         </button>
@@ -161,7 +163,7 @@
   .species {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     gap: 0.5rem;
     background: none;
     border: 0;
@@ -176,6 +178,9 @@
   }
   .species:hover .name {
     color: var(--hot);
+  }
+  .name {
+    flex: 1;
   }
   .formula {
     color: var(--dim);

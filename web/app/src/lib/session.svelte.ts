@@ -32,6 +32,14 @@ export type ShelfItem = {
   name: string;
   formula: string;
   phase: string;
+  /** Reflective colour of the substance itself, when curated. */
+  srgb?: [number, number, number] | null;
+  /** Computed transmitted tint of a 0.1 M solution through 1 cm. */
+  solution_srgb?: [number, number, number] | null;
+  /** Characteristic flame colour word, when curated. */
+  flame?: string | null;
+  /** Curated appearance word ("white", "colourless", …). */
+  appearance?: string | null;
 };
 
 export const REGISTERS = [
@@ -129,6 +137,10 @@ export class Session {
         name: s.name,
         formula: s.formula,
         phase: String(s.phase ?? ""),
+        srgb: s.srgb ?? null,
+        solution_srgb: s.solution_srgb ?? null,
+        flame: s.flame ?? null,
+        appearance: s.appearance ?? null,
       }));
     } catch (e) {
       this.feed.push({
