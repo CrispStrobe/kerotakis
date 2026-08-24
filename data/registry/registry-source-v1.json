@@ -711,6 +711,24 @@
       "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
       "retrieved": null
+    },
+    {
+      "id": "curated/KOH",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook 97th ed. (64.9 J/(mol·K)); density: 2.044 g/mL (CRC); dissolution enthalpy: −57.6 kJ/mol (CRC)",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "CAP-23 rung 2",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "curated/OH-",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; aqueous ion — Cp and density carried by the solvent",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "CAP-23 rung 2",
+      "revision": null,
+      "retrieved": null
     }
   ],
   "identities": [
@@ -1969,6 +1987,38 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "KOH",
+      "canonical_key": "KWYUFKZDYYNOEZ-UHFFFAOYSA-M",
+      "name": "potassium hydroxide",
+      "identifiers": {
+        "inchikey": "KWYUFKZDYYNOEZ-UHFFFAOYSA-M"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "curated/KOH",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      }
+    },
+    {
+      "id": "OH-",
+      "canonical_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-M",
+      "name": "hydroxide ion",
+      "identifiers": {
+        "inchikey": "XLYOFNOQVPJJNP-UHFFFAOYSA-M"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "curated/OH-",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
         }
       }
     }
@@ -9565,6 +9615,217 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "composition/KOH",
+      "species_id": "KOH",
+      "formula": "KOH",
+      "elements": [
+        {
+          "element": "K",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "curated/KOH",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from formula"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "curated/KOH",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "curated/KOH",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "curated/KOH",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      },
+      "evidence": {
+        "source_id": "curated/KOH",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      }
+    },
+    {
+      "id": "composition/OH-",
+      "species_id": "OH-",
+      "formula": "OH-",
+      "elements": [
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "curated/OH-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from formula"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "curated/OH-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from formula"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "curated/OH-",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      },
+      "evidence": {
+        "source_id": "curated/OH-",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      }
     }
   ],
   "phase_thermodynamics": [
@@ -17067,6 +17328,216 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/KOH",
+      "species_id": "KOH",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 56.1056,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "curated/KOH",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/KOH",
+      "species_id": "KOH",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 64.9,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "curated/KOH",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      }
+    },
+    {
+      "id": "density/KOH",
+      "species_id": "KOH",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.044,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "curated/KOH",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      }
+    },
+    {
+      "id": "dissolution-enthalpy/KOH",
+      "species_id": "KOH",
+      "phase": "solid",
+      "property": "enthalpy_of_dissolution",
+      "quantity": {
+        "value": -57.6,
+        "unit": {
+          "symbol": "kJ/mol",
+          "dimension": "molar_energy"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "curated/KOH",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/OH-",
+      "species_id": "OH-",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 17.008,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "curated/OH-",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/OH-",
+      "species_id": "OH-",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "curated/OH-",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      }
+    },
+    {
+      "id": "density/OH-",
+      "species_id": "OH-",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "curated/OH-",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+        }
+      }
     }
   ],
   "transport": [],
@@ -19694,6 +20165,22 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/KOH",
+      "species_id": "KOH",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "curated/KOH",
+        "method": {
+          "kind": "curated",
+          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
         }
       }
     }

@@ -1158,10 +1158,22 @@ across subsystems. **Depends on:** nothing.
       species are not re-verdicted every step; water present means the
       rung stands aside.
 
-**Remaining rungs.** Rung 2 (kero1, in flight): the curated
-permanganate–ethanol oxidation — the reaction the safety screen warns
-about becomes a modelled reaction; silver-halide metathesis in ethanol
-follows the same pattern. Rung 1 data growth (kero-basic, in flight):
+- [x] Rung 2: **done 2026-08-24** (kero1). The permanganate–ethanol
+      oxidation the safety screen warns about is now a curated reaction:
+      `4 KMnO4 + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 KOH + H₂O`
+      (organic solvent case) and the ionic form for aqueous MnO₄⁻.
+      Both balanced and atom-conserving; MnO₂ deposits as a dark solid.
+      KOH and OH⁻ added to the species registry for product
+      bookkeeping. Honesty pass extended to stand aside for curated
+      solid products (the water byproduct of the reaction had broken
+      `single_organic_solvent`). MnO₂ added to `INERT_IN_SOLVENT`.
+      Acceptance: 10 tests in `tests/permanganate.rs` — stoich balance,
+      mass conservation (both routes), reaction event fires, no
+      NotYetModeled, MnO₂ solid deposited, three registers, limiting
+      reagent; safety screen warning unchanged.
+
+**Remaining rungs.** Silver-halide metathesis in ethanol
+follows the permanganate pattern. Rung 1 data growth (kero-basic, in flight):
 the solubility table toward every registry solid × four solvents,
 handbook-sourced, reactive pairs excluded by rule. Rung 3 (open):
 mixed water/organic solvents — route to PHREEQC above a stated water

@@ -707,6 +707,14 @@ impl Equilibrator for PhaseEquilibrator {
     }
 }
 
+fn curated_solid_product(species: &SpeciesId) -> bool {
+    crate::curated::REACTIONS.iter().any(|r| {
+        r.products
+            .iter()
+            .any(|(key, _, phase)| *key == species.0 && *phase == Phase::Solid)
+    })
+}
+
 /// The honesty pass, last in every stack: any state no chemistry solver has
 /// characterised is said out loud rather than silently ignored or faked.
 ///
@@ -755,6 +763,13 @@ impl Equilibrator for HonestyEquilibrator {
                         continue;
                     }
                 }
+                // A solid that a curated reaction produces is not an
+                // unmodelled mystery — the reaction just put it there.
+                // The water byproduct of the reaction can break
+                // single_organic_solvent, so this check is independent.
+                if curated_solid_product(&p.species) {
+                    continue;
+                }
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());
@@ -800,13 +815,13 @@ impl Equilibrator for HonestyEquilibrator {
                 continue;
             }
             if p.phase == Phase::Solid && has_liquid {
-                // A pair the non-aqueous rung has a computed verdict for
-                // was already answered; an apology after an answer is
-                // noise dressed as honesty.
                 if let Some(solvent) = crate::nonaqueous::single_organic_solvent(vessel) {
                     if crate::nonaqueous::verdict_exists(&p.species, solvent) {
                         continue;
                     }
+                }
+                if curated_solid_product(&p.species) {
+                    continue;
                 }
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
