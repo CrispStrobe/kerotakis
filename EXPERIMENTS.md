@@ -516,3 +516,84 @@ EXP-0..46, yield 16 → 9 → 7 → 1. The span is effectively closed:
 new corpora now audit into coverage confirmations, GUI affordances,
 and quest authoring rather than new chemistry. The build order
 stands: EXP-0 unlocks everything; the tiers fan out behind it.
+
+---
+
+# Part 7: the commercial simulation set (~57 items; 2026-08-24)
+
+Sixth corpus, a commercial vendor's chemistry simulations (not named).
+This one leans physical-chemistry where the earlier corpora leaned
+wet classical, so the yield ticks up slightly: **three** new numbers.
+Yield curve: 16 → 9 → 7 → 1 → 3.
+
+## Covered (the bulk, compressed)
+Stoichiometry/dimensional analysis, balancing games, limiting
+reactants, moles-and-balance (EXP-17/20/38 + `kero calc`); density
+by displacement, by comparison, and as an intensive property, plus
+the counterfeit-coin forensic framing (EXP-18 quests); freezing-point
+of brine (landed and swept); solubility-vs-T (EXP-24); calorimetry,
+specific heats, hot/cold packs on the 14 curated dissolution
+enthalpies, reaction energy (EXP-21; NH4NO3 joins the data list for
+the cold-pack quest); pH of household substances (EXP-22 + household
+data rows); titration with indicator choice (landed —
+`indicator.rs` computes colour from pH, it does not script it);
+mystery-powder identification (EXP-30/40 sealed unknowns, household
+variant noted); nutrient tests (EXP-40); gas laws on the piston
+machinery (`sealed-gas.lab` heritage); gas-phase equilibrium shifts
+by concentration and pressure (headspace + solver; authoring);
+collision theory with catalyst/surface/temperature — the engine has
+`effective_activation_energy` and the `grind` verb; heating curves
+and melting-point apparatus (EXP-33); conduction between vessels
+joins EXP-7's scope as the conducting-link variant; the marine
+carbonate-saturation scenario (shell erosion) is PHREEQC home ground
+— saturation indices are computed today — and joins EXP-29's
+scenario family; Joule-style mechanical-heat conversion noted under
+EXP-21 with the energy input booked honestly.
+
+## New tasks
+- **EXP-47 — Colligative pack** — the four classic colligative
+  properties as one computed family: vapour-pressure lowering
+  (Raoult machinery exists in thermo), boiling-point elevation,
+  freezing-point depression (landed; joins the pack), osmotic
+  pressure (van't Hoff) with a semipermeable membrane link between
+  two vessels as the one new mechanism. Acceptance: all four scale
+  with particle molality including the van't Hoff factor for
+  electrolytes (the speciation the solver already computes is the
+  particle count — no fudge factors); membrane flow equilibrates
+  honestly.
+- **EXP-48 — Interfacial properties** — surface tension and
+  capillarity as curated per-liquid data with computed capillary
+  rise; cohesion/adhesion contrasts (water vs ethanol vs hexane are
+  all on the shelf). Acceptance: curated values sourced; capillary
+  rise computed from them; the soap quest (EXP-10) gains the
+  surface-tension drop as a measurable.
+- **EXP-49 — The nuclear bench** — `nuclide.rs` has nuclides, decay
+  chains, half-lives, and activity in becquerels, built and unwired
+  (CAP-22 recorded the wait; this is its task number). Scope: decay
+  as first-class bench chemistry — sealed sample, activity
+  measurement, half-life determination from a time series via
+  `wait`, balanced nuclear equations checked the way `kero balance`
+  checks chemical ones, alpha/beta/gamma bookkeeping. Acceptance:
+  half-life recovered from computed activity decay within tolerance;
+  nuclear equations balance by mass number and charge; the codex
+  gains the radioactivity concept family. HARDER (wiring, not
+  physics — the physics is in the ledger already).
+
+## Declined from this corpus
+- Biology set (DNA/RNA synthesis, karyotyping, cell-context osmosis,
+  water cycle, disease scenario): not bench chemistry; the physical
+  half of osmosis lives in EXP-47.
+- Atomic-structure interactives (element/isotope builders, electron
+  configuration, Bohr spectra, periodic trends, bond/VSEPR/polarity
+  builders): reference and visualisation, GUI-workline territory —
+  the engine's flame colours and curated spectra remain its honest
+  spectroscopy; modelling photon-level atomic transitions is not the
+  bench's subject.
+- Meteorology (relative humidity, dew point): weather, not the
+  beaker — though its vapour-pressure heart is EXP-47's machinery,
+  which the decline note says.
+
+## Registry state after six corpora
+EXP-0..49. The scenario-framing this vendor does well (forensic
+cases, role-taking) is already the quest engine's prose register —
+what they script, EXP-0 makes emergent.
