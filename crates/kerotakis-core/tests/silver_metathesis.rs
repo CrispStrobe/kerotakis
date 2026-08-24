@@ -26,17 +26,6 @@ fn add(bench: &mut Bench, stack: &mut SolverStack, key: &str, moles: f64) -> Vec
         .expect("step")
 }
 
-fn total_moles(bench: &Bench, key: &str) -> f64 {
-    bench
-        .vessel(VesselId(0))
-        .unwrap()
-        .contents
-        .iter()
-        .filter(|p| p.species.0 == key)
-        .map(|p| p.moles.0)
-        .sum()
-}
-
 fn moles_in_phase(bench: &Bench, key: &str, phase: species::Phase) -> f64 {
     bench
         .vessel(VesselId(0))

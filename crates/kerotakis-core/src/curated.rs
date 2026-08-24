@@ -75,19 +75,13 @@ pub const REACTIONS: &[CuratedReaction] = &[
     CuratedReaction {
         equation: "AgNO₃ + NaCl → AgCl↓ + NaNO₃",
         reactants: &[("AgNO3", 1.0), ("NaCl", 1.0)],
-        products: &[
-            ("AgCl", 1.0, Phase::Solid),
-            ("NaNO3", 1.0, Phase::Solid),
-        ],
+        products: &[("AgCl", 1.0, Phase::Solid), ("NaNO3", 1.0, Phase::Solid)],
         solvent: Some("ethanol"),
     },
     CuratedReaction {
         equation: "AgNO₃ + KCl → AgCl↓ + KNO₃",
         reactants: &[("AgNO3", 1.0), ("KCl", 1.0)],
-        products: &[
-            ("AgCl", 1.0, Phase::Solid),
-            ("KNO3", 1.0, Phase::Solid),
-        ],
+        products: &[("AgCl", 1.0, Phase::Solid), ("KNO3", 1.0, Phase::Solid)],
         solvent: Some("ethanol"),
     },
 ];
@@ -273,11 +267,7 @@ impl Equilibrator for CuratedEquilibrator {
                 }
                 for (key, coeff) in reaction.reactants {
                     if reaction.solvent.is_some() {
-                        withdraw_from_solution(
-                            vessel,
-                            &SpeciesId::new(key),
-                            Moles(x * coeff),
-                        );
+                        withdraw_from_solution(vessel, &SpeciesId::new(key), Moles(x * coeff));
                     } else {
                         vessel.withdraw(&SpeciesId::new(key), Moles(x * coeff));
                     }

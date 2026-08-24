@@ -1172,8 +1172,23 @@ across subsystems. **Depends on:** nothing.
       NotYetModeled, MnO₂ solid deposited, three registers, limiting
       reagent; safety screen warning unchanged.
 
-**Remaining rungs.** Silver-halide metathesis in ethanol
-follows the permanganate pattern. Rung 1 data growth (kero-basic, in flight):
+- [x] Rung 2b: **done 2026-08-24** (kero1). Silver metathesis in
+      ethanol: `AgNO₃ + NaCl → AgCl↓ + NaNO₃` and `AgNO₃ + KCl →
+      AgCl↓ + KNO₃`. Fires only in single-organic-solvent bench (no
+      water — PHREEQC handles aqueous). Solvent-gated reactions draw
+      from the dissolved fraction only: undissolved NaCl on the bottom
+      does not participate. NaNO₃ and KNO₃ added to the species
+      registry (with safety rows, golden regen, SMILES in
+      CURATED_STRUCTURES, and exporter canonicalization). CuratedReaction
+      gains an optional `solvent` gate with `available_dissolved()`
+      computing the would-dissolve solid up to the handbook limit.
+      Solvent-gated reactions fire at most once per equilibration step.
+      Acceptance: 10 tests in `tests/silver_metathesis.rs` — stoich
+      balance, AgCl precipitates as solid, dissolved-fractions-only
+      constraint, element conservation, water suppression, no
+      NotYetModeled, three registers.
+
+**Remaining rungs.** Rung 1 data growth (kero-basic, in flight):
 the solubility table toward every registry solid × four solvents,
 handbook-sourced, reactive pairs excluded by rule. Rung 3 (open):
 mixed water/organic solvents — route to PHREEQC above a stated water
