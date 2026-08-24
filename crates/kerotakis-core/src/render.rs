@@ -949,6 +949,45 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 ),
             }
         }
+        Event::Transported {
+            chain,
+            receiver,
+            steps,
+            courant,
+            effluent_moles,
+        } => {
+            let cells = chain.len();
+            let total: f64 = effluent_moles.iter().map(|(_, m)| m.0).sum();
+            match register.level() {
+                1 => format!(
+                    "Solution flows through {cells} column cells and collects in {receiver}."
+                ),
+                2 => {
+                    let species_list: Vec<String> = effluent_moles
+                        .iter()
+                        .filter(|(_, m)| m.0 > crate::OBSERVABLE_MOLES)
+                        .map(|(s, m)| {
+                            let name = species::lookup(s)
+                                .map(|d| d.name)
+                                .unwrap_or(s.0.as_str());
+                            format!("{:.4} mol {name}", m.0)
+                        })
+                        .collect();
+                    let what = if species_list.is_empty() {
+                        "solvent only".to_string()
+                    } else {
+                        species_list.join(", ")
+                    };
+                    format!(
+                        "{cells} cells × {steps} steps (Cf={courant:.2}); effluent → {receiver}: {what}"
+                    )
+                }
+                _ => format!(
+                    "1-D upwind transport: {cells} cells × {steps} steps @ Cf={courant:.4}; \
+                     effluent total {total:.6} mol → {receiver}"
+                ),
+            }
+        }
     }
 }
 

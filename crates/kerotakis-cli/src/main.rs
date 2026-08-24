@@ -1211,6 +1211,7 @@ fn usage() -> ! {
          \x20 dilute <vessel> <volume><mL|L>         add water by volume\n\
          \x20 distil <from> <to> <frac|energy> [stages <n>]\n\
          \x20 drain <from> <to>                      lower layer through stopcock\n\
+         \x20 transport <v..> from <inlet> to <recv> steps <n> [courant <f>]\n\
          \x20 titrate <v> <titrant> <step><mL|L> until ph <target> [max <n>]\n\
          \x20 measure <vessel> <thermometer|balance|ph|pressure|conductivity|uvvis|calorimeter>\n\
          \x20 look <vessel>                          observe with your eyes\n\

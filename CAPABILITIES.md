@@ -956,9 +956,22 @@ with the acetate-anion→NaOAc ledger bridge stated. Engine tests pin
 exact mass conservation, limiting-reagent extents, the there-and-back
 round trip (ester made then unmade, the alcohol returns), loud
 refusal naming the missing reactant, and a parse-time shelf listing
-for unknown reactions. Lesson: `there-and-back.lab`. Remaining in
-this task: the transport verb (in flight on kero-basic 2026-08-24;
-extract's upgrade to lle.rs folded into the funnel work above). **Acceptance.** Each verb demonstrable in a replayed lesson;
+for unknown reactions. Lesson: `there-and-back.lab`.
+
+**Transport verb done 2026-08-24** (Opus): the existing 1-D upwind
+`CellChain` in `transport.rs` now has the full bench wiring.
+`transport v1 v2 v3 from v4 to v5 steps N [courant F]` parses,
+builds an `Operator::Transport`, runs N `CellChain::advance()`
+steps with the inlet as a non-consumed template, deposits
+accumulated effluent into the receiver with adiabatic temperature
+mixing, and emits `Event::Transported` rendered at three register
+levels.  Six integration tests (`transport_verb.rs`) verify the
+binomial dispersion profile, mass conservation, empty-chain and
+zero-steps refusal, water-volume invariance across chain cells,
+and effluent collection.  `transport-column.lab` is the lesson
+(salt pulse through a 3-cell water column at Cf = 0.5).
+CAP-20 done — all verb slots filled (extract's upgrade to lle.rs
+folded into the funnel work above). **Acceptance.** Each verb demonstrable in a replayed lesson;
 `kerotakis-org` gains a dependent; preflight green. **Size.** Medium
 per verb — they are independent; take them one per branch.
 **Depends on:** nothing.

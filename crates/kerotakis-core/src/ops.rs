@@ -163,6 +163,16 @@ pub enum Operator {
         target_ph: f64,
         max_steps: u32,
     },
+    /// Push liquid through a 1-D chain of vessels: conservative upwind
+    /// transport with an explicit Courant fraction. The inlet provides the
+    /// feed composition (unchanged); the effluent collects in the receiver.
+    Transport {
+        chain: Vec<VesselId>,
+        inlet: VesselId,
+        receiver: VesselId,
+        steps: u32,
+        courant: f64,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -600,6 +610,15 @@ pub enum Event {
         total_volume: Liters,
         final_ph: f64,
         curve: Vec<(f64, f64)>,
+    },
+    /// Liquid flowed through a 1-D column of vessels. The effluent —
+    /// what came out the far end — was deposited into the receiver.
+    Transported {
+        chain: Vec<VesselId>,
+        receiver: VesselId,
+        steps: u32,
+        courant: f64,
+        effluent_moles: Vec<(SpeciesId, Moles)>,
     },
 }
 

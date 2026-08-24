@@ -1401,6 +1401,94 @@
       }
     ]
   },
+  "transport-column": {
+    "event_count": 15,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +0.0856 mol sodium chloride",
+      "v4: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v5: new vessel",
+      "3 cells × 3 steps (Cf=0.50); effluent → v5: 8.3014 mol water",
+      "v1 balance: 99.70 g",
+      "v2 balance: 99.70 g",
+      "v3 balance: 99.70 g",
+      "v5 balance: 149.55 g"
+    ],
+    "lesson": "transport-column.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.08555345,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.30141549,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "two-roads": {
     "event_count": 13,
     "events_sample": [

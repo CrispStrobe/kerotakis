@@ -891,6 +891,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         // rather than the weaker "something reacted".
         E::Diluted { .. } => ("diluted", None),
         E::Titrated { titrant, .. } => ("titrated", Some(titrant.0.as_str())),
+        E::Transported { .. } => ("transported", None),
         E::Reacted { reaction, .. } => ("reacted", Some(reaction.as_str())),
         // Named per direction so an entry can assert `froze:water` rather
         // than the weaker "some state changed".
