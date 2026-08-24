@@ -141,16 +141,15 @@ pub fn single_organic_solvent(vessel: &Vessel) -> Option<&'static str> {
                 if p.species.0 == "water" {
                     return None;
                 }
-                match KNOWN_SOLVENTS.iter().find(|s| **s == p.species.0.as_str()) {
-                    // A dissolved liquid solute (e.g. previously
-                    // dissolved NaOH) must not be mistaken for a second
-                    // solvent; only known solvents count.
-                    Some(s) => match found {
+                // A dissolved liquid solute (e.g. previously dissolved
+                // NaOH) must not be mistaken for a second solvent; only
+                // known solvents count.
+                if let Some(s) = KNOWN_SOLVENTS.iter().find(|s| **s == p.species.0.as_str()) {
+                    match found {
                         None => found = Some(s),
                         Some(prev) if prev == *s => {}
                         Some(_) => return None,
-                    },
-                    None => {}
+                    }
                 }
             }
             _ => {}
