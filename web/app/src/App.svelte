@@ -78,7 +78,15 @@
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
-  let transfer = $state<{ verb: "filter" | "decant" | "drain"; fraction: number; from: number | null } | null>(null);
+  type TwoVesselVerb = "filter" | "decant" | "drain" | "cell" | "distil";
+  let transfer = $state<{ verb: TwoVesselVerb; fraction: number; from: number | null } | null>(null);
+  const TWO_VESSEL_TOOLS: { verb: TwoVesselVerb; label: string }[] = [
+    { verb: "filter", label: "filter" },
+    { verb: "decant", label: "decant" },
+    { verb: "drain", label: "drain" },
+    { verb: "cell", label: "voltmeter" },
+    { verb: "distil", label: "still" },
+  ];
   function vesselTapped(id: number) {
     if (!transfer) {
       void session.inspect(id);
@@ -92,8 +100,8 @@
     if (transfer.from === id) return; // same vessel: keep waiting
     const { verb, fraction, from } = transfer;
     const line =
-      verb === "decant"
-        ? `decant v${from + 1} v${id + 1} ${fraction}`
+      verb === "decant" || verb === "distil"
+        ? `${verb} v${from + 1} v${id + 1} ${fraction}`
         : `${verb} v${from + 1} v${id + 1}`;
     transfer = null;
     void session.submit(line);
@@ -224,18 +232,18 @@
       <option value={s.verb}>{s.title}</option>
     {/each}
   </select>
-  {#each ["filter", "decant", "drain"] as verb (verb)}
+  {#each TWO_VESSEL_TOOLS as tool (tool.verb)}
     <button
       class="tool"
-      class:active-tool={transfer?.verb === verb}
+      class:active-tool={transfer?.verb === tool.verb}
       onclick={() =>
         (transfer =
-          transfer?.verb === verb
+          transfer?.verb === tool.verb
             ? null
-            : { verb: verb as "filter" | "decant" | "drain", fraction: 0.5, from: null })}
-      title={`${verb}: pick the source vessel, then the target`}
+            : { verb: tool.verb, fraction: 0.5, from: null })}
+      title={`${tool.verb}: pick the source vessel, then the target`}
     >
-      {verb}
+      {tool.label}
     </button>
   {/each}
   <Timeline
@@ -272,7 +280,7 @@
 {#if transfer}
   <div class="transfer-banner" role="status">
     <strong>{transfer.verb}</strong>
-    {#if transfer.verb === "decant"}
+    {#if transfer.verb === "decant" || transfer.verb === "distil"}
       — pour
       {#each [0.25, 0.5, 0.75, 1.0] as f (f)}
         <button class:on={transfer.fraction === f} onclick={() => (transfer = { ...transfer!, fraction: f })}>
