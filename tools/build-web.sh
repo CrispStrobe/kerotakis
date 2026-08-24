@@ -30,6 +30,13 @@ cp "$ROOT/vendor/iphreeqc/database/wateq4f.dat" \
    "$ROOT/vendor/iphreeqc/database/minteq.v4.dat" \
    "$ROOT/vendor/iphreeqc/database/pitzer.dat" "$OUT/db/"
 
+echo "== lessons for the app's player"
+mkdir -p "$OUT/lessons"
+cp "$ROOT"/lessons/*.lab "$OUT/lessons/"
+(cd "$OUT/lessons" && ls *.lab \
+    | python3 -c 'import sys,json; files=[l.strip() for l in sys.stdin]; print(json.dumps([{"file": f, "name": f.removesuffix(".lab").replace("-", " ")} for f in files]))' \
+    > index.json)
+
 echo "== pre-warmed lessons and R1 acceptance states"
 cargo run -p kerotakis-cli -- prewarm "$ROOT"/lessons/*.lab \
     -o "$OUT/results.postcard"

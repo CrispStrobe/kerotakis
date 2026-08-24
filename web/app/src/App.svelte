@@ -1,16 +1,34 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { Session } from "./lib/session.svelte";
-  import { WorkerHost } from "./lib/host/WorkerHost";
+  import { WorkerHost, resolvePayloadBase } from "./lib/host/WorkerHost";
   import Bench from "./lib/components/Bench.svelte";
   import Feed from "./lib/components/Feed.svelte";
   import CommandBar from "./lib/components/CommandBar.svelte";
   import RegisterDial from "./lib/components/RegisterDial.svelte";
   import Shelf from "./lib/components/Shelf.svelte";
   import Inspector from "./lib/components/Inspector.svelte";
+  import Timeline from "./lib/components/Timeline.svelte";
+  import LessonBar from "./lib/components/LessonBar.svelte";
 
   const session = new Session(WorkerHost.create());
-  onMount(() => void session.connect());
+  let lessons = $state<{ file: string; name: string }[]>([]);
+
+  onMount(() => {
+    void session.connect();
+    // Lessons ship beside the engine payload; their absence is quiet —
+    // the sandbox is complete without them.
+    void fetch(new URL("lessons/index.json", resolvePayloadBase()).href)
+      .then((r) => (r.ok ? r.json() : []))
+      .then((list) => (lessons = list))
+      .catch(() => {});
+  });
+
+  async function startLesson(file: string) {
+    if (!file) return;
+    const res = await fetch(new URL(`lessons/${file}`, resolvePayloadBase()).href);
+    if (res.ok) session.startLesson(file.replace(/\.lab$/, ""), await res.text());
+  }
 
   function saveLab() {
     const blob = new Blob([session.exportLab()], { type: "text/plain" });
@@ -44,11 +62,42 @@
   <button class="tool" onclick={saveLab} disabled={session.commandLog.length === 0}>
     save .lab
   </button>
+  <Timeline
+    position={session.position}
+    total={session.commandLog.length}
+    busy={session.busy}
+    onjump={(to) => void session.jumpTo(to)}
+  />
+  {#if lessons.length > 0 && !session.lesson}
+    <select
+      class="tool"
+      aria-label="start a lesson"
+      onchange={(e) => {
+        void startLesson(e.currentTarget.value);
+        e.currentTarget.value = "";
+      }}
+    >
+      <option value="">lessons…</option>
+      {#each lessons as l (l.file)}
+        <option value={l.file}>{l.name}</option>
+      {/each}
+    </select>
+  {/if}
   <span class="status" class:live={session.canSolve}>
     {session.engineReady ? (session.canSolve ? "live" : "shipped results") : "starting…"}
   </span>
   <a class="console-link" href="../">console</a>
 </header>
+
+{#if session.lesson}
+  <LessonBar
+    name={session.lesson.lesson.name}
+    next={session.lessonNextCommand}
+    busy={session.busy}
+    onnext={() => void session.lessonNext()}
+    onexit={() => session.exitLesson()}
+  />
+{/if}
 
 <main>
   <nav class="shelf-pane">

@@ -20,6 +20,18 @@ export interface WorkerHostOptions {
   engineBase?: string;
 }
 
+/**
+ * The payload root: where the engine files live, and beside them the
+ * lessons. Resolved against the page URL (see the constructor note).
+ */
+export function resolvePayloadBase(engineBase?: string): string {
+  const base =
+    engineBase ??
+    (import.meta.env?.VITE_ENGINE_BASE as string | undefined) ??
+    "./engine/";
+  return typeof document !== "undefined" ? new URL(base, document.baseURI).href : base;
+}
+
 export class WorkerHost implements EngineHost {
   private channel: RequestChannel;
 
@@ -36,13 +48,9 @@ export class WorkerHost implements EngineHost {
     options: WorkerHostOptions = {},
   ) {
     this.channel = new RequestChannel(port);
-    const base =
-      options.engineBase ??
-      (import.meta.env?.VITE_ENGINE_BASE as string | undefined) ??
-      "./engine/";
-    const resolved =
-      typeof document !== "undefined" ? new URL(base, document.baseURI).href : base;
-    void this.channel.request("init", { engine_base: resolved });
+    void this.channel.request("init", {
+      engine_base: resolvePayloadBase(options.engineBase),
+    });
   }
 
   static create(options: WorkerHostOptions = {}): WorkerHost {

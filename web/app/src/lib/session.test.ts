@@ -81,7 +81,7 @@ describe("Session", () => {
     expect(s.exportLab()).toBe("add v1 water 100mL\nadd v1 NaCl 1g\n");
   });
 
-  it("undo replays the prefix onto a fresh bench", async () => {
+  it("undo/redo/scrub are one cursor over a replayed log", async () => {
     const host = new FakeHost();
     const s = new Session(host);
     await s.submit("add v1 water 100mL");
@@ -90,16 +90,55 @@ describe("Session", () => {
 
     await s.undo();
     expect(host.calls).toEqual(["reset", "run:add v1 water 100mL"]);
-    expect(s.commandLog).toEqual(["add v1 water 100mL"]);
-    expect(s.feed.at(-1)).toEqual({ kind: "note", text: "undid: add v1 NaCl 1g" });
+    // The log survives; only the cursor moved.
+    expect(s.commandLog).toHaveLength(2);
+    expect(s.position).toBe(1);
 
+    await s.redo();
+    expect(s.position).toBe(2);
+    expect(host.calls.slice(2)).toEqual(["reset", "run:add v1 water 100mL\nadd v1 NaCl 1g"]);
+
+    await s.jumpTo(0);
+    expect(s.position).toBe(0);
+    // Empty prefix: reset then a plain scene fetch, no replay.
+    expect(host.calls.slice(4)).toEqual(["reset", "scene"]);
+
+    await s.jumpTo(0); // no-op at the same position
+    expect(host.calls).toHaveLength(6);
+  });
+
+  it("a new command mid-history truncates the undone future", async () => {
+    const host = new FakeHost();
+    const s = new Session(host);
+    await s.submit("add v1 water 100mL");
+    await s.submit("add v1 NaCl 1g");
     await s.undo();
-    expect(s.commandLog).toEqual([]);
-    // Nothing left: reset then a plain scene fetch, no replay.
-    expect(host.calls.slice(2)).toEqual(["reset", "scene"]);
+    await s.submit("add v1 KMnO4 1pinch");
+    expect(s.commandLog).toEqual(["add v1 water 100mL", "add v1 KMnO4 1pinch"]);
+    expect(s.position).toBe(2);
+  });
 
-    await s.undo(); // empty log is a no-op
-    expect(host.calls).toHaveLength(4);
+  it("walks a lesson: narration to the feed, commands one Next at a time", async () => {
+    const host = new FakeHost();
+    const s = new Session(host);
+    s.startLesson("salt", "# Salt in water\nadd v1 water 100mL\n# Now the salt\nadd v1 NaCl 1g\n");
+    // Leading narration surfaced immediately, cursor sits on the command.
+    expect(s.feed.some((f) => f.text === "Salt in water")).toBe(true);
+    expect(s.lessonNextCommand).toBe("add v1 water 100mL");
+
+    await s.lessonNext();
+    expect(s.commandLog).toEqual(["add v1 water 100mL"]);
+    expect(s.feed.some((f) => f.text === "Now the salt")).toBe(true);
+    expect(s.lessonNextCommand).toBe("add v1 NaCl 1g");
+
+    // Deviation: a free command does not move the lesson cursor.
+    await s.submit("measure v1 ph");
+    expect(s.lessonNextCommand).toBe("add v1 NaCl 1g");
+
+    await s.lessonNext();
+    // Lesson exhausted: closed, with a finishing note.
+    expect(s.lesson).toBeNull();
+    expect(s.feed.at(-1)!.text).toContain("lesson finished");
   });
 
   it("a failed command is not logged and cannot be undone into", async () => {

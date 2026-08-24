@@ -15,6 +15,7 @@
 
 import type { EngineHost, Scene } from "./host/EngineHost";
 import { EngineError } from "./host/EngineHost";
+import { type Lesson, parseLesson } from "./lesson";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note";
@@ -43,6 +44,14 @@ export class Session {
   canSolve = $state(false);
   /** Successful chemistry commands, in order — the session's .lab script. */
   commandLog = $state<string[]>([]);
+  /**
+   * How many of those commands are applied to the bench right now. Undo,
+   * redo, and the timeline scrubber all move this one cursor; a new
+   * command while the cursor sits mid-history truncates the future.
+   */
+  position = $state(0);
+  /** The lesson being walked, if any. */
+  lesson = $state<{ lesson: Lesson; cursor: number } | null>(null);
   /** The registry, for the shelf. */
   shelf = $state<ShelfItem[]>([]);
   /** Vessel the user last selected (0-based id), target of shelf adds. */
@@ -99,7 +108,12 @@ export class Session {
       if (result.scene) this.scene = result.scene;
       // Register lines are session state, not chemistry; everything else
       // that the engine accepted becomes part of the replayable script.
+      // A command issued mid-history truncates the undone future first.
+      if (this.position < this.commandLog.length) {
+        this.commandLog = this.commandLog.slice(0, this.position);
+      }
       this.commandLog.push(trimmed);
+      this.position = this.commandLog.length;
       // The inspected vessel's detail is stale after any step.
       if (this.inspector) await this.inspect(this.inspector.vessel);
     } catch (e) {
@@ -141,14 +155,15 @@ export class Session {
   }
 
   /**
-   * Undo the last chemistry command by replaying every earlier one onto a
-   * fresh bench. O(session) engine work, zero client-side chemistry.
+   * Move the timeline cursor: replay the first `to` commands onto a fresh
+   * bench. Undo, redo, and the scrubber are all this one deterministic
+   * operation — O(session) engine work, zero client-side chemistry.
    */
-  async undo(): Promise<void> {
-    if (this.busy || this.commandLog.length === 0) return;
+  async jumpTo(to: number): Promise<void> {
+    const target = Math.max(0, Math.min(this.commandLog.length, Math.floor(to)));
+    if (this.busy || target === this.position) return;
     this.busy = true;
-    const undone = this.commandLog[this.commandLog.length - 1]!;
-    const prefix = this.commandLog.slice(0, -1);
+    const prefix = this.commandLog.slice(0, target);
     try {
       await this.host.reset();
       if (prefix.length > 0) {
@@ -157,19 +172,81 @@ export class Session {
       } else {
         this.scene = await this.host.scene();
       }
-      this.commandLog = prefix;
-      this.feed.push({ kind: "note", text: `undid: ${undone}` });
+      const was = this.position;
+      this.position = target;
+      this.feed.push({
+        kind: "note",
+        text:
+          target < was
+            ? `stepped back to ${target} of ${this.commandLog.length}`
+            : `stepped forward to ${target} of ${this.commandLog.length}`,
+      });
       if (this.inspector) await this.inspect(this.inspector.vessel);
     } catch (e) {
       this.feed.push({
         kind: "error",
-        text: `undo failed, the bench may be out of sync — ${
+        text: `replay failed, the bench may be out of sync — ${
           e instanceof Error ? e.message : String(e)
         }`,
       });
     } finally {
       this.busy = false;
     }
+  }
+
+  async undo(): Promise<void> {
+    await this.jumpTo(this.position - 1);
+  }
+
+  async redo(): Promise<void> {
+    await this.jumpTo(this.position + 1);
+  }
+
+  /** Begin walking a lesson. The bench keeps whatever is on it — a lesson
+   * is an overlay on the real bench, not a sandbox swap. */
+  startLesson(name: string, text: string): void {
+    this.lesson = { lesson: parseLesson(name, text), cursor: 0 };
+    this.feed.push({ kind: "note", text: `lesson started: ${name}` });
+    this.advanceLessonNotes();
+  }
+
+  /** Surface consecutive narration, stopping at the next command. */
+  private advanceLessonNotes(): void {
+    if (!this.lesson) return;
+    const { lesson } = this.lesson;
+    while (this.lesson.cursor < lesson.steps.length) {
+      const step = lesson.steps[this.lesson.cursor]!;
+      if (step.kind !== "note") break;
+      this.feed.push({ kind: "note", text: step.text });
+      this.lesson.cursor += 1;
+    }
+    if (this.lesson.cursor >= lesson.steps.length) {
+      this.feed.push({ kind: "note", text: `lesson finished: ${lesson.name}` });
+      this.lesson = null;
+    }
+  }
+
+  /** The lesson's next command, shown before it runs. */
+  get lessonNextCommand(): string | null {
+    if (!this.lesson) return null;
+    const step = this.lesson.lesson.steps[this.lesson.cursor];
+    return step?.kind === "command" ? step.line : null;
+  }
+
+  /** Run the lesson's next command. Deviation is allowed at any time —
+   * free commands do not move the lesson cursor. */
+  async lessonNext(): Promise<void> {
+    const line = this.lessonNextCommand;
+    if (!line || !this.lesson) return;
+    await this.submit(line);
+    this.lesson.cursor += 1;
+    this.advanceLessonNotes();
+  }
+
+  exitLesson(): void {
+    if (!this.lesson) return;
+    this.feed.push({ kind: "note", text: `lesson left: ${this.lesson.lesson.name}` });
+    this.lesson = null;
   }
 
   /** Open (or refresh) the register-dependent detail for one vessel. */
