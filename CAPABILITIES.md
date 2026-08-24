@@ -1226,6 +1226,14 @@ honest apology.
       new piece is the quest engine: goal + free bench + event-driven
       nudges + any-order completion claims — corridors are what the
       lessons already are; this is deliberately the opposite.
+      **Part 2 added same day:** a ~40-problem aqueous virtual-lab
+      corpus audited in EXPERIMENTS.md (capability classes only — its
+      CC BY-NC-ND content is never copied). Verdict: ~18
+      problem-classes NOW, the rest NEAR/HARDER, zero out of scope.
+      The two cross-cutting enablers are quantitative quest claims
+      (value ± tolerance read from the solved state) and sealed
+      "unknown" reagents (identity hidden by the UI, computed
+      truthfully underneath) — both land in the quest engine.
 
 ## Declined — off-mission, recorded so nobody re-litigates silently
 
