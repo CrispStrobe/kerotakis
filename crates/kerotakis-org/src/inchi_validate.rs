@@ -41,6 +41,7 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     // --- monatomic ions ---
     ("Na+", "[Na+]"),
     ("K+", "[K+]"),
+    ("Br-", "[Br-]"),
     ("Cl-", "[Cl-]"),
     ("Ca+2", "[Ca+2]"),
     ("Mg+2", "[Mg+2]"),
