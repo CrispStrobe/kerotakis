@@ -33,7 +33,8 @@ export function resolvePayloadBase(engineBase?: string): string {
 }
 
 export class WorkerHost implements EngineHost {
-  private channel: RequestChannel;
+  /** Package-private for the crash handlers installed by create(). */
+  channel: RequestChannel;
 
   /**
    * `port` is injectable for tests; production passes the real Worker.
@@ -58,7 +59,16 @@ export class WorkerHost implements EngineHost {
       type: "module",
       name: "kerotakis-engine",
     });
-    return new WorkerHost(worker, options);
+    const host = new WorkerHost(worker, options);
+    // A crashed worker must fail loudly, not hang every pending promise:
+    // abandon() rejects everything in flight with an honest message.
+    worker.addEventListener("error", (e) => {
+      host.channel.abandon(`the engine worker crashed: ${e.message || "unknown error"}`);
+    });
+    worker.addEventListener("messageerror", () => {
+      host.channel.abandon("the engine worker sent an unreadable message");
+    });
+    return host;
   }
 
   async hello(): Promise<{ protocol: number; can_solve?: boolean }> {

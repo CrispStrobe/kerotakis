@@ -32,7 +32,12 @@
         {entry.text}
       </div>
     {:else if entry.kind === "chart" && entry.chart}
-      <Chart spec={entry.chart} />
+      <svelte:boundary>
+        <Chart spec={entry.chart} />
+        {#snippet failed(error)}
+          <p class="error">the chart "{entry.text}" could not be drawn: {String(error)}</p>
+        {/snippet}
+      </svelte:boundary>
     {:else}
       <p class={entry.kind}>
         {#if entry.kind === "command"}<span class="prompt">kero&gt;</span>{/if}

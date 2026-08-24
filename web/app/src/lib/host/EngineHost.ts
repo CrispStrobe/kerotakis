@@ -140,6 +140,8 @@ export interface MessagePortLike {
 
 export class RequestChannel {
   private nextId = 1;
+  /** Set once the transport is gone; every later request fails fast. */
+  private dead: string | null = null;
   private pending = new Map<
     number,
     {
@@ -158,6 +160,7 @@ export class RequestChannel {
     fields: Record<string, unknown> = {},
     onProgress?: (fraction: number, message: string) => void,
   ): Promise<string> {
+    if (this.dead) return Promise.reject(new EngineError(this.dead, "engine"));
     const id = this.nextId++;
     return new Promise((resolve, reject) => {
       this.pending.set(id, { resolve, reject, onProgress });
@@ -191,10 +194,12 @@ export class RequestChannel {
     }
   }
 
-  /** Fail everything in flight — for teardown. */
+  /** The transport is gone: fail everything in flight AND everything that
+   * comes later, with the same honest reason. */
   abandon(reason: string) {
+    this.dead = reason;
     for (const [, entry] of this.pending) {
-      entry.reject(new EngineError(reason, "internal"));
+      entry.reject(new EngineError(reason, "engine"));
     }
     this.pending.clear();
   }

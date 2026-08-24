@@ -60,12 +60,17 @@ describe("RequestChannel", () => {
     expect(await p).toBe("1");
   });
 
-  it("abandon() rejects everything in flight", async () => {
+  it("abandon() rejects everything in flight AND every later request", async () => {
     const port = new FakePort();
     const channel = new RequestChannel(port);
     const p = channel.request("scene");
-    channel.abandon("host disposed");
+    channel.abandon("the engine worker crashed");
     await expect(p).rejects.toBeInstanceOf(EngineError);
+    // The transport is gone: a new request fails fast instead of hanging.
+    await expect(channel.request("state")).rejects.toMatchObject({
+      message: "the engine worker crashed",
+      kind: "engine",
+    });
   });
 });
 

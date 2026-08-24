@@ -341,12 +341,14 @@ every new dependency before its first import.
   (waits on GUI-005).*
 - [ ] **GUI-015 — Undo/replay + timeline.** Log-prefix replay with snapshot
   cache; timeline scrubber; session autosave/restore; `.lab` import/export.
-  *Status 2026-08-24: undo-as-replay landed in the Session — successful
-  chemistry commands form the replayable log (register switches stay
-  session-state), undo = `reset` + replay of the prefix, Ctrl/⌘-Z wired,
-  `.lab` export via save button; failed commands never enter the log
-  (vitest-pinned). Open: snapshot cache, timeline scrubber, autosave,
-  `.lab` import.*
+  *Status 2026-08-24 (2nd pass): undo/redo/scrubber are one cursor over
+  the replayed log (jumpTo = reset + prefix replay; range-input timeline
+  in the header; mid-history commands truncate the future); autosave to
+  localStorage with replay-based restore, corrupt saves dropped; `.lab`
+  export AND import (import composes onto the current bench, stops at
+  the first rejected line naming file:line, fully undoable); `clear`
+  distinct from jumpTo(0). All vitest-pinned. Open: snapshot cache for
+  O(1) undo on long sessions.*
 
 - [ ] **GUI-016 — Test deploy.** One payload from `tools/build-web.sh` —
   console at `/`, app at `/app/`, cross-linked, one shared engine — pushed
@@ -380,6 +382,10 @@ every new dependency before its first import.
   (CAP-3's other half, with CAP-12's titrate verb) and PNG export.*
 - [ ] **GUI-022 — Notebook export.** Markdown/PDF with inline charts and
   provenance footer.
+  *Status 2026-08-24: Markdown half done (`notebook.ts` + "save notes") —
+  commands as code, observations as prose, hazards as severity-labelled
+  quotes, charts as data tables with provenance. Open: PDF, inline chart
+  images.*
 - [ ] **GUI-023 — Hazard cards + honest-boundary panels.** The fixed visual
   encoding for the confidence vocabulary, everywhere.
 - [ ] **GUI-024 — Challenges v1.** Equation balancing, endpoint, buffer

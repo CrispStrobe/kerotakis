@@ -25,7 +25,12 @@
   </header>
   <pre>{lines.join("\n")}</pre>
   {#if particles}
-    <ParticleView census={particles} />
+    <svelte:boundary>
+      <ParticleView census={particles} />
+      {#snippet failed(error)}
+        <p class="fail">the particle view could not be drawn: {String(error)}</p>
+      {/snippet}
+    </svelte:boundary>
   {/if}
 </section>
 
@@ -58,6 +63,12 @@
     padding: 0.25rem 0.6rem;
     cursor: pointer;
     min-height: 32px;
+  }
+  .fail {
+    margin: 0;
+    padding: 0.5rem 1rem;
+    color: var(--bad);
+    font-size: 0.8rem;
   }
   pre {
     margin: 0;
