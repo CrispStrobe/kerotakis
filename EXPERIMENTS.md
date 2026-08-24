@@ -640,3 +640,77 @@ Curve: 16 → 9 → 7 → 1 → 3 → **0**.
 EXP-0..49, unchanged. A corpus that adds only rows to existing tasks
 is the audit series' success condition: the capability map is stable;
 what grows now is data, templates, and quests.
+
+---
+
+# Part 9: the scenario-simulation catalog (~180 items; 2026-08-24)
+
+Eighth corpus, a large commercial scenario-simulation vendor (not
+named). Tag inflation is the first finding: well over half the
+"chemistry" items are biology, health sciences, microbiology, or
+physics — those get a blanket decline as out of the bench's subject
+(Gram stains, PCR, ELISA, blots, cell culture, anatomy, ecology,
+evolution, Newtonian mechanics, optics, plate tectonics, reactor
+physics; fission/fusion REACTORS are declined even though nuclear
+DECAY is EXP-49). The chemistry core audits almost entirely into
+coverage. Yield: three. Curve: 16 → 9 → 7 → 1 → 3 → 0 → **3**.
+
+## Fold-ins worth recording (no new numbers)
+- Bomb calorimetry (constant-volume, ΔU vs ΔH) joins EXP-21/35 —
+  the sealed rigid vessel is landed machinery; the U-vs-H distinction
+  is the lv3 line.
+- CaCO3 thermal decomposition and the limestone cycle join EXP-2,
+  whose scope generalises to "thermal decompositions".
+- Gas thermometry to absolute zero joins the gas-law authoring set.
+- Electroplating joins the landed electrolysis verb as a quest.
+- TLC (Rf values), ion-exchange, size-exclusion and HPLC variants
+  join EXP-8 as chromatograph modes — same partition physics, and
+  the upstream EXCHANGE machinery serves the ion-exchange mode.
+- Nomenclature training (name ↔ structure rounds) joins EXP-38's
+  quiz modes riding the org stack's iupac module.
+- Named organic tests (ceric ammonium nitrate, azo-dye amine test,
+  litmus-for-acids) join EXP-41's row list; Sudan IV joins EXP-40.
+- Kjeldahl nitrogen-to-protein joins EXP-40 as its quantitative arm.
+- Eutrophication/wastewater nitrate-phosphate chemistry joins the
+  EXP-29 scenario family — PHREEQC-native water chemistry.
+- Tonicity/IV-drip framing joins EXP-47; pipetting technique and
+  apparatus tours are GUI affordances; polymer-formation items join
+  EXP-12's scope.
+- Cement hydration (their concrete lab) is declined for now with the
+  reason stated: real chemistry, but multiphase hydration kinetics
+  is beyond the current bench — recorded so nobody re-litigates
+  silently.
+- Spectral interpretation (MS, NMR, IR, MALDI, GC-MS): declined for
+  the fourth consecutive corpus. The decline is stable.
+
+## New tasks
+- **EXP-50 — Mechanistic selectivity rules** — the genuinely new
+  organic capability in this corpus: substitution-vs-elimination
+  outcome PREDICTION (SN1/SN2/E1/E2) by substrate class, nucleophile
+  strength, and temperature, plus regiochemistry rules where they
+  bind. Curated rule table with textbook provenance selecting among
+  molecule-proven templates; conditions outside the table refuse out
+  loud. Acceptance: the classic condition matrix reproduces textbook
+  outcomes; changing one condition flips the product and the lv3
+  line says which rule fired. HARDER.
+- **EXP-51 — Enzyme kinetics** — Michaelis–Menten as a curated rate
+  family with Km/Vmax and competitive vs non-competitive inhibition,
+  riding the existing kinetics integrator and the catalase
+  precedent; assayed spectrophotometrically (EXP-37 machinery).
+  Acceptance: Lineweaver–Burk from `kero study` sweeps distinguishes
+  the two inhibition mechanisms; parameters recovered within
+  tolerance. (Fermentation-optimisation scenarios noted as an
+  optional extension, not core.)
+- **EXP-52 — Disposal and lab-practice quests** — waste routing as
+  computed chemistry: neutralise before drain, never mix the
+  oxidiser stream with organics, halogenated separate — the safety
+  screen already computes the hazard verdicts; a curated disposal
+  rule table turns clean-up into quests where wrong routing triggers
+  the same screen that guards the bench. Acceptance: a clear-the-
+  bench quest gradeable entirely by existing safety machinery plus
+  the rule table.
+
+## Registry state after eight corpora
+EXP-0..52. The pattern holds: wet chemistry converges; what this
+corpus adds beyond three tasks is scenario-framing volume — which is
+quest prose, and EXP-0 is still the gate everything waits behind.
