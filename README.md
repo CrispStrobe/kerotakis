@@ -16,6 +16,16 @@ gave us the bain-marie, and whose airtight seal is the origin of "hermetically
 sealed". The name describes the architecture: a sealed vessel you put things
 into, and reactions happen.
 
+## Try it in a browser
+
+The bench runs live at
+**[crispstrobe.github.io/kerotakis/app](https://crispstrobe.github.io/kerotakis/app/)** —
+drawn glassware, drag-and-drop reagents, the register dial (lv1 "what you
+see" → lv3 "everything"), lessons, undo-by-replay, and the real aqueous
+engine solving in a worker. The
+[console](https://crispstrobe.github.io/kerotakis/) is the same engine as a
+terminal. Both are offline-capable after the first visit.
+
 ## What works today
 
 ```console
