@@ -150,12 +150,15 @@ const appReport = await Promise.race([
     new Promise((r) => setTimeout(() => r({ ready: false, error: "no selftest report within 90s" }), 90000)),
 ]);
 try { appProc.kill("SIGKILL"); } catch { /* already gone */ }
-rmSync(`${profile}-app`, { recursive: true, force: true });
+// Chrome takes a beat to actually die; profile removal is best-effort —
+// a leftover tmp profile is disposable, an ENOTEMPTY crash is not.
+await new Promise((r) => setTimeout(r, 1500));
+try { rmSync(`${profile}-app`, { recursive: true, force: true }); } catch { /* still dying */ }
 
 // Second render: the server is gone, the cache is all there is.
 server.close();
 const offlineDom = await render(chrome);
-rmSync(profile, { recursive: true, force: true });
+try { rmSync(profile, { recursive: true, force: true }); } catch { /* best-effort */ }
 
 const m = /<div id="transcript">([\s\S]*?)<\/div>\s*<aside/.exec(dom);
 const transcript = m
