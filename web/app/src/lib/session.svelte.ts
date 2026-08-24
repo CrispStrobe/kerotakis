@@ -358,6 +358,11 @@ export class Session {
       ignited: "ignite",
       evaporated: "evaporate",
       distilled: "evaporate",
+      gas_evolved: "vent",
+      titrated: "drip",
+      mixed: "swirl",
+      diluted: "swirl",
+      flame_test: "ignite",
     };
     const kind = EFFECTS[String(event?.event ?? "")];
     if (!kind) return;

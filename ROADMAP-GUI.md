@@ -404,10 +404,13 @@ every new dependency before its first import.
 - [ ] **GUI-025 — The equation strip.** Reactions as balanced equations
   pinned beside the bench at lv2+, live as they happen. We already
   compute them; today they are buried in the feed.
-- [ ] **GUI-026 — Pour and stir.** Drop-to-add gets a pour animation and
-  a stir gesture on the Canvas2D effects layer — strictly driven by
-  computed events, decorative in style, never in fact. Today the reagent
-  teleports; a lab should *feel* like handling things.
+- [x] **GUI-026 — Pour and stir.** *Shipped 2026-08-24 (SVG, not
+  Canvas2D — the vessels' own layer was enough):* drop-to-add splashes a
+  ripple at the surface; `gas_evolved` vents wisps from an open mouth
+  (sealed vessels honestly show nothing); `titrated` drips from above;
+  `mixed`/`diluted` swirl a dashed eddy one revolution; `flame_test`
+  reuses the flame. Every one fires only on its typed engine event
+  (session map is unit-tested). Decorative in style, never in fact.
 - [x] **GUI-027 — Utilities drawer.** *Toolbox shipped 2026-08-24:*
   `relations`/`calc` are protocol commands on all three hosts (PROTOCOL.md;
   conformance checks the catalogue shape, one known-good evaluation, and
@@ -478,9 +481,14 @@ been ignoring all of it:
   never recomputing chemistry; vitest-pinned). Lights up the moment the
   codex export ships `codex/index.json` in the payload (kero-basic's
   task); quiet absence until then.*
-- [ ] **GUI-055 — The curriculum browser.** Placements (per-system stages
-  with citations) as a teacher-facing index: pick a curriculum stage, see
-  the entries and concepts that serve it, launch them.
+- [x] **GUI-055 — The curriculum browser.** *Client shipped 2026-08-24,
+  armed on the codex export:* the experiments dialog gained three doors —
+  all (with a filter), by concept (chips with counts; a selected concept
+  filters the list and names its co-occurring neighbours, the GUI-053
+  down payment), by curriculum (system → stage ordered by age band,
+  placement citations shown, entries launch straight into the tabbed
+  page). Grouping is pure, tested code in codex.ts; the export must
+  carry `concepts` and `curriculum` per entry for the doors to light up.
 - [ ] **Codex expansion (engine/content side, tracked here for the GUI's
   sake):** more entries toward 200+, more curriculum spines beyond the two
   German systems, apparatus vocabulary kept in lockstep with GUI-033, and

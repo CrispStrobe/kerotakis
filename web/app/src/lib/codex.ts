@@ -46,6 +46,15 @@ export interface CodexEntry {
   setup: { script: string };
   expect: CodexExpect;
   registers: Record<string, string>;
+  curriculum?: CodexPlacement[];
+}
+
+/** One curriculum's placement of an entry (kerotakis-codex::Placement). */
+export interface CodexPlacement {
+  system: string;
+  stage: string;
+  ages?: CodexRange | null;
+  source: string;
 }
 
 export function parseCodexIndex(raw: unknown): CodexEntry[] {
@@ -101,4 +110,69 @@ export function checkExpect(
     (ph === null || ph.ok) &&
     (temperature_c === null || temperature_c.ok);
   return { events, forbidden, ph, temperature_c, allOk };
+}
+
+// ── Grouping for the browsers (GUI-053 concepts / GUI-055 curriculum) ──
+
+/** Concepts with usage counts, most-taught first; ties alphabetical. */
+export function conceptIndex(entries: CodexEntry[]): { concept: string; count: number }[] {
+  const counts = new Map<string, number>();
+  for (const e of entries) {
+    for (const c of e.concepts ?? []) counts.set(c, (counts.get(c) ?? 0) + 1);
+  }
+  return [...counts.entries()]
+    .map(([concept, count]) => ({ concept, count }))
+    .sort((a, b) => b.count - a.count || a.concept.localeCompare(b.concept));
+}
+
+/** Concepts that co-occur with `concept`, strongest neighbours first. */
+export function relatedConcepts(entries: CodexEntry[], concept: string): string[] {
+  const counts = new Map<string, number>();
+  for (const e of entries) {
+    const cs = e.concepts ?? [];
+    if (!cs.includes(concept)) continue;
+    for (const c of cs) {
+      if (c !== concept) counts.set(c, (counts.get(c) ?? 0) + 1);
+    }
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .map(([c]) => c);
+}
+
+export interface CurriculumStage {
+  stage: string;
+  /** The citation(s) behind the placement claims — shown, never hidden. */
+  sources: string[];
+  entries: CodexEntry[];
+}
+
+/**
+ * Placements grouped system → stage. Stages order by their age band's
+ * lower bound where stated, then by name — cross-system stage names
+ * ("KS3", "Jgst. 9") carry no comparable order of their own.
+ */
+export function curriculumIndex(
+  entries: CodexEntry[],
+): { system: string; stages: CurriculumStage[] }[] {
+  const systems = new Map<string, Map<string, { ageMin: number; sources: Set<string>; entries: CodexEntry[] }>>();
+  for (const e of entries) {
+    for (const p of e.curriculum ?? []) {
+      const stages = systems.get(p.system) ?? new Map();
+      systems.set(p.system, stages);
+      const s = stages.get(p.stage) ?? { ageMin: Infinity, sources: new Set<string>(), entries: [] };
+      stages.set(p.stage, s);
+      if (typeof p.ages?.min === "number") s.ageMin = Math.min(s.ageMin, p.ages.min);
+      if (p.source) s.sources.add(p.source);
+      if (!s.entries.includes(e)) s.entries.push(e);
+    }
+  }
+  return [...systems.entries()]
+    .map(([system, stages]) => ({
+      system,
+      stages: [...stages.entries()]
+        .sort(([an, a], [bn, b]) => a.ageMin - b.ageMin || an.localeCompare(bn))
+        .map(([stage, s]) => ({ stage, sources: [...s.sources], entries: s.entries })),
+    }))
+    .sort((a, b) => a.system.localeCompare(b.system));
 }

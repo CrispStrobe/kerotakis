@@ -188,6 +188,9 @@ describe("Session", () => {
           events: [
             { event: "precipitated", vessel: 0, species: "AgCl", moles: 0.01 },
             { event: "electrolysed", vessel: 1, species: "Cu", coulombs: 900 },
+            { event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.002 },
+            { event: "titrated", vessel: 1, added_ml: 12.4 },
+            { event: "mixed", vessel: 1 },
             { event: "solution_characterized", vessel: 0, ph: 7 },
           ],
           rendered: ["It went cloudy!"],
@@ -197,8 +200,8 @@ describe("Session", () => {
     });
     const s = new Session(host);
     await s.submit("add v1 AgNO3 1.7g");
-    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["precipitate"]);
-    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse"]);
+    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["precipitate", "vent"]);
+    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse", "drip", "swirl"]);
   });
 
   it("the latest rendered equation is pinned for the strip", async () => {
