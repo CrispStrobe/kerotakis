@@ -348,6 +348,23 @@ every new dependency before its first import.
   (vitest-pinned). Open: snapshot cache, timeline scrubber, autosave,
   `.lab` import.*
 
+- [ ] **GUI-016 — Test deploy.** One payload from `tools/build-web.sh` —
+  console at `/`, app at `/app/`, cross-linked, one shared engine — pushed
+  to a Vercel preview (token + team scope per the machine's
+  vercel-deploys.md, prebuilt static, no build on Vercel's side) and to
+  GitHub Pages. "Switchable" is two links, not a framework; when the app
+  reaches parity (end of G1) the surfaces swap places: app at `/`, console
+  at `/console/`. Blocked only on a local `wasm-bindgen-cli 0.2.127`
+  install + emsdk sourcing after the cargo lock frees.
+- [ ] **GUI-017 — Continuous deploy.** `.github/workflows/pages.yml`
+  (added: builds the payload with the same recipe ci.yml already uses and
+  deploys to Pages on web-affecting pushes + manual dispatch); the Vercel
+  production deploy stays a deliberate manual step until the register dial
+  UX is demo-ready. The service worker now precaches the app's hashed
+  assets (stamped by build-web.sh), so both surfaces are offline-first
+  from one install; `web/vercel.json` pins immutable caching for hashed
+  assets.
+
 ### Phase G2 — Learning surfaces
 
 - [ ] **GUI-020 — Lesson player.** Lessons as guided overlays with

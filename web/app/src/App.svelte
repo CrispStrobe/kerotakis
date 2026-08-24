@@ -47,6 +47,7 @@
   <span class="status" class:live={session.canSolve}>
     {session.engineReady ? (session.canSolve ? "live" : "shipped results") : "starting…"}
   </span>
+  <a class="console-link" href="../">console</a>
 </header>
 
 <main>
@@ -120,6 +121,14 @@
   }
   .status.live {
     color: var(--good);
+  }
+  .console-link {
+    color: var(--cool);
+    font-size: 0.8rem;
+    text-decoration: none;
+  }
+  .console-link:hover {
+    text-decoration: underline;
   }
   main {
     display: flex;
