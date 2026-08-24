@@ -287,7 +287,14 @@ delta recorded (this is where the `const`→`static` change shows up).
 
 ## OPT-5 — CEA Gibbs solver: stop allocating inside Newton
 
-- [ ] Status: open. **Audit 2026-08-24:** gibbs.rs:228 still allocates
+- [x] Status: **done 2026-08-24** (Opus). Flat row-major matrix
+      allocated once outside the Newton loop; `pi`, `d_ln`, `gas_ni`
+      hoisted; `solve_flat` replaces Vec-of-Vec Gauss-Jordan; per-element
+      gas sums precomputed once per iteration. Summation order preserved.
+      Criterion bench delta: `equilibrate_tp` 642 µs → 456 µs (−29%),
+      `equilibrate_hp` 12.4 ms → 10.7 ms (−14%). All CEA tests,
+      golden fixtures, and conservation proptests unchanged.
+      **Audit 2026-08-24:** gibbs.rs:228 still allocates
       `vec![vec![0.0; dim + 1]; dim]` per Newton iteration. (kero1's
       afbd549 hoisted `deltas`/proposed-extents Vecs out of the
       event-restart loop in `kerotakis-core` kinetics — real and kept,

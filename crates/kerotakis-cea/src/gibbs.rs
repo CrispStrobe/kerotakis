@@ -223,9 +223,19 @@ pub fn equilibrate_tp(
         })
     };
 
+    // OPT-5: allocate the working buffers once, outside the Newton loop.
+    let nel = elements.len();
+    let max_dim = nel + cond.len() + 1;
+    let max_stride = max_dim + 1;
+    let mut m_flat = vec![0.0f64; max_dim * max_stride];
+    let mut pi = vec![0.0f64; nel];
+    let mut d_ln = vec![0.0f64; pool.len()];
+    let mut gas_ni = vec![0.0f64; nel];
+
     for iteration in 0..400 {
-        let dim = elements.len() + active_cond.len() + 1;
-        let mut m = vec![vec![0.0f64; dim + 1]; dim];
+        let dim = nel + active_cond.len() + 1;
+        let stride = dim + 1;
+        m_flat[..dim * stride].fill(0.0);
 
         // μᵢ/RT for the current composition.
         let mu = |i: usize, n: &[f64], n_total: f64| -> f64 {
@@ -237,18 +247,23 @@ pub fn equilibrate_tp(
             }
         };
 
+        // Precompute per-element gas sums: Σ_i a(i,j) * n[i].
+        for (j, slot) in gas_ni[..nel].iter_mut().enumerate() {
+            *slot = gas.iter().map(|&i| a(i, j) * n[i]).sum();
+        }
+
         // Element-balance rows.
         for (j, _) in elements.iter().enumerate() {
             for (k, _) in elements.iter().enumerate() {
-                m[j][k] = gas.iter().map(|&i| a(i, j) * a(i, k) * n[i]).sum();
+                m_flat[j * stride + k] = gas.iter().map(|&i| a(i, j) * a(i, k) * n[i]).sum();
             }
             for (c_idx, &c) in active_cond.iter().enumerate() {
-                m[j][elements.len() + c_idx] = a(c, j);
+                m_flat[j * stride + nel + c_idx] = a(c, j);
             }
-            m[j][dim - 1] = gas.iter().map(|&i| a(i, j) * n[i]).sum();
+            m_flat[j * stride + dim - 1] = gas_ni[j];
             let b_current: f64 = (0..pool.len()).map(|i| a(i, j) * n[i]).sum();
             let target = budget.get(&elements[j]).copied().unwrap_or(0.0);
-            m[j][dim] = target - b_current
+            m_flat[j * stride + dim] = target - b_current
                 + gas
                     .iter()
                     .map(|&i| a(i, j) * n[i] * mu(i, &n, n_total))
@@ -257,24 +272,24 @@ pub fn equilibrate_tp(
 
         // One row per active condensed phase: Σⱼ a_cj πⱼ = μ_c/RT.
         for (c_idx, &c) in active_cond.iter().enumerate() {
-            let row = elements.len() + c_idx;
+            let row = nel + c_idx;
             for (j, _) in elements.iter().enumerate() {
-                m[row][j] = a(c, j);
+                m_flat[row * stride + j] = a(c, j);
             }
-            m[row][dim] = mu(c, &n, n_total);
+            m_flat[row * stride + dim] = mu(c, &n, n_total);
         }
 
         // Total-moles row.
         let last = dim - 1;
-        for (j, _) in elements.iter().enumerate() {
-            m[last][j] = gas.iter().map(|&i| a(i, j) * n[i]).sum();
+        for j in 0..nel {
+            m_flat[last * stride + j] = gas_ni[j];
         }
         let sum_gas: f64 = gas.iter().map(|&i| n[i]).sum();
-        m[last][last] = sum_gas - n_total;
-        m[last][dim] =
+        m_flat[last * stride + last] = sum_gas - n_total;
+        m_flat[last * stride + dim] =
             n_total - sum_gas + gas.iter().map(|&i| n[i] * mu(i, &n, n_total)).sum::<f64>();
 
-        let Some(sol) = solve(&mut m) else {
+        if !solve_flat(&mut m_flat, dim, stride) {
             // Singular. This happens when one condensed phase is the sole
             // repository of every element and the gas phase has collapsed:
             // the element rows then differ only by a stoichiometric factor
@@ -284,13 +299,15 @@ pub fn equilibrate_tp(
             // than returning whichever answer the arithmetic fell into.
             return Err(CeaError::NotConverged(iteration));
         };
-        let pi: Vec<f64> = sol[..elements.len()].to_vec();
-        let d_ln_n = sol[dim - 1];
+        for j in 0..nel {
+            pi[j] = m_flat[j * stride + dim];
+        }
+        let d_ln_n = m_flat[(dim - 1) * stride + dim];
 
         // Corrections to each gas species.
-        let mut d_ln: Vec<f64> = vec![0.0; pool.len()];
+        d_ln.iter_mut().for_each(|v| *v = 0.0);
         for &i in &gas {
-            let sum: f64 = (0..elements.len()).map(|j| a(i, j) * pi[j]).sum();
+            let sum: f64 = (0..nel).map(|j| a(i, j) * pi[j]).sum();
             d_ln[i] = sum + d_ln_n - mu(i, &n, n_total);
         }
 
@@ -309,7 +326,7 @@ pub fn equilibrate_tp(
         // tenth of a percent of a step, remove the phase instead.
         let mut forced_drop: Vec<usize> = Vec::new();
         for (c_idx, &c) in active_cond.iter().enumerate() {
-            let dn = sol[elements.len() + c_idx];
+            let dn = m_flat[(nel + c_idx) * stride + dim];
             if dn < 0.0 && n[c] > 0.0 {
                 let limit = (0.9 * n[c] / -dn).min(1.0);
                 if limit < 1e-3 && !is_sole_carrier(c, &active_cond) {
@@ -331,7 +348,7 @@ pub fn equilibrate_tp(
             n[i] = (n[i].max(TRACE).ln() + step).exp().max(TRACE);
         }
         for (c_idx, &c) in active_cond.iter().enumerate() {
-            let dn = lambda * sol[elements.len() + c_idx];
+            let dn = lambda * m_flat[(nel + c_idx) * stride + dim];
             max_change = max_change.max((dn / n_total.max(TRACE)).abs());
             n[c] = (n[c] + dn).max(0.0);
         }
@@ -376,7 +393,7 @@ pub fn equilibrate_tp(
                 // unconverged system is how solid carbon used to appear in
                 // an oxidising atmosphere.
                 let drive: f64 =
-                    (0..elements.len()).map(|j| a(c, j) * pi[j]).sum::<f64>() - mu(c, &n, n_total);
+                    (0..nel).map(|j| a(c, j) * pi[j]).sum::<f64>() - mu(c, &n, n_total);
                 if drive > 1e-8 {
                     active_cond.push(c);
                     admissions[c] += 1;
@@ -467,42 +484,44 @@ pub fn equilibrate_hp(
     Ok(last)
 }
 
-/// Gauss-Jordan with partial pivoting on a small dense augmented matrix.
-fn solve(m: &mut [Vec<f64>]) -> Option<Vec<f64>> {
-    let n = m.len();
+/// Gauss-Jordan with partial pivoting on a flat row-major augmented matrix.
+/// Returns true on success; the solution is in the last column (index `n`
+/// within each row of stride `s`). Returns false on singular.
+fn solve_flat(m: &mut [f64], n: usize, s: usize) -> bool {
     for col in 0..n {
-        let (pivot_row, pivot) = (col..n)
-            .map(|r| (r, m[r][col].abs()))
-            .max_by(|a, b| a.1.total_cmp(&b.1))?;
+        let (pivot_row, pivot) = match (col..n)
+            .map(|r| (r, m[r * s + col].abs()))
+            .max_by(|a, b| a.1.total_cmp(&b.1))
+        {
+            Some(p) => p,
+            None => return false,
+        };
         if pivot < 1e-14 {
-            return None;
+            return false;
         }
-        m.swap(col, pivot_row);
-        let d = m[col][col];
-        for v in m[col].iter_mut().skip(col) {
-            *v /= d;
+        if col != pivot_row {
+            for c in 0..=n {
+                m.swap(col * s + c, pivot_row * s + c);
+            }
+        }
+        let d = m[col * s + col];
+        for c in col..=n {
+            m[col * s + c] /= d;
         }
         for r in 0..n {
             if r == col {
                 continue;
             }
-            let f = m[r][col];
+            let f = m[r * s + col];
             if f == 0.0 {
                 continue;
             }
-            let (pivot_row, target) = if r < col {
-                let (a, b) = m.split_at_mut(col);
-                (&b[0], &mut a[r])
-            } else {
-                let (a, b) = m.split_at_mut(r);
-                (&a[col], &mut b[0])
-            };
             for c in col..=n {
-                target[c] -= f * pivot_row[c];
+                m[r * s + c] -= f * m[col * s + c];
             }
         }
     }
-    Some((0..n).map(|r| m[r][n]).collect())
+    true
 }
 
 #[cfg(test)]

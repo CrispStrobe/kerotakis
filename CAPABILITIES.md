@@ -902,7 +902,9 @@ and UNIFAC binary; disagreements are investigated, not tolerated away.
 
 ## CAP-20 — Give the orphaned physics its verbs
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-24** (multiple sessions). All verb slots
+      filled: extract/drain/chromatograph/react (Fable), transport (Opus).
+      See prose below for per-verb details.
 
 **Why.** The tree's own admission ("types implemented but awaiting
 grammar"): working transport, extraction, photochemistry, reaction
