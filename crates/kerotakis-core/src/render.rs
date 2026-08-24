@@ -269,6 +269,62 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 species.0, fraction_lower,
             ),
         },
+        Event::Chromatographed { vessel, plates, void_time_s, peaks, outside_method } => match register.level() {
+            1 => {
+                let order = peaks
+                    .iter()
+                    .map(|p| species::lookup(&p.species).map(|d| d.name).unwrap_or(p.species.0.as_str()))
+                    .collect::<Vec<_>>()
+                    .join(", then ");
+                format!("The mixture from {vessel} runs through the column and comes out one thing at a time: {order}.")
+            }
+            2 => {
+                let table = peaks
+                    .iter()
+                    .map(|p| {
+                        format!(
+                            "{} at {:.0} s ({:.0}% area)",
+                            species::lookup(&p.species).map(|d| d.name).unwrap_or(p.species.0.as_str()),
+                            p.retention_time_s,
+                            p.relative_area * 100.0,
+                        )
+                    })
+                    .collect::<Vec<_>>()
+                    .join("; ");
+                let unseen = if outside_method.is_empty() {
+                    String::new()
+                } else {
+                    format!(
+                        " — the dissolved ions ({}) pass with the water and are not separated",
+                        outside_method.iter().map(|s| s.0.as_str()).collect::<Vec<_>>().join(", ")
+                    )
+                };
+                format!("{vessel}: chromatogram — {table}{unseen}")
+            }
+            _ => {
+                let table = peaks
+                    .iter()
+                    .map(|p| {
+                        format!(
+                            "{} K={:.3} tR={:.1}s w={:.1}s A={:.3}",
+                            p.species.0, p.partition_k, p.retention_time_s, p.width_s, p.relative_area,
+                        )
+                    })
+                    .collect::<Vec<_>>()
+                    .join("; ");
+                let unseen = if outside_method.is_empty() {
+                    String::new()
+                } else {
+                    format!(
+                        "; outside the method: {} (ion exchange not modeled)",
+                        outside_method.iter().map(|s| s.0.as_str()).collect::<Vec<_>>().join(", ")
+                    )
+                };
+                format!(
+                    "{vessel}: N={plates}, t0={void_time_s:.0}s, β=0.5; K = γ∞(water)/γ∞(alkane) from the same UNIFAC the funnel partitions on; tR = t0·(1+K·β), w = 4·tR/√N — {table}{unseen}"
+                )
+            }
+        },
         Event::Drained { from, to, solvent, moles } => match register.level() {
             1 => format!("You open the tap and the bottom layer runs from {from} into {to}."),
             2 => format!(
@@ -523,6 +579,9 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 Instrument::ConductivityMeter => "conductivity meter",
                 Instrument::Spectrophotometer => "spectrophotometer",
                 Instrument::Calorimeter => "calorimeter",
+                // The column never emits a scalar Measured — it reports a
+                // peak table via Chromatographed — but the name must exist.
+                Instrument::Chromatograph => "chromatograph",
             };
             match register.level() {
                 1 => format!("The {device} on {vessel} reads {value:.0} {unit}."),

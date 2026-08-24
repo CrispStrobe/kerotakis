@@ -1553,5 +1553,23 @@
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 195.6 J/(mol.K) and density 0.6606 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed.",
     "spectrum_bands": null,
     "standard_phase": "liquid"
+  },
+  {
+    "appearance": null,
+    "colour": null,
+    "density": 0.7845,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "CH3COCH3",
+    "heat_capacity": 126.3,
+    "inchikey": "CSCPPACGZOOCGX-UHFFFAOYSA-N",
+    "key": "propanone",
+    "molar_mass": 58.08,
+    "name": "propanone",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) 126.3 J/(mol.K) and density 0.7845 g/mL at 25 C: CRC Handbook of Chemistry and Physics, 97th ed.",
+    "spectrum_bands": null,
+    "standard_phase": "liquid"
   }
 ]
