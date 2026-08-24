@@ -208,7 +208,26 @@ in CI; conservation proptests extended to `distil`; preflight green.
 
 ## CAP-2 — A user-facing study runner (`kero study`)
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-24** (Fable). `kero study <lab> --vary
+      add:<v>:<species>=<from>..<to>[:steps] --collect <probe>[,…]
+      [--csv]` — one varied parameter (v1, as scoped; the two-parameter
+      grid did not fall out free and is not pretended), probes `ph`,
+      `temp`, `mass`, `titrant_volume` addressed `@vN`, NDJSON default
+      and CSV, every row carrying the varied value and provenance.
+      Rayon-parallel with one engine instance per thread; rows emitted
+      strictly in run order — `a_study_is_byte_deterministic` pins
+      byte-equality of two full runs. An ambiguous selector refuses
+      with the matching line numbers and the `line:<N>` escape hatch.
+      Acceptance met literally: the titration study over
+      `lessons/titration.lab` reproduces the codex's equivalence claim
+      — delivered base moles equal acid moles within one burette step
+      across four acid amounts (`tests/study.rs`). Finding the study
+      surfaced: the titrate verb was delivering *pure* NaOH by volume
+      (~0.053 mol/mL), leaping the whole curve in one step; the burette
+      now holds a standard solution (`titrate v1 NaOH 0.1M 1mL …`,
+      default 1 mol/L) delivering concentration × step moles plus the
+      carrier water, and the engine test walks the curve to
+      equivalence at 10 mL — CAP-12's semantics corrected in place.
 
 **Why.** The workbench class's core workflow is "run the model many
 times, varied over a parameter, and look at the result" — and it is

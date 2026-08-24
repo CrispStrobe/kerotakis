@@ -14,6 +14,7 @@ mod chart_svg;
 mod diagram;
 mod mcp;
 mod provenance;
+mod study;
 mod sweep;
 
 use std::io::{BufRead, Write};
@@ -118,6 +119,9 @@ fn main() {
                 .cloned()
                 .unwrap_or_else(|| ".".to_string());
             provenance::lint_command(&manifest, &root);
+        }
+        Some("study") => {
+            study::study_command(&args[1..]);
         }
         Some("prewarm") => {
             // Build-time: replay lesson scripts through the real engine and
@@ -1177,6 +1181,8 @@ fn usage() -> ! {
          usage:\n\
          \x20 kero                       interactive bench\n\
          \x20 kero run FILE.lab [--json] replay a command script\n\
+         \x20 kero study FILE.lab --vary add:v1:HCl=0.005..0.02:4\n\
+         \x20        --collect ph@v1[,…] [--csv]   run it varied over a parameter\n\
          \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
          \x20 kero calc <relation> ...   evaluate a named physical relation\n\

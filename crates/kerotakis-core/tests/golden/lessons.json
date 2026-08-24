@@ -1302,12 +1302,12 @@
             "species": "HCl"
           },
           {
-            "moles": 0.05325399,
+            "moles": 0.001,
             "phase": "Solid",
             "species": "NaOH"
           },
           {
-            "moles": 27.67138496,
+            "moles": 27.72672773,
             "phase": "Liquid",
             "species": "water"
           }

@@ -1345,20 +1345,37 @@ impl Bench {
         solver: &mut dyn Equilibrator,
         _screen: &dyn SafetyScreen,
     ) -> Result<Vec<Event>, BenchError> {
-        let (vessel, titrant, step, target_ph, max_steps) = match &op {
+        let (vessel, titrant, concentration, step, target_ph, max_steps) = match &op {
             Operator::Titrate {
                 vessel,
                 titrant,
+                concentration,
                 step,
                 target_ph,
                 max_steps,
-            } => (*vessel, titrant.clone(), *step, *target_ph, *max_steps),
+            } => (
+                *vessel,
+                titrant.clone(),
+                *concentration,
+                *step,
+                *target_ph,
+                *max_steps,
+            ),
             _ => unreachable!(),
         };
 
         let data =
             species::lookup(&titrant).ok_or_else(|| BenchError::UnknownSpecies(titrant.clone()))?;
-        let moles_per_step = data.moles_from_liters(step);
+        // The burette holds a standard solution: each step delivers
+        // concentration × volume moles of titrant, carried by the water
+        // of the step volume. (Delivering the *pure* substance by volume
+        // — the previous reading — doses ~50× per mL for NaOH and leaps
+        // the whole curve in one step; no practical is run that way.)
+        let moles_per_step = Moles(concentration * step.0);
+        let water = SpeciesId::new("water");
+        let water_data =
+            species::lookup(&water).ok_or_else(|| BenchError::UnknownSpecies(water.clone()))?;
+        let water_per_step = water_data.moles_from_liters(step);
         if moles_per_step.0 <= 0.0 {
             return Err(BenchError::NonPositiveAmount);
         }
@@ -1385,11 +1402,13 @@ impl Bench {
                     v.temperature,
                     v.heat_capacity(),
                     Kelvin::STANDARD,
-                    moles_per_step.0 * data.heat_capacity,
+                    moles_per_step.0 * data.heat_capacity
+                        + water_per_step.0 * water_data.heat_capacity,
                 );
                 v.temperature = t_new;
             }
             v.deposit(titrant.clone(), moles_per_step, data.standard_phase);
+            v.deposit(water.clone(), water_per_step, Phase::Liquid);
             total_volume = Liters(total_volume.0 + step.0);
 
             // Re-equilibrate so the solver computes the new pH.
@@ -1447,6 +1466,7 @@ impl Bench {
             events.push(Event::Titrated {
                 vessel,
                 titrant,
+                concentration,
                 steps: step_count,
                 total_volume,
                 final_ph,

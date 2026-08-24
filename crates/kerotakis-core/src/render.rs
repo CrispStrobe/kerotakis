@@ -911,6 +911,7 @@ pub fn render_event(event: &Event, register: Register) -> String {
         Event::Titrated {
             vessel,
             titrant,
+            concentration,
             steps,
             total_volume,
             final_ph,
@@ -924,13 +925,14 @@ pub fn render_event(event: &Event, register: Register) -> String {
                     "You titrate {vessel} with {name} — after {steps} additions the pH reaches {final_ph:.1}."
                 ),
                 2 => format!(
-                    "{vessel}: titrated with {name}; {steps} steps, {:.1} mL total, final pH {final_ph:.2}",
+                    "{vessel}: titrated with {concentration} mol/L {name}; {steps} steps, {:.1} mL total, final pH {final_ph:.2}",
                     total_volume.0 * 1000.0
                 ),
                 _ => format!(
-                    "{vessel}: auto-titration with {} ({steps} steps, {:.3} mL cumulative); final pH {final_ph:.3}",
+                    "{vessel}: auto-titration with {} standard solution ({concentration} mol/L; {steps} steps, {:.3} mL cumulative = {:.5} mol delivered with its carrier water); final pH {final_ph:.3}",
                     titrant.0,
-                    total_volume.0 * 1000.0
+                    total_volume.0 * 1000.0,
+                    concentration * total_volume.0,
                 ),
             }
         }

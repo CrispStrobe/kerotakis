@@ -130,12 +130,17 @@ fn titrate_parsed_from_script() {
         Operator::Titrate {
             vessel,
             titrant,
+            concentration,
             step,
             target_ph,
             max_steps,
         } => {
             assert_eq!(vessel, VesselId(0));
             assert_eq!(titrant, SpeciesId::new("NaOH"));
+            assert!(
+                (concentration - 1.0).abs() < 1e-12,
+                "no stated molarity means the 1 mol/L standard"
+            );
             assert!((step.0 - 0.001).abs() < 1e-12, "1 mL = 0.001 L");
             assert!((target_ph - 7.0).abs() < 1e-12);
             assert_eq!(max_steps, 100);

@@ -8,6 +8,10 @@ use crate::species::{Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::VesselId;
 
+fn one_molar() -> f64 {
+    1.0
+}
+
 fn one_stage() -> u32 {
     1
 }
@@ -144,6 +148,12 @@ pub enum Operator {
     Titrate {
         vessel: VesselId,
         titrant: SpeciesId,
+        /// Concentration of the standard solution in the burette,
+        /// mol/L. The burette holds a solution, not the pure substance
+        /// — each step delivers `concentration × step` moles of
+        /// titrant plus the carrier water of the step volume.
+        #[serde(default = "one_molar")]
+        concentration: f64,
         step: Liters,
         target_ph: f64,
         max_steps: u32,
@@ -568,6 +578,9 @@ pub enum Event {
     Titrated {
         vessel: VesselId,
         titrant: SpeciesId,
+        /// Standard-solution concentration in the burette, mol/L.
+        #[serde(default = "one_molar")]
+        concentration: f64,
         steps: u32,
         total_volume: Liters,
         final_ph: f64,
