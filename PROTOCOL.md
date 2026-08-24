@@ -89,35 +89,41 @@ quantities (`VesselId`, `SpeciesId`, `Moles`, `Kelvin`). Rules:
   `curated`/`unknown`) rides on events/results wherever a number is claimed
   and gets one fixed visual encoding in every UI (GUI-023).
 
-## Scene JSON v1 (GUI-003 — to implement)
+## Scene JSON v1 (GUI-003 — implemented in `kerotakis-core/src/scene.rs`)
 
 A versioned, per-vessel *render model*, derived engine-side from state +
 `appearance`/`spectrum` so native and web paint identically and golden tests
-can pin frames. Sketch (authoritative shape lands with GUI-003 as serde
-types + golden files over replayed lessons):
+can pin frames. The serde types in `scene.rs` are authoritative; the shape
+(pinned by `the_scene_shape_is_pinned`):
 
 ```json
 {
   "scene": 1,
   "vessels": [{
-    "id": 1, "kind": "beaker",
-    "boundary": "open|sealed|regulated|swept",
-    "liquid": { "volume_ml": 200.0, "srgb": [0.83,0.41,0.72],
-                 "path_length_basis_cm": 4.0, "turbidity": 0.0 },
-    "solids": [{ "species": "AgCl", "moles": 0.0099, "texture": "fine",
-                  "srgb": [0.96,0.96,0.94] }],
-    "headspace": { "volume_ml": 300.0, "pressure_kpa": 101.3 },
-    "temperature_k": 298.15,
-    "effects": [{ "fx": "bubbling", "species": "CO2", "rate": 0.3 }],
-    "apparatus": [{ "kind": "hotplate", "power_w": 120.0 }],
+    "id": 0, "label": "beaker",
+    "boundary": "open|sealed|pressure_controlled|swept",
+    "liquid": { "volume_l": 0.2, "srgb": [212,105,183], "colour_word": "pink",
+                 "cloudiness": 0.0, "path_length_cm": 4.0 },
+    "solids": [{ "species": "AgCl", "name": "silver chloride",
+                  "moles": 0.0099, "srgb": [245,245,240],
+                  "colour_word": "white", "metallic": false }],
+    "bubbling": false,
+    "temperature_k": 298.15, "pressure_pa": 101325.0, "elapsed_s": 0.0,
+    "words": "The liquid is colourless and cloudy, …",
     "badges": [{ "key": "ph", "value": 7.10, "confidence": "computed" }]
   }]
 }
 ```
 
-Effects are event-derived and never fire without a computed event behind
-them. Colors are the engine's computed sRGB (Beer–Lambert over the drawn
-path length), paired with the engine's color *names* for accessibility.
+The `boundary` tag and its fields are the existing `Headspace` serde enum,
+flattened. `words` is the lv1 observation sentence — the accessibility text
+for the drawn vessel. Colors are the engine's computed sRGB (Beer–Lambert
+over `path_length_cm`), always paired with the color *word*; `metallic`
+separates a plated coating from a suspending precipitate (texture, and
+turbidity physics). Not yet in v1, arriving additively with their state:
+`effects` (event-derived — an effect never fires without a computed event
+behind it) and `apparatus`. `step`/`run_script` responses now carry `scene`,
+and `Lab::scene()` serves it standalone.
 
 ## Conformance suite (GUI-001 acceptance)
 

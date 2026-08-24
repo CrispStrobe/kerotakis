@@ -1,0 +1,64 @@
+/* Design tokens. Dark is the house look (the legacy console's palette);
+   light is derived, and the OS preference decides. Colour never carries
+   meaning alone anywhere in the app. */
+:root {
+  --bg: #14120f;
+  --panel: #1c1a16;
+  --panel-raised: #26231d;
+  --edge: #322e27;
+  --edge-strong: #6b6456;
+  --ink: #e8e2d6;
+  --dim: #948c7d;
+  --hot: #d98a4a;
+  --cool: #6fa8c7;
+  --good: #86b06a;
+  --warn: #c9a227;
+  --bad: #d2694f;
+  --cloud: #f2efe8;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f6f3ec;
+    --panel: #efeae0;
+    --panel-raised: #e5dfd2;
+    --edge: #d4ccbc;
+    --edge-strong: #8a8172;
+    --ink: #262319;
+    --dim: #6f6758;
+    --hot: #b05f1f;
+    --cool: #2f6f94;
+    --good: #4f7a33;
+    --warn: #8a6d10;
+    --bad: #a83c22;
+    --cloud: #ffffff;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font:
+    15px/1.55 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Consolas,
+    monospace;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+}

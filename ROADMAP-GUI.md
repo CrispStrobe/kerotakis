@@ -286,13 +286,22 @@ every new dependency before its first import.
   document + conformance test that both hosts must pass. The current wasm
   API is the seed.
   *Status 2026-08-24: spec half written — [PROTOCOL.md](PROTOCOL.md),
-  built on the WEB-002 worker enums. Open: the `validation/protocol/`
-  conformance corpus + CI run (checkbox waits on that evidence).*
+  built on the WEB-002 worker enums. Corpus half started:
+  `crates/kerotakis-cli/tests/protocol_conformance.rs` replays every
+  lesson and pins step/event/scene shapes (the CLI/MCP `--json` builder
+  now carries `scene`, so three surfaces share the object). Open for the
+  checkbox: the suite green in CI and run against the wasm host too.*
 - [ ] **GUI-002 — Events as structured JSON.** Expose the typed `Event`
   enum over the boundary with stable ids + params; decide engine-side vs
   client-side register rendering and the locale-pack shape.
 - [ ] **GUI-003 — Scene JSON v1.** Per-vessel render model derived from
   existing state + appearance; golden-file tests over replayed lessons.
+  *Status 2026-08-24: implemented — `kerotakis-core/src/scene.rs` (liquid
+  colour+word, solids with metallic/precipitate split, headspace, badges,
+  lv1 words), shape-pinning + behaviour tests in-module, wired into the
+  wasm `step`/`run_script` responses and `Lab::scene()`. Open for the
+  checkbox: goldens over the replayed lesson corpus (folds into GUI-001's
+  conformance suite).*
 - [ ] **GUI-004 — One-worker web engine.** Land OPT-7 (lab + IPhreeQC in a
   single module worker) behind `WorkerHost`; the current PWA runs on it
   unchanged. Measure; OPT-9 only if numbers demand.
@@ -303,6 +312,13 @@ every new dependency before its first import.
 
 - [ ] **GUI-010 — App shell.** Svelte + Vite + TS scaffold in `web/`,
   PWA/service worker carried over; the terminal view survives as "console".
+  *Status 2026-08-24: scaffold landed in `web/app/` — EngineHost client
+  layer (`RequestChannel` correlation, `WorkerHost`, engine worker over
+  the WEB-002 envelope; 6 vitest tests green), Session store, first
+  Bench/Vessel SVG painting Scene JSON v1, Feed (aria-live notebook),
+  CommandBar, RegisterDial; npm licence lint (73 packages allowlisted);
+  production build 19 KB gzip. Open for the checkbox: PWA/service-worker
+  carry-over, build-web.sh integration, and the console view.*
 - [ ] **GUI-011 — Bench canvas v1.** SVG vessels with computed color,
   precipitate layers, headspace, temperature badges; scene-JSON-driven;
   register dial wired end to end.
