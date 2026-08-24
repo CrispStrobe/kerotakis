@@ -60,7 +60,7 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 
 | `cmd` | Status | Request → `result_json` |
 |---|---|---|
-| `hello` | partial (worker + shell answer it) | `{}` → `{ protocol, can_solve, engine_loaded, … }`; still to grow (GUI-001): `engine_version`, `git_rev`, `packs: [ModelPackManifest]`, `registers`. Must be answerable before any pack loads. |
+| `hello` | done except `packs` | `{}` → `{ protocol, can_solve, engine_loaded, load_failure, aqueous_note, engine_version, git_rev, registers }`. `git_rev` is stamped by the build (`KEROTAKIS_GIT_REV`; null in unstamped dev builds). Still to grow: `packs: [ModelPackManifest]` when pack loading lands. Must be answerable before any pack loads. |
 | `step` | done | `{ operator_json }` → `{ events, rendered, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `scene` the render model (one round trip repaints the bench). |
 | `run_script` | done | `{ script }` → `{ steps: [{operator, events, rendered}], scene, bench }`. |
 | `parse` | done (GUI-005, 9a9c744) | `{ line }` → `{ ok, operator?, error? }`. Validate-only, never executes. Powers the command bar's live validation; `span` remains a candidate additive field. |

@@ -21,6 +21,7 @@ type Lab = {
   runScript(text: string): string;
   parse(line: string): string;
   grammar(): string;
+  meta(): string;
   relations(): string;
   calc(name: string, argsJson: string): string;
   setRegister(level: string): void;
@@ -116,6 +117,13 @@ onmessage = async (ev: MessageEvent) => {
   // Everything else waits for the engine load to settle first.
   if (initPromise) await initPromise;
   if (cmd === "hello") {
+    // Engine identity rides along once the engine exists (GUI-001).
+    let meta: Record<string, unknown> = {};
+    try {
+      meta = lab ? (JSON.parse(lab.meta()) as Record<string, unknown>) : {};
+    } catch {
+      // An engine without meta() is an older build; hello stays honest.
+    }
     done(
       id,
       JSON.stringify({
@@ -124,6 +132,7 @@ onmessage = async (ev: MessageEvent) => {
         engine_loaded: lab !== null,
         load_failure: loadFailure,
         aqueous_note: aqueousNote,
+        ...meta,
       }),
     );
     return;

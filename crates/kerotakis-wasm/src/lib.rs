@@ -115,6 +115,18 @@ impl Lab {
         self.aqueous.can_solve()
     }
 
+    /// Engine identity for `hello` (GUI-001): version, build revision,
+    /// and the registers this engine renders at. The hosts merge this
+    /// into their hello answer so a client can pin what it talked to.
+    pub fn meta(&self) -> String {
+        serde_json::json!({
+            "engine_version": env!("CARGO_PKG_VERSION"),
+            "git_rev": option_env!("KEROTAKIS_GIT_REV"),
+            "registers": ["lv1", "lv2", "lv3"],
+        })
+        .to_string()
+    }
+
     /// Run the five release-one chemistry scenarios through this bench's
     /// aqueous path. With a hook this is live IPhreeqc; without one it is an
     /// exact replay from the shipped cache, and any missing state is reported

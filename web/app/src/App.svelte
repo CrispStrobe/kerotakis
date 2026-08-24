@@ -296,7 +296,11 @@
       {/each}
     </select>
   {/if}
-  <span class="status" class:live={session.canSolve}>
+  <span
+    class="status"
+    class:live={session.canSolve}
+    title={session.engineIdentity ? `engine ${session.engineIdentity}` : undefined}
+  >
     {session.engineReady ? (session.canSolve ? "live" : "shipped results") : "starting…"}
   </span>
   <button class="tool" onclick={() => (tableOpen = true)} title="the periodic table, wired to the shelf">

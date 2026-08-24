@@ -94,6 +94,9 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             "protocol": PROTOCOL,
             "can_solve": lab.can_solve,
             "engine_loaded": true,
+            "engine_version": env!("CARGO_PKG_VERSION"),
+            "git_rev": option_env!("KEROTAKIS_GIT_REV"),
+            "registers": ["lv1", "lv2", "lv3"],
         })
         .to_string()),
         "step" => {

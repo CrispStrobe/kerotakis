@@ -121,6 +121,9 @@ export interface EngineHost {
     engine_loaded?: boolean;
     load_failure?: string | null;
     aqueous_note?: string | null;
+    engine_version?: string;
+    git_rev?: string | null;
+    registers?: string[];
   }>;
   step(operatorJson: string): Promise<StepResult>;
   runScript(script: string): Promise<ScriptResult>;
