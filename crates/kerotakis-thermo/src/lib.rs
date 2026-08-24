@@ -30,6 +30,7 @@
 //! the answer.
 
 pub mod eos;
+pub mod excess;
 pub mod fluid;
 pub mod lle;
 pub mod phase_diagram;

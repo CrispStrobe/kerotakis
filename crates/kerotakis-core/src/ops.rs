@@ -473,6 +473,14 @@ pub enum Event {
         /// left with it when the stopcock opened).
         fraction_lower: f64,
     },
+    /// Heat of mixing crossed the observability line: composition
+    /// change released (positive) or absorbed (negative) this much
+    /// heat, from the state-function difference of UNIFAC-derived
+    /// excess enthalpy over the verified-pair allowlist.
+    HeatOfMixing {
+        vessel: VesselId,
+        joules: f64,
+    },
     /// A radionuclide tracer entered the vessel's nuclide ledger.
     NuclideSpiked {
         vessel: VesselId,

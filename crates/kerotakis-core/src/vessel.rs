@@ -604,6 +604,10 @@ pub struct Vessel {
     /// inert at tracer scale — the stated v1 boundary.
     #[serde(default)]
     pub nuclides: crate::nuclide::NuclideLedger,
+    /// EXP-44: the vessel's last-known total excess enthalpy (J), the
+    /// state-function anchor for incremental heat-of-mixing.
+    #[serde(default)]
+    pub excess_enthalpy_j: f64,
     pub id: VesselId,
     pub label: String,
     pub contents: Vec<Portion>,
@@ -655,6 +659,7 @@ impl Vessel {
         Vessel {
             elapsed_seconds: 0.0,
             nuclides: Default::default(),
+            excess_enthalpy_j: 0.0,
             id,
             label: label.into(),
             contents: Vec::new(),

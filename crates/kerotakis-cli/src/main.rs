@@ -46,6 +46,7 @@ fn build_stack() -> SolverStack {
         Box::new(MixingEquilibrator),
         Box::new(CuratedEquilibrator),
         Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
+        Box::new(kerotakis_core::hmix::MixingEnthalpyEquilibrator),
         Box::new(kerotakis_cea::ThermalEquilibrator),
     ];
     match kerotakis_phreeqc::PhreeqcEquilibrator::new() {

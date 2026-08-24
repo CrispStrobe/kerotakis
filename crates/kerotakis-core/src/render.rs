@@ -314,6 +314,23 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 extent.0
             ),
         },
+        Event::HeatOfMixing { vessel, joules } => match register.level() {
+            1 => {
+                if *joules > 0.0 {
+                    format!("As the liquids mingle in {vessel}, the glass grows a little warm.")
+                } else {
+                    format!("As the liquids mingle in {vessel}, the glass grows a little cool.")
+                }
+            }
+            2 => format!(
+                "{vessel}: heat of mixing {} {:.1} J",
+                if *joules > 0.0 { "released" } else { "absorbed" },
+                joules.abs()
+            ),
+            _ => format!(
+                "{vessel}: q_mix = {joules:+.3} J from ΔHᴱ (UNIFAC Gibbs–Helmholtz, verified-pair allowlist; state-function bookkeeping, so the pour path cannot change the answer). Boundary: VLE-fitted parameters make hᴱ magnitude-class, and unverified pairs are withheld, not guessed"
+            ),
+        },
         Event::NuclideSpiked { vessel, nuclide, moles, activity_bq } => match register.level() {
             1 => format!("A tiny radioactive sample of {nuclide} goes into {vessel} — the counter near it starts clicking."),
             2 => format!(

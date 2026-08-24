@@ -28,6 +28,7 @@ pub mod delta;
 pub mod displacement;
 pub mod electrochemistry;
 pub mod exact_stoich;
+pub mod hmix;
 pub mod indicator;
 pub mod instrument;
 pub mod intern;

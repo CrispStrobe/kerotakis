@@ -70,6 +70,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "vessel_swept",
     "nuclide_spiked",
     "decayed",
+    "heat_of_mixing",
 ];
 
 use kerotakis_core::{Phase, Register};
@@ -936,6 +937,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Partitioned { species, .. } => ("partitioned", Some(species.0.as_str())),
         E::Chromatographed { .. } => ("chromatographed", None),
         E::OrgReacted { name, .. } => ("org_reacted", Some(name.as_str())),
+        E::HeatOfMixing { .. } => ("heat_of_mixing", None),
         E::NuclideSpiked { nuclide, .. } => ("nuclide_spiked", Some(nuclide.as_str())),
         E::Decayed { parent, .. } => ("decayed", Some(parent.as_str())),
         E::DissolvedInSolvent { species, .. } => ("dissolved_in_solvent", Some(species.0.as_str())),
