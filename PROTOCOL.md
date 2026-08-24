@@ -60,13 +60,13 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 
 | `cmd` | Status | Request → `result_json` |
 |---|---|---|
-| `hello` | **gap (GUI-001)** | `{}` → `{ protocol, engine_version, git_rev, can_solve, packs: [ModelPackManifest], registers: ["lv1","lv2","lv3"] }`. Must be answerable before any pack loads. |
-| `step` | existing | `{ operator_json }` → `{ events, rendered, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register. GUI-002 adds `scene` (below) to this response so one round trip repaints the bench. |
-| `run_script` | existing | `{ script }` → `{ steps: [{operator, events, rendered}], bench }`; grows `scene` per step (GUI-002). |
-| `parse` | **gap (GUI-005)** | `{ line }` → `{ ok, operator?, error?, span? }`. Validate-only, never executes. Powers live input validation, drag-legality preview, and command-bar completion diagnostics. |
+| `hello` | partial (worker + shell answer it) | `{}` → `{ protocol, can_solve, engine_loaded, … }`; still to grow (GUI-001): `engine_version`, `git_rev`, `packs: [ModelPackManifest]`, `registers`. Must be answerable before any pack loads. |
+| `step` | done | `{ operator_json }` → `{ events, rendered, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `scene` the render model (one round trip repaints the bench). |
+| `run_script` | done | `{ script }` → `{ steps: [{operator, events, rendered}], scene, bench }`. |
+| `parse` | done (GUI-005, 9a9c744) | `{ line }` → `{ ok, operator?, error? }`. Validate-only, never executes. Powers the command bar's live validation; `span` remains a candidate additive field. |
 | `set_register` | existing | `{ level }` → `{}`. Presentation only; never re-solves. |
 | `state` | existing | `{}` → `{ vessels, steps }` (full serde `Vessel`s — the lv3/machine contract). |
-| `scene` | **gap (GUI-003)** | `{}` → Scene JSON v1 (below). The render model; everything a bench canvas needs, nothing it must derive. |
+| `scene` | done (GUI-003) | `{}` → Scene JSON v1 (below). The render model; everything a bench canvas needs, nothing it must derive. |
 | `species` | existing (`Lab::species`, not yet a WorkerCommand) | `{}` → shelf list: key, name, formula, phase, appearance, provenance. |
 | `look` / `inspect` / `particles` | existing (`Lab` methods, not yet WorkerCommands) | `{ vessel }` → observation / `{rendered, vessel}` / `{census, rendered}`. |
 | `reset` | existing | `{}` → `{}`. Bench only; session (register, packs, cache) survives. |
