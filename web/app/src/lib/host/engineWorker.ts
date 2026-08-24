@@ -1,20 +1,26 @@
 /**
  * The engine worker: kerotakis-wasm behind the WEB-002 envelope.
  *
- * This is the seed of GUI-004's one-worker engine. Today it loads the bench
- * wasm and the pre-warmed results; attaching the Emscripten IPhreeQC module
- * *in this same worker* (replacing the main-thread wiring in the legacy
- * web/kerotakis.mjs) is the consolidation step — the synchronous solver
- * hook then never crosses to the UI thread.
+ * This is GUI-004's one-worker engine, client half: the bench wasm AND the
+ * Emscripten IPhreeQC module load together in this worker, wired by the
+ * same PhreeqcPool the legacy console page uses (one bridge, one source of
+ * truth — web/kerotakis.mjs). The solver hook stays synchronous inside the
+ * worker; only the UI messaging is asynchronous, which is exactly the
+ * split ROADMAP-Webapp.md's delivery section calls for.
  *
  * Honesty rule: with no engine loaded, every chemistry command answers
- * with an error naming the missing piece — never a canned result.
+ * with an error naming the missing piece — never a canned result. With
+ * the bench loaded but no aqueous module, the bench itself says which
+ * answers come from shipped results (`canSolve`).
  */
+
+import { PhreeqcPool } from "../../../../kerotakis.mjs";
 
 type Lab = {
   step(operatorJson: string): string;
   runScript(text: string): string;
   setRegister(level: string): void;
+  setSolver(hook: (dbTag: string, input: string) => string): void;
   scene(): string;
   state(): string;
   species(): string;
@@ -27,6 +33,8 @@ type Lab = {
 
 let lab: Lab | null = null;
 let loadFailure: string | null = null;
+/** Why the live aqueous engine is absent, when it is. */
+let aqueousNote: string | null = null;
 
 const PROTOCOL = 1;
 
@@ -39,18 +47,35 @@ function fail(id: number, message: string, kind = "internal") {
 }
 
 async function init(engineBase: string) {
+  // The host sends an absolute URL (resolved against the page); the
+  // self.location fallback only serves direct-worker test setups.
+  const base = new URL(engineBase, self.location.href);
   try {
-    const mod = await import(/* @vite-ignore */ new URL("kerotakis_wasm.js", engineBase).href);
+    const mod = await import(/* @vite-ignore */ new URL("kerotakis_wasm.js", base).href);
     await mod.default();
     lab = new mod.Lab() as Lab;
-    try {
-      const res = await fetch(new URL("results.postcard", engineBase).href);
-      if (res.ok) lab.loadResults(new Uint8Array(await res.arrayBuffer()));
-    } catch {
-      // Pre-warmed results are an accelerant, not a requirement.
-    }
   } catch (e) {
     loadFailure = e instanceof Error ? e.message : String(e);
+    return;
+  }
+  try {
+    const res = await fetch(new URL("results.postcard", base).href);
+    if (res.ok) lab.loadResults(new Uint8Array(await res.arrayBuffer()));
+  } catch {
+    // Pre-warmed results are an accelerant, not a requirement.
+  }
+  // Attach the live aqueous engine in this same worker (GUI-004/OPT-7).
+  try {
+    const iph = await import(/* @vite-ignore */ new URL("iphreeqc.mjs", base).href);
+    const pool = await PhreeqcPool.create(iph.default, async (file: string) => {
+      const res = await fetch(new URL(`db/${file}`, base).href);
+      if (!res.ok) throw new Error(`fetching ${file}: HTTP ${res.status}`);
+      return res.text();
+    });
+    lab.setSolver((dbTag: string, input: string) => pool.solve(dbTag, input));
+  } catch (e) {
+    // Honest degradation: the bench runs from shipped results and says so.
+    aqueousNote = e instanceof Error ? e.message : String(e);
   }
 }
 
@@ -72,6 +97,7 @@ onmessage = async (ev: MessageEvent) => {
         can_solve: lab?.canSolve() ?? false,
         engine_loaded: lab !== null,
         load_failure: loadFailure,
+        aqueous_note: aqueousNote,
       }),
     );
     return;

@@ -13,7 +13,16 @@ npm run dev       # dev server — needs the engine, see below
 npm run build     # static files in dist/
 ```
 
-## Getting the engine
+## Deploy layout
+
+`tools/build-web.sh` builds everything: engine payload at the output
+root (console page's layout, unchanged), this app under `app/` with
+`VITE_ENGINE_BASE=../` so both share one engine payload. The worker
+attaches IPhreeqc in-worker (GUI-004) when `iphreeqc.mjs` is present
+beside the bench wasm, and honestly degrades to shipped results when
+it is not.
+
+## Getting the engine (dev server)
 
 The worker loads the wasm-bindgen output from `public/engine/`:
 

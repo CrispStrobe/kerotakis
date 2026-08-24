@@ -26,13 +26,23 @@ export class WorkerHost implements EngineHost {
   /**
    * `port` is injectable for tests; production passes the real Worker.
    * The first request initializes the engine inside the worker.
+   *
+   * The engine base is resolved against the PAGE URL here, not inside the
+   * worker — the worker's own URL lives under the bundler's assets/ dir,
+   * so resolving a relative base there points at the wrong place.
    */
   constructor(
     private port: MessagePortLike & { terminate?: () => void },
     options: WorkerHostOptions = {},
   ) {
     this.channel = new RequestChannel(port);
-    void this.channel.request("init", { engine_base: options.engineBase ?? "./engine/" });
+    const base =
+      options.engineBase ??
+      (import.meta.env?.VITE_ENGINE_BASE as string | undefined) ??
+      "./engine/";
+    const resolved =
+      typeof document !== "undefined" ? new URL(base, document.baseURI).href : base;
+    void this.channel.request("init", { engine_base: resolved });
   }
 
   static create(options: WorkerHostOptions = {}): WorkerHost {

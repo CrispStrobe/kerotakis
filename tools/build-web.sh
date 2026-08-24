@@ -52,6 +52,22 @@ else
     echo "== no emcc: the page will run from shipped results only"
 fi
 
+# The bench app (web/app, GUI-010): built when node is available, served
+# under app/ beside the console page. Its engine base points one level up,
+# where this script already put the wasm modules and databases — the app
+# and the console share one engine payload.
+if command -v npm >/dev/null 2>&1; then
+    echo "== the bench app (web/app)"
+    (cd "$ROOT/web/app" \
+        && npm ci --no-audit --no-fund >/dev/null \
+        && node tools/licence-lint.mjs \
+        && npx vitest run --silent >/dev/null \
+        && VITE_ENGINE_BASE="../" npm run build >/dev/null)
+    cp -r "$ROOT/web/app/dist" "$OUT/app"
+else
+    echo "== no npm: skipping the bench app; the console page still works"
+fi
+
 # Pages serves what it is given; without this it would try to run the
 # output through Jekyll and drop the underscore-prefixed files.
 touch "$OUT/.nojekyll"

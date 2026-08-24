@@ -13,4 +13,11 @@ export default defineConfig({
   worker: {
     format: "es",
   },
+  server: {
+    fs: {
+      // The worker imports the shared two-wasm bridge from web/ (one
+      // source of truth with the legacy console page).
+      allow: [".."],
+    },
+  },
 });
