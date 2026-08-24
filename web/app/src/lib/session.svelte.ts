@@ -79,6 +79,8 @@ export class Session {
   lesson = $state<{ lesson: Lesson; cursor: number; kit: string[] } | null>(null);
   /** The registry, for the shelf. */
   shelf = $state<ShelfItem[]>([]);
+  /** Curated reaction names the `react` verb accepts (from the grammar). */
+  reactOptions = $state<string[]>([]);
   /** Vessel the user last selected (0-based id), target of shelf adds. */
   selected = $state<number>(0);
   /** Open inspector content, if any. */
@@ -142,6 +144,15 @@ export class Session {
         flame: s.flame ?? null,
         appearance: s.appearance ?? null,
       }));
+      try {
+        const grammar = (await this.host.grammar()) as {
+          verb: string;
+          options?: string[];
+        }[];
+        this.reactOptions = grammar.find((g) => g.verb === "react")?.options ?? [];
+      } catch {
+        // An older host without grammar still runs; the picker just hides.
+      }
     } catch (e) {
       this.feed.push({
         kind: "error",

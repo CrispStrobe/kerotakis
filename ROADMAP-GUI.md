@@ -453,12 +453,18 @@ been ignoring all of it:
 - [ ] **GUI-053 — The concept map.** The codex concept graph as the map
   screen the UX section promised: at lv1 a skill tree, at lv3 the DAG;
   entries light up as their concepts are met in the learner's own log.
-- [ ] **GUI-054 — The experiment catalog.** Every codex entry as a
-  one-tap experiment: `setup` pre-populates the bench (its apparatus list
-  driving GUI-033's palette), `expect` becomes engine-marked checking,
-  registers supply the prose — 103 catalogued experiments on day one
-  without writing a lesson, and every new codex entry is a new catalog
-  item for free.
+- [ ] **GUI-054 — The experiment page.** Every codex entry as a one-tap
+  experiment rendered in the shape the national school-lab platforms
+  proved on millions of students — one experiment, tabbed:
+  **Theory** (the entry's register prose, concepts and models, at the
+  dial's level), **Procedure** (setup narrated + apparatus list docking
+  GUI-033's palette + the kit), **Bench** (the live simulator — where we
+  beat that genre: computed, not scripted), and **Check** (the `expect`
+  predictions as engine-marked viva questions, usable before, during and
+  after). 103 catalogued experiments on day one without writing a
+  lesson; every new codex entry is a new page for free. The guided
+  what-do-I-do-next instruction panel those platforms center on is our
+  LessonBar, extended with the entry's own narration.
 - [ ] **GUI-055 — The curriculum browser.** Placements (per-system stages
   with citations) as a teacher-facing index: pick a curriculum stage, see
   the entries and concepts that serve it, launch them.
@@ -467,6 +473,18 @@ been ignoring all of it:
   German systems, apparatus vocabulary kept in lockstep with GUI-033, and
   registry growth (CAP-21's pack-generated registry is the mechanism)
   toward the reagent breadth the genre's benches offer.
+
+### The visual bar (2026-08-24 addendum)
+
+The national school-lab platforms set the visual/UX bar the user holds
+us to: illustrated 2-D benches with believable drawn glassware on a
+bench surface, guided next-step instruction, zoomed insets for
+readings, and the tabbed experiment page above. Our structural answer
+is GUI-054; the ART answer is a polish pass on the canvas — a drawn
+bench surface and stand, glass with highlights and shadow, meniscus
+curves, reading insets (zoom on the badge tap) — tracked as the
+GUI-033/026 finishing pass. The physics stays ours; the drawing must
+stop looking like wireframes.
 
 ### What the virtual-lab genre teaches (survey 2026-08-24, contenders
 deliberately unnamed here)

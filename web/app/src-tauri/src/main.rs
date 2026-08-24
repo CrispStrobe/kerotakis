@@ -140,7 +140,17 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
         "grammar" => {
             let list: Vec<Value> = kerotakis_core::script::VERBS
                 .iter()
-                .map(|(verb, example)| json!({ "verb": verb, "example": example }))
+                .map(|(verb, example)| {
+                    if *verb == "react" {
+                        let names: Vec<&str> = kerotakis_core::curated::ORG_REACTIONS
+                            .iter()
+                            .map(|r| r.name)
+                            .collect();
+                        json!({ "verb": verb, "example": example, "options": names })
+                    } else {
+                        json!({ "verb": verb, "example": example })
+                    }
+                })
                 .collect();
             Ok(Value::Array(list).to_string())
         }

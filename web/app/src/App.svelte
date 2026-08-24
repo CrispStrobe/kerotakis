@@ -12,6 +12,8 @@
   import Timeline from "./lib/components/Timeline.svelte";
   import LessonBar from "./lib/components/LessonBar.svelte";
   import Burette from "./lib/components/Burette.svelte";
+  import ReactPicker from "./lib/components/ReactPicker.svelte";
+  import TransportBuilder from "./lib/components/TransportBuilder.svelte";
   import ApparatusForm from "./lib/components/ApparatusForm.svelte";
   import { APPARATUS } from "./lib/apparatus";
   import { defaultAmount } from "./lib/amounts";
@@ -231,6 +233,10 @@
     {#each APPARATUS as s (s.verb)}
       <option value={s.verb}>{s.title}</option>
     {/each}
+    {#if session.reactOptions.length > 0}
+      <option value="react">curated reaction</option>
+    {/if}
+    <option value="transport">column train</option>
   </select>
   {#each TWO_VESSEL_TOOLS as tool (tool.verb)}
     <button
@@ -319,6 +325,22 @@
     />
   </nav>
   <div class="bench-pane">
+    {#if apparatusOut === "react"}
+      <ReactPicker
+        vessel={session.selected}
+        options={session.reactOptions}
+        busy={session.busy}
+        onrun={(line) => void session.submit(line)}
+        onclose={() => (apparatusOut = null)}
+      />
+    {:else if apparatusOut === "transport"}
+      <TransportBuilder
+        vessels={session.scene?.vessels ?? []}
+        busy={session.busy}
+        onrun={(line) => void session.submit(line)}
+        onclose={() => (apparatusOut = null)}
+      />
+    {/if}
     {#if apparatusSpec}
       {#key apparatusSpec.verb}
         <ApparatusForm
