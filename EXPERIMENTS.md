@@ -90,13 +90,13 @@ on what the learner actually does. Design:
 
 # Part 2: the aqueous virtual-lab problem collection (audit 2026-08-24)
 
-A second corpus, user-supplied: ~40 problems from a public NSF-funded
-university virtual-lab collection, spanning stoichiometry through
-analytical chemistry. **License boundary first:** that collection is
-CC BY-NC-ND — its problem texts and scenarios must never be copied or
-adapted into this repo. What is audited here is the *capability
-class* of each problem; our own problems get written against those
-classes from scratch.
+A second corpus: ~40 classic quantitative-chemistry teaching
+problems, spanning stoichiometry through analytical chemistry.
+**Rule first:** no external problem texts, scenarios, or data are
+ever copied or adapted into this repo, from anywhere. What is audited
+here is the *capability class* of each problem; our own problems get
+written against those classes from scratch. The source does not
+matter and is deliberately not named.
 
 This corpus sits closer to the engine's core than Part 1: it is
 almost entirely aqueous quantitative chemistry. Several of its
@@ -175,3 +175,128 @@ can honestly grow into.
   As-series rows, mixture-density correlations, graduated cylinder.
 - HARDER models (Fable): association-K solver, custom-acid route,
   speciation-colour coupling.
+
+---
+
+# Part 3: the task registry (EXP numbers are stable identifiers)
+
+The audits above become work here. Rules restated because they are
+load-bearing: **ideas, concepts, and task-classes only — never any external
+collection's texts, scenarios, or data**; every problem
+we ship is written from scratch against the capability class. EXP
+numbers are never re-bound (same law as CAP/OPT). Every task follows
+the established discipline: registry pipeline for new species (safety
+rows, exporter, golden regen, SMILES where molecular), full preflight
+for main, claim-audit statuses with acceptance evidence.
+
+## Infrastructure
+
+- **EXP-0 — Quest engine** (Fable; everything below depends on it).
+  Schema (TOML beside the codex, linted), event-claim matcher,
+  **value claims** (target ± tolerance read from solved state:
+  concentration, mass, volume, temperature, pH), **sealed unknowns**
+  (UI-side aliasing "Unknown A" over a truthfully-computed species;
+  chemistry untouched), `kero quest list/start/status`, nudge rules
+  (fire once, never block, never the only path), any-order
+  completion. Acceptance: one quest file exercising every feature;
+  two distinct completion orders proven in tests; a sealed unknown
+  identified only via measurements; preflight green.
+
+## Part-1 experiments (school kit; German titles are the map key)
+
+- **EXP-1 Magnet** — magnetic property + `magnet` separation verb +
+  recycling quest. Acceptance: mixed Fe/Cu/Al solids separate; the
+  non-magnetic remainder is stated; conservation exact.
+- **EXP-2 Backpulver** — curated thermal decomposition
+  2 NaHCO3 →Δ Na2CO3 + H2O + CO2↑ (threshold ~50–100 °C stated with
+  source); quest links the fizz route and the heat route as two paths
+  to the same gas. Acceptance: heating dry NaHCO3 evolves CO2 into a
+  sealed headspace; limewater from the existing lesson detects it.
+- **EXP-3 Treibhausgase** — per-gas IR-absorbance data + lamp
+  heating-rate model on `Irradiate`; quest compares CO2 vs air vs
+  water-vapour bottles. Acceptance: computed warming curves differ by
+  gas with sources; `kero study` sweeps concentration.
+- **EXP-4 Wasserfilter** — dirt species (suspended solid, appearance)
+  + multi-stage filter quest. Acceptance: turbidity falls stage by
+  stage; dissolved salt passes and the quest says why.
+- **EXP-5 Fleckenteufel** — dye species + curated hypochlorite
+  bleaching; quest compares oxidant vs oxidant-free wash. Acceptance:
+  dye colour is bleached only with NaOCl; the colour-safe wash keeps
+  it; three registers say the mechanism.
+- **EXP-6 Photovoltaik** — codex model-boundary note ONLY (declined
+  as computation); GUI decides on a labelled data widget.
+- **EXP-7 Dämmung** — per-vessel U-value Newton cooling; quest
+  compares insulated vs bare cooling curves via the chart contract.
+  Acceptance: cooling curves computed, U stated with provenance.
+- **EXP-8 Filzstift-Chromatografie** — ink-dye species with partition
+  data; quest separates a black ink. Acceptance: ≥3 dyes resolve on
+  the landed column; areas conserve; GUI paper-strip is GUI-side.
+- **EXP-9 Fotosynthese** — glucose species + curated photo-reaction
+  (chlorophyll-gated) on photochem flux. Acceptance: O2 accumulates
+  in headspace under light, not in dark; stoichiometry exact.
+- **EXP-10 Seife** — fat/oil species + emulsification demo on γ∞
+  partitioning; quest chains on-bench saponification into washing.
+  Acceptance: fat partitions with soap present, not without.
+- **EXP-11 Schall** — codex model-boundary note ONLY (declined).
+- **EXP-12 Plastik** — PE/PP/PET/PS density species; float/sink
+  separation quest in water/brine. Acceptance: the four sort by
+  density exactly as their data say; provenance per polymer.
+- **EXP-13 Vitamin C** — ascorbic acid species + curated iodine
+  decolorisation + starch indicator. Acceptance: titration-style
+  counting of drops to endpoint works; juice-vs-water contrast.
+- **EXP-14 Amylase** — amylase/starch/maltose species + curated
+  enzymatic hydrolysis + Lugol assay. Acceptance: starch negative
+  after enzyme+time+warmth, positive without; the sweetness line at
+  lv1 is the maltose the ledger shows.
+- **EXP-15 Boden** — clay/sand/silt column materials with retention
+  parameters on the landed CellChain. Acceptance: percolation-time
+  and retention orderings match the curated data; three-column
+  comparison quest.
+- **EXP-16 Sprudel** — quest authoring on existing CO2/limewater
+  chemistry. Acceptance: the quest completes via at least two paths
+  (warming the bottle vs shaking-analogue vs acid+carbonate).
+
+## Part-2 capability classes (our own problems, written from scratch)
+
+- **EXP-17 Solution-prep quest pack** — dilution ladders, stock from
+  solids, target-molarity value-claims. Needs: EXP-0 only.
+- **EXP-18 Density identification** — graduated-cylinder/displacement
+  instrument + sealed-unknown metal and liquid quests. Needs: EXP-0.
+- **EXP-19 Mixture-density data** — curated ethanol-water (then
+  sucrose-water) density correlations with sources; unlocks
+  concentration-from-density quests.
+- **EXP-20 Limiting-reagent pack** — precipitation and gas routes,
+  predict-then-check quests with value claims.
+- **EXP-21 Thermochemistry pack** — reaction enthalpy, Hess
+  three-path demonstration, mixing-temperature and unknown-heat-
+  capacity quests. The engine side is DONE (tested invariants);
+  this is authoring.
+- **EXP-22 Acid-base pack** — pH ladder by successive dilution, weak
+  acid problems, buffer design to a target ratio, titration-to-pKa
+  with the curve read at half-equivalence.
+- **EXP-23 Standardisation class** — potassium hydrogen phthalate (or
+  an equivalent primary-standard acid) added from primary data; the
+  custom-weak-acid route into the engine; 4-significant-figure
+  discipline via burette precision. HARDER.
+- **EXP-24 Solubility pack** — Ksp determination, solubility-vs-T
+  with predict-then-test at a third temperature (value claim).
+- **EXP-25 Redox-ordering quest** — design-your-own-experiment over
+  the landed displacement chemistry; completion = correct ordering
+  of Cu/Mg/Zn/Pb by any valid route.
+- **EXP-26 Gravimetric pack** — precipitate, filter, dry, weigh;
+  sealed-unknown AgNO3 concentration by mass. Needs: EXP-0.
+- **EXP-27 Association-K solver** — curated 1:1 binding equilibrium
+  (solver + one binding quest); reusable for indicators. HARDER.
+- **EXP-28 Speciation-colour coupling** — solution colour computed
+  from speciation (cobalt chloride class); appearance machinery
+  exists, the coupling is the task. HARDER.
+- **EXP-29 Water-quality analytical scenario** — arsenic-series
+  species on the shipped wateq4f chemistry; our own scenario, our
+  own wells, value-claim detection thresholds.
+
+## Sequencing
+EXP-0 first (Fable). Then NOW-tier authoring (EXP-16, 4, 21, 25, 26,
+17) can fan out to agents in parallel with the NEAR data tranches
+(EXP-12, 5, 13, 14, 2, 1, 19); HARDER models (EXP-3, 7, 9, 15, 23,
+27, 28) one per branch after their data lands. The GUI workline reads
+this file for its affordance list.
