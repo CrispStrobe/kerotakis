@@ -666,8 +666,29 @@ nothing).
 
 ## CAP-13 — Adopt the official InChI library (MIT since 1.07.1)
 
-- [ ] Status: open — `vendor/inchi/` currently holds a README scaffold
-      only; the task starts when sources with checksums land
+- [x] Status: **done 2026-08-24** (Fable), with one scoping deviation
+      stated: the official sources are vendored *inside the
+      checksummed `inchi-sys` 0.1.4 crate* (IUPAC InChI v1.07.5
+      bundled, MIT, statically linked, no network at build) rather
+      than as a git submodule — the Cargo.lock checksum is the pin,
+      and a submodule would duplicate the same tree. The
+      `native-inchi` feature now actually compiles (its previous call
+      site named a function that did not exist — the feature had
+      never been built): SMILES → chematic molecule → V2000 molfile →
+      official library → standard InChIKey
+      (`native_inchikey_from_smiles`). The identity contract:
+      `CURATED_STRUCTURES` pins a SMILES for 23 registry species, and
+      `tests/native_identity.rs` recomputes each key and requires it
+      to equal the registry's `canonical_key` — all 23 matched on
+      first run, and the check is a preflight step ("inchi
+      identity"), so a curation bug now fails the gate. `kero
+      species` marks verified identities with ✓ and names the
+      library version. Cross-validation semantics corrected:
+      chematic's canonical key is a different algorithm, so
+      chematic-vs-native Mismatch is expected and documented, not
+      asserted away. Remaining (not claimed): the Emscripten/wasm
+      InChI build, and growing the tranche to species without simple
+      SMILES (minerals, enzymes, aromatic dyes).
 
 **Why.** The IUPAC InChI reference implementation was relicensed to
 plain MIT with v1.07.1 (2024-08) and lives on GitHub, and upstream

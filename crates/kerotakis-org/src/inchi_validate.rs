@@ -5,6 +5,39 @@
 //! The inchi crate wraps the official IUPAC C library (MIT since v1.07.1).
 //! This module compares both outputs and flags any disagreement.
 
+/// The curated structure claims (CAP-13): registry species with a
+/// hand-pinned SMILES. Each one is recomputed by the official IUPAC
+/// InChI library in the gate (`tests/native_identity.rs`) and must
+/// reproduce the registry's `canonical_key` exactly. Species without a
+/// molecular structure identity (minerals by formula unit, enzymes,
+/// aromatic dyes awaiting kekulisation care) join as their SMILES are
+/// curated.
+pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
+    ("water", "O"),
+    ("ethanol", "CCO"),
+    ("methanol", "CO"),
+    ("propanone", "CC(C)=O"),
+    ("hexane", "CCCCCC"),
+    ("ethyl_acetate", "CCOC(C)=O"),
+    ("CH3COOH", "CC(=O)O"),
+    ("CH3COO-", "CC(=O)[O-]"),
+    ("NaOAc", "[Na+].CC(=O)[O-]"),
+    ("CO2", "O=C=O"),
+    ("NH3", "N"),
+    ("H2O2", "OO"),
+    ("HCl", "Cl"),
+    ("H2SO4", "OS(=O)(=O)O"),
+    ("H3PO4", "OP(=O)(O)O"),
+    ("NaCl", "[Na+].[Cl-]"),
+    ("NaOH", "[Na+].[OH-]"),
+    ("KCl", "[K+].[Cl-]"),
+    ("O2", "O=O"),
+    ("H2", "[H][H]"),
+    ("N2", "N#N"),
+    ("Cl2", "ClCl"),
+    ("SO2", "O=S=O"),
+];
+
 /// Result of cross-validating one species' InChIKey.
 #[derive(Debug, Clone, serde::Serialize)]
 pub struct InchiValidation {
@@ -29,6 +62,22 @@ pub enum MatchStatus {
     BothFailed,
 }
 
+/// Standard InChIKey from the official IUPAC library: SMILES parsed by
+/// chematic, written as a V2000 molfile, handed to the reference
+/// implementation. This is the identity authority; chematic's own key
+/// is a canonical key of a different algorithm and is expected to
+/// differ (adopting the official key everywhere is the rest of
+/// CAP-13).
+#[cfg(feature = "native-inchi")]
+pub fn native_inchikey_from_smiles(smiles: &str) -> Result<String, crate::OrgError> {
+    let mol = chematic::smiles::parse(smiles)
+        .map_err(|e| crate::OrgError::InchiFailed(format!("SMILES parse: {e}")))?;
+    let molfile = chematic::mol::write_mol(&mol, &chematic::mol::MolMetadata::default());
+    let out = inchi::from_molfile(&molfile, ())
+        .map_err(|e| crate::OrgError::InchiFailed(format!("official InChI: {e}")))?;
+    inchi::inchikey(out.inchi()).map_err(|e| crate::OrgError::InchiFailed(format!("InChIKey: {e}")))
+}
+
 /// Cross-validate a SMILES string against both InChI implementations.
 pub fn validate_smiles(species_key: &str, smiles: &str) -> InchiValidation {
     // Pure-Rust path (chematic)
@@ -45,11 +94,7 @@ pub fn validate_smiles(species_key: &str, smiles: &str) -> InchiValidation {
     };
 
     #[cfg(feature = "native-inchi")]
-    let native_key = {
-        inchi::inchi_from_smiles(smiles)
-            .ok()
-            .map(|result| result.inchikey)
-    };
+    let native_key = native_inchikey_from_smiles(smiles).ok();
 
     #[cfg(not(feature = "native-inchi"))]
     let native_key: Option<String> = None;
@@ -104,9 +149,11 @@ mod tests {
             result.chematic_inchikey.is_some(),
             "chematic should produce InChIKey for water"
         );
-        // Without native-inchi feature, status is Partial (chematic only)
-        // With native-inchi, status should be Match
-        assert_ne!(result.match_status, MatchStatus::Mismatch);
+        // Without native-inchi the status is Partial (chematic only).
+        // With native-inchi it is Mismatch, and that is *correct*:
+        // chematic's canonical key is not the standard InChIKey. The
+        // standard-identity contract lives in tests/native_identity.rs.
+        assert_ne!(result.match_status, MatchStatus::BothFailed);
     }
 
     #[test]
@@ -114,15 +161,18 @@ mod tests {
         let results = validate_registry();
         assert!(results.len() >= 10, "should validate at least 10 species");
 
-        let mismatches: Vec<_> = results
-            .iter()
-            .filter(|r| r.match_status == MatchStatus::Mismatch)
-            .collect();
+        // chematic's canonical key is not the standard InChIKey, so with
+        // the official library attached a Mismatch is the *expected*
+        // status — the standard-identity contract lives in
+        // tests/native_identity.rs, where the official key must equal
+        // the registry's curated canonical_key. Here we only require
+        // that every species yields a chematic key at all.
         assert!(
-            mismatches.is_empty(),
-            "InChI mismatch for: {:?}",
-            mismatches
+            results.iter().all(|r| r.chematic_inchikey.is_some()),
+            "chematic failed to produce a key for: {:?}",
+            results
                 .iter()
+                .filter(|r| r.chematic_inchikey.is_none())
                 .map(|r| &r.species_key)
                 .collect::<Vec<_>>()
         );
