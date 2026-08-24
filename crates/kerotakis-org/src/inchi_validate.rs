@@ -13,29 +13,80 @@
 /// aromatic dyes awaiting kekulisation care) join as their SMILES are
 /// curated.
 pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
+    // --- small molecules & gases ---
     ("water", "O"),
+    ("H2O2", "OO"),
+    ("CO2", "O=C=O"),
+    ("SO2", "O=S=O"),
+    ("NH3", "N"),
+    ("NH2Cl", "ClN"),
+    ("O2", "O=O"),
+    ("H2", "[H][H]"),
+    ("N2", "N#N"),
+    ("Cl2", "ClCl"),
+    // --- acids ---
+    ("HCl", "Cl"),
+    ("H2SO4", "OS(=O)(=O)O"),
+    ("H3PO4", "OP(=O)(O)O"),
+    ("CH3COOH", "CC(=O)O"),
+    // --- bases ---
+    ("NaOH", "[Na+].[OH-]"),
+    ("Ca(OH)2", "O[Ca]O"),
+    // --- organic solvents ---
     ("ethanol", "CCO"),
     ("methanol", "CO"),
     ("propanone", "CC(C)=O"),
     ("hexane", "CCCCCC"),
     ("ethyl_acetate", "CCOC(C)=O"),
-    ("CH3COOH", "CC(=O)O"),
+    // --- monatomic ions ---
+    ("Na+", "[Na+]"),
+    ("K+", "[K+]"),
+    ("Cl-", "[Cl-]"),
+    ("Ca+2", "[Ca+2]"),
+    ("Mg+2", "[Mg+2]"),
+    ("Sr+2", "[Sr+2]"),
+    ("Ag+", "[Ag+]"),
+    ("Cu+2", "[Cu+2]"),
+    ("Cu+1", "[Cu+1]"),
+    ("Fe+2", "[Fe+2]"),
+    ("Fe+3", "[Fe+3]"),
+    ("Zn+2", "[Zn+2]"),
+    ("Mn+2", "[Mn+2]"),
+    // --- polyatomic ions ---
     ("CH3COO-", "CC(=O)[O-]"),
-    ("NaOAc", "[Na+].CC(=O)[O-]"),
-    ("CO2", "O=C=O"),
-    ("NH3", "N"),
-    ("H2O2", "OO"),
-    ("HCl", "Cl"),
-    ("H2SO4", "OS(=O)(=O)O"),
-    ("H3PO4", "OP(=O)(O)O"),
+    ("NO3-", "[O-][N+](=O)[O-]"),
+    ("SO4-2", "[O-]S(=O)(=O)[O-]"),
+    ("HCO3-", "OC([O-])=O"),
+    ("H2PO4-", "OP(=O)(O)[O-]"),
+    // --- metals ---
+    ("Cu", "[Cu]"),
+    ("Zn", "[Zn]"),
+    ("Ag", "[Ag]"),
+    ("Fe", "[Fe]"),
+    // --- binary compounds & oxides ---
     ("NaCl", "[Na+].[Cl-]"),
-    ("NaOH", "[Na+].[OH-]"),
     ("KCl", "[K+].[Cl-]"),
-    ("O2", "O=O"),
-    ("H2", "[H][H]"),
-    ("N2", "N#N"),
-    ("Cl2", "ClCl"),
-    ("SO2", "O=S=O"),
+    ("AgCl", "[Ag+].[Cl-]"),
+    ("CaO", "[Ca]=O"),
+    ("MgO", "[Mg]=O"),
+    ("CuO", "[Cu]=O"),
+    ("MnO2", "O=[Mn]=O"),
+    // --- salts ---
+    ("NaOAc", "[Na+].CC(=O)[O-]"),
+    ("NaOCl", "[Na+].[O-]Cl"),
+    ("NaHCO3", "[Na+].OC([O-])=O"),
+    ("Na2CO3", "[Na+].[Na+].[O-]C([O-])=O"),
+    ("Na2SO3", "[Na+].[Na+].[O-]S([O-])=O"),
+    ("Na2S2O3", "[Na+].[Na+].[O-]S(=O)(=O)[S-]"),
+    ("AgNO3", "[Ag+].[O-][N+](=O)[O-]"),
+    ("CaCl2", "[Ca+2].[Cl-].[Cl-]"),
+    ("CaCO3", "[Ca+2].[O-]C([O-])=O"),
+    ("MgSO4", "[Mg+2].[O-]S(=O)(=O)[O-]"),
+    ("gypsum", "[Ca+2].[O-]S(=O)(=O)[O-].O.O"),
+    ("CuSO4", "[Cu+2].[O-]S(=O)(=O)[O-]"),
+    ("KMnO4", "[K+].[O-][Mn](=O)(=O)=O"),
+    ("FeSO4", "[Fe+2].[O-]S(=O)(=O)[O-]"),
+    ("ZnSO4", "[Zn+2].[O-]S(=O)(=O)[O-]"),
 ];
 
 /// Result of cross-validating one species' InChIKey.
@@ -116,23 +167,9 @@ pub fn validate_smiles(species_key: &str, smiles: &str) -> InchiValidation {
     }
 }
 
-/// Validate all registry species that have SMILES representations.
+/// Validate all curated registry species.
 pub fn validate_registry() -> Vec<InchiValidation> {
-    // Known SMILES for registry species (a subset for cross-validation)
-    let test_cases = [
-        ("water", "O"),
-        ("ethanol", "CCO"),
-        ("NaCl", "[Na+].[Cl-]"),
-        ("CH3COOH", "CC(=O)O"),
-        ("CO2", "O=C=O"),
-        ("NH3", "N"),
-        ("H2SO4", "OS(=O)(=O)O"),
-        ("NaOH", "[Na+].[OH-]"),
-        ("HCl", "Cl"),
-        ("CaCO3", "[Ca+2].[O-]C([O-])=O"),
-    ];
-
-    test_cases
+    CURATED_STRUCTURES
         .iter()
         .map(|(key, smiles)| validate_smiles(key, smiles))
         .collect()
@@ -159,7 +196,7 @@ mod tests {
     #[test]
     fn registry_cross_validation_runs() {
         let results = validate_registry();
-        assert!(results.len() >= 10, "should validate at least 10 species");
+        assert!(results.len() >= 65, "should validate all curated species");
 
         // chematic's canonical key is not the standard InChIKey, so with
         // the official library attached a Mismatch is the *expected*

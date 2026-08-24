@@ -696,6 +696,50 @@ nothing).
       asserted away. Remaining (not claimed): the Emscripten/wasm
       InChI build, and growing the tranche to species without simple
       SMILES (minerals, enzymes, aromatic dyes).
+- [ ] Tranche growth: **23 → 65** (2026-08-24, Opus). Added 42 species:
+      monatomic ions (Na+ K+ Cl- Ca+2 Mg+2 Sr+2 Ag+ Cu+2 Cu+1 Fe+2
+      Fe+3 Zn+2 Mn+2), polyatomic ions (NO3- SO4-2 HCO3- H2PO4-),
+      metals (Cu Zn Ag Fe), oxides (CaO MgO CuO MnO2), hydroxide
+      Ca(OH)2, salts (AgCl NaOCl NaHCO3 Na2CO3 Na2SO3 Na2S2O3 AgNO3
+      CaCl2 CaCO3 MgSO4 gypsum CuSO4 KMnO4 FeSO4 ZnSO4), and
+      chloramine NH2Cl. All 65 InChIKeys recompute and match via
+      the official IUPAC library.
+      **Deferred species** (11, all chematic `write_mol` limitations —
+      SMILES parse succeeds, molfile is generated, but the molfile
+      encodes the wrong structure for the official InChI library):
+      - **Mg** `[Mg]`: `write_mol` adds 2 implicit H → InChI sees
+        `Mg.2H` (InChI=1S/Mg.2H) instead of bare Mg.
+      - **Pb** `[Pb]`: same — `write_mol` adds 2 implicit H → `Pb.2H`.
+      - **C** `[C]`: `write_mol` adds 4 implicit H → InChI sees CH₄
+        (methane), not elemental carbon.
+      - **S** `[S]`: `write_mol` adds 2 implicit H → InChI sees H₂S,
+        not elemental sulfur.
+      - **Cu(OH)2** `O[Cu]O`: `write_mol` outputs disconnected
+        `Cu.2H₂O` with charge q+2/p-2 instead of connected copper
+        dihydroxide; all ionic variants (`[Cu+2].[OH-].[OH-]`) produce
+        the same wrong key.
+      - **MnO4-** `[O-][Mn](=O)(=O)=O`: `write_mol` outputs
+        disconnected `Mn.4O` losing Mn–O bond connectivity and charge;
+        InChI sees `InChI=1S/Mn.4O/q;;;;-1`.
+      - **Pb+2** `[Pb+2]`: `write_mol` preserves charge but the InChI
+        connectivity hash differs from the registry key (InChI=1S/Pb/q+2
+        produces RVPVRDXYQKGNMQ, registry expects XMOCLSLCDHWDHP).
+      - **Pb(NO3)2** `[Pb+2].[O-][N+](=O)[O-]…`: connectivity hash
+        matches (RLJMLMKIBZAXJO) but InChI charge layer differs (N vs L)
+        — `write_mol` loses the net -2 proton balance across fragments.
+      - **phenolphthalein**: `write_mol` outputs the open (acid) form;
+        InChI encodes different connectivity than the closed lactone the
+        registry expects (KMBTWMWDXLZUHH vs KJFMBFZCATUALV).
+      - **methyl_orange**: azo-bond and Na⁺ fragment handling in
+        `write_mol` produces wrong connectivity (STZCRXQWRGQSJD vs
+        BSKHPKMHTQYZBB).
+      - **bromothymol_blue**: sulfonphthalein ring system connectivity
+        differs (MEEJMWWOAOVJHW vs FBSFWRHWHYMIOG).
+      Fix scope: all 11 are chematic `mol::write_mol` bugs, not InChI
+      or registry issues. Fixes belong upstream in chematic-mol. The 4
+      implicit-H cases are one fix (bracket-atom H-count in V2000
+      writer); the 3 aromatics are kekulisation; the rest are individual
+      connectivity/charge bugs.
 
 **Why.** The IUPAC InChI reference implementation was relicensed to
 plain MIT with v1.07.1 (2024-08) and lives on GitHub, and upstream
