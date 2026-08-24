@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ParticleCensus } from "../host/EngineHost";
   import ParticleView from "./ParticleView.svelte";
+  import InstrumentTray from "./InstrumentTray.svelte";
 
   let {
     vessel,
@@ -42,6 +43,7 @@
     <button onclick={onclose} aria-label="close inspector">×</button>
   </header>
   {#if onaction}
+    <InstrumentTray {vessel} {busy} onmeasure={onaction} />
     <div class="actions" role="group" aria-label={`act on ${v}`}>
       {#each actions as a (a.label)}
         <button disabled={busy} onclick={() => onaction(a.line)}>{a.label}</button>
