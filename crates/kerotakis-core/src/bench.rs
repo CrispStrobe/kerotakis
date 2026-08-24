@@ -95,6 +95,21 @@ impl Bench {
             Operator::Ignite { vessel } => self.vessel(*vessel)?.temperature,
             _ => Kelvin::STANDARD,
         };
+        // Snapshot source vessels before apply for MIX routing.
+        let mix_sources = match &op {
+            Operator::Mix {
+                a,
+                b,
+                into,
+                fraction_a,
+                fraction_b,
+            } => {
+                let snap_a = self.vessel(*a)?.clone();
+                let snap_b = self.vessel(*b)?.clone();
+                Some((*into, snap_a, *fraction_a, snap_b, *fraction_b))
+            }
+            _ => None,
+        };
         let mut events = self.apply(&op, screen)?;
         // Waiting advances the whole bench, so every vessel is re-settled.
         let touched: Vec<VesselId> = match &op {
@@ -109,6 +124,23 @@ impl Bench {
         for id in touched.iter().copied() {
             let vessel = self.vessel_mut(id)?;
             vessel.solution = None;
+            // For MIX, try native solver mixing on the target vessel.
+            if let Some((mix_into, ref snap_a, frac_a, ref snap_b, frac_b)) = mix_sources {
+                if id == mix_into {
+                    if let Some(result) = solver.mix(vessel, snap_a, frac_a, snap_b, frac_b) {
+                        match result {
+                            Ok(mut more) => {
+                                events.append(&mut more);
+                                vessel.refresh_pressure();
+                                continue;
+                            }
+                            Err(_) => {
+                                // MIX failed; fall through to normal equilibrate.
+                            }
+                        }
+                    }
+                }
+            }
             if solver.applies(vessel) {
                 match solver.equilibrate(vessel) {
                     Ok(mut more) => events.append(&mut more),
@@ -513,6 +545,133 @@ impl Bench {
                     from: *from,
                     to: *to,
                     fraction: *fraction,
+                });
+            }
+            Operator::Mix {
+                a,
+                b,
+                into,
+                fraction_a,
+                fraction_b,
+            } => {
+                if !(0.0..=1.0).contains(fraction_a) || !(0.0..=1.0).contains(fraction_b) {
+                    return Err(BenchError::BadFraction);
+                }
+                if a == into || b == into {
+                    return Err(BenchError::SelfTransfer);
+                }
+                if a == b {
+                    return Err(BenchError::SelfTransfer);
+                }
+                // Gather what would move from each source.
+                let (move_a, t_a) = {
+                    let src = self.vessel(*a)?;
+                    let moved: Vec<_> = src
+                        .contents
+                        .iter()
+                        .filter(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))
+                        .filter_map(|p| {
+                            let n = Moles(p.moles.0 * fraction_a);
+                            (n.0 > 0.0).then(|| (p.species.clone(), n, p.phase))
+                        })
+                        .collect();
+                    (moved, src.temperature)
+                };
+                let (move_b, t_b) = {
+                    let src = self.vessel(*b)?;
+                    let moved: Vec<_> = src
+                        .contents
+                        .iter()
+                        .filter(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous))
+                        .filter_map(|p| {
+                            let n = Moles(p.moles.0 * fraction_b);
+                            (n.0 > 0.0).then(|| (p.species.clone(), n, p.phase))
+                        })
+                        .collect();
+                    (moved, src.temperature)
+                };
+
+                // L0 on the prospective target state.
+                let mut probe = self.vessel(*into)?.clone();
+                for (s, n, phase) in move_a.iter().chain(move_b.iter()) {
+                    probe.deposit(s.clone(), *n, *phase);
+                }
+                match screen.assess(&probe) {
+                    SafetyVerdict::Allow => {}
+                    SafetyVerdict::Warn {
+                        severity,
+                        hazard,
+                        real_world,
+                    } => events.push(Event::HazardWarning {
+                        severity,
+                        hazard,
+                        real_world,
+                    }),
+                    SafetyVerdict::Veto { reason } => {
+                        events.push(Event::SafetyVeto { reason });
+                        return Ok(events);
+                    }
+                }
+
+                // Withdraw fractions from sources.
+                {
+                    let src_a = self.vessel_mut(*a)?;
+                    for p in src_a.contents.iter_mut() {
+                        if matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
+                            p.moles = Moles(p.moles.0 * (1.0 - fraction_a));
+                        }
+                    }
+                    src_a.contents.retain(|p| p.moles.0 > 1e-15);
+                    src_a.solution = None;
+                }
+                {
+                    let src_b = self.vessel_mut(*b)?;
+                    for p in src_b.contents.iter_mut() {
+                        if matches!(p.phase, Phase::Liquid | Phase::Aqueous) {
+                            p.moles = Moles(p.moles.0 * (1.0 - fraction_b));
+                        }
+                    }
+                    src_b.contents.retain(|p| p.moles.0 > 1e-15);
+                    src_b.solution = None;
+                }
+
+                // Deposit into target with adiabatic energy balance.
+                let cp_a: f64 = move_a
+                    .iter()
+                    .filter_map(|(s, n, _)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
+                    .sum();
+                let cp_b: f64 = move_b
+                    .iter()
+                    .filter_map(|(s, n, _)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
+                    .sum();
+                let dst = self.vessel_mut(*into)?;
+                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
+                    // Three-body adiabatic mix: vessel + stream_a + stream_b.
+                    let cp_dst = dst.heat_capacity();
+                    let total_cp = cp_dst + cp_a + cp_b;
+                    if total_cp > 0.0 {
+                        let t_new = Kelvin(
+                            (cp_dst * dst.temperature.0 + cp_a * t_a.0 + cp_b * t_b.0) / total_cp,
+                        );
+                        if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
+                            events.push(Event::TemperatureChanged {
+                                vessel: *into,
+                                from: dst.temperature,
+                                to: t_new,
+                            });
+                        }
+                        dst.temperature = t_new;
+                    }
+                }
+                for (s, n, phase) in move_a.into_iter().chain(move_b) {
+                    dst.deposit(s, n, phase);
+                }
+                events.push(Event::Mixed {
+                    a: *a,
+                    b: *b,
+                    into: *into,
+                    fraction_a: *fraction_a,
+                    fraction_b: *fraction_b,
                 });
             }
             Operator::Filter { from, to } => {
@@ -1655,6 +1814,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::Filter { from, to }
         | Operator::Distil { from, to, .. }
         | Operator::Drain { from, to } => vec![*from, *to],
+        Operator::Mix { a, b, into, .. } => vec![*a, *b, *into],
         Operator::Grind { vessel, .. }
         | Operator::Irradiate { vessel, .. }
         | Operator::Dilute { vessel, .. }
