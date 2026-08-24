@@ -939,11 +939,12 @@
     },
     {
       "id": "exp/Al",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 2.70 g/cm3",
       "licence": "LicenseRef-Kerotakis-Curated",
       "lane": "experiment_data",
       "origin": "EXPERIMENTS.md EXP-1",
-      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 2.70 g/cm3",
-      "revision": "2026-08-24"
+      "revision": "2026-08-24",
+      "retrieved": null
     }
   ],
   "identities": [
@@ -26052,7 +26053,7 @@
       "spectrum": [
         {
           "wavelength": {
-            "value": 405,
+            "value": 405.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26102,7 +26103,7 @@
         },
         {
           "wavelength": {
-            "value": 425,
+            "value": 425.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26152,7 +26153,7 @@
         },
         {
           "wavelength": {
-            "value": 445,
+            "value": 445.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26202,7 +26203,7 @@
         },
         {
           "wavelength": {
-            "value": 465,
+            "value": 465.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26252,7 +26253,7 @@
         },
         {
           "wavelength": {
-            "value": 485,
+            "value": 485.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26302,7 +26303,7 @@
         },
         {
           "wavelength": {
-            "value": 505,
+            "value": 505.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26352,7 +26353,7 @@
         },
         {
           "wavelength": {
-            "value": 525,
+            "value": 525.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26402,7 +26403,7 @@
         },
         {
           "wavelength": {
-            "value": 545,
+            "value": 545.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26452,7 +26453,7 @@
         },
         {
           "wavelength": {
-            "value": 565,
+            "value": 565.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26502,7 +26503,7 @@
         },
         {
           "wavelength": {
-            "value": 585,
+            "value": 585.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26552,7 +26553,7 @@
         },
         {
           "wavelength": {
-            "value": 605,
+            "value": 605.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26602,7 +26603,7 @@
         },
         {
           "wavelength": {
-            "value": 625,
+            "value": 625.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26652,7 +26653,7 @@
         },
         {
           "wavelength": {
-            "value": 645,
+            "value": 645.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26702,7 +26703,7 @@
         },
         {
           "wavelength": {
-            "value": 665,
+            "value": 665.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26752,7 +26753,7 @@
         },
         {
           "wavelength": {
-            "value": 685,
+            "value": 685.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26802,7 +26803,7 @@
         },
         {
           "wavelength": {
-            "value": 705,
+            "value": 705.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26869,7 +26870,7 @@
       "spectrum": [
         {
           "wavelength": {
-            "value": 405,
+            "value": 405.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26919,7 +26920,7 @@
         },
         {
           "wavelength": {
-            "value": 425,
+            "value": 425.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26969,7 +26970,7 @@
         },
         {
           "wavelength": {
-            "value": 445,
+            "value": 445.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27019,7 +27020,7 @@
         },
         {
           "wavelength": {
-            "value": 465,
+            "value": 465.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27069,7 +27070,7 @@
         },
         {
           "wavelength": {
-            "value": 485,
+            "value": 485.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27093,7 +27094,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 7443.4405780136985,
+            "value": 7443.440578013699,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27119,7 +27120,7 @@
         },
         {
           "wavelength": {
-            "value": 505,
+            "value": 505.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27169,7 +27170,7 @@
         },
         {
           "wavelength": {
-            "value": 525,
+            "value": 525.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27193,7 +27194,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 212.62560767100422,
+            "value": 212.62560767100425,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27219,7 +27220,7 @@
         },
         {
           "wavelength": {
-            "value": 545,
+            "value": 545.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27269,7 +27270,7 @@
         },
         {
           "wavelength": {
-            "value": 565,
+            "value": 565.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27293,7 +27294,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 1.0265458012436295,
+            "value": 1.0265458012436297,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27319,7 +27320,7 @@
         },
         {
           "wavelength": {
-            "value": 585,
+            "value": 585.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27369,7 +27370,7 @@
         },
         {
           "wavelength": {
-            "value": 605,
+            "value": 605.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27419,7 +27420,7 @@
         },
         {
           "wavelength": {
-            "value": 625,
+            "value": 625.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27443,7 +27444,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 1.2284972899117371e-05,
+            "value": 0.000012284972899117373,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27469,7 +27470,7 @@
         },
         {
           "wavelength": {
-            "value": 645,
+            "value": 645.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27493,7 +27494,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 1.1552251110027431e-07,
+            "value": 1.155225e-7,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27519,7 +27520,7 @@
         },
         {
           "wavelength": {
-            "value": 665,
+            "value": 665.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27543,7 +27544,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 6.965291052001797e-10,
+            "value": 6.965291052001796e-10,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27569,7 +27570,7 @@
         },
         {
           "wavelength": {
-            "value": 685,
+            "value": 685.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27619,7 +27620,7 @@
         },
         {
           "wavelength": {
-            "value": 705,
+            "value": 705.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27686,7 +27687,7 @@
       "spectrum": [
         {
           "wavelength": {
-            "value": 405,
+            "value": 405.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27736,7 +27737,7 @@
         },
         {
           "wavelength": {
-            "value": 425,
+            "value": 425.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27786,7 +27787,7 @@
         },
         {
           "wavelength": {
-            "value": 445,
+            "value": 445.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27836,7 +27837,7 @@
         },
         {
           "wavelength": {
-            "value": 465,
+            "value": 465.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27886,7 +27887,7 @@
         },
         {
           "wavelength": {
-            "value": 485,
+            "value": 485.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27936,7 +27937,7 @@
         },
         {
           "wavelength": {
-            "value": 505,
+            "value": 505.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27986,7 +27987,7 @@
         },
         {
           "wavelength": {
-            "value": 525,
+            "value": 525.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28036,7 +28037,7 @@
         },
         {
           "wavelength": {
-            "value": 545,
+            "value": 545.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28086,7 +28087,7 @@
         },
         {
           "wavelength": {
-            "value": 565,
+            "value": 565.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28136,7 +28137,7 @@
         },
         {
           "wavelength": {
-            "value": 585,
+            "value": 585.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28186,7 +28187,7 @@
         },
         {
           "wavelength": {
-            "value": 605,
+            "value": 605.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28236,7 +28237,7 @@
         },
         {
           "wavelength": {
-            "value": 625,
+            "value": 625.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28286,7 +28287,7 @@
         },
         {
           "wavelength": {
-            "value": 645,
+            "value": 645.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28310,7 +28311,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 13638.815023806963,
+            "value": 13638.815023806965,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -28336,7 +28337,7 @@
         },
         {
           "wavelength": {
-            "value": 665,
+            "value": 665.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28360,7 +28361,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 7771.1625502472825,
+            "value": 7771.162550247283,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -28386,7 +28387,7 @@
         },
         {
           "wavelength": {
-            "value": 685,
+            "value": 685.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28436,7 +28437,7 @@
         },
         {
           "wavelength": {
-            "value": 705,
+            "value": 705.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
