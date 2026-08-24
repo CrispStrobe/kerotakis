@@ -1,0 +1,45 @@
+# EXP-12: sort plastics by density — float/sink in water and brine.
+# Two orders: water first then brine, or brine first then water.
+id = "plastic-doctors"
+
+[title]
+lv1 = "The plastic doctors"
+lv2 = "Sorting plastics by density"
+lv3 = "Density-driven phase separation: PE/PP/PET/PS in water vs. brine"
+
+[goal]
+lv1 = "Four types of plastic — which ones float and which ones sink? Water alone will not sort them all; you might need something heavier."
+lv2 = "Add PE, PP, PET, and PS to water and observe which float. Then try brine (NaCl solution) — its higher density changes the result."
+lv3 = "The engine computes float/sink from species density vs. solution density. PE (0.95) and PP (0.90) float in water (1.00); PET (1.38) and PS (1.05) sink. In saturated brine (~1.20 g/mL), PS also floats — only PET remains at the bottom. Two distinct density separations."
+
+[[nudges]]
+id = "some-float"
+when = "added:PS"
+[nudges.say]
+lv1 = "Four plastics in the water — some float, some sink. Can you tell which is which just by looking?"
+lv2 = "PE and PP float (density < 1.00); PET and PS sink (density > 1.00). To separate PS from PET, you need a liquid denser than PS but lighter than PET."
+lv3 = "Float/sink is computed from ρ_species vs. ρ_solution. Water at 1.00 g/mL separates the PE/PP group (< 1.00) from PS/PET (> 1.00). NaCl solution at ~1.20 g/mL lifts PS (1.05) while PET (1.38) stays down."
+
+[[nudges]]
+id = "tried-brine"
+when = "added:NaCl"
+[nudges.say]
+lv1 = "Salt water is heavier than plain water — does that change which plastics float?"
+lv2 = "Brine density increases with NaCl concentration. Above ~1.05 g/mL, PS should float too, leaving only PET at the bottom."
+lv3 = "The computed solution density rises with dissolved NaCl mass fraction. At sufficient concentration ρ_brine > ρ_PS = 1.05 g/mL, the PS solid becomes buoyant. PET at 1.38 g/mL remains a precipitate."
+
+[[claims]]
+id = "water-test"
+matches = "observed"
+[claims.title]
+lv1 = "Look at plastics in plain water"
+lv2 = "Observe which plastics float and sink in water"
+lv3 = "Observed event on a vessel containing polymers in water"
+
+[[claims]]
+id = "brine-test"
+matches = "observed"
+[claims.title]
+lv1 = "Look at plastics in salt water"
+lv2 = "Observe which plastics float and sink in brine"
+lv3 = "Observed event on a vessel containing polymers in NaCl solution"
