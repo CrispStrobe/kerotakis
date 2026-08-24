@@ -242,6 +242,18 @@ impl Lab {
         .to_string())
     }
 
+    /// Validate a single line without executing it.
+    ///
+    /// Returns `{ ok, operator?, error? }` — the same grammar `runScript`
+    /// parses, but the bench is never touched.
+    pub fn parse(&self, line: &str) -> String {
+        match kerotakis_core::script::parse_op(line) {
+            Ok(None) => serde_json::json!({ "ok": true }).to_string(),
+            Ok(Some(op)) => serde_json::json!({ "ok": true, "operator": op }).to_string(),
+            Err(e) => serde_json::json!({ "ok": false, "error": e }).to_string(),
+        }
+    }
+
     /// The bench state as JSON.
     pub fn state(&self) -> String {
         serde_json::json!({ "vessels": self.bench.vessels, "steps": self.bench.log.len() })
