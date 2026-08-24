@@ -96,6 +96,11 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("HI", "I"),
     // --- EXP-14: amylase/starch hydrolysis ---
     ("maltose", "OCC1OC(OC2C(O)C(O)C(O)OC2CO)C(O)C(O)C1O"),
+    // --- EXP-43: iodine-clock kinetics ---
+    ("KI", "[K+].[I-]"),
+    ("KIO3", "[K+].[O-][I](=O)=O"),
+    ("NaHSO3", "[Na+].OS([O-])=O"),
+    ("NaHSO4", "[Na+].OS(=O)(=O)[O-]"),
 ];
 
 /// Result of cross-validating one species' InChIKey.

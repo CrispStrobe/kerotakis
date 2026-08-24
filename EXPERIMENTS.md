@@ -443,6 +443,9 @@ only the genuinely new remainder.
   and temperature sweeps via `kero study`. Acceptance: clock time
   scales with concentration and temperature as the rate law says;
   the sweep reproduces the classic linearisation.
+  **DONE** (2026-08-24): two curated rate laws (iodide–peroxide,
+  iodate–bisulfite Landolt), 4 new registry species, safety rows,
+  SMILES, 12 tests all green.
 - **EXP-44 — Excess enthalpy of mixing** — the
   acetone–chloroform-class negative deviation: h^E from the
   temperature dependence of UNIFAC activity coefficients

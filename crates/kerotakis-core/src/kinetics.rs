@@ -635,6 +635,147 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
         source_ids: &["kerotakis:kinetics:peroxide-decomposition"],
         provenance: "Uncatalysed decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); catalysed barriers cited per catalyst. Editorial judgement (Kerotakis): the pre-exponential is chosen so the uncatalysed half-life is about a day and the catalysed reaction is watchable, not measured. Absolute rates are therefore indicative — the amount and surface area of a solid catalyst are not modelled at all, so it is the comparison between catalysts that carries meaning, not the seconds",
     },
+    // ── EXP-43: iodine-clock reactions ──────────────────────────────────
+    KineticReaction {
+        id: "iodide-peroxide-clock",
+        equation: "H₂O₂ + 2 KI → I₂ + 2 KOH",
+        stoichiometry: &[
+            StoichiometricTerm {
+                species: "H2O2",
+                coefficient: -1.0,
+                phase: Phase::Liquid,
+            },
+            StoichiometricTerm {
+                species: "KI",
+                coefficient: -2.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "I2",
+                coefficient: 1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "KOH",
+                coefficient: 2.0,
+                phase: Phase::Aqueous,
+            },
+        ],
+        locality: Locality::Bulk(Phase::Aqueous),
+        forward: RateExpression {
+            orders: &[
+                OrderTerm {
+                    species: "H2O2",
+                    phase: Some(Phase::Liquid),
+                    order: 1.0,
+                },
+                OrderTerm {
+                    species: "KI",
+                    phase: Some(Phase::Aqueous),
+                    order: 1.0,
+                },
+                OrderTerm {
+                    species: PROTON,
+                    phase: None,
+                    order: 1.0,
+                },
+            ],
+            arrhenius: RateLaw {
+                // Calibrated so 0.05 M KI + 0.05 M H2O2 at pH 1.7 and 25 °C
+                // produces visible I2 (0.001 M) in about thirty seconds.
+                pre_exponential: 4.0e9,
+                temperature_exponent: 0.0,
+                activation_energy: 56_000.0,
+            },
+        },
+        reverse: None,
+        equilibrium: None,
+        pressure_dependence: None,
+        catalysts: &[],
+        sites: &[],
+        electrons: 0.0,
+        validity: Validity {
+            temperature_k: None,
+            pressure_pa: None,
+            note: "calibrated near room temperature for aqueous school-practical conditions with acid in excess",
+        },
+        uncertainty: Uncertainty {
+            relative: None,
+            note: "absolute rate is calibrated to visible I₂ appearance; the acid dependence is read from pH",
+        },
+        source_ids: &["kerotakis:kinetics:iodide-peroxide-clock"],
+        provenance: "Orders (1,1,1) in [H₂O₂], [I⁻], [H⁺] are the standard kinetics result (Liebhafsky & Mohammad 1933; Atkins' Physical Chemistry). Ea ≈ 56 kJ/mol (physical chemistry texts, commonly 50–60 kJ/mol). Editorial judgement (Kerotakis): the pre-exponential is fixed by matching the observable clock time rather than measured",
+    },
+    KineticReaction {
+        id: "iodate-bisulfite-clock",
+        equation: "KIO₃ + 3 NaHSO₃ → KI + 3 NaHSO₄",
+        stoichiometry: &[
+            StoichiometricTerm {
+                species: "KIO3",
+                coefficient: -1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "NaHSO3",
+                coefficient: -3.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "KI",
+                coefficient: 1.0,
+                phase: Phase::Aqueous,
+            },
+            StoichiometricTerm {
+                species: "NaHSO4",
+                coefficient: 3.0,
+                phase: Phase::Aqueous,
+            },
+        ],
+        // The Landolt reaction: iodate oxidises bisulfite in the slow step.
+        // While bisulfite remains, any I₂ formed is instantly scavenged.
+        // When bisulfite is exhausted the Dushman reaction releases I₂ and
+        // starch turns blue — the "clock" endpoint. The slow step is what
+        // determines the clock time.
+        locality: Locality::Bulk(Phase::Aqueous),
+        forward: RateExpression {
+            orders: &[
+                OrderTerm {
+                    species: "KIO3",
+                    phase: Some(Phase::Aqueous),
+                    order: 1.0,
+                },
+                OrderTerm {
+                    species: "NaHSO3",
+                    phase: Some(Phase::Aqueous),
+                    order: 1.0,
+                },
+            ],
+            arrhenius: RateLaw {
+                // Calibrated so 0.02 M KIO3 + 0.06 M NaHSO3 at 25 °C
+                // reaches endpoint (bisulfite exhausted) in about 25 seconds.
+                pre_exponential: 1.8e8,
+                temperature_exponent: 0.0,
+                activation_energy: 48_000.0,
+            },
+        },
+        reverse: None,
+        equilibrium: None,
+        pressure_dependence: None,
+        catalysts: &[],
+        sites: &[],
+        electrons: 0.0,
+        validity: Validity {
+            temperature_k: None,
+            pressure_pa: None,
+            note: "calibrated near room temperature for aqueous school-practical conditions",
+        },
+        uncertainty: Uncertainty {
+            relative: None,
+            note: "absolute rate is calibrated to the Landolt clock endpoint; the simplified stoichiometry omits the Dushman I₂-release step",
+        },
+        source_ids: &["kerotakis:kinetics:iodate-bisulfite-clock"],
+        provenance: "The Landolt reaction (iodate + bisulfite). Orders (1,1) in [IO₃⁻] and [HSO₃⁻] are the simplified school treatment. Ea ≈ 48 kJ/mol (Landolt 1886; physical chemistry texts, commonly 45–55 kJ/mol). Editorial judgement (Kerotakis): the pre-exponential is fixed by matching the observable clock time rather than measured; the full Landolt mechanism has additional steps that are not modelled",
+    },
 ];
 
 /// The order key that means "the proton activity of this solution".
