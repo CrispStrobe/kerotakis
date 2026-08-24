@@ -1625,5 +1625,51 @@
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; aqueous ion — Cp and density carried by the solvent",
     "spectrum_bands": null,
     "standard_phase": "aqueous"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 250,
+      "g": 250,
+      "r": 250,
+      "strength": 0.0
+    },
+    "density": 2.257,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "NaNO3",
+    "heat_capacity": 92.9,
+    "inchikey": "VWDWKYIASSYTQR-UHFFFAOYSA-N",
+    "key": "NaNO3",
+    "molar_mass": 84.9947,
+    "name": "sodium nitrate",
+    "provenance": "CRC Handbook, 97th ed.; IUPAC standard atomic weights 2021",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 250,
+      "g": 250,
+      "r": 250,
+      "strength": 0.0
+    },
+    "density": 2.109,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": "violet",
+    "forms_only_above_k": null,
+    "formula": "KNO3",
+    "heat_capacity": 96.4,
+    "inchikey": "FGIUAXJPYTZDNR-UHFFFAOYSA-N",
+    "key": "KNO3",
+    "molar_mass": 101.1032,
+    "name": "potassium nitrate",
+    "provenance": "CRC Handbook, 97th ed.; IUPAC standard atomic weights 2021",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

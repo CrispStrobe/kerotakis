@@ -713,20 +713,38 @@
       "retrieved": null
     },
     {
-      "id": "curated/KOH",
+      "id": "legacy/KOH",
       "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook 97th ed. (64.9 J/(mol·K)); density: 2.044 g/mL (CRC); dissolution enthalpy: −57.6 kJ/mol (CRC)",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
       "lane": "build_oracle",
-      "origin": "CAP-23 rung 2",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
       "retrieved": null
     },
     {
-      "id": "curated/OH-",
+      "id": "legacy/OH-",
       "citation": "M from IUPAC/CIAAW 2021 atomic weights; aqueous ion — Cp and density carried by the solvent",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
       "lane": "build_oracle",
-      "origin": "CAP-23 rung 2",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/NaNO3",
+      "citation": "CRC Handbook, 97th ed.; IUPAC standard atomic weights 2021",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/KNO3",
+      "citation": "CRC Handbook, 97th ed.; IUPAC standard atomic weights 2021",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
       "retrieved": null
     }
@@ -1999,10 +2017,10 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "curated/KOH",
+        "source_id": "legacy/KOH",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -2015,10 +2033,42 @@
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "curated/OH-",
+        "source_id": "legacy/OH-",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "NaNO3",
+      "canonical_key": "VWDWKYIASSYTQR-UHFFFAOYSA-N",
+      "name": "sodium nitrate",
+      "identifiers": {
+        "inchikey": "VWDWKYIASSYTQR-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/NaNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "KNO3",
+      "canonical_key": "FGIUAXJPYTZDNR-UHFFFAOYSA-N",
+      "name": "potassium nitrate",
+      "identifiers": {
+        "inchikey": "FGIUAXJPYTZDNR-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/KNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
@@ -9622,6 +9672,33 @@
       "formula": "KOH",
       "elements": [
         {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/KOH",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
           "element": "K",
           "count": {
             "value": 1.0,
@@ -9641,10 +9718,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "curated/KOH",
+            "source_id": "legacy/KOH",
             "method": {
               "kind": "derived",
-              "detail": "parsed from formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
@@ -9668,37 +9745,10 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "curated/KOH",
+            "source_id": "legacy/KOH",
             "method": {
               "kind": "derived",
-              "detail": "parsed from formula"
-            }
-          }
-        },
-        {
-          "element": "H",
-          "count": {
-            "value": 1.0,
-            "unit": {
-              "symbol": "1",
-              "dimension": "dimensionless"
-            },
-            "conditions": {
-              "temperature": null,
-              "pressure": null,
-              "ph": null,
-              "ionic_strength": null,
-              "medium": null,
-              "phase": null,
-              "notes": null
-            },
-            "uncertainty": {
-              "kind": "exact"
-            },
-            "source_id": "curated/KOH",
-            "method": {
-              "kind": "derived",
-              "detail": "parsed from formula"
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -9719,19 +9769,19 @@
           "notes": null
         },
         "uncertainty": {
-          "kind": "not_reported"
+          "kind": "exact"
         },
-        "source_id": "curated/KOH",
+        "source_id": "legacy/KOH",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "curated/KOH",
+        "source_id": "legacy/KOH",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -9740,33 +9790,6 @@
       "species_id": "OH-",
       "formula": "OH-",
       "elements": [
-        {
-          "element": "O",
-          "count": {
-            "value": 1.0,
-            "unit": {
-              "symbol": "1",
-              "dimension": "dimensionless"
-            },
-            "conditions": {
-              "temperature": null,
-              "pressure": null,
-              "ph": null,
-              "ionic_strength": null,
-              "medium": null,
-              "phase": null,
-              "notes": null
-            },
-            "uncertainty": {
-              "kind": "exact"
-            },
-            "source_id": "curated/OH-",
-            "method": {
-              "kind": "derived",
-              "detail": "parsed from formula"
-            }
-          }
-        },
         {
           "element": "H",
           "count": {
@@ -9787,10 +9810,37 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "curated/OH-",
+            "source_id": "legacy/OH-",
             "method": {
               "kind": "derived",
-              "detail": "parsed from formula"
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/OH-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
             }
           }
         }
@@ -9811,19 +9861,257 @@
           "notes": null
         },
         "uncertainty": {
-          "kind": "not_reported"
+          "kind": "exact"
         },
-        "source_id": "curated/OH-",
+        "source_id": "legacy/OH-",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "curated/OH-",
+        "source_id": "legacy/OH-",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/NaNO3",
+      "species_id": "NaNO3",
+      "formula": "NaNO3",
+      "elements": [
+        {
+          "element": "N",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NaNO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Na",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NaNO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NaNO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/NaNO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/NaNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/KNO3",
+      "species_id": "KNO3",
+      "formula": "KNO3",
+      "elements": [
+        {
+          "element": "K",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/KNO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/KNO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/KNO3",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/KNO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/KNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
@@ -17352,10 +17640,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "curated/KOH",
+        "source_id": "legacy/KOH",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -17382,10 +17670,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "curated/KOH",
+        "source_id": "legacy/KOH",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -17412,10 +17700,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "curated/KOH",
+        "source_id": "legacy/KOH",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -17442,10 +17730,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "curated/KOH",
+        "source_id": "legacy/KOH",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -17472,10 +17760,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "curated/OH-",
+        "source_id": "legacy/OH-",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -17502,10 +17790,10 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "curated/OH-",
+        "source_id": "legacy/OH-",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -17532,10 +17820,190 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "curated/OH-",
+        "source_id": "legacy/OH-",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/NaNO3",
+      "species_id": "NaNO3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 84.9947,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/NaNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/NaNO3",
+      "species_id": "NaNO3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 92.9,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/NaNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/NaNO3",
+      "species_id": "NaNO3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.257,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/NaNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/KNO3",
+      "species_id": "KNO3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 101.1032,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/KNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/KNO3",
+      "species_id": "KNO3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 96.4,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/KNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/KNO3",
+      "species_id": "KNO3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.109,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/KNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
@@ -20177,10 +20645,42 @@
       "reflective_srgb": null,
       "spectrum": [],
       "evidence": {
-        "source_id": "curated/KOH",
+        "source_id": "legacy/KOH",
         "method": {
-          "kind": "curated",
-          "detail": "CAP-23 rung 2: permanganate-ethanol bookkeeping species"
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/NaNO3",
+      "species_id": "NaNO3",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": "#FAFAFA",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/NaNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/KNO3",
+      "species_id": "KNO3",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": "violet",
+      "reflective_srgb": "#FAFAFA",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/KNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }
@@ -23716,6 +24216,204 @@
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/KOH",
+      "subject": {
+        "kind": "species",
+        "id": "KOH"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/KOH",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/OH-",
+      "subject": {
+        "kind": "species",
+        "id": "OH-"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/OH-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/NaNO3",
+      "subject": {
+        "kind": "species",
+        "id": "NaNO3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/NaNO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/NaNO3",
+      "subject": {
+        "kind": "species",
+        "id": "NaNO3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/NaNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/KNO3",
+      "subject": {
+        "kind": "species",
+        "id": "KNO3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/KNO3",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/KNO3",
+      "subject": {
+        "kind": "species",
+        "id": "KNO3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/KNO3",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     }

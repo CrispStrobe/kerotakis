@@ -79,6 +79,8 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("Na2SO3", "[Na+].[Na+].[O-]S([O-])=O"),
     ("Na2S2O3", "[Na+].[Na+].[O-]S(=O)(=O)[S-]"),
     ("AgNO3", "[Ag+].[O-][N+](=O)[O-]"),
+    ("NaNO3", "[Na+].[O-][N+](=O)[O-]"),
+    ("KNO3", "[K+].[O-][N+](=O)[O-]"),
     ("CaCl2", "[Ca+2].[Cl-].[Cl-]"),
     ("CaCO3", "[Ca+2].[O-]C([O-])=O"),
     ("MgSO4", "[Mg+2].[O-]S(=O)(=O)[O-]"),
