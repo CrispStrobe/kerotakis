@@ -1260,6 +1260,16 @@ honest apology.
       Na₂CO₃ solid product, stoichiometry, element conservation,
       honesty silence, three-register rendering. No new species
       required (NaHCO₃, Na₂CO₃, CO₂, water already in registry).
+- **EXP-13 Vitamin C (iodine decolorisation):** curated reaction
+      `C₆H₈O₆ + I₂ → C₆H₆O₆ + 2 HI`. Five new registry species:
+      ascorbic_acid, I₂, dehydroascorbic_acid, HI, starch (indicator).
+      Safety: I₂ as OxidizerStrong, HI as AcidStrong,
+      ascorbic_acid as ReducingAgent, dehydroascorbic_acid + starch
+      inert. 10 tests: equation balance, fires when both present,
+      silent without vitamin C, titration endpoint (I₂ consumed
+      while vitamin C remains, persists past endpoint), product
+      stoichiometry, element conservation, juice-vs-water contrast,
+      three-register rendering. SMILES for 4 molecular species.
 
 ## Declined — off-mission, recorded so nobody re-litigates silently
 

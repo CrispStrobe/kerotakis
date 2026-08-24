@@ -93,6 +93,19 @@ pub const REACTIONS: &[CuratedReaction] = &[
         solvent: Some("ethanol"),
         min_temp_k: None,
     },
+    // ── iodine decolorisation (EXP-13: Vitamin C) ─────────────
+    // Ascorbic acid reduces molecular iodine to iodide; this is
+    // the basis of the iodometric vitamin C assay.
+    CuratedReaction {
+        equation: "C₆H₈O₆ + I₂ → C₆H₆O₆ + 2 HI",
+        reactants: &[("ascorbic_acid", 1.0), ("I2", 1.0)],
+        products: &[
+            ("dehydroascorbic_acid", 1.0, Phase::Aqueous),
+            ("HI", 2.0, Phase::Aqueous),
+        ],
+        solvent: None,
+        min_temp_k: None,
+    },
     // ── thermal decomposition (EXP-2: Backpulver) ───────────────
     // Onset ~50 °C, classroom-observable above ~80 °C (CRC Handbook
     // 97th ed.; Merck Index 15th ed.). Threshold set at 353 K.

@@ -89,6 +89,11 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("KMnO4", "[K+].[O-][Mn](=O)(=O)=O"),
     ("FeSO4", "[Fe+2].[O-]S(=O)(=O)[O-]"),
     ("ZnSO4", "[Zn+2].[O-]S(=O)(=O)[O-]"),
+    // --- EXP-13: vitamin C iodine assay ---
+    ("ascorbic_acid", "OCC(O)C1OC(=O)C(O)=C1O"),
+    ("I2", "II"),
+    ("dehydroascorbic_acid", "OCC(O)C1OC(=O)C(=O)C1=O"),
+    ("HI", "I"),
 ];
 
 /// Result of cross-validating one species' InChIKey.
