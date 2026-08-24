@@ -204,10 +204,18 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     "conductivity" => Instrument::ConductivityMeter,
                     "spectrophotometer" | "uvvis" => Instrument::Spectrophotometer,
                     "calorimeter" => Instrument::Calorimeter,
+                    "chromatograph" | "column" => Instrument::Chromatograph,
                     other => return Err(format!("unknown instrument '{other}'")),
                 },
             }
         }
+        // `chromatograph v1` — inject the solution onto the column and
+        // read the peak table. Sugar for `measure v1 chromatograph`,
+        // first-class because running a separation is a verb in any lab.
+        "chromatograph" => Operator::Measure {
+            vessel: parse_vessel(words.get(1).copied().unwrap_or("v1"))?,
+            instrument: Instrument::Chromatograph,
+        },
         // `cell v1 v2` — touch the wires of two half-cells together and
         // read the voltmeter. Nothing flows; the reading is the prediction.
         "electrolyse" | "electrolyze" => {
@@ -294,11 +302,18 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
             }
         }
         "titrate" => {
-            // titrate v1 NaOH 1mL until ph 7
-            // titrate v1 NaOH 1mL until ph 7 max 200
+            // titrate v1 NaOH 1mL until ph 7          (1 mol/L standard)
+            // titrate v1 NaOH 0.1M 1mL until ph 7 max 200
+            //
+            // The burette holds a *standard solution*, not the pure
+            // substance: `<c>M` states its concentration, defaulting to
+            // 1 mol/L — the convention every titration practical prints
+            // on the bottle. (Delivering pure titrant by volume would
+            // dose ~50× per mL for NaOH and leap the whole curve in one
+            // step, which is what this grammar replaced.)
             if words.len() < 7 {
                 return Err(
-                    "usage: titrate <vessel> <titrant> <step><mL|L> until ph <target> [max <n>]"
+                    "usage: titrate <vessel> <titrant> [<c>M] <step><mL|L> until ph <target> [max <n>]"
                         .into(),
                 );
             }
@@ -306,16 +321,30 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
             let titrant_key = words[2];
             let _ = species::lookup_key(titrant_key)
                 .ok_or_else(|| format!("unknown species '{titrant_key}' (see 'species')"))?;
-            let step = parse_volume(words[3])?;
-            if words[4] != "until" || words[5] != "ph" {
+            let (concentration, rest) = match words[3].strip_suffix(['M', 'm']) {
+                Some(c) if c.parse::<f64>().is_ok() => (c.parse::<f64>().unwrap(), &words[4..]),
+                _ => (1.0, &words[3..]),
+            };
+            if concentration <= 0.0 {
+                return Err("titrant concentration must be positive".into());
+            }
+            if rest.len() < 4 {
                 return Err(
-                    "usage: titrate <vessel> <titrant> <step> until ph <target> [max <n>]".into(),
+                    "usage: titrate <vessel> <titrant> [<c>M] <step><mL|L> until ph <target> [max <n>]"
+                        .into(),
                 );
             }
-            let target_ph: f64 = words[6]
+            let step = parse_volume(rest[0])?;
+            if rest[1] != "until" || rest[2] != "ph" {
+                return Err(
+                    "usage: titrate <vessel> <titrant> [<c>M] <step> until ph <target> [max <n>]"
+                        .into(),
+                );
+            }
+            let target_ph: f64 = rest[3]
                 .parse()
-                .map_err(|_| format!("bad pH target '{}'", words[6]))?;
-            let max_steps = match (words.get(7), words.get(8)) {
+                .map_err(|_| format!("bad pH target '{}'", rest[3]))?;
+            let max_steps = match (rest.get(4), rest.get(5)) {
                 (Some(&"max"), Some(n)) => {
                     n.parse().map_err(|_| format!("bad max step count '{n}'"))?
                 }
@@ -325,6 +354,7 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
             Operator::Titrate {
                 vessel,
                 titrant: SpeciesId::new(titrant_key),
+                concentration,
                 step,
                 target_ph,
                 max_steps,

@@ -208,7 +208,26 @@ in CI; conservation proptests extended to `distil`; preflight green.
 
 ## CAP-2 — A user-facing study runner (`kero study`)
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-24** (Fable). `kero study <lab> --vary
+      add:<v>:<species>=<from>..<to>[:steps] --collect <probe>[,…]
+      [--csv]` — one varied parameter (v1, as scoped; the two-parameter
+      grid did not fall out free and is not pretended), probes `ph`,
+      `temp`, `mass`, `titrant_volume` addressed `@vN`, NDJSON default
+      and CSV, every row carrying the varied value and provenance.
+      Rayon-parallel with one engine instance per thread; rows emitted
+      strictly in run order — `a_study_is_byte_deterministic` pins
+      byte-equality of two full runs. An ambiguous selector refuses
+      with the matching line numbers and the `line:<N>` escape hatch.
+      Acceptance met literally: the titration study over
+      `lessons/titration.lab` reproduces the codex's equivalence claim
+      — delivered base moles equal acid moles within one burette step
+      across four acid amounts (`tests/study.rs`). Finding the study
+      surfaced: the titrate verb was delivering *pure* NaOH by volume
+      (~0.053 mol/mL), leaping the whole curve in one step; the burette
+      now holds a standard solution (`titrate v1 NaOH 0.1M 1mL …`,
+      default 1 mol/L) delivering concentration × step moles plus the
+      carrier water, and the engine test walks the curve to
+      equivalence at 10 mL — CAP-12's semantics corrected in place.
 
 **Why.** The workbench class's core workflow is "run the model many
 times, varied over a parameter, and look at the result" — and it is
@@ -457,7 +476,25 @@ not errors; fuzz clean; preflight green. **Size.** Small.
 
 ## CAP-8 — Monte Carlo uncertainty over studies
 
-- [ ] Status: open
+- [x] Status: **done 2026-08-24** (Fable). `kero study … --vary
+      <sel>=normal(μ,σ)|uniform(a,b) --mc N --seed S`: samples drawn
+      by the existing seeded `statistics::Experiment` (ChaCha20), rows
+      emitted in run order as before, and a summary carrying
+      p5/p50/p95 + mean/sd per probe (NDJSON object, CSV comments).
+      Percentiles are a sort and an interpolation in `statistics.rs` —
+      one formula did not earn the `statrs` dependency the scope
+      offered, and the code says so. The flag contract refuses out
+      loud: a distribution without `--mc`, `--mc` without `--seed`
+      (the seed is spoken, never invented), `--mc` over a linear
+      range. Acceptance met: the titration-endpoint distribution
+      under a 1 % acid-amount uncertainty on a 0.1 mL burette
+      reproduces the linear-case analytic expectation — mean at
+      equivalence plus the half-step overshoot, σ carrying the input
+      1e-4 through, p95−p5 against 2·1.645σ on the step grid
+      (`tests/study_mc.rs`); same seed twice is byte-identical, a
+      different seed is not. The CAP-3 chart contract gained
+      `Series::Band` (lower/upper envelopes) rendered as a shaded
+      polygon with legend entry.
 
 **Why.** The workbench class propagates input uncertainty by sampling;
 we propagate nothing, while our provenance strings admit "good to
@@ -883,8 +920,26 @@ from the same UNIFAC (ethanol 88% with the water at 2:1 layers,
 methanol 96% — the hydrophilicity ordering emerging from group counts
 alone), a `Partitioned` event says so in three registers, ions still
 travel entirely with their water, and the engine test pins the split
-window and exact solute conservation. Remaining in this task: the
-transport / chromatograph / calorimeter / react verbs. **Acceptance.** Each verb demonstrable in a replayed lesson;
+window and exact solute conservation. The `chromatograph` verb landed
+2026-08-24 (Fable): `Instrument::Chromatograph` on the school column
+(the CAP-22 oracle's own N = 10⁴, t₀ = 60 s, β = 0.5, as
+`ChromatographyColumn::school()`), K per solute computed as
+γ∞(water)/γ∞(alkane) from the same UNIFAC the funnel partitions on —
+so column and funnel cannot disagree about hydrophobicity — and a
+`Chromatographed` event carrying the peak table (retention, width,
+area, K) in three registers. Propanone entered the registry as the
+78th species, data-only through the CAP-21 pipeline (CIAAW/CRC
+provenance; the golden diff was one added record, 77 untouched), so
+the demo separation is methanol 63 s, ethanol 68 s, propanone 115 s —
+the ketone retained by its groups alone, Rs > 1 between neighbours.
+Ions are named `outside_method`, never silently dropped (engine test);
+a settled solid was never injected and says so (core test); a
+solute-free or dry sample refuses out loud; the injection provably
+moves no ledger. Lesson: `one-thing-at-a-time.lab`. The calorimeter
+half of the remainder was already served: `Instrument::Calorimeter`,
+its grammar, and `calorimetry.lab` predate this task. Remaining in
+this task: the transport and react verbs (extract's upgrade to lle.rs
+folded into the funnel work above). **Acceptance.** Each verb demonstrable in a replayed lesson;
 `kerotakis-org` gains a dependent; preflight green. **Size.** Medium
 per verb — they are independent; take them one per branch.
 **Depends on:** nothing.

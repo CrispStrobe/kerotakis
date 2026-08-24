@@ -35,17 +35,32 @@ pub enum Series {
     Line { name: String, points: Vec<[f64; 2]> },
     /// Unconnected points.
     Scatter { name: String, points: Vec<[f64; 2]> },
+    /// A shaded uncertainty band between two envelopes sharing the
+    /// same x values: `lower` and `upper` are each (x, y) polylines.
+    /// CAP-8's artefact — the computed error bar made visible.
+    Band {
+        name: String,
+        lower: Vec<[f64; 2]>,
+        upper: Vec<[f64; 2]>,
+    },
 }
 
 impl Series {
     pub fn name(&self) -> &str {
         match self {
-            Series::Line { name, .. } | Series::Scatter { name, .. } => name,
+            Series::Line { name, .. }
+            | Series::Scatter { name, .. }
+            | Series::Band { name, .. } => name,
         }
     }
-    pub fn points(&self) -> &[[f64; 2]] {
+    /// The points that bound the series for axis scaling: both
+    /// envelopes for a band.
+    pub fn points(&self) -> Vec<[f64; 2]> {
         match self {
-            Series::Line { points, .. } | Series::Scatter { points, .. } => points,
+            Series::Line { points, .. } | Series::Scatter { points, .. } => points.clone(),
+            Series::Band { lower, upper, .. } => {
+                lower.iter().chain(upper.iter()).copied().collect()
+            }
         }
     }
 }
