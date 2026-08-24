@@ -124,3 +124,32 @@ full-report JSON strings with a narrower serialized delta or shared
 buffer. Do not start this on assumption; the roadmap's order is
 "fewer calls first, cheaper crossings only if measurement then says
 so."
+
+## OPT-8 — ccache + ninja auto-detection for vendored C/C++ builds
+
+Owner: kero1 (commits b77260f/18a0649 on kero1/opt-bench-profiles).
+build.rs for kerotakis-phreeqc and sundials-sys adds
+CMAKE_*_COMPILER_LAUNCHER=ccache and the Ninja generator ONLY when the
+tools are on PATH — a machine or CI runner without them builds exactly
+as before. The cache itself is system-wide and shared across projects:
+/etc/ccache.conf pins cache_dir=/mnt/volume1/ccache, max_size=5G; no
+CCACHE_DIR may be set in env or scripts. Acceptance: `ccache -s`
+evidence of a near-100%-hit second clean build of kerotakis-phreeqc,
+plus one configure proving the no-ccache path still builds.
+
+## OPT-10 — Hot-path clone reduction in aqueous.rs
+
+Owner: kero1 (commit 87e4608, currently numbered "OPT-3" on its branch —
+renumber to this at merge). MERGE HELD: the file is reserved and the
+change overlaps OPT-7's call-count work; keromaster reviews the diff
+against OPT-7 before it lands.
+
+## Number allocation rule (2026-08-24)
+
+A task number exists when — and only when — it has a section in THIS
+file on main. The 2026-08-23 replacement file's numbering (its OPT-7
+"redox bisection"/"solve_once", OPT-8 "one parser", OPT-9 "wasm
+boundary decide") is void; branches still carrying that variant must
+take main's file at merge and re-register any wanted tasks under fresh
+numbers (OPT-11+). Allocate here first, then commit work against the
+number.
