@@ -1172,6 +1172,36 @@ trusting. Bare dissolved ions in an organic phase (MnO4-, HCO3- typed
 straight into ethanol) remain outside every rung and keep their
 honest refusal.
 
+### Rung 1 data growth — 2026-08-24 (kero-basic)
+
+`ORGANIC_SOLUBILITY` grown from 8 to 65 rows across all four solvents
+(ethanol, hexane, propanone, ethyl_acetate). `INERT_IN_SOLVENT` grown
+from 6 to 24 entries (6 metals × 4 solvents). Every row carries a CRC
+Handbook 97th ed. source string. Coverage summary:
+
+- **Ethanol** (26 solubility + 6 inert = 32 species): all 33 registry
+  solids covered (KMnO4 deliberately excluded — reactive pair). Soluble
+  highlights: CaCl2 25.8, NaOH 13.9, NaOAc 5.3, AgNO3 2.1, MgSO4 1.2,
+  S 0.066, NaCl 0.065, KCl 0.03 g/100 mL. All others 'i'.
+- **Hexane** (23 solubility + 6 inert = 29 species): all ionic 'i';
+  sulfur slightly soluble at 0.05 g/100 mL; graphite 'i'.
+- **Propanone** (10 solubility + 6 inert = 16 species): CaCl2 33.3,
+  AgNO3 0.44 g/100 mL; NaCl, KCl, CaCO3, NaOH, MgSO4, CuSO4, S, C
+  all 'i'. Remaining solids uncovered (gypsum/propanone serves the
+  honesty test).
+- **Ethyl acetate** (6 solubility + 6 inert = 12 species): S 1.8
+  g/100 mL; NaCl, CaCO3, CuSO4, NaOH, C 'i'. Remaining solids
+  uncovered.
+
+Reactive exclusions: KMnO4/ethanol (already documented). All other
+KMnO4/solvent pairs left uncovered pending rung 2 scope review.
+
+Tests extended to 9 (was 5): CaCl2/ethanol (soluble, dissolves
+completely), Na2CO3/ethanol (insoluble, all stays solid),
+S/ethyl_acetate (soluble, dissolves completely), Zn/hexane (inert).
+Honesty test updated: gypsum/propanone (uncovered) still draws the
+honest apology.
+
 ## Declined — off-mission, recorded so nobody re-litigates silently
 
 The workbench class serves professional geochemists managing field
