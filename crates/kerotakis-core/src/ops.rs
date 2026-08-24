@@ -163,6 +163,17 @@ pub enum Operator {
         target_ph: f64,
         max_steps: u32,
     },
+    /// Mix fractions of two solved solutions into a third vessel using
+    /// PHREEQC's MIX keyword, which combines them at the thermodynamic
+    /// level rather than by raw re-dissolution. Falls back to physical
+    /// mixing when the solver cannot honour MIX semantics.
+    Mix {
+        a: VesselId,
+        b: VesselId,
+        into: VesselId,
+        fraction_a: f64,
+        fraction_b: f64,
+    },
     /// Push liquid through a 1-D chain of vessels: conservative upwind
     /// transport with an explicit Courant fraction. The inlet provides the
     /// feed composition (unchanged); the effluent collects in the receiver.
@@ -628,6 +639,14 @@ pub enum Event {
         total_volume: Liters,
         final_ph: f64,
         curve: Vec<(f64, f64)>,
+    },
+    /// Fractions of two solutions were mixed into a third vessel.
+    Mixed {
+        a: VesselId,
+        b: VesselId,
+        into: VesselId,
+        fraction_a: f64,
+        fraction_b: f64,
     },
     /// Liquid flowed through a 1-D column of vessels. The effluent —
     /// what came out the far end — was deposited into the receiver.
