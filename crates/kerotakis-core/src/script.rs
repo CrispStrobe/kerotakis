@@ -19,7 +19,31 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
     let words: Vec<&str> = line.split_whitespace().collect();
     let op = match words[0] {
         "register" | "inspect" | "explain" | "species" | "help" | "particles" | "zoom"
-        | "structure" | "identify" | "react" | "coverage" => return Ok(None),
+        | "structure" | "identify" | "coverage" => return Ok(None),
+        // `react v1 esterification` — apply a named curated organic
+        // transformation. The name is checked here so a typo fails at
+        // parse time, with the shelf listed.
+        "react" => {
+            if words.len() < 3 {
+                return Err("usage: react <vessel> <reaction> (see curated::ORG_REACTIONS)".into());
+            }
+            let vessel = parse_vessel(words[1])?;
+            let name = words[2];
+            if !crate::curated::ORG_REACTIONS.iter().any(|r| r.name == name) {
+                let known: Vec<&str> = crate::curated::ORG_REACTIONS
+                    .iter()
+                    .map(|r| r.name)
+                    .collect();
+                return Err(format!(
+                    "unknown reaction '{name}' — curated: {}",
+                    known.join(", ")
+                ));
+            }
+            Operator::React {
+                vessel,
+                reaction: name.to_string(),
+            }
+        }
         "new" => Operator::NewVessel,
         "add" => {
             if words.len() < 4 {

@@ -937,9 +937,28 @@ a settled solid was never injected and says so (core test); a
 solute-free or dry sample refuses out loud; the injection provably
 moves no ledger. Lesson: `one-thing-at-a-time.lab`. The calorimeter
 half of the remainder was already served: `Instrument::Calorimeter`,
-its grammar, and `calorimetry.lab` predate this task. Remaining in
-this task: the transport and react verbs (extract's upgrade to lle.rs
-folded into the funnel work above). **Acceptance.** Each verb demonstrable in a replayed lesson;
+its grammar, and `calorimetry.lab` predate this task. The `react` verb landed
+2026-08-24 (Fable): `react v1 esterification` applies a curated
+`OrgReaction` on command — deliberately NOT auto-fired by
+`CuratedEquilibrator`, because vinegar and spirit standing in one
+beaker do not visibly esterify; the verb *is* the conditions. Two
+rows: Fischer esterification (CH3COOH + ethanol ⇌ ethyl acetate +
+water, boundary stating the equilibrium it drives past) and
+saponification (ester + NaOH → NaOAc + ethanol). Ethyl acetate became
+species #79 through the CAP-21 pipeline (CRC/CIAAW; golden diff one
+added record) with its safety row. `kerotakis-org` is now
+load-bearing twice over: the wasm structure panel consumed it already,
+and its SMIRKS templates are the oracle for the curated table —
+`tests/template_oracle.rs` applies each template to reference
+molecules and requires molecule-level identity (chematic canonical
+keys + formulas; standard-InChIKey anchoring is CAP-13's upgrade)
+with the acetate-anion→NaOAc ledger bridge stated. Engine tests pin
+exact mass conservation, limiting-reagent extents, the there-and-back
+round trip (ester made then unmade, the alcohol returns), loud
+refusal naming the missing reactant, and a parse-time shelf listing
+for unknown reactions. Lesson: `there-and-back.lab`. Remaining in
+this task: the transport verb (in flight on kero-basic 2026-08-24;
+extract's upgrade to lle.rs folded into the funnel work above). **Acceptance.** Each verb demonstrable in a replayed lesson;
 `kerotakis-org` gains a dependent; preflight green. **Size.** Medium
 per verb — they are independent; take them one per branch.
 **Depends on:** nothing.

@@ -1300,6 +1300,61 @@ impl Bench {
                     ),
                 });
             }
+            Operator::React { vessel, reaction } => {
+                match crate::curated::ORG_REACTIONS
+                    .iter()
+                    .find(|r| r.name == reaction)
+                {
+                    None => {
+                        // The parser vets names, but an operator can arrive
+                        // by JSON; refuse out loud rather than panic.
+                        events.push(Event::NotYetModeled {
+                            vessel: *vessel,
+                            what: format!(
+                                "no curated reaction named '{reaction}' — curated: {}",
+                                crate::curated::ORG_REACTIONS
+                                    .iter()
+                                    .map(|r| r.name)
+                                    .collect::<Vec<_>>()
+                                    .join(", ")
+                            ),
+                        });
+                    }
+                    Some(r) => {
+                        let v = self.vessel_mut(*vessel)?;
+                        let extent = r
+                            .reactants
+                            .iter()
+                            .map(|(key, coeff)| v.moles_of(&SpeciesId::new(key)).0 / coeff)
+                            .fold(f64::INFINITY, f64::min);
+                        if !(extent.is_finite() && extent > 1e-12) {
+                            let needs: Vec<&str> = r.reactants.iter().map(|(k, _)| *k).collect();
+                            events.push(Event::NotYetModeled {
+                                vessel: *vessel,
+                                what: format!(
+                                    "nothing for {} to work on — it needs {} together                                      in the vessel",
+                                    r.name,
+                                    needs.join(" and ")
+                                ),
+                            });
+                        } else {
+                            for (key, coeff) in r.reactants {
+                                v.withdraw(&SpeciesId::new(key), Moles(extent * coeff));
+                            }
+                            for (key, coeff, phase) in r.products {
+                                v.deposit(SpeciesId::new(key), Moles(extent * coeff), *phase);
+                            }
+                            events.push(Event::OrgReacted {
+                                vessel: *vessel,
+                                name: r.name.to_string(),
+                                equation: r.equation.to_string(),
+                                extent: Moles(extent),
+                                boundary: r.boundary.to_string(),
+                            });
+                        }
+                    }
+                }
+            }
             Operator::Dilute { vessel, volume } => {
                 let water = SpeciesId::new("water");
                 let data = species::lookup(&water)
@@ -1515,6 +1570,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         Operator::Grind { vessel, .. }
         | Operator::Irradiate { vessel, .. }
         | Operator::Dilute { vessel, .. }
+        | Operator::React { vessel, .. }
         | Operator::Titrate { vessel, .. } => vec![*vessel],
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         Operator::Wait { .. } => vec![],

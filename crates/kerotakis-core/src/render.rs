@@ -269,6 +269,19 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 species.0, fraction_lower,
             ),
         },
+        Event::OrgReacted { vessel, name, equation, extent, boundary } => match register.level() {
+            1 => format!(
+                "Something new forms in {vessel} — the {name} reaction turns the mixture into different substances."
+            ),
+            2 => format!(
+                "{vessel}: {name} ran — {equation} ({:.3} mol reacted)",
+                extent.0
+            ),
+            _ => format!(
+                "{vessel}: {name}, {equation}, extent {:.6} mol. Boundary: {boundary}",
+                extent.0
+            ),
+        },
         Event::Chromatographed { vessel, plates, void_time_s, peaks, outside_method } => match register.level() {
             1 => {
                 let order = peaks

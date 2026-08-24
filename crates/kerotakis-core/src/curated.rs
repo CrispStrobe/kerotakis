@@ -42,6 +42,54 @@ pub const REACTIONS: &[CuratedReaction] = &[
     },
 ];
 
+/// A named organic transformation the `react` verb applies on command.
+///
+/// Deliberately NOT registered with `CuratedEquilibrator`: acid and
+/// alcohol standing in one beaker at room temperature do not visibly
+/// esterify — the reaction wants its conditions and its push, which is
+/// what makes it a *verb*. The stoichiometry here is proven at the
+/// identity level against the atom-mapped SMIRKS templates in
+/// `kerotakis-org` (its differential test maps each product SMILES to
+/// an InChIKey and requires the registry species named here to carry
+/// that same key), so this table and the templates cannot drift apart.
+pub struct OrgReaction {
+    /// The name the verb takes: `react v1 esterification`.
+    pub name: &'static str,
+    pub equation: &'static str,
+    pub reactants: &'static [(&'static str, f64)],
+    pub products: &'static [(&'static str, f64, Phase)],
+    /// What this entry does NOT claim — stated at lv3, because an
+    /// equilibrium driven to completion on command is a modelling
+    /// choice, not a measurement.
+    pub boundary: &'static str,
+    pub source: &'static str,
+}
+
+pub const ORG_REACTIONS: &[OrgReaction] = &[
+    OrgReaction {
+        name: "esterification",
+        equation: "CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O",
+        reactants: &[("CH3COOH", 1.0), ("ethanol", 1.0)],
+        products: &[
+            ("ethyl_acetate", 1.0, Phase::Liquid),
+            ("water", 1.0, Phase::Liquid),
+        ],
+        boundary: "Fischer esterification is an equilibrium (K ≈ 4 for this                    pair); the verb drives the requested extent to completion                    and says so — no yield claim is made, and the acid                    catalyst and heat the real reaction wants are assumed,                    not modelled",
+        source: "Fischer esterification, March's Advanced Organic Chemistry;                  stoichiometry proven against the kerotakis-org SMIRKS                  template at the InChIKey level",
+    },
+    OrgReaction {
+        name: "saponification",
+        equation: "CH3COOC2H5 + NaOH → NaOAc + C2H5OH",
+        reactants: &[("ethyl_acetate", 1.0), ("NaOH", 1.0)],
+        products: &[
+            ("NaOAc", 1.0, Phase::Aqueous),
+            ("ethanol", 1.0, Phase::Liquid),
+        ],
+        boundary: "alkaline hydrolysis is driven by the carboxylate sink and                    goes to completion honestly; the heat of reaction is not                    yet curated and no thermal effect is applied",
+        source: "Alkaline ester hydrolysis, March's Advanced Organic                  Chemistry; stoichiometry proven against the kerotakis-org                  SMIRKS template at the InChIKey level",
+    },
+];
+
 const TRACE: f64 = 1e-12;
 
 fn extent(vessel: &Vessel, reaction: &CuratedReaction) -> f64 {

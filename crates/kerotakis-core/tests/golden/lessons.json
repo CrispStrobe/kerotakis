@@ -1238,6 +1238,43 @@
       }
     ]
   },
+  "there-and-back": {
+    "event_count": 7,
+    "events_sample": [
+      "v1: +0.1000 mol acetic acid",
+      "v1: +0.1000 mol ethanol",
+      "v1: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.100 mol reacted)",
+      "v1: The liquid is colourless and clear.",
+      "v1: +0.1000 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: saponification ran — CH3COOC2H5 + NaOH → NaOAc + C2H5OH (0.100 mol reacted)"
+    ],
+    "lesson": "there-and-back.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Aqueous",
+            "species": "NaOAc"
+          },
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "three-protons": {
     "event_count": 15,
     "events_sample": [

@@ -879,6 +879,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Drained { .. } => ("drained", None),
         E::Partitioned { species, .. } => ("partitioned", Some(species.0.as_str())),
         E::Chromatographed { .. } => ("chromatographed", None),
+        E::OrgReacted { name, .. } => ("org_reacted", Some(name.as_str())),
         E::Filtered { .. } => ("filtered", None),
         E::Transferred { .. } => ("transferred", None),
         E::Measured { .. } => ("measured", None),

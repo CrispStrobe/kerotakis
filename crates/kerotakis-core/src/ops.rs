@@ -141,6 +141,11 @@ pub enum Operator {
     /// Add solvent (water) by volume. The pedagogical complement of
     /// `evaporate`: where evaporate concentrates, dilute spreads.
     Dilute { vessel: VesselId, volume: Liters },
+    /// Apply a named curated organic transformation on command:
+    /// `react v1 esterification`. Deliberate, not automatic — the
+    /// mixture does not do this on its own at the bench's conditions;
+    /// see `curated::ORG_REACTIONS`.
+    React { vessel: VesselId, reaction: String },
     /// Auto-stepped titration: add `titrant` to `vessel` in increments of
     /// `step` volume, re-equilibrating after each addition, until the pH
     /// crosses `target_ph` or `max_steps` additions are exhausted. Records
@@ -410,6 +415,16 @@ pub enum Event {
         /// Fraction of the solute that sat in the lower layer (and so
         /// left with it when the stopcock opened).
         fraction_lower: f64,
+    },
+    /// A named organic transformation ran to the stated extent. The
+    /// boundary line carries what the model does NOT claim.
+    OrgReacted {
+        vessel: VesselId,
+        name: String,
+        equation: String,
+        /// Reaction extent in moles of the equation as written.
+        extent: Moles,
+        boundary: String,
     },
     /// The column spoke: each dissolved neutral solute with a curated
     /// group decomposition eluted at the time its partition coefficient
