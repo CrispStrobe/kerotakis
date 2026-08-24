@@ -903,6 +903,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::DissolvedInSolvent { species, .. } => ("dissolved_in_solvent", Some(species.0.as_str())),
         E::InertInSolvent { species, .. } => ("inert_in_solvent", Some(species.0.as_str())),
         E::Filtered { .. } => ("filtered", None),
+        E::MagnetSeparated { .. } => ("magnet_separated", None),
         E::Transferred { .. } => ("transferred", None),
         E::Measured { .. } => ("measured", None),
         E::Observed { .. } => ("observed", None),
