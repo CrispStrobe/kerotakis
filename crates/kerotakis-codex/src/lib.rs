@@ -15,6 +15,60 @@
 //! project would catch a curation error; this does.
 
 pub mod prose;
+pub mod quest;
+
+/// Every event kind `event_matches` knows, for lint use. Kept beside
+/// the matcher on purpose: a new Event arm extends both or the quest
+/// lint names the gap.
+pub const KNOWN_EVENT_KINDS: &[&str] = &[
+    "added",
+    "cell_voltage",
+    "chromatographed",
+    "consumed",
+    "did_not_ignite",
+    "diluted",
+    "dissolved",
+    "dissolved_in_solvent",
+    "distilled",
+    "drained",
+    "electrolysed",
+    "evaporated",
+    "filtered",
+    "flame_test",
+    "gas_absorbed",
+    "gas_contained",
+    "gas_evolved",
+    "hazard_warning",
+    "headspace_equilibrated",
+    "ignited",
+    "inert",
+    "inert_in_solvent",
+    "layers_formed",
+    "measured",
+    "mixed",
+    "no_cell",
+    "not_yet_modelled",
+    "observed",
+    "org_reacted",
+    "partitioned",
+    "plated",
+    "precipitated",
+    "reacted",
+    "reaction",
+    "safety_veto",
+    "solution",
+    "solver_failed",
+    "temperature_changed",
+    "thermal_equilibrium",
+    "titrated",
+    "transferred",
+    "transported",
+    "vessel_created",
+    "vessel_opened",
+    "vessel_pressure_controlled",
+    "vessel_sealed",
+    "vessel_swept",
+];
 
 use kerotakis_core::{Phase, Register};
 use serde::{Deserialize, Serialize};

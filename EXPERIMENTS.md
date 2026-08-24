@@ -191,7 +191,24 @@ for main, claim-audit statuses with acceptance evidence.
 
 ## Infrastructure
 
-- **EXP-0 — Quest engine** (Fable; everything below depends on it).
+- **EXP-0 — Quest engine** — [x] **done 2026-08-24** (Fable).
+  `kerotakis-codex::quest`: TOML specs linted like the codex (a
+  single-claim quest is rejected as "a corridor with a door at the
+  end"), event claims on the codex's own `kind:detail` matcher, value
+  claims (ph / temperature_c / mass_g / moles:<sp> / molarity:<sp>,
+  target ± tolerance read from the solved state, with the
+  solution-volume model stated), identify claims closing the
+  sealed-unknown loop, nudges that fire exactly once and never block.
+  REPL: `quest list/start/status/answer`; sealed aliases are a pure
+  display layer — input unmasked before parsing, rendered lines
+  re-masked, chemistry untouched. Preflight gained the "quest lint"
+  step. Acceptance held: the demo quest (the-white-unknown) exercises
+  every feature; two distinct command orders complete through the
+  full solver stack; the unknown stays sealed in every rendered line
+  until named; a wrong answer is spoken, locks nothing, and the right
+  answer still completes (`tests/quest_engine.rs`, cli
+  `tests/quest.rs`). Original scope line follows.
+  (Fable; everything below depends on it).
   Schema (TOML beside the codex, linted), event-claim matcher,
   **value claims** (target ± tolerance read from solved state:
   concentration, mass, volume, temperature, pH), **sealed unknowns**

@@ -1,0 +1,53 @@
+# EXP-0's demonstration quest: every engine feature in one small hunt.
+# A sealed white solid sits on the shelf. Identify it from what the
+# bench can measure — nothing is scripted, and at least two different
+# routes complete it.
+id = "the-white-unknown"
+
+[title]
+lv1 = "The white unknown"
+lv2 = "The white unknown: identification by measurement"
+lv3 = "Sealed-species identification: instrumental and solution-state evidence"
+
+[goal]
+lv1 = "A jar labelled unknown-a holds a white something. Find out what it is — the bench will tell you, if you ask it the right ways."
+lv2 = "Identify unknown-a using measurements: dissolve it, read pH or conductivity, and name it when the evidence is sufficient."
+lv3 = "unknown-a is a sealed registry species; the engine computes its true chemistry throughout. Gather at least one instrumental reading and the neutral-solution evidence, then commit to an identification. Claims complete in any order."
+
+[unknowns]
+unknown-a = "NaCl"
+
+[[nudges]]
+id = "it-dissolved"
+when = "dissolved:NaCl"
+[nudges.say]
+lv1 = "It vanished into the water without fizzing or heat. That already rules some things out."
+lv2 = "Clean dissolution, no gas, no strong heat: not a carbonate, not an active metal. Ionic salts and sugars both do this — what would tell them apart?"
+lv3 = "Dissolution with no reaction narrows the field to freely soluble non-reactive solids. Conductivity distinguishes electrolytes from molecular solutes; pH distinguishes neutral salts from acidic or basic ones."
+
+[[claims]]
+id = "took-a-reading"
+matches = "measured"
+[claims.title]
+lv1 = "Use any measuring tool on your mixture"
+lv2 = "Take at least one instrumental reading"
+lv3 = "At least one Measured event from any instrument"
+
+[[claims]]
+id = "near-neutral"
+vessel = "v1"
+quantity = "ph"
+target = 7.0
+tolerance = 0.8
+[claims.title]
+lv1 = "Show the water stays in the middle — not sour, not soapy"
+lv2 = "Demonstrate the solution is near-neutral (pH 7 ± 0.8)"
+lv3 = "Value claim: pH of v1 within 7.0 ± 0.8 — the neutral-salt evidence"
+
+[[claims]]
+id = "named-it"
+alias = "unknown-a"
+[claims.title]
+lv1 = "Say what the white something really is"
+lv2 = "Identify unknown-a by name"
+lv3 = "Identify claim on unknown-a; wrong answers are answered, not punished"
