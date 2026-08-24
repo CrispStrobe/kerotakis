@@ -9,6 +9,7 @@
     onselect,
     ondropspecies,
     pristine = false,
+    effects = {},
   }: {
     scene: Scene | null;
     register: string;
@@ -16,6 +17,7 @@
     onselect: (id: number) => void;
     ondropspecies?: (id: number, payload: { key: string; phase: string }) => void;
     pristine?: boolean;
+    effects?: Record<number, { kind: string; at: number }[]>;
   } = $props();
 </script>
 
@@ -28,6 +30,7 @@
         selected={vessel.id === selected}
         {onselect}
         {ondropspecies}
+        effects={effects[vessel.id] ?? []}
       />
     {/each}
     {#if pristine}
