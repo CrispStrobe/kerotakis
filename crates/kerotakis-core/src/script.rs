@@ -418,6 +418,35 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 max_steps,
             }
         }
+        "mix" => {
+            // mix v1 0.5 v2 0.5 into v3
+            if words.len() < 7 {
+                return Err(
+                    "usage: mix <vessel-a> <frac-a> <vessel-b> <frac-b> into <target>".into(),
+                );
+            }
+            let a = parse_vessel(words[1])?;
+            let fraction_a: f64 = words[2]
+                .parse()
+                .map_err(|_| format!("bad fraction '{}'", words[2]))?;
+            let b = parse_vessel(words[3])?;
+            let fraction_b: f64 = words[4]
+                .parse()
+                .map_err(|_| format!("bad fraction '{}'", words[4]))?;
+            if words[5] != "into" {
+                return Err(
+                    "usage: mix <vessel-a> <frac-a> <vessel-b> <frac-b> into <target>".into(),
+                );
+            }
+            let into = parse_vessel(words[6])?;
+            Operator::Mix {
+                a,
+                b,
+                into,
+                fraction_a,
+                fraction_b,
+            }
+        }
         "transport" => {
             // transport v1 v2 v3 from v4 to v5 steps 5 [courant 0.5]
             let from_pos = words.iter().position(|&w| w == "from");

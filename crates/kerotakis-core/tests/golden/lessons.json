@@ -485,7 +485,7 @@
     ]
   },
   "hard-water": {
-    "event_count": 13,
+    "event_count": 31,
     "events_sample": [
       "v1: +27.6714 mol water",
       "v1: +0.0202 mol baking soda (sodium bicarbonate)",
@@ -499,7 +499,14 @@
       "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: +0.0300 mol hydrochloric acid",
       "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
-      "v2 balance: 201.49 g"
+      "v2 balance: 201.49 g",
+      "v3: new vessel",
+      "v3: +27.6714 mol water",
+      "v3: +0.0050 mol calcium chloride",
+      "v3: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: +0.0030 mol magnesium sulfate",
+      "v3: not yet modelled — calcium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: not yet modelled — magnesium sulfate in contact with liquid: no wired solver models this dissolution/reaction"
     ],
     "lesson": "hard-water.lab",
     "vessels": [
@@ -539,6 +546,57 @@
           },
           {
             "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.005,
+            "phase": "Solid",
+            "species": "CaCl2"
+          },
+          {
+            "moles": 0.003,
+            "phase": "Solid",
+            "species": "MgSO4"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 13.83569248,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 27.67138496,
             "phase": "Liquid",
             "species": "water"
           }

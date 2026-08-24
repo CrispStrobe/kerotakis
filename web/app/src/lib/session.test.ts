@@ -160,6 +160,28 @@ describe("Session", () => {
     expect(s.feed.at(-1)!.text).toContain("lesson finished");
   });
 
+  it("typed events become transient vessel effects, and only typed events", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [
+            { event: "precipitated", vessel: 0, species: "AgCl", moles: 0.01 },
+            { event: "electrolysed", vessel: 1, species: "Cu", coulombs: 900 },
+            { event: "solution_characterized", vessel: 0, ph: 7 },
+          ],
+          rendered: ["It went cloudy!"],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("add v1 AgNO3 1.7g");
+    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["precipitate"]);
+    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse"]);
+  });
+
   it("the latest rendered equation is pinned for the strip", async () => {
     const host = new FakeHost();
     host.runScript = async (script: string) => ({

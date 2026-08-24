@@ -84,6 +84,20 @@ pub trait Equilibrator {
     }
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError>;
 
+    /// Mix two solutions by fraction into a target vessel using the solver's
+    /// native mixing (PHREEQC MIX). Returns `None` if the solver does not
+    /// support native mixing; the caller falls back to `equilibrate`.
+    fn mix(
+        &mut self,
+        _vessel: &mut Vessel,
+        _soln_a: &Vessel,
+        _frac_a: f64,
+        _soln_b: &Vessel,
+        _frac_b: f64,
+    ) -> Option<Result<Vec<Event>, SolveError>> {
+        None
+    }
+
     /// ARCH-012: produce a delta and events without mutating the vessel.
     ///
     /// The default clones the vessel, runs `equilibrate()` on the clone,
@@ -165,6 +179,22 @@ impl Equilibrator for SolverStack {
             }
         }
         Ok(events)
+    }
+
+    fn mix(
+        &mut self,
+        vessel: &mut Vessel,
+        soln_a: &Vessel,
+        frac_a: f64,
+        soln_b: &Vessel,
+        frac_b: f64,
+    ) -> Option<Result<Vec<Event>, SolveError>> {
+        for solver in &mut self.solvers {
+            if let Some(result) = solver.mix(vessel, soln_a, frac_a, soln_b, frac_b) {
+                return Some(result);
+            }
+        }
+        None
     }
 }
 
@@ -663,6 +693,17 @@ impl Equilibrator for PhaseEquilibrator {
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
         equilibrate_phase_coupled(self.chemistry.as_mut(), vessel)
+    }
+
+    fn mix(
+        &mut self,
+        vessel: &mut Vessel,
+        soln_a: &Vessel,
+        frac_a: f64,
+        soln_b: &Vessel,
+        frac_b: f64,
+    ) -> Option<Result<Vec<Event>, SolveError>> {
+        self.chemistry.mix(vessel, soln_a, frac_a, soln_b, frac_b)
     }
 }
 

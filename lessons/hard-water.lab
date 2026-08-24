@@ -9,3 +9,15 @@ add v2 water 200mL
 add v2 CaCO3 1g
 add v2 HCl 0.03mol
 measure v2 balance
+# Softening by mixing: hard water meets soda-ash solution
+new
+add v3 water 500mL
+add v3 CaCl2 0.005mol
+add v3 MgSO4 0.003mol
+measure v3 ph
+new
+add v4 water 500mL
+add v4 NaCl 0.01mol
+new
+mix v3 0.5 v4 0.5 into v5
+measure v5 ph

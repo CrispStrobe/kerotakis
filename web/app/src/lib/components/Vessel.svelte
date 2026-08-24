@@ -7,13 +7,20 @@
     selected = false,
     onselect,
     ondropspecies,
+    effects = [],
   }: {
     vessel: SceneVessel;
     register: string;
     selected?: boolean;
     onselect?: (id: number) => void;
     ondropspecies?: (id: number, payload: { key: string; phase: string }) => void;
+    effects?: { kind: string; at: number }[];
   } = $props();
+
+  // Transient effects: young enough that their animation is still running.
+  const now = () => Date.now();
+  const active = (kind: string, withinMs: number) =>
+    effects.some((e) => e.kind === kind && now() - e.at < withinMs);
 
   let dropReady = $state(false);
 
@@ -60,6 +67,13 @@
   };
   const tempC = $derived(vessel.temperature_k - 273.15);
   const sealed = $derived(vessel.boundary !== "open");
+  // State-driven effects, straight from the computed temperature.
+  const burning = $derived(vessel.temperature_k > 600 || active("ignite", 3000));
+  const steaming = $derived(
+    (vessel.liquid !== null && vessel.temperature_k >= 368) || active("evaporate", 2500),
+  );
+  const frosty = $derived(vessel.temperature_k < 272);
+  const hot = $derived(Math.min(1, Math.max(0, (vessel.temperature_k - 310) / 300)));
 </script>
 
 <button
@@ -115,6 +129,66 @@
           <title>{solid.colour_word} {solid.name}</title>
         </rect>
       {/each}
+    {/if}
+
+    <!-- State-driven effects: every one traces to a computed number. -->
+    {#if hot > 0.02}
+      <ellipse class="glow" cx="50" cy="132" rx="34" ry="5" style={`opacity:${0.15 + hot * 0.5}`} />
+    {/if}
+    {#if burning}
+      <g class="flame" aria-hidden="true">
+        <path class="outer" d="M 50 -2 Q 42 12 47 20 Q 50 25 53 20 Q 58 12 50 -2 Z" />
+        <path class="inner" d="M 50 6 Q 46 13 49 18 Q 50 20 51 18 Q 54 13 50 6 Z" />
+      </g>
+    {/if}
+    {#if steaming}
+      {#each [34, 50, 66] as x, i (x)}
+        <path
+          class="steam"
+          d={`M ${x} ${BOTTOM_Y - liquidH - 4} q 3 -6 0 -12 q -3 -6 0 -12`}
+          style={`animation-delay:${i * 0.5}s`}
+        />
+      {/each}
+    {/if}
+    {#if frosty}
+      <g class="frost" aria-hidden="true">
+        {#each [[18, 40], [80, 60], [22, 90], [78, 105]] as [fx, fy], i (i)}
+          <path d={`M ${fx} ${fy} l 4 0 M ${fx + 2} ${fy - 2} l 0 4 M ${fx} ${fy - 2} l 4 4 M ${fx} ${fy + 2} l 4 -4`} />
+        {/each}
+      </g>
+    {/if}
+
+    <!-- Event-driven transients (GUI-026): each fires only because the
+         engine emitted the matching event. -->
+    {#if active("precipitate", 1800) && liquidH > 0}
+      {#each [30, 44, 58, 70] as x, i (x)}
+        <circle
+          class="falling"
+          cx={x}
+          cy={BOTTOM_Y - liquidH + 6}
+          r="1.8"
+          style={`--fall:${Math.max(8, liquidH - 10)}px; animation-delay:${i * 0.15}s`}
+        />
+      {/each}
+    {/if}
+    {#if active("dissolve", 1400) && liquidH > 0}
+      <circle class="dissolving" cx="50" cy={BOTTOM_Y - 10} r="4" />
+    {/if}
+    {#if active("electrolyse", 3500) && liquidH > 0}
+      {#each [30, 70] as x (x)}
+        {#each [0, 1, 2] as i (i)}
+          <circle
+            class="bubble"
+            cx={x + (i - 1) * 2}
+            cy={BOTTOM_Y - 6}
+            r="1.6"
+            style={`--rise:${liquidH - 10}px; animation-delay:${i * 0.35}s`}
+          />
+        {/each}
+      {/each}
+    {/if}
+    {#if active("plate", 2000)}
+      <rect class="shimmer" x={INNER_X} y={BOTTOM_Y - Math.max(solidH, 6)} width={INNER_W} height={Math.max(solidH, 6)} />
     {/if}
 
     {#if vessel.bubbling && liquidH > 0}
@@ -255,9 +329,113 @@
       opacity: 0;
     }
   }
+  .glow {
+    fill: var(--hot);
+    filter: blur(3px);
+  }
+  .flame .outer {
+    fill: var(--hot);
+    animation: flicker 0.35s ease-in-out infinite alternate;
+    transform-origin: 50px 20px;
+  }
+  .flame .inner {
+    fill: var(--warn);
+    animation: flicker 0.28s ease-in-out infinite alternate-reverse;
+    transform-origin: 50px 18px;
+  }
+  @keyframes flicker {
+    from {
+      transform: scaleY(1) scaleX(1);
+      opacity: 0.95;
+    }
+    to {
+      transform: scaleY(1.18) scaleX(0.92);
+      opacity: 0.75;
+    }
+  }
+  .steam {
+    fill: none;
+    stroke: var(--dim);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    opacity: 0;
+    animation: waft 2.4s ease-out infinite;
+  }
+  @keyframes waft {
+    0% {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    25% {
+      opacity: 0.65;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-14px);
+    }
+  }
+  .frost path {
+    stroke: var(--cool);
+    stroke-width: 1;
+    opacity: 0.8;
+  }
+  .falling {
+    fill: var(--cloud);
+    animation: fall 1.5s ease-in forwards;
+  }
+  @keyframes fall {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(var(--fall, 40px));
+      opacity: 0.2;
+    }
+  }
+  .dissolving {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.2;
+    animation: dissolve 1.3s ease-out forwards;
+    transform-origin: 50px 112px;
+  }
+  @keyframes dissolve {
+    from {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(3.5);
+    }
+  }
+  .shimmer {
+    fill: var(--cloud);
+    opacity: 0;
+    animation: shimmer 1.8s ease-in-out;
+  }
+  @keyframes shimmer {
+    0%,
+    100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
   @media (prefers-reduced-motion: reduce) {
-    .bubble {
+    .bubble,
+    .flame .outer,
+    .flame .inner,
+    .steam,
+    .falling,
+    .dissolving,
+    .shimmer {
       animation: none;
+    }
+    .steam {
+      opacity: 0.4;
     }
   }
   .caption {

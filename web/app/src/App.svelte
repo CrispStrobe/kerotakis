@@ -223,6 +223,7 @@
         pane = "notes";
       }}
       pristine={session.commandLog.length === 0 && !session.lesson}
+      effects={session.vesselEffects}
       ondropspecies={(id, p) =>
         void session.submit(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,

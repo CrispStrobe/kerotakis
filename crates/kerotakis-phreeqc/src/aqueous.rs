@@ -1467,6 +1467,195 @@ impl Equilibrator for PhreeqcEquilibrator {
         }
         Ok(events)
     }
+
+    fn mix(
+        &mut self,
+        vessel: &mut Vessel,
+        soln_a: &Vessel,
+        frac_a: f64,
+        soln_b: &Vessel,
+        frac_b: f64,
+    ) -> Option<Result<Vec<Event>, SolveError>> {
+        // Both source vessels must be solvable aqueous problems.
+        let problem_a = partition(soln_a)?;
+        let problem_b = partition(soln_b)?;
+
+        // Route both to the same database; refuse if they disagree.
+        let needs_extended_a = problem_a
+            .elements
+            .iter()
+            .any(|e| !derived::index_for("wateq4f").has_element(e) || e == "P");
+        let needs_extended_b = problem_b
+            .elements
+            .iter()
+            .any(|e| !derived::index_for("wateq4f").has_element(e) || e == "P");
+        let db_tag = if needs_extended_a || needs_extended_b {
+            "minteq.v4"
+        } else {
+            "wateq4f"
+        };
+
+        // Merged elements for readback.
+        let mut merged_elements: Vec<String> = Vec::new();
+        for el in problem_a.elements.iter().chain(problem_b.elements.iter()) {
+            if !merged_elements.contains(el) {
+                merged_elements.push(el.clone());
+            }
+        }
+
+        let input = build_mix_input(
+            soln_a,
+            &problem_a,
+            soln_b,
+            &problem_b,
+            frac_a,
+            frac_b,
+            db_tag,
+            &merged_elements,
+        );
+
+        if env_dump_input_all() {
+            eprintln!("--- PHREEQC MIX input ---\n{input}---");
+        }
+
+        let out = match self.run_raw(db_tag, &input) {
+            Ok(out) => out,
+            Err(e) => {
+                if env_dump_input() {
+                    eprintln!("--- PHREEQC MIX input that failed ---\n{input}---");
+                }
+                return Some(Err(e));
+            }
+        };
+
+        // Build the merged Problem for readback — the target vessel
+        // already holds the physically mixed contents, so we need a
+        // Problem that describes the expected element set and phases.
+        let merged_problem = Problem {
+            kgw: problem_a.kgw * frac_a + problem_b.kgw * frac_b,
+            totals: {
+                let mut t: Vec<(String, f64)> = Vec::new();
+                for (el, moles) in &problem_a.totals {
+                    if let Some(entry) = t.iter_mut().find(|(e, _)| e == el) {
+                        entry.1 += moles * frac_a;
+                    } else {
+                        t.push((el.clone(), moles * frac_a));
+                    }
+                }
+                for (el, moles) in &problem_b.totals {
+                    if let Some(entry) = t.iter_mut().find(|(e, _)| e == el) {
+                        entry.1 += moles * frac_b;
+                    } else {
+                        t.push((el.clone(), moles * frac_b));
+                    }
+                }
+                t
+            },
+            phases: {
+                let mut p: Vec<(String, f64, f64)> = Vec::new();
+                for (name, _, si) in problem_a.phases.iter().chain(problem_b.phases.iter()) {
+                    if !p.iter().any(|(n, ..)| n == name) {
+                        p.push((name.clone(), 0.0, *si));
+                    }
+                }
+                p
+            },
+            gases: Vec::new(),
+            external_gases: Vec::new(),
+            surfaces: Vec::new(),
+            exchanges: Vec::new(),
+            solid_solutions: Vec::new(),
+            elements: merged_elements,
+        };
+
+        let cached = Rc::new(CachedSolve {
+            pe_determined: !out.pe_undetermined,
+            rows: out.selected,
+            speciation: parse_species_distribution(&out.report),
+            saturation: parse_saturation_indices(&out.report),
+            redox_adjusted: out.report.contains("Adjusted to redox equilibrium"),
+        });
+
+        let value = |column: &str| -> Option<f64> {
+            let idx = cached.rows.first()?.iter().position(|h| h == column)?;
+            cached.rows.last()?.get(idx)?.parse().ok()
+        };
+
+        let readback = self.readback_raw_values(&merged_problem, db_tag, &cached.rows, &value);
+        let (
+            solvent_kgw_out,
+            mut new_surfaces,
+            new_exchanges,
+            new_solid_solutions,
+            mut new_ions,
+            _,
+        ) = match readback {
+            Ok(v) => v,
+            Err(e) => return Some(Err(e)),
+        };
+
+        let balance = Self::apply_balance_corrections(
+            vessel,
+            &merged_problem,
+            &mut new_ions,
+            &mut new_surfaces,
+            &new_exchanges,
+            &new_solid_solutions,
+            &value,
+        );
+        let (new_phases, new_gases, ph, mu) = match balance {
+            Ok(v) => v,
+            Err(e) => return Some(Err(e)),
+        };
+
+        let (mut events, contents) = Self::rebuild_contents_and_events(
+            vessel,
+            &merged_problem,
+            &[],
+            solvent_kgw_out,
+            &new_ions,
+            &new_phases,
+            &new_gases,
+            &new_solid_solutions,
+        );
+
+        vessel.contents = contents;
+        vessel.surfaces = new_surfaces;
+        vessel.exchanges = new_exchanges;
+        vessel.solid_solutions = new_solid_solutions;
+        vessel.refresh_pressure();
+
+        vessel.solution = Some(SolutionInfo {
+            pe: value("pe"),
+            redox: Vec::new(),
+            ph,
+            ionic_strength: mu,
+            species: cached.speciation.clone(),
+            provenance: Some(Provenance {
+                engine: "PHREEQC (IPhreeqc, USGS)".to_string(),
+                dataset: format!("{db_tag}.dat"),
+                model: derived::index_for(db_tag)
+                    .activity_model
+                    .describe()
+                    .to_string(),
+                dataset_sources: derived::index_for(db_tag)
+                    .citations
+                    .iter()
+                    .take(3)
+                    .cloned()
+                    .collect(),
+                routing: "MIX: two solved solutions combined by fraction".to_string(),
+            }),
+        });
+
+        events.push(Event::SolutionCharacterized {
+            vessel: vessel.id,
+            ph,
+            ionic_strength: mu,
+        });
+
+        Some(Ok(events))
+    }
 }
 
 struct SolveSetup {
@@ -3126,6 +3315,117 @@ fn valence_totals(problem: &Problem, db_tag: &str) -> Vec<String> {
 
 fn build_input(vessel: &Vessel, problem: &Problem, db_tag: &str) -> String {
     build_input_at(vessel, problem, db_tag, None)
+}
+
+/// Build a PHREEQC input that defines two solutions and mixes them.
+///
+/// The input defines SOLUTION 1 from vessel A and SOLUTION 2 from vessel B,
+/// each with their own END block so they are speciated independently. Then
+/// a MIX block combines them by the given fractions into solution 3, which
+/// is saved and read back through SELECTED_OUTPUT.
+#[allow(clippy::too_many_arguments)]
+fn build_mix_input(
+    vessel_a: &Vessel,
+    problem_a: &Problem,
+    vessel_b: &Vessel,
+    problem_b: &Problem,
+    frac_a: f64,
+    frac_b: f64,
+    db_tag: &str,
+    merged_elements: &[String],
+) -> String {
+    use std::fmt::Write;
+    let mut input = String::new();
+
+    // SOLUTION 1 — vessel A.
+    let temp_a_c = vessel_a.temperature.to_celsius();
+    writeln!(input, "SOLUTION 1").unwrap();
+    writeln!(input, "    units     mol/kgw").unwrap();
+    writeln!(input, "    temp      {temp_a_c:.4}").unwrap();
+    writeln!(input, "    pH        7  charge").unwrap();
+    writeln!(input, "    water     {:.9}", problem_a.kgw).unwrap();
+    if vessel_a.uses_atmospheric_reservoir()
+        && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
+    {
+        writeln!(
+            input,
+            "    pe        4  {ATMOSPHERIC_OXYGEN}  {ATMOSPHERIC_LOG_PO2}"
+        )
+        .unwrap();
+    }
+    for (el, moles) in &problem_a.totals {
+        writeln!(input, "    {el} {:.12e}", moles / problem_a.kgw).unwrap();
+    }
+    writeln!(input, "END").unwrap();
+
+    // SOLUTION 2 — vessel B.
+    let temp_b_c = vessel_b.temperature.to_celsius();
+    writeln!(input, "SOLUTION 2").unwrap();
+    writeln!(input, "    units     mol/kgw").unwrap();
+    writeln!(input, "    temp      {temp_b_c:.4}").unwrap();
+    writeln!(input, "    pH        7  charge").unwrap();
+    writeln!(input, "    water     {:.9}", problem_b.kgw).unwrap();
+    if vessel_b.uses_atmospheric_reservoir()
+        && derived::index_for(db_tag).has_phase(ATMOSPHERIC_OXYGEN)
+    {
+        writeln!(
+            input,
+            "    pe        4  {ATMOSPHERIC_OXYGEN}  {ATMOSPHERIC_LOG_PO2}"
+        )
+        .unwrap();
+    }
+    for (el, moles) in &problem_b.totals {
+        writeln!(input, "    {el} {:.12e}", moles / problem_b.kgw).unwrap();
+    }
+    writeln!(input, "END").unwrap();
+
+    // MIX — combine them by fraction.
+    writeln!(input, "MIX 1").unwrap();
+    writeln!(input, "    1  {frac_a:.12e}").unwrap();
+    writeln!(input, "    2  {frac_b:.12e}").unwrap();
+    writeln!(input, "SAVE solution 3").unwrap();
+
+    // Candidate equilibrium phases for the mixed solution, filtered to
+    // what the routed database actually defines.
+    let idx = derived::index_for(db_tag);
+    let merged_phases: Vec<String> = {
+        let mut phases = Vec::new();
+        for (name, ..) in problem_a.phases.iter().chain(problem_b.phases.iter()) {
+            if !phases.contains(name) && idx.has_phase(name) {
+                phases.push(name.clone());
+            }
+        }
+        phases
+    };
+    if !merged_phases.is_empty() {
+        writeln!(input, "EQUILIBRIUM_PHASES 1").unwrap();
+        for phase in &merged_phases {
+            writeln!(input, "    {phase} 0 0").unwrap();
+        }
+    }
+
+    // SELECTED_OUTPUT on the mixed result.
+    writeln!(input, "SELECTED_OUTPUT").unwrap();
+    writeln!(input, "    -reset    false").unwrap();
+    writeln!(input, "    -high_precision true").unwrap();
+    writeln!(input, "    -ph       true").unwrap();
+    writeln!(input, "    -pe       true").unwrap();
+    writeln!(input, "    -ionic_strength true").unwrap();
+    writeln!(input, "    -water    true").unwrap();
+    let mut totals: Vec<String> = Vec::new();
+    for e in merged_elements.iter().map(|e| e.to_string()) {
+        if !totals.contains(&e) {
+            totals.push(e);
+        }
+    }
+    if !totals.is_empty() {
+        writeln!(input, "    -totals   {}", totals.join(" ")).unwrap();
+    }
+    if !merged_phases.is_empty() {
+        writeln!(input, "    -equilibrium_phases {}", merged_phases.join(" ")).unwrap();
+    }
+    writeln!(input, "END").unwrap();
+    input
 }
 
 /// The input, optionally with the fast-redox elements coupled at a trial pe.

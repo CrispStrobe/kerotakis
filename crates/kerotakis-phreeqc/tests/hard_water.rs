@@ -180,3 +180,144 @@ fn potassium_chloride_cools() {
     let t = bench.vessel(v).unwrap().temperature.to_celsius();
     assert!(t < 22.0 && t > 18.0, "KCl cools ~4 K, got {t:.1} °C");
 }
+
+// ── MIX tests (CAP-10) ────────────────────────────────────────────────
+
+fn step(bench: &mut Bench, eq: &mut PhreeqcEquilibrator, op: Operator) -> Vec<Event> {
+    bench.step_with(op, eq, &PermissiveScreen).expect("step")
+}
+
+fn element_total(bench: &Bench, vessels: &[VesselId], species_key: &str) -> f64 {
+    vessels
+        .iter()
+        .map(|v| {
+            bench
+                .vessel(*v)
+                .unwrap()
+                .moles_of(&SpeciesId::new(species_key))
+                .0
+        })
+        .sum()
+}
+
+fn prepare_hard_and_soft(eq: &mut PhreeqcEquilibrator) -> Bench {
+    let mut bench = Bench::new();
+    let v1 = VesselId(0);
+    add(&mut bench, eq, v1, "water", 55.51);
+    add(&mut bench, eq, v1, "CaCl2", 5e-3);
+    add(&mut bench, eq, v1, "MgSO4", 3e-3);
+
+    step(&mut bench, eq, Operator::NewVessel);
+    let v2 = VesselId(1);
+    add(&mut bench, eq, v2, "water", 55.51);
+    add(&mut bench, eq, v2, "NaCl", 0.01);
+
+    step(&mut bench, eq, Operator::NewVessel);
+    bench
+}
+
+#[test]
+fn mix_emits_mixed_event() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = prepare_hard_and_soft(&mut eq);
+    let events = step(
+        &mut bench,
+        &mut eq,
+        Operator::Mix {
+            a: VesselId(0),
+            b: VesselId(1),
+            into: VesselId(2),
+            fraction_a: 0.5,
+            fraction_b: 0.5,
+        },
+    );
+    assert!(
+        events.iter().any(|e| matches!(e, Event::Mixed { .. })),
+        "Operator::Mix must produce Event::Mixed, got {events:#?}"
+    );
+}
+
+#[test]
+fn mix_conserves_elements() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = prepare_hard_and_soft(&mut eq);
+    let all = [VesselId(0), VesselId(1), VesselId(2)];
+
+    let before: Vec<(String, f64)> = ["water", "Ca+2", "Mg+2", "Na+", "Cl-"]
+        .iter()
+        .map(|s| (s.to_string(), element_total(&bench, &all, s)))
+        .collect();
+
+    step(
+        &mut bench,
+        &mut eq,
+        Operator::Mix {
+            a: VesselId(0),
+            b: VesselId(1),
+            into: VesselId(2),
+            fraction_a: 1.0,
+            fraction_b: 1.0,
+        },
+    );
+
+    for (species, total_before) in &before {
+        let total_after = element_total(&bench, &all, species);
+        let delta = (total_after - total_before).abs();
+        assert!(
+            delta < 1e-6,
+            "{species} not conserved: before={total_before:.12e}, after={total_after:.12e}, delta={delta:.12e}"
+        );
+    }
+}
+
+#[test]
+fn mix_produces_speciated_result() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = prepare_hard_and_soft(&mut eq);
+
+    let events = step(
+        &mut bench,
+        &mut eq,
+        Operator::Mix {
+            a: VesselId(0),
+            b: VesselId(1),
+            into: VesselId(2),
+            fraction_a: 0.5,
+            fraction_b: 0.5,
+        },
+    );
+
+    let failed: Vec<_> = events
+        .iter()
+        .filter(|e| matches!(e, Event::SolverFailed { .. }))
+        .collect();
+    assert!(
+        failed.is_empty(),
+        "mix should not produce solver failures: {failed:#?}"
+    );
+
+    let mixed = bench.vessel(VesselId(2)).unwrap();
+    let soln = mixed
+        .solution
+        .as_ref()
+        .expect("mixed vessel must be speciated");
+    assert!(
+        soln.ph > 4.0 && soln.ph < 10.0,
+        "mixed solution pH should be reasonable, got {}",
+        soln.ph
+    );
+    assert!(
+        soln.ionic_strength > 0.0,
+        "mixed solution must have positive ionic strength"
+    );
+    let ca = mixed.moles_of(&SpeciesId::new("Ca+2")).0;
+    assert!(
+        ca > 0.0,
+        "calcium from hard water must be present in the mix"
+    );
+    let na = mixed.moles_of(&SpeciesId::new("Na+")).0;
+    assert!(
+        na > 0.0,
+        "sodium from soft water must be present in the mix"
+    );
+}

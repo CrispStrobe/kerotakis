@@ -557,7 +557,18 @@ within tolerance; preflight green. **Size.** Small-medium.
 
 ## CAP-10 — First slice of the unwired PHREEQC vocabulary: `EXCHANGE` and `MIX`
 
-- [ ] Status: open
+- [x] Status: **MIX half done 2026-08-24.** `Operator::Mix` wired
+      through full CAP-1 pattern: parser (`mix v1 0.5 v2 0.5 into v3`),
+      `apply()` with three-body adiabatic temperature balance, `mix()`
+      trait method on `Equilibrator` delegated through `SolverStack` →
+      `PhreeqcEquilibrator`. Native PHREEQC `MIX`
+      input: two SOLUTION blocks + MIX keyword with fractions +
+      EQUILIBRIUM_PHASES + SELECTED_OUTPUT, with fallback to normal
+      `equilibrate()`. `Event::Mixed` rendered at lv1/lv2. Hard-water
+      softening lesson (`lessons/hard-water.lab`) replays. 6 core + 3
+      engine integration tests (mass conservation, acid+base→neutral pH,
+      lesson replay, adiabatic temperature, parser, rejection guards).
+      EXCHANGE half landed upstream. Preflight green.
 
 **Why.** ROADMAP R1 ("unlock the rest of PHREEQC") owns the whole
 vocabulary; this is its highest-value slice, pulled forward. Ion
