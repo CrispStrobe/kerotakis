@@ -215,6 +215,15 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             })
             .to_string())
         }
+        "snapshot" => {
+            let snap = serde_json::to_string(&lab.bench).map_err(|e| e.to_string())?;
+            Ok(json!({ "snapshot": snap }).to_string())
+        }
+        "restore" => {
+            lab.bench = serde_json::from_str(field("snapshot")?)
+                .map_err(|e| format!("the snapshot did not parse: {e}"))?;
+            Ok("{}".into())
+        }
         "relations" => {
             let list: Vec<Value> = kerotakis_core::relations::RELATIONS
                 .iter()

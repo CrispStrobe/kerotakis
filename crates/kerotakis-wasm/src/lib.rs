@@ -333,6 +333,22 @@ impl Lab {
         }
     }
 
+    /// The whole bench as a restorable snapshot (serde round-trip of
+    /// `Bench`). The GUI keeps one per log position so undo/scrub is a
+    /// restore instead of a reset-and-replay — same determinism, O(1).
+    pub fn snapshot(&self) -> Result<String, JsError> {
+        serde_json::to_string(&self.bench).map_err(|e| JsError::new(&e.to_string()))
+    }
+
+    /// Replace the bench with a snapshot taken by `snapshot()`. The
+    /// session (register, solver, caches) survives — this is bench state
+    /// only, exactly like `reset`.
+    pub fn restore(&mut self, snapshot: &str) -> Result<(), JsError> {
+        self.bench = serde_json::from_str(snapshot)
+            .map_err(|e| JsError::new(&format!("the snapshot did not parse: {e}")))?;
+        Ok(())
+    }
+
     /// The bench state as JSON.
     pub fn state(&self) -> String {
         serde_json::json!({ "vessels": self.bench.vessels, "steps": self.bench.log.len() })

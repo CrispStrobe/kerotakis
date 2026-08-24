@@ -349,7 +349,7 @@ every new dependency before its first import.
   register, refreshed after every step and register switch, with a
   particles append. Open: completion + parse-only validation in the bar
   (waits on GUI-005).*
-- [ ] **GUI-015 — Undo/replay + timeline.** Log-prefix replay with snapshot
+- [x] **GUI-015 — Undo/replay + timeline.** Log-prefix replay with snapshot
   cache; timeline scrubber; session autosave/restore; `.lab` import/export.
   *Status 2026-08-24 (2nd pass): undo/redo/scrubber are one cursor over
   the replayed log (jumpTo = reset + prefix replay; range-input timeline
@@ -357,8 +357,12 @@ every new dependency before its first import.
   localStorage with replay-based restore, corrupt saves dropped; `.lab`
   export AND import (import composes onto the current bench, stops at
   the first rejected line naming file:line, fully undoable); `clear`
-  distinct from jumpTo(0). All vitest-pinned. Open: snapshot cache for
-  O(1) undo on long sessions.*
+  distinct from jumpTo(0). All vitest-pinned.*
+  *3rd pass (same day): snapshot cache landed — `snapshot`/`restore`
+  protocol commands (opaque token, `Bench` serde round-trip; conformance
+  proves restore ≡ replay and that garbage refuses cleanly), Session
+  keeps one per log position (cap 40, truncation/clear invalidate) so
+  undo/scrub is O(1); replay stays the fallback and the semantics.*
 
 - [ ] **GUI-016 — Test deploy.** One payload from `tools/build-web.sh` —
   console at `/`, app at `/app/`, cross-linked, one shared engine — pushed
