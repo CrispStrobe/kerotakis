@@ -15,7 +15,7 @@ native-inchi = ["dep:inchi"]
 
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }
-chematic = { version = "0.18", features = ["smiles", "perception", "chem", "inchi", "smarts", "rxn"] }
+chematic = { version = "0.18", features = ["smiles", "perception", "chem", "inchi", "smarts", "rxn", "mol"] }
 inchi = { version = "0.1", optional = true }
 serde = { workspace = true }
 serde_json = { workspace = true }

@@ -191,11 +191,23 @@ fn main() {
         }
         Some("species") => {
             for s in species::REGISTRY {
+                // ✓ marks a verified identity: this species has a curated
+                // SMILES whose recomputation by the official IUPAC InChI
+                // library (v1.07.5, vendored in inchi-sys) must reproduce
+                // the registry InChIKey — enforced in the gate.
+                let verified = kerotakis_org::inchi_validate::CURATED_STRUCTURES
+                    .iter()
+                    .any(|(id, _)| *id == s.key);
+                let mark = if verified { "✓" } else { " " };
                 println!(
-                    "{:<10} {:<18} {:<8} M={:>8.3} g/mol   [{}]",
+                    "{:<10} {mark} {:<18} {:<8} M={:>8.3} g/mol   [{}]",
                     s.key, s.name, s.formula, s.molar_mass, s.provenance
                 );
             }
+            println!(
+                "
+✓ = identity verified: curated structure recomputed by the                  official IUPAC InChI library (1.07.5) matches the registry key"
+            );
         }
         Some("mechanism") => mechanism_command(&args[1..]),
         Some("sweep") => {
