@@ -135,6 +135,11 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             })
             .to_string())
         }
+        "parse" => Ok(match kerotakis_core::script::parse_op(field("line")?) {
+            Ok(None) => json!({ "ok": true }).to_string(),
+            Ok(Some(op)) => json!({ "ok": true, "operator": op }).to_string(),
+            Err(e) => json!({ "ok": false, "error": e }).to_string(),
+        }),
         "set_register" => {
             let level = field("level")?;
             lab.register =

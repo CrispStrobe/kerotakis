@@ -203,7 +203,11 @@
   </aside>
 </main>
 
-<CommandBar onsubmit={(line) => void session.submit(line)} busy={session.busy} />
+<CommandBar
+  onsubmit={(line) => void session.submit(line)}
+  busy={session.busy}
+  onvalidate={(line) => session.parse(line)}
+/>
 
 <nav class="tabs" aria-label="panes">
   {#each [["bench", "bench"], ["shelf", "shelf"], ["notes", "notes"]] as [key, label] (key)}

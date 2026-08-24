@@ -48,6 +48,9 @@ export class TauriHost implements EngineHost {
   async runScript(script: string): Promise<ScriptResult> {
     return JSON.parse(await this.req("run_script", { script }));
   }
+  async parse(line: string): Promise<{ ok: boolean; operator?: unknown; error?: string }> {
+    return JSON.parse(await this.req("parse", { line }));
+  }
   async setRegister(level: string): Promise<void> {
     await this.req("set_register", { level });
   }

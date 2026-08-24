@@ -118,6 +118,8 @@ export interface EngineHost {
   hello(): Promise<{ protocol: number; can_solve?: boolean }>;
   step(operatorJson: string): Promise<StepResult>;
   runScript(script: string): Promise<ScriptResult>;
+  /** Validate one line without executing it (GUI-005). */
+  parse(line: string): Promise<{ ok: boolean; operator?: unknown; error?: string }>;
   setRegister(level: string): Promise<void>;
   scene(): Promise<Scene>;
   state(): Promise<unknown>;

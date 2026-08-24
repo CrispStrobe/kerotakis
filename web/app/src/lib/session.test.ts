@@ -33,6 +33,12 @@ class FakeHost implements EngineHost {
     this.calls.push("step");
     return { events: [], rendered: [] };
   }
+  async parse(line: string) {
+    this.calls.push(`parse:${line}`);
+    return line.startsWith("boom")
+      ? { ok: false, error: "no such verb" }
+      : { ok: true };
+  }
   async runScript(script: string) {
     this.calls.push(`run:${script}`);
     return {
@@ -259,6 +265,16 @@ describe("Session", () => {
     expect(s.commandLog).toEqual([]);
     expect(storage.getItem("kero.session.v1")).toBeNull();
     expect(host.calls.at(-2)).toBe("reset");
+  });
+
+  it("parse validates without executing; register lines are session grammar", async () => {
+    const host = new FakeHost();
+    const s = new Session(host);
+    expect(await s.parse("boom v9")).toEqual({ ok: false, error: "no such verb" });
+    expect(await s.parse("register lv3")).toEqual({ ok: true });
+    expect(await s.parse("   ")).toEqual({ ok: true });
+    // Only the real command reached the engine.
+    expect(host.calls).toEqual(["parse:boom v9"]);
   });
 
   it("importLab composes onto the bench, skips comments, stops at a bad line", async () => {
