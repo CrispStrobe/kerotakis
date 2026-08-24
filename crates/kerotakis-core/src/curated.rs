@@ -27,6 +27,9 @@ pub struct CuratedReaction {
     /// the dissolved fraction only — undissolved solid on the bottom
     /// does not participate.
     pub solvent: Option<&'static str>,
+    /// When set, the reaction fires only when the vessel temperature
+    /// is at or above this threshold (in kelvin).
+    pub min_temp_k: Option<f64>,
 }
 
 /// Hand-verified seed set. Grows into the codex (P4).
@@ -36,6 +39,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         reactants: &[("NH3", 1.0), ("NaOCl", 1.0)],
         products: &[("NH2Cl", 1.0, Phase::Gas), ("NaOH", 1.0, Phase::Aqueous)],
         solvent: None,
+        min_temp_k: None,
     },
     CuratedReaction {
         equation: "NaOCl + 2 HCl → Cl2↑ + NaCl + H2O",
@@ -46,6 +50,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
             ("water", 1.0, Phase::Liquid),
         ],
         solvent: None,
+        min_temp_k: None,
     },
     CuratedReaction {
         equation: "4 KMnO4 + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 KOH + H₂O",
@@ -57,6 +62,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
             ("water", 1.0, Phase::Liquid),
         ],
         solvent: None,
+        min_temp_k: None,
     },
     CuratedReaction {
         equation: "4 MnO₄⁻ + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 OH⁻ + H₂O",
@@ -68,6 +74,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
             ("water", 1.0, Phase::Liquid),
         ],
         solvent: None,
+        min_temp_k: None,
     },
     // ── silver metathesis in ethanol (CAP-23 rung 2b) ────────────
     // PHREEQC handles these in water; the curated entries fire only
@@ -77,12 +84,28 @@ pub const REACTIONS: &[CuratedReaction] = &[
         reactants: &[("AgNO3", 1.0), ("NaCl", 1.0)],
         products: &[("AgCl", 1.0, Phase::Solid), ("NaNO3", 1.0, Phase::Solid)],
         solvent: Some("ethanol"),
+        min_temp_k: None,
     },
     CuratedReaction {
         equation: "AgNO₃ + KCl → AgCl↓ + KNO₃",
         reactants: &[("AgNO3", 1.0), ("KCl", 1.0)],
         products: &[("AgCl", 1.0, Phase::Solid), ("KNO3", 1.0, Phase::Solid)],
         solvent: Some("ethanol"),
+        min_temp_k: None,
+    },
+    // ── thermal decomposition (EXP-2: Backpulver) ───────────────
+    // Onset ~50 °C, classroom-observable above ~80 °C (CRC Handbook
+    // 97th ed.; Merck Index 15th ed.). Threshold set at 353 K.
+    CuratedReaction {
+        equation: "2 NaHCO₃ →Δ Na₂CO₃ + H₂O + CO₂↑",
+        reactants: &[("NaHCO3", 2.0)],
+        products: &[
+            ("Na2CO3", 1.0, Phase::Solid),
+            ("water", 1.0, Phase::Liquid),
+            ("CO2", 1.0, Phase::Gas),
+        ],
+        solvent: None,
+        min_temp_k: Some(353.0),
     },
 ];
 
@@ -231,6 +254,11 @@ impl Equilibrator for CuratedEquilibrator {
     fn applies(&self, vessel: &Vessel) -> bool {
         let solvent = crate::nonaqueous::single_organic_solvent(vessel);
         REACTIONS.iter().any(|r| {
+            if let Some(min_t) = r.min_temp_k {
+                if vessel.temperature.0 < min_t {
+                    return false;
+                }
+            }
             if let Some(req) = r.solvent {
                 solvent == Some(req) && extent_in_solvent(vessel, r, req) > TRACE
             } else {
@@ -250,6 +278,11 @@ impl Equilibrator for CuratedEquilibrator {
             let mut progressed = false;
             let solvent = crate::nonaqueous::single_organic_solvent(vessel);
             for (i, reaction) in REACTIONS.iter().enumerate() {
+                if let Some(min_t) = reaction.min_temp_k {
+                    if vessel.temperature.0 < min_t {
+                        continue;
+                    }
+                }
                 let x = if let Some(req) = reaction.solvent {
                     if solvent != Some(req) || solvent_gated_done[i] {
                         continue;

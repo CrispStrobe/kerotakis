@@ -1250,6 +1250,16 @@ honest apology.
       (value ± tolerance read from the solved state) and sealed
       "unknown" reagents (identity hidden by the UI, computed
       truthfully underneath) — both land in the quest engine.
+- **EXP-2 Backpulver (thermal decomposition):** curated reaction
+      `2 NaHCO₃ →Δ Na₂CO₃ + H₂O + CO₂↑` with temperature threshold
+      353 K (80 °C; CRC Handbook 97th ed., Merck Index 15th ed.).
+      `CuratedReaction` gains `min_temp_k: Option<f64>` — the reaction
+      fires only when the vessel temperature reaches the threshold.
+      11 tests: equation balance, temperature gating (fires above,
+      silent below), CO₂ gas evolution (open + sealed headspace),
+      Na₂CO₃ solid product, stoichiometry, element conservation,
+      honesty silence, three-register rendering. No new species
+      required (NaHCO₃, Na₂CO₃, CO₂, water already in registry).
 
 ## Declined — off-mission, recorded so nobody re-litigates silently
 
