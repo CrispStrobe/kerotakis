@@ -12,7 +12,11 @@ fn dissolved_salt_travels_with_its_water() {
     let mut bench = Bench::new();
     for _ in 0..2 {
         bench
-            .step_with(Operator::NewVessel, &mut eq, &PermissiveScreen)
+            .step_with(
+                Operator::NewVessel { kind: None },
+                &mut eq,
+                &PermissiveScreen,
+            )
             .unwrap();
     }
     for (key, moles) in [("water", 2.0), ("NaCl", 0.2), ("hexane", 1.0)] {
@@ -78,7 +82,11 @@ fn ethanol_partitions_between_the_layers() {
     let mut bench = Bench::new();
     for _ in 0..2 {
         bench
-            .step_with(Operator::NewVessel, &mut eq, &PermissiveScreen)
+            .step_with(
+                Operator::NewVessel { kind: None },
+                &mut eq,
+                &PermissiveScreen,
+            )
             .unwrap();
     }
     for (key, moles) in [("water", 2.0), ("hexane", 1.0), ("ethanol", 0.1)] {

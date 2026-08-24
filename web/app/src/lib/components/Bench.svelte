@@ -9,6 +9,7 @@
     onselect,
     ondropspecies,
     pristine = false,
+    effects = {},
   }: {
     scene: Scene | null;
     register: string;
@@ -16,7 +17,12 @@
     onselect: (id: number) => void;
     ondropspecies?: (id: number, payload: { key: string; phase: string }) => void;
     pristine?: boolean;
+    effects?: Record<number, { kind: string; at: number }[]>;
+    onnewvessel?: (kind: string) => void;
   } = $props();
+
+  let choosing = $state(false);
+  const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
 </script>
 
 <section class="bench" aria-label="the bench">
@@ -28,8 +34,31 @@
         selected={vessel.id === selected}
         {onselect}
         {ondropspecies}
+        effects={effects[vessel.id] ?? []}
       />
     {/each}
+    {#if onnewvessel}
+      <div class="add-vessel">
+        {#if choosing}
+          {#each VESSEL_KINDS as kind (kind)}
+            <button
+              class="kind"
+              onclick={() => {
+                choosing = false;
+                onnewvessel(kind);
+              }}
+            >
+              {kind}
+            </button>
+          {/each}
+          <button class="kind cancel" onclick={() => (choosing = false)}>×</button>
+        {:else}
+          <button class="plus" aria-label="add a vessel" onclick={() => (choosing = true)}>
+            +
+          </button>
+        {/if}
+      </div>
+    {/if}
     {#if pristine}
       <p class="hint">
         Drag something in from the shelf, type a command below — or pick a
@@ -55,6 +84,43 @@
   .empty {
     color: var(--dim);
     align-self: center;
+  }
+  .add-vessel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    align-self: center;
+  }
+  .plus {
+    width: 44px;
+    height: 44px;
+    border: 1px dashed var(--edge-strong);
+    border-radius: 10px;
+    background: none;
+    color: var(--dim);
+    font-size: 1.4rem;
+    cursor: pointer;
+  }
+  .plus:hover {
+    color: var(--hot);
+    border-color: var(--hot);
+  }
+  .kind {
+    border: 1px solid var(--edge);
+    border-radius: 6px;
+    background: var(--panel);
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.6rem;
+    cursor: pointer;
+    min-height: 34px;
+  }
+  .kind:hover {
+    border-color: var(--hot);
+  }
+  .cancel {
+    color: var(--dim);
   }
   .hint {
     color: var(--dim);

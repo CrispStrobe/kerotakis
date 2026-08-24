@@ -397,7 +397,11 @@ fn half_cells(left: (&str, &str, f64), right: (&str, &str, f64)) -> (Bench, Solv
     let mut stack = stack();
     let mut bench = Bench::new();
     bench
-        .step_with(Operator::NewVessel, &mut stack, &PermissiveScreen)
+        .step_with(
+            Operator::NewVessel { kind: None },
+            &mut stack,
+            &PermissiveScreen,
+        )
         .expect("v2");
     for (v, (metal, salt, moles)) in [(VesselId(0), left), (VesselId(1), right)] {
         for (key, n) in [("water", 5.55), (salt, moles), (metal, 0.05)] {

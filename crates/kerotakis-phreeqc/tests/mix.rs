@@ -40,8 +40,8 @@ fn add(
 fn mix_two_salt_solutions_conserves_mass() {
     let mut bench = Bench::new();
     let mut stack = stack();
-    bench.step(Operator::NewVessel).unwrap(); // v2
-    bench.step(Operator::NewVessel).unwrap(); // v3
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v2
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v3
 
     add(&mut bench, &mut stack, VesselId(0), "water", 27.75);
     add(&mut bench, &mut stack, VesselId(0), "NaCl", 0.1);
@@ -89,8 +89,8 @@ fn mix_two_salt_solutions_conserves_mass() {
 fn mix_acid_and_base_produces_neutral_ph() {
     let mut bench = Bench::new();
     let mut stack = stack();
-    bench.step(Operator::NewVessel).unwrap(); // v2
-    bench.step(Operator::NewVessel).unwrap(); // v3
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v2
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v3
 
     add(&mut bench, &mut stack, VesselId(0), "water", 27.75);
     add(&mut bench, &mut stack, VesselId(0), "HCl", 0.01);
@@ -124,10 +124,10 @@ fn mix_acid_and_base_produces_neutral_ph() {
 fn hard_water_lesson_replays() {
     let mut bench = Bench::new();
     let mut stack = stack();
-    bench.step(Operator::NewVessel).unwrap(); // v2
-    bench.step(Operator::NewVessel).unwrap(); // v3
-    bench.step(Operator::NewVessel).unwrap(); // v4
-    bench.step(Operator::NewVessel).unwrap(); // v5
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v2
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v3
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v4
+    bench.step(Operator::NewVessel { kind: None }).unwrap(); // v5
 
     // Hard water with dissolved calcium and magnesium.
     add(&mut bench, &mut stack, VesselId(2), "water", 27.75);

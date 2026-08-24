@@ -112,23 +112,103 @@ fn water_present_means_this_rung_stands_aside() {
 #[test]
 fn an_uncovered_pair_still_gets_the_honest_apology() {
     let mut bench = Bench::new();
-    add(&mut bench, "ethanol", 1.7);
-    let events = add(&mut bench, "CuSO4", 0.01);
+    add(&mut bench, "propanone", 1.7);
+    let events = add(&mut bench, "gypsum", 0.01);
     assert!(
         events
             .iter()
             .any(|e| matches!(e, Event::NotYetModeled { .. })),
-        "no curated row for CuSO4/ethanol yet — the apology stands until the data lands"
+        "no curated row for gypsum/propanone — the apology stands until the data lands"
     );
 }
 
 #[test]
 fn permanganate_is_deliberately_not_tabled() {
-    // KMnO4 in ethanol REACTS (the oxidation the safety screen warns
-    // about); tabulating it as soluble or inert would be a lie. Until
-    // the curated-reaction rung lands, the honest apology stands.
     assert!(!kerotakis_core::nonaqueous::verdict_exists(
         &SpeciesId::new("KMnO4"),
         "ethanol"
     ));
+}
+
+#[test]
+fn calcium_chloride_is_very_soluble_in_ethanol() {
+    let mut bench = Bench::new();
+    add(&mut bench, "ethanol", 1.7126);
+    let events = add(&mut bench, "CaCl2", 0.005);
+    let verdict = events
+        .iter()
+        .find_map(|e| match e {
+            Event::DissolvedInSolvent {
+                species,
+                dissolved,
+                undissolved,
+                ..
+            } if species.0 == "CaCl2" => Some((dissolved.0, undissolved.0)),
+            _ => None,
+        })
+        .expect("CaCl2 verdict");
+    assert!(
+        verdict.0 > 0.0 && verdict.1 == 0.0,
+        "CaCl2 at 25.8 g/100 mL should dissolve completely at 0.005 mol in ~100 mL ethanol"
+    );
+}
+
+#[test]
+fn sodium_carbonate_is_insoluble_in_ethanol() {
+    let mut bench = Bench::new();
+    add(&mut bench, "ethanol", 1.7126);
+    let events = add(&mut bench, "Na2CO3", 0.01);
+    let verdict = events
+        .iter()
+        .find_map(|e| match e {
+            Event::DissolvedInSolvent {
+                species,
+                dissolved,
+                undissolved,
+                ..
+            } if species.0 == "Na2CO3" => Some((dissolved.0, undissolved.0)),
+            _ => None,
+        })
+        .expect("Na2CO3 verdict");
+    assert!(
+        verdict.0 == 0.0 && (verdict.1 - 0.01).abs() < 1e-12,
+        "Na2CO3 is insoluble in ethanol — all stays solid"
+    );
+}
+
+#[test]
+fn sulfur_dissolves_well_in_ethyl_acetate() {
+    let mut bench = Bench::new();
+    add(&mut bench, "ethyl_acetate", 1.5);
+    let events = add(&mut bench, "S", 0.001);
+    let verdict = events
+        .iter()
+        .find_map(|e| match e {
+            Event::DissolvedInSolvent {
+                species,
+                dissolved,
+                undissolved,
+                ..
+            } if species.0 == "S" => Some((dissolved.0, undissolved.0)),
+            _ => None,
+        })
+        .expect("S verdict");
+    assert!(
+        verdict.0 > 0.0 && verdict.1 == 0.0,
+        "sulfur at 1.8 g/100 mL in ethyl acetate: 0.001 mol should dissolve completely"
+    );
+}
+
+#[test]
+fn zinc_is_inert_in_hexane() {
+    let mut bench = Bench::new();
+    add(&mut bench, "hexane", 1.5);
+    let events = add(&mut bench, "Zn", 0.01);
+    assert!(
+        events.iter().any(|e| matches!(
+            e,
+            Event::InertInSolvent { species, .. } if species.0 == "Zn"
+        )),
+        "zinc gets computed no-reaction in hexane: {events:?}"
+    );
 }

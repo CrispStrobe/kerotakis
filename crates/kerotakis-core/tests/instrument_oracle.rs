@@ -61,7 +61,7 @@ fn chromatography_matches_the_hand_worked_example() {
 #[test]
 fn calorimeter_reads_back_exactly_the_heat_put_in() {
     let mut bench = Bench::new();
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     bench
         .step(Operator::Add {
             vessel: VesselId(1),

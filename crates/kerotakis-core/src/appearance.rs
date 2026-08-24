@@ -74,7 +74,7 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         };
         let concentration = p.moles.0 / litres;
         for (band, e) in absorbance.iter_mut().zip(eps.iter()) {
-            *band += e * concentration * crate::spectrum::BEAKER_PATH_CM;
+            *band += e * concentration * crate::vessel::path_cm_for(&vessel.label);
         }
     }
     let has_liquid = vessel

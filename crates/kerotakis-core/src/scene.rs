@@ -134,7 +134,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         srgb: [c.r, c.g, c.b],
         colour_word: colour_word(c, false).to_string(),
         cloudiness: seen.cloudiness,
-        path_length_cm: crate::spectrum::BEAKER_PATH_CM,
+        path_length_cm: crate::vessel::path_cm_for(&v.label),
     });
 
     // Aggregate solids per species, keeping first-seen order, then sort by
@@ -265,6 +265,17 @@ mod tests {
         let json = serde_json::to_value(scene_vessel(&v)).unwrap();
         assert_eq!(json["boundary"], "sealed");
         assert!(json["volume"].is_number());
+    }
+
+    /// Glassware geometry reaches the colour pipeline: the same solution
+    /// reports a shorter light path in a test tube than in a beaker.
+    #[test]
+    fn the_tube_has_a_shorter_light_path() {
+        let mut v = vessel_with(&[("water", 5.55, Phase::Liquid)]);
+        v.label = "tube".to_string();
+        let s = scene_vessel(&v);
+        assert_eq!(s.liquid.unwrap().path_length_cm, 1.2);
+        assert_eq!(s.label, "tube");
     }
 
     /// The serialized field names are protocol API (PROTOCOL.md). This is

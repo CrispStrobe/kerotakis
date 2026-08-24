@@ -124,7 +124,7 @@ fn apply(bench: &mut Bench, op: &RandOp) -> Option<f64> {
                 })
                 .map(|_| bench.vessel(v).unwrap().enthalpy().0 - before)
         }
-        RandOp::NewVessel => bench.step(Operator::NewVessel).map(|_| 0.0),
+        RandOp::NewVessel => bench.step(Operator::NewVessel { kind: None }).map(|_| 0.0),
         RandOp::Decant { from, to, fraction } => {
             let (f, t) = (pick(*from), pick(*to));
             if f == t {

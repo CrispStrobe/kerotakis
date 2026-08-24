@@ -207,12 +207,12 @@ fn prepare_hard_and_soft(eq: &mut PhreeqcEquilibrator) -> Bench {
     add(&mut bench, eq, v1, "CaCl2", 5e-3);
     add(&mut bench, eq, v1, "MgSO4", 3e-3);
 
-    step(&mut bench, eq, Operator::NewVessel);
+    step(&mut bench, eq, Operator::NewVessel { kind: None });
     let v2 = VesselId(1);
     add(&mut bench, eq, v2, "water", 55.51);
     add(&mut bench, eq, v2, "NaCl", 0.01);
 
-    step(&mut bench, eq, Operator::NewVessel);
+    step(&mut bench, eq, Operator::NewVessel { kind: None });
     bench
 }
 

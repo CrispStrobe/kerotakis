@@ -25,7 +25,13 @@ fn kelvin_zero() -> Kelvin {
 #[serde(tag = "op", rename_all = "snake_case")]
 pub enum Operator {
     /// Create a new empty vessel on the bench.
-    NewVessel,
+    NewVessel {
+        /// Glassware kind ("beaker", "flask", "tube", "cylinder",
+        /// "crucible"); absent means beaker. Optional so every log written
+        /// before kinds existed still replays.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        kind: Option<String>,
+    },
     /// Add an amount of a species to a vessel, entering at `at` temperature
     /// (defaults to standard).
     Add {

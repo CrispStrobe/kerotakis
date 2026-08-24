@@ -50,6 +50,28 @@ pub enum Headspace {
     },
 }
 
+/// The drawable glassware kinds `new` accepts, each with the light path
+/// its geometry gives Beer–Lambert. This is why choosing a vessel is a
+/// chemistry decision: the same permanganate is pale in a slim tube and
+/// deep purple in a beaker, and the colour pipeline uses THIS number.
+pub const VESSEL_KINDS: &[(&str, f64)] = &[
+    ("beaker", 4.0),
+    ("flask", 3.5),
+    ("tube", 1.2),
+    ("cylinder", 2.2),
+    ("crucible", 3.0),
+];
+
+/// The Beer–Lambert path for a vessel label; unknown labels read as the
+/// classic beaker rather than guessing.
+pub fn path_cm_for(label: &str) -> f64 {
+    VESSEL_KINDS
+        .iter()
+        .find(|(k, _)| *k == label)
+        .map(|(_, p)| *p)
+        .unwrap_or(4.0)
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Portion {
     pub species: SpeciesId,

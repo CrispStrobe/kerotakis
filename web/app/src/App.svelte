@@ -155,6 +155,14 @@
   >
     clear
   </button>
+  <button
+    class="tool"
+    onclick={() => void session.submit("wait 30s")}
+    disabled={session.busy}
+    title="let 30 seconds of bench time pass"
+  >
+    wait 30 s
+  </button>
   <Timeline
     position={session.position}
     total={session.commandLog.length}
@@ -202,6 +210,7 @@
       items={session.shelf}
       register={session.register}
       target={session.selected}
+      kit={session.lesson?.kit ?? null}
       onadd={(line) => {
         void session.submit(line);
         pane = "bench";
@@ -223,6 +232,8 @@
         pane = "notes";
       }}
       pristine={session.commandLog.length === 0 && !session.lesson}
+      effects={session.vesselEffects}
+      onnewvessel={(kind) => void session.submit(kind === "beaker" ? "new" : `new ${kind}`)}
       ondropspecies={(id, p) =>
         void session.submit(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
@@ -235,8 +246,12 @@
         vessel={session.inspector.vessel}
         lines={session.inspector.lines}
         particles={session.inspector.particles}
+        boundary={session.scene?.vessels.find((v) => v.id === session.inspector?.vessel)
+          ?.boundary ?? "open"}
+        busy={session.busy}
         onparticles={() => void session.particles()}
         onclose={() => session.closeInspector()}
+        onaction={(line) => void session.submit(line)}
       />
     {/if}
     <Feed entries={session.feed} />
