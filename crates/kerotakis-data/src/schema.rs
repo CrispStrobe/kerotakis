@@ -54,6 +54,8 @@ pub enum SourceLane {
     BuildOracle,
     /// A remote comparison service; only reviewed derived facts may cross it.
     ExternalOracle,
+    /// Species added for a specific EXP task; eligible for the runtime pack.
+    ExperimentData,
 }
 
 impl SourceLane {
@@ -61,7 +63,7 @@ impl SourceLane {
     /// runtime pack. Licence review assigns the lane; the pack compiler does
     /// not reinterpret licence strings or copy oracle material.
     pub const fn may_enter_runtime_pack(self) -> bool {
-        matches!(self, Self::Runtime)
+        matches!(self, Self::Runtime | Self::ExperimentData)
     }
 }
 
@@ -438,6 +440,7 @@ pub enum Method {
     Derived(String),
     Imported(String),
     Editorial(String),
+    Curated(String),
 }
 
 impl Method {
@@ -447,7 +450,8 @@ impl Method {
             | Self::Calculated(detail)
             | Self::Derived(detail)
             | Self::Imported(detail)
-            | Self::Editorial(detail) => detail,
+            | Self::Editorial(detail)
+            | Self::Curated(detail) => detail,
         }
     }
 }
