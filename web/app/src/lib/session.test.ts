@@ -1,6 +1,19 @@
 import { describe, expect, it } from "vitest";
 import type { EngineHost, Scene } from "./host/EngineHost";
-import { Session } from "./session.svelte";
+import { Session, type StorageLike } from "./session.svelte";
+
+class FakeStorage implements StorageLike {
+  map = new Map<string, string>();
+  getItem(k: string) {
+    return this.map.get(k) ?? null;
+  }
+  setItem(k: string, v: string) {
+    this.map.set(k, v);
+  }
+  removeItem(k: string) {
+    this.map.delete(k);
+  }
+}
 
 /** An engine that records calls and plays a deterministic bench. */
 class FakeHost implements EngineHost {
@@ -150,6 +163,50 @@ describe("Session", () => {
     await s.submit("add v1 unobtainium 1g");
     expect(s.commandLog).toEqual([]);
     expect(s.feed.at(-1)!.kind).toBe("error");
+  });
+
+  it("autosaves, and a reloaded session replays back to the same bench", async () => {
+    const storage = new FakeStorage();
+    const host = new FakeHost();
+    const s1 = new Session(host, storage);
+    await s1.submit("add v1 water 100mL");
+    await s1.submit("register lv2");
+    await s1.submit("add v1 NaCl 1g");
+    await s1.undo();
+
+    // "Reload": a fresh session over the same storage.
+    const host2 = new FakeHost();
+    const s2 = new Session(host2, storage);
+    await s2.connect();
+    expect(s2.commandLog).toEqual(["add v1 water 100mL", "add v1 NaCl 1g"]);
+    expect(s2.position).toBe(1);
+    expect(s2.register).toBe("lv2");
+    // Restored by replaying exactly the applied prefix.
+    expect(host2.calls).toContain("register:lv2");
+    expect(host2.calls).toContain("run:add v1 water 100mL");
+    expect(s2.feed.some((f) => f.text.includes("restored"))).toBe(true);
+  });
+
+  it("a corrupt save is dropped, never wedging the bench", async () => {
+    const storage = new FakeStorage();
+    storage.setItem("kero.session.v1", "{not json");
+    const s = new Session(new FakeHost(), storage);
+    await s.connect();
+    expect(s.commandLog).toEqual([]);
+    expect(storage.getItem("kero.session.v1")).toBeNull();
+  });
+
+  it("clear empties the bench and the save; jumpTo(0) keeps the future", async () => {
+    const storage = new FakeStorage();
+    const host = new FakeHost();
+    const s = new Session(host, storage);
+    await s.submit("add v1 water 100mL");
+    await s.jumpTo(0);
+    expect(s.commandLog).toHaveLength(1); // redo still possible
+    await s.clear();
+    expect(s.commandLog).toEqual([]);
+    expect(storage.getItem("kero.session.v1")).toBeNull();
+    expect(host.calls.at(-2)).toBe("reset");
   });
 
   it("inspect opens register-dependent detail and refreshes after steps", async () => {

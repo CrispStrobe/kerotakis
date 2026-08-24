@@ -62,6 +62,13 @@
   <button class="tool" onclick={saveLab} disabled={session.commandLog.length === 0}>
     save .lab
   </button>
+  <button
+    class="tool"
+    onclick={() => void session.clear()}
+    disabled={session.busy || session.commandLog.length === 0}
+  >
+    clear
+  </button>
   <Timeline
     position={session.position}
     total={session.commandLog.length}

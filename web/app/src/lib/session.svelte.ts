@@ -35,6 +35,16 @@ export const REGISTERS = [
   { level: "lv3", label: "Model" },
 ] as const;
 
+/** The slice of Web Storage the session needs — injectable for tests,
+ * absent (null) where storage is unavailable. */
+export interface StorageLike {
+  getItem(key: string): string | null;
+  setItem(key: string, value: string): void;
+  removeItem(key: string): void;
+}
+
+const SAVE_KEY = "kero.session.v1";
+
 export class Session {
   register = $state<string>("lv1");
   scene = $state<Scene | null>(null);
@@ -59,7 +69,10 @@ export class Session {
   /** Open inspector content, if any. */
   inspector = $state<{ vessel: number; lines: string[] } | null>(null);
 
-  constructor(private host: EngineHost) {}
+  constructor(
+    private host: EngineHost,
+    private storage: StorageLike | null = defaultStorage(),
+  ) {}
 
   async connect(): Promise<void> {
     try {
@@ -72,6 +85,7 @@ export class Session {
           ? "The bench is live: states nobody pre-computed are solved."
           : "The bench answers from shipped results only — the live aqueous engine is not attached.",
       });
+      await this.restore();
       this.scene = await this.host.scene();
       const species = (await this.host.species()) as ShelfItem[];
       this.shelf = species.map((s) => ({
@@ -85,6 +99,77 @@ export class Session {
         kind: "error",
         text: e instanceof Error ? e.message : String(e),
       });
+    }
+  }
+
+  /** Rebuild the bench from the autosaved log — a reloaded tab comes back
+   * exactly where it was, by replay, never by trusting a cached scene. */
+  private async restore(): Promise<void> {
+    const raw = this.storage?.getItem(SAVE_KEY);
+    if (!raw) return;
+    try {
+      const saved = JSON.parse(raw) as {
+        log: string[];
+        position: number;
+        register: string;
+      };
+      if (!Array.isArray(saved.log) || saved.log.length === 0) return;
+      if (saved.register && saved.register !== this.register) {
+        await this.host.setRegister(saved.register);
+        this.register = saved.register;
+      }
+      const position = Math.max(0, Math.min(saved.log.length, saved.position ?? saved.log.length));
+      if (position > 0) {
+        await this.host.runScript(saved.log.slice(0, position).join("\n"));
+      }
+      this.commandLog = saved.log;
+      this.position = position;
+      this.feed.push({
+        kind: "note",
+        text: `restored your last session: ${position} step(s) replayed`,
+      });
+    } catch {
+      // A corrupt save must never wedge the bench: drop it and start clean.
+      this.storage?.removeItem(SAVE_KEY);
+      this.feed.push({ kind: "note", text: "could not restore the last session — starting fresh" });
+    }
+  }
+
+  private persist(): void {
+    try {
+      this.storage?.setItem(
+        SAVE_KEY,
+        JSON.stringify({
+          log: this.commandLog,
+          position: this.position,
+          register: this.register,
+        }),
+      );
+    } catch {
+      // Storage full or blocked: the session still works, it just won't survive a reload.
+    }
+  }
+
+  /** Empty the bench and forget the session — distinct from jumpTo(0),
+   * which keeps the future for redo. */
+  async clear(): Promise<void> {
+    if (this.busy) return;
+    this.busy = true;
+    try {
+      await this.host.reset();
+      this.commandLog = [];
+      this.position = 0;
+      this.storage?.removeItem(SAVE_KEY);
+      this.scene = await this.host.scene();
+      this.inspector = null;
+      this.feed.push({ kind: "note", text: "the bench is empty again" });
+    } catch (e) {
+      this.feed.push({
+        kind: "error",
+        text: e instanceof Error ? e.message : String(e),
+      });
+    } finally {
+      this.busy = false;
     }
   }
 
@@ -114,6 +199,7 @@ export class Session {
       }
       this.commandLog.push(trimmed);
       this.position = this.commandLog.length;
+      this.persist();
       // The inspected vessel's detail is stale after any step.
       if (this.inspector) await this.inspect(this.inspector.vessel);
     } catch (e) {
@@ -142,6 +228,7 @@ export class Session {
     try {
       await this.host.setRegister(level);
       this.register = level;
+      this.persist();
       this.feed.push({ kind: "note", text: `speaking at ${level}` });
       if (this.inspector) await this.inspect(this.inspector.vessel);
     } catch (e) {
@@ -174,6 +261,7 @@ export class Session {
       }
       const was = this.position;
       this.position = target;
+      this.persist();
       this.feed.push({
         kind: "note",
         text:
@@ -288,4 +376,16 @@ export class Session {
   exportLab(): string {
     return this.commandLog.join("\n") + "\n";
   }
+}
+
+/** localStorage where the browser allows it; null where it throws
+ * (private windows, blocked site data) — the session then simply does
+ * not survive a reload, which is a feature loss, not a failure. */
+function defaultStorage(): StorageLike | null {
+  try {
+    if (typeof localStorage !== "undefined") return localStorage;
+  } catch {
+    // fall through
+  }
+  return null;
 }

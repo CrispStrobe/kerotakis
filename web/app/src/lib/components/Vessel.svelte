@@ -151,6 +151,20 @@
     stroke-width: 2.5;
     stroke-linecap: round;
   }
+  /* Liquid and deposits move smoothly between computed states — the
+     motion is presentation only; every keyframe endpoint is engine data. */
+  svg rect {
+    transition:
+      y 0.5s ease,
+      height 0.5s ease,
+      fill 0.5s ease,
+      opacity 0.5s ease;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    svg rect {
+      transition: none;
+    }
+  }
   .lid {
     fill: var(--edge-strong);
   }
