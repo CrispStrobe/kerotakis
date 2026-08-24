@@ -21,6 +21,7 @@
   import HelpDialog from "./lib/components/HelpDialog.svelte";
   import PeriodicTable from "./lib/components/PeriodicTable.svelte";
   import ExperimentCatalog from "./lib/components/ExperimentCatalog.svelte";
+  import ReadingInset from "./lib/components/ReadingInset.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
 
   // In the Tauri shell the engine is native and in-process; on the web it
@@ -84,6 +85,8 @@
   let helpOpen = $state(false);
   let tableOpen = $state(false);
   let catalogOpen = $state(false);
+  /** A tapped badge, magnified (the visual bar's reading inset). */
+  let inset = $state<{ vessel: number; reading: { key: string; value: number; confidence: string } } | null>(null);
   let codexEntries = $state<CodexEntry[]>([]);
   /** The burette: clamped over the selected vessel when out (GUI-033). */
   let buretteOut = $state(false);
@@ -173,7 +176,8 @@
     } else if (e.key === "?" && !typing) {
       helpOpen = true;
     } else if (e.key === "Escape") {
-      if (helpOpen) helpOpen = false;
+      if (inset) inset = null;
+      else if (helpOpen) helpOpen = false;
       else session.closeInspector();
     }
   }
@@ -396,6 +400,7 @@
       pristine={session.commandLog.length === 0 && !session.lesson}
       effects={session.vesselEffects}
       onnewvessel={(kind) => void session.submit(kind === "beaker" ? "new" : `new ${kind}`)}
+      onbadge={(vessel, reading) => (inset = { vessel, reading })}
       ondropspecies={(id, p) =>
         void session.submit(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
@@ -437,6 +442,10 @@
     </button>
   {/each}
 </nav>
+
+{#if inset}
+  <ReadingInset vessel={inset.vessel} reading={inset.reading} onclose={() => (inset = null)} />
+{/if}
 
 {#if helpOpen}
   <HelpDialog onclose={() => (helpOpen = false)} />

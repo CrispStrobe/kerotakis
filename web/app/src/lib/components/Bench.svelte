@@ -19,6 +19,7 @@
     pristine?: boolean;
     effects?: Record<number, { kind: string; at: number }[]>;
     onnewvessel?: (kind: string) => void;
+    onbadge?: (vessel: number, badge: { key: string; value: number; confidence: string }) => void;
   } = $props();
 
   let choosing = $state(false);
@@ -35,6 +36,7 @@
         {onselect}
         {ondropspecies}
         effects={effects[vessel.id] ?? []}
+        onbadge={(b) => onbadge?.(vessel.id, b)}
       />
     {/each}
     {#if onnewvessel}

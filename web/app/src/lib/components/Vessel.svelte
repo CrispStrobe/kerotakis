@@ -15,6 +15,7 @@
     onselect?: (id: number) => void;
     ondropspecies?: (id: number, payload: { key: string; phase: string }) => void;
     effects?: { kind: string; at: number }[];
+    onbadge?: (badge: { key: string; value: number; confidence: string }) => void;
   } = $props();
 
   // Transient effects: young enough that their animation is still running.
@@ -109,22 +110,21 @@
   const hot = $derived(Math.min(1, Math.max(0, (vessel.temperature_k - 310) / 300)));
 </script>
 
-<button
-  class="vessel"
-  class:selected
-  class:drop-ready={dropReady}
-  aria-label={`${vessel.label} v${vessel.id + 1}: ${vessel.words}`}
-  aria-pressed={selected}
-  onclick={() => onselect?.(vessel.id)}
-  ondragover={(e) => {
-    if (e.dataTransfer?.types.includes("application/x-kero-species")) {
-      e.preventDefault();
-      dropReady = true;
-    }
-  }}
-  ondragleave={() => (dropReady = false)}
-  {ondrop}
->
+<figure class="vessel" class:selected class:drop-ready={dropReady}>
+  <button
+    class="glassbtn"
+    aria-label={`${vessel.label} v${vessel.id + 1}: ${vessel.words}`}
+    aria-pressed={selected}
+    onclick={() => onselect?.(vessel.id)}
+    ondragover={(e) => {
+      if (e.dataTransfer?.types.includes("application/x-kero-species")) {
+        e.preventDefault();
+        dropReady = true;
+      }
+    }}
+    ondragleave={() => (dropReady = false)}
+    {ondrop}
+  >
   <svg viewBox="0 0 100 140" role="img" style={`width:clamp(64px,14vw,${geom.svgW}px)`}>
     <title>{vessel.words}</title>
     <defs>
@@ -248,6 +248,12 @@
       {/each}
     {/if}
 
+    {#if vessel.label === "cylinder"}
+      {#each [30, 50, 70, 90, 110] as ty (ty)}
+        <line class="tick" x1="39" x2="46" y1={ty} y2={ty} />
+      {/each}
+    {/if}
+
     <!-- Grounding shadow: the vessel stands on the bench, not in space. -->
     <ellipse class="shadow" cx="50" cy="131" rx={INNER_W / 2 + 6} ry="3.5" />
 
@@ -280,21 +286,31 @@
       </g>
     {/if}
   </svg>
+  </button>
 
-  <div class="caption">
+  <figcaption class="caption">
     <span class="label">{vessel.label} v{vessel.id + 1}</span>
     {#if register !== "lv1"}
-      <span class="badge">{tempC.toFixed(1)} °C</span>
+      <button
+        class="badge"
+        onclick={() => onbadge?.({ key: "temperature", value: tempC, confidence: "computed" })}
+      >
+        {tempC.toFixed(1)} °C
+      </button>
       {#each vessel.badges as badge (badge.key)}
-        <span class="badge" data-confidence={badge.confidence}>
+        <button
+          class="badge"
+          data-confidence={badge.confidence}
+          onclick={() => onbadge?.(badge)}
+        >
           {badge.key === "ph" ? "pH" : badge.key}
           {badge.value.toFixed(2)}
-        </span>
+        </button>
       {/each}
       {#if sealed}<span class="badge">{vessel.boundary}</span>{/if}
     {/if}
-  </div>
-</button>
+  </figcaption>
+</figure>
 
 <style>
   .vessel {
@@ -304,12 +320,17 @@
     flex-direction: column;
     align-items: center;
     gap: 0.4rem;
-    background: none;
     border: 1px solid transparent;
     border-radius: 10px;
+  }
+  .glassbtn {
+    background: none;
+    border: 0;
+    padding: 0;
     color: inherit;
     font: inherit;
     cursor: pointer;
+    display: block;
   }
   .vessel:hover {
     border-color: var(--edge);
@@ -329,6 +350,11 @@
     stroke: var(--edge-strong);
     stroke-width: 2.5;
     stroke-linecap: round;
+  }
+  .tick {
+    stroke: var(--edge-strong);
+    stroke-width: 0.8;
+    opacity: 0.7;
   }
   .sheen {
     fill: none;
@@ -519,5 +545,13 @@
     border-radius: 999px;
     padding: 0 0.5rem;
     background: var(--panel);
+    color: inherit;
+    font: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    min-height: 26px;
+  }
+  button.badge:hover {
+    border-color: var(--cool);
   }
 </style>
