@@ -302,3 +302,417 @@ EXP-0 first (Fable). Then NOW-tier authoring (EXP-16, 4, 21, 25, 26,
 (EXP-12, 5, 13, 14, 2, 1, 19); HARDER models (EXP-3, 7, 9, 15, 23,
 27, 28) one per branch after their data lands. The GUI workline reads
 this file for its affordance list.
+
+---
+
+# Part 4: the school-curriculum practical canon (audit 2026-08-24)
+
+A third corpus arrived as a sprawling commercial checklist site. The
+site itself contributes nothing (a thin wrapper, not named here — no
+source ever is); what it points at is the **public practical canon of
+the national curricula** (CBSE/ICSE, Cambridge IGCSE/A-level, NGSS) —
+those are open standards, and THEY are the organizing skeleton worth
+taking. Audited against EXP-0..29: most of the canon is already
+covered (titration, pH, electrochemistry, chromatography, rates,
+calorimetry, displacement/reactivity series, filtration/distillation,
+solution prep, limiting reagents, Ksp — all EXP or landed lessons).
+What follows is only what is genuinely NEW.
+
+## New tasks (EXP numbers continue; same laws apply)
+
+- **EXP-30 — Qualitative inorganic analysis** (the crown of the
+  school analytical canon; "salt analysis"). The INST-008
+  `QualitativeTest`/`QualitativeResult` types exist unwired. Scope:
+  the classic scheme as computed chemistry — cation tests (NaOH/NH3
+  precipitation with excess behaviour), anion tests (AgNO3 halide
+  series, BaCl2 sulfate, acid+limewater carbonate), flame tests (the
+  `FlameTest` event already fires), each a real engine solve with a
+  curated observation layer; sealed-unknown salt quests where the
+  learner infers identity from test patterns. Acceptance: at least
+  six unknown salts identifiable by tests alone, every test verdict
+  backed by a computed solve or a curated row with provenance; wrong
+  inferences get diagnosis lines in the codex predict style. HARDER
+  (breadth, not depth) — the highest-value single item in this part.
+- **EXP-31 — Gas tests** — pop (H2), glowing splint (O2), limewater
+  (CO2, exists), damp litmus (NH3) as curated test actions on the
+  headspace, each an event with three registers. Acceptance: the four
+  classic gases each identified from a genuinely evolved headspace.
+- **EXP-32 — True solution / colloid / suspension** — particle-size
+  classification + a Tyndall-scatter flag on appearance; filtration
+  and settling behaviour differ by class. Acceptance: salt vs starch
+  vs chalk classify correctly by computable behaviour (filter passes,
+  scatter flag, settling), not by label.
+- **EXP-33 — States and purity** — melting/boiling point as an
+  identification instrument (ties to sealed unknowns), sublimation as
+  a phase route (NH4Cl class), crystallisation with hydrate
+  bookkeeping (CuSO4·5H2O). Acceptance: an unknown identified by
+  MP/BP against registry data; a sublimation separation quest; a
+  hydrate loses and regains its water with exact mass accounting.
+- **EXP-34 — Rusting kinetics** — curated slow oxidation of iron
+  gated on water AND oxygen; the classic nail-in-conditions
+  comparison (dry / boiled water / salt water). Acceptance: rust
+  forms only where both are present; salt accelerates via the
+  curated rate; `kero study` sweeps conditions.
+- **EXP-35 — Combustion energetics of alcohols** — ignite +
+  calorimetry comparison across methanol/ethanol (both on the shelf).
+  Acceptance: enthalpy-per-mole ordering emerges from the ledger,
+  not from a table shown to the learner.
+- **EXP-36 — Organic synthesis pack** — acetylation-class synthesis
+  on the kerotakis-org SMIRKS machinery (salicylic-acid data species,
+  template proven at the molecule level like esterification), with
+  recrystallisation + melting-point purity check chaining EXP-33.
+  Acceptance: template-proven product, yield honest, purity checked
+  by the MP instrument. HARDER (org data care).
+- **EXP-37 — Spectrophotometric determination quest** — the
+  Beer–Lambert machinery and permanganate calibration oracle landed
+  with CAP-22; this is authoring only: calibration curve, unknown
+  concentration by value-claim. Acceptance: unknown determined within
+  tolerance from absorbance alone.
+- **EXP-38 — Curriculum paths and progress layer** — quests tagged
+  with public-curriculum labels (CBSE/ICSE/IGCSE/NGSS classes) so a
+  learner picks a path; progress, study-queue nudges, and post-quest
+  quizzes ride the quest engine state and the codex predict machinery
+  (quizzes already exist there in substance). GUI owns the surface;
+  the engine side is tags + state queries on EXP-0.
+
+## Declined from this corpus (recorded, with reasons)
+- 2D NMR interpretation, protein–ligand docking, HOMO–LUMO/MO
+  visualisation, retrosynthesis planning: computational and quantum
+  chemistry beyond the bench's subject — the engine computes wet
+  chemistry it can stand behind, and these would be a different
+  product pretending to be this one.
+- VR/multiplayer surfaces: GUI-workline territory if ever; not
+  engine tasks and not declined chemistry.
+- Water-system phase rule (triple point P–T manipulation): parked as
+  investigate-only — the states machinery covers bench pressure;
+  full P–T phase-diagram control is a real model decision, not a row.
+
+---
+
+# Part 5: the guided-practical corpus, classes 9–12 (audit 2026-08-24)
+
+A fourth corpus (publicly funded national virtual-lab collection; not
+named, as no source is). The convergence is the finding: after
+mapping every experiment against EXP-0..38, nearly all of it is
+covered — pH, titration, EMF, displacement single and double,
+thermochemistry and neutralisation enthalpy, saponification and soap
+comparisons, esterification, alcohol oxidation (CAP-23 rung 2 IS
+their oxidation practical), separations, MP/BP, sublimation,
+crystallisation and hydrate water, colloids, filtration, evaporation,
+conductivity-as-electrolytes, equilibrium shifts (cobalt is EXP-28;
+iron–thiocyanate becomes a quest on EXP-27+28 and is noted there),
+sealed-unknown identifications (bleaching powder, washing vs baking
+soda are EXP-30 quests), and the thiosulfate–acid kinetics clock,
+which is already a curated rate law in kinetics.rs. What follows is
+only the genuinely new remainder.
+
+## New tasks
+
+- **EXP-39 — Redox titrimetry** — the titrate verb targets pH only;
+  redox titration needs endpoint modes: self-indicating permanganate
+  (colour persists past equivalence) and potentiometric (pe from the
+  solver the engine already computes). Oxalic acid joins the registry
+  as the classic primary standard. Acceptance: KMnO4 standardised
+  against oxalic acid to a value-claim; endpoint within one drop;
+  both endpoint modes tested.
+- **EXP-40 — Biomolecule assays** — the food-test canon: reducing
+  sugars (Fehling/Benedict class), proteins (Biuret), starch (Lugol,
+  already in EXP-14), fats (grease-spot/emulsion tie to EXP-10).
+  Curated test rows with colour outcomes over real registry species
+  (glucose from EXP-9/17 data). Acceptance: sealed food-sample quests
+  identify composition from test patterns.
+- **EXP-41 — Organic qualitative analysis** — functional-group wet
+  tests paired with what the org crate can already do:
+  `perceive_groups` computes the groups from structure, the curated
+  wet tests (carbonyl, alcohol, acid, amine classes; Lassaigne-class
+  elemental detection for N/S/halogens) confirm them — the pairing
+  makes every test verdict checkable against a computed perception.
+  Acceptance: an unknown organic narrowed by tests alone, each test
+  backed by curated chemistry + the perception cross-check. HARDER.
+- **EXP-42 — Preparative chemistry pack** — the classic preparations:
+  double salts by crystallisation (Mohr's-salt/alum class, riding
+  EXP-33's hydrate bookkeeping), gas preparation with property study
+  (SO2 class, riding EXP-31's tests), amphoteric aluminium (Al +
+  NaOH → aluminate + H2 beside Al + HCl — the two-front metal),
+  azo-dye class synthesis on the org machinery (EXP-36 family).
+  Acceptance: each preparation conserves exactly, yields honestly,
+  and its product survives an identification test from EXP-30/33.
+- **EXP-43 — Clock kinetics** — the iodine-clock class (iodide +
+  peroxide; iodate + sulfite) joining the landed thiosulfate clock:
+  curated rate laws with the sudden visual endpoint, concentration
+  and temperature sweeps via `kero study`. Acceptance: clock time
+  scales with concentration and temperature as the rate law says;
+  the sweep reproduces the classic linearisation.
+- **EXP-44 — Excess enthalpy of mixing** — the
+  acetone–chloroform-class negative deviation: h^E from the
+  temperature dependence of UNIFAC activity coefficients
+  (h^E = -RT² Σ xᵢ ∂ln γᵢ/∂T). Needs chloroform-class groups added
+  to the UNIFAC table (CAP-18 growth) with sources. Acceptance: the
+  mixing calorimetry quest shows warming for the associating pair
+  and cooling for a positive-deviation pair, both computed. HARDER.
+- **EXP-45 — The conservation quest** — the law of conservation of
+  mass in a sealed reaction, weighed before and after. Pure
+  authoring: the ledger IS the engine's thesis, and this quest is
+  the product stating its own soul to a learner. Acceptance: at
+  least three reaction types (precipitation, gas-in-sealed-flask,
+  neutralisation) each balance on the vessel balance to the digit.
+
+## Declined from this corpus
+- Rutherford scattering and periodic-table study: physics
+  demonstration and reference material, not bench chemistry — the
+  GUI's interactive table already serves the second.
+
+## Registry state after four corpora
+EXP-0..45. Yield per corpus: 16 → 9 → 7 — the registry is converging
+on the actual span of school and early-university wet chemistry,
+which is the strongest evidence yet that the bench's subject is
+finite and coverable.
+
+---
+
+# Part 6: directories, simulations, and the university tail (2026-08-24)
+
+A fifth paste, different in kind: mostly **directories of
+collections** — catalogs pointing at other catalogs. By construction
+those add nothing: their contents are the corpora already audited
+above or the public curricula they index. Audited for real: the five
+simulations the directory highlights, and three university organic
+experiments from an academic teaching collection (no source named,
+as ever). The yield curve completes: 16 → 9 → 7 → **1**.
+
+## Where the highlighted simulations land
+- Acid–base strong/weak with pH probe and conductivity: covered
+  (EXP-22; both instruments landed).
+- Molarity exploration: covered (EXP-17).
+- Balancing-equations game: the machinery is `kero balance` (null-
+  space balancer, under-determined families stated) plus 103 balanced
+  codex reactions to generate rounds from — folded into **EXP-38** as
+  a quiz mode: strip coefficients from a codex reaction, learner
+  balances, the balancer grades, the under-determined cases become
+  the advanced rounds. Authoring, not building.
+- Build-a-molecule and molecule-shapes (3D/VSEPR play): GUI-workline
+  territory — the wasm structure panel already parses SMILES and
+  perceives groups; 3D play is its call, not engine chemistry.
+- The design lesson those simulations carry (game-like exploration,
+  the invisible made visible at particle level) is already CAP-24's
+  open-world DNA and the GUI's landed particle view.
+
+## The one new task
+- **EXP-46 — Cross-coupling template class** — the university tail's
+  substance: modern C–C and C–N bond chemistry (biaryl coupling from
+  aryl halide + boronate; amide C–N activation) as curated SMIRKS
+  templates on the org machinery, proven at the molecule level like
+  esterification, with the **catalyst as a required condition**
+  (nickel-class species present or the reaction refuses) — and the
+  boundary stated in every register: the bench books the
+  transformation and its conditions; it does not simulate the
+  catalytic cycle, and says so. Acceptance: two templates proven at
+  molecule level; refusal without catalyst; boundary line in lv3;
+  green-chemistry framing left to the quest prose. HARDER (org).
+- Spectroscopy-interpretation coursework at the same tail: already
+  declined in Part 4 (instrument-interpretation is not wet-bench
+  chemistry); the decline holds consistently.
+
+## Registry state after five corpora
+EXP-0..46, yield 16 → 9 → 7 → 1. The span is effectively closed:
+new corpora now audit into coverage confirmations, GUI affordances,
+and quest authoring rather than new chemistry. The build order
+stands: EXP-0 unlocks everything; the tiers fan out behind it.
+
+---
+
+# Part 7: the commercial simulation set (~57 items; 2026-08-24)
+
+Sixth corpus, a commercial vendor's chemistry simulations (not named).
+This one leans physical-chemistry where the earlier corpora leaned
+wet classical, so the yield ticks up slightly: **three** new numbers.
+Yield curve: 16 → 9 → 7 → 1 → 3.
+
+## Covered (the bulk, compressed)
+Stoichiometry/dimensional analysis, balancing games, limiting
+reactants, moles-and-balance (EXP-17/20/38 + `kero calc`); density
+by displacement, by comparison, and as an intensive property, plus
+the counterfeit-coin forensic framing (EXP-18 quests); freezing-point
+of brine (landed and swept); solubility-vs-T (EXP-24); calorimetry,
+specific heats, hot/cold packs on the 14 curated dissolution
+enthalpies, reaction energy (EXP-21; NH4NO3 joins the data list for
+the cold-pack quest); pH of household substances (EXP-22 + household
+data rows); titration with indicator choice (landed —
+`indicator.rs` computes colour from pH, it does not script it);
+mystery-powder identification (EXP-30/40 sealed unknowns, household
+variant noted); nutrient tests (EXP-40); gas laws on the piston
+machinery (`sealed-gas.lab` heritage); gas-phase equilibrium shifts
+by concentration and pressure (headspace + solver; authoring);
+collision theory with catalyst/surface/temperature — the engine has
+`effective_activation_energy` and the `grind` verb; heating curves
+and melting-point apparatus (EXP-33); conduction between vessels
+joins EXP-7's scope as the conducting-link variant; the marine
+carbonate-saturation scenario (shell erosion) is PHREEQC home ground
+— saturation indices are computed today — and joins EXP-29's
+scenario family; Joule-style mechanical-heat conversion noted under
+EXP-21 with the energy input booked honestly.
+
+## New tasks
+- **EXP-47 — Colligative pack** — the four classic colligative
+  properties as one computed family: vapour-pressure lowering
+  (Raoult machinery exists in thermo), boiling-point elevation,
+  freezing-point depression (landed; joins the pack), osmotic
+  pressure (van't Hoff) with a semipermeable membrane link between
+  two vessels as the one new mechanism. Acceptance: all four scale
+  with particle molality including the van't Hoff factor for
+  electrolytes (the speciation the solver already computes is the
+  particle count — no fudge factors); membrane flow equilibrates
+  honestly.
+- **EXP-48 — Interfacial properties** — surface tension and
+  capillarity as curated per-liquid data with computed capillary
+  rise; cohesion/adhesion contrasts (water vs ethanol vs hexane are
+  all on the shelf). Acceptance: curated values sourced; capillary
+  rise computed from them; the soap quest (EXP-10) gains the
+  surface-tension drop as a measurable.
+- **EXP-49 — The nuclear bench** — `nuclide.rs` has nuclides, decay
+  chains, half-lives, and activity in becquerels, built and unwired
+  (CAP-22 recorded the wait; this is its task number). Scope: decay
+  as first-class bench chemistry — sealed sample, activity
+  measurement, half-life determination from a time series via
+  `wait`, balanced nuclear equations checked the way `kero balance`
+  checks chemical ones, alpha/beta/gamma bookkeeping. Acceptance:
+  half-life recovered from computed activity decay within tolerance;
+  nuclear equations balance by mass number and charge; the codex
+  gains the radioactivity concept family. HARDER (wiring, not
+  physics — the physics is in the ledger already).
+
+## Declined from this corpus
+- Biology set (DNA/RNA synthesis, karyotyping, cell-context osmosis,
+  water cycle, disease scenario): not bench chemistry; the physical
+  half of osmosis lives in EXP-47.
+- Atomic-structure interactives (element/isotope builders, electron
+  configuration, Bohr spectra, periodic trends, bond/VSEPR/polarity
+  builders): reference and visualisation, GUI-workline territory —
+  the engine's flame colours and curated spectra remain its honest
+  spectroscopy; modelling photon-level atomic transitions is not the
+  bench's subject.
+- Meteorology (relative humidity, dew point): weather, not the
+  beaker — though its vapour-pressure heart is EXP-47's machinery,
+  which the decline note says.
+
+## Registry state after six corpora
+EXP-0..49. The scenario-framing this vendor does well (forensic
+cases, role-taking) is already the quest engine's prose register —
+what they script, EXP-0 makes emergent.
+
+---
+
+# Part 8: the university practical set (2026-08-24) — yield zero
+
+Seventh corpus (a commercial 3D-lab vendor; not named): organic
+preparations, inorganic radical tests, analytical titrimetry. Every
+item audits into an existing EXP number — the first zero-yield
+corpus, which is what convergence looks like when it completes.
+Curve: 16 → 9 → 7 → 1 → 3 → **0**.
+
+## Fold-ins (scope refinements, no new numbers)
+- **EXP-30 gains its ion roster** from this corpus's radical tests:
+  cations NH4+, Na+, K+ (flame — landed event), Ca2+, Ba2+, Mg2+,
+  Mn2+; anions SO3^2-, Br-, I- joining the halide/sulfate/carbonate
+  set. The acceptance's "six unknowns" now draws from this roster.
+- **EXP-39 gains iodometry**: thiosulfate standardisation with the
+  iodine/starch endpoint as a third endpoint mode beside
+  self-indicating permanganate and potentiometric. The starch-iodine
+  colour is EXP-14's indicator chemistry reused.
+- **EXP-36/42 template family grows** by named substrates and one
+  named class: aspirin and paracetamol (acetylation of phenol/amine
+  substrates), naphthyl acetate, ethyl-propionate Fischer row
+  (propanoic acid joins the data list), and the condensation class
+  (mixed-aldol/Claisen–Schmidt) as one more molecule-proven SMIRKS
+  template — same capability, more rows.
+- **EXP-46 gains the Grignard star**: organometallic reagent
+  formation with the anhydrous condition enforced by machinery we
+  already have — `nonaqueous::single_organic_solvent` gates it, and
+  ANY water present makes the preparation refuse with the reason.
+  The classic teaching moment (moisture kills the reagent) is not a
+  scripted warning here; it is the computed verdict.
+- **EXP-26 notes the sulfate variant** (BaSO4 gravimetric route).
+- Strong/strong and weak-base/strong-acid titrations, sulfuric-acid
+  determination: covered (EXP-22/39, landed titrate machinery).
+- GC/MS, NMR, IR "analysis" items: the separation half of GC is the
+  landed chromatograph verb; spectral interpretation stays declined
+  (Parts 4 and 6), consistently.
+
+## Registry state after seven corpora
+EXP-0..49, unchanged. A corpus that adds only rows to existing tasks
+is the audit series' success condition: the capability map is stable;
+what grows now is data, templates, and quests.
+
+---
+
+# Part 9: the scenario-simulation catalog (~180 items; 2026-08-24)
+
+Eighth corpus, a large commercial scenario-simulation vendor (not
+named). Tag inflation is the first finding: well over half the
+"chemistry" items are biology, health sciences, microbiology, or
+physics — those get a blanket decline as out of the bench's subject
+(Gram stains, PCR, ELISA, blots, cell culture, anatomy, ecology,
+evolution, Newtonian mechanics, optics, plate tectonics, reactor
+physics; fission/fusion REACTORS are declined even though nuclear
+DECAY is EXP-49). The chemistry core audits almost entirely into
+coverage. Yield: three. Curve: 16 → 9 → 7 → 1 → 3 → 0 → **3**.
+
+## Fold-ins worth recording (no new numbers)
+- Bomb calorimetry (constant-volume, ΔU vs ΔH) joins EXP-21/35 —
+  the sealed rigid vessel is landed machinery; the U-vs-H distinction
+  is the lv3 line.
+- CaCO3 thermal decomposition and the limestone cycle join EXP-2,
+  whose scope generalises to "thermal decompositions".
+- Gas thermometry to absolute zero joins the gas-law authoring set.
+- Electroplating joins the landed electrolysis verb as a quest.
+- TLC (Rf values), ion-exchange, size-exclusion and HPLC variants
+  join EXP-8 as chromatograph modes — same partition physics, and
+  the upstream EXCHANGE machinery serves the ion-exchange mode.
+- Nomenclature training (name ↔ structure rounds) joins EXP-38's
+  quiz modes riding the org stack's iupac module.
+- Named organic tests (ceric ammonium nitrate, azo-dye amine test,
+  litmus-for-acids) join EXP-41's row list; Sudan IV joins EXP-40.
+- Kjeldahl nitrogen-to-protein joins EXP-40 as its quantitative arm.
+- Eutrophication/wastewater nitrate-phosphate chemistry joins the
+  EXP-29 scenario family — PHREEQC-native water chemistry.
+- Tonicity/IV-drip framing joins EXP-47; pipetting technique and
+  apparatus tours are GUI affordances; polymer-formation items join
+  EXP-12's scope.
+- Cement hydration (their concrete lab) is declined for now with the
+  reason stated: real chemistry, but multiphase hydration kinetics
+  is beyond the current bench — recorded so nobody re-litigates
+  silently.
+- Spectral interpretation (MS, NMR, IR, MALDI, GC-MS): declined for
+  the fourth consecutive corpus. The decline is stable.
+
+## New tasks
+- **EXP-50 — Mechanistic selectivity rules** — the genuinely new
+  organic capability in this corpus: substitution-vs-elimination
+  outcome PREDICTION (SN1/SN2/E1/E2) by substrate class, nucleophile
+  strength, and temperature, plus regiochemistry rules where they
+  bind. Curated rule table with textbook provenance selecting among
+  molecule-proven templates; conditions outside the table refuse out
+  loud. Acceptance: the classic condition matrix reproduces textbook
+  outcomes; changing one condition flips the product and the lv3
+  line says which rule fired. HARDER.
+- **EXP-51 — Enzyme kinetics** — Michaelis–Menten as a curated rate
+  family with Km/Vmax and competitive vs non-competitive inhibition,
+  riding the existing kinetics integrator and the catalase
+  precedent; assayed spectrophotometrically (EXP-37 machinery).
+  Acceptance: Lineweaver–Burk from `kero study` sweeps distinguishes
+  the two inhibition mechanisms; parameters recovered within
+  tolerance. (Fermentation-optimisation scenarios noted as an
+  optional extension, not core.)
+- **EXP-52 — Disposal and lab-practice quests** — waste routing as
+  computed chemistry: neutralise before drain, never mix the
+  oxidiser stream with organics, halogenated separate — the safety
+  screen already computes the hazard verdicts; a curated disposal
+  rule table turns clean-up into quests where wrong routing triggers
+  the same screen that guards the bench. Acceptance: a clear-the-
+  bench quest gradeable entirely by existing safety machinery plus
+  the rule table.
+
+## Registry state after eight corpora
+EXP-0..52. The pattern holds: wet chemistry converges; what this
+corpus adds beyond three tasks is scenario-framing volume — which is
+quest prose, and EXP-0 is still the gate everything waits behind.

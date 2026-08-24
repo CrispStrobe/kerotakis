@@ -50,6 +50,25 @@ pub enum Phase {
 }
 
 /// Registry entry for one species.
+/// The shelf swatch: what a bottle of this substance LOOKS like, from the
+/// same curated data the bench renders with. Reflective colour for the
+/// substance itself (scattering); where a solution spectrum exists, also
+/// the transmitted tint of a 0.1 mol/L solution through 1 cm — the glance
+/// into a reagent bottle, computed rather than painted.
+pub fn shelf_swatch(s: &SpeciesData) -> (Option<[u8; 3]>, Option<[u8; 3]>) {
+    let reflective = s.colour.map(|c| [c.r, c.g, c.b]);
+    let solution = s.spectrum.map(|f| {
+        let eps = f();
+        let mut a = [0.0f64; crate::spectrum::BANDS];
+        for (band, e) in a.iter_mut().zip(eps.iter()) {
+            *band = e * 0.1 * 1.0;
+        }
+        let rgb = crate::spectrum::transmitted_colour(&a);
+        [rgb.r, rgb.g, rgb.b]
+    });
+    (reflective, solution)
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SpeciesData {
     pub key: &'static str,

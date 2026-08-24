@@ -32,3 +32,22 @@ describe("the burette compiles to the grammar", () => {
     expect(buildTitrateLine({ ...base, targetPh: NaN })).toBeNull();
   });
 });
+
+import { buildTransportLine } from "./titration";
+
+describe("the column train compiles to the grammar", () => {
+  it("builds the transport line in role order", () => {
+    expect(
+      buildTransportLine({ cells: [0, 1, 2], inlet: 3, receiver: 4, steps: 3 }),
+    ).toBe("transport v1 v2 v3 from v4 to v5 steps 3");
+    expect(
+      buildTransportLine({ cells: [1], inlet: 0, receiver: 2, steps: 5, courant: 0.5 }),
+    ).toBe("transport v2 from v1 to v3 steps 5 courant 0.5");
+  });
+
+  it("refuses role collisions and empty trains", () => {
+    expect(buildTransportLine({ cells: [], inlet: 0, receiver: 1, steps: 3 })).toBeNull();
+    expect(buildTransportLine({ cells: [0], inlet: 0, receiver: 1, steps: 3 })).toBeNull();
+    expect(buildTransportLine({ cells: [0], inlet: 1, receiver: 2, steps: 0 })).toBeNull();
+  });
+});
