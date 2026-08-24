@@ -371,6 +371,13 @@ every new dependency before its first import.
   deviation + return; curriculum graph as map screen.
 - [ ] **GUI-021 — Charts.** CAP-3 contract renderer (d3 primitives); first
   chart is the live titration curve (with CAP-12); SVG/PNG export.
+  *Status 2026-08-24: renderer half done, dependency-free (hand-rolled
+  scales/ticks beat adding d3 for one curve): Chart JSON v1 is specified
+  in PROTOCOL.md, `Chart.svelte` renders it (nice ticks, uncertainty
+  bands for CAP-8, confidence-encoded strokes, screen-reader data table,
+  SVG export; core vitest-covered), and the feed renders any step
+  carrying `charts` today. Open: the engine emitting the contract
+  (CAP-3's other half, with CAP-12's titrate verb) and PNG export.*
 - [ ] **GUI-022 — Notebook export.** Markdown/PDF with inline charts and
   provenance footer.
 - [ ] **GUI-023 — Hazard cards + honest-boundary panels.** The fixed visual

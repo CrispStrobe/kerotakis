@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { FeedEntry } from "../session.svelte";
+  import Chart from "./Chart.svelte";
 
   let { entries }: { entries: FeedEntry[] } = $props();
 
@@ -20,6 +21,8 @@
         <span class="chip">{entry.severity || "hazard"}</span>
         {entry.text}
       </div>
+    {:else if entry.kind === "chart" && entry.chart}
+      <Chart spec={entry.chart} />
     {:else}
       <p class={entry.kind}>
         {#if entry.kind === "command"}<span class="prompt">kero&gt;</span>{/if}

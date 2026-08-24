@@ -125,6 +125,42 @@ turbidity physics). Not yet in v1, arriving additively with their state:
 behind it) and `apparatus`. `step`/`run_script` responses now carry `scene`,
 and `Lab::scene()` serves it standalone.
 
+## Chart JSON v1 (the CAP-3 contract; renderer shipped in `web/app`)
+
+One JSON contract, one renderer (CAPABILITIES.md CAP-3). The engine emits
+chart specs — on step objects as `charts: [ChartSpec]`, and later from
+`kero study`/CAP-4/CAP-8 surfaces; every client renders them with one
+renderer (`web/app/src/lib/components/Chart.svelte`; numeric core and
+consumer types in `chart.ts`). The client hook is live: a step carrying
+`charts` renders inline in the feed today.
+
+```json
+{
+  "chart": 1,
+  "title": "titration of 25 mL 0.1 M HCl with 0.1 M NaOH",
+  "x": { "label": "volume added", "unit": "mL", "scale": "linear" },
+  "y": { "label": "pH" },
+  "series": [{
+    "label": "pH",
+    "confidence": "computed",
+    "points": [[0.0, 1.0], [12.5, 1.5], [25.0, 7.0]],
+    "band": [[0.0, 0.9, 1.1]]
+  }],
+  "markers": [{ "x": 25.0, "label": "equivalence" }],
+  "provenance": "PHREEQC (IPhreeqc) · wateq4f.dat"
+}
+```
+
+- `confidence` uses the Confidence vocabulary; the renderer's stroke
+  follows GUI-023's encoding (solid computed, dashed modeled, dotted
+  curated/template_match). `band` is the CAP-8 uncertainty envelope,
+  `[x, low, high]` per point.
+- Axis `scale` is `linear` in v1; additive evolution rules apply (new
+  scales, new optional fields — never renames).
+- Renderer duties: nice 1/2/5 ticks, responsive SVG, the same data as a
+  table for screen readers, SVG export. Numbers arrive in data units —
+  the renderer never converts units; the emitter labels them.
+
 ## Conformance suite (GUI-001 acceptance)
 
 `validation/protocol/` holds a corpus of `.lab` scripts plus, per script,

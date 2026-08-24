@@ -15,13 +15,16 @@
 
 import type { EngineHost, ParticleCensus, Scene } from "./host/EngineHost";
 import { EngineError } from "./host/EngineHost";
+import type { ChartSpec } from "./chart";
 import { type Lesson, parseLesson } from "./lesson";
 
 export type FeedEntry = {
-  kind: "command" | "line" | "error" | "refusal" | "note" | "hazard";
+  kind: "command" | "line" | "error" | "refusal" | "note" | "hazard" | "chart";
   text: string;
   /** Hazard entries: the engine's severity, for the card's chip. */
   severity?: string;
+  /** Chart entries: the Chart JSON v1 spec to render. */
+  chart?: ChartSpec;
 };
 
 export type ShelfItem = {
@@ -211,6 +214,14 @@ export class Session {
         }
         for (const rendered of step.rendered) {
           this.feed.push({ kind: "line", text: rendered });
+        }
+        // Charts (Chart JSON v1): rendered inline the moment the engine
+        // starts emitting them on step objects (CAP-3).
+        const charts = (step as { charts?: ChartSpec[] }).charts;
+        for (const chart of charts ?? []) {
+          if (chart?.chart === 1) {
+            this.feed.push({ kind: "chart", text: chart.title, chart });
+          }
         }
       }
       if (result.scene) this.scene = result.scene;
