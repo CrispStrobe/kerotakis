@@ -600,3 +600,23 @@ conflicting OPT-3/6/7/8/9 meanings; this version (the detailed lineage,
 which all of 2026-08-24's landed work references) is authoritative, and
 the 90-line lineage's bindings are void. Cross-references in
 ROADMAP-Webapp.md/ROADMAP-GUI.md/PROTOCOL.md updated to match.
+
+### OPT-11 baseline (2026-08-24) — and OPT-9's verdict
+
+`tools/measure-wasm-calls.mjs` (two-wasm pairing in node, counting hook
+wrapper) over the full 27-lesson corpus, post-OPT-6/7:
+
+    139 engine crossings total; most lessons 2–6, median step 1–2.
+    3,328 ms in the hook (~24 ms/call — PHREEQC compute, not crossing).
+    56 KB in / 917 KB out (~6.6 KB/call, the full-report JSON).
+    Outliers: counting-in-fives 21 (15 on one cold KMnO4 add — redox
+    bisection converging), spannungsreihe 13, titration 12 (one per
+    increment, inherent).
+
+Conclusions: the "hundreds of calls per equilibration" the roadmap
+recorded predates OPT-6/7 and is no longer true. OPT-11's remaining
+scope is at most the cold-redox trial count, already warm-started —
+not worth surgery ahead of feature work. **OPT-9's measure-then-decide
+decides: do not build** — 139 crossings × ~7 KB against 3.3 s of solver
+compute leaves no marshalling case. Re-run the instrument if a future
+domain multiplies calls (per-cell transport, fine-grained kinetics).

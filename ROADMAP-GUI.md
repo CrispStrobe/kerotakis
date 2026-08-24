@@ -285,12 +285,14 @@ every new dependency before its first import.
   (step/runScript/state/scene/events/species/parse/chart) as a versioned
   document + conformance test that both hosts must pass. The current wasm
   API is the seed.
-  *Status 2026-08-24: spec half written — [PROTOCOL.md](PROTOCOL.md),
-  built on the WEB-002 worker enums. Corpus half started:
-  `crates/kerotakis-cli/tests/protocol_conformance.rs` replays every
-  lesson and pins step/event/scene shapes (the CLI/MCP `--json` builder
-  now carries `scene`, so three surfaces share the object). Open for the
-  checkbox: the suite green in CI and run against the wasm host too.*
+  *Status 2026-08-24 (2nd pass): spec written — [PROTOCOL.md](PROTOCOL.md).
+  Conformance runs against BOTH shipping hosts: the CLI/MCP surface
+  (`crates/kerotakis-cli/tests/protocol_conformance.rs`, in the test
+  suite) and the wasm host (`tools/test-protocol-conformance.mjs`,
+  919 structural checks over the lesson corpus, wired into the CI wasm
+  job) — one shape, drift fails before a client sees it. Open for the
+  checkbox: the same suite against TauriHost once the shell builds
+  (GUI-030), and hello's remaining fields.*
 - [ ] **GUI-002 — Events as structured JSON.** Expose the typed `Event`
   enum over the boundary with stable ids + params; decide engine-side vs
   client-side register rendering and the locale-pack shape.

@@ -158,6 +158,8 @@ jobs:
         run: cargo run -p kerotakis-cli -- prewarm lessons/*.lab -o "$RUNNER_TEMP/lessons.postcard"
       - name: Run the bench in a wasm runtime
         run: node tools/test-wasm-lab.mjs "$RUNNER_TEMP/kero-wasm" "$RUNNER_TEMP/lessons.postcard"
+      - name: Protocol conformance against the wasm host
+        run: node tools/test-protocol-conformance.mjs "$RUNNER_TEMP/kero-wasm"
 
   wasm-engine:
     name: IPhreeqc wasm gate
