@@ -12,6 +12,8 @@
   import Timeline from "./lib/components/Timeline.svelte";
   import LessonBar from "./lib/components/LessonBar.svelte";
   import Burette from "./lib/components/Burette.svelte";
+  import ApparatusForm from "./lib/components/ApparatusForm.svelte";
+  import { APPARATUS } from "./lib/apparatus";
   import { defaultAmount } from "./lib/amounts";
   import { notebookMarkdown } from "./lib/notebook";
   import HelpDialog from "./lib/components/HelpDialog.svelte";
@@ -71,6 +73,9 @@
   let helpOpen = $state(false);
   /** The burette: clamped over the selected vessel when out (GUI-033). */
   let buretteOut = $state(false);
+  /** Which parameter-form apparatus is out, by verb (GUI-033). */
+  let apparatusOut = $state<string | null>(null);
+  const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
   let transfer = $state<{ verb: "filter" | "decant" | "drain"; fraction: number; from: number | null } | null>(null);
@@ -205,6 +210,20 @@
   >
     burette
   </button>
+  <select
+    class="tool"
+    aria-label="more apparatus"
+    value={apparatusOut ?? ""}
+    onchange={(e) => {
+      apparatusOut = e.currentTarget.value || null;
+      e.currentTarget.value = apparatusOut ?? "";
+    }}
+  >
+    <option value="">apparatus…</option>
+    {#each APPARATUS as s (s.verb)}
+      <option value={s.verb}>{s.title}</option>
+    {/each}
+  </select>
   {#each ["filter", "decant", "drain"] as verb (verb)}
     <button
       class="tool"
@@ -292,6 +311,18 @@
     />
   </nav>
   <div class="bench-pane">
+    {#if apparatusSpec}
+      {#key apparatusSpec.verb}
+        <ApparatusForm
+          spec={apparatusSpec}
+          vessel={session.selected}
+          shelf={session.shelf}
+          busy={session.busy}
+          onrun={(line) => void session.submit(line)}
+          onclose={() => (apparatusOut = null)}
+        />
+      {/key}
+    {/if}
     {#if buretteOut}
       <Burette
         vessel={session.selected}
