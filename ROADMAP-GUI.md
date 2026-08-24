@@ -410,6 +410,56 @@ every new dependency before its first import.
   cannot use a physical lab or a keyboard, and a command language is
   uniquely suited to it.
 
+### The sandbox completeness invariant
+
+**Every registry species, every apparatus, every engine verb is reachable
+from the GUI — in sandbox mode, without the command bar.** The engine
+already exposes ~25 verbs and the full registry; the gap is graphical
+affordance, and it is checkable, so it becomes an invariant with a test
+rather than an aspiration:
+
+- [ ] **GUI-029 — The affordance manifest.** A `grammar` protocol command
+  (engine-side: the verb list with argument shapes, from the one parser)
+  plus a client-side manifest mapping every verb to the component that
+  invokes it; a conformance test fails when a verb lacks an affordance or
+  an affordance invents a verb. Registry coverage is already structural
+  (the shelf lists the registry); this makes verb coverage structural too.
+- [ ] **GUI-033 — Apparatus palette and instrument panel.** Graphical form
+  for the rest of the verb set, driven by the codex's own apparatus
+  vocabulary: hotplate/bunsen (heat, ignite), fridge coil (cool), clock
+  (wait), lids (seal/regulate/sweep/open), funnel+paper (filter),
+  separating funnel (drain), still (distil), burette (titrate), column
+  (chromatograph, transport), lamp (irradiate), mortar (grind), electrodes
+  + supply (cell, wire, electrolyze), and an instrument tray for the eight
+  measure targets. Vessel context ring for per-vessel actions; everything
+  emits the same command lines.
+
+### The codex is the content engine (apply it, then expand it)
+
+Each codex entry already carries a runnable `setup`, checkable `expect`
+predictions, per-register prose, an `apparatus` list ("drives what a UI
+puts on the bench"), concept/prerequisite edges into 189 defined concepts,
+calculation and model taxonomies, and curriculum placements. The GUI has
+been ignoring all of it:
+
+- [ ] **GUI-053 — The concept map.** The codex concept graph as the map
+  screen the UX section promised: at lv1 a skill tree, at lv3 the DAG;
+  entries light up as their concepts are met in the learner's own log.
+- [ ] **GUI-054 — The experiment catalog.** Every codex entry as a
+  one-tap experiment: `setup` pre-populates the bench (its apparatus list
+  driving GUI-033's palette), `expect` becomes engine-marked checking,
+  registers supply the prose — 103 catalogued experiments on day one
+  without writing a lesson, and every new codex entry is a new catalog
+  item for free.
+- [ ] **GUI-055 — The curriculum browser.** Placements (per-system stages
+  with citations) as a teacher-facing index: pick a curriculum stage, see
+  the entries and concepts that serve it, launch them.
+- [ ] **Codex expansion (engine/content side, tracked here for the GUI's
+  sake):** more entries toward 200+, more curriculum spines beyond the two
+  German systems, apparatus vocabulary kept in lockstep with GUI-033, and
+  registry growth (CAP-21's pack-generated registry is the mechanism)
+  toward the reagent breadth the genre's benches offer.
+
 ### What the virtual-lab genre teaches (survey 2026-08-24, contenders
 deliberately unnamed here)
 
