@@ -17,6 +17,7 @@ pub mod acceptance;
 mod aqueous;
 pub mod dbindex;
 pub mod derived;
+pub mod pourbaix;
 pub use aqueous::{
     CacheData, CacheEntry, PathOutcome, PathResult, PhreeqcEquilibrator, SolveHook, SolveOutput,
 };

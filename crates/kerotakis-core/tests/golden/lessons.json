@@ -626,14 +626,26 @@
     ]
   },
   "never-mix": {
-    "event_count": 6,
+    "event_count": 18,
     "events_sample": [
       "v1: +11.0686 mol water",
       "v1: +0.1000 mol bleach (sodium hypochlorite)",
-      "v1 balance: 206.84 g",
       "v1: +0.1000 mol ammonia solution",
       "v1 balance: 208.55 g",
-      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+      "v2: new vessel",
+      "v2: +0.0100 mol potassium permanganate",
+      "v2: +0.8563 mol ethanol",
+      "v2: not yet modelled — potassium permanganate in contact with liquid: no wired solver models this dissolution/reaction",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +0.1000 mol hydrochloric acid",
+      "v3: +0.0500 mol magnesium",
+      "v3: not yet modelled — magnesium in contact with liquid: no wired solver models this dissolution/reaction",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +0.1000 mol hydrochloric acid",
+      "v4: +0.0500 mol chalk (calcium carbonate)",
+      "v4: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction"
     ],
     "lesson": "never-mix.lab",
     "vessels": [
@@ -651,6 +663,108 @@
           },
           {
             "moles": 11.06855398,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Solid",
+            "species": "KMnO4"
+          },
+          {
+            "moles": 0.85632421,
+            "phase": "Liquid",
+            "species": "ethanol"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "Mg"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.05,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "one-thing-at-a-time": {
+    "event_count": 6,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.0500 mol methanol",
+      "v1: +0.1000 mol ethanol",
+      "v1: +0.0500 mol propanone",
+      "v1: chromatogram — methanol at 63 s (50% area); ethanol at 68 s (100% area); propanone at 115 s (50% area)",
+      "v1: chromatogram — methanol at 63 s (50% area); ethanol at 68 s (100% area); propanone at 115 s (50% area)"
+    ],
+    "lesson": "one-thing-at-a-time.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.05,
+            "phase": "Liquid",
+            "species": "methanol"
+          },
+          {
+            "moles": 0.05,
+            "phase": "Liquid",
+            "species": "propanone"
+          },
+          {
+            "moles": 5.53427699,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1048,21 +1162,21 @@
       "v4: new vessel",
       "v1: +9.4000 mol water",
       "v1: +0.6000 mol ethanol",
-      "v1 → v2: 0.620 mol water + 0.380 mol ethanol over, boiling at 88.4 °C",
-      "v2 → v3: 0.119 mol water + 0.181 mol ethanol over, boiling at 80.9 °C",
-      "v3 → v4: 0.026 mol water + 0.064 mol ethanol over, boiling at 79.1 °C"
+      "v1 → v2: 0.670 mol water + 0.330 mol ethanol over; the pot boiled at 88.4 °C and climbed to 92.2 °C as the light component left",
+      "v2 → v3: 0.130 mol water + 0.170 mol ethanol over; the pot boiled at 81.4 °C and climbed to 82.6 °C as the light component left",
+      "v3 → v4: 0.017 mol water + 0.073 mol ethanol over through a 4-stage column; the pot boiled at 79.4 °C and climbed to 80.2 °C as the light component left"
     ],
     "lesson": "spirit-still.lab",
     "vessels": [
       {
         "contents": [
           {
-            "moles": 0.21995268,
+            "moles": 0.26999435,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 8.78004732,
+            "moles": 8.73000565,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1074,12 +1188,12 @@
       {
         "contents": [
           {
-            "moles": 0.19889421,
+            "moles": 0.16029052,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.50110579,
+            "moles": 0.53970948,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1091,12 +1205,12 @@
       {
         "contents": [
           {
-            "moles": 0.11760566,
+            "moles": 0.09663826,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.09239434,
+            "moles": 0.11336174,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1108,12 +1222,50 @@
       {
         "contents": [
           {
-            "moles": 0.06354744,
+            "moles": 0.07307687,
             "phase": "Liquid",
             "species": "ethanol"
           },
           {
-            "moles": 0.02645256,
+            "moles": 0.01692313,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "there-and-back": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +13.8357 mol water",
+      "v1: +0.1000 mol acetic acid",
+      "v1: +0.1000 mol ethanol",
+      "v1: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.100 mol reacted)",
+      "v1: The liquid is colourless and clear.",
+      "v1: +0.1000 mol sodium hydroxide",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: saponification ran — CH3COOC2H5 + NaOH → NaOAc + C2H5OH (0.100 mol reacted)"
+    ],
+    "lesson": "there-and-back.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.1,
+            "phase": "Aqueous",
+            "species": "NaOAc"
+          },
+          {
+            "moles": 0.1,
+            "phase": "Liquid",
+            "species": "ethanol"
+          },
+          {
+            "moles": 13.93569248,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1170,6 +1322,41 @@
     ]
   },
   "titration": {
+    "event_count": 5,
+    "events_sample": [
+      "v1: +27.6714 mol water",
+      "v1: +0.0100 mol hydrochloric acid",
+      "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
+      "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
+      "v1: not yet modelled — titration needs an aqueous solver to compute pH after each addition — none is wired"
+    ],
+    "lesson": "titration.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01,
+            "phase": "Liquid",
+            "species": "HCl"
+          },
+          {
+            "moles": 0.001,
+            "phase": "Solid",
+            "species": "NaOH"
+          },
+          {
+            "moles": 27.72672773,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "titration-manual": {
     "event_count": 15,
     "events_sample": [
       "v1: +27.6714 mol water",
@@ -1188,7 +1375,7 @@
       "v1: not yet modelled — sodium hydroxide in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
     ],
-    "lesson": "titration.lab",
+    "lesson": "titration-manual.lab",
     "vessels": [
       {
         "contents": [
@@ -1204,6 +1391,94 @@
           },
           {
             "moles": 27.67138496,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "transport-column": {
+    "event_count": 15,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v4: new vessel",
+      "v4: +5.5343 mol water",
+      "v4: +0.0856 mol sodium chloride",
+      "v4: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
+      "v5: new vessel",
+      "3 cells × 3 steps (Cf=0.50); effluent → v5: 8.3014 mol water",
+      "v1 balance: 99.70 g",
+      "v2 balance: 99.70 g",
+      "v3 balance: 99.70 g",
+      "v5 balance: 149.55 g"
+    ],
+    "lesson": "transport-column.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.08555345,
+            "phase": "Solid",
+            "species": "NaCl"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 8.30141549,
             "phase": "Liquid",
             "species": "water"
           }

@@ -86,6 +86,21 @@
     <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaCl 5.8g&#10;measure v1 conductivity&#10;measure v1 ph&#10;new&#10;add v2 water 100mL&#10;add v2 CH3COOH 6g&#10;measure v2 conductivity&#10;measure v2 ph">Strong vs weak electrolyte</button>
     <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaOH 2g&#10;measure v1 calorimeter&#10;add v1 HCl 2g&#10;measure v1 calorimeter&#10;measure v1 temp">Neutralisation heat</button>
     <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaHCO3 4.2g&#10;seal v1 200mL&#10;measure v1 pressure&#10;add v1 CH3COOH 3.6g&#10;measure v1 pressure&#10;measure v1 volume">Gas laws (sealed)</button>
+    <h2>Distillation</h2>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 ethanol 50mL&#10;new&#10;distil v1 v2 0.3&#10;inspect v1&#10;inspect v2">Ethanol–water still</button>
+    <h2>Organic chemistry</h2>
+    <button data-cmd="structure CCO">Ethanol structure</button>
+    <button data-cmd="structure CC(=O)O">Acetic acid structure</button>
+    <button data-cmd="identify CCO">Ethanol groups</button>
+    <button data-cmd="identify CC(=O)OCC">Ethyl acetate groups</button>
+    <h2>Photochemistry</h2>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 H2O2 0.01mol&#10;irradiate v1 254nm 10W/m2&#10;look v1">UV on peroxide</button>
+    <h2>Particle size</h2>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 CaCO3 5g&#10;grind v1 CaCO3 50um&#10;add v1 HCl 0.1mol&#10;look v1">Ground calcium carbonate + acid</button>
+    <h2>Calorimetry</h2>
+    <button data-run="reset&#10;add v1 water 100mL&#10;measure v1 calorimeter&#10;add v1 NaOH 4g&#10;measure v1 calorimeter&#10;measure v1 temp">NaOH dissolving</button>
+    <h2>Coverage</h2>
+    <button data-run="reset&#10;add v1 water 100mL&#10;add v1 NaCl 0.1mol&#10;coverage v1">Solver coverage</button>
     <h2>Detail</h2>
     <button data-cmd="register lv1">lv1 — what you see</button>
     <button data-cmd="register lv2">lv2 — equations and amounts</button>
@@ -133,6 +148,7 @@ const HELP = `Commands are the same .lab grammar the desktop tool reads.
   wait 30s                  let time pass — every vessel advances together
   ignite v1                 hold a flame to it
   stir v1 / filter v1 v2 / decant v1 v2 0.5 / evaporate v1 0.5
+  distil v1 v2 0.3          boil off a fraction into a receiver
   seal v1 200mL             close over a gas headspace
   open v1                   vent back to atmosphere
   new                       another vessel
@@ -143,6 +159,9 @@ const HELP = `Commands are the same .lab grammar the desktop tool reads.
                             conductivity, uvvis, calorimeter
   grind v1 NaCl 50um        set particle size (heterogeneous rates)
   irradiate v1 254nm 10W/m2 UV light source
+  structure CCO             parse a SMILES string (formula, weight, InChIKey)
+  identify CCO              functional groups in a molecule
+  coverage v1               which solvers cover this vessel state
   particles v1              the submicroscopic view
   inspect v1                the full state
   register lv1|lv2|lv3      how much detail
@@ -250,6 +269,40 @@ function runOne(line) {
     if (trimmed.startsWith("inspect")) {
       const doc = JSON.parse(lab.inspect(vesselArg(trimmed)));
       return write(doc.rendered.map((line) => "  " + line).join("\n"));
+    }
+    if (trimmed.startsWith("structure ")) {
+      const smiles = trimmed.slice(10).trim();
+      const doc = JSON.parse(lab.structure(smiles));
+      const lines = [
+        `  SMILES:  ${doc.canonical_smiles}`,
+        `  Formula: ${doc.formula}`,
+        `  MW:      ${doc.molecular_weight.toFixed(2)} g/mol`,
+        `  Atoms:   ${doc.atom_count}   Bonds: ${doc.bond_count}`,
+        `  Charge:  ${doc.formal_charge}`,
+      ];
+      if (doc.inchikey) lines.push(`  InChIKey: ${doc.inchikey}`);
+      return write(lines.join("\n"));
+    }
+    if (trimmed.startsWith("identify ")) {
+      const smiles = trimmed.slice(9).trim();
+      const groups = JSON.parse(lab.identifyGroups(smiles));
+      if (groups.length === 0) return write("  no functional groups found");
+      const lines = groups.map((g) => `  ${g.name} (×${g.count})`);
+      return write(lines.join("\n"));
+    }
+    if (trimmed.startsWith("coverage")) {
+      const doc = JSON.parse(lab.coverage(vesselArg(trimmed)));
+      const lines = [`  Species in registry: ${doc.species_count}`];
+      for (const s of doc.solvers) {
+        const status = s.applicable ? "✓" : "·";
+        const chem = s.is_chemistry ? " [chemistry]" : "";
+        lines.push(`  ${status} ${s.solver_name}${chem}`);
+      }
+      if (doc.uncovered.length) {
+        lines.push("");
+        for (const u of doc.uncovered) lines.push(`  ⚠ ${u}`);
+      }
+      return write(lines.join("\n"));
     }
     const doc = JSON.parse(lab.runScript(trimmed + "\n"));
     const lines = (doc.steps ?? []).flatMap((s) => s.rendered ?? []);

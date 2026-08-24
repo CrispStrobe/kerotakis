@@ -1,0 +1,15 @@
+# One thing at a time: the column tells a mixture apart.
+# Three colourless liquids dissolved in water look like one liquid.
+# The column disagrees: each solute spends its own share of time in
+# the stationary phase, set by the same partition coefficient that
+# runs the separating funnel, and so each arrives alone.
+register lv1
+add v1 water 100mL
+add v1 methanol 0.05mol
+add v1 ethanol 0.1mol
+add v1 propanone 0.05mol
+chromatograph v1
+# The same injection read closer: retention times, widths, areas —
+# and K itself, the number doing all the work.
+register lv3
+chromatograph v1

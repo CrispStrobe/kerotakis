@@ -17,6 +17,8 @@ pub enum WorkerCommand {
     RunScript { script: String },
     /// Load pre-warmed cache data.
     LoadCache { url: String },
+    /// Validate a single line without executing it.
+    Parse { line: String },
     /// Cancel the current operation.
     Cancel,
     /// Reset the bench.
@@ -178,5 +180,16 @@ mod tests {
         let json = serde_json::to_string(&cmd).unwrap();
         let loaded: WorkerCommand = serde_json::from_str(&json).unwrap();
         assert!(matches!(loaded, WorkerCommand::Cancel));
+    }
+
+    #[test]
+    fn parse_command_serializes() {
+        let cmd = WorkerCommand::Parse {
+            line: "add v1 water 100mL".into(),
+        };
+        let json = serde_json::to_string(&cmd).unwrap();
+        assert!(json.contains("parse"));
+        let loaded: WorkerCommand = serde_json::from_str(&json).unwrap();
+        assert!(matches!(loaded, WorkerCommand::Parse { .. }));
     }
 }

@@ -19,7 +19,31 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
     let words: Vec<&str> = line.split_whitespace().collect();
     let op = match words[0] {
         "register" | "inspect" | "explain" | "species" | "help" | "particles" | "zoom"
-        | "structure" | "identify" | "react" | "coverage" => return Ok(None),
+        | "structure" | "identify" | "coverage" => return Ok(None),
+        // `react v1 esterification` — apply a named curated organic
+        // transformation. The name is checked here so a typo fails at
+        // parse time, with the shelf listed.
+        "react" => {
+            if words.len() < 3 {
+                return Err("usage: react <vessel> <reaction> (see curated::ORG_REACTIONS)".into());
+            }
+            let vessel = parse_vessel(words[1])?;
+            let name = words[2];
+            if !crate::curated::ORG_REACTIONS.iter().any(|r| r.name == name) {
+                let known: Vec<&str> = crate::curated::ORG_REACTIONS
+                    .iter()
+                    .map(|r| r.name)
+                    .collect();
+                return Err(format!(
+                    "unknown reaction '{name}' — curated: {}",
+                    known.join(", ")
+                ));
+            }
+            Operator::React {
+                vessel,
+                reaction: name.to_string(),
+            }
+        }
         "new" => Operator::NewVessel,
         "add" => {
             if words.len() < 4 {
@@ -137,16 +161,50 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     .map_err(|_| format!("bad fraction '{}'", words[3]))?,
             }
         }
+        "drain" => {
+            if words.len() < 3 {
+                return Err("usage: drain <from> <to>".into());
+            }
+            Operator::Drain {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+            }
+        }
         "distil" | "distill" => {
             if words.len() < 4 {
-                return Err("usage: distil <from> <to> <fraction>".into());
+                return Err(
+                    "usage: distil <from> <to> <fraction | energy J|kJ> [stages <n>]".into(),
+                );
             }
+            let (fraction, energy) = if let Some(kj) = words[3].strip_suffix("kJ") {
+                let v: f64 = kj
+                    .parse()
+                    .map_err(|_| format!("bad energy '{}'", words[3]))?;
+                (None, Some(Joules(v * 1000.0)))
+            } else if let Some(j) = words[3].strip_suffix('J') {
+                let v: f64 = j
+                    .parse()
+                    .map_err(|_| format!("bad energy '{}'", words[3]))?;
+                (None, Some(Joules(v)))
+            } else {
+                let f: f64 = words[3]
+                    .parse()
+                    .map_err(|_| format!("bad fraction '{}'", words[3]))?;
+                (Some(f), None)
+            };
+            let stages = match (words.get(4), words.get(5)) {
+                (Some(&"stages"), Some(n)) => {
+                    n.parse().map_err(|_| format!("bad stage count '{n}'"))?
+                }
+                (None, _) => 1,
+                _ => return Err("after the amount, only `stages <n>` may follow".into()),
+            };
             Operator::Distil {
                 from: parse_vessel(words[1])?,
                 to: parse_vessel(words[2])?,
-                fraction: words[3]
-                    .parse()
-                    .map_err(|_| format!("bad fraction '{}'", words[3]))?,
+                fraction,
+                energy,
+                stages,
             }
         }
         // `look v1` — the youngest interaction there is.
@@ -170,10 +228,18 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     "conductivity" => Instrument::ConductivityMeter,
                     "spectrophotometer" | "uvvis" => Instrument::Spectrophotometer,
                     "calorimeter" => Instrument::Calorimeter,
+                    "chromatograph" | "column" => Instrument::Chromatograph,
                     other => return Err(format!("unknown instrument '{other}'")),
                 },
             }
         }
+        // `chromatograph v1` — inject the solution onto the column and
+        // read the peak table. Sugar for `measure v1 chromatograph`,
+        // first-class because running a separation is a verb in any lab.
+        "chromatograph" => Operator::Measure {
+            vessel: parse_vessel(words.get(1).copied().unwrap_or("v1"))?,
+            instrument: Instrument::Chromatograph,
+        },
         // `cell v1 v2` — touch the wires of two half-cells together and
         // read the voltmeter. Nothing flows; the reading is the prediction.
         "electrolyse" | "electrolyze" => {
@@ -248,6 +314,137 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 vessel,
                 wavelength_nm: wavelength,
                 irradiance_w_m2: irradiance,
+            }
+        }
+        "dilute" => {
+            if words.len() < 3 {
+                return Err("usage: dilute <vessel> <volume><mL|L>".into());
+            }
+            Operator::Dilute {
+                vessel: parse_vessel(words[1])?,
+                volume: parse_volume(words[2])?,
+            }
+        }
+        "titrate" => {
+            // titrate v1 NaOH 1mL until ph 7          (1 mol/L standard)
+            // titrate v1 NaOH 0.1M 1mL until ph 7 max 200
+            //
+            // The burette holds a *standard solution*, not the pure
+            // substance: `<c>M` states its concentration, defaulting to
+            // 1 mol/L — the convention every titration practical prints
+            // on the bottle. (Delivering pure titrant by volume would
+            // dose ~50× per mL for NaOH and leap the whole curve in one
+            // step, which is what this grammar replaced.)
+            if words.len() < 7 {
+                return Err(
+                    "usage: titrate <vessel> <titrant> [<c>M] <step><mL|L> until ph <target> [max <n>]"
+                        .into(),
+                );
+            }
+            let vessel = parse_vessel(words[1])?;
+            let titrant_key = words[2];
+            let _ = species::lookup_key(titrant_key)
+                .ok_or_else(|| format!("unknown species '{titrant_key}' (see 'species')"))?;
+            let (concentration, rest) = match words[3].strip_suffix(['M', 'm']) {
+                Some(c) if c.parse::<f64>().is_ok() => (c.parse::<f64>().unwrap(), &words[4..]),
+                _ => (1.0, &words[3..]),
+            };
+            if concentration <= 0.0 {
+                return Err("titrant concentration must be positive".into());
+            }
+            if rest.len() < 4 {
+                return Err(
+                    "usage: titrate <vessel> <titrant> [<c>M] <step><mL|L> until ph <target> [max <n>]"
+                        .into(),
+                );
+            }
+            let step = parse_volume(rest[0])?;
+            if rest[1] != "until" || rest[2] != "ph" {
+                return Err(
+                    "usage: titrate <vessel> <titrant> [<c>M] <step> until ph <target> [max <n>]"
+                        .into(),
+                );
+            }
+            let target_ph: f64 = rest[3]
+                .parse()
+                .map_err(|_| format!("bad pH target '{}'", rest[3]))?;
+            let max_steps = match (rest.get(4), rest.get(5)) {
+                (Some(&"max"), Some(n)) => {
+                    n.parse().map_err(|_| format!("bad max step count '{n}'"))?
+                }
+                (None, _) => 100,
+                _ => return Err("after the pH target, only `max <n>` may follow".into()),
+            };
+            Operator::Titrate {
+                vessel,
+                titrant: SpeciesId::new(titrant_key),
+                concentration,
+                step,
+                target_ph,
+                max_steps,
+            }
+        }
+        "transport" => {
+            // transport v1 v2 v3 from v4 to v5 steps 5 [courant 0.5]
+            let from_pos = words.iter().position(|&w| w == "from");
+            let to_pos = words.iter().position(|&w| w == "to");
+            let steps_pos = words.iter().position(|&w| w == "steps");
+            let (from_pos, to_pos, steps_pos) = match (from_pos, to_pos, steps_pos) {
+                (Some(f), Some(t), Some(s)) => (f, t, s),
+                _ => {
+                    return Err(
+                        "usage: transport <v1> [v2 ...] from <inlet> to <receiver> steps <n> [courant <f>]"
+                            .into(),
+                    )
+                }
+            };
+            if from_pos < 2 {
+                return Err("transport needs at least one cell vessel before 'from'".into());
+            }
+            let chain: Vec<VesselId> = words[1..from_pos]
+                .iter()
+                .map(|w| parse_vessel(w))
+                .collect::<Result<_, _>>()?;
+            let inlet = parse_vessel(
+                words
+                    .get(from_pos + 1)
+                    .ok_or("expected inlet vessel after 'from'")?,
+            )?;
+            let receiver = parse_vessel(
+                words
+                    .get(to_pos + 1)
+                    .ok_or("expected receiver vessel after 'to'")?,
+            )?;
+            let steps: u32 = words
+                .get(steps_pos + 1)
+                .ok_or("expected step count after 'steps'")?
+                .parse()
+                .map_err(|_| {
+                    format!(
+                        "bad step count '{}'",
+                        words.get(steps_pos + 1).unwrap_or(&"")
+                    )
+                })?;
+            let courant_pos = words.iter().position(|&w| w == "courant");
+            let courant: f64 = match courant_pos {
+                Some(cp) => words
+                    .get(cp + 1)
+                    .ok_or("expected Courant fraction after 'courant'")?
+                    .parse()
+                    .map_err(|_| {
+                        format!(
+                            "bad Courant fraction '{}'",
+                            words.get(cp + 1).unwrap_or(&"")
+                        )
+                    })?,
+                None => 1.0,
+            };
+            Operator::Transport {
+                chain,
+                inlet,
+                receiver,
+                steps,
+                courant,
             }
         }
         other => return Err(format!("unknown command '{other}' (try 'help')")),

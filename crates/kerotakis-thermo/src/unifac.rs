@@ -52,7 +52,9 @@ impl UnifacTable {
     }
 }
 
-const SOURCE: &str = "Fredenslund, Jones & Prausnitz, AIChE J. 21(6), 1975";
+const SOURCE_1975: &str = "Fredenslund, Jones & Prausnitz, AIChE J. 21(6), 1086-1099, 1975";
+const SOURCE_1982: &str =
+    "Gmehling, Rasmussen & Fredenslund, Ind. Eng. Chem. Process Des. Dev. 21, 118-127, 1982";
 
 /// The approved UNIFAC parameter set. Only parameters from allowlisted
 /// sources are included.
@@ -66,7 +68,7 @@ pub fn approved_table() -> UnifacTable {
                 main_group: 1,
                 r: 0.9011,
                 q: 0.848,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
             UnifacGroup {
                 id: 2,
@@ -74,7 +76,7 @@ pub fn approved_table() -> UnifacTable {
                 main_group: 1,
                 r: 0.6744,
                 q: 0.540,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
             UnifacGroup {
                 id: 3,
@@ -82,7 +84,7 @@ pub fn approved_table() -> UnifacTable {
                 main_group: 1,
                 r: 0.4469,
                 q: 0.228,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
             UnifacGroup {
                 id: 4,
@@ -90,7 +92,7 @@ pub fn approved_table() -> UnifacTable {
                 main_group: 1,
                 r: 0.2195,
                 q: 0.000,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
             // Main group 5: OH (alcohols)
             UnifacGroup {
@@ -99,7 +101,18 @@ pub fn approved_table() -> UnifacTable {
                 main_group: 5,
                 r: 1.0000,
                 q: 1.200,
-                source: SOURCE,
+                source: SOURCE_1975,
+            },
+            // Main group 6: CH3OH (methanol, treated as a single group
+            // because the hydroxyl bonded directly to the methyl has
+            // distinct interaction behaviour from the general OH group)
+            UnifacGroup {
+                id: 15,
+                name: "CH3OH",
+                main_group: 6,
+                r: 1.4311,
+                q: 1.432,
+                source: SOURCE_1975,
             },
             // Main group 7: H2O
             UnifacGroup {
@@ -108,7 +121,7 @@ pub fn approved_table() -> UnifacTable {
                 main_group: 7,
                 r: 0.9200,
                 q: 1.400,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
             // Main group 9: CH2CO (ketones)
             UnifacGroup {
@@ -117,7 +130,7 @@ pub fn approved_table() -> UnifacTable {
                 main_group: 9,
                 r: 1.6724,
                 q: 1.488,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
             UnifacGroup {
                 id: 19,
@@ -125,87 +138,203 @@ pub fn approved_table() -> UnifacTable {
                 main_group: 9,
                 r: 1.4457,
                 q: 1.180,
-                source: SOURCE,
+                source: SOURCE_1975,
+            },
+            // Main group 20: COOH (carboxylic acids)
+            UnifacGroup {
+                id: 42,
+                name: "COOH",
+                main_group: 20,
+                r: 1.3013,
+                q: 1.224,
+                source: SOURCE_1982,
             },
         ],
         interactions: vec![
-            // CH2-OH
+            // ── Main group 1 (CH2) pairs ──
             InteractionParam {
                 m: 1,
                 n: 5,
                 a_mn: 986.5,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
             InteractionParam {
                 m: 5,
                 n: 1,
                 a_mn: 156.4,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
-            // CH2-H2O
+            InteractionParam {
+                m: 1,
+                n: 6,
+                a_mn: 697.2,
+                source: SOURCE_1975,
+            },
+            InteractionParam {
+                m: 6,
+                n: 1,
+                a_mn: 16.51,
+                source: SOURCE_1975,
+            },
             InteractionParam {
                 m: 1,
                 n: 7,
                 a_mn: 1318.0,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
             InteractionParam {
                 m: 7,
                 n: 1,
                 a_mn: 300.0,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
-            // OH-H2O
-            InteractionParam {
-                m: 5,
-                n: 7,
-                a_mn: 353.5,
-                source: SOURCE,
-            },
-            InteractionParam {
-                m: 7,
-                n: 5,
-                a_mn: -229.1,
-                source: SOURCE,
-            },
-            // CH2-CH2CO
             InteractionParam {
                 m: 1,
                 n: 9,
                 a_mn: 476.4,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
             InteractionParam {
                 m: 9,
                 n: 1,
                 a_mn: 26.76,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
-            // OH-CH2CO
+            InteractionParam {
+                m: 1,
+                n: 20,
+                a_mn: 663.5,
+                source: SOURCE_1982,
+            },
+            InteractionParam {
+                m: 20,
+                n: 1,
+                a_mn: 315.3,
+                source: SOURCE_1982,
+            },
+            // ── Main group 5 (OH) pairs ──
+            InteractionParam {
+                m: 5,
+                n: 6,
+                a_mn: -137.1,
+                source: SOURCE_1975,
+            },
+            InteractionParam {
+                m: 6,
+                n: 5,
+                a_mn: 249.1,
+                source: SOURCE_1975,
+            },
+            InteractionParam {
+                m: 5,
+                n: 7,
+                a_mn: 353.5,
+                source: SOURCE_1975,
+            },
+            InteractionParam {
+                m: 7,
+                n: 5,
+                a_mn: -229.1,
+                source: SOURCE_1975,
+            },
             InteractionParam {
                 m: 5,
                 n: 9,
-                a_mn: 164.5,
-                source: SOURCE,
+                a_mn: 84.0,
+                source: SOURCE_1975,
             },
             InteractionParam {
                 m: 9,
                 n: 5,
-                a_mn: -150.0,
-                source: SOURCE,
+                a_mn: 164.5,
+                source: SOURCE_1975,
             },
-            // H2O-CH2CO
+            InteractionParam {
+                m: 5,
+                n: 20,
+                a_mn: 199.0,
+                source: SOURCE_1982,
+            },
+            InteractionParam {
+                m: 20,
+                n: 5,
+                a_mn: -151.0,
+                source: SOURCE_1982,
+            },
+            // ── Main group 6 (CH3OH) pairs ──
+            InteractionParam {
+                m: 6,
+                n: 7,
+                a_mn: -180.95,
+                source: SOURCE_1975,
+            },
+            InteractionParam {
+                m: 7,
+                n: 6,
+                a_mn: 289.6,
+                source: SOURCE_1975,
+            },
+            InteractionParam {
+                m: 6,
+                n: 9,
+                a_mn: 23.39,
+                source: SOURCE_1975,
+            },
+            InteractionParam {
+                m: 9,
+                n: 6,
+                a_mn: 108.65,
+                source: SOURCE_1975,
+            },
+            InteractionParam {
+                m: 6,
+                n: 20,
+                a_mn: -202.0,
+                source: SOURCE_1982,
+            },
+            InteractionParam {
+                m: 20,
+                n: 6,
+                a_mn: 339.8,
+                source: SOURCE_1982,
+            },
+            // ── Main group 7 (H2O) pairs ──
             InteractionParam {
                 m: 7,
                 n: 9,
                 a_mn: -195.4,
-                source: SOURCE,
+                source: SOURCE_1975,
             },
             InteractionParam {
                 m: 9,
                 n: 7,
                 a_mn: 472.5,
-                source: SOURCE,
+                source: SOURCE_1975,
+            },
+            InteractionParam {
+                m: 7,
+                n: 20,
+                a_mn: -14.09,
+                source: SOURCE_1982,
+            },
+            InteractionParam {
+                m: 20,
+                n: 7,
+                a_mn: -66.17,
+                source: SOURCE_1982,
+            },
+            // ── Main group 9 (CH2CO) pairs ──
+            InteractionParam {
+                m: 9,
+                n: 20,
+                a_mn: 669.4,
+                source: SOURCE_1982,
+            },
+            InteractionParam {
+                m: 20,
+                n: 9,
+                a_mn: -297.8,
+                source: SOURCE_1982,
             },
         ],
     }
@@ -441,5 +570,99 @@ mod tests {
                 p.n
             );
         }
+    }
+
+    fn gamma_inf(solute: &GroupDecomposition, solvent: &GroupDecomposition) -> f64 {
+        let table = approved_table();
+        let g = activity_coefficients(
+            &table,
+            &[(solute.clone(), 1e-9), (solvent.clone(), 1.0 - 1e-9)],
+            298.15,
+        );
+        g[0]
+    }
+
+    fn methanol() -> GroupDecomposition {
+        let mut g = GroupDecomposition::new();
+        g.insert(15, 1); // CH3OH
+        g
+    }
+
+    fn water() -> GroupDecomposition {
+        let mut g = GroupDecomposition::new();
+        g.insert(16, 1); // H2O
+        g
+    }
+
+    fn propanone() -> GroupDecomposition {
+        let mut g = GroupDecomposition::new();
+        g.insert(1, 1); // CH3
+        g.insert(18, 1); // CH3CO
+        g
+    }
+
+    fn acetic_acid() -> GroupDecomposition {
+        let mut g = GroupDecomposition::new();
+        g.insert(1, 1); // CH3
+        g.insert(42, 1); // COOH
+        g
+    }
+
+    #[test]
+    fn methanol_water_gamma_inf() {
+        let gi = gamma_inf(&methanol(), &water());
+        assert!(
+            (gi - 2.2457).abs() < 0.01,
+            "γ∞(methanol in water) = {gi:.4}, expected ~2.2457"
+        );
+    }
+
+    #[test]
+    fn propanone_water_gamma_inf() {
+        let gi = gamma_inf(&propanone(), &water());
+        assert!(
+            (gi - 11.472).abs() < 0.05,
+            "γ∞(propanone in water) = {gi:.4}, expected ~11.472"
+        );
+    }
+
+    #[test]
+    fn acetic_acid_water_gamma_inf() {
+        let gi = gamma_inf(&acetic_acid(), &water());
+        assert!(
+            (gi - 3.506).abs() < 0.02,
+            "γ∞(acetic acid in water) = {gi:.4}, expected ~3.506"
+        );
+    }
+
+    #[test]
+    fn methanol_propanone_gamma_inf() {
+        let gi = gamma_inf(&methanol(), &propanone());
+        assert!(
+            (gi - 1.961).abs() < 0.01,
+            "γ∞(methanol in propanone) = {gi:.4}, expected ~1.961"
+        );
+    }
+
+    #[test]
+    fn acetic_acid_ethanol_gamma_inf() {
+        let mut ethanol = GroupDecomposition::new();
+        ethanol.insert(1, 1);
+        ethanol.insert(2, 1);
+        ethanol.insert(14, 1);
+        let gi = gamma_inf(&acetic_acid(), &ethanol);
+        assert!(
+            (gi - 0.963).abs() < 0.01,
+            "γ∞(acetic acid in ethanol) = {gi:.4}, expected ~0.963"
+        );
+    }
+
+    #[test]
+    fn table_covers_six_main_groups() {
+        let table = approved_table();
+        let mut mains: Vec<u32> = table.groups.iter().map(|g| g.main_group).collect();
+        mains.sort();
+        mains.dedup();
+        assert_eq!(mains, vec![1, 5, 6, 7, 9, 20]);
     }
 }

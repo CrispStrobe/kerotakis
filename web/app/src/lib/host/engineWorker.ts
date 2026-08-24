@@ -64,7 +64,7 @@ async function init(engineBase: string) {
   } catch {
     // Pre-warmed results are an accelerant, not a requirement.
   }
-  // Attach the live aqueous engine in this same worker (GUI-004/OPT-7).
+  // Attach the live aqueous engine in this same worker (GUI-004/OPT-11).
   try {
     const iph = await import(/* @vite-ignore */ new URL("iphreeqc.mjs", base).href);
     const pool = await PhreeqcPool.create(iph.default, async (file: string) => {

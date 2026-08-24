@@ -29,8 +29,8 @@ fn repository_source_manifest_passes_the_live_gate() {
         String::from_utf8_lossy(&out.stderr)
     );
     let stdout = String::from_utf8(out.stdout).unwrap();
-    assert!(stdout.contains("7 sources valid"), "{stdout}");
-    assert!(stdout.contains("7 distributed"), "{stdout}");
+    assert!(stdout.contains("8 sources valid"), "{stdout}");
+    assert!(stdout.contains("8 distributed"), "{stdout}");
 }
 
 #[test]

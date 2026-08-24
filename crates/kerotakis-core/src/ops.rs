@@ -8,6 +8,17 @@ use crate::species::{Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::VesselId;
 
+fn one_molar() -> f64 {
+    1.0
+}
+
+fn one_stage() -> u32 {
+    1
+}
+fn kelvin_zero() -> Kelvin {
+    Kelvin(0.0)
+}
+
 /// A mutating or measuring action. One `Operator` in is one step of the bench
 /// loop: L0 safety pass → apply → re-equilibrate → events out.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -66,16 +77,29 @@ pub enum Operator {
     /// non-water liquids need L3 (relative volatility) and are honestly
     /// flagged.
     Evaporate { vessel: VesselId, fraction: f64 },
-    /// Boil a fraction (0..=1) of the volatile liquid over into another
-    /// vessel through a condenser: one equilibrium stage, vapour
-    /// composition from the bubble point (UNIFAC γ(T) for ethanol–water).
-    /// Non-volatile matter stays behind — which is why distilling brine
-    /// makes distilled water.
+    /// Boil volatile liquid over into another vessel through a condenser:
+    /// a Rayleigh batch cut — the vapour composition follows the pot as
+    /// it drifts — through `stages` ideal stages at total reflux, with
+    /// UNIFAC γ(T) for ethanol–water. Ask for a mole fraction of the
+    /// charge or for what a latent-heat budget can lift; non-volatile
+    /// matter stays behind, which is why distilling brine makes
+    /// distilled water.
     Distil {
         from: VesselId,
         to: VesselId,
-        fraction: f64,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        fraction: Option<f64>,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        energy: Option<Joules>,
+        #[serde(default = "one_stage")]
+        stages: u32,
     },
+    /// Open the stopcock of a separating funnel: the lower liquid layer
+    /// — and everything dissolved in it — runs into the receiver, and
+    /// the upper layer stays behind. Only meaningful when the computed
+    /// liquid–liquid equilibrium says there *are* layers; one phase has
+    /// nothing to drain separately, and the bench says so.
+    Drain { from: VesselId, to: VesselId },
     /// Let time pass. Rates need a clock, and this is it.
     ///
     /// Deliberately not per-vessel: every vessel on the bench advances by
@@ -114,6 +138,41 @@ pub enum Operator {
         wavelength_nm: f64,
         irradiance_w_m2: f64,
     },
+    /// Add solvent (water) by volume. The pedagogical complement of
+    /// `evaporate`: where evaporate concentrates, dilute spreads.
+    Dilute { vessel: VesselId, volume: Liters },
+    /// Apply a named curated organic transformation on command:
+    /// `react v1 esterification`. Deliberate, not automatic — the
+    /// mixture does not do this on its own at the bench's conditions;
+    /// see `curated::ORG_REACTIONS`.
+    React { vessel: VesselId, reaction: String },
+    /// Auto-stepped titration: add `titrant` to `vessel` in increments of
+    /// `step` volume, re-equilibrating after each addition, until the pH
+    /// crosses `target_ph` or `max_steps` additions are exhausted. Records
+    /// (cumulative volume, pH) at every step.
+    Titrate {
+        vessel: VesselId,
+        titrant: SpeciesId,
+        /// Concentration of the standard solution in the burette,
+        /// mol/L. The burette holds a solution, not the pure substance
+        /// — each step delivers `concentration × step` moles of
+        /// titrant plus the carrier water of the step volume.
+        #[serde(default = "one_molar")]
+        concentration: f64,
+        step: Liters,
+        target_ph: f64,
+        max_steps: u32,
+    },
+    /// Push liquid through a 1-D chain of vessels: conservative upwind
+    /// transport with an explicit Courant fraction. The inlet provides the
+    /// feed composition (unchanged); the effluent collects in the receiver.
+    Transport {
+        chain: Vec<VesselId>,
+        inlet: VesselId,
+        receiver: VesselId,
+        steps: u32,
+        courant: f64,
+    },
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -135,6 +194,11 @@ pub enum Instrument {
     Spectrophotometer,
     /// INST-006: Calorimeter — reads enthalpy.
     Calorimeter,
+    /// INST-007: Chromatography column — separates dissolved neutral
+    /// solutes by their computed partition coefficients and reports the
+    /// peak table. Non-destructive here: an analytical injection is an
+    /// aliquot too small for the ledger to see.
+    Chromatograph,
 }
 
 /// ORG-009: How confident the engine is in a claimed result.
@@ -162,6 +226,21 @@ pub enum Confidence {
     /// The engine could not determine an answer and is reporting the
     /// honest absence of knowledge.
     Unknown,
+}
+
+/// One peak in a reported chromatogram: who, when, how wide, how much.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ElutedPeak {
+    pub species: SpeciesId,
+    /// Retention time t_R = t₀·(1 + K·β), seconds.
+    pub retention_time_s: f64,
+    /// Baseline width (4σ) from the plate count, seconds.
+    pub width_s: f64,
+    /// Area relative to the largest peak — proportional to moles
+    /// injected, because an ideal detector counts what passes it.
+    pub relative_area: f64,
+    /// The computed partition coefficient that put the peak there.
+    pub partition_k: f64,
 }
 
 /// What one step produced. Everything user-visible derives from this.
@@ -317,16 +396,81 @@ pub enum Event {
         moles: Moles,
     },
     /// Volatile liquid boiled over into a receiver through a condenser.
-    /// `at` is the boiling temperature of the source mixture; when
-    /// `azeotropic`, the vapour composition matches the liquid and further
-    /// distillation no longer separates.
+    /// `at` and `ended` are the pot's boiling temperature at the start
+    /// and end of the cut — the Rayleigh drift made visible; `energy_kj`
+    /// is the latent heat the burner paid and the condenser dumped (the
+    /// still is externally powered, and this is the bill); when
+    /// `azeotropic`, the column ran into the azeotrope and further
+    /// stages or boiling no longer enrich.
     Distilled {
         from: VesselId,
         to: VesselId,
         water: Moles,
         ethanol: Moles,
         at: Kelvin,
+        #[serde(default = "kelvin_zero")]
+        ended: Kelvin,
+        #[serde(default = "one_stage")]
+        stages: u32,
+        #[serde(default)]
+        energy_kj: f64,
         azeotropic: bool,
+    },
+    /// A neutral solute split between the two layers on its computed
+    /// partition coefficient — the ratio of its infinite-dilution
+    /// activity coefficients in the two solvents.
+    Partitioned {
+        vessel: VesselId,
+        species: SpeciesId,
+        /// Fraction of the solute that sat in the lower layer (and so
+        /// left with it when the stopcock opened).
+        fraction_lower: f64,
+    },
+    /// A named organic transformation ran to the stated extent. The
+    /// boundary line carries what the model does NOT claim.
+    OrgReacted {
+        vessel: VesselId,
+        name: String,
+        equation: String,
+        /// Reaction extent in moles of the equation as written.
+        extent: Moles,
+        boundary: String,
+    },
+    /// The column spoke: each dissolved neutral solute with a curated
+    /// group decomposition eluted at the time its partition coefficient
+    /// sets, and anything the method cannot see is named rather than
+    /// silently dropped. K comes from the same UNIFAC γ∞ ratio the
+    /// separating funnel runs on — water as the mobile phase, an alkane
+    /// stationary phase — so the funnel and the column must agree about
+    /// which solute is the hydrophobic one.
+    Chromatographed {
+        vessel: VesselId,
+        /// Theoretical plates of the column that produced this table.
+        plates: u32,
+        /// Void time: when an unretained solute reaches the detector.
+        void_time_s: f64,
+        /// Peaks in elution order.
+        peaks: Vec<ElutedPeak>,
+        /// Dissolved species the method has no groups for — ions above
+        /// all. Stated, because a chromatogram that quietly ignores half
+        /// the sample teaches the wrong lesson about what a detector saw.
+        outside_method: Vec<SpeciesId>,
+    },
+    /// The lower layer ran out through the stopcock, solutes and all.
+    Drained {
+        from: VesselId,
+        to: VesselId,
+        solvent: SpeciesId,
+        moles: Moles,
+    },
+    /// Two liquid layers formed: mixing these liquids raises the Gibbs
+    /// energy instead of lowering it, so they split — computed
+    /// liquid–liquid equilibrium, not a solubility table. `upper`
+    /// floats on `lower` by density.
+    LayersFormed {
+        vessel: VesselId,
+        upper: SpeciesId,
+        lower: SpeciesId,
     },
     /// A gas formed and left through a reservoir or swept boundary. The
     /// balance notices.
@@ -447,6 +591,34 @@ pub enum Event {
         vessel: VesselId,
         solver: String,
         detail: String,
+    },
+    /// Solvent (water) was added by volume to dilute the contents.
+    Diluted {
+        vessel: VesselId,
+        volume: Liters,
+        moles: Moles,
+    },
+    /// An auto-stepped titration ran to completion (or exhausted its step
+    /// budget). The curve carries (cumulative mL, pH) at every step.
+    Titrated {
+        vessel: VesselId,
+        titrant: SpeciesId,
+        /// Standard-solution concentration in the burette, mol/L.
+        #[serde(default = "one_molar")]
+        concentration: f64,
+        steps: u32,
+        total_volume: Liters,
+        final_ph: f64,
+        curve: Vec<(f64, f64)>,
+    },
+    /// Liquid flowed through a 1-D column of vessels. The effluent —
+    /// what came out the far end — was deposited into the receiver.
+    Transported {
+        chain: Vec<VesselId>,
+        receiver: VesselId,
+        steps: u32,
+        courant: f64,
+        effluent_moles: Vec<(SpeciesId, Moles)>,
     },
 }
 

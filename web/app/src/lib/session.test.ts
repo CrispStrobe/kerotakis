@@ -191,11 +191,11 @@ describe("Session", () => {
       const result = await base(script);
       (result.steps[0] as Record<string, unknown>).charts = [
         {
-          chart: 1,
           title: "titration",
           x: { label: "volume", unit: "mL" },
           y: { label: "pH" },
-          series: [{ label: "pH", points: [[0, 1]] }],
+          series: [{ kind: "line", name: "pH", points: [[0, 1]] }],
+          provenance: "PHREEQC",
         },
       ];
       return result;

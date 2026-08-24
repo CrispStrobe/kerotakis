@@ -4,7 +4,7 @@ The contract between any Kerotakis UI and any engine transport. Two hosts
 implement it:
 
 - **WorkerHost** — web: `kerotakis-wasm` (+ IPhreeQC) in one module Web
-  Worker (OPT-7 / GUI-004);
+  Worker (OPT-11 / GUI-004);
 - **TauriHost** — desktop/mobile: native `kerotakis-core` on a background
   thread behind `tauri::command` (GUI-030).
 
@@ -125,41 +125,37 @@ turbidity physics). Not yet in v1, arriving additively with their state:
 behind it) and `apparatus`. `step`/`run_script` responses now carry `scene`,
 and `Lab::scene()` serves it standalone.
 
-## Chart JSON v1 (the CAP-3 contract; renderer shipped in `web/app`)
+## The chart contract (CAP-3; authoritative in `kerotakis-core/src/chart.rs`)
 
-One JSON contract, one renderer (CAPABILITIES.md CAP-3). The engine emits
-chart specs — on step objects as `charts: [ChartSpec]`, and later from
-`kero study`/CAP-4/CAP-8 surfaces; every client renders them with one
-renderer (`web/app/src/lib/components/Chart.svelte`; numeric core and
-consumer types in `chart.ts`). The client hook is live: a step carrying
-`charts` renders inline in the feed today.
+One JSON contract, every renderer consumes it — the CLI's `chart_svg`, and
+the web app (`web/app/src/lib/components/Chart.svelte`, consumer types in
+`chart.ts`). The serde shape:
 
 ```json
 {
-  "chart": 1,
   "title": "titration of 25 mL 0.1 M HCl with 0.1 M NaOH",
-  "x": { "label": "volume added", "unit": "mL", "scale": "linear" },
+  "x": { "label": "volume added", "unit": "mL" },
   "y": { "label": "pH" },
-  "series": [{
-    "label": "pH",
-    "confidence": "computed",
-    "points": [[0.0, 1.0], [12.5, 1.5], [25.0, 7.0]],
-    "band": [[0.0, 0.9, 1.1]]
-  }],
-  "markers": [{ "x": 25.0, "label": "equivalence" }],
+  "series": [
+    { "kind": "line",    "name": "pH", "points": [[0.0, 1.0], [25.0, 7.0]] },
+    { "kind": "scatter", "name": "samples", "points": [[5.0, 1.2]] },
+    { "kind": "band",    "name": "±σ",
+      "lower": [[0.0, 0.9]], "upper": [[0.0, 1.1]] }
+  ],
   "provenance": "PHREEQC (IPhreeqc) · wateq4f.dat"
 }
 ```
 
-- `confidence` uses the Confidence vocabulary; the renderer's stroke
-  follows GUI-023's encoding (solid computed, dashed modeled, dotted
-  curated/template_match). `band` is the CAP-8 uncertainty envelope,
-  `[x, low, high]` per point.
-- Axis `scale` is `linear` in v1; additive evolution rules apply (new
-  scales, new optional fields — never renames).
+- `provenance` is required: a chart without it is a picture, not a result.
+- `band` is CAP-8's uncertainty envelope (two polylines sharing x values).
+- Transport into a UI session: a step object may carry
+  `charts: [Chart]`; the web feed renders them inline (hook live today).
 - Renderer duties: nice 1/2/5 ticks, responsive SVG, the same data as a
   table for screen readers, SVG export. Numbers arrive in data units —
-  the renderer never converts units; the emitter labels them.
+  the renderer never converts; the emitter labels.
+- Proposed additive extensions (not yet in the Rust contract; do not emit
+  until they land there): a per-series `confidence` field rendered via
+  GUI-023's stroke encoding, and x-axis `markers` (e.g. "equivalence").
 
 ## Conformance suite (GUI-001 acceptance)
 

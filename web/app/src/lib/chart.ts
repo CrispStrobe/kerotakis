@@ -1,51 +1,63 @@
 /**
- * Chart JSON v1 (PROTOCOL.md, the CAP-3 contract) — consumer types and the
- * small numeric core of the renderer. Hand-rolled linear scales and nice
- * ticks: a titration curve needs no charting library, and the licence
- * surface stays empty.
+ * Consumer types + numeric core for the CAP-3 chart contract
+ * (`kerotakis-core/src/chart.rs` is authoritative; PROTOCOL.md documents
+ * it). Hand-rolled linear scales and nice ticks: a titration curve needs
+ * no charting library, and the licence surface stays empty.
  */
 
 export interface ChartSpec {
-  chart: number;
   title: string;
   x: ChartAxis;
   y: ChartAxis;
   series: ChartSeries[];
-  markers?: { x: number; label: string }[];
-  provenance?: string;
+  /** A chart without provenance is a picture, not a result. */
+  provenance: string;
 }
 
 export interface ChartAxis {
   label: string;
   unit?: string;
-  scale?: "linear";
 }
 
-export interface ChartSeries {
-  label: string;
-  /** The confidence vocabulary; the stroke follows GUI-023's encoding. */
-  confidence?: string;
-  /** [x, y] pairs, in data units, assumed x-sorted. */
-  points: [number, number][];
-  /** Optional uncertainty band: [x, low, high] (CAP-8). */
-  band?: [number, number, number][];
+/** Tagged as the Rust enum serializes: kind = line | scatter | band. */
+export type ChartSeries =
+  | { kind: "line"; name: string; points: [number, number][] }
+  | { kind: "scatter"; name: string; points: [number, number][] }
+  | {
+      kind: "band";
+      name: string;
+      lower: [number, number][];
+      upper: [number, number][];
+    };
+
+/** Whether an unknown value looks like the chart contract. */
+export function isChartSpec(v: unknown): v is ChartSpec {
+  const c = v as ChartSpec;
+  return (
+    typeof c === "object" &&
+    c !== null &&
+    typeof c.title === "string" &&
+    Array.isArray(c.series) &&
+    typeof c.x?.label === "string" &&
+    typeof c.y?.label === "string"
+  );
 }
 
-/** Data extent across all series (and bands), padded when degenerate. */
+/** Every point that bounds a series — both envelopes for a band. */
+export function seriesPoints(s: ChartSeries): [number, number][] {
+  return s.kind === "band" ? [...s.lower, ...s.upper] : s.points;
+}
+
+/** Data extent across all series, padded when degenerate. */
 export function extent(spec: ChartSpec): { x: [number, number]; y: [number, number] } {
   let xs: number[] = [];
   let ys: number[] = [];
   for (const s of spec.series) {
-    for (const [x, y] of s.points) {
+    for (const [x, y] of seriesPoints(s)) {
       xs.push(x);
       ys.push(y);
     }
-    for (const [x, lo, hi] of s.band ?? []) {
-      xs.push(x);
-      ys.push(lo, hi);
-    }
   }
-  for (const m of spec.markers ?? []) xs.push(m.x);
   if (xs.length === 0) {
     xs = [0, 1];
     ys = [0, 1];
@@ -87,7 +99,7 @@ export function niceTicks(lo: number, hi: number, want = 5): number[] {
   return ticks;
 }
 
-/** SVG path for a series' points through the given scales. */
+/** SVG path for a polyline through the given scales. */
 export function linePath(
   points: [number, number][],
   sx: (v: number) => number,
@@ -98,31 +110,19 @@ export function linePath(
     .join(" ");
 }
 
-/** Closed SVG path for an uncertainty band: along the highs, back along the lows. */
+/** Closed SVG path for a band: along the upper envelope, back along the lower. */
 export function bandPath(
-  band: [number, number, number][],
+  lower: [number, number][],
+  upper: [number, number][],
   sx: (v: number) => number,
   sy: (v: number) => number,
 ): string {
-  if (band.length === 0) return "";
-  const upper = band.map(
-    ([x, , hi], i) => `${i === 0 ? "M" : "L"}${sx(x).toFixed(2)},${sy(hi).toFixed(2)}`,
+  if (lower.length === 0 && upper.length === 0) return "";
+  const up = upper.map(
+    ([x, y], i) => `${i === 0 ? "M" : "L"}${sx(x).toFixed(2)},${sy(y).toFixed(2)}`,
   );
-  const lower = [...band]
+  const down = [...lower]
     .reverse()
-    .map(([x, lo]) => `L${sx(x).toFixed(2)},${sy(lo).toFixed(2)}`);
-  return `${upper.join(" ")} ${lower.join(" ")} Z`;
-}
-
-/** GUI-023's encoding, applied to strokes. */
-export function dashFor(confidence?: string): string | undefined {
-  switch (confidence) {
-    case "modeled":
-      return "6 3";
-    case "curated":
-    case "template_match":
-      return "2 3";
-    default:
-      return undefined;
-  }
+    .map(([x, y]) => `L${sx(x).toFixed(2)},${sy(y).toFixed(2)}`);
+  return `${up.join(" ")} ${down.join(" ")} Z`;
 }

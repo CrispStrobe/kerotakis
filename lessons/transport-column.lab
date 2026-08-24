@@ -1,0 +1,33 @@
+# A salt pulse through a water column
+#
+# Three cells of pure water. A fourth vessel holds salt water — the
+# feed. Push the feed through the column and collect what comes out.
+# After three steps at Courant 0.5, the salt has spread through the
+# column by the binomial coefficients: the front disperses exactly
+# as the theory says.
+
+# v1 is the default beaker — use it as cell 1
+add v1 water 100mL
+
+# cells 2 and 3
+new
+add v2 water 100mL
+new
+add v3 water 100mL
+
+# the inlet: salt water at the same volume
+new
+add v4 water 100mL
+add v4 NaCl 5g
+
+# an empty receiver for the effluent
+new
+
+# push the salt through three steps
+transport v1 v2 v3 from v4 to v5 steps 3 courant 0.5
+
+# look at what ended up where
+measure v1 balance
+measure v2 balance
+measure v3 balance
+measure v5 balance

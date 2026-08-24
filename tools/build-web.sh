@@ -23,6 +23,18 @@ cargo build -p kerotakis-wasm --target wasm32-unknown-unknown --release
 wasm-bindgen --target web --out-dir "$OUT" \
     "$TARGET_DIR/wasm32-unknown-unknown/release/kerotakis_wasm.wasm"
 
+if command -v wasm-opt >/dev/null 2>&1; then
+    echo "== wasm-opt -Oz"
+    BEFORE=$(stat --printf="%s" "$OUT/kerotakis_wasm_bg.wasm" 2>/dev/null \
+             || stat -f%z "$OUT/kerotakis_wasm_bg.wasm")
+    wasm-opt -Oz -o "$OUT/kerotakis_wasm_bg.wasm" "$OUT/kerotakis_wasm_bg.wasm"
+    AFTER=$(stat --printf="%s" "$OUT/kerotakis_wasm_bg.wasm" 2>/dev/null \
+            || stat -f%z "$OUT/kerotakis_wasm_bg.wasm")
+    echo "   $BEFORE → $AFTER bytes ($(( (BEFORE - AFTER) * 100 / BEFORE ))% reduction)"
+else
+    echo "== no wasm-opt: skipping size optimization"
+fi
+
 echo "== the page"
 cp "$ROOT/web/index.html" "$ROOT/web/kerotakis.mjs" \
    "$ROOT/web/manifest.webmanifest" "$ROOT/web/icon.svg" "$OUT/"

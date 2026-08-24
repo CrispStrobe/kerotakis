@@ -52,9 +52,6 @@ pub use integrator::{
     IntegrationError, IntegrationOptions, IntegrationReport, IntegrationStatistics,
 };
 
-/// Gas constant, J·mol⁻¹·K⁻¹.
-pub const R: f64 = 8.314_462_618;
-
 /// Arrhenius parameters behind a mass-action rate expression.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct RateLaw {
@@ -407,10 +404,12 @@ pub struct SiteTerm<'a> {
 impl RateLaw {
     /// k(T) = A·T^b·exp(−Ea/RT).
     pub fn rate_constant(&self, temperature_k: f64) -> f64 {
-        let temperature_k = temperature_k.max(1.0);
-        self.pre_exponential
-            * temperature_k.powf(self.temperature_exponent)
-            * (-self.activation_energy / (R * temperature_k)).exp()
+        crate::relations::arrhenius(
+            self.pre_exponential,
+            self.temperature_exponent,
+            self.activation_energy,
+            temperature_k,
+        )
     }
 }
 
@@ -1028,12 +1027,13 @@ pub fn advance_network<'a>(
 /// making results depend on registry order. Aggregation also gives one place
 /// to scale an unexpectedly aggressive midpoint step before any reactant can
 /// become negative.
-fn apply_coupled_extents(
+fn apply_coupled_extents<'a>(
     vessel: &mut Vessel,
-    reactions: &[KineticReaction<'_>],
+    reactions: &[KineticReaction<'a>],
     extents: &[f64],
+    deltas: &mut Vec<(&'a str, Phase, f64)>,
 ) -> f64 {
-    let mut deltas: Vec<(&str, Phase, f64)> = Vec::new();
+    deltas.clear();
     for (reaction, extent) in reactions.iter().zip(extents) {
         for term in reaction.stoichiometry {
             let change = term.coefficient * extent;
@@ -1059,13 +1059,13 @@ fn apply_coupled_extents(
     // Withdraw first, then deposit. Because changes have been aggregated by
     // species and phase, neither loop can observe an intermediate produced by
     // another reaction in this same substep.
-    for (species, phase, change) in &deltas {
+    for &(species, phase, change) in deltas.iter() {
         let accepted = change * accepted_fraction;
         if accepted < 0.0 {
-            withdraw_phase(vessel, species, *phase, -accepted);
+            withdraw_phase(vessel, species, phase, -accepted);
         }
     }
-    for (species, phase, change) in deltas {
+    for &(species, phase, change) in deltas.iter() {
         let accepted = change * accepted_fraction;
         if accepted > 0.0 {
             vessel.deposit(SpeciesId::new(species), Moles(accepted), phase);
@@ -1308,7 +1308,7 @@ mod tests {
             activation_energy: 50_000.0,
         };
         let k = law.rate_constant(298.15);
-        let expected = 1.0e10 * (-50_000.0f64 / (R * 298.15)).exp();
+        let expected = 1.0e10 * (-50_000.0f64 / (crate::constants::GAS_CONSTANT * 298.15)).exp();
         assert!((k - expected).abs() / expected < 1e-12);
     }
 
@@ -1959,7 +1959,8 @@ mod tests {
         // Each path proposes consuming the entire inventory. The coupled
         // commit must accept half of both, not let the first path win and
         // then create the second path's product from a truncated withdrawal.
-        let accepted = apply_coupled_extents(&mut vessel, &reactions, &[0.1, 0.1]);
+        let mut deltas = Vec::new();
+        let accepted = apply_coupled_extents(&mut vessel, &reactions, &[0.1, 0.1], &mut deltas);
         assert!((accepted - 0.5).abs() < 1e-12);
         assert!(phase_moles(&vessel, "H2O2", Phase::Aqueous) < 1e-12);
         assert!((phase_moles(&vessel, "H2O2", Phase::Liquid) - 0.05).abs() < 1e-12);

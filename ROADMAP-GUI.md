@@ -16,7 +16,7 @@ anywhere in a shipping payload).
 - The UI is a single TypeScript + Svelte application rendering the bench as
   SVG with a Canvas2D effects layer. No 3D, no game engine.
 - **Web**: the existing PWA grows into it. Engine = `kerotakis-wasm` +
-  IPhreeQC in one module Web Worker (this is OPT-7; the GUI depends on it).
+  IPhreeQC in one module Web Worker (this is OPT-11; the GUI depends on it).
 - **Desktop (Windows/macOS/Linux)** and **mobile (iOS/Android)**: the same
   UI in a **Tauri v2** shell (MIT/Apache-2.0), with the Rust core compiled
   **natively** and run in-process on a background thread — no wasm penalty,
@@ -55,7 +55,7 @@ The decisive constraints:
 
 | Candidate | Licence | Verdict |
 |---|---|---|
-| **Web UI + Tauri v2 shells** | MIT/Apache throughout | **Chosen.** Reuses the shipped PWA and wasm path; system webviews keep binaries ~5 MB; native Rust core on installed targets erases the wasm→JS marshalling cost (OPT-7/OPT-9 remain web-only concerns). Tauri v2 mobile is stable since late 2024. |
+| **Web UI + Tauri v2 shells** | MIT/Apache throughout | **Chosen.** Reuses the shipped PWA and wasm path; system webviews keep binaries ~5 MB; native Rust core on installed targets erases the wasm→JS marshalling cost (OPT-11/OPT-9 remain web-only concerns). Tauri v2 mobile is stable since late 2024. |
 | Flutter | BSD-3 | Strong mobile, but web is CanvasKit: multi-MB runtime, weak a11y/SEO, poor text selection — unacceptable for the Chromebook population. Adds Dart beside Rust. Duplicates the existing web investment. |
 | egui | MIT/Apache | Right for an expert instrument panel, wrong for a child-facing product: immediate-mode text layout, IME, and a11y (AccessKit helps but trails DOM) are weak; mobile is DIY. Rejected as the app, fine for internal debug tools. |
 | Dioxus / Leptos (Rust UI) | MIT/Apache | Keeps one language, but mobile is immature and the ecosystem (charts, testing, a11y tooling) is a fraction of TS's. The JSON `EngineHost` boundary means the UI language choice is not load-bearing; choose the ecosystem. |
@@ -243,7 +243,7 @@ classrooms-as-a-service, and cloud saves are **non-goals** for this roadmap.
 │ kerotakis-wasm +   │      │ kerotakis-core native,  │
 │ IPhreeQC in ONE    │      │ background thread(s),   │
 │ module worker      │      │ rayon for CAP-2/CAP-8,  │
-│ (OPT-7)            │      │ mmap'd data packs       │
+│ (OPT-11)           │      │ mmap'd data packs       │
 └────────────────────┘      └─────────────────────────┘
 ```
 
@@ -302,7 +302,7 @@ every new dependency before its first import.
   wasm `step`/`run_script` responses and `Lab::scene()`. Open for the
   checkbox: goldens over the replayed lesson corpus (folds into GUI-001's
   conformance suite).*
-- [ ] **GUI-004 — One-worker web engine.** Land OPT-7 (lab + IPhreeQC in a
+- [ ] **GUI-004 — One-worker web engine.** Land OPT-11 (lab + IPhreeQC in a
   single module worker) behind `WorkerHost`; the current PWA runs on it
   unchanged. Measure; OPT-9 only if numbers demand.
 - [ ] **GUI-005 — Parse-only endpoint.** Validate a command without

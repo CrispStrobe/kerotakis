@@ -13,10 +13,13 @@ path = "src/main.rs"
 
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }
+kerotakis-thermo = { path = "../kerotakis-thermo" }
 kerotakis-phreeqc = { path = "../kerotakis-phreeqc" }
 kerotakis-cea = { path = "../kerotakis-cea" }
 kerotakis-codex = { path = "../kerotakis-codex" }
+kerotakis-org = { path = "../kerotakis-org" }
 csv = { workspace = true }
+rayon = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 kerotakis-safety = { path = "../kerotakis-safety" }

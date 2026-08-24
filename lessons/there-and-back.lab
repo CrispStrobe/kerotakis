@@ -1,0 +1,15 @@
+# There and back again: an ester is made, then unmade.
+# Acid and alcohol condense to an ester and water; the same ester,
+# met with hydroxide, hydrolyses back to the alcohol and the acid's
+# salt. Two curated transformations, each proven against an
+# atom-mapped template — and each one runs only when asked, because
+# a beaker of vinegar and spirit does not do this by itself.
+add v1 water 250mL
+add v1 CH3COOH 0.1mol
+add v1 ethanol 0.1mol
+react v1 esterification
+look v1
+add v1 NaOH 0.1mol
+react v1 saponification
+register lv3
+inspect v1

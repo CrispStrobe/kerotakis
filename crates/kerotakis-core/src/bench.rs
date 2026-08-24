@@ -4,7 +4,7 @@
 use serde::{Deserialize, Serialize};
 
 use crate::instrument::InstrumentContract;
-use crate::ops::{Event, Instrument, LogEntry, Operator};
+use crate::ops::{ElutedPeak, Event, Instrument, LogEntry, Operator};
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
@@ -30,6 +30,8 @@ pub enum BenchError {
     SelfTransfer,
     #[error(transparent)]
     Kinetics(#[from] crate::kinetics::IntegrationError),
+    #[error(transparent)]
+    Transport(#[from] crate::transport::TransportError),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -86,6 +88,9 @@ impl Bench {
         solver: &mut dyn Equilibrator,
         screen: &dyn SafetyScreen,
     ) -> Result<Vec<Event>, BenchError> {
+        if let Operator::Titrate { .. } = &op {
+            return self.titrate_loop(op, solver, screen);
+        }
         let temperature_before = match &op {
             Operator::Ignite { vessel } => self.vessel(*vessel)?.temperature,
             _ => Kelvin::STANDARD,
@@ -677,10 +682,30 @@ impl Bench {
                     }
                 }
             }
-            Operator::Distil { from, to, fraction } => {
-                if !(0.0..=1.0).contains(fraction) {
-                    return Err(BenchError::BadFraction);
-                }
+            Operator::Distil {
+                from,
+                to,
+                fraction,
+                energy,
+                stages,
+            } => {
+                let take = match (fraction, energy) {
+                    (Some(f), None) => {
+                        if !(0.0..=1.0).contains(f) {
+                            return Err(BenchError::BadFraction);
+                        }
+                        kerotakis_thermo::vle::StillTake::Fraction(*f)
+                    }
+                    (None, Some(e)) => {
+                        if e.0 < 0.0 {
+                            return Err(BenchError::BadFraction);
+                        }
+                        kerotakis_thermo::vle::StillTake::EnergyKj(e.0 / 1000.0)
+                    }
+                    // Exactly one way of asking; both or neither is a
+                    // malformed request, not a chemistry question.
+                    _ => return Err(BenchError::BadFraction),
+                };
                 if from == to {
                     return Err(BenchError::SelfTransfer);
                 }
@@ -717,9 +742,14 @@ impl Bench {
                             .to_string(),
                     });
                 } else {
-                    let x_e = e / volatile;
                     let pressure_kpa = src.pressure.0 / 1000.0;
-                    match kerotakis_thermo::vle::ethanol_water_bubble_point(x_e, pressure_kpa) {
+                    match kerotakis_thermo::vle::ethanol_water_still(
+                        w,
+                        e,
+                        take,
+                        *stages,
+                        pressure_kpa,
+                    ) {
                         None => events.push(Event::NotYetModeled {
                             vessel: *from,
                             what: format!(
@@ -727,22 +757,20 @@ impl Bench {
                                  outside the fitted Antoine ranges"
                             ),
                         }),
-                        Some(bp) => {
-                            // One equilibrium stage, vapour composition
-                            // frozen at the starting liquid's bubble point.
-                            // A real batch distillation is the Rayleigh
-                            // integral — y drifts as the pot composition
-                            // does — so this over-separates slightly for
-                            // large fractions. The azeotrope is where that
-                            // approximation is exact: y = x and nothing
-                            // drifts.
-                            let over = volatile * fraction;
-                            let e_over = (over * bp.y[0]).min(e);
-                            let w_over = (over - e_over).min(w);
-                            let removed_e = src.withdraw(&ethanol, Moles(e_over));
-                            let removed_w = src.withdraw(&water, Moles(w_over));
-                            let at = Kelvin(bp.t_celsius + 273.15);
-                            let azeotropic = bp.azeotropic;
+                        Some(cut) => {
+                            // The Rayleigh cut: vapour composition follows
+                            // the pot as it drifts, through `stages` ideal
+                            // stages at total reflux — the honest upper
+                            // bound a real column cannot beat. The energy
+                            // number is the latent heat the burner paid
+                            // and the condenser dumped; it never touches
+                            // the vessel ledger, and the event says so.
+                            let removed_e = src.withdraw(&ethanol, Moles(cut.ethanol_over));
+                            let removed_w = src.withdraw(&water, Moles(cut.water_over));
+                            let at = Kelvin(cut.t_start_c + 273.15);
+                            let ended = Kelvin(cut.t_end_c + 273.15);
+                            let energy_kj = cut.energy_kj;
+                            let azeotropic = cut.azeotrope_limited;
                             // The condensate carries the source's sensible
                             // enthalpy into the receiver (adiabatic mixing,
                             // the decant rule): the boil's latent and
@@ -781,20 +809,136 @@ impl Bench {
                                 dst.deposit(ethanol.clone(), removed_e, Phase::Liquid);
                             }
                             // Like `evaporate`, the still is externally
-                            // powered: no vaporisation enthalpy is charged
-                            // to the ledger, and the thermometer after this
-                            // operator is not a claim (PLAN, known gaps).
+                            // powered: the latent heat is billed on the
+                            // event, not the ledger, and the thermometer
+                            // after this operator is not a claim (PLAN,
+                            // known gaps).
                             events.push(Event::Distilled {
                                 from: *from,
                                 to: *to,
                                 water: removed_w,
                                 ethanol: removed_e,
                                 at,
+                                ended,
+                                stages: *stages,
+                                energy_kj,
                                 azeotropic,
                             });
                         }
                     }
                 }
+            }
+            Operator::Drain { from, to } => {
+                if from == to {
+                    return Err(BenchError::SelfTransfer);
+                }
+                self.vessel(*to)?;
+                let src = self.vessel_mut(*from)?;
+                let Some((_upper, lower)) = crate::solve::layered_pair(src) else {
+                    events.push(Event::NotYetModeled {
+                        vessel: *from,
+                        what: "draining a single-phase liquid — the funnel only separates \
+                               what the thermodynamics has already split into layers"
+                            .to_string(),
+                    });
+                    return Ok(events);
+                };
+                let lower_id = SpeciesId::new(lower);
+                let upper_id = SpeciesId::new(_upper);
+                // The lower layer takes its solvent and everything dissolved
+                // in it — except that a neutral solute with a curated UNIFAC
+                // decomposition obeys its computed partition coefficient and
+                // leaves some of itself dissolved in the upper layer. Solids
+                // stay behind: a stopcock passes liquid, and a solid sitting
+                // in the funnel is a filtration question, not a separation
+                // one.
+                let lower_solvent_moles: f64 = src
+                    .contents
+                    .iter()
+                    .filter(|p| p.species == lower_id && p.phase == Phase::Liquid)
+                    .map(|p| p.moles.0)
+                    .sum();
+                let upper_solvent_moles: f64 = src
+                    .contents
+                    .iter()
+                    .filter(|p| p.species == upper_id && p.phase == Phase::Liquid)
+                    .map(|p| p.moles.0)
+                    .sum();
+                let t_k = src.temperature.0;
+                let mut partitioned: Vec<(SpeciesId, f64)> = Vec::new();
+                let mut moved: Vec<(SpeciesId, Moles, Phase)> = Vec::new();
+                for p in src.contents.iter() {
+                    let is_lower_solvent = p.species == lower_id && p.phase == Phase::Liquid;
+                    let dissolved = p.phase == Phase::Aqueous
+                        || (p.phase == Phase::Liquid
+                            && p.species != lower_id
+                            && p.species != upper_id);
+                    if is_lower_solvent {
+                        moved.push((p.species.clone(), p.moles, p.phase));
+                    } else if dissolved {
+                        match partition_groups(&p.species) {
+                            Some(solute) => {
+                                let f = kerotakis_thermo::lle::partition_fraction_lower(
+                                    &solute,
+                                    &water_groups(),
+                                    &hexane_groups(),
+                                    lower_solvent_moles,
+                                    upper_solvent_moles,
+                                    t_k,
+                                );
+                                moved.push((p.species.clone(), Moles(p.moles.0 * f), p.phase));
+                                partitioned.push((p.species.clone(), f));
+                            }
+                            None => moved.push((p.species.clone(), p.moles, p.phase)),
+                        }
+                    }
+                }
+                let solvent_moles = moved
+                    .iter()
+                    .filter(|(s, ..)| *s == lower_id)
+                    .map(|(_, m, _)| m.0)
+                    .sum::<f64>();
+                for (spec, m, _) in &moved {
+                    src.withdraw(spec, *m);
+                }
+                let t_from = src.temperature;
+                let cp_in: f64 = moved
+                    .iter()
+                    .filter_map(|(s, n, _)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
+                    .sum();
+                let dst = self.vessel_mut(*to)?;
+                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) {
+                    let t_new = adiabatic_mix_temperature(
+                        dst.temperature,
+                        dst.heat_capacity(),
+                        t_from,
+                        cp_in,
+                    );
+                    if !moved.is_empty() && (t_new.0 - dst.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: *to,
+                            from: dst.temperature,
+                            to: t_new,
+                        });
+                    }
+                    dst.temperature = t_new;
+                }
+                for (spec, m, phase) in moved {
+                    dst.deposit(spec, m, phase);
+                }
+                for (species, f) in partitioned {
+                    events.push(Event::Partitioned {
+                        vessel: *from,
+                        species,
+                        fraction_lower: f,
+                    });
+                }
+                events.push(Event::Drained {
+                    from: *from,
+                    to: *to,
+                    solvent: lower_id,
+                    moles: Moles(solvent_moles),
+                });
             }
             Operator::Wait { seconds } => {
                 // Kinetics runs here, before the solver stack: rates change
@@ -914,6 +1058,106 @@ impl Bench {
                                 value: reading.value,
                                 unit: reading.unit,
                             });
+                        }
+                    }
+                    Instrument::Chromatograph => {
+                        // The mobile phase is water: the sample is whatever
+                        // sits dissolved in it. K per solute is the same
+                        // γ∞(water)/γ∞(alkane) ratio the separating funnel
+                        // partitions on, so column and funnel cannot
+                        // disagree about hydrophobicity. Nothing is
+                        // consumed: an analytical injection is an aliquot
+                        // too small for the ledger to see.
+                        let water = SpeciesId::new("water");
+                        let mobile_moles: f64 = v
+                            .contents
+                            .iter()
+                            .filter(|p| p.species == water && p.phase == Phase::Liquid)
+                            .map(|p| p.moles.0)
+                            .sum();
+                        if mobile_moles <= 0.0 {
+                            events.push(Event::NotYetModeled {
+                                vessel: *vessel,
+                                what: "chromatography needs an aqueous sample — \
+                                       the column's mobile phase is water"
+                                    .to_string(),
+                            });
+                        } else {
+                            let column =
+                                crate::instrument::ChromatographyColumn::school();
+                            let t_k = v.temperature.0;
+                            let mut injectable: std::collections::BTreeMap<
+                                SpeciesId,
+                                f64,
+                            > = std::collections::BTreeMap::new();
+                            let mut outside: std::collections::BTreeSet<SpeciesId> =
+                                std::collections::BTreeSet::new();
+                            for p in v.contents.iter() {
+                                let dissolved = p.phase == Phase::Aqueous
+                                    || (p.phase == Phase::Liquid && p.species != water);
+                                if !dissolved || p.moles.0 <= 0.0 {
+                                    continue;
+                                }
+                                if partition_groups(&p.species).is_some() {
+                                    *injectable.entry(p.species.clone()).or_insert(0.0) +=
+                                        p.moles.0;
+                                } else {
+                                    outside.insert(p.species.clone());
+                                }
+                            }
+                            if injectable.is_empty() {
+                                events.push(Event::NotYetModeled {
+                                    vessel: *vessel,
+                                    what: "nothing dissolved here has a curated UNIFAC \
+                                           decomposition, so the column's method is \
+                                           silent — ions want ion exchange, which is \
+                                           not modeled"
+                                        .to_string(),
+                                });
+                            } else {
+                                let mut peaks: Vec<ElutedPeak> = injectable
+                                    .into_iter()
+                                    .map(|(species, moles)| {
+                                        let solute = partition_groups(&species)
+                                            .expect("filtered on Some above");
+                                        let k =
+                                            kerotakis_thermo::lle::infinite_dilution_gamma(
+                                                &solute,
+                                                &water_groups(),
+                                                t_k,
+                                            ) / kerotakis_thermo::lle::infinite_dilution_gamma(
+                                                &solute,
+                                                &hexane_groups(),
+                                                t_k,
+                                            );
+                                        let tr = column.retention_time(k);
+                                        ElutedPeak {
+                                            species,
+                                            retention_time_s: tr,
+                                            width_s: column.peak_width(tr),
+                                            relative_area: moles,
+                                            partition_k: k,
+                                        }
+                                    })
+                                    .collect();
+                                peaks.sort_by(|a, b| {
+                                    a.retention_time_s.total_cmp(&b.retention_time_s)
+                                });
+                                let largest = peaks
+                                    .iter()
+                                    .map(|p| p.relative_area)
+                                    .fold(0.0_f64, f64::max);
+                                for p in &mut peaks {
+                                    p.relative_area /= largest;
+                                }
+                                events.push(Event::Chromatographed {
+                                    vessel: *vessel,
+                                    plates: column.plates,
+                                    void_time_s: column.void_time_s,
+                                    peaks,
+                                    outside_method: outside.into_iter().collect(),
+                                });
+                            }
                         }
                     }
                 }
@@ -1058,7 +1302,326 @@ impl Bench {
                     ),
                 });
             }
+            Operator::React { vessel, reaction } => {
+                match crate::curated::ORG_REACTIONS
+                    .iter()
+                    .find(|r| r.name == reaction)
+                {
+                    None => {
+                        // The parser vets names, but an operator can arrive
+                        // by JSON; refuse out loud rather than panic.
+                        events.push(Event::NotYetModeled {
+                            vessel: *vessel,
+                            what: format!(
+                                "no curated reaction named '{reaction}' — curated: {}",
+                                crate::curated::ORG_REACTIONS
+                                    .iter()
+                                    .map(|r| r.name)
+                                    .collect::<Vec<_>>()
+                                    .join(", ")
+                            ),
+                        });
+                    }
+                    Some(r) => {
+                        let v = self.vessel_mut(*vessel)?;
+                        let extent = r
+                            .reactants
+                            .iter()
+                            .map(|(key, coeff)| v.moles_of(&SpeciesId::new(key)).0 / coeff)
+                            .fold(f64::INFINITY, f64::min);
+                        if !(extent.is_finite() && extent > 1e-12) {
+                            let needs: Vec<&str> = r.reactants.iter().map(|(k, _)| *k).collect();
+                            events.push(Event::NotYetModeled {
+                                vessel: *vessel,
+                                what: format!(
+                                    "nothing for {} to work on — it needs {} together                                      in the vessel",
+                                    r.name,
+                                    needs.join(" and ")
+                                ),
+                            });
+                        } else {
+                            for (key, coeff) in r.reactants {
+                                v.withdraw(&SpeciesId::new(key), Moles(extent * coeff));
+                            }
+                            for (key, coeff, phase) in r.products {
+                                v.deposit(SpeciesId::new(key), Moles(extent * coeff), *phase);
+                            }
+                            events.push(Event::OrgReacted {
+                                vessel: *vessel,
+                                name: r.name.to_string(),
+                                equation: r.equation.to_string(),
+                                extent: Moles(extent),
+                                boundary: r.boundary.to_string(),
+                            });
+                        }
+                    }
+                }
+            }
+            Operator::Dilute { vessel, volume } => {
+                let water = SpeciesId::new("water");
+                let data = species::lookup(&water)
+                    .ok_or_else(|| BenchError::UnknownSpecies(water.clone()))?;
+                let moles = data.moles_from_liters(*volume);
+                if moles.0 <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let v = self.vessel_mut(*vessel)?;
+                if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
+                    let t_new = adiabatic_mix_temperature(
+                        v.temperature,
+                        v.heat_capacity(),
+                        Kelvin::STANDARD,
+                        moles.0 * data.heat_capacity,
+                    );
+                    if (t_new.0 - v.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: *vessel,
+                            from: v.temperature,
+                            to: t_new,
+                        });
+                    }
+                    v.temperature = t_new;
+                }
+                v.deposit(water, moles, data.standard_phase);
+                events.push(Event::Diluted {
+                    vessel: *vessel,
+                    volume: *volume,
+                    moles,
+                });
+            }
+            Operator::Transport {
+                chain,
+                inlet,
+                receiver,
+                steps,
+                courant,
+            } => {
+                if chain.is_empty() {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                if *steps == 0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                for cid in chain.iter() {
+                    self.vessel(*cid)?;
+                }
+                self.vessel(*inlet)?;
+                self.vessel(*receiver)?;
+                let inlet_vessel = self.vessel(*inlet)?.clone();
+                let chain_vessels: Vec<crate::vessel::Vessel> = chain
+                    .iter()
+                    .map(|id| self.vessel(*id).cloned())
+                    .collect::<Result<_, _>>()?;
+                let mut cell_chain = crate::transport::CellChain::new(chain_vessels)?;
+
+                let mut total_effluent: Vec<(SpeciesId, Moles)> = Vec::new();
+                for _ in 0..*steps {
+                    let step = cell_chain.advance(&inlet_vessel, *courant)?;
+                    for portion in &step.effluent.contents {
+                        if let Some(entry) = total_effluent
+                            .iter_mut()
+                            .find(|(s, _)| *s == portion.species)
+                        {
+                            entry.1 = Moles(entry.1 .0 + portion.moles.0);
+                        } else {
+                            total_effluent.push((portion.species.clone(), portion.moles));
+                        }
+                    }
+                }
+
+                for (i, cid) in chain.iter().enumerate() {
+                    let updated = &cell_chain.cells()[i];
+                    let v = self.vessel_mut(*cid)?;
+                    v.contents = updated.contents.clone();
+                    v.temperature = updated.temperature;
+                    v.solute_charge = updated.solute_charge;
+                    v.solution = None;
+                }
+
+                let t_eff = inlet_vessel.temperature;
+                let cp_eff: f64 = total_effluent
+                    .iter()
+                    .filter_map(|(s, n)| species::lookup(s).map(|d| n.0 * d.heat_capacity))
+                    .sum();
+                let dst = self.vessel_mut(*receiver)?;
+                if matches!(dst.thermal_mode, ThermalMode::Adiabatic) && cp_eff > 0.0 {
+                    let t_new = adiabatic_mix_temperature(
+                        dst.temperature,
+                        dst.heat_capacity(),
+                        t_eff,
+                        cp_eff,
+                    );
+                    if (t_new.0 - dst.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: *receiver,
+                            from: dst.temperature,
+                            to: t_new,
+                        });
+                    }
+                    dst.temperature = t_new;
+                }
+                for (spec, moles) in &total_effluent {
+                    let phase = species::lookup(spec)
+                        .map(|d| d.standard_phase)
+                        .unwrap_or(Phase::Aqueous);
+                    dst.deposit(spec.clone(), *moles, phase);
+                }
+
+                events.push(Event::Transported {
+                    chain: chain.clone(),
+                    receiver: *receiver,
+                    steps: *steps,
+                    courant: *courant,
+                    effluent_moles: total_effluent,
+                });
+            }
+            Operator::Titrate { .. } => {
+                unreachable!("titrate is handled by titrate_loop in step_with")
+            }
         }
+        Ok(events)
+    }
+
+    fn titrate_loop(
+        &mut self,
+        op: Operator,
+        solver: &mut dyn Equilibrator,
+        _screen: &dyn SafetyScreen,
+    ) -> Result<Vec<Event>, BenchError> {
+        let (vessel, titrant, concentration, step, target_ph, max_steps) = match &op {
+            Operator::Titrate {
+                vessel,
+                titrant,
+                concentration,
+                step,
+                target_ph,
+                max_steps,
+            } => (
+                *vessel,
+                titrant.clone(),
+                *concentration,
+                *step,
+                *target_ph,
+                *max_steps,
+            ),
+            _ => unreachable!(),
+        };
+
+        let data =
+            species::lookup(&titrant).ok_or_else(|| BenchError::UnknownSpecies(titrant.clone()))?;
+        // The burette holds a standard solution: each step delivers
+        // concentration × volume moles of titrant, carried by the water
+        // of the step volume. (Delivering the *pure* substance by volume
+        // — the previous reading — doses ~50× per mL for NaOH and leaps
+        // the whole curve in one step; no practical is run that way.)
+        let moles_per_step = Moles(concentration * step.0);
+        let water = SpeciesId::new("water");
+        let water_data =
+            species::lookup(&water).ok_or_else(|| BenchError::UnknownSpecies(water.clone()))?;
+        let water_per_step = water_data.moles_from_liters(step);
+        if moles_per_step.0 <= 0.0 {
+            return Err(BenchError::NonPositiveAmount);
+        }
+
+        let mut events = Vec::new();
+        let mut curve: Vec<(f64, f64)> = Vec::new();
+
+        // Read initial pH if available.
+        {
+            let v = self.vessel(vessel)?;
+            if let Some(info) = &v.solution {
+                curve.push((0.0, info.ph));
+            }
+        }
+
+        let mut total_volume = Liters(0.0);
+        let mut reached = false;
+
+        for _ in 0..max_steps {
+            // Sub-step: add one increment of titrant at standard temperature.
+            let v = self.vessel_mut(vessel)?;
+            if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
+                let t_new = adiabatic_mix_temperature(
+                    v.temperature,
+                    v.heat_capacity(),
+                    Kelvin::STANDARD,
+                    moles_per_step.0 * data.heat_capacity
+                        + water_per_step.0 * water_data.heat_capacity,
+                );
+                v.temperature = t_new;
+            }
+            v.deposit(titrant.clone(), moles_per_step, data.standard_phase);
+            v.deposit(water.clone(), water_per_step, Phase::Liquid);
+            total_volume = Liters(total_volume.0 + step.0);
+
+            // Re-equilibrate so the solver computes the new pH.
+            let v = self.vessel_mut(vessel)?;
+            v.solution = None;
+            if solver.applies(v) {
+                match solver.equilibrate(v) {
+                    Ok(mut more) => events.append(&mut more),
+                    Err(e) => events.push(Event::SolverFailed {
+                        vessel,
+                        solver: solver.name().to_string(),
+                        detail: e.to_string(),
+                    }),
+                }
+            }
+            self.vessel_mut(vessel)?.refresh_pressure();
+
+            // Read pH after this step.
+            let v = self.vessel(vessel)?;
+            match &v.solution {
+                Some(info) => {
+                    let ml = total_volume.0 * 1000.0;
+                    let ph = info.ph;
+                    let prev_ph = curve.last().map(|&(_, p)| p);
+                    curve.push((ml, ph));
+                    if let Some(prev) = prev_ph {
+                        let crossed = (prev <= target_ph && ph >= target_ph)
+                            || (prev >= target_ph && ph <= target_ph);
+                        if crossed {
+                            reached = true;
+                            break;
+                        }
+                    }
+                }
+                None => {
+                    events.push(Event::NotYetModeled {
+                        vessel,
+                        what: "titration needs an aqueous solver to compute pH \
+                               after each addition — none is wired"
+                            .to_string(),
+                    });
+                    break;
+                }
+            }
+        }
+
+        let final_ph = curve.last().map(|&(_, p)| p).unwrap_or(f64::NAN);
+        let step_count = if curve.is_empty() {
+            0
+        } else {
+            (curve.len() as u32).saturating_sub(1)
+        };
+
+        if step_count > 0 || reached {
+            events.push(Event::Titrated {
+                vessel,
+                titrant,
+                concentration,
+                steps: step_count,
+                total_volume,
+                final_ph,
+                curve,
+            });
+        }
+
+        self.log.push(LogEntry {
+            step: self.log.len(),
+            operator: op,
+            events: events.clone(),
+        });
         Ok(events)
     }
 
@@ -1090,8 +1653,20 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
         Operator::Decant { from, to, .. }
         | Operator::Filter { from, to }
-        | Operator::Distil { from, to, .. } => vec![*from, *to],
-        Operator::Grind { vessel, .. } | Operator::Irradiate { vessel, .. } => vec![*vessel],
+        | Operator::Distil { from, to, .. }
+        | Operator::Drain { from, to } => vec![*from, *to],
+        Operator::Grind { vessel, .. }
+        | Operator::Irradiate { vessel, .. }
+        | Operator::Dilute { vessel, .. }
+        | Operator::React { vessel, .. }
+        | Operator::Titrate { vessel, .. } => vec![*vessel],
+        Operator::Transport {
+            chain, receiver, ..
+        } => {
+            let mut touched = chain.clone();
+            touched.push(*receiver);
+            touched
+        }
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         Operator::Wait { .. } => vec![],
     }
@@ -1139,4 +1714,42 @@ fn trap_boundary_gas(
         vessel.deposit(SpeciesId::new("CO2"), Moles(moles * AIR_CO2), Phase::Gas);
     }
     Moles(moles)
+}
+
+/// UNIFAC group decompositions for the partitioning solutes and the two
+/// curated layer solvents. A solute earns partitioning by entering this
+/// table; everything else travels entirely with the water it is
+/// dissolved in, which is exactly right for ions.
+fn partition_groups(species: &SpeciesId) -> Option<kerotakis_thermo::unifac::GroupDecomposition> {
+    let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
+    match species.0.as_str() {
+        "ethanol" => {
+            g.insert(1, 1); // CH3
+            g.insert(2, 1); // CH2
+            g.insert(14, 1); // OH
+        }
+        "methanol" => {
+            g.insert(1, 1); // CH3
+            g.insert(14, 1); // OH
+        }
+        "propanone" => {
+            g.insert(1, 1); // CH3
+            g.insert(18, 1); // CH3CO — the ketone carries its own methyl
+        }
+        _ => return None,
+    }
+    Some(g)
+}
+
+fn water_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
+    let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
+    g.insert(16, 1);
+    g
+}
+
+fn hexane_groups() -> kerotakis_thermo::unifac::GroupDecomposition {
+    let mut g = kerotakis_thermo::unifac::GroupDecomposition::new();
+    g.insert(1, 2);
+    g.insert(2, 4);
+    g
 }

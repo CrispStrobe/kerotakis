@@ -46,7 +46,9 @@ fn distilling_brine_makes_distilled_water() {
         Operator::Distil {
             from: VesselId(1),
             to: VesselId(2),
-            fraction: 0.5,
+            fraction: Some(0.5),
+            energy: None,
+            stages: 1,
         },
     ]);
 
@@ -95,7 +97,9 @@ fn distilling_dilute_ethanol_enriches_the_receiver() {
         Operator::Distil {
             from: VesselId(1),
             to: VesselId(2),
-            fraction: 0.1,
+            fraction: Some(0.1),
+            energy: None,
+            stages: 1,
         },
     ]);
 
@@ -139,7 +143,9 @@ fn the_azeotrope_refuses_to_enrich() {
         Operator::Distil {
             from: VesselId(1),
             to: VesselId(2),
-            fraction: 0.3,
+            fraction: Some(0.3),
+            energy: None,
+            stages: 1,
         },
     ]);
 
@@ -183,7 +189,9 @@ fn distillation_conserves_matter() {
         Operator::Distil {
             from: VesselId(1),
             to: VesselId(2),
-            fraction: 0.4,
+            fraction: Some(0.4),
+            energy: None,
+            stages: 1,
         },
     ]);
     let w = moles_in(&bench, 1, "water") + moles_in(&bench, 2, "water");

@@ -91,7 +91,7 @@ fi
 
 # 5. Vendored sources have provenance records
 echo "--- Vendored source coverage ---"
-for dir in "$ROOT/vendor/iphreeqc" "$ROOT/vendor/my-basic" "$ROOT/vendor/nasa-cea"; do
+for dir in "$ROOT/vendor/iphreeqc" "$ROOT/vendor/my-basic" "$ROOT/vendor/nasa-cea" "$ROOT/vendor/inchi"; do
     name=$(basename "$dir")
     if ! grep -q "\"$name" "$MANIFEST" 2>/dev/null && ! grep -q "$name" "$MANIFEST" 2>/dev/null; then
         err "vendored directory $name has no provenance record"

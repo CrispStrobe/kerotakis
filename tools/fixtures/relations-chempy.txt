@@ -1,0 +1,42 @@
+Using: /tmp/kero-basic-target/debug/kero
+
+=== Arrhenius ===
+  [OK] arrhenius A=1e+10 Ea=50000 T=298.15 vs python: kero=1.7393179687e+01 ref=1.7393179687e+01 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+  [OK] arrhenius A=1e+10 Ea=50000 T=298.15 vs chempy: kero=1.7393179687e+01 ref=1.7393575545e+01 rel_diff=2.28e-05 tol=1e-04 (ChemPy/CODATA2006)
+  [OK] arrhenius A=1e+13 Ea=75000 T=350.0 vs python: kero=6.4132977407e+01 ref=6.4132977407e+01 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+  [OK] arrhenius A=1e+13 Ea=75000 T=350.0 vs chempy: kero=6.4132977407e+01 ref=6.4134842500e+01 rel_diff=2.91e-05 tol=1e-04 (ChemPy/CODATA2006)
+  [OK] arrhenius A=1e+08 Ea=30000 T=500.0 vs python: kero=8.2117893313e+08 ref=8.2117893313e+08 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+
+=== Eyring ===
+  [OK] eyring dG=50000 T=298.15 vs python: kero=1.0805405028e+04 ref=1.0805405028e+04 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+  [OK] eyring dG=50000 T=298.15 vs chempy: kero=1.0805405028e+04 ref=1.0805663850e+04 rel_diff=2.40e-05 tol=1e-04 (ChemPy/CODATA2006)
+  [OK] eyring dG=65000 T=310.0 vs python: kero=7.2107141037e+01 ref=7.2107141037e+01 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+  [OK] eyring dG=65000 T=310.0 vs chempy: kero=7.2107141037e+01 ref=7.2109279004e+01 rel_diff=2.96e-05 tol=1e-04 (ChemPy/CODATA2006)
+  [OK] eyring dG=80000 T=400.0 vs python: kero=2.9796360527e+02 ref=2.9796360527e+02 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+  [OK] eyring dG=80000 T=400.0 vs chempy: kero=2.9796360527e+02 ref=2.9797204851e+02 rel_diff=2.83e-05 tol=1e-04 (ChemPy/CODATA2006)
+
+=== Nernst ===
+  [OK] nernst e0=0.0 n=2 a=1.0 T=298.15: kero=0.0000000000e+00 ref=0.0000000000e+00 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+  [OK] nernst e0=0.3419 n=2 a=0.01 T=298.15: kero=2.8274065031e-01 ref=2.8274065031e-01 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+  [OK] nernst e0=-0.763 n=2 a=0.001 T=310.0: kero=-8.5526596547e-01 ref=-8.5526596547e-01 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+
+=== Henderson–Hasselbalch ===
+  [OK] HH pKa=4.76 cA=0.1 cB=0.1: kero=4.7600000000e+00 ref=4.7600000000e+00 rel_diff=0.00e+00 tol=1e-12 (Python)
+  [OK] HH pKa=9.25 cA=0.05 cB=0.15: kero=9.7271212547e+00 ref=9.7271212547e+00 rel_diff=0.00e+00 tol=1e-12 (Python)
+  [OK] HH pKa=7.2 cA=0.01 cB=0.1: kero=8.2000000000e+00 ref=8.2000000000e+00 rel_diff=0.00e+00 tol=1e-12 (Python)
+
+=== Debye–Hückel limiting law ===
+  [OK] DH z=1 I=0.001: kero=9.6360899296e-01 ref=9.6360899296e-01 rel_diff=0.00e+00 tol=1e-10 (Python (A=0.5091))
+  [OK] DH z=2 I=0.005: kero=7.1780218348e-01 ref=7.1780218348e-01 rel_diff=0.00e+00 tol=1e-10 (Python (A=0.5091))
+  [OK] DH z=1 I=0.01: kero=8.8938540846e-01 ref=8.8938540846e-01 rel_diff=0.00e+00 tol=1e-10 (Python (A=0.5091))
+
+=== Van 't Hoff ===
+  [OK] vH dH=50000 K1=1.0 T1=298.15 T2=373.15: kero=5.7624859389e+01 ref=5.7624859389e+01 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+  [OK] vH dH=-30000 K1=100000.0 T1=300.0 T2=350.0: kero=1.7939297281e+04 ref=1.7939297281e+04 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+  [OK] vH dH=50000 K1=42.0 T1=298.15 T2=298.15: kero=4.2000000000e+01 ref=4.2000000000e+01 rel_diff=0.00e+00 tol=1e-12 (Python/CODATA2018)
+
+=== Ionic strength ===
+  [OK] I(NaCl 0.1m): kero=1.0000000000e-01 ref=1.0000000000e-01 rel_diff=0.00e+00 tol=1e-12 (Python)
+  [OK] I(CaCl2 0.1m): kero=3.0000000000e-01 ref=3.0000000000e-01 rel_diff=0.00e+00 tol=1e-12 (Python)
+
+All cases passed.

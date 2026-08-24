@@ -5,6 +5,7 @@
  * their data tables.
  */
 
+import { seriesPoints } from "./chart";
 import type { FeedEntry } from "./session.svelte";
 
 export function notebookMarkdown(
@@ -47,7 +48,7 @@ export function notebookMarkdown(
           out.push(
             `| ${axis(c.x)} | ${axis(c.y)} |`,
             "|---:|---:|",
-            ...s.points.map(([x, y]) => `| ${x} | ${y} |`),
+            ...seriesPoints(s).map(([x, y]) => `| ${x} | ${y} |`),
             "",
           );
         }

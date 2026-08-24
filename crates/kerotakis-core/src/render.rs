@@ -256,31 +256,148 @@ pub fn render_event(event: &Event, register: Register) -> String {
             ),
             _ => format!("{from} → {to}: filtrate passed; residue retained"),
         },
+        Event::Partitioned { vessel, species, fraction_lower } => match register.level() {
+            1 => format!("Some of the {} in {vessel} moves into each layer.",
+                species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str())),
+            2 => format!(
+                "{vessel}: {} split between the layers — {:.0}% in the lower, the rest dissolved in the upper",
+                species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str()),
+                fraction_lower * 100.0,
+            ),
+            _ => format!(
+                "{vessel}: {} partitioned at K from UNIFAC γ∞ ratio; fraction in lower layer {:.4} (equal-activity split over the layer sizes)",
+                species.0, fraction_lower,
+            ),
+        },
+        Event::OrgReacted { vessel, name, equation, extent, boundary } => match register.level() {
+            1 => format!(
+                "Something new forms in {vessel} — the {name} reaction turns the mixture into different substances."
+            ),
+            2 => format!(
+                "{vessel}: {name} ran — {equation} ({:.3} mol reacted)",
+                extent.0
+            ),
+            _ => format!(
+                "{vessel}: {name}, {equation}, extent {:.6} mol. Boundary: {boundary}",
+                extent.0
+            ),
+        },
+        Event::Chromatographed { vessel, plates, void_time_s, peaks, outside_method } => match register.level() {
+            1 => {
+                let order = peaks
+                    .iter()
+                    .map(|p| species::lookup(&p.species).map(|d| d.name).unwrap_or(p.species.0.as_str()))
+                    .collect::<Vec<_>>()
+                    .join(", then ");
+                format!("The mixture from {vessel} runs through the column and comes out one thing at a time: {order}.")
+            }
+            2 => {
+                let table = peaks
+                    .iter()
+                    .map(|p| {
+                        format!(
+                            "{} at {:.0} s ({:.0}% area)",
+                            species::lookup(&p.species).map(|d| d.name).unwrap_or(p.species.0.as_str()),
+                            p.retention_time_s,
+                            p.relative_area * 100.0,
+                        )
+                    })
+                    .collect::<Vec<_>>()
+                    .join("; ");
+                let unseen = if outside_method.is_empty() {
+                    String::new()
+                } else {
+                    format!(
+                        " — the dissolved ions ({}) pass with the water and are not separated",
+                        outside_method.iter().map(|s| s.0.as_str()).collect::<Vec<_>>().join(", ")
+                    )
+                };
+                format!("{vessel}: chromatogram — {table}{unseen}")
+            }
+            _ => {
+                let table = peaks
+                    .iter()
+                    .map(|p| {
+                        format!(
+                            "{} K={:.3} tR={:.1}s w={:.1}s A={:.3}",
+                            p.species.0, p.partition_k, p.retention_time_s, p.width_s, p.relative_area,
+                        )
+                    })
+                    .collect::<Vec<_>>()
+                    .join("; ");
+                let unseen = if outside_method.is_empty() {
+                    String::new()
+                } else {
+                    format!(
+                        "; outside the method: {} (ion exchange not modeled)",
+                        outside_method.iter().map(|s| s.0.as_str()).collect::<Vec<_>>().join(", ")
+                    )
+                };
+                format!(
+                    "{vessel}: N={plates}, t0={void_time_s:.0}s, β=0.5; K = γ∞(water)/γ∞(alkane) from the same UNIFAC the funnel partitions on; tR = t0·(1+K·β), w = 4·tR/√N — {table}{unseen}"
+                )
+            }
+        },
+        Event::Drained { from, to, solvent, moles } => match register.level() {
+            1 => format!("You open the tap and the bottom layer runs from {from} into {to}."),
+            2 => format!(
+                "{from} → {to}: the lower layer drained — {:.3} mol {} with everything dissolved in it; the upper layer stays behind",
+                moles.0,
+                species::lookup(solvent).map(|d| d.name).unwrap_or(solvent.0.as_str()),
+            ),
+            _ => format!(
+                "{from} → {to}: lower layer ({}, {:.6} mol solvent) plus its aqueous solutes; solids left behind — a stopcock passes liquid, and a settled solid is a filtration question",
+                solvent.0, moles.0,
+            ),
+        },
+        Event::LayersFormed { vessel, upper, lower } => match register.level() {
+            1 => format!("The liquid in {vessel} separates into two layers."),
+            2 => format!(
+                "{vessel}: two layers — {} floating on {}; mixing them would raise the Gibbs energy, so they split",
+                species::lookup(upper).map(|d| d.name).unwrap_or(upper.0.as_str()),
+                species::lookup(lower).map(|d| d.name).unwrap_or(lower.0.as_str()),
+            ),
+            _ => format!(
+                "{vessel}: liquid–liquid split (UNIFAC LLE, common-tangent construction). The split and the layer order are robust; the trace mutual solubilities are upper bounds — VLE-fitted UNIFAC parameters underestimate alkane–water γ∞ — and are deliberately not reported",
+            ),
+        },
         Event::Evaporated { vessel, moles } => match register.level() {
             1 => format!("Steam rises from {vessel} — the water is boiling away!"),
             2 => format!("{vessel}: {:.3} mol water evaporated", moles.0),
             _ => format!("{vessel}: {:.6} mol H2O evaporated (vaporisation enthalpy not yet in the balance)", moles.0),
         },
-        Event::Distilled { from, to, water, ethanol, at, azeotropic } => match register.level() {
+        Event::Distilled { from, to, water, ethanol, at, ended, stages, energy_kj, azeotropic } => match register.level() {
             1 => format!("Vapour rises from {from}, cools in the tube, and drips into {to}."),
             2 => {
-                let t = at.to_celsius();
+                let t0 = at.to_celsius();
+                let t1 = ended.to_celsius();
+                let column = if *stages > 1 {
+                    format!(" through a {stages}-stage column")
+                } else {
+                    String::new()
+                };
                 if *azeotropic {
                     format!(
-                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over at {t:.1} °C — the vapour now matches the liquid (azeotrope), so boiling harder enriches nothing",
+                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over{column} — the vapour matches the liquid now (azeotrope), so more stages or harder boiling enrich nothing",
+                        water.0, ethanol.0
+                    )
+                } else if (t1 - t0).abs() > 0.05 {
+                    format!(
+                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over{column}; the pot boiled at {t0:.1} °C and climbed to {t1:.1} °C as the light component left",
                         water.0, ethanol.0
                     )
                 } else {
                     format!(
-                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over, boiling at {t:.1} °C",
+                        "{from} → {to}: {:.3} mol water + {:.3} mol ethanol over{column}, boiling at {t0:.1} °C",
                         water.0, ethanol.0
                     )
                 }
             }
             _ => format!(
-                "{from} → {to}: one-stage distillation at {:.2} K; vapour composition from the bubble point with UNIFAC γ(T), held at the starting liquid composition (Rayleigh integration not modelled); externally powered, vaporisation enthalpy not in the ledger{}",
+                "{from} → {to}: Rayleigh batch cut, {stages} ideal stage(s) at total reflux (a real column at finite reflux separates less, never more); pot {:.2} K → {:.2} K; latent heat {energy_kj:.2} kJ paid by the burner and dumped by the condenser, deliberately outside the vessel ledger{}",
                 at.0,
-                if *azeotropic { "; azeotropic: y = x" } else { "" }
+                ended.0,
+                if *azeotropic { "; azeotrope reached: y = x" } else { "" }
             ),
         },
         Event::Transferred { from, to, fraction } => match register.level() {
@@ -475,6 +592,9 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 Instrument::ConductivityMeter => "conductivity meter",
                 Instrument::Spectrophotometer => "spectrophotometer",
                 Instrument::Calorimeter => "calorimeter",
+                // The column never emits a scalar Measured — it reports a
+                // peak table via Chromatographed — but the name must exist.
+                Instrument::Chromatograph => "chromatograph",
             };
             match register.level() {
                 1 => format!("The {device} on {vessel} reads {value:.0} {unit}."),
@@ -785,6 +905,89 @@ pub fn render_event(event: &Event, register: Register) -> String {
             ),
             _ => format!("{vessel}: solver '{solver}' failed: {detail}"),
         },
+        Event::Diluted {
+            vessel,
+            volume,
+            moles,
+        } => match register.level() {
+            1 => format!("You add water to {vessel} — the solution gets weaker."),
+            2 => format!(
+                "{vessel}: diluted with {:.1} mL water ({:.4} mol)",
+                volume.0 * 1000.0,
+                moles.0
+            ),
+            _ => format!(
+                "{vessel}: +{:.6} mol H₂O from {:.4} L dilution water",
+                moles.0, volume.0
+            ),
+        },
+        Event::Titrated {
+            vessel,
+            titrant,
+            concentration,
+            steps,
+            total_volume,
+            final_ph,
+            ..
+        } => {
+            let name = species::lookup(titrant)
+                .map(|d| d.name)
+                .unwrap_or(titrant.0.as_str());
+            match register.level() {
+                1 => format!(
+                    "You titrate {vessel} with {name} — after {steps} additions the pH reaches {final_ph:.1}."
+                ),
+                2 => format!(
+                    "{vessel}: titrated with {concentration} mol/L {name}; {steps} steps, {:.1} mL total, final pH {final_ph:.2}",
+                    total_volume.0 * 1000.0
+                ),
+                _ => format!(
+                    "{vessel}: auto-titration with {} standard solution ({concentration} mol/L; {steps} steps, {:.3} mL cumulative = {:.5} mol delivered with its carrier water); final pH {final_ph:.3}",
+                    titrant.0,
+                    total_volume.0 * 1000.0,
+                    concentration * total_volume.0,
+                ),
+            }
+        }
+        Event::Transported {
+            chain,
+            receiver,
+            steps,
+            courant,
+            effluent_moles,
+        } => {
+            let cells = chain.len();
+            let total: f64 = effluent_moles.iter().map(|(_, m)| m.0).sum();
+            match register.level() {
+                1 => format!(
+                    "Solution flows through {cells} column cells and collects in {receiver}."
+                ),
+                2 => {
+                    let species_list: Vec<String> = effluent_moles
+                        .iter()
+                        .filter(|(_, m)| m.0 > crate::OBSERVABLE_MOLES)
+                        .map(|(s, m)| {
+                            let name = species::lookup(s)
+                                .map(|d| d.name)
+                                .unwrap_or(s.0.as_str());
+                            format!("{:.4} mol {name}", m.0)
+                        })
+                        .collect();
+                    let what = if species_list.is_empty() {
+                        "solvent only".to_string()
+                    } else {
+                        species_list.join(", ")
+                    };
+                    format!(
+                        "{cells} cells × {steps} steps (Cf={courant:.2}); effluent → {receiver}: {what}"
+                    )
+                }
+                _ => format!(
+                    "1-D upwind transport: {cells} cells × {steps} steps @ Cf={courant:.4}; \
+                     effluent total {total:.6} mol → {receiver}"
+                ),
+            }
+        }
     }
 }
 

@@ -219,3 +219,59 @@ fn decanting_bleach_into_ammonia_warns_first() {
         "and the gas forms in the target vessel, got {events:?}"
     );
 }
+
+#[test]
+fn the_titrate_verb_finds_the_equivalence_point() {
+    // The burette holds a standard solution: 0.01 mol HCl titrated with
+    // 1 mol/L NaOH at 1 mL per step must cross pH 7 at 10 mL — moles of
+    // base equal moles of acid at equivalence (the codex's own claim) —
+    // within the one-step resolution the step size allows.
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 27.75);
+    add(&mut bench, &mut stack, v, "HCl", 0.01);
+    let events = bench
+        .step_with(
+            kerotakis_core::script::parse_op("titrate v1 NaOH 1M 1mL until ph 7 max 50")
+                .expect("grammar")
+                .expect("an operator"),
+            &mut stack,
+            &ReactiveGroupScreen,
+        )
+        .expect("titration runs");
+    let (concentration, total_volume, final_ph, curve) = events
+        .iter()
+        .find_map(|e| match e {
+            Event::Titrated {
+                concentration,
+                total_volume,
+                final_ph,
+                curve,
+                ..
+            } => Some((*concentration, *total_volume, *final_ph, curve.clone())),
+            _ => None,
+        })
+        .expect("a Titrated event");
+    assert!((concentration - 1.0).abs() < 1e-12);
+    let delivered_moles = concentration * total_volume.0;
+    assert!(
+        (delivered_moles - 0.01).abs() <= 0.001 + 1e-12,
+        "equivalence at 0.01 mol NaOH within one 0.001-mol step, got {delivered_moles}"
+    );
+    assert!(
+        final_ph >= 7.0,
+        "the crossing step ends basic, got {final_ph}"
+    );
+    // The curve is a real curve: it starts acidic, crawls, then leaps.
+    let start = curve.first().expect("initial pH").1;
+    assert!(
+        start < 2.5,
+        "0.01 mol HCl in 0.5 L starts acidic, got {start}"
+    );
+    assert!(
+        curve.len() >= 9,
+        "several readings before the leap, got {} points",
+        curve.len()
+    );
+}

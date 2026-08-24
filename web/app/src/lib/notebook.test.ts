@@ -14,13 +14,13 @@ describe("notebook export", () => {
         kind: "chart",
         text: "titration",
         chart: {
-          chart: 1,
           title: "titration",
           x: { label: "volume", unit: "mL" },
           y: { label: "pH" },
           series: [
             {
-              label: "pH",
+              kind: "line",
+              name: "pH",
               points: [
                 [0, 1],
                 [25, 7],

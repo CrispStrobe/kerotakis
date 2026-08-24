@@ -1,11 +1,11 @@
 <script lang="ts">
   import {
     bandPath,
-    dashFor,
     extent,
     linePath,
     niceTicks,
     scale,
+    seriesPoints,
     type ChartSpec,
   } from "../chart";
 
@@ -68,39 +68,39 @@
       {axisLabel(spec.y)}
     </text>
 
-    {#each spec.markers ?? [] as m (m.label)}
-      <line class="marker" x1={sx(m.x)} x2={sx(m.x)} y1={M.top} y2={H - M.bottom} />
-      <text class="tick" x={sx(m.x) + 3} y={M.top + 9}>{m.label}</text>
-    {/each}
-
-    {#each spec.series as s (s.label)}
-      {#if s.band && s.band.length > 0}
-        <path class="band" d={bandPath(s.band, sx, sy)} />
+    {#each spec.series as s (s.name)}
+      {#if s.kind === "band"}
+        <path class="band" d={bandPath(s.lower, s.upper, sx, sy)}>
+          <title>{s.name}</title>
+        </path>
+      {:else if s.kind === "scatter"}
+        {#each s.points as [px, py], i (i)}
+          <circle class="dot" cx={sx(px)} cy={sy(py)} r="2.2" />
+        {/each}
+      {:else}
+        <path class="series" d={linePath(s.points, sx, sy)}>
+          <title>{s.name}</title>
+        </path>
       {/if}
-      <path
-        class="series"
-        d={linePath(s.points, sx, sy)}
-        stroke-dasharray={dashFor(s.confidence)}
-      />
     {/each}
   </svg>
 
   <figcaption>
     <button class="export" onclick={exportSvg}>save SVG</button>
-    {#if spec.provenance}<span class="prov">{spec.provenance}</span>{/if}
+    <span class="prov">{spec.provenance}</span>
   </figcaption>
 
   <!-- The same data as a table, for screen readers and for checking. -->
   <details class="data">
     <summary>data</summary>
-    {#each spec.series as s (s.label)}
+    {#each spec.series as s (s.name)}
       <table>
-        <caption>{s.label}{s.confidence ? ` (${s.confidence})` : ""}</caption>
+        <caption>{s.name} ({s.kind})</caption>
         <thead>
           <tr><th>{axisLabel(spec.x)}</th><th>{axisLabel(spec.y)}</th></tr>
         </thead>
         <tbody>
-          {#each s.points as [x, y], i (i)}
+          {#each seriesPoints(s) as [x, y], i (i)}
             <tr><td>{fmt(x)}</td><td>{fmt(y)}</td></tr>
           {/each}
         </tbody>
@@ -148,15 +148,13 @@
     stroke: var(--edge-strong);
     stroke-width: 1;
   }
-  .marker {
-    stroke: var(--warn);
-    stroke-width: 1;
-    stroke-dasharray: 3 3;
-  }
   .series {
     fill: none;
     stroke: var(--hot);
     stroke-width: 1.8;
+  }
+  .dot {
+    fill: var(--hot);
   }
   .band {
     fill: var(--hot);

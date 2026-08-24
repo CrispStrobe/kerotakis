@@ -177,11 +177,28 @@ sha256 = "a60026be9384468d074c19425e552f1bb4a6f507f805e55a96fad586716168ed"
 path = "vendor/nasa-cea/NOTICE.txt"
 sha256 = "03b64364559d540d97615c31675a69e8eb1965e30de8859a2f8c5c9a38ecb55e"
 
-# Scope, twice re-litigated on 2026-08-23 and twice resolved the same way:
-# first-party curated constants (the Antoine sets in vle.rs) carry their
-# provenance per-value in the code's `source` fields; crates.io
-# dependencies (chematic, contour, ...) are governed by deny.toml and
-# about.toml; the vendored IUPAC InChI gets its entry when the vendor
-# directory holds actual sources with checksums rather than a scaffold.
-# Entries for any of these that cannot pass this file's own lint do not
-# ship half-finished.
+[[source]]
+id = "iupac-inchi-library"
+name = "IUPAC InChI reference implementation"
+kind = "code"
+lane = "runtime-code"
+decision = "approved"
+licence = "MIT"
+origin = "https://github.com/IUPAC-InChI/InChI"
+terms = "vendor/inchi/LICENSE"
+copyright = "2024 InChI Project"
+retrieved = "2026-08-23"
+attribution = "IUPAC InChI, MIT licence since v1.07.1; retain LICENSE file"
+paths = ["vendor/inchi/INCHI_BASE/src", "vendor/inchi/INCHI_API/libinchi/src", "vendor/inchi/LICENSE"]
+allowed_outputs = ["compiled-runtime-code"]
+targets = ["native"]
+reviewer = "Kerotakis engineering policy audit"
+notes = "The official IUPAC InChI C library (MIT since v1.07.1). Sources vendored from the inchi-sys crate (v0.1.4), which bundles InChI v1.07.1. Feature-gated behind kerotakis-org/native-inchi. Used for cross-validation against the pure-Rust chematic-inchi on native targets. Not available on wasm — the chematic path covers that target."
+
+[[source.checksum]]
+path = "vendor/inchi/LICENSE"
+sha256 = "cf684c72e75af952311e3516646805724993db154602f30ea2026f01cf1999a9"
+
+[[source.checksum]]
+path = "vendor/inchi/INCHI_BASE/src/ichi_bns.c"
+sha256 = "5a7aa817de95a5997063a8e656865c773155972abd1e4bb806ef79597f2e31b5"

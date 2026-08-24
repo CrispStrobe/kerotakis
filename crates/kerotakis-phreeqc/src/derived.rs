@@ -610,25 +610,34 @@ mod tests {
     /// Pinned to the vendored databases. These numbers are rendered to the
     /// reader, so a vendor bump that moves them should be noticed and the
     /// sentence re-read, not silently re-printed.
+    ///
+    /// Re-pinned 672 → 683 on 2026-08-23 (OPT-8): the unified formula
+    /// parser reads nested parentheses and decimal solid-solution
+    /// occupancies the old dbindex parser was blind to — eleven real
+    /// minerals (the cobalt ammine complexes, jarosite and its
+    /// hydronium/sodium family, the autunites) joined the index, each
+    /// hand-verified against its formula.
     #[test]
     fn phase_coverage_reports_how_little_the_datasets_share() {
         let c = phase_coverage();
-        assert_eq!(c.total, 672, "distinct minerals across all three datasets");
+        assert_eq!(c.total, 683, "distinct minerals across all three datasets");
         assert_eq!(c.shared, 21, "minerals every dataset defines");
         assert_eq!(
             c.per_database,
-            vec![("wateq4f", 296), ("minteq.v4", 537), ("pitzer", 63)]
+            vec![("wateq4f", 296), ("minteq.v4", 547), ("pitzer", 64)]
         );
         // Gases are excluded, and one of them would otherwise land in the
         // shared count: all three datasets define CO2(g). Counting phases
-        // rather than minerals reads as 22 of 696, which overstates both
+        // rather than minerals reads as 22 of 707, which overstates both
         // the agreement and the shelf it is agreement about.
         let idx: Vec<_> = DB_TAGS.iter().map(|t| index_for(t)).collect();
         let mut every: BTreeSet<&str> = BTreeSet::new();
         for i in &idx {
             every.extend(i.phases.keys().map(String::as_str));
         }
-        assert_eq!(every.len(), 696, "phases, gases included");
+        // 696 → 707 with OPT-8: the same eleven parser-dividend minerals,
+        // counted here before polymorph dedupe.
+        assert_eq!(every.len(), 707, "phases, gases included");
         assert_eq!(every.iter().filter(|n| n.ends_with("(g)")).count(), 24);
         assert!(
             idx.iter().all(|i| i.has_phase("CO2(g)")),

@@ -4,7 +4,8 @@
 # a second pass more — and then the climb stops. Near 89 mol percent
 # the vapour has the same composition as the liquid, and boiling harder
 # enriches nothing. That wall is the azeotrope, and here it is computed
-# from activity coefficients, not looked up.
+# from activity coefficients, not looked up. The last pass runs through
+# a four-stage column — the fastest legal route to the wall.
 register lv2
 new
 new
@@ -16,5 +17,5 @@ distil v1 v2 0.1
 inspect v2
 distil v2 v3 0.3
 inspect v3
-distil v3 v4 0.3
+distil v3 v4 0.3 stages 4
 inspect v4

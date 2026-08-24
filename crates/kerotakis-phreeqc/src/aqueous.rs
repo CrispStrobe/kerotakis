@@ -151,6 +151,37 @@ pub struct PhreeqcEquilibrator {
     /// browser gets the same answers by the same path rather than a second
     /// implementation that could drift.
     hook: Option<SolveHook>,
+    /// Cache of raw coupled-trial runs, keyed by database tag + exact input
+    /// text. The redox bisection asks the engine dozens of nearly identical
+    /// questions per equilibration, and the temperature fixed point re-asks
+    /// many of them verbatim on its way to convergence; identical text is an
+    /// identical answer. The key is the full text, deliberately: a hash key
+    /// would trade a collision — however improbable — for a wrong chemical
+    /// answer, and that is not a trade this codebase makes.
+    trial_cache: std::collections::HashMap<(String, String), SolveOutput>,
+    trial_cache_hits: usize,
+    /// The electron activity the last successfully *bracketed* coupled solve
+    /// converged to, carried across the temperature fixed point's
+    /// iterations: the pe root barely moves between temperature guesses, so
+    /// the next bisection starts from a narrow window around it instead of
+    /// the full water-stability bracket. Reset per equilibration; a stale
+    /// value costs one narrow pass that falls back to the full bracket.
+    warm_pe: Option<f64>,
+    /// Raw engine invocations since construction — OPT-7's before/after
+    /// number, kept as a counter so a test can hold the budget.
+    engine_calls: usize,
+}
+
+/// What one pe-bisection pass saw, for the caller to judge. The pass
+/// narrows a bracket; whether that narrowing was a *struck balance* — root
+/// bracketed, residual paid — is a separate question, answered in
+/// `solve_coupled` exactly once, whichever bracket produced the numbers.
+struct PeSearch {
+    best: Option<SolveOutput>,
+    last_sum: Option<f64>,
+    saw_below: bool,
+    saw_above: bool,
+    mid: f64,
 }
 
 /// An outside aqueous solver: database tag and canonical input in, the
@@ -216,7 +247,8 @@ impl PhreeqcEquilibrator {
     /// told apart, so everything above this — routing, the redox
     /// bisection, the caching — is written once and behaves identically in
     /// a terminal and in a browser tab.
-    fn run_raw(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
+    pub(crate) fn run_raw(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
+        self.engine_calls += 1;
         #[cfg(feature = "engine")]
         {
             let engine = match db_tag {
@@ -288,55 +320,65 @@ impl PhreeqcEquilibrator {
         // oxidised and chloride goes with it, which is where the solver
         // starts refusing — and a bracket that reaches into that region
         // lets a run of failures march the search into it.
-        let (mut lo, mut hi) = (-10.0f64, 17.0f64);
-        let mut best: Option<SolveOutput> = None;
-        let mut last_sum: Option<f64> = None;
-        // Whether the residual was ever seen on both sides of zero. A
-        // bisection that only ever approaches from one side never bracketed
-        // a root: it walked to an edge, and the edge is not a measurement.
-        let (mut saw_below, mut saw_above) = (false, false);
-        for _ in 0..34 {
-            let mid = 0.5 * (lo + hi);
-            let input = build_input_at(vessel, problem, db_tag, Some((mid, coupling)));
-            // A single awkward trial must not end the search. PHREEQC will
-            // refuse some electron activities outright — a residual of one
-            // part in a hundred thousand on chloride is enough — and those
-            // are scattered through the range rather than at its edges.
-            // Aborting on the first one threw away a titration the bisection
-            // had very nearly solved, and reported the reagents as unreacted.
-            let Ok(out) = self.run_raw(db_tag, &input) else {
-                // Keep moving in the direction the last usable answer
-                // pointed, so the bracket steps over the bad patch instead
-                // of stalling on it.
-                match last_sum {
-                    Some(sum) if sum < coupling.target => lo = mid,
-                    Some(_) => hi = mid,
-                    None => lo = mid,
+        const FULL: (f64, f64) = (-10.0, 17.0);
+        // The tolerance the balance is finally judged by; the search is
+        // allowed to stop the moment it is met, because grinding the
+        // bracket to 1e-6 pe after the residual is paid only re-prices an
+        // answer already bought (OPT-7).
+        let residual_tol = 1e-9_f64.max(1e-4 * coupling.scale);
+        // Warm start (OPT-7): across the temperature fixed point's
+        // iterations the pe root barely moves, so a narrow window around
+        // the last *bracketed* answer usually contains it. The narrow pass
+        // must prove itself by the same two standards as any other — root
+        // seen from both sides, residual paid — and anything less falls
+        // back to the full bracket, so refusals and undetermined-pe
+        // verdicts are only ever pronounced on the full-bracket evidence
+        // they were designed for.
+        let search = match self.warm_pe {
+            Some(pe) => {
+                let warm = self.bisect_pe(
+                    vessel,
+                    problem,
+                    db_tag,
+                    coupling,
+                    (pe - 0.75).max(FULL.0),
+                    (pe + 0.75).min(FULL.1),
+                    residual_tol,
+                )?;
+                let warm_residual = warm
+                    .last_sum
+                    .map_or(f64::INFINITY, |s| (s - coupling.target).abs());
+                if warm.saw_below && warm.saw_above && warm_residual <= residual_tol {
+                    warm
+                } else {
+                    self.bisect_pe(
+                        vessel,
+                        problem,
+                        db_tag,
+                        coupling,
+                        FULL.0,
+                        FULL.1,
+                        residual_tol,
+                    )?
                 }
-                continue;
-            };
-            let Some(sum) = oxidation_sum(&out.selected, &coupling.columns, problem.kgw) else {
-                return Err(SolveError::NotConverged {
-                    solver: "phreeqc-aqueous (redox)".to_string(),
-                    detail: "the coupled run reported no oxidation-state totals".to_string(),
-                });
-            };
-            if std::env::var("KERO_REDOX").is_ok() {
-                eprintln!("  pe={mid:.3} sum={sum:.6e} target={:.6e}", coupling.target);
             }
-            last_sum = Some(sum);
-            best = Some(out);
-            if sum < coupling.target {
-                saw_below = true;
-                lo = mid;
-            } else {
-                saw_above = true;
-                hi = mid;
-            }
-            if hi - lo < 1e-6 {
-                break;
-            }
-        }
+            None => self.bisect_pe(
+                vessel,
+                problem,
+                db_tag,
+                coupling,
+                FULL.0,
+                FULL.1,
+                residual_tol,
+            )?,
+        };
+        let PeSearch {
+            best,
+            last_sum,
+            saw_below,
+            saw_above,
+            mid,
+        } = search;
         // A narrowed bracket is not a struck balance. When the root lies
         // outside the water-stability window the interval simply collapses
         // onto an edge, and the last trial — an ordinary-looking
@@ -358,7 +400,7 @@ impl PhreeqcEquilibrator {
         // carries on past a solver that declines, and the vessel is
         // reported as unmodelled rather than as solved.
         let residual = last_sum.map_or(f64::INFINITY, |sum| (sum - coupling.target).abs());
-        if residual > 1e-9_f64.max(1e-4 * coupling.scale) {
+        if residual > residual_tol {
             return Err(SolveError::NotConverged {
                 solver: "phreeqc-aqueous (redox)".to_string(),
                 detail: format!(
@@ -393,7 +435,93 @@ impl PhreeqcEquilibrator {
             detail: "the electron balance did not converge".to_string(),
         })?;
         out.pe_undetermined = !(saw_below && saw_above);
+        if !out.pe_undetermined {
+            // Only a genuinely bracketed root seeds the next warm start; an
+            // asymptotic equivalence point has no pe worth starting from.
+            self.warm_pe = Some(mid);
+        }
         Ok(out)
+    }
+
+    /// One bisection pass of the electron-balance search over `[lo, hi]`.
+    ///
+    /// Returns what it saw and leaves the judging — was the balance
+    /// struck, was the root bracketed — to `solve_coupled`, so the warm
+    /// and full brackets are held to identical standards.
+    #[allow(clippy::too_many_arguments)]
+    fn bisect_pe(
+        &mut self,
+        vessel: &Vessel,
+        problem: &Problem,
+        db_tag: &str,
+        coupling: &RedoxCoupling,
+        mut lo: f64,
+        mut hi: f64,
+        residual_tol: f64,
+    ) -> Result<PeSearch, SolveError> {
+        let mut best: Option<SolveOutput> = None;
+        let mut last_sum: Option<f64> = None;
+        // Whether the residual was ever seen on both sides of zero. A
+        // bisection that only ever approaches from one side never bracketed
+        // a root: it walked to an edge, and the edge is not a measurement.
+        let (mut saw_below, mut saw_above) = (false, false);
+        let mut mid = 0.5 * (lo + hi);
+        for _ in 0..34 {
+            mid = 0.5 * (lo + hi);
+            let input = build_input_at(vessel, problem, db_tag, Some((mid, coupling)));
+            // A single awkward trial must not end the search. PHREEQC will
+            // refuse some electron activities outright — a residual of one
+            // part in a hundred thousand on chloride is enough — and those
+            // are scattered through the range rather than at its edges.
+            // Aborting on the first one threw away a titration the bisection
+            // had very nearly solved, and reported the reagents as unreacted.
+            let Ok(out) = self.run_trial(db_tag, &input) else {
+                // Keep moving in the direction the last usable answer
+                // pointed, so the bracket steps over the bad patch instead
+                // of stalling on it.
+                match last_sum {
+                    Some(sum) if sum < coupling.target => lo = mid,
+                    Some(_) => hi = mid,
+                    None => lo = mid,
+                }
+                continue;
+            };
+            let Some(sum) = oxidation_sum(&out.selected, &coupling.columns, problem.kgw) else {
+                return Err(SolveError::NotConverged {
+                    solver: "phreeqc-aqueous (redox)".to_string(),
+                    detail: "the coupled run reported no oxidation-state totals".to_string(),
+                });
+            };
+            if std::env::var("KERO_REDOX").is_ok() {
+                eprintln!("  pe={mid:.3} sum={sum:.6e} target={:.6e}", coupling.target);
+            }
+            last_sum = Some(sum);
+            best = Some(out);
+            if sum < coupling.target {
+                saw_below = true;
+                lo = mid;
+            } else {
+                saw_above = true;
+                hi = mid;
+            }
+            // Residual break (OPT-7): stopping here is judged by the same
+            // tolerance the post-check enforces, so nothing that would have
+            // been refused gets waved through — the search just stops
+            // paying for precision the verdict cannot use.
+            if (sum - coupling.target).abs() <= residual_tol {
+                break;
+            }
+            if hi - lo < 1e-6 {
+                break;
+            }
+        }
+        Ok(PeSearch {
+            best,
+            last_sum,
+            saw_below,
+            saw_above,
+            mid,
+        })
     }
 
     /// Whether this equilibrator can compute a state nobody pre-computed.
@@ -427,6 +555,10 @@ impl PhreeqcEquilibrator {
             brine,
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
+            trial_cache: std::collections::HashMap::new(),
+            trial_cache_hits: 0,
+            warm_pe: None,
+            engine_calls: 0,
             hook: None,
             neutralisation,
         })
@@ -441,6 +573,10 @@ impl PhreeqcEquilibrator {
         Ok(PhreeqcEquilibrator {
             cache: std::collections::HashMap::new(),
             cache_hits: 0,
+            trial_cache: std::collections::HashMap::new(),
+            trial_cache_hits: 0,
+            warm_pe: None,
+            engine_calls: 0,
             hook: None,
             neutralisation: std::collections::HashMap::new(),
         })
@@ -450,6 +586,41 @@ impl PhreeqcEquilibrator {
     /// which is a deterministic function of the vessel state).
     pub fn cache_hits(&self) -> usize {
         self.cache_hits
+    }
+
+    /// Raw engine invocations since construction. This is OPT-7's
+    /// measurement: a coupled equilibration used to cost up to ~272 of
+    /// these; the trial cache, the warm-started bracket and the residual
+    /// break exist to shrink this number, and a test holds the budget.
+    pub fn engine_calls(&self) -> usize {
+        self.engine_calls
+    }
+
+    /// Bisection trials answered from the trial cache instead of the
+    /// engine.
+    pub fn trial_cache_hits(&self) -> usize {
+        self.trial_cache_hits
+    }
+
+    /// One bisection trial, answered from the trial cache when the exact
+    /// same question was asked before. Only the coupled search comes
+    /// through here: its trials are the repetitive traffic. The main
+    /// content-addressed cache stays where it is — it caches *parsed*
+    /// results one level up.
+    fn run_trial(&mut self, db_tag: &str, input: &str) -> Result<SolveOutput, SolveError> {
+        let key = (db_tag.to_string(), input.to_string());
+        if let Some(hit) = self.trial_cache.get(&key) {
+            self.trial_cache_hits += 1;
+            return Ok(hit.clone());
+        }
+        let out = self.run_raw(db_tag, input)?;
+        if self.trial_cache.len() >= 2048 {
+            // The same simple bound the result cache uses; refine when
+            // profiling says so.
+            self.trial_cache.clear();
+        }
+        self.trial_cache.insert(key, out.clone());
+        Ok(out)
     }
 
     /// Export the cache for shipping (PLAN.md: pre-warmed cache — every
@@ -1132,6 +1303,10 @@ impl Equilibrator for PhreeqcEquilibrator {
     /// contracts: an endothermic salt that cools the beaker dissolves less,
     /// which cools it less. Two or three passes settle it.
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        // Each equilibration is its own question; a pe carried over from a
+        // different vessel is a guess, not a memory. The warm start exists
+        // for the temperature fixed point *inside* this call.
+        self.warm_pe = None;
         if let Some(surface) = vessel
             .surfaces
             .iter()
@@ -1271,14 +1446,211 @@ impl Equilibrator for PhreeqcEquilibrator {
     }
 }
 
+struct SolveSetup {
+    problem: Problem,
+    db_tag: &'static str,
+    routing: String,
+    freed_phases: Vec<(String, f64)>,
+    input: String,
+    key: String,
+}
+
 impl PhreeqcEquilibrator {
     /// One pass at the vessel's current temperature. Returns the reaction
     /// heat rather than applying it, so the caller can iterate temperature
     /// and composition to a common answer instead of reporting one solved
     /// before the other.
     fn solve_once(&mut self, vessel: &mut Vessel) -> Result<(Vec<Event>, f64), SolveError> {
-        let Some(mut problem) = partition(vessel) else {
+        let Some(SolveSetup {
+            problem,
+            db_tag,
+            routing,
+            freed_phases,
+            input,
+            key,
+        }) = self.setup_problem(vessel)?
+        else {
             return Ok((Vec::new(), 0.0));
+        };
+
+        let (rows, speciation, saturation, coupling_failed, pe_determined, redox_adjusted) =
+            self.dispatch_solve(vessel, &problem, db_tag, &input, key)?;
+
+        let value = |column: &str| -> Option<f64> {
+            let idx = rows.first()?.iter().position(|h| h == column)?;
+            rows.last()?.get(idx)?.parse().ok()
+        };
+
+        let (
+            solvent_kgw_out,
+            mut new_surfaces,
+            new_exchanges,
+            new_solid_solutions,
+            mut new_ions,
+            unnameable,
+        ) = self.readback_raw_values(&problem, db_tag, &rows, &value)?;
+
+        let (new_phases, new_gases, ph, mu) = Self::apply_balance_corrections(
+            vessel,
+            &problem,
+            &mut new_ions,
+            &mut new_surfaces,
+            &new_exchanges,
+            &new_solid_solutions,
+            &value,
+        )?;
+
+        let (mut events, contents) = Self::rebuild_contents_and_events(
+            vessel,
+            &problem,
+            &freed_phases,
+            solvent_kgw_out,
+            &new_ions,
+            &new_phases,
+            &new_gases,
+            &new_solid_solutions,
+        );
+
+        // Neutralisation: the heat of the reaction the engine cannot see.
+        //
+        // PHREEQC is handed element totals, so it cannot tell an acid just
+        // added from one that was always there — and `H⁺ + OH⁻ → H₂O` never
+        // appears as a reaction it reports. Its heat was simply missing:
+        // 0.1 mol of hydrochloric acid neutralised by caustic soda left the
+        // beaker 13.7 K below where a real one lands, silently, in the most
+        // common thermochemistry experiment in school.
+        //
+        // The extent is recoverable from the solutes' net charge. A beaker
+        // holding chloride and nothing else is holding exactly that much
+        // free acid; one holding sodium is holding that much free base.
+        // What cancels when the opposite arrives is the overlap of the two,
+        // which is `(|A_before| + |ΔA| − |A_after|) / 2` — a quantity that
+        // is zero for adding more of what is already there, and correct
+        // when the sign flips straight past neutral (0.1 mol of acid met by
+        // 0.2 mol of base still neutralises 0.1).
+        let a_before = vessel.solute_charge;
+        let a_after: f64 = contents
+            .iter()
+            .filter(|p| p.phase == Phase::Aqueous)
+            .filter_map(|p| {
+                let d = species::lookup(&p.species)?;
+                let f = kerotakis_core::stoich::parse_formula(d.formula).ok()?;
+                Some(f.charge * p.moles.0)
+            })
+            .sum();
+        let neutralised =
+            0.5 * (a_before.abs() + (a_after - a_before).abs() - a_after.abs()).max(0.0);
+        vessel.solute_charge = a_after;
+
+        vessel.contents = contents;
+        vessel.surfaces = new_surfaces;
+        vessel.exchanges = new_exchanges;
+        vessel.solid_solutions = new_solid_solutions;
+        vessel.refresh_pressure();
+        if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
+            events.push(Event::HeadspaceEquilibrated {
+                vessel: vessel.id,
+                pressure: vessel.pressure,
+                total_moles: vessel.gas_moles(),
+            });
+        }
+
+        // Reaction heat: curated dissolution enthalpies feed the energy
+        // balance (PLAN.md). Dissolution of an endothermic salt cools the
+        // vessel; precipitation releases the corresponding heat. v1 applies
+        // the temperature change once rather than iterating solver ↔ T; the
+        // shifts at teaching concentrations are small against the ~25–100 °C
+        // range of the database.
+        let mut q_joules = 0.0; // heat released into the vessel
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
+            && neutralised > kerotakis_core::OBSERVABLE_MOLES
+        {
+            if let Some(dh) = self.neutralisation.get(db_tag) {
+                q_joules -= dh * 1000.0 * neutralised;
+            }
+        }
+        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+            for e in &events {
+                match e {
+                    Event::Dissolved {
+                        species: sid,
+                        moles,
+                        ..
+                    } => {
+                        if let Some(dh) =
+                            species::lookup(sid).and_then(|d| d.dissolution_enthalpy_kj)
+                        {
+                            q_joules -= dh * 1000.0 * moles.0;
+                        }
+                    }
+                    Event::Precipitated {
+                        species: sid,
+                        moles,
+                        ..
+                    } => {
+                        if let Some(dh) =
+                            species::lookup(sid).and_then(|d| d.dissolution_enthalpy_kj)
+                        {
+                            q_joules += dh * 1000.0 * moles.0;
+                        }
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        let idx = derived::index_for(db_tag);
+        // pe is reported only when the beaker contains a redox couple the
+        // user actually put there. Left to itself PHREEQC reports the value
+        // it was handed — 4.0 by default — and printing that beside a
+        // computed pH would dress an assumption as a measurement.
+        //
+        // Hydrogen and oxygen are excluded even though the database gives
+        // them oxidation states, because they are in every aqueous solution
+        // and their presence says nothing about whether anything is being
+        // oxidised.
+        //
+        // KNOWN LIMITATION, stated rather than hidden: this is necessary
+        // but not sufficient. A beaker of permanganate with nothing to
+        // reduce it contains a redox-active element and still does not
+        // *determine* an electron activity — PHREEQC will report its
+        // default and we will show it. The engine annotates its report with
+        // "Adjusted to redox equilibrium", which looked like the right
+        // signal until it turned out to fire on the water couple in plain
+        // brine as well. Until that is understood, a test that can be
+        // explained is better than one that cannot: `redox_adjusted` is
+        // parsed and cached, and is where the eventual fix will hook.
+        let redox_constrained = problem.elements.iter().any(|el| {
+            // Element totals are keyed by valence where one is known —
+            // "Mn(7)" rather than "Mn" — while the redox set is canonical.
+            let canonical = el.split('(').next().unwrap_or(el);
+            canonical != "H" && canonical != "O" && idx.redox_elements.contains(canonical)
+        });
+        let _ = redox_adjusted;
+
+        Self::finalize_solution_info(
+            vessel,
+            &problem,
+            db_tag,
+            routing,
+            speciation,
+            &saturation,
+            coupling_failed,
+            pe_determined,
+            redox_constrained,
+            &value,
+            &unnameable,
+            ph,
+            mu,
+            &mut events,
+        );
+
+        Ok((events, q_joules))
+    }
+
+    fn setup_problem(&self, vessel: &Vessel) -> Result<Option<SolveSetup>, SolveError> {
+        let Some(mut problem) = partition(vessel) else {
+            return Ok(None);
         };
 
         // Route by validity domain: minteq.v4 when its extended chemistry
@@ -1481,6 +1853,35 @@ impl PhreeqcEquilibrator {
         let input = build_input(vessel, &problem, db_tag);
         let key = format!("#{db_tag}\n{input}");
 
+        Ok(Some(SolveSetup {
+            problem,
+            db_tag,
+            routing,
+            freed_phases,
+            input,
+            key,
+        }))
+    }
+
+    #[allow(clippy::type_complexity)]
+    fn dispatch_solve(
+        &mut self,
+        vessel: &Vessel,
+        problem: &Problem,
+        db_tag: &str,
+        input: &str,
+        key: String,
+    ) -> Result<
+        (
+            Vec<Vec<String>>,
+            Vec<SpeciesDetail>,
+            Vec<(String, f64)>,
+            Option<String>,
+            bool,
+            bool,
+        ),
+        SolveError,
+    > {
         // Content-addressed cache: database + input string is a
         // deterministic canonicalisation of (species set, amounts, T) — same
         // state, same answer, no engine call.
@@ -1503,8 +1904,8 @@ impl PhreeqcEquilibrator {
             if std::env::var("KERO_DUMP_INPUT").as_deref() == Ok("all") {
                 eprintln!("--- PHREEQC input ---\n{input}---");
             }
-            let out = match redox_coupling(&problem, db_tag) {
-                Some(coupling) => match self.solve_coupled(vessel, &problem, db_tag, &coupling) {
+            let out = match redox_coupling(problem, db_tag) {
+                Some(coupling) => match self.solve_coupled(vessel, problem, db_tag, &coupling) {
                     Ok(out) => out,
                     // A coupled solve can fail where an uncoupled one
                     // succeeds, and the reason is chemistry rather than
@@ -1516,10 +1917,10 @@ impl PhreeqcEquilibrator {
                     // failure is said out loud rather than swallowed.
                     Err(e) => {
                         coupling_failed = Some(e.to_string());
-                        self.run_raw(db_tag, &input)?
+                        self.run_raw(db_tag, input)?
                     }
                 },
-                None => match self.run_raw(db_tag, &input) {
+                None => match self.run_raw(db_tag, input) {
                     Ok(out) => out,
                     // A refusal may be about how the question was posed
                     // rather than about the chemistry. Ask it the other way
@@ -1530,7 +1931,7 @@ impl PhreeqcEquilibrator {
                     // precipitation the vessel is told about is measured
                     // from the solid it actually had, not from the solid we
                     // invented to make the question answerable.
-                    Err(e) => match condense_supersaturated(&problem) {
+                    Err(e) => match condense_supersaturated(problem) {
                         Some(recast) => {
                             let recast_input = build_input(vessel, &recast, db_tag);
                             self.run_raw(db_tag, &recast_input).map_err(|_| e)?
@@ -1559,11 +1960,34 @@ impl PhreeqcEquilibrator {
             );
             (rows, speciation, saturation, redox_adjusted, pe_determined)
         };
-        let value = |column: &str| -> Option<f64> {
-            let idx = rows.first()?.iter().position(|h| h == column)?;
-            rows.last()?.get(idx)?.parse().ok()
-        };
+        Ok((
+            rows,
+            speciation,
+            saturation,
+            coupling_failed,
+            pe_determined,
+            redox_adjusted,
+        ))
+    }
 
+    #[allow(clippy::type_complexity)]
+    fn readback_raw_values(
+        &self,
+        problem: &Problem,
+        db_tag: &str,
+        rows: &[Vec<String>],
+        value: &dyn Fn(&str) -> Option<f64>,
+    ) -> Result<
+        (
+            f64,
+            Vec<SurfaceSites>,
+            Vec<ExchangeSites>,
+            Vec<SolidSolution>,
+            Vec<(String, f64)>,
+            Vec<(String, f64)>,
+        ),
+        SolveError,
+    > {
         // Read back: element totals (mol/kgw) and phase amounts (mol).
         // Molalities are per kg of *equilibrated* water (mass_H2O), which
         // differs slightly from the input water mass through speciation.
@@ -1713,7 +2137,7 @@ impl PhreeqcEquilibrator {
         // brine still settles at 96/3/1 across Mn(VII), Mn(VI) and Mn(II).
         // Every redox element present therefore has to be read state by
         // state.
-        let coupled: Vec<String> = valence_totals(&problem, db_tag);
+        let coupled: Vec<String> = valence_totals(problem, db_tag);
         let coupled_bases: Vec<&str> = coupled.iter().filter_map(|c| c.split('(').next()).collect();
         for el in &problem.elements {
             let base = el.split('(').next().unwrap_or(el);
@@ -1778,6 +2202,26 @@ impl PhreeqcEquilibrator {
                 }
             }
         }
+        Ok((
+            solvent_kgw_out,
+            new_surfaces,
+            new_exchanges,
+            new_solid_solutions,
+            new_ions,
+            unnameable,
+        ))
+    }
+
+    #[allow(clippy::type_complexity)]
+    fn apply_balance_corrections(
+        vessel: &Vessel,
+        problem: &Problem,
+        new_ions: &mut Vec<(String, f64)>,
+        new_surfaces: &mut [SurfaceSites],
+        new_exchanges: &[ExchangeSites],
+        new_solid_solutions: &[SolidSolution],
+        value: &dyn Fn(&str) -> Option<f64>,
+    ) -> Result<(Vec<(String, f64)>, Vec<(String, String, f64)>, f64, f64), SolveError> {
         // PHREEQC selected totals are not consistent about whether a
         // SURFACE contribution is included: the first zinc solve reports
         // dissolved Zn, while a repeated solve can report the full
@@ -1839,7 +2283,7 @@ impl PhreeqcEquilibrator {
                 let maximum_bound = (analytical / coefficient).max(0.0);
                 if bound > maximum_bound && bound > 0.0 {
                     let scale = maximum_bound / bound;
-                    for surface in &mut new_surfaces {
+                    for surface in new_surfaces.iter_mut() {
                         for entry in &mut surface.occupancy {
                             if entry.sorbate == sorbate {
                                 entry.moles = Moles(entry.moles.0 * scale);
@@ -1865,7 +2309,7 @@ impl PhreeqcEquilibrator {
                     .sum();
                 if aqueous > ceiling && aqueous > 0.0 {
                     let scale = ceiling / aqueous;
-                    for (candidate, moles) in &mut new_ions {
+                    for (candidate, moles) in new_ions.iter_mut() {
                         if candidate.split('(').next().unwrap_or(candidate) == base {
                             *moles *= scale;
                         }
@@ -1936,7 +2380,7 @@ impl PhreeqcEquilibrator {
                         .sum();
                     if aqueous > ceiling && aqueous > 0.0 {
                         let scale = ceiling / aqueous;
-                        for (candidate, moles) in &mut new_ions {
+                        for (candidate, moles) in new_ions.iter_mut() {
                             if candidate.split('(').next().unwrap_or(candidate) == base {
                                 *moles *= scale;
                             }
@@ -1968,7 +2412,7 @@ impl PhreeqcEquilibrator {
                 let initial_solid_solution =
                     solid_solution_element_inventory(&problem.solid_solutions, element);
                 let final_solid_solution =
-                    solid_solution_element_inventory(&new_solid_solutions, element);
+                    solid_solution_element_inventory(new_solid_solutions, element);
                 let (initial_gas, final_gas) = if element == "C" {
                     let initial = vessel
                         .contents
@@ -1999,7 +2443,7 @@ impl PhreeqcEquilibrator {
                     .sum();
                 if aqueous > 0.0 {
                     let scale = target / aqueous;
-                    for (candidate, moles) in &mut new_ions {
+                    for (candidate, moles) in new_ions.iter_mut() {
                         if candidate.split('(').next().unwrap_or(candidate) == element {
                             *moles *= scale;
                         }
@@ -2022,7 +2466,20 @@ impl PhreeqcEquilibrator {
         }
         let ph = value("pH").ok_or_else(|| missing("pH"))?;
         let mu = value("mu").ok_or_else(|| missing("mu"))?;
+        Ok((new_phases, new_gases, ph, mu))
+    }
 
+    #[allow(clippy::too_many_arguments)]
+    fn rebuild_contents_and_events(
+        vessel: &Vessel,
+        problem: &Problem,
+        freed_phases: &[(String, f64)],
+        solvent_kgw_out: f64,
+        new_ions: &[(String, f64)],
+        new_phases: &[(String, f64)],
+        new_gases: &[(String, String, f64)],
+        new_solid_solutions: &[SolidSolution],
+    ) -> (Vec<Event>, Vec<Portion>) {
         // Rebuild the vessel inventory: water stays; solutes are replaced by
         // the computed state.
 
@@ -2090,7 +2547,7 @@ impl PhreeqcEquilibrator {
                 Some(_) => {}
             }
         }
-        for (el, moles) in &new_ions {
+        for (el, moles) in new_ions {
             if *moles > TRACE {
                 let ion = derived::booking_ion(el).expect("booking ion covered by tests");
                 // Moles of an *element* are not moles of the ion that
@@ -2112,7 +2569,7 @@ impl PhreeqcEquilibrator {
                 });
             }
         }
-        for (_, species, moles) in &new_gases {
+        for (_, species, moles) in new_gases {
             if *moles > TRACE {
                 contents.push(Portion {
                     species: SpeciesId::new(species),
@@ -2135,7 +2592,7 @@ impl PhreeqcEquilibrator {
                 });
             }
         }
-        for (phase, moles) in &new_phases {
+        for (phase, moles) in new_phases {
             if let Some(dp) = derived::phase_by_name(phase) {
                 let (species, waters) = (dp.species, dp.waters);
                 // Baseline is the phase's INPUT amount, not the vessel's
@@ -2224,7 +2681,7 @@ impl PhreeqcEquilibrator {
                 }
             }
         }
-        for solid_solution in &new_solid_solutions {
+        for solid_solution in new_solid_solutions {
             let before = problem
                 .solid_solutions
                 .iter()
@@ -2267,7 +2724,7 @@ impl PhreeqcEquilibrator {
         // Recorded whatever the size, as with the escaping gas above:
         // `Event::is_observable` decides what is shown, but the energy
         // balance must see all of it.
-        for (phase, moles) in &freed_phases {
+        for (phase, moles) in freed_phases {
             if *moles > TRACE {
                 if let Some(dp) = derived::phase_by_name(phase) {
                     events.push(Event::Dissolved {
@@ -2290,128 +2747,32 @@ impl PhreeqcEquilibrator {
                 });
             }
         }
+        (events, contents)
+    }
 
-        // Neutralisation: the heat of the reaction the engine cannot see.
-        //
-        // PHREEQC is handed element totals, so it cannot tell an acid just
-        // added from one that was always there — and `H⁺ + OH⁻ → H₂O` never
-        // appears as a reaction it reports. Its heat was simply missing:
-        // 0.1 mol of hydrochloric acid neutralised by caustic soda left the
-        // beaker 13.7 K below where a real one lands, silently, in the most
-        // common thermochemistry experiment in school.
-        //
-        // The extent is recoverable from the solutes' net charge. A beaker
-        // holding chloride and nothing else is holding exactly that much
-        // free acid; one holding sodium is holding that much free base.
-        // What cancels when the opposite arrives is the overlap of the two,
-        // which is `(|A_before| + |ΔA| − |A_after|) / 2` — a quantity that
-        // is zero for adding more of what is already there, and correct
-        // when the sign flips straight past neutral (0.1 mol of acid met by
-        // 0.2 mol of base still neutralises 0.1).
-        let a_before = vessel.solute_charge;
-        let a_after: f64 = contents
-            .iter()
-            .filter(|p| p.phase == Phase::Aqueous)
-            .filter_map(|p| {
-                let d = species::lookup(&p.species)?;
-                let f = kerotakis_core::stoich::parse_formula(d.formula).ok()?;
-                Some(f.charge * p.moles.0)
-            })
-            .sum();
-        let neutralised =
-            0.5 * (a_before.abs() + (a_after - a_before).abs() - a_after.abs()).max(0.0);
-        vessel.solute_charge = a_after;
-
-        vessel.contents = contents;
-        vessel.surfaces = new_surfaces;
-        vessel.exchanges = new_exchanges;
-        vessel.solid_solutions = new_solid_solutions;
-        vessel.refresh_pressure();
-        if vessel.owns_headspace_gas() && !problem.gases.is_empty() {
-            events.push(Event::HeadspaceEquilibrated {
-                vessel: vessel.id,
-                pressure: vessel.pressure,
-                total_moles: vessel.gas_moles(),
-            });
-        }
-
-        // Reaction heat: curated dissolution enthalpies feed the energy
-        // balance (PLAN.md). Dissolution of an endothermic salt cools the
-        // vessel; precipitation releases the corresponding heat. v1 applies
-        // the temperature change once rather than iterating solver ↔ T; the
-        // shifts at teaching concentrations are small against the ~25–100 °C
-        // range of the database.
-        let mut q_joules = 0.0; // heat released into the vessel
-        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic)
-            && neutralised > kerotakis_core::OBSERVABLE_MOLES
-        {
-            if let Some(dh) = self.neutralisation.get(db_tag) {
-                q_joules -= dh * 1000.0 * neutralised;
-            }
-        }
-        if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-            for e in &events {
-                match e {
-                    Event::Dissolved {
-                        species: sid,
-                        moles,
-                        ..
-                    } => {
-                        if let Some(dh) =
-                            species::lookup(sid).and_then(|d| d.dissolution_enthalpy_kj)
-                        {
-                            q_joules -= dh * 1000.0 * moles.0;
-                        }
-                    }
-                    Event::Precipitated {
-                        species: sid,
-                        moles,
-                        ..
-                    } => {
-                        if let Some(dh) =
-                            species::lookup(sid).and_then(|d| d.dissolution_enthalpy_kj)
-                        {
-                            q_joules += dh * 1000.0 * moles.0;
-                        }
-                    }
-                    _ => {}
-                }
-            }
-        }
-
+    #[allow(clippy::too_many_arguments)]
+    fn finalize_solution_info(
+        vessel: &mut Vessel,
+        problem: &Problem,
+        db_tag: &str,
+        routing: String,
+        speciation: Vec<SpeciesDetail>,
+        saturation: &[(String, f64)],
+        coupling_failed: Option<String>,
+        pe_determined: bool,
+        redox_constrained: bool,
+        value: &dyn Fn(&str) -> Option<f64>,
+        unnameable: &[(String, f64)],
+        ph: f64,
+        mu: f64,
+        events: &mut Vec<Event>,
+    ) {
         let idx = derived::index_for(db_tag);
-        // pe is reported only when the beaker contains a redox couple the
-        // user actually put there. Left to itself PHREEQC reports the value
-        // it was handed — 4.0 by default — and printing that beside a
-        // computed pH would dress an assumption as a measurement.
-        //
-        // Hydrogen and oxygen are excluded even though the database gives
-        // them oxidation states, because they are in every aqueous solution
-        // and their presence says nothing about whether anything is being
-        // oxidised.
-        //
-        // KNOWN LIMITATION, stated rather than hidden: this is necessary
-        // but not sufficient. A beaker of permanganate with nothing to
-        // reduce it contains a redox-active element and still does not
-        // *determine* an electron activity — PHREEQC will report its
-        // default and we will show it. The engine annotates its report with
-        // "Adjusted to redox equilibrium", which looked like the right
-        // signal until it turned out to fire on the water couple in plain
-        // brine as well. Until that is understood, a test that can be
-        // explained is better than one that cannot: `redox_adjusted` is
-        // parsed and cached, and is where the eventual fix will hook.
-        let redox_constrained = problem.elements.iter().any(|el| {
-            // Element totals are keyed by valence where one is known —
-            // "Mn(7)" rather than "Mn" — while the redox set is canonical.
-            let canonical = el.split('(').next().unwrap_or(el);
-            canonical != "H" && canonical != "O" && idx.redox_elements.contains(canonical)
-        });
-        let _ = redox_adjusted;
         // The redox split, read back from the per-valence totals asked for
         // in `build_input`. A state at zero is kept out: "0 mol of Mn(VII)"
         // is true and is not what anyone means by a distribution.
         let mut redox: Vec<kerotakis_core::RedoxState> = Vec::new();
-        for column in valence_totals(&problem, db_tag) {
+        for column in valence_totals(problem, db_tag) {
             let Some(moles) = value(&column) else {
                 continue;
             };
@@ -2444,7 +2805,7 @@ impl PhreeqcEquilibrator {
             (Some(why), _) => format!(
                 "the redox elements here could not be coupled, so each is shown in the oxidation state it was added in and they have not reacted with each other — {why}"
             ),
-            (None, n) if n > 1 && redox_coupling(&problem, db_tag).is_none() => {
+            (None, n) if n > 1 && redox_coupling(problem, db_tag).is_none() => {
                 // Coupled elements are settled by the electron balance;
                 // this note is for the ones deliberately left pinned.
                 "some elements here keep the oxidation state they were added in: only the couples that equilibrate on a bench timescale exchange electrons, and the slow ones — sulfate, nitrate, carbonate — are held as added".to_string()
@@ -2517,7 +2878,7 @@ impl PhreeqcEquilibrator {
         // Matter the readback could not name. It is a small fraction of a
         // minor oxidation state, and losing it silently is exactly the kind
         // of quiet subtraction this engine keeps having to root out.
-        for (column, moles) in &unnameable {
+        for (column, moles) in unnameable {
             events.push(Event::NotYetModeled {
                 vessel: vessel.id,
                 what: format!(
@@ -2593,8 +2954,6 @@ impl PhreeqcEquilibrator {
                 ),
             });
         }
-
-        Ok((events, q_joules))
     }
 }
 
@@ -3039,7 +3398,7 @@ fn parse_saturation_indices(output: &str) -> Vec<(String, f64)> {
 /// descending. The block's shape is stable across PHREEQC 3.x: a header,
 /// element-total lines (2 columns), and species lines (>= 6 columns:
 /// name, molality, activity, log m, log a, log gamma[, volume]).
-fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
+pub(crate) fn parse_species_distribution(output: &str) -> Vec<SpeciesDetail> {
     let Some(start) = output.rfind("Distribution of species") else {
         return Vec::new();
     };
