@@ -393,6 +393,43 @@ every new dependency before its first import.
 - [ ] **GUI-024 — Challenges v1.** Equation balancing, endpoint, buffer
   hold; engine-marked.
 
+- [ ] **GUI-025 — The equation strip.** Reactions as balanced equations
+  pinned beside the bench at lv2+, live as they happen. We already
+  compute them; today they are buried in the feed.
+- [ ] **GUI-026 — Pour and stir.** Drop-to-add gets a pour animation and
+  a stir gesture on the Canvas2D effects layer — strictly driven by
+  computed events, decorative in style, never in fact. Today the reagent
+  teleports; a lab should *feel* like handling things.
+- [ ] **GUI-027 — Utilities drawer.** Surface `kero calc` (CAP-5 named
+  relations), property correlations (CAP-6), and unit conversion in the
+  GUI — the glossary + converter + calculator drawer teachers actually
+  use, backed by computed values with provenance.
+- [ ] **GUI-028 — Voice input.** Speech-to-command over the existing
+  grammar (Web Speech API, progressive enhancement, browser-gated), with
+  the parse endpoint validating live — voice access serves students who
+  cannot use a physical lab or a keyboard, and a command language is
+  uniquely suited to it.
+
+### What the virtual-lab genre teaches (survey 2026-08-24, contenders
+deliberately unnamed here)
+
+The genre spans touch-first mobile benches (tactile pours, live
+equation displays, outcome-pair chemistry), the freeware worktable
+generation (drag-drop plus a utilities drawer), VR platform vendors
+(assessment analytics as the selling point), scripted 3D academic labs
+(catalogs of 100+ canned experiments, animated tutor characters), and
+database-driven browser simulators (thousands of reaction rows, voice
+input, procedure training). Every one of them runs on a script or a
+lookup table, and each plateaus exactly at its catalog — the limitation
+lists read "these procedures are not in the database." None combines
+computed chemistry + one app from child to expert + web/offline-first +
+an open licence; that intersection is ours. Adopted from the genre:
+GUI-025..028 above. Rejected as recorded decisions: 3D environment
+fidelity, VR-first, and animated agent characters (the narration feed
+is the agent). The honest gap the genre exposes is content volume — the
+lesson corpus, not the GUI, is the competitive lever there (codex
+work).
+
 ### Phase G3 — Desktop
 
 - [ ] **GUI-030 — TauriHost.** Native core behind the protocol; conformance
