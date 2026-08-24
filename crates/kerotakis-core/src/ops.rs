@@ -169,6 +169,11 @@ pub enum Instrument {
     Spectrophotometer,
     /// INST-006: Calorimeter — reads enthalpy.
     Calorimeter,
+    /// INST-007: Chromatography column — separates dissolved neutral
+    /// solutes by their computed partition coefficients and reports the
+    /// peak table. Non-destructive here: an analytical injection is an
+    /// aliquot too small for the ledger to see.
+    Chromatograph,
 }
 
 /// ORG-009: How confident the engine is in a claimed result.
@@ -196,6 +201,21 @@ pub enum Confidence {
     /// The engine could not determine an answer and is reporting the
     /// honest absence of knowledge.
     Unknown,
+}
+
+/// One peak in a reported chromatogram: who, when, how wide, how much.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ElutedPeak {
+    pub species: SpeciesId,
+    /// Retention time t_R = t₀·(1 + K·β), seconds.
+    pub retention_time_s: f64,
+    /// Baseline width (4σ) from the plate count, seconds.
+    pub width_s: f64,
+    /// Area relative to the largest peak — proportional to moles
+    /// injected, because an ideal detector counts what passes it.
+    pub relative_area: f64,
+    /// The computed partition coefficient that put the peak there.
+    pub partition_k: f64,
 }
 
 /// What one step produced. Everything user-visible derives from this.
@@ -380,6 +400,26 @@ pub enum Event {
         /// Fraction of the solute that sat in the lower layer (and so
         /// left with it when the stopcock opened).
         fraction_lower: f64,
+    },
+    /// The column spoke: each dissolved neutral solute with a curated
+    /// group decomposition eluted at the time its partition coefficient
+    /// sets, and anything the method cannot see is named rather than
+    /// silently dropped. K comes from the same UNIFAC γ∞ ratio the
+    /// separating funnel runs on — water as the mobile phase, an alkane
+    /// stationary phase — so the funnel and the column must agree about
+    /// which solute is the hydrophobic one.
+    Chromatographed {
+        vessel: VesselId,
+        /// Theoretical plates of the column that produced this table.
+        plates: u32,
+        /// Void time: when an unretained solute reaches the detector.
+        void_time_s: f64,
+        /// Peaks in elution order.
+        peaks: Vec<ElutedPeak>,
+        /// Dissolved species the method has no groups for — ions above
+        /// all. Stated, because a chromatogram that quietly ignores half
+        /// the sample teaches the wrong lesson about what a detector saw.
+        outside_method: Vec<SpeciesId>,
     },
     /// The lower layer ran out through the stopcock, solutes and all.
     Drained {

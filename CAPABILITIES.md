@@ -883,8 +883,26 @@ from the same UNIFAC (ethanol 88% with the water at 2:1 layers,
 methanol 96% — the hydrophilicity ordering emerging from group counts
 alone), a `Partitioned` event says so in three registers, ions still
 travel entirely with their water, and the engine test pins the split
-window and exact solute conservation. Remaining in this task: the
-transport / chromatograph / calorimeter / react verbs. **Acceptance.** Each verb demonstrable in a replayed lesson;
+window and exact solute conservation. The `chromatograph` verb landed
+2026-08-24 (Fable): `Instrument::Chromatograph` on the school column
+(the CAP-22 oracle's own N = 10⁴, t₀ = 60 s, β = 0.5, as
+`ChromatographyColumn::school()`), K per solute computed as
+γ∞(water)/γ∞(alkane) from the same UNIFAC the funnel partitions on —
+so column and funnel cannot disagree about hydrophobicity — and a
+`Chromatographed` event carrying the peak table (retention, width,
+area, K) in three registers. Propanone entered the registry as the
+78th species, data-only through the CAP-21 pipeline (CIAAW/CRC
+provenance; the golden diff was one added record, 77 untouched), so
+the demo separation is methanol 63 s, ethanol 68 s, propanone 115 s —
+the ketone retained by its groups alone, Rs > 1 between neighbours.
+Ions are named `outside_method`, never silently dropped (engine test);
+a settled solid was never injected and says so (core test); a
+solute-free or dry sample refuses out loud; the injection provably
+moves no ledger. Lesson: `one-thing-at-a-time.lab`. The calorimeter
+half of the remainder was already served: `Instrument::Calorimeter`,
+its grammar, and `calorimetry.lab` predate this task. Remaining in
+this task: the transport and react verbs (extract's upgrade to lle.rs
+folded into the funnel work above). **Acceptance.** Each verb demonstrable in a replayed lesson;
 `kerotakis-org` gains a dependent; preflight green. **Size.** Medium
 per verb — they are independent; take them one per branch.
 **Depends on:** nothing.

@@ -204,10 +204,18 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     "conductivity" => Instrument::ConductivityMeter,
                     "spectrophotometer" | "uvvis" => Instrument::Spectrophotometer,
                     "calorimeter" => Instrument::Calorimeter,
+                    "chromatograph" | "column" => Instrument::Chromatograph,
                     other => return Err(format!("unknown instrument '{other}'")),
                 },
             }
         }
+        // `chromatograph v1` — inject the solution onto the column and
+        // read the peak table. Sugar for `measure v1 chromatograph`,
+        // first-class because running a separation is a verb in any lab.
+        "chromatograph" => Operator::Measure {
+            vessel: parse_vessel(words.get(1).copied().unwrap_or("v1"))?,
+            instrument: Instrument::Chromatograph,
+        },
         // `cell v1 v2` — touch the wires of two half-cells together and
         // read the voltmeter. Nothing flows; the reading is the prediction.
         "electrolyse" | "electrolyze" => {

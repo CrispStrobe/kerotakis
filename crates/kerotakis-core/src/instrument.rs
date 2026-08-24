@@ -332,6 +332,18 @@ pub struct ChromatographicPeak {
 }
 
 impl ChromatographyColumn {
+    /// The bench's standard column. The numbers are the ones the
+    /// instrument-oracle test works by hand (N = 10⁴ plates, t₀ = 60 s,
+    /// β = 0.5), so a learner who checks the worked example against the
+    /// bench finds the same column in both places.
+    pub fn school() -> Self {
+        ChromatographyColumn {
+            plates: 10_000,
+            void_time_s: 60.0,
+            phase_ratio: 0.5,
+        }
+    }
+
     /// Predict the retention time for a species with a given partition coefficient K.
     pub fn retention_time(&self, partition_k: f64) -> f64 {
         let capacity_factor = partition_k * self.phase_ratio;
