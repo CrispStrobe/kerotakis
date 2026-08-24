@@ -465,6 +465,14 @@ been ignoring all of it:
   lesson; every new codex entry is a new page for free. The guided
   what-do-I-do-next instruction panel those platforms center on is our
   LessonBar, extended with the entry's own narration.
+  *Status 2026-08-24: the client side is BUILT and waiting — catalog +
+  tabbed page (theory at the dial's register, procedure,
+  predict-observe-explain with committed predictions and per-wrong-
+  answer diagnoses, and an honest checker that COMPARES the engine's
+  actual events and final state against the entry's expect claims,
+  never recomputing chemistry; vitest-pinned). Lights up the moment the
+  codex export ships `codex/index.json` in the payload (kero-basic's
+  task); quiet absence until then.*
 - [ ] **GUI-055 — The curriculum browser.** Placements (per-system stages
   with citations) as a teacher-facing index: pick a curriculum stage, see
   the entries and concepts that serve it, launch them.
