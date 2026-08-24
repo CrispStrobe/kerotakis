@@ -696,6 +696,18 @@ nothing).
       asserted away. Remaining (not claimed): the Emscripten/wasm
       InChI build, and growing the tranche to species without simple
       SMILES (minerals, enzymes, aromatic dyes).
+- [ ] Tranche growth: **23 → 65** (2026-08-24, Opus). Added 42 species:
+      monatomic ions (Na+ K+ Cl- Ca+2 Mg+2 Sr+2 Ag+ Cu+2 Cu+1 Fe+2
+      Fe+3 Zn+2 Mn+2), polyatomic ions (NO3- SO4-2 HCO3- H2PO4-),
+      metals (Cu Zn Ag Fe), oxides (CaO MgO CuO MnO2), hydroxide
+      Ca(OH)2, salts (AgCl NaOCl NaHCO3 Na2CO3 Na2SO3 Na2S2O3 AgNO3
+      CaCl2 CaCO3 MgSO4 gypsum CuSO4 KMnO4 FeSO4 ZnSO4), and
+      chloramine NH2Cl. All 65 InChIKeys recompute and match via
+      the official IUPAC library. Deferred (11 species, chematic mol
+      file limitations): bare atoms Mg/Pb/C/S (implicit-H on bracket
+      atoms), Cu(OH)2/MnO4-/Pb+2 (charge/oxidation state in mol
+      writer), Pb(NO3)2 (Pb charge layer), phenolphthalein/
+      methyl_orange/bromothymol_blue (kekulisation).
 
 **Why.** The IUPAC InChI reference implementation was relicensed to
 plain MIT with v1.07.1 (2024-08) and lives on GitHub, and upstream
