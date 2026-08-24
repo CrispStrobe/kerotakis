@@ -55,6 +55,8 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
 
         // ── strong bases ──────────────────────────────────────────
         "NaOH" => &[BaseStrong],
+        "KOH" => &[BaseStrong],
+        "OH-" => &[BaseStrong],
         "Ca(OH)2" => &[BaseStrong],
 
         // ── strong oxidizers ──────────────────────────────────────
@@ -170,7 +172,9 @@ pub const COVERED_KEYS: &[&str] = &[
     "NaHCO3",
     "NaOAc",
     "NaOCl",
+    "KOH",
     "NaOH",
+    "OH-",
     "O2",
     "Pb",
     "Pb(NO3)2",
