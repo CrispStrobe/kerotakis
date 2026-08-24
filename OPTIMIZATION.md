@@ -88,3 +88,39 @@ runtime to load the pre-parsed index instead of re-parsing the
 raw database text on every `Phreeqc::with_database()` call.
 Measured improvement: skip ~50 ms of text parsing per engine
 instance creation.
+
+## OPT-7 — One-worker web engine, fewer wasm→JS→wasm crossings
+
+Binding restored 2026-08-24: this number was already bound by
+ROADMAP-Webapp.md ("the scoped fixes — fewer calls first, cheaper
+crossings only if measurement then says so — are OPT-7 and OPT-9"),
+but the definition was missing from this file after the canonical
+restore at 70ec6fb.
+
+Scope: run kerotakis-wasm and IPhreeQC together in ONE module Web
+Worker so the engine's internal synchronous hook stays synchronous
+and per-call full-report JSON marshalling disappears from the hot
+path; reduce the *number* of engine calls per vessel equilibration
+first. This is also GUI-004 in ROADMAP-GUI.md (the `WorkerHost`
+behind the EngineHost protocol) and is a prerequisite for the GUI's
+web target. Owner: Fable (per /tmp/kero-sync.md; touches
+crates/kerotakis-phreeqc/src/aqueous.rs).
+
+Acceptance: current PWA runs unchanged on the consolidated worker;
+before/after measurement of one `add`+equilibrate on the wasm path
+recorded in the Baselines table.
+
+**ID-collision note:** branch commit e51d870
+(kero1/opt-bench-profiles) reuses "OPT-7" for a move-only
+decomposition of `solve_once`. That refactor is welcome but must be
+renumbered at merge — task numbers are stable identifiers and this
+file plus ROADMAP-Webapp.md hold the binding.
+
+## OPT-9 — Cheaper individual wasm boundary crossings (measure-gated)
+
+Same restored binding as OPT-7. Only in scope if measurement AFTER
+OPT-7 shows the remaining crossings still dominate: replace
+full-report JSON strings with a narrower serialized delta or shared
+buffer. Do not start this on assumption; the roadmap's order is
+"fewer calls first, cheaper crossings only if measurement then says
+so."

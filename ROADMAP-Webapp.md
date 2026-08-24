@@ -885,6 +885,12 @@ able to answer “what assumption controls this result?”
 The backend architecture remains client-neutral. The web app is one client and
 should not dictate the scientific interfaces.
 
+> The clients themselves — the GUI architecture (web/PWA + Tauri v2 shells),
+> the register-driven UX, and the GUI-0xx task list — are specified in
+> [ROADMAP-GUI.md](ROADMAP-GUI.md). Its Phase G0 contract work (`EngineHost`
+> protocol, scene JSON, structured events) implements several of the delivery
+> bullets below.
+
 Still, several delivery changes directly support broader models:
 
 - run the Rust lab and IPhreeQC together in one module Web Worker; their internal
