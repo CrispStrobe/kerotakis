@@ -157,7 +157,9 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "NaNO3"
         | "KNO3"
         | "dehydroascorbic_acid"
-        | "starch" => &[],
+        | "starch"
+        | "amylase"
+        | "maltose" => &[],
 
         _ => &[],
     }
@@ -241,6 +243,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "Zn",
     "Zn+2",
     "ZnSO4",
+    "amylase",
     "ascorbic_acid",
     "bromothymol_blue",
     "catalase",
@@ -249,6 +252,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "ethyl_acetate",
     "gypsum",
     "hexane",
+    "maltose",
     "methanol",
     "methyl_orange",
     "phenolphthalein",

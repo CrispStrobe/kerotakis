@@ -30,6 +30,9 @@ pub struct CuratedReaction {
     /// When set, the reaction fires only when the vessel temperature
     /// is at or above this threshold (in kelvin).
     pub min_temp_k: Option<f64>,
+    /// When set, this species must be present for the reaction to fire,
+    /// but is NOT consumed (enzyme/catalyst).
+    pub catalyst: Option<&'static str>,
 }
 
 /// Hand-verified seed set. Grows into the codex (P4).
@@ -40,6 +43,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         products: &[("NH2Cl", 1.0, Phase::Gas), ("NaOH", 1.0, Phase::Aqueous)],
         solvent: None,
         min_temp_k: None,
+        catalyst: None,
     },
     CuratedReaction {
         equation: "NaOCl + 2 HCl → Cl2↑ + NaCl + H2O",
@@ -51,6 +55,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         ],
         solvent: None,
         min_temp_k: None,
+        catalyst: None,
     },
     CuratedReaction {
         equation: "4 KMnO4 + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 KOH + H₂O",
@@ -63,6 +68,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         ],
         solvent: None,
         min_temp_k: None,
+        catalyst: None,
     },
     CuratedReaction {
         equation: "4 MnO₄⁻ + 3 C₂H₅OH → 4 MnO₂↓ + 3 CH₃COOH + 4 OH⁻ + H₂O",
@@ -75,6 +81,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         ],
         solvent: None,
         min_temp_k: None,
+        catalyst: None,
     },
     // ── silver metathesis in ethanol (CAP-23 rung 2b) ────────────
     // PHREEQC handles these in water; the curated entries fire only
@@ -85,6 +92,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         products: &[("AgCl", 1.0, Phase::Solid), ("NaNO3", 1.0, Phase::Solid)],
         solvent: Some("ethanol"),
         min_temp_k: None,
+        catalyst: None,
     },
     CuratedReaction {
         equation: "AgNO₃ + KCl → AgCl↓ + KNO₃",
@@ -92,6 +100,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         products: &[("AgCl", 1.0, Phase::Solid), ("KNO3", 1.0, Phase::Solid)],
         solvent: Some("ethanol"),
         min_temp_k: None,
+        catalyst: None,
     },
     // ── iodine decolorisation (EXP-13: Vitamin C) ─────────────
     // Ascorbic acid reduces molecular iodine to iodide; this is
@@ -105,6 +114,7 @@ pub const REACTIONS: &[CuratedReaction] = &[
         ],
         solvent: None,
         min_temp_k: None,
+        catalyst: None,
     },
     // ── thermal decomposition (EXP-2: Backpulver) ───────────────
     // Onset ~50 °C, classroom-observable above ~80 °C (CRC Handbook
@@ -119,6 +129,18 @@ pub const REACTIONS: &[CuratedReaction] = &[
         ],
         solvent: None,
         min_temp_k: Some(353.0),
+        catalyst: None,
+    },
+    // ── enzymatic hydrolysis (EXP-14: Das süße Brot) ────────────
+    // Amylase catalyses starch hydrolysis to maltose. The enzyme
+    // is not consumed. Simplified: 2 monomer units + H₂O → maltose.
+    CuratedReaction {
+        equation: "2 (C₆H₁₀O₅) + H₂O →[amylase] C₁₂H₂₂O₁₁",
+        reactants: &[("starch", 2.0), ("water", 1.0)],
+        products: &[("maltose", 1.0, Phase::Aqueous)],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: Some("amylase"),
     },
 ];
 
@@ -272,6 +294,11 @@ impl Equilibrator for CuratedEquilibrator {
                     return false;
                 }
             }
+            if let Some(cat) = r.catalyst {
+                if vessel.moles_of(&SpeciesId::new(cat)).0 <= TRACE {
+                    return false;
+                }
+            }
             if let Some(req) = r.solvent {
                 solvent == Some(req) && extent_in_solvent(vessel, r, req) > TRACE
             } else {
@@ -293,6 +320,11 @@ impl Equilibrator for CuratedEquilibrator {
             for (i, reaction) in REACTIONS.iter().enumerate() {
                 if let Some(min_t) = reaction.min_temp_k {
                     if vessel.temperature.0 < min_t {
+                        continue;
+                    }
+                }
+                if let Some(cat) = reaction.catalyst {
+                    if vessel.moles_of(&SpeciesId::new(cat)).0 <= TRACE {
                         continue;
                     }
                 }

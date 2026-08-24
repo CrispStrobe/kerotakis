@@ -1766,5 +1766,41 @@
     "provenance": "CRC Handbook, 97th ed.; monomer-unit molar mass (anhydroglucose unit)",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "colorless solution",
+    "colour": null,
+    "density": 1.3,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C",
+    "heat_capacity": 50.0,
+    "inchikey": "",
+    "key": "amylase",
+    "molar_mass": 55000.0,
+    "name": "amylase",
+    "provenance": "Alpha-amylase MW ~55 kDa (typical); Voet & Voet Biochemistry 4th ed.",
+    "spectrum_bands": null,
+    "standard_phase": "aqueous"
+  },
+  {
+    "appearance": "white crystalline powder",
+    "colour": null,
+    "density": 1.54,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C12H22O11",
+    "heat_capacity": 300.0,
+    "inchikey": "GUBGYTABKSRVRQ-UHFFFAOYSA-N",
+    "key": "maltose",
+    "molar_mass": 342.297,
+    "name": "maltose",
+    "provenance": "CRC Handbook, 97th ed.; Merck Index 15th ed.",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]

@@ -1270,6 +1270,18 @@ honest apology.
       while vitamin C remains, persists past endpoint), product
       stoichiometry, element conservation, juice-vs-water contrast,
       three-register rendering. SMILES for 4 molecular species.
+- **EXP-14 Amylase (enzymatic hydrolysis):** curated reaction
+      `2 (C₆H₁₀O₅) + H₂O →[amylase] C₁₂H₂₂O₁₁`. `CuratedReaction`
+      gains `catalyst: Option<&'static str>` — the reaction fires only
+      when the named catalyst species is present; catalyst is not
+      consumed. Two new registry species: amylase (enzyme, formula "C"
+      placeholder following catalase convention, 55 kDa), maltose
+      (C₁₂H₂₂O₁₁, 342.3 g/mol). Safety: amylase + maltose inert.
+      10 tests: equation balance, enzyme gating (fires with, silent
+      without), catalyst not consumed, product stoichiometry, starch
+      consumed, element conservation, Lugol assay contrast
+      (starch-positive without enzyme, starch-negative after),
+      three-register rendering. SMILES for maltose.
 
 ## Declined — off-mission, recorded so nobody re-litigates silently
 

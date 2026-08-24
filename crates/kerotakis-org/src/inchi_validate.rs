@@ -94,6 +94,8 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("I2", "II"),
     ("dehydroascorbic_acid", "OCC(O)C1OC(=O)C(=O)C1=O"),
     ("HI", "I"),
+    // --- EXP-14: amylase/starch hydrolysis ---
+    ("maltose", "OCC1OC(OC2C(O)C(O)C(O)OC2CO)C(O)C(O)C1O"),
 ];
 
 /// Result of cross-validating one species' InChIKey.
