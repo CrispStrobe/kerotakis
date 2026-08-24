@@ -127,7 +127,7 @@ fn parse_vary(spec: &str) -> Result<Vary, String> {
     let selector = match sel.split(':').collect::<Vec<_>>().as_slice() {
         ["add", vessel, species] => Selector::Add {
             vessel: kerotakis_core::script::parse_vessel(vessel)?,
-            species: SpeciesId::new(*species),
+            species: SpeciesId::new(species),
         },
         ["line", n] => Selector::Line(
             n.parse::<usize>()
@@ -254,12 +254,13 @@ pub fn study_command(args: &[String]) {
                             *moles = Moles(value);
                         }
                     }
-                    match bench.step_with(op, engine, &kerotakis_safety::ReactiveGroupScreen) {
-                        Ok(mut more) => events.append(&mut more),
-                        // A refused or failed step is part of the result,
-                        // not a reason to kill the whole study: the probes
-                        // read whatever state the bench honestly reached.
-                        Err(_) => {}
+                    // A refused or failed step is part of the result, not
+                    // a reason to kill the whole study: the probes read
+                    // whatever state the bench honestly reached.
+                    if let Ok(mut more) =
+                        bench.step_with(op, engine, &kerotakis_safety::ReactiveGroupScreen)
+                    {
+                        events.append(&mut more);
                     }
                 }
                 Row {
