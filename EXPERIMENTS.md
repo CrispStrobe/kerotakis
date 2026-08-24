@@ -597,3 +597,46 @@ EXP-21 with the energy input booked honestly.
 EXP-0..49. The scenario-framing this vendor does well (forensic
 cases, role-taking) is already the quest engine's prose register —
 what they script, EXP-0 makes emergent.
+
+---
+
+# Part 8: the university practical set (2026-08-24) — yield zero
+
+Seventh corpus (a commercial 3D-lab vendor; not named): organic
+preparations, inorganic radical tests, analytical titrimetry. Every
+item audits into an existing EXP number — the first zero-yield
+corpus, which is what convergence looks like when it completes.
+Curve: 16 → 9 → 7 → 1 → 3 → **0**.
+
+## Fold-ins (scope refinements, no new numbers)
+- **EXP-30 gains its ion roster** from this corpus's radical tests:
+  cations NH4+, Na+, K+ (flame — landed event), Ca2+, Ba2+, Mg2+,
+  Mn2+; anions SO3^2-, Br-, I- joining the halide/sulfate/carbonate
+  set. The acceptance's "six unknowns" now draws from this roster.
+- **EXP-39 gains iodometry**: thiosulfate standardisation with the
+  iodine/starch endpoint as a third endpoint mode beside
+  self-indicating permanganate and potentiometric. The starch-iodine
+  colour is EXP-14's indicator chemistry reused.
+- **EXP-36/42 template family grows** by named substrates and one
+  named class: aspirin and paracetamol (acetylation of phenol/amine
+  substrates), naphthyl acetate, ethyl-propionate Fischer row
+  (propanoic acid joins the data list), and the condensation class
+  (mixed-aldol/Claisen–Schmidt) as one more molecule-proven SMIRKS
+  template — same capability, more rows.
+- **EXP-46 gains the Grignard star**: organometallic reagent
+  formation with the anhydrous condition enforced by machinery we
+  already have — `nonaqueous::single_organic_solvent` gates it, and
+  ANY water present makes the preparation refuse with the reason.
+  The classic teaching moment (moisture kills the reagent) is not a
+  scripted warning here; it is the computed verdict.
+- **EXP-26 notes the sulfate variant** (BaSO4 gravimetric route).
+- Strong/strong and weak-base/strong-acid titrations, sulfuric-acid
+  determination: covered (EXP-22/39, landed titrate machinery).
+- GC/MS, NMR, IR "analysis" items: the separation half of GC is the
+  landed chromatograph verb; spectral interpretation stays declined
+  (Parts 4 and 6), consistently.
+
+## Registry state after seven corpora
+EXP-0..49, unchanged. A corpus that adds only rows to existing tasks
+is the audit series' success condition: the capability map is stable;
+what grows now is data, templates, and quests.
