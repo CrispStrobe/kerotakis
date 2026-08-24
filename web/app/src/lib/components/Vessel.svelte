@@ -1,7 +1,17 @@
 <script lang="ts">
   import type { SceneVessel } from "../host/EngineHost";
 
-  let { vessel, register }: { vessel: SceneVessel; register: string } = $props();
+  let {
+    vessel,
+    register,
+    selected = false,
+    onselect,
+  }: {
+    vessel: SceneVessel;
+    register: string;
+    selected?: boolean;
+    onselect?: (id: number) => void;
+  } = $props();
 
   // Drawing basis: a 400 mL beaker drawn 84 units tall inside a 100×140 box.
   const INNER_X = 14;
@@ -28,7 +38,13 @@
   const sealed = $derived(vessel.boundary !== "open");
 </script>
 
-<figure class="vessel" aria-label={`${vessel.label}: ${vessel.words}`}>
+<button
+  class="vessel"
+  class:selected
+  aria-label={`${vessel.label} v${vessel.id + 1}: ${vessel.words}`}
+  aria-pressed={selected}
+  onclick={() => onselect?.(vessel.id)}
+>
   <svg viewBox="0 0 100 140" role="img">
     <title>{vessel.words}</title>
 
@@ -90,7 +106,7 @@
     {/if}
   </svg>
 
-  <figcaption>
+  <div class="caption">
     <span class="label">{vessel.label} v{vessel.id + 1}</span>
     {#if register !== "lv1"}
       <span class="badge">{tempC.toFixed(1)} °C</span>
@@ -102,16 +118,29 @@
       {/each}
       {#if sealed}<span class="badge">{vessel.boundary}</span>{/if}
     {/if}
-  </figcaption>
-</figure>
+  </div>
+</button>
 
 <style>
   .vessel {
     margin: 0;
+    padding: 0.4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.4rem;
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  .vessel:hover {
+    border-color: var(--edge);
+  }
+  .vessel.selected {
+    border-color: var(--hot);
   }
   svg {
     width: clamp(96px, 18vw, 150px);
@@ -151,7 +180,7 @@
       animation: none;
     }
   }
-  figcaption {
+  .caption {
     display: flex;
     flex-wrap: wrap;
     gap: 0.3rem;

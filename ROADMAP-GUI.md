@@ -324,13 +324,29 @@ every new dependency before its first import.
   register dial wired end to end.
 - [ ] **GUI-012 — Shelf v1.** Registry-driven, searchable, drag/tap-to-add,
   register-aware amount picker (pinch/cup ↔ g/mol/mL).
+  *Status 2026-08-24: tap-to-add landed (`Shelf.svelte`) — registry-fed via
+  `species`, search over name/formula/key, register-aware quick amounts
+  (lv1 kitchen units, lv2+ lab units + free input), compiles to
+  `add v{n} …` through the session. Open: drag-to-vessel, hazard chips,
+  appearance swatches.*
 - [ ] **GUI-013 — Feed v1.** Event stream at current register with command
   echo; this is also the a11y acceptance gate: run a full lesson from
   keyboard + screen reader.
 - [ ] **GUI-014 — Inspector v1 + command bar.** Register-dependent detail;
   ⌘K bar with completion from the grammar + parse-only validation.
+  *Status 2026-08-24: Inspector v1 landed — tap a vessel (vessels are
+  buttons, keyboard-operable) for `inspect` detail at the current
+  register, refreshed after every step and register switch, with a
+  particles append. Open: completion + parse-only validation in the bar
+  (waits on GUI-005).*
 - [ ] **GUI-015 — Undo/replay + timeline.** Log-prefix replay with snapshot
   cache; timeline scrubber; session autosave/restore; `.lab` import/export.
+  *Status 2026-08-24: undo-as-replay landed in the Session — successful
+  chemistry commands form the replayable log (register switches stay
+  session-state), undo = `reset` + replay of the prefix, Ctrl/⌘-Z wired,
+  `.lab` export via save button; failed commands never enter the log
+  (vitest-pinned). Open: snapshot cache, timeline scrubber, autosave,
+  `.lab` import.*
 
 ### Phase G2 — Learning surfaces
 

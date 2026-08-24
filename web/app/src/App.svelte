@@ -6,22 +6,73 @@
   import Feed from "./lib/components/Feed.svelte";
   import CommandBar from "./lib/components/CommandBar.svelte";
   import RegisterDial from "./lib/components/RegisterDial.svelte";
+  import Shelf from "./lib/components/Shelf.svelte";
+  import Inspector from "./lib/components/Inspector.svelte";
 
   const session = new Session(WorkerHost.create());
   onMount(() => void session.connect());
+
+  function saveLab() {
+    const blob = new Blob([session.exportLab()], { type: "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "session.lab";
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  function onkeydown(e: KeyboardEvent) {
+    if ((e.ctrlKey || e.metaKey) && e.key === "z" && !e.shiftKey) {
+      e.preventDefault();
+      void session.undo();
+    }
+  }
 </script>
+
+<svelte:window {onkeydown} />
 
 <header>
   <h1>Kerotakis <small>a chemistry bench that computes</small></h1>
   <RegisterDial value={session.register} onchange={(lv) => void session.setRegister(lv)} />
+  <button
+    class="tool"
+    onclick={() => void session.undo()}
+    disabled={session.commandLog.length === 0 || session.busy}
+  >
+    undo
+  </button>
+  <button class="tool" onclick={saveLab} disabled={session.commandLog.length === 0}>
+    save .lab
+  </button>
   <span class="status" class:live={session.canSolve}>
     {session.engineReady ? (session.canSolve ? "live" : "shipped results") : "starting…"}
   </span>
 </header>
 
 <main>
-  <Bench scene={session.scene} register={session.register} />
+  <nav class="shelf-pane">
+    <Shelf
+      items={session.shelf}
+      register={session.register}
+      target={session.selected}
+      onadd={(line) => void session.submit(line)}
+    />
+  </nav>
+  <Bench
+    scene={session.scene}
+    register={session.register}
+    selected={session.selected}
+    onselect={(id) => void session.inspect(id)}
+  />
   <aside>
+    {#if session.inspector}
+      <Inspector
+        vessel={session.inspector.vessel}
+        lines={session.inspector.lines}
+        onparticles={() => void session.particles()}
+        onclose={() => session.closeInspector()}
+      />
+    {/if}
     <Feed entries={session.feed} />
   </aside>
 </main>
@@ -32,7 +83,7 @@
   header {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.8rem;
     flex-wrap: wrap;
     padding: 0.7rem 1rem;
     border-bottom: 1px solid var(--edge);
@@ -47,6 +98,21 @@
     font-weight: 400;
     margin-left: 0.5rem;
   }
+  .tool {
+    background: var(--panel-raised);
+    border: 1px solid var(--edge);
+    border-radius: 6px;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    min-height: 36px;
+  }
+  .tool:disabled {
+    opacity: 0.45;
+    cursor: default;
+  }
   .status {
     margin-left: auto;
     font-size: 0.8rem;
@@ -60,8 +126,19 @@
     flex: 1;
     min-height: 0;
   }
+  .shelf-pane {
+    width: min(17rem, 26vw);
+    border-right: 1px solid var(--edge);
+    background: var(--panel);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .shelf-pane > :global(.shelf) {
+    flex: 1;
+  }
   aside {
-    width: min(24rem, 40vw);
+    width: min(24rem, 34vw);
     border-left: 1px solid var(--edge);
     background: var(--panel);
     display: flex;
@@ -71,9 +148,15 @@
   aside > :global(.feed) {
     flex: 1;
   }
-  @media (max-width: 700px) {
+  @media (max-width: 900px) {
     main {
       flex-direction: column;
+    }
+    .shelf-pane {
+      width: auto;
+      max-height: 26vh;
+      border-right: 0;
+      border-bottom: 1px solid var(--edge);
     }
     aside {
       width: auto;
