@@ -19,6 +19,8 @@ rm -rf "$OUT"
 mkdir -p "$OUT/db"
 
 echo "== the bench (wasm32-unknown-unknown)"
+# Stamp the build revision into hello's git_rev (option_env in the wasm).
+export KEROTAKIS_GIT_REV="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || true)"
 cargo build -p kerotakis-wasm --target wasm32-unknown-unknown --release
 wasm-bindgen --target web --out-dir "$OUT" \
     "$TARGET_DIR/wasm32-unknown-unknown/release/kerotakis_wasm.wasm"

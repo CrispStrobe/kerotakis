@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { EngineHost, Scene } from "./host/EngineHost";
+import type { EngineHost, Scene, ScriptResult } from "./host/EngineHost";
 import { Session, type StorageLike } from "./session.svelte";
 
 class FakeStorage implements StorageLike {
@@ -33,13 +33,23 @@ class FakeHost implements EngineHost {
     this.calls.push("step");
     return { events: [], rendered: [] };
   }
+  async grammar(): Promise<{ verb: string; example: string; options?: string[] }[]> {
+    this.calls.push("grammar");
+    return [];
+  }
+  async relations() {
+    return [];
+  }
+  async calc() {
+    return { ok: false as const, error: "not in the fake" };
+  }
   async parse(line: string) {
     this.calls.push(`parse:${line}`);
     return line.startsWith("boom")
       ? { ok: false, error: "no such verb" }
       : { ok: true };
   }
-  async runScript(script: string) {
+  async runScript(script: string): Promise<ScriptResult> {
     this.calls.push(`run:${script}`);
     return {
       steps: script.split("\n").map((line) => ({

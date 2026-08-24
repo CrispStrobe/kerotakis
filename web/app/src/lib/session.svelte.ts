@@ -65,6 +65,8 @@ export class Session {
   busy = $state(false);
   engineReady = $state(false);
   canSolve = $state(false);
+  /** Engine identity from hello (GUI-001): "0.0.1 @ abc1234" or null. */
+  engineIdentity = $state<string | null>(null);
   /** Successful chemistry commands, in order — the session's .lab script. */
   commandLog = $state<string[]>([]);
   /**
@@ -113,6 +115,11 @@ export class Session {
       const hello = await this.host.hello();
       this.engineReady = true;
       this.canSolve = hello.can_solve ?? false;
+      if (hello.engine_version) {
+        this.engineIdentity = hello.git_rev
+          ? `${hello.engine_version} @ ${hello.git_rev}`
+          : hello.engine_version;
+      }
       this.feed.push({
         kind: "note",
         text: this.canSolve
@@ -533,6 +540,24 @@ export class Session {
 
   closeInspector(): void {
     this.inspector = null;
+  }
+
+  /** The named-relations catalogue (GUI-027's toolbox drawer). */
+  async relations() {
+    try {
+      return await this.host.relations();
+    } catch {
+      return [];
+    }
+  }
+
+  /** Evaluate one named relation; the drawer shows the result verbatim. */
+  async calc(name: string, args: string[]) {
+    try {
+      return await this.host.calc(name, args);
+    } catch (e) {
+      return { ok: false as const, error: e instanceof Error ? e.message : String(e) };
+    }
   }
 
   /**

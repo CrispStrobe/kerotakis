@@ -115,6 +115,18 @@ impl Lab {
         self.aqueous.can_solve()
     }
 
+    /// Engine identity for `hello` (GUI-001): version, build revision,
+    /// and the registers this engine renders at. The hosts merge this
+    /// into their hello answer so a client can pin what it talked to.
+    pub fn meta(&self) -> String {
+        serde_json::json!({
+            "engine_version": env!("CARGO_PKG_VERSION"),
+            "git_rev": option_env!("KEROTAKIS_GIT_REV"),
+            "registers": ["lv1", "lv2", "lv3"],
+        })
+        .to_string()
+    }
+
     /// Run the five release-one chemistry scenarios through this bench's
     /// aqueous path. With a hook this is live IPhreeqc; without one it is an
     /// exact replay from the shipped cache, and any missing state is reported
@@ -284,6 +296,41 @@ impl Lab {
             })
             .collect();
         serde_json::Value::Array(list).to_string()
+    }
+
+    /// The named-relations catalogue (CAP-5): name, equation, arg spec.
+    pub fn relations(&self) -> String {
+        let list: Vec<serde_json::Value> = kerotakis_core::relations::RELATIONS
+            .iter()
+            .map(|r| {
+                serde_json::json!({
+                    "name": r.name,
+                    "equation": r.equation,
+                    "args": r.args,
+                })
+            })
+            .collect();
+        serde_json::Value::Array(list).to_string()
+    }
+
+    /// Evaluate one named relation with `k=v` arguments. The result
+    /// carries the value, unit, provenance, and the explanation at every
+    /// register — a calculator whose answers say where they came from.
+    pub fn calc(&self, name: &str, args_json: &str) -> String {
+        let args: Vec<String> = serde_json::from_str(args_json).unwrap_or_default();
+        match kerotakis_core::relations::evaluate(name, &args) {
+            Ok(r) => serde_json::json!({
+                "ok": true,
+                "value": r.value,
+                "unit": r.unit,
+                "provenance": r.provenance,
+                "lv1": r.lv1,
+                "lv2": r.lv2,
+                "lv3": r.lv3,
+            })
+            .to_string(),
+            Err(e) => serde_json::json!({ "ok": false, "error": e.to_string() }).to_string(),
+        }
     }
 
     /// The bench state as JSON.

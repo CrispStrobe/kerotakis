@@ -22,6 +22,7 @@
   import PeriodicTable from "./lib/components/PeriodicTable.svelte";
   import ExperimentCatalog from "./lib/components/ExperimentCatalog.svelte";
   import ReadingInset from "./lib/components/ReadingInset.svelte";
+  import Toolbox from "./lib/components/Toolbox.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
 
   // In the Tauri shell the engine is native and in-process; on the web it
@@ -84,6 +85,7 @@
 
   let helpOpen = $state(false);
   let tableOpen = $state(false);
+  let toolboxOpen = $state(false);
   let catalogOpen = $state(false);
   /** A tapped badge, magnified (the visual bar's reading inset). */
   let inset = $state<{ vessel: number; reading: { key: string; value: number; confidence: string } } | null>(null);
@@ -177,6 +179,7 @@
       helpOpen = true;
     } else if (e.key === "Escape") {
       if (inset) inset = null;
+      else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
       else session.closeInspector();
     }
@@ -293,11 +296,18 @@
       {/each}
     </select>
   {/if}
-  <span class="status" class:live={session.canSolve}>
+  <span
+    class="status"
+    class:live={session.canSolve}
+    title={session.engineIdentity ? `engine ${session.engineIdentity}` : undefined}
+  >
     {session.engineReady ? (session.canSolve ? "live" : "shipped results") : "starting…"}
   </span>
   <button class="tool" onclick={() => (tableOpen = true)} title="the periodic table, wired to the shelf">
     elements
+  </button>
+  <button class="tool" onclick={() => (toolboxOpen = true)} title="named relations: compute with provenance">
+    toolbox
   </button>
   {#if codexEntries.length > 0}
     <button class="tool" onclick={() => (catalogOpen = true)} title="codex experiments: predict, run, check">
@@ -449,6 +459,10 @@
 
 {#if helpOpen}
   <HelpDialog onclose={() => (helpOpen = false)} />
+{/if}
+
+{#if toolboxOpen}
+  <Toolbox {session} onclose={() => (toolboxOpen = false)} />
 {/if}
 
 {#if catalogOpen}

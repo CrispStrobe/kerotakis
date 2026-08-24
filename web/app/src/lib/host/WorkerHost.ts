@@ -59,7 +59,13 @@ export class WorkerHost implements EngineHost {
       type: "module",
       name: "kerotakis-engine",
     });
-    const host = new WorkerHost(worker, options);
+    // A real Worker satisfies MessagePortLike at runtime (its MessageEvent
+    // has `data`), but property invariance keeps TS from proving it —
+    // Worker.onmessage's own read type wants the full MessageEvent.
+    const host = new WorkerHost(
+      worker as unknown as MessagePortLike & { terminate?: () => void },
+      options,
+    );
     // A crashed worker must fail loudly, not hang every pending promise:
     // abandon() rejects everything in flight with an honest message.
     worker.addEventListener("error", (e) => {
@@ -87,8 +93,16 @@ export class WorkerHost implements EngineHost {
     return JSON.parse(await this.channel.request("parse", { line }));
   }
 
-  async grammar(): Promise<{ verb: string; example: string }[]> {
+  async grammar(): Promise<{ verb: string; example: string; options?: string[] }[]> {
     return JSON.parse(await this.channel.request("grammar"));
+  }
+
+  async relations(): Promise<{ name: string; equation: string; args: string }[]> {
+    return JSON.parse(await this.channel.request("relations"));
+  }
+
+  async calc(name: string, args: string[]) {
+    return JSON.parse(await this.channel.request("calc", { name, args }));
   }
 
   async setRegister(level: string): Promise<void> {

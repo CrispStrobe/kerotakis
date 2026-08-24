@@ -8,6 +8,7 @@
     onselect,
     ondropspecies,
     effects = [],
+    onbadge,
   }: {
     vessel: SceneVessel;
     register: string;
@@ -24,6 +25,8 @@
     effects.some((e) => e.kind === kind && now() - e.at < withinMs);
 
   let dropReady = $state(false);
+  /** A just-landed drop ripples once — pouring is an action, not a teleport. */
+  let splashedAt = $state(0);
 
   function ondrop(e: DragEvent) {
     dropReady = false;
@@ -32,6 +35,7 @@
     e.preventDefault();
     try {
       ondropspecies?.(vessel.id, JSON.parse(raw));
+      splashedAt = now();
     } catch {
       // A malformed drag payload is simply not a drop.
     }
@@ -70,7 +74,7 @@
       inner: "M 20 93 L 27 127 L 73 127 L 80 93 Z",
     },
   };
-  const geom = $derived(KINDS[vessel.label] ?? KINDS.beaker);
+  const geom = $derived(KINDS[vessel.label] ?? KINDS.beaker!);
   const INNER_X = $derived(geom.ix);
   const INNER_W = $derived(geom.iw);
   const BOTTOM_Y = $derived(geom.by);
@@ -131,9 +135,27 @@
       <clipPath id={`vclip-${vessel.id}`}>
         <path d={geom.inner} />
       </clipPath>
+      <!-- Horizontal glass-curvature tint: denser refraction at the walls,
+           near-clear in the middle — what makes a cylinder read as round. -->
+      <linearGradient id={`vglass-${vessel.id}`} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#bcd6e4" stop-opacity="0.28" />
+        <stop offset="0.16" stop-color="#bcd6e4" stop-opacity="0.07" />
+        <stop offset="0.5" stop-color="#eaf5fb" stop-opacity="0.03" />
+        <stop offset="0.86" stop-color="#bcd6e4" stop-opacity="0.08" />
+        <stop offset="1" stop-color="#bcd6e4" stop-opacity="0.26" />
+      </linearGradient>
+      <!-- Vertical depth over the liquid: lit at the surface, dim at the
+           bottom. Pure shading — the colour underneath stays the engine's. -->
+      <linearGradient id={`vdepth-${vessel.id}`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#ffffff" stop-opacity="0.16" />
+        <stop offset="0.3" stop-color="#000000" stop-opacity="0" />
+        <stop offset="1" stop-color="#000000" stop-opacity="0.2" />
+      </linearGradient>
     </defs>
 
     <g clip-path={`url(#vclip-${vessel.id})`}>
+    <!-- The empty glass itself, before any contents. -->
+    <path d={geom.inner} fill={`url(#vglass-${vessel.id})`} />
     {#if vessel.liquid && liquidH > 0}
       <rect
         x={INNER_X}
@@ -157,6 +179,13 @@
           opacity={0.85 * vessel.liquid.cloudiness}
         />
       {/if}
+      <rect
+        x={INNER_X}
+        y={BOTTOM_Y - liquidH}
+        width={INNER_W}
+        height={liquidH}
+        fill={`url(#vdepth-${vessel.id})`}
+      />
     {/if}
 
     {#if solidH > 0}
@@ -172,6 +201,15 @@
           <title>{solid.colour_word} {solid.name}</title>
         </rect>
       {/each}
+      <!-- A lit rim on top of the deposit, so it reads as a settled layer
+           with a surface rather than a painted band. -->
+      <line
+        class="solid-rim"
+        x1={INNER_X + 2}
+        x2={INNER_X + INNER_W - 2}
+        y1={BOTTOM_Y - solidH}
+        y2={BOTTOM_Y - solidH}
+      />
     {/if}
 
     </g>
@@ -197,7 +235,7 @@
     {/if}
     {#if frosty}
       <g class="frost" aria-hidden="true">
-        {#each [[18, 40], [80, 60], [22, 90], [78, 105]] as [fx, fy], i (i)}
+        {#each [[18, 40], [80, 60], [22, 90], [78, 105]] as [fx = 0, fy = 0], i (i)}
           <path d={`M ${fx} ${fy} l 4 0 M ${fx + 2} ${fy - 2} l 0 4 M ${fx} ${fy - 2} l 4 4 M ${fx} ${fy + 2} l 4 -4`} />
         {/each}
       </g>
@@ -215,6 +253,12 @@
           style={`--fall:${Math.max(8, liquidH - 10)}px; animation-delay:${i * 0.15}s`}
         />
       {/each}
+    {/if}
+    {#if now() - splashedAt < 900}
+      <g class="splash" aria-hidden="true">
+        <ellipse cx="50" cy={BOTTOM_Y - Math.max(liquidH, 4)} rx="6" ry="1.6" />
+        <ellipse cx="50" cy={BOTTOM_Y - Math.max(liquidH, 4)} rx="11" ry="2.6" style="animation-delay:0.12s" />
+      </g>
     {/if}
     {#if active("dissolve", 1400) && liquidH > 0}
       <circle class="dissolving" cx="50" cy={BOTTOM_Y - 10} r="4" />
@@ -263,6 +307,10 @@
     <path
       class="sheen"
       d={`M ${INNER_X + 3} 18 Q ${INNER_X + 1} ${BOTTOM_Y / 2} ${INNER_X + 4} ${BOTTOM_Y - 8}`}
+    />
+    <path
+      class="sheen faint"
+      d={`M ${INNER_X + INNER_W - 4} 24 Q ${INNER_X + INNER_W - 2} ${BOTTOM_Y / 2} ${INNER_X + INNER_W - 5} ${BOTTOM_Y - 14}`}
     />
     {#if vessel.boundary === "sealed"}
       <rect class="lid" x="10" y="9" width="80" height="5" rx="2">
@@ -362,6 +410,33 @@
     stroke-width: 1.6;
     stroke-linecap: round;
     opacity: 0.22;
+  }
+  .sheen.faint {
+    stroke-width: 1;
+    opacity: 0.12;
+  }
+  .solid-rim {
+    stroke: rgb(255 255 255 / 30%);
+    stroke-width: 1;
+  }
+  .splash ellipse {
+    fill: none;
+    stroke: var(--cloud);
+    stroke-width: 1.1;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: splash-ring 0.9s ease-out forwards;
+  }
+  @keyframes splash-ring {
+    0% {
+      opacity: 0.55;
+      transform: scale(0.4);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(1.25);
+    }
   }
   .shadow {
     fill: var(--shadow, rgb(0 0 0 / 30%));

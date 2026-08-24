@@ -10,6 +10,8 @@
     ondropspecies,
     pristine = false,
     effects = {},
+    onnewvessel,
+    onbadge,
   }: {
     scene: Scene | null;
     register: string;
