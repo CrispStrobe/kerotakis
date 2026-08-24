@@ -6,10 +6,13 @@
 
 use std::process::Command;
 
-fn lab_path() -> std::path::PathBuf {
+/// One file per calling test: the three tests run concurrently, and
+/// a shared path raced (one test read a half-written script on the
+/// Linux CI runner — "no add line matches").
+fn lab_path(tag: &str) -> std::path::PathBuf {
     let dir = std::env::temp_dir().join("kerotakis-study-mc");
     std::fs::create_dir_all(&dir).unwrap();
-    let path = dir.join("fine-titration.lab");
+    let path = dir.join(format!("fine-titration-{tag}.lab"));
     std::fs::write(
         &path,
         "# Fine-step titration for the MC endpoint distribution\n\
@@ -21,8 +24,8 @@ fn lab_path() -> std::path::PathBuf {
     path
 }
 
-fn run_mc(extra: &[&str]) -> std::process::Output {
-    let lab = lab_path();
+fn run_mc(tag: &str, extra: &[&str]) -> std::process::Output {
+    let lab = lab_path(tag);
     let mut args = vec![
         "study".to_string(),
         lab.to_string_lossy().into_owned(),
@@ -40,7 +43,7 @@ fn run_mc(extra: &[&str]) -> std::process::Output {
 
 #[test]
 fn endpoint_distribution_matches_the_analytic_expectation() {
-    let out = run_mc(&["--mc", "100", "--seed", "42"]);
+    let out = run_mc("endpoint", &["--mc", "100", "--seed", "42"]);
     assert!(
         out.status.success(),
         "{}",
@@ -82,11 +85,11 @@ fn endpoint_distribution_matches_the_analytic_expectation() {
 
 #[test]
 fn same_seed_same_bytes() {
-    let a = run_mc(&["--mc", "40", "--seed", "7"]);
-    let b = run_mc(&["--mc", "40", "--seed", "7"]);
+    let a = run_mc("seed", &["--mc", "40", "--seed", "7"]);
+    let b = run_mc("seed", &["--mc", "40", "--seed", "7"]);
     assert!(a.status.success() && b.status.success());
     assert_eq!(a.stdout, b.stdout, "determinism is the contract");
-    let c = run_mc(&["--mc", "40", "--seed", "8"]);
+    let c = run_mc("seed", &["--mc", "40", "--seed", "8"]);
     assert_ne!(
         a.stdout, c.stdout,
         "a different seed draws different samples"
@@ -96,15 +99,15 @@ fn same_seed_same_bytes() {
 #[test]
 fn the_flag_contract_is_enforced_out_loud() {
     // A distribution without --mc refuses.
-    let out = run_mc(&[]);
+    let out = run_mc("flags", &[]);
     assert!(!out.status.success());
     assert!(String::from_utf8_lossy(&out.stderr).contains("--mc"));
     // --mc without a seed refuses: the seed is spoken, never invented.
-    let out = run_mc(&["--mc", "10"]);
+    let out = run_mc("flags", &["--mc", "10"]);
     assert!(!out.status.success());
     assert!(String::from_utf8_lossy(&out.stderr).contains("--seed"));
     // --mc over a linear range refuses and names the fix.
-    let lab = lab_path();
+    let lab = lab_path("flags");
     let out = Command::new(env!("CARGO_BIN_EXE_kero"))
         .args([
             "study",

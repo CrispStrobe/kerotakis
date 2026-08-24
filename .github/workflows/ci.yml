@@ -89,12 +89,13 @@ jobs:
       - name: Independently verify Stage 6 classifications
         run: |
           if grep -q "legacy-basic-oracle" crates/kerotakis-phreeqc/Cargo.toml; then
-            cargo test -p kerotakis-phreeqc --features legacy-basic-oracle --test basic_dialect_oracle
+            cargo test -p kerotakis-phreeqc --features legacy-basic-oracle \
+              --test basic_dialect_oracle \
+              --test ex21_observable_parity \
+              --test standalone_basic_corpus
           else
             echo "feature legacy-basic-oracle not on main yet — skipping"
           fi
-          --test ex21_observable_parity
-          --test standalone_basic_corpus
 
   wasm-core:
     name: Core and data schemas compile to wasm32
