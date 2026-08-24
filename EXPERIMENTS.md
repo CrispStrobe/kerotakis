@@ -300,3 +300,87 @@ EXP-0 first (Fable). Then NOW-tier authoring (EXP-16, 4, 21, 25, 26,
 (EXP-12, 5, 13, 14, 2, 1, 19); HARDER models (EXP-3, 7, 9, 15, 23,
 27, 28) one per branch after their data lands. The GUI workline reads
 this file for its affordance list.
+
+---
+
+# Part 4: the school-curriculum practical canon (audit 2026-08-24)
+
+A third corpus arrived as a sprawling commercial checklist site. The
+site itself contributes nothing (a thin wrapper, not named here — no
+source ever is); what it points at is the **public practical canon of
+the national curricula** (CBSE/ICSE, Cambridge IGCSE/A-level, NGSS) —
+those are open standards, and THEY are the organizing skeleton worth
+taking. Audited against EXP-0..29: most of the canon is already
+covered (titration, pH, electrochemistry, chromatography, rates,
+calorimetry, displacement/reactivity series, filtration/distillation,
+solution prep, limiting reagents, Ksp — all EXP or landed lessons).
+What follows is only what is genuinely NEW.
+
+## New tasks (EXP numbers continue; same laws apply)
+
+- **EXP-30 — Qualitative inorganic analysis** (the crown of the
+  school analytical canon; "salt analysis"). The INST-008
+  `QualitativeTest`/`QualitativeResult` types exist unwired. Scope:
+  the classic scheme as computed chemistry — cation tests (NaOH/NH3
+  precipitation with excess behaviour), anion tests (AgNO3 halide
+  series, BaCl2 sulfate, acid+limewater carbonate), flame tests (the
+  `FlameTest` event already fires), each a real engine solve with a
+  curated observation layer; sealed-unknown salt quests where the
+  learner infers identity from test patterns. Acceptance: at least
+  six unknown salts identifiable by tests alone, every test verdict
+  backed by a computed solve or a curated row with provenance; wrong
+  inferences get diagnosis lines in the codex predict style. HARDER
+  (breadth, not depth) — the highest-value single item in this part.
+- **EXP-31 — Gas tests** — pop (H2), glowing splint (O2), limewater
+  (CO2, exists), damp litmus (NH3) as curated test actions on the
+  headspace, each an event with three registers. Acceptance: the four
+  classic gases each identified from a genuinely evolved headspace.
+- **EXP-32 — True solution / colloid / suspension** — particle-size
+  classification + a Tyndall-scatter flag on appearance; filtration
+  and settling behaviour differ by class. Acceptance: salt vs starch
+  vs chalk classify correctly by computable behaviour (filter passes,
+  scatter flag, settling), not by label.
+- **EXP-33 — States and purity** — melting/boiling point as an
+  identification instrument (ties to sealed unknowns), sublimation as
+  a phase route (NH4Cl class), crystallisation with hydrate
+  bookkeeping (CuSO4·5H2O). Acceptance: an unknown identified by
+  MP/BP against registry data; a sublimation separation quest; a
+  hydrate loses and regains its water with exact mass accounting.
+- **EXP-34 — Rusting kinetics** — curated slow oxidation of iron
+  gated on water AND oxygen; the classic nail-in-conditions
+  comparison (dry / boiled water / salt water). Acceptance: rust
+  forms only where both are present; salt accelerates via the
+  curated rate; `kero study` sweeps conditions.
+- **EXP-35 — Combustion energetics of alcohols** — ignite +
+  calorimetry comparison across methanol/ethanol (both on the shelf).
+  Acceptance: enthalpy-per-mole ordering emerges from the ledger,
+  not from a table shown to the learner.
+- **EXP-36 — Organic synthesis pack** — acetylation-class synthesis
+  on the kerotakis-org SMIRKS machinery (salicylic-acid data species,
+  template proven at the molecule level like esterification), with
+  recrystallisation + melting-point purity check chaining EXP-33.
+  Acceptance: template-proven product, yield honest, purity checked
+  by the MP instrument. HARDER (org data care).
+- **EXP-37 — Spectrophotometric determination quest** — the
+  Beer–Lambert machinery and permanganate calibration oracle landed
+  with CAP-22; this is authoring only: calibration curve, unknown
+  concentration by value-claim. Acceptance: unknown determined within
+  tolerance from absorbance alone.
+- **EXP-38 — Curriculum paths and progress layer** — quests tagged
+  with public-curriculum labels (CBSE/ICSE/IGCSE/NGSS classes) so a
+  learner picks a path; progress, study-queue nudges, and post-quest
+  quizzes ride the quest engine state and the codex predict machinery
+  (quizzes already exist there in substance). GUI owns the surface;
+  the engine side is tags + state queries on EXP-0.
+
+## Declined from this corpus (recorded, with reasons)
+- 2D NMR interpretation, protein–ligand docking, HOMO–LUMO/MO
+  visualisation, retrosynthesis planning: computational and quantum
+  chemistry beyond the bench's subject — the engine computes wet
+  chemistry it can stand behind, and these would be a different
+  product pretending to be this one.
+- VR/multiplayer surfaces: GUI-workline territory if ever; not
+  engine tasks and not declined chemistry.
+- Water-system phase rule (triple point P–T manipulation): parked as
+  investigate-only — the states machinery covers bench pressure;
+  full P–T phase-diagram control is a real model decision, not a row.
