@@ -285,8 +285,8 @@ pub fn advance(ledger: &mut NuclideLedger, seconds: f64) -> Vec<DecayStep> {
 pub fn total_activity_bq(ledger: &NuclideLedger) -> f64 {
     ledger
         .inventory
-        .iter()
-        .filter_map(|(n, _)| {
+        .keys()
+        .filter_map(|n| {
             lookup_notation(&n.notation())
                 .and_then(|d| d.decay.as_ref())
                 .map(|dec| ledger.activity_bq(n, dec.half_life_s))
