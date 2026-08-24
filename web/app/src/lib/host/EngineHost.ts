@@ -126,6 +126,8 @@ export interface EngineHost {
   runScript(script: string): Promise<ScriptResult>;
   /** Validate one line without executing it (GUI-005). */
   parse(line: string): Promise<{ ok: boolean; operator?: unknown; error?: string }>;
+  /** The verb inventory with canonical examples (GUI-029). */
+  grammar(): Promise<{ verb: string; example: string }[]>;
   setRegister(level: string): Promise<void>;
   scene(): Promise<Scene>;
   state(): Promise<unknown>;

@@ -77,6 +77,9 @@ export class Session {
     lines: string[];
     particles?: ParticleCensus;
   } | null>(null);
+  /** The most recent balanced equation the engine rendered (GUI-025) —
+   * the strip pins it beside the bench at lv2+. */
+  lastEquation = $state<string | null>(null);
 
   constructor(
     private host: EngineHost,
@@ -229,6 +232,10 @@ export class Session {
         }
         for (const rendered of step.rendered) {
           this.feed.push({ kind: "line", text: rendered });
+          // The engine writes balanced equations with a real arrow; the
+          // latest one is the reaction the bench is showing right now.
+          const eq = rendered.match(/\S[^.:]*(?:→|⇌)[^.]*/);
+          if (eq) this.lastEquation = eq[0].trim();
         }
         // Charts (the CAP-3 contract, kerotakis-core::chart): rendered
         // inline the moment a step object carries them.

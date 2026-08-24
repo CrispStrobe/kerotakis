@@ -116,6 +116,39 @@ for (const file of lessons) {
     if (lab.state() !== before) fail(file, "parse mutated the bench");
 }
 
+// --- The sandbox-completeness invariant (GUI-029) -----------------------
+// Every grammar verb must have an affordance-manifest entry; a verb the
+// parser gains without a GUI decision fails here. Planned rows are
+// reported, not failed — the invariant is tracked until GUI-033 flips
+// them to real components.
+{
+    const lab = new Lab();
+    const grammar = JSON.parse(lab.grammar());
+    const manifest = JSON.parse(
+        readFileSync(resolve("web/app/src/lib/affordances.json"), "utf8"),
+    );
+    let planned = 0;
+    for (const { verb, example } of grammar) {
+        checks++;
+        const entry = manifest[verb];
+        if (entry === undefined) {
+            fail("affordances", `grammar verb '${verb}' (${example}) has no manifest entry`);
+        } else if (String(entry).startsWith("planned:")) {
+            planned++;
+        }
+    }
+    for (const key of Object.keys(manifest)) {
+        if (key.startsWith("_")) continue;
+        checks++;
+        if (!grammar.some((g) => g.verb === key)) {
+            fail("affordances", `manifest names '${key}', which the grammar does not have`);
+        }
+    }
+    console.log(
+        `affordances: ${grammar.length} verbs, ${grammar.length - planned} with GUI form, ${planned} planned (GUI-033)`,
+    );
+}
+
 if (failures > 0) {
     console.error(`\n${failures} conformance failure(s) in ${checks} checks`);
     process.exit(1);

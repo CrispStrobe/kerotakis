@@ -184,6 +184,11 @@
     />
   </nav>
   <div class="bench-pane">
+    {#if session.register !== "lv1" && session.lastEquation}
+      <p class="equation" aria-label="latest reaction equation">
+        {session.lastEquation}
+      </p>
+    {/if}
     <Bench
       scene={session.scene}
       register={session.register}
@@ -315,8 +320,20 @@
   .bench-pane {
     flex: 1;
     display: flex;
+    flex-direction: column;
     min-width: 0;
     min-height: 0;
+  }
+  .equation {
+    margin: 0;
+    padding: 0.45rem 1rem;
+    border-bottom: 1px solid var(--edge);
+    font-size: 0.95rem;
+    text-align: center;
+    color: var(--ink);
+    background: var(--panel);
+    overflow-x: auto;
+    white-space: nowrap;
   }
   .bench-pane > :global(.bench) {
     flex: 1;

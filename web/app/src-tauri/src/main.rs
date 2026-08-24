@@ -137,6 +137,13 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             })
             .to_string())
         }
+        "grammar" => {
+            let list: Vec<Value> = kerotakis_core::script::VERBS
+                .iter()
+                .map(|(verb, example)| json!({ "verb": verb, "example": example }))
+                .collect();
+            Ok(Value::Array(list).to_string())
+        }
         "parse" => Ok(match kerotakis_core::script::parse_op(field("line")?) {
             Ok(None) => json!({ "ok": true }).to_string(),
             Ok(Some(op)) => json!({ "ok": true, "operator": op }).to_string(),

@@ -265,6 +265,16 @@ impl Lab {
         }
     }
 
+    /// The grammar's verb inventory with canonical examples (GUI-029) —
+    /// the list a UI's affordance manifest is conformance-checked against.
+    pub fn grammar(&self) -> String {
+        let list: Vec<serde_json::Value> = kerotakis_core::script::VERBS
+            .iter()
+            .map(|(verb, example)| serde_json::json!({ "verb": verb, "example": example }))
+            .collect();
+        serde_json::Value::Array(list).to_string()
+    }
+
     /// The bench state as JSON.
     pub fn state(&self) -> String {
         serde_json::json!({ "vessels": self.bench.vessels, "steps": self.bench.log.len() })
