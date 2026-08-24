@@ -1239,8 +1239,9 @@
     ]
   },
   "there-and-back": {
-    "event_count": 7,
+    "event_count": 8,
     "events_sample": [
+      "v1: +13.8357 mol water",
       "v1: +0.1000 mol acetic acid",
       "v1: +0.1000 mol ethanol",
       "v1: esterification ran — CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (0.100 mol reacted)",
@@ -1264,7 +1265,7 @@
             "species": "ethanol"
           },
           {
-            "moles": 0.1,
+            "moles": 13.93569248,
             "phase": "Liquid",
             "species": "water"
           }

@@ -4,6 +4,7 @@
 # salt. Two curated transformations, each proven against an
 # atom-mapped template — and each one runs only when asked, because
 # a beaker of vinegar and spirit does not do this by itself.
+add v1 water 250mL
 add v1 CH3COOH 0.1mol
 add v1 ethanol 0.1mol
 react v1 esterification
