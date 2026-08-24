@@ -1214,6 +1214,19 @@ S/ethyl_acetate (soluble, dissolves completely), Zn/hexane (inert).
 Honesty test updated: gypsum/propanone (uncovered) still draws the
 honest apology.
 
+## CAP-24 — Sixteen experiments, one open world
+
+- [ ] Status: scoped 2026-08-24 — the full audit, verdict matrix,
+      quest design, and ownership live in **EXPERIMENTS.md** (kept
+      separate because it is a product map, not a single task).
+      Summary: 4 experiments runnable on today's chemistry (quest
+      authoring only), 7 within curated-data reach, 4 need one small
+      physics model each, 2 are declared boundaries (photovoltaics,
+      acoustics) with codex model-boundary notes. The load-bearing
+      new piece is the quest engine: goal + free bench + event-driven
+      nudges + any-order completion claims — corridors are what the
+      lessons already are; this is deliberately the opposite.
+
 ## Declined — off-mission, recorded so nobody re-litigates silently
 
 The workbench class serves professional geochemists managing field
