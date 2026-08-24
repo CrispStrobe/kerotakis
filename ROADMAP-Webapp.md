@@ -236,7 +236,7 @@ Orthogonal to coverage: the browser currently pays a wasm→JS→wasm round
 trip with full-report JSON marshalling for *every* PHREEQC engine call,
 and one vessel equilibration can make hundreds of them. The scoped fixes
 — fewer calls first, cheaper crossings only if measurement then says so —
-are OPT-7 and OPT-9 in [OPTIMIZATION.md](OPTIMIZATION.md), with the wasm
+are OPT-11 and OPT-9 in [OPTIMIZATION.md](OPTIMIZATION.md), with the wasm
 bundle-size items (release profiles, `wasm-opt`, `const`→`static` species
 table) as OPT-2 and OPT-4 there.
 
@@ -884,6 +884,12 @@ able to answer “what assumption controls this result?”
 
 The backend architecture remains client-neutral. The web app is one client and
 should not dictate the scientific interfaces.
+
+> The clients themselves — the GUI architecture (web/PWA + Tauri v2 shells),
+> the register-driven UX, and the GUI-0xx task list — are specified in
+> [ROADMAP-GUI.md](ROADMAP-GUI.md). Its Phase G0 contract work (`EngineHost`
+> protocol, scene JSON, structured events) implements several of the delivery
+> bullets below.
 
 Still, several delivery changes directly support broader models:
 

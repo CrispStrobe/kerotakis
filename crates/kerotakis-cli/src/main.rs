@@ -476,6 +476,9 @@ fn json_step(
         "step": step,
         "operator": op,
         "events": events,
+        // The render model (PROTOCOL.md, GUI-003): the same object the wasm
+        // step() carries, so every host repaints from one round trip.
+        "scene": kerotakis_core::scene_of(vessels),
         "bench": { "vessels": vessels },
     })
 }

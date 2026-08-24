@@ -156,7 +156,7 @@ pub fn observe(vessel: &Vessel) -> Appearance {
 /// `solid` picks the right word for an uncoloured thing: a powder is
 /// *white*, a liquid is *colourless*, and calling either by the other's
 /// name is the sort of small wrongness a child notices immediately.
-fn colour_word(c: &Colour, solid: bool) -> &'static str {
+pub(crate) fn colour_word(c: &Colour, solid: bool) -> &'static str {
     let (r, g, b) = (c.r as f64, c.g as f64, c.b as f64);
     let max = r.max(g).max(b);
     let min = r.min(g).min(b);

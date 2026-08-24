@@ -138,7 +138,9 @@ impl Lab {
     }
 
     /// Apply one operator, given as the same JSON the CLI's `--json` mode
-    /// emits. Returns `{ events, rendered, bench }`.
+    /// emits. Returns `{ events, rendered, scene, bench }` — `scene` is the
+    /// render model (PROTOCOL.md, GUI-003), so one round trip repaints a
+    /// bench canvas without a second call.
     pub fn step(&mut self, operator_json: &str) -> Result<String, JsError> {
         let op: Operator =
             serde_json::from_str(operator_json).map_err(|e| JsError::new(&e.to_string()))?;
@@ -147,6 +149,7 @@ impl Lab {
         let doc = serde_json::json!({
             "events": events,
             "rendered": rendered,
+            "scene": kerotakis_core::scene(&self.bench),
             "bench": { "vessels": self.bench.vessels },
         });
         Ok(doc.to_string())
@@ -184,9 +187,17 @@ impl Lab {
         }
         Ok(serde_json::json!({
             "steps": steps,
+            "scene": kerotakis_core::scene(&self.bench),
             "bench": { "vessels": self.bench.vessels },
         })
         .to_string())
+    }
+
+    /// The render model of the whole bench (PROTOCOL.md, GUI-003):
+    /// everything a bench canvas needs, nothing it must derive.
+    pub fn scene(&self) -> String {
+        serde_json::to_string(&kerotakis_core::scene(&self.bench))
+            .expect("the scene is serialisable")
     }
 
     /// Empty the bench and start again.

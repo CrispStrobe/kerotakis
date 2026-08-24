@@ -1,0 +1,23 @@
+# The Tauri shell (GUI-030): the same UI dist, the engine native and
+# in-process. Deliberately outside the main workspace (root Cargo.toml
+# excludes it) so kerotakis builds never require the platform webview
+# toolchains; build this package on a machine with them.
+[package]
+name = "kerotakis-app"
+version = "0.0.1"
+description = "Kerotakis virtual laboratory — desktop/mobile shell"
+edition = "2021"
+license = "AGPL-3.0-or-later"
+repository = "https://github.com/CrispStrobe/kerotakis"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+kerotakis-core = { path = "../../../crates/kerotakis-core" }
+kerotakis-phreeqc = { path = "../../../crates/kerotakis-phreeqc" }
+kerotakis-cea = { path = "../../../crates/kerotakis-cea" }
+kerotakis-safety = { path = "../../../crates/kerotakis-safety" }

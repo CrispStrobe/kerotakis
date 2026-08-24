@@ -17,6 +17,13 @@ branch). Two additions specific to capability work:
    dilution monotonicity, scale invariance) plus at least one golden
    test against a textbook value.
 
+> **GUI consumers (2026-08-24):** [ROADMAP-GUI.md](ROADMAP-GUI.md) plans the
+> cross-platform GUI and binds several CAP tasks as its dependencies: CAP-3's
+> chart contract renders in the app (GUI-021), CAP-12's titrate verb drives
+> the first live chart, CAP-2/CAP-8/CAP-4 get their user surface in Phase G5
+> (GUI-050/051). Scoping those CAPs should treat the GUI contract as a
+> consumer, not an afterthought.
+
 ## The yardsticks
 
 Feature inventories taken **2026-08-23**, verified against each
