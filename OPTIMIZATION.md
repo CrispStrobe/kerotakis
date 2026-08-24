@@ -58,10 +58,11 @@ file. They exist because each was violated once and cost a day.
    under an identical fingerprint — observed as a compile error demanding
    an enum variant that existed only in a peer's in-progress sources.
    `export CARGO_TARGET_DIR="$(pwd)/.target-local"` (gitignored) is fine.
-3. **`tools/preflight.sh` gates every push, on its exit code.**
-   `cargo test` alone misses the engine-less and wasm32 build variants
-   that CI checks. Never chain "check; push" with semicolons — that pushes
-   on red.
+3. **`tools/preflight.sh --light` gates every branch push** (fmt +
+   clippy + no-engine; <2 min warm). **Main moves only by PR with the
+   full CI `preflight-gate` job green.** The full `tools/preflight.sh`
+   (without `--light`) runs in CI on every PR and push to main. Never
+   chain "check; push" with semicolons — that pushes on red.
 4. **Commit *and push* at every checkpoint.** A commit that was never
    pushed is invisible to the other sessions and dies with the window.
 5. **Chemistry output is the contract.** The conservation proptests, the
