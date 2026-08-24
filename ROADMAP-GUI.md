@@ -458,9 +458,16 @@ puts on the bench"), concept/prerequisite edges into 189 defined concepts,
 calculation and model taxonomies, and curriculum placements. The GUI has
 been ignoring all of it:
 
-- [ ] **GUI-053 — The concept map.** The codex concept graph as the map
-  screen the UX section promised: at lv1 a skill tree, at lv3 the DAG;
-  entries light up as their concepts are met in the learner's own log.
+- [x] **GUI-053 — The concept map.** *Shipped 2026-08-24, armed on the
+  export:* the map screen draws the concept DAG layered by longest
+  prerequisite chain (edges = each entry's `requires` → its `concepts`;
+  pure, tested layering in codex.ts with a cycle guard). Below lv3 it
+  reads as a skill tree — edges only for the concept in hand; at lv3 the
+  full DAG shows. A concept fills when the learner ran an entry teaching
+  it to a green check on this device (progress in localStorage, separate
+  from the bench save; nothing is met by reading). Tapping a concept
+  lists its entries ready-first with the missing prerequisites named,
+  and hands an entry straight to the experiment page.
 - [ ] **GUI-054 — The experiment page.** Every codex entry as a one-tap
   experiment rendered in the shape the national school-lab platforms
   proved on millions of students — one experiment, tabbed:

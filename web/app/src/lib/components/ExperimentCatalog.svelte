@@ -13,13 +13,16 @@
     entries,
     session,
     onclose,
+    initial = null,
   }: {
     entries: CodexEntry[];
     session: Session;
     onclose: () => void;
+    /** Open directly on one entry (the concept map hands entries over). */
+    initial?: CodexEntry | null;
   } = $props();
 
-  let open = $state<CodexEntry | null>(null);
+  let open = $state<CodexEntry | null>(initial);
   let tab = $state<"theory" | "procedure" | "run">("theory");
   let predicted = $state<number | null>(null);
   let result = $state<CheckResult | null>(null);
@@ -76,6 +79,8 @@
     try {
       const observed = await session.runExperiment(open.setup.script);
       result = checkExpect(open.expect ?? {}, observed, session.finalStateForCheck());
+      // A green check is learner progress: it feeds the concept map.
+      if (result.allOk) session.markExperimentDone(open.id);
     } finally {
       running = false;
     }

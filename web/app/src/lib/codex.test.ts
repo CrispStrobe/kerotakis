@@ -82,6 +82,37 @@ describe("codex grouping for the browsers", () => {
     expect(relatedConcepts(entries, "solubility")).toEqual(["equilibrium", "ksp"]);
   });
 
+  it("conceptGraph layers by longest prerequisite chain and survives cycles", async () => {
+    const { conceptGraph } = await import("./codex");
+    const mkq = (id: string, concepts: string[], requires: string[]) =>
+      ({ id, concepts, requires, setup: { script: "new" }, expect: {}, registers: {} }) as never;
+    const g = conceptGraph([
+      mkq("a", ["dissolution"], []),
+      mkq("b", ["equilibrium"], ["dissolution"]),
+      mkq("c", ["ksp"], ["equilibrium", "dissolution"]),
+    ]);
+    const byName = Object.fromEntries(g.nodes.map((n) => [n.concept, n.depth]));
+    expect(byName).toEqual({ dissolution: 0, equilibrium: 1, ksp: 2 });
+    expect(g.edges).toContainEqual({ from: "equilibrium", to: "ksp" });
+    // A cycle parks its members rather than hanging.
+    const cyclic = conceptGraph([mkq("x", ["p"], ["q"]), mkq("y", ["q"], ["p"])]);
+    expect(cyclic.nodes.length).toBe(2);
+  });
+
+  it("metConcepts and entryReady gate on completed runs only", async () => {
+    const { metConcepts, entryReady } = await import("./codex");
+    const mkq = (id: string, concepts: string[], requires: string[]) =>
+      ({ id, concepts, requires, setup: { script: "new" }, expect: {}, registers: {} }) as never;
+    const entries = [
+      mkq("a", ["dissolution"], []),
+      mkq("b", ["equilibrium"], ["dissolution"]),
+    ];
+    const met = metConcepts(entries, new Set(["a"]));
+    expect([...met]).toEqual(["dissolution"]);
+    expect(entryReady(entries[1]!, met)).toBe(true);
+    expect(entryReady(entries[1]!, new Set())).toBe(false);
+  });
+
   it("curriculumIndex groups system → stage, ordered by age band then name", async () => {
     const { curriculumIndex } = await import("./codex");
     const entries = [
