@@ -59,8 +59,16 @@ fn solutes_elute_in_the_order_their_groups_dictate() {
     assert!(peaks[0].retention_time_s > void_time);
     // The ketone actually partitions into the stationary phase (K > 1);
     // the alcohols mostly ride the water (K < 1).
-    assert!(peaks[2].partition_k > 1.0, "K(propanone) = {}", peaks[2].partition_k);
-    assert!(peaks[1].partition_k < 1.0, "K(ethanol) = {}", peaks[1].partition_k);
+    assert!(
+        peaks[2].partition_k > 1.0,
+        "K(propanone) = {}",
+        peaks[2].partition_k
+    );
+    assert!(
+        peaks[1].partition_k < 1.0,
+        "K(ethanol) = {}",
+        peaks[1].partition_k
+    );
     // Adjacent peaks resolve: Rs = 2Δt/(w₁+w₂) > 1 on the school column.
     for pair in peaks.windows(2) {
         let rs = 2.0 * (pair[1].retention_time_s - pair[0].retention_time_s)
@@ -107,7 +115,9 @@ fn a_settled_solid_is_not_part_of_the_injection() {
         .expect("ethanol still gives a chromatogram");
     assert!(peaks.iter().any(|p| p.species.0 == "ethanol"));
     assert!(
-        !peaks.iter().any(|p| p.species.0.contains("Na") || p.species.0.contains("Cl")),
+        !peaks
+            .iter()
+            .any(|p| p.species.0.contains("Na") || p.species.0.contains("Cl")),
         "no peak may claim the salt"
     );
     assert!(
