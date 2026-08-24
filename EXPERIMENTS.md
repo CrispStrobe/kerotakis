@@ -85,3 +85,93 @@ on what the learner actually does. Design:
    whether a labelled data-widget is worth shipping (its call).
 6. GUI per-experiment affordances: the matrix's last column is the
    requirements list; the GUI workline schedules it in ROADMAP-GUI.md.
+
+---
+
+# Part 2: the aqueous virtual-lab problem collection (audit 2026-08-24)
+
+A second corpus, user-supplied: ~40 problems from a public NSF-funded
+university virtual-lab collection, spanning stoichiometry through
+analytical chemistry. **License boundary first:** that collection is
+CC BY-NC-ND — its problem texts and scenarios must never be copied or
+adapted into this repo. What is audited here is the *capability
+class* of each problem; our own problems get written against those
+classes from scratch.
+
+This corpus sits closer to the engine's core than Part 1: it is
+almost entirely aqueous quantitative chemistry. Several of its
+sections are already *tested invariants* of our engine, not features
+to build: Hess's law, order-independence of dissolution heat, and
+single-counted neutralisation heat are named tests in
+`kerotakis-phreeqc/tests/equilibrator.rs`; saturation-limited
+dissolution and temperature-coupled solubility are solved and tested;
+14 registry species carry dissolution enthalpies.
+
+## Verdict by capability class
+
+**NOW — the chemistry already computes; only quests are missing:**
+- Dilution and solution prep (dilute verb, mix verb, molarity from
+  the solved state) — HCl-class problems work end to end.
+- Stock solutions from solids (dissolution + saturation are solved).
+- Limiting reagents incl. precipitation routes (AgNO3+NaCl class is
+  `silver-and-salt.lab` chemistry).
+- All of thermochemistry: reaction enthalpy, Hess demonstrations,
+  mixing-temperature ("coffee") problems ride
+  `adiabatic_mix_temperature`, unknown-heat-capacity determination.
+- Strong/weak acid-base pH, successive-dilution pH ladders, buffers
+  (`buffer.lab`), titration curves with pKa readable at
+  half-equivalence (titrate verb + curve landed).
+- Ksp determination and solubility-vs-temperature for database salts.
+- Redox series ordering (`spannungsreihe.lab` + displacement).
+- Gravimetric AgCl analysis (filter + balance are verbs).
+
+**NEAR — data or one small instrument away:**
+- Glucose/sucrose problems: two data-species (glucose already queued
+  for Part 1's photosynthesis).
+- Density-identification problems: a volume-displacement reading
+  (graduated-cylinder instrument; solid volumes are already known
+  internally from molar mass and density).
+- Solution-density problems (% mass / molarity / density triangle):
+  curated mixture-density correlations (ethanol-water first, CRC).
+- Arsenic gravimetric class: As species ride the wateq4f database the
+  engine already ships; registry rows + safety rows.
+
+**HARDER — one bounded model each:**
+- Binding-equilibrium problems (dye–macromolecule K): a curated 1:1
+  association solver — small, honest, and reusable for indicator
+  chemistry.
+- Custom weak acids not in shipped databases (KHP-class
+  standardisation): needs the custom-species route into the engine's
+  input, or a curated-pKa titration path.
+- Speciation-driven colour (cobalt chloride equilibrium shifts): ties
+  solution speciation to rendered colour — the appearance machinery
+  exists, the coupling does not.
+
+**BOUNDARY:** none. Unlike Part 1, nothing in this corpus is outside
+the bench's subject — it is all chemistry the engine either does or
+can honestly grow into.
+
+## The two cross-cutting enablers (they matter more than any row)
+
+1. **Quantitative quest claims.** This corpus's essence is the
+   numeric target: "produce 500 mL of 3.0 M ± tolerance", "determine
+   Ksp to two significant figures". The CAP-24 quest engine therefore
+   needs value-claims — a completion condition that reads the solved
+   state (concentration, mass, temperature, pH) and checks a target
+   within a stated tolerance — alongside event-claims. Grading
+   precision (sig-figs) can later ride CAP-8's uncertainty machinery.
+2. **Unknown reagents.** Half the collection's pedagogy is "identify
+   the unknown". The bench needs sealed species: a reagent whose
+   identity the UI hides behind a label ("Unknown A") while the
+   engine computes it truthfully underneath — identification IS the
+   quest. Needs: an aliasing layer in the quest engine + UI, never a
+   change to the chemistry itself.
+
+## Ownership additions
+- Quest engine (Fable, CAP-24 slice 1) grows both enablers: value
+  claims + sealed species. These unlock ~18 problems' worth of quest
+  classes at once.
+- NEAR data tranche (agents, after current queues): glucose, sucrose,
+  As-series rows, mixture-density correlations, graduated cylinder.
+- HARDER models (Fable): association-K solver, custom-acid route,
+  speciation-colour coupling.
