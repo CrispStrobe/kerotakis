@@ -823,6 +823,26 @@ impl Codex {
     }
 }
 
+/// The full codex payload for the web app: entries, models, and the
+/// concepts graph in a single JSON file. The shape is the serde of
+/// the existing structs — Rust is the source of truth.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CodexExport {
+    pub reactions: Vec<Entry>,
+    pub models: Vec<Model>,
+    pub concepts: Vec<Concept>,
+}
+
+impl CodexExport {
+    pub fn build(codex: &Codex, vocabulary: &Vocabulary) -> Self {
+        Self {
+            reactions: codex.reactions.clone(),
+            models: codex.models.clone(),
+            concepts: vocabulary.concepts.clone(),
+        }
+    }
+}
+
 /// What the codex covers, for seeing what it does not.
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Coverage {

@@ -287,6 +287,7 @@ impl Lab {
         let list: Vec<serde_json::Value> = kerotakis_core::species::REGISTRY
             .iter()
             .map(|s| {
+                let hazards = kerotakis_safety::hazard_labels(s.key);
                 serde_json::json!({
                     "key": s.key,
                     "name": s.name,
@@ -294,6 +295,7 @@ impl Lab {
                     "phase": s.standard_phase,
                     "appearance": s.appearance,
                     "provenance": s.provenance,
+                    "hazards": hazards,
                 })
             })
             .collect();

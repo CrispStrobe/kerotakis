@@ -95,8 +95,17 @@ fn main() {
                 "lint" => codex_lint(&dir),
                 "concepts" => codex_concepts(&dir),
                 "gaps" => codex_gaps(&dir),
+                "export" => {
+                    let out_path = args.get(2).unwrap_or_else(|| {
+                        eprintln!("usage: kero codex export <out.json>");
+                        std::process::exit(2);
+                    });
+                    codex_export(&dir, out_path);
+                }
                 other => {
-                    eprintln!("kero codex: unknown subcommand '{other}' (lint, concepts, gaps)");
+                    eprintln!(
+                        "kero codex: unknown subcommand '{other}' (lint, concepts, gaps, export)"
+                    );
                     std::process::exit(2);
                 }
             }
@@ -192,16 +201,18 @@ fn main() {
         }
         Some("species") => {
             for s in species::REGISTRY {
-                // ✓ marks a verified identity: this species has a curated
-                // SMILES whose recomputation by the official IUPAC InChI
-                // library (v1.07.5, vendored in inchi-sys) must reproduce
-                // the registry InChIKey — enforced in the gate.
                 let verified = kerotakis_org::inchi_validate::CURATED_STRUCTURES
                     .iter()
                     .any(|(id, _)| *id == s.key);
                 let mark = if verified { "✓" } else { " " };
+                let hazards = kerotakis_safety::hazard_labels(s.key);
+                let hz = if hazards.is_empty() {
+                    String::new()
+                } else {
+                    format!("  ⚠ {}", hazards.join(", "))
+                };
                 println!(
-                    "{:<10} {mark} {:<18} {:<8} M={:>8.3} g/mol   [{}]",
+                    "{:<10} {mark} {:<18} {:<8} M={:>8.3} g/mol   [{}]{hz}",
                     s.key, s.name, s.formula, s.molar_mass, s.provenance
                 );
             }
@@ -1161,6 +1172,35 @@ fn codex_gaps(dir: &str) -> ! {
             println!("  · {t}");
         }
     }
+    std::process::exit(0);
+}
+
+fn codex_export(dir: &str, out_path: &str) -> ! {
+    let codex = load_codex(dir);
+    let vocabulary = load_vocabulary(dir);
+    let export = kerotakis_codex::CodexExport::build(&codex, &vocabulary);
+    let json = serde_json::to_string(&export).unwrap_or_else(|e| {
+        eprintln!("kero codex export: serialization failed: {e}");
+        std::process::exit(1);
+    });
+    if let Some(parent) = std::path::Path::new(out_path).parent() {
+        if !parent.as_os_str().is_empty() {
+            std::fs::create_dir_all(parent).unwrap_or_else(|e| {
+                eprintln!("kero codex export: cannot create {}: {e}", parent.display());
+                std::process::exit(1);
+            });
+        }
+    }
+    std::fs::write(out_path, &json).unwrap_or_else(|e| {
+        eprintln!("kero codex export: cannot write {out_path}: {e}");
+        std::process::exit(1);
+    });
+    eprintln!(
+        "codex: exported {} reactions, {} models, {} concepts → {out_path}",
+        export.reactions.len(),
+        export.models.len(),
+        export.concepts.len(),
+    );
     std::process::exit(0);
 }
 

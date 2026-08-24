@@ -21,8 +21,10 @@
 //! the groups those species populate.
 
 use kerotakis_core::{SafetyScreen, SafetyVerdict, Severity, Vessel};
+use serde::Serialize;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize)]
+#[serde(rename_all = "snake_case")]
 pub enum ReactiveGroup {
     AcidStrong,
     BaseStrong,
@@ -35,6 +37,25 @@ pub enum ReactiveGroup {
     WaterReactive,
     AmmoniaAmines,
     Carbonate,
+}
+
+pub fn hazard_labels(species_key: &str) -> Vec<&'static str> {
+    groups(species_key)
+        .iter()
+        .map(|g| match g {
+            ReactiveGroup::AcidStrong => "corrosive",
+            ReactiveGroup::BaseStrong => "corrosive",
+            ReactiveGroup::OxidizerStrong => "oxidiser",
+            ReactiveGroup::OxidizerHypochlorite => "oxidiser",
+            ReactiveGroup::ReducingAgent => "reducing_agent",
+            ReactiveGroup::ActiveMetal => "flammable_solid",
+            ReactiveGroup::FlammableLiquid => "flammable",
+            ReactiveGroup::FlammableGas => "flammable",
+            ReactiveGroup::WaterReactive => "water_reactive",
+            ReactiveGroup::AmmoniaAmines => "toxic",
+            ReactiveGroup::Carbonate => "irritant",
+        })
+        .collect()
 }
 
 /// Registry-key → reactive groups. Assignment is total over the registry;
@@ -106,7 +127,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "Ca+2" | "Mg+2" | "Sr+2" | "SO4-2" | "Cu" | "Ag" | "MgO" | "C" | "O2" | "N2"
         | "CuSO4" | "Cu+2" | "FeSO4" | "Fe+2" | "Fe+3" | "Cu+1" | "Mn+2" | "MnO4-2" | "Mn+3"
         | "phenolphthalein" | "methyl_orange" | "bromothymol_blue" | "Zn+2" | "ZnSO4" | "Pb+2"
-        | "Pb(NO3)2" => &[],
+        | "Pb(NO3)2" | "PE" | "PP" | "PET" | "PS" => &[],
 
         _ => &[],
     }
@@ -179,6 +200,10 @@ pub const COVERED_KEYS: &[&str] = &[
     "Pb",
     "Pb(NO3)2",
     "Pb+2",
+    "PE",
+    "PET",
+    "PP",
+    "PS",
     "S",
     "SO2",
     "SO4-2",

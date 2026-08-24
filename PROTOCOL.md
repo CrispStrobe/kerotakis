@@ -67,7 +67,7 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 | `set_register` | existing | `{ level }` → `{}`. Presentation only; never re-solves. |
 | `state` | existing | `{}` → `{ vessels, steps }` (full serde `Vessel`s — the lv3/machine contract). |
 | `scene` | done (GUI-003) | `{}` → Scene JSON v1 (below). The render model; everything a bench canvas needs, nothing it must derive. |
-| `species` | existing (`Lab::species`, not yet a WorkerCommand) | `{}` → shelf list: key, name, formula, phase, appearance, provenance. |
+| `species` | existing (`Lab::species`, not yet a WorkerCommand) | `{}` → shelf list: key, name, formula, phase, appearance, provenance, hazards. `hazards` is a string array of GHS-style labels from the CAP-11 safety matrix; `[]` = no hazard classification (inert species). |
 | `look` / `inspect` / `particles` | existing (`Lab` methods, not yet WorkerCommands) | `{ vessel }` → observation / `{rendered, vessel}` / `{census, rendered}`. |
 | `reset` | existing | `{}` → `{}`. Bench only; session (register, packs, cache) survives. |
 | `load_cache` / `load_pack` | existing | per WEB-002/WEB-003; pack manifests are signed per LIC-009. |

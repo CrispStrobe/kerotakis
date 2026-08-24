@@ -9,3 +9,4 @@ authors.workspace = true
 
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }
+serde = { workspace = true, features = ["derive"] }
