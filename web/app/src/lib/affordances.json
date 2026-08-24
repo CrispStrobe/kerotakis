@@ -23,7 +23,7 @@
   "grind": "planned:GUI-033 (mortar)",
   "irradiate": "planned:GUI-033 (lamp)",
   "dilute": "planned:GUI-033 (wash bottle)",
-  "titrate": "planned:GUI-033 (burette)",
+  "titrate": "Burette apparatus (clamps over the selected vessel; form compiles the titrate line)",
   "transport": "planned:GUI-033 (column train)",
   "react": "planned:GUI-033 (curated-reaction picker)"
 }

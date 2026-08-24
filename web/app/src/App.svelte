@@ -11,6 +11,7 @@
   import Inspector from "./lib/components/Inspector.svelte";
   import Timeline from "./lib/components/Timeline.svelte";
   import LessonBar from "./lib/components/LessonBar.svelte";
+  import Burette from "./lib/components/Burette.svelte";
   import { defaultAmount } from "./lib/amounts";
   import { notebookMarkdown } from "./lib/notebook";
   import HelpDialog from "./lib/components/HelpDialog.svelte";
@@ -68,6 +69,17 @@
   }
 
   let helpOpen = $state(false);
+  /** The burette: clamped over the selected vessel when out (GUI-033). */
+  let buretteOut = $state(false);
+  let titrating = $state(false);
+  async function startTitration(line: string) {
+    titrating = true;
+    try {
+      await session.submit(line);
+    } finally {
+      titrating = false;
+    }
+  }
   /** Narrow screens show one pane at a time; wide screens show all three. */
   let pane = $state<"bench" | "shelf" | "notes">("bench");
 
@@ -163,6 +175,14 @@
   >
     wait 30 s
   </button>
+  <button
+    class="tool"
+    class:active-tool={buretteOut}
+    onclick={() => (buretteOut = !buretteOut)}
+    title="clamp the burette over the selected vessel"
+  >
+    burette
+  </button>
   <Timeline
     position={session.position}
     total={session.commandLog.length}
@@ -218,6 +238,16 @@
     />
   </nav>
   <div class="bench-pane">
+    {#if buretteOut}
+      <Burette
+        vessel={session.selected}
+        shelf={session.shelf}
+        busy={session.busy}
+        running={titrating}
+        onstart={(line) => void startTitration(line)}
+        onclose={() => (buretteOut = false)}
+      />
+    {/if}
     {#if session.register !== "lv1" && session.lastEquation}
       <p class="equation" aria-label="latest reaction equation">
         {session.lastEquation}
@@ -313,6 +343,9 @@
   .tool:disabled {
     opacity: 0.45;
     cursor: default;
+  }
+  .active-tool {
+    border-color: var(--hot);
   }
   .status {
     margin-left: auto;
