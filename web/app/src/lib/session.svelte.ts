@@ -81,6 +81,9 @@ export class Session {
   shelf = $state<ShelfItem[]>([]);
   /** Curated reaction names the `react` verb accepts (from the grammar). */
   reactOptions = $state<string[]>([]);
+  /** While set, submit() records event keys (tag and tag:species) here —
+   * the experiment checker compares them against codex claims. */
+  private eventCollector: string[] | null = null;
   /** Vessel the user last selected (0-based id), target of shelf adds. */
   selected = $state<number>(0);
   /** Open inspector content, if any. */
@@ -250,6 +253,15 @@ export class Session {
         // runs and shows why (the engine's "hazards teach" rule).
         for (const event of step.events as Array<Record<string, unknown>>) {
           this.recordEffect(event);
+          if (this.eventCollector) {
+            const tag = String(event?.event ?? "");
+            if (tag) {
+              this.eventCollector.push(tag);
+              if (typeof event.species === "string") {
+                this.eventCollector.push(`${tag}:${event.species}`);
+              }
+            }
+          }
           if (event?.event === "hazard_warning") {
             this.feed.push({
               kind: "hazard",
@@ -538,6 +550,37 @@ export class Session {
       // A host that cannot parse yet must not paint valid input as wrong.
       return { ok: true };
     }
+  }
+
+  /**
+   * Run an experiment's setup script line by line, collecting the typed
+   * event keys the engine emits — the material the codex checker compares
+   * against. The run is ordinary bench work: it lands in the feed, the
+   * log, and undo like anything else.
+   */
+  async runExperiment(text: string): Promise<string[]> {
+    this.eventCollector = [];
+    try {
+      for (const raw of text.split("\n")) {
+        const line = raw.trim();
+        if (!line || line.startsWith("#")) continue;
+        if (!(await this.submit(line))) break;
+      }
+      return this.eventCollector;
+    } finally {
+      this.eventCollector = null;
+    }
+  }
+
+  /** Final-state numbers for the checker, from the render model. */
+  finalStateForCheck(): { phValues: number[]; temperaturesC: number[] } {
+    const vessels = this.scene?.vessels ?? [];
+    return {
+      phValues: vessels.flatMap((v) =>
+        v.badges.filter((b) => b.key === "ph").map((b) => b.value),
+      ),
+      temperaturesC: vessels.map((v) => v.temperature_k - 273.15),
+    };
   }
 
   /** The session as a .lab script — every session is one. */

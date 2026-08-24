@@ -20,6 +20,8 @@
   import { notebookMarkdown } from "./lib/notebook";
   import HelpDialog from "./lib/components/HelpDialog.svelte";
   import PeriodicTable from "./lib/components/PeriodicTable.svelte";
+  import ExperimentCatalog from "./lib/components/ExperimentCatalog.svelte";
+  import { parseCodexIndex, type CodexEntry } from "./lib/codex";
 
   // In the Tauri shell the engine is native and in-process; on the web it
   // lives in the module worker. The session cannot tell the difference.
@@ -61,6 +63,12 @@
     void session.connect();
     // Lessons ship beside the engine payload; their absence is quiet —
     // the sandbox is complete without them.
+    // The codex export ships beside the payload once `kero codex export`
+    // lands; until then the catalog button simply stays hidden.
+    void fetch(new URL("codex/index.json", resolvePayloadBase()).href)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => (codexEntries = parseCodexIndex(raw)))
+      .catch(() => {});
     void fetch(new URL("lessons/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : []))
       .then((list) => (lessons = list))
@@ -75,6 +83,8 @@
 
   let helpOpen = $state(false);
   let tableOpen = $state(false);
+  let catalogOpen = $state(false);
+  let codexEntries = $state<CodexEntry[]>([]);
   /** The burette: clamped over the selected vessel when out (GUI-033). */
   let buretteOut = $state(false);
   /** Which parameter-form apparatus is out, by verb (GUI-033). */
@@ -285,6 +295,11 @@
   <button class="tool" onclick={() => (tableOpen = true)} title="the periodic table, wired to the shelf">
     elements
   </button>
+  {#if codexEntries.length > 0}
+    <button class="tool" onclick={() => (catalogOpen = true)} title="codex experiments: predict, run, check">
+      experiments
+    </button>
+  {/if}
   <a class="console-link" href="../">console</a>
 </header>
 
@@ -425,6 +440,14 @@
 
 {#if helpOpen}
   <HelpDialog onclose={() => (helpOpen = false)} />
+{/if}
+
+{#if catalogOpen}
+  <ExperimentCatalog
+    entries={codexEntries}
+    {session}
+    onclose={() => (catalogOpen = false)}
+  />
 {/if}
 
 {#if tableOpen}
