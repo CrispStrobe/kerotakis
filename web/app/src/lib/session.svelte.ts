@@ -535,6 +535,24 @@ export class Session {
     this.inspector = null;
   }
 
+  /** The named-relations catalogue (GUI-027's toolbox drawer). */
+  async relations() {
+    try {
+      return await this.host.relations();
+    } catch {
+      return [];
+    }
+  }
+
+  /** Evaluate one named relation; the drawer shows the result verbatim. */
+  async calc(name: string, args: string[]) {
+    try {
+      return await this.host.calc(name, args);
+    } catch (e) {
+      return { ok: false as const, error: e instanceof Error ? e.message : String(e) };
+    }
+  }
+
   /**
    * Validate a command line without executing it (GUI-005). Register
    * lines are session grammar, not engine grammar — always valid here.

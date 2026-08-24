@@ -116,6 +116,42 @@ for (const file of lessons) {
     if (lab.state() !== before) fail(file, "parse mutated the bench");
 }
 
+// --- relations / calc (GUI-027) -----------------------------------------
+// The catalogue rows must be form-buildable, and an evaluation must come
+// back with value, unit, provenance, and all three registers — or an
+// honest refusal.
+{
+    const lab = new Lab();
+    const relations = JSON.parse(lab.relations());
+    checks++;
+    if (!Array.isArray(relations) || relations.length === 0) {
+        fail("relations", "catalogue empty or not an array");
+    }
+    for (const r of relations) {
+        checks++;
+        if (typeof r.name !== "string" || typeof r.equation !== "string" || typeof r.args !== "string") {
+            fail("relations", `malformed row: ${JSON.stringify(r)}`);
+        }
+    }
+    const good = JSON.parse(lab.calc("henderson-hasselbalch", JSON.stringify(["pKa=4.76", "cA=0.1", "cB=0.1"])));
+    checks++;
+    if (good.ok !== true || typeof good.value !== "number" || typeof good.unit !== "string"
+        || typeof good.provenance !== "string"
+        || typeof good.lv1 !== "string" || typeof good.lv2 !== "string" || typeof good.lv3 !== "string") {
+        fail("calc", `evaluation missing fields: ${JSON.stringify(good)}`);
+    }
+    checks++;
+    if (good.ok === true && Math.abs(good.value - 4.76) > 1e-9) {
+        fail("calc", `equimolar buffer should sit at its pKa; got ${good.value}`);
+    }
+    const bad = JSON.parse(lab.calc("no-such-relation", JSON.stringify([])));
+    checks++;
+    if (bad.ok !== false || typeof bad.error !== "string") {
+        fail("calc", `unknown relation must refuse with an error: ${JSON.stringify(bad)}`);
+    }
+    console.log(`relations: ${relations.length} in the catalogue, evaluation + refusal conform`);
+}
+
 // --- The sandbox-completeness invariant (GUI-029) -----------------------
 // Every grammar verb must have an affordance-manifest entry; a verb the
 // parser gains without a GUI decision fails here. Planned rows are

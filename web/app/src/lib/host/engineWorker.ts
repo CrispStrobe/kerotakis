@@ -21,6 +21,8 @@ type Lab = {
   runScript(text: string): string;
   parse(line: string): string;
   grammar(): string;
+  relations(): string;
+  calc(name: string, argsJson: string): string;
   setRegister(level: string): void;
   setSolver(hook: (dbTag: string, input: string) => string): void;
   scene(): string;
@@ -150,6 +152,12 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "grammar":
         done(id, lab.grammar());
+        break;
+      case "relations":
+        done(id, lab.relations());
+        break;
+      case "calc":
+        done(id, lab.calc(String(msg.name), JSON.stringify(msg.args ?? [])));
         break;
       case "set_register":
         lab.setRegister(String(msg.level));

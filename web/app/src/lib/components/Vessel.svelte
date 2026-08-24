@@ -8,6 +8,7 @@
     onselect,
     ondropspecies,
     effects = [],
+    onbadge,
   }: {
     vessel: SceneVessel;
     register: string;
@@ -70,7 +71,7 @@
       inner: "M 20 93 L 27 127 L 73 127 L 80 93 Z",
     },
   };
-  const geom = $derived(KINDS[vessel.label] ?? KINDS.beaker);
+  const geom = $derived(KINDS[vessel.label] ?? KINDS.beaker!);
   const INNER_X = $derived(geom.ix);
   const INNER_W = $derived(geom.iw);
   const BOTTOM_Y = $derived(geom.by);
@@ -197,7 +198,7 @@
     {/if}
     {#if frosty}
       <g class="frost" aria-hidden="true">
-        {#each [[18, 40], [80, 60], [22, 90], [78, 105]] as [fx, fy], i (i)}
+        {#each [[18, 40], [80, 60], [22, 90], [78, 105]] as [fx = 0, fy = 0], i (i)}
           <path d={`M ${fx} ${fy} l 4 0 M ${fx + 2} ${fy - 2} l 0 4 M ${fx} ${fy - 2} l 4 4 M ${fx} ${fy + 2} l 4 -4`} />
         {/each}
       </g>

@@ -127,7 +127,17 @@ export interface EngineHost {
   /** Validate one line without executing it (GUI-005). */
   parse(line: string): Promise<{ ok: boolean; operator?: unknown; error?: string }>;
   /** The verb inventory with canonical examples (GUI-029). */
-  grammar(): Promise<{ verb: string; example: string }[]>;
+  grammar(): Promise<{ verb: string; example: string; options?: string[] }[]>;
+  /** The named-relations catalogue (CAP-5). */
+  relations(): Promise<{ name: string; equation: string; args: string }[]>;
+  /** Evaluate a named relation; the result explains itself per register. */
+  calc(
+    name: string,
+    args: string[],
+  ): Promise<
+    | { ok: true; value: number; unit: string; provenance: string; lv1: string; lv2: string; lv3: string }
+    | { ok: false; error: string }
+  >;
   setRegister(level: string): Promise<void>;
   scene(): Promise<Scene>;
   state(): Promise<unknown>;

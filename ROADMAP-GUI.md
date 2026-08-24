@@ -408,10 +408,15 @@ every new dependency before its first import.
   a stir gesture on the Canvas2D effects layer — strictly driven by
   computed events, decorative in style, never in fact. Today the reagent
   teleports; a lab should *feel* like handling things.
-- [ ] **GUI-027 — Utilities drawer.** Surface `kero calc` (CAP-5 named
-  relations), property correlations (CAP-6), and unit conversion in the
-  GUI — the glossary + converter + calculator drawer teachers actually
-  use, backed by computed values with provenance.
+- [x] **GUI-027 — Utilities drawer.** *Toolbox shipped 2026-08-24:*
+  `relations`/`calc` are protocol commands on all three hosts (PROTOCOL.md;
+  conformance checks the catalogue shape, one known-good evaluation, and
+  an honest refusal). The drawer builds its forms from the engine's own
+  arg-spec strings (`relationArgs.ts`, tested) and shows the
+  RelationResult verbatim — value, unit, provenance, and the explanation
+  at the bench's current register, so the dial reaches the calculator
+  too. Remaining for this item: property correlations (CAP-6) and unit
+  conversion join the same drawer when their engine surfaces exist.
 - [ ] **GUI-028 — Voice input.** Speech-to-command over the existing
   grammar (Web Speech API, progressive enhancement, browser-gated), with
   the parse endpoint validating live — voice access serves students who

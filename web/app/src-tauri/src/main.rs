@@ -212,6 +212,34 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             })
             .to_string())
         }
+        "relations" => {
+            let list: Vec<Value> = kerotakis_core::relations::RELATIONS
+                .iter()
+                .map(|r| json!({ "name": r.name, "equation": r.equation, "args": r.args }))
+                .collect();
+            Ok(Value::Array(list).to_string())
+        }
+        "calc" => {
+            let name = field("name")?;
+            let args: Vec<String> = req
+                .get("args")
+                .and_then(Value::as_array)
+                .map(|a| {
+                    a.iter()
+                        .filter_map(|v| v.as_str().map(String::from))
+                        .collect()
+                })
+                .unwrap_or_default();
+            Ok(match kerotakis_core::relations::evaluate(name, &args) {
+                Ok(r) => json!({
+                    "ok": true, "value": r.value, "unit": r.unit,
+                    "provenance": r.provenance,
+                    "lv1": r.lv1, "lv2": r.lv2, "lv3": r.lv3,
+                })
+                .to_string(),
+                Err(e) => json!({ "ok": false, "error": e.to_string() }).to_string(),
+            })
+        }
         "reset" => {
             lab.bench = Bench::new();
             Ok("{}".to_string())
