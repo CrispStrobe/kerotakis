@@ -44,6 +44,8 @@ step "sweep";         cargo run --release -p kerotakis-cli -- sweep
 # IUPAC library must reproduce the registry key. The C build is cached,
 # so the steady-state cost is seconds.
 step "inchi identity"; cargo test -q -p kerotakis-org --features native-inchi --test native_identity
+# EXP-0: a quest that could lie, block, or corridor fails the gate.
+step "quest lint";     cargo run --release -p kerotakis-cli -- quest lint
 
 # CAP-14: licence bar as cargo-deny lint (2026-08-23)
 if command -v cargo-deny >/dev/null 2>&1; then
