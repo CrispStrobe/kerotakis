@@ -58,11 +58,18 @@ file. They exist because each was violated once and cost a day.
    under an identical fingerprint — observed as a compile error demanding
    an enum variant that existed only in a peer's in-progress sources.
    `export CARGO_TARGET_DIR="$(pwd)/.target-local"` (gitignored) is fine.
-3. **`tools/preflight.sh --light` gates every branch push** (fmt +
-   clippy + no-engine; <2 min warm). **Main moves only by PR with the
-   full CI `preflight-gate` job green.** The full `tools/preflight.sh`
-   (without `--light`) runs in CI on every PR and push to main. Never
-   chain "check; push" with semicolons — that pushes on red.
+3. **`tools/preflight.sh --light` gates feature-branch pushes; a push
+   to `main` requires the FULL local `tools/preflight.sh`, on its exit
+   code, until branch protection actually enforces the CI gate.** The
+   "main moves only by PR" rule is aspirational while everyone pushes
+   to main directly and no branch protection exists — written 
+   2026-08-24, the day an ungated merge landed an inconsistent
+   iphreeqc pin and turned CI red. The full script also runs in CI
+   (`preflight-gate`) on every PR and push to main; once the user
+   enables the branch protection (the `gh api` command in f8d4e5a's
+   message), the local full-gate requirement for main can relax to
+   --light. Never chain "check; push" with semicolons — that pushes
+   on red.
 4. **Commit *and push* at every checkpoint.** A commit that was never
    pushed is invisible to the other sessions and dies with the window.
 5. **Chemistry output is the contract.** The conservation proptests, the
@@ -204,11 +211,16 @@ report rather than adjusting the tolerance).
 
 ## OPT-3 — Hot-path mechanics in `aqueous.rs`
 
-- [ ] Status: open. **Audit 2026-08-24:** an earlier "Mark OPT-3/4
-      complete" over-claimed this half — verified against the tree:
-      `hit.clone()` still at aqueous.rs:614 and :1893, the
-      `#[allow(clippy::type_complexity)]` tuple still at :122/:1866,
-      and no `OnceLock` env-flag hoists exist in the file.
+- [x] Status: **done 2026-08-24** (kero1, 87e4608; reviewed and landed
+      by Fable). `CachedSolve` named struct replaces the anonymous
+      5-tuple, both caches hold `Rc` so hits and inserts are refcount
+      bumps, all four env-flag reads (`KERO_DUMP_INPUT` ×2,
+      `KERO_REDOX`, `KERO_READBACK`) hoisted into `OnceLock`, eviction
+      policy untouched as scoped. Verified compatible with the study
+      runner's one-engine-per-rayon-thread pattern (`Rc` keeps the
+      equilibrator `!Send`; per-thread state needs no `Send`). An
+      earlier same-day audit had recorded this task as open after a
+      prior over-claim — this landing is the real one.
 
 **Why.** Three independently small costs sit on the path of *every*
 engine call, and one more on every cache hit.
@@ -294,11 +306,9 @@ delta recorded (this is where the `const`→`static` change shows up).
       Criterion bench delta: `equilibrate_tp` 642 µs → 456 µs (−29%),
       `equilibrate_hp` 12.4 ms → 10.7 ms (−14%). All CEA tests,
       golden fixtures, and conservation proptests unchanged.
-      **Audit 2026-08-24:** gibbs.rs:228 still allocates
-      `vec![vec![0.0; dim + 1]; dim]` per Newton iteration. (kero1's
-      afbd549 hoisted `deltas`/proposed-extents Vecs out of the
-      event-restart loop in `kerotakis-core` kinetics — real and kept,
-      but an adjacent site, not this task.)
+      (An earlier audit note recorded the allocation as still present;
+      it was, until this landing — the note is superseded. kero1's
+      afbd549 kinetics hoisting remains adjacent, real, and kept.)
 
 **Why.** `crates/kerotakis-cea/src/gibbs.rs:226-228`: every iteration of
 a 400-iteration Newton loop allocates a fresh `Vec<Vec<f64>>` — `dim + 1`
