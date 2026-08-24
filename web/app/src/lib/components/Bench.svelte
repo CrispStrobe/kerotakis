@@ -78,8 +78,21 @@
     align-items: flex-end;
     justify-content: center;
     gap: 1.5rem;
-    padding: 1.5rem;
+    padding: 1.5rem 1.5rem 0;
     overflow: auto;
+    position: relative;
+    /* The counter the glassware stands on. */
+    background:
+      linear-gradient(
+        to bottom,
+        transparent calc(100% - 2.6rem),
+        var(--bench-top, #4a4337) calc(100% - 2.6rem),
+        var(--bench-top, #4a4337) calc(100% - 2.2rem),
+        var(--bench-front, #3a352c) calc(100% - 2.2rem)
+      );
+  }
+  .bench > :global(.vessel) {
+    margin-bottom: 1.9rem;
   }
   .empty {
     color: var(--dim);

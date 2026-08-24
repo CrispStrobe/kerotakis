@@ -143,6 +143,10 @@
         fill={rgb(vessel.liquid.srgb)}
         opacity={liquidOpacity(vessel.liquid.srgb)}
       />
+      <path
+        class="meniscus"
+        d={`M ${INNER_X + 1} ${BOTTOM_Y - liquidH + 1.5} Q 50 ${BOTTOM_Y - liquidH - 1.5} ${INNER_X + INNER_W - 1} ${BOTTOM_Y - liquidH + 1.5}`}
+      />
       {#if vessel.liquid.cloudiness > 0.01}
         <rect
           x={INNER_X}
@@ -244,8 +248,16 @@
       {/each}
     {/if}
 
-    <!-- The glass, drawn over the contents. -->
+    <!-- Grounding shadow: the vessel stands on the bench, not in space. -->
+    <ellipse class="shadow" cx="50" cy="131" rx={INNER_W / 2 + 6} ry="3.5" />
+
+    <!-- The glass, drawn over the contents, with a sheen that makes it
+         read as glass rather than wireframe. -->
     <path class="glass" d={geom.glass} />
+    <path
+      class="sheen"
+      d={`M ${INNER_X + 3} 18 Q ${INNER_X + 1} ${BOTTOM_Y / 2} ${INNER_X + 4} ${BOTTOM_Y - 8}`}
+    />
     {#if vessel.boundary === "sealed"}
       <rect class="lid" x="10" y="9" width="80" height="5" rx="2">
         <title>sealed</title>
@@ -317,6 +329,22 @@
     stroke: var(--edge-strong);
     stroke-width: 2.5;
     stroke-linecap: round;
+  }
+  .sheen {
+    fill: none;
+    stroke: var(--cloud);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    opacity: 0.22;
+  }
+  .shadow {
+    fill: var(--shadow, rgb(0 0 0 / 30%));
+  }
+  .meniscus {
+    fill: none;
+    stroke: var(--cloud);
+    stroke-width: 1;
+    opacity: 0.3;
   }
   /* Liquid and deposits move smoothly between computed states — the
      motion is presentation only; every keyframe endpoint is engine data. */
