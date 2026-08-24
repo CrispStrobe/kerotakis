@@ -19,6 +19,7 @@
   import { defaultAmount } from "./lib/amounts";
   import { notebookMarkdown } from "./lib/notebook";
   import HelpDialog from "./lib/components/HelpDialog.svelte";
+  import PeriodicTable from "./lib/components/PeriodicTable.svelte";
 
   // In the Tauri shell the engine is native and in-process; on the web it
   // lives in the module worker. The session cannot tell the difference.
@@ -73,6 +74,7 @@
   }
 
   let helpOpen = $state(false);
+  let tableOpen = $state(false);
   /** The burette: clamped over the selected vessel when out (GUI-033). */
   let buretteOut = $state(false);
   /** Which parameter-form apparatus is out, by verb (GUI-033). */
@@ -280,6 +282,9 @@
   <span class="status" class:live={session.canSolve}>
     {session.engineReady ? (session.canSolve ? "live" : "shipped results") : "starting…"}
   </span>
+  <button class="tool" onclick={() => (tableOpen = true)} title="the periodic table, wired to the shelf">
+    elements
+  </button>
   <a class="console-link" href="../">console</a>
 </header>
 
@@ -420,6 +425,20 @@
 
 {#if helpOpen}
   <HelpDialog onclose={() => (helpOpen = false)} />
+{/if}
+
+{#if tableOpen}
+  <PeriodicTable
+    shelf={session.shelf}
+    register={session.register}
+    onadd={(item) => {
+      tableOpen = false;
+      void session.submit(
+        `add v${session.selected + 1} ${item.key} ${defaultAmount(session.register, item.phase)}`,
+      );
+    }}
+    onclose={() => (tableOpen = false)}
+  />
 {/if}
 
 <style>

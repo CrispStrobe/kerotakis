@@ -474,6 +474,19 @@ been ignoring all of it:
   registry growth (CAP-21's pack-generated registry is the mechanism)
   toward the reagent breadth the genre's benches offer.
 
+- [ ] **GUI-057 — The elements, wired to the lab.** An interactive
+  periodic table (all 118, structural facts only: number, symbol, name,
+  group/period/block, category — category tinted AND worded) whose
+  detail panel answers "what does the lab have of this element": shelf
+  species containing it (parsed from their formulas), their chips and
+  flame tests, tap-to-add to the bench. Deliberately NO transcribed
+  numeric properties: masses and measured values come from the
+  registry's provenance-carrying records, and broader element data
+  (electronegativity, radii, configurations) arrives only via the
+  licence-clean data ETL (Wikidata CC0 per the data roadmap) — the
+  standalone-table genre's breadth, with our sourcing discipline.
+  *Status 2026-08-24: v1 landed as described; ETL-fed properties open.*
+
 ### The visual bar (2026-08-24 addendum)
 
 The national school-lab platforms set the visual/UX bar the user holds
