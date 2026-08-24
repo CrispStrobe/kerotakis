@@ -71,6 +71,20 @@ export interface SceneBadge {
   confidence: string;
 }
 
+/** The submicroscopic census (kerotakis-core/src/particles.rs) — drawn at
+ * solved ratios; `source` says whether speciation or inventory backs it. */
+export interface ParticleCensus {
+  populations: {
+    label: string;
+    kind: string;
+    drawn: number;
+    amount: number;
+  }[];
+  per_glyph: number;
+  too_rare: [string, number][];
+  source: string;
+}
+
 /** What `step` returns; `run_script` returns one entry per line plus scene. */
 export interface StepResult {
   events: unknown[];
@@ -109,7 +123,7 @@ export interface EngineHost {
   state(): Promise<unknown>;
   species(): Promise<unknown[]>;
   inspect(vessel: number): Promise<{ rendered: string[] }>;
-  particles(vessel: number): Promise<{ rendered: string[] }>;
+  particles(vessel: number): Promise<{ census?: ParticleCensus; rendered: string[] }>;
   reset(): Promise<void>;
   dispose(): void;
 }

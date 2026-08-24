@@ -13,7 +13,7 @@
  * command log exactly, so the session never snapshots chemistry itself.
  */
 
-import type { EngineHost, Scene } from "./host/EngineHost";
+import type { EngineHost, ParticleCensus, Scene } from "./host/EngineHost";
 import { EngineError } from "./host/EngineHost";
 import { type Lesson, parseLesson } from "./lesson";
 
@@ -67,7 +67,11 @@ export class Session {
   /** Vessel the user last selected (0-based id), target of shelf adds. */
   selected = $state<number>(0);
   /** Open inspector content, if any. */
-  inspector = $state<{ vessel: number; lines: string[] } | null>(null);
+  inspector = $state<{
+    vessel: number;
+    lines: string[];
+    particles?: ParticleCensus;
+  } | null>(null);
 
   constructor(
     private host: EngineHost,
@@ -351,15 +355,20 @@ export class Session {
     }
   }
 
-  /** Append the submicroscopic view to the open inspector. */
+  /** Add the submicroscopic view to the open inspector — drawn from the
+   * census when the host supplies one, with the words kept alongside. */
   async particles(): Promise<void> {
     if (!this.inspector) return;
     try {
       const p = await this.host.particles(this.inspector.vessel);
       this.inspector = {
         vessel: this.inspector.vessel,
-        lines: [...this.inspector.lines, "", ...p.rendered],
+        lines: this.inspector.lines,
+        particles: p.census,
       };
+      if (!p.census) {
+        this.inspector.lines = [...this.inspector.lines, "", ...p.rendered];
+      }
     } catch (e) {
       this.feed.push({
         kind: "error",

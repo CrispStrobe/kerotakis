@@ -1,12 +1,17 @@
 <script lang="ts">
+  import type { ParticleCensus } from "../host/EngineHost";
+  import ParticleView from "./ParticleView.svelte";
+
   let {
     vessel,
     lines,
+    particles = undefined,
     onparticles,
     onclose,
   }: {
     vessel: number;
     lines: string[];
+    particles?: ParticleCensus;
     onparticles: () => void;
     onclose: () => void;
   } = $props();
@@ -19,6 +24,9 @@
     <button onclick={onclose} aria-label="close inspector">×</button>
   </header>
   <pre>{lines.join("\n")}</pre>
+  {#if particles}
+    <ParticleView census={particles} />
+  {/if}
 </section>
 
 <style>

@@ -126,6 +126,7 @@
       <Inspector
         vessel={session.inspector.vessel}
         lines={session.inspector.lines}
+        particles={session.inspector.particles}
         onparticles={() => void session.particles()}
         onclose={() => session.closeInspector()}
       />
