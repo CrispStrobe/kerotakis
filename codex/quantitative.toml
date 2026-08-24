@@ -1398,7 +1398,7 @@ computed_by = "PHREEQC via Kerotakis L2; reporting floor applied by the Kerotaki
 [[reaction]]
 id = "when-the-lab-says-it-does-not-know"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
-summary = "CuSO4(s) + ethanol(l) → not modelled"
+summary = "gypsum(s) + propanone(l) → not modelled"
 concepts = ["model-boundary", "stated-ignorance"]
 requires = ["dissolving", "solutions"]
 calculations = ["conservation-of-mass"]
@@ -1407,17 +1407,17 @@ apparatus = ["beaker", "balance", "stirring-rod"]
 
 [reaction.setup]
 script = """
-add v1 ethanol 50mL
-add v1 CuSO4 2g
+add v1 propanone 50mL
+add v1 gypsum 2g
 measure v1 balance
 """
 
 [reaction.expect]
-events = ["not_yet_modelled", "added:CuSO4"]
-absent = ["dissolved:CuSO4", "solver_failed"]
+events = ["not_yet_modelled", "added:gypsum"]
+absent = ["dissolved:gypsum", "solver_failed"]
 
 [reaction.expect.predict]
-question = "Copper sulfate is stirred into alcohol instead of water. What should a chemistry program do?"
+question = "Gypsum is stirred into acetone instead of water. What should a chemistry program do?"
 options = [
   "Dissolve it — it dissolved in water, so it dissolves",
   "Say 'not yet modelled': no wired solver covers this salt in a non-aqueous solvent",
@@ -1430,7 +1430,7 @@ misconception = "Software is expected to answer. The tempting failure is the las
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Solubility belongs to the salt alone: it dissolves, full stop — the solvent is interchangeable scenery rather than half of every dissolution."
-next = "Name what the solver actually knows: water's behaviour, from a thermodynamic database about water. Copper sulfate in ethanol is in fact essentially insoluble — but the bench refuses to claim even that without a curated row that knows it, which is the difference between being right and being lucky."
+next = "Name what the solver actually knows: water's behaviour, from a thermodynamic database about water. Gypsum in acetone is in fact essentially insoluble — but the bench refuses to claim even that without a curated row that knows it, which is the difference between being right and being lucky."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
@@ -1444,9 +1444,9 @@ next = "This exact defect sits in the project's own history: 'nothing ignited' o
 
 [reaction.registers]
 lv1 = "Ask the lab something it does not know and it tells you it does not know. It does not guess, and it does not pretend the silence was an answer. Knowing the edge of what you know is part of knowing anything at all — and a person who can say 'I have not got a method for that' is more useful than one who always has a number."
-lv2 = "The aqueous engine's databases are parameterised for water: activity models, solubility products and speciation are all built on aqueous standard states. Ethanol is a liquid the bench can hold and pour, and for some solutes a curated handbook row now answers (NaCl's near-insolubility in ethanol, for one) — but for this salt no row exists yet, so the honesty pass emits 'not yet modelled' rather than a number. The balance still works — 41.45 g, the ethanol plus the salt — because mass bookkeeping is not the thing in doubt."
-lv3 = "The event is `NotYetModeled`, raised by the honesty pass when a solid coexists with a liquid and no solver — and no curated verdict — covers the pair. It is structurally different from `SolverFailed`, which means a wired solver tried and did not converge. This entry originally demonstrated the gap with NaCl in ethanol, and called it 'a gap with a known shape, the only kind worth advertising' — that shape was then filled: the curated organic-solubility rung (CAP-23) now answers NaCl/ethanol with the handbook limit, so the demonstration moved to a pair still outside every rung. Model boundaries move; an honest bench moves its examples with them, and this paragraph is the record that it happened."
+lv2 = "The aqueous engine's databases are parameterised for water: activity models, solubility products and speciation are all built on aqueous standard states. Acetone is a liquid the bench can hold and pour, and for some solutes in some organic solvents a curated handbook row now answers (NaCl's near-insolubility in ethanol, CaCl2's high solubility in acetone, for two) — but for this salt in this solvent no row exists yet, so the honesty pass emits 'not yet modelled' rather than a number. The balance still works — the acetone plus the salt — because mass bookkeeping is not the thing in doubt."
+lv3 = "The event is `NotYetModeled`, raised by the honesty pass when a solid coexists with a liquid and no solver — and no curated verdict — covers the pair. It is structurally different from `SolverFailed`, which means a wired solver tried and did not converge. This entry originally demonstrated the gap with NaCl in ethanol, then moved to CuSO4 in ethanol — both of which the curated organic-solubility rung (CAP-23) now covers with handbook data. As coverage grows, the demonstration moves to the next uncovered pair; model boundaries move, and an honest bench moves its examples with them. This paragraph is the record that it happened."
 
 [reaction.provenance]
-source = "Editorial judgement (Kerotakis): the design decision to emit a stated gap rather than a guess, and the argument for teaching model boundaries as content, is ours. The solubility of NaCl in ethanol quoted at lv3 is a standard reference value and is not computed by the engine.. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
+source = "Editorial judgement (Kerotakis): the design decision to emit a stated gap rather than a guess, and the argument for teaching model boundaries as content, is ours. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20, updated 2026-08-24)"
 computed_by = "Not computed — the honesty pass reports the gap, which is itself the checked claim"

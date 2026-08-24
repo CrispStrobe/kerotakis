@@ -65,8 +65,10 @@ export class Session {
    * command while the cursor sits mid-history truncates the future.
    */
   position = $state(0);
-  /** The lesson being walked, if any. */
-  lesson = $state<{ lesson: Lesson; cursor: number } | null>(null);
+  /** The lesson being walked, if any. `kit` is the reagent set the lesson
+   * itself uses — "what the teacher put out for you" — derived from its
+   * own command lines, so it can never drift from the lesson. */
+  lesson = $state<{ lesson: Lesson; cursor: number; kit: string[] } | null>(null);
   /** The registry, for the shelf. */
   shelf = $state<ShelfItem[]>([]);
   /** Vessel the user last selected (0-based id), target of shelf adds. */
@@ -80,6 +82,13 @@ export class Session {
   /** The most recent balanced equation the engine rendered (GUI-025) —
    * the strip pins it beside the bench at lv2+. */
   lastEquation = $state<string | null>(null);
+  /**
+   * Transient visual effects per vessel (GUI-026), derived STRICTLY from
+   * typed events — an effect never fires without a computed event behind
+   * it. Entries age out; the canvas animates what is younger than its
+   * animation.
+   */
+  vesselEffects = $state<Record<number, { kind: string; at: number }[]>>({});
 
   constructor(
     private host: EngineHost,
@@ -217,6 +226,7 @@ export class Session {
         // warning always precedes the chemistry, and the chemistry then
         // runs and shows why (the engine's "hazards teach" rule).
         for (const event of step.events as Array<Record<string, unknown>>) {
+          this.recordEffect(event);
           if (event?.event === "hazard_warning") {
             this.feed.push({
               kind: "hazard",
@@ -294,6 +304,28 @@ export class Session {
       }
     }
     this.feed.push({ kind: "note", text: `${name} finished` });
+  }
+
+  /** Map a typed event onto a transient canvas effect for its vessel. */
+  private recordEffect(event: Record<string, unknown>): void {
+    const EFFECTS: Record<string, string> = {
+      precipitated: "precipitate",
+      dissolved: "dissolve",
+      electrolysed: "electrolyse",
+      plated: "plate",
+      ignited: "ignite",
+      evaporated: "evaporate",
+      distilled: "evaporate",
+    };
+    const kind = EFFECTS[String(event?.event ?? "")];
+    if (!kind) return;
+    const vessel = Number(
+      (event.vessel as number | undefined) ?? (event.from as number | undefined) ?? 0,
+    );
+    const now = Date.now();
+    const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
+    list.push({ kind, at: now });
+    this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
   }
 
   async setRegister(level: string): Promise<void> {
@@ -378,7 +410,13 @@ export class Session {
   /** Begin walking a lesson. The bench keeps whatever is on it — a lesson
    * is an overlay on the real bench, not a sandbox swap. */
   startLesson(name: string, text: string): void {
-    this.lesson = { lesson: parseLesson(name, text), cursor: 0 };
+    // The kit: every species the lesson's own commands touch.
+    const kit = new Set<string>();
+    for (const line of text.split("\n")) {
+      const m = line.trim().match(/^(?:add|titrate|grind)\s+\S+\s+(\S+)/);
+      if (m) kit.add(m[1]!);
+    }
+    this.lesson = { lesson: parseLesson(name, text), cursor: 0, kit: [...kit] };
     this.feed.push({ kind: "note", text: `lesson started: ${name}` });
     this.advanceLessonNotes();
   }

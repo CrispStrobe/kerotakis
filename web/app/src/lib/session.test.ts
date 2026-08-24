@@ -137,6 +137,15 @@ describe("Session", () => {
     expect(s.position).toBe(2);
   });
 
+  it("a lesson's kit is exactly the species its own commands use", () => {
+    const s = new Session(new FakeHost());
+    s.startLesson(
+      "titration",
+      "# neutralise it\nadd v1 water 100mL\nadd v1 HCl 0.1mol\ntitrate v1 NaOH 1M 1mL until ph 7\n",
+    );
+    expect([...s.lesson!.kit].sort()).toEqual(["HCl", "NaOH", "water"]);
+  });
+
   it("walks a lesson: narration to the feed, commands one Next at a time", async () => {
     const host = new FakeHost();
     const s = new Session(host);
@@ -158,6 +167,28 @@ describe("Session", () => {
     // Lesson exhausted: closed, with a finishing note.
     expect(s.lesson).toBeNull();
     expect(s.feed.at(-1)!.text).toContain("lesson finished");
+  });
+
+  it("typed events become transient vessel effects, and only typed events", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [
+            { event: "precipitated", vessel: 0, species: "AgCl", moles: 0.01 },
+            { event: "electrolysed", vessel: 1, species: "Cu", coulombs: 900 },
+            { event: "solution_characterized", vessel: 0, ph: 7 },
+          ],
+          rendered: ["It went cloudy!"],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("add v1 AgNO3 1.7g");
+    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["precipitate"]);
+    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse"]);
   });
 
   it("the latest rendered equation is pinned for the strip", async () => {

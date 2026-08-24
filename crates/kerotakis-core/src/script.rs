@@ -78,7 +78,24 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 reaction: name.to_string(),
             }
         }
-        "new" => Operator::NewVessel,
+        "new" => match words.get(1) {
+            None => Operator::NewVessel { kind: None },
+            Some(kind) => {
+                if !crate::vessel::VESSEL_KINDS.iter().any(|(k, _)| k == kind) {
+                    let known: Vec<&str> = crate::vessel::VESSEL_KINDS
+                        .iter()
+                        .map(|(k, _)| *k)
+                        .collect();
+                    return Err(format!(
+                        "unknown vessel kind '{kind}' — known: {}",
+                        known.join(", ")
+                    ));
+                }
+                Operator::NewVessel {
+                    kind: Some((*kind).to_string()),
+                }
+            }
+        },
         "add" => {
             if words.len() < 4 {
                 return Err("usage: add <vessel> <species> <amount><mol|g|mL> [@ <T>C]".into());
@@ -654,6 +671,18 @@ mod grammar_inventory {
                 other => panic!("VERBS example '{example}' did not parse: {other:?}"),
             }
         }
+    }
+
+    /// Glassware kinds parse into the vessel label, and an unknown kind
+    /// is refused with the list.
+    #[test]
+    fn vessel_kinds_parse_and_unknowns_refuse() {
+        match parse_op("new tube") {
+            Ok(Some(Operator::NewVessel { kind: Some(k) })) => assert_eq!(k, "tube"),
+            other => panic!("new tube: {other:?}"),
+        }
+        let err = parse_op("new saucepan").unwrap_err();
+        assert!(err.contains("beaker"), "refusal lists kinds: {err}");
     }
 
     /// The inventory is unique and non-trivial.

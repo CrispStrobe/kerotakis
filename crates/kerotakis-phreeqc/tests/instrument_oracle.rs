@@ -11,7 +11,7 @@ use kerotakis_phreeqc::PhreeqcEquilibrator;
 fn brine_with_kmno4(eq: &mut PhreeqcEquilibrator, mmol: f64) -> Bench {
     let mut bench = Bench::new();
     bench
-        .step_with(Operator::NewVessel, eq, &PermissiveScreen)
+        .step_with(Operator::NewVessel { kind: None }, eq, &PermissiveScreen)
         .unwrap();
     for (key, moles) in [("water", 5.55), ("KMnO4", mmol / 1000.0)] {
         bench

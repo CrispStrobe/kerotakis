@@ -191,7 +191,7 @@ fn bleach_and_ammonia_warns_then_shows_the_chloramine() {
 fn decanting_bleach_into_ammonia_warns_first() {
     let mut bench = Bench::new();
     let mut stack = stack();
-    bench.step(Operator::NewVessel).unwrap();
+    bench.step(Operator::NewVessel { kind: None }).unwrap();
     let (a, b) = (VesselId(0), VesselId(1));
     add(&mut bench, &mut stack, a, "NaOCl", 0.1);
     add(&mut bench, &mut stack, b, "NH3", 0.1);
