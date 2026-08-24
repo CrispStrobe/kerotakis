@@ -436,6 +436,20 @@ pub fn render_event(event: &Event, register: Register) -> String {
             1 => format!("You pour some of {from} into {to}."),
             _ => format!("{from} → {to}: {:.0}% of the liquid", fraction * 100.0),
         },
+        Event::Mixed {
+            a,
+            b,
+            into,
+            fraction_a,
+            fraction_b,
+        } => match register.level() {
+            1 => format!("You mix some of {a} and {b} together in {into}."),
+            _ => format!(
+                "{a} ({:.0}%) + {b} ({:.0}%) → {into}",
+                fraction_a * 100.0,
+                fraction_b * 100.0,
+            ),
+        },
         Event::Dissolved {
             vessel,
             species: sid,
