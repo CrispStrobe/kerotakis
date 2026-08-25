@@ -58,18 +58,21 @@ file. They exist because each was violated once and cost a day.
    under an identical fingerprint — observed as a compile error demanding
    an enum variant that existed only in a peer's in-progress sources.
    `export CARGO_TARGET_DIR="$(pwd)/.target-local"` (gitignored) is fine.
-3. **`tools/preflight.sh --light` gates feature-branch pushes; a push
-   to `main` requires the FULL local `tools/preflight.sh`, on its exit
-   code, until branch protection actually enforces the CI gate.** The
-   "main moves only by PR" rule is aspirational while everyone pushes
-   to main directly and no branch protection exists — written 
-   2026-08-24, the day an ungated merge landed an inconsistent
-   iphreeqc pin and turned CI red. The full script also runs in CI
-   (`preflight-gate`) on every PR and push to main; once the user
-   enables the branch protection (the `gh api` command in f8d4e5a's
-   message), the local full-gate requirement for main can relax to
-   --light. Never chain "check; push" with semicolons — that pushes
-   on red.
+3. **Main moves only by PR; the full gate is CI's job.** Enforced by
+   branch protection since 2026-08-25 (owner-directed, the day the box
+   near-OOMed running stacked local full gates on 7.6 GiB of RAM):
+   five required checks (`Full preflight gate`, native tests ×2, wasm
+   bench, browser demo), `enforce_admins` on, auto-merge enabled,
+   merged branches auto-delete. The flow: branch → push →
+   `gh pr create` → `gh pr merge --auto --merge`. Locally,
+   `tools/preflight.sh --light` (fmt + clippy + featureless build)
+   before pushing a branch is the courtesy gate — cheap enough for
+   this box; the FULL local run is no longer required for anything and
+   stacking it across sessions is forbidden (it also now takes a
+   machine-wide flock). History: the rule was local-full-gate from
+   2026-08-24 (an ungated merge had landed an inconsistent iphreeqc
+   pin) until protection made CI the enforcer. Never chain
+   "check; push" with semicolons — that pushes on red.
 4. **Commit *and push* at every checkpoint.** A commit that was never
    pushed is invisible to the other sessions and dies with the window.
 5. **Chemistry output is the contract.** The conservation proptests, the
