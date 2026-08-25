@@ -19,6 +19,7 @@ import { isChartSpec, type ChartSpec } from "./chart";
 import { type Lesson, parseLesson } from "./lesson";
 import { scriptKit } from "./codex";
 import { schedule, type Playback } from "./replay";
+import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "hazard" | "chart";
@@ -102,7 +103,7 @@ export class Session {
         // Each increment drips — the same typed-effect channel as ever.
         const now = Date.now();
         const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
-        list.push({ kind: "drip", at: now });
+        list.push({ kind: "drip", at: now, magnitude: 1 });
         this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
       },
       () => {
@@ -173,7 +174,7 @@ export class Session {
    * it. Entries age out; the canvas animates what is younger than its
    * animation.
    */
-  vesselEffects = $state<Record<number, { kind: string; at: number }[]>>({});
+  vesselEffects = $state<Record<number, Effect[]>>({});
 
   constructor(
     private host: EngineHost,
@@ -436,28 +437,12 @@ export class Session {
 
   /** Map a typed event onto a transient canvas effect for its vessel. */
   private recordEffect(event: Record<string, unknown>): void {
-    const EFFECTS: Record<string, string> = {
-      precipitated: "precipitate",
-      dissolved: "dissolve",
-      electrolysed: "electrolyse",
-      plated: "plate",
-      ignited: "ignite",
-      evaporated: "evaporate",
-      distilled: "evaporate",
-      gas_evolved: "vent",
-      // titrated: paced by the GUI-064 playback, not an instant effect.
-      mixed: "swirl",
-      diluted: "swirl",
-      flame_test: "ignite",
-    };
-    const kind = EFFECTS[String(event?.event ?? "")];
-    if (!kind) return;
-    const vessel = Number(
-      (event.vessel as number | undefined) ?? (event.from as number | undefined) ?? 0,
-    );
+    const effect = effectFromEvent(event);
+    if (!effect) return;
+    const vessel = vesselOf(event);
     const now = Date.now();
     const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
-    list.push({ kind, at: now });
+    list.push(effect);
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
   }
 

@@ -14,6 +14,7 @@
   import { relaxToward, step } from "../fluid";
   import { injectStir, simFromScene, paint, type FluidSpecies, type VesselSim } from "../fluidScene";
   import { mulberry32, pourDone, startPour, stepPour, type PourState } from "../pour";
+  import type { Effect } from "../magnitudes";
 
   let {
     vessel,
@@ -22,7 +23,7 @@
   }: {
     vessel: SceneVessel;
     /** The session's transient effects for this vessel. */
-    effects?: { kind: string; at: number }[];
+    effects?: Effect[];
     /** Species visual data: srgb + density (g/mL), from the shelf. */
     lookup: (key: string) => FluidSpecies;
   } = $props();

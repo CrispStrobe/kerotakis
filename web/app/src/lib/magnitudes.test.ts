@@ -1,0 +1,136 @@
+import { describe, it, expect } from "vitest";
+import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
+
+describe("effectFromEvent", () => {
+  it("maps gas_evolved with moles → vent + magnitude from event.moles", () => {
+    const e = effectFromEvent({ event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.05 });
+    expect(e).not.toBeNull();
+    expect(e!.kind).toBe("vent");
+    expect(e!.magnitude).toBeGreaterThan(0.3);
+    expect(e!.magnitude).toBeLessThanOrEqual(1);
+  });
+
+  it("small gas_evolved yields small magnitude", () => {
+    const e = effectFromEvent({ event: "gas_evolved", vessel: 0, species: "H2", moles: 0.001 });
+    expect(e!.magnitude).toBeCloseTo(0, 1);
+  });
+
+  it("large gas_evolved clamps to 1", () => {
+    const e = effectFromEvent({ event: "gas_evolved", vessel: 0, species: "H2", moles: 1.0 });
+    expect(e!.magnitude).toBe(1);
+  });
+
+  it("maps precipitated with moles → precipitate + magnitude from event.moles", () => {
+    const e = effectFromEvent({ event: "precipitated", vessel: 0, species: "BaSO4", moles: 0.01 });
+    expect(e!.kind).toBe("precipitate");
+    expect(e!.magnitude).toBeGreaterThan(0);
+  });
+
+  it("maps evaporated → evaporate + magnitude from event.moles", () => {
+    const e = effectFromEvent({ event: "evaporated", vessel: 0, moles: 0.2 });
+    expect(e!.kind).toBe("evaporate");
+    expect(e!.magnitude).toBeGreaterThan(0.3);
+  });
+
+  it("maps distilled → evaporate", () => {
+    const e = effectFromEvent({
+      event: "distilled",
+      from: 0,
+      to: 1,
+      water: 0.5,
+      ethanol: 0.1,
+      moles: 0.3,
+    });
+    expect(e!.kind).toBe("evaporate");
+  });
+
+  it("maps electrolysed → electrolyse + magnitude from event.moles", () => {
+    const e = effectFromEvent({
+      event: "electrolysed",
+      vessel: 0,
+      species: "Cu",
+      moles: 0.005,
+      coulombs: 964.85,
+    });
+    expect(e!.kind).toBe("electrolyse");
+    expect(e!.magnitude).toBeGreaterThan(0.3);
+  });
+
+  it("maps mixed → swirl + magnitude from fractions", () => {
+    const e = effectFromEvent({
+      event: "mixed",
+      a: 0,
+      b: 1,
+      into: 2,
+      fraction_a: 0.5,
+      fraction_b: 0.5,
+    });
+    expect(e!.kind).toBe("swirl");
+    expect(e!.magnitude).toBeGreaterThan(0.4);
+  });
+
+  it("maps diluted → swirl + magnitude from event.volume", () => {
+    const e = effectFromEvent({ event: "diluted", vessel: 0, volume: 0.25, moles: 13.8 });
+    expect(e!.kind).toBe("swirl");
+    expect(e!.magnitude).toBeGreaterThan(0.3);
+  });
+
+  it("maps flame_test → ignite with colour from event.colour", () => {
+    const e = effectFromEvent({ event: "flame_test", vessel: 0, species: "Na+", colour: "yellow" });
+    expect(e!.kind).toBe("ignite");
+    expect(e!.flameColour).toBe("#ffd700");
+    expect(e!.magnitude).toBe(1);
+  });
+
+  it("maps ignited → ignite with colour from event.flame", () => {
+    const e = effectFromEvent({ event: "ignited", vessel: 0, flame: "blue" });
+    expect(e!.kind).toBe("ignite");
+    expect(e!.flameColour).toBe("#1e90ff");
+  });
+
+  it("ignited without flame colour → no flameColour", () => {
+    const e = effectFromEvent({ event: "ignited", vessel: 0 });
+    expect(e!.kind).toBe("ignite");
+    expect(e!.flameColour).toBeUndefined();
+  });
+
+  it("maps dissolved → dissolve with magnitude 1", () => {
+    const e = effectFromEvent({ event: "dissolved", vessel: 0 });
+    expect(e!.kind).toBe("dissolve");
+    expect(e!.magnitude).toBe(1);
+  });
+
+  it("maps plated → plate with magnitude 1", () => {
+    const e = effectFromEvent({ event: "plated", vessel: 0 });
+    expect(e!.kind).toBe("plate");
+    expect(e!.magnitude).toBe(1);
+  });
+
+  it("returns null for unknown events", () => {
+    expect(effectFromEvent({ event: "thermal_equilibrium", vessel: 0 })).toBeNull();
+  });
+
+  it("doubling moles roughly doubles the magnitude", () => {
+    const small = effectFromEvent({ event: "gas_evolved", vessel: 0, species: "H2", moles: 0.02 });
+    const big = effectFromEvent({ event: "gas_evolved", vessel: 0, species: "H2", moles: 0.04 });
+    expect(big!.magnitude).toBeGreaterThan(small!.magnitude * 1.5);
+  });
+});
+
+describe("vesselOf", () => {
+  it("reads vessel field", () => {
+    expect(vesselOf({ event: "precipitated", vessel: 2 })).toBe(2);
+  });
+
+  it("falls back to from", () => {
+    expect(vesselOf({ event: "distilled", from: 1, to: 3 })).toBe(1);
+  });
+
+  it("falls back to into", () => {
+    expect(vesselOf({ event: "mixed", a: 0, b: 1, into: 2 })).toBe(2);
+  });
+
+  it("defaults to 0", () => {
+    expect(vesselOf({ event: "unknown" })).toBe(0);
+  });
+});

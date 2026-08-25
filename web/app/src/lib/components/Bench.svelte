@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Scene } from "../host/EngineHost";
+  import type { Effect } from "../magnitudes";
   import Vessel from "./Vessel.svelte";
 
   let {
@@ -20,7 +21,7 @@
     onselect: (id: number) => void;
     ondropspecies?: (id: number, payload: { key: string; phase: string }) => void;
     pristine?: boolean;
-    effects?: Record<number, { kind: string; at: number }[]>;
+    effects?: Record<number, Effect[]>;
     onnewvessel?: (kind: string) => void;
     onbadge?: (vessel: number, badge: { key: string; value: number; confidence: string }) => void;
     fluidLookup?: ((key: string) => import("../fluidScene").FluidSpecies) | null;

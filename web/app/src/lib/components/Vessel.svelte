@@ -3,6 +3,7 @@
   import { KINDS, solidLayer, fillHeight, graduationTicks } from "../glassware";
   import FluidOverlay from "./FluidOverlay.svelte";
   import type { FluidSpecies } from "../fluidScene";
+  import type { Effect } from "../magnitudes";
 
   let {
     vessel,
@@ -19,7 +20,7 @@
     selected?: boolean;
     onselect?: (id: number) => void;
     ondropspecies?: (id: number, payload: { key: string; phase: string }) => void;
-    effects?: { kind: string; at: number }[];
+    effects?: Effect[];
     onbadge?: (badge: { key: string; value: number; confidence: string }) => void;
     /** Species srgb+density lookup for the fluid overlay (GUI-065a);
      * absent = no fluid animation, static render only. */
@@ -30,6 +31,17 @@
   const now = () => Date.now();
   const active = (kind: string, withinMs: number) =>
     effects.some((e) => e.kind === kind && now() - e.at < withinMs);
+  // GUI-059: magnitude of the most recent active effect of a given kind.
+  const mag = (kind: string, withinMs: number) => {
+    const n = now();
+    const recent = effects.filter((e) => e.kind === kind && n - e.at < withinMs);
+    return recent.length > 0 ? (recent[recent.length - 1]!.magnitude ?? 1) : 0;
+  };
+  const latestFlameColour = $derived.by(() => {
+    const n = now();
+    const recent = effects.filter((e) => e.kind === "ignite" && n - e.at < 3000 && e.flameColour);
+    return recent.length > 0 ? recent[recent.length - 1]!.flameColour : undefined;
+  });
 
   let dropReady = $state(false);
   /** A just-landed drop ripples once — pouring is an action, not a teleport. */
@@ -230,17 +242,21 @@
       <ellipse class="glow" cx="50" cy="132" rx="34" ry="5" style={`opacity:${0.15 + hot * 0.5}`} />
     {/if}
     {#if burning}
-      <g class="flame" aria-hidden="true">
-        <path class="outer" d="M 50 -2 Q 42 12 47 20 Q 50 25 53 20 Q 58 12 50 -2 Z" />
+      {@const flameScale = 0.5 + mag("ignite", 3000) * 0.5}
+      <g class="flame" aria-hidden="true" style={`transform-origin:50px 20px;transform:scale(${flameScale})`}>
+        <path class="outer" d="M 50 -2 Q 42 12 47 20 Q 50 25 53 20 Q 58 12 50 -2 Z"
+          style={latestFlameColour ? `fill:${latestFlameColour}` : ""} />
         <path class="inner" d="M 50 6 Q 46 13 49 18 Q 50 20 51 18 Q 54 13 50 6 Z" />
       </g>
     {/if}
     {#if steaming}
+      {@const steamMag = mag("evaporate", 2500)}
+      {@const steamOpacity = 0.3 + steamMag * 0.7}
       {#each [34, 50, 66] as x, i (x)}
         <path
           class="steam"
           d={`M ${x} ${BOTTOM_Y - liquidH - 4} q 3 -6 0 -12 q -3 -6 0 -12`}
-          style={`animation-delay:${i * 0.5}s`}
+          style={`animation-delay:${i * 0.5}s;--steam-opacity:${steamOpacity}`}
         />
       {/each}
     {/if}
@@ -255,13 +271,16 @@
     <!-- Event-driven transients (GUI-026): each fires only because the
          engine emitted the matching event. -->
     {#if active("precipitate", 1800) && liquidH > 0}
-      {#each [30, 44, 58, 70] as x, i (x)}
+      {@const pMag = mag("precipitate", 1800)}
+      {@const pCount = Math.max(2, Math.round(2 + pMag * 6))}
+      {@const pRadius = 1.2 + pMag * 1.2}
+      {#each Array.from({length: pCount}, (_, i) => INNER_X + 4 + (i / (pCount - 1)) * (INNER_W - 8)) as x, i (i)}
         <circle
           class="falling"
           cx={x}
           cy={BOTTOM_Y - liquidH + 6}
-          r="1.8"
-          style={`--fall:${Math.max(8, liquidH - 10)}px; animation-delay:${i * 0.15}s`}
+          r={pRadius}
+          style={`--fall:${Math.max(8, liquidH - 10)}px; animation-delay:${i * 0.12}s`}
         />
       {/each}
     {/if}
@@ -275,14 +294,17 @@
       <circle class="dissolving" cx="50" cy={BOTTOM_Y - 10} r="4" />
     {/if}
     {#if active("electrolyse", 3500) && liquidH > 0}
+      {@const eMag = mag("electrolyse", 3500)}
+      {@const eBubbles = Math.max(1, Math.round(1 + eMag * 3))}
+      {@const eRadius = 1.0 + eMag * 1.0}
       {#each [30, 70] as x (x)}
-        {#each [0, 1, 2] as i (i)}
+        {#each Array.from({length: eBubbles}, (_, i) => i) as i (i)}
           <circle
             class="bubble"
-            cx={x + (i - 1) * 2}
+            cx={x + (i - Math.floor(eBubbles / 2)) * 2}
             cy={BOTTOM_Y - 6}
-            r="1.6"
-            style={`--rise:${liquidH - 10}px; animation-delay:${i * 0.35}s`}
+            r={eRadius}
+            style={`--rise:${liquidH - 10}px; animation-delay:${i * 0.25}s`}
           />
         {/each}
       {/each}
@@ -308,13 +330,14 @@
       />
     {/if}
     {#if active("swirl", 2000) && liquidH > 0}
-      <!-- Mixing: one dashed eddy mid-liquid, one revolution. -->
+      {@const sMag = mag("swirl", 2000)}
+      {@const sScale = 0.4 + sMag * 0.6}
       <ellipse
         class="swirl"
         cx="50"
         cy={BOTTOM_Y - liquidH / 2}
-        rx={INNER_W / 2 - 6}
-        ry={Math.min(8, liquidH / 3)}
+        rx={(INNER_W / 2 - 6) * sScale}
+        ry={Math.min(8, liquidH / 3) * sScale}
       />
     {/if}
     {#if active("plate", 2000)}
@@ -322,13 +345,16 @@
     {/if}
 
     {#if vessel.bubbling && liquidH > 0}
-      {#each [30, 50, 66] as x, i (x)}
+      {@const bMag = mag("vent", 2600)}
+      {@const bCount = Math.max(2, Math.round(2 + bMag * 4))}
+      {@const bRadius = 1.6 + bMag * 1.4}
+      {#each Array.from({length: bCount}, (_, i) => INNER_X + 6 + (i / Math.max(1, bCount - 1)) * (INNER_W - 12)) as x, i (i)}
         <circle
           class="bubble"
           cx={x}
           cy={BOTTOM_Y - 4}
-          r="2.4"
-          style={`--rise:${liquidH - 8}px; animation-delay:${i * 0.45}s`}
+          r={bRadius}
+          style={`--rise:${liquidH - 8}px; animation-delay:${i * 0.35}s`}
         />
       {/each}
     {/if}
@@ -641,7 +667,7 @@
       transform: translateY(4px);
     }
     25% {
-      opacity: 0.65;
+      opacity: var(--steam-opacity, 0.65);
     }
     100% {
       opacity: 0;
