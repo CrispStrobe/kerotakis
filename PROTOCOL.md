@@ -65,7 +65,7 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 
 | `cmd` | Status | Request → `result_json` |
 |---|---|---|
-| `hello` | done except `packs` | `{}` → `{ protocol, can_solve, engine_loaded, load_failure, aqueous_note, engine_version, git_rev, registers }`. `git_rev` is stamped by the build (`KEROTAKIS_GIT_REV`; null in unstamped dev builds). Still to grow: `packs: [ModelPackManifest]` when pack loading lands. Must be answerable before any pack loads. |
+| `hello` | done | `{}` → `{ protocol, can_solve, engine_loaded, load_failure, aqueous_note, engine_version, git_rev, registers }`. `git_rev` is stamped by the build (`KEROTAKIS_GIT_REV`; null in unstamped dev builds). `packs` carries the WEB-003 inventory (kerotakis_core::packs_manifest; empty content_hash = built in, not yet independently deliverable — the honest pre-pipeline state); `load_pack` itself remains the open half. Must be answerable before any pack loads. |
 | `step` | done | `{ operator_json }` → `{ events, rendered, charts, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `charts` the CAP-3 `Chart[]` the step's events earned (empty when none; first producer: the titration curve), `scene` the render model (one round trip repaints the bench). |
 | `run_script` | done | `{ script }` → `{ steps: [{operator, events, rendered, charts}], scene, bench }`. |
 | `parse` | done (GUI-005, 9a9c744) | `{ line }` → `{ ok, operator?, error? }`. Validate-only, never executes. Powers the command bar's live validation; `span` remains a candidate additive field. |

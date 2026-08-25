@@ -41,6 +41,7 @@ pub mod nuclide;
 pub mod ops;
 pub mod orchestrator;
 pub mod packs;
+pub mod packs_manifest;
 pub mod parallel;
 pub mod particles;
 pub mod photochem;

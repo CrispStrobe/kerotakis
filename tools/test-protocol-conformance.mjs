@@ -158,6 +158,29 @@ for (const file of lessons) {
     console.log("snapshot/restore: round-trip exact, garbage refused");
 }
 
+// --- hello carries the pack inventory (WEB-003) --------------------------
+{
+    const lab = new Lab();
+    const meta = JSON.parse(lab.meta());
+    checks++;
+    if (!Array.isArray(meta.packs) || meta.packs.length < 5) {
+        fail("packs", `hello meta must list the pack inventory, got ${JSON.stringify(meta.packs)}`);
+    } else {
+        for (const p of meta.packs) {
+            checks++;
+            if (typeof p.pack_id !== "string" || typeof p.licence !== "string" || p.licence.length === 0
+                || typeof p.required !== "boolean") {
+                fail("packs", `malformed manifest: ${JSON.stringify(p)}`);
+            }
+        }
+        checks++;
+        if (!meta.packs.some((p) => p.required)) {
+            fail("packs", "no pack is marked required — core-aqueous must be");
+        }
+        console.log(`packs: ${meta.packs.length} in the inventory, licences declared`);
+    }
+}
+
 // --- relations / calc (GUI-027) -----------------------------------------
 // The catalogue rows must be form-buildable, and an evaluation must come
 // back with value, unit, provenance, and all three registers — or an
