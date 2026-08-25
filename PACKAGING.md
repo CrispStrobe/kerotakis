@@ -210,6 +210,39 @@ tauri ios init
   -> tauri ios build --export-method app-store-connect
 ```
 
+### The iOS webview does not fill the screen, and its insets are zero
+
+Measured on an iPhone 16 Pro simulator by printing the values on screen and
+photographing them, because reading a layout off a screenshot is guesswork:
+
+```
+inset T 0px   B 0px   L 0px   R 0px
+innerH 778    clientH 778     visualViewport.h 778     screen.h 874
+#app  h 778   top 0
+```
+
+Two things follow, and the first contradicts the obvious guess:
+
+- **`env(safe-area-inset-*)` is 0 on every side.** The safe-area padding in
+  `app.css` is therefore *inert* in the packaged iOS app — it is not being
+  double-counted, and it is not the cause of anything. It stays because it
+  is load-bearing for the installed PWA, where Safari does report real
+  insets.
+- **The webview is 778pt tall on an 874pt screen, anchored at y=0.** 874 −
+  778 = 96pt, which is this device's top (62) plus bottom (34) safe area.
+  So Tauri sizes the webview to the safe-area *height* but positions it at
+  the top: content can sit under the status bar, and ~96pt at the bottom is
+  outside the webview entirely. It reads as dead space below the tab bar,
+  and is invisible in light mode only because the colour happens to match.
+
+`IosConfig` exposes `template`, `frameworks`, `developmentTeam`,
+`bundleVersion`, `minimumSystemVersion` and `infoPlist` — no layout knob —
+so this is upstream behaviour, not something the app can configure away.
+Worth revisiting on a Tauri upgrade; not worth a CSS hack that hardcodes
+one device's inset.
+
+---
+
 `PrivacyInfo.xcprivacy` goes in `gen/apple/` **root**, not in
 `gen/apple/<app>_iOS/`: that directory is scanned wholesale by the target's
 `sources`, so a file placed there is emitted twice ("Multiple commands
