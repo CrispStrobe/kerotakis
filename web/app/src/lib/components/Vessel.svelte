@@ -54,6 +54,31 @@
       ? Math.max(6, Math.min(FULL_H, (vessel.liquid.volume_l / FULL_AT_L) * FULL_H))
       : 0,
   );
+  // The layer stack in pixels, bottom-up: each layer's share of the
+  // total height is its share of the total volume, so the drawn split
+  // IS the computed split. Falls back to one layer for older scenes.
+  const stackedLayers = $derived.by(() => {
+    if (!vessel.liquid || liquidH <= 0) return [];
+    const source =
+      vessel.layers && vessel.layers.length > 0
+        ? vessel.layers
+        : [
+            {
+              species: "solution",
+              name: "solution",
+              volume_l: vessel.liquid.volume_l,
+              srgb: vessel.liquid.srgb,
+              colour_word: vessel.liquid.colour_word,
+            },
+          ];
+    const total = source.reduce((s, l) => s + l.volume_l, 0) || 1;
+    let bottom = BOTTOM_Y;
+    return source.map((l) => {
+      const h = (l.volume_l / total) * liquidH;
+      bottom -= h;
+      return { ...l, y: bottom, h };
+    });
+  });
   // Only the top few deposits are drawn; the layer arithmetic counts the
   // same ones, or the stack stops short of the floor.
   const shownSolids = $derived(vessel.solids.slice(0, 3));
@@ -128,18 +153,25 @@
     <!-- The empty glass itself, before any contents. -->
     <path d={geom.inner} fill={`url(#vglass-${vessel.id})`} />
     {#if vessel.liquid && liquidH > 0}
-      <rect
-        x={INNER_X}
-        y={BOTTOM_Y - liquidH}
-        width={INNER_W}
-        height={liquidH}
-        fill={rgb(vessel.liquid.srgb)}
-        opacity={liquidOpacity(vessel.liquid.srgb)}
-      />
-      <path
-        class="meniscus"
-        d={`M ${INNER_X + 1} ${BOTTOM_Y - liquidH + 1.5} Q 50 ${BOTTOM_Y - liquidH - 1.5} ${INNER_X + INNER_W - 1} ${BOTTOM_Y - liquidH + 1.5}`}
-      />
+      <!-- Layers (GUI-058): the engine's computed phase split, drawn
+           bottom-up — hexane floats on water because the LLE said so.
+           A mixed solution is one layer and renders exactly as before. -->
+      {#each stackedLayers as layer (layer.species + layer.y)}
+        <rect
+          x={INNER_X}
+          y={layer.y}
+          width={INNER_W}
+          height={layer.h}
+          fill={rgb(layer.srgb)}
+          opacity={liquidOpacity(layer.srgb)}
+        >
+          <title>{layer.colour_word} {layer.name}</title>
+        </rect>
+        <path
+          class="meniscus"
+          d={`M ${INNER_X + 1} ${layer.y + 1.5} Q 50 ${layer.y - 1.5} ${INNER_X + INNER_W - 1} ${layer.y + 1.5}`}
+        />
+      {/each}
       {#if vessel.liquid.cloudiness > 0.01}
         <rect
           x={INNER_X}

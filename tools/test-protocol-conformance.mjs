@@ -59,6 +59,24 @@ function assertScene(scene, context) {
                 if (s[key] === undefined) fail(context, `solid.${key} missing`);
             }
         }
+        // Layers (GUI-058): bottom-first phase split; volumes must sum
+        // to the liquid, or the drawn split lies about the computed one.
+        if (v.layers !== undefined) {
+            checks++;
+            if (!Array.isArray(v.layers) || v.layers.length === 0) {
+                fail(context, "layers present but not a non-empty array");
+            } else {
+                for (const l of v.layers) {
+                    for (const key of ["species", "name", "volume_l", "srgb", "colour_word"]) {
+                        if (l[key] === undefined) fail(context, `layer.${key} missing`);
+                    }
+                }
+                const sum = v.layers.reduce((s, l) => s + l.volume_l, 0);
+                if (v.liquid && Math.abs(sum - v.liquid.volume_l) > 1e-9) {
+                    fail(context, `layer volumes ${sum} != liquid ${v.liquid.volume_l}`);
+                }
+            }
+        }
         for (const b of v.badges ?? []) {
             for (const key of ["key", "value", "confidence"]) {
                 if (b[key] === undefined) fail(context, `badge.${key} missing`);
