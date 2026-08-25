@@ -24,6 +24,7 @@
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
+  import ToolIcon from "./lib/components/ToolIcon.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
 
   // In the Tauri shell the engine is native and in-process; on the web it
@@ -250,7 +251,7 @@
     onclick={() => (buretteOut = !buretteOut)}
     title="clamp the burette over the selected vessel"
   >
-    burette
+    <ToolIcon name="burette" />burette
   </button>
   <select
     class="tool"
@@ -281,7 +282,7 @@
             : { verb: tool.verb, fraction: 0.5, from: null })}
       title={`${tool.verb}: pick the source vessel, then the target`}
     >
-      {tool.label}
+      <ToolIcon name={tool.verb} />{tool.label}
     </button>
   {/each}
   <Timeline
