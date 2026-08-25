@@ -57,8 +57,7 @@ pub enum Phase {
 /// into a reagent bottle, computed rather than painted.
 pub fn shelf_swatch(s: &SpeciesData) -> (Option<[u8; 3]>, Option<[u8; 3]>) {
     let reflective = s.colour.map(|c| [c.r, c.g, c.b]);
-    let solution = s.spectrum.map(|f| {
-        let eps = f();
+    let solution = s.spectrum.map(|eps| {
         let mut a = [0.0f64; crate::spectrum::BANDS];
         for (band, e) in a.iter_mut().zip(eps.iter()) {
             *band = e * 0.1 * 1.0;
@@ -102,7 +101,7 @@ pub struct SpeciesData {
     /// rather than tinted — so mixtures compose, concentration changes
     /// hue, and path length matters.
     #[serde(skip, default)]
-    pub spectrum: Option<fn() -> crate::spectrum::Spectrum>,
+    pub spectrum: Option<&'static crate::spectrum::Spectrum>,
     /// Enthalpy of dissolution in water, kJ/mol, positive = endothermic.
     /// Feeds the vessel energy balance: dissolving NaOH warms the beaker,
     /// dissolving ammonium nitrate would cool it. `None` = not curated yet

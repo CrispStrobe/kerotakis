@@ -17,7 +17,7 @@ fn registry_matches_the_golden_snapshot() {
         // `spectrum` is #[serde(skip)] (a function pointer); evaluate it
         // so the golden pins the actual bands, not just the fields.
         v["spectrum_bands"] = match s.spectrum {
-            Some(f) => serde_json::to_value(f().to_vec()).unwrap(),
+            Some(bands) => serde_json::to_value(bands.to_vec()).unwrap(),
             None => serde_json::Value::Null,
         };
         doc.push(v);

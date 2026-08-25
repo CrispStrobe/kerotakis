@@ -1,8 +1,8 @@
 //! DATA-010's drift pin: the runtime document→species join
 //! (`species_loader::parse_document`) must produce, from the SAME source
 //! document this build compiled, exactly the species `build.rs`
-//! generated into `REGISTRY` — every field except `spectrum`, which is a
-//! fn pointer data cannot supply (the loader's stated v1 limitation).
+//! generated into `REGISTRY` — every field, spectra included since
+//! DATA-011 made them data.
 //!
 //! If build.rs and the loader ever source a field differently, this
 //! fails naming the species and field.
@@ -55,7 +55,19 @@ fn assert_species_eq(key: &str, built: &SpeciesData, loaded: &SpeciesData) {
         }
         _ => panic!("{key}: colour presence differs"),
     }
-    // spectrum: deliberately not compared (fn pointer; loader carries None).
+    // DATA-011: spectra are data now — the drift pin covers them too.
+    match (built.spectrum, loaded.spectrum) {
+        (None, None) => {}
+        (Some(a), Some(b)) => {
+            for (i, (x, y)) in a.iter().zip(b.iter()).enumerate() {
+                assert!(
+                    (x - y).abs() < 1e-12,
+                    "{key}: spectrum band {i} differs ({x} vs {y})"
+                );
+            }
+        }
+        _ => panic!("{key}: spectrum presence differs between build.rs and the loader"),
+    }
 }
 
 #[test]

@@ -153,7 +153,7 @@ fn export_optical(
     }
     let spectrum = species
         .spectrum
-        .map(|make| make())
+        .copied()
         .into_iter()
         .flat_map(|values| BAND_NM.into_iter().zip(values))
         .map(|(wavelength, molar_absorptivity)| SpectralSample {

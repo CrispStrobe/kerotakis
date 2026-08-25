@@ -133,7 +133,7 @@ fn main() {
                     .iter()
                     .map(|s| f64_lit(s["molar_absorptivity"]["value"].as_f64().unwrap()))
                     .collect();
-                format!("Some(|| [{}])", bands.join(", "))
+                format!("Some(&[{}])", bands.join(", "))
             }
             None => "None".to_string(),
         };

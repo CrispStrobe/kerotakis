@@ -7,11 +7,6 @@
 //! parses the SAME source document this build compiled and demands
 //! field-for-field equality with `REGISTRY`.
 //!
-//! One honest limitation, v1: `spectrum` is a `fn() -> Spectrum` field,
-//! which data cannot supply — loaded species carry `None` and therefore
-//! render without a computed solution colour until spectra become
-//! data-driven. The fidelity test skips exactly that field and nothing
-//! else.
 //!
 //! Leaking is deliberate and bounded: packs load at most once per
 //! session per pack, and the alternative (owned strings) would fork
@@ -31,6 +26,35 @@ fn phase_of(p: &str) -> Result<Phase, String> {
         "gas" => Phase::Gas,
         other => return Err(format!("phase '{other}' has no runtime Phase variant")),
     })
+}
+
+/// A loaded species' absorption spectrum: the optical record's sixteen
+/// bands, leaked once. DATA-011 removed the v1 fn-pointer limitation —
+/// pack species now colour their solutions exactly like built-ins.
+fn spectrum_of(
+    key: &str,
+    opt: Option<&serde_json::Value>,
+) -> Result<Option<&'static crate::spectrum::Spectrum>, String> {
+    let Some(samples) = opt
+        .and_then(|o| o["spectrum"].as_array())
+        .filter(|s| !s.is_empty())
+    else {
+        return Ok(None);
+    };
+    if samples.len() != crate::spectrum::BANDS {
+        return Err(format!(
+            "{key}: spectrum must carry {} bands, has {}",
+            crate::spectrum::BANDS,
+            samples.len()
+        ));
+    }
+    let mut bands = [0.0f64; crate::spectrum::BANDS];
+    for (b, s) in bands.iter_mut().zip(samples) {
+        *b = s["molar_absorptivity"]["value"]
+            .as_f64()
+            .ok_or_else(|| format!("{key}: spectrum band without a value"))?;
+    }
+    Ok(Some(Box::leak(Box::new(bands))))
 }
 
 /// Parse a registry document (the JSON shape of
@@ -140,9 +164,7 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
             appearance,
             flame_colour,
             colour,
-            // v1 limitation, stated in the module docs: spectra are fn
-            // pointers and cannot come from data yet.
-            spectrum: None,
+            spectrum: spectrum_of(key, opt)?,
             dissolution_enthalpy_kj: dissolution,
             dissolves_without_speciation: param_for(key, "dissolves-without-speciation")
                 .unwrap_or(0.0)
