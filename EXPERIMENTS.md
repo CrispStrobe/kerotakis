@@ -350,10 +350,11 @@ What follows is only what is genuinely NEW.
   backed by a computed solve or a curated row with provenance; wrong
   inferences get diagnosis lines in the codex predict style. HARDER
   (breadth, not depth) — the highest-value single item in this part.
-- **EXP-31 — Gas tests** — pop (H2), glowing splint (O2), limewater
-  (CO2, exists), damp litmus (NH3) as curated test actions on the
-  headspace, each an event with three registers. Acceptance: the four
-  classic gases each identified from a genuinely evolved headspace.
+- **EXP-31 — Gas tests** — [x] **done 2026-08-25** (kero1), branch
+  `kero1/exp31-gas-tests`. Pop (H2), glowing splint (O2), limewater
+  (CO2), damp litmus (NH3) as curated test actions on the headspace,
+  each an event with three registers. 18 tests: positive/negative/
+  refusal paths, mass conservation, O₂-limited combustion.
 - **EXP-32 — True solution / colloid / suspension** — particle-size
   classification + a Tyndall-scatter flag on appearance; filtration
   and settling behaviour differ by class. Acceptance: salt vs starch
