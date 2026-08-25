@@ -96,10 +96,55 @@ else
 fi
 
 echo "== tauri ios build"
+# Its own export step is expected to fail here, and that is not a problem
+# worth working around any harder: Tauri generates an ExportOptions.plist
+# without a `provisioningProfiles` mapping, which automatic signing does
+# not need and manual signing cannot do without —
+#   error: exportArchive "Kerotakis.app" requires a provisioning profile.
+# The archive it produces first is perfectly good, so take that and export
+# it below with options that name the profile. Same split the Xcode-project
+# recipes use: archive and export are separate calls.
+set +e
 npx tauri ios build --export-method app-store-connect
+set -e
 
-IPA="$(find "$GEN/build" -name '*.ipa' -print0 | xargs -0 ls -t 2>/dev/null | head -1)"
-[ -n "$IPA" ] || { echo "no .ipa produced under $GEN/build"; exit 1; }
+ARCHIVE="$(find "$GEN/build" -maxdepth 1 -name '*.xcarchive' | head -1)"
+[ -n "$ARCHIVE" ] || { echo "no .xcarchive under $GEN/build — the build itself failed"; exit 1; }
+echo "== archive: $ARCHIVE"
+
+echo "== export (manual signing, profile named explicitly)"
+EXPORT_DIR="$GEN/build/export"
+rm -rf "$EXPORT_DIR"
+cat > "$GEN/build/ExportOptions.plist" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>method</key><string>app-store-connect</string>
+    <key>destination</key><string>export</string>
+    <key>teamID</key><string>$TEAM_ID</string>
+    <key>signingStyle</key><string>manual</string>
+    <key>signingCertificate</key><string>Apple Distribution</string>
+    <key>provisioningProfiles</key>
+    <dict>
+        <key>$BUNDLE_ID</key><string>$PROFILE_NAME</string>
+    </dict>
+    <key>uploadSymbols</key><true/>
+</dict>
+</plist>
+PLIST
+# /usr/bin first, for rsync. `-exportArchive` shells out to it, and a
+# Homebrew rsync ahead of Apple's openrsync makes the export die with a
+# bare "error: exportArchive Copy failed" that reads exactly like a signing
+# problem and is not one.
+PATH="/usr/bin:$PATH" xcodebuild -exportArchive \
+    -archivePath "$ARCHIVE" \
+    -exportPath "$EXPORT_DIR" \
+    -exportOptionsPlist "$GEN/build/ExportOptions.plist" \
+    | tail -5
+
+IPA="$(find "$EXPORT_DIR" -name '*.ipa' | head -1)"
+[ -n "$IPA" ] || { echo "no .ipa produced under $EXPORT_DIR"; exit 1; }
 echo "== produced $IPA ($(du -h "$IPA" | cut -f1))"
 
 echo "== what got signed"
@@ -128,24 +173,7 @@ if [ "$UPLOAD" = 0 ]; then
     exit 0
 fi
 
-# Resolved from the API by bundle id, not taken on trust: uploading
-# with the wrong numeric id silently lands the build in another app.
-ASC_APP_ID="${ASC_APP_ID:-$(python3 "$ROOT/tools/asc/app-id.py")}"
-echo "== app $ASC_APP_ID"
-echo "== validate against Apple"
-xcrun altool --validate-app -f "$IPA" --type ios \
-    --apple-id "$ASC_APP_ID" \
-    --bundle-id "$BUNDLE_ID" \
-    --api-key "$KEY_ID" --api-issuer "$ISSUER_ID"
-
-echo "== upload"
-xcrun altool --upload-package "$IPA" --type ios \
-    --apple-id "$ASC_APP_ID" \
-    --bundle-id "$BUNDLE_ID" \
-    --bundle-version "${BUILD_NUMBER:-1}" \
-    --bundle-short-version-string "$VERSION" \
-    --api-key "$KEY_ID" --api-issuer "$ISSUER_ID"
-
-echo
-echo "OK: uploaded $IPA"
-echo "Next: tools/asc/testflight.py ios, once processing reports VALID."
+# Everything altool needs is read back out of the artifact by upload.py —
+# passing a version the bundle does not carry is a 409, and altool exits 0
+# when an upload fails, so the exit code alone cannot be trusted.
+python3 "$ROOT/tools/asc/upload.py" "$IPA"

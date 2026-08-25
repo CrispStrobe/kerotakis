@@ -106,24 +106,7 @@ if [ "$UPLOAD" = 0 ]; then
     exit 0
 fi
 
-# Resolved from the API by bundle id, not taken on trust: uploading
-# with the wrong numeric id silently lands the build in another app.
-ASC_APP_ID="${ASC_APP_ID:-$(python3 "$ROOT/tools/asc/app-id.py")}"
-echo "== app $ASC_APP_ID"
-echo "== validate against Apple"
-xcrun altool --validate-app -f "$PKG" --type macos \
-    --apple-id "$ASC_APP_ID" \
-    --bundle-id "$BUNDLE_ID" \
-    --api-key "$KEY_ID" --api-issuer "$ISSUER_ID"
-
-echo "== upload"
-xcrun altool --upload-package "$PKG" --type macos \
-    --apple-id "$ASC_APP_ID" \
-    --bundle-id "$BUNDLE_ID" \
-    --bundle-version "${BUILD_NUMBER:-1}" \
-    --bundle-short-version-string "$VERSION" \
-    --api-key "$KEY_ID" --api-issuer "$ISSUER_ID"
-
-echo
-echo "OK: uploaded $PKG"
-echo "Next: tools/asc/testflight.py, once processing reports VALID."
+# Everything altool needs is read back out of the artifact by upload.py —
+# passing a version the bundle does not carry is a 409, and altool exits 0
+# when an upload fails, so the exit code alone cannot be trusted.
+python3 "$ROOT/tools/asc/upload.py" "$PKG"
