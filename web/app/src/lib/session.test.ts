@@ -386,10 +386,46 @@ describe("Session", () => {
     expect(s2.commandLog).toEqual(["add v1 water 100mL", "add v1 NaCl 1g"]);
     expect(s2.position).toBe(1);
     expect(s2.register).toBe("lv2");
-    // Restored by replaying exactly the applied prefix.
+    // v2 saves carry the engine snapshot: restored in ONE call, no replay.
     expect(host2.calls).toContain("register:lv2");
-    expect(host2.calls).toContain("run:add v1 water 100mL");
-    expect(s2.feed.some((f) => f.text.includes("restored"))).toBe(true);
+    expect(host2.calls.some((c) => c.startsWith("restore:snap@"))).toBe(true);
+    expect(host2.calls.some((c) => c.startsWith("run:"))).toBe(false);
+    expect(s2.feed.some((f) => f.text.includes("instantly"))).toBe(true);
+  });
+
+  it("a v1 save (no snapshot) still restores, by replay", async () => {
+    const storage = new FakeStorage();
+    storage.setItem(
+      "kero.session.v1",
+      JSON.stringify({ log: ["add v1 water 100mL"], position: 1, register: "lv1" }),
+    );
+    const host = new FakeHost();
+    const s = new Session(host, storage);
+    await s.connect();
+    expect(host.calls).toContain("run:add v1 water 100mL");
+    expect(s.position).toBe(1);
+  });
+
+  it("a stale snapshot token falls back to replay, not a broken bench", async () => {
+    const storage = new FakeStorage();
+    storage.setItem(
+      "kero.session.v1",
+      JSON.stringify({
+        log: ["add v1 water 100mL"],
+        position: 1,
+        register: "lv1",
+        snapshot: "snap@from-an-older-engine",
+      }),
+    );
+    const host = new FakeHost();
+    host.restore = async () => {
+      throw new Error("the snapshot did not parse");
+    };
+    const s = new Session(host, storage);
+    await s.connect();
+    expect(host.calls).toContain("run:add v1 water 100mL");
+    expect(s.position).toBe(1);
+    expect(s.feed.some((f) => f.text.includes("replayed"))).toBe(true);
   });
 
   it("a corrupt save is dropped, never wedging the bench", async () => {
