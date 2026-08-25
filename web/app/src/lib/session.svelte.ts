@@ -450,7 +450,13 @@ export class Session {
       diluted: "swirl",
       flame_test: "ignite",
     };
-    const kind = EFFECTS[String(event?.event ?? "")];
+    const tag = String(event?.event ?? "");
+    let kind = EFFECTS[tag];
+    if (tag === "measured") {
+      const inst = String(event.instrument ?? "");
+      if (inst === "thermometer") kind = "thermometer";
+      else if (inst === "ph_meter") kind = "ph_probe";
+    }
     if (!kind) return;
     const vessel = Number(
       (event.vessel as number | undefined) ?? (event.from as number | undefined) ?? 0,

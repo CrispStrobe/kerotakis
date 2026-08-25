@@ -252,6 +252,28 @@ describe("Session", () => {
     expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse", "swirl"]);
   });
 
+  it("measured events surface as instrument effects (GUI-062)", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [
+            { event: "measured", vessel: 0, instrument: "thermometer", value: 25.0, unit: "°C" },
+            { event: "measured", vessel: 1, instrument: "ph_meter", value: 4.2, unit: "pH" },
+            { event: "measured", vessel: 0, instrument: "balance", value: 12.3, unit: "g" },
+          ],
+          rendered: [],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("measure v1 thermometer");
+    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["thermometer"]);
+    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["ph_probe"]);
+  });
+
   it("a titrated event starts the paced playback (GUI-064)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

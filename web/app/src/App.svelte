@@ -432,6 +432,7 @@
       onselect={(id) => vesselTapped(id)}
       pristine={session.commandLog.length === 0 && !session.lesson}
       effects={session.vesselEffects}
+      titrationPlayback={session.titrationPlayback}
       onnewvessel={(kind) => void session.submit(kind === "beaker" ? "new" : `new ${kind}`)}
       onbadge={(vessel, reading) => (inset = { vessel, reading })}
       fluidLookup={(key) => {
