@@ -610,3 +610,81 @@ every new dependency through the LIC checklist before first import.
   commercially.
 - Investing in the TUI beyond debugging parity — it remains a developer
   surface.
+
+### The realism bar (2026-08-25 addendum, owner-directed)
+
+The reference quality is the established national school-lab platforms'
+simulation pages: rendered instruments, task animations, effects whose
+LOOK carries the MAGNITUDE. Our standing rule keeps us honest where
+those platforms are theatrical: every visual quantity below traces to a
+computed number — realism here means *rendering the simulation*, never
+decorating it.
+
+- [ ] **GUI-058 — Liquid layers in the Scene (engine + client).** The
+  engine already computes liquid–liquid equilibrium (water–hexane LLE,
+  `solve::layered_pair`) but Scene JSON collapses everything into one
+  liquid block. Additive `layers: [SceneLayer]` on SceneVessel — per
+  layer: species, name, volume_l (from moles × molar volume via the
+  registry's density), srgb, colour_word, stacking order by density.
+  Client draws stacked fills with distinct menisci. One layer = today's
+  render, so the change is invisible until chemistry splits. DoD:
+  hexane-on-water renders two layers with correct proportions; scene
+  conformance checks the layer shape; single-phase vessels byte-identical.
+- [ ] **GUI-059 — Effect magnitudes.** Events carry amounts; visuals must
+  scale by them: bubble count/rate from moles of gas evolved, flame size
+  from energy/rate and COLOUR from the FlameTest event's computed colour
+  word, stir vigour from the operator, precipitate fall density from
+  moles. DoD: doubling the chemistry visibly doubles the effect; every
+  scale factor names its event field in a comment.
+- [ ] **GUI-065 — Fluid dynamics as the transport layer (supersedes
+  GUI-060's scripted plume).** Owner question answered 2026-08-25:
+  SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,
+  never touching the chemistry.
+  **065a, Eulerian (first):** a per-active-vessel stable-fluids grid
+  (~64×96; semi-Lagrangian advection, Jacobi pressure projection,
+  SDF boundary from the glass `inner` path) advecting per-species
+  CONCENTRATION fields — dye plumes, stirring vortices, miscible
+  diffusion, and density-buoyant layer separation all emerge; full
+  VOF/PLIC rejected as overkill because the REST interface truth is
+  GUI-058's static layer render, cross-faded to on settle.
+  **065b, Lagrangian (second):** particles only above/at the surface —
+  pour stream breaking into droplets, burette drips, splash ejecta —
+  handing mass+momentum into the grid on entry (mini-FLIP handoff).
+  Ground rules: plain TypeScript + typed arrays (no deps; wasm only if
+  profiling demands, and never inside the engine module); sim runs in
+  activity windows then freezes to the static render;
+  prefers-reduced-motion skips straight to settled. THE HONESTY GATE,
+  unit-tested: settled concentrations must converge to the engine's
+  layer volumes and colours — the sim animates TOWARD the solver's
+  answer, never past it. DoD 065a: KMnO4 into water shows violet
+  tendrils dispersing to exactly the scene srgb; hexane onto water
+  visibly separates into GUI-058's two layers; stir drives a vortex
+  that decays; all kernels/projection/settle covered by vitest.
+- [ ] **GUI-061 — Volume-true fills.** Fill height must come from the
+  vessel kind's real capacity and geometry (a conical flask's height vs
+  volume is not linear). Per-kind capacity_ml + a volume→height profile;
+  additions raise the level by exactly what was added. DoD: 50 mL into a
+  100 mL beaker reads half; the same 50 mL in the flask reads correctly
+  non-linear; cylinder graduations line up with real volumes.
+- [ ] **GUI-062 — Instruments on the bench.** The burette clamps OVER the
+  vessel on the bench (drawn, with stopcock and falling drops during
+  titration), thermometer and pH probe render in-vessel when measuring,
+  the still connects two vessels visibly. Portraits (ToolIcon) grow into
+  bench-scale drawings as each tool earns it.
+- [ ] **GUI-063 — In-experiment visual shelves.** Lessons and codex
+  experiments present their kit as a RENDERED shelf strip (SpeciesChip
+  visuals, tap-to-add) directly in the LessonBar / experiment page —
+  the pick-what-you-need surface the reference platforms open with.
+- [ ] **GUI-064 — Animation of running tasks.** Multi-step operations
+  (titrate, distil, electrolyse, transport) animate over their duration
+  instead of jumping to the result: the burette's meniscus falls per
+  increment, the still's receiver fills, electrode gas accumulates.
+  Driven by the per-step data the engine already returns (titration
+  curve points, transported fractions).
+
+Split: GUI-058 + 060 + 064 are architecture/engine-coupled (fable);
+GUI-061 + 063 are self-contained client work (kero-basic);
+GUI-059 + 062 are client work gated on no engine change (kero1, after
+the KLU fix). Magnitude scaling rules (GUI-059) and layer rendering
+(GUI-058) meet in Vessel.svelte — coordinate before touching it in
+parallel.
