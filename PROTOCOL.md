@@ -79,7 +79,7 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 | `reset` | existing | `{}` → `{}`. Bench only; session (register, packs, cache) survives. |
 | `snapshot` | done (O(1) undo) | `{}` → `{ snapshot }` — the bench as an OPAQUE token (today: `Bench` serde JSON; clients must not parse it). Session state is not in it. |
 | `restore` | done (O(1) undo) | `{ snapshot }` → `{}`. Replace the bench with a `snapshot` token; must be indistinguishable from replaying the prefix the snapshot was taken after. Session survives, exactly like `reset`. |
-| `load_cache` / `load_pack` | existing | per WEB-002/WEB-003; pack manifests are signed per LIC-009. |
+| `load_pack` | done (DATA-010) | wasm: `loadPack(bytes)`; shell: `{ bytes_b64 }` → `{ added, skipped, loaded_total }`. A `.pack` (KREG magic, version, embedded sha256, registry-document payload; `kero pack export`, shipped as `packs/*.pack` + hashed `packs/index.json`) adds species to the shelf AND every lookup at runtime; built-ins are never shadowed; corruption refuses by hash; one bad record refuses the whole pack. v1 limitation, stated: loaded species carry no absorption spectrum (fn-pointer field) until spectra are data-driven. `load_cache` per WEB-002. |
 | `cancel` | existing (needs `target`) | terminal `cancelled` for the target id. |
 
 Promoting the `Lab`-only methods to `WorkerCommand` variants is part of

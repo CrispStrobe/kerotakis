@@ -117,6 +117,50 @@ fn main() {
                 }
             }
         }
+        Some("pack") => {
+            // DATA-010: compile a registry document into a .pack for
+            // independent delivery. Default source: the checked-in
+            // registry; --from for arbitrary documents (tests, future
+            // pack authors).
+            let sub = args.get(1).map(String::as_str).unwrap_or("");
+            if sub != "export" {
+                eprintln!("kero pack: usage: pack export [--from doc.json] OUT.pack");
+                std::process::exit(2);
+            }
+            let from = args
+                .iter()
+                .position(|a| a == "--from")
+                .and_then(|i| args.get(i + 1))
+                .cloned()
+                .unwrap_or_else(|| "data/registry/registry-source-v1.json".to_string());
+            let out = args
+                .iter()
+                .skip(2)
+                .find(|a| *a != "--from" && !from.ends_with(a.as_str()))
+                .cloned()
+                .unwrap_or_else(|| "registry.pack".to_string());
+            let text = std::fs::read_to_string(&from).unwrap_or_else(|e| {
+                eprintln!("kero pack export: reading {from}: {e}");
+                std::process::exit(2);
+            });
+            let doc: kerotakis_data::RegistryDocument =
+                serde_json::from_str(&text).unwrap_or_else(|e| {
+                    eprintln!("kero pack export: {from} is not a registry document: {e}");
+                    std::process::exit(2);
+                });
+            let pack = kerotakis_data::build_pack(&doc);
+            use sha2::{Digest, Sha256};
+            let hash = format!("{:x}", Sha256::digest(&pack));
+            std::fs::write(&out, &pack).unwrap_or_else(|e| {
+                eprintln!("kero pack export: writing {out}: {e}");
+                std::process::exit(2);
+            });
+            println!(
+                "pack: {} species → {out} ({} bytes, sha256 {hash})",
+                doc.identities.len(),
+                pack.len()
+            );
+        }
         Some("provenance") => {
             let sub = args.get(1).map(String::as_str).unwrap_or("lint");
             if sub != "lint" {

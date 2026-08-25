@@ -18,6 +18,7 @@ tauri = { version = "2", features = [] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 kerotakis-core = { path = "../../../crates/kerotakis-core" }
+kerotakis-data = { path = "../../../crates/kerotakis-data" }
 kerotakis-phreeqc = { path = "../../../crates/kerotakis-phreeqc" }
 kerotakis-cea = { path = "../../../crates/kerotakis-cea" }
 kerotakis-stack = { path = "../../../crates/kerotakis-stack" }

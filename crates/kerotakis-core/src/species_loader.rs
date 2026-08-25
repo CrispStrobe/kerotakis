@@ -1,0 +1,160 @@
+//! DATA-010: species from a loaded pack, at runtime.
+//!
+//! This is build.rs's document→`SpeciesData` join, mirrored for runtime:
+//! the same field sourcing over the same registry-document shape, but
+//! producing leaked `'static` values instead of generated code. Drift
+//! between the two joins is pinned by `tests/loader_fidelity.rs`, which
+//! parses the SAME source document this build compiled and demands
+//! field-for-field equality with `REGISTRY`.
+//!
+//! One honest limitation, v1: `spectrum` is a `fn() -> Spectrum` field,
+//! which data cannot supply — loaded species carry `None` and therefore
+//! render without a computed solution colour until spectra become
+//! data-driven. The fidelity test skips exactly that field and nothing
+//! else.
+//!
+//! Leaking is deliberate and bounded: packs load at most once per
+//! session per pack, and the alternative (owned strings) would fork
+//! `SpeciesData` into two types across the whole engine.
+
+use crate::species::{Colour, Phase, SpeciesData};
+
+fn leak(s: &str) -> &'static str {
+    Box::leak(s.to_string().into_boxed_str())
+}
+
+fn phase_of(p: &str) -> Result<Phase, String> {
+    Ok(match p {
+        "solid" => Phase::Solid,
+        "liquid" => Phase::Liquid,
+        "aqueous" => Phase::Aqueous,
+        "gas" => Phase::Gas,
+        other => return Err(format!("phase '{other}' has no runtime Phase variant")),
+    })
+}
+
+/// Parse a registry document (the JSON shape of
+/// `kerotakis-data`'s `RegistryDocument` / the DATA-002 export) into
+/// runtime species. Every error names its species and field — a pack
+/// with one bad record refuses as a whole rather than half-loading.
+pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, String> {
+    let arr = |k: &str| -> Result<&Vec<serde_json::Value>, String> {
+        doc[k]
+            .as_array()
+            .ok_or_else(|| format!("document has no '{k}' array"))
+    };
+    let identities = arr("identities")?;
+    let compositions = arr("compositions")?;
+    let thermo = arr("phase_thermodynamics")?;
+    let optical = arr("optical")?;
+    let params = arr("model_parameters")?;
+    let sources = arr("sources")?;
+
+    let find_source = |id: &str| -> Result<&str, String> {
+        sources
+            .iter()
+            .find(|s| s["id"] == id)
+            .and_then(|s| s["citation"].as_str())
+            .ok_or_else(|| format!("no source citation for {id}"))
+    };
+    let thermo_for = |key: &str, prop: &str| -> Option<&serde_json::Value> {
+        thermo
+            .iter()
+            .find(|t| t["species_id"] == key && t["property"] == prop)
+    };
+    let param_for = |key: &str, parameter: &str| -> Option<f64> {
+        params
+            .iter()
+            .find(|p| {
+                p["parameter"] == parameter
+                    && p["subject"]["kind"] == "species"
+                    && p["subject"]["id"] == key
+            })
+            .and_then(|p| p["quantity"]["value"].as_f64())
+    };
+
+    let mut out = Vec::with_capacity(identities.len());
+    for identity in identities {
+        let key = identity["id"]
+            .as_str()
+            .ok_or_else(|| "identity without id".to_string())?;
+        let fail = |what: &str| format!("{key}: {what}");
+
+        let comp = compositions
+            .iter()
+            .find(|c| c["species_id"] == key)
+            .ok_or_else(|| fail("no composition"))?;
+        let mm = thermo_for(key, "molar_mass").ok_or_else(|| fail("no molar mass"))?;
+        let molar_mass = mm["quantity"]["value"]
+            .as_f64()
+            .ok_or_else(|| fail("molar mass has no value"))?;
+        let standard_phase = phase_of(
+            mm["phase"]
+                .as_str()
+                .ok_or_else(|| fail("molar mass has no phase"))?,
+        )
+        .map_err(|e| fail(&e))?;
+        let heat_capacity = thermo_for(key, "molar_heat_capacity")
+            .and_then(|t| t["quantity"]["value"].as_f64())
+            .ok_or_else(|| fail("no heat capacity"))?;
+        let density = thermo_for(key, "mass_density")
+            .and_then(|t| t["quantity"]["value"].as_f64())
+            .ok_or_else(|| fail("no density"))?;
+        let dissolution = thermo_for(key, "enthalpy_of_dissolution")
+            .and_then(|t| t["quantity"]["value"].as_f64());
+
+        let opt = optical.iter().find(|o| o["species_id"] == key);
+        let appearance = opt
+            .and_then(|o| o["appearance"].as_str())
+            .map(leak)
+            .map(|s| s as &'static str);
+        let flame_colour = opt.and_then(|o| o["flame_colour"].as_str()).map(leak);
+        let colour = match opt.and_then(|o| o["reflective_srgb"].as_str()) {
+            Some(hex) => {
+                let h = hex.trim_start_matches('#');
+                let byte = |r: std::ops::Range<usize>| {
+                    u8::from_str_radix(h.get(r).unwrap_or(""), 16)
+                        .map_err(|_| fail(&format!("bad srgb hex '{hex}'")))
+                };
+                let strength =
+                    param_for(key, "strength").ok_or_else(|| fail("srgb without tint strength"))?;
+                Some(Colour {
+                    r: byte(0..2)?,
+                    g: byte(2..4)?,
+                    b: byte(4..6)?,
+                    strength,
+                })
+            }
+            None => None,
+        };
+
+        out.push(SpeciesData {
+            key: leak(key),
+            name: leak(identity["name"].as_str().ok_or_else(|| fail("no name"))?),
+            formula: leak(comp["formula"].as_str().ok_or_else(|| fail("no formula"))?),
+            inchikey: leak(identity["identifiers"]["inchikey"].as_str().unwrap_or("")),
+            molar_mass,
+            heat_capacity,
+            density,
+            standard_phase,
+            appearance,
+            flame_colour,
+            colour,
+            // v1 limitation, stated in the module docs: spectra are fn
+            // pointers and cannot come from data yet.
+            spectrum: None,
+            dissolution_enthalpy_kj: dissolution,
+            dissolves_without_speciation: param_for(key, "dissolves-without-speciation")
+                .unwrap_or(0.0)
+                != 0.0,
+            forms_only_above_k: param_for(key, "forms-only-above"),
+            magnetic: param_for(key, "magnetic").unwrap_or(0.0) != 0.0,
+            provenance: leak(find_source(
+                identity["evidence"]["source_id"]
+                    .as_str()
+                    .ok_or_else(|| fail("no source id"))?,
+            )?),
+        });
+    }
+    Ok(out)
+}

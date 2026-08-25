@@ -91,6 +91,22 @@ PYEOF
 echo "== codex export"
 cargo run -p kerotakis-cli -- codex export "$OUT/codex/index.json"
 
+echo "== species pack (DATA-010)"
+mkdir -p "$OUT/packs"
+cargo run -p kerotakis-cli -- pack export "$OUT/packs/registry.pack"
+python3 - "$OUT/packs" <<'PYMANIFEST'
+import hashlib, json, os, sys
+d = sys.argv[1]
+packs = []
+for f in sorted(os.listdir(d)):
+    if not f.endswith(".pack"):
+        continue
+    data = open(os.path.join(d, f), "rb").read()
+    packs.append({"file": f, "sha256": hashlib.sha256(data).hexdigest(), "size": len(data)})
+open(os.path.join(d, "index.json"), "w").write(json.dumps({"packs": packs}, indent=1))
+print(f"   manifest: {len(packs)} pack(s)")
+PYMANIFEST
+
 echo "== pre-warmed lessons and R1 acceptance states"
 cargo run -p kerotakis-cli -- prewarm "$ROOT"/lessons/*.lab \
     -o "$OUT/results.postcard"
