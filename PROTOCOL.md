@@ -8,8 +8,13 @@ implement it:
 - **TauriHost** — desktop/mobile: native `kerotakis-core` on a background
   thread behind `tauri::command` (GUI-030).
 
-The UI must not be able to tell them apart. One conformance suite runs
-against both (GUI-001 acceptance).
+The UI must not be able to tell them apart. Conformance is checked per
+transport: the wasm host by `tools/test-protocol-conformance.mjs` (CI's
+wasm job), the shell by `cargo test` in `web/app/src-tauri` — its
+`protocol_conformance` module exercises the same `dispatch` the GUI
+reaches through `engine_request`, no webview needed (GUI-001
+acceptance). A command answering differently across the two is a
+protocol bug even when both GUIs happen to work.
 
 This document canonizes what already exists — the wasm `Lab` API, the
 WEB-002 `WorkerCommand`/`WorkerResponse` enums in
@@ -61,17 +66,19 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 | `cmd` | Status | Request → `result_json` |
 |---|---|---|
 | `hello` | done except `packs` | `{}` → `{ protocol, can_solve, engine_loaded, load_failure, aqueous_note, engine_version, git_rev, registers }`. `git_rev` is stamped by the build (`KEROTAKIS_GIT_REV`; null in unstamped dev builds). Still to grow: `packs: [ModelPackManifest]` when pack loading lands. Must be answerable before any pack loads. |
-| `step` | done | `{ operator_json }` → `{ events, rendered, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `scene` the render model (one round trip repaints the bench). |
-| `run_script` | done | `{ script }` → `{ steps: [{operator, events, rendered}], scene, bench }`. |
+| `step` | done | `{ operator_json }` → `{ events, rendered, charts, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `charts` the CAP-3 `Chart[]` the step's events earned (empty when none; first producer: the titration curve), `scene` the render model (one round trip repaints the bench). |
+| `run_script` | done | `{ script }` → `{ steps: [{operator, events, rendered, charts}], scene, bench }`. |
 | `parse` | done (GUI-005, 9a9c744) | `{ line }` → `{ ok, operator?, error? }`. Validate-only, never executes. Powers the command bar's live validation; `span` remains a candidate additive field. |
 | `relations` | done (GUI-027) | `{}` → `[{ name, equation, args }]` — the CAP-5 named-relations catalogue. `args` is the CLI arg-spec string (`k=<hint>`, brackets for optional); clients build forms from it rather than hard-coding fields. |
 | `calc` | done (GUI-027) | `{ name, args: ["k=v", …] }` → `{ ok, value, unit, provenance, lv1, lv2, lv3 }` or `{ ok: false, error }`. One evaluation of a named relation; the result explains itself at every register and names its source. Same argument grammar as `kero calc`. |
 | `set_register` | existing | `{ level }` → `{}`. Presentation only; never re-solves. |
 | `state` | existing | `{}` → `{ vessels, steps }` (full serde `Vessel`s — the lv3/machine contract). |
 | `scene` | done (GUI-003) | `{}` → Scene JSON v1 (below). The render model; everything a bench canvas needs, nothing it must derive. |
-| `species` | existing | `{}` → shelf list: key, name, formula, phase, appearance, provenance — plus the visual fields (additive, 2026-08-24): `srgb` (reflective colour), `solution_srgb` (computed 0.1 M / 1 cm transmitted tint), `flame` (characteristic flame-colour word). Hazard classes join when the safety-matrix export lands. |
+| `species` | existing | `{}` → shelf list: key, name, formula, phase, appearance, provenance, hazards, hazard_assessed — plus visual fields: `srgb` (reflective colour), `solution_srgb` (computed 0.1 M / 1 cm transmitted tint), `flame` (characteristic flame-colour word). `hazards` is a string array of GHS-style labels from the CAP-11 safety matrix; `[]` = no hazard classification (inert species). `hazard_assessed` is a boolean: `true` when the species has an explicit safety-matrix row (including explicitly inert), `false` when unassessed — clients should show "unassessed" rather than "safe". |
 | `look` / `inspect` / `particles` | existing (`Lab` methods, not yet WorkerCommands) | `{ vessel }` → observation / `{rendered, vessel}` / `{census, rendered}`. |
 | `reset` | existing | `{}` → `{}`. Bench only; session (register, packs, cache) survives. |
+| `snapshot` | done (O(1) undo) | `{}` → `{ snapshot }` — the bench as an OPAQUE token (today: `Bench` serde JSON; clients must not parse it). Session state is not in it. |
+| `restore` | done (O(1) undo) | `{ snapshot }` → `{}`. Replace the bench with a `snapshot` token; must be indistinguishable from replaying the prefix the snapshot was taken after. Session survives, exactly like `reset`. |
 | `load_cache` / `load_pack` | existing | per WEB-002/WEB-003; pack manifests are signed per LIC-009. |
 | `cancel` | existing (needs `target`) | terminal `cancelled` for the target id. |
 

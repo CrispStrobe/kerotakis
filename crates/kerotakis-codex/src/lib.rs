@@ -36,6 +36,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "filtered",
     "flame_test",
     "gas_absorbed",
+    "gas_tested",
     "gas_contained",
     "gas_evolved",
     "hazard_warning",
@@ -44,6 +45,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "inert",
     "inert_in_solvent",
     "layers_formed",
+    "magnet_separated",
     "measured",
     "mixed",
     "no_cell",
@@ -70,6 +72,9 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "vessel_swept",
     "nuclide_spiked",
     "decayed",
+    "smelled",
+    "burst",
+    "heat_of_mixing",
 ];
 
 use kerotakis_core::{Phase, Register};
@@ -879,6 +884,26 @@ impl Codex {
     }
 }
 
+/// The full codex payload for the web app: entries, models, and the
+/// concepts graph in a single JSON file. The shape is the serde of
+/// the existing structs — Rust is the source of truth.
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CodexExport {
+    pub reactions: Vec<Entry>,
+    pub models: Vec<Model>,
+    pub concepts: Vec<Concept>,
+}
+
+impl CodexExport {
+    pub fn build(codex: &Codex, vocabulary: &Vocabulary) -> Self {
+        Self {
+            reactions: codex.reactions.clone(),
+            models: codex.models.clone(),
+            concepts: vocabulary.concepts.clone(),
+        }
+    }
+}
+
 /// What the codex covers, for seeing what it does not.
 #[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Coverage {
@@ -936,11 +961,16 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Partitioned { species, .. } => ("partitioned", Some(species.0.as_str())),
         E::Chromatographed { .. } => ("chromatographed", None),
         E::OrgReacted { name, .. } => ("org_reacted", Some(name.as_str())),
+        E::Smelled { .. } => ("smelled", None),
+        E::GasTested { .. } => ("gas_tested", None),
+        E::Burst { .. } => ("burst", None),
+        E::HeatOfMixing { .. } => ("heat_of_mixing", None),
         E::NuclideSpiked { nuclide, .. } => ("nuclide_spiked", Some(nuclide.as_str())),
         E::Decayed { parent, .. } => ("decayed", Some(parent.as_str())),
         E::DissolvedInSolvent { species, .. } => ("dissolved_in_solvent", Some(species.0.as_str())),
         E::InertInSolvent { species, .. } => ("inert_in_solvent", Some(species.0.as_str())),
         E::Filtered { .. } => ("filtered", None),
+        E::MagnetSeparated { .. } => ("magnet_separated", None),
         E::Transferred { .. } => ("transferred", None),
         E::Measured { .. } => ("measured", None),
         E::Observed { .. } => ("observed", None),

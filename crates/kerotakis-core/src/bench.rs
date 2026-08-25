@@ -77,6 +77,7 @@ impl Bench {
         let mut default_stack = SolverStack::new(vec![
             Box::new(MixingEquilibrator),
             Box::new(crate::nonaqueous::NonAqueousEquilibrator),
+            Box::new(crate::hmix::MixingEnthalpyEquilibrator),
             Box::new(HonestyEquilibrator),
         ]);
         self.step_with(op, &mut default_stack, &PermissiveScreen)
@@ -153,6 +154,36 @@ impl Bench {
                 }
             }
             vessel.refresh_pressure();
+            // CAP-25: sealed glass has a limit, and exceeding it is an
+            // event, not a scripted animation. The seal fails, the
+            // gases vent, and the ledger stays exact through the bang.
+            if vessel.is_sealed() && vessel.pressure.0 > crate::senses::GLASS_BURST_PA {
+                let at = vessel.pressure.0;
+                let gases = vent_headspace(vessel);
+                vessel.headspace = Headspace::Open;
+                vessel.refresh_pressure();
+                events.push(Event::Burst {
+                    vessel: id,
+                    at_pa: at,
+                    rating_pa: crate::senses::GLASS_BURST_PA,
+                });
+                events.push(Event::HazardWarning {
+                    severity: crate::solve::Severity::Danger,
+                    hazard: "sealed vessel over-pressurised and burst".to_string(),
+                    real_world: "flying glass and a pressure wave — sealed \
+                                 systems on a heat source are how real labs \
+                                 get hurt; safe only because this lab is \
+                                 virtual"
+                        .to_string(),
+                });
+                for (species, moles) in gases {
+                    events.push(Event::GasEvolved {
+                        vessel: id,
+                        species,
+                        moles,
+                    });
+                }
+            }
         }
 
         // A temperature announced mid-step may be overtaken by a later
@@ -735,6 +766,59 @@ impl Bench {
                     from: *from,
                     to: *to,
                 });
+            }
+            Operator::Magnet { from, to } => {
+                if from == to {
+                    return Err(BenchError::SelfTransfer);
+                }
+                let (magnetic_solids, remained_ids) = {
+                    let src = self.vessel(*from)?;
+                    let mag: Vec<_> = src
+                        .contents
+                        .iter()
+                        .filter(|p| {
+                            p.phase == Phase::Solid
+                                && species::lookup(&p.species).is_some_and(|d| d.magnetic)
+                        })
+                        .map(|p| (p.species.clone(), p.moles, p.phase))
+                        .collect();
+                    let rem: Vec<_> = src
+                        .contents
+                        .iter()
+                        .filter(|p| {
+                            p.phase == Phase::Solid
+                                && !species::lookup(&p.species).is_some_and(|d| d.magnetic)
+                        })
+                        .map(|p| p.species.clone())
+                        .collect();
+                    (mag, rem)
+                };
+                if magnetic_solids.is_empty() {
+                    events.push(Event::MagnetSeparated {
+                        from: *from,
+                        to: *to,
+                        attracted: vec![],
+                        remained: remained_ids,
+                    });
+                } else {
+                    let src = self.vessel_mut(*from)?;
+                    src.contents.retain(|p| {
+                        !(p.phase == Phase::Solid
+                            && species::lookup(&p.species).is_some_and(|d| d.magnetic))
+                    });
+                    let dst = self.vessel_mut(*to)?;
+                    let attracted_ids: Vec<_> =
+                        magnetic_solids.iter().map(|(s, _, _)| s.clone()).collect();
+                    for (s, n, phase) in magnetic_solids {
+                        dst.deposit(s, n, phase);
+                    }
+                    events.push(Event::MagnetSeparated {
+                        from: *from,
+                        to: *to,
+                        attracted: attracted_ids,
+                        remained: remained_ids,
+                    });
+                }
             }
             Operator::Ignite { vessel } => {
                 let v = self.vessel_mut(*vessel)?;
@@ -1484,6 +1568,33 @@ impl Bench {
                     ),
                 });
             }
+            Operator::Smell { vessel } => {
+                let v = self.vessel(*vessel)?;
+                let noticed = crate::senses::waft(v);
+                for o in &noticed {
+                    if o.hazardous {
+                        events.push(Event::HazardWarning {
+                            severity: crate::solve::Severity::Caution,
+                            hazard: format!("{} vapour is hazardous to inhale", o.species),
+                            real_world: "on a real bench this one is never \
+                                         smelled directly — fume hood, waft \
+                                         only, and some not even then"
+                                .to_string(),
+                        });
+                    }
+                }
+                events.push(Event::Smelled {
+                    vessel: *vessel,
+                    notes: noticed
+                        .iter()
+                        .map(|o| (SpeciesId::new(o.species), o.description.to_string()))
+                        .collect(),
+                });
+            }
+            Operator::TestGas { vessel, test } => {
+                let v = self.vessel_mut(*vessel)?;
+                events.extend(crate::gas_tests::dispatch(v, *vessel, *test));
+            }
             Operator::SpikeNuclide {
                 vessel,
                 nuclide,
@@ -1890,6 +2001,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
         Operator::Decant { from, to, .. }
         | Operator::Filter { from, to }
+        | Operator::Magnet { from, to }
         | Operator::Distil { from, to, .. }
         | Operator::Drain { from, to } => vec![*from, *to],
         Operator::Mix { a, b, into, .. } => vec![*a, *b, *into],
@@ -1898,6 +2010,8 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::Dilute { vessel, .. }
         | Operator::React { vessel, .. }
         | Operator::SpikeNuclide { vessel, .. }
+        | Operator::Smell { vessel }
+        | Operator::TestGas { vessel, .. }
         | Operator::Titrate { vessel, .. } => vec![*vessel],
         Operator::Transport {
             chain, receiver, ..

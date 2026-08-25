@@ -28,8 +28,13 @@
   let open = $state<string | null>(null);
   let custom = $state("");
 
+  /** One tap narrows to a phase; the chips only exist when useful. */
+  let phase = $state<string | null>(null);
+  const phases = $derived([...new Set(visible.map((s) => s.phase))].sort());
+
   const filtered = $derived(
     visible.filter((s) => {
+      if (phase && s.phase !== phase) return false;
       const q = query.trim().toLowerCase();
       if (!q) return true;
       return (
@@ -68,6 +73,20 @@
     aria-label="find a substance"
     bind:value={query}
   />
+  {#if phases.length > 1}
+    <div class="phases" role="radiogroup" aria-label="phase filter">
+      {#each phases as p (p)}
+        <button
+          role="radio"
+          aria-checked={phase === p}
+          class:on={phase === p}
+          onclick={() => (phase = phase === p ? null : p)}
+        >
+          {p}
+        </button>
+      {/each}
+    </div>
+  {/if}
   <ul>
     {#each filtered as item (item.key)}
       <li>
@@ -112,7 +131,15 @@
         {/if}
       </li>
     {/each}
+    {#if filtered.length === 0}
+      <li class="none">nothing on the shelf matches</li>
+    {/if}
   </ul>
+  <p class="tally">
+    {filtered.length === items.length
+      ? `${items.length} substances — every one computed, none painted on`
+      : `${filtered.length} of ${items.length} substances`}
+  </p>
 </section>
 
 <style>
@@ -127,6 +154,39 @@
     border: 1px solid var(--edge);
     border-radius: 999px;
     overflow: hidden;
+  }
+  .phases {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    margin: 0.4rem 0.8rem 0;
+  }
+  .phases button {
+    background: var(--panel-raised);
+    border: 1px solid var(--edge);
+    border-radius: 999px;
+    color: var(--dim);
+    font: inherit;
+    font-size: 0.72rem;
+    padding: 0.15rem 0.6rem;
+    cursor: pointer;
+  }
+  .phases button.on {
+    color: var(--ink);
+    border-color: var(--hot);
+  }
+  .none {
+    color: var(--dim);
+    font-size: 0.8rem;
+    padding: 0.6rem 0.8rem;
+    list-style: none;
+  }
+  .tally {
+    margin: 0;
+    padding: 0.35rem 0.8rem 0.6rem;
+    color: var(--dim);
+    font-size: 0.7rem;
+    border-top: 1px solid var(--edge);
   }
   .kit-toggle button {
     flex: 1;

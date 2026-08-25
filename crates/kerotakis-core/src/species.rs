@@ -134,6 +134,8 @@ pub struct SpeciesData {
     /// free to find it. `None` means no kinetic barrier is claimed.
     #[serde(default)]
     pub forms_only_above_k: Option<f64>,
+    #[serde(default)]
+    pub magnetic: bool,
     pub provenance: &'static str,
 }
 

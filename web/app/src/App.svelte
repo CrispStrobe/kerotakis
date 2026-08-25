@@ -23,6 +23,8 @@
   import ExperimentCatalog from "./lib/components/ExperimentCatalog.svelte";
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
+  import ConceptMap from "./lib/components/ConceptMap.svelte";
+  import ToolIcon from "./lib/components/ToolIcon.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
 
   // In the Tauri shell the engine is native and in-process; on the web it
@@ -86,6 +88,9 @@
   let helpOpen = $state(false);
   let tableOpen = $state(false);
   let toolboxOpen = $state(false);
+  let mapOpen = $state(false);
+  /** An entry handed from the map straight to the experiment page. */
+  let catalogInitial = $state<CodexEntry | null>(null);
   let catalogOpen = $state(false);
   /** A tapped badge, magnified (the visual bar's reading inset). */
   let inset = $state<{ vessel: number; reading: { key: string; value: number; confidence: string } } | null>(null);
@@ -179,6 +184,7 @@
       helpOpen = true;
     } else if (e.key === "Escape") {
       if (inset) inset = null;
+      else if (mapOpen) mapOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
       else session.closeInspector();
@@ -203,6 +209,14 @@
   </button>
   <button class="tool" onclick={saveNotes} disabled={session.feed.length === 0}>
     save notes
+  </button>
+  <button
+    class="tool"
+    onclick={() => window.print()}
+    disabled={session.feed.length === 0}
+    title="print the notebook — or save it as PDF from the print dialog"
+  >
+    print
   </button>
   <button class="tool" onclick={() => labFileInput?.click()} disabled={session.busy}>
     open .lab
@@ -237,7 +251,7 @@
     onclick={() => (buretteOut = !buretteOut)}
     title="clamp the burette over the selected vessel"
   >
-    burette
+    <ToolIcon name="burette" />burette
   </button>
   <select
     class="tool"
@@ -268,7 +282,7 @@
             : { verb: tool.verb, fraction: 0.5, from: null })}
       title={`${tool.verb}: pick the source vessel, then the target`}
     >
-      {tool.label}
+      <ToolIcon name={tool.verb} />{tool.label}
     </button>
   {/each}
   <Timeline
@@ -313,6 +327,9 @@
     <button class="tool" onclick={() => (catalogOpen = true)} title="codex experiments: predict, run, check">
       experiments
     </button>
+    <button class="tool" onclick={() => (mapOpen = true)} title="the concept map: what you have met, what is ready">
+      map
+    </button>
   {/if}
   <a class="console-link" href="../">console</a>
 </header>
@@ -340,7 +357,9 @@
     name={session.lesson.lesson.name}
     next={session.lessonNextCommand}
     busy={session.busy}
+    deviation={session.lessonDeviation}
     onnext={() => void session.lessonNext()}
+    onreturn={() => void session.lessonReturn()}
     onexit={() => session.exitLesson()}
   />
 {/if}
@@ -469,7 +488,24 @@
   <ExperimentCatalog
     entries={codexEntries}
     {session}
-    onclose={() => (catalogOpen = false)}
+    initial={catalogInitial}
+    onclose={() => {
+      catalogOpen = false;
+      catalogInitial = null;
+    }}
+  />
+{/if}
+
+{#if mapOpen}
+  <ConceptMap
+    entries={codexEntries}
+    {session}
+    onopenentry={(e) => {
+      mapOpen = false;
+      catalogInitial = e;
+      catalogOpen = true;
+    }}
+    onclose={() => (mapOpen = false)}
   />
 {/if}
 

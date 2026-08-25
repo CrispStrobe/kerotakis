@@ -60,6 +60,13 @@ export class TauriHost implements EngineHost {
   async calc(name: string, args: string[]) {
     return JSON.parse(await this.req("calc", { name, args }));
   }
+  async snapshot(): Promise<string> {
+    const doc = JSON.parse(await this.req("snapshot")) as { snapshot: string };
+    return doc.snapshot;
+  }
+  async restore(snapshot: string): Promise<void> {
+    await this.req("restore", { snapshot });
+  }
   async setRegister(level: string): Promise<void> {
     await this.req("set_register", { level });
   }

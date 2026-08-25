@@ -224,6 +224,8 @@ for main, claim-audit statuses with acceptance evidence.
 - **EXP-1 Magnet** — magnetic property + `magnet` separation verb +
   recycling quest. Acceptance: mixed Fe/Cu/Al solids separate; the
   non-magnetic remainder is stated; conservation exact.
+  Data landed 2026-08-24 (kero-basic): Al species added, `magnetic` bool on
+  SpeciesData (Fe=true), `magnet v1 v2` verb moves ferromagnetic solids.
 - **EXP-2 Backpulver** — curated thermal decomposition
   2 NaHCO3 →Δ Na2CO3 + H2O + CO2↑ (threshold ~50–100 °C stated with
   source); quest links the fizz route and the heat route as two paths
@@ -240,6 +242,10 @@ for main, claim-audit statuses with acceptance evidence.
   bleaching; quest compares oxidant vs oxidant-free wash. Acceptance:
   dye colour is bleached only with NaOCl; the colour-safe wash keeps
   it; three registers say the mechanism.
+  **Data landed 2026-08-24 (kero-basic):** betanin (red, λmax 535 nm),
+  curcumin (yellow, 425 nm), indigo carmine (blue, 610 nm) with
+  16-band Gaussian spectra + oxidised products; 3 curated NaOCl
+  bleaching reactions; colour-safe wash verified. Quest remains.
 - **EXP-6 Photovoltaik** — codex model-boundary note ONLY (declined
   as computation); GUI decides on a labelled data widget.
 - **EXP-7 Dämmung** — per-vessel U-value Newton cooling; quest
@@ -258,6 +264,9 @@ for main, claim-audit statuses with acceptance evidence.
 - **EXP-12 Plastik** — PE/PP/PET/PS density species; float/sink
   separation quest in water/brine. Acceptance: the four sort by
   density exactly as their data say; provenance per polymer.
+  **Data landed 2026-08-24 (kero-basic):** PE 0.95, PP 0.90,
+  PET 1.38, PS 1.05 g/mL; registry pipeline (safety rows, golden
+  regen, model parameters). Quest authoring remains.
 - **EXP-13 Vitamin C** — ascorbic acid species + curated iodine
   decolorisation + starch indicator. Acceptance: titration-style
   counting of drops to endpoint works; juice-vs-water contrast.
@@ -284,6 +293,11 @@ for main, claim-audit statuses with acceptance evidence.
 - **EXP-19 Mixture-density data** — curated ethanol-water (then
   sucrose-water) density correlations with sources; unlocks
   concentration-from-density quests.
+  **Ethanol-water landed 2026-08-24 (kero-basic):**
+  `ethanol_water_density_g_ml(w)` in properties.rs, 5th-order fit
+  to CRC Handbook 97th ed. at 20 °C, max 1.5 mg/mL residual, 6 tests.
+  CLI: `kero properties ethanol-water-density w=0.4`. Sucrose-water
+  remains.
 - **EXP-20 Limiting-reagent pack** — precipitation and gas routes,
   predict-then-check quests with value claims.
 - **EXP-21 Thermochemistry pack** — reaction enthalpy, Hess
@@ -350,10 +364,11 @@ What follows is only what is genuinely NEW.
   backed by a computed solve or a curated row with provenance; wrong
   inferences get diagnosis lines in the codex predict style. HARDER
   (breadth, not depth) — the highest-value single item in this part.
-- **EXP-31 — Gas tests** — pop (H2), glowing splint (O2), limewater
-  (CO2, exists), damp litmus (NH3) as curated test actions on the
-  headspace, each an event with three registers. Acceptance: the four
-  classic gases each identified from a genuinely evolved headspace.
+- **EXP-31 — Gas tests** — [x] **done 2026-08-25** (kero1), branch
+  `kero1/exp31-gas-tests`. Pop (H2), glowing splint (O2), limewater
+  (CO2), damp litmus (NH3) as curated test actions on the headspace,
+  each an event with three registers. 18 tests: positive/negative/
+  refusal paths, mass conservation, O₂-limited combustion.
 - **EXP-32 — True solution / colloid / suspension** — particle-size
   classification + a Tyndall-scatter flag on appearance; filtration
   and settling behaviour differ by class. Acceptance: salt vs starch
@@ -460,7 +475,28 @@ only the genuinely new remainder.
   and temperature sweeps via `kero study`. Acceptance: clock time
   scales with concentration and temperature as the rate law says;
   the sweep reproduces the classic linearisation.
+  **DONE** (2026-08-24): two curated rate laws (iodide–peroxide,
+  iodate–bisulfite Landolt), 4 new registry species, safety rows,
+  SMILES, 12 tests all green.
 - **EXP-44 — Excess enthalpy of mixing** — the
+- **EXP-44 — Excess enthalpy of mixing** — [x] **first half done
+  2026-08-24** (Fable). hᴱ = −RT²·Σxᵢ·∂lnγᵢ/∂T from UNIFAC's own
+  temperature dependence (central difference, step stated), wired
+  into the bench as a STATE FUNCTION: the vessel stores its total Hᴱ
+  and each settle releases/absorbs only the difference, so one pour
+  or five reach the same temperature to machine precision — proven,
+  after the first attempt failed for a real thermodynamic reason
+  (evaluating hᴱ at current T lets the path leak back in; the 25 °C
+  reference is the stated model choice that restores exactness). The
+  honesty core is the ALLOWLIST: acetone–water applies (its derived
+  curve reproduces the literature S-shape); ethanol–water is
+  WITHHELD, because this parameter set inverts the dilute-end sign
+  and a wrong sign taught with confidence is worse than a stated gap
+  — the thermo suite pins the deviation so a parameter upgrade
+  (modified-UNIFAC/T-dependent aₘₙ) reopens the question loudly.
+  Remaining: the acetone–chloroform pair (needs CCl-group growth —
+  agent data task), the mixing-calorimetry quest. Original scope
+  follows. — the
   acetone–chloroform-class negative deviation: h^E from the
   temperature dependence of UNIFAC activity coefficients
   (h^E = -RT² Σ xᵢ ∂ln γᵢ/∂T). Needs chloroform-class groups added

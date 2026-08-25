@@ -60,6 +60,7 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("HCO3-", "OC([O-])=O"),
     ("H2PO4-", "OP(=O)(O)[O-]"),
     // --- metals ---
+    ("Al", "[Al]"),
     ("Cu", "[Cu]"),
     ("Zn", "[Zn]"),
     ("Ag", "[Ag]"),
@@ -105,6 +106,11 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("tert_butanol", "CC(C)(C)O"),
     ("isobutylene", "CC(C)=C"),
     ("HBr", "Br"),
+    // --- EXP-43: iodine-clock kinetics ---
+    ("KI", "[K+].[I-]"),
+    ("KIO3", "[K+].[O-][I](=O)=O"),
+    ("NaHSO3", "[Na+].OS([O-])=O"),
+    ("NaHSO4", "[Na+].OS(=O)(=O)[O-]"),
 ];
 
 /// Result of cross-validating one species' InChIKey.

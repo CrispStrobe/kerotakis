@@ -22,6 +22,8 @@ type Lab = {
   parse(line: string): string;
   grammar(): string;
   meta(): string;
+  snapshot(): string;
+  restore(snapshot: string): void;
   relations(): string;
   calc(name: string, argsJson: string): string;
   setRegister(level: string): void;
@@ -164,6 +166,13 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "relations":
         done(id, lab.relations());
+        break;
+      case "snapshot":
+        done(id, JSON.stringify({ snapshot: lab.snapshot() }));
+        break;
+      case "restore":
+        lab.restore(String(msg.snapshot));
+        done(id, "{}");
         break;
       case "calc":
         done(id, lab.calc(String(msg.name), JSON.stringify(msg.args ?? [])));

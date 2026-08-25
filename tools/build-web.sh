@@ -88,6 +88,9 @@ print(json.dumps(out))
 PYEOF
 )
 
+echo "== codex export"
+cargo run -p kerotakis-cli -- codex export "$OUT/codex/index.json"
+
 echo "== pre-warmed lessons and R1 acceptance states"
 cargo run -p kerotakis-cli -- prewarm "$ROOT"/lessons/*.lab \
     -o "$OUT/results.postcard"

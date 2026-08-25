@@ -191,13 +191,17 @@ fn conserves_elements() {
     let mut bench = Bench::new();
     let mut s = stack();
     add(&mut bench, &mut s, "NaHCO3", 1.0);
-    // Seal the vessel so CO2 stays in the headspace and all
-    // elements remain countable inside the vessel.
+    // Seal the vessel so CO2 stays in the headspace and all elements
+    // remain countable inside the vessel. The headspace is generous on
+    // purpose: since CAP-25, sealed glass has a burst limit (~4 atm),
+    // and half a mole of hot CO2 in one litre exceeds it — the vessel
+    // would LET GO and vent the carbon, which is correct physics and
+    // exactly what this closed-balance test must avoid provoking.
     bench
         .step_with(
             Operator::Seal {
                 vessel: VesselId(0),
-                headspace_volume: Liters(1.0),
+                headspace_volume: Liters(10.0),
             },
             &mut s,
             &PermissiveScreen,

@@ -141,6 +141,7 @@ fn main() {
         let dws = param_for(key, "dissolves-without-speciation").unwrap_or(0.0) != 0.0;
         let foa = param_for(key, "forms-only-above")
             .map_or("None".to_string(), |v| format!("Some({})", f64_lit(v)));
+        let magnetic = param_for(key, "magnetic").unwrap_or(0.0) != 0.0;
         let provenance = find_source(
             identity["evidence"]["source_id"]
                 .as_str()
@@ -149,7 +150,7 @@ fn main() {
 
         writeln!(
             out,
-            "    SpeciesData {{\n        key: {key:?},\n        name: {:?},\n        formula: {:?},\n        inchikey: {:?},\n        molar_mass: {},\n        heat_capacity: {},\n        density: {},\n        standard_phase: {standard_phase},\n        appearance: {appearance},\n        flame_colour: {flame},\n        colour: {colour},\n        spectrum: {spectrum},\n        dissolution_enthalpy_kj: {},\n        dissolves_without_speciation: {dws},\n        forms_only_above_k: {foa},\n        provenance: {provenance:?},\n    }},",
+            "    SpeciesData {{\n        key: {key:?},\n        name: {:?},\n        formula: {:?},\n        inchikey: {:?},\n        molar_mass: {},\n        heat_capacity: {},\n        density: {},\n        standard_phase: {standard_phase},\n        appearance: {appearance},\n        flame_colour: {flame},\n        colour: {colour},\n        spectrum: {spectrum},\n        dissolution_enthalpy_kj: {},\n        dissolves_without_speciation: {dws},\n        forms_only_above_k: {foa},\n        magnetic: {magnetic},\n        provenance: {provenance:?},\n    }},",
             identity["name"].as_str().expect("name"),
             comp["formula"].as_str().expect("formula"),
             // identifiers.inchikey, not canonical_key: the pack synthesizes

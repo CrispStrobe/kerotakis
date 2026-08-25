@@ -17,9 +17,8 @@
 use std::sync::{mpsc, Mutex};
 
 use kerotakis_core::{
-    render_events, render_vessel, Bench, CuratedEquilibrator, Equilibrator, HonestyEquilibrator,
-    MixingEquilibrator, Operator, PhaseEquilibrator, Register, SolverStack, StateEquilibrator,
-    VesselId,
+    render_events, render_vessel, Bench, Equilibrator, Operator, PhaseEquilibrator, Register,
+    SolverStack, StateEquilibrator, VesselId,
 };
 use serde_json::{json, Value};
 
@@ -34,23 +33,19 @@ struct NativeLab {
 /// verbatim in structure. If PHREEQC cannot initialise, the shell still
 /// runs, honestly degraded, and `hello` says so.
 fn build_stack() -> (SolverStack, bool) {
-    let mut solvers: Vec<Box<dyn Equilibrator>> = vec![
-        Box::new(MixingEquilibrator),
-        Box::new(CuratedEquilibrator),
-        Box::new(kerotakis_cea::ThermalEquilibrator),
-    ];
+    // The shared standard order (kerotakis-stack); only the aqueous tail
+    // is this host's to choose — the same wrapping as the CLI's.
     let mut can_solve = true;
-    match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
-        Ok(aqueous) => solvers.push(Box::new(PhaseEquilibrator::wrapping(Box::new(
+    let tail: Vec<Box<dyn Equilibrator>> = match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
+        Ok(aqueous) => vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
             kerotakis_core::DisplacementEquilibrator::wrapping(Box::new(aqueous)),
-        )))),
+        )))],
         Err(_) => {
             can_solve = false;
-            solvers.push(Box::new(StateEquilibrator));
+            vec![Box::new(StateEquilibrator)]
         }
-    }
-    solvers.push(Box::new(HonestyEquilibrator));
-    (SolverStack::new(solvers), can_solve)
+    };
+    (kerotakis_stack::standard_stack(tail), can_solve)
 }
 
 impl NativeLab {
@@ -106,6 +101,7 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             Ok(json!({
                 "events": events,
                 "rendered": render_events(&events, lab.register),
+                "charts": kerotakis_core::chart::charts_for_events(&events),
                 "scene": kerotakis_core::scene(&lab.bench),
                 "bench": { "vessels": lab.bench.vessels },
             })
@@ -128,6 +124,7 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
                             "operator": op,
                             "events": events,
                             "rendered": render_events(&events, lab.register),
+                            "charts": kerotakis_core::chart::charts_for_events(&events),
                         }));
                     }
                     Err(e) => return Err(format!("line {}: {e}", lineno + 1)),
@@ -180,6 +177,7 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             let list: Vec<Value> = kerotakis_core::species::REGISTRY
                 .iter()
                 .map(|s| {
+                    let (hazards, assessed) = kerotakis_safety::hazard_assessment(s.key);
                     let (srgb, solution_srgb) = kerotakis_core::species::shelf_swatch(s);
                     json!({
                         "key": s.key,
@@ -191,6 +189,8 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
                         "solution_srgb": solution_srgb,
                         "flame": s.flame_colour,
                         "provenance": s.provenance,
+                        "hazards": hazards,
+                        "hazard_assessed": assessed,
                     })
                 })
                 .collect();
@@ -214,6 +214,15 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
                 "rendered": census.render(lab.register),
             })
             .to_string())
+        }
+        "snapshot" => {
+            let snap = serde_json::to_string(&lab.bench).map_err(|e| e.to_string())?;
+            Ok(json!({ "snapshot": snap }).to_string())
+        }
+        "restore" => {
+            lab.bench = serde_json::from_str(field("snapshot")?)
+                .map_err(|e| format!("the snapshot did not parse: {e}"))?;
+            Ok("{}".into())
         }
         "relations" => {
             let list: Vec<Value> = kerotakis_core::relations::RELATIONS
@@ -291,4 +300,129 @@ fn main() {
         .invoke_handler(tauri::generate_handler![engine_request])
         .run(tauri::generate_context!())
         .expect("error while running the Kerotakis shell");
+}
+
+// The shell half of PROTOCOL.md conformance: the same dispatch the GUI
+// reaches through engine_request, exercised without the webview. The
+// wasm host's suite (tools/test-protocol-conformance.mjs) checks the
+// other transport; a command that answers differently here is a
+// protocol bug even if both GUIs happen to work.
+#[cfg(test)]
+mod protocol_conformance {
+    use super::*;
+    use serde_json::json;
+
+    fn ask(lab: &mut NativeLab, req: serde_json::Value) -> serde_json::Value {
+        let text = dispatch(lab, &req).expect("dispatch failed");
+        serde_json::from_str(&text).expect("result_json did not parse")
+    }
+
+    #[test]
+    fn hello_carries_identity_and_registers() {
+        let mut lab = NativeLab::new();
+        let doc = ask(&mut lab, json!({"cmd": "hello"}));
+        assert_eq!(doc["protocol"], 1);
+        assert!(doc["engine_version"].is_string());
+        assert_eq!(doc["registers"], json!(["lv1", "lv2", "lv3"]));
+    }
+
+    #[test]
+    fn run_script_returns_steps_and_scene() {
+        let mut lab = NativeLab::new();
+        let doc = ask(
+            &mut lab,
+            json!({"cmd": "run_script", "script": "new\nadd v1 water 100mL"}),
+        );
+        assert_eq!(doc["steps"].as_array().map(Vec::len), Some(2));
+        assert_eq!(doc["scene"]["scene"], 1);
+        // The bench opens with one beaker; `new` stood a second one up —
+        // the wasm host answers exactly the same (checked live).
+        assert_eq!(doc["scene"]["vessels"].as_array().map(Vec::len), Some(2));
+    }
+
+    #[test]
+    fn parse_never_mutates() {
+        let mut lab = NativeLab::new();
+        let before = dispatch(&mut lab, &json!({"cmd": "state"})).unwrap();
+        let ok = ask(
+            &mut lab,
+            json!({"cmd": "parse", "line": "add v1 water 100mL"}),
+        );
+        assert_eq!(ok["ok"], true);
+        let bad = ask(
+            &mut lab,
+            json!({"cmd": "parse", "line": "utter nonsense &&&"}),
+        );
+        assert_eq!(bad["ok"], false);
+        assert_eq!(
+            dispatch(&mut lab, &json!({"cmd": "state"})).unwrap(),
+            before
+        );
+    }
+
+    #[test]
+    fn relations_catalogue_and_calc_agree_with_the_engine() {
+        let mut lab = NativeLab::new();
+        let list = ask(&mut lab, json!({"cmd": "relations"}));
+        assert_eq!(
+            list.as_array().map(Vec::len),
+            Some(kerotakis_core::relations::RELATIONS.len())
+        );
+        let doc = ask(
+            &mut lab,
+            json!({"cmd": "calc", "name": "henderson-hasselbalch",
+                   "args": ["pKa=4.76", "cA=0.1", "cB=0.1"]}),
+        );
+        assert_eq!(doc["ok"], true);
+        assert!((doc["value"].as_f64().unwrap() - 4.76).abs() < 1e-9);
+        assert!(doc["provenance"].is_string());
+        let bad = ask(
+            &mut lab,
+            json!({"cmd": "calc", "name": "no-such", "args": []}),
+        );
+        assert_eq!(bad["ok"], false);
+    }
+
+    #[test]
+    fn snapshot_restores_the_exact_state_and_refuses_garbage() {
+        let mut lab = NativeLab::new();
+        dispatch(
+            &mut lab,
+            &json!({"cmd": "run_script", "script": "new\nadd v1 water 100mL"}),
+        )
+        .unwrap();
+        let snap = ask(&mut lab, json!({"cmd": "snapshot"}))["snapshot"]
+            .as_str()
+            .unwrap()
+            .to_string();
+        let state_at = dispatch(&mut lab, &json!({"cmd": "state"})).unwrap();
+        dispatch(
+            &mut lab,
+            &json!({"cmd": "run_script", "script": "new flask"}),
+        )
+        .unwrap();
+        assert_ne!(
+            dispatch(&mut lab, &json!({"cmd": "state"})).unwrap(),
+            state_at
+        );
+        dispatch(&mut lab, &json!({"cmd": "restore", "snapshot": snap})).unwrap();
+        assert_eq!(
+            dispatch(&mut lab, &json!({"cmd": "state"})).unwrap(),
+            state_at
+        );
+        assert!(dispatch(
+            &mut lab,
+            &json!({"cmd": "restore", "snapshot": "{ not json"})
+        )
+        .is_err());
+        // And the bench still answers after the refusal.
+        dispatch(&mut lab, &json!({"cmd": "scene"})).unwrap();
+    }
+
+    #[test]
+    fn unknown_commands_refuse_by_name() {
+        let mut lab = NativeLab::new();
+        let err = dispatch(&mut lab, &json!({"cmd": "no_such_command"})).unwrap_err();
+        assert!(err.contains("no_such_command"), "error was: {err}");
+    }
 }

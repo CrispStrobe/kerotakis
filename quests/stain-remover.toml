@@ -1,0 +1,53 @@
+# EXP-5: the stain remover — bleaching dyes with hypochlorite.
+# Two routes: try one dye then another, or bleach all three in parallel.
+id = "stain-remover"
+
+[title]
+lv1 = "The stain remover"
+lv2 = "Bleaching dyes with sodium hypochlorite"
+lv3 = "Oxidative decolorisation: NaOCl cleaves chromophores in betanin, curcumin, and indigo carmine"
+
+[goal]
+lv1 = "Coloured dye stains meet bleach. Watch what happens to each colour — some vanish faster than you might expect."
+lv2 = "Dissolve coloured dyes in water, observe their colours, then add sodium hypochlorite. Compare which bleaches and what the final solution looks like."
+lv3 = "Add each dye species (betanin, curcumin, indigo carmine) to separate aqueous vessels. Record the transmitted colour from the Beer-Lambert spectrum, then add NaOCl to drive the curated oxidation. The oxidised products have different spectra — the colour change is computed, not scripted."
+
+[[nudges]]
+id = "first-dye-coloured"
+when = "added:betanin"
+[nudges.say]
+lv1 = "Pretty colour! Now imagine you spilled this on a white shirt. What could take it out?"
+lv2 = "Betanin gives beetroot its red — the colour you see is computed from its absorption spectrum. Bleach (NaOCl) is on the shelf."
+lv3 = "The engine computed the transmitted colour from betanin's 16-band Gaussian spectrum via Beer-Lambert and the CIE observer. The curated NaOCl oxidation will cleave the chromophore."
+
+[[nudges]]
+id = "bleach-worked"
+when = "reaction"
+[nudges.say]
+lv1 = "The colour changed! Look at the beaker — is the stain really gone?"
+lv2 = "The hypochlorite oxidised the dye. The product has a different spectrum, so the computed colour shifts. Try the other dyes too."
+lv3 = "ReactionOccurred confirms the curated bleaching fired. The oxidised product's spectrum differs from the parent — compare by observation."
+
+[[claims]]
+id = "dye-dissolved"
+matches = "added:betanin"
+[claims.title]
+lv1 = "Add a dye to water and see its colour"
+lv2 = "Dissolve at least one dye and observe its colour"
+lv3 = "Added event for a dye species in aqueous phase"
+
+[[claims]]
+id = "bleach-added"
+matches = "reaction"
+[claims.title]
+lv1 = "Add bleach and watch the colour change"
+lv2 = "Add NaOCl to drive the bleaching reaction"
+lv3 = "ReactionOccurred event from the curated NaOCl oxidation"
+
+[[claims]]
+id = "colour-compared"
+matches = "observed"
+[claims.title]
+lv1 = "Look at the beaker after bleaching"
+lv2 = "Observe the vessel after bleaching to confirm decolorisation"
+lv3 = "Observed event on the bleached vessel — transmitted colour differs from the pre-bleach observation"

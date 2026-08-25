@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { SceneVessel } from "../host/EngineHost";
+  import { KINDS, solidLayer } from "../glassware";
 
   let {
     vessel,
@@ -41,39 +42,6 @@
     }
   }
 
-  // Per-kind glassware geometry inside the 100×140 box. `inner` is the
-  // fill silhouette (liquids and solids are clipped to it, so a conical
-  // flask holds its liquid in a cone); `glass` is the stroked outline.
-  const KINDS: Record<
-    string,
-    { ix: number; iw: number; by: number; fh: number; fullAtL: number; glass: string; inner: string; svgW: number }
-  > = {
-    beaker: {
-      ix: 14, iw: 72, by: 122, fh: 84, fullAtL: 0.4, svgW: 150,
-      glass: "M 12 14 L 12 122 Q 12 128 20 128 L 80 128 Q 88 128 88 122 L 88 14",
-      inner: "M 13 14 L 13 127 L 87 127 L 87 14 Z",
-    },
-    flask: {
-      ix: 14, iw: 72, by: 122, fh: 92, fullAtL: 0.3, svgW: 150,
-      glass: "M 42 8 L 42 44 L 14 118 Q 12 128 22 128 L 78 128 Q 88 128 86 118 L 58 44 L 58 8",
-      inner: "M 43 8 L 43 45 L 15 120 Q 14 127 22 127 L 78 127 Q 86 127 85 120 L 57 45 L 57 8 Z",
-    },
-    tube: {
-      ix: 38, iw: 24, by: 118, fh: 100, fullAtL: 0.05, svgW: 90,
-      glass: "M 38 10 L 38 114 Q 38 128 50 128 Q 62 128 62 114 L 62 10",
-      inner: "M 39 10 L 39 114 Q 39 127 50 127 Q 61 127 61 114 L 61 10 Z",
-    },
-    cylinder: {
-      ix: 38, iw: 24, by: 124, fh: 108, fullAtL: 0.1, svgW: 90,
-      glass: "M 38 8 L 38 124 L 62 124 L 62 8 M 30 130 L 70 130",
-      inner: "M 39 8 L 39 123 L 61 123 L 61 8 Z",
-    },
-    crucible: {
-      ix: 24, iw: 52, by: 122, fh: 34, fullAtL: 0.08, svgW: 150,
-      glass: "M 18 92 L 26 126 Q 27 128 30 128 L 70 128 Q 73 128 74 126 L 82 92",
-      inner: "M 20 93 L 27 127 L 73 127 L 80 93 Z",
-    },
-  };
   const geom = $derived(KINDS[vessel.label] ?? KINDS.beaker!);
   const INNER_X = $derived(geom.ix);
   const INNER_W = $derived(geom.iw);
@@ -86,6 +54,9 @@
       ? Math.max(6, Math.min(FULL_H, (vessel.liquid.volume_l / FULL_AT_L) * FULL_H))
       : 0,
   );
+  // Only the top few deposits are drawn; the layer arithmetic counts the
+  // same ones, or the stack stops short of the floor.
+  const shownSolids = $derived(vessel.solids.slice(0, 3));
   // Solids draw as a settled layer; depth follows amount, capped well below
   // the liquid so the layer reads as a deposit rather than a fill.
   const solidH = $derived(
@@ -189,12 +160,13 @@
     {/if}
 
     {#if solidH > 0}
-      {#each vessel.solids.slice(0, 3) as solid, i (solid.species)}
+      {#each shownSolids as solid, i (solid.species)}
+        {@const layer = solidLayer(i, shownSolids.length, solidH, BOTTOM_Y)}
         <rect
           x={INNER_X}
-          y={BOTTOM_Y - (solidH * (vessel.solids.length - i)) / vessel.solids.length}
+          y={layer.y}
           width={INNER_W}
-          height={(solidH / vessel.solids.length) * (i + 1)}
+          height={layer.h}
           fill={rgb(solid.srgb)}
           class:metallic={solid.metallic}
         >
@@ -275,6 +247,36 @@
           />
         {/each}
       {/each}
+    {/if}
+    {#if active("vent", 2600) && !sealed}
+      <!-- Gas leaving the open mouth: wisps above the rim, not in the liquid. -->
+      {#each [42, 50, 58] as x, i (x)}
+        <path
+          class="vent"
+          d={`M ${x} 8 q 3 -5 0 -10 q -3 -5 0 -10`}
+          style={`animation-delay:${i * 0.4}s`}
+        />
+      {/each}
+    {/if}
+    {#if active("drip", 2400)}
+      <!-- The burette's drop: falls from above the mouth to the surface. -->
+      <circle
+        class="drip"
+        cx="50"
+        cy="2"
+        r="2"
+        style={`--fall-to:${BOTTOM_Y - Math.max(liquidH, 6) - 2}px`}
+      />
+    {/if}
+    {#if active("swirl", 2000) && liquidH > 0}
+      <!-- Mixing: one dashed eddy mid-liquid, one revolution. -->
+      <ellipse
+        class="swirl"
+        cx="50"
+        cy={BOTTOM_Y - liquidH / 2}
+        rx={INNER_W / 2 - 6}
+        ry={Math.min(8, liquidH / 3)}
+      />
     {/if}
     {#if active("plate", 2000)}
       <rect class="shimmer" x={INNER_X} y={BOTTOM_Y - Math.max(solidH, 6)} width={INNER_W} height={Math.max(solidH, 6)} />
@@ -418,6 +420,66 @@
   .solid-rim {
     stroke: rgb(255 255 255 / 30%);
     stroke-width: 1;
+  }
+  .vent {
+    fill: none;
+    stroke: var(--cloud);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    opacity: 0;
+    animation: vent-rise 1.6s ease-out infinite;
+  }
+  @keyframes vent-rise {
+    0% {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    30% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+  .drip {
+    fill: var(--cool);
+    animation: drip-fall 0.8s ease-in infinite;
+  }
+  @keyframes drip-fall {
+    0% {
+      opacity: 0;
+      transform: translateY(0);
+    }
+    15% {
+      opacity: 0.9;
+    }
+    90% {
+      opacity: 0.9;
+      transform: translateY(var(--fall-to, 90px));
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(var(--fall-to, 90px));
+    }
+  }
+  .swirl {
+    fill: none;
+    stroke: var(--cloud);
+    stroke-width: 1.3;
+    stroke-dasharray: 6 5;
+    opacity: 0.45;
+    animation: swirl-turn 2s linear forwards;
+  }
+  @keyframes swirl-turn {
+    0% {
+      stroke-dashoffset: 0;
+      opacity: 0.45;
+    }
+    100% {
+      stroke-dashoffset: -44;
+      opacity: 0;
+    }
   }
   .splash ellipse {
     fill: none;

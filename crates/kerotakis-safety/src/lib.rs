@@ -21,8 +21,10 @@
 //! the groups those species populate.
 
 use kerotakis_core::{SafetyScreen, SafetyVerdict, Severity, Vessel};
+use serde::Serialize;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize)]
+#[serde(rename_all = "snake_case")]
 pub enum ReactiveGroup {
     AcidStrong,
     BaseStrong,
@@ -35,6 +37,38 @@ pub enum ReactiveGroup {
     WaterReactive,
     AmmoniaAmines,
     Carbonate,
+}
+
+pub fn hazard_labels(species_key: &str) -> Vec<&'static str> {
+    let (labels, _) = hazard_assessment(species_key);
+    labels
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct HazardInfo {
+    pub assessed: bool,
+    pub classes: Vec<&'static str>,
+}
+
+pub fn hazard_assessment(species_key: &str) -> (Vec<&'static str>, bool) {
+    let assessed = COVERED_KEYS.contains(&species_key);
+    let labels: Vec<&'static str> = groups(species_key)
+        .iter()
+        .map(|g| match g {
+            ReactiveGroup::AcidStrong => "corrosive",
+            ReactiveGroup::BaseStrong => "corrosive",
+            ReactiveGroup::OxidizerStrong => "oxidiser",
+            ReactiveGroup::OxidizerHypochlorite => "oxidiser",
+            ReactiveGroup::ReducingAgent => "reducing_agent",
+            ReactiveGroup::ActiveMetal => "flammable_solid",
+            ReactiveGroup::FlammableLiquid => "flammable",
+            ReactiveGroup::FlammableGas => "flammable",
+            ReactiveGroup::WaterReactive => "water_reactive",
+            ReactiveGroup::AmmoniaAmines => "toxic",
+            ReactiveGroup::Carbonate => "irritant",
+        })
+        .collect();
+    (labels, assessed)
 }
 
 /// Registry-key → reactive groups. Assignment is total over the registry;
@@ -51,7 +85,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
     match species_key {
         // ── strong acids ──────────────────────────────────────────
         "HCl" | "HI" | "HBr" => &[AcidStrong],
-        "H2SO4" => &[AcidStrong],
+        "H2SO4" | "NaHSO4" => &[AcidStrong],
 
         // ── strong bases ──────────────────────────────────────────
         "NaOH" => &[BaseStrong],
@@ -61,7 +95,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
 
         // ── strong oxidizers ──────────────────────────────────────
         "H2O2" => &[OxidizerStrong],
-        "KMnO4" => &[OxidizerStrong],
+        "KMnO4" | "KIO3" => &[OxidizerStrong],
         "Cl2" | "I2" => &[OxidizerStrong],
         "MnO4-" => &[OxidizerStrong],
 
@@ -69,11 +103,13 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "NaOCl" => &[OxidizerHypochlorite],
 
         // ── reducing agents ───────────────────────────────────────
-        "Na2SO3" => &[ReducingAgent],
+        "Na2SO3" | "NaHSO3" => &[ReducingAgent],
         "Na2S2O3" => &[ReducingAgent],
+        "KI" => &[ReducingAgent],
         "ascorbic_acid" => &[ReducingAgent],
 
         // ── active metals (above H in activity series) ────────────
+        "Al" => &[ActiveMetal],
         "Mg" => &[ActiveMetal],
         "Zn" => &[ActiveMetal],
         "Fe" => &[ActiveMetal],
@@ -158,6 +194,16 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "ZnSO4"
         | "Pb+2"
         | "Pb(NO3)2"
+        | "PE"
+        | "PP"
+        | "PET"
+        | "PS"
+        | "betanin"
+        | "betanin_ox"
+        | "curcumin"
+        | "curcumin_ox"
+        | "indigo_carmine"
+        | "indigo_carmine_ox"
         | "NaNO3"
         | "KNO3"
         | "dehydroascorbic_acid"
@@ -177,6 +223,9 @@ pub const COVERED_KEYS: &[&str] = &[
     "Ag",
     "Ag+",
     "AgCl",
+    "Al",
+    "betanin",
+    "betanin_ox",
     "AgNO3",
     "Br-",
     "C",
@@ -192,6 +241,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "Cl2",
     "Cu",
     "Cu+1",
+    "curcumin",
+    "curcumin_ox",
     "Cu+2",
     "CuO",
     "Cu(OH)2",
@@ -212,6 +263,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "I2",
     "K+",
     "KCl",
+    "KI",
+    "KIO3",
     "KMnO4",
     "KNO3",
     "Mg",
@@ -235,6 +288,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "NaCl",
     "NaNO3",
     "NaHCO3",
+    "NaHSO3",
+    "NaHSO4",
     "NaOAc",
     "NaOCl",
     "KOH",
@@ -244,6 +299,10 @@ pub const COVERED_KEYS: &[&str] = &[
     "Pb",
     "Pb(NO3)2",
     "Pb+2",
+    "PE",
+    "PET",
+    "PP",
+    "PS",
     "S",
     "SO2",
     "SO4-2",
@@ -262,6 +321,8 @@ pub const COVERED_KEYS: &[&str] = &[
     "ethyl_acetate",
     "gypsum",
     "hexane",
+    "indigo_carmine",
+    "indigo_carmine_ox",
     "isobutylene",
     "maltose",
     "methanol",

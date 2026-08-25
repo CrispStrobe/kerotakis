@@ -42,27 +42,24 @@ struct Session {
 /// Physics + aqueous chemistry + honesty. If the PHREEQC engine cannot be
 /// initialised the session still works, honestly degraded.
 fn build_stack() -> SolverStack {
-    let mut solvers: Vec<Box<dyn Equilibrator>> = vec![
-        Box::new(MixingEquilibrator),
-        Box::new(CuratedEquilibrator),
-        Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
-        Box::new(kerotakis_cea::ThermalEquilibrator),
-    ];
-    match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
+    // The order is kerotakis-stack's, shared with the shell and the wasm
+    // bench — chemistry must not depend on which host ran it. Only the
+    // aqueous tail is this host's to choose.
+    let tail: Vec<Box<dyn Equilibrator>> = match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
         // The metallic state rides on top of the aqueous solve: the series
         // moves electrons over the activities PHREEQC reports, and the
         // products go back through it.
-        Ok(aqueous) => solvers.push(Box::new(PhaseEquilibrator::wrapping(Box::new(
+        Ok(aqueous) => vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
             kerotakis_core::DisplacementEquilibrator::wrapping(Box::new(aqueous)),
-        )))),
+        )))],
         Err(e) => {
             eprintln!("kero: aqueous engine unavailable ({e}); running without it");
             // Pure-water phase changes still work in the honestly degraded
             // stack; only brine re-speciation is unavailable.
-            solvers.push(Box::new(StateEquilibrator));
+            vec![Box::new(StateEquilibrator)]
         }
-    }
-    solvers.push(Box::new(HonestyEquilibrator));
+    };
+    let solvers = kerotakis_stack::standard_solvers(tail);
     SolverStack::new(solvers)
 }
 
@@ -105,8 +102,17 @@ fn main() {
                 "lint" => codex_lint(&dir),
                 "concepts" => codex_concepts(&dir),
                 "gaps" => codex_gaps(&dir),
+                "export" => {
+                    let out_path = args.get(2).unwrap_or_else(|| {
+                        eprintln!("usage: kero codex export <out.json>");
+                        std::process::exit(2);
+                    });
+                    codex_export(&dir, out_path);
+                }
                 other => {
-                    eprintln!("kero codex: unknown subcommand '{other}' (lint, concepts, gaps)");
+                    eprintln!(
+                        "kero codex: unknown subcommand '{other}' (lint, concepts, gaps, export)"
+                    );
                     std::process::exit(2);
                 }
             }
@@ -235,16 +241,18 @@ fn main() {
         }
         Some("species") => {
             for s in species::REGISTRY {
-                // ✓ marks a verified identity: this species has a curated
-                // SMILES whose recomputation by the official IUPAC InChI
-                // library (v1.07.5, vendored in inchi-sys) must reproduce
-                // the registry InChIKey — enforced in the gate.
                 let verified = kerotakis_org::inchi_validate::CURATED_STRUCTURES
                     .iter()
                     .any(|(id, _)| *id == s.key);
                 let mark = if verified { "✓" } else { " " };
+                let hazards = kerotakis_safety::hazard_labels(s.key);
+                let hz = if hazards.is_empty() {
+                    String::new()
+                } else {
+                    format!("  ⚠ {}", hazards.join(", "))
+                };
                 println!(
-                    "{:<10} {mark} {:<18} {:<8} M={:>8.3} g/mol   [{}]",
+                    "{:<10} {mark} {:<18} {:<8} M={:>8.3} g/mol   [{}]{hz}",
                     s.key, s.name, s.formula, s.molar_mass, s.provenance
                 );
             }
@@ -1204,6 +1212,35 @@ fn codex_gaps(dir: &str) -> ! {
             println!("  · {t}");
         }
     }
+    std::process::exit(0);
+}
+
+fn codex_export(dir: &str, out_path: &str) -> ! {
+    let codex = load_codex(dir);
+    let vocabulary = load_vocabulary(dir);
+    let export = kerotakis_codex::CodexExport::build(&codex, &vocabulary);
+    let json = serde_json::to_string(&export).unwrap_or_else(|e| {
+        eprintln!("kero codex export: serialization failed: {e}");
+        std::process::exit(1);
+    });
+    if let Some(parent) = std::path::Path::new(out_path).parent() {
+        if !parent.as_os_str().is_empty() {
+            std::fs::create_dir_all(parent).unwrap_or_else(|e| {
+                eprintln!("kero codex export: cannot create {}: {e}", parent.display());
+                std::process::exit(1);
+            });
+        }
+    }
+    std::fs::write(out_path, &json).unwrap_or_else(|e| {
+        eprintln!("kero codex export: cannot write {out_path}: {e}");
+        std::process::exit(1);
+    });
+    eprintln!(
+        "codex: exported {} reactions, {} models, {} concepts → {out_path}",
+        export.reactions.len(),
+        export.models.len(),
+        export.concepts.len(),
+    );
     std::process::exit(0);
 }
 

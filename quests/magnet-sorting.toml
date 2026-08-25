@@ -1,0 +1,53 @@
+# EXP-1: sort a mixed-metal scrap pile with a magnet.
+# Two completion orders: magnet first then look, or look first then magnet.
+id = "magnet-sorting"
+
+[title]
+lv1 = "Strong like a magnet"
+lv2 = "Magnetic separation of a metal mixture"
+lv3 = "Ferromagnetic selectivity: Fe from Cu/Al via the magnet verb"
+
+[goal]
+lv1 = "There is a pile of mixed metals — iron, copper, and aluminium. Use a magnet to sort out what sticks and what does not."
+lv2 = "Separate a Fe/Cu/Al mixture using a magnet. Predict which metal the magnet attracts, then check: the non-magnetic remainder and the attracted fraction must both be identified."
+lv3 = "Apply the magnet operator to a vessel containing Fe, Cu, and Al solids. The MagnetSeparated event must name the attracted species and the remained species; mass is conserved exactly."
+
+[[nudges]]
+id = "three-metals-in"
+when = "added:Al"
+[nudges.say]
+lv1 = "Three different metals in one beaker — they look different, but a magnet sees something else entirely."
+lv2 = "Fe, Cu, and Al are all metals, but only one is ferromagnetic. The magnet will show which."
+lv3 = "Of the three, only iron has cooperative spin alignment (ferromagnetism) at room temperature. Cu and Al are paramagnetic/diamagnetic — the magnet exerts no observable force."
+
+[[nudges]]
+id = "separated"
+when = "magnet_separated"
+[nudges.say]
+lv1 = "The magnet grabbed something! Look in both beakers now to see what ended up where."
+lv2 = "The iron jumped to the magnet — copper and aluminium stayed behind. Check both vessels to confirm."
+lv3 = "MagnetSeparated event confirms selective transfer. Inspect both vessels: the attracted fraction should contain only Fe; the source retains Cu and Al."
+
+[[claims]]
+id = "magnet-used"
+matches = "magnet_separated"
+[claims.title]
+lv1 = "Use the magnet on the metal mixture"
+lv2 = "Apply the magnet to separate magnetic from non-magnetic metals"
+lv3 = "MagnetSeparated event fired with attracted and remained lists"
+
+[[claims]]
+id = "looked-at-source"
+matches = "observed"
+[claims.title]
+lv1 = "Look at what stayed behind"
+lv2 = "Observe the source vessel after separation"
+lv3 = "Observed event on the source vessel post-separation"
+
+[[claims]]
+id = "looked-at-target"
+matches = "observed"
+[claims.title]
+lv1 = "Look at what the magnet caught"
+lv2 = "Observe the target vessel to confirm what was attracted"
+lv3 = "Observed event on the target vessel post-separation"

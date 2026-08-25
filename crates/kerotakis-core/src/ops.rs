@@ -147,6 +147,11 @@ pub enum Operator {
     /// Add solvent (water) by volume. The pedagogical complement of
     /// `evaporate`: where evaporate concentrates, dilute spreads.
     Dilute { vessel: VesselId, volume: Liters },
+    /// Waft the vessel's air toward your nose — the taught technique,
+    /// never a direct huff. Reports curated odours of headspace gases
+    /// and volatile species; hazardous vapours come with the warning a
+    /// real bench would enforce.
+    Smell { vessel: VesselId },
     /// Spike a vessel with a tracer amount of a curated radionuclide
     /// (EXP-49). Separate from `Add` because nuclides live in the
     /// nuclide ledger, not the chemical registry.
@@ -155,6 +160,12 @@ pub enum Operator {
         /// Notation like "I-131"; must be in the curated teaching set.
         nuclide: String,
         moles: Moles,
+    },
+    /// Apply a classical bench gas test to the vessel's headspace:
+    /// pop (H₂), glowing splint (O₂), limewater (CO₂), damp litmus (NH₃).
+    TestGas {
+        vessel: VesselId,
+        test: crate::gas_tests::GasTest,
     },
     /// Apply a named curated organic transformation on command:
     /// `react v1 esterification`. Deliberate, not automatic — the
@@ -189,6 +200,9 @@ pub enum Operator {
         fraction_a: f64,
         fraction_b: f64,
     },
+    /// Hold a magnet over the vessel: ferromagnetic solids jump to the
+    /// magnet and are dropped into `to`; everything else stays behind.
+    Magnet { from: VesselId, to: VesselId },
     /// Push liquid through a 1-D chain of vessels: conservative upwind
     /// transport with an explicit Courant fraction. The inlet provides the
     /// feed composition (unchanged); the effluent collects in the receiver.
@@ -437,6 +451,13 @@ pub enum Event {
         from: VesselId,
         to: VesselId,
     },
+    /// Magnetic solids jumped to the magnet; non-magnetic matter stayed.
+    MagnetSeparated {
+        from: VesselId,
+        to: VesselId,
+        attracted: Vec<SpeciesId>,
+        remained: Vec<SpeciesId>,
+    },
     /// Water left as vapour.
     Evaporated {
         vessel: VesselId,
@@ -472,6 +493,39 @@ pub enum Event {
         /// Fraction of the solute that sat in the lower layer (and so
         /// left with it when the stopcock opened).
         fraction_lower: f64,
+    },
+    /// What a careful waft noticed: species and their curated odour
+    /// words. Empty means "nothing your nose picks out", which for
+    /// many gases is exactly the danger worth teaching.
+    Smelled {
+        vessel: VesselId,
+        notes: Vec<(SpeciesId, String)>,
+    },
+    /// A classical gas test was applied to the vessel's headspace.
+    GasTested {
+        vessel: VesselId,
+        test: crate::gas_tests::GasTest,
+        positive: bool,
+        notes: String,
+    },
+    /// A sealed vessel exceeded what glass can hold. The headspace let
+    /// go: the seal is gone, the gases vented, and the safety line is
+    /// not decorative. The GUI's explosion is THIS event, never a
+    /// script.
+    Burst {
+        vessel: VesselId,
+        /// Pressure at failure, Pa.
+        at_pa: f64,
+        /// The rating it exceeded, Pa.
+        rating_pa: f64,
+    },
+    /// Heat of mixing crossed the observability line: composition
+    /// change released (positive) or absorbed (negative) this much
+    /// heat, from the state-function difference of UNIFAC-derived
+    /// excess enthalpy over the verified-pair allowlist.
+    HeatOfMixing {
+        vessel: VesselId,
+        joules: f64,
     },
     /// A radionuclide tracer entered the vessel's nuclide ledger.
     NuclideSpiked {

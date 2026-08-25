@@ -44,6 +44,52 @@
     problem = null;
   }
 
+  // Voice input (GUI-028): progressive enhancement over the same
+  // grammar. The transcript lands IN THE INPUT for the speaker to read,
+  // correct, and submit — never executed straight from the microphone;
+  // live parse validation judges it like anything typed. No support, no
+  // button.
+  type Recognition = {
+    lang: string;
+    interimResults: boolean;
+    maxAlternatives: number;
+    onresult: ((e: { results: { [i: number]: { [j: number]: { transcript: string } } } }) => void) | null;
+    onend: (() => void) | null;
+    onerror: ((e: { error?: string }) => void) | null;
+    start(): void;
+    stop(): void;
+  };
+  const RecognitionCtor =
+    typeof window !== "undefined"
+      ? ((window as { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition })
+          .SpeechRecognition ??
+        (window as { webkitSpeechRecognition?: new () => Recognition }).webkitSpeechRecognition ??
+        null)
+      : null;
+  let listening = $state(false);
+  let recognizer: Recognition | null = null;
+
+  function toggleVoice() {
+    if (listening) {
+      recognizer?.stop();
+      return;
+    }
+    if (!RecognitionCtor) return;
+    recognizer = new RecognitionCtor();
+    recognizer.lang = navigator.language || "en-US";
+    recognizer.interimResults = false;
+    recognizer.maxAlternatives = 1;
+    recognizer.onresult = (e) => {
+      const heard = e.results[0]?.[0]?.transcript ?? "";
+      // Spoken chemistry arrives in prose case; the grammar is lowercase.
+      line = heard.trim().toLowerCase();
+    };
+    recognizer.onend = () => (listening = false);
+    recognizer.onerror = () => (listening = false);
+    listening = true;
+    recognizer.start();
+  }
+
   function onkeydown(e: KeyboardEvent) {
     if (e.key === "ArrowUp") {
       if (history.length === 0) return;
@@ -87,6 +133,22 @@
       spellcheck="false"
       disabled={busy}
     />
+    {#if RecognitionCtor}
+      <button
+        type="button"
+        class="mic"
+        class:listening
+        onclick={toggleVoice}
+        title="speak a command — it lands here to read and correct before you run it"
+        aria-label={listening ? "stop listening" : "speak a command"}
+        aria-pressed={listening}
+      >
+        <svg viewBox="0 0 18 18" aria-hidden="true">
+          <rect x="6.5" y="2" width="5" height="8" rx="2.5" />
+          <path d="M 4 9 Q 4 13 9 13 Q 14 13 14 9 M 9 13 V 16 M 6.5 16 H 11.5" />
+        </svg>
+      </button>
+    {/if}
   </form>
 </div>
 
@@ -121,5 +183,36 @@
     padding: 0.8rem 1rem 0.8rem 0;
     outline: none;
     min-height: 44px;
+  }
+  .mic {
+    background: none;
+    border: 0;
+    color: var(--dim);
+    cursor: pointer;
+    padding: 0 1rem;
+    min-height: 44px;
+  }
+  .mic svg {
+    width: 18px;
+    height: 18px;
+  }
+  .mic svg rect,
+  .mic svg path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.3;
+    stroke-linecap: round;
+  }
+  .mic:hover {
+    color: var(--ink);
+  }
+  .mic.listening {
+    color: var(--hot);
+    animation: mic-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes mic-pulse {
+    50% {
+      opacity: 0.45;
+    }
   }
 </style>
