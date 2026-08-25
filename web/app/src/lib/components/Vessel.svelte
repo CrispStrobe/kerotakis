@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { SceneVessel } from "../host/EngineHost";
   import { KINDS, solidLayer, fillHeight, graduationTicks } from "../glassware";
+  import FluidOverlay from "./FluidOverlay.svelte";
+  import type { FluidSpecies } from "../fluidScene";
 
   let {
     vessel,
@@ -9,7 +11,9 @@
     onselect,
     ondropspecies,
     effects = [],
+    titrationPlayback = null,
     onbadge,
+    fluidLookup = null,
   }: {
     vessel: SceneVessel;
     register: string;
@@ -17,7 +21,11 @@
     onselect?: (id: number) => void;
     ondropspecies?: (id: number, payload: { key: string; phase: string }) => void;
     effects?: { kind: string; at: number }[];
+    titrationPlayback?: { vessel: number; delivered: number; total: number } | null;
     onbadge?: (badge: { key: string; value: number; confidence: string }) => void;
+    /** Species srgb+density lookup for the fluid overlay (GUI-065a);
+     * absent = no fluid animation, static render only. */
+    fluidLookup?: ((key: string) => FluidSpecies) | null;
   } = $props();
 
   // Transient effects: young enough that their animation is still running.
@@ -106,6 +114,12 @@
   );
   const frosty = $derived(vessel.temperature_k < 272);
   const hot = $derived(Math.min(1, Math.max(0, (vessel.temperature_k - 310) / 300)));
+  const reducedMotion =
+    typeof matchMedia !== "undefined" &&
+    matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const buretteFraction = $derived(
+    titrationPlayback ? Math.min(1, titrationPlayback.delivered / (titrationPlayback.total || 1)) : 0,
+  );
 </script>
 
 <figure class="vessel" class:selected class:drop-ready={dropReady}>
@@ -214,6 +228,9 @@
       />
     {/if}
 
+    {#if fluidLookup}
+      <FluidOverlay {vessel} {effects} lookup={fluidLookup} />
+    {/if}
     </g>
 
     <!-- State-driven effects: every one traces to a computed number. -->
@@ -310,6 +327,42 @@
     {/if}
     {#if active("plate", 2000)}
       <rect class="shimmer" x={INNER_X} y={BOTTOM_Y - Math.max(solidH, 6)} width={INNER_W} height={Math.max(solidH, 6)} />
+    {/if}
+
+    <!-- GUI-062: instruments drawn on the bench while their operation is live. -->
+    {#if titrationPlayback}
+      {@const colH = 56}
+      {@const fillH = colH * (1 - buretteFraction)}
+      {@const colTop = 4}
+      <g class="instrument burette-inst" aria-label="burette">
+        <line class="stand" x1="97" y1="0" x2="97" y2="130" />
+        <line class="stand-base" x1="91" y1="130" x2="100" y2="130" />
+        <line class="clamp" x1="92" y1="10" x2="97" y2="10" />
+        <rect class="burette-col" x="90" y={colTop} width="5" height={colH} rx="1" />
+        <rect class="burette-fill" x="91" y={colTop + (colH - fillH)} width="3" height={fillH} rx="0.5" />
+        <path class="burette-tap" d="M 90 60 L 95 60 L 94 63 L 92.5 66 L 91 63 Z" />
+        <rect class="burette-tip" x="91.5" y="66" width="2" height="4" />
+        <line class="burette-tube" x1="92.5" y1="70" x2="50" y2="6" />
+        {#if !reducedMotion}
+          <circle class="burette-drop" cx="50" cy="6" r="1.4" />
+        {/if}
+      </g>
+    {/if}
+    {#if active("thermometer", 2500)}
+      {@const tipY = BOTTOM_Y - Math.max(liquidH * 0.5, 10)}
+      <g class="instrument thermometer-inst" aria-label="thermometer">
+        <rect class="therm-stem" x="32" y="4" width="2" height={tipY - 4} rx="0.8" />
+        <ellipse class="therm-bulb" cx="33" cy={tipY} rx="2.8" ry="3.2" />
+        <rect class="therm-mercury" x="32.3" y={Math.max(tipY - 18, 10)} width="1.4" height={Math.min(18, tipY - 10)} rx="0.5" />
+      </g>
+    {/if}
+    {#if active("ph_probe", 2500)}
+      {@const tipY = BOTTOM_Y - Math.max(liquidH * 0.5, 10)}
+      <g class="instrument ph-inst" aria-label="pH probe">
+        <rect class="probe-stem" x="64" y="4" width="2" height={tipY - 4} rx="0.8" />
+        <ellipse class="probe-tip" cx="65" cy={tipY} rx="2.2" ry="3.6" />
+        <line class="probe-wire" x1="65" y1="4" x2="72" y2="-2" />
+      </g>
     {/if}
 
     {#if vessel.bubbling && liquidH > 0}
@@ -689,7 +742,86 @@
       opacity: 0.35;
     }
   }
+  .instrument {
+    opacity: 0;
+    animation: instrument-in 0.4s ease-out forwards;
+  }
+  @keyframes instrument-in {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .stand {
+    stroke: var(--edge-strong);
+    stroke-width: 1.4;
+  }
+  .stand-base {
+    stroke: var(--edge-strong);
+    stroke-width: 2;
+  }
+  .clamp {
+    stroke: var(--edge-strong);
+    stroke-width: 1.6;
+  }
+  .burette-col {
+    fill: none;
+    stroke: var(--edge-strong);
+    stroke-width: 0.8;
+  }
+  .burette-fill {
+    fill: var(--cool);
+    opacity: 0.55;
+    transition: y 0.4s ease, height 0.4s ease;
+  }
+  .burette-tap {
+    fill: var(--edge-strong);
+  }
+  .burette-tip {
+    fill: var(--edge-strong);
+  }
+  .burette-tube {
+    stroke: var(--dim);
+    stroke-width: 0.6;
+    stroke-dasharray: 2 2;
+    opacity: 0.5;
+  }
+  .burette-drop {
+    fill: var(--cool);
+    animation: drip-fall 0.8s ease-in infinite;
+  }
+  .therm-stem {
+    fill: var(--edge-strong);
+    opacity: 0.8;
+  }
+  .therm-bulb {
+    fill: var(--hot, #c44);
+    stroke: var(--edge-strong);
+    stroke-width: 0.6;
+  }
+  .therm-mercury {
+    fill: var(--hot, #c44);
+    opacity: 0.7;
+  }
+  .probe-stem {
+    fill: var(--dim);
+    opacity: 0.8;
+  }
+  .probe-tip {
+    fill: var(--cloud);
+    stroke: var(--dim);
+    stroke-width: 0.6;
+  }
+  .probe-wire {
+    stroke: var(--dim);
+    stroke-width: 0.8;
+  }
   @media (prefers-reduced-motion: reduce) {
+    .instrument {
+      animation: none;
+      opacity: 1;
+    }
+    .burette-fill {
+      transition: none;
+    }
     .bubble,
     .flame .outer,
     .flame .inner,

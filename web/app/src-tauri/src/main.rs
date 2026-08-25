@@ -113,6 +113,37 @@ fn quest_outputs_json(outputs: &[kerotakis_codex::quest::QuestOutput]) -> Vec<Va
         .collect()
 }
 
+/// Minimal base64 (standard alphabet, padding) — the shell's transport
+/// is JSON, and a dependency for one decoder would be noise.
+fn base64_decode(s: &str) -> Result<Vec<u8>, String> {
+    const ALPHA: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    let val = |c: u8| -> Result<u32, String> {
+        ALPHA
+            .iter()
+            .position(|&a| a == c)
+            .map(|p| p as u32)
+            .ok_or_else(|| format!("bad base64 byte {c}"))
+    };
+    let s: Vec<u8> = s.bytes().filter(|b| !b.is_ascii_whitespace()).collect();
+    let mut out = Vec::with_capacity(s.len() / 4 * 3);
+    for chunk in s.chunks(4) {
+        if chunk.len() < 2 {
+            return Err("truncated base64".into());
+        }
+        let pads = chunk.iter().filter(|&&c| c == b'=').count();
+        let mut acc = 0u32;
+        for (i, &c) in chunk.iter().enumerate() {
+            acc = (acc << 6) | if c == b'=' { 0 } else { val(c)? << 0 };
+            let _ = i;
+        }
+        acc <<= 6 * (4 - chunk.len()) as u32;
+        let bytes = [(acc >> 16) as u8, (acc >> 8) as u8, acc as u8];
+        let keep = 3usize.saturating_sub(pads + (4 - chunk.len()));
+        out.extend_from_slice(&bytes[..keep]);
+    }
+    Ok(out)
+}
+
 fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
     let cmd = req
         .get("cmd")
@@ -131,6 +162,7 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             "engine_version": env!("CARGO_PKG_VERSION"),
             "git_rev": option_env!("KEROTAKIS_GIT_REV"),
             "registers": ["lv1", "lv2", "lv3"],
+            "packs": kerotakis_core::packs_manifest::core_packs(),
         })
         .to_string()),
         "step" => {
@@ -217,8 +249,8 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
         })
         .to_string()),
         "species" => {
-            let list: Vec<Value> = kerotakis_core::species::REGISTRY
-                .iter()
+            let list: Vec<Value> = kerotakis_core::species::all_species()
+                .into_iter()
                 .map(|s| {
                     let (hazards, assessed) = kerotakis_safety::hazard_assessment(s.key);
                     let (srgb, solution_srgb) = kerotakis_core::species::shelf_swatch(s);
@@ -231,6 +263,7 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
                         "srgb": srgb,
                         "solution_srgb": solution_srgb,
                         "flame": s.flame_colour,
+                        "density": s.density,
                         "provenance": s.provenance,
                         "hazards": hazards,
                         "hazard_assessed": assessed,
@@ -255,6 +288,20 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             Ok(json!({
                 "census": census,
                 "rendered": census.render(lab.register),
+            })
+            .to_string())
+        }
+        "load_pack" => {
+            let b64 = field("bytes_b64")?;
+            let bytes = base64_decode(b64).map_err(|e| format!("bytes_b64: {e}"))?;
+            let doc = kerotakis_data::load_pack(&bytes).map_err(|e| e.to_string())?;
+            let value = serde_json::to_value(&doc).map_err(|e| e.to_string())?;
+            let species = kerotakis_core::species_loader::parse_document(&value)?;
+            let (added, skipped) = kerotakis_core::species::register_loaded(species);
+            Ok(json!({
+                "added": added,
+                "skipped": skipped,
+                "loaded_total": kerotakis_core::species::loaded_count(),
             })
             .to_string())
         }
@@ -486,6 +533,42 @@ mod protocol_conformance {
         .is_err());
         // And the bench still answers after the refusal.
         dispatch(&mut lab, &json!({"cmd": "scene"})).unwrap();
+    }
+
+    #[test]
+    fn base64_decoder_round_trips_reference_vectors() {
+        // RFC 4648 vectors + a binary pack-like blob.
+        for (plain, enc) in [
+            (&b""[..], ""),
+            (&b"f"[..], "Zg=="),
+            (&b"fo"[..], "Zm8="),
+            (&b"foo"[..], "Zm9v"),
+            (&b"foob"[..], "Zm9vYg=="),
+            (&b"fooba"[..], "Zm9vYmE="),
+            (&b"foobar"[..], "Zm9vYmFy"),
+        ] {
+            assert_eq!(base64_decode(enc).unwrap(), plain, "vector {enc:?}");
+        }
+        let blob: Vec<u8> = (0u16..=255).map(|b| b as u8).collect();
+        // Encode with a tiny reference encoder to close the loop.
+        const A: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+        let mut enc = String::new();
+        for c in blob.chunks(3) {
+            let n = ((c[0] as u32) << 16)
+                | ((*c.get(1).unwrap_or(&0) as u32) << 8)
+                | (*c.get(2).unwrap_or(&0) as u32);
+            let chars = [
+                A[(n >> 18) as usize & 63],
+                A[(n >> 12) as usize & 63],
+                A[(n >> 6) as usize & 63],
+                A[n as usize & 63],
+            ];
+            let keep = 1 + c.len();
+            for (i, ch) in chars.iter().enumerate() {
+                enc.push(if i < keep { *ch as char } else { '=' });
+            }
+        }
+        assert_eq!(base64_decode(&enc).unwrap(), blob, "binary blob");
     }
 
     #[test]

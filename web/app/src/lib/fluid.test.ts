@@ -87,7 +87,9 @@ describe("the fluid core is honest math", () => {
     }
   });
 
-  it("buoyant separation emerges: light fluid rises past heavy", () => {
+  // 450 sim steps of pure math: ~1.5s alone, more under a loaded
+  // parallel suite — the timeout states that, rather than flaking.
+  it("buoyant separation emerges: light fluid rises past heavy", { timeout: 30000 }, () => {
     // Inverted layers at RESOLVED scale (a cell-size checkerboard is
     // sub-grid — bilinear advection rightly blends it, and its mean
     // buoyancy is neutral): heavy on top, light underneath. The
@@ -113,7 +115,7 @@ describe("the fluid core is honest math", () => {
     };
     // The instability takes simulated time to grow (probed: crossover
     // after ~300 steps at this dt); 450 leaves margin without a slow test.
-    for (let k = 0; k < 450; k++) step(g, [1.3, 0.66], 0.05, 20);
+    for (let k = 0; k < 450; k++) step(g, [1.3, 0.66], 0.05, 20, 1); // undamped: emergence is the point
     expect(com(1)).toBeLessThan(com(0)); // smaller y = higher up
   });
 

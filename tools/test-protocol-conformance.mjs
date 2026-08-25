@@ -158,6 +158,85 @@ for (const file of lessons) {
     console.log("snapshot/restore: round-trip exact, garbage refused");
 }
 
+// --- hello carries the pack inventory (WEB-003) --------------------------
+{
+    const lab = new Lab();
+    const meta = JSON.parse(lab.meta());
+    checks++;
+    if (!Array.isArray(meta.packs) || meta.packs.length < 5) {
+        fail("packs", `hello meta must list the pack inventory, got ${JSON.stringify(meta.packs)}`);
+    } else {
+        for (const p of meta.packs) {
+            checks++;
+            if (typeof p.pack_id !== "string" || typeof p.licence !== "string" || p.licence.length === 0
+                || typeof p.required !== "boolean") {
+                fail("packs", `malformed manifest: ${JSON.stringify(p)}`);
+            }
+        }
+        checks++;
+        if (!meta.packs.some((p) => p.required)) {
+            fail("packs", "no pack is marked required — core-aqueous must be");
+        }
+        console.log(`packs: ${meta.packs.length} in the inventory, licences declared`);
+    }
+}
+
+// --- load_pack (DATA-010): the species-breadth unlock --------------------
+// A pack built here in node (magic + version + sha256 + JSON payload,
+// same format as kero pack export) must add its novel species to the
+// shelf AND to real chemistry; a flipped byte must refuse by hash; and
+// built-ins must never be shadowed.
+{
+    const crypto = await import("node:crypto");
+    const source = JSON.parse(readFileSync("data/registry/registry-source-v1.json", "utf8"));
+    const doc = Object.fromEntries(Object.entries(source).map(([k, v]) =>
+        [k, k === "sources" ? v : Array.isArray(v) ? [] : v]));
+    const cloneIn = (fromId, toId) => {
+        for (const section of ["identities", "compositions", "phase_thermodynamics", "optical", "model_parameters"]) {
+            for (const rec of source[section]) {
+                const hit = rec.species_id === fromId
+                    || (section === "identities" && rec.id === fromId)
+                    || (rec.subject?.kind === "species" && rec.subject?.id === fromId);
+                if (!hit) continue;
+                const c = JSON.parse(JSON.stringify(rec));
+                if (section === "identities") { c.id = toId; c.name = `conformance double of ${fromId}`; }
+                if (c.species_id !== undefined) c.species_id = toId;
+                if (c.subject?.id === fromId) c.subject.id = toId;
+                doc[section].push(c);
+            }
+        }
+    };
+    cloneIn("water", "conformium");
+    const payload = Buffer.from(JSON.stringify(doc));
+    const pack = Buffer.concat([
+        Buffer.from("KREG"),
+        Buffer.from(Uint32Array.of(1).buffer),
+        crypto.createHash("sha256").update(payload).digest(),
+        payload,
+    ]);
+    const lab = new Lab();
+    const r = JSON.parse(lab.loadPack(new Uint8Array(pack)));
+    checks++;
+    if (r.added !== 1) fail("load_pack", `expected 1 added, got ${JSON.stringify(r)}`);
+    checks++;
+    if (!JSON.parse(lab.species()).some((s) => s.key === "conformium")) {
+        fail("load_pack", "loaded species missing from the shelf");
+    }
+    checks++;
+    try {
+        lab.runScript("new\nadd v1 conformium 1g");
+    } catch (e) {
+        fail("load_pack", `loaded species unusable in chemistry: ${e.message}`);
+    }
+    checks++;
+    const corrupt = Buffer.from(pack);
+    corrupt[60] ^= 0xff;
+    let refused = false;
+    try { lab.loadPack(new Uint8Array(corrupt)); } catch { refused = true; }
+    if (!refused) fail("load_pack", "corrupt pack must refuse by hash");
+    console.log("load_pack: novel species to shelf + chemistry; corruption refused");
+}
+
 // --- relations / calc (GUI-027) -----------------------------------------
 // The catalogue rows must be form-buildable, and an evaluation must come
 // back with value, unit, provenance, and all three registers — or an

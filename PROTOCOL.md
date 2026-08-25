@@ -65,7 +65,7 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 
 | `cmd` | Status | Request → `result_json` |
 |---|---|---|
-| `hello` | done except `packs` | `{}` → `{ protocol, can_solve, engine_loaded, load_failure, aqueous_note, engine_version, git_rev, registers }`. `git_rev` is stamped by the build (`KEROTAKIS_GIT_REV`; null in unstamped dev builds). Still to grow: `packs: [ModelPackManifest]` when pack loading lands. Must be answerable before any pack loads. |
+| `hello` | done | `{}` → `{ protocol, can_solve, engine_loaded, load_failure, aqueous_note, engine_version, git_rev, registers }`. `git_rev` is stamped by the build (`KEROTAKIS_GIT_REV`; null in unstamped dev builds). `packs` carries the WEB-003 inventory (kerotakis_core::packs_manifest; empty content_hash = built in, not yet independently deliverable — the honest pre-pipeline state); `load_pack` itself remains the open half. Must be answerable before any pack loads. |
 | `step` | done | `{ operator_json }` → `{ events, rendered, charts, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `charts` the CAP-3 `Chart[]` the step's events earned (empty when none; first producer: the titration curve), `scene` the render model (one round trip repaints the bench). |
 | `run_script` | done | `{ script }` → `{ steps: [{operator, events, rendered, charts}], scene, bench }`. |
 | `parse` | done (GUI-005, 9a9c744) | `{ line }` → `{ ok, operator?, error? }`. Validate-only, never executes. Powers the command bar's live validation; `span` remains a candidate additive field. |
@@ -79,7 +79,7 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 | `reset` | existing | `{}` → `{}`. Bench only; session (register, packs, cache) survives. |
 | `snapshot` | done (O(1) undo) | `{}` → `{ snapshot }` — the bench as an OPAQUE token (today: `Bench` serde JSON; clients must not parse it). Session state is not in it. |
 | `restore` | done (O(1) undo) | `{ snapshot }` → `{}`. Replace the bench with a `snapshot` token; must be indistinguishable from replaying the prefix the snapshot was taken after. Session survives, exactly like `reset`. |
-| `load_cache` / `load_pack` | existing | per WEB-002/WEB-003; pack manifests are signed per LIC-009. |
+| `load_pack` | done (DATA-010) | wasm: `loadPack(bytes)`; shell: `{ bytes_b64 }` → `{ added, skipped, loaded_total }`. A `.pack` (KREG magic, version, embedded sha256, registry-document payload; `kero pack export`, shipped as `packs/*.pack` + hashed `packs/index.json`) adds species to the shelf AND every lookup at runtime; built-ins are never shadowed; corruption refuses by hash; one bad record refuses the whole pack. v1 limitation, stated: loaded species carry no absorption spectrum (fn-pointer field) until spectra are data-driven. `load_cache` per WEB-002. |
 | `cancel` | existing (needs `target`) | terminal `cancelled` for the target id. |
 
 Promoting the `Lab`-only methods to `WorkerCommand` variants is part of

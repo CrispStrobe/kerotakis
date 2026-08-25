@@ -1,0 +1,55 @@
+# EXP-2: baking powder — two routes to CO2.
+# The acid fizz route (HCl + NaHCO3) and the thermal decomposition
+# (heat NaHCO3 above ~80 °C) both produce CO2. The quest links them
+# as two paths to the same gas.
+id = "baking-powder"
+
+[title]
+lv1 = "The magic powder"
+lv2 = "Baking powder: two ways to make gas"
+lv3 = "NaHCO₃ decomposition: acid-driven vs thermal CO₂ evolution"
+
+[goal]
+lv1 = "Baking powder makes cakes rise — but how? Find two different ways to get gas out of it."
+lv2 = "Produce CO₂ from NaHCO₃ by two routes: add acid (cold fizz) and heat (thermal decomposition above ~80 °C). Detect the gas with limewater both times."
+lv3 = "NaHCO₃ releases CO₂ via (1) acid attack: NaHCO₃ + HCl → NaCl + H₂O + CO₂↑ (PHREEQC-computed at any temperature) and (2) thermal decomposition: 2 NaHCO₃ →Δ Na₂CO₃ + H₂O + CO₂↑ (curated, onset 353 K). Both routes should cloud limewater. The thermal route needs heating above 80 °C."
+
+[[nudges]]
+id = "acid-fizz"
+when = "gas_evolved:CO2"
+[nudges.say]
+lv1 = "Fizz! The acid made the powder bubble. That gas is carbon dioxide — it is what makes cakes rise."
+lv2 = "CO₂ evolved when acid hit NaHCO₃. This is the cold route — acid attacks the carbonate directly. Can you get the same gas without acid?"
+lv3 = "Acid–carbonate reaction produces CO₂ at any temperature. The thermal route requires input energy to overcome the decomposition barrier (onset ~80 °C). Both generate the same gas — the limewater test confirms identity."
+
+[[nudges]]
+id = "heated"
+when = "temperature_changed"
+[nudges.say]
+lv1 = "You are warming it up — keep going until something happens."
+lv2 = "Temperature is rising. NaHCO₃ starts decomposing around 80 °C — watch for gas evolution."
+lv3 = "Thermal decomposition onset is ~353 K (80 °C). Below threshold: no reaction. Above: 2 NaHCO₃ → Na₂CO₃ + H₂O + CO₂↑. The solid residue (Na₂CO₃) is different from the starting material — observable by dissolving it and checking pH (more alkaline)."
+
+[[claims]]
+id = "acid-route"
+matches = "gas_evolved:CO2"
+[claims.title]
+lv1 = "Make it fizz with acid"
+lv2 = "Produce CO₂ by adding acid to NaHCO₃"
+lv3 = "Acid-driven CO₂ evolution from NaHCO₃"
+
+[[claims]]
+id = "thermal-route"
+matches = "reacted"
+[claims.title]
+lv1 = "Make it bubble with heat"
+lv2 = "Produce CO₂ by heating NaHCO₃"
+lv3 = "Thermal decomposition of NaHCO₃ (curated reaction, T > 353 K)"
+
+[[claims]]
+id = "detected-gas"
+matches = "precipitated:CaCO3"
+[claims.title]
+lv1 = "Prove it is the same gas both times"
+lv2 = "Detect CO₂ with limewater (CaCO₃ precipitate)"
+lv3 = "Limewater test: Ca(OH)₂ + CO₂ → CaCO₃↓ — identity confirmation"

@@ -1,0 +1,58 @@
+# EXP-17: prepare a solution to a target concentration.
+# The dilute verb, dissolution, and molarity from the solved state are
+# all landed. The learner dissolves a solid, dilutes, and hits a
+# molarity target within tolerance.
+id = "solution-prep"
+
+[title]
+lv1 = "Mix it just right"
+lv2 = "Preparing a standard solution"
+lv3 = "Gravimetric solution preparation: target molarity by dissolution and dilution"
+
+[goal]
+lv1 = "Make a cup of salty water that is not too strong and not too weak — the instrument will tell you when it is right."
+lv2 = "Prepare a 0.1 M NaCl solution: weigh the salt, dissolve it, and adjust the volume until the concentration is on target."
+lv3 = "Prepare 0.1 ± 0.02 mol/L NaCl by gravimetric dissolution. Weigh ~0.585 g NaCl into 100 mL water. The molarity from the solved state is the acceptance criterion."
+
+[[nudges]]
+id = "dissolved-salt"
+when = "dissolved:NaCl"
+[nudges.say]
+lv1 = "The salt vanished into the water. Now you need the right amount of water — not too much, not too little."
+lv2 = "NaCl dissolved completely. Measure the concentration — if it is not yet 0.1 M, you can dilute or add more salt."
+lv3 = "Complete dissolution. The target is 0.1 mol/L. c = n/V; adjust either the mass of solute or the volume of solvent to converge."
+
+[[nudges]]
+id = "took-reading"
+when = "measured"
+[nudges.say]
+lv1 = "The instrument read your solution — is the number where you want it?"
+lv2 = "Check the molarity reading. Too concentrated? Add water. Too dilute? You may need to start over with more salt."
+lv3 = "Compare the measured molarity with the 0.1 ± 0.02 mol/L target. Dilution is a one-way correction for over-concentration; under-concentration requires additional solute."
+
+[[claims]]
+id = "dissolved"
+matches = "dissolved:NaCl"
+[claims.title]
+lv1 = "Dissolve the salt"
+lv2 = "Dissolve NaCl in water"
+lv3 = "Dissolution of the primary solute"
+
+[[claims]]
+id = "on-target"
+vessel = "v1"
+quantity = "molarity:NaCl"
+target = 0.1
+tolerance = 0.02
+[claims.title]
+lv1 = "Get the strength just right"
+lv2 = "Reach 0.1 M NaCl (± 0.02)"
+lv3 = "Value claim: [NaCl] = 0.1 ± 0.02 mol/L"
+
+[[claims]]
+id = "weighed"
+matches = "measured"
+[claims.title]
+lv1 = "Use the scale"
+lv2 = "Weigh or measure your solution"
+lv3 = "At least one instrumental measurement to verify the preparation"

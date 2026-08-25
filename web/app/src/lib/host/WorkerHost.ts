@@ -117,6 +117,11 @@ export class WorkerHost implements EngineHost {
     return JSON.parse(await this.channel.request("quest_answer", { alias, guess }));
   }
 
+  async loadPack(bytes: Uint8Array) {
+    // The buffer crosses by structured clone; the worker re-wraps it.
+    return JSON.parse(await this.channel.request("load_pack", { bytes: bytes.buffer }));
+  }
+
   async snapshot(): Promise<string> {
     const doc = JSON.parse(await this.channel.request("snapshot")) as { snapshot: string };
     return doc.snapshot;

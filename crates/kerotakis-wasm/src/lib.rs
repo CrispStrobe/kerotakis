@@ -193,6 +193,11 @@ impl Lab {
             "engine_version": env!("CARGO_PKG_VERSION"),
             "git_rev": option_env!("KEROTAKIS_GIT_REV"),
             "registers": ["lv1", "lv2", "lv3"],
+            // WEB-003: the model-pack inventory. content_hash is empty
+            // until the pack build pipeline stamps it — an HONEST
+            // "declared, not yet independently deliverable" state; a
+            // client must treat empty-hash packs as built in.
+            "packs": kerotakis_core::packs_manifest::core_packs(),
         })
         .to_string()
     }
@@ -411,6 +416,25 @@ impl Lab {
         }
     }
 
+    /// DATA-010: load a species pack (.pack bytes — magic, version,
+    /// sha256-verified payload). New species join the shelf and every
+    /// lookup; built-ins are never shadowed. Returns the honest count:
+    /// { added, skipped, loaded_total }.
+    #[wasm_bindgen(js_name = loadPack)]
+    pub fn load_pack(&mut self, bytes: &[u8]) -> Result<String, JsError> {
+        let doc = kerotakis_data::load_pack(bytes).map_err(|e| JsError::new(&e.to_string()))?;
+        let value = serde_json::to_value(&doc).map_err(|e| JsError::new(&e.to_string()))?;
+        let species =
+            kerotakis_core::species_loader::parse_document(&value).map_err(|e| JsError::new(&e))?;
+        let (added, skipped) = kerotakis_core::species::register_loaded(species);
+        Ok(serde_json::json!({
+            "added": added,
+            "skipped": skipped,
+            "loaded_total": kerotakis_core::species::loaded_count(),
+        })
+        .to_string())
+    }
+
     /// The whole bench as a restorable snapshot (serde round-trip of
     /// `Bench`). The GUI keeps one per log position so undo/scrub is a
     /// restore instead of a reset-and-replay — same determinism, O(1).
@@ -435,8 +459,8 @@ impl Lab {
 
     /// Every species the lab knows, as JSON — what a UI offers on a shelf.
     pub fn species(&self) -> String {
-        let list: Vec<serde_json::Value> = kerotakis_core::species::REGISTRY
-            .iter()
+        let list: Vec<serde_json::Value> = kerotakis_core::species::all_species()
+            .into_iter()
             .map(|s| {
                 let (hazards, assessed) = kerotakis_safety::hazard_assessment(s.key);
                 let (srgb, solution_srgb) = kerotakis_core::species::shelf_swatch(s);
@@ -449,6 +473,7 @@ impl Lab {
                     "srgb": srgb,
                     "solution_srgb": solution_srgb,
                     "flame": s.flame_colour,
+                        "density": s.density,
                     "provenance": s.provenance,
                     "hazards": hazards,
                     "hazard_assessed": assessed,

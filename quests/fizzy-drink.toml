@@ -1,0 +1,62 @@
+# EXP-16: where does the fizz come from?
+# Multiple paths: warm a sealed carbonated drink, or add acid to a
+# carbonate, or both — the limewater test detects CO2 either way.
+id = "fizzy-drink"
+
+[title]
+lv1 = "The fizzy drink"
+lv2 = "Carbon dioxide: make it, catch it, prove it"
+lv3 = "CO₂ detection by limewater turbidity: thermal vs acid-driven release"
+
+[goal]
+lv1 = "Something makes drinks fizzy — find out what it is, and prove it two different ways."
+lv2 = "Produce CO₂ by two different routes and detect it with limewater. Warming a carbonated solution releases dissolved gas; acid on a carbonate does the same — both must cloud your limewater."
+lv3 = "Two independent CO₂-generating routes — thermal degassing of dissolved CO₂ and acid–carbonate reaction — each verified by the CaCO₃ precipitation that clouds limewater (Ca(OH)₂ + CO₂ → CaCO₃↓ + H₂O). Value claim on limewater pH confirms the carbonate equilibrium shifted."
+
+[[nudges]]
+id = "made-limewater"
+when = "added:Ca(OH)2"
+[nudges.say]
+lv1 = "That clear solution is called limewater. Blow fizzy air through it and see what happens."
+lv2 = "Ca(OH)₂ in water makes limewater — it turns milky when CO₂ passes through, because insoluble CaCO₃ forms."
+lv3 = "Limewater is a saturated Ca(OH)₂ solution (Ksp ~5.5×10⁻⁶ at 25 °C). CO₂ absorption raises dissolved carbonate above the CaCO₃ solubility product, precipitating the characteristic white turbidity."
+
+[[nudges]]
+id = "gas-evolved"
+when = "gas_evolved:CO2"
+[nudges.say]
+lv1 = "Bubbles! That gas is escaping — can you catch it in limewater?"
+lv2 = "CO₂ has evolved. Direct it into limewater to identify it — the milky precipitate is your evidence."
+lv3 = "The headspace now contains CO₂. Decanting or mixing into a limewater vessel tests for it via the precipitation equilibrium."
+
+[[nudges]]
+id = "used-acid"
+when = "added:HCl"
+[nudges.say]
+lv1 = "Acid on chalk fizzes — that is the same gas as in the drink."
+lv2 = "HCl reacts with carbonate to release CO₂. This is the acid route — different cause, same gas. Does your limewater agree?"
+lv3 = "2 HCl + CaCO₃ → CaCl₂ + H₂O + CO₂↑. The stoichiometry predicts one mole CO₂ per mole CaCO₃; the headspace should show it."
+
+[[claims]]
+id = "limewater-clouded"
+matches = "precipitated:CaCO3"
+[claims.title]
+lv1 = "Make the clear water go milky"
+lv2 = "Cloud limewater with CO₂"
+lv3 = "CaCO₃ precipitation in a Ca(OH)₂ solution — the limewater test"
+
+[[claims]]
+id = "thermal-route"
+matches = "gas_evolved:CO2"
+[claims.title]
+lv1 = "Get the gas out of the fizzy water"
+lv2 = "Release CO₂ from a carbonated solution (warming or opening)"
+lv3 = "Thermal or pressure-driven CO₂ degassing — dissolved gas exceeds the Henry's-law solubility"
+
+[[claims]]
+id = "acid-route"
+matches = "reacted"
+[claims.title]
+lv1 = "Make the same gas a different way — with acid"
+lv2 = "Produce CO₂ by reacting acid with a carbonate"
+lv3 = "Acid–carbonate gas evolution: an alternative CO₂ source confirming the identity"
