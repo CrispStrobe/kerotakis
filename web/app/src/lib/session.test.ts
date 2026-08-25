@@ -42,6 +42,15 @@ class FakeHost implements EngineHost {
   }
   /** Set to true to model an engine predating snapshots. */
   noSnapshots = false;
+  async questStart(): Promise<void> {
+    this.calls.push("quest_start");
+  }
+  async questStop(): Promise<void> {
+    this.calls.push("quest_stop");
+  }
+  async questAnswer(): Promise<import("./host/EngineHost").QuestOutput[]> {
+    return [];
+  }
   async snapshot(): Promise<string> {
     if (this.noSnapshots) throw new Error("no snapshot support");
     this.calls.push("snapshot");

@@ -88,8 +88,10 @@ impl Lab {
         let spec: kerotakis_codex::quest::QuestSpec =
             serde_json::from_str(spec_json).map_err(|e| JsError::new(&e.to_string()))?;
         self.quest_states.clear();
-        self.quest_states
-            .insert(spec.id.clone(), kerotakis_codex::quest::QuestState::default());
+        self.quest_states.insert(
+            spec.id.clone(),
+            kerotakis_codex::quest::QuestState::default(),
+        );
         self.quest = Some(spec);
         Ok(())
     }
@@ -108,9 +110,8 @@ impl Lab {
         let Some(spec) = self.quest.clone() else {
             return Err(JsError::new("no quest is running"));
         };
-        let outputs =
-            kerotakis_codex::quest::answer(&[spec], &mut self.quest_states, alias, guess)
-                .map_err(|e| JsError::new(&e))?;
+        let outputs = kerotakis_codex::quest::answer(&[spec], &mut self.quest_states, alias, guess)
+            .map_err(|e| JsError::new(&e))?;
         Ok(serde_json::Value::Array(quest_outputs_json(&outputs)).to_string())
     }
 
@@ -119,12 +120,8 @@ impl Lab {
         let Some(spec) = self.quest.clone() else {
             return Vec::new();
         };
-        let outputs = kerotakis_codex::quest::observe(
-            &[spec],
-            &mut self.quest_states,
-            events,
-            &self.bench,
-        );
+        let outputs =
+            kerotakis_codex::quest::observe(&[spec], &mut self.quest_states, events, &self.bench);
         quest_outputs_json(&outputs)
     }
 

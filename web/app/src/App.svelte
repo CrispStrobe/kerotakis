@@ -25,12 +25,15 @@
   import Toolbox from "./lib/components/Toolbox.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
   import ToolIcon from "./lib/components/ToolIcon.svelte";
+  import QuestBar from "./lib/components/QuestBar.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
 
   // In the Tauri shell the engine is native and in-process; on the web it
   // lives in the module worker. The session cannot tell the difference.
   const session = new Session(isTauri() ? new TauriHost() : WorkerHost.create());
   let lessons = $state<{ file: string; name: string; blurb?: string; topic?: string }[]>([]);
+  /** Exported quest specs (GUI-066); absent until the export ships. */
+  let quests = $state<Record<string, unknown>[]>([]);
   const lessonTopics = $derived(
     [...new Set(lessons.map((l) => l.topic ?? "more"))].map((topic) => ({
       topic,
@@ -72,6 +75,10 @@
     void fetch(new URL("codex/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : null))
       .then((raw) => (codexEntries = parseCodexIndex(raw)))
+      .catch(() => {});
+    void fetch(new URL("quests/index.json", resolvePayloadBase()).href)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => (quests = ((raw as { quests?: Record<string, unknown>[] })?.quests) ?? []))
       .catch(() => {});
     void fetch(new URL("lessons/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : []))
@@ -310,6 +317,24 @@
       {/each}
     </select>
   {/if}
+  {#if quests.length > 0 && !session.quest}
+    <select
+      class="tool"
+      aria-label="start a quest"
+      onchange={(e) => {
+        const q = quests.find((x) => x.id === e.currentTarget.value);
+        e.currentTarget.value = "";
+        if (q) void session.startQuest(q as Parameters<typeof session.startQuest>[0]);
+      }}
+    >
+      <option value="">quests…</option>
+      {#each quests as q (q.id)}
+        <option value={q.id as string}>
+          {(q.title as Record<string, string>)?.[session.register] ?? q.id}
+        </option>
+      {/each}
+    </select>
+  {/if}
   <span
     class="status"
     class:live={session.canSolve}
@@ -351,6 +376,8 @@
     <button class="cancel" onclick={() => (transfer = null)}>cancel</button>
   </div>
 {/if}
+
+<QuestBar {session} />
 
 {#if session.lesson}
   <LessonBar

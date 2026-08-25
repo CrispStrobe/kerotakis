@@ -149,11 +149,12 @@ fn main() {
                         std::process::exit(2);
                     });
                 let doc = serde_json::json!({ "quests": specs });
-                std::fs::write(out, serde_json::to_string_pretty(&doc).unwrap())
-                    .unwrap_or_else(|e| {
+                std::fs::write(out, serde_json::to_string_pretty(&doc).unwrap()).unwrap_or_else(
+                    |e| {
                         eprintln!("kero quest export: writing {out}: {e}");
                         std::process::exit(2);
-                    });
+                    },
+                );
                 println!("quest: exported {} quests → {out}", specs.len());
                 return;
             }
