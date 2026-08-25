@@ -1538,6 +1538,10 @@ impl Bench {
                         .collect(),
                 });
             }
+            Operator::TestGas { vessel, test } => {
+                let v = self.vessel_mut(*vessel)?;
+                events.extend(crate::gas_tests::dispatch(v, *vessel, *test));
+            }
             Operator::SpikeNuclide {
                 vessel,
                 nuclide,
@@ -1947,6 +1951,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::React { vessel, .. }
         | Operator::SpikeNuclide { vessel, .. }
         | Operator::Smell { vessel }
+        | Operator::TestGas { vessel, .. }
         | Operator::Titrate { vessel, .. } => vec![*vessel],
         Operator::Transport {
             chain, receiver, ..

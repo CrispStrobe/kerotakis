@@ -336,6 +336,17 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 }
             }
         }
+        Event::GasTested { vessel, test, positive, notes } => match register.level() {
+            1 => {
+                if *positive {
+                    format!("The {test} on {vessel} is positive!")
+                } else {
+                    format!("The {test} on {vessel} shows nothing.")
+                }
+            }
+            2 => format!("{vessel}: {test} — {}", if *positive { "positive" } else { "negative" }),
+            _ => format!("{vessel}: {test}: {notes}"),
+        },
         Event::Burst { vessel, at_pa, rating_pa } => match register.level() {
             1 => format!("BANG — the sealed {vessel} could not hold the pressure and let go!"),
             2 => format!(

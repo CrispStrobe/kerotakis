@@ -161,6 +161,12 @@ pub enum Operator {
         nuclide: String,
         moles: Moles,
     },
+    /// Apply a classical bench gas test to the vessel's headspace:
+    /// pop (H₂), glowing splint (O₂), limewater (CO₂), damp litmus (NH₃).
+    TestGas {
+        vessel: VesselId,
+        test: crate::gas_tests::GasTest,
+    },
     /// Apply a named curated organic transformation on command:
     /// `react v1 esterification`. Deliberate, not automatic — the
     /// mixture does not do this on its own at the bench's conditions;
@@ -484,6 +490,13 @@ pub enum Event {
     Smelled {
         vessel: VesselId,
         notes: Vec<(SpeciesId, String)>,
+    },
+    /// A classical gas test was applied to the vessel's headspace.
+    GasTested {
+        vessel: VesselId,
+        test: crate::gas_tests::GasTest,
+        positive: bool,
+        notes: String,
     },
     /// A sealed vessel exceeded what glass can hold. The headspace let
     /// go: the seal is gone, the gases vented, and the safety line is
