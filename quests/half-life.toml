@@ -1,0 +1,71 @@
+# EXP-49: nuclear bench — half-life determination quest.
+# The curated nuclide table, decay, SpikeNuclide verb, wait-driven
+# decay, and GeigerCounter are all landed. The learner measures
+# activity over time and recovers the half-life.
+id = "half-life"
+
+[title]
+lv1 = "How long does it last?"
+lv2 = "Half-life: measuring radioactive decay"
+lv3 = "Half-life determination from an activity time series: N(t) = N₀·2^(−t/t½)"
+
+[goal]
+lv1 = "A radioactive sample gets weaker over time. Measure it with the Geiger counter, wait, measure again — figure out how long until half is gone."
+lv2 = "Determine the half-life of a radioactive isotope: spike a sample into a vessel, measure its activity with the Geiger counter, wait, and measure again. At least three readings at different times give you enough data to extract t½."
+lv3 = "Quantitative radioactive decay: activity A(t) = A₀·e^(−λt) where λ = ln 2/t½. Spike the curated nuclide, measure initial activity (Bq) with the Geiger counter, advance time with the wait verb, and remeasure. Three or more (t, A) pairs determine t½ by regression. The decay runs on the vessel's NuclideLedger beside chemical kinetics on the shared clock — nucleon number conservation is exact; mass-defect energy is a stated boundary."
+
+[[nudges]]
+id = "spiked"
+when = "nuclide_spiked"
+[nudges.say]
+lv1 = "The sample is in the vessel. Use the Geiger counter to find out how active it is right now."
+lv2 = "Nuclide added. Measure the initial activity — this is your A₀, the starting point for the decay curve."
+lv3 = "The tracer-scale NuclideLedger is live. Initial activity A₀ = λN₀ where N₀ is the number of atoms. The Geiger counter reads total Bq across all nuclides in the vessel; for a single isotope, this is A₀ directly."
+
+[[nudges]]
+id = "first-count"
+when = "measured"
+[nudges.say]
+lv1 = "You got the first reading. Now let time pass — use wait — and measure again. The number should drop."
+lv2 = "First activity measurement recorded. Wait for a fraction of the expected half-life and remeasure — the ratio A₁/A₀ encodes the decay constant."
+lv3 = "One (t, A) data point acquired. The decay is exponential: ln(A/A₀) = −λt, so two points determine λ and three confirm the exponential model. Wait intervals comparable to t½ give the best signal — too short and ΔA is lost in the measurement."
+
+[[nudges]]
+id = "decayed"
+when = "decayed"
+[nudges.say]
+lv1 = "The atoms are changing — some have turned into something else. Measure again to see how much is left."
+lv2 = "Decay event: the nuclide has partially transformed. Remeasure activity — the drop since the last reading is the decay in action."
+lv3 = "The Decayed event records the nuclear transformation. Elements do NOT conserve across decay events — nucleons do, exactly (α parcels keep He-4 in the ledger). The mass defect and β/ν departures are stated boundaries."
+
+[[claims]]
+id = "sample-added"
+matches = "nuclide_spiked"
+[claims.title]
+lv1 = "Add the radioactive stuff"
+lv2 = "Spike the radioactive sample"
+lv3 = "Nuclide introduction — tracer-scale addition to the vessel"
+
+[[claims]]
+id = "first-reading"
+matches = "measured"
+[claims.title]
+lv1 = "Count the clicks"
+lv2 = "Measure activity with the Geiger counter"
+lv3 = "Initial activity measurement — A₀ in Bq"
+
+[[claims]]
+id = "time-passed"
+matches = "decayed"
+[claims.title]
+lv1 = "Wait and watch it fade"
+lv2 = "Observe the decay over time"
+lv3 = "Decay observed — the NuclideLedger updated by the shared clock"
+
+[[claims]]
+id = "second-reading"
+matches = "measured"
+[claims.title]
+lv1 = "Count again — it is different now"
+lv2 = "Remeasure activity after waiting"
+lv3 = "Second activity measurement — A(t) for the decay curve"
