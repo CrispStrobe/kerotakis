@@ -1,0 +1,54 @@
+# EXP-4: cleaning dirty water by multi-stage filtration.
+# The filter verb is landed. The learner discovers that filtering
+# removes suspended solids but dissolved salts pass through.
+id = "water-filter"
+
+[title]
+lv1 = "Clean the dirty water"
+lv2 = "Water filtration: what passes and what stays"
+lv3 = "Solid–liquid separation: filtration removes suspended solids but not dissolved species"
+
+[goal]
+lv1 = "The water is murky. Can you make it clear? And is clear water the same as pure water?"
+lv2 = "Filter dirty water to remove suspended solids. Then test the filtrate — dissolved substances pass through the filter. Clarity is not purity."
+lv3 = "Multi-stage purification: filtration separates by particle size (suspended solids retained, dissolved species and water pass). The learner discovers that dissolved ions survive filtration — conductivity or evaporation reveals them. Clarity ≠ chemical purity."
+
+[[nudges]]
+id = "added-solids"
+when = "added"
+[nudges.say]
+lv1 = "The water looks dirty now. What can you do to clean it up?"
+lv2 = "Suspended solids cloud the water. Filtration separates solids from liquids — try it."
+lv3 = "Suspended particles scatter light (turbidity). Filtration retains solids on the filter medium while the liquid phase passes. But dissolved species (ions, molecules below the pore size) are not retained."
+
+[[nudges]]
+id = "filtered"
+when = "filtered"
+[nudges.say]
+lv1 = "The water looks clear now — but is it really clean? What else could be hiding in there?"
+lv2 = "Filtration removed the visible solids. But dissolved substances are invisible — test the filtrate with a conductivity meter or evaporate it to check."
+lv3 = "The filtrate is optically clear but may still contain dissolved electrolytes. Conductivity measurement or evaporative residue analysis reveals the dissolved fraction that filtration cannot separate."
+
+[[claims]]
+id = "filtered-it"
+matches = "filtered"
+[claims.title]
+lv1 = "Get the dirt out"
+lv2 = "Filter the dirty water"
+lv3 = "Solid–liquid separation by filtration"
+
+[[claims]]
+id = "tested-filtrate"
+matches = "measured"
+[claims.title]
+lv1 = "Test what came through"
+lv2 = "Measure the filtrate"
+lv3 = "Analytical measurement of the filtrate — conductivity, pH, or evaporation"
+
+[[claims]]
+id = "observed-result"
+matches = "observed"
+[claims.title]
+lv1 = "Look at the clean water"
+lv2 = "Observe the filtrate clarity"
+lv3 = "Visual inspection confirming removal of suspended solids"

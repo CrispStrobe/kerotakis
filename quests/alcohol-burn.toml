@@ -1,0 +1,62 @@
+# EXP-35: combustion energetics of alcohols.
+# Ignite + calorimetry for methanol vs ethanol — the enthalpy ordering
+# emerges from the ledger, not from a table.
+id = "alcohol-burn"
+
+[title]
+lv1 = "Which burns hotter?"
+lv2 = "Alcohol combustion: comparing energy release"
+lv3 = "Combustion enthalpies of methanol vs ethanol: ΔH per mole ordering"
+
+[goal]
+lv1 = "Two alcohols, two flames — which one gives off more heat? Burn them and measure."
+lv2 = "Compare the heat of combustion of methanol and ethanol: ignite equal amounts and measure the temperature rise with a calorimeter. The ordering should emerge from your measurements."
+lv3 = "Determine the relative combustion enthalpies of methanol (ΔcH° = −726 kJ/mol) and ethanol (ΔcH° = −1367 kJ/mol) by calorimetric measurement. Ignite equal moles of each in separate vessels and compare ΔT. The per-mole ordering emerges from the engine's thermochemistry, not from a lookup table."
+
+[[nudges]]
+id = "ignited"
+when = "ignited"
+[nudges.say]
+lv1 = "It is burning! Watch the thermometer — the temperature tells you how much heat came out."
+lv2 = "Combustion started. The calorimeter records the heat released. Compare with the other alcohol to see which releases more energy per mole."
+lv3 = "The exothermic combustion produces CO₂ and H₂O. The calorimeter reading gives ΔH directly. Ethanol's longer carbon chain means more bonds to break and form — more energy per molecule."
+
+[[nudges]]
+id = "measured-heat"
+when = "measured"
+[nudges.say]
+lv1 = "You measured the heat. Now burn the other one the same way and compare."
+lv2 = "First measurement done. For a fair comparison, use the same amount (moles) of the second alcohol in a clean vessel."
+lv3 = "Record ΔH₁. Repeat with the second alcohol under identical conditions (same n, same vessel type, same initial temperature). The ratio ΔH₂/ΔH₁ reveals the per-mole ordering."
+
+[[claims]]
+id = "burned-first"
+matches = "ignited"
+[claims.title]
+lv1 = "Light the first one"
+lv2 = "Ignite the first alcohol"
+lv3 = "Combustion of alcohol A"
+
+[[claims]]
+id = "measured-first"
+matches = "measured"
+[claims.title]
+lv1 = "Measure the heat from the first"
+lv2 = "Record the calorimeter reading"
+lv3 = "Calorimetric measurement of ΔcH for alcohol A"
+
+[[claims]]
+id = "burned-second"
+matches = "ignited"
+[claims.title]
+lv1 = "Light the second one"
+lv2 = "Ignite the second alcohol"
+lv3 = "Combustion of alcohol B — the comparison"
+
+[[claims]]
+id = "measured-second"
+matches = "measured"
+[claims.title]
+lv1 = "Measure the heat from the second"
+lv2 = "Record the second calorimeter reading"
+lv3 = "Calorimetric measurement of ΔcH for alcohol B — compare with A"
