@@ -507,9 +507,18 @@ export class Session {
     this.feed.push({ kind: "note", text: `${name} finished` });
   }
 
-  /** Map a typed event onto a transient canvas effect for its vessel. */
+  /** Map a typed event onto a transient canvas effect for its vessel:
+   * kero1's magnitude pipeline (GUI-059) carries the intensity, with
+   * #48's instrument probes grafted in (measured events are readings,
+   * not amounts — they get a fixed moderate magnitude). */
   private recordEffect(event: Record<string, unknown>): void {
-    const effect = effectFromEvent(event);
+    let effect = effectFromEvent(event);
+    if (!effect && event?.event === "measured") {
+      const inst = String(event.instrument ?? "");
+      const kind =
+        inst === "thermometer" ? "thermometer" : inst === "ph_meter" ? "ph_probe" : null;
+      if (kind) effect = { kind, at: Date.now(), magnitude: 0.6 };
+    }
     if (!effect) return;
     const vessel = vesselOf(event);
     const now = Date.now();

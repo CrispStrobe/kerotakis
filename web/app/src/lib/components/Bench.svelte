@@ -11,6 +11,7 @@
     ondropspecies,
     pristine = false,
     effects = {},
+    titrationPlayback = null,
     onnewvessel,
     onbadge,
     fluidLookup = null,
@@ -22,6 +23,7 @@
     ondropspecies?: (id: number, payload: { key: string; phase: string }) => void;
     pristine?: boolean;
     effects?: Record<number, Effect[]>;
+    titrationPlayback?: { vessel: number; delivered: number; total: number } | null;
     onnewvessel?: (kind: string) => void;
     onbadge?: (vessel: number, badge: { key: string; value: number; confidence: string }) => void;
     fluidLookup?: ((key: string) => import("../fluidScene").FluidSpecies) | null;
@@ -41,6 +43,7 @@
         {onselect}
         {ondropspecies}
         effects={effects[vessel.id] ?? []}
+        titrationPlayback={titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
         onbadge={(b) => onbadge?.(vessel.id, b)}
         {fluidLookup}
       />
