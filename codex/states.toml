@@ -20,6 +20,18 @@ requires = ["concentration"]
 apparatus = ["beaker", "thermometer"]
 calculations = ["molality", "freezing-point-depression"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 9, LB1 Molekülstruktur und Stoffeigenschaften"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 9 (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL

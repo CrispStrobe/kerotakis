@@ -45,6 +45,18 @@ equation = "NaCl(s) ⇌ Na⁺(aq) + Cl⁻(aq)  (saturated at ≈6.1 mol/kgw)"
 concepts = ["solubility-limit", "saturation", "equilibrium"]
 requires = ["dissolving"]
 
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -167,6 +179,18 @@ summary = "CH₃COOH / CH₃COO⁻ buffer"
 concepts = ["buffers", "le-chatelier"]
 requires = ["weak-acids"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 12 (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Puffersysteme"
+ages = { min = 17.0, max = 19.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -194,6 +218,18 @@ id = "vinegar-and-baking-soda"
 equation = "CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂↑"
 concepts = ["gas-evolution", "acid-carbonate", "conservation-of-mass"]
 requires = ["acids"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.4 Chemical changes"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
 
 [reaction.setup]
 script = """
@@ -223,6 +259,18 @@ equation = "CaCl₂(s) → Ca²⁺(aq) + 2 Cl⁻(aq)   ΔH_dis = −82.8 kJ/mol"
 concepts = ["exothermic", "enthalpy-of-solution"]
 requires = ["dissolving"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen — exotherme Vorgänge"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.5 Energy changes"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -248,6 +296,18 @@ spine = ["der-energiebegriff"]
 equation = "KCl(s) → K⁺(aq) + Cl⁻(aq)   ΔH_dis = +17.2 kJ/mol"
 concepts = ["endothermic", "enthalpy-of-solution"]
 requires = ["dissolving"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen — endotherme Vorgänge"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.5 Energy changes"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
 
 [reaction.setup]
 script = """
@@ -276,6 +336,18 @@ equation = "Ca²⁺(aq) + 2 HCO₃⁻(aq) → CaCO₃(s)↓ + H₂O + CO₂↑"
 concepts = ["hard-water", "precipitation"]
 requires = ["precipitation"]
 
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 9, LB1 Molekülstruktur und Stoffeigenschaften"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 9 (ISB)"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -302,6 +374,18 @@ id = "calcination"
 equation = "CaCO₃(s) → CaO(s) + CO₂↑   (≈1170 K)"
 concepts = ["thermal-decomposition", "calcination"]
 requires = ["gas-evolution"]
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF Chemische Reaktion — Zersetzung"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.4 Chemical changes — thermal decomposition"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
 
 [reaction.setup]
 script = """
@@ -359,6 +443,18 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 id = "flame-test-sodium"
 summary = "Na⁺ → Na* → Na + hν (589 nm)"
 concepts = ["flame-tests", "atomic-emission"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB Atombau und gekürztes PSE"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.8 Chemical analysis — flame tests"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
 
 [reaction.setup]
 script = """

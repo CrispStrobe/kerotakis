@@ -57,6 +57,15 @@ export interface CodexPlacement {
   source: string;
 }
 
+export function scriptKit(script: string): string[] {
+  const kit = new Set<string>();
+  for (const line of script.split("\n")) {
+    const m = line.trim().match(/^(?:add|titrate|grind)\s+\S+\s+(\S+)/);
+    if (m) kit.add(m[1]!);
+  }
+  return [...kit];
+}
+
 export function parseCodexIndex(raw: unknown): CodexEntry[] {
   // The export's document shape: `{ reactions, models, concepts }`
   // (kero codex export); older spellings tolerated.

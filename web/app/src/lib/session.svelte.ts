@@ -17,6 +17,7 @@ import type { EngineHost, ParticleCensus, Scene } from "./host/EngineHost";
 import { EngineError } from "./host/EngineHost";
 import { isChartSpec, type ChartSpec } from "./chart";
 import { type Lesson, parseLesson } from "./lesson";
+import { scriptKit } from "./codex";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "hazard" | "chart";
@@ -508,13 +509,7 @@ export class Session {
   /** Begin walking a lesson. The bench keeps whatever is on it — a lesson
    * is an overlay on the real bench, not a sandbox swap. */
   startLesson(name: string, text: string): void {
-    // The kit: every species the lesson's own commands touch.
-    const kit = new Set<string>();
-    for (const line of text.split("\n")) {
-      const m = line.trim().match(/^(?:add|titrate|grind)\s+\S+\s+(\S+)/);
-      if (m) kit.add(m[1]!);
-    }
-    this.lesson = { lesson: parseLesson(name, text), cursor: 0, kit: [...kit] };
+    this.lesson = { lesson: parseLesson(name, text), cursor: 0, kit: scriptKit(text) };
     this.lessonBaseline = this.position;
     this.feed.push({ kind: "note", text: `lesson started: ${name}` });
     this.advanceLessonNotes();

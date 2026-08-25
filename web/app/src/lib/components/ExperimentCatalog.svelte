@@ -4,10 +4,12 @@
     conceptIndex,
     curriculumIndex,
     relatedConcepts,
+    scriptKit,
     type CheckResult,
     type CodexEntry,
   } from "../codex";
   import type { Session } from "../session.svelte";
+  import KitStrip from "./KitStrip.svelte";
 
   let {
     entries,
@@ -85,6 +87,14 @@
       running = false;
     }
   }
+  const kitItems = $derived.by(() => {
+    if (!open) return [];
+    const keys = scriptKit(open.setup.script);
+    return keys
+      .map((k) => session.shelf.find((s) => s.key === k))
+      .filter((s): s is NonNullable<typeof s> => s != null);
+  });
+
   const diagnosisForPick = $derived.by(() => {
     if (!prediction || predicted === null || predicted === prediction.answer) return null;
     return prediction.diagnosis?.find((d) => d.option === predicted) ?? null;
@@ -206,6 +216,17 @@
       {:else if tab === "procedure"}
         {#if (open.apparatus?.length ?? 0) > 0}
           <p class="meta">you will need: {open.apparatus!.join(", ")}</p>
+        {/if}
+        {#if kitItems.length > 0}
+          <KitStrip
+            items={kitItems}
+            register={session.register}
+            target={session.selected}
+            onadd={(line) => {
+              void session.submit(line);
+              onclose();
+            }}
+          />
         {/if}
         <pre class="script">{open.setup.script}</pre>
       {:else}

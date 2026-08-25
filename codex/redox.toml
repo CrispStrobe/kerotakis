@@ -21,6 +21,11 @@ concepts = ["redox-reactions", "electron-transfer"]
 requires = ["oxidation", "acids"]
 apparatus = ["beaker", "burette"]
 calculations = ["moles-from-mass", "electron-bookkeeping"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB Redoxchemie — Redoxtitration"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — permanganometric titration is named content of the Redoxchemie Lernbereich"
 
 [reaction.setup]
 script = """
@@ -71,6 +76,11 @@ concepts = ["formal-potential", "electron-transfer"]
 requires = ["redox-reactions"]
 apparatus = ["beaker", "burette"]
 calculations = ["nernst-at-the-midpoint"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB Redoxchemie — Elektrochemie/Nernst-Gleichung"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — formal potential and its dependence on medium is Oberstufe electrochemistry"
 
 [reaction.setup]
 script = """
@@ -121,6 +131,11 @@ concepts = ["redox-reactions", "equivalence-point"]
 requires = ["redox-reactions"]
 apparatus = ["beaker", "burette", "ph-meter"]
 calculations = ["electron-bookkeeping", "titration-stoichiometry"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB Redoxchemie — Redoxtitration"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — stoichiometric endpoint of a permanganometric titration"
 
 [reaction.setup]
 script = """
@@ -173,6 +188,17 @@ concepts = ["activity-series", "displacement-reactions"]
 requires = ["redox-reactions"]
 apparatus = ["beaker", "thermometer"]
 calculations = ["electron-bookkeeping"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 9, LB Donator-Akzeptor-Konzept — Redoxreaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 9 (ISB) — displacement of copper by zinc is a standard demonstration of the activity series"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — displacement reactions demonstrating the reactivity series are required content"
 
 [reaction.setup]
 script = """
@@ -223,6 +249,17 @@ concepts = ["activity-series", "hydrogen-as-a-rung"]
 requires = ["activity-series", "acids"]
 apparatus = ["beaker", "ph-meter"]
 calculations = ["electron-bookkeeping"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 9, LB Donator-Akzeptor-Konzept — Redoxreaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 9 (ISB) — hydrogen as a rung in the activity series; metals above and below it react differently with acids"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — reactions of metals with dilute acids are required content"
 
 [reaction.setup]
 script = """
@@ -276,6 +313,17 @@ concepts = ["activity-series", "displacement-reactions"]
 requires = ["activity-series"]
 apparatus = ["beaker"]
 calculations = ["electron-bookkeeping"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 9, LB Donator-Akzeptor-Konzept — Redoxreaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 9 (ISB) — the silver tree is a classic displacement demonstration"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — displacement reactions of metals with metal-salt solutions"
 
 [reaction.setup]
 script = """
@@ -324,6 +372,17 @@ summary = "The series is an order: metallic silver in copper sulfate does nothin
 concepts = ["activity-series"]
 requires = ["activity-series"]
 apparatus = ["beaker"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 9, LB Donator-Akzeptor-Konzept — Redoxreaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 9 (ISB) — the non-reaction as the series’ negative prediction"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — predicting no reaction from the reactivity series is required content"
 
 [reaction.setup]
 script = """
@@ -373,6 +432,17 @@ concepts = ["activity-series", "sacrificial-protection"]
 requires = ["activity-series"]
 apparatus = ["beaker"]
 calculations = ["electron-bookkeeping"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 9, LB Donator-Akzeptor-Konzept — Redoxreaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 9 (ISB) — sacrificial protection as an application of the activity series"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — sacrificial protection is named content under rusting and prevention"
 
 [reaction.setup]
 script = """
@@ -425,6 +495,11 @@ concepts = ["galvanic-cells", "activity-series"]
 requires = ["activity-series"]
 apparatus = ["beaker", "voltmeter"]
 calculations = ["cell-potential"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB Redoxchemie — Galvanische Zellen"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — the Daniell cell is named content of the electrochemistry Lernbereich"
 
 [reaction.setup]
 script = """
@@ -479,6 +554,11 @@ concepts = ["nernst-over-activities", "galvanic-cells"]
 requires = ["galvanic-cells", "formal-potential"]
 apparatus = ["beaker", "voltmeter"]
 calculations = ["cell-potential"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB Redoxchemie — Nernst-Gleichung"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — the Nernst equation and its activity dependence"
 
 [reaction.setup]
 script = """
@@ -538,6 +618,11 @@ concepts = ["concentration-cells", "nernst-over-activities"]
 requires = ["galvanic-cells"]
 apparatus = ["beaker", "voltmeter"]
 calculations = ["cell-potential"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB Redoxchemie — Nernst-Gleichung"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — concentration cells as the limiting case of Nernst"
 
 [reaction.setup]
 script = """
@@ -594,6 +679,17 @@ concepts = ["electrolysis", "faraday-law"]
 requires = ["electron-transfer"]
 apparatus = ["beaker", "power-supply"]
 calculations = ["faraday"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB Redoxchemie — Elektrolyse"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — electrolysis and Faraday’s law are named content"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.3 Electrolysis"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.3 — electrolysis of aqueous solutions and the relationship between charge and mass deposited"
 
 [reaction.setup]
 script = """
@@ -644,6 +740,17 @@ concepts = ["electrolysis", "charge-conservation"]
 requires = ["electrolysis"]
 apparatus = ["beaker", "power-supply", "ph-meter"]
 calculations = ["faraday"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB Redoxchemie — Elektrolyse"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — anode reactions during electrolysis with inert electrodes"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.3 Electrolysis"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.3 — electrolysis of aqueous solutions, reactions at electrodes"
 
 [reaction.setup]
 script = """
@@ -696,6 +803,11 @@ concepts = ["accumulators", "electrolysis"]
 requires = ["galvanic-cells", "electrolysis"]
 apparatus = ["beaker", "voltmeter", "power-supply"]
 calculations = ["faraday", "cell-potential"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB Redoxchemie — Akkumulatoren"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — accumulators as reversible electrochemical cells"
 
 [reaction.setup]
 script = """
@@ -751,6 +863,11 @@ summary = "Lead sits below hydrogen in the series, yet a car battery's plates st
 concepts = ["accumulators", "activity-series"]
 requires = ["activity-series"]
 apparatus = ["beaker"]
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB Redoxchemie — Akkumulatoren"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — the lead-acid accumulator and the role of kinetic barriers"
 
 [reaction.setup]
 script = """

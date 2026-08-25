@@ -78,6 +78,12 @@ requires = ["strong-bases", "enthalpy-of-solution"]
 apparatus = ["beaker", "thermometer", "ph-meter"]
 calculations = ["enthalpy-change", "concentration"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — dissolution of bases is part of acid-base chemistry"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -243,6 +249,12 @@ apparatus = ["beaker", "ph-meter"]
 calculations = ["concentration", "ph-calculation"]
 models = ["equilibrium"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — polyprotic acids and stepwise dissociation"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -292,6 +304,12 @@ apparatus = ["beaker", "burette", "ph-meter"]
 calculations = ["titration-stoichiometry", "ph-calculation"]
 models = ["equilibrium"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — buffer systems are named content"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -339,6 +357,12 @@ concepts = ["half-equivalence-point", "pka-measurement"]
 requires = ["weak-acids", "neutralisation"]
 apparatus = ["burette", "conical-flask", "ph-meter"]
 calculations = ["titration-stoichiometry", "ph-calculation"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — the Henderson-Hasselbalch relationship at the half-equivalence point"
 
 [reaction.setup]
 script = """
@@ -389,6 +413,12 @@ requires = ["half-equivalence-point", "equivalence-point", "salt-of-a-weak-acid"
 apparatus = ["burette", "conical-flask", "ph-meter"]
 calculations = ["titration-stoichiometry"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — titration endpoints and indicator choice"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -438,6 +468,12 @@ concepts = ["buffer-capacity"]
 requires = ["buffers"]
 apparatus = ["beaker", "ph-meter"]
 calculations = ["concentration", "titration-stoichiometry"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — buffer capacity and its limits"
 
 [reaction.setup]
 script = """
@@ -491,6 +527,12 @@ requires = ["acids", "ph"]
 apparatus = ["measuring-cylinder", "volumetric-flask", "ph-meter"]
 calculations = ["concentration", "dilution-factor"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — the relationship between dilution and pH"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -537,6 +579,12 @@ requires = ["dissolving", "ph"]
 apparatus = ["beaker", "ph-meter"]
 calculations = ["moles-from-mass", "concentration"]
 models = ["equilibrium"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — alkaline salt solutions from hydrolysis"
 
 [reaction.setup]
 script = """
@@ -586,6 +634,18 @@ apparatus = ["beaker", "ph-meter"]
 calculations = ["moles-from-mass"]
 models = ["equilibrium"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — acid-carbonate reactions producing CO2"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.2 Reactions of acids"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — reactions of acids with metal carbonates are required content"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -634,6 +694,12 @@ requires = ["salt-hydrolysis", "weak-acids"]
 apparatus = ["beaker", "thermometer", "ph-meter"]
 calculations = ["moles-from-mass", "enthalpy-change"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — salt hydrolysis as a protolysis equilibrium"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -662,6 +728,12 @@ concepts = ["transition-metal-colour", "metal-ion-hydrolysis"]
 requires = ["dissolving", "ph"]
 apparatus = ["beaker", "thermometer", "ph-meter"]
 calculations = ["moles-from-mass", "concentration"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — metal-ion hydrolysis producing acidic solutions"
 
 [reaction.setup]
 script = """
@@ -715,6 +787,18 @@ requires = ["acid-carbonate", "sparingly-soluble-salts"]
 apparatus = ["beaker", "balance", "ph-meter"]
 calculations = ["moles-from-mass", "titration-stoichiometry"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — acid-carbonate reactions in everyday contexts"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.2 Reactions of acids"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — reactions of acids with metal carbonates"
+
 [reaction.setup]
 script = """
 add v1 water 200mL
@@ -767,6 +851,12 @@ apparatus = ["beaker", "balance", "ph-meter"]
 calculations = ["concentration"]
 models = ["equilibrium"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — solubility as a substance property"
+
 [reaction.setup]
 script = """
 add v1 water 200mL
@@ -816,6 +906,18 @@ apparatus = ["beaker", "balance"]
 calculations = ["concentration"]
 models = ["equilibrium"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — solubility products as heterogeneous equilibria"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -844,6 +946,12 @@ requires = ["ksp", "le-chatelier"]
 apparatus = ["beaker", "balance"]
 calculations = ["concentration"]
 models = ["equilibrium"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — the common-ion effect on solubility equilibria"
 
 [reaction.setup]
 script = """
@@ -894,6 +1002,12 @@ concepts = ["complex-ions", "model-boundaries"]
 requires = ["common-ion-effect"]
 apparatus = ["beaker", "balance"]
 models = ["equilibrium"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — complexation equilibria dissolving a precipitate"
 
 [reaction.setup]
 script = """
@@ -946,6 +1060,12 @@ requires = ["solubility-limit"]
 apparatus = ["beaker", "balance"]
 calculations = ["moles-from-mass", "percentage-composition"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — crystal water and hydrates"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -994,6 +1114,12 @@ concepts = ["temperature-and-solubility"]
 requires = ["saturation"]
 apparatus = ["beaker", "bunsen", "thermometer"]
 calculations = ["moles-from-mass", "concentration"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — temperature dependence of solubility"
 
 [reaction.setup]
 script = """
@@ -1101,6 +1227,12 @@ concepts = ["solubility-rules"]
 requires = ["precipitation", "net-ionic-reaction"]
 apparatus = ["beaker", "ph-meter"]
 
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019) — predicting whether a double-exchange reaction produces a precipitate"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -1154,6 +1286,12 @@ requires = ["hard-water", "precipitation"]
 apparatus = ["beaker", "filter-funnel", "ph-meter"]
 calculations = ["moles-from-mass", "titration-stoichiometry"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — water softening as a precipitation application"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -1203,6 +1341,12 @@ requires = ["hard-water", "waters-of-crystallisation"]
 apparatus = ["beaker", "ph-meter"]
 calculations = ["moles-from-mass"]
 
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019) — precipitation of salts from mixed solutions"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -1233,6 +1377,18 @@ concepts = ["filtration", "separation"]
 requires = ["precipitation"]
 apparatus = ["filter-funnel", "filter-paper", "beaker"]
 calculations = ["percentage-yield"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — filtration as a separation technique"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.1.1 Atoms, elements and compounds"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464) — separation techniques including filtration"
 
 [reaction.setup]
 script = """
@@ -1286,6 +1442,12 @@ requires = ["saturation", "solubility-limit"]
 apparatus = ["evaporating-basin", "bunsen", "balance"]
 calculations = ["moles-from-mass", "percentage-yield"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — evaporative crystallisation as a separation technique"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -1338,6 +1500,12 @@ requires = ["dissolving", "concentration"]
 apparatus = ["beaker", "balance"]
 calculations = ["moles-from-mass", "concentration"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — colour as a concentration indicator"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -1388,6 +1556,12 @@ apparatus = ["measuring-cylinder", "beaker"]
 calculations = ["concentration"]
 models = ["particle-model", "intermolecular-forces"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — miscibility and hydrogen bonding"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -1436,6 +1610,12 @@ equation = "NaOCl + 2 HCl → Cl₂↑ + NaCl + H₂O"
 concepts = ["toxic-gas", "household-hazards"]
 requires = ["gas-evolution", "acids"]
 apparatus = ["fume-cupboard"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — hazardous gas evolution from mixing household chemicals"
 
 [reaction.setup]
 script = """
@@ -1488,6 +1668,12 @@ requires = ["ph"]
 apparatus = ["beaker", "ph-meter", "thermometer"]
 calculations = ["ph-calculation"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — temperature dependence of Kw and the definition of neutrality"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -1538,6 +1724,12 @@ requires = ["conjugate-base"]
 models = ["broensted-lowry"]
 apparatus = ["beaker", "ph-meter"]
 calculations = ["ph-calculation"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — amphoteric behaviour of hydrogen carbonate"
 
 [reaction.setup]
 script = """
@@ -1592,6 +1784,18 @@ requires = ["neutralisation"]
 apparatus = ["beaker", "ph-meter", "balance"]
 calculations = ["moles-from-mass", "concentration"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — neutralisation in an everyday context"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.2 Reactions of acids"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — neutralisation reactions are required content"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -1641,6 +1845,12 @@ summary = "Phenolphthalein turns at this titration's endpoint (pH 8.6); methyl o
 concepts = ["indicators"]
 requires = ["equivalence-point"]
 apparatus = ["burette", "conical-flask"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — titration and indicator selection"
 
 [reaction.setup]
 script = """
@@ -1695,6 +1905,12 @@ summary = "Bromothymol blue near neutral is green — not a third colour of the 
 concepts = ["indicators", "colour-from-mixed-spectra"]
 requires = ["indicators"]
 apparatus = ["beaker"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte"
+ages = { min = 17.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — indicator equilibrium as a protolysis equilibrium"
 
 [reaction.setup]
 script = """

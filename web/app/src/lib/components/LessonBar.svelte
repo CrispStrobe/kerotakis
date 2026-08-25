@@ -1,49 +1,70 @@
 <script lang="ts">
+  import type { ShelfItem } from "../session.svelte";
+  import KitStrip from "./KitStrip.svelte";
+
   let {
     name,
     next,
     busy,
     deviation = 0,
+    kit = [],
+    register = "lv2",
+    target = 0,
     onnext,
     onreturn,
     onexit,
+    onadd,
   }: {
     name: string;
     next: string | null;
     busy: boolean;
     /** Free commands run since the lesson's last own step. */
     deviation?: number;
+    kit?: ShelfItem[];
+    register?: string;
+    target?: number;
     onnext: () => void;
     /** Rewind the deviation (an undo, not an erasure). */
     onreturn?: () => void;
     onexit: () => void;
+    onadd?: (line: string) => void;
   } = $props();
 </script>
 
 <div class="lesson" role="region" aria-label={`lesson ${name}`}>
-  <span class="name">{name}</span>
-  {#if next}
-    <code>{next}</code>
-    <button class="next" onclick={onnext} disabled={busy}>do it</button>
+  <div class="controls">
+    <span class="name">{name}</span>
+    {#if next}
+      <code>{next}</code>
+      <button class="next" onclick={onnext} disabled={busy}>do it</button>
+    {/if}
+    {#if deviation > 0}
+      <span class="deviation">
+        off the script by {deviation} {deviation === 1 ? "step" : "steps"} — exploring is allowed
+      </span>
+      <button onclick={onreturn} disabled={busy}>return to the script</button>
+    {/if}
+    <button class="leave" onclick={onexit}>leave lesson</button>
+  </div>
+  {#if kit.length > 0 && onadd}
+    <KitStrip items={kit} {register} {target} {onadd} />
   {/if}
-  {#if deviation > 0}
-    <span class="deviation">
-      off the script by {deviation} {deviation === 1 ? "step" : "steps"} — exploring is allowed
-    </span>
-    <button onclick={onreturn} disabled={busy}>return to the script</button>
-  {/if}
-  <button class="leave" onclick={onexit}>leave lesson</button>
 </div>
 
 <style>
   .lesson {
     display: flex;
-    align-items: center;
-    gap: 0.7rem;
+    flex-direction: column;
     padding: 0.45rem 1rem;
     border-bottom: 1px solid var(--edge);
     background: var(--panel);
     font-size: 0.85rem;
+    gap: 0.25rem;
+  }
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
     flex-wrap: wrap;
   }
   .name {
