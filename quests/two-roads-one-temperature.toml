@@ -47,8 +47,19 @@ lv3 = "Calorimetric measurement of path B — the comparison"
 
 [[claims]]
 id = "neutralisation-occurred"
-matches = "reaction"
+matches = "dissolved"
 [claims.title]
 lv1 = "Make the acid meet the base"
 lv2 = "Complete the neutralisation"
-lv3 = "Neutralisation reaction: H⁺ + OH⁻ → H₂O"
+lv3 = "Dissolution of both reagents — neutralisation happens in solution"
+
+[[claims]]
+id = "final-temperature"
+vessel = "v1"
+quantity = "temperature_c"
+target = 26.2
+tolerance = 1.5
+[claims.title]
+lv1 = "The thermometer shows the answer"
+lv2 = "Final temperature within range of the expected value"
+lv3 = "ΔT ≈ +1.2 K (0.01 mol NaOH + HCl in 200 mL) — path-independent"

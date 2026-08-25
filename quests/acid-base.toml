@@ -64,9 +64,12 @@ lv2 = "Titrate an acid with a base"
 lv3 = "Acid-base titration to equivalence"
 
 [[claims]]
-id = "observed-curve"
-matches = "observed"
+id = "buffer-ph"
+vessel = "v1"
+quantity = "ph"
+target = 4.76
+tolerance = 0.5
 [claims.title]
-lv1 = "See what happened"
-lv2 = "Observe the pH change"
-lv3 = "Observation — the equivalence point and buffer region identified"
+lv1 = "Make a buffer — the pH should land near 4.76"
+lv2 = "Prepare an acetate buffer near pKa"
+lv3 = "Buffer at pH = pKa ± 0.5 (equimolar CH₃COOH / CH₃COO⁻ gives pH ≈ pKa = 4.76)"

@@ -1,6 +1,7 @@
 # EXP-26: gravimetric determination — precipitate, filter, dry, weigh.
 # The AgCl route: silver nitrate + chloride → precipitate → filter →
-# balance. The mass on the balance IS the answer.
+# balance. The mass on the balance IS the answer. A sealed unknown
+# chloride solution makes the learner earn the concentration.
 id = "gravimetric"
 
 [title]
@@ -10,8 +11,11 @@ lv3 = "Gravimetric determination of chloride as AgCl precipitate"
 
 [goal]
 lv1 = "A white powder falls out of your mixture. Catch it on the filter and weigh it — the weight tells you how much was in the solution."
-lv2 = "Determine chloride content by precipitation: add AgNO₃ to a chloride solution, filter the AgCl precipitate, and weigh it. The mass reveals the original chloride amount."
-lv3 = "Quantitative gravimetric analysis: Ag⁺(aq) + Cl⁻(aq) → AgCl(s). Filter, dry, weigh. From m(AgCl) and M(AgCl) = 143.32 g/mol, recover n(Cl⁻) = n(AgCl). Accept within ±5% of the theoretical yield."
+lv2 = "Determine chloride content by precipitation: add excess AgNO₃ to a chloride solution, filter the AgCl precipitate, and weigh it. The mass reveals the original chloride amount."
+lv3 = "Quantitative gravimetric analysis: Ag⁺(aq) + Cl⁻(aq) → AgCl(s). Filter, dry, weigh. From m(AgCl) and M(AgCl) = 143.32 g/mol, recover n(Cl⁻) = n(AgCl). The sealed unknown hides the chloride source — identification from the mass result IS the analysis."
+
+[unknowns]
+unknown-salt = "NaCl"
 
 [[nudges]]
 id = "precipitate-formed"
@@ -47,8 +51,19 @@ lv3 = "Solid–liquid separation by filtration"
 
 [[claims]]
 id = "weighed-precipitate"
-matches = "measured"
+vessel = "v1"
+quantity = "mass_g"
+target = 1.433
+tolerance = 0.15
 [claims.title]
 lv1 = "Weigh what you caught"
-lv2 = "Weigh the dried precipitate"
-lv3 = "Gravimetric measurement of the isolated AgCl"
+lv2 = "The precipitate mass reveals the chloride"
+lv3 = "m(AgCl) = 1.433 ± 0.15 g → n(Cl⁻) = 0.01 mol (residue stays in v1 after filter)"
+
+[[claims]]
+id = "named-salt"
+alias = "unknown-salt"
+[claims.title]
+lv1 = "Name the mystery salt"
+lv2 = "Identify the chloride source"
+lv3 = "Sealed-unknown identification from the gravimetric result"
