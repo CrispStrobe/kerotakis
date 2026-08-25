@@ -142,10 +142,14 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
                 .iter()
                 .map(|(verb, example)| {
                     if *verb == "react" {
-                        let names: Vec<&str> = kerotakis_core::curated::ORG_REACTIONS
+                        let mut names: Vec<&str> = kerotakis_core::curated::ORG_REACTIONS
                             .iter()
                             .map(|r| r.name)
                             .collect();
+                        // EXP-50's selectivity reaction is grammar too —
+                        // the wasm host lists it; a shell that does not
+                        // is a transport divergence.
+                        names.push(kerotakis_core::selectivity::VERB_NAME);
                         json!({ "verb": verb, "example": example, "options": names })
                     } else {
                         json!({ "verb": verb, "example": example })
