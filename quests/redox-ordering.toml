@@ -1,0 +1,63 @@
+# EXP-25: design your own experiment to order metals by reactivity.
+# The displacement chemistry is landed; the learner discovers the
+# ordering from what reacts and what does not. At least three metals
+# must be tested — the ordering emerges, it is not taught.
+id = "redox-ordering"
+
+[title]
+lv1 = "Which metal is the strongest?"
+lv2 = "The reactivity series: ordering metals by displacement"
+lv3 = "Electrochemical activity series from observed displacement reactions"
+
+[goal]
+lv1 = "Some metals push others out of solution, and some cannot. Try different combinations to find out which metal wins."
+lv2 = "Build the reactivity series yourself: add metals to salt solutions and observe which displace which. Three metals is the minimum — more makes the ordering surer."
+lv3 = "Determine the relative electrochemical activity of at least three metals by systematic displacement experiments. A more active metal reduces a less active metal's cation (Cu²⁺ + Zn → Zn²⁺ + Cu). The ordering you find should be consistent: if A displaces B and B displaces C, then A must displace C."
+
+[[nudges]]
+id = "first-displacement"
+when = "precipitated"
+[nudges.say]
+lv1 = "Something new appeared on the bottom — one metal pushed the other out. Which one won?"
+lv2 = "Displacement occurred: the added metal reduced the dissolved metal's ions, plating out the less active metal. Note which is which."
+lv3 = "The deposited metal is the one reduced (less active); the one that dissolved is the one oxidised (more active). E°(oxidant) > E°(reductant) is the thermodynamic condition; the engine solved it."
+
+[[nudges]]
+id = "tried-copper"
+when = "added:Cu"
+[nudges.say]
+lv1 = "Copper is pretty but not very pushy. Try putting it with something it cannot beat."
+lv2 = "Copper sits low in the reactivity series. It can displace silver, but most common metals displace it. That contrast IS the ordering."
+lv3 = "Cu (E° = +0.34 V) is below H₂ in the standard series — it won't dissolve in dilute acid. But Zn, Mg, and Fe all reduce Cu²⁺. Negative results (no reaction) are data: they bound the ordering from below."
+
+[[nudges]]
+id = "tried-zinc"
+when = "added:Zn"
+[nudges.say]
+lv1 = "Zinc is strong — it pushes out most other metals. That tells you it sits near the top."
+lv2 = "Zinc displaces copper and lead but not magnesium. Each successful and failed displacement is a comparison — together they build the series."
+lv3 = "Zn (E° = −0.76 V) is significantly more active than Cu (+0.34 V) and moderately above Fe (−0.44 V). The displacement potential ΔE° = E°(cathode) − E°(anode) must be positive for the reaction to proceed spontaneously."
+
+[[claims]]
+id = "displacement-1"
+matches = "precipitated"
+[claims.title]
+lv1 = "See one metal push another out"
+lv2 = "Observe a displacement reaction"
+lv3 = "First displacement: metal A reduces metal B's cation"
+
+[[claims]]
+id = "displacement-2"
+matches = "precipitated"
+[claims.title]
+lv1 = "Try a different pair"
+lv2 = "Observe a second displacement reaction"
+lv3 = "Second displacement: confirm or extend the ordering"
+
+[[claims]]
+id = "measured-voltage"
+matches = "cell_voltage"
+[claims.title]
+lv1 = "Measure the push between two metals"
+lv2 = "Read the voltage of a metal pair"
+lv3 = "Galvanic cell measurement: E_cell confirms the activity ordering"
