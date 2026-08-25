@@ -1,0 +1,54 @@
+# EXP-20: the limiting reagent determines the yield.
+# Precipitation and gas routes are both landed. The learner adds
+# unequal amounts and discovers that one runs out first.
+id = "limiting-reagent"
+
+[title]
+lv1 = "One runs out first"
+lv2 = "Limiting reagents: which one decides?"
+lv3 = "Stoichiometric excess and limiting reagent in precipitation reactions"
+
+[goal]
+lv1 = "When two things react, one runs out before the other. Find out which one decides how much you get."
+lv2 = "Mix two reactants in unequal amounts and observe the precipitate. The limiting reagent determines the yield — excess of the other stays in solution. Prove it by testing what is left."
+lv3 = "Demonstrate limiting-reagent control of yield: add non-stoichiometric amounts of AgNO₃ and NaCl, precipitate AgCl, filter, and test the filtrate. The species in excess remains detectable; the limiting reagent is fully consumed. Mass of precipitate should match the theoretical yield from the limiting reagent."
+
+[[nudges]]
+id = "precipitated"
+when = "precipitated:AgCl"
+[nudges.say]
+lv1 = "White stuff appeared! But did you use up all of both, or is one of them left over?"
+lv2 = "AgCl precipitated. If the amounts were not exactly matched, one reactant is in excess — it is still dissolved. Filter and test the filtrate to find out which."
+lv3 = "The precipitate mass is controlled by min(n(Ag⁺), n(Cl⁻)). The species present in molar excess remains in the filtrate — detectable by conductivity, precipitation with a secondary reagent, or simple mass balance."
+
+[[nudges]]
+id = "filtered"
+when = "filtered"
+[nudges.say]
+lv1 = "You separated the white stuff from the liquid. Now — is there anything still hiding in the liquid?"
+lv2 = "The precipitate is isolated. The filtrate contains the excess reagent and its counter-ion. Evaporate or add a second reagent to detect it."
+lv3 = "The filtrate contains the excess species. Adding more of the consumed reactant to the filtrate should produce additional precipitate if the excess is the counter-ion species."
+
+[[claims]]
+id = "precipitated"
+matches = "precipitated:AgCl"
+[claims.title]
+lv1 = "Make the white stuff"
+lv2 = "Observe AgCl precipitation"
+lv3 = "Ag⁺(aq) + Cl⁻(aq) → AgCl(s)"
+
+[[claims]]
+id = "separated"
+matches = "filtered"
+[claims.title]
+lv1 = "Separate the powder from the liquid"
+lv2 = "Filter the precipitate"
+lv3 = "Filtration to isolate the precipitate and retain the filtrate"
+
+[[claims]]
+id = "weighed-product"
+matches = "measured"
+[claims.title]
+lv1 = "Weigh what you got"
+lv2 = "Measure the precipitate mass"
+lv3 = "Gravimetric comparison of actual vs theoretical yield"
