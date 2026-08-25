@@ -44,6 +44,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("magnet", "magnet v1 v2"),
     ("transport", "transport v1 v2 v3 from v4 to v5 steps 3"),
     ("react", "react v1 esterification"),
+    ("test", "test v1 pop"),
 ];
 
 pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
@@ -318,6 +319,26 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
         "smell" | "waft" => Operator::Smell {
             vessel: parse_vessel(words.get(1).copied().unwrap_or("v1"))?,
         },
+        // `test v1 pop` — apply a classical gas test to the headspace.
+        "test" => {
+            let vessel = parse_vessel(words.get(1).copied().unwrap_or("v1"))?;
+            let test_name = words
+                .get(2)
+                .copied()
+                .ok_or("usage: test <vessel> pop|splint|limewater|litmus")?;
+            let test = match test_name {
+                "pop" => crate::gas_tests::GasTest::Pop,
+                "splint" => crate::gas_tests::GasTest::GlowingSplint,
+                "limewater" => crate::gas_tests::GasTest::Limewater,
+                "litmus" => crate::gas_tests::GasTest::DampLitmus,
+                _ => {
+                    return Err(format!(
+                        "unknown gas test '{test_name}' — options: pop, splint, limewater, litmus"
+                    ));
+                }
+            };
+            Operator::TestGas { vessel, test }
+        }
         // `chromatograph v1` — inject the solution onto the column and
         // read the peak table. Sugar for `measure v1 chromatograph`,
         // first-class because running a separation is a verb in any lab.
