@@ -67,6 +67,13 @@ body {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
+  /* Installed, the bench draws under the status bar and the home
+     indicator — that is what `viewport-fit=cover` plus a translucent
+     status bar buy, and the native shells do the same. Spend the insets
+     once here so every pane inherits a safe box; in a browser tab they
+     are all zero and this is inert. */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 /* GUI-023: the one visual encoding of the engine's confidence vocabulary,
@@ -101,6 +108,7 @@ body {
   .shelf-pane,
   .bench-pane,
   .transfer-banner,
+  .update-banner,
   .lesson {
     display: none !important;
   }

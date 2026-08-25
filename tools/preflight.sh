@@ -70,4 +70,12 @@ if [ -f tools/provenance-lint.sh ]; then
   step "provenance checksums"; bash tools/provenance-lint.sh
 fi
 
+# The committed icons must still match the mark they were drawn from —
+# every store, browser tab and home screen reads these, and a hand-edited
+# PNG that no longer matches its source is invisible until an upload is
+# rejected. Skipped where librsvg is absent; CI has it.
+if command -v rsvg-convert >/dev/null 2>&1; then
+  step "icons"; python3 tools/gen-icons.py --check
+fi
+
 printf '\n\033[1;32mpreflight clean\033[0m\n'

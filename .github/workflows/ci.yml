@@ -242,6 +242,12 @@ jobs:
       # ArrayBuffer, which Node does not reproduce at all.
       - name: Run the page headlessly
         run: node tools/test-web-demo.mjs "$RUNNER_TEMP/site"
+      # Served from a SUBPATH, because that is how Pages serves it and a
+      # root-served manifest hides every relative-URL bug in it. Checks the
+      # facts only a browser knows: the worker's scope, where start_url
+      # actually resolves, and whether /app/ boots with the network cut.
+      - name: The bench is an installable, offline-first PWA
+        run: node tools/test-pwa.mjs "$RUNNER_TEMP/site"
       - name: Package the site
         uses: actions/upload-pages-artifact@v3
         with:
