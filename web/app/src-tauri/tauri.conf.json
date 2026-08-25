@@ -26,7 +26,10 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["app", "dmg"],
+    "targets": [
+      "app",
+      "dmg"
+    ],
     "category": "Education",
     "copyright": "Copyright (C) 2026 Christian Ströbele",
     "shortDescription": "A chemistry bench that computes.",
@@ -41,7 +44,8 @@
     "macOS": {
       "entitlements": "entitlements.plist",
       "hardenedRuntime": true,
-      "minimumSystemVersion": "11.0"
+      "minimumSystemVersion": "11.0",
+      "bundleVersion": "2"
     },
     "iOS": {
       "developmentTeam": "N9XSJ4M3GT",

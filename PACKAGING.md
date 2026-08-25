@@ -138,8 +138,36 @@ which Xcode injects on its own and Tauri does not. A build signed with
 anything but the matching profile is rejected for naming an identifier it
 cannot claim, so those two keys must not be in the base file.
 
-**No network entitlement appears anywhere**, because the app genuinely makes
-no network requests. The operating system would refuse one.
+### 🚨 A sandboxed WKWebView renders nothing without `network.client`
+
+The app makes no network requests, so the first cut of `entitlements.plist`
+declared no network entitlement — and shipped **a black window**. It
+launched, opened a window titled Kerotakis, kept a live
+`com.apple.WebKit.WebContent` process, and answered Tauri's own
+`asset_resolver` correctly for `/index.html`, the hashed JS and CSS, and
+every lesson. It just never ran a line of the frontend: an IPC tripwire on
+`engine_request` saw zero calls where an unsandboxed build saw `hello`,
+`scene`, `species`, `grammar`.
+
+macOS routes everything a WKWebView loads through WebKit's networking
+process, **including a custom scheme served out of the binary**, and inside
+the App Sandbox that process needs `com.apple.security.network.client` to
+load anything at all. The entitlement is not about what the app talks to.
+Nothing is logged when it is missing.
+
+Two measurement mistakes made this take far longer than it should have, and
+both are worth avoiding:
+
+- Counting live `WebContent` processes to decide whether the webview works.
+  There is one in every variant, including the broken ones — a live
+  WebContent process is not a rendered page.
+- Comparing a *bright-pixel* percentage against a guessed threshold. This
+  is a dark UI: a fully rendered bench is only 2.5% above mid-brightness,
+  so "2.49% painted" looked blank next to a threshold of 3%. Calibrate
+  against a capture known to be good — the fixed build matches it exactly.
+
+`tools/run-macos-local.sh` exists so this is caught before an upload rather
+than after one.
 
 The build is universal. An Apple-Silicon-only macOS build simply cannot be
 installed on an Intel Mac and the store gives no warning about it.

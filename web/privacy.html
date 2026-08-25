@@ -70,10 +70,18 @@
 
 <h2>Network use</h2>
 <p>
-  The macOS and iOS apps make no network requests: the solver, the
-  thermodynamic databases and every lesson are compiled into the app, and the
-  macOS build ships without any network entitlement at all, so the operating
-  system would refuse one.
+  The macOS and iOS apps make no network requests. The solver, the
+  thermodynamic databases and every lesson are compiled into the app, and
+  there is no code in them that contacts anything.
+</p>
+<p>
+  One point of honesty, because you can check it: the macOS build does
+  declare the <code>com.apple.security.network.client</code> entitlement.
+  That is not for the app's own use. macOS routes everything the embedded
+  web view loads — including the app's own files, served from inside the
+  binary — through WebKit's networking process, and inside the App Sandbox
+  that process cannot load anything without it. Without the entitlement the
+  app displays a blank window. Nothing is sent anywhere either way.
 </p>
 <p>
   The web version downloads the app and its engine from the site that serves
