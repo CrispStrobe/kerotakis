@@ -40,7 +40,19 @@ pub enum ReactiveGroup {
 }
 
 pub fn hazard_labels(species_key: &str) -> Vec<&'static str> {
-    groups(species_key)
+    let (labels, _) = hazard_assessment(species_key);
+    labels
+}
+
+#[derive(Debug, Clone, Serialize)]
+pub struct HazardInfo {
+    pub assessed: bool,
+    pub classes: Vec<&'static str>,
+}
+
+pub fn hazard_assessment(species_key: &str) -> (Vec<&'static str>, bool) {
+    let assessed = COVERED_KEYS.contains(&species_key);
+    let labels: Vec<&'static str> = groups(species_key)
         .iter()
         .map(|g| match g {
             ReactiveGroup::AcidStrong => "corrosive",
@@ -55,7 +67,8 @@ pub fn hazard_labels(species_key: &str) -> Vec<&'static str> {
             ReactiveGroup::AmmoniaAmines => "toxic",
             ReactiveGroup::Carbonate => "irritant",
         })
-        .collect()
+        .collect();
+    (labels, assessed)
 }
 
 /// Registry-key → reactive groups. Assignment is total over the registry;

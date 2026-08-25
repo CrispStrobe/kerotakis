@@ -175,6 +175,7 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             let list: Vec<Value> = kerotakis_core::species::REGISTRY
                 .iter()
                 .map(|s| {
+                    let (hazards, assessed) = kerotakis_safety::hazard_assessment(s.key);
                     let (srgb, solution_srgb) = kerotakis_core::species::shelf_swatch(s);
                     json!({
                         "key": s.key,
@@ -186,6 +187,8 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
                         "solution_srgb": solution_srgb,
                         "flame": s.flame_colour,
                         "provenance": s.provenance,
+                        "hazards": hazards,
+                        "hazard_assessed": assessed,
                     })
                 })
                 .collect();
