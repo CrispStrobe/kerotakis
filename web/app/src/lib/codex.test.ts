@@ -82,6 +82,19 @@ describe("codex grouping for the browsers", () => {
     expect(relatedConcepts(entries, "solubility")).toEqual(["equilibrium", "ksp"]);
   });
 
+  it("parses the export document shape { reactions, models, concepts }", async () => {
+    const { parseCodexIndex } = await import("./codex");
+    const doc = {
+      reactions: [
+        { id: "a", setup: { script: "new" }, expect: {}, registers: {} },
+        { id: "broken", setup: {} },
+      ],
+      models: [{ id: "m" }],
+      concepts: [{ id: "c" }],
+    };
+    expect(parseCodexIndex(doc).map((e) => e.id)).toEqual(["a"]);
+  });
+
   it("conceptGraph layers by longest prerequisite chain and survives cycles", async () => {
     const { conceptGraph } = await import("./codex");
     const mkq = (id: string, concepts: string[], requires: string[]) =>
