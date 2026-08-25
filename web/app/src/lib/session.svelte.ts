@@ -19,6 +19,7 @@ import { isChartSpec, type ChartSpec } from "./chart";
 import { type Lesson, parseLesson } from "./lesson";
 import { scriptKit } from "./codex";
 import { schedule, type Playback } from "./replay";
+import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "hazard" | "chart";
@@ -87,11 +88,14 @@ export class Session {
   titrationPlayback = $state<{ vessel: number; delivered: number; total: number } | null>(null);
   private playback: Playback | null = null;
 
-  /** Push one transient effect — the same channel recordEffect uses. */
-  private pushEffect(vessel: number, kind: string): void {
+  /** Push one transient effect — the same channel recordEffect uses.
+   * Paced operational effects carry a moderate fixed magnitude: their
+   * intensity is pacing, not an event amount (GUI-059's scaling reads
+   * amounts where they exist). */
+  private pushEffect(vessel: number, kind: string, magnitude = 0.6): void {
     const now = Date.now();
     const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
-    list.push({ kind, at: now });
+    list.push({ kind, at: now, magnitude });
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
   }
 
@@ -122,7 +126,7 @@ export class Session {
         // Each increment drips — the same typed-effect channel as ever.
         const now = Date.now();
         const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
-        list.push({ kind: "drip", at: now });
+        list.push({ kind: "drip", at: now, magnitude: 1 });
         this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
       },
       () => {
@@ -193,7 +197,7 @@ export class Session {
    * it. Entries age out; the canvas animates what is younger than its
    * animation.
    */
-  vesselEffects = $state<Record<number, { kind: string; at: number }[]>>({});
+  vesselEffects = $state<Record<number, Effect[]>>({});
 
   constructor(
     private host: EngineHost,
@@ -503,36 +507,23 @@ export class Session {
     this.feed.push({ kind: "note", text: `${name} finished` });
   }
 
-  /** Map a typed event onto a transient canvas effect for its vessel. */
+  /** Map a typed event onto a transient canvas effect for its vessel:
+   * kero1's magnitude pipeline (GUI-059) carries the intensity, with
+   * #48's instrument probes grafted in (measured events are readings,
+   * not amounts — they get a fixed moderate magnitude). */
   private recordEffect(event: Record<string, unknown>): void {
-    const EFFECTS: Record<string, string> = {
-      precipitated: "precipitate",
-      dissolved: "dissolve",
-      electrolysed: "electrolyse",
-      plated: "plate",
-      ignited: "ignite",
-      evaporated: "evaporate",
-      distilled: "evaporate",
-      gas_evolved: "vent",
-      // titrated: paced by the GUI-064 playback, not an instant effect.
-      mixed: "swirl",
-      diluted: "swirl",
-      flame_test: "ignite",
-    };
-    const tag = String(event?.event ?? "");
-    let kind = EFFECTS[tag];
-    if (tag === "measured") {
+    let effect = effectFromEvent(event);
+    if (!effect && event?.event === "measured") {
       const inst = String(event.instrument ?? "");
-      if (inst === "thermometer") kind = "thermometer";
-      else if (inst === "ph_meter") kind = "ph_probe";
+      const kind =
+        inst === "thermometer" ? "thermometer" : inst === "ph_meter" ? "ph_probe" : null;
+      if (kind) effect = { kind, at: Date.now(), magnitude: 0.6 };
     }
-    if (!kind) return;
-    const vessel = Number(
-      (event.vessel as number | undefined) ?? (event.from as number | undefined) ?? 0,
-    );
+    if (!effect) return;
+    const vessel = vesselOf(event);
     const now = Date.now();
     const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
-    list.push({ kind, at: now });
+    list.push(effect);
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
   }
 
