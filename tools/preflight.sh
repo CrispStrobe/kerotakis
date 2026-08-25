@@ -70,4 +70,20 @@ if [ -f tools/provenance-lint.sh ]; then
   step "provenance checksums"; bash tools/provenance-lint.sh
 fi
 
+# The committed icons must still match the mark they were drawn from —
+# every store, browser tab and home screen reads these, and a hand-edited
+# PNG that no longer matches its source is invisible until an upload is
+# rejected.
+#
+# Local only, deliberately. It needs librsvg, which CI does not install,
+# and pinning committed bytes against a differently-versioned rasteriser on
+# another platform would fail for reasons that have nothing to do with the
+# artwork. Whoever regenerates the icons has librsvg by definition, and
+# this is the gate on them.
+if command -v rsvg-convert >/dev/null 2>&1; then
+  step "icons"; python3 tools/gen-icons.py --check
+else
+  echo "   (icons: rsvg-convert absent, skipping the icon check)"
+fi
+
 printf '\n\033[1;32mpreflight clean\033[0m\n'

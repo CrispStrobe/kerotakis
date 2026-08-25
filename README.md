@@ -26,6 +26,16 @@ engine solving in a worker. The
 [console](https://crispstrobe.github.io/kerotakis/) is the same engine as a
 terminal. Both are offline-capable after the first visit.
 
+It is also an installable app. Your browser will offer to install the bench;
+it then runs from its own window with the engine, the thermodynamic
+databases and the whole lesson library cached locally, and works with the
+network switched off. On iOS, *Share → Add to Home Screen*.
+
+The same bench is packaged for macOS and iOS as a native app, where the
+solver is linked in-process rather than run in a worker — same UI, same
+answers, no network at all. See [PACKAGING.md](PACKAGING.md) for how the
+three are built and how they stay identical.
+
 ## What works today
 
 ```console

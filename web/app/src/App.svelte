@@ -26,6 +26,7 @@
   import ConceptMap from "./lib/components/ConceptMap.svelte";
   import ToolIcon from "./lib/components/ToolIcon.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
+  import { pwa } from "./lib/pwa.svelte";
 
   // In the Tauri shell the engine is native and in-process; on the web it
   // lives in the module worker. The session cannot tell the difference.
@@ -65,6 +66,10 @@
 
   onMount(() => {
     void session.connect();
+    // Offline-first and installable: the bench registers the payload-root
+    // service worker itself rather than inheriting one from a visit to the
+    // console page, which is the only reason /app/ ever worked offline.
+    pwa.register();
     // Lessons ship beside the engine payload; their absence is quiet —
     // the sandbox is complete without them.
     // The codex export ships beside the payload once `kero codex export`
@@ -141,6 +146,8 @@
   }
   /** Narrow screens show one pane at a time; wide screens show all three. */
   let pane = $state<"bench" | "shelf" | "notes">("bench");
+  /** Narrow screens collapse the toolbar; wide screens ignore this. */
+  let toolsOpen = $state(false);
 
   function download(name: string, text: string, type = "text/plain") {
     const blob = new Blob([text], { type });
@@ -197,6 +204,18 @@
 <header>
   <h1>Kerotakis <small>a chemistry bench that computes</small></h1>
   <RegisterDial value={session.register} onchange={(lv) => void session.setRegister(lv)} />
+  <!-- On a phone this toolbar is fifteen buttons deep and would push the
+       bench off the screen entirely, so narrow layouts collapse it behind
+       the disclosure below. `display: contents` keeps the wide layout
+       byte-identical: the buttons stay direct flex children of <header>. -->
+  <button
+    class="tool tools-toggle"
+    aria-expanded={toolsOpen}
+    onclick={() => (toolsOpen = !toolsOpen)}
+  >
+    tools {toolsOpen ? "\u25b4" : "\u25be"}
+  </button>
+  <div class="tools" class:open={toolsOpen}>
   <button
     class="tool"
     onclick={() => void session.undo()}
@@ -310,6 +329,7 @@
       {/each}
     </select>
   {/if}
+  </div>
   <span
     class="status"
     class:live={session.canSolve}
@@ -317,6 +337,7 @@
   >
     {session.engineReady ? (session.canSolve ? "live" : "shipped results") : "starting…"}
   </span>
+  <div class="tools" class:open={toolsOpen}>
   <button class="tool" onclick={() => (tableOpen = true)} title="the periodic table, wired to the shelf">
     elements
   </button>
@@ -331,8 +352,30 @@
       map
     </button>
   {/if}
-  <a class="console-link" href="../">console</a>
+  </div>
+  {#if pwa.installable}
+    <button
+      class="tool"
+      onclick={() => void pwa.install()}
+      title="install the bench — it runs offline, engine and all"
+    >
+      install
+    </button>
+  {/if}
+  <!-- The console page is the other half of the web payload; a packaged
+       app bundles only the bench, so the link would lead out of it. -->
+  {#if !isTauri()}
+    <a class="console-link" href="../">console</a>
+  {/if}
 </header>
+
+{#if pwa.updateReady}
+  <div class="update-banner" role="status">
+    A newer bench is downloaded and ready.
+    <button onclick={() => void pwa.applyUpdate()}>reload into it</button>
+    <button class="cancel" onclick={() => (pwa.updateReady = false)}>later</button>
+  </div>
+{/if}
 
 {#if transfer}
   <div class="transfer-banner" role="status">
@@ -573,7 +616,8 @@
   .active-tool {
     border-color: var(--hot);
   }
-  .transfer-banner {
+  .transfer-banner,
+  .update-banner {
     display: flex;
     align-items: center;
     gap: 0.4rem;
@@ -583,7 +627,8 @@
     background: var(--panel);
     font-size: 0.85rem;
   }
-  .transfer-banner button {
+  .transfer-banner button,
+  .update-banner button {
     background: var(--panel-raised);
     border: 1px solid var(--edge);
     border-radius: 999px;
@@ -597,7 +642,8 @@
   .transfer-banner button.on {
     border-color: var(--hot);
   }
-  .transfer-banner .cancel {
+  .transfer-banner .cancel,
+  .update-banner .cancel {
     margin-left: auto;
     color: var(--dim);
   }
@@ -669,7 +715,39 @@
   .tabs {
     display: none;
   }
+  /* Wide: the toolbar is not a box at all. `display: contents` dissolves
+     the wrapper so its buttons stay direct flex children of <header>, and
+     the layout is exactly what it was before the wrapper existed. */
+  .tools {
+    display: contents;
+  }
+  .tools-toggle {
+    display: none;
+  }
   @media (max-width: 900px) {
+    /* Narrow: fifteen buttons wrap to nine rows and push the bench off
+       the screen. Collapse them; the title, the register dial and the
+       engine status are what a phone keeps. */
+    header {
+      padding: 0.5rem 0.75rem;
+      gap: 0.5rem;
+    }
+    header h1 small {
+      display: none;
+    }
+    .tools-toggle {
+      display: inline-block;
+    }
+    .tools {
+      display: none;
+      flex-basis: 100%;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .tools.open {
+      display: flex;
+    }
+
     /* One pane at a time, chosen by the tab bar. */
     main[data-pane="bench"] .shelf-pane,
     main[data-pane="bench"] aside,

@@ -38,8 +38,11 @@ else
 fi
 
 echo "== the page"
-cp "$ROOT/web/index.html" "$ROOT/web/kerotakis.mjs" \
-   "$ROOT/web/manifest.webmanifest" "$ROOT/web/icon.svg" "$OUT/"
+cp "$ROOT/web/index.html" "$ROOT/web/privacy.html" "$ROOT/web/kerotakis.mjs" \
+   "$ROOT/web/manifest.webmanifest" "$ROOT/web/icon.svg" \
+   "$ROOT/web/icon-192.png" "$ROOT/web/icon-512.png" \
+   "$ROOT/web/icon-maskable-512.png" "$ROOT/web/apple-touch-icon.png" \
+   "$ROOT/web/screenshot-wide.png" "$ROOT/web/screenshot-narrow.png" "$OUT/"
 cp "$ROOT/vendor/iphreeqc/database/wateq4f.dat" \
    "$ROOT/vendor/iphreeqc/database/minteq.v4.dat" \
    "$ROOT/vendor/iphreeqc/database/pitzer.dat" "$OUT/db/"
@@ -47,46 +50,7 @@ cp "$ROOT/vendor/iphreeqc/database/wateq4f.dat" \
 echo "== lessons for the app's player"
 mkdir -p "$OUT/lessons"
 cp "$ROOT"/lessons/*.lab "$OUT/lessons/"
-(cd "$OUT/lessons" && python3 - > index.json <<'PYEOF'
-import json, pathlib
-
-# Topic grouping for the picker — the curated order the console page's
-# example buttons had, which a flat alphabetical list lost.
-TOPICS = {
-    "start here": ["silver-and-salt", "first-warmth", "one-thing-at-a-time"],
-    "acids & bases": ["fizz", "neutral-moves", "three-protons", "buffer",
-                      "titration", "titration-manual", "two-roads",
-                      "there-and-back"],
-    "heat & fire": ["calorimetry", "fire", "grit"],
-    "redox & electricity": ["spannungsreihe", "electrode", "electrolysis",
-                            "counting-in-fives"],
-    "water chemistry": ["hard-water", "limewater", "salt-from-brine"],
-    "gases & pressure": ["sealed-gas"],
-    "rates": ["rates"],
-    "separations": ["spirit-still", "transport-column"],
-    "safety": ["never-mix"],
-}
-topic_of = {stem: topic for topic, stems in TOPICS.items() for stem in stems}
-order = {stem: i for stems in TOPICS.values() for i, stem in enumerate(stems)}
-
-out = []
-for p in sorted(pathlib.Path(".").glob("*.lab")):
-    # The first comment line is the lesson's own description.
-    blurb = next(
-        (l.lstrip("#").strip() for l in p.read_text().splitlines() if l.startswith("#")),
-        "",
-    )
-    out.append({
-        "file": p.name,
-        "name": p.stem.replace("-", " "),
-        "blurb": blurb,
-        "topic": topic_of.get(p.stem, "more"),
-    })
-topics = list(TOPICS) + ["more"]
-out.sort(key=lambda e: (topics.index(e["topic"]), order.get(e["file"][:-4], 99)))
-print(json.dumps(out))
-PYEOF
-)
+python3 "$ROOT/tools/lessons-index.py" "$OUT/lessons"
 
 echo "== codex export"
 cargo run -p kerotakis-cli -- codex export "$OUT/codex/index.json"
@@ -133,6 +97,13 @@ fi
 # and the console share one engine payload.
 if command -v npm >/dev/null 2>&1; then
     echo "== the bench app (web/app)"
+    # `tools/build-shell-payload.sh` stages the lessons and the codex in
+    # web/app/public/engine/ for the packaged shells, and Vite copies
+    # public/ verbatim into dist/. On the web those files already exist one
+    # directory up, where this script put them and where the app looks for
+    # them — so a leftover copy would ship the same 700 KB twice and enter
+    # the service worker's precache twice. The shells rebuild it on demand.
+    rm -rf "$ROOT/web/app/public/engine"
     (cd "$ROOT/web/app" \
         && { # emsdk_env.sh prepends its bundled ancient node; the app
              # needs a modern npm — prefer the system one when the PATH

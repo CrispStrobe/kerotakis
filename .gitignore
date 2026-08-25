@@ -16,3 +16,12 @@ data/dbindex/
 tools/oracle/cache/
 tools/oracle/output/
 THIRD_PARTY_LICENSES.html
+
+# App Store Connect signing material. The .p8 API key and any provisioning
+# profile fetched with it are secrets tied to the developer account, and a
+# committed one is a compromised one.
+.appstoreconnect/
+*.p8
+*.p12
+*.mobileprovision
+*.provisionprofile

@@ -2,12 +2,27 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- viewport-fit=cover so the notch/home-indicator areas are ours to
+         pad; app.css spends them as safe-area insets. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <meta name="theme-color" content="#14120f" />
-    <link rel="icon" href="../icon.svg" type="image/svg+xml" />
-    <!-- In the deployed layout the payload root's manifest and service
-         worker cover this page's scope; in dev the link 404s harmlessly. -->
-    <link rel="manifest" href="../manifest.webmanifest" />
+    <meta
+      name="description"
+      content="A virtual chemistry laboratory that computes real chemistry — drag reagents onto drawn glassware and watch a real aqueous solver answer. Offline once loaded."
+    />
+    <!-- The icon and manifest links are NOT here: Vite would content-hash
+         private copies of them into app/assets/, which re-scopes the
+         installed app to that directory. vite.config.ts injects them after
+         the asset pass instead. In the deployed layout they resolve to the
+         payload root, which the service worker's scope also covers; in dev
+         they 404 harmlessly. -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Kerotakis" />
     <title>Kerotakis — the bench</title>
   </head>
   <body>
