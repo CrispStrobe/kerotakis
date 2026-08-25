@@ -40,6 +40,10 @@ export type ShelfItem = {
   flame?: string | null;
   /** Curated appearance word ("white", "colourless", …). */
   appearance?: string | null;
+  /** Reactive-group hazard labels (CAP-11); empty when none apply. */
+  hazards?: string[];
+  /** False = nobody has assessed this species — say so, don't imply safe. */
+  hazard_assessed?: boolean;
 };
 
 export const REGISTERS = [
