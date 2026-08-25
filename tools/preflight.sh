@@ -17,6 +17,19 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
+# One heavy gate at a time on this box: 7.6 GiB of RAM does not hold
+# three sessions' full preflights, and stacking them is how the
+# 2026-08-25 near-OOM happened. The lock lives on the shared volume, so
+# every session (and only this machine — CI runners have no
+# /mnt/volume1 and skip it) queues here instead of thrashing swap.
+if [ -d /mnt/volume1 ]; then
+    exec 9>/mnt/volume1/.kero-build-lock
+    if ! flock -n 9; then
+        echo "preflight: another session holds the build gate — waiting…"
+        flock 9
+    fi
+fi
+
 LIGHT=false
 for arg in "$@"; do
   case "$arg" in
