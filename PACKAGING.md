@@ -287,6 +287,64 @@ account, no analytics, no identifiers, no network.
 
 ---
 
+## Continuous delivery
+
+Four workflows, and the split between them is deliberate: `ci.yml` gates
+every push, the other three only run on a `v*` tag or an explicit dispatch,
+because they produce artifacts that cost something to get wrong.
+
+| Workflow | Trigger | Produces |
+|---|---|---|
+| `ci.yml` | every push and PR | the gate, and the Pages deploy of the PWA |
+| `release.yml` | `v*` tag, or dispatch | `.dmg` / `.deb` / `.AppImage` / `.msi`, attached to a **draft** release |
+| `appstore.yml` | `v*` tag, or dispatch | signed `.pkg` and `.ipa`, uploaded to App Store Connect |
+| `android.yml` | `v*` tag, or dispatch | `.apk`, plus a `.aab` when a keystore is configured |
+
+**The build logic is not in the workflows.** `appstore.yml` calls
+`tools/build-macos-appstore.sh` and `tools/build-ios-appstore.sh` — the
+same commands that run on a laptop — so a CI failure can be reproduced
+without GitHub. The YAML's job is secrets, triggers, and artifacts.
+
+**Every dispatch defaults to not shipping.** `release.yml` and
+`appstore.yml` build, sign and verify but do not publish or upload unless
+the ref is a tag; `android.yml` builds unsigned unless a keystore exists.
+An upload cannot be undone and a build number cannot be reused, so the safe
+thing has to be the default thing.
+
+**No job is `continue-on-error`.** A mobile job carrying it reported green
+for a month over a two-line link error (appstore.md). If a platform breaks,
+these go red and name it.
+
+`appstore.yml` also launches the built Mac app and checks it is not a blank
+window, because a `.pkg` that renders nothing signs, validates and uploads
+perfectly.
+
+### Secrets
+
+Nothing works from a fork: Actions secrets are not exposed to fork PRs,
+which is the intended behaviour for a public repository.
+
+| Secret | Used by | Where it comes from |
+|---|---|---|
+| `ASC_API_KEY_P8_BASE64` | appstore | `base64 -i AuthKey_<id>.p8` |
+| `ASC_KEY_ID`, `ASC_ISSUER_ID`, `ASC_TEAM_ID` | appstore | account constants |
+| `DIST_CERT_P12_BASE64`, `DIST_CERT_PASSWORD` | appstore | the canonical Distribution `.p12` — **never mint a new certificate**; Apple's cap is enforced by revoking one another app depends on |
+| `IOS_PROFILE_BASE64` | appstore (iOS) | `profileContent` of `Kerotakis AppStore CI` |
+| `MAC_PROFILE_BASE64` | appstore (macOS) | `profileContent` of `Kerotakis Mac App Store` |
+| `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYSTORE_PASSWORD`, `ANDROID_KEY_ALIAS`, `ANDROID_KEY_PASSWORD` | android | `keytool -genkey -v -keystore kerotakis.jks -keyalg RSA -keysize 2048 -validity 10000 -alias kerotakis` |
+
+The profiles are fetched from the API at build time when no secret is set,
+so a machine with the `.p8` needs neither `*_PROFILE_BASE64`.
+
+### What Android still needs
+
+The workflow generates the project, cross-compiles IPhreeqc for all four
+ABIs, asserts the manifest stays permissionless, and produces artifacts.
+**Play upload is not automated**, and that is a decision rather than an
+omission: the first release of an app has to be created in the Play Console
+by hand, and automating later uploads needs a service-account JSON that
+does not exist yet. Wiring it now would be a step that looks done.
+
 ## What a human still decides
 
 Submitting for **full App Store review** is a product decision, not a build
