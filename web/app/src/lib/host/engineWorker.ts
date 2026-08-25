@@ -36,6 +36,7 @@ type Lab = {
   reset(): void;
   canSolve(): boolean;
   loadResults(bytes: Uint8Array): number;
+  loadPack(bytes: Uint8Array): string;
 };
 
 let lab: Lab | null = null;
@@ -166,6 +167,9 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "relations":
         done(id, lab.relations());
+        break;
+      case "load_pack":
+        done(id, lab.loadPack(new Uint8Array(msg.bytes as ArrayBuffer)));
         break;
       case "snapshot":
         done(id, JSON.stringify({ snapshot: lab.snapshot() }));

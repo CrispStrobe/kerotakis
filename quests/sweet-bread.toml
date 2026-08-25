@@ -1,0 +1,63 @@
+# EXP-14: amylase breaks starch into sugar.
+# The curated enzymatic hydrolysis is landed: starch + amylase + water
+# → maltose. The enzyme is a catalyst (not consumed). Temperature and
+# the absence of enzyme are the controls.
+id = "sweet-bread"
+
+[title]
+lv1 = "The sweet bread"
+lv2 = "Amylase: turning starch into sugar"
+lv3 = "Enzymatic hydrolysis of starch: 2 (C₆H₁₀O₅) + H₂O →[amylase] C₁₂H₂₂O₁₁"
+
+[goal]
+lv1 = "Bread gets sweeter when you chew it — an enzyme in your spit breaks the starch. Can you prove it works on the bench?"
+lv2 = "Show that amylase converts starch to maltose: mix starch with amylase in warm water and observe the change. A control without enzyme proves the enzyme is essential."
+lv3 = "Demonstrate enzyme-catalysed hydrolysis: starch (2 monomer units) + H₂O → maltose (C₁₂H₂₂O₁₁), catalysed by amylase (not consumed). The control (starch + water, no amylase) should show no reaction. Temperature affects rate — the enzyme has an activity window."
+
+[[nudges]]
+id = "added-amylase"
+when = "added:amylase"
+[nudges.say]
+lv1 = "You added the enzyme. Give it some time — enzymes work slowly but surely."
+lv2 = "Amylase is in the vessel with starch. The catalysed hydrolysis needs time — use wait to let it proceed."
+lv3 = "Amylase catalyses the hydrolysis at its curated rate. The catalyst entry means amylase must be present but is not consumed. Wait for the reaction to proceed."
+
+[[nudges]]
+id = "starch-reacted"
+when = "reacted"
+[nudges.say]
+lv1 = "Something changed — the starch is turning into sugar. You can almost taste it."
+lv2 = "Starch hydrolysed to maltose. The enzyme did its job — and it is still there, unchanged."
+lv3 = "Catalytic hydrolysis: the amylase remains at its initial concentration while starch converts to maltose stoichiometrically. This is the enzyme-as-catalyst demonstration."
+
+[[claims]]
+id = "starch-added"
+matches = "added:starch"
+[claims.title]
+lv1 = "Add the starch"
+lv2 = "Prepare the starch substrate"
+lv3 = "Substrate addition"
+
+[[claims]]
+id = "enzyme-added"
+matches = "added:amylase"
+[claims.title]
+lv1 = "Add the enzyme"
+lv2 = "Add amylase to the starch"
+lv3 = "Catalyst introduction — amylase is not consumed"
+
+[[claims]]
+id = "hydrolysis-occurred"
+matches = "reacted"
+[claims.title]
+lv1 = "Wait for the magic to happen"
+lv2 = "Observe the enzymatic conversion"
+lv3 = "Starch → maltose hydrolysis via the curated enzyme reaction"
+
+[[claims]]
+id = "observed"
+matches = "observed"
+[claims.title]
+lv1 = "Look at what happened"
+lv2 = "Observe the result"
+lv3 = "Visual or analytical confirmation of the product"

@@ -42,6 +42,9 @@ class FakeHost implements EngineHost {
   }
   /** Set to true to model an engine predating snapshots. */
   noSnapshots = false;
+  async loadPack() {
+    return { added: 0, skipped: 0, loaded_total: 0 };
+  }
   async snapshot(): Promise<string> {
     if (this.noSnapshots) throw new Error("no snapshot support");
     this.calls.push("snapshot");

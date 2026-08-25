@@ -1,0 +1,63 @@
+# EXP-13: vitamin C determination by iodine decolorisation.
+# Ascorbic acid reduces I2 (brown) to I- (colourless). Each drop of
+# iodine that decolorises = one equivalent of vitamin C. When the
+# iodine colour persists, all the ascorbic acid is consumed.
+id = "vitamin-c"
+
+[title]
+lv1 = "The orange juice test"
+lv2 = "How much vitamin C? Counting iodine drops"
+lv3 = "Iodometric determination of ascorbic acid: C₆H₈O₆ + I₂ → C₆H₆O₆ + 2 HI"
+
+[goal]
+lv1 = "Iodine is brown — but vitamin C makes it disappear. Keep adding drops until the brown stays: that is how much vitamin C you had."
+lv2 = "Determine ascorbic acid content by iodine decolorisation: add I₂ solution dropwise to the sample. Each addition that decolorises consumed one equivalent of ascorbic acid. The endpoint is when the brown colour persists."
+lv3 = "Iodometric assay: ascorbic acid (C₆H₈O₆) reduces I₂ stoichiometrically 1:1 to iodide and dehydroascorbic acid. The equivalence point is the persistence of the I₂ colour (λmax ~460 nm) after the reductant is exhausted. From n(I₂) consumed, determine n(ascorbic acid)."
+
+[[nudges]]
+id = "added-ascorbic"
+when = "added:ascorbic_acid"
+[nudges.say]
+lv1 = "Your sample is ready. Now add iodine drops, one at a time, and watch the colour."
+lv2 = "Ascorbic acid in solution. Add I₂ incrementally — each addition that loses its brown colour is one equivalent consumed."
+lv3 = "The reductant is in solution. Incremental I₂ addition allows stoichiometric endpoint detection. The molar ratio is 1:1 (ascorbic acid : I₂)."
+
+[[nudges]]
+id = "reacted-once"
+when = "reacted"
+[nudges.say]
+lv1 = "The brown disappeared — the vitamin C ate it up. Add more to see if there is still vitamin C left."
+lv2 = "Iodine decolorised — ascorbic acid is still present. Continue adding I₂ until the colour persists."
+lv3 = "The curated reaction consumed one equivalent. The solution's remaining ascorbic acid determines how many more equivalents can decolorise. Watch for the persistence endpoint."
+
+[[claims]]
+id = "sample-prepared"
+matches = "dissolved:ascorbic_acid"
+[claims.title]
+lv1 = "Dissolve the vitamin C"
+lv2 = "Prepare the ascorbic acid sample"
+lv3 = "Dissolution of the analyte"
+
+[[claims]]
+id = "iodine-added"
+matches = "added:I2"
+[claims.title]
+lv1 = "Add the brown drops"
+lv2 = "Add iodine to the sample"
+lv3 = "I₂ addition — the titrant"
+
+[[claims]]
+id = "reaction-observed"
+matches = "reacted"
+[claims.title]
+lv1 = "Watch the brown vanish"
+lv2 = "Observe decolorisation (I₂ → I⁻)"
+lv3 = "Curated redox: C₆H₈O₆ + I₂ → C₆H₆O₆ + 2 HI"
+
+[[claims]]
+id = "looked-at-result"
+matches = "observed"
+[claims.title]
+lv1 = "Check the colour at the end"
+lv2 = "Observe the endpoint"
+lv3 = "Visual endpoint determination — I₂ colour persistence"

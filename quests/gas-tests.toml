@@ -1,0 +1,54 @@
+# EXP-31: classical gas tests — pop, glowing splint, limewater, litmus.
+# The TestGas verb is landed (kero1). The learner produces gases and
+# identifies them by their classical tests.
+id = "gas-tests"
+
+[title]
+lv1 = "What is that gas?"
+lv2 = "Gas tests: pop, glow, cloud, and turn"
+lv3 = "Classical gas identification: H₂ (pop), O₂ (glowing splint), CO₂ (limewater), NH₃ (litmus)"
+
+[goal]
+lv1 = "Gases are invisible — but each one has a test that gives it away. Find out which gas is which."
+lv2 = "Produce at least two different gases and identify each with its classical test: squeaky pop for hydrogen, glowing splint for oxygen, limewater cloudiness for carbon dioxide, damp litmus for ammonia."
+lv3 = "Apply the four classical gas tests to headspace samples: H₂ detonation (pop test), O₂ relighting a glowing splint, CO₂ + Ca(OH)₂ → CaCO₃↓ (limewater), NH₃ turning damp red litmus blue. Each test is a curated diagnostic event with positive/negative verdicts."
+
+[[nudges]]
+id = "gas-appeared"
+when = "gas_evolved"
+[nudges.say]
+lv1 = "Something is in the air above the liquid. Try a gas test to find out what it is."
+lv2 = "Gas evolved into the headspace. Apply a gas test to identify it — each gas has its own characteristic reaction."
+lv3 = "The headspace contains the evolved gas. The gas test verb applies one of four classical diagnostics. A positive result identifies the gas; a negative result rules it out — both are informative."
+
+[[nudges]]
+id = "tested-gas"
+when = "gas_tested"
+[nudges.say]
+lv1 = "The test gave you an answer! Try a different reaction to make a different gas."
+lv2 = "Gas identified. Each test works for one gas only — try producing a different gas and testing it with a different method."
+lv3 = "Diagnostic result recorded. The specificity of each test is its value: limewater clouds only for CO₂, the pop test responds only to H₂. Cross-testing (wrong test for the gas) gives a negative result — that is data, not failure."
+
+[[claims]]
+id = "produced-gas"
+matches = "gas_evolved"
+[claims.title]
+lv1 = "Make a gas"
+lv2 = "Produce a gas by reaction"
+lv3 = "Gas evolution into the headspace"
+
+[[claims]]
+id = "tested-once"
+matches = "gas_tested"
+[claims.title]
+lv1 = "Test the gas"
+lv2 = "Apply a classical gas test"
+lv3 = "First gas identification — positive or negative diagnostic"
+
+[[claims]]
+id = "tested-again"
+matches = "gas_tested"
+[claims.title]
+lv1 = "Test another gas"
+lv2 = "Apply a second gas test"
+lv3 = "Second diagnostic — confirming a different gas or a different test"
