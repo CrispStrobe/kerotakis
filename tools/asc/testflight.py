@@ -192,6 +192,36 @@ def assign(group: dict, build_id: str) -> None:
     print(f"   {name}: build assigned")
 
 
+def add_testers(group: dict, emails: list[str]) -> None:
+    """Put people in a group. Idempotent, and honest about refusals.
+
+    An internal group only accepts existing App Store Connect team members;
+    an address that is not one is refused rather than invited, which is
+    worth surfacing instead of leaving an empty group behind.
+    """
+    have = {t["attributes"].get("email", "").lower()
+            for t in client.paged(f"/v1/betaGroups/{group['id']}/betaTesters")}
+    for email in emails:
+        if email.lower() in have:
+            print(f"   tester {email}: already in {group['attributes']['name']!r}")
+            continue
+        status, doc = client.call("POST", "/v1/betaTesters", {
+            "data": {
+                "type": "betaTesters",
+                "attributes": {"email": email},
+                # The tester resource need not exist first; creating it with
+                # the relationship inline works.
+                "relationships": {"betaGroups": {"data": [
+                    {"type": "betaGroups", "id": group["id"]}]}},
+            }
+        })
+        if status == 201:
+            print(f"   tester {email}: added to {group['attributes']['name']!r}")
+        else:
+            for e in doc.get("errors", [{"detail": str(doc)}]):
+                print(f"   tester {email}: {e.get('code', '')}: {e.get('detail', '')}")
+
+
 def submit_for_beta_review(build_id: str) -> None:
     already = client.paged(f"/v1/betaAppReviewSubmissions?filter[build]={build_id}")
     if already:
@@ -237,6 +267,10 @@ def main() -> int:
     ap.add_argument("--build", help="a specific build id (default: the newest live one)")
     ap.add_argument("--internal-only", action="store_true",
                     help="stop after the internal group; no Beta App Review")
+    ap.add_argument("--tester", action="append", metavar="EMAIL", default=[],
+                    help="add an App Store Connect team member to the internal "
+                         "group (repeatable). Internal testing needs no Apple "
+                         "review, so this is what makes a build installable now.")
     args = ap.parse_args()
 
     app = client.app_id(META["bundleId"])
@@ -270,16 +304,21 @@ def main() -> int:
     print("\n== groups")
     internal = ensure_group(app, META["groups"]["internal"], internal=True)
     assign(internal, build["id"])
-    if not client.paged(f"/v1/betaGroups/{internal['id']}/betaTesters"):
+    if args.tester:
+        add_testers(internal, args.tester)
+    elif not client.paged(f"/v1/betaGroups/{internal['id']}/betaTesters"):
         # Internal groups may only contain existing App Store Connect team
-        # members, so the address has to be the one their ASC account uses —
-        # which is not derivable from anything here.
-        print("   note: the internal group has no testers. Add one with\n"
-              "     python3 tools/asc/client.py POST /v1/betaTesters "
-              "'{\"data\":{\"type\":\"betaTesters\",\"attributes\":"
-              "{\"email\":\"<their ASC account email>\"},\"relationships\":"
-              "{\"betaGroups\":{\"data\":[{\"type\":\"betaGroups\",\"id\":\""
-              + internal["id"] + "\"}]}}}}'")
+        # members, so the address must be the one their ASC account uses.
+        # Worth saying rather than silently leaving an empty group: internal
+        # testing needs no Apple review at all, so this is the difference
+        # between installing today and waiting for beta review.
+        team = ", ".join(
+            u["attributes"]["username"] for u in client.paged("/v1/users?limit=50")
+        )
+        print(f"   note: the internal group has no testers, so nobody can install "
+              f"the internal build.\n"
+              f"         Team members eligible: {team}\n"
+              f"         Add with:  --tester <address>")
     if args.internal_only:
         print("\nOK: internal testing is live (internal builds need no review).")
         return 0
