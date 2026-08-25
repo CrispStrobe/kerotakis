@@ -12,6 +12,7 @@
     effects = {},
     onnewvessel,
     onbadge,
+    fluidLookup = null,
   }: {
     scene: Scene | null;
     register: string;
@@ -22,6 +23,7 @@
     effects?: Record<number, { kind: string; at: number }[]>;
     onnewvessel?: (kind: string) => void;
     onbadge?: (vessel: number, badge: { key: string; value: number; confidence: string }) => void;
+    fluidLookup?: ((key: string) => import("../fluidScene").FluidSpecies) | null;
   } = $props();
 
   let choosing = $state(false);
@@ -39,6 +41,7 @@
         {ondropspecies}
         effects={effects[vessel.id] ?? []}
         onbadge={(b) => onbadge?.(vessel.id, b)}
+        {fluidLookup}
       />
     {/each}
     {#if onnewvessel}

@@ -430,6 +430,14 @@
       effects={session.vesselEffects}
       onnewvessel={(kind) => void session.submit(kind === "beaker" ? "new" : `new ${kind}`)}
       onbadge={(vessel, reading) => (inset = { vessel, reading })}
+      fluidLookup={(key) => {
+        const item = session.shelf.find((s) => s.key === key);
+        return {
+          key,
+          srgb: item?.srgb ?? item?.solution_srgb ?? [140, 160, 200],
+          density: item?.density ?? 1,
+        };
+      }}
       ondropspecies={(id, p) =>
         void session.submit(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,

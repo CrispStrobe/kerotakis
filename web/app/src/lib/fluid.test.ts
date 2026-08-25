@@ -113,7 +113,7 @@ describe("the fluid core is honest math", () => {
     };
     // The instability takes simulated time to grow (probed: crossover
     // after ~300 steps at this dt); 450 leaves margin without a slow test.
-    for (let k = 0; k < 450; k++) step(g, [1.3, 0.66], 0.05, 20);
+    for (let k = 0; k < 450; k++) step(g, [1.3, 0.66], 0.05, 20, 1); // undamped: emergence is the point
     expect(com(1)).toBeLessThan(com(0)); // smaller y = higher up
   });
 

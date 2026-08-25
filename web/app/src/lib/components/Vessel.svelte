@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { SceneVessel } from "../host/EngineHost";
   import { KINDS, solidLayer } from "../glassware";
+  import FluidOverlay from "./FluidOverlay.svelte";
+  import type { FluidSpecies } from "../fluidScene";
 
   let {
     vessel,
@@ -10,6 +12,7 @@
     ondropspecies,
     effects = [],
     onbadge,
+    fluidLookup = null,
   }: {
     vessel: SceneVessel;
     register: string;
@@ -18,6 +21,9 @@
     ondropspecies?: (id: number, payload: { key: string; phase: string }) => void;
     effects?: { kind: string; at: number }[];
     onbadge?: (badge: { key: string; value: number; confidence: string }) => void;
+    /** Species srgb+density lookup for the fluid overlay (GUI-065a);
+     * absent = no fluid animation, static render only. */
+    fluidLookup?: ((key: string) => FluidSpecies) | null;
   } = $props();
 
   // Transient effects: young enough that their animation is still running.
@@ -216,6 +222,9 @@
       />
     {/if}
 
+    {#if fluidLookup}
+      <FluidOverlay {vessel} {effects} lookup={fluidLookup} />
+    {/if}
     </g>
 
     <!-- State-driven effects: every one traces to a computed number. -->

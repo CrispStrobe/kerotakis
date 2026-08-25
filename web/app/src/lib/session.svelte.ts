@@ -44,6 +44,8 @@ export type ShelfItem = {
   hazards?: string[];
   /** False = nobody has assessed this species — say so, don't imply safe. */
   hazard_assessed?: boolean;
+  /** Density in g/mL (engine registry) — the fluid overlay's buoyancy. */
+  density?: number;
 };
 
 export const REGISTERS = [

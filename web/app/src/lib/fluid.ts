@@ -290,8 +290,21 @@ export function fieldTotal(g: FluidGrid, s: number): number {
  * creates or destroys substance — the conservation half of the honesty
  * contract.
  */
-export function step(g: FluidGrid, densities: number[], dt: number, iters = 30): void {
+export function step(
+  g: FluidGrid,
+  densities: number[],
+  dt: number,
+  iters = 30,
+  damping = 0.97,
+): void {
   applyBuoyancy(g, densities, 9.8, dt);
+  // Viscous dissipation, lumped: without it a settled buoyant layer
+  // keeps pumping convection forever and the sim can never come home
+  // to the engine's answer (caught by the return-home test).
+  if (damping < 1) {
+    for (let i = 0; i < g.u.length; i++) g.u[i] = g.u[i]! * damping;
+    for (let i = 0; i < g.v.length; i++) g.v[i] = g.v[i]! * damping;
+  }
   enforceBoundaries(g);
   project(g, iters);
   advectVelocity(g, dt);

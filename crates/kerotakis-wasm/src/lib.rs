@@ -371,6 +371,7 @@ impl Lab {
                     "srgb": srgb,
                     "solution_srgb": solution_srgb,
                     "flame": s.flame_colour,
+                        "density": s.density,
                     "provenance": s.provenance,
                     "hazards": hazards,
                     "hazard_assessed": assessed,
