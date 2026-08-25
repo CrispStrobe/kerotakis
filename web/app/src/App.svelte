@@ -358,9 +358,13 @@
     next={session.lessonNextCommand}
     busy={session.busy}
     deviation={session.lessonDeviation}
+    kit={session.shelf.filter(s => session.lesson!.kit.includes(s.key))}
+    register={session.register}
+    target={session.selected}
     onnext={() => void session.lessonNext()}
     onreturn={() => void session.lessonReturn()}
     onexit={() => session.exitLesson()}
+    onadd={(line) => void session.submit(line)}
   />
 {/if}
 
