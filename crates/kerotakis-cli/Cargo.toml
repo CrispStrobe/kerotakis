@@ -18,6 +18,7 @@ kerotakis-phreeqc = { path = "../kerotakis-phreeqc" }
 kerotakis-cea = { path = "../kerotakis-cea" }
 kerotakis-stack = { path = "../kerotakis-stack" }
 kerotakis-codex = { path = "../kerotakis-codex" }
+kerotakis-data = { path = "../kerotakis-data" }
 kerotakis-org = { path = "../kerotakis-org" }
 csv = { workspace = true }
 rayon = { workspace = true }

@@ -54,6 +54,7 @@ pub mod script;
 pub mod senses;
 pub mod solve;
 pub mod species;
+pub mod species_loader;
 pub mod spectrum;
 pub mod states;
 pub mod statistics;

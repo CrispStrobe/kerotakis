@@ -162,6 +162,9 @@ export interface EngineHost {
     | { ok: true; value: number; unit: string; provenance: string; lv1: string; lv2: string; lv3: string }
     | { ok: false; error: string }
   >;
+  /** DATA-010: load a species pack. Honest counts back; built-ins are
+   * never shadowed. */
+  loadPack(bytes: Uint8Array): Promise<{ added: number; skipped: number; loaded_total: number }>;
   /** The bench as an opaque restorable token (O(1) undo/scrub). */
   snapshot(): Promise<string>;
   /** Replace the bench with a `snapshot()` token; session state survives. */
