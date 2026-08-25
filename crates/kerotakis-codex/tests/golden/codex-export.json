@@ -99,7 +99,17 @@
       "spine": [
         "kalorimetrie"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — dissolution of bases is part of acid-base chemistry"
+        }
+      ],
       "apparatus": [
         "beaker",
         "thermometer",
@@ -345,7 +355,17 @@
       "spine": [
         "ph-wert-berechnungen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — polyprotic acids and stepwise dissociation"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter"
@@ -419,7 +439,17 @@
       "spine": [
         "puffersysteme"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — buffer systems are named content"
+        }
+      ],
       "apparatus": [
         "beaker",
         "burette",
@@ -494,7 +524,17 @@
       "spine": [
         "saeure-base-titration-ein-analytisches-verfahren"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — the Henderson-Hasselbalch relationship at the half-equivalence point"
+        }
+      ],
       "apparatus": [
         "burette",
         "conical-flask",
@@ -570,7 +610,17 @@
       "spine": [
         "saeure-base-titration-ein-analytisches-verfahren"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — titration endpoints and indicator choice"
+        }
+      ],
       "apparatus": [
         "burette",
         "conical-flask",
@@ -642,7 +692,17 @@
       "spine": [
         "puffersysteme"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — buffer capacity and its limits"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter"
@@ -716,7 +776,17 @@
       "spine": [
         "konzentrationsberechnungen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — the relationship between dilution and pH"
+        }
+      ],
       "apparatus": [
         "measuring-cylinder",
         "volumetric-flask",
@@ -789,7 +859,17 @@
       "spine": [
         "der-ph-wert-als-eigenschaften-von-loesungen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — alkaline salt solutions from hydrolysis"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter"
@@ -863,7 +943,26 @@
         "gas-evolution"
       ],
       "spine": [],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — acid-carbonate reactions producing CO2"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.2 Reactions of acids",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — reactions of acids with metal carbonates are required content"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter"
@@ -938,7 +1037,17 @@
       "spine": [
         "reaktionen-von-saeuren-und-basen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — salt hydrolysis as a protolysis equilibrium"
+        }
+      ],
       "apparatus": [
         "beaker",
         "thermometer",
@@ -993,7 +1102,17 @@
       "spine": [
         "der-ph-wert-als-eigenschaften-von-loesungen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — metal-ion hydrolysis producing acidic solutions"
+        }
+      ],
       "apparatus": [
         "beaker",
         "thermometer",
@@ -1072,7 +1191,26 @@
       "spine": [
         "wasser-trinkwasser-und-mehr"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — acid-carbonate reactions in everyday contexts"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.2 Reactions of acids",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — reactions of acids with metal carbonates"
+        }
+      ],
       "apparatus": [
         "beaker",
         "balance",
@@ -1147,7 +1285,17 @@
       "spine": [
         "chemisches-gleichgewicht"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — solubility as a substance property"
+        }
+      ],
       "apparatus": [
         "beaker",
         "balance",
@@ -1223,7 +1371,26 @@
       "spine": [
         "chemisches-gleichgewicht"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — solubility products as heterogeneous equilibria"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "balance"
@@ -1274,7 +1441,17 @@
       "spine": [
         "chemisches-gleichgewicht"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — the common-ion effect on solubility equilibria"
+        }
+      ],
       "apparatus": [
         "beaker",
         "balance"
@@ -1350,7 +1527,17 @@
       "spine": [
         "chemisches-gleichgewicht"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — complexation equilibria dissolving a precipitate"
+        }
+      ],
       "apparatus": [
         "beaker",
         "balance"
@@ -1423,7 +1610,17 @@
       "spine": [
         "salze"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — crystal water and hydrates"
+        }
+      ],
       "apparatus": [
         "beaker",
         "balance"
@@ -1493,7 +1690,17 @@
         "saturation"
       ],
       "spine": [],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — temperature dependence of solubility"
+        }
+      ],
       "apparatus": [
         "beaker",
         "bunsen",
@@ -1653,7 +1860,17 @@
       "spine": [
         "salzbildung"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019) — predicting whether a double-exchange reaction produces a precipitate"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter"
@@ -1727,7 +1944,17 @@
       "spine": [
         "wasser-trinkwasser-und-mehr"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — water softening as a precipitation application"
+        }
+      ],
       "apparatus": [
         "beaker",
         "filter-funnel",
@@ -1802,7 +2029,17 @@
       "spine": [
         "wasser-trinkwasser-und-mehr"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019) — precipitation of salts from mixed solutions"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter"
@@ -1852,7 +2089,26 @@
       "spine": [
         "filtration"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — filtration as a separation technique"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.1.1 Atoms, elements and compounds",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464) — separation techniques including filtration"
+        }
+      ],
       "apparatus": [
         "filter-funnel",
         "filter-paper",
@@ -1926,7 +2182,17 @@
         "eindampfen",
         "gewinnung-und-abbau-von-salzen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — evaporative crystallisation as a separation technique"
+        }
+      ],
       "apparatus": [
         "evaporating-basin",
         "bunsen",
@@ -2003,7 +2269,17 @@
       "spine": [
         "konzentrationsberechnungen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — colour as a concentration indicator"
+        }
+      ],
       "apparatus": [
         "beaker",
         "balance"
@@ -2077,7 +2353,17 @@
       "spine": [
         "weitere-stoffeigenschaften"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — miscibility and hydrogen bonding"
+        }
+      ],
       "apparatus": [
         "measuring-cylinder",
         "beaker"
@@ -2152,7 +2438,17 @@
         "chemikalien-im-alltag",
         "sicherheitsregeln-in-chemieraeumen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — hazardous gas evolution from mixing household chemicals"
+        }
+      ],
       "apparatus": [
         "fume-cupboard"
       ],
@@ -2222,7 +2518,17 @@
       "spine": [
         "die-autoprotolyse-als-eigenschaft-von-wasser"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — temperature dependence of Kw and the definition of neutrality"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter",
@@ -2298,7 +2604,17 @@
       "spine": [
         "saeure-basen-konzepte"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — amphoteric behaviour of hydrogen carbonate"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter"
@@ -2374,7 +2690,26 @@
       "spine": [
         "verwendung-von-saeuren-und-basen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — neutralisation in an everyday context"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.2 Reactions of acids",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — neutralisation reactions are required content"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter",
@@ -2448,7 +2783,17 @@
       "spine": [
         "saeure-base-titration-ein-analytisches-verfahren"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — titration and indicator selection"
+        }
+      ],
       "apparatus": [
         "burette",
         "conical-flask"
@@ -2519,7 +2864,17 @@
       "spine": [
         "eigenschaften-von-saeuren-und-basen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — indicator equilibrium as a protolysis equilibrium"
+        }
+      ],
       "apparatus": [
         "beaker"
       ],
@@ -2640,7 +2995,26 @@
         "dissolving"
       ],
       "spine": [],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        }
+      ],
       "apparatus": [],
       "calculations": [],
       "models": [],
@@ -2836,7 +3210,26 @@
       "spine": [
         "reaktionen-von-saeuren-und-basen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB2 Protolysegleichgewichte",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 12 (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Puffersysteme",
+          "ages": {
+            "min": 17.0,
+            "max": 19.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [],
       "calculations": [],
       "models": [],
@@ -2877,7 +3270,26 @@
         "acids"
       ],
       "spine": [],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.4 Chemical changes",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [],
       "calculations": [],
       "models": [],
@@ -2918,7 +3330,26 @@
       "spine": [
         "der-energiebegriff"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen — exotherme Vorgänge",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.5 Energy changes",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [],
       "calculations": [],
       "models": [],
@@ -2962,7 +3393,26 @@
       "spine": [
         "der-energiebegriff"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen — endotherme Vorgänge",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.5 Energy changes",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [],
       "calculations": [],
       "models": [],
@@ -3004,7 +3454,26 @@
         "precipitation"
       ],
       "spine": [],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 9, LB1 Molekülstruktur und Stoffeigenschaften",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 9 (ISB)"
+        }
+      ],
       "apparatus": [],
       "calculations": [],
       "models": [],
@@ -3043,7 +3512,26 @@
         "gas-evolution"
       ],
       "spine": [],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Zweite Stufe (Jg. 9/10), IF Chemische Reaktion — Zersetzung",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.4 Chemical changes — thermal decomposition",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [],
       "calculations": [],
       "models": [],
@@ -3138,7 +3626,26 @@
       ],
       "requires": [],
       "spine": [],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB Atombau und gekürztes PSE",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.8 Chemical analysis — flame tests",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [],
       "calculations": [],
       "models": [],
@@ -3273,7 +3780,35 @@
       "spine": [
         "konzentrationsberechnungen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 9, Quantitative Betrachtung chemischer Reaktionen",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 5.3 Quantitative chemistry",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464) — calculating concentrations of solutions is required content"
+        }
+      ],
       "apparatus": [
         "beaker",
         "measuring-cylinder",
@@ -3348,7 +3883,26 @@
       "spine": [
         "konzentrationsberechnungen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Zweite Stufe (Jg. 9/10), IF7 Säuren und Basen",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "pipette",
@@ -3529,7 +4083,35 @@
       "spine": [
         "chemisches-rechnen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 9, Quantitative Betrachtung chemischer Reaktionen",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Erste Stufe (Jg. 7/8), IF3 Verbrennung — quantitative Betrachtung",
+          "ages": {
+            "min": 12.0,
+            "max": 14.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 5.3 Quantitative chemistry",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464) — calculating masses of reactants and products, excess and limiting reagents (Higher tier)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "balance",
@@ -3691,7 +4273,26 @@
       "spine": [
         "chemisches-rechnen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen — Gesetz von der Erhaltung der Masse",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Erste Stufe (Jg. 7/8), IF3 Verbrennung — quantitative Betrachtung",
+          "ages": {
+            "min": 12.0,
+            "max": 14.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "balance",
@@ -3858,7 +4459,26 @@
       "spine": [
         "ph-wert-berechnungen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen",
+          "ages": {
+            "min": 15.0,
+            "max": 16.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Zweite Stufe (Jg. 9/10), IF7 Säuren und Basen",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter",
@@ -4121,7 +4741,26 @@
       "spine": [
         "kalorimetrie"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 9, LB Energie bei chemischen Reaktionen",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.5 Energy changes",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [
         "polystyrene-cup",
         "thermometer",
@@ -4199,7 +4838,26 @@
       "spine": [
         "erkenntnisgewinnung"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 9, LB Energie bei chemischen Reaktionen",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.5 Energy changes",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [
         "polystyrene-cup",
         "thermometer",
@@ -4274,7 +4932,26 @@
       "spine": [
         "der-satz-von-hess"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 11/12, Enthalpie und Satz von Hess",
+          "ages": {
+            "min": 16.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Enthalpie",
+          "ages": {
+            "min": 17.0,
+            "max": 19.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "thermometer",
@@ -4349,7 +5026,35 @@
       "spine": [
         "der-energiebegriff"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Zweite Stufe (Jg. 9/10), IF Chemische Reaktion — Zersetzung",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.1.2 The Periodic Table — Group 2",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464) — thermal decomposition of carbonates"
+        }
+      ],
       "apparatus": [
         "crucible",
         "thermometer",
@@ -4615,7 +5320,26 @@
       "spine": [
         "massenerhaltung"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Erste Stufe (Jg. 7/8), IF3 Verbrennung",
+          "ages": {
+            "min": 12.0,
+            "max": 14.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen — Gesetz von der Erhaltung der Masse",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        }
+      ],
       "apparatus": [
         "crucible",
         "balance",
@@ -4696,7 +5420,26 @@
       "spine": [
         "entropie-und-enthalpie"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 11/12, Enthalpie und Satz von Hess",
+          "ages": {
+            "min": 16.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Enthalpie",
+          "ages": {
+            "min": 17.0,
+            "max": 19.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "crucible",
         "thermometer",
@@ -4872,7 +5615,26 @@
       "spine": [
         "spektroskopieverfahren"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB Atombau und gekürztes PSE",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.8 Chemical analysis — flame tests",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [
         "nichrome-wire",
         "bunsen",
@@ -5046,7 +5808,26 @@
         "die-chemische-reaktion",
         "stoffvernichtung-und-stoffneubildung"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Erste Stufe (Jg. 7/8), IF2 Stoffe — physikalische und chemische Vorgänge",
+          "ages": {
+            "min": 12.0,
+            "max": 14.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "crucible",
@@ -5123,7 +5904,26 @@
       "spine": [
         "quantitative-analyseverfahren"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 9, Quantitative Betrachtung chemischer Reaktionen",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.8 Chemical analysis",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [
         "beaker",
         "analytical-balance",
@@ -5202,7 +6002,26 @@
       "spine": [
         "natur-der-naturwissenschaft-nature-of-science"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen",
+          "ages": {
+            "min": 13.0,
+            "max": 14.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Erste Stufe (Jg. 7/8), IF2 Stoffe — Modelle und ihre Grenzen",
+          "ages": {
+            "min": 12.0,
+            "max": 14.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "balance",
@@ -5382,7 +6201,26 @@
       "spine": [
         "die-reaktionsgeschwindigkeit"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse",
+          "ages": {
+            "min": 16.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Reaktionskinetik",
+          "ages": {
+            "min": 17.0,
+            "max": 19.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "pipette",
@@ -5665,7 +6503,26 @@
       "spine": [
         "die-reaktionsgeschwindigkeit"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse",
+          "ages": {
+            "min": 16.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.6 The rate and extent of chemical change",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [
         "conical-flask",
         "water-bath",
@@ -5844,7 +6701,26 @@
       "spine": [
         "katalyse"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse",
+          "ages": {
+            "min": 16.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.6 The rate and extent of chemical change",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [
         "conical-flask",
         "balance",
@@ -5927,7 +6803,17 @@
       "spine": [
         "katalyse"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse",
+          "ages": {
+            "min": 16.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        }
+      ],
       "apparatus": [
         "conical-flask",
         "spatula",
@@ -6011,7 +6897,26 @@
       "spine": [
         "die-reaktionsgeschwindigkeit"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse",
+          "ages": {
+            "min": 16.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Reaktionskinetik",
+          "ages": {
+            "min": 17.0,
+            "max": 19.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "conical-flask",
         "gas-syringe",
@@ -6093,7 +6998,26 @@
       "spine": [
         "erkenntnisgewinnung"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse",
+          "ages": {
+            "min": 16.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.6 The rate and extent of chemical change",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [
         "beaker",
         "thermometer",
@@ -6183,7 +7107,26 @@
       "spine": [
         "natur-der-naturwissenschaft-nature-of-science"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse",
+          "ages": {
+            "min": 16.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Reaktionskinetik",
+          "ages": {
+            "min": 17.0,
+            "max": 19.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter",
@@ -6269,7 +7212,26 @@
       "spine": [
         "natur-der-naturwissenschaft-nature-of-science"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse",
+          "ages": {
+            "min": 16.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Reaktionskinetik",
+          "ages": {
+            "min": 17.0,
+            "max": 19.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter",
@@ -6357,7 +7319,26 @@
       "spine": [
         "natur-der-naturwissenschaft-nature-of-science"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse",
+          "ages": {
+            "min": 16.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "4.6 The rate and extent of chemical change",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        }
+      ],
       "apparatus": [
         "conical-flask",
         "gas-syringe"
@@ -6533,7 +7514,17 @@
       "spine": [
         "redox-reaktionen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB Redoxchemie — Redoxtitration",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — permanganometric titration is named content of the Redoxchemie Lernbereich"
+        }
+      ],
       "apparatus": [
         "beaker",
         "burette"
@@ -6608,7 +7599,17 @@
         "redox-reaktionen",
         "die-elektrochemie"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB Redoxchemie — Elektrochemie/Nernst-Gleichung",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — formal potential and its dependence on medium is Oberstufe electrochemistry"
+        }
+      ],
       "apparatus": [
         "beaker",
         "burette"
@@ -6680,7 +7681,17 @@
       "spine": [
         "redox-reaktionen"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB Redoxchemie — Redoxtitration",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — stoichiometric endpoint of a permanganometric titration"
+        }
+      ],
       "apparatus": [
         "beaker",
         "burette",
@@ -6754,7 +7765,26 @@
       "spine": [
         "die-spannungsreihe-der-metalle"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 9, LB Donator-Akzeptor-Konzept — Redoxreaktionen",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 9 (ISB) — displacement of copper by zinc is a standard demonstration of the activity series"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — displacement reactions demonstrating the reactivity series are required content"
+        }
+      ],
       "apparatus": [
         "beaker",
         "thermometer"
@@ -6832,7 +7862,26 @@
       "spine": [
         "die-spannungsreihe-der-metalle"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 9, LB Donator-Akzeptor-Konzept — Redoxreaktionen",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 9 (ISB) — hydrogen as a rung in the activity series; metals above and below it react differently with acids"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — reactions of metals with dilute acids are required content"
+        }
+      ],
       "apparatus": [
         "beaker",
         "ph-meter"
@@ -6906,7 +7955,26 @@
       "spine": [
         "die-spannungsreihe-der-metalle"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 9, LB Donator-Akzeptor-Konzept — Redoxreaktionen",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 9 (ISB) — the silver tree is a classic displacement demonstration"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — displacement reactions of metals with metal-salt solutions"
+        }
+      ],
       "apparatus": [
         "beaker"
       ],
@@ -6978,7 +8046,26 @@
       "spine": [
         "die-spannungsreihe-der-metalle"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 9, LB Donator-Akzeptor-Konzept — Redoxreaktionen",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 9 (ISB) — the non-reaction as the series’ negative prediction"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — predicting no reaction from the reactivity series is required content"
+        }
+      ],
       "apparatus": [
         "beaker"
       ],
@@ -7048,7 +8135,26 @@
       "spine": [
         "korrosion-und-korrosionsschutz"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium NTG Jgst. 9, LB Donator-Akzeptor-Konzept — Redoxreaktionen",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 9 (ISB) — sacrificial protection as an application of the activity series"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — sacrificial protection is named content under rusting and prevention"
+        }
+      ],
       "apparatus": [
         "beaker"
       ],
@@ -7122,7 +8228,17 @@
         "die-elektrochemie",
         "batterien"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB Redoxchemie — Galvanische Zellen",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — the Daniell cell is named content of the electrochemistry Lernbereich"
+        }
+      ],
       "apparatus": [
         "beaker",
         "voltmeter"
@@ -7195,7 +8311,17 @@
       "spine": [
         "die-elektrochemie"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB Redoxchemie — Nernst-Gleichung",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — the Nernst equation and its activity dependence"
+        }
+      ],
       "apparatus": [
         "beaker",
         "voltmeter"
@@ -7267,7 +8393,17 @@
       "spine": [
         "die-elektrochemie"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB Redoxchemie — Nernst-Gleichung",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — concentration cells as the limiting case of Nernst"
+        }
+      ],
       "apparatus": [
         "beaker",
         "voltmeter"
@@ -7339,7 +8475,26 @@
       "spine": [
         "elektrolyse"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB Redoxchemie — Elektrolyse",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — electrolysis and Faraday’s law are named content"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.3 Electrolysis",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.3 — electrolysis of aqueous solutions and the relationship between charge and mass deposited"
+        }
+      ],
       "apparatus": [
         "beaker",
         "power-supply"
@@ -7412,7 +8567,26 @@
       "spine": [
         "elektrolyse"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB Redoxchemie — Elektrolyse",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — anode reactions during electrolysis with inert electrodes"
+        },
+        {
+          "system": "england-gcse-combined-science",
+          "stage": "GCSE Combined Science: Trilogy (AQA 8464), 4.4.3 Electrolysis",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.3 — electrolysis of aqueous solutions, reactions at electrodes"
+        }
+      ],
       "apparatus": [
         "beaker",
         "power-supply",
@@ -7487,7 +8661,17 @@
       "spine": [
         "akkumulatoren"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB Redoxchemie — Akkumulatoren",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — accumulators as reversible electrochemical cells"
+        }
+      ],
       "apparatus": [
         "beaker",
         "voltmeter",
@@ -7565,7 +8749,17 @@
       "spine": [
         "akkumulatoren"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 12, LB Redoxchemie — Akkumulatoren",
+          "ages": {
+            "min": 17.0,
+            "max": 18.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB) — the lead-acid accumulator and the role of kinetic barriers"
+        }
+      ],
       "apparatus": [
         "beaker"
       ],
@@ -7636,7 +8830,26 @@
       "spine": [
         "aggregatzustaende"
       ],
-      "curriculum": [],
+      "curriculum": [
+        {
+          "system": "bayern-lehrplanplus",
+          "stage": "Gymnasium Jgst. 9, LB1 Molekülstruktur und Stoffeigenschaften",
+          "ages": {
+            "min": 14.0,
+            "max": 15.0
+          },
+          "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 9 (ISB)"
+        },
+        {
+          "system": "nrw-kernlehrplan-g9",
+          "stage": "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen",
+          "ages": {
+            "min": 14.0,
+            "max": 16.0
+          },
+          "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        }
+      ],
       "apparatus": [
         "beaker",
         "thermometer"
