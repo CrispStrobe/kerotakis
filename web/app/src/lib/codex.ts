@@ -58,9 +58,10 @@ export interface CodexPlacement {
 }
 
 export function parseCodexIndex(raw: unknown): CodexEntry[] {
-  const list = Array.isArray(raw)
-    ? raw
-    : ((raw as { entries?: unknown[] })?.entries ?? []);
+  // The export's document shape: `{ reactions, models, concepts }`
+  // (kero codex export); older spellings tolerated.
+  const doc = raw as { reactions?: unknown[]; entries?: unknown[] } | unknown[];
+  const list = Array.isArray(doc) ? doc : (doc?.reactions ?? doc?.entries ?? []);
   return (list as CodexEntry[]).filter(
     (e) => typeof e?.id === "string" && typeof e?.setup?.script === "string",
   );
