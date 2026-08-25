@@ -119,6 +119,11 @@ impl Lab {
             "engine_version": env!("CARGO_PKG_VERSION"),
             "git_rev": option_env!("KEROTAKIS_GIT_REV"),
             "registers": ["lv1", "lv2", "lv3"],
+            // WEB-003: the model-pack inventory. content_hash is empty
+            // until the pack build pipeline stamps it — an HONEST
+            // "declared, not yet independently deliverable" state; a
+            // client must treat empty-hash packs as built in.
+            "packs": kerotakis_core::packs_manifest::core_packs(),
         })
         .to_string()
     }

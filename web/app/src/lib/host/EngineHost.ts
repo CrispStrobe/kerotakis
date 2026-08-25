@@ -136,6 +136,15 @@ export interface EngineHost {
     engine_version?: string;
     git_rev?: string | null;
     registers?: string[];
+    /** WEB-003 pack inventory; empty content_hash = built in, not yet
+     * independently deliverable. */
+    packs?: {
+      pack_id: string;
+      version: string;
+      content_hash: string;
+      licence: string;
+      required: boolean;
+    }[];
   }>;
   step(operatorJson: string): Promise<StepResult>;
   runScript(script: string): Promise<ScriptResult>;

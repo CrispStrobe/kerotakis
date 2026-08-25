@@ -92,6 +92,7 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             "engine_version": env!("CARGO_PKG_VERSION"),
             "git_rev": option_env!("KEROTAKIS_GIT_REV"),
             "registers": ["lv1", "lv2", "lv3"],
+            "packs": kerotakis_core::packs_manifest::core_packs(),
         })
         .to_string()),
         "step" => {
