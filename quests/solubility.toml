@@ -1,0 +1,72 @@
+# EXP-24: solubility pack.
+# Ksp determination and solubility-vs-temperature for database salts.
+# The engine computes saturation, precipitation, and temperature-
+# dependent solubility from the thermodynamic database. The learner
+# discovers the limits by pushing past them.
+id = "solubility"
+
+[title]
+lv1 = "How much will dissolve?"
+lv2 = "Solubility limits: saturation and Ksp"
+lv3 = "Solubility equilibrium: saturation, Ksp from precipitate onset, and temperature dependence"
+
+[goal]
+lv1 = "Keep adding salt to water — at some point, it stops dissolving. Find that point and see if heat changes it."
+lv2 = "Dissolve a salt until saturation: the point where more solid stays undissolved. Measure the concentration at saturation to determine the solubility product. Then change the temperature and see if the limit shifts."
+lv3 = "Quantitative solubility: dissolve incrementally until precipitation signals saturation (the product of ion activities reaches Ksp). The computed equilibrium gives the saturation concentration directly. Heating shifts the equilibrium — for most salts, solubility increases with temperature (ΔsolH > 0). Compare two temperatures to map the solubility curve."
+
+[[nudges]]
+id = "dissolved"
+when = "dissolved"
+[nudges.say]
+lv1 = "It dissolved! Try adding more — how much can the water hold?"
+lv2 = "The salt dissolved into ions. Keep adding to approach saturation — the solution has a finite capacity."
+lv3 = "Dissolution proceeds until the ion-activity product reaches the solubility product Ksp. Below saturation, all added solid dissolves; at and above, excess solid remains in equilibrium with the saturated solution."
+
+[[nudges]]
+id = "precipitated"
+when = "precipitated"
+[nudges.say]
+lv1 = "Some stayed solid — the water is full! That is the solubility limit."
+lv2 = "Precipitation indicates saturation — the solution cannot hold more of this salt. The concentration at this point is the solubility. Try warming it to shift the limit."
+lv3 = "The ion-activity product now equals Ksp. The precipitate is in dynamic equilibrium with the saturated supernatant. Temperature dependence follows from the van't Hoff relation: d(ln Ksp)/dT = ΔsolH/RT². For endothermic dissolution (most salts), warming increases Ksp and therefore solubility."
+
+[[nudges]]
+id = "heated"
+when = "temperature_changed"
+[nudges.say]
+lv1 = "You changed the temperature. Does more dissolve now, or less?"
+lv2 = "Temperature changed. If the solid dissolves further at the new temperature, solubility increased — the limit depends on temperature."
+lv3 = "The temperature shift perturbs the saturation equilibrium. Observe whether the precipitate dissolves (higher Ksp at this T) or more forms (lower Ksp). This is the van't Hoff relation in action."
+
+[[claims]]
+id = "dissolved-salt"
+matches = "dissolved"
+[claims.title]
+lv1 = "Dissolve the salt"
+lv2 = "Dissolve a salt in water"
+lv3 = "Dissolution — ions enter solution"
+
+[[claims]]
+id = "hit-saturation"
+matches = "precipitated"
+[claims.title]
+lv1 = "Find the limit"
+lv2 = "Reach saturation — observe precipitation"
+lv3 = "Saturation onset — ion-activity product equals Ksp"
+
+[[claims]]
+id = "changed-temp"
+matches = "temperature_changed"
+[claims.title]
+lv1 = "Try a different temperature"
+lv2 = "Heat or cool and observe the solubility shift"
+lv3 = "Temperature-dependent solubility — the van't Hoff response"
+
+[[claims]]
+id = "measured-conc"
+matches = "measured"
+[claims.title]
+lv1 = "Measure what dissolved"
+lv2 = "Measure the solution at saturation"
+lv3 = "Quantitative determination — solubility or Ksp from the equilibrium state"

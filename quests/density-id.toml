@@ -1,0 +1,59 @@
+# EXP-18: density identification.
+# The engine knows density per species. The learner measures mass and
+# volume to compute density, then identifies a sealed unknown by
+# matching it against known values. Uses the Identify claim to close
+# the sealed-unknown loop.
+id = "density-id"
+
+[title]
+lv1 = "What is this metal?"
+lv2 = "Density: identifying unknowns by mass and volume"
+lv3 = "Density determination as an identification technique: m/V compared against registry values"
+
+[goal]
+lv1 = "You have a mystery metal. Weigh it, measure its space, and work out what it is."
+lv2 = "Determine the density of a sealed unknown sample: weigh it on the balance, find its volume, and calculate density. Compare your result against the densities of known metals to identify it."
+lv3 = "Intensive-property identification: density (ρ = m/V) is independent of sample size and characteristic of each substance. Weigh the unknown, determine volume by displacement or graduated measurement, compute ρ, and match against registry data within tolerance. The sealed-unknown mechanism hides the identity until the learner names it from measurements alone."
+
+[unknowns]
+unknown-metal = "Cu"
+
+[[nudges]]
+id = "weighed"
+when = "measured"
+[nudges.say]
+lv1 = "You know how heavy it is. Now you need to find out how much space it takes up."
+lv2 = "Mass recorded. Volume is the other half of density — use a graduated vessel or displacement method."
+lv3 = "Mass acquired from the balance. For density, volume is needed: direct measurement for regular shapes, or liquid displacement for irregular samples (ΔV when submerged = sample volume, by Archimedes)."
+
+[[nudges]]
+id = "observed"
+when = "observed"
+[nudges.say]
+lv1 = "Look carefully — does it remind you of any metal you already know?"
+lv2 = "Consider the sample's appearance alongside your density calculation. Colour and lustre narrow the candidates; density confirms."
+lv3 = "Density alone may not uniquely identify a sample when two metals have similar values. Cross-reference with qualitative observations (colour, lustre, malleability) to resolve ambiguities. The identification is accepted when the correct species name is given."
+
+[[claims]]
+id = "weighed-sample"
+matches = "measured"
+[claims.title]
+lv1 = "Weigh the mystery"
+lv2 = "Measure the mass of the unknown"
+lv3 = "Mass determination on the balance"
+
+[[claims]]
+id = "looked"
+matches = "observed"
+[claims.title]
+lv1 = "Look at it"
+lv2 = "Observe the unknown sample"
+lv3 = "Qualitative observation — appearance, colour, lustre"
+
+[[claims]]
+id = "named-unknown"
+alias = "unknown-metal"
+[claims.title]
+lv1 = "Name the mystery metal"
+lv2 = "Identify the unknown from your measurements"
+lv3 = "Identification — density + observation matched against registry data"

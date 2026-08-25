@@ -1,0 +1,72 @@
+# EXP-22: acid-base pH pack.
+# Strong/weak acid-base pH, successive-dilution pH ladders, buffer
+# design, titration curves — the engine computes all of it. This quest
+# has the learner discover pH behaviour hands-on: dilute, measure,
+# titrate, compare strong vs weak.
+id = "acid-base"
+
+[title]
+lv1 = "How sour is sour?"
+lv2 = "Acid-base chemistry: pH, dilution, and buffers"
+lv3 = "pH of strong and weak acids, dilution ladders, buffer capacity, and titration to equivalence"
+
+[goal]
+lv1 = "Acids come in different strengths — some are fiercer than others. Dilute them, measure them, and see what the numbers say."
+lv2 = "Compare the pH of a strong acid (HCl) with a weak acid (CH₃COOH) at the same concentration. Dilute each by factors of 10 and watch the pH ladder. Then prepare a buffer and show it resists pH change."
+lv3 = "Quantitative acid-base exploration: measure pH of equimolar HCl vs acetic acid (the pKa difference shows as ΔpH), build a successive-dilution ladder (each 10× dilution shifts strong-acid pH by 1; weak-acid shifts are smaller — the reservoir effect), design an acetate buffer near pKa 4.76, and demonstrate its capacity by adding strong acid. Titrate to locate the equivalence point."
+
+[[nudges]]
+id = "first-ph"
+when = "measured"
+[nudges.say]
+lv1 = "You measured the pH — now try a different acid at the same amount and see if the number changes."
+lv2 = "First pH reading recorded. Compare it with another acid at the same concentration — the difference between strong and weak is in the numbers."
+lv3 = "The measured pH reflects the degree of dissociation. A strong acid (fully dissociated) gives pH ≈ −log c; a weak acid (partially dissociated, governed by Ka) gives a higher pH at the same nominal concentration."
+
+[[nudges]]
+id = "diluted"
+when = "diluted"
+[nudges.say]
+lv1 = "You made it weaker. Measure the pH again — did it change as much as you expected?"
+lv2 = "Dilution complete. Measure the new pH — for a strong acid, each 10× dilution raises pH by 1; for a weak acid, the shift is smaller. That difference is the buffer-like reservoir of undissociated acid."
+lv3 = "The dilution factor maps directly to ΔpH for strong acids (log-linear). For weak acids, the Henderson–Hasselbalch relation shows that the undissociated reservoir buffers the change — the pH shift per decade is less than 1 until extreme dilution."
+
+[[nudges]]
+id = "titrated"
+when = "titrated"
+[nudges.say]
+lv1 = "You added a base drop by drop — watch for the big jump in pH. That is the equivalence point."
+lv2 = "Titration curve forming. The equivalence point is where moles of acid equal moles of base — the steep pH rise marks it. For a weak acid, half-equivalence gives pH ≈ pKa."
+lv3 = "The inflection in the sigmoidal curve is the equivalence point (stoichiometric neutralisation). At half-equivalence [HA] = [A⁻], so pH = pKa — a direct read of the acid's dissociation constant from the titration curve."
+
+[[claims]]
+id = "measured-ph"
+matches = "measured"
+[claims.title]
+lv1 = "Measure the pH"
+lv2 = "Record the pH of an acid"
+lv3 = "pH measurement — the proton activity read from the solved equilibrium"
+
+[[claims]]
+id = "diluted-acid"
+matches = "diluted"
+[claims.title]
+lv1 = "Water it down"
+lv2 = "Dilute an acid and remeasure"
+lv3 = "Successive dilution — the pH ladder"
+
+[[claims]]
+id = "titrated-acid"
+matches = "titrated"
+[claims.title]
+lv1 = "Add the base drop by drop"
+lv2 = "Titrate an acid with a base"
+lv3 = "Acid-base titration to equivalence"
+
+[[claims]]
+id = "observed-curve"
+matches = "observed"
+[claims.title]
+lv1 = "See what happened"
+lv2 = "Observe the pH change"
+lv3 = "Observation — the equivalence point and buffer region identified"
