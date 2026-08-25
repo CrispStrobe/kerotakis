@@ -620,7 +620,7 @@ those platforms are theatrical: every visual quantity below traces to a
 computed number — realism here means *rendering the simulation*, never
 decorating it.
 
-- [ ] **GUI-058 — Liquid layers in the Scene (engine + client).** The
+- [x] **GUI-058 — Liquid layers in the Scene (engine + client).** *Shipped 2026-08-25 (PR #30).* The
   engine already computes liquid–liquid equilibrium (water–hexane LLE,
   `solve::layered_pair`) but Scene JSON collapses everything into one
   liquid block. Additive `layers: [SceneLayer]` on SceneVessel — per
@@ -630,13 +630,13 @@ decorating it.
   render, so the change is invisible until chemistry splits. DoD:
   hexane-on-water renders two layers with correct proportions; scene
   conformance checks the layer shape; single-phase vessels byte-identical.
-- [ ] **GUI-059 — Effect magnitudes.** Events carry amounts; visuals must
+- [ ] **GUI-059 — Effect magnitudes.** *(kero1, after #44)* Events carry amounts; visuals must
   scale by them: bubble count/rate from moles of gas evolved, flame size
   from energy/rate and COLOUR from the FlameTest event's computed colour
   word, stir vigour from the operator, precipitate fall density from
   moles. DoD: doubling the chemistry visibly doubles the effect; every
   scale factor names its event field in a comment.
-- [ ] **GUI-065 — Fluid dynamics as the transport layer (supersedes
+- [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,
   never touching the chemistry.
@@ -660,7 +660,7 @@ decorating it.
   tendrils dispersing to exactly the scene srgb; hexane onto water
   visibly separates into GUI-058's two layers; stir drives a vortex
   that decays; all kernels/projection/settle covered by vitest.
-- [ ] **GUI-061 — Volume-true fills.** Fill height must come from the
+- [x] **GUI-061 — Volume-true fills.** *Shipped 2026-08-25 (kero-basic, PR #36).* Fill height must come from the
   vessel kind's real capacity and geometry (a conical flask's height vs
   volume is not linear). Per-kind capacity_ml + a volume→height profile;
   additions raise the level by exactly what was added. DoD: 50 mL into a
@@ -671,11 +671,11 @@ decorating it.
   titration), thermometer and pH probe render in-vessel when measuring,
   the still connects two vessels visibly. Portraits (ToolIcon) grow into
   bench-scale drawings as each tool earns it.
-- [ ] **GUI-063 — In-experiment visual shelves.** Lessons and codex
+- [x] **GUI-063 — In-experiment visual shelves.** *Shipped 2026-08-25 (kero-basic, PR #36).* Lessons and codex
   experiments present their kit as a RENDERED shelf strip (SpeciesChip
   visuals, tap-to-add) directly in the LessonBar / experiment page —
   the pick-what-you-need surface the reference platforms open with.
-- [ ] **GUI-064 — Animation of running tasks.** Multi-step operations
+- [x] **GUI-064 — Animation of running tasks.** *Shipped 2026-08-25: chart self-draw (#35), titration playback (#37), distillation + transport pacing (#45) — one clamped, cancellable, reduced-motion-honest scheduler.* Multi-step operations
   (titrate, distil, electrolyse, transport) animate over their duration
   instead of jumping to the result: the burette's meniscus falls per
   increment, the still's receiver fills, electrode gas accumulates.
@@ -688,3 +688,17 @@ GUI-059 + 062 are client work gated on no engine change (kero1, after
 the KLU fix). Magnitude scaling rules (GUI-059) and layer rendering
 (GUI-058) meet in Vessel.svelte — coordinate before touching it in
 parallel.
+
+
+### Shipped addendum (2026-08-25, realism + depth day)
+- GUI-065a/b/c complete: MAC stable-fluids core (emergent Rayleigh-
+  Taylor pinned), pour with a ledger-exact splash handoff, true-glass
+  wall masks (canvas-free rasterizer) + frame governor. The honesty
+  gate throughout: sims relax to exactly the engine's layers.
+- GUI-066 quests: engine-evaluated (observe/answer in the protocol),
+  17 quests exported beside the payload, QuestBar + nudge/claim cards.
+- GUI-067: instant restore (snapshot-token autosave, triple-fallback).
+- DATA-010: load_pack end to end — the registry is open-ended; a
+  hash-verified .pack adds species to shelf AND chemistry at runtime;
+  drift-pinned runtime join; packs/ shipped with hashed manifest.
+- WEB-003 inventory in hello; PROTOCOL load_pack row done.
