@@ -66,8 +66,8 @@ Existing = serves today's wasm/worker surface. Gap = named task.
 | `cmd` | Status | Request → `result_json` |
 |---|---|---|
 | `hello` | done except `packs` | `{}` → `{ protocol, can_solve, engine_loaded, load_failure, aqueous_note, engine_version, git_rev, registers }`. `git_rev` is stamped by the build (`KEROTAKIS_GIT_REV`; null in unstamped dev builds). Still to grow: `packs: [ModelPackManifest]` when pack loading lands. Must be answerable before any pack loads. |
-| `step` | done | `{ operator_json }` → `{ events, rendered, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `scene` the render model (one round trip repaints the bench). |
-| `run_script` | done | `{ script }` → `{ steps: [{operator, events, rendered}], scene, bench }`. |
+| `step` | done | `{ operator_json }` → `{ events, rendered, charts, scene, bench }` — `events` is the serde `Vec<Event>`, `rendered` the prose at the current register, `charts` the CAP-3 `Chart[]` the step's events earned (empty when none; first producer: the titration curve), `scene` the render model (one round trip repaints the bench). |
+| `run_script` | done | `{ script }` → `{ steps: [{operator, events, rendered, charts}], scene, bench }`. |
 | `parse` | done (GUI-005, 9a9c744) | `{ line }` → `{ ok, operator?, error? }`. Validate-only, never executes. Powers the command bar's live validation; `span` remains a candidate additive field. |
 | `relations` | done (GUI-027) | `{}` → `[{ name, equation, args }]` — the CAP-5 named-relations catalogue. `args` is the CLI arg-spec string (`k=<hint>`, brackets for optional); clients build forms from it rather than hard-coding fields. |
 | `calc` | done (GUI-027) | `{ name, args: ["k=v", …] }` → `{ ok, value, unit, provenance, lv1, lv2, lv3 }` or `{ ok: false, error }`. One evaluation of a named relation; the result explains itself at every register and names its source. Same argument grammar as `kero calc`. |

@@ -34,6 +34,9 @@
       ? { label: "seal 500 mL", line: `seal ${v} 500mL` }
       : { label: "open", line: `open ${v}` },
   ]);
+  // The four classical gas tests (EXP-31): applied to the headspace, and
+  // each button is exactly the grammar line — `test v1 pop`.
+  const GAS_TESTS = ["pop", "splint", "limewater", "litmus"] as const;
 </script>
 
 <section class="inspector" aria-label={`vessel v${vessel + 1} detail`}>
@@ -47,6 +50,12 @@
     <div class="actions" role="group" aria-label={`act on ${v}`}>
       {#each actions as a (a.label)}
         <button disabled={busy} onclick={() => onaction(a.line)}>{a.label}</button>
+      {/each}
+    </div>
+    <div class="actions" role="group" aria-label={`gas tests on ${v}`}>
+      <span class="tests-label">test the gas:</span>
+      {#each GAS_TESTS as t (t)}
+        <button disabled={busy} onclick={() => onaction(`test ${v} ${t}`)}>{t}</button>
       {/each}
     </div>
   {/if}
@@ -90,6 +99,11 @@
     padding: 0.25rem 0.6rem;
     cursor: pointer;
     min-height: 32px;
+  }
+  .tests-label {
+    color: var(--dim);
+    font-size: 0.75rem;
+    align-self: center;
   }
   .actions {
     display: flex;

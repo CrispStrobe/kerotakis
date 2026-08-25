@@ -13,9 +13,9 @@ import { readFileSync, readdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
 
-const [outDir] = process.argv.slice(2);
+const [outDir, resultsPath] = process.argv.slice(2);
 if (!outDir) {
-    console.error("usage: node test-protocol-conformance.mjs <bindgen-out-dir>");
+    console.error("usage: node test-protocol-conformance.mjs <bindgen-out-dir> [results.postcard]");
     process.exit(2);
 }
 const require = createRequire(import.meta.url);
@@ -174,6 +174,41 @@ for (const file of lessons) {
         fail("calc", `unknown relation must refuse with an error: ${JSON.stringify(bad)}`);
     }
     console.log(`relations: ${relations.length} in the catalogue, evaluation + refusal conform`);
+}
+
+// --- The chart contract on the wire (GUI-021/CAP-12) ---------------------
+// A titration must EARN its chart: the titrate step carries a charts
+// array in the CAP-3 shape — axes with labels, a line series of [x,y]
+// pairs, and a provenance line. Absence here means the emitter regressed.
+// Computing pH per increment needs solver states: the pre-warmed results
+// supply them (CI passes lessons.postcard). Without them the check is
+// SKIPPED AND SAYS SO — never silently green.
+if (!resultsPath) {
+    console.log("charts: SKIPPED (no results.postcard argument — pH per increment needs pre-warmed states)");
+} else {
+    const lab = new Lab();
+    lab.loadResults(readFileSync(resultsPath));
+    // The exact pre-warmed lesson, so every increment's state is cached.
+    const doc = JSON.parse(lab.runScript(readFileSync("lessons/titration.lab", "utf8")));
+    const withCharts = doc.steps.filter((s) => Array.isArray(s.charts) && s.charts.length > 0);
+    checks++;
+    if (withCharts.length === 0) {
+        fail("charts", "the titrate step carried no chart");
+    } else {
+        const chart = withCharts.at(-1).charts[0];
+        checks++;
+        if (typeof chart.title !== "string" || typeof chart.provenance !== "string"
+            || typeof chart.x?.label !== "string" || typeof chart.y?.label !== "string") {
+            fail("charts", `chart missing contract fields: ${JSON.stringify(chart).slice(0, 200)}`);
+        }
+        const series = chart.series?.[0];
+        checks++;
+        if (series?.kind !== "line" || !Array.isArray(series.points) || series.points.length < 2
+            || series.points.some((pt) => !Array.isArray(pt) || pt.length !== 2)) {
+            fail("charts", "titration series is not a line of [x,y] pairs");
+        }
+        console.log(`charts: titration curve on the wire (${series?.points?.length ?? 0} points)`);
+    }
 }
 
 // --- The sandbox-completeness invariant (GUI-029) -----------------------

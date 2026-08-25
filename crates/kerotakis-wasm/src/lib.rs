@@ -155,9 +155,11 @@ impl Lab {
             serde_json::from_str(operator_json).map_err(|e| JsError::new(&e.to_string()))?;
         let events = self.run(op)?;
         let rendered = render_events(&events, self.register);
+        let charts = kerotakis_core::chart::charts_for_events(&events);
         let doc = serde_json::json!({
             "events": events,
             "rendered": rendered,
+            "charts": charts,
             "scene": kerotakis_core::scene(&self.bench),
             "bench": { "vessels": self.bench.vessels },
         });
@@ -183,10 +185,12 @@ impl Lab {
                 Ok(Some(op)) => {
                     let events = self.run(op.clone())?;
                     let rendered = render_events(&events, self.register);
+                    let charts = kerotakis_core::chart::charts_for_events(&events);
                     steps.push(serde_json::json!({
                         "operator": op,
                         "events": events,
                         "rendered": rendered,
+                        "charts": charts,
                     }));
                 }
                 Err(e) => {

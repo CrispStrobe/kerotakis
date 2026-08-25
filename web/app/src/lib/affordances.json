@@ -26,5 +26,6 @@
   "titrate": "Burette apparatus (clamps over the selected vessel; form compiles the titrate line)",
   "magnet": "Transfer tool: tap source, tap target",
   "transport": "Column-train builder (cells, inlet, receiver, steps)",
-  "react": "Curated-reaction picker (options from the grammar itself)"
+  "react": "Curated-reaction picker (options from the grammar itself)",
+  "test": "Inspector gas-test row (pop / splint / limewater / litmus on the headspace)"
 }

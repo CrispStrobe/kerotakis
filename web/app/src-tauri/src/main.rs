@@ -101,6 +101,7 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             Ok(json!({
                 "events": events,
                 "rendered": render_events(&events, lab.register),
+                "charts": kerotakis_core::chart::charts_for_events(&events),
                 "scene": kerotakis_core::scene(&lab.bench),
                 "bench": { "vessels": lab.bench.vessels },
             })
@@ -123,6 +124,7 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
                             "operator": op,
                             "events": events,
                             "rendered": render_events(&events, lab.register),
+                            "charts": kerotakis_core::chart::charts_for_events(&events),
                         }));
                     }
                     Err(e) => return Err(format!("line {}: {e}", lineno + 1)),
