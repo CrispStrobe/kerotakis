@@ -143,10 +143,16 @@
         </path>
       {:else if s.kind === "scatter"}
         {#each s.points as [px, py], i (i)}
-          <circle class="dot" cx={sx(px)} cy={sy(py)} r="2.2" />
+          <circle
+            class="dot"
+            cx={sx(px)}
+            cy={sy(py)}
+            r="2.2"
+            style={`animation-delay:${Math.min(i * 90, 1800)}ms`}
+          />
         {/each}
       {:else}
-        <path class="series" d={linePath(s.points, sx, sy)}>
+        <path class="series" pathLength="1" d={linePath(s.points, sx, sy)}>
           <title>{s.name}</title>
         </path>
       {/if}
@@ -221,9 +227,42 @@
     fill: none;
     stroke: var(--hot);
     stroke-width: 1.8;
+    /* GUI-064: a fresh curve draws itself left to right — the same
+       pacing the bench ran at, one reveal, no data invented. The
+       pathLength trick normalises any curve to one dash period. */
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: chart-draw 1.6s ease-out forwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .series {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
+    .dot {
+      animation: none;
+      opacity: 1;
+    }
+  }
+  @keyframes chart-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
   }
   .dot {
     fill: var(--hot);
+    opacity: 0;
+    animation: dot-pop 0.25s ease-out forwards;
+  }
+  @keyframes dot-pop {
+    from {
+      opacity: 0;
+      r: 0.5;
+    }
+    to {
+      opacity: 1;
+      r: 2.2;
+    }
   }
   .band {
     fill: var(--hot);
