@@ -43,20 +43,33 @@ LOCALE = META["primaryLocale"]
 PLATFORM = {"ios": "IOS", "macos": "MAC_OS"}
 
 
+def platform_of(build_id: str) -> str | None:
+    """The build's platform, from its preReleaseVersion.
+
+    Not from `filter[preReleaseVersion.platform]` on `/v1/builds`: that
+    filter returns nothing at all for MAC_OS builds that plainly have a
+    MAC_OS preReleaseVersion, and answers `OSX` with "Cannot filter builds
+    for TestFlight groups with incompatible platform". The relationship
+    itself is correct, so walk it.
+    """
+    status, doc = client.call("GET", f"/v1/builds/{build_id}/preReleaseVersion")
+    if status != 200 or not doc.get("data"):
+        return None
+    return doc["data"]["attributes"].get("platform")
+
+
 def find_build(app: str, platform: str, build_id: str | None) -> dict:
     if build_id:
         return client.expect("GET", f"/v1/builds/{build_id}")["data"]
-    builds = client.paged(
-        f"/v1/builds?filter[app]={app}"
-        f"&filter[preReleaseVersion.platform]={platform}"
-        f"&sort=-version&limit=200"
-    )
-    if not builds:
+    builds = client.paged(f"/v1/apps/{app}/builds?limit=200")
+    builds.sort(key=lambda b: b["attributes"].get("uploadedDate") or "", reverse=True)
+    mine = [b for b in builds if platform_of(b["id"]) == platform]
+    if not mine:
         raise SystemExit(
             f"no {platform} builds for this app yet. Upload one first "
             f"(tools/build-macos-appstore.sh or tools/build-ios-appstore.sh)."
         )
-    live = [b for b in builds if b["attributes"]["processingState"] != "EXPIRED"]
+    live = [b for b in mine if b["attributes"]["processingState"] != "EXPIRED"]
     if not live:
         raise SystemExit(
             f"every {platform} build is EXPIRED. Expiry is permanent — "

@@ -139,6 +139,14 @@ export async function browser() {
           () => reject(new Error("Chrome never announced a debugger URL")),
           30000,
         );
+        // A missing binary surfaces as an asynchronous 'error' event, not a
+        // throw from spawn(). Without this handler it escapes the try/catch
+        // entirely and kills the run on the first candidate that does not
+        // exist — which is every candidate but one, on every platform.
+        child.on("error", (err) => {
+          clearTimeout(timer);
+          reject(err);
+        });
         child.stderr.on("data", (d) => {
           buf += d;
           const m = buf.match(/ws:\/\/[^\s]+/);
