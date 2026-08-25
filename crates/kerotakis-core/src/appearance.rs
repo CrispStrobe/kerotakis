@@ -68,7 +68,7 @@ pub fn observe(vessel: &Vessel) -> Appearance {
                 None => continue,
             },
             None => match species::lookup(&p.species).and_then(|d| d.spectrum) {
-                Some(spectrum) => spectrum(),
+                Some(spectrum) => *spectrum,
                 None => continue,
             },
         };

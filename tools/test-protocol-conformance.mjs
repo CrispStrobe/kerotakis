@@ -207,6 +207,7 @@ for (const file of lessons) {
         }
     };
     cloneIn("water", "conformium");
+    cloneIn("betanin", "conformanin"); // a dye: its SPECTRUM must load too
     const payload = Buffer.from(JSON.stringify(doc));
     const pack = Buffer.concat([
         Buffer.from("KREG"),
@@ -217,7 +218,7 @@ for (const file of lessons) {
     const lab = new Lab();
     const r = JSON.parse(lab.loadPack(new Uint8Array(pack)));
     checks++;
-    if (r.added !== 1) fail("load_pack", `expected 1 added, got ${JSON.stringify(r)}`);
+    if (r.added !== 2) fail("load_pack", `expected 2 added, got ${JSON.stringify(r)}`);
     checks++;
     if (!JSON.parse(lab.species()).some((s) => s.key === "conformium")) {
         fail("load_pack", "loaded species missing from the shelf");
@@ -228,6 +229,13 @@ for (const file of lessons) {
     } catch (e) {
         fail("load_pack", `loaded species unusable in chemistry: ${e.message}`);
     }
+    // DATA-011: the loaded dye's spectrum colours a solution — pack
+    // species get Beer–Lambert colour exactly like built-ins.
+    checks++;
+    const dyeRun = JSON.parse(lab.runScript("new flask\nadd v3 water 100mL\nadd v3 conformanin 1pinch"));
+    const dyed = dyeRun.scene.vessels.find((v) => v.liquid && v.liquid.colour_word !== "colourless");
+    if (!dyed) fail("load_pack", "pack dye did not colour its solution (spectrum not loaded)");
+    else console.log(`load_pack: pack dye colours its solution ${dyed.liquid.colour_word}`);
     checks++;
     const corrupt = Buffer.from(pack);
     corrupt[60] ^= 0xff;

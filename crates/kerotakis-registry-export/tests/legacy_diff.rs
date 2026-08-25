@@ -269,8 +269,8 @@ fn compare_optical(
         source_id,
     );
     match species.spectrum {
-        Some(make) => {
-            let values = make();
+        Some(bands) => {
+            let values = *bands;
             assert_eq!(record.spectrum.len(), BAND_NM.len());
             for ((sample, wavelength), value) in record.spectrum.iter().zip(BAND_NM).zip(values) {
                 assert_imported_quantity(
