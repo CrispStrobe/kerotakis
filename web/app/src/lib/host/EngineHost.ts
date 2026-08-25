@@ -36,6 +36,8 @@ export interface SceneVessel {
   id: number;
   label: string;
   liquid: SceneLiquid | null;
+  /** Liquid layers, bottom first; absent/single for a mixed solution. */
+  layers?: SceneLayer[];
   solids: SceneSolid[];
   bubbling: boolean;
   /** Flattened Headspace tag: open | sealed | pressure_controlled | swept. */
@@ -46,6 +48,16 @@ export interface SceneVessel {
   /** The lv1 observation sentence — also the vessel's accessible name. */
   words: string;
   badges: SceneBadge[];
+}
+
+/** One visible liquid layer, bottom first (GUI-058) — the engine's
+ * computed phase split, e.g. hexane floating on water. */
+export interface SceneLayer {
+  species: string;
+  name: string;
+  volume_l: number;
+  srgb: [number, number, number];
+  colour_word: string;
 }
 
 export interface SceneLiquid {
