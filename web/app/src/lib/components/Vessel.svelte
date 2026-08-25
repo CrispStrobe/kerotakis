@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SceneVessel } from "../host/EngineHost";
-  import { KINDS, solidLayer } from "../glassware";
+  import { KINDS, solidLayer, fillHeight, graduationTicks } from "../glassware";
 
   let {
     vessel,
@@ -50,9 +50,7 @@
   const FULL_H = $derived(geom.fh);
 
   const liquidH = $derived(
-    vessel.liquid
-      ? Math.max(6, Math.min(FULL_H, (vessel.liquid.volume_l / FULL_AT_L) * FULL_H))
-      : 0,
+    vessel.liquid ? fillHeight(geom, vessel.liquid.volume_l) : 0,
   );
   // The layer stack in pixels, bottom-up: each layer's share of the
   // total height is its share of the total volume, so the drawn split
@@ -327,8 +325,9 @@
     {/if}
 
     {#if vessel.label === "cylinder"}
-      {#each [30, 50, 70, 90, 110] as ty (ty)}
-        <line class="tick" x1="39" x2="46" y1={ty} y2={ty} />
+      {#each graduationTicks(geom) as tick (tick.ml)}
+        <line class="tick" x1="39" x2="46" y1={tick.y} y2={tick.y} />
+        <text class="tick-label" x="37" y={tick.y + 1.5} text-anchor="end">{tick.ml}</text>
       {/each}
     {/if}
 
@@ -437,6 +436,11 @@
     stroke: var(--edge-strong);
     stroke-width: 0.8;
     opacity: 0.7;
+  }
+  .tick-label {
+    font-size: 5.5px;
+    fill: var(--dim);
+    font-family: sans-serif;
   }
   .sheen {
     fill: none;
