@@ -2,10 +2,11 @@
  * The bench as an installable, offline-first app.
  *
  * The service worker lives at the payload root (`web/sw.js`) because it
- * precaches both documents and the one engine payload they share. Until
- * GUI-063 only the console page registered it, so opening `/app/` — the
- * URL the README advertises — installed nothing: no offline, no install
- * prompt. This module is the bench's half of that.
+ * precaches both documents and the one engine payload they share. Only the
+ * console page ever registered it, so opening `/app/` — the URL the README
+ * advertises — installed nothing: no offline, no install prompt, unless
+ * you happened to visit the console first. This module is the bench's half
+ * of that.
  *
  * Two states are worth surfacing and nothing else is:
  *

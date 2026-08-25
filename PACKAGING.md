@@ -35,12 +35,12 @@ hides every relative-URL defect in the manifest.
 
 Three things about it are easy to get wrong and were:
 
-- **The bench must register the worker itself.** Until GUI-063 only the
-  console page did, so opening `/app/` — the URL the README advertises —
-  installed nothing at all. `web/app/src/lib/pwa.svelte.ts` is the bench's
-  half; it resolves the worker through `resolvePayloadBase()`, the same
-  function that finds the engine, so the two can never disagree about where
-  the payload root is.
+- **The bench must register the worker itself.** Only the console page ever
+  did, so opening `/app/` — the URL the README advertises — installed
+  nothing at all unless you happened to visit the console first.
+  `web/app/src/lib/pwa.svelte.ts` is the bench's half; it resolves the
+  worker through `resolvePayloadBase()`, the same function that finds the
+  engine, so the two can never disagree about where the payload root is.
 - **Vite will content-hash a private copy of anything the HTML links.** A
   `<link rel="manifest" href="../manifest.webmanifest">` left in
   `web/app/index.html` becomes `app/assets/manifest-<hash>.webmanifest`, and
