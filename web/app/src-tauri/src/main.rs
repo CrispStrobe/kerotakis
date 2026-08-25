@@ -27,6 +27,8 @@ struct NativeLab {
     stack: SolverStack,
     register: Register,
     can_solve: bool,
+    quest: Option<kerotakis_codex::quest::QuestSpec>,
+    quest_states: std::collections::BTreeMap<String, kerotakis_codex::quest::QuestState>,
 }
 
 /// Physics + aqueous chemistry + honesty — the CLI's `build_stack`,
@@ -56,7 +58,22 @@ impl NativeLab {
             stack,
             register: Register::default(),
             can_solve,
+            quest: None,
+            quest_states: std::collections::BTreeMap::new(),
         }
+    }
+
+    fn quest_observe(&mut self, events: &[kerotakis_core::Event]) -> Vec<Value> {
+        let Some(spec) = self.quest.clone() else {
+            return Vec::new();
+        };
+        let outputs = kerotakis_codex::quest::observe(
+            &[spec],
+            &mut self.quest_states,
+            events,
+            &self.bench,
+        );
+        quest_outputs_json(&outputs)
     }
 
     fn run(&mut self, op: Operator) -> Result<Vec<kerotakis_core::Event>, String> {
@@ -73,6 +90,28 @@ impl NativeLab {
 }
 
 const PROTOCOL: u32 = 1;
+
+/// Identical wire shape to the wasm host's serializer (transport parity).
+fn quest_outputs_json(outputs: &[kerotakis_codex::quest::QuestOutput]) -> Vec<Value> {
+    use kerotakis_codex::quest::QuestOutput as Q;
+    outputs
+        .iter()
+        .map(|o| match o {
+            Q::Nudge { quest, say } => json!({
+                "kind": "nudge", "quest": quest,
+                "say": { "lv1": say.at(1), "lv2": say.at(2), "lv3": say.at(3) },
+            }),
+            Q::ClaimSatisfied { quest, title } => json!({
+                "kind": "claim_satisfied", "quest": quest,
+                "title": { "lv1": title.at(1), "lv2": title.at(2), "lv3": title.at(3) },
+            }),
+            Q::Completed { quest, title } => json!({
+                "kind": "completed", "quest": quest,
+                "title": { "lv1": title.at(1), "lv2": title.at(2), "lv3": title.at(3) },
+            }),
+        })
+        .collect()
+}
 
 fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
     let cmd = req
@@ -98,10 +137,12 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             let op: Operator =
                 serde_json::from_str(field("operator_json")?).map_err(|e| e.to_string())?;
             let events = lab.run(op)?;
+            let quest = lab.quest_observe(&events);
             Ok(json!({
                 "events": events,
                 "rendered": render_events(&events, lab.register),
                 "charts": kerotakis_core::chart::charts_for_events(&events),
+                "quest": quest,
                 "scene": kerotakis_core::scene(&lab.bench),
                 "bench": { "vessels": lab.bench.vessels },
             })
@@ -120,11 +161,13 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
                     Ok(None) => {}
                     Ok(Some(op)) => {
                         let events = lab.run(op.clone())?;
+                        let quest = lab.quest_observe(&events);
                         steps.push(json!({
                             "operator": op,
                             "events": events,
                             "rendered": render_events(&events, lab.register),
                             "charts": kerotakis_core::chart::charts_for_events(&events),
+                            "quest": quest,
                         }));
                     }
                     Err(e) => return Err(format!("line {}: {e}", lineno + 1)),
@@ -223,6 +266,32 @@ fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, String> {
             lab.bench = serde_json::from_str(field("snapshot")?)
                 .map_err(|e| format!("the snapshot did not parse: {e}"))?;
             Ok("{}".into())
+        }
+        "quest_start" => {
+            let spec: kerotakis_codex::quest::QuestSpec =
+                serde_json::from_str(field("spec_json")?).map_err(|e| e.to_string())?;
+            lab.quest_states.clear();
+            lab.quest_states
+                .insert(spec.id.clone(), kerotakis_codex::quest::QuestState::default());
+            lab.quest = Some(spec);
+            Ok("{}".into())
+        }
+        "quest_stop" => {
+            lab.quest = None;
+            lab.quest_states.clear();
+            Ok("{}".into())
+        }
+        "quest_answer" => {
+            let Some(spec) = lab.quest.clone() else {
+                return Err("no quest is running".into());
+            };
+            let outputs = kerotakis_codex::quest::answer(
+                &[spec],
+                &mut lab.quest_states,
+                field("alias")?,
+                field("guess")?,
+            )?;
+            Ok(Value::Array(quest_outputs_json(&outputs)).to_string())
         }
         "relations" => {
             let list: Vec<Value> = kerotakis_core::relations::RELATIONS

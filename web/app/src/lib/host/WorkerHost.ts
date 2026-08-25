@@ -105,6 +105,18 @@ export class WorkerHost implements EngineHost {
     return JSON.parse(await this.channel.request("calc", { name, args }));
   }
 
+  async questStart(specJson: string): Promise<void> {
+    await this.channel.request("quest_start", { spec_json: specJson });
+  }
+
+  async questStop(): Promise<void> {
+    await this.channel.request("quest_stop");
+  }
+
+  async questAnswer(alias: string, guess: string) {
+    return JSON.parse(await this.channel.request("quest_answer", { alias, guess }));
+  }
+
   async snapshot(): Promise<string> {
     const doc = JSON.parse(await this.channel.request("snapshot")) as { snapshot: string };
     return doc.snapshot;

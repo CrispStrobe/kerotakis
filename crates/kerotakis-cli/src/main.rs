@@ -139,9 +139,27 @@ fn main() {
         }
         Some("quest") => {
             let sub = args.get(1).map(String::as_str).unwrap_or("lint");
+            if sub == "export" {
+                // GUI-066: the quest specs as one JSON document, shipped
+                // beside the web payload like the codex export.
+                let out = args.get(2).map(String::as_str).unwrap_or("quests.json");
+                let specs = kerotakis_codex::quest::load_dir(std::path::Path::new("quests"))
+                    .unwrap_or_else(|e| {
+                        eprintln!("kero quest export: {e}");
+                        std::process::exit(2);
+                    });
+                let doc = serde_json::json!({ "quests": specs });
+                std::fs::write(out, serde_json::to_string_pretty(&doc).unwrap())
+                    .unwrap_or_else(|e| {
+                        eprintln!("kero quest export: writing {out}: {e}");
+                        std::process::exit(2);
+                    });
+                println!("quest: exported {} quests → {out}", specs.len());
+                return;
+            }
             if sub != "lint" {
                 eprintln!(
-                    "kero quest: only 'lint' works outside the REPL (quests are interactive)"
+                    "kero quest: only 'lint' and 'export' work outside the REPL (quests are interactive)"
                 );
                 std::process::exit(2);
             }

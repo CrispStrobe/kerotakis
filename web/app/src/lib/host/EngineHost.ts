@@ -97,6 +97,15 @@ export interface ParticleCensus {
   source: string;
 }
 
+/** One engine-evaluated quest output: a nudge spoken, a claim
+ * satisfied, or the quest completed — register texts spelled out. */
+export interface QuestOutput {
+  kind: "nudge" | "claim_satisfied" | "completed";
+  quest: string;
+  say?: { lv1: string; lv2: string; lv3: string };
+  title?: { lv1: string; lv2: string; lv3: string };
+}
+
 /** What `step` returns; `run_script` returns one entry per line plus scene. */
 export interface StepResult {
   events: unknown[];
@@ -153,6 +162,11 @@ export interface EngineHost {
     | { ok: true; value: number; unit: string; provenance: string; lv1: string; lv2: string; lv3: string }
     | { ok: false; error: string }
   >;
+  /** Start/stop the engine-evaluated quest (GUI-066); outputs arrive on
+   * step results as `quest: QuestOutput[]`. */
+  questStart(specJson: string): Promise<void>;
+  questStop(): Promise<void>;
+  questAnswer(alias: string, guess: string): Promise<QuestOutput[]>;
   /** The bench as an opaque restorable token (O(1) undo/scrub). */
   snapshot(): Promise<string>;
   /** Replace the bench with a `snapshot()` token; session state survives. */

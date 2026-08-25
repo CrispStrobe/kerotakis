@@ -22,6 +22,9 @@ type Lab = {
   parse(line: string): string;
   grammar(): string;
   meta(): string;
+  questStart(specJson: string): void;
+  questStop(): void;
+  questAnswer(alias: string, guess: string): string;
   snapshot(): string;
   restore(snapshot: string): void;
   relations(): string;
@@ -166,6 +169,17 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "relations":
         done(id, lab.relations());
+        break;
+      case "quest_start":
+        lab.questStart(String(msg.spec_json));
+        done(id, "{}");
+        break;
+      case "quest_stop":
+        lab.questStop();
+        done(id, "{}");
+        break;
+      case "quest_answer":
+        done(id, lab.questAnswer(String(msg.alias), String(msg.guess)));
         break;
       case "snapshot":
         done(id, JSON.stringify({ snapshot: lab.snapshot() }));

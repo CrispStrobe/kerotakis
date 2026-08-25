@@ -18,9 +18,20 @@ import { EngineError } from "./host/EngineHost";
 import { isChartSpec, type ChartSpec } from "./chart";
 import { type Lesson, parseLesson } from "./lesson";
 import { scriptKit } from "./codex";
+import { schedule, type Playback } from "./replay";
+import type { QuestOutput } from "./host/EngineHost";
 
 export type FeedEntry = {
-  kind: "command" | "line" | "error" | "refusal" | "note" | "hazard" | "chart";
+  kind:
+    | "command"
+    | "line"
+    | "error"
+    | "refusal"
+    | "note"
+    | "hazard"
+    | "chart"
+    | "nudge"
+    | "claim";
   text: string;
   /** Hazard entries: the engine's severity, for the card's chip. */
   severity?: string;
@@ -77,6 +88,110 @@ export class Session {
   engineIdentity = $state<string | null>(null);
   /** Codex entries this learner has run to a green check (GUI-053). */
   completedExperiments = $state<ReadonlySet<string>>(new Set());
+
+  /** GUI-066: the running quest, engine-evaluated. Claims progress for
+   * the panel; nudges arrive as feed cards. */
+  quest = $state<{
+    id: string;
+    title: Record<string, string>;
+    goal: Record<string, string>;
+    claims: { id: string; title: Record<string, string>; satisfied: boolean }[];
+    unknowns: string[];
+    complete: boolean;
+  } | null>(null);
+
+  /** Begin a quest from its exported spec (the panel fetched it). */
+  async startQuest(spec: {
+    id: string;
+    title: Record<string, string>;
+    goal: Record<string, string>;
+    claims: { id: string; title: Record<string, string> }[];
+    unknowns?: Record<string, string>;
+  }): Promise<void> {
+    await this.host.questStart(JSON.stringify(spec));
+    this.quest = {
+      id: spec.id,
+      title: spec.title,
+      goal: spec.goal,
+      claims: spec.claims.map((c) => ({ ...c, satisfied: false })),
+      unknowns: Object.keys(spec.unknowns ?? {}),
+      complete: false,
+    };
+    this.feed.push({
+      kind: "note",
+      text: `quest started: ${spec.title[this.register] ?? spec.id}`,
+    });
+  }
+
+  async stopQuest(): Promise<void> {
+    await this.host.questStop();
+    this.quest = null;
+  }
+
+  /** Name a sealed unknown; the engine answers, never blocks. */
+  async answerUnknown(alias: string, guess: string): Promise<void> {
+    try {
+      const outputs = await this.host.questAnswer(alias, guess);
+      this.applyQuestOutputs(outputs);
+      if (outputs.length === 0) {
+        this.feed.push({ kind: "note", text: `"${guess}" — not it yet; look again.` });
+      }
+    } catch (e) {
+      this.feed.push({ kind: "error", text: e instanceof Error ? e.message : String(e) });
+    }
+  }
+
+  private applyQuestOutputs(outputs: QuestOutput[]): void {
+    for (const o of outputs) {
+      const text = (o.say ?? o.title)?.[this.register as "lv1" | "lv2" | "lv3"] ?? "";
+      if (o.kind === "nudge") {
+        this.feed.push({ kind: "nudge", text });
+      } else if (o.kind === "claim_satisfied") {
+        this.feed.push({ kind: "claim", text });
+        if (this.quest) {
+          const c = this.quest.claims.find(
+            (cl) => cl.title.lv1 === o.title?.lv1 || cl.title.lv2 === o.title?.lv2,
+          );
+          if (c) c.satisfied = true;
+        }
+      } else if (o.kind === "completed") {
+        this.feed.push({ kind: "claim", text: `quest complete: ${text}` });
+        if (this.quest) this.quest.complete = true;
+      }
+    }
+  }
+
+  /** GUI-064: a titration being replayed at bench pace — the engine
+   * already finished; this is the reveal. `delivered` climbs per curve
+   * point; components (burette meniscus, drips) read it live. */
+  titrationPlayback = $state<{ vessel: number; delivered: number; total: number } | null>(null);
+  private playback: Playback | null = null;
+
+  private startTitrationPlayback(vessel: number, curve: [number, number][]): void {
+    this.playback?.cancel();
+    const total = curve[curve.length - 1]?.[0] ?? 0;
+    this.titrationPlayback = { vessel, delivered: 0, total };
+    const reduced =
+      typeof matchMedia !== "undefined" &&
+      matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this.playback = schedule(
+      curve.length,
+      450,
+      (i) => {
+        this.titrationPlayback = { vessel, delivered: curve[i]?.[0] ?? 0, total };
+        // Each increment drips — the same typed-effect channel as ever.
+        const now = Date.now();
+        const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
+        list.push({ kind: "drip", at: now });
+        this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
+      },
+      () => {
+        // Hold the final reading a beat, then clear the overlay state.
+        setTimeout(() => (this.titrationPlayback = null), 1200);
+      },
+      { reducedMotion: reduced },
+    );
+  }
 
   /**
    * Bench snapshots keyed by log position: undo/scrub restores in O(1)
@@ -306,6 +421,16 @@ export class Session {
               }
             }
           }
+          if (
+            event?.event === "titrated" &&
+            Array.isArray((event as { curve?: unknown }).curve) &&
+            ((event as { curve: unknown[] }).curve.length > 1)
+          ) {
+            this.startTitrationPlayback(
+              Number(event.vessel ?? 0),
+              (event as { curve: [number, number][] }).curve,
+            );
+          }
           if (event?.event === "hazard_warning") {
             this.feed.push({
               kind: "hazard",
@@ -318,6 +443,10 @@ export class Session {
               text: String(event.reason ?? "the bench refused this operation"),
             });
           }
+        }
+        const questOutputs = (step as { quest?: QuestOutput[] }).quest;
+        if (questOutputs && questOutputs.length > 0) {
+          this.applyQuestOutputs(questOutputs);
         }
         for (const rendered of step.rendered) {
           this.feed.push({ kind: "line", text: rendered });
@@ -400,7 +529,7 @@ export class Session {
       evaporated: "evaporate",
       distilled: "evaporate",
       gas_evolved: "vent",
-      titrated: "drip",
+      // titrated: paced by the GUI-064 playback, not an instant effect.
       mixed: "swirl",
       diluted: "swirl",
       flame_test: "ignite",

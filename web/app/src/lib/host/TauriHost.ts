@@ -60,6 +60,15 @@ export class TauriHost implements EngineHost {
   async calc(name: string, args: string[]) {
     return JSON.parse(await this.req("calc", { name, args }));
   }
+  async questStart(specJson: string): Promise<void> {
+    await this.req("quest_start", { spec_json: specJson });
+  }
+  async questStop(): Promise<void> {
+    await this.req("quest_stop");
+  }
+  async questAnswer(alias: string, guess: string) {
+    return JSON.parse(await this.req("quest_answer", { alias, guess }));
+  }
   async snapshot(): Promise<string> {
     const doc = JSON.parse(await this.req("snapshot")) as { snapshot: string };
     return doc.snapshot;
