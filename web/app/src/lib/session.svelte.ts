@@ -88,6 +88,29 @@ export class Session {
   titrationPlayback = $state<{ vessel: number; delivered: number; total: number } | null>(null);
   private playback: Playback | null = null;
 
+  /** Push one transient effect — the same channel recordEffect uses.
+   * Paced operational effects carry a moderate fixed magnitude: their
+   * intensity is pacing, not an event amount (GUI-059's scaling reads
+   * amounts where they exist). */
+  private pushEffect(vessel: number, kind: string, magnitude = 0.6): void {
+    const now = Date.now();
+    const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
+    list.push({ kind, at: now, magnitude });
+    this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
+  }
+
+  /** GUI-064b: pace any multi-step operation's visible effects through
+   * the one scheduler (clamped, cancellable, reduced-motion honest). */
+  private playOperation(count: number, msPerTick: number, onTick: (i: number) => void): void {
+    this.playback?.cancel();
+    const reduced =
+      typeof matchMedia !== "undefined" &&
+      matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this.playback = schedule(count, msPerTick, onTick, () => {}, {
+      reducedMotion: reduced,
+    });
+  }
+
   private startTitrationPlayback(vessel: number, curve: [number, number][]): void {
     this.playback?.cancel();
     const total = curve[curve.length - 1]?.[0] ?? 0;
@@ -225,6 +248,11 @@ export class Session {
         solution_srgb: s.solution_srgb ?? null,
         flame: s.flame ?? null,
         appearance: s.appearance ?? null,
+        // These three were silently stripped by this re-map once —
+        // hazard chips and fluid buoyancy read them from the shelf.
+        hazards: s.hazards ?? [],
+        hazard_assessed: s.hazard_assessed,
+        density: s.density,
       }));
       try {
         const grammar = (await this.host.grammar()) as {
@@ -253,6 +281,9 @@ export class Session {
         log: string[];
         position: number;
         register: string;
+        /** v2: the engine snapshot at `position` — one restore() call
+         * instead of a replay. Absent in v1 saves; replay covers those. */
+        snapshot?: string;
       };
       if (!Array.isArray(saved.log) || saved.log.length === 0) return;
       if (saved.register && saved.register !== this.register) {
@@ -260,14 +291,31 @@ export class Session {
         this.register = saved.register;
       }
       const position = Math.max(0, Math.min(saved.log.length, saved.position ?? saved.log.length));
+      let how = "replayed";
       if (position > 0) {
-        await this.host.runScript(saved.log.slice(0, position).join("\n"));
+        // Instant path first; replay stays the fallback AND the
+        // definition of correctness (a snapshot restore must be
+        // indistinguishable — pinned at the protocol level).
+        let instant = false;
+        if (saved.snapshot) {
+          try {
+            await this.host.restore(saved.snapshot);
+            instant = true;
+            how = "restored instantly";
+            this.snapshots.set(position, saved.snapshot);
+          } catch {
+            // Stale/incompatible token (engine upgraded): replay.
+          }
+        }
+        if (!instant) {
+          await this.host.runScript(saved.log.slice(0, position).join("\n"));
+        }
       }
       this.commandLog = saved.log;
       this.position = position;
       this.feed.push({
         kind: "note",
-        text: `restored your last session: ${position} step(s) replayed`,
+        text: `restored your last session: ${position} step(s) ${how}`,
       });
     } catch {
       // A corrupt save must never wedge the bench: drop it and start clean.
@@ -284,6 +332,7 @@ export class Session {
           log: this.commandLog,
           position: this.position,
           register: this.register,
+          snapshot: this.snapshots.get(this.position),
         }),
       );
     } catch {
@@ -342,6 +391,29 @@ export class Session {
               }
             }
           }
+          if (event?.event === "distilled") {
+            // GUI-064b: distillation paced — steam leaves the source,
+            // drips land in the receiver, over the operation's own
+            // duration. Totals are the engine's; only pacing is ours.
+            const from = Number(event.from ?? 0);
+            const to = Number(event.to ?? 0);
+            this.playOperation(24, 110, (i) => {
+              this.pushEffect(from, "evaporate");
+              if (i % 2 === 0) this.pushEffect(to, "drip");
+            });
+          }
+          if (event?.event === "transported") {
+            // A transport train: the flow visibly walks the chain, one
+            // vessel per tick, for the engine's own step count (capped
+            // by the scheduler's clamp).
+            const chain = (Array.isArray(event.chain) ? event.chain : []) as number[];
+            const steps = Math.max(chain.length, Math.min(Number(event.steps ?? 8), 40));
+            if (chain.length > 0) {
+              this.playOperation(steps, 150, (i) => {
+                this.pushEffect(chain[i % chain.length]!, "swirl");
+              });
+            }
+          }
           if (
             event?.event === "titrated" &&
             Array.isArray((event as { curve?: unknown }).curve) &&
@@ -393,8 +465,8 @@ export class Session {
       }
       this.commandLog.push(trimmed);
       this.position = this.commandLog.length;
-      this.persist();
       await this.takeSnapshot(this.position);
+      this.persist();
       // The inspected vessel's detail is stale after any step.
       if (this.inspector) await this.inspect(this.inspector.vessel);
       return true;

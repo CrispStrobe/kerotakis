@@ -87,7 +87,9 @@ describe("the fluid core is honest math", () => {
     }
   });
 
-  it("buoyant separation emerges: light fluid rises past heavy", () => {
+  // 450 sim steps of pure math: ~1.5s alone, more under a loaded
+  // parallel suite — the timeout states that, rather than flaking.
+  it("buoyant separation emerges: light fluid rises past heavy", { timeout: 30000 }, () => {
     // Inverted layers at RESOLVED scale (a cell-size checkerboard is
     // sub-grid — bilinear advection rightly blends it, and its mean
     // buoyancy is neutral): heavy on top, light underneath. The
