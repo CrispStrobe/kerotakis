@@ -34,6 +34,12 @@ stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 
 ages = { min = 15.0, max = 16.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB); the placement of alkaline-solution preparation inside LB4 is the same reading used for `strong-acid` in inorganic.toml"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — the pH scale for measuring acidity/alkalinity"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -83,6 +89,12 @@ system = "bayern-lehrplanplus"
 stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
 ages = { min = 15.0, max = 16.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — dissolution of bases is part of acid-base chemistry"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — exothermic and endothermic chemical reactions"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
@@ -141,6 +153,12 @@ system = "bayern-lehrplanplus"
 stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
 ages = { min = 15.0, max = 16.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — neutralisation is named content of LB4"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — neutralisation reactions"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
@@ -586,6 +604,12 @@ stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 
 ages = { min = 15.0, max = 16.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — alkaline salt solutions from hydrolysis"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — the pH scale for measuring acidity/alkalinity"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -799,6 +823,12 @@ stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.2 Reactions of acids"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — reactions of acids with metal carbonates"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — reactions of acids with metal carbonates"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 200mL
@@ -856,6 +886,12 @@ system = "bayern-lehrplanplus"
 stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
 ages = { min = 13.0, max = 14.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — solubility as a substance property"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Pure and impure substances — dissolving and solubility"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
@@ -1390,6 +1426,12 @@ stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.1.1 Atoms, elements and co
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Combined Science: Trilogy specification (8464) — separation techniques including filtration"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Pure and impure substances — filtration as a separation technique"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -1447,6 +1489,12 @@ system = "bayern-lehrplanplus"
 stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
 ages = { min = 13.0, max = 14.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — evaporative crystallisation as a separation technique"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Pure and impure substances — evaporation and crystallisation"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
@@ -1795,6 +1843,12 @@ system = "england-gcse-combined-science"
 stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.2 Reactions of acids"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — neutralisation reactions are required content"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — neutralisation reactions"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
