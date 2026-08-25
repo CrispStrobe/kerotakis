@@ -12,7 +12,8 @@
    */
   import type { SceneVessel } from "../host/EngineHost";
   import { relaxToward, step } from "../fluid";
-  import { injectAt, injectStir, simFromScene, paint, type FluidSpecies, type VesselSim } from "../fluidScene";
+  import { injectStir, simFromScene, paint, type FluidSpecies, type VesselSim } from "../fluidScene";
+  import { mulberry32, pourDone, startPour, stepPour, type PourState } from "../pour";
 
   let {
     vessel,
@@ -41,8 +42,11 @@
   let fading = $state(false);
 
   let sim: VesselSim | null = null;
+  let pours: PourState[] = [];
   let raf = 0;
   let ranEffects = new Set<number>();
+  // Seeded per run from the effect timestamp: deterministic, replayable.
+  let rand: () => number = mulberry32(1);
 
   // Ambient density: the bottom layer's own — buoyancy is RELATIVE.
   function densities(): number[] {
@@ -55,11 +59,14 @@
     if (reducedMotion || !canvas) return;
     sim = simFromScene(vessel, GRID_W, GRID_H, 2, lookup);
     if (!sim) return;
-    // Inject what just happened. An add-like effect enters as the TOP
-    // layer's species (the newest arrival); a stir shears the bath.
+    // What just happened enters PHYSICALLY: an add-like effect pours in
+    // from above as droplets (GUI-065b — mass ledger-conserved into the
+    // grid on surface handoff, splash included); a stir shears the bath.
+    rand = mulberry32((kinds.length * 2654435761) ^ Date.now());
+    pours = [];
     for (const kind of kinds) {
       if (kind === "swirl") injectStir(sim, 1.2);
-      else injectAt(sim, sim.grid.fields.length - 1, 0.5, 1.5);
+      else pours.push(startPour(sim.grid.fields.length - 1, 1.5, 0.45 + 0.1 * Math.random()));
     }
     visible = true;
     fading = false;
@@ -73,11 +80,15 @@
       const elapsed = t - t0;
       const dt = 0.05;
       const d = densities();
-      if (elapsed < RUN_MS) {
+      const pouring = pours.some((pp) => !pourDone(pp));
+      if (elapsed < RUN_MS || pouring) {
+        for (const pp of pours) stepPour(pp, sim, dt, rand);
+        pours = pours.filter((pp) => !pourDone(pp));
         step(sim.grid, d, dt, 14, 0.94);
         for (let s = 0; s < sim.grid.fields.length; s++) {
-          // Relaxation ramps up through the window: free early, homing late.
-          const rate = 0.4 + 1.6 * (elapsed / RUN_MS);
+          // Relaxation ramps up through the window: free early, homing
+          // late — and held off entirely while a pour is still landing.
+          const rate = pouring ? 0.15 : 0.4 + 1.6 * (Math.min(elapsed, RUN_MS) / RUN_MS);
           relaxToward(sim.grid, s, sim.targets[s]!, rate, dt);
         }
       } else {
@@ -95,6 +106,16 @@
       }
       paint(sim, image.data);
       ctx.putImageData(image, 0, 0);
+      // Droplets in flight, in their species' colour, over the fields.
+      for (const pp of pours) {
+        for (const drop of pp.droplets) {
+          const c = sim.species[drop.s]!.srgb;
+          ctx.fillStyle = `rgba(${c[0]},${c[1]},${c[2]},${drop.ejecta ? 0.6 : 0.95})`;
+          ctx.beginPath();
+          ctx.arc(drop.x, drop.y, drop.ejecta ? 0.5 : 0.9, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
