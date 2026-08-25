@@ -233,7 +233,8 @@ describe("Session", () => {
             { event: "precipitated", vessel: 0, species: "AgCl", moles: 0.01 },
             { event: "electrolysed", vessel: 1, species: "Cu", coulombs: 900 },
             { event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.002 },
-            { event: "titrated", vessel: 1, added_ml: 12.4 },
+            // titrated no longer maps to an instant effect — the GUI-064
+            // playback paces its drips (see its own test).
             { event: "mixed", vessel: 1 },
             { event: "solution_characterized", vessel: 0, ph: 7 },
           ],
@@ -245,7 +246,42 @@ describe("Session", () => {
     const s = new Session(host);
     await s.submit("add v1 AgNO3 1.7g");
     expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["precipitate", "vent"]);
-    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse", "drip", "swirl"]);
+    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse", "swirl"]);
+  });
+
+  it("a titrated event starts the paced playback (GUI-064)", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [
+            {
+              event: "titrated",
+              vessel: 0,
+              titrant: "NaOH",
+              concentration: 0.1,
+              steps: 3,
+              total_volume: 0.003,
+              final_ph: 7.1,
+              curve: [
+                [0, 2.9],
+                [1, 3.4],
+                [2, 5.0],
+                [3, 7.1],
+              ],
+            },
+          ],
+          rendered: [],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("titrate v1 NaOH 0.1M 1mL until ph 7");
+    expect(s.titrationPlayback).not.toBeNull();
+    expect(s.titrationPlayback!.total).toBe(3);
+    expect(s.titrationPlayback!.vessel).toBe(0);
   });
 
   it("the latest rendered equation is pinned for the strip", async () => {

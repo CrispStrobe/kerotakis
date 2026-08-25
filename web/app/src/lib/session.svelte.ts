@@ -17,6 +17,7 @@ import type { EngineHost, ParticleCensus, Scene } from "./host/EngineHost";
 import { EngineError } from "./host/EngineHost";
 import { isChartSpec, type ChartSpec } from "./chart";
 import { type Lesson, parseLesson } from "./lesson";
+import { schedule, type Playback } from "./replay";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "hazard" | "chart";
@@ -76,6 +77,38 @@ export class Session {
   engineIdentity = $state<string | null>(null);
   /** Codex entries this learner has run to a green check (GUI-053). */
   completedExperiments = $state<ReadonlySet<string>>(new Set());
+
+  /** GUI-064: a titration being replayed at bench pace — the engine
+   * already finished; this is the reveal. `delivered` climbs per curve
+   * point; components (burette meniscus, drips) read it live. */
+  titrationPlayback = $state<{ vessel: number; delivered: number; total: number } | null>(null);
+  private playback: Playback | null = null;
+
+  private startTitrationPlayback(vessel: number, curve: [number, number][]): void {
+    this.playback?.cancel();
+    const total = curve[curve.length - 1]?.[0] ?? 0;
+    this.titrationPlayback = { vessel, delivered: 0, total };
+    const reduced =
+      typeof matchMedia !== "undefined" &&
+      matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this.playback = schedule(
+      curve.length,
+      450,
+      (i) => {
+        this.titrationPlayback = { vessel, delivered: curve[i]?.[0] ?? 0, total };
+        // Each increment drips — the same typed-effect channel as ever.
+        const now = Date.now();
+        const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
+        list.push({ kind: "drip", at: now });
+        this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
+      },
+      () => {
+        // Hold the final reading a beat, then clear the overlay state.
+        setTimeout(() => (this.titrationPlayback = null), 1200);
+      },
+      { reducedMotion: reduced },
+    );
+  }
 
   /**
    * Bench snapshots keyed by log position: undo/scrub restores in O(1)
@@ -305,6 +338,16 @@ export class Session {
               }
             }
           }
+          if (
+            event?.event === "titrated" &&
+            Array.isArray((event as { curve?: unknown }).curve) &&
+            ((event as { curve: unknown[] }).curve.length > 1)
+          ) {
+            this.startTitrationPlayback(
+              Number(event.vessel ?? 0),
+              (event as { curve: [number, number][] }).curve,
+            );
+          }
           if (event?.event === "hazard_warning") {
             this.feed.push({
               kind: "hazard",
@@ -399,7 +442,7 @@ export class Session {
       evaporated: "evaporate",
       distilled: "evaporate",
       gas_evolved: "vent",
-      titrated: "drip",
+      // titrated: paced by the GUI-064 playback, not an instant effect.
       mixed: "swirl",
       diluted: "swirl",
       flame_test: "ignite",
