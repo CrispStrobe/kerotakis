@@ -32,12 +32,19 @@
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { pwa } from "./lib/pwa.svelte";
   import { twoVesselLine, type TwoVesselAction } from "./lib/directActions";
+  import {
+    BENCH_LAYOUT_KEY,
+    EMPTY_BENCH_LAYOUT,
+    parseBenchLayout,
+    type BenchLayout,
+  } from "./lib/benchLayout";
 
   // In the Tauri shell the engine is native and in-process; on the web it
   // lives in the module worker. The session cannot tell the difference.
   const session = new Session(isTauri() ? new TauriHost() : WorkerHost.create());
   type Theme = "light" | "dark" | "contrast";
   let theme = $state<Theme>("light");
+  let benchLayout = $state<BenchLayout>(EMPTY_BENCH_LAYOUT);
   $effect(() => {
     if (typeof document !== "undefined") document.documentElement.dataset.theme = theme;
   });
@@ -84,6 +91,7 @@
       if (savedTheme === "light" || savedTheme === "dark" || savedTheme === "contrast") {
         theme = savedTheme;
       }
+      benchLayout = parseBenchLayout(localStorage.getItem(BENCH_LAYOUT_KEY));
     } catch {
       // Bright mode is the intentional first-run default.
     }
@@ -471,6 +479,15 @@
       deployedTarget={buretteOut || apparatusSpec ? session.selected : null}
       apparatusWorking={session.busy}
       apparatusValues={apparatusPreview}
+      layout={benchLayout}
+      onmove={(next) => {
+        benchLayout = next;
+        try {
+          localStorage.setItem(BENCH_LAYOUT_KEY, JSON.stringify(next));
+        } catch {
+          // Placement still works for this visit when storage is unavailable.
+        }
+      }}
       ondropspecies={(id, p) =>
         void session.submit(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,

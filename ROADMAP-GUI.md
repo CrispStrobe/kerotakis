@@ -773,9 +773,12 @@ that foundation into the first playable story slice.
   commit; invalid drops explain why and leave state untouched. Arrangement is
   persisted and replayable but chemistry state remains engine-owned.
   *Status 2026-08-26: the visual interaction foundation landed—named
-  Prepare/React/Analyse zones, persistent selected-object treatment, and an
-  explicit valid reagent-drop state. Free placement, ports/sockets, collision
-  rules, keyboard placement, and persisted arrangement remain.*
+  Prepare/React/Analyse zones are now real vessel destinations: drag a vessel
+  between them or use the selected vessel's translated left/right controls.
+  Valid destinations preview before drop, the arrangement survives reload,
+  and visible input/output ports anchor engine-confirmed connected rigs.
+  Fine-grained free placement, collision/capacity rules, and arrangement
+  replay inside exported `.lab` files remain.*
 - [ ] **GUI-074 — Direct manipulation pass.** Implement contextual object
   selection and the highest-frequency physical gestures: place/remove, pour,
   dose, stir, heat/cool, seal/open, connect, insert/read probe, and start/stop.
@@ -947,8 +950,9 @@ decorating it.
   vessel. Live form values drive wavelength colour, current pulse rate, and
   pressure gauge position; running state drives tool motion. Filter, still,
   drain, and cell events connect the actual source/receiver pair across the
-  bench. Remaining: persistent arrangement/ports and bench-scale analytical
-  instruments beyond thermometer/pH.*
+  bench through visible vessel ports. Vessel work-zone arrangement persists
+  across reload. Remaining: bench-scale analytical instruments beyond
+  thermometer/pH and fine-grained apparatus placement.*
 - [x] **GUI-063 — In-experiment visual shelves.** *Shipped 2026-08-25 (kero-basic, PR #36).* Lessons and codex
   experiments present their kit as a RENDERED shelf strip (SpeciesChip
   visuals, tap-to-add) directly in the LessonBar / experiment page —

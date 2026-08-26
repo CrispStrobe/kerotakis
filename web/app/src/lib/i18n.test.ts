@@ -12,12 +12,16 @@ describe("i18n", () => {
     expect(t("sodium chloride")).toBe("Natriumchlorid");
     expect(t("supply cabinet")).toBe("Materialschrank");
     expect(t("high contrast")).toBe("Hoher Kontrast");
+    expect(t("place vessel here")).toBe("Gefäß hier abstellen");
   });
 
   it("interpolates translated messages", () => {
     i18n.locale = "de";
     expect(t("timeline: step {position} of {total}", { position: 2, total: 5 })).toBe(
       "Zeitleiste: Schritt 2 von 5",
+    );
+    expect(t("vessel v{vessel} moved to {zone}", { vessel: 2, zone: t("analyse") })).toBe(
+      "Gefäß v2 nach Analysieren verschoben",
     );
   });
 

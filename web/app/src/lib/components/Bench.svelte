@@ -4,6 +4,14 @@
   import Vessel from "./Vessel.svelte";
   import BenchEffect from "./BenchEffect.svelte";
   import { t } from "../i18n.svelte";
+  import {
+    BENCH_ZONES,
+    adjacentZone,
+    placeVessel,
+    zoneFor,
+    type BenchLayout,
+    type BenchZone,
+  } from "../benchLayout";
 
   let {
     scene,
@@ -22,6 +30,8 @@
     deployedTarget = null,
     apparatusWorking = false,
     apparatusValues = {},
+    layout,
+    onmove,
   }: {
     scene: Scene | null;
     register: string;
@@ -39,15 +49,57 @@
     deployedTarget?: number | null;
     apparatusWorking?: boolean;
     apparatusValues?: Record<string, number | string>;
+    layout: BenchLayout;
+    onmove?: (layout: BenchLayout) => void;
   } = $props();
 
   let choosing = $state(false);
+  let dragged = $state<number | null>(null);
+  let dropZone = $state<BenchZone | null>(null);
+  let moveMessage = $state("");
+  let messageTimer: ReturnType<typeof setTimeout> | undefined;
   const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
+  const zoneHints: Record<BenchZone, string> = {
+    prepare: "set up and measure",
+    react: "mix and transform",
+    analyse: "measure and compare",
+  };
   const spatialEffects = $derived(
     Object.values(effects)
       .flat()
       .filter((effect) => effect.operation && effect.source !== undefined && effect.target !== undefined && Date.now() - effect.at < 3500),
   );
+
+  const vesselsIn = (zone: BenchZone) => scene?.vessels.filter((v) => zoneFor(layout, v.id) === zone) ?? [];
+
+  function move(vessel: number, zone: BenchZone) {
+    onmove?.(placeVessel(layout, vessel, zone));
+    onselect(vessel);
+    moveMessage = t("vessel v{vessel} moved to {zone}", { vessel: vessel + 1, zone: t(zone) });
+    if (messageTimer) clearTimeout(messageTimer);
+    messageTimer = setTimeout(() => (moveMessage = ""), 2200);
+  }
+
+  function startDrag(event: DragEvent, vessel: number) {
+    dragged = vessel;
+    event.dataTransfer?.setData("application/x-kero-vessel", String(vessel));
+    if (event.dataTransfer) event.dataTransfer.effectAllowed = "move";
+  }
+
+  function acceptDrop(event: DragEvent, zone: BenchZone) {
+    if (!event.dataTransfer?.types.includes("application/x-kero-vessel")) return;
+    event.preventDefault();
+    dropZone = zone;
+    if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+  }
+
+  function finishDrop(event: DragEvent, zone: BenchZone) {
+    const value = event.dataTransfer?.getData("application/x-kero-vessel") ?? "";
+    const vessel = Number(value);
+    if (Number.isInteger(vessel) && scene?.vessels.some((v) => v.id === vessel)) move(vessel, zone);
+    dragged = null;
+    dropZone = null;
+  }
 </script>
 
 <section class="bench" aria-label={t("the bench")}>
@@ -59,59 +111,101 @@
     <span class="socket socket-b"></span>
     <span class="shelf-line"></span>
   </div>
-  <div class="work-zones" aria-label={t("bench work zones")}>
-    <span>{t("prepare")}</span>
-    <span>{t("react")}</span>
-    <span>{t("analyse")}</span>
-  </div>
   {#if scene}
     {#each spatialEffects as effect (effect.at + ":" + effect.source + ":" + effect.target + ":" + effect.operation)}
       <BenchEffect {effect} />
     {/each}
-    {#each scene.vessels as vessel (vessel.id)}
-      <Vessel
-        {vessel}
-        {register}
-        selected={vessel.id === selected}
-        transferTarget={transferFrom !== null && vessel.id !== transferFrom}
-        {onselect}
-        {ondropspecies}
-        effects={effects[vessel.id] ?? []}
-        titrationPlayback={titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
-        onbadge={(b) => onbadge?.(vessel.id, b)}
-        {fluidLookup}
-        deployedTool={vessel.id === deployedTarget ? deployedTool : null}
-        {apparatusWorking}
-        {apparatusValues}
-      />
-    {/each}
-    {#if onnewvessel}
-      <div class="add-vessel">
-        {#if choosing}
-          {#each VESSEL_KINDS as kind (kind)}
-            <button
-              class="kind"
-              onclick={() => {
-                choosing = false;
-                onnewvessel(kind);
-              }}
-            >
-              {t(kind)}
-            </button>
-          {/each}
-          <button class="kind cancel" onclick={() => (choosing = false)}>×</button>
-        {:else}
-          <button class="plus" aria-label={t("add a vessel")} onclick={() => (choosing = true)}>
-            +
-          </button>
-        {/if}
-      </div>
-    {/if}
+    <div class="work-zones" aria-label={t("bench work zones")}>
+      {#each BENCH_ZONES as zone (zone)}
+        {@const zoneVessels = vesselsIn(zone)}
+        <section
+          class="work-zone"
+          class:drop-target={dropZone === zone}
+          class:dragging={dragged !== null}
+          data-zone={zone}
+          aria-label={t("{zone} work zone", { zone: t(zone) })}
+          ondragover={(event) => acceptDrop(event, zone)}
+          ondragleave={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) dropZone = null;
+          }}
+          ondrop={(event) => finishDrop(event, zone)}
+        >
+          <header>
+            <span class="zone-icon" aria-hidden="true">{zone === "prepare" ? "◒" : zone === "react" ? "⚡" : "⌁"}</span>
+            <span><strong>{t(zone)}</strong><small>{t(zoneHints[zone])}</small></span>
+            <span class="zone-count">{zoneVessels.length}</span>
+          </header>
+          <div class="zone-deck">
+            {#each zoneVessels as vessel (vessel.id)}
+              <div
+                class="vessel-position"
+                class:moving={dragged === vessel.id}
+                draggable="true"
+                role="group"
+                aria-label={t("vessel v{vessel} placement", { vessel: vessel.id + 1 })}
+                ondragstart={(event) => startDrag(event, vessel.id)}
+                ondragend={() => { dragged = null; dropZone = null; }}
+              >
+                <span class="connection-port port-in" data-port="in" aria-hidden="true"></span>
+                <Vessel
+                  {vessel}
+                  {register}
+                  selected={vessel.id === selected}
+                  transferTarget={transferFrom !== null && vessel.id !== transferFrom}
+                  {onselect}
+                  {ondropspecies}
+                  effects={effects[vessel.id] ?? []}
+                  titrationPlayback={titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
+                  onbadge={(b) => onbadge?.(vessel.id, b)}
+                  {fluidLookup}
+                  deployedTool={vessel.id === deployedTarget ? deployedTool : null}
+                  {apparatusWorking}
+                  {apparatusValues}
+                />
+                <span class="connection-port port-out" data-port="out" aria-hidden="true"></span>
+                {#if vessel.id === selected}
+                  {@const currentZone = zoneFor(layout, vessel.id)}
+                  {@const leftZone = adjacentZone(currentZone, -1)}
+                  {@const rightZone = adjacentZone(currentZone, 1)}
+                  <div class="placement-controls" role="group" aria-label={t("move vessel v{vessel}", { vessel: vessel.id + 1 })}>
+                    <button
+                      disabled={leftZone === currentZone}
+                      aria-label={t("move vessel v{vessel} to {zone}", { vessel: vessel.id + 1, zone: t(leftZone) })}
+                      onclick={() => move(vessel.id, leftZone)}
+                    >←</button>
+                    <span aria-hidden="true">{t("move")}</span>
+                    <button
+                      disabled={rightZone === currentZone}
+                      aria-label={t("move vessel v{vessel} to {zone}", { vessel: vessel.id + 1, zone: t(rightZone) })}
+                      onclick={() => move(vessel.id, rightZone)}
+                    >→</button>
+                  </div>
+                {/if}
+              </div>
+            {/each}
+            {#if zone === "prepare" && onnewvessel}
+              <div class="add-vessel">
+                {#if choosing}
+                  {#each VESSEL_KINDS as kind (kind)}
+                    <button class="kind" onclick={() => { choosing = false; onnewvessel(kind); }}>{t(kind)}</button>
+                  {/each}
+                  <button class="kind cancel" aria-label={t("cancel")} onclick={() => (choosing = false)}>×</button>
+                {:else}
+                  <button class="plus" aria-label={t("add a vessel")} onclick={() => (choosing = true)}>+</button>
+                {/if}
+              </div>
+            {/if}
+          </div>
+          {#if dropZone === zone}<div class="drop-callout">{t("place vessel here")}</div>{/if}
+        </section>
+      {/each}
+    </div>
     {#if pristine}
       <p class="hint">
         {t("Drag something in from the shelf, type a command below — or pick a lesson.")}
       </p>
     {/if}
+    <p class="move-status" aria-live="polite">{moveMessage}</p>
   {:else}
     <p class="empty">{t("The bench is warming up…")}</p>
   {/if}
@@ -120,12 +214,9 @@
 <style>
   .bench {
     flex: 1;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: center;
-    gap: clamp(1rem, 3vw, 2.25rem);
-    padding: clamp(4.5rem, 12vh, 7.5rem) 1.5rem 0;
+    display: block;
+    min-height: 24rem;
+    padding: clamp(6.2rem, 13vh, 8rem) 0.75rem 2.6rem;
     overflow: auto;
     position: relative;
     /* The counter the glassware stands on. */
@@ -207,33 +298,149 @@
     background: color-mix(in srgb, var(--edge-strong) 42%, var(--surface));
     box-shadow: 0 7px 12px var(--shadow);
   }
-  .bench > :global(.vessel) {
-    margin-bottom: 1.9rem;
+  .work-zones {
     position: relative;
     z-index: 2;
-  }
-  .work-zones {
-    position: absolute;
-    inset: 6.5rem 0.75rem 3.1rem;
+    min-height: calc(100% - 1rem);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    pointer-events: none;
-    z-index: 0;
+    gap: 0.45rem;
   }
-  .work-zones span {
-    margin: 0 0.28rem;
-    padding: 0.45rem 0.65rem;
+  .work-zone {
+    position: relative;
+    min-width: 0;
+    min-height: 15rem;
+    display: flex;
+    flex-direction: column;
     border: 1px dashed color-mix(in srgb, var(--edge) 62%, transparent);
     border-bottom: 0;
     border-radius: 16px 16px 0 0;
-    color: color-mix(in srgb, var(--dim) 72%, transparent);
-    font-size: 0.62rem;
+    background: linear-gradient(to bottom, color-mix(in srgb, var(--surface) 24%, transparent), transparent 62%);
+    transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+  }
+  .work-zone > header {
+    min-height: 2.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.55rem;
+    color: var(--dim);
+  }
+  .work-zone > header > span:nth-child(2) { min-width: 0; display: flex; flex-direction: column; }
+  .work-zone > header strong {
+    color: color-mix(in srgb, var(--ink) 74%, transparent);
+    font-size: 0.64rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
   }
-  .work-zones span:last-child {
-    border-right: 1px dashed color-mix(in srgb, var(--edge) 62%, transparent);
+  .work-zone > header small { overflow: hidden; color: var(--dim); font-size: 0.58rem; text-overflow: ellipsis; white-space: nowrap; }
+  .zone-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    flex: none;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 9%, var(--surface));
+  }
+  .work-zone[data-zone="react"] .zone-icon { color: var(--hot); background: color-mix(in srgb, var(--hot) 10%, var(--surface)); }
+  .work-zone[data-zone="analyse"] .zone-icon { color: var(--instrument); background: color-mix(in srgb, var(--instrument) 10%, var(--surface)); }
+  .zone-count {
+    min-width: 1.35rem;
+    margin-left: auto;
+    padding: 0.1rem 0.3rem;
+    border-radius: 999px;
+    color: var(--dim);
+    background: color-mix(in srgb, var(--surface-raised) 78%, transparent);
+    font-size: 0.62rem;
+    text-align: center;
+  }
+  .zone-deck {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(0.25rem, 1vw, 0.8rem);
+    padding: 1rem 0.2rem 1.6rem;
+  }
+  .work-zone.dragging { border-color: color-mix(in srgb, var(--instrument) 48%, var(--edge)); }
+  .work-zone.drop-target {
+    border-color: var(--success);
+    background: color-mix(in srgb, var(--success) 7%, transparent);
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--success) 15%, transparent);
+  }
+  .drop-callout {
+    position: absolute;
+    left: 50%;
+    bottom: 0.5rem;
+    translate: -50% 0;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+    color: white;
+    background: var(--success);
+    font-size: 0.62rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  .vessel-position {
+    position: relative;
+    z-index: 2;
+    cursor: grab;
+    transition: opacity 140ms ease, transform 180ms ease;
+  }
+  .vessel-position:active { cursor: grabbing; }
+  .vessel-position.moving { opacity: 0.42; transform: scale(0.96); }
+  .connection-port {
+    position: absolute;
+    top: 52%;
+    z-index: 4;
+    width: 11px;
+    height: 11px;
+    border: 2px solid var(--surface);
+    border-radius: 50%;
+    background: var(--instrument);
+    box-shadow: 0 0 0 1px var(--edge-strong), 0 2px 5px var(--shadow);
+    opacity: 0.45;
+    transition: opacity 140ms ease, transform 140ms ease;
+  }
+  .port-in { left: -4px; }
+  .port-out { right: -4px; }
+  .vessel-position:hover .connection-port,
+  .vessel-position:has(:global(.vessel.selected)) .connection-port { opacity: 1; transform: scale(1.12); }
+  .placement-controls {
+    position: absolute;
+    z-index: 8;
+    left: 50%;
+    bottom: -1rem;
+    translate: -50% 0;
+    display: flex;
+    align-items: center;
+    gap: 0.22rem;
+    padding: 0.18rem;
+    border: 1px solid var(--edge);
+    border-radius: 999px;
+    background: var(--surface);
+    box-shadow: 0 5px 14px var(--shadow);
+  }
+  .placement-controls button {
+    width: 28px;
+    height: 28px;
+    border: 0;
+    border-radius: 50%;
+    color: white;
+    background: var(--primary);
+    cursor: pointer;
+  }
+  .placement-controls button:disabled { opacity: 0.25; cursor: default; }
+  .placement-controls span { color: var(--dim); font-size: 0.55rem; font-weight: 750; text-transform: uppercase; }
+  .move-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  @media (max-width: 780px) {
+    .work-zones { grid-template-columns: 1fr; }
+    .work-zone { min-height: 12rem; border-bottom: 1px dashed color-mix(in srgb, var(--edge) 62%, transparent); }
+    .bench { padding-top: 6rem; }
   }
   .empty {
     color: var(--dim);
@@ -292,7 +499,6 @@
   }
   @media (max-height: 680px) {
     .bench { padding-top: 3.6rem; }
-    .work-zones { inset-block-start: 4.8rem; }
     .shelf-line { display: none; }
   }
 </style>
