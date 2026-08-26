@@ -1,20 +1,26 @@
 #!/usr/bin/env bash
 # Actually run the macOS app you are about to ship.
 #
-# A Mac App Store build will not launch on the machine that built it. `open`
-# returns:
+# The bundle destined for the store cannot be launched until Apple has
+# delivered it. `open` returns:
 #
 #   RBSRequestErrorDomain Code=5 "Launch failed"
 #   NSPOSIXErrorDomain Code=163 "Launchd job spawn failed"
 #
-# So the shipped bundle is, by default, never once run — which is exactly
-# how a blank window reaches the store. (appstore.md carries a standing
-# "Untested — nobody has launched it" note for precisely this.)
+# The cause is `com.apple.application-identifier`, bisected rather than
+# assumed: the same binary launches when ad-hoc-signed with the plain
+# entitlements and refuses with the store ones — whether or not a
+# provisioning profile is embedded, and whichever certificate signs it. That
+# entitlement declares a store app, and macOS then requires a
+# _MASReceipt/receipt that only Apple's delivery writes. The same build
+# installed through TestFlight launches and runs normally; the app is not
+# broken, the artifact is merely undelivered.
 #
-# The fix is small and total: copy the bundle, drop the store provisioning
-# profile, re-sign ad-hoc with the same entitlements, and launch THAT. It is
-# byte-identical apart from the signature authority, so anything that breaks
-# here breaks in the shipped build too.
+# So what ships is, by default, never once run — which is exactly how a
+# blank window reaches the store. Copying the bundle, dropping the profile
+# and re-signing with entitlements.plist (which deliberately omits the two
+# identity keys entitlements.appstore.plist adds) makes it runnable while
+# changing nothing else, so anything broken here is broken in what ships.
 #
 # Prints what the window is, whether the process survives, and — with
 # `--shot` — a photograph of the app's own window, captured by CGWindowID so
