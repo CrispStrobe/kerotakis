@@ -27,7 +27,7 @@
   import EquipmentCabinet from "./lib/components/EquipmentCabinet.svelte";
   import LocaleSwitcher from "./lib/components/LocaleSwitcher.svelte";
   import VesselActionDock from "./lib/components/VesselActionDock.svelte";
-  import MissionControl from "./lib/components/MissionControl.svelte";
+  import StoryMap from "./lib/components/StoryMap.svelte";
   import WorldHome from "./lib/components/WorldHome.svelte";
   import { t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
@@ -664,13 +664,10 @@
 {/if}
 
 {#if missionOpen}
-  <MissionControl
+  <StoryMap
     missions={lessons}
-    experiments={codexEntries}
-    mode={labMode}
+    completed={session.completedMissions}
     active={session.lesson?.lesson.name ?? null}
-    cursor={session.lesson?.cursor ?? 0}
-    total={session.lesson?.lesson.steps.length ?? 0}
     onstart={(file) => void startLesson(file)}
     onsandbox={() => {
       missionOpen = false;

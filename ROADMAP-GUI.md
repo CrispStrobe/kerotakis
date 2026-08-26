@@ -818,6 +818,16 @@ that foundation into the first playable story slice.
   contacts, lab areas, and equipment families as an explorable map—not a linear
   level list. Unlocks are previewable with understandable prerequisites; at
   least three useful missions are available whenever the chapter permits.
+  *Progression-map slice shipped 2026-08-26: the flat mission grid is now a
+  five-district campus map. The opening Discovery Hall offers four real shipped
+  investigations; one completed mission opens both Matter Gardens and Energy
+  Yard, so the story branches instead of becoming a corridor. Finishing the
+  final engine-backed lesson command persists its stable file id, completed
+  missions and districts are visibly marked, and every locked district states
+  its exact requirement. Progress uses the existing Story-scoped storage;
+  leaving a mission does not complete it and Sandbox progress cannot unlock the
+  campus. The Electron Works, Systems Dock, contacts, equipment-family rewards,
+  and engine-evaluated outcome transactions remain in this item.*
 - [ ] **GUI-078 — Mission journal and in-world delivery.** Evolve QuestBar into
   active-mission cards, evidence ledger, optional hints, messages, and result
   debriefs. Dialogue pauses only itself, never silently the chemistry. All copy,

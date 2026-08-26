@@ -70,6 +70,8 @@ const SAVE_KEY = "kero.session.v1";
 /** Learner progress: ids of codex entries whose run checked out. Kept
  * apart from the bench save — clearing the bench must not unlearn. */
 const DONE_KEY = "kero.codex.done.v1";
+/** Stable lesson ids completed in Story. ModeStorage keeps this out of Sandbox. */
+const MISSION_DONE_KEY = "kero.missions.done.v1";
 
 export class Session {
   register = $state<string>("lv1");
@@ -82,6 +84,8 @@ export class Session {
   engineIdentity = $state<string | null>(null);
   /** Codex entries this learner has run to a green check (GUI-053). */
   completedExperiments = $state<ReadonlySet<string>>(new Set());
+  /** Guided missions completed through their final engine-backed command. */
+  completedMissions = $state<ReadonlySet<string>>(new Set());
 
   /** GUI-064: a titration being replayed at bench pace — the engine
    * already finished; this is the reveal. `delivered` climbs per curve
@@ -637,6 +641,7 @@ export class Session {
     }
     if (this.lesson.cursor >= lesson.steps.length) {
       this.feed.push({ kind: "note", text: t("lesson finished: {name}", { name: t(lesson.name) }) });
+      this.markMissionDone(lesson.name);
       this.lesson = null;
     }
   }
@@ -653,7 +658,7 @@ export class Session {
   async lessonNext(): Promise<void> {
     const line = this.lessonNextCommand;
     if (!line || !this.lesson) return;
-    await this.submit(line);
+    if (!(await this.submit(line))) return;
     this.lessonBaseline = this.position;
     this.lesson.cursor += 1;
     this.advanceLessonNotes();
@@ -736,17 +741,35 @@ export class Session {
     }
   }
 
+  markMissionDone(id: string): void {
+    if (this.completedMissions.has(id)) return;
+    const next = new Set(this.completedMissions);
+    next.add(id);
+    this.completedMissions = next;
+    try {
+      this.storage?.setItem(MISSION_DONE_KEY, JSON.stringify([...next]));
+    } catch {
+      // Story progress remains valid for this visit without persistence.
+    }
+  }
+
   /** Load learner progress; called from connect, harmless without storage. */
   restoreProgress(): void {
+    this.completedExperiments = this.restoreIds(DONE_KEY);
+    this.completedMissions = this.restoreIds(MISSION_DONE_KEY);
+  }
+
+  private restoreIds(key: string): ReadonlySet<string> {
     try {
-      const raw = this.storage?.getItem(DONE_KEY);
-      if (!raw) return;
+      const raw = this.storage?.getItem(key);
+      if (!raw) return new Set();
       const ids = JSON.parse(raw) as unknown;
-      if (Array.isArray(ids)) {
-        this.completedExperiments = new Set(ids.filter((i) => typeof i === "string"));
-      }
+      return Array.isArray(ids)
+        ? new Set(ids.filter((id): id is string => typeof id === "string"))
+        : new Set();
     } catch {
-      // A corrupt progress blob reads as no progress, not a crash.
+      // One corrupt progress blob reads as empty without hiding the other.
+      return new Set();
     }
   }
 
