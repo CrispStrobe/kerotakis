@@ -38,6 +38,17 @@ three are built and how they stay identical.
 
 ## What works today
 
+Breadth is measured against a checked-in 500-question child/teen curiosity
+corpus. Run its 16-case cross-family gate or emit the full typed report:
+
+```console
+$ kero coverage curiosity --smoke --check
+$ kero coverage curiosity --json
+```
+
+The report keeps computed, curated, qualitative, deliberate boundary, missing,
+and solver-failure outcomes distinct; it never classifies rendered prose.
+
 ```console
 $ kero run lessons/silver-and-salt.lab
   You add water to v1.

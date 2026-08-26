@@ -126,8 +126,10 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-000 — Curiosity corpus v1
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** nothing.
-- **Outcome:** `tests/coverage/curiosity-v1.toml` contains 500 stable prompts,
+- [x] **Status:** complete on `codex/brd-000-curiosity`. **Size:** medium.
+  **Depends on:** nothing.
+- **Outcome:** `tests/coverage/curiosity-v1/manifest.toml` indexes ordered TOML
+  shards containing exactly 500 stable prompts,
   expected dispositions, age band, action family, and capability tags. The
   corpus contains harmless, hazardous, nonsensical, and intentionally
   unsupported questions; it is not a list of only happy paths.
@@ -147,7 +149,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-001 — Coverage classifier and report
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-000.
+- [ ] **Status:** in progress on `codex/brd-000-curiosity`. **Size:** medium.
+  **Depends on:** BRD-000 (complete).
 - **Outcome:** `kero coverage curiosity` emits deterministic JSON and a compact
   human report with counts for `computed`, `curated`, `qualitative`,
   `boundary`, and `missing`, grouped by action, material class, age band, and
@@ -160,6 +163,12 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   fails CI; the report distinguishes “substance unknown” from “substance known,
   reaction unknown.”
 - **Out of scope:** a vanity percentage with unlike dispositions collapsed.
+- **Implementation note (2026-08-27):** typed parser errors, solver-route
+  evidence, the five-way runner, deterministic JSON/human summaries, and a
+  16-prompt cross-family smoke gate are shipped in the BRD-000 checkpoint.
+  The remaining BRD-001 work is to review the 500-prompt initial expectation
+  baseline and promote the scheduled full-corpus comparison to a regression
+  gate; current solver failures remain first-class report failures.
 
 ### BRD-002 — `MaterialRecipe`: named mixtures and objects
 

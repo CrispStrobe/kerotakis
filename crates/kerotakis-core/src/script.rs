@@ -47,7 +47,52 @@ pub const VERBS: &[(&str, &str)] = &[
     ("test", "test v1 pop"),
 ];
 
+/// Stable parse failure classes for corpus coverage and clients. The legacy
+/// `parse_op` API remains source-compatible; new callers should prefer
+/// `parse_op_typed` when the reason is part of their data contract.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ParseErrorKind {
+    UnknownSpecies,
+    UnknownReaction,
+    InvalidSyntax,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
+#[error("{detail}")]
+pub struct ParseError {
+    pub kind: ParseErrorKind,
+    pub detail: String,
+}
+
+pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
+    let words = line.split_whitespace().collect::<Vec<_>>();
+    let kind = match words.as_slice() {
+        ["add", _, species, ..]
+            if species::lookup_key(species).is_none()
+                && crate::nuclide::lookup_notation(species).is_none() =>
+        {
+            ParseErrorKind::UnknownSpecies
+        }
+        ["react", _, reaction, ..]
+            if !crate::curated::ORG_REACTIONS
+                .iter()
+                .any(|candidate| candidate.name == *reaction) =>
+        {
+            ParseErrorKind::UnknownReaction
+        }
+        _ => ParseErrorKind::InvalidSyntax,
+    };
+    parse_op_untyped(line).map_err(|detail| ParseError { kind, detail })
+}
+
+/// Compatibility parser. Prefer [`parse_op_typed`] when callers must retain a
+/// machine-readable distinction between an unknown identity and bad grammar.
 pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
+    parse_op_typed(line).map_err(|error| error.detail)
+}
+
+fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
     let line = line.trim();
     if line.is_empty() || line.starts_with('#') {
         return Ok(None);
@@ -752,5 +797,25 @@ mod grammar_inventory {
             "the inventory lost verbs: {}",
             VERBS.len()
         );
+    }
+
+    #[test]
+    fn typed_errors_distinguish_identity_reaction_and_grammar_gaps() {
+        assert_eq!(
+            parse_op_typed("add v1 dragon-slime 1g").unwrap_err().kind,
+            ParseErrorKind::UnknownSpecies
+        );
+        assert_eq!(
+            parse_op_typed("react v1 transmutation").unwrap_err().kind,
+            ParseErrorKind::UnknownReaction
+        );
+        assert_eq!(
+            parse_op_typed("heat v1 eventually").unwrap_err().kind,
+            ParseErrorKind::InvalidSyntax
+        );
+        assert!(matches!(
+            parse_op_typed("add v1 water 10mL"),
+            Ok(Some(Operator::Add { .. }))
+        ));
     }
 }

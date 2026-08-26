@@ -14,6 +14,7 @@
 //! entry that stops being true fails the build. Nothing else in this
 //! project would catch a curation error; this does.
 
+pub mod curiosity;
 pub mod prose;
 pub mod quest;
 
