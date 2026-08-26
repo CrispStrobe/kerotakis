@@ -203,6 +203,47 @@ describe("Session", () => {
     // Lesson exhausted: closed, with a finishing note.
     expect(s.lesson).toBeNull();
     expect(s.feed.at(-1)!.text).toContain("lesson finished");
+    expect(s.completedMissions.has("salt")).toBe(true);
+  });
+
+  it("persists mission completion but does not complete an exited lesson", async () => {
+    const values = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => values.set(key, value),
+      removeItem: (key: string) => values.delete(key),
+    };
+    const first = new Session(new FakeHost(), storage);
+    first.startLesson("left-early", "add v1 water 1mL");
+    first.exitLesson();
+    expect(first.completedMissions.size).toBe(0);
+
+    first.startLesson("finished", "add v1 water 1mL");
+    await first.lessonNext();
+    const restored = new Session(new FakeHost(), storage);
+    restored.restoreProgress();
+    expect(restored.completedMissions.has("finished")).toBe(true);
+    expect(restored.completedMissions.has("left-early")).toBe(false);
+  });
+
+  it("does not advance or award a mission when the engine rejects its step", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => { throw new Error("rejected by model"); };
+    const s = new Session(host);
+    s.startLesson("must-work", "add v1 water 1mL");
+    await s.lessonNext();
+    expect(s.lessonNextCommand).toBe("add v1 water 1mL");
+    expect(s.completedMissions.has("must-work")).toBe(false);
+  });
+
+  it("restores mission progress even when the codex progress blob is corrupt", () => {
+    const storage = new FakeStorage();
+    storage.setItem("kero.codex.done.v1", "not-json");
+    storage.setItem("kero.missions.done.v1", '["silver-and-salt"]');
+    const s = new Session(new FakeHost(), storage);
+    s.restoreProgress();
+    expect(s.completedExperiments.size).toBe(0);
+    expect(s.completedMissions.has("silver-and-salt")).toBe(true);
   });
 
   it("lesson deviation counts free commands; return rewinds them", async () => {

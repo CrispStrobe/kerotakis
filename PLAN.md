@@ -89,6 +89,15 @@ explore a place or problem
   → use it on old and new problems
 ```
 
+The current playable campaign shell implements the first part of that loop as
+a non-linear research campus. Discovery Hall starts with the shipped beginner
+and safety missions; the first completion opens two simultaneous routes through
+Matter Gardens and the Energy Yard. Later districts preview their requirements,
+completion is stored by stable lesson id in the Story save, and Sandbox remains
+an independent full-access world. Contacts, material rewards, and transactional
+engine-evaluated mission outcomes remain roadmap work rather than decorative
+claims in the interface.
+
 Product invariants:
 
 1. A mission states a problem and constraints, not the one approved procedure.
