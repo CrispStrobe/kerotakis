@@ -68,6 +68,7 @@
           <span class="lead-state">{lead.done ? t("evidence secured") : running ? t("investigation active") : t("open lead")}</span>
           <h4>{t(lead.objective)}</h4>
           <p>{t(lead.evidence)}</p>
+          {#if lead.outcomeAssessed}<span class="assessment"><i aria-hidden="true"></i>{t("solver-assessed outcome")}</span>{/if}
           <small>{t(lead.mission.name)}</small>
           <button onclick={() => onstart(lead.mission.file)}>
             {running ? t("continue investigation") : lead.done ? t("review investigation") : t("investigate")}
@@ -117,6 +118,7 @@
   @keyframes arrive { from { opacity: 0; transform: translateY(8px); } }
   .lead-number { width: 34px; height: 34px; display: grid; place-items: center; margin-bottom: .75rem; border-radius: 11px; color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface)); font-size: .7rem; font-weight: 900; }.done .lead-number { color: white; background: var(--success); }
   .lead-grid h4, .optional h4 { margin: .25rem 0; font-size: .88rem; }.lead-grid p, .optional p { margin: 0; color: var(--dim); font-size: .68rem; line-height: 1.35; }.lead-grid article > small { margin-top: .55rem; color: var(--dim); font-size: .58rem; }.lead-grid button { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding: 0 .65rem; }
+  .assessment { display: inline-flex; align-items: center; align-self: flex-start; gap: .35rem; margin-top: .55rem; padding: .25rem .45rem; border-radius: 999px; color: var(--success); background: color-mix(in srgb, var(--success) 10%, var(--surface)); font-size: .58rem; font-weight: 800; }.assessment i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
   .optional { display: grid; grid-template-columns: 42px 1fr auto; align-items: center; gap: .7rem; padding: .7rem; border: 1px dashed color-mix(in srgb, var(--warning) 55%, var(--edge)); border-radius: 15px; background: color-mix(in srgb, var(--warning) 6%, var(--surface)); }.optional-icon { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px; color: var(--warning); background: color-mix(in srgb, var(--warning) 12%, var(--surface)); }.optional button { min-width: 7rem; padding: 0 .65rem; }
   @media (max-width: 900px) { .lead-grid { grid-template-columns: 1fr; }.lead-grid article { min-height: 10rem; }.case-header { grid-template-columns: 58px 1fr; }.case-progress { grid-column: 1 / -1; display: flex; justify-content: center; }.case-progress div { margin-left: .4rem; } }
   @media (max-width: 520px) { .briefing { grid-template-columns: 1fr; }.contact { width: 54px; height: 54px; }.optional { grid-template-columns: 38px 1fr; }.optional button { grid-column: 1 / -1; }.sample { transform: scale(.82); } }

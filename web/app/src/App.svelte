@@ -444,13 +444,14 @@
   <LessonBar
     name={session.lesson.lesson.name}
     next={session.lessonNextCommand}
+    outcome={session.missionOutcome}
     busy={session.busy}
     deviation={session.lessonDeviation}
     kit={session.shelf.filter(s => session.lesson!.kit.includes(s.key))}
     register={session.register}
     target={session.selected}
-    cursor={completedCommandCount(session.lesson.lesson, session.lesson.cursor)}
-    total={commandCount(session.lesson.lesson)}
+    cursor={session.missionOutcome?.secured.length ?? completedCommandCount(session.lesson.lesson, session.lesson.cursor)}
+    total={session.missionOutcome?.contract.criteria.length ?? commandCount(session.lesson.lesson)}
     evidence={session.lessonEvidence}
     onnext={() => void session.lessonNext()}
     onreturn={() => void session.lessonReturn()}
