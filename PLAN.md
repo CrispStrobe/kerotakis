@@ -106,6 +106,14 @@ work. This is the UI bridge from the existing guided `.lab` corpus toward the
 future typed, multi-objective mission evaluator; the journal does not pretend
 that scripted step completion is already a fully open-ended outcome contract.
 
+The shared material and instrument catalog is progression-aware without becoming
+a game shop. Story begins with useful common stock and core handling tools,
+previews exact research requirements for later equipment, and loans every
+material required by an accepted mission so progression cannot deadlock an
+investigation. Permanent instruments arrive through visible capability
+milestones and can be placed immediately from the debrief. Sandbox ignores all
+of these access decorations and exposes the complete installed registry.
+
 Product invariants:
 
 1. A mission states a problem and constraints, not the one approved procedure.

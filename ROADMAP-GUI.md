@@ -845,6 +845,16 @@ that foundation into the first playable story slice.
   constraints decorate the shared apparatus/reagent catalog; Sandbox bypasses
   them. Rewards animate once, explain what changed, and offer "place on bench."
   No mystery currencies, daily streaks, loot boxes, or real-money storefront.
+  *Access-policy slice shipped 2026-08-26: Story now previews instrument and
+  reagent availability in the existing cabinet rather than a separate shop.
+  Permanent apparatus families unlock at investigation milestones; locked cards
+  state the exact completed-mission requirement, while Sandbox bypasses every
+  gate. The stockroom starts with common materials, expands according to hazard
+  handling progression, and temporarily loans any otherwise-locked substance
+  required by the active mission kit. First completions reveal one permanent
+  instrument reward in the debrief and can place it directly on the live bench.
+  This has no currency, streak, purchase, or randomized reward. Finite Story
+  quantities and transactional consumption remain in this item.*
 - [ ] **GUI-080 — First vertical slice: the contaminated sample.** Ship one
   compact district/lab with onboarding, free bench time, three concurrent
   missions, one optional discovery, a material cabinet, a permanent instrument

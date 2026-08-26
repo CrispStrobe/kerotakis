@@ -471,6 +471,8 @@
         register={session.register}
         target={session.selected}
         kit={session.lesson?.kit ?? null}
+        mode={labMode}
+        completed={session.completedMissions.size}
         onadd={(line) => {
           void session.submit(line);
           pane = "bench";
@@ -484,6 +486,8 @@
         {apparatusOut}
         transferVerb={transfer?.verb ?? null}
         reactAvailable={session.reactOptions.length > 0}
+        mode={labMode}
+        completed={session.completedMissions.size}
         onburette={() => {
           buretteOut = !buretteOut;
           pane = "bench";
@@ -693,6 +697,16 @@
   <MissionDebrief
     debrief={session.missionDebrief}
     onclose={() => session.closeMissionDebrief()}
+    onplace={(verb) => {
+      session.closeMissionDebrief();
+      cabinetTab = "equipment";
+      pane = "bench";
+      if (verb === "distil") transfer = { verb: "distil", fraction: 0.5, from: null };
+      else {
+        apparatusOut = verb;
+        apparatusPreview = {};
+      }
+    }}
     onmap={() => {
       session.closeMissionDebrief();
       missionOpen = true;
