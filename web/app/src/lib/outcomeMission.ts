@@ -5,6 +5,10 @@ export type OutcomeCriterion = {
   species?: string;
   amountField?: string;
   minimum?: number;
+  thermalMix?: {
+    minimumSourceDeltaK: number;
+    minimumFraction: number;
+  };
 };
 
 export type OutcomeMissionContract = {
@@ -34,6 +38,21 @@ const CONTRACTS: Record<string, OutcomeMissionContract> = {
       },
     ],
   },
+  "first-warmth": {
+    missionId: "first-warmth",
+    objective: "Mix two water samples at meaningfully different temperatures and obtain an intermediate temperature.",
+    brief: "Build the setup your way. The solver will verify the source temperatures and the adiabatic mixing result.",
+    hint: "Prepare water in two separate vessels, make one warmer or cooler than the other, create an empty receiver, then use the mixer from the instrument wall.",
+    extraKit: [],
+    criteria: [
+      {
+        id: "thermal-middle",
+        label: "Different-temperature samples mixed to a computed middle",
+        event: "mixed",
+        thermalMix: { minimumSourceDeltaK: 10, minimumFraction: 0.1 },
+      },
+    ],
+  },
 };
 
 /** Only missions with a typed outcome contract leave the procedural player. */
@@ -53,6 +72,21 @@ export function eventSecuresCriterion(
   if (criterion.amountField !== undefined) {
     const amount = Number(event[criterion.amountField]);
     if (!Number.isFinite(amount) || amount < (criterion.minimum ?? 0)) return false;
+  }
+  if (criterion.thermalMix !== undefined) {
+    const a = Number(event.temperature_a);
+    const b = Number(event.temperature_b);
+    const into = Number(event.temperature_into);
+    const fractionA = Number(event.fraction_a);
+    const fractionB = Number(event.fraction_b);
+    if (![a, b, into, fractionA, fractionB].every(Number.isFinite)) return false;
+    if (Math.abs(a - b) < criterion.thermalMix.minimumSourceDeltaK) return false;
+    if (fractionA < criterion.thermalMix.minimumFraction || fractionB < criterion.thermalMix.minimumFraction) return false;
+    const low = Math.min(a, b);
+    const high = Math.max(a, b);
+    // A real contribution from both streams must place the computed result
+    // strictly inside their temperatures, not merely on an endpoint.
+    if (!(into > low + 0.01 && into < high - 0.01)) return false;
   }
   return true;
 }

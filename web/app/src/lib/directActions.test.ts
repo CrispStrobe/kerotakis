@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { twoVesselLine, vesselQuickActions } from "./directActions";
+import { mixLine, twoVesselLine, vesselQuickActions } from "./directActions";
 
 describe("direct vessel actions", () => {
   it("targets the selected vessel and follows its boundary", () => {
@@ -19,5 +19,12 @@ describe("direct vessel actions", () => {
     expect(twoVesselLine("decant", 0, 0, 0.5)).toBeNull();
     expect(twoVesselLine("decant", 0, 1, 0)).toBeNull();
     expect(twoVesselLine("distil", 0, 1, 1.1)).toBeNull();
+  });
+
+  it("compiles three distinct vessel taps to the public MIX grammar", () => {
+    expect(mixLine(0, 1, 2)).toBe("mix v1 0.5 v2 0.5 into v3");
+    expect(mixLine(0, 1, 2, 0.25, 0.75)).toBe("mix v1 0.25 v2 0.75 into v3");
+    expect(mixLine(0, 0, 2)).toBeNull();
+    expect(mixLine(0, 1, 2, 0, 0.5)).toBeNull();
   });
 });

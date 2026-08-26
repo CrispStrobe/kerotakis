@@ -558,12 +558,18 @@ pub fn render_event(event: &Event, register: Register) -> String {
             into,
             fraction_a,
             fraction_b,
+            temperature_into,
+            ..
         } => match register.level() {
-            1 => format!("You mix some of {a} and {b} together in {into}."),
+            1 => format!(
+                "You mix some of {a} and {b} together in {into}. It settles at {:.0} °C.",
+                temperature_into.to_celsius()
+            ),
             _ => format!(
-                "{a} ({:.0}%) + {b} ({:.0}%) → {into}",
+                "{a} ({:.0}%) + {b} ({:.0}%) → {into} at {:.2} °C",
                 fraction_a * 100.0,
                 fraction_b * 100.0,
+                temperature_into.to_celsius(),
             ),
         },
         Event::Dissolved {

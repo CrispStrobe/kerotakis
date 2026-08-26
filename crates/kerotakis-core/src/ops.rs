@@ -739,6 +739,12 @@ pub enum Event {
         into: VesselId,
         fraction_a: f64,
         fraction_b: f64,
+        /// Temperatures used by the adiabatic balance. Keeping these on the
+        /// event lets clients assess and explain the computed outcome without
+        /// reconstructing pre-step vessel state.
+        temperature_a: Kelvin,
+        temperature_b: Kelvin,
+        temperature_into: Kelvin,
     },
     /// Liquid flowed through a 1-D column of vessels. The effluent —
     /// what came out the far end — was deposited into the receiver.

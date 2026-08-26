@@ -893,6 +893,16 @@ that foundation into the first playable story slice.
   ARIA copy, and German translations share the existing mission UI. The other
   two core leads and optional safety audit remain procedural, so GUI-080 stays
   open until their outcomes and case-level transaction are typed.*
+  *Thermal-outcome slice shipped 2026-08-26: “Establish the thermal baseline”
+  is now an open investigation with no exposed recipe. A new graphical mixer
+  turns three vessel taps into the public `mix` operation, with selectable
+  source fractions and English/German guidance. The engine's typed `mixed`
+  event now records both source temperatures and the computed receiver
+  temperature. Assessment requires two materially different source
+  temperatures, meaningful contributions from both streams, and a result
+  strictly between them; heating alone, isothermal mixing, endpoint results,
+  and trace contributions cannot pass. One core separation lead and the
+  optional safety audit remain procedural, so GUI-080 stays open.*
 
 ### Phase G3 — Desktop
 

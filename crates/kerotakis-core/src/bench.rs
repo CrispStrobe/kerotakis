@@ -705,6 +705,9 @@ impl Bench {
                     into: *into,
                     fraction_a: *fraction_a,
                     fraction_b: *fraction_b,
+                    temperature_a: t_a,
+                    temperature_b: t_b,
+                    temperature_into: dst.temperature,
                 });
             }
             Operator::Filter { from, to } => {

@@ -20,29 +20,33 @@
     buretteOut,
     apparatusOut,
     transferVerb,
+    mixActive,
     reactAvailable,
     mode,
     completed,
     onburette,
     onapparatus,
     ontransfer,
+    onmix,
   }: {
     target: number;
     targetLabel: string;
     buretteOut: boolean;
     apparatusOut: string | null;
     transferVerb: TwoVesselAction | null;
+    mixActive: boolean;
     reactAvailable: boolean;
     mode: LabMode;
     completed: number;
     onburette: () => void;
     onapparatus: (verb: string) => void;
     ontransfer: (verb: TwoVesselAction) => void;
+    onmix: () => void;
   } = $props();
 
   const allVerbs = $derived([
     "burette", ...APPARATUS.map((item) => item.verb),
-    ...TRANSFER_TOOLS.map((item) => item.verb), "transport", ...(reactAvailable ? ["react"] : []),
+    ...TRANSFER_TOOLS.map((item) => item.verb), "mix", "transport", ...(reactAvailable ? ["react"] : []),
   ]);
   const availableCount = $derived(allVerbs.filter((verb) => equipmentAvailable(mode, completed, verb)).length);
   const transportUnlocked = $derived(equipmentAvailable(mode, completed, "transport"));
@@ -85,7 +89,7 @@
   </div>
 
   <div class="equipment-group">
-    <h2><span>{t("transfer and separation")}</span><small>{TRANSFER_TOOLS.length + 1}</small></h2>
+    <h2><span>{t("transfer and separation")}</span><small>{TRANSFER_TOOLS.length + 2}</small></h2>
     <div class="equipment-grid">
       {#each TRANSFER_TOOLS as item (item.verb)}
         {@const unlocked = equipmentAvailable(mode, completed, item.verb)}
@@ -96,6 +100,11 @@
           {#if !unlocked}<span class="locked-label">⌁ {requirementLabel(item.verb)}</span>{/if}
         </button>
       {/each}
+      <button class="equipment-card" class:deployed={mixActive} aria-pressed={mixActive} onclick={onmix}>
+        <span class="equipment-icon"><ToolIcon name="mix" /></span>
+        <span class="equipment-copy"><strong>{t("mixer")}</strong><small>{t("combine two sources into a receiver")}</small></span>
+        {#if mixActive}<span class="deployed-label">{t("select sources")}</span>{/if}
+      </button>
       <button class="equipment-card" class:locked={!transportUnlocked} class:deployed={apparatusOut === "transport"} aria-pressed={apparatusOut === "transport"} disabled={!transportUnlocked} onclick={() => onapparatus("transport")}>
         <span class="equipment-icon"><ToolIcon name="transport" /></span>
         <span class="equipment-copy"><strong>{t("column train")}</strong><small>{t("move solution through connected cells")}</small></span>

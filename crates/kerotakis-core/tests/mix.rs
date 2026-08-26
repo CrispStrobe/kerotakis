@@ -13,7 +13,7 @@ fn mix_transfers_correct_fractions() {
             vessel: VesselId(0),
             species: SpeciesId::new("water"),
             moles: Moles(10.0),
-            at: None,
+            at: Some(Kelvin(293.15)),
         })
         .unwrap();
     bench
@@ -30,7 +30,7 @@ fn mix_transfers_correct_fractions() {
             vessel: VesselId(1),
             species: SpeciesId::new("water"),
             moles: Moles(20.0),
-            at: None,
+            at: Some(Kelvin(353.15)),
         })
         .unwrap();
     bench
@@ -43,6 +43,8 @@ fn mix_transfers_correct_fractions() {
         .unwrap();
 
     let mass_before: f64 = bench.vessels.iter().map(|v| v.mass().0).sum();
+    let source_a_temperature = bench.vessels[0].temperature.0;
+    let source_b_temperature = bench.vessels[1].temperature.0;
 
     let events = bench
         .step(Operator::Mix {
@@ -63,6 +65,24 @@ fn mix_transfers_correct_fractions() {
     assert!(
         events.iter().any(|e| matches!(e, Event::Mixed { .. })),
         "must emit a Mixed event"
+    );
+    let thermal_evidence = events.iter().find_map(|event| match event {
+        Event::Mixed {
+            temperature_a,
+            temperature_b,
+            temperature_into,
+            ..
+        } => Some((temperature_a.0, temperature_b.0, temperature_into.0)),
+        _ => None,
+    });
+    let (ta, tb, result) = thermal_evidence.expect("mixed event carries thermal evidence");
+    assert!((ta - source_a_temperature).abs() < 1e-9);
+    assert!((tb - source_b_temperature).abs() < 1e-9);
+    let low = ta.min(tb);
+    let high = ta.max(tb);
+    assert!(
+        result > low && result < high,
+        "computed result must lie between its sources"
     );
 
     // Source vessels should have half their original liquid remaining.
