@@ -70,7 +70,15 @@ cd "$ROOT/web/app"
 #               reference; it has to be gone before xcodegen looks.
 #   build/      holds the archive, and must not survive a failed build, or
 #               the export step would ship the PREVIOUS binary.
-rm -rf "$GEN/Externals" "$GEN/build"
+#   project.yml the generated project, and `tauri ios init` does NOT rewrite
+#               one that already exists — it "respects" it. So a change to
+#               bundle.iOS.minimumSystemVersion (or developmentTeam, or the
+#               frameworks list) silently does not apply, and the build
+#               keeps whatever the first init wrote. That is how an .ipa
+#               came out at MinimumOSVersion 14.0 with 15.0 in the config.
+#               The .xcodeproj goes with it, since it is generated from the
+#               .yml. patch-privacy.py re-inserts its entry afterwards.
+rm -rf "$GEN/Externals" "$GEN/build" "$GEN/project.yml" "$GEN"/*.xcodeproj
 
 echo "== tauri ios init"
 npx tauri ios init
