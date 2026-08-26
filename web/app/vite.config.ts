@@ -22,7 +22,12 @@ function payloadRootTags(): Plugin {
     // iOS reads this, not the manifest, for Add to Home Screen; without it
     // the home screen gets a screenshot of the page.
     { tag: "link", attrs: { rel: "apple-touch-icon", href: "../apple-touch-icon.png" }, injectTo: "head" },
-    { tag: "link", attrs: { rel: "manifest", href: "../manifest.webmanifest" }, injectTo: "head" },
+    { tag: "link", attrs: { id: "app-manifest", rel: "manifest", href: "../manifest.webmanifest" }, injectTo: "head" },
+    {
+      tag: "script",
+      children: '{ let choice; try { choice = localStorage.getItem("kerotakis.locale"); } catch {} if ((choice || navigator.language).toLowerCase().startsWith("de")) document.getElementById("app-manifest").href = "../manifest.de.webmanifest"; }',
+      injectTo: "head",
+    },
   ];
   return {
     name: "kerotakis-payload-root-tags",

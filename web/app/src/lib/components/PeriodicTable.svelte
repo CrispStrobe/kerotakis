@@ -2,6 +2,7 @@
   import { ELEMENTS, elementsInFormula, type ElementInfo } from "../elements";
   import type { ShelfItem } from "../session.svelte";
   import SpeciesChip from "./SpeciesChip.svelte";
+  import { t } from "../i18n.svelte";
 
   let {
     shelf,
@@ -58,16 +59,16 @@
     class="table-panel"
     role="dialog"
     aria-modal="true"
-    aria-label="periodic table"
+    aria-label={t("periodic table")}
     onclick={(e) => e.stopPropagation()}
   >
     <header>
-      <h2>the elements</h2>
-      <span class="hint">tap one to see what the lab has of it</span>
-      <button class="close" onclick={onclose}>close</button>
+      <h2>{t("the elements")}</h2>
+      <span class="hint">{t("tap one to see what the lab has of it")}</span>
+      <button class="close" onclick={onclose}>{t("close")}</button>
     </header>
 
-    <div class="grid" role="listbox" aria-label="elements">
+    <div class="grid" role="listbox" aria-label={t("elements")}>
       {#each ELEMENTS as e (e.z)}
         {@const p = place(e)}
         <button
@@ -76,7 +77,7 @@
           style={`grid-column:${p.col};grid-row:${p.row}`}
           role="option"
           aria-selected={picked?.z === e.z}
-          title={`${e.name} (${e.z})`}
+          title={`${t(e.name)} (${e.z})`}
           onclick={() => (picked = e)}
         >
           <span class="z">{e.z}</span>
@@ -87,24 +88,24 @@
 
     {#if picked}
       <aside class="detail">
-        <h3>{picked.name} <small>{picked.symbol} · {picked.z}</small></h3>
-        <p class="cat">{CATEGORY_WORDS[picked.category] ?? picked.category}</p>
+        <h3>{t(picked.name)} <small>{picked.symbol} · {picked.z}</small></h3>
+        <p class="cat">{t(CATEGORY_WORDS[picked.category] ?? picked.category)}</p>
         {#if register !== "lv1"}
           <p class="facts">
-            period {picked.period} · group {picked.group} · {picked.block}-block
+            {t("period {period} · group {group} · {block}-block", { period: picked.period, group: picked.group, block: picked.block })}
           </p>
         {/if}
         {#if flames.length > 0}
-          <p class="facts">flame test: {flames.join(", ")}</p>
+          <p class="facts">{t("flame test: {flames}", { flames: flames.map(t).join(", ") })}</p>
         {/if}
         {#if inLab.length > 0}
-          <p class="facts">on the shelf, containing {picked.symbol}:</p>
+          <p class="facts">{t("on the shelf, containing {symbol}:", { symbol: picked.symbol })}</p>
           <ul class="species">
             {#each inLab as item (item.key)}
               <li>
                 <button class="add" onclick={() => onadd(item)}>
                   <SpeciesChip {item} />
-                  <span>{item.name}</span>
+                  <span>{t(item.name)}</span>
                   <span class="formula">{item.formula}</span>
                 </button>
               </li>
@@ -112,8 +113,7 @@
           </ul>
         {:else}
           <p class="facts none">
-            nothing on the shelf contains {picked.symbol} yet — the registry
-            grows by provenance-carrying tranches, not by wishful entries.
+            {t("nothing on the shelf contains {symbol} yet — the registry grows by provenance-carrying tranches, not by wishful entries.", { symbol: picked.symbol })}
           </p>
         {/if}
       </aside>

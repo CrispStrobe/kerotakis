@@ -2,6 +2,7 @@
   import type { ShelfItem } from "../session.svelte";
   import { quickAmounts as amountsFor } from "../amounts";
   import SpeciesChip from "./SpeciesChip.svelte";
+  import { t } from "../i18n.svelte";
 
   let {
     items,
@@ -56,25 +57,25 @@
   }
 </script>
 
-<section class="shelf" aria-label="reagent shelf">
+<section class="shelf" aria-label={t("reagent shelf")}>
   {#if kit !== null && kit.length > 0}
-    <div class="kit-toggle" role="radiogroup" aria-label="shelf contents">
+    <div class="kit-toggle" role="radiogroup" aria-label={t("shelf contents")}>
       <button role="radio" aria-checked={kitOnly} class:on={kitOnly} onclick={() => (kitOnly = true)}>
-        the kit ({kit.length})
+        {t("the kit ({count})", { count: kit.length })}
       </button>
       <button role="radio" aria-checked={!kitOnly} class:on={!kitOnly} onclick={() => (kitOnly = false)}>
-        everything
+        {t("everything")}
       </button>
     </div>
   {/if}
   <input
     type="search"
-    placeholder="find a substance…"
-    aria-label="find a substance"
+    placeholder={t("find a substance…")}
+    aria-label={t("find a substance")}
     bind:value={query}
   />
   {#if phases.length > 1}
-    <div class="phases" role="radiogroup" aria-label="phase filter">
+    <div class="phases" role="radiogroup" aria-label={t("phase filter")}>
       {#each phases as p (p)}
         <button
           role="radio"
@@ -82,7 +83,7 @@
           class:on={phase === p}
           onclick={() => (phase = phase === p ? null : p)}
         >
-          {p}
+          {t(p)}
         </button>
       {/each}
     </div>
@@ -103,11 +104,11 @@
           onclick={() => (open = open === item.key ? null : item.key)}
         >
           <SpeciesChip {item} />
-          <span class="name">{item.name}</span>
+          <span class="name">{t(item.name)}</span>
           <span class="formula">{item.formula}</span>
         </button>
         {#if open === item.key}
-          <div class="amounts" role="group" aria-label={`amount of ${item.name}`}>
+          <div class="amounts" role="group" aria-label={t("amount of {name}", { name: t(item.name) })}>
             {#each quickAmounts(item.phase) as amount (amount)}
               <button class="amount" onclick={() => add(item, amount)}>{amount}</button>
             {/each}
@@ -122,7 +123,7 @@
                 <input
                   type="text"
                   placeholder="5g, 0.1mol…"
-                  aria-label="custom amount"
+                  aria-label={t("custom amount")}
                   bind:value={custom}
                 />
               </form>
@@ -132,13 +133,13 @@
       </li>
     {/each}
     {#if filtered.length === 0}
-      <li class="none">nothing on the shelf matches</li>
+      <li class="none">{t("nothing on the shelf matches")}</li>
     {/if}
   </ul>
   <p class="tally">
     {filtered.length === items.length
-      ? `${items.length} substances — every one computed, none painted on`
-      : `${filtered.length} of ${items.length} substances`}
+      ? t("{count} substances — every one computed, none painted on", { count: items.length })
+      : t("{shown} of {total} substances", { shown: filtered.length, total: items.length })}
   </p>
 </section>
 
@@ -204,20 +205,24 @@
     color: var(--ink);
   }
   input[type="search"] {
-    margin: 0.8rem;
+    margin: 0.65rem;
     background: var(--panel-raised);
     border: 1px solid var(--edge);
-    border-radius: 6px;
+    border-radius: 11px;
     color: var(--ink);
     font: inherit;
     font-size: 0.85rem;
-    padding: 0.45rem 0.6rem;
-    min-height: 40px;
+    padding: 0.55rem 0.7rem;
+    min-height: 44px;
+  }
+  input[type="search"]:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 13%, transparent);
   }
   ul {
     list-style: none;
     margin: 0;
-    padding: 0 0.8rem 0.8rem;
+    padding: 0 0.65rem 0.8rem;
     overflow-y: auto;
   }
   .species {
@@ -225,19 +230,25 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: none;
-    border: 0;
-    border-bottom: 1px solid var(--edge);
+    margin-bottom: 0.32rem;
+    background: color-mix(in srgb, var(--surface-raised) 76%, transparent);
+    border: 1px solid transparent;
+    border-radius: 11px;
     color: var(--ink);
     font: inherit;
     font-size: 0.85rem;
     text-align: left;
-    padding: 0.5rem 0.2rem;
+    padding: 0.55rem 0.6rem;
     cursor: pointer;
     min-height: 40px;
   }
   .species:hover .name {
-    color: var(--hot);
+    color: var(--primary);
+  }
+  .species:hover,
+  .species[aria-expanded="true"] {
+    border-color: color-mix(in srgb, var(--primary) 45%, var(--edge));
+    background: color-mix(in srgb, var(--primary) 8%, var(--surface-raised));
   }
   .name {
     flex: 1;
@@ -263,7 +274,8 @@
     min-height: 36px;
   }
   .amount:hover {
-    border-color: var(--hot);
+    border-color: var(--action);
+    color: var(--action);
   }
   .custom input {
     background: var(--panel-raised);

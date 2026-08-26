@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { t } from "../i18n.svelte";
   let {
     vessel,
     options,
@@ -17,18 +18,18 @@
   const line = $derived(chosen ? `react v${vessel + 1} ${chosen}` : null);
 </script>
 
-<section class="react" aria-label={`curated reaction on v${vessel + 1}`}>
-  <strong>curated reaction · v{vessel + 1}</strong>
-  <span class="hint">verified family templates the engine can run</span>
+<section class="react" aria-label={t("curated reaction on v{vessel}", { vessel: vessel + 1 })}>
+  <strong>{t("curated reaction")} · v{vessel + 1}</strong>
+  <span class="hint">{t("verified family templates the engine can run")}</span>
   <div class="row">
     <select bind:value={chosen}>
-      <option value="">choose…</option>
+      <option value="">{t("choose…")}</option>
       {#each options as name (name)}<option value={name}>{name}</option>{/each}
     </select>
     <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
-      run
+      {t("run")}
     </button>
-    <button class="close" onclick={onclose}>put away</button>
+    <button class="close" onclick={onclose}>{t("put away")}</button>
   </div>
   {#if line}<code>{line}</code>{/if}
 </section>

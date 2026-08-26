@@ -69,6 +69,148 @@ on what the learner actually does. Design:
   the safety screen is part of the open world, not suspended for the
   tour.
 
+### Campaign decision (2026-08-26): quests become world missions
+
+The landed quest engine is the evaluator under a larger story system; it is not
+the final player-facing structure. A mission connects an engine-evaluated
+scientific problem to a place, a person or organization, a persistent world
+change, and a meaningful capability reward. The bench stays free throughout.
+
+```text
+story arc
+  ├── mission: a substantial problem with persistent consequences
+  │     ├── objective claims: engine-evaluated outcomes/evidence
+  │     ├── optional discoveries: events or state the player may notice
+  │     └── nudges: contextual, finite, non-blocking
+  └── opportunity: small ambient request, sample, anomaly, or challenge
+```
+
+Terminology in code may remain `quest` during migration. New content uses
+"mission" in user-facing English and "Mission" or the context-appropriate
+German translation in locale data; stable ids are never localized.
+
+#### Mission contract
+
+Every mission file must contain:
+
+| Field | Meaning |
+|---|---|
+| `id`, `version`, `locale_key` | Stable identity, migration version, and localized copy root |
+| `arc`, `chapter`, `location`, `giver` | Narrative/world placement; all optional for standalone Sandbox scenarios |
+| `premise` | The problem and why it matters, rendered at all three registers |
+| `start` | Samples, world facts, aliases/unknowns, allowed starting bench setup |
+| `objectives` | Typed claims over events, measurements, final state, notebook evidence, or submitted sample |
+| `constraints` | Safety, time, available quantity, contamination, cost, apparatus, or waste limits |
+| `nudges` | One-shot contextual hints with cooldown and register-localized text |
+| `discoveries` | Optional computed observations that can open leads or codex concepts |
+| `outcomes` | Success, partial success, recoverable failure, and honest unsupported branches |
+| `rewards` | Access, apparatus, supply source, location, relationship, research node, or story fact |
+| `next` | Zero or more newly visible missions; never an enforced single successor |
+
+Mission copy describes intent and stakes. It must not prescribe exact clicks
+unless the mission explicitly teaches safe operation of unfamiliar apparatus.
+Even then, the instruction is an optional demonstration that can be dismissed
+and replayed.
+
+#### Objective vocabulary
+
+Objective evaluation remains inside the engine/protocol boundary. The initial
+complete vocabulary is:
+
+- **Observe:** produce or rule out a typed event such as gas evolution,
+  precipitate, phase split, flame color, endpoint, or hazard.
+- **Measure:** record a property with a named instrument and any required
+  calibration/uncertainty.
+- **Identify:** submit the identity or class of a sealed unknown and cite one or
+  more observations from the notebook.
+- **Produce:** create a target species, phase, concentration, pH, temperature,
+  purity, volume, or yield within explicit tolerances.
+- **Separate:** deliver named output containers meeting recovery and purity
+  thresholds; multiple processes can qualify.
+- **Compare:** create evidence across two or more controlled trials, not merely
+  click a prediction.
+- **Design:** satisfy a performance envelope such as buffer capacity, heat
+  output, corrosion protection, or minimum waste.
+- **Avoid/contain:** complete an outcome without forbidden hazard events,
+  releases, contamination, or apparatus-limit breaches.
+- **Explain:** choose or compose a claim whose referenced observations and
+  quantities agree with the computed run. Explanations never replace the run.
+
+Claims may be `required`, `one_of`, `at_least(n)`, or `optional`. The evaluator
+returns structured unmet reasons so the UI can say what evidence is missing
+without leaking a procedure.
+
+#### Progression without grind
+
+Story progression has four legible resources:
+
+1. **Access** — rooms, field locations, suppliers, people, and sample sources.
+2. **Equipment** — permanent apparatus/instrument families and lab upgrades.
+3. **Supplies** — replenishable Story quantities used to make constraints
+   meaningful; common educational reagents never require repetitive grinding.
+4. **Research** — concepts demonstrated by evidence, opening advanced studies
+   and mission leads; this is not a spendable point currency.
+
+There are no XP bars, randomized drops, daily streaks, energy timers, loot
+boxes, or premium currency. Funding, if later introduced, represents explicit
+mission budgets and replacement costs and may always be disabled in classroom
+settings. Sandbox ignores all progression and quantity restrictions.
+
+#### Story spine, with lateral freedom
+
+The initial arc is a small laboratory becoming a trusted regional research
+station. Chapters describe growing capability, not locked grade levels:
+
+1. **The First Bench** — observation, safe handling, mixtures, mass, notebook;
+   earn basic glassware, balance, thermometer, and local sample access.
+2. **Water Stories** — pH, dissolved material, filtration, contamination,
+   gases; open the water desk, probes, filters, and field sampling.
+3. **Heat and Time** — heating/cooling, rates, energy, gas handling; open the
+   thermal bay, hotplate, calorimeter, and controlled vessels.
+4. **Signals in Matter** — qualitative tests, unknowns, spectra, electricity;
+   open the analysis room and higher-precision instruments.
+5. **Separation Works** — extraction, distillation, chromatography, recovery,
+   waste; open process equipment and multi-stage assemblies.
+6. **Independent Research** — player-proposed targets, studies, optimization,
+   and bounded advanced packs; the authored story becomes a source of problems,
+   not a finish screen.
+
+Each chapter launches with at least three visible leads serving different
+styles: investigation/identification, making/design, and community/environment.
+Main-arc missions may depend on a demonstrated capability but not on completing
+every preceding mission. Optional discoveries can reveal shortcuts or new
+branches, never mandatory hidden-object hunts.
+
+#### First playable vertical slice: The contaminated sample
+
+GUI-080 and the mission workline share one acceptance slice:
+
+- A community garden reports residue and a cloudy water sample. The player can
+  inspect the room, talk/read briefly, accept up to three concurrent leads, and
+  bring sealed samples to the same persistent bench.
+- Mission A identifies what causes the cloudiness; Mission B prepares a known
+  reference solution; Mission C delivers treated water under turbidity/pH and
+  waste constraints. An optional observation reveals a second source upstream.
+- The cabinet begins with common glassware, stir rod, balance, pH paper, funnel,
+  and filter. Completing evidence work earns a reusable digital pH probe; the
+  unlock is visible in Story and was already available in Sandbox.
+- Treatment must accept at least filtration-first and precipitation/settling-
+  first solutions when both satisfy the same final-state claims. The story may
+  react to cost, recovery, waste, or safety differences without invalidating a
+  chemically correct solution.
+- The slice is complete only when English and German, all three registers,
+  mouse/touch/keyboard operation, save/reload, Story↔Sandbox switching, and
+  reduced motion are tested end to end.
+
+#### Mission authoring definition of done
+
+A mission is shippable only when `kero quest lint` (or its successor) proves the
+schema and locales complete; automated runs prove at least one success and every
+declared failure/partial branch; at least one non-tutorial mission has two valid
+solution traces; objective reasons remain stable protocol data; rewards migrate
+across save versions; and Sandbox can load the mission as a standalone scenario
+without importing Story progression.
+
 ## Ownership and sequencing (CAP-24 slices)
 
 1. Quest schema + engine + `kero quest` (Fable — the hard seam).

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { t } from "../i18n.svelte";
   let {
     position,
     total,
@@ -22,7 +23,7 @@
       step="1"
       value={position}
       disabled={busy}
-      aria-label={`timeline: step ${position} of ${total}`}
+      aria-label={t("timeline: step {position} of {total}", { position, total })}
       onchange={(e) => onjump(Number(e.currentTarget.value))}
     />
   </label>

@@ -2,6 +2,7 @@
   import type { ParticleCensus } from "../host/EngineHost";
   import ParticleView from "./ParticleView.svelte";
   import InstrumentTray from "./InstrumentTray.svelte";
+  import { t } from "../i18n.svelte";
 
   let {
     vessel,
@@ -39,23 +40,23 @@
   const GAS_TESTS = ["pop", "splint", "limewater", "litmus"] as const;
 </script>
 
-<section class="inspector" aria-label={`vessel v${vessel + 1} detail`}>
+<section class="inspector" aria-label={t("vessel v{vessel} detail", { vessel: vessel + 1 })}>
   <header>
     <h2>v{vessel + 1}</h2>
-    <button onclick={onparticles}>particles</button>
-    <button onclick={onclose} aria-label="close inspector">×</button>
+    <button onclick={onparticles}>{t("particles")}</button>
+    <button onclick={onclose} aria-label={t("close inspector")}>×</button>
   </header>
   {#if onaction}
     <InstrumentTray {vessel} {busy} onmeasure={onaction} />
-    <div class="actions" role="group" aria-label={`act on ${v}`}>
+    <div class="actions" role="group" aria-label={t("act on {vessel}", { vessel: v })}>
       {#each actions as a (a.label)}
-        <button disabled={busy} onclick={() => onaction(a.line)}>{a.label}</button>
+        <button disabled={busy} onclick={() => onaction(a.line)}>{t(a.label)}</button>
       {/each}
     </div>
-    <div class="actions" role="group" aria-label={`gas tests on ${v}`}>
-      <span class="tests-label">test the gas:</span>
-      {#each GAS_TESTS as t (t)}
-        <button disabled={busy} onclick={() => onaction(`test ${v} ${t}`)}>{t}</button>
+    <div class="actions" role="group" aria-label={t("gas tests on {vessel}", { vessel: v })}>
+      <span class="tests-label">{t("test the gas:")}</span>
+      {#each GAS_TESTS as test (test)}
+        <button disabled={busy} onclick={() => onaction(`test ${v} ${test}`)}>{t(test)}</button>
       {/each}
     </div>
   {/if}
@@ -64,7 +65,7 @@
     <svelte:boundary>
       <ParticleView census={particles} />
       {#snippet failed(error)}
-        <p class="fail">the particle view could not be drawn: {String(error)}</p>
+        <p class="fail">{t("the particle view could not be drawn: {error}", { error: String(error) })}</p>
       {/snippet}
     </svelte:boundary>
   {/if}

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { t } from "../i18n.svelte";
   let { onclose }: { onclose: () => void } = $props();
 
   const mod =
@@ -23,22 +24,20 @@
     class="help"
     role="dialog"
     aria-modal="true"
-    aria-label="keyboard shortcuts"
+    aria-label={t("keyboard shortcuts")}
     onclick={(e) => e.stopPropagation()}
   >
-    <h2>Keyboard</h2>
+    <h2>{t("Keyboard")}</h2>
     <dl>
       {#each keys as [key, what] (key)}
         <dt><kbd>{key}</kbd></dt>
-        <dd>{what}</dd>
+        <dd>{t(what)}</dd>
       {/each}
     </dl>
     <p class="note">
-      Every button and drag also works from the keyboard — vessels are
-      buttons, and everything you do is a command you can read back in the
-      notebook.
+      {t("Every button and drag also works from the keyboard — vessels are buttons, and everything you do is a command you can read back in the notebook.")}
     </p>
-    <button onclick={onclose}>close</button>
+    <button onclick={onclose}>{t("close")}</button>
   </section>
 </div>
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { t } from "../i18n.svelte";
   let {
     vessel,
     reading,
@@ -20,12 +21,12 @@
   );
 </script>
 
-<button class="inset" data-confidence={reading.confidence} onclick={onclose} aria-label="close reading">
-  <span class="what">{meta.label} · v{vessel + 1}</span>
+<button class="inset" data-confidence={reading.confidence} onclick={onclose} aria-label={t("close reading")}>
+  <span class="what">{t(meta.label)} · v{vessel + 1}</span>
   <span class="value">
     {reading.value.toFixed(meta.digits)}<small>{meta.unit}</small>
   </span>
-  <span class="conf">{reading.confidence}</span>
+  <span class="conf">{t(reading.confidence)}</span>
 </button>
 
 <style>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { t } from "../i18n.svelte";
   import type { FeedEntry } from "../session.svelte";
   import Chart from "./Chart.svelte";
 
@@ -21,7 +22,7 @@
 
 <!-- The feed is the notebook and the screen-reader surface: everything the
      bench does is a legible line here, announced as it happens. -->
-<section class="feed" aria-label="lab notebook" aria-live="polite" bind:this={list}>
+<section class="feed" aria-label={t("lab notebook")} aria-live="polite" bind:this={list}>
   {#if trimmed > 0}
     <p class="note">…{trimmed} earlier entries not shown (the exports keep them)</p>
   {/if}
@@ -50,7 +51,7 @@
 <style>
   .feed {
     overflow-y: auto;
-    padding: 1rem;
+    padding: 0.8rem;
     font-size: 0.88rem;
     display: flex;
     flex-direction: column;
@@ -66,7 +67,12 @@
     margin-right: 0.4rem;
   }
   .command {
-    color: var(--hot);
+    margin-top: 0.35rem;
+    padding: 0.45rem 0.55rem;
+    border-radius: 8px;
+    color: var(--action);
+    background: color-mix(in srgb, var(--action) 7%, transparent);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
   .note {
     color: var(--dim);

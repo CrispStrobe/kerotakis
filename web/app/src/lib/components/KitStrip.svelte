@@ -2,6 +2,7 @@
   import type { ShelfItem } from "../session.svelte";
   import { quickAmounts } from "../amounts";
   import SpeciesChip from "./SpeciesChip.svelte";
+  import { t } from "../i18n.svelte";
 
   let {
     items,
@@ -23,20 +24,20 @@
   }
 </script>
 
-<div class="kit-strip" role="group" aria-label="kit reagents">
+<div class="kit-strip" role="group" aria-label={t("kit reagents")}>
   {#each items as item (item.key)}
     <div class="kit-item" class:expanded={open === item.key}>
       <button
         class="kit-chip"
         aria-expanded={open === item.key}
         onclick={() => (open = open === item.key ? null : item.key)}
-        title={item.name}
+        title={t(item.name)}
       >
         <SpeciesChip {item} />
-        <span class="label">{item.name}</span>
+        <span class="label">{t(item.name)}</span>
       </button>
       {#if open === item.key}
-        <div class="amounts" role="group" aria-label={`amount of ${item.name}`}>
+        <div class="amounts" role="group" aria-label={t("amount of {name}", { name: t(item.name) })}>
           {#each quickAmounts(register, item.phase) as amount (amount)}
             <button class="amount" onclick={() => add(item, amount)}>{amount}</button>
           {/each}

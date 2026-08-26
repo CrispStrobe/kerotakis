@@ -9,6 +9,7 @@
    */
   import type { Session } from "../session.svelte";
   import { buildArgs, parseArgSpec, type RelationField } from "../relationArgs";
+  import { t } from "../i18n.svelte";
 
   let { session, onclose }: { session: Session; onclose: () => void } = $props();
 
@@ -83,16 +84,16 @@
     class="toolbox"
     role="dialog"
     aria-modal="true"
-    aria-label="relation calculator"
+    aria-label={t("relation calculator")}
     onclick={(e) => e.stopPropagation()}
   >
     <header>
-      <h2>Toolbox</h2>
-      <p class="sub">named relations, computed by the engine — with sources</p>
-      <button class="close" onclick={onclose} aria-label="close the toolbox">×</button>
+      <h2>{t("Toolbox")}</h2>
+      <p class="sub">{t("named relations, computed by the engine — with sources")}</p>
+      <button class="close" onclick={onclose} aria-label={t("close the toolbox")}>×</button>
     </header>
     <div class="body">
-      <nav aria-label="relations">
+      <nav aria-label={t("relations")}>
         {#each relations as r (r.name)}
           <button class:on={picked?.name === r.name} onclick={() => pick(r)}>
             <span class="rname">{r.name}</span>
@@ -100,7 +101,7 @@
           </button>
         {/each}
         {#if relations.length === 0}
-          <p class="empty">the engine has not answered with its relations yet</p>
+          <p class="empty">{t("the engine has not answered with its relations yet")}</p>
         {/if}
       </nav>
       {#if picked}
@@ -113,7 +114,7 @@
           <p class="equation">{picked.equation}</p>
           {#if freeform}
             <label>
-              <span>arguments <small>{picked.args}</small></span>
+              <span>{t("arguments")} <small>{picked.args}</small></span>
               <input
                 bind:value={freeText}
                 placeholder={picked.args}
@@ -126,7 +127,7 @@
               <label>
                 <span>
                   {f.name}
-                  <small>{f.hint}{f.optional ? " · optional" : ""}</small>
+                  <small>{t(f.hint)}{f.optional ? ` · ${t("optional")}` : ""}</small>
                 </span>
                 <input
                   bind:value={values[f.name]}
@@ -138,7 +139,7 @@
             {/each}
           {/if}
           <button class="go" type="submit" disabled={!ready || computing}>
-            {computing ? "computing…" : "compute"}
+            {computing ? t("computing…") : t("compute")}
           </button>
           {#if result}
             {#if result.ok}

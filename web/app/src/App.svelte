@@ -25,12 +25,31 @@
   import Toolbox from "./lib/components/Toolbox.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
   import ToolIcon from "./lib/components/ToolIcon.svelte";
+  import LocaleSwitcher from "./lib/components/LocaleSwitcher.svelte";
+  import VesselActionDock from "./lib/components/VesselActionDock.svelte";
+  import { t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { pwa } from "./lib/pwa.svelte";
+  import { twoVesselLine, type TwoVesselAction } from "./lib/directActions";
 
   // In the Tauri shell the engine is native and in-process; on the web it
   // lives in the module worker. The session cannot tell the difference.
   const session = new Session(isTauri() ? new TauriHost() : WorkerHost.create());
+  type Theme = "light" | "dark" | "contrast";
+  let theme = $state<Theme>("light");
+  $effect(() => {
+    if (typeof document !== "undefined") document.documentElement.dataset.theme = theme;
+  });
+
+  function setTheme(next: Theme) {
+    theme = next;
+    try {
+      localStorage.setItem("kerotakis.theme", next);
+    } catch {
+      // The selected theme still works when persistence is unavailable.
+    }
+  }
+
   let lessons = $state<{ file: string; name: string; blurb?: string; topic?: string }[]>([]);
   const lessonTopics = $derived(
     [...new Set(lessons.map((l) => l.topic ?? "more"))].map((topic) => ({
@@ -65,6 +84,14 @@
   });
 
   onMount(() => {
+    try {
+      const savedTheme = localStorage.getItem("kerotakis.theme");
+      if (savedTheme === "light" || savedTheme === "dark" || savedTheme === "contrast") {
+        theme = savedTheme;
+      }
+    } catch {
+      // Bright mode is the intentional first-run default.
+    }
     void session.connect();
     // Offline-first and installable: the bench registers the payload-root
     // service worker itself rather than inheriting one from a visit to the
@@ -107,9 +134,8 @@
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
-  type TwoVesselVerb = "filter" | "decant" | "drain" | "cell" | "distil";
-  let transfer = $state<{ verb: TwoVesselVerb; fraction: number; from: number | null } | null>(null);
-  const TWO_VESSEL_TOOLS: { verb: TwoVesselVerb; label: string }[] = [
+  let transfer = $state<{ verb: TwoVesselAction; fraction: number; from: number | null } | null>(null);
+  const TWO_VESSEL_TOOLS: { verb: TwoVesselAction; label: string }[] = [
     { verb: "filter", label: "filter" },
     { verb: "decant", label: "decant" },
     { verb: "drain", label: "drain" },
@@ -119,7 +145,6 @@
   function vesselTapped(id: number) {
     if (!transfer) {
       void session.inspect(id);
-      pane = "notes";
       return;
     }
     if (transfer.from === null) {
@@ -128,10 +153,8 @@
     }
     if (transfer.from === id) return; // same vessel: keep waiting
     const { verb, fraction, from } = transfer;
-    const line =
-      verb === "decant" || verb === "distil"
-        ? `${verb} v${from + 1} v${id + 1} ${fraction}`
-        : `${verb} v${from + 1} v${id + 1}`;
+    const line = twoVesselLine(verb, from, id, fraction);
+    if (!line) return;
     transfer = null;
     void session.submit(line);
   }
@@ -146,8 +169,14 @@
   }
   /** Narrow screens show one pane at a time; wide screens show all three. */
   let pane = $state<"bench" | "shelf" | "notes">("bench");
-  /** Narrow screens collapse the toolbar; wide screens ignore this. */
+  /** File/research actions live in one utility drawer instead of competing
+   * with the bench in the permanent top rail. */
   let toolsOpen = $state(false);
+  /** The supply room keeps chemicals and reusable equipment distinct. */
+  let cabinetTab = $state<"reagents" | "equipment">("reagents");
+  const selectedVessel = $derived(
+    session.scene?.vessels.find((v) => v.id === session.selected) ?? null,
+  );
 
   function download(name: string, text: string, type = "text/plain") {
     const blob = new Blob([text], { type });
@@ -194,6 +223,7 @@
       else if (mapOpen) mapOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
+      else if (toolsOpen) toolsOpen = false;
       else session.closeInspector();
     }
   }
@@ -201,187 +231,110 @@
 
 <svelte:window {onkeydown} />
 
-<header>
-  <h1>Kerotakis <small>a chemistry bench that computes</small></h1>
-  <RegisterDial value={session.register} onchange={(lv) => void session.setRegister(lv)} />
-  <!-- On a phone this toolbar is fifteen buttons deep and would push the
-       bench off the screen entirely, so narrow layouts collapse it behind
-       the disclosure below. `display: contents` keeps the wide layout
-       byte-identical: the buttons stay direct flex children of <header>. -->
-  <button
-    class="tool tools-toggle"
-    aria-expanded={toolsOpen}
-    onclick={() => (toolsOpen = !toolsOpen)}
-  >
-    tools {toolsOpen ? "\u25b4" : "\u25be"}
-  </button>
-  <div class="tools" class:open={toolsOpen}>
-  <button
-    class="tool"
-    onclick={() => void session.undo()}
-    disabled={session.commandLog.length === 0 || session.busy}
-  >
-    undo
-  </button>
-  <button class="tool" onclick={saveLab} disabled={session.commandLog.length === 0}>
-    save .lab
-  </button>
-  <button class="tool" onclick={saveNotes} disabled={session.feed.length === 0}>
-    save notes
-  </button>
-  <button
-    class="tool"
-    onclick={() => window.print()}
-    disabled={session.feed.length === 0}
-    title="print the notebook — or save it as PDF from the print dialog"
-  >
-    print
-  </button>
-  <button class="tool" onclick={() => labFileInput?.click()} disabled={session.busy}>
-    open .lab
-  </button>
-  <input
-    bind:this={labFileInput}
-    type="file"
-    accept=".lab,text/plain"
-    onchange={openLabFile}
-    style="display:none"
-    aria-hidden="true"
-    tabindex="-1"
-  />
-  <button
-    class="tool"
-    onclick={() => void session.clear()}
-    disabled={session.busy || session.commandLog.length === 0}
-  >
-    clear
-  </button>
-  <button
-    class="tool"
-    onclick={() => void session.submit("wait 30s")}
-    disabled={session.busy}
-    title="let 30 seconds of bench time pass"
-  >
-    wait 30 s
-  </button>
-  <button
-    class="tool"
-    class:active-tool={buretteOut}
-    onclick={() => (buretteOut = !buretteOut)}
-    title="clamp the burette over the selected vessel"
-  >
-    <ToolIcon name="burette" />burette
-  </button>
-  <select
-    class="tool"
-    aria-label="more apparatus"
-    value={apparatusOut ?? ""}
-    onchange={(e) => {
-      apparatusOut = e.currentTarget.value || null;
-      e.currentTarget.value = apparatusOut ?? "";
-    }}
-  >
-    <option value="">apparatus…</option>
-    {#each APPARATUS as s (s.verb)}
-      <option value={s.verb}>{s.title}</option>
-    {/each}
-    {#if session.reactOptions.length > 0}
-      <option value="react">curated reaction</option>
-    {/if}
-    <option value="transport">column train</option>
-  </select>
-  {#each TWO_VESSEL_TOOLS as tool (tool.verb)}
-    <button
-      class="tool"
-      class:active-tool={transfer?.verb === tool.verb}
-      onclick={() =>
-        (transfer =
-          transfer?.verb === tool.verb
-            ? null
-            : { verb: tool.verb, fraction: 0.5, from: null })}
-      title={`${tool.verb}: pick the source vessel, then the target`}
-    >
-      <ToolIcon name={tool.verb} />{tool.label}
-    </button>
-  {/each}
-  <Timeline
-    position={session.position}
-    total={session.commandLog.length}
-    busy={session.busy}
-    onjump={(to) => void session.jumpTo(to)}
-  />
-  {#if lessons.length > 0 && !session.lesson}
-    <select
-      class="tool"
-      aria-label="start a lesson"
-      onchange={(e) => {
-        void startLesson(e.currentTarget.value);
-        e.currentTarget.value = "";
-      }}
-    >
-      <option value="">lessons…</option>
-      {#each lessonTopics as group (group.topic)}
-        <optgroup label={group.topic}>
-          {#each group.entries as l (l.file)}
-            <option value={l.file} title={l.blurb}>{l.name}</option>
-          {/each}
-        </optgroup>
-      {/each}
-    </select>
-  {/if}
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">
+      <svg viewBox="0 0 40 40">
+        <path d="M14 5h12M17 5v10L8 31c-1 2 1 4 3 4h18c2 0 4-2 3-4l-9-16V5" />
+        <path class="brand-liquid" d="M11 28c5-3 12 3 18-1l3 6H8z" />
+        <circle cx="16" cy="24" r="1.7" />
+        <circle cx="23" cy="20" r="1.3" />
+      </svg>
+    </span>
+    <span class="brand-copy">
+      <strong>Kerotakis</strong>
+      <small>{t("a chemistry bench that computes")}</small>
+    </span>
   </div>
-  <span
-    class="status"
-    class:live={session.canSolve}
-    title={session.engineIdentity ? `engine ${session.engineIdentity}` : undefined}
-  >
-    {session.engineReady ? (session.canSolve ? "live" : "shipped results") : "starting…"}
-  </span>
-  <div class="tools" class:open={toolsOpen}>
-  <button class="tool" onclick={() => (tableOpen = true)} title="the periodic table, wired to the shelf">
-    elements
-  </button>
-  <button class="tool" onclick={() => (toolboxOpen = true)} title="named relations: compute with provenance">
-    toolbox
-  </button>
-  {#if codexEntries.length > 0}
-    <button class="tool" onclick={() => (catalogOpen = true)} title="codex experiments: predict, run, check">
-      experiments
-    </button>
-    <button class="tool" onclick={() => (mapOpen = true)} title="the concept map: what you have met, what is ready">
-      map
-    </button>
-  {/if}
-  </div>
-  {#if pwa.installable}
-    <button
-      class="tool"
-      onclick={() => void pwa.install()}
-      title="install the bench — it runs offline, engine and all"
+
+  <span class="mode-pill"><span aria-hidden="true">✦</span>{t("Sandbox")}</span>
+
+  <div class="top-controls">
+    <RegisterDial value={session.register} onchange={(lv) => void session.setRegister(lv)} />
+    <span
+      class="status"
+      class:live={session.canSolve}
+      title={session.engineIdentity ? t("engine {identity}", { identity: session.engineIdentity }) : undefined}
     >
-      install
+      <span class="status-dot" aria-hidden="true"></span>
+      {session.engineReady ? (session.canSolve ? t("live") : t("shipped results")) : t("starting…")}
+    </span>
+    <LocaleSwitcher />
+    <button
+      class="utility-toggle"
+      aria-expanded={toolsOpen}
+      aria-label={t("open utilities")}
+      onclick={() => (toolsOpen = !toolsOpen)}
+    >
+      <span aria-hidden="true">•••</span>
+      <span class="utility-label">{t("utilities")}</span>
     </button>
-  {/if}
-  <!-- The console page is the other half of the web payload; a packaged
-       app bundles only the bench, so the link would lead out of it. -->
-  {#if !isTauri()}
-    <a class="console-link" href="../">console</a>
-  {/if}
+  </div>
 </header>
+
+{#if toolsOpen}
+  <section class="utility-drawer" aria-label={t("utilities")}>
+    <div class="utility-group">
+      <strong>{t("time and history")}</strong>
+      <button class="tool" onclick={() => void session.undo()} disabled={session.commandLog.length === 0 || session.busy}>{t("undo")}</button>
+      <button class="tool" onclick={() => void session.submit("wait 30s")} disabled={session.busy} title={t("let 30 seconds of bench time pass")}>{t("wait 30 s")}</button>
+      <button class="tool danger-tool" onclick={() => void session.clear()} disabled={session.busy || session.commandLog.length === 0}>{t("clear")}</button>
+      <Timeline position={session.position} total={session.commandLog.length} busy={session.busy} onjump={(to) => void session.jumpTo(to)} />
+    </div>
+    <div class="utility-group">
+      <strong>{t("files and notebook")}</strong>
+      <button class="tool" onclick={saveLab} disabled={session.commandLog.length === 0}>{t("save .lab")}</button>
+      <button class="tool" onclick={() => labFileInput?.click()} disabled={session.busy}>{t("open .lab")}</button>
+      <button class="tool" onclick={saveNotes} disabled={session.feed.length === 0}>{t("save notes")}</button>
+      <button class="tool" onclick={() => window.print()} disabled={session.feed.length === 0} title={t("print the notebook — or save it as PDF from the print dialog")}>{t("print")}</button>
+      <input bind:this={labFileInput} type="file" accept=".lab,text/plain" onchange={openLabFile} style="display:none" aria-hidden="true" tabindex="-1" />
+    </div>
+    <div class="utility-group">
+      <strong>{t("explore and study")}</strong>
+      <button class="tool" onclick={() => (tableOpen = true)}>{t("elements")}</button>
+      <button class="tool" onclick={() => (toolboxOpen = true)}>{t("toolbox")}</button>
+      {#if codexEntries.length > 0}
+        <button class="tool" onclick={() => (catalogOpen = true)}>{t("experiments")}</button>
+        <button class="tool" onclick={() => (mapOpen = true)}>{t("map")}</button>
+      {/if}
+      {#if lessons.length > 0 && !session.lesson}
+        <select class="tool" aria-label={t("start a lesson")} onchange={(e) => { void startLesson(e.currentTarget.value); e.currentTarget.value = ""; }}>
+          <option value="">{t("lessons…")}</option>
+          {#each lessonTopics as group (group.topic)}
+            <optgroup label={t(group.topic)}>
+              {#each group.entries as l (l.file)}
+                <option value={l.file} title={l.blurb ? t(l.blurb) : undefined}>{t(l.name)}</option>
+              {/each}
+            </optgroup>
+          {/each}
+        </select>
+      {/if}
+      {#if pwa.installable}<button class="tool" onclick={() => void pwa.install()}>{t("install")}</button>{/if}
+      {#if !isTauri()}<a class="console-link" href="../">{t("console")}</a>{/if}
+      <div class="utility-locale"><span>{t("Language")}</span><LocaleSwitcher /></div>
+      <div class="theme-choice" role="radiogroup" aria-label={t("appearance")}>
+        <span>{t("appearance")}</span>
+        {#each [["light", "light"], ["dark", "dark"], ["contrast", "high contrast"]] as [value, label] (value)}
+          <button class="theme-button" role="radio" aria-checked={theme === value} class:active={theme === value} onclick={() => setTheme(value as Theme)}>{t(label)}</button>
+        {/each}
+      </div>
+    </div>
+  </section>
+{/if}
 
 {#if pwa.updateReady}
   <div class="update-banner" role="status">
-    A newer bench is downloaded and ready.
-    <button onclick={() => void pwa.applyUpdate()}>reload into it</button>
-    <button class="cancel" onclick={() => (pwa.updateReady = false)}>later</button>
+    {t("A newer bench is downloaded and ready.")}
+    <button onclick={() => void pwa.applyUpdate()}>{t("reload into it")}</button>
+    <button class="cancel" onclick={() => (pwa.updateReady = false)}>{t("later")}</button>
   </div>
 {/if}
 
 {#if transfer}
   <div class="transfer-banner" role="status">
-    <strong>{transfer.verb}</strong>
+    <strong>{t(transfer.verb)}</strong>
     {#if transfer.verb === "decant" || transfer.verb === "distil"}
-      — pour
+      — {t("pour")}
       {#each [0.25, 0.5, 0.75, 1.0] as f (f)}
         <button class:on={transfer.fraction === f} onclick={() => (transfer = { ...transfer!, fraction: f })}>
           {f * 100}%
@@ -389,9 +342,9 @@
       {/each}
     {/if}
     {transfer.from === null
-      ? " · tap the source vessel"
-      : ` · from v${transfer.from + 1} — now tap the target`}
-    <button class="cancel" onclick={() => (transfer = null)}>cancel</button>
+      ? ` · ${t("tap the source vessel")}`
+      : ` · ${t("from v{vessel} — now tap the target", { vessel: transfer.from + 1 })}`}
+    <button class="cancel" onclick={() => (transfer = null)}>{t("cancel")}</button>
   </div>
 {/if}
 
@@ -413,16 +366,60 @@
 
 <main data-pane={pane}>
   <nav class="shelf-pane">
-    <Shelf
-      items={session.shelf}
-      register={session.register}
-      target={session.selected}
-      kit={session.lesson?.kit ?? null}
-      onadd={(line) => {
-        void session.submit(line);
-        pane = "bench";
-      }}
-    />
+    <div class="pane-heading">
+      <span class="pane-icon" aria-hidden="true">▦</span>
+      <span><strong>{t("supply cabinet")}</strong><small>{t("choose what goes on the bench")}</small></span>
+    </div>
+    <div class="cabinet-tabs" role="tablist" aria-label={t("supply cabinet")}>
+      <button role="tab" aria-selected={cabinetTab === "reagents"} class:active={cabinetTab === "reagents"} onclick={() => (cabinetTab = "reagents")}>{t("reagents")}</button>
+      <button role="tab" aria-selected={cabinetTab === "equipment"} class:active={cabinetTab === "equipment"} onclick={() => (cabinetTab = "equipment")}>{t("equipment")}</button>
+    </div>
+    {#if cabinetTab === "reagents"}
+      <Shelf
+        items={session.shelf}
+        register={session.register}
+        target={session.selected}
+        kit={session.lesson?.kit ?? null}
+        onadd={(line) => {
+          void session.submit(line);
+          pane = "bench";
+        }}
+      />
+    {:else}
+      <section class="equipment-cabinet" aria-label={t("equipment")}>
+        <p class="cabinet-target">{t("working with vessel v{vessel}", { vessel: session.selected + 1 })}</p>
+        <div class="equipment-group">
+          <h2>{t("precision tools")}</h2>
+          <button class:active-tool={buretteOut} onclick={() => (buretteOut = !buretteOut)} title={t("clamp the burette over the selected vessel")}>
+            <span class="equipment-icon"><ToolIcon name="burette" /></span><span><strong>{t("burette")}</strong><small>{t("controlled addition")}</small></span>
+          </button>
+          <select
+            aria-label={t("more apparatus")}
+            value={apparatusOut ?? ""}
+            onchange={(e) => { apparatusOut = e.currentTarget.value || null; e.currentTarget.value = apparatusOut ?? ""; }}
+          >
+            <option value="">{t("choose more equipment…")}</option>
+            {#each APPARATUS as s (s.verb)}<option value={s.verb}>{t(s.title)}</option>{/each}
+            {#if session.reactOptions.length > 0}<option value="react">{t("curated reaction")}</option>{/if}
+            <option value="transport">{t("column train")}</option>
+          </select>
+        </div>
+        <div class="equipment-group">
+          <h2>{t("transfer and separation")}</h2>
+          <div class="equipment-grid">
+            {#each TWO_VESSEL_TOOLS as tool (tool.verb)}
+              <button
+                class:active-tool={transfer?.verb === tool.verb}
+                onclick={() => (transfer = transfer?.verb === tool.verb ? null : { verb: tool.verb, fraction: 0.5, from: null })}
+                title={t("{tool}: pick the source vessel, then the target", { tool: t(tool.label) })}
+              >
+                <span class="equipment-icon"><ToolIcon name={tool.verb} /></span><span>{t(tool.label)}</span>
+              </button>
+            {/each}
+          </div>
+        </div>
+      </section>
+    {/if}
   </nav>
   <div class="bench-pane">
     {#if apparatusOut === "react"}
@@ -464,7 +461,7 @@
       />
     {/if}
     {#if session.register !== "lv1" && session.lastEquation}
-      <p class="equation" aria-label="latest reaction equation">
+      <p class="equation" aria-label={t("latest reaction equation")}>
         {session.lastEquation}
       </p>
     {/if}
@@ -486,13 +483,37 @@
           density: item?.density ?? 1,
         };
       }}
+      transferFrom={transfer?.from ?? null}
       ondropspecies={(id, p) =>
         void session.submit(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
         )}
     />
+    {#if selectedVessel}
+      <VesselActionDock
+        vessel={selectedVessel.id}
+        label={selectedVessel.label}
+        boundary={selectedVessel.boundary}
+        busy={session.busy}
+        onaction={(line) => void session.submit(line)}
+        onpour={() => (transfer = { verb: "decant", fraction: 0.5, from: selectedVessel!.id })}
+        ondetails={() => {
+          void session.inspect(selectedVessel!.id);
+          pane = "notes";
+        }}
+        onmore={() => {
+          cabinetTab = "equipment";
+          pane = "shelf";
+        }}
+      />
+    {/if}
   </div>
   <aside>
+    <div class="pane-heading journal-heading">
+      <span class="pane-icon" aria-hidden="true">≡</span>
+      <span><strong>{t("lab journal")}</strong><small>{t("observations and evidence")}</small></span>
+      <span class="entry-count" title={t("notebook entries")}>{session.feed.length}</span>
+    </div>
     {#if session.inspector}
       <Inspector
         vessel={session.inspector.vessel}
@@ -516,14 +537,14 @@
   onvalidate={(line) => session.parse(line)}
 />
 
-<nav class="tabs" aria-label="panes">
-  {#each [["bench", "bench"], ["shelf", "shelf"], ["notes", "notes"]] as [key, label] (key)}
+<nav class="tabs" aria-label={t("panes")}>
+  {#each [["bench", "workspace"], ["shelf", "cabinet"], ["notes", "journal"]] as [key, label] (key)}
     <button
       aria-pressed={pane === key}
       class:active={pane === key}
       onclick={() => (pane = key as typeof pane)}
     >
-      {label}
+      {t(label)}
     </button>
   {/each}
 </nav>
@@ -580,24 +601,6 @@
 {/if}
 
 <style>
-  header {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    flex-wrap: wrap;
-    padding: 0.7rem 1rem;
-    border-bottom: 1px solid var(--edge);
-  }
-  h1 {
-    font-size: 1rem;
-    margin: 0;
-    font-weight: 600;
-  }
-  h1 small {
-    color: var(--dim);
-    font-weight: 400;
-    margin-left: 0.5rem;
-  }
   .tool {
     background: var(--panel-raised);
     border: 1px solid var(--edge);
@@ -715,40 +718,403 @@
   .tabs {
     display: none;
   }
-  /* Wide: the toolbar is not a box at all. `display: contents` dissolves
-     the wrapper so its buttons stay direct flex children of <header>, and
-     the layout is exactly what it was before the wrapper existed. */
-  .tools {
-    display: contents;
+  /* GUI-070/071: bench-first shell. Kept after the legacy declarations so
+     the migration remains reviewable while every child component retains its
+     semantic token aliases. */
+  .topbar {
+    min-height: 68px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.65rem 1rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--edge) 82%, transparent);
+    background: color-mix(in srgb, var(--surface) 94%, transparent);
+    box-shadow: 0 8px 26px var(--shadow);
+    z-index: 20;
   }
-  .tools-toggle {
-    display: none;
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-width: 12rem;
   }
-  @media (max-width: 900px) {
-    /* Narrow: fifteen buttons wrap to nine rows and push the bench off
-       the screen. Collapse them; the title, the register dial and the
-       engine status are what a phone keeps. */
-    header {
-      padding: 0.5rem 0.75rem;
-      gap: 0.5rem;
-    }
-    header h1 small {
-      display: none;
-    }
-    .tools-toggle {
-      display: inline-block;
-    }
-    .tools {
-      display: none;
-      flex-basis: 100%;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-    }
-    .tools.open {
-      display: flex;
-    }
+  .brand-mark {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    color: var(--primary);
+    border-radius: 13px;
+    background: color-mix(in srgb, var(--primary) 12%, var(--surface));
+  }
+  .brand-mark svg {
+    width: 34px;
+    height: 34px;
+  }
+  .brand-mark path,
+  .brand-mark circle {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .brand-mark .brand-liquid {
+    fill: color-mix(in srgb, var(--instrument) 32%, transparent);
+    stroke: var(--instrument);
+  }
+  .brand-copy {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+  }
+  .brand-copy strong {
+    font-size: 1.08rem;
+    letter-spacing: 0.01em;
+  }
+  .brand-copy small {
+    margin-top: 0.22rem;
+    color: var(--dim);
+    font-size: 0.69rem;
+  }
+  .mode-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.7rem;
+    border: 1px solid color-mix(in srgb, var(--discovery) 38%, var(--edge));
+    border-radius: 999px;
+    color: var(--discovery);
+    background: color-mix(in srgb, var(--discovery) 9%, var(--surface));
+    font-size: 0.75rem;
+    font-weight: 700;
+  }
+  .top-controls {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.65rem;
+    min-width: 0;
+  }
+  .tool {
+    background: var(--surface-raised);
+    border-radius: var(--radius-sm);
+    min-height: 40px;
+    padding: 0.45rem 0.7rem;
+  }
+  .tool:hover:not(:disabled) {
+    border-color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 8%, var(--surface-raised));
+  }
+  .danger-tool:hover:not(:disabled) {
+    color: var(--danger);
+    border-color: var(--danger);
+  }
+  .active-tool {
+    border-color: var(--action) !important;
+    background: color-mix(in srgb, var(--action) 10%, var(--surface)) !important;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--action) 14%, transparent);
+  }
+  .utility-toggle {
+    min-height: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--edge);
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    background: var(--surface-raised);
+    cursor: pointer;
+    font-weight: 650;
+  }
+  .utility-toggle:hover,
+  .utility-toggle[aria-expanded="true"] {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+  .utility-drawer {
+    position: fixed;
+    top: calc(env(safe-area-inset-top) + 74px);
+    right: calc(env(safe-area-inset-right) + 1rem);
+    width: min(52rem, calc(100vw - 2rem));
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding: 0.85rem;
+    z-index: 40;
+    border: 1px solid var(--edge);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--surface) 97%, transparent);
+    box-shadow: 0 18px 55px var(--shadow-strong);
+  }
+  .utility-group {
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.75rem;
+    border-radius: var(--radius-md);
+    background: var(--surface-raised);
+  }
+  .utility-group > strong {
+    flex-basis: 100%;
+    margin-bottom: 0.15rem;
+    color: var(--dim);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .utility-group > :global(.timeline) {
+    flex-basis: 100%;
+  }
+  .theme-choice {
+    flex-basis: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.3rem;
+    margin-top: 0.3rem;
+    padding-top: 0.55rem;
+    border-top: 1px solid var(--edge);
+  }
+  .utility-locale {
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding-top: 0.5rem;
+    color: var(--dim);
+    font-size: 0.7rem;
+  }
+  .theme-choice > span {
+    grid-column: 1 / -1;
+    color: var(--dim);
+    font-size: 0.68rem;
+  }
+  .theme-button {
+    min-height: 34px;
+    border: 1px solid var(--edge);
+    border-radius: 8px;
+    color: var(--dim);
+    background: var(--surface);
+    cursor: pointer;
+    font-size: 0.7rem;
+  }
+  .theme-button.active {
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: inset 0 -2px 0 var(--primary);
+  }
+  .status {
+    margin-left: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+  }
+  .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 0 3px color-mix(in srgb, currentColor 14%, transparent);
+  }
+  .console-link {
+    align-self: center;
+    color: var(--primary);
+    padding: 0.4rem;
+  }
+  main {
+    gap: 0.75rem;
+    padding: 0.75rem;
+  }
+  .shelf-pane {
+    width: min(15rem, 20vw);
+    border: 1px solid var(--edge);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    overflow: hidden;
+    box-shadow: 0 8px 28px var(--shadow);
+  }
+  aside {
+    width: min(18rem, 23vw);
+    border: 1px solid var(--edge);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    overflow: hidden;
+    box-shadow: 0 8px 28px var(--shadow);
+  }
+  .bench-pane {
+    overflow: hidden;
+    border: 1px solid var(--edge);
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    box-shadow: 0 10px 32px var(--shadow);
+  }
+  .pane-heading {
+    min-height: 62px;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.7rem 0.85rem;
+    border-bottom: 1px solid var(--edge);
+  }
+  .pane-heading > span:nth-child(2) {
+    min-width: 0;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+  .pane-heading strong {
+    font-size: 0.86rem;
+  }
+  .pane-heading small {
+    margin-top: 0.2rem;
+    color: var(--dim);
+    font-size: 0.67rem;
+  }
+  .pane-icon {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    border-radius: 10px;
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 11%, var(--surface-raised));
+    font-size: 1.15rem;
+    font-weight: 800;
+  }
+  .journal-heading .pane-icon {
+    color: var(--discovery);
+    background: color-mix(in srgb, var(--discovery) 10%, var(--surface-raised));
+  }
+  .entry-count {
+    min-width: 1.8rem;
+    padding: 0.22rem 0.4rem;
+    border-radius: 999px;
+    color: var(--dim);
+    background: var(--surface-raised);
+    font-size: 0.7rem;
+    text-align: center;
+  }
+  .cabinet-tabs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem;
+    padding: 0.55rem 0.65rem 0;
+  }
+  .cabinet-tabs button {
+    min-height: 38px;
+    border: 0;
+    border-radius: 10px;
+    color: var(--dim);
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.78rem;
+    font-weight: 650;
+  }
+  .cabinet-tabs button.active {
+    color: var(--primary);
+    background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised));
+  }
+  .equipment-cabinet {
+    min-height: 0;
+    overflow-y: auto;
+    padding: 0.65rem;
+  }
+  .cabinet-target {
+    margin: 0 0 0.65rem;
+    padding: 0.55rem 0.65rem;
+    border-radius: 10px;
+    color: var(--instrument);
+    background: color-mix(in srgb, var(--instrument) 9%, var(--surface-raised));
+    font-size: 0.72rem;
+    font-weight: 650;
+  }
+  .equipment-group {
+    margin-bottom: 1rem;
+  }
+  .equipment-group h2 {
+    margin: 0 0 0.4rem;
+    color: var(--dim);
+    font-size: 0.7rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+  .equipment-group button,
+  .equipment-group select {
+    width: 100%;
+    min-height: 48px;
+    border: 1px solid var(--edge);
+    border-radius: 12px;
+    color: var(--ink);
+    background: var(--surface-raised);
+    cursor: pointer;
+  }
+  .equipment-group > button {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.45rem 0.6rem;
+    text-align: left;
+  }
+  .equipment-group button:hover,
+  .equipment-group select:hover {
+    border-color: var(--action);
+  }
+  .equipment-group button > span:not(.equipment-icon) {
+    display: flex;
+    flex-direction: column;
+  }
+  .equipment-group button small {
+    color: var(--dim);
+    font-size: 0.67rem;
+  }
+  .equipment-icon {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    border-radius: 9px;
+    color: var(--action);
+    background: color-mix(in srgb, var(--action) 10%, var(--surface));
+  }
+  .equipment-icon :global(svg) {
+    width: 24px;
+    height: 24px;
+  }
+  .equipment-group select {
+    margin-top: 0.4rem;
+    padding: 0 0.65rem;
+    font-size: 0.78rem;
+  }
+  .equipment-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+  }
+  .equipment-grid button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    min-height: 84px;
+    padding: 0.45rem;
+    font-size: 0.72rem;
+  }
+  .equation {
+    background: var(--surface);
+  }
 
-    /* One pane at a time, chosen by the tab bar. */
+  @media (max-width: 980px) {
     main[data-pane="bench"] .shelf-pane,
     main[data-pane="bench"] aside,
     main[data-pane="shelf"] .bench-pane,
@@ -757,32 +1123,97 @@
     main[data-pane="notes"] .shelf-pane {
       display: none;
     }
+    main {
+      padding: 0.5rem;
+    }
     .shelf-pane,
     aside {
       width: auto;
       flex: 1;
-      border-left: 0;
-      border-right: 0;
+      border: 1px solid var(--edge);
+      border-radius: var(--radius-md);
     }
     .tabs {
       display: flex;
       border-top: 1px solid var(--edge);
-      background: var(--panel);
+      background: var(--surface);
     }
     .tabs button {
       flex: 1;
-      background: none;
+      min-height: 48px;
       border: 0;
       color: var(--dim);
-      font: inherit;
-      font-size: 0.85rem;
-      padding: 0.55rem;
-      min-height: 44px;
+      background: transparent;
       cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 650;
     }
     .tabs button.active {
-      color: var(--ink);
-      box-shadow: inset 0 2px 0 var(--hot);
+      color: var(--primary);
+      box-shadow: inset 0 3px 0 var(--primary);
+      background: color-mix(in srgb, var(--primary) 7%, transparent);
+    }
+  }
+  @media (max-width: 760px) {
+    .topbar {
+      min-height: 60px;
+      gap: 0.45rem;
+      padding: 0.45rem 0.55rem;
+    }
+    .brand {
+      min-width: 0;
+    }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 11px;
+    }
+    .brand-copy small,
+    .mode-pill,
+    .utility-label {
+      display: none;
+    }
+    .top-controls {
+      gap: 0.35rem;
+    }
+    .status {
+      display: none;
+    }
+    .top-controls > :global(.locale) {
+      display: none;
+    }
+    .utility-toggle {
+      width: 40px;
+      justify-content: center;
+      padding: 0;
+    }
+    .utility-drawer {
+      top: calc(env(safe-area-inset-top) + 64px);
+      left: calc(env(safe-area-inset-left) + 0.5rem);
+      right: calc(env(safe-area-inset-right) + 0.5rem);
+      width: auto;
+      max-height: calc(100dvh - 8rem);
+      grid-template-columns: 1fr;
+      overflow-y: auto;
+      border-radius: var(--radius-md);
+    }
+    .top-controls :global(.dial button) {
+      padding-inline: 0.45rem;
+    }
+    .top-controls :global(.dial button:not(.active)) {
+      display: none;
+    }
+  }
+  @media (max-width: 430px) {
+    .brand-copy {
+      display: none;
+    }
+    .top-controls {
+      margin-left: 0;
+      flex: 1;
+    }
+    .top-controls :global(.locale) {
+      margin-left: auto;
     }
   }
 </style>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { t } from "../i18n.svelte";
   let {
     vessel,
     busy,
@@ -25,7 +26,7 @@
   ];
 </script>
 
-<div class="tray" role="group" aria-label={`instruments for ${v}`}>
+<div class="tray" role="group" aria-label={t("instruments for {vessel}", { vessel: v })}>
   {#each INSTRUMENTS as inst (inst.token)}
     <button
       disabled={busy}
@@ -34,7 +35,7 @@
           inst.token === "chromatograph" ? `chromatograph ${v}` : `measure ${v} ${inst.token}`,
         )}
     >
-      {inst.label}
+      {t(inst.label)}
     </button>
   {/each}
 </div>

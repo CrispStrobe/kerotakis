@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ShelfItem } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
+  import { t } from "../i18n.svelte";
 
   let {
     name,
@@ -31,20 +32,20 @@
   } = $props();
 </script>
 
-<div class="lesson" role="region" aria-label={`lesson ${name}`}>
+<div class="lesson" role="region" aria-label={t("lesson {name}", { name: t(name) })}>
   <div class="controls">
-    <span class="name">{name}</span>
+    <span class="name">{t(name)}</span>
     {#if next}
       <code>{next}</code>
-      <button class="next" onclick={onnext} disabled={busy}>do it</button>
+      <button class="next" onclick={onnext} disabled={busy}>{t("do it")}</button>
     {/if}
     {#if deviation > 0}
       <span class="deviation">
-        off the script by {deviation} {deviation === 1 ? "step" : "steps"} — exploring is allowed
+        {t(deviation === 1 ? "off the script by {count} step" : "off the script by {count} steps", { count: deviation })} — {t("exploring is allowed")}
       </span>
-      <button onclick={onreturn} disabled={busy}>return to the script</button>
+      <button onclick={onreturn} disabled={busy}>{t("return to the script")}</button>
     {/if}
-    <button class="leave" onclick={onexit}>leave lesson</button>
+    <button class="leave" onclick={onexit}>{t("leave lesson")}</button>
   </div>
   {#if kit.length > 0 && onadd}
     <KitStrip items={kit} {register} {target} {onadd} />

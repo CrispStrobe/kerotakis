@@ -6,6 +6,7 @@
 <meta name="theme-color" content="#14120f">
 <meta name="description" content="A virtual chemistry laboratory that computes real chemistry — PHREEQC solving in your browser, offline.">
 <link rel="manifest" href="manifest.webmanifest">
+<script>{ let choice; try { choice = localStorage.getItem("kerotakis.locale"); } catch {} if ((choice || navigator.language).toLowerCase().startsWith("de")) document.currentScript.previousElementSibling.href = "manifest.de.webmanifest"; }</script>
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="icon" href="icon-192.png" sizes="192x192" type="image/png">
 <!-- iOS reads this, not the manifest, for Add to Home Screen. -->
@@ -34,6 +35,7 @@
   h1 { font-size: 1rem; margin: 0; font-weight: 600; letter-spacing: .02em; }
   h1 small { color: var(--dim); font-weight: 400; margin-left: .5rem; }
   #status { margin-left: auto; font-size: .8rem; }
+  #locale { background:var(--panel);border:1px solid var(--edge);border-radius:4px;color:var(--ink);font:inherit;font-size:.8rem;padding:.2rem .35rem; }
   .live { color: var(--good); } .cached { color: var(--warn); }
   main { display: flex; flex: 1; min-height: 0; }
   #transcript {
@@ -69,6 +71,7 @@
 <body>
 <header>
   <h1>Kerotakis <small>a chemistry bench that computes, in your browser</small></h1>
+  <select id="locale" aria-label="Language"><option value="en">English</option><option value="de">Deutsch</option></select>
   <span id="status">starting…</span>
 </header>
 <main>
@@ -136,6 +139,53 @@
 import init, { Lab } from "./kerotakis_wasm.js";
 import { openLab } from "./kerotakis.mjs";
 
+let savedLocale;
+try { savedLocale = localStorage.getItem("kerotakis.locale"); } catch {}
+const locale = savedLocale || (navigator.language.toLowerCase().startsWith("de") ? "de" : "en");
+const DE = {
+  "Language":"Sprache", "a chemistry bench that computes, in your browser":"ein Chemielabor, das im Browser rechnet",
+  "starting…":"startet…", "→ the bench app":"→ zur Labor-App", "same engine, drawn glassware":"dieselbe Engine, gezeichnete Glasgeräte",
+  "— same engine, drawn glassware":"— dieselbe Engine, gezeichnete Glasgeräte",
+  "Try these":"Probiere diese", "Silver meets salt":"Silber trifft Salz", "Blue gel, then black":"Blaues Gel, dann schwarz",
+  "Rates: two beakers, one clock":"Reaktionsgeschwindigkeit: zwei Bechergläser, eine Uhr", Catalysis:"Katalyse",
+  "Freeze it":"Einfrieren", "Grit: salt against frost":"Streusalz gegen Frost", "Neutral is a moving target":"Neutral verschiebt sich",
+  "Permanganate counts in fives":"Permanganat zählt in Fünferschritten", "Two roads, one temperature":"Zwei Wege, eine Temperatur",
+  Permanganate:"Permanganat", Electrochemistry:"Elektrochemie", "Zinc displaces copper":"Zink verdrängt Kupfer",
+  "Copper plating":"Verkupfern", Instruments:"Instrumente", "Strong vs weak electrolyte":"Starker und schwacher Elektrolyt",
+  "Neutralisation heat":"Neutralisationswärme", "Gas laws (sealed)":"Gasgesetze (geschlossen)", Distillation:"Destillation",
+  "Ethanol–water still":"Ethanol-Wasser-Destille", "Organic chemistry":"Organische Chemie", "Ethanol structure":"Ethanol-Struktur",
+  "Acetic acid structure":"Essigsäure-Struktur", "Ethanol groups":"Funktionelle Gruppen von Ethanol",
+  "Ethyl acetate groups":"Funktionelle Gruppen von Ethylacetat", Photochemistry:"Photochemie", "UV on peroxide":"UV-Licht auf Peroxid",
+  "Particle size":"Korngröße", "Ground calcium carbonate + acid":"Gemahlenes Calciumcarbonat + Säure", Calorimetry:"Kalorimetrie",
+  "NaOH dissolving":"NaOH lösen", Coverage:"Abdeckung", "Solver coverage":"Solver-Abdeckung", Detail:"Detailstufe",
+  "lv1 — what you see":"lv1 — was du siehst", "lv2 — equations and amounts":"lv2 — Gleichungen und Mengen",
+  "lv3 — everything":"lv3 — alles", Also:"Außerdem", "reset the bench":"Labor zurücksetzen", Source:"Quellcode",
+  "AGPL-3.0-or-later. Aqueous chemistry by":"AGPL-3.0-or-later. Wässrige Chemie mit",
+  "● solving live (PHREEQC in wasm)":"● rechnet live (PHREEQC in WASM)", "● shipped results only":"● nur mitgelieferte Ergebnisse",
+  "Kerotakis — a virtual chemistry laboratory that computes real chemistry.":"Kerotakis — ein virtuelles Chemielabor, das echte Chemie berechnet.",
+  "The aqueous engine is running in this tab. Nothing below is a lookup table.\n":"Die wässrige Engine läuft in diesem Tab. Nichts unten ist eine Nachschlagetabelle.\n",
+  "Running without the aqueous engine: anything nobody pre-computed will be reported as a stated miss rather than guessed at.\n":"Betrieb ohne wässrige Engine: Nicht vorberechnete Ergebnisse werden als fehlend gemeldet und nicht geraten.\n",
+  "Type a command, or pick one from the right. `help` lists them.\n":"Gib einen Befehl ein oder wähle rechts einen aus. `help` zeigt alle Befehle.\n",
+  "  the bench is clean again.":"  Das Labor ist wieder sauber.", "  (nothing to draw)":"  (nichts darzustellen)",
+  "  no functional groups found":"  keine funktionellen Gruppen gefunden", "  (nothing happened)":"  (nichts ist passiert)",
+  "  detail is now {level}.":"  Detailstufe ist jetzt {level}.", "the aqueous engine did not start: {reason}":"Die wässrige Engine ist nicht gestartet: {reason}",
+  "Kerotakis — a bench in the browser":"Kerotakis — ein Labor im Browser",
+  "A virtual chemistry laboratory that computes real chemistry — PHREEQC solving in your browser, offline.":"Ein virtuelles Chemielabor, das echte Chemie berechnet — PHREEQC im Browser, offline."
+};
+const tr = (message, vars={}) => (locale === "de" ? (DE[message] || message) : message).replace(/\{(\w+)\}/g, (_, key) => vars[key] ?? `{${key}}`);
+document.documentElement.lang = locale;
+document.title = tr("Kerotakis — a bench in the browser");
+document.querySelector('meta[name="description"]').content = tr("A virtual chemistry laboratory that computes real chemistry — PHREEQC solving in your browser, offline.");
+const localeSelect = document.getElementById("locale");
+localeSelect.value = locale;
+localeSelect.setAttribute("aria-label", tr("Language"));
+localeSelect.addEventListener("change", () => { try { localStorage.setItem("kerotakis.locale", localeSelect.value); } catch {} location.reload(); });
+for (const el of document.querySelectorAll("header small, #side h2, #side button, #side p")) {
+  for (const node of el.childNodes) if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+    const before = node.textContent; const value = before.trim(); node.textContent = before.replace(value, tr(value));
+  }
+}
+
 const out = document.getElementById("transcript");
 const statusEl = document.getElementById("status");
 const input = document.getElementById("input");
@@ -176,6 +226,34 @@ const HELP = `Commands are the same .lab grammar the desktop tool reads.
   species                   what is on the shelf
   reset                     start over`;
 
+const HELP_DE = `Die Befehle verwenden dieselbe .lab-Grammatik wie das Desktop-Werkzeug.
+
+  add v1 water 100mL        etwas in ein Gefäß geben
+  add v1 NaCl 0.1mol        …in Mol, Gramm, mL oder als Löffel/Prise/Tasse
+  heat v1 8kJ / cool v1 4kJ erhitzen / kühlen
+  wait 30s                  Zeit verstreichen lassen — alle Gefäße laufen gemeinsam weiter
+  ignite v1                 eine Flamme daran halten
+  stir v1 / filter v1 v2 / decant v1 v2 0.5 / evaporate v1 0.5
+  distil v1 v2 0.3          einen Anteil in ein Sammelgefäß destillieren
+  seal v1 200mL             über einem Gas-Kopfraum verschließen
+  open v1                   wieder zur Atmosphäre öffnen
+  new                       ein weiteres Gefäß
+  look v1                   Beobachtung mit dem Auge
+  electrolyze v1 0.5A 30min Strom hindurchleiten
+  cell v1 v2                Spannung einer galvanischen Zelle
+  measure v1 thermometer    außerdem: Waage, pH, Druck, Volumen,
+                            Leitfähigkeit, UV-Vis, Kalorimeter
+  grind v1 NaCl 50um        Korngröße einstellen (heterogene Kinetik)
+  irradiate v1 254nm 10W/m2 UV-Lichtquelle
+  structure CCO             SMILES parsen (Formel, Masse, InChIKey)
+  identify CCO              funktionelle Gruppen eines Moleküls
+  coverage v1               Solver-Abdeckung dieses Gefäßzustands
+  particles v1              submikroskopische Ansicht
+  inspect v1                vollständiger Zustand
+  register lv1|lv2|lv3      Detailumfang
+  species                   Inhalt des Regals
+  reset                     neu beginnen`;
+
 let lab;
 
 async function boot() {
@@ -210,26 +288,26 @@ async function boot() {
       },
     });
   } catch (e) {
-    write(`the aqueous engine did not start: ${e.message}`, "err");
+    write(tr("the aqueous engine did not start: {reason}", { reason: e.message }), "err");
     lab = new Lab();
   }
 
   if (lab.canSolve()) {
-    statusEl.textContent = "● solving live (PHREEQC in wasm)";
+    statusEl.textContent = tr("● solving live (PHREEQC in wasm)");
     statusEl.className = "live";
   } else {
-    statusEl.textContent = "● shipped results only";
+    statusEl.textContent = tr("● shipped results only");
     statusEl.className = "cached";
   }
 
-  write("Kerotakis — a virtual chemistry laboratory that computes real chemistry.");
+  write(tr("Kerotakis — a virtual chemistry laboratory that computes real chemistry."));
   write(
     lab.canSolve()
-      ? "The aqueous engine is running in this tab. Nothing below is a lookup table.\n"
-      : "Running without the aqueous engine: anything nobody pre-computed will be reported as a stated miss rather than guessed at.\n",
+      ? tr("The aqueous engine is running in this tab. Nothing below is a lookup table.\n")
+      : tr("Running without the aqueous engine: anything nobody pre-computed will be reported as a stated miss rather than guessed at.\n"),
     "note",
   );
-  write("Type a command, or pick one from the right. `help` lists them.\n", "note");
+  write(tr("Type a command, or pick one from the right. `help` lists them.\n"), "note");
 
   // A stable diagnostic used by CI and useful to a deployed/offline page.
   // It deliberately goes through the same Lab instance and solver/cache
@@ -255,10 +333,10 @@ function runOne(line) {
   if (!trimmed || trimmed.startsWith("#")) return;
   write(`kero> ${trimmed}`, "echo");
 
-  if (trimmed === "help") return write(HELP, "note");
+  if (trimmed === "help") return write(locale === "de" ? HELP_DE : HELP, "note");
   if (trimmed === "reset") {
     lab.reset();
-    return write("  the bench is clean again.", "note");
+    return write(tr("  the bench is clean again."), "note");
   }
   if (trimmed === "species") {
     const list = JSON.parse(lab.species());
@@ -272,7 +350,7 @@ function runOne(line) {
   try {
     if (trimmed.startsWith("particles") || trimmed.startsWith("zoom")) {
       const doc = JSON.parse(lab.particles(vesselArg(trimmed)));
-      return write(doc.rendered || "  (nothing to draw)", "particles");
+      return write(doc.rendered || tr("  (nothing to draw)"), "particles");
     }
     if (trimmed.startsWith("inspect")) {
       const doc = JSON.parse(lab.inspect(vesselArg(trimmed)));
@@ -294,7 +372,7 @@ function runOne(line) {
     if (trimmed.startsWith("identify ")) {
       const smiles = trimmed.slice(9).trim();
       const groups = JSON.parse(lab.identifyGroups(smiles));
-      if (groups.length === 0) return write("  no functional groups found");
+      if (groups.length === 0) return write(tr("  no functional groups found"));
       const lines = groups.map((g) => `  ${g.name} (×${g.count})`);
       return write(lines.join("\n"));
     }
@@ -319,9 +397,9 @@ function runOne(line) {
     // reporting that as "nothing happened" made a successful command look
     // like a failed one.
     if (trimmed.startsWith("register ")) {
-      return write(`  detail is now ${trimmed.slice(9).trim()}.`, "note");
+      return write(tr("  detail is now {level}.", { level: trimmed.slice(9).trim() }), "note");
     }
-    write("  (nothing happened)");
+    write(tr("  (nothing happened)"));
   } catch (e) {
     write(`  ${e.message ?? e}`, "err");
   }

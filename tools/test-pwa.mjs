@@ -86,6 +86,41 @@ try {
         "scope resolves to the payload root", resolved(parsed?.scope));
   check(parsed?.display === "standalone", "display is standalone", parsed?.display);
 
+  // The page can switch manifests before the app starts. Test every target
+  // independently so a localized source file omitted by build-web.sh cannot
+  // pass merely because this browser launched in English.
+  const localizedManifests = await page.evaluate(`Promise.all([
+    ["manifest.webmanifest", "en"],
+    ["manifest.de.webmanifest", "de"],
+  ].map(async ([file, lang]) => {
+    const response = await fetch(new URL(file, location.origin + ${JSON.stringify(PREFIX + "/")}));
+    let body = null;
+    try { body = await response.json(); } catch {}
+    return { file, lang, status: response.status, body };
+  }))`);
+  for (const candidate of localizedManifests) {
+    check(candidate.status === 200, `${candidate.file} is served`, `HTTP ${candidate.status}`);
+    check(candidate.body?.lang === candidate.lang,
+          `${candidate.file} declares ${candidate.lang}`, candidate.body?.lang ?? "unreadable");
+    const candidateUrl = `${origin}/${candidate.file}`;
+    check(new URL(candidate.body?.start_url ?? "", candidateUrl).pathname === `${PREFIX}/app/`,
+          `${candidate.file} start_url resolves to the bench`);
+    check(new URL(candidate.body?.scope ?? "", candidateUrl).pathname === `${PREFIX}/`,
+          `${candidate.file} scope resolves to the payload root`);
+  }
+
+  // Exercise the actual pre-app switcher, not only direct fetches.
+  await page.evaluate(`localStorage.setItem("kerotakis.locale", "de")`);
+  await page.goto(`${origin}/app/`);
+  const germanManifest = await page.cdp.send("Page.getAppManifest", {}, page.sessionId);
+  check(germanManifest.url === `${origin}/manifest.de.webmanifest`,
+        "German locale selects the German manifest", germanManifest.url);
+  check((germanManifest.errors ?? []).length === 0,
+        "Chrome parses the German manifest without complaint",
+        JSON.stringify(germanManifest.errors ?? []));
+  await page.evaluate(`localStorage.setItem("kerotakis.locale", "en")`);
+  await page.goto(`${origin}/app/`);
+
   const icons = parsed?.icons ?? [];
   check(icons.some((i) => i.sizes === "192x192" && i.type === "image/png"),
         "a 192px PNG icon is declared");
@@ -131,7 +166,8 @@ try {
   check(cached.names.length === 1, "exactly one cache generation is live",
         cached.names.join(", "));
   for (const want of ["/app/index.html", "/index.html", "/manifest.webmanifest",
-                      "/privacy.html", "/kerotakis_wasm_bg.wasm", "/db/wateq4f.dat"]) {
+                      "/manifest.de.webmanifest", "/privacy.html", "/privacy.de.html",
+                      "/kerotakis_wasm_bg.wasm", "/db/wateq4f.dat"]) {
     check(cached.urls.includes(PREFIX + want), `precached ${want}`);
   }
   check(cached.urls.some((u) => new RegExp(`^${PREFIX}/app/assets/index-.*\\.js$`).test(u)),

@@ -4,6 +4,7 @@
   import FluidOverlay from "./FluidOverlay.svelte";
   import type { FluidSpecies } from "../fluidScene";
   import type { Effect } from "../magnitudes";
+  import { t } from "../i18n.svelte";
 
   let {
     vessel,
@@ -15,6 +16,7 @@
     titrationPlayback = null,
     onbadge,
     fluidLookup = null,
+    transferTarget = false,
   }: {
     vessel: SceneVessel;
     register: string;
@@ -27,6 +29,7 @@
     /** Species srgb+density lookup for the fluid overlay (GUI-065a);
      * absent = no fluid animation, static render only. */
     fluidLookup?: ((key: string) => FluidSpecies) | null;
+    transferTarget?: boolean;
   } = $props();
 
   // Transient effects: young enough that their animation is still running.
@@ -83,7 +86,7 @@
         : [
             {
               species: "solution",
-              name: "solution",
+              name: t("solution"),
               volume_l: vessel.liquid.volume_l,
               srgb: vessel.liquid.srgb,
               colour_word: vessel.liquid.colour_word,
@@ -134,10 +137,10 @@
   );
 </script>
 
-<figure class="vessel" class:selected class:drop-ready={dropReady}>
+<figure class="vessel" class:selected class:drop-ready={dropReady} class:transfer-target={transferTarget}>
   <button
     class="glassbtn"
-    aria-label={`${vessel.label} v${vessel.id + 1}: ${vessel.words}`}
+    aria-label={`${t(vessel.label)} v${vessel.id + 1}: ${t(vessel.words)}${transferTarget ? ` · ${t("transfer target")}` : ""}`}
     aria-pressed={selected}
     onclick={() => onselect?.(vessel.id)}
     ondragover={(e) => {
@@ -150,7 +153,7 @@
     {ondrop}
   >
   <svg viewBox="0 0 100 140" role="img" style={`width:clamp(64px,14vw,${geom.svgW}px)`}>
-    <title>{vessel.words}</title>
+    <title>{t(vessel.words)}</title>
     <defs>
       <clipPath id={`vclip-${vessel.id}`}>
         <path d={geom.inner} />
@@ -189,7 +192,7 @@
           fill={rgb(layer.srgb)}
           opacity={liquidOpacity(layer.srgb)}
         >
-          <title>{layer.colour_word} {layer.name}</title>
+          <title>{t(layer.colour_word)} {t(layer.name)}</title>
         </rect>
         <path
           class="meniscus"
@@ -226,7 +229,7 @@
           fill={rgb(solid.srgb)}
           class:metallic={solid.metallic}
         >
-          <title>{solid.colour_word} {solid.name}</title>
+          <title>{t(solid.colour_word)} {t(solid.name)}</title>
         </rect>
       {/each}
       <!-- A lit rim on top of the deposit, so it reads as a settled layer
@@ -357,7 +360,7 @@
       {@const colH = 56}
       {@const fillH = colH * (1 - buretteFraction)}
       {@const colTop = 4}
-      <g class="instrument burette-inst" aria-label="burette">
+      <g class="instrument burette-inst" aria-label={t("burette")}>
         <line class="stand" x1="97" y1="0" x2="97" y2="130" />
         <line class="stand-base" x1="91" y1="130" x2="100" y2="130" />
         <line class="clamp" x1="92" y1="10" x2="97" y2="10" />
@@ -373,7 +376,7 @@
     {/if}
     {#if active("thermometer", 2500)}
       {@const tipY = BOTTOM_Y - Math.max(liquidH * 0.5, 10)}
-      <g class="instrument thermometer-inst" aria-label="thermometer">
+      <g class="instrument thermometer-inst" aria-label={t("thermometer")}>
         <rect class="therm-stem" x="32" y="4" width="2" height={tipY - 4} rx="0.8" />
         <ellipse class="therm-bulb" cx="33" cy={tipY} rx="2.8" ry="3.2" />
         <rect class="therm-mercury" x="32.3" y={Math.max(tipY - 18, 10)} width="1.4" height={Math.min(18, tipY - 10)} rx="0.5" />
@@ -381,7 +384,7 @@
     {/if}
     {#if active("ph_probe", 2500)}
       {@const tipY = BOTTOM_Y - Math.max(liquidH * 0.5, 10)}
-      <g class="instrument ph-inst" aria-label="pH probe">
+      <g class="instrument ph-inst" aria-label={t("pH probe")}>
         <rect class="probe-stem" x="64" y="4" width="2" height={tipY - 4} rx="0.8" />
         <ellipse class="probe-tip" cx="65" cy={tipY} rx="2.2" ry="3.6" />
         <line class="probe-wire" x1="65" y1="4" x2="72" y2="-2" />
@@ -426,12 +429,12 @@
     />
     {#if vessel.boundary === "sealed"}
       <rect class="lid" x="10" y="9" width="80" height="5" rx="2">
-        <title>sealed</title>
+        <title>{t("sealed")}</title>
       </rect>
     {:else if vessel.boundary === "pressure_controlled"}
       <!-- A floating piston: the lid that moves to hold the set pressure. -->
       <rect class="lid" x="14" y="16" width="72" height="4" rx="1">
-        <title>pressure-controlled</title>
+        <title>{t("pressure-controlled")}</title>
       </rect>
       <line class="piston" x1="50" y1="4" x2="50" y2="16" />
       <line class="piston" x1="42" y1="4" x2="58" y2="4" />
@@ -442,14 +445,16 @@
         <path d="M 30 18 l -5 -3 v 6 z" />
         <line x1="70" y1="12" x2="98" y2="12" />
         <path d="M 98 12 l -5 -3 v 6 z" />
-        <title>swept with carrier gas</title>
+        <title>{t("swept with carrier gas")}</title>
       </g>
     {/if}
   </svg>
   </button>
 
+  {#if dropReady}<span class="drop-hint">{t("add here")}</span>{/if}
+
   <figcaption class="caption">
-    <span class="label">{vessel.label} v{vessel.id + 1}</span>
+    <span class="label">{t(vessel.label)} v{vessel.id + 1}</span>
     {#if register !== "lv1"}
       <button
         class="badge"
@@ -463,11 +468,11 @@
           data-confidence={badge.confidence}
           onclick={() => onbadge?.(badge)}
         >
-          {badge.key === "ph" ? "pH" : badge.key}
+          {badge.key === "ph" ? "pH" : t(badge.key)}
           {badge.value.toFixed(2)}
         </button>
       {/each}
-      {#if sealed}<span class="badge">{vessel.boundary}</span>{/if}
+      {#if sealed}<span class="badge">{t(vessel.boundary)}</span>{/if}
     {/if}
   </figcaption>
 </figure>
@@ -475,13 +480,19 @@
 <style>
   .vessel {
     margin: 0;
+    position: relative;
     padding: 0.4rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 0.4rem;
     border: 1px solid transparent;
-    border-radius: 10px;
+    border-radius: 16px;
+    transition:
+      transform 160ms ease,
+      border-color 160ms ease,
+      background-color 160ms ease,
+      box-shadow 160ms ease;
   }
   .glassbtn {
     background: none;
@@ -491,16 +502,44 @@
     font: inherit;
     cursor: pointer;
     display: block;
+    border-radius: 12px;
   }
   .vessel:hover {
     border-color: var(--edge);
+    background: color-mix(in srgb, var(--surface) 58%, transparent);
   }
   .vessel.selected {
-    border-color: var(--hot);
+    border-color: var(--action);
+    background: color-mix(in srgb, var(--action) 7%, var(--surface));
+    box-shadow: 0 8px 20px var(--shadow);
+    transform: translateY(-3px);
   }
   .vessel.drop-ready {
     border-color: var(--good);
-    background: var(--panel);
+    background: color-mix(in srgb, var(--success) 13%, var(--surface));
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--success) 14%, transparent);
+  }
+  .vessel.transfer-target {
+    border-color: var(--instrument);
+    background: color-mix(in srgb, var(--instrument) 8%, var(--surface));
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--instrument) 13%, transparent);
+    animation: target-breathe 1.4s ease-in-out infinite alternate;
+  }
+  @keyframes target-breathe {
+    to { box-shadow: 0 0 0 6px color-mix(in srgb, var(--instrument) 7%, transparent); }
+  }
+  .drop-hint {
+    position: absolute;
+    top: -1.5rem;
+    left: 50%;
+    translate: -50% 0;
+    padding: 0.2rem 0.5rem;
+    border-radius: 999px;
+    color: var(--surface);
+    background: var(--success);
+    font-size: 0.65rem;
+    font-weight: 750;
+    white-space: nowrap;
   }
   svg {
     height: auto;

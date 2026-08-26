@@ -1,6 +1,7 @@
 <script lang="ts">
   import { buildTitrateLine } from "../titration";
   import type { ShelfItem } from "../session.svelte";
+  import { t } from "../i18n.svelte";
 
   let {
     vessel,
@@ -30,7 +31,7 @@
   );
 </script>
 
-<section class="burette" aria-label={`burette over v${vessel + 1}`}>
+<section class="burette" aria-label={t("burette over v{vessel}", { vessel: vessel + 1 })}>
   <svg viewBox="0 0 24 64" class="glassware" aria-hidden="true">
     <!-- The column, the tap, the tip. -->
     <rect x="9" y="2" width="6" height="42" class="col" />
@@ -43,9 +44,9 @@
   </svg>
 
   <div class="form">
-    <strong>burette · v{vessel + 1}</strong>
+    <strong>{t("burette")} · v{vessel + 1}</strong>
     <label>
-      titrant
+      {t("titrant")}
       <select bind:value={titrant}>
         {#each shelf as s (s.key)}
           <option value={s.key}>{s.name}</option>
@@ -53,22 +54,22 @@
       </select>
     </label>
     <label>
-      concentration
+      {t("concentration")}
       <span><input type="number" step="0.1" min="0.01" bind:value={molarity} /> mol/L</span>
     </label>
     <label>
-      per drop
+      {t("per drop")}
       <span><input type="number" step="0.5" min="0.1" bind:value={incrementMl} /> mL</span>
     </label>
     <label>
-      until pH
+      {t("until pH")}
       <input type="number" step="0.5" bind:value={targetPh} />
     </label>
     <div class="row">
       <button class="start" disabled={busy || line === null} onclick={() => line && onstart(line)}>
-        {running ? "dripping…" : "start the drip"}
+        {running ? t("dripping…") : t("start the drip")}
       </button>
-      <button class="close" onclick={onclose}>put away</button>
+      <button class="close" onclick={onclose}>{t("put away")}</button>
     </div>
     {#if line}
       <code>{line}</code>
