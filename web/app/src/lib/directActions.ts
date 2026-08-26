@@ -27,6 +27,21 @@ export function vesselQuickActions(vessel: number, boundary: string): QuickActio
 
 export type TwoVesselAction = "filter" | "decant" | "drain" | "cell" | "distil";
 
+/** Three taps become the engine's real thermodynamic MIX operation. */
+export function mixLine(
+  a: number,
+  b: number,
+  into: number,
+  fractionA = 0.5,
+  fractionB = 0.5,
+): string | null {
+  if (![a, b, into].every((v) => Number.isInteger(v) && v >= 0) || new Set([a, b, into]).size !== 3) {
+    return null;
+  }
+  if (![fractionA, fractionB].every((f) => Number.isFinite(f) && f > 0 && f <= 1)) return null;
+  return `mix v${a + 1} ${fractionA} v${b + 1} ${fractionB} into v${into + 1}`;
+}
+
 export function twoVesselLine(
   verb: TwoVesselAction,
   from: number,

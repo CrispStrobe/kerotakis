@@ -37,4 +37,27 @@ describe("open-ended mission outcomes", () => {
     ]);
     expect(secured).toEqual(["observable-agcl"]);
   });
+
+  it("assesses the thermal baseline from solver-emitted mixing temperatures", () => {
+    const thermal = outcomeMissionContract("first-warmth")!;
+    const result = secureOutcomeEvidence(thermal, [], [{
+      event: "mixed",
+      fraction_a: 0.5,
+      fraction_b: 0.5,
+      temperature_a: 293.15,
+      temperature_b: 353.15,
+      temperature_into: 323.15,
+    }]);
+    expect(outcomeComplete(thermal, result)).toBe(true);
+  });
+
+  it("rejects isothermal, endpoint, tiny-stream, and untyped thermal claims", () => {
+    const criterion = outcomeMissionContract("first-warmth")!.criteria[0]!;
+    const base = { event: "mixed", fraction_a: 0.5, fraction_b: 0.5, temperature_a: 293.15, temperature_b: 353.15 };
+    expect(eventSecuresCriterion(criterion, { ...base, temperature_into: 323.15 })).toBe(true);
+    expect(eventSecuresCriterion(criterion, { ...base, temperature_b: 298.15, temperature_into: 295.15 })).toBe(false);
+    expect(eventSecuresCriterion(criterion, { ...base, temperature_into: 293.15 })).toBe(false);
+    expect(eventSecuresCriterion(criterion, { ...base, fraction_a: 0.01, temperature_into: 352.55 })).toBe(false);
+    expect(eventSecuresCriterion(criterion, { event: "temperature_changed", from: 293.15, to: 323.15 })).toBe(false);
+  });
 });

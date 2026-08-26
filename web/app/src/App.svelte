@@ -35,7 +35,7 @@
   import { commandCount, completedCommandCount } from "./lib/lesson";
   import { missionTitle } from "./lib/storyProgress";
   import { pwa } from "./lib/pwa.svelte";
-  import { twoVesselLine, type TwoVesselAction } from "./lib/directActions";
+  import { mixLine, twoVesselLine, type TwoVesselAction } from "./lib/directActions";
   import {
     BENCH_LAYOUT_KEY,
     EMPTY_BENCH_LAYOUT,
@@ -234,7 +234,26 @@
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
   let transfer = $state<{ verb: TwoVesselAction; fraction: number; from: number | null } | null>(null);
+  /** The mixer consumes two source selections and a distinct receiver. */
+  let mix = $state<{ fraction: number; a: number | null; b: number | null } | null>(null);
   function vesselTapped(id: number) {
+    if (mix) {
+      if (mix.a === null) {
+        mix = { ...mix, a: id };
+        return;
+      }
+      if (mix.a === id) return;
+      if (mix.b === null) {
+        mix = { ...mix, b: id };
+        return;
+      }
+      if (mix.b === id) return;
+      const line = mixLine(mix.a, mix.b, id, mix.fraction, mix.fraction);
+      if (!line) return;
+      mix = null;
+      void session.submit(line);
+      return;
+    }
     if (!transfer) {
       void session.inspect(id);
       return;
@@ -440,6 +459,24 @@
   </div>
 {/if}
 
+{#if mix}
+  <div class="transfer-banner mix-banner" role="status">
+    <strong>{t("mixer")}</strong>
+    — {t("use from each source")}
+    {#each [0.25, 0.5, 0.75, 1.0] as f (f)}
+      <button class:on={mix.fraction === f} onclick={() => (mix = { ...mix!, fraction: f })}>
+        {f * 100}%
+      </button>
+    {/each}
+    {mix.a === null
+      ? ` · ${t("tap the first source vessel")}`
+      : mix.b === null
+        ? ` · ${t("v{vessel} selected — tap the second source", { vessel: mix.a + 1 })}`
+        : ` · ${t("v{first} + v{second} — tap an empty receiver", { first: mix.a + 1, second: mix.b + 1 })}`}
+    <button class="cancel" onclick={() => (mix = null)}>{t("cancel")}</button>
+  </div>
+{/if}
+
 {#if session.lesson}
   <LessonBar
     name={session.lesson.lesson.name}
@@ -491,6 +528,7 @@
         {buretteOut}
         {apparatusOut}
         transferVerb={transfer?.verb ?? null}
+        mixActive={mix !== null}
         reactAvailable={session.reactOptions.length > 0}
         mode={labMode}
         completed={session.completedMissions.size}
@@ -505,6 +543,12 @@
         }}
         ontransfer={(verb) => {
           transfer = transfer?.verb === verb ? null : { verb, fraction: 0.5, from: null };
+          mix = null;
+          pane = "bench";
+        }}
+        onmix={() => {
+          mix = mix ? null : { fraction: 0.5, a: null, b: null };
+          transfer = null;
           pane = "bench";
         }}
       />
