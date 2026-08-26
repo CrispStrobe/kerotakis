@@ -57,6 +57,21 @@ command -v xcodegen >/dev/null || brew install xcodegen
 
 cd "$ROOT/web/app"
 
+# Clear the previous run's leavings BEFORE the project is generated, which
+# is the only moment it helps:
+#
+#   Externals/  holds the staticlib per architecture AND configuration, and
+#               xcodegen SCANS that directory, emitting one copy command per
+#               file it finds. A `debug` libapp.a left by a simulator build
+#               is therefore baked into the project alongside the release
+#               one, and the build refuses:
+#                 error: Multiple commands produce ... Kerotakis.app/libapp.a
+#               Deleting the file after generation does not remove the
+#               reference; it has to be gone before xcodegen looks.
+#   build/      holds the archive, and must not survive a failed build, or
+#               the export step would ship the PREVIOUS binary.
+rm -rf "$GEN/Externals" "$GEN/build"
+
 echo "== tauri ios init"
 npx tauri ios init
 
@@ -94,17 +109,6 @@ if ! ( : > "$DD/.kero-write-test" ) 2>/dev/null; then
 else
     rm -f "$DD/.kero-write-test"
 fi
-
-# Clear the previous run's leavings, both of which cause real failures:
-#
-#   Externals/  holds the staticlib per architecture AND configuration, and
-#               the target's `sources` scans the whole directory. A `debug`
-#               libapp.a left by a simulator build therefore collides with
-#               the release one:
-#                 error: Multiple commands produce ... Kerotakis.app/libapp.a
-#   build/      holds the archive. It must not survive a failed build, or
-#               the export below would happily ship the PREVIOUS binary.
-rm -rf "$GEN/Externals" "$GEN/build"
 
 echo "== tauri ios build"
 # Its own export step is expected to fail here, and that is not a problem
