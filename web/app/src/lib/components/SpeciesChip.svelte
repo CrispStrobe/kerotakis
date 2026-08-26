@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ShelfItem } from "../session.svelte";
+  import { t } from "../i18n.svelte";
 
   let { item }: { item: ShelfItem } = $props();
 
@@ -24,10 +25,10 @@
   const unassessed = $derived(item.hazard_assessed === false);
   const title = $derived(
     [
-      item.appearance ? `${item.appearance} ${phase}` : phase,
-      item.flame ? `burns ${item.flame}` : null,
-      hazards.length > 0 ? `hazards: ${hazards.join(", ")}` : null,
-      unassessed ? "hazards unassessed" : null,
+      item.appearance ? `${t(item.appearance)} ${t(phase)}` : t(phase),
+      item.flame ? t("burns {colour}", { colour: t(item.flame) }) : null,
+      hazards.length > 0 ? t("hazards: {hazards}", { hazards: hazards.map(t).join(", ") }) : null,
+      unassessed ? t("hazards unassessed") : null,
     ]
       .filter(Boolean)
       .join(" · "),

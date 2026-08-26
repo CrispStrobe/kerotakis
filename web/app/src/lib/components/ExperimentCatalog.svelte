@@ -10,6 +10,7 @@
   } from "../codex";
   import type { Session } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
+  import { t } from "../i18n.svelte";
 
   let {
     entries,
@@ -102,46 +103,46 @@
 </script>
 
 <div class="scrim" role="presentation" onclick={onclose} onkeydown={(e) => e.key === "Escape" && onclose()}>
-  <section class="panel" role="dialog" aria-modal="true" aria-label="experiments" onclick={(e) => e.stopPropagation()}>
+  <section class="panel" role="dialog" aria-modal="true" aria-label={t("experiments")} onclick={(e) => e.stopPropagation()}>
     {#if !open}
       <header>
-        <h2>experiments</h2>
-        <span class="hint">{entries.length} from the codex — each one computed, checked, and yours to break</span>
-        <button class="close" onclick={onclose}>close</button>
+        <h2>{t("experiments")}</h2>
+        <span class="hint">{t("{count} from the codex — each one computed, checked, and yours to break", { count: entries.length })}</span>
+        <button class="close" onclick={onclose}>{t("close")}</button>
       </header>
       <nav class="tabs">
         {#each [["all", "all"], ["concepts", "by concept"], ["curriculum", "by curriculum"]] as [key, label] (key)}
-          <button class:on={view === key} onclick={() => (view = key as typeof view)}>{label}</button>
+          <button class:on={view === key} onclick={() => (view = key as typeof view)}>{t(label)}</button>
         {/each}
         <input
           class="filter"
           type="search"
-          placeholder="filter…"
+          placeholder={t("filter…")}
           bind:value={filter}
-          aria-label="filter experiments"
+          aria-label={t("filter experiments")}
         />
       </nav>
 
       {#if view === "concepts"}
-        <div class="chips" role="group" aria-label="concepts">
+        <div class="chips" role="group" aria-label={t("concepts")}>
           {#each concepts as c (c.concept)}
             <button
               class="chip"
               class:on={concept === c.concept}
               onclick={() => (concept = concept === c.concept ? null : c.concept)}
             >
-              {c.concept.replace(/-/g, " ")} <small>{c.count}</small>
+              {t(c.concept.replace(/-/g, " "))} <small>{c.count}</small>
             </button>
           {/each}
           {#if concepts.length === 0}
-            <p class="empty">these entries name no concepts yet</p>
+            <p class="empty">{t("these entries name no concepts yet")}</p>
           {/if}
         </div>
         {#if concept && related.length > 0}
           <p class="meta">
-            taught alongside:
+            {t("taught alongside:")}
             {#each related as r, i (r)}
-              <button class="link" onclick={() => (concept = r)}>{r.replace(/-/g, " ")}</button
+              <button class="link" onclick={() => (concept = r)}>{t(r.replace(/-/g, " "))}</button
               >{i < related.length - 1 ? ", " : ""}
             {/each}
           </p>
@@ -150,11 +151,11 @@
 
       {#if view === "curriculum"}
         {#if curricula.length === 0}
-          <p class="empty">no curriculum placements in this export yet</p>
+          <p class="empty">{t("no curriculum placements in this export yet")}</p>
         {/if}
         {#each curricula as sys (sys.system)}
           <section class="system">
-            <h3>{sys.system.replace(/-/g, " ")}</h3>
+            <h3>{t(sys.system.replace(/-/g, " "))}</h3>
             {#each sys.stages as st (st.stage)}
               <details>
                 <summary>
@@ -164,14 +165,14 @@
                   {#each st.entries as e (e.id)}
                     <li>
                       <button class="entry" onclick={() => openEntry(e)}>
-                        <strong>{e.id.replace(/-/g, " ")}</strong>
-                        <span class="eq">{e.equation ?? e.summary ?? ""}</span>
+                        <strong>{t(e.id.replace(/-/g, " "))}</strong>
+                        <span class="eq">{t(e.equation ?? e.summary ?? "")}</span>
                       </button>
                     </li>
                   {/each}
                 </ul>
                 {#if st.sources.length > 0}
-                  <p class="meta">placed per: {st.sources.join("; ")}</p>
+                  <p class="meta">{t("placed per: {sources}", { sources: st.sources.join("; ") })}</p>
                 {/if}
               </details>
             {/each}
@@ -182,40 +183,40 @@
           {#each shown as e (e.id)}
             <li>
               <button class="entry" onclick={() => openEntry(e)}>
-                <strong>{e.id.replace(/-/g, " ")}</strong>
-                <span class="eq">{e.equation ?? e.summary ?? ""}</span>
+                <strong>{t(e.id.replace(/-/g, " "))}</strong>
+                <span class="eq">{t(e.equation ?? e.summary ?? "")}</span>
               </button>
             </li>
           {/each}
           {#if shown.length === 0}
-            <li><p class="empty">nothing matches that filter</p></li>
+            <li><p class="empty">{t("nothing matches that filter")}</p></li>
           {/if}
         </ul>
       {/if}
     {:else}
       <header>
         <button class="back" onclick={() => (open = null)}>←</button>
-        <h2>{open.id.replace(/-/g, " ")}</h2>
-        <button class="close" onclick={onclose}>close</button>
+        <h2>{t(open.id.replace(/-/g, " "))}</h2>
+        <button class="close" onclick={onclose}>{t("close")}</button>
       </header>
       <nav class="tabs">
         {#each [["theory", "theory"], ["procedure", "procedure"], ["run", "predict & run"]] as [key, label] (key)}
-          <button class:on={tab === key} onclick={() => (tab = key as typeof tab)}>{label}</button>
+          <button class:on={tab === key} onclick={() => (tab = key as typeof tab)}>{t(label)}</button>
         {/each}
       </nav>
 
       {#if tab === "theory"}
         {#if open.equation}<p class="equation">{open.equation}</p>{/if}
-        <p class="prose">{theory}</p>
+        <p class="prose">{t(theory)}</p>
         {#if session.register !== "lv1" && (open.concepts?.length ?? 0) > 0}
-          <p class="meta">concepts: {open.concepts!.join(", ")}</p>
+          <p class="meta">{t("concepts: {concepts}", { concepts: open.concepts!.map(t).join(", ") })}</p>
         {/if}
         {#if session.register === "lv3" && (open.models?.length ?? 0) > 0}
-          <p class="meta">models: {open.models!.join(", ")}</p>
+          <p class="meta">{t("models: {models}", { models: open.models!.map(t).join(", ") })}</p>
         {/if}
       {:else if tab === "procedure"}
         {#if (open.apparatus?.length ?? 0) > 0}
-          <p class="meta">you will need: {open.apparatus!.join(", ")}</p>
+          <p class="meta">{t("you will need: {apparatus}", { apparatus: open.apparatus!.map(t).join(", ") })}</p>
         {/if}
         {#if kitItems.length > 0}
           <KitStrip
@@ -232,7 +233,7 @@
       {:else}
         {#if prediction}
           <div class="predict">
-            <p class="question">{prediction.question}</p>
+            <p class="question">{t(prediction.question)}</p>
             {#each prediction.options as opt, i (i)}
               <button
                 class="option"
@@ -242,51 +243,51 @@
                 disabled={result !== null}
                 onclick={() => (predicted = i)}
               >
-                {opt}
+                {t(opt)}
               </button>
             {/each}
             {#if mustPredict}
-              <p class="meta">commit a prediction first — the reveal only teaches if you have.</p>
+              <p class="meta">{t("commit a prediction first — the reveal only teaches if you have.")}</p>
             {/if}
           </div>
         {/if}
         <button class="go" disabled={running || session.busy || mustPredict} onclick={() => void runIt()}>
-          {running ? "running…" : "run it on the bench"}
+          {running ? t("running…") : t("run it on the bench")}
         </button>
         {#if result}
           <div class="verdict" class:ok={result.allOk}>
-            <strong>{result.allOk ? "the chemistry agrees" : "not everything checked out"}</strong>
+            <strong>{result.allOk ? t("the chemistry agrees") : t("not everything checked out")}</strong>
             <ul>
               {#each result.events as e (e.want)}
                 <li class:ok={e.seen}>{e.seen ? "✓" : "✗"} {e.want.replace(/_/g, " ")}</li>
               {/each}
               {#each result.forbidden as f (f.want)}
-                <li class:ok={!f.violated}>{f.violated ? "✗ occurred" : "✓ absent"}: {f.want.replace(/_/g, " ")}</li>
+                <li class:ok={!f.violated}>{f.violated ? `✗ ${t("occurred")}` : `✓ ${t("absent")}`}: {t(f.want.replace(/_/g, " "))}</li>
               {/each}
               {#if result.ph}
                 <li class:ok={result.ph.ok}>
                   {result.ph.ok ? "✓" : "✗"} pH {result.ph.value?.toFixed(2) ?? "—"}
-                  (expected {result.ph.range.min ?? "…"}–{result.ph.range.max ?? "…"})
+                  ({t("expected {range}", { range: `${result.ph.range.min ?? "…"}–${result.ph.range.max ?? "…"}` })})
                 </li>
               {/if}
               {#if result.temperature_c}
                 <li class:ok={result.temperature_c.ok}>
                   {result.temperature_c.ok ? "✓" : "✗"} {result.temperature_c.value?.toFixed(1) ?? "—"} °C
-                  (expected {result.temperature_c.range.min ?? "…"}–{result.temperature_c.range.max ?? "…"})
+                  ({t("expected {range}", { range: `${result.temperature_c.range.min ?? "…"}–${result.temperature_c.range.max ?? "…"}` })})
                 </li>
               {/if}
             </ul>
             {#if prediction && predicted !== null}
               {#if predicted === prediction.answer}
-                <p class="meta">your prediction held.</p>
+                <p class="meta">{t("your prediction held.")}</p>
               {:else}
                 <p class="meta">
-                  the bench answered "{prediction.options[prediction.answer]}".
+                  {t("the bench answered {answer}.", { answer: `“${t(prediction.options[prediction.answer] ?? "")}”` })}
                   {#if diagnosisForPick}
-                    {diagnosisForPick.reveals}
-                    {#if diagnosisForPick.next}Try: {diagnosisForPick.next}{/if}
+                    {t(diagnosisForPick.reveals)}
+                    {#if diagnosisForPick.next}{t("Try: {next}", { next: t(diagnosisForPick.next) })}{/if}
                   {:else if prediction.misconception}
-                    {prediction.misconception}
+                    {t(prediction.misconception)}
                   {/if}
                 </p>
               {/if}

@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ParticleCensus } from "../host/EngineHost";
+  import { t } from "../i18n.svelte";
 
   let { census }: { census: ParticleCensus } = $props();
 
@@ -14,7 +15,7 @@
     gas: { describe: "gas" },
   };
   const norm = (kind: string) => kind.toLowerCase().replace(/_/g, "");
-  const describe = (kind: string) => KINDS[norm(kind)]?.describe ?? kind;
+  const describe = (kind: string) => t(KINDS[norm(kind)]?.describe ?? kind);
 </script>
 
 <section
@@ -50,14 +51,14 @@
   {/each}
   {#if census.too_rare.length > 0}
     <p class="note">
-      also present, too dilute to draw at this scale:
+      {t("also present, too dilute to draw at this scale:")}
       {census.too_rare.map(([name]) => name).join(", ")}
     </p>
   {/if}
   <p class="note">
     {census.source === "speciation"
-      ? "ratios from solved speciation"
-      : "ratios from the inventory — ion pairs and complexes not resolved"}
+      ? t("ratios from solved speciation")
+      : t("ratios from the inventory — ion pairs and complexes not resolved")}
     · one shape ≈ {census.per_glyph.toExponential(1)} mol
   </p>
 </section>

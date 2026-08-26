@@ -13,9 +13,11 @@ gave us the bain-marie; the airtight seal her apparatus needed is where
 "hermetically sealed" comes from; and von Soxhlet's 1879 modernisation of it is
 still in working labs today — and is itself an apparatus this lab will model.
 The name describes the architecture: a sealed vessel you put things into, and
-reactions happen. The product's voice — steampunk brass to necromantic glow —
-lives entirely in data (operation names, narration templates, codex copy), never
-in the solvers.
+reactions happen. The product's voice is a **bright scientific workshop**:
+optimistic, tactile, curious, and exact enough for professional use. Story tone,
+operation names, narration, and visual themes live outside the solvers; the
+fresh blue/cyan/orange/violet UI palette never recolors computed chemical
+appearances or changes scientific behavior.
 
 > Every licence, build flag and API claim in this document was verified against
 > upstream source, package metadata or primary legal text on **2026-08-18**.
@@ -53,6 +55,62 @@ open-sourced CEA under **Apache-2.0 in 2026, including its thermodynamic
 database** (`data/thermo.inp`) — so a small Gibbs-energy minimiser over NASA
 polynomials with pure condensed phases turns "heat it" and "ignite it" into
 computed chemistry, adiabatic flame temperature included.
+
+### The product form: one world, two ways to play
+
+Kerotakis is an open-world laboratory exploration game built on the bench, not
+a text adventure and not a menu of canned simulations. The player inhabits a
+persistent lab, handles visible equipment, accepts several missions at once,
+finds samples and clues, and earns access to broader apparatus and places by
+demonstrating scientific capability. The story supplies motives and
+consequences; the solver determines what actually happens.
+
+There are two first-class modes over the same engine and content:
+
+| Mode | Promise | Availability | Save behavior |
+|---|---|---|---|
+| **Story** | Directed but non-linear growth from a small community lab to independent research | Equipment, supplies, contacts, and places unlock through missions and discoveries | Persistent, versioned story world and progression |
+| **Sandbox** | Immediate unrestricted laboratory for play, teaching, authoring, and expert work | Every installed reagent, apparatus, operation, instrument, and study surface | Separate persistent world; cannot grant or consume Story progress |
+
+Story is the recommended first door, never a compulsory tutorial. Sandbox is
+always one top-level action away and is never hidden behind account status,
+completion, or payment.
+
+The core loop is:
+
+```text
+explore a place or problem
+  → choose or discover a mission
+  → collect a sample and assemble a kit
+  → experiment freely on the persistent bench
+  → observe, measure, and record evidence
+  → submit a computed result or engineered outcome
+  → unlock capability, knowledge, relationship, or place
+  → use it on old and new problems
+```
+
+Product invariants:
+
+1. A mission states a problem and constraints, not the one approved procedure.
+2. Completion is evaluated from typed events and solved world state, not a
+   clicked answer key; materially different valid solutions are welcomed.
+3. Failure is recoverable and explanatory. Hazards, broken glass, spoiled
+   samples, and exhausted Story supplies create consequences without corrupting
+   saves or teaching arbitrary physics.
+4. Progression gates tools and contexts, never the register dial, equations,
+   underlying truth, accessibility features, or language.
+5. At useful campaign moments there are multiple active leads; the player is
+   never trapped in one corridor or forced to wait/grind.
+6. The complete chemistry and apparatus registry remains available in Sandbox.
+7. The first UX milestone is a tactile, readable laboratory; world breadth and
+   campaign volume follow only after placing, pouring, measuring, and inspecting
+   feel good with mouse, touch, and keyboard.
+
+The delivery sequence and acceptance criteria live in
+[`ROADMAP-GUI.md`](ROADMAP-GUI.md); mission semantics in
+[`EXPERIMENTS.md`](EXPERIMENTS.md); save/orchestration contracts in
+[`ROADMAP-Webapp.md`](ROADMAP-Webapp.md); and cabinet metadata in
+[`APPARATUS.md`](APPARATUS.md).
 
 ### The build-time principle
 
@@ -785,8 +843,9 @@ as one dataset:
   level, and the L4′ enrichment block (ΔG, Fukui colouring, FMO pair + gap +
   phase-match verdict, path frames, IR spectrum).
 - **Flavour is data.** Operation names, narration templates, codex voice — the
-  steampunk-to-necromancer register lives in these files and survives any UI
-  decision untouched.
+  bright-workshop adventure voice and any optional story theme live in these
+  files and survive UI redesigns untouched. The default tone is warm and
+  curious, never babyish; lv3 may be concise without becoming a different app.
 - **Markup decided early.** The codex rendering convention (register copy,
   diagrams, concept pages) is chosen during authoring, not after hundreds of
   entries exist — the renderer can come late, the format cannot.

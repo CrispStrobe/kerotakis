@@ -7,13 +7,14 @@
 
 import { seriesPoints } from "./chart";
 import type { FeedEntry } from "./session.svelte";
+import { t } from "./i18n.svelte";
 
 export function notebookMarkdown(
   entries: FeedEntry[],
   meta: { title?: string; date?: string; register?: string } = {},
 ): string {
   const out: string[] = [];
-  out.push(`# ${meta.title ?? "Kerotakis lab notebook"}`);
+  out.push(`# ${meta.title ?? t("Kerotakis lab notebook")}`);
   const line2: string[] = [];
   if (meta.date) line2.push(meta.date);
   if (meta.register) line2.push(`register ${meta.register}`);
@@ -32,7 +33,7 @@ export function notebookMarkdown(
         out.push(`*${entry.text}*`, "");
         break;
       case "hazard":
-        out.push(`> **${entry.severity || "hazard"}** — ${entry.text}`, "");
+        out.push(`> **${entry.severity || t("hazard")}** — ${entry.text}`, "");
         break;
       case "refusal":
       case "error":

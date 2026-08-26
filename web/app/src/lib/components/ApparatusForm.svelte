@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ApparatusSpec } from "../apparatus";
   import type { ShelfItem } from "../session.svelte";
+  import { t } from "../i18n.svelte";
 
   let {
     spec,
@@ -25,18 +26,18 @@
   const line = $derived(spec.build(vessel, values));
 </script>
 
-<section class="apparatus" aria-label={`${spec.title} over v${vessel + 1}`}>
+<section class="apparatus" aria-label={t("{apparatus} over v{vessel}", { apparatus: t(spec.title), vessel: vessel + 1 })}>
   <div class="head">
-    <strong>{spec.title}</strong>
-    <span class="blurb">{spec.blurb} · v{vessel + 1}</span>
+    <strong>{t(spec.title)}</strong>
+    <span class="blurb">{t(spec.blurb)} · v{vessel + 1}</span>
   </div>
   <div class="fields">
     {#each spec.fields as f (f.name)}
       <label>
-        {f.label}
+        {t(f.label)}
         {#if f.type === "species"}
           <select bind:value={values[f.name]}>
-            <option value="">choose…</option>
+            <option value="">{t("choose…")}</option>
             {#each solids.length > 0 ? solids : shelf as s (s.key)}
               <option value={s.key}>{s.name}</option>
             {/each}
@@ -56,9 +57,9 @@
       </label>
     {/each}
     <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
-      go
+      {t("go")}
     </button>
-    <button class="close" onclick={onclose}>put away</button>
+    <button class="close" onclick={onclose}>{t("put away")}</button>
   </div>
   {#if line}<code>{line}</code>{/if}
 </section>

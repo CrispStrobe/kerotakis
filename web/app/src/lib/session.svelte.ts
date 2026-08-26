@@ -20,6 +20,7 @@ import { type Lesson, parseLesson } from "./lesson";
 import { scriptKit } from "./codex";
 import { schedule, type Playback } from "./replay";
 import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
+import { t } from "./i18n.svelte";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "hazard" | "chart";
@@ -217,15 +218,15 @@ export class Session {
       this.feed.push({
         kind: "note",
         text: this.canSolve
-          ? "The bench is live: states nobody pre-computed are solved."
-          : "The bench answers from shipped results only — the live aqueous engine is not attached.",
+          ? t("The bench is live: states nobody pre-computed are solved.")
+          : t("The bench answers from shipped results only — the live aqueous engine is not attached."),
       });
       // A silently degraded engine hides real failures (salts that never
       // dissolve, colours that never appear). Say WHY, loudly.
       if (!this.canSolve && hello.aqueous_note) {
         this.feed.push({
           kind: "error",
-          text: `the aqueous engine failed to attach: ${hello.aqueous_note}`,
+          text: t("the aqueous engine failed to attach: {reason}", { reason: hello.aqueous_note }),
         });
       }
       this.restoreProgress();
@@ -291,7 +292,7 @@ export class Session {
         this.register = saved.register;
       }
       const position = Math.max(0, Math.min(saved.log.length, saved.position ?? saved.log.length));
-      let how = "replayed";
+      let how = t("replayed");
       if (position > 0) {
         // Instant path first; replay stays the fallback AND the
         // definition of correctness (a snapshot restore must be
@@ -301,7 +302,7 @@ export class Session {
           try {
             await this.host.restore(saved.snapshot);
             instant = true;
-            how = "restored instantly";
+            how = t("restored instantly");
             this.snapshots.set(position, saved.snapshot);
           } catch {
             // Stale/incompatible token (engine upgraded): replay.
@@ -315,12 +316,12 @@ export class Session {
       this.position = position;
       this.feed.push({
         kind: "note",
-        text: `restored your last session: ${position} step(s) ${how}`,
+        text: t("restored your last session: {count} step(s) {how}", { count: position, how }),
       });
     } catch {
       // A corrupt save must never wedge the bench: drop it and start clean.
       this.storage?.removeItem(SAVE_KEY);
-      this.feed.push({ kind: "note", text: "could not restore the last session — starting fresh" });
+      this.feed.push({ kind: "note", text: t("could not restore the last session — starting fresh") });
     }
   }
 
@@ -353,7 +354,7 @@ export class Session {
       this.storage?.removeItem(SAVE_KEY);
       this.scene = await this.host.scene();
       this.inspector = null;
-      this.feed.push({ kind: "note", text: "the bench is empty again" });
+      this.feed.push({ kind: "note", text: t("the bench is empty again") });
     } catch (e) {
       this.feed.push({
         kind: "error",
@@ -433,7 +434,7 @@ export class Session {
           } else if (event?.event === "safety_veto") {
             this.feed.push({
               kind: "refusal",
-              text: String(event.reason ?? "the bench refused this operation"),
+              text: String(event.reason ?? t("the bench refused this operation")),
             });
           }
         }
@@ -490,7 +491,7 @@ export class Session {
    * is undoable like anything else.
    */
   async importLab(name: string, text: string): Promise<void> {
-    this.feed.push({ kind: "note", text: `running ${name} on this bench` });
+    this.feed.push({ kind: "note", text: t("running {name} on this bench", { name }) });
     let lineno = 0;
     for (const raw of text.split("\n")) {
       lineno += 1;
@@ -499,12 +500,12 @@ export class Session {
       if (!(await this.submit(line))) {
         this.feed.push({
           kind: "note",
-          text: `stopped at ${name}:${lineno} — the rest of the file did not run`,
+          text: t("stopped at {name}:{line} — the rest of the file did not run", { name, line: lineno }),
         });
         return;
       }
     }
-    this.feed.push({ kind: "note", text: `${name} finished` });
+    this.feed.push({ kind: "note", text: t("{name} finished", { name }) });
   }
 
   /** Map a typed event onto a transient canvas effect for its vessel:
@@ -543,7 +544,7 @@ export class Session {
       await this.host.setRegister(level);
       this.register = level;
       this.persist();
-      this.feed.push({ kind: "note", text: `speaking at ${level}` });
+      this.feed.push({ kind: "note", text: t("speaking at {level}", { level }) });
       if (this.inspector) await this.inspect(this.inspector.vessel);
       return true;
     } catch (e) {
@@ -591,16 +592,16 @@ export class Session {
         kind: "note",
         text:
           target < was
-            ? `stepped back to ${target} of ${this.commandLog.length}`
-            : `stepped forward to ${target} of ${this.commandLog.length}`,
+            ? t("stepped back to {position} of {total}", { position: target, total: this.commandLog.length })
+            : t("stepped forward to {position} of {total}", { position: target, total: this.commandLog.length }),
       });
       if (this.inspector) await this.inspect(this.inspector.vessel);
     } catch (e) {
       this.feed.push({
         kind: "error",
-        text: `replay failed, the bench may be out of sync — ${
-          e instanceof Error ? e.message : String(e)
-        }`,
+        text: t("replay failed, the bench may be out of sync — {reason}", {
+          reason: e instanceof Error ? e.message : String(e),
+        }),
       });
     } finally {
       this.busy = false;
@@ -620,7 +621,7 @@ export class Session {
   startLesson(name: string, text: string): void {
     this.lesson = { lesson: parseLesson(name, text), cursor: 0, kit: scriptKit(text) };
     this.lessonBaseline = this.position;
-    this.feed.push({ kind: "note", text: `lesson started: ${name}` });
+    this.feed.push({ kind: "note", text: t("lesson started: {name}", { name: t(name) }) });
     this.advanceLessonNotes();
   }
 
@@ -631,11 +632,11 @@ export class Session {
     while (this.lesson.cursor < lesson.steps.length) {
       const step = lesson.steps[this.lesson.cursor]!;
       if (step.kind !== "note") break;
-      this.feed.push({ kind: "note", text: step.text });
+      this.feed.push({ kind: "note", text: t(step.text) });
       this.lesson.cursor += 1;
     }
     if (this.lesson.cursor >= lesson.steps.length) {
-      this.feed.push({ kind: "note", text: `lesson finished: ${lesson.name}` });
+      this.feed.push({ kind: "note", text: t("lesson finished: {name}", { name: t(lesson.name) }) });
       this.lesson = null;
     }
   }
@@ -673,12 +674,12 @@ export class Session {
   async lessonReturn(): Promise<void> {
     if (!this.lesson || this.lessonDeviation === 0) return;
     await this.jumpTo(this.lessonBaseline);
-    this.feed.push({ kind: "note", text: "back on the script." });
+    this.feed.push({ kind: "note", text: t("back on the script.") });
   }
 
   exitLesson(): void {
     if (!this.lesson) return;
-    this.feed.push({ kind: "note", text: `lesson left: ${this.lesson.lesson.name}` });
+    this.feed.push({ kind: "note", text: t("lesson left: {name}", { name: t(this.lesson.lesson.name) }) });
     this.lesson = null;
   }
 

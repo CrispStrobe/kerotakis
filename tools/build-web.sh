@@ -38,8 +38,10 @@ else
 fi
 
 echo "== the page"
-cp "$ROOT/web/index.html" "$ROOT/web/privacy.html" "$ROOT/web/kerotakis.mjs" \
-   "$ROOT/web/manifest.webmanifest" "$ROOT/web/icon.svg" \
+cp "$ROOT/web/index.html" "$ROOT/web/privacy.html" \
+   "$ROOT/web/privacy.de.html" "$ROOT/web/kerotakis.mjs" \
+   "$ROOT/web/manifest.webmanifest" "$ROOT/web/manifest.de.webmanifest" \
+   "$ROOT/web/icon.svg" \
    "$ROOT/web/icon-192.png" "$ROOT/web/icon-512.png" \
    "$ROOT/web/icon-maskable-512.png" "$ROOT/web/apple-touch-icon.png" \
    "$ROOT/web/screenshot-wide.png" "$ROOT/web/screenshot-narrow.png" "$OUT/"
