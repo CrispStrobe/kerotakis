@@ -3,6 +3,8 @@
   import { quickAmounts as amountsFor } from "../amounts";
   import SpeciesChip from "./SpeciesChip.svelte";
   import { t } from "../i18n.svelte";
+  import { reagentAccess } from "../catalogProgress";
+  import type { LabMode } from "../worldState";
 
   let {
     items,
@@ -10,6 +12,8 @@
     target,
     onadd,
     kit = null,
+    mode = "sandbox",
+    completed = 0,
   }: {
     items: ShelfItem[];
     register: string;
@@ -17,6 +21,8 @@
     onadd: (line: string) => void;
     /** During a lesson: the reagents its own commands use. */
     kit?: string[] | null;
+    mode?: LabMode;
+    completed?: number;
   } = $props();
 
   let query = $state("");
@@ -90,12 +96,16 @@
   {/if}
   <ul>
     {#each filtered as item (item.key)}
+      {@const access = reagentAccess(mode, completed, item, kit?.includes(item.key) ?? false)}
       <li>
         <button
           class="species"
+          class:locked={!access.available}
           aria-expanded={open === item.key}
-          draggable="true"
+          aria-disabled={!access.available}
+          draggable={access.available}
           ondragstart={(e) => {
+            if (!access.available) return;
             e.dataTransfer?.setData(
               "application/x-kero-species",
               JSON.stringify({ key: item.key, phase: item.phase }),
@@ -106,29 +116,37 @@
           <SpeciesChip {item} />
           <span class="name">{t(item.name)}</span>
           <span class="formula">{item.formula}</span>
+          {#if access.loaned}<span class="loan">{t("mission kit")}</span>{/if}
+          {#if !access.available}<span class="lock" aria-hidden="true">⌁</span>{/if}
         </button>
         {#if open === item.key}
-          <div class="amounts" role="group" aria-label={t("amount of {name}", { name: t(item.name) })}>
-            {#each quickAmounts(item.phase) as amount (amount)}
-              <button class="amount" onclick={() => add(item, amount)}>{amount}</button>
-            {/each}
-            {#if register !== "lv1"}
-              <form
-                class="custom"
-                onsubmit={(e) => {
-                  e.preventDefault();
-                  add(item, custom);
-                }}
-              >
-                <input
-                  type="text"
-                  placeholder="5g, 0.1mol…"
-                  aria-label={t("custom amount")}
-                  bind:value={custom}
-                />
-              </form>
-            {/if}
-          </div>
+          {#if access.available}
+            <div class="amounts" role="group" aria-label={t("amount of {name}", { name: t(item.name) })}>
+              {#each quickAmounts(item.phase) as amount (amount)}
+                <button class="amount" onclick={() => add(item, amount)}>{amount}</button>
+              {/each}
+              {#if register !== "lv1"}
+                <form
+                  class="custom"
+                  onsubmit={(e) => {
+                    e.preventDefault();
+                    add(item, custom);
+                  }}
+                >
+                  <input
+                    type="text"
+                    placeholder="5g, 0.1mol…"
+                    aria-label={t("custom amount")}
+                    bind:value={custom}
+                  />
+                </form>
+              {/if}
+            </div>
+          {:else}
+            <p class="stock-lock">{access.minimumCompleted === 1
+              ? t("Permanent stock unlocks after one completed mission. Mission kits loan required materials.")
+              : t("Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.", { count: access.minimumCompleted })}</p>
+          {/if}
         {/if}
       </li>
     {/each}
@@ -250,6 +268,11 @@
     border-color: color-mix(in srgb, var(--primary) 45%, var(--edge));
     background: color-mix(in srgb, var(--primary) 8%, var(--surface-raised));
   }
+  .species.locked { opacity: .62; border-color: color-mix(in srgb, var(--edge) 75%, transparent); cursor: pointer; filter: saturate(.55); }
+  .species.locked:hover .name { color: var(--ink); }
+  .lock { color: var(--dim); font-weight: 900; }
+  .loan { padding: .12rem .28rem; border-radius: 6px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 11%, var(--surface)); font-size: .48rem; font-weight: 850; text-transform: uppercase; }
+  .stock-lock { margin: 0 .2rem .5rem; padding: .5rem; border-left: 3px solid var(--instrument); border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--instrument) 7%, transparent); font-size: .68rem; line-height: 1.35; }
   .name {
     flex: 1;
   }

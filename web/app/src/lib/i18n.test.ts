@@ -14,6 +14,9 @@ describe("i18n", () => {
     expect(t("high contrast")).toBe("Hoher Kontrast");
     expect(t("place vessel here")).toBe("Gefäß hier abstellen");
     expect(t("Your saves stay separate.")).toBe("Deine Spielstände bleiben getrennt.");
+    expect(t("after one mission")).toBe("nach einer Mission");
+    expect(t("mission kit")).toBe("Missionsset");
+    expect(t("place on bench")).toBe("auf den Labortisch stellen");
   });
 
   it("interpolates translated messages", () => {
@@ -24,6 +27,7 @@ describe("i18n", () => {
     expect(t("vessel v{vessel} moved to {zone}", { vessel: 2, zone: t("analyse") })).toBe(
       "Gefäß v2 nach Analysieren verschoben",
     );
+    expect(t("after {count} missions", { count: 3 })).toBe("nach 3 Missionen");
   });
 
   it("uses the source message as the English catalog", () => {

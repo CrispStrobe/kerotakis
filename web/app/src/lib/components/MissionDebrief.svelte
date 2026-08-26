@@ -2,8 +2,11 @@
   import { t } from "../i18n.svelte";
   import type { MissionDebrief as Debrief } from "../session.svelte";
   import { missionTitle } from "../storyProgress";
+  import { equipmentRewardAt } from "../catalogProgress";
+  import ToolIcon from "./ToolIcon.svelte";
 
-  let { debrief, onmap, onclose }: { debrief: Debrief; onmap: () => void; onclose: () => void } = $props();
+  let { debrief, onmap, onplace, onclose }: { debrief: Debrief; onmap: () => void; onplace: (verb: string) => void; onclose: () => void } = $props();
+  const reward = $derived(debrief.firstCompletion ? equipmentRewardAt(debrief.completedTotal) : null);
 
   const outcome = $derived(
     !debrief.firstCompletion
@@ -33,6 +36,14 @@
       <div><strong>{debrief.completedTotal}</strong><span>{t("missions complete")}</span></div>
     </div>
 
+    {#if reward}
+      <div class="reward">
+        <span class="reward-icon" aria-hidden="true"><ToolIcon name={reward.verb} /></span>
+        <span><small>{t("new permanent equipment")}</small><strong>{t(reward.title)}</strong><p>{t(reward.description)}</p></span>
+        <button onclick={() => onplace(reward.verb)}>{t("place on bench")} <span aria-hidden="true">→</span></button>
+      </div>
+    {/if}
+
     {#if debrief.evidence.length > 0}
       <details>
         <summary>{t("review the evidence")}</summary>
@@ -60,6 +71,15 @@
   .summary div { display: flex; align-items: baseline; gap: .45rem; padding: .6rem .75rem; border-radius: 12px; background: var(--surface-raised); }
   .summary strong { color: var(--success); font-size: 1.15rem; }
   .summary span { color: var(--dim); font-size: .7rem; }
+  .reward { grid-column: 1 / -1; display: grid; grid-template-columns: 46px 1fr auto; align-items: center; gap: .7rem; padding: .7rem; overflow: hidden; border: 1px solid color-mix(in srgb, var(--instrument) 42%, var(--edge)); border-radius: 15px; background: linear-gradient(120deg, color-mix(in srgb, var(--instrument) 12%, var(--surface)), color-mix(in srgb, var(--discovery) 8%, var(--surface))); animation: reward-in 520ms 160ms both; }
+  @keyframes reward-in { from { opacity: 0; transform: translateX(14px); } }
+  .reward-icon { width: 46px; height: 46px; display: grid; place-items: center; border-radius: 14px; color: white; background: var(--instrument); }
+  .reward-icon :global(svg) { width: 32px; height: 32px; }
+  .reward > span:nth-child(2) { min-width: 0; display: grid; }
+  .reward small { color: var(--instrument); font-size: .58rem; font-weight: 850; letter-spacing: .09em; text-transform: uppercase; }
+  .reward strong { font-size: .85rem; }
+  .reward p { font-size: .67rem; }
+  .reward button { min-height: 36px; padding: 0 .7rem; border: 0; border-radius: 10px; color: white; background: var(--instrument); cursor: pointer; font-weight: 800; }
   details { grid-column: 1 / -1; padding: .55rem .7rem; border: 1px solid var(--edge); border-radius: 12px; font-size: .72rem; }
   summary { color: var(--primary); cursor: pointer; font-weight: 750; }
   ul { max-height: 7rem; overflow: auto; margin: .5rem 0 0; padding-left: 1.2rem; color: var(--dim); }
@@ -73,5 +93,7 @@
     .success-mark { width: 44px; height: 44px; border-radius: 14px; }
     .actions { display: grid; grid-template-columns: 1fr 1fr; }
     .actions button { justify-content: center; }
+    .reward { grid-template-columns: 42px 1fr; }
+    .reward button { grid-column: 1 / -1; }
   }
 </style>
