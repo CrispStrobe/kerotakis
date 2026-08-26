@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ModeStorage, loadLabProfile, readLabMode, saveLabProfile, writeLabMode } from "./worldState";
+import { CONTAMINATED_SAMPLE_BRIEFED_KEY, ModeStorage, loadLabProfile, readLabMode, saveLabProfile, writeLabMode } from "./worldState";
 
 class MemoryStorage {
   values = new Map<string, string>();
@@ -15,8 +15,11 @@ describe("world and mode persistence", () => {
     const sandbox = new ModeStorage(root, "sandbox");
     story.setItem("kero.session.v1", "story-save");
     sandbox.setItem("kero.session.v1", "sandbox-save");
+    story.setItem(CONTAMINATED_SAMPLE_BRIEFED_KEY, "yes");
     expect(story.getItem("kero.session.v1")).toBe("story-save");
     expect(sandbox.getItem("kero.session.v1")).toBe("sandbox-save");
+    expect(story.getItem(CONTAMINATED_SAMPLE_BRIEFED_KEY)).toBe("yes");
+    expect(sandbox.getItem(CONTAMINATED_SAMPLE_BRIEFED_KEY)).toBeNull();
     sandbox.removeItem("kero.session.v1");
     expect(story.getItem("kero.session.v1")).toBe("story-save");
   });

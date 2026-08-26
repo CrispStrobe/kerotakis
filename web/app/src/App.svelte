@@ -44,6 +44,7 @@
   } from "./lib/benchLayout";
   import {
     HOME_SEEN_KEY,
+    CONTAMINATED_SAMPLE_BRIEFED_KEY,
     ModeStorage,
     PENDING_MISSION_KEY,
     loadLabProfile,
@@ -73,9 +74,10 @@
     }
   }
   const labMode = readLabMode(appStorage);
+  const modeStorage = appStorage ? new ModeStorage(appStorage, labMode) : null;
   const session = new Session(
     isTauri() ? new TauriHost() : WorkerHost.create(),
-    appStorage ? new ModeStorage(appStorage, labMode) : null,
+    modeStorage,
     labMode,
   );
   type Theme = "light" | "dark" | "contrast";
@@ -83,6 +85,7 @@
   let benchLayout = $state<BenchLayout>(EMPTY_BENCH_LAYOUT);
   let labProfile = $state<LabProfile>(loadLabProfile(appStorage));
   let homeOpen = $state(!hasSeenHome());
+  let contaminatedSampleBriefed = $state(modeStorage?.getItem(CONTAMINATED_SAMPLE_BRIEFED_KEY) === "yes");
   const modeLayoutKey = `${BENCH_LAYOUT_KEY}.${labMode}`;
   $effect(() => {
     if (typeof document !== "undefined") document.documentElement.dataset.theme = theme;
@@ -678,6 +681,15 @@
     missions={lessons}
     completed={session.completedMissions}
     active={session.lesson?.lesson.name ?? null}
+    caseBriefed={contaminatedSampleBriefed}
+    oncasebriefed={() => {
+      contaminatedSampleBriefed = true;
+      try {
+        modeStorage?.setItem(CONTAMINATED_SAMPLE_BRIEFED_KEY, "yes");
+      } catch {
+        // The briefing still opens for this visit when storage is blocked.
+      }
+    }}
     onstart={(file) => void startLesson(file)}
     onsandbox={() => {
       missionOpen = false;
@@ -852,6 +864,7 @@
   }
   aside > :global(.feed) {
     flex: 1;
+    min-height: 0;
   }
   .bench-pane {
     flex: 1;

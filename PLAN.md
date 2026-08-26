@@ -121,6 +121,14 @@ permanent stockroom. The notebook continues to show the real requested amount
 for every dispense—the inventory layer does not fabricate conversions among
 mass, volume, and amount of substance.
 
+The opening Story chapter is a case rather than a lesson list. A cloudy field
+sample branches into three concurrent evidence leads plus an optional safety
+audit; all four are the shipped engine-backed investigations and keep their
+stable progress ids. A persisted contact briefing introduces the problem once,
+then the campus board becomes the durable overview for active and secured
+evidence. This case presentation does not claim that the current procedural
+`.lab` checker is already the future open-ended, multi-solution outcome judge.
+
 Product invariants:
 
 1. A mission states a problem and constraints, not the one approved procedure.

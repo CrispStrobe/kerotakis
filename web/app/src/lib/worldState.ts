@@ -16,6 +16,7 @@ export const MODE_KEY = "kerotakis.mode.v1";
 export const PROFILE_KEY = "kerotakis.lab-profile.v1";
 export const HOME_SEEN_KEY = "kerotakis.home-seen.v1";
 export const PENDING_MISSION_KEY = "kerotakis.pending-mission.v1";
+export const CONTAMINATED_SAMPLE_BRIEFED_KEY = "kero.case.contaminated-sample.briefed.v1";
 
 const LEGACY_SESSION_KEYS = ["kero.session.v1", "kero.codex.done.v1"];
 const SANDBOX_MIGRATION_KEY = "kero.mode.sandbox.migrated-v1";

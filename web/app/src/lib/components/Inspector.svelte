@@ -76,14 +76,26 @@
     border-bottom: 1px solid var(--edge);
     display: flex;
     flex-direction: column;
-    max-height: 45%;
+    /* The instrument and action rows can be taller than their share of a
+       narrow journal. Keep them in their own scroll region so they never
+       paint over (or steal pointer events from) the notebook below. */
+    flex: 0 1 55%;
+    min-height: 0;
+    max-height: 55%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
   header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid var(--edge);
+    background: var(--panel);
   }
   h2 {
     font-size: 0.85rem;
@@ -133,6 +145,7 @@
     font-size: 0.8rem;
   }
   pre {
+    flex: none;
     margin: 0;
     padding: 0.8rem 1rem;
     overflow: auto;
