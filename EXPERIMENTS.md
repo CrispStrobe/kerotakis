@@ -1,5 +1,11 @@
 # The sixteen classroom experiments — audit and plan (CAP-24)
 
+The cross-corpus breadth dependencies are now executable `BRD-*` tasks in
+**[BREADTH.md](BREADTH.md)**. This file continues to own experiment/quest
+semantics; it must not duplicate library-integration scope. New EXP tasks name
+their required BRD task when identity, material, reaction-family, biochemical,
+crystal, physical-interaction or scientific-view infrastructure is required.
+
 Audited 2026-08-24 against the tree at that day's main. Sixteen
 primary-school experiment titles (user-supplied, German) mapped to
 what the engine, codex, and GUI can actually do. Verdicts are the
@@ -1075,3 +1081,30 @@ tolerance checking the solved state):
 5. **alcohol-burn.toml** — temperature_c on v1 ± 2.0
 6. **two-roads-one-temperature.toml** — temperature_c ± 1.0
 7. **solubility.toml** — molarity on saturated vessel ± 0.05
+
+---
+
+# Part 11: breadth-programme handoff (2026-08-27)
+
+The eight-corpus audit found the demand; `BRD-000` turns it into the versioned
+500-prompt curiosity regression corpus. The following mapping is normative for
+agents: complete the shared BRD prerequisite once, then author multiple EXP
+quests against it rather than implementing compound-pair exceptions inside a
+quest.
+
+| Experiment families | Shared breadth prerequisite |
+|---|---|
+| EXP-5/8/10/12/15/18/19/29/30/32/33/34/40/44 | `BRD-012` familiar substances and `BRD-014` named material recipes |
+| EXP-36/41/42/46/50 | `BRD-020…023` reaction-family IR, executor and organic pack |
+| EXP-2/3/7/21/31/33/35/44/48 | `BRD-030…032` fluid/phase routing where applicable; experiment-specific physics remains EXP-owned |
+| EXP-2/31/35/43 | `BRD-040…041` reviewed gas/combustion mechanisms where equilibrium/curated kinetics are insufficient |
+| EXP-9/14/40/47/51 | `BRD-050…052` bounded biochemical router and familiar bio pack |
+| EXP-24/28/33/42 | `BRD-060…062` only when the lesson claims a real crystal structure/symmetry |
+| EXP-1/4/7/10/12/15/18/32/48/52 | `BRD-070…073` only for spill/drop/fluid/physical handling; chemical endpoints remain engine-owned |
+| structure, crystal, orbital and protein inspection across EXPs | `BRD-080…081`; Ketcher authoring additionally requires `BRD-082` |
+
+Quest acceptance remains stricter than breadth coverage: a known substance or
+installed visualization does not make an experiment complete. Each EXP still
+needs its own observable success/failure claims, controls, model boundary,
+lesson/codex content and replay tests. Conversely, `BRD-100` cannot close while
+an uncovered curiosity prompt points at an unowned EXP-level behavior.

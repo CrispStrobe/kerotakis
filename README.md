@@ -244,8 +244,11 @@ that breaks a lesson is caught the same day.
 | `kerotakis-cli` | `kero`: REPL, batch runner, JSON interface, cache pre-warmer, codex lint |
 | `kerotakis-wasm` | The same bench in a browser |
 
-See [PLAN.md](PLAN.md) for the architecture, the verified engine and licence
-audit, and the build order.
+See [PLAN.md](PLAN.md) for the architecture, verified engine and licence audit,
+[CAPABILITIES.md](CAPABILITIES.md) for solver capability tasks, and
+[BREADTH.md](BREADTH.md) for the dependency-ordered programme that grows
+familiar substances, materials, reaction families, biochemistry, crystals and
+tactile/scientific views.
 
 ## Licence
 
