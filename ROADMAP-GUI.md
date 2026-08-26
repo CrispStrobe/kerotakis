@@ -801,11 +801,19 @@ that foundation into the first playable story slice.
   use tasks, not preference questions. Record time-to-first-result, wrong turns,
   drawer/gesture discovery, mode comprehension, and register usage. Fix P0/P1
   findings and document the resulting interaction changes before GUI-076.
-- [ ] **GUI-076 — World/home shell and separated saves.** Add the start screen,
+- [x] **GUI-076 — World/home shell and separated saves.** Add the start screen,
   Story/Sandbox doors, persistent lab identity, mode badge, safe switching, and
   versioned independent saves. DoD: starting or resetting Sandbox cannot mutate
   Story progress, and a newly installed catalog item appears immediately in
   Sandbox.
+  *Shipped 2026-08-26: the first-run Research Campus is now the game's home,
+  with distinct Discovery Wing (Story), Open Bench (Sandbox), Mission Board,
+  and Research Library destinations plus a renameable persistent lab identity.
+  Story and Sandbox scope their command log, snapshots, Codex progress, and
+  bench arrangement independently; a one-time, non-destructive migration puts
+  pre-mode installs into Sandbox. The live mode badge opens the campus, mission
+  launches cross the Story door safely, and all new visible/ARIA copy ships in
+  English and German.*
 - [ ] **GUI-077 — Story progression and research map.** Render locations,
   contacts, lab areas, and equipment families as an explorable map—not a linear
   level list. Unlocks are previewable with understandable prerequisites; at
