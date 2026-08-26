@@ -246,6 +246,17 @@ Lessons become replayable demonstrations in the notebook and mission hints;
 Challenges become mission objective types. Neither remains a separate top-level
 mode. The old `.lab` scripts remain importable in either world.
 
+The launch hub must not confuse content formats with the product's modes. Its
+four doors are one connected body of work: **Story missions** currently expose
+the 27 shipped `.lab` investigations as guided, replayable starting points;
+the **Experiment Library** exposes the 103 exported Codex reactions with the
+predict → theory/procedure → run/check loop; the **Concept Map** connects those
+experiments through the 189 concepts and 28 models in the same export; and
+**Sandbox** opens the unrestricted bench. `EXPERIMENTS.md` is the audited
+sixteen-experiment content/mission plan, while source examples and test fixtures
+are engineering evidence—not a hidden fifth user catalog. Counts are rendered
+from shipped indexes, never copied into UI strings.
+
 Mode invariants:
 
 1. Story and Sandbox have separate, versioned save namespaces and independent
@@ -751,9 +762,11 @@ that foundation into the first playable story slice.
   has a visible catalog disposition (modeled, decorative, locked, or not yet
   available), never a dead card.
   *Status 2026-08-26: cabinet shell landed with separate Reagents and Equipment
-  tabs; burette, parameterized apparatus, and two-vessel transfer/separation
-  tools moved out of global chrome into contextual equipment groups. Full item
-  metadata, compatibility filters, availability states, and saved kits remain.*
+  tabs; the equipment tab is now a visual instrument wall with illustrated,
+  categorized cards for the burette, every parameterized apparatus, reaction
+  studio, column train, and two-vessel transfer/separation tools. Choosing a
+  card deploys it to the active work area. Full item metadata, compatibility
+  filters, Story availability states, and saved kits remain.*
 - [ ] **GUI-073 — Spatial bench and assembly grammar.** Give work zones,
   apparatus footprints, ports, sockets, layering, collision rules, and
   keyboard-equivalent placement to the scene. Valid destinations preview before
@@ -775,8 +788,9 @@ that foundation into the first playable story slice.
   explicit routes to the journal and equipment cabinet. A direct Pour action
   now keeps the selected source fixed, exposes fraction choices, highlights
   valid target vessels, and compiles the result through the shared two-vessel
-  grammar helper. Drag-to-pour/stream animation, connections, probes-in-vessel,
-  and start/stop controls remain.*
+  grammar helper. Engine-confirmed transfers now draw a spatial stream between
+  the actual source and receiver, scaled by the transferred fraction;
+  connections and start/stop controls remain.*
 - [ ] **GUI-075 — Observe five users before adding campaign breadth.** Test with
   at least two children/novices, one teacher, and two experienced science users;
   use tasks, not preference questions. Record time-to-first-result, wrong turns,
@@ -874,12 +888,22 @@ decorating it.
   render, so the change is invisible until chemistry splits. DoD:
   hexane-on-water renders two layers with correct proportions; scene
   conformance checks the layer shape; single-phase vessels byte-identical.
-- [ ] **GUI-059 — Effect magnitudes.** *(kero1, after #44)* Events carry amounts; visuals must
+- [ ] **GUI-059 — Effect magnitudes.** Events carry amounts; visuals must
   scale by them: bubble count/rate from moles of gas evolved, flame size
   from energy/rate and COLOUR from the FlameTest event's computed colour
   word, stir vigour from the operator, precipitate fall density from
   moles. DoD: doubling the chemistry visibly doubles the effect; every
   scale factor names its event field in a comment.
+  *Status 2026-08-26: the typed-event mapper now covers gas, precipitate,
+  evaporation/distillation, electrolysis, mixing/dilution, transfer, thermal
+  change, phase change, heat of mixing, plating, flame tests, and glass burst.
+  Transfer fraction sets stream width/speed; mixing fractions set vortex size
+  and stir speed; temperature/delta-T set heat shimmer and frost coverage;
+  distilled/evolved/precipitated/electrolysed moles set effect density; flame
+  colour is the engine's named result; `burst.at_pa / burst.rating_pa` sets the
+  pressure-wave and shard distance. A hazard warning alone never explodes.
+  Remaining DoD: carry reaction energy/rate on ignition events so flame size is
+  no longer the fixed fallback, plus screenshot regression cases.*
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,

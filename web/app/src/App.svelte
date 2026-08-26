@@ -24,9 +24,10 @@
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
-  import ToolIcon from "./lib/components/ToolIcon.svelte";
+  import EquipmentCabinet from "./lib/components/EquipmentCabinet.svelte";
   import LocaleSwitcher from "./lib/components/LocaleSwitcher.svelte";
   import VesselActionDock from "./lib/components/VesselActionDock.svelte";
+  import MissionControl from "./lib/components/MissionControl.svelte";
   import { t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { pwa } from "./lib/pwa.svelte";
@@ -51,12 +52,6 @@
   }
 
   let lessons = $state<{ file: string; name: string; blurb?: string; topic?: string }[]>([]);
-  const lessonTopics = $derived(
-    [...new Set(lessons.map((l) => l.topic ?? "more"))].map((topic) => ({
-      topic,
-      entries: lessons.filter((l) => (l.topic ?? "more") === topic),
-    })),
-  );
 
   // CI self-test hook (?selftest=1): report readiness to the harness once
   // the scene has arrived — a worker-driven app cannot be probed by
@@ -114,10 +109,14 @@
   async function startLesson(file: string) {
     if (!file) return;
     const res = await fetch(new URL(`lessons/${file}`, resolvePayloadBase()).href);
-    if (res.ok) session.startLesson(file.replace(/\.lab$/, ""), await res.text());
+    if (res.ok) {
+      session.startLesson(file.replace(/\.lab$/, ""), await res.text());
+      missionOpen = false;
+    }
   }
 
   let helpOpen = $state(false);
+  let missionOpen = $state(false);
   let tableOpen = $state(false);
   let toolboxOpen = $state(false);
   let mapOpen = $state(false);
@@ -135,13 +134,6 @@
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
   let transfer = $state<{ verb: TwoVesselAction; fraction: number; from: number | null } | null>(null);
-  const TWO_VESSEL_TOOLS: { verb: TwoVesselAction; label: string }[] = [
-    { verb: "filter", label: "filter" },
-    { verb: "decant", label: "decant" },
-    { verb: "drain", label: "drain" },
-    { verb: "cell", label: "voltmeter" },
-    { verb: "distil", label: "still" },
-  ];
   function vesselTapped(id: number) {
     if (!transfer) {
       void session.inspect(id);
@@ -220,6 +212,7 @@
       helpOpen = true;
     } else if (e.key === "Escape") {
       if (inset) inset = null;
+      else if (missionOpen) missionOpen = false;
       else if (mapOpen) mapOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
@@ -247,7 +240,16 @@
     </span>
   </div>
 
-  <span class="mode-pill"><span aria-hidden="true">✦</span>{t("Sandbox")}</span>
+  <button
+    class="mode-pill"
+    class:mission-active={session.lesson !== null}
+    aria-label={t("open Mission Control")}
+    onclick={() => (missionOpen = true)}
+  >
+    <span class="mode-signal" aria-hidden="true">{session.lesson ? "◆" : "∞"}</span>
+    <span class="mode-copy"><small>{session.lesson ? t("guided mission") : t("lab mode")}</small><strong>{session.lesson ? t(session.lesson.lesson.name) : t("Sandbox")}</strong></span>
+    <span class="mode-arrow" aria-hidden="true">⌄</span>
+  </button>
 
   <div class="top-controls">
     <RegisterDial value={session.register} onchange={(lv) => void session.setRegister(lv)} />
@@ -297,18 +299,7 @@
         <button class="tool" onclick={() => (catalogOpen = true)}>{t("experiments")}</button>
         <button class="tool" onclick={() => (mapOpen = true)}>{t("map")}</button>
       {/if}
-      {#if lessons.length > 0 && !session.lesson}
-        <select class="tool" aria-label={t("start a lesson")} onchange={(e) => { void startLesson(e.currentTarget.value); e.currentTarget.value = ""; }}>
-          <option value="">{t("lessons…")}</option>
-          {#each lessonTopics as group (group.topic)}
-            <optgroup label={t(group.topic)}>
-              {#each group.entries as l (l.file)}
-                <option value={l.file} title={l.blurb ? t(l.blurb) : undefined}>{t(l.name)}</option>
-              {/each}
-            </optgroup>
-          {/each}
-        </select>
-      {/if}
+      <button class="tool mission-tool" onclick={() => { toolsOpen = false; missionOpen = true; }}>{t("Mission Control")}</button>
       {#if pwa.installable}<button class="tool" onclick={() => void pwa.install()}>{t("install")}</button>{/if}
       {#if !isTauri()}<a class="console-link" href="../">{t("console")}</a>{/if}
       <div class="utility-locale"><span>{t("Language")}</span><LocaleSwitcher /></div>
@@ -357,6 +348,8 @@
     kit={session.shelf.filter(s => session.lesson!.kit.includes(s.key))}
     register={session.register}
     target={session.selected}
+    cursor={session.lesson.cursor}
+    total={session.lesson.lesson.steps.length}
     onnext={() => void session.lessonNext()}
     onreturn={() => void session.lessonReturn()}
     onexit={() => session.exitLesson()}
@@ -386,39 +379,26 @@
         }}
       />
     {:else}
-      <section class="equipment-cabinet" aria-label={t("equipment")}>
-        <p class="cabinet-target">{t("working with vessel v{vessel}", { vessel: session.selected + 1 })}</p>
-        <div class="equipment-group">
-          <h2>{t("precision tools")}</h2>
-          <button class:active-tool={buretteOut} onclick={() => (buretteOut = !buretteOut)} title={t("clamp the burette over the selected vessel")}>
-            <span class="equipment-icon"><ToolIcon name="burette" /></span><span><strong>{t("burette")}</strong><small>{t("controlled addition")}</small></span>
-          </button>
-          <select
-            aria-label={t("more apparatus")}
-            value={apparatusOut ?? ""}
-            onchange={(e) => { apparatusOut = e.currentTarget.value || null; e.currentTarget.value = apparatusOut ?? ""; }}
-          >
-            <option value="">{t("choose more equipment…")}</option>
-            {#each APPARATUS as s (s.verb)}<option value={s.verb}>{t(s.title)}</option>{/each}
-            {#if session.reactOptions.length > 0}<option value="react">{t("curated reaction")}</option>{/if}
-            <option value="transport">{t("column train")}</option>
-          </select>
-        </div>
-        <div class="equipment-group">
-          <h2>{t("transfer and separation")}</h2>
-          <div class="equipment-grid">
-            {#each TWO_VESSEL_TOOLS as tool (tool.verb)}
-              <button
-                class:active-tool={transfer?.verb === tool.verb}
-                onclick={() => (transfer = transfer?.verb === tool.verb ? null : { verb: tool.verb, fraction: 0.5, from: null })}
-                title={t("{tool}: pick the source vessel, then the target", { tool: t(tool.label) })}
-              >
-                <span class="equipment-icon"><ToolIcon name={tool.verb} /></span><span>{t(tool.label)}</span>
-              </button>
-            {/each}
-          </div>
-        </div>
-      </section>
+      <EquipmentCabinet
+        target={session.selected}
+        targetLabel={selectedVessel?.label ?? "beaker"}
+        {buretteOut}
+        {apparatusOut}
+        transferVerb={transfer?.verb ?? null}
+        reactAvailable={session.reactOptions.length > 0}
+        onburette={() => {
+          buretteOut = !buretteOut;
+          pane = "bench";
+        }}
+        onapparatus={(verb) => {
+          apparatusOut = apparatusOut === verb ? null : verb;
+          pane = "bench";
+        }}
+        ontransfer={(verb) => {
+          transfer = transfer?.verb === verb ? null : { verb, fraction: 0.5, from: null };
+          pane = "bench";
+        }}
+      />
     {/if}
   </nav>
   <div class="bench-pane">
@@ -553,6 +533,30 @@
   <ReadingInset vessel={inset.vessel} reading={inset.reading} onclose={() => (inset = null)} />
 {/if}
 
+{#if missionOpen}
+  <MissionControl
+    missions={lessons}
+    experiments={codexEntries}
+    active={session.lesson?.lesson.name ?? null}
+    cursor={session.lesson?.cursor ?? 0}
+    total={session.lesson?.lesson.steps.length ?? 0}
+    onstart={(file) => void startLesson(file)}
+    onsandbox={() => {
+      if (session.lesson) session.exitLesson();
+      missionOpen = false;
+    }}
+    onexperiments={() => {
+      missionOpen = false;
+      catalogOpen = true;
+    }}
+    onmap={() => {
+      missionOpen = false;
+      mapOpen = true;
+    }}
+    onclose={() => (missionOpen = false)}
+  />
+{/if}
+
 {#if helpOpen}
   <HelpDialog onclose={() => (helpOpen = false)} />
 {/if}
@@ -615,9 +619,6 @@
   .tool:disabled {
     opacity: 0.45;
     cursor: default;
-  }
-  .active-tool {
-    border-color: var(--hot);
   }
   .transfer-banner,
   .update-banner {
@@ -783,13 +784,59 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.35rem 0.7rem;
+    min-height: 46px;
+    padding: 0.35rem 0.45rem 0.35rem 0.55rem;
     border: 1px solid color-mix(in srgb, var(--discovery) 38%, var(--edge));
     border-radius: 999px;
     color: var(--discovery);
     background: color-mix(in srgb, var(--discovery) 9%, var(--surface));
     font-size: 0.75rem;
     font-weight: 700;
+    cursor: pointer;
+    text-align: left;
+  }
+  .mode-pill:hover {
+    border-color: var(--discovery);
+    transform: translateY(-1px);
+    box-shadow: 0 7px 18px color-mix(in srgb, var(--discovery) 18%, transparent);
+  }
+  .mode-pill.mission-active {
+    color: var(--surface);
+    border-color: var(--discovery);
+    background: linear-gradient(135deg, var(--discovery), color-mix(in srgb, var(--discovery) 65%, var(--primary)));
+  }
+  .mode-signal {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    background: color-mix(in srgb, currentColor 12%, transparent);
+    font-size: 0.95rem;
+  }
+  .mode-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.08;
+  }
+  .mode-copy small {
+    opacity: 0.74;
+    font-size: 0.56rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .mode-copy strong {
+    max-width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.73rem;
+  }
+  .mode-arrow {
+    margin-left: 0.15rem;
+    opacity: 0.72;
   }
   .top-controls {
     margin-left: auto;
@@ -813,10 +860,9 @@
     color: var(--danger);
     border-color: var(--danger);
   }
-  .active-tool {
-    border-color: var(--action) !important;
-    background: color-mix(in srgb, var(--action) 10%, var(--surface)) !important;
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--action) 14%, transparent);
+  .mission-tool {
+    color: var(--discovery);
+    border-color: color-mix(in srgb, var(--discovery) 35%, var(--edge));
   }
   .utility-toggle {
     min-height: 40px;
@@ -1022,93 +1068,6 @@
   .cabinet-tabs button.active {
     color: var(--primary);
     background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised));
-  }
-  .equipment-cabinet {
-    min-height: 0;
-    overflow-y: auto;
-    padding: 0.65rem;
-  }
-  .cabinet-target {
-    margin: 0 0 0.65rem;
-    padding: 0.55rem 0.65rem;
-    border-radius: 10px;
-    color: var(--instrument);
-    background: color-mix(in srgb, var(--instrument) 9%, var(--surface-raised));
-    font-size: 0.72rem;
-    font-weight: 650;
-  }
-  .equipment-group {
-    margin-bottom: 1rem;
-  }
-  .equipment-group h2 {
-    margin: 0 0 0.4rem;
-    color: var(--dim);
-    font-size: 0.7rem;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-  }
-  .equipment-group button,
-  .equipment-group select {
-    width: 100%;
-    min-height: 48px;
-    border: 1px solid var(--edge);
-    border-radius: 12px;
-    color: var(--ink);
-    background: var(--surface-raised);
-    cursor: pointer;
-  }
-  .equipment-group > button {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.45rem 0.6rem;
-    text-align: left;
-  }
-  .equipment-group button:hover,
-  .equipment-group select:hover {
-    border-color: var(--action);
-  }
-  .equipment-group button > span:not(.equipment-icon) {
-    display: flex;
-    flex-direction: column;
-  }
-  .equipment-group button small {
-    color: var(--dim);
-    font-size: 0.67rem;
-  }
-  .equipment-icon {
-    width: 34px;
-    height: 34px;
-    display: grid;
-    place-items: center;
-    flex: none;
-    border-radius: 9px;
-    color: var(--action);
-    background: color-mix(in srgb, var(--action) 10%, var(--surface));
-  }
-  .equipment-icon :global(svg) {
-    width: 24px;
-    height: 24px;
-  }
-  .equipment-group select {
-    margin-top: 0.4rem;
-    padding: 0 0.65rem;
-    font-size: 0.78rem;
-  }
-  .equipment-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.4rem;
-  }
-  .equipment-grid button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.25rem;
-    min-height: 84px;
-    padding: 0.45rem;
-    font-size: 0.72rem;
   }
   .equation {
     background: var(--surface);

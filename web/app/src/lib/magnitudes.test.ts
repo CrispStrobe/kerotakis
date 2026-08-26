@@ -106,6 +106,30 @@ describe("effectFromEvent", () => {
     expect(e!.magnitude).toBe(1);
   });
 
+  it("maps an engine-confirmed transfer to a spatial pour scaled by its fraction", () => {
+    const small = effectFromEvent({ event: "transferred", from: 0, to: 2, fraction: 0.1 });
+    const large = effectFromEvent({ event: "transferred", from: 0, to: 2, fraction: 0.9 });
+    expect(small).toMatchObject({ kind: "pour", source: 0, target: 2 });
+    expect(large!.magnitude).toBeGreaterThan(small!.magnitude);
+  });
+
+  it("uses the computed temperature delta for heating and cooling", () => {
+    const warm = effectFromEvent({ event: "temperature_changed", vessel: 0, from: 293.15, to: 313.15 });
+    const hot = effectFromEvent({ event: "temperature_changed", vessel: 0, from: 293.15, to: 493.15 });
+    const cool = effectFromEvent({ event: "temperature_changed", vessel: 1, from: 293.15, to: 253.15 });
+    expect(warm).toMatchObject({ kind: "heat", temperatureK: 313.15 });
+    expect(hot!.magnitude).toBeGreaterThan(warm!.magnitude);
+    expect(cool).toMatchObject({ kind: "cool", temperatureK: 253.15 });
+  });
+
+  it("only creates an explosion for the engine's typed burst event", () => {
+    const justOver = effectFromEvent({ event: "burst", vessel: 0, at_pa: 210000, rating_pa: 200000 });
+    const severe = effectFromEvent({ event: "burst", vessel: 0, at_pa: 400000, rating_pa: 200000 });
+    expect(justOver!.kind).toBe("burst");
+    expect(severe!.magnitude).toBeGreaterThan(justOver!.magnitude);
+    expect(effectFromEvent({ event: "hazard_warning", severity: "danger" })).toBeNull();
+  });
+
   it("returns null for unknown events", () => {
     expect(effectFromEvent({ event: "thermal_equilibrium", vessel: 0 })).toBeNull();
   });

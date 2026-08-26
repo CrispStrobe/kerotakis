@@ -105,6 +105,31 @@ const DE: Record<string, string> = {
   "A virtual chemistry laboratory that computes real chemistry — drag reagents onto drawn glassware and watch a real aqueous solver answer. Offline once loaded.": "Ein virtuelles Chemielabor, das echte Chemie berechnet — ziehe Reagenzien auf die Glasgeräte und beobachte die Ergebnisse eines realen wässrigen Lösers. Nach dem Laden offline nutzbar.",
   "a chemistry bench that computes": "ein Chemielabor, das rechnet",
   "Sandbox": "Sandbox",
+  "Mission Control": "Missionszentrale",
+  "open Mission Control": "Missionszentrale öffnen",
+  "close Mission Control": "Missionszentrale schließen",
+  "Choose your path": "Wähle deinen Weg",
+  "Follow a guided investigation or open the whole laboratory.": "Folge einer geführten Untersuchung oder öffne das ganze Labor.",
+  "Story missions": "Forschungsmissionen",
+  "Experiment library": "Experimentbibliothek",
+  "{count} Codex experiments": "{count} Codex-Experimente",
+  "Predict first, run real chemistry, then compare the evidence.": "Erst vorhersagen, dann echte Chemie ausführen und die Nachweise vergleichen.",
+  "browse experiments": "Experimente durchsuchen",
+  "Sandbox lab": "Sandbox-Labor",
+  "Your laboratory, your rules": "Dein Labor, deine Regeln",
+  "Everything is unlocked. Build, test, and break your own ideas.": "Alles ist freigeschaltet. Baue, teste und hinterfrage deine eigenen Ideen.",
+  "exit to sandbox": "zur Sandbox wechseln",
+  "you are here": "du bist hier",
+  "mission in progress": "Mission läuft",
+  "mission progress": "Missionsfortschritt",
+  "current objective": "aktuelles Ziel",
+  "{step} of {total} steps": "Schritt {step} von {total}",
+  "continue mission": "Mission fortsetzen",
+  "Available missions": "Verfügbare Missionen",
+  "launch mission": "Mission starten",
+  "Missions are downloading. The sandbox is ready now.": "Missionen werden geladen. Die Sandbox ist schon bereit.",
+  "guided mission": "geführte Mission",
+  "lab mode": "Labormodus",
   "utilities": "Werkzeuge & Dateien",
   "open utilities": "Werkzeuge und Dateien öffnen",
   "time and history": "Zeit und Verlauf",
@@ -436,6 +461,20 @@ const DE: Record<string, string> = {
   ,"hazard": "Gefahr"
   ,"the bench answered {answer}.": "Das Labor antwortete {answer}."
   ,"Try: {next}": "Versuche: {next}"
+  ,"separate solids from liquid": "Feststoffe von Flüssigkeit trennen"
+  ,"pour off a chosen fraction": "einen gewählten Anteil abgießen"
+  ,"move the lower liquid layer": "die untere Flüssigkeitsschicht ablassen"
+  ,"connect two half-cells": "zwei Halbzellen verbinden"
+  ,"separate by volatility": "nach Flüchtigkeit trennen"
+  ,"active work area": "aktiver Arbeitsbereich"
+  ,"Instrument wall": "Instrumentenwand"
+  ,"Choose a tool and it appears at the selected work area.": "Wähle ein Werkzeug; es erscheint am ausgewählten Arbeitsplatz."
+  ,"measure and transform": "messen und verändern"
+  ,"on bench": "auf dem Tisch"
+  ,"select source": "Quelle wählen"
+  ,"move solution through connected cells": "Lösung durch verbundene Zellen bewegen"
+  ,"reaction studio": "Reaktionsstudio"
+  ,"choose a verified reaction family": "eine geprüfte Reaktionsfamilie wählen"
 };
 
 function detectLocale(): Locale {
