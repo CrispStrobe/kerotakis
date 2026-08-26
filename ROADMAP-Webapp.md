@@ -4,10 +4,12 @@
 > web-frontend roadmap. It is a roadmap for the complete simulation backend,
 > its scientific coverage, its data system, and the clients that deliver it.
 
-Status: 2026-08-20. This document complements `PLAN.md`: the plan records the
+Status: 2026-08-27. This document complements `PLAN.md`: the plan records the
 project's history and detailed decisions; this roadmap asks what architectural
 and scientific work creates the most *multiplicative* increase in chemistry
-coverage from the system that exists now.
+coverage from the system that exists now. `BREADTH.md` turns the data/library
+growth layer into dependency-ordered `BRD-*` tasks and is subordinate to the
+state, routing and distribution rules here.
 
 ## Executive decision
 
@@ -29,6 +31,12 @@ stack.” It is:
    agreed on the shared quantities;
 6. expand coverage through data and reusable reaction families rather than
    compound-pair special cases.
+
+The concrete sequence for item 6 is `BRD-000…BRD-100`: measure a curiosity
+corpus; define `MaterialRecipe` and quarantined source adapters; ship familiar
+substance/material packs; add condition-gated reaction families; broaden
+feos/Cantera only with cleared parameters; add bounded biochemical and crystal
+routes; then put tactile physics and scientific views over authoritative state.
 
 That substrate lets the existing engines do much more, makes additional engines
 composable, and turns every curated property or reaction template into coverage

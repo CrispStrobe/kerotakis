@@ -1453,7 +1453,11 @@ quietly fails.
 - **Extremes.** Plasmas, exotic organometallics, solid-state band structure,
   high pressure. (L2g's CEA data does extend T range honestly for gases and
   simple condensed phases; database validity ranges are surfaced, not hidden.)
-- **Biochemistry.** A different stack; a later module, not an extension.
+- **Unbounded biochemistry.** A different stack, not an accidental extension
+  of the aqueous or organic routes. `BREADTH.md` now scopes a deliberately
+  bounded `Biochemical` route (`BRD-050…052`) for familiar enzyme, digestion,
+  fermentation, respiration and photosynthesis experiments; it still does not
+  claim to model cells, medicine or complete metabolism.
 
 A general-purpose engine that computes any reaction from first principles is also
 a synthesis oracle for things we do not want it computing. Curated-first gives us
@@ -1515,6 +1519,38 @@ Explicitly **not** in v1.0: P2g (v1.1, with `ignite`), P3p (v1.1, with
 distillation), the QM/orbital layer, Hückel, lessons beyond the codex slice,
 and everything ML. Each later phase extends the same bench; nothing in v1.0 is
 scaffolding to be thrown away.
+
+## Breadth build order: from solver depth to familiar matter
+
+The original P0…P7 sequence establishes solver architecture. The companion
+**[BREADTH.md](BREADTH.md)** establishes the content/integration sequence that
+makes those solvers answer ordinary learner questions. Its `BRD-*` graph is
+subordinate to the same state, provenance, offline and honesty invariants here.
+
+The key architectural addition is `MaterialRecipe`: named matter such as
+vinegar, milk, soil, paper, steel or a battery expands into conserved,
+versioned components while retaining the name and assumptions the learner
+used. Pure identities continue to join by Standard InChIKey; material recipes
+never masquerade as molecules. Safety sees expanded components before solver
+routing, and unresolved fractions remain visible and conserved.
+
+The breadth sequence is:
+
+```text
+measure curiosity and typed gaps
+  → define material recipes and quarantined source adapters
+  → ship familiar pure-substance and household-material packs
+  → add bounded, condition-gated reaction families
+  → broaden feos/Cantera routes where cleared parameters exist
+  → add bounded biochemistry and crystal structures
+  → add tactile physics and scientific viewers over authoritative state
+  → graduate against the versioned curiosity corpus
+```
+
+This does not reorder P0…P7. A `BRD-*` task may start when its explicit
+dependencies and the corresponding P-stage substrate are merged. In
+particular, data adapters do not wait for optional engine FFIs, and UI work
+does not begin before its state/authority contract.
 
 ## Build order
 

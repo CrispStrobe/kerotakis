@@ -15,6 +15,13 @@ wire the existing tap); **PROP** = passive visual, no behaviour
 needed beyond placement; **BEHAVIOR(n)** = needs the named engine
 task first.
 
+`BREADTH.md` adds the cross-cutting physical and material prerequisites:
+`BRD-002/014` define named material recipes; `BRD-070` defines the authority
+boundary between scene physics and chemistry; `BRD-071/072` evaluate
+Rapier/Salva; and `BRD-073` owns spill, tip, drop and breakage semantics. An
+apparatus row may depend on those tasks, but this catalog remains the owner of
+its ports, limits, affordances and cabinet metadata.
+
 ## From catalog to in-world equipment cabinet (2026-08-26)
 
 This file also feeds the player's supply room. The UI may present it as an
@@ -117,7 +124,7 @@ German catalog strings.
 | Fume hood | safety-screen context: hazardous vapours vent — ties the **smell/waft** verb (landed, CAP-25) | SKIN |
 
 ## Devices
-| Rotary evaporator | `evaporate`/`distil` under reduced pressure — pressure-dependent boiling NOT modelled | BEHAVIOR(new: reduced-pressure boiling, scope with CAP-1 thermo) |
+| Rotary evaporator | `evaporate`/`distil` under reduced pressure | BEHAVIOR(BRD-032 pressure-dependent phase routing) |
 | Vacuum pump | partner of the above + Buchner | SKIN where partnered |
 | Syringe pump | timed dosing: `titrate` machinery generalised to programmed addition | BEHAVIOR(small: dosing schedule on the titrate loop) |
 | Centrifuge | sedimentation: settled-solid machinery exists (drain leaves solids); spin = accelerated settling of suspensions (EXP-32) | BEHAVIOR(EXP-32 extension) |
@@ -126,12 +133,14 @@ German catalog strings.
 | Hydrothermal autoclave | sealed + temperature + **Burst** rating (landed) — an autoclave is the vessel whose rating is HIGH | SKIN + per-vessel rating datum |
 | Drop counter | titrate steps (landed — the curve's x-axis) | SKIN |
 | Hoffman voltameter | `electrolyse` with gas collection in graduated arms (landed chemistry; arm-volume readout) | SKIN + volume readout tap |
+| Breakable glassware / spill tray | scene proposes collision/tip; engine emits break/spill and owns transferred material | BEHAVIOR(BRD-070/071/073) |
 
 ## Chromatography
 | Paper, spot, chamber | EXP-8 modes (TLC/paper: Rf) — plate model landed, paper/TLC mode is data | SKIN + BEHAVIOR(EXP-8 Rf mode) |
 
 ## Storage
 | Reagent bottles (glass/plastic), gas cylinder | the shelf itself + `add`; cylinder = gas source for headspace | SKIN |
+| Named household/food/material stock | versioned `MaterialRecipe` expands to conserved components while cabinet retains learner-facing name | BEHAVIOR(BRD-002/014) |
 | Desiccator | drying: hydrate water removal (EXP-33) | BEHAVIOR(EXP-33) |
 
 ## The tally that matters

@@ -1,7 +1,8 @@
 # Kerotakis — GUI roadmap: one bench, one dial, five platforms
 
-Status: 2026-08-26. Companion to `ROADMAP-Webapp.md` (backend/science) and
-`CAPABILITIES.md` (CAP tasks). This document decides the client architecture
+Status: 2026-08-27. Companion to `ROADMAP-Webapp.md` (backend/science),
+`CAPABILITIES.md` (CAP tasks), and `BREADTH.md` (`BRD-*` data, physics and
+scientific-view prerequisites). This document decides the client architecture
 and the user experience for the real virtual lab: Web, Windows, macOS, iOS,
 Android (Linux desktop falls out for free). It is subordinate to the
 distribution and licensing invariant in `ROADMAP-Webapp.md`: every UI
@@ -13,8 +14,11 @@ anywhere in a shipping payload).
 
 **Build one UI, in web standards, and ship it five ways.**
 
-- The UI is a single TypeScript + Svelte application rendering the bench as
-  SVG with a Canvas2D effects layer. No 3D, no game engine.
+- The UI is a single TypeScript + Svelte application rendering the **bench** as
+  SVG with a Canvas2D effects layer. No 3-D game world and no game engine.
+  Scoped scientific viewers for molecules, crystals, orbitals or proteins may
+  use WebGL only behind the `BRD-080/081` contract; they never replace the
+  accessible 2-D bench or become authoritative simulation state.
 - **Web**: the existing PWA grows into it. Engine = `kerotakis-wasm` +
   IPhreeQC in one module Web Worker (this is OPT-11; the GUI depends on it).
 - **Desktop (Windows/macOS/Linux)** and **mobile (iOS/Android)**: the same

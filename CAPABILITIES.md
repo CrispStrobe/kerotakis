@@ -160,6 +160,10 @@ CAP-12 (titrate verb) ────────┘  (titration curves are CAP-3's
 CAP-6 (properties) — independent, feeds CAP-1's water story
 CAP-10 (EXCHANGE/MIX) — independent, big win per line
 CAP-13 (InChI) — independent      CAP-14 (licence lint) — independent, land early
+
+CAP-26 (breadth programme) ──► BREADTH.md BRD-000…BRD-100
+  measurement/data contracts first; substance/material packs before reaction
+  families; engine adapters before UI; one final curiosity-corpus release gate
 ```
 
 Library choices below were licence-verified 2026-08-23 and are listed in
@@ -1316,6 +1320,44 @@ honest apology.
       behaviours (reduced-pressure boiling, programmed dosing,
       accelerated settling). GUI workline: the catalog is the
       requirements list; visuals are our own.
+
+## CAP-26 — Breadth: familiar matter, reusable reactions, honest reach
+
+- [ ] Status: **scoped 2026-08-27.** The executable task graph lives in
+      **[BREADTH.md](BREADTH.md)** as `BRD-000…BRD-100`; this CAP is its stable
+      capability-level owner.
+
+**Why.** Solver depth has outpaced reachable matter. The generated source pack
+currently has 105 identities and several specialist modules are already built,
+but a learner asks for vinegar, milk, paper, steel, soap, cola, soil, wax,
+plastic and batteries. Those are often mixtures or objects, not pure species.
+Adding another solver without supplying identities, material recipes,
+parameters and bounded reaction families does little for that experience.
+
+**Delivery order.** The programme is deliberately progressive:
+
+1. `BRD-000…003` establish the curiosity corpus, typed coverage report,
+   `MaterialRecipe` schema and quarantined import path.
+2. `BRD-010…014` add reviewed PubChem/ChEBI identities, USDA-derived generic
+   food compositions and at least 75 familiar material recipes.
+3. `BRD-020…023` establish a curated reaction-family IR, choose Indigo or
+   RDKit by compile/chemistry evidence, and ship the first organic family pack.
+4. `BRD-030…042` evaluate direct feos and broader Cantera mechanisms, curate
+   their separately licensed parameters, then wire only the routes that pass.
+5. `BRD-050…062` add bounded Rhea/ChEBI biochemistry and COD/spglib crystal
+   structure support.
+6. `BRD-070…082` add physics-authority contracts, optional Rapier/Salva tactile
+   behavior, a scientific viewer and optionally Ketcher authoring.
+7. `BRD-090…100` add build-time validation and make the 500-prompt curiosity
+   corpus a release gate.
+
+**Acceptance.** `BRD-100` requires every curiosity prompt to end as computed,
+curated, qualitative, explicit boundary, or an owned missing task; no silent
+outcomes, unknown reachable safety rows, unattributed numbers, or host drift.
+Coverage floors are set from the measured `BRD-001` baseline, not invented in
+advance. **Out of scope:** claiming universality, bulk-importing unreviewed
+databases, unrestricted synthesis prediction, or letting scene physics become
+a second chemistry ledger.
 
 ## Declined — off-mission, recorded so nobody re-litigates silently
 
