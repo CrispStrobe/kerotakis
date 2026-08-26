@@ -475,6 +475,8 @@ const DE: Record<string, string> = {
   ,"move solution through connected cells": "Lösung durch verbundene Zellen bewegen"
   ,"reaction studio": "Reaktionsstudio"
   ,"choose a verified reaction family": "eine geprüfte Reaktionsfamilie wählen"
+  ,"{tool} deployed": "{tool} aufgebaut"
+  ,"deployed at vessel v{vessel}": "bei Gefäß v{vessel} aufgebaut"
 };
 
 function detectLocale(): Locale {

@@ -5,6 +5,7 @@
   import type { FluidSpecies } from "../fluidScene";
   import type { Effect } from "../magnitudes";
   import { t } from "../i18n.svelte";
+  import DeployedApparatus from "./DeployedApparatus.svelte";
 
   let {
     vessel,
@@ -17,6 +18,9 @@
     onbadge,
     fluidLookup = null,
     transferTarget = false,
+    deployedTool = null,
+    apparatusWorking = false,
+    apparatusValues = {},
   }: {
     vessel: SceneVessel;
     register: string;
@@ -30,6 +34,9 @@
      * absent = no fluid animation, static render only. */
     fluidLookup?: ((key: string) => FluidSpecies) | null;
     transferTarget?: boolean;
+    deployedTool?: string | null;
+    apparatusWorking?: boolean;
+    apparatusValues?: Record<string, number | string>;
   } = $props();
 
   // Transient effects: young enough that their animation is still running.
@@ -259,6 +266,10 @@
       <FluidOverlay {vessel} {effects} lookup={fluidLookup} />
     {/if}
     </g>
+
+    {#if deployedTool}
+      <DeployedApparatus tool={deployedTool} working={apparatusWorking} values={apparatusValues} surfaceY={BOTTOM_Y - Math.max(liquidH, 4)} />
+    {/if}
 
     <!-- State-driven effects: every one traces to a computed number. -->
     {#if hot > 0.02}

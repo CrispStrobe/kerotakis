@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import type { ApparatusSpec } from "../apparatus";
   import type { ShelfItem } from "../session.svelte";
   import { t } from "../i18n.svelte";
@@ -9,6 +10,7 @@
     shelf,
     busy,
     onrun,
+    onpreview,
     onclose,
   }: {
     spec: ApparatusSpec;
@@ -16,20 +18,23 @@
     shelf: ShelfItem[];
     busy: boolean;
     onrun: (line: string) => void;
+    onpreview?: (values: Record<string, number | string>) => void;
     onclose: () => void;
   } = $props();
 
   let values = $state<Record<string, number | string>>(
-    Object.fromEntries(spec.fields.map((f) => [f.name, f.default])),
+    untrack(() => Object.fromEntries(spec.fields.map((f) => [f.name, f.default]))),
   );
   const solids = $derived(shelf.filter((s) => s.phase.toLowerCase().includes("solid")));
   const line = $derived(spec.build(vessel, values));
+  $effect(() => onpreview?.({ ...values }));
 </script>
 
 <section class="apparatus" aria-label={t("{apparatus} over v{vessel}", { apparatus: t(spec.title), vessel: vessel + 1 })}>
   <div class="head">
-    <strong>{t(spec.title)}</strong>
-    <span class="blurb">{t(spec.blurb)} · v{vessel + 1}</span>
+    <span class="live-mark" aria-hidden="true"></span>
+    <span><small>{t("deployed at vessel v{vessel}", { vessel: vessel + 1 })}</small><strong>{t(spec.title)}</strong></span>
+    <span class="blurb">{t(spec.blurb)}</span>
   </div>
   <div class="fields">
     {#each spec.fields as f (f.name)}
@@ -57,7 +62,7 @@
       </label>
     {/each}
     <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
-      {t("go")}
+      {busy ? t("running…") : t("go")}
     </button>
     <button class="close" onclick={onclose}>{t("put away")}</button>
   </div>
@@ -66,9 +71,14 @@
 
 <style>
   .apparatus {
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid var(--edge);
-    background: var(--panel);
+    position: relative;
+    z-index: 7;
+    margin: 0.55rem;
+    padding: 0.75rem;
+    border: 1px solid color-mix(in srgb, var(--instrument) 35%, var(--edge));
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--surface) 92%, var(--instrument) 8%);
+    box-shadow: 0 8px 24px var(--shadow);
   }
   .head {
     display: flex;
@@ -76,6 +86,9 @@
     align-items: baseline;
     margin-bottom: 0.35rem;
   }
+  .head > span:nth-child(2) { display: flex; flex-direction: column; }
+  .head small { color: var(--instrument); font-size: .56rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .live-mark { width: 10px; height: 10px; flex: none; border: 2px solid var(--surface); border-radius: 50%; background: var(--instrument); box-shadow: 0 0 0 2px var(--instrument); }
   .blurb {
     color: var(--dim);
     font-size: 0.78rem;

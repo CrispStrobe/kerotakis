@@ -18,6 +18,10 @@
     onbadge,
     fluidLookup = null,
     transferFrom = null,
+    deployedTool = null,
+    deployedTarget = null,
+    apparatusWorking = false,
+    apparatusValues = {},
   }: {
     scene: Scene | null;
     register: string;
@@ -31,6 +35,10 @@
     onbadge?: (vessel: number, badge: { key: string; value: number; confidence: string }) => void;
     fluidLookup?: ((key: string) => import("../fluidScene").FluidSpecies) | null;
     transferFrom?: number | null;
+    deployedTool?: string | null;
+    deployedTarget?: number | null;
+    apparatusWorking?: boolean;
+    apparatusValues?: Record<string, number | string>;
   } = $props();
 
   let choosing = $state(false);
@@ -38,7 +46,7 @@
   const spatialEffects = $derived(
     Object.values(effects)
       .flat()
-      .filter((effect) => effect.kind === "pour" && effect.source !== undefined && effect.target !== undefined && Date.now() - effect.at < 3000),
+      .filter((effect) => effect.operation && effect.source !== undefined && effect.target !== undefined && Date.now() - effect.at < 3500),
   );
 </script>
 
@@ -57,7 +65,7 @@
     <span>{t("analyse")}</span>
   </div>
   {#if scene}
-    {#each spatialEffects as effect (effect.at + ":" + effect.source + ":" + effect.target)}
+    {#each spatialEffects as effect (effect.at + ":" + effect.source + ":" + effect.target + ":" + effect.operation)}
       <BenchEffect {effect} />
     {/each}
     {#each scene.vessels as vessel (vessel.id)}
@@ -72,6 +80,9 @@
         titrationPlayback={titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
         onbadge={(b) => onbadge?.(vessel.id, b)}
         {fluidLookup}
+        deployedTool={vessel.id === deployedTarget ? deployedTool : null}
+        {apparatusWorking}
+        {apparatusValues}
       />
     {/each}
     {#if onnewvessel}
