@@ -55,9 +55,12 @@
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    margin: 0.5rem;
     padding: 0.55rem 0.65rem;
-    border-top: 1px solid var(--edge);
-    background: color-mix(in srgb, var(--surface) 94%, var(--primary) 6%);
+    border: 1px solid color-mix(in srgb, var(--primary) 25%, var(--edge));
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--surface) 91%, var(--primary) 9%);
+    box-shadow: 0 8px 24px var(--shadow);
   }
   .selection {
     min-width: 8.5rem;
@@ -120,6 +123,12 @@
     font-size: 0.66rem;
     font-weight: 650;
   }
+  .actions button:first-child {
+    color: white;
+    border-color: var(--action);
+    background: linear-gradient(145deg, var(--action), color-mix(in srgb, var(--action) 72%, var(--primary)));
+  }
+  .actions button:first-child .icon { color: white; }
   .actions button:hover:not(:disabled) {
     border-color: currentColor;
     transform: translateY(-2px);

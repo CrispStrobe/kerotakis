@@ -27,6 +27,7 @@
   import ToolIcon from "./lib/components/ToolIcon.svelte";
   import LocaleSwitcher from "./lib/components/LocaleSwitcher.svelte";
   import VesselActionDock from "./lib/components/VesselActionDock.svelte";
+  import MissionControl from "./lib/components/MissionControl.svelte";
   import { t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { pwa } from "./lib/pwa.svelte";
@@ -51,12 +52,6 @@
   }
 
   let lessons = $state<{ file: string; name: string; blurb?: string; topic?: string }[]>([]);
-  const lessonTopics = $derived(
-    [...new Set(lessons.map((l) => l.topic ?? "more"))].map((topic) => ({
-      topic,
-      entries: lessons.filter((l) => (l.topic ?? "more") === topic),
-    })),
-  );
 
   // CI self-test hook (?selftest=1): report readiness to the harness once
   // the scene has arrived — a worker-driven app cannot be probed by
@@ -114,10 +109,14 @@
   async function startLesson(file: string) {
     if (!file) return;
     const res = await fetch(new URL(`lessons/${file}`, resolvePayloadBase()).href);
-    if (res.ok) session.startLesson(file.replace(/\.lab$/, ""), await res.text());
+    if (res.ok) {
+      session.startLesson(file.replace(/\.lab$/, ""), await res.text());
+      missionOpen = false;
+    }
   }
 
   let helpOpen = $state(false);
+  let missionOpen = $state(false);
   let tableOpen = $state(false);
   let toolboxOpen = $state(false);
   let mapOpen = $state(false);
@@ -220,6 +219,7 @@
       helpOpen = true;
     } else if (e.key === "Escape") {
       if (inset) inset = null;
+      else if (missionOpen) missionOpen = false;
       else if (mapOpen) mapOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
@@ -247,7 +247,16 @@
     </span>
   </div>
 
-  <span class="mode-pill"><span aria-hidden="true">✦</span>{t("Sandbox")}</span>
+  <button
+    class="mode-pill"
+    class:mission-active={session.lesson !== null}
+    aria-label={t("open Mission Control")}
+    onclick={() => (missionOpen = true)}
+  >
+    <span class="mode-signal" aria-hidden="true">{session.lesson ? "◆" : "∞"}</span>
+    <span class="mode-copy"><small>{session.lesson ? t("guided mission") : t("lab mode")}</small><strong>{session.lesson ? t(session.lesson.lesson.name) : t("Sandbox")}</strong></span>
+    <span class="mode-arrow" aria-hidden="true">⌄</span>
+  </button>
 
   <div class="top-controls">
     <RegisterDial value={session.register} onchange={(lv) => void session.setRegister(lv)} />
@@ -297,18 +306,7 @@
         <button class="tool" onclick={() => (catalogOpen = true)}>{t("experiments")}</button>
         <button class="tool" onclick={() => (mapOpen = true)}>{t("map")}</button>
       {/if}
-      {#if lessons.length > 0 && !session.lesson}
-        <select class="tool" aria-label={t("start a lesson")} onchange={(e) => { void startLesson(e.currentTarget.value); e.currentTarget.value = ""; }}>
-          <option value="">{t("lessons…")}</option>
-          {#each lessonTopics as group (group.topic)}
-            <optgroup label={t(group.topic)}>
-              {#each group.entries as l (l.file)}
-                <option value={l.file} title={l.blurb ? t(l.blurb) : undefined}>{t(l.name)}</option>
-              {/each}
-            </optgroup>
-          {/each}
-        </select>
-      {/if}
+      <button class="tool mission-tool" onclick={() => { toolsOpen = false; missionOpen = true; }}>{t("Mission Control")}</button>
       {#if pwa.installable}<button class="tool" onclick={() => void pwa.install()}>{t("install")}</button>{/if}
       {#if !isTauri()}<a class="console-link" href="../">{t("console")}</a>{/if}
       <div class="utility-locale"><span>{t("Language")}</span><LocaleSwitcher /></div>
@@ -357,6 +355,8 @@
     kit={session.shelf.filter(s => session.lesson!.kit.includes(s.key))}
     register={session.register}
     target={session.selected}
+    cursor={session.lesson.cursor}
+    total={session.lesson.lesson.steps.length}
     onnext={() => void session.lessonNext()}
     onreturn={() => void session.lessonReturn()}
     onexit={() => session.exitLesson()}
@@ -551,6 +551,21 @@
 
 {#if inset}
   <ReadingInset vessel={inset.vessel} reading={inset.reading} onclose={() => (inset = null)} />
+{/if}
+
+{#if missionOpen}
+  <MissionControl
+    missions={lessons}
+    active={session.lesson?.lesson.name ?? null}
+    cursor={session.lesson?.cursor ?? 0}
+    total={session.lesson?.lesson.steps.length ?? 0}
+    onstart={(file) => void startLesson(file)}
+    onsandbox={() => {
+      if (session.lesson) session.exitLesson();
+      missionOpen = false;
+    }}
+    onclose={() => (missionOpen = false)}
+  />
 {/if}
 
 {#if helpOpen}
@@ -783,13 +798,59 @@
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    padding: 0.35rem 0.7rem;
+    min-height: 46px;
+    padding: 0.35rem 0.45rem 0.35rem 0.55rem;
     border: 1px solid color-mix(in srgb, var(--discovery) 38%, var(--edge));
     border-radius: 999px;
     color: var(--discovery);
     background: color-mix(in srgb, var(--discovery) 9%, var(--surface));
     font-size: 0.75rem;
     font-weight: 700;
+    cursor: pointer;
+    text-align: left;
+  }
+  .mode-pill:hover {
+    border-color: var(--discovery);
+    transform: translateY(-1px);
+    box-shadow: 0 7px 18px color-mix(in srgb, var(--discovery) 18%, transparent);
+  }
+  .mode-pill.mission-active {
+    color: var(--surface);
+    border-color: var(--discovery);
+    background: linear-gradient(135deg, var(--discovery), color-mix(in srgb, var(--discovery) 65%, var(--primary)));
+  }
+  .mode-signal {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+    background: color-mix(in srgb, currentColor 12%, transparent);
+    font-size: 0.95rem;
+  }
+  .mode-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.08;
+  }
+  .mode-copy small {
+    opacity: 0.74;
+    font-size: 0.56rem;
+    font-weight: 750;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .mode-copy strong {
+    max-width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.73rem;
+  }
+  .mode-arrow {
+    margin-left: 0.15rem;
+    opacity: 0.72;
   }
   .top-controls {
     margin-left: auto;
@@ -812,6 +873,10 @@
   .danger-tool:hover:not(:disabled) {
     color: var(--danger);
     border-color: var(--danger);
+  }
+  .mission-tool {
+    color: var(--discovery);
+    border-color: color-mix(in srgb, var(--discovery) 35%, var(--edge));
   }
   .active-tool {
     border-color: var(--action) !important;
