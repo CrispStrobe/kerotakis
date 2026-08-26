@@ -210,6 +210,18 @@ tauri ios init
   -> tauri ios build --export-method app-store-connect
 ```
 
+### `minimumSystemVersion` for iOS is 15.0, not lower
+
+Anything below it earns **ITMS-90068** on upload:
+
+> This app has a MinimumOSVersion of 14.0. Starting in Spring 2027, all iOS
+> apps must have a MinimumOSVersion of 15.0 or later in order to be uploaded
+> to App Store Connect or submitted for distribution.
+
+It arrives as a *warning*, not an error — `altool` reports "No errors, 1
+warnings" and the upload succeeds — so it is easy to ship past. Tauri's own
+default is 13.0, which is below the floor, so this has to be set explicitly.
+
 ### The iOS webview does not fill the screen, and its insets are zero
 
 Measured on an iPhone 16 Pro simulator by printing the values on screen and
