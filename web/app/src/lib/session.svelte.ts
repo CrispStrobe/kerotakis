@@ -22,6 +22,9 @@ import { schedule, type Playback } from "./replay";
 import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
 import { t } from "./i18n.svelte";
 import { missionTitle } from "./storyProgress";
+import { reagentAccess } from "./catalogProgress";
+import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies } from "./storyStock";
+import type { LabMode } from "./worldState";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "hazard" | "chart";
@@ -215,11 +218,17 @@ export class Session {
    * animation.
    */
   vesselEffects = $state<Record<number, Effect[]>>({});
+  /** Story-only material dispenses. The engine owns vessel amounts; this
+   * ledger owns only what remains on the physical supply shelf. */
+  storyStockUsed = $state<Record<string, number>>({});
 
   constructor(
     private host: EngineHost,
     private storage: StorageLike | null = defaultStorage(),
-  ) {}
+    private mode: LabMode = "sandbox",
+  ) {
+    if (mode === "story") this.storyStockUsed = restoreStockUsed(storage);
+  }
 
   async connect(): Promise<void> {
     try {
@@ -392,6 +401,20 @@ export class Session {
       if (trimmed.startsWith("register ")) {
         return await this.applyRegister(trimmed.slice("register ".length).trim());
       }
+      const supplied = suppliedSpecies(trimmed);
+      const stockItem = supplied ? this.shelf.find((item) => item.key === supplied) : undefined;
+      const missionSupply = Boolean(supplied && this.lesson?.kit.includes(supplied));
+      if (this.mode === "story" && stockItem) {
+        const access = reagentAccess("story", this.completedMissions.size, stockItem, missionSupply);
+        if (!access.available) {
+          this.feed.push({ kind: "refusal", text: t("That material is not yet available. Accept an investigation that supplies it or complete more missions.") });
+          return false;
+        }
+        if (!missionSupply && stockRemaining(stockItem, this.storyStockUsed) <= 0) {
+          this.feed.push({ kind: "refusal", text: t("That bottle is empty. Mission kits still supply required materials, and the stockroom refills after a new discovery.") });
+          return false;
+        }
+      }
       const result = await this.host.runScript(trimmed);
       for (const step of result.steps) {
         // Hazard events become cards, from the typed event itself — the
@@ -482,6 +505,13 @@ export class Session {
       }
       this.commandLog.push(trimmed);
       this.position = this.commandLog.length;
+      if (this.mode === "story" && stockItem && !missionSupply) {
+        this.storyStockUsed = {
+          ...this.storyStockUsed,
+          [stockItem.key]: (this.storyStockUsed[stockItem.key] ?? 0) + 1,
+        };
+        persistStockUsed(this.storage, this.storyStockUsed);
+      }
       await this.takeSnapshot(this.position);
       this.persist();
       // The inspected vessel's detail is stale after any step.
@@ -786,6 +816,10 @@ export class Session {
     const next = new Set(this.completedMissions);
     next.add(id);
     this.completedMissions = next;
+    if (this.mode === "story") {
+      this.storyStockUsed = {};
+      persistStockUsed(this.storage, this.storyStockUsed);
+    }
     try {
       this.storage?.setItem(MISSION_DONE_KEY, JSON.stringify([...next]));
     } catch {

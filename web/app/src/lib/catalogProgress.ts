@@ -66,11 +66,12 @@ export function reagentAccess(
   inMissionKit: boolean,
 ): CatalogAccess {
   const minimumCompleted = reagentRequirement(item);
-  const loaned = mode === "story" && inMissionKit && completed < minimumCompleted;
+  // An accepted mission supplies its whole kit, including common materials;
+  // learners never have to spend permanent stock to follow an investigation.
+  const loaned = mode === "story" && inMissionKit;
   return {
     minimumCompleted,
     loaned,
     available: mode === "sandbox" || completed >= minimumCompleted || loaned,
   };
 }
-

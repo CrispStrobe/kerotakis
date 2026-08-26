@@ -15,6 +15,7 @@ describe("progression-aware catalog", () => {
     expect(reagentRequirement(hazardous)).toBe(3);
     expect(reagentAccess("story", 0, hazardous, false)).toMatchObject({ available: false, loaned: false });
     expect(reagentAccess("story", 0, hazardous, true)).toMatchObject({ available: true, loaned: true });
+    expect(reagentAccess("story", 0, { key: "NaCl", hazards: [], hazard_assessed: true }, true)).toMatchObject({ available: true, loaned: true });
     expect(reagentAccess("story", 3, hazardous, false)).toMatchObject({ available: true, loaned: false });
     expect(reagentAccess("sandbox", 0, hazardous, false).available).toBe(true);
   });

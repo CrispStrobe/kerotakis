@@ -113,6 +113,13 @@ material required by an accepted mission so progression cannot deadlock an
 investigation. Permanent instruments arrive through visible capability
 milestones and can be placed immediately from the debrief. Sandbox ignores all
 of these access decorations and exposes the complete installed registry.
+Story's permanent bottles also carry finite dispense counts. A dispense becomes
+inventory only after the engine accepts the material-drawing command; replay,
+reload, and bench undo therefore cannot duplicate stock or consume it twice.
+Missions use their own supplied kits, and a first discovery replenishes the
+permanent stockroom. The notebook continues to show the real requested amount
+for every dispense—the inventory layer does not fabricate conversions among
+mass, volume, and amount of substance.
 
 Product invariants:
 

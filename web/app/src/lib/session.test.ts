@@ -123,6 +123,54 @@ describe("Session", () => {
     expect(s.exportLab()).toBe("add v1 water 100mL\nadd v1 NaCl 1g\n");
   });
 
+  it("consumes finite Story stock transactionally while mission supplies prevent deadlocks", async () => {
+    const host = new FakeHost();
+    const storage = new FakeStorage();
+    const s = new Session(host, storage, "story");
+    await s.connect();
+    for (let i = 0; i < 10; i += 1) expect(await s.submit("add v1 NaCl 1g")).toBe(true);
+    expect(s.storyStockUsed.NaCl).toBe(10);
+    expect(await s.submit("add v1 NaCl 1g")).toBe(false);
+    expect(s.feed.at(-1)?.kind).toBe("refusal");
+
+    // Bench undo is not a magical bottle refill, but an accepted mission
+    // supplies its own kit and a first discovery replenishes the cabinet.
+    await s.undo();
+    expect(await s.submit("add v1 NaCl 1g")).toBe(false);
+    s.startLesson("resupply", "add v1 NaCl 1g\nmeasure v1 balance");
+    await s.lessonNext();
+    expect(s.storyStockUsed.NaCl).toBe(10);
+    await s.lessonNext();
+    expect(s.completedMissions.has("resupply")).toBe(true);
+    expect(s.storyStockUsed).toEqual({});
+    expect(await s.submit("add v1 NaCl 1g")).toBe(true);
+
+    const restored = new Session(new FakeHost(), storage, "story");
+    expect(restored.storyStockUsed).toEqual({ NaCl: 1 });
+  });
+
+  it("does not consume Story stock when the engine rejects a dispense", async () => {
+    const host = new FakeHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    host.runScript = async () => { throw new Error("rejected by model"); };
+    expect(await s.submit("add v1 NaCl 1g")).toBe(false);
+    expect(s.storyStockUsed).toEqual({});
+  });
+
+  it("does not let typed commands bypass Story access gates", async () => {
+    const host = new FakeHost();
+    host.species = async () => [{ key: "HCl", name: "hydrochloric acid", formula: "HCl", phase: "liquid", hazards: ["corrosive"], hazard_assessed: true }];
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    expect(await s.submit("add v1 HCl 10mL")).toBe(false);
+    expect(host.calls).not.toContain("run:add v1 HCl 10mL");
+    s.startLesson("acid-kit", "add v1 HCl 10mL\nmeasure v1 ph");
+    await s.lessonNext();
+    expect(s.commandLog).toContain("add v1 HCl 10mL");
+    expect(s.storyStockUsed).toEqual({});
+  });
+
   it("undo/redo/scrub restore snapshots in O(1), with replay as fallback", async () => {
     const host = new FakeHost();
     const s = new Session(host);

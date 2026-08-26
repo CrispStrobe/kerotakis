@@ -44,6 +44,10 @@
       </div>
     {/if}
 
+    {#if debrief.firstCompletion}
+      <div class="resupply"><span aria-hidden="true">↻</span><p><strong>{t("stockroom replenished")}</strong>{t("Permanent supplies are ready for the next investigation.")}</p></div>
+    {/if}
+
     {#if debrief.evidence.length > 0}
       <details>
         <summary>{t("review the evidence")}</summary>
@@ -80,6 +84,10 @@
   .reward strong { font-size: .85rem; }
   .reward p { font-size: .67rem; }
   .reward button { min-height: 36px; padding: 0 .7rem; border: 0; border-radius: 10px; color: white; background: var(--instrument); cursor: pointer; font-weight: 800; }
+  .resupply { grid-column: 1 / -1; display: flex; align-items: center; gap: .6rem; padding: .55rem .7rem; border-radius: 12px; color: var(--ink); background: color-mix(in srgb, var(--success) 8%, var(--surface-raised)); }
+  .resupply > span { width: 28px; height: 28px; display: grid; place-items: center; flex: none; border-radius: 50%; color: white; background: var(--success); font-weight: 900; }
+  .resupply p { display: grid; font-size: .68rem; }
+  .resupply strong { color: var(--success); font-size: .62rem; letter-spacing: .06em; text-transform: uppercase; }
   details { grid-column: 1 / -1; padding: .55rem .7rem; border: 1px solid var(--edge); border-radius: 12px; font-size: .72rem; }
   summary { color: var(--primary); cursor: pointer; font-weight: 750; }
   ul { max-height: 7rem; overflow: auto; margin: .5rem 0 0; padding-left: 1.2rem; color: var(--dim); }

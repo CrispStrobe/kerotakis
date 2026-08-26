@@ -841,7 +841,7 @@ that foundation into the first playable story slice.
   campus routes; replay and first-discovery outcomes are distinct. A rejected
   operator cannot advance the objective or trigger the debrief. In-world
   contacts/messages and typed multi-objective evidence remain in this item.*
-- [ ] **GUI-079 — Progression-aware catalog.** Story availability and quantity
+- [x] **GUI-079 — Progression-aware catalog.** Story availability and quantity
   constraints decorate the shared apparatus/reagent catalog; Sandbox bypasses
   them. Rewards animate once, explain what changed, and offer "place on bench."
   No mystery currencies, daily streaks, loot boxes, or real-money storefront.
@@ -853,8 +853,16 @@ that foundation into the first playable story slice.
   handling progression, and temporarily loans any otherwise-locked substance
   required by the active mission kit. First completions reveal one permanent
   instrument reward in the debrief and can place it directly on the live bench.
-  This has no currency, streak, purchase, or randomized reward. Finite Story
-  quantities and transactional consumption remain in this item.*
+  This has no currency, streak, purchase, or randomized reward.
+  *Finite-stock slice shipped 2026-08-26: unlocked Story substances now expose
+  a persistent count of labelled dispenses. Only an engine-accepted `add` or
+  `titrate` transaction consumes one; rejection consumes nothing, and bench
+  undo/reset does not pretend used material returned to its bottle. The exact
+  physical amount remains visible in the engine command and notebook, avoiding
+  invented cross-unit mass/volume conversions. Active investigations supply
+  their entire reagent kit independently of permanent stock, and each first
+  discovery replenishes the permanent cabinet with an explicit debrief notice.
+  Sandbox remains unlimited. This closes GUI-079.*
 - [ ] **GUI-080 — First vertical slice: the contaminated sample.** Ship one
   compact district/lab with onboarding, free bench time, three concurrent
   missions, one optional discovery, a material cabinet, a permanent instrument
