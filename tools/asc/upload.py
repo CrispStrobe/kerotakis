@@ -95,7 +95,23 @@ def altool(args: list[str]) -> tuple[bool, str]:
         )
     if proc.returncode != 0:
         return False, raw
-    return True, doc.get("success-message", "ok")
+
+    message = doc.get("success-message", "ok")
+    # "No errors, 1 warnings, uploading archive" is a pass, and the warning
+    # is how ITMS-90068 (MinimumOSVersion below Apple's floor) shipped
+    # unnoticed. A count with no text is worse than useless, so print
+    # whatever the payload carries beyond the summary line.
+    if "warning" in message and not message.startswith("No errors, 0 warnings"):
+        extra = {k: v for k, v in doc.items() if k != "success-message"}
+        if extra:
+            message += "\n  " + json.dumps(extra, indent=2).replace("\n", "\n  ")
+        else:
+            message += (
+                "\n  altool reports warnings but does not include their text in"
+                "\n  its JSON. They are in the email Apple sends the account"
+                "\n  holder, and on the build in App Store Connect."
+            )
+    return True, message
 
 
 def main() -> int:

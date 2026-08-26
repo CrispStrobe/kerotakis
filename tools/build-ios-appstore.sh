@@ -95,6 +95,17 @@ else
     rm -f "$DD/.kero-write-test"
 fi
 
+# Clear the previous run's leavings, both of which cause real failures:
+#
+#   Externals/  holds the staticlib per architecture AND configuration, and
+#               the target's `sources` scans the whole directory. A `debug`
+#               libapp.a left by a simulator build therefore collides with
+#               the release one:
+#                 error: Multiple commands produce ... Kerotakis.app/libapp.a
+#   build/      holds the archive. It must not survive a failed build, or
+#               the export below would happily ship the PREVIOUS binary.
+rm -rf "$GEN/Externals" "$GEN/build"
+
 echo "== tauri ios build"
 # Its own export step is expected to fail here, and that is not a problem
 # worth working around any harder: Tauri generates an ExportOptions.plist
@@ -110,6 +121,11 @@ set -e
 
 ARCHIVE="$(find "$GEN/build" -maxdepth 1 -name '*.xcarchive' | head -1)"
 [ -n "$ARCHIVE" ] || { echo "no .xcarchive under $GEN/build — the build itself failed"; exit 1; }
+# An archive with no app inside is what a half-failed build leaves behind,
+# and exporting it produces "Found no compatible export methods" three
+# minutes later instead of saying so here.
+[ -d "$ARCHIVE/Products/Applications" ] \
+    || { echo "the archive has no Products/Applications — the build failed"; exit 1; }
 echo "== archive: $ARCHIVE"
 
 echo "== export (manual signing, profile named explicitly)"
@@ -165,6 +181,12 @@ codesign --verify -R="anchor apple generic" --verbose "$APP" 2>&1 | tail -2
 PLIST_VERSION="$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP/Info.plist")"
 [ "$PLIST_VERSION" = "$VERSION" ] \
     || { echo "Info.plist says $PLIST_VERSION, tauri.conf.json says $VERSION"; exit 1; }
+# ITMS-90068 is a WARNING on upload, so a build below the floor ships
+# silently. Assert it here, where it is an error.
+MIN_OS="$(/usr/libexec/PlistBuddy -c "Print :MinimumOSVersion" "$APP/Info.plist")"
+echo "   MinimumOSVersion $MIN_OS"
+[ "${MIN_OS%%.*}" -ge 15 ] \
+    || { echo "MinimumOSVersion $MIN_OS is below 15.0 — Apple's ITMS-90068 floor"; exit 1; }
 rm -rf "$WORK"
 
 if [ "$UPLOAD" = 0 ]; then
