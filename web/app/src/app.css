@@ -67,11 +67,15 @@ body {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
-  /* Installed, the bench draws under the status bar and the home
+  /* Installed as a PWA, the bench draws under the status bar and the home
      indicator — that is what `viewport-fit=cover` plus a translucent
-     status bar buy, and the native shells do the same. Spend the insets
-     once here so every pane inherits a safe box; in a browser tab they
-     are all zero and this is inert. */
+     status bar buy. Spend the insets once here so every pane inherits a
+     safe box.
+     In a browser tab they are all zero. They are also all zero in the
+     Tauri iOS shell — measured, not assumed: the webview there reports
+     `env(safe-area-inset-*)` as 0px on every side because it is not laid
+     out edge-to-edge in the first place (see PACKAGING.md). So this is
+     inert in the packaged app and load-bearing only on the web. */
   padding: env(safe-area-inset-top) env(safe-area-inset-right)
     env(safe-area-inset-bottom) env(safe-area-inset-left);
 }

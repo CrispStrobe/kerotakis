@@ -57,6 +57,29 @@ command -v xcodegen >/dev/null || brew install xcodegen
 
 cd "$ROOT/web/app"
 
+# Clear the previous run's leavings BEFORE the project is generated, which
+# is the only moment it helps:
+#
+#   Externals/  holds the staticlib per architecture AND configuration, and
+#               xcodegen SCANS that directory, emitting one copy command per
+#               file it finds. A `debug` libapp.a left by a simulator build
+#               is therefore baked into the project alongside the release
+#               one, and the build refuses:
+#                 error: Multiple commands produce ... Kerotakis.app/libapp.a
+#               Deleting the file after generation does not remove the
+#               reference; it has to be gone before xcodegen looks.
+#   build/      holds the archive, and must not survive a failed build, or
+#               the export step would ship the PREVIOUS binary.
+#   project.yml the generated project, and `tauri ios init` does NOT rewrite
+#               one that already exists — it "respects" it. So a change to
+#               bundle.iOS.minimumSystemVersion (or developmentTeam, or the
+#               frameworks list) silently does not apply, and the build
+#               keeps whatever the first init wrote. That is how an .ipa
+#               came out at MinimumOSVersion 14.0 with 15.0 in the config.
+#               The .xcodeproj goes with it, since it is generated from the
+#               .yml. patch-privacy.py re-inserts its entry afterwards.
+rm -rf "$GEN/Externals" "$GEN/build" "$GEN/project.yml" "$GEN"/*.xcodeproj
+
 echo "== tauri ios init"
 npx tauri ios init
 
@@ -110,6 +133,11 @@ set -e
 
 ARCHIVE="$(find "$GEN/build" -maxdepth 1 -name '*.xcarchive' | head -1)"
 [ -n "$ARCHIVE" ] || { echo "no .xcarchive under $GEN/build — the build itself failed"; exit 1; }
+# An archive with no app inside is what a half-failed build leaves behind,
+# and exporting it produces "Found no compatible export methods" three
+# minutes later instead of saying so here.
+[ -d "$ARCHIVE/Products/Applications" ] \
+    || { echo "the archive has no Products/Applications — the build failed"; exit 1; }
 echo "== archive: $ARCHIVE"
 
 echo "== export (manual signing, profile named explicitly)"
@@ -165,6 +193,12 @@ codesign --verify -R="anchor apple generic" --verbose "$APP" 2>&1 | tail -2
 PLIST_VERSION="$(/usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "$APP/Info.plist")"
 [ "$PLIST_VERSION" = "$VERSION" ] \
     || { echo "Info.plist says $PLIST_VERSION, tauri.conf.json says $VERSION"; exit 1; }
+# ITMS-90068 is a WARNING on upload, so a build below the floor ships
+# silently. Assert it here, where it is an error.
+MIN_OS="$(/usr/libexec/PlistBuddy -c "Print :MinimumOSVersion" "$APP/Info.plist")"
+echo "   MinimumOSVersion $MIN_OS"
+[ "${MIN_OS%%.*}" -ge 15 ] \
+    || { echo "MinimumOSVersion $MIN_OS is below 15.0 — Apple's ITMS-90068 floor"; exit 1; }
 rm -rf "$WORK"
 
 if [ "$UPLOAD" = 0 ]; then

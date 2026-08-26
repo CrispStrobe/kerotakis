@@ -2,11 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <!-- Mac App Store requires the sandbox. Kerotakis is a genuinely
-         offline app: the engine is linked into the binary and every
-         lesson, database and codex entry ships inside the bundle, so no
-         network entitlement of any kind appears below. -->
+    <!-- Mac App Store requires the sandbox. -->
     <key>com.apple.security.app-sandbox</key>
+    <true/>
+
+    <!-- Not for the app's own use: Kerotakis makes no network requests at
+         all. WebKit's networking process mediates every load a WKWebView
+         performs, including the tauri:// custom scheme that serves the
+         frontend out of the binary, and inside the sandbox that process
+         needs this entitlement to do it.
+
+         Without it the app launches, opens its window, keeps a live
+         WebContent process, resolves every asset correctly through
+         Tauri's own resolver — and renders a black rectangle. No error
+         is logged anywhere. Removing this line is how you ship a blank
+         window; see tools/run-macos-local.sh, which exists to catch it. -->
+    <key>com.apple.security.network.client</key>
     <true/>
 
     <!-- Open a .lab script; save a session, a notebook, a chart. Both

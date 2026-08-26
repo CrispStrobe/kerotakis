@@ -1,0 +1,164 @@
+# Android: APK for sideloading, AAB for Play.
+#
+# The Android project is generated, not committed — same as iOS. Tauri
+# writes `src-tauri/gen/android` from `tauri.conf.json`, and keeping it out
+# of the tree means there is one source of truth for the identifier, the
+# version and the icons.
+#
+# The engine is native here too: IPhreeqc's C++ is cross-compiled for each
+# ABI by the NDK, which is the part most likely to break first and the
+# reason this job is not `continue-on-error`.
+#
+# Signing is conditional on the secrets existing. Without them the build
+# still runs and produces an unsigned APK, so the pipeline is verifiable
+# before anyone creates a keystore — but `release: true` refuses to pretend.
+name: Android
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      release:
+        description: "Require signing and produce an AAB for Play"
+        type: boolean
+        default: false
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Android
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: "platform-tools platforms;android-34 build-tools;34.0.0 ndk;27.1.12297006"
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          # Every ABI Play expects from a native app. armv7 and x86 are
+          # cheap to add and expensive to add later: an AAB missing an ABI
+          # simply will not install on those devices.
+          targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: web/app/src-tauri
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/app/package-lock.json
+
+      - name: Install the app's dependencies
+        working-directory: web/app
+        run: npm ci --no-audit --no-fund
+
+      - name: Point the build at the NDK
+        run: |
+          NDK="$(ls -d "$ANDROID_HOME"/ndk/* | sort -V | tail -1)"
+          echo "NDK_HOME=$NDK" >> "$GITHUB_ENV"
+          echo "ANDROID_NDK_HOME=$NDK" >> "$GITHUB_ENV"
+          echo "   $NDK"
+
+      - name: Generate the Android project
+        working-directory: web/app
+        run: npx tauri android init --ci
+
+      # Kerotakis asks for nothing: no network, no storage, no camera. Tauri's
+      # default manifest is already minimal, and this asserts it stays that
+      # way — a permission that creeps in is a Play review question, and
+      # `usesCleartextTraffic` in particular is flagged by their security
+      # scan.
+      - name: The manifest must stay permissionless
+        run: |
+          MANIFEST=web/app/src-tauri/gen/android/app/src/main/AndroidManifest.xml
+          echo "== $MANIFEST"
+          cat "$MANIFEST"
+          if grep -q 'usesCleartextTraffic="true"' "$MANIFEST"; then
+            echo "::error::cleartext traffic is enabled; Play's security review flags this"
+            exit 1
+          fi
+          for perm in CAMERA RECORD_AUDIO ACCESS_FINE_LOCATION READ_EXTERNAL_STORAGE; do
+            if grep -q "android.permission.$perm" "$MANIFEST"; then
+              echo "::error::the app declares $perm, which it does not use"
+              exit 1
+            fi
+          done
+
+      - name: Signing key
+        id: signing
+        env:
+          KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            if [ "${{ github.event.inputs.release }}" = "true" ] \
+               || [ "${{ startsWith(github.ref, 'refs/tags/v') }}" = "true" ]; then
+              echo "::error::a release was asked for but ANDROID_KEYSTORE_BASE64 is not set"
+              echo "::error::create one with: keytool -genkey -v -keystore kerotakis.jks \\"
+              echo "::error::  -keyalg RSA -keysize 2048 -validity 10000 -alias kerotakis"
+              exit 1
+            fi
+            echo "   no keystore secret; building unsigned"
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          KEYSTORE="$RUNNER_TEMP/kerotakis.jks"
+          printf %s "$KEYSTORE_BASE64" | base64 -d > "$KEYSTORE"
+          # Gradle reads this file; the path must be absolute because the
+          # build runs from the generated project's own directory.
+          cat > web/app/src-tauri/gen/android/keystore.properties <<EOF
+          storeFile=$KEYSTORE
+          storePassword=$KEYSTORE_PASSWORD
+          keyAlias=$KEY_ALIAS
+          password=$KEY_PASSWORD
+          EOF
+          echo "signed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Build
+        working-directory: web/app
+        run: |
+          if [ "${{ steps.signing.outputs.signed }}" = "true" ]; then
+            npx tauri android build --aab --apk
+          else
+            npx tauri android build --apk
+          fi
+
+      - name: Collect what was built
+        run: |
+          mkdir -p out
+          find web/app/src-tauri/gen/android -name '*.apk' -o -name '*.aab' \
+            | grep -v intermediates | while read -r f; do cp "$f" out/; done
+          ls -lh out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kerotakis-android
+          path: out/*
+          if-no-files-found: error
+
+      # Play upload is deliberately not automated here. It needs a service
+      # account with Play Console access, a track decision (internal /
+      # closed / production), and a first release that Google requires be
+      # made by hand. Wiring it before any of that exists would be a step
+      # that looks done and is not.
+      - name: What is not automated
+        if: steps.signing.outputs.signed == 'true'
+        run: |
+          echo "Signed artifacts are attached to this run."
+          echo "Play upload is manual: the first release of an app must be"
+          echo "created in the Play Console by hand, and automating later"
+          echo "uploads needs a service-account JSON this repo does not have."
