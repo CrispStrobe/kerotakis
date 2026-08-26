@@ -76,6 +76,7 @@
   const session = new Session(
     isTauri() ? new TauriHost() : WorkerHost.create(),
     appStorage ? new ModeStorage(appStorage, labMode) : null,
+    labMode,
   );
   type Theme = "light" | "dark" | "contrast";
   let theme = $state<Theme>("light");
@@ -473,6 +474,7 @@
         kit={session.lesson?.kit ?? null}
         mode={labMode}
         completed={session.completedMissions.size}
+        stockUsed={session.storyStockUsed}
         onadd={(line) => {
           void session.submit(line);
           pane = "bench";

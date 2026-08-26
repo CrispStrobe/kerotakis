@@ -17,6 +17,8 @@ describe("i18n", () => {
     expect(t("after one mission")).toBe("nach einer Mission");
     expect(t("mission kit")).toBe("Missionsset");
     expect(t("place on bench")).toBe("auf den Labortisch stellen");
+    expect(t("stockroom replenished")).toBe("Materiallager aufgefüllt");
+    expect(t("one use left")).toBe("eine Entnahme übrig");
   });
 
   it("interpolates translated messages", () => {
@@ -28,6 +30,7 @@ describe("i18n", () => {
       "Gefäß v2 nach Analysieren verschoben",
     );
     expect(t("after {count} missions", { count: 3 })).toBe("nach 3 Missionen");
+    expect(t("{count} uses left", { count: 7 })).toBe("7 Entnahmen übrig");
   });
 
   it("uses the source message as the English catalog", () => {
