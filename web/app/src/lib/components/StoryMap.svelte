@@ -1,11 +1,14 @@
 <script lang="ts">
   import { t } from "../i18n.svelte";
   import { missionId, storyDistricts, type MissionSummary } from "../storyProgress";
+  import CaseBoard from "./CaseBoard.svelte";
 
   let {
     missions,
     completed,
     active = null,
+    caseBriefed,
+    oncasebriefed,
     onstart,
     onsandbox,
     onexperiments,
@@ -15,6 +18,8 @@
     missions: MissionSummary[];
     completed: ReadonlySet<string>;
     active?: string | null;
+    caseBriefed: boolean;
+    oncasebriefed: () => void;
     onstart: (file: string) => void;
     onsandbox: () => void;
     onexperiments: () => void;
@@ -76,42 +81,55 @@
 
       {#if selected}
         <section class="mission-board" aria-live="polite">
-          <div class="district-title">
-            <span class="large-icon" aria-hidden="true">{selected.icon}</span>
-            <div>
-              <span class="eyebrow">{selected.unlocked ? t("district open") : t("district locked")}</span>
-              <h2>{t(selected.name)}</h2>
-              <p>{t(selected.description)}</p>
-            </div>
-          </div>
-
-          {#if selected.unlocked}
-            <div class="mission-list">
-              {#each selected.missions as mission, index (mission.file)}
-                {@const done = completed.has(missionId(mission.file))}
-                {@const running = active === missionId(mission.file)}
-                <article class:done class:running style={`--delay:${index * 45}ms`}>
-                  <span class="mission-status" aria-hidden="true">{done ? "✓" : running ? "●" : String(index + 1).padStart(2, "0")}</span>
-                  <div>
-                    <span class="topic">{done ? t("mission complete") : running ? t("mission in progress") : t(mission.topic ?? "more")}</span>
-                    <h3>{t(mission.name)}</h3>
-                    {#if mission.blurb}<p>{t(mission.blurb)}</p>{/if}
-                  </div>
-                  <button onclick={() => onstart(mission.file)}>
-                    {running ? t("continue mission") : done ? t("replay mission") : t("launch mission")}
-                    <span aria-hidden="true">→</span>
-                  </button>
-                </article>
-              {/each}
-            </div>
+          {#if selected.id === "discovery-hall" && selected.unlocked && selected.missions.length >= 4}
+            <CaseBoard
+              missions={selected.missions}
+              {completed}
+              {active}
+              briefed={caseBriefed}
+              onbriefed={oncasebriefed}
+              {onstart}
+            />
+          {:else if selected.id === "discovery-hall" && selected.missions.length === 0}
+            <div class="lock-panel"><span aria-hidden="true">◌</span><h3>{t("Case file is syncing…")}</h3><p>{t("Missions are downloading. The sandbox is ready now.")}</p></div>
           {:else}
-            <div class="lock-panel">
-              <span aria-hidden="true">⌁</span>
-              <h3>{t("The route is still being surveyed")}</h3>
-              <p>{selected.minimumCompleted === 1
-                ? t("Complete one mission anywhere in the open districts to unlock this route.")
-                : t("Complete {count} missions anywhere in the open districts to unlock this route.", { count: selected.minimumCompleted })}</p>
+            <div class="district-title">
+              <span class="large-icon" aria-hidden="true">{selected.icon}</span>
+              <div>
+                <span class="eyebrow">{selected.unlocked ? t("district open") : t("district locked")}</span>
+                <h2>{t(selected.name)}</h2>
+                <p>{t(selected.description)}</p>
+              </div>
             </div>
+
+            {#if selected.unlocked}
+              <div class="mission-list">
+                {#each selected.missions as mission, index (mission.file)}
+                  {@const done = completed.has(missionId(mission.file))}
+                  {@const running = active === missionId(mission.file)}
+                  <article class:done class:running style={`--delay:${index * 45}ms`}>
+                    <span class="mission-status" aria-hidden="true">{done ? "✓" : running ? "●" : String(index + 1).padStart(2, "0")}</span>
+                    <div>
+                      <span class="topic">{done ? t("mission complete") : running ? t("mission in progress") : t(mission.topic ?? "more")}</span>
+                      <h3>{t(mission.name)}</h3>
+                      {#if mission.blurb}<p>{t(mission.blurb)}</p>{/if}
+                    </div>
+                    <button onclick={() => onstart(mission.file)}>
+                      {running ? t("continue mission") : done ? t("replay mission") : t("launch mission")}
+                      <span aria-hidden="true">→</span>
+                    </button>
+                  </article>
+                {/each}
+              </div>
+            {:else}
+              <div class="lock-panel">
+                <span aria-hidden="true">⌁</span>
+                <h3>{t("The route is still being surveyed")}</h3>
+                <p>{selected.minimumCompleted === 1
+                  ? t("Complete one mission anywhere in the open districts to unlock this route.")
+                  : t("Complete {count} missions anywhere in the open districts to unlock this route.", { count: selected.minimumCompleted })}</p>
+              </div>
+            {/if}
           {/if}
         </section>
       {/if}

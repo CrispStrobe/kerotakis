@@ -19,6 +19,10 @@ describe("i18n", () => {
     expect(t("place on bench")).toBe("auf den Labortisch stellen");
     expect(t("stockroom replenished")).toBe("Materiallager aufgefüllt");
     expect(t("one use left")).toBe("eine Entnahme übrig");
+    expect(t("The contaminated sample")).toBe("Die verunreinigte Probe");
+    expect(t("open the case file")).toBe("Fallakte öffnen");
+    expect(t("investigate")).toBe("untersuchen");
+    expect(t("inspect")).toBe("prüfen");
   });
 
   it("interpolates translated messages", () => {

@@ -870,6 +870,17 @@ that foundation into the first playable story slice.
   different valid solutions. Completion is engine-evaluated; closing/reopening,
   switching register, switching locale, and visiting Sandbox all preserve the
   right state.
+  *Case-board slice shipped 2026-08-26: Discovery Hall is now presented as
+  "The contaminated sample," with a one-time persisted briefing from a campus
+  chemist, an animated physical sample, three engine-backed core leads available
+  concurrently in any order, and the existing safety investigation called out
+  as an optional discovery. Core and optional completion derive from the stable
+  mission ids already stored in the Story save; returning to the board shows
+  secured evidence, an active lead, and 0/3–3/3 case progress without touching
+  Sandbox. The desktop and mobile board, onboarding, statuses, actions, and ARIA
+  labels ship in English and German. The three current leads still walk their
+  shipped `.lab` procedures, so typed case-level outcome evaluation and the
+  required two-solution mission remain before GUI-080 can close.*
 
 ### Phase G3 — Desktop
 
