@@ -29,8 +29,11 @@
   import VesselActionDock from "./lib/components/VesselActionDock.svelte";
   import StoryMap from "./lib/components/StoryMap.svelte";
   import WorldHome from "./lib/components/WorldHome.svelte";
+  import MissionDebrief from "./lib/components/MissionDebrief.svelte";
   import { t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
+  import { commandCount, completedCommandCount } from "./lib/lesson";
+  import { missionTitle } from "./lib/storyProgress";
   import { pwa } from "./lib/pwa.svelte";
   import { twoVesselLine, type TwoVesselAction } from "./lib/directActions";
   import {
@@ -341,7 +344,7 @@
     onclick={() => (homeOpen = true)}
   >
     <span class="mode-signal" aria-hidden="true">{labMode === "story" ? "◆" : "∞"}</span>
-    <span class="mode-copy"><small>{labMode === "story" ? t("Story laboratory") : t("Sandbox hangar")}</small><strong>{session.lesson ? t(session.lesson.lesson.name) : labMode === "story" ? t("Story") : t("Sandbox")}</strong></span>
+    <span class="mode-copy"><small>{labMode === "story" ? t("Story laboratory") : t("Sandbox hangar")}</small><strong>{session.lesson ? t(missionTitle(session.lesson.lesson.name)) : labMode === "story" ? t("Story") : t("Sandbox")}</strong></span>
     <span class="mode-arrow" aria-hidden="true">⌄</span>
   </button>
 
@@ -442,8 +445,9 @@
     kit={session.shelf.filter(s => session.lesson!.kit.includes(s.key))}
     register={session.register}
     target={session.selected}
-    cursor={session.lesson.cursor}
-    total={session.lesson.lesson.steps.length}
+    cursor={completedCommandCount(session.lesson.lesson, session.lesson.cursor)}
+    total={commandCount(session.lesson.lesson)}
+    evidence={session.lessonEvidence}
     onnext={() => void session.lessonNext()}
     onreturn={() => void session.lessonReturn()}
     onexit={() => session.exitLesson()}
@@ -682,6 +686,17 @@
       mapOpen = true;
     }}
     onclose={() => (missionOpen = false)}
+  />
+{/if}
+
+{#if session.missionDebrief}
+  <MissionDebrief
+    debrief={session.missionDebrief}
+    onclose={() => session.closeMissionDebrief()}
+    onmap={() => {
+      session.closeMissionDebrief();
+      missionOpen = true;
+    }}
   />
 {/if}
 

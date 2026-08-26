@@ -98,6 +98,14 @@ an independent full-access world. Contacts, material rewards, and transactional
 engine-evaluated mission outcomes remain roadmap work rather than decorative
 claims in the interface.
 
+While a mission is active, its field journal keeps the plain-language objective,
+the exact replayable operator, optional procedural help, and engine-rendered
+evidence together above the persistent bench. Completion produces a dismissible,
+non-blocking debrief and records the discovery without stopping further bench
+work. This is the UI bridge from the existing guided `.lab` corpus toward the
+future typed, multi-objective mission evaluator; the journal does not pretend
+that scripted step completion is already a fully open-ended outcome contract.
+
 Product invariants:
 
 1. A mission states a problem and constraints, not the one approved procedure.
