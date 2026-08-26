@@ -85,8 +85,8 @@ pub use scene::{scene, scene_of, scene_vessel, Scene, SceneVessel};
 pub use solve::{
     equilibrate_phase_coupled, Applicability, CapabilityReport, Equilibrator, HonestyEquilibrator,
     MixingEquilibrator, PermissiveScreen, PhaseEquilibrator, SafetyScreen, SafetyVerdict, Severity,
-    SolveError, SolverStack, StateEquilibrator, ValidityBounds,
-    PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
+    SolveError, SolverRoute, SolverRouteKind, SolverRouteOutcome, SolverStack, StateEquilibrator,
+    ValidityBounds, PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
 };
 pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};

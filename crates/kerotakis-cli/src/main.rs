@@ -11,6 +11,7 @@
 //!   kero species              list the registry
 
 mod chart_svg;
+mod coverage;
 mod diagram;
 mod mcp;
 mod provenance;
@@ -117,6 +118,7 @@ fn main() {
                 }
             }
         }
+        Some("coverage") => coverage::command(&args[1..], build_stack),
         Some("pack") => {
             // DATA-010: compile a registry document into a .pack for
             // independent delivery. Default source: the checked-in
@@ -1325,6 +1327,7 @@ fn usage() -> ! {
          \x20        --collect ph@v1[,…] [--csv]   run it varied over a parameter\n\
          \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
+         \x20 kero coverage curiosity [--smoke] [--json]\n\
          \x20 kero calc <relation> ...   evaluate a named physical relation\n\
          \x20 kero properties water     temperature-dependent property table\n\
          \x20 kero provenance lint       validate source/distribution policy\n\
