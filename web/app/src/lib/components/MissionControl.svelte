@@ -1,23 +1,30 @@
 <script lang="ts">
   import { t } from "../i18n.svelte";
+  import type { CodexEntry } from "../codex";
 
   type Mission = { file: string; name: string; blurb?: string; topic?: string };
 
   let {
     missions,
+    experiments,
     active = null,
     cursor = 0,
     total = 0,
     onstart,
     onsandbox,
+    onexperiments,
+    onmap,
     onclose,
   }: {
     missions: Mission[];
+    experiments: CodexEntry[];
     active?: string | null;
     cursor?: number;
     total?: number;
     onstart: (file: string) => void;
     onsandbox: () => void;
+    onexperiments: () => void;
+    onmap: () => void;
     onclose: () => void;
   } = $props();
 
@@ -50,6 +57,19 @@
           <p>{t("Everything is unlocked. Build, test, and break your own ideas.")}</p>
         </div>
         <button onclick={onsandbox}>{active ? t("exit to sandbox") : t("you are here")}</button>
+      </article>
+
+      <article class="library-card">
+        <div class="card-icon" aria-hidden="true">⌬</div>
+        <div>
+          <span class="card-kicker">{t("Experiment library")}</span>
+          <h2>{t("{count} Codex experiments", { count: experiments.length })}</h2>
+          <p>{t("Predict first, run real chemistry, then compare the evidence.")}</p>
+        </div>
+        <div class="library-actions">
+          <button onclick={onexperiments}>{t("browse experiments")}</button>
+          <button class="map-button" onclick={onmap}>{t("concept map")}</button>
+        </div>
       </article>
 
       {#if active}
@@ -157,6 +177,7 @@
     padding: 1rem clamp(1rem, 4vw, 2.6rem) 0;
   }
   .sandbox-card,
+  .library-card,
   .active-mission {
     position: relative;
     min-height: 10.5rem;
@@ -170,6 +191,8 @@
     background: color-mix(in srgb, var(--surface-raised) 72%, transparent);
   }
   .sandbox-card.current { border-color: var(--instrument); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--instrument) 22%, transparent); }
+  .library-card { border-color: color-mix(in srgb, var(--primary) 40%, var(--edge)); }
+  .library-card .card-icon { color: var(--primary); background: color-mix(in srgb, var(--primary) 12%, var(--surface)); }
   .card-icon {
     width: 46px;
     height: 46px;
@@ -193,6 +216,9 @@
     font-weight: 750;
   }
   .paths > article > button { grid-column: 1 / -1; min-height: 38px; }
+  .library-actions { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto; gap: 0.4rem; }
+  .library-actions button { min-height: 38px; }
+  .library-actions .map-button { color: var(--primary); border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--edge)); background: var(--surface); }
   .active-mission { border-color: color-mix(in srgb, var(--discovery) 55%, var(--edge)); }
   .active-mission .pulse { width: 13px; height: 13px; margin: 0.35rem; border-radius: 50%; background: var(--discovery); box-shadow: 0 0 0 7px color-mix(in srgb, var(--discovery) 13%, transparent); }
   .progress { position: absolute; inset: auto 0 0; height: 4px; background: color-mix(in srgb, var(--edge) 45%, transparent); }

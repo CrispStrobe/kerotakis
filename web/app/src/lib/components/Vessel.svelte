@@ -129,6 +129,9 @@
   );
   const frosty = $derived(vessel.temperature_k < 272);
   const hot = $derived(Math.min(1, Math.max(0, (vessel.temperature_k - 310) / 300)));
+  const cold = $derived(Math.min(1, Math.max(0, (273.15 - vessel.temperature_k) / 60)));
+  const motionMag = $derived(Math.max(mag("swirl", 2200), mag("burst", 1800), mag("heat", 2200), mag("cool", 2200)));
+  const frostIntensity = $derived(Math.max(cold, mag("cool", 2200), mag("freeze", 2200)));
   const reducedMotion =
     typeof matchMedia !== "undefined" &&
     matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -137,7 +140,16 @@
   );
 </script>
 
-<figure class="vessel" class:selected class:drop-ready={dropReady} class:transfer-target={transferTarget}>
+<figure
+  class="vessel"
+  class:selected
+  class:drop-ready={dropReady}
+  class:transfer-target={transferTarget}
+  class:whirling={active("swirl", 2200)}
+  class:bursting={active("burst", 1800)}
+  data-vessel-id={vessel.id}
+  style={`--swirl-duration:${2.2 - motionMag * 1.25}s;--stir-duration:${1.15 - motionMag * 0.65}s;--heat-duration:${1.8 - Math.max(hot, mag("heat", 2200)) * 0.8}s;--heat-opacity:${0.25 + Math.max(hot, mag("heat", 2200)) * 0.65}`}
+>
   <button
     class="glassbtn"
     aria-label={`${t(vessel.label)} v${vessel.id + 1}: ${t(vessel.words)}${transferTarget ? ` · ${t("transfer target")}` : ""}`}
@@ -252,6 +264,14 @@
     {#if hot > 0.02}
       <ellipse class="glow" cx="50" cy="132" rx="34" ry="5" style={`opacity:${0.15 + hot * 0.5}`} />
     {/if}
+    {#if hot > 0.02 || active("heat", 2200)}
+      <g class="heater" aria-hidden="true">
+        <rect x="25" y="130" width="50" height="7" rx="2" />
+        {#each [35, 50, 65] as x, i (x)}
+          <path class="heat-wave" d={`M ${x} 128 q -4 -5 0 -10 q 4 -5 0 -10`} style={`animation-delay:${i * 0.18}s`} />
+        {/each}
+      </g>
+    {/if}
     {#if burning}
       {@const flameScale = 0.5 + mag("ignite", 3000) * 0.5}
       <g class="flame" aria-hidden="true" style={`transform-origin:50px 20px;transform:scale(${flameScale})`}>
@@ -271,9 +291,11 @@
         />
       {/each}
     {/if}
-    {#if frosty}
-      <g class="frost" aria-hidden="true">
-        {#each [[18, 40], [80, 60], [22, 90], [78, 105]] as [fx = 0, fy = 0], i (i)}
+    {#if frosty || active("cool", 2200) || active("freeze", 2200)}
+      {@const frostPoints = [[18, 40], [80, 60], [22, 90], [78, 105], [30, 55], [68, 78], [40, 100], [60, 42], [50, 68], [28, 112], [72, 116]]}
+      {@const frostCount = Math.round(3 + frostIntensity * 8)}
+      <g class="frost" aria-hidden="true" style={`opacity:${0.35 + frostIntensity * 0.65}`}>
+        {#each frostPoints.slice(0, frostCount) as [fx = 0, fy = 0], i (i)}
           <path d={`M ${fx} ${fy} l 4 0 M ${fx + 2} ${fy - 2} l 0 4 M ${fx} ${fy - 2} l 4 4 M ${fx} ${fy + 2} l 4 -4`} />
         {/each}
       </g>
@@ -350,6 +372,19 @@
         rx={(INNER_W / 2 - 6) * sScale}
         ry={Math.min(8, liquidH / 3) * sScale}
       />
+      <g class="stirrer" aria-hidden="true">
+        <line x1="50" y1={Math.max(7, BOTTOM_Y - liquidH - 18)} x2="50" y2={BOTTOM_Y - 7} />
+        <ellipse cx="50" cy={BOTTOM_Y - 6} rx="8" ry="2" />
+      </g>
+    {/if}
+    {#if active("burst", 1800)}
+      {@const burstMag = mag("burst", 1800)}
+      <g class="burst" aria-hidden="true" style={`--burst-distance:${18 + burstMag * 30}px`}>
+        {#each [0, 45, 90, 135, 180, 225, 270, 315] as angle (angle)}
+          <path d="M 47 65 l 6 -4 l -1 7 z" style={`--angle:${angle}deg`} />
+        {/each}
+        <circle cx="50" cy="65" r={18 + burstMag * 14} />
+      </g>
     {/if}
     {#if active("plate", 2000)}
       <rect class="shimmer" x={INNER_X} y={BOTTOM_Y - Math.max(solidH, 6)} width={INNER_W} height={Math.max(solidH, 6)} />
@@ -623,8 +658,24 @@
     stroke-width: 1.3;
     stroke-dasharray: 6 5;
     opacity: 0.45;
-    animation: swirl-turn 2s linear forwards;
+    animation: swirl-turn var(--swirl-duration, 2s) linear forwards;
   }
+  .stirrer {
+    transform-origin: 50px 70px;
+    animation: stir-tool var(--stir-duration, 1s) ease-in-out infinite alternate;
+  }
+  .stirrer line, .stirrer ellipse { fill: none; stroke: var(--edge-strong); stroke-width: 1.5; }
+  @keyframes stir-tool { to { transform: rotate(12deg) translateX(3px); } }
+  .heater rect { fill: color-mix(in srgb, var(--hot) 40%, var(--edge-strong)); }
+  .heat-wave { fill: none; stroke: var(--hot); stroke-width: 1.2; opacity: 0; animation: heat-rise var(--heat-duration, 1.5s) ease-out infinite; }
+  @keyframes heat-rise { 0% { opacity: 0; transform: translateY(4px); } 35% { opacity: var(--heat-opacity, 0.5); } 100% { opacity: 0; transform: translateY(-8px); } }
+  .burst path { fill: var(--edge-strong); transform-box: fill-box; transform-origin: center; animation: shard-fly 1.1s cubic-bezier(.12,.65,.25,1) forwards; }
+  .burst path:nth-child(2n) { fill: var(--cloud); }
+  .burst circle { fill: none; stroke: var(--danger); stroke-width: 3; opacity: 0; animation: pressure-wave 0.9s ease-out forwards; }
+  @keyframes shard-fly { to { opacity: 0; transform: rotate(var(--angle)) translateX(var(--burst-distance)) rotate(220deg); } }
+  @keyframes pressure-wave { 0% { opacity: 0.8; transform: scale(0.25); transform-origin: 50px 65px; } 100% { opacity: 0; transform: scale(2.1); transform-origin: 50px 65px; } }
+  .vessel.bursting { animation: burst-shock 0.42s linear 2; }
+  @keyframes burst-shock { 25% { transform: translate(-5px, 1px) rotate(-1deg); } 75% { transform: translate(5px, -1px) rotate(1deg); } }
   @keyframes swirl-turn {
     0% {
       stroke-dashoffset: 0;
@@ -893,7 +944,12 @@
     .steam,
     .falling,
     .dissolving,
-    .shimmer {
+    .shimmer,
+    .stirrer,
+    .heat-wave,
+    .burst path,
+    .burst circle,
+    .vessel.bursting {
       animation: none;
     }
     .steam {

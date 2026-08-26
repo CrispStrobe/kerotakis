@@ -24,7 +24,7 @@
   import ReadingInset from "./lib/components/ReadingInset.svelte";
   import Toolbox from "./lib/components/Toolbox.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
-  import ToolIcon from "./lib/components/ToolIcon.svelte";
+  import EquipmentCabinet from "./lib/components/EquipmentCabinet.svelte";
   import LocaleSwitcher from "./lib/components/LocaleSwitcher.svelte";
   import VesselActionDock from "./lib/components/VesselActionDock.svelte";
   import MissionControl from "./lib/components/MissionControl.svelte";
@@ -134,13 +134,6 @@
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
   let transfer = $state<{ verb: TwoVesselAction; fraction: number; from: number | null } | null>(null);
-  const TWO_VESSEL_TOOLS: { verb: TwoVesselAction; label: string }[] = [
-    { verb: "filter", label: "filter" },
-    { verb: "decant", label: "decant" },
-    { verb: "drain", label: "drain" },
-    { verb: "cell", label: "voltmeter" },
-    { verb: "distil", label: "still" },
-  ];
   function vesselTapped(id: number) {
     if (!transfer) {
       void session.inspect(id);
@@ -386,39 +379,26 @@
         }}
       />
     {:else}
-      <section class="equipment-cabinet" aria-label={t("equipment")}>
-        <p class="cabinet-target">{t("working with vessel v{vessel}", { vessel: session.selected + 1 })}</p>
-        <div class="equipment-group">
-          <h2>{t("precision tools")}</h2>
-          <button class:active-tool={buretteOut} onclick={() => (buretteOut = !buretteOut)} title={t("clamp the burette over the selected vessel")}>
-            <span class="equipment-icon"><ToolIcon name="burette" /></span><span><strong>{t("burette")}</strong><small>{t("controlled addition")}</small></span>
-          </button>
-          <select
-            aria-label={t("more apparatus")}
-            value={apparatusOut ?? ""}
-            onchange={(e) => { apparatusOut = e.currentTarget.value || null; e.currentTarget.value = apparatusOut ?? ""; }}
-          >
-            <option value="">{t("choose more equipment…")}</option>
-            {#each APPARATUS as s (s.verb)}<option value={s.verb}>{t(s.title)}</option>{/each}
-            {#if session.reactOptions.length > 0}<option value="react">{t("curated reaction")}</option>{/if}
-            <option value="transport">{t("column train")}</option>
-          </select>
-        </div>
-        <div class="equipment-group">
-          <h2>{t("transfer and separation")}</h2>
-          <div class="equipment-grid">
-            {#each TWO_VESSEL_TOOLS as tool (tool.verb)}
-              <button
-                class:active-tool={transfer?.verb === tool.verb}
-                onclick={() => (transfer = transfer?.verb === tool.verb ? null : { verb: tool.verb, fraction: 0.5, from: null })}
-                title={t("{tool}: pick the source vessel, then the target", { tool: t(tool.label) })}
-              >
-                <span class="equipment-icon"><ToolIcon name={tool.verb} /></span><span>{t(tool.label)}</span>
-              </button>
-            {/each}
-          </div>
-        </div>
-      </section>
+      <EquipmentCabinet
+        target={session.selected}
+        targetLabel={selectedVessel?.label ?? "beaker"}
+        {buretteOut}
+        {apparatusOut}
+        transferVerb={transfer?.verb ?? null}
+        reactAvailable={session.reactOptions.length > 0}
+        onburette={() => {
+          buretteOut = !buretteOut;
+          pane = "bench";
+        }}
+        onapparatus={(verb) => {
+          apparatusOut = apparatusOut === verb ? null : verb;
+          pane = "bench";
+        }}
+        ontransfer={(verb) => {
+          transfer = transfer?.verb === verb ? null : { verb, fraction: 0.5, from: null };
+          pane = "bench";
+        }}
+      />
     {/if}
   </nav>
   <div class="bench-pane">
@@ -556,6 +536,7 @@
 {#if missionOpen}
   <MissionControl
     missions={lessons}
+    experiments={codexEntries}
     active={session.lesson?.lesson.name ?? null}
     cursor={session.lesson?.cursor ?? 0}
     total={session.lesson?.lesson.steps.length ?? 0}
@@ -563,6 +544,14 @@
     onsandbox={() => {
       if (session.lesson) session.exitLesson();
       missionOpen = false;
+    }}
+    onexperiments={() => {
+      missionOpen = false;
+      catalogOpen = true;
+    }}
+    onmap={() => {
+      missionOpen = false;
+      mapOpen = true;
     }}
     onclose={() => (missionOpen = false)}
   />
@@ -630,9 +619,6 @@
   .tool:disabled {
     opacity: 0.45;
     cursor: default;
-  }
-  .active-tool {
-    border-color: var(--hot);
   }
   .transfer-banner,
   .update-banner {
@@ -878,11 +864,6 @@
     color: var(--discovery);
     border-color: color-mix(in srgb, var(--discovery) 35%, var(--edge));
   }
-  .active-tool {
-    border-color: var(--action) !important;
-    background: color-mix(in srgb, var(--action) 10%, var(--surface)) !important;
-    box-shadow: 0 0 0 2px color-mix(in srgb, var(--action) 14%, transparent);
-  }
   .utility-toggle {
     min-height: 40px;
     display: inline-flex;
@@ -1087,93 +1068,6 @@
   .cabinet-tabs button.active {
     color: var(--primary);
     background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised));
-  }
-  .equipment-cabinet {
-    min-height: 0;
-    overflow-y: auto;
-    padding: 0.65rem;
-  }
-  .cabinet-target {
-    margin: 0 0 0.65rem;
-    padding: 0.55rem 0.65rem;
-    border-radius: 10px;
-    color: var(--instrument);
-    background: color-mix(in srgb, var(--instrument) 9%, var(--surface-raised));
-    font-size: 0.72rem;
-    font-weight: 650;
-  }
-  .equipment-group {
-    margin-bottom: 1rem;
-  }
-  .equipment-group h2 {
-    margin: 0 0 0.4rem;
-    color: var(--dim);
-    font-size: 0.7rem;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-  }
-  .equipment-group button,
-  .equipment-group select {
-    width: 100%;
-    min-height: 48px;
-    border: 1px solid var(--edge);
-    border-radius: 12px;
-    color: var(--ink);
-    background: var(--surface-raised);
-    cursor: pointer;
-  }
-  .equipment-group > button {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.45rem 0.6rem;
-    text-align: left;
-  }
-  .equipment-group button:hover,
-  .equipment-group select:hover {
-    border-color: var(--action);
-  }
-  .equipment-group button > span:not(.equipment-icon) {
-    display: flex;
-    flex-direction: column;
-  }
-  .equipment-group button small {
-    color: var(--dim);
-    font-size: 0.67rem;
-  }
-  .equipment-icon {
-    width: 34px;
-    height: 34px;
-    display: grid;
-    place-items: center;
-    flex: none;
-    border-radius: 9px;
-    color: var(--action);
-    background: color-mix(in srgb, var(--action) 10%, var(--surface));
-  }
-  .equipment-icon :global(svg) {
-    width: 24px;
-    height: 24px;
-  }
-  .equipment-group select {
-    margin-top: 0.4rem;
-    padding: 0 0.65rem;
-    font-size: 0.78rem;
-  }
-  .equipment-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.4rem;
-  }
-  .equipment-grid button {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.25rem;
-    min-height: 84px;
-    padding: 0.45rem;
-    font-size: 0.72rem;
   }
   .equation {
     background: var(--surface);

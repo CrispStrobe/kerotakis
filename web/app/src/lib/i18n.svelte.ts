@@ -111,6 +111,10 @@ const DE: Record<string, string> = {
   "Choose your path": "Wähle deinen Weg",
   "Follow a guided investigation or open the whole laboratory.": "Folge einer geführten Untersuchung oder öffne das ganze Labor.",
   "Story missions": "Forschungsmissionen",
+  "Experiment library": "Experimentbibliothek",
+  "{count} Codex experiments": "{count} Codex-Experimente",
+  "Predict first, run real chemistry, then compare the evidence.": "Erst vorhersagen, dann echte Chemie ausführen und die Nachweise vergleichen.",
+  "browse experiments": "Experimente durchsuchen",
   "Sandbox lab": "Sandbox-Labor",
   "Your laboratory, your rules": "Dein Labor, deine Regeln",
   "Everything is unlocked. Build, test, and break your own ideas.": "Alles ist freigeschaltet. Baue, teste und hinterfrage deine eigenen Ideen.",
@@ -457,6 +461,20 @@ const DE: Record<string, string> = {
   ,"hazard": "Gefahr"
   ,"the bench answered {answer}.": "Das Labor antwortete {answer}."
   ,"Try: {next}": "Versuche: {next}"
+  ,"separate solids from liquid": "Feststoffe von Flüssigkeit trennen"
+  ,"pour off a chosen fraction": "einen gewählten Anteil abgießen"
+  ,"move the lower liquid layer": "die untere Flüssigkeitsschicht ablassen"
+  ,"connect two half-cells": "zwei Halbzellen verbinden"
+  ,"separate by volatility": "nach Flüchtigkeit trennen"
+  ,"active work area": "aktiver Arbeitsbereich"
+  ,"Instrument wall": "Instrumentenwand"
+  ,"Choose a tool and it appears at the selected work area.": "Wähle ein Werkzeug; es erscheint am ausgewählten Arbeitsplatz."
+  ,"measure and transform": "messen und verändern"
+  ,"on bench": "auf dem Tisch"
+  ,"select source": "Quelle wählen"
+  ,"move solution through connected cells": "Lösung durch verbundene Zellen bewegen"
+  ,"reaction studio": "Reaktionsstudio"
+  ,"choose a verified reaction family": "eine geprüfte Reaktionsfamilie wählen"
 };
 
 function detectLocale(): Locale {

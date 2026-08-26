@@ -2,6 +2,7 @@
   import type { Scene } from "../host/EngineHost";
   import type { Effect } from "../magnitudes";
   import Vessel from "./Vessel.svelte";
+  import BenchEffect from "./BenchEffect.svelte";
   import { t } from "../i18n.svelte";
 
   let {
@@ -34,6 +35,11 @@
 
   let choosing = $state(false);
   const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
+  const spatialEffects = $derived(
+    Object.values(effects)
+      .flat()
+      .filter((effect) => effect.kind === "pour" && effect.source !== undefined && effect.target !== undefined && Date.now() - effect.at < 3000),
+  );
 </script>
 
 <section class="bench" aria-label={t("the bench")}>
@@ -51,6 +57,9 @@
     <span>{t("analyse")}</span>
   </div>
   {#if scene}
+    {#each spatialEffects as effect (effect.at + ":" + effect.source + ":" + effect.target)}
+      <BenchEffect {effect} />
+    {/each}
     {#each scene.vessels as vessel (vessel.id)}
       <Vessel
         {vessel}

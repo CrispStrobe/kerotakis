@@ -18,6 +18,11 @@ export interface Effect {
   magnitude: number;
   /** Flame colour CSS value, if the event carries one. */
   flameColour?: string;
+  /** Source and destination for spatial bench effects such as pouring. */
+  source?: number;
+  target?: number;
+  /** Computed endpoint, used by thermal presentation without duplicating state. */
+  temperatureK?: number;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -63,7 +68,19 @@ function precipMag(e: EngineEvent): number {
 // event.moles — Evaporated/Distilled: 0.01 mol is gentle, 0.5 mol is
 // a rolling boil.
 function steamMag(e: EngineEvent): number {
-  return scale(Number(e.moles ?? 0), 0.01, 0.5);
+  const moles = Number(e.moles ?? 0) + Number(e.water ?? 0) + Number(e.ethanol ?? 0);
+  return scale(moles, 0.01, 0.5);
+}
+
+// event.fraction — Transferred: the visible stream follows the amount
+// the engine says actually moved, not the control's requested amount.
+function transferMag(e: EngineEvent): number {
+  return scale(Number(e.fraction ?? 0.5), 0.02, 1);
+}
+
+// event.from/to (Kelvin) — a 2 K nudge is subtle; 150 K is dramatic.
+function thermalMag(e: EngineEvent): number {
+  return scale(Math.abs(Number(e.to ?? e.temperature ?? 0) - Number(e.from ?? e.temperature ?? 0)), 2, 150);
 }
 
 // event.moles — Electrolysed: 0.0001 mol is a trickle, 0.01 mol is
@@ -112,13 +129,73 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
     case "electrolysed":
       return { kind: "electrolyse", at: now, magnitude: electroMag(e) };
     case "mixed":
-      return { kind: "swirl", at: now, magnitude: mixMag(e) };
+      return {
+        kind: "swirl",
+        at: now,
+        magnitude: mixMag(e),
+        source: Number(e.a ?? 0),
+        target: Number(e.into ?? 0),
+      };
+    case "transferred":
+      return {
+        kind: "pour",
+        at: now,
+        magnitude: transferMag(e),
+        source: Number(e.from ?? 0),
+        target: Number(e.to ?? 0),
+      };
+    case "filtered":
+      return {
+        kind: "pour",
+        at: now,
+        magnitude: 0.65,
+        source: Number(e.from ?? 0),
+        target: Number(e.to ?? 0),
+      };
+    case "drained":
+      return {
+        kind: "pour",
+        at: now,
+        magnitude: scale(Number(e.moles ?? 0), 0.001, 2),
+        source: Number(e.from ?? 0),
+        target: Number(e.to ?? 0),
+      };
     case "diluted":
       return { kind: "swirl", at: now, magnitude: diluteMag(e) };
     case "dissolved":
       return { kind: "dissolve", at: now, magnitude: 1 };
     case "plated":
       return { kind: "plate", at: now, magnitude: 1 };
+    case "temperature_changed": {
+      const to = Number(e.to ?? 0);
+      return {
+        kind: to >= Number(e.from ?? to) ? "heat" : "cool",
+        at: now,
+        magnitude: thermalMag(e),
+        temperatureK: to,
+      };
+    }
+    case "heat_of_mixing": {
+      const joules = Number(e.joules ?? 0);
+      return {
+        kind: joules >= 0 ? "heat" : "cool",
+        at: now,
+        magnitude: scale(Math.abs(joules), 5, 5000),
+      };
+    }
+    case "state_changed":
+      return {
+        kind: String(e.to ?? "") === "solid" ? "freeze" : "phase-change",
+        at: now,
+        magnitude: scale(Math.abs(Number(e.shifted_by ?? 0)), 0, 20),
+        temperatureK: Number(e.at ?? 0),
+      };
+    case "burst":
+      return {
+        kind: "burst",
+        at: now,
+        magnitude: scale(Number(e.at_pa ?? 0) / Math.max(1, Number(e.rating_pa ?? 1)), 1, 2),
+      };
     case "ignited":
     case "flame_test": {
       const [mag, colour] = flameMag(e);

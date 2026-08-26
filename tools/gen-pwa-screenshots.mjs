@@ -74,9 +74,17 @@ try {
     if (!ready) throw new Error("the command bar never appeared");
     // The engine attaches after the shell paints; running before it does
     // would photograph a refusal.
-    await waitFor(page, `document.querySelector('.status')?.classList.contains('live') ?? true`,
-                  { timeout: 60000 });
+    await waitFor(page, `(() => {
+      const status = document.querySelector('.status');
+      return status && !status.textContent.includes('starting') && !status.textContent.includes('startet');
+    })()`, { timeout: 60000 });
     for (const line of SCRIPT) await run(line);
+    // A command response can beat the session's parallel first scene load
+    // on a cold WASM start. Photograph the computed glassware, never the
+    // transient "warming up" shell.
+    const painted = await waitFor(page, `document.querySelectorAll('.bench .vessel').length > 0`,
+                                  { timeout: 60000 });
+    if (!painted) throw new Error("the computed vessel scene never painted");
 
     const { data } = await page.cdp.send("Page.captureScreenshot",
       { format: "png", captureBeyondViewport: false }, page.sessionId);

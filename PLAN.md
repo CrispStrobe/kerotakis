@@ -105,6 +105,12 @@ Product invariants:
 7. The first UX milestone is a tactile, readable laboratory; world breadth and
    campaign volume follow only after placing, pouring, measuring, and inspecting
    feel good with mouse, touch, and keyboard.
+8. Motion is a simulation readout. Pour width and speed follow transferred
+   fraction; stirring follows mixed fractions; heat shimmer and frost follow
+   temperature and ΔT; flame colour follows the computed emission result; and
+   glass explodes only after the engine emits its pressure-rated `Burst` event.
+   Reduced-motion users receive the computed endpoint without compulsory
+   movement.
 
 The delivery sequence and acceptance criteria live in
 [`ROADMAP-GUI.md`](ROADMAP-GUI.md); mission semantics in
