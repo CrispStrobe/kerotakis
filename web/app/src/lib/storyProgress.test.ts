@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { missionId, storyDistricts, type MissionSummary } from "./storyProgress";
+import { missionId, missionTitle, storyDistricts, type MissionSummary } from "./storyProgress";
 
 const missions: MissionSummary[] = [
   { file: "silver-and-salt.lab", name: "silver and salt", topic: "start here" },
@@ -13,6 +13,7 @@ const missions: MissionSummary[] = [
 describe("story progression", () => {
   it("uses stable file ids rather than localized titles", () => {
     expect(missionId("silver-and-salt.lab")).toBe("silver-and-salt");
+    expect(missionTitle("silver-and-salt")).toBe("silver and salt");
   });
 
   it("starts with a real district and opens two routes after one completion", () => {

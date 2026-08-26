@@ -59,6 +59,11 @@ export function missionId(file: string): string {
   return file.replace(/\.lab$/, "");
 }
 
+/** Stable ids stay in saves; human titles are translated from spaced words. */
+export function missionTitle(id: string): string {
+  return missionId(id).replaceAll("-", " ");
+}
+
 /** Build the visible research map from shipped missions and stable progress ids. */
 export function storyDistricts(
   missions: MissionSummary[],

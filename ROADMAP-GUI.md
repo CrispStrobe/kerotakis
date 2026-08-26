@@ -832,6 +832,15 @@ that foundation into the first playable story slice.
   active-mission cards, evidence ledger, optional hints, messages, and result
   debriefs. Dialogue pauses only itself, never silently the chemistry. All copy,
   including generated parameters and ARIA text, ships in English and German.
+  *Journal slice shipped 2026-08-26: the active overlay now states a human
+  objective beside the exact operator instruction, offers optional procedural
+  hints for every verb used by the 27 shipped lessons, and expands into a
+  mission-only ledger of engine-rendered observations, measurements, hazards,
+  and charts. Successful completion leaves a non-blocking debrief over the live
+  bench with evidence review, persistent completion totals, and newly opened
+  campus routes; replay and first-discovery outcomes are distinct. A rejected
+  operator cannot advance the objective or trigger the debrief. In-world
+  contacts/messages and typed multi-objective evidence remain in this item.*
 - [ ] **GUI-079 — Progression-aware catalog.** Story availability and quantity
   constraints decorate the shared apparatus/reagent catalog; Sandbox bypasses
   them. Rewards animate once, explain what changed, and offer "place on bench."

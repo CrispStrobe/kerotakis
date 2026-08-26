@@ -204,6 +204,8 @@ describe("Session", () => {
     expect(s.lesson).toBeNull();
     expect(s.feed.at(-1)!.text).toContain("lesson finished");
     expect(s.completedMissions.has("salt")).toBe(true);
+    expect(s.missionDebrief).toMatchObject({ id: "salt", firstCompletion: true, completedTotal: 1 });
+    expect(s.missionDebrief?.evidence).toContain("did: add v1 NaCl 1g");
   });
 
   it("persists mission completion but does not complete an exited lesson", async () => {
@@ -234,6 +236,18 @@ describe("Session", () => {
     await s.lessonNext();
     expect(s.lessonNextCommand).toBe("add v1 water 1mL");
     expect(s.completedMissions.has("must-work")).toBe(false);
+    expect(s.missionDebrief).toBeNull();
+  });
+
+  it("keeps only engine-backed mission evidence and dismisses the debrief independently", async () => {
+    const s = new Session(new FakeHost());
+    s.startLesson("evidence", "# narration\nadd v1 water 1mL\n");
+    expect(s.lessonEvidence).toEqual([]);
+    await s.lessonNext();
+    expect(s.missionDebrief?.evidence).toEqual(["did: add v1 water 1mL"]);
+    s.closeMissionDebrief();
+    expect(s.missionDebrief).toBeNull();
+    expect(s.commandLog).toEqual(["add v1 water 1mL"]);
   });
 
   it("restores mission progress even when the codex progress blob is corrupt", () => {

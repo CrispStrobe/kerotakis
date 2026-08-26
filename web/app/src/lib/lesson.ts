@@ -32,3 +32,8 @@ export function parseLesson(name: string, text: string): Lesson {
 export function commandCount(lesson: Lesson): number {
   return lesson.steps.filter((s) => s.kind === "command").length;
 }
+
+/** Commands completed before the mixed narration/command cursor. */
+export function completedCommandCount(lesson: Lesson, cursor: number): number {
+  return lesson.steps.slice(0, cursor).filter((step) => step.kind === "command").length;
+}

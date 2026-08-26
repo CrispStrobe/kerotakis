@@ -21,6 +21,7 @@ import { scriptKit } from "./codex";
 import { schedule, type Playback } from "./replay";
 import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
 import { t } from "./i18n.svelte";
+import { missionTitle } from "./storyProgress";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "hazard" | "chart";
@@ -50,6 +51,13 @@ export type ShelfItem = {
   hazard_assessed?: boolean;
   /** Density in g/mL (engine registry) — the fluid overlay's buoyancy. */
   density?: number;
+};
+
+export type MissionDebrief = {
+  id: string;
+  evidence: string[];
+  firstCompletion: boolean;
+  completedTotal: number;
 };
 
 export const REGISTERS = [
@@ -86,6 +94,8 @@ export class Session {
   completedExperiments = $state<ReadonlySet<string>>(new Set());
   /** Guided missions completed through their final engine-backed command. */
   completedMissions = $state<ReadonlySet<string>>(new Set());
+  /** Result card held after the lesson overlay closes. Chemistry keeps running. */
+  missionDebrief = $state<MissionDebrief | null>(null);
 
   /** GUI-064: a titration being replayed at bench pace — the engine
    * already finished; this is the reveal. `delivered` climbs per curve
@@ -178,6 +188,8 @@ export class Session {
   /** Log position after the lesson's last own step — the point "return
    * to the script" rewinds to. Free commands past it are the deviation. */
   private lessonBaseline = $state(0);
+  /** Feed boundary for the active mission's engine-backed evidence ledger. */
+  private lessonFeedStart = $state(0);
   /** The registry, for the shelf. */
   shelf = $state<ShelfItem[]>([]);
   /** Curated reaction names the `react` verb accepts (from the grammar). */
@@ -623,10 +635,22 @@ export class Session {
   /** Begin walking a lesson. The bench keeps whatever is on it — a lesson
    * is an overlay on the real bench, not a sandbox swap. */
   startLesson(name: string, text: string): void {
+    this.missionDebrief = null;
     this.lesson = { lesson: parseLesson(name, text), cursor: 0, kit: scriptKit(text) };
     this.lessonBaseline = this.position;
-    this.feed.push({ kind: "note", text: t("lesson started: {name}", { name: t(name) }) });
+    this.feed.push({ kind: "note", text: t("lesson started: {name}", { name: t(missionTitle(name)) }) });
+    this.lessonFeedStart = this.feed.length;
     this.advanceLessonNotes();
+  }
+
+  /** Mission-only results, excluding narration and the commands themselves. */
+  get lessonEvidence(): string[] {
+    if (!this.lesson) return [];
+    return this.feed
+      .slice(this.lessonFeedStart)
+      .filter((entry) => entry.kind === "line" || entry.kind === "hazard" || entry.kind === "chart")
+      .map((entry) => entry.text)
+      .slice(-6);
   }
 
   /** Surface consecutive narration, stopping at the next command. */
@@ -640,8 +664,20 @@ export class Session {
       this.lesson.cursor += 1;
     }
     if (this.lesson.cursor >= lesson.steps.length) {
-      this.feed.push({ kind: "note", text: t("lesson finished: {name}", { name: t(lesson.name) }) });
+      this.feed.push({ kind: "note", text: t("lesson finished: {name}", { name: t(missionTitle(lesson.name)) }) });
+      const firstCompletion = !this.completedMissions.has(lesson.name);
+      const evidence = this.feed
+        .slice(this.lessonFeedStart)
+        .filter((entry) => entry.kind === "line" || entry.kind === "hazard" || entry.kind === "chart")
+        .map((entry) => entry.text)
+        .slice(-6);
       this.markMissionDone(lesson.name);
+      this.missionDebrief = {
+        id: lesson.name,
+        evidence,
+        firstCompletion,
+        completedTotal: this.completedMissions.size,
+      };
       this.lesson = null;
     }
   }
@@ -684,8 +720,12 @@ export class Session {
 
   exitLesson(): void {
     if (!this.lesson) return;
-    this.feed.push({ kind: "note", text: t("lesson left: {name}", { name: t(this.lesson.lesson.name) }) });
+    this.feed.push({ kind: "note", text: t("lesson left: {name}", { name: t(missionTitle(this.lesson.lesson.name)) }) });
     this.lesson = null;
+  }
+
+  closeMissionDebrief(): void {
+    this.missionDebrief = null;
   }
 
   /** Open (or refresh) the register-dependent detail for one vessel. */
