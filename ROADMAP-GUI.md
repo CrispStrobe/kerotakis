@@ -790,7 +790,9 @@ that foundation into the first playable story slice.
   valid target vessels, and compiles the result through the shared two-vessel
   grammar helper. Engine-confirmed transfers now draw a spatial stream between
   the actual source and receiver, scaled by the transferred fraction;
-  connections and start/stop controls remain.*
+  filter, still, drain, and galvanic-cell operations now assemble transient
+  connected rigs between their engine-reported source and target. Dedicated
+  start/stop controls remain.*
 - [ ] **GUI-075 — Observe five users before adding campaign breadth.** Test with
   at least two children/novices, one teacher, and two experienced science users;
   use tasks, not preference questions. Record time-to-first-result, wrong turns,
@@ -939,6 +941,14 @@ decorating it.
   titration), thermometer and pH probe render in-vessel when measuring,
   the still connects two vessels visibly. Portraits (ToolIcon) grow into
   bench-scale drawings as each tool earns it.
+  *Status 2026-08-26: the cabinet's burette, wash bottle, evaporating dish and
+  hotplate, electrodes and supply, mortar and pestle, wavelength lamp, piston
+  lid/gauge, and carrier-gas line now deploy as SVG apparatus around the active
+  vessel. Live form values drive wavelength colour, current pulse rate, and
+  pressure gauge position; running state drives tool motion. Filter, still,
+  drain, and cell events connect the actual source/receiver pair across the
+  bench. Remaining: persistent arrangement/ports and bench-scale analytical
+  instruments beyond thermometer/pH.*
 - [x] **GUI-063 — In-experiment visual shelves.** *Shipped 2026-08-25 (kero-basic, PR #36).* Lessons and codex
   experiments present their kit as a RENDERED shelf strip (SpeciesChip
   visuals, tap-to-add) directly in the LessonBar / experiment page —

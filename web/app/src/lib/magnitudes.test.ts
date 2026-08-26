@@ -42,6 +42,7 @@ describe("effectFromEvent", () => {
       moles: 0.3,
     });
     expect(e!.kind).toBe("evaporate");
+    expect(e).toMatchObject({ source: 0, target: 1, operation: "distil" });
   });
 
   it("maps electrolysed → electrolyse + magnitude from event.moles", () => {
@@ -128,6 +129,13 @@ describe("effectFromEvent", () => {
     expect(justOver!.kind).toBe("burst");
     expect(severe!.magnitude).toBeGreaterThan(justOver!.magnitude);
     expect(effectFromEvent({ event: "hazard_warning", severity: "danger" })).toBeNull();
+  });
+
+  it("maps a computed cell voltage to a wired two-vessel rig", () => {
+    const e = effectFromEvent({ event: "cell_voltage", anode: 2, cathode: 4, volts: 1.1 });
+    expect(e).toMatchObject({ kind: "connection", source: 2, target: 4, operation: "cell" });
+    expect(e!.magnitude).toBeGreaterThan(0);
+    expect(vesselOf({ event: "cell_voltage", anode: 2, cathode: 4 })).toBe(2);
   });
 
   it("returns null for unknown events", () => {

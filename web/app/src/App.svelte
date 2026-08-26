@@ -130,6 +130,7 @@
   let buretteOut = $state(false);
   /** Which parameter-form apparatus is out, by verb (GUI-033). */
   let apparatusOut = $state<string | null>(null);
+  let apparatusPreview = $state<Record<string, number | string>>({});
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
@@ -392,6 +393,7 @@
         }}
         onapparatus={(verb) => {
           apparatusOut = apparatusOut === verb ? null : verb;
+          apparatusPreview = {};
           pane = "bench";
         }}
         ontransfer={(verb) => {
@@ -426,6 +428,7 @@
           shelf={session.shelf}
           busy={session.busy}
           onrun={(line) => void session.submit(line)}
+          onpreview={(values) => (apparatusPreview = values)}
           onclose={() => (apparatusOut = null)}
         />
       {/key}
@@ -464,6 +467,10 @@
         };
       }}
       transferFrom={transfer?.from ?? null}
+      deployedTool={buretteOut ? "burette" : apparatusSpec?.verb ?? null}
+      deployedTarget={buretteOut || apparatusSpec ? session.selected : null}
+      apparatusWorking={session.busy}
+      apparatusValues={apparatusPreview}
       ondropspecies={(id, p) =>
         void session.submit(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,

@@ -23,6 +23,8 @@ export interface Effect {
   target?: number;
   /** Computed endpoint, used by thermal presentation without duplicating state. */
   temperatureK?: number;
+  /** Physical setup connecting source and target vessels. */
+  operation?: "pour" | "filter" | "drain" | "distil" | "cell";
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -124,8 +126,16 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
     case "precipitated":
       return { kind: "precipitate", at: now, magnitude: precipMag(e) };
     case "evaporated":
-    case "distilled":
       return { kind: "evaporate", at: now, magnitude: steamMag(e) };
+    case "distilled":
+      return {
+        kind: "evaporate",
+        at: now,
+        magnitude: steamMag(e),
+        source: Number(e.from ?? 0),
+        target: Number(e.to ?? 0),
+        operation: "distil",
+      };
     case "electrolysed":
       return { kind: "electrolyse", at: now, magnitude: electroMag(e) };
     case "mixed":
@@ -143,6 +153,7 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         magnitude: transferMag(e),
         source: Number(e.from ?? 0),
         target: Number(e.to ?? 0),
+        operation: "pour",
       };
     case "filtered":
       return {
@@ -151,6 +162,7 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         magnitude: 0.65,
         source: Number(e.from ?? 0),
         target: Number(e.to ?? 0),
+        operation: "filter",
       };
     case "drained":
       return {
@@ -159,6 +171,16 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         magnitude: scale(Number(e.moles ?? 0), 0.001, 2),
         source: Number(e.from ?? 0),
         target: Number(e.to ?? 0),
+        operation: "drain",
+      };
+    case "cell_voltage":
+      return {
+        kind: "connection",
+        at: now,
+        magnitude: scale(Math.abs(Number(e.volts ?? 0)), 0.05, 2.5),
+        source: Number(e.anode ?? 0),
+        target: Number(e.cathode ?? 0),
+        operation: "cell",
       };
     case "diluted":
       return { kind: "swirl", at: now, magnitude: diluteMag(e) };
@@ -210,5 +232,5 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
  * Vessel ID from an event — events use `vessel`, `from`, or `into`.
  */
 export function vesselOf(e: EngineEvent): number {
-  return Number(e.vessel ?? e.from ?? e.into ?? 0);
+  return Number(e.vessel ?? e.from ?? e.into ?? e.anode ?? 0);
 }
