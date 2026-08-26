@@ -864,6 +864,7 @@
   }
   aside > :global(.feed) {
     flex: 1;
+    min-height: 0;
   }
   .bench-pane {
     flex: 1;
