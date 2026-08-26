@@ -1,4 +1,5 @@
 import { missionId, type MissionSummary } from "./storyProgress";
+import { outcomeMissionContract } from "./outcomeMission";
 
 export type CaseLead = {
   id: string;
@@ -6,6 +7,7 @@ export type CaseLead = {
   objective: string;
   evidence: string;
   optional: boolean;
+  outcomeAssessed: boolean;
   done: boolean;
 };
 
@@ -42,7 +44,12 @@ export function contaminatedSampleLeads(
 ): CaseLead[] {
   return LEADS.flatMap((lead) => {
     const mission = missions.find((candidate) => missionId(candidate.file) === lead.id);
-    return mission ? [{ ...lead, mission, done: completed.has(lead.id) }] : [];
+    return mission ? [{
+      ...lead,
+      mission,
+      outcomeAssessed: outcomeMissionContract(lead.id) !== null,
+      done: completed.has(lead.id),
+    }] : [];
   });
 }
 

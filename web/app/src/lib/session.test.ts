@@ -256,6 +256,37 @@ describe("Session", () => {
     expect(s.missionDebrief?.evidence).toContain("did: add v1 NaCl 1g");
   });
 
+  it("completes the chloride lead from typed solver evidence rather than its script", async () => {
+    const host = new FakeHost();
+    host.runScript = async (line) => ({
+      steps: [{
+        operator: {},
+        events: line.includes("AgNO3")
+          ? [{ event: "precipitated", vessel: 0, species: "AgCl", moles: 0.0099 }]
+          : line.includes("AgCl")
+            ? [{ event: "added", vessel: 0, species: "AgCl", moles: 0.01 }]
+            : [],
+        rendered: [`did: ${line}`],
+      }],
+      scene: { scene: 1, vessels: [] },
+    });
+    const s = new Session(host, new FakeStorage(), "story");
+    s.startLesson("silver-and-salt", "# Find chloride\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\nadd v1 AgNO3 0.01mol\n");
+
+    expect(s.lessonNextCommand).toBeNull();
+    expect(s.lesson?.kit).toEqual(expect.arrayContaining(["water", "NaCl", "AgNO3", "KCl"]));
+    await s.submit("add v1 AgCl 0.01mol");
+    expect(s.completedMissions.has("silver-and-salt")).toBe(false);
+    await s.submit("add v1 KCl 0.01mol");
+    expect(s.completedMissions.has("silver-and-salt")).toBe(false);
+    await s.submit("add v1 AgNO3 0.01mol");
+
+    expect(s.completedMissions.has("silver-and-salt")).toBe(true);
+    expect(s.lesson).toBeNull();
+    expect(s.missionOutcome).toBeNull();
+    expect(s.missionDebrief).toMatchObject({ id: "silver-and-salt", firstCompletion: true });
+  });
+
   it("persists mission completion but does not complete an exited lesson", async () => {
     const values = new Map<string, string>();
     const storage = {

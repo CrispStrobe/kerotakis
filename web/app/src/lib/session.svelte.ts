@@ -25,6 +25,12 @@ import { missionTitle } from "./storyProgress";
 import { reagentAccess } from "./catalogProgress";
 import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies } from "./storyStock";
 import type { LabMode } from "./worldState";
+import {
+  outcomeComplete,
+  outcomeMissionContract,
+  secureOutcomeEvidence,
+  type OutcomeMissionContract,
+} from "./outcomeMission";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "hazard" | "chart";
@@ -188,6 +194,10 @@ export class Session {
    * itself uses — "what the teacher put out for you" — derived from its
    * own command lines, so it can never drift from the lesson. */
   lesson = $state<{ lesson: Lesson; cursor: number; kit: string[] } | null>(null);
+  /** An open-ended mission is evaluated from typed engine events instead of
+   * advancing through the source .lab commands. The .lab remains its source
+   * for narration and core kit; the contract adds alternative valid routes. */
+  missionOutcome = $state<{ contract: OutcomeMissionContract; secured: string[] } | null>(null);
   /** Log position after the lesson's last own step — the point "return
    * to the script" rewinds to. Free commands past it are the deviation. */
   private lessonBaseline = $state(0);
@@ -477,6 +487,14 @@ export class Session {
             });
           }
         }
+        if (this.missionOutcome) {
+          const secured = secureOutcomeEvidence(
+            this.missionOutcome.contract,
+            this.missionOutcome.secured,
+            step.events as Array<Record<string, unknown>>,
+          );
+          this.missionOutcome = { ...this.missionOutcome, secured };
+        }
         for (const rendered of step.rendered) {
           this.feed.push({ kind: "line", text: rendered });
           // The engine writes balanced equations with a real arrow; the
@@ -516,6 +534,7 @@ export class Session {
       this.persist();
       // The inspected vessel's detail is stale after any step.
       if (this.inspector) await this.inspect(this.inspector.vessel);
+      this.finishOutcomeMissionIfComplete();
       return true;
     } catch (e) {
       const refusal = e instanceof EngineError && e.kind === "refused";
@@ -666,7 +685,13 @@ export class Session {
    * is an overlay on the real bench, not a sandbox swap. */
   startLesson(name: string, text: string): void {
     this.missionDebrief = null;
-    this.lesson = { lesson: parseLesson(name, text), cursor: 0, kit: scriptKit(text) };
+    const contract = outcomeMissionContract(name);
+    this.missionOutcome = contract ? { contract, secured: [] } : null;
+    this.lesson = {
+      lesson: parseLesson(name, text),
+      cursor: 0,
+      kit: [...new Set([...scriptKit(text), ...(contract?.extraKit ?? [])])],
+    };
     this.lessonBaseline = this.position;
     this.feed.push({ kind: "note", text: t("lesson started: {name}", { name: t(missionTitle(name)) }) });
     this.lessonFeedStart = this.feed.length;
@@ -694,27 +719,41 @@ export class Session {
       this.lesson.cursor += 1;
     }
     if (this.lesson.cursor >= lesson.steps.length) {
-      this.feed.push({ kind: "note", text: t("lesson finished: {name}", { name: t(missionTitle(lesson.name)) }) });
-      const firstCompletion = !this.completedMissions.has(lesson.name);
-      const evidence = this.feed
-        .slice(this.lessonFeedStart)
-        .filter((entry) => entry.kind === "line" || entry.kind === "hazard" || entry.kind === "chart")
-        .map((entry) => entry.text)
-        .slice(-6);
-      this.markMissionDone(lesson.name);
-      this.missionDebrief = {
-        id: lesson.name,
-        evidence,
-        firstCompletion,
-        completedTotal: this.completedMissions.size,
-      };
-      this.lesson = null;
+      this.finishMission();
+    }
+  }
+
+  private finishMission(): void {
+    if (!this.lesson) return;
+    const name = this.lesson.lesson.name;
+    this.feed.push({ kind: "note", text: t("lesson finished: {name}", { name: t(missionTitle(name)) }) });
+    const firstCompletion = !this.completedMissions.has(name);
+    const evidence = this.feed
+      .slice(this.lessonFeedStart)
+      .filter((entry) => entry.kind === "line" || entry.kind === "hazard" || entry.kind === "chart")
+      .map((entry) => entry.text)
+      .slice(-6);
+    this.markMissionDone(name);
+    this.missionDebrief = {
+      id: name,
+      evidence,
+      firstCompletion,
+      completedTotal: this.completedMissions.size,
+    };
+    this.lesson = null;
+    this.missionOutcome = null;
+  }
+
+  private finishOutcomeMissionIfComplete(): void {
+    if (!this.missionOutcome || !this.lesson) return;
+    if (outcomeComplete(this.missionOutcome.contract, this.missionOutcome.secured)) {
+      this.finishMission();
     }
   }
 
   /** The lesson's next command, shown before it runs. */
   get lessonNextCommand(): string | null {
-    if (!this.lesson) return null;
+    if (!this.lesson || this.missionOutcome) return null;
     const step = this.lesson.lesson.steps[this.lesson.cursor];
     return step?.kind === "command" ? step.line : null;
   }
@@ -732,7 +771,7 @@ export class Session {
 
   /** How far the learner has wandered off the script, in commands. */
   get lessonDeviation(): number {
-    if (!this.lesson) return 0;
+    if (!this.lesson || this.missionOutcome) return 0;
     return Math.max(0, this.position - this.lessonBaseline);
   }
 
@@ -752,6 +791,7 @@ export class Session {
     if (!this.lesson) return;
     this.feed.push({ kind: "note", text: t("lesson left: {name}", { name: t(missionTitle(this.lesson.lesson.name)) }) });
     this.lesson = null;
+    this.missionOutcome = null;
   }
 
   closeMissionDebrief(): void {

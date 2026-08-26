@@ -878,9 +878,17 @@ that foundation into the first playable story slice.
   mission ids already stored in the Story save; returning to the board shows
   secured evidence, an active lead, and 0/3–3/3 case progress without touching
   Sandbox. The desktop and mobile board, onboarding, statuses, actions, and ARIA
-  labels ship in English and German. The three current leads still walk their
-  shipped `.lab` procedures, so typed case-level outcome evaluation and the
-  required two-solution mission remain before GUI-080 can close.*
+  labels ship in English and German.*
+  *Outcome-contract slice shipped 2026-08-26: “Trace the mineral
+  contamination” now states a result rather than exposing the `.lab` recipe.
+  Its evidence check is secured only by the engine's typed `precipitated:AgCl`
+  event at or above the observable-moles threshold; direct AgCl placement, a
+  different precipitate, and sub-visible traces do not pass. Both NaCl and KCl
+  routes are supplied and complete the same contract, the board identifies the
+  lead as solver-assessed, and the live goal, hint, evidence state, debrief,
+  ARIA copy, and German translations share the existing mission UI. The other
+  two core leads and optional safety audit remain procedural, so GUI-080 stays
+  open until their outcomes and case-level transaction are typed.*
 
 ### Phase G3 — Desktop
 

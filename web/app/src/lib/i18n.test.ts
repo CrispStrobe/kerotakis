@@ -23,6 +23,9 @@ describe("i18n", () => {
     expect(t("open the case file")).toBe("Fallakte öffnen");
     expect(t("investigate")).toBe("untersuchen");
     expect(t("inspect")).toBe("prüfen");
+    expect(t("assessed by the solver")).toBe("durch die Simulation bewertet");
+    expect(t("solver-assessed outcome")).toBe("durch Simulation bewertetes Ziel");
+    expect(t("Observable silver chloride formed")).toBe("Sichtbares Silberchlorid gebildet");
   });
 
   it("interpolates translated messages", () => {
@@ -35,6 +38,7 @@ describe("i18n", () => {
     );
     expect(t("after {count} missions", { count: 3 })).toBe("nach 3 Missionen");
     expect(t("{count} uses left", { count: 7 })).toBe("7 Entnahmen übrig");
+    expect(t("{done} of {total} evidence checks", { done: 1, total: 2 })).toBe("1 von 2 Nachweisprüfungen");
   });
 
   it("uses the source message as the English catalog", () => {

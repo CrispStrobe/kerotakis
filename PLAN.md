@@ -128,6 +128,12 @@ stable progress ids. A persisted contact briefing introduces the problem once,
 then the campus board becomes the durable overview for active and secured
 evidence. This case presentation does not claim that the current procedural
 `.lab` checker is already the future open-ended, multi-solution outcome judge.
+The mineral-contamination lead is the first exception: it declares a typed
+outcome contract and completes only when the engine emits an observable amount
+of precipitated silver chloride. Sodium chloride and potassium chloride are
+both supplied valid routes; adding silver chloride directly cannot satisfy the
+contract because no precipitation event occurred. The remaining leads retain
+their procedural player until equivalent event/state contracts are authored.
 
 Product invariants:
 

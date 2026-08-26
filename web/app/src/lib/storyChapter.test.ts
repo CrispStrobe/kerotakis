@@ -15,6 +15,7 @@ describe("contaminated sample chapter", () => {
     expect(leads).toHaveLength(4);
     expect(leads.filter((lead) => !lead.optional)).toHaveLength(3);
     expect(leads.filter((lead) => lead.optional).map((lead) => lead.id)).toEqual(["never-mix"]);
+    expect(leads.filter((lead) => lead.outcomeAssessed).map((lead) => lead.id)).toEqual(["silver-and-salt"]);
   });
 
   it("completes the case from core evidence without requiring the optional safety lead", () => {
