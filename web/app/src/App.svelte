@@ -28,6 +28,7 @@
   import LocaleSwitcher from "./lib/components/LocaleSwitcher.svelte";
   import VesselActionDock from "./lib/components/VesselActionDock.svelte";
   import MissionControl from "./lib/components/MissionControl.svelte";
+  import WorldHome from "./lib/components/WorldHome.svelte";
   import { t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { pwa } from "./lib/pwa.svelte";
@@ -38,13 +39,47 @@
     parseBenchLayout,
     type BenchLayout,
   } from "./lib/benchLayout";
+  import {
+    HOME_SEEN_KEY,
+    ModeStorage,
+    PENDING_MISSION_KEY,
+    loadLabProfile,
+    readLabMode,
+    saveLabProfile,
+    writeLabMode,
+    type KeyValueStorage,
+    type LabMode,
+    type LabProfile,
+  } from "./lib/worldState";
 
   // In the Tauri shell the engine is native and in-process; on the web it
   // lives in the module worker. The session cannot tell the difference.
-  const session = new Session(isTauri() ? new TauriHost() : WorkerHost.create());
+  function availableStorage(): KeyValueStorage | null {
+    try {
+      return typeof localStorage === "undefined" ? null : localStorage;
+    } catch {
+      return null;
+    }
+  }
+  const appStorage = availableStorage();
+  function hasSeenHome(): boolean {
+    try {
+      return appStorage?.getItem(HOME_SEEN_KEY) === "yes";
+    } catch {
+      return false;
+    }
+  }
+  const labMode = readLabMode(appStorage);
+  const session = new Session(
+    isTauri() ? new TauriHost() : WorkerHost.create(),
+    appStorage ? new ModeStorage(appStorage, labMode) : null,
+  );
   type Theme = "light" | "dark" | "contrast";
   let theme = $state<Theme>("light");
   let benchLayout = $state<BenchLayout>(EMPTY_BENCH_LAYOUT);
+  let labProfile = $state<LabProfile>(loadLabProfile(appStorage));
+  let homeOpen = $state(!hasSeenHome());
+  const modeLayoutKey = `${BENCH_LAYOUT_KEY}.${labMode}`;
   $effect(() => {
     if (typeof document !== "undefined") document.documentElement.dataset.theme = theme;
   });
@@ -91,7 +126,12 @@
       if (savedTheme === "light" || savedTheme === "dark" || savedTheme === "contrast") {
         theme = savedTheme;
       }
-      benchLayout = parseBenchLayout(localStorage.getItem(BENCH_LAYOUT_KEY));
+      let savedLayout = localStorage.getItem(modeLayoutKey);
+      if (labMode === "sandbox" && !savedLayout) {
+        savedLayout = localStorage.getItem(BENCH_LAYOUT_KEY);
+        if (savedLayout) localStorage.setItem(modeLayoutKey, savedLayout);
+      }
+      benchLayout = parseBenchLayout(savedLayout);
     } catch {
       // Bright mode is the intentional first-run default.
     }
@@ -110,17 +150,61 @@
       .catch(() => {});
     void fetch(new URL("lessons/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : []))
-      .then((list) => (lessons = list))
+      .then((list) => {
+        lessons = list;
+        let pending: string | null = null;
+        try {
+          pending = appStorage?.getItem(PENDING_MISSION_KEY) ?? null;
+        } catch {
+          // A blocked store has no cross-reload pending mission.
+        }
+        if (labMode === "story" && pending && list.some((lesson: { file: string }) => lesson.file === pending)) {
+          try {
+            appStorage?.removeItem(PENDING_MISSION_KEY);
+          } catch {
+            // Starting the fetched mission matters more than clearing the hint.
+          }
+          void startLesson(pending);
+        }
+      })
       .catch(() => {});
   });
 
   async function startLesson(file: string) {
     if (!file) return;
+    if (labMode !== "story") {
+      try {
+        appStorage?.setItem(PENDING_MISSION_KEY, file);
+      } catch {
+        // Mode switching still follows the best available storage path.
+      }
+      enterLab("story");
+      return;
+    }
     const res = await fetch(new URL(`lessons/${file}`, resolvePayloadBase()).href);
     if (res.ok) {
       session.startLesson(file.replace(/\.lab$/, ""), await res.text());
       missionOpen = false;
     }
+  }
+
+  function enterLab(next: LabMode) {
+    try {
+      appStorage?.setItem(HOME_SEEN_KEY, "yes");
+    } catch {
+      // The door still works for this visit.
+    }
+    if (next === labMode) {
+      homeOpen = false;
+      return;
+    }
+    writeLabMode(appStorage, next);
+    location.reload();
+  }
+
+  function renameLab(name: string) {
+    labProfile = { ...labProfile, name };
+    saveLabProfile(appStorage, labProfile);
   }
 
   let helpOpen = $state(false);
@@ -221,6 +305,7 @@
       helpOpen = true;
     } else if (e.key === "Escape") {
       if (inset) inset = null;
+      else if (homeOpen && hasSeenHome()) homeOpen = false;
       else if (missionOpen) missionOpen = false;
       else if (mapOpen) mapOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
@@ -234,7 +319,7 @@
 <svelte:window {onkeydown} />
 
 <header class="topbar">
-  <div class="brand">
+  <button class="brand" aria-label={t("open world map")} onclick={() => (homeOpen = true)}>
     <span class="brand-mark" aria-hidden="true">
       <svg viewBox="0 0 40 40">
         <path d="M14 5h12M17 5v10L8 31c-1 2 1 4 3 4h18c2 0 4-2 3-4l-9-16V5" />
@@ -247,16 +332,16 @@
       <strong>Kerotakis</strong>
       <small>{t("a chemistry bench that computes")}</small>
     </span>
-  </div>
+  </button>
 
   <button
     class="mode-pill"
-    class:mission-active={session.lesson !== null}
-    aria-label={t("open Mission Control")}
-    onclick={() => (missionOpen = true)}
+    class:mission-active={labMode === "story"}
+    aria-label={t("open world map")}
+    onclick={() => (homeOpen = true)}
   >
-    <span class="mode-signal" aria-hidden="true">{session.lesson ? "◆" : "∞"}</span>
-    <span class="mode-copy"><small>{session.lesson ? t("guided mission") : t("lab mode")}</small><strong>{session.lesson ? t(session.lesson.lesson.name) : t("Sandbox")}</strong></span>
+    <span class="mode-signal" aria-hidden="true">{labMode === "story" ? "◆" : "∞"}</span>
+    <span class="mode-copy"><small>{labMode === "story" ? t("Story laboratory") : t("Sandbox hangar")}</small><strong>{session.lesson ? t(session.lesson.lesson.name) : labMode === "story" ? t("Story") : t("Sandbox")}</strong></span>
     <span class="mode-arrow" aria-hidden="true">⌄</span>
   </button>
 
@@ -483,7 +568,7 @@
       onmove={(next) => {
         benchLayout = next;
         try {
-          localStorage.setItem(BENCH_LAYOUT_KEY, JSON.stringify(next));
+          localStorage.setItem(modeLayoutKey, JSON.stringify(next));
         } catch {
           // Placement still works for this visit when storage is unavailable.
         }
@@ -557,17 +642,39 @@
   <ReadingInset vessel={inset.vessel} reading={inset.reading} onclose={() => (inset = null)} />
 {/if}
 
+{#if homeOpen}
+  <WorldHome
+    mode={labMode}
+    profile={labProfile}
+    missions={lessons.length}
+    experiments={codexEntries.length}
+    canclose={hasSeenHome()}
+    onenter={enterLab}
+    onmissions={() => {
+      homeOpen = false;
+      missionOpen = true;
+    }}
+    onresearch={() => {
+      homeOpen = false;
+      catalogOpen = true;
+    }}
+    onrename={renameLab}
+    onclose={() => (homeOpen = false)}
+  />
+{/if}
+
 {#if missionOpen}
   <MissionControl
     missions={lessons}
     experiments={codexEntries}
+    mode={labMode}
     active={session.lesson?.lesson.name ?? null}
     cursor={session.lesson?.cursor ?? 0}
     total={session.lesson?.lesson.steps.length ?? 0}
     onstart={(file) => void startLesson(file)}
     onsandbox={() => {
-      if (session.lesson) session.exitLesson();
       missionOpen = false;
+      enterLab("sandbox");
     }}
     onexperiments={() => {
       missionOpen = false;
@@ -763,7 +870,15 @@
     align-items: center;
     gap: 0.65rem;
     min-width: 12rem;
+    padding: 0;
+    border: 0;
+    color: var(--ink);
+    background: transparent;
+    font: inherit;
+    cursor: pointer;
+    text-align: left;
   }
+  .brand:hover .brand-mark { transform: translateY(-1px); box-shadow: 0 7px 16px var(--shadow); }
   .brand-mark {
     width: 42px;
     height: 42px;

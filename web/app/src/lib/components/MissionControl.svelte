@@ -1,12 +1,14 @@
 <script lang="ts">
   import { t } from "../i18n.svelte";
   import type { CodexEntry } from "../codex";
+  import type { LabMode } from "../worldState";
 
   type Mission = { file: string; name: string; blurb?: string; topic?: string };
 
   let {
     missions,
     experiments,
+    mode,
     active = null,
     cursor = 0,
     total = 0,
@@ -18,6 +20,7 @@
   }: {
     missions: Mission[];
     experiments: CodexEntry[];
+    mode: LabMode;
     active?: string | null;
     cursor?: number;
     total?: number;
@@ -49,14 +52,14 @@
     </header>
 
     <div class="paths">
-      <article class="sandbox-card" class:current={!active}>
+      <article class="sandbox-card" class:current={mode === "sandbox"}>
         <div class="card-icon" aria-hidden="true">∞</div>
         <div>
           <span class="card-kicker">{t("Sandbox lab")}</span>
           <h2>{t("Your laboratory, your rules")}</h2>
           <p>{t("Everything is unlocked. Build, test, and break your own ideas.")}</p>
         </div>
-        <button onclick={onsandbox}>{active ? t("exit to sandbox") : t("you are here")}</button>
+        <button onclick={onsandbox}>{mode === "sandbox" ? t("you are here") : t("exit to sandbox")}</button>
       </article>
 
       <article class="library-card">

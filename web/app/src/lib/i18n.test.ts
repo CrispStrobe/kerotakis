@@ -13,6 +13,7 @@ describe("i18n", () => {
     expect(t("supply cabinet")).toBe("Materialschrank");
     expect(t("high contrast")).toBe("Hoher Kontrast");
     expect(t("place vessel here")).toBe("Gefäß hier abstellen");
+    expect(t("Your saves stay separate.")).toBe("Deine Spielstände bleiben getrennt.");
   });
 
   it("interpolates translated messages", () => {
