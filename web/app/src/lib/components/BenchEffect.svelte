@@ -11,8 +11,10 @@
 
   function position() {
     const bench = marker?.closest<HTMLElement>(".bench");
-    const source = bench?.querySelector<HTMLElement>(`[data-vessel-id="${effect.source}"]`);
-    const target = bench?.querySelector<HTMLElement>(`[data-vessel-id="${effect.target}"]`);
+    const sourceVessel = bench?.querySelector<HTMLElement>(`[data-vessel-id="${effect.source}"]`);
+    const targetVessel = bench?.querySelector<HTMLElement>(`[data-vessel-id="${effect.target}"]`);
+    const source = sourceVessel?.closest<HTMLElement>(".vessel-position")?.querySelector<HTMLElement>('[data-port="out"]') ?? sourceVessel;
+    const target = targetVessel?.closest<HTMLElement>(".vessel-position")?.querySelector<HTMLElement>('[data-port="in"]') ?? targetVessel;
     if (!bench || !source || !target) return;
     const b = bench.getBoundingClientRect();
     const a = source.getBoundingClientRect();

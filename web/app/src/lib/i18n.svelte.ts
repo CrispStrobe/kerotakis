@@ -477,6 +477,16 @@ const DE: Record<string, string> = {
   ,"choose a verified reaction family": "eine geprüfte Reaktionsfamilie wählen"
   ,"{tool} deployed": "{tool} aufgebaut"
   ,"deployed at vessel v{vessel}": "bei Gefäß v{vessel} aufgebaut"
+  ,"{zone} work zone": "Arbeitsbereich {zone}"
+  ,"set up and measure": "aufbauen und abmessen"
+  ,"mix and transform": "mischen und umsetzen"
+  ,"measure and compare": "messen und vergleichen"
+  ,"move vessel v{vessel}": "Gefäß v{vessel} verschieben"
+  ,"move vessel v{vessel} to {zone}": "Gefäß v{vessel} nach {zone} verschieben"
+  ,"vessel v{vessel} moved to {zone}": "Gefäß v{vessel} nach {zone} verschoben"
+  ,"place vessel here": "Gefäß hier abstellen"
+  ,"move": "verschieben"
+  ,"vessel v{vessel} placement": "Platzierung von Gefäß v{vessel}"
 };
 
 function detectLocale(): Locale {
