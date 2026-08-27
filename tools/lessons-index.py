@@ -18,7 +18,7 @@ import sys
 TOPICS = {
     "start here": ["silver-and-salt", "first-warmth", "one-thing-at-a-time",
                    "pepper-and-soap", "oil-water-colour", "magic-milk"],
-    "acids & bases": ["fizz", "neutral-moves", "three-protons", "buffer",
+    "acids & bases": ["fizz", "chalk-vinegar", "neutral-moves", "three-protons", "buffer",
                       "titration", "titration-manual", "two-roads",
                       "there-and-back"],
     "heat & fire": ["calorimetry", "fire", "grit"],

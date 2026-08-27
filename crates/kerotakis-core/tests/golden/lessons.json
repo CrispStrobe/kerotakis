@@ -110,6 +110,60 @@
       }
     ]
   },
+  "chalk-vinegar": {
+    "event_count": 7,
+    "events_sample": [
+      "v1: +2.7671 mol water",
+      "v1: +2.000 g chalk_stick (1 known ingredients)",
+      "v1: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v2: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v2: +2.000 g chalk_stick (1 known ingredients)",
+      "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "chalk-vinegar.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01998262,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.01998262,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "conductivity": {
     "event_count": 11,
     "events_sample": [

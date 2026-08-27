@@ -43,6 +43,57 @@ fn household_fizz_equation_is_element_balanced() {
 }
 
 #[test]
+fn chalk_and_vinegar_equation_is_atom_and_charge_balanced() {
+    let equation = stoich::parse_equation("CaCO3 + 2 CH3COOH -> Ca+2 + 2 CH3COO- + H2O + CO2")
+        .expect("parse chalk-vinegar equation");
+    assert!(
+        equation.is_balanced(),
+        "imbalance: {:?}",
+        equation.element_imbalance()
+    );
+}
+
+#[test]
+fn named_chalk_and_vinegar_make_finite_carbon_dioxide() {
+    let mut bench = Bench::new();
+    let mut solvers = stack();
+    for command in [
+        "add v1 white_vinegar_5_percent 50mL",
+        "add v1 chalk_stick 2g",
+    ] {
+        let op = script::parse_op(command)
+            .expect("valid household command")
+            .expect("operator");
+        let events = bench
+            .step_with(op, &mut solvers, &PermissiveScreen)
+            .expect("household step");
+        if command.contains("chalk") {
+            let co2 = events
+                .iter()
+                .filter_map(|event| match event {
+                    Event::GasEvolved { species, moles, .. } if species.0 == "CO2" => Some(moles.0),
+                    _ => None,
+                })
+                .sum::<f64>();
+            assert!(
+                (0.019..0.0201).contains(&co2),
+                "2 g of calcium-carbonate chalk should limit the fizz, got {co2} mol: {events:?}"
+            );
+            assert!(events.iter().any(|event| matches!(
+                event,
+                Event::ReactionOccurred { equation, .. } if equation.contains("CaCO")
+            )));
+        }
+    }
+
+    assert!(moles(&bench, "CaCO3") < 1e-12);
+    assert!(
+        moles(&bench, "CH3COOH") > 0.0,
+        "vinegar was deliberately in excess"
+    );
+}
+
+#[test]
 fn vinegar_and_baking_soda_make_stoichiometric_carbon_dioxide() {
     let mut bench = Bench::new();
     let mut solvers = stack();

@@ -571,6 +571,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   ordinary steel needs alloy/surface oxidation and dry Epsom crystals need an
   honest magnesium-sulfate-heptahydrate phase instead of liquid water hidden in
   a fake dry recipe. Bare `salt`/`Salz` remains unclaimed as a chemical class.
+- **Checkpoint 27 implemented:** named 5% white vinegar plus the named
+  calcium-carbonate chalk object now reaches a balanced portable reaction,
+  `CaCO3 + 2 CH3COOH -> Ca2+ + 2 CH3COO- + H2O + CO2`, rather than depending
+  on a PHREEQC-only strong-acid demonstration. Chalk and acid are finite,
+  calcium and acetate remain resolved aqueous ions, and open/sealed vessel
+  boundaries reuse the ordinary gas-evolved/gas-contained events. The
+  discoverable `chalk-vinegar.lab` compares water and vinegar controls so the
+  browser's existing chemistry-driven bubbles visualize only the reacting
+  vessel; it does not claim a kinetic bubble-size distribution.
 
 ## Stage B2 — organic structure and curated reaction families
 
