@@ -382,6 +382,9 @@ pub enum Event {
         seconds: f64,
         bar_length_m: f64,
         tip_speed_m_s: f64,
+        /// Fraction of an available non-metal deposit lifted into suspension,
+        /// from accumulated bar travel over a 0.30 m mixing-length scale.
+        resuspended_fraction: f64,
         /// False until kinetics/surface-area models consume this operation.
         rate_coupled: bool,
     },
@@ -409,6 +412,13 @@ pub enum Event {
         separations: Vec<CentrifugeSeparation>,
         /// False until vessel suspension/deposit state consumes the result.
         state_coupled: bool,
+    },
+    /// Tracked particles settled under ordinary gravity while bench time
+    /// advanced, using the same Stokes model as the centrifuge at 1 g.
+    GravitySettled {
+        vessel: VesselId,
+        seconds: f64,
+        separations: Vec<CentrifugeSeparation>,
     },
     Transferred {
         from: VesselId,

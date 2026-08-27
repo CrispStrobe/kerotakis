@@ -131,7 +131,12 @@ pub struct SceneSolid {
     pub metallic: bool,
     /// Fraction currently in the settled deposit. Legacy state remains fully
     /// visible at the bottom until an operation establishes suspension state.
+    #[serde(default = "fully_settled")]
     pub settled_fraction: f64,
+}
+
+fn fully_settled() -> f64 {
+    1.0
 }
 
 /// A number pinned to the drawn vessel.

@@ -55,6 +55,19 @@ fn centrifuge_command_computes_rcf_and_separation_from_vessel_state() {
         .unwrap();
     assert!(resuspended > suspended);
     assert!(scene(&bench).vessels[0].solids[0].settled_fraction < 1e-12);
+
+    let wait_events = bench
+        .step(parse_op("wait 3600s").unwrap().unwrap())
+        .unwrap();
+    assert!(wait_events
+        .iter()
+        .any(|event| matches!(event, Event::GravitySettled { .. })));
+    assert!(
+        bench.vessels[0]
+            .suspended_fraction_of(&SpeciesId::new("AgCl"))
+            .unwrap()
+            < resuspended
+    );
 }
 
 #[test]

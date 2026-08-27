@@ -329,17 +329,20 @@ pub fn render_event(event: &Event, register: Register) -> String {
             seconds,
             bar_length_m,
             tip_speed_m_s,
+            resuspended_fraction,
             rate_coupled,
         } => match register.level() {
             1 => format!("The magnetic stirrer spins {vessel} for {seconds:.0} seconds."),
             2 => format!(
-                "{vessel}: magnetic stirrer {rpm:.0} rpm for {seconds:.0} s — bar tip {:.3} m/s",
-                tip_speed_m_s
+                "{vessel}: magnetic stirrer {rpm:.0} rpm for {seconds:.0} s — bar tip {:.3} m/s; {:.0}% resuspension",
+                tip_speed_m_s,
+                resuspended_fraction * 100.0,
             ),
             _ => format!(
-                "{vessel}: stir {rpm:.1} rpm × {seconds:.1} s; bar {:.1} mm; tip {:.5} m/s; rate coupling {}",
+                "{vessel}: stir {rpm:.1} rpm × {seconds:.1} s; bar {:.1} mm; tip {:.5} m/s; resuspended {:.2}%; rate coupling {}",
                 bar_length_m * 1000.0,
                 tip_speed_m_s,
+                resuspended_fraction * 100.0,
                 if *rate_coupled { "active" } else { "not yet modelled" }
             ),
         },
@@ -418,6 +421,42 @@ pub fn render_event(event: &Event, register: Register) -> String {
                         "{vessel}: centrifuge {rpm:.1} rpm × {seconds:.1} s, r={:.3} m, RCF={rcf:.2}; ρfluid={fluid_density_kg_m3:.1} kg/m³, μ={dynamic_viscosity_pa_s:.6} Pa·s; {detail}; state coupling {}",
                         rotor_radius_m,
                         if *state_coupled { "active" } else { "not yet modelled" }
+                    )
+                }
+            }
+        }
+        Event::GravitySettled {
+            vessel,
+            seconds,
+            separations,
+        } => {
+            let strongest = separations
+                .iter()
+                .map(|separation| separation.separated_fraction)
+                .fold(0.0_f64, f64::max);
+            match register.level() {
+                1 => format!(
+                    "While you wait, particles in {vessel} sink toward the bottom."
+                ),
+                2 => format!(
+                    "{vessel}: {:.0}% of the suspended particles settle in {seconds:.0} s",
+                    strongest * 100.0
+                ),
+                _ => {
+                    let detail = separations
+                        .iter()
+                        .map(|separation| {
+                            format!(
+                                "{} {:.3}% ({:.6} m)",
+                                separation.species,
+                                separation.separated_fraction * 100.0,
+                                separation.distance_m
+                            )
+                        })
+                        .collect::<Vec<_>>()
+                        .join("; ");
+                    format!(
+                        "{vessel}: gravity settling for {seconds:.3} s (Stokes, 1 g, 0.04 m path): {detail}"
                     )
                 }
             }
