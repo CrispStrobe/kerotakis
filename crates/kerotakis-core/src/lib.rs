@@ -48,6 +48,7 @@ pub mod packs_manifest;
 pub mod parallel;
 pub mod particles;
 pub mod photochem;
+pub mod pigment;
 pub mod polymer;
 pub mod properties;
 pub mod relations;
@@ -83,6 +84,7 @@ pub use instrument::{
 pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use orchestrator::Orchestrator;
+pub use pigment::{opaque_mixture_colour, PigmentAmount, PigmentMixError, PigmentOptics};
 pub use render::{render_event, render_events, render_vessel, Register};
 pub use scene::{scene, scene_of, scene_vessel, Scene, SceneVessel};
 pub use solve::{
