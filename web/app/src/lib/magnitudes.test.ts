@@ -49,10 +49,24 @@ describe("effectFromEvent", () => {
       to: 1,
       water: 0.5,
       ethanol: 0.1,
-      moles: 0.3,
+      at: 351.4,
+      ended: 354.2,
+      stages: 4,
+      energy_kj: 21.5,
+      azeotropic: true,
     });
     expect(e!.kind).toBe("evaporate");
     expect(e).toMatchObject({ source: 0, target: 1, operation: "distil" });
+    expect(e!.magnitude).toBeGreaterThan(.3);
+    expect(e!.distillation).toEqual({
+      waterMoles: .5,
+      ethanolMoles: .1,
+      startK: 351.4,
+      endK: 354.2,
+      stages: 4,
+      energyKj: 21.5,
+      azeotropic: true,
+    });
   });
 
   it("maps electrolysed → electrolyse + magnitude from event.moles", () => {

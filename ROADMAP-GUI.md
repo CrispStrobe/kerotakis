@@ -1257,6 +1257,13 @@ decorating it.
   retained moles; only the computed liquid colour continues to the receiver.
   A ring stand makes the funnel a bench apparatus rather than a decorative
   glyph on a generic transfer line.
+  *Computed-still slice shipped 2026-08-27:* distillation retains the VLE
+  solver's water/ethanol cut, starting and ending boiling temperatures,
+  theoretical-stage count, latent-energy bill, and azeotrope limit in the
+  visual effect. The bench rig renders a thermometer, staged column, jacketed
+  condenser with moving coolant and condensate, temperature range and energy;
+  animation intensity derives from the total computed distillate instead of a
+  missing generic `moles` field.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,

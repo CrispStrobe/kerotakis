@@ -35,6 +35,17 @@ export interface FilterResidue {
   colour: string;
 }
 
+/** Engine-computed still cut used to configure the physical rig. */
+export interface DistillationRun {
+  waterMoles: number;
+  ethanolMoles: number;
+  startK: number;
+  endK: number;
+  stages: number;
+  energyKj: number;
+  azeotropic: boolean;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -66,6 +77,8 @@ export interface Effect {
   fluidColour?: string;
   /** Engine-scene solids left on the paper during a filtration. */
   filterResidue?: FilterResidue[];
+  /** Boiling range, column and energy bill emitted by the VLE solver. */
+  distillation?: DistillationRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -218,6 +231,15 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         source: Number(e.from ?? 0),
         target: Number(e.to ?? 0),
         operation: "distil",
+        distillation: {
+          waterMoles: Number(e.water ?? 0),
+          ethanolMoles: Number(e.ethanol ?? 0),
+          startK: Number(e.at ?? 0),
+          endK: Number(e.ended ?? e.at ?? 0),
+          stages: Math.max(1, Number(e.stages ?? 1)),
+          energyKj: Math.max(0, Number(e.energy_kj ?? 0)),
+          azeotropic: Boolean(e.azeotropic),
+        },
       };
     case "electrolysed":
       return { kind: "electrolyse", at: now, magnitude: electroMag(e) };
