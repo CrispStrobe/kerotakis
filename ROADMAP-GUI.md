@@ -1144,7 +1144,9 @@ hide them completely.
   settled fraction, with a capacity-aware perceptual magnifier for sub-pixel
   traces and the exact mL value attached to the rendered layer. Repeated solid
   doses therefore grow the deposit without an arbitrary moles-to-pixels rule;
-  rate coupling remains open.*
+  multi-species deposits divide that height in proportion to each population's
+  settled computed volume rather than equal decorative bands. Rate coupling
+  remains open.*
 - [ ] **GUI-075 — Observe five users before adding campaign breadth.** Test with
   at least two children/novices, one teacher, and two experienced science users;
   use tasks, not preference questions. Record time-to-first-result, wrong turns,
