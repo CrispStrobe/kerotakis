@@ -43,7 +43,7 @@ corpus. Run its 16-case cross-family gate or emit the full typed report:
 
 ```console
 $ kero coverage curiosity --smoke --check
-$ kero coverage curiosity --json
+$ kero coverage curiosity --check --json
 ```
 
 The report keeps computed, curated, qualitative, deliberate boundary, missing,

@@ -802,15 +802,15 @@ smoke = false
 
 [[prompt]]
 id = "bio-064"
-question = "Can unsaturated oil be hydrogenated into a more solid fat?"
+question = "Can alcohol be turned into vinegar by asking for a named oxidation reaction?"
 age_band = "age16_to18"
 action = "food_and_life"
-material_class = "lipid"
+material_class = "organic-reaction"
 expected = "missing"
 owning_task = "BRD-023"
-tags = ["hydrogenation", "unsaturated_fat"]
-script = ["add v1 oleic_acid 0.1mol", "add v1 H2 0.1mol", "react v1 hydrogenation", "look v1"]
-parse_boundary = "unknown_species"
+tags = ["oxidation", "vinegar"]
+script = ["add v1 ethanol 0.1mol", "add v1 O2 0.1mol", "react v1 alcohol-oxidation", "look v1"]
+parse_boundary = "unknown_reaction"
 smoke = false
 
 [[prompt]]

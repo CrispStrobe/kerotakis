@@ -149,7 +149,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-001 — Coverage classifier and report
 
-- [ ] **Status:** in progress on `codex/brd-000-curiosity`. **Size:** medium.
+- [x] **Status:** complete on `codex/brd-001-baseline`. **Size:** medium.
   **Depends on:** BRD-000 (complete).
 - **Outcome:** `kero coverage curiosity` emits deterministic JSON and a compact
   human report with counts for `computed`, `curated`, `qualitative`,
@@ -164,11 +164,11 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   reaction unknown.”
 - **Out of scope:** a vanity percentage with unlike dispositions collapsed.
 - **Implementation note (2026-08-27):** typed parser errors, solver-route
-  evidence, the five-way runner, deterministic JSON/human summaries, and a
-  16-prompt cross-family smoke gate are shipped in the BRD-000 checkpoint.
-  The remaining BRD-001 work is to review the 500-prompt initial expectation
-  baseline and promote the scheduled full-corpus comparison to a regression
-  gate; current solver failures remain first-class report failures.
+  evidence, the five-way runner, deterministic grouped reports, the
+  cross-family smoke gate, and a 500-entry native baseline are shipped. The
+  baseline pins owner/outcome/reason per prompt and treats seven initial solver
+  failures as their own regression state; ownership and graduation rules live
+  beside it in `tests/coverage/curiosity-v1/README.md`.
 
 ### BRD-002 — `MaterialRecipe`: named mixtures and objects
 
