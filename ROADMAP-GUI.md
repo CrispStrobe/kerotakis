@@ -628,6 +628,10 @@ rather than an aspiration:
   band thickness and opacity follow computed peak width and relative area.
   The palette is deliberately categorical (not a claim about molecular
   colour), while the chromatogram remains the quantitative record.
+  *Physical inspection slice shipped 2026-08-27:* “look closely” now
+  raises a magnifying lens over the vessel. Its enlarged liquid colour,
+  turbidity, deposit and bubbles come directly from the typed `Observed`
+  appearance event, rather than replaying the prose description.
 
 ### The codex is the content engine (apply it, then expand it)
 

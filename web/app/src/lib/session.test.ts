@@ -485,6 +485,39 @@ describe("Session", () => {
     });
   });
 
+  it("keeps the computed appearance for magnified inspection", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{
+        operator: {},
+        events: [{
+          event: "observed",
+          vessel: 0,
+          appearance: {
+            liquid: { r: 122, g: 188, b: 241, strength: 0 },
+            cloudiness: 0.42,
+            deposit: ["AgCl", { r: 244, g: 244, b: 238, strength: 1 }],
+            bubbling: true,
+            words: "a cloudy blue liquid",
+          },
+        }],
+        rendered: [],
+      }],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("measure v1 eyes");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "inspect",
+      appearance: {
+        liquidRgb: [122, 188, 241],
+        cloudiness: 0.42,
+        deposit: { species: "AgCl", rgb: [244, 244, 238] },
+        bubbling: true,
+      },
+    });
+  });
+
   it("a titrated event starts the paced playback (GUI-064)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

@@ -438,6 +438,8 @@ const DE: Record<string, string> = {
   "pressure gauge": "Manometer",
   "calorimeter": "Kalorimeter",
   "look closely": "genau ansehen",
+  "magnified computed appearance": "vergrößerte berechnete Erscheinung",
+  "computed turbidity {value}%": "berechnete Trübung {value}%",
   "chromatograph": "Chromatograph",
   "chromatography column: {count} computed retention bands": "Chromatographiesäule: {count} berechnete Retentionsbanden",
   "{species}: retention {time} s, relative area {area}%": "{species}: Retention {time} s, relative Fläche {area}%",

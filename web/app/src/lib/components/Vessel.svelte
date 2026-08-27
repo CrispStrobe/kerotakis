@@ -75,6 +75,7 @@
   const uvvisEffect = $derived(latestEffect("uvvis", 2500));
   const calorimeterEffect = $derived(latestEffect("calorimeter", 2500));
   const chromatographEffect = $derived(latestEffect("chromatograph", 5200));
+  const inspectionEffect = $derived(latestEffect("inspect", 4500));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => e.kind === "ignite" && n - e.at < 3000 && e.flameColour);
@@ -247,6 +248,9 @@
     <defs>
       <clipPath id={`vclip-${vessel.id}`}>
         <path d={geom.inner} />
+      </clipPath>
+      <clipPath id={`inspect-clip-${vessel.id}`}>
+        <circle cx="77" cy="39" r="18" />
       </clipPath>
       <!-- Horizontal glass-curvature tint: denser refraction at the walls,
            near-clear in the middle — what makes a cylinder read as round. -->
@@ -680,6 +684,41 @@
         <rect class="chromatograph-screen" x="1" y="80" width="20" height="13" rx="2.5" />
         <text class="chromatograph-count" x="11" y="86" text-anchor="middle">{count} {t(count === 1 ? "band" : "bands")}</text>
         <text class="chromatograph-plates" x="11" y="91" text-anchor="middle">N {chromatographEffect.plates ?? "—"}</text>
+      </g>
+    {/if}
+    {#if inspectionEffect?.appearance}
+      {@const appearance = inspectionEffect.appearance}
+      {@const cloudCount = Math.round(2 + Math.min(1, appearance.cloudiness) * 14)}
+      {@const cloudiness = formatReading(Math.min(1, appearance.cloudiness) * 100, 0)}
+      <g class="instrument inspection-inst" aria-label={`${t("magnified computed appearance")}. ${t("computed turbidity {value}%", { value: cloudiness })}`}>
+        <g clip-path={`url(#inspect-clip-${vessel.id})`}>
+          <circle class="inspection-field" cx="77" cy="39" r="18" />
+          {#if appearance.liquidRgb}
+            <rect class="inspection-liquid" x="58" y="32" width="38" height="27" fill={rgb(appearance.liquidRgb)} />
+            <path class="inspection-meniscus" d="M59 33 Q77 29 95 33" />
+          {/if}
+          {#each Array.from({ length: cloudCount }, (_, i) => i) as i (i)}
+            <circle
+              class="inspection-speck"
+              cx={61 + ((i * 11) % 32)}
+              cy={35 + ((i * 17) % 20)}
+              r={0.7 + (i % 3) * 0.32}
+              opacity={0.18 + Math.min(1, appearance.cloudiness) * 0.68}
+            />
+          {/each}
+          {#if appearance.deposit}
+            <path class="inspection-deposit" fill={rgb(appearance.deposit.rgb)} d="M58 53 Q67 48 76 53 Q85 47 96 53 V60 H58 Z">
+              <title>{t(appearance.deposit.species)}</title>
+            </path>
+          {/if}
+          {#if appearance.bubbling}
+            {#each [64, 72, 81, 89] as x, i (x)}
+              <circle class="inspection-bubble" cx={x} cy={52 - (i % 2) * 5} r={1.4 + (i % 2) * 0.7} style={`animation-delay:${i * 0.22}s`} />
+            {/each}
+          {/if}
+        </g>
+        <circle class="magnifier-rim" cx="77" cy="39" r="19.5" />
+        <path class="magnifier-handle" d="M90.5 53 L101 66" />
       </g>
     {/if}
 
@@ -1314,6 +1353,17 @@
   .chromatograph-plates { fill: var(--surface); font-size: 2.7px; font-weight: 700; opacity: .82; }
   @keyframes column-flow { to { stroke-dashoffset: -4; } }
   @keyframes band-elute { from { transform: translateY(calc(-1 * var(--band-travel))); opacity: .16; } to { transform: translateY(0); opacity: var(--band-opacity); } }
+  .inspection-inst { transform-origin: 77px 39px; animation: inspect-in .38s cubic-bezier(.2,.8,.2,1) both; }
+  .inspection-field { fill: color-mix(in srgb, var(--surface) 88%, var(--cool)); }
+  .inspection-liquid { opacity: .72; }
+  .inspection-meniscus { fill: none; stroke: color-mix(in srgb, var(--surface) 72%, var(--cool)); stroke-width: 1.2; }
+  .inspection-speck { fill: var(--edge-strong); }
+  .inspection-deposit { stroke: var(--edge-strong); stroke-width: .45; }
+  .inspection-bubble { fill: none; stroke: var(--surface); stroke-width: .8; animation: inspection-rise 1.35s ease-out infinite; }
+  .magnifier-rim { fill: none; stroke: var(--instrument); stroke-width: 3; filter: drop-shadow(0 2px 2px var(--shadow)); }
+  .magnifier-handle { fill: none; stroke: var(--instrument); stroke-width: 6; stroke-linecap: round; filter: drop-shadow(0 2px 2px var(--shadow)); }
+  @keyframes inspect-in { from { opacity: 0; transform: scale(.55) rotate(-8deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
+  @keyframes inspection-rise { to { opacity: 0; transform: translateY(-17px) scale(1.25); } }
   @media (prefers-reduced-motion: reduce) {
     .instrument {
       animation: none;
@@ -1323,6 +1373,7 @@
     .gauge-needle { transition: none; }
     .syringe-gas, .syringe-piston, .syringe-rod { transition: none; }
     .chromatograph-flow, .chromatograph-band { animation: none; }
+    .inspection-inst, .inspection-bubble { animation: none; }
     .burette-fill {
       transition: none;
     }
