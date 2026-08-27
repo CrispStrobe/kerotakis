@@ -54,6 +54,59 @@ fn species_map_into_the_nasa_data_by_formula() {
     assert_eq!(kerotakis_cea::cea_name("MgO"), Some("MgO(cr)"));
     assert_eq!(kerotakis_cea::cea_name("O2"), Some("O2"));
     assert_eq!(kerotakis_cea::cea_name("CO2"), Some("CO2"));
+    assert_eq!(
+        kerotakis_cea::cea_name("ethanol"),
+        Some("C2H5OH(L)"),
+        "liquid fuel uses CEA's separate feed-only thermochemistry"
+    );
+}
+
+#[test]
+fn a_flame_really_burns_liquid_ethanol() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "ethanol", 0.010);
+
+    let events = bench
+        .step_with(
+            Operator::Ignite { vessel: v },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("ignite ethanol");
+
+    assert!(
+        bench
+            .vessel(v)
+            .unwrap()
+            .moles_of(&SpeciesId::new("ethanol"))
+            .0
+            < 1e-6,
+        "the fuel is consumed: {events:?}"
+    );
+    assert!(events.iter().any(
+        |event| matches!(event, Event::GasEvolved { species, moles, .. }
+            if species.0 == "CO2" && moles.0 > 0.015)
+    ));
+    assert!(events.iter().any(
+        |event| matches!(event, Event::GasEvolved { species, moles, .. }
+            if species.0 == "water" && moles.0 > 0.020)
+    ));
+    assert!(events.iter().any(
+        |event| matches!(event, Event::Ignited { energy_j: Some(energy), .. }
+            if *energy > 1_000.0)
+    ));
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::ThermalEquilibrium { provenance, .. }
+            if provenance.dataset.contains("CEA")
+                && provenance.dataset_sources.iter().any(|source| source.contains("C2H5OH(L)"))
+    )));
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::ReactionOccurred { equation, .. } if equation.contains("C₂H₅OH")
+    )));
 }
 
 #[test]
