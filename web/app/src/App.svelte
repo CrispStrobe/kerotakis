@@ -69,6 +69,13 @@
     }
   }
   const appStorage = availableStorage();
+  function storedYes(key: string): boolean {
+    try {
+      return appStorage?.getItem(key) === "yes";
+    } catch {
+      return false;
+    }
+  }
   function hasSeenHome(): boolean {
     try {
       return appStorage?.getItem(HOME_SEEN_KEY) === "yes";
@@ -77,6 +84,10 @@
     }
   }
   const labMode = readLabMode(appStorage);
+  const cabinetPanelKey = `kerotakis.panel.cabinet-collapsed.v1.${labMode}`;
+  const journalPanelKey = `kerotakis.panel.journal-collapsed.v1.${labMode}`;
+  let cabinetCollapsed = $state(storedYes(cabinetPanelKey));
+  let journalCollapsed = $state(storedYes(journalPanelKey));
   const modeStorage = appStorage ? new ModeStorage(appStorage, labMode) : null;
   const session = new Session(
     isTauri() ? new TauriHost() : WorkerHost.create(),
@@ -105,6 +116,16 @@
       localStorage.setItem("kerotakis.theme", next);
     } catch {
       // The selected theme still works when persistence is unavailable.
+    }
+  }
+
+  function setPanelCollapsed(panel: "cabinet" | "journal", collapsed: boolean) {
+    if (panel === "cabinet") cabinetCollapsed = collapsed;
+    else journalCollapsed = collapsed;
+    try {
+      appStorage?.setItem(panel === "cabinet" ? cabinetPanelKey : journalPanelKey, collapsed ? "yes" : "no");
+    } catch {
+      // The focus choice still works for this visit.
     }
   }
 
@@ -529,10 +550,17 @@
 {/if}
 
 <main data-pane={pane}>
-  <nav class="shelf-pane">
+  <nav class="shelf-pane" class:collapsed={cabinetCollapsed}>
     <div class="pane-heading">
       <span class="pane-icon" aria-hidden="true">▦</span>
       <span><strong>{t("supply cabinet")}</strong><small>{t("choose what goes on the bench")}</small></span>
+      <button
+        class="panel-collapse"
+        aria-expanded={!cabinetCollapsed}
+        aria-label={cabinetCollapsed ? t("open supply cabinet") : t("collapse supply cabinet")}
+        title={cabinetCollapsed ? t("open supply cabinet") : t("collapse supply cabinet")}
+        onclick={() => setPanelCollapsed("cabinet", !cabinetCollapsed)}
+      >{cabinetCollapsed ? "›" : "‹"}</button>
     </div>
     <div class="cabinet-tabs" role="tablist" aria-label={t("supply cabinet")}>
       <button role="tab" aria-selected={cabinetTab === "reagents"} class:active={cabinetTab === "reagents"} onclick={() => (cabinetTab = "reagents")}>{t("reagents")}</button>
@@ -646,6 +674,7 @@
       onopenperiodic={() => (tableOpen = true)}
       onopensafety={() => (safetyOpen = true)}
       onopencabinet={() => {
+        setPanelCollapsed("cabinet", false);
         cabinetTab = "equipment";
         pane = "shelf";
       }}
@@ -710,20 +739,29 @@
         onpour={() => (transfer = { verb: "decant", fraction: 0.5, from: selectedVessel!.id })}
         ondetails={() => {
           void session.inspect(selectedVessel!.id);
+          setPanelCollapsed("journal", false);
           pane = "notes";
         }}
         onmore={() => {
+          setPanelCollapsed("cabinet", false);
           cabinetTab = "equipment";
           pane = "shelf";
         }}
       />
     {/if}
   </div>
-  <aside>
+  <aside class:collapsed={journalCollapsed}>
     <div class="pane-heading journal-heading">
       <span class="pane-icon" aria-hidden="true">≡</span>
       <span><strong>{t("lab journal")}</strong><small>{t("observations and evidence")}</small></span>
       <span class="entry-count" title={t("notebook entries")}>{session.feed.length}</span>
+      <button
+        class="panel-collapse"
+        aria-expanded={!journalCollapsed}
+        aria-label={journalCollapsed ? t("open lab journal") : t("collapse lab journal")}
+        title={journalCollapsed ? t("open lab journal") : t("collapse lab journal")}
+        onclick={() => setPanelCollapsed("journal", !journalCollapsed)}
+      >{journalCollapsed ? "‹" : "›"}</button>
     </div>
     {#if session.inspector}
       <Inspector
@@ -1348,6 +1386,22 @@
     font-size: 0.7rem;
     text-align: center;
   }
+  .panel-collapse {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    padding: 0;
+    border: 1px solid var(--edge);
+    border-radius: 9px;
+    color: var(--dim);
+    background: var(--surface-raised);
+    font: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .panel-collapse:hover { color: var(--primary); border-color: var(--primary); }
   .cabinet-tabs {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1393,6 +1447,19 @@
   .catalog-scope button:disabled { opacity: .38; cursor: not-allowed; }
   .equation {
     background: var(--surface);
+  }
+
+  @media (min-width: 981px) {
+    .shelf-pane,
+    aside { transition: width 180ms ease, box-shadow 180ms ease; }
+    .shelf-pane.collapsed,
+    aside.collapsed { width: 3.35rem; box-shadow: 0 5px 16px var(--shadow); }
+    .shelf-pane.collapsed > :not(.pane-heading),
+    aside.collapsed > :not(.pane-heading) { display: none; }
+    .shelf-pane.collapsed .pane-heading,
+    aside.collapsed .pane-heading { min-height: 100%; justify-content: center; padding: 0.45rem; border-bottom: 0; }
+    .shelf-pane.collapsed .pane-heading > :not(.panel-collapse),
+    aside.collapsed .pane-heading > :not(.panel-collapse) { display: none; }
   }
 
   @media (max-width: 980px) {

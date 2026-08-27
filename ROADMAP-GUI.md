@@ -1197,6 +1197,13 @@ decorating it.
   Driven by the per-step data the engine already returns (titration
   curve points, transported fractions).
 
+- [x] **GUI-074 — Bench focus controls.** *Shipped 2026-08-27.* On wide
+  screens, the material cabinet and laboratory journal collapse independently
+  to narrow edge rails; opening tools, details, or a target panel expands the
+  relevant rail automatically. Choices persist separately in Story and
+  Sandbox. The existing three-pane tab bar remains the touch-first navigation
+  on narrow screens.
+
 Split: GUI-058 + 060 + 064 are architecture/engine-coupled (fable);
 GUI-061 + 063 are self-contained client work (kero-basic);
 GUI-059 + 062 are client work gated on no engine change (kero1, after
