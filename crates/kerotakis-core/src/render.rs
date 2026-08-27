@@ -640,19 +640,45 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
         Event::DissolvedInSolvent { vessel, species, solvent, dissolved, undissolved } => {
             let name = species::lookup(species).map(|d| d.name).unwrap_or(species.0.as_str());
             let solv = species::lookup(solvent).map(|d| d.name).unwrap_or(solvent.0.as_str());
+            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+            let solv = locale.lookup(&format!("species.{solv}")).unwrap_or(solv);
             match register.level() {
                 1 => {
+                    // Three separate keys, not one template with a
+                    // placeholder for the outcome: these are the whole
+                    // teaching point of solubility, and German says them
+                    // differently enough that a single sentence with a
+                    // swapped word would read as machine output.
                     if dissolved.0 <= 0.0 {
-                        format!("The {name} just sits at the bottom of the {solv} — it will not dissolve.")
+                        locale.fill(
+                            "event.dissolved-in-solvent.lv1-none",
+                            "The {what} just sits at the bottom of the {solvent} — it will not dissolve.",
+                            &[("what", name), ("solvent", solv)],
+                        )
                     } else if undissolved.0 <= 0.0 {
-                        format!("The {name} disappears into the {solv}.")
+                        locale.fill(
+                            "event.dissolved-in-solvent.lv1-all",
+                            "The {what} disappears into the {solvent}.",
+                            &[("what", name), ("solvent", solv)],
+                        )
                     } else {
-                        format!("A little of the {name} dissolves in the {solv}; the rest sits on the bottom.")
+                        locale.fill(
+                            "event.dissolved-in-solvent.lv1-some",
+                            "A little of the {what} dissolves in the {solvent}; the rest sits on the bottom.",
+                            &[("what", name), ("solvent", solv)],
+                        )
                     }
                 }
-                2 => format!(
-                    "{vessel}: {name} in {solv} — {:.4} mol dissolved (handbook limit), {:.4} mol left as solid",
-                    dissolved.0, undissolved.0
+                2 => locale.fill(
+                    "event.dissolved-in-solvent.lv2",
+                    "{vessel}: {what} in {solvent} — {dissolved} mol dissolved (handbook limit), {solid} mol left as solid",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("what", name),
+                        ("solvent", solv),
+                        ("dissolved", &locale.number(format!("{:.4}", dissolved.0))),
+                        ("solid", &locale.number(format!("{:.4}", undissolved.0))),
+                    ],
                 ),
                 _ => format!(
                     "{vessel}: {} in {}: dissolved {:.6} mol to the curated solubility limit, {:.6} mol solid remains. Model boundary: undissociated solute, no speciation or activity model in an organic phase",
