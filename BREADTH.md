@@ -458,6 +458,14 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   homogeneous liquids proportionally, so the oil survives real pours and
   replay. This bounded checkpoint does not yet claim emulsions, droplet
   dynamics, oxidation, hydrolysis, combustion, or an edible-oil composition.
+- **Checkpoint 15 implemented:** `oil-water-colour.lab` turns the material
+  layer model into a guided child-facing density and polarity activity. It
+  compares blue-water-then-oil with oil-then-red-food-colour, so learners can
+  predict and see that the aqueous dye colours the lower water phase rather
+  than tinting the oil. The lesson is in the curated `start here` sequence,
+  carries staining/adult-supervision guidance, and names the current droplet,
+  emulsion, detergent and lava-lamp boundaries instead of implying animation
+  support that the engine has not computed.
 
 ## Stage B2 — organic structure and curated reaction families
 

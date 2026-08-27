@@ -997,6 +997,56 @@
       }
     ]
   },
+  "oil-water-colour": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +1.000 g food_colour_blue (2 known ingredients)",
+      "v1: +46.000 g vegetable_oil (0 known ingredients)",
+      "v1: vegetable oil forms the upper layer; water is denser and remains below",
+      "v2: new vessel",
+      "v2: +46.000 g vegetable_oil (0 known ingredients)",
+      "v2: +1.000 g food_colour_red (2 known ingredients)",
+      "v2: vegetable oil forms the upper layer; water is denser and remains below"
+    ],
+    "lesson": "oil-water-colour.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 2.14e-6,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 5.58973078,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 1.82e-6,
+            "phase": "Aqueous",
+            "species": "betanin"
+          },
+          {
+            "moles": 0.05545379,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "cylinder",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "pepper-and-soap": {
     "event_count": 8,
     "events_sample": [
