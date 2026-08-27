@@ -3,8 +3,9 @@
   import type { TwoVesselAction } from "../directActions";
   import { t } from "../i18n.svelte";
   import ToolIcon from "./ToolIcon.svelte";
-  import { equipmentAvailable, equipmentRequirement } from "../catalogProgress";
+  import { equipmentAccess, equipmentAvailable, equipmentRequirement } from "../catalogProgress";
   import type { LabMode } from "../worldState";
+  import type { CatalogScope } from "../catalogScope";
 
   const TRANSFER_TOOLS: { verb: TwoVesselAction; title: string; blurb: string }[] = [
     { verb: "filter", title: "filter", blurb: "separate solids from liquid" },
@@ -24,6 +25,8 @@
     reactAvailable,
     mode,
     completed,
+    scope = "all",
+    missionVerbs = [],
     onburette,
     onapparatus,
     ontransfer,
@@ -38,6 +41,8 @@
     reactAvailable: boolean;
     mode: LabMode;
     completed: number;
+    scope?: CatalogScope;
+    missionVerbs?: string[];
     onburette: () => void;
     onapparatus: (verb: string) => void;
     ontransfer: (verb: TwoVesselAction) => void;
@@ -49,8 +54,11 @@
     ...TRANSFER_TOOLS.map((item) => item.verb), "mix", "transport", ...(reactAvailable ? ["react"] : []),
   ]);
   const availableCount = $derived(allVerbs.filter((verb) => equipmentAvailable(mode, completed, verb)).length);
-  const transportUnlocked = $derived(equipmentAvailable(mode, completed, "transport"));
-  const reactUnlocked = $derived(equipmentAvailable(mode, completed, "react"));
+  const visible = (verb: string) => mode === "sandbox" || scope === "all"
+    || (scope === "mission" ? missionVerbs.includes(verb) : equipmentAvailable(mode, completed, verb));
+  const access = (verb: string) => equipmentAccess(mode, completed, verb, missionVerbs.includes(verb));
+  const visibleApparatus = $derived(APPARATUS.filter((item) => visible(item.verb)));
+  const visibleTransfers = $derived(TRANSFER_TOOLS.filter((item) => visible(item.verb)));
   const requirementLabel = (verb: string) => {
     const count = equipmentRequirement(verb);
     return count === 1 ? t("after one mission") : t("after {count} missions", { count });
@@ -68,62 +76,70 @@
     <p>{mode === "sandbox" ? t("Every installed instrument is available in Sandbox.") : t("Complete investigations to earn permanent access to more instruments.")}</p>
   </div>
 
-  <div class="equipment-group">
-    <h2><span>{t("measure and transform")}</span><small>{APPARATUS.length + 1}</small></h2>
+  {#if visible("burette") || visibleApparatus.length > 0}<div class="equipment-group">
+    <h2><span>{t("measure and transform")}</span><small>{visibleApparatus.length + (visible("burette") ? 1 : 0)}</small></h2>
     <div class="equipment-grid">
-      <button class="equipment-card feature" class:deployed={buretteOut} aria-pressed={buretteOut} onclick={onburette}>
+      {#if visible("burette")}<button class="equipment-card feature" class:deployed={buretteOut} aria-pressed={buretteOut} onclick={onburette}>
         <span class="equipment-icon"><ToolIcon name="burette" /></span>
         <span class="equipment-copy"><strong>{t("burette")}</strong><small>{t("controlled addition")}</small></span>
         {#if buretteOut}<span class="deployed-label">{t("on bench")}</span>{/if}
-      </button>
-      {#each APPARATUS as item (item.verb)}
-        {@const unlocked = equipmentAvailable(mode, completed, item.verb)}
-        <button class="equipment-card" class:locked={!unlocked} class:deployed={apparatusOut === item.verb} aria-pressed={apparatusOut === item.verb} disabled={!unlocked} onclick={() => onapparatus(item.verb)}>
+      </button>{/if}
+      {#each visibleApparatus as item (item.verb)}
+        {@const itemAccess = access(item.verb)}
+        <button class="equipment-card" class:locked={!itemAccess.available} class:deployed={apparatusOut === item.verb} aria-pressed={apparatusOut === item.verb} disabled={!itemAccess.available} onclick={() => onapparatus(item.verb)}>
           <span class="equipment-icon"><ToolIcon name={item.verb} /></span>
           <span class="equipment-copy"><strong>{t(item.title)}</strong><small>{t(item.blurb)}</small></span>
           {#if apparatusOut === item.verb}<span class="deployed-label">{t("on bench")}</span>{/if}
-          {#if !unlocked}<span class="locked-label">⌁ {requirementLabel(item.verb)}</span>{/if}
+          {#if itemAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
+          {#if !itemAccess.available}<span class="locked-label">⌁ {requirementLabel(item.verb)}</span>{/if}
         </button>
       {/each}
     </div>
-  </div>
+  </div>{/if}
 
-  <div class="equipment-group">
-    <h2><span>{t("transfer and separation")}</span><small>{TRANSFER_TOOLS.length + 2}</small></h2>
+  {#if visibleTransfers.length > 0 || visible("mix") || visible("transport")}<div class="equipment-group">
+    <h2><span>{t("transfer and separation")}</span><small>{visibleTransfers.length + (visible("mix") ? 1 : 0) + (visible("transport") ? 1 : 0)}</small></h2>
     <div class="equipment-grid">
-      {#each TRANSFER_TOOLS as item (item.verb)}
-        {@const unlocked = equipmentAvailable(mode, completed, item.verb)}
-        <button class="equipment-card" class:locked={!unlocked} class:deployed={transferVerb === item.verb} aria-pressed={transferVerb === item.verb} disabled={!unlocked} onclick={() => ontransfer(item.verb)}>
+      {#each visibleTransfers as item (item.verb)}
+        {@const itemAccess = access(item.verb)}
+        <button class="equipment-card" class:locked={!itemAccess.available} class:deployed={transferVerb === item.verb} aria-pressed={transferVerb === item.verb} disabled={!itemAccess.available} onclick={() => ontransfer(item.verb)}>
           <span class="equipment-icon"><ToolIcon name={item.verb} /></span>
           <span class="equipment-copy"><strong>{t(item.title)}</strong><small>{t(item.blurb)}</small></span>
           {#if transferVerb === item.verb}<span class="deployed-label">{t("select source")}</span>{/if}
-          {#if !unlocked}<span class="locked-label">⌁ {requirementLabel(item.verb)}</span>{/if}
+          {#if itemAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
+          {#if !itemAccess.available}<span class="locked-label">⌁ {requirementLabel(item.verb)}</span>{/if}
         </button>
       {/each}
-      <button class="equipment-card" class:deployed={mixActive} aria-pressed={mixActive} onclick={onmix}>
+      {#if visible("mix")}<button class="equipment-card" class:deployed={mixActive} aria-pressed={mixActive} onclick={onmix}>
         <span class="equipment-icon"><ToolIcon name="mix" /></span>
         <span class="equipment-copy"><strong>{t("mixer")}</strong><small>{t("combine two sources into a receiver")}</small></span>
         {#if mixActive}<span class="deployed-label">{t("select sources")}</span>{/if}
-      </button>
-      <button class="equipment-card" class:locked={!transportUnlocked} class:deployed={apparatusOut === "transport"} aria-pressed={apparatusOut === "transport"} disabled={!transportUnlocked} onclick={() => onapparatus("transport")}>
+      </button>{/if}
+      {#if visible("transport")}{@const transportAccess = access("transport")}<button class="equipment-card" class:locked={!transportAccess.available} class:deployed={apparatusOut === "transport"} aria-pressed={apparatusOut === "transport"} disabled={!transportAccess.available} onclick={() => onapparatus("transport")}>
         <span class="equipment-icon"><ToolIcon name="transport" /></span>
         <span class="equipment-copy"><strong>{t("column train")}</strong><small>{t("move solution through connected cells")}</small></span>
         {#if apparatusOut === "transport"}<span class="deployed-label">{t("on bench")}</span>{/if}
-        {#if !transportUnlocked}<span class="locked-label">⌁ {requirementLabel("transport")}</span>{/if}
-      </button>
+        {#if transportAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
+        {#if !transportAccess.available}<span class="locked-label">⌁ {requirementLabel("transport")}</span>{/if}
+      </button>{/if}
     </div>
-  </div>
+  </div>{/if}
 
-  {#if reactAvailable}
+  {#if reactAvailable && visible("react")}
+    {@const reactAccess = access("react")}
     <div class="equipment-group">
       <h2><span>{t("reaction studio")}</span><small>1</small></h2>
-      <button class="equipment-card wide" class:locked={!reactUnlocked} class:deployed={apparatusOut === "react"} aria-pressed={apparatusOut === "react"} disabled={!reactUnlocked} onclick={() => onapparatus("react")}>
+      <button class="equipment-card wide" class:locked={!reactAccess.available} class:deployed={apparatusOut === "react"} aria-pressed={apparatusOut === "react"} disabled={!reactAccess.available} onclick={() => onapparatus("react")}>
         <span class="equipment-icon"><ToolIcon name="react" /></span>
         <span class="equipment-copy"><strong>{t("curated reaction")}</strong><small>{t("choose a verified reaction family")}</small></span>
         {#if apparatusOut === "react"}<span class="deployed-label">{t("on bench")}</span>{/if}
-        {#if !reactUnlocked}<span class="locked-label">⌁ {requirementLabel("react")}</span>{/if}
+        {#if reactAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
+        {#if !reactAccess.available}<span class="locked-label">⌁ {requirementLabel("react")}</span>{/if}
       </button>
     </div>
+  {/if}
+  {#if scope === "mission" && missionVerbs.length === 0}
+    <p class="empty-scope">{t("This mission needs no additional cabinet equipment.")}</p>
   {/if}
 </section>
 
@@ -157,5 +173,7 @@
   .equipment-copy small { color: var(--dim); font-size: 0.61rem; line-height: 1.25; }
   .deployed-label { position: absolute; top: 0.35rem; right: 0.35rem; padding: 0.14rem 0.32rem; border-radius: 999px; color: white; background: var(--action); font-size: 0.48rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
   .locked-label { margin-top: auto; padding: .2rem .36rem; border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--surface-raised) 90%, transparent); font-size: .55rem; font-weight: 800; line-height: 1.2; }
+  .loaned-label { margin-top: auto; padding: .2rem .36rem; border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 10%, var(--surface)); font-size: .5rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+  .empty-scope { margin: 1rem .2rem; color: var(--dim); font-size: .72rem; line-height: 1.4; }
   .equipment-card.wide .locked-label { margin: 0 0 0 auto; }
 </style>

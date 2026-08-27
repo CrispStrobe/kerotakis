@@ -976,6 +976,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Measured { .. } => ("measured", None),
         E::Observed { .. } => ("observed", None),
         E::VesselCreated { .. } => ("vessel_created", None),
+        E::VesselRemoved { .. } => ("vessel_removed", None),
         E::NotYetModeled { .. } => ("not_yet_modelled", None),
         E::SolverFailed { .. } => ("solver_failed", None),
         // Keyed by reaction id, so an entry asserts `reacted:thiosulfate-acid`

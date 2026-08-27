@@ -47,6 +47,21 @@ export function equipmentAvailable(mode: LabMode, completed: number, verb: strin
   return mode === "sandbox" || completed >= equipmentRequirement(verb);
 }
 
+export function equipmentAccess(
+  mode: LabMode,
+  completed: number,
+  verb: string,
+  inMissionKit: boolean,
+): CatalogAccess {
+  const minimumCompleted = equipmentRequirement(verb);
+  const loaned = mode === "story" && inMissionKit;
+  return {
+    minimumCompleted,
+    loaned,
+    available: mode === "sandbox" || completed >= minimumCompleted || loaned,
+  };
+}
+
 export function equipmentRewardAt(completed: number): EquipmentReward | null {
   return REWARDS[completed] ?? null;
 }

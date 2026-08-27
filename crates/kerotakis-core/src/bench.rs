@@ -28,6 +28,10 @@ pub enum BenchError {
     BadFraction,
     #[error("source and target vessel are the same")]
     SelfTransfer,
+    #[error("vessel {0} is not empty — transfer or dispose of its contents first")]
+    VesselNotEmpty(VesselId),
+    #[error("the last vessel must stay on the bench")]
+    LastVessel,
     #[error(transparent)]
     Kinetics(#[from] crate::kinetics::IntegrationError),
     #[error(transparent)]
@@ -309,6 +313,16 @@ impl Bench {
                 self.vessels.push(Vessel::new(id, label));
                 events.push(Event::VesselCreated { vessel: id });
             }
+            Operator::RemoveVessel { vessel } => {
+                if self.vessels.len() <= 1 {
+                    return Err(BenchError::LastVessel);
+                }
+                if !self.vessel(*vessel)?.is_empty() {
+                    return Err(BenchError::VesselNotEmpty(*vessel));
+                }
+                self.vessels.retain(|candidate| candidate.id != *vessel);
+                events.push(Event::VesselRemoved { vessel: *vessel });
+            }
             Operator::Add {
                 vessel,
                 species: sid,
@@ -357,10 +371,12 @@ impl Bench {
                     v.temperature = t_new;
                 }
                 v.deposit(sid.clone(), *moles, data.standard_phase);
+                let total_after = v.moles_of(sid);
                 events.push(Event::Added {
                     vessel: *vessel,
                     species: sid.clone(),
                     moles: *moles,
+                    total_after: Some(total_after),
                 });
             }
             Operator::Heat { vessel, energy } | Operator::Cool { vessel, energy } => {
@@ -2003,7 +2019,7 @@ impl Bench {
 /// Which vessels an operator touches (for re-equilibration).
 fn op_touches(op: &Operator) -> Vec<VesselId> {
     match op {
-        Operator::NewVessel { .. } => vec![],
+        Operator::NewVessel { .. } | Operator::RemoveVessel { .. } => vec![],
         Operator::Add { vessel, .. }
         | Operator::Heat { vessel, .. }
         | Operator::Cool { vessel, .. }

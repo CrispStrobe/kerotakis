@@ -96,6 +96,42 @@ fn a_settled_species_is_not_reverdicted_every_step() {
 }
 
 #[test]
+fn repeated_sulfur_doses_accumulate_and_report_the_current_total() {
+    let mut bench = Bench::new();
+    add(&mut bench, "ethanol", 1.7126);
+    add(&mut bench, "S", 0.0312);
+    let events = add(&mut bench, "S", 0.0312);
+
+    let total = bench
+        .vessel(VesselId(0))
+        .unwrap()
+        .moles_of(&SpeciesId::new("S"));
+    assert!(
+        (total.0 - 0.0624).abs() < 1e-12,
+        "every dose remains in inventory"
+    );
+    let added = events
+        .iter()
+        .find_map(|event| match event {
+            Event::Added {
+                species,
+                total_after,
+                ..
+            } if species.0 == "S" => *total_after,
+            _ => None,
+        })
+        .expect("added event carries the post-dose total");
+    assert!((added.0 - 0.0624).abs() < 1e-12);
+    let rendered = render_events(&events, Register::LV2);
+    assert!(
+        rendered
+            .iter()
+            .any(|line| line.contains("0.0624 mol now in vessel")),
+        "{rendered:?}"
+    );
+}
+
+#[test]
 fn water_present_means_this_rung_stands_aside() {
     let mut bench = Bench::new();
     add(&mut bench, "water", 5.0);

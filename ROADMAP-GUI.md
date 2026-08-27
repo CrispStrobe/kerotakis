@@ -734,6 +734,15 @@ This phase is the immediate priority. GUI-070 through GUI-075 make the current
 app delightful before campaign breadth is built; GUI-076 through GUI-080 turn
 that foundation into the first playable story slice.
 
+**Owner priority reset, 2026-08-27:** stop expanding or redesigning missions,
+examples, and progression until the shared laboratory is a convincing place to
+work. Existing content must flow through the improved laboratory unchanged.
+The order is now: cabinet/search/quantities → free spatial bench and object
+controls → apparatus with computed motion → journal/environment polish → only
+then more campaign breadth. A mission may suggest Prepare/React/Analyse, but it
+must never own the physical layout; those guides are optional and Sandbox may
+hide them completely.
+
 - [ ] **GUI-070 — Recompose the app shell around the bench.** Implement the
   laboratory-place wireframe above; collapse global chrome; make cabinet and
   journal drawers; move mode, register, locale, accessibility, and save controls
@@ -771,6 +780,16 @@ that foundation into the first playable story slice.
   studio, column train, and two-vessel transfer/separation tools. Choosing a
   card deploys it to the active work area. Full item metadata, compatibility
   filters, Story availability states, and saved kits remain.*
+  *Core-control slice in progress 2026-08-27: reagent search matches the
+  localized display name as well as canonical name, formula, and key, using
+  case/diacritic-insensitive substring matching. Dispensing exposes a numeric
+  amount and unit selector at every register; its initial unit/value derives
+  from the selected vessel's capacity (mL for current glassware, L for large
+  future vessels) rather than two fixed global buttons. Story now uses one
+  persistent three-scope selector in both cabinet tabs: Mission set means
+  temporary case-supplied stock, Unlocked means permanently earned stock, and
+  All previews the complete catalog without bypassing locks. Sandbox omits the
+  selector because its catalog is already wholly available.*
 - [ ] **GUI-073 — Spatial bench and assembly grammar.** Give work zones,
   apparatus footprints, ports, sockets, layering, collision rules, and
   keyboard-equivalent placement to the scene. Valid destinations preview before
@@ -783,6 +802,11 @@ that foundation into the first playable story slice.
   and visible input/output ports anchor engine-confirmed connected rigs.
   Fine-grained free placement, collision/capacity rules, and arrangement
   replay inside exported `.lab` files remain.*
+  *Direction correction 2026-08-27: the three named zones are workflow hints,
+  not partitions. The decorative overhead rail/lights/sockets are removed to
+  reclaim work area; Sandbox defaults to one continuous surface and users can
+  persistently show or hide the guides in either mode. Next, replace zone-only
+  movement with fine placement and make real services/stands explicit objects.*
 - [ ] **GUI-074 — Direct manipulation pass.** Implement contextual object
   selection and the highest-frequency physical gestures: place/remove, pour,
   dose, stir, heat/cool, seal/open, connect, insert/read probe, and start/stop.
@@ -800,6 +824,69 @@ that foundation into the first playable story slice.
   filter, still, drain, and galvanic-cell operations now assemble transient
   connected rigs between their engine-reported source and target. Dedicated
   start/stop controls remain.*
+  *Immediate remainder: selected-object controls must be icon-sized previous /
+  next / remove controls. Removal is an engine-owned, undoable operation with
+  an explicit contents-disposal decision; the UI must not silently delete
+  chemistry state.*
+  *Core-control slice in progress 2026-08-27: previous/next are compact icon
+  controls and an engine-owned `remove vN` operator removes only empty vessels,
+  never the last vessel, and participates in undo/replay. Apparatus deployment
+  now replaces the generic vessel-action dock so unrelated vessel actions do
+  not visually compete with the apparatus controls.*
+
+- [ ] **GUI-081 — Learner-authored laboratory journal.** Keep engine output,
+  mission evidence, and learner notes visibly distinct. Users can add, edit,
+  and remove timestamped text notes; notes persist with the mode-specific lab,
+  survive reload, and export in Markdown beside measurements and charts. Notes
+  never become engine evidence merely because they are in the same journal.
+  *Initial slice in progress 2026-08-27: add and persist timestamped notes and
+  include them in notebook export. Editing/removal and chronological replay
+  placement remain.*
+
+- [ ] **GUI-082 — Explorable laboratory room.** Build a colourful 2.5-D room
+  around the continuous bench: cupboards and drawers are storage homes; racks,
+  holders, utilities, sinks, and waste stations are interactive objects; the
+  periodic table and scenario posters can be clicked and zoomed for relevant
+  information. Rooms may change with context without changing chemistry state.
+  Use warm, saturated workshop accents and object silhouettes inspired by good
+  school-lab interfaces, while retaining professional density, dark/high-
+  contrast themes, keyboard access, and no always-on mascot obstruction.
+
+- [ ] **GUI-083 — Physical apparatus and computed motion.** Promote apparatus
+  from forms/tool verbs to placeable assemblies with visible controls and
+  engine-owned operating state. First families:
+  - retort stands, bosses, clamps, rings, holders, hoses and cables whose
+    connection graph constrains what can be operated;
+  - magnetic stirrer/hotplate with power or target temperature, RPM, stir-bar
+    coupling, ramp time, and start/stop;
+  - mini centrifuge with rotor slots, tube compatibility, balance/imbalance,
+    RPM, duration, acceleration, coast-down, lid interlock, and separation;
+  - thermometer/pH probes, balances, burners, baths, cooling/freezing devices,
+    filtration and distillation rigs at bench scale.
+  Motion is sampled from computed state: stir vortex from RPM, viscosity and
+  fill; heat shimmer/boiling/flame from power, temperature, phase and reaction
+  energy; centrifuge blur and settling from angular speed, radius, particle
+  size/density and medium viscosity. Reduced-motion changes presentation, not
+  elapsed process or results. No canned loop may imply an effect the solver did
+  not produce.
+  *Initial placement correction 2026-08-27: grinding renders a standalone
+  mortar and pestle beside its target vessel, with work-state motion, rather
+  than drawing a mortar inside the vessel. The general assembly/footprint
+  system and computed grind state remain.*
+
+- [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
+  parameterized, time-bearing operation and authoritative mixing state. Model
+  the effects that matter to existing solvers first: concentration
+  homogenisation, solid suspension/settling, surface-area/mass-transfer limits,
+  heat transfer, and rate coupling. Until an effect is modeled, the UI may show
+  the apparatus turning but must label the scientific boundary; it must not
+  claim that stirring changed a reaction or solubility equilibrium. Repeated
+  additions must update both inventory and visible amount, and the journal must
+  report current totals rather than confusing a new dose with total material.
+  *Feedback slice in progress 2026-08-27: authoritative inventory already
+  accumulated repeated doses; repeated-add events now also carry and render the
+  post-dose total. Scaling visible solid volume and parameterizing stirring
+  remain part of this item.*
 - [ ] **GUI-075 — Observe five users before adding campaign breadth.** Test with
   at least two children/novices, one teacher, and two experienced science users;
   use tasks, not preference questions. Record time-to-first-result, wrong turns,
@@ -844,7 +931,9 @@ that foundation into the first playable story slice.
   bench with evidence review, persistent completion totals, and newly opened
   campus routes; replay and first-discovery outcomes are distinct. A rejected
   operator cannot advance the objective or trigger the debrief. In-world
-  contacts/messages and typed multi-objective evidence remain in this item.*
+  contacts/messages and typed multi-objective evidence remain in this item.
+  Copy direction is Mission Control: case files, briefings, observations, and
+  evidence—not teacher-facing “showpiece experiment” language.*
 - [x] **GUI-079 — Progression-aware catalog.** Story availability and quantity
   constraints decorate the shared apparatus/reagent catalog; Sandbox bypasses
   them. Rewards animate once, explain what changed, and offer "place on bench."
@@ -857,7 +946,10 @@ that foundation into the first playable story slice.
   handling progression, and temporarily loans any otherwise-locked substance
   required by the active mission kit. First completions reveal one permanent
   instrument reward in the debrief and can place it directly on the live bench.
-  This has no currency, streak, purchase, or randomized reward.
+  This has no currency, streak, purchase, or randomized reward. The same
+  persistent Mission set / Unlocked / All scope selector now controls both
+  reagent and equipment tabs; mission equipment is loaned under the same rule
+  as mission reagents, and All previews locks instead of bypassing them.*
   *Finite-stock slice shipped 2026-08-26: unlocked Story substances now expose
   a persistent count of labelled dispenses. Only an engine-accepted `add` or
   `titrate` transaction consumes one; rejection consumes nothing, and bench

@@ -1,18 +1,22 @@
 <script lang="ts">
   import type { ShelfItem } from "../session.svelte";
-  import { quickAmounts as amountsFor } from "../amounts";
+  import { amountUnits, suggestedAmount, type AmountUnit } from "../amounts";
+  import { reagentMatches } from "../catalogSearch";
   import SpeciesChip from "./SpeciesChip.svelte";
   import { t } from "../i18n.svelte";
-  import { reagentAccess } from "../catalogProgress";
+  import { reagentAccess, reagentRequirement } from "../catalogProgress";
   import { stockRemaining } from "../storyStock";
   import type { LabMode } from "../worldState";
+  import type { CatalogScope } from "../catalogScope";
 
   let {
     items,
     register,
     target,
+    targetCapacityMl = 400,
     onadd,
     kit = null,
+    scope = "all",
     mode = "sandbox",
     completed = 0,
     stockUsed = {},
@@ -20,64 +24,64 @@
     items: ShelfItem[];
     register: string;
     target: number;
+    targetCapacityMl?: number;
     onadd: (line: string) => void;
     /** During a lesson: the reagents its own commands use. */
     kit?: string[] | null;
+    scope?: CatalogScope;
     mode?: LabMode;
     completed?: number;
     stockUsed?: Readonly<Record<string, number>>;
   } = $props();
 
   let query = $state("");
-  /** Kit view on by default while a lesson runs; the sandbox is one tap away. */
-  let kitOnly = $state(true);
-  const kitActive = $derived(kitOnly && kit !== null && kit.length > 0);
-  const visible = $derived(
-    kitActive ? items.filter((s) => kit!.includes(s.key)) : items,
-  );
+  const visible = $derived(items.filter((item) => {
+    if (mode === "sandbox" || scope === "all") return true;
+    if (scope === "mission") return kit?.includes(item.key) ?? false;
+    return completed >= reagentRequirement(item);
+  }));
   let open = $state<string | null>(null);
-  let custom = $state("");
+  let amountValue = $state(1);
+  let amountUnit = $state<AmountUnit>("g");
 
   /** One tap narrows to a phase; the chips only exist when useful. */
   let phase = $state<string | null>(null);
   const phases = $derived([...new Set(visible.map((s) => s.phase))].sort());
+  $effect(() => {
+    if (phase && !phases.includes(phase)) phase = null;
+  });
 
   const filtered = $derived(
     visible.filter((s) => {
       if (phase && s.phase !== phase) return false;
       const q = query.trim().toLowerCase();
       if (!q) return true;
-      return (
-        s.name.toLowerCase().includes(q) ||
-        s.formula.toLowerCase().includes(q) ||
-        s.key.toLowerCase().includes(q)
-      );
+      return reagentMatches(s, q, t(s.name));
     }),
   );
 
-  const quickAmounts = (phase: string) => amountsFor(register, phase);
   const stockLabel = (count: number) => count === 1 ? t("one use left") : t("{count} uses left", { count });
+
+  function toggle(item: ShelfItem) {
+    if (open === item.key) {
+      open = null;
+      return;
+    }
+    open = item.key;
+    const suggested = suggestedAmount(item.phase, targetCapacityMl);
+    amountValue = suggested.value;
+    amountUnit = suggested.unit;
+  }
 
   function add(item: ShelfItem, amount: string) {
     const a = amount.trim();
     if (!a) return;
     onadd(`add v${target + 1} ${item.key} ${a}`);
     open = null;
-    custom = "";
   }
 </script>
 
 <section class="shelf" aria-label={t("reagent shelf")}>
-  {#if kit !== null && kit.length > 0}
-    <div class="kit-toggle" role="radiogroup" aria-label={t("shelf contents")}>
-      <button role="radio" aria-checked={kitOnly} class:on={kitOnly} onclick={() => (kitOnly = true)}>
-        {t("the kit ({count})", { count: kit.length })}
-      </button>
-      <button role="radio" aria-checked={!kitOnly} class:on={!kitOnly} onclick={() => (kitOnly = false)}>
-        {t("everything")}
-      </button>
-    </div>
-  {/if}
   <input
     type="search"
     placeholder={t("find a substance…")}
@@ -119,7 +123,7 @@
               JSON.stringify({ key: item.key, phase: item.phase }),
             );
           }}
-          onclick={() => (open = open === item.key ? null : item.key)}
+          onclick={() => toggle(item)}
         >
           <SpeciesChip {item} />
           <span class="name">{t(item.name)}</span>
@@ -130,27 +134,31 @@
         </button>
         {#if open === item.key}
           {#if usable}
-            <div class="amounts" role="group" aria-label={t("amount of {name}", { name: t(item.name) })}>
-              {#each quickAmounts(item.phase) as amount (amount)}
-                <button class="amount" onclick={() => add(item, amount)}>{amount}</button>
-              {/each}
-              {#if register !== "lv1"}
-                <form
-                  class="custom"
-                  onsubmit={(e) => {
-                    e.preventDefault();
-                    add(item, custom);
-                  }}
-                >
-                  <input
-                    type="text"
-                    placeholder="5g, 0.1mol…"
-                    aria-label={t("custom amount")}
-                    bind:value={custom}
-                  />
-                </form>
+            <form
+              class="amounts"
+              aria-label={t("amount of {name}", { name: t(item.name) })}
+              onsubmit={(e) => {
+                e.preventDefault();
+                add(item, `${amountValue}${amountUnit}`);
+              }}
+            >
+              <label>
+                <span>{t("amount")}</span>
+                <input type="number" min="0.000001" step="any" required bind:value={amountValue} />
+              </label>
+              <label>
+                <span>{t("unit")}</span>
+                <select bind:value={amountUnit}>
+                  {#each amountUnits(register, item.phase) as unit (unit)}
+                    <option value={unit}>{unit}</option>
+                  {/each}
+                </select>
+              </label>
+              <button class="add-amount" type="submit">{t("add")}</button>
+              {#if item.phase === "liquid"}
+                <small>{t("selected vessel capacity: {capacity} mL", { capacity: targetCapacityMl })}</small>
               {/if}
-            </div>
+            </form>
           {:else if !access.available}
             <p class="stock-lock">{access.minimumCompleted === 1
               ? t("Permanent stock unlocks after one completed mission. Mission kits loan required materials.")
@@ -177,13 +185,6 @@
     display: flex;
     flex-direction: column;
     min-height: 0;
-  }
-  .kit-toggle {
-    display: flex;
-    margin: 0.8rem 0.8rem 0;
-    border: 1px solid var(--edge);
-    border-radius: 999px;
-    overflow: hidden;
   }
   .phases {
     display: flex;
@@ -217,21 +218,6 @@
     color: var(--dim);
     font-size: 0.7rem;
     border-top: 1px solid var(--edge);
-  }
-  .kit-toggle button {
-    flex: 1;
-    background: none;
-    border: 0;
-    color: var(--dim);
-    font: inherit;
-    font-size: 0.78rem;
-    padding: 0.35rem;
-    cursor: pointer;
-    min-height: 36px;
-  }
-  .kit-toggle button.on {
-    background: var(--panel-raised);
-    color: var(--ink);
   }
   input[type="search"] {
     margin: 0.65rem;
@@ -294,34 +280,26 @@
     color: var(--dim);
   }
   .amounts {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 5rem auto;
     gap: 0.35rem;
     padding: 0.5rem 0.2rem;
+    align-items: end;
   }
-  .amount {
+  .amounts label { display: grid; gap: 0.15rem; color: var(--dim); font-size: 0.62rem; }
+  .amounts input,
+  .amounts select,
+  .add-amount {
     background: var(--panel-raised);
     border: 1px solid var(--edge);
-    border-radius: 999px;
+    border-radius: 9px;
     color: var(--ink);
     font: inherit;
     font-size: 0.8rem;
-    padding: 0.3rem 0.7rem;
-    cursor: pointer;
-    min-height: 36px;
+    padding: 0.38rem 0.45rem;
+    min-width: 0;
+    min-height: 38px;
   }
-  .amount:hover {
-    border-color: var(--action);
-    color: var(--action);
-  }
-  .custom input {
-    background: var(--panel-raised);
-    border: 1px solid var(--edge);
-    border-radius: 999px;
-    color: var(--ink);
-    font: inherit;
-    font-size: 0.8rem;
-    padding: 0.3rem 0.7rem;
-    width: 8rem;
-  }
+  .add-amount { color: white; background: var(--action); border-color: var(--action); cursor: pointer; font-weight: 750; }
+  .amounts small { grid-column: 1 / -1; color: var(--dim); font-size: 0.6rem; }
 </style>

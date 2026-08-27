@@ -1,4 +1,4 @@
-# The marquee: silver nitrate + table salt
+# Case file: identify chloride with silver nitrate
 register lv1
 add v1 water 100mL
 add v1 NaCl 0.58g
