@@ -687,6 +687,10 @@ export class Session {
               ? "balance"
               : inst === "pressure_gauge"
                 ? "pressure_gauge"
+                : inst === "volume_meter"
+                  ? "volume_meter"
+                  : inst === "conductivity_meter"
+                    ? "conductivity_meter"
               : null;
       if (kind) {
         effect = {

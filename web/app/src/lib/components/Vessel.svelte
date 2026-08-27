@@ -70,6 +70,8 @@
   const phProbeEffect = $derived(latestEffect("ph_probe", 2500));
   const balanceEffect = $derived(latestEffect("balance", 2500));
   const pressureEffect = $derived(latestEffect("pressure_gauge", 2500));
+  const volumeEffect = $derived(latestEffect("volume_meter", 2500));
+  const conductivityEffect = $derived(latestEffect("conductivity_meter", 2500));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => e.kind === "ignite" && n - e.at < 3000 && e.flameColour);
@@ -576,6 +578,39 @@
         <rect class="gauge-readout" x="68" y="24" width="22" height="6" rx="1.5" />
         <text class="gauge-value" x="79" y="28.4" text-anchor="middle">{reading}</text>
         <text class="gauge-unit" x="79" y="34" text-anchor="middle">kPa</text>
+      </g>
+    {/if}
+    {#if volumeEffect}
+      {@const volume = Math.max(0, volumeEffect.reading ?? 0)}
+      {@const reading = formatReading(volume, volume < 100 ? 1 : 0)}
+      {@const fraction = Math.min(1, volume / 1000)}
+      {@const pistonX = 38 - fraction * 28}
+      <g class="instrument volume-inst" aria-label={t("gas volume meter reading: {value} mL", { value: reading })}>
+        <path class="syringe-hose" d="M43 23 H50 C57 23 55 39 58 48" />
+        <rect class="syringe-barrel" x="5" y="16" width="38" height="14" rx="3" />
+        <rect class="syringe-gas" x={pistonX} y="18" width={43 - pistonX} height="10" rx="1" />
+        <line class="syringe-piston" x1={pistonX} y1="16" x2={pistonX} y2="30" />
+        <line class="syringe-rod" x1="0" y1="23" x2={pistonX} y2="23" />
+        <line class="syringe-handle" x1="1" y1="17" x2="1" y2="29" />
+        {#each [10, 20, 30, 40] as x (x)}<line class="syringe-tick" x1={x} y1="16" x2={x} y2="19" />{/each}
+        <rect class="syringe-screen" x="12" y="32" width="25" height="7" rx="1.5" />
+        <text class="syringe-value" x="24.5" y="37" text-anchor="middle">{reading} mL</text>
+      </g>
+    {/if}
+    {#if conductivityEffect}
+      {@const conductivity = Math.max(0, conductivityEffect.reading ?? 0)}
+      {@const reading = formatReading(conductivity, conductivity < 100 ? 1 : 0)}
+      {@const signal = Math.min(1, Math.log10(conductivity + 1) / 6)}
+      {@const tipY = BOTTOM_Y - Math.max(liquidH * 0.5, 10)}
+      <g class="instrument conductivity-inst" style={`--conductivity:${signal};--conductivity-opacity:${0.25 + signal * 0.65}`} aria-label={t("modeled conductivity estimate: {value} µS/cm", { value: reading })}>
+        <rect class="conductivity-meter" x="68" y="2" width="29" height="21" rx="4" />
+        <rect class="conductivity-screen" x="71" y="6" width="23" height="8" rx="1.5" />
+        <text class="conductivity-value" x="82.5" y="12" text-anchor="middle">≈{reading}</text>
+        <text class="conductivity-unit" x="82.5" y="18" text-anchor="middle">µS/cm</text>
+        <path class="conductivity-wire" d="M73 22 C68 28 65 27 64 33" />
+        <rect class="conductivity-probe" x="61" y="31" width="6" height={Math.max(8, tipY - 31)} rx="2.5" />
+        <line class="conductivity-electrode" x1="62.5" y1={tipY - 5} x2="62.5" y2={tipY} />
+        <line class="conductivity-electrode" x1="65.5" y1={tipY - 5} x2="65.5" y2={tipY} />
       </g>
     {/if}
 
@@ -1170,6 +1205,19 @@
   .gauge-readout { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); }
   .gauge-value { fill: var(--surface); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 3.8px; font-weight: 850; }
   .gauge-unit { fill: var(--ink); font-size: 3px; font-weight: 800; }
+  .volume-inst { transform-origin: 43px 23px; }
+  .syringe-hose { fill: none; stroke: var(--edge-strong); stroke-width: 1.5; stroke-linecap: round; }
+  .syringe-barrel { fill: color-mix(in srgb, var(--glass) 78%, transparent); stroke: var(--edge-strong); stroke-width: 1; }
+  .syringe-gas { fill: color-mix(in srgb, var(--cool) 18%, var(--surface)); transition: x .45s ease, width .45s ease; }
+  .syringe-piston, .syringe-rod, .syringe-handle { stroke: var(--instrument); stroke-width: 1.4; transition: x1 .45s ease, x2 .45s ease; }
+  .syringe-tick { stroke: var(--dim); stroke-width: .55; }
+  .syringe-screen, .conductivity-screen { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); }
+  .syringe-value, .conductivity-value { fill: var(--surface); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 3.5px; font-weight: 850; }
+  .conductivity-meter { fill: color-mix(in srgb, var(--cool) 24%, var(--surface)); stroke: var(--edge-strong); stroke-width: .8; filter: drop-shadow(0 1px 1px var(--shadow)); }
+  .conductivity-unit { fill: var(--ink); font-size: 3px; font-weight: 800; }
+  .conductivity-wire { fill: none; stroke: var(--dim); stroke-width: 1; }
+  .conductivity-probe { fill: var(--cool); fill-opacity: var(--conductivity-opacity); stroke: var(--edge-strong); stroke-width: .7; }
+  .conductivity-electrode { stroke: var(--action); stroke-width: 1; opacity: calc(.35 + var(--conductivity) * .65); }
   @media (prefers-reduced-motion: reduce) {
     .instrument {
       animation: none;
@@ -1177,6 +1225,7 @@
     }
     .balance-inst { animation: none; }
     .gauge-needle { transition: none; }
+    .syringe-gas, .syringe-piston, .syringe-rod { transition: none; }
     .burette-fill {
       transition: none;
     }
