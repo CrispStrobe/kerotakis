@@ -966,7 +966,7 @@
     },
     {
       "id": "kerotakis/material-recipes-v1",
-      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, and teaches that vegetable oil is less dense than water and does not dissolve in it; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids",
+      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, and demonstrates that detergent helps oil and water mix; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids",
       "licence": "AGPL-3.0-or-later",
       "lane": "runtime",
       "origin": "crates/kerotakis-registry-export/src/lib.rs",
@@ -34998,11 +34998,18 @@
           "kind": "surface_tension_reducer",
           "saturation_amount": 0.1,
           "max_cleared_fraction": 0.9
+        },
+        {
+          "kind": "aqueous_emulsifier",
+          "saturation_amount": 0.1,
+          "max_dispersed_fraction": 0.92,
+          "half_life_seconds": 300.0
         }
       ],
       "preparation": "unbranded aqueous dish-soap teaching surrogate; surfactant blend unresolved",
       "lot_assumptions": [
-        "brand-specific surfactants, salts, fragrance, dye and preservatives remain in the explicit unresolved fraction"
+        "brand-specific surfactants, salts, fragrance, dye and preservatives remain in the explicit unresolved fraction",
+        "emulsification parameters are a bounded stirred classroom observable, not a universal detergent specification"
       ],
       "substitutions": [],
       "confidence": "surrogate",

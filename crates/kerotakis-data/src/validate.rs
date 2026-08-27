@@ -540,6 +540,30 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::AqueousEmulsifier {
+                        saturation_amount,
+                        max_dispersed_fraction,
+                        half_life_seconds,
+                    } => {
+                        if !saturation_amount.is_finite() || *saturation_amount <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.saturation_amount"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !(0.0..=1.0).contains(max_dispersed_fraction) {
+                            self.issue(
+                                format!("{role_path}.max_dispersed_fraction"),
+                                "must be within 0..=1",
+                            );
+                        }
+                        if !half_life_seconds.is_finite() || *half_life_seconds <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.half_life_seconds"),
+                                "must be finite and positive",
+                            );
+                        }
+                    }
                 }
             }
             let mut component_species = HashSet::new();
