@@ -348,20 +348,39 @@
       {/each}
       {#if deployedTarget !== null && deployedTool && (deployedTool === "grind" || deployedTool === "centrifuge")}
         {@const machinePosition = machinePlacement(deployedTool, deployedTarget)}
+        {@const targetPosition = placement(deployedTarget)}
         {@const apparatusEffect = latestApparatusEffect(deployedTarget, deployedTool)}
+        <svg
+          class="apparatus-target-link"
+          class:working={apparatusWorking}
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          aria-hidden="true"
+        >
+          <line
+            x1={machinePosition.x * 100}
+            y1={machinePosition.y * 100}
+            x2={targetPosition.x * 100}
+            y2={targetPosition.y * 100}
+          />
+          <circle cx={machinePosition.x * 100} cy={machinePosition.y * 100} r="0.65" />
+          <circle cx={targetPosition.x * 100} cy={targetPosition.y * 100} r="0.65" />
+        </svg>
         <div
           class="apparatus-position"
           class:moving={apparatusPointer?.tool === deployedTool}
           style={`left:${machinePosition.x * 100}%;top:${machinePosition.y * 100}%`}
           role="button"
           tabindex="0"
-          aria-label={t("{tool} workstation for vessel v{vessel}", { tool: t(deployedTool === "grind" ? "mortar" : "mini centrifuge"), vessel: deployedTarget + 1 })}
+          title={t("drag or use arrow keys to move")}
+          aria-label={`${t("{tool} workstation for vessel v{vessel}", { tool: t(deployedTool === "grind" ? "mortar" : "mini centrifuge"), vessel: deployedTarget + 1 })}. ${t("drag or use arrow keys to move")}`}
           onpointerdown={(event) => startApparatusPointer(event, deployedTool, deployedTarget)}
           onpointermove={trackApparatusPointer}
           onpointerup={(event) => finishApparatusPointer(event, deployedTarget)}
           onpointercancel={(event) => finishApparatusPointer(event, deployedTarget)}
           onkeydown={(event) => apparatusKeydown(event, deployedTool, deployedTarget)}
         >
+          <span class="apparatus-grip" aria-hidden="true">⠿</span>
           {#key apparatusEffect?.at}
             <StandaloneApparatus
               tool={deployedTool}
@@ -679,8 +698,55 @@
     touch-action: none;
     user-select: none;
   }
+  .apparatus-position:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--primary) 72%, white);
+    outline-offset: 4px;
+    border-radius: 16px;
+  }
   .apparatus-position:active { cursor: grabbing; }
   .apparatus-position.moving { opacity: 0.62; }
+  .apparatus-grip {
+    position: absolute;
+    z-index: 2;
+    top: 0.34rem;
+    right: 0.38rem;
+    display: grid;
+    width: 1.25rem;
+    height: 1.25rem;
+    place-items: center;
+    border: 1px solid color-mix(in srgb, var(--instrument) 36%, var(--edge));
+    border-radius: 7px;
+    color: var(--instrument);
+    background: color-mix(in srgb, var(--surface) 88%, var(--instrument));
+    box-shadow: 0 2px 5px var(--shadow);
+    font-size: 0.85rem;
+    line-height: 1;
+  }
+  .apparatus-target-link {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .apparatus-target-link line {
+    fill: none;
+    stroke: color-mix(in srgb, var(--instrument) 68%, var(--edge-strong));
+    stroke-width: 2.2;
+    stroke-dasharray: 3 7;
+    stroke-linecap: round;
+    opacity: 0.62;
+    vector-effect: non-scaling-stroke;
+  }
+  .apparatus-target-link circle {
+    fill: var(--surface);
+    stroke: var(--instrument);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+  .apparatus-target-link.working line { animation: route-pulse 0.75s linear infinite; }
   .connection-port {
     position: absolute;
     top: 52%;
@@ -723,6 +789,7 @@
     font-size: 0.7rem;
     line-height: 1;
   }
+  @keyframes route-pulse { to { stroke-dashoffset: -10; } }
   .placement-controls button:disabled { opacity: 0.25; cursor: default; }
   .placement-controls .remove { color: var(--bad); background: color-mix(in srgb, var(--bad) 10%, var(--surface)); }
   .move-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
@@ -798,5 +865,8 @@
   }
   @media (max-height: 680px) {
     .bench { padding-top: 2.7rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .apparatus-target-link.working line { animation: none; }
   }
 </style>
