@@ -54,15 +54,28 @@
             {/each}
           </select>
         {:else}
-          <span>
-            <input
-              type="number"
-              bind:value={values[f.name]}
-              min={f.min}
-              max={f.max}
-              step={f.step ?? 1}
-            />
-            {#if f.unit}{f.unit}{/if}
+          <span class="parameter-control">
+            {#if f.min !== undefined && f.max !== undefined}
+              <input
+                class="dial"
+                type="range"
+                aria-label={t("{parameter} slider", { parameter: t(f.label) })}
+                bind:value={values[f.name]}
+                min={f.min}
+                max={f.max}
+                step={f.step ?? 1}
+              />
+            {/if}
+            <span class="exact-value">
+              <input
+                type="number"
+                bind:value={values[f.name]}
+                min={f.min}
+                max={f.max}
+                step={f.step ?? 1}
+              />
+              {#if f.unit}<small>{f.unit}</small>{/if}
+            </span>
           </span>
         {/if}
       </label>
@@ -125,6 +138,18 @@
   }
   input[type="number"] {
     width: 5rem;
+  }
+  .parameter-control { display: flex; align-items: center; gap: .45rem; }
+  .exact-value { display: flex; align-items: center; gap: .25rem; color: var(--ink); }
+  .exact-value small { min-width: 1.5rem; color: var(--dim); font-size: .66rem; }
+  .dial {
+    width: clamp(5rem, 9vw, 8rem);
+    min-height: 34px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    accent-color: var(--instrument);
+    cursor: ew-resize;
   }
   .run {
     background: var(--panel-raised);

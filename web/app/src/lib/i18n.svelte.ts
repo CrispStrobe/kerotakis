@@ -692,6 +692,7 @@ const DE: Record<string, string> = {
   ,"cooling power": "Kühlleistung"
   ,"configure {apparatus}": "{apparatus} einstellen"
   ,"set…": "einstellen…"
+  ,"{parameter} slider": "Regler für {parameter}"
   ,"…{count} earlier entries not shown (the exports keep them)": "…{count} frühere Einträge ausgeblendet (sie bleiben im Export erhalten)"
   ,"the chart {chart} could not be drawn: {error}": "Das Diagramm {chart} konnte nicht gezeichnet werden: {error}"
   ,"vessel v{vessel} placement": "Platzierung von Gefäß v{vessel}"
