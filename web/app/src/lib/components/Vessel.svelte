@@ -83,6 +83,7 @@
     const effect = latestEffect("swirl", 8000);
     return effect?.stir ? effect : undefined;
   });
+  const gasTestEffect = $derived(latestEffect("gas_test", 4500));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => (e.kind === "ignite" || e.kind === "flame_test") && n - e.at < 3000 && e.flameColour);
@@ -425,6 +426,50 @@
         <path class="test-flame-core" d="M18 97 Q14 91 18 82 Q22 91 18 97 Z" />
         <path class="wire-handle" d="M96 63 H62 Q50 63 42 73 L25 86" />
         <circle class="wire-loop" cx="21" cy="89" r="5" />
+      </g>
+    {/if}
+    {#if gasTestEffect?.gasTest}
+      {@const gasTest = gasTestEffect.gasTest}
+      <g
+        class="gas-test-rig"
+        class:positive={gasTest.positive}
+        data-test={gasTest.test}
+        aria-label={t("{test}: {result}", {
+          test: t(gasTest.test),
+          result: t(gasTest.positive ? "positive" : "negative"),
+        })}
+      >
+        {#if gasTest.test === "pop"}
+          <path class="test-stick" d="M94 26 L65 18" />
+          <path class="test-flame-small" d="M65 18 Q59 13 64 6 Q70 13 65 18Z" />
+          {#if gasTest.positive}
+            <circle class="pop-wave" cx="54" cy="17" r="8" />
+            <text class="result-word" x="54" y="4" text-anchor="middle">{t("pop!")}</text>
+          {/if}
+        {:else if gasTest.test === "glowing_splint"}
+          <path class="test-stick" d="M94 17 L55 17" />
+          <circle class="ember" cx="55" cy="17" r="3" />
+          {#if gasTest.positive}<path class="relit-flame" d="M55 14 Q48 7 55 -2 Q62 7 55 14Z" />{/if}
+        {:else if gasTest.test === "limewater"}
+          <path class="delivery-tube" d="M50 8 Q82 -1 86 24 V55" />
+          <path class="gas-test-tube" d="M76 30 V73 Q76 82 86 82 Q96 82 96 73 V30" />
+          <path class="limewater-fill" class:milky={gasTest.positive} d="M78 56 H94 V73 Q94 79 86 79 Q78 79 78 73Z" />
+          {#if gasTest.positive}
+            {#each [[82, 62], [88, 66], [84, 72], [91, 75], [90, 59]] as point, i (i)}
+              <circle class="lime-particle" cx={point[0]} cy={point[1]} r="1.3" style={`animation-delay:${i * .12}s`} />
+            {/each}
+          {/if}
+        {:else if gasTest.test === "damp_litmus"}
+          <path class="forceps" d="M94 14 L61 30 M94 21 L61 33" />
+          <path class="litmus-strip" class:changed={gasTest.positive} d="M58 27 L45 31 L48 41 L61 35Z" />
+          <path class="water-drop" d="M52 25 Q48 20 52 16 Q56 20 52 25Z" />
+        {/if}
+        <g class="gas-test-result">
+          <rect x="54" y="86" width="43" height="12" rx="5" />
+          <circle cx="61" cy="92" r="3" />
+          <text x="66" y="94">{t(gasTest.positive ? "positive" : "negative")}</text>
+        </g>
+        <title>{gasTest.notes}</title>
       </g>
     {/if}
     {#if steaming}
@@ -1491,6 +1536,27 @@
   .test-flame { stroke: var(--edge-strong); stroke-width: .45; transform-origin: 18px 99px; animation: test-flame var(--test-flame-rate) ease-in-out infinite alternate; }
   .test-flame-core { fill: color-mix(in srgb, var(--surface) 72%, var(--cool)); opacity: .78; }
   @keyframes test-flame { to { transform: scaleX(.82) scaleY(1.08) rotate(1.5deg); } }
+  .gas-test-rig { filter: drop-shadow(0 2px 2px var(--shadow)); }
+  .test-stick, .forceps, .delivery-tube, .gas-test-tube { fill: none; stroke: var(--edge-strong); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .test-stick { stroke: #8b5a32; stroke-width: 3; }
+  .test-flame-small, .relit-flame { fill: var(--hot); stroke: var(--danger); stroke-width: .6; animation: gas-flame .38s ease-in-out infinite alternate; transform-origin: center; }
+  .ember { fill: #ff6538; stroke: #6e2b14; stroke-width: .6; }
+  .pop-wave { fill: none; stroke: var(--hot); stroke-width: 2; animation: pop-wave .72s ease-out infinite; transform-origin: 54px 17px; }
+  .result-word { fill: var(--danger); font: 900 7px system-ui, sans-serif; paint-order: stroke; stroke: var(--surface); stroke-width: 2px; }
+  .gas-test-tube { stroke: color-mix(in srgb, var(--cool) 72%, var(--edge-strong)); }
+  .limewater-fill { fill: color-mix(in srgb, var(--cool) 10%, var(--surface)); stroke: var(--cool); stroke-width: .7; }
+  .limewater-fill.milky { fill: color-mix(in srgb, var(--surface) 86%, var(--cloud)); }
+  .lime-particle { fill: var(--cloud); stroke: var(--edge); stroke-width: .35; animation: lime-cloud .7s ease-out both; }
+  .litmus-strip { fill: #e85b70; stroke: var(--edge-strong); stroke-width: .6; transition: fill .45s ease; }
+  .litmus-strip.changed { fill: #386fe5; }
+  .water-drop { fill: var(--cool); opacity: .75; }
+  .gas-test-result rect { fill: color-mix(in srgb, var(--surface) 88%, transparent); stroke: var(--edge); stroke-width: .6; }
+  .gas-test-result circle { fill: var(--dim); }
+  .gas-test-rig.positive .gas-test-result circle { fill: var(--success); }
+  .gas-test-result text { fill: var(--ink); font: 800 5px system-ui, sans-serif; }
+  @keyframes gas-flame { to { transform: scaleX(.78) scaleY(1.12) rotate(2deg); } }
+  @keyframes pop-wave { from { opacity: .9; transform: scale(.35); } to { opacity: 0; transform: scale(1.8); } }
+  @keyframes lime-cloud { from { opacity: 0; transform: translateY(6px); } to { opacity: .9; transform: translateY(0); } }
   @media (prefers-reduced-motion: reduce) {
     .instrument {
       animation: none;
@@ -1503,6 +1569,7 @@
     .inspection-inst, .inspection-bubble { animation: none; }
     .geiger-led, .geiger-pulse { animation: none; }
     .test-flame { animation: none; }
+    .test-flame-small, .relit-flame, .pop-wave, .lime-particle { animation: none; }
     .glassbtn.pouring { animation: none; }
     .burette-fill {
       transition: none;

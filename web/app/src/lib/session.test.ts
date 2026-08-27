@@ -607,6 +607,23 @@ describe("Session", () => {
     });
   });
 
+  it("surfaces an engine-confirmed gas test as a physical vessel effect", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "gas_tested", vessel: 0, test: "damp_litmus", positive: true,
+        notes: "red litmus turns blue",
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("test v1 litmus");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "gas_test",
+      gasTest: { test: "damp_litmus", positive: true, notes: "red litmus turns blue" },
+    });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({
