@@ -19,6 +19,7 @@
     evaporate: "evaporating dish",
     electrolyse: "electrodes and supply",
     grind: "mortar",
+    heat: "hotplate",
     irradiate: "lamp",
     regulate: "piston lid",
     stir: "magnetic stirrer",
@@ -39,15 +40,21 @@
   const pulseDuration = $derived(`${Math.max(0.25, 1.2 - Math.min(1, amps / 2) * 0.8)}s`);
   const pressure = $derived(Math.max(0.1, Number(values.pressure ?? 1)));
   const stirRpm = $derived(Math.max(0, Number(values.rpm ?? 500)));
+  const heatWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
 </script>
 
 <g class="apparatus" class:working aria-label={t("{tool} deployed", { tool: t(toolNames[tool] ?? tool) })}>
-  {#if tool === "stir"}
+  {#if tool === "stir" || tool === "heat"}
     <g class="magnetic-plate">
       <ellipse class="plate" cx="50" cy="121" rx="27" ry="5" />
       <rect class="base" x="22" y="123" width="56" height="11" rx="3" />
       <circle class="dial" cx="69" cy="129" r="2" />
-      <text x="50" y="133" text-anchor="middle">{stirRpm.toFixed(0)} rpm</text>
+      <text x="50" y="133" text-anchor="middle">{tool === "stir" ? `${stirRpm.toFixed(0)} rpm` : `${heatWatts.toFixed(0)} W`}</text>
+      {#if tool === "heat"}
+        {#each [39, 50, 61] as x, i (x)}
+          <path class="heat" d={`M ${x} 117 q -4 -7 0 -14 q 4 -7 0 -14`} style={`--heat-delay:${i * .16}s;--heat-rate:${Math.max(.45, 1.5 - Math.min(1, heatWatts / 1000))}s`} />
+        {/each}
+      {/if}
     </g>
   {:else if tool === "burette"}
     <g class="burette">
@@ -128,6 +135,7 @@
   .base, .power { fill: color-mix(in srgb, var(--instrument) 28%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1; }
   .dial { fill: var(--hot); }
   .heat { fill: none; stroke: var(--hot); stroke-width: 1.5; opacity: 0; animation: rise 1.15s ease-out infinite; }
+  .magnetic-plate .heat { animation-duration: var(--heat-rate, 1.15s); animation-delay: var(--heat-delay, 0s); }
   .positive { stroke: var(--danger); } .negative { stroke: var(--primary); }
   .electrode { fill: var(--edge-strong); }
   .electrodes text, .lamp text, .regulator text, .magnetic-plate text { fill: var(--ink); font-size: 6px; font-weight: 700; }

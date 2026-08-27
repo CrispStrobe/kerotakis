@@ -876,8 +876,11 @@ hide them completely.
   *Magnetic-stirrer slice in progress 2026-08-27: the equipment wall exposes
   RPM and duration, the public grammar carries both, and the engine computes
   25 mm stir-bar tip speed. The bench draws the plate, rotating bar, and
-  vortex with speed scaled from that emitted physical value. Heating-plate
-  power/temperature control and persistent start/stop state remain.*
+  vortex with speed scaled from that emitted physical value. The companion
+  hotplate exposes power and duration and compiles their product to the
+  engine's delivered energy; engine-computed temperature then controls the
+  persistent vessel heat presentation. Closed-loop target-temperature control
+  and persistent start/stop state remain.*
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model

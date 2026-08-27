@@ -51,6 +51,20 @@ export const APPARATUS: ApparatusSpec[] = [
     },
   },
   {
+    verb: "heat",
+    title: "hotplate",
+    blurb: "set heating power and time",
+    fields: [
+      { name: "watts", label: "heating power", type: "number", unit: "W", default: 250, min: 1, max: 2000, step: 10 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 30, min: 1, max: 3600 },
+    ],
+    build: (v, f) => {
+      const watts = pos(f.watts);
+      const seconds = pos(f.seconds);
+      return watts === null || seconds === null ? null : `heat v${v + 1} ${watts * seconds}J`;
+    },
+  },
+  {
     verb: "dilute",
     title: "wash bottle",
     blurb: "add water up to a volume",
