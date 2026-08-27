@@ -155,6 +155,36 @@ fn document() -> RegistryDocument {
             ..number(0.997, "g.mL-1", Dimension::MassDensity)
         },
     });
+    document.material_recipes.push(MaterialRecipe {
+        id: "fixture/tap-water".to_string(),
+        version: 1,
+        canonical_key: "tap_water".to_string(),
+        name: "tap water".to_string(),
+        aliases: BTreeMap::from([
+            ("en".to_string(), vec!["faucet water".to_string()]),
+            ("de".to_string(), vec!["Leitungswasser".to_string()]),
+        ]),
+        basis: MaterialBasis::MassFraction,
+        components: vec![MaterialComponent {
+            species_id: "water".to_string(),
+            fraction: FractionRange {
+                lower: 0.98,
+                upper: 0.98,
+            },
+            evidence: evidence("resolved water fraction fixture"),
+        }],
+        unresolved_fraction: Some(FractionRange {
+            lower: 0.02,
+            upper: 0.02,
+        }),
+        physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+        preparation: Some("representative unbranded fixture".to_string()),
+        lot_assumptions: vec!["room-temperature sample".to_string()],
+        substitutions: Vec::new(),
+        confidence: MaterialConfidence::Curated,
+        expansion_policy: MaterialExpansionPolicy::Fixed,
+        evidence: evidence("material identity fixture"),
+    });
     document
 }
 
@@ -173,11 +203,97 @@ fn every_record_family_round_trips_and_validates() {
         "safety",
         "microstates",
         "model_parameters",
+        "material_recipes",
     ] {
         assert!(json.contains(&format!("\"{family}\"")), "missing {family}");
     }
     let decoded: RegistryDocument = serde_json::from_str(&json).expect("deserialise");
     assert_eq!(decoded, document);
+}
+
+#[test]
+fn material_aliases_are_localized_and_never_replace_species() {
+    let mut document = document();
+    assert_eq!(
+        document
+            .material_recipe("  LEITUNGSWASSER ", Some("de"))
+            .map(|recipe| recipe.canonical_key.as_str()),
+        Some("tap_water")
+    );
+    assert!(document
+        .material_recipe("Leitungswasser", Some("en"))
+        .is_none());
+
+    document.material_recipes[0].aliases.insert(
+        "en".to_string(),
+        vec!["water".to_string(), "oxidane".to_string()],
+    );
+    let text = document
+        .validate()
+        .expect_err("a material may not shadow a species")
+        .to_string();
+    assert!(text.contains("overrides a canonical species"), "{text}");
+}
+
+#[test]
+fn ranged_material_expansion_is_seeded_replayable_and_conserved() {
+    let mut document = document();
+    {
+        let recipe = &mut document.material_recipes[0];
+        recipe.components[0].fraction = FractionRange {
+            lower: 0.96,
+            upper: 0.99,
+        };
+        recipe.unresolved_fraction = Some(FractionRange {
+            lower: 0.01,
+            upper: 0.04,
+        });
+        recipe.expansion_policy = MaterialExpansionPolicy::Seeded {
+            salt: "fixture-v1".to_string(),
+        };
+    }
+    document.validate().expect("valid ranged recipe");
+
+    let recipe = &document.material_recipes[0];
+    let first = recipe.expand(250.0, 42).expect("positive amount");
+    let replay = recipe.expand(250.0, 42).expect("same expansion");
+    assert_eq!(first, replay);
+    assert_ne!(first, recipe.expand(250.0, 43).unwrap());
+    let accounted = first
+        .components
+        .iter()
+        .map(|component| component.amount)
+        .sum::<f64>()
+        + first.unresolved_amount;
+    assert!((accounted - first.total_amount).abs() < 1e-10);
+    assert_eq!(first.recipe_version, 1);
+}
+
+#[test]
+fn invalid_recipe_ranges_and_unresolved_remainders_are_rejected() {
+    let mut document = document();
+    let recipe = &mut document.material_recipes[0];
+    recipe.components[0].fraction = FractionRange {
+        lower: 0.8,
+        upper: 0.9,
+    };
+    recipe.unresolved_fraction = Some(FractionRange {
+        lower: 0.01,
+        upper: 0.02,
+    });
+
+    let text = document
+        .validate()
+        .expect_err("the unresolved range does not conserve the recipe")
+        .to_string();
+    assert!(
+        text.contains("must contain the conserved remainder"),
+        "{text}"
+    );
+    assert!(
+        text.contains("fixed expansion requires an exact component fraction"),
+        "{text}"
+    );
 }
 
 #[test]

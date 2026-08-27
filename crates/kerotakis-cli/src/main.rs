@@ -158,8 +158,9 @@ fn main() {
                 std::process::exit(2);
             });
             println!(
-                "pack: {} species → {out} ({} bytes, sha256 {hash})",
+                "pack: {} species + {} material recipes → {out} ({} bytes, sha256 {hash})",
                 doc.identities.len(),
+                doc.material_recipes.len(),
                 pack.len()
             );
         }

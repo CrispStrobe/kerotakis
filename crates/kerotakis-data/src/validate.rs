@@ -1,8 +1,9 @@
 use std::collections::HashSet;
 
 use crate::{
-    Applicability, CompositionRecord, Dimension, Interval, ModelSubject, NumericRecord,
-    OpticalRecord, RegistryDocument, Uncertainty, REGISTRY_SCHEMA_VERSION,
+    Applicability, CompositionRecord, Dimension, FractionRange, Interval, MaterialExpansionPolicy,
+    MaterialPhysicalForm, ModelSubject, NumericRecord, OpticalRecord, RegistryDocument,
+    Uncertainty, REGISTRY_SCHEMA_VERSION,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -81,6 +82,7 @@ impl<'a> Validator<'a> {
         self.validate_safety();
         self.validate_microstates();
         self.validate_model_parameters();
+        self.validate_material_recipes();
     }
 
     fn validate_sources(&mut self) {
@@ -342,6 +344,228 @@ impl<'a> Validator<'a> {
         }
     }
 
+    fn validate_material_recipes(&mut self) {
+        let mut ids = HashSet::new();
+        let mut keys = HashSet::new();
+        let mut material_names = HashSet::new();
+        let species_names = self
+            .document
+            .identities
+            .iter()
+            .flat_map(|identity| {
+                std::iter::once(identity.id.as_str())
+                    .chain(std::iter::once(identity.name.as_str()))
+                    .chain(identity.synonyms.iter().map(String::as_str))
+            })
+            .map(normalize_name)
+            .collect::<HashSet<_>>();
+
+        for (index, recipe) in self.document.material_recipes.clone().iter().enumerate() {
+            let path = format!("material_recipes[{index}]");
+            self.record_id(&path, &recipe.id, &mut ids);
+            self.nonempty(&format!("{path}.canonical_key"), &recipe.canonical_key);
+            self.nonempty(&format!("{path}.name"), &recipe.name);
+            if recipe.version == 0 {
+                self.issue(format!("{path}.version"), "must be at least one");
+            }
+            if !recipe.canonical_key.trim().is_empty()
+                && !keys.insert(normalize_name(&recipe.canonical_key))
+            {
+                self.issue(format!("{path}.canonical_key"), "duplicate material key");
+            }
+            for (name_path, name) in [
+                (format!("{path}.canonical_key"), &recipe.canonical_key),
+                (format!("{path}.name"), &recipe.name),
+            ] {
+                if !name.trim().is_empty() && !material_names.insert(normalize_name(name)) {
+                    self.issue(name_path.clone(), "duplicate material name or alias");
+                }
+                if species_names.contains(&normalize_name(name)) {
+                    self.issue(
+                        name_path,
+                        format!("material name '{name}' overrides a canonical species"),
+                    );
+                }
+            }
+
+            for (language, aliases) in &recipe.aliases {
+                self.nonempty(&format!("{path}.aliases language"), language);
+                if aliases.is_empty() {
+                    self.issue(
+                        format!("{path}.aliases.{language}"),
+                        "alias list must not be empty",
+                    );
+                }
+                for alias in aliases {
+                    self.nonempty(&format!("{path}.aliases.{language}"), alias);
+                    if !alias.trim().is_empty() && !material_names.insert(normalize_name(alias)) {
+                        self.issue(
+                            format!("{path}.aliases.{language}"),
+                            format!("duplicate material name or alias '{alias}'"),
+                        );
+                    }
+                    if species_names.contains(&normalize_name(alias)) {
+                        self.issue(
+                            format!("{path}.aliases.{language}"),
+                            format!("material alias '{alias}' overrides a canonical species"),
+                        );
+                    }
+                }
+            }
+
+            if recipe.components.is_empty() {
+                self.issue(
+                    format!("{path}.components"),
+                    "recipe has no resolved components",
+                );
+            }
+            let mut component_species = HashSet::new();
+            let mut lower_sum = 0.0;
+            let mut upper_sum = 0.0;
+            for (component_index, component) in recipe.components.iter().enumerate() {
+                let component_path = format!("{path}.components[{component_index}]");
+                self.species_ref(
+                    &format!("{component_path}.species_id"),
+                    &component.species_id,
+                );
+                if !component_species.insert(component.species_id.clone()) {
+                    self.issue(
+                        format!("{component_path}.species_id"),
+                        "duplicate component species",
+                    );
+                }
+                self.fraction_range(&format!("{component_path}.fraction"), component.fraction);
+                lower_sum += component.fraction.lower;
+                upper_sum += component.fraction.upper;
+                self.evidence(
+                    &format!("{component_path}.evidence"),
+                    &component.evidence.source_id,
+                    &component.evidence.method,
+                );
+                if matches!(recipe.expansion_policy, MaterialExpansionPolicy::Fixed)
+                    && (component.fraction.upper - component.fraction.lower).abs() > 1e-12
+                {
+                    self.issue(
+                        format!("{component_path}.fraction"),
+                        "fixed expansion requires an exact component fraction",
+                    );
+                }
+            }
+            if upper_sum > 1.0 + 1e-12 {
+                self.issue(
+                    format!("{path}.components"),
+                    format!("upper component fractions sum to {upper_sum}; expected at most one"),
+                );
+            }
+            if lower_sum > 1.0 + 1e-12 {
+                self.issue(
+                    format!("{path}.components"),
+                    format!("lower component fractions sum to {lower_sum}; expected at most one"),
+                );
+            }
+            let remainder = FractionRange {
+                lower: (1.0 - upper_sum).max(0.0),
+                upper: (1.0 - lower_sum).max(0.0),
+            };
+            match recipe.unresolved_fraction {
+                Some(unresolved) => {
+                    self.fraction_range(&format!("{path}.unresolved_fraction"), unresolved);
+                    if unresolved.lower > remainder.lower + 1e-12
+                        || unresolved.upper < remainder.upper - 1e-12
+                    {
+                        self.issue(
+                            format!("{path}.unresolved_fraction"),
+                            format!(
+                                "must contain the conserved remainder {}..{}",
+                                remainder.lower, remainder.upper
+                            ),
+                        );
+                    }
+                }
+                None if remainder.upper > 1e-12 => self.issue(
+                    format!("{path}.unresolved_fraction"),
+                    format!("missing conserved remainder up to {}", remainder.upper),
+                ),
+                None => {}
+            }
+
+            if let MaterialPhysicalForm::CompositeObject {
+                geometry: Some(geometry),
+            } = &recipe.physical_form
+            {
+                if geometry
+                    .surface_area_m2
+                    .is_some_and(|value| !value.is_finite() || value <= 0.0)
+                {
+                    self.issue(
+                        format!("{path}.physical_form.geometry.surface_area_m2"),
+                        "must be finite and positive",
+                    );
+                }
+                if geometry
+                    .characteristic_length_m
+                    .is_some_and(|value| !value.is_finite() || value <= 0.0)
+                {
+                    self.issue(
+                        format!("{path}.physical_form.geometry.characteristic_length_m"),
+                        "must be finite and positive",
+                    );
+                }
+            }
+
+            for (substitution_index, substitution) in recipe.substitutions.iter().enumerate() {
+                let substitution_path = format!("{path}.substitutions[{substitution_index}]");
+                if !component_species.contains(&substitution.component_species_id) {
+                    self.issue(
+                        format!("{substitution_path}.component_species_id"),
+                        "substitution target is not a recipe component",
+                    );
+                }
+                self.species_ref(
+                    &format!("{substitution_path}.substitute_species_id"),
+                    &substitution.substitute_species_id,
+                );
+                if !substitution.ratio.is_finite() || substitution.ratio <= 0.0 {
+                    self.issue(
+                        format!("{substitution_path}.ratio"),
+                        "must be finite and positive",
+                    );
+                }
+                self.evidence(
+                    &format!("{substitution_path}.evidence"),
+                    &substitution.evidence.source_id,
+                    &substitution.evidence.method,
+                );
+            }
+
+            if let MaterialExpansionPolicy::Seeded { salt } = &recipe.expansion_policy {
+                self.nonempty(&format!("{path}.expansion_policy.salt"), salt);
+            }
+            if let MaterialPhysicalForm::Other { description } = &recipe.physical_form {
+                self.nonempty(&format!("{path}.physical_form.description"), description);
+            }
+            for (assumption_index, assumption) in recipe.lot_assumptions.iter().enumerate() {
+                self.nonempty(
+                    &format!("{path}.lot_assumptions[{assumption_index}]"),
+                    assumption,
+                );
+            }
+            self.evidence(
+                &format!("{path}.evidence"),
+                &recipe.evidence.source_id,
+                &recipe.evidence.method,
+            );
+        }
+    }
+
+    fn fraction_range(&mut self, path: &str, range: FractionRange) {
+        if !range.lower.is_finite() || !range.upper.is_finite() {
+            self.issue(path, "bounds must be finite");
+        } else if range.lower < 0.0 || range.upper > 1.0 || range.lower > range.upper {
+            self.issue(path, "expected ordered bounds between zero and one");
+        }
+    }
+
     fn record_id(&mut self, path: &str, id: &str, ids: &mut HashSet<String>) {
         self.nonempty(&format!("{path}.id"), id);
         if !id.trim().is_empty() && !ids.insert(id.to_string()) {
@@ -473,4 +697,12 @@ impl<'a> Validator<'a> {
             detail: detail.into(),
         });
     }
+}
+
+fn normalize_name(value: &str) -> String {
+    value
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_lowercase()
 }

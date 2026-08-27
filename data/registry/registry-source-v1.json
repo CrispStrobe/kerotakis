@@ -945,6 +945,15 @@
       "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
       "retrieved": null
+    },
+    {
+      "id": "kerotakis/material-recipes-v1",
+      "citation": "Kerotakis household-material assumptions v1: 3% hydrogen peroxide and 5% white vinegar are explicit unbranded teaching surrogates; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "crates/kerotakis-registry-export/src/lib.rs",
+      "revision": "1",
+      "retrieved": "2026-08-27"
     }
   ],
   "identities": [
@@ -33408,6 +33417,139 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    }
+  ],
+  "material_recipes": [
+    {
+      "id": "household/hydrogen-peroxide-3-percent",
+      "version": 1,
+      "canonical_key": "hydrogen_peroxide_3_percent",
+      "name": "3% hydrogen peroxide",
+      "aliases": {
+        "de": [
+          "Wasserstoffperoxid 3%"
+        ],
+        "en": [
+          "household peroxide 3%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "components": [
+        {
+          "species_id": "H2O2",
+          "fraction": {
+            "lower": 0.03,
+            "upper": 0.03
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.97,
+            "upper": 0.97
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "preparation": "3% w/w aqueous solution at room temperature",
+      "lot_assumptions": [
+        "stabilisers and trace impurities are not resolved in v1"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/white-vinegar-5-percent",
+      "version": 1,
+      "canonical_key": "white_vinegar_5_percent",
+      "name": "5% white vinegar",
+      "aliases": {
+        "de": [
+          "Essig",
+          "Haushaltsessig 5%"
+        ],
+        "en": [
+          "household vinegar"
+        ]
+      },
+      "basis": "mass_fraction",
+      "components": [
+        {
+          "species_id": "CH3COOH",
+          "fraction": {
+            "lower": 0.05,
+            "upper": 0.05
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.95,
+            "upper": 0.95
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "preparation": "5% w/w acetic-acid teaching surrogate",
+      "lot_assumptions": [
+        "flavour compounds and brand-specific residues are not represented"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
         }
       }
     }

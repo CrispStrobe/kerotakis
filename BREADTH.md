@@ -110,6 +110,9 @@ Stage B4 — life and solids
 Stage B5 — tactile and visual reach
   BRD-070 authority contract ─→ BRD-071 Rapier ─→ BRD-073 spill/breakage
                            └──→ BRD-072 Salva ───┘
+  BRD-014 + BRD-070 ──────────→ BRD-074 gas/foam observables
+  BRD-014 + spectral optics ──→ BRD-075 dye/pigment mixing
+  BRD-041 + BRD-070 + BRD-071 → BRD-076 movable heat/flame tools
   BRD-012 + BRD-080 viewer spike ─→ BRD-081 molecular/crystal viewer
   BRD-022 ─────────────────────────→ BRD-082 Ketcher authoring surface
 
@@ -172,7 +175,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-002 — `MaterialRecipe`: named mixtures and objects
 
-- [ ] **Status:** open. **Size:** large. **Depends on:** current pack loader
+- [ ] **Status:** in progress on `codex/brd-002-material-recipe`. **Size:** large.
+  **Depends on:** current pack loader
   (`CAP-21`/`DATA-010`).
 - **Outcome:** the data schema represents vinegar, bleach, air, milk, paper,
   steel, soil, and batteries without pretending each is a pure species.
@@ -192,6 +196,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   conserved rather than discarded; English/German aliases resolve.
 - **Out of scope:** reverse-engineering branded proprietary formulations or
   treating a nutrient panel as complete molecular composition.
+- **Foundation checkpoint (2026-08-27):** the source/pack schema now carries
+  versioned recipes, localized aliases, component ranges, explicit unresolved
+  fractions, form/geometry, substitutions, confidence and fixed/seeded
+  expansion. Validation prevents species shadowing and ambiguous material
+  names; deterministic expansion conserves the requested basis amount. The
+  checked-in pack contains initial 3% peroxide and 5% vinegar recipes. Runtime
+  `add`, stock/safety/replay integration remains the next BRD-002 checkpoint.
 
 ### BRD-003 — Source adapter, quarantine, and promotion framework
 
@@ -299,10 +310,14 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   by BRD-000 demand.
 - **Scope:** begin with air, tap/seawater, vinegar, baking powder/soda, bleach,
   ammonia cleaner, hydrogen peroxide, soap/detergent surrogate, cola/fizzy
-  drink, milk, juice, flour/dough, vegetable oil, candle wax, paper, wood,
-  common plastics, glass, soil/sand/clay, chalk/limestone, concrete surrogate,
-  rusted/clean iron, steel/brass/bronze, and common battery chemistries. Each
-  recipe states grade/concentration assumptions and unresolved material.
+  drink, dry/wet yeast, dish soap, hand soap, pepper, isopropanol, food dyes,
+  watercolor and acrylic-paint surrogates, milk, juice, flour/dough, vegetable
+  oil, candle wax, paper, wood, common plastics, glass, soil/sand/clay,
+  chalk/limestone, concrete surrogate, rusted/clean iron, steel/brass/bronze,
+  and common battery chemistries. Each recipe states grade/concentration
+  assumptions and unresolved material. Locale-sensitive ambiguous names such
+  as English “soda” and German “Soda” must ask which material was meant rather
+  than silently choosing baking soda, washing soda, or a fizzy drink.
 - **Integration:** safety evaluates expanded components before chemistry;
   solver routing operates on those components; the UI and narration retain the
   material name; depletion and replay use the recipe version.
@@ -641,6 +656,87 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** mass/element/energy ledgers close across every failure path;
   identical chemistry with and without animations; hazardous spills emit
   precise safety events; save/load migration and undo cannot duplicate stock.
+
+### BRD-074 — Gas-to-foam observable and elephant-toothpaste slice
+
+- [ ] **Status:** open. **Size:** medium-large. **Depends on:** BRD-014 and
+  BRD-070; reuse the existing peroxide kinetics until BRD-050/052 supplies the
+  richer enzyme model.
+- **Outcome:** gas-forming reactions can drive bubbles or persistent foam when
+  a recipe contains a declared surfactant, without treating foam as new matter.
+- **Scope:** add typed gas-production-rate, trapped-gas, foam-volume/height,
+  overflow, lifetime and warmth observables. Chemistry owns oxygen yield, rate
+  and heat; a bounded drainage/coalescence model maps those values plus
+  surfactant concentration, viscosity, vessel geometry and temperature onto a
+  visual target. Reduced motion shows the same peak and final state. Food color
+  is an optical passenger and may form user-chosen stripes without changing the
+  rate. Ship an elephant-toothpaste experiment comparing no catalyst, hydrated
+  yeast/catalase surrogate, manganese dioxide and potassium iodide where its
+  distinct reaction path is installed.
+- **Safety contract:** the child-facing real-world activity is 3% peroxide,
+  adult supervision, fitted goggles and gloves. Concentrations above 3% remain
+  explorable in simulation but are labelled restricted; 10% and above are
+  never described as safe home practice. Closed-vessel and combustible-contact
+  variants are vetoed or presented only as safety boundaries.
+- **Acceptance:** conservation from 2 H2O2 to 2 H2O + O2; catalyst survives;
+  oxygen/foam monotonicity across controlled concentration and catalyst tests;
+  exothermic temperature response with an explicit enthalpy source; native/web
+  event parity; visual snapshots for foam rise, overflow, color stripes and
+  reduced motion; a no-soap control bubbles but does not build persistent foam.
+- **Out of scope:** CFD-derived bubble-size distributions, ingestible advice,
+  or claiming one yeast brand has a universal enzyme activity.
+
+### BRD-075 — Transparent dye and opaque-pigment mixing
+
+- [ ] **Status:** open. **Size:** medium-large. **Depends on:** BRD-014 and the
+  existing spectral/Beer–Lambert path; BRD-070 for the renderer contract.
+- **Candidate/licence:** `palette` (MIT OR Apache-2.0) for audited color-space
+  conversion/interpolation. It does not supply chemistry or pigment constants;
+  keep the dependency only if it reduces tested conversion code and passes the
+  wasm/mobile size gate.
+- **Scope:** distinguish transparent food color/watercolor absorption from
+  opaque acrylic pigment scattering. Dyes mix by concentration, path length
+  and spectra through Beer–Lambert. Paint uses a bounded Kubelka–Munk K/S model
+  with curated pigment coefficients, binder/white-substrate assumptions and an
+  explicit “pigment data missing” result. Never average display RGB as though it
+  were a physical mixture. Track dilution, opacity, staining and unresolved
+  proprietary pigment/binder fractions through `MaterialRecipe` versions.
+- **Interaction:** offer side-by-side swatches, droppers/brush amounts, undo,
+  arbitrary user ratios and “what should I add to move toward this color?” only
+  as bounded interpolation among installed materials—not general inverse
+  formulation.
+- **Acceptance:** primary/secondary transparent-dye fixtures, subtractive paint
+  fixtures including white/black, concentration/intensity monotonicity, order
+  independence, spectral-to-sRGB oracle tests, color-vision-safe descriptions,
+  and identical numeric outcomes headless/native/web.
+- **Out of scope:** branded paint matching, fluorescence, drying/polymerization
+  in v1, or learned image-based color prediction.
+
+### BRD-076 — Movable Bunsen burner and guided heat interactions
+
+- [ ] **Status:** open. **Size:** large. **Depends on:** BRD-070, BRD-071 and
+  BRD-041's combustion/oxidation mechanisms.
+- **Outcome:** learners can place a burner, adjust gas and air, light/extinguish
+  it, and heat or ignite nearby matter through the same authoritative engine
+  used by scripts.
+- **Scope:** typed place/move/valve/air-collar/ignite/extinguish operations;
+  flame geometry and heat-flux field derived from fuel flow and entrained air;
+  vessel/material exposure integrates energy over time. Installed combustion
+  models decide ignition, sustained burning, oxygen-starved yellow flames,
+  soot/CO boundaries and fuel depletion. Distance, shielding, vessel material,
+  heat capacity and breakage thresholds matter. Scene motion proposes poses;
+  chemistry accepts exposure and owns temperature/reaction events.
+- **Guidance:** sandbox permits free placement with persistent hazard cues;
+  lessons may highlight safe zones and controls but do not teleport tools or
+  fake outcomes. Keyboard/touch controls and reduced-motion equivalents expose
+  every operation.
+- **Acceptance:** deterministic replay of pose and valve history; validated
+  heat-flux tests within the declared near-field model; water heats without
+  burning, ethanol/candle/paper ignite only after their installed gates,
+  nonflammable controls refuse, fuel/oxygen/energy ledgers close, and moving the
+  flame away stops heat transfer. Native/web parity and safety veto tests.
+- **Out of scope:** using renderer pixels as collision/temperature truth, full
+  turbulent flame CFD, or implying that unmodelled materials are nonflammable.
 
 ### BRD-080 — Molecular viewer selection spike
 
