@@ -153,6 +153,7 @@ impl Bench {
         // recomputes it or the honesty pass reports the gap.
         for id in touched.iter().copied() {
             let vessel = self.vessel_mut(id)?;
+            vessel.mark_liquid_contact();
             vessel.solution = None;
             // For MIX, try native solver mixing on the target vessel.
             if let Some((mix_into, ref snap_a, frac_a, ref snap_b, frac_b)) = mix_sources {
@@ -490,7 +491,13 @@ impl Bench {
                     v.temperature = t_new;
                 }
                 for (sid, phase, _, moles) in &components {
-                    v.deposit(sid.clone(), *moles, *phase);
+                    v.deposit_lot(
+                        sid.clone(),
+                        *moles,
+                        *phase,
+                        Some(format!("material recipe {recipe_id}")),
+                        None,
+                    );
                 }
                 if expansion.unresolved_amount > 0.0 {
                     v.unresolved_materials.push(UnresolvedMaterialPortion {
@@ -630,6 +637,7 @@ impl Bench {
                                 moles: portion.moles,
                                 phase: Phase::Solid,
                                 added_at: elapsed_seconds,
+                                hydrated_at: None,
                                 source: Some("legacy vessel state".to_string()),
                                 particle_size_um: None,
                                 suspended_fraction: Some(resuspended_fraction),
@@ -1809,6 +1817,7 @@ impl Bench {
                         moles: solid_moles,
                         phase: Phase::Solid,
                         added_at: v.elapsed_seconds,
+                        hydrated_at: None,
                         source: Some("legacy vessel state".to_string()),
                         particle_size_um: Some(*diameter_um),
                         suspended_fraction: Some(if has_liquid { 1.0 } else { 0.0 }),
@@ -1931,6 +1940,7 @@ impl Bench {
                             moles,
                             phase: Phase::Solid,
                             added_at: v.elapsed_seconds,
+                            hydrated_at: None,
                             source: Some("solver-created solid".to_string()),
                             particle_size_um: Some(separation.particle_diameter_um),
                             suspended_fraction: Some(remaining),

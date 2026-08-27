@@ -33735,7 +33735,7 @@
       "roles": [],
       "preparation": "dry baker's yeast represented as a catalase activity proxy; hydrate with warm water in the experiment",
       "lot_assumptions": [
-        "enzyme activity varies strongly by brand, age and hydration; v1 models presence, not a universal activity per gram"
+        "enzyme activity varies strongly by brand and age; the bounded hydration ramp is a teaching surrogate, not a universal activity per gram"
       ],
       "substitutions": [],
       "confidence": "surrogate",
