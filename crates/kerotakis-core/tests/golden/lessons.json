@@ -1736,6 +1736,73 @@
       }
     ]
   },
+  "starch-iodine-test": {
+    "event_count": 10,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +2.040 g lugol_solution_1_percent (3 known ingredients)",
+      "v1: 0.0002 mol potassium iodide dissolved",
+      "v1: 0.0001 mol iodine dissolved",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +2.040 g lugol_solution_1_percent (3 known ingredients)",
+      "v2: 0.0002 mol potassium iodide dissolved",
+      "v2: 0.0001 mol iodine dissolved",
+      "v2: +1.000 g corn_starch (1 known ingredients)"
+    ],
+    "lesson": "starch-iodine-test.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00008038,
+            "phase": "Aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 0.00024578,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 5.64411879,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00008038,
+            "phase": "Aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 0.00024578,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.00616751,
+            "phase": "Solid",
+            "species": "starch"
+          },
+          {
+            "moles": 5.64411879,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "there-and-back": {
     "event_count": 8,
     "events_sample": [
