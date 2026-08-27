@@ -4,9 +4,21 @@
   import Chart from "./Chart.svelte";
   import { engineText } from "../engineText";
 
-  let { entries, onaddnote }: { entries: FeedEntry[]; onaddnote?: (text: string) => void } = $props();
+  let {
+    entries,
+    onaddnote,
+    oneditnote,
+    onremovenote,
+  }: {
+    entries: FeedEntry[];
+    onaddnote?: (text: string) => void;
+    oneditnote?: (createdAt: string, text: string) => void;
+    onremovenote?: (createdAt: string) => void;
+  } = $props();
   let note = $state("");
   let showTrace = $state(false);
+  let editing = $state<string | null>(null);
+  let editText = $state("");
 
   // Render only the tail of a very long session: the exports keep every
   // entry, the DOM does not have to (low-end budget). 400 entries is far
@@ -70,8 +82,26 @@
         <header>
           <strong>{t("my note")}</strong>
           {#if entry.createdAt}<time datetime={entry.createdAt}>{new Date(entry.createdAt).toLocaleString()}</time>{/if}
+          {#if entry.createdAt && oneditnote}
+            <button aria-label={t("edit note")} onclick={() => { editing = entry.createdAt!; editText = entry.text; }}>✎</button>
+          {/if}
+          {#if entry.createdAt && onremovenote}
+            <button class="delete-note" aria-label={t("delete note")} onclick={() => onremovenote(entry.createdAt!)}>×</button>
+          {/if}
         </header>
-        <p>{entry.text}</p>
+        {#if editing === entry.createdAt}
+          <form class="note-editor" onsubmit={(event) => {
+            event.preventDefault();
+            if (!entry.createdAt || !editText.trim()) return;
+            oneditnote?.(entry.createdAt, editText);
+            editing = null;
+          }}>
+            <textarea rows="3" bind:value={editText} aria-label={t("edit note")}></textarea>
+            <span><button type="submit" disabled={!editText.trim()}>{t("save")}</button><button type="button" onclick={() => (editing = null)}>{t("cancel")}</button></span>
+          </form>
+        {:else}
+          <p>{entry.text}</p>
+        {/if}
       </article>
     {:else}
       <p class={entry.kind}>
@@ -100,8 +130,18 @@
   .note-composer button { align-self: stretch; padding: 0.35rem 0.55rem; border: 0; border-radius: 9px; color: white; background: var(--primary); font: inherit; font-size: 0.72rem; font-weight: 750; cursor: pointer; }
   .note-composer button:disabled { opacity: 0.4; cursor: default; }
   .user-note { padding: 0.55rem; border-left: 3px solid var(--discovery); border-radius: 8px; background: color-mix(in srgb, var(--discovery) 7%, var(--surface)); }
-  .user-note header { display: flex; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.25rem; color: var(--discovery); font-size: 0.62rem; }
+  .user-note header { display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.25rem; color: var(--discovery); font-size: 0.62rem; }
+  .user-note header time { margin-left: auto; }
+  .user-note header button { width: 25px; height: 25px; display: grid; place-items: center; padding: 0; border: 1px solid var(--edge); border-radius: 7px; color: var(--dim); background: var(--surface); font: inherit; cursor: pointer; }
+  .user-note header button:hover { color: var(--primary); border-color: var(--primary); }
+  .user-note header .delete-note:hover { color: var(--bad); border-color: var(--bad); }
   .user-note time { color: var(--dim); font-weight: 400; }
+  .note-editor { display: grid; gap: .35rem; }
+  .note-editor textarea { width: 100%; box-sizing: border-box; resize: vertical; padding: .45rem; border: 1px solid var(--edge); border-radius: 8px; color: var(--ink); background: var(--surface); font: inherit; }
+  .note-editor span { display: flex; gap: .35rem; justify-content: flex-end; }
+  .note-editor button { padding: .25rem .5rem; border: 1px solid var(--edge); border-radius: 7px; color: var(--ink); background: var(--surface); font: inherit; font-size: .65rem; cursor: pointer; }
+  .note-editor button[type="submit"] { color: white; border-color: var(--primary); background: var(--primary); }
+  .note-editor button:disabled { opacity: .4; cursor: default; }
   p {
     margin: 0;
     white-space: pre-wrap;

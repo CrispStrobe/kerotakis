@@ -839,9 +839,9 @@ hide them completely.
   and remove timestamped text notes; notes persist with the mode-specific lab,
   survive reload, and export in Markdown beside measurements and charts. Notes
   never become engine evidence merely because they are in the same journal.
-  *Initial slice in progress 2026-08-27: add and persist timestamped notes and
-  include them in notebook export. Editing/removal and chronological replay
-  placement remain.*
+  *Journal-note slice in progress 2026-08-27: add, edit, remove, and persist
+  timestamped notes and include them in notebook export. Chronological replay
+  placement remains.*
   *Observation-first slice in progress 2026-08-27: the journal now defaults to
   chemical observations and evidence instead of interleaving every operator
   command. A persistent Full trace switch reveals the replayable commands and

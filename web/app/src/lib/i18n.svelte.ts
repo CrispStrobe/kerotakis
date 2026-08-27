@@ -750,6 +750,8 @@ const DE: Record<string, string> = {
   ,"Stop the operation, leave the vessel where it is, and read the warning before continuing.": "Stoppe den Vorgang, lasse das Gefäß stehen und lies die Warnung, bevor du fortfährst."
   ,"simulation boundary": "Grenze der Simulation"
   ,"Kerotakis supports learning and planning. It does not replace real laboratory instruction or safety training.": "Kerotakis unterstützt Lernen und Planen. Es ersetzt weder die Anleitung im echten Labor noch eine Sicherheitsunterweisung."
+  ,"edit note": "Notiz bearbeiten"
+  ,"delete note": "Notiz löschen"
 };
 
 function detectLocale(): Locale {

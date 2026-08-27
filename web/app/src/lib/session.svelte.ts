@@ -407,6 +407,25 @@ export class Session {
     this.persist();
   }
 
+  /** Notes are identified by their creation time, which is stable in saves and exports. */
+  editUserNote(createdAt: string, text: string): void {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    this.feed = this.feed.map((entry) =>
+      entry.kind === "user-note" && entry.createdAt === createdAt
+        ? { ...entry, text: trimmed }
+        : entry,
+    );
+    this.persist();
+  }
+
+  removeUserNote(createdAt: string): void {
+    this.feed = this.feed.filter((entry) =>
+      entry.kind !== "user-note" || entry.createdAt !== createdAt,
+    );
+    this.persist();
+  }
+
   /** Empty the bench and forget the session — distinct from jumpTo(0),
    * which keeps the future for redo. */
   async clear(): Promise<void> {

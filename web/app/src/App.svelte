@@ -738,7 +738,12 @@
         onaction={(line) => void session.submit(line)}
       />
     {/if}
-    <Feed entries={session.feed} onaddnote={(text) => session.addUserNote(text)} />
+    <Feed
+      entries={session.feed}
+      onaddnote={(text) => session.addUserNote(text)}
+      oneditnote={(createdAt, text) => session.editUserNote(createdAt, text)}
+      onremovenote={(createdAt) => session.removeUserNote(createdAt)}
+    />
   </aside>
 </main>
 
