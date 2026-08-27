@@ -709,6 +709,7 @@ const DE: Record<string, string> = {
   ,"{tool} workstation for vessel v{vessel}": "Arbeitsstation {tool} für Gefäß v{vessel}"
   ,"works with vessel v{vessel}": "arbeitet mit Gefäß v{vessel}"
   ,"{tool} moved on the bench": "{tool} auf dem Labortisch verschoben"
+  ,"drag or use arrow keys to move": "ziehen oder mit den Pfeiltasten verschieben"
   ,"set heating power and time": "Heizleistung und Dauer einstellen"
   ,"heating power": "Heizleistung"
   ,"cooling bath": "Kühlbad"

@@ -1239,6 +1239,12 @@ decorating it.
   stored per lab mode beside vessel coordinates; untouched tools continue to
   follow a safe, target-aligned default lane.
 
+- [x] **GUI-082 — Legible apparatus targets.** *Shipped 2026-08-27.* A
+  freestanding instrument has a visible drag grip, focus treatment, and a
+  subtle dotted sample route to the vessel it operates on. The route follows
+  both ends while either is moved and pulses only while that operation runs;
+  reduced-motion users get the same relationship without motion.
+
 Split: GUI-058 + 060 + 064 are architecture/engine-coupled (fable);
 GUI-061 + 063 are self-contained client work (kero-basic);
 GUI-059 + 062 are client work gated on no engine change (kero1, after
