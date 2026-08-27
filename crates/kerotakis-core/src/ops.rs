@@ -4,6 +4,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::material::MaterialBasis;
 use crate::species::{Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::VesselId;
@@ -38,6 +39,20 @@ pub enum Operator {
         vessel: VesselId,
         species: SpeciesId,
         moles: Moles,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        at: Option<Kelvin>,
+    },
+    /// Dispense a versioned named mixture/object. The recipe identity, version,
+    /// basis amount and sample seed are pinned in the operator so replay never
+    /// depends on ambient randomness or whichever recipe version is newest.
+    AddMaterial {
+        vessel: VesselId,
+        material: String,
+        recipe_id: String,
+        recipe_version: u32,
+        total_amount: f64,
+        basis: MaterialBasis,
+        sample_seed: u64,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         at: Option<Kelvin>,
     },
@@ -297,6 +312,19 @@ pub enum Event {
         vessel: VesselId,
         species: SpeciesId,
         moles: Moles,
+    },
+    /// A named material expanded into canonical species while retaining the
+    /// user-facing identity and any chemically unresolved balance.
+    MaterialAdded {
+        vessel: VesselId,
+        material: String,
+        recipe_id: String,
+        recipe_version: u32,
+        total_amount: f64,
+        basis: MaterialBasis,
+        sample_seed: u64,
+        components: Vec<MaterialComponentAdded>,
+        unresolved_amount: f64,
     },
     TemperatureChanged {
         vessel: VesselId,
@@ -766,6 +794,13 @@ pub enum Event {
         courant: f64,
         effluent_moles: Vec<(SpeciesId, Moles)>,
     },
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MaterialComponentAdded {
+    pub species: SpeciesId,
+    pub basis_amount: f64,
+    pub moles: Moles,
 }
 
 /// One entry of the bench log: the operator plus what it produced.

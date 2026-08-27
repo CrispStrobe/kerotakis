@@ -35,6 +35,7 @@ pub mod instrument;
 pub mod intern;
 pub mod kinetics;
 pub mod ledger;
+pub mod material;
 pub mod molecule;
 pub mod nonaqueous;
 pub mod nuclide;

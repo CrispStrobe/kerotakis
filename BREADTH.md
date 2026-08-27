@@ -175,7 +175,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-002 — `MaterialRecipe`: named mixtures and objects
 
-- [ ] **Status:** in progress on `codex/brd-002-material-recipe`. **Size:** large.
+- [ ] **Status:** in progress. **Size:** large.
   **Depends on:** current pack loader
   (`CAP-21`/`DATA-010`).
 - **Outcome:** the data schema represents vinegar, bleach, air, milk, paper,
@@ -203,6 +203,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   names; deterministic expansion conserves the requested basis amount. The
   checked-in pack contains initial 3% peroxide and 5% vinegar recipes. Runtime
   `add`, stock/safety/replay integration remains the next BRD-002 checkpoint.
+- **Runtime checkpoint (2026-08-27):** `add` now resolves a material key/alias,
+  converts a volume only through reviewed bulk density, pins recipe ID/version,
+  basis and sample seed in the serialized operator, expands once, screens the
+  complete prospective mixture, deposits canonical species, and retains an
+  explicit unresolved-material ledger. Events keep both the familiar material
+  identity and component amounts. Built-in and optional-pack recipes share the
+  runtime registry without allowing shadowing. Remaining BRD-002 work is stock
+  depletion, proportional transfer of unresolved portions, cabinet cards and
+  full undo/UI coverage.
 
 ### BRD-003 — Source adapter, quarantine, and promotion framework
 
@@ -282,6 +291,24 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   identity-unknown bucket materially reduced with no false “inert” answers.
 - **Out of scope:** importing hundreds of thousands of database entries or
   fabricating missing thermodynamic parameters.
+- **Shelf screenshot triage (2026-08-27; formula is authoritative when labels
+  are truncated):** 29 of the 39 visible entries already resolve. Add the ten
+  real gaps progressively:
+  1. **P0 school essentials:** ammonium chloride (`NH4Cl`), iron(III) chloride
+     (`FeCl3`), sodium sulfate (`Na2SO4`), and a litmus/indicator material with
+     acidic/basic colour-state data. These unlock common solubility, hydrolysis,
+     crystallisation and indicator interactions using existing solver routes.
+  2. **P1 constrained:** nitric acid (`HNO3`) as a clearly restricted lab stock;
+     “carbonic acid” as carbonated water / dissolved `CO2(aq)`, not a stable
+     neat-acid bottle. Land identity/safety first, then aqueous routing.
+  3. **P2 virtual-only metals:** sodium (`Na`) and potassium (`K`), gated behind
+     complete water/fire safety and qualitative reaction-family coverage before
+     shelf exposure.
+  4. **P2 toxic virtual-only barium salts:** barium chloride (`BaCl2`) and barium
+     hydroxide (`Ba(OH)2`), gated behind soluble-barium safety and precipitation
+     coverage. Never present these as household experiment supplies.
+  UI acceptance for this batch includes full-name tooltips, formula-first search,
+  and English/German aliases rather than duplicate identities.
 
 ### BRD-013 — USDA FoodData Central adapter
 

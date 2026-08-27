@@ -165,6 +165,7 @@ fn document() -> RegistryDocument {
             ("de".to_string(), vec!["Leitungswasser".to_string()]),
         ]),
         basis: MaterialBasis::MassFraction,
+        bulk_density: Some(number(0.997, "g/mL", Dimension::MassDensity)),
         components: vec![MaterialComponent {
             species_id: "water".to_string(),
             fraction: FractionRange {
