@@ -103,6 +103,23 @@ export interface CentrifugeRun {
   stateCoupled: boolean;
 }
 
+export interface StirredSolid {
+  species: string;
+  name: string;
+  moles: number;
+  colour: string;
+}
+
+export interface StirRun {
+  rpm: number;
+  seconds: number;
+  barLengthM: number;
+  tipSpeedMS: number;
+  resuspendedFraction: number;
+  rateCoupled: boolean;
+  solids: StirredSolid[];
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -142,6 +159,7 @@ export interface Effect {
   magnetic?: MagneticRun;
   settling?: SettlingRun;
   centrifuge?: CentrifugeRun;
+  stir?: StirRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -320,6 +338,15 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         magnitude: stirMag(e),
         durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+        stir: {
+          rpm: Number(e.rpm ?? 0),
+          seconds: Number(e.seconds ?? 0),
+          barLengthM: Number(e.bar_length_m ?? 0),
+          tipSpeedMS: Number(e.tip_speed_m_s ?? 0),
+          resuspendedFraction: Math.max(0, Math.min(1, Number(e.resuspended_fraction ?? 0))),
+          rateCoupled: Boolean(e.rate_coupled),
+          solids: [],
+        },
       };
     case "ground":
       return { kind: "grind", at: now, magnitude: grindMag(e) };

@@ -226,6 +226,13 @@ describe("effectFromEvent", () => {
     expect(fast!.magnitude).toBeGreaterThan(slow!.magnitude);
     expect(slow!.durationMs).toBe(2000);
     expect(fast!.durationMs).toBe(6000);
+    expect(fast!.stir).toMatchObject({
+      rpm: 0,
+      seconds: 6,
+      tipSpeedMS: 2,
+      resuspendedFraction: 0,
+      rateCoupled: false,
+    });
   });
 
   it("retains the complete computed centrifuge result for the machine", () => {
