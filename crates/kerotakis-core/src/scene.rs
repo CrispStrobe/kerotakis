@@ -126,6 +126,12 @@ pub struct SceneSolid {
     /// Display name ("silver chloride").
     pub name: String,
     pub moles: f64,
+    /// Pure-solid volume derived from registry molar mass and density. This is
+    /// additive across lots of the same species and lets renderers scale a
+    /// deposit from physical amount instead of inventing a moles-to-pixels
+    /// conversion. Zero means the registry has no usable density.
+    #[serde(default)]
+    pub volume_l: f64,
     pub srgb: [u8; 3],
     pub colour_word: String,
     /// An elemental metal deposits as a coating or coherent sponge and does
@@ -233,11 +239,16 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     // amount so the biggest deposit paints first.
     let mut solids: Vec<SceneSolid> = Vec::new();
     for p in v.contents.iter().filter(|p| p.phase == Phase::Solid) {
+        let data = species::lookup(&p.species);
+        let volume_l = data
+            .filter(|species| species.density.is_finite() && species.density > 0.0)
+            .map(|species| species.liters_from_moles(crate::Moles(p.moles.0)).0)
+            .unwrap_or(0.0);
         if let Some(existing) = solids.iter_mut().find(|s| s.species == p.species.0) {
             existing.moles += p.moles.0;
+            existing.volume_l += volume_l;
             continue;
         }
-        let data = species::lookup(&p.species);
         let colour = data.and_then(|d| d.colour).unwrap_or(Colour {
             r: 220,
             g: 220,
@@ -250,6 +261,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 .map(|d| d.name.to_string())
                 .unwrap_or_else(|| p.species.0.to_string()),
             moles: p.moles.0,
+            volume_l,
             srgb: [colour.r, colour.g, colour.b],
             colour_word: colour_word(&colour, true).to_string(),
             metallic: crate::displacement::is_elemental_metal(&p.species.0),
@@ -504,12 +516,20 @@ mod tests {
             "species",
             "name",
             "moles",
+            "volume_l",
             "srgb",
             "colour_word",
             "metallic",
+            "settled_fraction",
         ] {
             assert!(solid.get(key).is_some(), "missing solid key {key}");
         }
+        let agcl = species::lookup(&crate::SpeciesId("AgCl".into())).unwrap();
+        assert!(
+            (solid["volume_l"].as_f64().unwrap() - agcl.liters_from_moles(crate::Moles(0.01)).0)
+                .abs()
+                < 1e-12
+        );
         // And it round-trips.
         let back: SceneVessel = serde_json::from_value(json).unwrap();
         assert_eq!(back, s);

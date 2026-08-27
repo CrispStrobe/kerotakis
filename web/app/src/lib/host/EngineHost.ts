@@ -81,6 +81,8 @@ export interface SceneSolid {
   species: string;
   name: string;
   moles: number;
+  /** Pure-solid volume from engine registry mass and density. */
+  volume_l?: number;
   srgb: [number, number, number];
   colour_word: string;
   metallic: boolean;
