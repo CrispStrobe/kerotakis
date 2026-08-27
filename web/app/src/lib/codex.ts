@@ -15,14 +15,20 @@ export interface CodexRange {
 export interface CodexDiagnosis {
   option: number;
   reveals: string;
+  reveals_de?: string;
   next?: string;
+  next_de?: string;
 }
 
 export interface CodexPrediction {
   question: string;
+  question_de?: string;
   options: string[];
+  /** Positional twin of `options`; same length or ignored. */
+  options_de?: string[];
   answer: number;
   misconception?: string | null;
+  misconception_de?: string | null;
   diagnosis?: CodexDiagnosis[];
 }
 
@@ -38,6 +44,7 @@ export interface CodexEntry {
   id: string;
   equation?: string | null;
   summary?: string | null;
+  summary_de?: string | null;
   concepts?: string[];
   requires?: string[];
   apparatus?: string[];

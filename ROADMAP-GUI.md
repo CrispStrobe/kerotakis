@@ -1277,3 +1277,129 @@ parallel.
   hash-verified .pack adds species to shelf AND chemistry at runtime;
   drift-pinned runtime join; packs/ shipped with hashed manifest.
 - WEB-003 inventory in hello; PROTOCOL load_pack row done.
+
+## Making a computed result legible (GUI-081 … GUI-087)
+
+The engine already produces every number and classification these tasks
+display. Not one of them needs solver work; they are about a result being
+*read* rather than merely emitted. The feed is a scroll of prose in which
+the latest answer has no more prominence than the twentieth, the reaction
+class we compute is never named, and a temperature change we calculate from
+enthalpy is a clause in a sentence. A bench that computes real chemistry and
+then buries it reads as less capable than one that fakes forty reactions
+and presents them well.
+
+- [ ] **GUI-081 — The result card.** The newest result gets a card above the
+  feed rather than another line in it. Collapsed: the reaction-class badge,
+  the equation, one sentence of observation, and an affordance to expand.
+  Expanded: equation, ionic equation, reactant chips, observation,
+  before/after temperature, and the concept/safety note. The feed stays as
+  the notebook and the transcript; the card is what you look at while you
+  work. Acceptance: every field comes from the existing `step` response, no
+  new engine call, and the card is a `<details>`-shaped disclosure that
+  degrades to the current feed when JavaScript is off or the register is at
+  lv3 machine view.
+
+- [ ] **GUI-082 — Say what kind of reaction it was, and what the heat did.**
+  Two labels the engine can already justify. A **class badge** — displacement,
+  neutralisation, precipitation, combustion, decomposition — derived from the
+  event stream, never authored per reaction, and absent rather than guessed
+  when the classification is not clean. And **before → after temperature with
+  a delta chip**: `25 °C → 90 °C` with `+65 K`, because a computed ΔH·n/ΣCp is
+  the most teachable number we produce and it currently reads as punctuation.
+  Both carry the GUI-023 confidence encoding.
+
+- [ ] **GUI-083 — The ionic equation, derived.** Beside the molecular
+  equation, the ionic one — built from the solved speciation rather than
+  stored. This is a thing only a computing bench can do honestly: the
+  spectator ions are the ones the solver actually left in solution, at the
+  actual concentration, and the neutral complexes that a memorised ionic
+  equation omits (AgCl(aq) beside Ag⁺ and Cl⁻) appear because they are
+  present. Where speciation is unavailable, show nothing.
+
+- [ ] **GUI-084 — Shelf by chemical role.** Acid, base, salt, metal, oxide,
+  indicator, gas. We filter by phase — aqueous/liquid/gas/solid — which is a
+  physics axis while the learner is thinking on a chemistry one. Phase stays
+  as a secondary filter. The role comes from the registry, not a hand list,
+  and a species with no assigned role appears under "other" rather than being
+  hidden. Pairs with putting the **hazard chip on the reagent tile itself**,
+  so the warning arrives at choosing time rather than at pouring time —
+  including the honest "unassessed" state, which must remain visually
+  distinct from "safe".
+
+- [ ] **GUI-085 — The vessel deserves the room.** One vessel, large, central,
+  when only one is on the bench; the wide empty expanse around a small beaker
+  is the strongest signal we send that nothing much is happening. With it,
+  quick-action chips within reach of the vessel for the two or three things
+  every experiment needs — water, heat, and the reagent last used — so the
+  common path does not cross the whole screen.
+
+- [ ] **GUI-086 — Balancing as a generated exercise.** We balance by the null
+  space of the element-count matrix including charge, so we can *generate*
+  practice rather than author it: take any equation the codex or a session
+  produced, strip the coefficients, and mark the learner's answer against the
+  solver — including telling them when their answer is a correct multiple but
+  not the simplest whole-number ratio, which is the actual lesson. Unlimited,
+  never wrong, and free of a hand-maintained question bank.
+
+- [ ] **GUI-087 — The toolbox tools say what they are for.** The seven named
+  relations (Nernst, Arrhenius, Eyring, Henderson–Hasselbalch, ionic strength,
+  Debye–Hückel, van 't Hoff) currently show a name, a formula and an argument
+  spec. Each needs one sentence of *what question it answers*, one of *when it
+  applies and when it stops applying*, and its source — in English and German,
+  carried on `RelationInfo` so every host gets them from the engine rather than
+  from a component. A formula with no stated validity range teaches a learner
+  to apply it outside it.
+
+- [ ] **GUI-088 — One shareable card per result.** The expanded report as a
+  single image a learner can hand in or send: equation, observation, the
+  numbers, the provenance line. We have notebook export and print, which are
+  documents; this is one result, self-contained. Uses the existing chart
+  export path, adds no new dependency.
+
+## Localisation is not finished (I18N-1 … I18N-4)
+
+The shell is locale-keyed and English and German ship together. The *content*
+is not, and the gap is now the largest single obstacle to the app being usable
+in a German classroom — which is the audience the curriculum mapping in
+`codex/` is explicitly aimed at.
+
+- [ ] **I18N-1 — The experiment catalog (Forschungsbibliothek).** 103
+  reactions carry English `question`, `misconception`, `reveals`, `next`,
+  `lv1`/`lv2`/`lv3` prose and `summary`. The concept topics beside them are
+  already German-only (`label_de`, `definition_de`, from the CC0 oehTopics
+  set), so the catalog currently mixes languages within one screen. Roughly
+  **84,000 words** of pedagogical prose; this is a sustained editorial task,
+  not a build step. Structure it as `*_de` fields beside the English ones —
+  the convention `label_de`/`definition_de` already establishes — so a
+  partially translated catalog degrades to English per field rather than
+  failing, and add a lint that reports coverage per file so progress is
+  measurable. Machine translation is not acceptable unreviewed here: a
+  misconception diagnosis that misstates the misconception is worse than an
+  English one.
+
+- [ ] **I18N-2 — The map screen's own vocabulary.** English-only today, and
+  the reason is structural: neither a concept nor an entry has a label field.
+  The component de-slugs an identifier and asks the dictionary —
+  `t("activation energy")` — so the German has to land in the dictionary,
+  keyed exactly as the component asks.
+
+  `codex/concepts.toml` does not help, despite carrying `label_de`: it is the
+  oeh curriculum spine, whose ids are German slugs
+  (`1-hauptgruppe-alkalimetalle`), and exactly **1 of the 155** concept slugs
+  the entries use appears in it. The two vocabularies were never the same one.
+
+  So: 153 concept labels and 103 experiment names, 256 keys. Concept labels
+  are terminology and want the established German term over a paraphrase;
+  experiment names are written as small provocations ("why the shelf is not
+  on fire") and want that voice carried rather than flattened into textbook
+  headings. Different jobs, done separately.
+
+- [ ] **I18N-3 — Engine vocabulary coverage.** `DE_TERMS` translates species,
+  colours, hazards and lesson names. Add a gate that fails when the engine can
+  emit a term the dictionary does not carry, so a new species cannot silently
+  ship an English name into a German sentence.
+
+- [ ] **I18N-4 — Locale-complete store presence.** German App Store and Play
+  listings, German "what to test", and the German privacy policy already at
+  `privacy.de.html` wired into both manifests.

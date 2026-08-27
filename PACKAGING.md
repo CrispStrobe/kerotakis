@@ -390,6 +390,26 @@ omission: the first release of an app has to be created in the Play Console
 by hand, and automating later uploads needs a service-account JSON that
 does not exist yet. Wiring it now would be a step that looks done.
 
+## The screenshots go stale silently
+
+`web/screenshot-wide.png` and `web/screenshot-narrow.png` feed Chrome's
+install card, the README and the store listings. Nothing links them to the
+UI they depict, so a redesign leaves them showing an app that can no
+longer be opened — which is what happened between the first packaging pass
+and I18N-2. Remake them from a built payload:
+
+    ./tools/build-web.sh "$TMPDIR/site"
+    mkdir -p "$TMPDIR/shots"
+    node tools/gen-pwa-screenshots.mjs "$TMPDIR/site" web
+
+The tool drives the real bench and refuses to write a frame where the
+experiment did not run: it enters Sandbox (Story earns its reagents, so
+`add AgNO3` is refused there and the beaker would be empty under a caption
+about silver chloride), walks through the campus chooser, and fails if the
+journal shows a refusal. Check the captions in the emitted manifest block
+still describe what the images show — they are the part that quietly
+becomes a lie.
+
 ## What a human still decides
 
 Submitting for **full App Store review** is a product decision, not a build

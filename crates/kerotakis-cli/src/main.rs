@@ -974,22 +974,16 @@ fn load_codex(dir: &str) -> kerotakis_codex::Codex {
         .filter(|p| p.extension().is_some_and(|x| x == "toml"))
         .collect();
     files.sort();
-    for file in files {
-        let text = std::fs::read_to_string(&file).unwrap_or_else(|e| {
-            eprintln!("kero codex: cannot read {}: {e}", file.display());
-            std::process::exit(1);
-        });
-        match kerotakis_codex::Codex::parse(&text) {
-            Ok(mut c) => {
-                all.reactions.append(&mut c.reactions);
-                all.models.append(&mut c.models);
-            }
-            Err(e) => {
-                eprintln!("kero codex: {}: {e}", file.display());
-                std::process::exit(1);
-            }
-        }
-    }
+    // load_dir finds codex/i18n/*.toml as well as the English source. A
+    // loader that walks the directory itself sees only English, and
+    // nothing would fail — the catalogue would simply stop being German.
+    let _ = files;
+    let loaded = kerotakis_codex::Codex::load_dir(std::path::Path::new(dir)).unwrap_or_else(|e| {
+        eprintln!("kero codex: {dir}: {e}");
+        std::process::exit(1);
+    });
+    all.reactions.extend(loaded.reactions);
+    all.models.extend(loaded.models);
     all
 }
 
@@ -1311,7 +1305,10 @@ fn properties_usage() -> ! {
 fn calc_usage() -> ! {
     eprint!("kero calc — evaluate a named physical relation\n\nusage: kero calc <relation> <arg>=<value>... [--json]\n\nrelations:\n");
     for r in kerotakis_core::relations::RELATIONS {
-        eprintln!("  {:<24} {}\n{:>28}{}", r.name, r.equation, "", r.args);
+        eprintln!(
+            "  {:<24} {}\n{:>28}{}\n{:>28}{}",
+            r.name, r.equation, "", r.args, "", r.purpose
+        );
     }
     eprintln!("\nexamples:\n  kero calc nernst e0=0.3419 n=2 a=0.01 T=298.15\n  kero calc arrhenius A=1e10 Ea=50000 T=298.15\n  kero calc henderson-hasselbalch pKa=4.76 cA=0.1 cB=0.01\n  kero calc debye-huckel z=2 I=0.01\n  kero calc ionic-strength 1:0.1 -1:0.1 2:0.05 -2:0.1\n  kero calc van-t-hoff dH=-57000 K1=1e14 T1=298.15 T2=373.15\n  kero calc eyring dG=65000 T=298.15");
     std::process::exit(2);

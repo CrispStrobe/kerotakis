@@ -1,5 +1,14 @@
 <script lang="ts">
-  import { i18n, type Locale, t } from "../i18n.svelte";
+  /**
+   * The languages this build ships, named as they name themselves.
+   *
+   * Built from `availableLocales()` rather than listed here, so adding a
+   * language is still just adding `locales/<code>.json` — a hardcoded
+   * <option> list is exactly the third place that gets forgotten.
+   */
+  import { availableLocales, i18n, type Locale, t } from "../i18n.svelte";
+
+  const locales = availableLocales();
 </script>
 
 <label class="locale">
@@ -9,8 +18,9 @@
     value={i18n.locale}
     onchange={(event) => i18n.setLocale(event.currentTarget.value as Locale)}
   >
-    <option value="en">{t("English")}</option>
-    <option value="de">{t("German")}</option>
+    {#each locales as l (l.code)}
+      <option value={l.code}>{l.name}</option>
+    {/each}
   </select>
 </label>
 

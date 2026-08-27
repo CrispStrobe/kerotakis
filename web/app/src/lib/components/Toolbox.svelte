@@ -9,11 +9,20 @@
    */
   import type { Session } from "../session.svelte";
   import { buildArgs, parseArgSpec, type RelationField } from "../relationArgs";
+  import { tEngine } from "../i18n.svelte";
   import { t } from "../i18n.svelte";
 
   let { session, onclose }: { session: Session; onclose: () => void } = $props();
 
-  type Relation = { name: string; equation: string; args: string };
+  type Relation = {
+    name: string;
+    equation: string;
+    args: string;
+    purpose?: string;
+    purpose_de?: string;
+    validity?: string;
+    validity_de?: string;
+  };
   type CalcResult =
     | { ok: true; value: number; unit: string; provenance: string; lv1: string; lv2: string; lv3: string }
     | { ok: false; error: string };
@@ -110,7 +119,16 @@
             void compute();
           }}
         >
+          {#if tEngine(picked, "purpose")}
+            <p class="purpose">{tEngine(picked, "purpose")}</p>
+          {/if}
           <p class="equation">{picked.equation}</p>
+          {#if tEngine(picked, "validity")}
+            <p class="validity">
+              <span class="validity-label">{t("where it holds")}</span>
+              {tEngine(picked, "validity")}
+            </p>
+          {/if}
           {#if freeform}
             <label>
               <span>{t("arguments")} <small>{picked.args}</small></span>
@@ -263,6 +281,32 @@
     flex-direction: column;
     gap: 0.6rem;
   }
+  .purpose {
+    margin: 0 0 0.5rem;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  /* Deliberately quieter than the equation but not hidden: a validity
+     range that reads as fine print is one a learner skips, and skipping
+     it is the whole failure mode this is here to prevent. */
+  .validity {
+    margin: 0.5rem 0 0;
+    padding-left: 0.6rem;
+    border-left: 2px solid var(--rule, rgba(128, 128, 128, 0.35));
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--ink-dim, var(--ink));
+  }
+
+  .validity-label {
+    display: block;
+    font-variant: small-caps;
+    letter-spacing: 0.04em;
+    opacity: 0.75;
+  }
+
   .equation {
     margin: 0;
     font-size: 0.95rem;
