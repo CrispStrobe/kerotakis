@@ -92,6 +92,19 @@
   const placement = (vessel: number) =>
     dragPreview?.vessel === vessel ? dragPreview : positionFor(layout, vessel);
 
+  /** Put a freestanding machine in the clear lane above or below its target.
+   * It remains visually aligned with the vessel without becoming vessel
+   * contents or covering neighbouring glassware. */
+  function apparatusPlacement(target: number) {
+    const anchor = placement(target);
+    return {
+      x: anchor.x,
+      y: anchor.y >= 0.5
+        ? Math.max(0.16, anchor.y - 0.4)
+        : Math.min(0.84, anchor.y + 0.4),
+    };
+  }
+
   function surfacePosition(clientX: number, clientY: number) {
     if (!workSurface) return null;
     const rect = workSurface.getBoundingClientRect();
@@ -247,18 +260,6 @@
             {apparatusWorking}
             {apparatusValues}
           />
-          {#if vessel.id === deployedTarget && (deployedTool === "grind" || deployedTool === "centrifuge")}
-            {@const apparatusEffect = latestApparatusEffect(vessel.id, deployedTool)}
-            {#key apparatusEffect?.at}
-              <StandaloneApparatus
-                tool={deployedTool}
-                working={apparatusWorking}
-                performedAt={apparatusEffect?.at}
-                intensity={apparatusEffect?.magnitude ?? 0.5}
-                values={apparatusValues}
-              />
-            {/key}
-          {/if}
           <span class="connection-port port-out" data-port="out" aria-hidden="true"></span>
           {#if vessel.id === selected}
             <div class="placement-controls" role="group" aria-label={t("move vessel v{vessel}", { vessel: vessel.id + 1 })}>
@@ -275,6 +276,26 @@
           {/if}
         </section>
       {/each}
+      {#if deployedTarget !== null && deployedTool && (deployedTool === "grind" || deployedTool === "centrifuge")}
+        {@const machinePosition = apparatusPlacement(deployedTarget)}
+        {@const apparatusEffect = latestApparatusEffect(deployedTarget, deployedTool)}
+        <section
+          class="apparatus-position"
+          style={`left:${machinePosition.x * 100}%;top:${machinePosition.y * 100}%`}
+          aria-label={t("{tool} workstation for vessel v{vessel}", { tool: t(deployedTool === "grind" ? "mortar" : "mini centrifuge"), vessel: deployedTarget + 1 })}
+        >
+          {#key apparatusEffect?.at}
+            <StandaloneApparatus
+              tool={deployedTool}
+              target={deployedTarget}
+              working={apparatusWorking}
+              performedAt={apparatusEffect?.at}
+              intensity={apparatusEffect?.magnitude ?? 0.5}
+              values={apparatusValues}
+            />
+          {/key}
+        </section>
+      {/if}
       {#if onnewvessel}
         <div class="add-vessel">
           {#if choosing}
@@ -571,6 +592,13 @@
   .vessel-position:has(:global(.vessel.selected)) { z-index: 6; }
   .vessel-position:active { cursor: grabbing; }
   .vessel-position.moving { opacity: 0.42; transform: scale(0.96); }
+  .apparatus-position {
+    position: absolute;
+    z-index: 5;
+    width: 112px;
+    translate: -50% -50%;
+    pointer-events: none;
+  }
   .connection-port {
     position: absolute;
     top: 52%;
