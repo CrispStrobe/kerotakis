@@ -876,6 +876,11 @@ hide them completely.
   chip instead of burying their target in prose. A persistent Whole lab /
   selected vessel scope lets users follow one sample without hiding global
   safety notices, charts, or their own notes.*
+  *Instrument-tray slice shipped 2026-08-27: the inspector's unstructured row
+  of text chips is now an illustrated card grid grouped into essential,
+  physical-property, and analytical measurements. Every card names both its
+  instrument and observable, retains the same engine command, and is fully
+  localized rather than relying on unexplained labels.*
 
 - [ ] **GUI-082 — Explorable laboratory room.** Build a colourful 2.5-D room
   around the continuous bench: cupboards and drawers are storage homes; racks,
