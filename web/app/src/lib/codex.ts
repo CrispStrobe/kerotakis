@@ -47,6 +47,12 @@ export interface CodexEntry {
   expect: CodexExpect;
   registers: Record<string, string>;
   curriculum?: CodexPlacement[];
+  translations?: Record<string, Record<string, string>>;
+}
+
+/** Resolve authored codex prose without changing its canonical engine data. */
+export function codexText(entry: CodexEntry, locale: string, text: string): string {
+  return entry.translations?.[locale]?.[text] ?? text;
 }
 
 /** One curriculum's placement of an entry (kerotakis-codex::Placement). */

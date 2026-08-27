@@ -317,6 +317,13 @@ classrooms-as-a-service, and cloud saves are **non-goals** for this roadmap.
   `t()` and localized search is infrastructure, not German coverage. Add an
   explicit locale sidecar/schema plus an export-time English/German completeness
   gate; do not claim full-app i18n until that gate passes the production codex.
+  *Locale-sidecar foundation shipped 2026-08-27:* reaction entries can now
+  carry exact-string maps per BCP-47 locale through TOML, Rust serde, JSON
+  export, localized experiment display, and localized search. The codex exposes
+  a deterministic `translation_gaps(locale)` inventory covering title,
+  summary, all three registers, prediction options/misconception, and diagnosis
+  follow-ups. English remains canonical fallback; this foundation does not mark
+  the 103-entry German content migration complete.
 
 ### Immediate experience target: the laboratory as a place
 

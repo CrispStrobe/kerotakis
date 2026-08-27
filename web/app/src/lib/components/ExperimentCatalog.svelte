@@ -2,6 +2,7 @@
   import { untrack } from "svelte";
   import {
     checkExpect,
+    codexText,
     conceptIndex,
     curriculumIndex,
     relatedConcepts,
@@ -11,7 +12,7 @@
   } from "../codex";
   import type { Session } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
-  import { t } from "../i18n.svelte";
+  import { i18n, t } from "../i18n.svelte";
   import { experimentMatches } from "../catalogSearch";
 
   let {
@@ -45,7 +46,9 @@
     if (view === "concepts" && concept) {
       list = list.filter((e) => e.concepts?.includes(concept!));
     }
-    if (filter.trim()) list = list.filter((entry) => experimentMatches(entry, filter, t));
+    if (filter.trim()) {
+      list = list.filter((entry) => experimentMatches(entry, filter, (text) => ct(entry, text)));
+    }
     return list;
   });
 
@@ -93,6 +96,7 @@
     if (!prediction || predicted === null || predicted === prediction.answer) return null;
     return prediction.diagnosis?.find((d) => d.option === predicted) ?? null;
   });
+  const ct = (entry: CodexEntry, text: string) => t(codexText(entry, i18n.locale, text));
 </script>
 
 <div class="scrim" role="presentation" onclick={onclose} onkeydown={(e) => e.key === "Escape" && onclose()}>
@@ -158,8 +162,8 @@
                   {#each st.entries as e (e.id)}
                     <li>
                       <button class="entry" onclick={() => openEntry(e)}>
-                        <strong>{t(e.id.replace(/-/g, " "))}</strong>
-                        <span class="eq">{t(e.equation ?? e.summary ?? "")}</span>
+                        <strong>{ct(e, e.id.replace(/-/g, " "))}</strong>
+                        <span class="eq">{ct(e, e.equation ?? e.summary ?? "")}</span>
                       </button>
                     </li>
                   {/each}
@@ -176,8 +180,8 @@
           {#each shown as e (e.id)}
             <li>
               <button class="entry" onclick={() => openEntry(e)}>
-                <strong>{t(e.id.replace(/-/g, " "))}</strong>
-                <span class="eq">{t(e.equation ?? e.summary ?? "")}</span>
+                <strong>{ct(e, e.id.replace(/-/g, " "))}</strong>
+                <span class="eq">{ct(e, e.equation ?? e.summary ?? "")}</span>
               </button>
             </li>
           {/each}
@@ -189,7 +193,7 @@
     {:else}
       <header>
         <button class="back" onclick={() => (open = null)}>←</button>
-        <h2>{t(open.id.replace(/-/g, " "))}</h2>
+        <h2>{ct(open, open.id.replace(/-/g, " "))}</h2>
         <button class="close" onclick={onclose}>{t("close")}</button>
       </header>
       <nav class="tabs">
@@ -200,16 +204,16 @@
 
       {#if tab === "theory"}
         {#if open.equation}<p class="equation">{open.equation}</p>{/if}
-        <p class="prose">{t(theory)}</p>
+        <p class="prose">{ct(open, theory)}</p>
         {#if session.register !== "lv1" && (open.concepts?.length ?? 0) > 0}
-          <p class="meta">{t("concepts: {concepts}", { concepts: open.concepts!.map(t).join(", ") })}</p>
+          <p class="meta">{t("concepts: {concepts}", { concepts: open.concepts!.map((text) => ct(open!, text)).join(", ") })}</p>
         {/if}
         {#if session.register === "lv3" && (open.models?.length ?? 0) > 0}
-          <p class="meta">{t("models: {models}", { models: open.models!.map(t).join(", ") })}</p>
+          <p class="meta">{t("models: {models}", { models: open.models!.map((text) => ct(open!, text)).join(", ") })}</p>
         {/if}
       {:else if tab === "procedure"}
         {#if (open.apparatus?.length ?? 0) > 0}
-          <p class="meta">{t("you will need: {apparatus}", { apparatus: open.apparatus!.map(t).join(", ") })}</p>
+          <p class="meta">{t("you will need: {apparatus}", { apparatus: open.apparatus!.map((text) => ct(open!, text)).join(", ") })}</p>
         {/if}
         {#if kitItems.length > 0}
           <KitStrip
@@ -226,7 +230,7 @@
       {:else}
         {#if prediction}
           <div class="predict">
-            <p class="question">{t(prediction.question)}</p>
+            <p class="question">{ct(open, prediction.question)}</p>
             {#each prediction.options as opt, i (i)}
               <button
                 class="option"
@@ -236,7 +240,7 @@
                 disabled={result !== null}
                 onclick={() => (predicted = i)}
               >
-                {t(opt)}
+                {ct(open, opt)}
               </button>
             {/each}
             {#if mustPredict}
@@ -275,12 +279,12 @@
                 <p class="meta">{t("your prediction held.")}</p>
               {:else}
                 <p class="meta">
-                  {t("the bench answered {answer}.", { answer: `“${t(prediction.options[prediction.answer] ?? "")}”` })}
+                  {t("the bench answered {answer}.", { answer: `“${ct(open, prediction.options[prediction.answer] ?? "")}”` })}
                   {#if diagnosisForPick}
-                    {t(diagnosisForPick.reveals)}
-                    {#if diagnosisForPick.next}{t("Try: {next}", { next: t(diagnosisForPick.next) })}{/if}
+                    {ct(open, diagnosisForPick.reveals)}
+                    {#if diagnosisForPick.next}{t("Try: {next}", { next: ct(open, diagnosisForPick.next) })}{/if}
                   {:else if prediction.misconception}
-                    {t(prediction.misconception)}
+                    {ct(open, prediction.misconception)}
                   {/if}
                 </p>
               {/if}

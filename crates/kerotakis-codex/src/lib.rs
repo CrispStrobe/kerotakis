@@ -147,6 +147,12 @@ pub struct Entry {
     pub expect: Expect,
     pub registers: Registers,
     pub provenance: Provenance,
+    /// Locale sidecars keyed first by BCP-47 language, then by the exact
+    /// canonical display string. Chemistry ids, equations, scripts and
+    /// expectation keys remain language-neutral.
+    #[serde(default, skip_serializing_if = "std::collections::BTreeMap::is_empty")]
+    pub translations:
+        std::collections::BTreeMap<String, std::collections::BTreeMap<String, String>>,
 }
 
 /// One curriculum's placement of an entry.
@@ -546,6 +552,39 @@ pub enum CodexError {
 impl Codex {
     pub fn parse(text: &str) -> Result<Codex, CodexError> {
         Ok(toml::from_str(text)?)
+    }
+
+    /// Exact authored strings still missing in one locale. This remains
+    /// separate from structural lint until the existing catalog is translated.
+    pub fn translation_gaps(&self, locale: &str) -> Vec<String> {
+        let mut gaps = Vec::new();
+        for entry in &self.reactions {
+            let translated = entry.translations.get(locale);
+            let mut required = vec![entry.id.replace('-', " ")];
+            if let Some(summary) = &entry.summary {
+                required.push(summary.clone());
+            }
+            required.extend(entry.registers.0.values().cloned());
+            if let Some(prediction) = &entry.expect.predict {
+                required.push(prediction.question.clone());
+                required.extend(prediction.options.iter().cloned());
+                if let Some(text) = &prediction.misconception {
+                    required.push(text.clone());
+                }
+                for diagnosis in &prediction.diagnosis {
+                    required.push(diagnosis.reveals.clone());
+                    if let Some(text) = &diagnosis.next {
+                        required.push(text.clone());
+                    }
+                }
+            }
+            for text in required {
+                if translated.and_then(|map| map.get(&text)).is_none() {
+                    gaps.push(format!("{}:{locale}: {text}", entry.id));
+                }
+            }
+        }
+        gaps
     }
 
     /// Structural problems that need no solver: duplicate ids, empty
@@ -1382,5 +1421,47 @@ source = "test"
         assert_eq!(a.predictions, 1);
         assert_eq!(a.distractors, 2, "three options, one of them right");
         assert_eq!(a.diagnosed, 1);
+    }
+
+    #[test]
+    fn locale_sidecars_round_trip_and_report_exact_gaps() {
+        let text = r#"
+[[reaction]]
+id = "salt-dissolves"
+summary = "salt enters solution"
+
+[reaction.setup]
+script = "add v1 water 100mL"
+
+[reaction.expect]
+events = []
+
+[reaction.registers]
+lv1 = "Salt disappears."
+lv2 = "The ions hydrate."
+lv3 = "The aqueous solver equilibrates."
+
+[reaction.provenance]
+source = "test"
+
+[reaction.translations.de]
+"salt dissolves" = "Salz löst sich"
+"salt enters solution" = "Salz geht in Lösung"
+"Salt disappears." = "Das Salz verschwindet."
+"The ions hydrate." = "Die Ionen werden hydratisiert."
+"#;
+        let codex = Codex::parse(text).expect("localized codex parses");
+        assert_eq!(
+            codex.reactions[0].translations["de"]["salt dissolves"],
+            "Salz löst sich"
+        );
+        let exported = serde_json::to_value(&codex.reactions[0]).expect("entry serializes");
+        assert_eq!(
+            exported["translations"]["de"]["salt dissolves"],
+            "Salz löst sich"
+        );
+        let gaps = codex.translation_gaps("de");
+        assert_eq!(gaps.len(), 1);
+        assert!(gaps[0].contains("The aqueous solver equilibrates."));
     }
 }
