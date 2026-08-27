@@ -7,82 +7,61 @@ afterEach(() => i18n.setLocale("en"));
 /**
  * What is left of this layer, and where the rest went.
  *
- * `engineText` rewrites the engine's ENGLISH output into German by
+ * `engineText` used to rewrite the engine's ENGLISH output into German by
  * matching it with regexes. It predates the engine's own message
- * catalogue, and most of what it used to cover has moved there — the
- * vessel summary, additions, stirring, grinding, dissolution. Those tests
- * did not fail because the behaviour broke; they failed because they
- * asserted on the MECHANISM, and the mechanism moved.
+ * catalogue, and everything it covered has now moved there — the vessel
+ * summary, additions, stirring, grinding, dissolution, and finally the
+ * hazard notes.
  *
- * The contract they protected — a German reader sees German — is still
- * tested, in two better places:
+ * The hazard notes were last for a reason. The shell reads `hazard` and
+ * `real_world` straight off the serialised event rather than through the
+ * renderer, so no catalogue on the Rust side could reach them; they were
+ * translated in the shell or not at all. `localize_events` in the wasm
+ * wrapper now does it on the way out, at the first point that knows the
+ * language — so the shell has nothing left to do.
  *
+ * The contract these tests protected — a German reader sees German — is
+ * tested in better places now:
+ *
+ *   crates/kerotakis-core/tests/hazard_locale.rs
+ *       walks senses::ODORS and fails if a hazardous substance has no
+ *       German, which is the only defence against a silent fallback
  *   crates/kerotakis-core/tests/render_locale.rs
- *       asserts the engine renders those sentences in German, which also
- *       covers the CLI, where this file has never had any effect
+ *       asserts the engine renders its sentences in German, which also
+ *       covers the CLI, where this file never had any effect
  *   tools/test-i18n-render.mjs
- *       opens the real page in German and reads the journal and the
- *       vessel line off the screen
+ *       opens the real page in German and reads the screen
  *
- * The engine version can do something this one cannot: the DECIMAL. By
- * the time a line reaches here the number is already a formatted string,
- * so `11.0686` can never become `11,0686`. That is the clearest signal
- * for which layer produced a line.
- *
- * What remains here is the lines the catalogue has not reached yet. They
- * compose safely: a pattern that matches English never fires on a
- * sentence the engine already rendered in German.
+ * The engine version can do something this one never could: the DECIMAL.
+ * By the time a line reached here the number was already a formatted
+ * string, so `11.0686` could never become `11,0686`. That remains the
+ * clearest signal for which layer produced a line.
  */
 describe("engine text localization", () => {
-  it("keeps the canonical engine prose in English", () => {
-    i18n.setLocale("en");
-    expect(engineText("The mini centrifuge spins v1; the particles travel 42% of the tube path.")).toBe(
-      "The mini centrifuge spins v1; the particles travel 42% of the tube path.",
-    );
+  it("passes English through untouched", () => {
+    const line = "v1 (beaker) — 25.00 °C, 0.0 g, 0.0 mL liquid, open to the atmosphere";
+    expect(engineText(line)).toBe(line);
   });
 
-  it("translates the one line the engine catalogue has not reached", () => {
-    // The settling and centrifuge lines used to be here. render.rs now
-    // renders them from its own catalogue, so those patterns could never
-    // fire again and were deleted; their contract moved to
-    // crates/kerotakis-core/tests/render_locale.rs and to the browser
-    // test. What is left comes from bench.rs, which has no catalogue yet.
+  it("passes German through untouched — the engine already rendered it", () => {
     i18n.setLocale("de");
-    expect(engineText("ethanol vapour is hazardous to inhale")).toBe(
-      "Ethanoldampf ist beim Einatmen gefährlich",
-    );
+    const line = "v1 (Becherglas) — 25,00 °C, 0,0 g, 0,0 mL Flüssigkeit, offen zur Atmosphäre";
+    expect(engineText(line)).toBe(line);
   });
 
-  it("compounds onto whatever the dictionary gives, right or not", () => {
-    // The sharp edge in this pattern, pinned rather than hidden: it builds
-    // a German compound by appending "dampf" to a translated species name.
-    // That works when the dictionary has the name AND its German is the
-    // right stem — ethanol -> Ethanol -> Ethanoldampf.
-    //
-    // "ammonia" is not a key (the dictionary has "ammonia solution"), so
-    // it falls through untranslated and the compound comes out
-    // "ammoniadampf": lowercase, and the wrong stem for Ammoniakdampf.
-    // Compounding is not something a regex can do correctly across
-    // languages, which is the argument for this line moving into the
-    // engine catalogue with bench.rs rather than being patched here.
+  it("no longer translates hazard notes — the engine does", () => {
+    // This is the behaviour that moved. The shell used to compound
+    // `${t(species)}dampf` here, which could only ever produce German and
+    // got the formulas wrong: NH3 needs a hyphen, and Cl2 is a gas, not a
+    // vapour. Both are right in the engine catalogue now.
     i18n.setLocale("de");
-    expect(engineText("ammonia vapour is hazardous to inhale")).toBe(
-      "ammoniadampf ist beim Einatmen gefährlich",
-    );
+    const english = "NH3 vapour is hazardous to inhale";
+    expect(engineText(english)).toBe(english);
   });
 
-  it("leaves a sentence the engine already rendered in German untouched", () => {
-    // The patterns match English, so German passes through. This is what
-    // makes the two layers safe to run together while the catalogue takes
-    // lines over one at a time.
+  it("invents nothing for prose it does not recognise", () => {
     i18n.setLocale("de");
-    const fromEngine = "v1: +11,0686 mol Wasser";
-    expect(engineText(fromEngine)).toBe(fromEngine);
-  });
-
-  it("passes through prose it has no pattern for", () => {
-    i18n.setLocale("de");
-    const unknown = "v1: some sentence nobody has taught this layer";
+    const unknown = "something no catalogue anywhere has a translation for";
     expect(engineText(unknown)).toBe(unknown);
   });
 });

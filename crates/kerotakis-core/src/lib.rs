@@ -86,8 +86,8 @@ pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use orchestrator::Orchestrator;
 pub use render::{
-    render_event, render_event_in, render_events, render_events_in, render_vessel,
-    render_vessel_in, Register,
+    localize_event, localize_events, render_event, render_event_in, render_events,
+    render_events_in, render_vessel, render_vessel_in, Register,
 };
 pub use scene::{scene, scene_of, scene_vessel, Scene, SceneVessel};
 pub use solve::{
