@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { KINDS, innerFloor, solidLayer, fillHeight, graduationTicks } from "./glassware";
+import { KINDS, depositDisplayHeight, innerFloor, solidLayer, fillHeight, graduationTicks } from "./glassware";
 
 describe("glassware geometry", () => {
   it("rests contents on the floor of the silhouette they are clipped to", () => {
@@ -156,5 +156,15 @@ describe("settled deposit layers", () => {
         expect(y + h).toBeLessThanOrEqual(by + 1e-9);
       }
     }
+  });
+
+  it("scales deposits monotonically from engine volume and caps the display", () => {
+    const beaker = KINDS.beaker!;
+    const oneDose = depositDisplayHeight(beaker, 0.0005);
+    const fourDoses = depositDisplayHeight(beaker, 0.002);
+    expect(oneDose).toBeGreaterThan(0);
+    expect(fourDoses).toBeGreaterThan(oneDose);
+    expect(depositDisplayHeight(beaker, 4)).toBe(beaker.fh * 0.28);
+    expect(depositDisplayHeight(beaker, 0)).toBe(0);
   });
 });

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SceneVessel } from "../host/EngineHost";
-  import { KINDS, solidLayer, fillHeight, graduationTicks } from "../glassware";
+  import { KINDS, depositDisplayHeight, solidLayer, fillHeight, graduationTicks } from "../glassware";
   import FluidOverlay from "./FluidOverlay.svelte";
   import type { FluidSpecies } from "../fluidScene";
   import type { Effect } from "../magnitudes";
@@ -174,12 +174,16 @@
   // Only the top few deposits are drawn; the layer arithmetic counts the
   // same ones, or the stack stops short of the floor.
   const shownSolids = $derived(vessel.solids.slice(0, 3));
-  // Solids draw as a settled layer; depth follows amount, capped well below
-  // the liquid so the layer reads as a deposit rather than a fill.
+  // Solids draw as a settled layer. The scene owns pure-solid volume from
+  // molar mass and density; the renderer applies one documented perceptual
+  // magnifier so bench-scale traces remain visible.
   const solidH = $derived(
-    Math.min(
-      18,
-      vessel.solids.reduce((sum, s) => sum + s.moles * (s.settled_fraction ?? 1), 0) * 600,
+    depositDisplayHeight(
+      geom,
+      vessel.solids.reduce((sum, solid) =>
+        // Legacy scene v1 hosts omitted volume; retain a small monotone
+        // estimate until their additive protocol field arrives.
+        sum + (solid.volume_l ?? solid.moles * 0.01) * (solid.settled_fraction ?? 1), 0),
     ),
   );
   const rgb = (c: [number, number, number]) => `rgb(${c[0]},${c[1]},${c[2]})`;
@@ -389,7 +393,7 @@
           fill={rgb(solid.srgb)}
           class:metallic={solid.metallic}
         >
-          <title>{t(solid.colour_word)} {t(solid.name)}</title>
+          <title>{t(solid.colour_word)} {t(solid.name)} · {t("volume")} {((solid.volume_l ?? solid.moles * 0.01) * 1000).toPrecision(3)} mL</title>
         </rect>
       {/each}
       <!-- A lit rim on top of the deposit, so it reads as a settled layer
