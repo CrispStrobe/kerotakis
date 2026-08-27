@@ -769,6 +769,10 @@ export class Session {
         }));
       effect = { ...effect, stir: { ...effect.stir, solids } };
     }
+    if (effect?.kind === "evaporate" && event?.event === "evaporated") {
+      const srgb = this.scene?.vessels.find((candidate) => candidate.id === Number(event.vessel ?? 0))?.liquid?.srgb;
+      if (srgb) effect = { ...effect, fluidColour: `rgb(${srgb[0]} ${srgb[1]} ${srgb[2]})` };
+    }
     if (
       effect?.source !== undefined &&
       effect.operation &&

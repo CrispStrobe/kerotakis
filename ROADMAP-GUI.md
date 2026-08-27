@@ -1325,6 +1325,13 @@ decorating it.
   trapped mmol. Before execution the same apparatus previews requested values;
   after execution it replaces them with engine-owned state rather than
   implying that the form itself is a measurement.
+  *Freestanding-evaporation slice shipped 2026-08-27:* the evaporating dish is
+  no longer painted inside the selected glassware. It occupies a draggable,
+  collision-checked station with porcelain dish, heater, target-vessel link
+  and reduced-motion behavior. The dish fill captures the pre-operation Scene
+  liquid colour, steam density follows `Evaporated.moles`, and its display
+  reports the actual removed mmol. This retains one engine vessel ledger while
+  making the physical transfer into the working dish explicit on the bench.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,
