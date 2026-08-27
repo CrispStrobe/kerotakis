@@ -53,7 +53,7 @@ fn every_legacy_field_is_present_and_unchanged() {
             .filter(|species| !matches!(species.key, "isopropanol" | "sucrose"))
             .count()
     );
-    assert_eq!(document.material_recipes.len(), 32);
+    assert_eq!(document.material_recipes.len(), 39);
     assert_eq!(document.identities.len(), REGISTRY.len());
     assert_eq!(document.compositions.len(), REGISTRY.len());
     assert_eq!(

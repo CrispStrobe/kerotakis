@@ -560,6 +560,17 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   The lesson is grouped under `rates`, warns against tasting or tightly sealing
   a real active fermentation, and suggests dose, culture form and temperature
   comparisons while preserving the biological-model boundaries.
+- **Checkpoint 26 implemented:** seven localized familiar solids now preserve
+  object identity while expanding exactly into installed canonical matter:
+  table salt/`NaCl`, a calcium-carbonate chalk stick/`CaCO3`, magnesium ribbon,
+  zinc strip, an iron-nail surrogate, copper wire and aluminium foil. The first
+  six immediately inherit real dissolution, carbonate-acid or electrochemical
+  routes where applicable; geometry remains explicit metadata rather than an
+  invented kinetic multiplier. Aluminium foil deliberately retains the
+  engine's passivation/model boundary. Steel wool and Epsom salt remain open:
+  ordinary steel needs alloy/surface oxidation and dry Epsom crystals need an
+  honest magnesium-sulfate-heptahydrate phase instead of liquid water hidden in
+  a fake dry recipe. Bare `salt`/`Salz` remains unclaimed as a chemical class.
 
 ## Stage B2 — organic structure and curated reaction families
 

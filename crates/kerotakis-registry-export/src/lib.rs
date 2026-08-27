@@ -15,9 +15,10 @@ use kerotakis_core::{
 use kerotakis_data::{
     Applicability, CompositionRecord, Dimension, ElementAmount, Evidence, FractionRange,
     IdentityRecord, MaterialBasis, MaterialComponent, MaterialConfidence, MaterialExpansionPolicy,
-    MaterialPhysicalForm, MaterialRecipe, MaterialRole, Method, ModelParameterRecord, ModelSubject,
-    NumericRecord, OpticalRecord, Phase, PhaseProperty, PhaseThermodynamicRecord, RegistryDocument,
-    SourceLane, SourceRecord, SpectralSample, Uncertainty, Unit,
+    MaterialGeometry, MaterialPhysicalForm, MaterialRecipe, MaterialRole, Method,
+    ModelParameterRecord, ModelSubject, NumericRecord, OpticalRecord, Phase, PhaseProperty,
+    PhaseThermodynamicRecord, RegistryDocument, SourceLane, SourceRecord, SpectralSample,
+    Uncertainty, Unit,
 };
 
 const IMPORT_METHOD: &str = "verbatim export from kerotakis_core::species::REGISTRY";
@@ -129,6 +130,58 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         uncertainty: Uncertainty::NotReported,
         source_id: SOURCE.to_string(),
         method: Method::Editorial("room-temperature teaching-surrogate density".to_string()),
+    };
+    let familiar_solid = |id: &str,
+                          canonical_key: &str,
+                          name: &str,
+                          species: &str,
+                          shape: &str,
+                          de_aliases: &[&str],
+                          en_aliases: &[&str],
+                          assumptions: &[&str]| MaterialRecipe {
+        id: id.to_string(),
+        version: 1,
+        canonical_key: canonical_key.to_string(),
+        name: name.to_string(),
+        aliases: BTreeMap::from([
+            (
+                "de".to_string(),
+                de_aliases
+                    .iter()
+                    .map(|alias| (*alias).to_string())
+                    .collect(),
+            ),
+            (
+                "en".to_string(),
+                en_aliases
+                    .iter()
+                    .map(|alias| (*alias).to_string())
+                    .collect(),
+            ),
+        ]),
+        basis: MaterialBasis::MassFraction,
+        bulk_density: None,
+        components: vec![component(species, 1.0)],
+        unresolved_fraction: None,
+        physical_form: MaterialPhysicalForm::CompositeObject {
+            geometry: Some(MaterialGeometry {
+                shape: Some(shape.to_string()),
+                surface_area_m2: None,
+                characteristic_length_m: None,
+            }),
+        },
+        roles: Vec::new(),
+        preparation: Some(format!(
+            "idealised {name} represented by the installed {species} species"
+        )),
+        lot_assumptions: assumptions
+            .iter()
+            .map(|assumption| (*assumption).to_string())
+            .collect(),
+        substitutions: Vec::new(),
+        confidence: MaterialConfidence::Curated,
+        expansion_policy: MaterialExpansionPolicy::Fixed,
+        evidence: evidence(),
     };
     let transparent_colour = |id: &str,
                               canonical_key: &str,
@@ -1148,6 +1201,76 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             0.2,
             &["schwarze Acrylfarbe", "Acrylfarbe_schwarz"],
             &["black acrylic", "black_acrylic", "acrylic_paint_black"],
+        ),
+        familiar_solid(
+            "household/table-salt",
+            "table_salt",
+            "table salt",
+            "NaCl",
+            "granular crystals",
+            &["Speisesalz", "Tafelsalz", "Kochsalz"],
+            &["cooking salt"],
+            &["moisture, iodine additives and anti-caking agents are omitted; the bare words salt and Salz remain unclaimed because they name a chemical class"],
+        ),
+        familiar_solid(
+            "school/calcium-carbonate-chalk-stick",
+            "chalk_stick",
+            "calcium-carbonate chalk stick",
+            "CaCO3",
+            "cylindrical stick",
+            &["Kreidestück", "Tafelkreide", "Calciumcarbonat-Kreide"],
+            &["chalk stick", "calcium carbonate chalk"],
+            &["represented as pure calcium carbonate; gypsum chalk and product binders are different materials and are not implied"],
+        ),
+        familiar_solid(
+            "school/magnesium-ribbon",
+            "magnesium_ribbon",
+            "magnesium ribbon",
+            "Mg",
+            "thin ribbon",
+            &["Magnesiumband"],
+            &["magnesium strip"],
+            &["represented as clean elemental magnesium; surface oxide and reaction-rate effects wait for the surface-state model"],
+        ),
+        familiar_solid(
+            "school/zinc-strip",
+            "zinc_strip",
+            "zinc strip",
+            "Zn",
+            "metal strip",
+            &["Zinkstreifen", "Zinkblech"],
+            &["zinc sheet"],
+            &["represented as clean elemental zinc; galvanised coatings and alloying are not implied"],
+        ),
+        familiar_solid(
+            "household/iron-nail-surrogate",
+            "iron_nail",
+            "iron nail surrogate",
+            "Fe",
+            "nail",
+            &["Eisennagel"],
+            &["iron nail"],
+            &["represented as elemental iron; ordinary steel nails, coatings and corrosion products require alloy and surface-state recipes"],
+        ),
+        familiar_solid(
+            "school/copper-wire",
+            "copper_wire",
+            "copper wire",
+            "Cu",
+            "wire",
+            &["Kupferdraht"],
+            &["bare copper wire"],
+            &["represented as bare elemental copper; insulation, lacquer and alloying are omitted"],
+        ),
+        familiar_solid(
+            "household/aluminium-foil",
+            "aluminium_foil",
+            "aluminium foil",
+            "Al",
+            "thin foil",
+            &["Alufolie", "Aluminiumfolie"],
+            &["aluminum foil", "tin foil"],
+            &["represented as elemental aluminium inventory; the native oxide layer and passivation kinetics are not yet modeled, so the engine must retain its explicit reaction boundary"],
         ),
     ]);
 }
