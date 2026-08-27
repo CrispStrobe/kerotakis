@@ -827,6 +827,11 @@ hide them completely.
   temporary case-supplied stock, Unlocked means permanently earned stock, and
   All previews the complete catalog without bypassing locks. Sandbox omits the
   selector because its catalog is already wholly available.*
+  *Instrument-search slice shipped 2026-08-28:* the equipment wall now has
+  the same case/diacritic-insensitive substring search as the reagent cabinet.
+  It searches localized card names and descriptions as well as canonical
+  apparatus verbs and English source vocabulary, keeps Story availability
+  scope intact, and gives an explicit empty result instead of a blank wall.*
 - [ ] **GUI-073 — Spatial bench and assembly grammar.** Give work zones,
   apparatus footprints, ports, sockets, layering, collision rules, and
   keyboard-equivalent placement to the scene. Valid destinations preview before

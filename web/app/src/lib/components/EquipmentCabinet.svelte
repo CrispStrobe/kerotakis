@@ -6,6 +6,7 @@
   import { equipmentAccess, equipmentAvailable, equipmentRequirement } from "../catalogProgress";
   import type { LabMode } from "../worldState";
   import type { CatalogScope } from "../catalogScope";
+  import { equipmentMatches } from "../catalogSearch";
 
   const TRANSFER_TOOLS: { verb: TwoVesselAction; title: string; blurb: string }[] = [
     { verb: "filter", title: "filter", blurb: "separate solids from liquid" },
@@ -58,8 +59,20 @@
   const visible = (verb: string) => mode === "sandbox" || scope === "all"
     || (scope === "mission" ? missionVerbs.includes(verb) : equipmentAvailable(mode, completed, verb));
   const access = (verb: string) => equipmentAccess(mode, completed, verb, missionVerbs.includes(verb));
-  const visibleApparatus = $derived(APPARATUS.filter((item) => visible(item.verb)));
-  const visibleTransfers = $derived(TRANSFER_TOOLS.filter((item) => visible(item.verb)));
+  let filter = $state("");
+  const matches = (verb: string, title: string, blurb: string) => equipmentMatches(
+    { verb, title, blurb },
+    filter,
+    t(title),
+    t(blurb),
+  );
+  const visibleApparatus = $derived(APPARATUS.filter((item) => visible(item.verb) && matches(item.verb, item.title, item.blurb)));
+  const visibleTransfers = $derived(TRANSFER_TOOLS.filter((item) => visible(item.verb) && matches(item.verb, item.title, item.blurb)));
+  const showBurette = $derived(visible("burette") && matches("burette", "burette", "controlled addition"));
+  const showMix = $derived(visible("mix") && matches("mix", "mixer", "combine two sources into a receiver"));
+  const showTransport = $derived(visible("transport") && matches("transport", "column train", "move solution through connected cells"));
+  const showReact = $derived(reactAvailable && visible("react") && matches("react", "curated reaction", "choose a verified reaction family"));
+  const resultCount = $derived(visibleApparatus.length + visibleTransfers.length + Number(showBurette) + Number(showMix) + Number(showTransport) + Number(showReact));
   const requirementLabel = (verb: string) => {
     const count = equipmentRequirement(verb);
     return count === 1 ? t("after one mission") : t("after {count} missions", { count });
@@ -77,10 +90,16 @@
     <p>{mode === "sandbox" ? t("Every installed instrument is available in Sandbox.") : t("Complete investigations to earn permanent access to more instruments.")}</p>
   </div>
 
-  {#if visible("burette") || visibleApparatus.length > 0}<div class="equipment-group">
-    <h2><span>{t("measure and transform")}</span><small>{visibleApparatus.length + (visible("burette") ? 1 : 0)}</small></h2>
+  <label class="equipment-search">
+    <span aria-hidden="true">⌕</span>
+    <input bind:value={filter} placeholder={t("filter…")} aria-label={`${t("filter…")} ${t("equipment")}`} />
+    {#if filter}<button type="button" onclick={() => (filter = "")} aria-label={t("clear")}>×</button>{/if}
+  </label>
+
+  {#if showBurette || visibleApparatus.length > 0}<div class="equipment-group">
+    <h2><span>{t("measure and transform")}</span><small>{visibleApparatus.length + Number(showBurette)}</small></h2>
     <div class="equipment-grid">
-      {#if visible("burette")}<button class="equipment-card feature" class:deployed={buretteOut} aria-pressed={buretteOut} onclick={onburette}>
+      {#if showBurette}<button class="equipment-card feature" class:deployed={buretteOut} aria-pressed={buretteOut} onclick={onburette}>
         <span class="equipment-icon"><ToolIcon name="burette" /></span>
         <span class="equipment-copy"><strong>{t("burette")}</strong><small>{t("controlled addition")}</small></span>
         {#if buretteOut}<span class="deployed-label">{t("on bench")}</span>{/if}
@@ -98,8 +117,8 @@
     </div>
   </div>{/if}
 
-  {#if visibleTransfers.length > 0 || visible("mix") || visible("transport")}<div class="equipment-group">
-    <h2><span>{t("transfer and separation")}</span><small>{visibleTransfers.length + (visible("mix") ? 1 : 0) + (visible("transport") ? 1 : 0)}</small></h2>
+  {#if visibleTransfers.length > 0 || showMix || showTransport}<div class="equipment-group">
+    <h2><span>{t("transfer and separation")}</span><small>{visibleTransfers.length + Number(showMix) + Number(showTransport)}</small></h2>
     <div class="equipment-grid">
       {#each visibleTransfers as item (item.verb)}
         {@const itemAccess = access(item.verb)}
@@ -111,12 +130,12 @@
           {#if !itemAccess.available}<span class="locked-label">⌁ {requirementLabel(item.verb)}</span>{/if}
         </button>
       {/each}
-      {#if visible("mix")}<button class="equipment-card" class:deployed={mixActive} aria-pressed={mixActive} onclick={onmix}>
+      {#if showMix}<button class="equipment-card" class:deployed={mixActive} aria-pressed={mixActive} onclick={onmix}>
         <span class="equipment-icon"><ToolIcon name="mix" /></span>
         <span class="equipment-copy"><strong>{t("mixer")}</strong><small>{t("combine two sources into a receiver")}</small></span>
         {#if mixActive}<span class="deployed-label">{t("select sources")}</span>{/if}
       </button>{/if}
-      {#if visible("transport")}{@const transportAccess = access("transport")}<button class="equipment-card" class:locked={!transportAccess.available} class:deployed={apparatusOut === "transport"} aria-pressed={apparatusOut === "transport"} disabled={!transportAccess.available} onclick={() => onapparatus("transport")}>
+      {#if showTransport}{@const transportAccess = access("transport")}<button class="equipment-card" class:locked={!transportAccess.available} class:deployed={apparatusOut === "transport"} aria-pressed={apparatusOut === "transport"} disabled={!transportAccess.available} onclick={() => onapparatus("transport")}>
         <span class="equipment-icon"><ToolIcon name="transport" /></span>
         <span class="equipment-copy"><strong>{t("column train")}</strong><small>{t("move solution through connected cells")}</small></span>
         {#if apparatusOut === "transport"}<span class="deployed-label">{t("on bench")}</span>{/if}
@@ -126,7 +145,7 @@
     </div>
   </div>{/if}
 
-  {#if reactAvailable && visible("react")}
+  {#if showReact}
     {@const reactAccess = access("react")}
     <div class="equipment-group">
       <h2><span>{t("reaction studio")}</span><small>1</small></h2>
@@ -138,6 +157,9 @@
         {#if !reactAccess.available}<span class="locked-label">⌁ {requirementLabel("react")}</span>{/if}
       </button>
     </div>
+  {/if}
+  {#if filter && resultCount === 0}
+    <p class="empty-scope">{t("nothing matches that filter")}</p>
   {/if}
   {#if scope === "mission" && missionVerbs.length === 0}
     <p class="empty-scope">{t("This mission needs no additional cabinet equipment.")}</p>
@@ -156,6 +178,12 @@
   .cabinet-intro > span { display: flex; justify-content: space-between; color: var(--ink); font-size: 0.85rem; font-weight: 800; }
   .cabinet-intro b { color: var(--instrument); font-size: .72rem; }
   .cabinet-intro p { margin: 0.15rem 0 0; color: var(--dim); font-size: 0.67rem; line-height: 1.35; }
+  .equipment-search { min-height: 38px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: .4rem; margin: 0 0 1rem; padding: 0 .55rem; border: 1px solid var(--edge); border-radius: 11px; color: var(--dim); background: var(--surface-raised); }
+  .equipment-search:focus-within { border-color: var(--primary); box-shadow: 0 0 0 2px color-mix(in srgb, var(--primary) 18%, transparent); }
+  .equipment-search input { min-width: 0; border: 0; outline: 0; color: var(--ink); background: transparent; font: inherit; font-size: .72rem; }
+  .equipment-search input::placeholder { color: var(--dim); }
+  .equipment-search button { width: 25px; height: 25px; border: 0; border-radius: 50%; color: var(--dim); background: transparent; cursor: pointer; font-size: 1rem; }
+  .equipment-search button:hover { color: var(--ink); background: var(--surface); }
   .equipment-group { margin-bottom: 1.15rem; }
   .equipment-group h2 { display: flex; align-items: center; justify-content: space-between; margin: 0 0 0.45rem; color: var(--dim); font-size: 0.62rem; letter-spacing: 0.07em; text-transform: uppercase; }
   .equipment-group h2 small { min-width: 1.35rem; padding: 0.12rem 0.3rem; border-radius: 999px; background: var(--surface-raised); text-align: center; }
