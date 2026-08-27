@@ -17,7 +17,7 @@ import sys
 # example buttons had, which a flat alphabetical list lost.
 TOPICS = {
     "start here": ["silver-and-salt", "first-warmth", "one-thing-at-a-time",
-                   "pepper-and-soap"],
+                   "pepper-and-soap", "oil-water-colour"],
     "acids & bases": ["fizz", "neutral-moves", "three-protons", "buffer",
                       "titration", "titration-manual", "two-roads",
                       "there-and-back"],
