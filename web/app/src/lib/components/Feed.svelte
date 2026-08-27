@@ -2,6 +2,7 @@
   import { t } from "../i18n.svelte";
   import type { FeedEntry } from "../session.svelte";
   import Chart from "./Chart.svelte";
+  import { engineText } from "../engineText";
 
   let { entries, onaddnote }: { entries: FeedEntry[]; onaddnote?: (text: string) => void } = $props();
   let note = $state("");
@@ -55,7 +56,7 @@
     {#if entry.kind === "hazard"}
       <div class="hazard" role="alert">
         <span class="chip">{t(entry.severity || "hazard")}</span>
-        {entry.text}
+        {engineText(entry.text)}
       </div>
     {:else if entry.kind === "chart" && entry.chart}
       <svelte:boundary>
@@ -75,7 +76,7 @@
     {:else}
       <p class={entry.kind}>
         {#if entry.kind === "command"}<span class="prompt">kero&gt;</span>{/if}
-        {entry.text}
+        {engineText(entry.text)}
       </p>
     {/if}
   {/each}

@@ -3,6 +3,7 @@
   import ParticleView from "./ParticleView.svelte";
   import InstrumentTray from "./InstrumentTray.svelte";
   import { t } from "../i18n.svelte";
+  import { engineText } from "../engineText";
 
   let {
     vessel,
@@ -56,7 +57,7 @@
   {/if}
   <section class="computed-state" aria-label={t("computed state") }>
     <h3>{t("computed state")}</h3>
-    <pre>{lines.join("\n")}</pre>
+    <pre>{lines.map(engineText).join("\n")}</pre>
   </section>
   {#if particles}
     <svelte:boundary>
