@@ -374,6 +374,7 @@ zinc = "Zink"
 # Words that a branch used to choose in English and drop into a sentence.
 # They go through the catalogue now, so German picks German words.
 "gas-tested.lv2" = "{vessel}: {test} — {outcome}"
+"foam-changed.lv1-overflow" = "Schaum quillt aus {vessel} und läuft über den Rand!"
 
 [model]
 "coupling-active" = "aktiv"
@@ -389,3 +390,33 @@ higher = "höher"
 
 [distilled]
 azeotrope = "; Azeotrop erreicht: y = x"
+
+# The instruments, keyed by their English name. The interface keeps its own
+# copy for the toolbox; this one is for the sentences the engine writes,
+# which the interface never sees.
+[instrument]
+thermometer = "Thermometer"
+balance = "Waage"
+"pH meter" = "pH-Meter"
+eyes = "Augen"
+"pressure gauge" = "Manometer"
+"volume meter" = "Volumenmessung"
+"conductivity meter" = "Leitfähigkeitsmessgerät"
+spectrophotometer = "Spektralphotometer"
+calorimeter = "Kalorimeter"
+chromatograph = "Chromatograph"
+"Geiger counter" = "Geigerzähler"
+
+# Phase-change verbs. German inflects them differently from English, so a
+# table rather than a suffix rule.
+[verb]
+froze = "gefror"
+melted = "schmolz"
+boiled = "siedete"
+"changed state" = "wechselte den Zustand"
+
+[centrifuged]
+"diameter-assumed" = " (Durchmesser angenommen)"
+
+[chromatographed]
+"solvent-only" = "nur Laufmittel"

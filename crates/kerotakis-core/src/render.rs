@@ -428,7 +428,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             ..
         } => match register.level() {
             1 if *overflow_liters > 0.0 => {
-                format!("Foam climbs out of {vessel} and spills over the rim!")
+                locale.fill(
+                    "event.foam-changed.lv1-overflow",
+                    "Foam climbs out of {vessel} and spills over the rim!",
+                    &[("vessel", &vessel.to_string())],
+                )
             }
             1 => locale.fill(
                 "event.foam-changed.lv1",
@@ -595,7 +599,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         .iter()
                         .map(|separation| {
                             let assumption = if separation.particle_size_assumed {
-                                " (diameter assumed)"
+                                // The last bare literal in this file: a
+                                // parenthetical appended to a diagnostic
+                                // line, and a claim about the SIMULATION —
+                                // it says the engine assumed a diameter
+                                // rather than being told one.
+                                locale.t("centrifuged.diameter-assumed", " (diameter assumed)")
                             } else {
                                 ""
                             };
@@ -1537,6 +1546,13 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 Instrument::Chromatograph => "chromatograph",
                 Instrument::GeigerCounter => "Geiger counter",
             };
+            // The English name is the source text and the fallback; German
+            // comes from the catalogue, keyed by that name. An instrument
+            // nobody has translated reads in English inside a German
+            // sentence rather than disappearing from it.
+            let device = locale
+                .lookup(&format!("instrument.{device}"))
+                .unwrap_or(device);
             match register.level() {
                 1 => locale.fill(
                     "event.measured.lv1",
@@ -1852,12 +1868,18 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             let name = crate::species::lookup(species)
                 .map(|d| d.name)
                 .unwrap_or(species.0.as_str());
-            let verb = match (from, to) {
+            // English builds these from a table and drops them into a
+            // translated sentence, so German needs its own — gefror,
+            // schmolz, siedete — and the table is where they belong.
+            let verb_en = match (from, to) {
                 (Phase::Liquid, Phase::Solid) => "froze",
                 (Phase::Solid, Phase::Liquid) => "melted",
                 (Phase::Liquid, Phase::Gas) => "boiled",
                 _ => "changed state",
             };
+            let verb = locale
+                .lookup(&format!("verb.{verb_en}"))
+                .unwrap_or(verb_en);
             let c = at.to_celsius();
             match register.level() {
                 1 => match (from, to) {
@@ -2061,7 +2083,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         })
                         .collect();
                     let what = if species_list.is_empty() {
-                        "solvent only".to_string()
+                        locale.t("chromatographed.solvent-only", "solvent only").to_string()
                     } else {
                         species_list.join(", ")
                     };

@@ -79,6 +79,13 @@ def load_catalogue(path: pathlib.Path) -> dict[str, str]:
 
 def main() -> int:
     src = RENDER.read_text()
+    # Stop at the test module. Its fixtures and expected strings are prose
+    # by every measure this script applies — "Some of the magnesium in v1
+    # is used up." — but nobody reads them on a screen, and counting them
+    # inflated the remaining work by more than half.
+    cut = src.find("\n#[cfg(test)]")
+    if cut != -1:
+        src = src[:cut]
     used = {m.group(1): m.group(2) for m in CALL.finditer(src)}
     dynamic = {m.group(1) for m in DYNAMIC.finditer(src)}
     mentioned = {m.group(1) for m in MENTIONED.finditer(src)}
@@ -87,6 +94,37 @@ def main() -> int:
     # call. Rough by design: it over-reports rather than under-reports,
     # because a missed line is one nobody knows is English.
     reachable_texts = set(used.values())
+
+    # A literal that is a lookup KEY under a dynamic prefix — the
+    # instrument, verb, species and glassware tables build their English
+    # name and then ask the catalogue for it by that name.
+    for path in CATALOGUES.glob("*.toml"):
+        cat = load_catalogue(path)
+        for k in cat:
+            head, _, tail = k.partition(".")
+            if head in dynamic and tail:
+                reachable_texts.add(tail)
+
+    # A literal passed to locale.t / locale.fill in any shape — including
+    # the ones bound by a `let` first, or chosen by an `if` inside the
+    # argument list, which the CALL pattern cannot see.
+    for m in re.finditer(r"locale\s*\.\s*(?:t|fill)\s*\(", src):
+        depth, i = 1, m.end()
+        while i < len(src) and depth:
+            if src[i] == "(":
+                depth += 1
+            elif src[i] == ")":
+                depth -= 1
+            i += 1
+        for lit in re.findall(r'"((?:[^"\\\n]|\\.)*)"', src[m.end():i]):
+            reachable_texts.add(lit)
+    # And the `let en = if … { "…" } else { "…" };` form, whose strings sit
+    # outside the call entirely.
+    for m in re.finditer(r"let\s+\w+\s*=\s*if[^;]{0,400}?;", src, re.S):
+        if "locale." in src[m.end():m.end() + 200]:
+            for lit in re.findall(r'"((?:[^"\\\n]|\\.)*)"', m.group(0)):
+                reachable_texts.add(lit)
+
     bare = set()
     for m in LITERAL.finditer(src):
         text = m.group(1)
