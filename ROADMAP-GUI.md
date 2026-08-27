@@ -300,6 +300,11 @@ classrooms-as-a-service, and cloud saves are **non-goals** for this roadmap.
   names, human-readable field labels, units, errors, register explanations,
   and provenance now cross the German presentation boundary. Inputs name the
   physical quantity prominently and retain the exact solver symbol beneath it.
+- *Notebook-export audit shipped 2026-08-27:* Markdown exports now use the same
+  locale boundary as the live journal for engine observations, hazards,
+  refusals, chart titles, axes, units, and provenance. User-entered commands
+  and notes remain verbatim. Rare particle populations now localize their
+  species names instead of leaking canonical English labels.
 
 ### Immediate experience target: the laboratory as a place
 

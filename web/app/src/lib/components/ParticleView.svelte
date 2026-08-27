@@ -58,7 +58,7 @@
   {#if census.too_rare.length > 0}
     <p class="note">
       {t("also present, too dilute to draw at this scale:")}
-      {census.too_rare.map(([name]) => name).join(", ")}
+      {census.too_rare.map(([name]) => t(name)).join(", ")}
     </p>
   {/if}
   <p class="note">
