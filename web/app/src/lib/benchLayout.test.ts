@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   EMPTY_BENCH_LAYOUT,
   adjacentZone,
+  apparatusRoute,
   apparatusPositionFor,
   benchLayoutFromLab,
   labWithBenchLayout,
@@ -67,6 +68,21 @@ describe("bench layout", () => {
     expect(placementsOverlap(centre, { x: 0.64, y: 0.5 })).toBe(false);
     expect(placementsOverlap(centre, { x: 0.5, y: 0.7 })).toBe(false);
     expect(placementsOverlap(centre, { x: 0.62, y: 0.66 }, 0.1, 0.15)).toBe(false);
+  });
+
+  it("routes apparatus relationships between object edges with a lifted badge point", () => {
+    const route = apparatusRoute({ x: 0.2, y: 0.62 }, { x: 0.7, y: 0.58 });
+    expect(route.from).toEqual({ x: 0.255, y: 0.62 });
+    expect(route.to.x).toBeCloseTo(0.655);
+    expect(route.to.y).toBe(0.58);
+    expect(route.control1.y).toBeLessThan(route.from.y);
+    expect(route.control2.y).toBeLessThan(route.to.y);
+    expect(route.midpoint.x).toBeGreaterThan(route.from.x);
+    expect(route.midpoint.x).toBeLessThan(route.to.x);
+
+    const reversed = apparatusRoute({ x: 0.8, y: 0.5 }, { x: 0.3, y: 0.7 });
+    expect(reversed.from.x).toBeLessThan(0.8);
+    expect(reversed.to.x).toBeGreaterThan(0.3);
   });
 
   it("places new glassware in a stable open slot instead of stacking it", () => {

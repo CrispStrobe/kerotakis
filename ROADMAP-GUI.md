@@ -1113,6 +1113,13 @@ hide them completely.
   retaining the static filter, condenser, separator, magnet, meter, and
   source-to-target route. Reduced motion no longer erases the apparatus or its
   spatial meaning.
+  *Workstation-routing correction shipped 2026-08-27:* a freestanding machine
+  no longer points through the centres of itself and its sample with an
+  arbitrary straight UI line. Edge-anchored lifted routes avoid the object
+  silhouettes, carry a stable `vN` target badge, distinguish a physical
+  burette connection from a sample/workstation association, and follow both
+  objects through free placement. The route animates only when that exact
+  workstation is operating.
   *Static operating-state correction shipped 2026-08-27:* reduced-motion users
   now retain a visible steady heat plume, frost, light cone, wash jet, steam,
   charge/gas markers, and burette drop while the corresponding computed
