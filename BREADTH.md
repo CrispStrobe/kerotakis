@@ -603,6 +603,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   phase rebinds seven waters per formula unit, and dissolved plus crystalline
   magnesium is conserved. Crystal habit, nucleation delay, seed crystals and
   slow real-world evaporation time remain future morphology/kinetics work.
+- **Checkpoint 31 implemented:** localized iron filings/`Eisenfeilspäne` and
+  quartz-rich play sand/`Spielsand` make magnetic separation a complete
+  child-directed material interaction. Sand resolves 95% canonical `SiO2`
+  while conserving a 5% variable-mineral remainder; filings resolve to
+  magnetic `Fe`. The `magnet` tool moves only the real iron inventory into a
+  receiver, leaves silica and unresolved grains behind, narrates both sides,
+  and preserves mass. The existing shelf, receiver-vessel and `magnet`
+  interaction expose the sequence; field strength and individual grain
+  trajectories remain explicit future physics.
 
 ## Stage B2 — organic structure and curated reaction families
 
