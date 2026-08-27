@@ -899,8 +899,10 @@ hide them completely.
   material-lot provenance; grinding persists the requested mean particle
   diameter and emits spherical-particle surface area from actual solid moles,
   molar mass, and registry density. Mortar motion scales from that emitted
-  area. Heterogeneous kinetic rate coupling remains explicitly false until a
-  rate law consumes the surface-area state.*
+  area. The peroxide/MnO₂ law now consumes this area together with suspension
+  state and a bounded stir-tip-speed correction; catalyst `Ground` and
+  `Stirred` events therefore expose active rate coupling. Pore/BET area,
+  adsorption and diffusion remain outside the reduced model.*
   *Computed-centrifuge slice in progress 2026-08-27: the equipment wall now
   exposes RPM, duration, and rotor radius; the core derives angular speed and
   RCF, then applies Stokes settling per solid from particle size, registry

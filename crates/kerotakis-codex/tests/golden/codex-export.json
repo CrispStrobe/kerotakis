@@ -6781,20 +6781,22 @@
       "registers": {
         "lv1": "A speck of liver enzyme, too small to see properly, and a flask of peroxide. One second and the peroxide is gone. Add more peroxide: gone again, just as fast. Add more: gone again. The speck is still there and still working. It is not an ingredient — it is a doorway that the reaction goes through and leaves behind.",
         "lv2": "0.001 g of catalase is 4.16666667 × 10⁻⁹ mol at M ≈ 240 kDa. Each of the three 0.1 mol charges is destroyed in one second, 5.0000 × 10⁻² mol of reaction apiece, and the bench's inventory reports the same 4.16666667 × 10⁻⁹ mol of catalase after the third as before the first — identical to every digit it prints. Oxygen accumulates to 0.15 mol, three times the yield of one charge, as it must.",
-        "lv3": "The mechanism of the claim is worth seeing, because it is structural rather than numerical. `KineticReaction` keeps `catalysts` outside `reactants` and `products`; the integrator withdraws and deposits only what those two lists name, so a catalyst is never a term in the mass update and cannot drift. What it does instead is chosen fresh at every substep by `effective_activation_energy`, which scans the vessel for the best catalyst present and substitutes its barrier. Two honest gaps sit beside this. The bench does not model the heat of the decomposition, so a real flask that grows warm and accelerates is not what you see here. And a real enzyme is not indestructible: catalase denatures with heat, is inhibited, and turns over at a finite maximum rate that no barrier substitution can express — a Michaelis–Menten saturation this engine has no term for."
+        "lv3": "The catalyst remains outside the stoichiometric mass update, so it cannot be consumed accidentally, but its amount is no longer ignored. At each substep the engine compares the uncatalysed path with each available catalyst path after applying that catalyst's activity. Catalase activity scales with effective enzyme-site concentration and includes a Michaelis–Menten substrate-saturation correction. Reaction heat feeds back into temperature and therefore into the next Arrhenius step. Remaining biological limits are denaturation, inhibition and product-specific yeast activity."
       },
       "provenance": {
-        "source": "Standard curriculum treatment of catalysis; catalase molar mass ~240 kDa (bovine liver catalase, standard reference) via the Kerotakis species registry. Editorial judgement (Kerotakis): the three-charge protocol is our design, chosen because a single charge cannot distinguish an unconsumed catalyst from a generously supplied reagent. The absence of a reaction enthalpy and of enzyme saturation are stated gaps in the current engine, not claims about chemistry.",
+        "source": "Standard curriculum treatment of catalysis; catalase molar mass ~240 kDa via the Kerotakis species registry. Ogura & Yamazaki, J. Biochem. 1983 (PMID 6630165), report Kₘ = 1.29–1.39 M and first-order peroxide behaviour below 0.1 M. Editorial judgement (Kerotakis): the effective yeast activity reference and three-charge protocol are teaching calibrations; brand, hydration, inhibition and denaturation remain explicit uncertainties.",
         "licence": null,
         "computed_by": "kerotakis-core kinetics (catalysts are excluded from the mass update by construction)"
       }
     },
     {
-      "id": "more-catalyst-and-a-good-stir-change-nothing",
+      "id": "catalyst-area-and-stirring-change-the-rate",
       "equation": null,
-      "summary": "0.1 g of MnO₂, 1 g of MnO₂, and 0.1 g with a computed stir all give 3.849 × 10⁻⁴ mol of reaction in one second — the stirrer moves the suspension, but rate coupling remains an explicit model gap",
+      "summary": "MnO₂ loading, particle size, suspension, and stir speed now feed an explicit exposed-area and bounded mass-transfer model",
       "concepts": [
-        "unmodelled-variable"
+        "heterogeneous-catalysis",
+        "surface-area",
+        "mass-transfer"
       ],
       "requires": [
         "catalysis",
@@ -6828,7 +6830,7 @@
         "model-boundaries"
       ],
       "setup": {
-        "script": "add v1 water 100mL\nadd v1 H2O2 0.1mol\nadd v1 MnO2 0.1g\nnew\nadd v2 water 100mL\nadd v2 H2O2 0.1mol\nadd v2 MnO2 1g\nnew\nadd v3 water 100mL\nadd v3 H2O2 0.1mol\nadd v3 MnO2 0.1g\nstir v3\nwait 1s\n"
+        "script": "add v1 water 100mL\nadd v1 H2O2 0.1mol\nadd v1 MnO2 0.1g\nnew\nadd v2 water 100mL\nadd v2 H2O2 0.1mol\nadd v2 MnO2 1g\nnew\nadd v3 water 100mL\nadd v3 H2O2 0.1mol\nadd v3 MnO2 0.1g\nstir v1 500rpm 1s\nstir v2 500rpm 1s\nstir v3 5000rpm 1s\n"
       },
       "expect": {
         "events": [
@@ -6839,26 +6841,32 @@
           "solver_failed"
         ],
         "predict": {
-          "question": "Ten times as much manganese dioxide in the second flask, and the third gets a vigorous stir. After one second, how do the three compare?",
+          "question": "Ten times as much manganese dioxide in the second flask, while the third stirs ten times faster. After the same one second, how do the three compare?",
           "options": [
             "The flask with more catalyst is faster; stirring helps a little too",
             "All three are identical, because a catalyst is not consumed and therefore its amount cannot matter",
-            "All three are identical in this engine — and in a real flask they would not be, because surface area and mixing are real variables this model does not contain",
+            "Only the catalyst identity matters; its amount and the stir speed cannot enter a rate law",
             "The stirred flask is slower, because stirring cools it"
           ],
-          "answer": 2,
-          "misconception": "The second option is the dangerous one, and it is dangerous precisely because it reasons correctly from a true premise to a false conclusion: a catalyst really is not consumed, and it really does not appear in the stoichiometry, so it is tempting to conclude its amount is irrelevant. It is not irrelevant. Heterogeneous catalysis happens on a surface, so ten times the powder is roughly ten times the surface and roughly ten times the rate, and grinding it finer does the same again. The first option is the chemistry a school course teaches and the right expectation for a real bench. Our engine gives neither — it gives the second answer for the second reason, and the point of this entry is that you should know that before you trust it.",
+          "answer": 0,
+          "misconception": "A catalyst is retained, but that does not make its amount irrelevant. For a solid catalyst, more exposed area supplies more simultaneous reaction sites. Stirring keeps particles suspended and renews liquid at their surfaces. Kerotakis now consumes all four state variables, while deliberately bounding the mixing correction because this is a teaching correlation rather than a pore-scale transport simulation.",
           "diagnosis": [
             {
               "option": 0,
-              "reveals": "The right chemistry for a real bench, offered as a prediction about this one.",
-              "next": "Nothing to unlearn — check instead which expectations the engine can honour. The stirrer computes bar speed and resuspension; the kinetic solver still has no surface-area or mass-transfer coupling, and the stir event says that explicitly.",
+              "reveals": "The learner connects catalyst loading and mixing to the number and accessibility of active surface sites.",
+              "next": "Now grind equal catalyst masses to different particle diameters: the smaller nominal spheres expose more area without adding catalyst mass.",
               "source": null
             },
             {
               "option": 1,
               "reveals": "A catalyst is not consumed and does not appear in the stoichiometry, therefore how much of it there is cannot matter.",
               "next": "Reason about where the reaction physically happens. On a solid catalyst it happens on the surface, so ten times the powder is ten times the surface; grinding it finer does the same again without adding any mass. 'Not consumed' and 'amount irrelevant' are different claims, and only the first is true.",
+              "source": null
+            },
+            {
+              "option": 2,
+              "reveals": "Catalyst identity is understood, but catalyst activity is still being treated as a boolean switch.",
+              "next": "Compare the two equal-speed flasks first. Their only difference is MnO₂ mass, and the rate follows the nominal exposed area.",
               "source": null
             },
             {
@@ -6873,14 +6881,14 @@
         "temperature_c": null
       },
       "registers": {
-        "lv1": "Two flasks, one with a pinch of black powder and one with ten pinches, and a third that you stir hard. In this lab all three fizz at exactly the same speed. On a real bench they would not: more powder means more surface for the peroxide to meet, and stirring keeps fresh liquid arriving at that surface. This lab does not know about surfaces, and it says so rather than letting you think you have proved something.",
-        "lv2": "Rate = k·[H₂O₂] with k set by whichever catalyst is present, and *present* is the only thing the kinetic model asks. 0.1 g and 1 g of MnO₂ both give 3.849 × 10⁻⁴ mol of reaction in one second, digit for digit. `stir` now computes 500 rpm, bar-tip speed and resuspension, but reports rate coupling as inactive. In a real flask ten times the catalyst is roughly ten times the surface and roughly ten times the rate, and grinding it finer raises it again.",
-        "lv3": "The gap has a definite shape, which is what makes it worth stating rather than apologising for. `effective_activation_energy` tests `moles_of(catalyst) > 0` and then substitutes a barrier — a boolean, not a quantity — so catalyst loading is structurally invisible; there is no particle-size, surface-area or mass-transport term anywhere in `kinetics.rs`. Modelling it properly means a Langmuir–Hinshelwood surface treatment with a site density and a diffusion coefficient, which is a different engine, not a coefficient. Until then the honest reading of these three flasks is that they demonstrate the *absence* of a model. One caution for anyone extending the script: keep the manganese dioxide below about 4 g in 100 mL. At 4 g the bench leaves it as a solid with 4.6 × 10⁻¹² mol of Mn²⁺ in solution, as an insoluble oxide should; at 5 g the aqueous solver dissolves the entire charge, reporting 5.75 × 10⁻² mol of Mn²⁺ and pH 13.55. That discontinuity is a solver artefact, not chemistry, and it is flagged here because the rate results happen to survive it — the catalyst check only asks whether any MnO₂ is left."
+        "lv1": "Three flasks stir for the same second: one with a pinch of black powder, one with ten pinches, and one spinning ten times faster. More powder fizzes faster because it offers more surface. Faster stirring helps too by keeping particles and fresh peroxide in contact, but its benefit levels off.",
+        "lv2": "The MnO₂ path multiplies its Arrhenius rate by exposed area relative to a declared reference. Nominal spherical area is A = 6V/d, so catalyst mass raises area and grinding to one tenth the diameter raises it tenfold. Suspension and stir-bar tip speed add a finite external-transfer correction; the `Stirred` and catalyst `Ground` events therefore report rate coupling as active.",
+        "lv3": "This is a progressive heterogeneous-catalysis model, not a Langmuir–Hinshelwood or pore-diffusion solver. Material lots carry particle diameter and suspended fraction. Their geometric areas are summed, weighted by contact, then multiplied by 1 + g·u/(u₁/₂+u), where u is computed bar-tip speed and g bounds the maximum mixing gain. It supports causal comparisons of mass, grinding and stirring while explicitly leaving BET pore area, adsorption, agglomeration and diffusion coefficients unresolved."
       },
       "provenance": {
-        "source": "Editorial judgement (Kerotakis): this is a statement about our engine's boundary, not about chemistry. Real heterogeneous catalysis depends strongly on catalyst surface area and mass transport. The shipped stirrer computes mechanical mixing and suspension state, while the rate model does not yet consume those quantities.",
+        "source": "Do et al., Chemosphere 2009, report pseudo-first-order hydrogen-peroxide loss on pyrolusite and characterise its BET area. Editorial judgement (Kerotakis): spherical external area and the bounded stir-speed correlation are transparent teaching approximations, not fitted claims for a particular MnO₂ powder.",
         "licence": null,
-        "computed_by": "kerotakis-core kinetics and the computed magnetic-stirrer model; the Stirred event carries rate_coupled=false"
+        "computed_by": "kerotakis-core quantitative catalyst activity plus the magnetic-stirrer tip-speed and suspension model; Stirred and catalyst Ground events carry rate_coupled=true"
       }
     },
     {
@@ -9408,7 +9416,7 @@
         "teilchenmodell",
         "massenerhaltung"
       ],
-      "embodied_by": "Partly, and the boundary is sharp. `kerotakis-core/src/kinetics.rs` integrates curated rate laws with a bench clock, so three of this model's four claims are computed: concentration enters through the reaction order, temperature through the Arrhenius exponent — the rate roughly doubles per ten degrees without ever being told to, and a steeper barrier visibly breaks that rule of thumb — and a catalyst is modelled as a *lower activation energy* rather than a multiplier, which is what a catalyst is. What is not modelled is the fourth: surface area and stirring change nothing here, because the engine has no particle-size or mixing model, so the flour-dust half of this model's explanatory power is a stated hole. Orders are curated experimental facts rather than derived, and mechanisms remain PLAN.md's P5. The thermal solver's 500 K stand-down is still a placeholder for the kinetics it does not have.",
+      "embodied_by": "The curated kinetics engine computes each of this model's four school-level claims. Concentration enters through reaction order; temperature through the Arrhenius exponent; a catalyst supplies a lower-barrier pathway whose activity depends on its amount; and heterogeneous catalyst mass, particle diameter, suspension and stir-bar tip speed enter through nominal exposed area and a bounded external-transfer correction. Thus grinding MnO₂ finer or stirring it changes the peroxide rate without changing stoichiometry. Orders remain curated experimental facts rather than mechanism-derived, and the surface treatment deliberately omits adsorption, pore/BET area and diffusion. The thermal solver's 500 K stand-down is still a placeholder for kinetics it does not have.",
       "registers": {
         "lv1": "Nothing can react unless the pieces actually bump into each other — and a gentle bump is not enough. It has to be a hard bump, and pointing the right way. So anything that makes bumps more frequent or harder speeds the reaction up: more crowded, hotter, or ground into powder so there is more surface to bump into. That is why a lump of flour just sits there and a cloud of flour dust can blow up a mill.",
         "lv2": "Particles react only when they collide, and only if the collision carries at least the activation energy and brings the right parts together. Rate therefore rises with concentration and pressure (more collisions per second), with temperature (a far larger fraction of collisions clears the activation energy, because of the tail of the Maxwell-Boltzmann distribution) and with surface area. A catalyst opens a route with a lower activation energy, so more of the same collisions succeed.",

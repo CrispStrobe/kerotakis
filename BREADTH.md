@@ -757,6 +757,20 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   arbitrary food-colour mixtures therefore change the foam without changing
   oxygen yield or rate. Spatially preserved, user-placed stripes still require
   a typed placement operator and are not inferred from a well-mixed vessel.
+- **Quantitative-catalysis checkpoint implemented (2026-08-27):** catalyst
+  selection is no longer a boolean presence test. Effective dissolved KI
+  concentration enters with the measured first-order iodide dependence;
+  catalase scales with effective enzyme loading and a Michaelis–Menten
+  substrate-saturation correction; MnO₂ consumes material-lot mass, density,
+  particle diameter and suspended fraction to obtain nominal exposed area.
+  Magnetic-stirrer tip speed supplies a bounded external mass-transfer gain.
+  Thus dose, grinding and stirring now change oxygen production, foam growth,
+  overflow and reaction heat through one kinetics path. Regression tests cover
+  twofold KI/enzyme dose response, twofold MnO₂ loading, tenfold area gain
+  from grinding, bounded mixing acceleration, catalyst retention, and the
+  complete household peroxide + soap + yeast/KI visual outcome. Remaining
+  boundaries are yeast-brand/hydration activity, enzyme denaturation and
+  inhibition, catalyst pore/BET area, adsorption and pore-scale diffusion.
 
 ### BRD-075 — Transparent dye and opaque-pigment mixing
 
