@@ -120,6 +120,12 @@ export interface StirRun {
   solids: StirredSolid[];
 }
 
+export interface GasTestRun {
+  test: "pop" | "glowing_splint" | "limewater" | "damp_litmus" | string;
+  positive: boolean;
+  notes: string;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -160,6 +166,7 @@ export interface Effect {
   settling?: SettlingRun;
   centrifuge?: CentrifugeRun;
   stir?: StirRun;
+  gasTest?: GasTestRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -503,6 +510,18 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
       const [mag, colour] = flameMag(e);
       return { kind: kind === "flame_test" ? "flame_test" : "ignite", at: now, magnitude: mag, flameColour: colour };
     }
+    case "gas_tested":
+      return {
+        kind: "gas_test",
+        at: now,
+        durationMs: 4500,
+        magnitude: Boolean(e.positive) ? .85 : .25,
+        gasTest: {
+          test: String(e.test ?? ""),
+          positive: Boolean(e.positive),
+          notes: String(e.notes ?? ""),
+        },
+      };
     default:
       return null;
   }

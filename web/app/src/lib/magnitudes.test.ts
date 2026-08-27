@@ -136,6 +136,19 @@ describe("effectFromEvent", () => {
     expect(e!.flameColour).toBeUndefined();
   });
 
+  it("retains the typed result of each physical headspace gas test", () => {
+    const positive = effectFromEvent({ event: "gas_tested", vessel: 0, test: "glowing_splint", positive: true, notes: "the splint relights" });
+    const negative = effectFromEvent({ event: "gas_tested", vessel: 0, test: "limewater", positive: false, notes: "stays clear" });
+    expect(positive).toMatchObject({
+      kind: "gas_test", magnitude: .85, durationMs: 4500,
+      gasTest: { test: "glowing_splint", positive: true, notes: "the splint relights" },
+    });
+    expect(negative).toMatchObject({
+      kind: "gas_test", magnitude: .25,
+      gasTest: { test: "limewater", positive: false, notes: "stays clear" },
+    });
+  });
+
   it("maps dissolved → dissolve with magnitude 1", () => {
     const e = effectFromEvent({ event: "dissolved", vessel: 0 });
     expect(e!.kind).toBe("dissolve");

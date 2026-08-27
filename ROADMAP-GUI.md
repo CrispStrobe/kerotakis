@@ -1302,6 +1302,14 @@ decorating it.
   hotplate show tip speed and resuspension, while the boundary label says
   plainly when mixing changed suspension state but did not change kinetic
   rates.
+  *Physical gas-test slice shipped 2026-08-27:* the four inspector headspace
+  tests no longer end as notebook prose. Typed `GasTested` results deploy the
+  appropriate setup at the vessel: lit splint and pressure ring for hydrogen,
+  glowing/relit splint for oxygen, delivery tube and clear/milky limewater for
+  carbon dioxide, or damp red/blue litmus for ammonia. Positive and negative
+  presentations come only from the engine boolean, retain its explanatory
+  notes as accessible detail, and suppress repeated motion under the system
+  reduced-motion preference.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,
