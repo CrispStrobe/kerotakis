@@ -39,7 +39,7 @@ use std::collections::BTreeMap;
 
 use serde::{Deserialize, Serialize};
 
-use crate::species::{Phase, SpeciesId};
+use crate::species::{self, Phase, SpeciesId};
 use crate::units::Moles;
 use crate::vessel::Vessel;
 
@@ -48,8 +48,9 @@ mod integrator;
 pub mod mechanism;
 
 pub use integrator::{
-    advance_network_with_options, amount_at_extents, commit_extents, consumable_keys, extent_rhs,
-    IntegrationError, IntegrationOptions, IntegrationReport, IntegrationStatistics,
+    advance_network_with_context_and_options, advance_network_with_options, amount_at_extents,
+    commit_extents, consumable_keys, extent_rhs, IntegrationError, IntegrationOptions,
+    IntegrationReport, IntegrationStatistics,
 };
 
 /// Arrhenius parameters behind a mass-action rate expression.
@@ -431,19 +432,9 @@ pub struct KineticReaction<'a> {
     /// Third-body or falloff correction for gas-phase mechanisms.
     pub pressure_dependence: Option<PressureDependence<'a>>,
     /// A catalyst does not appear in the stoichiometry and is not consumed.
-    /// It lowers the activation energy — which is the whole content of what
-    /// a catalyst *is*, so it is modelled that way rather than as a fudge
-    /// factor on the rate.
-    ///
-    /// **How much catalyst there is makes no difference here, deliberately
-    /// and wrongly.** Presence is a boolean: a milligram of manganese
-    /// dioxide and a spoonful give bit-identical rates. For a heterogeneous
-    /// catalyst the real rate goes with available surface, so it depends on
-    /// both the amount and how finely it is ground — and this engine has no
-    /// particle-size or surface-area model to hang that on. Scaling the
-    /// rate by mass would be a fabricated number wearing the shape of a
-    /// real one. The gap is stated instead, and `codex/rates.toml` teaches
-    /// it as a limit rather than hiding it.
+    /// Its pathway carries both a lower activation barrier and an explicit
+    /// activity model: solution concentration, effective enzyme loading, or
+    /// computed solid surface with mixing-dependent accessibility.
     pub catalysts: &'a [Catalyst<'a>],
     pub sites: &'a [SiteTerm<'a>],
     /// Electrons produced (positive) or consumed (negative) per mole of
@@ -472,7 +463,37 @@ pub struct Catalyst<'a> {
     /// The activation energy this catalyst provides, J/mol. Lower than the
     /// uncatalysed value; the ratio of the two is the speed-up.
     pub activation_energy: f64,
+    pub activity: CatalystActivity<'a>,
     pub provenance: &'a str,
+}
+
+/// How catalyst quantity enters a rate law. Every variant returns a
+/// dimensionless multiplier relative to a declared teaching reference, so
+/// the existing Arrhenius coefficient retains its units and calibration.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum CatalystActivity<'a> {
+    Homogeneous {
+        order: f64,
+        reference_molar: f64,
+    },
+    Enzyme {
+        substrate: &'a str,
+        michaelis_molar: f64,
+        reference_molar: f64,
+    },
+    Surface {
+        default_diameter_um: f64,
+        reference_area_m2: f64,
+        max_mixing_gain: f64,
+        mixing_half_speed_m_s: f64,
+    },
+}
+
+/// Mechanical conditions delivered during a kinetic interval. A plain wait
+/// is quiescent; a timed stir supplies its computed bar-tip speed.
+#[derive(Debug, Clone, Copy, Default, PartialEq)]
+pub struct KineticContext {
+    pub mixing_tip_speed_m_s: f64,
 }
 
 /// The reactions whose rates we model.
@@ -613,17 +634,32 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
             Catalyst {
                 species: "MnO2",
                 activation_energy: 58_000.0,
-                provenance: "Manganese dioxide on hydrogen peroxide, Ea ≈ 58 kJ/mol (standard physical chemistry texts)",
+                activity: CatalystActivity::Surface {
+                    default_diameter_um: 100.0,
+                    reference_area_m2: 0.001,
+                    max_mixing_gain: 1.0,
+                    mixing_half_speed_m_s: 0.10,
+                },
+                provenance: "Manganese dioxide on hydrogen peroxide, Ea ≈ 58 kJ/mol (standard physical chemistry texts); area follows spherical-particle geometry, while the finite external mixing correction is an explicit Kerotakis teaching correlation. Do et al., Chemosphere 2009 report 6.063 m²/g BET area and pseudo-first-order peroxide loss on pyrolusite",
             },
             Catalyst {
                 species: "catalase",
                 activation_energy: 23_000.0,
-                provenance: "Catalase, Ea ≈ 23 kJ/mol — the enzyme is dramatically better than the mineral, which is the point of putting them side by side",
+                activity: CatalystActivity::Enzyme {
+                    substrate: "H2O2",
+                    michaelis_molar: 1.34,
+                    reference_molar: 4.0e-11,
+                },
+                provenance: "Catalase, Ea ≈ 23 kJ/mol; Ogura & Yamazaki, J. Biochem. 1983 (PMID 6630165) measured Kₘ = 1.29–1.39 M and first-order behaviour below 0.1 M. Effective site concentration is normalized to the standard dry-yeast surrogate dose, whose biological activity varies by product and hydration",
             },
             Catalyst {
                 species: "KI",
                 activation_energy: 56_000.0,
-                provenance: "Iodide-catalysed hydrogen-peroxide decomposition, Ea = 56 ± 3 kJ/mol (Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g); KI remains catalyst inventory rather than being consumed by the net equation",
+                activity: CatalystActivity::Homogeneous {
+                    order: 1.0,
+                    reference_molar: 0.05,
+                },
+                provenance: "Iodide-catalysed hydrogen-peroxide decomposition is first order in iodide and peroxide, with Ea = 56 ± 3 kJ/mol (Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g). The 0.05 M reference preserves the curated demonstration time scale; changing KI concentration follows the measured first-order ratio. KI remains catalyst inventory rather than being consumed by the net equation",
             },
         ],
         sites: &[],
@@ -635,10 +671,10 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
         },
         uncertainty: Uncertainty {
             relative: None,
-            note: "absolute rates are indicative; catalyst surface area is not represented",
+            note: "absolute rates are indicative; nominal spherical particle area and a bounded external-mixing correction do not resolve pore area, adsorption, or diffusion",
         },
         source_ids: &["kerotakis:kinetics:peroxide-decomposition"],
-        provenance: "Uncatalysed decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); catalysed barriers cited per catalyst, including iodide Ea = 56 ± 3 kJ/mol from Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g. Editorial judgement (Kerotakis): the pre-exponential is chosen so the uncatalysed half-life is about a day and the catalysed reaction is watchable, not measured. Absolute rates are therefore indicative — catalyst concentration and solid surface area are not yet explicit in this reduced law, so comparisons and qualitative time scales carry more meaning than exact seconds",
+        provenance: "Uncatalysed decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); catalysed barriers cited per catalyst, including iodide Ea = 56 ± 3 kJ/mol from Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g. Editorial judgement (Kerotakis): the pre-exponential is chosen so the uncatalysed half-life is about a day and the catalysed reaction is watchable, not measured. Relative catalyst dose, nominal spherical particle area, catalase saturation, and a bounded external-mixing correction are explicit; pore-scale transport and product-specific yeast activity remain outside this teaching model",
     },
     // ── EXP-43: iodine-clock reactions ──────────────────────────────────
     KineticReaction {
@@ -953,8 +989,98 @@ fn term_concentration(vessel: &Vessel, term: &OrderTerm<'_>, litres: f64) -> Opt
     Some(moles / litres)
 }
 
+impl Catalyst<'_> {
+    fn activity_multiplier(
+        &self,
+        vessel: &Vessel,
+        litres: f64,
+        context: KineticContext,
+        amount_of: impl Fn(&str) -> f64,
+    ) -> f64 {
+        if litres <= 0.0 {
+            return 0.0;
+        }
+        let amount = amount_of(self.species).max(0.0);
+        if amount <= 0.0 {
+            return 0.0;
+        }
+        match self.activity {
+            CatalystActivity::Homogeneous {
+                order,
+                reference_molar,
+            } => ((amount / litres) / reference_molar).max(0.0).powf(order),
+            CatalystActivity::Enzyme {
+                substrate,
+                michaelis_molar,
+                reference_molar,
+            } => {
+                let enzyme_loading = (amount / litres) / reference_molar;
+                let substrate_molar = amount_of(substrate).max(0.0) / litres;
+                let saturation = michaelis_molar / (michaelis_molar + substrate_molar);
+                enzyme_loading * saturation
+            }
+            CatalystActivity::Surface {
+                default_diameter_um,
+                reference_area_m2,
+                max_mixing_gain,
+                mixing_half_speed_m_s,
+            } => {
+                let data = species::lookup_key(self.species);
+                let mut tracked_moles = 0.0;
+                let mut area_m2 = 0.0;
+                let mut contact_weight = 0.0;
+                if let Some(data) = data {
+                    for lot in vessel
+                        .lots
+                        .iter()
+                        .filter(|lot| lot.species.0 == self.species && lot.phase == Phase::Solid)
+                    {
+                        let diameter_m = lot
+                            .particle_size_um
+                            .unwrap_or(default_diameter_um)
+                            .max(0.01)
+                            * 1e-6;
+                        let volume_m3 = lot.moles.0 * data.molar_mass / data.density * 1e-6;
+                        let lot_area = 6.0 * volume_m3 / diameter_m;
+                        area_m2 += lot_area;
+                        tracked_moles += lot.moles.0;
+                        contact_weight +=
+                            lot_area * lot.suspended_fraction.unwrap_or(0.35).clamp(0.35, 1.0);
+                    }
+                    let untracked = (amount - tracked_moles).max(0.0);
+                    if untracked > 0.0 {
+                        let diameter_m = default_diameter_um.max(0.01) * 1e-6;
+                        let volume_m3 = untracked * data.molar_mass / data.density * 1e-6;
+                        let untracked_area = 6.0 * volume_m3 / diameter_m;
+                        area_m2 += untracked_area;
+                        contact_weight += untracked_area * 0.35;
+                    }
+                }
+                if area_m2 <= 0.0 {
+                    return 0.0;
+                }
+                let contact = (contact_weight / area_m2).clamp(0.35, 1.0);
+                let tip_speed = context.mixing_tip_speed_m_s.max(0.0);
+                let mixing =
+                    1.0 + max_mixing_gain * tip_speed / (mixing_half_speed_m_s + tip_speed);
+                area_m2 / reference_area_m2 * contact * mixing
+            }
+        }
+    }
+}
+
 pub fn lookup(id: &str) -> Option<&'static KineticReaction<'static>> {
     REGISTRY.iter().find(|r| r.id == id)
+}
+
+/// Whether changing this solid's exposed area can change a shipped rate law.
+pub fn is_surface_catalyst(species: &SpeciesId) -> bool {
+    REGISTRY.iter().any(|reaction| {
+        reaction.catalysts.iter().any(|catalyst| {
+            catalyst.species == species.0
+                && matches!(catalyst.activity, CatalystActivity::Surface { .. })
+        })
+    })
 }
 
 /// Which reactions have all their reactants present in this vessel.
@@ -1009,21 +1135,52 @@ impl<'a> KineticReaction<'a> {
                 || (self.reverse.is_some() && self.direction_available(vessel, false)))
     }
 
-    /// The activation energy in force, given what is in the vessel: the
-    /// best catalyst present, or the uncatalysed value.
+    fn effective_catalyst_with<F>(
+        &self,
+        vessel: &Vessel,
+        litres: f64,
+        context: KineticContext,
+        amount_of: F,
+    ) -> Option<(&Catalyst<'a>, f64)>
+    where
+        F: Fn(&str) -> f64 + Copy,
+    {
+        let uncatalysed = (-self.forward.arrhenius.activation_energy
+            / (crate::constants::GAS_CONSTANT * vessel.temperature.0))
+            .exp();
+        self.catalysts
+            .iter()
+            .filter_map(|catalyst| {
+                let activity = catalyst.activity_multiplier(vessel, litres, context, amount_of);
+                let strength = activity
+                    * (-catalyst.activation_energy
+                        / (crate::constants::GAS_CONSTANT * vessel.temperature.0))
+                        .exp();
+                (strength > uncatalysed).then_some((catalyst, activity, strength))
+            })
+            .max_by(|a, b| a.2.total_cmp(&b.2))
+            .map(|(catalyst, activity, _)| (catalyst, activity))
+    }
+
+    /// The activation energy in force under quiescent conditions. Catalyst
+    /// amount is included when choosing which pathway is actually fastest.
     pub fn effective_activation_energy(&self, vessel: &Vessel) -> (f64, Option<&Catalyst<'a>>) {
-        let mut best: Option<&Catalyst<'a>> = None;
-        for c in self.catalysts {
-            if vessel.moles_of(&SpeciesId::new(c.species)).0 > 0.0
-                && best.is_none_or(|b| c.activation_energy < b.activation_energy)
-            {
-                best = Some(c);
-            }
-        }
-        match best {
-            Some(c) => (c.activation_energy, Some(c)),
-            None => (self.forward.arrhenius.activation_energy, None),
-        }
+        self.effective_activation_energy_with_context(vessel, KineticContext::default())
+    }
+
+    pub fn effective_activation_energy_with_context(
+        &self,
+        vessel: &Vessel,
+        context: KineticContext,
+    ) -> (f64, Option<&Catalyst<'a>>) {
+        let litres = reaction_volume_litres(vessel, self.locality);
+        let selected = self.effective_catalyst_with(vessel, litres, context, |species| {
+            vessel.moles_of(&SpeciesId::new(species)).0
+        });
+        selected.map_or(
+            (self.forward.arrhenius.activation_energy, None),
+            |(catalyst, _)| (catalyst.activation_energy, Some(catalyst)),
+        )
     }
 
     fn expression_rate(
@@ -1031,20 +1188,20 @@ impl<'a> KineticReaction<'a> {
         vessel: &Vessel,
         expression: RateExpression<'a>,
         reverse: bool,
+        context: KineticContext,
     ) -> f64 {
         let litres = reaction_volume_litres(vessel, self.locality);
         if litres <= 0.0 {
             return 0.0;
         }
-        let catalyst_ea = self
-            .catalysts
-            .iter()
-            .filter(|catalyst| vessel.moles_of(&SpeciesId::new(catalyst.species)).0 > 0.0)
-            .map(|catalyst| catalyst.activation_energy)
-            .reduce(f64::min);
-        let ea = catalyst_ea
-            .map(|candidate| candidate.min(expression.arrhenius.activation_energy))
-            .unwrap_or(expression.arrhenius.activation_energy);
+        let selected = self.effective_catalyst_with(vessel, litres, context, |species| {
+            vessel.moles_of(&SpeciesId::new(species)).0
+        });
+        let ea = selected.map_or(expression.arrhenius.activation_energy, |(catalyst, _)| {
+            catalyst
+                .activation_energy
+                .min(expression.arrhenius.activation_energy)
+        });
         let law = RateLaw {
             pre_exponential: expression.arrhenius.pre_exponential,
             temperature_exponent: expression.arrhenius.temperature_exponent,
@@ -1086,6 +1243,9 @@ impl<'a> KineticReaction<'a> {
             }
             rate *= c.powf(term.order);
         }
+        if let Some((_, activity)) = selected {
+            rate *= activity;
+        }
         if rate.is_finite() {
             rate
         } else {
@@ -1094,7 +1254,11 @@ impl<'a> KineticReaction<'a> {
     }
 
     /// Forward, reverse, and net progress rates at the vessel's current state.
-    pub fn rates_now(&self, vessel: &Vessel) -> ReactionRates {
+    pub fn rates_now_with_context(
+        &self,
+        vessel: &Vessel,
+        context: KineticContext,
+    ) -> ReactionRates {
         if !self.in_validity_domain(vessel) {
             return ReactionRates {
                 forward: 0.0,
@@ -1103,20 +1267,25 @@ impl<'a> KineticReaction<'a> {
             };
         }
         let forward = if self.direction_available(vessel, true) {
-            self.expression_rate(vessel, self.forward, false)
+            self.expression_rate(vessel, self.forward, false, context)
         } else {
             0.0
         };
         let reverse = self
             .reverse
             .filter(|_| self.direction_available(vessel, false))
-            .map(|expression| self.expression_rate(vessel, expression, true))
+            .map(|expression| self.expression_rate(vessel, expression, true, context))
             .unwrap_or(0.0);
         ReactionRates {
             forward,
             reverse,
             net: forward - reverse,
         }
+    }
+
+    /// Forward, reverse and net rates under quiescent conditions.
+    pub fn rates_now(&self, vessel: &Vessel) -> ReactionRates {
+        self.rates_now_with_context(vessel, KineticContext::default())
     }
 
     /// Net rate in mol·L⁻¹·s⁻¹. Positive follows the declared equation;
@@ -1240,6 +1409,23 @@ pub fn advance(
     seconds: f64,
 ) -> Result<Vec<(&'static KineticReaction<'static>, Moles)>, IntegrationError> {
     advance_network(vessel, seconds, &NETWORK)
+}
+
+/// Advance the curated network while timed apparatus supplies mechanical
+/// conditions such as a stirrer's computed bar-tip speed.
+pub fn advance_with_context(
+    vessel: &mut Vessel,
+    seconds: f64,
+    context: KineticContext,
+) -> Result<Vec<(&'static KineticReaction<'static>, Moles)>, IntegrationError> {
+    advance_network_with_context_and_options(
+        vessel,
+        seconds,
+        &NETWORK,
+        IntegrationOptions::default(),
+        context,
+    )
+    .map(|report| report.extents)
 }
 
 // ──────────────────────────────────────────────────────────────────────
@@ -1552,7 +1738,7 @@ mod tests {
     }
 
     #[test]
-    fn a_catalyst_lowers_the_barrier_rather_than_scaling_the_rate() {
+    fn a_catalyst_lowers_the_barrier_and_its_activity_scales_the_rate() {
         let plain = vessel_with(
             &[
                 ("water", 5.5343, Phase::Liquid),
@@ -1576,8 +1762,88 @@ mod tests {
         assert!(ea_cat < ea_plain);
         assert!(
             r.rate_now(&with_mno2) > r.rate_now(&plain) * 100.0,
-            "the speed-up is a consequence of the barrier, not a factor"
+            "the catalyst path combines its lower barrier with exposed-area activity"
         );
+    }
+
+    #[test]
+    fn iodide_rate_is_first_order_in_catalyst_concentration() {
+        let low = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Liquid),
+                ("KI", 0.005, Phase::Solid),
+            ],
+            25.0,
+        );
+        let high = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Liquid),
+                ("KI", 0.010, Phase::Solid),
+            ],
+            25.0,
+        );
+        let reaction = lookup("peroxide-decomposition").unwrap();
+        let ratio = reaction.rate_now(&high) / reaction.rate_now(&low);
+        assert!((ratio - 2.0).abs() < 1e-9, "measured dose ratio {ratio}");
+    }
+
+    #[test]
+    fn catalase_rate_tracks_enzyme_loading_at_fixed_peroxide() {
+        let low = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Liquid),
+                ("catalase", 2e-12, Phase::Aqueous),
+            ],
+            25.0,
+        );
+        let high = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Liquid),
+                ("catalase", 4e-12, Phase::Aqueous),
+            ],
+            25.0,
+        );
+        let reaction = lookup("peroxide-decomposition").unwrap();
+        let ratio = reaction.rate_now(&high) / reaction.rate_now(&low);
+        assert!((ratio - 2.0).abs() < 1e-9, "measured enzyme ratio {ratio}");
+    }
+
+    #[test]
+    fn manganese_dioxide_rate_uses_area_and_bounded_mixing() {
+        let low = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Liquid),
+                ("MnO2", 0.001, Phase::Solid),
+            ],
+            25.0,
+        );
+        let high = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Liquid),
+                ("MnO2", 0.002, Phase::Solid),
+            ],
+            25.0,
+        );
+        let reaction = lookup("peroxide-decomposition").unwrap();
+        let quiet = reaction.rate_now(&low);
+        assert!((reaction.rate_now(&high) / quiet - 2.0).abs() < 1e-9);
+
+        let stirred = reaction
+            .rates_now_with_context(
+                &low,
+                KineticContext {
+                    mixing_tip_speed_m_s: 0.5,
+                },
+            )
+            .forward;
+        assert!(stirred > quiet);
+        assert!(stirred < quiet * 2.0, "finite mixing gain was {stirred}");
     }
 
     #[test]
@@ -1646,7 +1912,7 @@ mod tests {
             &[
                 ("water", 5.5343, Phase::Liquid),
                 ("H2O2", initial_moles, Phase::Liquid),
-                ("catalase", 1e-6, Phase::Aqueous),
+                ("catalase", 4e-12, Phase::Aqueous),
             ],
             25.0,
         );
@@ -1657,7 +1923,8 @@ mod tests {
             temperature_exponent: r.forward.arrhenius.temperature_exponent,
             activation_energy: 23_000.0,
         };
-        let k = law.rate_constant(298.15);
+        let catalyst_activity = (4e-12 / litres / 4e-11) * 1.34 / (1.34 + c0);
+        let k = law.rate_constant(298.15) * catalyst_activity;
         let seconds = 2.0;
         advance(&mut v, seconds).unwrap();
         let got = v.moles_of(&SpeciesId::new("H2O2")).0 / litres;
@@ -1674,7 +1941,7 @@ mod tests {
             &[
                 ("water", 5.5343, Phase::Liquid),
                 ("H2O2", 1e-4, Phase::Liquid),
-                ("catalase", 1e-6, Phase::Aqueous),
+                ("catalase", 4e-12, Phase::Aqueous),
             ],
             25.0,
         );

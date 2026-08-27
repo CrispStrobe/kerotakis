@@ -604,6 +604,9 @@ impl Bench {
                     })
                     .cloned()
                     .collect::<Vec<_>>();
+                let rate_coupled = solid_portions
+                    .iter()
+                    .any(|portion| crate::kinetics::is_surface_catalyst(&portion.species));
                 let elapsed_seconds = v.elapsed_seconds;
                 let has_liquid = v.liquid_volume().0 > 0.0;
                 let vessel_id = v.id;
@@ -642,9 +645,7 @@ impl Bench {
                     bar_length_m,
                     tip_speed_m_s,
                     resuspended_fraction,
-                    // The operation's duration now advances kinetics, but
-                    // rpm/tip speed are not yet a mass-transfer multiplier.
-                    rate_coupled: false,
+                    rate_coupled,
                 });
                 // Stirring is a timed bench operation, not a decorative
                 // gesture. Let the selected vessel's slow chemistry run for
@@ -652,7 +653,15 @@ impl Bench {
                 // into suspension. Gravity settling is deliberately disabled
                 // while the bar is turning.
                 let vessel = self.vessel_mut(*vessel)?;
-                advance_vessel_time(vessel, *seconds, false, &mut events)?;
+                advance_vessel_time(
+                    vessel,
+                    *seconds,
+                    false,
+                    crate::kinetics::KineticContext {
+                        mixing_tip_speed_m_s: tip_speed_m_s,
+                    },
+                    &mut events,
+                )?;
             }
             Operator::Seal {
                 vessel,
@@ -1438,7 +1447,13 @@ impl Bench {
                 // round because equilibrium is the faster process.
                 let seconds = seconds.max(0.0);
                 for vessel in self.vessels.iter_mut() {
-                    advance_vessel_time(vessel, seconds, true, &mut events)?;
+                    advance_vessel_time(
+                        vessel,
+                        seconds,
+                        true,
+                        crate::kinetics::KineticContext::default(),
+                        &mut events,
+                    )?;
                 }
             }
             Operator::Measure { vessel, instrument } => {
@@ -1809,7 +1824,7 @@ impl Bench {
                     diameter_um: *diameter_um,
                     solid_moles,
                     surface_area_m2,
-                    rate_coupled: false,
+                    rate_coupled: crate::kinetics::is_surface_catalyst(species),
                 });
             }
             Operator::Centrifuge {
@@ -2435,6 +2450,7 @@ fn advance_vessel_time(
     vessel: &mut Vessel,
     seconds: f64,
     settle_under_gravity: bool,
+    kinetic_context: crate::kinetics::KineticContext,
     events: &mut Vec<Event>,
 ) -> Result<(), BenchError> {
     let seconds = seconds.max(0.0);
@@ -2465,7 +2481,9 @@ fn advance_vessel_time(
     }
 
     let mut oxygen_moles = 0.0;
-    for (reaction, moles) in crate::kinetics::advance(vessel, seconds)? {
+    for (reaction, moles) in
+        crate::kinetics::advance_with_context(vessel, seconds, kinetic_context)?
+    {
         if reaction.id == "peroxide-decomposition" {
             oxygen_moles += moles.0;
             // 2 H2O2(l) -> 2 H2O(l) + O2(g), approximately -98.2 kJ
@@ -2507,7 +2525,8 @@ fn advance_vessel_time(
         if moles.0 < crate::OBSERVABLE_MOLES {
             continue;
         }
-        let (ea, catalyst) = reaction.effective_activation_energy(vessel);
+        let (ea, catalyst) =
+            reaction.effective_activation_energy_with_context(vessel, kinetic_context);
         events.push(Event::Reacted {
             vessel: vessel.id,
             reaction: reaction.id.to_string(),

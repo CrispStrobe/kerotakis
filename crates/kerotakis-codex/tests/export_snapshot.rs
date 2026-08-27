@@ -42,7 +42,8 @@ fn codex_export_matches_golden_snapshot() {
     let codex = load_codex(&codex_dir);
     let vocabulary = load_vocabulary(&codex_dir);
     let export = CodexExport::build(&codex, &vocabulary);
-    let current = serde_json::to_string_pretty(&export).unwrap();
+    let mut current = serde_json::to_string_pretty(&export).unwrap();
+    current.push('\n');
 
     let golden_dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/golden");
     let golden = golden_dir.join("codex-export.json");
