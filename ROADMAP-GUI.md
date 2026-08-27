@@ -857,6 +857,10 @@ hide them completely.
   centrifuging, settling, and vessel-state prose is localized at the UI
   boundary and changes live with the locale; complete structured localization
   of the remaining long-tail engine events is still required.*
+  *Vessel-context slice shipped 2026-08-27: engine lines carry a compact vessel
+  chip instead of burying their target in prose. A persistent Whole lab /
+  selected vessel scope lets users follow one sample without hiding global
+  safety notices, charts, or their own notes.*
 
 - [ ] **GUI-082 — Explorable laboratory room.** Build a colourful 2.5-D room
   around the continuous bench: cupboards and drawers are storage homes; racks,
