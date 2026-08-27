@@ -624,6 +624,22 @@ describe("Session", () => {
     });
   });
 
+  it("surfaces a safe waft result without presenting raw prose as the interaction", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "smelled", vessel: 0, notes: [["NH3", "sharp, pungent"]],
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("smell v1");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "waft",
+      waft: { notes: [{ species: "NH3", description: "sharp, pungent" }] },
+    });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

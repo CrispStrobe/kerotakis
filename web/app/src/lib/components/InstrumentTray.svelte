@@ -28,6 +28,7 @@
   const v = $derived(`v${vessel + 1}`);
   // Every instrument the grammar's measure arm accepts, by its token.
   const INSTRUMENTS: { token: string; label: string; glyph: string }[] = [
+    { token: "smell", label: "safe waft", glyph: "≋" },
     { token: "thermometer", label: "thermometer", glyph: "🌡" },
     { token: "ph", label: "pH meter", glyph: "pH" },
     { token: "balance", label: "balance", glyph: "⚖" },
@@ -49,7 +50,11 @@
       title={t(inst.label)}
       onclick={() =>
         onmeasure(
-          inst.token === "chromatograph" ? `chromatograph ${v}` : `measure ${v} ${inst.token}`,
+          inst.token === "chromatograph"
+            ? `chromatograph ${v}`
+            : inst.token === "smell"
+              ? `smell ${v}`
+              : `measure ${v} ${inst.token}`,
         )}
     >
       <span class="glyph" class:word={inst.glyph.length > 1} aria-hidden="true">{inst.glyph}</span>
