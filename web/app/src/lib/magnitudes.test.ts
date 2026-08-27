@@ -235,6 +235,20 @@ describe("effectFromEvent", () => {
     expect(fine!.magnitude).toBeGreaterThan(coarse!.magnitude);
   });
 
+  it("scales gravity settling from the strongest Stokes-law separation", () => {
+    const effect = effectFromEvent({
+      event: "gravity_settled",
+      vessel: 0,
+      seconds: 4,
+      separations: [
+        { species: "SiO2", particle_diameter_um: 40, terminal_speed_m_s: .002, distance_m: .008, separated_fraction: .2, direction: "settles" },
+        { species: "Fe", particle_diameter_um: 120, terminal_speed_m_s: .01, distance_m: .04, separated_fraction: .85, direction: "settles" },
+      ],
+    });
+    expect(effect).toMatchObject({ kind: "settle", magnitude: .85, durationMs: 4000 });
+    expect(effect?.settling?.populations[1]).toMatchObject({ species: "Fe", distanceM: .04, separatedFraction: .85 });
+  });
+
   it("scales centrifuge rotor motion from computed relative force", () => {
     const slow = effectFromEvent({ event: "centrifuged", vessel: 0, rcf: 20 });
     const fast = effectFromEvent({ event: "centrifuged", vessel: 0, rcf: 8000 });

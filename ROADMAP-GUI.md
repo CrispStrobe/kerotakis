@@ -1273,6 +1273,13 @@ decorating it.
   colour and visual loading come from those solids' pre-transfer Scene sRGB
   and moles. The receiver is never shown receiving solids classified by the
   engine as remaining, and a negative result visibly reports an empty pickup.
+  *Gravity-settling slice shipped 2026-08-27:* `GravitySettled` events retain
+  each Stokes-law population's particle diameter, terminal speed, travel
+  distance, separated fraction, direction, and elapsed time. The vessel now
+  animates those populations toward the deposit using the computed travel and
+  fraction, colours them from the matching pre-wait Scene solid, and displays
+  the strongest computed percentage beside elapsed seconds. Reduced-motion
+  keeps the final engine state while suppressing particle travel.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,
