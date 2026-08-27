@@ -253,6 +253,42 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 ),
             }
         }
+        Event::GasProduced {
+            vessel,
+            species,
+            moles,
+            rate_moles_per_second,
+            ..
+        } => match register.level() {
+            1 => format!("{vessel}: {species} bubbles are being made."),
+            _ => format!(
+                "{vessel}: {:.6} mol {species} produced ({rate_moles_per_second:.3e} mol/s)",
+                moles.0
+            ),
+        },
+        Event::ReactionHeatReleased {
+            vessel,
+            reaction,
+            energy_j,
+        } => match register.level() {
+            1 => format!("{vessel} grows warmer as the reaction runs."),
+            _ => format!("{vessel}: {reaction} released {energy_j:.2} J"),
+        },
+        Event::FoamChanged {
+            vessel,
+            volume_liters,
+            height_cm,
+            overflow_liters,
+            ..
+        } => match register.level() {
+            1 if *overflow_liters > 0.0 => {
+                format!("Foam climbs out of {vessel} and spills over the rim!")
+            }
+            1 => format!("Foam rises in {vessel}."),
+            _ => format!(
+                "{vessel}: foam {volume_liters:.3} L, {height_cm:.1} cm high, overflow {overflow_liters:.3} L"
+            ),
+        },
         Event::TemperatureChanged { vessel, from, to } => {
             let d = to.0 - from.0;
             match register.level() {

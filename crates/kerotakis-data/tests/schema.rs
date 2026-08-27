@@ -179,6 +179,7 @@ fn document() -> RegistryDocument {
             upper: 0.02,
         }),
         physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+        roles: Vec::new(),
         preparation: Some("representative unbranded fixture".to_string()),
         lot_assumptions: vec!["room-temperature sample".to_string()],
         substitutions: Vec::new(),

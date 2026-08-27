@@ -28,6 +28,7 @@ pub mod delta;
 pub mod displacement;
 pub mod electrochemistry;
 pub mod exact_stoich;
+pub mod foam;
 pub mod gas_tests;
 pub mod hmix;
 pub mod indicator;

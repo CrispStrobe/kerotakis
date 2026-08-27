@@ -66,6 +66,11 @@ pub struct MaterialRecipe {
     #[serde(default)]
     pub unresolved_fraction: Option<FractionRange>,
     pub physical_form: MaterialPhysicalForm,
+    /// Bounded functional behavior supplied by the named material rather than
+    /// by any one resolved molecule (for example a proprietary detergent's
+    /// ability to stabilize foam).
+    #[serde(default)]
+    pub roles: Vec<MaterialRole>,
     #[serde(default)]
     pub preparation: Option<String>,
     #[serde(default)]
@@ -113,6 +118,22 @@ pub enum MaterialPhysicalForm {
     },
     Other {
         description: String,
+    },
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "snake_case")]
+pub enum MaterialRole {
+    /// Empirical bridge from gas made by chemistry to a foam visual. Values
+    /// are recipe-level teaching surrogates, not claims about a hidden exact
+    /// surfactant formulation.
+    FoamStabilizer {
+        trapping_efficiency: f64,
+        gas_volume_fraction: f64,
+        half_life_seconds: f64,
+        /// Amount of unresolved functional blend, in the recipe basis, at
+        /// which the bounded foam effect reaches full strength.
+        saturation_amount: f64,
     },
 }
 
