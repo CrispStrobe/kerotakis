@@ -21,6 +21,9 @@
   const stageMarks = $derived(
     Array.from({ length: Math.min(8, Math.max(1, effect.distillation?.stages ?? 1)) }),
   );
+  const magneticMoles = $derived(
+    effect.magnetic?.attracted.reduce((sum, solid) => sum + solid.moles, 0) ?? 0,
+  );
 
   function position() {
     const bench = marker?.closest<HTMLElement>(".bench");
@@ -64,7 +67,32 @@
       </g>
     {:else}
       <path class="rig-line" d={path} />
-      {#if effect.operation === "filter"}
+      {#if effect.operation === "magnet"}
+        <g class="magnet-tool" transform={`translate(${midpoint.x - 16} ${midpoint.y - 18})`}>
+          <path class="magnet-body" d="M 3 0 V 13 A 13 13 0 0 0 29 13 V 0 H 20 V 13 A 4 4 0 0 1 12 13 V 0 Z" />
+          <path class="magnet-pole north" d="M 3 0 H 12 V 6 H 3 Z" />
+          <path class="magnet-pole south" d="M 20 0 H 29 V 6 H 20 Z" />
+          <text x="7.5" y="4.6" text-anchor="middle">N</text>
+          <text x="24.5" y="4.6" text-anchor="middle">S</text>
+          {#if magneticMoles > 0}
+            <text class="magnetic-reading" x="16" y="32" text-anchor="middle">{(magneticMoles * 1000).toPrecision(2)} mmol</text>
+          {:else}
+            <text class="magnetic-reading empty" x="16" y="32" text-anchor="middle">{t("no magnetic solid")}</text>
+          {/if}
+        </g>
+        {#each effect.magnetic?.attracted ?? [] as solid, speciesIndex (solid.species)}
+          {#each [0, 1, 2] as grain (grain)}
+            <circle
+              class="magnetic-grain"
+              r={1.2 + effect.magnitude * 1.4}
+              fill={solid.colour}
+              style={`--magnet-delay:${speciesIndex * .12 + grain * .09}s`}
+            >
+              <animateMotion dur={`${1.25 - effect.magnitude * .45}s`} begin={`${speciesIndex * .12 + grain * .09}s`} path={path} fill="freeze" />
+            </circle>
+          {/each}
+        {/each}
+      {:else if effect.operation === "filter"}
         <g
           class="filter"
           class:loaded={residueMoles > 0}
@@ -125,11 +153,13 @@
           <text x="13" y="50" text-anchor="middle">{((effect.drain?.moles ?? 0) * 1000).toPrecision(2)} mmol</text>
         </g>
       {/if}
-      <path class="pour-glow" d={path} pathLength="1" style={`--duration:${duration};--stream:${2 + effect.magnitude * 5}px`} />
-      <path class="pour-stream" d={path} pathLength="1" style={`--duration:${duration};--stream:${1 + effect.magnitude * 2.5}px`} />
-      <circle class="landing" r={6 + effect.magnitude * 8}>
-        <animateMotion dur={duration} path={path} fill="freeze" />
-      </circle>
+      {#if effect.operation !== "magnet"}
+        <path class="pour-glow" d={path} pathLength="1" style={`--duration:${duration};--stream:${2 + effect.magnitude * 5}px`} />
+        <path class="pour-stream" d={path} pathLength="1" style={`--duration:${duration};--stream:${1 + effect.magnitude * 2.5}px`} />
+        <circle class="landing" r={6 + effect.magnitude * 8}>
+          <animateMotion dur={duration} path={path} fill="freeze" />
+        </circle>
+      {/if}
     {/if}
   </svg>
 {/if}
@@ -147,8 +177,15 @@
   .filter .filter-paper { fill: var(--cloud); stroke-width: 1; }
   .filter .residue { fill: var(--residue); fill-opacity: calc(.38 + var(--residue-load) * .55); stroke: color-mix(in srgb, var(--residue) 80%, var(--edge-strong)); stroke-width: .5; }
   .filter .residue-grain { fill: var(--residue); opacity: calc(.45 + var(--residue-load) * .45); }
-  .filter-reading { fill: var(--ink); font: 700 5px system-ui, sans-serif; paint-order: stroke; stroke: var(--surface); stroke-width: 2px; }
   .filter.loaded .residue-grain { animation: settle-grain .55s ease-out both; animation-delay: var(--grain-delay); }
+  .magnet-body { fill: color-mix(in srgb, var(--surface) 82%, var(--edge)); stroke: var(--edge-strong); stroke-width: 1.6; }
+  .magnet-pole { stroke: var(--edge-strong); stroke-width: .6; }
+  .magnet-pole.north { fill: var(--danger); }
+  .magnet-pole.south { fill: var(--primary); }
+  .magnet-tool text { fill: white; font: 800 4px system-ui, sans-serif; }
+  .magnet-tool .magnetic-reading { fill: var(--ink); font-size: 5px; paint-order: stroke; stroke: var(--surface); stroke-width: 2px; }
+  .magnet-tool .magnetic-reading.empty { fill: var(--muted); }
+  .magnetic-grain { stroke: color-mix(in srgb, currentColor 70%, black); stroke-width: .5; opacity: 0; animation: magnetic-arrive .7s ease-out forwards; animation-delay: var(--magnet-delay); }
   .condenser .jacket { fill: color-mix(in srgb, var(--cool) 15%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
   .condenser path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
   .condenser .column, .condenser .thermometer, .condenser .vapour-tube { stroke: var(--edge-strong); stroke-width: 1.6; }
@@ -178,5 +215,6 @@
   @keyframes stopcock-open { from { transform: rotate(90deg); } }
   @keyframes drain-jet { to { stroke-dashoffset: -12; } }
   @keyframes settle-grain { from { opacity: 0; transform: translateY(-4px); } }
+  @keyframes magnetic-arrive { 0% { opacity: 0; } 20%, 85% { opacity: 1; } 100% { opacity: .25; } }
   @media (prefers-reduced-motion: reduce) { .bench-effect { display: none; } }
 </style>

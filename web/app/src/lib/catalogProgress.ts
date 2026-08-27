@@ -19,6 +19,7 @@ const EQUIPMENT_MILESTONES: Record<string, number> = {
   mix: 0,
   evaporate: 1,
   drain: 1,
+  magnet: 1,
   react: 1,
   regulate: 2,
   irradiate: 2,

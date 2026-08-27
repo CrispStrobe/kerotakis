@@ -497,6 +497,36 @@ describe("Session", () => {
     });
   });
 
+  it("animates only engine-classified magnetic solids with scene amounts and colours", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{ event: "magnet_separated", from: 0, to: 1, attracted: ["Fe"], remained: ["S"] }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = {
+      scene: 1,
+      vessels: [{
+        id: 0,
+        liquid: null,
+        solids: [
+          { species: "Fe", name: "iron", moles: .04, srgb: [82, 86, 91], colour_word: "grey", metallic: true, settled_fraction: 1 },
+          { species: "S", name: "sulfur", moles: .08, srgb: [240, 205, 40], colour_word: "yellow", metallic: false, settled_fraction: 1 },
+        ],
+      } as Scene["vessels"][number]],
+    };
+    await s.submit("magnet v1 v2");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      operation: "magnet",
+      magnetic: {
+        attractedSpecies: ["Fe"],
+        remainedSpecies: ["S"],
+        attracted: [{ species: "Fe", name: "iron", moles: .04, colour: "rgb(82 86 91)" }],
+      },
+    });
+    expect(s.vesselEffects[0]?.[0]?.magnitude).toBeCloseTo(.4);
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({
