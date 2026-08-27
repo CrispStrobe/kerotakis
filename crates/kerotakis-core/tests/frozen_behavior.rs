@@ -131,8 +131,25 @@ fn lessons_produce_stable_output() {
             // Write the actual for diffing
             let actual_path = golden.join("lessons.actual.json");
             fs::write(&actual_path, &current).unwrap();
+            let expected_lines = expected.lines().collect::<Vec<_>>();
+            let actual_lines = current.lines().collect::<Vec<_>>();
+            let first_difference = (0..expected_lines.len().max(actual_lines.len()))
+                .find(|&index| expected_lines.get(index) != actual_lines.get(index))
+                .map(|index| {
+                    format!(
+                        "First difference at line {}:\n  expected: {}\n  actual:   {}",
+                        index + 1,
+                        expected_lines
+                            .get(index)
+                            .copied()
+                            .unwrap_or("<end of file>"),
+                        actual_lines.get(index).copied().unwrap_or("<end of file>"),
+                    )
+                })
+                .unwrap_or_else(|| "Difference is outside line-normalized content".to_string());
             panic!(
                 "ARCH-001: lesson behavior changed!\n\
+                 {first_difference}\n\
                  Expected: {}\n\
                  Actual:   {}\n\
                  Run `diff {} {}` to see changes.",
