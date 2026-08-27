@@ -757,6 +757,14 @@ export class Session {
         },
       };
     }
+    if (
+      effect?.source !== undefined &&
+      effect.operation &&
+      ["pour", "filter", "drain"].includes(effect.operation)
+    ) {
+      const srgb = this.scene?.vessels.find((vessel) => vessel.id === effect!.source)?.liquid?.srgb;
+      if (srgb) effect = { ...effect, fluidColour: `rgb(${srgb[0]} ${srgb[1]} ${srgb[2]})` };
+    }
     if (!effect) return;
     const vessel = vesselOf(event);
     const now = Date.now();

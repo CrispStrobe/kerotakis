@@ -422,6 +422,31 @@ describe("Session", () => {
     expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse", "swirl"]);
   });
 
+  it("colours a transfer from the computed pre-transfer source liquid", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{
+        operator: {},
+        events: [{ event: "transferred", from: 0, to: 1, fraction: 0.5 }],
+        rendered: [],
+      }],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = {
+      scene: 1,
+      vessels: [{
+        id: 0,
+        liquid: { volume_l: 0.1, srgb: [93, 42, 181], colour_word: "violet", cloudiness: 0, path_length_cm: 2 },
+      } as Scene["vessels"][number]],
+    };
+    await s.submit("pour v1 into v2 50%");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "pour",
+      fluidColour: "rgb(93 42 181)",
+    });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({
