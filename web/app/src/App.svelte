@@ -33,6 +33,7 @@
   import WorldHome from "./lib/components/WorldHome.svelte";
   import MissionDebrief from "./lib/components/MissionDebrief.svelte";
   import RoomPicker, { type RoomStyle } from "./lib/components/RoomPicker.svelte";
+  import UtilityStation from "./lib/components/UtilityStation.svelte";
   import { t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { commandCount, completedCommandCount } from "./lib/lesson";
@@ -264,6 +265,7 @@
   let missionOpen = $state(false);
   let tableOpen = $state(false);
   let safetyOpen = $state(false);
+  let utilityStationOpen = $state(false);
   let toolboxOpen = $state(false);
   let mapOpen = $state(false);
   /** An entry handed from the map straight to the experiment page. */
@@ -342,6 +344,7 @@
   /** The supply room keeps chemicals and reusable equipment distinct. */
   let cabinetTab = $state<"reagents" | "equipment">("reagents");
   let catalogScope = $state<CatalogScope>(labMode === "sandbox" ? "all" : "unlocked");
+  let shelfFocusRequest = $state<{ key: string; nonce: number } | null>(null);
   let scopedMission = $state<string | null>(null);
   const missionEquipmentVerbs = $derived(missionEquipment(
     session.lesson?.lesson.steps.flatMap((step) => step.kind === "command" ? [step.line] : []) ?? [],
@@ -403,6 +406,7 @@
       else if (missionOpen) missionOpen = false;
       else if (mapOpen) mapOpen = false;
       else if (roomOpen) roomOpen = false;
+      else if (utilityStationOpen) utilityStationOpen = false;
       else if (safetyOpen) safetyOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
@@ -607,6 +611,7 @@
         mode={labMode}
         completed={session.completedMissions.size}
         stockUsed={session.storyStockUsed}
+        focusRequest={shelfFocusRequest}
         onadd={(line) => {
           void session.submit(line);
           pane = "bench";
@@ -697,6 +702,7 @@
       showZones={workGuides}
       onopenperiodic={() => (tableOpen = true)}
       onopensafety={() => (safetyOpen = true)}
+      onopenutilities={() => (utilityStationOpen = true)}
       missionName={session.lesson ? t(missionTitle(session.lesson.lesson.name)) : null}
       missionDone={session.lesson
         ? (session.missionOutcome?.secured.length ?? completedCommandCount(session.lesson.lesson, session.lesson.cursor))
@@ -972,6 +978,28 @@
 
 {#if roomOpen}
   <RoomPicker value={roomStyle} onchange={setRoom} onclose={() => (roomOpen = false)} />
+{/if}
+
+{#if utilityStationOpen}
+  <UtilityStation
+    vessel={session.selected}
+    onwater={() => {
+      const water = session.shelf.find((item) => item.formula === "H2O" && item.phase === "liquid");
+      utilityStationOpen = false;
+      setPanelCollapsed("cabinet", false);
+      cabinetTab = "reagents";
+      catalogScope = labMode === "story" ? "unlocked" : "all";
+      if (water) shelfFocusRequest = { key: water.key, nonce: Date.now() };
+      pane = "shelf";
+    }}
+    onequipment={() => {
+      utilityStationOpen = false;
+      setPanelCollapsed("cabinet", false);
+      cabinetTab = "equipment";
+      pane = "shelf";
+    }}
+    onclose={() => (utilityStationOpen = false)}
+  />
 {/if}
 
 <style>
