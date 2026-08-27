@@ -67,4 +67,23 @@ describe("i18n", () => {
     }
     expect([...missing].sort()).toEqual([]);
   });
+
+  it("has German display names for every registry material", () => {
+    const registry = JSON.parse(readFileSync(
+      join(import.meta.dirname, "../../../../data/registry/registry-source-v1.json"),
+      "utf8",
+    ));
+    const names = new Set<string>();
+    const collect = (value: unknown): void => {
+      if (Array.isArray(value)) {
+        value.forEach(collect);
+      } else if (value && typeof value === "object") {
+        const record = value as Record<string, unknown>;
+        if (typeof record.name === "string") names.add(record.name);
+        Object.values(record).forEach(collect);
+      }
+    };
+    collect(registry);
+    expect([...names].filter((name) => !hasGermanTranslation(name)).sort()).toEqual([]);
+  });
 });
