@@ -836,7 +836,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         &[("vessel", &vessel.to_string())],
                     ),
                     _ => locale.fill(
-                        "event.smelled.lv3",
+                        "event.smelled.lv3-none",
                         "{vessel}: no curated odour among the volatile species — and 'odourless' is itself data: CO2 and CO teach why a nose is not a gas detector",
                         &[("vessel", &vessel.to_string())],
                     ),
@@ -847,7 +847,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     .map(|(sp, d)| {
                         let name = species::lookup(sp).map(|x| x.name).unwrap_or(sp.0.as_str());
                         locale.fill(
-                            "event.smelled.lv3",
+                            "event.smelled.lv3-species",
                             "{name}: {d}",
                             &[("name", name), ("d", d)],
                         )
@@ -1571,7 +1571,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 1 => {
                     if toxic {
                         locale.fill(
-                            "event.gas-evolved.lv1",
+                            "event.gas-evolved.lv1-toxic",
                             "A gas rises out of {vessel} — this one is poisonous. In a real room you would have to leave NOW.",
                             &[("vessel", &vessel.to_string())],
                         )

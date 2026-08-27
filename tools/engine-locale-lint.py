@@ -27,6 +27,7 @@ catalogue to make a number go green.
 
 from __future__ import annotations
 
+import collections
 import pathlib
 import re
 import sys
@@ -98,11 +99,27 @@ def main() -> int:
             continue
         bare.add(text)
 
+    # A key used by two DIFFERENT templates is the worst failure this
+    # file can have: not a missing translation but a wrong sentence, since
+    # whichever German lands in the catalogue renders for both. Each bulk
+    # converter checked its own output for collisions and neither checked
+    # the file, so `event.smelled.lv3` was created twice.
+    per_key = collections.defaultdict(set)
+    for m in CALL.finditer(src):
+        per_key[m.group(1)].add(m.group(2))
+    shared = {k: v for k, v in per_key.items() if len(v) > 1}
+    if shared:
+        print("KEY USED BY TWO DIFFERENT SENTENCES:")
+        for k, texts in sorted(shared.items()):
+            print(f"   {k}")
+            for x in sorted(texts):
+                print(f"      {x[:70]}")
+
     print(f"{'engine prose in render.rs':<34}")
     print(f"   reachable by a catalogue : {len(used):>4} keys")
     print(f"   still inside a bare format!: {len(bare):>4} literals")
 
-    problems = 0
+    problems = len(shared)
     print()
     print(f"{'language':<12} {'translated':>10} {'of':>4} {'reachable':>10}   coverage")
     for path in sorted(CATALOGUES.glob("*.toml")):
