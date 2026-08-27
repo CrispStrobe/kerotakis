@@ -305,6 +305,12 @@ classrooms-as-a-service, and cloud saves are **non-goals** for this roadmap.
   refusals, chart titles, axes, units, and provenance. User-entered commands
   and notes remain verbatim. Rare particle populations now localize their
   species names instead of leaking canonical English labels.
+- *Localized-discovery audit shipped 2026-08-27:* experiment search now indexes
+  both canonical codex data and the current locale's visible title, summary,
+  concepts, apparatus, models, and register prose with case/accent-insensitive
+  substring matching. German queries can discover German-labelled experiments
+  without sacrificing formula or stable-id search; curriculum stages and
+  observed-event verdicts are localized as well.
 
 ### Immediate experience target: the laboratory as a place
 
