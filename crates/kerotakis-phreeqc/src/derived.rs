@@ -602,6 +602,9 @@ mod tests {
         assert_eq!(sylvite.species, "KCl");
         let gypsum = phase_by_name("Gypsum").expect("Gypsum derived");
         assert_eq!(gypsum.waters, 2.0);
+        let epsomite = phase_by_name("Epsomite").expect("Epsomite derived");
+        assert_eq!(epsomite.species, "epsomite");
+        assert_eq!(epsomite.waters, 7.0);
         // Aragonite lost the polymorph dedupe to calcite.
         assert!(phase_by_name("Aragonite").is_none());
         assert!(phase_by_name("Calcite").is_some());

@@ -974,6 +974,15 @@
       "retrieved": "2026-08-27"
     },
     {
+      "id": "us-federal/usgs-epsomite",
+      "citation": "PubChem CID 24843 identity crosswalk for magnesium sulfate heptahydrate; USGS PHREEQC wateq4f.dat Epsomite phase supplies MgSO4:7H2O dissolution stoichiometry. Density 1.68 g/mL and 360 J/(mol.K) heat capacity are explicit room-temperature teaching approximations; dissolution enthalpy remains unclaimed; retrieved 2026-08-27",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "vendor/iphreeqc/database/wateq4f.dat",
+      "revision": "USGS WATEQ4F Epsomite, PubChem CID 24843",
+      "retrieved": "2026-08-27"
+    },
+    {
       "id": "kerotakis/material-recipes-v1",
       "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey",
       "licence": "AGPL-3.0-or-later",
@@ -2696,6 +2705,22 @@
       "synonyms": [],
       "evidence": {
         "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "epsomite",
+      "canonical_key": "WRUGWIBCXHJTDG-UHFFFAOYSA-L",
+      "name": "magnesium sulfate heptahydrate (epsomite)",
+      "identifiers": {
+        "inchikey": "WRUGWIBCXHJTDG-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/usgs-epsomite",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -13665,6 +13690,152 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "composition/epsomite",
+      "species_id": "epsomite",
+      "formula": "MgSO4·7H2O",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 14.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Mg",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 11.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "phase_thermodynamics": [
@@ -23807,6 +23978,96 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 246.471,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 360.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.68,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -29287,6 +29548,22 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "optical/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "appearance": "colourless to white crystals",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "safety": [],
@@ -34307,6 +34584,39 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "dissolves-without-speciation/epsomite",
+      "subject": {
+        "kind": "species",
+        "id": "epsomite"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
     }
   ],
   "material_recipes": [
@@ -37327,6 +37637,62 @@
       "preparation": "idealised table salt represented by the installed NaCl species",
       "lot_assumptions": [
         "moisture, iodine additives and anti-caking agents are omitted; the bare words salt and Salz remain unclaimed because they name a chemical class"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/epsom-salt-heptahydrate",
+      "version": 1,
+      "canonical_key": "epsom_salt",
+      "name": "Epsom salt",
+      "aliases": {
+        "de": [
+          "Bittersalz",
+          "Epsomsalz",
+          "Magnesiumsulfat-Heptahydrat"
+        ],
+        "en": [
+          "magnesium sulfate heptahydrate"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "epsomite",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [],
+      "preparation": "pure magnesium-sulfate-heptahydrate crystal teaching surrogate",
+      "lot_assumptions": [
+        "moisture, dehydration, grain size and retail additives are omitted; anhydrous magnesium sulfate is a distinct material",
+        "the seven waters remain bound in the dry crystal inventory until a phase model dissolves or transforms it"
       ],
       "substitutions": [],
       "confidence": "curated",
