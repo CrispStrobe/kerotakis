@@ -216,7 +216,7 @@
     ]
   },
   "electrode": {
-    "event_count": 13,
+    "event_count": 14,
     "events_sample": [
       "v2: new vessel",
       "v1: +11.0686 mol water",
@@ -227,9 +227,10 @@
       "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: The liquid is colourless and so cloudy you cannot see through it, there is blue-green zinc at the bottom.",
+      "v1: 100% of the suspended particles settle in 60 s",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: The liquid is colourless and so cloudy you cannot see through it, there is blue-green zinc at the bottom.",
+      "v1: The liquid is colourless and clear, there is blue-green zinc at the bottom.",
       "v1 balance: 204.40 g"
     ],
     "lesson": "electrode.lab",
@@ -272,11 +273,11 @@
       "v1: +0.0313 mol copper sulfate",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 balance: 204.40 g",
-      "v1: The liquid is colourless and so cloudy you cannot see through it, there is white copper sulfate at the bottom.",
+      "v1: The liquid is colourless and so cloudy you cannot see through it.",
       "v1: not yet modelled — nothing here can be electrolysed: v1 holds neither a metal of the series nor a dissolved metal ion, so there is nothing to be an electrode",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 balance: 204.40 g",
-      "v1: The liquid is colourless and so cloudy you cannot see through it, there is white copper sulfate at the bottom."
+      "v1: The liquid is colourless and so cloudy you cannot see through it."
     ],
     "lesson": "electrolysis.lab",
     "vessels": [
@@ -530,7 +531,7 @@
       "v2: 25.0 °C → -11.0 °C",
       "v1 thermometer: -10.56 °C",
       "v2 thermometer: -10.99 °C",
-      "v1: The liquid is colourless and so cloudy you cannot see through it, there is white sodium chloride at the bottom.",
+      "v1: The liquid is colourless and so cloudy you cannot see through it.",
       "v2: The liquid is colourless and clear."
     ],
     "lesson": "grit.lab",
@@ -697,10 +698,10 @@
       "v1: not yet modelled — slaked lime (calcium hydroxide) in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: +0.0100 mol carbon dioxide",
       "v1: not yet modelled — slaked lime (calcium hydroxide) in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: The liquid is colourless and cloudy, bubbles of gas are rising through it, there is white slaked lime (calcium hydroxide) at the bottom.",
+      "v1: The liquid is colourless and cloudy, bubbles of gas are rising through it.",
       "v1: +0.0500 mol carbon dioxide — 0.0600 mol now in vessel",
       "v1: not yet modelled — slaked lime (calcium hydroxide) in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: The liquid is colourless and cloudy, bubbles of gas are rising through it, there is white slaked lime (calcium hydroxide) at the bottom."
+      "v1: The liquid is colourless and cloudy, bubbles of gas are rising through it."
     ],
     "lesson": "limewater.lab",
     "vessels": [
@@ -916,7 +917,7 @@
     ]
   },
   "rates": {
-    "event_count": 21,
+    "event_count": 23,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.0050 mol sodium thiosulfate",
@@ -931,13 +932,13 @@
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: 25.0 °C → 44.2 °C",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+      "v1: 100% of the suspended particles settle in 20 s",
+      "v2: 100% of the suspended particles settle in 20 s",
       "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v1: The liquid is colourless and so cloudy you cannot see through it, there is white sodium thiosulfate at the bottom.",
-      "v2: The liquid is colourless and so cloudy you cannot see through it, there is white sodium thiosulfate at the bottom.",
-      "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
-      "v1: The liquid is colourless and so cloudy you cannot see through it, there is white sodium thiosulfate at the bottom."
+      "v1: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom.",
+      "v2: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom.",
+      "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
     ],
     "lesson": "rates.lab",
     "vessels": [

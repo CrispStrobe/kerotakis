@@ -48,6 +48,14 @@ pub enum BenchError {
     },
     #[error("centrifuge cannot run this vessel: {0}")]
     CentrifugeUnavailable(String),
+    #[error(
+        "centrifuge rotor is {imbalance_g:.2} g out of balance (sample {sample_g:.2} g, counterbalance {counterbalance_g:.2} g); match within 0.10 g"
+    )]
+    CentrifugeImbalance {
+        sample_g: f64,
+        counterbalance_g: f64,
+        imbalance_g: f64,
+    },
     #[error(transparent)]
     Kinetics(#[from] crate::kinetics::IntegrationError),
     #[error(transparent)]
@@ -585,12 +593,55 @@ impl Bench {
                 // preset: clients and future transport models consume it.
                 let bar_length_m = 0.025;
                 let tip_speed_m_s = std::f64::consts::PI * bar_length_m * rpm / 60.0;
+                let resuspended_fraction =
+                    (1.0 - (-tip_speed_m_s * seconds / 0.3).exp()).clamp(0.0, 1.0);
+                let solid_portions = v
+                    .contents
+                    .iter()
+                    .filter(|portion| {
+                        portion.phase == Phase::Solid
+                            && !crate::displacement::is_elemental_metal(&portion.species.0)
+                    })
+                    .cloned()
+                    .collect::<Vec<_>>();
+                let elapsed_seconds = v.elapsed_seconds;
+                let has_liquid = v.liquid_volume().0 > 0.0;
+                let vessel_id = v.id;
+                let v = self.vessel_mut(*vessel)?;
+                if has_liquid {
+                    for portion in solid_portions {
+                        let mut found = false;
+                        for lot in &mut v.lots {
+                            if lot.species == portion.species && lot.phase == Phase::Solid {
+                                lot.suspended_fraction = Some(
+                                    lot.suspended_fraction
+                                        .unwrap_or(0.0)
+                                        .max(resuspended_fraction),
+                                );
+                                found = true;
+                            }
+                        }
+                        if !found {
+                            v.lots.push(MaterialLot {
+                                species: portion.species,
+                                moles: portion.moles,
+                                phase: Phase::Solid,
+                                added_at: elapsed_seconds,
+                                source: Some("legacy vessel state".to_string()),
+                                particle_size_um: None,
+                                suspended_fraction: Some(resuspended_fraction),
+                            });
+                        }
+                    }
+                    v.resolved.invalidate();
+                }
                 events.push(Event::Stirred {
-                    vessel: v.id,
+                    vessel: vessel_id,
                     rpm: *rpm,
                     seconds: *seconds,
                     bar_length_m,
                     tip_speed_m_s,
+                    resuspended_fraction,
                     rate_coupled: false,
                 });
             }
@@ -1378,6 +1429,14 @@ impl Bench {
                 // round because equilibrium is the faster process.
                 let seconds = seconds.max(0.0);
                 for vessel in self.vessels.iter_mut() {
+                    let settled = settle_vessel_under_gravity(vessel, seconds);
+                    if !settled.is_empty() {
+                        events.push(Event::GravitySettled {
+                            vessel: vessel.id,
+                            seconds,
+                            separations: settled,
+                        });
+                    }
                     vessel.elapsed_seconds += seconds;
                     // EXP-49: decay is the slowest clock on the bench;
                     // it runs beside kinetics on the same shared time.
@@ -1813,6 +1872,7 @@ impl Bench {
                 }
                 // Saves created before lot tracking still gain real particle state.
                 if !found_lot {
+                    let has_liquid = v.liquid_volume().0 > 0.0;
                     v.lots.push(MaterialLot {
                         species: species.clone(),
                         moles: solid_moles,
@@ -1820,6 +1880,7 @@ impl Bench {
                         added_at: v.elapsed_seconds,
                         source: Some("legacy vessel state".to_string()),
                         particle_size_um: Some(*diameter_um),
+                        suspended_fraction: Some(if has_liquid { 1.0 } else { 0.0 }),
                     });
                 }
                 v.resolved.invalidate();
@@ -1840,10 +1901,21 @@ impl Bench {
                 rpm,
                 seconds,
                 rotor_radius_m,
+                counterbalance_g,
             } => {
                 let v = self.vessel(*vessel)?;
                 if *rpm < 0.0 || *seconds < 0.0 || *rotor_radius_m <= 0.0 {
                     return Err(BenchError::NonPositiveAmount);
+                }
+                let sample_mass_g = v.mass().0;
+                let counterbalance_g = counterbalance_g.unwrap_or(sample_mass_g);
+                let imbalance_g = (sample_mass_g - counterbalance_g).abs();
+                if imbalance_g > 0.10 {
+                    return Err(BenchError::CentrifugeImbalance {
+                        sample_g: sample_mass_g,
+                        counterbalance_g,
+                        imbalance_g,
+                    });
                 }
                 let liquid_volume_l = v.liquid_volume().0;
                 if liquid_volume_l <= 0.0 {
@@ -1910,16 +1982,44 @@ impl Bench {
                         "no solid particles are present".to_string(),
                     ));
                 }
+                let v = self.vessel_mut(*vessel)?;
+                for separation in &separations {
+                    let remaining = 1.0 - separation.separated_fraction;
+                    let mut found = false;
+                    for lot in &mut v.lots {
+                        if lot.species == separation.species && lot.phase == Phase::Solid {
+                            lot.suspended_fraction =
+                                Some(lot.suspended_fraction.unwrap_or(1.0) * remaining);
+                            found = true;
+                        }
+                    }
+                    if !found {
+                        let moles = v.moles_of(&separation.species);
+                        v.lots.push(MaterialLot {
+                            species: separation.species.clone(),
+                            moles,
+                            phase: Phase::Solid,
+                            added_at: v.elapsed_seconds,
+                            source: Some("solver-created solid".to_string()),
+                            particle_size_um: Some(separation.particle_diameter_um),
+                            suspended_fraction: Some(remaining),
+                        });
+                    }
+                }
+                v.resolved.invalidate();
                 events.push(Event::Centrifuged {
                     vessel: *vessel,
                     rpm: *rpm,
                     seconds: *seconds,
                     rotor_radius_m: *rotor_radius_m,
                     rcf,
+                    sample_mass_g,
+                    counterbalance_g,
+                    imbalance_g,
                     fluid_density_kg_m3,
                     dynamic_viscosity_pa_s,
                     separations,
-                    state_coupled: false,
+                    state_coupled: true,
                 });
             }
             Operator::Irradiate {
@@ -2344,6 +2444,73 @@ impl Bench {
     pub fn total_enthalpy(&self) -> Joules {
         Joules(self.vessels.iter().map(|v| v.enthalpy().0).sum())
     }
+}
+
+fn settle_vessel_under_gravity(vessel: &mut Vessel, seconds: f64) -> Vec<CentrifugeSeparation> {
+    if seconds <= 0.0 || vessel.liquid_volume().0 <= 0.0 {
+        return Vec::new();
+    }
+    let liquid_volume_l = vessel.liquid_volume().0;
+    let liquid_mass_g: f64 = vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.phase == Phase::Liquid)
+        .filter_map(|portion| {
+            species::lookup(&portion.species).map(|data| portion.moles.0 * data.molar_mass)
+        })
+        .sum();
+    let fluid_density_kg_m3 = liquid_mass_g / liquid_volume_l;
+    let Ok(viscosity) = crate::properties::water_viscosity_cp(vessel.temperature.0) else {
+        return Vec::new();
+    };
+    let dynamic_viscosity_pa_s = viscosity.value / 1000.0;
+    let mut separations = Vec::new();
+
+    for lot in &mut vessel.lots {
+        if lot.phase != Phase::Solid || lot.suspended_fraction.unwrap_or(0.0) <= 0.0 {
+            continue;
+        }
+        let Some(data) = species::lookup(&lot.species) else {
+            continue;
+        };
+        let particle_density_kg_m3 = data.density * 1000.0;
+        if particle_density_kg_m3 <= fluid_density_kg_m3 {
+            // Creaming needs a top-layer state; do not paint it as sediment.
+            continue;
+        }
+        let particle_size_assumed = lot.particle_size_um.is_none();
+        let particle_diameter_um = lot.particle_size_um.unwrap_or(100.0);
+        let Ok(result) = crate::centrifuge::sediment(crate::centrifuge::SedimentationInput {
+            seconds,
+            path_m: 0.04,
+            acceleration_m_s2: 9.806_65,
+            particle_diameter_m: particle_diameter_um * 1e-6,
+            particle_density_kg_m3,
+            fluid_density_kg_m3,
+            dynamic_viscosity_pa_s,
+        }) else {
+            continue;
+        };
+        if result.separated_fraction <= 1e-12 {
+            continue;
+        }
+        lot.suspended_fraction =
+            Some(lot.suspended_fraction.unwrap_or(1.0) * (1.0 - result.separated_fraction));
+        separations.push(CentrifugeSeparation {
+            species: lot.species.clone(),
+            particle_diameter_um,
+            particle_size_assumed,
+            particle_density_kg_m3,
+            terminal_speed_m_s: result.terminal_speed_m_s,
+            distance_m: result.distance_m,
+            separated_fraction: result.separated_fraction,
+            direction: result.direction,
+        });
+    }
+    if !separations.is_empty() {
+        vessel.resolved.invalidate();
+    }
+    separations
 }
 
 /// Which vessels an operator touches (for re-equilibration).

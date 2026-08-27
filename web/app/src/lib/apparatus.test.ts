@@ -21,8 +21,9 @@ describe("apparatus forms compile to the grammar", () => {
     expect(spec("bunsen").secondary!.build(1, { flame: 50, seconds: 30 })).toBe("ignite v2");
     expect(spec("stir").build(0, { rpm: 600, seconds: 30 })).toBe("stir v1 600rpm 30s");
     expect(spec("heat").build(0, { watts: 250, seconds: 30 })).toBe("heat v1 7500J");
-    expect(spec("centrifuge").build(0, { rpm: 3000, seconds: 60, radius: 8 })).toBe(
-      "centrifuge v1 3000rpm 60s 8cm",
+    expect(spec("cool").build(0, { watts: 100, seconds: 30 })).toBe("cool v1 3000J");
+    expect(spec("centrifuge").build(0, { rpm: 3000, seconds: 60, radius: 8, counterbalance: 100 })).toBe(
+      "centrifuge v1 3000rpm 60s 8cm 100g",
     );
     expect(spec("dilute").build(1, { volume: 250 })).toBe("dilute v2 250mL");
     expect(spec("evaporate").build(0, { fraction: 0.5 })).toBe("evaporate v1 0.5");
@@ -48,5 +49,10 @@ describe("apparatus forms compile to the grammar", () => {
     expect(spec("electrolyse").build(0, { amps: NaN, minutes: 30 })).toBeNull();
     expect(spec("bunsen").build(0, { flame: 101, seconds: 30 })).toBeNull();
     expect(spec("bunsen").build(0, { flame: 50, seconds: 0 })).toBeNull();
+  });
+
+  it("blocks an unsafe centrifuge imbalance", () => {
+    expect(spec("centrifuge").warning?.({ sampleMass: 100, counterbalance: 99 })).toContain("out of balance");
+    expect(spec("centrifuge").warning?.({ sampleMass: 100, counterbalance: 99.95 })).toBeNull();
   });
 });

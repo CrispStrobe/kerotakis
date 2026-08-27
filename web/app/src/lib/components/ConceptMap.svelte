@@ -81,9 +81,8 @@
   onclick={onclose}
   onkeydown={(e) => e.key === "Escape" && onclose()}
 >
-  <section
+  <dialog open
     class="map"
-    role="dialog"
     aria-modal="true"
     aria-label={t("concept map")}
     onclick={(e) => e.stopPropagation()}
@@ -145,7 +144,7 @@
         </div>
       {/if}
     {/if}
-  </section>
+  </dialog>
 </div>
 
 <style>
@@ -159,6 +158,9 @@
     padding: 1rem;
   }
   .map {
+    position: static;
+    margin: 0;
+    color: var(--ink);
     background: var(--bg);
     border: 1px solid var(--edge);
     border-radius: 12px;

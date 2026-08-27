@@ -100,6 +100,10 @@ const DE: Record<string, string> = {
   ...DE_TERMS,
   "English": "Englisch",
   "German": "Deutsch",
+  "3% hydrogen peroxide": "3%ige Wasserstoffperoxid-Lösung",
+  "5% white vinegar": "5%iger Weißweinessig",
+  "dish soap": "Geschirrspülmittel",
+  "dry yeast": "Trockenhefe",
   "Language": "Sprache",
   "Kerotakis — the bench": "Kerotakis — das Labor",
   "A virtual chemistry laboratory that computes real chemistry — drag reagents onto drawn glassware and watch a real aqueous solver answer. Offline once loaded.": "Ein virtuelles Chemielabor, das echte Chemie berechnet — ziehe Reagenzien auf die Glasgeräte und beobachte die Ergebnisse eines realen wässrigen Lösers. Nach dem Laden offline nutzbar.",
@@ -297,6 +301,7 @@ const DE: Record<string, string> = {
   "bench": "Labor",
   "shelf": "Regal",
   "notes": "Notizen",
+  "measure": "messen",
   "print the notebook — or save it as PDF from the print dialog": "Laborbuch drucken — oder im Druckdialog als PDF speichern",
   "let 30 seconds of bench time pass": "30 Sekunden Laborzeit verstreichen lassen",
   "clamp the burette over the selected vessel": "Bürette über dem gewählten Gefäß einspannen",
@@ -333,6 +338,7 @@ const DE: Record<string, string> = {
   "data": "Daten",
   "not a command": "kein Befehl",
   "command": "Befehl",
+  "add v1 water 100mL": "add v1 H2O 100mL",
   "speak a command — it lands here to read and correct before you run it": "Befehl sprechen — er erscheint hier zum Prüfen und Korrigieren",
   "stop listening": "Zuhören beenden",
   "speak a command": "Befehl sprechen",
@@ -417,9 +423,21 @@ const DE: Record<string, string> = {
   "solid": "Feststoff",
   "gas": "Gas",
   "also present, too dilute to draw at this scale:": "ebenfalls vorhanden, in diesem Maßstab zu verdünnt zum Darstellen:",
+  "{drawn} of {label}": "{drawn} von {label}",
+  "particle view: {populations}": "Teilchenansicht: {populations}",
+  "one shape ≈ {amount} mol": "ein Symbol ≈ {amount} mol",
   "ratios from solved speciation": "Verhältnisse aus berechneter Speziation",
   "ratios from the ideal fallback": "Verhältnisse aus idealer Näherung",
   "periodic table": "Periodensystem",
+  "open periodic table": "Periodensystem öffnen",
+  "tap to explore": "antippen und erkunden",
+  "open instrument cabinet": "Instrumentenschrank öffnen",
+  "choose a tool": "Gerät auswählen",
+  "selected vessel details": "Details zum ausgewählten Gefäß",
+  "measure selected vessel": "Ausgewähltes Gefäß messen",
+  "gas tests": "Gasnachweise",
+  "Apply a test to the headspace of the selected vessel.": "Wende einen Nachweis auf den Gasraum des ausgewählten Gefäßes an.",
+  "computed state": "Berechneter Zustand",
   "the elements": "die Elemente",
   "tap one to see what the lab has of it": "Element antippen, um den Laborbestand zu sehen",
   "show lab table": "Labortabelle zeigen",
@@ -678,9 +696,23 @@ const DE: Record<string, string> = {
   ,"mini centrifuge": "Mini-Zentrifuge"
   ,"separate particles by spinning a balanced tube": "Teilchen in einem ausgewuchteten Röhrchen durch Drehen trennen"
   ,"rotor radius": "Rotorradius"
+  ,"counterbalance": "Gegengewicht"
+  ,"rotor out of balance — adjust the counterbalance": "Rotor unausgewuchtet — Gegengewicht anpassen"
+  ,"balanced": "ausgewuchtet"
   ,"mini centrifuge on the bench": "Mini-Zentrifuge auf dem Labortisch"
   ,"set heating power and time": "Heizleistung und Dauer einstellen"
   ,"heating power": "Heizleistung"
+  ,"cooling bath": "Kühlbad"
+  ,"set cooling power and time": "Kühlleistung und Dauer einstellen"
+  ,"cooling power": "Kühlleistung"
+  ,"configure {apparatus}": "{apparatus} einstellen"
+  ,"set…": "einstellen…"
+  ,"{parameter} slider": "Regler für {parameter}"
+  ,"journal view": "Ansicht des Laborbuchs"
+  ,"observations": "Beobachtungen"
+  ,"full trace": "Vollständiges Protokoll"
+  ,"…{count} earlier entries not shown (the exports keep them)": "…{count} frühere Einträge ausgeblendet (sie bleiben im Export erhalten)"
+  ,"the chart {chart} could not be drawn: {error}": "Das Diagramm {chart} konnte nicht gezeichnet werden: {error}"
   ,"vessel v{vessel} placement": "Platzierung von Gefäß v{vessel}"
   ,"My Chemistry Lab": "Mein Chemielabor"
   ,"open world map": "Weltkarte öffnen"
@@ -730,6 +762,46 @@ const DE: Record<string, string> = {
   ,"white acrylic paint": "weiße Acrylfarbe"
   ,"black acrylic paint": "schwarze Acrylfarbe"
   ,"waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved": "wasserbasierter, deckender Acrylfarben-Ersatz; wirksames Pigment und Bindemittel bleiben unaufgelöst"
+  ,"safety station": "Sicherheitsstation"
+  ,"open safety station": "Sicherheitsstation öffnen"
+  ,"tap for the real-lab rules": "Regeln fürs echte Labor"
+  ,"lab wall reference": "Nachschlagewerk an der Laborwand"
+  ,"The simulation can show hazardous chemistry safely, but the same actions in a real laboratory require supervision, protective equipment, and a risk assessment.": "Die Simulation kann gefährliche Chemie sicher zeigen. Dieselben Handlungen erfordern in einem echten Labor Aufsicht, Schutzausrüstung und eine Gefährdungsbeurteilung."
+  ,"eye protection": "Augenschutz"
+  ,"Wear splash goggles whenever materials are on the bench.": "Trage eine Schutzbrille, sobald Stoffe auf dem Labortisch stehen."
+  ,"heat and flame": "Hitze und Flamme"
+  ,"Keep flammables away from heat. Treat hot glass as hot until measured.": "Halte Entzündliches von Wärme fern. Behandle heißes Glas als heiß, bis du seine Temperatur gemessen hast."
+  ,"fumes and gases": "Dämpfe und Gase"
+  ,"Do not smell directly. Use wafting only when the lab explicitly offers it.": "Rieche nie direkt. Fächere Dämpfe nur zu, wenn das Labor diese Handlung ausdrücklich anbietet."
+  ,"unexpected result": "Unerwartetes Ergebnis"
+  ,"Stop the operation, leave the vessel where it is, and read the warning before continuing.": "Stoppe den Vorgang, lasse das Gefäß stehen und lies die Warnung, bevor du fortfährst."
+  ,"simulation boundary": "Grenze der Simulation"
+  ,"Kerotakis supports learning and planning. It does not replace real laboratory instruction or safety training.": "Kerotakis unterstützt Lernen und Planen. Es ersetzt weder die Anleitung im echten Labor noch eine Sicherheitsunterweisung."
+  ,"edit note": "Notiz bearbeiten"
+  ,"delete note": "Notiz löschen"
+  ,"mixing bleach with ammonia makes chloramine, a toxic gas": "Beim Mischen von Bleichmittel und Ammoniak entsteht das giftige Gas Chloramin"
+  ,"People are hospitalised every year from mixing these two household cleaners.": "Jedes Jahr müssen Menschen ins Krankenhaus, weil sie diese beiden Haushaltsreiniger mischen."
+  ,"mixing bleach with acid releases chlorine, a toxic gas": "Beim Mischen von Bleichmittel und Säure wird das giftige Gas Chlor freigesetzt"
+  ,"Chlorine gas was used as a chemical weapon; even small amounts damage lungs.": "Chlorgas wurde als chemische Waffe eingesetzt; schon kleine Mengen schädigen die Lunge."
+  ,"a strong oxidizer mixed with a flammable liquid can ignite or explode": "Ein starkes Oxidationsmittel kann sich mit einer entzündlichen Flüssigkeit entzünden oder explodieren"
+  ,"Potassium permanganate and glycerol ignite on contact; similar mixtures cause laboratory fires.": "Kaliumpermanganat und Glycerin entzünden sich bei Kontakt; ähnliche Gemische verursachen Laborbrände."
+  ,"a strong oxidizer in the presence of a flammable gas creates an explosion risk": "Ein starkes Oxidationsmittel erzeugt in Gegenwart eines entzündlichen Gases Explosionsgefahr"
+  ,"Hydrogen and chlorine mixtures can detonate when exposed to light or a spark.": "Gemische aus Wasserstoff und Chlor können bei Licht oder einem Funken detonieren."
+  ,"mixing a strong oxidizer with a reducing agent can cause a violent, potentially explosive reaction": "Das Mischen eines starken Oxidationsmittels mit einem Reduktionsmittel kann heftig und möglicherweise explosiv reagieren"
+  ,"Permanganate and sulfite solutions react vigorously; at scale, such mixtures can detonate.": "Permanganat- und Sulfitlösungen reagieren heftig; in größeren Mengen können solche Gemische detonieren."
+  ,"strong acid dissolves this metal, releasing hydrogen gas which is flammable": "Starke Säure löst dieses Metall und setzt entzündlichen Wasserstoff frei"
+  ,"Magnesium ribbon in hydrochloric acid produces enough hydrogen to pop with a lit splint — a familiar school demo, but the gas is genuinely flammable.": "Magnesiumband in Salzsäure erzeugt genug Wasserstoff für die Knallgasprobe — ein bekanntes Schulexperiment, doch das Gas ist tatsächlich entzündlich."
+  ,"strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter": "Starke Säure und Carbonat sprudeln heftig und setzen Kohlenstoffdioxid frei — das Gemisch kann spritzen"
+  ,"Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces.": "Säure auf Kreide oder Natron schäumt über, wenn das Gefäß zu klein ist. CO₂ verdrängt in geschlossenen Räumen die Luft."
+  ,"this water-reactive substance already reacted with water; combining with a strong base adds further heat": "Dieser wasserreaktive Stoff hat bereits mit Wasser reagiert; eine starke Base führt zusätzliche Wärme zu"
+  ,"Quicklime (CaO) generates enough heat on contact with water to cause burns; adding caustic soda on top is reckless.": "Branntkalk (CaO) erzeugt bei Wasserkontakt genug Wärme für Verbrennungen; zusätzlich Natronlauge zuzugeben ist leichtsinnig."
+  ,"this substance reacts violently with water, releasing a large amount of heat": "Dieser Stoff reagiert heftig mit Wasser und setzt viel Wärme frei"
+  ,"Quicklime (CaO) in water can reach 100 °C and cause severe burns. Always add the solid to the water slowly, never the reverse.": "Branntkalk (CaO) kann in Wasser 100 °C erreichen und schwere Verbrennungen verursachen. Gib den Feststoff immer langsam zum Wasser, niemals umgekehrt."
+  ,"sealed vessel over-pressurised and burst": "Das verschlossene Gefäß wurde durch Überdruck gesprengt"
+  ,"flying glass and a pressure wave — sealed systems on a heat source are how real labs get hurt; safe only because this lab is virtual": "Glassplitter und eine Druckwelle — verschlossene Systeme auf einer Wärmequelle verursachen in echten Laboren schwere Unfälle; nur hier sicher, weil das Labor virtuell ist"
+  ,"on a real bench this one is never smelled directly — fume hood, waft only, and some not even then": "Im echten Labor riecht man daran nie direkt — Abzug, höchstens vorsichtiges Zufächern, und manche Stoffe nicht einmal dann"
+  ,"radioactive source: ionising radiation": "Radioaktive Quelle: ionisierende Strahlung"
+  ,"on a real bench this needs shielding, dosimetry and a licence; safe only because this lab is virtual": "Im echten Labor sind Abschirmung, Dosimetrie und eine Genehmigung erforderlich; nur hier sicher, weil das Labor virtuell ist"
 };
 
 function detectLocale(): Locale {
@@ -788,3 +860,4 @@ class I18n {
 
 export const i18n = new I18n();
 export const t = (message: string, vars?: Vars) => i18n.t(message, vars);
+export const hasGermanTranslation = (message: string): boolean => Object.hasOwn(DE, message);

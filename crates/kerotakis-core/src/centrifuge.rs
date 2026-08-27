@@ -41,6 +41,25 @@ pub struct CentrifugeResult {
     pub model: String,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct SedimentationInput {
+    pub seconds: f64,
+    pub path_m: f64,
+    pub acceleration_m_s2: f64,
+    pub particle_diameter_m: f64,
+    pub particle_density_kg_m3: f64,
+    pub fluid_density_kg_m3: f64,
+    pub dynamic_viscosity_pa_s: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct SedimentationResult {
+    pub terminal_speed_m_s: f64,
+    pub distance_m: f64,
+    pub separated_fraction: f64,
+    pub direction: SeparationDirection,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, thiserror::Error)]
 pub enum CentrifugeError {
     #[error("centrifuge inputs must all be finite")]
@@ -88,11 +107,59 @@ pub fn run(input: CentrifugeInput) -> Result<CentrifugeResult, CentrifugeError> 
     let angular_speed_rad_s = input.rpm * std::f64::consts::TAU / 60.0;
     let acceleration = angular_speed_rad_s.powi(2) * input.rotor_radius_m;
     let rcf = acceleration / STANDARD_GRAVITY_M_S2;
+    let travel = sediment(SedimentationInput {
+        seconds: input.seconds,
+        path_m: input.tube_path_m,
+        acceleration_m_s2: acceleration,
+        particle_diameter_m: input.particle_diameter_m,
+        particle_density_kg_m3: input.particle_density_kg_m3,
+        fluid_density_kg_m3: input.fluid_density_kg_m3,
+        dynamic_viscosity_pa_s: input.dynamic_viscosity_pa_s,
+    })?;
+
+    Ok(CentrifugeResult {
+        angular_speed_rad_s,
+        rcf,
+        terminal_speed_m_s: travel.terminal_speed_m_s,
+        distance_m: travel.distance_m,
+        separated_fraction: travel.separated_fraction,
+        direction: travel.direction,
+        model: "dilute spherical particles; Stokes drag; acceleration at rotor radius".to_string(),
+    })
+}
+
+/// Stokes travel under any constant acceleration, including ordinary gravity.
+pub fn sediment(input: SedimentationInput) -> Result<SedimentationResult, CentrifugeError> {
+    let values = [
+        input.seconds,
+        input.path_m,
+        input.acceleration_m_s2,
+        input.particle_diameter_m,
+        input.particle_density_kg_m3,
+        input.fluid_density_kg_m3,
+        input.dynamic_viscosity_pa_s,
+    ];
+    if values.iter().any(|value| !value.is_finite()) {
+        return Err(CentrifugeError::NonFinite);
+    }
+    if input.seconds < 0.0 {
+        return Err(CentrifugeError::NegativeRun);
+    }
+    if input.path_m <= 0.0
+        || input.acceleration_m_s2 < 0.0
+        || input.particle_diameter_m <= 0.0
+        || input.particle_density_kg_m3 <= 0.0
+        || input.fluid_density_kg_m3 <= 0.0
+        || input.dynamic_viscosity_pa_s <= 0.0
+    {
+        return Err(CentrifugeError::NonPositiveGeometryOrProperty);
+    }
     let density_delta = input.particle_density_kg_m3 - input.fluid_density_kg_m3;
-    let terminal_speed_m_s = input.particle_diameter_m.powi(2) * density_delta * acceleration
-        / (18.0 * input.dynamic_viscosity_pa_s);
+    let terminal_speed_m_s =
+        input.particle_diameter_m.powi(2) * density_delta * input.acceleration_m_s2
+            / (18.0 * input.dynamic_viscosity_pa_s);
     let distance_m = terminal_speed_m_s.abs() * input.seconds;
-    let separated_fraction = (distance_m / input.tube_path_m).clamp(0.0, 1.0);
+    let separated_fraction = (distance_m / input.path_m).clamp(0.0, 1.0);
     let direction = if density_delta > 0.0 {
         SeparationDirection::Outward
     } else if density_delta < 0.0 {
@@ -100,15 +167,11 @@ pub fn run(input: CentrifugeInput) -> Result<CentrifugeResult, CentrifugeError> 
     } else {
         SeparationDirection::Neutral
     };
-
-    Ok(CentrifugeResult {
-        angular_speed_rad_s,
-        rcf,
+    Ok(SedimentationResult {
         terminal_speed_m_s,
         distance_m,
         separated_fraction,
         direction,
-        model: "dilute spherical particles; Stokes drag; acceleration at rotor radius".to_string(),
     })
 }
 

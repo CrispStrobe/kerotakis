@@ -41,12 +41,14 @@
 
   // Transient effects: young enough that their animation is still running.
   const now = () => Date.now();
+  const effectAlive = (effect: Effect, fallbackMs: number, at = now()) =>
+    at - effect.at < (effect.durationMs ?? fallbackMs);
   const active = (kind: string, withinMs: number) =>
-    effects.some((e) => e.kind === kind && now() - e.at < withinMs);
+    effects.some((e) => e.kind === kind && effectAlive(e, withinMs));
   // GUI-059: magnitude of the most recent active effect of a given kind.
   const mag = (kind: string, withinMs: number) => {
     const n = now();
-    const recent = effects.filter((e) => e.kind === kind && n - e.at < withinMs);
+    const recent = effects.filter((e) => e.kind === kind && effectAlive(e, withinMs, n));
     return recent.length > 0 ? (recent[recent.length - 1]!.magnitude ?? 1) : 0;
   };
   const latestFlameColour = $derived.by(() => {
@@ -127,7 +129,7 @@
   const solidH = $derived(
     Math.min(
       18,
-      vessel.solids.reduce((sum, s) => sum + s.moles, 0) * 600,
+      vessel.solids.reduce((sum, s) => sum + s.moles * (s.settled_fraction ?? 1), 0) * 600,
     ),
   );
   const rgb = (c: [number, number, number]) => `rgb(${c[0]},${c[1]},${c[2]})`;

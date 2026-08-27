@@ -839,9 +839,16 @@ hide them completely.
   and remove timestamped text notes; notes persist with the mode-specific lab,
   survive reload, and export in Markdown beside measurements and charts. Notes
   never become engine evidence merely because they are in the same journal.
-  *Initial slice in progress 2026-08-27: add and persist timestamped notes and
-  include them in notebook export. Editing/removal and chronological replay
-  placement remain.*
+  *Journal-note slice in progress 2026-08-27: add, edit, remove, and persist
+  timestamped notes and include them in notebook export. Chronological replay
+  placement remains.*
+  *Observation-first slice in progress 2026-08-27: the journal now defaults to
+  chemical observations and evidence instead of interleaving every operator
+  command. A persistent Full trace switch reveals the replayable commands and
+  their count. Common computed additions, dissolution, stirring, grinding,
+  centrifuging, settling, and vessel-state prose is localized at the UI
+  boundary and changes live with the locale; complete structured localization
+  of the remaining long-tail engine events is still required.*
 
 - [ ] **GUI-082 — Explorable laboratory room.** Build a colourful 2.5-D room
   around the continuous bench: cupboards and drawers are storage homes; racks,
@@ -851,6 +858,13 @@ hide them completely.
   Use warm, saturated workshop accents and object silhouettes inspired by good
   school-lab interfaces, while retaining professional density, dark/high-
   contrast themes, keyboard access, and no always-on mascot obstruction.
+  *Interactive-wall slice in progress 2026-08-27: the bench backdrop now has
+  three useful, keyboard-accessible destinations rather than decorative bars:
+  a shelf-connected periodic table, an instrument cabinet, and a colourful
+  zoomable safety station with concise real-lab rules and an explicit
+  simulation boundary. Workflow-zone guides remain a separate persisted
+  control. Cupboards, utilities, contextual scenario posters, room variants,
+  and true free spatial placement remain.*
 
 - [ ] **GUI-083 — Physical apparatus and computed motion.** Promote apparatus
   from forms/tool verbs to placeable assemblies with visible controls and
@@ -892,9 +906,22 @@ hide them completely.
   RCF, then applies Stokes settling per solid from particle size, registry
   density, computed liquid density, temperature-dependent water viscosity,
   and tube path length. The standalone rotor's speed follows emitted RCF.
-  Suspension/deposit mutation and interactive counterweight imbalance remain;
-  the event marks state coupling false rather than pretending separation has
-  already changed the vessel.*
+  The follow-up state slice persists each tracked lot's suspended fraction:
+  centrifuging transfers the computed portion into the visible bottom deposit,
+  while magnetic stirring resuspends non-metal solids by computed bar-tip
+  travel (speed × duration). Ordinary `wait` applies the same Stokes travel
+  model at 1 g, so a suspension can settle, be resuspended, and be separated
+  faster in the centrifuge. The centrifuge form preloads an opposing tube
+  from engine-reported sample mass, visualizes imbalance, disables Start
+  beyond 0.10 g, and the core independently refuses unsafe commands. Tube
+  tare is declared excluded because equal tubes cancel it.*
+  *Control-and-duration slice in progress 2026-08-27: stir, heat, and cool open
+  compact apparatus controls with continuous numeric input and physical dials
+  instead of firing unexplained fixed doses. Heating accepts power and time;
+  cooling exposes bath temperature; stirring accepts RPM and time. Their bench
+  animations use the requested or emitted duration and stop reactively rather
+  than leaving an infinite decorative loop behind. Apparatus controls dock
+  with the bench and replace unrelated vessel actions while deployed.*
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
