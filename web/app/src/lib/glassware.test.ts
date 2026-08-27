@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { KINDS, depositDisplayHeight, innerFloor, solidLayer, fillHeight, graduationTicks } from "./glassware";
+import { KINDS, depositDisplayHeight, innerFloor, solidLayers, fillHeight, graduationTicks } from "./glassware";
 
 describe("glassware geometry", () => {
   it("rests contents on the floor of the silhouette they are clipped to", () => {
@@ -139,7 +139,7 @@ describe("settled deposit layers", () => {
 
   it("tiles the deposit band exactly, whatever the layer count", () => {
     for (const n of [1, 2, 3]) {
-      const layers = Array.from({ length: n }, (_, i) => solidLayer(i, n, solidH, by));
+      const layers = solidLayers(Array.from({ length: n }, () => 1), solidH, by);
       expect(layers[0]!.y).toBeCloseTo(by - solidH, 10);
       const last = layers[n - 1]!;
       expect(last.y + last.h).toBeCloseTo(by, 10);
@@ -151,11 +151,17 @@ describe("settled deposit layers", () => {
 
   it("never hangs a layer below the floor", () => {
     for (const n of [1, 2, 3]) {
-      for (let i = 0; i < n; i++) {
-        const { y, h } = solidLayer(i, n, solidH, by);
+      for (const { y, h } of solidLayers(Array.from({ length: n }, () => 1), solidH, by)) {
         expect(y + h).toBeLessThanOrEqual(by + 1e-9);
       }
     }
+  });
+
+  it("gives each species its computed share instead of equal bands", () => {
+    const [dominant, trace] = solidLayers([0.003, 0.001], solidH, by);
+    expect(dominant!.h).toBeCloseTo(13.5);
+    expect(trace!.h).toBeCloseTo(4.5);
+    expect(trace!.y + trace!.h).toBeCloseTo(by);
   });
 
   it("scales deposits monotonically from engine volume and caps the display", () => {

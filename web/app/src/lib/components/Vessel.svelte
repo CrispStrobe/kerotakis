@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { SceneVessel } from "../host/EngineHost";
-  import { KINDS, depositDisplayHeight, solidLayer, fillHeight, graduationTicks } from "../glassware";
+  import { KINDS, depositDisplayHeight, solidLayers, fillHeight, graduationTicks } from "../glassware";
   import FluidOverlay from "./FluidOverlay.svelte";
   import type { FluidSpecies } from "../fluidScene";
   import type { Effect } from "../magnitudes";
@@ -174,18 +174,18 @@
   // Only the top few deposits are drawn; the layer arithmetic counts the
   // same ones, or the stack stops short of the floor.
   const shownSolids = $derived(vessel.solids.slice(0, 3));
+  const solidVolume = (solid: (typeof vessel.solids)[number]) =>
+    (solid.volume_l ?? solid.moles * 0.01) * (solid.settled_fraction ?? 1);
   // Solids draw as a settled layer. The scene owns pure-solid volume from
   // molar mass and density; the renderer applies one documented perceptual
   // magnifier so bench-scale traces remain visible.
   const solidH = $derived(
     depositDisplayHeight(
       geom,
-      vessel.solids.reduce((sum, solid) =>
-        // Legacy scene v1 hosts omitted volume; retain a small monotone
-        // estimate until their additive protocol field arrives.
-        sum + (solid.volume_l ?? solid.moles * 0.01) * (solid.settled_fraction ?? 1), 0),
+      shownSolids.reduce((sum, solid) => sum + solidVolume(solid), 0),
     ),
   );
+  const shownSolidLayers = $derived(solidLayers(shownSolids.map(solidVolume), solidH, BOTTOM_Y));
   const rgb = (c: [number, number, number]) => `rgb(${c[0]},${c[1]},${c[2]})`;
   // The engine's srgb is TRANSMITTED light: pure water transmits white,
   // and painting that as an opaque white block is the wrong physics on
@@ -384,7 +384,7 @@
 
     {#if solidH > 0}
       {#each shownSolids as solid, i (solid.species)}
-        {@const layer = solidLayer(i, shownSolids.length, solidH, BOTTOM_Y)}
+        {@const layer = shownSolidLayers[i]!}
         <rect
           x={INNER_X}
           y={layer.y}
@@ -393,7 +393,7 @@
           fill={rgb(solid.srgb)}
           class:metallic={solid.metallic}
         >
-          <title>{t(solid.colour_word)} {t(solid.name)} · {t("volume")} {((solid.volume_l ?? solid.moles * 0.01) * 1000).toPrecision(3)} mL</title>
+          <title>{t(solid.colour_word)} {t(solid.name)} · {t("volume")} {(solidVolume(solid) * 1000).toPrecision(3)} mL</title>
         </rect>
       {/each}
       <!-- A lit rim on top of the deposit, so it reads as a settled layer
