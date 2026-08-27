@@ -323,6 +323,26 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 ),
             }
         }
+        Event::Stirred {
+            vessel,
+            rpm,
+            seconds,
+            bar_length_m,
+            tip_speed_m_s,
+            rate_coupled,
+        } => match register.level() {
+            1 => format!("The magnetic stirrer spins {vessel} for {seconds:.0} seconds."),
+            2 => format!(
+                "{vessel}: magnetic stirrer {rpm:.0} rpm for {seconds:.0} s — bar tip {:.3} m/s",
+                tip_speed_m_s
+            ),
+            _ => format!(
+                "{vessel}: stir {rpm:.1} rpm × {seconds:.1} s; bar {:.1} mm; tip {:.5} m/s; rate coupling {}",
+                bar_length_m * 1000.0,
+                tip_speed_m_s,
+                if *rate_coupled { "active" } else { "not yet modelled" }
+            ),
+        },
         Event::Filtered { from, to } => match register.level() {
             1 => format!(
                 "You pour {from} through the filter paper — the liquid runs into {to}, and the solid stays behind on the paper."

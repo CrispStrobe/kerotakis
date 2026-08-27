@@ -378,6 +378,12 @@
     {#if active("swirl", 2000) && liquidH > 0}
       {@const sMag = mag("swirl", 2000)}
       {@const sScale = 0.4 + sMag * 0.6}
+      {#if deployedTool !== "stir"}
+        <g class="stir-plate" aria-hidden="true">
+          <ellipse cx="50" cy="122" rx="27" ry="5" />
+          <rect x="22" y="124" width="56" height="10" rx="3" />
+        </g>
+      {/if}
       <ellipse
         class="swirl"
         cx="50"
@@ -385,9 +391,8 @@
         rx={(INNER_W / 2 - 6) * sScale}
         ry={Math.min(8, liquidH / 3) * sScale}
       />
-      <g class="stirrer" aria-hidden="true">
-        <line x1="50" y1={Math.max(7, BOTTOM_Y - liquidH - 18)} x2="50" y2={BOTTOM_Y - 7} />
-        <ellipse cx="50" cy={BOTTOM_Y - 6} rx="8" ry="2" />
+      <g class="stirrer" aria-hidden="true" style={`transform-origin:50px ${BOTTOM_Y - 6}px`}>
+        <rect x="42" y={BOTTOM_Y - 8} width="16" height="4" rx="2" />
       </g>
     {/if}
     {#if active("burst", 1800)}
@@ -674,11 +679,12 @@
     animation: swirl-turn var(--swirl-duration, 2s) linear forwards;
   }
   .stirrer {
-    transform-origin: 50px 70px;
-    animation: stir-tool var(--stir-duration, 1s) ease-in-out infinite alternate;
+    animation: stir-tool var(--stir-duration, 1s) linear infinite;
   }
-  .stirrer line, .stirrer ellipse { fill: none; stroke: var(--edge-strong); stroke-width: 1.5; }
-  @keyframes stir-tool { to { transform: rotate(12deg) translateX(3px); } }
+  .stirrer rect { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
+  .stir-plate ellipse { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
+  .stir-plate rect { fill: color-mix(in srgb, var(--instrument) 28%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1; }
+  @keyframes stir-tool { to { transform: rotate(360deg); } }
   .heater rect { fill: color-mix(in srgb, var(--hot) 40%, var(--edge-strong)); }
   .heat-wave { fill: none; stroke: var(--hot); stroke-width: 1.2; opacity: 0; animation: heat-rise var(--heat-duration, 1.5s) ease-out infinite; }
   @keyframes heat-rise { 0% { opacity: 0; transform: translateY(4px); } 35% { opacity: var(--heat-opacity, 0.5); } 100% { opacity: 0; transform: translateY(-8px); } }

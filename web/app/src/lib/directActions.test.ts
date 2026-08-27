@@ -4,7 +4,7 @@ import { mixLine, twoVesselLine, vesselQuickActions } from "./directActions";
 describe("direct vessel actions", () => {
   it("targets the selected vessel and follows its boundary", () => {
     const open = vesselQuickActions(2, "open");
-    expect(open.find((a) => a.id === "stir")?.line).toBe("stir v3");
+    expect(open.find((a) => a.id === "stir")?.line).toBe("stir v3 500rpm 10s");
     expect(open.find((a) => a.id === "seal")?.line).toBe("seal v3 500mL");
     expect(vesselQuickActions(2, "sealed").find((a) => a.id === "open")?.line).toBe("open v3");
   });

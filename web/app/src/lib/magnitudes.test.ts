@@ -164,6 +164,13 @@ describe("effectFromEvent", () => {
     const big = effectFromEvent({ event: "gas_evolved", vessel: 0, species: "H2", moles: 0.04 });
     expect(big!.magnitude).toBeGreaterThan(small!.magnitude * 1.5);
   });
+
+  it("scales magnetic stirring from the engine-computed bar tip speed", () => {
+    const slow = effectFromEvent({ event: "stirred", vessel: 0, tip_speed_m_s: 0.1 });
+    const fast = effectFromEvent({ event: "stirred", vessel: 0, tip_speed_m_s: 2.0 });
+    expect(slow?.kind).toBe("swirl");
+    expect(fast!.magnitude).toBeGreaterThan(slow!.magnitude);
+  });
 });
 
 describe("vesselOf", () => {

@@ -37,6 +37,20 @@ const pos = (v: number | string | undefined): number | null => {
 
 export const APPARATUS: ApparatusSpec[] = [
   {
+    verb: "stir",
+    title: "magnetic stirrer",
+    blurb: "set rotation speed and mixing time",
+    fields: [
+      { name: "rpm", label: "rotation speed", type: "number", unit: "rpm", default: 500, min: 50, max: 2000, step: 50 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 10, min: 1, max: 3600 },
+    ],
+    build: (v, f) => {
+      const rpm = pos(f.rpm);
+      const seconds = pos(f.seconds);
+      return rpm === null || seconds === null ? null : `stir v${v + 1} ${rpm}rpm ${seconds}s`;
+    },
+  },
+  {
     verb: "dilute",
     title: "wash bottle",
     blurb: "add water up to a volume",

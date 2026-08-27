@@ -19,6 +19,12 @@ fn one_stage() -> u32 {
 fn kelvin_zero() -> Kelvin {
     Kelvin(0.0)
 }
+fn default_stir_rpm() -> f64 {
+    500.0
+}
+fn default_stir_seconds() -> f64 {
+    10.0
+}
 
 /// A mutating or measuring action. One `Operator` in is one step of the bench
 /// loop: L0 safety pass → apply → re-equilibrate → events out.
@@ -64,9 +70,16 @@ pub enum Operator {
     Heat { vessel: VesselId, energy: Joules },
     /// Remove energy from a vessel (ice bath).
     Cool { vessel: VesselId, energy: Joules },
-    /// Stir. Currently affects nothing the solvers model; logged for the
-    /// record and honest about it.
-    Stir { vessel: VesselId },
+    /// Run a magnetic stirrer. The operation owns the mechanical conditions;
+    /// chemistry models may consume them when they support transport/rate
+    /// coupling, while clients can already render the computed tip speed.
+    Stir {
+        vessel: VesselId,
+        #[serde(default = "default_stir_rpm")]
+        rpm: f64,
+        #[serde(default = "default_stir_seconds")]
+        seconds: f64,
+    },
     /// Close a vessel over a finite gas volume, trapping the room air that
     /// occupied it at the current temperature.
     Seal {
@@ -340,6 +353,17 @@ pub enum Event {
         vessel: VesselId,
         from: Kelvin,
         to: Kelvin,
+    },
+    /// Mechanical mixing conditions actually delivered by a magnetic
+    /// stirrer. Tip speed follows π·bar_length·rpm/60.
+    Stirred {
+        vessel: VesselId,
+        rpm: f64,
+        seconds: f64,
+        bar_length_m: f64,
+        tip_speed_m_s: f64,
+        /// False until kinetics/surface-area models consume this operation.
+        rate_coupled: bool,
     },
     Transferred {
         from: VesselId,

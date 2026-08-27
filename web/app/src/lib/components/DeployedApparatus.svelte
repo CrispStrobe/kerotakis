@@ -21,6 +21,7 @@
     grind: "mortar",
     irradiate: "lamp",
     regulate: "piston lid",
+    stir: "magnetic stirrer",
     sweep: "carrier-gas line",
   };
 
@@ -37,10 +38,18 @@
   const amps = $derived(Math.max(0.001, Number(values.amps ?? 0.5)));
   const pulseDuration = $derived(`${Math.max(0.25, 1.2 - Math.min(1, amps / 2) * 0.8)}s`);
   const pressure = $derived(Math.max(0.1, Number(values.pressure ?? 1)));
+  const stirRpm = $derived(Math.max(0, Number(values.rpm ?? 500)));
 </script>
 
 <g class="apparatus" class:working aria-label={t("{tool} deployed", { tool: t(toolNames[tool] ?? tool) })}>
-  {#if tool === "burette"}
+  {#if tool === "stir"}
+    <g class="magnetic-plate">
+      <ellipse class="plate" cx="50" cy="121" rx="27" ry="5" />
+      <rect class="base" x="22" y="123" width="56" height="11" rx="3" />
+      <circle class="dial" cx="69" cy="129" r="2" />
+      <text x="50" y="133" text-anchor="middle">{stirRpm.toFixed(0)} rpm</text>
+    </g>
+  {:else if tool === "burette"}
     <g class="burette">
       <path class="stand" d="M 91 3 V 129 M 84 129 H 99 M 85 18 H 91" />
       <rect class="glass-part" x="82" y="4" width="5" height="70" rx="1" />
@@ -121,7 +130,8 @@
   .heat { fill: none; stroke: var(--hot); stroke-width: 1.5; opacity: 0; animation: rise 1.15s ease-out infinite; }
   .positive { stroke: var(--danger); } .negative { stroke: var(--primary); }
   .electrode { fill: var(--edge-strong); }
-  .electrodes text, .lamp text, .regulator text { fill: var(--ink); font-size: 6px; font-weight: 700; }
+  .electrodes text, .lamp text, .regulator text, .magnetic-plate text { fill: var(--ink); font-size: 6px; font-weight: 700; }
+  .plate { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
   .charge { fill: none; stroke: var(--instrument); animation: bubble var(--pulse) ease-out infinite; }
   .pestle { fill: none; stroke: var(--edge-strong); stroke-width: 7; stroke-linecap: round; transform-origin: 76px 108px; }
   .working .pestle { animation: grind .5s ease-in-out infinite alternate; }

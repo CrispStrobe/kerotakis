@@ -204,6 +204,8 @@ fn hydrous_ferric_oxide_retains_finite_zinc_occupancy() {
         &mut solver,
         Operator::Stir {
             vessel: VesselId(0),
+            rpm: 500.0,
+            seconds: 10.0,
         },
     );
     let settled = bench.vessel(VesselId(0)).unwrap();

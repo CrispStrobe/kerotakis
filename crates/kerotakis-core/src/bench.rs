@@ -554,13 +554,27 @@ impl Bench {
                     });
                 }
             }
-            Operator::Stir { vessel } => {
+            Operator::Stir {
+                vessel,
+                rpm,
+                seconds,
+            } => {
+                if !rpm.is_finite() || !seconds.is_finite() || *rpm <= 0.0 || *seconds <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
                 let v = self.vessel(*vessel)?;
-                events.push(Event::NotYetModeled {
+                // A 25 mm bar is the default bench-scale stir bar. The
+                // delivered linear speed is physical state, not an animation
+                // preset: clients and future transport models consume it.
+                let bar_length_m = 0.025;
+                let tip_speed_m_s = std::f64::consts::PI * bar_length_m * rpm / 60.0;
+                events.push(Event::Stirred {
                     vessel: v.id,
-                    what:
-                        "stirring changes nothing this lab models: rates depend on concentration, temperature and catalysts here, and mixing and surface area are not modelled at all"
-                            .to_string(),
+                    rpm: *rpm,
+                    seconds: *seconds,
+                    bar_length_m,
+                    tip_speed_m_s,
+                    rate_coupled: false,
                 });
             }
             Operator::Seal {
@@ -2193,7 +2207,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::AddMaterial { vessel, .. }
         | Operator::Heat { vessel, .. }
         | Operator::Cool { vessel, .. }
-        | Operator::Stir { vessel }
+        | Operator::Stir { vessel, .. }
         | Operator::Seal { vessel, .. }
         | Operator::Regulate { vessel, .. }
         | Operator::Sweep { vessel, .. }

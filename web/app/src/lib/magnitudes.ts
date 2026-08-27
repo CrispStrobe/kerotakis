@@ -107,6 +107,13 @@ function mixMag(e: EngineEvent): number {
   return scale(a + b, 0.1, 1.5);
 }
 
+// event.tip_speed_m_s — a 25 mm bar at 50 rpm is a gentle turn;
+// 2000 rpm is the configured bench maximum. The animation follows the
+// physical linear speed emitted by the engine, not the requested UI value.
+function stirMag(e: EngineEvent): number {
+  return scale(Number(e.tip_speed_m_s ?? 0), 0.065, 2.62);
+}
+
 // event.volume (Liters) — Diluted: 0.01 L is a squirt, 0.5 L is a flood.
 function diluteMag(e: EngineEvent): number {
   return scale(Number(e.volume ?? 0), 0.01, 0.5);
@@ -158,6 +165,8 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         source: Number(e.a ?? 0),
         target: Number(e.into ?? 0),
       };
+    case "stirred":
+      return { kind: "swirl", at: now, magnitude: stirMag(e) };
     case "transferred":
       return {
         kind: "pour",

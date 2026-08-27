@@ -873,6 +873,11 @@ hide them completely.
   mortar and pestle beside its target vessel, with work-state motion, rather
   than drawing a mortar inside the vessel. The general assembly/footprint
   system and computed grind state remain.*
+  *Magnetic-stirrer slice in progress 2026-08-27: the equipment wall exposes
+  RPM and duration, the public grammar carries both, and the engine computes
+  25 mm stir-bar tip speed. The bench draws the plate, rotating bar, and
+  vortex with speed scaled from that emitted physical value. Heating-plate
+  power/temperature control and persistent start/stop state remain.*
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
@@ -885,8 +890,9 @@ hide them completely.
   report current totals rather than confusing a new dose with total material.
   *Feedback slice in progress 2026-08-27: authoritative inventory already
   accumulated repeated doses; repeated-add events now also carry and render the
-  post-dose total. Scaling visible solid volume and parameterizing stirring
-  remain part of this item.*
+  post-dose total. Stirring now carries RPM/duration and exposes explicitly
+  uncoupled rate physics; scaling visible solid volume and coupling mixing to
+  transport/rates remain part of this item.*
 - [ ] **GUI-075 — Observe five users before adding campaign breadth.** Test with
   at least two children/novices, one teacher, and two experienced science users;
   use tasks, not preference questions. Record time-to-first-result, wrong turns,
