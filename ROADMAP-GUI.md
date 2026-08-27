@@ -1241,6 +1241,11 @@ decorating it.
   events and linearly controls flame size and flicker speed; an unquantified
   ignition uses a restrained fallback rather than maximum drama. Remaining
   DoD: screenshot regression cases.*
+  *Computed transfer-colour slice shipped 2026-08-27:* pour, filter and
+  drain paths capture the source vessel's engine-computed pre-transfer sRGB
+  before the returned scene replaces it. Stream, glow and landing ripple now
+  carry that colour; distillation stays separate because vapour colour cannot
+  honestly be inferred from the bulk source liquid.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,

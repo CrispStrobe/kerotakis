@@ -41,7 +41,7 @@
 
 <span class="marker" bind:this={marker}></span>
 {#if path && visible}
-  <svg class="bench-effect" aria-hidden="true">
+  <svg class="bench-effect" aria-hidden="true" style={`--fluid:${effect.fluidColour ?? "var(--cool)"}`}>
     {#if effect.operation === "cell"}
       <path class="cable positive" d={path} />
       <path class="cable negative" d={path} transform="translate(0 8)" />
@@ -75,9 +75,9 @@
   .marker { position: absolute; inset: 0; pointer-events: none; }
   .bench-effect { position: absolute; inset: 0; z-index: 5; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
   .pour-glow, .pour-stream { fill: none; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: pour var(--duration) cubic-bezier(.2,.7,.25,1) forwards; }
-  .pour-glow { stroke: color-mix(in srgb, var(--cool) 35%, white); stroke-width: var(--stream); opacity: 0.32; filter: blur(3px); }
-  .pour-stream { stroke: var(--cool); stroke-width: var(--stream); opacity: 0.78; }
-  .landing { fill: none; stroke: var(--cool); stroke-width: 2; opacity: 0; animation: land var(--duration) ease-out forwards; }
+  .pour-glow { stroke: color-mix(in srgb, var(--fluid) 65%, white); stroke-width: var(--stream); opacity: 0.32; filter: blur(3px); }
+  .pour-stream { stroke: var(--fluid); stroke-width: var(--stream); opacity: 0.78; }
+  .landing { fill: none; stroke: var(--fluid); stroke-width: 2; opacity: 0; animation: land var(--duration) ease-out forwards; }
   .rig-line { fill: none; stroke: var(--edge-strong); stroke-width: 5; stroke-linecap: round; opacity: .75; }
   .filter path { fill: color-mix(in srgb, var(--surface) 86%, var(--cool)); stroke: var(--edge-strong); stroke-width: 1.5; }
   .filter .filter-paper { fill: var(--cloud); stroke-width: 1; }
