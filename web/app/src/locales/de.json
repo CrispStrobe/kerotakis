@@ -1221,6 +1221,10 @@
   "delivered energy": "zugeführte Energie",
   "removed energy": "entzogene Energie",
   "relative centrifugal force": "relative Zentrifugalkraft",
-  "{tool} installed: {state}": "{tool} aufgebaut: {state}"
+  "{tool} installed: {state}": "{tool} aufgebaut: {state}",
+  "iron(II) hydroxide": "Eisen(II)-hydroxid",
+  "iron(III) hydroxide": "Eisen(III)-hydroxid",
+  "magnesium hydroxide": "Magnesiumhydroxid",
+  "zinc hydroxide": "Zinkhydroxid"
  }
 }

@@ -2283,5 +2283,101 @@
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 2.70 g/cm3",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "red-brown",
+    "colour": {
+      "b": 45,
+      "g": 82,
+      "r": 160,
+      "strength": 0.0
+    },
+    "density": 3.4,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "FeH3O3",
+    "heat_capacity": 101.7,
+    "inchikey": "MSNWSDPPULHLDL-UHFFFAOYSA-K",
+    "key": "Fe(OH)3",
+    "magnetic": false,
+    "molar_mass": 106.87,
+    "name": "iron(III) hydroxide",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; density and Cp(s): CRC Handbook of Chemistry and Physics, 97th ed. (amorphous-precipitate density approximate, stated)",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "pale green",
+    "colour": {
+      "b": 154,
+      "g": 185,
+      "r": 156,
+      "strength": 0.0
+    },
+    "density": 3.4,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "FeH2O2",
+    "heat_capacity": 97.0,
+    "inchikey": "NCNCGGDMXMBVIA-UHFFFAOYSA-L",
+    "key": "Fe(OH)2",
+    "magnetic": false,
+    "molar_mass": 89.86,
+    "name": "iron(II) hydroxide",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; density and Cp(s): CRC Handbook of Chemistry and Physics, 97th ed. (amorphous-precipitate density approximate, stated)",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 245,
+      "g": 245,
+      "r": 245,
+      "strength": 0.0
+    },
+    "density": 2.34,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "MgH2O2",
+    "heat_capacity": 77.03,
+    "inchikey": "VTHJTEIRLNZDEV-UHFFFAOYSA-L",
+    "key": "Mg(OH)2",
+    "magnetic": false,
+    "molar_mass": 58.32,
+    "name": "magnesium hydroxide",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; density and Cp(s): CRC Handbook of Chemistry and Physics, 97th ed. (amorphous-precipitate density approximate, stated)",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
+  },
+  {
+    "appearance": "white",
+    "colour": {
+      "b": 245,
+      "g": 245,
+      "r": 245,
+      "strength": 0.0
+    },
+    "density": 3.05,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "ZnH2O2",
+    "heat_capacity": 72.4,
+    "inchikey": "UGZADUVQMDAIAO-UHFFFAOYSA-L",
+    "key": "Zn(OH)2",
+    "magnetic": false,
+    "molar_mass": 99.42,
+    "name": "zinc hydroxide",
+    "provenance": "M from IUPAC/CIAAW 2021 atomic weights; density and Cp(s): CRC Handbook of Chemistry and Physics, 97th ed. (amorphous-precipitate density approximate, stated)",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]
