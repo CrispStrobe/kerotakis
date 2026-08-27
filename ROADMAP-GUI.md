@@ -1056,7 +1056,9 @@ hide them completely.
   Apparatus and burettes retain the vessel they were installed for; choosing
   the same equipment card while another vessel is selected explicitly moves
   the installation, while choosing it again on its current target puts it away.
-  Removing the target vessel safely removes its orphaned hardware as well.
+  Removing the target vessel safely removes its orphaned hardware as well. The
+  dock now also exposes a compact localized move-to-selection control whenever
+  selection and installation differ, without requiring a cabinet round-trip.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
