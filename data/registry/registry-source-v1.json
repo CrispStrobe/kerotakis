@@ -2837,7 +2837,7 @@
         {
           "element": "H",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -2864,7 +2864,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -2890,7 +2890,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -2929,7 +2929,7 @@
         {
           "element": "C",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -2956,7 +2956,7 @@
         {
           "element": "H",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -2983,7 +2983,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3009,7 +3009,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -3048,7 +3048,7 @@
         {
           "element": "Cl",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3075,7 +3075,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3101,7 +3101,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -3140,7 +3140,7 @@
         {
           "element": "Ag",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3167,7 +3167,7 @@
         {
           "element": "N",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3194,7 +3194,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3220,7 +3220,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -3259,7 +3259,7 @@
         {
           "element": "Ag",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3286,7 +3286,7 @@
         {
           "element": "Cl",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3312,7 +3312,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -3351,7 +3351,7 @@
         {
           "element": "H",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3378,7 +3378,7 @@
         {
           "element": "O",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3404,7 +3404,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -3443,7 +3443,7 @@
         {
           "element": "C",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3469,7 +3469,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -3508,7 +3508,7 @@
         {
           "element": "Mn",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3535,7 +3535,7 @@
         {
           "element": "O",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3561,7 +3561,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -3600,7 +3600,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3627,7 +3627,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3654,7 +3654,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3680,7 +3680,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -3719,7 +3719,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3746,7 +3746,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3773,7 +3773,7 @@
         {
           "element": "S",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3799,7 +3799,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -3838,7 +3838,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3864,7 +3864,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -3903,7 +3903,7 @@
         {
           "element": "O",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3930,7 +3930,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -3956,7 +3956,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -3995,7 +3995,7 @@
         {
           "element": "Ca",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4022,7 +4022,7 @@
         {
           "element": "H",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4049,7 +4049,7 @@
         {
           "element": "O",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4075,7 +4075,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -4114,7 +4114,7 @@
         {
           "element": "Cu",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4141,7 +4141,7 @@
         {
           "element": "H",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4168,7 +4168,7 @@
         {
           "element": "O",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4194,7 +4194,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -4233,7 +4233,7 @@
         {
           "element": "Cu",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4260,7 +4260,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4286,7 +4286,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -4325,7 +4325,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4351,7 +4351,7 @@
         }
       ],
       "net_charge": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -4390,7 +4390,7 @@
         {
           "element": "Cl",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4416,7 +4416,7 @@
         }
       ],
       "net_charge": {
-        "value": -1,
+        "value": -1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -4455,7 +4455,7 @@
         {
           "element": "Ag",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4481,7 +4481,7 @@
         }
       ],
       "net_charge": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -4520,7 +4520,7 @@
         {
           "element": "N",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4547,7 +4547,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4573,7 +4573,7 @@
         }
       ],
       "net_charge": {
-        "value": -1,
+        "value": -1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -4612,7 +4612,7 @@
         {
           "element": "Cl",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4639,7 +4639,7 @@
         {
           "element": "H",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4665,7 +4665,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -4704,7 +4704,7 @@
         {
           "element": "H",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4731,7 +4731,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4758,7 +4758,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4784,7 +4784,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -4823,7 +4823,7 @@
         {
           "element": "H",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4850,7 +4850,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4877,7 +4877,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4903,7 +4903,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -4942,7 +4942,7 @@
         {
           "element": "H",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4969,7 +4969,7 @@
         {
           "element": "N",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -4995,7 +4995,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -5034,7 +5034,7 @@
         {
           "element": "Cl",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5061,7 +5061,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5088,7 +5088,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5114,7 +5114,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -5153,7 +5153,7 @@
         {
           "element": "Cl",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5180,7 +5180,7 @@
         {
           "element": "H",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5207,7 +5207,7 @@
         {
           "element": "N",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5233,7 +5233,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -5272,7 +5272,7 @@
         {
           "element": "Cl",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5298,7 +5298,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -5337,7 +5337,7 @@
         {
           "element": "C",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5364,7 +5364,7 @@
         {
           "element": "H",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5391,7 +5391,7 @@
         {
           "element": "O",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5417,7 +5417,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -5456,7 +5456,7 @@
         {
           "element": "C",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5483,7 +5483,7 @@
         {
           "element": "H",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5510,7 +5510,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5537,7 +5537,7 @@
         {
           "element": "O",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5563,7 +5563,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -5602,7 +5602,7 @@
         {
           "element": "C",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5629,7 +5629,7 @@
         {
           "element": "H",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5656,7 +5656,7 @@
         {
           "element": "O",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5682,7 +5682,7 @@
         }
       ],
       "net_charge": {
-        "value": -1,
+        "value": -1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -5721,7 +5721,7 @@
         {
           "element": "C",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5748,7 +5748,7 @@
         {
           "element": "H",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5775,7 +5775,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5802,7 +5802,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5828,7 +5828,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -5867,7 +5867,7 @@
         {
           "element": "C",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5894,7 +5894,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5921,7 +5921,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -5947,7 +5947,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -5986,7 +5986,7 @@
         {
           "element": "C",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6013,7 +6013,7 @@
         {
           "element": "O",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6039,7 +6039,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -6078,7 +6078,7 @@
         {
           "element": "C",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6105,7 +6105,7 @@
         {
           "element": "H",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6132,7 +6132,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6158,7 +6158,7 @@
         }
       ],
       "net_charge": {
-        "value": -1,
+        "value": -1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -6197,7 +6197,7 @@
         {
           "element": "H",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6224,7 +6224,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6251,7 +6251,7 @@
         {
           "element": "P",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6277,7 +6277,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -6316,7 +6316,7 @@
         {
           "element": "H",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6343,7 +6343,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6370,7 +6370,7 @@
         {
           "element": "P",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6396,7 +6396,7 @@
         }
       ],
       "net_charge": {
-        "value": -1,
+        "value": -1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -6435,7 +6435,7 @@
         {
           "element": "Cl",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6462,7 +6462,7 @@
         {
           "element": "K",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6488,7 +6488,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -6527,7 +6527,7 @@
         {
           "element": "Ca",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6554,7 +6554,7 @@
         {
           "element": "Cl",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6580,7 +6580,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -6619,7 +6619,7 @@
         {
           "element": "C",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6646,7 +6646,7 @@
         {
           "element": "Ca",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6673,7 +6673,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6699,7 +6699,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -6738,7 +6738,7 @@
         {
           "element": "Mg",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6765,7 +6765,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6792,7 +6792,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6818,7 +6818,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -6857,7 +6857,7 @@
         {
           "element": "Ca",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6884,7 +6884,7 @@
         {
           "element": "H",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6911,7 +6911,7 @@
         {
           "element": "O",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6938,7 +6938,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -6964,7 +6964,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7003,7 +7003,7 @@
         {
           "element": "K",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7029,7 +7029,7 @@
         }
       ],
       "net_charge": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7068,7 +7068,7 @@
         {
           "element": "Ca",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7094,7 +7094,7 @@
         }
       ],
       "net_charge": {
-        "value": 2,
+        "value": 2.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7133,7 +7133,7 @@
         {
           "element": "Mg",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7159,7 +7159,7 @@
         }
       ],
       "net_charge": {
-        "value": 2,
+        "value": 2.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7198,7 +7198,7 @@
         {
           "element": "Sr",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7224,7 +7224,7 @@
         }
       ],
       "net_charge": {
-        "value": 2,
+        "value": 2.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7263,7 +7263,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7290,7 +7290,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7316,7 +7316,7 @@
         }
       ],
       "net_charge": {
-        "value": -2,
+        "value": -2.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7355,7 +7355,7 @@
         {
           "element": "Ca",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7382,7 +7382,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7408,7 +7408,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7447,7 +7447,7 @@
         {
           "element": "Mg",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7473,7 +7473,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7512,7 +7512,7 @@
         {
           "element": "Cu",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7538,7 +7538,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7577,7 +7577,7 @@
         {
           "element": "Zn",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7603,7 +7603,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7642,7 +7642,7 @@
         {
           "element": "Ag",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7668,7 +7668,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7707,7 +7707,7 @@
         {
           "element": "Fe",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7733,7 +7733,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7772,7 +7772,7 @@
         {
           "element": "Mg",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7799,7 +7799,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7825,7 +7825,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7864,7 +7864,7 @@
         {
           "element": "C",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7890,7 +7890,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7929,7 +7929,7 @@
         {
           "element": "O",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -7955,7 +7955,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -7994,7 +7994,7 @@
         {
           "element": "N",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8020,7 +8020,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8059,7 +8059,7 @@
         {
           "element": "Cu",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8086,7 +8086,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8113,7 +8113,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8139,7 +8139,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8178,7 +8178,7 @@
         {
           "element": "Cu",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8204,7 +8204,7 @@
         }
       ],
       "net_charge": {
-        "value": 2,
+        "value": 2.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8243,7 +8243,7 @@
         {
           "element": "K",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8270,7 +8270,7 @@
         {
           "element": "Mn",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8297,7 +8297,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8323,7 +8323,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8362,7 +8362,7 @@
         {
           "element": "Fe",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8389,7 +8389,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8416,7 +8416,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8442,7 +8442,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8481,7 +8481,7 @@
         {
           "element": "Fe",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8507,7 +8507,7 @@
         }
       ],
       "net_charge": {
-        "value": 2,
+        "value": 2.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8546,7 +8546,7 @@
         {
           "element": "Fe",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8572,7 +8572,7 @@
         }
       ],
       "net_charge": {
-        "value": 3,
+        "value": 3.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8611,7 +8611,7 @@
         {
           "element": "Cu",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8637,7 +8637,7 @@
         }
       ],
       "net_charge": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8676,7 +8676,7 @@
         {
           "element": "Mn",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8702,7 +8702,7 @@
         }
       ],
       "net_charge": {
-        "value": 2,
+        "value": 2.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8741,7 +8741,7 @@
         {
           "element": "Mn",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8768,7 +8768,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8794,7 +8794,7 @@
         }
       ],
       "net_charge": {
-        "value": -2,
+        "value": -2.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8833,7 +8833,7 @@
         {
           "element": "Mn",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8859,7 +8859,7 @@
         }
       ],
       "net_charge": {
-        "value": 3,
+        "value": 3.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8898,7 +8898,7 @@
         {
           "element": "Mn",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8925,7 +8925,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -8951,7 +8951,7 @@
         }
       ],
       "net_charge": {
-        "value": -1,
+        "value": -1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -8990,7 +8990,7 @@
         {
           "element": "C",
           "count": {
-            "value": 20,
+            "value": 20.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9017,7 +9017,7 @@
         {
           "element": "H",
           "count": {
-            "value": 14,
+            "value": 14.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9044,7 +9044,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9070,7 +9070,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -9109,7 +9109,7 @@
         {
           "element": "C",
           "count": {
-            "value": 14,
+            "value": 14.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9136,7 +9136,7 @@
         {
           "element": "H",
           "count": {
-            "value": 14,
+            "value": 14.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9163,7 +9163,7 @@
         {
           "element": "N",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9190,7 +9190,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9217,7 +9217,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9244,7 +9244,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9270,7 +9270,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -9309,7 +9309,7 @@
         {
           "element": "Br",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9336,7 +9336,7 @@
         {
           "element": "C",
           "count": {
-            "value": 27,
+            "value": 27.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9363,7 +9363,7 @@
         {
           "element": "H",
           "count": {
-            "value": 28,
+            "value": 28.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9390,7 +9390,7 @@
         {
           "element": "O",
           "count": {
-            "value": 5,
+            "value": 5.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9417,7 +9417,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9443,7 +9443,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -9482,7 +9482,7 @@
         {
           "element": "Zn",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9508,7 +9508,7 @@
         }
       ],
       "net_charge": {
-        "value": 2,
+        "value": 2.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -9547,7 +9547,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9574,7 +9574,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9601,7 +9601,7 @@
         {
           "element": "Zn",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9627,7 +9627,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -9666,7 +9666,7 @@
         {
           "element": "H",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9692,7 +9692,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -9731,7 +9731,7 @@
         {
           "element": "Pb",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9757,7 +9757,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -9796,7 +9796,7 @@
         {
           "element": "Pb",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9822,7 +9822,7 @@
         }
       ],
       "net_charge": {
-        "value": 2,
+        "value": 2.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -9861,7 +9861,7 @@
         {
           "element": "N",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9888,7 +9888,7 @@
         {
           "element": "O",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9915,7 +9915,7 @@
         {
           "element": "Pb",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -9941,7 +9941,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -9980,7 +9980,7 @@
         {
           "element": "C",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10007,7 +10007,7 @@
         {
           "element": "H",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10034,7 +10034,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10060,7 +10060,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -10099,7 +10099,7 @@
         {
           "element": "C",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10126,7 +10126,7 @@
         {
           "element": "H",
           "count": {
-            "value": 14,
+            "value": 14.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10152,7 +10152,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -10191,7 +10191,7 @@
         {
           "element": "C",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10218,7 +10218,7 @@
         {
           "element": "H",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10245,7 +10245,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10271,7 +10271,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -10310,7 +10310,7 @@
         {
           "element": "C",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10337,7 +10337,7 @@
         {
           "element": "H",
           "count": {
-            "value": 8,
+            "value": 8.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10364,7 +10364,7 @@
         {
           "element": "O",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10390,7 +10390,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -10429,7 +10429,7 @@
         {
           "element": "H",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10456,7 +10456,7 @@
         {
           "element": "K",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10483,7 +10483,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10509,7 +10509,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -10548,7 +10548,7 @@
         {
           "element": "H",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10575,7 +10575,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10601,7 +10601,7 @@
         }
       ],
       "net_charge": {
-        "value": -1,
+        "value": -1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -10640,7 +10640,7 @@
         {
           "element": "N",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10667,7 +10667,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10694,7 +10694,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10720,7 +10720,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -10759,7 +10759,7 @@
         {
           "element": "K",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10786,7 +10786,7 @@
         {
           "element": "N",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10813,7 +10813,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10839,7 +10839,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -10878,7 +10878,7 @@
         {
           "element": "C",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10905,7 +10905,7 @@
         {
           "element": "H",
           "count": {
-            "value": 8,
+            "value": 8.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10932,7 +10932,7 @@
         {
           "element": "O",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -10958,7 +10958,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -10997,7 +10997,7 @@
         {
           "element": "I",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11023,7 +11023,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -11062,7 +11062,7 @@
         {
           "element": "C",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11089,7 +11089,7 @@
         {
           "element": "H",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11116,7 +11116,7 @@
         {
           "element": "O",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11142,7 +11142,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -11181,7 +11181,7 @@
         {
           "element": "H",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11208,7 +11208,7 @@
         {
           "element": "I",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11234,7 +11234,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -11273,7 +11273,7 @@
         {
           "element": "C",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11300,7 +11300,7 @@
         {
           "element": "H",
           "count": {
-            "value": 10,
+            "value": 10.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11327,7 +11327,7 @@
         {
           "element": "O",
           "count": {
-            "value": 5,
+            "value": 5.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11353,7 +11353,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -11392,7 +11392,7 @@
         {
           "element": "C",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11418,7 +11418,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -11457,7 +11457,7 @@
         {
           "element": "C",
           "count": {
-            "value": 12,
+            "value": 12.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11484,7 +11484,7 @@
         {
           "element": "H",
           "count": {
-            "value": 22,
+            "value": 22.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11511,7 +11511,7 @@
         {
           "element": "O",
           "count": {
-            "value": 11,
+            "value": 11.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11537,7 +11537,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -11576,7 +11576,7 @@
         {
           "element": "I",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11603,7 +11603,7 @@
         {
           "element": "K",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11629,7 +11629,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -11668,7 +11668,7 @@
         {
           "element": "I",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11695,7 +11695,7 @@
         {
           "element": "K",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11722,7 +11722,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11748,7 +11748,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -11787,7 +11787,7 @@
         {
           "element": "H",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11814,7 +11814,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11841,7 +11841,7 @@
         {
           "element": "O",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11868,7 +11868,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11894,7 +11894,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -11933,7 +11933,7 @@
         {
           "element": "H",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11960,7 +11960,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -11987,7 +11987,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12014,7 +12014,7 @@
         {
           "element": "S",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12040,7 +12040,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -12079,7 +12079,7 @@
         {
           "element": "C",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12106,7 +12106,7 @@
         {
           "element": "H",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12132,7 +12132,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -12171,7 +12171,7 @@
         {
           "element": "C",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12198,7 +12198,7 @@
         {
           "element": "H",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12224,7 +12224,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -12263,7 +12263,7 @@
         {
           "element": "C",
           "count": {
-            "value": 10,
+            "value": 10.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12290,7 +12290,7 @@
         {
           "element": "H",
           "count": {
-            "value": 8,
+            "value": 8.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12317,7 +12317,7 @@
         {
           "element": "O",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12343,7 +12343,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -12382,7 +12382,7 @@
         {
           "element": "C",
           "count": {
-            "value": 8,
+            "value": 8.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12409,7 +12409,7 @@
         {
           "element": "H",
           "count": {
-            "value": 8,
+            "value": 8.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12435,7 +12435,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -12474,7 +12474,7 @@
         {
           "element": "C",
           "count": {
-            "value": 24,
+            "value": 24.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12501,7 +12501,7 @@
         {
           "element": "H",
           "count": {
-            "value": 26,
+            "value": 26.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12528,7 +12528,7 @@
         {
           "element": "N",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12555,7 +12555,7 @@
         {
           "element": "O",
           "count": {
-            "value": 13,
+            "value": 13.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12581,7 +12581,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -12620,7 +12620,7 @@
         {
           "element": "C",
           "count": {
-            "value": 21,
+            "value": 21.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12647,7 +12647,7 @@
         {
           "element": "H",
           "count": {
-            "value": 20,
+            "value": 20.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12674,7 +12674,7 @@
         {
           "element": "O",
           "count": {
-            "value": 6,
+            "value": 6.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12700,7 +12700,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -12739,7 +12739,7 @@
         {
           "element": "C",
           "count": {
-            "value": 16,
+            "value": 16.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12766,7 +12766,7 @@
         {
           "element": "H",
           "count": {
-            "value": 8,
+            "value": 8.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12793,7 +12793,7 @@
         {
           "element": "N",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12820,7 +12820,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12847,7 +12847,7 @@
         {
           "element": "O",
           "count": {
-            "value": 8,
+            "value": 8.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12874,7 +12874,7 @@
         {
           "element": "S",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12900,7 +12900,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -12939,7 +12939,7 @@
         {
           "element": "C",
           "count": {
-            "value": 24,
+            "value": 24.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12966,7 +12966,7 @@
         {
           "element": "H",
           "count": {
-            "value": 26,
+            "value": 26.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -12993,7 +12993,7 @@
         {
           "element": "N",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13020,7 +13020,7 @@
         {
           "element": "O",
           "count": {
-            "value": 14,
+            "value": 14.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13046,7 +13046,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -13085,7 +13085,7 @@
         {
           "element": "C",
           "count": {
-            "value": 21,
+            "value": 21.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13112,7 +13112,7 @@
         {
           "element": "H",
           "count": {
-            "value": 20,
+            "value": 20.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13139,7 +13139,7 @@
         {
           "element": "O",
           "count": {
-            "value": 7,
+            "value": 7.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13165,7 +13165,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -13204,7 +13204,7 @@
         {
           "element": "C",
           "count": {
-            "value": 16,
+            "value": 16.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13231,7 +13231,7 @@
         {
           "element": "H",
           "count": {
-            "value": 8,
+            "value": 8.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13258,7 +13258,7 @@
         {
           "element": "N",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13285,7 +13285,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13312,7 +13312,7 @@
         {
           "element": "O",
           "count": {
-            "value": 9,
+            "value": 9.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13339,7 +13339,7 @@
         {
           "element": "S",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13365,7 +13365,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -13404,7 +13404,7 @@
         {
           "element": "Al",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13430,7 +13430,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -13469,7 +13469,7 @@
         {
           "element": "Br",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13495,7 +13495,7 @@
         }
       ],
       "net_charge": {
-        "value": -1,
+        "value": -1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -13534,7 +13534,7 @@
         {
           "element": "Br",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13561,7 +13561,7 @@
         {
           "element": "H",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13587,7 +13587,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -13626,7 +13626,7 @@
         {
           "element": "Br",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13653,7 +13653,7 @@
         {
           "element": "Na",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13679,7 +13679,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -13718,7 +13718,7 @@
         {
           "element": "Br",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13745,7 +13745,7 @@
         {
           "element": "C",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13772,7 +13772,7 @@
         {
           "element": "H",
           "count": {
-            "value": 5,
+            "value": 5.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13798,7 +13798,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -13837,7 +13837,7 @@
         {
           "element": "C",
           "count": {
-            "value": 2,
+            "value": 2.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13864,7 +13864,7 @@
         {
           "element": "H",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13890,7 +13890,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -13929,7 +13929,7 @@
         {
           "element": "C",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13956,7 +13956,7 @@
         {
           "element": "H",
           "count": {
-            "value": 8,
+            "value": 8.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13982,7 +13982,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -14021,7 +14021,7 @@
         {
           "element": "C",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -14048,7 +14048,7 @@
         {
           "element": "H",
           "count": {
-            "value": 10,
+            "value": 10.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -14075,7 +14075,7 @@
         {
           "element": "O",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -14101,7 +14101,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -14140,7 +14140,7 @@
         {
           "element": "Br",
           "count": {
-            "value": 1,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -14167,7 +14167,7 @@
         {
           "element": "C",
           "count": {
-            "value": 4,
+            "value": 4.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -14194,7 +14194,7 @@
         {
           "element": "H",
           "count": {
-            "value": 9,
+            "value": 9.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -14220,7 +14220,7 @@
         }
       ],
       "net_charge": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -14889,7 +14889,7 @@
       "phase": "aqueous",
       "property": "molar_mass",
       "quantity": {
-        "value": 240000,
+        "value": 240000.0,
         "unit": {
           "symbol": "g/mol",
           "dimension": "molar_mass"
@@ -14919,7 +14919,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -15099,7 +15099,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 120,
+        "value": 120.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -15189,7 +15189,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 145,
+        "value": 145.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -15579,7 +15579,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 96,
+        "value": 96.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -15759,7 +15759,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -15789,7 +15789,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -15849,7 +15849,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -15879,7 +15879,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -15939,7 +15939,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -15969,7 +15969,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -16029,7 +16029,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -16059,7 +16059,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -16419,7 +16419,7 @@
       "phase": "liquid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 80,
+        "value": 80.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -16509,7 +16509,7 @@
       "phase": "liquid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 75,
+        "value": 75.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -16599,7 +16599,7 @@
       "phase": "gas",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 35,
+        "value": 35.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -16629,7 +16629,7 @@
       "phase": "gas",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -16719,7 +16719,7 @@
       "phase": "gas",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -16989,7 +16989,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -17019,7 +17019,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -17319,7 +17319,7 @@
       "phase": "gas",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -17379,7 +17379,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -17409,7 +17409,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -17559,7 +17559,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -17589,7 +17589,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -18069,7 +18069,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 186,
+        "value": 186.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -18159,7 +18159,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -18189,7 +18189,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -18249,7 +18249,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -18279,7 +18279,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -18339,7 +18339,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -18369,7 +18369,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -18429,7 +18429,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -18459,7 +18459,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -18519,7 +18519,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -18549,7 +18549,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -18609,7 +18609,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 42,
+        "value": 42.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -19359,7 +19359,7 @@
       "phase": "gas",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -19449,7 +19449,7 @@
       "phase": "gas",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -19509,7 +19509,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 100,
+        "value": 100.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -19629,7 +19629,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -19659,7 +19659,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -19929,7 +19929,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -19959,7 +19959,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -20019,7 +20019,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -20049,7 +20049,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -20109,7 +20109,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -20139,7 +20139,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -20199,7 +20199,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -20229,7 +20229,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -20289,7 +20289,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -20319,7 +20319,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -20379,7 +20379,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -20409,7 +20409,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -20469,7 +20469,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -20499,7 +20499,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -20559,7 +20559,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -20649,7 +20649,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -20739,7 +20739,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -20829,7 +20829,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -20859,7 +20859,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -21069,7 +21069,7 @@
       "phase": "gas",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -21219,7 +21219,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -21249,7 +21249,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -21309,7 +21309,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 145,
+        "value": 145.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -21909,7 +21909,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -21939,7 +21939,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -22179,7 +22179,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 134,
+        "value": 134.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -22359,7 +22359,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 130,
+        "value": 130.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -22539,7 +22539,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 130,
+        "value": 130.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -22599,7 +22599,7 @@
       "phase": "aqueous",
       "property": "molar_mass",
       "quantity": {
-        "value": 55000,
+        "value": 55000.0,
         "unit": {
           "symbol": "g/mol",
           "dimension": "molar_mass"
@@ -22629,7 +22629,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 50,
+        "value": 50.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -22719,7 +22719,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 300,
+        "value": 300.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -22989,7 +22989,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 87,
+        "value": 87.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -23079,7 +23079,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 85,
+        "value": 85.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -23169,7 +23169,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 51,
+        "value": 51.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -23259,7 +23259,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 73,
+        "value": 73.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -23349,7 +23349,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 200,
+        "value": 200.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -23439,7 +23439,7 @@
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 130,
+        "value": 130.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -23529,7 +23529,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 450,
+        "value": 450.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -23619,7 +23619,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 300,
+        "value": 300.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -23709,7 +23709,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 380,
+        "value": 380.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -23799,7 +23799,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 460,
+        "value": 460.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -23889,7 +23889,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 310,
+        "value": 310.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -23979,7 +23979,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 390,
+        "value": 390.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -24159,7 +24159,7 @@
       "phase": "aqueous",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -24189,7 +24189,7 @@
       "phase": "aqueous",
       "property": "mass_density",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -24789,7 +24789,7 @@
       "phase": "liquid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 130,
+        "value": 130.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -25624,7 +25624,7 @@
       "spectrum": [
         {
           "wavelength": {
-            "value": 405,
+            "value": 405.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -25674,7 +25674,7 @@
         },
         {
           "wavelength": {
-            "value": 425,
+            "value": 425.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -25724,7 +25724,7 @@
         },
         {
           "wavelength": {
-            "value": 445,
+            "value": 445.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -25774,7 +25774,7 @@
         },
         {
           "wavelength": {
-            "value": 465,
+            "value": 465.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -25824,7 +25824,7 @@
         },
         {
           "wavelength": {
-            "value": 485,
+            "value": 485.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -25874,7 +25874,7 @@
         },
         {
           "wavelength": {
-            "value": 505,
+            "value": 505.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -25924,7 +25924,7 @@
         },
         {
           "wavelength": {
-            "value": 525,
+            "value": 525.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -25974,7 +25974,7 @@
         },
         {
           "wavelength": {
-            "value": 545,
+            "value": 545.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26024,7 +26024,7 @@
         },
         {
           "wavelength": {
-            "value": 565,
+            "value": 565.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26074,7 +26074,7 @@
         },
         {
           "wavelength": {
-            "value": 585,
+            "value": 585.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26124,7 +26124,7 @@
         },
         {
           "wavelength": {
-            "value": 605,
+            "value": 605.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26174,7 +26174,7 @@
         },
         {
           "wavelength": {
-            "value": 625,
+            "value": 625.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26224,7 +26224,7 @@
         },
         {
           "wavelength": {
-            "value": 645,
+            "value": 645.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26274,7 +26274,7 @@
         },
         {
           "wavelength": {
-            "value": 665,
+            "value": 665.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26324,7 +26324,7 @@
         },
         {
           "wavelength": {
-            "value": 685,
+            "value": 685.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26374,7 +26374,7 @@
         },
         {
           "wavelength": {
-            "value": 705,
+            "value": 705.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26398,7 +26398,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 11,
+            "value": 11.0,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -26569,7 +26569,7 @@
       "spectrum": [
         {
           "wavelength": {
-            "value": 405,
+            "value": 405.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26619,7 +26619,7 @@
         },
         {
           "wavelength": {
-            "value": 425,
+            "value": 425.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26669,7 +26669,7 @@
         },
         {
           "wavelength": {
-            "value": 445,
+            "value": 445.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26719,7 +26719,7 @@
         },
         {
           "wavelength": {
-            "value": 465,
+            "value": 465.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26769,7 +26769,7 @@
         },
         {
           "wavelength": {
-            "value": 485,
+            "value": 485.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26819,7 +26819,7 @@
         },
         {
           "wavelength": {
-            "value": 505,
+            "value": 505.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26869,7 +26869,7 @@
         },
         {
           "wavelength": {
-            "value": 525,
+            "value": 525.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26893,7 +26893,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 2400,
+            "value": 2400.0,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -26919,7 +26919,7 @@
         },
         {
           "wavelength": {
-            "value": 545,
+            "value": 545.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -26969,7 +26969,7 @@
         },
         {
           "wavelength": {
-            "value": 565,
+            "value": 565.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27019,7 +27019,7 @@
         },
         {
           "wavelength": {
-            "value": 585,
+            "value": 585.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27069,7 +27069,7 @@
         },
         {
           "wavelength": {
-            "value": 605,
+            "value": 605.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27119,7 +27119,7 @@
         },
         {
           "wavelength": {
-            "value": 625,
+            "value": 625.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27169,7 +27169,7 @@
         },
         {
           "wavelength": {
-            "value": 645,
+            "value": 645.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27219,7 +27219,7 @@
         },
         {
           "wavelength": {
-            "value": 665,
+            "value": 665.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27269,7 +27269,7 @@
         },
         {
           "wavelength": {
-            "value": 685,
+            "value": 685.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27293,7 +27293,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 0,
+            "value": 0.0,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27319,7 +27319,7 @@
         },
         {
           "wavelength": {
-            "value": 705,
+            "value": 705.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27343,7 +27343,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 0,
+            "value": 0.0,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27770,7 +27770,7 @@
       "spectrum": [
         {
           "wavelength": {
-            "value": 405,
+            "value": 405.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27820,7 +27820,7 @@
         },
         {
           "wavelength": {
-            "value": 425,
+            "value": 425.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27870,7 +27870,7 @@
         },
         {
           "wavelength": {
-            "value": 445,
+            "value": 445.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27920,7 +27920,7 @@
         },
         {
           "wavelength": {
-            "value": 465,
+            "value": 465.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -27970,7 +27970,7 @@
         },
         {
           "wavelength": {
-            "value": 485,
+            "value": 485.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28020,7 +28020,7 @@
         },
         {
           "wavelength": {
-            "value": 505,
+            "value": 505.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28070,7 +28070,7 @@
         },
         {
           "wavelength": {
-            "value": 525,
+            "value": 525.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28120,7 +28120,7 @@
         },
         {
           "wavelength": {
-            "value": 545,
+            "value": 545.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28170,7 +28170,7 @@
         },
         {
           "wavelength": {
-            "value": 565,
+            "value": 565.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28220,7 +28220,7 @@
         },
         {
           "wavelength": {
-            "value": 585,
+            "value": 585.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28270,7 +28270,7 @@
         },
         {
           "wavelength": {
-            "value": 605,
+            "value": 605.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28320,7 +28320,7 @@
         },
         {
           "wavelength": {
-            "value": 625,
+            "value": 625.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28370,7 +28370,7 @@
         },
         {
           "wavelength": {
-            "value": 645,
+            "value": 645.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28420,7 +28420,7 @@
         },
         {
           "wavelength": {
-            "value": 665,
+            "value": 665.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28470,7 +28470,7 @@
         },
         {
           "wavelength": {
-            "value": 685,
+            "value": 685.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28520,7 +28520,7 @@
         },
         {
           "wavelength": {
-            "value": 705,
+            "value": 705.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28587,7 +28587,7 @@
       "spectrum": [
         {
           "wavelength": {
-            "value": 405,
+            "value": 405.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28637,7 +28637,7 @@
         },
         {
           "wavelength": {
-            "value": 425,
+            "value": 425.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28661,7 +28661,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 55000,
+            "value": 55000.0,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -28687,7 +28687,7 @@
         },
         {
           "wavelength": {
-            "value": 445,
+            "value": 445.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28737,7 +28737,7 @@
         },
         {
           "wavelength": {
-            "value": 465,
+            "value": 465.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28787,7 +28787,7 @@
         },
         {
           "wavelength": {
-            "value": 485,
+            "value": 485.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28837,7 +28837,7 @@
         },
         {
           "wavelength": {
-            "value": 505,
+            "value": 505.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28887,7 +28887,7 @@
         },
         {
           "wavelength": {
-            "value": 525,
+            "value": 525.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28937,7 +28937,7 @@
         },
         {
           "wavelength": {
-            "value": 545,
+            "value": 545.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -28987,7 +28987,7 @@
         },
         {
           "wavelength": {
-            "value": 565,
+            "value": 565.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29037,7 +29037,7 @@
         },
         {
           "wavelength": {
-            "value": 585,
+            "value": 585.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29087,7 +29087,7 @@
         },
         {
           "wavelength": {
-            "value": 605,
+            "value": 605.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29137,7 +29137,7 @@
         },
         {
           "wavelength": {
-            "value": 625,
+            "value": 625.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29187,7 +29187,7 @@
         },
         {
           "wavelength": {
-            "value": 645,
+            "value": 645.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29237,7 +29237,7 @@
         },
         {
           "wavelength": {
-            "value": 665,
+            "value": 665.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29287,7 +29287,7 @@
         },
         {
           "wavelength": {
-            "value": 685,
+            "value": 685.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29337,7 +29337,7 @@
         },
         {
           "wavelength": {
-            "value": 705,
+            "value": 705.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29404,7 +29404,7 @@
       "spectrum": [
         {
           "wavelength": {
-            "value": 405,
+            "value": 405.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29454,7 +29454,7 @@
         },
         {
           "wavelength": {
-            "value": 425,
+            "value": 425.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29504,7 +29504,7 @@
         },
         {
           "wavelength": {
-            "value": 445,
+            "value": 445.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29554,7 +29554,7 @@
         },
         {
           "wavelength": {
-            "value": 465,
+            "value": 465.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29604,7 +29604,7 @@
         },
         {
           "wavelength": {
-            "value": 485,
+            "value": 485.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29654,7 +29654,7 @@
         },
         {
           "wavelength": {
-            "value": 505,
+            "value": 505.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29704,7 +29704,7 @@
         },
         {
           "wavelength": {
-            "value": 525,
+            "value": 525.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29754,7 +29754,7 @@
         },
         {
           "wavelength": {
-            "value": 545,
+            "value": 545.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29804,7 +29804,7 @@
         },
         {
           "wavelength": {
-            "value": 565,
+            "value": 565.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29854,7 +29854,7 @@
         },
         {
           "wavelength": {
-            "value": 585,
+            "value": 585.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29904,7 +29904,7 @@
         },
         {
           "wavelength": {
-            "value": 605,
+            "value": 605.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -29954,7 +29954,7 @@
         },
         {
           "wavelength": {
-            "value": 625,
+            "value": 625.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -30004,7 +30004,7 @@
         },
         {
           "wavelength": {
-            "value": 645,
+            "value": 645.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -30054,7 +30054,7 @@
         },
         {
           "wavelength": {
-            "value": 665,
+            "value": 665.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -30104,7 +30104,7 @@
         },
         {
           "wavelength": {
-            "value": 685,
+            "value": 685.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -30154,7 +30154,7 @@
         },
         {
           "wavelength": {
-            "value": 705,
+            "value": 705.0,
             "unit": {
               "symbol": "nm",
               "dimension": "wavelength"
@@ -30400,7 +30400,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -30433,7 +30433,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -30466,7 +30466,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -30499,7 +30499,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -30532,7 +30532,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -30565,7 +30565,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -30598,7 +30598,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -30631,7 +30631,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -30664,7 +30664,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -30697,7 +30697,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -30730,7 +30730,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -30763,7 +30763,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -30796,7 +30796,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -30829,7 +30829,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -30862,7 +30862,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -30895,7 +30895,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -30928,7 +30928,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -30961,7 +30961,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -30994,7 +30994,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31027,7 +31027,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31060,7 +31060,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -31093,7 +31093,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31126,7 +31126,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -31159,7 +31159,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31192,7 +31192,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -31225,7 +31225,7 @@
       "model": "legacy-metastability",
       "parameter": "forms-only-above",
       "quantity": {
-        "value": 340,
+        "value": 340.0,
         "unit": {
           "symbol": "K",
           "dimension": "temperature"
@@ -31258,7 +31258,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31291,7 +31291,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31324,7 +31324,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31357,7 +31357,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31390,7 +31390,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31423,7 +31423,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31456,7 +31456,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31489,7 +31489,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31522,7 +31522,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31555,7 +31555,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31588,7 +31588,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31621,7 +31621,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31654,7 +31654,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31687,7 +31687,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31720,7 +31720,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31753,7 +31753,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31786,7 +31786,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31819,7 +31819,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31852,7 +31852,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31885,7 +31885,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31918,7 +31918,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31951,7 +31951,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -31984,7 +31984,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32017,7 +32017,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -32050,7 +32050,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32083,7 +32083,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32116,7 +32116,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32149,7 +32149,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32182,7 +32182,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32215,7 +32215,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32248,7 +32248,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32281,7 +32281,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32314,7 +32314,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -32347,7 +32347,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32380,7 +32380,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -32413,7 +32413,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32446,7 +32446,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -32479,7 +32479,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32512,7 +32512,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -32545,7 +32545,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32578,7 +32578,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -32611,7 +32611,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32644,7 +32644,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -32677,7 +32677,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32710,7 +32710,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -32743,7 +32743,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32776,7 +32776,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -32809,7 +32809,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32842,7 +32842,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32875,7 +32875,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32908,7 +32908,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -32941,7 +32941,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -32974,7 +32974,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 60,
+        "value": 60.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -33007,7 +33007,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33040,7 +33040,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -33073,7 +33073,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33106,7 +33106,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -33139,7 +33139,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33172,7 +33172,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33205,7 +33205,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33238,7 +33238,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33271,7 +33271,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33304,7 +33304,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33337,7 +33337,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33370,7 +33370,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 12000,
+        "value": 12000.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -33403,7 +33403,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33436,7 +33436,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33469,7 +33469,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33502,7 +33502,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33535,7 +33535,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33568,7 +33568,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -33601,7 +33601,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33634,7 +33634,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33667,7 +33667,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -33700,7 +33700,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33733,7 +33733,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33766,7 +33766,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -33799,7 +33799,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33832,7 +33832,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33865,7 +33865,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33898,7 +33898,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33931,7 +33931,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33964,7 +33964,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -33997,7 +33997,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34030,7 +34030,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -34063,7 +34063,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34096,7 +34096,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -34129,7 +34129,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34162,7 +34162,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34228,7 +34228,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34261,7 +34261,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34294,7 +34294,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34327,7 +34327,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34360,7 +34360,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34393,7 +34393,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34426,7 +34426,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34459,7 +34459,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34492,7 +34492,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34525,7 +34525,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34558,7 +34558,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -34591,7 +34591,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34624,7 +34624,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -34657,7 +34657,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34690,7 +34690,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -34723,7 +34723,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34756,7 +34756,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -34789,7 +34789,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34822,7 +34822,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 65000,
+        "value": 65000.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -34855,7 +34855,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34888,7 +34888,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 55000,
+        "value": 55000.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -34921,7 +34921,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -34954,7 +34954,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 20000,
+        "value": 20000.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -34987,7 +34987,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35020,7 +35020,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -35053,7 +35053,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35086,7 +35086,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -35119,7 +35119,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 1,
+        "value": 1.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35152,7 +35152,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -35185,7 +35185,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35218,7 +35218,7 @@
       "model": "legacy-tint",
       "parameter": "strength",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "L/(mol.cm)",
           "dimension": "molar_absorptivity"
@@ -35251,7 +35251,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35284,7 +35284,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35317,7 +35317,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35350,7 +35350,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35383,7 +35383,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35416,7 +35416,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35449,7 +35449,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35482,7 +35482,7 @@
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
       "quantity": {
-        "value": 0,
+        "value": 0.0,
         "unit": {
           "symbol": "1",
           "dimension": "dimensionless"
@@ -35759,7 +35759,7 @@
           "kind": "foam_stabilizer",
           "trapping_efficiency": 0.85,
           "gas_volume_fraction": 0.9,
-          "half_life_seconds": 180,
+          "half_life_seconds": 180.0,
           "saturation_amount": 0.4
         }
       ],
@@ -35800,8 +35800,8 @@
         {
           "species_id": "catalase",
           "fraction": {
-            "lower": 0.000001,
-            "upper": 0.000001
+            "lower": 1e-6,
+            "upper": 1e-6
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
