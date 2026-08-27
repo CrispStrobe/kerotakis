@@ -76,6 +76,7 @@
   const calorimeterEffect = $derived(latestEffect("calorimeter", 2500));
   const chromatographEffect = $derived(latestEffect("chromatograph", 5200));
   const inspectionEffect = $derived(latestEffect("inspect", 4500));
+  const geigerEffect = $derived(latestEffect("geiger_counter", 3500));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => e.kind === "ignite" && n - e.at < 3000 && e.flameColour);
@@ -721,6 +722,23 @@
         <path class="magnifier-handle" d="M90.5 53 L101 66" />
       </g>
     {/if}
+    {#if geigerEffect}
+      {@const activity = Math.max(0, geigerEffect.reading ?? 0)}
+      {@const reading = formatReading(activity, activity < 10 ? 1 : 0)}
+      {@const cadence = Math.max(0.13, 0.95 - geigerEffect.magnitude * 0.82)}
+      <g class="instrument geiger-inst" style={`--count-cadence:${cadence}s`} aria-label={t("Geiger counter reading: {value} Bq", { value: reading })}>
+        <path class="geiger-wire" d="M27 29 C37 34 39 43 43 50" />
+        <rect class="geiger-body" x="3" y="5" width="27" height="31" rx="5" />
+        <rect class="geiger-screen" x="7" y="10" width="19" height="10" rx="2" />
+        <text class="geiger-value" x="16.5" y="16.5" text-anchor="middle">{reading}</text>
+        <text class="geiger-unit" x="16.5" y="24.5" text-anchor="middle">Bq</text>
+        <circle class="geiger-led" cx="8" cy="29" r="2" />
+        <rect class="geiger-probe" x="40" y="44" width="8" height="34" rx="4" transform="rotate(-18 44 61)" />
+        {#each [0, 1, 2] as pulse (pulse)}
+          <circle class="geiger-pulse" cx="45" cy="76" r={4 + pulse * 3} style={`animation-delay:${pulse * 0.11}s`} />
+        {/each}
+      </g>
+    {/if}
 
     {#if vessel.bubbling && liquidH > 0}
       {@const bMag = mag("vent", 2600)}
@@ -1364,6 +1382,16 @@
   .magnifier-handle { fill: none; stroke: var(--instrument); stroke-width: 6; stroke-linecap: round; filter: drop-shadow(0 2px 2px var(--shadow)); }
   @keyframes inspect-in { from { opacity: 0; transform: scale(.55) rotate(-8deg); } to { opacity: 1; transform: scale(1) rotate(0); } }
   @keyframes inspection-rise { to { opacity: 0; transform: translateY(-17px) scale(1.25); } }
+  .geiger-body { fill: color-mix(in srgb, var(--hot) 22%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1; filter: drop-shadow(0 1px 1px var(--shadow)); }
+  .geiger-screen { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); stroke: var(--edge-strong); stroke-width: .45; }
+  .geiger-value { fill: var(--surface); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 4px; font-weight: 850; }
+  .geiger-unit { fill: var(--ink); font-size: 3.2px; font-weight: 850; }
+  .geiger-led { fill: var(--danger); animation: geiger-flash var(--count-cadence) step-end infinite; }
+  .geiger-wire { fill: none; stroke: var(--edge-strong); stroke-width: 1.2; }
+  .geiger-probe { fill: var(--instrument); stroke: var(--edge-strong); stroke-width: 1; }
+  .geiger-pulse { fill: none; stroke: var(--danger); stroke-width: .8; transform-origin: 45px 76px; animation: geiger-count var(--count-cadence) ease-out infinite; }
+  @keyframes geiger-flash { 0%, 18% { opacity: 1; } 19%, 100% { opacity: .18; } }
+  @keyframes geiger-count { from { opacity: .75; transform: scale(.35); } to { opacity: 0; transform: scale(1.3); } }
   @media (prefers-reduced-motion: reduce) {
     .instrument {
       animation: none;
@@ -1374,6 +1402,7 @@
     .syringe-gas, .syringe-piston, .syringe-rod { transition: none; }
     .chromatograph-flow, .chromatograph-band { animation: none; }
     .inspection-inst, .inspection-bubble { animation: none; }
+    .geiger-led, .geiger-pulse { animation: none; }
     .burette-fill {
       transition: none;
     }

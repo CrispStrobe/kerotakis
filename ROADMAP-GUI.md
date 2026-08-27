@@ -632,6 +632,11 @@ rather than an aspiration:
   raises a magnifying lens over the vessel. Its enlarged liquid colour,
   turbidity, deposit and bubbles come directly from the typed `Observed`
   appearance event, rather than replaying the prose description.
+  *Geiger counter slice shipped 2026-08-27:* the engine's existing
+  radioactivity measurement is now reachable from the graphical cabinet.
+  A counter and probe appear at the sample; its visual count cadence scales
+  logarithmically from the emitted Bq value so eight useful orders of
+  magnitude remain legible.
 
 ### The codex is the content engine (apply it, then expand it)
 

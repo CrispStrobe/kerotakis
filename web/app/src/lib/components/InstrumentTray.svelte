@@ -36,6 +36,7 @@
       instruments: [
         { token: "uvvis", label: "UV-Vis", icon: "λ", description: "absorbance spectrum" },
         { token: "chromatograph", label: "chromatograph", icon: "⋮", description: "separate and compare components" },
+        { token: "geiger", label: "Geiger counter", icon: "◌", description: "radioactive decay activity" },
       ],
     },
   ];
