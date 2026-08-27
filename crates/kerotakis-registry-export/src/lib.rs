@@ -117,17 +117,30 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         evidence: evidence(),
     }
     };
+    // These Gaussian bands are illustrative optical surrogates, not measured
+    // spectra. Quantize them before export so their JSON representation remains
+    // byte-stable after parse/serialize pack round trips on every platform.
+    let stable_surrogate_coefficient = |value: f64| {
+        if value == 0.0 {
+            return 0.0;
+        }
+        format!("{value:.11e}")
+            .parse::<f64>()
+            .expect("formatted finite pigment coefficient must parse")
+    };
     let pigment_bands = |peaks: &[(f64, f64, f64)]| {
         BAND_NM
             .iter()
             .map(|wavelength| {
-                peaks
-                    .iter()
-                    .map(|(centre, strength, width)| {
-                        let offset = (wavelength - centre) / width;
-                        strength * (-0.5 * offset * offset).exp()
-                    })
-                    .sum()
+                stable_surrogate_coefficient(
+                    peaks
+                        .iter()
+                        .map(|(centre, strength, width)| {
+                            let offset = (wavelength - centre) / width;
+                            strength * (-0.5 * offset * offset).exp()
+                        })
+                        .sum(),
+                )
             })
             .collect::<Vec<f64>>()
     };
