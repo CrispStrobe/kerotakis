@@ -34,6 +34,7 @@
   import MissionDebrief from "./lib/components/MissionDebrief.svelte";
   import RoomPicker, { type RoomStyle } from "./lib/components/RoomPicker.svelte";
   import UtilityStation from "./lib/components/UtilityStation.svelte";
+  import RemoveVesselDialog from "./lib/components/RemoveVesselDialog.svelte";
   import { t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { commandCount, completedCommandCount } from "./lib/lesson";
@@ -266,6 +267,12 @@
   let tableOpen = $state(false);
   let safetyOpen = $state(false);
   let utilityStationOpen = $state(false);
+  let removeRequest = $state<number | null>(null);
+  const removeVessel = $derived(
+    removeRequest === null
+      ? null
+      : session.scene?.vessels.find((vessel) => vessel.id === removeRequest) ?? null,
+  );
   let toolboxOpen = $state(false);
   let mapOpen = $state(false);
   /** An entry handed from the map straight to the experiment page. */
@@ -402,6 +409,7 @@
       helpOpen = true;
     } else if (e.key === "Escape") {
       if (inset) inset = null;
+      else if (removeRequest !== null) removeRequest = null;
       else if (homeOpen && hasSeenHome()) homeOpen = false;
       else if (missionOpen) missionOpen = false;
       else if (mapOpen) mapOpen = false;
@@ -725,7 +733,7 @@
           // The visible choice still works when persistence is unavailable.
         }
       }}
-      onremove={(vessel) => void session.submit(`remove v${vessel + 1}`)}
+      onremove={(vessel) => (removeRequest = vessel)}
       onmove={(next) => {
         benchLayout = next;
         try {
@@ -1000,6 +1008,29 @@
       pane = "shelf";
     }}
     onclose={() => (utilityStationOpen = false)}
+  />
+{/if}
+
+{#if removeVessel}
+  {@const vessel = removeVessel}
+  <RemoveVesselDialog
+    {vessel}
+    vesselCount={session.scene.vessels.length}
+    onconfirm={() => {
+      removeRequest = null;
+      void session.submit(`remove v${vessel.id + 1}`);
+    }}
+    ontransfer={session.scene.vessels.length > 1 && vessel.liquid
+      ? () => {
+          removeRequest = null;
+          transfer = { verb: "decant", fraction: 1, from: vessel.id };
+        }
+      : undefined}
+    onopenwaste={() => {
+      removeRequest = null;
+      utilityStationOpen = true;
+    }}
+    onclose={() => (removeRequest = null)}
   />
 {/if}
 
