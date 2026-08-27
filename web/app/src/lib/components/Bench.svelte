@@ -432,7 +432,8 @@
             onbadge={(b) => onbadge?.(vessel.id, b)}
             {fluidLookup}
             deployedTool={vessel.id === deployedTarget && !FREESTANDING_TOOLS.includes(deployedTool ?? "") ? deployedTool : null}
-            {apparatusWorking}
+            linkedTool={vessel.id === deployedTarget && FREESTANDING_TOOLS.includes(deployedTool ?? "") ? deployedTool : null}
+            apparatusWorking={vessel.id === deployedTarget && apparatusWorking}
             {apparatusValues}
           />
           <span class="connection-port port-out" data-port="out" aria-hidden="true"></span>

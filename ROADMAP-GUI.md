@@ -1120,6 +1120,11 @@ hide them completely.
   burette connection from a sample/workstation association, and follow both
   objects through free placement. The route animates only when that exact
   workstation is operating.
+  *Target-state correction shipped 2026-08-27:* freestanding workstations now
+  mark their sample vessel with the same named ready/running status as mounted
+  apparatus, without drawing the machine inside the glassware. Apparatus-active
+  styling is scoped at the Bench/Vessel boundary to the exact target, so a
+  running centrifuge or mortar cannot make every vessel appear active.
   *Static operating-state correction shipped 2026-08-27:* reduced-motion users
   now retain a visible steady heat plume, frost, light cone, wash jet, steam,
   charge/gas markers, and burette drop while the corresponding computed
