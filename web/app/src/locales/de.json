@@ -1225,6 +1225,20 @@
   "iron(II) hydroxide": "Eisen(II)-hydroxid",
   "iron(III) hydroxide": "Eisen(III)-hydroxid",
   "magnesium hydroxide": "Magnesiumhydroxid",
-  "zinc hydroxide": "Zinkhydroxid"
+  "zinc hydroxide": "Zinkhydroxid",
+  "quests": "Aufgaben",
+  "start a quest": "eine Aufgabe starten",
+  "choose a quest…": "Aufgabe auswählen…",
+  "quest {id}": "Aufgabe {id}",
+  "done — close": "fertig — schließen",
+  "abandon": "aufgeben",
+  "what the bench must show": "was das Labor zeigen muss",
+  "which sealed reagent": "welcher versiegelte Stoff",
+  "I think it is…": "Ich glaube, es ist…",
+  "name the sealed reagent": "den versiegelten Stoff benennen",
+  "name it": "benennen",
+  "quest started: {title}": "Aufgabe gestartet: {title}",
+  "\"{guess}\" — not it yet; look again.": "„{guess}“ — noch nicht; schau noch einmal hin.",
+  "quest complete: {title}": "Aufgabe abgeschlossen: {title}"
  }
 }

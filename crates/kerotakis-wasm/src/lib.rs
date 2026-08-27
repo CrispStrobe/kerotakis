@@ -32,8 +32,36 @@ pub struct Lab {
     stack: SolverStack,
     aqueous: kerotakis_phreeqc::PhreeqcEquilibrator,
     register: Register,
+    /// The active quest, if one is running (GUI-066): the ENGINE
+    /// evaluates nudges/claims/completion over its own events and
+    /// vessel state — a client cannot be trusted to grade itself.
+    quest: Option<kerotakis_codex::quest::QuestSpec>,
+    quest_states: std::collections::BTreeMap<String, kerotakis_codex::quest::QuestState>,
     /// The language the engine renders its prose in (I18N-5).
     locale: Locale,
+}
+
+/// QuestOutput, serialized for the wire: {kind, quest, say|title} with
+/// the register texts spelled out — consumers pick their level.
+fn quest_outputs_json(outputs: &[kerotakis_codex::quest::QuestOutput]) -> Vec<serde_json::Value> {
+    use kerotakis_codex::quest::QuestOutput as Q;
+    outputs
+        .iter()
+        .map(|o| match o {
+            Q::Nudge { quest, say } => serde_json::json!({
+                "kind": "nudge", "quest": quest,
+                "say": { "lv1": say.at(1), "lv2": say.at(2), "lv3": say.at(3) },
+            }),
+            Q::ClaimSatisfied { quest, title } => serde_json::json!({
+                "kind": "claim_satisfied", "quest": quest,
+                "title": { "lv1": title.at(1), "lv2": title.at(2), "lv3": title.at(3) },
+            }),
+            Q::Completed { quest, title } => serde_json::json!({
+                "kind": "completed", "quest": quest,
+                "title": { "lv1": title.at(1), "lv2": title.at(2), "lv3": title.at(3) },
+            }),
+        })
+        .collect()
 }
 
 #[wasm_bindgen]
@@ -51,8 +79,54 @@ impl Lab {
             stack: kerotakis_stack::standard_stack(vec![]),
             aqueous,
             register: Register::default(),
+            quest: None,
+            quest_states: std::collections::BTreeMap::new(),
             locale: Locale::default(),
         })
+    }
+
+    /// Start a quest from its exported spec JSON (GUI-066). Replaces any
+    /// running quest. The engine owns evaluation from here.
+    #[wasm_bindgen(js_name = questStart)]
+    pub fn quest_start(&mut self, spec_json: &str) -> Result<(), JsError> {
+        let spec: kerotakis_codex::quest::QuestSpec =
+            serde_json::from_str(spec_json).map_err(|e| JsError::new(&e.to_string()))?;
+        self.quest_states.clear();
+        self.quest_states.insert(
+            spec.id.clone(),
+            kerotakis_codex::quest::QuestState::default(),
+        );
+        self.quest = Some(spec);
+        Ok(())
+    }
+
+    /// Abandon the running quest.
+    #[wasm_bindgen(js_name = questStop)]
+    pub fn quest_stop(&mut self) {
+        self.quest = None;
+        self.quest_states.clear();
+    }
+
+    /// Name a sealed unknown. Correct answers satisfy Identify claims;
+    /// wrong ones come back as spoken guidance, never a block.
+    #[wasm_bindgen(js_name = questAnswer)]
+    pub fn quest_answer(&mut self, alias: &str, guess: &str) -> Result<String, JsError> {
+        let Some(spec) = self.quest.clone() else {
+            return Err(JsError::new("no quest is running"));
+        };
+        let outputs = kerotakis_codex::quest::answer(&[spec], &mut self.quest_states, alias, guess)
+            .map_err(|e| JsError::new(&e))?;
+        Ok(serde_json::Value::Array(quest_outputs_json(&outputs)).to_string())
+    }
+
+    /// Run the quest evaluator over freshly produced events.
+    fn quest_observe(&mut self, events: &[Event]) -> Vec<serde_json::Value> {
+        let Some(spec) = self.quest.clone() else {
+            return Vec::new();
+        };
+        let outputs =
+            kerotakis_codex::quest::observe(&[spec], &mut self.quest_states, events, &self.bench);
+        quest_outputs_json(&outputs)
     }
 
     /// Load pre-warmed solver results (postcard bytes, as produced by
@@ -176,10 +250,12 @@ impl Lab {
         let events = self.run(op)?;
         let rendered = render_events_in(&events, self.register, self.locale);
         let charts = kerotakis_core::chart::charts_for_events(&events);
+        let quest = self.quest_observe(&events);
         let doc = serde_json::json!({
             "events": events,
             "rendered": rendered,
             "charts": charts,
+            "quest": quest,
             "scene": kerotakis_core::scene(&self.bench),
             "bench": { "vessels": self.bench.vessels },
         });
@@ -206,11 +282,13 @@ impl Lab {
                     let events = self.run(op.clone())?;
                     let rendered = render_events_in(&events, self.register, self.locale);
                     let charts = kerotakis_core::chart::charts_for_events(&events);
+                    let quest = self.quest_observe(&events);
                     steps.push(serde_json::json!({
                         "operator": op,
                         "events": events,
                         "rendered": rendered,
                         "charts": charts,
+                        "quest": quest,
                     }));
                 }
                 Err(e) => {
