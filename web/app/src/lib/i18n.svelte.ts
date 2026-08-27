@@ -253,6 +253,7 @@ const DE: Record<string, string> = {
   "details": "Details",
   "more tools": "weitere Geräte",
   "bench work zones": "Arbeitsbereiche des Labortischs",
+  "free-positioned laboratory bench": "Labortisch mit frei platzierbaren Gefäßen",
   "prepare": "Vorbereiten",
   "react": "Reagieren",
   "analyse": "Analysieren",
@@ -670,6 +671,10 @@ const DE: Record<string, string> = {
   ,"measure and compare": "messen und vergleichen"
   ,"move vessel v{vessel}": "Gefäß v{vessel} verschieben"
   ,"move vessel v{vessel} to {zone}": "Gefäß v{vessel} nach {zone} verschieben"
+  ,"move vessel v{vessel} left": "Gefäß v{vessel} nach links verschieben"
+  ,"move vessel v{vessel} right": "Gefäß v{vessel} nach rechts verschieben"
+  ,"move vessel v{vessel} up": "Gefäß v{vessel} nach oben verschieben"
+  ,"move vessel v{vessel} down": "Gefäß v{vessel} nach unten verschieben"
   ,"vessel v{vessel} moved to {zone}": "Gefäß v{vessel} nach {zone} verschoben"
   ,"place vessel here": "Gefäß hier abstellen"
   ,"move": "verschieben"

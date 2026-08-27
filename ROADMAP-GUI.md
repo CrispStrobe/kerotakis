@@ -807,6 +807,14 @@ hide them completely.
   reclaim work area; Sandbox defaults to one continuous surface and users can
   persistently show or hide the guides in either mode. Next, replace zone-only
   movement with fine placement and make real services/stands explicit objects.*
+  *Free-placement slice in progress 2026-08-27: the continuous surface now owns
+  normalized x/y coordinates rather than three hidden flex columns. Mouse,
+  pen, and touch use one Pointer Events drag path; compact four-way controls
+  provide the keyboard-equivalent move; coordinates persist separately per
+  mode. Version-1 zone-only saves migrate to their former zone centre, and the
+  optional Prepare/React/Analyse overlay derives its counts from x without
+  constraining placement. Collision/footprint rules and exported `.lab`
+  arrangement replay remain.*
 - [ ] **GUI-074 — Direct manipulation pass.** Implement contextual object
   selection and the highest-frequency physical gestures: place/remove, pour,
   dose, stir, heat/cool, seal/open, connect, insert/read probe, and start/stop.
