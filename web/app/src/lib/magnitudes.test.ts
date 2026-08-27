@@ -181,6 +181,13 @@ describe("effectFromEvent", () => {
     expect(effect!.magnitude).toBeGreaterThan(.3);
   });
 
+  it("retains the applied carrier-gas sweep pressure", () => {
+    const low = effectFromEvent({ event: "vessel_swept", vessel: 0, pressure: 100_000 });
+    const high = effectFromEvent({ event: "vessel_swept", vessel: 0, pressure: 400_000 });
+    expect(low).toMatchObject({ kind: "sweep", durationMs: 3800, sweep: { pressurePa: 100_000 } });
+    expect(high!.magnitude).toBeGreaterThan(low!.magnitude);
+  });
+
   it("maps dissolved → dissolve with magnitude 1", () => {
     const e = effectFromEvent({ event: "dissolved", vessel: 0 });
     expect(e!.kind).toBe("dissolve");
