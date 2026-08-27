@@ -596,6 +596,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   speciated and exactly seven moles of crystal water per mole of epsomite enter
   the liquid ledger. Retail additives, dehydration, dissolution heat and grain
   size remain explicit boundaries.
+- **Checkpoint 30 implemented:** concentrating a dissolved named Epsom-salt
+  sample through the ordinary evaporation interaction now grows computed,
+  visible epsomite crystals rather than generic `MgSO4` or a decorative solid.
+  The USGS saturation model decides when precipitation begins, the hydrate
+  phase rebinds seven waters per formula unit, and dissolved plus crystalline
+  magnesium is conserved. Crystal habit, nucleation delay, seed crystals and
+  slow real-world evaporation time remain future morphology/kinetics work.
 
 ## Stage B2 — organic structure and curated reaction families
 
