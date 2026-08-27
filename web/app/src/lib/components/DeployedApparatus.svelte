@@ -15,13 +15,15 @@
 
   const toolNames: Record<string, string> = {
     burette: "burette",
-    heat: "Bunsen burner",
+    bunsen: "Bunsen burner",
     dilute: "wash bottle",
     evaporate: "evaporating dish",
     electrolyse: "electrodes and supply",
     grind: "mortar",
+    heat: "hotplate",
     irradiate: "lamp",
     regulate: "piston lid",
+    stir: "magnetic stirrer",
     sweep: "carrier-gas line",
   };
 
@@ -40,10 +42,24 @@
   const pressure = $derived(Math.max(0.1, Number(values.pressure ?? 1)));
   const flamePower = $derived(Math.max(5, Math.min(100, Number(values.flame ?? 50))));
   const flameHeight = $derived(8 + flamePower * 0.22);
+  const stirRpm = $derived(Math.max(0, Number(values.rpm ?? 500)));
+  const heatWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
 </script>
 
 <g class="apparatus" class:working aria-label={t("{tool} deployed", { tool: t(toolNames[tool] ?? tool) })}>
-  {#if tool === "burette"}
+  {#if tool === "stir" || tool === "heat"}
+    <g class="magnetic-plate">
+      <ellipse class="plate" cx="50" cy="121" rx="27" ry="5" />
+      <rect class="base" x="22" y="123" width="56" height="11" rx="3" />
+      <circle class="dial" cx="69" cy="129" r="2" />
+      <text x="50" y="133" text-anchor="middle">{tool === "stir" ? `${stirRpm.toFixed(0)} rpm` : `${heatWatts.toFixed(0)} W`}</text>
+      {#if tool === "heat"}
+        {#each [39, 50, 61] as x, i (x)}
+          <path class="heat" d={`M ${x} 117 q -4 -7 0 -14 q 4 -7 0 -14`} style={`--heat-delay:${i * .16}s;--heat-rate:${Math.max(.45, 1.5 - Math.min(1, heatWatts / 1000))}s`} />
+        {/each}
+      {/if}
+    </g>
+  {:else if tool === "burette"}
     <g class="burette">
       <path class="stand" d="M 91 3 V 129 M 84 129 H 99 M 85 18 H 91" />
       <rect class="glass-part" x="82" y="4" width="5" height="70" rx="1" />
@@ -51,7 +67,7 @@
       <path class="metal" d="M 80 74 H 89 M 84.5 74 V 83 L 50 93" />
       {#if working}<circle class="drop" cx="50" cy="91" r="1.8" />{/if}
     </g>
-  {:else if tool === "heat"}
+  {:else if tool === "bunsen"}
     <g class="burner" style={`--flame-power:${flamePower / 100}`}>
       <path class="burner-base" d="M 32 133 H 68 L 61 126 H 39 Z" />
       <rect class="burner-tube" x="43" y="91" width="14" height="37" rx="3" />
@@ -139,9 +155,11 @@
   .base, .power { fill: color-mix(in srgb, var(--instrument) 28%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1; }
   .dial { fill: var(--hot); }
   .heat { fill: none; stroke: var(--hot); stroke-width: 1.5; opacity: 0; animation: rise 1.15s ease-out infinite; }
+  .magnetic-plate .heat { animation-duration: var(--heat-rate, 1.15s); animation-delay: var(--heat-delay, 0s); }
   .positive { stroke: var(--danger); } .negative { stroke: var(--primary); }
   .electrode { fill: var(--edge-strong); }
-  .electrodes text, .lamp text, .regulator text { fill: var(--ink); font-size: 6px; font-weight: 700; }
+  .electrodes text, .lamp text, .regulator text, .magnetic-plate text { fill: var(--ink); font-size: 6px; font-weight: 700; }
+  .plate { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
   .charge { fill: none; stroke: var(--instrument); animation: bubble var(--pulse) ease-out infinite; }
   .pestle { fill: none; stroke: var(--edge-strong); stroke-width: 7; stroke-linecap: round; transform-origin: 76px 108px; }
   .working .pestle { animation: grind .5s ease-in-out infinite alternate; }

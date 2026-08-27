@@ -78,6 +78,8 @@
   );
 
   const vesselsIn = (zone: BenchZone) => scene?.vessels.filter((v) => zoneFor(layout, v.id) === zone) ?? [];
+  const latestApparatusEffect = (vessel: number, kind: string) =>
+    [...(effects[vessel] ?? [])].reverse().find((effect) => effect.kind === kind);
 
   function move(vessel: number, zone: BenchZone) {
     onmove?.(placeVessel(layout, vessel, zone));
@@ -164,12 +166,21 @@
                   titrationPlayback={titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
                   onbadge={(b) => onbadge?.(vessel.id, b)}
                   {fluidLookup}
-                  deployedTool={vessel.id === deployedTarget && deployedTool !== "grind" ? deployedTool : null}
+                  deployedTool={vessel.id === deployedTarget && !["grind", "centrifuge"].includes(deployedTool ?? "") ? deployedTool : null}
                   {apparatusWorking}
                   {apparatusValues}
                 />
-                {#if vessel.id === deployedTarget && deployedTool === "grind"}
-                  <StandaloneApparatus tool="grind" working={apparatusWorking} values={apparatusValues} />
+                {#if vessel.id === deployedTarget && (deployedTool === "grind" || deployedTool === "centrifuge")}
+                  {@const apparatusEffect = latestApparatusEffect(vessel.id, deployedTool)}
+                  {#key apparatusEffect?.at}
+                    <StandaloneApparatus
+                      tool={deployedTool}
+                      working={apparatusWorking}
+                      performedAt={apparatusEffect?.at}
+                      intensity={apparatusEffect?.magnitude ?? 0.5}
+                      values={apparatusValues}
+                    />
+                  {/key}
                 {/if}
                 <span class="connection-port port-out" data-port="out" aria-hidden="true"></span>
                 {#if vessel.id === selected}

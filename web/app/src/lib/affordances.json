@@ -22,6 +22,7 @@
   "electrolyse": "Apparatus form: electrodes and supply",
   "cell": "Two-vessel tool: voltmeter (tap two half-cells)",
   "grind": "Apparatus form: mortar (species + grain size)",
+  "centrifuge": "Apparatus form: mini centrifuge (RPM + duration + rotor radius)",
   "irradiate": "Apparatus form: lamp (wavelength + irradiance)",
   "dilute": "Apparatus form: wash bottle",
   "titrate": "Burette apparatus (clamps over the selected vessel; form compiles the titrate line)",

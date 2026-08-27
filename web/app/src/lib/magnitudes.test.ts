@@ -174,6 +174,27 @@ describe("effectFromEvent", () => {
     const big = effectFromEvent({ event: "gas_evolved", vessel: 0, species: "H2", moles: 0.04 });
     expect(big!.magnitude).toBeGreaterThan(small!.magnitude * 1.5);
   });
+
+  it("scales magnetic stirring from the engine-computed bar tip speed", () => {
+    const slow = effectFromEvent({ event: "stirred", vessel: 0, tip_speed_m_s: 0.1 });
+    const fast = effectFromEvent({ event: "stirred", vessel: 0, tip_speed_m_s: 2.0 });
+    expect(slow?.kind).toBe("swirl");
+    expect(fast!.magnitude).toBeGreaterThan(slow!.magnitude);
+  });
+
+  it("scales mortar motion from computed powder surface area", () => {
+    const coarse = effectFromEvent({ event: "ground", vessel: 0, surface_area_m2: 0.01 });
+    const fine = effectFromEvent({ event: "ground", vessel: 0, surface_area_m2: 1 });
+    expect(coarse?.kind).toBe("grind");
+    expect(fine!.magnitude).toBeGreaterThan(coarse!.magnitude);
+  });
+
+  it("scales centrifuge rotor motion from computed relative force", () => {
+    const slow = effectFromEvent({ event: "centrifuged", vessel: 0, rcf: 20 });
+    const fast = effectFromEvent({ event: "centrifuged", vessel: 0, rcf: 8000 });
+    expect(slow?.kind).toBe("centrifuge");
+    expect(fast!.magnitude).toBeGreaterThan(slow!.magnitude);
+  });
 });
 
 describe("vesselOf", () => {
