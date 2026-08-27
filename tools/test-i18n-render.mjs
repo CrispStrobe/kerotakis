@@ -175,6 +175,58 @@ try {
           options.length > 1 && !options.some((o) => /\b(is not|so the|cannot|because)\b/i.test(o)),
           JSON.stringify(options.slice(0, 2)));
   }
+
+  // ---- the journal and the vessel line --------------------------------
+  // Engine prose: composed in Rust out of fragments, so neither the shell
+  // dictionary nor the codex `_de` keys can reach it. This is also the
+  // only place the DECIMAL is checked end to end — the engine writes
+  // 11,0686 because it knows the locale while the number is still a
+  // float, and no layer downstream of it could.
+  await page.goto(`${origin}/app/`);
+  await waitFor(page, `document.querySelectorAll('button').length > 3`, { timeout: 60000 });
+  await clickByText("/Sandbox betreten|enter Sandbox/");
+  const barReady = await waitFor(page,
+    `!!document.querySelector('form.bar input') &&
+     !document.querySelector('form.bar input').disabled`, { timeout: 60000 });
+  check("the bench takes commands", barReady === true);
+
+  if (barReady) {
+    await page.evaluate(`(() => {
+      const input = document.querySelector('form.bar input');
+      Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
+        .set.call(input, "add v1 water 200mL");
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      input.form.dispatchEvent(new SubmitEvent("submit", { bubbles: true, cancelable: true }));
+    })()`);
+    await waitFor(page, `!document.querySelector('form.bar input').disabled`, { timeout: 60000 });
+
+    const journal = await page.evaluate(`(() => {
+      const t = [...document.querySelectorAll('*')].filter((n) => !n.children.length)
+        .map((n) => (n.textContent || "").trim());
+      return t.find((x) => /^v1: \\+/.test(x)) ?? "";
+    })()`);
+    check("the journal names the species in German", /Wasser/.test(journal),
+          JSON.stringify(journal.slice(0, 50)));
+    check("the journal counts with a decimal comma", /,\d/.test(journal) && !/\.\d/.test(journal),
+          JSON.stringify(journal.slice(0, 50)));
+
+    // The vessel summary lives behind the dock's details button.
+    await clickByText("/^(details|Details|genauer)/i");
+    await waitFor(page, `(() => {
+      const t = [...document.querySelectorAll('*')].filter((n) => !n.children.length)
+        .map((n) => (n.textContent || "").trim());
+      return t.some((x) => /^v1 \\(/.test(x));
+    })()`, { timeout: 20000 });
+    const vessel = await page.evaluate(`(() => {
+      const t = [...document.querySelectorAll('*')].filter((n) => !n.children.length)
+        .map((n) => (n.textContent || "").trim());
+      return t.find((x) => /^v1 \\(/.test(x)) ?? "";
+    })()`);
+    check("the vessel line names its glassware in German", /Becherglas/.test(vessel),
+          JSON.stringify(vessel.slice(0, 56)));
+    check("the vessel line is not English", !/\(beaker\)|mL liquid|open to atmosphere/.test(vessel));
+    check("the vessel line measures with commas", /25,\d/.test(vessel), JSON.stringify(vessel.slice(0, 40)));
+  }
 } catch (err) {
   console.error(`i18n render: ${err.stack ?? err.message}`);
   failures++;
