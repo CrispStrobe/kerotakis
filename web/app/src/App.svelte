@@ -9,6 +9,7 @@
   import RegisterDial from "./lib/components/RegisterDial.svelte";
   import Shelf from "./lib/components/Shelf.svelte";
   import Inspector from "./lib/components/Inspector.svelte";
+  import LatestResultCard from "./lib/components/LatestResultCard.svelte";
   import Timeline from "./lib/components/Timeline.svelte";
   import LessonBar from "./lib/components/LessonBar.svelte";
   import Burette from "./lib/components/Burette.svelte";
@@ -895,6 +896,9 @@
         onclose={() => session.closeInspector()}
         onaction={(line) => void session.submit(line)}
       />
+    {/if}
+    {#if session.latestResult}
+      <LatestResultCard result={session.latestResult} />
     {/if}
     <Feed
       entries={session.feed}

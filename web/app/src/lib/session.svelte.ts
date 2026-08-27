@@ -31,6 +31,7 @@ import {
   secureOutcomeEvidence,
   type OutcomeMissionContract,
 } from "./outcomeMission";
+import { summarizeResult, type ResultSummary } from "./resultSummary";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "user-note" | "hazard" | "chart";
@@ -240,6 +241,8 @@ export class Session {
   /** The most recent balanced equation the engine rendered (GUI-025) —
    * the strip pins it beside the bench at lv2+. */
   lastEquation = $state<string | null>(null);
+  /** Compact evidence digest for the latest accepted operation. */
+  latestResult = $state<ResultSummary | null>(null);
   /**
    * Transient visual effects per vessel (GUI-026), derived STRICTLY from
    * typed events — an effect never fires without a computed event behind
@@ -476,6 +479,7 @@ export class Session {
       this.storage?.removeItem(SAVE_KEY);
       this.scene = await this.host.scene();
       this.inspector = null;
+      this.latestResult = null;
       this.feed.push({ kind: "note", text: t("the bench is empty again") });
     } catch (e) {
       this.feed.push({
@@ -513,6 +517,7 @@ export class Session {
           return false;
         }
       }
+      const beforeScene = this.scene;
       const result = await this.host.runScript(trimmed);
       for (const step of result.steps) {
         // Hazard events become cards, from the typed event itself — the
@@ -613,6 +618,9 @@ export class Session {
           this.inspector = null;
         }
       }
+      const resultEvents = result.steps.flatMap((step) => step.events);
+      const resultLines = result.steps.flatMap((step) => step.rendered);
+      this.latestResult = summarizeResult(resultEvents, resultLines, beforeScene, result.scene ?? this.scene);
       // Register lines are session state, not chemistry; everything else
       // that the engine accepted becomes part of the replayable script.
       // A command issued mid-history truncates the undone future first.
@@ -960,6 +968,7 @@ export class Session {
       }
       const was = this.position;
       this.position = target;
+      this.latestResult = null;
       this.persist();
       this.feed.push({
         kind: "note",
