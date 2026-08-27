@@ -5,6 +5,7 @@ import {
   apparatusPositionFor,
   parseBenchLayout,
   placeVessel,
+  placementsOverlap,
   positionFor,
   positionApparatus,
   positionVessel,
@@ -55,5 +56,13 @@ describe("bench layout", () => {
     expect(adjacentZone("prepare", 1)).toBe("react");
     expect(adjacentZone("react", 1)).toBe("analyse");
     expect(adjacentZone("analyse", 1)).toBe("analyse");
+  });
+
+  it("detects overlapping object footprints without rejecting touching edges", () => {
+    const centre = { x: 0.5, y: 0.5 };
+    expect(placementsOverlap(centre, { x: 0.6, y: 0.62 })).toBe(true);
+    expect(placementsOverlap(centre, { x: 0.64, y: 0.5 })).toBe(false);
+    expect(placementsOverlap(centre, { x: 0.5, y: 0.7 })).toBe(false);
+    expect(placementsOverlap(centre, { x: 0.62, y: 0.66 }, 0.1, 0.15)).toBe(false);
   });
 });

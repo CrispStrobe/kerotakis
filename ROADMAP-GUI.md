@@ -814,7 +814,10 @@ hide them completely.
   mode. Version-1 zone-only saves migrate to their former zone centre, and the
   optional Prepare/React/Analyse overlay derives its counts from x without
   constraining placement. Collision/footprint rules and exported `.lab`
-  arrangement replay remain.*
+  arrangement replay remain. *Footprint slice shipped 2026-08-27:* vessel and
+  freestanding-instrument destinations are checked before commit. Occupied
+  destinations preview in red, explain the conflict through the live region,
+  and preserve the previous arrangement for pointer, touch, and keyboard moves.*
 - [ ] **GUI-074 — Direct manipulation pass.** Implement contextual object
   selection and the highest-frequency physical gestures: place/remove, pour,
   dose, stir, heat/cool, seal/open, connect, insert/read probe, and start/stop.
