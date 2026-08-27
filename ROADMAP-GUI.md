@@ -1066,6 +1066,12 @@ hide them completely.
   carries the identical tool and state. A short-lived reactive clock now ends
   every transient vessel window at its declared duration even when no unrelated
   UI state happens to change at that instant.*
+  *Installation-lifecycle correction shipped 2026-08-28:* the installed tool,
+  its stable target and its physical control values now persist per Story or
+  Sandbox lab. Reloading no longer puts configured hardware away or resets its
+  RPM, duration or power. Explicit Put away and removal of an orphaned target
+  clear the installation; only a matching live command/event can still mark it
+  running.*
   *Cooling-bath correction shipped 2026-08-27:* cooling no longer borrows
   the magnetic-hotplate silhouette. A separate coolant bath surrounds the
   vessel, shows configured heat-removal power, and only animates ice/frost

@@ -45,6 +45,7 @@
   import { missionEquipment, type CatalogScope } from "./lib/catalogScope";
   import { apparatusRunsCommand } from "./lib/apparatusRun";
   import { buretteTargetAfterChoice, deploymentAfterChoice } from "./lib/apparatusTarget";
+  import { loadApparatusInstallation, saveApparatusInstallation } from "./lib/apparatusInstallation";
   import {
     BENCH_LAYOUT_KEY,
     EMPTY_BENCH_LAYOUT,
@@ -314,10 +315,12 @@
   let buretteOut = $state(false);
   let buretteTarget = $state<number | null>(null);
   /** Which parameter-form apparatus is out, by verb (GUI-033). */
-  let apparatusOut = $state<string | null>(null);
+  const apparatusInstallationKey = `kero.apparatus-installation.v1.${labMode}`;
+  const restoredApparatus = loadApparatusInstallation(appStorage, apparatusInstallationKey);
+  let apparatusOut = $state<string | null>(restoredApparatus?.tool ?? null);
   /** Physical installation target. Selection may change without teleporting it. */
-  let apparatusTarget = $state<number | null>(null);
-  let apparatusPreview = $state<Record<string, number | string>>({});
+  let apparatusTarget = $state<number | null>(restoredApparatus?.target ?? null);
+  let apparatusPreview = $state<Record<string, number | string>>(restoredApparatus?.values ?? {});
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
   const selectedSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === session.selected));
   const apparatusSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === apparatusTarget));
@@ -326,17 +329,20 @@
       ? {
           counterbalance: Number((apparatusSceneVessel?.mass_g ?? 0).toFixed(2)),
           sampleMass: apparatusSceneVessel?.mass_g ?? 0,
+          ...apparatusPreview,
         }
-      : {},
+      : apparatusPreview,
   );
   function closeApparatus() {
     apparatusOut = null;
     apparatusTarget = null;
+    apparatusPreview = {};
   }
   function deployApparatus(verb: string) {
+    const changedTool = apparatusOut !== verb;
     apparatusOut = verb;
     apparatusTarget = session.selected;
-    apparatusPreview = {};
+    if (changedTool) apparatusPreview = {};
     pane = "bench";
   }
   function toggleApparatus(verb: string) {
@@ -356,6 +362,16 @@
     pane = "bench";
   }
   $effect(() => {
+    saveApparatusInstallation(
+      appStorage,
+      apparatusInstallationKey,
+      apparatusOut !== null && apparatusTarget !== null
+        ? { tool: apparatusOut, target: apparatusTarget, values: apparatusPreview }
+        : null,
+    );
+  });
+  $effect(() => {
+    if (!session.scene) return;
     const ids = new Set(session.scene?.vessels.map((vessel) => vessel.id) ?? []);
     if (apparatusTarget !== null && !ids.has(apparatusTarget)) closeApparatus();
     if (buretteTarget !== null && !ids.has(buretteTarget)) {
@@ -820,7 +836,6 @@
           onpreview={(values) => (apparatusPreview = values)}
           onretarget={() => {
             apparatusTarget = session.selected;
-            apparatusPreview = {};
           }}
           onclose={closeApparatus}
         />
