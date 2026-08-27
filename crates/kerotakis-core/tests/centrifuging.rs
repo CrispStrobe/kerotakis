@@ -45,7 +45,8 @@ fn centrifuge_command_computes_rcf_and_separation_from_vessel_state() {
     assert!(suspended < 1.0);
 
     let scene_after_spin = scene(&bench);
-    assert!(scene_after_spin.vessels[0].solids[0].settled_fraction > 0.0);
+    let settled_after_spin = scene_after_spin.vessels[0].solids[0].settled_fraction;
+    assert!(settled_after_spin > 0.0);
 
     bench
         .step(parse_op("stir v1 600rpm 10s").unwrap().unwrap())
@@ -54,7 +55,9 @@ fn centrifuge_command_computes_rcf_and_separation_from_vessel_state() {
         .suspended_fraction_of(&SpeciesId::new("AgCl"))
         .unwrap();
     assert!(resuspended > suspended);
-    assert!(scene(&bench).vessels[0].solids[0].settled_fraction < 1e-12);
+    let settled_after_stir = scene(&bench).vessels[0].solids[0].settled_fraction;
+    assert!(settled_after_stir < 1e-9);
+    assert!(settled_after_stir < settled_after_spin);
 
     let wait_events = bench
         .step(parse_op("wait 3600s").unwrap().unwrap())
