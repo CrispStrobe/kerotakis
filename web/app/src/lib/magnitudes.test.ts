@@ -228,6 +228,33 @@ describe("effectFromEvent", () => {
     expect(fast!.durationMs).toBe(6000);
   });
 
+  it("retains the complete computed centrifuge result for the machine", () => {
+    const effect = effectFromEvent({
+      event: "centrifuged",
+      vessel: 0,
+      rpm: 4200,
+      seconds: 12,
+      rotor_radius_m: .08,
+      rcf: 1577,
+      sample_mass_g: 4.2,
+      counterbalance_g: 4,
+      imbalance_g: .2,
+      fluid_density_kg_m3: 998,
+      dynamic_viscosity_pa_s: .001,
+      state_coupled: false,
+      separations: [{
+        species: "SiO2", particle_diameter_um: 50, particle_size_assumed: true,
+        particle_density_kg_m3: 2650, terminal_speed_m_s: .02,
+        distance_m: .04, separated_fraction: .9, direction: "outward",
+      }],
+    });
+    expect(effect?.centrifuge).toMatchObject({
+      rpm: 4200, seconds: 12, rotorRadiusM: .08, rcf: 1577,
+      imbalanceG: .2, stateCoupled: false,
+      populations: [{ species: "SiO2", separatedFraction: .9, particleSizeAssumed: true }],
+    });
+  });
+
   it("scales mortar motion from computed powder surface area", () => {
     const coarse = effectFromEvent({ event: "ground", vessel: 0, surface_area_m2: 0.01 });
     const fine = effectFromEvent({ event: "ground", vessel: 0, surface_area_m2: 1 });

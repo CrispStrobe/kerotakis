@@ -470,6 +470,7 @@
               working={apparatusWorking || (deployedTool === "burette" && titrationPlayback !== null)}
               performedAt={apparatusEffect?.at}
               intensity={apparatusEffect?.magnitude ?? 0.5}
+              effect={apparatusEffect}
               values={deployedTool === "burette"
                 ? {
                     ...apparatusValues,
