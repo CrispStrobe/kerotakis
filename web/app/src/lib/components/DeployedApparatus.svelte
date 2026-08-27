@@ -42,7 +42,10 @@
   });
   const amps = $derived(Math.max(0.001, Number(values.amps ?? 0.5)));
   const pulseDuration = $derived(`${Math.max(0.25, 1.2 - Math.min(1, amps / 2) * 0.8)}s`);
-  const pressure = $derived(Math.max(0.1, Number(values.pressure ?? 1)));
+  const pressure = $derived(Math.max(0.1, effect?.pressureControl?.pressurePa ? effect.pressureControl.pressurePa / 100_000 : Number(values.pressure ?? 1)));
+  const regulatorVolumeL = $derived(Math.max(.01, effect?.pressureControl?.initialVolumeL ?? Number(values.volume ?? 500) / 1000));
+  const pistonY = $derived(18 + (1 - Math.min(1, regulatorVolumeL)) * 12);
+  const gaugeAngle = $derived(-120 + Math.min(1, pressure / 5) * 240);
   const stirRpm = $derived(Math.max(0, effect?.stir?.rpm ?? Number(values.rpm ?? 500)));
   const powerWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
 </script>
@@ -132,11 +135,19 @@
     </g>
   {:else if tool === "regulate"}
     <g class="regulator">
-      <rect class="lid-plate" x="19" y="18" width="62" height="6" rx="2" />
-      <path class="piston" d="M 50 18 V 5 M 41 5 H 59" />
+      <rect class="lid-plate" x="19" y={pistonY} width="62" height="6" rx="2" />
+      <path class="piston" d={`M 50 ${pistonY} V 5 M 41 5 H 59`} />
+      <path class="pressure-volume" d={`M 22 ${pistonY + 7} H 78 V ${Math.min(surfaceY, pistonY + 30)} H 22 Z`} />
       <circle class="gauge" cx="82" cy="8" r="9" />
-      <path class="needle" d={`M 82 8 l ${Math.min(7, 2 + pressure * 1.5)} -3`} />
+      {#each [-120, -60, 0, 60, 120] as angle (angle)}
+        <path class="gauge-tick" d="M 82 1 V 3" transform={`rotate(${angle} 82 8)`} />
+      {/each}
+      <path class="needle" d="M 82 8 V 2" transform={`rotate(${gaugeAngle} 82 8)`} />
       <text x="82" y="-4" text-anchor="middle">{pressure.toFixed(1)} bar</text>
+      <text class="volume-readout" x="50" y={pistonY + 12} text-anchor="middle">{(regulatorVolumeL * 1000).toFixed(0)} mL</text>
+      {#if effect?.pressureControl}
+        <text class="trapped-readout" x="50" y={pistonY + 18} text-anchor="middle">{(effect.pressureControl.trappedGasMoles * 1000).toPrecision(2)} mmol {t("trapped gas")}</text>
+      {/if}
     </g>
   {:else if tool === "sweep"}
     <g class="gas-line">
@@ -182,6 +193,10 @@
   .working .light-cone { animation: lamp-pulse .8s ease-in-out infinite alternate; }
   .lid-plate { fill: var(--edge-strong); }
   .gauge { fill: var(--surface); stroke: var(--instrument); stroke-width: 1.5; }
+  .gauge-tick { fill: none; stroke: var(--dim); stroke-width: .7; }
+  .pressure-volume { fill: color-mix(in srgb, var(--cool) 13%, transparent); stroke: none; }
+  .regulator .volume-readout, .regulator .trapped-readout { fill: var(--ink); font-size: 5px; font-weight: 800; paint-order: stroke; stroke: var(--surface); stroke-width: 1.5px; }
+  .regulator .trapped-readout { font-size: 4px; fill: var(--instrument); }
   .arrow { fill: var(--instrument); }
   .gas-pulse { fill: var(--instrument); animation: gas-flow 1.1s linear infinite; }
   @keyframes flow { to { stroke-dashoffset: -8; } }

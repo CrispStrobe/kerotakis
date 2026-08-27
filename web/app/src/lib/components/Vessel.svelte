@@ -85,6 +85,7 @@
   });
   const gasTestEffect = $derived(latestEffect("gas_test", 4500));
   const waftEffect = $derived(latestEffect("waft", 4200));
+  const pressureControlEffect = $derived(latestEffect("regulate", 4500));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => (e.kind === "ignite" || e.kind === "flame_test") && n - e.at < 3000 && e.flameColour);
@@ -389,7 +390,13 @@
     {/if}
 
     {#if deployedTool}
-      <DeployedApparatus tool={deployedTool} working={apparatusOperating} values={apparatusValues} effect={deployedTool === "stir" ? stirEffect : undefined} surfaceY={BOTTOM_Y - Math.max(liquidH, 4)} />
+      <DeployedApparatus
+        tool={deployedTool}
+        working={apparatusOperating}
+        values={apparatusValues}
+        effect={deployedTool === "stir" ? stirEffect : deployedTool === "regulate" ? pressureControlEffect : undefined}
+        surfaceY={BOTTOM_Y - Math.max(liquidH, 4)}
+      />
     {/if}
 
     <!-- State-driven effects: every one traces to a computed number. -->
