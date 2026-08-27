@@ -9,6 +9,7 @@
     vessel,
     shelf,
     busy,
+    initialValues = {},
     onrun,
     onpreview,
     onclose,
@@ -17,16 +18,21 @@
     vessel: number;
     shelf: ShelfItem[];
     busy: boolean;
+    initialValues?: Record<string, number | string>;
     onrun: (line: string) => void;
     onpreview?: (values: Record<string, number | string>) => void;
     onclose: () => void;
   } = $props();
 
   let values = $state<Record<string, number | string>>(
-    untrack(() => Object.fromEntries(spec.fields.map((f) => [f.name, f.default]))),
+    untrack(() => ({
+      ...Object.fromEntries(spec.fields.map((f) => [f.name, f.default])),
+      ...initialValues,
+    })),
   );
   const solids = $derived(shelf.filter((s) => s.phase.toLowerCase().includes("solid")));
   const line = $derived(spec.build(vessel, values));
+  const warning = $derived(spec.warning?.(values) ?? null);
   $effect(() => onpreview?.({ ...values }));
 </script>
 
@@ -61,7 +67,8 @@
         {/if}
       </label>
     {/each}
-    <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
+    {#if warning}<p class="warning" role="alert">⚠ {t(warning)}</p>{/if}
+    <button class="run" disabled={busy || line === null || warning !== null} onclick={() => line && !warning && onrun(line)}>
       {busy ? t("running…") : t("run {apparatus}", { apparatus: t(spec.title) })}
     </button>
     <button class="close" onclick={onclose}>{t("put away")}</button>
@@ -131,6 +138,7 @@
     cursor: pointer;
     min-height: 36px;
   }
+  .warning { margin: 0; max-width: 15rem; color: var(--danger); font-size: .75rem; font-weight: 750; }
   .close {
     background: none;
     border: 1px solid var(--edge);

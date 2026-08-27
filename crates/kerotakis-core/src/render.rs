@@ -377,6 +377,9 @@ pub fn render_event(event: &Event, register: Register) -> String {
             seconds,
             rotor_radius_m,
             rcf,
+            sample_mass_g,
+            counterbalance_g,
+            imbalance_g,
             fluid_density_kg_m3,
             dynamic_viscosity_pa_s,
             separations,
@@ -392,7 +395,7 @@ pub fn render_event(event: &Event, register: Register) -> String {
                     strongest * 100.0
                 ),
                 2 => format!(
-                    "{vessel}: {rpm:.0} rpm for {seconds:.0} s — {rcf:.0} × g; {:.0}% separation",
+                    "{vessel}: {rpm:.0} rpm for {seconds:.0} s — {rcf:.0} × g; {:.0}% separation; balanced within {imbalance_g:.2} g",
                     strongest * 100.0
                 ),
                 _ => {
@@ -418,7 +421,7 @@ pub fn render_event(event: &Event, register: Register) -> String {
                         .collect::<Vec<_>>()
                         .join("; ");
                     format!(
-                        "{vessel}: centrifuge {rpm:.1} rpm × {seconds:.1} s, r={:.3} m, RCF={rcf:.2}; ρfluid={fluid_density_kg_m3:.1} kg/m³, μ={dynamic_viscosity_pa_s:.6} Pa·s; {detail}; state coupling {}",
+                        "{vessel}: centrifuge {rpm:.1} rpm × {seconds:.1} s, r={:.3} m, RCF={rcf:.2}; sample={sample_mass_g:.3} g, counterbalance={counterbalance_g:.3} g, Δm={imbalance_g:.3} g; ρfluid={fluid_density_kg_m3:.1} kg/m³, μ={dynamic_viscosity_pa_s:.6} Pa·s; {detail}; state coupling {}",
                         rotor_radius_m,
                         if *state_coupled { "active" } else { "not yet modelled" }
                     )

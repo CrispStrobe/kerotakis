@@ -23,6 +23,7 @@ export interface ApparatusSpec {
   blurb: string;
   fields: FormField[];
   build: (vessel: number, values: Record<string, number | string>) => string | null;
+  warning?: (values: Record<string, number | string>) => string | null;
 }
 
 const num = (v: number | string | undefined): number | null => {
@@ -72,14 +73,23 @@ export const APPARATUS: ApparatusSpec[] = [
       { name: "rpm", label: "rotation speed", type: "number", unit: "rpm", default: 3000, min: 100, max: 15000, step: 100 },
       { name: "seconds", label: "duration", type: "number", unit: "s", default: 60, min: 1, max: 3600 },
       { name: "radius", label: "rotor radius", type: "number", unit: "cm", default: 8, min: 3, max: 15, step: 0.5 },
+      { name: "counterbalance", label: "counterbalance", type: "number", unit: "g", default: 0, min: 0, step: 0.01 },
     ],
     build: (v, f) => {
       const rpm = pos(f.rpm);
       const seconds = pos(f.seconds);
       const radius = pos(f.radius);
-      return rpm === null || seconds === null || radius === null
+      const counterbalance = num(f.counterbalance);
+      return rpm === null || seconds === null || radius === null || counterbalance === null || counterbalance < 0
         ? null
-        : `centrifuge v${v + 1} ${rpm}rpm ${seconds}s ${radius}cm`;
+        : `centrifuge v${v + 1} ${rpm}rpm ${seconds}s ${radius}cm ${counterbalance}g`;
+    },
+    warning: (f) => {
+      const sample = num(f.sampleMass);
+      const counterbalance = num(f.counterbalance);
+      if (sample === null || counterbalance === null) return null;
+      const imbalance = Math.abs(sample - counterbalance);
+      return imbalance > 0.1 ? "rotor out of balance — adjust the counterbalance" : null;
     },
   },
   {

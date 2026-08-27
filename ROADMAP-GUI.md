@@ -897,7 +897,10 @@ hide them completely.
   while magnetic stirring resuspends non-metal solids by computed bar-tip
   travel (speed × duration). Ordinary `wait` applies the same Stokes travel
   model at 1 g, so a suspension can settle, be resuspended, and be separated
-  faster in the centrifuge. Interactive counterweight imbalance remains.*
+  faster in the centrifuge. The centrifuge form preloads an opposing tube
+  from engine-reported sample mass, visualizes imbalance, disables Start
+  beyond 0.10 g, and the core independently refuses unsafe commands. Tube
+  tare is declared excluded because equal tubes cancel it.*
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model

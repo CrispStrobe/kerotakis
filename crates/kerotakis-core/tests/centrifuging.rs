@@ -85,3 +85,23 @@ fn centrifuge_refuses_a_dry_solid() {
         .unwrap_err();
     assert!(matches!(error, BenchError::CentrifugeUnavailable(_)));
 }
+
+#[test]
+fn centrifuge_refuses_an_unbalanced_counterweight() {
+    let mut bench = Bench::new();
+    bench.vessels[0].deposit_lot(
+        SpeciesId::new("water"),
+        Moles(5.5343),
+        Phase::Liquid,
+        None,
+        None,
+    );
+    let error = bench
+        .step(
+            parse_op("centrifuge v1 3000rpm 60s 8cm 1g")
+                .unwrap()
+                .unwrap(),
+        )
+        .unwrap_err();
+    assert!(matches!(error, BenchError::CentrifugeImbalance { .. }));
+}

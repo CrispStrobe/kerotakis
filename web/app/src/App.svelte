@@ -238,6 +238,15 @@
   let apparatusOut = $state<string | null>(null);
   let apparatusPreview = $state<Record<string, number | string>>({});
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
+  const selectedSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === session.selected));
+  const apparatusInitialValues = $derived(
+    apparatusSpec?.verb === "centrifuge"
+      ? {
+          counterbalance: Number((selectedSceneVessel?.mass_g ?? 0).toFixed(2)),
+          sampleMass: selectedSceneVessel?.mass_g ?? 0,
+        }
+      : {},
+  );
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
   let transfer = $state<{ verb: TwoVesselAction; fraction: number; from: number | null } | null>(null);
@@ -602,12 +611,13 @@
       />
     {/if}
     {#if apparatusSpec}
-      {#key apparatusSpec.verb}
+      {#key `${apparatusSpec.verb}:${session.selected}`}
         <ApparatusForm
           spec={apparatusSpec}
           vessel={session.selected}
           shelf={session.shelf}
           busy={session.busy}
+          initialValues={apparatusInitialValues}
           onrun={(line) => void session.submit(line)}
           onpreview={(values) => (apparatusPreview = values)}
           onclose={() => (apparatusOut = null)}

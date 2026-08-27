@@ -175,6 +175,10 @@ pub enum Operator {
         rpm: f64,
         seconds: f64,
         rotor_radius_m: f64,
+        /// Opposing tube contents in grams. `None` preserves the historical
+        /// shorthand and means an exactly matched balance tube.
+        #[serde(default)]
+        counterbalance_g: Option<f64>,
     },
     /// Turn a light source on or off for photolysis.
     Irradiate {
@@ -407,6 +411,9 @@ pub enum Event {
         seconds: f64,
         rotor_radius_m: f64,
         rcf: f64,
+        sample_mass_g: f64,
+        counterbalance_g: f64,
+        imbalance_g: f64,
         fluid_density_kg_m3: f64,
         dynamic_viscosity_pa_s: f64,
         separations: Vec<CentrifugeSeparation>,

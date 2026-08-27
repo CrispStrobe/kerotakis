@@ -40,7 +40,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("electrolyse", "electrolyse v1 0.5A 30min"),
     ("cell", "cell v1 v2"),
     ("grind", "grind v1 NaCl 50um"),
-    ("centrifuge", "centrifuge v1 3000rpm 60s 8cm"),
+    ("centrifuge", "centrifuge v1 3000rpm 60s 8cm 100g"),
     ("irradiate", "irradiate v1 254nm 10W/m2"),
     ("dilute", "dilute v1 100mL"),
     ("titrate", "titrate v1 NaOH 1M 1mL until ph 7"),
@@ -505,6 +505,10 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                     &[("mm", 0.001), ("cm", 0.01), ("m", 1.0), ("", 0.01)],
                     "rotor radius",
                 )?,
+                counterbalance_g: words
+                    .get(5)
+                    .map(|value| parse_suffixed(value, &[("g", 1.0), ("", 1.0)], "counterbalance"))
+                    .transpose()?,
             }
         }
         "irradiate" => {

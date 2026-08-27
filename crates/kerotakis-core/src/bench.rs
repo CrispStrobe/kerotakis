@@ -48,6 +48,14 @@ pub enum BenchError {
     },
     #[error("centrifuge cannot run this vessel: {0}")]
     CentrifugeUnavailable(String),
+    #[error(
+        "centrifuge rotor is {imbalance_g:.2} g out of balance (sample {sample_g:.2} g, counterbalance {counterbalance_g:.2} g); match within 0.10 g"
+    )]
+    CentrifugeImbalance {
+        sample_g: f64,
+        counterbalance_g: f64,
+        imbalance_g: f64,
+    },
     #[error(transparent)]
     Kinetics(#[from] crate::kinetics::IntegrationError),
     #[error(transparent)]
@@ -1893,10 +1901,21 @@ impl Bench {
                 rpm,
                 seconds,
                 rotor_radius_m,
+                counterbalance_g,
             } => {
                 let v = self.vessel(*vessel)?;
                 if *rpm < 0.0 || *seconds < 0.0 || *rotor_radius_m <= 0.0 {
                     return Err(BenchError::NonPositiveAmount);
+                }
+                let sample_mass_g = v.mass().0;
+                let counterbalance_g = counterbalance_g.unwrap_or(sample_mass_g);
+                let imbalance_g = (sample_mass_g - counterbalance_g).abs();
+                if imbalance_g > 0.10 {
+                    return Err(BenchError::CentrifugeImbalance {
+                        sample_g: sample_mass_g,
+                        counterbalance_g,
+                        imbalance_g,
+                    });
                 }
                 let liquid_volume_l = v.liquid_volume().0;
                 if liquid_volume_l <= 0.0 {
@@ -1994,6 +2013,9 @@ impl Bench {
                     seconds: *seconds,
                     rotor_radius_m: *rotor_radius_m,
                     rcf,
+                    sample_mass_g,
+                    counterbalance_g,
+                    imbalance_g,
                     fluid_density_kg_m3,
                     dynamic_viscosity_pa_s,
                     separations,

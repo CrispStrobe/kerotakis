@@ -11,6 +11,9 @@
 
   const grindDuration = $derived(`${Math.max(0.18, 0.55 - intensity * 0.3)}s`);
   const rotorDuration = $derived(`${Math.max(0.08, 0.65 - intensity * 0.5)}s`);
+  const rotorImbalance = $derived(
+    Math.abs(Number(values.sampleMass ?? 0) - Number(values.counterbalance ?? 0)),
+  );
 </script>
 
 {#if tool === "grind"}
@@ -41,7 +44,7 @@
   >
     <svg viewBox="0 0 110 88" role="img" aria-label={t("mini centrifuge") }>
       <path class="centrifuge-base" d="M12 33 Q12 20 26 18 H84 Q98 20 98 33 L103 73 Q101 82 91 82 H19 Q9 82 7 73Z" />
-      <ellipse class="lid" cx="55" cy="32" rx="39" ry="22" />
+      <ellipse class="lid" class:danger={rotorImbalance > 0.1} cx="55" cy="32" rx="39" ry="22" />
       <g class="rotor">
         <circle class="hub" cx="55" cy="32" r="6" />
         <path class="rotor-arm" d="M24 32 H86 M55 10 V54" />
@@ -54,6 +57,7 @@
     <figcaption>
       <strong>{t("mini centrifuge")}</strong>
       <small>{values.radius ?? 8} cm · {values.seconds ?? 60} s</small>
+      <small class="balance" class:danger={rotorImbalance > 0.1}>{rotorImbalance > 0.1 ? `⚠ ${rotorImbalance.toFixed(2)} g` : `✓ ${t("balanced")}`}</small>
     </figcaption>
   </figure>
 {/if}
@@ -84,6 +88,8 @@
   .tube path { fill: color-mix(in srgb, var(--cool) 35%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1.5; }
   .display { fill: var(--edge-strong); }
   .centrifuge text { fill: var(--surface); font-size: 7px; font-weight: 800; }
+  .lid.danger { stroke: var(--danger); }
+  .balance.danger { color: var(--danger); }
   .working .rotor { animation: spin var(--rotor-duration) linear infinite; }
   .performed:not(.working) .rotor { animation: spin var(--rotor-duration) linear 12; }
   figcaption { display: grid; justify-items: center; margin-top: -0.2rem; color: var(--ink); font-size: 0.55rem; line-height: 1.15; }
