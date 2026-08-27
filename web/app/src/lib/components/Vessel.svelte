@@ -21,6 +21,7 @@
     fluidLookup = null,
     transferTarget = false,
     deployedTool = null,
+    linkedTool = null,
     apparatusWorking = false,
     apparatusValues = {},
   }: {
@@ -37,6 +38,9 @@
     fluidLookup?: ((key: string) => FluidSpecies) | null;
     transferTarget?: boolean;
     deployedTool?: string | null;
+    /** A freestanding workstation associated with this sample. It contributes
+     * target/status UI but is deliberately not drawn inside the vessel. */
+    linkedTool?: string | null;
     apparatusWorking?: boolean;
     apparatusValues?: Record<string, number | string>;
   } = $props();
@@ -228,11 +232,19 @@
       (deployedTool === "irradiate" && active("irradiate", 4200)) ||
       (deployedTool === "electrolyse" && active("electrolyse", 8000)),
   );
+  const activeTool = $derived(deployedTool ?? linkedTool);
   const apparatusTitle = $derived(
-    deployedTool
-      ? deployedTool === "burette"
+    activeTool
+      ? activeTool === "burette"
         ? "burette"
-        : APPARATUS.find((spec) => spec.verb === deployedTool)?.title ?? deployedTool
+        : APPARATUS.find((spec) => spec.verb === activeTool)?.title ?? activeTool
+      : null,
+  );
+  const apparatusRelationship = $derived(
+    apparatusTitle
+      ? linkedTool
+        ? t("{tool} workstation for vessel v{vessel}", { tool: t(apparatusTitle), vessel: vessel.id + 1 })
+        : t("{tool} installed: {state}", { tool: t(apparatusTitle), state: t(apparatusOperating ? "running…" : "ready") })
       : null,
   );
   const reducedMotion =
@@ -248,6 +260,7 @@
   class:selected
   class:drop-ready={dropReady}
   class:transfer-target={transferTarget}
+  class:workstation-target={linkedTool !== null}
   class:whirling={active("swirl", 2200)}
   class:apparatus-working={apparatusOperating}
   class:bursting={active("burst", 1800)}
@@ -257,7 +270,7 @@
   <button
     class="glassbtn"
     class:pouring={active("pour", 2200)}
-    aria-label={`${t(vessel.label)} v${vessel.id + 1}: ${t(vessel.words)}${transferTarget ? ` · ${t("transfer target")}` : ""}${apparatusTitle ? ` · ${t("{tool} installed: {state}", { tool: t(apparatusTitle), state: t(apparatusOperating ? "running…" : "ready") })}` : ""}`}
+    aria-label={`${t(vessel.label)} v${vessel.id + 1}: ${t(vessel.words)}${transferTarget ? ` · ${t("transfer target")}` : ""}${apparatusRelationship ? ` · ${apparatusRelationship}` : ""}`}
     aria-pressed={selected}
     onclick={() => onselect?.(vessel.id)}
     ondragover={(e) => {
@@ -994,7 +1007,7 @@
       <span
         class="apparatus-status"
         class:running={apparatusOperating}
-        title={t("{tool} installed: {state}", { tool: t(apparatusTitle), state: t(apparatusOperating ? "running…" : "ready") })}
+        title={apparatusRelationship ?? undefined}
       >
         <span class="status-light" aria-hidden="true"></span>
         <strong>{t(apparatusTitle)}</strong>
@@ -1070,6 +1083,11 @@
     border-color: var(--good);
     background: color-mix(in srgb, var(--success) 13%, var(--surface));
     box-shadow: 0 0 0 4px color-mix(in srgb, var(--success) 14%, transparent);
+  }
+  .vessel.workstation-target .glassbtn {
+    box-shadow:
+      0 0 0 2px color-mix(in srgb, var(--instrument) 42%, transparent),
+      0 9px 20px var(--shadow);
   }
   .vessel.transfer-target {
     border-color: var(--instrument);
