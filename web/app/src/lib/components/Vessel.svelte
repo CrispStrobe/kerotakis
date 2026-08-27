@@ -68,6 +68,17 @@
     return recent.length > 0 ? recent[recent.length - 1]!.flameColour : undefined;
   });
 
+  function surfaceParticleX(index: number, count: number, cleared: number): number {
+    const gap = Math.max(0, Math.min(0.94, cleared));
+    if (gap < 0.001) return INNER_X + ((index + 0.5) / count) * INNER_W;
+    const right = index % 2 === 1;
+    const rank = Math.floor(index / 2);
+    const perSide = Math.ceil(count / 2);
+    const bandWidth = INNER_W * (1 - gap) / 2;
+    const offset = ((rank + 0.5) / perSide) * bandWidth;
+    return right ? INNER_X + INNER_W - offset : INNER_X + offset;
+  }
+
   let dropReady = $state(false);
   /** A just-landed drop ripples once — pouring is an action, not a teleport. */
   let splashedAt = $state(0);
@@ -301,6 +312,28 @@
             cx={INNER_X + 4 + ((i * 17) % Math.max(6, INNER_W - 8))}
             cy={foamY + 3 + ((i * 11) % Math.max(4, foamH - 4))}
             r={1.2 + (i % 3) * 0.55}
+          />
+        {/each}
+      </g>
+    {/if}
+
+    {#if vessel.surface_particles && vessel.liquid && liquidH > 0}
+      {@const particleCount = Math.max(5, Math.round(5 + vessel.surface_particles.coverage_fraction * 20))}
+      <g
+        class="surface-particles"
+        class:spreading={active("surface-spread", 2600)}
+        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px`}
+      >
+        <title>{t("modeled floating {material}; central clearing {percent}%", {
+          material: t(vessel.surface_particles.material),
+          percent: Math.round(vessel.surface_particles.cleared_fraction * 100),
+        })}</title>
+        {#each Array.from({ length: particleCount }, (_, i) => i) as i (i)}
+          <circle
+            class="surface-particle"
+            cx={surfaceParticleX(i, particleCount, vessel.surface_particles.cleared_fraction)}
+            cy={BOTTOM_Y - liquidH - 0.8 - (i % 3) * 0.55}
+            r={0.65 + (i % 2) * 0.25}
           />
         {/each}
       </g>
@@ -877,6 +910,14 @@
     stroke: color-mix(in srgb, var(--foam-colour, var(--instrument)) 48%, var(--edge));
     stroke-width: 0.45;
   }
+  .surface-particle {
+    fill: #31261f;
+    stroke: #0f0d0b;
+    stroke-width: 0.25;
+  }
+  .surface-particles.spreading {
+    animation: surface-spread 780ms cubic-bezier(.16, .82, .2, 1) both;
+  }
   .foam-overflow path {
     fill: none;
     stroke-width: calc(2px + var(--spill) * 4px);
@@ -892,6 +933,10 @@
   @keyframes foam-spill {
     from { transform: translateY(0); }
     to { transform: translateY(2px); }
+  }
+  @keyframes surface-spread {
+    from { transform: scaleX(0.16); opacity: 0.72; }
+    to { transform: scaleX(1); opacity: 1; }
   }
   @keyframes rise {
     from {

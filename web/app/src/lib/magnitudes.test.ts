@@ -30,6 +30,18 @@ describe("effectFromEvent", () => {
     expect(high!.magnitude).toBeGreaterThan(low!.magnitude);
   });
 
+  it("maps computed pepper clearing to a surface-spread effect", () => {
+    const e = effectFromEvent({
+      event: "surface_spread",
+      vessel: 0,
+      from_cleared_fraction: 0,
+      to_cleared_fraction: 0.9,
+      coverage_fraction: 1,
+    });
+    expect(e?.kind).toBe("surface-spread");
+    expect(e?.magnitude).toBe(1);
+  });
+
   it("maps precipitated with moles → precipitate + magnitude from event.moles", () => {
     const e = effectFromEvent({ event: "precipitated", vessel: 0, species: "BaSO4", moles: 0.01 });
     expect(e!.kind).toBe("precipitate");

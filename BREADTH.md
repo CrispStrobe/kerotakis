@@ -417,6 +417,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   evaporation operator precipitates computed sodium chloride. Minor seawater
   ions, dissolved gases and organics remain conserved unresolved mass rather
   than being silently discarded.
+- **Checkpoint 10 implemented:** ground black pepper/`Pfeffer` is a localized,
+  fully conserved unresolved plant-powder recipe with a reviewed floating-grain
+  role. On quiet water it persists as a visible surface layer; adding the
+  existing dish-soap surrogate computes a dose-bounded central clearing,
+  records a `SurfaceSpread` event, retains the resulting state in scene JSON,
+  and animates the grains toward the rim in the web vessel. Soap-first order
+  deliberately emits no sudden-spread event. This is the familiar classroom
+  observable only—not a universal surface-tension coefficient, molecular
+  surfactant model, Marangoni solver, or CFD particle trajectory.
 
 ## Stage B2 — organic structure and curated reaction families
 

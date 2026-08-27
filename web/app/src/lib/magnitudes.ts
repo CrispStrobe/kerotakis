@@ -167,6 +167,12 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         magnitude: scale(Number(e.height_cm ?? 0), 0.5, 30),
       };
+    case "surface_spread":
+      return {
+        kind: "surface-spread",
+        at: now,
+        magnitude: scale(Number(e.to_cleared_fraction ?? 0), 0.05, 0.9),
+      };
     case "precipitated":
       return { kind: "precipitate", at: now, magnitude: precipMag(e) };
     case "evaporated":

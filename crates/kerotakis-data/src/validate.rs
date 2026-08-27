@@ -413,10 +413,10 @@ impl<'a> Validator<'a> {
                 }
             }
 
-            if recipe.components.is_empty() {
+            if recipe.components.is_empty() && recipe.roles.is_empty() {
                 self.issue(
                     format!("{path}.components"),
-                    "recipe has no resolved components",
+                    "recipe has neither resolved components nor a modeled material role",
                 );
             }
             if let Some(density) = &recipe.bulk_density {
@@ -495,6 +495,31 @@ impl<'a> Validator<'a> {
                                     "must be finite and positive",
                                 );
                             }
+                        }
+                    }
+                    MaterialRole::SurfaceFloater { saturation_amount } => {
+                        if !saturation_amount.is_finite() || *saturation_amount <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.saturation_amount"),
+                                "must be finite and positive",
+                            );
+                        }
+                    }
+                    MaterialRole::SurfaceTensionReducer {
+                        saturation_amount,
+                        max_cleared_fraction,
+                    } => {
+                        if !saturation_amount.is_finite() || *saturation_amount <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.saturation_amount"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !(0.0..=1.0).contains(max_cleared_fraction) {
+                            self.issue(
+                                format!("{role_path}.max_cleared_fraction"),
+                                "must be within 0..=1",
+                            );
                         }
                     }
                 }
