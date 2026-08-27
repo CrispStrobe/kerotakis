@@ -1285,6 +1285,15 @@ decorating it.
   fraction, colours them from the matching pre-wait Scene solid, and displays
   the strongest computed percentage beside elapsed seconds. Reduced-motion
   keeps the final engine state while suppressing particle travel.
+  *Centrifuge-result slice shipped 2026-08-27:* the moving mini centrifuge now
+  replaces requested form values with the returned run: RPM, radius, elapsed
+  time, relative centrifugal force, measured imbalance, fluid density and
+  viscosity, and every species' Stokes separation. Coloured pellets derive
+  from pre-run Scene solids and scale with computed separated fraction. The
+  machine explicitly labels `state_coupled: false` as a visual forecast with
+  unchanged vessel state instead of presenting predicted separation as an
+  applied ledger mutation; requested settings still preview their calculated
+  RCF before a run.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,

@@ -1,19 +1,27 @@
 <script lang="ts">
   import { t } from "../i18n.svelte";
+  import type { Effect } from "../magnitudes";
 
-  let { tool, target, working = false, performedAt, intensity = 0.5, values = {} }: {
+  let { tool, target, working = false, performedAt, intensity = 0.5, values = {}, effect }: {
     tool: string;
     target: number;
     working?: boolean;
     performedAt?: number;
     intensity?: number;
     values?: Record<string, number | string>;
+    effect?: Effect;
   } = $props();
 
   const grindDuration = $derived(`${Math.max(0.18, 0.55 - intensity * 0.3)}s`);
   const rotorDuration = $derived(`${Math.max(0.08, 0.65 - intensity * 0.5)}s`);
   const rotorImbalance = $derived(
-    Math.abs(Number(values.sampleMass ?? 0) - Number(values.counterbalance ?? 0)),
+    effect?.centrifuge?.imbalanceG ?? Math.abs(Number(values.sampleMass ?? 0) - Number(values.counterbalance ?? 0)),
+  );
+  const centrifugeRpm = $derived(effect?.centrifuge?.rpm ?? Number(values.rpm ?? 3000));
+  const centrifugeSeconds = $derived(effect?.centrifuge?.seconds ?? Number(values.seconds ?? 60));
+  const centrifugeRadiusCm = $derived((effect?.centrifuge?.rotorRadiusM ?? Number(values.radius ?? 8) / 100) * 100);
+  const centrifugeRcf = $derived(
+    effect?.centrifuge?.rcf ?? 1.118e-5 * centrifugeRadiusCm * centrifugeRpm * centrifugeRpm,
   );
   const buretteFraction = $derived(
     Number(values.total ?? 0) > 0
@@ -57,15 +65,30 @@
         <path class="rotor-arm" d="M24 32 H86 M55 10 V54" />
         <g class="tube tube-a" transform="translate(25 27) rotate(-90 5 5)"><path d="M1 1 H9 V15 Q5 20 1 15Z" /></g>
         <g class="tube tube-b" transform="translate(75 27) rotate(90 5 5)"><path d="M1 1 H9 V15 Q5 20 1 15Z" /></g>
+        {#each (effect?.centrifuge?.populations ?? []).slice(0, 3) as population, i (population.species)}
+          <circle class="centrifuge-pellet" cx={27 + i * 2.2} cy={32} r={1 + population.separatedFraction * 1.4} fill={population.colour ?? "var(--cloud)"} />
+        {/each}
       </g>
-      <rect class="display" x="34" y="62" width="42" height="12" rx="3" />
-      <text x="55" y="71" text-anchor="middle">{Number(values.rpm ?? 3000).toFixed(0)} rpm</text>
+      <rect class="display" x="27" y="60" width="56" height="16" rx="3" />
+      <text x="55" y="67" text-anchor="middle">{centrifugeRpm.toFixed(0)} rpm</text>
+      <text class="rcf" x="55" y="73" text-anchor="middle">{centrifugeRcf.toFixed(1)} × g</text>
     </svg>
     <figcaption>
       <strong>{t("mini centrifuge")}</strong>
       <span class="target">{t("works with vessel v{vessel}", { vessel: target + 1 })}</span>
-      <small>{values.radius ?? 8} cm · {values.seconds ?? 60} s</small>
+      <small>{centrifugeRadiusCm.toFixed(1)} cm · {centrifugeSeconds.toFixed(1)} s</small>
       <small class="balance" class:danger={rotorImbalance > 0.1}>{rotorImbalance > 0.1 ? `⚠ ${rotorImbalance.toFixed(2)} g` : `✓ ${t("balanced")}`}</small>
+      {#if effect?.centrifuge}
+        <small class="coupling" class:forecast={!effect.centrifuge.stateCoupled}>
+          {t(effect.centrifuge.stateCoupled ? "separation applied to vessel" : "visual forecast — vessel state unchanged")}
+        </small>
+        {#each effect.centrifuge.populations.slice(0, 2) as population (population.species)}
+          <small class="separation-result">
+            {t(population.species)} · {Math.round(population.separatedFraction * 100)}%
+            {population.particleSizeAssumed ? ` · ${t("assumed particle size")}` : ""}
+          </small>
+        {/each}
+      {/if}
     </figcaption>
   </figure>
 {:else if tool === "burette"}
@@ -134,8 +157,13 @@
   .tube path { fill: color-mix(in srgb, var(--cool) 35%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1.5; }
   .display { fill: var(--edge-strong); }
   .centrifuge text { fill: var(--surface); font-size: 7px; font-weight: 800; }
+  .centrifuge text.rcf { font-size: 5px; fill: color-mix(in srgb, var(--success) 72%, white); }
+  .centrifuge-pellet { stroke: var(--edge-strong); stroke-width: .4; }
   .lid.danger { stroke: var(--danger); }
   .balance.danger { color: var(--danger); }
+  .coupling { margin-top: .12rem; font-weight: 800; color: var(--success); }
+  .coupling.forecast { color: var(--hot); }
+  .separation-result { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .working .rotor { animation: spin var(--rotor-duration) linear infinite; }
   .performed:not(.working) .rotor { animation: spin var(--rotor-duration) linear 12; }
   .burette-station { background: color-mix(in srgb, var(--surface) 90%, var(--cool)); }

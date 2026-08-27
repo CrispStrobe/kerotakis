@@ -84,6 +84,25 @@ export interface SettlingRun {
   populations: SettlingPopulation[];
 }
 
+export interface CentrifugePopulation extends SettlingPopulation {
+  particleSizeAssumed: boolean;
+  particleDensityKgM3: number;
+}
+
+export interface CentrifugeRun {
+  rpm: number;
+  seconds: number;
+  rotorRadiusM: number;
+  rcf: number;
+  sampleMassG: number;
+  counterbalanceG: number;
+  imbalanceG: number;
+  fluidDensityKgM3: number;
+  dynamicViscosityPaS: number;
+  populations: CentrifugePopulation[];
+  stateCoupled: boolean;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -122,6 +141,7 @@ export interface Effect {
   /** Solids selected by the engine's magnetic-property data. */
   magnetic?: MagneticRun;
   settling?: SettlingRun;
+  centrifuge?: CentrifugeRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -309,6 +329,31 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         magnitude: centrifugeMag(e),
         durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+        centrifuge: {
+          rpm: Number(e.rpm ?? 0),
+          seconds: Number(e.seconds ?? 0),
+          rotorRadiusM: Number(e.rotor_radius_m ?? 0),
+          rcf: Number(e.rcf ?? 0),
+          sampleMassG: Number(e.sample_mass_g ?? 0),
+          counterbalanceG: Number(e.counterbalance_g ?? 0),
+          imbalanceG: Number(e.imbalance_g ?? 0),
+          fluidDensityKgM3: Number(e.fluid_density_kg_m3 ?? 0),
+          dynamicViscosityPaS: Number(e.dynamic_viscosity_pa_s ?? 0),
+          populations: (Array.isArray(e.separations) ? e.separations : []).map((value) => {
+            const separation = value && typeof value === "object" ? value as Record<string, unknown> : {};
+            return {
+              species: String(separation.species ?? ""),
+              particleDiameterUm: Number(separation.particle_diameter_um ?? 0),
+              particleSizeAssumed: Boolean(separation.particle_size_assumed),
+              particleDensityKgM3: Number(separation.particle_density_kg_m3 ?? 0),
+              terminalSpeedMS: Number(separation.terminal_speed_m_s ?? 0),
+              distanceM: Number(separation.distance_m ?? 0),
+              separatedFraction: Math.max(0, Math.min(1, Number(separation.separated_fraction ?? 0))),
+              direction: String(separation.direction ?? ""),
+            };
+          }),
+          stateCoupled: Boolean(e.state_coupled),
+        },
       };
     case "gravity_settled": {
       const populations = (Array.isArray(e.separations) ? e.separations : []).map((value) => {

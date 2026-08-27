@@ -741,6 +741,22 @@ export class Session {
         },
       };
     }
+    if (effect?.kind === "centrifuge" && effect.centrifuge) {
+      const vessel = this.scene?.vessels.find((candidate) => candidate.id === Number(event.vessel ?? 0));
+      effect = {
+        ...effect,
+        centrifuge: {
+          ...effect.centrifuge,
+          populations: effect.centrifuge.populations.map((population) => {
+            const solid = vessel?.solids.find((candidate) => candidate.species === population.species);
+            return {
+              ...population,
+              colour: solid ? `rgb(${solid.srgb[0]} ${solid.srgb[1]} ${solid.srgb[2]})` : undefined,
+            };
+          }),
+        },
+      };
+    }
     if (
       effect?.source !== undefined &&
       effect.operation &&
