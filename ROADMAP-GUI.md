@@ -1028,6 +1028,10 @@ hide them completely.
   vessel, shows configured heat-removal power, and only animates ice/frost
   during the bounded operation; the vessel's computed temperature remains
   the authority for persistent cold and phase visuals.
+  *Flame-test correction shipped 2026-08-27:* `FlameTest` no longer makes
+  the whole sample vessel appear to combust. It deploys a Bunsen burner and
+  wire loop, and colours that burner flame from the engine event; genuine
+  `Ignited` events retain the energy-scaled vessel flame.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
