@@ -555,6 +555,28 @@ describe("Session", () => {
     });
   });
 
+  it("colours centrifuge separation results from the pre-run solid inventory", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "centrifuged", vessel: 0, rpm: 3000, seconds: 10, rotor_radius_m: .08,
+        rcf: 805, sample_mass_g: 2, counterbalance_g: 2, imbalance_g: 0,
+        fluid_density_kg_m3: 998, dynamic_viscosity_pa_s: .001, state_coupled: false,
+        separations: [{ species: "CuO", particle_diameter_um: 40, particle_size_assumed: false, particle_density_kg_m3: 6310, terminal_speed_m_s: .01, distance_m: .03, separated_fraction: .75, direction: "outward" }],
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = { scene: 1, vessels: [{
+      id: 0, liquid: null,
+      solids: [{ species: "CuO", name: "copper(II) oxide", moles: .02, srgb: [38, 32, 28], colour_word: "black", metallic: false, settled_fraction: .1 }],
+    } as Scene["vessels"][number]] };
+    await s.submit("centrifuge v1 3000rpm 10s 8cm 2g");
+    expect(s.vesselEffects[0]?.[0]?.centrifuge?.populations[0]).toMatchObject({
+      species: "CuO", colour: "rgb(38 32 28)", separatedFraction: .75,
+    });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({
