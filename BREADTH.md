@@ -621,6 +621,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   visible positive/negative result are regression-tested. Individual
   polyiodide speciation, exact binding stoichiometry, botanical amylose
   fraction and temperature-dependent helix changes remain explicit limits.
+- **Checkpoint 33 implemented:** `starch-iodine-test.lab` turns the Lugol route
+  into a controlled child-directed comparison. Equal water and indicator doses
+  begin brown; only the vessel receiving named cornstarch becomes blue-black.
+  The sequence uses localized shelf materials and ordinary `inspect` state, so
+  native and web clients replay the same computed optics. Flour, potato,
+  unknown white powders, heating and botanical-source comparisons remain
+  withheld until their own reviewed material/temperature models exist.
 
 ## Stage B2 — organic structure and curated reaction families
 
