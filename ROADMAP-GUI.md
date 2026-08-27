@@ -820,6 +820,12 @@ hide them completely.
   dark/pro and high-contrast themes, system typography, focus treatment,
   reduced-motion clamp, and refreshed shell/bench/cabinet/journal/command styles
   landed. Automated contrast and visual-regression gates remain.*
+  *Responsive-quality gate in progress 2026-08-28:* the real built PWA now
+  runs in desktop, German desktop and phone viewports in CI. It fails on
+  page-level overflow, overlapping desktop panes, unnamed controls, duplicate
+  ids, undersized primary vessel actions or phone tabs, and live bench motion
+  under `prefers-reduced-motion`. Automated token contrast and screenshot
+  diffs remain.*
 - [ ] **GUI-072 — Equipment cabinet v1.** Replace the flat apparatus palette
   and reagent shelf with one searchable, categorized supply room. Cards and
   detail sheets render catalog metadata; drag/tap places a real scene object;
