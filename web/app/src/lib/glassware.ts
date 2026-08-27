@@ -129,6 +129,16 @@ export function fillHeight(g: Glassware, volume_l: number, minPx = 6): number {
   return Math.max(minPx, hFrac * g.fh);
 }
 
+/** Display height for a settled solid volume. Trace layers would be sub-pixel
+ * at bench scale, so sqrt scaling supplies a perceptual magnifier while
+ * remaining zero-safe, monotone, capacity-aware, and capped below the liquid
+ * body. The exact engine volume stays attached to each rendered layer. */
+export function depositDisplayHeight(g: Glassware, volume_l: number): number {
+  if (volume_l <= 0) return 0;
+  const fraction = Math.min(1, volume_l / g.fullAtL);
+  return Math.min(g.fh * 0.28, Math.max(1.25, Math.sqrt(fraction) * g.fh * 0.42));
+}
+
 /**
  * Cylinder graduation ticks: returns {y, label} for each graduation line.
  * Ticks are spaced at equal volume intervals and placed using the kind's

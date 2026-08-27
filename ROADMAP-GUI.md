@@ -1138,6 +1138,13 @@ hide them completely.
   post-dose total. Stirring now carries RPM/duration and exposes explicitly
   uncoupled rate physics; scaling visible solid volume and coupling mixing to
   transport/rates remain part of this item.*
+  *Solid-volume slice shipped 2026-08-27:* the scene now derives each solid
+  population's additive pure volume from engine-owned moles, molar mass, and
+  registry density. Vessel deposits scale monotonically from that volume and
+  settled fraction, with a capacity-aware perceptual magnifier for sub-pixel
+  traces and the exact mL value attached to the rendered layer. Repeated solid
+  doses therefore grow the deposit without an arbitrary moles-to-pixels rule;
+  rate coupling remains open.*
 - [ ] **GUI-075 — Observe five users before adding campaign breadth.** Test with
   at least two children/novices, one teacher, and two experienced science users;
   use tasks, not preference questions. Record time-to-first-result, wrong turns,
