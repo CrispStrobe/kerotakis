@@ -8,12 +8,16 @@
     values = {},
     surfaceY = 118,
     effect,
+    depositColour,
+    depositName,
   }: {
     tool: string;
     working?: boolean;
     values?: Record<string, number | string>;
     surfaceY?: number;
     effect?: Effect;
+    depositColour?: string;
+    depositName?: string;
   } = $props();
 
   const toolNames: Record<string, string> = {
@@ -42,7 +46,7 @@
     if (wavelength < 620) return "#ff8a34";
     return "#ff506d";
   });
-  const amps = $derived(Math.max(0.001, Number(values.amps ?? 0.5)));
+  const amps = $derived(Math.max(0.001, effect?.electrolysis?.amps ?? Number(values.amps ?? 0.5)));
   const pulseDuration = $derived(`${Math.max(0.25, 1.2 - Math.min(1, amps / 2) * 0.8)}s`);
   const pressure = $derived(Math.max(0.1, effect?.pressureControl?.pressurePa ? effect.pressureControl.pressurePa / 100_000 : Number(values.pressure ?? 1)));
   const regulatorVolumeL = $derived(Math.max(.01, effect?.pressureControl?.initialVolumeL ?? Number(values.volume ?? 500) / 1000));
@@ -114,13 +118,28 @@
       {/if}
     </g>
   {:else if tool === "electrolyse"}
-    <g class="electrodes" style={`--pulse:${pulseDuration}`}>
+    <g class="electrodes" style={`--pulse:${pulseDuration};--deposit-colour:${depositColour ?? "var(--instrument)"}`}>
       <path class="wire positive" d="M 30 10 H 18 V 32" />
       <path class="wire negative" d="M 70 10 H 82 V 32" />
       <rect class="power" x="34" y="2" width="32" height="16" rx="4" />
       <text x="50" y="13" text-anchor="middle">{amps.toFixed(2)} A</text>
       <rect class="electrode" x="28" y="26" width="4" height={Math.max(20, surfaceY - 34)} rx="1" />
       <rect class="electrode" x="68" y="26" width="4" height={Math.max(20, surfaceY - 34)} rx="1" />
+      {#if effect?.electrolysis}
+        <rect
+          class="plated-layer"
+          x={67.2 - effect.magnitude * 1.4}
+          y={surfaceY - 9 - effect.magnitude * 20}
+          width={5.6 + effect.magnitude * 2.8}
+          height={10 + effect.magnitude * 20}
+          rx="1"
+        />
+        <g class="electrolysis-readout">
+          <rect x="19" y="18" width="62" height="14" rx="4" />
+          <text x="50" y="24" text-anchor="middle">{effect.electrolysis.coulombs.toFixed(0)} C · {effect.electrolysis.seconds.toFixed(0)} s</text>
+          <text x="50" y="29" text-anchor="middle">{effect.electrolysis.grams.toPrecision(3)} g {t(depositName ?? effect.electrolysis.species)}</text>
+        </g>
+      {/if}
       {#if working}
         {#each [30, 70] as x (x)}<circle class="charge" cx={x} cy={surfaceY - 10} r="2" />{/each}
       {/if}
@@ -200,6 +219,9 @@
   .frost path { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; }
   .positive { stroke: var(--danger); } .negative { stroke: var(--primary); }
   .electrode { fill: var(--edge-strong); }
+  .plated-layer { fill: var(--deposit-colour); stroke: var(--ink); stroke-width: .5; }
+  .electrolysis-readout rect { fill: color-mix(in srgb, var(--surface) 92%, var(--instrument)); stroke: var(--instrument); stroke-width: .6; }
+  .electrodes .electrolysis-readout text { fill: var(--ink); font-size: 4px; font-weight: 750; }
   .electrodes text, .lamp text, .regulator text, .magnetic-plate text { fill: var(--ink); font-size: 6px; font-weight: 700; }
   .plate { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
   .charge { fill: none; stroke: var(--instrument); animation: bubble var(--pulse) ease-out infinite; }

@@ -88,6 +88,11 @@
   const pressureControlEffect = $derived(latestEffect("regulate", 4500));
   const sweepEffect = $derived(latestEffect("sweep", 3800));
   const irradiationEffect = $derived(latestEffect("irradiate", 4200));
+  const electrolysisEffect = $derived(latestEffect("electrolyse", 8000));
+  const electrolysisDeposit = $derived.by(() => {
+    const species = electrolysisEffect?.electrolysis?.species;
+    return species ? vessel.solids.find((solid) => solid.species === species) : undefined;
+  });
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => (e.kind === "ignite" || e.kind === "flame_test") && n - e.at < 3000 && e.flameColour);
@@ -215,7 +220,8 @@
       (deployedTool === "heat" && active("heat", 2200)) ||
       (deployedTool === "cool" && active("cool", 2200)) ||
       (deployedTool === "sweep" && active("sweep", 3800)) ||
-      (deployedTool === "irradiate" && active("irradiate", 4200)),
+      (deployedTool === "irradiate" && active("irradiate", 4200)) ||
+      (deployedTool === "electrolyse" && active("electrolyse", 8000)),
   );
   const apparatusTitle = $derived(
     deployedTool
@@ -398,6 +404,8 @@
         tool={deployedTool}
         working={apparatusOperating}
         values={apparatusValues}
+        depositColour={electrolysisDeposit ? rgb(electrolysisDeposit.srgb) : undefined}
+        depositName={electrolysisDeposit?.name}
         effect={deployedTool === "stir"
           ? stirEffect
           : deployedTool === "regulate"
@@ -406,7 +414,9 @@
               ? sweepEffect
               : deployedTool === "irradiate"
                 ? irradiationEffect
-              : undefined}
+                : deployedTool === "electrolyse"
+                  ? electrolysisEffect
+                  : undefined}
         surfaceY={BOTTOM_Y - Math.max(liquidH, 4)}
       />
     {/if}
@@ -592,8 +602,8 @@
     {#if active("dissolve", 1400) && liquidH > 0}
       <circle class="dissolving" cx="50" cy={BOTTOM_Y - 10} r="4" />
     {/if}
-    {#if active("electrolyse", 3500) && liquidH > 0}
-      {@const eMag = mag("electrolyse", 3500)}
+    {#if active("electrolyse", 8000) && liquidH > 0}
+      {@const eMag = mag("electrolyse", 8000)}
       {@const eBubbles = Math.max(1, Math.round(1 + eMag * 3))}
       {@const eRadius = 1.0 + eMag * 1.0}
       {#each [30, 70] as x (x)}

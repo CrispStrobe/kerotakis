@@ -59,6 +59,17 @@ export function engineText(text: string): string {
   if ((match = text.match(/^(v\d+): irradiate λ=([\d.]+) nm, Ė\/A=([\d.]+) W\/m²; photolysis_coupled=(true|false)$/))) {
     return `${match[1]}: Bestrahlung λ=${match[2]} nm, Ė/A=${match[3]} W/m²; Photolyse gekoppelt=${match[4] === "true" ? "ja" : "nein"}`;
   }
+  if ((match = text.match(new RegExp(`^${decimal} g of (.+) builds up on the electrode in (v\\d+)\\.$`)))) {
+    return `${match[1]} g ${t(match[2]!)} scheiden sich an der Elektrode in ${match[3]} ab.`;
+  }
+  if ((match = text.match(new RegExp(`^(v\\d+): ${decimal} A for ${decimal} s = ${decimal} C → ${decimal} mol e⁻ → ${decimal} mol (.+) = ${decimal} g$`)))) {
+    return `${match[1]}: ${match[2]} A für ${match[3]} s = ${match[4]} C → ${match[5]} mol e⁻ → ${match[6]} mol ${t(match[7]!)} = ${match[8]} g`;
+  }
+  if ((match = text.match(new RegExp(
+    `^(v\\d+): I = ${decimal} A; t = ${decimal} s; Q = It = ${decimal} C; n\\(e⁻\\) = Q/F = ${decimal} mol; n\\((.+)\\) = n\\(e⁻\\)/${decimal} = ${decimal} mol; m = ${decimal} g — only the ${decimal} is chemistry\\. Inert anode assumed: the water is oxidised there, so the oxygen leaves and the acid stays$`,
+  )))) {
+    return `${match[1]}: I = ${match[2]} A; t = ${match[3]} s; Q = It = ${match[4]} C; n(e⁻) = Q/F = ${match[5]} mol; n(${t(match[6]!)}) = n(e⁻)/${match[7]} = ${match[8]} mol; m = ${match[9]} g — nur die ${match[10]} stammt aus der Chemie. Inerte Anode angenommen: Dort wird Wasser oxidiert; der Sauerstoff entweicht und die Säure bleibt zurück`;
+  }
   if ((match = text.match(/^While you wait, particles in (v\d+) sink toward the bottom\.$/))) {
     return `Während du wartest, sinken Teilchen in ${match[1]} zum Boden.`;
   }

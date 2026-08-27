@@ -151,6 +151,17 @@ export interface IrradiationRun {
   photolysisCoupled: boolean;
 }
 
+export interface ElectrolysisRun {
+  species: string;
+  amps: number;
+  seconds: number;
+  coulombs: number;
+  electronMoles: number;
+  productMoles: number;
+  grams: number;
+  electronsPerIon: number;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -197,6 +208,7 @@ export interface Effect {
   dilution?: DilutionRun;
   sweep?: SweepRun;
   irradiation?: IrradiationRun;
+  electrolysis?: ElectrolysisRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -366,7 +378,22 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         },
       };
     case "electrolysed":
-      return { kind: "electrolyse", at: now, magnitude: electroMag(e) };
+      return {
+        kind: "electrolyse",
+        at: now,
+        magnitude: electroMag(e),
+        durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+        electrolysis: {
+          species: String(e.species ?? ""),
+          amps: Number(e.amps ?? 0),
+          seconds: Number(e.seconds ?? 0),
+          coulombs: Number(e.coulombs ?? 0),
+          electronMoles: Number(e.electrons ?? 0),
+          productMoles: Number(e.moles ?? 0),
+          grams: Number(e.grams ?? 0),
+          electronsPerIon: Number(e.per_ion ?? 0),
+        },
+      };
     case "mixed":
       return {
         kind: "swirl",
