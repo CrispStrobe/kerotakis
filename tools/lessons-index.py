@@ -26,7 +26,7 @@ TOPICS = {
                             "counting-in-fives"],
     "water chemistry": ["hard-water", "limewater", "salt-from-brine"],
     "gases & pressure": ["sealed-gas"],
-    "rates": ["elephant-toothpaste", "rates"],
+    "rates": ["elephant-toothpaste", "yeast-fermentation", "rates"],
     "separations": ["spirit-still", "transport-column"],
     "safety": ["never-mix"],
 }

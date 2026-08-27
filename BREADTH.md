@@ -553,6 +553,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   The absolute rate is an explicit classroom surrogate informed by measurable
   baker's-yeast CO2 experiments—not a strain-growth, oxygen-switching,
   inhibition, flavour, food-safety or brewing model.
+- **Checkpoint 25 implemented:** `yeast-fermentation.lab` turns the pathway
+  into a discoverable three-vessel fair test on the bench's shared clock:
+  sugar-water, yeast-water and sugar-plus-yeast receive equal relevant doses,
+  but only the complete third condition produces computed CO2 and ethanol.
+  The lesson is grouped under `rates`, warns against tasting or tightly sealing
+  a real active fermentation, and suggests dose, culture form and temperature
+  comparisons while preserving the biological-model boundaries.
 
 ## Stage B2 — organic structure and curated reaction families
 

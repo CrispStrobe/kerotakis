@@ -1997,5 +1997,92 @@
         "temperature_k": 298.15
       }
     ]
+  },
+  "yeast-fermentation": {
+    "event_count": 13,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +10.000 g table_sugar (1 known ingredients)",
+      "v1: 0.0292 mol sucrose dissolved",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +1.000 g dry_yeast (1 known ingredients)",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +10.000 g table_sugar (1 known ingredients)",
+      "v3: 0.0292 mol sucrose dissolved",
+      "v3: +1.000 g dry_yeast (1 known ingredients)",
+      "v3: 0.009858 mol CO2 produced (1.643e-5 mol/s)",
+      "v3: yeast fermented 0.002465 mol sucrose in 600 s → 0.009858 mol ethanol + 0.009858 mol CO2 (0.734 g effective yeast)"
+    ],
+    "lesson": "yeast-fermentation.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.02921444,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.0,
+            "phase": "Aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00985824,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.0,
+            "phase": "Aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 0.00985824,
+            "phase": "Aqueous",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.02674988,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53181243,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
   }
 }
