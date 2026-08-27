@@ -1,11 +1,14 @@
 <script lang="ts">
-  import { t } from "../i18n.svelte";
+  import { i18n, t } from "../i18n.svelte";
   import { vesselQuickActions } from "../directActions";
 
   let {
     vessel,
     label,
     boundary,
+    contents = [],
+    volumeMl = 0,
+    temperatureC = 25,
     busy,
     onaction,
     onconfigure,
@@ -16,6 +19,9 @@
     vessel: number;
     label: string;
     boundary: string;
+    contents?: string[];
+    volumeMl?: number;
+    temperatureC?: number;
     busy: boolean;
     onaction: (line: string) => void;
     onconfigure: (verb: string) => void;
@@ -26,6 +32,12 @@
 
   const v = $derived(`v${vessel + 1}`);
   const actions = $derived(vesselQuickActions(vessel, boundary));
+  const contentNames = $derived([...new Set(contents.map((name) => t(name)))]);
+  const contentLabel = $derived(
+    contentNames.length === 0
+      ? t("empty")
+      : `${contentNames.slice(0, 2).join(", ")}${contentNames.length > 2 ? ` +${contentNames.length - 2}` : ""}`,
+  );
   const changeActions = $derived(actions.filter((action) => ["stir", "heat", "cool", "seal", "open"].includes(action.id)));
   const observeActions = $derived(actions.filter((action) => ["look", "temperature", "ph"].includes(action.id)));
 </script>
@@ -33,7 +45,12 @@
 <section class="dock" aria-label={t("quick actions for vessel v{vessel}", { vessel: vessel + 1 })}>
   <div class="selection">
     <span class="selection-dot" aria-hidden="true"></span>
-    <span><small>{t("selected")}</small><strong>{t(label)} · {v}</strong></span>
+    <span class="selection-copy">
+      <small>{t("selected target")}</small>
+      <strong>{t(label)} · {v}</strong>
+      <span class="vitals">{volumeMl.toLocaleString(i18n.locale === "de" ? "de-DE" : "en-GB", { maximumFractionDigits: 1 })} mL · {temperatureC.toLocaleString(i18n.locale === "de" ? "de-DE" : "en-GB", { minimumFractionDigits: 1, maximumFractionDigits: 1 })} °C</span>
+      <span class="contents" title={contentLabel}>{contentLabel}</span>
+    </span>
   </div>
   <div class="actions">
     <div class="action-group">
@@ -91,13 +108,13 @@
     box-shadow: 0 8px 24px var(--shadow);
   }
   .selection {
-    min-width: 8.5rem;
+    min-width: 10.5rem;
     display: flex;
     align-items: center;
     gap: 0.55rem;
     padding: 0 0.45rem;
   }
-  .selection > span:last-child {
+  .selection-copy {
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -116,6 +133,8 @@
     white-space: nowrap;
     font-size: 0.76rem;
   }
+  .vitals { margin-top: 0.14rem; color: var(--instrument); font-size: 0.59rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .contents { max-width: 10rem; overflow: hidden; color: var(--dim); font-size: 0.57rem; text-overflow: ellipsis; white-space: nowrap; }
   .selection-dot {
     width: 10px;
     height: 10px;
@@ -210,7 +229,7 @@
       min-width: 2rem;
       padding: 0.25rem;
     }
-    .selection > span:last-child,
+    .selection-copy,
     .more-actions {
       display: none;
     }

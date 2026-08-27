@@ -264,10 +264,8 @@
           {#if vessel.id === selected}
             <div class="placement-controls" role="group" aria-label={t("move vessel v{vessel}", { vessel: vessel.id + 1 })}>
               <button aria-label={t("move vessel v{vessel} left", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, -0.05, 0)}>←</button>
-              <span class="vertical-controls">
-                <button aria-label={t("move vessel v{vessel} up", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0, -0.06)}>↑</button>
-                <button aria-label={t("move vessel v{vessel} down", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0, 0.06)}>↓</button>
-              </span>
+              <button aria-label={t("move vessel v{vessel} up", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0, -0.06)}>↑</button>
+              <button aria-label={t("move vessel v{vessel} down", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0, 0.06)}>↓</button>
               <button aria-label={t("move vessel v{vessel} right", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0.05, 0)}>→</button>
               {#if onremove}
                 <button class="remove" aria-label={t("remove empty vessel v{vessel}", { vessel: vessel.id + 1 })} title={t("remove empty vessel")} onclick={() => onremove(vessel.id)}>×</button>
@@ -619,31 +617,30 @@
   .placement-controls {
     position: absolute;
     z-index: 8;
-    left: 50%;
-    bottom: -0.75rem;
-    translate: -50% 0;
+    top: -0.65rem;
+    right: -0.55rem;
     display: flex;
     align-items: center;
-    gap: 0.12rem;
-    padding: 0.12rem;
+    gap: 0.1rem;
+    padding: 0.14rem;
     border: 1px solid var(--edge);
     border-radius: 999px;
     background: var(--surface);
     box-shadow: 0 5px 14px var(--shadow);
   }
   .placement-controls button {
-    width: 24px;
-    height: 24px;
+    width: 22px;
+    height: 22px;
     border: 0;
     border-radius: 50%;
     color: white;
     background: var(--primary);
     cursor: pointer;
+    font-size: 0.7rem;
+    line-height: 1;
   }
   .placement-controls button:disabled { opacity: 0.25; cursor: default; }
   .placement-controls .remove { color: var(--bad); background: color-mix(in srgb, var(--bad) 10%, var(--surface)); }
-  .vertical-controls { display: grid; gap: 1px; }
-  .vertical-controls button { width: 20px; height: 13px; font-size: 0.62rem; line-height: 1; }
   .move-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   @media (max-width: 780px) {
     .bench { padding-top: 2.7rem; }
