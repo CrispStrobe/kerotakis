@@ -20,6 +20,19 @@ export function reagentMatches(
     .some((value) => normalizeCatalogText(value).includes(needle));
 }
 
+/** Match an instrument in both its stable command vocabulary and displayed locale. */
+export function equipmentMatches(
+  item: { verb: string; title: string; blurb: string },
+  query: string,
+  localizedTitle: string,
+  localizedBlurb: string,
+): boolean {
+  const needle = normalizeCatalogText(query.trim());
+  if (!needle) return true;
+  return [item.verb, item.title, item.blurb, localizedTitle, localizedBlurb]
+    .some((value) => normalizeCatalogText(value).includes(needle));
+}
+
 /** Match both canonical codex data and everything the current locale displays. */
 export function experimentMatches(
   entry: Pick<CodexEntry, "id" | "equation" | "summary" | "concepts" | "apparatus" | "models" | "registers">,

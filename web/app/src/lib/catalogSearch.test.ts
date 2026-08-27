@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { experimentMatches, normalizeCatalogText, reagentMatches } from "./catalogSearch";
+import { equipmentMatches, experimentMatches, normalizeCatalogText, reagentMatches } from "./catalogSearch";
 
 const water = { key: "water", name: "water", formula: "H2O" };
 
@@ -44,5 +44,33 @@ describe("experimentMatches", () => {
   it("keeps canonical ids and formulae searchable", () => {
     expect(experimentMatches(entry, "peroxide", de)).toBe(true);
     expect(experimentMatches(entry, "H2O2", de)).toBe(true);
+  });
+});
+
+describe("equipmentMatches", () => {
+  const centrifuge = {
+    verb: "centrifuge",
+    title: "mini centrifuge",
+    blurb: "separate particles by spinning a balanced tube",
+  };
+
+  it("matches localized substrings from the card", () => {
+    expect(equipmentMatches(
+      centrifuge,
+      "zentrif",
+      "Mini-Zentrifuge",
+      "Teilchen in einem ausgewuchteten Röhrchen durch Drehen trennen",
+    )).toBe(true);
+    expect(equipmentMatches(
+      centrifuge,
+      "Röhrchen",
+      "Mini-Zentrifuge",
+      "Teilchen in einem ausgewuchteten Röhrchen durch Drehen trennen",
+    )).toBe(true);
+  });
+
+  it("keeps canonical apparatus vocabulary searchable in every locale", () => {
+    expect(equipmentMatches(centrifuge, "centrifuge", "Mini-Zentrifuge", "Trennen")).toBe(true);
+    expect(equipmentMatches(centrifuge, "balanced tube", "Mini-Zentrifuge", "Trennen")).toBe(true);
   });
 });
