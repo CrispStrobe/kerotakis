@@ -126,6 +126,10 @@ export interface GasTestRun {
   notes: string;
 }
 
+export interface WaftRun {
+  notes: { species: string; description: string }[];
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -167,6 +171,7 @@ export interface Effect {
   centrifuge?: CentrifugeRun;
   stir?: StirRun;
   gasTest?: GasTestRun;
+  waft?: WaftRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -522,6 +527,20 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
           notes: String(e.notes ?? ""),
         },
       };
+    case "smelled": {
+      const notes = (Array.isArray(e.notes) ? e.notes : []).flatMap((entry) =>
+        Array.isArray(entry) && entry.length >= 2
+          ? [{ species: String(entry[0]), description: String(entry[1]) }]
+          : [],
+      );
+      return {
+        kind: "waft",
+        at: now,
+        durationMs: 4200,
+        magnitude: Math.max(.2, Math.min(1, notes.length / 3)),
+        waft: { notes },
+      };
+    }
     default:
       return null;
   }

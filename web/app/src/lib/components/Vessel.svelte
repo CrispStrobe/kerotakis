@@ -84,6 +84,7 @@
     return effect?.stir ? effect : undefined;
   });
   const gasTestEffect = $derived(latestEffect("gas_test", 4500));
+  const waftEffect = $derived(latestEffect("waft", 4200));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => (e.kind === "ignite" || e.kind === "flame_test") && n - e.at < 3000 && e.flameColour);
@@ -470,6 +471,33 @@
           <text x="66" y="94">{t(gasTest.positive ? "positive" : "negative")}</text>
         </g>
         <title>{gasTest.notes}</title>
+      </g>
+    {/if}
+    {#if waftEffect?.waft}
+      <g
+        class="waft-rig"
+        aria-label={t("safe waft at vessel v{vessel}: {result}", {
+          vessel: vessel.id + 1,
+          result: waftEffect.waft.notes.length > 0
+            ? waftEffect.waft.notes.map((note) => t(note.species)).join(", ")
+            : t("no odour detected"),
+        })}
+      >
+        <path class="waft-hand" d="M92 11 Q84 6 76 10 L67 17 Q63 20 66 23 Q69 25 73 22 L78 19 Q73 24 77 27 Q80 29 84 25 L91 19" />
+        {#each [0, 1, 2] as current (current)}
+          <path class="waft-current" d={`M ${42 + current * 7} 14 Q ${50 + current * 6} ${7 - current * 2} ${63 + current * 5} ${15 + current * 2}`} style={`--waft-delay:${current * .22}s;--waft-strength:${.45 + waftEffect.magnitude * .55}`} />
+        {/each}
+        <g class="waft-result">
+          <rect x="54" y="31" width="43" height={waftEffect.waft.notes.length > 0 ? 12 + Math.min(2, waftEffect.waft.notes.length) * 6 : 16} rx="5" />
+          <text class="waft-rule" x="75.5" y="38" text-anchor="middle">{t("waft — never smell directly")}</text>
+          {#if waftEffect.waft.notes.length > 0}
+            {#each waftEffect.waft.notes.slice(0, 2) as note, i (note.species)}
+              <text class="waft-note" x="75.5" y={44 + i * 6} text-anchor="middle">{t(note.species)}</text>
+            {/each}
+          {:else}
+            <text class="waft-note" x="75.5" y="46" text-anchor="middle">{t("no odour detected")}</text>
+          {/if}
+        </g>
       </g>
     {/if}
     {#if steaming}
@@ -1557,6 +1585,13 @@
   @keyframes gas-flame { to { transform: scaleX(.78) scaleY(1.12) rotate(2deg); } }
   @keyframes pop-wave { from { opacity: .9; transform: scale(.35); } to { opacity: 0; transform: scale(1.8); } }
   @keyframes lime-cloud { from { opacity: 0; transform: translateY(6px); } to { opacity: .9; transform: translateY(0); } }
+  .waft-hand { fill: color-mix(in srgb, #d79b73 74%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1.1; stroke-linejoin: round; }
+  .waft-current { fill: none; stroke: var(--instrument); stroke-width: 1.4; stroke-linecap: round; stroke-dasharray: 4 3; opacity: 0; animation: safe-waft 1.25s ease-out infinite; animation-delay: var(--waft-delay); }
+  .waft-result rect { fill: color-mix(in srgb, var(--surface) 90%, transparent); stroke: var(--instrument); stroke-width: .6; }
+  .waft-result text { fill: var(--ink); font: 750 4px system-ui, sans-serif; }
+  .waft-result .waft-rule { fill: var(--danger); font-size: 3.5px; font-weight: 850; }
+  .waft-result .waft-note { fill: var(--instrument); }
+  @keyframes safe-waft { 0% { opacity: 0; stroke-dashoffset: 8; } 25% { opacity: var(--waft-strength); } 100% { opacity: 0; stroke-dashoffset: -8; } }
   @media (prefers-reduced-motion: reduce) {
     .instrument {
       animation: none;
@@ -1570,6 +1605,7 @@
     .geiger-led, .geiger-pulse { animation: none; }
     .test-flame { animation: none; }
     .test-flame-small, .relit-flame, .pop-wave, .lime-particle { animation: none; }
+    .waft-current { animation: none; opacity: .55; }
     .glassbtn.pouring { animation: none; }
     .burette-fill {
       transition: none;

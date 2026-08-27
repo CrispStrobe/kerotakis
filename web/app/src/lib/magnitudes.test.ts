@@ -149,6 +149,21 @@ describe("effectFromEvent", () => {
     });
   });
 
+  it("retains curated headspace observations for a safe physical waft", () => {
+    const effect = effectFromEvent({
+      event: "smelled", vessel: 0,
+      notes: [["NH3", "sharp, pungent"], ["CH3COOH", "vinegar-like"]],
+    });
+    expect(effect).toMatchObject({
+      kind: "waft", durationMs: 4200,
+      waft: { notes: [
+        { species: "NH3", description: "sharp, pungent" },
+        { species: "CH3COOH", description: "vinegar-like" },
+      ] },
+    });
+    expect(effect!.magnitude).toBeGreaterThan(.2);
+  });
+
   it("maps dissolved → dissolve with magnitude 1", () => {
     const e = effectFromEvent({ event: "dissolved", vessel: 0 });
     expect(e!.kind).toBe("dissolve");
