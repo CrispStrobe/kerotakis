@@ -743,6 +743,8 @@ const DE: Record<string, string> = {
   ,"place instrument here": "Instrument hier abstellen"
   ,"balance reading: {value} g": "Waagenmessung: {value} g"
   ,"pressure gauge reading: {value} kPa": "Manometermessung: {value} kPa"
+  ,"gas volume meter reading: {value} mL": "Gasvolumenmessung: {value} mL"
+  ,"modeled conductivity estimate: {value} µS/cm": "Modellierte Leitfähigkeitsschätzung: {value} µS/cm"
   ,"mortar on the bench": "Mörser auf dem Labortisch"
   ,"mortar and pestle": "Mörser und Pistill"
   ,"change vessel": "Gefäß verändern"
