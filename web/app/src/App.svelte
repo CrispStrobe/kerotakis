@@ -46,6 +46,7 @@
     BENCH_LAYOUT_KEY,
     EMPTY_BENCH_LAYOUT,
     parseBenchLayout,
+    placeNewVessel,
     type BenchLayout,
   } from "./lib/benchLayout";
   import {
@@ -116,6 +117,29 @@
   })());
   let contaminatedSampleBriefed = $state(modeStorage?.getItem(CONTAMINATED_SAMPLE_BRIEFED_KEY) === "yes");
   const modeLayoutKey = `${BENCH_LAYOUT_KEY}.${labMode}`;
+  function saveBenchLayout(next: BenchLayout) {
+    benchLayout = next;
+    try {
+      localStorage.setItem(modeLayoutKey, JSON.stringify(next));
+    } catch {
+      // Placement still works for this visit when storage is unavailable.
+    }
+  }
+
+  async function addVessel(kind: string) {
+    const before = session.scene?.vessels.map((vessel) => vessel.id) ?? [];
+    const accepted = await session.submit(kind === "beaker" ? "new" : `new ${kind}`);
+    if (!accepted) return;
+    const created = session.scene?.vessels.find((vessel) => !before.includes(vessel.id));
+    if (!created) return;
+    saveBenchLayout(placeNewVessel(
+      benchLayout,
+      created.id,
+      session.scene?.vessels.map((vessel) => vessel.id) ?? [created.id],
+      Object.values(benchLayout.apparatus),
+    ));
+    session.selected = created.id;
+  }
   $effect(() => {
     if (typeof document !== "undefined") document.documentElement.dataset.theme = theme;
   });
@@ -691,7 +715,7 @@
       pristine={session.commandLog.length === 0 && !session.lesson && !apparatusOut && !buretteOut}
       effects={session.vesselEffects}
       titrationPlayback={session.titrationPlayback}
-      onnewvessel={(kind) => void session.submit(kind === "beaker" ? "new" : `new ${kind}`)}
+      onnewvessel={(kind) => void addVessel(kind)}
       onbadge={(vessel, reading) => (inset = { vessel, reading })}
       fluidLookup={(key) => {
         const item = session.shelf.find((s) => s.key === key);
@@ -734,14 +758,7 @@
         }
       }}
       onremove={(vessel) => (removeRequest = vessel)}
-      onmove={(next) => {
-        benchLayout = next;
-        try {
-          localStorage.setItem(modeLayoutKey, JSON.stringify(next));
-        } catch {
-          // Placement still works for this visit when storage is unavailable.
-        }
-      }}
+      onmove={saveBenchLayout}
       ondropspecies={(id, p) =>
         void session.submit(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,

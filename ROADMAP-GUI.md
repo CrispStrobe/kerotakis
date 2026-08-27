@@ -818,6 +818,10 @@ hide them completely.
   freestanding-instrument destinations are checked before commit. Occupied
   destinations preview in red, explain the conflict through the live region,
   and preserve the previous arrangement for pointer, touch, and keyboard moves.*
+  *Free-slot slice shipped 2026-08-27: engine-confirmed new glassware now
+  selects itself and occupies the first stable open footprint, accounting for
+  persisted instrument stations. Manually occupied legacy defaults no longer
+  cause newly created vessels to appear inside existing objects.*
 - [ ] **GUI-074 — Direct manipulation pass.** Implement contextual object
   selection and the highest-frequency physical gestures: place/remove, pour,
   dose, stir, heat/cool, seal/open, connect, insert/read probe, and start/stop.
