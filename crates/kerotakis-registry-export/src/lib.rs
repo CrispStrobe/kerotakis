@@ -117,6 +117,68 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         evidence: evidence(),
     }
     };
+    let pigment_bands = |peaks: &[(f64, f64, f64)]| {
+        BAND_NM
+            .iter()
+            .map(|wavelength| {
+                peaks
+                    .iter()
+                    .map(|(centre, strength, width)| {
+                        let offset = (wavelength - centre) / width;
+                        strength * (-0.5 * offset * offset).exp()
+                    })
+                    .sum()
+            })
+            .collect::<Vec<f64>>()
+    };
+    let acrylic_colour = |id: &str,
+                          canonical_key: &str,
+                          name: &str,
+                          absorption: Vec<f64>,
+                          scattering: f64,
+                          de_aliases: &[&str],
+                          en_aliases: &[&str]| {
+        MaterialRecipe {
+            id: id.to_string(),
+            version: 1,
+            canonical_key: canonical_key.to_string(),
+            name: name.to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    de_aliases.iter().map(|alias| (*alias).to_string()).collect(),
+                ),
+                (
+                    "en".to_string(),
+                    en_aliases.iter().map(|alias| (*alias).to_string()).collect(),
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.1)),
+            components: vec![component("water", 0.45)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.55,
+                upper: 0.55,
+            }),
+            physical_form: MaterialPhysicalForm::Suspension,
+            roles: vec![MaterialRole::OpaquePigment {
+                absorption,
+                scattering: vec![scattering; BAND_NM.len()],
+            }],
+            preparation: Some(
+                "waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "effective K/S coefficients describe this teaching color only; they do not match a brand, named artist pigment, gloss or drying film".to_string(),
+                "the layer is treated as optically thick, so the substrate does not affect the computed swatch".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        }
+    };
     document.material_recipes.extend([
         MaterialRecipe {
             id: "household/hydrogen-peroxide-3-percent".to_string(),
@@ -442,6 +504,51 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             "wash",
             &["blaue Wasserfarbe", "Wasserfarbe_blau"],
             &["blue watercolour", "watercolor_blue", "blue_watercolor", "blue_watercolour"],
+        ),
+        acrylic_colour(
+            "school/acrylic-red-surrogate",
+            "acrylic_red",
+            "red acrylic paint",
+            pigment_bands(&[(470.0, 3.5, 65.0), (545.0, 2.0, 45.0)]),
+            1.0,
+            &["rote Acrylfarbe", "Acrylfarbe_rot"],
+            &["red acrylic", "red_acrylic", "acrylic_paint_red"],
+        ),
+        acrylic_colour(
+            "school/acrylic-yellow-surrogate",
+            "acrylic_yellow",
+            "yellow acrylic paint",
+            pigment_bands(&[(440.0, 4.0, 45.0)]),
+            1.0,
+            &["gelbe Acrylfarbe", "Acrylfarbe_gelb"],
+            &["yellow acrylic", "yellow_acrylic", "acrylic_paint_yellow"],
+        ),
+        acrylic_colour(
+            "school/acrylic-blue-surrogate",
+            "acrylic_blue",
+            "blue acrylic paint",
+            pigment_bands(&[(650.0, 4.0, 65.0)]),
+            1.0,
+            &["blaue Acrylfarbe", "Acrylfarbe_blau"],
+            &["blue acrylic", "blue_acrylic", "acrylic_paint_blue"],
+        ),
+        acrylic_colour(
+            "school/acrylic-white-surrogate",
+            "acrylic_white",
+            "white acrylic paint",
+            vec![0.0; BAND_NM.len()],
+            4.0,
+            &["weiße Acrylfarbe", "weisse Acrylfarbe", "Acrylfarbe_weiss"],
+            &["white acrylic", "white_acrylic", "acrylic_paint_white"],
+        ),
+        acrylic_colour(
+            "school/acrylic-black-surrogate",
+            "acrylic_black",
+            "black acrylic paint",
+            vec![8.0; BAND_NM.len()],
+            0.2,
+            &["schwarze Acrylfarbe", "Acrylfarbe_schwarz"],
+            &["black acrylic", "black_acrylic", "acrylic_paint_black"],
         ),
     ]);
 }

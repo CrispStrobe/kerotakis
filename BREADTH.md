@@ -799,6 +799,14 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   path length and arbitrary-ratio mixing remain Beer–Lambert/CIE calculations.
   Generic “Wasserfarbe/watercolor” stays unclaimed, and these transparent
   washes are not presented as opaque commercial pigment pans.
+- **Acrylic-material checkpoint 1 implemented:** named red, yellow, blue,
+  white and black waterborne acrylic teaching surrogates carry effective
+  16-band absorption/scattering roles. Shelf swatches and arbitrary-ratio
+  vessel mixtures run through the shared Kubelka–Munk/CIE core; white lightens,
+  blue+yellow mixes subtractively, order does not matter and acrylic is visibly
+  opaque. Water, pigment and binder fractions remain explicitly surrogate or
+  unresolved, generic “Acrylfarbe/acrylic paint” stays ambiguous, and no result
+  claims a brand, artist pigment, wet-film gloss or dried-film match.
 
 ### BRD-076 — Movable Bunsen burner and guided heat interactions
 

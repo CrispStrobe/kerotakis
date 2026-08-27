@@ -463,6 +463,40 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::OpaquePigment {
+                        absorption,
+                        scattering,
+                    } => {
+                        const EXPECTED_BANDS: usize = 16;
+                        if absorption.len() != EXPECTED_BANDS {
+                            self.issue(
+                                format!("{role_path}.absorption"),
+                                format!("must contain exactly {EXPECTED_BANDS} visible bands"),
+                            );
+                        }
+                        if scattering.len() != EXPECTED_BANDS {
+                            self.issue(
+                                format!("{role_path}.scattering"),
+                                format!("must contain exactly {EXPECTED_BANDS} visible bands"),
+                            );
+                        }
+                        for (band, value) in absorption.iter().enumerate() {
+                            if !value.is_finite() || *value < 0.0 {
+                                self.issue(
+                                    format!("{role_path}.absorption[{band}]"),
+                                    "must be finite and non-negative",
+                                );
+                            }
+                        }
+                        for (band, value) in scattering.iter().enumerate() {
+                            if !value.is_finite() || *value <= 0.0 {
+                                self.issue(
+                                    format!("{role_path}.scattering[{band}]"),
+                                    "must be finite and positive",
+                                );
+                            }
+                        }
+                    }
                 }
             }
             let mut component_species = HashSet::new();
