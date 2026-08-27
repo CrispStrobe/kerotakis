@@ -983,6 +983,13 @@ hide them completely.
   size/density and medium viscosity. Reduced-motion changes presentation, not
   elapsed process or results. No canned loop may imply an effect the solver did
   not produce.
+  *Assembly-graph slice in progress 2026-08-28:* every parameterized
+  workstation now exposes a compact physical setup alongside its controls:
+  drive/plate/bath to sample, balanced tube–rotor–tube, supply–lead–electrode,
+  lamp, sealed piston, and complete carrier-gas routes. The shared typed graph
+  marks missing solid samples and unsafe counterbalances without inventing a
+  chemical result. Direct manipulation of individual clamps, hoses and ports
+  remains.*
   *Initial placement correction 2026-08-27: grinding renders a standalone
   mortar and pestle beside its target vessel, with work-state motion, rather
   than drawing a mortar inside the vessel. The general assembly/footprint

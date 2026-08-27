@@ -3,6 +3,7 @@
   import type { ApparatusSpec } from "../apparatus";
   import type { ShelfItem } from "../session.svelte";
   import { i18n, t } from "../i18n.svelte";
+  import ApparatusAssembly from "./ApparatusAssembly.svelte";
 
   let {
     spec,
@@ -56,6 +57,7 @@
     <button class="icon-close" aria-label={t("put away")} title={t("put away")} onclick={onclose}>×</button>
   </div>
   <p class="blurb">{t(spec.blurb)}</p>
+  <ApparatusAssembly tool={spec.verb} {values} />
   <div class="fields">
     {#each spec.fields as f (f.name)}
       <label>
@@ -120,7 +122,7 @@
     overflow: auto;
     flex: none;
     display: grid;
-    grid-template-columns: minmax(10.5rem, 0.7fr) minmax(0, 2.3fr);
+    grid-template-columns: minmax(10.5rem, 0.7fr) minmax(12rem, 1fr) minmax(0, 2.3fr);
     grid-template-rows: auto 1fr;
     column-gap: 0.9rem;
     margin: 0.55rem 0.65rem 0.65rem;
@@ -146,7 +148,7 @@
     line-height: 1.3;
   }
   .fields {
-    grid-column: 2;
+    grid-column: 3;
     grid-row: 1 / span 2;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
