@@ -910,6 +910,10 @@ hide them completely.
   tip beside its target. A visible route identifies the receiving vessel;
   during titration the column level follows delivered/total engine playback
   and the drop moves only while the operation runs.*
+  *Measurement-probe slice shipped 2026-08-27: temperature and pH actions now
+  lower distinct physical probes into the selected sample and show the
+  engine-backed reading on a localized digital meter. The probes remain
+  transient measurement tools rather than permanent decorations.*
   *Magnetic-stirrer slice in progress 2026-08-27: the equipment wall exposes
   RPM and duration, the public grammar carries both, and the engine computes
   25 mm stir-bar tip speed. The bench draws the plate, rotating bar, and

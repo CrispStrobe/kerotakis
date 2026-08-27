@@ -4,7 +4,7 @@
   import FluidOverlay from "./FluidOverlay.svelte";
   import type { FluidSpecies } from "../fluidScene";
   import type { Effect } from "../magnitudes";
-  import { t } from "../i18n.svelte";
+  import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
   import { APPARATUS } from "../apparatus";
 
@@ -152,6 +152,17 @@
     return 0.16 + 0.78 * tint;
   };
   const tempC = $derived(vessel.temperature_k - 273.15);
+  const phReading = $derived(
+    vessel.badges.reduce<number | undefined>(
+      (value, badge) => (badge.key === "ph" ? badge.value : value),
+      undefined,
+    ),
+  );
+  const formatReading = (value: number, digits: number) =>
+    value.toLocaleString(i18n.locale === "de" ? "de-DE" : "en-GB", {
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits,
+    });
   const sealed = $derived(vessel.boundary !== "open");
   // State-driven effects, straight from the computed temperature.
   const burning = $derived(vessel.temperature_k > 600 || active("ignite", 3000));
@@ -503,7 +514,12 @@
     {/if}
     {#if active("thermometer", 2500)}
       {@const tipY = BOTTOM_Y - Math.max(liquidH * 0.5, 10)}
-      <g class="instrument thermometer-inst" aria-label={t("thermometer")}>
+      {@const reading = formatReading(tempC, 1)}
+      <g class="instrument thermometer-inst" aria-label={t("temperature probe: {value} °C", { value: reading })}>
+        <rect class="meter-body thermometer-meter" x="14" y="2" width="25" height="19" rx="4" />
+        <rect class="meter-screen" x="17" y="6" width="19" height="8" rx="1.5" />
+        <text class="meter-value" x="26.5" y="12" text-anchor="middle">{reading}</text>
+        <text class="meter-unit" x="26.5" y="18" text-anchor="middle">°C</text>
         <rect class="therm-stem" x="32" y="4" width="2" height={tipY - 4} rx="0.8" />
         <ellipse class="therm-bulb" cx="33" cy={tipY} rx="2.8" ry="3.2" />
         <rect class="therm-mercury" x="32.3" y={Math.max(tipY - 18, 10)} width="1.4" height={Math.min(18, tipY - 10)} rx="0.5" />
@@ -511,10 +527,15 @@
     {/if}
     {#if active("ph_probe", 2500)}
       {@const tipY = BOTTOM_Y - Math.max(liquidH * 0.5, 10)}
-      <g class="instrument ph-inst" aria-label={t("pH probe")}>
+      {@const reading = phReading === undefined ? "—" : formatReading(phReading, 2)}
+      <g class="instrument ph-inst" aria-label={t("pH probe: {value}", { value: reading })}>
+        <rect class="meter-body ph-meter" x="68" y="2" width="28" height="19" rx="4" />
+        <rect class="meter-screen" x="71" y="6" width="22" height="8" rx="1.5" />
+        <text class="meter-value" x="82" y="12" text-anchor="middle">{reading}</text>
+        <text class="meter-unit" x="82" y="18" text-anchor="middle">pH</text>
         <rect class="probe-stem" x="64" y="4" width="2" height={tipY - 4} rx="0.8" />
         <ellipse class="probe-tip" cx="65" cy={tipY} rx="2.2" ry="3.6" />
-        <line class="probe-wire" x1="65" y1="4" x2="72" y2="-2" />
+        <path class="probe-wire" d="M65 4 C65 -1 72 -1 75 3" />
       </g>
     {/if}
 
@@ -1063,9 +1084,32 @@
     stroke-width: 0.6;
   }
   .probe-wire {
+    fill: none;
     stroke: var(--dim);
     stroke-width: 0.8;
   }
+  .meter-body {
+    fill: color-mix(in srgb, var(--instrument) 34%, var(--surface));
+    stroke: var(--edge-strong);
+    stroke-width: 0.8;
+    filter: drop-shadow(0 1px 1px var(--shadow));
+  }
+  .thermometer-meter { fill: color-mix(in srgb, var(--hot) 20%, var(--surface)); }
+  .ph-meter { fill: color-mix(in srgb, var(--discovery) 22%, var(--surface)); }
+  .meter-screen {
+    fill: color-mix(in srgb, var(--success) 18%, var(--ink));
+    stroke: var(--edge-strong);
+    stroke-width: 0.45;
+  }
+  .meter-value,
+  .meter-unit {
+    fill: var(--surface);
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-weight: 800;
+    pointer-events: none;
+  }
+  .meter-value { font-size: 4.5px; }
+  .meter-unit { fill: var(--ink); font-size: 3.5px; }
   @media (prefers-reduced-motion: reduce) {
     .instrument {
       animation: none;
