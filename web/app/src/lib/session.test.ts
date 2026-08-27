@@ -426,6 +426,7 @@ describe("Session", () => {
             { event: "measured", vessel: 0, instrument: "thermometer", value: 25.0, unit: "°C" },
             { event: "measured", vessel: 1, instrument: "ph_meter", value: 4.2, unit: "pH" },
             { event: "measured", vessel: 0, instrument: "balance", value: 12.3, unit: "g" },
+            { event: "measured", vessel: 1, instrument: "pressure_gauge", value: 152.4, unit: "kPa" },
           ],
           rendered: [],
         },
@@ -437,8 +438,9 @@ describe("Session", () => {
     expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["thermometer", "balance"]);
     expect(s.vesselEffects[0]?.[0]).toMatchObject({ reading: 25, unit: "°C" });
     expect(s.vesselEffects[0]?.[1]).toMatchObject({ reading: 12.3, unit: "g" });
-    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["ph_probe"]);
+    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["ph_probe", "pressure_gauge"]);
     expect(s.vesselEffects[1]?.[0]).toMatchObject({ reading: 4.2, unit: "pH" });
+    expect(s.vesselEffects[1]?.[1]).toMatchObject({ reading: 152.4, unit: "kPa" });
   });
 
   it("a titrated event starts the paced playback (GUI-064)", async () => {

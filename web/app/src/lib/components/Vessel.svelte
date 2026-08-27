@@ -69,6 +69,7 @@
   const thermometerEffect = $derived(latestEffect("thermometer", 2500));
   const phProbeEffect = $derived(latestEffect("ph_probe", 2500));
   const balanceEffect = $derived(latestEffect("balance", 2500));
+  const pressureEffect = $derived(latestEffect("pressure_gauge", 2500));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => e.kind === "ignite" && n - e.at < 3000 && e.flameColour);
@@ -556,6 +557,25 @@
         <text class="balance-value" x="67" y="136.4" text-anchor="middle">{reading} g</text>
         <circle class="balance-key" cx="22" cy="135" r="1.5" />
         <circle class="balance-key" cx="27" cy="135" r="1.5" />
+      </g>
+    {/if}
+    {#if pressureEffect}
+      {@const pressure = pressureEffect.reading ?? vessel.pressure_pa / 1000}
+      {@const reading = formatReading(pressure, 1)}
+      {@const needleAngle = -120 + Math.min(1, Math.max(0, pressure / 500)) * 240}
+      <g class="instrument pressure-inst" aria-label={t("pressure gauge reading: {value} kPa", { value: reading })}>
+        <path class="gauge-hose" d="M68 31 C61 35 60 42 57 49" />
+        <circle class="gauge-case" cx="79" cy="20" r="15" />
+        <path class="gauge-safe" d="M68.5 27.5 A13 13 0 1 1 89.5 27.5" />
+        <path class="gauge-warning" d="M89.5 27.5 A13 13 0 0 0 92 19" />
+        {#each [-120, -80, -40, 0, 40, 80, 120] as angle (angle)}
+          <line class="gauge-tick" x1="79" y1="7.5" x2="79" y2="10" transform={`rotate(${angle} 79 20)`} />
+        {/each}
+        <line class="gauge-needle" x1="79" y1="20" x2="79" y2="10" transform={`rotate(${needleAngle} 79 20)`} />
+        <circle class="gauge-pin" cx="79" cy="20" r="2" />
+        <rect class="gauge-readout" x="68" y="24" width="22" height="6" rx="1.5" />
+        <text class="gauge-value" x="79" y="28.4" text-anchor="middle">{reading}</text>
+        <text class="gauge-unit" x="79" y="34" text-anchor="middle">kPa</text>
       </g>
     {/if}
 
@@ -1138,12 +1158,25 @@
   .balance-value { fill: var(--surface); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 3.1px; font-weight: 850; }
   .balance-key { fill: var(--primary); }
   @keyframes balance-settle { 0% { transform: translateY(3px) scaleY(.96); } 55% { transform: translateY(-1px) scaleY(1.01); } 100% { transform: none; } }
+  .pressure-inst { transform-origin: 79px 20px; }
+  .gauge-hose { fill: none; stroke: var(--edge-strong); stroke-width: 2; stroke-linecap: round; }
+  .gauge-case { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 2; filter: drop-shadow(0 1px 1px var(--shadow)); }
+  .gauge-safe, .gauge-warning { fill: none; stroke-width: 2.2; stroke-linecap: round; }
+  .gauge-safe { stroke: var(--success); }
+  .gauge-warning { stroke: var(--bad); }
+  .gauge-tick { stroke: var(--dim); stroke-width: .7; }
+  .gauge-needle { stroke: var(--hot); stroke-width: 1.5; stroke-linecap: round; transition: transform .45s cubic-bezier(.2,.8,.2,1); }
+  .gauge-pin { fill: var(--hot); stroke: var(--surface); stroke-width: .7; }
+  .gauge-readout { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); }
+  .gauge-value { fill: var(--surface); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 3.8px; font-weight: 850; }
+  .gauge-unit { fill: var(--ink); font-size: 3px; font-weight: 800; }
   @media (prefers-reduced-motion: reduce) {
     .instrument {
       animation: none;
       opacity: 1;
     }
     .balance-inst { animation: none; }
+    .gauge-needle { transition: none; }
     .burette-fill {
       transition: none;
     }

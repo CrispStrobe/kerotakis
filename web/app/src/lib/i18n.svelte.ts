@@ -742,6 +742,7 @@ const DE: Record<string, string> = {
   ,"space occupied": "Platz belegt"
   ,"place instrument here": "Instrument hier abstellen"
   ,"balance reading: {value} g": "Waagenmessung: {value} g"
+  ,"pressure gauge reading: {value} kPa": "Manometermessung: {value} kPa"
   ,"mortar on the bench": "Mörser auf dem Labortisch"
   ,"mortar and pestle": "Mörser und Pistill"
   ,"change vessel": "Gefäß verändern"
