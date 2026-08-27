@@ -466,6 +466,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   carries staining/adult-supervision guidance, and names the current droplet,
   emulsion, detergent and lava-lamp boundaries instead of implying animation
   support that the engine has not computed.
+- **Checkpoint 16 implemented:** dish soap now has a bounded aqueous-emulsifier
+  role activated by the real timed magnetic-stir operator. Surfactant dose and
+  delivered stir travel compute a finite dispersed vegetable-oil volume; scene
+  JSON reallocates it from the upper oil layer into a cloudy aqueous emulsion,
+  while retaining any undispersed oil above. Persistent emulsion state then
+  coalesces during `wait` with a declared five-minute teaching half-life and
+  emits events as the oil layer returns. A no-detergent stirred control remains
+  separated. This is explicitly not a CMC, droplet-size, viscosity, brand,
+  transient hand-shake, or CFD model.
 
 ## Stage B2 — organic structure and curated reaction families
 

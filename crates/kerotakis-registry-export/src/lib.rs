@@ -95,7 +95,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
-        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, and teaches that vegetable oil is less dense than water and does not dissolve in it; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids".to_string(),
+        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, and demonstrates that detergent helps oil and water mix; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids".to_string(),
         licence: "AGPL-3.0-or-later".to_string(),
         lane: SourceLane::Runtime,
         origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
@@ -606,6 +606,11 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     saturation_amount: 0.10,
                     max_cleared_fraction: 0.90,
                 },
+                MaterialRole::AqueousEmulsifier {
+                    saturation_amount: 0.10,
+                    max_dispersed_fraction: 0.92,
+                    half_life_seconds: 300.0,
+                },
             ],
             preparation: Some(
                 "unbranded aqueous dish-soap teaching surrogate; surfactant blend unresolved"
@@ -613,6 +618,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             ),
             lot_assumptions: vec![
                 "brand-specific surfactants, salts, fragrance, dye and preservatives remain in the explicit unresolved fraction".to_string(),
+                "emulsification parameters are a bounded stirred classroom observable, not a universal detergent specification".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

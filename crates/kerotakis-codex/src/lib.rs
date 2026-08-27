@@ -966,6 +966,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::ThermalEquilibrium { .. } => ("thermal_equilibrium", None),
         E::TemperatureChanged { .. } => ("temperature_changed", None),
         E::Stirred { .. } => ("stirred", None),
+        E::EmulsionChanged { .. } => ("emulsion_changed", None),
         E::Ground { species, .. } => ("ground", Some(species.0.as_str())),
         E::Centrifuged { .. } => ("centrifuged", None),
         E::GravitySettled { .. } => ("gravity_settled", None),

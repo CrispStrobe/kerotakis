@@ -360,6 +360,35 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 if *rate_coupled { "active" } else { "not yet modelled" }
             ),
         },
+        Event::EmulsionChanged {
+            vessel,
+            material,
+            from_dispersed_fraction,
+            to_dispersed_fraction,
+            dispersed_volume_l,
+            half_life_seconds,
+        } => match register.level() {
+            1 if to_dispersed_fraction > from_dispersed_fraction => format!(
+                "Tiny {material} droplets spread through the water in {vessel}, making it cloudy."
+            ),
+            1 => format!(
+                "The droplets in {vessel} join back together, and the {material} layer starts returning."
+            ),
+            2 => format!(
+                "{vessel}: {material} dispersed {:.0}% → {:.0}% ({:.1} mL; {:.0} s coalescence half-life)",
+                from_dispersed_fraction * 100.0,
+                to_dispersed_fraction * 100.0,
+                dispersed_volume_l * 1000.0,
+                half_life_seconds,
+            ),
+            _ => format!(
+                "{vessel}: bounded recipe-level emulsion {:.6} → {:.6}; dispersed {:.9} L; half-life {:.3} s — no CMC, droplet distribution or CFD claim",
+                from_dispersed_fraction,
+                to_dispersed_fraction,
+                dispersed_volume_l,
+                half_life_seconds,
+            ),
+        },
         Event::Ground {
             vessel,
             species: sid,

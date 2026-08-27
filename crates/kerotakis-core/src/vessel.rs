@@ -50,6 +50,16 @@ pub struct SurfaceParticleState {
     pub cleared_fraction: f64,
 }
 
+/// Persistent amount of an unresolved oil layer dispersed as droplets in an
+/// aqueous phase. The bulk oil remains in `unresolved_materials`; this state
+/// only records its temporary geometry.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct EmulsionState {
+    pub oil_recipe_id: String,
+    pub dispersed_volume_l: f64,
+    pub half_life_seconds: f64,
+}
+
 /// How the vessel exchanges heat with the surroundings between operators.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -662,6 +672,8 @@ pub struct Vessel {
     pub foam: FoamState,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub surface_particles: Option<SurfaceParticleState>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub emulsion: Option<EmulsionState>,
     pub temperature: Kelvin,
     pub pressure: Pascal,
     pub thermal_mode: ThermalMode,
@@ -717,6 +729,7 @@ impl Vessel {
             unresolved_materials: Vec::new(),
             foam: FoamState::default(),
             surface_particles: None,
+            emulsion: None,
             temperature: Kelvin::STANDARD,
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,

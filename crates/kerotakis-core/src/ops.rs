@@ -393,6 +393,16 @@ pub enum Event {
         /// Timed stirring advances the vessel clock independently of this.
         rate_coupled: bool,
     },
+    /// A stirred, recipe-declared surfactant changed how much unresolved oil
+    /// is temporarily dispersed through the aqueous phase.
+    EmulsionChanged {
+        vessel: VesselId,
+        material: String,
+        from_dispersed_fraction: f64,
+        to_dispersed_fraction: f64,
+        dispersed_volume_l: f64,
+        half_life_seconds: f64,
+    },
     /// A mortar changed the mean diameter of a solid powder. Surface area
     /// assumes equal spherical particles: A = 6V/d, using registry density.
     Ground {

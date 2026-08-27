@@ -168,6 +168,14 @@ pub enum MaterialRole {
         srgb: [u8; 3],
         colour_word: String,
     },
+    /// Bounded recipe-level surfactant behavior under mechanical stirring.
+    /// The parameters describe a teaching observable, not a molecular CMC,
+    /// droplet-size distribution, or universal detergent formulation.
+    AqueousEmulsifier {
+        saturation_amount: f64,
+        max_dispersed_fraction: f64,
+        half_life_seconds: f64,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

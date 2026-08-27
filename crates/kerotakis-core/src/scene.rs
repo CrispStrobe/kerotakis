@@ -65,6 +65,9 @@ pub struct SceneVessel {
     /// computed central clearing made by a recipe-declared surfactant.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub surface_particles: Option<SceneSurfaceParticles>,
+    /// Temporary oil-in-water dispersion produced by a computed stir action.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub emulsion: Option<SceneEmulsion>,
     /// The gas boundary, serialized with its existing `boundary` tag:
     /// open, sealed, pressure_controlled, or swept.
     #[serde(flatten)]
@@ -105,6 +108,14 @@ pub struct SceneSurfaceParticles {
     pub material: String,
     pub coverage_fraction: f64,
     pub cleared_fraction: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneEmulsion {
+    pub material: String,
+    pub dispersed_volume_l: f64,
+    pub dispersed_fraction: f64,
+    pub half_life_seconds: f64,
 }
 
 fn default_foam_srgb() -> [u8; 3] {
@@ -198,10 +209,11 @@ pub fn scene_of(vessels: &[Vessel]) -> Scene {
 pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let seen = appearance::observe(v);
     let material_layers = crate::material::immiscible_liquid_layers(v);
+    let emulsion_observation = crate::emulsion::observe(v);
     let material_volume_l: f64 = material_layers.iter().map(|layer| layer.volume_l).sum();
     let resolved_volume_l = v.liquid_volume().0;
 
-    let liquid = seen
+    let mut liquid = seen
         .liquid
         .as_ref()
         .map(|c| SceneLiquid {
@@ -220,6 +232,9 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 path_length_cm: crate::vessel::path_cm_for(&v.label),
             })
         });
+    if let (Some(liquid), Some(emulsion)) = (&mut liquid, &emulsion_observation) {
+        liquid.cloudiness = liquid.cloudiness.max(0.78 * emulsion.dispersed_fraction);
+    }
 
     // Layers (GUI-058): the engine's computed phase split, made drawable.
     let mut layers = match (&liquid, crate::solve::layered_pair(v)) {
@@ -276,6 +291,27 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         srgb: layer.srgb,
         colour_word: layer.colour_word.clone(),
     }));
+    if let Some(emulsion) = &emulsion_observation {
+        if let Some(oil_layer) = layers.iter_mut().find(|layer| {
+            layer.species
+                == material_layers
+                    .iter()
+                    .find(|material| material.recipe_id == emulsion.oil_recipe_id)
+                    .map(|material| material.key.as_str())
+                    .unwrap_or("")
+        }) {
+            oil_layer.volume_l = (oil_layer.volume_l - emulsion.dispersed_volume_l).max(0.0);
+        }
+        if let Some(aqueous_layer) = layers.first_mut() {
+            if !material_layers
+                .iter()
+                .any(|material| material.key == aqueous_layer.species)
+            {
+                aqueous_layer.volume_l += emulsion.dispersed_volume_l;
+            }
+        }
+        layers.retain(|layer| layer.volume_l > 1e-9);
+    }
 
     // Aggregate solids per species, keeping first-seen order, then sort by
     // amount so the biggest deposit paints first.
@@ -361,7 +397,13 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     }
 
     let mut words = seen.words;
-    if let Some(layer) = material_layers.first() {
+    if let Some(emulsion) = &emulsion_observation {
+        words.push_str(&format!(
+            " Stirring has dispersed {:.0}% of the {} as cloudy droplets; the rest remains above the water.",
+            emulsion.dispersed_fraction * 100.0,
+            emulsion.material,
+        ));
+    } else if let Some(layer) = material_layers.first() {
         if resolved_volume_l > 0.0 {
             words.push_str(&format!(
                 " {} forms a separate {} layer above the water.",
@@ -395,6 +437,12 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 coverage_fraction: particles.coverage_fraction,
                 cleared_fraction: particles.cleared_fraction,
             }),
+        emulsion: emulsion_observation.map(|emulsion| SceneEmulsion {
+            material: emulsion.material,
+            dispersed_volume_l: emulsion.dispersed_volume_l,
+            dispersed_fraction: emulsion.dispersed_fraction,
+            half_life_seconds: emulsion.half_life_seconds,
+        }),
         headspace: v.headspace,
         temperature_k: v.temperature.0,
         pressure_pa: v.pressure.0,

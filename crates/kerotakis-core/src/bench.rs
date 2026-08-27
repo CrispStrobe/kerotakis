@@ -684,6 +684,21 @@ impl Bench {
                     },
                     &mut events,
                 )?;
+                let before = crate::emulsion::observe(vessel)
+                    .map(|observation| observation.dispersed_fraction)
+                    .unwrap_or(0.0);
+                if let Some(emulsion) = crate::emulsion::after_stir(vessel, resuspended_fraction) {
+                    if emulsion.dispersed_fraction > before + 1e-9 {
+                        events.push(Event::EmulsionChanged {
+                            vessel: vessel.id,
+                            material: emulsion.material,
+                            from_dispersed_fraction: before,
+                            to_dispersed_fraction: emulsion.dispersed_fraction,
+                            dispersed_volume_l: emulsion.dispersed_volume_l,
+                            half_life_seconds: emulsion.half_life_seconds,
+                        });
+                    }
+                }
             }
             Operator::Seal {
                 vessel,
@@ -2537,6 +2552,27 @@ fn advance_vessel_time(
     events: &mut Vec<Event>,
 ) -> Result<(), BenchError> {
     let seconds = seconds.max(0.0);
+    let emulsion_before = crate::emulsion::observe(vessel);
+    crate::emulsion::advance(vessel, seconds);
+    if let Some(before) = emulsion_before {
+        let after = crate::emulsion::observe(vessel);
+        let after_fraction = after
+            .as_ref()
+            .map(|observation| observation.dispersed_fraction)
+            .unwrap_or(0.0);
+        if before.dispersed_fraction > after_fraction + 1e-9 {
+            events.push(Event::EmulsionChanged {
+                vessel: vessel.id,
+                material: before.material,
+                from_dispersed_fraction: before.dispersed_fraction,
+                to_dispersed_fraction: after_fraction,
+                dispersed_volume_l: after
+                    .map(|observation| observation.dispersed_volume_l)
+                    .unwrap_or(0.0),
+                half_life_seconds: before.half_life_seconds,
+            });
+        }
+    }
     if settle_under_gravity {
         let settled = settle_vessel_under_gravity(vessel, seconds);
         if !settled.is_empty() {

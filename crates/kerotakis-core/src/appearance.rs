@@ -145,13 +145,17 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             biggest = Some((name, settled_moles, colour));
         }
     }
-    let cloudiness = if pigment_colour.is_some() {
+    let particle_cloudiness = if pigment_colour.is_some() {
         1.0
     } else if has_liquid {
         (solid_moles / litres / OPAQUE_AT).clamp(0.0, 1.0)
     } else {
         0.0
     };
+    let emulsion_cloudiness = crate::emulsion::observe(vessel)
+        .map(|emulsion| 0.78 * emulsion.dispersed_fraction)
+        .unwrap_or(0.0);
+    let cloudiness = particle_cloudiness.max(emulsion_cloudiness);
     let deposit = biggest.map(|(name, _, colour)| (name.to_string(), colour));
 
     // Gas in a vessel that also holds liquid is gas coming *out* of the
