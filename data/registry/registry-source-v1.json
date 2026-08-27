@@ -33778,6 +33778,194 @@
       }
     },
     {
+      "id": "household/chlorine-bleach-5-percent",
+      "version": 1,
+      "canonical_key": "chlorine_bleach_5_percent",
+      "name": "5% chlorine bleach",
+      "aliases": {
+        "de": [
+          "Chlorreiniger 5%",
+          "Chlorbleiche 5%",
+          "Chlorreiniger_5%"
+        ],
+        "en": [
+          "household bleach",
+          "bleach_5%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.08,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "NaOCl",
+          "fraction": {
+            "lower": 0.05,
+            "upper": 0.05
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.95,
+            "upper": 0.95
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "5% w/w sodium-hypochlorite teaching solution",
+      "lot_assumptions": [
+        "stabilisers, sodium chloride and brand-specific additives are not resolved in v1",
+        "never mix real bleach with acids or ammonia cleaners"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/ammonia-cleaner-5-percent",
+      "version": 1,
+      "canonical_key": "ammonia_cleaner_5_percent",
+      "name": "5% ammonia cleaner",
+      "aliases": {
+        "de": [
+          "Ammoniakreiniger 5%",
+          "Salmiakgeist 5%",
+          "Ammoniakreiniger_5%"
+        ],
+        "en": [
+          "household ammonia",
+          "ammonia_cleaner_5%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.98,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "NH3",
+          "fraction": {
+            "lower": 0.05,
+            "upper": 0.05
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.95,
+            "upper": 0.95
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "5% w/w aqueous-ammonia teaching solution",
+      "lot_assumptions": [
+        "surfactants, fragrance and brand-specific additives are not resolved in v1",
+        "never mix real ammonia cleaner with bleach"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
       "id": "household/hydrogen-peroxide-3-percent",
       "version": 1,
       "canonical_key": "hydrogen_peroxide_3_percent",
