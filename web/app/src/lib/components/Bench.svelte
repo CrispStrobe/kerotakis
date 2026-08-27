@@ -10,6 +10,7 @@
     apparatusPositionFor,
     positionFor,
     positionApparatus,
+    apparatusRoute,
     positionVessel,
     placementsOverlap,
     zoneAt,
@@ -451,23 +452,32 @@
       {#if deployedTarget !== null && deployedTool && FREESTANDING_TOOLS.includes(deployedTool)}
         {@const machinePosition = machinePlacement(deployedTool, deployedTarget)}
         {@const targetPosition = placement(deployedTarget)}
+        {@const route = apparatusRoute(machinePosition, targetPosition)}
         {@const apparatusEffect = latestApparatusEffect(deployedTarget, deployedTool)}
         <svg
           class="apparatus-target-link"
-          class:working={apparatusWorking}
+          class:working={standaloneWorking}
+          class:physical={deployedTool === "burette"}
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
           aria-hidden="true"
         >
-          <line
-            x1={machinePosition.x * 100}
-            y1={machinePosition.y * 100}
-            x2={targetPosition.x * 100}
-            y2={targetPosition.y * 100}
+          <path
+            class="route-shadow"
+            d={`M ${route.from.x * 100} ${route.from.y * 100} C ${route.control1.x * 100} ${route.control1.y * 100}, ${route.control2.x * 100} ${route.control2.y * 100}, ${route.to.x * 100} ${route.to.y * 100}`}
           />
-          <circle cx={machinePosition.x * 100} cy={machinePosition.y * 100} r="0.65" />
-          <circle cx={targetPosition.x * 100} cy={targetPosition.y * 100} r="0.65" />
+          <path
+            class="route-line"
+            d={`M ${route.from.x * 100} ${route.from.y * 100} C ${route.control1.x * 100} ${route.control1.y * 100}, ${route.control2.x * 100} ${route.control2.y * 100}, ${route.to.x * 100} ${route.to.y * 100}`}
+          />
+          <circle cx={route.from.x * 100} cy={route.from.y * 100} r="0.65" />
+          <circle cx={route.to.x * 100} cy={route.to.y * 100} r="0.65" />
         </svg>
+        <span
+          class="apparatus-target-badge"
+          style={`left:${route.midpoint.x * 100}%;top:${route.midpoint.y * 100}%`}
+          aria-hidden="true"
+        >v{deployedTarget + 1}</span>
         <div
           class="apparatus-position"
           class:moving={apparatusPointer?.tool === deployedTool}
@@ -917,14 +927,25 @@
     overflow: visible;
     pointer-events: none;
   }
-  .apparatus-target-link line {
+  .apparatus-target-link path {
     fill: none;
-    stroke: color-mix(in srgb, var(--instrument) 68%, var(--edge-strong));
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .apparatus-target-link .route-shadow {
+    stroke: color-mix(in srgb, var(--surface) 88%, transparent);
+    stroke-width: 6;
+    opacity: .9;
+  }
+  .apparatus-target-link .route-line {
+    stroke: color-mix(in srgb, var(--instrument) 72%, var(--edge-strong));
     stroke-width: 2.2;
     stroke-dasharray: 3 7;
-    stroke-linecap: round;
-    opacity: 0.62;
-    vector-effect: non-scaling-stroke;
+    opacity: 0.72;
+  }
+  .apparatus-target-link.physical .route-line {
+    stroke-dasharray: none;
+    stroke-width: 3;
   }
   .apparatus-target-link circle {
     fill: var(--surface);
@@ -932,7 +953,24 @@
     stroke-width: 2;
     vector-effect: non-scaling-stroke;
   }
-  .apparatus-target-link.working line { animation: route-pulse 0.75s linear infinite; }
+  .apparatus-target-link.working .route-line { animation: route-pulse 0.75s linear infinite; }
+  .apparatus-target-badge {
+    position: absolute;
+    z-index: 4;
+    translate: -50% -50%;
+    display: grid;
+    min-width: 1.7rem;
+    height: 1.25rem;
+    padding: 0 .34rem;
+    place-items: center;
+    border: 2px solid var(--surface);
+    border-radius: 999px;
+    color: var(--surface);
+    background: var(--instrument);
+    box-shadow: 0 2px 6px var(--shadow);
+    font: 850 .61rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    pointer-events: none;
+  }
   .connection-port {
     position: absolute;
     top: 52%;
@@ -1058,6 +1096,6 @@
     .bench.mission-active { padding-top: 6.3rem; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .apparatus-target-link.working line { animation: none; }
+    .apparatus-target-link.working .route-line { animation: none; }
   }
 </style>

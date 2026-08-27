@@ -16,6 +16,14 @@ export interface BenchLayout {
   apparatus: Record<string, BenchPlacement>;
 }
 
+export interface ApparatusRoute {
+  from: Pick<BenchPlacement, "x" | "y">;
+  to: Pick<BenchPlacement, "x" | "y">;
+  control1: Pick<BenchPlacement, "x" | "y">;
+  control2: Pick<BenchPlacement, "x" | "y">;
+  midpoint: Pick<BenchPlacement, "x" | "y">;
+}
+
 export const EMPTY_BENCH_LAYOUT: BenchLayout = { version: 2, placements: {}, apparatus: {} };
 // Keep the storage key: parseBenchLayout migrates the version-1 value in place.
 export const BENCH_LAYOUT_KEY = "kerotakis.bench.layout.v1";
@@ -101,6 +109,27 @@ export function placementsOverlap(
   const epsilon = 1e-9;
   return Math.abs(a.x - b.x) < separationX - epsilon
     && Math.abs(a.y - b.y) < separationY - epsilon;
+}
+
+/** Route a visible workstation/sample relationship from object edges rather
+ * than drawing through both objects' centres. The lifted cubic keeps the
+ * association readable around glassware and gives the UI a stable badge
+ * position; it remains presentation-only and never implies chemistry. */
+export function apparatusRoute(
+  machine: Pick<BenchPlacement, "x" | "y">,
+  vessel: Pick<BenchPlacement, "x" | "y">,
+): ApparatusRoute {
+  const horizontal = vessel.x >= machine.x ? 1 : -1;
+  const from = { x: machine.x + horizontal * 0.055, y: machine.y };
+  const to = { x: vessel.x - horizontal * 0.045, y: vessel.y };
+  const lift = clamp(Math.min(from.y, to.y) - 0.09, 0.08, 0.82);
+  const control1 = { x: from.x + horizontal * 0.055, y: lift };
+  const control2 = { x: to.x - horizontal * 0.055, y: lift };
+  const midpoint = {
+    x: (from.x + 3 * control1.x + 3 * control2.x + to.x) / 8,
+    y: (from.y + 3 * control1.y + 3 * control2.y + to.y) / 8,
+  };
+  return { from, to, control1, control2, midpoint };
 }
 
 /** Place newly created glassware in the first stable free slot. This runs only
