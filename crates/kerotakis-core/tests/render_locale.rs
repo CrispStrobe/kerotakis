@@ -185,3 +185,41 @@ fn the_english_journal_is_untouched() {
     assert_eq!(render_event(&event, Register::LV1), "You add water to v1.");
     assert!(render_event(&event, Register::LV2).contains("11.0686"));
 }
+
+#[test]
+fn a_refusal_reason_is_german_too() {
+    use kerotakis_core::ops::Event;
+    use kerotakis_core::render::render_event_in;
+
+    let event = Event::NotYetModeled {
+        vessel: VesselId(0),
+        what: "nothing to evaporate — no water in the vessel".into(),
+    };
+    let line = render_event_in(&event, Register::LV2, Locale::parse("de"));
+    assert!(line.contains("nichts zu verdampfen"), "{line}");
+    assert!(
+        !line.contains("nothing to evaporate"),
+        "English survived: {line}"
+    );
+}
+
+#[test]
+fn an_untranslated_refusal_keeps_its_english() {
+    // A reason with an interpolated value cannot be matched by text, so it
+    // must come through readable rather than blank. The sentence is then
+    // German with an English clause in it, which is visible and honest —
+    // losing the clause would not be.
+    use kerotakis_core::ops::Event;
+    use kerotakis_core::render::render_event_in;
+
+    let event = Event::NotYetModeled {
+        vessel: VesselId(0),
+        what: "nothing here can be electrolysed: no ions".into(),
+    };
+    let line = render_event_in(&event, Register::LV2, Locale::parse("de"));
+    assert!(
+        line.contains("noch nicht modelliert"),
+        "the frame is German: {line}"
+    );
+    assert!(line.contains("nothing here can be electrolysed"), "{line}");
+}

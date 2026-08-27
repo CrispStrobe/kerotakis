@@ -1976,7 +1976,21 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 )
             }
         },
-        Event::NotYetModeled { vessel, what } => match register.level() {
+        Event::NotYetModeled { vessel, what } => {
+            // `what` is English composed in bench.rs and carried in the
+            // event, so a German frame was wrapping an English reason:
+            // "v1: noch nicht modelliert — nothing to evaporate". Looked
+            // up by value, the same way species and instrument names are.
+            //
+            // Only the reasons with no interpolated value can match this
+            // way. The rest need the EVENT to carry a key and its
+            // arguments rather than a finished sentence, which is a change
+            // to the wire format and a separate decision.
+            let what = &locale
+                .lookup(&format!("refusal.{what}"))
+                .map(str::to_string)
+                .unwrap_or_else(|| what.clone());
+            match register.level() {
             1 => locale.fill(
                 "event.not-yet-modeled.lv1",
                 "Hmm — nothing visible happens in {vessel} (this part of the lab isn't awake yet).",
@@ -1992,7 +2006,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{vessel}: NOT MODELLED: {what}",
                 &[("vessel", &vessel.to_string()), ("what", &what.to_string())],
             ),
-        },
+            }
+        }
         Event::SolverFailed {
             vessel,
             solver,

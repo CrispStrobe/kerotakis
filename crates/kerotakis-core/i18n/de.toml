@@ -420,3 +420,18 @@ boiled = "siedete"
 
 [chromatographed]
 "solvent-only" = "nur Laufmittel"
+
+# The bench's refusals, keyed by the English reason it composes.
+#
+# Only the reasons with no interpolated value can be looked up this way. A
+# reason that formats a species or a list into itself would need the EVENT
+# to carry a key and its arguments instead of a finished sentence — a
+# change to the wire format, and a separate decision.
+[refusal]
+"sealed vessel over-pressurised and burst" = "verschlossenes Gefäß überdruckt und geborsten"
+"heating an empty vessel (container heat capacity not modelled)" = "Erwärmen eines leeren Gefäßes (Wärmekapazität des Gefäßes nicht modelliert)"
+"nothing to evaporate — no water in the vessel" = "nichts zu verdampfen — kein Wasser im Gefäß"
+"no aqueous solution for spectrophotometer" = "keine wässrige Lösung für das Spektralphotometer"
+"radioactive source: ionising radiation" = "radioaktive Quelle: ionisierende Strahlung"
+"a liquid medium is required" = "ein flüssiges Medium ist erforderlich"
+"no solid particles are present" = "es sind keine festen Teilchen vorhanden"
