@@ -432,6 +432,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   fresh surface is required, and is placed in the lesson picker's `start here`
   sequence. The lesson uses only water, pepper and dish soap and keeps the
   empirical-model boundary in its narration.
+- **Checkpoint 12 implemented:** fresh/compressed baker's yeast is distinct
+  from dry yeast under localized `Frischhefe`/`Presshefe` and fresh/compressed
+  English names. The surrogate is 70% resolved water and 30% conserved yeast
+  solids, with catalase activity scaled to equal dry solids. Because its water
+  is already present, it enters the existing peroxide kinetics immediately;
+  dry yeast retains its measured-time hydration ramp. Strain, age, cold-chain,
+  brand and storage effects remain explicitly unresolved.
 
 ## Stage B2 — organic structure and curated reaction families
 
