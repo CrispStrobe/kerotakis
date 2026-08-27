@@ -110,6 +110,27 @@ fn dry_yeast_lot_records_when_water_first_hydrates_it() {
 }
 
 #[test]
+fn fresh_yeast_resolves_water_and_scales_activity_by_dry_solids() {
+    let recipe = kerotakis_core::material::lookup("Frischhefe", Some("de"))
+        .expect("localized fresh yeast recipe");
+    let expansion = recipe.expand(10.0, 0).expect("positive dose");
+    let water = expansion
+        .components
+        .iter()
+        .find(|component| component.species_id == "water")
+        .expect("resolved moisture");
+    let catalase = expansion
+        .components
+        .iter()
+        .find(|component| component.species_id == "catalase")
+        .expect("activity proxy");
+    assert!((water.amount - 7.0).abs() < 1e-12);
+    assert!((catalase.amount - 0.000_003).abs() < 1e-12);
+    assert!((expansion.unresolved_amount - 2.999_997).abs() < 1e-12);
+    assert!(recipe.matches("compressed yeast", Some("en")));
+}
+
+#[test]
 fn familiar_powders_expand_to_the_existing_solver_species() {
     for (name, language, expected) in [
         ("Natron", Some("de"), "NaHCO3"),

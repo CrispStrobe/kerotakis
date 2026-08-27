@@ -207,10 +207,11 @@ fn more_potassium_iodide_makes_more_oxygen_and_foam_on_the_same_clock() {
 #[test]
 fn more_yeast_makes_more_oxygen_and_foam_on_the_same_clock() {
     // The catalase path is deliberately spectacular at household doses. A
-    // sub-millisecond initial interval preserves the causal dose comparison
-    // before both vessels run into the same finite-peroxide ceiling.
-    let low = household_foam_after("Hefe 0.25g", 0.0001);
-    let high = household_foam_after("Hefe 1g", 0.0001);
+    // millisecond initial interval preserves the causal dose comparison before
+    // both vessels run into the same finite-peroxide ceiling, while keeping
+    // both GasProduced events above the observable-event floor.
+    let low = household_foam_after("Hefe 0.25g", 0.001);
+    let high = household_foam_after("Hefe 1g", 0.001);
     assert!(
         high.0 > low.0 * 2.0,
         "oxygen must respond to yeast loading: low={low:?}, high={high:?}"
@@ -223,4 +224,17 @@ fn more_yeast_makes_more_oxygen_and_foam_on_the_same_clock() {
         high.2 > low.2,
         "overflow must be dose-responsive: low={low:?}, high={high:?}"
     );
+}
+
+#[test]
+fn fresh_yeast_is_immediately_available_while_dry_yeast_hydrates() {
+    // 3.333 g fresh yeast carries the same modeled dry solids and catalase as
+    // 1 g dry yeast. Only the fresh form arrives already hydrated.
+    let dry = household_foam_after("Trockenhefe 1g", 0.0001);
+    let fresh = household_foam_after("Frischhefe 3.333333g", 0.0001);
+    assert!(
+        fresh.0 > dry.0 * 10.0,
+        "initial oxygen must distinguish hydrated fresh yeast: dry={dry:?}, fresh={fresh:?}"
+    );
+    assert!(fresh.1 > dry.1 * 10.0);
 }

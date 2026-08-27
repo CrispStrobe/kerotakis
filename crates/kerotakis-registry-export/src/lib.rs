@@ -68,7 +68,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
-        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity; ACS/J. Chem. Educ. DOI 10.1021/ed400316a documents detergent-lowered surface tension and the pepper-on-water classroom demonstration".to_string(),
+        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity; ACS/J. Chem. Educ. DOI 10.1021/ed400316a documents detergent-lowered surface tension and the pepper-on-water classroom demonstration; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids".to_string(),
         licence: "AGPL-3.0-or-later".to_string(),
         lane: SourceLane::Runtime,
         origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
@@ -654,6 +654,45 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             ),
             lot_assumptions: vec![
                 "enzyme activity varies strongly by brand and age; the bounded hydration ramp is a teaching surrogate, not a universal activity per gram".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/fresh-compressed-yeast-surrogate".to_string(),
+            version: 1,
+            canonical_key: "fresh_yeast".to_string(),
+            name: "fresh compressed yeast".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["fresh yeast".to_string(), "compressed yeast".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec!["Frischhefe".to_string(), "Presshefe".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("water", 0.70), component("catalase", 0.000_000_3)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.299_999_7,
+                upper: 0.299_999_7,
+            }),
+            physical_form: MaterialPhysicalForm::Other {
+                description: "moist compressed block".to_string(),
+            },
+            roles: Vec::new(),
+            preparation: Some(
+                "fresh compressed baker's-yeast surrogate; already hydrated and scaled to 30% solids"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "70% water and 30% solids follow compressed-yeast technical guidance".to_string(),
+                "catalase activity is scaled from the dry-yeast teaching surrogate by dry solids; strain, age, storage and brand variation remain unresolved".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,
