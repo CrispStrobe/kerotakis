@@ -287,6 +287,25 @@
       />
     {/if}
 
+    {#if vessel.curds && vessel.liquid && liquidH > 0}
+      {@const curdCount = Math.max(4, Math.round(4 + vessel.curds.separation_progress * 16))}
+      <g class="milk-curds" class:forming={active("curdle", 2600)}>
+        <title>{t("soft curds with {mass} g modeled aggregate solids separated from {material}", {
+          mass: vessel.curds.solids_mass_g.toFixed(2),
+          material: t(vessel.curds.material),
+        })}</title>
+        {#each Array.from({ length: curdCount }, (_, i) => i) as i (i)}
+          <ellipse
+            cx={INNER_X + 4 + ((i * 13) % Math.max(8, INNER_W - 8))}
+            cy={BOTTOM_Y - 3 - ((i * 7) % Math.max(5, liquidH * 0.62))}
+            rx={1.8 + (i % 3) * 0.65}
+            ry={1.0 + (i % 2) * 0.5}
+            fill={rgb(vessel.curds.srgb)}
+          />
+        {/each}
+      </g>
+    {/if}
+
     {#if vessel.foam && foamH > 0}
       {@const foamY = BOTTOM_Y - liquidH - foamH}
       <g
@@ -918,6 +937,18 @@
   .surface-particles.spreading {
     animation: surface-spread 780ms cubic-bezier(.16, .82, .2, 1) both;
   }
+  .milk-curds ellipse {
+    transform-box: fill-box;
+    transform-origin: center;
+    stroke: color-mix(in srgb, var(--edge) 38%, transparent);
+    stroke-width: 0.3;
+    filter: drop-shadow(0 0.5px 0.5px color-mix(in srgb, var(--edge) 30%, transparent));
+  }
+  .milk-curds.forming ellipse {
+    animation: curds-form 900ms cubic-bezier(.18, .78, .22, 1) both;
+  }
+  .milk-curds.forming ellipse:nth-child(3n) { animation-delay: 90ms; }
+  .milk-curds.forming ellipse:nth-child(3n + 1) { animation-delay: 180ms; }
   .foam-overflow path {
     fill: none;
     stroke-width: calc(2px + var(--spill) * 4px);
@@ -933,6 +964,10 @@
   @keyframes foam-spill {
     from { transform: translateY(0); }
     to { transform: translateY(2px); }
+  }
+  @keyframes curds-form {
+    from { transform: translateY(-10px) scale(0.25); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
   }
   @keyframes surface-spread {
     from { transform: scaleX(0.16); opacity: 0.72; }
@@ -1126,6 +1161,7 @@
     .bubble,
     .foam-state,
     .foam-overflow,
+    .milk-curds.forming ellipse,
     .flame .outer,
     .flame .inner,
     .steam,

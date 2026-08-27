@@ -403,6 +403,18 @@ pub enum Event {
         dispersed_volume_l: f64,
         half_life_seconds: f64,
     },
+    /// Acetic-acid dose caused a recipe-declared milk colloid to separate
+    /// into visible curds and whey. The aggregate mass remains conserved.
+    CurdlingChanged {
+        vessel: VesselId,
+        material: String,
+        from_formed_fraction: f64,
+        to_formed_fraction: f64,
+        separation_progress: f64,
+        curd_solids_mass_g: f64,
+        acid_species: SpeciesId,
+        acid_moles: Moles,
+    },
     /// A mortar changed the mean diameter of a solid powder. Surface area
     /// assumes equal spherical particles: A = 6V/d, using registry density.
     Ground {

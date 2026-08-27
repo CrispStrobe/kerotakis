@@ -46,7 +46,8 @@ pub fn advance(vessel: &mut Vessel, seconds: f64, oxygen_moles: f64) -> Option<F
                 | MaterialRole::SurfaceTensionReducer { .. }
                 | MaterialRole::AqueousImmiscibleLiquid { .. }
                 | MaterialRole::AqueousEmulsifier { .. }
-                | MaterialRole::OpaqueLiquidColloid { .. } => None,
+                | MaterialRole::OpaqueLiquidColloid { .. }
+                | MaterialRole::AcidCurdlingColloid { .. } => None,
             })
         })
         .max_by(|a, b| a.0.total_cmp(&b.0));

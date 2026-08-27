@@ -42,6 +42,18 @@ describe("effectFromEvent", () => {
     expect(e?.magnitude).toBe(1);
   });
 
+  it("maps computed curd formation to a bounded clumping effect", () => {
+    const e = effectFromEvent({
+      event: "curdling_changed",
+      vessel: 0,
+      to_formed_fraction: 0.28,
+      separation_progress: 1,
+      curd_solids_mass_g: 3.75,
+    });
+    expect(e?.kind).toBe("curdle");
+    expect(e?.magnitude).toBe(1);
+  });
+
   it("maps precipitated with moles → precipitate + magnitude from event.moles", () => {
     const e = effectFromEvent({ event: "precipitated", vessel: 0, species: "BaSO4", moles: 0.01 });
     expect(e!.kind).toBe("precipitate");

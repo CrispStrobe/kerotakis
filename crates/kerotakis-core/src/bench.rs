@@ -140,6 +140,19 @@ impl Bench {
             }
             _ => None,
         };
+        let curdling_before = op_touches(&op)
+            .into_iter()
+            .filter_map(|id| {
+                self.vessel(id).ok().map(|vessel| {
+                    (
+                        id,
+                        crate::curdling::observe(vessel)
+                            .map(|curds| curds.formed_fraction)
+                            .unwrap_or(0.0),
+                    )
+                })
+            })
+            .collect::<Vec<_>>();
         let mut events = self.apply(&op, screen)?;
         // Waiting advances the whole bench, so every vessel is re-settled.
         let touched: Vec<VesselId> = match &op {
@@ -212,6 +225,29 @@ impl Bench {
                         moles,
                     });
                 }
+            }
+        }
+
+        for id in touched.iter().copied() {
+            let before = curdling_before
+                .iter()
+                .find(|(candidate, _)| *candidate == id)
+                .map(|(_, fraction)| *fraction)
+                .unwrap_or(0.0);
+            let Some(after) = self.vessel(id).ok().and_then(crate::curdling::observe) else {
+                continue;
+            };
+            if after.formed_fraction > before + 1e-9 {
+                events.push(Event::CurdlingChanged {
+                    vessel: id,
+                    material: after.material,
+                    from_formed_fraction: before,
+                    to_formed_fraction: after.formed_fraction,
+                    separation_progress: after.separation_progress,
+                    curd_solids_mass_g: after.curd_solids_mass_g,
+                    acid_species: SpeciesId::new(&after.acid_species),
+                    acid_moles: Moles(after.acid_moles),
+                });
             }
         }
 

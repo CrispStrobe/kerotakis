@@ -389,6 +389,34 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 half_life_seconds,
             ),
         },
+        Event::CurdlingChanged {
+            vessel,
+            material,
+            from_formed_fraction,
+            to_formed_fraction,
+            separation_progress,
+            curd_solids_mass_g,
+            acid_species,
+            acid_moles,
+        } => match register.level() {
+            1 => format!(
+                "The {material} in {vessel} separates into soft white curds and cloudy whey."
+            ),
+            2 => format!(
+                "{vessel}: {material} curd solids {:.0}% → {:.0}% ({curd_solids_mass_g:.2} g aggregate solids in visible curds)",
+                from_formed_fraction * 100.0,
+                to_formed_fraction * 100.0,
+            ),
+            _ => format!(
+                "{vessel}: bounded acid-curdling response {:.6} → {:.6}; separation progress {:.6}; curd solids {:.6} g from {:.9} mol {}; conserved aggregate, no casein-speciation or wet-yield claim",
+                from_formed_fraction,
+                to_formed_fraction,
+                separation_progress,
+                curd_solids_mass_g,
+                acid_moles.0,
+                acid_species.0,
+            ),
+        },
         Event::Ground {
             vessel,
             species: sid,

@@ -493,6 +493,16 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   deliberately stops before acid curdling, spoilage, fermentation and the
   detergent-driven “magic milk” surface motion; those require distinct,
   testable transitions rather than decorative animations.
+- **Checkpoint 19 implemented:** adding real acetic-acid inventory, including
+  localized household vinegar, to the milk surrogate now computes a bounded
+  acid-dose curdling response. The event and scene contract report the formed
+  fraction and conserved aggregate curd-solids mass (not wet yield);
+  dispersed opacity falls as milk solids join warm-white clumps over cloudy
+  whey. The web vessel draws those clumps
+  and animates their formation only from the typed `CurdlingChanged` event.
+  Vinegar without milk and trace doses remain unchanged controls. Parameters
+  are calibrated only to the familiar classroom milk-and-vinegar ratio: this
+  is not a casein speciation, cheese-yield, food-safety or spoilage model.
 
 ## Stage B2 — organic structure and curated reaction families
 
