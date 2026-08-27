@@ -95,7 +95,7 @@
   let moveMessage = $state("");
   let messageTimer: ReturnType<typeof setTimeout> | undefined;
   const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
-  const FREESTANDING_TOOLS = ["grind", "centrifuge", "burette", "evaporate"];
+  const FREESTANDING_TOOLS = ["grind", "centrifuge", "burette", "evaporate", "dilute"];
   const zoneHints: Record<BenchZone, string> = {
     prepare: "set up and measure",
     react: "mix and transform",
@@ -108,7 +108,9 @@
   );
 
   const latestApparatusEffect = (vessel: number, kind: string) =>
-    [...(effects[vessel] ?? [])].reverse().find((effect) => effect.kind === kind);
+    [...(effects[vessel] ?? [])].reverse().find((effect) =>
+      kind === "dilute" ? effect.kind === "swirl" && effect.dilution !== undefined : effect.kind === kind,
+    );
 
   const apparatusName = (tool: string) =>
     tool === "grind"
@@ -117,6 +119,8 @@
         ? "mini centrifuge"
         : tool === "evaporate"
           ? "evaporating dish"
+          : tool === "dilute"
+            ? "wash bottle"
           : "burette and stand";
 
   const placement = (vessel: number) =>

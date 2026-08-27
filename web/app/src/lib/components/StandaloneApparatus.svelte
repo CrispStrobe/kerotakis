@@ -78,6 +78,32 @@
       {#if effect}<small>{t("steam scaled from removed water")}</small>{/if}
     </figcaption>
   </figure>
+{:else if tool === "dilute"}
+  <figure
+    class="standalone wash-station"
+    class:working
+    class:performed={performedAt !== undefined}
+    style={`--wash-strength:${Math.max(.15, intensity)}`}
+    aria-label={t("wash bottle station on the bench")}
+  >
+    <svg viewBox="0 0 110 88" role="img" aria-label={t("wash bottle adding water") }>
+      <ellipse class="station-shadow" cx="45" cy="80" rx="30" ry="4" />
+      <path class="wash-body" d="M25 27 Q45 19 65 27 L70 69 Q67 79 45 80 Q23 79 20 69Z" />
+      <path class="wash-water" d="M23 48 Q45 43 67 48 L69 68 Q65 76 45 77 Q25 76 21 68Z" />
+      <rect class="wash-cap" x="36" y="18" width="18" height="12" rx="3" />
+      <path class="wash-nozzle" d="M45 18 V8 Q45 3 52 3 H76 Q84 3 84 10 V18" />
+      <path class="wash-jet" d="M84 18 Q92 25 98 39" />
+      {#if effect?.dilution}
+        <rect class="wash-display" x="29" y="57" width="32" height="10" rx="3" />
+        <text x="45" y="64" text-anchor="middle">{(effect.dilution.volumeL * 1000).toFixed(1)} mL</text>
+      {/if}
+    </svg>
+    <figcaption>
+      <strong>{t("wash bottle")}</strong>
+      <span class="target">{t("delivers into vessel v{vessel}", { vessel: target + 1 })}</span>
+      {#if effect?.dilution}<small>{(effect.dilution.waterMoles).toFixed(3)} mol H₂O</small>{/if}
+    </figcaption>
+  </figure>
 {:else if tool === "centrifuge"}
   <figure
     class="standalone centrifuge"
@@ -188,6 +214,15 @@
   .working .evaporation-steam, .performed .evaporation-steam { animation: station-steam calc(1.4s - var(--evaporation-intensity) * .65s) ease-out 7; animation-delay: var(--steam-delay); }
   .evaporation-display { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); }
   .evaporation-station svg text { fill: var(--surface); font: 800 5px ui-monospace, monospace; }
+  .wash-station { background: color-mix(in srgb, var(--surface) 86%, var(--cool)); }
+  .wash-body { fill: color-mix(in srgb, var(--glass) 70%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1.8; }
+  .wash-water { fill: color-mix(in srgb, var(--cool) 48%, var(--surface)); opacity: .72; }
+  .wash-cap { fill: var(--instrument); stroke: var(--edge-strong); stroke-width: 1; }
+  .wash-nozzle { fill: none; stroke: var(--edge-strong); stroke-width: 3; stroke-linecap: round; }
+  .wash-jet { fill: none; stroke: var(--cool); stroke-width: calc(1px + var(--wash-strength) * 2px); stroke-linecap: round; stroke-dasharray: 4 3; opacity: 0; }
+  .working .wash-jet, .performed .wash-jet { animation: wash-flow .65s linear 6; }
+  .wash-display { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); }
+  .wash-station svg text { fill: var(--surface); font: 800 5px ui-monospace, monospace; }
   .centrifuge { width: 100%; }
   .centrifuge-base { fill: color-mix(in srgb, var(--primary) 22%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
   .lid { fill: color-mix(in srgb, var(--cool) 18%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
@@ -221,7 +256,8 @@
   .target { margin: 0.12rem 0; padding: 0.09rem 0.28rem; border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 11%, var(--surface)); font-size: 0.48rem; font-weight: 850; }
   @keyframes grind { to { transform: rotate(-18deg) translateY(-2px); } }
   @keyframes station-steam { 0% { opacity: 0; transform: translateY(4px); } 30% { opacity: calc(.35 + var(--evaporation-intensity) * .55); } 100% { opacity: 0; transform: translateY(-12px); } }
+  @keyframes wash-flow { 0% { opacity: 0; stroke-dashoffset: 8; } 20%, 80% { opacity: .85; } 100% { opacity: 0; stroke-dashoffset: -8; } }
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes drip { from { transform: translateY(-5px); opacity: 1; } to { transform: translateY(5px); opacity: 0; } }
-  @media (prefers-reduced-motion: reduce) { .working .pestle, .working .rotor, .performed .rotor, .burette-drop, .evaporation-steam { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .working .pestle, .working .rotor, .performed .rotor, .burette-drop, .evaporation-steam, .wash-jet { animation: none; } }
 </style>

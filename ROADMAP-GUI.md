@@ -1332,6 +1332,13 @@ decorating it.
   liquid colour, steam density follows `Evaporated.moles`, and its display
   reports the actual removed mmol. This retains one engine vessel ledger while
   making the physical transfer into the working dish explicit on the bench.
+  *Freestanding-dilution slice shipped 2026-08-27:* the wash bottle no longer
+  occupies the selected vessel's SVG. It is a draggable, collision-aware bench
+  object with bottle, water inventory, nozzle and transient jet linked to its
+  target. The returned `Diluted.volume` and water moles drive its display while
+  the target vessel independently keeps the engine-derived swirl and final
+  state. Requested volume remains a control; the station readout is the
+  confirmed operation result.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,

@@ -634,6 +634,8 @@ const DE: Record<string, string> = {
   ,"evaporating dish station on the bench": "Abdampfschalenstation auf dem Labortisch"
   ,"evaporating dish and heater": "Abdampfschale und Heizgerät"
   ,"steam scaled from removed water": "Dampf nach entfernter Wassermenge skaliert"
+  ,"wash bottle station on the bench": "Spritzflaschenstation auf dem Labortisch"
+  ,"wash bottle adding water": "Spritzflasche gibt Wasser hinzu"
   ,"purge the headspace with inert gas": "Kopfraum mit Inertgas spülen"
   ,"The bench is live: states nobody pre-computed are solved.": "Das Labor ist aktiv: Nicht vorberechnete Zustände werden gelöst."
   ,"The bench answers from shipped results only — the live aqueous engine is not attached.": "Das Labor antwortet nur mit mitgelieferten Ergebnissen — die aktive wässrige Engine ist nicht verbunden."
