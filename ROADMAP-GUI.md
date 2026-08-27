@@ -1620,6 +1620,12 @@ and presents them well.
   new engine call, and the card is a `<details>`-shaped disclosure that
   degrades to the current feed when JavaScript is off or the register is at
   lv3 machine view.
+  *Structured-card slice in progress 2026-08-28:* the journal now pins a
+  compact `<details>` result above its transcript. Its badge, equation,
+  observation, quantities and temperature delta are projected from the
+  accepted command's typed events and before/after scenes without another
+  engine call. The richer reactant, ionic-equation and concept/safety detail
+  remains.
 
 - [ ] **GUI-091 — Say what kind of reaction it was, and what the heat did.**
   Two labels the engine can already justify. A **class badge** — displacement,
@@ -1629,6 +1635,11 @@ and presents them well.
   a delta chip**: `25 °C → 90 °C` with `+65 K`, because a computed ΔH·n/ΣCp is
   the most teachable number we produce and it currently reads as punctuation.
   Both carry the GUI-023 confidence encoding.
+  *Strict-classification slice in progress 2026-08-28:* exact event tags now
+  supply conservative result labels (for example precipitation, gas evolution
+  and electrolysis); unknown tags are not promoted to named reaction classes.
+  A computed scene delta is shown when the target vessel's temperature really
+  changed. Before/after temperature and confidence presentation remain.*
 
 - [ ] **GUI-092 — The ionic equation, derived.** Beside the molecular
   equation, the ionic one — built from the solved speciation rather than
