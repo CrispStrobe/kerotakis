@@ -776,6 +776,11 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   transfers declared solution catalysts such as KI from solid inventory into
   the aqueous phase, emits `Dissolved`, preserves their moles, and prevents a
   dissolved catalyst from being rendered or gravity-settled as sediment.
+  The real-browser CI self-test now runs that two-dose KI experiment through
+  the shipped worker and UI, then asserts two rendered foam columns, visible
+  out-of-glass overflow, dose ordering, and the absence of the former
+  unsupported-contact warning. This closes the core-to-Wasm-to-DOM path rather
+  than accepting a scene value that the child cannot see.
   Remaining
   boundaries are yeast-brand/hydration activity, enzyme denaturation and
   inhibition, catalyst pore/BET area, adsorption and pore-scale diffusion.

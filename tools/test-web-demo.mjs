@@ -143,7 +143,7 @@ const appProc = spawn(chrome, [
     "--headless=new", "--disable-gpu", "--no-sandbox",
     "--no-first-run", "--no-default-browser-check",
     `--user-data-dir=${profile}-app`,
-    `http://127.0.0.1:${PORT}/app/index.html?selftest=1`,
+    `http://127.0.0.1:${PORT}/app/index.html?selftest=foam`,
 ]);
 const appReport = await Promise.race([
     selftestReport,
@@ -182,6 +182,16 @@ check("the page reports a live engine", status?.[1] === "live");
 check("the app reached ready (scene arrived)", appReport.ready === true);
 check("the app rendered a bench with a vessel", (appReport.vessels ?? 0) >= 1);
 check("the app's aqueous engine attached (can_solve)", appReport.can_solve === true);
+check("the browser computed foam in both dose vessels", appReport.foam_vessels === 2);
+check("the high-dose vessel visibly overflowed", appReport.overflow_vessels >= 1);
+check("the browser rendered both foam columns", appReport.rendered_foam === 2);
+check("the browser rendered the overflow outside the glass", appReport.rendered_overflow >= 1);
+check("the higher KI dose produced more foam", appReport.dose_ordered === true);
+check(
+    "KI did not fall through to an unsupported-contact warning",
+    appReport.unsupported_ki_warning === false,
+);
+check("the foam browser scenario completed", appReport.scenario_error == null);
 check(
     "no engine-loading failure surfaced in the app",
     appReport.error == null,
