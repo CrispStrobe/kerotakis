@@ -1181,8 +1181,11 @@ decorating it.
   pressure gauge position; running state drives tool motion. Filter, still,
   drain, and cell events connect the actual source/receiver pair across the
   bench through visible vessel ports. Vessel work-zone arrangement persists
-  across reload. Remaining: bench-scale analytical instruments beyond
-  thermometer/pH and fine-grained apparatus placement.*
+  across reload. The mortar and mini-centrifuge are now freestanding,
+  target-labelled workstation cards placed in the clearest nearby bench space;
+  they no longer render as contents inside the selected vessel. Remaining:
+  user-positionable instrument stations and bench-scale analytical instruments
+  beyond thermometer/pH.*
 - [x] **GUI-063 — In-experiment visual shelves.** *Shipped 2026-08-25 (kero-basic, PR #36).* Lessons and codex
   experiments present their kit as a RENDERED shelf strip (SpeciesChip
   visuals, tap-to-add) directly in the LessonBar / experiment page —

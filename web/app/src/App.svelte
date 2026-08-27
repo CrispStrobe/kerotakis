@@ -985,6 +985,7 @@
     min-height: 0;
   }
   .bench-pane {
+    position: relative;
     flex: 1;
     display: flex;
     flex-direction: column;

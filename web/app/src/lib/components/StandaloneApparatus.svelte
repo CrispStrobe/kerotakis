@@ -1,8 +1,9 @@
 <script lang="ts">
   import { t } from "../i18n.svelte";
 
-  let { tool, working = false, performedAt, intensity = 0.5, values = {} }: {
+  let { tool, target, working = false, performedAt, intensity = 0.5, values = {} }: {
     tool: string;
+    target: number;
     working?: boolean;
     performedAt?: number;
     intensity?: number;
@@ -31,6 +32,7 @@
     </svg>
     <figcaption>
       <strong>{t("mortar")}</strong>
+      <span class="target">{t("works with vessel v{vessel}", { vessel: target + 1 })}</span>
       {#if values.species}<small>{t(String(values.species))} · {values.diameter ?? 50} µm</small>{/if}
     </figcaption>
   </figure>
@@ -56,6 +58,7 @@
     </svg>
     <figcaption>
       <strong>{t("mini centrifuge")}</strong>
+      <span class="target">{t("works with vessel v{vessel}", { vessel: target + 1 })}</span>
       <small>{values.radius ?? 8} cm · {values.seconds ?? 60} s</small>
       <small class="balance" class:danger={rotorImbalance > 0.1}>{rotorImbalance > 0.1 ? `⚠ ${rotorImbalance.toFixed(2)} g` : `✓ ${t("balanced")}`}</small>
     </figcaption>
@@ -64,12 +67,12 @@
 
 <style>
   .standalone {
-    position: absolute;
-    z-index: 7;
-    right: -2.5rem;
-    bottom: 0.1rem;
-    width: 78px;
+    width: 100%;
     margin: 0;
+    padding: 0.32rem 0.38rem 0.4rem;
+    border: 1px solid color-mix(in srgb, var(--instrument) 38%, var(--edge));
+    border-radius: 13px;
+    background: color-mix(in srgb, var(--surface) 92%, var(--instrument));
     pointer-events: none;
     filter: drop-shadow(0 8px 7px var(--shadow));
   }
@@ -79,7 +82,7 @@
   .pestle { fill: none; stroke: var(--edge-strong); stroke-width: 9; stroke-linecap: round; transform-origin: 59px 49px; }
   .working .pestle { animation: grind var(--grind-duration) ease-in-out infinite alternate; }
   .performed:not(.working) .pestle { animation: grind var(--grind-duration) ease-in-out 8 alternate; }
-  .centrifuge { width: 96px; right: -3.1rem; }
+  .centrifuge { width: 100%; }
   .centrifuge-base { fill: color-mix(in srgb, var(--primary) 22%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
   .lid { fill: color-mix(in srgb, var(--cool) 18%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
   .rotor { transform-origin: 55px 32px; }
@@ -94,6 +97,7 @@
   .performed:not(.working) .rotor { animation: spin var(--rotor-duration) linear 12; }
   figcaption { display: grid; justify-items: center; margin-top: -0.2rem; color: var(--ink); font-size: 0.55rem; line-height: 1.15; }
   figcaption small { color: var(--dim); }
+  .target { margin: 0.12rem 0; padding: 0.09rem 0.28rem; border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 11%, var(--surface)); font-size: 0.48rem; font-weight: 850; }
   @keyframes grind { to { transform: rotate(-18deg) translateY(-2px); } }
   @keyframes spin { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) { .working .pestle, .working .rotor, .performed .rotor { animation: none; } }
