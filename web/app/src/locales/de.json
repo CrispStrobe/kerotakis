@@ -1455,6 +1455,13 @@
   "safe exhaust": "Sichere Abluft",
   "pestle": "Stößel",
   "solid sample": "Feststoffprobe",
-  "heater": "Heizgerät"
+  "heater": "Heizgerät",
+  "settling": "Sedimentation",
+  "resuspended": "Resuspendiert",
+  "source A": "Quelle A",
+  "source B": "Quelle B",
+  "transferred": "Überführt",
+  "suspension changed; reaction rates are not yet coupled": "Die Suspension wurde verändert; Reaktionsraten sind noch nicht gekoppelt",
+  "light was applied; photolysis is not yet coupled": "Licht wurde eingestrahlt; die Photolyse ist noch nicht gekoppelt"
  }
 }

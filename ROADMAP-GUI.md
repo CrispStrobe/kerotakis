@@ -1181,6 +1181,12 @@ hide them completely.
   multi-species deposits divide that height in proportion to each population's
   settled computed volume rather than equal decorative bands. Rate coupling
   remains open.*
+  *Mixing/transport evidence slice shipped 2026-08-28:* the pinned result now
+  exposes engine-emitted RPM, duration and resuspended fraction for stirring,
+  both source fractions for mixing, and the delivered fraction for transfer.
+  It explicitly separates the physical suspension change from the still-open
+  reaction-rate coupling, so visible motion is useful without claiming kinetic
+  chemistry that has not landed.*
 - [ ] **GUI-075 — Observe five users before adding campaign breadth.** Test with
   at least two children/novices, one teacher, and two experienced science users;
   use tasks, not preference questions. Record time-to-first-result, wrong turns,

@@ -13,6 +13,7 @@ export type ResultSummary = {
   observation?: string;
   temperatureDeltaK?: number;
   quantities: ResultQuantity[];
+  boundary?: string;
 };
 
 type EngineEvent = Record<string, unknown>;
@@ -32,6 +33,9 @@ const CLASSIFICATIONS: Record<string, string> = {
   energy_transferred: "energy transfer",
   heat_of_mixing: "heat of mixing",
   stirred: "mixing",
+  mixed: "mixing",
+  transported: "transport",
+  gravity_settled: "settling",
   centrifuged: "centrifugation",
   ground: "grinding",
   irradiated: "irradiation",
@@ -54,7 +58,7 @@ const PRIORITY = [
   "gas_evolved", "gas_absorbed", "gas_contained", "distilled", "filtered",
   "chromatographed", "layers_formed", "decayed", "heat_of_mixing",
   "measured", "temperature_changed", "energy_transferred", "centrifuged",
-  "stirred", "ground", "irradiated", "dissolved", "dissolved_in_solvent",
+  "stirred", "mixed", "transported", "gravity_settled", "ground", "irradiated", "dissolved", "dissolved_in_solvent",
   "transferred", "added", "material_added", "observed", "inert", "inert_in_solvent",
 ];
 
@@ -64,7 +68,7 @@ function number(event: EngineEvent, key: string): number | undefined {
 }
 
 function eventVessel(event: EngineEvent): number | undefined {
-  for (const key of ["vessel", "to", "from"]) {
+  for (const key of ["vessel", "into", "receiver", "to", "from"]) {
     const value = number(event, key);
     if (value !== undefined) return value;
   }
@@ -86,11 +90,25 @@ function quantities(event: EngineEvent): ResultQuantity[] {
   push("voltage", "volts", "V");
   push("charge", "coulombs", "C");
   push("activity", "activity_bq", "Bq");
+  push("resuspended", "resuspended_fraction", "%", 100);
+  push("source A", "fraction_a", "%", 100);
+  push("source B", "fraction_b", "%", 100);
+  push("transferred", "fraction", "%", 100);
   const measured = number(event, "value");
   if (measured !== undefined && typeof event.unit === "string") {
     values.push({ label: "reading", value: measured, unit: event.unit });
   }
   return values.slice(0, 3);
+}
+
+function boundary(event: EngineEvent): string | undefined {
+  if (event.event === "stirred" && event.rate_coupled === false) {
+    return "suspension changed; reaction rates are not yet coupled";
+  }
+  if (event.event === "irradiated" && event.photolysis_coupled === false) {
+    return "light was applied; photolysis is not yet coupled";
+  }
+  return undefined;
 }
 
 function significantEvent(events: EngineEvent[]): EngineEvent | undefined {
@@ -144,5 +162,6 @@ export function summarizeResult(
       ? temperatureDeltaK
       : undefined,
     quantities: quantities(event),
+    boundary: boundary(event),
   };
 }
