@@ -18,6 +18,8 @@ describe("apparatus forms compile to the grammar", () => {
 
   it("the exact lines match the grammar's shapes", () => {
     expect(spec("bunsen").build(0, { flame: 50, seconds: 30 })).toBe("heat v1 7.5kJ");
+    expect(spec("bunsen").build(0, { flame: 50, air: 0, seconds: 30 })).toBe("heat v1 4.125kJ");
+    expect(spec("bunsen").build(0, { flame: 50, air: 100, seconds: 30 })).toBe("heat v1 7.5kJ");
     expect(spec("bunsen").secondary!.build(1, { flame: 50, seconds: 30 })).toBe("ignite v2");
     expect(spec("stir").build(0, { rpm: 600, seconds: 30 })).toBe("stir v1 600rpm 30s");
     expect(spec("heat").build(0, { watts: 250, seconds: 30 })).toBe("heat v1 7500J");
@@ -48,6 +50,9 @@ describe("apparatus forms compile to the grammar", () => {
     expect(spec("grind").build(0, { species: "  ", diameter: 50 })).toBeNull();
     expect(spec("electrolyse").build(0, { amps: NaN, minutes: 30 })).toBeNull();
     expect(spec("bunsen").build(0, { flame: 101, seconds: 30 })).toBeNull();
+    expect(spec("bunsen").build(0, { flame: 0, air: 70, seconds: 30 })).toBeNull();
+    expect(spec("bunsen").build(0, { flame: 50, air: 101, seconds: 30 })).toBeNull();
+    expect(spec("bunsen").secondary!.build(0, { flame: 0, air: 70 })).toBeNull();
     expect(spec("bunsen").build(0, { flame: 50, seconds: 0 })).toBeNull();
   });
 

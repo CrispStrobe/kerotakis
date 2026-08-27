@@ -49,23 +49,31 @@ export const APPARATUS: ApparatusSpec[] = [
     title: "Bunsen burner",
     blurb: "adjust the flame, then heat or test ignition",
     fields: [
-      { name: "flame", label: "flame power", type: "number", unit: "%", default: 50, min: 5, max: 100, step: 5 },
+      { name: "flame", label: "flame power", type: "number", unit: "%", default: 50, min: 0, max: 100, step: 5 },
+      { name: "air", label: "air collar", type: "number", unit: "%", default: 70, min: 0, max: 100, step: 5 },
       { name: "seconds", label: "exposure", type: "number", unit: "s", default: 30, min: 1, max: 300 },
     ],
     build: (v, f) => {
       const flame = num(f.flame);
+      const air = num(f.air ?? 100);
       const seconds = pos(f.seconds);
-      if (flame === null || flame < 5 || flame > 100 || seconds === null || seconds > 300) {
+      if (flame === null || flame <= 0 || flame > 100 || air === null || air < 0 || air > 100 || seconds === null || seconds > 300) {
         return null;
       }
       // Bounded first near-field model: up to 500 W reaches the selected
-      // vessel. The engine owns temperature and resulting chemistry.
-      const energyKj = Number((0.005 * flame * seconds).toFixed(3));
+      // vessel. Opening the collar raises the teaching heat-transfer
+      // efficiency from 55% to 100%; the engine still owns temperature and
+      // resulting chemistry. This is not a soot/CO combustion model.
+      const collarEfficiency = 0.55 + 0.45 * air / 100;
+      const energyKj = Number((0.005 * flame * seconds * collarEfficiency).toFixed(3));
       return `heat v${v + 1} ${energyKj}kJ`;
     },
     secondary: {
       label: "touch flame to contents",
-      build: (v) => `ignite v${v + 1}`,
+      build: (v, f) => {
+        const flame = num(f.flame);
+        return flame !== null && flame > 0 && flame <= 100 ? `ignite v${v + 1}` : null;
+      },
     },
   },
   {
