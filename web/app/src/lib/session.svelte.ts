@@ -760,7 +760,7 @@ export class Session {
     if (
       effect?.source !== undefined &&
       effect.operation &&
-      ["pour", "filter", "drain"].includes(effect.operation)
+      ["pour", "filter", "drain", "magnet"].includes(effect.operation)
     ) {
       const source = this.scene?.vessels.find((vessel) => vessel.id === effect!.source);
       const lowerLayer = effect.operation === "drain" ? source?.layers?.[0] : undefined;
@@ -768,7 +768,26 @@ export class Session {
         ? source?.layers?.at(-1)
         : undefined;
       const srgb = lowerLayer?.srgb ?? source?.liquid?.srgb;
-      if (srgb) effect = { ...effect, fluidColour: `rgb(${srgb[0]} ${srgb[1]} ${srgb[2]})` };
+      if (srgb && effect.operation !== "magnet") effect = { ...effect, fluidColour: `rgb(${srgb[0]} ${srgb[1]} ${srgb[2]})` };
+      if (effect.operation === "magnet" && effect.magnetic && source) {
+        const attractedKeys = new Set(effect.magnetic.attractedSpecies);
+        const attracted = source.solids
+          .filter((solid) => attractedKeys.has(solid.species))
+          .map((solid) => ({
+            species: solid.species,
+            name: solid.name,
+            moles: solid.moles,
+            colour: `rgb(${solid.srgb[0]} ${solid.srgb[1]} ${solid.srgb[2]})`,
+          }));
+        const attractedMoles = attracted.reduce((sum, solid) => sum + solid.moles, 0);
+        effect = {
+          ...effect,
+          magnitude: attractedMoles > 0
+            ? Math.max(.15, Math.min(1, attractedMoles / .1))
+            : effect.magnitude,
+          magnetic: { ...effect.magnetic, attracted },
+        };
+      }
       if (effect.operation === "drain" && effect.drain) {
         effect = {
           ...effect,

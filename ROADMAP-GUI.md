@@ -1266,6 +1266,13 @@ decorating it.
   transferred mmol, and sends the lower layer's colour through the outlet.
   The former aggregate-liquid colour could visibly drain the wrong phase and
   is no longer used when layer data exists.
+  *Magnetic-separation slice shipped 2026-08-27:* the instrument wall now
+  exposes the existing `magnet from to` grammar as a two-vessel interaction.
+  An engine-confirmed separation places a horseshoe magnet over the transfer
+  path and moves only species named in `MagnetSeparated.attracted`; particle
+  colour and visual loading come from those solids' pre-transfer Scene sRGB
+  and moles. The receiver is never shown receiving solids classified by the
+  engine as remaining, and a negative result visibly reports an empty pickup.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,

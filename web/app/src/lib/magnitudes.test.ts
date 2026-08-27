@@ -191,6 +191,24 @@ describe("effectFromEvent", () => {
     expect(e!.magnitude).toBeGreaterThan(.1);
   });
 
+  it("maps the engine magnetic classification to a physical two-vessel effect", () => {
+    const e = effectFromEvent({
+      event: "magnet_separated",
+      from: 1,
+      to: 3,
+      attracted: ["Fe", "Ni"],
+      remained: ["S"],
+    });
+    expect(e).toMatchObject({
+      kind: "magnet",
+      source: 1,
+      target: 3,
+      operation: "magnet",
+      magnetic: { attractedSpecies: ["Fe", "Ni"], remainedSpecies: ["S"], attracted: [] },
+    });
+    expect(e!.magnitude).toBeGreaterThan(0);
+  });
+
   it("returns null for unknown events", () => {
     expect(effectFromEvent({ event: "thermal_equilibrium", vessel: 0 })).toBeNull();
   });
