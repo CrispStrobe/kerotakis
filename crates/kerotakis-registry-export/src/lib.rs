@@ -1138,6 +1138,50 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             evidence: evidence(),
         },
         MaterialRecipe {
+            id: "school/lugol-solution-1-percent".to_string(),
+            version: 1,
+            canonical_key: "lugol_solution_1_percent".to_string(),
+            name: "1% Lugol iodine solution".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec![
+                        "Lugolsche Lösung 1%".to_string(),
+                        "Lugol-Lösung 1%".to_string(),
+                        "Lugol-Lösung_1%".to_string(),
+                        "Iod-Kaliumiodid-Lösung 1%".to_string(),
+                    ],
+                ),
+                (
+                    "en".to_string(),
+                    vec!["dilute Lugol solution".to_string(), "Lugol 1%".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.02)),
+            components: vec![
+                component("I2", 0.01),
+                component("KI", 0.02),
+                component("water", 0.97),
+            ],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some(
+                "dilute school-test surrogate: 1% w/w iodine and 2% w/w potassium iodide in water"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "iodide-assisted iodine solubilisation is represented with retained KI and aqueous I2 bookkeeping; individual I3-/polyiodide equilibria are not resolved".to_string(),
+                "the starch-complex optical response is calibrated to the broad literature band near 600-650 nm; starch source, amylose fraction, chain length and temperature shift its colour and intensity".to_string(),
+                "this is a laboratory test reagent model, not a food or medical product".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
             id: "household/liquid-hand-soap-surrogate".to_string(),
             version: 1,
             canonical_key: "liquid_hand_soap".to_string(),
