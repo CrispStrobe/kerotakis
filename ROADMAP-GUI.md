@@ -985,8 +985,10 @@ decorating it.
   distilled/evolved/precipitated/electrolysed moles set effect density; flame
   colour is the engine's named result; `burst.at_pa / burst.rating_pa` sets the
   pressure-wave and shard distance. A hazard warning alone never explodes.
-  Remaining DoD: carry reaction energy/rate on ignition events so flame size is
-  no longer the fixed fallback, plus screenshot regression cases.*
+  Reaction energy from the CEA/NASA enthalpy solve now travels on ignition
+  events and linearly controls flame size and flicker speed; an unquantified
+  ignition uses a restrained fallback rather than maximum drama. Remaining
+  DoD: screenshot regression cases.*
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,

@@ -50,6 +50,14 @@ const FLAME_COLOURS: Record<string, string> = {
   crimson: "#dc143c",
   white: "#ffffff",
 };
+const FLAME_KEYS = Object.keys(FLAME_COLOURS).sort((a, b) => b.length - a.length);
+
+function flameCss(colour: unknown): string | undefined {
+  const phrase = String(colour ?? "").trim().toLowerCase();
+  if (!phrase) return undefined;
+  const key = FLAME_COLOURS[phrase] ? phrase : FLAME_KEYS.find((candidate) => phrase.includes(candidate));
+  return key ? FLAME_COLOURS[key] : undefined;
+}
 
 // ── Per-event-kind magnitude extractors ──────────────────────────────
 // Each returns [magnitude, flameColour?]. The magnitude tracks a single
@@ -104,12 +112,16 @@ function diluteMag(e: EngineEvent): number {
   return scale(Number(e.volume ?? 0), 0.01, 0.5);
 }
 
-// event.flame / event.colour — Ignited / FlameTest: magnitude is always
-// 1 (fire is fire), but the colour maps to a CSS value.
+// event.energy_j — Ignited: 100 J is a small flash and 50 kJ fills the
+// available flame envelope. FlameTest has no combustion energy of its own,
+// so it stays a restrained burner flame. Colour always comes from
+// event.flame / event.colour.
 function flameMag(e: EngineEvent): [number, string | undefined] {
-  const colourKey = String(e.flame ?? e.colour ?? "");
-  const css = FLAME_COLOURS[colourKey];
-  return [1, css];
+  const css = flameCss(e.flame ?? e.colour);
+  const magnitude = e.event === "ignited"
+    ? (e.energy_j === undefined ? 0.35 : scale(Number(e.energy_j), 100, 50_000))
+    : 0.28;
+  return [magnitude, css];
 }
 
 /**

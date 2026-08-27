@@ -221,6 +221,24 @@ impl Bench {
                 Event::ReactionOccurred { .. } => true,
                 _ => false,
             });
+            // A chemistry solver may quantify the heat released using its
+            // own thermodynamic model. Carry that number on the ignition
+            // event itself so every host can scale the flame without
+            // reverse-engineering temperature or composition changes.
+            let reaction_energy_j = events.iter().find_map(|event| match event {
+                Event::ThermalEquilibrium {
+                    reaction_energy_j, ..
+                } => *reaction_energy_j,
+                _ => None,
+            });
+            if caught {
+                if let Some(Event::Ignited { energy_j, .. }) = events
+                    .iter_mut()
+                    .find(|event| matches!(event, Event::Ignited { .. }))
+                {
+                    *energy_j = reaction_energy_j;
+                }
+            }
             // Asked *before* the revert, while the vessel is still at flame
             // temperature: that is the state whose flammability was — or
             // was not — evaluated.
@@ -844,6 +862,7 @@ impl Bench {
                     events.push(Event::Ignited {
                         vessel: *vessel,
                         flame,
+                        energy_j: None,
                     });
                 }
             }

@@ -80,13 +80,30 @@ describe("effectFromEvent", () => {
     const e = effectFromEvent({ event: "flame_test", vessel: 0, species: "Na+", colour: "yellow" });
     expect(e!.kind).toBe("ignite");
     expect(e!.flameColour).toBe("#ffd700");
-    expect(e!.magnitude).toBe(1);
+    expect(e!.magnitude).toBeLessThan(0.4);
   });
 
-  it("maps ignited → ignite with colour from event.flame", () => {
-    const e = effectFromEvent({ event: "ignited", vessel: 0, flame: "blue" });
+  it("maps ignited → ignite with colour and magnitude from computed energy_j", () => {
+    const e = effectFromEvent({ event: "ignited", vessel: 0, flame: "blue", energy_j: 25_000 });
     expect(e!.kind).toBe("ignite");
     expect(e!.flameColour).toBe("#1e90ff");
+    expect(e!.magnitude).toBeGreaterThan(0.4);
+  });
+
+  it("recognises a computed flame colour inside the engine's descriptive phrase", () => {
+    const e = effectFromEvent({
+      event: "ignited",
+      vessel: 0,
+      flame: "a blinding white",
+      energy_j: 29_680,
+    });
+    expect(e!.flameColour).toBe("#ffffff");
+  });
+
+  it("a larger computed reaction produces a larger flame", () => {
+    const small = effectFromEvent({ event: "ignited", vessel: 0, energy_j: 5_000 });
+    const large = effectFromEvent({ event: "ignited", vessel: 0, energy_j: 10_000 });
+    expect(large!.magnitude).toBeGreaterThan(small!.magnitude);
   });
 
   it("ignited without flame colour → no flameColour", () => {
