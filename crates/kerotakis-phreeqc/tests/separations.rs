@@ -114,6 +114,41 @@ fn evaporating_brine_crystallises_salt() {
 }
 
 #[test]
+fn named_seawater_has_computed_salinity_and_leaves_salt() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let op = kerotakis_core::script::parse_op("add v1 Meerwasser 100mL")
+        .expect("valid localized seawater command")
+        .expect("operator");
+    step(&mut bench, &mut stack, op);
+    let solution = bench.vessels[0]
+        .solution
+        .as_ref()
+        .expect("computed seawater solution");
+    assert!(
+        solution.ionic_strength > 0.4,
+        "installed major salts must produce seawater-scale ionic strength: {}",
+        solution.ionic_strength
+    );
+
+    let events = step(
+        &mut bench,
+        &mut stack,
+        Operator::Evaporate {
+            vessel: VesselId(0),
+            fraction: 0.95,
+        },
+    );
+    assert!(
+        events.iter().any(|event| matches!(event,
+            Event::Precipitated { species, moles, .. }
+                if species.0 == "NaCl" && moles.0 > 0.01
+        )),
+        "concentrating named seawater must recover computed salt: {events:?}"
+    );
+}
+
+#[test]
 fn evaporating_a_mixture_flags_the_missing_vle() {
     let mut bench = Bench::new();
     let mut stack = stack();
