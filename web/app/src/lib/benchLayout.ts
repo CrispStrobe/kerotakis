@@ -19,6 +19,7 @@ export interface BenchLayout {
 export const EMPTY_BENCH_LAYOUT: BenchLayout = { version: 2, placements: {}, apparatus: {} };
 // Keep the storage key: parseBenchLayout migrates the version-1 value in place.
 export const BENCH_LAYOUT_KEY = "kerotakis.bench.layout.v1";
+export const LAB_LAYOUT_PREFIX = "# kerotakis-bench-layout-v2 ";
 
 const X_MIN = 0.08;
 const X_MAX = 0.92;
@@ -175,6 +176,27 @@ export function parseBenchLayout(raw: string | null): BenchLayout {
   } catch {
     return EMPTY_BENCH_LAYOUT;
   }
+}
+
+/** Embed presentation-only placement in a comment old .lab readers ignore. */
+export function labWithBenchLayout(script: string, layout: BenchLayout): string {
+  const body = script.endsWith("\n") ? script : `${script}\n`;
+  return `${LAB_LAYOUT_PREFIX}${JSON.stringify(layout)}\n${body}`;
+}
+
+/** Recover an optional shared arrangement without changing chemistry commands. */
+export function benchLayoutFromLab(text: string): BenchLayout | null {
+  const line = text.split(/\r?\n/).find((candidate) => candidate.startsWith(LAB_LAYOUT_PREFIX));
+  if (!line) return null;
+  const raw = line.slice(LAB_LAYOUT_PREFIX.length).trim();
+  if (!raw) return null;
+  try {
+    const decoded = JSON.parse(raw) as { version?: unknown; placements?: unknown };
+    if (decoded.version !== 2 || !decoded.placements || typeof decoded.placements !== "object") return null;
+  } catch {
+    return null;
+  }
+  return parseBenchLayout(raw);
 }
 
 export function adjacentZone(zone: BenchZone, direction: -1 | 1): BenchZone {
