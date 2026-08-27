@@ -948,7 +948,7 @@
     },
     {
       "id": "kerotakis/material-recipes-v1",
-      "citation": "Kerotakis household-material assumptions v1: 3% hydrogen peroxide and 5% white vinegar are explicit unbranded teaching surrogates; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity",
+      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity",
       "licence": "AGPL-3.0-or-later",
       "lane": "runtime",
       "origin": "crates/kerotakis-registry-export/src/lib.rs",
@@ -33737,6 +33737,171 @@
       "preparation": "dry baker's yeast represented as a catalase activity proxy; hydrate with warm water in the experiment",
       "lot_assumptions": [
         "enzyme activity varies strongly by brand, age and hydration; v1 models presence, not a universal activity per gram"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/baking-soda",
+      "version": 1,
+      "canonical_key": "baking_soda",
+      "name": "baking soda",
+      "aliases": {
+        "de": [
+          "Natron",
+          "Speisesoda",
+          "Backnatron"
+        ],
+        "en": [
+          "bicarbonate of soda",
+          "sodium bicarbonate"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "NaHCO3",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [],
+      "preparation": "pure sodium-bicarbonate teaching surrogate",
+      "lot_assumptions": [
+        "anti-caking agents and moisture in retail products are omitted"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/washing-soda",
+      "version": 1,
+      "canonical_key": "washing_soda",
+      "name": "washing soda",
+      "aliases": {
+        "de": [
+          "Waschsoda",
+          "Reine Soda"
+        ],
+        "en": [
+          "soda ash"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Na2CO3",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [],
+      "preparation": "anhydrous sodium-carbonate teaching surrogate",
+      "lot_assumptions": [
+        "hydrated crystal soda and brand-specific additives are not represented"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/cornstarch",
+      "version": 1,
+      "canonical_key": "cornstarch",
+      "name": "cornstarch",
+      "aliases": {
+        "de": [
+          "Speisestärke",
+          "Maisstärke",
+          "Staerke"
+        ],
+        "en": [
+          "corn starch"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "starch",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [],
+      "preparation": "dry purified-starch teaching surrogate",
+      "lot_assumptions": [
+        "botanical source, moisture, lipids and protein traces are omitted"
       ],
       "substitutions": [],
       "confidence": "surrogate",

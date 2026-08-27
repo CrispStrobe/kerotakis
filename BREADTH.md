@@ -354,6 +354,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   characteristic behavior test; changing recipe version invalidates cache keys.
 - **Out of scope:** product endorsements, clandestine composition guessing, or
   detailed toxicology from generic recipes.
+- **Checkpoint 1 implemented:** baking soda/Natron, anhydrous washing
+  soda/Waschsoda, and cornstarch/Speisestärke are versioned localized material
+  recipes that expand exactly to the existing `NaHCO3`, `Na2CO3`, and `starch`
+  solver species. The bare word “Soda” remains intentionally unclaimed because
+  its meaning changes by language and context. Baking powder waits for an
+  audited acid-salt component; pepper waits for aggregate-solid appearance;
+  isopropanol waits for its pure-species, volatility, safety and combustion
+  routes; dyes and paints wait for BRD-075 optical material roles. These are
+  prerequisite boundaries, not generic inert substitutes.
 
 ## Stage B2 — organic structure and curated reaction families
 

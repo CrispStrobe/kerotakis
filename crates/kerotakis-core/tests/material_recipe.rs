@@ -75,3 +75,20 @@ fn material_identity_is_not_reported_as_unknown_species() {
         ParseErrorKind::UnknownSpecies
     );
 }
+
+#[test]
+fn familiar_powders_expand_to_the_existing_solver_species() {
+    for (name, language, expected) in [
+        ("Natron", Some("de"), "NaHCO3"),
+        ("Waschsoda", Some("de"), "Na2CO3"),
+        ("Speisestärke", Some("de"), "starch"),
+        ("bicarbonate of soda", Some("en"), "NaHCO3"),
+    ] {
+        let recipe = kerotakis_core::material::lookup(name, language).expect(name);
+        let expansion = recipe.expand(10.0, 0).expect("fixed expansion");
+        assert_eq!(expansion.components.len(), 1);
+        assert_eq!(expansion.components[0].species_id, expected);
+        assert!((expansion.components[0].amount - 10.0).abs() < 1e-12);
+        assert!(expansion.unresolved_amount.abs() < 1e-12);
+    }
+}
