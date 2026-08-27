@@ -7,8 +7,8 @@
   import { t } from "../i18n.svelte";
   import {
     BENCH_ZONES,
-    adjacentZone,
-    placeVessel,
+    positionFor,
+    positionVessel,
     zoneFor,
     type BenchLayout,
     type BenchZone,
@@ -67,8 +67,11 @@
   } = $props();
 
   let choosing = $state(false);
+  let workSurface = $state<HTMLDivElement | null>(null);
   let dragged = $state<number | null>(null);
   let dropZone = $state<BenchZone | null>(null);
+  let dragPreview = $state<{ vessel: number; x: number; y: number } | null>(null);
+  let pointerDrag: { vessel: number; pointer: number; startX: number; startY: number; moved: boolean } | null = null;
   let moveMessage = $state("");
   let messageTimer: ReturnType<typeof setTimeout> | undefined;
   const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
@@ -83,35 +86,63 @@
       .filter((effect) => effect.operation && effect.source !== undefined && effect.target !== undefined && Date.now() - effect.at < 3500),
   );
 
-  const vesselsIn = (zone: BenchZone) => scene?.vessels.filter((v) => zoneFor(layout, v.id) === zone) ?? [];
   const latestApparatusEffect = (vessel: number, kind: string) =>
     [...(effects[vessel] ?? [])].reverse().find((effect) => effect.kind === kind);
 
-  function move(vessel: number, zone: BenchZone) {
-    onmove?.(placeVessel(layout, vessel, zone));
+  const placement = (vessel: number) =>
+    dragPreview?.vessel === vessel ? dragPreview : positionFor(layout, vessel);
+
+  function surfacePosition(clientX: number, clientY: number) {
+    if (!workSurface) return null;
+    const rect = workSurface.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return null;
+    return { x: (clientX - rect.left) / rect.width, y: (clientY - rect.top) / rect.height };
+  }
+
+  function placeAt(vessel: number, x: number, y: number) {
+    const next = positionVessel(layout, vessel, x, y);
+    onmove?.(next);
     onselect(vessel);
-    moveMessage = t("vessel v{vessel} moved to {zone}", { vessel: vessel + 1, zone: t(zone) });
+    moveMessage = t("vessel v{vessel} moved to {zone}", {
+      vessel: vessel + 1,
+      zone: t(zoneFor(next, vessel)),
+    });
     if (messageTimer) clearTimeout(messageTimer);
     messageTimer = setTimeout(() => (moveMessage = ""), 2200);
   }
 
-  function startDrag(event: DragEvent, vessel: number) {
-    dragged = vessel;
-    event.dataTransfer?.setData("application/x-kero-vessel", String(vessel));
-    if (event.dataTransfer) event.dataTransfer.effectAllowed = "move";
+  function nudge(vessel: number, dx: number, dy: number) {
+    const current = positionFor(layout, vessel);
+    placeAt(vessel, current.x + dx, current.y + dy);
   }
 
-  function acceptDrop(event: DragEvent, zone: BenchZone) {
-    if (!event.dataTransfer?.types.includes("application/x-kero-vessel")) return;
+  function startPointer(event: PointerEvent, vessel: number) {
+    if (event.button !== 0 || (event.target as HTMLElement).closest(".placement-controls")) return;
+    pointerDrag = { vessel, pointer: event.pointerId, startX: event.clientX, startY: event.clientY, moved: false };
+    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    onselect(vessel);
+  }
+
+  function trackPointer(event: PointerEvent) {
+    if (!pointerDrag || pointerDrag.pointer !== event.pointerId) return;
+    if (!pointerDrag.moved && Math.hypot(event.clientX - pointerDrag.startX, event.clientY - pointerDrag.startY) < 6) return;
+    pointerDrag.moved = true;
+    const p = surfacePosition(event.clientX, event.clientY);
+    if (!p) return;
     event.preventDefault();
-    dropZone = zone;
-    if (event.dataTransfer) event.dataTransfer.dropEffect = "move";
+    dragged = pointerDrag.vessel;
+    dragPreview = { vessel: pointerDrag.vessel, ...p };
+    dropZone = p.x < 1 / 3 ? "prepare" : p.x > 2 / 3 ? "analyse" : "react";
   }
 
-  function finishDrop(event: DragEvent, zone: BenchZone) {
-    const value = event.dataTransfer?.getData("application/x-kero-vessel") ?? "";
-    const vessel = Number(value);
-    if (Number.isInteger(vessel) && scene?.vessels.some((v) => v.id === vessel)) move(vessel, zone);
+  function finishPointer(event: PointerEvent) {
+    if (!pointerDrag || pointerDrag.pointer !== event.pointerId) return;
+    if (pointerDrag.moved && dragPreview) {
+      event.preventDefault();
+      placeAt(pointerDrag.vessel, dragPreview.x, dragPreview.y);
+    }
+    pointerDrag = null;
+    dragPreview = null;
     dragged = null;
     dropZone = null;
   }
@@ -163,109 +194,100 @@
     {#each spatialEffects as effect (effect.at + ":" + effect.source + ":" + effect.target + ":" + effect.operation)}
       <BenchEffect {effect} />
     {/each}
-    <div class="work-zones" class:guides-off={!showZones} aria-label={t("bench work zones")}>
-      {#each BENCH_ZONES as zone (zone)}
-        {@const zoneVessels = vesselsIn(zone)}
+    <div
+      class="work-surface"
+      bind:this={workSurface}
+      role="group"
+      aria-label={t("free-positioned laboratory bench")}
+    >
+      {#if showZones}
+        <div class="zone-guides" aria-label={t("bench work zones")}>
+          {#each BENCH_ZONES as zone (zone)}
+            {@const zoneCount = scene.vessels.filter((v) => zoneFor(layout, v.id) === zone).length}
+            <section
+              class="work-zone"
+              class:drop-target={dropZone === zone}
+              data-zone={zone}
+              aria-label={t("{zone} work zone", { zone: t(zone) })}
+            >
+              <header>
+                <span class="zone-icon" aria-hidden="true">{zone === "prepare" ? "◒" : zone === "react" ? "⚡" : "⌁"}</span>
+                <span><strong>{t(zone)}</strong><small>{t(zoneHints[zone])}</small></span>
+                <span class="zone-count">{zoneCount}</span>
+              </header>
+            </section>
+          {/each}
+        </div>
+      {/if}
+      {#each scene.vessels as vessel (vessel.id)}
+        {@const p = placement(vessel.id)}
         <section
-          class="work-zone"
-          class:drop-target={dropZone === zone}
-          class:dragging={dragged !== null}
-          data-zone={zone}
-          aria-label={t("{zone} work zone", { zone: t(zone) })}
-          ondragover={(event) => acceptDrop(event, zone)}
-          ondragleave={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) dropZone = null;
-          }}
-          ondrop={(event) => finishDrop(event, zone)}
+          class="vessel-position"
+          class:moving={dragged === vessel.id}
+          style={`left:${p.x * 100}%;top:${p.y * 100}%`}
+          aria-label={t("vessel v{vessel} placement", { vessel: vessel.id + 1 })}
+          onpointerdown={(event) => startPointer(event, vessel.id)}
+          onpointermove={trackPointer}
+          onpointerup={finishPointer}
+          onpointercancel={finishPointer}
         >
-          <header>
-            <span class="zone-icon" aria-hidden="true">{zone === "prepare" ? "◒" : zone === "react" ? "⚡" : "⌁"}</span>
-            <span><strong>{t(zone)}</strong><small>{t(zoneHints[zone])}</small></span>
-            <span class="zone-count">{zoneVessels.length}</span>
-          </header>
-          <div class="zone-deck">
-            {#each zoneVessels as vessel (vessel.id)}
-              <div
-                class="vessel-position"
-                class:moving={dragged === vessel.id}
-                draggable="true"
-                role="group"
-                aria-label={t("vessel v{vessel} placement", { vessel: vessel.id + 1 })}
-                ondragstart={(event) => startDrag(event, vessel.id)}
-                ondragend={() => { dragged = null; dropZone = null; }}
-              >
-                <span class="connection-port port-in" data-port="in" aria-hidden="true"></span>
-                <Vessel
-                  {vessel}
-                  {register}
-                  selected={vessel.id === selected}
-                  transferTarget={transferFrom !== null && vessel.id !== transferFrom}
-                  {onselect}
-                  {ondropspecies}
-                  effects={effects[vessel.id] ?? []}
-                  titrationPlayback={titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
-                  onbadge={(b) => onbadge?.(vessel.id, b)}
-                  {fluidLookup}
-                  deployedTool={vessel.id === deployedTarget && !["grind", "centrifuge"].includes(deployedTool ?? "") ? deployedTool : null}
-                  {apparatusWorking}
-                  {apparatusValues}
-                />
-                {#if vessel.id === deployedTarget && (deployedTool === "grind" || deployedTool === "centrifuge")}
-                  {@const apparatusEffect = latestApparatusEffect(vessel.id, deployedTool)}
-                  {#key apparatusEffect?.at}
-                    <StandaloneApparatus
-                      tool={deployedTool}
-                      working={apparatusWorking}
-                      performedAt={apparatusEffect?.at}
-                      intensity={apparatusEffect?.magnitude ?? 0.5}
-                      values={apparatusValues}
-                    />
-                  {/key}
-                {/if}
-                <span class="connection-port port-out" data-port="out" aria-hidden="true"></span>
-                {#if vessel.id === selected}
-                  {@const currentZone = zoneFor(layout, vessel.id)}
-                  {@const leftZone = adjacentZone(currentZone, -1)}
-                  {@const rightZone = adjacentZone(currentZone, 1)}
-                  <div class="placement-controls" role="group" aria-label={t("move vessel v{vessel}", { vessel: vessel.id + 1 })}>
-                    <button
-                      disabled={leftZone === currentZone}
-                      aria-label={t("move vessel v{vessel} to {zone}", { vessel: vessel.id + 1, zone: t(leftZone) })}
-                      onclick={() => move(vessel.id, leftZone)}
-                    >←</button>
-                    <button
-                      disabled={rightZone === currentZone}
-                      aria-label={t("move vessel v{vessel} to {zone}", { vessel: vessel.id + 1, zone: t(rightZone) })}
-                      onclick={() => move(vessel.id, rightZone)}
-                    >→</button>
-                    {#if onremove}
-                      <button
-                        class="remove"
-                        aria-label={t("remove empty vessel v{vessel}", { vessel: vessel.id + 1 })}
-                        title={t("remove empty vessel")}
-                        onclick={() => onremove(vessel.id)}
-                      >×</button>
-                    {/if}
-                  </div>
-                {/if}
-              </div>
-            {/each}
-            {#if zone === "prepare" && onnewvessel}
-              <div class="add-vessel">
-                {#if choosing}
-                  {#each VESSEL_KINDS as kind (kind)}
-                    <button class="kind" onclick={() => { choosing = false; onnewvessel(kind); }}>{t(kind)}</button>
-                  {/each}
-                  <button class="kind cancel" aria-label={t("cancel")} onclick={() => (choosing = false)}>×</button>
-                {:else}
-                  <button class="plus" aria-label={t("add a vessel")} onclick={() => (choosing = true)}>+</button>
-                {/if}
-              </div>
-            {/if}
-          </div>
-          {#if dropZone === zone}<div class="drop-callout">{t("place vessel here")}</div>{/if}
+          <span class="connection-port port-in" data-port="in" aria-hidden="true"></span>
+          <Vessel
+            {vessel}
+            {register}
+            selected={vessel.id === selected}
+            transferTarget={transferFrom !== null && vessel.id !== transferFrom}
+            {onselect}
+            {ondropspecies}
+            effects={effects[vessel.id] ?? []}
+            titrationPlayback={titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
+            onbadge={(b) => onbadge?.(vessel.id, b)}
+            {fluidLookup}
+            deployedTool={vessel.id === deployedTarget && !["grind", "centrifuge"].includes(deployedTool ?? "") ? deployedTool : null}
+            {apparatusWorking}
+            {apparatusValues}
+          />
+          {#if vessel.id === deployedTarget && (deployedTool === "grind" || deployedTool === "centrifuge")}
+            {@const apparatusEffect = latestApparatusEffect(vessel.id, deployedTool)}
+            {#key apparatusEffect?.at}
+              <StandaloneApparatus
+                tool={deployedTool}
+                working={apparatusWorking}
+                performedAt={apparatusEffect?.at}
+                intensity={apparatusEffect?.magnitude ?? 0.5}
+                values={apparatusValues}
+              />
+            {/key}
+          {/if}
+          <span class="connection-port port-out" data-port="out" aria-hidden="true"></span>
+          {#if vessel.id === selected}
+            <div class="placement-controls" role="group" aria-label={t("move vessel v{vessel}", { vessel: vessel.id + 1 })}>
+              <button aria-label={t("move vessel v{vessel} left", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, -0.05, 0)}>←</button>
+              <span class="vertical-controls">
+                <button aria-label={t("move vessel v{vessel} up", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0, -0.06)}>↑</button>
+                <button aria-label={t("move vessel v{vessel} down", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0, 0.06)}>↓</button>
+              </span>
+              <button aria-label={t("move vessel v{vessel} right", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0.05, 0)}>→</button>
+              {#if onremove}
+                <button class="remove" aria-label={t("remove empty vessel v{vessel}", { vessel: vessel.id + 1 })} title={t("remove empty vessel")} onclick={() => onremove(vessel.id)}>×</button>
+              {/if}
+            </div>
+          {/if}
         </section>
       {/each}
+      {#if onnewvessel}
+        <div class="add-vessel">
+          {#if choosing}
+            {#each VESSEL_KINDS as kind (kind)}
+              <button class="kind" onclick={() => { choosing = false; onnewvessel(kind); }}>{t(kind)}</button>
+            {/each}
+            <button class="kind cancel" aria-label={t("cancel")} onclick={() => (choosing = false)}>×</button>
+          {:else}
+            <button class="plus" aria-label={t("add a vessel")} onclick={() => (choosing = true)}>+</button>
+          {/if}
+        </div>
+      {/if}
+      {#if dragged !== null}<div class="drop-callout">{t("place vessel here")}</div>{/if}
     </div>
     {#if pristine}
       <p class="hint">
@@ -453,33 +475,26 @@
   }
   .wall-safety:hover, .wall-safety:focus-visible { border-color: var(--success); box-shadow: 0 7px 18px var(--shadow); transform: translateY(-1px); }
   .safety-mark { width: 29px; height: 25px; display: grid; place-items: center; flex: none; border-radius: 7px; color: white; background: var(--success); font-weight: 900; }
-  .work-zones {
+  .work-surface {
     position: relative;
     z-index: 2;
-    min-height: calc(100% - 1rem);
+    width: 100%;
+    min-width: 42rem;
+    min-height: max(29rem, calc(100% - 1rem));
+    overflow: hidden;
+    border-radius: 16px 16px 0 0;
+  }
+  .zone-guides {
+    position: absolute;
+    inset: 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0.45rem;
+    pointer-events: none;
   }
-  .work-zones.guides-off {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-end;
-    align-items: flex-end;
-    justify-content: center;
-    gap: clamp(0.4rem, 1.4vw, 1.2rem);
-    padding: 1rem 1rem 1.8rem;
-  }
-  .guides-off .work-zone,
-  .guides-off .zone-deck { display: contents; }
-  .guides-off .work-zone > header,
-  .guides-off .drop-callout { display: none; }
   .work-zone {
     position: relative;
     min-width: 0;
-    min-height: 15rem;
-    display: flex;
-    flex-direction: column;
     border: 1px dashed color-mix(in srgb, var(--edge) 62%, transparent);
     border-bottom: 0;
     border-radius: 16px 16px 0 0;
@@ -525,16 +540,6 @@
     font-size: 0.62rem;
     text-align: center;
   }
-  .zone-deck {
-    flex: 1;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-end;
-    justify-content: center;
-    gap: clamp(0.25rem, 1vw, 0.8rem);
-    padding: 1rem 0.2rem 1.6rem;
-  }
-  .work-zone.dragging { border-color: color-mix(in srgb, var(--instrument) 48%, var(--edge)); }
   .work-zone.drop-target {
     border-color: var(--success);
     background: color-mix(in srgb, var(--success) 7%, transparent);
@@ -543,7 +548,8 @@
   .drop-callout {
     position: absolute;
     left: 50%;
-    bottom: 0.5rem;
+    bottom: 0.65rem;
+    z-index: 10;
     translate: -50% 0;
     padding: 0.2rem 0.55rem;
     border-radius: 999px;
@@ -554,11 +560,15 @@
     white-space: nowrap;
   }
   .vessel-position {
-    position: relative;
-    z-index: 2;
+    position: absolute;
+    z-index: 3;
+    translate: -50% -50%;
     cursor: grab;
+    touch-action: none;
+    user-select: none;
     transition: opacity 140ms ease, transform 180ms ease;
   }
+  .vessel-position:has(:global(.vessel.selected)) { z-index: 6; }
   .vessel-position:active { cursor: grabbing; }
   .vessel-position.moving { opacity: 0.42; transform: scale(0.96); }
   .connection-port {
@@ -604,10 +614,10 @@
   }
   .placement-controls button:disabled { opacity: 0.25; cursor: default; }
   .placement-controls .remove { color: var(--bad); background: color-mix(in srgb, var(--bad) 10%, var(--surface)); }
+  .vertical-controls { display: grid; gap: 1px; }
+  .vertical-controls button { width: 20px; height: 13px; font-size: 0.62rem; line-height: 1; }
   .move-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   @media (max-width: 780px) {
-    .work-zones { grid-template-columns: 1fr; }
-    .work-zone { min-height: 12rem; border-bottom: 1px dashed color-mix(in srgb, var(--edge) 62%, transparent); }
     .bench { padding-top: 2.7rem; }
     .poster-copy { display: none; }
     .wall-poster, .wall-cabinet, .wall-safety { max-width: none; padding-inline: 0.4rem; }
@@ -617,6 +627,10 @@
     align-self: center;
   }
   .add-vessel {
+    position: absolute;
+    z-index: 7;
+    left: 0.8rem;
+    bottom: 0.9rem;
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
