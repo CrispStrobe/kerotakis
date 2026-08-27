@@ -14,6 +14,8 @@ export type EngineEvent = Record<string, unknown>;
 export interface Effect {
   kind: string;
   at: number;
+  /** Visible lifetime for time-bearing operations, derived from engine seconds. */
+  durationMs?: number;
   /** 0–1 visual intensity, from the event's amount field. */
   magnitude: number;
   /** Flame colour CSS value, if the event carries one. */
@@ -189,11 +191,21 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         target: Number(e.into ?? 0),
       };
     case "stirred":
-      return { kind: "swirl", at: now, magnitude: stirMag(e) };
+      return {
+        kind: "swirl",
+        at: now,
+        magnitude: stirMag(e),
+        durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+      };
     case "ground":
       return { kind: "grind", at: now, magnitude: grindMag(e) };
     case "centrifuged":
-      return { kind: "centrifuge", at: now, magnitude: centrifugeMag(e) };
+      return {
+        kind: "centrifuge",
+        at: now,
+        magnitude: centrifugeMag(e),
+        durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+      };
     case "transferred":
       return {
         kind: "pour",

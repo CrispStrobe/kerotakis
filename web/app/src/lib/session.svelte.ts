@@ -120,9 +120,24 @@ export class Session {
    * amounts where they exist). */
   private pushEffect(vessel: number, kind: string, magnitude = 0.6): void {
     const now = Date.now();
-    const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
-    list.push({ kind, at: now, magnitude });
+    const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < (e.durationMs ?? 4000));
+    const effect = { kind, at: now, magnitude };
+    list.push(effect);
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
+    this.expireEffect(vessel, effect);
+  }
+
+  /** Removing an effect is itself reactive. CSS animations therefore stop
+   * when their physical playback window ends, without waiting for another command. */
+  private expireEffect(vessel: number, effect: Effect): void {
+    setTimeout(() => {
+      const current = this.vesselEffects[vessel] ?? [];
+      if (!current.includes(effect)) return;
+      this.vesselEffects = {
+        ...this.vesselEffects,
+        [vessel]: current.filter((candidate) => candidate !== effect),
+      };
+    }, (effect.durationMs ?? 4000) + 50);
   }
 
   /** GUI-064b: pace any multi-step operation's visible effects through
@@ -150,10 +165,7 @@ export class Session {
       (i) => {
         this.titrationPlayback = { vessel, delivered: curve[i]?.[0] ?? 0, total };
         // Each increment drips — the same typed-effect channel as ever.
-        const now = Date.now();
-        const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
-        list.push({ kind: "drip", at: now, magnitude: 1 });
-        this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
+        this.pushEffect(vessel, "drip", 1);
       },
       () => {
         // Hold the final reading a beat, then clear the overlay state.
@@ -616,9 +628,10 @@ export class Session {
     if (!effect) return;
     const vessel = vesselOf(event);
     const now = Date.now();
-    const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
+    const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < (e.durationMs ?? 4000));
     list.push(effect);
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
+    this.expireEffect(vessel, effect);
   }
 
   async setRegister(level: string): Promise<void> {

@@ -176,10 +176,12 @@ describe("effectFromEvent", () => {
   });
 
   it("scales magnetic stirring from the engine-computed bar tip speed", () => {
-    const slow = effectFromEvent({ event: "stirred", vessel: 0, tip_speed_m_s: 0.1 });
-    const fast = effectFromEvent({ event: "stirred", vessel: 0, tip_speed_m_s: 2.0 });
+    const slow = effectFromEvent({ event: "stirred", vessel: 0, tip_speed_m_s: 0.1, seconds: 2 });
+    const fast = effectFromEvent({ event: "stirred", vessel: 0, tip_speed_m_s: 2.0, seconds: 6 });
     expect(slow?.kind).toBe("swirl");
     expect(fast!.magnitude).toBeGreaterThan(slow!.magnitude);
+    expect(slow!.durationMs).toBe(2000);
+    expect(fast!.durationMs).toBe(6000);
   });
 
   it("scales mortar motion from computed powder surface area", () => {
