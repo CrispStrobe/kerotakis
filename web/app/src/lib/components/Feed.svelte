@@ -5,13 +5,16 @@
 
   let { entries, onaddnote }: { entries: FeedEntry[]; onaddnote?: (text: string) => void } = $props();
   let note = $state("");
+  let showTrace = $state(false);
 
   // Render only the tail of a very long session: the exports keep every
   // entry, the DOM does not have to (low-end budget). 400 entries is far
   // beyond what a screen shows and well within what a Chromebook lays out.
   const WINDOW = 400;
-  const shown = $derived(entries.length > WINDOW ? entries.slice(-WINDOW) : entries);
-  const trimmed = $derived(entries.length - shown.length);
+  const visibleEntries = $derived(showTrace ? entries : entries.filter((entry) => entry.kind !== "command"));
+  const shown = $derived(visibleEntries.length > WINDOW ? visibleEntries.slice(-WINDOW) : visibleEntries);
+  const trimmed = $derived(visibleEntries.length - shown.length);
+  const hiddenCommands = $derived(entries.filter((entry) => entry.kind === "command").length);
 
   let list: HTMLElement | undefined = $state();
   $effect(() => {
@@ -24,6 +27,15 @@
 <!-- The feed is the notebook and the screen-reader surface: everything the
      bench does is a legible line here, announced as it happens. -->
 <section class="feed" aria-label={t("lab notebook")} aria-live="polite" bind:this={list}>
+  <div class="journal-view" role="group" aria-label={t("journal view") }>
+    <button aria-pressed={!showTrace} class:active={!showTrace} onclick={() => (showTrace = false)}>
+      {t("observations")}
+    </button>
+    <button aria-pressed={showTrace} class:active={showTrace} onclick={() => (showTrace = true)}>
+      {t("full trace")}
+      {#if hiddenCommands > 0}<span>{hiddenCommands}</span>{/if}
+    </button>
+  </div>
   {#if onaddnote}
     <form class="note-composer" onsubmit={(event) => {
       event.preventDefault();
@@ -78,6 +90,10 @@
     flex-direction: column;
     gap: 0.25rem;
   }
+  .journal-view { position: sticky; top: 0; z-index: 2; display: grid; grid-template-columns: 1fr 1fr; gap: 2px; padding: 3px; border: 1px solid var(--edge); border-radius: 10px; background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(10px); }
+  .journal-view button { min-height: 30px; display: flex; align-items: center; justify-content: center; gap: .35rem; border: 0; border-radius: 7px; color: var(--dim); background: transparent; font: inherit; font-size: .66rem; font-weight: 750; cursor: pointer; }
+  .journal-view button.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised)); }
+  .journal-view span { min-width: 1.2rem; padding: .08rem .25rem; border-radius: 999px; color: var(--dim); background: var(--surface); font-size: .52rem; }
   .note-composer { display: grid; grid-template-columns: 1fr auto; gap: 0.4rem; margin-bottom: 0.5rem; }
   .note-composer textarea { resize: vertical; min-width: 0; padding: 0.5rem; border: 1px solid var(--edge); border-radius: 9px; color: var(--ink); background: var(--panel-raised); font: inherit; }
   .note-composer button { align-self: stretch; padding: 0.35rem 0.55rem; border: 0; border-radius: 9px; color: white; background: var(--primary); font: inherit; font-size: 0.72rem; font-weight: 750; cursor: pointer; }
