@@ -878,7 +878,11 @@ hide them completely.
   2026-08-27:* Discovery Studio, Research Laboratory, and Orbital Laboratory
   give the same live chemistry three colourful, persisted environments; the
   choice is explicitly visual and never mutates vessels or evidence.
-  Cupboards, utilities, and true free spatial placement remain.*
+  *Utility-station slice shipped 2026-08-27:* a compact wall supply point
+  opens a real utility panel for the selected vessel. Water routes to the
+  exact amount-aware water card, power routes to equipment, and the waste
+  station states why chemical contents are never discarded silently.
+  Cupboards and true free spatial placement remain.*
 
 - [ ] **GUI-083 — Physical apparatus and computed motion.** Promote apparatus
   from forms/tool verbs to placeable assemblies with visible controls and

@@ -42,6 +42,7 @@
     onopenperiodic,
     onopencabinet,
     onopensafety,
+    onopenutilities,
     missionName = null,
     missionDone = 0,
     missionTotal = 0,
@@ -73,6 +74,7 @@
     onopenperiodic?: () => void;
     onopencabinet?: () => void;
     onopensafety?: () => void;
+    onopenutilities?: () => void;
     missionName?: string | null;
     missionDone?: number;
     missionTotal?: number;
@@ -288,6 +290,11 @@
     <button class="wall-safety" aria-label={t("open safety station")} onclick={onopensafety}>
       <span class="safety-mark" aria-hidden="true">✦</span>
       <span class="poster-copy"><strong>{t("safety station")}</strong><small>{t("tap for the real-lab rules")}</small></span>
+    </button>
+  {/if}
+  {#if onopenutilities}
+    <button class="wall-utilities" aria-label={t("open utility station")} title={t("utility station")} onclick={onopenutilities}>
+      <span aria-hidden="true">⌁</span><i aria-hidden="true"></i>
     </button>
   {/if}
   {#if missionName && onopenmission}
@@ -653,6 +660,9 @@
   }
   .wall-safety:hover, .wall-safety:focus-visible { border-color: var(--success); box-shadow: 0 7px 18px var(--shadow); transform: translateY(-1px); }
   .safety-mark { width: 29px; height: 25px; display: grid; place-items: center; flex: none; border-radius: 7px; color: white; background: var(--success); font-weight: 900; }
+  .wall-utilities { position: absolute; z-index: 9; top: .45rem; right: 10.3rem; width: 36px; height: 34px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--cool) 52%, var(--edge)); border-radius: 10px; color: var(--instrument); background: color-mix(in srgb, var(--cool) 11%, var(--surface)); box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow) 72%, transparent); cursor: pointer; font: inherit; font-size: 1.05rem; }
+  .wall-utilities i { position: absolute; right: 5px; bottom: 5px; width: 6px; height: 6px; border-radius: 50%; background: var(--action); box-shadow: 0 0 0 2px var(--surface); }
+  .wall-utilities:hover, .wall-utilities:focus-visible { border-color: var(--cool); transform: translateY(-1px); }
   .mission-briefing {
     position: absolute;
     z-index: 8;
@@ -905,6 +915,7 @@
     .bench.mission-active { padding-top: 6.6rem; }
     .poster-copy { display: none; }
     .wall-poster, .wall-cabinet, .wall-safety { max-width: none; padding-inline: 0.4rem; }
+    .wall-utilities { right: 3.75rem; }
     .mission-briefing { width: min(20rem, 58%); }
     .briefing-copy small, .briefing-progress small { display: none; }
   }
