@@ -95,7 +95,7 @@
   let moveMessage = $state("");
   let messageTimer: ReturnType<typeof setTimeout> | undefined;
   const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
-  const FREESTANDING_TOOLS = ["grind", "centrifuge", "burette"];
+  const FREESTANDING_TOOLS = ["grind", "centrifuge", "burette", "evaporate"];
   const zoneHints: Record<BenchZone, string> = {
     prepare: "set up and measure",
     react: "mix and transform",
@@ -111,7 +111,13 @@
     [...(effects[vessel] ?? [])].reverse().find((effect) => effect.kind === kind);
 
   const apparatusName = (tool: string) =>
-    tool === "grind" ? "mortar" : tool === "centrifuge" ? "mini centrifuge" : "burette and stand";
+    tool === "grind"
+      ? "mortar"
+      : tool === "centrifuge"
+        ? "mini centrifuge"
+        : tool === "evaporate"
+          ? "evaporating dish"
+          : "burette and stand";
 
   const placement = (vessel: number) =>
     dragPreview?.vessel === vessel ? dragPreview : positionFor(layout, vessel);
@@ -409,7 +415,7 @@
             titrationPlayback={deployedTool !== "burette" && titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
             onbadge={(b) => onbadge?.(vessel.id, b)}
             {fluidLookup}
-            deployedTool={vessel.id === deployedTarget && !["grind", "centrifuge", "burette"].includes(deployedTool ?? "") ? deployedTool : null}
+            deployedTool={vessel.id === deployedTarget && !FREESTANDING_TOOLS.includes(deployedTool ?? "") ? deployedTool : null}
             {apparatusWorking}
             {apparatusValues}
           />
@@ -427,7 +433,7 @@
           {/if}
         </section>
       {/each}
-      {#if deployedTarget !== null && deployedTool && ["grind", "centrifuge", "burette"].includes(deployedTool)}
+      {#if deployedTarget !== null && deployedTool && FREESTANDING_TOOLS.includes(deployedTool)}
         {@const machinePosition = machinePlacement(deployedTool, deployedTarget)}
         {@const targetPosition = placement(deployedTarget)}
         {@const apparatusEffect = latestApparatusEffect(deployedTarget, deployedTool)}

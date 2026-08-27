@@ -49,6 +49,35 @@
       {#if values.species}<small>{t(String(values.species))} · {values.diameter ?? 50} µm</small>{/if}
     </figcaption>
   </figure>
+{:else if tool === "evaporate"}
+  <figure
+    class="standalone evaporation-station"
+    class:working
+    class:performed={performedAt !== undefined}
+    style={`--evaporation-intensity:${Math.max(.12, intensity)};--dish-liquid:${effect?.fluidColour ?? "color-mix(in srgb, var(--cool) 25%, var(--surface))"}`}
+    aria-label={t("evaporating dish station on the bench")}
+  >
+    <svg viewBox="0 0 110 88" role="img" aria-label={t("evaporating dish and heater") }>
+      <ellipse class="station-shadow" cx="55" cy="78" rx="38" ry="5" />
+      <rect class="heater-base" x="20" y="58" width="70" height="18" rx="5" />
+      <ellipse class="heater-top" cx="55" cy="58" rx="30" ry="8" />
+      <path class="porcelain-dish" d="M17 36 Q55 54 93 36 L84 57 Q55 70 26 57Z" />
+      <path class="dish-liquid" d="M22 39 Q55 51 88 39 Q55 58 22 39Z" />
+      <circle class="heater-dial" cx="80" cy="68" r="3" />
+      {#each [39, 55, 71] as x, i (x)}
+        <path class="evaporation-steam" d={`M ${x} 37 q -6 -8 0 -16 q 6 -8 0 -16`} style={`--steam-delay:${i * .18}s`} />
+      {/each}
+      {#if effect}
+        <rect class="evaporation-display" x="35" y="63" width="35" height="9" rx="2" />
+        <text x="52.5" y="69.5" text-anchor="middle">{((effect.reading ?? 0) * 1000).toPrecision(2)} mmol</text>
+      {/if}
+    </svg>
+    <figcaption>
+      <strong>{t("evaporating dish")}</strong>
+      <span class="target">{t("works with vessel v{vessel}", { vessel: target + 1 })}</span>
+      {#if effect}<small>{t("steam scaled from removed water")}</small>{/if}
+    </figcaption>
+  </figure>
 {:else if tool === "centrifuge"}
   <figure
     class="standalone centrifuge"
@@ -148,6 +177,17 @@
   .pestle { fill: none; stroke: var(--edge-strong); stroke-width: 9; stroke-linecap: round; transform-origin: 59px 49px; }
   .working .pestle { animation: grind var(--grind-duration) ease-in-out infinite alternate; }
   .performed:not(.working) .pestle { animation: grind var(--grind-duration) ease-in-out 8 alternate; }
+  .evaporation-station { background: color-mix(in srgb, var(--surface) 88%, var(--hot)); }
+  .station-shadow { fill: var(--shadow); opacity: .35; }
+  .heater-base { fill: color-mix(in srgb, var(--action) 30%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1.6; }
+  .heater-top { fill: color-mix(in srgb, var(--hot) 18%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1.4; }
+  .porcelain-dish { fill: color-mix(in srgb, var(--surface) 92%, var(--cool)); stroke: var(--edge-strong); stroke-width: 1.8; }
+  .dish-liquid { fill: var(--dish-liquid); fill-opacity: .72; stroke: color-mix(in srgb, var(--dish-liquid) 70%, var(--edge-strong)); stroke-width: .8; }
+  .heater-dial { fill: var(--hot); stroke: var(--edge-strong); stroke-width: .8; }
+  .evaporation-steam { fill: none; stroke: var(--dim); stroke-width: calc(1px + var(--evaporation-intensity) * 1.6px); stroke-linecap: round; opacity: 0; }
+  .working .evaporation-steam, .performed .evaporation-steam { animation: station-steam calc(1.4s - var(--evaporation-intensity) * .65s) ease-out 7; animation-delay: var(--steam-delay); }
+  .evaporation-display { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); }
+  .evaporation-station svg text { fill: var(--surface); font: 800 5px ui-monospace, monospace; }
   .centrifuge { width: 100%; }
   .centrifuge-base { fill: color-mix(in srgb, var(--primary) 22%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
   .lid { fill: color-mix(in srgb, var(--cool) 18%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
@@ -180,7 +220,8 @@
   figcaption small { color: var(--dim); }
   .target { margin: 0.12rem 0; padding: 0.09rem 0.28rem; border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 11%, var(--surface)); font-size: 0.48rem; font-weight: 850; }
   @keyframes grind { to { transform: rotate(-18deg) translateY(-2px); } }
+  @keyframes station-steam { 0% { opacity: 0; transform: translateY(4px); } 30% { opacity: calc(.35 + var(--evaporation-intensity) * .55); } 100% { opacity: 0; transform: translateY(-12px); } }
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes drip { from { transform: translateY(-5px); opacity: 1; } to { transform: translateY(5px); opacity: 0; } }
-  @media (prefers-reduced-motion: reduce) { .working .pestle, .working .rotor, .performed .rotor, .burette-drop { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .working .pestle, .working .rotor, .performed .rotor, .burette-drop, .evaporation-steam { animation: none; } }
 </style>

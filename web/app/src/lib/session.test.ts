@@ -657,6 +657,25 @@ describe("Session", () => {
     });
   });
 
+  it("colours the freestanding evaporation dish from the pre-run liquid", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{ event: "evaporated", vessel: 0, moles: .2 }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = { scene: 1, vessels: [{
+      id: 0,
+      liquid: { volume_l: .1, srgb: [90, 130, 210], colour_word: "blue", cloudiness: .1, path_length_cm: 2 },
+      solids: [],
+    } as Scene["vessels"][number]] };
+    await s.submit("evaporate v1 .5");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "evaporate",
+      fluidColour: "rgb(90 130 210)",
+    });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({
