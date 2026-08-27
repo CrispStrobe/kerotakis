@@ -145,6 +145,12 @@ export interface SweepRun {
   pressurePa: number;
 }
 
+export interface IrradiationRun {
+  wavelengthNm: number;
+  irradianceWM2: number;
+  photolysisCoupled: boolean;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -190,6 +196,7 @@ export interface Effect {
   pressureControl?: PressureControlRun;
   dilution?: DilutionRun;
   sweep?: SweepRun;
+  irradiation?: IrradiationRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -596,6 +603,20 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         durationMs: 3800,
         magnitude: scale(pressurePa, 50_000, 500_000),
         sweep: { pressurePa },
+      };
+    }
+    case "irradiated": {
+      const irradianceWM2 = Math.max(0, Number(e.irradiance_w_m2 ?? 0));
+      return {
+        kind: "irradiate",
+        at: now,
+        durationMs: 4200,
+        magnitude: scale(irradianceWM2, 0.1, 100),
+        irradiation: {
+          wavelengthNm: Number(e.wavelength_nm ?? 0),
+          irradianceWM2,
+          photolysisCoupled: Boolean(e.photolysis_coupled),
+        },
       };
     }
     default:

@@ -341,6 +341,22 @@ describe("effectFromEvent", () => {
     expect(slow?.kind).toBe("centrifuge");
     expect(fast!.magnitude).toBeGreaterThan(slow!.magnitude);
   });
+
+  it("retains applied light separately from the honest photolysis boundary", () => {
+    const low = effectFromEvent({
+      event: "irradiated", vessel: 0, wavelength_nm: 254,
+      irradiance_w_m2: 2, photolysis_coupled: false,
+    });
+    const high = effectFromEvent({
+      event: "irradiated", vessel: 0, wavelength_nm: 365,
+      irradiance_w_m2: 80, photolysis_coupled: false,
+    });
+    expect(low).toMatchObject({
+      kind: "irradiate", durationMs: 4200,
+      irradiation: { wavelengthNm: 254, irradianceWM2: 2, photolysisCoupled: false },
+    });
+    expect(high!.magnitude).toBeGreaterThan(low!.magnitude);
+  });
 });
 
 describe("vesselOf", () => {

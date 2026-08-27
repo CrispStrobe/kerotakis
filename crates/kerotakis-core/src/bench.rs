@@ -2028,12 +2028,11 @@ impl Bench {
                 irradiance_w_m2,
             } => {
                 let _v = self.vessel(*vessel)?;
-                events.push(Event::NotYetModeled {
+                events.push(Event::Irradiated {
                     vessel: *vessel,
-                    what: format!(
-                        "UV source at {wavelength_nm} nm, {irradiance_w_m2} W/m² — \
-                         photolysis rate integration requires coupled kinetics",
-                    ),
+                    wavelength_nm: *wavelength_nm,
+                    irradiance_w_m2: *irradiance_w_m2,
+                    photolysis_coupled: false,
                 });
             }
             Operator::Smell { vessel } => {

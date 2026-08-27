@@ -87,6 +87,7 @@
   const waftEffect = $derived(latestEffect("waft", 4200));
   const pressureControlEffect = $derived(latestEffect("regulate", 4500));
   const sweepEffect = $derived(latestEffect("sweep", 3800));
+  const irradiationEffect = $derived(latestEffect("irradiate", 4200));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => (e.kind === "ignite" || e.kind === "flame_test") && n - e.at < 3000 && e.flameColour);
@@ -213,7 +214,8 @@
       (deployedTool === "stir" && active("swirl", 2200)) ||
       (deployedTool === "heat" && active("heat", 2200)) ||
       (deployedTool === "cool" && active("cool", 2200)) ||
-      (deployedTool === "sweep" && active("sweep", 3800)),
+      (deployedTool === "sweep" && active("sweep", 3800)) ||
+      (deployedTool === "irradiate" && active("irradiate", 4200)),
   );
   const apparatusTitle = $derived(
     deployedTool
@@ -402,6 +404,8 @@
             ? pressureControlEffect
             : deployedTool === "sweep"
               ? sweepEffect
+              : deployedTool === "irradiate"
+                ? irradiationEffect
               : undefined}
         surfaceY={BOTTOM_Y - Math.max(liquidH, 4)}
       />

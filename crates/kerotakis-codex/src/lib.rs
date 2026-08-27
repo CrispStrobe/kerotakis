@@ -1258,6 +1258,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Stirred { .. } => ("stirred", None),
         E::Ground { species, .. } => ("ground", Some(species.0.as_str())),
         E::Centrifuged { .. } => ("centrifuged", None),
+        E::Irradiated { .. } => ("irradiated", None),
         E::GravitySettled { .. } => ("gravity_settled", None),
         E::Evaporated { .. } => ("evaporated", None),
         E::Distilled { .. } => ("distilled", None),

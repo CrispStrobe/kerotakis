@@ -1027,6 +1027,12 @@ hide them completely.
   the whole sample vessel appear to combust. It deploys a Bunsen burner and
   wire loop, and colours that burner flame from the engine event; genuine
   `Ignited` events retain the energy-scaled vessel flame.
+  *Irradiation-honesty slice shipped 2026-08-27:* operating the lamp now emits
+  a typed physical event carrying the applied wavelength and irradiance. The
+  lamp colour, brightness, readouts, and bounded operating window consume that
+  event rather than merely echoing its form. A localized badge explicitly says
+  that light was applied while photolysis remains uncoupled; no chemical change
+  or reaction animation is implied until kinetics owns that state transition.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model

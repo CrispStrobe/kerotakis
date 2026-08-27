@@ -420,6 +420,15 @@ pub enum Event {
         /// False until vessel suspension/deposit state consumes the result.
         state_coupled: bool,
     },
+    /// Light physically delivered by the lamp. `photolysis_coupled` is an
+    /// explicit model boundary: the lamp may run without claiming that the
+    /// chemical state changed.
+    Irradiated {
+        vessel: VesselId,
+        wavelength_nm: f64,
+        irradiance_w_m2: f64,
+        photolysis_coupled: bool,
+    },
     /// Tracked particles settled under ordinary gravity while bench time
     /// advanced, using the same Stokes model as the centrifuge at 1 g.
     GravitySettled {
