@@ -874,8 +874,11 @@ hide them completely.
   control. *Interactive-wall slice shipped 2026-08-27:* an active Story
   investigation now appears as a colourful in-world mission briefing with its
   live step/evidence count; opening it reveals the same engine-backed mission
-  journal instead of a duplicate panel. Cupboards, utilities, room variants,
-  and true free spatial placement remain.*
+  journal instead of a duplicate panel. *Room-identity slice shipped
+  2026-08-27:* Discovery Studio, Research Laboratory, and Orbital Laboratory
+  give the same live chemistry three colourful, persisted environments; the
+  choice is explicitly visual and never mutates vessels or evidence.
+  Cupboards, utilities, and true free spatial placement remain.*
 
 - [ ] **GUI-083 — Physical apparatus and computed motion.** Promote apparatus
   from forms/tool verbs to placeable assemblies with visible controls and
