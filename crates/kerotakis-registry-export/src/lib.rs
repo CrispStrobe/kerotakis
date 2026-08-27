@@ -13,10 +13,11 @@ use kerotakis_core::{
     stoich::parse_formula,
 };
 use kerotakis_data::{
-    Applicability, CompositionRecord, Dimension, ElementAmount, Evidence, IdentityRecord, Method,
-    ModelParameterRecord, ModelSubject, NumericRecord, OpticalRecord, Phase, PhaseProperty,
-    PhaseThermodynamicRecord, RegistryDocument, SourceLane, SourceRecord, SpectralSample,
-    Uncertainty, Unit,
+    Applicability, CompositionRecord, Dimension, ElementAmount, Evidence, FractionRange,
+    IdentityRecord, MaterialBasis, MaterialComponent, MaterialConfidence, MaterialExpansionPolicy,
+    MaterialPhysicalForm, MaterialRecipe, MaterialRole, Method, ModelParameterRecord, ModelSubject,
+    NumericRecord, OpticalRecord, Phase, PhaseProperty, PhaseThermodynamicRecord, RegistryDocument,
+    SourceLane, SourceRecord, SpectralSample, Uncertainty, Unit,
 };
 
 const IMPORT_METHOD: &str = "verbatim export from kerotakis_core::species::REGISTRY";
@@ -30,8 +31,190 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     for species in REGISTRY {
         export_species(&mut document, species)?;
     }
+    export_material_recipes(&mut document);
     document.validate().map_err(|error| error.to_string())?;
     Ok(document)
+}
+
+fn export_material_recipes(document: &mut RegistryDocument) {
+    const SOURCE: &str = "kerotakis/material-recipes-v1";
+    document.sources.push(SourceRecord {
+        id: SOURCE.to_string(),
+        citation: "Kerotakis household-material assumptions v1: 3% hydrogen peroxide and 5% white vinegar are explicit unbranded teaching surrogates; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity".to_string(),
+        licence: "AGPL-3.0-or-later".to_string(),
+        lane: SourceLane::Runtime,
+        origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
+        revision: Some("1".to_string()),
+        retrieved: Some("2026-08-27".to_string()),
+    });
+    let component = |species_id: &str, fraction: f64| MaterialComponent {
+        species_id: species_id.to_string(),
+        fraction: FractionRange {
+            lower: fraction,
+            upper: fraction,
+        },
+        evidence: Evidence {
+            source_id: SOURCE.to_string(),
+            method: Method::Curated("fixed teaching-surrogate composition".to_string()),
+        },
+    };
+    let evidence = || Evidence {
+        source_id: SOURCE.to_string(),
+        method: Method::Editorial(
+            "unbranded household teaching surrogate with an explicit concentration".to_string(),
+        ),
+    };
+    let density = |value: f64| NumericRecord {
+        value,
+        unit: Unit {
+            symbol: "g/mL".to_string(),
+            dimension: Dimension::MassDensity,
+        },
+        conditions: Applicability::default(),
+        uncertainty: Uncertainty::NotReported,
+        source_id: SOURCE.to_string(),
+        method: Method::Editorial("room-temperature teaching-surrogate density".to_string()),
+    };
+    document.material_recipes.extend([
+        MaterialRecipe {
+            id: "household/hydrogen-peroxide-3-percent".to_string(),
+            version: 1,
+            canonical_key: "hydrogen_peroxide_3_percent".to_string(),
+            name: "3% hydrogen peroxide".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec![
+                        "household peroxide 3%".to_string(),
+                        "peroxide_3%".to_string(),
+                    ],
+                ),
+                (
+                    "de".to_string(),
+                    vec![
+                        "Wasserstoffperoxid 3%".to_string(),
+                        "Wasserstoffperoxid_3%".to_string(),
+                    ],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.01)),
+            components: vec![component("H2O2", 0.03), component("water", 0.97)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("3% w/w aqueous solution at room temperature".to_string()),
+            lot_assumptions: vec![
+                "stabilisers and trace impurities are not resolved in v1".to_string()
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Curated,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/white-vinegar-5-percent".to_string(),
+            version: 1,
+            canonical_key: "white_vinegar_5_percent".to_string(),
+            name: "5% white vinegar".to_string(),
+            aliases: BTreeMap::from([
+                ("en".to_string(), vec!["household vinegar".to_string()]),
+                (
+                    "de".to_string(),
+                    vec![
+                        "Essig".to_string(),
+                        "Haushaltsessig 5%".to_string(),
+                        "Haushaltsessig_5%".to_string(),
+                    ],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.006)),
+            components: vec![component("CH3COOH", 0.05), component("water", 0.95)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("5% w/w acetic-acid teaching surrogate".to_string()),
+            lot_assumptions: vec![
+                "flavour compounds and brand-specific residues are not represented".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/dish-soap-surrogate".to_string(),
+            version: 1,
+            canonical_key: "dish_soap".to_string(),
+            name: "dish soap".to_string(),
+            aliases: BTreeMap::from([
+                ("en".to_string(), vec!["washing-up_liquid".to_string()]),
+                (
+                    "de".to_string(),
+                    vec!["Spülmittel".to_string(), "fluessige_Seife".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.03)),
+            components: vec![component("water", 0.80)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.20,
+                upper: 0.20,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![MaterialRole::FoamStabilizer {
+                trapping_efficiency: 0.85,
+                gas_volume_fraction: 0.90,
+                half_life_seconds: 180.0,
+                saturation_amount: 0.4,
+            }],
+            preparation: Some(
+                "unbranded aqueous dish-soap teaching surrogate; surfactant blend unresolved"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "brand-specific surfactants, salts, fragrance, dye and preservatives remain in the explicit unresolved fraction".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/dry-yeast-catalase-surrogate".to_string(),
+            version: 1,
+            canonical_key: "dry_yeast".to_string(),
+            name: "dry yeast".to_string(),
+            aliases: BTreeMap::from([
+                ("en".to_string(), vec!["baker's_yeast".to_string()]),
+                (
+                    "de".to_string(),
+                    vec!["Hefe".to_string(), "Trockenhefe".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("catalase", 0.000_001)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.999_999,
+                upper: 0.999_999,
+            }),
+            physical_form: MaterialPhysicalForm::Granules,
+            roles: Vec::new(),
+            preparation: Some(
+                "dry baker's yeast represented as a catalase activity proxy; hydrate with warm water in the experiment"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "enzyme activity varies strongly by brand, age and hydration; v1 models presence, not a universal activity per gram".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+    ]);
 }
 
 fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Result<(), String> {

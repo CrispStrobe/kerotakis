@@ -249,13 +249,19 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
             let b64 = field("bytes_b64")?;
             let bytes = base64_decode(b64).map_err(|e| format!("bytes_b64: {e}"))?;
             let doc = kerotakis_data::load_pack(&bytes).map_err(|e| e.to_string())?;
+            let recipes = doc.material_recipes.clone();
             let value = serde_json::to_value(&doc).map_err(|e| e.to_string())?;
             let species = kerotakis_core::species_loader::parse_document(&value)?;
             let (added, skipped) = kerotakis_core::species::register_loaded(species);
+            let (materials_added, materials_skipped) =
+                kerotakis_core::material::register_loaded(recipes);
             Ok(json!({
                 "added": added,
                 "skipped": skipped,
                 "loaded_total": kerotakis_core::species::loaded_count(),
+                "materials_added": materials_added,
+                "materials_skipped": materials_skipped,
+                "materials_loaded_total": kerotakis_core::material::all().len(),
             })
             .to_string())
         }

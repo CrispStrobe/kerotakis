@@ -4,6 +4,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::material::MaterialBasis;
 use crate::species::{Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::VesselId;
@@ -32,12 +33,29 @@ pub enum Operator {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         kind: Option<String>,
     },
+    /// Put an empty vessel back into storage. Matter is never silently
+    /// discarded through this operation, and the bench keeps one receiver.
+    RemoveVessel { vessel: VesselId },
     /// Add an amount of a species to a vessel, entering at `at` temperature
     /// (defaults to standard).
     Add {
         vessel: VesselId,
         species: SpeciesId,
         moles: Moles,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        at: Option<Kelvin>,
+    },
+    /// Dispense a versioned named mixture/object. The recipe identity, version,
+    /// basis amount and sample seed are pinned in the operator so replay never
+    /// depends on ambient randomness or whichever recipe version is newest.
+    AddMaterial {
+        vessel: VesselId,
+        material: String,
+        recipe_id: String,
+        recipe_version: u32,
+        total_amount: f64,
+        basis: MaterialBasis,
+        sample_seed: u64,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         at: Option<Kelvin>,
     },
@@ -293,10 +311,30 @@ pub enum Event {
     VesselCreated {
         vessel: VesselId,
     },
+    VesselRemoved {
+        vessel: VesselId,
+    },
     Added {
         vessel: VesselId,
         species: SpeciesId,
         moles: Moles,
+        /// Inventory of this species in the vessel after the dose. Older
+        /// event logs did not carry it; clients must tolerate its absence.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        total_after: Option<Moles>,
+    },
+    /// A named material expanded into canonical species while retaining the
+    /// user-facing identity and any chemically unresolved balance.
+    MaterialAdded {
+        vessel: VesselId,
+        material: String,
+        recipe_id: String,
+        recipe_version: u32,
+        total_amount: f64,
+        basis: MaterialBasis,
+        sample_seed: u64,
+        components: Vec<MaterialComponentAdded>,
+        unresolved_amount: f64,
     },
     TemperatureChanged {
         vessel: VesselId,
@@ -717,6 +755,29 @@ pub enum Event {
         /// Activation energy actually used, J/mol.
         activation_energy: f64,
     },
+    /// Gas yield/rate from a kinetic interval, before any visual mapping.
+    GasProduced {
+        vessel: VesselId,
+        reaction: String,
+        species: SpeciesId,
+        moles: Moles,
+        rate_moles_per_second: f64,
+    },
+    /// Exothermic energy released by a curated kinetic reaction.
+    ReactionHeatReleased {
+        vessel: VesselId,
+        reaction: String,
+        energy_j: f64,
+    },
+    /// A surfactant recipe temporarily trapped produced gas as foam.
+    FoamChanged {
+        vessel: VesselId,
+        trapped_gas_liters: f64,
+        volume_liters: f64,
+        height_cm: f64,
+        overflow_liters: f64,
+        half_life_seconds: f64,
+    },
     /// A solver was asked and could not converge / answer. First-class,
     /// honest, never a crash.
     SolverFailed {
@@ -766,6 +827,13 @@ pub enum Event {
         courant: f64,
         effluent_moles: Vec<(SpeciesId, Moles)>,
     },
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MaterialComponentAdded {
+    pub species: SpeciesId,
+    pub basis_amount: f64,
+    pub moles: Moles,
 }
 
 /// One entry of the bench log: the operator plus what it produced.

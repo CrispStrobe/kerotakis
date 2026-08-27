@@ -62,7 +62,7 @@
       </label>
     {/each}
     <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
-      {busy ? t("running…") : t("go")}
+      {busy ? t("running…") : t("run {apparatus}", { apparatus: t(spec.title) })}
     </button>
     <button class="close" onclick={onclose}>{t("put away")}</button>
   </div>

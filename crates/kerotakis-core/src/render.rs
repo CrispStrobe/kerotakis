@@ -210,15 +210,26 @@ pub fn render_event(event: &Event, register: Register) -> String {
             1 => format!("A fresh beaker appears on the bench: {vessel}."),
             _ => format!("{vessel}: new vessel"),
         },
+        Event::VesselRemoved { vessel } => match register.level() {
+            1 => format!("The empty {vessel} goes back into storage."),
+            _ => format!("{vessel}: empty vessel removed"),
+        },
         Event::Added {
             vessel,
             species: sid,
             moles,
+            total_after,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
             match register.level() {
                 1 => format!("You add {name} to {vessel}."),
-                2 => format!("{vessel}: +{:.4} mol {name}", moles.0),
+                2 => match total_after {
+                    Some(total) if (total.0 - moles.0).abs() > 1e-12 => format!(
+                        "{vessel}: +{:.4} mol {name} — {:.4} mol now in vessel",
+                        moles.0, total.0
+                    ),
+                    _ => format!("{vessel}: +{:.4} mol {name}", moles.0),
+                },
                 _ => {
                     let extra = species::lookup(sid)
                         .map(|d| format!(" ({}, M = {:.3} g/mol)", d.formula, d.molar_mass))
@@ -227,6 +238,68 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 }
             }
         }
+        Event::MaterialAdded {
+            vessel,
+            material,
+            total_amount,
+            basis,
+            components,
+            unresolved_amount,
+            ..
+        } => {
+            let unit = match basis {
+                crate::material::MaterialBasis::MassFraction => "g",
+                crate::material::MaterialBasis::MoleFraction => "mol",
+                crate::material::MaterialBasis::VolumeFraction => "mL",
+            };
+            match register.level() {
+                1 => format!("You add {material} to {vessel}."),
+                2 => format!(
+                    "{vessel}: +{total_amount:.3} {unit} {material} ({} known ingredients)",
+                    components.len()
+                ),
+                _ => format!(
+                    "{vessel}: +{total_amount:.6} {unit} {material}; {} canonical components, {unresolved_amount:.6} {unit} unresolved",
+                    components.len()
+                ),
+            }
+        }
+        Event::GasProduced {
+            vessel,
+            species,
+            moles,
+            rate_moles_per_second,
+            ..
+        } => match register.level() {
+            1 => format!("{vessel}: {species} bubbles are being made."),
+            _ => format!(
+                "{vessel}: {:.6} mol {species} produced ({rate_moles_per_second:.3e} mol/s)",
+                moles.0
+            ),
+        },
+        Event::ReactionHeatReleased {
+            vessel,
+            reaction,
+            energy_j,
+        } => match register.level() {
+            1 => format!("{vessel} grows warmer as the reaction runs."),
+            _ => format!("{vessel}: {reaction} released {energy_j:.2} J"),
+        },
+        Event::FoamChanged {
+            vessel,
+            volume_liters,
+            height_cm,
+            overflow_liters,
+            ..
+        } => match register.level() {
+            1 if *overflow_liters > 0.0 => {
+                format!("Foam climbs out of {vessel} and spills over the rim!")
+            }
+            1 => format!("Foam rises in {vessel}."),
+            _ => format!(
+                "{vessel}: foam {volume_liters:.3} L, {height_cm:.1} cm high, overflow {overflow_liters:.3} L"
+            ),
+        },
         Event::TemperatureChanged { vessel, from, to } => {
             let d = to.0 - from.0;
             match register.level() {

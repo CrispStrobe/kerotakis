@@ -2864,3 +2864,25 @@ Outstanding:
 - [ ] File classes 9 / 41 / 42 through an attorney nearer launch, once the
       goods-and-services wording is settled. What was done is a screen, not a
       clearance opinion.
+# Current product directive — core laboratory UX first (2026-08-27)
+
+Before adding or restructuring missions, examples, or progression, make the
+shared Sandbox/Story laboratory feel like a real, explorable, colourful place.
+The active sequence is tracked in `ROADMAP-GUI.md` GUI-070…GUI-084:
+
+1. localized cabinet search and arbitrary capacity-aware amount/unit entry;
+   Story uses the same persistent Mission set / Unlocked / All scope in both
+   cabinet tabs; case supplies are temporary loans, while Sandbox exposes all;
+2. continuous bench space with optional workflow guides and compact object
+   placement/removal controls;
+3. persistent learner notes in the laboratory journal;
+4. cupboards, racks, clickable/zoomable posters and periodic table, utilities,
+   and visually distinct room environments;
+5. placeable stands/clamps, magnetic stirrer/hotplate, mini centrifuge, probes,
+   burners, baths, cooling, filtration and connected rigs;
+6. motion and visible effects driven by computed power, temperature, RPM,
+   viscosity, fill, particle settling, reaction energy, gas/solid amount and
+   time—never generic animation.
+
+Existing experiment and mission content is deliberately not redesigned in this
+phase; it is fitted into the improved shared workflow.

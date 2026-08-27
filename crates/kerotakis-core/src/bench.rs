@@ -4,14 +4,15 @@
 use serde::{Deserialize, Serialize};
 
 use crate::instrument::InstrumentContract;
-use crate::ops::{ElutedPeak, Event, Instrument, LogEntry, Operator};
+use crate::material::{self, MaterialBasis, MaterialRecipe};
+use crate::ops::{ElutedPeak, Event, Instrument, LogEntry, MaterialComponentAdded, Operator};
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
-use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
-use crate::vessel::{Headspace, ThermalMode, Vessel, VesselId};
+use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
+use crate::vessel::{Headspace, ThermalMode, UnresolvedMaterialPortion, Vessel, VesselId};
 
 /// The temperature a match or spark brings its immediate surroundings to.
 pub const IGNITION_K: f64 = 1200.0;
@@ -22,12 +23,20 @@ pub enum BenchError {
     NoSuchVessel(VesselId),
     #[error("unknown species '{0}' — not in the registry")]
     UnknownSpecies(SpeciesId),
+    #[error("unknown material '{0}' — not in the recipe registry")]
+    UnknownMaterial(String),
+    #[error("material recipe identity does not match the pinned operator")]
+    MaterialRecipeMismatch,
     #[error("amount must be positive")]
     NonPositiveAmount,
     #[error("fraction must be within 0..=1")]
     BadFraction,
     #[error("source and target vessel are the same")]
     SelfTransfer,
+    #[error("vessel {0} is not empty — transfer or dispose of its contents first")]
+    VesselNotEmpty(VesselId),
+    #[error("the last vessel must stay on the bench")]
+    LastVessel,
     #[error(transparent)]
     Kinetics(#[from] crate::kinetics::IntegrationError),
     #[error(transparent)]
@@ -309,6 +318,16 @@ impl Bench {
                 self.vessels.push(Vessel::new(id, label));
                 events.push(Event::VesselCreated { vessel: id });
             }
+            Operator::RemoveVessel { vessel } => {
+                if self.vessels.len() <= 1 {
+                    return Err(BenchError::LastVessel);
+                }
+                if !self.vessel(*vessel)?.is_empty() {
+                    return Err(BenchError::VesselNotEmpty(*vessel));
+                }
+                self.vessels.retain(|candidate| candidate.id != *vessel);
+                events.push(Event::VesselRemoved { vessel: *vessel });
+            }
             Operator::Add {
                 vessel,
                 species: sid,
@@ -357,10 +376,123 @@ impl Bench {
                     v.temperature = t_new;
                 }
                 v.deposit(sid.clone(), *moles, data.standard_phase);
+                let total_after = v.moles_of(sid);
                 events.push(Event::Added {
                     vessel: *vessel,
                     species: sid.clone(),
                     moles: *moles,
+                    total_after: Some(total_after),
+                });
+            }
+            Operator::AddMaterial {
+                vessel,
+                material: material_name,
+                recipe_id,
+                recipe_version,
+                total_amount,
+                basis,
+                sample_seed,
+                at,
+            } => {
+                if !total_amount.is_finite() || *total_amount <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let recipe = material::lookup(material_name, None)
+                    .ok_or_else(|| BenchError::UnknownMaterial(material_name.clone()))?;
+                if recipe.id != *recipe_id
+                    || recipe.version != *recipe_version
+                    || recipe.basis != *basis
+                {
+                    return Err(BenchError::MaterialRecipeMismatch);
+                }
+                let expansion = recipe
+                    .expand(*total_amount, *sample_seed)
+                    .ok_or(BenchError::NonPositiveAmount)?;
+                let components = expansion
+                    .components
+                    .iter()
+                    .map(|component| {
+                        let sid = SpeciesId::new(&component.species_id);
+                        let data = species::lookup(&sid)
+                            .ok_or_else(|| BenchError::UnknownSpecies(sid.clone()))?;
+                        let moles = material_amount_to_moles(&recipe, component.amount, data);
+                        Ok((sid, data.standard_phase, component.amount, moles))
+                    })
+                    .collect::<Result<Vec<_>, BenchError>>()?;
+
+                // Assess the fully expanded prospective mixture once. This
+                // avoids allowing a hazardous combination merely because its
+                // ingredients happened to be deposited one at a time.
+                let mut probe = self.vessel(*vessel)?.clone();
+                for (sid, phase, _, moles) in &components {
+                    probe.deposit(sid.clone(), *moles, *phase);
+                }
+                match screen.assess(&probe) {
+                    SafetyVerdict::Allow => {}
+                    SafetyVerdict::Warn {
+                        severity,
+                        hazard,
+                        real_world,
+                    } => events.push(Event::HazardWarning {
+                        severity,
+                        hazard,
+                        real_world,
+                    }),
+                    SafetyVerdict::Veto { reason } => {
+                        events.push(Event::SafetyVeto { reason });
+                        return Ok(events);
+                    }
+                }
+
+                let t_in = at.unwrap_or(Kelvin::STANDARD);
+                let cp_in = components
+                    .iter()
+                    .filter_map(|(sid, _, _, moles)| {
+                        species::lookup(sid).map(|data| moles.0 * data.heat_capacity)
+                    })
+                    .sum();
+                let v = self.vessel_mut(*vessel)?;
+                if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
+                    let t_new =
+                        adiabatic_mix_temperature(v.temperature, v.heat_capacity(), t_in, cp_in);
+                    if (t_new.0 - v.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: v.id,
+                            from: v.temperature,
+                            to: t_new,
+                        });
+                    }
+                    v.temperature = t_new;
+                }
+                for (sid, phase, _, moles) in &components {
+                    v.deposit(sid.clone(), *moles, *phase);
+                }
+                if expansion.unresolved_amount > 0.0 {
+                    v.unresolved_materials.push(UnresolvedMaterialPortion {
+                        material: material_name.clone(),
+                        recipe_id: recipe_id.clone(),
+                        recipe_version: *recipe_version,
+                        basis: *basis,
+                        amount: expansion.unresolved_amount,
+                    });
+                }
+                events.push(Event::MaterialAdded {
+                    vessel: *vessel,
+                    material: material_name.clone(),
+                    recipe_id: recipe_id.clone(),
+                    recipe_version: *recipe_version,
+                    total_amount: *total_amount,
+                    basis: *basis,
+                    sample_seed: *sample_seed,
+                    components: components
+                        .into_iter()
+                        .map(|(species, _, basis_amount, moles)| MaterialComponentAdded {
+                            species,
+                            basis_amount,
+                            moles,
+                        })
+                        .collect(),
+                    unresolved_amount: expansion.unresolved_amount,
                 });
             }
             Operator::Heat { vessel, energy } | Operator::Cool { vessel, energy } => {
@@ -1229,7 +1361,48 @@ impl Bench {
                             equation: step.equation,
                         });
                     }
+                    let mut oxygen_moles = 0.0;
                     for (reaction, moles) in crate::kinetics::advance(vessel, seconds)? {
+                        if reaction.id == "peroxide-decomposition" {
+                            oxygen_moles += moles.0;
+                            // 2 H2O2(l) -> 2 H2O(l) + O2(g), approximately
+                            // -98.2 kJ per stoichiometric extent at 25 °C.
+                            // The curated kinetics extent uses exactly that
+                            // equation, so the heat source shares its ledger.
+                            let energy_j = 98_200.0 * moles.0;
+                            let from = vessel.temperature;
+                            if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+                                let heat_capacity = vessel.heat_capacity();
+                                if heat_capacity > 0.0 {
+                                    vessel.temperature = Kelvin(from.0 + energy_j / heat_capacity);
+                                }
+                            }
+                            if moles.0 >= crate::OBSERVABLE_MOLES {
+                                events.push(Event::GasProduced {
+                                    vessel: vessel.id,
+                                    reaction: reaction.id.to_string(),
+                                    species: SpeciesId::new("O2"),
+                                    moles,
+                                    rate_moles_per_second: if seconds > 0.0 {
+                                        moles.0 / seconds
+                                    } else {
+                                        0.0
+                                    },
+                                });
+                                events.push(Event::ReactionHeatReleased {
+                                    vessel: vessel.id,
+                                    reaction: reaction.id.to_string(),
+                                    energy_j,
+                                });
+                                if (vessel.temperature.0 - from.0).abs() > 1e-9 {
+                                    events.push(Event::TemperatureChanged {
+                                        vessel: vessel.id,
+                                        from,
+                                        to: vessel.temperature,
+                                    });
+                                }
+                            }
+                        }
                         if moles.0 < crate::OBSERVABLE_MOLES {
                             continue;
                         }
@@ -1247,6 +1420,18 @@ impl Bench {
                             }),
                             activation_energy: ea,
                         });
+                    }
+                    if let Some(foam) = crate::foam::advance(vessel, seconds, oxygen_moles) {
+                        if foam.volume_liters >= 1e-6 || vessel.foam.peak_volume_liters > 0.0 {
+                            events.push(Event::FoamChanged {
+                                vessel: vessel.id,
+                                trapped_gas_liters: foam.trapped_gas_liters,
+                                volume_liters: foam.volume_liters,
+                                height_cm: foam.height_cm,
+                                overflow_liters: foam.overflow_liters,
+                                half_life_seconds: foam.half_life_seconds,
+                            });
+                        }
                     }
                 }
             }
@@ -2003,8 +2188,9 @@ impl Bench {
 /// Which vessels an operator touches (for re-equilibration).
 fn op_touches(op: &Operator) -> Vec<VesselId> {
     match op {
-        Operator::NewVessel { .. } => vec![],
+        Operator::NewVessel { .. } | Operator::RemoveVessel { .. } => vec![],
         Operator::Add { vessel, .. }
+        | Operator::AddMaterial { vessel, .. }
         | Operator::Heat { vessel, .. }
         | Operator::Cool { vessel, .. }
         | Operator::Stir { vessel }
@@ -2038,6 +2224,18 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         }
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         Operator::Wait { .. } => vec![],
+    }
+}
+
+fn material_amount_to_moles(
+    recipe: &MaterialRecipe,
+    amount: f64,
+    data: &species::SpeciesData,
+) -> Moles {
+    match recipe.basis {
+        MaterialBasis::MassFraction => data.moles_from_grams(Grams(amount)),
+        MaterialBasis::MoleFraction => Moles(amount),
+        MaterialBasis::VolumeFraction => data.moles_from_liters(Liters(amount / 1000.0)),
     }
 }
 

@@ -42,6 +42,25 @@ That substrate lets the existing engines do much more, makes additional engines
 composable, and turns every curated property or reaction template into coverage
 across many experiments.
 
+### Product sequencing constraint (2026-08-27)
+
+The immediate priority is the shared laboratory UX, not new mission/example
+content. Existing experiments remain valid consumers of the same command and
+event contracts. Backend work should therefore unblock direct manipulation:
+stable apparatus identities, capacity-aware dosing, removable/cleanable
+vessels, connection graphs, powered devices, and time-bearing transport state.
+Prepare/React/Analyse are optional client guidance and must not enter the
+scientific state model.
+
+The first apparatus-state increment is a magnetic stirrer/hotplate and mini
+centrifuge. Required inputs include power/target temperature, RPM, duration,
+rotor radius, balance, particle size/density, fluid density/viscosity, and
+vessel fill/capacity. Required outputs include temperature/rate history,
+mixing/homogeneity, suspension or settling state, imbalance refusal/hazard, and
+typed magnitudes suitable for animation. Retort stands, clamps, hoses, cables,
+probes and holders form an explicit assembly graph; they are not ornamental
+sprites. The client animates those outputs but never invents chemistry.
+
 ## Distribution and licensing invariant
 
 This roadmap is subordinate to the project's distribution model:

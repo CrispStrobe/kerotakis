@@ -945,6 +945,15 @@
       "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
       "retrieved": null
+    },
+    {
+      "id": "kerotakis/material-recipes-v1",
+      "citation": "Kerotakis household-material assumptions v1: 3% hydrogen peroxide and 5% white vinegar are explicit unbranded teaching surrogates; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "crates/kerotakis-registry-export/src/lib.rs",
+      "revision": "1",
+      "retrieved": "2026-08-27"
     }
   ],
   "identities": [
@@ -33408,6 +33417,337 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    }
+  ],
+  "material_recipes": [
+    {
+      "id": "household/hydrogen-peroxide-3-percent",
+      "version": 1,
+      "canonical_key": "hydrogen_peroxide_3_percent",
+      "name": "3% hydrogen peroxide",
+      "aliases": {
+        "de": [
+          "Wasserstoffperoxid 3%",
+          "Wasserstoffperoxid_3%"
+        ],
+        "en": [
+          "household peroxide 3%",
+          "peroxide_3%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.01,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "H2O2",
+          "fraction": {
+            "lower": 0.03,
+            "upper": 0.03
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.97,
+            "upper": 0.97
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "3% w/w aqueous solution at room temperature",
+      "lot_assumptions": [
+        "stabilisers and trace impurities are not resolved in v1"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/white-vinegar-5-percent",
+      "version": 1,
+      "canonical_key": "white_vinegar_5_percent",
+      "name": "5% white vinegar",
+      "aliases": {
+        "de": [
+          "Essig",
+          "Haushaltsessig 5%",
+          "Haushaltsessig_5%"
+        ],
+        "en": [
+          "household vinegar"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.006,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "CH3COOH",
+          "fraction": {
+            "lower": 0.05,
+            "upper": 0.05
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.95,
+            "upper": 0.95
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "5% w/w acetic-acid teaching surrogate",
+      "lot_assumptions": [
+        "flavour compounds and brand-specific residues are not represented"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/dish-soap-surrogate",
+      "version": 1,
+      "canonical_key": "dish_soap",
+      "name": "dish soap",
+      "aliases": {
+        "de": [
+          "Spülmittel",
+          "fluessige_Seife"
+        ],
+        "en": [
+          "washing-up_liquid"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.03,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.8,
+            "upper": 0.8
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.2,
+        "upper": 0.2
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "foam_stabilizer",
+          "trapping_efficiency": 0.85,
+          "gas_volume_fraction": 0.9,
+          "half_life_seconds": 180.0,
+          "saturation_amount": 0.4
+        }
+      ],
+      "preparation": "unbranded aqueous dish-soap teaching surrogate; surfactant blend unresolved",
+      "lot_assumptions": [
+        "brand-specific surfactants, salts, fragrance, dye and preservatives remain in the explicit unresolved fraction"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/dry-yeast-catalase-surrogate",
+      "version": 1,
+      "canonical_key": "dry_yeast",
+      "name": "dry yeast",
+      "aliases": {
+        "de": [
+          "Hefe",
+          "Trockenhefe"
+        ],
+        "en": [
+          "baker's_yeast"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "catalase",
+          "fraction": {
+            "lower": 1e-6,
+            "upper": 1e-6
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.999999,
+        "upper": 0.999999
+      },
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [],
+      "preparation": "dry baker's yeast represented as a catalase activity proxy; hydrate with warm water in the experiment",
+      "lot_assumptions": [
+        "enzyme activity varies strongly by brand, age and hydration; v1 models presence, not a universal activity per gram"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
         }
       }
     }

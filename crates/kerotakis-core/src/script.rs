@@ -4,6 +4,7 @@
 //! the CLI, the wasm build, and anything later. A lesson is data, and its
 //! grammar is part of the engine rather than of one front end.
 
+use crate::material::{self, MaterialBasis, MaterialRecipe};
 use crate::ops::{Instrument, Operator};
 use crate::species::{self, SpeciesData, SpeciesId};
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
@@ -18,6 +19,7 @@ use crate::vessel::VesselId;
 /// Aliases share their canonical verb's row.
 pub const VERBS: &[(&str, &str)] = &[
     ("new", "new"),
+    ("remove", "remove v1"),
     ("add", "add v1 water 100mL"),
     ("heat", "heat v1 10kJ"),
     ("cool", "cool v1 10kJ"),
@@ -70,7 +72,8 @@ pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
     let kind = match words.as_slice() {
         ["add", _, species, ..]
             if species::lookup_key(species).is_none()
-                && crate::nuclide::lookup_notation(species).is_none() =>
+                && crate::nuclide::lookup_notation(species).is_none()
+                && material::lookup(species, None).is_none() =>
         {
             ParseErrorKind::UnknownSpecies
         }
@@ -143,6 +146,14 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 }
             }
         },
+        "remove" => {
+            if words.len() != 2 {
+                return Err("usage: remove <vessel>".into());
+            }
+            Operator::RemoveVessel {
+                vessel: parse_vessel(words[1])?,
+            }
+        }
         "add" => {
             if words.len() < 4 {
                 return Err("usage: add <vessel> <species> <amount><mol|g|mL> [@ <T>C]".into());
@@ -167,13 +178,30 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                     moles: Moles(moles),
                 }));
             }
-            let data = species::lookup_key(words[2])
-                .ok_or_else(|| format!("unknown species '{}' (see 'species')", words[2]))?;
-            Operator::Add {
-                vessel,
-                species: SpeciesId::new(words[2]),
-                moles: parse_amount(words[3], data)?,
-                at: parse_at(&words[4..])?,
+            if let Some(data) = species::lookup_key(words[2]) {
+                Operator::Add {
+                    vessel,
+                    species: SpeciesId::new(words[2]),
+                    moles: parse_amount(words[3], data)?,
+                    at: parse_at(&words[4..])?,
+                }
+            } else if let Some(recipe) = material::lookup(words[2], None) {
+                let total_amount = parse_material_amount(words[3], &recipe)?;
+                Operator::AddMaterial {
+                    vessel,
+                    material: recipe.canonical_key.clone(),
+                    recipe_id: recipe.id,
+                    recipe_version: recipe.version,
+                    total_amount,
+                    basis: recipe.basis,
+                    sample_seed: 0,
+                    at: parse_at(&words[4..])?,
+                }
+            } else {
+                return Err(format!(
+                    "unknown species or material '{}' (see 'species')",
+                    words[2]
+                ));
             }
         }
         "heat" | "cool" => {
@@ -662,6 +690,60 @@ pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, String> {
         other => Err(format!(
             "unknown amount '{other}' — try g, mL, L, mol, or a kitchen measure: spoon, pinch, cup, splash, drop"
         )),
+    }
+}
+
+/// Convert a user amount into a recipe's declared basis. Mass-fraction
+/// materials may accept volume only when the reviewed recipe supplies a bulk
+/// density; we never invent one at parse time.
+pub fn parse_material_amount(word: &str, recipe: &MaterialRecipe) -> Result<f64, String> {
+    let (value, unit) = split_unit(word)?;
+    if !value.is_finite() || value <= 0.0 {
+        return Err("material amount must be positive".into());
+    }
+    match recipe.basis {
+        MaterialBasis::MassFraction => match unit {
+            "g" => Ok(value),
+            "mL" | "ml" => recipe
+                .bulk_density
+                .as_ref()
+                .map(|density| value * density.value)
+                .ok_or_else(|| {
+                    format!(
+                        "material '{}' has no reviewed bulk density; add it by mass (g)",
+                        recipe.canonical_key
+                    )
+                }),
+            "L" | "l" => recipe
+                .bulk_density
+                .as_ref()
+                .map(|density| value * 1000.0 * density.value)
+                .ok_or_else(|| {
+                    format!(
+                        "material '{}' has no reviewed bulk density; add it by mass (g)",
+                        recipe.canonical_key
+                    )
+                }),
+            other => Err(format!(
+                "mass-fraction material '{}' accepts g, mL, or L (got '{other}')",
+                recipe.canonical_key
+            )),
+        },
+        MaterialBasis::MoleFraction => match unit {
+            "mol" => Ok(value),
+            other => Err(format!(
+                "mole-fraction material '{}' accepts mol (got '{other}')",
+                recipe.canonical_key
+            )),
+        },
+        MaterialBasis::VolumeFraction => match unit {
+            "mL" | "ml" => Ok(value),
+            "L" | "l" => Ok(value * 1000.0),
+            other => Err(format!(
+                "volume-fraction material '{}' accepts mL or L (got '{other}')",
+                recipe.canonical_key
+            )),
+        },
     }
 }
 

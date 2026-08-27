@@ -2,6 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::material::MaterialBasis;
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 
@@ -13,6 +14,30 @@ impl std::fmt::Display for VesselId {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "v{}", self.0 + 1)
     }
+}
+
+/// The explicitly unresolved balance of a named material addition.
+///
+/// This is matter the recipe admits it cannot yet map to canonical species.
+/// Keeping it in vessel state prevents later UI and persistence layers from
+/// silently pretending that the named material was completely characterized.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct UnresolvedMaterialPortion {
+    pub material: String,
+    pub recipe_id: String,
+    pub recipe_version: u32,
+    pub basis: MaterialBasis,
+    pub amount: f64,
+}
+
+/// Persistent visual state for gas trapped by a declared foam stabilizer.
+/// Chemistry still owns every gas mole; this only describes a temporary
+/// bubble structure while it drains and coalesces.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct FoamState {
+    pub trapped_gas_liters: f64,
+    pub volume_liters: f64,
+    pub peak_volume_liters: f64,
 }
 
 /// How the vessel exchanges heat with the surroundings between operators.
@@ -611,6 +636,10 @@ pub struct Vessel {
     pub id: VesselId,
     pub label: String,
     pub contents: Vec<Portion>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub unresolved_materials: Vec<UnresolvedMaterialPortion>,
+    #[serde(default)]
+    pub foam: FoamState,
     pub temperature: Kelvin,
     pub pressure: Pascal,
     pub thermal_mode: ThermalMode,
@@ -663,6 +692,8 @@ impl Vessel {
             id,
             label: label.into(),
             contents: Vec::new(),
+            unresolved_materials: Vec::new(),
+            foam: FoamState::default(),
             temperature: Kelvin::STANDARD,
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,
@@ -679,6 +710,7 @@ impl Vessel {
 
     pub fn is_empty(&self) -> bool {
         self.contents.is_empty()
+            && self.unresolved_materials.is_empty()
             && self.surfaces.is_empty()
             && self.exchanges.is_empty()
             && self.solid_solutions.is_empty()
