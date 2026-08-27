@@ -83,6 +83,7 @@ export interface SceneSolid {
   srgb: [number, number, number];
   colour_word: string;
   metallic: boolean;
+  settled_fraction: number;
 }
 
 export interface SceneBadge {

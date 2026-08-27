@@ -892,9 +892,10 @@ hide them completely.
   RCF, then applies Stokes settling per solid from particle size, registry
   density, computed liquid density, temperature-dependent water viscosity,
   and tube path length. The standalone rotor's speed follows emitted RCF.
-  Suspension/deposit mutation and interactive counterweight imbalance remain;
-  the event marks state coupling false rather than pretending separation has
-  already changed the vessel.*
+  The follow-up state slice persists each tracked lot's suspended fraction:
+  centrifuging transfers the computed portion into the visible bottom deposit,
+  while magnetic stirring resuspends non-metal solids by computed bar-tip
+  speed. Interactive counterweight imbalance and gravity settling remain.*
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model

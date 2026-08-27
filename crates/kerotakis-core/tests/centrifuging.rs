@@ -38,7 +38,23 @@ fn centrifuge_command_computes_rcf_and_separation_from_vessel_state() {
     assert_eq!(separations.len(), 1);
     assert_eq!(separations[0].particle_diameter_um, 1.0);
     assert!(separations[0].separated_fraction > 0.0);
-    assert!(!state_coupled);
+    assert!(state_coupled);
+    let suspended = bench.vessels[0]
+        .suspended_fraction_of(&SpeciesId::new("AgCl"))
+        .unwrap();
+    assert!(suspended < 1.0);
+
+    let scene_after_spin = scene(&bench);
+    assert!(scene_after_spin.vessels[0].solids[0].settled_fraction > 0.0);
+
+    bench
+        .step(parse_op("stir v1 600rpm 10s").unwrap().unwrap())
+        .unwrap();
+    let resuspended = bench.vessels[0]
+        .suspended_fraction_of(&SpeciesId::new("AgCl"))
+        .unwrap();
+    assert!(resuspended > suspended);
+    assert!(scene(&bench).vessels[0].solids[0].settled_fraction < 1e-12);
 }
 
 #[test]

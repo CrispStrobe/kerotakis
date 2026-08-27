@@ -126,7 +126,7 @@
   const solidH = $derived(
     Math.min(
       18,
-      vessel.solids.reduce((sum, s) => sum + s.moles, 0) * 600,
+      vessel.solids.reduce((sum, s) => sum + s.moles * (s.settled_fraction ?? 1), 0) * 600,
     ),
   );
   const rgb = (c: [number, number, number]) => `rgb(${c[0]},${c[1]},${c[2]})`;

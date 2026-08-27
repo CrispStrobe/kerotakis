@@ -129,6 +129,9 @@ pub struct SceneSolid {
     /// and settles. Decides texture, and matches the turbidity physics in
     /// `appearance::observe`.
     pub metallic: bool,
+    /// Fraction currently in the settled deposit. Legacy state remains fully
+    /// visible at the bottom until an operation establishes suspension state.
+    pub settled_fraction: f64,
 }
 
 /// A number pinned to the drawn vessel.
@@ -241,6 +244,10 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             srgb: [colour.r, colour.g, colour.b],
             colour_word: colour_word(&colour, true).to_string(),
             metallic: crate::displacement::is_elemental_metal(&p.species.0),
+            settled_fraction: v
+                .suspended_fraction_of(&p.species)
+                .map(|fraction| 1.0 - fraction)
+                .unwrap_or(1.0),
         });
     }
     solids.sort_by(|a, b| b.moles.total_cmp(&a.moles));
