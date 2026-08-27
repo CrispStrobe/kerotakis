@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkExpect, parseCodexIndex, scriptKit } from "./codex";
+import { checkExpect, codexText, parseCodexIndex, scriptKit } from "./codex";
 
 describe("the codex checker compares, never computes", () => {
   it("events must occur, forbidden ones must not", () => {
@@ -46,6 +46,24 @@ describe("the codex checker compares, never computes", () => {
     expect(parseCodexIndex(entries)).toHaveLength(1);
     expect(parseCodexIndex({ entries })).toHaveLength(1);
     expect(parseCodexIndex(null)).toEqual([]);
+  });
+});
+
+describe("codex locale sidecars", () => {
+  it("resolves exact authored strings and falls back to canonical prose", () => {
+    const entry = {
+      id: "salt-dissolves",
+      setup: { script: "add v1 water 100mL" },
+      expect: {},
+      registers: { lv1: "Salt disappears into the water." },
+      translations: {
+        de: { "salt dissolves": "Salz löst sich" },
+      },
+    };
+    expect(codexText(entry, "de", "salt dissolves")).toBe("Salz löst sich");
+    expect(codexText(entry, "de", "Salt disappears into the water."))
+      .toBe("Salt disappears into the water.");
+    expect(codexText(entry, "en", "salt dissolves")).toBe("salt dissolves");
   });
 });
 
