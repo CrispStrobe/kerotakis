@@ -2,7 +2,7 @@
   import { untrack } from "svelte";
   import type { ApparatusSpec } from "../apparatus";
   import type { ShelfItem } from "../session.svelte";
-  import { t } from "../i18n.svelte";
+  import { i18n, t } from "../i18n.svelte";
 
   let {
     spec,
@@ -33,6 +33,12 @@
   const solids = $derived(shelf.filter((s) => s.phase.toLowerCase().includes("solid")));
   const line = $derived(spec.build(vessel, values));
   const warning = $derived(spec.warning?.(values) ?? null);
+  const readouts = $derived(spec.readouts?.(values) ?? []);
+  const formatReadout = (readout: (typeof readouts)[number]) =>
+    `${new Intl.NumberFormat(i18n.locale, {
+      minimumFractionDigits: readout.digits,
+      maximumFractionDigits: readout.digits,
+    }).format(readout.value)} ${readout.unit}`;
   $effect(() => onpreview?.({ ...values }));
 </script>
 
@@ -81,6 +87,16 @@
         {/if}
       </label>
     {/each}
+    {#if readouts.length > 0}
+      <div class="readouts" aria-label={t("computed operating values")}>
+        {#each readouts as readout (readout.label)}
+          <output>
+            <small>{t(readout.label)}</small>
+            <strong>{formatReadout(readout)}</strong>
+          </output>
+        {/each}
+      </div>
+    {/if}
     {#if warning}<p class="warning" role="alert">⚠ {t(warning)}</p>{/if}
     <button class="run" disabled={busy || line === null || warning !== null} onclick={() => line && !warning && onrun(line)}>
       {busy ? t("running…") : t("run {apparatus}", { apparatus: t(spec.title) })}
@@ -170,6 +186,27 @@
     cursor: pointer;
     min-height: 36px;
   }
+  .readouts {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .readouts output {
+    min-width: 8.5rem;
+    display: flex;
+    flex: 1;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.42rem 0.55rem;
+    border: 1px solid color-mix(in srgb, var(--instrument) 28%, var(--edge));
+    border-radius: 9px;
+    color: var(--instrument);
+    background: color-mix(in srgb, var(--instrument) 7%, var(--surface));
+  }
+  .readouts small { color: var(--dim); font-size: 0.63rem; }
+  .readouts strong { color: var(--ink); font-size: 0.76rem; white-space: nowrap; }
   .warning { margin: 0; max-width: 15rem; color: var(--danger); font-size: .75rem; font-weight: 750; }
   .icon-close {
     width: 28px;

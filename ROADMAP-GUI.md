@@ -930,6 +930,11 @@ hide them completely.
   animations use the requested or emitted duration and stop reactively rather
   than leaving an infinite decorative loop behind. Apparatus controls dock
   with the bench and replace unrelated vessel actions while deployed.*
+  *Physical-readout slice in progress 2026-08-27: control changes immediately
+  expose the quantities they imply before Start — delivered or removed energy
+  from power × time, the 25 mm stir-bar tip speed, and centrifuge RCF from RPM
+  and rotor radius. These use the same formulae and constants as the engine;
+  chemical outcomes remain engine-owned.*
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
