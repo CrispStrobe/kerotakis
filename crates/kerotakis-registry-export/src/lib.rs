@@ -575,6 +575,44 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             evidence: evidence(),
         },
         MaterialRecipe {
+            id: "household/heat-activated-baking-powder-surrogate".to_string(),
+            version: 1,
+            canonical_key: "baking_powder".to_string(),
+            name: "heat-activated baking powder surrogate".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["baking powder".to_string(), "baking_powder".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec!["Backpulver".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("NaHCO3", 0.30), component("starch", 0.25)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.45,
+                upper: 0.45,
+            }),
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: Vec::new(),
+            preparation: Some(
+                "heat-activated baking-powder teaching surrogate with 30% sodium bicarbonate, 25% starch and 45% unresolved acid-salt blend"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "heating uses the installed bicarbonate decomposition route and does not require the unresolved acid salts".to_string(),
+                "wet or double-acting activation is not claimed until the acid salts and their dissolution kinetics are installed".to_string(),
+                "this is not a formulation or substitution recommendation for food".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
             id: "household/washing-soda".to_string(),
             version: 1,
             canonical_key: "washing_soda".to_string(),

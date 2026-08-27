@@ -34554,6 +34554,79 @@
       }
     },
     {
+      "id": "household/heat-activated-baking-powder-surrogate",
+      "version": 1,
+      "canonical_key": "baking_powder",
+      "name": "heat-activated baking powder surrogate",
+      "aliases": {
+        "de": [
+          "Backpulver"
+        ],
+        "en": [
+          "baking powder",
+          "baking_powder"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "NaHCO3",
+          "fraction": {
+            "lower": 0.3,
+            "upper": 0.3
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "starch",
+          "fraction": {
+            "lower": 0.25,
+            "upper": 0.25
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.45,
+        "upper": 0.45
+      },
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [],
+      "preparation": "heat-activated baking-powder teaching surrogate with 30% sodium bicarbonate, 25% starch and 45% unresolved acid-salt blend",
+      "lot_assumptions": [
+        "heating uses the installed bicarbonate decomposition route and does not require the unresolved acid salts",
+        "wet or double-acting activation is not claimed until the acid salts and their dissolution kinetics are installed",
+        "this is not a formulation or substitution recommendation for food"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
       "id": "household/washing-soda",
       "version": 1,
       "canonical_key": "washing_soda",
