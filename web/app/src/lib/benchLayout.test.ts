@@ -4,6 +4,7 @@ import {
   adjacentZone,
   apparatusPositionFor,
   parseBenchLayout,
+  placeNewVessel,
   placeVessel,
   placementsOverlap,
   positionFor,
@@ -64,5 +65,17 @@ describe("bench layout", () => {
     expect(placementsOverlap(centre, { x: 0.64, y: 0.5 })).toBe(false);
     expect(placementsOverlap(centre, { x: 0.5, y: 0.7 })).toBe(false);
     expect(placementsOverlap(centre, { x: 0.62, y: 0.66 }, 0.1, 0.15)).toBe(false);
+  });
+
+  it("places new glassware in a stable open slot instead of stacking it", () => {
+    let layout = positionVessel(EMPTY_BENCH_LAYOUT, 0, 0.2, 0.58);
+    layout = positionVessel(layout, 1, 0.4, 0.58);
+    // v8's legacy default repeats v0's occupied position.
+    const placed = placeNewVessel(layout, 8, [0, 1, 8]);
+    expect(positionFor(placed, 8)).toEqual({ zone: "prepare", x: 0.12, y: 0.31 });
+    expect(placementsOverlap(positionFor(placed, 8), positionFor(placed, 0))).toBe(false);
+
+    const withMachine = placeNewVessel(EMPTY_BENCH_LAYOUT, 0, [0], [{ x: 0.2, y: 0.58 }]);
+    expect(positionFor(withMachine, 0)).toEqual({ zone: "prepare", x: 0.12, y: 0.31 });
   });
 });

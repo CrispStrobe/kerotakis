@@ -102,6 +102,32 @@ export function placementsOverlap(
     && Math.abs(a.y - b.y) < separationY - epsilon;
 }
 
+/** Place newly created glassware in the first stable free slot. This runs only
+ * after the engine confirms creation; it arranges the view without inventing
+ * or mutating chemistry. */
+export function placeNewVessel(
+  layout: BenchLayout,
+  vessel: number,
+  occupiedVessels: readonly number[],
+  obstacles: ReadonlyArray<Pick<BenchPlacement, "x" | "y">> = [],
+): BenchLayout {
+  const occupied = [
+    ...occupiedVessels.filter((id) => id !== vessel).map((id) => positionFor(layout, id)),
+    ...obstacles,
+  ];
+  const preferred = defaultPosition(vessel);
+  const slots = [
+    preferred,
+    ...[0.31, 0.53, 0.75].flatMap((y) =>
+      [0.12, 0.31, 0.5, 0.69, 0.88].map((x) => ({ zone: zoneAt(x), x, y })),
+    ),
+  ];
+  const open = slots.find((candidate) =>
+    occupied.every((position) => !placementsOverlap(candidate, position)),
+  );
+  return open ? positionVessel(layout, vessel, open.x, open.y) : layout;
+}
+
 /** Zone moves remain useful for keyboard users, but preserve vertical placement. */
 export function placeVessel(layout: BenchLayout, vessel: number, zone: BenchZone): BenchLayout {
   const current = positionFor(layout, vessel);
