@@ -11,6 +11,7 @@
     { verb: "filter", title: "filter", blurb: "separate solids from liquid" },
     { verb: "decant", title: "decant", blurb: "pour off a chosen fraction" },
     { verb: "drain", title: "drain", blurb: "move the lower liquid layer" },
+    { verb: "magnet", title: "magnet", blurb: "lift out magnetic solids" },
     { verb: "cell", title: "voltmeter", blurb: "connect two half-cells" },
     { verb: "distil", title: "still", blurb: "separate by volatility" },
   ];

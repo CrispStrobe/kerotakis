@@ -54,6 +54,20 @@ export interface DrainRun {
   upperColour?: string;
 }
 
+export interface MagneticSolid {
+  species: string;
+  name: string;
+  moles: number;
+  colour: string;
+}
+
+/** Engine classification plus pre-transfer physical inventory. */
+export interface MagneticRun {
+  attractedSpecies: string[];
+  remainedSpecies: string[];
+  attracted: MagneticSolid[];
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -80,7 +94,7 @@ export interface Effect {
   outsideMethod?: string[];
   appearance?: InspectionAppearance;
   /** Physical setup connecting source and target vessels. */
-  operation?: "pour" | "filter" | "drain" | "distil" | "cell";
+  operation?: "pour" | "filter" | "drain" | "magnet" | "distil" | "cell";
   /** Computed pre-transfer source-liquid colour, captured before scene replacement. */
   fluidColour?: string;
   /** Engine-scene solids left on the paper during a filtration. */
@@ -89,6 +103,8 @@ export interface Effect {
   distillation?: DistillationRun;
   /** Engine-selected lower layer and its pre-drain scene colours. */
   drain?: DrainRun;
+  /** Solids selected by the engine's magnetic-property data. */
+  magnetic?: MagneticRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -297,6 +313,23 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         target: Number(e.to ?? 0),
         operation: "filter",
       };
+    case "magnet_separated": {
+      const attractedSpecies = Array.isArray(e.attracted) ? e.attracted.map(String) : [];
+      return {
+        kind: "magnet",
+        at: now,
+        durationMs: 3000,
+        magnitude: scale(attractedSpecies.length, 0, 4),
+        source: Number(e.from ?? 0),
+        target: Number(e.to ?? 0),
+        operation: "magnet",
+        magnetic: {
+          attractedSpecies,
+          remainedSpecies: Array.isArray(e.remained) ? e.remained.map(String) : [],
+          attracted: [],
+        },
+      };
+    }
     case "drained":
       return {
         kind: "pour",
