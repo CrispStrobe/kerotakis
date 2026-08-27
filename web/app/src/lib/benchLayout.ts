@@ -12,9 +12,11 @@ export interface BenchPlacement {
 export interface BenchLayout {
   version: 2;
   placements: Record<number, BenchPlacement>;
+  /** Explicit positions only; an undeployed/unmoved tool follows its target. */
+  apparatus: Record<string, BenchPlacement>;
 }
 
-export const EMPTY_BENCH_LAYOUT: BenchLayout = { version: 2, placements: {} };
+export const EMPTY_BENCH_LAYOUT: BenchLayout = { version: 2, placements: {}, apparatus: {} };
 // Keep the storage key: parseBenchLayout migrates the version-1 value in place.
 export const BENCH_LAYOUT_KEY = "kerotakis.bench.layout.v1";
 
@@ -22,6 +24,8 @@ const X_MIN = 0.08;
 const X_MAX = 0.92;
 const Y_MIN = 0.28;
 const Y_MAX = 0.84;
+const APPARATUS_Y_MIN = 0.12;
+const APPARATUS_Y_MAX = 0.88;
 
 export function isBenchZone(value: unknown): value is BenchZone {
   return typeof value === "string" && BENCH_ZONES.includes(value as BenchZone);
@@ -63,7 +67,24 @@ export function positionVessel(layout: BenchLayout, vessel: number, x: number, y
   const current = positionFor(layout, vessel);
   const next = { zone: zoneAt(nextX), x: nextX, y: nextY };
   if (current.zone === next.zone && current.x === next.x && current.y === next.y) return layout;
-  return { version: 2, placements: { ...layout.placements, [vessel]: next } };
+  return { ...layout, placements: { ...layout.placements, [vessel]: next } };
+}
+
+export function apparatusPositionFor(
+  layout: BenchLayout,
+  tool: string,
+  fallback: BenchPlacement,
+): BenchPlacement {
+  return layout.apparatus[tool] ?? fallback;
+}
+
+export function positionApparatus(layout: BenchLayout, tool: string, x: number, y: number): BenchLayout {
+  const nextX = clamp(x, X_MIN, X_MAX);
+  const nextY = clamp(y, APPARATUS_Y_MIN, APPARATUS_Y_MAX);
+  const next = { zone: zoneAt(nextX), x: nextX, y: nextY };
+  const current = layout.apparatus[tool];
+  if (current?.zone === next.zone && current.x === next.x && current.y === next.y) return layout;
+  return { ...layout, apparatus: { ...layout.apparatus, [tool]: next } };
 }
 
 /** Zone moves remain useful for keyboard users, but preserve vertical placement. */
@@ -75,7 +96,7 @@ export function placeVessel(layout: BenchLayout, vessel: number, zone: BenchZone
 export function parseBenchLayout(raw: string | null): BenchLayout {
   if (!raw) return EMPTY_BENCH_LAYOUT;
   try {
-    const value = JSON.parse(raw) as { version?: unknown; placements?: unknown };
+    const value = JSON.parse(raw) as { version?: unknown; placements?: unknown; apparatus?: unknown };
     if (!value.placements || typeof value.placements !== "object") return EMPTY_BENCH_LAYOUT;
     const placements: Record<number, BenchPlacement> = {};
     for (const [key, placement] of Object.entries(value.placements)) {
@@ -95,7 +116,21 @@ export function parseBenchLayout(raw: string | null): BenchLayout {
         placements[vessel] = { zone: zoneAt(x), x, y: clamp(p.y, Y_MIN, Y_MAX) };
       }
     }
-    return { version: 2, placements };
+    const apparatus: Record<string, BenchPlacement> = {};
+    if (value.version === 2 && value.apparatus && typeof value.apparatus === "object") {
+      for (const [tool, placement] of Object.entries(value.apparatus)) {
+        if (!tool || !placement || typeof placement !== "object") continue;
+        const p = placement as BenchPlacement;
+        if (!finite(p.x) || !finite(p.y)) continue;
+        const x = clamp(p.x, X_MIN, X_MAX);
+        apparatus[tool] = {
+          zone: zoneAt(x),
+          x,
+          y: clamp(p.y, APPARATUS_Y_MIN, APPARATUS_Y_MAX),
+        };
+      }
+    }
+    return { version: 2, placements, apparatus };
   } catch {
     return EMPTY_BENCH_LAYOUT;
   }
