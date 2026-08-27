@@ -297,6 +297,7 @@ const DE: Record<string, string> = {
   "bench": "Labor",
   "shelf": "Regal",
   "notes": "Notizen",
+  "measure": "messen",
   "print the notebook — or save it as PDF from the print dialog": "Laborbuch drucken — oder im Druckdialog als PDF speichern",
   "let 30 seconds of bench time pass": "30 Sekunden Laborzeit verstreichen lassen",
   "clamp the burette over the selected vessel": "Bürette über dem gewählten Gefäß einspannen",
@@ -833,3 +834,4 @@ class I18n {
 
 export const i18n = new I18n();
 export const t = (message: string, vars?: Vars) => i18n.t(message, vars);
+export const hasGermanTranslation = (message: string): boolean => Object.hasOwn(DE, message);
