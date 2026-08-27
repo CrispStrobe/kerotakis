@@ -1113,6 +1113,11 @@ hide them completely.
   apparatus, without drawing the machine inside the glassware. Apparatus-active
   styling is scoped at the Bench/Vessel boundary to the exact target, so a
   running centrifuge or mortar cannot make every vessel appear active.
+  *Bounded-motion correction shipped 2026-08-27:* a retained result no longer
+  restarts or freezes an operation after its declared playback window. Mortar
+  motion, rotor spin, evaporation steam, and wash-bottle flow exist only while
+  the exact computed event is active; settled pellets and numeric result
+  readouts remain afterward. Reduced motion follows the same time boundary.
   *Static operating-state correction shipped 2026-08-27:* reduced-motion users
   now retain a visible steady heat plume, frost, light cone, wash jet, steam,
   charge/gas markers, and burette drop while the corresponding computed

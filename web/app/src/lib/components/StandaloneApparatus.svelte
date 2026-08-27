@@ -2,11 +2,10 @@
   import { t } from "../i18n.svelte";
   import type { Effect } from "../magnitudes";
 
-  let { tool, target, working = false, performedAt, intensity = 0.5, values = {}, effect }: {
+  let { tool, target, working = false, intensity = 0.5, values = {}, effect }: {
     tool: string;
     target: number;
     working?: boolean;
-    performedAt?: number;
     intensity?: number;
     values?: Record<string, number | string>;
     effect?: Effect;
@@ -34,7 +33,6 @@
   <figure
     class="standalone mortar"
     class:working
-    class:performed={performedAt !== undefined}
     style:--grind-duration={grindDuration}
     aria-label={t("mortar on the bench")}
   >
@@ -53,7 +51,6 @@
   <figure
     class="standalone evaporation-station"
     class:working
-    class:performed={performedAt !== undefined}
     style={`--evaporation-intensity:${Math.max(.12, intensity)};--dish-liquid:${effect?.fluidColour ?? "color-mix(in srgb, var(--cool) 25%, var(--surface))"}`}
     aria-label={t("evaporating dish station on the bench")}
   >
@@ -82,7 +79,6 @@
   <figure
     class="standalone wash-station"
     class:working
-    class:performed={performedAt !== undefined}
     style={`--wash-strength:${Math.max(.15, intensity)}`}
     aria-label={t("wash bottle station on the bench")}
   >
@@ -108,7 +104,6 @@
   <figure
     class="standalone centrifuge"
     class:working
-    class:performed={performedAt !== undefined}
     style:--rotor-duration={rotorDuration}
     aria-label={t("mini centrifuge on the bench")}
   >
@@ -202,7 +197,6 @@
   .rim { fill: color-mix(in srgb, var(--surface) 58%, var(--instrument)); }
   .pestle { fill: none; stroke: var(--edge-strong); stroke-width: 9; stroke-linecap: round; transform-origin: 59px 49px; }
   .working .pestle { animation: grind var(--grind-duration) ease-in-out infinite alternate; }
-  .performed:not(.working) .pestle { animation: grind var(--grind-duration) ease-in-out 8 alternate; }
   .evaporation-station { background: color-mix(in srgb, var(--surface) 88%, var(--hot)); }
   .station-shadow { fill: var(--shadow); opacity: .35; }
   .heater-base { fill: color-mix(in srgb, var(--action) 30%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1.6; }
@@ -211,7 +205,7 @@
   .dish-liquid { fill: var(--dish-liquid); fill-opacity: .72; stroke: color-mix(in srgb, var(--dish-liquid) 70%, var(--edge-strong)); stroke-width: .8; }
   .heater-dial { fill: var(--hot); stroke: var(--edge-strong); stroke-width: .8; }
   .evaporation-steam { fill: none; stroke: var(--dim); stroke-width: calc(1px + var(--evaporation-intensity) * 1.6px); stroke-linecap: round; opacity: 0; }
-  .working .evaporation-steam, .performed .evaporation-steam { animation: station-steam calc(1.4s - var(--evaporation-intensity) * .65s) ease-out 7; animation-delay: var(--steam-delay); }
+  .working .evaporation-steam { animation: station-steam calc(1.4s - var(--evaporation-intensity) * .65s) ease-out infinite; animation-delay: var(--steam-delay); }
   .evaporation-display { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); }
   .evaporation-station svg text { fill: var(--surface); font: 800 5px ui-monospace, monospace; }
   .wash-station { background: color-mix(in srgb, var(--surface) 86%, var(--cool)); }
@@ -220,7 +214,7 @@
   .wash-cap { fill: var(--instrument); stroke: var(--edge-strong); stroke-width: 1; }
   .wash-nozzle { fill: none; stroke: var(--edge-strong); stroke-width: 3; stroke-linecap: round; }
   .wash-jet { fill: none; stroke: var(--cool); stroke-width: calc(1px + var(--wash-strength) * 2px); stroke-linecap: round; stroke-dasharray: 4 3; opacity: 0; }
-  .working .wash-jet, .performed .wash-jet { animation: wash-flow .65s linear 6; }
+  .working .wash-jet { animation: wash-flow .65s linear infinite; }
   .wash-display { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); }
   .wash-station svg text { fill: var(--surface); font: 800 5px ui-monospace, monospace; }
   .centrifuge { width: 100%; }
@@ -240,7 +234,6 @@
   .coupling.forecast { color: var(--hot); }
   .separation-result { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .working .rotor { animation: spin var(--rotor-duration) linear infinite; }
-  .performed:not(.working) .rotor { animation: spin var(--rotor-duration) linear 12; }
   .burette-station { background: color-mix(in srgb, var(--surface) 90%, var(--cool)); }
   .stand-foot { fill: var(--shadow); opacity: .4; }
   .stand-base { fill: color-mix(in srgb, var(--edge-strong) 76%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1.5; }
@@ -260,12 +253,12 @@
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes drip { from { transform: translateY(-5px); opacity: 1; } to { transform: translateY(5px); opacity: 0; } }
   @media (prefers-reduced-motion: reduce) {
-    .working .pestle, .working .rotor, .performed .rotor, .burette-drop,
+    .working .pestle, .working .rotor, .burette-drop,
     .evaporation-steam, .wash-jet { animation: none; }
-    .working .evaporation-steam, .performed .evaporation-steam {
+    .working .evaporation-steam {
       opacity: calc(.35 + var(--evaporation-intensity) * .55);
     }
-    .working .wash-jet, .performed .wash-jet { opacity: .85; stroke-dashoffset: 0; }
+    .working .wash-jet { opacity: .85; stroke-dashoffset: 0; }
     .working .burette-drop { opacity: .85; }
   }
 </style>

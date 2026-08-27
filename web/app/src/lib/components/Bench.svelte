@@ -500,7 +500,6 @@
               tool={deployedTool}
               target={deployedTarget}
               working={standaloneWorking}
-              performedAt={apparatusEffect?.at}
               intensity={apparatusEffect?.magnitude ?? 0.5}
               effect={apparatusEffect}
               values={deployedTool === "burette"
