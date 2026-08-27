@@ -38,6 +38,7 @@
     { token: "uvvis", label: "UV-Vis", glyph: "λ" },
     { token: "eyes", label: "look closely", glyph: "🔍" },
     { token: "chromatograph", label: "chromatograph", glyph: "Rf" },
+    { token: "geiger", label: "Geiger counter", glyph: "Bq" },
   ];
 </script>
 

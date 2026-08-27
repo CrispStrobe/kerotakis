@@ -693,15 +693,20 @@ export class Session {
                     ? "conductivity_meter"
                     : inst === "spectrophotometer"
                       ? "uvvis"
-                      : inst === "calorimeter"
+                    : inst === "calorimeter"
                         ? "calorimeter"
+                        : inst === "geiger_counter"
+                          ? "geiger_counter"
               : null;
       if (kind) {
+        const reading = Number(event.value);
         effect = {
           kind,
           at: Date.now(),
-          magnitude: 0.6,
-          reading: Number(event.value),
+          magnitude: kind === "geiger_counter"
+            ? Math.min(1, Math.max(0, Math.log10(Math.max(1, reading)) / 8))
+            : 0.6,
+          reading,
           unit: String(event.unit ?? ""),
         };
       }
