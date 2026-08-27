@@ -651,7 +651,7 @@
       register={session.register}
       selected={session.selected}
       onselect={(id) => vesselTapped(id)}
-      pristine={session.commandLog.length === 0 && !session.lesson}
+      pristine={session.commandLog.length === 0 && !session.lesson && !apparatusOut && !buretteOut}
       effects={session.vesselEffects}
       titrationPlayback={session.titrationPlayback}
       onnewvessel={(kind) => void session.submit(kind === "beaker" ? "new" : `new ${kind}`)}

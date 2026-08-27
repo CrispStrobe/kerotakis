@@ -929,7 +929,10 @@ hide them completely.
   cooling exposes bath temperature; stirring accepts RPM and time. Their bench
   animations use the requested or emitted duration and stop reactively rather
   than leaving an infinite decorative loop behind. Apparatus controls dock
-  with the bench and replace unrelated vessel actions while deployed.*
+  with the bench and replace unrelated vessel actions while deployed. The
+  desktop workstation is now a non-overlapping bottom dock, so it cannot cover
+  the periodic table, instrument wall, safety station, vessels, or notebook;
+  its fields reflow horizontally while narrow screens retain a touch sheet.*
   *Physical-readout slice in progress 2026-08-27: control changes immediately
   expose the quantities they imply before Start — delivered or removed energy
   from power × time, the 25 mm stir-bar tip speed, and centrifuge RCF from RPM
