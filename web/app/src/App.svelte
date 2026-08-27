@@ -765,6 +765,11 @@
           transfer = null;
           pane = "bench";
         }}
+        busy={session.busy}
+        onmeasure={(line) => {
+          void session.submit(line);
+          pane = "bench";
+        }}
       />
     {/if}
   </nav>

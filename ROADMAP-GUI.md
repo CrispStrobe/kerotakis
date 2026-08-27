@@ -848,6 +848,12 @@ hide them completely.
   It searches localized card names and descriptions as well as canonical
   apparatus verbs and English source vocabulary, keeps Story availability
   scope intact, and gives an explicit empty result instead of a blank wall.*
+  *Measurement-catalog slice shipped 2026-08-28:* all twelve released
+  measurement instruments now live in the same searchable wall instead of
+  being discoverable only through vessel details. Each card names its purpose,
+  targets the active vessel, compiles to the existing public operator, and
+  participates in Mission set / Unlocked / All access. The compact inspector
+  tray consumes the same registry, preventing the two surfaces from drifting.*
 - [ ] **GUI-073 — Spatial bench and assembly grammar.** Give work zones,
   apparatus footprints, ports, sockets, layering, collision rules, and
   keyboard-equivalent placement to the scene. Valid destinations preview before

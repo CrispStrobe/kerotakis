@@ -1462,6 +1462,17 @@
   "source B": "Quelle B",
   "transferred": "Überführt",
   "suspension changed; reaction rates are not yet coupled": "Die Suspension wurde verändert; Reaktionsraten sind noch nicht gekoppelt",
-  "light was applied; photolysis is not yet coupled": "Licht wurde eingestrahlt; die Photolyse ist noch nicht gekoppelt"
+  "light was applied; photolysis is not yet coupled": "Licht wurde eingestrahlt; die Photolyse ist noch nicht gekoppelt",
+  "check headspace odour safely": "Geruch im Gasraum sicher prüfen",
+  "measure sample temperature": "Probentemperatur messen",
+  "measure aqueous acidity": "Säuregrad einer wässrigen Probe messen",
+  "measure total material mass": "Gesamtmasse des Materials messen",
+  "measure sealed gas volume": "Eingeschlossenes Gasvolumen messen",
+  "estimate ionic conductivity": "Ionenleitfähigkeit abschätzen",
+  "measure headspace pressure": "Druck im Gasraum messen",
+  "measure enthalpy relative to 25 °C": "Enthalpie relativ zu 25 °C messen",
+  "measure an absorbance spectrum": "Absorptionsspektrum messen",
+  "inspect visible appearance": "Sichtbares Erscheinungsbild untersuchen",
+  "measure radioactive activity": "Radioaktive Aktivität messen"
  }
 }

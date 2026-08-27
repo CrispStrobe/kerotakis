@@ -28,6 +28,18 @@ const EQUIPMENT_MILESTONES: Record<string, number> = {
   distil: 4,
   transport: 4,
   sweep: 4,
+  "measure:eyes": 0,
+  "measure:thermometer": 0,
+  "measure:ph": 0,
+  "measure:balance": 0,
+  "measure:smell": 1,
+  "measure:volume": 1,
+  "measure:conductivity": 1,
+  "measure:pressure": 2,
+  "measure:calorimeter": 2,
+  "measure:uvvis": 3,
+  "measure:chromatograph": 3,
+  "measure:geiger": 4,
 };
 
 const STARTER_STOCK = new Set([

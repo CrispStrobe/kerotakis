@@ -7,6 +7,7 @@
   import type { LabMode } from "../worldState";
   import type { CatalogScope } from "../catalogScope";
   import { equipmentMatches } from "../catalogSearch";
+  import { INSTRUMENTS, instrumentCommand, instrumentVerb } from "../instruments";
 
   const TRANSFER_TOOLS: { verb: TwoVesselAction; title: string; blurb: string }[] = [
     { verb: "filter", title: "filter", blurb: "separate solids from liquid" },
@@ -33,6 +34,8 @@
     onapparatus,
     ontransfer,
     onmix,
+    onmeasure,
+    busy = false,
   }: {
     target: number;
     targetLabel: string;
@@ -49,11 +52,14 @@
     onapparatus: (verb: string) => void;
     ontransfer: (verb: TwoVesselAction) => void;
     onmix: () => void;
+    onmeasure: (line: string) => void;
+    busy?: boolean;
   } = $props();
 
   const allVerbs = $derived([
     "burette", ...APPARATUS.map((item) => item.verb),
-    ...TRANSFER_TOOLS.map((item) => item.verb), "mix", "transport", ...(reactAvailable ? ["react"] : []),
+    ...TRANSFER_TOOLS.map((item) => item.verb), ...INSTRUMENTS.map((item) => instrumentVerb(item.token)),
+    "mix", "transport", ...(reactAvailable ? ["react"] : []),
   ]);
   const availableCount = $derived(allVerbs.filter((verb) => equipmentAvailable(mode, completed, verb)).length);
   const visible = (verb: string) => mode === "sandbox" || scope === "all"
@@ -68,11 +74,15 @@
   );
   const visibleApparatus = $derived(APPARATUS.filter((item) => visible(item.verb) && matches(item.verb, item.title, item.blurb)));
   const visibleTransfers = $derived(TRANSFER_TOOLS.filter((item) => visible(item.verb) && matches(item.verb, item.title, item.blurb)));
+  const visibleInstruments = $derived(INSTRUMENTS.filter((item) => {
+    const verb = instrumentVerb(item.token);
+    return visible(verb) && matches(verb, item.label, item.purpose);
+  }));
   const showBurette = $derived(visible("burette") && matches("burette", "burette", "controlled addition"));
   const showMix = $derived(visible("mix") && matches("mix", "mixer", "combine two sources into a receiver"));
   const showTransport = $derived(visible("transport") && matches("transport", "column train", "move solution through connected cells"));
   const showReact = $derived(reactAvailable && visible("react") && matches("react", "curated reaction", "choose a verified reaction family"));
-  const resultCount = $derived(visibleApparatus.length + visibleTransfers.length + Number(showBurette) + Number(showMix) + Number(showTransport) + Number(showReact));
+  const resultCount = $derived(visibleApparatus.length + visibleTransfers.length + visibleInstruments.length + Number(showBurette) + Number(showMix) + Number(showTransport) + Number(showReact));
   const requirementLabel = (verb: string) => {
     const count = equipmentRequirement(verb);
     return count === 1 ? t("after one mission") : t("after {count} missions", { count });
@@ -112,6 +122,22 @@
           {#if apparatusOut === item.verb}<span class="deployed-label">{t("on bench")}</span>{/if}
           {#if itemAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
           {#if !itemAccess.available}<span class="locked-label">⌁ {requirementLabel(item.verb)}</span>{/if}
+        </button>
+      {/each}
+    </div>
+  </div>{/if}
+
+  {#if visibleInstruments.length > 0}<div class="equipment-group">
+    <h2><span>{t("observe and measure")}</span><small>{visibleInstruments.length}</small></h2>
+    <div class="equipment-grid">
+      {#each visibleInstruments as item (item.token)}
+        {@const verb = instrumentVerb(item.token)}
+        {@const itemAccess = access(verb)}
+        <button class="equipment-card instrument-card" class:locked={!itemAccess.available} disabled={busy || !itemAccess.available} onclick={() => onmeasure(instrumentCommand(target, item.token))}>
+          <span class="equipment-icon instrument-glyph" aria-hidden="true">{item.glyph}</span>
+          <span class="equipment-copy"><strong>{t(item.label)}</strong><small>{t(item.purpose)}</small></span>
+          {#if itemAccess.loaned}<span class="loaned-label">{t("mission kit")}</span>{/if}
+          {#if !itemAccess.available}<span class="locked-label">⌁ {requirementLabel(verb)}</span>{/if}
         </button>
       {/each}
     </div>
@@ -197,6 +223,7 @@
   .equipment-card.wide { width: 100%; min-height: 82px; flex-direction: row; align-items: center; }
   .equipment-icon { width: 36px; height: 36px; display: grid; place-items: center; flex: none; border-radius: 11px; color: var(--action); background: color-mix(in srgb, var(--action) 10%, var(--surface)); }
   .equipment-icon :global(svg) { width: 26px; height: 26px; margin: 0; }
+  .instrument-glyph { font-size: .72rem; font-weight: 850; }
   .equipment-copy { min-width: 0; display: flex; flex-direction: column; gap: 0.15rem; }
   .equipment-copy strong { font-size: 0.72rem; line-height: 1.15; }
   .equipment-copy small { color: var(--dim); font-size: 0.61rem; line-height: 1.25; }
