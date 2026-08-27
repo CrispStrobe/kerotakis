@@ -1,5 +1,16 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { extname, join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import { i18n, t } from "./i18n.svelte";
+import { hasGermanTranslation, i18n, t } from "./i18n.svelte";
+
+function sourceFiles(directory: string): string[] {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(directory, entry.name);
+    if (entry.isDirectory()) return sourceFiles(path);
+    if (entry.name.endsWith(".test.ts")) return [];
+    return [".svelte", ".ts"].includes(extname(entry.name)) ? [path] : [];
+  });
+}
 
 describe("i18n", () => {
   afterEach(() => {
@@ -44,5 +55,47 @@ describe("i18n", () => {
   it("uses the source message as the English catalog", () => {
     i18n.locale = "en";
     expect(t("save notes")).toBe("save notes");
+  });
+
+  it("has German entries for every literal UI translation call", () => {
+    const missing = new Set<string>();
+    for (const path of sourceFiles(join(import.meta.dirname))) {
+      const source = readFileSync(path, "utf8");
+      for (const match of source.matchAll(/\bt\("([^"]+)"/g)) {
+        if (!hasGermanTranslation(match[1]!)) missing.add(match[1]!);
+      }
+    }
+    expect([...missing].sort()).toEqual([]);
+  });
+
+  it("does not bypass translation for static accessible copy", () => {
+    const untranslated: string[] = [];
+    for (const path of sourceFiles(join(import.meta.dirname))) {
+      if (!path.endsWith(".svelte")) continue;
+      const source = readFileSync(path, "utf8");
+      for (const match of source.matchAll(/\b(aria-label|placeholder|title)="([^"]*[A-Za-zÄÖÜäöüß][^"]*)"/g)) {
+        untranslated.push(`${path}:${match[1]}=${match[2]}`);
+      }
+    }
+    expect(untranslated).toEqual([]);
+  });
+
+  it("has German display names for every registry material", () => {
+    const registry = JSON.parse(readFileSync(
+      join(import.meta.dirname, "../../../../data/registry/registry-source-v1.json"),
+      "utf8",
+    ));
+    const names = new Set<string>();
+    const collect = (value: unknown): void => {
+      if (Array.isArray(value)) {
+        value.forEach(collect);
+      } else if (value && typeof value === "object") {
+        const record = value as Record<string, unknown>;
+        if (typeof record.name === "string") names.add(record.name);
+        Object.values(record).forEach(collect);
+      }
+    };
+    collect(registry);
+    expect([...names].filter((name) => !hasGermanTranslation(name)).sort()).toEqual([]);
   });
 });

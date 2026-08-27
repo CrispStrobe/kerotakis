@@ -683,8 +683,8 @@ computed_by = "kerotakis-core kinetics (catalysts are excluded from the mass upd
 [[reaction]]
 id = "more-catalyst-and-a-good-stir-change-nothing"
 spine = ["katalyse"]
-summary = "0.1 g of MnO₂, 1 g of MnO₂, and 0.1 g with a stir all give 3.849 × 10⁻⁴ mol of reaction in one second — identical to every digit. This engine has no surface-area or mixing model, and that is a real gap"
-summary_de = "0,1 g MnO₂, 1 g MnO₂ und 0,1 g mit Rühren ergeben alle 3,849 × 10⁻⁴ mol Umsatz in einer Sekunde — bis auf die letzte Ziffer identisch. Dieser Motor besitzt kein Oberflächen- oder Durchmischungsmodell, und das ist eine echte Lücke"
+summary = "0.1 g of MnO₂, 1 g of MnO₂, and 0.1 g with a computed stir all give 3.849 × 10⁻⁴ mol of reaction in one second — the stirrer moves the suspension, but rate coupling remains an explicit model gap"
+summary_de = "0,1 g MnO₂, 1 g MnO₂ und 0,1 g mit berechnetem Rühren ergeben alle 3,849 × 10⁻⁴ mol Umsatz in einer Sekunde — der Rührer bewegt die Suspension, aber die Kopplung an die Geschwindigkeit bleibt eine ausdrücklich benannte Lücke im Modell"
 concepts = ["unmodelled-variable"]
 requires = ["catalysis", "model-boundary"]
 calculations = ["rate-from-extent"]
@@ -715,7 +715,7 @@ wait 1s
 """
 
 [reaction.expect]
-events = ["reacted:peroxide-decomposition", "not_yet_modelled"]
+events = ["reacted:peroxide-decomposition", "stirred"]
 absent = ["solver_failed"]
 
 [reaction.expect.predict]
@@ -741,8 +741,8 @@ misconception_de = "Die zweite Option ist die gefährliche, und sie ist gefährl
 option = 0
 reveals = "The right chemistry for a real bench, offered as a prediction about this one."
 reveals_de = "Die richtige Chemie für ein echtes Labor, angeboten als Vorhersage über dieses hier."
-next = "Nothing to unlearn — check instead which of your correct expectations the engine can honour. Concentration and temperature it computes; surface area and mixing it does not represent at all, and `stir` says so out loud."
-next_de = "Hier ist nichts zu verlernen — stattdessen wird geprüft, welche der richtigen Erwartungen der Motor tatsächlich einlösen kann. Konzentration und Temperatur berechnet er; Oberfläche und Durchmischung bildet er überhaupt nicht ab, und `stir` sagt das auch deutlich."
+next = "Nothing to unlearn — check instead which expectations the engine can honour. The stirrer computes bar speed and resuspension; the kinetic solver still has no surface-area or mass-transfer coupling, and the stir event says that explicitly."
+next_de = "Hier ist nichts zu verlernen — prüfe stattdessen, welche Erwartungen das Labor einlösen kann. Der Rührer berechnet Drehzahl und Wiederaufwirbeln; dem Kinetiklöser fehlt weiterhin jede Kopplung an Oberfläche und Stofftransport, und das Rühr-Ereignis sagt das ausdrücklich."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
@@ -761,14 +761,14 @@ next_de = "Das Thermometer wird während des Rührens beobachtet: 25,0 °C davor
 [reaction.registers]
 lv1 = "Two flasks, one with a pinch of black powder and one with ten pinches, and a third that you stir hard. In this lab all three fizz at exactly the same speed. On a real bench they would not: more powder means more surface for the peroxide to meet, and stirring keeps fresh liquid arriving at that surface. This lab does not know about surfaces, and it says so rather than letting you think you have proved something."
 lv1_de = "Zwei Kolben, der eine mit einer Prise schwarzem Pulver, der andere mit zehn Prisen, und ein dritter, den du kräftig rührst. In diesem Labor sprudeln alle drei mit exakt derselben Geschwindigkeit. In einem echten Labor wäre das nicht so: Mehr Pulver bedeutet mehr Oberfläche, auf die das Peroxid trifft, und Rühren sorgt dafür, dass ständig frische Flüssigkeit an diese Oberfläche gelangt. Dieses Labor weiß nichts von Oberflächen, und es sagt das offen, statt dich glauben zu lassen, du hättest etwas bewiesen."
-lv2 = "Rate = k·[H₂O₂] with k set by whichever catalyst is present, and *present* is the only thing the model asks. 0.1 g and 1 g of MnO₂ both give 3.849 × 10⁻⁴ mol of reaction in one second, digit for digit, and stirring changes nothing — `stir` returns a notice saying so rather than an effect. In a real flask ten times the catalyst is roughly ten times the surface and roughly ten times the rate, and grinding it finer raises it again."
-lv2_de = "Geschwindigkeit = k·[H₂O₂], wobei k von dem jeweils vorhandenen Katalysator bestimmt wird, und *vorhanden* ist alles, wonach das Modell fragt. 0,1 g und 1 g MnO₂ ergeben beide 3,849 × 10⁻⁴ mol Umsatz in einer Sekunde, Ziffer für Ziffer, und Rühren ändert nichts — `stir` liefert einen entsprechenden Hinweis statt eines Effekts. In einem echten Kolben bedeutet zehnmal so viel Katalysator ungefähr zehnmal so viel Oberfläche und ungefähr die zehnfache Geschwindigkeit, und feineres Mahlen steigert sie noch einmal."
+lv2 = "Rate = k·[H₂O₂] with k set by whichever catalyst is present, and *present* is the only thing the kinetic model asks. 0.1 g and 1 g of MnO₂ both give 3.849 × 10⁻⁴ mol of reaction in one second, digit for digit. `stir` now computes 500 rpm, bar-tip speed and resuspension, but reports rate coupling as inactive. In a real flask ten times the catalyst is roughly ten times the surface and roughly ten times the rate, and grinding it finer raises it again."
+lv2_de = "Geschwindigkeit = k·[H₂O₂], wobei k davon abhängt, welcher Katalysator vorhanden ist — und *vorhanden* ist das Einzige, wonach das Kinetikmodell fragt. 0,1 g und 1 g MnO₂ ergeben beide 3,849 × 10⁻⁴ mol Umsatz in einer Sekunde, Ziffer für Ziffer. `stir` berechnet jetzt 500 U/min, die Geschwindigkeit an der Rührfischspitze und das Wiederaufwirbeln, meldet die Kopplung an die Reaktionsgeschwindigkeit aber als inaktiv. In einem echten Kolben bedeutet die zehnfache Katalysatormenge etwa die zehnfache Oberfläche und etwa die zehnfache Geschwindigkeit, und feiner gemahlen steigt sie noch einmal."
 lv3 = "The gap has a definite shape, which is what makes it worth stating rather than apologising for. `effective_activation_energy` tests `moles_of(catalyst) > 0` and then substitutes a barrier — a boolean, not a quantity — so catalyst loading is structurally invisible; there is no particle-size, surface-area or mass-transport term anywhere in `kinetics.rs`. Modelling it properly means a Langmuir–Hinshelwood surface treatment with a site density and a diffusion coefficient, which is a different engine, not a coefficient. Until then the honest reading of these three flasks is that they demonstrate the *absence* of a model. One caution for anyone extending the script: keep the manganese dioxide below about 4 g in 100 mL. At 4 g the bench leaves it as a solid with 4.6 × 10⁻¹² mol of Mn²⁺ in solution, as an insoluble oxide should; at 5 g the aqueous solver dissolves the entire charge, reporting 5.75 × 10⁻² mol of Mn²⁺ and pH 13.55. That discontinuity is a solver artefact, not chemistry, and it is flagged here because the rate results happen to survive it — the catalyst check only asks whether any MnO₂ is left."
 lv3_de = "Die Lücke hat eine klar umrissene Form, weshalb es sich lohnt, sie zu benennen statt sich dafür zu entschuldigen. `effective_activation_energy` prüft `moles_of(catalyst) > 0` und setzt dann eine Barriere ein — ein Wahrheitswert, keine Größe —, sodass die Katalysatormenge strukturell unsichtbar bleibt; nirgendwo in `kinetics.rs` gibt es einen Term für Partikelgröße, Oberfläche oder Stofftransport. Das richtig zu modellieren würde eine Langmuir-Hinshelwood-Oberflächenbehandlung mit einer Platzdichte und einem Diffusionskoeffizienten bedeuten — ein anderer Motor, kein Koeffizient. Bis dahin ist die ehrliche Lesart dieser drei Kolben, dass sie das *Fehlen* eines Modells demonstrieren. Eine Warnung für alle, die das Skript erweitern: Das Mangandioxid sollte unter etwa 4 g in 100 mL bleiben. Bei 4 g belässt das Labor es als Feststoff mit 4,6 × 10⁻¹² mol Mn²⁺ in Lösung, wie es sich für ein unlösliches Oxid gehört; bei 5 g löst der wässrige Solver die gesamte Portion auf und meldet 5,75 × 10⁻² mol Mn²⁺ und pH 13,55. Dieser Sprung ist ein Artefakt des Solvers, keine Chemie, und wird hier vermerkt, weil die Geschwindigkeitsergebnisse ihn zufällig überstehen — die Katalysatorprüfung fragt nur, ob noch MnO₂ übrig ist."
 
 [reaction.provenance]
-source = "Editorial judgement (Kerotakis): this is a statement about our engine's boundary, not about chemistry. Real heterogeneous catalysis depends strongly on catalyst surface area and on mass transport, per any standard treatment of catalysis; nothing in the shipped rate model represents either, and `stir` is explicitly a no-op that reports itself as one."
-computed_by = "kerotakis-core kinetics; the `stir` notice comes from the bench's honesty pass"
+source = "Editorial judgement (Kerotakis): this is a statement about our engine's boundary, not about chemistry. Real heterogeneous catalysis depends strongly on catalyst surface area and mass transport. The shipped stirrer computes mechanical mixing and suspension state, while the rate model does not yet consume those quantities."
+computed_by = "kerotakis-core kinetics and the computed magnetic-stirrer model; the Stirred event carries rate_coupled=false"
 
 # ==================================================== the shape of a rate law
 

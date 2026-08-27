@@ -16,17 +16,23 @@
   };
   const norm = (kind: string) => kind.toLowerCase().replace(/_/g, "");
   const describe = (kind: string) => t(KINDS[norm(kind)]?.describe ?? kind);
+  const populationSummary = $derived(
+    census.populations
+      .map((population) => t("{drawn} of {label}", {
+        drawn: population.drawn,
+        label: t(population.label),
+      }))
+      .join(", "),
+  );
 </script>
 
 <section
   class="particles"
-  aria-label={`particle view: ${census.populations
-    .map((p) => `${p.drawn} of ${p.label}`)
-    .join(", ")}`}
+  aria-label={t("particle view: {populations}", { populations: populationSummary })}
 >
   {#each census.populations as pop (pop.label)}
     <div class="population">
-      <span class="label">{pop.label} <em>({describe(pop.kind)})</em></span>
+      <span class="label">{t(pop.label)} <em>({describe(pop.kind)})</em></span>
       <span class="dots" data-kind={norm(pop.kind)}>
         {#each Array.from({ length: Math.min(pop.drawn, 60) }, (_, i) => i) as i (i)}
           <svg viewBox="0 0 10 10" class="dot" aria-hidden="true">
@@ -59,7 +65,7 @@
     {census.source === "speciation"
       ? t("ratios from solved speciation")
       : t("ratios from the inventory — ion pairs and complexes not resolved")}
-    · one shape ≈ {census.per_glyph.toExponential(1)} mol
+    · {t("one shape ≈ {amount} mol", { amount: census.per_glyph.toExponential(1) })}
   </p>
 </section>
 

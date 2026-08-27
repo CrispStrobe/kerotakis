@@ -26,6 +26,7 @@
   import Toolbox from "./lib/components/Toolbox.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
   import EquipmentCabinet from "./lib/components/EquipmentCabinet.svelte";
+  import SafetyBoard from "./lib/components/SafetyBoard.svelte";
   import LocaleSwitcher from "./lib/components/LocaleSwitcher.svelte";
   import VesselActionDock from "./lib/components/VesselActionDock.svelte";
   import StoryMap from "./lib/components/StoryMap.svelte";
@@ -68,6 +69,13 @@
     }
   }
   const appStorage = availableStorage();
+  function storedYes(key: string): boolean {
+    try {
+      return appStorage?.getItem(key) === "yes";
+    } catch {
+      return false;
+    }
+  }
   function hasSeenHome(): boolean {
     try {
       return appStorage?.getItem(HOME_SEEN_KEY) === "yes";
@@ -76,6 +84,10 @@
     }
   }
   const labMode = readLabMode(appStorage);
+  const cabinetPanelKey = `kerotakis.panel.cabinet-collapsed.v1.${labMode}`;
+  const journalPanelKey = `kerotakis.panel.journal-collapsed.v1.${labMode}`;
+  let cabinetCollapsed = $state(storedYes(cabinetPanelKey));
+  let journalCollapsed = $state(storedYes(journalPanelKey));
   const modeStorage = appStorage ? new ModeStorage(appStorage, labMode) : null;
   const session = new Session(
     isTauri() ? new TauriHost() : WorkerHost.create(),
@@ -104,6 +116,16 @@
       localStorage.setItem("kerotakis.theme", next);
     } catch {
       // The selected theme still works when persistence is unavailable.
+    }
+  }
+
+  function setPanelCollapsed(panel: "cabinet" | "journal", collapsed: boolean) {
+    if (panel === "cabinet") cabinetCollapsed = collapsed;
+    else journalCollapsed = collapsed;
+    try {
+      appStorage?.setItem(panel === "cabinet" ? cabinetPanelKey : journalPanelKey, collapsed ? "yes" : "no");
+    } catch {
+      // The focus choice still works for this visit.
     }
   }
 
@@ -224,6 +246,7 @@
   let helpOpen = $state(false);
   let missionOpen = $state(false);
   let tableOpen = $state(false);
+  let safetyOpen = $state(false);
   let toolboxOpen = $state(false);
   let mapOpen = $state(false);
   /** An entry handed from the map straight to the experiment page. */
@@ -238,6 +261,15 @@
   let apparatusOut = $state<string | null>(null);
   let apparatusPreview = $state<Record<string, number | string>>({});
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
+  const selectedSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === session.selected));
+  const apparatusInitialValues = $derived(
+    apparatusSpec?.verb === "centrifuge"
+      ? {
+          counterbalance: Number((selectedSceneVessel?.mass_g ?? 0).toFixed(2)),
+          sampleMass: selectedSceneVessel?.mass_g ?? 0,
+        }
+      : {},
+  );
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
   let transfer = $state<{ verb: TwoVesselAction; fraction: number; from: number | null } | null>(null);
@@ -353,6 +385,7 @@
       else if (homeOpen && hasSeenHome()) homeOpen = false;
       else if (missionOpen) missionOpen = false;
       else if (mapOpen) mapOpen = false;
+      else if (safetyOpen) safetyOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
       else if (toolsOpen) toolsOpen = false;
@@ -517,10 +550,17 @@
 {/if}
 
 <main data-pane={pane}>
-  <nav class="shelf-pane">
+  <nav class="shelf-pane" class:collapsed={cabinetCollapsed}>
     <div class="pane-heading">
       <span class="pane-icon" aria-hidden="true">▦</span>
       <span><strong>{t("supply cabinet")}</strong><small>{t("choose what goes on the bench")}</small></span>
+      <button
+        class="panel-collapse"
+        aria-expanded={!cabinetCollapsed}
+        aria-label={cabinetCollapsed ? t("open supply cabinet") : t("collapse supply cabinet")}
+        title={cabinetCollapsed ? t("open supply cabinet") : t("collapse supply cabinet")}
+        onclick={() => setPanelCollapsed("cabinet", !cabinetCollapsed)}
+      >{cabinetCollapsed ? "›" : "‹"}</button>
     </div>
     <div class="cabinet-tabs" role="tablist" aria-label={t("supply cabinet")}>
       <button role="tab" aria-selected={cabinetTab === "reagents"} class:active={cabinetTab === "reagents"} onclick={() => (cabinetTab = "reagents")}>{t("reagents")}</button>
@@ -601,29 +641,6 @@
         onclose={() => (apparatusOut = null)}
       />
     {/if}
-    {#if apparatusSpec}
-      {#key apparatusSpec.verb}
-        <ApparatusForm
-          spec={apparatusSpec}
-          vessel={session.selected}
-          shelf={session.shelf}
-          busy={session.busy}
-          onrun={(line) => void session.submit(line)}
-          onpreview={(values) => (apparatusPreview = values)}
-          onclose={() => (apparatusOut = null)}
-        />
-      {/key}
-    {/if}
-    {#if buretteOut}
-      <Burette
-        vessel={session.selected}
-        shelf={session.shelf}
-        busy={session.busy}
-        running={titrating}
-        onstart={(line) => void startTitration(line)}
-        onclose={() => (buretteOut = false)}
-      />
-    {/if}
     {#if session.register !== "lv1" && session.lastEquation}
       <p class="equation" aria-label={t("latest reaction equation")}>
         {session.lastEquation}
@@ -654,6 +671,13 @@
       apparatusValues={apparatusPreview}
       layout={benchLayout}
       showZones={workGuides}
+      onopenperiodic={() => (tableOpen = true)}
+      onopensafety={() => (safetyOpen = true)}
+      onopencabinet={() => {
+        setPanelCollapsed("cabinet", false);
+        cabinetTab = "equipment";
+        pane = "shelf";
+      }}
       ontogglezones={() => {
         workGuides = !workGuides;
         try {
@@ -676,6 +700,30 @@
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
         )}
     />
+    {#if apparatusSpec}
+      {#key `${apparatusSpec.verb}:${session.selected}`}
+        <ApparatusForm
+          spec={apparatusSpec}
+          vessel={session.selected}
+          shelf={session.shelf}
+          busy={session.busy}
+          initialValues={apparatusInitialValues}
+          onrun={(line) => void session.submit(line)}
+          onpreview={(values) => (apparatusPreview = values)}
+          onclose={() => (apparatusOut = null)}
+        />
+      {/key}
+    {/if}
+    {#if buretteOut}
+      <Burette
+        vessel={session.selected}
+        shelf={session.shelf}
+        busy={session.busy}
+        running={titrating}
+        onstart={(line) => void startTitration(line)}
+        onclose={() => (buretteOut = false)}
+      />
+    {/if}
     {#if selectedVessel && !apparatusOut && !buretteOut}
       <VesselActionDock
         vessel={selectedVessel.id}
@@ -683,23 +731,37 @@
         boundary={selectedVessel.boundary}
         busy={session.busy}
         onaction={(line) => void session.submit(line)}
+        onconfigure={(verb) => {
+          apparatusOut = verb;
+          apparatusPreview = {};
+          pane = "bench";
+        }}
         onpour={() => (transfer = { verb: "decant", fraction: 0.5, from: selectedVessel!.id })}
         ondetails={() => {
           void session.inspect(selectedVessel!.id);
+          setPanelCollapsed("journal", false);
           pane = "notes";
         }}
         onmore={() => {
+          setPanelCollapsed("cabinet", false);
           cabinetTab = "equipment";
           pane = "shelf";
         }}
       />
     {/if}
   </div>
-  <aside>
+  <aside class:collapsed={journalCollapsed}>
     <div class="pane-heading journal-heading">
       <span class="pane-icon" aria-hidden="true">≡</span>
       <span><strong>{t("lab journal")}</strong><small>{t("observations and evidence")}</small></span>
       <span class="entry-count" title={t("notebook entries")}>{session.feed.length}</span>
+      <button
+        class="panel-collapse"
+        aria-expanded={!journalCollapsed}
+        aria-label={journalCollapsed ? t("open lab journal") : t("collapse lab journal")}
+        title={journalCollapsed ? t("open lab journal") : t("collapse lab journal")}
+        onclick={() => setPanelCollapsed("journal", !journalCollapsed)}
+      >{journalCollapsed ? "‹" : "›"}</button>
     </div>
     {#if session.inspector}
       <Inspector
@@ -714,7 +776,12 @@
         onaction={(line) => void session.submit(line)}
       />
     {/if}
-    <Feed entries={session.feed} onaddnote={(text) => session.addUserNote(text)} />
+    <Feed
+      entries={session.feed}
+      onaddnote={(text) => session.addUserNote(text)}
+      oneditnote={(createdAt, text) => session.editUserNote(createdAt, text)}
+      onremovenote={(createdAt) => session.removeUserNote(createdAt)}
+    />
   </aside>
 </main>
 
@@ -860,6 +927,10 @@
   />
 {/if}
 
+{#if safetyOpen}
+  <SafetyBoard onclose={() => (safetyOpen = false)} />
+{/if}
+
 <style>
   .tool {
     background: var(--panel-raised);
@@ -952,6 +1023,7 @@
     min-height: 0;
   }
   .bench-pane {
+    position: relative;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -1314,6 +1386,22 @@
     font-size: 0.7rem;
     text-align: center;
   }
+  .panel-collapse {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    padding: 0;
+    border: 1px solid var(--edge);
+    border-radius: 9px;
+    color: var(--dim);
+    background: var(--surface-raised);
+    font: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .panel-collapse:hover { color: var(--primary); border-color: var(--primary); }
   .cabinet-tabs {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1359,6 +1447,19 @@
   .catalog-scope button:disabled { opacity: .38; cursor: not-allowed; }
   .equation {
     background: var(--surface);
+  }
+
+  @media (min-width: 981px) {
+    .shelf-pane,
+    aside { transition: width 180ms ease, box-shadow 180ms ease; }
+    .shelf-pane.collapsed,
+    aside.collapsed { width: 3.35rem; box-shadow: 0 5px 16px var(--shadow); }
+    .shelf-pane.collapsed > :not(.pane-heading),
+    aside.collapsed > :not(.pane-heading) { display: none; }
+    .shelf-pane.collapsed .pane-heading,
+    aside.collapsed .pane-heading { min-height: 100%; justify-content: center; padding: 0.45rem; border-bottom: 0; }
+    .shelf-pane.collapsed .pane-heading > :not(.panel-collapse),
+    aside.collapsed .pane-heading > :not(.panel-collapse) { display: none; }
   }
 
   @media (max-width: 980px) {

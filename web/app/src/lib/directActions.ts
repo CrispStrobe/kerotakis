@@ -13,7 +13,7 @@ export interface QuickAction {
 export function vesselQuickActions(vessel: number, boundary: string): QuickAction[] {
   const v = `v${vessel + 1}`;
   return [
-    { id: "stir", icon: "↻", label: "stir", line: `stir ${v}`, tone: "instrument" },
+    { id: "stir", icon: "↻", label: "stir", line: `stir ${v} 500rpm 10s`, tone: "instrument" },
     { id: "heat", icon: "↑", label: "heat", line: `heat ${v} 10kJ`, tone: "action" },
     { id: "cool", icon: "❄", label: "cool", line: `cool ${v} 10kJ`, tone: "instrument" },
     { id: "look", icon: "◉", label: "look", line: `measure ${v} eyes`, tone: "primary" },

@@ -14,6 +14,8 @@ export type EngineEvent = Record<string, unknown>;
 export interface Effect {
   kind: string;
   at: number;
+  /** Visible lifetime for time-bearing operations, derived from engine seconds. */
+  durationMs?: number;
   /** 0–1 visual intensity, from the event's amount field. */
   magnitude: number;
   /** Flame colour CSS value, if the event carries one. */
@@ -107,6 +109,28 @@ function mixMag(e: EngineEvent): number {
   return scale(a + b, 0.1, 1.5);
 }
 
+// event.tip_speed_m_s — a 25 mm bar at 50 rpm is a gentle turn;
+// 2000 rpm is the configured bench maximum. The animation follows the
+// physical linear speed emitted by the engine, not the requested UI value.
+function stirMag(e: EngineEvent): number {
+  return scale(Number(e.tip_speed_m_s ?? 0), 0.065, 2.62);
+}
+
+// event.surface_area_m2 — useful powder areas span orders of magnitude.
+// 0.001 m² is a few coarse grains; 10 m² is a fine powder.
+function grindMag(e: EngineEvent): number {
+  const area = Math.max(0.001, Number(e.surface_area_m2 ?? 0.001));
+  return scale(Math.log10(area), -3, 1);
+}
+
+// event.rcf — rotor blur follows computed centrifugal acceleration. A small
+// classroom spinner starts near 10×g; the configured mini-centrifuge tops out
+// around 20,000×g depending on radius.
+function centrifugeMag(e: EngineEvent): number {
+  const rcf = Math.max(10, Number(e.rcf ?? 10));
+  return scale(Math.log10(rcf), 1, 4.3);
+}
+
 // event.volume (Liters) — Diluted: 0.01 L is a squirt, 0.5 L is a flood.
 function diluteMag(e: EngineEvent): number {
   return scale(Number(e.volume ?? 0), 0.01, 0.5);
@@ -135,6 +159,14 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
   switch (kind) {
     case "gas_evolved":
       return { kind: "vent", at: now, magnitude: gasMag(e) };
+    case "gas_produced":
+      return { kind: "vent", at: now, magnitude: gasMag(e) };
+    case "foam_changed":
+      return {
+        kind: "foam",
+        at: now,
+        magnitude: scale(Number(e.height_cm ?? 0), 0.5, 30),
+      };
     case "precipitated":
       return { kind: "precipitate", at: now, magnitude: precipMag(e) };
     case "evaporated":
@@ -157,6 +189,22 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         magnitude: mixMag(e),
         source: Number(e.a ?? 0),
         target: Number(e.into ?? 0),
+      };
+    case "stirred":
+      return {
+        kind: "swirl",
+        at: now,
+        magnitude: stirMag(e),
+        durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+      };
+    case "ground":
+      return { kind: "grind", at: now, magnitude: grindMag(e) };
+    case "centrifuged":
+      return {
+        kind: "centrifuge",
+        at: now,
+        magnitude: centrifugeMag(e),
+        durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
       };
     case "transferred":
       return {

@@ -19,8 +19,11 @@
     evaporate: "evaporating dish",
     electrolyse: "electrodes and supply",
     grind: "mortar",
+    heat: "hotplate",
+    cool: "cooling bath",
     irradiate: "lamp",
     regulate: "piston lid",
+    stir: "magnetic stirrer",
     sweep: "carrier-gas line",
   };
 
@@ -37,10 +40,31 @@
   const amps = $derived(Math.max(0.001, Number(values.amps ?? 0.5)));
   const pulseDuration = $derived(`${Math.max(0.25, 1.2 - Math.min(1, amps / 2) * 0.8)}s`);
   const pressure = $derived(Math.max(0.1, Number(values.pressure ?? 1)));
+  const stirRpm = $derived(Math.max(0, Number(values.rpm ?? 500)));
+  const heatWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
 </script>
 
 <g class="apparatus" class:working aria-label={t("{tool} deployed", { tool: t(toolNames[tool] ?? tool) })}>
-  {#if tool === "burette"}
+  {#if tool === "stir" || tool === "heat" || tool === "cool"}
+    <g class="magnetic-plate">
+      <ellipse class="plate" cx="50" cy="121" rx="27" ry="5" />
+      <rect class="base" x="22" y="123" width="56" height="11" rx="3" />
+      <circle class="dial" cx="69" cy="129" r="2" />
+      <text x="50" y="133" text-anchor="middle">{tool === "stir" ? `${stirRpm.toFixed(0)} rpm` : `${heatWatts.toFixed(0)} W`}</text>
+      {#if tool === "heat"}
+        {#each [39, 50, 61] as x, i (x)}
+          <path class="heat" d={`M ${x} 117 q -4 -7 0 -14 q 4 -7 0 -14`} style={`--heat-delay:${i * .16}s;--heat-rate:${Math.max(.45, 1.5 - Math.min(1, heatWatts / 1000))}s`} />
+        {/each}
+      {/if}
+      {#if tool === "cool"}
+        {#each [38, 50, 62] as x, i (x)}
+          <g class="frost" style={`--frost-delay:${i * .2}s;--frost-rate:${Math.max(.55, 1.7 - Math.min(1, heatWatts / 800))}s`}>
+            <path d={`M ${x - 3} 113 H ${x + 3} M ${x} 110 V 116 M ${x - 2} 111 L ${x + 2} 115 M ${x + 2} 111 L ${x - 2} 115`} />
+          </g>
+        {/each}
+      {/if}
+    </g>
+  {:else if tool === "burette"}
     <g class="burette">
       <path class="stand" d="M 91 3 V 129 M 84 129 H 99 M 85 18 H 91" />
       <rect class="glass-part" x="82" y="4" width="5" height="70" rx="1" />
@@ -119,9 +143,13 @@
   .base, .power { fill: color-mix(in srgb, var(--instrument) 28%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1; }
   .dial { fill: var(--hot); }
   .heat { fill: none; stroke: var(--hot); stroke-width: 1.5; opacity: 0; animation: rise 1.15s ease-out infinite; }
+  .magnetic-plate .heat { animation-duration: var(--heat-rate, 1.15s); animation-delay: var(--heat-delay, 0s); }
+  .frost { color: var(--cool); opacity: .35; animation: frost-pulse var(--frost-rate, 1.2s) ease-in-out infinite alternate; animation-delay: var(--frost-delay, 0s); }
+  .frost path { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; }
   .positive { stroke: var(--danger); } .negative { stroke: var(--primary); }
   .electrode { fill: var(--edge-strong); }
-  .electrodes text, .lamp text, .regulator text { fill: var(--ink); font-size: 6px; font-weight: 700; }
+  .electrodes text, .lamp text, .regulator text, .magnetic-plate text { fill: var(--ink); font-size: 6px; font-weight: 700; }
+  .plate { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
   .charge { fill: none; stroke: var(--instrument); animation: bubble var(--pulse) ease-out infinite; }
   .pestle { fill: none; stroke: var(--edge-strong); stroke-width: 7; stroke-linecap: round; transform-origin: 76px 108px; }
   .working .pestle { animation: grind .5s ease-in-out infinite alternate; }
@@ -139,5 +167,6 @@
   @keyframes grind { to { transform: rotate(-18deg) translateY(-2px); } }
   @keyframes lamp-pulse { to { opacity: .3; } }
   @keyframes gas-flow { to { transform: translateX(88px); opacity: 0; } }
+  @keyframes frost-pulse { to { opacity: 1; transform: translateY(-3px) scale(1.18); } }
   @media (prefers-reduced-motion: reduce) { .apparatus * { animation: none !important; } }
 </style>

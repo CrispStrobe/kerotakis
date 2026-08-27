@@ -19,6 +19,12 @@ fn one_stage() -> u32 {
 fn kelvin_zero() -> Kelvin {
     Kelvin(0.0)
 }
+fn default_stir_rpm() -> f64 {
+    500.0
+}
+fn default_stir_seconds() -> f64 {
+    10.0
+}
 
 /// A mutating or measuring action. One `Operator` in is one step of the bench
 /// loop: L0 safety pass → apply → re-equilibrate → events out.
@@ -64,9 +70,16 @@ pub enum Operator {
     Heat { vessel: VesselId, energy: Joules },
     /// Remove energy from a vessel (ice bath).
     Cool { vessel: VesselId, energy: Joules },
-    /// Stir. Currently affects nothing the solvers model; logged for the
-    /// record and honest about it.
-    Stir { vessel: VesselId },
+    /// Run a magnetic stirrer. The operation owns the mechanical conditions;
+    /// chemistry models may consume them when they support transport/rate
+    /// coupling, while clients can already render the computed tip speed.
+    Stir {
+        vessel: VesselId,
+        #[serde(default = "default_stir_rpm")]
+        rpm: f64,
+        #[serde(default = "default_stir_seconds")]
+        seconds: f64,
+    },
     /// Close a vessel over a finite gas volume, trapping the room air that
     /// occupied it at the current temperature.
     Seal {
@@ -155,6 +168,17 @@ pub enum Operator {
         vessel: VesselId,
         species: SpeciesId,
         diameter_um: f64,
+    },
+    /// Spin one balanced tube in a mini centrifuge.
+    Centrifuge {
+        vessel: VesselId,
+        rpm: f64,
+        seconds: f64,
+        rotor_radius_m: f64,
+        /// Opposing tube contents in grams. `None` preserves the historical
+        /// shorthand and means an exactly matched balance tube.
+        #[serde(default)]
+        counterbalance_g: Option<f64>,
     },
     /// Turn a light source on or off for photolysis.
     Irradiate {
@@ -304,6 +328,19 @@ pub struct ElutedPeak {
     pub partition_k: f64,
 }
 
+/// One solid population's computed travel during a centrifuge run.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CentrifugeSeparation {
+    pub species: SpeciesId,
+    pub particle_diameter_um: f64,
+    pub particle_size_assumed: bool,
+    pub particle_density_kg_m3: f64,
+    pub terminal_speed_m_s: f64,
+    pub distance_m: f64,
+    pub separated_fraction: f64,
+    pub direction: crate::centrifuge::SeparationDirection,
+}
+
 /// What one step produced. Everything user-visible derives from this.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "event", rename_all = "snake_case")]
@@ -340,6 +377,55 @@ pub enum Event {
         vessel: VesselId,
         from: Kelvin,
         to: Kelvin,
+    },
+    /// Mechanical mixing conditions actually delivered by a magnetic
+    /// stirrer. Tip speed follows π·bar_length·rpm/60.
+    Stirred {
+        vessel: VesselId,
+        rpm: f64,
+        seconds: f64,
+        bar_length_m: f64,
+        tip_speed_m_s: f64,
+        /// Fraction of an available non-metal deposit lifted into suspension,
+        /// from accumulated bar travel over a 0.30 m mixing-length scale.
+        resuspended_fraction: f64,
+        /// False until kinetics/surface-area models consume this operation.
+        rate_coupled: bool,
+    },
+    /// A mortar changed the mean diameter of a solid powder. Surface area
+    /// assumes equal spherical particles: A = 6V/d, using registry density.
+    Ground {
+        vessel: VesselId,
+        species: SpeciesId,
+        diameter_um: f64,
+        solid_moles: Moles,
+        surface_area_m2: f64,
+        /// False until a heterogeneous kinetic law consumes this area.
+        rate_coupled: bool,
+    },
+    /// A balanced mini centrifuge run, with motion and separation computed
+    /// from rotor and material properties rather than a canned animation.
+    Centrifuged {
+        vessel: VesselId,
+        rpm: f64,
+        seconds: f64,
+        rotor_radius_m: f64,
+        rcf: f64,
+        sample_mass_g: f64,
+        counterbalance_g: f64,
+        imbalance_g: f64,
+        fluid_density_kg_m3: f64,
+        dynamic_viscosity_pa_s: f64,
+        separations: Vec<CentrifugeSeparation>,
+        /// False until vessel suspension/deposit state consumes the result.
+        state_coupled: bool,
+    },
+    /// Tracked particles settled under ordinary gravity while bench time
+    /// advanced, using the same Stokes model as the centrifuge at 1 g.
+    GravitySettled {
+        vessel: VesselId,
+        seconds: f64,
+        separations: Vec<CentrifugeSeparation>,
     },
     Transferred {
         from: VesselId,

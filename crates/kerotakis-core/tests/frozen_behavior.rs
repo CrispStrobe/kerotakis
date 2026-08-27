@@ -123,7 +123,8 @@ fn lessons_produce_stable_output() {
     }
 
     let snapshot_path = golden.join("lessons.json");
-    let current = serde_json::to_string_pretty(&results).unwrap();
+    // Keep the checked-in snapshot a conventional newline-terminated text file.
+    let current = format!("{}\n", serde_json::to_string_pretty(&results).unwrap());
 
     if snapshot_path.exists() {
         let expected = fs::read_to_string(&snapshot_path).unwrap();

@@ -23,6 +23,7 @@ export interface ApparatusSpec {
   blurb: string;
   fields: FormField[];
   build: (vessel: number, values: Record<string, number | string>) => string | null;
+  warning?: (values: Record<string, number | string>) => string | null;
 }
 
 const num = (v: number | string | undefined): number | null => {
@@ -36,6 +37,75 @@ const pos = (v: number | string | undefined): number | null => {
 };
 
 export const APPARATUS: ApparatusSpec[] = [
+  {
+    verb: "stir",
+    title: "magnetic stirrer",
+    blurb: "set rotation speed and mixing time",
+    fields: [
+      { name: "rpm", label: "rotation speed", type: "number", unit: "rpm", default: 500, min: 50, max: 2000, step: 50 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 10, min: 1, max: 3600 },
+    ],
+    build: (v, f) => {
+      const rpm = pos(f.rpm);
+      const seconds = pos(f.seconds);
+      return rpm === null || seconds === null ? null : `stir v${v + 1} ${rpm}rpm ${seconds}s`;
+    },
+  },
+  {
+    verb: "heat",
+    title: "hotplate",
+    blurb: "set heating power and time",
+    fields: [
+      { name: "watts", label: "heating power", type: "number", unit: "W", default: 250, min: 1, max: 2000, step: 10 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 30, min: 1, max: 3600 },
+    ],
+    build: (v, f) => {
+      const watts = pos(f.watts);
+      const seconds = pos(f.seconds);
+      return watts === null || seconds === null ? null : `heat v${v + 1} ${watts * seconds}J`;
+    },
+  },
+  {
+    verb: "cool",
+    title: "cooling bath",
+    blurb: "set cooling power and time",
+    fields: [
+      { name: "watts", label: "cooling power", type: "number", unit: "W", default: 100, min: 1, max: 2000, step: 10 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 30, min: 1, max: 3600 },
+    ],
+    build: (v, f) => {
+      const watts = pos(f.watts);
+      const seconds = pos(f.seconds);
+      return watts === null || seconds === null ? null : `cool v${v + 1} ${watts * seconds}J`;
+    },
+  },
+  {
+    verb: "centrifuge",
+    title: "mini centrifuge",
+    blurb: "separate particles by spinning a balanced tube",
+    fields: [
+      { name: "rpm", label: "rotation speed", type: "number", unit: "rpm", default: 3000, min: 100, max: 15000, step: 100 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 60, min: 1, max: 3600 },
+      { name: "radius", label: "rotor radius", type: "number", unit: "cm", default: 8, min: 3, max: 15, step: 0.5 },
+      { name: "counterbalance", label: "counterbalance", type: "number", unit: "g", default: 0, min: 0, step: 0.01 },
+    ],
+    build: (v, f) => {
+      const rpm = pos(f.rpm);
+      const seconds = pos(f.seconds);
+      const radius = pos(f.radius);
+      const counterbalance = num(f.counterbalance);
+      return rpm === null || seconds === null || radius === null || counterbalance === null || counterbalance < 0
+        ? null
+        : `centrifuge v${v + 1} ${rpm}rpm ${seconds}s ${radius}cm ${counterbalance}g`;
+    },
+    warning: (f) => {
+      const sample = num(f.sampleMass);
+      const counterbalance = num(f.counterbalance);
+      if (sample === null || counterbalance === null) return null;
+      const imbalance = Math.abs(sample - counterbalance);
+      return imbalance > 0.1 ? "rotor out of balance — adjust the counterbalance" : null;
+    },
+  },
   {
     verb: "dilute",
     title: "wash bottle",

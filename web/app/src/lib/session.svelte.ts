@@ -39,6 +39,8 @@ export type FeedEntry = {
   createdAt?: string;
   /** Hazard entries: the engine's severity, for the card's chip. */
   severity?: string;
+  hazardText?: string;
+  realWorld?: string;
   /** Chart entries: the Chart JSON v1 spec to render. */
   chart?: ChartSpec;
 };
@@ -120,9 +122,24 @@ export class Session {
    * amounts where they exist). */
   private pushEffect(vessel: number, kind: string, magnitude = 0.6): void {
     const now = Date.now();
-    const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
-    list.push({ kind, at: now, magnitude });
+    const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < (e.durationMs ?? 4000));
+    const effect = { kind, at: now, magnitude };
+    list.push(effect);
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
+    this.expireEffect(vessel, effect);
+  }
+
+  /** Removing an effect is itself reactive. CSS animations therefore stop
+   * when their physical playback window ends, without waiting for another command. */
+  private expireEffect(vessel: number, effect: Effect): void {
+    setTimeout(() => {
+      const current = this.vesselEffects[vessel] ?? [];
+      if (!current.includes(effect)) return;
+      this.vesselEffects = {
+        ...this.vesselEffects,
+        [vessel]: current.filter((candidate) => candidate !== effect),
+      };
+    }, (effect.durationMs ?? 4000) + 50);
   }
 
   /** GUI-064b: pace any multi-step operation's visible effects through
@@ -150,10 +167,7 @@ export class Session {
       (i) => {
         this.titrationPlayback = { vessel, delivered: curve[i]?.[0] ?? 0, total };
         // Each increment drips — the same typed-effect channel as ever.
-        const now = Date.now();
-        const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
-        list.push({ kind: "drip", at: now, magnitude: 1 });
-        this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
+        this.pushEffect(vessel, "drip", 1);
       },
       () => {
         // Hold the final reading a beat, then clear the overlay state.
@@ -395,6 +409,25 @@ export class Session {
     this.persist();
   }
 
+  /** Notes are identified by their creation time, which is stable in saves and exports. */
+  editUserNote(createdAt: string, text: string): void {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    this.feed = this.feed.map((entry) =>
+      entry.kind === "user-note" && entry.createdAt === createdAt
+        ? { ...entry, text: trimmed }
+        : entry,
+    );
+    this.persist();
+  }
+
+  removeUserNote(createdAt: string): void {
+    this.feed = this.feed.filter((entry) =>
+      entry.kind !== "user-note" || entry.createdAt !== createdAt,
+    );
+    this.persist();
+  }
+
   /** Empty the bench and forget the session — distinct from jumpTo(0),
    * which keeps the future for redo. */
   async clear(): Promise<void> {
@@ -494,10 +527,14 @@ export class Session {
             );
           }
           if (event?.event === "hazard_warning") {
+            const hazardText = String(event.hazard ?? "");
+            const realWorld = String(event.real_world ?? "");
             this.feed.push({
               kind: "hazard",
               severity: String(event.severity ?? ""),
-              text: `${event.hazard} — ${event.real_world}`,
+              text: `${hazardText} — ${realWorld}`,
+              hazardText,
+              realWorld,
             });
           } else if (event?.event === "safety_veto") {
             this.feed.push({
@@ -616,9 +653,10 @@ export class Session {
     if (!effect) return;
     const vessel = vesselOf(event);
     const now = Date.now();
-    const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < 4000);
+    const list = (this.vesselEffects[vessel] ?? []).filter((e) => now - e.at < (e.durationMs ?? 4000));
     list.push(effect);
     this.vesselEffects = { ...this.vesselEffects, [vessel]: list };
+    this.expireEffect(vessel, effect);
   }
 
   async setRegister(level: string): Promise<void> {

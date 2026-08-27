@@ -89,9 +89,8 @@
   onclick={onclose}
   onkeydown={(e) => e.key === "Escape" && onclose()}
 >
-  <section
+  <dialog open
     class="toolbox"
-    role="dialog"
     aria-modal="true"
     aria-label={t("relation calculator")}
     onclick={(e) => e.stopPropagation()}
@@ -174,7 +173,7 @@
         </form>
       {/if}
     </div>
-  </section>
+  </dialog>
 </div>
 
 <style>
@@ -187,6 +186,9 @@
     z-index: 10;
   }
   .toolbox {
+    position: static;
+    margin: 0;
+    color: var(--ink);
     background: var(--panel);
     border: 1px solid var(--edge);
     border-radius: 10px;

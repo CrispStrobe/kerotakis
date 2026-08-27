@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import {
     checkExpect,
     conceptIndex,
@@ -25,7 +26,7 @@
     initial?: CodexEntry | null;
   } = $props();
 
-  let open = $state<CodexEntry | null>(initial);
+  let open = $state<CodexEntry | null>(untrack(() => initial));
   let tab = $state<"theory" | "procedure" | "run">("theory");
   let predicted = $state<number | null>(null);
   let result = $state<CheckResult | null>(null);
@@ -133,7 +134,7 @@
 </script>
 
 <div class="scrim" role="presentation" onclick={onclose} onkeydown={(e) => e.key === "Escape" && onclose()}>
-  <section class="panel" role="dialog" aria-modal="true" aria-label={t("experiments")} onclick={(e) => e.stopPropagation()}>
+  <dialog open class="panel" aria-modal="true" aria-label={t("experiments")} onclick={(e) => e.stopPropagation()}>
     {#if !open}
       <header>
         <h2>{t("experiments")}</h2>
@@ -326,7 +327,7 @@
         {/if}
       {/if}
     {/if}
-  </section>
+  </dialog>
 </div>
 
 <style>
@@ -340,6 +341,9 @@
     padding: 1rem;
   }
   .panel {
+    position: static;
+    margin: 0;
+    color: var(--ink);
     background: var(--bg);
     border: 1px solid var(--edge);
     border-radius: 12px;

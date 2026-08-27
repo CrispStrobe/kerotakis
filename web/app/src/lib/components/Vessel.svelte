@@ -41,12 +41,14 @@
 
   // Transient effects: young enough that their animation is still running.
   const now = () => Date.now();
+  const effectAlive = (effect: Effect, fallbackMs: number, at = now()) =>
+    at - effect.at < (effect.durationMs ?? fallbackMs);
   const active = (kind: string, withinMs: number) =>
-    effects.some((e) => e.kind === kind && now() - e.at < withinMs);
+    effects.some((e) => e.kind === kind && effectAlive(e, withinMs));
   // GUI-059: magnitude of the most recent active effect of a given kind.
   const mag = (kind: string, withinMs: number) => {
     const n = now();
-    const recent = effects.filter((e) => e.kind === kind && n - e.at < withinMs);
+    const recent = effects.filter((e) => e.kind === kind && effectAlive(e, withinMs, n));
     return recent.length > 0 ? (recent[recent.length - 1]!.magnitude ?? 1) : 0;
   };
   const latestFlameColour = $derived.by(() => {
@@ -82,6 +84,17 @@
   const liquidH = $derived(
     vessel.liquid ? fillHeight(geom, vessel.liquid.volume_l) : 0,
   );
+  const foamH = $derived.by(() => {
+    if (!vessel.foam || vessel.foam.volume_liters <= 0) return 0;
+    const liquidVolume = vessel.liquid?.volume_l ?? 0;
+    const combined = fillHeight(
+      geom,
+      Math.min(FULL_AT_L, liquidVolume + vessel.foam.volume_liters),
+      0,
+    );
+    return Math.max(0, combined - liquidH);
+  });
+  const foamOverflow = $derived(vessel.foam?.overflow_liters ?? 0);
   // The layer stack in pixels, bottom-up: each layer's share of the
   // total height is its share of the total volume, so the drawn split
   // IS the computed split. Falls back to one layer for older scenes.
@@ -115,7 +128,7 @@
   const solidH = $derived(
     Math.min(
       18,
-      vessel.solids.reduce((sum, s) => sum + s.moles, 0) * 600,
+      vessel.solids.reduce((sum, s) => sum + s.moles * (s.settled_fraction ?? 1), 0) * 600,
     ),
   );
   const rgb = (c: [number, number, number]) => `rgb(${c[0]},${c[1]},${c[2]})`;
@@ -237,6 +250,33 @@
       />
     {/if}
 
+    {#if vessel.foam && foamH > 0}
+      {@const foamY = BOTTOM_Y - liquidH - foamH}
+      <g
+        class="foam-state"
+        class:rising={active("foam", 3000)}
+        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px`}
+      >
+        <rect
+          class="foam-fill"
+          x={INNER_X}
+          y={foamY}
+          width={INNER_W}
+          height={foamH}
+        >
+          <title>{t("modeled foam: {height} cm high", { height: vessel.foam.height_cm.toFixed(1) })}</title>
+        </rect>
+        {#each Array.from({ length: Math.max(5, Math.round(5 + Math.min(1, vessel.foam.volume_liters / FULL_AT_L) * 11)) }, (_, i) => i) as i (i)}
+          <circle
+            class="foam-cell"
+            cx={INNER_X + 4 + ((i * 17) % Math.max(6, INNER_W - 8))}
+            cy={foamY + 3 + ((i * 11) % Math.max(4, foamH - 4))}
+            r={1.2 + (i % 3) * 0.55}
+          />
+        {/each}
+      </g>
+    {/if}
+
     {#if solidH > 0}
       {#each shownSolids as solid, i (solid.species)}
         {@const layer = solidLayer(i, shownSolids.length, solidH, BOTTOM_Y)}
@@ -266,6 +306,15 @@
       <FluidOverlay {vessel} {effects} lookup={fluidLookup} />
     {/if}
     </g>
+
+    {#if vessel.foam && foamOverflow > 0}
+      {@const spillScale = Math.min(1, foamOverflow / Math.max(0.01, FULL_AT_L))}
+      <g class="foam-overflow" aria-hidden="true" style={`--spill:${spillScale}`}>
+        <ellipse cx="50" cy="7" rx={12 + spillScale * 13} ry={3 + spillScale * 3} />
+        <path d={`M ${38 - spillScale * 4} 8 Q ${28 - spillScale * 8} ${18 + spillScale * 8} ${30 - spillScale * 9} ${38 + spillScale * 30}`} />
+        <path d={`M ${62 + spillScale * 4} 8 Q ${72 + spillScale * 8} ${18 + spillScale * 8} ${70 + spillScale * 9} ${38 + spillScale * 30}`} />
+      </g>
+    {/if}
 
     {#if deployedTool}
       <DeployedApparatus tool={deployedTool} working={apparatusWorking} values={apparatusValues} surfaceY={BOTTOM_Y - Math.max(liquidH, 4)} />
@@ -378,6 +427,12 @@
     {#if active("swirl", 2000) && liquidH > 0}
       {@const sMag = mag("swirl", 2000)}
       {@const sScale = 0.4 + sMag * 0.6}
+      {#if deployedTool !== "stir"}
+        <g class="stir-plate" aria-hidden="true">
+          <ellipse cx="50" cy="122" rx="27" ry="5" />
+          <rect x="22" y="124" width="56" height="10" rx="3" />
+        </g>
+      {/if}
       <ellipse
         class="swirl"
         cx="50"
@@ -385,9 +440,8 @@
         rx={(INNER_W / 2 - 6) * sScale}
         ry={Math.min(8, liquidH / 3) * sScale}
       />
-      <g class="stirrer" aria-hidden="true">
-        <line x1="50" y1={Math.max(7, BOTTOM_Y - liquidH - 18)} x2="50" y2={BOTTOM_Y - 7} />
-        <ellipse cx="50" cy={BOTTOM_Y - 6} rx="8" ry="2" />
+      <g class="stirrer" aria-hidden="true" style={`transform-origin:50px ${BOTTOM_Y - 6}px`}>
+        <rect x="42" y={BOTTOM_Y - 8} width="16" height="4" rx="2" />
       </g>
     {/if}
     {#if active("burst", 1800)}
@@ -674,11 +728,12 @@
     animation: swirl-turn var(--swirl-duration, 2s) linear forwards;
   }
   .stirrer {
-    transform-origin: 50px 70px;
-    animation: stir-tool var(--stir-duration, 1s) ease-in-out infinite alternate;
+    animation: stir-tool var(--stir-duration, 1s) linear infinite;
   }
-  .stirrer line, .stirrer ellipse { fill: none; stroke: var(--edge-strong); stroke-width: 1.5; }
-  @keyframes stir-tool { to { transform: rotate(12deg) translateX(3px); } }
+  .stirrer rect { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
+  .stir-plate ellipse { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
+  .stir-plate rect { fill: color-mix(in srgb, var(--instrument) 28%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1; }
+  @keyframes stir-tool { to { transform: rotate(360deg); } }
   .heater rect { fill: color-mix(in srgb, var(--hot) 40%, var(--edge-strong)); }
   .heat-wave { fill: none; stroke: var(--hot); stroke-width: 1.2; opacity: 0; animation: heat-rise var(--heat-duration, 1.5s) ease-out infinite; }
   @keyframes heat-rise { 0% { opacity: 0; transform: translateY(4px); } 35% { opacity: var(--heat-opacity, 0.5); } 100% { opacity: 0; transform: translateY(-8px); } }
@@ -765,6 +820,37 @@
     stroke: var(--dim);
     stroke-width: 0.8;
     animation: rise 2.2s linear infinite;
+  }
+  .foam-fill,
+  .foam-overflow ellipse,
+  .foam-overflow path {
+    fill: color-mix(in srgb, white 88%, var(--instrument));
+    stroke: color-mix(in srgb, var(--instrument) 42%, var(--edge));
+    stroke-width: 0.55;
+  }
+  .foam-state.rising {
+    animation: foam-rise 900ms cubic-bezier(.2, .8, .25, 1) both;
+  }
+  .foam-cell {
+    fill: color-mix(in srgb, white 30%, transparent);
+    stroke: color-mix(in srgb, var(--instrument) 48%, var(--edge));
+    stroke-width: 0.45;
+  }
+  .foam-overflow path {
+    fill: none;
+    stroke-width: calc(2px + var(--spill) * 4px);
+    stroke-linecap: round;
+  }
+  .foam-overflow {
+    animation: foam-spill 1.4s ease-in-out infinite alternate;
+  }
+  @keyframes foam-rise {
+    from { transform: scaleY(0.05); opacity: 0.35; }
+    to { transform: scaleY(1); opacity: 1; }
+  }
+  @keyframes foam-spill {
+    from { transform: translateY(0); }
+    to { transform: translateY(2px); }
   }
   @keyframes rise {
     from {
@@ -952,6 +1038,8 @@
       transition: none;
     }
     .bubble,
+    .foam-state,
+    .foam-overflow,
     .flame .outer,
     .flame .inner,
     .steam,

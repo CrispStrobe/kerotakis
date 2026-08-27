@@ -807,6 +807,14 @@ hide them completely.
   reclaim work area; Sandbox defaults to one continuous surface and users can
   persistently show or hide the guides in either mode. Next, replace zone-only
   movement with fine placement and make real services/stands explicit objects.*
+  *Free-placement slice in progress 2026-08-27: the continuous surface now owns
+  normalized x/y coordinates rather than three hidden flex columns. Mouse,
+  pen, and touch use one Pointer Events drag path; compact four-way controls
+  provide the keyboard-equivalent move; coordinates persist separately per
+  mode. Version-1 zone-only saves migrate to their former zone centre, and the
+  optional Prepare/React/Analyse overlay derives its counts from x without
+  constraining placement. Collision/footprint rules and exported `.lab`
+  arrangement replay remain.*
 - [ ] **GUI-074 — Direct manipulation pass.** Implement contextual object
   selection and the highest-frequency physical gestures: place/remove, pour,
   dose, stir, heat/cool, seal/open, connect, insert/read probe, and start/stop.
@@ -839,9 +847,16 @@ hide them completely.
   and remove timestamped text notes; notes persist with the mode-specific lab,
   survive reload, and export in Markdown beside measurements and charts. Notes
   never become engine evidence merely because they are in the same journal.
-  *Initial slice in progress 2026-08-27: add and persist timestamped notes and
-  include them in notebook export. Editing/removal and chronological replay
-  placement remain.*
+  *Journal-note slice in progress 2026-08-27: add, edit, remove, and persist
+  timestamped notes and include them in notebook export. Chronological replay
+  placement remains.*
+  *Observation-first slice in progress 2026-08-27: the journal now defaults to
+  chemical observations and evidence instead of interleaving every operator
+  command. A persistent Full trace switch reveals the replayable commands and
+  their count. Common computed additions, dissolution, stirring, grinding,
+  centrifuging, settling, and vessel-state prose is localized at the UI
+  boundary and changes live with the locale; complete structured localization
+  of the remaining long-tail engine events is still required.*
 
 - [ ] **GUI-082 — Explorable laboratory room.** Build a colourful 2.5-D room
   around the continuous bench: cupboards and drawers are storage homes; racks,
@@ -851,6 +866,13 @@ hide them completely.
   Use warm, saturated workshop accents and object silhouettes inspired by good
   school-lab interfaces, while retaining professional density, dark/high-
   contrast themes, keyboard access, and no always-on mascot obstruction.
+  *Interactive-wall slice in progress 2026-08-27: the bench backdrop now has
+  three useful, keyboard-accessible destinations rather than decorative bars:
+  a shelf-connected periodic table, an instrument cabinet, and a colourful
+  zoomable safety station with concise real-lab rules and an explicit
+  simulation boundary. Workflow-zone guides remain a separate persisted
+  control. Cupboards, utilities, contextual scenario posters, room variants,
+  and true free spatial placement remain.*
 
 - [ ] **GUI-083 — Physical apparatus and computed motion.** Promote apparatus
   from forms/tool verbs to placeable assemblies with visible controls and
@@ -873,6 +895,41 @@ hide them completely.
   mortar and pestle beside its target vessel, with work-state motion, rather
   than drawing a mortar inside the vessel. The general assembly/footprint
   system and computed grind state remain.*
+  *Magnetic-stirrer slice in progress 2026-08-27: the equipment wall exposes
+  RPM and duration, the public grammar carries both, and the engine computes
+  25 mm stir-bar tip speed. The bench draws the plate, rotating bar, and
+  vortex with speed scaled from that emitted physical value. The companion
+  hotplate exposes power and duration and compiles their product to the
+  engine's delivered energy; engine-computed temperature then controls the
+  persistent vessel heat presentation. Closed-loop target-temperature control
+  and persistent start/stop state remain.*
+  *Computed-mortar slice in progress 2026-08-27: reagent additions now retain
+  material-lot provenance; grinding persists the requested mean particle
+  diameter and emits spherical-particle surface area from actual solid moles,
+  molar mass, and registry density. Mortar motion scales from that emitted
+  area. Heterogeneous kinetic rate coupling remains explicitly false until a
+  rate law consumes the surface-area state.*
+  *Computed-centrifuge slice in progress 2026-08-27: the equipment wall now
+  exposes RPM, duration, and rotor radius; the core derives angular speed and
+  RCF, then applies Stokes settling per solid from particle size, registry
+  density, computed liquid density, temperature-dependent water viscosity,
+  and tube path length. The standalone rotor's speed follows emitted RCF.
+  The follow-up state slice persists each tracked lot's suspended fraction:
+  centrifuging transfers the computed portion into the visible bottom deposit,
+  while magnetic stirring resuspends non-metal solids by computed bar-tip
+  travel (speed × duration). Ordinary `wait` applies the same Stokes travel
+  model at 1 g, so a suspension can settle, be resuspended, and be separated
+  faster in the centrifuge. The centrifuge form preloads an opposing tube
+  from engine-reported sample mass, visualizes imbalance, disables Start
+  beyond 0.10 g, and the core independently refuses unsafe commands. Tube
+  tare is declared excluded because equal tubes cancel it.*
+  *Control-and-duration slice in progress 2026-08-27: stir, heat, and cool open
+  compact apparatus controls with continuous numeric input and physical dials
+  instead of firing unexplained fixed doses. Heating accepts power and time;
+  cooling exposes bath temperature; stirring accepts RPM and time. Their bench
+  animations use the requested or emitted duration and stop reactively rather
+  than leaving an infinite decorative loop behind. Apparatus controls dock
+  with the bench and replace unrelated vessel actions while deployed.*
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
@@ -885,8 +942,9 @@ hide them completely.
   report current totals rather than confusing a new dose with total material.
   *Feedback slice in progress 2026-08-27: authoritative inventory already
   accumulated repeated doses; repeated-add events now also carry and render the
-  post-dose total. Scaling visible solid volume and parameterizing stirring
-  remain part of this item.*
+  post-dose total. Stirring now carries RPM/duration and exposes explicitly
+  uncoupled rate physics; scaling visible solid volume and coupling mixing to
+  transport/rates remain part of this item.*
 - [ ] **GUI-075 — Observe five users before adding campaign breadth.** Test with
   at least two children/novices, one teacher, and two experienced science users;
   use tasks, not preference questions. Record time-to-first-result, wrong turns,
@@ -1123,8 +1181,11 @@ decorating it.
   pressure gauge position; running state drives tool motion. Filter, still,
   drain, and cell events connect the actual source/receiver pair across the
   bench through visible vessel ports. Vessel work-zone arrangement persists
-  across reload. Remaining: bench-scale analytical instruments beyond
-  thermometer/pH and fine-grained apparatus placement.*
+  across reload. The mortar and mini-centrifuge are now freestanding,
+  target-labelled workstation cards placed in the clearest nearby bench space;
+  they no longer render as contents inside the selected vessel. Remaining:
+  user-positionable instrument stations and bench-scale analytical instruments
+  beyond thermometer/pH.*
 - [x] **GUI-063 — In-experiment visual shelves.** *Shipped 2026-08-25 (kero-basic, PR #36).* Lessons and codex
   experiments present their kit as a RENDERED shelf strip (SpeciesChip
   visuals, tap-to-add) directly in the LessonBar / experiment page —
@@ -1135,6 +1196,13 @@ decorating it.
   increment, the still's receiver fills, electrode gas accumulates.
   Driven by the per-step data the engine already returns (titration
   curve points, transported fractions).
+
+- [x] **GUI-074 — Bench focus controls.** *Shipped 2026-08-27.* On wide
+  screens, the material cabinet and laboratory journal collapse independently
+  to narrow edge rails; opening tools, details, or a target panel expands the
+  relevant rail automatically. Choices persist separately in Story and
+  Sandbox. The existing three-pane tab bar remains the touch-first navigation
+  on narrow screens.
 
 Split: GUI-058 + 060 + 064 are architecture/engine-coupled (fable);
 GUI-061 + 063 are self-contained client work (kero-basic);

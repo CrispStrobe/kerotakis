@@ -25,7 +25,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("cool", "cool v1 10kJ"),
     ("wait", "wait 30s"),
     ("ignite", "ignite v1"),
-    ("stir", "stir v1"),
+    ("stir", "stir v1 500rpm 10s"),
     ("seal", "seal v1 500mL"),
     ("regulate", "regulate v1 1.5bar 500mL"),
     ("sweep", "sweep v1 1bar"),
@@ -40,6 +40,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("electrolyse", "electrolyse v1 0.5A 30min"),
     ("cell", "cell v1 v2"),
     ("grind", "grind v1 NaCl 50um"),
+    ("centrifuge", "centrifuge v1 3000rpm 60s 8cm 100g"),
     ("irradiate", "irradiate v1 254nm 10W/m2"),
     ("dilute", "dilute v1 100mL"),
     ("titrate", "titrate v1 NaOH 1M 1mL until ph 7"),
@@ -219,27 +220,37 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
         "wait" => {
             // `wait 30s` — the clock the rate experiments need.
             let raw = words.get(1).ok_or("usage: wait <n><s|min|h>")?;
-            let digits: String = raw
-                .chars()
-                .take_while(|c| c.is_ascii_digit() || *c == '.')
-                .collect();
-            let value: f64 = digits
-                .parse()
-                .map_err(|_| format!("bad duration '{raw}'"))?;
-            let seconds = match raw[digits.len()..].trim() {
-                "" | "s" | "sec" | "secs" | "seconds" => value,
-                "min" | "mins" | "minutes" => value * 60.0,
-                "h" | "hr" | "hours" => value * 3600.0,
-                other => return Err(format!("unknown time unit '{other}'")),
-            };
-            Operator::Wait { seconds }
+            Operator::Wait {
+                seconds: parse_duration_seconds(raw)?,
+            }
         }
         "ignite" => Operator::Ignite {
             vessel: parse_vessel(words.get(1).ok_or("usage: ignite <vessel>")?)?,
         },
-        "stir" => Operator::Stir {
-            vessel: parse_vessel(words.get(1).ok_or("usage: stir <vessel>")?)?,
-        },
+        "stir" => {
+            if words.len() > 4 {
+                return Err("usage: stir <vessel> [<rpm>rpm] [<duration><s|min>]".into());
+            }
+            let vessel = parse_vessel(
+                words
+                    .get(1)
+                    .ok_or("usage: stir <vessel> [<rpm>rpm] [<duration><s|min>]")?,
+            )?;
+            let rpm = words.get(2).map_or(Ok(500.0), |raw| {
+                raw.strip_suffix("rpm")
+                    .unwrap_or(raw)
+                    .parse::<f64>()
+                    .map_err(|_| format!("bad stir speed '{raw}'"))
+            })?;
+            let seconds = words
+                .get(3)
+                .map_or(Ok(10.0), |raw| parse_duration_seconds(raw))?;
+            Operator::Stir {
+                vessel,
+                rpm,
+                seconds,
+            }
+        }
         "seal" => {
             if words.len() != 3 {
                 return Err("usage: seal <vessel> <headspace-volume><mL|L>".into());
@@ -479,6 +490,25 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 vessel,
                 species: SpeciesId::new(species_key),
                 diameter_um: diameter,
+            }
+        }
+        "centrifuge" => {
+            if words.len() < 5 {
+                return Err("usage: centrifuge <vessel> <rpm>rpm <time>s <radius>cm".into());
+            }
+            Operator::Centrifuge {
+                vessel: parse_vessel(words[1])?,
+                rpm: parse_suffixed(words[2], &[("rpm", 1.0), ("", 1.0)], "rotation speed")?,
+                seconds: parse_duration_seconds(words[3])?,
+                rotor_radius_m: parse_suffixed(
+                    words[4],
+                    &[("mm", 0.001), ("cm", 0.01), ("m", 1.0), ("", 0.01)],
+                    "rotor radius",
+                )?,
+                counterbalance_g: words
+                    .get(5)
+                    .map(|value| parse_suffixed(value, &[("g", 1.0), ("", 1.0)], "counterbalance"))
+                    .transpose()?,
             }
         }
         "irradiate" => {
@@ -798,6 +828,26 @@ pub fn parse_at(words: &[&str]) -> Result<Option<Kelvin>, String> {
         }
         _ => Err("temperature goes last: … @ 60C".into()),
     }
+}
+
+fn parse_duration_seconds(raw: &str) -> Result<f64, String> {
+    parse_suffixed(
+        raw,
+        &[
+            ("", 1.0),
+            ("s", 1.0),
+            ("sec", 1.0),
+            ("secs", 1.0),
+            ("seconds", 1.0),
+            ("min", 60.0),
+            ("mins", 60.0),
+            ("minutes", 60.0),
+            ("h", 3600.0),
+            ("hr", 3600.0),
+            ("hours", 3600.0),
+        ],
+        "duration",
+    )
 }
 
 fn split_unit(word: &str) -> Result<(f64, &str), String> {

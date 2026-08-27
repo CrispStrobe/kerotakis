@@ -138,6 +138,31 @@ export const ELEMENTS: ElementInfo[] = [
   { z: 118, symbol: "Og", name: "Oganesson", group: 18, period: 7, block: "p", category: "unknown" },
 ];
 
+/**
+ * The inviting default table: familiar main-group chemistry plus transition
+ * metals with strong school/household experiments. This is intentionally not
+ * "the first N elements" or a block-shaped subset: Fe/Cu/Zn matter more to a
+ * young lab user than a visually tidy row containing arsenic and radon.
+ * Structural access to all 118 remains in ELEMENTS and the full-table toggle.
+ */
+export const LAB_ELEMENT_SYMBOLS = new Set([
+  "H", "He", "Li", "B", "C", "N", "O", "F", "Ne",
+  "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar",
+  "K", "Ca", "Ti", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn", "Ga", "Br", "Kr",
+  "Sr", "Ag", "Sn", "I", "Xe", "W", "Pt", "Au", "Bi",
+]);
+
+export const LAB_ELEMENTS = ELEMENTS.filter((element) =>
+  LAB_ELEMENT_SYMBOLS.has(element.symbol)
+);
+
+export function shelfItemsContainingElement<T extends { formula: string }>(
+  symbol: string,
+  shelf: T[],
+): T[] {
+  return shelf.filter((item) => elementsInFormula(item.formula).includes(symbol));
+}
+
 const SYMBOLS = new Set(ELEMENTS.map((e) => e.symbol));
 
 /**

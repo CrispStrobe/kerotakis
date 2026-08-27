@@ -20,9 +20,12 @@
     evaporate: "M 3 11 Q 9 15 15 11 L 13 15 H 5 Z M 6 8 Q 4 5 7 3 M 11 8 Q 9 5 12 2",
     electrolyse: "M 3 5 H 15 V 15 H 3 Z M 6 2 V 12 M 12 2 V 12 M 4.5 3.5 H 7.5 M 12 3 H 12",
     grind: "M 3 12 Q 9 16 15 12 L 13.5 15 H 4.5 Z M 5 4 L 13 11 M 7 2 L 15 9",
+    centrifuge: "M 4 5 H 14 L 16 15 H 2 Z M 6 5 A 3 3 0 0 1 12 5 M 6 9 H 12 M 9 6 V 12",
     irradiate: "M 5 5 L 11 3 L 14 8 L 8 10 Z M 8 10 L 5 16 M 10 12 L 13 15 M 12 10 L 16 11",
     regulate: "M 4 7 H 14 V 15 H 4 Z M 9 1 V 7 M 5 4 H 13 M 6 10 H 12",
     sweep: "M 3 5 H 15 V 14 H 3 Z M 1 9 H 8 M 6 7 L 9 9 L 6 11 M 10 4 Q 12 1 14 4",
+    stir: "M 3 12 H 15 L 14 16 H 4 Z M 5 9 H 13 M 6 6 Q 9 3 12 6 M 7 8 Q 9 10 11 8",
+    heat: "M 3 12 H 15 L 14 16 H 4 Z M 6 9 Q 4 6 7 3 M 11 9 Q 9 6 12 2",
     react: "M 6 2 H 12 M 8 2 V 7 L 4 14 Q 3 16 6 16 H 12 Q 15 16 14 14 L 10 7 V 2 M 6 12 Q 9 10 13 12",
     transport: "M 2 4 H 6 V 14 H 2 Z M 12 4 H 16 V 14 H 12 Z M 6 7 H 12 M 9 5 L 12 7 L 9 9",
   };
