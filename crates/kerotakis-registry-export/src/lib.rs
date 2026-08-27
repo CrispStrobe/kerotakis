@@ -27,6 +27,8 @@ const ISOPROPANOL_SOURCE: &str = "us-federal/isopropanol-chris";
 const ISOPROPANOL_CITATION: &str = "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27";
 const SUCROSE_SOURCE: &str = "kerotakis/sucrose-teaching-properties-v1";
 const SUCROSE_CITATION: &str = "PubChem CID 5988 identity crosswalk; Kerotakis room-temperature teaching approximations: crystal density 1.59 g/mL, conservative aqueous solubility 200 g/100 mL water, and 484 J/(mol.K) solid heat capacity estimated by Kopp's rule. These are explicit editorial parameters, not redistributed NIST SRD data; retrieved 2026-08-27";
+const IRON_III_OXIDE_SOURCE: &str = "us-federal/nasa-cea-hematite";
+const IRON_III_OXIDE_CITATION: &str = "PubChem CID 14833 identity crosswalk; NASA CEA thermo.inp Fe2O3(cr) record cites Pankratz (1983) for hematite thermochemistry. Room-temperature density 5.24 g/mL and reddish-brown appearance are explicit teaching properties; retrieved 2026-08-27";
 
 // Bootstrap a new data-driven species exactly once. After the generated source
 // document is checked in, core's build script includes it in REGISTRY and the
@@ -73,6 +75,32 @@ const SUCROSE_SEED: SpeciesData = SpeciesData {
     provenance: SUCROSE_CITATION,
 };
 
+const IRON_III_OXIDE_SEED: SpeciesData = SpeciesData {
+    key: "Fe2O3",
+    name: "iron(III) oxide (hematite)",
+    formula: "Fe2O3",
+    inchikey: "JEIPFZHSYJVQDO-UHFFFAOYSA-N",
+    molar_mass: 159.687,
+    heat_capacity: 103.9,
+    density: 5.24,
+    standard_phase: LegacyPhase::Solid,
+    appearance: Some("reddish brown"),
+    flame_colour: None,
+    colour: Some(Colour {
+        r: 145,
+        g: 66,
+        b: 54,
+        strength: 0.0,
+    }),
+    spectrum: None,
+    dissolution_enthalpy_kj: None,
+    dissolves_without_speciation: false,
+    aqueous_solubility_g_per_100_ml: None,
+    forms_only_above_k: None,
+    magnetic: false,
+    provenance: IRON_III_OXIDE_CITATION,
+};
+
 /// Export every current declaration without changing or replacing the runtime
 /// registry. All legacy sources remain build-oracle material pending explicit
 /// licence and provenance review.
@@ -86,6 +114,9 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     }
     if !REGISTRY.iter().any(|species| species.key == "sucrose") {
         export_species(&mut document, &SUCROSE_SEED)?;
+    }
+    if !REGISTRY.iter().any(|species| species.key == "Fe2O3") {
+        export_species(&mut document, &IRON_III_OXIDE_SEED)?;
     }
     export_material_recipes(&mut document);
     document.validate().map_err(|error| error.to_string())?;
@@ -1252,6 +1283,46 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             &["iron nail"],
             &["represented as elemental iron; ordinary steel nails, coatings and corrosion products require alloy and surface-state recipes"],
         ),
+        MaterialRecipe {
+            id: "household/steel-wool-iron-surrogate".to_string(),
+            version: 1,
+            canonical_key: "steel_wool".to_string(),
+            name: "steel wool surrogate".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec!["Stahlwolle".to_string(), "Eisenwolle".to_string()],
+                ),
+                ("en".to_string(), vec!["steel wool".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("Fe", 0.98)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.02,
+                upper: 0.02,
+            }),
+            physical_form: MaterialPhysicalForm::CompositeObject {
+                geometry: Some(MaterialGeometry {
+                    shape: Some("porous bundle of fine metal fibres".to_string()),
+                    surface_area_m2: None,
+                    characteristic_length_m: None,
+                }),
+            },
+            roles: Vec::new(),
+            preparation: Some(
+                "fine low-carbon steel fibres represented by 98% resolved iron and 2% conserved unresolved alloy/coating fraction"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "grade, carbon, alloying elements, oil, soap and coatings vary; the 98% iron fraction is a bounded teaching surrogate, not a product specification".to_string(),
+                "fibre geometry explains why steel wool can ignite more readily than a nail, but the current ignition operator applies an explicit hot-zone threshold rather than claiming a measured area-dependent rate".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
         familiar_solid(
             "school/copper-wire",
             "copper_wire",
@@ -1279,17 +1350,20 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
     let source_id = match species.key {
         "isopropanol" => ISOPROPANOL_SOURCE.to_string(),
         "sucrose" => SUCROSE_SOURCE.to_string(),
+        "Fe2O3" => IRON_III_OXIDE_SOURCE.to_string(),
         _ => format!("legacy/{}", species.key),
     };
     let curated_isopropanol = species.key == "isopropanol";
     let curated_sucrose = species.key == "sucrose";
-    let runtime_source = curated_isopropanol || curated_sucrose;
+    let curated_iron_iii_oxide = species.key == "Fe2O3";
+    let runtime_source = curated_isopropanol || curated_sucrose || curated_iron_iii_oxide;
     document.sources.push(SourceRecord {
         id: source_id.clone(),
         citation: species.provenance.to_string(),
         licence: match species.key {
             "isopropanol" => "LicenseRef-US-Public-Domain",
             "sucrose" => "AGPL-3.0-or-later",
+            "Fe2O3" => "LicenseRef-US-Public-Domain",
             _ => LEGACY_LICENCE,
         }
         .to_string(),
@@ -1301,11 +1375,13 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
         origin: Some(match species.key {
             "isopropanol" => "https://pubchem.ncbi.nlm.nih.gov/compound/3776".to_string(),
             "sucrose" => "crates/kerotakis-registry-export/src/lib.rs".to_string(),
+            "Fe2O3" => "vendor/nasa-cea/thermo.inp".to_string(),
             _ => "crates/kerotakis-core/src/species.rs".to_string(),
         }),
         revision: match species.key {
             "isopropanol" => Some("CID 3776".to_string()),
             "sucrose" => Some("v1".to_string()),
+            "Fe2O3" => Some("NASA CEA Fe2O3(cr), PubChem CID 14833".to_string()),
             _ => None,
         },
         retrieved: runtime_source.then(|| "2026-08-27".to_string()),

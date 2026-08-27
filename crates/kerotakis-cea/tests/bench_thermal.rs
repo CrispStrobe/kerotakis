@@ -52,6 +52,7 @@ fn species_map_into_the_nasa_data_by_formula() {
     assert_eq!(kerotakis_cea::cea_name("CaCO3"), Some("CaCO3(cr)"));
     assert_eq!(kerotakis_cea::cea_name("CaO"), Some("CaO(cr)"));
     assert_eq!(kerotakis_cea::cea_name("MgO"), Some("MgO(cr)"));
+    assert_eq!(kerotakis_cea::cea_name("Fe2O3"), Some("Fe2O3(cr)"));
     assert_eq!(kerotakis_cea::cea_name("O2"), Some("O2"));
     assert_eq!(kerotakis_cea::cea_name("CO2"), Some("CO2"));
     assert_eq!(
@@ -64,6 +65,50 @@ fn species_map_into_the_nasa_data_by_formula() {
         None,
         "an isopropanol identity must not borrow another C3H8O isomer's thermochemistry"
     );
+}
+
+#[test]
+fn steel_wool_ignites_to_named_iron_oxide_in_open_air() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    let wool = script::parse_op("add v1 Stahlwolle 1g")
+        .expect("localized steel-wool command")
+        .expect("operator");
+    bench
+        .step_with(wool, &mut stack, &PermissiveScreen)
+        .expect("add steel wool");
+
+    let events = bench
+        .step_with(
+            Operator::Ignite { vessel: v },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("ignite steel wool");
+    let vessel = bench.vessel(v).expect("vessel");
+
+    assert!(
+        vessel.moles_of(&SpeciesId::new("Fe")).0 < 1e-6,
+        "the resolved iron fibres should be consumed: {events:?}"
+    );
+    assert!(
+        vessel.moles_of(&SpeciesId::new("Fe2O3")).0 > 0.008,
+        "air oxygen should become conserved named hematite: {:?}",
+        vessel.contents
+    );
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::Ignited { energy_j: Some(energy), .. } if *energy > 1_000.0
+    )));
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::Precipitated { species, .. } if species.0 == "Fe2O3"
+    )));
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::ReactionOccurred { equation, .. } if equation.contains("Fe₂O₃")
+    )));
 }
 
 #[test]

@@ -492,6 +492,20 @@ impl Equilibrator for ThermalEquilibrator {
                 equation: "C₂H₅OH(l) + 3 O₂(g) → 2 CO₂(g) + 3 H₂O(g)".to_string(),
             });
         }
+        if !events.is_empty()
+            && charge
+                .mapped
+                .iter()
+                .any(|(species, amount)| species.0 == "Fe" && *amount > 1e-12)
+            && contents
+                .iter()
+                .any(|portion| portion.species.0 == "Fe2O3" && portion.moles.0 > 1e-12)
+        {
+            events.push(Event::ReactionOccurred {
+                vessel: vessel.id,
+                equation: "4 Fe(s) + 3 O₂(g) → 2 Fe₂O₃(s)".to_string(),
+            });
+        }
 
         let changed = !events.is_empty();
         vessel.contents = contents;

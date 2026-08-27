@@ -190,6 +190,17 @@ fn familiar_object_addition_preserves_recipe_and_solid_inventory() {
 }
 
 #[test]
+fn steel_wool_keeps_its_alloy_remainder_explicit() {
+    let recipe = kerotakis_core::material::lookup("Stahlwolle", Some("de"))
+        .expect("localized steel-wool surrogate");
+    let expansion = recipe.expand(10.0, 0).expect("fixed expansion");
+    assert_eq!(expansion.components.len(), 1);
+    assert_eq!(expansion.components[0].species_id, "Fe");
+    assert!((expansion.components[0].amount - 9.8).abs() < 1e-12);
+    assert!((expansion.unresolved_amount - 0.2).abs() < 1e-12);
+}
+
+#[test]
 fn ambiguous_bare_salt_is_not_claimed_by_the_table_salt_recipe() {
     let table_salt =
         kerotakis_core::material::lookup("Tafelsalz", Some("de")).expect("localized table salt");
