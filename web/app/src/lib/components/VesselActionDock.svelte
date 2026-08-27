@@ -24,6 +24,8 @@
 
   const v = $derived(`v${vessel + 1}`);
   const actions = $derived(vesselQuickActions(vessel, boundary));
+  const changeActions = $derived(actions.filter((action) => ["stir", "heat", "cool", "seal", "open"].includes(action.id)));
+  const observeActions = $derived(actions.filter((action) => ["look", "temperature", "ph"].includes(action.id)));
 </script>
 
 <section class="dock" aria-label={t("quick actions for vessel v{vessel}", { vessel: vessel + 1 })}>
@@ -32,16 +34,32 @@
     <span><small>{t("selected")}</small><strong>{t(label)} · {v}</strong></span>
   </div>
   <div class="actions">
-    <button class="pour" disabled={busy} onclick={onpour} title={t("pour from {vessel}", { vessel: v })}>
-      <span class="icon" aria-hidden="true">↗</span>
-      <span>{t("pour")}</span>
-    </button>
-    {#each actions as action (action.label)}
-      <button class={action.tone} disabled={busy} onclick={() => onaction(action.line)} title={t("run {action} on {vessel}", { action: t(action.label), vessel: v })}>
-        <span class="icon" aria-hidden="true">{action.icon}</span>
-        <span>{t(action.label)}</span>
-      </button>
-    {/each}
+    <div class="action-group">
+      <small>{t("change vessel")}</small>
+      <div>
+        <button class="pour" disabled={busy} onclick={onpour} title={t("pour from {vessel}", { vessel: v })}>
+          <span class="icon" aria-hidden="true">↗</span>
+          <span>{t("pour")}</span>
+        </button>
+        {#each changeActions as action (action.label)}
+          <button class={action.tone} disabled={busy} onclick={() => onaction(action.line)} title={t("run {action} on {vessel}", { action: t(action.label), vessel: v })}>
+            <span class="icon" aria-hidden="true">{action.icon}</span>
+            <span>{t(action.label)}</span>
+          </button>
+        {/each}
+      </div>
+    </div>
+    <div class="action-group">
+      <small>{t("observe and measure")}</small>
+      <div>
+        {#each observeActions as action (action.label)}
+          <button class={action.tone} disabled={busy} onclick={() => onaction(action.line)} title={t("run {action} on {vessel}", { action: t(action.label), vessel: v })}>
+            <span class="icon" aria-hidden="true">{action.icon}</span>
+            <span>{t(action.label)}</span>
+          </button>
+        {/each}
+      </div>
+    </div>
   </div>
   <div class="more-actions">
     <button onclick={ondetails}>{t("details")}</button>
@@ -106,6 +124,9 @@
     padding: 0.2rem;
     scrollbar-width: thin;
   }
+  .action-group { display: grid; gap: 0.15rem; flex: none; }
+  .action-group > small { padding-left: 0.25rem; color: var(--dim); font-size: 0.53rem; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; }
+  .action-group > div { display: flex; gap: 0.35rem; }
   .actions button {
     min-width: 58px;
     min-height: 54px;
@@ -123,12 +144,12 @@
     font-size: 0.66rem;
     font-weight: 650;
   }
-  .actions button:first-child {
+  .pour {
     color: white;
     border-color: var(--action);
     background: linear-gradient(145deg, var(--action), color-mix(in srgb, var(--action) 72%, var(--primary)));
   }
-  .actions button:first-child .icon { color: white; }
+  .pour .icon { color: white; }
   .actions button:hover:not(:disabled) {
     border-color: currentColor;
     transform: translateY(-2px);
@@ -147,7 +168,6 @@
     font-weight: 800;
   }
   .action .icon { color: var(--action); }
-  .pour .icon { color: var(--action); }
   .instrument .icon { color: var(--instrument); }
   .discovery .icon { color: var(--discovery); }
   .more-actions {

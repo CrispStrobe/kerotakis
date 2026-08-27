@@ -33,6 +33,9 @@ pub enum Operator {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         kind: Option<String>,
     },
+    /// Put an empty vessel back into storage. Matter is never silently
+    /// discarded through this operation, and the bench keeps one receiver.
+    RemoveVessel { vessel: VesselId },
     /// Add an amount of a species to a vessel, entering at `at` temperature
     /// (defaults to standard).
     Add {
@@ -308,10 +311,17 @@ pub enum Event {
     VesselCreated {
         vessel: VesselId,
     },
+    VesselRemoved {
+        vessel: VesselId,
+    },
     Added {
         vessel: VesselId,
         species: SpeciesId,
         moles: Moles,
+        /// Inventory of this species in the vessel after the dose. Older
+        /// event logs did not carry it; clients must tolerate its absence.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        total_after: Option<Moles>,
     },
     /// A named material expanded into canonical species while retaining the
     /// user-facing identity and any chemically unresolved balance.

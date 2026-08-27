@@ -33,8 +33,10 @@ import {
 } from "./outcomeMission";
 
 export type FeedEntry = {
-  kind: "command" | "line" | "error" | "refusal" | "note" | "hazard" | "chart";
+  kind: "command" | "line" | "error" | "refusal" | "note" | "user-note" | "hazard" | "chart";
   text: string;
+  /** ISO timestamp for learner-authored journal notes. */
+  createdAt?: string;
   /** Hazard entries: the engine's severity, for the card's chip. */
   severity?: string;
   /** Chart entries: the Chart JSON v1 spec to render. */
@@ -320,11 +322,16 @@ export class Session {
         log: string[];
         position: number;
         register: string;
+        notes?: { text: string; createdAt: string }[];
         /** v2: the engine snapshot at `position` — one restore() call
          * instead of a replay. Absent in v1 saves; replay covers those. */
         snapshot?: string;
       };
-      if (!Array.isArray(saved.log) || saved.log.length === 0) return;
+      if (!Array.isArray(saved.log)) return;
+      const notes = Array.isArray(saved.notes)
+        ? saved.notes.filter((note) => typeof note?.text === "string" && typeof note?.createdAt === "string")
+        : [];
+      if (saved.log.length === 0 && notes.length === 0) return;
       if (saved.register && saved.register !== this.register) {
         await this.host.setRegister(saved.register);
         this.register = saved.register;
@@ -356,6 +363,7 @@ export class Session {
         kind: "note",
         text: t("restored your last session: {count} step(s) {how}", { count: position, how }),
       });
+      this.feed.push(...notes.map((note) => ({ kind: "user-note" as const, ...note })));
     } catch {
       // A corrupt save must never wedge the bench: drop it and start clean.
       this.storage?.removeItem(SAVE_KEY);
@@ -371,12 +379,23 @@ export class Session {
           log: this.commandLog,
           position: this.position,
           register: this.register,
+          notes: this.feed
+            .filter((entry) => entry.kind === "user-note")
+            .map(({ text, createdAt }) => ({ text, createdAt: createdAt ?? new Date().toISOString() })),
           snapshot: this.snapshots.get(this.position),
         }),
       );
     } catch {
       // Storage full or blocked: the session still works, it just won't survive a reload.
     }
+  }
+
+  /** Add a learner-authored observation without pretending it came from the engine. */
+  addUserNote(text: string): void {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+    this.feed.push({ kind: "user-note", text: trimmed, createdAt: new Date().toISOString() });
+    this.persist();
   }
 
   /** Empty the bench and forget the session — distinct from jumpTo(0),
@@ -514,7 +533,16 @@ export class Session {
           }
         }
       }
-      if (result.scene) this.scene = result.scene;
+      if (result.scene) {
+        this.scene = result.scene;
+        if (
+          result.scene.vessels.length > 0 &&
+          !result.scene.vessels.some((vessel) => vessel.id === this.selected)
+        ) {
+          this.selected = result.scene.vessels[0]?.id ?? 0;
+          this.inspector = null;
+        }
+      }
       // Register lines are session state, not chemistry; everything else
       // that the engine accepted becomes part of the replayable script.
       // A command issued mid-history truncates the undone future first.

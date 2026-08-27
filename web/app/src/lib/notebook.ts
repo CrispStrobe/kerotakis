@@ -32,6 +32,9 @@ export function notebookMarkdown(
       case "note":
         out.push(`*${entry.text}*`, "");
         break;
+      case "user-note":
+        out.push(`> **${t("my note")}${entry.createdAt ? ` · ${entry.createdAt}` : ""}**`, `> ${entry.text}`, "");
+        break;
       case "hazard":
         out.push(`> **${entry.severity || t("hazard")}** — ${entry.text}`, "");
         break;

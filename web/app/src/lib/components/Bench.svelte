@@ -3,6 +3,7 @@
   import type { Effect } from "../magnitudes";
   import Vessel from "./Vessel.svelte";
   import BenchEffect from "./BenchEffect.svelte";
+  import StandaloneApparatus from "./StandaloneApparatus.svelte";
   import { t } from "../i18n.svelte";
   import {
     BENCH_ZONES,
@@ -32,6 +33,9 @@
     apparatusValues = {},
     layout,
     onmove,
+    showZones = true,
+    ontogglezones,
+    onremove,
   }: {
     scene: Scene | null;
     register: string;
@@ -51,6 +55,9 @@
     apparatusValues?: Record<string, number | string>;
     layout: BenchLayout;
     onmove?: (layout: BenchLayout) => void;
+    showZones?: boolean;
+    ontogglezones?: () => void;
+    onremove?: (vessel: number) => void;
   } = $props();
 
   let choosing = $state(false);
@@ -103,19 +110,18 @@
 </script>
 
 <section class="bench" aria-label={t("the bench")}>
-  <div class="lab-backdrop" aria-hidden="true">
-    <span class="light light-a"></span>
-    <span class="light light-b"></span>
-    <span class="service-rail"></span>
-    <span class="socket socket-a"></span>
-    <span class="socket socket-b"></span>
-    <span class="shelf-line"></span>
-  </div>
+  <div class="lab-backdrop" aria-hidden="true"></div>
+  {#if ontogglezones}
+    <button class="guide-toggle" aria-pressed={showZones} onclick={ontogglezones}>
+      <span aria-hidden="true">{showZones ? "▦" : "☷"}</span>
+      {showZones ? t("hide workflow guides") : t("show workflow guides")}
+    </button>
+  {/if}
   {#if scene}
     {#each spatialEffects as effect (effect.at + ":" + effect.source + ":" + effect.target + ":" + effect.operation)}
       <BenchEffect {effect} />
     {/each}
-    <div class="work-zones" aria-label={t("bench work zones")}>
+    <div class="work-zones" class:guides-off={!showZones} aria-label={t("bench work zones")}>
       {#each BENCH_ZONES as zone (zone)}
         {@const zoneVessels = vesselsIn(zone)}
         <section
@@ -158,10 +164,13 @@
                   titrationPlayback={titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
                   onbadge={(b) => onbadge?.(vessel.id, b)}
                   {fluidLookup}
-                  deployedTool={vessel.id === deployedTarget ? deployedTool : null}
+                  deployedTool={vessel.id === deployedTarget && deployedTool !== "grind" ? deployedTool : null}
                   {apparatusWorking}
                   {apparatusValues}
                 />
+                {#if vessel.id === deployedTarget && deployedTool === "grind"}
+                  <StandaloneApparatus tool="grind" working={apparatusWorking} values={apparatusValues} />
+                {/if}
                 <span class="connection-port port-out" data-port="out" aria-hidden="true"></span>
                 {#if vessel.id === selected}
                   {@const currentZone = zoneFor(layout, vessel.id)}
@@ -173,12 +182,19 @@
                       aria-label={t("move vessel v{vessel} to {zone}", { vessel: vessel.id + 1, zone: t(leftZone) })}
                       onclick={() => move(vessel.id, leftZone)}
                     >←</button>
-                    <span aria-hidden="true">{t("move")}</span>
                     <button
                       disabled={rightZone === currentZone}
                       aria-label={t("move vessel v{vessel} to {zone}", { vessel: vessel.id + 1, zone: t(rightZone) })}
                       onclick={() => move(vessel.id, rightZone)}
                     >→</button>
+                    {#if onremove}
+                      <button
+                        class="remove"
+                        aria-label={t("remove empty vessel v{vessel}", { vessel: vessel.id + 1 })}
+                        title={t("remove empty vessel")}
+                        onclick={() => onremove(vessel.id)}
+                      >×</button>
+                    {/if}
                   </div>
                 {/if}
               </div>
@@ -216,7 +232,7 @@
     flex: 1;
     display: block;
     min-height: 24rem;
-    padding: clamp(6.2rem, 13vh, 8rem) 0.75rem 2.6rem;
+    padding: 2.7rem 0.75rem 2.6rem;
     overflow: auto;
     position: relative;
     /* The counter the glassware stands on. */
@@ -249,55 +265,31 @@
     z-index: -1;
     overflow: hidden;
     pointer-events: none;
-    background-image: radial-gradient(circle, color-mix(in srgb, var(--edge-strong) 16%, transparent) 1px, transparent 1.2px);
-    background-size: 18px 18px;
-    mask-image: linear-gradient(to bottom, black, transparent 72%);
+    background-image:
+      radial-gradient(circle, color-mix(in srgb, var(--edge-strong) 16%, transparent) 1px, transparent 1.2px),
+      linear-gradient(115deg, color-mix(in srgb, var(--primary) 5%, transparent), transparent 42%, color-mix(in srgb, var(--hot) 5%, transparent));
+    background-size: 18px 18px, 100% 100%;
+    mask-image: linear-gradient(to bottom, black, transparent 82%);
   }
-  .light {
+  .guide-toggle {
     position: absolute;
-    top: 0.8rem;
-    width: min(24vw, 15rem);
-    height: 0.45rem;
+    z-index: 9;
+    top: 0.55rem;
+    right: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    min-height: 30px;
+    padding: 0.25rem 0.55rem;
+    border: 1px solid var(--edge);
     border-radius: 999px;
-    background: color-mix(in srgb, var(--primary) 38%, white);
-    box-shadow: 0 0 18px color-mix(in srgb, var(--primary) 30%, transparent), 0 22px 55px color-mix(in srgb, var(--primary) 12%, transparent);
+    color: var(--dim);
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    font: inherit;
+    font-size: 0.62rem;
+    cursor: pointer;
   }
-  .light-a { left: 15%; }
-  .light-b { right: 15%; }
-  .service-rail {
-    position: absolute;
-    top: 3.25rem;
-    left: 6%;
-    right: 6%;
-    height: 0.48rem;
-    border: 1px solid color-mix(in srgb, var(--edge-strong) 50%, var(--edge));
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--surface) 55%, var(--edge));
-    box-shadow: 0 4px 8px var(--shadow);
-  }
-  .socket {
-    position: absolute;
-    top: 2.65rem;
-    width: 1.7rem;
-    height: 1.7rem;
-    border: 3px solid var(--surface);
-    border-radius: 8px;
-    background: var(--edge-strong);
-    box-shadow: 0 3px 9px var(--shadow);
-  }
-  .socket::after { content: ""; position: absolute; inset: 0.42rem; border-radius: 50%; background: var(--surface); }
-  .socket-a { left: 22%; }
-  .socket-b { right: 22%; }
-  .shelf-line {
-    position: absolute;
-    top: 5.2rem;
-    left: 12%;
-    right: 12%;
-    height: 0.55rem;
-    border-radius: 0 0 8px 8px;
-    background: color-mix(in srgb, var(--edge-strong) 42%, var(--surface));
-    box-shadow: 0 7px 12px var(--shadow);
-  }
+  .guide-toggle:hover { color: var(--primary); border-color: var(--primary); }
   .work-zones {
     position: relative;
     z-index: 2;
@@ -306,6 +298,19 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 0.45rem;
   }
+  .work-zones.guides-off {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-end;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(0.4rem, 1.4vw, 1.2rem);
+    padding: 1rem 1rem 1.8rem;
+  }
+  .guides-off .work-zone,
+  .guides-off .zone-deck { display: contents; }
+  .guides-off .work-zone > header,
+  .guides-off .drop-callout { display: none; }
   .work-zone {
     position: relative;
     min-width: 0;
@@ -414,20 +419,20 @@
     position: absolute;
     z-index: 8;
     left: 50%;
-    bottom: -1rem;
+    bottom: -0.75rem;
     translate: -50% 0;
     display: flex;
     align-items: center;
-    gap: 0.22rem;
-    padding: 0.18rem;
+    gap: 0.12rem;
+    padding: 0.12rem;
     border: 1px solid var(--edge);
     border-radius: 999px;
     background: var(--surface);
     box-shadow: 0 5px 14px var(--shadow);
   }
   .placement-controls button {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
     border: 0;
     border-radius: 50%;
     color: white;
@@ -435,12 +440,12 @@
     cursor: pointer;
   }
   .placement-controls button:disabled { opacity: 0.25; cursor: default; }
-  .placement-controls span { color: var(--dim); font-size: 0.55rem; font-weight: 750; text-transform: uppercase; }
+  .placement-controls .remove { color: var(--bad); background: color-mix(in srgb, var(--bad) 10%, var(--surface)); }
   .move-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   @media (max-width: 780px) {
     .work-zones { grid-template-columns: 1fr; }
     .work-zone { min-height: 12rem; border-bottom: 1px dashed color-mix(in srgb, var(--edge) 62%, transparent); }
-    .bench { padding-top: 6rem; }
+    .bench { padding-top: 2.7rem; }
   }
   .empty {
     color: var(--dim);
@@ -498,7 +503,6 @@
     font-size: 0.82rem;
   }
   @media (max-height: 680px) {
-    .bench { padding-top: 3.6rem; }
-    .shelf-line { display: none; }
+    .bench { padding-top: 2.7rem; }
   }
 </style>
