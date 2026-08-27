@@ -32,11 +32,8 @@ ph = { min = 6.5, max = 7.5 }
 
 [reaction.registers]
 lv1 = "The salt disappears into the water. It hasn't gone away — taste it and it's still there, hiding as tiny pieces too small to see."
-lv1_de = "Das Salz verschwindet im Wasser. Es ist aber nicht weg — probier es, und du schmeckst es immer noch: Es versteckt sich als winzige Teilchen, die zu klein sind, um sie zu sehen."
 lv2 = "Sodium chloride dissolves, separating into hydrated Na⁺ and Cl⁻ ions. The solution stays neutral because neither ion reacts with water."
-lv2_de = "Natriumchlorid löst sich auf und zerfällt dabei in hydratisierte Na⁺- und Cl⁻-Ionen. Die Lösung bleibt neutral, weil keines der beiden Ionen mit Wasser reagiert."
 lv3 = "Congruent dissolution to fully dissociated Na⁺/Cl⁻; pH unaffected as neither ion hydrolyses appreciably. Activity coefficients follow the WATEQ Debye–Hückel extension at this ionic strength."
-lv3_de = "Kongruente Auflösung zu vollständig dissoziierten Na⁺/Cl⁻-Ionen; der pH-Wert bleibt unbeeinflusst, da keines der Ionen nennenswert hydrolysiert. Die Aktivitätskoeffizienten folgen bei dieser Ionenstärke der WATEQ-Debye-Hückel-Erweiterung."
 
 [reaction.provenance]
 source = "Standard curriculum chemistry; solubility and speciation from PHREEQC wateq4f.dat (USGS)"
@@ -71,11 +68,8 @@ events = ["dissolved:NaCl"]
 
 [reaction.registers]
 lv1 = "Keep stirring salt into the water and at some point it stops disappearing — the water is full. The rest just sits at the bottom."
-lv1_de = "Rührst du immer weiter Salz ins Wasser, hört es irgendwann auf zu verschwinden — das Wasser ist voll. Der Rest bleibt einfach am Boden liegen."
 lv2 = "Above the solubility limit (≈6.1 mol per kg of water at 25 °C) the solution is saturated: dissolved and solid salt sit in equilibrium, and any extra stays solid."
-lv2_de = "Oberhalb der Löslichkeitsgrenze (≈6,1 mol pro kg Wasser bei 25 °C) ist die Lösung gesättigt: gelöstes und festes Salz stehen im Gleichgewicht, und jede zusätzliche Menge bleibt fest."
 lv3 = "Halite saturation. Note the datasets disagree in this regime — Pitzer's ion-interaction model gives ≈6.13 mol/kgw against wateq4f's 6.50 and minteq.v4's 3.7, which is why concentrated problems route to Pitzer. `explain` shows all three."
-lv3_de = "Halit-Sättigung. In diesem Bereich widersprechen sich die Datensätze — Pitzers Ionen-Interaktionsmodell liefert ≈6,13 mol/kgw gegenüber 6,50 bei wateq4f und 3,7 bei minteq.v4, weshalb konzentrierte Probleme über Pitzer gerechnet werden. `explain` zeigt alle drei."
 
 [reaction.provenance]
 source = "Solubility of NaCl, standard reference value ≈ 6.1 mol/kgw at 25 °C"
@@ -108,11 +102,8 @@ absent = ["hazard_warning"]
 
 [reaction.registers]
 lv1 = "Two clear liquids — and the moment they meet, the water turns cloudy white! A brand-new solid has appeared out of nowhere."
-lv1_de = "Zwei klare Flüssigkeiten — und in dem Moment, in dem sie sich treffen, wird das Wasser trüb-weiß! Ein völlig neuer Feststoff ist wie aus dem Nichts entstanden."
 lv2 = "Ag⁺ + Cl⁻ → AgCl↓. Silver chloride is insoluble (Ksp ≈ 1.8 × 10⁻¹⁰), so it drops out of solution while the sodium and nitrate ions stay dissolved as spectators."
-lv2_de = "Ag⁺ + Cl⁻ → AgCl↓. Silberchlorid ist unlöslich (Ksp ≈ 1,8 × 10⁻¹⁰) und fällt daher aus der Lösung aus, während Natrium- und Nitrat-Ionen als Zuschauer-Ionen gelöst bleiben."
 lv3 = "Cerargyrite precipitation to SI = 0. Residual dissolved silver is not free Ag⁺ alone: the AgCl(aq) neutral complex is present at ≈3 × 10⁻⁷ m, which is why the apparent solubility exceeds the naive √Ksp."
-lv3_de = "Cerargyrit-Fällung bis SI = 0. Das verbleibende gelöste Silber besteht nicht allein aus freiem Ag⁺: Der neutrale Komplex AgCl(aq) liegt mit ≈3 × 10⁻⁷ m vor, weshalb die scheinbare Löslichkeit über dem naiven √Ksp liegt."
 
 [reaction.provenance]
 source = "Standard curriculum precipitation reaction; Ksp and speciation from PHREEQC wateq4f.dat (USGS)"
@@ -143,11 +134,8 @@ ph = { min = 2.8, max = 3.2 }
 
 [reaction.registers]
 lv1 = "This liquid is an acid. Acids taste sour — that's why lemons and vinegar are sour — but you never taste a chemical in a lab."
-lv1_de = "Diese Flüssigkeit ist eine Säure. Säuren schmecken sauer — deshalb sind Zitronen und Essig sauer — aber im Labor probierst du niemals eine Chemikalie."
 lv2 = "Hydrochloric acid is a strong acid: it dissociates completely, so 0.001 mol in a litre gives [H⁺] = 10⁻³ and pH 3."
-lv2_de = "Salzsäure ist eine starke Säure: Sie dissoziiert vollständig, sodass 0,001 mol in einem Liter [H⁺] = 10⁻³ und damit pH 3 ergeben."
 lv3 = "Complete dissociation; pH from charge balance rather than an assumed activity of one. At I ≈ 10⁻³ the activity coefficient is ≈0.96, so pH sits marginally above the concentration logarithm."
-lv3_de = "Vollständige Dissoziation; der pH-Wert ergibt sich aus der Ladungsbilanz statt aus einer angenommenen Aktivität von eins. Bei I ≈ 10⁻³ liegt der Aktivitätskoeffizient bei ≈0,96, sodass der pH-Wert geringfügig über dem Konzentrationslogarithmus liegt."
 
 [reaction.provenance]
 source = "Standard curriculum acid–base chemistry"
@@ -177,11 +165,8 @@ ph = { min = 2.7, max = 3.1 }
 
 [reaction.registers]
 lv1 = "This is the acid in vinegar. It's sour too, but much gentler than the strong one — most of it stays whole instead of breaking apart."
-lv1_de = "Das ist die Säure im Essig. Sie ist auch sauer, aber viel milder als die starke Säure — der größte Teil bleibt ganz, statt sich aufzuspalten."
 lv2 = "Acetic acid is weak: only a small fraction dissociates. 0.1 mol/L gives pH ≈ 2.9, not the 1.0 a strong acid of the same concentration would."
-lv2_de = "Essigsäure ist schwach: Nur ein kleiner Anteil dissoziiert. 0,1 mol/L ergeben pH ≈ 2,9, statt der pH 1,0, die eine starke Säure gleicher Konzentration liefern würde."
 lv3 = "Partial dissociation governed by the database's own H⁺ + Acetate⁻ ⇌ HAc equilibrium (pKa ≈ 4.76); the pH follows from that equilibrium, not from an assumed degree of dissociation."
-lv3_de = "Teildissoziation, bestimmt durch das datenbankeigene Gleichgewicht H⁺ + Acetat⁻ ⇌ HAc (pKa ≈ 4,76); der pH-Wert folgt aus diesem Gleichgewicht, nicht aus einem angenommenen Dissoziationsgrad."
 
 [reaction.provenance]
 source = "Standard curriculum weak-acid chemistry; pKa from PHREEQC minteq.v4.dat"
@@ -191,7 +176,6 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "buffer"
 spine = ["reaktionen-von-saeuren-und-basen"]
 summary = "CH₃COOH / CH₃COO⁻ buffer"
-summary_de = "CH₃COOH / CH₃COO⁻-Puffer"
 concepts = ["buffers", "le-chatelier"]
 requires = ["weak-acids"]
 
@@ -220,11 +204,8 @@ ph = { min = 4.3, max = 4.9 }
 
 [reaction.registers]
 lv1 = "Add acid to this liquid and — almost nothing happens. It's stubborn. Your blood does the same trick, which is why drinking lemonade doesn't hurt you."
-lv1_de = "Gib Säure zu dieser Flüssigkeit — und fast nichts passiert. Sie ist stur. Dein Blut macht denselben Trick, weshalb dir ein Glas Limonade nicht schadet."
 lv2 = "An equimolar weak acid and its salt buffer near pKa (4.76). Adding 0.01 mol of strong acid shifts the pH by less than 0.1, where the same acid in plain water would take it to pH 2."
-lv2_de = "Eine äquimolare schwache Säure und ihr Salz puffern in der Nähe des pKa-Werts (4,76). Die Zugabe von 0,01 mol starker Säure verschiebt den pH-Wert um weniger als 0,1, während dieselbe Säure in reinem Wasser den pH-Wert auf 2 drücken würde."
 lv3 = "Henderson–Hasselbalch behaviour emerging from the speciation rather than being applied: the reservoir of conjugate base absorbs added protons, and the shift follows the log ratio."
-lv3_de = "Henderson-Hasselbalch-Verhalten ergibt sich hier aus der Speziation, statt angewendet zu werden: Das Reservoir der konjugierten Base nimmt zugegebene Protonen auf, und die Verschiebung folgt dem Logarithmus des Konzentrationsverhältnisses."
 
 [reaction.provenance]
 source = "Standard curriculum buffer chemistry"
@@ -262,11 +243,8 @@ events = ["gas_evolved:CO2"]
 
 [reaction.registers]
 lv1 = "It fizzes! Bubbles everywhere. Put it on the scales before and after: the jar gets lighter, because the bubbles floated away and took some weight with them."
-lv1_de = "Es sprudelt! Überall Bläschen. Stell das Glas vorher und nachher auf die Waage: Es wird leichter, weil die Bläschen davongeflogen sind und etwas Gewicht mitgenommen haben."
 lv2 = "Acid protonates the bicarbonate, releasing carbon dioxide. In an open vessel the gas leaves, so the system loses mass — mass is conserved overall, but not inside the beaker."
-lv2_de = "Die Säure protoniert das Hydrogencarbonat und setzt dabei Kohlenstoffdioxid frei. In einem offenen Gefäß entweicht das Gas, sodass das System an Masse verliert — insgesamt bleibt die Masse erhalten, aber nicht innerhalb des Bechers."
 lv3 = "Carbonate speciation shifts with pH until the solution supersaturates against atmospheric pCO₂ (log p = −3.408), and the excess exsolves. Roughly 77% of the carbonate leaves; Henry's law keeps the rest dissolved."
-lv3_de = "Die Carbonat-Speziation verschiebt sich mit dem pH-Wert, bis die Lösung gegenüber dem atmosphärischen pCO₂ (log p = −3,408) übersättigt ist, und der Überschuss entweicht. Etwa 77 % des Carbonats entweichen; das Henry-Gesetz hält den Rest gelöst."
 
 [reaction.provenance]
 source = "Standard curriculum acid–carbonate reaction"
@@ -305,11 +283,8 @@ temperature_c = { min = 38.0, max = 52.0 }
 
 [reaction.registers]
 lv1 = "Touch the beaker — it's got warm all by itself! Some things give out heat when they dissolve. That's how a hand-warmer works."
-lv1_de = "Fass das Becherglas an — es ist von ganz allein warm geworden! Manche Stoffe geben beim Auflösen Wärme ab. So funktioniert ein Handwärmer."
 lv2 = "Dissolving calcium chloride is strongly exothermic (ΔH ≈ −82.8 kJ/mol): 0.1 mol in 100 mL of water raises the temperature by about 20 °C."
-lv2_de = "Das Auflösen von Calciumchlorid ist stark exotherm (ΔH ≈ −82,8 kJ/mol): 0,1 mol in 100 mL Wasser erhöhen die Temperatur um etwa 20 °C."
 lv3 = "Lattice enthalpy is more than repaid by the hydration enthalpies of Ca²⁺ and Cl⁻. The vessel is adiabatic here, so the whole release appears as sensible heat in the solution."
-lv3_de = "Die Gitterenthalpie wird durch die Hydratationsenthalpien von Ca²⁺ und Cl⁻ mehr als ausgeglichen. Das Gefäß ist hier adiabatisch, sodass die gesamte freigesetzte Energie als fühlbare Wärme in der Lösung erscheint."
 
 [reaction.provenance]
 source = "Enthalpy of solution of anhydrous CaCl₂, standard reference value"
@@ -346,11 +321,8 @@ temperature_c = { min = 15.0, max = 23.0 }
 
 [reaction.registers]
 lv1 = "This one goes cold instead! Dissolving can take heat in as well as give it out — that's an ice pack."
-lv1_de = "Dieses hier wird stattdessen kalt! Beim Auflösen kann Wärme genauso aufgenommen wie abgegeben werden — so funktioniert ein Kühlpack."
 lv2 = "Dissolving potassium chloride is endothermic (ΔH ≈ +17.2 kJ/mol): the solution draws heat from itself and cools by a few degrees."
-lv2_de = "Das Auflösen von Kaliumchlorid ist endotherm (ΔH ≈ +17,2 kJ/mol): Die Lösung entzieht sich selbst Wärme und kühlt um einige Grad ab."
 lv3 = "Endothermic dissolution: the lattice enthalpy exceeds the sum of the hydration enthalpies, and in an adiabatic vessel the deficit is taken from the solution's sensible heat."
-lv3_de = "Endotherme Auflösung: Die Gitterenthalpie übersteigt die Summe der Hydratationsenthalpien, und in einem adiabatischen Gefäß wird das Defizit der fühlbaren Wärme der Lösung entnommen."
 
 [reaction.provenance]
 source = "Enthalpy of solution of KCl, standard reference value"
@@ -388,11 +360,8 @@ events = ["precipitated:CaCO3"]
 
 [reaction.registers]
 lv1 = "The water goes cloudy and a white crust forms. This is what furs up a kettle in a hard-water town."
-lv1_de = "Das Wasser wird trüb, und es bildet sich eine weiße Kruste. So verkalkt ein Wasserkocher in einer Gegend mit hartem Wasser."
 lv2 = "Calcium ions meeting carbonate precipitate calcium carbonate — limescale. Hard water is water carrying dissolved calcium and magnesium."
-lv2_de = "Treffen Calcium-Ionen auf Carbonat, fällt Calciumcarbonat aus — Kesselstein. Hartes Wasser ist Wasser, das gelöstes Calcium und Magnesium mit sich führt."
 lv3 = "Calcite precipitation; the polymorph is chosen by stability (calcite's log K is lower than aragonite's), and the carbonate speciation is pH-dependent throughout."
-lv3_de = "Calcit-Fällung; die Polymorphie wird durch die Stabilität bestimmt (Calcits log K ist niedriger als das von Aragonit), und die Carbonat-Speziation ist durchgehend pH-abhängig."
 
 [reaction.provenance]
 source = "Standard curriculum hard-water chemistry"
@@ -429,11 +398,8 @@ events = ["gas_evolved:CO2", "precipitated:CaO"]
 
 [reaction.registers]
 lv1 = "Heat chalk until it glows and it turns into something new — quicklime. This is how people have made cement and mortar for thousands of years."
-lv1_de = "Erhitzt man Kreide, bis sie glüht, verwandelt sie sich in etwas Neues — Branntkalk. So stellen Menschen seit Tausenden von Jahren Zement und Mörtel her."
 lv2 = "Thermal decomposition: above about 900 °C calcium carbonate breaks into calcium oxide and carbon dioxide, and the gas escapes."
-lv2_de = "Thermische Zersetzung: Oberhalb von etwa 900 °C zerfällt Calciumcarbonat in Calciumoxid und Kohlenstoffdioxid, und das Gas entweicht."
 lv3 = "The decomposition temperature is computed, not assumed: it is where the equilibrium CO₂ pressure over the carbonate reaches the ambient partial pressure. Gibbs minimisation over NASA-9 polynomials, with the vessel's atmosphere in the problem."
-lv3_de = "Die Zersetzungstemperatur wird berechnet, nicht angenommen: Sie liegt dort, wo der Gleichgewichts-CO₂-Druck über dem Carbonat den Umgebungspartialdruck erreicht. Gibbs-Minimierung über NASA-9-Polynome, wobei die Atmosphäre des Gefäßes Teil des Problems ist."
 
 [reaction.provenance]
 source = "Standard curriculum thermal decomposition; thermochemistry from NASA CEA thermo.inp"
@@ -465,11 +431,8 @@ temperature_c = { min = 2200.0, max = 3400.0 }
 
 [reaction.registers]
 lv1 = "It catches fire with a light so bright it hurts to look at, and leaves a white powder behind. Weigh it afterwards: it got HEAVIER. The extra weight came out of the air."
-lv1_de = "Es entzündet sich mit einem Licht, das so hell ist, dass es beim Hinsehen wehtut, und hinterlässt ein weißes Pulver. Wiege es danach: Es ist SCHWERER geworden. Das zusätzliche Gewicht stammt aus der Luft."
 lv2 = "Magnesium burns in oxygen to magnesium oxide, releasing 601 kJ per mole. The mass increases because oxygen from the air is now part of the product — a classic demonstration that burning is combination, not destruction."
-lv2_de = "Magnesium verbrennt mit Sauerstoff zu Magnesiumoxid und setzt dabei 601 kJ pro Mol frei. Die Masse nimmt zu, weil Sauerstoff aus der Luft jetzt Teil des Produkts ist — ein klassischer Beleg dafür, dass Verbrennen eine Verbindung ist, keine Zerstörung."
 lv3 = "Adiabatic combustion solved enthalpy-conserving with the atmosphere in the element budget, giving a flame temperature near 3000 K. The oxygen is drawn from the reservoir rather than the inventory, which is why the vessel gains mass."
-lv3_de = "Adiabatische Verbrennung, enthalpieerhaltend gelöst, mit der Atmosphäre in der Elementbilanz, was eine Flammentemperatur nahe 3000 K ergibt. Der Sauerstoff wird dem Reservoir entnommen und nicht dem Inventar, weshalb das Gefäß an Masse gewinnt."
 
 [reaction.provenance]
 source = "Standard curriculum combustion demonstration; thermochemistry from NASA CEA thermo.inp"
@@ -479,7 +442,6 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 [[reaction]]
 id = "flame-test-sodium"
 summary = "Na⁺ → Na* → Na + hν (589 nm)"
-summary_de = "Na⁺ → Na* → Na + hν (589 nm)"
 concepts = ["flame-tests", "atomic-emission"]
 
 [[reaction.curriculum]]
@@ -506,11 +468,8 @@ absent = ["consumed:NaCl"]
 
 [reaction.registers]
 lv1 = "Salt doesn't burn — but hold it in a flame and the flame turns bright yellow! Every metal has its own colour, which is how you can tell them apart."
-lv1_de = "Salz brennt nicht — aber hältst du es in eine Flamme, wird die Flamme leuchtend gelb! Jedes Metall hat seine eigene Farbe, woran man sie unterscheiden kann."
 lv2 = "Sodium does not combust; heating excites its outer electron, which emits at 589 nm as it falls back. Flame tests identify metals by these characteristic colours."
-lv2_de = "Natrium verbrennt nicht; die Erhitzung regt sein äußeres Elektron an, das beim Zurückfallen bei 589 nm emittiert. Flammenproben identifizieren Metalle anhand dieser charakteristischen Farben."
 lv3 = "Atomic emission, not combustion: the D-line doublet at 589.0/589.6 nm. This is spectroscopy and is therefore curated data — the thermodynamic databases have nothing to say about it, and the lab does not pretend otherwise."
-lv3_de = "Atomemission, keine Verbrennung: das D-Linien-Dublett bei 589,0/589,6 nm. Dies ist Spektroskopie und daher kuratierte Daten — die thermodynamischen Datenbanken haben dazu nichts zu sagen, und das Labor gibt auch nicht vor, dass es anders wäre."
 
 [reaction.provenance]
 source = "Curated: sodium D-line emission, standard spectroscopic knowledge"

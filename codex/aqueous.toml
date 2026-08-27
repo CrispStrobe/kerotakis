@@ -46,38 +46,24 @@ ph = { min = 10.8, max = 11.2 }
 
 [reaction.expect.predict]
 question = "One thousandth of a mole of sodium hydroxide goes into one litre of water. What will the pH meter read?"
-question_de = "Ein Tausendstel Mol Natriumhydroxid kommt in einen Liter Wasser. Was wird das pH-Meter anzeigen?"
 options = ["3", "7 — hydroxide is not an acid, so the pH cannot move", "11"]
-options_de = [
-    "3",
-    "7 — Hydroxid ist keine Säure, der pH-Wert kann sich also nicht bewegen",
-    "11",
-]
 answer = 2
 misconception = "Answering 3 is the mirror-image slip: the exponent is right but the direction is not. A base raises pH as far above 7 as the matching acid lowers it below. Answering 7 treats pH as an acid-only scale, when it is a scale of hydrogen-ion activity that hydroxide moves by consuming H⁺."
-misconception_de = "Die Antwort 3 ist der Spiegelfehler: Der Exponent stimmt, die Richtung nicht. Eine Base hebt den pH-Wert genauso weit über 7 an, wie die entsprechende Säure ihn darunter senkt. Die Antwort 7 behandelt den pH-Wert als eine reine Säureskala, dabei ist er eine Skala der Wasserstoffionen-Aktivität, die Hydroxid verschiebt, indem es H⁺ verbraucht."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The arithmetic landed and the direction did not: 0.001 mol gave the exponent 3, and every exponent is read as acidity — as if dissolving anything moves the pH downwards."
-reveals_de = "Die Rechnung ist richtig, die Richtung nicht: 0,001 mol ergibt den Exponenten 3, und jeder Exponent wird als Säurewert gelesen — als würde das Lösen von irgendetwas den pH-Wert stets nach unten bewegen."
 next = "Run the mirror first: 0.001 mol of HCl in the same litre (`strong-acid`) reads pH 3.0 on this bench. Swap the acid for NaOH and the same exponent lands the same distance from 7 — on the other side."
-next_de = "Führe zuerst das Spiegelexperiment durch: 0,001 mol HCl im gleichen Liter (`strong-acid`) zeigt an diesem Labor pH 3,0. Tauscht man die Säure gegen NaOH, landet derselbe Exponent im gleichen Abstand von 7 — nur auf der anderen Seite."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "pH is held as a property acids have and other substances lack, so a base cannot move the meter — rather than a scale of hydrogen-ion activity, which hydroxide moves by consuming H⁺."
-reveals_de = "Der pH-Wert wird als Eigenschaft angesehen, die Säuren besitzen und andere Stoffe nicht — eine Base könnte das Messgerät demnach gar nicht bewegen. Tatsächlich ist er eine Skala der Wasserstoffionen-Aktivität, die Hydroxid verschiebt, indem es H⁺ verbraucht."
 next = "Measure plain water first (7.0), then add the hydroxide in tenths with a reading between each: the meter climbs from the first addition, which a scale only acids can touch has no way to do."
-next_de = "Miss zuerst reines Wasser (7,0) und gib dann das Hydroxid in Zehnteln zu, mit einer Messung nach jedem Schritt: Das Messgerät steigt schon bei der ersten Zugabe — etwas, das eine Skala, die nur Säuren berühren können, nicht leisten könnte."
 
 [reaction.registers]
 lv1 = "This liquid is the opposite of an acid. It feels slippery — that is your own skin dissolving very slightly — and it turns a red cabbage indicator green. Never touch it."
-lv1_de = "Diese Flüssigkeit ist das Gegenteil einer Säure. Sie fühlt sich seifig an — das ist deine eigene Haut, die sich ganz leicht auflöst — und sie färbt einen Rotkohl-Indikator grün. Niemals berühren."
 lv2 = "Sodium hydroxide is a strong base: it dissociates completely, so 0.001 mol in a litre gives [OH⁻] = 10⁻³, pOH 3, and pH 14 − 3 = 11."
-lv2_de = "Natriumhydroxid ist eine starke Base: Es dissoziiert vollständig, sodass 0,001 mol in einem Liter [OH⁻] = 10⁻³, einen pOH-Wert von 3 und einen pH-Wert von 14 − 3 = 11 ergeben."
 lv3 = "The engine does not apply pH = 14 − pOH; it solves the charge balance with Kw at the solution's own temperature and reports 10.99, marginally below 11 because the activity coefficient of OH⁻ at I = 10⁻³ is ≈0.965."
-lv3_de = "Die Engine wendet nicht pH = 14 − pOH an; sie löst die Ladungsbilanz mit Kw bei der Eigentemperatur der Lösung und berichtet 10,99 — knapp unter 11, weil der Aktivitätskoeffizient von OH⁻ bei I = 10⁻³ ≈ 0,965 beträgt."
 
 [reaction.provenance]
 source = "Standard curriculum acid–base chemistry; Kw and activity model from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -111,42 +97,28 @@ temperature_c = { min = 33.5, max = 38.0 }
 
 [reaction.expect.predict]
 question = "Four grams of drain cleaner (sodium hydroxide) go into 100 mL of cold water. What does the thermometer do?"
-question_de = "Vier Gramm Rohrreiniger (Natriumhydroxid) kommen in 100 mL kaltes Wasser. Was macht das Thermometer?"
 options = [
   "It rises by about 10 °C",
   "Nothing — dissolving is not a chemical reaction, so no heat is involved",
   "It falls, because the solid has to be pulled apart",
 ]
-options_de = [
-    "Es steigt um etwa 10 °C",
-    "Nichts — Lösen ist keine chemische Reaktion, also ist keine Wärme im Spiel",
-    "Es sinkt, weil der Feststoff auseinandergerissen werden muss",
-]
 answer = 0
 misconception = "Both wrong answers come from the same picture: dissolving as pure disassembly. Breaking the lattice does cost energy — but hydrating the ions pays more back, and for NaOH it pays back 44.5 kJ per mole. Whether a solution warms or cools is the balance of those two, which is why potassium chloride goes cold and this goes hot."
-misconception_de = "Beide falschen Antworten stammen aus demselben Bild: Lösen als reiner Zerlegungsvorgang. Das Aufbrechen des Gitters kostet zwar Energie — aber die Hydratation der Ionen zahlt mehr davon zurück, bei NaOH sind es 44,5 kJ pro Mol. Ob eine Lösung sich erwärmt oder abkühlt, ist die Bilanz dieser beiden Vorgänge — deshalb wird Kaliumchlorid kalt und dieses hier heiß."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Heat is reserved for 'real' chemical reactions, and dissolving is filed as mere mixing — the energy bookkeeping only opens once new substances are officially made."
-reveals_de = "Wärme wird nur 'echten' chemischen Reaktionen zugeschrieben, und Lösen gilt als bloßes Mischen — die Energiebilanz wird erst eröffnet, sobald offiziell neue Stoffe entstehen."
 next = "Watch the thermometer from the first pellet: the rise begins before anything could be called a product. Then run `cold-pack` beside it — potassium chloride moves the same thermometer the other way, so dissolving itself carries the heat, in both directions."
-next_de = "Beobachte das Thermometer schon beim ersten Pellet: Der Anstieg beginnt, bevor überhaupt von einem Produkt die Rede sein könnte. Führe dann `cold-pack` daneben aus — Kaliumchlorid bewegt dasselbe Thermometer in die andere Richtung, das Lösen selbst trägt also die Wärme, in beide Richtungen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Half of the energy story: pulling the lattice apart costs, and the account stops there — so every dissolution must cool. The paying half, water binding to the freed ions, is missing."
-reveals_de = "Nur die halbe Energiegeschichte: Das Auseinanderreißen des Gitters kostet, und dort endet die Rechnung — jedes Lösen müsste also abkühlen. Die zahlende Hälfte, das Binden des Wassers an die freigesetzten Ionen, fehlt."
 next = "The comparison that isolates the missing half is `cold-pack` against this beaker: KCl really does cool the water, NaOH warms it. One lattice-breaking story cannot produce two signs; a second term must be paying in."
-next_de = "Der Vergleich, der die fehlende Hälfte sichtbar macht, ist `cold-pack` gegen dieses Becherglas: KCl kühlt das Wasser tatsächlich, NaOH erwärmt es. Eine einzige Geschichte vom Gitteraufbruch kann nicht zwei verschiedene Vorzeichen erzeugen — ein zweiter Term muss mit einzahlen."
 
 [reaction.registers]
 lv1 = "The jar gets hot enough to be uncomfortable to hold — and nothing was burning and nothing was heated. The heat came out of the powder as it disappeared."
-lv1_de = "Das Glas wird so heiß, dass man es kaum noch anfassen mag — dabei hat nichts gebrannt und nichts wurde erhitzt. Die Wärme kam aus dem Pulver, während es verschwand."
 lv2 = "0.1 mol of NaOH in 100 mL releases about 4.5 kJ. With only ~100 g of water to warm, that is a rise of roughly 10 °C, and the resulting 1 mol/L solution reads pH ≈ 13.5 — not the 14.0 the arithmetic promises."
-lv2_de = "0,1 mol NaOH in 100 mL setzen etwa 4,5 kJ frei. Bei nur rund 100 g zu erwärmendem Wasser ergibt das einen Anstieg von etwa 10 °C, und die entstehende 1-mol/L-Lösung zeigt pH ≈ 13,5 — nicht die 14,0, die die Rechnung verspricht."
 lv3 = "The vessel is adiabatic, so the whole −44.5 kJ/mol appears as sensible heat. The pH is 13.51 rather than 14.0, and *two* separate corrections take it there. First, at I ≈ 1 mol/kgw the activity coefficient of OH⁻ has fallen to ≈0.68, and the engine reports activity, not concentration. Second, the beaker warmed itself to 35.7 °C, and K_w is strongly temperature-dependent — pK_w falls from 14.00 at 25 °C to about 13.7 here — so the neutral point itself has moved under the measurement. The solution is solved at the temperature it actually reached rather than at the one it started from, which is why this number is lower than the textbook 13.8: the textbook figure quietly holds the beaker at 25 °C while telling you it got hot."
-lv3_de = "Das Gefäß ist adiabatisch, sodass die gesamten −44,5 kJ/mol als spürbare Wärme erscheinen. Der pH-Wert liegt bei 13,51 statt bei 14,0, und *zwei* getrennte Korrekturen führen dorthin. Erstens ist bei I ≈ 1 mol/kgw der Aktivitätskoeffizient von OH⁻ auf ≈0,68 gefallen, und die Engine berichtet Aktivität, nicht Konzentration. Zweitens hat sich das Becherglas selbst auf 35,7 °C erwärmt, und K_w ist stark temperaturabhängig — pK_w fällt von 14,00 bei 25 °C auf hier etwa 13,7 —, sodass sich der Neutralpunkt selbst unter der Messung verschoben hat. Die Lösung wird bei der Temperatur berechnet, die sie tatsächlich erreicht hat, nicht bei der Ausgangstemperatur — deshalb liegt diese Zahl unter dem Lehrbuchwert 13,8: Die Lehrbuchangabe hält das Becherglas stillschweigend bei 25 °C, während sie behauptet, es sei heiß geworden."
 
 [reaction.provenance]
 source = "Enthalpy of solution of NaOH, standard reference value; speciation and the temperature-dependent K_w from PHREEQC wateq4f.dat (USGS), solved at the temperature the dissolution itself produces. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -183,42 +155,28 @@ ph = { min = 6.9, max = 7.1 }
 
 [reaction.expect.predict]
 question = "A litre of pH 2 acid gets exactly enough sodium hydroxide to match it. What is in the beaker afterwards?"
-question_de = "Ein Liter Säure mit pH 2 erhält genau die passende Menge Natriumhydroxid. Was befindet sich danach im Becherglas?"
 options = [
   "Nothing — the acid and the base destroyed each other",
   "Salt water: sodium and chloride ions in water, at pH 7",
   "A weaker acid, around pH 5",
 ]
-options_de = [
-    "Nichts — die Säure und die Base haben sich gegenseitig zerstört",
-    "Salzwasser: Natrium- und Chlorid-Ionen in Wasser, bei pH 7",
-    "Eine schwächere Säure, bei etwa pH 5",
-]
 answer = 1
 misconception = "\"They cancel out\" is the commonest neutralisation mistake, and it quietly breaks conservation. Nothing is destroyed: H⁺ and OH⁻ combine into water, and the sodium and chloride ions are still there, untouched, as spectators. Put the beaker on a balance — it is heavier than before, not empty."
-misconception_de = "\"Sie heben sich auf\" ist der häufigste Neutralisationsfehler, und er verletzt stillschweigend die Erhaltung der Materie. Nichts wird zerstört: H⁺ und OH⁻ verbinden sich zu Wasser, und die Natrium- und Chloridionen sind unverändert als Zuschauerionen weiterhin vorhanden. Stelle das Becherglas auf eine Waage — es ist schwerer als vorher, nicht leer."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Neutralisation as mutual destruction — 'they cancel out' taken literally, so the matter itself is gone. Conservation has been quietly suspended for chemistry that feels dramatic."
-reveals_de = "Neutralisation als gegenseitige Zerstörung — 'sie heben sich auf' wörtlich genommen, sodass die Materie selbst verschwunden ist. Die Erhaltung der Materie wurde stillschweigend außer Kraft gesetzt, damit die Chemie dramatischer wirkt."
 next = "Put it on the balance: `measure v1 balance` before and after the base goes in. The beaker is heavier by exactly what was added — and evaporating it (`crystallising-salt-from-brine`) recovers the solid salt that was supposedly destroyed."
-next_de = "Stelle es auf die Waage: `measure v1 balance` vor und nach der Zugabe der Base. Das Becherglas ist genau um das hinzugefügte Gewicht schwerer geworden — und beim Eindampfen (`crystallising-salt-from-brine`) taucht das feste Salz wieder auf, das angeblich zerstört wurde."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Neutralisation as dilution: the base merely waters the acid down, so the pH drifts partway up and stalls. The stoichiometric point — the last H⁺ meeting the last OH⁻ — has no special status in this picture."
-reveals_de = "Neutralisation als Verdünnung: Die Base verwässert die Säure nur, sodass der pH-Wert ein Stück ansteigt und dann stehen bleibt. Der stöchiometrische Punkt — wo das letzte H⁺ auf das letzte OH⁻ trifft — hat in diesem Bild keine besondere Bedeutung."
 next = "Add the base in ten portions with a pH reading between each. Watering-down would drift smoothly and stall below 7; the real curve crawls, then leaps across four units where both reservoirs run out together (`past-the-equivalence-point` is the far side of that leap)."
-next_de = "Gib die Base in zehn Portionen zu, mit einer pH-Messung nach jeder. Eine bloße Verdünnung würde gleichmäßig ansteigen und unterhalb von 7 stehen bleiben; die echte Kurve kriecht zunächst und springt dann über vier Einheiten hinweg, genau dort, wo beide Vorräte gleichzeitig zur Neige gehen (`past-the-equivalence-point` liegt auf der anderen Seite dieses Sprungs)."
 
 [reaction.registers]
 lv1 = "Add the sour liquid and the slippery liquid together in just the right amounts and you get… salty water. Both of the dangerous things have turned into something you could (in principle) drink."
-lv1_de = "Mische die saure Flüssigkeit und die seifige Flüssigkeit in genau der richtigen Menge, und du erhältst … Salzwasser. Beide gefährlichen Stoffe sind zu etwas geworden, das man (im Prinzip) trinken könnte."
 lv2 = "H⁺ + OH⁻ → H₂O. Equal moles of a strong acid and a strong base leave only the spectator ions Na⁺ and Cl⁻, so the solution is 0.01 mol/L sodium chloride at pH 7."
-lv2_de = "H⁺ + OH⁻ → H₂O. Gleiche Stoffmengen einer starken Säure und einer starken Base lassen nur die Zuschauerionen Na⁺ und Cl⁻ übrig, sodass die Lösung 0,01 mol/L Natriumchlorid bei pH 7 ist."
 lv3 = "The engine reports 7.00 and carries the spectators explicitly: 0.01 mol each of Na⁺ and Cl⁻ remain in the inventory, [H⁺] = [OH⁻] = 1.10 × 10⁻⁷ mol/kgw with γ ≈ 0.90. The reaction is never written into the engine — it emerges from minimising the solution's free energy."
-lv3_de = "Die Engine berichtet 7,00 und führt die Zuschauerionen explizit weiter: Je 0,01 mol Na⁺ und Cl⁻ bleiben im Bestand, [H⁺] = [OH⁻] = 1,10 × 10⁻⁷ mol/kgw bei γ ≈ 0,90. Die Reaktion wird der Engine nie vorgegeben — sie ergibt sich aus der Minimierung der freien Energie der Lösung."
 
 [reaction.provenance]
 source = "Standard curriculum neutralisation. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -228,7 +186,6 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "past-the-equivalence-point"
 spine = ["saeure-base-titration-ein-analytisches-verfahren"]
 summary = "HCl + 1.1 NaOH → NaCl + H₂O + 0.1 NaOH(excess)"
-summary_de = "HCl + 1.1 NaOH → NaCl + H₂O + 0.1 NaOH (Überschuss)"
 equation = "HCl + NaOH → NaCl + H₂O"
 concepts = ["equivalence-point", "titration-curve"]
 requires = ["neutralisation"]
@@ -253,42 +210,28 @@ ph = { min = 10.7, max = 11.2 }
 
 [reaction.expect.predict]
 question = "You have neutralised the acid exactly, and then add 10% too much base. What happens to the pH?"
-question_de = "Du hast die Säure genau neutralisiert und gibst dann 10 % zu viel Base hinzu. Was passiert mit dem pH-Wert?"
 options = [
   "It creeps up to about 7.5",
   "It jumps to about 11",
   "It cannot go above 7, because the acid has already been used up",
 ]
-options_de = [
-    "Er kriecht auf etwa 7,5",
-    "Er springt auf etwa 11",
-    "Er kann nicht über 7 steigen, weil die Säure bereits verbraucht ist",
-]
 answer = 1
 misconception = "Expecting a gentle creep treats the pH scale as linear when it is logarithmic. Near the equivalence point there is almost nothing left to absorb the added hydroxide, so a 10% overshoot moves the pH by nearly four units — which is exactly why an indicator can mark an endpoint at all, and why one drop too many ruins a titration."
-misconception_de = "Ein sanftes Ansteigen zu erwarten behandelt die pH-Skala als linear, dabei ist sie logarithmisch. In der Nähe des Äquivalenzpunkts ist fast nichts mehr übrig, das das zugegebene Hydroxid abpuffern könnte, sodass eine Überdosierung von 10 % den pH-Wert um fast vier Einheiten verschiebt — genau deshalb kann ein Indikator überhaupt einen Endpunkt markieren, und genau deshalb ruiniert ein einziger Tropfen zu viel eine Titration."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The pH axis is read linearly: ten percent more base should buy a ten-percent-sized nudge. That the scale is logarithmic — and that nothing is left to absorb the excess — has not landed."
-reveals_de = "Die pH-Achse wird linear gelesen: zehn Prozent mehr Base sollten eine zehn Prozent große Verschiebung bringen. Dass die Skala logarithmisch ist — und dass nichts mehr übrig ist, um den Überschuss abzupuffern — ist noch nicht verstanden."
 next = "Let the bench count what is left: 0.001 mol of unmatched hydroxide in a litre. That beaker already exists in this codex — `strong-base` — and it reads 11, not 7.5."
-next_de = "Lass das Labor zählen, was übrig bleibt: 0,001 mol unausgeglichenes Hydroxid in einem Liter. Dieses Becherglas gibt es bereits in diesem Kodex — `strong-base` — und es zeigt 11, nicht 7,5."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "pH stops at 7 because it is the acid's own property: with the acid used up there is nothing left to measure, and the excess base's effect on the water itself is invisible."
-reveals_de = "Der pH-Wert bleibt bei 7 stehen, weil er als Eigenschaft der Säure selbst gilt: Ist die Säure verbraucht, gibt es scheinbar nichts mehr zu messen, und die Wirkung der überschüssigen Base auf das Wasser selbst bleibt unsichtbar."
 next = "Delete the acid from the story: plain water plus the same 0.001 mol of NaOH (`strong-base`) reads 11 on this bench. The overshot titration is that beaker plus spectator ions."
-next_de = "Streiche die Säure aus der Geschichte: reines Wasser plus dieselben 0,001 mol NaOH (`strong-base`) zeigen an diesem Labor 11. Die übertitrierte Lösung ist genau dieses Becherglas plus Zuschauerionen."
 
 [reaction.registers]
 lv1 = "One drop too many and the colour flies past the shade you wanted. Right at the balance point the liquid is on a knife edge: the tiniest extra tips it a very long way."
-lv1_de = "Ein Tropfen zu viel, und die Farbe schießt über den gewünschten Ton hinaus. Genau am Gleichgewichtspunkt steht die Flüssigkeit auf Messers Schneide: Die kleinste Zugabe kippt sie ein ganzes Stück weiter."
 lv2 = "After equivalence the excess base sets the pH directly: 0.001 mol of leftover NaOH in a litre gives pOH 3, pH ≈ 11. The titration curve is nearly vertical here — that steepness is what makes the endpoint detectable."
-lv2_de = "Nach dem Äquivalenzpunkt bestimmt die überschüssige Base den pH-Wert direkt: 0,001 mol übrig gebliebenes NaOH in einem Liter ergeben pOH 3, pH ≈ 11. Die Titrationskurve ist hier fast senkrecht — genau diese Steilheit macht den Endpunkt überhaupt erkennbar."
 lv3 = "The computed value is 10.95, not 11.00: the excess hydroxide sits in a 0.011 mol/kgw ionic medium, and its activity is below its concentration. The steepness is a property of the charge balance near the point where the strong-acid and strong-base reservoirs are both exhausted, not a curve fitted for teaching."
-lv3_de = "Der berechnete Wert ist 10,95, nicht 11,00: Das überschüssige Hydroxid befindet sich in einem ionischen Medium von 0,011 mol/kgw, und seine Aktivität liegt unter seiner Konzentration. Die Steilheit ist eine Eigenschaft der Ladungsbilanz in der Nähe des Punkts, an dem die Vorräte der starken Säure und der starken Base gleichzeitig erschöpft sind — keine für den Unterricht zurechtgebogene Kurve."
 
 [reaction.provenance]
 source = "Standard curriculum titration behaviour. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -323,42 +266,28 @@ ph = { min = 1.5, max = 1.8 }
 
 [reaction.expect.predict]
 question = "Phosphoric acid has three acidic hydrogens. A 0.1 mol/L solution therefore behaves like…"
-question_de = "Phosphorsäure besitzt drei acide Wasserstoffatome. Eine 0,1-mol/L-Lösung verhält sich deshalb wie…"
 options = [
   "0.3 mol/L of a strong acid — pH about 0.5, since all three come off",
   "0.1 mol/L of a weak acid — pH about 1.6, because essentially only the first proton comes off",
   "0.1 mol/L of a strong acid — pH 1.0 exactly",
 ]
-options_de = [
-    "0,3 mol/L einer starken Säure — pH etwa 0,5, da alle drei abgegeben werden",
-    "0,1 mol/L einer schwachen Säure — pH etwa 1,6, weil im Wesentlichen nur das erste Proton abgegeben wird",
-    "0,1 mol/L einer starken Säure — pH genau 1,0",
-]
 answer = 1
 misconception = "Counting protons on the formula and multiplying is the classic polyprotic error. The three ionisations are separated by about five powers of ten each; releasing the second proton means pulling a positive charge off an already-negative ion, which is far harder. At pH 1.6 the second stage has barely begun — the engine finds HPO₄²⁻ at 3 × 10⁻⁴ mol/kgw against H₂PO₄⁻ at 10⁻¹."
-misconception_de = "Protonen an der Formel abzuzählen und zu multiplizieren ist der klassische Fehler bei mehrprotonigen Säuren. Die drei Ionisierungsstufen liegen jeweils um etwa fünf Zehnerpotenzen auseinander; das zweite Proton abzugeben bedeutet, eine positive Ladung von einem bereits negativen Ion abzuziehen, was weitaus schwerer ist. Bei pH 1,6 hat die zweite Stufe kaum begonnen — die Engine findet HPO₄²⁻ bei 3 × 10⁻⁴ mol/kgw gegenüber H₂PO₄⁻ bei 10⁻¹."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Protons are counted off the formula and multiplied: three written hydrogens means three delivered, as if ionisation were a property of the formula rather than an equilibrium that gets harder with every charge already removed."
-reveals_de = "Protonen werden an der Formel abgezählt und multipliziert: drei geschriebene Wasserstoffatome bedeuten drei abgegebene, als wäre die Ionisierung eine Eigenschaft der Formel und kein Gleichgewicht, das mit jeder bereits entfernten Ladung schwerer wird."
 next = "Ask for the ladder itself at lv3: at pH 1.64 the second rung holds 3 × 10⁻⁴ mol/kgw against 10⁻¹ on the first — a thousand to one. All three rungs are real; the solution is simply standing on the first."
-next_de = "Sieh dir die Stufenleiter selbst bei lv3 an: Bei pH 1,64 hält die zweite Stufe 3 × 10⁻⁴ mol/kgw gegen 10⁻¹ auf der ersten — eintausend zu eins. Alle drei Stufen sind real; die Lösung steht nur auf der ersten."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "One proton conceded, but conceded completely: 'acid' still implies full dissociation, so 0.1 mol/L must read 1.0 exactly. That most H₃PO₄ molecules are holding their first proton at any instant is missing."
-reveals_de = "Ein Proton wird zugestanden, aber vollständig: 'Säure' impliziert immer noch vollständige Dissoziation, also müsste 0,1 mol/L genau 1,0 ergeben. Dass die meisten H₃PO₄-Moleküle ihr erstes Proton in jedem Moment noch festhalten, fehlt in diesem Bild."
 next = "Run the acid for which this answer is nearly right: 0.1 mol of HCl in the same litre reads 1.08 on this bench, this beaker 1.64. The gap between those two numbers is the fraction of phosphoric acid that never let go."
-next_de = "Führe die Säure aus, für die diese Antwort fast richtig wäre: 0,1 mol HCl im gleichen Liter zeigt an diesem Labor 1,08, dieses Becherglas 1,64. Die Lücke zwischen diesen beiden Zahlen ist der Anteil der Phosphorsäure, der nie losgelassen hat."
 
 [reaction.registers]
 lv1 = "This is the sour taste in cola. It has three sour parts in it, but only the first one lets go easily — the other two hold on tight."
-lv1_de = "Das ist der säuerliche Geschmack in Cola. Sie hat drei saure Teile, aber nur der erste gibt leicht nach — die anderen beiden halten fest."
 lv2 = "Only the first ionisation matters at this concentration (pKa₁ ≈ 2.15 against pKa₂ ≈ 7.2 and pKa₃ ≈ 12.3), so the solution behaves as a single weak acid and lands near pH 1.6."
-lv2_de = "Bei dieser Konzentration zählt nur die erste Ionisierungsstufe (pKa₁ ≈ 2,15 gegenüber pKa₂ ≈ 7,2 und pKa₃ ≈ 12,3), sodass sich die Lösung wie eine einzelne schwache Säure verhält und bei etwa pH 1,6 landet."
 lv3 = "The engine solves all three equilibria simultaneously rather than choosing one. The resulting distribution at pH 1.64 is H₂PO₄⁻ 9.9 × 10⁻², H₃PO₄ 4.3 × 10⁻⁴, HPO₄²⁻ 3.4 × 10⁻⁴, PO₄³⁻ below 10⁻⁹ — the ladder is real, it is simply almost entirely on its first rung."
-lv3_de = "Die Engine löst alle drei Gleichgewichte gleichzeitig, statt eines auszuwählen. Die resultierende Verteilung bei pH 1,64 ist H₂PO₄⁻ 9,9 × 10⁻², H₃PO₄ 4,3 × 10⁻⁴, HPO₄²⁻ 3,4 × 10⁻⁴, PO₄³⁻ unter 10⁻⁹ — die Stufenleiter ist real, sie steht nur fast vollständig auf ihrer ersten Sprosse."
 
 [reaction.provenance]
 source = "Standard curriculum polyprotic acid chemistry; stepwise constants from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -368,7 +297,6 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "phosphate-buffer"
 spine = ["puffersysteme"]
 summary = "H₂PO₄⁻ / HPO₄²⁻ buffer (1.5 equivalents of base per H₃PO₄)"
-summary_de = "H₂PO₄⁻/HPO₄²⁻-Puffer (1,5 Äquivalente Base pro H₃PO₄)"
 equation = "H₂PO₄⁻ ⇌ H⁺ + HPO₄²⁻"
 concepts = ["phosphate-buffer", "amphiprotic-ions"]
 requires = ["polyprotic-acids", "buffers"]
@@ -394,42 +322,28 @@ ph = { min = 6.4, max = 6.9 }
 
 [reaction.expect.predict]
 question = "Half-way between the first and second equivalence points of phosphoric acid, the textbook rule says pH = pKa₂ ≈ 7.2. The engine computes 6.64. Why the gap?"
-question_de = "Auf halbem Weg zwischen dem ersten und zweiten Äquivalenzpunkt der Phosphorsäure sagt die Lehrbuchregel pH = pKa₂ ≈ 7,2. Die Engine berechnet 6,64. Woher kommt die Lücke?"
 options = [
   "The engine is wrong — the Henderson–Hasselbalch equation is exact",
   "The two phosphate species carry different charges, so ionic-strength effects do not cancel and the measured pH sits below the tabulated pKa",
   "The base was added too fast",
 ]
-options_de = [
-    "Die Engine irrt sich — die Henderson-Hasselbalch-Gleichung ist exakt",
-    "Die beiden Phosphat-Spezies tragen unterschiedliche Ladungen, sodass sich Ionenstärke-Effekte nicht aufheben und der gemessene pH-Wert unter dem tabellierten pKa-Wert liegt",
-    "Die Base wurde zu schnell zugegeben",
-]
 answer = 1
 misconception = "Henderson–Hasselbalch is treated as a law rather than as an approximation that assumes activity equals concentration. Here the ratio is between a 1− and a 2− ion whose activity coefficients are 0.76 and 0.32 — they do not cancel, and the half-neutralisation pH falls about half a unit below pKa₂. This is why real buffer recipes are checked with a meter, not calculated and trusted."
-misconception_de = "Henderson-Hasselbalch wird als Gesetz behandelt statt als Näherung, die Aktivität mit Konzentration gleichsetzt. Hier steht das Verhältnis zwischen einem 1−- und einem 2−-Ion, deren Aktivitätskoeffizienten 0,76 und 0,32 betragen — sie heben sich nicht auf, und der pH-Wert bei Halbneutralisation fällt etwa eine halbe Einheit unter pKa₂. Deshalb werden echte Pufferrezepte mit einem Messgerät geprüft und nicht einfach berechnet und geglaubt."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Henderson–Hasselbalch is held as exact — an equation that appears in every textbook must be a law, so a meter that disagrees with it must be broken."
-reveals_de = "Henderson-Hasselbalch wird als exakt angesehen — eine Gleichung, die in jedem Lehrbuch steht, muss ein Gesetz sein, also muss ein Messgerät, das ihr widerspricht, defekt sein."
 next = "Compute the correction the 'law' assumed away: log(0.32/0.76) ≈ −0.38, and it comes straight from the two activity coefficients the equation set equal to one. Then compare `half-neutralised-vinegar`, where the pair is 0 and 1− charged and the same rule nearly works — the error grows with the charges, which an exact law's error must not."
-next_de = "Berechne die Korrektur, die das 'Gesetz' wegdefiniert hat: log(0,32/0,76) ≈ −0,38, und sie ergibt sich direkt aus den beiden Aktivitätskoeffizienten, die die Gleichung gleich eins setzt. Vergleiche dann mit `half-neutralised-vinegar`, wo das Paar 0- und 1−-fach geladen ist und dieselbe Regel fast stimmt — der Fehler wächst mit den Ladungen, was der Fehler eines exakten Gesetzes nicht dürfte."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "A reading that misses the expected value is blamed on technique — equilibrium imagined as something a hurried hand can outrun, so the number would relax to 7.2 given care."
-reveals_de = "Eine Messung, die vom erwarteten Wert abweicht, wird der Technik angelastet — Gleichgewicht wird sich als etwas vorgestellt, das eine hastige Hand überholen kann, sodass sich die Zahl bei sorgfältigem Arbeiten auf 7,2 einpendeln würde."
 next = "Stir, `wait`, and measure again: the reading does not drift toward 7.2, because nothing is out of equilibrium. The gap lives in the equation's assumption, not in the hands — which is what makes it chemistry rather than clumsiness."
-next_de = "Rühre, `wait`, und miss erneut: Die Anzeige wandert nicht in Richtung 7,2, denn nichts befindet sich außerhalb des Gleichgewichts. Die Lücke steckt in der Annahme der Gleichung, nicht in den Händen — genau das macht sie zu Chemie und nicht zu Ungeschicklichkeit."
 
 [reaction.registers]
 lv1 = "This mixture sits stubbornly near the pH of your own blood. Push acid or base at it and it barely moves — the same trick as the vinegar buffer, done with a different pair of partners."
-lv1_de = "Diese Mischung bleibt hartnäckig nahe dem pH-Wert deines eigenen Bluts. Gibst du Säure oder Base hinzu, bewegt sie sich kaum — derselbe Trick wie beim Essigpuffer, nur mit einem anderen Partnerpaar."
 lv2 = "Adding 1.5 mol of base per mole of H₃PO₄ converts half the dihydrogen phosphate to hydrogen phosphate. That 1:1 pair is the buffer of blood, of cell interiors and of most biology bench work, working around pKa₂."
-lv2_de = "Die Zugabe von 1,5 mol Base pro Mol H₃PO₄ wandelt die Hälfte des Dihydrogenphosphats in Hydrogenphosphat um. Dieses 1:1-Paar ist der Puffer des Bluts, des Zellinneren und der meisten biologischen Laborarbeit, arbeitend um pKa₂ herum."
 lv3 = "Computed pH 6.64, against a naive pKa₂ of 7.2. The engine's speciation shows why: H₂PO₄⁻ 5.0 × 10⁻², HPO₄²⁻ 3.4 × 10⁻², and NaHPO₄⁻ 1.7 × 10⁻² — an ion pair holding a third of the divalent species out of play. Charge-asymmetric buffers are where the constant-activity shortcut fails first."
-lv3_de = "Berechneter pH-Wert 6,64, gegenüber einem naiven pKa₂ von 7,2. Die Speziation der Engine zeigt warum: H₂PO₄⁻ 5,0 × 10⁻², HPO₄²⁻ 3,4 × 10⁻² und NaHPO₄⁻ 1,7 × 10⁻² — ein Ionenpaar, das ein Drittel der zweifach geladenen Spezies aus dem Spiel nimmt. Ladungsasymmetrische Puffer sind der Ort, an dem die Abkürzung konstanter Aktivität zuerst versagt."
 
 [reaction.provenance]
 source = "Standard curriculum buffer chemistry; phosphate constants and ion pairing from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -463,42 +377,28 @@ ph = { min = 4.5, max = 4.8 }
 
 [reaction.expect.predict]
 question = "You titrate vinegar and stop exactly half-way. What does the pH reading tell you?"
-question_de = "Du titrierst Essig und stoppst genau auf halbem Weg. Was verrät dir die pH-Messung?"
 options = [
   "Half of the starting pH — about 1.4",
   "The pKa of the acid, because acid and conjugate base are now present in equal amounts",
   "Nothing useful; only the endpoint carries information",
 ]
-options_de = [
-    "Die Hälfte des Anfangs-pH-Werts — etwa 1,4",
-    "Den pKa-Wert der Säure, weil Säure und korrespondierende Base jetzt in gleichen Mengen vorliegen",
-    "Nichts Brauchbares; nur der Endpunkt liefert Information",
-]
 answer = 1
 misconception = "Halving the pH treats a logarithm as a linear quantity. The half-equivalence point is the single most information-rich place on a weak-acid curve: with [HA] = [A⁻] the log-ratio term vanishes and the meter reads the acid's own pKa directly. It is how pKa values were measured before computers."
-misconception_de = "Den pH-Wert zu halbieren behandelt einen Logarithmus wie eine lineare Größe. Der Halbäquivalenzpunkt ist die informationsreichste Stelle auf der Kurve einer schwachen Säure überhaupt: Bei [HA] = [A⁻] verschwindet der Logarithmus-Term des Verhältnisses, und das Messgerät zeigt direkt den eigenen pKa-Wert der Säure an. So wurden pKa-Werte gemessen, bevor es Computer gab."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "pH is being divided like a length: half the acid neutralised, half the number left. That each unit is a factor of ten — so halving the pH would mean the acidity *squared* — is not in the picture."
-reveals_de = "Der pH-Wert wird geteilt wie eine Länge: die Hälfte der Säure neutralisiert, die halbe Zahl übrig. Dass jede Einheit einen Faktor zehn bedeutet — sodass eine Halbierung des pH-Werts die Acidität *quadrieren* würde — kommt in diesem Bild nicht vor."
 next = "Run `dilution-by-ten` first: a full factor of ten buys exactly one pH unit. Getting from 2.9 to 1.4 would need the hydrogen-ion activity to rise thirtyfold while the acid is being consumed."
-next_de = "Führe zuerst `dilution-by-ten` aus: ein voller Faktor zehn bringt genau eine pH-Einheit. Von 2,9 auf 1,4 zu kommen würde bedeuten, dass die Wasserstoffionen-Aktivität um das Dreißigfache steigt, während die Säure gerade verbraucht wird."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "A titration is held as a race to the jump: the curve on the way there is decoration, and only the endpoint carries a number worth writing down."
-reveals_de = "Eine Titration wird als ein Wettlauf zum Sprung angesehen: Die Kurve auf dem Weg dorthin ist Dekoration, und nur der Endpunkt liefert eine Zahl, die es wert ist, notiert zu werden."
 next = "Read the meter exactly here, at half-way: it reports the acid's own pKa — the constant that identifies *which* acid this is, and the one number the endpoint alone can never give you. The endpoint tells you how much; the plateau tells you what."
-next_de = "Lies das Messgerät genau hier, auf halbem Weg: Es zeigt den eigenen pKa-Wert der Säure — die Konstante, die verrät, *welche* Säure das ist, eine Zahl, die dir der Endpunkt allein nie liefern kann. Der Endpunkt sagt dir, wie viel; das Plateau sagt dir, was."
 
 [reaction.registers]
 lv1 = "Stop half-way through neutralising the vinegar and the liquid sits at pH 4.7 — and it will stubbornly stay near there. Half-done is the most stubborn place of all."
-lv1_de = "Stoppe auf halbem Weg beim Neutralisieren des Essigs, und die Flüssigkeit liegt bei pH 4,7 — und bleibt hartnäckig in dieser Nähe. Halb fertig ist die hartnäckigste Stelle von allen."
 lv2 = "With equal amounts of CH₃COOH and CH₃COO⁻ present, pH = pKa = 4.76. This is a buffer at maximum capacity, and it is the standard laboratory method for measuring an unknown acid's pKa."
-lv2_de = "Bei gleichen Mengen von CH₃COOH und CH₃COO⁻ gilt pH = pKa = 4,76. Das ist ein Puffer bei maximaler Kapazität, und es ist die im Labor übliche Methode, um den pKa-Wert einer unbekannten Säure zu bestimmen."
 lv3 = "The engine reports 4.66, about a tenth of a unit below the thermodynamic pKa. At I = 0.049 mol/kgw the acetate ion's activity coefficient is 0.82 while the neutral acid's is 1.00; the ratio of activities is therefore not the ratio of concentrations, and the meter reads the difference."
-lv3_de = "Die Engine berichtet 4,66, etwa ein Zehntel einer Einheit unter dem thermodynamischen pKa. Bei I = 0,049 mol/kgw beträgt der Aktivitätskoeffizient des Acetat-Ions 0,82, während der der neutralen Säure 1,00 beträgt; das Verhältnis der Aktivitäten entspricht daher nicht dem Verhältnis der Konzentrationen, und das Messgerät zeigt diese Differenz an."
 
 [reaction.provenance]
 source = "Standard curriculum titration of a weak acid; acetate constants from PHREEQC minteq.v4.dat. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -532,42 +432,28 @@ ph = { min = 8.6, max = 8.9 }
 
 [reaction.expect.predict]
 question = "You neutralise vinegar with exactly the matching amount of sodium hydroxide. What is the pH at the endpoint?"
-question_de = "Du neutralisierst Essig mit genau der passenden Menge Natriumhydroxid. Wie hoch ist der pH-Wert am Endpunkt?"
 options = [
   "7 — that is what neutral means",
   "About 8.8 — the solution is alkaline",
   "About 5 — some acid always survives",
 ]
-options_de = [
-    "7 — das bedeutet neutral",
-    "Etwa 8,8 — die Lösung ist alkalisch",
-    "Etwa 5 — etwas Säure bleibt immer übrig",
-]
 answer = 1
 misconception = "\"Neutralised means pH 7\" is true only when both partners are strong. Here the acid is weak, so its conjugate base is strong enough to matter: acetate takes protons back off water and leaves hydroxide behind. This is exactly why phenolphthalein (colour change ≈ 8.2–10) is the right indicator for this titration and methyl orange is the wrong one — a choice that looks arbitrary until you know the endpoint is not at 7."
-misconception_de = "\"Neutralisiert bedeutet pH 7\" stimmt nur, wenn beide Partner stark sind. Hier ist die Säure schwach, sodass ihre konjugierte Base stark genug ist, um mitzuspielen: Acetat nimmt Protonen vom Wasser zurück und lässt Hydroxid übrig. Genau deshalb ist Phenolphthalein (Farbumschlag ≈ 8,2–10) der richtige Indikator für diese Titration und Methylorange der falsche — eine Wahl, die willkürlich wirkt, bis man weiß, dass der Endpunkt nicht bei 7 liegt."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "'Neutralised' and 'neutral' are the same word, so they must be the same state — a rule learned where it is true (`neutralisation`, strong against strong) and carried to where it is not."
-reveals_de = "'Neutralisiert' und 'neutral' sind dasselbe Wort, also müssen sie denselben Zustand bedeuten — eine Regel, die dort gelernt wurde, wo sie stimmt (`neutralisation`, stark gegen stark), und dorthin übertragen, wo sie es nicht tut."
 next = "Run both titrations side by side: HCl against NaOH really does land on 7.00 (`neutralisation`); this one lands at 8.8. Same procedure, same 'exactly matching' amounts — the difference walked in with the conjugate base."
-next_de = "Führe beide Titrationen nebeneinander aus: HCl gegen NaOH landet tatsächlich bei 7,00 (`neutralisation`); diese hier landet bei 8,8. Gleiches Verfahren, gleiche 'genau passende' Mengen — der Unterschied kam mit der konjugierten Base ins Spiel."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Reactions never quite finish in this picture, so some acid must survive and keep the solution sour — equilibrium as universal incompleteness, pinned on the wrong species."
-reveals_de = "Reaktionen werden in diesem Bild nie ganz fertig, also muss etwas Säure übrig bleiben und die Lösung sauer halten — Gleichgewicht als universelle Unvollständigkeit, der falschen Spezies angeheftet."
 next = "Ask for the speciation at the endpoint (lv3): the surviving actor is acetate, not acetic acid, and it is pushing the pH *up* by taking protons off water. The leftover this learner expects exists — but it is hydroxide."
-next_de = "Frag nach der Speziation am Endpunkt (lv3): Der übrig gebliebene Akteur ist Acetat, nicht Essigsäure, und es treibt den pH-Wert *nach oben*, indem es dem Wasser Protonen entzieht. Der Rest, den dieser Lernende erwartet, existiert tatsächlich — aber es ist Hydroxid."
 
 [reaction.registers]
 lv1 = "The acid is exactly used up — and the liquid is not neutral. It is soapy-alkaline instead. The thing left behind is not innocent."
-lv1_de = "Die Säure ist genau aufgebraucht — und die Flüssigkeit ist nicht neutral. Sie ist stattdessen seifig-alkalisch. Das, was übrig bleibt, ist nicht harmlos."
 lv2 = "The product is 0.1 mol/L sodium acetate. Acetate is the conjugate base of a weak acid, so it hydrolyses: CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻, giving pH ≈ 8.8 at the equivalence point."
-lv2_de = "Das Produkt ist 0,1 mol/L Natriumacetat. Acetat ist die konjugierte Base einer schwachen Säure und hydrolysiert daher: CH₃COO⁻ + H₂O ⇌ CH₃COOH + OH⁻, was am Äquivalenzpunkt pH ≈ 8,8 ergibt."
 lv3 = "Computed 8.76. The speciation shows the mechanism directly: OH⁻ and undissociated H(Acetate) both at 7.5 × 10⁻⁶ mol/kgw, produced in exactly equal amounts by the hydrolysis, against 9.7 × 10⁻² of free acetate. Equivalence point and neutral point are different ideas that happen to coincide only for strong/strong pairs."
-lv3_de = "Berechnet 8,76. Die Speziation zeigt den Mechanismus direkt: OH⁻ und undissoziiertes H(Acetat) liegen beide bei 7,5 × 10⁻⁶ mol/kgw, durch die Hydrolyse in genau gleicher Menge erzeugt, gegenüber 9,7 × 10⁻² freiem Acetat. Äquivalenzpunkt und Neutralpunkt sind unterschiedliche Konzepte, die nur bei stark/stark-Paaren zufällig zusammenfallen."
 
 [reaction.provenance]
 source = "Standard curriculum weak-acid titration; acetate constants from PHREEQC minteq.v4.dat. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -577,7 +463,6 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "buffer-capacity-exceeded"
 spine = ["puffersysteme"]
 summary = "CH₃COOH/CH₃COO⁻ + excess HCl → buffer destroyed"
-summary_de = "CH₃COOH/CH₃COO⁻ + überschüssige HCl → Puffer zerstört"
 equation = "CH₃COO⁻ + H⁺ → CH₃COOH"
 concepts = ["buffer-capacity"]
 requires = ["buffers"]
@@ -604,42 +489,28 @@ ph = { min = 1.2, max = 1.6 }
 
 [reaction.expect.predict]
 question = "A buffer holds pH 4.6 when you add 0.01 mol of strong acid. Now you add 0.15 mol at once — more than the buffer's reserve. What happens?"
-question_de = "Ein Puffer hält pH 4,6, wenn du 0,01 mol starke Säure zugibst. Jetzt gibst du 0,15 mol auf einmal zu — mehr als die Reserve des Puffers. Was passiert?"
 options = [
   "It holds at about 4.6; that is what a buffer does",
   "It slips a little, to about 3.5",
   "It collapses to about 1.4 — once the reserve is spent the buffer is just salt water",
 ]
-options_de = [
-    "Er hält bei etwa 4,6; genau das tut ein Puffer",
-    "Er rutscht ein wenig, auf etwa 3,5",
-    "Er bricht auf etwa 1,4 ein — sobald die Reserve aufgebraucht ist, ist der Puffer nur noch Salzwasser",
-]
 answer = 2
 misconception = "Treating buffering as a property of the liquid rather than a stock that gets spent. The reserve here is 0.1 mol of acetate; 0.15 mol of protons consumes all of it and 0.05 mol is left over as free strong acid. A buffer does not resist pH change — it *pays* for resisting it, out of a finite account."
-misconception_de = "Puffern wird als Eigenschaft der Flüssigkeit behandelt statt als Vorrat, der aufgebraucht werden kann. Die Reserve hier beträgt 0,1 mol Acetat; 0,15 mol Protonen verbrauchen sie vollständig, und 0,05 mol bleiben als freie starke Säure übrig. Ein Puffer widersteht der pH-Änderung nicht einfach — er *bezahlt* für diesen Widerstand, aus einem endlichen Konto."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Buffering is an identity, not a budget: this liquid is 'a buffer' the way steel is hard, so it holds whatever is poured in."
-reveals_de = "Puffern wird als Identität angesehen, nicht als Budget: Diese Flüssigkeit ist 'ein Puffer', so wie Stahl hart ist, also hält sie, was auch immer man hineingießt."
 next = "Split the insult: add 0.05 mol, then 0.05 more, then the last 0.05, measuring between each. The meter barely moves, moves a little, then falls off a cliff mid-addition — an identity cannot run out part-way through, but an account can."
-next_de = "Teile den Angriff auf: Gib 0,05 mol zu, dann weitere 0,05, dann die letzten 0,05, und miss jeweils dazwischen. Das Messgerät bewegt sich kaum, dann etwas mehr, und stürzt dann mitten in der Zugabe ab — eine Identität kann nicht mittendrin ausgehen, ein Konto aber schon."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "The account is there but overdraft is not: buffering degrades in proportion to the load, so half again over the reserve should cost half a unit or so."
-reveals_de = "Das Konto wird zwar anerkannt, aber die Überziehung nicht: Das Puffern verschlechtert sich proportional zur Belastung, also sollte ein weiteres halbes Mal über der Reserve etwa eine halbe Einheit kosten."
 next = "Do the subtraction the beaker does: 0.15 mol in, 0.1 mol of acetate to pay with, 0.05 mol left over as free strong acid in the litre. Nothing between 4.6 and that acid's own pH is stable once the account reads zero — there is no species left to hold the middle ground."
-next_de = "Mach die Subtraktion, die das Becherglas macht: 0,15 mol hinein, 0,1 mol Acetat zum Bezahlen, 0,05 mol bleiben als freie starke Säure im Liter übrig. Sobald das Konto bei null steht, ist nichts zwischen 4,6 und dem eigenen pH-Wert dieser Säure stabil — es gibt keine Spezies mehr, die den mittleren Bereich hält."
 
 [reaction.registers]
 lv1 = "The stubborn liquid stops being stubborn. Push hard enough and it gives way all at once — like a shopping bag that holds and holds and then tears."
-lv1_de = "Die widerspenstige Flüssigkeit hört auf, widerspenstig zu sein. Drückst du stark genug, gibt sie auf einmal nach — wie eine Einkaufstüte, die hält und hält und dann reißt."
 lv2 = "The buffer contains 0.1 mol of acetate reserve. 0.15 mol of HCl converts all of it to acetic acid and leaves 0.05 mol of strong acid free in the litre, giving pH ≈ 1.4."
-lv2_de = "Der Puffer enthält eine Reserve von 0,1 mol Acetat. 0,15 mol HCl wandeln sie vollständig in Essigsäure um und lassen 0,05 mol starke Säure frei im Liter übrig, was pH ≈ 1,4 ergibt."
 lv3 = "Computed 1.42. The engine's inventory now holds 0.2 mol of total acetate and 0.15 mol of chloride against only 0.1 mol of sodium; the charge balance has nowhere to go but free H⁺. Buffer capacity β = 2.303·C·(fraction ratio) is finite by construction, and this run stands on the far side of it."
-lv3_de = "Berechnet 1,42. Der Bestand der Engine enthält jetzt insgesamt 0,2 mol Acetat und 0,15 mol Chlorid gegenüber nur 0,1 mol Natrium; die Ladungsbilanz kann nirgendwo anders hin als zu freiem H⁺. Die Pufferkapazität β = 2,303·C·(Bruchverhältnis) ist konstruktionsbedingt endlich, und dieser Durchlauf steht jenseits davon."
 
 [reaction.provenance]
 source = "Standard curriculum buffer capacity. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -651,7 +522,6 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "dilution-by-ten"
 spine = ["konzentrationsberechnungen"]
 summary = "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L"
-summary_de = "c₁V₁ = c₂V₂:  0.01 mol/L × 0.1 L → 0.001 mol/L × 1 L"
 concepts = ["dilution", "concentration"]
 requires = ["acids", "ph"]
 apparatus = ["measuring-cylinder", "volumetric-flask", "ph-meter"]
@@ -675,38 +545,24 @@ ph = { min = 2.9, max = 3.1 }
 
 [reaction.expect.predict]
 question = "An acid at pH 2 is diluted with nine times its own volume of water. What is the new pH?"
-question_de = "Eine Säure mit pH 2 wird mit dem neunfachen ihres eigenen Volumens an Wasser verdünnt. Wie hoch ist der neue pH-Wert?"
 options = ["4", "1", "3"]
-options_de = [
-    "4",
-    "1",
-    "3",
-]
 answer = 2
 misconception = "Answering 4 comes from thinking \"ten times weaker\" means \"multiply the pH by ten\" or \"add ten's worth\"; answering 1 confuses dilution with concentration. Because pH is −log₁₀ of hydrogen-ion activity, dividing the concentration by ten adds exactly one to the pH. Ninety-nine times the volume would add two."
-misconception_de = "Die Antwort 4 entsteht aus dem Gedanken, \"zehnmal schwächer\" bedeute \"den pH-Wert mit zehn multiplizieren\" oder \"zehn dazuzählen\"; die Antwort 1 verwechselt Verdünnung mit Konzentration. Da der pH-Wert −log₁₀ der Wasserstoffionen-Aktivität ist, addiert eine Verdünnung der Konzentration um den Faktor zehn genau eine Einheit zum pH-Wert. Das 99-fache Volumen würde zwei Einheiten addieren."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The scale's base is missing: a factor of ten is imagined to buy two units or more, as if pH counted 'amounts of weaker' rather than powers of ten."
-reveals_de = "Die Basis der Skala fehlt: Ein Faktor zehn wird sich als zwei oder mehr Einheiten wert vorgestellt, als würde der pH-Wert 'Grade der Schwäche' zählen statt Zehnerpotenzen."
 next = "Keep going on the bench: another tenfold of water gives 4, another gives 5 — one unit per factor of ten, every time. Reaching 4 from 2 costs a hundredfold, and the meter will show every step of it."
-next_de = "Mach im Labor weiter: eine weitere Verzehnfachung des Wassers ergibt 4, eine weitere ergibt 5 — jedes Mal eine Einheit pro Faktor zehn. Von 2 auf 4 zu kommen kostet das Hundertfache, und das Messgerät zeigt jeden einzelnen Schritt davon."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "The scale runs backwards in this picture: weaker acid, lower number. Direction, not arithmetic, is what has not settled."
-reveals_de = "In diesem Bild läuft die Skala rückwärts: schwächere Säure, niedrigere Zahl. Nicht die Rechnung, sondern die Richtung hat sich noch nicht gesetzt."
 next = "Measure the two beakers side by side, then keep diluting: the readings walk upward toward 7 and never past it. If lower meant weaker, pure water would read the lowest number of all."
-next_de = "Miss die beiden Bechergläser nebeneinander und verdünne dann weiter: Die Messwerte wandern in Richtung 7 und nie darüber hinaus. Würde niedriger schwächer bedeuten, müsste reines Wasser die niedrigste Zahl von allen anzeigen."
 
 [reaction.registers]
 lv1 = "Take some acid and pour in nine glasses of water. It is still acid — just weaker. Nothing was taken out; it was spread thinner."
-lv1_de = "Nimm etwas Säure und gieße neun Gläser Wasser dazu. Es ist immer noch Säure — nur schwächer. Es wurde nichts entfernt; sie wurde nur dünner verteilt."
 lv2 = "The moles of HCl never change: 0.001 mol, first in 0.1 L (0.01 mol/L, pH 2) and then in 1 L (0.001 mol/L, pH 3). c₁V₁ = c₂V₂, and every factor of ten in concentration is one unit of pH."
-lv2_de = "Die Stoffmenge an HCl ändert sich nie: 0,001 mol, zunächst in 0,1 L (0,01 mol/L, pH 2) und dann in 1 L (0,001 mol/L, pH 3). c₁V₁ = c₂V₂, und jeder Faktor zehn in der Konzentration entspricht einer pH-Einheit."
 lv3 = "Computed 2.04 → 3.01. The slight offset from the round numbers is the activity coefficient: 0.90 at I = 0.01, 0.965 at I = 0.001. Dilution moves the answer toward the ideal-solution limit, which is why the more dilute value is the closer of the two to its textbook figure."
-lv3_de = "Berechnet 2,04 → 3,01. Die leichte Abweichung von den runden Zahlen ist der Aktivitätskoeffizient: 0,90 bei I = 0,01, 0,965 bei I = 0,001. Verdünnung bewegt das Ergebnis in Richtung der idealen Lösung, weshalb der stärker verdünnte Wert näher am Lehrbuchwert liegt als der andere."
 
 [reaction.provenance]
 source = "Standard curriculum dilution calculation. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -742,42 +598,28 @@ ph = { min = 11.0, max = 11.4 }
 
 [reaction.expect.predict]
 question = "Washing soda is a salt, made from a metal and an acid residue. What pH does its solution have?"
-question_de = "Waschsoda ist ein Salz, hergestellt aus einem Metall und einem Säurerest. Welchen pH-Wert hat ihre Lösung?"
 options = [
   "7 — salts are neutral, that is what \"neutral salt\" means",
   "About 11 — strongly alkaline",
   "About 3 — it is a soda, and sodas are acidic",
 ]
-options_de = [
-    "7 — Salze sind neutral, das bedeutet ja \"neutrales Salz\"",
-    "Etwa 11 — stark alkalisch",
-    "Etwa 3 — es ist eine Soda, und Soda ist sauer",
-]
 answer = 1
 misconception = "\"Salt solutions are neutral\" is a rule learned from sodium chloride and then over-applied. It holds only when both parent ions are indifferent to water. Carbonate is the conjugate base of a very weak acid, so it takes protons off water and leaves hydroxide behind — which is precisely why washing soda cuts grease, and why it burns skin."
-misconception_de = "\"Salzlösungen sind neutral\" ist eine Regel, die von Natriumchlorid gelernt und dann übermäßig angewendet wird. Sie gilt nur, wenn beide Stammionen dem Wasser gegenüber gleichgültig sind. Carbonat ist die konjugierte Base einer sehr schwachen Säure und entzieht daher dem Wasser Protonen, wobei Hydroxid übrig bleibt — genau deshalb löst Waschsoda Fett, und genau deshalb verätzt sie die Haut."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "'Salt' carries the pH information in this picture: the category answers the question, so every salt reads 7 the way sodium chloride does."
-reveals_de = "'Salz' trägt in diesem Bild die pH-Information in sich: Die Kategorie beantwortet die Frage, also zeigt jedes Salz 7 an, so wie Natriumchlorid."
 next = "Run the mirror pair: this beaker reads 11 and `copper-sulfate-is-blue-and-acidic` reads 4.5. Two salts, two opposite directions — so the word 'salt' cannot be what decides. The parent ions do, one at a time."
-next_de = "Führe das Spiegelpaar durch: Dieses Becherglas zeigt 11 und `copper-sulfate-is-blue-and-acidic` zeigt 4,5. Zwei Salze, zwei entgegengesetzte Richtungen — das Wort 'Salz' kann also nicht das Entscheidende sein. Die Stammionen entscheiden, jeweils für sich."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The name is doing the chemistry: 'soda' is filed with fizzy drinks, and fizzy drinks are sour, so soda must be acidic."
-reveals_de = "Der Name betreibt hier die Chemie: 'Soda' wird mit Brausegetränken assoziiert, und Brausegetränke sind sauer, also müsste Soda sauer sein."
 next = "Put the meter in: 11. Then run `baking-soda-vents-carbon-dioxide` — the other kitchen soda is basic too. The fizzy drink's acidity was never the soda; it was the carbonic and phosphoric acid dissolved alongside it."
-next_de = "Halte das Messgerät hinein: 11. Führe dann `baking-soda-vents-carbon-dioxide` aus — auch die andere Küchen-Soda ist basisch. Die Säure im Brausegetränk war nie die Soda; es waren die Kohlensäure und Phosphorsäure, die daneben gelöst waren."
 
 [reaction.registers]
 lv1 = "Washing soda dissolves and the water turns as alkaline as household cleaner — because that is what it is. It is a salt that is not neutral at all."
-lv1_de = "Waschsoda löst sich, und das Wasser wird so alkalisch wie Haushaltsreiniger — weil es genau das ist. Es ist ein Salz, das überhaupt nicht neutral ist."
 lv2 = "Na₂CO₃ dissolves to 2 Na⁺ and CO₃²⁻. Carbonate hydrolyses (CO₃²⁻ + H₂O ⇌ HCO₃⁻ + OH⁻, Kb ≈ 2 × 10⁻⁴), so a 0.05 mol/L solution reaches pH ≈ 11.2."
-lv2_de = "Na₂CO₃ löst sich zu 2 Na⁺ und CO₃²⁻. Carbonat hydrolysiert (CO₃²⁻ + H₂O ⇌ HCO₃⁻ + OH⁻, Kb ≈ 2 × 10⁻⁴), sodass eine 0,05-mol/L-Lösung pH ≈ 11,2 erreicht."
 lv3 = "Computed 11.19. The speciation is not a simple two-species picture: CO₃²⁻ 3.1 × 10⁻², NaCO₃⁻ 1.7 × 10⁻² — a third of the carbonate is tied up in a sodium ion pair — with OH⁻ and HCO₃⁻ each at 2 × 10⁻³, produced stoichiometrically by the hydrolysis."
-lv3_de = "Berechnet 11,19. Die Speziation ist kein einfaches Bild aus zwei Spezies: CO₃²⁻ 3,1 × 10⁻², NaCO₃⁻ 1,7 × 10⁻² — ein Drittel des Carbonats ist in einem Natrium-Ionenpaar gebunden —, mit OH⁻ und HCO₃⁻ jeweils bei 2 × 10⁻³, stöchiometrisch durch die Hydrolyse erzeugt."
 
 [reaction.provenance]
 source = "Standard curriculum salt hydrolysis; carbonate constants and ion pairing from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -816,42 +658,28 @@ ph = { min = 9.5, max = 9.9 }
 
 [reaction.expect.predict]
 question = "Baking soda is stirred into water. No acid is added. What happens?"
-question_de = "Natron wird in Wasser eingerührt. Es wird keine Säure zugegeben. Was passiert?"
 options = [
   "Nothing but dissolving; you need an acid to get any gas",
   "It dissolves and slowly gives off carbon dioxide anyway, ending up around pH 9.7",
   "It dissolves and the solution ends at pH 8.3, the textbook value for bicarbonate",
 ]
-options_de = [
-    "Nichts außer Auflösen; du brauchst eine Säure, um überhaupt Gas zu bekommen",
-    "Es löst sich und gibt trotzdem langsam Kohlendioxid ab, am Ende bei etwa pH 9,7",
-    "Es löst sich, und die Lösung landet bei pH 8,3, dem Lehrbuchwert für Hydrogencarbonat",
-]
 answer = 1
 misconception = "Two ideas get corrected at once. First, gas evolution is not the exclusive privilege of acids — bicarbonate disproportionates on its own, and an open beaker keeps pulling the product away. Second, the familiar \"bicarbonate is pH 8.3\" is a *closed-system* number; a beaker on a bench is open, it vents until it matches the atmosphere's own CO₂ pressure, and it lands well above 8.3."
-misconception_de = "Zwei Vorstellungen werden hier gleichzeitig korrigiert. Erstens ist Gasentwicklung nicht das ausschließliche Vorrecht von Säuren — Hydrogencarbonat disproportioniert von selbst, und ein offenes Becherglas zieht das Produkt ständig ab. Zweitens ist die vertraute Zahl \"Hydrogencarbonat liegt bei pH 8,3\" ein Wert für ein *geschlossenes* System; ein Becherglas im Labor ist offen, es entgast, bis es dem CO₂-Druck der Atmosphäre entspricht, und landet deutlich über 8,3."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Gas evolution is an acid's signature move, so without an acid nothing can leave — fizzing filed as a reaction type rather than as any equilibrium with a volatile product and an open lid."
-reveals_de = "Gasentwicklung gilt als das Markenzeichen einer Säure, also kann ohne Säure nichts entweichen — Sprudeln wird als eigener Reaktionstyp verstanden, nicht als irgendein Gleichgewicht mit einem flüchtigen Produkt und einem offenen Gefäß."
 next = "Leave the beaker on the balance and `wait`: the mass drifts down with no acid anywhere in the vessel. The acid in the fizz experiment buys speed and violence, not permission."
-next_de = "Lass das Becherglas auf der Waage stehen und `wait`: Die Masse sinkt langsam, obwohl nirgends im Gefäß eine Säure ist. Die Säure im Sprudel-Experiment kauft Geschwindigkeit und Heftigkeit, nicht Erlaubnis."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "A remembered constant outranks the actual setup: 8.3 is bicarbonate's number, so 8.3 is the answer, whatever the beaker is doing."
-reveals_de = "Eine auswendig gelernte Konstante überstimmt den tatsächlichen Aufbau: 8,3 ist die Zahl des Hydrogencarbonats, also ist 8,3 die Antwort, egal was das Becherglas gerade tut."
 next = "Ask what 8.3 assumes: a sealed system that keeps its CO₂. This beaker is open and vents until it matches the atmosphere, and the pH climbs as the gas leaves. The famous number is not wrong — it answers a different apparatus, and this codex keeps it precisely to be contradicted by an open one."
-next_de = "Frag, was 8,3 voraussetzt: ein geschlossenes System, das sein CO₂ behält. Dieses Becherglas ist offen und entgast, bis es der Atmosphäre entspricht, und der pH-Wert steigt, während das Gas entweicht. Die berühmte Zahl ist nicht falsch — sie beantwortet einen anderen Aufbau, und dieser Kodex behält sie genau deshalb, um ihr mit einem offenen Gefäß zu widersprechen."
 
 [reaction.registers]
 lv1 = "Baking soda in plain water, with no vinegar anywhere: leave it a while and it still fizzes, very gently. The bubbles escape into the room and never come back."
-lv1_de = "Natron in reinem Wasser, ohne Essig weit und breit: Lass es eine Weile stehen, und es sprudelt trotzdem, ganz sanft. Die Bläschen entweichen in den Raum und kommen nie zurück."
 lv2 = "0.1 mol of NaHCO₃ per litre gives a solution that is supersaturated against the air's own carbon dioxide. About 30% of the carbonate leaves as CO₂, the remainder shifts toward CO₃²⁻, and the pH settles near 9.7."
-lv2_de = "0,1 mol NaHCO₃ pro Liter ergeben eine Lösung, die gegenüber dem Kohlendioxid der Luft übersättigt ist. Etwa 30 % des Carbonats entweichen als CO₂, der Rest verschiebt sich in Richtung CO₃²⁻, und der pH-Wert pendelt sich bei etwa 9,7 ein."
 lv3 = "This is the entry that most disagrees with a textbook, and the disagreement is the lesson. The classic pH 8.3 for NaHCO₃ assumes a sealed system. The engine equilibrates the vessel against atmospheric CO₂ at log p = −3.408, vents 0.030 mol, and computes 9.71. Neither number is wrong; they answer different questions, and only one of them describes a beaker on a bench."
-lv3_de = "Dies ist der Eintrag, der am stärksten von einem Lehrbuch abweicht, und genau diese Abweichung ist die Lektion. Der klassische pH-Wert 8,3 für NaHCO₃ setzt ein geschlossenes System voraus. Die Engine gleicht das Gefäß gegen atmosphärisches CO₂ bei log p = −3,408 aus, entgast 0,030 mol und berechnet 9,71. Keine der beiden Zahlen ist falsch; sie beantworten unterschiedliche Fragen, und nur eine davon beschreibt ein Becherglas im Labor."
 
 [reaction.provenance]
 source = "Carbonate system in an open vessel; atmospheric pCO₂ and carbonate constants from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -885,11 +713,8 @@ temperature_c = { min = 27.5, max = 31.0 }
 
 [reaction.registers]
 lv1 = "The salt of vinegar dissolves, warms the jar slightly, and leaves water that is soapy rather than sour. The sour has become its opposite."
-lv1_de = "Das Salz des Essigs löst sich, erwärmt das Glas leicht und hinterlässt Wasser, das seifig statt sauer ist. Das Saure ist zu seinem Gegenteil geworden."
 lv2 = "Sodium acetate is the salt of a weak acid and a strong base, so its solution is alkaline: 1 mol/L reads pH ≈ 9.2. Dissolution is exothermic (−17.3 kJ/mol), warming 100 mL of water by about 4 °C."
-lv2_de = "Natriumacetat ist das Salz einer schwachen Säure und einer starken Base, daher ist seine Lösung alkalisch: 1 mol/L zeigt pH ≈ 9,2. Das Lösen ist exotherm (−17,3 kJ/mol) und erwärmt 100 mL Wasser um etwa 4 °C."
 lv3 = "Computed pH 9.16 at 29.2 °C and I = 0.77 mol/kgw. At this concentration 23% of the acetate is present as the neutral Na(Acetate) ion pair rather than as free acetate — the hydrolysis is running on less base than the label suggests, which is part of why the pH is below the ideal-solution estimate."
-lv3_de = "Berechneter pH-Wert 9,16 bei 29,2 °C und I = 0,77 mol/kgw. Bei dieser Konzentration liegen 23 % des Acetats als neutrales Ionenpaar Na(Acetat) vor statt als freies Acetat — die Hydrolyse läuft also mit weniger Base ab, als das Etikett vermuten lässt, was mit ein Grund ist, warum der pH-Wert unter der Schätzung für eine ideale Lösung liegt."
 
 [reaction.provenance]
 source = "Standard curriculum salt hydrolysis; enthalpy of solution of sodium acetate, standard reference value"
@@ -924,42 +749,28 @@ temperature_c = { min = 25.5, max = 28.0 }
 
 [reaction.expect.predict]
 question = "Copper sulfate dissolves to a beautiful blue. What does the pH meter read?"
-question_de = "Kupfersulfat löst sich zu einem wunderschönen Blau. Was zeigt das pH-Meter an?"
 options = [
   "7 — it is a salt of a strong acid and a metal, so neutral",
   "About 4.5 — the solution is distinctly acidic",
   "About 9 — metal ions are basic",
 ]
-options_de = [
-    "7 — es ist das Salz einer starken Säure und eines Metalls, also neutral",
-    "Etwa 4,5 — die Lösung ist deutlich sauer",
-    "Etwa 9 — Metall-Ionen sind basisch",
-]
 answer = 1
 misconception = "The tempting answer treats \"metal\" as automatically basic and \"salt\" as automatically neutral. A small, doubly charged cation pulls hard enough on the water molecules bound to it to loosen their protons: [Cu(H₂O)₆]²⁺ ⇌ [Cu(H₂O)₅OH]⁺ + H⁺. Copper(II) sulfate solution is acidic enough to taste sharp, and this is a general property of small highly charged cations, not a quirk of copper."
-misconception_de = "Die verlockende Antwort behandelt \"Metall\" als automatisch basisch und \"Salz\" als automatisch neutral. Ein kleines, zweifach geladenes Kation zieht so stark an den daran gebundenen Wassermolekülen, dass es deren Protonen lockert: [Cu(H₂O)₆]²⁺ ⇌ [Cu(H₂O)₅OH]⁺ + H⁺. Kupfer(II)-sulfat-Lösung ist sauer genug, um scharf zu schmecken, und das ist eine allgemeine Eigenschaft kleiner, hoch geladener Kationen, keine Eigenart des Kupfers."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Two category rules stacked: salts are neutral, and this one comes from a strong acid and a metal, so doubly neutral — the ions themselves were never consulted."
-reveals_de = "Zwei Kategorieregeln übereinandergestapelt: Salze sind neutral, und dieses stammt von einer starken Säure und einem Metall, also doppelt neutral — die Ionen selbst wurden nie befragt."
 next = "Run the mirror: `washing-soda-is-alkaline` is also 'a salt of a metal and an acid residue' and reads 11 where this reads 4.5. Categories that give opposite answers to the same rule are not the thing doing the deciding."
-next_de = "Führe den Spiegel durch: `washing-soda-is-alkaline` ist ebenfalls 'ein Salz aus einem Metall und einem Säurerest' und zeigt 11, wo dieses hier 4,5 zeigt. Kategorien, die derselben Regel entgegengesetzte Antworten geben, sind nicht das, was tatsächlich entscheidet."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "'Metal' means basic — a rule true of metal oxides and hydroxides as solids, transferred whole to the dissolved cation."
-reveals_de = "'Metall' bedeutet basisch — eine Regel, die für Metalloxide und -hydroxide als Feststoffe stimmt, unverändert auf das gelöste Kation übertragen."
 next = "Compare cations at lv3: sodium — large, singly charged — leaves water alone, while [Cu(H₂O)₆]²⁺ visibly loosens the protons of its own bound water. Size and charge decide, not membership of the metals; the periodic table's left edge is not a pH prediction."
-next_de = "Vergleiche Kationen bei lv3: Natrium — groß, einfach geladen — lässt Wasser in Ruhe, während [Cu(H₂O)₆]²⁺ sichtbar die Protonen seines eigenen gebundenen Wassers lockert. Größe und Ladung entscheiden, nicht die Zugehörigkeit zu den Metallen; der linke Rand des Periodensystems ist keine pH-Vorhersage."
 
 [reaction.registers]
 lv1 = "White-ish crystals go in and the water turns a deep blue you cannot look away from. The jar also gets slightly warm. And — surprisingly — the water has turned sour."
-lv1_de = "Weißliche Kristalle kommen hinein, und das Wasser wird tiefblau — ein Blau, von dem man kaum wegschauen kann. Das Glas wird dabei auch leicht warm. Und — überraschend — das Wasser ist sauer geworden."
 lv2 = "0.05 mol of CuSO₄ in 500 mL gives a 0.1 mol/L blue solution. Dissolution is exothermic (−73.1 kJ/mol), warming the beaker by about 1.8 °C. The hydrated Cu²⁺ ion is a weak acid, so the pH falls to about 4.5."
-lv2_de = "0,05 mol CuSO₄ in 500 mL ergeben eine 0,1-mol/L blaue Lösung. Das Lösen ist exotherm (−73,1 kJ/mol) und erwärmt das Becherglas um etwa 1,8 °C. Das hydratisierte Cu²⁺-Ion ist eine schwache Säure, sodass der pH-Wert auf etwa 4,5 fällt."
 lv3 = "Computed pH 4.52. The colour is curated — d–d transitions are not something a thermodynamic database can give honestly — but the acidity is computed, from CuOH⁺ at 7.8 × 10⁻⁶ and the dimer Cu₂(OH)₂²⁺ at 4.4 × 10⁻⁵ mol/kgw. Note also that half the copper is present as the neutral CuSO₄ ion pair, so \"0.1 M Cu²⁺\" is not what is in the beaker."
-lv3_de = "Berechneter pH-Wert 4,52. Die Farbe ist kuratiert — d-d-Übergänge sind nichts, was eine thermodynamische Datenbank ehrlich liefern kann —, aber die Acidität ist berechnet, aus CuOH⁺ bei 7,8 × 10⁻⁶ und dem Dimer Cu₂(OH)₂²⁺ bei 4,4 × 10⁻⁵ mol/kgw. Beachte auch, dass die Hälfte des Kupfers als neutrales Ionenpaar CuSO₄ vorliegt, sodass \"0,1 M Cu²⁺\" nicht das ist, was tatsächlich im Becherglas ist."
 
 [reaction.provenance]
 source = "Standard curriculum transition-metal salt chemistry; colour curated (sRGB and absorptivity in the species registry), speciation from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1001,42 +812,28 @@ ph = { min = 1.2, max = 1.6 }
 
 [reaction.expect.predict]
 question = "A gram of chalk sits in water, barely dissolving. You pour in hydrochloric acid. What happens to the chalk?"
-question_de = "Ein Gramm Kreide liegt in Wasser und löst sich kaum. Du gießt Salzsäure hinzu. Was passiert mit der Kreide?"
 options = [
   "Nothing — insoluble is insoluble",
   "It fizzes away completely; the acid destroys the carbonate and the gas escapes",
   "It dissolves slowly but the solid stays; acid cannot dissolve a solid",
 ]
-options_de = [
-    "Nichts — unlöslich ist unlöslich",
-    "Sie löst sich vollständig unter Sprudeln auf; die Säure zerstört das Carbonat, und das Gas entweicht",
-    "Sie löst sich langsam, aber der Feststoff bleibt; Säure kann keinen Feststoff auflösen",
-]
 answer = 1
 misconception = "\"Insoluble\" reads as an absolute property of a substance, when it is a statement about one particular equilibrium. Chalk is insoluble *in water*. Acid does not dissolve it — acid removes one of its ions from the equilibrium by turning carbonate into escaping carbon dioxide, and the solid follows. Le Chatelier, applied to a solid, is how limescale removers and how caves work."
-misconception_de = "\"Unlöslich\" liest sich wie eine absolute Eigenschaft eines Stoffes, dabei ist es eine Aussage über ein bestimmtes Gleichgewicht. Kreide ist unlöslich *in Wasser*. Säure löst sie nicht auf — Säure entzieht dem Gleichgewicht eines ihrer Ionen, indem sie Carbonat in entweichendes Kohlendioxid umwandelt, und der Feststoff folgt. Le Chatelier, angewendet auf einen Feststoff, ist genau das, wie Entkalker und wie Höhlen funktionieren."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "'Insoluble' is an absolute property, like being made of stone: no liquid can move what water cannot."
-reveals_de = "'Unlöslich' gilt als absolute Eigenschaft, so wie aus Stein zu sein: Keine Flüssigkeit kann bewegen, was Wasser nicht bewegen kann."
 next = "Start with `chalk-in-water`: even plain water moves 0.24% of it, so the absolute was never absolute. The acid then removes carbonate from the equilibrium as escaping gas, and the solid follows its own ions — watch the whole gram fizz away on this bench."
-next_de = "Beginne mit `chalk-in-water`: Sogar reines Wasser bewegt 0,24 % davon, das Absolute war also nie absolut. Die Säure entzieht dem Gleichgewicht dann Carbonat als entweichendes Gas, und der Feststoff folgt seinen eigenen Ionen — beobachte, wie das ganze Gramm an diesem Labor sprudelnd verschwindet."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Solids can shed ions but never disappear in this picture — dissolution nibbles at a permanent fixture, so the heap must survive whatever the liquid does."
-reveals_de = "Feststoffe können Ionen abgeben, aber in diesem Bild nie verschwinden — Lösen knabbert nur an einem dauerhaften Bestandteil, also muss der Haufen überleben, was auch immer die Flüssigkeit tut."
 next = "Weigh the vessel before and after (`measure v1 balance`): the CO₂'s mass has left through the open top, and pouring the result through filter paper catches nothing, because nothing solid is left to catch."
-next_de = "Wiege das Gefäß vorher und nachher (`measure v1 balance`): Die Masse des CO₂ hat das Gefäß durch die offene Öffnung verlassen, und gießt man das Ergebnis durch Filterpapier, bleibt nichts hängen, weil kein Feststoff mehr übrig ist, den man auffangen könnte."
 
 [reaction.registers]
 lv1 = "The chalk that would not dissolve in water vanishes in seconds with a hiss when the acid goes in. This is how a limescale remover works, and how caves are carved out of limestone."
-lv1_de = "Die Kreide, die sich in Wasser nicht auflösen wollte, verschwindet innerhalb von Sekunden zischend, sobald die Säure hinzukommt. So funktioniert ein Entkalker, und so werden Höhlen aus Kalkstein herausgeschnitzt."
 lv2 = "CaCO₃ + 2 HCl → CaCl₂ + H₂O + CO₂↑. 0.01 mol of chalk needs 0.02 mol of acid; the 0.03 mol used leaves 0.01 mol spare, so the finished solution is strongly acidic at pH ≈ 1.4."
-lv2_de = "CaCO₃ + 2 HCl → CaCl₂ + H₂O + CO₂↑. 0,01 mol Kreide benötigen 0,02 mol Säure; die eingesetzten 0,03 mol lassen 0,01 mol übrig, sodass die fertige Lösung mit pH ≈ 1,4 stark sauer ist."
 lv3 = "The engine dissolves 0.00997 of the 0.00999 mol present and vents 0.00999 mol of CO₂ — the calcite saturation index has been driven far negative by the removal of carbonate, so the amount-limited phase runs out rather than reaching equilibrium. The residual dissolved CO₂ (1.3 × 10⁻⁵ mol/kgw) is fixed by Henry's law against the room, not by the reaction."
-lv3_de = "Die Engine löst 0,00997 der vorhandenen 0,00999 mol und entgast 0,00999 mol CO₂ — der Sättigungsindex des Calcits wurde durch den Entzug von Carbonat weit ins Negative getrieben, sodass die mengenbegrenzte Phase ausgeht, statt ein Gleichgewicht zu erreichen. Das verbleibende gelöste CO₂ (1,3 × 10⁻⁵ mol/kgw) wird durch das Henry-Gesetz gegenüber dem Raum festgelegt, nicht durch die Reaktion."
 
 [reaction.provenance]
 source = "Standard curriculum acid–carbonate reaction; calcite and carbonate constants from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1072,42 +869,28 @@ ph = { min = 9.7, max = 10.1 }
 
 [reaction.expect.predict]
 question = "A gram of chalk is stirred into 200 mL of water and left. How much dissolves?"
-question_de = "Ein Gramm Kreide wird in 200 mL Wasser eingerührt und stehen gelassen. Wie viel davon löst sich?"
 options = [
   "None at all — chalk is insoluble",
   "About a quarter of a percent of it — a tiny but real amount, and it makes the water alkaline",
   "All of it, given long enough",
 ]
-options_de = [
-    "Überhaupt nichts — Kreide ist unlöslich",
-    "Etwa ein Viertelprozent davon — eine winzige, aber reale Menge, und sie macht das Wasser alkalisch",
-    "Alles davon, wenn man nur lange genug wartet",
-]
 answer = 1
 misconception = "\"Insoluble\" is taught as zero and is never zero. The engine dissolves 0.24% of the chalk here — 2.4 × 10⁻⁵ mol — and that trace is enough to lift the pH to almost 10, because carbonate is a base. Every \"insoluble\" salt has a solubility product, and treating it as zero makes the whole of qualitative analysis look like magic instead of arithmetic."
-misconception_de = "\"Unlöslich\" wird als null gelehrt und ist nie null. Die Engine löst hier 0,24 % der Kreide — 2,4 × 10⁻⁵ mol —, und diese Spur reicht aus, um den pH-Wert auf fast 10 zu heben, weil Carbonat eine Base ist. Jedes \"unlösliche\" Salz hat ein Löslichkeitsprodukt, und es als null zu behandeln lässt die gesamte qualitative Analyse wie Magie statt wie Rechnung aussehen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "'Insoluble' means zero, a category rather than a quantity — so the water above the chalk is just water."
-reveals_de = "'Unlöslich' bedeutet null, eine Kategorie statt einer Größe — das Wasser über der Kreide ist also einfach nur Wasser."
 next = "Put the meter in the 'just water': it reads almost 10. Zero dissolved cannot move a pH meter three units; the 2.4 × 10⁻⁵ mol that actually dissolved can, because carbonate is a base. The meter is the instrument that catches what the eye files as nothing."
-next_de = "Halte das Messgerät ins 'nur Wasser': Es zeigt fast 10. Null Gelöstes kann ein pH-Meter nicht um drei Einheiten bewegen; die tatsächlich gelösten 2,4 × 10⁻⁵ mol können es, weil Carbonat eine Base ist. Das Messgerät ist das Instrument, das erfasst, was das Auge als nichts abtut."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Dissolution as patience: solubility is a speed, so anything dissolves eventually, given stirring and time. Saturation — an equilibrium ceiling — is not in the picture."
-reveals_de = "Lösen als Geduldsspiel: Löslichkeit gilt als Geschwindigkeit, also löst sich alles irgendwann, bei genügend Rühren und Zeit. Sättigung — eine Gleichgewichtsobergrenze — kommt in diesem Bild nicht vor."
 next = "`wait` as long as you like: the dissolved amount stops at the same ceiling and the heap stays. Then run `crystallising-salt-from-brine` — moving the boundary takes changing the *water*, not waiting longer, because the ceiling is an equilibrium, not a queue."
-next_de = "`wait` so lange du willst: Die gelöste Menge bleibt bei derselben Obergrenze stehen, und der Haufen bleibt liegen. Führe dann `crystallising-salt-from-brine` aus — die Grenze zu verschieben erfordert, das *Wasser* zu ändern, nicht länger zu warten, denn die Obergrenze ist ein Gleichgewicht, keine Warteschlange."
 
 [reaction.registers]
 lv1 = "The chalk just sits there. It looks like nothing happened — but dip a pH strip in and the water has turned alkaline. A tiny bit did dissolve, too little to see."
-lv1_de = "Die Kreide liegt einfach nur da. Es sieht so aus, als wäre nichts passiert — aber taucht man einen pH-Streifen hinein, hat sich das Wasser alkalisch gefärbt. Ein winziges bisschen hat sich tatsächlich gelöst, zu wenig, um es zu sehen."
 lv2 = "Calcium carbonate is sparingly soluble: 2.4 × 10⁻⁵ mol dissolves in 200 mL, about 0.24% of what was added. The dissolved carbonate hydrolyses, so the water reaches pH ≈ 9.9."
-lv2_de = "Calciumcarbonat ist schwer löslich: 2,4 × 10⁻⁵ mol lösen sich in 200 mL, etwa 0,24 % der zugegebenen Menge. Das gelöste Carbonat hydrolysiert, sodass das Wasser pH ≈ 9,9 erreicht."
 lv3 = "Computed as a saturation-index problem, not from a memorised solubility: the calcite phase is amount-limited and dissolves until SI = 0. The pH of 9.91 is the carbonate hydrolysis of that trace, which is why hard-water streams running over limestone are alkaline while running almost clear."
-lv3_de = "Berechnet als Sättigungsindex-Problem, nicht aus einer auswendig gelernten Löslichkeit: Die Calcit-Phase ist mengenbegrenzt und löst sich, bis SI = 0. Der pH-Wert von 9,91 ist die Carbonat-Hydrolyse dieser Spur, weshalb Bäche mit hartem Wasser, die über Kalkstein fließen, alkalisch sind, während sie fast klar bleiben."
 
 [reaction.provenance]
 source = "Standard curriculum solubility; calcite K_sp from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1147,11 +930,8 @@ ph = { min = 6.9, max = 7.1 }
 
 [reaction.registers]
 lv1 = "The white powder that appeared when silver met salt will not dissolve again in water. Almost none of it — but not quite none."
-lv1_de = "Das weiße Pulver, das entstand, als Silber auf Salz traf, löst sich in Wasser nicht wieder auf. Fast nichts davon — aber eben nicht ganz nichts."
 lv2 = "1.4 × 10⁻⁵ mol of AgCl dissolves per litre. That is the square root of K_sp: [Ag⁺] = [Cl⁻] = √(1.8 × 10⁻¹⁰) ≈ 1.3 × 10⁻⁵ mol/L."
-lv2_de = "1,4 × 10⁻⁵ mol AgCl lösen sich pro Liter. Das ist die Quadratwurzel aus K_sp: [Ag⁺] = [Cl⁻] = √(1,8 × 10⁻¹⁰) ≈ 1,3 × 10⁻⁵ mol/L."
 lv3 = "The measured solubility slightly exceeds √K_sp because dissolved silver is not only free Ag⁺: the neutral AgCl(aq) complex is present too. This is the same effect that makes the marquee precipitation entry's residual silver larger than naive arithmetic predicts, and it is the seed of the next entry's surprise."
-lv3_de = "Die gemessene Löslichkeit übersteigt √K_sp leicht, weil gelöstes Silber nicht nur als freies Ag⁺ vorliegt: Der neutrale Komplex AgCl(aq) ist ebenfalls vorhanden. Das ist derselbe Effekt, der das restliche Silber im großen Fällungs-Beispiel höher macht, als eine naive Rechnung vorhersagt, und er ist der Keim für die Überraschung des nächsten Eintrags."
 
 [reaction.provenance]
 source = "Standard curriculum solubility product; cerargyrite K_sp and silver chloro-complexes from PHREEQC wateq4f.dat (USGS)"
@@ -1187,42 +967,28 @@ ph = { min = 6.9, max = 7.1 }
 
 [reaction.expect.predict]
 question = "Silver chloride dissolves slightly in pure water. Put it in 0.01 mol/L salt water instead. Does more or less of it dissolve?"
-question_de = "Silberchlorid löst sich leicht in reinem Wasser. Gibst du es stattdessen in 0,01-mol/L-Salzwasser, löst sich mehr oder weniger davon?"
 options = [
   "More — there is already stuff dissolved, so the water is 'better at dissolving'",
   "Less — the chloride already present pushes the equilibrium back toward the solid",
   "The same — the solubility of a substance is a fixed number",
 ]
-options_de = [
-    "Mehr — es ist schon etwas gelöst, also 'löst das Wasser besser'",
-    "Weniger — das bereits vorhandene Chlorid drängt das Gleichgewicht zurück in Richtung Feststoff",
-    "Gleich viel — die Löslichkeit eines Stoffes ist eine feste Zahl",
-]
 answer = 1
 misconception = "The third option is the deeper error: solubility is treated as a property of the solid alone, like its melting point. It is a property of the *system*. Here the added chloride is one of the products, so by Le Chatelier the dissolution is pushed back — the engine finds no measurable dissolution at all, where pure water dissolved 1.4 × 10⁻⁵ mol. This is why gravimetric analysis washes a precipitate with dilute salt solution rather than with pure water."
-misconception_de = "Die dritte Option ist der tiefer liegende Fehler: Löslichkeit wird als Eigenschaft allein des Feststoffs behandelt, wie sein Schmelzpunkt. Sie ist eine Eigenschaft des *Systems*. Hier ist das zugegebene Chlorid eines der Produkte, sodass das Lösen nach Le Chatelier zurückgedrängt wird — die Engine findet überhaupt keine messbare Lösung, wo reines Wasser 1,4 × 10⁻⁵ mol gelöst hatte. Deshalb wäscht die gravimetrische Analyse einen Niederschlag mit verdünnter Salzlösung statt mit reinem Wasser."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Dissolving is a skill the water has, and salty water is water warmed up to its task — what is already dissolved makes the solvent stronger, whatever it is."
-reveals_de = "Lösen gilt als Fähigkeit, die das Wasser besitzt, und salziges Wasser ist Wasser, das für seine Aufgabe 'aufgewärmt' ist — was bereits gelöst ist, macht das Lösungsmittel stärker, egal was es ist."
 next = "Make the spectator swap: try the same AgCl in 0.01 mol/L sodium *nitrate* — as much 'stuff' dissolved, but no shared ion, and the suppression vanishes. It was never about how loaded the water is; it is about which ion the load shares with the solid."
-next_de = "Tausche das Zuschauerion aus: Versuche dasselbe AgCl in 0,01-mol/L-Natrium*nitrat* — genauso viel 'Zeug' gelöst, aber kein gemeinsames Ion, und die Unterdrückung verschwindet. Es ging nie darum, wie beladen das Wasser ist; es geht darum, welches Ion die Beladung mit dem Feststoff teilt."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Solubility is the solid's own constant, like its melting point — one substance, one number, whatever is swimming around it."
-reveals_de = "Löslichkeit gilt als eigene Konstante des Feststoffs, wie sein Schmelzpunkt — ein Stoff, eine Zahl, egal was drumherum schwimmt."
 next = "Run the trilogy: pure water dissolves 1.4 × 10⁻⁵ mol, this salt water dissolves nothing measurable, and `chloride-complexes-redissolve-silver` dissolves ten times *more* than pure water. One solid, three waters, three answers — a property of the solid alone cannot do that."
-next_de = "Führe die Trilogie durch: Reines Wasser löst 1,4 × 10⁻⁵ mol, dieses Salzwasser löst nichts Messbares, und `chloride-complexes-redissolve-silver` löst das Zehnfache *mehr* als reines Wasser. Ein Feststoff, drei Wässer, drei Antworten — eine Eigenschaft allein des Feststoffs kann das nicht leisten."
 
 [reaction.registers]
 lv1 = "The same white powder, in water that already has a little salt in it, dissolves even less than before — so little that the lab records none at all."
-lv1_de = "Dasselbe weiße Pulver löst sich in Wasser, das bereits ein wenig Salz enthält, sogar noch weniger als vorher — so wenig, dass das Labor überhaupt nichts verzeichnet."
 lv2 = "Adding 0.01 mol/L Cl⁻ raises the chloride side of AgCl ⇌ Ag⁺ + Cl⁻, so the equilibrium shifts left. Dissolved silver falls roughly by the factor by which chloride rose, to below the engine's observable threshold."
-lv2_de = "Die Zugabe von 0,01 mol/L Cl⁻ erhöht die Chloridseite von AgCl ⇌ Ag⁺ + Cl⁻, sodass sich das Gleichgewicht nach links verschiebt. Gelöstes Silber fällt etwa um den Faktor, um den Chlorid gestiegen ist, unter die beobachtbare Schwelle der Engine."
 lv3 = "The suppression is computed from the ion-activity product against K_sp, not asserted. It is worth stating the boundary now: this monotonic suppression holds only while chloride stays low. Push it to 1 mol/L and the trend reverses — see `chloride-complexes-redissolve-silver`."
-lv3_de = "Die Unterdrückung wird aus dem Ionenaktivitätsprodukt gegen K_sp berechnet, nicht behauptet. Es lohnt sich, die Grenze schon jetzt zu nennen: Diese monotone Unterdrückung gilt nur, solange das Chlorid niedrig bleibt. Steigert man es auf 1 mol/L, kehrt sich der Trend um — siehe `chloride-complexes-redissolve-silver`."
 
 [reaction.provenance]
 source = "Standard curriculum common-ion effect; constants from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1256,42 +1022,28 @@ ph = { min = 6.8, max = 7.1 }
 
 [reaction.expect.predict]
 question = "The common-ion effect says extra chloride suppresses silver chloride's solubility. So in 1 mol/L brine — a hundred times more chloride — how much AgCl dissolves?"
-question_de = "Der gemeinsame-Ionen-Effekt besagt, dass zusätzliches Chlorid die Löslichkeit von Silberchlorid unterdrückt. Wie viel AgCl löst sich also in 1-mol/L-Salzlösung — hundertmal mehr Chlorid?"
 options = [
   "A hundred times less than in salt water, essentially nothing",
   "About ten times MORE than in pure water",
   "Exactly the same as in 0.01 mol/L salt water",
 ]
-options_de = [
-    "Hundertmal weniger als in Salzwasser, praktisch nichts",
-    "Etwa zehnmal MEHR als in reinem Wasser",
-    "Genau gleich viel wie in 0,01-mol/L-Salzwasser",
-]
 answer = 1
 misconception = "This is the entry where a correct rule is caught failing, and that is the point. Le Chatelier applied to AgCl ⇌ Ag⁺ + Cl⁻ predicts suppression, and it is right at low chloride. But that equation is not the whole chemistry: at high chloride a second reaction opens, AgCl(s) + Cl⁻ → AgCl₂⁻, and it consumes the solid. The engine dissolves 1.5 × 10⁻⁴ mol here against 1.4 × 10⁻⁵ mol in pure water. A rule without its domain of validity is a trap, and this is the trap."
-misconception_de = "Das ist der Eintrag, in dem eine korrekte Regel dabei ertappt wird, wie sie versagt, und genau darum geht es. Le Chatelier, angewendet auf AgCl ⇌ Ag⁺ + Cl⁻, sagt Unterdrückung voraus, und das stimmt bei niedrigem Chloridgehalt. Aber diese Gleichung ist nicht die gesamte Chemie: Bei hohem Chloridgehalt öffnet sich eine zweite Reaktion, AgCl(s) + Cl⁻ → AgCl₂⁻, und sie verbraucht den Feststoff. Die Engine löst hier 1,5 × 10⁻⁴ mol gegenüber 1,4 × 10⁻⁵ mol in reinem Wasser. Eine Regel ohne ihren Gültigkeitsbereich ist eine Falle, und das ist die Falle."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The freshly learned rule, extrapolated without a domain: more suppressor, more suppression, linearly forever — one equation mistaken for the whole chemistry."
-reveals_de = "Die gerade gelernte Regel, ohne Gültigkeitsbereich extrapoliert: mehr Unterdrücker, mehr Unterdrückung, linear für immer — eine Gleichung, die für die gesamte Chemie gehalten wird."
 next = "Walk the ladder on the bench: 0.01, 0.1, then 1 mol/L chloride. The solubility falls, bottoms out, and climbs back past pure water as AgCl₂⁻ opens for business. A monotone rule cannot draw a U — a second reaction can."
-next_de = "Gehe die Stufenleiter im Labor durch: 0,01, 0,1, dann 1 mol/L Chlorid. Die Löslichkeit fällt, erreicht einen Tiefpunkt und steigt dann über den Wert von reinem Wasser hinaus, sobald AgCl₂⁻ ins Spiel kommt. Eine monotone Regel kann kein U zeichnen — eine zweite Reaktion schon."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The last correction has become the new absolute: once suppressed, always suppressed. The same move as 'solubility is a fixed number', one lesson later — a rule adopted without asking where it holds."
-reveals_de = "Die letzte Korrektur ist zum neuen Absolutum geworden: einmal unterdrückt, immer unterdrückt. Derselbe Fehler wie 'Löslichkeit ist eine feste Zahl', nur eine Lektion später — eine Regel übernommen, ohne zu fragen, wo sie gilt."
 next = "This entry and `common-ion-effect` exist as a pair for exactly this: the first teaches the rule, the second teaches its edge. The measurement to hold onto is the U-turn — and the habit to hold onto is asking every rule where it stops."
-next_de = "Dieser Eintrag und `common-ion-effect` existieren genau für diesen Zweck als Paar: der erste lehrt die Regel, der zweite lehrt ihre Grenze. Die Messung, an der man festhalten sollte, ist die Kehrtwende — und die Gewohnheit, an der man festhalten sollte, ist, bei jeder Regel zu fragen, wo sie aufhört zu gelten."
 
 [reaction.registers]
 lv1 = "Strange: adding a lot more salt makes the stubborn white powder dissolve better, not worse. A little salt held it back; a lot of salt helps it go."
-lv1_de = "Merkwürdig: Deutlich mehr Salz zuzugeben lässt das widerspenstige weiße Pulver besser lösen, nicht schlechter. Wenig Salz hielt es zurück; viel Salz hilft ihm, sich zu lösen."
 lv2 = "Above roughly 0.1 mol/L chloride, complexation takes over from the common-ion effect: AgCl(s) + Cl⁻ ⇌ AgCl₂⁻ (and AgCl₃²⁻ beyond that). Solubility passes through a minimum and then rises — the classic U-shaped solubility curve."
-lv2_de = "Oberhalb von etwa 0,1 mol/L Chlorid übernimmt die Komplexbildung vom gemeinsamen-Ionen-Effekt: AgCl(s) + Cl⁻ ⇌ AgCl₂⁻ (und darüber hinaus AgCl₃²⁻). Die Löslichkeit durchläuft ein Minimum und steigt dann wieder an — die klassische U-förmige Löslichkeitskurve."
 lv3 = "Computed: 1.47 × 10⁻⁴ mol dissolves at I = 1.00 mol/kgw, roughly ten times the pure-water figure and immeasurably more than in 0.01 mol/L NaCl. Nothing here is scripted; the chloro-complexes are in wateq4f.dat and the minimiser finds them. Two models — simple K_sp and full speciation — give opposite predictions, and the experiment decides. Show a learner this before telling them any solubility rule is a law."
-lv3_de = "Berechnet: 1,47 × 10⁻⁴ mol lösen sich bei I = 1,00 mol/kgw, etwa das Zehnfache des Werts in reinem Wasser und unmessbar mehr als in 0,01-mol/L-NaCl. Nichts hier ist vorgeskriptet; die Chlorokomplexe stehen in wateq4f.dat, und der Minimierer findet sie. Zwei Modelle — einfaches K_sp und vollständige Speziation — liefern entgegengesetzte Vorhersagen, und das Experiment entscheidet. Zeig einem Lernenden dies, bevor du ihm erzählst, irgendeine Löslichkeitsregel sei ein Gesetz."
 
 [reaction.provenance]
 source = "Silver chloro-complex formation, standard aqueous-geochemistry knowledge; constants from PHREEQC wateq4f.dat (USGS). Editorial judgement (Kerotakis): placing this immediately after the common-ion entry, as a deliberate falsification of the rule just taught, rather than in a later 'complex ions' unit.. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1326,42 +1078,28 @@ ph = { min = 6.9, max = 7.2 }
 
 [reaction.expect.predict]
 question = "Gypsum has the formula CaSO₄·2H₂O. When 5 g of it dissolves, the liquid volume in the beaker goes UP by more than the crystals' own volume. Why?"
-question_de = "Gips hat die Formel CaSO₄·2H₂O. Wenn sich 5 g davon lösen, steigt das Flüssigkeitsvolumen im Becherglas um mehr als das Volumen der Kristalle selbst. Warum?"
 options = [
   "The crystals were holding water inside them, and it joins the solution when they dissolve",
   "Dissolving always makes liquid, so any solid would do this",
   "It is a rounding error in the simulation",
 ]
-options_de = [
-    "Die Kristalle hielten Wasser in sich, und dieses geht beim Lösen in die Lösung über",
-    "Lösen erzeugt immer Flüssigkeit, das würde jeder Feststoff tun",
-    "Das ist ein Rundungsfehler in der Simulation",
-]
 answer = 0
 misconception = "Formula water reads like decoration in the formula — a dot and some water molecules that surely do not count. They count: 172 g of gypsum is 36 g of water, 21% by mass. That water is inside the crystal lattice in fixed proportion, and it is released on dissolution. Plaster of Paris is exactly this water driven off and then let back in, which is why plaster sets."
-misconception_de = "Kristallwasser liest sich wie Dekoration in der Formel — ein Punkt und ein paar Wassermoleküle, die sicher nicht zählen. Sie zählen: 172 g Gips sind 36 g Wasser, 21 % der Masse. Dieses Wasser sitzt in festem Verhältnis im Kristallgitter und wird beim Lösen freigesetzt. Gips für Verbände ist genau dieses Wasser, das ausgetrieben und dann wieder hineingelassen wird — deshalb erhärtet Gips."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Dissolving as liquefaction: solids 'turn into liquid' when they dissolve, so any dissolving solid would raise the level — the specific water in this crystal plays no role."
-reveals_de = "Lösen als Verflüssigung: Feststoffe 'werden flüssig', wenn sie sich lösen, also müsste jeder sich lösende Feststoff den Pegel heben — das spezifische Wasser in diesem Kristall spielt keine Rolle."
 next = "Do the arithmetic the formula invites: 21% of these 5 g is about a gram of actual water, and the level rise matches that gram — not the 5 g. A solid that carries no formula water has no such gram to give."
-next_de = "Mach die Rechnung, die die Formel nahelegt: 21 % dieser 5 g sind etwa ein Gramm echtes Wasser, und der Pegelanstieg entspricht diesem Gramm — nicht den 5 g. Ein Feststoff ohne Kristallwasser hat kein solches Gramm zu geben."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "When the simulation surprises, the simulation is wrong — the number is filed as noise rather than treated as a claim that can be checked."
-reveals_de = "Wenn die Simulation überrascht, ist die Simulation falsch — die Zahl wird als Rauschen abgetan statt als überprüfbare Behauptung behandelt."
 next = "Size the claim before dismissing it: a gram of water is many orders above any rounding floor, and `explain` shows the ledger balancing exactly when the crystal's 2 H₂O is counted as water. The habit this entry rewards is auditing a surprising number, not voting it away."
-next_de = "Bemiss die Behauptung, bevor du sie verwirfst: Ein Gramm Wasser liegt viele Größenordnungen über jeder Rundungsschwelle, und `explain` zeigt, dass die Bilanz genau dann aufgeht, wenn das 2 H₂O des Kristalls als Wasser gezählt wird. Die Gewohnheit, die dieser Eintrag belohnt, ist eine überraschende Zahl zu prüfen, nicht sie wegzustimmen."
 
 [reaction.registers]
 lv1 = "Gypsum is the powder plaster casts are made of. It has water hidden inside the crystals — real water, locked in the pattern — and when the crystals dissolve, that water is set free."
-lv1_de = "Gips ist das Pulver, aus dem Gipsverbände gemacht werden. Er hat Wasser im Inneren der Kristalle versteckt — echtes Wasser, eingeschlossen im Muster — und wenn sich die Kristalle lösen, wird dieses Wasser freigesetzt."
 lv2 = "5 g of gypsum is 0.029 mol; only 0.0156 mol dissolves before the solution is saturated, so about 46% stays solid. Each mole that goes releases 2 mol of crystal water into the solvent, so the vessel's liquid inventory grows measurably."
-lv2_de = "5 g Gips sind 0,029 mol; nur 0,0156 mol lösen sich, bevor die Lösung gesättigt ist, sodass etwa 46 % fest bleiben. Jedes Mol, das sich löst, setzt 2 mol Kristallwasser ins Lösungsmittel frei, sodass der flüssige Bestand des Gefäßes messbar wächst."
 lv3 = "The hydrate waters are not curated: the engine derives them by matching the registry solid's formula against the database phase CaSO₄:2H₂O and moves 2 mol of H₂O between crystal and solvent per mole reacted. Computed pH 7.07 at I = 0.042 mol/kgw, with a third of the dissolved calcium present as the neutral CaSO₄(aq) ion pair — which is why gypsum's apparent solubility exceeds a free-ion K_sp estimate."
-lv3_de = "Die Kristallwasser sind nicht kuratiert: Die Engine leitet sie ab, indem sie die Formel des Registry-Feststoffs mit der Datenbankphase CaSO₄:2H₂O abgleicht und pro umgesetztem Mol 2 mol H₂O zwischen Kristall und Lösungsmittel verschiebt. Berechneter pH-Wert 7,07 bei I = 0,042 mol/kgw, wobei ein Drittel des gelösten Calciums als neutrales Ionenpaar CaSO₄(aq) vorliegt — weshalb die scheinbare Löslichkeit von Gips über einer Schätzung mit freien Ionen und K_sp liegt."
 
 [reaction.provenance]
 source = "Standard curriculum hydrates and water of crystallisation; gypsum phase, stoichiometry and hydrate waters derived from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1396,42 +1134,28 @@ temperature_c = { min = 40.0, max = 46.0 }
 
 [reaction.expect.predict]
 question = "A litre of water is saturated with salt — a heap of undissolved crystals sits at the bottom. You heat it from 19 °C to 43 °C. What happens to the heap?"
-question_de = "Ein Liter Wasser ist mit Salz gesättigt — ein Haufen ungelöster Kristalle liegt am Boden. Du erwärmst ihn von 19 °C auf 43 °C. Was passiert mit dem Haufen?"
 options = [
   "It disappears entirely; hot water dissolves far more of everything",
   "It shrinks slightly — about 0.1 mol more dissolves",
   "It grows; heating drives solids out of solution",
 ]
-options_de = [
-    "Er verschwindet vollständig; heißes Wasser löst von allem weit mehr",
-    "Er schrumpft leicht — etwa 0,1 mol mehr löst sich",
-    "Er wächst; Erwärmen treibt Feststoffe aus der Lösung",
-]
 answer = 1
 misconception = "Sugar and potassium nitrate teach that heating dissolves dramatically more, and the lesson gets generalised. Salt is the counter-example every kitchen contains: its solubility rises by only a few percent from cold water to boiling. Whether heat helps depends on the sign of the enthalpy of solution, and for NaCl that enthalpy is nearly zero (+3.9 kJ/mol) — so temperature has almost nothing to push on."
-misconception_de = "Zucker und Kaliumnitrat lehren, dass Erwärmen dramatisch mehr löst, und diese Lektion wird verallgemeinert. Salz ist das Gegenbeispiel, das jede Küche enthält: Seine Löslichkeit steigt von kaltem Wasser bis zum Sieden nur um wenige Prozent. Ob Wärme hilft, hängt vom Vorzeichen der Lösungsenthalpie ab, und bei NaCl ist diese Enthalpie fast null (+3,9 kJ/mol) — die Temperatur hat also fast nichts, worauf sie einwirken könnte."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "'Hot water dissolves more' as a universal lever: heat is imagined to act on dissolving as such, rather than through each substance's own enthalpy of solution."
-reveals_de = "'Heißes Wasser löst mehr' als universeller Hebel: Wärme wird sich als Wirkung auf das Lösen an sich vorgestellt, statt über die eigene Lösungsenthalpie jedes Stoffes."
 next = "Measure the heap at both temperatures on this bench: 24 degrees buy about 0.1 mol against a ceiling of six. Then ask what heat has to push on — for NaCl the enthalpy of solution is +3.9 kJ/mol, nearly nothing, and the lever moves nearly nothing."
-next_de = "Miss den Haufen an diesem Labor bei beiden Temperaturen: 24 Grad bringen etwa 0,1 mol gegenüber einer Obergrenze von sechs. Frag dann, worauf die Wärme überhaupt einwirken kann — bei NaCl beträgt die Lösungsenthalpie +3,9 kJ/mol, fast nichts, und der Hebel bewegt fast nichts."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The rule from gases, transplanted: warm lemonade goes flat, so heat drives dissolved things out — solids included."
-reveals_de = "Die Regel aus der Welt der Gase, verpflanzt: warme Limonade wird schal, also treibt Wärme Gelöstes hinaus — Feststoffe eingeschlossen."
 next = "The transplanted rule is genuinely right where it came from: gases do leave warm water, because their dissolution releases heat. Whether heating helps or hurts follows the sign of that enthalpy in both cases — for NaCl it is barely positive, so the heap shrinks slightly instead of growing."
-next_de = "Die verpflanzte Regel stimmt tatsächlich dort, woher sie kommt: Gase verlassen warmes Wasser wirklich, weil ihr Lösen Wärme freisetzt. Ob Erwärmen hilft oder schadet, folgt in beiden Fällen dem Vorzeichen dieser Enthalpie — bei NaCl ist es knapp positiv, sodass der Haufen leicht schrumpft statt zu wachsen."
 
 [reaction.registers]
 lv1 = "The salty water already has salt sitting on the bottom that will not go in. Heat it up and only a very little more disappears. Hot water is not magic."
-lv1_de = "Das Salzwasser hat bereits Salz am Boden liegen, das sich nicht lösen will. Erwärmst du es, verschwindet nur sehr wenig mehr. Heißes Wasser ist keine Magie."
 lv2 = "Saturation rises from about 6.11 to 6.21 mol/kgw between 19 °C and 43 °C — roughly 1.7%. Compare potassium nitrate, which more than doubles over the same range: the difference is the enthalpy of solution, and NaCl's is nearly zero."
-lv2_de = "Die Sättigung steigt zwischen 19 °C und 43 °C von etwa 6,11 auf 6,21 mol/kgw — etwa 1,7 %. Vergleiche Kaliumnitrat, das sich im gleichen Bereich mehr als verdoppelt: Der Unterschied ist die Lösungsenthalpie, und die von NaCl ist fast null."
 lv3 = "Both the temperature and the new saturation are computed, not tabulated: the 100 kJ is distributed over the vessel's heat capacity to give 43.05 °C, and the halite phase is re-equilibrated at that temperature, dissolving a further 0.1025 mol. Note the temperature also fell 5.6 °C on the initial dissolution — this run is a cold pack and a solubility experiment at once."
-lv3_de = "Sowohl die Temperatur als auch die neue Sättigung sind berechnet, nicht tabelliert: Die 100 kJ werden über die Wärmekapazität des Gefäßes verteilt und ergeben 43,05 °C, und die Halit-Phase wird bei dieser Temperatur neu ins Gleichgewicht gebracht, wobei weitere 0,1025 mol gelöst werden. Beachte, dass die Temperatur beim anfänglichen Lösen auch um 5,6 °C gefallen ist — dieser Durchlauf ist gleichzeitig eine Kühlpackung und ein Löslichkeitsexperiment."
 
 [reaction.provenance]
 source = "Temperature dependence of halite solubility; van 't Hoff behaviour from log K temperature data in PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1468,42 +1192,28 @@ ph = { min = 6.9, max = 7.3 }
 
 [reaction.expect.predict]
 question = "The silver test used sodium chloride. This time it is potassium chloride. What happens?"
-question_de = "Der Silbertest verwendete Natriumchlorid. Diesmal ist es Kaliumchlorid. Was passiert?"
 options = [
   "Nothing — the reaction was between silver nitrate and sodium chloride specifically",
   "The same white precipitate, in the same amount",
   "A different precipitate — potassium chloride is a different compound",
 ]
-options_de = [
-    "Nichts — die Reaktion fand speziell zwischen Silbernitrat und Natriumchlorid statt",
-    "Derselbe weiße Niederschlag, in derselben Menge",
-    "Ein anderer Niederschlag — Kaliumchlorid ist eine andere Verbindung",
-]
 answer = 1
 misconception = "Reactions get memorised as compound-plus-compound, so swapping the cation looks like changing the reaction. In solution there are no compounds — there are ions. The only thing that happens is Ag⁺ + Cl⁻ → AgCl↓; potassium and nitrate never take part and could be replaced again without changing anything. This is what a net ionic equation *means*, and it is why the silver test detects chloride rather than detecting sodium chloride."
-misconception_de = "Reaktionen werden als Verbindung-plus-Verbindung auswendig gelernt, sodass das Austauschen des Kations wie eine andere Reaktion wirkt. In Lösung gibt es keine Verbindungen — es gibt Ionen. Das Einzige, was passiert, ist Ag⁺ + Cl⁻ → AgCl↓; Kalium und Nitrat nehmen nie teil und könnten erneut ausgetauscht werden, ohne dass sich etwas ändert. Das ist es, was eine Netto-Ionengleichung *bedeutet*, und deshalb weist der Silbertest Chlorid nach, nicht Natriumchlorid."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The reaction is a memorised sentence — 'silver nitrate plus sodium chloride' — so changing any word breaks the spell, and the new pair has no sentence."
-reveals_de = "Die Reaktion ist ein auswendig gelernter Satz — 'Silbernitrat plus Natriumchlorid' —, sodass das Ändern irgendeines Worts den Zauber bricht und das neue Paar keinen Satz hat."
 next = "Run both on this bench and look at `particles`: the same precipitate in the same amount, with potassium floating exactly where sodium floated, glyph for glyph. The sentence that survives the swap is the net ionic one, and it never mentioned sodium."
-next_de = "Führe beide an diesem Labor aus und schau dir `particles` an: derselbe Niederschlag in derselben Menge, mit Kalium genau dort schwebend, wo Natrium schwebte, Symbol für Symbol. Der Satz, der den Austausch übersteht, ist der Netto-Ionensatz, und der erwähnte nie Natrium."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The solid inherits its identity from the reagent bottles: different starting compound, different precipitate — the product as a blend of its parents rather than a new pairing of ions."
-reveals_de = "Der Feststoff erbt seine Identität von den Reagenzflaschen: unterschiedliche Ausgangsverbindung, unterschiedlicher Niederschlag — das Produkt als Mischung seiner Ausgangsstoffe statt als neue Paarung von Ionen."
 next = "Filter both experiments and put the solids side by side: same colour, same mass per mole of chloride, same behaviour in light. Nothing of the potassium is in the funnel, because the only ions that met are Ag⁺ and Cl⁻ — the cation stays in the flask both times."
-next_de = "Filtriere beide Experimente und stelle die Feststoffe nebeneinander: gleiche Farbe, gleiche Masse pro Mol Chlorid, gleiches Verhalten im Licht. Nichts vom Kalium ist im Trichter, denn die einzigen Ionen, die sich getroffen haben, sind Ag⁺ und Cl⁻ — das Kation bleibt beide Male im Kolben."
 
 [reaction.registers]
 lv1 = "Different salt, same result: the water goes milky white the instant the two are mixed. The important part was never the whole ingredient — it was one piece of it."
-lv1_de = "Anderes Salz, gleiches Ergebnis: Das Wasser wird milchig weiß in dem Moment, in dem die beiden gemischt werden. Der wichtige Teil war nie die ganze Zutat — es war ein Teil davon."
 lv2 = "Ag⁺ + Cl⁻ → AgCl↓. K⁺ and NO₃⁻ are spectators and stay dissolved. 0.01 mol of each reactant gives 0.01 mol of precipitate, exactly as with sodium chloride."
-lv2_de = "Ag⁺ + Cl⁻ → AgCl↓. K⁺ und NO₃⁻ sind Zuschauerionen und bleiben gelöst. 0,01 mol jedes Reaktanten ergeben 0,01 mol Niederschlag, genau wie bei Natriumchlorid."
 lv3 = "The engine never sees 'potassium chloride' as a reactant — it books the solid as element totals and lets the minimiser find the stable assemblage, which is cerargyrite plus a K–NO₃ solution. Residual dissolved silver is 2.2 × 10⁻⁶ mol/kgw as Ag⁺ plus 3.3 × 10⁻⁷ as AgCl(aq): the test is sensitive, not absolute."
-lv3_de = "Die Engine sieht 'Kaliumchlorid' nie als Reaktanten — sie verbucht den Feststoff als Elementsummen und lässt den Minimierer die stabile Zusammensetzung finden, das ist Chlorargyrit plus eine K-NO₃-Lösung. Das restliche gelöste Silber beträgt 2,2 × 10⁻⁶ mol/kgw als Ag⁺ plus 3,3 × 10⁻⁷ als AgCl(aq): Der Test ist empfindlich, nicht absolut."
 
 [reaction.provenance]
 source = "Standard curriculum halide test; K_sp and speciation from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1513,7 +1223,6 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "acetates-stay-dissolved"
 spine = ["salzbildung"]
 summary = "Ca²⁺ + 2 CH₃COO⁻ → no precipitate (all acetates are soluble)"
-summary_de = "Ca²⁺ + 2 CH₃COO⁻ → kein Niederschlag (alle Acetate sind löslich)"
 concepts = ["solubility-rules"]
 requires = ["precipitation", "net-ionic-reaction"]
 apparatus = ["beaker", "ph-meter"]
@@ -1539,42 +1248,28 @@ ph = { min = 8.4, max = 8.8 }
 
 [reaction.expect.predict]
 question = "Two clear salt solutions are poured together — calcium chloride and sodium acetate. What do you see?"
-question_de = "Zwei klare Salzlösungen werden zusammengegossen — Calciumchlorid und Natriumacetat. Was siehst du?"
 options = [
   "A white precipitate; mixing two salt solutions makes a new solid",
   "Nothing visible — it stays clear, because every possible product is soluble",
   "Fizzing, because acetate comes from an acid",
 ]
-options_de = [
-    "Ein weißer Niederschlag; das Mischen zweier Salzlösungen ergibt einen neuen Feststoff",
-    "Nichts Sichtbares — sie bleibt klar, weil jedes mögliche Produkt löslich ist",
-    "Sprudeln, weil Acetat von einer Säure stammt",
-]
 answer = 1
 misconception = "After a few precipitation demonstrations, 'mix two salt solutions and something falls out' becomes the expected rule. Most mixtures do nothing at all. A precipitate appears only if some cation–anion pairing happens to be insoluble; here calcium acetate and sodium chloride are both freely soluble, so all four ions simply carry on. Learning when nothing happens is what makes the solubility rules predictive rather than decorative."
-misconception_de = "Nach ein paar Fällungsvorführungen wird 'zwei Salzlösungen mischen und etwas fällt aus' zur erwarteten Regel. Die meisten Mischungen tun überhaupt nichts. Ein Niederschlag erscheint nur, wenn zufällig eine Kation-Anion-Paarung unlöslich ist; hier sind Calciumacetat und Natriumchlorid beide frei löslich, sodass alle vier Ionen einfach weiterbestehen. Zu lernen, wann nichts passiert, ist das, was die Löslichkeitsregeln vorhersagend statt dekorativ macht."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The demonstration became the rule: mixing clear salt solutions is what you do to make a solid, so a solid must come — the lesson's examples were all hits, and the misses were never shown."
-reveals_de = "Die Vorführung wurde zur Regel: Klare Salzlösungen zu mischen ist das, was man tut, um einen Feststoff herzustellen, also muss ein Feststoff entstehen — die Beispiele der Lektion waren alle Treffer, und die Fehlschläge wurden nie gezeigt."
 next = "Predict before pouring, from the table: the two new pairings are calcium acetate and sodium chloride, both freely soluble, so the prediction is 'nothing'. Run it and `inspect`: all four ions still in the inventory. A rule earns the name predictive on the misses, not the hits."
-next_de = "Sage voraus, bevor du gießt, anhand der Tabelle: Die beiden neuen Paarungen sind Calciumacetat und Natriumchlorid, beide frei löslich, also lautet die Vorhersage 'nichts'. Führe es aus und `inspect`: Alle vier Ionen sind noch im Bestand. Eine Regel verdient sich den Namen vorhersagend an den Fehlschlägen, nicht an den Treffern."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Provenance confused with behaviour: acetate 'comes from an acid', so it should act like one — and fizzing is the acid's signature."
-reveals_de = "Herkunft mit Verhalten verwechselt: Acetat 'stammt von einer Säure', also müsste es sich wie eine verhalten — und Sprudeln ist das Markenzeichen der Säure."
 next = "Ask what a fizz physically requires: a volatile product. List every pairing these four ions can make — none is a gas. The ion that came *from* an acid is that acid's conjugate base, which is why the mixture, if anything, leans the other way."
-next_de = "Frag, was Sprudeln physikalisch voraussetzt: ein flüchtiges Produkt. Liste jede Paarung auf, die diese vier Ionen bilden können — keine ist ein Gas. Das Ion, das *von* einer Säure stammt, ist die konjugierte Base dieser Säure, weshalb die Mischung, wenn überhaupt, in die andere Richtung tendiert."
 
 [reaction.registers]
 lv1 = "Two clear liquids, poured together — and it stays clear. Sometimes mixing chemicals does nothing you can see. That is an answer too."
-lv1_de = "Zwei klare Flüssigkeiten, zusammengegossen — und es bleibt klar. Manchmal bewirkt das Mischen von Chemikalien nichts Sichtbares. Auch das ist eine Antwort."
 lv2 = "Calcium acetate and sodium chloride are both soluble, so no double displacement occurs. The four ions (Ca²⁺, Cl⁻, Na⁺, CH₃COO⁻) coexist. The pH of 8.6 comes from acetate hydrolysis, not from any reaction between the two salts."
-lv2_de = "Calciumacetat und Natriumchlorid sind beide löslich, sodass keine doppelte Umsetzung stattfindet. Die vier Ionen (Ca²⁺, Cl⁻, Na⁺, CH₃COO⁻) bestehen nebeneinander. Der pH-Wert von 8,6 stammt aus der Hydrolyse des Acetats, nicht aus irgendeiner Reaktion zwischen den beiden Salzen."
 lv3 = "The absence of a precipitate is computed, not assumed: the minimiser is offered every candidate phase whose formula matches a registry solid and finds none supersaturated. An `absent` claim is checked by lint exactly as a positive one is, which is what stops this entry from quietly becoming false if the phase set grows."
-lv3_de = "Das Fehlen eines Niederschlags ist berechnet, nicht angenommen: Dem Minimierer wird jede Kandidatenphase angeboten, deren Formel zu einem Registry-Feststoff passt, und er findet keine übersättigt. Eine `absent`-Behauptung wird von lint genauso geprüft wie eine positive — das verhindert, dass dieser Eintrag stillschweigend falsch wird, sollte die Phasenmenge wachsen."
 
 [reaction.provenance]
 source = "Standard curriculum solubility rules. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1610,42 +1305,28 @@ ph = { min = 9.9, max = 10.3 }
 
 [reaction.expect.predict]
 question = "Hard water is water carrying dissolved calcium. Washing soda is added to soften it. Where does the calcium go?"
-question_de = "Hartes Wasser ist Wasser, das gelöstes Calcium mit sich trägt. Waschsoda wird zugegeben, um es zu enthärten. Wohin geht das Calcium?"
 options = [
   "It is destroyed by the soda",
   "It falls out of the water as solid chalk, which can be filtered or left behind in the machine",
   "It stays dissolved but is somehow 'deactivated'",
 ]
-options_de = [
-    "Es wird von der Soda zerstört",
-    "Es fällt als feste Kreide aus dem Wasser aus, die abfiltriert werden kann oder in der Maschine zurückbleibt",
-    "Es bleibt gelöst, wird aber irgendwie 'deaktiviert'",
-]
 answer = 1
 misconception = "Softening sounds like removing a property, so learners imagine the calcium being neutralised in place. Nothing is destroyed and nothing is deactivated: the calcium is moved from the solution to a solid. 99.8% of it here. That solid is the grey sludge in the washing machine — softening trades dissolved hardness for a precipitate you can separate."
-misconception_de = "Enthärten klingt danach, eine Eigenschaft zu entfernen, sodass Lernende sich vorstellen, das Calcium werde an Ort und Stelle neutralisiert. Nichts wird zerstört und nichts wird deaktiviert: Das Calcium wird von der Lösung in einen Feststoff verschoben. Hier sind es 99,8 % davon. Dieser Feststoff ist der graue Schlamm in der Waschmaschine — Enthärten tauscht gelöste Härte gegen einen Niederschlag, den man abtrennen kann."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Matter vanishes when treated: the soda 'destroys' the calcium the way the acid and base 'destroyed' each other — conservation suspended wherever a problem is solved."
-reveals_de = "Materie verschwindet bei Behandlung: Die Soda 'zerstört' das Calcium so, wie Säure und Base einander 'zerstörten' — die Erhaltung der Materie wird immer dann außer Kraft gesetzt, wenn ein Problem gelöst wird."
 next = "Filter and weigh (`filtering-a-precipitate` is the move): the calcium is sitting in the funnel as chalk, 99.8% of it, and the ledger balances to the milligram. Destruction would leave the funnel empty and the books short."
-next_de = "Filtriere und wiege (`filtering-a-precipitate` ist der richtige Schritt): Das Calcium liegt zu 99,8 % als Kreide im Trichter, und die Bilanz stimmt bis aufs Milligramm. Zerstörung würde den Trichter leer und die Bücher unausgeglichen lassen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Chemistry by switch-off: the calcium stays where it was but its hardness property is toggled away — properties as flags on a substance rather than consequences of where it is."
-reveals_de = "Chemie per Ausschalter: Das Calcium bleibt, wo es war, aber seine Härte-Eigenschaft wird weggeschaltet — Eigenschaften als Schalter an einem Stoff statt als Folge davon, wo er sich befindet."
 next = "`inspect` the solution after softening: the dissolved calcium is genuinely gone from the inventory, and a solid appeared in the same step, mole for mole. Deactivation-in-place would show it still dissolved — the bench has nowhere to hide a flag."
-next_de = "`inspect` die Lösung nach dem Enthärten: Das gelöste Calcium ist tatsächlich aus dem Bestand verschwunden, und im selben Schritt erschien ein Feststoff, Mol für Mol. Eine Deaktivierung an Ort und Stelle würde es weiterhin gelöst zeigen — das Labor hat nirgendwo einen Schalter zu verstecken."
 
 [reaction.registers]
 lv1 = "Hard water will not lather. Stir in washing soda and the water goes cloudy — the hardness has turned into a white powder you can filter away, and now the soap works."
-lv1_de = "Hartes Wasser schäumt nicht. Rühre Waschsoda ein, und das Wasser wird trüb — die Härte hat sich in ein weißes Pulver verwandelt, das du herausfiltern kannst, und jetzt funktioniert die Seife."
 lv2 = "Na₂CO₃ + CaCl₂ → CaCO₃↓ + 2 NaCl. 0.05 mol of each removes 0.0495 mol of calcium as solid carbonate, leaving 0.0001 mol dissolved — a 99.8% removal, with sodium chloride left behind in solution."
-lv2_de = "Na₂CO₃ + CaCl₂ → CaCO₃↓ + 2 NaCl. Je 0,05 mol entfernen 0,0495 mol Calcium als festes Carbonat und lassen 0,0001 mol gelöst zurück — eine Entfernung von 99,8 %, wobei Natriumchlorid in Lösung zurückbleibt."
 lv3 = "Computed as a saturation problem: calcite precipitates until SI = 0, and the residue is set by K_sp and the remaining carbonate, giving [Ca²⁺] = 1.0 × 10⁻⁴ mol/kgw at pH 10.13. The exchange of hardness for sodium is exactly why softened water is not recommended for drinking on a low-sodium diet."
-lv3_de = "Berechnet als Sättigungsproblem: Calcit fällt aus, bis SI = 0, und der Rest wird durch K_sp und das verbleibende Carbonat festgelegt, was [Ca²⁺] = 1,0 × 10⁻⁴ mol/kgw bei pH 10,13 ergibt. Genau dieser Tausch von Härte gegen Natrium ist der Grund, warum enthärtetes Wasser bei natriumarmer Ernährung nicht zum Trinken empfohlen wird."
 
 [reaction.provenance]
 source = "Standard curriculum water softening; calcite equilibrium from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1679,11 +1360,8 @@ ph = { min = 6.3, max = 6.7 }
 
 [reaction.registers]
 lv1 = "Two clear liquids meet and a white solid grows — and this one is plaster. The same stuff a broken arm gets set in, made in a beaker out of two things that looked like water."
-lv1_de = "Zwei klare Flüssigkeiten treffen aufeinander, und ein weißer Feststoff wächst heran — und dieser hier ist Gips. Derselbe Stoff, in dem ein gebrochener Arm eingegipst wird, hergestellt in einem Becherglas aus zwei Dingen, die wie Wasser aussahen."
 lv2 = "Calcium from the chloride meets sulfate from the Epsom salts and precipitates gypsum, CaSO₄·2H₂O. 0.064 of the 0.1 mol of calcium comes out; the magnesium stays dissolved because magnesium sulfate is soluble."
-lv2_de = "Calcium aus dem Chlorid trifft auf Sulfat aus dem Bittersalz und fällt als Gips aus, CaSO₄·2H₂O. 0,064 der 0,1 mol Calcium fallen aus; das Magnesium bleibt gelöst, weil Magnesiumsulfat löslich ist."
 lv3 = "Temporary hardness (bicarbonate) is removed by boiling; permanent hardness (sulfate) is not — and this entry shows why the distinction is about which anion is present, not about how hard the water is. The engine also books 2 mol of water per mole of gypsum out of the solvent, so the free water in the vessel measurably falls: 55.34 mol to 55.21 mol."
-lv3_de = "Temporäre Härte (Hydrogencarbonat) wird durch Kochen entfernt; permanente Härte (Sulfat) nicht — und dieser Eintrag zeigt, warum die Unterscheidung davon abhängt, welches Anion vorliegt, nicht davon, wie hart das Wasser ist. Die Engine bucht außerdem 2 mol Wasser pro Mol Gips aus dem Lösungsmittel ab, sodass das freie Wasser im Gefäß messbar sinkt: von 55,34 mol auf 55,21 mol."
 
 [reaction.provenance]
 source = "Standard curriculum permanent hardness; gypsum equilibrium and hydrate stoichiometry from PHREEQC wateq4f.dat (USGS)"
@@ -1695,7 +1373,6 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "filtering-a-precipitate"
 spine = ["filtration"]
 summary = "AgCl(s) retained on the paper;  Na⁺, NO₃⁻ pass through"
-summary_de = "AgCl(s) bleibt auf dem Papier zurück;  Na⁺, NO₃⁻ passieren"
 concepts = ["filtration", "separation"]
 requires = ["precipitation"]
 apparatus = ["filter-funnel", "filter-paper", "beaker"]
@@ -1729,42 +1406,28 @@ events = ["precipitated:AgCl", "filtered", "observed"]
 
 [reaction.expect.predict]
 question = "A cloudy silver-chloride mixture is poured through filter paper. What is in the funnel, and what is in the flask underneath?"
-question_de = "Eine trübe Silberchlorid-Mischung wird durch Filterpapier gegossen. Was ist im Trichter, und was ist im Kolben darunter?"
 options = [
   "Solid silver chloride in the funnel; a clear solution of sodium and nitrate ions in the flask",
   "Everything in the flask — filter paper only stops big lumps, and dissolved things are small",
   "Solid in the funnel; pure water in the flask, since the filter removes the chemicals",
 ]
-options_de = [
-    "Festes Silberchlorid im Trichter; eine klare Lösung aus Natrium- und Nitrat-Ionen im Kolben",
-    "Alles im Kolben — Filterpapier hält nur große Klumpen zurück, und Gelöstes ist klein",
-    "Feststoff im Trichter; reines Wasser im Kolben, da der Filter die Chemikalien entfernt",
-]
 answer = 0
 misconception = "The third option is the common one: filtration is imagined as purification. Filter paper separates by phase, not by cleanliness — anything dissolved goes straight through. The filtrate here is not water; it is a sodium nitrate solution, and it still contains 8 × 10⁻⁴ mol/kgw of dissolved silver. If you want the dissolved part back you must evaporate, not filter."
-misconception_de = "Die dritte Option ist die häufige: Filtration wird sich als Reinigung vorgestellt. Filterpapier trennt nach Phase, nicht nach Sauberkeit — alles Gelöste geht direkt hindurch. Das Filtrat hier ist kein Wasser; es ist eine Natriumnitrat-Lösung, und sie enthält immer noch 8 × 10⁻⁴ mol/kgw gelöstes Silber. Willst du den gelösten Teil zurückgewinnen, musst du eindampfen, nicht filtrieren."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "The precipitate is filed as 'in the liquid', so it goes where the liquid goes — the difference between suspended solid and dissolved ions is a difference of size only, and everything chemical is small."
-reveals_de = "Der Niederschlag wird als 'in der Flüssigkeit' eingeordnet, also geht er dorthin, wohin die Flüssigkeit geht — der Unterschied zwischen suspendiertem Feststoff und gelösten Ionen wird nur als Größenunterschied gesehen, und alles Chemische ist klein."
 next = "Pour and `inspect` both vessels: the AgCl portion is in neither solution — it stayed a solid, and the paper holds phases, not sizes. The cloudiness that would not pass is the same cloudiness that settles if you simply wait."
-next_de = "Gieße und `inspect` beide Gefäße: Der AgCl-Anteil ist in keiner der beiden Lösungen — er blieb ein Feststoff, und das Papier hält Phasen zurück, keine Größen. Die Trübung, die nicht durchgeht, ist dieselbe Trübung, die sich absetzt, wenn du einfach wartest."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Filtration as purification: the paper takes 'the chemicals' out, so what drips through is clean — separation imagined by cleanliness rather than by phase."
-reveals_de = "Filtration als Reinigung: Das Papier nimmt 'die Chemikalien' heraus, also ist das, was durchtropft, sauber — Trennung wird sich als Sauberkeit vorgestellt, nicht als Phase."
 next = "Evaporate the filtrate (`crystallising-salt-from-brine` is the move): crystals of sodium nitrate appear out of the 'pure water', and the lv3 readout still shows 8 × 10⁻⁴ mol/kgw of dissolved silver that no paper can hold back. What filtration removes is a phase; what purity needs is a different operation."
-next_de = "Dampfe das Filtrat ein (`crystallising-salt-from-brine` ist der richtige Schritt): Kristalle von Natriumnitrat erscheinen aus dem 'reinen Wasser', und die lv3-Anzeige zeigt immer noch 8 × 10⁻⁴ mol/kgw gelöstes Silber, das kein Papier zurückhalten kann. Was Filtration entfernt, ist eine Phase; was Reinheit braucht, ist ein anderer Vorgang."
 
 [reaction.registers]
 lv1 = "Pour the cloudy mixture through the paper cone. The white solid stays behind in the paper, and what drips through is completely clear — but it is not pure water, and it is not safe to drink."
-lv1_de = "Gieße die trübe Mischung durch den Papierkegel. Der weiße Feststoff bleibt im Papier zurück, und was durchtropft, ist völlig klar — aber es ist kein reines Wasser, und es ist nicht sicher zu trinken."
 lv2 = "Filtration separates by phase: 0.0099 mol of solid AgCl is retained (1.4 g), while the whole aqueous phase — water, Na⁺, NO₃⁻ and the trace dissolved silver — passes into v2. Weighing the dried residue is how a precipitation is quantified."
-lv2_de = "Filtration trennt nach Phase: 0,0099 mol festes AgCl werden zurückgehalten (1,4 g), während die gesamte wässrige Phase — Wasser, Na⁺, NO₃⁻ und die Spur gelöstes Silber — in v2 übergeht. Das Wiegen des getrockneten Rückstands ist die Methode, um eine Fällung zu quantifizieren."
 lv3 = "The engine re-equilibrates both vessels after the transfer, which is why the filtrate is characterised separately: pH 7.23, I = 0.10 mol/kgw, with Ag⁺ at 8.1 × 10⁻⁴ mol/kgw. The residue vessel holds solid only and has no solution at all, so a pH meter in it reads nothing — the lab says so rather than inventing a number."
-lv3_de = "Die Engine bringt beide Gefäße nach der Übertragung neu ins Gleichgewicht, weshalb das Filtrat gesondert charakterisiert wird: pH 7,23, I = 0,10 mol/kgw, mit Ag⁺ bei 8,1 × 10⁻⁴ mol/kgw. Das Rückstandsgefäß enthält nur Feststoff und überhaupt keine Lösung, sodass ein pH-Meter darin nichts anzeigt — das Labor sagt das ehrlich, statt eine Zahl zu erfinden."
 
 [reaction.provenance]
 source = "Standard curriculum filtration and gravimetric separation. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1774,7 +1437,6 @@ computed_by = "PHREEQC via Kerotakis L2; phase separation by the Kerotakis bench
 id = "crystallising-salt-from-brine"
 spine = ["eindampfen", "gewinnung-und-abbau-von-salzen"]
 summary = "Na⁺ + Cl⁻ → NaCl(s)  as water leaves"
-summary_de = "Na⁺ + Cl⁻ → NaCl(s), während Wasser entweicht"
 concepts = ["crystallisation", "evaporation"]
 requires = ["saturation", "solubility-limit"]
 apparatus = ["evaporating-basin", "bunsen", "balance"]
@@ -1800,42 +1462,28 @@ ph = { min = 6.2, max = 6.6 }
 
 [reaction.expect.predict]
 question = "117 g of salt dissolves completely in a litre of water. You boil off four fifths of the water. What is in the basin?"
-question_de = "117 g Salz lösen sich vollständig in einem Liter Wasser. Du kochst vier Fünftel des Wassers ab. Was ist in der Schale?"
 options = [
   "Nothing but very salty water; it all dissolved once, so it stays dissolved",
   "All 117 g back as crystals, since the water has mostly gone",
   "About 46 g of crystals, with the rest still dissolved in the remaining water",
 ]
-options_de = [
-    "Nichts als sehr salziges Wasser; es hat sich einmal gelöst, also bleibt es gelöst",
-    "Alle 117 g wieder als Kristalle, da das Wasser größtenteils weg ist",
-    "Etwa 46 g Kristalle, der Rest bleibt im verbliebenen Wasser gelöst",
-]
 answer = 2
 misconception = "The first answer forgets that solubility is per unit of *solvent*, not a one-way door: take the water away and the salt has nowhere to stay. The second overshoots — 200 mL of water can still hold 1.22 mol of salt, so only the excess crystallises. Working out which fraction comes back is the whole of salt-pan chemistry, and it is a subtraction: what you put in, minus what the remaining water can still hold."
-misconception_de = "Die erste Antwort vergisst, dass Löslichkeit pro Einheit *Lösungsmittel* gilt und keine Einbahnstraße ist: Nimmt man das Wasser weg, hat das Salz keinen Platz mehr zu bleiben. Die zweite schießt übers Ziel hinaus — 200 mL Wasser können immer noch 1,22 mol Salz halten, also kristallisiert nur der Überschuss aus. Herauszufinden, welcher Anteil zurückkommt, ist die gesamte Chemie der Salzgärten, und es ist eine Subtraktion: das, was hineingegeben wurde, minus das, was das verbliebene Wasser noch halten kann."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Dissolving is a one-way door: once a solid has 'become liquid' it stays that way, however much of the liquid leaves — solubility as an event in the salt's past rather than a ratio to the water's present."
-reveals_de = "Lösen gilt als Einbahnstraße: Sobald ein Feststoff 'flüssig geworden' ist, bleibt er das, egal wie viel von der Flüssigkeit verschwindet — Löslichkeit als Ereignis in der Vergangenheit des Salzes statt als Verhältnis zur Gegenwart des Wassers."
 next = "Watch the bench report the moment of return: crystals appear exactly when the shrinking water's ceiling crosses the load, not before. The salt never changed; its allowance per gram of water did."
-next_de = "Beobachte, wie das Labor den Moment der Rückkehr meldet: Kristalle erscheinen genau dann, wenn die Obergrenze des schrumpfenden Wassers die Beladung unterschreitet, nicht vorher. Das Salz hat sich nie verändert; sein Kontingent pro Gramm Wasser schon."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "The right mechanism, overshot: less water means crystals, so almost no water means all the crystals — the remaining water's own carrying capacity drops out of the account."
-reveals_de = "Der richtige Mechanismus, übertrieben: weniger Wasser bedeutet Kristalle, also müsste fast kein Wasser alle Kristalle bedeuten — die eigene Tragfähigkeit des verbleibenden Wassers fällt aus der Rechnung heraus."
 next = "Do the salt-pan subtraction: the 200 mL that remain still hold 1.22 mol, about 71 g. 117 g in, 71 g still afloat, 46 g in the basin — the answer is a ledger, and the bench's balance agrees with it."
-next_de = "Mach die Salzgarten-Subtraktion: Die verbliebenen 200 mL halten noch 1,22 mol, etwa 71 g. 117 g hinein, 71 g noch schwimmend, 46 g in der Schale — die Antwort ist eine Bilanz, und die Waage des Labors bestätigt sie."
 
 [reaction.registers]
 lv1 = "Salty water, boiled down. As the water leaves, white crystals appear on the bottom — the sea's oldest trick, and how every salt pan in the world works."
-lv1_de = "Salzwasser, eingekocht. Während das Wasser entweicht, erscheinen weiße Kristalle am Boden — der älteste Trick des Meeres, und so funktioniert jeder Salzgarten der Welt."
 lv2 = "2.00 mol of NaCl dissolves in 1 L. Removing 80% of the water leaves 200 mL, which can hold only 1.22 mol at saturation, so 0.78 mol (about 46 g) crystallises out."
-lv2_de = "2,00 mol NaCl lösen sich in 1 L. Werden 80 % des Wassers entfernt, bleiben 200 mL übrig, die bei Sättigung nur 1,22 mol halten können, sodass 0,78 mol (etwa 46 g) auskristallisieren."
 lv3 = "The remaining solution sits at I = 6.12 mol/kgw, far outside the Debye–Hückel domain — this problem routes to the Pitzer ion-interaction model, and `explain` will show wateq4f and minteq.v4 giving materially different answers for the same beaker. Note also γ(Na⁺) = 1.65 here: an activity coefficient above one is normal in concentrated brine and is not an error."
-lv3_de = "Die verbleibende Lösung liegt bei I = 6,12 mol/kgw, weit außerhalb des Debye-Hückel-Bereichs — dieses Problem wird an das Pitzer-Ionenwechselwirkungsmodell weitergeleitet, und `explain` zeigt, dass wateq4f und minteq.v4 für dasselbe Becherglas deutlich unterschiedliche Antworten liefern. Beachte auch γ(Na⁺) = 1,65 hier: Ein Aktivitätskoeffizient über eins ist in konzentrierter Sole normal und kein Fehler."
 
 [reaction.provenance]
 source = "Standard curriculum evaporation and crystallisation; halite solubility from PHREEQC (pitzer.dat). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1871,42 +1519,28 @@ ph = { min = 6.9, max = 7.1 }
 
 [reaction.expect.predict]
 question = "Sixteen milligrams of potassium permanganate — a speck — go into a full litre of water. What do you see?"
-question_de = "Sechzehn Milligramm Kaliumpermanganat — ein winziges Krümelchen — kommen in einen vollen Liter Wasser. Was siehst du?"
 options = [
   "Clear water; sixteen milligrams in a litre is far too little to see",
   "Water that is clearly, obviously purple",
   "A faint purple only if you look through the whole length of the beaker",
 ]
-options_de = [
-    "Klares Wasser; sechzehn Milligramm auf einen Liter sind viel zu wenig, um es zu sehen",
-    "Wasser, das eindeutig und offensichtlich violett ist",
-    "Ein schwaches Violett, nur wenn du durch die ganze Länge des Becherglases schaust",
-]
 answer = 1
 misconception = "Amount and visibility get run together, so 'a tiny mass' is expected to mean 'a faint colour'. Visibility is set by molar absorptivity, and permanganate's is enormous — about 2400 L mol⁻¹ cm⁻¹. At 10⁻⁴ mol/L the solution is frankly purple. Copper sulfate at the same concentration would be invisible. The same reasoning is why a drop of food colouring tints a bath and a spoon of sugar does not."
-misconception_de = "Menge und Sichtbarkeit werden hier vermengt, sodass 'eine winzige Masse' 'eine schwache Farbe' bedeuten soll. Sichtbarkeit wird durch den molaren Extinktionskoeffizienten bestimmt, und der von Permanganat ist gewaltig — etwa 2400 L mol⁻¹ cm⁻¹. Bei 10⁻⁴ mol/L ist die Lösung unverkennbar violett. Kupfersulfat bei derselben Konzentration wäre unsichtbar. Dieselbe Logik erklärt, warum ein Tropfen Lebensmittelfarbe ein ganzes Badewasser färbt und ein Löffel Zucker nicht."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Visibility is read straight off the mass: milligrams in a litre rounds to nothing, so the eye should see nothing — every substance carrying the same, feeble colour per gram."
-reveals_de = "Sichtbarkeit wird direkt von der Masse abgelesen: Milligramm in einem Liter rundet sich auf nichts, also sollte das Auge nichts sehen — jeder Stoff trägt scheinbar dieselbe, schwache Farbe pro Gramm."
 next = "`look v1`: the bench computes the colour from the absorption spectrum rather than asserting it, and the answer is frankly purple. Then dissolve the same few milligrams of copper sulfate — invisible. The mass was identical; the molar absorptivity was not, and that is the whole story."
-next_de = "`look v1`: Das Labor berechnet die Farbe aus dem Absorptionsspektrum, statt sie einfach zu behaupten, und die Antwort lautet unverkennbar violett. Löse dann dieselben wenigen Milligramm Kupfersulfat — unsichtbar. Die Masse war identisch; der molare Extinktionskoeffizient nicht, und das ist die ganze Geschichte."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Colour conceded, but scaled to the speck: a tiny amount can only do tiny things, so the tint must need the beaker's full depth to accumulate."
-reveals_de = "Farbe wird zugestanden, aber im Maßstab des Krümelchens: Eine winzige Menge kann nur Winziges bewirken, also muss sich der Farbton erst über die gesamte Tiefe des Becherglases aufbauen."
 next = "The entry's own comparison is the discriminator: copper sulfate at the *same concentration* shows nothing through any depth, while permanganate is unmistakable in a centimetre. If amount set visibility they would match; ε ≈ 2400 against a few is what actually separates them."
-next_de = "Der eigene Vergleich dieses Eintrags ist das entscheidende Kriterium: Kupfersulfat bei *derselben Konzentration* zeigt bei keiner Tiefe etwas, während Permanganat schon in einem Zentimeter unverkennbar ist. Würde die Menge die Sichtbarkeit bestimmen, wären sie gleich; ε ≈ 2400 gegenüber wenigen ist das, was sie tatsächlich unterscheidet."
 
 [reaction.registers]
 lv1 = "A speck of purple powder, less than a grain of rice, turns a whole litre of water purple. Some colours are astonishingly strong."
-lv1_de = "Ein Krümelchen violettes Pulver, kleiner als ein Reiskorn, färbt einen ganzen Liter Wasser violett. Manche Farben sind erstaunlich stark."
 lv2 = "0.016 g is 1.0 × 10⁻⁴ mol. In 1 L that is 10⁻⁴ mol/L, and with a molar absorptivity near 2400 the absorbance through a normal beaker is around 0.2 — plainly visible. The solution stays neutral at pH 7.00: neither K⁺ nor MnO₄⁻ reacts with water."
-lv2_de = "0,016 g sind 1,0 × 10⁻⁴ mol. In 1 L sind das 10⁻⁴ mol/L, und bei einem molaren Extinktionskoeffizienten nahe 2400 liegt die Extinktion durch ein normales Becherglas bei etwa 0,2 — deutlich sichtbar. Die Lösung bleibt bei pH 7,00 neutral: Weder K⁺ noch MnO₄⁻ reagiert mit Wasser."
 lv3 = "Two different kinds of claim sit in one beaker, and the lab keeps them apart. The pH 7.00 and the speciation are computed. The colour is curated — the registry carries permanganate's sRGB and a tinting strength of 12 000, because a real d–d and charge-transfer spectrum is not something a thermodynamic database or a cheap calculation can give honestly. The provenance says which is which."
-lv3_de = "Zwei verschiedene Arten von Behauptung stecken in einem Becherglas, und das Labor hält sie auseinander. Der pH-Wert 7,00 und die Speziation sind berechnet. Die Farbe ist kuratiert — die Registry führt das sRGB von Permanganat und eine Färbestärke von 12.000, weil ein echtes d-d- und Ladungstransfer-Spektrum nichts ist, was eine thermodynamische Datenbank oder eine billige Rechnung ehrlich liefern kann. Die Provenienz sagt, was von beidem was ist."
 
 [reaction.provenance]
 source = "Molar absorptivity of permanganate, standard spectrophotometric reference value; colour curated in the Kerotakis species registry. Speciation and pH from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1916,7 +1550,6 @@ computed_by = "PHREEQC via Kerotakis L2 for pH and speciation; colour is curated
 id = "ethanol-and-water-mix"
 spine = ["weitere-stoffeigenschaften"]
 summary = "C₂H₅OH(l) + H₂O(l) → one liquid phase (fully miscible)"
-summary_de = "C₂H₅OH(l) + H₂O(l) → eine flüssige Phase (vollständig mischbar)"
 concepts = ["miscibility", "mixtures"]
 requires = ["solutions"]
 apparatus = ["measuring-cylinder", "beaker"]
@@ -1941,42 +1574,28 @@ events = ["added:ethanol", "observed"]
 
 [reaction.expect.predict]
 question = "100 mL of water and 50 mL of ethanol are poured into one cylinder. What does the level read?"
-question_de = "100 mL Wasser und 50 mL Ethanol werden in einen Messzylinder gegossen. Was zeigt der Füllstand?"
 options = [
   "150 mL — volumes add up",
   "A little under 150 mL, because the two kinds of molecule pack together more tightly than either does alone",
   "Two layers, like oil and water",
 ]
-options_de = [
-    "150 mL — Volumina addieren sich",
-    "Etwas weniger als 150 mL, weil sich die beiden Molekülsorten enger zusammenlagern, als es jede für sich allein tut",
-    "Zwei Schichten, wie Öl und Wasser",
-]
 answer = 1
 misconception = "Volume is treated as a conserved quantity like mass. It is not: mass adds exactly, volume does not, because volume is a statement about packing. Ethanol's small hydrophobic tail slots into the gaps in water's hydrogen-bonded network, and the real mixture comes out around 145 mL. Kerotakis reports 150.0 mL — the engine assumes additive volumes, and this is a stated limitation, not a claim about the world."
-misconception_de = "Volumen wird als Erhaltungsgröße wie Masse behandelt. Das ist es nicht: Masse addiert sich exakt, Volumen nicht, weil Volumen eine Aussage über die Packung ist. Ethanols kleiner hydrophober Schwanz schlüpft in die Lücken im wasserstoffbrückengebundenen Netzwerk des Wassers, und die reale Mischung ergibt etwa 145 mL. Kerotakis berichtet 150,0 mL — die Engine geht von additiven Volumina aus, und das ist eine erklärte Einschränkung, keine Behauptung über die reale Welt."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Volume conserves the way mass does: what goes in is what reads on the cylinder, because 'amount of stuff' is one quantity rather than two. On this one, the bench itself keeps the learner company — it reports 150.0, a stated limitation."
-reveals_de = "Volumen erhält sich so wie Masse: Was hineingeht, ist das, was auf dem Zylinder abzulesen ist, weil 'Menge an Stoff' eine einzige Größe ist und keine zwei. Hier leistet sogar das Labor selbst dem Lernenden Gesellschaft — es berichtet 150,0, eine erklärte Einschränkung."
 next = "Separate the two quantities: `measure v1 balance` adds exactly, every time; a real measuring cylinder does not (≈145 mL). This is the rare entry where the honest check is the kitchen, not the simulation — the engine assumes additive volumes and says so, which is itself the lesson about trusting stated limitations."
-next_de = "Trenne die beiden Größen: `measure v1 balance` addiert sich jedes Mal exakt; ein echter Messzylinder tut das nicht (≈145 mL). Das ist der seltene Eintrag, bei dem die ehrliche Kontrolle die Küche ist, nicht die Simulation — die Engine geht von additiven Volumina aus und sagt das auch, was selbst die Lektion über das Vertrauen in erklärte Einschränkungen ist."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Alcohol is filed with oil: organic, so it must float apart — miscibility as a binary read off the substance's family rather than off what its molecules can offer water."
-reveals_de = "Alkohol wird mit Öl in eine Schublade gesteckt: organisch, also müsse er sich abscheiden — Mischbarkeit wird als binäre Eigenschaft der Stofffamilie gelesen statt davon, was seine Moleküle dem Wasser bieten können."
 next = "Pour it at any ratio: no interface, ever. Ethanol's OH end hydrogen-bonds into the water network while the short tail tucks into the gaps; oil has no OH to offer and gets the layer this learner expected. The family was the wrong sorting key — the functional group is the right one."
-next_de = "Gieße es in beliebigem Verhältnis: nie eine Grenzfläche. Ethanols OH-Ende bildet Wasserstoffbrücken in das Wassernetzwerk, während sich der kurze Schwanz in die Lücken schmiegt; Öl hat kein OH anzubieten und bekommt die Schicht, die dieser Lernende erwartet hat. Die Stofffamilie war das falsche Sortierkriterium — die funktionelle Gruppe ist das richtige."
 
 [reaction.registers]
 lv1 = "Alcohol and water mix into one single clear liquid — no layers, no line, no cloudiness. You cannot tell by looking that there are two things in there at all."
-lv1_de = "Alkohol und Wasser mischen sich zu einer einzigen klaren Flüssigkeit — keine Schichten, keine Trennlinie, keine Trübung. Man kann durch bloßes Hinsehen nicht erkennen, dass überhaupt zwei Dinge darin sind."
 lv2 = "Ethanol and water are miscible in all proportions: the OH group hydrogen-bonds to water while the small ethyl group is not big enough to force separation. Contrast oil, whose long hydrocarbon chains cannot pay the entropic cost of disrupting water's network."
-lv2_de = "Ethanol und Wasser sind in jedem Verhältnis mischbar: Die OH-Gruppe bildet Wasserstoffbrücken zum Wasser, während die kleine Ethylgruppe nicht groß genug ist, um eine Trennung zu erzwingen. Im Gegensatz dazu können Öls lange Kohlenwasserstoffketten die entropischen Kosten einer Störung des Wassernetzwerks nicht aufbringen."
 lv3 = "The honest boundary: the bench sums pure-component volumes (150.0 mL) where the real excess volume of mixing is about −3.5%, giving ≈145 mL. This is the volume of mixing, a real thermodynamic quantity that the current model does not carry. `evaporate` states a related gap out loud — separating ethanol from water needs vapour–liquid equilibrium, which is L3 and is not wired, so this vessel cannot be distilled."
-lv3_de = "Die ehrliche Grenze: Das Labor summiert die Volumina der reinen Komponenten (150,0 mL), wo das reale Exzessvolumen der Mischung bei etwa −3,5 % liegt, was ≈145 mL ergibt. Das ist das Mischungsvolumen, eine echte thermodynamische Größe, die das aktuelle Modell nicht führt. `evaporate` benennt eine verwandte Lücke offen — Ethanol von Wasser zu trennen erfordert ein Dampf-Flüssig-Gleichgewicht, das ist L3 und nicht verdrahtet, sodass dieses Gefäß nicht destilliert werden kann."
 
 [reaction.provenance]
 source = "Standard curriculum miscibility and intermolecular forces. Editorial judgement (Kerotakis): this entry exists to expose the additive-volume assumption rather than to hide it, so the model boundary is taught alongside the phenomenon.. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -2011,42 +1630,28 @@ ph = { min = 6.8, max = 7.1 }
 
 [reaction.expect.predict]
 question = "Bleach and limescale remover are both ordinary cleaning products. What happens if they are used in the same toilet bowl?"
-question_de = "Bleiche und Entkalker sind beides ganz normale Reinigungsmittel. Was passiert, wenn sie in derselben Toilettenschüssel verwendet werden?"
 options = [
   "Nothing much — both are cleaners, so they help each other",
   "Chlorine gas is released, in quantities that send people to hospital every year",
   "They neutralise each other and stop working",
 ]
-options_de = [
-    "Nicht viel — beide sind Reinigungsmittel, also unterstützen sie sich gegenseitig",
-    "Chlorgas wird freigesetzt, in Mengen, die jedes Jahr Menschen ins Krankenhaus bringen",
-    "Sie neutralisieren sich gegenseitig und wirken nicht mehr",
-]
 answer = 1
 misconception = "\"Both are cleaning products\" is read as \"both are on the same side\", and the third option shows the near-miss version: something does get neutralised, but the product is a poison gas rather than a harmless dud. Household bleach is hypochlorite in alkali; descalers are acids. The acid protonates hypochlorite and drives out Cl₂ — the gas used as a weapon in 1915."
-misconception_de = "\"Beide sind Reinigungsmittel\" wird gelesen als \"beide stehen auf derselben Seite\", und die dritte Option zeigt die knapp danebenliegende Version: Es wird tatsächlich etwas neutralisiert, aber das Produkt ist ein Giftgas statt eines harmlosen Nieten-Ergebnisses. Haushaltsbleiche ist Hypochlorit in Lauge; Entkalker sind Säuren. Die Säure protoniert Hypochlorit und treibt Cl₂ aus — das Gas, das 1915 als Waffe eingesetzt wurde."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Products are sorted by purpose, not by chemistry: two things sold for cleaning are teammates, so combining them can only clean harder."
-reveals_de = "Produkte werden nach Zweck sortiert, nicht nach Chemie: Zwei Dinge, die zum Putzen verkauft werden, gelten als Mannschaftskollegen, also kann ihre Kombination nur noch stärker reinigen."
 next = "Run it here, where the only casualty is a number: the warning names chlorine *before* the chemistry proceeds, and the balance then watches a gas leave that neither bottle contained. The label on the front says what it is for; the chemistry answers to the ingredients on the back."
-next_de = "Führe es hier durch, wo das einzige Opfer eine Zahl ist: Die Warnung nennt Chlor bereits *bevor* die Chemie abläuft, und die Waage beobachtet dann, wie ein Gas entweicht, das keine der beiden Flaschen enthielt. Das Etikett auf der Vorderseite sagt, wofür es gedacht ist; die Chemie richtet sich nach den Zutaten auf der Rückseite."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The acid–base half is genuinely seen — alkali meets acid, so they neutralise — but neutralisation is assumed to end in harmlessness, and the product's identity is never checked."
-reveals_de = "Die Säure-Base-Hälfte wird tatsächlich erkannt — Lauge trifft Säure, also neutralisieren sie sich —, aber es wird angenommen, dass Neutralisation immer harmlos endet, und die Identität des Produkts wird nie geprüft."
 next = "Finish the equation instead of stopping at 'neutralise': protonating hypochlorite yields chlorine gas, not salt water. The habit this entry exists to build is reading a reaction through to its products — `neutralisation` earns its harmless ending by producing water; this one does not."
-next_de = "Führe die Gleichung zu Ende, statt bei 'neutralisieren' aufzuhören: Die Protonierung von Hypochlorit ergibt Chlorgas, nicht Salzwasser. Die Gewohnheit, die dieser Eintrag aufbauen soll, ist, eine Reaktion bis zu ihren Produkten zu Ende zu lesen — `neutralisation` verdient sich ihr harmloses Ende dadurch, dass Wasser entsteht; hier ist das nicht der Fall."
 
 [reaction.registers]
 lv1 = "Never mix bleach with anything else. Never. In the lab this is a picture on a screen; in a bathroom it is an ambulance. The lab will show you what happens and will not let you smell it."
-lv1_de = "Niemals Bleiche mit irgendetwas anderem mischen. Niemals. Im Labor ist das ein Bild auf einem Bildschirm; in einem Badezimmer ist es ein Krankenwagen. Das Labor zeigt dir, was passiert, und lässt dich nicht daran riechen."
 lv2 = "NaOCl + 2 HCl → Cl₂↑ + NaCl + H₂O. 0.1 mol of hypochlorite with 0.2 mol of acid releases 0.1 mol of chlorine — about 2.4 L at room temperature, in a room you are standing in. What remains in the beaker is only salt water, pH 6.96."
-lv2_de = "NaOCl + 2 HCl → Cl₂↑ + NaCl + H₂O. 0,1 mol Hypochlorit mit 0,2 mol Säure setzt 0,1 mol Chlor frei — etwa 2,4 L bei Raumtemperatur, in einem Raum, in dem du stehst. Was im Becherglas bleibt, ist nur Salzwasser, pH 6,96."
 lv3 = "The hazard is L0: the reactive-group screen assesses the prospective vessel state *before* the addition is applied and warns from the pairing itself, independently of whether any solver models the chemistry. The gas release is then curated stoichiometry, and the leftover brine is computed. Safety that depends on a solver having an opinion is safety that fails when the solver does not."
-lv3_de = "Die Gefahr ist L0: Der Screen für reaktive Gruppen bewertet den voraussichtlichen Gefäßzustand *bevor* die Zugabe angewendet wird und warnt bereits aufgrund der Paarung selbst, unabhängig davon, ob irgendein Solver die Chemie modelliert. Die Gasfreisetzung ist dann kuratierte Stöchiometrie, und die übrig gebliebene Sole ist berechnet. Sicherheit, die davon abhängt, dass ein Solver eine Meinung hat, ist Sicherheit, die versagt, wenn der Solver keine hat."
 
 [reaction.provenance]
 source = "Standard household-chemical safety guidance (bleach + acid → chlorine); reaction stoichiometry curated in the Kerotakis safety layer. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -2083,42 +1688,28 @@ temperature_c = { min = 49.0, max = 51.0 }
 
 [reaction.expect.predict]
 question = "A beaker of (almost) pure water read pH 7.00 at 25 °C. You warm it to 50 °C and measure again. The meter shows 6.63. What happened?"
-question_de = "Ein Becherglas mit (fast) reinem Wasser zeigte bei 25 °C pH 7,00. Du erwärmst es auf 50 °C und misst erneut. Das Messgerät zeigt 6,63. Was ist passiert?"
 options = [
   "Nothing can have happened — pure water is neutral, and neutral is 7",
   "The water is still exactly neutral; the neutral point itself moved",
   "The heat made the water slightly acidic",
 ]
-options_de = [
-    "Es kann nichts passiert sein — reines Wasser ist neutral, und neutral bedeutet 7",
-    "Das Wasser ist immer noch genau neutral; der Neutralpunkt selbst hat sich verschoben",
-    "Die Wärme hat das Wasser leicht sauer gemacht",
-]
 answer = 1
 misconception = "Both wrong answers hold 'pH 7 = neutral' as a definition when it is the 25 °C value of a temperature-dependent equilibrium. Water splits itself — H₂O ⇌ H⁺ + OH⁻ — and heating pushes the split further, so [H⁺] and [OH⁻] rise together. Neutral means they are equal, and at 50 °C they are equal at pH 6.63. Acidic would need an excess of H⁺ over OH⁻, and nothing donated one."
-misconception_de = "Beide falschen Antworten behandeln 'pH 7 = neutral' als Definition, dabei ist es der 25-°C-Wert eines temperaturabhängigen Gleichgewichts. Wasser spaltet sich selbst — H₂O ⇌ H⁺ + OH⁻ —, und Erwärmen treibt diese Spaltung weiter, sodass [H⁺] und [OH⁻] gemeinsam steigen. Neutral bedeutet, dass sie gleich groß sind, und bei 50 °C sind sie bei pH 6,63 gleich groß. Sauer würde einen Überschuss von H⁺ über OH⁻ erfordern, und nichts hat eines gespendet."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "pH 7 as the definition of neutral rather than as one temperature's reading of it — so a meter that says otherwise about plain water must be wrong."
-reveals_de = "pH 7 wird als Definition von neutral behandelt statt als eine Messung bei nur einer Temperatur — also muss ein Messgerät, das bei reinem Wasser etwas anderes anzeigt, falsch sein."
 next = "Trust the meter and move the temperature both ways: 6.63 at 50 °C, 7.00 at 25 °C, 7.47 near 0 °C — the reading moves while nothing is added or removed. A definition cannot do that; an equilibrium constant with a temperature dependence must."
-next_de = "Vertrau dem Messgerät und ändere die Temperatur in beide Richtungen: 6,63 bei 50 °C, 7,00 bei 25 °C, 7,47 nahe 0 °C — die Anzeige bewegt sich, obwohl nichts zugegeben oder entfernt wird. Eine Definition kann das nicht; eine temperaturabhängige Gleichgewichtskonstante muss es."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Acidic means 'below 7', as an absolute — the real definition of neutrality, equal H⁺ and OH⁻, is not in the picture."
-reveals_de = "Sauer bedeutet 'unter 7', als absolute Regel — die eigentliche Definition von Neutralität, gleich viel H⁺ und OH⁻, kommt in diesem Bild nicht vor."
 next = "Ask where an excess of H⁺ would have come from: heating water makes more H⁺ and more OH⁻ in exactly equal numbers, because each split of a water molecule yields one of each. At 50 °C that equality sits at 6.63; the water is as neutral as it ever was."
-next_de = "Frag, woher ein Überschuss an H⁺ hätte kommen sollen: Erwärmen von Wasser erzeugt mehr H⁺ und mehr OH⁻ in genau gleicher Zahl, weil jede Spaltung eines Wassermoleküls jeweils eines von beiden liefert. Bei 50 °C liegt diese Gleichheit bei 6,63; das Wasser ist so neutral wie eh und je."
 
 [reaction.registers]
 lv1 = "Warm water is still just water — nothing sour about it. But the meter's idea of 'the middle of the scale' moves when the water warms. The middle is only 7 in a room-temperature beaker."
-lv1_de = "Warmes Wasser ist immer noch einfach Wasser — nichts Saures daran. Aber die Vorstellung des Messgeräts von der 'Mitte der Skala' verschiebt sich, wenn das Wasser wärmer wird. Die Mitte liegt nur bei einem Becherglas mit Raumtemperatur bei 7."
 lv2 = "Water splits itself a little: H₂O ⇌ H⁺ + OH⁻, with K_w = 10⁻¹⁴ at 25 °C. The split is endothermic, so heating pushes it further: K_w grows, [H⁺] and [OH⁻] rise together, and the pH falls to 6.63 while pOH falls to match. Neutral is where they are equal — and that is no longer 7."
-lv2_de = "Wasser spaltet sich ein kleines bisschen selbst: H₂O ⇌ H⁺ + OH⁻, mit K_w = 10⁻¹⁴ bei 25 °C. Die Spaltung ist endotherm, sodass Erwärmen sie weitertreibt: K_w wächst, [H⁺] und [OH⁻] steigen gemeinsam, und der pH-Wert fällt auf 6,63, während der pOH-Wert im Gleichschritt fällt. Neutral ist dort, wo sie gleich groß sind — und das ist nicht mehr 7."
 lv3 = "The pinch of salt is scaffolding, stated as such: this bench declines to characterise pure water — no solutes, no solve, and the meter honestly reads nothing — so 0.01 mol/kgw of NaCl gives it a solution to stand in without touching the autoprotolysis (both ions are spectators to it). K_w comes from the database at the vessel's own temperature: the engine reads 7.00 at 25 °C, 6.63 at 50 °C and 7.47 near 0 °C — the classic table values, computed rather than quoted. 'pH 7 = neutral' is a 25 °C fact that is usually taught as a definition; the lye entry's pH 13.51 is this same lesson from the other end of the scale."
-lv3_de = "Die Prise Salz ist ein Gerüst, und das wird auch so gesagt: Dieses Labor weigert sich, reines Wasser zu charakterisieren — keine gelösten Stoffe, keine Lösung, und das Messgerät zeigt ehrlich nichts an —, deshalb gibt 0,01 mol/kgw NaCl ihm eine Lösung, in der es stehen kann, ohne die Autoprotolyse zu berühren (beide Ionen sind dafür Zuschauerionen). K_w stammt aus der Datenbank bei der Eigentemperatur des Gefäßes: Die Engine liest 7,00 bei 25 °C, 6,63 bei 50 °C und 7,47 nahe 0 °C — die klassischen Tabellenwerte, berechnet statt zitiert. 'pH 7 = neutral' ist eine Tatsache bei 25 °C, die meist als Definition gelehrt wird; der pH-Wert 13,51 des Laugen-Eintrags ist dieselbe Lektion vom anderen Ende der Skala."
 
 [reaction.provenance]
 source = "Standard curriculum autoprotolysis; temperature-dependent K_w from PHREEQC wateq4f.dat (USGS), solved at the vessel's own temperature. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -2157,42 +1748,28 @@ ph = { min = 5.4, max = 5.8 }
 
 [reaction.expect.predict]
 question = "Baking soda fizzes furiously when acid is poured on it. Pour concentrated lye onto the same baking soda solution instead. What happens?"
-question_de = "Natron sprudelt heftig, wenn Säure daraufgegossen wird. Gieße stattdessen konzentrierte Lauge auf dieselbe Natronlösung. Was passiert?"
 options = [
   "It fizzes again — fizzing is what baking soda does",
   "Nothing at all — soda answers acids, and lye is not an acid",
   "No gas this time: the bicarbonate hands over its own proton and becomes carbonate",
 ]
-options_de = [
-    "Es sprudelt wieder — Sprudeln ist das, was Natron tut",
-    "Überhaupt nichts — Natron reagiert auf Säuren, und Lauge ist keine Säure",
-    "Diesmal kein Gas: Das Hydrogencarbonat gibt sein eigenes Proton ab und wird zu Carbonat",
-]
 answer = 2
 misconception = "Both wrong answers treat acid and base as badges a substance wears rather than roles in a transaction. Bicarbonate is amphiprotic: against an acid it accepts a proton (and the resulting carbonic acid leaves as CO₂ — the fizz); against a base it donates its own proton and becomes carbonate, silently. Brønsted's whole move is that acid and base name the two ends of one proton handover — and this beaker is that idea as an experiment."
-misconception_de = "Beide falschen Antworten behandeln Säure und Base als Abzeichen, die ein Stoff trägt, statt als Rollen in einer Transaktion. Hydrogencarbonat ist amphiprotisch: gegenüber einer Säure nimmt es ein Proton auf (und die entstehende Kohlensäure entweicht als CO₂ — das Sprudeln); gegenüber einer Base gibt es sein eigenes Proton ab und wird still zu Carbonat. Brønsteds ganzer Kniff ist, dass Säure und Base die zwei Enden einer einzigen Protonenübergabe benennen — und dieses Becherglas ist genau diese Idee als Experiment."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The fizz as the substance's signature move — bicarbonate 'contains' the gas the way a balloon does, and any provocation releases it."
-reveals_de = "Das Sprudeln als Markenzeichen des Stoffes — Hydrogencarbonat 'enthält' das Gas so, wie ein Luftballon es tut, und jede Provokation setzt es frei."
 next = "Ask what the gas is made of: CO₂ only forms when the bicarbonate *receives* a proton. Lye offers none. Watch the event stream — the lye step evolves nothing — and the lv3 speciation shows the carbon still in the beaker, now sitting as carbonate."
-next_de = "Frag, woraus das Gas besteht: CO₂ entsteht nur, wenn das Hydrogencarbonat ein Proton *erhält*. Lauge bietet keines an. Beobachte den Ereignisstrom — der Laugenschritt setzt nichts frei — und die lv3-Speziation zeigt den Kohlenstoff noch im Becherglas, jetzt als Carbonat."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Acid and base as fixed identities: bicarbonate is 'a base', and one base has no business with another — so nothing can happen."
-reveals_de = "Säure und Base als feste Identitäten: Hydrogencarbonat ist 'eine Base', und eine Base hat mit einer anderen nichts zu schaffen — also kann nichts passieren."
 next = "Something did happen; it was just silent. The lv3 speciation shows the bicarbonate gone and carbonate in its place: a proton left the HCO₃⁻ ion itself. One substance, two roles depending on the partner — the Arrhenius → Brønsted step in `models.toml` is this beaker written as theory."
-next_de = "Es ist tatsächlich etwas passiert; es war nur still. Die lv3-Speziation zeigt, dass das Hydrogencarbonat verschwunden ist und Carbonat an seiner Stelle steht: Ein Proton hat das HCO₃⁻-Ion selbst verlassen. Ein Stoff, zwei Rollen je nach Partner — der Schritt von Arrhenius zu Brønsted in `models.toml` ist dieses Becherglas, als Theorie niedergeschrieben."
 
 [reaction.registers]
 lv1 = "Against sour stuff, baking soda fights back with bubbles. Against the slippery stuff it does something sneakier: it hands over a tiny piece of itself, without a single bubble. The same powder plays both sides, depending on who it meets."
-lv1_de = "Gegen Saures wehrt sich Natron mit Bläschen. Gegen das Seifige tut es etwas Heimtückischeres: Es gibt ein winziges Stück von sich selbst ab, ohne ein einziges Bläschen. Dasselbe Pulver spielt beide Seiten, je nachdem, wem es begegnet."
 lv2 = "Amphiprotic behaviour: HCO₃⁻ + H⁺ → H₂O + CO₂↑ (base role — the fizz), but HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O (acid role — no gas). The acid beaker ends near pH 5.6 with all its carbon gone as gas; the lye beaker keeps its carbon as carbonate."
-lv2_de = "Amphiprotisches Verhalten: HCO₃⁻ + H⁺ → H₂O + CO₂↑ (Base-Rolle — das Sprudeln), aber HCO₃⁻ + OH⁻ → CO₃²⁻ + H₂O (Säure-Rolle — kein Gas). Das Säure-Becherglas endet bei etwa pH 5,6, wobei aller Kohlenstoff als Gas entwichen ist; das Laugen-Becherglas behält seinen Kohlenstoff als Carbonat."
 lv3 = "The bookkeeping, honestly: an open 0.1 mol/kgw bicarbonate solution self-vents about 0.003 mol of CO₂ on dissolution (its own carbonate equilibrium against the atmosphere — `baking-soda-vents-carbon-dioxide`), so 0.003 mol of the lye finds no bicarbonate partner and the second beaker's final pH carries that excess hydroxide. The acid beaker's pH 5.6 is not leftover acid: it is a sodium chloride solution equilibrated with atmospheric CO₂ — the same chemistry that makes clean rain slightly acidic. The Brønsted point is in the speciation: the same ion appears as proton acceptor in one vessel and proton donor in the other, which no fixed acid/base label can say."
-lv3_de = "Die Buchhaltung, ehrlich: Eine offene 0,1-mol/kgw-Hydrogencarbonat-Lösung entgast beim Lösen von selbst etwa 0,003 mol CO₂ (ihr eigenes Carbonatgleichgewicht gegenüber der Atmosphäre — `baking-soda-vents-carbon-dioxide`), sodass 0,003 mol der Lauge keinen Hydrogencarbonat-Partner finden und der finale pH-Wert des zweiten Becherglases diesen Hydroxidüberschuss trägt. Der pH-Wert 5,6 des Säure-Becherglases ist keine übrig gebliebene Säure: Es ist eine Natriumchlorid-Lösung im Gleichgewicht mit atmosphärischem CO₂ — dieselbe Chemie, die sauberen Regen leicht sauer macht. Der Brønsted-Punkt steckt in der Speziation: Dasselbe Ion tritt in einem Gefäß als Protonenakzeptor und im anderen als Protonendonor auf — etwas, das kein festes Säure/Base-Etikett sagen kann."
 
 [reaction.provenance]
 source = "Standard curriculum acid–base concepts (amphiprotic species, Brønsted–Lowry); carbonate equilibria from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -2232,42 +1809,28 @@ ph = { min = 9.0, max = 9.4 }
 
 [reaction.expect.predict]
 question = "Stomach acid is roughly 0.1 mol/L hydrochloric acid — this beaker of it reads pH 1.1. In goes a gram of baking soda, about what a heartburn tablet carries. What does the meter say when the fizzing stops?"
-question_de = "Magensäure ist etwa 0,1-mol/L-Salzsäure — dieses Becherglas davon zeigt pH 1,1. Ein Gramm Natron kommt hinein, etwa das, was eine Sodbrennen-Tablette enthält. Was sagt das Messgerät, wenn das Sprudeln aufhört?"
 options = [
   "Still about 1 — a kitchen powder cannot touch a strong acid",
   "About 9, with a burp of carbon dioxide on the way",
   "14 — soda is a base, and a base sends the scale to the top",
 ]
-options_de = [
-    "Immer noch etwa 1 — ein Küchenpulver kann einer starken Säure nichts anhaben",
-    "Etwa 9, mit einem Rülpser Kohlendioxid unterwegs",
-    "14 — Natron ist eine Base, und eine Base treibt die Skala nach oben",
-]
 answer = 1
 misconception = "Both wrong answers confuse what a substance IS with how much of it there is. 'Strong' describes how completely an acid gives up its protons, not how many it has: 0.01 mol of protons meets 0.012 mol of proton-acceptors and simply runs out. And a base does not teleport the scale to 14 — the leftover bicarbonate is a weak, gentle base that settles near 9, which is precisely why tablets are carbonates and not lye."
-misconception_de = "Beide falschen Antworten verwechseln, WAS ein Stoff ist, mit WIE VIEL davon vorhanden ist. 'Stark' beschreibt, wie vollständig eine Säure ihre Protonen abgibt, nicht wie viele sie hat: 0,01 mol Protonen trifft auf 0,012 mol Protonenakzeptoren und geht einfach aus. Und eine Base teleportiert die Skala nicht zu 14 — das übrig gebliebene Hydrogencarbonat ist eine schwache, milde Base, die sich bei etwa 9 einpendelt, genau deshalb sind Tabletten Carbonate und keine Lauge."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "'Strong acid' as invincible — strength read as power over any opponent, rather than as the completeness of its own dissociation."
-reveals_de = "'Starke Säure' als unbesiegbar — Stärke wird als Macht über jeden Gegner gelesen, statt als Vollständigkeit der eigenen Dissoziation."
 next = "Count instead of ranking: 0.01 mol of protons against 0.012 mol of bicarbonate. Strength decided how the protons were offered (all at once, fully dissociated); the counting decides who runs out, and the acid does. The fizz is its protons leaving the beaker as gas."
-next_de = "Zähle, statt zu bewerten: 0,01 mol Protonen gegen 0,012 mol Hydrogencarbonat. Die Stärke hat entschieden, wie die Protonen angeboten wurden (alle auf einmal, vollständig dissoziiert); das Zählen entscheidet, wer ausgeht, und das ist die Säure. Das Sprudeln sind ihre Protonen, die das Becherglas als Gas verlassen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Bases as scale-flippers: adding 'a base' sends pH to the top of the scale, with the base's own strength and amount playing no part."
-reveals_de = "Basen als Skalenkipper: Die Zugabe von 'einer Base' schickt den pH-Wert an die Spitze der Skala, wobei die eigene Stärke und Menge der Base keine Rolle spielt."
 next = "Look at what is actually left over: excess bicarbonate, a weak proton-acceptor that settles the beaker near pH 9 — for the lye that really does reach the top of the scale, run `strong-base`. Your stomach lining is the reason the gentle landing is the design goal: an antacid that overshot to 14 would be a worse burn than the acid it cured."
-next_de = "Schau dir an, was tatsächlich übrig bleibt: überschüssiges Hydrogencarbonat, ein schwacher Protonenakzeptor, der das Becherglas bei etwa pH 9 einpendeln lässt — für die Lauge, die wirklich an die Spitze der Skala kommt, führe `strong-base` aus. Deine Magenschleimhaut ist der Grund, warum die sanfte Landung das Entwurfsziel ist: ein Antazidum, das bis 14 überschösse, wäre eine schlimmere Verätzung als die Säure, die es heilen sollte."
 
 [reaction.registers]
 lv1 = "Pretend stomach acid: sour enough to sting. In goes the white powder — it fizzes hard, and when the bubbles stop, the sting is gone. The burp is the acid itself, leaving as gas."
-lv1_de = "Nachgestellte Magensäure: sauer genug, um zu beißen. Das weiße Pulver kommt hinein — es sprudelt heftig, und wenn die Bläschen aufhören, ist das Beißen vorbei. Das Aufstoßen ist die Säure selbst, die als Gas entweicht."
 lv2 = "HCO₃⁻ + H⁺ → H₂O + CO₂↑. One gram of NaHCO₃ is 0.0119 mol against 0.0100 mol of acid, so the acid is the limiting reagent: the pH climbs from 1.1 to about 9.2, the balance loses ~0.45 g of CO₂, and the ~0.002 mol of unspent bicarbonate is what holds the finish gentle."
-lv2_de = "HCO₃⁻ + H⁺ → H₂O + CO₂↑. Ein Gramm NaHCO₃ sind 0,0119 mol gegenüber 0,0100 mol Säure, sodass die Säure der begrenzende Reaktionspartner ist: Der pH-Wert steigt von 1,1 auf etwa 9,2, die Waage verliert ~0,45 g CO₂, und die ~0,002 mol unverbrauchtes Hydrogencarbonat sind es, die das Ende sanft halten."
 lv3 = "The tablet is dosed to outlast the acid it expects — `buffer-capacity-exceeded` run in reverse: there, the insult outlasted the reserve; here, the reserve outlasts the insult, by design and by arithmetic. Honesty about the model: a beaker is not a stomach — a stomach keeps secreting acid and regulating volume, so the real relief is a running battle rather than this one-shot titration; and the beaker's pH 9.2 endpoint is an open-vessel carbonate equilibrium, venting CO₂ until it matches the atmosphere. What the arithmetic does transfer to the pharmacy shelf: the dose works by moles, not by magic, which is why the packet specifies grams."
-lv3_de = "Die Tablette ist so dosiert, dass sie die erwartete Säure überdauert — `buffer-capacity-exceeded` rückwärts abgespielt: Dort überdauerte der Angriff die Reserve; hier überdauert die Reserve den Angriff, nach Entwurf und nach Rechnung. Ehrlichkeit über das Modell: Ein Becherglas ist kein Magen — ein Magen scheidet weiterhin Säure aus und reguliert das Volumen, sodass die echte Linderung ein andauernder Kampf ist und keine einmalige Titration; und der Endpunkt des Becherglases bei pH 9,2 ist ein Carbonatgleichgewicht im offenen Gefäß, das CO₂ entgast, bis es der Atmosphäre entspricht. Was die Rechnung tatsächlich ins Apothekenregal überträgt: Die Dosis wirkt nach Molzahlen, nicht nach Magie, weshalb die Packung Gramm angibt."
 
 [reaction.provenance]
 source = "Standard curriculum application of neutralisation (antacids); carbonate equilibria from PHREEQC wateq4f.dat (USGS); stomach-acid concentration ~0.1 mol/L is a standard physiology figure. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -2279,7 +1842,6 @@ computed_by = "PHREEQC via Kerotakis L2, open-vessel carbonate equilibria; mass 
 id = "the-indicator-is-chosen-for-the-jump"
 spine = ["saeure-base-titration-ein-analytisches-verfahren"]
 summary = "Phenolphthalein turns at this titration's endpoint (pH 8.6); methyl orange fired long before, deep in the buffer — the indicator is chosen to sit on the jump, not for its looks"
-summary_de = "Phenolphthalein schlägt am Endpunkt dieser Titration um (pH 8,6); Methylorange hat schon viel früher umgeschlagen, mitten im Pufferbereich — der Indikator wird für den Sprung gewählt, nicht für seine Optik"
 concepts = ["indicators"]
 requires = ["equivalence-point"]
 apparatus = ["burette", "conical-flask"]
@@ -2309,42 +1871,28 @@ ph = { min = 8.5, max = 8.75 }
 
 [reaction.expect.predict]
 question = "This vinegar titration's equivalence point sits at pH 8.6, not 7. Which indicator marks it — phenolphthalein (turns 8.2–10) or methyl orange (turns 3.1–4.4)?"
-question_de = "Der Äquivalenzpunkt dieser Essigtitration liegt bei pH 8,6, nicht bei 7. Welcher Indikator markiert ihn — Phenolphthalein (Umschlag 8,2–10) oder Methylorange (Umschlag 3,1–4,4)?"
 options = [
   "Either — an indicator is a colour signal, and any colour signal will do",
   "Phenolphthalein: its turn sits on the endpoint. Methyl orange fires long before, deep in the buffer region",
   "Methyl orange — orange is easier to see against white than pale pink",
 ]
-options_de = [
-    "Beide — ein Indikator ist ein Farbsignal, und jedes Farbsignal tut es",
-    "Phenolphthalein: sein Umschlag liegt genau auf dem Endpunkt. Methylorange schlägt viel zu früh um, mitten im Pufferbereich",
-    "Methylorange — Orange ist vor Weiß leichter zu erkennen als Blassrosa",
-]
 answer = 1
 misconception = "An indicator is not a bell that rings at 'done' — it is a weak acid that changes form at its own pKa, wherever that is. The choice is an alignment problem: the indicator's transition window must sit on the titration's pH jump. Phenolphthalein's window straddles this endpoint's 8.6; methyl orange's window was crossed back near pH 4, in the slow buffer climb, where its colour change marks nothing of analytical interest at all."
-misconception_de = "Ein Indikator ist keine Glocke, die bei 'fertig' läutet — er ist eine schwache Säure, die bei ihrem eigenen pKa-Wert die Form wechselt, wo immer der liegt. Die Wahl ist ein Ausrichtungsproblem: Das Umschlagfenster des Indikators muss auf dem pH-Sprung der Titration liegen. Das Fenster von Phenolphthalein überspannt die 8,6 dieses Endpunkts; das Fenster von Methylorange wurde schon bei pH 4 durchlaufen, im langsamen Pufferanstieg, wo sein Farbwechsel überhaupt nichts von analytischem Interesse markiert."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "All indicators are interchangeable signals: the chemistry of the dye plays no role, so any colour change means 'stop'."
-reveals_de = "Alle Indikatoren gelten als austauschbare Signale: Die Chemie des Farbstoffs spielt keine Rolle, also bedeutet jeder Farbwechsel 'stopp'."
 next = "Run the half-titrated flask (v2): methyl orange already reads orange at pH 4.69, half the base still unspent. An analyst stopping at that signal would report half the true concentration — the wrong indicator does not merely inconvenience, it answers a different question."
-next_de = "Führe den halbtitrierten Kolben aus (v2): Methylorange zeigt bereits bei pH 4,69 Orange, obwohl die Hälfte der Base noch nicht verbraucht ist. Ein Analytiker, der bei diesem Signal stoppt, würde die halbe echte Konzentration melden — der falsche Indikator verursacht nicht nur eine Unannehmlichkeit, er beantwortet eine andere Frage."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The indicator is chosen for visibility — an aesthetic decision about colours, with the pH axis absent from the choice entirely."
-reveals_de = "Der Indikator wird nach Sichtbarkeit gewählt — eine ästhetische Entscheidung über Farben, bei der die pH-Achse in der Wahl überhaupt keine Rolle spielt."
 next = "Visibility is real but secondary: the question an indicator answers is WHERE it turns, not how prettily. `weak-acid-endpoint-is-alkaline` computed this endpoint at 8.8-adjacent rather than 7 — that number is the whole reason phenolphthalein is the standard choice for weak-acid titrations, and it looked arbitrary only until the endpoint was computed."
-next_de = "Sichtbarkeit ist real, aber zweitrangig: Die Frage, die ein Indikator beantwortet, ist WO er umschlägt, nicht wie hübsch. `weak-acid-endpoint-is-alkaline` berechnete diesen Endpunkt bei etwa 8,8 statt bei 7 — diese Zahl ist der ganze Grund, warum Phenolphthalein die Standardwahl für Titrationen schwacher Säuren ist, und sie wirkte nur so lange willkürlich, bis der Endpunkt berechnet war."
 
 [reaction.registers]
 lv1 = "Two magic dyes. One stays invisible until the very moment the sour is used up — then the flask blushes pink. The other changed colour ages ago, while there was still plenty of sour left. Only one of them is telling you when to stop."
-lv1_de = "Zwei magische Farbstoffe. Einer bleibt unsichtbar bis zu dem Moment, in dem das Saure aufgebraucht ist — dann errötet der Kolben rosa. Der andere hat schon vor langer Zeit die Farbe gewechselt, als noch reichlich Saures übrig war. Nur einer von beiden sagt dir, wann du aufhören sollst."
 lv2 = "An indicator is a weak acid with differently coloured forms; it turns near its own pKa. Phenolphthalein (transition ≈8.2–10) straddles this titration's equivalence point — the bench reads pH 8.62 and renders the flask pink. Methyl orange (≈3.1–4.4) completed its change inside the buffer region: v2, only half-titrated, already shows orange at pH 4.69."
-lv2_de = "Ein Indikator ist eine schwache Säure mit unterschiedlich gefärbten Formen; sie schlägt nahe ihrem eigenen pKa-Wert um. Phenolphthalein (Umschlag ≈8,2–10) überspannt den Äquivalenzpunkt dieser Titration — das Labor liest pH 8,62 und stellt den Kolben rosa dar. Methylorange (≈3,1–4,4) hat seinen Wechsel bereits mitten im Pufferbereich abgeschlossen: v2, nur halbtitriert, zeigt bereits bei pH 4,69 Orange."
 lv3 = "The colours are computed, not curated per pH: each indicator carries two measured spectra (acid and base form), the engine populates the forms by the Henderson–Hasselbalch ratio at the solved pH, and Beer–Lambert over the CIE observer renders the mixture — the pink at 8.62 and the orange at 4.69 are the same arithmetic that makes permanganate purple. One dosing honesty: the bench doses pure substance, so the micromole amounts here play the role of the real lab's 'two drops of indicator solution' — drop-based doses of the pure dye would be a hundredfold overdose and saturate every hue toward black."
-lv3_de = "Die Farben werden berechnet, nicht pro pH-Wert kuratiert: Jeder Indikator führt zwei gemessene Spektren (Säure- und Baseform), die Engine besetzt die Formen nach dem Henderson-Hasselbalch-Verhältnis beim gelösten pH-Wert, und Beer-Lambert über den CIE-Beobachter stellt die Mischung dar — das Rosa bei 8,62 und das Orange bei 4,69 sind dieselbe Rechnung, die Permanganat violett macht. Eine Ehrlichkeit bei der Dosierung: Das Labor dosiert reinen Stoff, sodass die Mikromol-Mengen hier die Rolle der 'zwei Tropfen Indikatorlösung' des echten Labors spielen — tropfenbasierte Dosen des reinen Farbstoffs wären eine hundertfache Überdosis und würden jeden Farbton bis hin zu Schwarz sättigen."
 
 [reaction.provenance]
 source = "Standard curriculum indicator selection; indicator pKa values and both-form spectra as curated in kerotakis-core::indicator with their own provenance. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -2354,7 +1902,6 @@ computed_by = "PHREEQC via Kerotakis L2 (pH); indicator speciation by Henderson�
 id = "the-in-between-colour-is-a-mixture"
 spine = ["eigenschaften-von-saeuren-und-basen"]
 summary = "Bromothymol blue near neutral is green — not a third colour of the dye, but the computed mixture of its yellow and blue forms at the solved ratio"
-summary_de = "Bromthymolblau ist nahe dem neutralen Punkt grün — keine dritte Farbe des Farbstoffs, sondern die berechnete Mischung seiner gelben und blauen Form im gelösten Verhältnis"
 concepts = ["indicators", "colour-from-mixed-spectra"]
 requires = ["indicators"]
 apparatus = ["beaker"]
@@ -2380,42 +1927,28 @@ ph = { min = 11.4, max = 11.8 }
 
 [reaction.expect.predict]
 question = "Bromothymol blue is yellow in acid and blue in base. Near pH 7, what colour is the solution?"
-question_de = "Bromthymolblau ist in Säure gelb und in Base blau. Welche Farbe hat die Lösung nahe pH 7?"
 options = [
   "Yellow or blue, whichever it has flipped to — an indicator is a switch",
   "Green — both forms are present at once, and their colours mix",
   "Colourless — halfway between, the two colours cancel out",
 ]
-options_de = [
-    "Gelb oder blau, je nachdem, worauf es umgeschlagen ist — ein Indikator ist ein Schalter",
-    "Grün — beide Formen sind gleichzeitig vorhanden, und ihre Farben mischen sich",
-    "Farblos — genau in der Mitte heben sich die beiden Farben gegenseitig auf",
-]
 answer = 1
 misconception = "An indicator is not a switch but an equilibrium: at pH near its pKa, roughly half the molecules are in each form, simultaneously. Half the dye absorbing like the yellow form plus half absorbing like the blue form transmits green — the same way mixing paints does, because absorbances add. Cancellation is how opposing *lights* behave; absorbing dyes only ever subtract more."
-misconception_de = "Ein Indikator ist kein Schalter, sondern ein Gleichgewicht: bei einem pH-Wert nahe seinem pKa liegen etwa die Hälfte der Moleküle in jeder Form vor, gleichzeitig. Die Hälfte des Farbstoffs, die wie die gelbe Form absorbiert, plus die Hälfte, die wie die blaue Form absorbiert, lässt Grün durch — genauso, wie Farben beim Mischen wirken, weil sich Absorptionen addieren. Auslöschung ist, wie sich entgegengesetzte *Lichter* verhalten; absorbierende Farbstoffe subtrahieren nur immer mehr."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The indicator as a binary switch: each molecule — or the whole beaker — is in exactly one state, and 'transition range' just means uncertainty about which."
-reveals_de = "Der Indikator als binärer Schalter: jedes Molekül — oder das ganze Becherglas — befindet sich in genau einem Zustand, und 'Übergangsbereich' bedeutet nur Unsicherheit darüber, in welchem."
 next = "Walk the beaker through all three colours in this entry's script: yellow in acid, blue-green near neutral, blue in base. A switch has no stable middle; an equilibrium population does, and the green IS the population statement — you are seeing the ratio."
-next_de = "Führe das Becherglas im Skript dieses Eintrags durch alle drei Farben: gelb in Säure, blaugrün nahe neutral, blau in Base. Ein Schalter hat keine stabile Mitte; eine Gleichgewichtspopulation schon, und das Grün IST die Aussage über diese Population — du siehst das Verhältnis."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Colours as opposites that annul: yellow plus blue equals nothing, the way positive and negative do."
-reveals_de = "Farben als Gegensätze, die sich auslöschen: Gelb plus Blau ergibt nichts, so wie Plus und Minus."
 next = "Sort out lights from dyes: complementary LIGHTS can cancel to white, but a dye works by absorbing, and two absorbers in one beaker absorb the union — red taken by one form, orange-red by the other, leaving green to pass. Absorbances add; they never subtract. The bench's colour engine literally adds the two spectra before rendering."
-next_de = "Trenne Lichter von Farbstoffen: Komplementäre LICHTER können sich zu Weiß auslöschen, aber ein Farbstoff wirkt durch Absorption, und zwei Absorber in einem Becherglas absorbieren die Vereinigung — Rot wird von der einen Form aufgenommen, Orangerot von der anderen, sodass Grün durchgelassen wird. Absorptionen addieren sich; sie subtrahieren sich nie. Die Farbmaschine des Labors addiert die beiden Spektren buchstäblich, bevor sie darstellt."
 
 [reaction.registers]
 lv1 = "This dye is yellow in sour water and blue in soapy water. In plain water it is green — because it is half yellow-form and half blue-form at the same time, and your eye adds them up."
-lv1_de = "Dieser Farbstoff ist in saurem Wasser gelb und in seifigem Wasser blau. In reinem Wasser ist er grün — weil er gleichzeitig zur Hälfte in der gelben und zur Hälfte in der blauen Form vorliegt, und dein Auge sie addiert."
 lv2 = "The indicator equilibrium HInd ⇌ H⁺ + Ind⁻ sits at its pKa near 7: in acid the yellow HInd dominates, in base the blue Ind⁻, and near neutral both are populated — the bench renders yellow, then blue-green, then blue as this script swings the same beaker across the scale."
-lv2_de = "Das Indikatorgleichgewicht HInd ⇌ H⁺ + Ind⁻ liegt bei seinem pKa nahe 7: in Säure dominiert das gelbe HInd, in Base das blaue Ind⁻, und nahe neutral sind beide besetzt — das Labor stellt gelb, dann blaugrün, dann blau dar, während dieses Skript dasselbe Becherglas über die Skala schwingt."
 lv3 = "The green never exists as a curated colour anywhere in the data: the engine holds one measured spectrum per form, populates the forms by the computed ratio at the solved pH, sums the absorbances, and integrates over the CIE 1931 observer. The mid-colour is therefore a *prediction* that mixing works — the same additivity claim the README makes for permanganate's concentration-dependent hue, here testable by eye at every pH in between. Endpoint honesty: the script parks the beaker at pH 11.63 (fully blue) so the pH claim is checkable; the blue-green reading occurs mid-script, at the near-neutral stop."
-lv3_de = "Das Grün existiert nirgendwo in den Daten als kuratierte Farbe: Die Engine führt ein gemessenes Spektrum pro Form, besetzt die Formen nach dem berechneten Verhältnis beim gelösten pH-Wert, summiert die Absorptionen und integriert über den CIE-1931-Beobachter. Die Zwischenfarbe ist also eine *Vorhersage*, dass Mischen funktioniert — dieselbe Additivitätsbehauptung, die das README für den konzentrationsabhängigen Farbton von Permanganat macht, hier bei jedem pH-Wert dazwischen mit bloßem Auge überprüfbar. Ehrlichkeit beim Endpunkt: Das Skript parkt das Becherglas bei pH 11,63 (vollständig blau), sodass die pH-Behauptung überprüfbar ist; die blaugrüne Messung erfolgt mitten im Skript, an der nahezu neutralen Station."
 
 [reaction.provenance]
 source = "Standard curriculum indicator behaviour; bromothymol blue pKa and both-form spectra as curated in kerotakis-core::indicator with their own provenance. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"

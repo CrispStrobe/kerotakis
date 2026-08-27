@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
-"""I18N-1 coverage: how much of the experiment catalogue speaks German yet.
+"""I18N-1 coverage: how much of the experiment catalogue speaks each language.
 
-The catalogue is translated field by field into `*_de` siblings, so a
-partially translated file degrades to English per string rather than
-failing. That is the right behaviour and it is also silent, which is why
-progress needs measuring rather than remembering.
+Translations live in `codex/i18n/<code>.toml`, one file per language, keyed
+by `<entry-id>.<path to the English field>`. One file per language is the
+point: two translators never edit the same file, and the English source
+does not grow a copy per language.
 
-Also enforces the glossary. The interface already renders `bench` as
-"Labor", `shelf` as "Regal" and so on; a translator who picks a different
-word is not wrong in isolation but makes the app read as two translations
-stitched together, and that is exactly what happened on the first pass
-("Werkbank").
+Coverage is per language and per source file, because a partial translation
+is the intended state — every string falls back to English on its own — and
+the useful question is not "is it done" but "what is left".
+
+Also enforces the glossary. The interface renders `bench` as "Labor" and
+`shelf` as "Regal"; a translator who picks a different word is not wrong in
+isolation but makes the app read as two translations stitched together,
+which is exactly what happened on the first pass ("Werkbank").
 
     python3 tools/codex-locale-lint.py           # report
     python3 tools/codex-locale-lint.py --check   # non-zero if a rule is broken
@@ -18,6 +21,7 @@ stitched together, and that is exactly what happened on the first pass
 
 from __future__ import annotations
 
+import collections
 import pathlib
 import re
 import sys
@@ -25,86 +29,100 @@ import tomllib
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CODEX = ROOT / "codex"
+I18N = CODEX / "i18n"
 
-# Prose the learner or teacher reads. Everything else in the catalogue is
-# an identifier, a formula, a number or a bibliographic source.
+# Prose a learner or teacher reads. Everything else in the catalogue is an
+# identifier, a formula, a number or a bibliographic source.
 TRANSLATABLE = (
     "question", "misconception", "reveals", "next",
-    "lv1", "lv2", "lv3", "summary",
+    "lv1", "lv2", "lv3", "summary", "options",
 )
 
-# Renderings the shell already ships (web/app/src/lib/i18n.svelte.ts).
-# left = what must NOT appear, right = what the shell says instead.
-FORBIDDEN = {
-    "Werkbank": "Labor",
-    "Werkbank": "Labor",
-    "Arbeitsplatte": "Labor",
-    "Glas": None,          # too vague where Becherglas is meant; advisory only
+# Renderings the shell already ships (web/app/src/locales/de.json).
+# "Werkbank" is a carpenter's bench; the simulated lab is "Labor" and a
+# physical chemistry bench is a "Labortisch". Either is a fix.
+GLOSSARY_HARD = {
+    "de": {"Werkbank": "Labor or Labortisch", "Arbeitsplatte": "Labor"},
 }
-# "Werkbank" is a carpenter's bench. The simulated bench is "Labor";
-# a physical chemistry bench, where the prose contrasts the two, is a
-# "Labortisch". Either is a fix; "Werkbank" is not.
-GLOSSARY_HARD = {"Werkbank": "Labor or Labortisch", "Arbeitsplatte": "Labor"}
 
 
-def leaves(node, prefix=""):
-    if isinstance(node, dict):
-        for k, v in node.items():
-            yield from leaves(v, f"{prefix}.{k}" if prefix else k)
-    elif isinstance(node, list):
-        for i, v in enumerate(node):
-            yield from leaves(v, f"{prefix}[{i}]")
-    else:
-        yield prefix, node
+def english_paths() -> dict[str, str]:
+    """Every translatable field in the catalogue, as `<id>.<path>`."""
+    out: dict[str, str] = {}
+
+    def walk(node, path):
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if k in TRANSLATABLE and isinstance(v, (str, list)):
+                    out[".".join(path + [k])] = k
+                elif isinstance(v, (dict, list)):
+                    walk(v, path + [k])
+        elif isinstance(node, list):
+            for i, v in enumerate(node):
+                if isinstance(v, (dict, list)):
+                    walk(v, path + [str(i)])
+
+    for f in sorted(CODEX.glob("*.toml")):
+        if f.name == "concepts.toml":
+            continue
+        doc = tomllib.load(open(f, "rb"))
+        for section in ("reaction", "model"):
+            for entry in doc.get(section, []):
+                found: dict[str, str] = {}
+                sub = out
+                out = {}
+                walk(entry, [])
+                found, out = out, sub
+                for path, field in found.items():
+                    out[f"{entry['id']}.{path}"] = f.name
+    return out
 
 
 def main() -> int:
     check = "--check" in sys.argv
     problems = 0
-    total_en = total_de = 0
 
-    print(f"{'file':<24} {'German':>8} {'English':>8}   coverage")
-    for path in sorted(CODEX.glob("*.toml")):
-        try:
-            doc = tomllib.load(open(path, "rb"))
-        except Exception as e:
-            print(f"{path.name:<24}   DOES NOT PARSE: {e}")
-            problems += 1
-            continue
+    english = english_paths()
+    per_file_total = collections.Counter(english.values())
 
-        flat = dict(leaves(doc))
-        en = {k for k in flat if k.rsplit(".", 1)[-1] in TRANSLATABLE}
-        de = {k for k in flat
-              if k.rsplit(".", 1)[-1].endswith("_de")
-              and k.rsplit(".", 1)[-1][:-3] in TRANSLATABLE}
-        total_en += len(en)
-        total_de += len(de)
-        pct = (100 * len(de) / len(en)) if en else 100.0
-        bar = "#" * int(pct / 5)
-        print(f"{path.name:<24} {len(de):>8} {len(en):>8}   {pct:5.1f}% {bar}")
+    languages = sorted(p.stem for p in I18N.glob("*.toml")) if I18N.is_dir() else []
+    if not languages:
+        print("no translations in codex/i18n/")
+        return 0
 
-        # A translation with no English original is a typo in the key.
-        for k in de:
-            if k[:-3] not in flat:
-                print(f"   ORPHAN: {k} has no English counterpart")
+    for code in languages:
+        cat = tomllib.load(open(I18N / f"{code}.toml", "rb"))
+        print(f"\n== {code}")
+        print(f"{'file':<24} {code:>8} {'English':>8}   coverage")
+        have = collections.Counter()
+        for key in cat:
+            src = english.get(key)
+            if src is None:
+                print(f"   STALE: {key!r} translates nothing in the catalogue")
                 problems += 1
+            else:
+                have[src] += 1
 
-        # Glossary.
-        for k, v in flat.items():
-            if not isinstance(v, str) or not k.rsplit(".", 1)[-1].endswith("_de"):
-                continue
-            for bad, good in GLOSSARY_HARD.items():
-                if re.search(rf"\b{bad}\b", v):
-                    print(f"   GLOSSARY: {k} says {bad!r}; the interface says {good!r}")
+        total_have = total_all = 0
+        for name in sorted(per_file_total):
+            n, all_n = have[name], per_file_total[name]
+            total_have += n
+            total_all += all_n
+            pct = 100 * n / all_n if all_n else 100.0
+            print(f"{name:<24} {n:>8} {all_n:>8}   {pct:5.1f}% {'#' * int(pct / 5)}")
+        pct = 100 * total_have / total_all if total_all else 100.0
+        print(f"{'TOTAL':<24} {total_have:>8} {total_all:>8}   {pct:5.1f}%")
+
+        for bad, good in GLOSSARY_HARD.get(code, {}).items():
+            for key, value in cat.items():
+                text = " ".join(value) if isinstance(value, list) else str(value)
+                if re.search(rf"\b{bad}\b", text):
+                    print(f"   GLOSSARY: {key} says {bad!r}; the interface says {good!r}")
                     problems += 1
 
-    pct = (100 * total_de / total_en) if total_en else 100.0
-    print(f"\n{'TOTAL':<24} {total_de:>8} {total_en:>8}   {pct:5.1f}%")
     if problems:
         print(f"\n{problems} problem(s)")
-    if check and problems:
-        return 1
-    return 0
+    return 1 if (problems and check) else 0
 
 
 if __name__ == "__main__":

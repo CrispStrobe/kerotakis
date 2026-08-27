@@ -974,22 +974,16 @@ fn load_codex(dir: &str) -> kerotakis_codex::Codex {
         .filter(|p| p.extension().is_some_and(|x| x == "toml"))
         .collect();
     files.sort();
-    for file in files {
-        let text = std::fs::read_to_string(&file).unwrap_or_else(|e| {
-            eprintln!("kero codex: cannot read {}: {e}", file.display());
-            std::process::exit(1);
-        });
-        match kerotakis_codex::Codex::parse(&text) {
-            Ok(mut c) => {
-                all.reactions.append(&mut c.reactions);
-                all.models.append(&mut c.models);
-            }
-            Err(e) => {
-                eprintln!("kero codex: {}: {e}", file.display());
-                std::process::exit(1);
-            }
-        }
-    }
+    // load_dir finds codex/i18n/*.toml as well as the English source. A
+    // loader that walks the directory itself sees only English, and
+    // nothing would fail — the catalogue would simply stop being German.
+    let _ = files;
+    let loaded = kerotakis_codex::Codex::load_dir(std::path::Path::new(dir)).unwrap_or_else(|e| {
+        eprintln!("kero codex: {dir}: {e}");
+        std::process::exit(1);
+    });
+    all.reactions.extend(loaded.reactions);
+    all.models.extend(loaded.models);
     all
 }
 

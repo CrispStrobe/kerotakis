@@ -15,7 +15,6 @@
 id = "salt-holds-the-water-liquid"
 spine = ["aggregatzustaende"]
 summary = "Dissolved particles depress the freezing point: under the same cooling, salt water starts freezing near −4 °C and forms less ice than pure water"
-summary_de = "Gelöste Teilchen senken den Gefrierpunkt: Bei gleicher Abkühlung beginnt Salzwasser erst bei etwa −4 °C zu gefrieren und bildet weniger Eis als reines Wasser"
 concepts = ["freezing-point-depression", "colligative-properties"]
 requires = ["concentration"]
 apparatus = ["beaker", "thermometer"]
@@ -49,42 +48,28 @@ temperature_c = { min = -4.3, max = -3.8 }
 
 [reaction.expect.predict]
 question = "Two identical beakers lose the same heat side by side: one holds pure water, the other has a big spoon of salt dissolved in it. What differs?"
-question_de = "Zwei identische Bechergläser verlieren nebeneinander dieselbe Wärmemenge: Das eine enthält reines Wasser, im anderen ist ein großer Löffel Salz gelöst. Welchen Unterschied erwartest du?"
 options = [
   "Both, at 0 °C — freezing at zero is what water does",
   "The salty one first — salty water is thicker, and thicker is closer to solid",
   "The pure one starts at 0 °C; the brine starts near −4 °C and therefore makes less ice from the same cooling",
 ]
-options_de = [
-    "Beide, bei 0 °C — bei null zu gefrieren ist das, was Wasser tut",
-    "Das salzige zuerst — Salzwasser ist dickflüssiger, und dickflüssiger ist näher am Festen",
-    "Das reine beginnt bei 0 °C; die Sole beginnt bei etwa −4 °C und bildet deshalb bei derselben Abkühlung weniger Eis",
-]
 answer = 2
 misconception = "The first answer makes the freezing point a fixed property of the solvent, with the dissolved salt as cargo that changes nothing. It is a property of the solution: the ions get in the way of water ordering itself into an ice lattice, so the brine must be colder before freezing pays. The same removed energy consequently makes less ice in the brine. The 'thicker' answer runs viscosity and solidity together — how a liquid flows and whether its molecules can lock into a crystal are different questions with opposite answers here."
-misconception_de = "Die erste Antwort macht den Gefrierpunkt zu einer festen Eigenschaft des Lösungsmittels, wobei das gelöste Salz nur als Ladung mitfährt, die nichts verändert. Tatsächlich ist der Gefrierpunkt eine Eigenschaft der Lösung: Die Ionen behindern die Wassermoleküle dabei, sich zu einem Eiskristallgitter zu ordnen, sodass die Sole kälter werden muss, bevor sich das Gefrieren lohnt. Dieselbe entzogene Energiemenge bildet in der Sole folglich weniger Eis. Die Antwort 'dickflüssiger' vermengt Viskosität und Festigkeit: Wie flüssig ein Stoff fließt und ob sich seine Moleküle zu einem Kristall verbinden können, sind unterschiedliche Fragen — die hier sogar entgegengesetzte Antworten haben."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The freezing point belongs to the solvent, full stop — what is dissolved is cargo, riding along without a vote."
-reveals_de = "Der Gefrierpunkt gehört allein dem Lösungsmittel — was darin gelöst ist, fährt nur als Ladung mit, ohne Stimme."
 next = "Count the cargo's votes: about 1.86 °C of hold-out per mole of dissolved particles per kilogram of water, and salt splits largely into two ions — 0.1 mol of NaCl in 100 g of water is roughly 2 mol/kg of particles. The bench reads the actual particle count off the solved speciation and starts freezing the brine near −4 °C, which is why road grit is dosed in degrees."
-next_de = "Man zählt die Stimmen der Ladung: etwa 1,86 °C Verzögerung pro Mol gelöster Teilchen pro Kilogramm Wasser, und Salz zerfällt größtenteils in zwei Ionen — 0,1 mol NaCl in 100 g Wasser ergeben also rund 2 mol/kg Teilchen. Die Labor liest die tatsächliche Teilchenzahl aus der gelösten Speziation ab und lässt die Sole erst bei etwa −4 °C zu gefrieren beginnen — deshalb wird Streusalz in Graden dosiert."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Thickness as nearness to solid: a heavier, saltier liquid feels half-way frozen already, so it should finish freezing first."
-reveals_de = "Dickflüssigkeit als Nähe zum Festen: Eine schwerere, salzigere Flüssigkeit fühlt sich schon halb gefroren an, also müsste sie zuerst fertig gefrieren."
 next = "Separate the two ideas: flow is about how molecules slide past each other; freezing is about whether they can lock into a lattice. The dissolved ions obstruct the lattice, so more salt means the beaker holds out longer, not less — the saltier you make it, the colder it must get before ice pays."
-next_de = "Trenne die beiden Vorstellungen: Fließverhalten betrifft, wie Moleküle aneinander vorbeigleiten; Gefrieren betrifft, ob sie sich zu einem Kristallgitter einrasten können. Die gelösten Ionen behindern das Gitter, sodass mehr Salz bedeutet, dass das Becherglas länger durchhält, nicht kürzer — je salziger die Lösung, desto kälter muss es werden, bevor sich das Gefrieren lohnt."
 
 [reaction.registers]
 lv1 = "The plain water starts freezing at zero. The salty water holds out until about four degrees below zero, so the same cooling makes less ice there — the salt gets in the way of the ice forming. That is the secret of gritting icy roads."
-lv1_de = "Das reine Wasser beginnt bei null Grad zu gefrieren. Das Salzwasser hält bis etwa vier Grad unter null durch, deshalb entsteht bei gleicher Abkühlung dort weniger Eis — das Salz steht der Eisbildung im Weg. Das ist das Geheimnis hinter dem Streuen von Salz auf vereisten Straßen."
 lv2 = "Freezing-point depression: ΔT ≈ 1.86 K·kg/mol × molality of dissolved particles. 0.1 mol of NaCl in 100 g of water is 1.0 mol/kg of salt but roughly 2.0 mol/kg of dissolved particles, so the brine starts freezing about 4 K below pure water. As pure ice forms, the salt stays in the residual liquid; the bench re-solves that more concentrated brine and its lower liquidus."
-lv2_de = "Gefrierpunktserniedrigung: ΔT ≈ 1,86 K·kg/mol × Molalität der gelösten Teilchen. 0,1 mol NaCl in 100 g Wasser entsprechen 1,0 mol/kg Salz, aber rund 2,0 mol/kg gelösten Teilchen, sodass die Sole etwa 4 K unter reinem Wasser zu gefrieren beginnt. Während reines Eis entsteht, bleibt das Salz in der Restflüssigkeit; die Labor löst diese konzentriertere Sole und ihren niedrigeren Liquidus neu."
 lv3 = "The depression is computed from the solved speciation — the same particle census `particles` draws — rather than from an integer van 't Hoff factor. Only as much water freezes as the withdrawn 15 kJ can pay for, latent heat counted, and the inventory keeps liquid water and pure ice side by side. Each ice transfer invalidates the old molalities, so PHREEQC re-speciates the smaller liquid compartment and the phase pass iterates to a common temperature/liquidus. Below the declared 252 K model boundary, salt solids and a solute-specific eutectic phase diagram would be required; the bench stops rather than extrapolating the dilute colligative relation."
-lv3_de = "Die Erniedrigung wird aus der gelösten Speziation berechnet — derselben Teilchenzählung, die auch `particles` zieht — statt aus einem ganzzahligen van-'t-Hoff-Faktor. Es gefriert nur so viel Wasser, wie die entzogenen 15 kJ decken können, wobei die latente Wärme mitgerechnet wird, und das Inventar führt flüssiges Wasser und reines Eis nebeneinander. Jeder Eistransfer macht die alten Molalitäten ungültig, sodass PHREEQC das kleiner gewordene flüssige Kompartiment neu speziiert und der Phasendurchlauf sich einer gemeinsamen Temperatur/einem gemeinsamen Liquidus annähert. Unterhalb der festgelegten Modellgrenze von 252 K wären Salzfeststoffe und ein stoffspezifisches eutektisches Phasendiagramm erforderlich; die Labor stoppt, statt die verdünnte kolligative Beziehung zu extrapolieren."
 
 [reaction.provenance]
 source = "Standard curriculum colligative properties; freezing-point depression computed from the solved speciation (PHREEQC via Kerotakis L2) by the Kerotakis state layer; cryoscopic constant of water 1.86 K·kg/mol is a standard reference value quoted for comparison. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
