@@ -24,6 +24,8 @@ const IMPORT_METHOD: &str = "verbatim export from kerotakis_core::species::REGIS
 const LEGACY_LICENCE: &str = "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required";
 const ISOPROPANOL_SOURCE: &str = "us-federal/isopropanol-chris";
 const ISOPROPANOL_CITATION: &str = "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27";
+const SUCROSE_SOURCE: &str = "kerotakis/sucrose-teaching-properties-v1";
+const SUCROSE_CITATION: &str = "PubChem CID 5988 identity crosswalk; Kerotakis room-temperature teaching approximations: crystal density 1.59 g/mL, conservative aqueous solubility 200 g/100 mL water, and 484 J/(mol.K) solid heat capacity estimated by Kopp's rule. These are explicit editorial parameters, not redistributed NIST SRD data; retrieved 2026-08-27";
 
 // Bootstrap a new data-driven species exactly once. After the generated source
 // document is checked in, core's build script includes it in REGISTRY and the
@@ -43,9 +45,31 @@ const ISOPROPANOL_SEED: SpeciesData = SpeciesData {
     spectrum: None,
     dissolution_enthalpy_kj: None,
     dissolves_without_speciation: false,
+    aqueous_solubility_g_per_100_ml: None,
     forms_only_above_k: None,
     magnetic: false,
     provenance: ISOPROPANOL_CITATION,
+};
+
+const SUCROSE_SEED: SpeciesData = SpeciesData {
+    key: "sucrose",
+    name: "sucrose",
+    formula: "C12H22O11",
+    inchikey: "CZMRCDWAGMRECN-SFOFJGFUSA-N",
+    molar_mass: 342.2965,
+    heat_capacity: 484.0,
+    density: 1.59,
+    standard_phase: LegacyPhase::Solid,
+    appearance: Some("white"),
+    flame_colour: None,
+    colour: None,
+    spectrum: None,
+    dissolution_enthalpy_kj: None,
+    dissolves_without_speciation: true,
+    aqueous_solubility_g_per_100_ml: Some(200.0),
+    forms_only_above_k: None,
+    magnetic: false,
+    provenance: SUCROSE_CITATION,
 };
 
 /// Export every current declaration without changing or replacing the runtime
@@ -58,6 +82,9 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     }
     if !REGISTRY.iter().any(|species| species.key == "isopropanol") {
         export_species(&mut document, &ISOPROPANOL_SEED)?;
+    }
+    if !REGISTRY.iter().any(|species| species.key == "sucrose") {
+        export_species(&mut document, &SUCROSE_SEED)?;
     }
     export_material_recipes(&mut document);
     document.validate().map_err(|error| error.to_string())?;
@@ -700,6 +727,39 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             evidence: evidence(),
         },
         MaterialRecipe {
+            id: "household/granulated-table-sugar".to_string(),
+            version: 1,
+            canonical_key: "table_sugar".to_string(),
+            name: "granulated table sugar".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["table sugar".to_string(), "granulated sugar".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec!["Haushaltszucker".to_string(), "Kristallzucker".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("sucrose", 1.0)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::Granules,
+            roles: Vec::new(),
+            preparation: Some("pure crystalline sucrose teaching surrogate".to_string()),
+            lot_assumptions: vec![
+                "moisture, invert sugar, anti-caking agents and source-crop residues are omitted"
+                    .to_string(),
+                "bare sugar/Zucker remains unclaimed because glucose, fructose and mixed sugars are distinct materials"
+                    .to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Curated,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
             id: "household/baking-soda".to_string(),
             version: 1,
             canonical_key: "baking_soda".to_string(),
@@ -973,36 +1033,39 @@ fn export_material_recipes(document: &mut RegistryDocument) {
 }
 
 fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Result<(), String> {
-    let source_id = if species.key == "isopropanol" {
-        ISOPROPANOL_SOURCE.to_string()
-    } else {
-        format!("legacy/{}", species.key)
+    let source_id = match species.key {
+        "isopropanol" => ISOPROPANOL_SOURCE.to_string(),
+        "sucrose" => SUCROSE_SOURCE.to_string(),
+        _ => format!("legacy/{}", species.key),
     };
     let curated_isopropanol = species.key == "isopropanol";
+    let curated_sucrose = species.key == "sucrose";
+    let runtime_source = curated_isopropanol || curated_sucrose;
     document.sources.push(SourceRecord {
         id: source_id.clone(),
         citation: species.provenance.to_string(),
-        licence: if curated_isopropanol {
-            "LicenseRef-US-Public-Domain"
-        } else {
-            LEGACY_LICENCE
+        licence: match species.key {
+            "isopropanol" => "LicenseRef-US-Public-Domain",
+            "sucrose" => "AGPL-3.0-or-later",
+            _ => LEGACY_LICENCE,
         }
         .to_string(),
-        lane: if curated_isopropanol {
+        lane: if runtime_source {
             SourceLane::Runtime
         } else {
             SourceLane::BuildOracle
         },
-        origin: Some(
-            if curated_isopropanol {
-                "https://pubchem.ncbi.nlm.nih.gov/compound/3776"
-            } else {
-                "crates/kerotakis-core/src/species.rs"
-            }
-            .to_string(),
-        ),
-        revision: curated_isopropanol.then(|| "CID 3776".to_string()),
-        retrieved: curated_isopropanol.then(|| "2026-08-27".to_string()),
+        origin: Some(match species.key {
+            "isopropanol" => "https://pubchem.ncbi.nlm.nih.gov/compound/3776".to_string(),
+            "sucrose" => "crates/kerotakis-registry-export/src/lib.rs".to_string(),
+            _ => "crates/kerotakis-core/src/species.rs".to_string(),
+        }),
+        revision: match species.key {
+            "isopropanol" => Some("CID 3776".to_string()),
+            "sucrose" => Some("v1".to_string()),
+            _ => None,
+        },
+        retrieved: runtime_source.then(|| "2026-08-27".to_string()),
     });
 
     let mut identifiers = BTreeMap::new();
@@ -1159,6 +1222,21 @@ fn export_model_parameters(
             source_id,
         ),
     });
+    if let Some(solubility) = species.aqueous_solubility_g_per_100_ml {
+        document.model_parameters.push(ModelParameterRecord {
+            id: format!("aqueous-solubility/{}", species.key),
+            subject: ModelSubject::Species(species.key.to_string()),
+            model: "bounded-room-temperature-dissolution".to_string(),
+            parameter: "aqueous-solubility-g-per-100-ml".to_string(),
+            quantity: imported_number(
+                solubility,
+                "g/100mL",
+                Dimension::MassConcentration,
+                phase(species.standard_phase),
+                source_id,
+            ),
+        });
+    }
     if let Some(colour) = species.colour {
         document.model_parameters.push(ModelParameterRecord {
             id: format!("legacy-tint-strength/{}", species.key),

@@ -2302,5 +2302,25 @@
     "provenance": "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27",
     "spectrum_bands": null,
     "standard_phase": "liquid"
+  },
+  {
+    "appearance": "white",
+    "aqueous_solubility_g_per_100_ml": 200.0,
+    "colour": null,
+    "density": 1.59,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": true,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C12H22O11",
+    "heat_capacity": 484.0,
+    "inchikey": "CZMRCDWAGMRECN-SFOFJGFUSA-N",
+    "key": "sucrose",
+    "magnetic": false,
+    "molar_mass": 342.2965,
+    "name": "sucrose",
+    "provenance": "PubChem CID 5988 identity crosswalk; Kerotakis room-temperature teaching approximations: crystal density 1.59 g/mL, conservative aqueous solubility 200 g/100 mL water, and 484 J/(mol.K) solid heat capacity estimated by Kopp's rule. These are explicit editorial parameters, not redistributed NIST SRD data; retrieved 2026-08-27",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]
