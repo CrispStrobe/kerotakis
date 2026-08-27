@@ -231,5 +231,18 @@
   @keyframes drain-jet { to { stroke-dashoffset: -12; } }
   @keyframes settle-grain { from { opacity: 0; transform: translateY(-4px); } }
   @keyframes magnetic-arrive { 0% { opacity: 0; } 20%, 85% { opacity: 1; } 100% { opacity: .25; } }
-  @media (prefers-reduced-motion: reduce) { .bench-effect { display: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .pour-glow,
+    .pour-stream,
+    .filter.loaded .residue-grain,
+    .condensate-drop,
+    .separator .stopcock,
+    .separator .drain-jet,
+    .cable { animation: none; }
+    .pour-glow, .pour-stream { stroke-dashoffset: 0; }
+    .pour-glow { opacity: .18; }
+    .pour-stream { opacity: .62; }
+    .condensate-drop { opacity: .75; }
+    .landing, .magnetic-grain { display: none; }
+  }
 </style>

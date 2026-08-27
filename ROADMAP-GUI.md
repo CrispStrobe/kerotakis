@@ -1069,6 +1069,11 @@ hide them completely.
   dragged, and also respond to bench resizing. Their visibility and motion use
   the engine event's declared duration instead of an unrelated 3.5-second UI
   timeout, so a long computed operation neither detaches nor disappears early.
+  *Reduced-motion correction shipped 2026-08-27:* the accessibility preference
+  now freezes moving streams, particles, droplets, cables, and valves while
+  retaining the static filter, condenser, separator, magnet, meter, and
+  source-to-target route. Reduced motion no longer erases the apparatus or its
+  spatial meaning.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
