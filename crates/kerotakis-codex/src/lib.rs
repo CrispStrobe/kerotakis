@@ -410,6 +410,36 @@ impl Registers {
         self.0.get(&format!("lv{level}")).map(String::as_str)
     }
 
+    /// Split a register key into its level and optional locale:
+    /// `lv2` -> (`lv2`, None), `lv2_de` -> (`lv2`, Some("de")).
+    ///
+    /// German prose sits beside the English in the same map, following the
+    /// `_de` sibling convention the rest of the catalogue uses, because it
+    /// degrades one string at a time: a level nobody has translated yet
+    /// falls back to English on its own, rather than the entry needing a
+    /// complete German twin before any of it can ship.
+    pub fn split_locale(key: &str) -> (&str, Option<&str>) {
+        match key.rsplit_once('_') {
+            Some((base, loc))
+                if !base.is_empty()
+                    && !loc.is_empty()
+                    && loc.chars().all(|c| c.is_ascii_lowercase()) =>
+            {
+                (base, Some(loc))
+            }
+            _ => (key, None),
+        }
+    }
+
+    /// The prose for a level in the reader's language, falling back to the
+    /// English when that level has no translation yet.
+    pub fn get_in(&self, level: u8, locale: &str) -> Option<&str> {
+        self.0
+            .get(&format!("lv{level}_{locale}"))
+            .or_else(|| self.0.get(&format!("lv{level}")))
+            .map(String::as_str)
+    }
+
     /// Levels present, ascending.
     pub fn levels(&self) -> Vec<u8> {
         let mut out: Vec<u8> = self
@@ -663,9 +693,17 @@ impl Codex {
                 }
             }
             for key in r.registers.0.keys() {
-                if Register::parse(key).is_none() {
+                let (base, locale) = Registers::split_locale(key);
+                if Register::parse(base).is_none() {
                     problems.push(format!(
-                        "{}: register key '{key}' is not a level (use lv1, lv2, …)",
+                        "{}: register key '{key}' is not a level (use lv1, lv2, … or lv1_de)",
+                        r.id
+                    ));
+                } else if locale.is_some() && !r.registers.0.contains_key(base) {
+                    // A translation of a level that does not exist would
+                    // fall back to English forever, silently.
+                    problems.push(format!(
+                        "{}: register key '{key}' translates '{base}', which is not written",
                         r.id
                     ));
                 }
@@ -736,9 +774,17 @@ impl Codex {
                 }
             }
             for key in m.registers.0.keys() {
-                if Register::parse(key).is_none() {
+                let (base, locale) = Registers::split_locale(key);
+                if Register::parse(base).is_none() {
                     problems.push(format!(
-                        "{}: register key '{key}' is not a level (use lv1, lv2, …)",
+                        "{}: register key '{key}' is not a level (use lv1, lv2, … or lv1_de)",
+                        m.id
+                    ));
+                } else if locale.is_some() && !m.registers.0.contains_key(base) {
+                    // A translation of a level that does not exist would
+                    // fall back to English forever, silently.
+                    problems.push(format!(
+                        "{}: register key '{key}' translates '{base}', which is not written",
                         m.id
                     ));
                 }
