@@ -541,6 +541,18 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   actual transition emits `SurfaceColourMixed`, while a zero-fraction decant
   remains a no-op. This closes the interaction lifecycle without inventing
   droplet trajectories during a pour.
+- **Checkpoint 24 implemented:** dissolved table sugar and baker's yeast now
+  enter a finite timed fermentation pathway instead of remaining inert. The
+  conserved aggregate reaction consumes sucrose and water and produces four
+  moles each of resolved ethanol and carbon dioxide per mole of sucrose;
+  `GasProduced` drives real bubbles while `Fermented` reports the sugar, gas,
+  alcohol, effective yeast dose and elapsed time. Dry yeast follows its
+  existing hydration clock, equal-dry-solids fresh yeast is immediately
+  active, and a smooth bounded temperature envelope replaces unrestricted
+  extrapolation. Sugar-water and yeast-without-sugar controls remain still.
+  The absolute rate is an explicit classroom surrogate informed by measurable
+  baker's-yeast CO2 experiments—not a strain-growth, oxygen-switching,
+  inhibition, flavour, food-safety or brewing model.
 
 ## Stage B2 — organic structure and curated reaction families
 

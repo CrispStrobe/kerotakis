@@ -523,6 +523,33 @@ impl<'a> Validator<'a> {
                         }
                     }
                     MaterialRole::SurfaceColourant { .. } => {}
+                    MaterialRole::FermentationCulture {
+                        reference_rate_per_second_per_gram,
+                        optimum_temperature_k,
+                        temperature_width_k,
+                        ..
+                    } => {
+                        if !reference_rate_per_second_per_gram.is_finite()
+                            || *reference_rate_per_second_per_gram <= 0.0
+                        {
+                            self.issue(
+                                format!("{role_path}.reference_rate_per_second_per_gram"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !optimum_temperature_k.is_finite() || *optimum_temperature_k <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.optimum_temperature_k"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !temperature_width_k.is_finite() || *temperature_width_k <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.temperature_width_k"),
+                                "must be finite and positive",
+                            );
+                        }
+                    }
                     MaterialRole::AqueousImmiscibleLiquid { colour_word, .. } => {
                         if recipe.bulk_density.is_none() {
                             self.issue(

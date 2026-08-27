@@ -198,6 +198,15 @@ pub enum MaterialRole {
     /// drop on an opaque colloid until detergent spreads it or mechanical
     /// mixing releases it into the bulk optical model.
     SurfaceColourant { srgb: [u8; 3] },
+    /// A conserved unresolved baker's-yeast fraction with a bounded sucrose
+    /// fermentation response. Parameters describe a classroom gas-evolution
+    /// timescale, not strain growth or a universal product specification.
+    FermentationCulture {
+        reference_rate_per_second_per_gram: f64,
+        optimum_temperature_k: f64,
+        temperature_width_k: f64,
+        requires_hydration: bool,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

@@ -966,7 +966,7 @@
     },
     {
       "id": "kerotakis/material-recipes-v1",
-      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey",
+      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey",
       "licence": "AGPL-3.0-or-later",
       "lane": "runtime",
       "origin": "crates/kerotakis-registry-export/src/lib.rs",
@@ -35217,10 +35217,19 @@
       "physical_form": {
         "kind": "granules"
       },
-      "roles": [],
+      "roles": [
+        {
+          "kind": "fermentation_culture",
+          "reference_rate_per_second_per_gram": 0.0002,
+          "optimum_temperature_k": 308.15,
+          "temperature_width_k": 18.0,
+          "requires_hydration": true
+        }
+      ],
       "preparation": "dry baker's yeast represented as a catalase activity proxy; hydrate with warm water in the experiment",
       "lot_assumptions": [
-        "enzyme activity varies strongly by brand and age; the bounded hydration ramp is a teaching surrogate, not a universal activity per gram"
+        "enzyme activity varies strongly by brand and age; the bounded hydration ramp is a teaching surrogate, not a universal activity per gram",
+        "the sucrose-fermentation rate is an editorial classroom timescale; strain growth, oxygen switching, inhibition and secondary metabolites remain unresolved"
       ],
       "substitutions": [],
       "confidence": "surrogate",
@@ -35290,11 +35299,20 @@
         "kind": "other",
         "description": "moist compressed block"
       },
-      "roles": [],
+      "roles": [
+        {
+          "kind": "fermentation_culture",
+          "reference_rate_per_second_per_gram": 0.0002,
+          "optimum_temperature_k": 308.15,
+          "temperature_width_k": 18.0,
+          "requires_hydration": false
+        }
+      ],
       "preparation": "fresh compressed baker's-yeast surrogate; already hydrated and scaled to 30% solids",
       "lot_assumptions": [
         "70% water and 30% solids follow compressed-yeast technical guidance",
-        "catalase activity is scaled from the dry-yeast teaching surrogate by dry solids; strain, age, storage and brand variation remain unresolved"
+        "catalase activity is scaled from the dry-yeast teaching surrogate by dry solids; strain, age, storage and brand variation remain unresolved",
+        "the sucrose-fermentation rate is an editorial classroom timescale shared by equal dry solids; strain growth, oxygen switching, inhibition and secondary metabolites remain unresolved"
       ],
       "substitutions": [],
       "confidence": "surrogate",
