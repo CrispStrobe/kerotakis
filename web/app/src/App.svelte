@@ -664,6 +664,7 @@
       apparatusValues={apparatusPreview}
       layout={benchLayout}
       showZones={workGuides}
+      onopenperiodic={() => (tableOpen = true)}
       ontogglezones={() => {
         workGuides = !workGuides;
         try {

@@ -35,6 +35,7 @@
     onmove,
     showZones = true,
     ontogglezones,
+    onopenperiodic,
     onremove,
   }: {
     scene: Scene | null;
@@ -57,6 +58,7 @@
     onmove?: (layout: BenchLayout) => void;
     showZones?: boolean;
     ontogglezones?: () => void;
+    onopenperiodic?: () => void;
     onremove?: (vessel: number) => void;
   } = $props();
 
@@ -113,6 +115,23 @@
 
 <section class="bench" aria-label={t("the bench")}>
   <div class="lab-backdrop" aria-hidden="true"></div>
+  {#if onopenperiodic}
+    <button
+      class="wall-poster"
+      aria-label={t("open periodic table")}
+      onclick={onopenperiodic}
+    >
+      <span class="poster-grid" aria-hidden="true">
+        {#each ["H", "He", "Li", "C", "N", "O", "Na", "Mg", "Cl", "Fe", "Cu", "Ag"] as symbol, index}
+          <span class:hot-cell={index === 0 || index === 5} class:metal-cell={index > 5}>{symbol}</span>
+        {/each}
+      </span>
+      <span class="poster-copy">
+        <strong>{t("periodic table")}</strong>
+        <small>{t("tap to explore")}</small>
+      </span>
+    </button>
+  {/if}
   {#if ontogglezones}
     <button class="guide-toggle" aria-pressed={showZones} onclick={ontogglezones}>
       <span aria-hidden="true">{showZones ? "▦" : "☷"}</span>
@@ -282,6 +301,61 @@
     background-size: 18px 18px, 100% 100%;
     mask-image: linear-gradient(to bottom, black, transparent 82%);
   }
+  .wall-poster {
+    position: absolute;
+    z-index: 8;
+    top: 0.45rem;
+    left: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    max-width: min(14rem, 48%);
+    min-height: 34px;
+    padding: 0.3rem 0.55rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 42%, var(--edge));
+    border-radius: 11px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow) 72%, transparent);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+  }
+  .wall-poster:hover,
+  .wall-poster:focus-visible {
+    border-color: var(--primary);
+    box-shadow: 0 7px 18px var(--shadow);
+    transform: translateY(-1px);
+  }
+  .poster-grid {
+    width: 3.7rem;
+    flex: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .poster-grid span {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-radius: 2px;
+    color: color-mix(in srgb, var(--primary) 86%, var(--ink));
+    background: color-mix(in srgb, var(--primary) 15%, var(--surface));
+    font-size: 0.35rem;
+    font-weight: 850;
+  }
+  .poster-grid .hot-cell {
+    color: color-mix(in srgb, var(--hot) 88%, var(--ink));
+    background: color-mix(in srgb, var(--hot) 18%, var(--surface));
+  }
+  .poster-grid .metal-cell {
+    color: color-mix(in srgb, var(--instrument) 90%, var(--ink));
+    background: color-mix(in srgb, var(--instrument) 17%, var(--surface));
+  }
+  .poster-copy { min-width: 0; display: flex; flex-direction: column; }
+  .poster-copy strong { font-size: 0.67rem; line-height: 1.1; }
+  .poster-copy small { color: var(--dim); font-size: 0.52rem; white-space: nowrap; }
   .guide-toggle {
     position: absolute;
     z-index: 9;
@@ -457,6 +531,8 @@
     .work-zones { grid-template-columns: 1fr; }
     .work-zone { min-height: 12rem; border-bottom: 1px dashed color-mix(in srgb, var(--edge) 62%, transparent); }
     .bench { padding-top: 2.7rem; }
+    .poster-copy { display: none; }
+    .wall-poster { max-width: none; padding-inline: 0.4rem; }
   }
   .empty {
     color: var(--dim);

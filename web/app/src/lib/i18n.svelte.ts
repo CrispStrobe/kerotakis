@@ -420,6 +420,8 @@ const DE: Record<string, string> = {
   "ratios from solved speciation": "Verhältnisse aus berechneter Speziation",
   "ratios from the ideal fallback": "Verhältnisse aus idealer Näherung",
   "periodic table": "Periodensystem",
+  "open periodic table": "Periodensystem öffnen",
+  "tap to explore": "antippen und erkunden",
   "the elements": "die Elemente",
   "tap one to see what the lab has of it": "Element antippen, um den Laborbestand zu sehen",
   "show lab table": "Labortabelle zeigen",
