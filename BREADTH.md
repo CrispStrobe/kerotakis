@@ -784,6 +784,14 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   RGB-averaged. Generic “Lebensmittelfarbe/food colouring” stays ambiguous;
   watercolor and acrylic remain blocked on the distinct scattering/pigment
   model.
+- **Opaque-pigment checkpoint 1 implemented:** the shared native/wasm core now
+  has a deterministic, order-independent Kubelka–Munk `K/S` mixer for an
+  optically thick, diffusely lit acrylic-paint surrogate. Curated absorption
+  and scattering spectra mix by amount before conversion through the same CIE
+  observer as solutions; white/black bounds, subtractive blue+yellow mixing,
+  order independence and explicit missing-pigment-data refusal are tested.
+  Installed pigment coefficient records, thin watercolor washes, UI
+  droppers/brushes and substrate/coverage controls remain separate checkpoints.
 
 ### BRD-076 — Movable Bunsen burner and guided heat interactions
 
