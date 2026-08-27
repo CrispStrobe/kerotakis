@@ -419,6 +419,21 @@ impl Equilibrator for MixingEquilibrator {
             }
         }
 
+        // Neutral molecular solids with an explicit reviewed room-temperature
+        // limit dissolve only up to that finite capacity. This changes phase
+        // bookkeeping but makes no pH, ionic-strength, or activity claim.
+        for (solute, moles) in finite_aqueous_dissolutions(vessel) {
+            vessel.withdraw(&solute, moles);
+            vessel.deposit(solute.clone(), moles, Phase::Aqueous);
+            rephase_lots(vessel, &solute, moles);
+            events.push(Event::Dissolved {
+                vessel: vessel.id,
+                species: solute,
+                moles,
+            });
+            vessel.resolved.invalidate();
+        }
+
         Ok(events)
     }
 
@@ -458,9 +473,97 @@ impl Equilibrator for MixingEquilibrator {
                 });
             }
         }
+        for (solute, moles) in finite_aqueous_dissolutions(vessel) {
+            delta = delta
+                .with_moles(solute.clone(), Phase::Solid, -moles.0)
+                .with_moles(solute.clone(), Phase::Aqueous, moles.0);
+            events.push(Event::Dissolved {
+                vessel: vessel.id,
+                species: solute,
+                moles,
+            });
+        }
 
         Ok((delta, events))
     }
+}
+
+fn finite_aqueous_dissolutions(vessel: &Vessel) -> Vec<(SpeciesId, Moles)> {
+    let water_moles = vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.species.0 == SOLVENT && portion.phase == Phase::Liquid)
+        .map(|portion| portion.moles.0)
+        .sum::<f64>();
+    if water_moles <= 0.0 {
+        return Vec::new();
+    }
+    let water_ml = species::lookup_key(SOLVENT)
+        .map(|water| water.liters_from_moles(Moles(water_moles)).0 * 1000.0)
+        .unwrap_or(0.0);
+    let mut seen = std::collections::HashSet::new();
+    let mut out = Vec::new();
+    for portion in vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.phase == Phase::Solid)
+    {
+        if !seen.insert(portion.species.clone()) {
+            continue;
+        }
+        let Some(data) = species::lookup(&portion.species) else {
+            continue;
+        };
+        let Some(limit_g_per_100_ml) = data.aqueous_solubility_g_per_100_ml else {
+            continue;
+        };
+        let solid = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == portion.species && p.phase == Phase::Solid)
+            .map(|p| p.moles.0)
+            .sum::<f64>();
+        let aqueous = vessel
+            .contents
+            .iter()
+            .filter(|p| p.species == portion.species && p.phase == Phase::Aqueous)
+            .map(|p| p.moles.0)
+            .sum::<f64>();
+        let capacity_moles = limit_g_per_100_ml * water_ml / 100.0 / data.molar_mass;
+        let dissolves = solid.min((capacity_moles - aqueous).max(0.0));
+        if dissolves > 1e-15 {
+            out.push((portion.species.clone(), Moles(dissolves)));
+        }
+    }
+    out
+}
+
+fn rephase_lots(vessel: &mut Vessel, species: &SpeciesId, moles: Moles) {
+    let mut remaining = moles.0;
+    let mut split = Vec::new();
+    for lot in vessel
+        .lots
+        .iter_mut()
+        .filter(|lot| lot.species == *species && lot.phase == Phase::Solid)
+    {
+        if remaining <= 1e-15 {
+            break;
+        }
+        let moved = remaining.min(lot.moles.0);
+        remaining -= moved;
+        if moved >= lot.moles.0 - 1e-15 {
+            lot.phase = Phase::Aqueous;
+            lot.suspended_fraction = None;
+        } else {
+            lot.moles.0 -= moved;
+            let mut aqueous = lot.clone();
+            aqueous.moles = Moles(moved);
+            aqueous.phase = Phase::Aqueous;
+            aqueous.suspended_fraction = None;
+            split.push(aqueous);
+        }
+    }
+    vessel.lots.extend(split);
 }
 
 /// Freezing and boiling: the solvent is allowed to stop being a liquid.

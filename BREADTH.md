@@ -439,6 +439,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   is already present, it enters the existing peroxide kinetics immediately;
   dry yeast retains its measured-time hydration ramp. Strain, age, cold-chain,
   brand and storage effects remain explicitly unresolved.
+- **Checkpoint 13 implemented:** sucrose is now a canonical `C12H22O11`
+  species and localized granulated table sugar/`Haushaltszucker` expands to it
+  exactly. A new finite neutral-solute rung moves crystals into the aqueous
+  phase only up to a declared conservative room-temperature capacity; excess
+  sugar remains visibly solid and mass is conserved. The runtime record uses
+  an openly curated approximation rather than redistributing NIST SRD data.
+  Sucrose currently contributes dissolved-particle count but makes no pH,
+  activity, dissolution-heat, caramelization, fermentation, or combustion
+  claim; those remain separate reviewed checkpoints.
 
 ## Stage B2 — organic structure and curated reaction families
 

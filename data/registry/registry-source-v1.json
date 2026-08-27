@@ -956,6 +956,15 @@
       "retrieved": "2026-08-27"
     },
     {
+      "id": "kerotakis/sucrose-teaching-properties-v1",
+      "citation": "PubChem CID 5988 identity crosswalk; Kerotakis room-temperature teaching approximations: crystal density 1.59 g/mL, conservative aqueous solubility 200 g/100 mL water, and 484 J/(mol.K) solid heat capacity estimated by Kopp's rule. These are explicit editorial parameters, not redistributed NIST SRD data; retrieved 2026-08-27",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "crates/kerotakis-registry-export/src/lib.rs",
+      "revision": "v1",
+      "retrieved": "2026-08-27"
+    },
+    {
       "id": "kerotakis/material-recipes-v1",
       "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity; ACS/J. Chem. Educ. DOI 10.1021/ed400316a documents detergent-lowered surface tension and the pepper-on-water classroom demonstration; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids",
       "licence": "AGPL-3.0-or-later",
@@ -2646,6 +2655,22 @@
       "synonyms": [],
       "evidence": {
         "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "sucrose",
+      "canonical_key": "CZMRCDWAGMRECN-SFOFJGFUSA-N",
+      "name": "sucrose",
+      "identifiers": {
+        "inchikey": "CZMRCDWAGMRECN-SFOFJGFUSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -13294,7 +13319,7 @@
         {
           "element": "C",
           "count": {
-            "value": 3,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13321,7 +13346,7 @@
         {
           "element": "H",
           "count": {
-            "value": 8,
+            "value": 8.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13399,6 +13424,125 @@
       },
       "evidence": {
         "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/sucrose",
+      "species_id": "sucrose",
+      "formula": "C12H22O11",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 12.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/sucrose-teaching-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 22.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/sucrose-teaching-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 11.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/sucrose-teaching-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -23366,6 +23510,96 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 342.2965,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 484.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.59,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -27735,7 +27969,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 1.155225E-7,
+            "value": 1.155225e-7,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27785,7 +28019,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 6.965291052001796E-10,
+            "value": 6.965291052001796e-10,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27835,7 +28069,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 2.6927258955223627E-12,
+            "value": 2.6927258955223627e-12,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27885,7 +28119,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 6.6746001746918315E-15,
+            "value": 6.6746001746918315e-15,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -28809,6 +29043,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -33702,6 +33952,72 @@
           "detail": "parsed from the verbatim legacy declaration"
         }
       }
+    },
+    {
+      "id": "dissolves-without-speciation/sucrose",
+      "subject": {
+        "kind": "species",
+        "id": "sucrose"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/sucrose",
+      "subject": {
+        "kind": "species",
+        "id": "sucrose"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 200.0,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "material_recipes": [
@@ -34768,8 +35084,8 @@
         {
           "species_id": "catalase",
           "fraction": {
-            "lower": 0.000001,
-            "upper": 0.000001
+            "lower": 1e-6,
+            "upper": 1e-6
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -34868,6 +35184,62 @@
       ],
       "substitutions": [],
       "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/granulated-table-sugar",
+      "version": 1,
+      "canonical_key": "table_sugar",
+      "name": "granulated table sugar",
+      "aliases": {
+        "de": [
+          "Haushaltszucker",
+          "Kristallzucker"
+        ],
+        "en": [
+          "table sugar",
+          "granulated sugar"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [],
+      "preparation": "pure crystalline sucrose teaching surrogate",
+      "lot_assumptions": [
+        "moisture, invert sugar, anti-caking agents and source-crop residues are omitted",
+        "bare sugar/Zucker remains unclaimed because glucose, fructose and mixed sugars are distinct materials"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
       "expansion_policy": {
         "kind": "fixed"
       },
@@ -35972,8 +36344,8 @@
             0.000855073675272,
             0.000124619078076,
             0.0000149066126883,
-            0.00000146348015158,
-            1.17925612747E-7
+            1.46348015158e-6,
+            1.17925612747e-7
           ],
           "scattering": [
             1.0,
