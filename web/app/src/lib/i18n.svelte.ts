@@ -665,6 +665,7 @@ const DE: Record<string, string> = {
   ,"choose a verified reaction family": "eine geprüfte Reaktionsfamilie wählen"
   ,"{tool} deployed": "{tool} aufgebaut"
   ,"deployed at vessel v{vessel}": "bei Gefäß v{vessel} aufgebaut"
+  ,"workstation · vessel v{vessel}": "Arbeitsstation · Gefäß v{vessel}"
   ,"{zone} work zone": "Arbeitsbereich {zone}"
   ,"set up and measure": "aufbauen und abmessen"
   ,"mix and transform": "mischen und umsetzen"
