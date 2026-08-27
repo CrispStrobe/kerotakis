@@ -1,6 +1,7 @@
 use std::path::PathBuf;
 
 use kerotakis_codex::curiosity::{load_manifest, ActionFamily, AgeBand, Disposition};
+use kerotakis_core::script::ParseErrorKind;
 
 fn corpus_path() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -30,5 +31,17 @@ fn curiosity_v1_is_complete_and_structurally_sound() {
     }
     for age_band in AgeBand::LEARNER_BANDS {
         assert!(inventory.by_age_band[&age_band] > 0, "missing {age_band:?}");
+    }
+    for parse_kind in [
+        ParseErrorKind::UnknownSpecies,
+        ParseErrorKind::UnknownReaction,
+    ] {
+        assert!(
+            corpus
+                .prompts
+                .iter()
+                .any(|prompt| prompt.parse_boundary == Some(parse_kind)),
+            "corpus does not exercise {parse_kind:?}"
+        );
     }
 }

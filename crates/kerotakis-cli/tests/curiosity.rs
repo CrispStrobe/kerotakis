@@ -16,6 +16,7 @@ fn curiosity_smoke_routes_without_crashing() {
     assert_eq!(report["prompts"].as_array().map(Vec::len), Some(16));
     assert_eq!(report["expectation_mismatches"], 0);
     assert_eq!(report["failures"].as_array().map(Vec::len), Some(0));
+    assert_eq!(report["baseline_drift"].as_array().map(Vec::len), Some(0));
     for disposition in ["computed", "curated", "qualitative", "boundary", "missing"] {
         assert!(
             report["by_observed"][disposition]
@@ -37,10 +38,44 @@ fn curiosity_smoke_routes_without_crashing() {
 }
 
 #[test]
+fn curiosity_check_rejects_a_synthetic_routing_regression() {
+    let baseline = include_str!("../../../tests/coverage/curiosity-v1/baseline.toml");
+    let original = "id = \"aq-003\"\nowning_task = \"EXP-17\"\noutcome = \"computed\"";
+    let changed = "id = \"aq-003\"\nowning_task = \"EXP-17\"\noutcome = \"missing\"";
+    assert!(baseline.contains(original));
+    let path = std::env::temp_dir().join(format!(
+        "kerotakis-curiosity-regression-{}.toml",
+        std::process::id()
+    ));
+    std::fs::write(&path, baseline.replacen(original, changed, 1)).expect("write test baseline");
+
+    let output = Command::new(env!("CARGO_BIN_EXE_kero"))
+        .args([
+            "coverage",
+            "curiosity",
+            "--smoke",
+            "--check",
+            "--json",
+            "--baseline",
+            path.to_str().expect("UTF-8 temp path"),
+        ])
+        .output()
+        .expect("run regressed coverage report");
+    std::fs::remove_file(&path).expect("remove test baseline");
+
+    assert!(!output.status.success(), "regression must fail --check");
+    let report: serde_json::Value = serde_json::from_slice(&output.stdout).expect("JSON report");
+    let drift = report["baseline_drift"].as_array().expect("drift array");
+    assert_eq!(drift.len(), 1);
+    assert_eq!(drift[0]["id"], "aq-003");
+    assert_eq!(drift[0]["kind"], "changed");
+}
+
+#[test]
 #[ignore = "scheduled native curiosity corpus"]
 fn curiosity_full_reports_every_prompt_or_failure() {
     let output = Command::new(env!("CARGO_BIN_EXE_kero"))
-        .args(["coverage", "curiosity", "--json"])
+        .args(["coverage", "curiosity", "--check", "--json"])
         .output()
         .expect("run full curiosity corpus");
     assert!(output.status.success());
@@ -48,4 +83,6 @@ fn curiosity_full_reports_every_prompt_or_failure() {
     let classified = report["prompts"].as_array().map(Vec::len).unwrap_or(0);
     let failed = report["failures"].as_array().map(Vec::len).unwrap_or(0);
     assert_eq!(classified + failed, 500);
+    assert_eq!(failed, 7, "known failures are pinned by the baseline");
+    assert_eq!(report["baseline_drift"].as_array().map(Vec::len), Some(0));
 }
