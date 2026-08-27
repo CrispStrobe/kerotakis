@@ -927,6 +927,7 @@ const DE: Record<string, string> = {
   ,"light applied": "Licht eingestrahlt"
   ,"photolysis coupled": "Photolyse gekoppelt"
   ,"photolysis not yet coupled": "Photolyse nicht gekoppelt"
+  ,"instant energy model": "sofortiges Energiemodell"
   ,"on a real bench this needs shielding, dosimetry and a licence; safe only because this lab is virtual": "Im echten Labor sind Abschirmung, Dosimetrie und eine Genehmigung erforderlich; nur hier sicher, weil das Labor virtuell ist"
 };
 

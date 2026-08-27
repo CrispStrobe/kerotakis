@@ -323,6 +323,29 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 ),
             }
         }
+        Event::EnergyTransferred {
+            vessel,
+            heating,
+            requested_j,
+            delivered_j,
+            time_coupled,
+        } => match register.level() {
+            1 => format!(
+                "{vessel} {} {:.2} kJ of heat. This energy step has no elapsed-time model yet.",
+                if *heating { "receives" } else { "releases" },
+                delivered_j / 1000.0,
+            ),
+            2 => format!(
+                "{vessel}: {:.2} kJ requested; {:.2} kJ {} — time model {}",
+                requested_j / 1000.0,
+                delivered_j / 1000.0,
+                if *heating { "delivered" } else { "removed" },
+                if *time_coupled { "coupled" } else { "not yet coupled" },
+            ),
+            _ => format!(
+                "{vessel}: thermal energy requested={requested_j:.6} J, delivered={delivered_j:.6} J, heating={heating}, time_coupled={time_coupled}"
+            ),
+        },
         Event::Stirred {
             vessel,
             rpm,

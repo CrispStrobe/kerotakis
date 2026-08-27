@@ -378,6 +378,16 @@ pub enum Event {
         from: Kelvin,
         to: Kelvin,
     },
+    /// Sensible heat actually accepted by or removed from a vessel. The core
+    /// currently applies energy instantaneously; no power or elapsed-time
+    /// claim is made here.
+    EnergyTransferred {
+        vessel: VesselId,
+        heating: bool,
+        requested_j: f64,
+        delivered_j: f64,
+        time_coupled: bool,
+    },
     /// Mechanical mixing conditions actually delivered by a magnetic
     /// stirrer. Tip speed follows π·bar_length·rpm/60.
     Stirred {

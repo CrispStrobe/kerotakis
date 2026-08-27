@@ -555,6 +555,13 @@ impl Bench {
                         from,
                         to,
                     });
+                    events.push(Event::EnergyTransferred {
+                        vessel: *vessel,
+                        heating: signed >= 0.0,
+                        requested_j: energy.0,
+                        delivered_j: (to.0 - from.0).abs() * cp,
+                        time_coupled: false,
+                    });
                     if wanted < 0.0 {
                         let could_pay = cp * from.0 / 1000.0;
                         events.push(Event::NotYetModeled {
