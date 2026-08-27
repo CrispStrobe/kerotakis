@@ -162,6 +162,13 @@ export interface ElectrolysisRun {
   electronsPerIon: number;
 }
 
+export interface ThermalRun {
+  heating: boolean;
+  requestedJ: number;
+  deliveredJ: number;
+  timeCoupled: boolean;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -209,6 +216,7 @@ export interface Effect {
   sweep?: SweepRun;
   irradiation?: IrradiationRun;
   electrolysis?: ElectrolysisRun;
+  thermal?: ThermalRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -554,6 +562,24 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         magnitude: thermalMag(e),
         temperatureK: to,
+      };
+    }
+    case "energy_transferred": {
+      const deliveredJ = Math.max(0, Number(e.delivered_j ?? 0));
+      const heating = Boolean(e.heating);
+      return {
+        kind: heating ? "heat" : "cool",
+        at: now,
+        durationMs: 2600,
+        magnitude: scale(deliveredJ, 100, 50_000),
+        reading: deliveredJ,
+        unit: "J",
+        thermal: {
+          heating,
+          requestedJ: Math.max(0, Number(e.requested_j ?? 0)),
+          deliveredJ,
+          timeCoupled: Boolean(e.time_coupled),
+        },
       };
     }
     case "heat_of_mixing": {

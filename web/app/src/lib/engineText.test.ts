@@ -105,4 +105,14 @@ describe("engine text localization", () => {
     expect(engineText("v1: I = 0.500000 A; t = 120.000 s; Q = It = 60.0 C; n(e⁻) = Q/F = 0.000622 mol; n(copper) = n(e⁻)/2 = 0.000311 mol; m = 0.0198 g — only the 2 is chemistry. Inert anode assumed: the water is oxidised there, so the oxygen leaves and the acid stays"))
       .toBe("v1: I = 0.500000 A; t = 120.000 s; Q = It = 60.0 C; n(e⁻) = Q/F = 0.000622 mol; n(Kupfer) = n(e⁻)/2 = 0.000311 mol; m = 0.0198 g — nur die 2 stammt aus der Chemie. Inerte Anode angenommen: Dort wird Wasser oxidiert; der Sauerstoff entweicht und die Säure bleibt zurück");
   });
+
+  it("translates delivered heat while preserving the missing-time boundary", () => {
+    i18n.setLocale("de");
+    expect(engineText("v1 receives 2.50 kJ of heat. This energy step has no elapsed-time model yet."))
+      .toBe("v1 nimmt 2.50 kJ Wärme auf. Dieser Energieschritt hat noch kein Zeitmodell.");
+    expect(engineText("v1: 5.00 kJ requested; 2.50 kJ removed — time model not yet coupled"))
+      .toBe("v1: 5.00 kJ angefordert; 2.50 kJ entzogen — Zeitmodell noch nicht gekoppelt");
+    expect(engineText("v1: thermal energy requested=5000.000000 J, delivered=2500.000000 J, heating=false, time_coupled=false"))
+      .toBe("v1: Wärmeenergie angefordert=5000.000000 J, übertragen=2500.000000 J, Erwärmung=nein, Zeitmodell gekoppelt=nein");
+  });
 });

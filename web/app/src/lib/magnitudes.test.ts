@@ -131,6 +131,25 @@ describe("effectFromEvent", () => {
     expect(e!.magnitude).toBeGreaterThan(0.4);
   });
 
+  it("retains actual delivered heat and the uncoupled time boundary", () => {
+    const heat = effectFromEvent({
+      event: "energy_transferred", vessel: 0, heating: true,
+      requested_j: 5000, delivered_j: 5000, time_coupled: false,
+    });
+    const clampedCool = effectFromEvent({
+      event: "energy_transferred", vessel: 0, heating: false,
+      requested_j: 5000, delivered_j: 2500, time_coupled: false,
+    });
+    expect(heat).toMatchObject({
+      kind: "heat", durationMs: 2600, reading: 5000, unit: "J",
+      thermal: { heating: true, requestedJ: 5000, deliveredJ: 5000, timeCoupled: false },
+    });
+    expect(clampedCool).toMatchObject({
+      kind: "cool", thermal: { heating: false, deliveredJ: 2500, timeCoupled: false },
+    });
+    expect(heat!.magnitude).toBeGreaterThan(clampedCool!.magnitude);
+  });
+
   it("recognises a computed flame colour inside the engine's descriptive phrase", () => {
     const e = effectFromEvent({
       event: "ignited",

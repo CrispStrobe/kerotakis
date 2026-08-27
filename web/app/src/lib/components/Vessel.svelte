@@ -89,6 +89,10 @@
   const sweepEffect = $derived(latestEffect("sweep", 3800));
   const irradiationEffect = $derived(latestEffect("irradiate", 4200));
   const electrolysisEffect = $derived(latestEffect("electrolyse", 8000));
+  const thermalEffect = $derived.by(() => {
+    const effect = latestEffect(deployedTool === "cool" ? "cool" : "heat", 2600);
+    return effect?.thermal ? effect : undefined;
+  });
   const electrolysisDeposit = $derived.by(() => {
     const species = electrolysisEffect?.electrolysis?.species;
     return species ? vessel.solids.find((solid) => solid.species === species) : undefined;
@@ -408,6 +412,8 @@
         depositName={electrolysisDeposit?.name}
         effect={deployedTool === "stir"
           ? stirEffect
+          : deployedTool === "heat" || deployedTool === "cool"
+            ? thermalEffect
           : deployedTool === "regulate"
             ? pressureControlEffect
             : deployedTool === "sweep"
