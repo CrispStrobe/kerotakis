@@ -59,6 +59,11 @@ fn species_map_into_the_nasa_data_by_formula() {
         Some("C2H5OH(L)"),
         "liquid fuel uses CEA's separate feed-only thermochemistry"
     );
+    assert_eq!(
+        kerotakis_cea::cea_name("isopropanol"),
+        None,
+        "an isopropanol identity must not borrow another C3H8O isomer's thermochemistry"
+    );
 }
 
 #[test]
@@ -107,6 +112,41 @@ fn a_flame_really_burns_liquid_ethanol() {
         event,
         Event::ReactionOccurred { equation, .. } if equation.contains("C₂H₅OH")
     )));
+}
+
+#[test]
+fn aqueous_rubbing_alcohol_keeps_an_explicit_combustion_boundary() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let add = kerotakis_core::script::parse_op("add v1 Isopropanol_70% 10mL")
+        .expect("valid rubbing-alcohol command")
+        .expect("operator");
+    bench
+        .step_with(add, &mut stack, &PermissiveScreen)
+        .expect("add rubbing alcohol");
+    let before = bench.vessels[0].moles_of(&SpeciesId::new("isopropanol"));
+
+    let events = bench
+        .step_with(
+            Operator::Ignite {
+                vessel: VesselId(0),
+            },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("evaluate ignition boundary");
+
+    assert_eq!(
+        bench.vessels[0].moles_of(&SpeciesId::new("isopropanol")),
+        before,
+        "an unmodelled flame must not consume fuel"
+    );
+    assert!(events.iter().any(|event| matches!(event,
+        Event::NotYetModeled { what, .. } if what.contains("combustion")
+    )));
+    assert!(!events
+        .iter()
+        .any(|event| matches!(event, Event::Ignited { .. } | Event::DidNotIgnite { .. })));
 }
 
 #[test]

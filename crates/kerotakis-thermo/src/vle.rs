@@ -83,6 +83,17 @@ pub const ETHANOL: Antoine = Antoine {
              Gives 101.65 kPa at 78.4 °C (lit. 78.37 °C at 1 atm)",
 };
 
+/// Isopropanol over the NIST fit range that spans its normal boiling point.
+/// NIST publishes pressure in bar and temperature in kelvin; `a` includes
+/// the bar-to-kPa factor and `c` includes the kelvin-to-Celsius offset.
+pub const ISOPROPANOL: Antoine = Antoine {
+    a: 6.861,
+    b: 1357.427,
+    c: 197.336,
+    valid_c: (56.77, 89.26),
+    source: "NIST Chemistry WebBook, SRD 69, isopropyl alcohol Antoine equation: Stull, D.R., Ind. Eng. Chem. 39, 517-540 (1947), 329.92-362.41 K; converted from log10(P/bar) = 4.8610 - 1357.427/(T/K - 75.814) to kPa and Celsius",
+};
+
 /// Methanol, over the range spanning its boiling point at 64.7 °C.
 pub const METHANOL: Antoine = Antoine {
     a: 7.20607,
@@ -778,6 +789,22 @@ mod tests {
             "methanol boils at {:.2} °C (expected ~64.7)",
             bp.t_celsius
         );
+    }
+
+    #[test]
+    fn pure_isopropanol_boils_at_the_reviewed_temperature() {
+        let mix = [Volatile {
+            antoine: ISOPROPANOL,
+            x: 1.0,
+            gamma: 1.0,
+        }];
+        let bp = bubble_point(&mix, ATMOSPHERE_KPA).unwrap();
+        assert!(
+            (bp.t_celsius - 82.35).abs() < 0.5,
+            "isopropanol boils at {:.2} °C (expected ~82.35)",
+            bp.t_celsius
+        );
+        assert!(ISOPROPANOL.pressure_kpa(40.0).is_none());
     }
 
     #[test]

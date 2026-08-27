@@ -359,9 +359,11 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   recipes that expand exactly to the existing `NaHCO3`, `Na2CO3`, and `starch`
   solver species. The bare word “Soda” remains intentionally unclaimed because
   its meaning changes by language and context. Baking powder waits for an
-  audited acid-salt component; pepper waits for aggregate-solid appearance;
-  isopropanol waits for its pure-species, volatility, safety and combustion
-  routes; dyes and paints wait for BRD-075 optical material roles. These are
+  audited acid-salt component; pepper waits for aggregate-solid appearance.
+  Isopropanol identity, 70% v/v household solution, safety and boiling-range
+  volatility land in checkpoint 5 below; its combustion route still waits for
+  feed thermochemistry. Dyes and paints are covered by BRD-075 optical material
+  roles. These are
   prerequisite boundaries, not generic inert substitutes.
 - **Checkpoint 2 implemented:** the familiar vinegar + baking-soda reaction is
   a balanced curated route with limiting-reagent stoichiometry, dissolved
@@ -380,6 +382,14 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   or mass amounts; component formulas feed search/periodic-table coverage;
   component hazards are combined and any unresolved fraction remains visibly
   unassessed. Optical materials reuse their computed solution swatches.
+- **Checkpoint 5 implemented:** pure isopropanol is a searchable registry
+  identity backed by public-domain U.S. federal property data. Localized 70%
+  rubbing alcohol expands as its labelled 70/30 volume mixture with water,
+  preserving the explicit additive-volume approximation. The shared safety
+  surface marks its resolved alcohol component as flammable; the thermodynamics
+  library supplies a range-checked NIST Antoine correlation around its normal
+  boiling point. Combustion remains explicitly unmodelled until compatible feed
+  thermochemistry is installed.
 
 ## Stage B2 — organic structure and curated reaction families
 
@@ -914,6 +924,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   ignition-zone temperature and says so in provenance. This does not yet claim
   sustained pool-fire geometry, sealed/oxygen-starved combustion, soot/CO, or
   isopropanol identity and volatility data.
+- **Isopropanol checkpoint 1 implemented:** pure isopropanol is now a searchable
+  registry identity with reviewed room-liquid properties, and household 70%
+  rubbing alcohol is a localized, fixed 70/30 v/v recipe rather than a falsely
+  relabelled mass mixture. The shared safety screen classifies the alcohol as a
+  flammable liquid, and a NIST Antoine fit computes its volatility across the
+  stated range around the normal boiling point. A flame held to the 70% aqueous
+  mixture remains an explicit combustion-model boundary: the bundled CEA subset
+  has no isopropanol feed thermochemistry, so this checkpoint does not fake fuel
+  depletion, products, heat release or sustained burning.
 
 ### BRD-077 — Element coverage score and progressive periodic table
 

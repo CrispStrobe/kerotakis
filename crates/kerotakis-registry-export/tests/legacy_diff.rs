@@ -48,9 +48,12 @@ fn every_legacy_field_is_present_and_unchanged() {
             .iter()
             .filter(|source| source.id.starts_with("legacy/"))
             .count(),
-        REGISTRY.len()
+        REGISTRY
+            .iter()
+            .filter(|species| species.key != "isopropanol")
+            .count()
     );
-    assert_eq!(document.material_recipes.len(), 19);
+    assert_eq!(document.material_recipes.len(), 20);
     assert_eq!(document.identities.len(), REGISTRY.len());
     assert_eq!(document.compositions.len(), REGISTRY.len());
     assert_eq!(
@@ -90,7 +93,11 @@ fn every_legacy_field_is_present_and_unchanged() {
 }
 
 fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
-    let source_id = format!("legacy/{}", species.key);
+    let source_id = if species.key == "isopropanol" {
+        "us-federal/isopropanol-chris".to_string()
+    } else {
+        format!("legacy/{}", species.key)
+    };
     let source = document
         .sources
         .iter()
@@ -101,18 +108,27 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         "{} provenance",
         species.key
     );
-    assert_eq!(source.lane, SourceLane::BuildOracle, "{} lane", species.key);
-    assert_eq!(
-        source.licence, "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
-        "{} licence boundary",
-        species.key
-    );
-    assert_eq!(
-        source.origin.as_deref(),
-        Some("crates/kerotakis-core/src/species.rs")
-    );
-    assert_eq!(source.revision, None);
-    assert_eq!(source.retrieved, None);
+    if species.key == "isopropanol" {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("https://pubchem.ncbi.nlm.nih.gov/compound/3776")
+        );
+    } else {
+        assert_eq!(source.lane, SourceLane::BuildOracle, "{} lane", species.key);
+        assert_eq!(
+            source.licence, "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+            "{} licence boundary",
+            species.key
+        );
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("crates/kerotakis-core/src/species.rs")
+        );
+        assert_eq!(source.revision, None);
+        assert_eq!(source.retrieved, None);
+    }
 
     let identity = document
         .identities

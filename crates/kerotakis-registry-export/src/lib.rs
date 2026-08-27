@@ -22,6 +22,31 @@ use kerotakis_data::{
 
 const IMPORT_METHOD: &str = "verbatim export from kerotakis_core::species::REGISTRY";
 const LEGACY_LICENCE: &str = "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required";
+const ISOPROPANOL_SOURCE: &str = "us-federal/isopropanol-chris";
+const ISOPROPANOL_CITATION: &str = "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27";
+
+// Bootstrap a new data-driven species exactly once. After the generated source
+// document is checked in, core's build script includes it in REGISTRY and the
+// normal export loop reproduces the same record.
+const ISOPROPANOL_SEED: SpeciesData = SpeciesData {
+    key: "isopropanol",
+    name: "isopropanol",
+    formula: "C3H8O",
+    inchikey: "KFZMGEQAYNKOFK-UHFFFAOYSA-N",
+    molar_mass: 60.096,
+    heat_capacity: 152.2,
+    density: 0.785,
+    standard_phase: LegacyPhase::Liquid,
+    appearance: Some("colourless"),
+    flame_colour: None,
+    colour: None,
+    spectrum: None,
+    dissolution_enthalpy_kj: None,
+    dissolves_without_speciation: false,
+    forms_only_above_k: None,
+    magnetic: false,
+    provenance: ISOPROPANOL_CITATION,
+};
 
 /// Export every current declaration without changing or replacing the runtime
 /// registry. All legacy sources remain build-oracle material pending explicit
@@ -30,6 +55,9 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     let mut document = RegistryDocument::empty();
     for species in REGISTRY {
         export_species(&mut document, species)?;
+    }
+    if !REGISTRY.iter().any(|species| species.key == "isopropanol") {
+        export_species(&mut document, &ISOPROPANOL_SEED)?;
     }
     export_material_recipes(&mut document);
     document.validate().map_err(|error| error.to_string())?;
@@ -193,6 +221,45 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         }
     };
     document.material_recipes.extend([
+        MaterialRecipe {
+            id: "household/isopropanol-70-percent-vv".to_string(),
+            version: 1,
+            canonical_key: "isopropanol_70_percent".to_string(),
+            name: "70% isopropanol".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec![
+                        "rubbing alcohol 70%".to_string(),
+                        "isopropyl alcohol 70%".to_string(),
+                        "rubbing_alcohol_70%".to_string(),
+                    ],
+                ),
+                (
+                    "de".to_string(),
+                    vec![
+                        "Isopropanol 70%".to_string(),
+                        "Isopropylalkohol 70%".to_string(),
+                        "Isopropanol_70%".to_string(),
+                    ],
+                ),
+            ]),
+            basis: MaterialBasis::VolumeFraction,
+            bulk_density: None,
+            components: vec![component("isopropanol", 0.70), component("water", 0.30)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("70% v/v isopropanol in water at room temperature".to_string()),
+            lot_assumptions: vec![
+                "component volumes use the explicit runtime additive-volume teaching approximation; real mixing contracts slightly".to_string(),
+                "denaturants, fragrance and brand-specific additives are not represented".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Curated,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
         MaterialRecipe {
             id: "household/hydrogen-peroxide-3-percent".to_string(),
             version: 1,
@@ -567,15 +634,36 @@ fn export_material_recipes(document: &mut RegistryDocument) {
 }
 
 fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Result<(), String> {
-    let source_id = format!("legacy/{}", species.key);
+    let source_id = if species.key == "isopropanol" {
+        ISOPROPANOL_SOURCE.to_string()
+    } else {
+        format!("legacy/{}", species.key)
+    };
+    let curated_isopropanol = species.key == "isopropanol";
     document.sources.push(SourceRecord {
         id: source_id.clone(),
         citation: species.provenance.to_string(),
-        licence: LEGACY_LICENCE.to_string(),
-        lane: SourceLane::BuildOracle,
-        origin: Some("crates/kerotakis-core/src/species.rs".to_string()),
-        revision: None,
-        retrieved: None,
+        licence: if curated_isopropanol {
+            "LicenseRef-US-Public-Domain"
+        } else {
+            LEGACY_LICENCE
+        }
+        .to_string(),
+        lane: if curated_isopropanol {
+            SourceLane::Runtime
+        } else {
+            SourceLane::BuildOracle
+        },
+        origin: Some(
+            if curated_isopropanol {
+                "https://pubchem.ncbi.nlm.nih.gov/compound/3776"
+            } else {
+                "crates/kerotakis-core/src/species.rs"
+            }
+            .to_string(),
+        ),
+        revision: curated_isopropanol.then(|| "CID 3776".to_string()),
+        retrieved: curated_isopropanol.then(|| "2026-08-27".to_string()),
     });
 
     let mut identifiers = BTreeMap::new();

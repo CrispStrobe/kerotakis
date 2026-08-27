@@ -116,7 +116,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "Pb" => &[ActiveMetal],
 
         // ── flammable liquids ─────────────────────────────────────
-        "ethanol" => &[FlammableLiquid],
+        "ethanol" | "isopropanol" => &[FlammableLiquid],
         "methanol" => &[FlammableLiquid],
         "hexane" => &[FlammableLiquid],
         "propanone" => &[FlammableLiquid],
@@ -313,6 +313,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "hexane",
     "indigo_carmine",
     "indigo_carmine_ox",
+    "isopropanol",
     "maltose",
     "methanol",
     "methyl_orange",
@@ -520,6 +521,20 @@ mod tests {
             } => {
                 assert_eq!(severity, Severity::Danger);
                 assert!(hazard.contains("oxidizer"));
+            }
+            other => panic!("expected Danger, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn peroxide_and_isopropanol_warns() {
+        let v = vessel_with(&["H2O2", "isopropanol"]);
+        match ReactiveGroupScreen.assess(&v) {
+            SafetyVerdict::Warn {
+                severity, hazard, ..
+            } => {
+                assert_eq!(severity, Severity::Danger);
+                assert!(hazard.contains("flammable"));
             }
             other => panic!("expected Danger, got {other:?}"),
         }
