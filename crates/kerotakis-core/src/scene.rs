@@ -197,17 +197,32 @@ pub fn scene_of(vessels: &[Vessel]) -> Scene {
 /// One vessel's render model.
 pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let seen = appearance::observe(v);
+    let material_layers = crate::material::immiscible_liquid_layers(v);
+    let material_volume_l: f64 = material_layers.iter().map(|layer| layer.volume_l).sum();
+    let resolved_volume_l = v.liquid_volume().0;
 
-    let liquid = seen.liquid.as_ref().map(|c| SceneLiquid {
-        volume_l: v.liquid_volume().0,
-        srgb: [c.r, c.g, c.b],
-        colour_word: colour_word(c, false).to_string(),
-        cloudiness: seen.cloudiness,
-        path_length_cm: crate::vessel::path_cm_for(&v.label),
-    });
+    let liquid = seen
+        .liquid
+        .as_ref()
+        .map(|c| SceneLiquid {
+            volume_l: resolved_volume_l + material_volume_l,
+            srgb: [c.r, c.g, c.b],
+            colour_word: colour_word(c, false).to_string(),
+            cloudiness: seen.cloudiness,
+            path_length_cm: crate::vessel::path_cm_for(&v.label),
+        })
+        .or_else(|| {
+            material_layers.first().map(|layer| SceneLiquid {
+                volume_l: material_volume_l,
+                srgb: layer.srgb,
+                colour_word: layer.colour_word.clone(),
+                cloudiness: 0.0,
+                path_length_cm: crate::vessel::path_cm_for(&v.label),
+            })
+        });
 
     // Layers (GUI-058): the engine's computed phase split, made drawable.
-    let layers = match (&liquid, crate::solve::layered_pair(v)) {
+    let mut layers = match (&liquid, crate::solve::layered_pair(v)) {
         (Some(l), Some((upper_key, lower_key))) => {
             let upper_data = species::lookup(&crate::SpeciesId::new(upper_key));
             let upper_vol: f64 = v
@@ -230,7 +245,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                     name: species::lookup(&crate::SpeciesId::new(lower_key))
                         .map(|d| d.name.to_string())
                         .unwrap_or_else(|| lower_key.to_string()),
-                    volume_l: (l.volume_l - upper_vol).max(0.0),
+                    volume_l: resolved_volume_l - upper_vol,
                     srgb: l.srgb,
                     colour_word: l.colour_word.clone(),
                 },
@@ -245,15 +260,22 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 },
             ]
         }
-        (Some(l), None) => vec![SceneLayer {
+        (Some(l), None) if resolved_volume_l > 0.0 => vec![SceneLayer {
             species: "solution".to_string(),
             name: "solution".to_string(),
-            volume_l: l.volume_l,
+            volume_l: resolved_volume_l,
             srgb: l.srgb,
             colour_word: l.colour_word.clone(),
         }],
-        (None, _) => Vec::new(),
+        _ => Vec::new(),
     };
+    layers.extend(material_layers.iter().map(|layer| SceneLayer {
+        species: layer.key.clone(),
+        name: layer.material.clone(),
+        volume_l: layer.volume_l,
+        srgb: layer.srgb,
+        colour_word: layer.colour_word.clone(),
+    }));
 
     // Aggregate solids per species, keeping first-seen order, then sort by
     // amount so the biggest deposit paints first.
@@ -339,6 +361,16 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     }
 
     let mut words = seen.words;
+    if let Some(layer) = material_layers.first() {
+        if resolved_volume_l > 0.0 {
+            words.push_str(&format!(
+                " {} forms a separate {} layer above the water.",
+                layer.material, layer.colour_word
+            ));
+        } else {
+            words.push_str(&format!(" The vessel contains {}.", layer.material));
+        }
+    }
     if let Some(foam) = &foam {
         if foam.overflow_liters > 0.0 {
             words.push_str(" Foam is spilling over the rim.");

@@ -448,6 +448,16 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   Sucrose currently contributes dissolved-particle count but makes no pH,
   activity, dissolution-heat, caramelization, fermentation, or combustion
   claim; those remain separate reviewed checkpoints.
+- **Checkpoint 14 implemented:** localized vegetable/cooking oil is a fully
+  conserved unresolved household mixture rather than a fictional pure
+  molecule. Its reviewed material role and representative 0.92 g/mL geometry
+  parameter produce a persistent pale-yellow upper layer on water; aqueous
+  food-colour optics remain confined to the lower layer. Scene volume includes
+  both phases while aqueous concentration calculations still use only resolved
+  solvent volume. Decanting and multi-vessel mixing now transfer unresolved
+  homogeneous liquids proportionally, so the oil survives real pours and
+  replay. This bounded checkpoint does not yet claim emulsions, droplet
+  dynamics, oxidation, hydrolysis, combustion, or an edible-oil composition.
 
 ## Stage B2 — organic structure and curated reaction families
 

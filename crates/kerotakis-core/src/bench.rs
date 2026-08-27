@@ -773,7 +773,7 @@ impl Bench {
                     return Err(BenchError::SelfTransfer);
                 }
                 // Work out what would move, without mutating yet.
-                let (would_move, t_from) = {
+                let (would_move, unresolved_move, t_from) = {
                     let src = self.vessel(*from)?;
                     let moved: Vec<_> = src
                         .contents
@@ -784,7 +784,18 @@ impl Bench {
                             (n.0 > 0.0).then(|| (p.species.clone(), n, p.phase))
                         })
                         .collect();
-                    (moved, src.temperature)
+                    let unresolved: Vec<_> = src
+                        .unresolved_materials
+                        .iter()
+                        .filter(|portion| material::unresolved_portion_is_liquid(portion))
+                        .map(|portion| {
+                            let mut moved = portion.clone();
+                            moved.amount *= fraction;
+                            moved
+                        })
+                        .filter(|portion| portion.amount > 1e-15)
+                        .collect();
+                    (moved, unresolved, src.temperature)
                 };
 
                 // L0 on the prospective target state, before mutation —
@@ -819,6 +830,13 @@ impl Bench {
                         }
                     }
                     src.contents.retain(|p| p.moles.0 > 1e-15);
+                    for portion in &mut src.unresolved_materials {
+                        if material::unresolved_portion_is_liquid(portion) {
+                            portion.amount *= 1.0 - fraction;
+                        }
+                    }
+                    src.unresolved_materials
+                        .retain(|portion| portion.amount > 1e-15);
                     would_move
                 };
                 // …and mix it into `to` with the energy balance.
@@ -846,6 +864,7 @@ impl Bench {
                 for (s, n, phase) in portions {
                     dst.deposit(s, n, phase);
                 }
+                dst.unresolved_materials.extend(unresolved_move);
                 events.push(Event::Transferred {
                     from: *from,
                     to: *to,
@@ -869,7 +888,7 @@ impl Bench {
                     return Err(BenchError::SelfTransfer);
                 }
                 // Gather what would move from each source.
-                let (move_a, t_a) = {
+                let (move_a, unresolved_a, t_a) = {
                     let src = self.vessel(*a)?;
                     let moved: Vec<_> = src
                         .contents
@@ -880,9 +899,20 @@ impl Bench {
                             (n.0 > 0.0).then(|| (p.species.clone(), n, p.phase))
                         })
                         .collect();
-                    (moved, src.temperature)
+                    let unresolved: Vec<_> = src
+                        .unresolved_materials
+                        .iter()
+                        .filter(|portion| material::unresolved_portion_is_liquid(portion))
+                        .map(|portion| {
+                            let mut moved = portion.clone();
+                            moved.amount *= fraction_a;
+                            moved
+                        })
+                        .filter(|portion| portion.amount > 1e-15)
+                        .collect();
+                    (moved, unresolved, src.temperature)
                 };
-                let (move_b, t_b) = {
+                let (move_b, unresolved_b, t_b) = {
                     let src = self.vessel(*b)?;
                     let moved: Vec<_> = src
                         .contents
@@ -893,7 +923,18 @@ impl Bench {
                             (n.0 > 0.0).then(|| (p.species.clone(), n, p.phase))
                         })
                         .collect();
-                    (moved, src.temperature)
+                    let unresolved: Vec<_> = src
+                        .unresolved_materials
+                        .iter()
+                        .filter(|portion| material::unresolved_portion_is_liquid(portion))
+                        .map(|portion| {
+                            let mut moved = portion.clone();
+                            moved.amount *= fraction_b;
+                            moved
+                        })
+                        .filter(|portion| portion.amount > 1e-15)
+                        .collect();
+                    (moved, unresolved, src.temperature)
                 };
 
                 // L0 on the prospective target state.
@@ -927,6 +968,14 @@ impl Bench {
                         }
                     }
                     src_a.contents.retain(|p| p.moles.0 > 1e-15);
+                    for portion in &mut src_a.unresolved_materials {
+                        if material::unresolved_portion_is_liquid(portion) {
+                            portion.amount *= 1.0 - fraction_a;
+                        }
+                    }
+                    src_a
+                        .unresolved_materials
+                        .retain(|portion| portion.amount > 1e-15);
                     src_a.solution = None;
                 }
                 {
@@ -937,6 +986,14 @@ impl Bench {
                         }
                     }
                     src_b.contents.retain(|p| p.moles.0 > 1e-15);
+                    for portion in &mut src_b.unresolved_materials {
+                        if material::unresolved_portion_is_liquid(portion) {
+                            portion.amount *= 1.0 - fraction_b;
+                        }
+                    }
+                    src_b
+                        .unresolved_materials
+                        .retain(|portion| portion.amount > 1e-15);
                     src_b.solution = None;
                 }
 
@@ -971,6 +1028,8 @@ impl Bench {
                 for (s, n, phase) in move_a.into_iter().chain(move_b) {
                     dst.deposit(s, n, phase);
                 }
+                dst.unresolved_materials
+                    .extend(unresolved_a.into_iter().chain(unresolved_b));
                 events.push(Event::Mixed {
                     a: *a,
                     b: *b,

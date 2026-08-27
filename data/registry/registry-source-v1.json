@@ -966,7 +966,7 @@
     },
     {
       "id": "kerotakis/material-recipes-v1",
-      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity; ACS/J. Chem. Educ. DOI 10.1021/ed400316a documents detergent-lowered surface tension and the pepper-on-water classroom demonstration; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids",
+      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, and teaches that vegetable oil is less dense than water and does not dissolve in it; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids",
       "licence": "AGPL-3.0-or-later",
       "lane": "runtime",
       "origin": "crates/kerotakis-registry-export/src/lib.rs",
@@ -35240,6 +35240,84 @@
       ],
       "substitutions": [],
       "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/vegetable-oil-surrogate",
+      "version": 1,
+      "canonical_key": "vegetable_oil",
+      "name": "vegetable oil",
+      "aliases": {
+        "de": [
+          "Pflanzenöl",
+          "Speiseöl"
+        ],
+        "en": [
+          "cooking oil",
+          "plant oil"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.92,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "aqueous_immiscible_liquid",
+          "srgb": [
+            238,
+            218,
+            112
+          ],
+          "colour_word": "pale yellow"
+        }
+      ],
+      "preparation": "generic room-temperature vegetable-oil teaching surrogate",
+      "lot_assumptions": [
+        "the oil remains a conserved unresolved triglyceride mixture; crop, refining, age, additives and brand are not guessed",
+        "0.92 g/mL is an explicit representative geometry parameter, not a product specification",
+        "the bounded role supports an upper oil layer on water; emulsions, oxidation, hydrolysis and combustion remain unmodelled"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
       "expansion_policy": {
         "kind": "fixed"
       },

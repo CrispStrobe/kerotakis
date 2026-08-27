@@ -43,7 +43,8 @@ pub fn advance(vessel: &mut Vessel, seconds: f64, oxygen_moles: f64) -> Option<F
                 )),
                 MaterialRole::OpaquePigment { .. }
                 | MaterialRole::SurfaceFloater { .. }
-                | MaterialRole::SurfaceTensionReducer { .. } => None,
+                | MaterialRole::SurfaceTensionReducer { .. }
+                | MaterialRole::AqueousImmiscibleLiquid { .. } => None,
             })
         })
         .max_by(|a, b| a.0.total_cmp(&b.0));

@@ -737,6 +737,21 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 "{vessel}: liquid–liquid split (UNIFAC LLE, common-tangent construction). The split and the layer order are robust; the trace mutual solubilities are upper bounds — VLE-fitted UNIFAC parameters underestimate alkane–water γ∞ — and are deliberately not reported",
             ),
         },
+        Event::MaterialLayersFormed {
+            vessel,
+            upper_material,
+            lower,
+        } => match register.level() {
+            1 => format!("The {upper_material} floats in a separate layer above the water in {vessel}."),
+            2 => format!(
+                "{vessel}: {upper_material} forms the upper layer; {} is denser and remains below",
+                species::lookup(lower).map(|d| d.name).unwrap_or(lower.0.as_str()),
+            ),
+            _ => format!(
+                "{vessel}: reviewed material-layer role — unresolved {upper_material} is immiscible with the aqueous phase and lies above {}; this is not a molecular LLE calculation",
+                lower.0,
+            ),
+        },
         Event::Evaporated { vessel, moles } => match register.level() {
             1 => format!("Steam rises from {vessel} — the water is boiling away!"),
             2 => format!("{vessel}: {:.3} mol water evaporated", moles.0),
