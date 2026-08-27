@@ -1246,6 +1246,10 @@ decorating it.
   before the returned scene replaces it. Stream, glow and landing ripple now
   carry that colour; distillation stays separate because vapour colour cannot
   honestly be inferred from the bulk source liquid.
+  *Direct-pour motion shipped 2026-08-27:* a source vessel now lifts and
+  tilts while its computed transfer path runs. Tilt magnitude follows the
+  engine-emitted transfer fraction; reduced-motion keeps the state change and
+  settled colour while skipping the gesture.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,
