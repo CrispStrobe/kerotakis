@@ -10,7 +10,7 @@
   } from "../codex";
   import type { Session } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
-  import { t, tSlug } from "../i18n.svelte";
+  import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
 
   let {
     entries,
@@ -68,10 +68,40 @@
     if (!open) return "";
     const r = open.registers ?? {};
     const lv = session.register;
+    // German lives INSIDE the key here — `lv2_de` — because registers are
+    // a map keyed by level, not a record of named fields. Every fallback
+    // below keeps its German twin ahead of it, so a level translated but
+    // not its neighbour still reads German at the level you asked for.
+    const de = i18n.locale === "de";
+    const pick = (k: string) => (de ? r[`${k}_de`] : undefined) ?? r[k];
     return (
-      r[lv] ?? r[lv.replace("lv", "")] ?? r["lv2"] ?? r["2"] ?? Object.values(r)[0] ?? ""
+      pick(lv) ??
+      pick(lv.replace("lv", "")) ??
+      pick("lv2") ??
+      pick("2") ??
+      Object.values(r)[0] ??
+      ""
     );
   });
+  /** One option in the reader's language.
+   *
+   * `options` is an array of plain strings, so it has no `_de` sibling to
+   * read the way a named field does; the German is a parallel
+   * `options_de` array. Positional, therefore, and the two must stay the
+   * same length — a mismatch silently answers a different question than
+   * the one the learner was shown, so a short array is treated as absent
+   * rather than indexed into.
+   */
+  function optionText(
+    p: { options?: string[]; options_de?: string[] } | null,
+    i: number,
+  ): string | undefined {
+    if (!p || i18n.locale !== "de") return undefined;
+    const de = p.options_de;
+    if (!de || de.length !== (p.options?.length ?? -1)) return undefined;
+    return de[i];
+  }
+
   const prediction = $derived(open?.expect?.predict ?? null);
   const mustPredict = $derived(prediction !== null && predicted === null);
 
@@ -166,7 +196,7 @@
                     <li>
                       <button class="entry" onclick={() => openEntry(e)}>
                         <strong>{t(e.id.replace(/-/g, " "))}</strong>
-                        <span class="eq">{t(e.equation ?? e.summary ?? "")}</span>
+                        <span class="eq">{e.equation ?? tEngine(e, "summary")}</span>
                       </button>
                     </li>
                   {/each}
@@ -184,7 +214,7 @@
             <li>
               <button class="entry" onclick={() => openEntry(e)}>
                 <strong>{t(e.id.replace(/-/g, " "))}</strong>
-                <span class="eq">{t(e.equation ?? e.summary ?? "")}</span>
+                <span class="eq">{e.equation ?? tEngine(e, "summary")}</span>
               </button>
             </li>
           {/each}
@@ -233,7 +263,7 @@
       {:else}
         {#if prediction}
           <div class="predict">
-            <p class="question">{t(prediction.question)}</p>
+            <p class="question">{tEngine(prediction, "question")}</p>
             {#each prediction.options as opt, i (i)}
               <button
                 class="option"
@@ -243,7 +273,7 @@
                 disabled={result !== null}
                 onclick={() => (predicted = i)}
               >
-                {t(opt)}
+                {optionText(prediction, i) ?? t(opt)}
               </button>
             {/each}
             {#if mustPredict}
@@ -282,12 +312,12 @@
                 <p class="meta">{t("your prediction held.")}</p>
               {:else}
                 <p class="meta">
-                  {t("the bench answered {answer}.", { answer: `“${t(prediction.options[prediction.answer] ?? "")}”` })}
+                  {t("the bench answered {answer}.", { answer: `“${optionText(prediction, prediction.answer) ?? t(prediction.options[prediction.answer] ?? "")}”` })}
                   {#if diagnosisForPick}
-                    {t(diagnosisForPick.reveals)}
-                    {#if diagnosisForPick.next}{t("Try: {next}", { next: t(diagnosisForPick.next) })}{/if}
+                    {tEngine(diagnosisForPick, "reveals")}
+                    {#if diagnosisForPick.next}{t("Try: {next}", { next: tEngine(diagnosisForPick, "next") })}{/if}
                   {:else if prediction.misconception}
-                    {t(prediction.misconception)}
+                    {tEngine(prediction, "misconception")}
                   {/if}
                 </p>
               {/if}

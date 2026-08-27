@@ -1094,8 +1094,12 @@ export const tSlug = (slug: string): string => t(slug.replace(/-/g, " "));
  * strings are not in the shell's dictionary and never will be, because
  * they belong to the engine and travel with it.
  */
-export function tEngine(record: Record<string, unknown> | undefined, field: string): string {
+export function tEngine(record: object | undefined | null, field: string): string {
   if (!record) return "";
-  const german = i18n.locale === "de" ? record[`${field}_de`] : undefined;
-  return String(german ?? record[field] ?? "");
+  // One cast here rather than one at every call site: the codex types are
+  // interfaces without index signatures, and widening them at each caller
+  // would discard the field-name checking that makes them worth having.
+  const r = record as Record<string, unknown>;
+  const german = i18n.locale === "de" ? r[`${field}_de`] : undefined;
+  return String(german ?? r[field] ?? "");
 }
