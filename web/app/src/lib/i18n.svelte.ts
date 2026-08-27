@@ -157,6 +157,34 @@ const DE: Record<string, string> = {
   "you are here": "du bist hier",
   "mission in progress": "Mission läuft",
   "mission journal": "Missionsjournal",
+  "mission briefing": "Missionsbriefing",
+  "open mission journal for {name}": "Missionsjournal für {name} öffnen",
+  "evidence": "Nachweise",
+  "burette and stand": "Bürette mit Stativ",
+  "burette and retort stand": "Bürette mit Laborstativ",
+  "burette and retort stand on the bench": "Bürette mit Laborstativ auf dem Tisch",
+  "delivers into vessel v{vessel}": "dosiert in Gefäß v{vessel}",
+  "ready for controlled addition": "bereit für kontrollierte Zugabe",
+  "open utility station": "Versorgungsstation öffnen",
+  "utility station": "Versorgungsstation",
+  "lab wall utility": "Laborversorgung an der Wand",
+  "Connect supplies to the selected workspace: vessel v{vessel}.": "Versorgung mit dem ausgewählten Arbeitsplatz verbinden: Gefäß v{vessel}.",
+  "water supply": "Wasseranschluss",
+  "Choose a measured amount of water for the selected vessel.": "Wähle eine abgemessene Wassermenge für das ausgewählte Gefäß.",
+  "power and apparatus": "Strom und Geräte",
+  "Open powered instruments, probes, heaters, and separators.": "Öffne elektrische Instrumente, Sonden, Heizgeräte und Trenngeräte.",
+  "waste station": "Entsorgungsstation",
+  "Chemical contents are never discarded silently. Empty vessels can be removed at the bench; disposal chemistry remains an explicit operation.": "Chemische Inhalte werden niemals stillschweigend entsorgt. Leere Gefäße können am Tisch entfernt werden; chemische Entsorgung bleibt ein ausdrücklicher Vorgang.",
+  "lab rooms": "Laborräume",
+  "laboratory environment": "Laborumgebung",
+  "choose a lab room": "Laborraum auswählen",
+  "Change the room without changing your vessels, evidence, or chemistry.": "Ändere den Raum, ohne Gefäße, Nachweise oder Chemie zu verändern.",
+  "discovery studio": "Entdeckerstudio",
+  "Warm workshop colours for playful, open-ended investigation.": "Warme Werkstattfarben für spielerische, offene Untersuchungen.",
+  "research laboratory": "Forschungslabor",
+  "A calm, neutral room for dense measurement and professional work.": "Ein ruhiger, neutraler Raum für dichte Messarbeit und professionelles Arbeiten.",
+  "orbital laboratory": "Orbitallabor",
+  "A bright space-station lab with cool panels and blue light.": "Ein helles Raumstationslabor mit kühlen Paneelen und blauem Licht.",
   "leave mission": "Mission verlassen",
   "current lab instruction": "aktuelle Laboranweisung",
   "show a hint": "Hinweis anzeigen",
@@ -724,6 +752,9 @@ const DE: Record<string, string> = {
   ,"removed energy": "entzogene Energie"
   ,"relative centrifugal force": "relative Zentrifugalkraft"
   ,"{tool} installed: {state}": "{tool} aufgebaut: {state}"
+  ,"electrical charge": "elektrische Ladung"
+  ,"electron amount": "Elektronenmenge"
+  ,"photon energy": "Photonenenergie"
   ,"journal view": "Ansicht des Laborbuchs"
   ,"observations": "Beobachtungen"
   ,"full trace": "Vollständiges Protokoll"

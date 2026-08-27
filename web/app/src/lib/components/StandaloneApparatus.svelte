@@ -15,6 +15,11 @@
   const rotorImbalance = $derived(
     Math.abs(Number(values.sampleMass ?? 0) - Number(values.counterbalance ?? 0)),
   );
+  const buretteFraction = $derived(
+    Number(values.total ?? 0) > 0
+      ? Math.min(1, Math.max(0, Number(values.delivered ?? 0) / Number(values.total)))
+      : 0,
+  );
 </script>
 
 {#if tool === "grind"}
@@ -63,6 +68,44 @@
       <small class="balance" class:danger={rotorImbalance > 0.1}>{rotorImbalance > 0.1 ? `⚠ ${rotorImbalance.toFixed(2)} g` : `✓ ${t("balanced")}`}</small>
     </figcaption>
   </figure>
+{:else if tool === "burette"}
+  <figure
+    class="standalone burette-station"
+    class:working
+    aria-label={t("burette and retort stand on the bench")}
+  >
+    <svg viewBox="0 0 110 120" role="img" aria-label={t("burette and retort stand")}>
+      <ellipse class="stand-foot" cx="69" cy="111" rx="34" ry="6" />
+      <rect class="stand-base" x="42" y="102" width="54" height="9" rx="3" />
+      <rect class="stand-rod" x="82" y="8" width="5" height="96" rx="2" />
+      <path class="boss" d="M55 23 H87 V30 H55Z" />
+      <path class="clamp-jaw" d="M55 22 L45 18 M55 30 L45 34" />
+      <rect class="burette-glass" x="37" y="5" width="10" height="74" rx="4" />
+      <rect
+        class="burette-liquid"
+        x="39"
+        y={8 + 67 * buretteFraction}
+        width="6"
+        height={Math.max(2, 67 * (1 - buretteFraction))}
+        rx="2"
+      />
+      {#each [16, 27, 38, 49, 60, 71] as y (y)}
+        <line class="graduation" x1="37" y1={y} x2="42" y2={y} />
+      {/each}
+      <path class="stopcock" d="M31 80 H53 M42 76 V85" />
+      <path class="burette-tip" d="M42 84 V98 L38 104" />
+      {#if working}<circle class="burette-drop" cx="36" cy="108" r="2" />{/if}
+    </svg>
+    <figcaption>
+      <strong>{t("burette and stand")}</strong>
+      <span class="target">{t("delivers into vessel v{vessel}", { vessel: target + 1 })}</span>
+      {#if Number(values.total ?? 0) > 0}
+        <small>{Number(values.delivered ?? 0).toFixed(1)} / {Number(values.total).toFixed(1)} mL</small>
+      {:else}
+        <small>{t("ready for controlled addition")}</small>
+      {/if}
+    </figcaption>
+  </figure>
 {/if}
 
 <style>
@@ -95,10 +138,21 @@
   .balance.danger { color: var(--danger); }
   .working .rotor { animation: spin var(--rotor-duration) linear infinite; }
   .performed:not(.working) .rotor { animation: spin var(--rotor-duration) linear 12; }
+  .burette-station { background: color-mix(in srgb, var(--surface) 90%, var(--cool)); }
+  .stand-foot { fill: var(--shadow); opacity: .4; }
+  .stand-base { fill: color-mix(in srgb, var(--edge-strong) 76%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1.5; }
+  .stand-rod { fill: color-mix(in srgb, var(--edge-strong) 72%, var(--surface)); }
+  .boss { fill: var(--edge-strong); }
+  .clamp-jaw, .graduation, .stopcock, .burette-tip { fill: none; stroke: var(--edge-strong); stroke-width: 2; stroke-linecap: round; }
+  .graduation { stroke-width: .8; }
+  .burette-glass { fill: color-mix(in srgb, var(--cool) 8%, transparent); stroke: color-mix(in srgb, var(--cool) 72%, var(--edge-strong)); stroke-width: 1.5; }
+  .burette-liquid { fill: color-mix(in srgb, var(--cool) 62%, var(--primary)); opacity: .72; transition: y 180ms linear, height 180ms linear; }
+  .burette-drop { fill: var(--cool); animation: drip .75s ease-in infinite; }
   figcaption { display: grid; justify-items: center; margin-top: -0.2rem; color: var(--ink); font-size: 0.55rem; line-height: 1.15; }
   figcaption small { color: var(--dim); }
   .target { margin: 0.12rem 0; padding: 0.09rem 0.28rem; border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 11%, var(--surface)); font-size: 0.48rem; font-weight: 850; }
   @keyframes grind { to { transform: rotate(-18deg) translateY(-2px); } }
   @keyframes spin { to { transform: rotate(360deg); } }
-  @media (prefers-reduced-motion: reduce) { .working .pestle, .working .rotor, .performed .rotor { animation: none; } }
+  @keyframes drip { from { transform: translateY(-5px); opacity: 1; } to { transform: translateY(5px); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .working .pestle, .working .rotor, .performed .rotor, .burette-drop { animation: none; } }
 </style>
