@@ -25,6 +25,10 @@ export interface Effect {
   target?: number;
   /** Computed endpoint, used by thermal presentation without duplicating state. */
   temperatureK?: number;
+  /** Scalar emitted by an engine-owned measurement event. */
+  reading?: number;
+  /** Unit emitted with the measurement. */
+  unit?: string;
   /** Physical setup connecting source and target vessels. */
   operation?: "pour" | "filter" | "drain" | "distil" | "cell";
 }
