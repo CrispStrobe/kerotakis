@@ -115,4 +115,23 @@ describe("engine text localization", () => {
     expect(engineText("v1: thermal energy requested=5000.000000 J, delivered=2500.000000 J, heating=false, time_coupled=false"))
       .toBe("v1: Wärmeenergie angefordert=5000.000000 J, übertragen=2500.000000 J, Erwärmung=nein, Zeitmodell gekoppelt=nein");
   });
+
+  it("translates computed gas tests without changing their numeric evidence", () => {
+    i18n.setLocale("de");
+    expect(engineText("no pop — H₂ mole fraction 2.0% is below the 4% ignition limit"))
+      .toBe("kein Knall — H₂-Molenbruch 2.0 % liegt unter der Zündgrenze von 4 %");
+    expect(engineText("the glowing splint relights — O₂ mole fraction 31.0% (above the 25% enrichment threshold)"))
+      .toBe("der glimmende Span flammt auf — O₂-Molenbruch 31.0 % (über der Anreicherungsschwelle von 25 %)");
+    expect(engineText("limewater turns milky — CO₂ detected (mole fraction 12.0%); 0.0010 mol CO₂ consumed; CO₂ + Ca(OH)₂ → CaCO₃↓ + H₂O (curated stoichiometry, limewater not modelled as a vessel)"))
+      .toBe("Kalkwasser wird milchig — CO₂ nachgewiesen (Molenbruch 12.0 %); 0.0010 mol CO₂ verbraucht; CO₂ + Ca(OH)₂ → CaCO₃↓ + H₂O (kuratierte Stöchiometrie; Kalkwasser nicht als Gefäß modelliert)");
+    expect(engineText("litmus stays red — NH₃ mole fraction 0.02% is below the 0.1% detection floor"))
+      .toBe("Lackmuspapier bleibt rot — NH₃-Molenbruch 0.02 % liegt unter der Nachweisgrenze von 0.1 %");
+  });
+
+  it("localizes computed chart metadata", () => {
+    i18n.setLocale("de");
+    expect(engineText("titration of v2 with sodium hydroxide (0.1 M)"))
+      .toBe("Titration von v2 mit Natriumhydroxid (0.1 M)");
+    expect(engineText("titrant added")).toBe("zugegebenes Titrationsmittel");
+  });
 });
