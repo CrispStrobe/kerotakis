@@ -152,6 +152,12 @@
   const cold = $derived(Math.min(1, Math.max(0, (273.15 - vessel.temperature_k) / 60)));
   const motionMag = $derived(Math.max(mag("swirl", 2200), mag("burst", 1800), mag("heat", 2200), mag("cool", 2200)));
   const frostIntensity = $derived(Math.max(cold, mag("cool", 2200), mag("freeze", 2200)));
+  const apparatusOperating = $derived(
+    apparatusWorking ||
+      (deployedTool === "stir" && active("swirl", 2200)) ||
+      (deployedTool === "heat" && active("heat", 2200)) ||
+      (deployedTool === "cool" && active("cool", 2200)),
+  );
   const reducedMotion =
     typeof matchMedia !== "undefined" &&
     matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -166,6 +172,7 @@
   class:drop-ready={dropReady}
   class:transfer-target={transferTarget}
   class:whirling={active("swirl", 2200)}
+  class:apparatus-working={apparatusOperating}
   class:bursting={active("burst", 1800)}
   data-vessel-id={vessel.id}
   style={`--swirl-duration:${2.2 - motionMag * 1.25}s;--stir-duration:${1.15 - motionMag * 0.65}s;--heat-duration:${1.8 - Math.max(hot, mag("heat", 2200)) * 0.8}s;--heat-opacity:${0.25 + Math.max(hot, mag("heat", 2200)) * 0.65}`}
@@ -317,7 +324,7 @@
     {/if}
 
     {#if deployedTool}
-      <DeployedApparatus tool={deployedTool} working={apparatusWorking} values={apparatusValues} surfaceY={BOTTOM_Y - Math.max(liquidH, 4)} />
+      <DeployedApparatus tool={deployedTool} working={apparatusOperating} values={apparatusValues} surfaceY={BOTTOM_Y - Math.max(liquidH, 4)} />
     {/if}
 
     <!-- State-driven effects: every one traces to a computed number. -->
@@ -728,8 +735,9 @@
     animation: swirl-turn var(--swirl-duration, 2s) linear forwards;
   }
   .stirrer {
-    animation: stir-tool var(--stir-duration, 1s) linear infinite;
+    transform-origin: center;
   }
+  .apparatus-working .stirrer { animation: stir-tool var(--stir-duration, 1s) linear infinite; }
   .stirrer rect { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
   .stir-plate ellipse { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
   .stir-plate rect { fill: color-mix(in srgb, var(--instrument) 28%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1; }
