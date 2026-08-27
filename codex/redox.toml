@@ -41,6 +41,7 @@ ph = { min = 1.6, max = 1.7 }
 
 [reaction.expect.predict]
 question = "Half a millimole of potassium permanganate goes into a beaker holding five millimoles of iron(II) in dilute sulfuric acid. How much of the iron ends up as iron(III)?"
+question_de = "Ein halbes Millimol Kaliumpermanganat kommt in ein Becherglas mit fünf Millimol Eisen(II) in verdünnter Schwefelsäure. Wie viel des Eisens wird am Ende zu Eisen(III)?"
 options = [
   "0.0005 mol — one permanganate oxidises one iron",
   "0.0025 mol — each permanganate takes exactly five",
@@ -48,21 +49,29 @@ options = [
 ]
 answer = 1
 misconception = "Two miscounts, same root: reactions imagined particle-to-particle. The exchange rate is set by electrons, not by formula units — each manganese falls from +7 to +2 and accepts five, each iron climbs one step and gives one. And strength is not appetite: how far an oxidiser can pull electrons says nothing about how many it can hold."
+misconception_de = "Zwei Fehlzählungen mit derselben Wurzel: Man stellt sich die Reaktion Teilchen-zu-Teilchen vor. Der Umtauschkurs wird aber von Elektronen bestimmt, nicht von Formeleinheiten — jedes Mangan fällt von +7 auf +2 und nimmt fünf Elektronen auf, jedes Eisen steigt eine Stufe und gibt eines ab. Und Stärke ist kein Appetit: Wie weit ein Oxidationsmittel Elektronen an sich ziehen kann, sagt nichts darüber aus, wie viele es aufnehmen kann."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Reactions pair off formula unit to formula unit — one particle, one victim. The electron ledger underneath has no line in the picture."
+reveals_de = "Reaktionen werden Formeleinheit gegen Formeleinheit gepaart — ein Teilchen, ein Opfer. Die Elektronenbilanz darunter kommt in dieser Vorstellung gar nicht vor."
 next = "Count electrons instead of particles: manganese falls from +7 to +2, five gained; each iron climbs from +2 to +3, one given. `inspect` shows the beaker did that arithmetic — 0.0025 mol oxidised, exactly five per permanganate."
+next_de = "Zähle Elektronen statt Teilchen: Mangan fällt von +7 auf +2, fünf gewonnen; jedes Eisen steigt von +2 auf +3, eines abgegeben. `inspect` zeigt, dass das Becherglas genau diese Rechnung gemacht hat — 0,0025 mol oxidiert, exakt fünf pro Permanganat."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Strength read as appetite: a strong oxidiser 'takes everything', as if potency multiplied capacity."
+reveals_de = "Stärke als Appetit gelesen: Ein starkes Oxidationsmittel 'nimmt sich alles', als würde Durchschlagskraft die Kapazität vervielfachen."
 next = "Strength says how far downhill the electrons fall, not how many the oxidant can catch: 0.0005 mol of Mn(VII) has room for exactly 0.0025 mol of them. `inspect` the rest of the iron — still Fe(II), waiting for more oxidant, which is what makes titrating it possible at all."
+next_de = "Stärke sagt, wie weit die Elektronen bergab fallen, nicht wie viele das Oxidationsmittel auffangen kann: 0,0005 mol Mn(VII) haben Platz für genau 0,0025 mol davon. `inspect` den Rest des Eisens — noch immer Fe(II), wartet auf weiteres Oxidationsmittel, was die Titration überhaupt erst möglich macht."
 
 [reaction.registers]
 lv1 = "The purple vanishes the moment it lands — the beaker drinks the colour. And it drinks by strict counts: every measure of purple uses up exactly five measures of the dissolved iron. Never four, never six."
+lv1_de = "Das Violett verschwindet in dem Moment, in dem es auftrifft — das Becherglas trinkt die Farbe. Und es trinkt nach strengem Maß: Jedes Maß Violett verbraucht genau fünf Maß des gelösten Eisens. Nie vier, nie sechs."
 lv2 = "MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O. Manganese gains five electrons, each iron gives one, so 0.0005 mol of permanganate oxidises exactly 0.0025 mol of iron — and the bench reads: Fe: 50% Fe(III), 50% Fe(II)."
+lv2_de = "MnO₄⁻ + 5 Fe²⁺ + 8 H⁺ → Mn²⁺ + 5 Fe³⁺ + 4 H₂O. Mangan nimmt fünf Elektronen auf, jedes Eisen gibt eines ab, sodass 0,0005 mol Permanganat genau 0,0025 mol Eisen oxidieren — und das Labor liest ab: Fe: 50 % Fe(III), 50 % Fe(II)."
 lv3 = "The 5:1 is not encoded anywhere. The engine holds one electron balance across the coupled elements and minimises free energy; the ratio falls out, to four figures — 0.002500 mol of each iron state in the inventory. Two further things the careful reader should see: the pH rose from 1.42 to 1.65 because the reaction consumed eight protons per permanganate — the acid is a reagent, not scenery — and the bench names what it declines to model: the fresh Fe(III) is supersaturated against Hematite and Goethite, phases wateq4f.dat knows but this registry cannot yet name, so they are reported rather than silently precipitated."
+lv3_de = "Das Verhältnis 5:1 ist nirgendwo einprogrammiert. Die Engine führt eine einzige Elektronenbilanz über die gekoppelten Elemente und minimiert die freie Energie; das Verhältnis fällt dabei heraus, auf vier Stellen genau — 0,002500 mol jedes Eisenzustands im Inventar. Zwei weitere Dinge sollten dabei auffallen: Der pH-Wert stieg von 1,42 auf 1,65, weil die Reaktion acht Protonen pro Permanganat verbraucht — die Säure ist Reagens, nicht Kulisse — und das Labor benennt, was es nicht modelliert: Das frische Fe(III) ist übersättigt gegenüber Hämatit und Goethit, Phasen, die wateq4f.dat kennt, die diese Datenbank aber noch nicht benennen kann, weshalb sie gemeldet statt stillschweigend ausgefällt werden."
 
 [reaction.provenance]
 source = "Standard curriculum permanganometry; coupled electron balance, speciation and log K data from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -72,6 +81,7 @@ computed_by = "PHREEQC via Kerotakis L2, coupled electron balance (P3e)"
 id = "half-oxidised-iron-reads-its-own-potential"
 spine = ["redox-reaktionen", "die-elektrochemie"]
 summary = "At half-oxidation, Eh reads the Fe(III)/Fe(II) couple's own formal potential — +0.674 V here, below the tabulated 0.771 V, because sulfate binds Fe(III) harder than Fe(II)"
+summary_de = "Bei halber Oxidation zeigt Eh das eigene Formalpotenzial des Fe(III)/Fe(II)-Paares an — hier +0,674 V, unter dem tabellierten Wert von 0,771 V, weil Sulfat Fe(III) stärker bindet als Fe(II)"
 concepts = ["formal-potential", "electron-transfer"]
 requires = ["redox-reactions"]
 apparatus = ["beaker", "burette"]
@@ -96,6 +106,7 @@ ph = { min = 1.6, max = 1.7 }
 
 [reaction.expect.predict]
 question = "Stop the permanganate titration exactly half-way: half the iron is Fe(II), half is Fe(III). A voltmeter against a standard hydrogen electrode reads…"
+question_de = "Du stoppst die Permanganat-Titration genau auf halbem Weg: Die Hälfte des Eisens ist Fe(II), die Hälfte Fe(III). Ein Voltmeter gegen eine Standard-Wasserstoffelektrode zeigt…"
 options = [
   "+0.77 V — the tabulated E° of Fe³⁺/Fe²⁺",
   "About +0.67 V — noticeably below the table",
@@ -103,21 +114,29 @@ options = [
 ]
 answer = 1
 misconception = "The tabulated 0.771 V describes bare aquo-ions at unit activity, and this beaker holds neither: sulfate binds Fe(III) far more strongly than Fe(II), pulling the free-Fe(III) activity down and the potential with it. What the meter reads is the formal potential in this medium — the number analysts actually use. And 1.51 V confuses the agent with the state: the permanganate is spent, and a couple with one member missing has no potential to impose."
+misconception_de = "Der tabellierte Wert von 0,771 V beschreibt nackte Aquo-Ionen bei Aktivität eins, und beides hat dieses Becherglas nicht: Sulfat bindet Fe(III) weit stärker als Fe(II) und zieht damit die Aktivität des freien Fe(III) und mit ihr das Potenzial nach unten. Was das Messgerät zeigt, ist das Formalpotenzial in diesem Medium — die Zahl, mit der Analytiker tatsächlich arbeiten. Und 1,51 V verwechselt den Akteur mit dem Zustand: Das Permanganat ist verbraucht, und ein Redoxpaar mit nur einem verbliebenen Partner hat kein Potenzial, das es aufzwingen könnte."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The table is the meter: E° as the couple's fixed reading, medium irrelevant — the redox twin of reading pKa as the pH of any acid bottle."
+reveals_de = "Die Tabelle als Messgerät: E° als feste Anzeige des Redoxpaares, das Medium spielt keine Rolle — der redoxchemische Zwilling dazu, den pKa-Wert als den pH-Wert jeder x-beliebigen Säureflasche zu lesen."
 next = "This lab has taught the conditional-constant lesson twice already with protons — `half-neutralised-vinegar` and `phosphate-buffer` — and this is it carried to electrons. Look at the lv3 speciation: most Fe(III) sits bound as FeSO₄⁺ and Fe(SO₄)₂⁻ while Fe(II) swims nearly free; the imbalance is the missing 0.1 V."
+next_de = "Dieses Labor hat die Lektion von der bedingten Konstante bereits zweimal mit Protonen vermittelt — `half-neutralised-vinegar` und `phosphate-buffer` — und hier wird sie auf Elektronen übertragen. Sieh dir die lv3-Speziation an: Der Großteil des Fe(III) liegt gebunden als FeSO₄⁺ und Fe(SO₄)₂⁻ vor, während Fe(II) fast frei schwimmt; dieses Ungleichgewicht ist das fehlende 0,1 V."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The potential belongs to the strongest actor: permanganate did the oxidising, so its number must be the answer — even after the permanganate is gone."
+reveals_de = "Das Potenzial gehört dem stärksten Akteur: Permanganat hat oxidiert, also muss dessen Zahl die Antwort sein — selbst dann noch, wenn das Permanganat längst verbraucht ist."
 next = "`inspect` the beaker: the permanganate is spent to the last nanomole, and a couple with only one member present has nothing to say to an electrode. The meter listens to the couple with both members swimming — Fe(III)/Fe(II), sitting at 50/50."
+next_de = "`inspect` das Becherglas: Das Permanganat ist bis zum letzten Nanomol verbraucht, und ein Redoxpaar mit nur einem anwesenden Partner hat einer Elektrode nichts zu sagen. Das Messgerät hört auf das Paar, dessen beide Partner noch schwimmen — Fe(III)/Fe(II), bei 50/50."
 
 [reaction.registers]
 lv1 = "Stop half-way and the beaker holds a perfect balance: half the iron changed, half not. A meter dipped in now reads the iron's own number — the mark it always shows when it is exactly half-way through changing."
+lv1_de = "Stoppst du auf halbem Weg, hält das Becherglas eine perfekte Balance: Die Hälfte des Eisens hat sich verändert, die Hälfte nicht. Ein Messgerät, das jetzt eingetaucht wird, zeigt die eigene Zahl des Eisens an — die Marke, die es immer anzeigt, wenn es genau zur Hälfte durch seine Veränderung ist."
 lv2 = "At [Fe³⁺] = [Fe²⁺] the log term of the Nernst equation vanishes and Eh = E°′ — exactly as a half-neutralised weak acid reads its own pKa. The bench reports pe 11.40, which is Eh = +0.674 V."
+lv2_de = "Bei [Fe³⁺] = [Fe²⁺] verschwindet der Logarithmusterm der Nernst-Gleichung, und es gilt Eh = E°′ — genau wie eine halb neutralisierte schwache Säure ihren eigenen pKa-Wert anzeigt. Das Labor meldet pe 11,40, was Eh = +0,674 V entspricht."
 lv3 = "The table says 0.771 V; this meter says 0.674 V, and both are right about different solutions. The tabulated E° assumes bare aquo-ions at unit activity. Here the computed speciation shows Fe(III) mostly bound as FeSO₄⁺ and Fe(SO₄)₂⁻ while Fe(II) is barely complexed, so the free-Fe(III) activity — the thing the electrode responds to — is depressed, and the potential falls with it. Analytical chemistry calls the result the formal potential and quotes about 0.68 V for this couple in sulfuric media; the bench arrived at it from the database's complexation constants rather than being told. It is the phosphate buffer's lesson — the constant is conditional on the medium — carried from protons to electrons."
+lv3_de = "Die Tabelle sagt 0,771 V; dieses Messgerät sagt 0,674 V, und beide haben recht — nur über verschiedene Lösungen. Das tabellierte E° geht von nackten Aquo-Ionen bei Aktivität eins aus. Hier zeigt die berechnete Speziation, dass Fe(III) größtenteils als FeSO₄⁺ und Fe(SO₄)₂⁻ gebunden vorliegt, während Fe(II) kaum komplexiert ist, sodass die Aktivität des freien Fe(III) — worauf die Elektrode tatsächlich reagiert — gedrückt wird und das Potenzial mit ihr fällt. Die analytische Chemie nennt das Ergebnis Formalpotenzial und gibt für dieses Redoxpaar in schwefelsaurem Milieu etwa 0,68 V an; das Labor gelangte dorthin über die Komplexbildungskonstanten der Datenbank, nicht weil es ihm gesagt wurde. Es ist die Lektion des Phosphatpuffers — die Konstante ist an das Medium gebunden — übertragen von Protonen auf Elektronen."
 
 [reaction.provenance]
 source = "Standard curriculum electrochemistry; E° (Fe³⁺/Fe²⁺) = 0.771 V and the ≈0.68 V formal potential in sulfuric media are standard reference values; speciation and complexation from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -151,6 +170,7 @@ ph = { min = 2.0, max = 2.2 }
 
 [reaction.expect.predict]
 question = "Now the full 0.001 mol of permanganate — exactly one fifth of the iron's amount — has gone in. What is in the beaker?"
+question_de = "Jetzt ist das volle 0,001 mol Permanganat hinzugekommen — genau ein Fünftel der Eisenmenge. Was befindet sich im Becherglas?"
 options = [
   "Some of everything — reactions reach equilibrium, so both sides always remain",
   "Purple: an oxidiser this strong always ends up in excess",
@@ -158,21 +178,29 @@ options = [
 ]
 answer = 2
 misconception = "'Equilibrium means leftovers' is the weak-acid lesson over-applied: when the couples sit this far apart, the equilibrium residue is real but lands nine orders of magnitude below the starting amounts — equilibrium and completion are the same statement here. The quieter surprise is the acid: eight protons per permanganate went into the water product, 0.008 of the 0.010 mol in the beaker, and the pH climbed from 1.4 to 2.1 to prove it."
+misconception_de = "'Gleichgewicht heißt, es bleibt etwas übrig' ist die Lektion der schwachen Säure, zu weit angewendet: Wenn die Redoxpaare derart weit auseinanderliegen, ist der Gleichgewichtsrest zwar real, landet aber neun Größenordnungen unter den Ausgangsmengen — Gleichgewicht und Vollständigkeit sind hier dieselbe Aussage. Die leisere Überraschung ist die Säure: Acht Protonen pro Permanganat gingen in das Wasserprodukt ein, 0,008 der 0,010 mol im Becherglas, und der pH-Wert stieg zum Beweis von 1,4 auf 2,1."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Equilibrium as universal residue: every reaction leaves some of everything, the way the vinegar beaker kept most of its acid intact."
+reveals_de = "Gleichgewicht als universeller Rest: Jede Reaktion lässt von allem etwas übrig, so wie das Essig-Becherglas den Großteil seiner Säure intakt behielt."
 next = "Look at the residue the equilibrium actually leaves (lv3): Fe(II) at 7.1 × 10⁻⁸ mol/kgw — nine orders below where it started. The couples sit far enough apart that 'complete' and 'at equilibrium' are the same sentence, which is exactly what makes this reaction usable for analysis."
+next_de = "Sieh dir an, welchen Rest das Gleichgewicht tatsächlich lässt (lv3): Fe(II) bei 7,1 × 10⁻⁸ mol/kgw — neun Größenordnungen unter dem Ausgangswert. Die Redoxpaare liegen weit genug auseinander, dass 'vollständig' und 'im Gleichgewicht' hier derselbe Satz sind — genau das macht diese Reaktion für die Analytik brauchbar."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Strength as inexhaustibility: the strong reagent always wins, so it must be the one left standing."
+reveals_de = "Stärke als Unerschöpflichkeit: Das starke Reagens gewinnt immer, also muss es dasjenige sein, das am Ende übrig bleibt."
 next = "Strength is a potential, not a stock: 0.001 mol of permanganate holds room for exactly 0.005 mol of electrons, and the iron supplied exactly that. One drop more and this bench stands down — `explain` says why: the excess would have to take electrons from the solvent itself, which is not modelled — so the first permanent purple of a real burette's endpoint is chemistry this bench states rather than shows."
+next_de = "Stärke ist ein Potenzial, kein Vorrat: 0,001 mol Permanganat haben Platz für genau 0,005 mol Elektronen, und das Eisen lieferte exakt diese Menge. Ein Tropfen mehr, und dieses Labor zieht sich zurück — `explain` sagt warum: Der Überschuss müsste Elektronen vom Lösungsmittel selbst nehmen, was nicht modelliert wird — deshalb ist die erste dauerhaft violette Färbung am Endpunkt einer echten Bürettentitration Chemie, die dieses Labor benennt, statt sie zu zeigen."
 
 [reaction.registers]
 lv1 = "The last of the purple disappears like all the rest. The beaker has changed every bit of its iron — and it used up most of its sourness doing it."
+lv1_de = "Auch der letzte Rest Violett verschwindet wie alle zuvor. Das Becherglas hat jedes Bisschen seines Eisens verändert — und dabei den Großteil seiner Säure verbraucht."
 lv2 = "0.001 mol of MnO₄⁻ × 5 = 0.005 mol of electron-room: exactly what 0.005 mol of Fe(II) can give. The bench reads: all Fe as Fe(III); all Mn as Mn(II). And 8 × 0.001 = 0.008 mol of the beaker's 0.010 mol of protons went with it — the pH climbed from 1.42 to 2.12."
+lv2_de = "0,001 mol MnO₄⁻ × 5 = 0,005 mol Elektronen-Platz: genau das, was 0,005 mol Fe(II) abgeben können. Das Labor liest ab: alles Fe als Fe(III); alles Mn als Mn(II). Und 8 × 0,001 = 0,008 mol der 0,010 mol Protonen im Becherglas gingen dabei mit — der pH-Wert stieg von 1,42 auf 2,12."
 lv3 = "The equilibrium leftover of Fe(II) is 7.1 × 10⁻⁸ mol/kgw — the 'some of everything' answer is real and nine orders of magnitude too small to matter. Past this point the coupling stands down rather than guess: an oxidant in excess of the reductants would owe its remaining electrons to the solvent, which this bench does not model, so an over-titrated beaker shows its reagents uncoupled and `explain` states the unpaid balance in electron-equivalents. The real burette's endpoint — the first drop that stays purple — is therefore named here as chemistry the engine declines to compute, in this lab's tradition of saying so."
+lv3_de = "Der Gleichgewichtsrest an Fe(II) beträgt 7,1 × 10⁻⁸ mol/kgw — die Antwort 'von allem etwas' ist real, aber neun Größenordnungen zu klein, um von Bedeutung zu sein. Über diesen Punkt hinaus stellt die Kopplung sich ab, statt zu raten: Ein Oxidationsmittel im Überschuss gegenüber den Reduktionsmitteln würde seine verbliebenen Elektronen dem Lösungsmittel schulden, was dieses Labor nicht modelliert, sodass ein übertitriertes Becherglas seine Reagenzien entkoppelt zeigt und `explain` die unbeglichene Bilanz in Elektronenäquivalenten angibt. Der Endpunkt einer echten Bürettentitration — der erste Tropfen, der violett bleibt — wird hier also als Chemie benannt, die die Engine zu berechnen ablehnt — ganz in der Tradition dieses Labors, das so etwas offen ausspricht."
 
 [reaction.provenance]
 source = "Standard curriculum permanganometry; coupled electron balance and speciation from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -214,6 +242,7 @@ temperature_c = { min = 58.5, max = 61.5 }
 
 [reaction.expect.predict]
 question = "A strip of zinc goes into blue copper sulfate solution. What happens?"
+question_de = "Ein Streifen Zink kommt in blaue Kupfersulfatlösung. Was passiert?"
 options = [
   "Nothing — a metal and a dissolved salt have no business with each other without an acid",
   "Copper metal grows on the zinc, the blue fades, and the beaker gets noticeably hot",
@@ -221,21 +250,29 @@ options = [
 ]
 answer = 1
 misconception = "The first answer reserves reactivity for acids; the third concedes the equation but not the matter. Displacement is electrons changing owner for real: zinc sits below copper in the series, so it hands its electrons over, dissolves as Zn²⁺, and the copper ions take the electrons and come out of solution as actual metal on the zinc's surface — with 218.7 kJ/mol to show for it."
+misconception_de = "Die erste Antwort reserviert Reaktivität für Säuren; die dritte akzeptiert die Gleichung, aber nicht die Materie. Verdrängung ist echter Elektronenwechsel: Zink steht in der Spannungsreihe unter Kupfer, gibt daher seine Elektronen ab, löst sich als Zn²⁺ auf, und die Kupfer-Ionen nehmen die Elektronen auf und treten als tatsächliches Metall auf der Zinkoberfläche aus der Lösung — mit 218,7 kJ/mol als Beleg dafür."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Reactivity needs an acid: metals answer to sourness, and a mere salt solution has nothing to attack with."
+reveals_de = "Reaktivität braucht eine Säure: Metalle reagieren auf Säure, und eine bloße Salzlösung hat nichts, womit sie angreifen könnte."
 next = "The attacker is not the acid's proton but any ion below the metal in the series. Watch the beaker: no acid anywhere, and the zinc is consumed while copper plates out — then run `metals-below-hydrogen-fizz`, where the proton takes its turn as just another rung."
+next_de = "Der Angreifer ist nicht das Proton der Säure, sondern jedes Ion, das in der Spannungsreihe unter dem Metall steht. Beobachte das Becherglas: nirgends Säure, und trotzdem wird das Zink verbraucht, während Kupfer sich abscheidet — führe dann `metals-below-hydrogen-fizz` aus, wo das Proton an die Reihe kommt, ganz als nur eine weitere Sprosse."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The reaction happens in the equation only — ions swap labels, but nothing in the beaker moves; chemistry as bookkeeping rather than matter."
+reveals_de = "Die Reaktion findet nur in der Gleichung statt — Ionen tauschen ihre Etiketten, aber im Becherglas bewegt sich nichts; Chemie als Buchhaltung statt als Materie."
 next = "Check every observable at once: the blue is gone (the Cu²⁺ that carried it is now metal), the thermometer jumped from 33.7 to 59.9 °C, and `inspect` shows solid copper in the inventory where solid zinc used to be. Paper swaps do not release 218.7 kJ/mol."
+next_de = "Prüfe alle Beobachtungsgrößen zugleich: Das Blau ist verschwunden (das Cu²⁺, das es trug, ist jetzt Metall), das Thermometer sprang von 33,7 auf 59,9 °C, und `inspect` zeigt festes Kupfer im Inventar, wo zuvor festes Zink stand. Ein bloßer Tausch auf dem Papier setzt keine 218,7 kJ/mol frei."
 
 [reaction.registers]
 lv1 = "The grey strip goes into the blue water. Slowly the strip grows a brown-pink fur of real copper, the blue fades away, and the beaker gets properly hot. The zinc traded places with the copper — and the trade throws off heat."
+lv1_de = "Der graue Streifen kommt in das blaue Wasser. Langsam wächst auf dem Streifen ein braun-rosa Pelz aus echtem Kupfer, das Blau verblasst, und das Becherglas wird richtig heiß. Das Zink hat mit dem Kupfer den Platz getauscht — und der Tausch setzt Wärme frei."
 lv2 = "Zn + Cu²⁺ → Zn²⁺ + Cu. Zinc sits below copper in the activity series (E° −0.76 V against +0.34 V), so zinc is oxidised and copper reduced: 0.0500 mol plates out, the solution's blue goes with its Cu²⁺, and the beaker climbs from 33.7 to 59.9 °C — ΔH ≈ −218.7 kJ per mole displaced."
+lv2_de = "Zn + Cu²⁺ → Zn²⁺ + Cu. Zink steht in der Spannungsreihe unter Kupfer (E° −0,76 V gegenüber +0,34 V), daher wird Zink oxidiert und Kupfer reduziert: 0,0500 mol scheiden sich ab, das Blau der Lösung verschwindet mit ihrem Cu²⁺, und das Becherglas steigt von 33,7 auf 59,9 °C — ΔH ≈ −218,7 kJ pro Mol verdrängtem Metall."
 lv3 = "The extent is decided by bisection on the Nernst cell potential over the activities PHREEQC reports, and the heat by the difference of the ions' formation enthalpies, balanced as enthalpy — nothing lists 'zinc displaces copper' anywhere. The same order answers the selective case: offer a zinc strip both Ag⁺ and Cu²⁺ at once and all the silver plates before any copper does, which the engine's own tests assert. Boundaries, stated: the series speaks of thermodynamics at the electrode, not of rates — passivation, overpotentials and oxidising acids are outside it, and the bench says so where they bite."
+lv3_de = "Das Ausmaß wird durch Bisektion über das Nernst-Zellpotenzial anhand der von PHREEQC gemeldeten Aktivitäten entschieden, die Wärme über die Differenz der Bildungsenthalpien der Ionen, als Enthalpiebilanz — nirgendwo steht 'Zink verdrängt Kupfer' geschrieben. Dieselbe Ordnung beantwortet auch den selektiven Fall: Bietet man einem Zinkstreifen gleichzeitig Ag⁺ und Cu²⁺ an, scheidet sich alles Silber ab, bevor auch nur ein Rest Kupfer folgt — was die eigenen Tests der Engine bestätigen. Grenzen, klar benannt: Die Spannungsreihe spricht über Thermodynamik an der Elektrode, nicht über Geschwindigkeiten — Passivierung, Überspannungen und oxidierende Säuren liegen außerhalb; das Labor sagt das, wo es zum Tragen kommt."
 
 [reaction.provenance]
 source = "Standard curriculum displacement chemistry; E° values from the CRC Handbook (Vanýsek), ion formation enthalpies from NBS/Wagman 1982; extent and heat computed, cross-checked against wateq4f's own metal phases to < 1 mV. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -278,6 +315,7 @@ ph = { min = 0.1, max = 0.4 }
 
 [reaction.expect.predict]
 question = "Two strips into two beakers of the same hydrochloric acid: magnesium in one, copper in the other. What happens?"
+question_de = "Zwei Streifen in zwei Bechergläsern mit derselben Salzsäure: Magnesium im einen, Kupfer im anderen. Was passiert?"
 options = [
   "Both fizz — acid attacks metal, that is what acid does",
   "Neither fizzes — solid metal is too tough for a liquid",
@@ -285,21 +323,29 @@ options = [
 ]
 answer = 2
 misconception = "Both wrong answers treat 'metal' as one substance with one behaviour towards acid. The series is the correction: hydrogen has its own rung (E° = 0 by definition), and only metals below it can push electrons onto protons. Magnesium is far below and fizzes hydrogen; copper is above, so in this acid it has nothing to gain and does exactly nothing — which the bench states as a result, not an absence."
+misconception_de = "Beide falschen Antworten behandeln 'Metall' als einen einzigen Stoff mit einem einzigen Verhalten gegenüber Säure. Die Spannungsreihe korrigiert das: Wasserstoff hat seine eigene Sprosse (E° = 0 per Definition), und nur Metalle darunter können Elektronen auf Protonen übertragen. Magnesium liegt weit darunter und sprudelt Wasserstoff; Kupfer liegt darüber, hat in dieser Säure also nichts zu gewinnen und tut genau nichts — was das Labor als Ergebnis meldet, nicht als Fehlanzeige."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Acid attacks metal, universally — the fizz is a property of the acid, and any metal will do as the victim."
+reveals_de = "Säure greift Metall an, ganz allgemein — das Sprudeln gilt als Eigenschaft der Säure, und als Opfer taugt jedes beliebige Metall."
 next = "Run both beakers side by side: the acid is identical, the outcomes are not. The deciding rung is hydrogen's own place in the series — the acid can only oxidise metals that sit below it, and copper does not."
+next_de = "Lass beide Bechergläser nebeneinander laufen: Die Säure ist identisch, die Ergebnisse sind es nicht. Die entscheidende Sprosse ist der Platz des Wasserstoffs selbst in der Spannungsreihe — die Säure kann nur Metalle oxidieren, die darunter stehen, und Kupfer tut das nicht."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Solids outrank liquids: a lump of metal is imagined as simply too substantial for a watery acid to touch."
+reveals_de = "Feststoffe stehen über Flüssigkeiten: Ein Klumpen Metall wird als schlicht zu massiv vorgestellt, als dass eine wässrige Säure ihm etwas anhaben könnte."
 next = "Watch the magnesium vessel: 0.0200 mol of hydrogen leaves as gas and the metal is consumed entirely. Toughness is not a chemical category — position in the series is, and the same 'watery acid' that ignores copper eats magnesium completely."
+next_de = "Beobachte das Magnesium-Gefäß: 0,0200 mol Wasserstoff entweichen als Gas, und das Metall wird vollständig verbraucht. Massivität ist keine chemische Kategorie — die Position in der Spannungsreihe schon, und dieselbe 'wässrige Säure', die Kupfer ignoriert, frisst Magnesium vollständig auf."
 
 [reaction.registers]
 lv1 = "Same sour liquid, two different metals. The silvery magnesium fizzes furiously and disappears. The copper just sits there, day after day, completely unbothered. Metals take turns by rank — and the acid can only touch the ones below a certain line."
+lv1_de = "Dieselbe saure Flüssigkeit, zwei verschiedene Metalle. Das silbrige Magnesium sprudelt heftig und verschwindet. Das Kupfer liegt einfach da, Tag für Tag, völlig unbeeindruckt. Metalle kommen der Reihe nach an die Reihe — und die Säure kann nur die unterhalb einer bestimmten Linie berühren."
 lv2 = "Mg + 2 H⁺ → Mg²⁺ + H₂↑ (E° Mg²⁺/Mg = −2.37 V, well below hydrogen's 0.00 V): 0.0200 mol of H₂ evolves and the pH climbs from −0.04 to 0.23. Copper (E° +0.34 V, above hydrogen) is reported inert: nothing to gain, nothing happens."
+lv2_de = "Mg + 2 H⁺ → Mg²⁺ + H₂↑ (E° Mg²⁺/Mg = −2,37 V, weit unter dem Wert 0,00 V des Wasserstoffs): 0,0200 mol H₂ entstehen, und der pH-Wert steigt von −0,04 auf 0,23. Kupfer (E° +0,34 V, über Wasserstoff) wird als inert gemeldet: nichts zu gewinnen, nichts passiert."
 lv3 = "Two boundaries earn their sentence here. Non-oxidising acids only: nitric acid dissolves copper by a different oxidant (the nitrate), so 'copper resists acid' is a claim about HCl and its kin, and the series as computed here says nothing about HNO₃. And kinetics: thermodynamically even plain water should attack magnesium — drop it in salt water and the bench declines with a stated rate gap rather than either dissolving it or calling it stable. The inert verdict, meanwhile, is an Event, not a silence — the negative result is first-class, in this lab's tradition."
+lv3_de = "Zwei Grenzen verdienen hier ihren Satz. Nur nicht oxidierende Säuren: Salpetersäure löst Kupfer über ein anderes Oxidationsmittel (das Nitrat), sodass 'Kupfer widersteht Säure' eine Aussage über HCl und seinesgleichen ist, und die hier berechnete Spannungsreihe nichts über HNO₃ aussagt. Und Kinetik: Thermodynamisch müsste sogar reines Wasser Magnesium angreifen — wirf es in Salzwasser, und das Labor lehnt mit einer benannten Geschwindigkeitslücke ab, statt es entweder aufzulösen oder für stabil zu erklären. Das Urteil 'inert' wiederum ist ein Event, kein Schweigen — das negative Ergebnis ist erstklassig, ganz in der Tradition dieses Labors."
 
 [reaction.provenance]
 source = "Standard curriculum reactivity of metals with acids; E° values from the CRC Handbook (Vanýsek); H⁺/H₂ = 0 V by definition of the standard hydrogen electrode. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -338,6 +384,7 @@ ph = { min = 4.0, max = 4.4 }
 
 [reaction.expect.predict]
 question = "A copper wire stands in a colourless silver nitrate solution. What do you see over the next hour?"
+question_de = "Ein Kupferdraht steht in einer farblosen Silbernitratlösung. Was beobachtest du in der nächsten Stunde?"
 options = [
   "Nothing — silver is a noble metal, and noble metals do not react",
   "Silver crystals grow on the wire while the solution turns blue",
@@ -345,21 +392,29 @@ options = [
 ]
 answer = 1
 misconception = "'Noble' describes the metal, not the ion — metallic silver resists attack, but a silver ion is silver that has already lost its electron and wants one back, and copper below it in the series is willing to pay. Two silvers plate per copper dissolved (one electron each against copper's two), and the arriving Cu²⁺ brings the blue: the colour change is the electron transfer made visible."
+misconception_de = "'Edel' beschreibt das Metall, nicht das Ion — metallisches Silber widersteht dem Angriff, aber ein Silber-Ion ist Silber, das sein Elektron bereits verloren hat und eines zurückwill, und das darunterstehende Kupfer in der Spannungsreihe ist bereit zu zahlen. Pro gelöstem Kupfer scheiden sich zwei Silber ab (je ein Elektron gegen Kupfers zwei), und das ankommende Cu²⁺ bringt das Blau mit: Der Farbwechsel macht den Elektronentransfer sichtbar."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Nobility as a blanket property: silver is unreactive, so anything labelled silver — metal or ion — must stay as it is."
+reveals_de = "Edelheit als pauschale Eigenschaft: Silber ist reaktionsträge, also muss alles, was 'Silber' heißt — Metall oder Ion — so bleiben, wie es ist."
 next = "Separate the metal from its ion: `silver-does-not-stoop` shows metallic silver genuinely refusing copper sulfate, while this beaker shows the silver ION taking electrons eagerly. The nobility belongs to the filled state, not the name — an Ag⁺ is a silver that has already been robbed."
+next_de = "Trenne das Metall von seinem Ion: `silver-does-not-stoop` zeigt metallisches Silber, das Kupfersulfat tatsächlich verweigert, während dieses Becherglas das Silber-ION zeigt, das begierig Elektronen aufnimmt. Die Edelheit gehört zum aufgefüllten Zustand, nicht zum Namen — ein Ag⁺ ist ein Silber, dem bereits etwas geraubt wurde."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Displacement as mutual dissolution — reactions mix everything into solution; that one metal must leave solution for the other to enter is not in the picture."
+reveals_de = "Verdrängung als gegenseitiges Auflösen — Reaktionen mischen alles in die Lösung; dass ein Metall die Lösung verlassen muss, damit das andere hineingelangt, kommt in dieser Vorstellung nicht vor."
 next = "Count the electrons: they have to go somewhere, and the only taker is Ag⁺, which becomes solid metal by accepting them — 0.0200 mol of silver plated for 0.0100 mol of copper dissolved, on the balance and in the inventory. Electrons conserved is why displacement is a swap, never a merger."
+next_de = "Zähle die Elektronen: Sie müssen irgendwohin, und der einzige Abnehmer ist Ag⁺, das durch ihre Aufnahme zu festem Metall wird — 0,0200 mol Silber scheiden sich ab für 0,0100 mol gelöstes Kupfer, in der Bilanz wie im Inventar. Erhaltene Elektronen sind der Grund, warum Verdrängung ein Tausch ist, nie eine Vermischung."
 
 [reaction.registers]
 lv1 = "The copper wire grows glittering needles of real silver, like frost — and as the tree grows, the water around it slowly turns blue. The wire is trading itself for silver, one electron at a time."
+lv1_de = "Auf dem Kupferdraht wachsen glitzernde Nadeln aus echtem Silber, wie Frost — und während der Baum wächst, färbt sich das Wasser um ihn herum langsam blau. Der Draht tauscht sich selbst gegen Silber ein, ein Elektron nach dem anderen."
 lv2 = "Cu + 2 Ag⁺ → Cu²⁺ + 2 Ag: copper (E° +0.34 V) sits below silver (+0.80 V), so copper dissolves and silver plates — 0.0200 mol of Ag for 0.0100 mol of Cu, two-for-one by electron count. The blue is the arriving Cu²⁺; the pH drifts from 6.46 to 4.19 as the new copper ion hydrolyses (`copper-sulfate-is-blue-and-acidic` is that story on its own)."
+lv2_de = "Cu + 2 Ag⁺ → Cu²⁺ + 2 Ag: Kupfer (E° +0,34 V) steht unter Silber (+0,80 V), also löst sich Kupfer, und Silber scheidet sich ab — 0,0200 mol Ag für 0,0100 mol Cu, zwei zu eins nach Elektronenzahl. Das Blau ist das ankommende Cu²⁺; der pH-Wert driftet von 6,46 auf 4,19, während das neue Kupfer-Ion hydrolysiert (`copper-sulfate-is-blue-and-acidic` erzählt diese Geschichte für sich)."
 lv3 = "The stoichiometry is not written anywhere: one electron per silver against two per copper falls out of the same electron bookkeeping as permanganate's five (`permanganate-counts-in-fives`), and the colour is computed from the curated Cu²⁺ absorptivity, not asserted. The heat is small and real — 23.9 to 27.4 °C from the ions' formation enthalpies. This experiment is the one Faraday's silver coulometer industrialised: the two-for-one is an electron count you can weigh."
+lv3_de = "Die Stöchiometrie steht nirgendwo geschrieben: Ein Elektron pro Silber gegen zwei pro Kupfer fällt aus derselben Elektronenbuchhaltung heraus wie die Fünf beim Permanganat (`permanganate-counts-in-fives`), und die Farbe wird aus der kuratierten Absorptivität von Cu²⁺ berechnet, nicht behauptet. Die Wärme ist klein und real — 23,9 bis 27,4 °C aus den Bildungsenthalpien der Ionen. Dieses Experiment ist genau jenes, das Faradays Silber-Coulometer zur Industriereife brachte: Das Verhältnis zwei zu eins ist eine Elektronenzählung, die man wiegen kann."
 
 [reaction.provenance]
 source = "Standard curriculum displacement (the silver tree); E° values from the CRC Handbook (Vanýsek), formation enthalpies NBS/Wagman 1982. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -369,6 +424,7 @@ computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities, ent
 id = "silver-does-not-stoop"
 spine = ["die-spannungsreihe-der-metalle"]
 summary = "The series is an order: metallic silver in copper sulfate does nothing, and the nothing is a computed result"
+summary_de = "Die Spannungsreihe ist eine Ordnung: Metallisches Silber in Kupfersulfat tut nichts, und dieses Nichts ist ein berechnetes Ergebnis"
 concepts = ["activity-series"]
 requires = ["activity-series"]
 apparatus = ["beaker"]
@@ -397,6 +453,7 @@ ph = { min = 4.4, max = 4.7 }
 
 [reaction.expect.predict]
 question = "The silver tree showed copper metal trading itself for silver ions. Now reverse the cast: silver metal into copper sulfate. What happens?"
+question_de = "Der Silberbaum zeigte, wie Kupfermetall sich gegen Silber-Ionen eintauscht. Jetzt vertausche die Rollen: Silbermetall in Kupfersulfat. Was passiert?"
 options = [
   "The mirror image — copper plates onto the silver",
   "Nothing at all, ever: the trade only runs downhill",
@@ -404,21 +461,29 @@ options = [
 ]
 answer = 1
 misconception = "If A displaces B, learners often expect B to displace A in the right mood — reactions as reversible courtesies. The series is an order, not a mood: electrons run from the lower metal to the higher ion and never back up under these conditions. Silver sits above copper, so silver metal facing Cu²⁺ has nothing to gain, and the bench reports the nothing as a verdict with a reason, not as an empty transcript."
+misconception_de = "Verdrängt A das B, erwarten Lernende oft, dass B unter passenden Umständen auch A verdrängt — Reaktionen als umkehrbare Gefälligkeiten. Die Spannungsreihe ist eine Ordnung, keine Stimmung: Elektronen fließen vom niedrigeren Metall zum höheren Ion und laufen unter diesen Bedingungen nie zurück. Silber steht über Kupfer, also hat Silbermetall gegenüber Cu²⁺ nichts zu gewinnen, und das Labor meldet dieses Nichts als begründetes Urteil, nicht als leeres Protokoll."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Displacement as a symmetric swap: if copper trades for silver, silver must trade for copper — direction is not part of the rule yet."
+reveals_de = "Verdrängung als symmetrischer Tausch: Wenn Kupfer sich gegen Silber eintauscht, muss auch Silber sich gegen Kupfer eintauschen — die Richtung ist in dieser Vorstellung noch kein Teil der Regel."
 next = "Put both experiments side by side (`the-silver-tree` and this beaker): same pair of metals, opposite castings, and only one direction moves. The order IS the chemistry — E° +0.80 V does not hand electrons to +0.34 V."
+next_de = "Stelle beide Experimente nebeneinander (`the-silver-tree` und dieses Becherglas): dasselbe Metallpaar, entgegengesetzte Besetzung, und nur eine Richtung bewegt sich. Die Ordnung IST die Chemie — E° +0,80 V reicht keine Elektronen an +0,34 V weiter."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Rate reached for where thermodynamics is the barrier: 'slower' keeps the reaction possible, just lazy — the idea that a reaction can be flatly unavailable is missing."
+reveals_de = "Man greift zur Geschwindigkeit, wo die Thermodynamik die Barriere ist: 'langsamer' hält die Reaktion für möglich, nur träge — der Gedanke, dass eine Reaktion schlicht nicht verfügbar sein kann, fehlt."
 next = "Wait as long as you like: this is not `why-the-shelf-is-not-on-fire`, where the reaction is downhill and blocked by a barrier. Here there is no downhill — the electron would have to move against the potential difference, and no amount of patience pays that bill. Slow and never are different physics, and this beaker is the second kind."
+next_de = "Warte, so lange du willst: Dies ist nicht `why-the-shelf-is-not-on-fire`, wo die Reaktion bergab läuft und nur von einer Barriere blockiert wird. Hier gibt es kein Bergab — das Elektron müsste sich gegen die Potenzialdifferenz bewegen, und keine noch so große Geduld begleicht diese Rechnung. Langsam und nie sind unterschiedliche Physik, und dieses Becherglas ist die zweite Sorte."
 
 [reaction.registers]
 lv1 = "Last time, copper gave and silver took. Swap them around — silver metal into blue copper water — and nothing happens. Not slowly: not at all. The trade only ever runs one way down the ladder."
+lv1_de = "Letztes Mal gab Kupfer, und Silber nahm. Vertausche die Rollen — Silbermetall in blaues Kupferwasser — und es passiert nichts. Nicht langsam: überhaupt nicht. Der Tausch läuft immer nur in eine Richtung die Leiter hinab."
 lv2 = "Ag (E° +0.80 V) above Cu²⁺/Cu (+0.34 V): the cell potential for silver reducing copper is negative, so no reaction — the beaker keeps its blue, its copper stays dissolved, and the silver is reported inert with the potentials in the message."
+lv2_de = "Ag (E° +0,80 V) steht über Cu²⁺/Cu (+0,34 V): Das Zellpotenzial dafür, dass Silber Kupfer reduziert, ist negativ, also keine Reaktion — das Becherglas behält sein Blau, sein Kupfer bleibt gelöst, und das Silber wird als inert gemeldet, mit den Potenzialen in der Meldung."
 lv3 = "The pair of entries is the lesson: `the-silver-tree` and this beaker differ only in which side starts as metal, and the series decides both outcomes from one ordering. The inert verdict is an Event carrying its reason (E° +0.800 V against +0.342 V), which is what lets this codex claim `inert:Ag` and have the lint verify a nothing — a negative result checkable by machine, in the tradition of `a-spark-that-changes-nothing`."
+lv3_de = "Das Eintragspaar ist die Lektion: `the-silver-tree` und dieses Becherglas unterscheiden sich nur darin, welche Seite als Metall beginnt, und die Spannungsreihe entscheidet beide Ausgänge aus ein und derselben Ordnung. Das Urteil 'inert' ist ein Event, das seinen Grund mit sich trägt (E° +0,800 V gegenüber +0,342 V) — genau das erlaubt diesem Codex, `inert:Ag` zu behaupten und den Lint ein Nichts überprüfen zu lassen: ein negatives Ergebnis, maschinell nachprüfbar, in der Tradition von `a-spark-that-changes-nothing`."
 
 [reaction.provenance]
 source = "Standard curriculum activity series (direction of displacement); E° values from the CRC Handbook (Vanýsek). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -457,6 +522,7 @@ ph = { min = 4.0, max = 4.4 }
 
 [reaction.expect.predict]
 question = "A lump of zinc sits in iron(II) sulfate solution. What happens — and why do steel ship hulls carry bolted-on zinc blocks?"
+question_de = "Ein Klumpen Zink liegt in Eisen(II)-sulfat-Lösung. Was passiert — und warum tragen Stahlschiffsrümpfe angeschraubte Zinkblöcke?"
 options = [
   "Nothing; zinc and iron are too similar to bother each other",
   "Iron metal plates out while the zinc dissolves — zinc gives its electrons first, which is exactly the sacrifice the hull block makes",
@@ -464,21 +530,29 @@ options = [
 ]
 answer = 1
 misconception = "The third answer has the right instinct dressed in the wrong mechanism: nothing 'prefers' — zinc simply sits below iron in the series, so wherever electrons are demanded, zinc pays before iron does. In this beaker that means dissolved iron is pushed back to metal at zinc's expense; on a hull it means the corrosion current drains the replaceable block instead of the irreplaceable plate. Same ordering, same sacrifice."
+misconception_de = "Die dritte Antwort hat den richtigen Instinkt, aber im falschen Mechanismus verpackt: Nichts 'bevorzugt' irgendetwas — Zink steht in der Spannungsreihe einfach unter Eisen, sodass Zink überall dort zahlt, wo Elektronen verlangt werden, bevor Eisen es tut. In diesem Becherglas heißt das: gelöstes Eisen wird auf Kosten des Zinks zu Metall zurückgedrängt; an einem Rumpf heißt es, dass der Korrosionsstrom den ersetzbaren Block statt der unersetzlichen Platte entleert. Dieselbe Ordnung, dasselbe Opfer."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Similar metals, no chemistry: reactivity differences are imagined to need drama — acid against metal, not grey against grey."
+reveals_de = "Ähnliche Metalle, keine Chemie: Man stellt sich vor, Reaktivitätsunterschiede bräuchten Drama — Säure gegen Metall, nicht Grau gegen Grau."
 next = "The gap only has to be nonzero: −0.76 V against −0.45 V is enough for every last iron ion here. `inspect` afterwards: 0.0100 mol of iron plated out, the zinc gone into solution — a third of a volt, fully spent."
+next_de = "Der Abstand muss nur ungleich null sein: −0,76 V gegenüber −0,45 V reicht hier für jedes letzte Eisen-Ion. `inspect` danach: 0,0100 mol Eisen abgeschieden, das Zink vollständig in Lösung gegangen — ein Drittel Volt, ganz aufgebraucht."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Rust as an agent with preferences, hopping to the more reactive metal — protection imagined as decoy behaviour rather than as electron bookkeeping."
+reveals_de = "Rost als Akteur mit Vorlieben, der zum reaktiveren Metall überspringt — Schutz vorgestellt als Ablenkungsverhalten statt als Elektronenbuchhaltung."
 next = "Replace 'prefers' with a direction: electrons flow from the lower metal up to whatever is being reduced. The zinc block corrodes *because* it is the electron source of least resistance — no preference, just the same ordering that made iron plate out in this beaker."
+next_de = "Ersetze 'bevorzugt' durch eine Richtung: Elektronen fließen vom niedrigeren Metall hinauf zu allem, was reduziert wird. Der Zinkblock korrodiert *weil* er die Elektronenquelle des geringsten Widerstands ist — keine Vorliebe, nur dieselbe Ordnung, die in diesem Becherglas dafür sorgte, dass Eisen abgeschieden wurde."
 
 [reaction.registers]
 lv1 = "The zinc lump slowly gives itself away, and grey iron fur grows where it stood. On a ship it is the same trick: bolt on a lump of zinc and the sea eats the lump instead of the hull — a bodyguard that takes the hit on purpose."
+lv1_de = "Der Zinkklumpen gibt sich langsam selbst preis, und dort, wo er lag, wächst grauer Eisenpelz. Bei einem Schiff ist es derselbe Trick: Man schraubt einen Klumpen Zink an, und das Meer frisst den Klumpen statt den Rumpf — ein Leibwächter, der den Treffer absichtlich abbekommt."
 lv2 = "Zn + Fe²⁺ → Zn²⁺ + Fe (E° −0.76 V below −0.45 V): 0.0100 mol of iron plates onto the dissolving zinc. Sacrificial protection is this reaction run as a maintenance plan — the zinc is cheaper to replace than the steel it guards."
+lv2_de = "Zn + Fe²⁺ → Zn²⁺ + Fe (E° −0,76 V unter −0,45 V): 0,0100 mol Eisen scheiden sich auf dem sich auflösenden Zink ab. Der Opferschutz ist diese Reaktion, betrieben als Wartungsplan — das Zink ist billiger zu ersetzen als der Stahl, den es bewacht."
 lv3 = "This is P3e's 'why zinc protects iron', answered by computation rather than assertion: the direction falls out of the same Nernst comparison as every other pairing in the series. Honesty notes: real hull protection is an electrochemical cell with oxygen at the cathode, richer than this single beaker; and the fresh iron chemistry here sits near known engine boundaries (a supersaturation this registry cannot name may be reported), so this entry pins amounts and pH, not potentials."
+lv3_de = "Dies ist P3es 'Warum Zink Eisen schützt', beantwortet durch Berechnung statt Behauptung: Die Richtung fällt aus demselben Nernst-Vergleich heraus wie bei jedem anderen Paar in der Spannungsreihe. Ehrlichkeitshinweise: Echter Rumpfschutz ist eine elektrochemische Zelle mit Sauerstoff an der Kathode, reichhaltiger als dieses einzelne Becherglas; und die frische Eisenchemie hier liegt nahe bekannter Grenzen der Engine (eine Übersättigung, die diese Datenbank nicht benennen kann, kann gemeldet werden), weshalb dieser Eintrag Mengen und pH-Wert festlegt, nicht Potenziale."
 
 [reaction.provenance]
 source = "Standard curriculum corrosion protection (sacrificial anodes); E° values from the CRC Handbook (Vanýsek). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -491,6 +565,7 @@ computed_by = "Kerotakis displacement layer (Nernst over PHREEQC activities) via
 id = "the-daniell-cell-offers-its-voltage"
 spine = ["die-elektrochemie", "batterien"]
 summary = "Two half-cells and a salt bridge: the Daniell cell reads 1.104 V open-circuit — the distance between two rungs of the series, offered before any current flows"
+summary_de = "Zwei Halbzellen und eine Salzbrücke: Die Daniell-Zelle zeigt im Leerlauf 1,104 V — der Abstand zwischen zwei Sprossen der Spannungsreihe, angeboten, bevor überhaupt Strom fließt"
 concepts = ["galvanic-cells", "activity-series"]
 requires = ["activity-series"]
 apparatus = ["beaker", "voltmeter"]
@@ -519,6 +594,7 @@ ph = { min = 5.35, max = 5.65 }
 
 [reaction.expect.predict]
 question = "Zinc stands in zinc sulfate, copper in copper sulfate, a salt bridge between them and a voltmeter across the metals. What does the meter read?"
+question_de = "Zink steht in Zinksulfat, Kupfer in Kupfersulfat, dazwischen eine Salzbrücke und über den Metallen ein Voltmeter. Was zeigt das Messgerät an?"
 options = [
   "0 V — the metals never touch, so no chemistry connects them",
   "About 1.1 V — the distance between the two metals' rungs on the series",
@@ -526,21 +602,29 @@ options = [
 ]
 answer = 1
 misconception = "A voltage is a *difference*, not an average and not a contact: each metal sits at its own electrode potential against its own ions, and the meter reads the gap — E°(Cu²⁺/Cu) − E°(Zn²⁺/Zn) = 0.34 − (−0.76) ≈ 1.10 V. The displacement reaction and the battery are the same chemistry: put the metals in one beaker and the electrons jump directly as heat; separate the half-cells and the same electrons must take the wire, where they can be made to work."
+misconception_de = "Eine Spannung ist eine *Differenz*, kein Mittelwert und kein Kontakt: Jedes Metall sitzt bei seinem eigenen Elektrodenpotenzial gegenüber seinen eigenen Ionen, und das Messgerät liest den Abstand ab — E°(Cu²⁺/Cu) − E°(Zn²⁺/Zn) = 0,34 − (−0,76) ≈ 1,10 V. Die Verdrängungsreaktion und die Batterie sind dieselbe Chemie: Gibt man die Metalle in ein Becherglas, springen die Elektronen direkt als Wärme über; trennt man die Halbzellen, müssen dieselben Elektronen den Draht nehmen, wo man sie zur Arbeit zwingen kann."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Reaction requires contact: the metals never meet, so nothing can happen — the circuit as a whole is not yet the unit of chemistry."
+reveals_de = "Reaktion erfordert Kontakt: Die Metalle berühren sich nie, also kann nichts passieren — der Stromkreis als Ganzes ist in dieser Vorstellung noch nicht die Einheit der Chemie."
 next = "Follow one electron's options: it leaves the zinc either directly onto a Cu²⁺ at the metal's surface (`the-series-decides-who-plates`, which turned the gap into 218.7 kJ/mol of heat) or through the wire to the copper electrode, doing the same chemistry at a distance. The salt bridge closes the loop of charge; the wire is where the trade becomes measurable."
+next_de = "Verfolge die Optionen eines einzelnen Elektrons: Es verlässt das Zink entweder direkt zu einem Cu²⁺ an der Metalloberfläche (`the-series-decides-who-plates`, wo der Abstand zu 218,7 kJ/mol Wärme wurde) oder über den Draht zur Kupferelektrode, wo dieselbe Chemie auf Distanz stattfindet. Die Salzbrücke schließt den Ladungskreis; der Draht ist dort, wo der Tausch messbar wird."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Potentials are averaged rather than subtracted — two numbers on a chart combine the way marks on a test do."
+reveals_de = "Potenziale werden gemittelt statt subtrahiert — zwei Zahlen aus einer Tabelle werden so kombiniert, wie man Noten aus einer Prüfung zusammenrechnet."
 next = "Check the sign convention against the beaker: the meter reads which way electrons *want* to flow, and a want is a difference. The bench prints the arithmetic with the verdict: E° +0.342 minus −0.762 gives the 1.104 V it reports, electrons offered from v1 to v2."
+next_de = "Prüfe die Vorzeichenkonvention am Becherglas: Das Messgerät zeigt an, in welche Richtung Elektronen fließen *wollen*, und ein Wollen ist eine Differenz. Das Labor druckt die Rechnung mit dem Ergebnis aus: E° +0,342 minus −0,762 ergibt die gemeldeten 1,104 V, Elektronen angeboten von v1 an v2."
 
 [reaction.registers]
 lv1 = "Two jars, two metals, a paper bridge of salt water, and a meter between them: it reads a real voltage — a battery made of nothing but the two metals' different appetites for electrons."
+lv1_de = "Zwei Gefäße, zwei Metalle, eine Papierbrücke aus Salzwasser, und ein Messgerät dazwischen: Es zeigt eine echte Spannung an — eine Batterie, gemacht aus nichts als dem unterschiedlichen Appetit der beiden Metalle auf Elektronen."
 lv2 = "Zn | Zn²⁺ ‖ Cu²⁺ | Cu: E = E°(cathode) − E°(anode) = 0.34 − (−0.76) ≈ 1.10 V, and the bench reads 1.104 V open-circuit. This is Daniell's cell of 1836 — the displacement reaction of `the-series-decides-who-plates` with the two halves separated, so the electrons take the wire."
+lv2_de = "Zn | Zn²⁺ ‖ Cu²⁺ | Cu: E = E°(Kathode) − E°(Anode) = 0,34 − (−0,76) ≈ 1,10 V, und das Labor liest im Leerlauf 1,104 V ab. Das ist Daniells Zelle von 1836 — die Verdrängungsreaktion aus `the-series-decides-who-plates`, nur mit getrennten Hälften, sodass die Elektronen den Draht nehmen."
 lv3 = "Open-circuit, and the bench says so: this is the voltage the cell *offers*, not what it delivers under load — current would drop it by internal resistance and polarisation, neither modelled here, and the report states as much. The 1.104 V is Nernst over the activities PHREEQC computes for each side (E° alone gives 1.1037; the two 0.01 mol/kgw solutions nearly cancel each other's corrections). Both half-cells sit within half a degree of 25 °C at these amounts — at 0.1 mol the dissolution heat would put the two electrodes at different temperatures, which is why this entry uses the dilute version."
+lv3_de = "Leerlauf, und das Labor sagt das auch: Dies ist die Spannung, die die Zelle *anbietet*, nicht die, die sie unter Last liefert — Strom würde sie durch Innenwiderstand und Polarisation absenken, keines von beidem hier modelliert, und der Bericht hält genau das fest. Die 1,104 V sind Nernst über die von PHREEQC für jede Seite berechneten Aktivitäten (E° allein ergibt 1,1037; die beiden 0,01-mol/kgw-Lösungen heben ihre Korrekturen fast gegenseitig auf). Beide Halbzellen liegen bei diesen Mengen innerhalb eines halben Grades von 25 °C — bei 0,1 mol würde die Lösungswärme die beiden Elektroden auf unterschiedliche Temperaturen bringen, weshalb dieser Eintrag die verdünnte Fassung verwendet."
 
 [reaction.provenance]
 source = "Standard curriculum electrochemistry (the Daniell cell, 1836); E° values from the CRC Handbook (Vanýsek). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -550,6 +634,7 @@ computed_by = "Kerotakis cell operator (Nernst over PHREEQC activities per half-
 id = "dilution-buys-less-than-the-slide-rule-says"
 spine = ["die-elektrochemie"]
 summary = "Tenfold dilution of the copper side costs 18.2 mV, not the Nernst slide-rule's 29.6 — the equation is exact over activities, and the concentrations are not the activities"
+summary_de = "Zehnfache Verdünnung der Kupferseite kostet 18,2 mV, nicht die 29,6 mV des Nernst-Rechenschiebers — die Gleichung ist exakt über Aktivitäten, und die Konzentrationen sind nicht die Aktivitäten"
 concepts = ["nernst-over-activities", "galvanic-cells"]
 requires = ["galvanic-cells", "formal-potential"]
 apparatus = ["beaker", "voltmeter"]
@@ -583,6 +668,7 @@ ph = { min = 5.35, max = 5.65 }
 
 [reaction.expect.predict]
 question = "The textbook exercise: dilute the copper side of a Daniell cell tenfold, and E falls by 0.0592/2 volts per decade — 29.6 mV. The bench dilutes and reads the meter. By how much did the voltage actually fall?"
+question_de = "Die Lehrbuchaufgabe: Verdünne die Kupferseite einer Daniell-Zelle zehnfach, und E fällt um 0,0592/2 Volt pro Dekade — 29,6 mV. Das Labor verdünnt und liest das Messgerät ab. Um wie viel fiel die Spannung tatsächlich?"
 options = [
   "Exactly 29.6 mV — the Nernst equation is an equation",
   "18.2 mV — noticeably less, because the free copper activity fell by a factor nearer 4 than 10",
@@ -590,21 +676,29 @@ options = [
 ]
 answer = 1
 misconception = "The Nernst equation IS exact — over activities. The slide-rule version quietly substitutes concentrations, which assumes the activity corrections cancel between the two solutions. They do not: in the stronger solution much of the copper is paired with sulfate, so tenfold less total copper is only about fourfold less *free* Cu²⁺, and the logarithm sees the four. The second witness clinches it: a copper–silver cell reads 0.445 V at 0.01 mol but 0.483 V at 0.1 — the deviation changes sign with concentration, so no 'always a bit less' patch-rule survives."
+misconception_de = "Die Nernst-Gleichung IST exakt — über Aktivitäten. Die Rechenschieber-Version setzt still Konzentrationen ein, was voraussetzt, dass sich die Aktivitätskorrekturen zwischen beiden Lösungen aufheben. Das tun sie nicht: In der stärkeren Lösung ist ein großer Teil des Kupfers mit Sulfat gepaart, sodass zehnfach weniger Gesamtkupfer nur etwa vierfach weniger *freies* Cu²⁺ bedeutet, und der Logarithmus sieht die Vier. Der zweite Zeuge macht es endgültig: Eine Kupfer-Silber-Zelle zeigt 0,445 V bei 0,01 mol, aber 0,483 V bei 0,1 — die Abweichung wechselt mit der Konzentration das Vorzeichen, sodass keine 'immer ein bisschen weniger'-Faustregel überlebt."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The equation as printed is the physics: concentrations go into the log because that is where the book put them — the activity footnote never made it into working memory."
+reveals_de = "Die gedruckte Gleichung gilt als die Physik: Konzentrationen gehen in den Logarithmus ein, weil das Buch sie dort hingesetzt hat — die Fußnote zur Aktivität hat es nie ins Arbeitsgedächtnis geschafft."
 next = "This lab has taught the same lesson three times with different meters: `ph-is-not-quite-minus-log-c` (the pH electrode), `half-oxidised-iron-reads-its-own-potential` (the redox electrode), and now the whole cell. Look at v2's lv3 speciation: the CuSO₄ ion pair holds a third of the copper, and the pinned engine test asserts the drop is less than ideal rather than any particular number — the deviation is the chemistry."
+next_de = "Dieses Labor hat dieselbe Lektion bereits dreimal mit verschiedenen Messgeräten vermittelt: `ph-is-not-quite-minus-log-c` (die pH-Elektrode), `half-oxidised-iron-reads-its-own-potential` (die Redoxelektrode), und jetzt die ganze Zelle. Sieh dir die lv3-Speziation von v2 an: Das Ionenpaar CuSO₄ hält ein Drittel des Kupfers, und der fixierte Engine-Test behauptet, dass der Abfall geringer ist als ideal, nicht irgendeine bestimmte Zahl — die Abweichung selbst ist die Chemie."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Voltage as identity: what a metal 'is' sets its potential, and amount is bookkeeping — the log term has no physical meaning attached."
+reveals_de = "Spannung als Identität: Was ein Metall 'ist', legt sein Potenzial fest, und die Menge ist bloße Buchhaltung — der Logarithmusterm hat keine physikalische Bedeutung."
 next = "Run the strongest counterexample first (`a-battery-from-nothing-but-imbalance`): two identical copper electrodes, nothing different but the concentration, and a real 18 mV appears. If amount didn't move potentials, that cell would read zero forever."
+next_de = "Führe zuerst das stärkste Gegenbeispiel aus (`a-battery-from-nothing-but-imbalance`): zwei identische Kupferelektroden, nichts unterschiedlich außer der Konzentration, und trotzdem erscheinen echte 18 mV. Würde die Menge Potenziale nicht bewegen, würde diese Zelle für immer null anzeigen."
 
 [reaction.registers]
 lv1 = "Water down one side of the battery and its push gets weaker — but less weak than the rule of thumb promised. The beaker knows something the slide rule doesn't: how much of the copper is really free."
+lv1_de = "Verdünnst du eine Seite der Batterie, wird ihr Schub schwächer — aber weniger schwach, als die Faustregel versprochen hat. Das Becherglas weiß etwas, das der Rechenschieber nicht weiß: wie viel vom Kupfer wirklich frei ist."
 lv2 = "E = E° − (0.0592/2)·log(a(Zn²⁺)/a(Cu²⁺)). Tenfold less total copper should cost 29.6 mV if concentration were activity; the bench reads 1.104 → 1.086 V, a drop of 18.2 mV, because sulfate pairing means the free-Cu²⁺ ratio between the two solutions is nearer 4 than 10."
+lv2_de = "E = E° − (0,0592/2)·log(a(Zn²⁺)/a(Cu²⁺)). Zehnfach weniger Gesamtkupfer sollte 29,6 mV kosten, wäre Konzentration gleich Aktivität; das Labor liest 1,104 → 1,086 V, ein Abfall von 18,2 mV, weil die Sulfat-Paarung bedeutet, dass das Verhältnis des freien Cu²⁺ zwischen beiden Lösungen näher bei 4 als bei 10 liegt."
 lv3 = "The fails_at of the concentration-form Nernst, written as chemistry: in molar-strength sulfate media the ion pair CuSO₄(aq) carries a large share of the copper, and the share *changes with dilution*, so no fixed correction rescues the concentration form. The engine's regression test deliberately asserts an inequality (drop < ideal) rather than 18.2 mV, because the honest claim is the mechanism, not this scenario's number. The copper–silver pair supplies the sign-flip witness (0.445 V at 0.01 mol, 0.483 V at 0.1, against E° 0.458): at low concentration the n=1 silver term dominates the deficit, at high concentration the sulfate-starved copper term overpowers it."
+lv3_de = "Das fails_at der konzentrationsbasierten Nernst-Form, als Chemie ausgedrückt: In molar starken Sulfatmedien trägt das Ionenpaar CuSO₄(aq) einen großen Anteil des Kupfers, und dieser Anteil *ändert sich mit der Verdünnung*, sodass keine feste Korrektur die Konzentrationsform rettet. Der Regressionstest der Engine behauptet bewusst eine Ungleichung (Abfall < ideal) statt 18,2 mV, weil die ehrliche Aussage der Mechanismus ist, nicht die Zahl dieses Szenarios. Das Kupfer-Silber-Paar liefert den Vorzeichenwechsel-Zeugen (0,445 V bei 0,01 mol, 0,483 V bei 0,1, gegenüber E° 0,458): Bei niedriger Konzentration dominiert der n=1-Silberterm das Defizit, bei hoher Konzentration überwiegt der sulfatarme Kupferterm."
 
 [reaction.provenance]
 source = "Standard curriculum Nernst equation; E° values from the CRC Handbook (Vanýsek); activity corrections from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -614,6 +708,7 @@ computed_by = "Kerotakis cell operator (Nernst over PHREEQC activities per half-
 id = "a-battery-from-nothing-but-imbalance"
 spine = ["die-elektrochemie"]
 summary = "A concentration cell: identical copper electrodes, tenfold different solutions — E° cancels to 0.000 and the meter still reads 18 mV, the Nernst term standing alone"
+summary_de = "Eine Konzentrationszelle: identische Kupferelektroden, zehnfach unterschiedliche Lösungen — E° hebt sich zu 0,000 auf, und das Messgerät zeigt trotzdem 18 mV, der Nernst-Term ganz allein"
 concepts = ["concentration-cells", "nernst-over-activities"]
 requires = ["galvanic-cells"]
 apparatus = ["beaker", "voltmeter"]
@@ -642,6 +737,7 @@ ph = { min = 4.75, max = 5.0 }
 
 [reaction.expect.predict]
 question = "Same metal both sides, same salt both sides — copper in copper sulfate twice, only the concentration differing tenfold. The voltmeter reads…"
+question_de = "Dasselbe Metall auf beiden Seiten, dasselbe Salz auf beiden Seiten — zweimal Kupfer in Kupfersulfat, nur die Konzentration unterscheidet sich zehnfach. Das Voltmeter zeigt…"
 options = [
   "0 V — identical electrodes cannot disagree about anything",
   "About 18 mV, with the dilute side as the negative pole",
@@ -649,21 +745,29 @@ options = [
 ]
 answer = 1
 misconception = "The standard potentials cancel identically — E° = 0.000, and the bench prints it — yet a real voltage remains, because the Nernst term reads the imbalance itself: the dilute side dissolves copper to gain ions and the strong side plates copper to shed them, the cell literally running on the urge to even out. A battery needs a difference, and a difference in concentration is a difference."
+misconception_de = "Die Standardpotenziale heben sich exakt auf — E° = 0,000, und das Labor druckt genau das aus — trotzdem bleibt eine echte Spannung, weil der Nernst-Term das Ungleichgewicht selbst abliest: Die verdünnte Seite löst Kupfer auf, um Ionen zu gewinnen, und die starke Seite scheidet Kupfer ab, um sie loszuwerden — die Zelle läuft buchstäblich auf dem Drang zum Ausgleich. Eine Batterie braucht einen Unterschied, und ein Konzentrationsunterschied ist ein Unterschied."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Potential belongs to the substance: identical metals, identical potentials, zero forever — concentration has no seat at the electrode."
+reveals_de = "Potenzial gehört zum Stoff: identische Metalle, identische Potenziale, für immer null — Konzentration hat in dieser Vorstellung keinen Platz an der Elektrode."
 next = "Read the bench's own arithmetic: E° = 0.000 exactly, E = 0.018 V anyway. The whole reading is the log term — cover the E° column of the table with your thumb and this cell works exactly the same, which no cell built on 'the metals differ' can say."
+next_de = "Lies die eigene Rechnung des Labors: E° = 0,000 exakt, E = 0,018 V trotzdem. Die gesamte Anzeige ist der Logarithmusterm — halte den Daumen über die E°-Spalte der Tabelle, und diese Zelle funktioniert genau gleich weiter, was keine Zelle behaupten kann, die auf 'die Metalle unterscheiden sich' aufbaut."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Any two beakers wired up make 'the battery from the book' — the apparatus is the cause, and 1.1 V is what apparatus of this shape produces."
+reveals_de = "Zwei beliebige verkabelte Bechergläser ergeben 'die Batterie aus dem Buch' — der Aufbau gilt als Ursache, und 1,1 V ist das, was ein Aufbau dieser Form eben produziert."
 next = "The 1.104 V belonged to a specific pair of rungs, not to the glassware (`the-daniell-cell-offers-its-voltage`). Same glassware, same bridge, copper both sides: sixty times less voltage. The series sets the big number; here the series contributes nothing and the leftover is pure Nernst."
+next_de = "Die 1,104 V gehörten zu einem bestimmten Sprossenpaar, nicht zum Glasgerät (`the-daniell-cell-offers-its-voltage`). Gleiches Glasgerät, gleiche Brücke, Kupfer auf beiden Seiten: sechzigmal weniger Spannung. Die Spannungsreihe liefert die große Zahl; hier trägt die Spannungsreihe nichts bei, und was übrig bleibt, ist reiner Nernst."
 
 [reaction.registers]
 lv1 = "Two jars of the same blue water — one strong, one weak — copper in both, bridge between. The meter still reads something! The strong side wants to give copper away, the weak side wants more: wanting-to-even-out is enough to make electricity."
+lv1_de = "Zwei Gefäße mit demselben blauen Wasser — eines stark, eines schwach — in beiden Kupfer, dazwischen eine Brücke. Und das Messgerät zeigt trotzdem etwas an! Die starke Seite will Kupfer abgeben, die schwache Seite will mehr davon: Der Wunsch nach Ausgleich allein reicht schon, um Strom zu machen."
 lv2 = "Cu | Cu²⁺(0.001) ‖ Cu²⁺(0.01) | Cu: E° cancels to 0.000 and E = (0.0592/2)·log(a₂/a₁) — the bench reads 0.018 V with the dilute side as anode. A concentration cell is the Nernst equation with everything else subtracted out."
+lv2_de = "Cu | Cu²⁺(0,001) ‖ Cu²⁺(0,01) | Cu: E° hebt sich zu 0,000 auf, und E = (0,0592/2)·log(a₂/a₁) — das Labor liest 0,018 V ab, mit der verdünnten Seite als Anode. Eine Konzentrationszelle ist die Nernst-Gleichung, bei der alles andere herausgekürzt wurde."
 lv3 = "The cleanest 'the number is the activities' witness this bench can stage: no table value survives into the answer, so the 18.4 mV is entirely the computed activity ratio (which is why it is not the ideal 29.6/2-per-decade value either — the same pairing correction as `dilution-buys-less-than-the-slide-rule-says`). The direction is the second lesson: the *dilute* side is the anode, dissolving its own electrode to catch up — matter moving to erase a gradient, read out in volts. Nerve cells and pH electrodes run on this identical principle."
+lv3_de = "Der reinste Zeuge, den dieses Labor für 'die Zahl sind die Aktivitäten' aufbieten kann: Kein Tabellenwert überlebt bis in die Antwort, sodass die 18,4 mV vollständig das berechnete Aktivitätsverhältnis sind (weshalb es auch nicht der ideale Wert von 29,6/2 pro Dekade ist — dieselbe Paarungskorrektur wie bei `dilution-buys-less-than-the-slide-rule-says`). Die Richtung ist die zweite Lektion: Die *verdünnte* Seite ist die Anode, sie löst ihre eigene Elektrode auf, um aufzuholen — Materie, die sich bewegt, um ein Gefälle auszugleichen, ausgelesen in Volt. Nervenzellen und pH-Elektroden arbeiten nach genau demselben Prinzip."
 
 [reaction.provenance]
 source = "Standard curriculum concentration cells; E° cancellation is exact by construction; activities from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -675,6 +779,7 @@ computed_by = "Kerotakis cell operator (Nernst over PHREEQC activities per half-
 id = "only-the-two-is-chemistry"
 spine = ["elektrolyse"]
 summary = "Cu²⁺ + 2 e⁻ → Cu — a half-reaction, with the electrons supplied by the wire"
+summary_de = "Cu²⁺ + 2 e⁻ → Cu — eine Halbreaktion, deren Elektronen der Draht liefert"
 concepts = ["electrolysis", "faraday-law"]
 requires = ["electron-transfer"]
 apparatus = ["beaker", "power-supply"]
@@ -705,6 +810,7 @@ ph = { min = 1.75, max = 1.95 }
 
 [reaction.expect.predict]
 question = "Half an ampere runs for 1930 seconds through copper sulfate — 965 coulombs, almost exactly a hundredth of a faraday. How much copper lands on the cathode?"
+question_de = "Ein halbes Ampere fließt 1930 Sekunden lang durch Kupfersulfat — 965 Coulomb, fast genau ein Hundertstel Faraday. Wie viel Kupfer landet an der Kathode?"
 options = [
   "0.0100 mol — one mole of electrons deposits one mole of metal",
   "0.0050 mol — every copper ion demands two electrons",
@@ -712,21 +818,29 @@ options = [
 ]
 answer = 1
 misconception = "The chain is Q = It, n(e⁻) = Q/F, n(metal) = n(e⁻)/z, m = nM — and three of those four steps are pure arithmetic. The divisor z is the single piece of chemistry in it: Cu²⁺ takes two electrons, so a hundredth of a faraday buys half a hundredth of copper. Voltage decides whether the deposition runs at all; the charge decides how much, to four figures."
+misconception_de = "Die Kette lautet Q = It, n(e⁻) = Q/F, n(Metall) = n(e⁻)/z, m = nM — und drei dieser vier Schritte sind reine Arithmetik. Der Divisor z ist das einzige Stück Chemie darin: Cu²⁺ nimmt zwei Elektronen auf, also erkauft ein Hundertstel Faraday ein halbes Hundertstel Kupfer. Die Spannung entscheidet, ob die Abscheidung überhaupt läuft; die Ladung entscheidet, wie viel — auf vier Stellen genau."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Electrons and atoms pair one-to-one — the ion's charge, the only chemical input in the whole calculation, is the step that got skipped."
+reveals_de = "Elektronen und Atome werden eins zu eins gepaart — die Ladung des Ions, der einzige chemische Beitrag in der ganzen Rechnung, ist der Schritt, der übersprungen wurde."
 next = "Run the zinc twin: the same 965 C into zinc sulfate deposits the same 0.0050 mol — 0.327 g against copper's 0.318, differing only by molar mass — because both ions are 2+. Then imagine silver: the same charge would deposit 0.0100 mol, since Ag⁺ takes one. The electron count sets the moles; the ion's charge is the exchange rate."
+next_de = "Führe das Zinkzwilling-Experiment aus: Dieselben 965 C in Zinksulfat scheiden dieselben 0,0050 mol ab — 0,327 g gegenüber Kupfers 0,318, nur durch die Molmasse unterschieden — weil beide Ionen 2+ sind. Stell dir dann Silber vor: Dieselbe Ladung würde 0,0100 mol abscheiden, da Ag⁺ nur eines aufnimmt. Die Elektronenzahl legt die Molmenge fest; die Ladung des Ions ist der Umtauschkurs."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Voltage as the quantity dial: more volts, more metal — the roles of the two electrical quantities are merged into 'electricity'."
+reveals_de = "Spannung als Mengenregler: mehr Volt, mehr Metall — die Rollen der beiden elektrischen Größen verschmelzen in dieser Vorstellung zu 'Elektrizität'."
 next = "Separate them the way the meter does: voltage is the pressure that decides whether Cu²⁺ + 2e⁻ → Cu runs; charge is the count of electrons that actually crossed, and every single one is accounted for in the deposit. Faraday weighed exactly this in 1833 — the balance as an electron counter."
+next_de = "Trenne sie so, wie es das Messgerät tut: Spannung ist der Druck, der entscheidet, ob Cu²⁺ + 2e⁻ → Cu abläuft; Ladung ist die Anzahl der Elektronen, die tatsächlich hinübergewandert sind, und jedes einzelne davon findet sich in der Abscheidung wieder. Genau das wog Faraday 1833 — die Waage als Elektronenzähler."
 
 [reaction.registers]
 lv1 = "Wire a battery to the blue bath and copper grows on the wire — and it grows by strict bookkeeping: run the current twice as long, get exactly twice the copper. Electricity is countable stuff, and the metal counts it for you."
+lv1_de = "Schließt du eine Batterie an das blaue Bad an, wächst Kupfer auf dem Draht — und es wächst nach strenger Buchhaltung: Lässt du den Strom doppelt so lange fließen, bekommst du genau doppelt so viel Kupfer. Elektrizität ist zählbares Zeug, und das Metall zählt es für dich."
 lv2 = "Q = 0.5 A × 1930 s = 965 C → n(e⁻) = Q/F = 0.0100 mol → n(Cu) = 0.0050 mol → m = 0.318 g. Dose it: 120 C gives 0.040 g, 3600 C gives 1.185 g — mass tracks charge through the whole series."
+lv2_de = "Q = 0,5 A × 1930 s = 965 C → n(e⁻) = Q/F = 0,0100 mol → n(Cu) = 0,0050 mol → m = 0,318 g. Dosiere es: 120 C ergeben 0,040 g, 3600 C ergeben 1,185 g — die Masse folgt der Ladung über die ganze Reihe hinweg."
 lv3 = "Only the 2 is chemistry: the bench reads the divisor off the couple the vessel holds rather than being told, and the rest is arithmetic a learner can check by hand — which is the entry's point. Boundaries, stated by the bench where they bite: charge beyond what the solution's copper can absorb stops at the supply with the note that a real cell would electrolyse the water instead; and brine is refused outright, because chlorine chemistry is not modelled — the chlor-alkali cell, the most famous industrial electrolysis of all, is a named gap rather than a wrong answer."
+lv3_de = "Nur die 2 ist Chemie: Das Labor liest den Divisor aus dem Redoxpaar ab, das das Gefäß enthält, statt ihn gesagt zu bekommen, und der Rest ist Arithmetik, die eine lernende Person von Hand nachprüfen kann — genau das ist der Punkt dieses Eintrags. Grenzen, vom Labor benannt, wo sie zum Tragen kommen: Ladung über das hinaus, was das Kupfer der Lösung aufnehmen kann, stoppt an der Quelle, mit dem Hinweis, dass eine echte Zelle stattdessen das Wasser elektrolysieren würde; und Sole wird rundweg abgelehnt, weil Chlorchemie nicht modelliert wird — die Chlor-Alkali-Elektrolyse, die berühmteste industrielle Elektrolyse überhaupt, ist eine benannte Lücke, keine falsche Antwort."
 
 [reaction.provenance]
 source = "Standard curriculum electrolysis (Faraday's laws, 1833); F = 96485 C/mol (CODATA). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -736,6 +850,7 @@ computed_by = "Kerotakis electrolysis operator (charge → electrons → moles v
 id = "the-plating-bath-turns-acid"
 spine = ["elektrolyse"]
 summary = "2 H₂O → O₂ + 4 H⁺ + 4 e⁻ — the inert anode pays the charge bill in protons"
+summary_de = "2 H₂O → O₂ + 4 H⁺ + 4 e⁻ — die inerte Anode begleicht die Ladungsrechnung in Protonen"
 concepts = ["electrolysis", "charge-conservation"]
 requires = ["electrolysis"]
 apparatus = ["beaker", "power-supply", "ph-meter"]
@@ -766,6 +881,7 @@ ph = { min = 1.75, max = 1.95 }
 
 [reaction.expect.predict]
 question = "You electroplate 0.318 g of copper out of the blue bath. What happens to the bath's pH?"
+question_de = "Du scheidest 0,318 g Kupfer aus dem blauen Bad ab. Was passiert mit dem pH-Wert des Bades?"
 options = [
   "Nothing — plating moves metal, and metal is not acid",
   "It crashes, from 4.3 to 1.8: every Cu²⁺ removed left its charge behind, and the anode pays the bill in protons",
@@ -773,21 +889,29 @@ options = [
 ]
 answer = 1
 misconception = "Charge conservation runs the show: every Cu²⁺ that leaves the solution as metal takes two positive charges out of the water, and the solution cannot simply go negative. At the inert anode the books are balanced by oxidising water itself — 2 H₂O → O₂ + 4 H⁺ + 4 e⁻ — so oxygen bubbles away and acid accumulates, one proton per electron. Nobody expects electroplating to acidify the bath, and it falls straight out of the ledger."
+misconception_de = "Ladungserhaltung führt hier Regie: Jedes Cu²⁺, das die Lösung als Metall verlässt, nimmt zwei positive Ladungen aus dem Wasser mit, und die Lösung kann nicht einfach negativ werden. An der inerten Anode wird die Bilanz durch die Oxidation des Wassers selbst ausgeglichen — 2 H₂O → O₂ + 4 H⁺ + 4 e⁻ —, sodass Sauerstoff entweicht und sich Säure ansammelt, ein Proton pro Elektron. Niemand erwartet, dass Galvanisieren das Bad ansäuert, und doch fällt es direkt aus der Bilanz heraus."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The cathode is the whole story: metal moves there, so that is where the chemistry is — the anode is just the other wire."
+reveals_de = "Die Kathode ist die ganze Geschichte: Dort bewegt sich Metall, also ist dort die Chemie — die Anode ist nur der andere Draht."
 next = "Follow the electrons the cathode consumed back to their source: they came out of water molecules at the anode, and each departure left a proton. The bench books it exactly — 0.0025 mol of O₂ leaves the open vessel, the water inventory drops from 5.5342 to 5.5292 mol, and the pH lands at 1.84. A circuit has two ends, and both of them do chemistry."
+next_de = "Verfolge die von der Kathode verbrauchten Elektronen zurück zu ihrer Quelle: Sie stammten aus Wassermolekülen an der Anode, und jeder Abgang hinterließ ein Proton. Das Labor bucht das genau — 0,0025 mol O₂ verlassen das offene Gefäß, das Wasserinventar sinkt von 5,5342 auf 5,5292 mol, und der pH-Wert landet bei 1,84. Ein Stromkreis hat zwei Enden, und an beiden findet Chemie statt."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Solutes as burden: removing anything 'frees' the solution and moves it toward pure water's 7 — dissolved copper and acidity filed as the same kind of impurity."
+reveals_de = "Gelöste Stoffe als Last: Entfernt man irgendetwas, 'befreit' das die Lösung angeblich und bewegt sie in Richtung der 7 des reinen Wassers — gelöstes Kupfer und Säure werden hier als dieselbe Art von Verunreinigung eingeordnet."
 next = "Check what was actually removed and what was created: the copper left, but its counter-charge did not — sulfate stays, and new H⁺ arrived to face it. The bath ends as dilute sulfuric acid, which is why industrial plating shops monitor and dose their baths instead of trusting them to self-purify."
+next_de = "Prüfe, was tatsächlich entfernt und was neu erzeugt wurde: Das Kupfer verließ die Lösung, seine Gegenladung aber nicht — Sulfat bleibt, und neues H⁺ kam hinzu, um ihm gegenüberzustehen. Das Bad endet als verdünnte Schwefelsäure, weshalb industrielle Galvanikbetriebe ihre Bäder überwachen und dosieren, statt ihnen eine Selbstreinigung zuzutrauen."
 
 [reaction.registers]
 lv1 = "Plate the copper out and the bath turns sour — sharp enough to sting. The bubbles at the other wire are the clue: the water itself is being taken apart to pay for the copper you removed."
+lv1_de = "Scheidest du das Kupfer ab, wird das Bad sauer — scharf genug, um zu brennen. Die Blasen am anderen Draht sind der Hinweis: Das Wasser selbst wird auseinandergenommen, um das entnommene Kupfer zu bezahlen."
 lv2 = "Cathode: Cu²⁺ + 2e⁻ → Cu. Anode (inert): 2 H₂O → O₂↑ + 4 H⁺ + 4 e⁻. Per 0.0100 mol of electrons: 0.0050 mol copper deposited, 0.0025 mol oxygen out, 0.0100 mol H⁺ made — pH 4.27 → 1.84."
+lv2_de = "Kathode: Cu²⁺ + 2e⁻ → Cu. Anode (inert): 2 H₂O → O₂↑ + 4 H⁺ + 4 e⁻. Pro 0,0100 mol Elektronen: 0,0050 mol Kupfer abgeschieden, 0,0025 mol Sauerstoff entwichen, 0,0100 mol H⁺ gebildet — pH 4,27 → 1,84."
 lv3 = "Which anode is the load-bearing choice, and the bench names its own: the *inert* anode (the school's carbon rods), where water is oxidised and acid accumulates. A *copper* anode dissolves to replace exactly what plates out — Cu²⁺ constant, no acid, no oxygen — and that different cell is electrorefining, which this bench does not model. Same cathode, opposite bath chemistry, decided entirely at the electrode you were not watching."
+lv3_de = "Welche Anode zum Einsatz kommt, ist die tragende Wahl, und das Labor benennt seine eigene: die *inerte* Anode (die Kohlestäbe aus dem Schulversuch), an der Wasser oxidiert wird und sich Säure ansammelt. Eine *Kupfer*-Anode löst sich auf und ersetzt genau das, was sich abscheidet — Cu²⁺ bleibt konstant, keine Säure, kein Sauerstoff — und diese andere Zelle ist die Elektroraffination, die dieses Labor nicht modelliert. Gleiche Kathode, entgegengesetzte Badchemie, entschieden ganz an der Elektrode, die du nicht im Blick hattest."
 
 [reaction.provenance]
 source = "Standard curriculum electrolysis with inert electrodes; anode water oxidation stoichiometry is textbook; charge bookkeeping computed. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -799,6 +923,7 @@ computed_by = "Kerotakis electrolysis operator (inert anode; charge-conserving) 
 id = "charging-fights-the-series"
 spine = ["akkumulatoren"]
 summary = "Charging drives the cell backwards and the deposit survives on a kinetic leash — hydrogen formation on zinc costs ~0.72 V of overpotential, and gassing is what happens when the leash slips"
+summary_de = "Laden treibt die Zelle rückwärts, und die Abscheidung überlebt an einer kinetischen Leine — Wasserstoffbildung auf Zink kostet ~0,72 V Überspannung, und Gasbildung ist das, was passiert, wenn die Leine reißt"
 concepts = ["accumulators", "electrolysis"]
 requires = ["galvanic-cells", "electrolysis"]
 apparatus = ["beaker", "voltmeter", "power-supply"]
@@ -829,6 +954,7 @@ ph = { min = 4.75, max = 5.0 }
 
 [reaction.expect.predict]
 question = "The Daniell cell offers 1.104 V, spending zinc as it discharges. What is 'charging' — the thing that makes an accumulator rechargeable?"
+question_de = "Die Daniell-Zelle bietet 1,104 V und verbraucht beim Entladen Zink. Was ist 'Laden' — das, was einen Akkumulator wiederaufladbar macht?"
 options = [
   "Refilling it with electricity, which it stores the way a tank stores fuel",
   "Using an outside current to run the cell's own reaction backwards, rebuilding the metal that discharging consumed",
@@ -836,21 +962,29 @@ options = [
 ]
 answer = 1
 misconception = "A battery stores no electricity — it stores a chemical reaction held ready to run. Discharging lets the reaction run downhill through the wire; charging is an outside supply forcing the same reaction uphill, re-depositing the anode metal electron by electron (193 C here rebuilds 0.0010 mol of zinc, by the same Faraday arithmetic as any electrolysis). The tank picture fails at exactly the point that matters: what is stored is a chemical arrangement, not a substance called electricity."
+misconception_de = "Eine Batterie speichert keine Elektrizität — sie speichert eine chemische Reaktion, startbereit gehalten. Beim Entladen läuft die Reaktion bergab durch den Draht; Laden ist eine äußere Quelle, die dieselbe Reaktion bergauf zwingt und das Anodenmetall Elektron für Elektron wieder aufbaut (193 C bauen hier 0,0010 mol Zink wieder auf, nach derselben Faraday-Arithmetik wie jede Elektrolyse). Das Tank-Bild versagt genau an dem Punkt, der zählt: Gespeichert wird eine chemische Anordnung, kein Stoff namens Elektrizität."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Electricity as a stored fluid: charge goes in, sloshes about, comes back out — the oldest model of electricity, and inside a battery it is wrong in a way that matters."
+reveals_de = "Elektrizität als gespeicherte Flüssigkeit: Ladung geht hinein, schwappt herum, kommt wieder heraus — das älteste Modell der Elektrizität, und innerhalb einer Batterie ist es auf eine Weise falsch, die zählt."
 next = "Weigh the electrodes across a cycle instead of imagining the tank: discharging thins the zinc, charging thickens it back — matter moves, which no stored-fluid picture predicts. The bench shows the rebuild directly: 193 coulombs in, 0.065 g of zinc back on the metal."
+next_de = "Wiege die Elektroden über einen Zyklus hinweg, statt dir den Tank vorzustellen: Entladen macht das Zink dünner, Laden lässt es wieder dicker werden — Materie bewegt sich, was kein Bild einer gespeicherten Flüssigkeit vorhersagt. Das Labor zeigt den Wiederaufbau direkt: 193 Coulomb hinein, 0,065 g Zink zurück auf dem Metall."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Rechargeable and disposable batteries differ by service regime: someone, somewhere, swaps the chemicals — regeneration by current is not in the picture."
+reveals_de = "Wiederaufladbare und Einwegbatterien unterscheiden sich hier nur im Wartungsregime: Irgendjemand, irgendwo, tauscht die Chemikalien aus — Regeneration durch Strom kommt in dieser Vorstellung nicht vor."
 next = "Nothing enters the cell but electrons: the 'fresh chemicals' are the old ones, pushed back up the hill they ran down. That is the whole distinction from a primary cell — an accumulator's chemistry is reversible in place, which is also why its electrodes must survive being rebuilt a thousand times."
+next_de = "Nichts gelangt in die Zelle außer Elektronen: Die 'frischen Chemikalien' sind die alten, zurückgeschoben den Hügel hinauf, den sie hinabgelaufen sind. Das ist der ganze Unterschied zu einer Primärzelle — die Chemie eines Akkumulators ist an Ort und Stelle umkehrbar, weshalb seine Elektroden auch tausendfachen Wiederaufbau überstehen müssen."
 
 [reaction.registers]
 lv1 = "Push the current backwards and fresh zinc grows onto the metal — and it stays there, even though the sour bath would love to eat it, because making hydrogen bubbles on zinc is hard work. That hardness is the battery's bodyguard. Overwhelm it with too much acid and the bodyguard loses: fizz, and your stored charge leaves as gas."
+lv1_de = "Schiebst du den Strom rückwärts, wächst frisches Zink auf dem Metall — und es bleibt dort, obwohl das saure Bad es liebend gern auffressen würde, weil das Bilden von Wasserstoffblasen auf Zink harte Arbeit ist. Diese Härte ist der Leibwächter der Batterie. Überwältigst du ihn mit zu viel Säure, verliert der Leibwächter: Sprudeln, und deine gespeicherte Ladung entweicht als Gas."
 lv2 = "Discharge: Zn + Cu²⁺ → Zn²⁺ + Cu, offering 1.104 V. Charge: an external supply drives Zn²⁺ + 2e⁻ → Zn against the series — 193 C = 0.0020 mol of electrons rebuilds 0.0010 mol (0.0654 g) of zinc while the inert anode acidifies the bath to pH 2.13. And the deposit holds: dissolving it would need hydrogen to form on zinc, and that costs ~0.72 V of overpotential against a driving force of only +0.69 V. Pour in strong acid and the barrier is cleared: Zn + 2 H⁺ → Zn²⁺ + H₂, 0.026 mol of gas, the charge undone."
+lv2_de = "Entladen: Zn + Cu²⁺ → Zn²⁺ + Cu, bietet 1,104 V. Laden: Eine äußere Quelle treibt Zn²⁺ + 2e⁻ → Zn gegen die Spannungsreihe — 193 C = 0,0020 mol Elektronen bauen 0,0010 mol (0,0654 g) Zink wieder auf, während die inerte Anode das Bad auf pH 2,13 ansäuert. Und die Abscheidung hält: Ihre Auflösung würde erfordern, dass sich Wasserstoff auf Zink bildet, und das kostet ~0,72 V Überspannung gegenüber einer Triebkraft von nur +0,69 V. Gibt man starke Säure hinzu, ist die Barriere überwunden: Zn + 2 H⁺ → Zn²⁺ + H₂, 0,026 mol Gas, die Ladung rückgängig gemacht."
 lv3 = "The bench's own verdict is the entry's thesis, verbatim: 'zinc should dissolve in this acid by the series (driving force +0.69 V), but hydrogen has to form on zinc, and on that surface it costs an overpotential of about 0.72 V. Kinetically blocked on the timescale of a lesson, not thermodynamically inert — the difference between a bench and a battery.' That 0.03 V of grace is why rechargeable cells exist — on zinc here, on lead in every car battery — and gassing on overcharge is precisely the leash slipping, staged in this script's final act with molar acid. Honesty, three ways: the overdriven margin clears by only 0.07 V because the bath's own sulfate and chloride speciation holds a(H⁺) below one (at a true pH 0 it would be 0.04 V), and a rate that close to its barrier is not computed — the bench says 'it reacts, slowly' and claims no more; the overpotential itself is a curated kinetic constant, not a computed one; and the cell and electrolysis remain uncoupled — nothing here computes discharge under load, internal resistance or capacity, so 'a cell run backwards' is a statement about half-reactions, not runtime."
+lv3_de = "Das eigene Urteil des Labors ist die These dieses Eintrags, wörtlich: 'Zink sollte sich nach der Spannungsreihe in dieser Säure lösen (Triebkraft +0,69 V), aber Wasserstoff muss sich auf Zink bilden, und auf dieser Oberfläche kostet das eine Überspannung von etwa 0,72 V. Kinetisch blockiert auf der Zeitskala einer Unterrichtsstunde, nicht thermodynamisch inert — der Unterschied zwischen einem Labor und einer Batterie.' Diese 0,03 V Gnadenfrist sind der Grund, warum wiederaufladbare Zellen existieren — hier auf Zink, auf Blei in jeder Autobatterie — und Gasbildung bei Überladung ist genau das Reißen dieser Leine, im letzten Akt dieses Skripts mit molarer Säure inszeniert. Ehrlichkeit, in drei Punkten: Der übersteuerte Spielraum reicht nur um 0,07 V, weil die eigene Sulfat- und Chlorid-Speziation des Bades a(H⁺) unter eins hält (bei einem echten pH 0 wären es 0,04 V), und eine Geschwindigkeit so nahe an ihrer Barriere wird nicht berechnet — das Labor sagt 'es reagiert, langsam' und behauptet nicht mehr; die Überspannung selbst ist eine kuratierte kinetische Konstante, keine berechnete; und Zelle und Elektrolyse bleiben entkoppelt — nichts hier berechnet Entladung unter Last, Innenwiderstand oder Kapazität, sodass 'eine rückwärts laufende Zelle' eine Aussage über Halbreaktionen ist, keine über Laufzeitverhalten."
 
 [reaction.provenance]
 source = "Standard curriculum accumulators (charge as reverse reaction); hydrogen overpotential on zinc ~0.72 V curated (standard electrochemistry), applied as a kinetic gate on the series' verdict; the sulfate/chloride activity effects computed. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -860,6 +994,7 @@ computed_by = "Kerotakis cell + electrolysis operators over PHREEQC via Kerotaki
 id = "lead-stands-in-its-own-acid"
 spine = ["akkumulatoren"]
 summary = "Lead sits below hydrogen in the series, yet a car battery's plates stand in acid for years — the +0.13 V driving force cannot pay hydrogen's ~0.88 V overpotential on lead, and that unpaid bill is the battery's existence"
+summary_de = "Blei steht in der Spannungsreihe unter Wasserstoff, und doch stehen die Platten einer Autobatterie jahrelang in Säure — die Triebkraft von +0,13 V kann die ~0,88 V Überspannung des Wasserstoffs auf Blei nicht begleichen, und genau diese unbeglichene Rechnung ist die Existenzgrundlage der Batterie"
 concepts = ["accumulators", "activity-series"]
 requires = ["activity-series"]
 apparatus = ["beaker"]
@@ -886,6 +1021,7 @@ ph = { min = -0.15, max = 0.05 }
 
 [reaction.expect.predict]
 question = "A car battery is lead plates standing in strong acid, for years. Lead sits below hydrogen in the activity series, so the acid should dissolve it. Why doesn't it?"
+question_de = "Eine Autobatterie besteht aus Bleiplatten, die jahrelang in starker Säure stehen. Blei steht in der Spannungsreihe unter Wasserstoff, also müsste die Säure es auflösen. Warum tut sie das nicht?"
 options = [
   "The series is simply wrong about lead",
   "Kinetics: hydrogen formation on lead costs about 0.88 V of overpotential, far more than the +0.13 V the acid offers — blocked, not absent",
@@ -893,21 +1029,29 @@ options = [
 ]
 answer = 1
 misconception = "When an observation contradicts a rule, the tempting moves are to discard the rule or to invent a protector. Neither is needed: the series is an equilibrium statement and it is right — lead in acid is downhill. It is also barely downhill (+0.13 V), and the reaction's necessary first product, hydrogen gas on a lead surface, carries an activation toll of ~0.88 V. The bill exceeds the budget, so the reaction is blocked on any human timescale. The battery exists inside that gap."
+misconception_de = "Widerspricht eine Beobachtung einer Regel, liegt es nahe, entweder die Regel zu verwerfen oder einen Beschützer zu erfinden. Keines von beidem ist nötig: Die Spannungsreihe ist eine Gleichgewichtsaussage, und sie hat recht — Blei in Säure liegt bergab. Es liegt aber nur knapp bergab (+0,13 V), und das notwendige erste Produkt der Reaktion, Wasserstoffgas auf einer Bleioberfläche, verlangt einen Aktivierungszoll von ~0,88 V. Die Rechnung übersteigt das Budget, also ist die Reaktion auf jeder menschlichen Zeitskala blockiert. Die Batterie existiert genau in dieser Lücke."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Rules are right or wrong, never bounded: one contradicting observation and the series is discarded, rather than asked what it actually claims."
+reveals_de = "Regeln sind richtig oder falsch, nie begrenzt gültig: Eine widersprechende Beobachtung, und die Spannungsreihe wird verworfen, statt zu fragen, was sie eigentlich behauptet."
 next = "Test the series where no kinetic gate applies: v2 — lead plates out of its own ions onto zinc, 0.0100 mol, exactly the direction the ordering demands. The series is right about where equilibrium lies; it never claimed to be a clock, and this beaker pair is the difference."
+next_de = "Prüfe die Spannungsreihe dort, wo keine kinetische Sperre greift: v2 — Blei scheidet sich aus seinen eigenen Ionen auf Zink ab, 0,0100 mol, genau in der Richtung, die die Ordnung verlangt. Die Spannungsreihe hat recht damit, wo das Gleichgewicht liegt; sie hat nie behauptet, eine Uhr zu sein, und dieses Becherglaspaar ist der Unterschied."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Inertness needs an agent: 'nothing happens' must be caused by a thing — a coating, an additive — rather than by a barrier in the reaction's own mechanism."
+reveals_de = "Trägheit braucht einen Verursacher: 'Nichts passiert' muss durch etwas verursacht sein — eine Beschichtung, einen Zusatzstoff — statt durch eine Barriere im Mechanismus der Reaktion selbst."
 next = "No coating is modelled and none is invoked: the barrier is the surface chemistry of forming H₂ on lead itself, and the bench states the arithmetic — +0.13 V offered, ~0.88 V demanded. A century and a half of lead-acid batteries stands on that gap, not on a factory step."
+next_de = "Es wird keine Beschichtung modelliert und keine herangezogen: Die Barriere ist die Oberflächenchemie der H₂-Bildung auf Blei selbst, und das Labor nennt die Rechnung — +0,13 V angeboten, ~0,88 V verlangt. Anderthalb Jahrhunderte Blei-Säure-Batterien stehen auf dieser Lücke, nicht auf einem Fertigungsschritt."
 
 [reaction.registers]
 lv1 = "A car battery is metal standing in strong acid — for years on end. The acid would love to eat the lead, but making gas bubbles on lead is so hard that nothing happens at all. The battery exists because of that nothing."
+lv1_de = "Eine Autobatterie ist Metall, das jahrelang in starker Säure steht. Die Säure würde das Blei liebend gern auffressen, aber Gasblasen auf Blei zu bilden ist so schwer, dass überhaupt nichts passiert. Die Batterie existiert genau wegen dieses Nichts."
 lv2 = "v1: lead in acid is reported inert — driving force +0.13 V against ~0.88 V of hydrogen overpotential on lead; no gas, no dissolution, pH unmoved. v2: the same series still works when kinetics allows it — Zn below Pb, so 0.0100 mol of lead plates onto the dissolving zinc."
+lv2_de = "v1: Blei in Säure wird als inert gemeldet — Triebkraft +0,13 V gegenüber ~0,88 V Wasserstoff-Überspannung auf Blei; kein Gas, keine Auflösung, pH-Wert unverändert. v2: Dieselbe Spannungsreihe funktioniert weiterhin, wenn die Kinetik es zulässt — Zn steht unter Pb, sodass 0,0100 mol Blei sich auf dem sich auflösenden Zink abscheiden."
 lv3 = "The comparison with zinc is the design lesson: zinc's grace is 0.03 V (`charging-fights-the-series` slips that leash with molar acid); lead's is ~0.75 V — the widest safe margin of any cheap metal below hydrogen, which is why lead was THE accumulator metal for a hundred and sixty years. Honesty: the overpotential is a curated kinetic constant with 'timescale of a lesson' as its stated scope, and the verdict here rests on it alone — real lead in sulfuric acid additionally grows a lead-sulfate film this bench does not model, so the real battery is even better protected than this beaker."
+lv3_de = "Der Vergleich mit Zink ist die eigentliche Konstruktionslehre: Zinks Gnadenfrist beträgt 0,03 V (`charging-fights-the-series` lässt diese Leine mit molarer Säure reißen); Bleis Gnadenfrist beträgt ~0,75 V — der größte sichere Spielraum jedes billigen Metalls unter Wasserstoff, weshalb Blei hundertsechzig Jahre lang DAS Akkumulatormetall war. Ehrlichkeit: Die Überspannung ist eine kuratierte kinetische Konstante mit 'Zeitskala einer Unterrichtsstunde' als angegebenem Geltungsbereich, und das Urteil hier stützt sich allein darauf — echtes Blei in Schwefelsäure bildet zusätzlich einen Bleisulfat-Film, den dieses Labor nicht modelliert, sodass die echte Batterie sogar besser geschützt ist als dieses Becherglas."
 
 [reaction.provenance]
 source = "Standard curriculum lead-acid accumulator chemistry; hydrogen overpotential on lead ~0.88 V curated (standard electrochemistry); E° values CRC Handbook (Vanýsek). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
