@@ -255,6 +255,67 @@ pub struct Prediction {
     pub diagnosis: Vec<Diagnosis>,
 }
 
+/// Write `value` at `<path>_<code>`, following the path through tables and
+/// arrays. Numeric segments index arrays.
+fn inject(doc: &mut toml::Value, path: &str, code: &str, value: toml::Value) -> Result<(), String> {
+    let parts: Vec<&str> = path.split('.').collect();
+    let (last, rest) = parts
+        .split_last()
+        .ok_or_else(|| format!("empty path {path:?}"))?;
+
+    // The first segment is an entry id, not a key: find the reaction or
+    // model it names.
+    let mut node = find_entry(doc, rest.first().copied().unwrap_or(last))
+        .ok_or_else(|| format!("no entry with id {:?} (from {path:?})", rest.first()))?;
+
+    for seg in rest.iter().skip(1) {
+        // Reborrowing in place rather than reassigning: `node = node.get_mut()`
+        // keeps the previous borrow alive for the whole loop.
+        node = match node {
+            toml::Value::Table(t) => t
+                .get_mut(seg.to_string().as_str())
+                .ok_or_else(|| format!("{path}: no field {seg:?}"))?,
+            toml::Value::Array(a) => {
+                let i: usize = seg
+                    .parse()
+                    .map_err(|_| format!("{path}: {seg:?} is not an index"))?;
+                a.get_mut(i)
+                    .ok_or_else(|| format!("{path}: index {i} is past the end"))?
+            }
+            _ => return Err(format!("{path}: {seg:?} is not a table or array")),
+        };
+    }
+
+    let table = node
+        .as_table_mut()
+        .ok_or_else(|| format!("{path}: the parent of {last:?} is not a table"))?;
+    if !table.contains_key(*last) {
+        return Err(format!("{path}: there is no {last:?} to translate"));
+    }
+    table.insert(format!("{last}_{code}"), value);
+    Ok(())
+}
+
+/// The reaction or model with this id.
+fn find_entry<'a>(doc: &'a mut toml::Value, id: &str) -> Option<&'a mut toml::Value> {
+    let table = doc.as_table_mut()?;
+    // Which section holds it is decided by an IMMUTABLE pass first, so the
+    // mutable borrow below is taken exactly once. Looping with `get_mut`
+    // keeps every iteration's borrow alive, because the value returned
+    // from inside the loop escapes it.
+    let section = ["reaction", "model"].into_iter().find(|s| {
+        table.get(*s).and_then(|v| v.as_array()).is_some_and(|a| {
+            a.iter()
+                .any(|e| e.get("id").and_then(|v| v.as_str()) == Some(id))
+        })
+    })?;
+    table
+        .get_mut(section)?
+        .as_array_mut()?
+        .iter_mut()
+        .find(|e| e.get("id").and_then(|v| v.as_str()) == Some(id))
+}
+
 /// What one particular wrong answer tells you about the learner.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Diagnosis {
@@ -606,11 +667,51 @@ pub struct Codex {
 pub enum CodexError {
     #[error("could not parse the codex: {0}")]
     Parse(#[from] toml::de::Error),
+    /// A sidecar key names a path the catalogue does not have. Its own
+    /// error, not a parse error: the file is valid TOML and the problem is
+    /// that the English it translates has moved or gone.
+    #[error("translation does not fit the catalogue: {0}")]
+    Translation(String),
 }
 
 impl Codex {
     pub fn parse(text: &str) -> Result<Codex, CodexError> {
         Ok(toml::from_str(text)?)
+    }
+
+    /// Parse the English source and fold in per-language sidecars.
+    ///
+    /// Each sidecar is a flat table of `"<entry-id>.<path>" = "…"`, where
+    /// the path names the ENGLISH field being translated. The value is
+    /// written back as that field's `_<code>` sibling, which is the shape
+    /// the structs and the export already use — so nothing downstream
+    /// needs to know translations arrived from a different file.
+    ///
+    /// One file per language is the point. It is what lets a French
+    /// translation and a Japanese one be worked on at the same time
+    /// without their authors colliding, and it keeps the English source
+    /// from growing a full copy per language.
+    ///
+    /// A key naming a path that does not exist is an error. That means the
+    /// English moved and the translation is describing something that is
+    /// no longer there — worse than a missing translation, because it
+    /// renders confidently.
+    pub fn parse_with_translations(
+        text: &str,
+        sidecars: &[(&str, &str)],
+    ) -> Result<Codex, CodexError> {
+        let mut doc: toml::Value = toml::from_str(text)?;
+        for (code, sidecar) in sidecars {
+            let table: toml::Value = toml::from_str(sidecar)?;
+            let Some(map) = table.as_table() else {
+                continue;
+            };
+            for (path, value) in map {
+                inject(&mut doc, path, code, value.clone())
+                    .map_err(|e| CodexError::Translation(format!("{code}.toml: {e}")))?;
+            }
+        }
+        Ok(doc.try_into()?)
     }
 
     /// Structural problems that need no solver: duplicate ids, empty
