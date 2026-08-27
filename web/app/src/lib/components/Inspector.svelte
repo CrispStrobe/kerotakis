@@ -25,16 +25,6 @@
   } = $props();
 
   const v = $derived(`v${vessel + 1}`);
-  // Every button compiles to the same grammar the command bar speaks.
-  const actions = $derived([
-    { label: "heat 10 kJ", line: `heat ${v} 10kJ` },
-    { label: "cool 10 kJ", line: `cool ${v} 10kJ` },
-    { label: "stir", line: `stir ${v}` },
-    { label: "ignite", line: `ignite ${v}` },
-    boundary === "open"
-      ? { label: "seal 500 mL", line: `seal ${v} 500mL` }
-      : { label: "open", line: `open ${v}` },
-  ]);
   // The four classical gas tests (EXP-31): applied to the headspace, and
   // each button is exactly the grammar line — `test v1 pop`.
   const GAS_TESTS = ["pop", "splint", "limewater", "litmus"] as const;
@@ -42,25 +32,32 @@
 
 <section class="inspector" aria-label={t("vessel v{vessel} detail", { vessel: vessel + 1 })}>
   <header>
-    <h2>v{vessel + 1}</h2>
+    <span class="detail-heading">
+      <small>{t("selected vessel details")}</small>
+      <h2>v{vessel + 1}</h2>
+    </span>
     <button onclick={onparticles}>{t("particles")}</button>
     <button onclick={onclose} aria-label={t("close inspector")}>×</button>
   </header>
   {#if onaction}
-    <InstrumentTray {vessel} {busy} onmeasure={onaction} />
-    <div class="actions" role="group" aria-label={t("act on {vessel}", { vessel: v })}>
-      {#each actions as a (a.label)}
-        <button disabled={busy} onclick={() => onaction(a.line)}>{t(a.label)}</button>
-      {/each}
-    </div>
-    <div class="actions" role="group" aria-label={t("gas tests on {vessel}", { vessel: v })}>
-      <span class="tests-label">{t("test the gas:")}</span>
-      {#each GAS_TESTS as test (test)}
-        <button disabled={busy} onclick={() => onaction(`test ${v} ${test}`)}>{t(test)}</button>
-      {/each}
-    </div>
+    <section class="detail-section" aria-label={t("measure selected vessel") }>
+      <h3>{t("measure")}</h3>
+      <InstrumentTray {vessel} {busy} onmeasure={onaction} />
+    </section>
+    <section class="detail-section gas-section" aria-label={t("gas tests on {vessel}", { vessel: v })}>
+      <h3>{t("gas tests")}</h3>
+      <p>{t("Apply a test to the headspace of the selected vessel.")}</p>
+      <div class="actions" role="group">
+        {#each GAS_TESTS as test (test)}
+          <button disabled={busy} onclick={() => onaction(`test ${v} ${test}`)}>{t(test)}</button>
+        {/each}
+      </div>
+    </section>
   {/if}
-  <pre>{lines.join("\n")}</pre>
+  <section class="computed-state" aria-label={t("computed state") }>
+    <h3>{t("computed state")}</h3>
+    <pre>{lines.join("\n")}</pre>
+  </section>
   {#if particles}
     <svelte:boundary>
       <ParticleView census={particles} />
@@ -102,6 +99,12 @@
     margin: 0;
     margin-right: auto;
   }
+  .detail-heading { min-width: 0; display: flex; flex: 1; flex-direction: column; }
+  .detail-heading small { color: var(--dim); font-size: .52rem; font-weight: 750; letter-spacing: .07em; text-transform: uppercase; }
+  .detail-section { padding-top: .55rem; border-bottom: 1px solid color-mix(in srgb, var(--edge) 65%, transparent); }
+  h3 { margin: 0; padding: 0 1rem .25rem; color: var(--dim); font-size: .58rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .gas-section { padding-bottom: .55rem; }
+  .gas-section p { margin: 0; padding: 0 1rem .25rem; color: var(--dim); font-size: .66rem; line-height: 1.35; }
   button {
     background: var(--panel-raised);
     border: 1px solid var(--edge);
@@ -113,16 +116,11 @@
     cursor: pointer;
     min-height: 32px;
   }
-  .tests-label {
-    color: var(--dim);
-    font-size: 0.75rem;
-    align-self: center;
-  }
   .actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem;
-    padding: 0.5rem 1rem 0;
+    padding: 0.2rem 1rem 0;
   }
   .actions button {
     background: var(--panel-raised);
@@ -144,10 +142,10 @@
     color: var(--bad);
     font-size: 0.8rem;
   }
+  .computed-state { padding-top: .65rem; }
   pre {
-    flex: none;
     margin: 0;
-    padding: 0.8rem 1rem;
+    padding: 0.35rem 1rem 0.8rem;
     overflow: auto;
     font-size: 0.8rem;
     line-height: 1.5;
