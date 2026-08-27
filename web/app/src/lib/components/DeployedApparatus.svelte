@@ -261,5 +261,11 @@
   @keyframes gas-out { to { transform: translateX(27px); opacity: 0; } }
   @keyframes frost-pulse { to { opacity: 1; transform: translateY(-3px) scale(1.18); } }
   @keyframes ice-bob { to { transform: translateY(-2px); } }
-  @media (prefers-reduced-motion: reduce) { .apparatus * { animation: none !important; } }
+  @media (prefers-reduced-motion: reduce) {
+    .apparatus * { animation: none !important; }
+    .working .heat { opacity: .72; }
+    .working .frost { opacity: 1; }
+    .working .light-cone { opacity: var(--light-opacity, .28); }
+    .working .water-stream, .working .drop, .working .charge, .working .gas-pulse { opacity: .78; }
+  }
 </style>

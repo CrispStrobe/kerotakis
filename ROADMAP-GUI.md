@@ -1090,6 +1090,11 @@ hide them completely.
   retaining the static filter, condenser, separator, magnet, meter, and
   source-to-target route. Reduced motion no longer erases the apparatus or its
   spatial meaning.
+  *Static operating-state correction shipped 2026-08-27:* reduced-motion users
+  now retain a visible steady heat plume, frost, light cone, wash jet, steam,
+  charge/gas markers, and burette drop while the corresponding computed
+  operation is active. Freestanding workstations also announce localized
+  ready/running state in addition to their tool and target vessel.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
