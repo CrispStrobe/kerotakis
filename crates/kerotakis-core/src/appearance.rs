@@ -81,15 +81,34 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         .contents
         .iter()
         .any(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous));
-    let liquid = has_liquid.then(|| {
-        let rgb = crate::spectrum::transmitted_colour(&absorbance);
-        Colour {
+    let pigment_layers = vessel
+        .unresolved_materials
+        .iter()
+        .filter_map(|portion| {
+            let recipe = crate::material::lookup(&portion.material, None)?;
+            let optics = crate::material::pigment_optics(&recipe)?;
+            Some((optics, portion.amount))
+        })
+        .collect::<Vec<_>>();
+    let pigment_amounts = pigment_layers
+        .iter()
+        .map(|(optics, amount)| crate::pigment::PigmentAmount {
+            key: &optics.key,
+            amount: *amount,
+            optics: Some(optics),
+        })
+        .collect::<Vec<_>>();
+    let pigment_colour = (!pigment_amounts.is_empty())
+        .then(|| crate::pigment::opaque_mixture_colour(&pigment_amounts).ok())
+        .flatten();
+    let liquid = pigment_colour
+        .or_else(|| has_liquid.then(|| crate::spectrum::transmitted_colour(&absorbance)))
+        .map(|rgb| Colour {
             r: rgb.r,
             g: rgb.g,
             b: rgb.b,
             strength: 0.0,
-        }
-    });
+        });
 
     // --- Cloudiness and deposit from suspended solid.
     let mut solid_moles = 0.0;
@@ -124,7 +143,9 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             biggest = Some((name, p.moles.0, colour));
         }
     }
-    let cloudiness = if has_liquid {
+    let cloudiness = if pigment_colour.is_some() {
+        1.0
+    } else if has_liquid {
         (solid_moles / litres / OPAQUE_AT).clamp(0.0, 1.0)
     } else {
         0.0

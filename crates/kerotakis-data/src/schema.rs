@@ -135,6 +135,13 @@ pub enum MaterialRole {
         /// which the bounded foam effect reaches full strength.
         saturation_amount: f64,
     },
+    /// Effective Kubelka–Munk coefficients for an opaque pigment/binder
+    /// surrogate. Samples align with the runtime visible bands (405–705 nm in
+    /// 20 nm steps). They are K and S model coefficients, never display RGB.
+    OpaquePigment {
+        absorption: Vec<f64>,
+        scattering: Vec<f64>,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

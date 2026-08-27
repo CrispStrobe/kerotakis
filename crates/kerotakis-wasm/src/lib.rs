@@ -409,6 +409,8 @@ impl Lab {
             })
             .collect();
         list.extend(kerotakis_core::material::all().into_iter().map(|recipe| {
+            let pigment_swatch =
+                kerotakis_core::material::pigment_swatch(&recipe).map(|rgb| [rgb.r, rgb.g, rgb.b]);
             let phase = match recipe.physical_form {
                 kerotakis_data::MaterialPhysicalForm::HomogeneousLiquid
                 | kerotakis_data::MaterialPhysicalForm::Suspension => "liquid",
@@ -447,8 +449,8 @@ impl Lab {
                 "formula": formula,
                 "phase": phase,
                 "appearance": recipe.preparation,
-                "srgb": serde_json::Value::Null,
-                "solution_srgb": swatch,
+                "srgb": pigment_swatch,
+                "solution_srgb": if pigment_swatch.is_none() { swatch } else { None },
                 "flame": serde_json::Value::Null,
                 "density": recipe.bulk_density.map(|record| record.value),
                 "provenance": recipe.evidence.source_id,

@@ -717,6 +717,18 @@ const DE: Record<string, string> = {
   ,"switch to Sandbox": "zur Sandbox wechseln"
   ,"Your saves stay separate.": "Deine Spielstände bleiben getrennt."
   ,"Clearing or experimenting in Sandbox never changes your Story laboratory.": "Leeren oder Experimentieren in der Sandbox verändert niemals dein Story-Labor."
+  ,"red watercolor": "rote Wasserfarbe"
+  ,"yellow watercolor": "gelbe Wasserfarbe"
+  ,"blue watercolor": "blaue Wasserfarbe"
+  ,"0.02% w/w betanin aqueous wash; unbranded transparent optical teaching surrogate": "0,02 Gew.-% Betanin in Wasser; transparenter markenfreier Lehrmodell-Farbauftrag"
+  ,"0.02% w/w curcumin aqueous wash; unbranded transparent optical teaching surrogate": "0,02 Gew.-% Curcumin in Wasser; transparenter markenfreier Lehrmodell-Farbauftrag"
+  ,"0.02% w/w indigo_carmine aqueous wash; unbranded transparent optical teaching surrogate": "0,02 Gew.-% Indigocarmin in Wasser; transparenter markenfreier Lehrmodell-Farbauftrag"
+  ,"red acrylic paint": "rote Acrylfarbe"
+  ,"yellow acrylic paint": "gelbe Acrylfarbe"
+  ,"blue acrylic paint": "blaue Acrylfarbe"
+  ,"white acrylic paint": "weiße Acrylfarbe"
+  ,"black acrylic paint": "schwarze Acrylfarbe"
+  ,"waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved": "wasserbasierter, deckender Acrylfarben-Ersatz; wirksames Pigment und Bindemittel bleiben unaufgelöst"
 };
 
 function detectLocale(): Locale {

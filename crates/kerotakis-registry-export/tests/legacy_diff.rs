@@ -50,7 +50,7 @@ fn every_legacy_field_is_present_and_unchanged() {
             .count(),
         REGISTRY.len()
     );
-    assert_eq!(document.material_recipes.len(), 14);
+    assert_eq!(document.material_recipes.len(), 19);
     assert_eq!(document.identities.len(), REGISTRY.len());
     assert_eq!(document.compositions.len(), REGISTRY.len());
     assert_eq!(

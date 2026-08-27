@@ -34565,6 +34565,622 @@
           "detail": "unbranded household teaching surrogate with an explicit concentration"
         }
       }
+    },
+    {
+      "id": "school/acrylic-red-surrogate",
+      "version": 1,
+      "canonical_key": "acrylic_red",
+      "name": "red acrylic paint",
+      "aliases": {
+        "de": [
+          "rote Acrylfarbe",
+          "Acrylfarbe_rot"
+        ],
+        "en": [
+          "red acrylic",
+          "red_acrylic",
+          "acrylic_paint_red"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.55,
+        "upper": 0.55
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [
+        {
+          "kind": "opaque_pigment",
+          "absorption": [
+            2.1386792284620775,
+            2.811306155410273,
+            3.4197823048124407,
+            3.9015087662782704,
+            4.230259140331865,
+            4.374944511216485,
+            4.258695100602693,
+            3.7987329405616816,
+            3.0147867132284096,
+            2.0790200063015316,
+            1.2271542980039551,
+            0.6156859670662245,
+            0.26265683148976493,
+            0.09601248945294882,
+            0.03055512824433069,
+            0.008674830004897542
+          ],
+          "scattering": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ],
+      "preparation": "waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved",
+      "lot_assumptions": [
+        "effective K/S coefficients describe this teaching color only; they do not match a brand, named artist pigment, gloss or drying film",
+        "the layer is treated as optically thick, so the substrate does not affect the computed swatch"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/acrylic-yellow-surrogate",
+      "version": 1,
+      "canonical_key": "acrylic_yellow",
+      "name": "yellow acrylic paint",
+      "aliases": {
+        "de": [
+          "gelbe Acrylfarbe",
+          "Acrylfarbe_gelb"
+        ],
+        "en": [
+          "yellow acrylic",
+          "yellow_acrylic",
+          "acrylic_paint_yellow"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.55,
+        "upper": 0.55
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [
+        {
+          "kind": "opaque_pigment",
+          "absorption": [
+            2.955965185121235,
+            3.7838378756270616,
+            3.975384693305765,
+            3.4279875657411156,
+            2.4261226388505337,
+            1.4092878199819878,
+            0.6718929470301345,
+            0.2629141144661218,
+            0.08443862581468424,
+            0.02225778011117548,
+            0.004815439979312816,
+            0.0008550736752723682,
+            0.00012461907807605863,
+            0.000014906612688314684,
+            1.4634801515817665e-6,
+            1.1792561274655074e-7
+          ],
+          "scattering": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ],
+      "preparation": "waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved",
+      "lot_assumptions": [
+        "effective K/S coefficients describe this teaching color only; they do not match a brand, named artist pigment, gloss or drying film",
+        "the layer is treated as optically thick, so the substrate does not affect the computed swatch"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/acrylic-blue-surrogate",
+      "version": 1,
+      "canonical_key": "acrylic_blue",
+      "name": "blue acrylic paint",
+      "aliases": {
+        "de": [
+          "blaue Acrylfarbe",
+          "Acrylfarbe_blau"
+        ],
+        "en": [
+          "blue acrylic",
+          "blue_acrylic",
+          "acrylic_paint_blue"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.55,
+        "upper": 0.55
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [
+        {
+          "kind": "opaque_pigment",
+          "absorption": [
+            0.003288723002340032,
+            0.010003403446570568,
+            0.027679079054317983,
+            0.06966888341286244,
+            0.1595179011715589,
+            0.33224875806354964,
+            0.629507151527069,
+            1.0849790014569465,
+            1.7010824357018808,
+            2.4261226388505337,
+            3.147628747247054,
+            3.7148186600770066,
+            3.988183169611283,
+            3.8948966392199886,
+            3.460191543459465,
+            2.796325392438484
+          ],
+          "scattering": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ],
+      "preparation": "waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved",
+      "lot_assumptions": [
+        "effective K/S coefficients describe this teaching color only; they do not match a brand, named artist pigment, gloss or drying film",
+        "the layer is treated as optically thick, so the substrate does not affect the computed swatch"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/acrylic-white-surrogate",
+      "version": 1,
+      "canonical_key": "acrylic_white",
+      "name": "white acrylic paint",
+      "aliases": {
+        "de": [
+          "weiße Acrylfarbe",
+          "weisse Acrylfarbe",
+          "Acrylfarbe_weiss"
+        ],
+        "en": [
+          "white acrylic",
+          "white_acrylic",
+          "acrylic_paint_white"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.55,
+        "upper": 0.55
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [
+        {
+          "kind": "opaque_pigment",
+          "absorption": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scattering": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        }
+      ],
+      "preparation": "waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved",
+      "lot_assumptions": [
+        "effective K/S coefficients describe this teaching color only; they do not match a brand, named artist pigment, gloss or drying film",
+        "the layer is treated as optically thick, so the substrate does not affect the computed swatch"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/acrylic-black-surrogate",
+      "version": 1,
+      "canonical_key": "acrylic_black",
+      "name": "black acrylic paint",
+      "aliases": {
+        "de": [
+          "schwarze Acrylfarbe",
+          "Acrylfarbe_schwarz"
+        ],
+        "en": [
+          "black acrylic",
+          "black_acrylic",
+          "acrylic_paint_black"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.55,
+        "upper": 0.55
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [
+        {
+          "kind": "opaque_pigment",
+          "absorption": [
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0
+          ],
+          "scattering": [
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2
+          ]
+        }
+      ],
+      "preparation": "waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved",
+      "lot_assumptions": [
+        "effective K/S coefficients describe this teaching color only; they do not match a brand, named artist pigment, gloss or drying film",
+        "the layer is treated as optically thick, so the substrate does not affect the computed swatch"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
     }
   ]
 }

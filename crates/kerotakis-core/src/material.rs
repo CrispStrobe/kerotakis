@@ -54,6 +54,39 @@ pub fn all() -> Vec<MaterialRecipe> {
     recipes
 }
 
+/// Translate a reviewed recipe-level opaque-pigment role into the core's
+/// fixed visible-band representation. Invalid optional-pack data yields no
+/// optics; source documents are rejected earlier by the data validator.
+pub fn pigment_optics(recipe: &MaterialRecipe) -> Option<crate::pigment::PigmentOptics> {
+    recipe.roles.iter().find_map(|role| {
+        let MaterialRole::OpaquePigment {
+            absorption,
+            scattering,
+        } = role
+        else {
+            return None;
+        };
+        let absorption: crate::Spectrum = absorption.as_slice().try_into().ok()?;
+        let scattering: crate::Spectrum = scattering.as_slice().try_into().ok()?;
+        Some(crate::pigment::PigmentOptics {
+            key: recipe.canonical_key.clone(),
+            absorption,
+            scattering,
+        })
+    })
+}
+
+/// Computed shelf swatch for one opaque paint recipe.
+pub fn pigment_swatch(recipe: &MaterialRecipe) -> Option<crate::Rgb> {
+    let optics = pigment_optics(recipe)?;
+    crate::pigment::opaque_mixture_colour(&[crate::pigment::PigmentAmount {
+        key: &optics.key,
+        amount: 1.0,
+        optics: Some(&optics),
+    }])
+    .ok()
+}
+
 /// Register already-validated recipes from an optional pack. Conflicts are
 /// skipped as a whole recipe; built-in identity always wins.
 pub fn register_loaded(recipes: Vec<MaterialRecipe>) -> (usize, usize) {

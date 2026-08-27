@@ -28,24 +28,21 @@ pub fn advance(vessel: &mut Vessel, seconds: f64, oxygen_moles: f64) -> Option<F
         .iter()
         .filter_map(|portion| {
             let recipe = material::lookup(&portion.material, None)?;
-            recipe
-                .roles
-                .into_iter()
-                .map(|role| match role {
-                    MaterialRole::FoamStabilizer {
-                        trapping_efficiency,
-                        gas_volume_fraction,
-                        half_life_seconds,
-                        saturation_amount,
-                    } => (
-                        trapping_efficiency,
-                        gas_volume_fraction,
-                        half_life_seconds,
-                        saturation_amount,
-                        portion.amount,
-                    ),
-                })
-                .next()
+            recipe.roles.into_iter().find_map(|role| match role {
+                MaterialRole::FoamStabilizer {
+                    trapping_efficiency,
+                    gas_volume_fraction,
+                    half_life_seconds,
+                    saturation_amount,
+                } => Some((
+                    trapping_efficiency,
+                    gas_volume_fraction,
+                    half_life_seconds,
+                    saturation_amount,
+                    portion.amount,
+                )),
+                MaterialRole::OpaquePigment { .. } => None,
+            })
         })
         .max_by(|a, b| a.0.total_cmp(&b.0));
     let Some((efficiency, gas_fraction, half_life, saturation, amount)) = stabilizer else {
