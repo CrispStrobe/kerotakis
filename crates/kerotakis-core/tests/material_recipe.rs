@@ -148,6 +148,56 @@ fn familiar_powders_expand_to_the_existing_solver_species() {
 }
 
 #[test]
+fn familiar_solid_objects_expand_exactly_to_solver_species() {
+    for (name, language, expected) in [
+        ("Tafelsalz", Some("de"), "NaCl"),
+        ("Kreidestück", Some("de"), "CaCO3"),
+        ("Magnesiumband", Some("de"), "Mg"),
+        ("Zinkstreifen", Some("de"), "Zn"),
+        ("Eisennagel", Some("de"), "Fe"),
+        ("Kupferdraht", Some("de"), "Cu"),
+        ("aluminum foil", Some("en"), "Al"),
+    ] {
+        let recipe = kerotakis_core::material::lookup(name, language).expect(name);
+        let expansion = recipe.expand(5.0, 0).expect("fixed expansion");
+        assert_eq!(expansion.components.len(), 1, "{name}");
+        assert_eq!(expansion.components[0].species_id, expected, "{name}");
+        assert!((expansion.components[0].amount - 5.0).abs() < 1e-12);
+        assert!(expansion.unresolved_amount.abs() < 1e-12);
+    }
+}
+
+#[test]
+fn familiar_object_addition_preserves_recipe_and_solid_inventory() {
+    let op = parse_op("add v1 Zinkstreifen 6.538g")
+        .expect("valid localized object command")
+        .expect("operator");
+    let mut bench = Bench::new();
+    let events = bench.step(op).expect("add zinc strip");
+
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::MaterialAdded { recipe_id, components, .. }
+            if recipe_id == "school/zinc-strip"
+                && components.len() == 1
+                && components[0].species == SpeciesId::new("Zn")
+    )));
+    let zinc = bench.vessels[0].moles_of(&SpeciesId::new("Zn")).0;
+    assert!(
+        (zinc - 0.1).abs() < 2e-6,
+        "6.538 g Zn should be about 0.1 mol, got {zinc}"
+    );
+}
+
+#[test]
+fn ambiguous_bare_salt_is_not_claimed_by_the_table_salt_recipe() {
+    let table_salt =
+        kerotakis_core::material::lookup("Tafelsalz", Some("de")).expect("localized table salt");
+    assert!(!table_salt.matches("Salz", Some("de")));
+    assert!(!table_salt.matches("salt", Some("en")));
+}
+
+#[test]
 fn hand_soap_and_dish_soap_are_distinct_localized_materials() {
     let hand = kerotakis_core::material::lookup("Flüssigseife", Some("de"))
         .expect("liquid hand-soap alias");

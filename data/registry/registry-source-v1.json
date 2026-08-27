@@ -36991,6 +36991,420 @@
           "detail": "unbranded household teaching surrogate with an explicit concentration"
         }
       }
+    },
+    {
+      "id": "household/table-salt",
+      "version": 1,
+      "canonical_key": "table_salt",
+      "name": "table salt",
+      "aliases": {
+        "de": [
+          "Speisesalz",
+          "Tafelsalz",
+          "Kochsalz"
+        ],
+        "en": [
+          "cooking salt"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "NaCl",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "granular crystals",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised table salt represented by the installed NaCl species",
+      "lot_assumptions": [
+        "moisture, iodine additives and anti-caking agents are omitted; the bare words salt and Salz remain unclaimed because they name a chemical class"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/calcium-carbonate-chalk-stick",
+      "version": 1,
+      "canonical_key": "chalk_stick",
+      "name": "calcium-carbonate chalk stick",
+      "aliases": {
+        "de": [
+          "Kreidestück",
+          "Tafelkreide",
+          "Calciumcarbonat-Kreide"
+        ],
+        "en": [
+          "chalk stick",
+          "calcium carbonate chalk"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "CaCO3",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "cylindrical stick",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised calcium-carbonate chalk stick represented by the installed CaCO3 species",
+      "lot_assumptions": [
+        "represented as pure calcium carbonate; gypsum chalk and product binders are different materials and are not implied"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/magnesium-ribbon",
+      "version": 1,
+      "canonical_key": "magnesium_ribbon",
+      "name": "magnesium ribbon",
+      "aliases": {
+        "de": [
+          "Magnesiumband"
+        ],
+        "en": [
+          "magnesium strip"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Mg",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "thin ribbon",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised magnesium ribbon represented by the installed Mg species",
+      "lot_assumptions": [
+        "represented as clean elemental magnesium; surface oxide and reaction-rate effects wait for the surface-state model"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/zinc-strip",
+      "version": 1,
+      "canonical_key": "zinc_strip",
+      "name": "zinc strip",
+      "aliases": {
+        "de": [
+          "Zinkstreifen",
+          "Zinkblech"
+        ],
+        "en": [
+          "zinc sheet"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Zn",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "metal strip",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised zinc strip represented by the installed Zn species",
+      "lot_assumptions": [
+        "represented as clean elemental zinc; galvanised coatings and alloying are not implied"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/iron-nail-surrogate",
+      "version": 1,
+      "canonical_key": "iron_nail",
+      "name": "iron nail surrogate",
+      "aliases": {
+        "de": [
+          "Eisennagel"
+        ],
+        "en": [
+          "iron nail"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Fe",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "nail",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised iron nail surrogate represented by the installed Fe species",
+      "lot_assumptions": [
+        "represented as elemental iron; ordinary steel nails, coatings and corrosion products require alloy and surface-state recipes"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/copper-wire",
+      "version": 1,
+      "canonical_key": "copper_wire",
+      "name": "copper wire",
+      "aliases": {
+        "de": [
+          "Kupferdraht"
+        ],
+        "en": [
+          "bare copper wire"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Cu",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "wire",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised copper wire represented by the installed Cu species",
+      "lot_assumptions": [
+        "represented as bare elemental copper; insulation, lacquer and alloying are omitted"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/aluminium-foil",
+      "version": 1,
+      "canonical_key": "aluminium_foil",
+      "name": "aluminium foil",
+      "aliases": {
+        "de": [
+          "Alufolie",
+          "Aluminiumfolie"
+        ],
+        "en": [
+          "aluminum foil",
+          "tin foil"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Al",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "thin foil",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised aluminium foil represented by the installed Al species",
+      "lot_assumptions": [
+        "represented as elemental aluminium inventory; the native oxide layer and passivation kinetics are not yet modeled, so the engine must retain its explicit reaction boundary"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
     }
   ]
 }
