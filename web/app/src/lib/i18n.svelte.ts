@@ -735,6 +735,21 @@ const DE: Record<string, string> = {
   ,"switch to Sandbox": "zur Sandbox wechseln"
   ,"Your saves stay separate.": "Deine Spielstände bleiben getrennt."
   ,"Clearing or experimenting in Sandbox never changes your Story laboratory.": "Leeren oder Experimentieren in der Sandbox verändert niemals dein Story-Labor."
+  ,"safety station": "Sicherheitsstation"
+  ,"open safety station": "Sicherheitsstation öffnen"
+  ,"tap for the real-lab rules": "Regeln fürs echte Labor"
+  ,"lab wall reference": "Nachschlagewerk an der Laborwand"
+  ,"The simulation can show hazardous chemistry safely, but the same actions in a real laboratory require supervision, protective equipment, and a risk assessment.": "Die Simulation kann gefährliche Chemie sicher zeigen. Dieselben Handlungen erfordern in einem echten Labor Aufsicht, Schutzausrüstung und eine Gefährdungsbeurteilung."
+  ,"eye protection": "Augenschutz"
+  ,"Wear splash goggles whenever materials are on the bench.": "Trage eine Schutzbrille, sobald Stoffe auf dem Labortisch stehen."
+  ,"heat and flame": "Hitze und Flamme"
+  ,"Keep flammables away from heat. Treat hot glass as hot until measured.": "Halte Entzündliches von Wärme fern. Behandle heißes Glas als heiß, bis du seine Temperatur gemessen hast."
+  ,"fumes and gases": "Dämpfe und Gase"
+  ,"Do not smell directly. Use wafting only when the lab explicitly offers it.": "Rieche nie direkt. Fächere Dämpfe nur zu, wenn das Labor diese Handlung ausdrücklich anbietet."
+  ,"unexpected result": "Unerwartetes Ergebnis"
+  ,"Stop the operation, leave the vessel where it is, and read the warning before continuing.": "Stoppe den Vorgang, lasse das Gefäß stehen und lies die Warnung, bevor du fortfährst."
+  ,"simulation boundary": "Grenze der Simulation"
+  ,"Kerotakis supports learning and planning. It does not replace real laboratory instruction or safety training.": "Kerotakis unterstützt Lernen und Planen. Es ersetzt weder die Anleitung im echten Labor noch eine Sicherheitsunterweisung."
 };
 
 function detectLocale(): Locale {

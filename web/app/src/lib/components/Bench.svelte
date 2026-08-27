@@ -37,6 +37,7 @@
     ontogglezones,
     onopenperiodic,
     onopencabinet,
+    onopensafety,
     onremove,
   }: {
     scene: Scene | null;
@@ -61,6 +62,7 @@
     ontogglezones?: () => void;
     onopenperiodic?: () => void;
     onopencabinet?: () => void;
+    onopensafety?: () => void;
     onremove?: (vessel: number) => void;
   } = $props();
 
@@ -149,6 +151,12 @@
     <button class="guide-toggle" aria-pressed={showZones} onclick={ontogglezones}>
       <span aria-hidden="true">{showZones ? "▦" : "☷"}</span>
       {showZones ? t("hide workflow guides") : t("show workflow guides")}
+    </button>
+  {/if}
+  {#if onopensafety}
+    <button class="wall-safety" aria-label={t("open safety station")} onclick={onopensafety}>
+      <span class="safety-mark" aria-hidden="true">✦</span>
+      <span class="poster-copy"><strong>{t("safety station")}</strong><small>{t("tap for the real-lab rules")}</small></span>
     </button>
   {/if}
   {#if scene}
@@ -407,8 +415,8 @@
   .guide-toggle {
     position: absolute;
     z-index: 9;
-    top: 0.55rem;
     right: 0.7rem;
+    top: 2.9rem;
     display: flex;
     align-items: center;
     gap: 0.35rem;
@@ -423,6 +431,28 @@
     cursor: pointer;
   }
   .guide-toggle:hover { color: var(--primary); border-color: var(--primary); }
+  .wall-safety {
+    position: absolute;
+    z-index: 8;
+    top: .45rem;
+    right: .7rem;
+    display: flex;
+    align-items: center;
+    gap: .48rem;
+    min-height: 34px;
+    padding: .3rem .55rem;
+    border: 1px solid color-mix(in srgb, var(--success) 48%, var(--edge));
+    border-radius: 10px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--success) 8%, var(--surface));
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow) 72%, transparent);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+  }
+  .wall-safety:hover, .wall-safety:focus-visible { border-color: var(--success); box-shadow: 0 7px 18px var(--shadow); transform: translateY(-1px); }
+  .safety-mark { width: 29px; height: 25px; display: grid; place-items: center; flex: none; border-radius: 7px; color: white; background: var(--success); font-weight: 900; }
   .work-zones {
     position: relative;
     z-index: 2;
@@ -580,7 +610,7 @@
     .work-zone { min-height: 12rem; border-bottom: 1px dashed color-mix(in srgb, var(--edge) 62%, transparent); }
     .bench { padding-top: 2.7rem; }
     .poster-copy { display: none; }
-    .wall-poster, .wall-cabinet { max-width: none; padding-inline: 0.4rem; }
+    .wall-poster, .wall-cabinet, .wall-safety { max-width: none; padding-inline: 0.4rem; }
   }
   .empty {
     color: var(--dim);

@@ -26,6 +26,7 @@
   import Toolbox from "./lib/components/Toolbox.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
   import EquipmentCabinet from "./lib/components/EquipmentCabinet.svelte";
+  import SafetyBoard from "./lib/components/SafetyBoard.svelte";
   import LocaleSwitcher from "./lib/components/LocaleSwitcher.svelte";
   import VesselActionDock from "./lib/components/VesselActionDock.svelte";
   import StoryMap from "./lib/components/StoryMap.svelte";
@@ -224,6 +225,7 @@
   let helpOpen = $state(false);
   let missionOpen = $state(false);
   let tableOpen = $state(false);
+  let safetyOpen = $state(false);
   let toolboxOpen = $state(false);
   let mapOpen = $state(false);
   /** An entry handed from the map straight to the experiment page. */
@@ -362,6 +364,7 @@
       else if (homeOpen && hasSeenHome()) homeOpen = false;
       else if (missionOpen) missionOpen = false;
       else if (mapOpen) mapOpen = false;
+      else if (safetyOpen) safetyOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
       else if (toolsOpen) toolsOpen = false;
@@ -641,6 +644,7 @@
       layout={benchLayout}
       showZones={workGuides}
       onopenperiodic={() => (tableOpen = true)}
+      onopensafety={() => (safetyOpen = true)}
       onopencabinet={() => {
         cabinetTab = "equipment";
         pane = "shelf";
@@ -878,6 +882,10 @@
     }}
     onclose={() => (tableOpen = false)}
   />
+{/if}
+
+{#if safetyOpen}
+  <SafetyBoard onclose={() => (safetyOpen = false)} />
 {/if}
 
 <style>
