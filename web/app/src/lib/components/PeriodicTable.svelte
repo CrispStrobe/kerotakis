@@ -1,5 +1,11 @@
 <script lang="ts">
-  import { ELEMENTS, elementsInFormula, type ElementInfo } from "../elements";
+  import { onMount } from "svelte";
+  import {
+    ELEMENTS,
+    LAB_ELEMENTS,
+    shelfItemsContainingElement,
+    type ElementInfo,
+  } from "../elements";
   import type { ShelfItem } from "../session.svelte";
   import SpeciesChip from "./SpeciesChip.svelte";
   import { t } from "../i18n.svelte";
@@ -17,6 +23,28 @@
   } = $props();
 
   let picked = $state<ElementInfo | null>(null);
+  let fullTable = $state(false);
+  const visibleElements = $derived(fullTable ? ELEMENTS : LAB_ELEMENTS);
+
+  onMount(() => {
+    try {
+      fullTable = localStorage.getItem("kerotakis-periodic-table") === "full";
+    } catch {
+      // Storage is optional; the approachable table remains the default.
+    }
+  });
+
+  function setFullTable(value: boolean) {
+    fullTable = value;
+    if (!value && picked && !LAB_ELEMENTS.some((element) => element.z === picked!.z)) {
+      picked = null;
+    }
+    try {
+      localStorage.setItem("kerotakis-periodic-table", value ? "full" : "lab");
+    } catch {
+      // A privacy-restricted host may reject storage; the view still works.
+    }
+  }
 
   // Grid placement: main body rows 1-7 by period/group; the f-block sits
   // below with a gap row.
@@ -33,7 +61,7 @@
   /** The lab connection: shelf species containing the picked element. */
   const inLab = $derived(
     picked
-      ? shelf.filter((s) => elementsInFormula(s.formula).includes(picked!.symbol))
+      ? shelfItemsContainingElement(picked.symbol, shelf)
       : [],
   );
   const flames = $derived(
@@ -65,23 +93,33 @@
     <header>
       <h2>{t("the elements")}</h2>
       <span class="hint">{t("tap one to see what the lab has of it")}</span>
+      <button
+        class="mode"
+        aria-pressed={fullTable}
+        onclick={() => setFullTable(!fullTable)}
+      >
+        {fullTable ? t("show lab table") : t("show all 118 elements")}
+      </button>
       <button class="close" onclick={onclose}>{t("close")}</button>
     </header>
 
     <div class="grid" role="listbox" aria-label={t("elements")}>
-      {#each ELEMENTS as e (e.z)}
+      {#each visibleElements as e (e.z)}
         {@const p = place(e)}
+        {@const count = shelfItemsContainingElement(e.symbol, shelf).length}
         <button
           class={`el cat-${e.category}`}
           class:picked={picked?.z === e.z}
+          class:unsupported={count === 0}
           style={`grid-column:${p.col};grid-row:${p.row}`}
           role="option"
           aria-selected={picked?.z === e.z}
-          title={`${t(e.name)} (${e.z})`}
+          title={`${t(e.name)} (${e.z}) · ${t("{count} shelf examples", { count })}`}
           onclick={() => (picked = e)}
         >
           <span class="z">{e.z}</span>
           <span class="sym">{e.symbol}</span>
+          <span class="coverage" aria-hidden="true">{count}</span>
         </button>
       {/each}
     </div>
@@ -165,6 +203,20 @@
     padding: 0.25rem 0.7rem;
     cursor: pointer;
   }
+  .mode {
+    margin-left: auto;
+    background: var(--panel-raised);
+    border: 1px solid var(--edge);
+    border-radius: 999px;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.72rem;
+    padding: 0.25rem 0.65rem;
+    cursor: pointer;
+  }
+  .mode + .close {
+    margin-left: 0;
+  }
   .grid {
     display: grid;
     grid-template-columns: repeat(18, minmax(30px, 1fr));
@@ -184,6 +236,10 @@
     justify-content: center;
     padding: 1px;
     min-width: 0;
+    position: relative;
+  }
+  .el.unsupported {
+    opacity: 0.58;
   }
   .el:hover,
   .el.picked {
@@ -199,6 +255,14 @@
     font-size: clamp(0.6rem, 1.6vw, 0.85rem);
     font-weight: 600;
     line-height: 1.1;
+  }
+  .coverage {
+    position: absolute;
+    right: 2px;
+    bottom: 1px;
+    color: var(--dim);
+    font-size: 0.45rem;
+    line-height: 1;
   }
   /* Category tints on the border-left, plus a subtle wash — category is
      also written in words in the detail, never colour alone. */
