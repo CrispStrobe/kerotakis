@@ -527,6 +527,34 @@ describe("Session", () => {
     expect(s.vesselEffects[0]?.[0]?.magnitude).toBeCloseTo(.4);
   });
 
+  it("colours computed gravity-settling populations from the pre-wait scene", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "gravity_settled",
+        vessel: 0,
+        seconds: 5,
+        separations: [{ species: "SiO2", particle_diameter_um: 70, terminal_speed_m_s: .004, distance_m: .02, separated_fraction: .5, direction: "settles" }],
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = {
+      scene: 1,
+      vessels: [{
+        id: 0,
+        liquid: { volume_l: .1, srgb: [245, 245, 245], colour_word: "colourless", cloudiness: .5, path_length_cm: 2 },
+        solids: [{ species: "SiO2", name: "silica", moles: .03, srgb: [226, 219, 194], colour_word: "sand", metallic: false, settled_fraction: .1 }],
+      } as Scene["vessels"][number]],
+    };
+    await s.submit("wait 5s");
+    expect(s.vesselEffects[0]?.[0]?.settling?.populations[0]).toMatchObject({
+      species: "SiO2",
+      colour: "rgb(226 219 194)",
+      separatedFraction: .5,
+    });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

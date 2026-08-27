@@ -612,6 +612,7 @@ const DE: Record<string, string> = {
   ,"magnet": "Magnet"
   ,"lift out magnetic solids": "magnetische Feststoffe herausheben"
   ,"no magnetic solid": "kein magnetischer Feststoff"
+  ,"gravity settling: {percent}% in {seconds} seconds": "Sedimentation durch Schwerkraft: {percent}% in {seconds} Sekunden"
   ,"purge the headspace with inert gas": "Kopfraum mit Inertgas spülen"
   ,"The bench is live: states nobody pre-computed are solved.": "Das Labor ist aktiv: Nicht vorberechnete Zustände werden gelöst."
   ,"The bench answers from shipped results only — the live aqueous engine is not attached.": "Das Labor antwortet nur mit mitgelieferten Ergebnissen — die aktive wässrige Engine ist nicht verbunden."

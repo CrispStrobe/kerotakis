@@ -78,6 +78,7 @@
   const inspectionEffect = $derived(latestEffect("inspect", 4500));
   const geigerEffect = $derived(latestEffect("geiger_counter", 3500));
   const flameTestEffect = $derived(latestEffect("flame_test", 3000));
+  const settlingEffect = $derived(latestEffect("settle", 8000));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => (e.kind === "ignite" || e.kind === "flame_test") && n - e.at < 3000 && e.flameColour);
@@ -458,6 +459,33 @@
           style={`--fall:${Math.max(8, liquidH - 10)}px; animation-delay:${i * 0.12}s`}
         />
       {/each}
+    {/if}
+    {#if settlingEffect && liquidH > 0}
+      {@const strongest = settlingEffect.settling?.populations.reduce((value, population) => Math.max(value, population.separatedFraction), 0) ?? 0}
+      <g
+        class="gravity-settling"
+        aria-label={t("gravity settling: {percent}% in {seconds} seconds", {
+          percent: Math.round(strongest * 100),
+          seconds: settlingEffect.settling?.seconds.toFixed(1) ?? "0",
+        })}
+      >
+        <rect class="settling-readout" x={INNER_X + 2} y={BOTTOM_Y - liquidH + 2} width="35" height="9" rx="3" />
+        <text x={INNER_X + 19.5} y={BOTTOM_Y - liquidH + 8} text-anchor="middle">↓{Math.round(strongest * 100)}% · {settlingEffect.settling?.seconds.toFixed(1)} s</text>
+        {#each settlingEffect.settling?.populations ?? [] as population, populationIndex (population.species)}
+          {@const travel = Math.max(3, Math.min(liquidH - 8, (population.distanceM / .04) * Math.max(4, liquidH - 8)))}
+          {@const count = Math.max(1, Math.round(1 + population.separatedFraction * 4))}
+          {#each Array.from({ length: count }, (_, i) => i) as grain (grain)}
+            <circle
+              class="settling-grain"
+              cx={INNER_X + 5 + ((populationIndex * 19 + grain * 13) % Math.max(7, INNER_W - 10))}
+              cy={BOTTOM_Y - liquidH + 13 + ((grain * 7) % Math.max(4, liquidH * .28))}
+              r={.8 + Math.min(1.8, population.particleDiameterUm / 100)}
+              fill={population.colour ?? "var(--cloud)"}
+              style={`--settle-distance:${travel}px;--settle-duration:${Math.min(8, Math.max(1.2, (settlingEffect.durationMs ?? 1200) / 1000))}s;--settle-delay:${populationIndex * .16 + grain * .1}s`}
+            />
+          {/each}
+        {/each}
+      </g>
     {/if}
     {#if now() - splashedAt < 900}
       <g class="splash" aria-hidden="true">
@@ -1198,6 +1226,10 @@
     fill: var(--cloud);
     animation: fall 1.5s ease-in forwards;
   }
+  .gravity-settling text { fill: var(--ink); font: 700 5px system-ui, sans-serif; }
+  .settling-readout { fill: color-mix(in srgb, var(--surface) 82%, transparent); stroke: var(--edge); stroke-width: .5; }
+  .settling-grain { stroke: color-mix(in srgb, var(--edge-strong) 65%, transparent); stroke-width: .4; animation: gravity-settle var(--settle-duration) cubic-bezier(.25,.65,.45,1) both; animation-delay: var(--settle-delay); }
+  @keyframes gravity-settle { from { opacity: .9; transform: translateY(0); } to { opacity: .35; transform: translateY(var(--settle-distance)); } }
   @keyframes fall {
     from {
       transform: translateY(0);
@@ -1445,6 +1477,7 @@
     .flame .inner,
     .steam,
     .falling,
+    .settling-grain,
     .dissolving,
     .shimmer,
     .stirrer,

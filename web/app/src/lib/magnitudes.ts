@@ -68,6 +68,22 @@ export interface MagneticRun {
   attracted: MagneticSolid[];
 }
 
+export interface SettlingPopulation {
+  species: string;
+  particleDiameterUm: number;
+  terminalSpeedMS: number;
+  distanceM: number;
+  separatedFraction: number;
+  direction: string;
+  colour?: string;
+}
+
+/** Stokes-law gravity settling emitted while bench time advances. */
+export interface SettlingRun {
+  seconds: number;
+  populations: SettlingPopulation[];
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -105,6 +121,7 @@ export interface Effect {
   drain?: DrainRun;
   /** Solids selected by the engine's magnetic-property data. */
   magnetic?: MagneticRun;
+  settling?: SettlingRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -293,6 +310,27 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         magnitude: centrifugeMag(e),
         durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
       };
+    case "gravity_settled": {
+      const populations = (Array.isArray(e.separations) ? e.separations : []).map((value) => {
+        const separation = value && typeof value === "object" ? value as Record<string, unknown> : {};
+        return {
+          species: String(separation.species ?? ""),
+          particleDiameterUm: Number(separation.particle_diameter_um ?? 0),
+          terminalSpeedMS: Number(separation.terminal_speed_m_s ?? 0),
+          distanceM: Number(separation.distance_m ?? 0),
+          separatedFraction: Math.max(0, Math.min(1, Number(separation.separated_fraction ?? 0))),
+          direction: String(separation.direction ?? ""),
+        };
+      });
+      const seconds = Math.max(0, Number(e.seconds ?? 0));
+      return {
+        kind: "settle",
+        at: now,
+        durationMs: Math.min(8000, Math.max(1200, seconds * 1000)),
+        magnitude: populations.reduce((strongest, population) => Math.max(strongest, population.separatedFraction), 0),
+        settling: { seconds, populations },
+      };
+    }
     case "transferred":
       return {
         kind: "pour",
