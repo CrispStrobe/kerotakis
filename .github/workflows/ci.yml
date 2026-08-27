@@ -248,6 +248,12 @@ jobs:
       # actually resolves, and whether /app/ boots with the network cut.
       - name: The bench is an installable, offline-first PWA
         run: node tools/test-pwa.mjs "$RUNNER_TEMP/site"
+      # A coverage count cannot see this. Both t() and tEngine() fall back
+      # to English per string, by design, so a key the component asks for
+      # under a name nobody translated renders English while every lint
+      # reports 100%. Only a browser knows which names it actually asks for.
+      - name: The German build renders German
+        run: node tools/test-i18n-render.mjs "$RUNNER_TEMP/site"
       - name: Package the site
         uses: actions/upload-pages-artifact@v3
         with:
