@@ -43,6 +43,7 @@
   import { mixLine, twoVesselLine, type TwoVesselAction } from "./lib/directActions";
   import { missionEquipment, type CatalogScope } from "./lib/catalogScope";
   import { apparatusRunsCommand } from "./lib/apparatusRun";
+  import { buretteTargetAfterChoice, deploymentAfterChoice } from "./lib/apparatusTarget";
   import {
     BENCH_LAYOUT_KEY,
     EMPTY_BENCH_LAYOUT,
@@ -308,19 +309,57 @@
   let codexEntries = $state<CodexEntry[]>([]);
   /** The burette: clamped over the selected vessel when out (GUI-033). */
   let buretteOut = $state(false);
+  let buretteTarget = $state<number | null>(null);
   /** Which parameter-form apparatus is out, by verb (GUI-033). */
   let apparatusOut = $state<string | null>(null);
+  /** Physical installation target. Selection may change without teleporting it. */
+  let apparatusTarget = $state<number | null>(null);
   let apparatusPreview = $state<Record<string, number | string>>({});
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
   const selectedSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === session.selected));
+  const apparatusSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === apparatusTarget));
   const apparatusInitialValues = $derived(
     apparatusSpec?.verb === "centrifuge"
       ? {
-          counterbalance: Number((selectedSceneVessel?.mass_g ?? 0).toFixed(2)),
-          sampleMass: selectedSceneVessel?.mass_g ?? 0,
+          counterbalance: Number((apparatusSceneVessel?.mass_g ?? 0).toFixed(2)),
+          sampleMass: apparatusSceneVessel?.mass_g ?? 0,
         }
       : {},
   );
+  function closeApparatus() {
+    apparatusOut = null;
+    apparatusTarget = null;
+  }
+  function deployApparatus(verb: string) {
+    apparatusOut = verb;
+    apparatusTarget = session.selected;
+    apparatusPreview = {};
+    pane = "bench";
+  }
+  function toggleApparatus(verb: string) {
+    const next = deploymentAfterChoice(apparatusOut, apparatusTarget, verb, session.selected);
+    if (!next.tool) closeApparatus();
+    else deployApparatus(next.tool);
+  }
+  function toggleBurette() {
+    const nextTarget = buretteTargetAfterChoice(buretteTarget, session.selected);
+    if (nextTarget === null) {
+      buretteOut = false;
+      buretteTarget = null;
+    } else {
+      buretteOut = true;
+      buretteTarget = nextTarget;
+    }
+    pane = "bench";
+  }
+  $effect(() => {
+    const ids = new Set(session.scene?.vessels.map((vessel) => vessel.id) ?? []);
+    if (apparatusTarget !== null && !ids.has(apparatusTarget)) closeApparatus();
+    if (buretteTarget !== null && !ids.has(buretteTarget)) {
+      buretteOut = false;
+      buretteTarget = null;
+    }
+  });
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
   let transfer = $state<{ verb: TwoVesselAction; fraction: number; from: number | null } | null>(null);
@@ -663,15 +702,8 @@
         completed={session.completedMissions.size}
         scope={catalogScope}
         missionVerbs={missionEquipmentVerbs}
-        onburette={() => {
-          buretteOut = !buretteOut;
-          pane = "bench";
-        }}
-        onapparatus={(verb) => {
-          apparatusOut = apparatusOut === verb ? null : verb;
-          apparatusPreview = {};
-          pane = "bench";
-        }}
+        onburette={toggleBurette}
+        onapparatus={toggleApparatus}
         ontransfer={(verb) => {
           transfer = transfer?.verb === verb ? null : { verb, fraction: 0.5, from: null };
           mix = null;
@@ -692,14 +724,14 @@
         options={session.reactOptions}
         busy={session.busy}
         onrun={(line) => void session.submit(line)}
-        onclose={() => (apparatusOut = null)}
+        onclose={closeApparatus}
       />
     {:else if apparatusOut === "transport"}
       <TransportBuilder
         vessels={session.scene?.vessels ?? []}
         busy={session.busy}
         onrun={(line) => void session.submit(line)}
-        onclose={() => (apparatusOut = null)}
+        onclose={closeApparatus}
       />
     {/if}
     {#if session.register !== "lv1" && session.lastEquation}
@@ -728,11 +760,11 @@
       }}
       transferFrom={transfer?.from ?? null}
       deployedTool={buretteOut ? "burette" : apparatusSpec?.verb ?? null}
-      deployedTarget={buretteOut || apparatusSpec ? session.selected : null}
+      deployedTarget={buretteOut ? buretteTarget : apparatusSpec ? apparatusTarget : null}
       apparatusWorking={apparatusRunsCommand(
         session.activeCommand,
         buretteOut ? "burette" : apparatusSpec?.verb,
-        buretteOut || apparatusSpec ? session.selected : null,
+        buretteOut ? buretteTarget : apparatusSpec ? apparatusTarget : null,
       )}
       apparatusValues={apparatusPreview}
       layout={benchLayout}
@@ -770,27 +802,30 @@
         )}
     />
     {#if apparatusSpec}
-      {#key `${apparatusSpec.verb}:${session.selected}`}
+      {#key `${apparatusSpec.verb}:${apparatusTarget}`}
         <ApparatusForm
           spec={apparatusSpec}
-          vessel={session.selected}
+          vessel={apparatusTarget ?? session.selected}
           shelf={session.shelf}
           busy={session.busy}
           initialValues={apparatusInitialValues}
           onrun={(line) => void session.submit(line)}
           onpreview={(values) => (apparatusPreview = values)}
-          onclose={() => (apparatusOut = null)}
+          onclose={closeApparatus}
         />
       {/key}
     {/if}
     {#if buretteOut}
       <Burette
-        vessel={session.selected}
+        vessel={buretteTarget ?? session.selected}
         shelf={session.shelf}
         busy={session.busy}
         running={titrating}
         onstart={(line) => void startTitration(line)}
-        onclose={() => (buretteOut = false)}
+        onclose={() => {
+          buretteOut = false;
+          buretteTarget = null;
+        }}
       />
     {/if}
     {#if selectedVessel && !apparatusOut && !buretteOut}
@@ -807,9 +842,7 @@
         busy={session.busy}
         onaction={(line) => void session.submit(line)}
         onconfigure={(verb) => {
-          apparatusOut = verb;
-          apparatusPreview = {};
-          pane = "bench";
+          deployApparatus(verb);
         }}
         onpour={() => (transfer = { verb: "decant", fraction: 0.5, from: selectedVessel!.id })}
         ondetails={() => {
@@ -945,8 +978,7 @@
       pane = "bench";
       if (verb === "distil") transfer = { verb: "distil", fraction: 0.5, from: null };
       else {
-        apparatusOut = verb;
-        apparatusPreview = {};
+        deployApparatus(verb);
       }
     }}
     onmap={() => {

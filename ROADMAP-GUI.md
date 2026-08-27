@@ -1051,6 +1051,12 @@ hide them completely.
   enter its running state; typed result events then own the bounded playback.
   Adding a reagent, measuring, or operating the same tool on another vessel can
   no longer animate an unrelated lamp, rotor, stirrer, mortar, bath, or supply.
+  *Stable-installation correction shipped 2026-08-27:* selecting another vessel
+  no longer teleports deployed equipment or silently rewrites its command form.
+  Apparatus and burettes retain the vessel they were installed for; choosing
+  the same equipment card while another vessel is selected explicitly moves
+  the installation, while choosing it again on its current target puts it away.
+  Removing the target vessel safely removes its orphaned hardware as well.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
