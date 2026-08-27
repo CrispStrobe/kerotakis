@@ -937,6 +937,12 @@ hide them completely.
   connects a dial to the selected vessel. Its localized digital value and
   needle angle come from the engine-emitted kPa reading, with a distinct upper
   warning arc and a reduced-motion-stable endpoint.*
+  *Volume-and-conductivity slice shipped 2026-08-27: gas-volume measurement
+  connects a graduated syringe whose piston follows the engine-emitted mL
+  reading. Conductivity lowers a two-electrode probe and labels the displayed
+  µS/cm value as the engine's current ionic-strength estimate; signal styling
+  scales logarithmically without overstating the model as a full Kohlrausch
+  calculation.*
   *Magnetic-stirrer slice in progress 2026-08-27: the equipment wall exposes
   RPM and duration, the public grammar carries both, and the engine computes
   25 mm stir-bar tip speed. The bench draws the plate, rotating bar, and
