@@ -92,6 +92,7 @@
     <div class="phases" role="radiogroup" aria-label={t("phase filter")}>
       {#each phases as p (p)}
         <button
+          data-phase={p}
           role="radio"
           aria-checked={phase === p}
           class:on={phase === p}
@@ -108,7 +109,7 @@
       {@const remaining = mode === "story" ? stockRemaining(item, stockUsed) : Number.POSITIVE_INFINITY}
       {@const depleted = access.available && !access.loaned && remaining === 0}
       {@const usable = access.available && !depleted}
-      <li>
+      <li data-phase={item.phase}>
         <button
           class="species"
           class:locked={!access.available}
@@ -193,10 +194,11 @@
     margin: 0.4rem 0.8rem 0;
   }
   .phases button {
-    background: var(--panel-raised);
-    border: 1px solid var(--edge);
+    --phase-color: var(--primary);
+    background: color-mix(in srgb, var(--phase-color) 7%, var(--surface));
+    border: 1px solid color-mix(in srgb, var(--phase-color) 35%, var(--edge));
     border-radius: 999px;
-    color: var(--dim);
+    color: color-mix(in srgb, var(--phase-color) 76%, var(--ink));
     font: inherit;
     font-size: 0.72rem;
     padding: 0.15rem 0.6rem;
@@ -204,8 +206,13 @@
   }
   .phases button.on {
     color: var(--ink);
-    border-color: var(--hot);
+    border-color: var(--phase-color);
+    background: color-mix(in srgb, var(--phase-color) 18%, var(--surface));
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--phase-color) 28%, transparent);
   }
+  .phases button[data-phase="liquid"] { --phase-color: var(--instrument); }
+  .phases button[data-phase="gas"] { --phase-color: var(--discovery); }
+  .phases button[data-phase="solid"] { --phase-color: var(--action); }
   .none {
     color: var(--dim);
     font-size: 0.8rem;
@@ -241,13 +248,15 @@
     overflow-y: auto;
   }
   .species {
+    --phase-color: var(--primary);
     width: 100%;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 0.32rem;
-    background: color-mix(in srgb, var(--surface-raised) 76%, transparent);
-    border: 1px solid transparent;
+    background: color-mix(in srgb, var(--phase-color) 5%, var(--surface-raised));
+    border: 1px solid color-mix(in srgb, var(--phase-color) 13%, transparent);
+    border-left: 3px solid color-mix(in srgb, var(--phase-color) 72%, var(--edge));
     border-radius: 11px;
     color: var(--ink);
     font: inherit;
@@ -257,13 +266,16 @@
     cursor: pointer;
     min-height: 40px;
   }
+  li[data-phase="liquid"] .species { --phase-color: var(--instrument); }
+  li[data-phase="gas"] .species { --phase-color: var(--discovery); }
+  li[data-phase="solid"] .species { --phase-color: var(--action); }
   .species:hover .name {
-    color: var(--primary);
+    color: var(--phase-color);
   }
   .species:hover,
   .species[aria-expanded="true"] {
-    border-color: color-mix(in srgb, var(--primary) 45%, var(--edge));
-    background: color-mix(in srgb, var(--primary) 8%, var(--surface-raised));
+    border-color: color-mix(in srgb, var(--phase-color) 55%, var(--edge));
+    background: color-mix(in srgb, var(--phase-color) 11%, var(--surface-raised));
   }
   .species.locked { opacity: .62; border-color: color-mix(in srgb, var(--edge) 75%, transparent); cursor: pointer; filter: saturate(.55); }
   .species.depleted { opacity: .72; border-color: color-mix(in srgb, var(--warning) 38%, var(--edge)); cursor: pointer; }
