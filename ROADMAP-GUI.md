@@ -1023,6 +1023,11 @@ hide them completely.
   carries the identical tool and state. A short-lived reactive clock now ends
   every transient vessel window at its declared duration even when no unrelated
   UI state happens to change at that instant.*
+  *Cooling-bath correction shipped 2026-08-27:* cooling no longer borrows
+  the magnetic-hotplate silhouette. A separate coolant bath surrounds the
+  vessel, shows configured heat-removal power, and only animates ice/frost
+  during the bounded operation; the vessel's computed temperature remains
+  the authority for persistent cold and phase visuals.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model

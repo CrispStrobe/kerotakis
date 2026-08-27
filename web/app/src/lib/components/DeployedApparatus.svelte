@@ -41,28 +41,37 @@
   const pulseDuration = $derived(`${Math.max(0.25, 1.2 - Math.min(1, amps / 2) * 0.8)}s`);
   const pressure = $derived(Math.max(0.1, Number(values.pressure ?? 1)));
   const stirRpm = $derived(Math.max(0, Number(values.rpm ?? 500)));
-  const heatWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
+  const powerWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
 </script>
 
 <g class="apparatus" class:working aria-label={t("{tool} deployed", { tool: t(toolNames[tool] ?? tool) })}>
-  {#if tool === "stir" || tool === "heat" || tool === "cool"}
+  {#if tool === "stir" || tool === "heat"}
     <g class="magnetic-plate">
       <ellipse class="plate" cx="50" cy="121" rx="27" ry="5" />
       <rect class="base" x="22" y="123" width="56" height="11" rx="3" />
       <circle class="dial" cx="69" cy="129" r="2" />
-      <text x="50" y="133" text-anchor="middle">{tool === "stir" ? `${stirRpm.toFixed(0)} rpm` : `${heatWatts.toFixed(0)} W`}</text>
+      <text x="50" y="133" text-anchor="middle">{tool === "stir" ? `${stirRpm.toFixed(0)} rpm` : `${powerWatts.toFixed(0)} W`}</text>
       {#if tool === "heat"}
         {#each [39, 50, 61] as x, i (x)}
-          <path class="heat" d={`M ${x} 117 q -4 -7 0 -14 q 4 -7 0 -14`} style={`--heat-delay:${i * .16}s;--heat-rate:${Math.max(.45, 1.5 - Math.min(1, heatWatts / 1000))}s`} />
+          <path class="heat" d={`M ${x} 117 q -4 -7 0 -14 q 4 -7 0 -14`} style={`--heat-delay:${i * .16}s;--heat-rate:${Math.max(.45, 1.5 - Math.min(1, powerWatts / 1000))}s`} />
         {/each}
       {/if}
-      {#if tool === "cool"}
-        {#each [38, 50, 62] as x, i (x)}
-          <g class="frost" style={`--frost-delay:${i * .2}s;--frost-rate:${Math.max(.55, 1.7 - Math.min(1, heatWatts / 800))}s`}>
-            <path d={`M ${x - 3} 113 H ${x + 3} M ${x} 110 V 116 M ${x - 2} 111 L ${x + 2} 115 M ${x + 2} 111 L ${x - 2} 115`} />
-          </g>
-        {/each}
-      {/if}
+    </g>
+  {:else if tool === "cool"}
+    <g class="cooling-bath">
+      <path class="bath-shell" d="M14 84 V122 Q15 134 28 136 H72 Q85 134 86 122 V84" />
+      <path class="bath-coolant" d="M17 99 Q50 94 83 99 V122 Q82 130 72 132 H28 Q18 130 17 122Z" />
+      <path class="bath-rim" d="M14 84 Q50 91 86 84" />
+      {#each [[23, 103, -8], [34, 115, 7], [67, 105, 9], [74, 119, -5]] as [x, y, rotate], i (i)}
+        <rect class="ice" x={x} y={y} width="10" height="7" rx="2" transform={`rotate(${rotate} ${x + 5} ${y + 3.5})`} style={`--ice-delay:${i * .17}s`} />
+      {/each}
+      {#each [27, 50, 73] as x, i (x)}
+        <g class="frost" style={`--frost-delay:${i * .2}s;--frost-rate:${Math.max(.55, 1.7 - Math.min(1, powerWatts / 800))}s`}>
+          <path d={`M ${x - 3} 91 H ${x + 3} M ${x} 88 V 94 M ${x - 2} 89 L ${x + 2} 93 M ${x + 2} 89 L ${x - 2} 93`} />
+        </g>
+      {/each}
+      <rect class="bath-display" x="37" y="126" width="26" height="8" rx="2" />
+      <text x="50" y="132" text-anchor="middle">−{powerWatts.toFixed(0)} W</text>
     </g>
   {:else if tool === "burette"}
     <g class="burette">
@@ -145,6 +154,13 @@
   .heat { fill: none; stroke: var(--hot); stroke-width: 1.5; opacity: 0; }
   .working .heat { animation: rise 1.15s ease-out infinite; }
   .magnetic-plate .heat { animation-duration: var(--heat-rate, 1.15s); animation-delay: var(--heat-delay, 0s); }
+  .bath-shell { fill: color-mix(in srgb, var(--cool) 18%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1.7; }
+  .bath-coolant { fill: color-mix(in srgb, var(--cool) 58%, var(--surface)); opacity: .74; }
+  .bath-rim { fill: none; stroke: var(--edge-strong); stroke-width: 1.7; }
+  .ice { fill: color-mix(in srgb, var(--surface) 82%, var(--cool)); stroke: color-mix(in srgb, var(--cool) 72%, var(--edge-strong)); stroke-width: .8; }
+  .bath-display { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); stroke: var(--edge-strong); stroke-width: .5; }
+  .cooling-bath text { fill: var(--surface); font-size: 5px; font-weight: 800; }
+  .working .ice { animation: ice-bob 1.1s ease-in-out infinite alternate; animation-delay: var(--ice-delay); }
   .frost { color: var(--cool); opacity: .35; }
   .working .frost { animation: frost-pulse var(--frost-rate, 1.2s) ease-in-out infinite alternate; animation-delay: var(--frost-delay, 0s); }
   .frost path { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; }
@@ -170,5 +186,6 @@
   @keyframes lamp-pulse { to { opacity: .3; } }
   @keyframes gas-flow { to { transform: translateX(88px); opacity: 0; } }
   @keyframes frost-pulse { to { opacity: 1; transform: translateY(-3px) scale(1.18); } }
+  @keyframes ice-bob { to { transform: translateY(-2px); } }
   @media (prefers-reduced-motion: reduce) { .apparatus * { animation: none !important; } }
 </style>
