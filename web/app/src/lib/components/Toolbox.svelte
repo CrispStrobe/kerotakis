@@ -4,12 +4,13 @@
    * whose every answer carries its provenance and explains itself at the
    * bench's current register — nernst, arrhenius, eyring, henderson-
    * hasselbalch, ionic strength, debye–hückel, van 't hoff. The engine
-   * evaluates; this panel only builds `k=v` arguments and shows the
-   * RelationResult verbatim.
+   * evaluates; this panel only builds `k=v` arguments and localizes the
+   * returned RelationResult at the presentation boundary.
    */
   import type { Session } from "../session.svelte";
   import { buildArgs, parseArgSpec, type RelationField } from "../relationArgs";
   import { t } from "../i18n.svelte";
+  import { engineText } from "../engineText";
 
   let { session, onclose }: { session: Session; onclose: () => void } = $props();
 
@@ -72,6 +73,38 @@
     if (magnitude >= 1e5 || magnitude < 1e-3) return v.toExponential(4);
     return v.toPrecision(5);
   }
+
+  const relationNames: Record<string, string> = {
+    nernst: "Nernst equation",
+    arrhenius: "Arrhenius equation",
+    eyring: "Eyring equation",
+    "henderson-hasselbalch": "Henderson–Hasselbalch equation",
+    "ionic-strength": "ionic strength",
+    "debye-huckel": "Debye–Hückel limiting law",
+    "van-t-hoff": "Van 't Hoff equation",
+  };
+  const fieldNames: Record<string, string> = {
+    e0: "standard potential",
+    n: "transferred electrons",
+    a: "activity",
+    T: "temperature",
+    A: "pre-exponential factor",
+    Ea: "activation energy",
+    b: "temperature exponent",
+    dG: "Gibbs activation energy",
+    pKa: "acid dissociation constant",
+    cA: "acid concentration",
+    cB: "base concentration",
+    z: "ionic charge",
+    I: "ionic strength",
+    dH: "reaction enthalpy",
+    K1: "initial equilibrium constant",
+    T1: "initial temperature",
+    T2: "target temperature",
+  };
+
+  const relationName = (name: string) => t(relationNames[name] ?? name);
+  const fieldName = (name: string) => t(fieldNames[name] ?? name);
 </script>
 
 <div
@@ -95,7 +128,7 @@
       <nav aria-label={t("relations")}>
         {#each relations as r (r.name)}
           <button class:on={picked?.name === r.name} onclick={() => pick(r)}>
-            <span class="rname">{r.name}</span>
+            <span class="rname">{relationName(r.name)}</span>
             <span class="req">{r.equation}</span>
           </button>
         {/each}
@@ -113,10 +146,10 @@
           <p class="equation">{picked.equation}</p>
           {#if freeform}
             <label>
-              <span>{t("arguments")} <small>{picked.args}</small></span>
+              <span>{t("charge and molality pairs")} <small>{t("for example: +1:0.1 −1:0.1")}</small></span>
               <input
                 bind:value={freeText}
-                placeholder={picked.args}
+                placeholder="+1:0.1 −1:0.1"
                 autocomplete="off"
                 spellcheck="false"
               />
@@ -125,8 +158,8 @@
             {#each fields as f (f.name)}
               <label>
                 <span>
-                  {f.name}
-                  <small>{t(f.hint)}{f.optional ? ` · ${t("optional")}` : ""}</small>
+                  {fieldName(f.name)}
+                  <small>{f.name} · {t(f.hint)}{f.optional ? ` · ${t("optional")}` : ""}</small>
                 </span>
                 <input
                   bind:value={values[f.name]}
@@ -144,12 +177,12 @@
             {#if result.ok}
               <output>
                 <strong class="value">{formatValue(result.value)}</strong>
-                <span class="unit">{result.unit}</span>
-                {#if prose}<p class="prose">{prose}</p>{/if}
-                <p class="provenance">{result.provenance}</p>
+                <span class="unit">{engineText(result.unit)}</span>
+                {#if prose}<p class="prose">{engineText(prose)}</p>{/if}
+                <p class="provenance">{engineText(result.provenance)}</p>
               </output>
             {:else}
-              <p class="refusal" role="alert">{result.error}</p>
+              <p class="refusal" role="alert">{engineText(result.error)}</p>
             {/if}
           {/if}
         </form>
