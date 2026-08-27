@@ -2,8 +2,8 @@ use std::collections::HashSet;
 
 use crate::{
     Applicability, CompositionRecord, Dimension, FractionRange, Interval, MaterialExpansionPolicy,
-    MaterialPhysicalForm, ModelSubject, NumericRecord, OpticalRecord, RegistryDocument,
-    Uncertainty, REGISTRY_SCHEMA_VERSION,
+    MaterialPhysicalForm, MaterialRole, ModelSubject, NumericRecord, OpticalRecord,
+    RegistryDocument, Uncertainty, REGISTRY_SCHEMA_VERSION,
 };
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -427,6 +427,42 @@ impl<'a> Validator<'a> {
                 );
                 if density.value <= 0.0 {
                     self.issue(format!("{path}.bulk_density.value"), "must be positive");
+                }
+            }
+            for (role_index, role) in recipe.roles.iter().enumerate() {
+                let role_path = format!("{path}.roles[{role_index}]");
+                match role {
+                    MaterialRole::FoamStabilizer {
+                        trapping_efficiency,
+                        gas_volume_fraction,
+                        half_life_seconds,
+                        saturation_amount,
+                    } => {
+                        if !(0.0..=1.0).contains(trapping_efficiency) {
+                            self.issue(
+                                format!("{role_path}.trapping_efficiency"),
+                                "must be within 0..=1",
+                            );
+                        }
+                        if !(0.0..1.0).contains(gas_volume_fraction) {
+                            self.issue(
+                                format!("{role_path}.gas_volume_fraction"),
+                                "must be within 0..<1",
+                            );
+                        }
+                        if !half_life_seconds.is_finite() || *half_life_seconds <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.half_life_seconds"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !saturation_amount.is_finite() || *saturation_amount <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.saturation_amount"),
+                                "must be finite and positive",
+                            );
+                        }
+                    }
                 }
             }
             let mut component_species = HashSet::new();

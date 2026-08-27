@@ -15,7 +15,7 @@ use kerotakis_core::{
 use kerotakis_data::{
     Applicability, CompositionRecord, Dimension, ElementAmount, Evidence, FractionRange,
     IdentityRecord, MaterialBasis, MaterialComponent, MaterialConfidence, MaterialExpansionPolicy,
-    MaterialPhysicalForm, MaterialRecipe, Method, ModelParameterRecord, ModelSubject,
+    MaterialPhysicalForm, MaterialRecipe, MaterialRole, Method, ModelParameterRecord, ModelSubject,
     NumericRecord, OpticalRecord, Phase, PhaseProperty, PhaseThermodynamicRecord, RegistryDocument,
     SourceLane, SourceRecord, SpectralSample, Uncertainty, Unit,
 };
@@ -102,6 +102,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             components: vec![component("H2O2", 0.03), component("water", 0.97)],
             unresolved_fraction: None,
             physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
             preparation: Some("3% w/w aqueous solution at room temperature".to_string()),
             lot_assumptions: vec![
                 "stabilisers and trace impurities are not resolved in v1".to_string()
@@ -132,9 +133,81 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             components: vec![component("CH3COOH", 0.05), component("water", 0.95)],
             unresolved_fraction: None,
             physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
             preparation: Some("5% w/w acetic-acid teaching surrogate".to_string()),
             lot_assumptions: vec![
                 "flavour compounds and brand-specific residues are not represented".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/dish-soap-surrogate".to_string(),
+            version: 1,
+            canonical_key: "dish_soap".to_string(),
+            name: "dish soap".to_string(),
+            aliases: BTreeMap::from([
+                ("en".to_string(), vec!["washing-up_liquid".to_string()]),
+                (
+                    "de".to_string(),
+                    vec!["Spülmittel".to_string(), "fluessige_Seife".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.03)),
+            components: vec![component("water", 0.80)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.20,
+                upper: 0.20,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![MaterialRole::FoamStabilizer {
+                trapping_efficiency: 0.85,
+                gas_volume_fraction: 0.90,
+                half_life_seconds: 180.0,
+                saturation_amount: 0.4,
+            }],
+            preparation: Some(
+                "unbranded aqueous dish-soap teaching surrogate; surfactant blend unresolved"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "brand-specific surfactants, salts, fragrance, dye and preservatives remain in the explicit unresolved fraction".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/dry-yeast-catalase-surrogate".to_string(),
+            version: 1,
+            canonical_key: "dry_yeast".to_string(),
+            name: "dry yeast".to_string(),
+            aliases: BTreeMap::from([
+                ("en".to_string(), vec!["baker's_yeast".to_string()]),
+                (
+                    "de".to_string(),
+                    vec!["Hefe".to_string(), "Trockenhefe".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("catalase", 0.000_001)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.999_999,
+                upper: 0.999_999,
+            }),
+            physical_form: MaterialPhysicalForm::Granules,
+            roles: Vec::new(),
+            preparation: Some(
+                "dry baker's yeast represented as a catalase activity proxy; hydrate with warm water in the experiment"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "enzyme activity varies strongly by brand, age and hydration; v1 models presence, not a universal activity per gram".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

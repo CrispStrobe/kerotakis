@@ -745,6 +745,29 @@ pub enum Event {
         /// Activation energy actually used, J/mol.
         activation_energy: f64,
     },
+    /// Gas yield/rate from a kinetic interval, before any visual mapping.
+    GasProduced {
+        vessel: VesselId,
+        reaction: String,
+        species: SpeciesId,
+        moles: Moles,
+        rate_moles_per_second: f64,
+    },
+    /// Exothermic energy released by a curated kinetic reaction.
+    ReactionHeatReleased {
+        vessel: VesselId,
+        reaction: String,
+        energy_j: f64,
+    },
+    /// A surfactant recipe temporarily trapped produced gas as foam.
+    FoamChanged {
+        vessel: VesselId,
+        trapped_gas_liters: f64,
+        volume_liters: f64,
+        height_cm: f64,
+        overflow_liters: f64,
+        half_life_seconds: f64,
+    },
     /// A solver was asked and could not converge / answer. First-class,
     /// honest, never a crash.
     SolverFailed {

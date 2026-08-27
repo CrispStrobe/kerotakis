@@ -30,6 +30,16 @@ pub struct UnresolvedMaterialPortion {
     pub amount: f64,
 }
 
+/// Persistent visual state for gas trapped by a declared foam stabilizer.
+/// Chemistry still owns every gas mole; this only describes a temporary
+/// bubble structure while it drains and coalesces.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct FoamState {
+    pub trapped_gas_liters: f64,
+    pub volume_liters: f64,
+    pub peak_volume_liters: f64,
+}
+
 /// How the vessel exchanges heat with the surroundings between operators.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -628,6 +638,8 @@ pub struct Vessel {
     pub contents: Vec<Portion>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub unresolved_materials: Vec<UnresolvedMaterialPortion>,
+    #[serde(default)]
+    pub foam: FoamState,
     pub temperature: Kelvin,
     pub pressure: Pascal,
     pub thermal_mode: ThermalMode,
@@ -681,6 +693,7 @@ impl Vessel {
             label: label.into(),
             contents: Vec::new(),
             unresolved_materials: Vec::new(),
+            foam: FoamState::default(),
             temperature: Kelvin::STANDARD,
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,

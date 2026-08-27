@@ -113,6 +113,7 @@ Stage B5 — tactile and visual reach
   BRD-014 + BRD-070 ──────────→ BRD-074 gas/foam observables
   BRD-014 + spectral optics ──→ BRD-075 dye/pigment mixing
   BRD-041 + BRD-070 + BRD-071 → BRD-076 movable heat/flame tools
+  BRD-000 + BRD-012 + BRD-023 → BRD-077 element coverage/table modes
   BRD-012 + BRD-080 viewer spike ─→ BRD-081 molecular/crystal viewer
   BRD-022 ─────────────────────────→ BRD-082 Ketcher authoring surface
 
@@ -712,6 +713,16 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   reduced motion; a no-soap control bubbles but does not build persistent foam.
 - **Out of scope:** CFD-derived bubble-size distributions, ingestible advice,
   or claiming one yeast brand has a universal enzyme activity.
+- **First implementation slice (2026-08-27):** dish soap and dry yeast are
+  versioned material recipes with explicit unresolved blends/biomass. The
+  existing peroxide rate law owns O2 yield and catalyst choice; its interval
+  now emits gas rate and an explicit 98.2 kJ-per-stoichiometric-extent heat
+  source. A recipe-declared, bounded drainage/coalescence model maps O2 to
+  trapped gas, foam volume/height, half-life and overflow using deterministic
+  vessel geometry. With no declared surfactant, the same chemistry bubbles but
+  produces no persistent foam. Remaining work: hydration/activity dependence,
+  KI's distinct path, color stripes, renderer animation/reduced-motion snapshots
+  and the authored guided experiment.
 
 ### BRD-075 — Transparent dye and opaque-pigment mixing
 
@@ -764,6 +775,48 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   flame away stops heat transfer. Native/web parity and safety veto tests.
 - **Out of scope:** using renderer pixels as collision/temperature truth, full
   turbulent flame CFD, or implying that unmodelled materials are nonflammable.
+
+### BRD-077 — Element coverage score and progressive periodic table
+
+- [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-000, BRD-012 and
+  BRD-023; reaction links deepen progressively as later family packs land.
+- **Outcome:** selecting an element answers “what can I actually try with this?”
+  while the default table stays inviting rather than presenting 118 equally
+  actionable boxes.
+- **Default view:** a curated **lab/curiosity table**, not the exact reduced
+  main-group diagram used as inspiration. Keep familiar main-group elements and
+  high-value transition metals such as Mn, Fe, Cu and Zn; omit obscure,
+  synthetic and highly hazardous elements from the default even when they fit
+  a neat block pattern. Preserve real group/period positions and visible gaps.
+  Offer an explicit “full table” toggle with all 118 structural identities,
+  remembered per user and keyboard/screen-reader accessible.
+- **Coverage criterion:** compute an element-to-content index from parsed
+  formulas across pure species and expanded material recipes. For each default
+  element, aim for two meaningfully different familiar examples and at least
+  one runnable educational interaction where chemistry supports it. One example
+  may be elemental/simple and one a common compound/material; repeated salts or
+  ubiquitous water do not satisfy diversity by themselves. Counts must expose
+  capability level: identity-only, add/observe, property-backed, reacting, and
+  lesson-backed.
+- **Prioritization:** score gaps by child/teen curiosity demand, familiarity,
+  solver readiness, visual/educational payoff, and safety burden. A high score
+  advances a substance/reaction tranche; no quota may force an obscure,
+  unsupported or dangerous bottle onto the shelf. Full-table-only elements may
+  honestly say why no runnable example is installed and link to safe structural
+  or nuclear context instead.
+- **Interaction:** selecting a cell lists installed substances/materials that
+  contain that element, then separately lists runnable reactions/lessons and
+  their required co-materials. Search accepts symbol, localized element name,
+  formula and common material name. Coverage badges and empty states come from
+  generated registry/route data, never a parallel hand-maintained UI list.
+- **Acceptance:** generated coverage report and regression fixture; default/full
+  toggle snapshots at desktop/mobile/reduced motion; Fe/Cu/Zn remain reachable
+  in the default view; Po/At/Fr/Ra and synthetic elements do not appear there;
+  every displayed count round-trips to a real shelf key and every “runnable”
+  link replays successfully through the engine.
+- **Out of scope:** inventing a compound per element, implying every element is
+  safe to handle, or using visual completeness as a substitute for model
+  coverage.
 
 ### BRD-080 — Molecular viewer selection spike
 
