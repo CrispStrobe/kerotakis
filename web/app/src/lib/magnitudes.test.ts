@@ -99,6 +99,10 @@ describe("effectFromEvent", () => {
     const e = effectFromEvent({ event: "diluted", vessel: 0, volume: 0.25, moles: 13.8 });
     expect(e!.kind).toBe("swirl");
     expect(e!.magnitude).toBeGreaterThan(0.3);
+    expect(e).toMatchObject({
+      durationMs: 2800,
+      dilution: { volumeL: .25, waterMoles: 13.8 },
+    });
   });
 
   it("keeps flame tests distinct from combustion and carries their colour", () => {
