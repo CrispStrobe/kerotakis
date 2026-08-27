@@ -585,6 +585,10 @@ pub struct MaterialLot {
     /// Particle-size metadata for solids, if relevant (mean diameter in µm).
     #[serde(default)]
     pub particle_size_um: Option<f64>,
+    /// Fraction of this solid lot currently suspended in its liquid medium.
+    /// `None` preserves legacy state whose suspension was never tracked.
+    #[serde(default)]
+    pub suspended_fraction: Option<f64>,
 }
 
 // ── ARCH-005: ResolvedState ───────────────────────────────────────
@@ -756,6 +760,14 @@ impl Vessel {
         source: Option<String>,
         particle_size_um: Option<f64>,
     ) {
+        let suspended_fraction = (phase == Phase::Solid).then(|| {
+            if self.liquid_volume().0 > 0.0 && !crate::displacement::is_elemental_metal(&species.0)
+            {
+                1.0
+            } else {
+                0.0
+            }
+        });
         self.deposit(species.clone(), moles, phase);
         self.lots.push(MaterialLot {
             species,
@@ -764,8 +776,28 @@ impl Vessel {
             added_at: self.elapsed_seconds,
             source,
             particle_size_um,
+            suspended_fraction,
         });
         self.resolved.invalidate();
+    }
+
+    /// Mole-weighted suspended fraction for explicitly tracked solid lots.
+    /// `None` means this is legacy/solver-created solid state with no split.
+    pub fn suspended_fraction_of(&self, species: &SpeciesId) -> Option<f64> {
+        let mut tracked_moles = 0.0;
+        let mut suspended_moles = 0.0;
+        for lot in self
+            .lots
+            .iter()
+            .filter(|lot| lot.species == *species && lot.phase == Phase::Solid)
+        {
+            let Some(fraction) = lot.suspended_fraction else {
+                continue;
+            };
+            tracked_moles += lot.moles.0;
+            suspended_moles += lot.moles.0 * fraction.clamp(0.0, 1.0);
+        }
+        (tracked_moles > 0.0).then_some((suspended_moles / tracked_moles).clamp(0.0, 1.0))
     }
 
     /// Remove up to `moles` of a species across its portions (any phase).

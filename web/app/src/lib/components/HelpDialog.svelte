@@ -20,9 +20,8 @@
   onclick={onclose}
   onkeydown={(e) => e.key === "Escape" && onclose()}
 >
-  <section
+  <dialog open
     class="help"
-    role="dialog"
     aria-modal="true"
     aria-label={t("keyboard shortcuts")}
     onclick={(e) => e.stopPropagation()}
@@ -38,7 +37,7 @@
       {t("Every button and drag also works from the keyboard — vessels are buttons, and everything you do is a command you can read back in the notebook.")}
     </p>
     <button onclick={onclose}>{t("close")}</button>
-  </section>
+  </dialog>
 </div>
 
 <style>
@@ -51,6 +50,9 @@
     z-index: 10;
   }
   .help {
+    position: static;
+    margin: 0;
+    color: var(--ink);
     background: var(--panel);
     border: 1px solid var(--edge);
     border-radius: 10px;

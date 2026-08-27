@@ -114,6 +114,24 @@ describe("Session", () => {
     ]));
   });
 
+  it("edits and removes learner notes without touching chemistry history", async () => {
+    const storage = new FakeStorage();
+    const session = new Session(new FakeHost(), storage);
+    session.addUserNote("first wording");
+    const createdAt = session.feed.find((entry) => entry.kind === "user-note")?.createdAt;
+    expect(createdAt).toBeTruthy();
+
+    session.editUserNote(createdAt!, "better wording");
+    expect(session.feed).toContainEqual(expect.objectContaining({ kind: "user-note", text: "better wording", createdAt }));
+    expect(session.commandLog).toEqual([]);
+
+    session.removeUserNote(createdAt!);
+    expect(session.feed.some((entry) => entry.kind === "user-note")).toBe(false);
+    const restored = new Session(new FakeHost(), storage);
+    await restored.connect();
+    expect(restored.feed.some((entry) => entry.kind === "user-note")).toBe(false);
+  });
+
   it("connects, loads the shelf, and reports the honesty state", async () => {
     const host = new FakeHost();
     const s = new Session(host);

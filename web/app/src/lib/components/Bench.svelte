@@ -35,6 +35,9 @@
     onmove,
     showZones = true,
     ontogglezones,
+    onopenperiodic,
+    onopencabinet,
+    onopensafety,
     onremove,
   }: {
     scene: Scene | null;
@@ -57,6 +60,9 @@
     onmove?: (layout: BenchLayout) => void;
     showZones?: boolean;
     ontogglezones?: () => void;
+    onopenperiodic?: () => void;
+    onopencabinet?: () => void;
+    onopensafety?: () => void;
     onremove?: (vessel: number) => void;
   } = $props();
 
@@ -113,10 +119,44 @@
 
 <section class="bench" aria-label={t("the bench")}>
   <div class="lab-backdrop" aria-hidden="true"></div>
+  {#if onopenperiodic}
+    <button
+      class="wall-poster"
+      aria-label={t("open periodic table")}
+      onclick={onopenperiodic}
+    >
+      <span class="poster-grid" aria-hidden="true">
+        {#each ["H", "He", "Li", "C", "N", "O", "Na", "Mg", "Cl", "Fe", "Cu", "Ag"] as symbol, index}
+          <span class:hot-cell={index === 0 || index === 5} class:metal-cell={index > 5}>{symbol}</span>
+        {/each}
+      </span>
+      <span class="poster-copy">
+        <strong>{t("periodic table")}</strong>
+        <small>{t("tap to explore")}</small>
+      </span>
+    </button>
+  {/if}
+  {#if onopencabinet}
+    <button class="wall-cabinet" aria-label={t("open instrument cabinet")} onclick={onopencabinet}>
+      <span class="cabinet-drawing" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span class="poster-copy">
+        <strong>{t("Instrument wall")}</strong>
+        <small>{t("choose a tool")}</small>
+      </span>
+    </button>
+  {/if}
   {#if ontogglezones}
     <button class="guide-toggle" aria-pressed={showZones} onclick={ontogglezones}>
       <span aria-hidden="true">{showZones ? "▦" : "☷"}</span>
       {showZones ? t("hide workflow guides") : t("show workflow guides")}
+    </button>
+  {/if}
+  {#if onopensafety}
+    <button class="wall-safety" aria-label={t("open safety station")} onclick={onopensafety}>
+      <span class="safety-mark" aria-hidden="true">✦</span>
+      <span class="poster-copy"><strong>{t("safety station")}</strong><small>{t("tap for the real-lab rules")}</small></span>
     </button>
   {/if}
   {#if scene}
@@ -282,11 +322,101 @@
     background-size: 18px 18px, 100% 100%;
     mask-image: linear-gradient(to bottom, black, transparent 82%);
   }
+  .wall-poster {
+    position: absolute;
+    z-index: 8;
+    top: 0.45rem;
+    left: 0.7rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    max-width: min(14rem, 48%);
+    min-height: 34px;
+    padding: 0.3rem 0.55rem;
+    border: 1px solid color-mix(in srgb, var(--primary) 42%, var(--edge));
+    border-radius: 11px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow) 72%, transparent);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+  }
+  .wall-poster:hover,
+  .wall-poster:focus-visible {
+    border-color: var(--primary);
+    box-shadow: 0 7px 18px var(--shadow);
+    transform: translateY(-1px);
+  }
+  .poster-grid {
+    width: 3.7rem;
+    flex: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .poster-grid span {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-radius: 2px;
+    color: color-mix(in srgb, var(--primary) 86%, var(--ink));
+    background: color-mix(in srgb, var(--primary) 15%, var(--surface));
+    font-size: 0.35rem;
+    font-weight: 850;
+  }
+  .poster-grid .hot-cell {
+    color: color-mix(in srgb, var(--hot) 88%, var(--ink));
+    background: color-mix(in srgb, var(--hot) 18%, var(--surface));
+  }
+  .poster-grid .metal-cell {
+    color: color-mix(in srgb, var(--instrument) 90%, var(--ink));
+    background: color-mix(in srgb, var(--instrument) 17%, var(--surface));
+  }
+  .poster-copy { min-width: 0; display: flex; flex-direction: column; }
+  .poster-copy strong { font-size: 0.67rem; line-height: 1.1; }
+  .poster-copy small { color: var(--dim); font-size: 0.52rem; white-space: nowrap; }
+  .wall-cabinet {
+    position: absolute;
+    z-index: 8;
+    top: 0.45rem;
+    left: 50%;
+    translate: -50% 0;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    min-height: 34px;
+    padding: .3rem .55rem;
+    border: 1px solid color-mix(in srgb, var(--action) 40%, var(--edge));
+    border-radius: 10px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow) 72%, transparent);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+  }
+  .wall-cabinet:hover,
+  .wall-cabinet:focus-visible { border-color: var(--action); box-shadow: 0 7px 18px var(--shadow); transform: translateY(-1px); }
+  .cabinet-drawing {
+    width: 34px;
+    height: 25px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    padding: 3px;
+    border: 2px solid color-mix(in srgb, var(--action) 65%, var(--edge-strong));
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--action) 9%, var(--surface));
+  }
+  .cabinet-drawing span { border-radius: 2px; background: color-mix(in srgb, var(--action) 45%, var(--surface)); }
   .guide-toggle {
     position: absolute;
     z-index: 9;
-    top: 0.55rem;
     right: 0.7rem;
+    top: 2.9rem;
     display: flex;
     align-items: center;
     gap: 0.35rem;
@@ -301,6 +431,28 @@
     cursor: pointer;
   }
   .guide-toggle:hover { color: var(--primary); border-color: var(--primary); }
+  .wall-safety {
+    position: absolute;
+    z-index: 8;
+    top: .45rem;
+    right: .7rem;
+    display: flex;
+    align-items: center;
+    gap: .48rem;
+    min-height: 34px;
+    padding: .3rem .55rem;
+    border: 1px solid color-mix(in srgb, var(--success) 48%, var(--edge));
+    border-radius: 10px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--success) 8%, var(--surface));
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow) 72%, transparent);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
+  }
+  .wall-safety:hover, .wall-safety:focus-visible { border-color: var(--success); box-shadow: 0 7px 18px var(--shadow); transform: translateY(-1px); }
+  .safety-mark { width: 29px; height: 25px; display: grid; place-items: center; flex: none; border-radius: 7px; color: white; background: var(--success); font-weight: 900; }
   .work-zones {
     position: relative;
     z-index: 2;
@@ -457,6 +609,8 @@
     .work-zones { grid-template-columns: 1fr; }
     .work-zone { min-height: 12rem; border-bottom: 1px dashed color-mix(in srgb, var(--edge) 62%, transparent); }
     .bench { padding-top: 2.7rem; }
+    .poster-copy { display: none; }
+    .wall-poster, .wall-cabinet, .wall-safety { max-width: none; padding-inline: 0.4rem; }
   }
   .empty {
     color: var(--dim);

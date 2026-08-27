@@ -46,6 +46,7 @@ export interface SceneVessel {
   temperature_k: number;
   pressure_pa: number;
   elapsed_s: number;
+  mass_g: number;
   /** The lv1 observation sentence — also the vessel's accessible name. */
   words: string;
   badges: SceneBadge[];
@@ -83,6 +84,7 @@ export interface SceneSolid {
   srgb: [number, number, number];
   colour_word: string;
   metallic: boolean;
+  settled_fraction: number;
 }
 
 export interface SceneBadge {

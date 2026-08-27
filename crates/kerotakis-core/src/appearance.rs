@@ -109,8 +109,9 @@ pub fn observe(vessel: &Vessel) -> Appearance {
         //
         // It still names itself as the deposit below: what changes is that
         // you can see through the liquid to look at it.
+        let tracked_suspension = vessel.suspended_fraction_of(&p.species);
         if !crate::displacement::is_elemental_metal(&p.species.0) {
-            solid_moles += p.moles.0;
+            solid_moles += p.moles.0 * tracked_suspension.unwrap_or(1.0);
         }
         let data = species::lookup(&p.species);
         let colour = data.and_then(|d| d.colour).unwrap_or(Colour {
@@ -120,8 +121,9 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             strength: 0.0,
         });
         let name = data.map(|d| d.name).unwrap_or(p.species.0.as_str());
-        if biggest.as_ref().is_none_or(|(_, m, _)| p.moles.0 > *m) {
-            biggest = Some((name, p.moles.0, colour));
+        let settled_moles = p.moles.0 * tracked_suspension.map(|f| 1.0 - f).unwrap_or(1.0);
+        if settled_moles > 1e-12 && biggest.as_ref().is_none_or(|(_, m, _)| settled_moles > *m) {
+            biggest = Some((name, settled_moles, colour));
         }
     }
     let cloudiness = if has_liquid {

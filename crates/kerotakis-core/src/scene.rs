@@ -69,6 +69,10 @@ pub struct SceneVessel {
     pub pressure_pa: f64,
     /// Bench time this vessel has experienced, seconds.
     pub elapsed_s: f64,
+    /// Current material mass in grams. Container/tube tare is excluded and
+    /// cancels when equal centrifuge tubes are used opposite each other.
+    #[serde(default)]
+    pub mass_g: f64,
     /// The plain-words observation from `appearance::observe` — the lv1
     /// sentence, and the accessibility text for the drawn vessel.
     pub words: String,
@@ -129,6 +133,14 @@ pub struct SceneSolid {
     /// and settles. Decides texture, and matches the turbidity physics in
     /// `appearance::observe`.
     pub metallic: bool,
+    /// Fraction currently in the settled deposit. Legacy state remains fully
+    /// visible at the bottom until an operation establishes suspension state.
+    #[serde(default = "fully_settled")]
+    pub settled_fraction: f64,
+}
+
+fn fully_settled() -> f64 {
+    1.0
 }
 
 /// A number pinned to the drawn vessel.
@@ -241,6 +253,10 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             srgb: [colour.r, colour.g, colour.b],
             colour_word: colour_word(&colour, true).to_string(),
             metallic: crate::displacement::is_elemental_metal(&p.species.0),
+            settled_fraction: v
+                .suspended_fraction_of(&p.species)
+                .map(|fraction| 1.0 - fraction)
+                .unwrap_or(1.0),
         });
     }
     solids.sort_by(|a, b| b.moles.total_cmp(&a.moles));
@@ -309,6 +325,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         temperature_k: v.temperature.0,
         pressure_pa: v.pressure.0,
         elapsed_s: v.elapsed_seconds,
+        mass_g: v.mass().0,
         words,
         badges,
     }

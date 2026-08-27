@@ -26,6 +26,7 @@
   import Toolbox from "./lib/components/Toolbox.svelte";
   import ConceptMap from "./lib/components/ConceptMap.svelte";
   import EquipmentCabinet from "./lib/components/EquipmentCabinet.svelte";
+  import SafetyBoard from "./lib/components/SafetyBoard.svelte";
   import LocaleSwitcher from "./lib/components/LocaleSwitcher.svelte";
   import VesselActionDock from "./lib/components/VesselActionDock.svelte";
   import StoryMap from "./lib/components/StoryMap.svelte";
@@ -224,6 +225,7 @@
   let helpOpen = $state(false);
   let missionOpen = $state(false);
   let tableOpen = $state(false);
+  let safetyOpen = $state(false);
   let toolboxOpen = $state(false);
   let mapOpen = $state(false);
   /** An entry handed from the map straight to the experiment page. */
@@ -238,6 +240,15 @@
   let apparatusOut = $state<string | null>(null);
   let apparatusPreview = $state<Record<string, number | string>>({});
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
+  const selectedSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === session.selected));
+  const apparatusInitialValues = $derived(
+    apparatusSpec?.verb === "centrifuge"
+      ? {
+          counterbalance: Number((selectedSceneVessel?.mass_g ?? 0).toFixed(2)),
+          sampleMass: selectedSceneVessel?.mass_g ?? 0,
+        }
+      : {},
+  );
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
   let transfer = $state<{ verb: TwoVesselAction; fraction: number; from: number | null } | null>(null);
@@ -353,6 +364,7 @@
       else if (homeOpen && hasSeenHome()) homeOpen = false;
       else if (missionOpen) missionOpen = false;
       else if (mapOpen) mapOpen = false;
+      else if (safetyOpen) safetyOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
       else if (toolsOpen) toolsOpen = false;
@@ -601,29 +613,6 @@
         onclose={() => (apparatusOut = null)}
       />
     {/if}
-    {#if apparatusSpec}
-      {#key apparatusSpec.verb}
-        <ApparatusForm
-          spec={apparatusSpec}
-          vessel={session.selected}
-          shelf={session.shelf}
-          busy={session.busy}
-          onrun={(line) => void session.submit(line)}
-          onpreview={(values) => (apparatusPreview = values)}
-          onclose={() => (apparatusOut = null)}
-        />
-      {/key}
-    {/if}
-    {#if buretteOut}
-      <Burette
-        vessel={session.selected}
-        shelf={session.shelf}
-        busy={session.busy}
-        running={titrating}
-        onstart={(line) => void startTitration(line)}
-        onclose={() => (buretteOut = false)}
-      />
-    {/if}
     {#if session.register !== "lv1" && session.lastEquation}
       <p class="equation" aria-label={t("latest reaction equation")}>
         {session.lastEquation}
@@ -654,6 +643,12 @@
       apparatusValues={apparatusPreview}
       layout={benchLayout}
       showZones={workGuides}
+      onopenperiodic={() => (tableOpen = true)}
+      onopensafety={() => (safetyOpen = true)}
+      onopencabinet={() => {
+        cabinetTab = "equipment";
+        pane = "shelf";
+      }}
       ontogglezones={() => {
         workGuides = !workGuides;
         try {
@@ -676,6 +671,30 @@
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
         )}
     />
+    {#if apparatusSpec}
+      {#key `${apparatusSpec.verb}:${session.selected}`}
+        <ApparatusForm
+          spec={apparatusSpec}
+          vessel={session.selected}
+          shelf={session.shelf}
+          busy={session.busy}
+          initialValues={apparatusInitialValues}
+          onrun={(line) => void session.submit(line)}
+          onpreview={(values) => (apparatusPreview = values)}
+          onclose={() => (apparatusOut = null)}
+        />
+      {/key}
+    {/if}
+    {#if buretteOut}
+      <Burette
+        vessel={session.selected}
+        shelf={session.shelf}
+        busy={session.busy}
+        running={titrating}
+        onstart={(line) => void startTitration(line)}
+        onclose={() => (buretteOut = false)}
+      />
+    {/if}
     {#if selectedVessel && !apparatusOut && !buretteOut}
       <VesselActionDock
         vessel={selectedVessel.id}
@@ -683,6 +702,11 @@
         boundary={selectedVessel.boundary}
         busy={session.busy}
         onaction={(line) => void session.submit(line)}
+        onconfigure={(verb) => {
+          apparatusOut = verb;
+          apparatusPreview = {};
+          pane = "bench";
+        }}
         onpour={() => (transfer = { verb: "decant", fraction: 0.5, from: selectedVessel!.id })}
         ondetails={() => {
           void session.inspect(selectedVessel!.id);
@@ -714,7 +738,12 @@
         onaction={(line) => void session.submit(line)}
       />
     {/if}
-    <Feed entries={session.feed} onaddnote={(text) => session.addUserNote(text)} />
+    <Feed
+      entries={session.feed}
+      onaddnote={(text) => session.addUserNote(text)}
+      oneditnote={(createdAt, text) => session.editUserNote(createdAt, text)}
+      onremovenote={(createdAt) => session.removeUserNote(createdAt)}
+    />
   </aside>
 </main>
 
@@ -858,6 +887,10 @@
     }}
     onclose={() => (tableOpen = false)}
   />
+{/if}
+
+{#if safetyOpen}
+  <SafetyBoard onclose={() => (safetyOpen = false)} />
 {/if}
 
 <style>

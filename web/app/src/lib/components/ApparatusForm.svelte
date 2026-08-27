@@ -9,6 +9,7 @@
     vessel,
     shelf,
     busy,
+    initialValues = {},
     onrun,
     onpreview,
     onclose,
@@ -17,16 +18,21 @@
     vessel: number;
     shelf: ShelfItem[];
     busy: boolean;
+    initialValues?: Record<string, number | string>;
     onrun: (line: string) => void;
     onpreview?: (values: Record<string, number | string>) => void;
     onclose: () => void;
   } = $props();
 
   let values = $state<Record<string, number | string>>(
-    untrack(() => Object.fromEntries(spec.fields.map((f) => [f.name, f.default]))),
+    untrack(() => ({
+      ...Object.fromEntries(spec.fields.map((f) => [f.name, f.default])),
+      ...initialValues,
+    })),
   );
   const solids = $derived(shelf.filter((s) => s.phase.toLowerCase().includes("solid")));
   const line = $derived(spec.build(vessel, values));
+  const warning = $derived(spec.warning?.(values) ?? null);
   $effect(() => onpreview?.({ ...values }));
 </script>
 
@@ -44,29 +50,42 @@
           <select bind:value={values[f.name]}>
             <option value="">{t("choose…")}</option>
             {#each solids.length > 0 ? solids : shelf as s (s.key)}
-              <option value={s.key}>{s.name}</option>
+              <option value={s.key}>{t(s.name)}</option>
             {/each}
           </select>
         {:else}
-          <span>
-            <input
-              type="number"
-              bind:value={values[f.name]}
-              min={f.min}
-              max={f.max}
-              step={f.step ?? 1}
-            />
-            {#if f.unit}{f.unit}{/if}
+          <span class="parameter-control">
+            {#if f.min !== undefined && f.max !== undefined}
+              <input
+                class="dial"
+                type="range"
+                aria-label={t("{parameter} slider", { parameter: t(f.label) })}
+                bind:value={values[f.name]}
+                min={f.min}
+                max={f.max}
+                step={f.step ?? 1}
+              />
+            {/if}
+            <span class="exact-value">
+              <input
+                type="number"
+                bind:value={values[f.name]}
+                min={f.min}
+                max={f.max}
+                step={f.step ?? 1}
+              />
+              {#if f.unit}<small>{f.unit}</small>{/if}
+            </span>
           </span>
         {/if}
       </label>
     {/each}
-    <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
+    {#if warning}<p class="warning" role="alert">⚠ {t(warning)}</p>{/if}
+    <button class="run" disabled={busy || line === null || warning !== null} onclick={() => line && !warning && onrun(line)}>
       {busy ? t("running…") : t("run {apparatus}", { apparatus: t(spec.title) })}
     </button>
     <button class="close" onclick={onclose}>{t("put away")}</button>
   </div>
-  {#if line}<code>{line}</code>{/if}
 </section>
 
 <style>
@@ -120,6 +139,18 @@
   input[type="number"] {
     width: 5rem;
   }
+  .parameter-control { display: flex; align-items: center; gap: .45rem; }
+  .exact-value { display: flex; align-items: center; gap: .25rem; color: var(--ink); }
+  .exact-value small { min-width: 1.5rem; color: var(--dim); font-size: .66rem; }
+  .dial {
+    width: clamp(5rem, 9vw, 8rem);
+    min-height: 34px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    accent-color: var(--instrument);
+    cursor: ew-resize;
+  }
   .run {
     background: var(--panel-raised);
     border: 1px solid var(--hot);
@@ -131,6 +162,7 @@
     cursor: pointer;
     min-height: 36px;
   }
+  .warning { margin: 0; max-width: 15rem; color: var(--danger); font-size: .75rem; font-weight: 750; }
   .close {
     background: none;
     border: 1px solid var(--edge);
@@ -141,11 +173,5 @@
     padding: 0.3rem 0.7rem;
     cursor: pointer;
     min-height: 36px;
-  }
-  code {
-    display: block;
-    margin-top: 0.3rem;
-    color: var(--dim);
-    font-size: 0.72rem;
   }
 </style>

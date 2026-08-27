@@ -83,9 +83,8 @@
 </script>
 
 <div class="scrim" role="presentation" onclick={onclose} onkeydown={(e) => e.key === "Escape" && onclose()}>
-  <section
+  <dialog open
     class="table-panel"
-    role="dialog"
     aria-modal="true"
     aria-label={t("periodic table")}
     onclick={(e) => e.stopPropagation()}
@@ -156,7 +155,7 @@
         {/if}
       </aside>
     {/if}
-  </section>
+  </dialog>
 </div>
 
 <style>
@@ -170,6 +169,9 @@
     padding: 1rem;
   }
   .table-panel {
+    position: static;
+    margin: 0;
+    color: var(--ink);
     background: var(--bg);
     border: 1px solid var(--edge);
     border-radius: 12px;

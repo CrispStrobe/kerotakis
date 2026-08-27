@@ -8,6 +8,7 @@
     boundary,
     busy,
     onaction,
+    onconfigure,
     onpour,
     ondetails,
     onmore,
@@ -17,6 +18,7 @@
     boundary: string;
     busy: boolean;
     onaction: (line: string) => void;
+    onconfigure: (verb: string) => void;
     onpour: () => void;
     ondetails: () => void;
     onmore: () => void;
@@ -42,9 +44,17 @@
           <span>{t("pour")}</span>
         </button>
         {#each changeActions as action (action.label)}
-          <button class={action.tone} disabled={busy} onclick={() => onaction(action.line)} title={t("run {action} on {vessel}", { action: t(action.label), vessel: v })}>
+          <button
+            class={action.tone}
+            disabled={busy}
+            onclick={() => ["stir", "heat", "cool"].includes(action.id) ? onconfigure(action.id) : onaction(action.line)}
+            title={["stir", "heat", "cool"].includes(action.id)
+              ? t("configure {apparatus}", { apparatus: t(action.label) })
+              : t("run {action} on {vessel}", { action: t(action.label), vessel: v })}
+          >
             <span class="icon" aria-hidden="true">{action.icon}</span>
             <span>{t(action.label)}</span>
+            {#if ["stir", "heat", "cool"].includes(action.id)}<small>{t("set…")}</small>{/if}
           </button>
         {/each}
       </div>
@@ -144,6 +154,7 @@
     font-size: 0.66rem;
     font-weight: 650;
   }
+  .actions button small { color: var(--dim); font-size: .48rem; font-weight: 650; }
   .pour {
     color: white;
     border-color: var(--action);

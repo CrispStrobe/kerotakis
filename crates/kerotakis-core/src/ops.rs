@@ -175,6 +175,10 @@ pub enum Operator {
         rpm: f64,
         seconds: f64,
         rotor_radius_m: f64,
+        /// Opposing tube contents in grams. `None` preserves the historical
+        /// shorthand and means an exactly matched balance tube.
+        #[serde(default)]
+        counterbalance_g: Option<f64>,
     },
     /// Turn a light source on or off for photolysis.
     Irradiate {
@@ -382,6 +386,9 @@ pub enum Event {
         seconds: f64,
         bar_length_m: f64,
         tip_speed_m_s: f64,
+        /// Fraction of an available non-metal deposit lifted into suspension,
+        /// from accumulated bar travel over a 0.30 m mixing-length scale.
+        resuspended_fraction: f64,
         /// False until kinetics/surface-area models consume this operation.
         rate_coupled: bool,
     },
@@ -404,11 +411,21 @@ pub enum Event {
         seconds: f64,
         rotor_radius_m: f64,
         rcf: f64,
+        sample_mass_g: f64,
+        counterbalance_g: f64,
+        imbalance_g: f64,
         fluid_density_kg_m3: f64,
         dynamic_viscosity_pa_s: f64,
         separations: Vec<CentrifugeSeparation>,
         /// False until vessel suspension/deposit state consumes the result.
         state_coupled: bool,
+    },
+    /// Tracked particles settled under ordinary gravity while bench time
+    /// advanced, using the same Stokes model as the centrifuge at 1 g.
+    GravitySettled {
+        vessel: VesselId,
+        seconds: f64,
+        separations: Vec<CentrifugeSeparation>,
     },
     Transferred {
         from: VesselId,
