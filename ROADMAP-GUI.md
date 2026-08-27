@@ -901,6 +901,11 @@ hide them completely.
   mortar and pestle beside its target vessel, with work-state motion, rather
   than drawing a mortar inside the vessel. The general assembly/footprint
   system and computed grind state remain.*
+  *Retort-stand slice shipped 2026-08-27: deploying a burette now places a
+  freestanding, movable stand, boss, clamp, graduated column, stopcock, and
+  tip beside its target. A visible route identifies the receiving vessel;
+  during titration the column level follows delivered/total engine playback
+  and the drop moves only while the operation runs.*
   *Magnetic-stirrer slice in progress 2026-08-27: the equipment wall exposes
   RPM and duration, the public grammar carries both, and the engine computes
   25 mm stir-bar tip speed. The bench draws the plate, rotating bar, and

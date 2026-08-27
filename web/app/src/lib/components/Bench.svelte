@@ -106,6 +106,9 @@
   const latestApparatusEffect = (vessel: number, kind: string) =>
     [...(effects[vessel] ?? [])].reverse().find((effect) => effect.kind === kind);
 
+  const apparatusName = (tool: string) =>
+    tool === "grind" ? "mortar" : tool === "centrifuge" ? "mini centrifuge" : "burette and stand";
+
   const placement = (vessel: number) =>
     dragPreview?.vessel === vessel ? dragPreview : positionFor(layout, vessel);
 
@@ -118,8 +121,8 @@
       zone: anchor.zone,
       x: anchor.x,
       y: anchor.y >= 0.5
-        ? Math.max(0.16, anchor.y - 0.4)
-        : Math.min(0.84, anchor.y + 0.4),
+        ? Math.max(0.12, anchor.y - 0.48)
+        : Math.min(0.88, anchor.y + 0.48),
     };
   }
 
@@ -189,7 +192,7 @@
     const next = positionApparatus(layout, tool, x, y);
     onmove?.(next);
     onselect(target);
-    moveMessage = t("{tool} moved on the bench", { tool: t(tool === "grind" ? "mortar" : "mini centrifuge") });
+    moveMessage = t("{tool} moved on the bench", { tool: t(apparatusName(tool)) });
     if (messageTimer) clearTimeout(messageTimer);
     messageTimer = setTimeout(() => (moveMessage = ""), 2200);
   }
@@ -355,10 +358,10 @@
             {onselect}
             {ondropspecies}
             effects={effects[vessel.id] ?? []}
-            titrationPlayback={titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
+            titrationPlayback={deployedTool !== "burette" && titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
             onbadge={(b) => onbadge?.(vessel.id, b)}
             {fluidLookup}
-            deployedTool={vessel.id === deployedTarget && !["grind", "centrifuge"].includes(deployedTool ?? "") ? deployedTool : null}
+            deployedTool={vessel.id === deployedTarget && !["grind", "centrifuge", "burette"].includes(deployedTool ?? "") ? deployedTool : null}
             {apparatusWorking}
             {apparatusValues}
           />
@@ -376,7 +379,7 @@
           {/if}
         </section>
       {/each}
-      {#if deployedTarget !== null && deployedTool && (deployedTool === "grind" || deployedTool === "centrifuge")}
+      {#if deployedTarget !== null && deployedTool && ["grind", "centrifuge", "burette"].includes(deployedTool)}
         {@const machinePosition = machinePlacement(deployedTool, deployedTarget)}
         {@const targetPosition = placement(deployedTarget)}
         {@const apparatusEffect = latestApparatusEffect(deployedTarget, deployedTool)}
@@ -403,7 +406,7 @@
           role="button"
           tabindex="0"
           title={t("drag or use arrow keys to move")}
-          aria-label={`${t("{tool} workstation for vessel v{vessel}", { tool: t(deployedTool === "grind" ? "mortar" : "mini centrifuge"), vessel: deployedTarget + 1 })}. ${t("drag or use arrow keys to move")}`}
+          aria-label={`${t("{tool} workstation for vessel v{vessel}", { tool: t(apparatusName(deployedTool)), vessel: deployedTarget + 1 })}. ${t("drag or use arrow keys to move")}`}
           onpointerdown={(event) => startApparatusPointer(event, deployedTool, deployedTarget)}
           onpointermove={trackApparatusPointer}
           onpointerup={(event) => finishApparatusPointer(event, deployedTarget)}
@@ -415,10 +418,16 @@
             <StandaloneApparatus
               tool={deployedTool}
               target={deployedTarget}
-              working={apparatusWorking}
+              working={apparatusWorking || (deployedTool === "burette" && titrationPlayback !== null)}
               performedAt={apparatusEffect?.at}
               intensity={apparatusEffect?.magnitude ?? 0.5}
-              values={apparatusValues}
+              values={deployedTool === "burette"
+                ? {
+                    ...apparatusValues,
+                    delivered: titrationPlayback?.delivered ?? 0,
+                    total: titrationPlayback?.total ?? 0,
+                  }
+                : apparatusValues}
             />
           {/key}
         </div>
