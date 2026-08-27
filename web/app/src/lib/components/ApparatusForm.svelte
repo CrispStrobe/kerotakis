@@ -106,14 +106,17 @@
 
 <style>
   .apparatus {
-    position: absolute;
+    position: relative;
     z-index: 12;
-    top: 0.7rem;
-    right: 0.7rem;
-    width: min(23rem, calc(100% - 1.4rem));
-    max-height: calc(100% - 5.8rem);
+    width: auto;
+    max-height: min(17rem, 42%);
     overflow: auto;
-    margin: 0;
+    flex: none;
+    display: grid;
+    grid-template-columns: minmax(10.5rem, 0.7fr) minmax(0, 2.3fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 0.9rem;
+    margin: 0.55rem 0.65rem 0.65rem;
     padding: 0.7rem;
     border: 1px solid color-mix(in srgb, var(--instrument) 35%, var(--edge));
     border-radius: 16px;
@@ -129,14 +132,16 @@
   .head small { color: var(--instrument); font-size: .56rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
   .live-mark { width: 10px; height: 10px; flex: none; border: 2px solid var(--surface); border-radius: 50%; background: var(--instrument); box-shadow: 0 0 0 2px var(--instrument); }
   .blurb {
-    margin: 0.28rem 0 0.55rem 1.6rem;
+    margin: 0.28rem 0 0 1.6rem;
     color: var(--dim);
     font-size: 0.69rem;
     line-height: 1.3;
   }
   .fields {
+    grid-column: 2;
+    grid-row: 1 / span 2;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
     gap: 0.55rem;
     align-items: flex-end;
     font-size: 0.82rem;
@@ -147,7 +152,7 @@
     gap: 0.15rem;
     color: var(--dim);
   }
-  label:has(select) { grid-column: 1 / -1; }
+  label:has(select) { grid-column: span 2; }
   select,
   input {
     background: var(--panel-raised);
@@ -160,13 +165,20 @@
     min-height: 34px;
   }
   input[type="number"] {
-    width: 5rem;
+    width: 4rem;
   }
-  .parameter-control { display: flex; align-items: center; gap: .45rem; }
+  .parameter-control {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(3.5rem, 1fr) auto;
+    align-items: center;
+    gap: .35rem;
+  }
   .exact-value { display: flex; align-items: center; gap: .25rem; color: var(--ink); }
   .exact-value small { min-width: 1.5rem; color: var(--dim); font-size: .66rem; }
   .dial {
-    width: clamp(5rem, 9vw, 8rem);
+    width: 100%;
+    min-width: 0;
     min-height: 34px;
     padding: 0;
     border: 0;
@@ -175,7 +187,6 @@
     cursor: ew-resize;
   }
   .run {
-    grid-column: 1 / -1;
     background: var(--panel-raised);
     border: 1px solid var(--hot);
     border-radius: 6px;
@@ -187,13 +198,12 @@
     min-height: 36px;
   }
   .readouts {
-    grid-column: 1 / -1;
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
   }
   .readouts output {
-    min-width: 8.5rem;
+    min-width: 0;
     display: flex;
     flex: 1;
     align-items: baseline;
@@ -227,10 +237,16 @@
   @media (max-width: 700px) {
     .apparatus {
       position: fixed;
-      inset: auto 0.55rem calc(4rem + env(safe-area-inset-bottom)) 0.55rem;
+      display: block;
+      /* The phone shell keeps both the command bar and its three-pane tabs
+         below the bench. Clear both, not only the final tab row. */
+      inset: auto 0.55rem calc(7.25rem + env(safe-area-inset-bottom)) 0.55rem;
       width: auto;
       max-height: min(62vh, 30rem);
       border-radius: 18px;
     }
+    .blurb { margin-bottom: 0.55rem; }
+    .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    label:has(select), .readouts, .run { grid-column: 1 / -1; }
   }
 </style>
