@@ -14,7 +14,7 @@
     type CodexEntry,
   } from "../codex";
   import type { Session } from "../session.svelte";
-  import { t } from "../i18n.svelte";
+  import { t, tSlug } from "../i18n.svelte";
 
   let {
     entries,
@@ -135,7 +135,7 @@
                 </button>
                 {#if !entryReady(e, met)}
                   <span class="needs">
-                    {t("needs: {concepts}", { concepts: (e.requires ?? []).filter((r) => !met.has(r)).map(t).join(", ") })}
+                    {t("needs: {concepts}", { concepts: (e.requires ?? []).filter((r) => !met.has(r)).map(tSlug).join(", ") })}
                   </span>
                 {/if}
               </li>

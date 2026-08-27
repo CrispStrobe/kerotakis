@@ -27,7 +27,7 @@
     [
       item.appearance ? `${t(item.appearance)} ${t(phase)}` : t(phase),
       item.flame ? t("burns {colour}", { colour: t(item.flame) }) : null,
-      hazards.length > 0 ? t("hazards: {hazards}", { hazards: hazards.map(t).join(", ") }) : null,
+      hazards.length > 0 ? t("hazards: {hazards}", { hazards: hazards.map((h) => t(h)).join(", ") }) : null,
       unassessed ? t("hazards unassessed") : null,
     ]
       .filter(Boolean)

@@ -60,7 +60,13 @@ describe("i18n", () => {
   it("has German entries for every literal UI translation call", () => {
     const missing = new Set<string>();
     for (const path of sourceFiles(join(import.meta.dirname))) {
-      const source = readFileSync(path, "utf8");
+      // Comments are not call sites. A `t("…")` written in a doc comment
+      // to explain what this very test scans for made it fail, reporting
+      // an ellipsis as an untranslated string — so strip comments first,
+      // or the next person documenting i18n trips the same wire.
+      const source = readFileSync(path, "utf8")
+        .replace(/\/\*[\s\S]*?\*\//g, "")
+        .replace(/(^|[^:])\/\/.*$/gm, "$1");
       for (const match of source.matchAll(/\bt\("([^"]+)"/g)) {
         if (!hasGermanTranslation(match[1]!)) missing.add(match[1]!);
       }

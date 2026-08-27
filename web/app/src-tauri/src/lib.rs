@@ -328,7 +328,13 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
         "relations" => {
             let list: Vec<Value> = kerotakis_core::relations::RELATIONS
                 .iter()
-                .map(|r| json!({ "name": r.name, "equation": r.equation, "args": r.args }))
+                .map(|r| {
+                    json!({
+                        "name": r.name, "equation": r.equation, "args": r.args,
+                        "purpose": r.purpose, "purpose_de": r.purpose_de,
+                        "validity": r.validity, "validity_de": r.validity_de,
+                    })
+                })
                 .collect();
             Ok(Value::Array(list).to_string())
         }

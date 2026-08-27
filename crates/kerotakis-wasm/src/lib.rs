@@ -19,7 +19,8 @@
 pub mod worker;
 
 use kerotakis_core::{
-    render_events, render_vessel, Bench, Equilibrator, Event, Operator, Register, SolverStack,
+    render_events_in, render_vessel_in, Bench, Equilibrator, Event, Locale, Operator, Register,
+    SolverStack,
 };
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -31,6 +32,8 @@ pub struct Lab {
     stack: SolverStack,
     aqueous: kerotakis_phreeqc::PhreeqcEquilibrator,
     register: Register,
+    /// The language the engine renders its prose in (I18N-5).
+    locale: Locale,
 }
 
 #[wasm_bindgen]
@@ -48,6 +51,7 @@ impl Lab {
             stack: kerotakis_stack::standard_stack(vec![]),
             aqueous,
             register: Register::default(),
+            locale: Locale::default(),
         })
     }
 
@@ -151,6 +155,17 @@ impl Lab {
         Ok(())
     }
 
+    /// Choose the language the engine renders its own prose in.
+    ///
+    /// Unlike `setRegister` this cannot fail: an unknown tag falls back to
+    /// English inside the engine. Someone whose system is set to a
+    /// language nobody has translated should see the language we do have,
+    /// not an error where the bench used to be.
+    #[wasm_bindgen(js_name = setLocale)]
+    pub fn set_locale(&mut self, locale: &str) {
+        self.locale = Locale::parse(locale);
+    }
+
     /// Apply one operator, given as the same JSON the CLI's `--json` mode
     /// emits. Returns `{ events, rendered, scene, bench }` — `scene` is the
     /// render model (PROTOCOL.md, GUI-003), so one round trip repaints a
@@ -159,7 +174,7 @@ impl Lab {
         let op: Operator =
             serde_json::from_str(operator_json).map_err(|e| JsError::new(&e.to_string()))?;
         let events = self.run(op)?;
-        let rendered = render_events(&events, self.register);
+        let rendered = render_events_in(&events, self.register, self.locale);
         let charts = kerotakis_core::chart::charts_for_events(&events);
         let doc = serde_json::json!({
             "events": events,
@@ -189,7 +204,7 @@ impl Lab {
                 Ok(None) => {}
                 Ok(Some(op)) => {
                     let events = self.run(op.clone())?;
-                    let rendered = render_events(&events, self.register);
+                    let rendered = render_events_in(&events, self.register, self.locale);
                     let charts = kerotakis_core::chart::charts_for_events(&events);
                     steps.push(serde_json::json!({
                         "operator": op,
@@ -265,7 +280,7 @@ impl Lab {
             .vessel(kerotakis_core::VesselId(vessel))
             .map_err(|e| JsError::new(&e.to_string()))?;
         Ok(serde_json::json!({
-            "rendered": render_vessel(v, self.register),
+            "rendered": render_vessel_in(v, self.register, self.locale),
             "vessel": v,
         })
         .to_string())
@@ -312,6 +327,10 @@ impl Lab {
                     "name": r.name,
                     "equation": r.equation,
                     "args": r.args,
+                    "purpose": r.purpose,
+                    "purpose_de": r.purpose_de,
+                    "validity": r.validity,
+                    "validity_de": r.validity_de,
                 })
             })
             .collect();

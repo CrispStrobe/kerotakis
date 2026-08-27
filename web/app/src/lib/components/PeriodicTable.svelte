@@ -133,7 +133,7 @@
           </p>
         {/if}
         {#if flames.length > 0}
-          <p class="facts">{t("flame test: {flames}", { flames: flames.map(t).join(", ") })}</p>
+          <p class="facts">{t("flame test: {flames}", { flames: flames.map((f) => t(f)).join(", ") })}</p>
         {/if}
         {#if inLab.length > 0}
           <p class="facts">{t("on the shelf, containing {symbol}:", { symbol: picked.symbol })}</p>

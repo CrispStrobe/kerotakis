@@ -76,6 +76,12 @@ class FakeHost implements EngineHost {
   async setRegister(level: string) {
     this.calls.push(`register:${level}`);
   }
+  async setLocale(code: string) {
+    // Recorded, so a test can assert the session tells the ENGINE which
+    // language to render in — separately from the interface's own locale,
+    // because the engine composes prose the shell never sees.
+    this.calls.push(`locale:${code}`);
+  }
   async scene() {
     this.calls.push("scene");
     return this.nextScene();

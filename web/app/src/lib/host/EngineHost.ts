@@ -198,7 +198,18 @@ export interface EngineHost {
   /** The verb inventory with canonical examples (GUI-029). */
   grammar(): Promise<{ verb: string; example: string; options?: string[] }[]>;
   /** The named-relations catalogue (CAP-5). */
-  relations(): Promise<{ name: string; equation: string; args: string }[]>;
+  relations(): Promise<
+    {
+      name: string;
+      equation: string;
+      args: string;
+      /** What question it answers, and where it stops holding (GUI-087). */
+      purpose?: string;
+      purpose_de?: string;
+      validity?: string;
+      validity_de?: string;
+    }[]
+  >;
   /** Evaluate a named relation; the result explains itself per register. */
   calc(
     name: string,
@@ -215,6 +226,16 @@ export interface EngineHost {
   /** Replace the bench with a `snapshot()` token; session state survives. */
   restore(snapshot: string): Promise<void>;
   setRegister(level: string): Promise<void>;
+  /** The language the ENGINE renders its own prose in (I18N-5).
+   *
+   * Separate from the interface's locale by necessity: the engine composes
+   * the vessel summary and the journal itself, out of fragments, so no
+   * amount of translating in the shell can reach them.
+   *
+   * Cannot fail. An unknown tag falls back to English inside the engine,
+   * so there is no error for a host to handle and no reason to make
+   * callers handle one. */
+  setLocale(code: string): Promise<void>;
   scene(): Promise<Scene>;
   state(): Promise<unknown>;
   species(): Promise<unknown[]>;

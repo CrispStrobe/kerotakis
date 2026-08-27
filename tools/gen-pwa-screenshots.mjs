@@ -72,6 +72,21 @@ try {
     await page.goto(`${origin}/app/`);
     const ready = await waitFor(page, `document.querySelector('form.bar input')`, { timeout: 60000 });
     if (!ready) throw new Error("the command bar never appeared");
+    // The campus chooser stands in front of the bench, and the bench's DOM
+    // is mounted behind it — so every readiness check here passes while the
+    // chooser is still the visible screen. Walk through it, then confirm it
+    // is gone by something the chooser itself would falsify.
+    await page.evaluate(`(() => {
+      const b = [...document.querySelectorAll('button')]
+        .find((el) => /enter Sandbox|Sandbox betreten/i.test(el.textContent || ""));
+      b?.click();
+    })()`);
+    const entered = await waitFor(page, `(() => {
+      const chooser = [...document.querySelectorAll('h1, h2')]
+        .some((h) => /Where do you want to work|Wo m\u00f6chtest du/i.test(h.textContent || ""));
+      return !chooser && !!document.querySelector('form.bar input');
+    })()`, { timeout: 30000 });
+    if (!entered) throw new Error("the campus chooser never gave way to the bench");
     // The engine attaches after the shell paints; running before it does
     // would photograph a refusal.
     await waitFor(page, `(() => {
@@ -85,6 +100,15 @@ try {
     const painted = await waitFor(page, `document.querySelectorAll('.bench .vessel').length > 0`,
                                   { timeout: 60000 });
     if (!painted) throw new Error("the computed vessel scene never painted");
+    // A refused command is not an error — the bench says so calmly and
+    // carries on, which is right for a learner and wrong for a tool that
+    // captions the result. Without this, a Story-mode run photographs an
+    // empty beaker under a caption about silver chloride.
+    const refused = await page.evaluate(`(() => {
+      const text = document.querySelector('.journal, aside')?.textContent ?? "";
+      return /not yet available|noch nicht verf\u00fcgbar|cannot|refus/i.test(text);
+    })()`);
+    if (refused) throw new Error("the bench refused a command — the frame would not show the experiment");
 
     const { data } = await page.cdp.send("Page.captureScreenshot",
       { format: "png", captureBeyondViewport: false }, page.sessionId);

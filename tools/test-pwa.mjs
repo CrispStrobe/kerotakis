@@ -112,6 +112,15 @@ try {
   // Exercise the actual pre-app switcher, not only direct fetches.
   await page.evaluate(`localStorage.setItem("kerotakis.locale", "de")`);
   await page.goto(`${origin}/app/`);
+  // Wait for the DOM before asking Chrome. `Page.getAppManifest` answers
+  // from Chrome's own parse of the document, which it can take before the
+  // inline switcher has rewritten the href — the same payload failed,
+  // passed and failed again on three consecutive runs. The switcher itself
+  // is synchronous and correct; this check was simply asking too early.
+  const switched = await waitFor(page,
+    `document.getElementById("app-manifest")?.getAttribute("href")?.endsWith("manifest.de.webmanifest") === true`,
+    { timeout: 10000 });
+  check(switched === true, "the page switches its manifest link to German");
   const germanManifest = await page.cdp.send("Page.getAppManifest", {}, page.sessionId);
   check(germanManifest.url === `${origin}/manifest.de.webmanifest`,
         "German locale selects the German manifest", germanManifest.url);

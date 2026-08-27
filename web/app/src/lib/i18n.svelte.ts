@@ -1,851 +1,100 @@
-export type Locale = "en" | "de";
+/**
+ * A BCP-47 primary tag.
+ *
+ * Open by design. It was `"en" | "de"`, which made the type the second
+ * place to edit when adding a language and the one people forget; now the
+ * set of languages is whatever is in `src/locales`, and `availableLocales()`
+ * reports it.
+ */
+export type Locale = string;
 
 type Vars = Record<string, string | number>;
 
 /** Domain vocabulary returned by the engine rather than authored in components. */
-const DE_TERMS: Record<string, string> = {
-  water: "Wasser", ethanol: "Ethanol", "sodium chloride": "Natriumchlorid",
-  "silver nitrate": "Silbernitrat", "silver chloride": "Silberchlorid",
-  "hydrogen peroxide": "Wasserstoffperoxid", catalase: "Katalase",
-  "manganese dioxide": "Mangandioxid", "sodium sulfite": "Natriumsulfit",
-  "sodium thiosulfate": "Natriumthiosulfat", sulfur: "Schwefel",
-  "sulfur dioxide": "Schwefeldioxid", "slaked lime (calcium hydroxide)": "Löschkalk (Calciumhydroxid)",
-  "copper(II) hydroxide": "Kupfer(II)-hydroxid", "copper(II) oxide": "Kupfer(II)-oxid",
-  "sodium ion": "Natrium-Ion", "chloride ion": "Chlorid-Ion", "silver ion": "Silber-Ion",
-  "nitrate ion": "Nitrat-Ion", "hydrochloric acid": "Salzsäure", "sulfuric acid": "Schwefelsäure",
-  "sodium hydroxide": "Natriumhydroxid", "ammonia solution": "Ammoniaklösung",
-  "bleach (sodium hypochlorite)": "Bleichmittel (Natriumhypochlorit)", chloramine: "Chloramin",
-  "chlorine gas": "Chlorgas", "acetic acid": "Essigsäure", "sodium acetate": "Natriumacetat",
-  "acetate ion": "Acetat-Ion", "baking soda (sodium bicarbonate)": "Natron (Natriumhydrogencarbonat)",
-  "washing soda (sodium carbonate)": "Waschsoda (Natriumcarbonat)", "carbon dioxide": "Kohlenstoffdioxid",
-  "bicarbonate ion": "Hydrogencarbonat-Ion", "phosphoric acid": "Phosphorsäure",
-  "dihydrogen phosphate ion": "Dihydrogenphosphat-Ion", "potassium chloride": "Kaliumchlorid",
-  "calcium chloride": "Calciumchlorid", "chalk (calcium carbonate)": "Kreide (Calciumcarbonat)",
-  "magnesium sulfate": "Magnesiumsulfat", "gypsum (calcium sulfate dihydrate)": "Gips (Calciumsulfat-Dihydrat)",
-  "potassium ion": "Kalium-Ion", "calcium ion": "Calcium-Ion", "magnesium ion": "Magnesium-Ion",
-  "strontium ion": "Strontium-Ion", "sulfate ion": "Sulfat-Ion", "quicklime (calcium oxide)": "Branntkalk (Calciumoxid)",
-  magnesium: "Magnesium", copper: "Kupfer", zinc: "Zink", silver: "Silber", iron: "Eisen",
-  "magnesium oxide": "Magnesiumoxid", "carbon (charcoal)": "Kohlenstoff (Holzkohle)", oxygen: "Sauerstoff",
-  nitrogen: "Stickstoff", "copper sulfate": "Kupfersulfat", "copper(II) ion": "Kupfer(II)-Ion",
-  "potassium permanganate": "Kaliumpermanganat", "iron(II) sulfate": "Eisen(II)-sulfat",
-  "iron(II) ion": "Eisen(II)-Ion", "iron(III) ion": "Eisen(III)-Ion", "copper(I) ion": "Kupfer(I)-Ion",
-  "manganese(II) ion": "Mangan(II)-Ion", "manganate ion": "Manganat-Ion",
-  "manganese(III) ion": "Mangan(III)-Ion", "permanganate ion": "Permanganat-Ion",
-  phenolphthalein: "Phenolphthalein", "methyl orange": "Methylorange", "bromothymol blue": "Bromthymolblau",
-  "zinc ion": "Zink-Ion", "zinc sulfate": "Zinksulfat", hydrogen: "Wasserstoff", lead: "Blei",
-  "lead(II) ion": "Blei(II)-Ion", "lead(II) nitrate": "Blei(II)-nitrat", methanol: "Methanol",
-  hexane: "Hexan", propanone: "Aceton", ethyl_acetate: "Ethylacetat", "potassium hydroxide": "Kaliumhydroxid",
-  "hydroxide ion": "Hydroxid-Ion", "sodium nitrate": "Natriumnitrat", "potassium nitrate": "Kaliumnitrat",
-  "ascorbic acid (vitamin C)": "Ascorbinsäure (Vitamin C)", iodine: "Iod", "dehydroascorbic acid": "Dehydroascorbinsäure",
-  "hydrogen iodide": "Iodwasserstoff", starch: "Stärke", amylase: "Amylase", maltose: "Maltose",
-  "potassium iodide": "Kaliumiodid", "potassium iodate": "Kaliumiodat", "sodium bisulfite": "Natriumhydrogensulfit",
-  "sodium bisulfate": "Natriumhydrogensulfat", "polyethylene (HDPE)": "Polyethylen (HDPE)",
-  polypropylene: "Polypropylen", "polyethylene terephthalate": "Polyethylenterephthalat", polystyrene: "Polystyrol",
-  "betanin (beetroot red)": "Betanin (Rote-Bete-Rot)", "curcumin (turmeric yellow)": "Curcumin (Kurkuma-Gelb)",
-  "indigo carmine (E132)": "Indigocarmin (E132)", "oxidised betanin (colourless)": "oxidiertes Betanin (farblos)",
-  "oxidised curcumin (colourless)": "oxidiertes Curcumin (farblos)",
-  "oxidised indigo carmine (colourless)": "oxidiertes Indigocarmin (farblos)", aluminium: "Aluminium",
-  liquid: "Flüssigkeit", aqueous: "wässrig", colourless: "farblos", white: "weiß", black: "schwarz",
-  blue: "blau", green: "grün", yellow: "gelb", orange: "orange", red: "rot", crimson: "karminrot",
-  violet: "violett", lilac: "lila", "apple-green": "apfelgrün", "brick-red": "ziegelrot",
-  corrosive: "ätzend", toxic: "giftig", flammable: "entzündlich", oxidizer: "oxidierend",
-  "start here": "hier anfangen", "acids & bases": "Säuren & Basen", "heat & fire": "Wärme & Feuer",
-  "redox & electricity": "Redox & Elektrizität", "water chemistry": "Wasserchemie",
-  "gases & pressure": "Gase & Druck", rates: "Reaktionsgeschwindigkeit", separations: "Trennverfahren", safety: "Sicherheit",
-  buffer: "Puffer", calorimetry: "Kalorimetrie", conductivity: "Leitfähigkeit", "counting in fives": "Zählen in Fünferschritten",
-  electrode: "Elektrode", electrolysis: "Elektrolyse", fire: "Feuer", "first warmth": "Erste Wärme", fizz: "Sprudeln",
-  grit: "Streusalz", "hard water": "Hartes Wasser", limewater: "Kalkwasser", "neutral moves": "Neutral verschiebt sich",
-  "never mix": "Niemals mischen", "one thing at a time": "Eins nach dem anderen", "salt from brine": "Salz aus Sole",
-  "sealed gas": "Eingeschlossenes Gas", "silver and salt": "Silber und Salz", spannungsreihe: "Spannungsreihe",
-  "spirit still": "Spiritusbrennerei", "there and back": "Hin und zurück", "three protons": "Drei Protonen",
-  "titration manual": "Titration von Hand", titration: "Titration", "transport column": "Transportsäule", "two roads": "Zwei Wege",
-  "Buffers: why your blood does not change pH when you drink lemonade": "Puffer: Warum sich der pH-Wert deines Blutes beim Trinken von Limonade nicht ändert",
-  "Neutralisation enthalpy: how much heat does an acid-base reaction produce?": "Neutralisationsenthalpie: Wie viel Wärme erzeugt eine Säure-Base-Reaktion?",
-  "Ionic conductivity: strong vs weak electrolytes": "Ionenleitfähigkeit: starke und schwache Elektrolyte",
-  "Permanganate counts in fives: a redox titration, stopped at the endpoint": "Permanganat zählt in Fünferschritten: eine Redoxtitration bis zum Endpunkt",
-  "The electrochemical series: zinc displaces copper": "Die elektrochemische Spannungsreihe: Zink verdrängt Kupfer",
-  "Electrolysis of copper sulfate: Faraday's law": "Elektrolyse von Kupfersulfat: Faradays Gesetz",
-  "Fire: what burns, what does not, and what it leaves behind": "Feuer: Was brennt, was nicht und was zurückbleibt",
-  "First warmth: mix hot and cold water, watch the middle": "Erste Wärme: Heißes und kaltes Wasser mischen und die Mitte beobachten",
-  "The fizz: vinegar meets baking soda": "Das Sprudeln: Essig trifft Natron",
-  "Grit for the road: salt holds water liquid below zero": "Streusalz: Salz hält Wasser unter null Grad flüssig",
-  "The kettle and the statue: hard water and limescale": "Der Wasserkocher und die Statue: hartes Wasser und Kalk",
-  "Carbon dioxide enters as well as leaves an open vessel.": "Kohlenstoffdioxid tritt in ein offenes Gefäß ein und verlässt es auch wieder.",
-  "Neutral is a moving target: warm water is still just water": "Neutral ist beweglich: Warmes Wasser bleibt Wasser",
-  "The safety layer: precise about danger, honest about outcomes": "Die Sicherheitsebene: präzise über Gefahren, ehrlich über Folgen",
-  "One thing at a time: the column tells a mixture apart.": "Eins nach dem anderen: Die Säule trennt ein Gemisch.",
-  "Rates: two beakers, one variable, one clock.": "Reaktionsgeschwindigkeit: zwei Bechergläser, eine Variable, eine Uhr.",
-  "Salt from brine: the oldest chemistry in the world": "Salz aus Sole: die älteste Chemie der Welt",
-  "Gas laws in a sealed vessel": "Gasgesetze in einem geschlossenen Gefäß",
-  "Case file: identify chloride with silver nitrate": "Fallakte: Chlorid mit Silbernitrat nachweisen",
-  "Die Spannungsreihe: who takes the electrons, and what a battery is worth": "Die Spannungsreihe: Wer nimmt die Elektronen und was leistet eine Batterie?",
-  "The spirit still — and the wall at 96 percent": "Die Spiritusbrennerei — und die Grenze bei 96 Prozent",
-  "There and back again: an ester is made, then unmade.": "Hin und zurück: Ein Ester entsteht und wird wieder zerlegt.",
-  "Three protons: phosphoric acid meets the burette": "Drei Protonen: Phosphorsäure trifft die Bürette",
-  "Titration: strong acid meets strong base": "Titration: starke Säure trifft starke Base",
-  "A salt pulse through a water column": "Ein Salzimpuls durch eine Wassersäule",
-  "Two roads, one temperature: Hess's law with a thermometer": "Zwei Wege, eine Temperatur: der Satz von Hess mit einem Thermometer",
-  Hydrogen: "Wasserstoff", Carbon: "Kohlenstoff", Nitrogen: "Stickstoff", Oxygen: "Sauerstoff",
-  Fluorine: "Fluor", Sodium: "Natrium", Silicon: "Silicium", Phosphorus: "Phosphor",
-  Sulfur: "Schwefel", Chlorine: "Chlor", Potassium: "Kalium", Calcium: "Calcium",
-  Manganese: "Mangan", Iron: "Eisen", Cobalt: "Kobalt", Copper: "Kupfer", Zinc: "Zink",
-  Arsenic: "Arsen", Bromine: "Brom", Silver: "Silber", Tin: "Zinn", Antimony: "Antimon",
-  Iodine: "Iod", Caesium: "Cäsium", Tungsten: "Wolfram", Gold: "Gold", Mercury: "Quecksilber",
-  Lead: "Blei", Bismuth: "Bismut", Astatine: "Astat", Francium: "Francium",
-  Protactinium: "Protactinium", Uranium: "Uran", Plutonium: "Plutonium",
-  Californium: "Californium", Roentgenium: "Röntgenium"
+/** A translation bundle: one JSON file per language, in `src/locales`. */
+type Bundle = {
+  "@@locale": string;
+  /** What this language calls itself — "Deutsch", not "German". */
+  "@@name"?: string;
+  /** The engine's vocabulary — species, colours, hazards. */
+  terms?: Record<string, string>;
+  /** The interface's own strings, plus the names the codex refers to by slug. */
+  messages?: Record<string, string>;
 };
 
-const DE: Record<string, string> = {
-  ...DE_TERMS,
-  "English": "Englisch",
-  "German": "Deutsch",
-  "3% hydrogen peroxide": "3%ige Wasserstoffperoxid-Lösung",
-  "5% white vinegar": "5%iger Weißweinessig",
-  "dish soap": "Geschirrspülmittel",
-  "dry yeast": "Trockenhefe",
-  "baking soda": "Natron",
-  "washing soda": "Waschsoda",
-  "cornstarch": "Maisstärke",
-  "liquid hand soap": "Flüssige Handseife",
-  "blue food colouring": "Blaue Lebensmittelfarbe",
-  "red food colouring": "Rote Lebensmittelfarbe",
-  "yellow food colouring": "Gelbe Lebensmittelfarbe",
-  "Language": "Sprache",
-  "Kerotakis — the bench": "Kerotakis — das Labor",
-  "A virtual chemistry laboratory that computes real chemistry — drag reagents onto drawn glassware and watch a real aqueous solver answer. Offline once loaded.": "Ein virtuelles Chemielabor, das echte Chemie berechnet — ziehe Reagenzien auf die Glasgeräte und beobachte die Ergebnisse eines realen wässrigen Lösers. Nach dem Laden offline nutzbar.",
-  "a chemistry bench that computes": "ein Chemielabor, das rechnet",
-  "Sandbox": "Sandbox",
-  "Mission Control": "Missionszentrale",
-  "research campus": "Forschungscampus",
-  "Choose where to investigate": "Wähle deinen Forschungsort",
-  "Finish missions to open new districts. Choose your own route through the campus.": "Schließe Missionen ab, um neue Bereiche zu öffnen. Wähle deinen eigenen Weg durch den Campus.",
-  "{count} missions complete": "{count} Missionen abgeschlossen",
-  "discoveries": "Entdeckungen",
-  "close research map": "Forschungskarte schließen",
-  "campus districts": "Campusbereiche",
-  "{done} of {total} complete": "{done} von {total} abgeschlossen",
-  "complete {count} missions to enter": "{count} Missionen abschließen zum Betreten",
-  "complete one mission to enter": "eine Mission abschließen zum Betreten",
-  "district complete": "Bereich abgeschlossen",
-  "district open": "Bereich geöffnet",
-  "district locked": "Bereich gesperrt",
-  "mission complete": "Mission abgeschlossen",
-  "replay mission": "Mission wiederholen",
-  "The route is still being surveyed": "Diese Route wird noch erkundet",
-  "Complete {count} missions anywhere in the open districts to unlock this route.": "Schließe {count} Missionen in beliebigen geöffneten Bereichen ab, um diese Route freizuschalten.",
-  "Complete one mission anywhere in the open districts to unlock this route.": "Schließe eine Mission in einem beliebigen geöffneten Bereich ab, um diese Route freizuschalten.",
-  "Other ways to explore": "Andere Wege zum Entdecken",
-  "experiment library": "Experimentbibliothek",
-  "open full sandbox": "vollständige Sandbox öffnen",
-  "Discovery Hall": "Entdeckerhalle",
-  "Start with visible changes, careful observation, and safe habits.": "Beginne mit sichtbaren Veränderungen, genauer Beobachtung und sicheren Gewohnheiten.",
-  "Matter Gardens": "Gärten der Stoffe",
-  "Follow acids, bases, minerals, and water through the living campus.": "Verfolge Säuren, Basen, Mineralien und Wasser durch den lebendigen Campus.",
-  "Energy Yard": "Energiehof",
-  "Work with heat, fire, pressure, and the energy hidden in matter.": "Arbeite mit Wärme, Feuer, Druck und der in Stoffen verborgenen Energie.",
-  "Electron Works": "Elektronenwerk",
-  "Make electrons move, plate metals, and build chemical power.": "Bringe Elektronen in Bewegung, beschichte Metalle und erzeuge chemische Energie.",
-  "Systems Dock": "Systemdock",
-  "Control rates and separate mixtures with connected apparatus.": "Steuere Reaktionsgeschwindigkeiten und trenne Gemische mit verbundenen Geräten.",
-  "open Mission Control": "Missionszentrale öffnen",
-  "close Mission Control": "Missionszentrale schließen",
-  "Choose your path": "Wähle deinen Weg",
-  "Follow a guided investigation or open the whole laboratory.": "Folge einer geführten Untersuchung oder öffne das ganze Labor.",
-  "Story missions": "Forschungsmissionen",
-  "Experiment library": "Experimentbibliothek",
-  "{count} Codex experiments": "{count} Codex-Experimente",
-  "Predict first, run real chemistry, then compare the evidence.": "Erst vorhersagen, dann echte Chemie ausführen und die Nachweise vergleichen.",
-  "browse experiments": "Experimente durchsuchen",
-  "Sandbox lab": "Sandbox-Labor",
-  "Your laboratory, your rules": "Dein Labor, deine Regeln",
-  "Everything is unlocked. Build, test, and break your own ideas.": "Alles ist freigeschaltet. Baue, teste und hinterfrage deine eigenen Ideen.",
-  "exit to sandbox": "zur Sandbox wechseln",
-  "you are here": "du bist hier",
-  "mission in progress": "Mission läuft",
-  "mission journal": "Missionsjournal",
-  "leave mission": "Mission verlassen",
-  "current lab instruction": "aktuelle Laboranweisung",
-  "show a hint": "Hinweis anzeigen",
-  "hide hint": "Hinweis ausblenden",
-  "hint": "Hinweis",
-  "evidence ledger": "Nachweisprotokoll",
-  "Results gathered during this mission": "Während dieser Mission gesammelte Ergebnisse",
-  "Your engine-backed observations and measurements will collect here.": "Deine vom Rechenmodell bestätigten Beobachtungen und Messungen werden hier gesammelt.",
-  "Prepare the requested material": "Bereite den benötigten Stoff vor",
-  "Set up another vessel": "Stelle ein weiteres Gefäß bereit",
-  "Change how closely you observe": "Ändere die Beobachtungstiefe",
-  "Take the next measurement": "Führe die nächste Messung durch",
-  "Observe the evidence": "Beobachte die Nachweise",
-  "Run the reaction": "Führe die Reaktion durch",
-  "Add carefully until the endpoint": "Gib vorsichtig bis zum Endpunkt hinzu",
-  "Control the vessel": "Kontrolliere das Gefäß",
-  "Separate the mixture": "Trenne das Gemisch",
-  "Change the conditions": "Verändere die Bedingungen",
-  "Build and test the electrical system": "Baue und prüfe das elektrische System",
-  "Carry out the next investigation step": "Führe den nächsten Untersuchungsschritt durch",
-  "Check the selected vessel and material before adding it.": "Prüfe vor der Zugabe das ausgewählte Gefäß und den Stoff.",
-  "Empty vessels appear in the Prepare zone.": "Leere Gefäße erscheinen im Bereich Vorbereiten.",
-  "The register changes detail, never the underlying chemistry.": "Das Register ändert die Detailtiefe, niemals die zugrunde liegende Chemie.",
-  "Select the named vessel, then use its observation or measurement tools.": "Wähle das genannte Gefäß und nutze dann seine Beobachtungs- oder Messgeräte.",
-  "Use the burette for controlled additions and watch the instrument reading.": "Nutze die Bürette für kontrollierte Zugaben und beobachte den Messwert.",
-  "Connected apparatus can be placed from the equipment cabinet.": "Verbundene Aufbauten kannst du aus dem Geräteschrank platzieren.",
-  "Condition controls are in the selected vessel's action dock.": "Die Bedingungsregler befinden sich im Aktionsfeld des ausgewählten Gefäßes.",
-  "Place the electrical apparatus, then connect the named vessels.": "Platziere die elektrischen Geräte und verbinde dann die genannten Gefäße.",
-  "The exact operator instruction remains visible if you want to run it directly.": "Die genaue Operatoranweisung bleibt sichtbar, falls du sie direkt ausführen möchtest.",
-  "mission debrief": "Missionsauswertung",
-  "discovery recorded": "Entdeckung gespeichert",
-  "mission replay complete": "Missionswiederholung abgeschlossen",
-  "close mission debrief": "Missionsauswertung schließen",
-  "evidence items": "Nachweise",
-  "missions complete": "Missionen abgeschlossen",
-  "review the evidence": "Nachweise ansehen",
-  "keep experimenting": "weiter experimentieren",
-  "return to research map": "zur Forschungskarte",
-  "This mission was already complete. Your new run remains in the lab notebook.": "Diese Mission war bereits abgeschlossen. Dein neuer Durchlauf bleibt im Laborbuch erhalten.",
-  "Matter Gardens and Energy Yard are now open.": "Die Gärten der Stoffe und der Energiehof sind jetzt geöffnet.",
-  "Electron Works is now open.": "Das Elektronenwerk ist jetzt geöffnet.",
-  "Systems Dock is now open.": "Das Systemdock ist jetzt geöffnet.",
-  "Your discovery is now part of the Story research record.": "Deine Entdeckung ist jetzt Teil des Forschungsprotokolls der Story.",
-  "mission progress": "Missionsfortschritt",
-  "current objective": "aktuelles Ziel",
-  "{step} of {total} steps": "Schritt {step} von {total}",
-  "{done} of {total} evidence checks": "{done} von {total} Nachweisprüfungen",
-  "mission outcome": "Missionsziel",
-  "mission goal": "Missionsziel",
-  "assessed by the solver": "durch die Simulation bewertet",
-  "solver-assessed outcome": "durch Simulation bewertetes Ziel",
-  "outcome evidence checks": "Nachweisprüfungen für das Missionsziel",
-  "Produce observable silver chloride to confirm chloride in the sample.": "Erzeuge sichtbares Silberchlorid, um Chlorid in der Probe nachzuweisen.",
-  "Plan your own setup. The solver will assess the chemical result, not whether you followed one recipe.": "Plane deinen eigenen Aufbau. Die Simulation bewertet das chemische Ergebnis, nicht ob du einem bestimmten Rezept gefolgt bist.",
-  "Sodium chloride and potassium chloride are different materials, but both supply chloride ions. Silver nitrate can make that shared ion visible.": "Natriumchlorid und Kaliumchlorid sind unterschiedliche Stoffe, liefern aber beide Chlorid-Ionen. Silbernitrat kann dieses gemeinsame Ion sichtbar machen.",
-  "Observable silver chloride formed": "Sichtbares Silberchlorid gebildet",
-  "continue mission": "Mission fortsetzen",
-  "Available missions": "Verfügbare Missionen",
-  "launch mission": "Mission starten",
-  "Missions are downloading. The sandbox is ready now.": "Missionen werden geladen. Die Sandbox ist schon bereit.",
-  "guided mission": "geführte Mission",
-  "lab mode": "Labormodus",
-  "utilities": "Werkzeuge & Dateien",
-  "open utilities": "Werkzeuge und Dateien öffnen",
-  "time and history": "Zeit und Verlauf",
-  "files and notebook": "Dateien und Laborbuch",
-  "explore and study": "Entdecken und untersuchen",
-  "supply cabinet": "Materialschrank",
-  "choose what goes on the bench": "Wähle, was auf den Labortisch kommt",
-  "reagents": "Reagenzien",
-  "equipment": "Geräte",
-  "cabinet": "Schrank",
-  "journal": "Laborbuch",
-  "workspace": "Labortisch",
-  "lab journal": "Laborbuch",
-  "observations and evidence": "Beobachtungen und Nachweise",
-  "notebook entries": "Laborbucheinträge",
-  "working with vessel v{vessel}": "Arbeiten mit Gefäß v{vessel}",
-  "precision tools": "Präzisionsgeräte",
-  "controlled addition": "kontrollierte Zugabe",
-  "choose more equipment…": "weitere Geräte wählen…",
-  "transfer and separation": "Überführen und Trennen",
-  "appearance": "Darstellung",
-  "light": "Hell",
-  "dark": "Dunkel",
-  "high contrast": "Hoher Kontrast",
-  "quick actions for vessel v{vessel}": "Schnellaktionen für Gefäß v{vessel}",
-  "selected": "ausgewählt",
-  "heat": "erwärmen",
-  "cool": "abkühlen",
-  "look": "ansehen",
-  "seal": "verschließen",
-  "run {action} on {vessel}": "{action} bei {vessel} ausführen",
-  "details": "Details",
-  "more tools": "weitere Geräte",
-  "bench work zones": "Arbeitsbereiche des Labortischs",
-  "free-positioned laboratory bench": "Labortisch mit frei platzierbaren Gefäßen",
-  "prepare": "Vorbereiten",
-  "react": "Reagieren",
-  "analyse": "Analysieren",
-  "add here": "hier hinzugeben",
-  "pour from {vessel}": "aus {vessel} gießen",
-  "transfer target": "Zielgefäß",
-  "tools": "Werkzeuge",
-  "undo": "rückgängig",
-  "save .lab": ".lab speichern",
-  "save notes": "Notizen speichern",
-  "print": "drucken",
-  "open .lab": ".lab öffnen",
-  "clear": "leeren",
-  "wait 30 s": "30 s warten",
-  "burette": "Bürette",
-  "filter": "filtrieren",
-  "decant": "dekantieren",
-  "drain": "ablassen",
-  "voltmeter": "Voltmeter",
-  "still": "Destille",
-  "more apparatus": "weitere Geräte",
-  "apparatus…": "Geräte…",
-  "curated reaction": "kuratierte Reaktion",
-  "column train": "Säulenkette",
-  "lessons…": "Lektionen…",
-  "start a lesson": "eine Lektion beginnen",
-  "more": "weitere",
-  "live": "aktiv",
-  "shipped results": "mitgelieferte Ergebnisse",
-  "starting…": "startet…",
-  "elements": "Elemente",
-  "toolbox": "Werkzeugkasten",
-  "experiments": "Experimente",
-  "map": "Karte",
-  "install": "installieren",
-  "console": "Konsole",
-  "A newer bench is downloaded and ready.": "Eine neuere Version des Labors wurde geladen und ist bereit.",
-  "reload into it": "neu laden",
-  "later": "später",
-  "cancel": "abbrechen",
-  "pour": "gieße",
-  "tap the source vessel": "Quellgefäß antippen",
-  "from v{vessel} — now tap the target": "von v{vessel} — jetzt das Ziel antippen",
-  "latest reaction equation": "neueste Reaktionsgleichung",
-  "panes": "Bereiche",
-  "bench": "Labor",
-  "shelf": "Regal",
-  "notes": "Notizen",
-  "measure": "messen",
-  "print the notebook — or save it as PDF from the print dialog": "Laborbuch drucken — oder im Druckdialog als PDF speichern",
-  "let 30 seconds of bench time pass": "30 Sekunden Laborzeit verstreichen lassen",
-  "clamp the burette over the selected vessel": "Bürette über dem gewählten Gefäß einspannen",
-  "the periodic table, wired to the shelf": "das Periodensystem, mit dem Regal verbunden",
-  "named relations: compute with provenance": "benannte Beziehungen: mit Herkunftsnachweis berechnen",
-  "codex experiments: predict, run, check": "Kodex-Experimente: vorhersagen, ausführen, prüfen",
-  "the concept map: what you have met, what is ready": "Begriffskarte: Bekanntes und Bereites",
-  "install the bench — it runs offline, engine and all": "Labor installieren — vollständig offline nutzbar",
-  "engine {identity}": "Engine {identity}",
-  "{tool}: pick the source vessel, then the target": "{tool}: erst das Quellgefäß, dann das Ziel wählen",
+/**
+ * Every language shipped, discovered by filename.
+ *
+ * Adding French is `locales/fr.json` and nothing else: no import to add,
+ * no map to extend, no existing translation touched. That file boundary is
+ * the point — two translators working on two languages never edit the same
+ * file, which is what makes the work parallelisable at all.
+ *
+ * `eager`, so bundles are inlined at build time. A language fetched over
+ * the network is a language you cannot read on a train, and this app is
+ * offline-first.
+ *
+ * `_template.json` is the empty shape a new translation starts from, so it
+ * is skipped rather than offered as a language nobody can read.
+ */
+const BUNDLES: Record<string, Bundle> = Object.fromEntries(
+  Object.entries(
+    import.meta.glob<Bundle>("../locales/*.json", { eager: true, import: "default" }),
+  )
+    .filter(([path]) => !path.split("/").pop()!.startsWith("_"))
+    .map(([, bundle]) => [bundle["@@locale"], bundle]),
+);
 
-  "choose…": "auswählen…",
-  "go": "los",
-  "put away": "wegräumen",
-  "{apparatus} over v{vessel}": "{apparatus} über v{vessel}",
-  "the bench": "das Labor",
-  "add a vessel": "ein Gefäß hinzufügen",
-  "Drag something in from the shelf, type a command below — or pick a lesson.": "Ziehe etwas aus dem Regal hinein, gib unten einen Befehl ein — oder wähle eine Lektion.",
-  "The bench is warming up…": "Das Labor wärmt sich auf…",
-  "beaker": "Becherglas",
-  "flask": "Kolben",
-  "tube": "Reagenzglas",
-  "cylinder": "Messzylinder",
-  "crucible": "Tiegel",
-  "burette over v{vessel}": "Bürette über v{vessel}",
-  "titrant": "Titrationsmittel",
-  "concentration": "Konzentration",
-  "per drop": "je Tropfen",
-  "until pH": "bis pH",
-  "dripping…": "tropft…",
-  "start the drip": "Tropfen starten",
-  "save SVG": "SVG speichern",
-  "save PNG": "PNG speichern",
-  "data": "Daten",
-  "not a command": "kein Befehl",
-  "command": "Befehl",
-  "add v1 water 100mL": "add v1 H2O 100mL",
-  "speak a command — it lands here to read and correct before you run it": "Befehl sprechen — er erscheint hier zum Prüfen und Korrigieren",
-  "stop listening": "Zuhören beenden",
-  "speak a command": "Befehl sprechen",
-  "concept map": "Begriffskarte",
-  "{met} of {total} concepts met — filled means run to a green check here": "{met} von {total} Begriffen kennengelernt — gefüllt bedeutet hier erfolgreich ausgeführt",
-  "close": "schließen",
-  "the codex export has not arrived yet — the map draws itself from it": "Der Kodex-Export ist noch nicht eingetroffen — daraus erstellt sich die Karte.",
-  "concept graph": "Begriffsdiagramm",
-  "ready": "bereit",
-  "locked": "gesperrt",
-  "needs: {concepts}": "benötigt: {concepts}",
-  "{count} from the codex — each one computed, checked, and yours to break": "{count} aus dem Kodex — jedes berechnet, geprüft und bereit für deine Tests",
-  "all": "alle",
-  "by concept": "nach Begriff",
-  "by curriculum": "nach Lehrplan",
-  "filter…": "filtern…",
-  "filter experiments": "Experimente filtern",
-  "concepts": "Begriffe",
-  "these entries name no concepts yet": "Diese Einträge nennen noch keine Begriffe.",
-  "taught alongside:": "zusammen vermittelt:",
-  "no curriculum placements in this export yet": "Noch keine Lehrplan-Zuordnungen in diesem Export.",
-  "placed per: {sources}": "zugeordnet nach: {sources}",
-  "nothing matches that filter": "Nichts entspricht diesem Filter.",
-  "theory": "Theorie",
-  "procedure": "Ablauf",
-  "predict & run": "vorhersagen & ausführen",
-  "concepts: {concepts}": "Begriffe: {concepts}",
-  "models: {models}": "Modelle: {models}",
-  "you will need: {apparatus}": "Du brauchst: {apparatus}",
-  "commit a prediction first — the reveal only teaches if you have.": "Lege dich zuerst auf eine Vorhersage fest — erst dann ist die Auflösung lehrreich.",
-  "running…": "läuft…",
-  "run it on the bench": "im Labor ausführen",
-  "the chemistry agrees": "die Chemie stimmt überein",
-  "not everything checked out": "nicht alles wurde bestätigt",
-  "occurred": "aufgetreten",
-  "absent": "nicht aufgetreten",
-  "expected {range}": "erwartet {range}",
-  "your prediction held.": "Deine Vorhersage traf zu.",
-  "lab notebook": "Laborbuch",
-  "Keyboard": "Tastatur",
-  "keyboard shortcuts": "Tastaturkürzel",
-  "focus the command bar": "Befehlszeile fokussieren",
-  "undo the last step": "letzten Schritt rückgängig machen",
-  "redo the step": "Schritt wiederholen",
-  "open this help": "diese Hilfe öffnen",
-  "Every button and drag also works from the keyboard — vessels are buttons, and everything you do is a command you can read back in the notebook.": "Jede Schaltfläche und jede Ziehbewegung funktioniert auch per Tastatur — Gefäße sind Schaltflächen, und jede Aktion ist ein Befehl, den du im Laborbuch nachlesen kannst.",
-  "vessel v{vessel} detail": "Details zu Gefäß v{vessel}",
-  "particles": "Teilchen",
-  "close inspector": "Inspektor schließen",
-  "act on {vessel}": "Aktionen für {vessel}",
-  "gas tests on {vessel}": "Gastests für {vessel}",
-  "test the gas:": "Gas testen:",
-  "heat 10 kJ": "um 10 kJ erhitzen",
-  "cool 10 kJ": "um 10 kJ kühlen",
-  "stir": "rühren",
-  "ignite": "entzünden",
-  "seal 500 mL": "mit 500 mL Kopfraum verschließen",
-  "open": "öffnen",
-  "thermometer": "Thermometer",
-  "pH meter": "pH-Meter",
-  "balance": "Waage",
-  "volume": "Volumen",
-  "conductivity": "Leitfähigkeit",
-  "pressure gauge": "Manometer",
-  "calorimeter": "Kalorimeter",
-  "look closely": "genau ansehen",
-  "chromatograph": "Chromatograph",
-  "instruments for {vessel}": "Instrumente für {vessel}",
-  "kit reagents": "Reagenzien des Sets",
-  "amount of {name}": "Menge von {name}",
-  "lesson {name}": "Lektion {name}",
-  "do it": "ausführen",
-  "off the script by {count} step": "{count} Schritt vom Ablauf abgewichen",
-  "off the script by {count} steps": "{count} Schritte vom Ablauf abgewichen",
-  "exploring is allowed": "Erkunden ist erlaubt",
-  "return to the script": "zum Ablauf zurückkehren",
-  "leave lesson": "Lektion verlassen",
-  "positive ion": "positives Ion",
-  "negative ion": "negatives Ion",
-  "uncharged, dissolved": "ungeladen, gelöst",
-  "solvent": "Lösungsmittel",
-  "solid": "Feststoff",
-  "gas": "Gas",
-  "also present, too dilute to draw at this scale:": "ebenfalls vorhanden, in diesem Maßstab zu verdünnt zum Darstellen:",
-  "{drawn} of {label}": "{drawn} von {label}",
-  "particle view: {populations}": "Teilchenansicht: {populations}",
-  "one shape ≈ {amount} mol": "ein Symbol ≈ {amount} mol",
-  "ratios from solved speciation": "Verhältnisse aus berechneter Speziation",
-  "ratios from the ideal fallback": "Verhältnisse aus idealer Näherung",
-  "periodic table": "Periodensystem",
-  "open periodic table": "Periodensystem öffnen",
-  "tap to explore": "antippen und erkunden",
-  "open instrument cabinet": "Instrumentenschrank öffnen",
-  "open supply cabinet": "Materialschrank öffnen",
-  "collapse supply cabinet": "Materialschrank einklappen",
-  "open lab journal": "Laborbuch öffnen",
-  "collapse lab journal": "Laborbuch einklappen",
-  "choose a tool": "Gerät auswählen",
-  "selected vessel details": "Details zum ausgewählten Gefäß",
-  "measure selected vessel": "Ausgewähltes Gefäß messen",
-  "gas tests": "Gasnachweise",
-  "Apply a test to the headspace of the selected vessel.": "Wende einen Nachweis auf den Gasraum des ausgewählten Gefäßes an.",
-  "computed state": "Berechneter Zustand",
-  "the elements": "die Elemente",
-  "tap one to see what the lab has of it": "Element antippen, um den Laborbestand zu sehen",
-  "show lab table": "Labortabelle zeigen",
-  "show all 118 elements": "alle 118 Elemente zeigen",
-  "{count} shelf examples": "{count} Beispiele im Regal",
-  "modeled foam: {height} cm high": "modellierter Schaum: {height} cm hoch",
-  "modeled {colour} foam: {height} cm high": "modellierter {colour}er Schaum: {height} cm hoch",
-  "period {period} · group {group} · {block}-block": "Periode {period} · Gruppe {group} · {block}-Block",
-  "flame test: {flames}": "Flammenprobe: {flames}",
-  "on the shelf, containing {symbol}:": "im Regal, enthält {symbol}:",
-  "nothing on the shelf contains {symbol} yet — the registry grows by provenance-carrying tranches, not by wishful entries.": "Noch enthält nichts im Regal {symbol} — das Register wächst in Chargen mit Herkunftsnachweis, nicht durch Wunschdaten.",
-  "curated reaction on v{vessel}": "kuratierte Reaktion in v{vessel}",
-  "verified family templates the engine can run": "verifizierte Reaktionsfamilien, die die Engine ausführen kann",
-  "run": "ausführen",
-  "temperature": "Temperatur",
-  "ionic strength": "Ionenstärke",
-  "close reading": "Messwert schließen",
-  "detail level": "Detailstufe",
-  "Look": "Ansehen",
-  "Measure": "Messen",
-  "Model": "Modellieren",
-  "reagent shelf": "Reagenzienregal",
-  "shelf contents": "Regalinhalt",
-  "cabinet contents": "Schrankinhalt",
-  "mission set": "Missionsset",
-  "unlocked": "Freigeschaltet",
-  "catalog all": "Alles",
-  "the kit ({count})": "das Set ({count})",
-  "everything": "alles",
-  "find a substance…": "Stoff suchen…",
-  "find a substance": "Stoff suchen",
-  "amount": "Menge",
-  "unit": "Einheit",
-  "add": "zugeben",
-  "selected vessel capacity: {capacity} mL": "Fassungsvermögen des gewählten Gefäßes: {capacity} mL",
-  "write your own observation…": "Eigene Beobachtung notieren…",
-  "new journal note": "Neue Laborbuchnotiz",
-  "add note": "Notiz hinzufügen",
-  "my note": "Meine Notiz",
-  "phase filter": "Phasenfilter",
-  "custom amount": "eigene Menge",
-  "nothing on the shelf matches": "Nichts im Regal passt.",
-  "{count} substances — every one computed, none painted on": "{count} Stoffe — alle berechnet, keiner bloß dargestellt",
-  "{shown} of {total} substances": "{shown} von {total} Stoffen",
-  "burns {colour}": "Flammenfarbe {colour}",
-  "hazards: {hazards}": "Gefahren: {hazards}",
-  "hazards unassessed": "Gefahren nicht bewertet",
-  "timeline: step {position} of {total}": "Zeitleiste: Schritt {position} von {total}",
-  "relation calculator": "Beziehungsrechner",
-  "Toolbox": "Werkzeugkasten",
-  "named relations, computed by the engine — with sources": "benannte Beziehungen, von der Engine berechnet — mit Quellen",
-  "close the toolbox": "Werkzeugkasten schließen",
-  "relations": "Beziehungen",
-  "the engine has not answered with its relations yet": "Die Engine hat ihre Beziehungen noch nicht geliefert.",
-  "arguments": "Argumente",
-  "optional": "optional",
-  "computing…": "berechnet…",
-  "compute": "berechnen",
-  "cells in flow order, then where solution enters and collects": "Zellen in Fließrichtung, dann Einlass und Sammelgefäß wählen",
-  "cells": "Zellen",
-  "inlet": "Einlass",
-  "receiver": "Sammelgefäß",
-  "steps": "Schritte",
-  "run the column": "Säule ausführen",
-  "solution": "Lösung",
-  "sealed": "verschlossen",
-  "pressure-controlled": "druckgeregelt",
-  "swept with carrier gas": "mit Trägergas gespült",
-  "pH probe": "pH-Sonde",
-  "computed": "berechnet",
-  "open boundary": "offen",
-  "sealed boundary": "verschlossen",
-  "pressure controlled boundary": "druckgeregelt",
-  "swept boundary": "gespült"
-  ,"walk command history": "Befehlsverlauf durchgehen"
-  ,"undo (replays the bench)": "rückgängig (Labor wird erneut ausgeführt)"
-  ,"redo": "wiederholen"
-  ,"this help": "diese Hilfe"
-  ,"close panels": "Fenster schließen"
-  ,"the particle view could not be drawn: {error}": "Die Teilchenansicht konnte nicht gezeichnet werden: {error}"
-  ,"ratios from the inventory — ion pairs and complexes not resolved": "Verhältnisse aus dem Bestand — Ionenpaare und Komplexe nicht aufgelöst"
-  ,"pop": "Knallgasprobe"
-  ,"splint": "Spanprobe"
-  ,"limewater": "Kalkwasserprobe"
-  ,"litmus": "Lackmusprobe"
-  ,"alkali metal": "Alkalimetall"
-  ,"alkaline-earth metal": "Erdalkalimetall"
-  ,"transition metal": "Übergangsmetall"
-  ,"post-transition metal": "Metall der Borgruppe"
-  ,"metalloid": "Halbmetall"
-  ,"nonmetal": "Nichtmetall"
-  ,"halogen": "Halogen"
-  ,"noble gas": "Edelgas"
-  ,"lanthanide": "Lanthanoid"
-  ,"actinide": "Actinoid"
-  ,"properties not yet established": "Eigenschaften noch nicht bestimmt"
-  ,"wash bottle": "Spritzflasche"
-  ,"add water up to a volume": "mit Wasser auf ein Volumen auffüllen"
-  ,"to volume": "auf Volumen"
-  ,"evaporating dish": "Abdampfschale"
-  ,"boil part of the liquid away": "einen Teil der Flüssigkeit verdampfen"
-  ,"fraction": "Anteil"
-  ,"electrodes and supply": "Elektroden und Stromquelle"
-  ,"pass a current for a time": "für eine bestimmte Zeit Strom leiten"
-  ,"current": "Stromstärke"
-  ,"for": "für"
-  ,"mortar": "Mörser"
-  ,"set a solid's particle size": "Korngröße eines Feststoffs einstellen"
-  ,"grain": "Korngröße"
-  ,"lamp": "Lampe"
-  ,"shine light of one wavelength": "Licht einer Wellenlänge einstrahlen"
-  ,"wavelength": "Wellenlänge"
-  ,"irradiance": "Bestrahlungsstärke"
-  ,"piston lid": "Kolbendeckel"
-  ,"hold a set pressure over the vessel": "einen festen Druck über dem Gefäß halten"
-  ,"pressure": "Druck"
-  ,"headspace": "Kopfraum"
-  ,"carrier-gas line": "Trägergasleitung"
-  ,"purge the headspace with inert gas": "Kopfraum mit Inertgas spülen"
-  ,"The bench is live: states nobody pre-computed are solved.": "Das Labor ist aktiv: Nicht vorberechnete Zustände werden gelöst."
-  ,"The bench answers from shipped results only — the live aqueous engine is not attached.": "Das Labor antwortet nur mit mitgelieferten Ergebnissen — die aktive wässrige Engine ist nicht verbunden."
-  ,"the aqueous engine failed to attach: {reason}": "Die wässrige Engine konnte nicht verbunden werden: {reason}"
-  ,"replayed": "erneut ausgeführt"
-  ,"restored instantly": "sofort wiederhergestellt"
-  ,"restored your last session: {count} step(s) {how}": "Letzte Sitzung wiederhergestellt: {count} Schritt(e), {how}"
-  ,"could not restore the last session — starting fresh": "Die letzte Sitzung konnte nicht wiederhergestellt werden — neuer Start."
-  ,"the bench is empty again": "Das Labor ist wieder leer."
-  ,"the bench refused this operation": "Das Labor hat diesen Vorgang abgelehnt."
-  ,"running {name} on this bench": "{name} wird in diesem Labor ausgeführt."
-  ,"stopped at {name}:{line} — the rest of the file did not run": "Bei {name}:{line} angehalten — der Rest der Datei wurde nicht ausgeführt."
-  ,"{name} finished": "{name} abgeschlossen"
-  ,"speaking at {level}": "Detailstufe {level}"
-  ,"stepped back to {position} of {total}": "zurück zu Schritt {position} von {total}"
-  ,"stepped forward to {position} of {total}": "vor zu Schritt {position} von {total}"
-  ,"replay failed, the bench may be out of sync — {reason}": "Wiederholung fehlgeschlagen; das Labor ist möglicherweise nicht synchron — {reason}"
-  ,"lesson started: {name}": "Lektion begonnen: {name}"
-  ,"lesson finished: {name}": "Lektion abgeschlossen: {name}"
-  ,"back on the script.": "Zurück im Ablauf."
-  ,"lesson left: {name}": "Lektion verlassen: {name}"
-  ,"Kerotakis lab notebook": "Kerotakis-Laborbuch"
-  ,"hazard": "Gefahr"
-  ,"the bench answered {answer}.": "Das Labor antwortete {answer}."
-  ,"Try: {next}": "Versuche: {next}"
-  ,"separate solids from liquid": "Feststoffe von Flüssigkeit trennen"
-  ,"pour off a chosen fraction": "einen gewählten Anteil abgießen"
-  ,"move the lower liquid layer": "die untere Flüssigkeitsschicht ablassen"
-  ,"connect two half-cells": "zwei Halbzellen verbinden"
-  ,"separate by volatility": "nach Flüchtigkeit trennen"
-  ,"active work area": "aktiver Arbeitsbereich"
-  ,"Instrument wall": "Instrumentenwand"
-  ,"Choose a tool and it appears at the selected work area.": "Wähle ein Werkzeug; es erscheint am ausgewählten Arbeitsplatz."
-  ,"Every installed instrument is available in Sandbox.": "Jedes installierte Instrument ist in der Sandbox verfügbar."
-  ,"Complete investigations to earn permanent access to more instruments.": "Schließe Untersuchungen ab, um dauerhaft Zugang zu weiteren Instrumenten zu erhalten."
-  ,"after one mission": "nach einer Mission"
-  ,"after {count} missions": "nach {count} Missionen"
-  ,"mission kit": "Missionsset"
-  ,"This mission needs no additional cabinet equipment.": "Für diese Mission brauchst du keine zusätzlichen Geräte aus dem Schrank."
-  ,"Permanent stock unlocks after one completed mission. Mission kits loan required materials.": "Der dauerhafte Vorrat wird nach einer abgeschlossenen Mission freigeschaltet. Missionssets leihen benötigte Stoffe aus."
-  ,"Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.": "Der dauerhafte Vorrat wird nach {count} abgeschlossenen Missionen freigeschaltet. Missionssets leihen benötigte Stoffe aus."
-  ,"new permanent equipment": "neues dauerhaftes Gerät"
-  ,"place on bench": "auf den Labortisch stellen"
-  ,"Concentrate solutions and recover dissolved solids.": "Konzentriere Lösungen und gewinne gelöste Feststoffe zurück."
-  ,"Control pressure and headspace above a vessel.": "Kontrolliere Druck und Gasraum über einem Gefäß."
-  ,"Drive and measure electrochemical change.": "Treibe elektrochemische Veränderungen an und miss sie."
-  ,"Separate liquids through a connected distillation rig.": "Trenne Flüssigkeiten mit einer verbundenen Destillationsapparatur."
-  ,"{count} uses left": "{count} Entnahmen übrig"
-  ,"one use left": "eine Entnahme übrig"
-  ,"This bottle is empty. Mission kits still supply required materials, and permanent stock refills after a new discovery.": "Diese Flasche ist leer. Missionssets enthalten weiterhin benötigte Stoffe; nach einer neuen Entdeckung wird der dauerhafte Vorrat aufgefüllt."
-  ,"That material is not yet available. Accept an investigation that supplies it or complete more missions.": "Dieser Stoff ist noch nicht verfügbar. Nimm eine Untersuchung an, die ihn bereitstellt, oder schließe weitere Missionen ab."
-  ,"That bottle is empty. Mission kits still supply required materials, and the stockroom refills after a new discovery.": "Diese Flasche ist leer. Missionssets enthalten weiterhin benötigte Stoffe; nach einer neuen Entdeckung wird das Lager aufgefüllt."
-  ,"stockroom replenished": "Materiallager aufgefüllt"
-  ,"Permanent supplies are ready for the next investigation.": "Die dauerhaften Vorräte stehen für die nächste Untersuchung bereit."
-  ,"case 01 · field sample": "Fall 01 · Feldprobe"
-  ,"The contaminated sample": "Die verunreinigte Probe"
-  ,"A cloudy water sample arrived without a trustworthy label. Build an evidence trail before the campus reopens its supply line.": "Eine trübe Wasserprobe kam ohne verlässliche Beschriftung an. Erstelle eine Beweiskette, bevor der Campus seine Versorgungsleitung wieder öffnet."
-  ,"{done} of {total} core leads complete": "{done} von {total} Hauptspuren abgeschlossen"
-  ,"core leads": "Hauptspuren"
-  ,"Dr Ada Keller · campus chemist": "Dr. Ada Keller · Campuschemikerin"
-  ,"We need evidence, not a guess.": "Wir brauchen Belege, keine Vermutung."
-  ,"Choose any of the three leads first. Each uses the same real laboratory, and your results stay on the bench when you return to this board.": "Beginne mit einer beliebigen der drei Spuren. Jede nutzt dasselbe echte Labor, und deine Ergebnisse bleiben auf dem Labortisch, wenn du zu dieser Tafel zurückkehrst."
-  ,"three routes, any order": "drei Wege, beliebige Reihenfolge"
-  ,"one optional safety lead": "eine optionale Sicherheitsspur"
-  ,"Sandbox stays separate": "Sandbox bleibt getrennt"
-  ,"open the case file": "Fallakte öffnen"
-  ,"core evidence assembled": "Hauptbelege zusammengestellt"
-  ,"The sample now has a defensible evidence trail. The optional safety audit remains available.": "Für die Probe gibt es nun eine belastbare Beweiskette. Die optionale Sicherheitsprüfung bleibt verfügbar."
-  ,"case leads": "Fallspuren"
-  ,"Choose the next investigation": "Wähle die nächste Untersuchung"
-  ,"any order": "beliebige Reihenfolge"
-  ,"evidence secured": "Beleg gesichert"
-  ,"investigation active": "Untersuchung aktiv"
-  ,"open lead": "offene Spur"
-  ,"continue investigation": "Untersuchung fortsetzen"
-  ,"review investigation": "Untersuchung wiederholen"
-  ,"investigate": "untersuchen"
-  ,"optional discovery": "optionale Entdeckung"
-  ,"Trace the mineral contamination": "Verfolge die mineralische Verunreinigung"
-  ,"Use a selective reaction to reveal a dissolved ion.": "Weise mit einer selektiven Reaktion ein gelöstes Ion nach."
-  ,"Establish the thermal baseline": "Bestimme die thermische Ausgangslage"
-  ,"Show how mixing history changes the sample temperature.": "Zeige, wie die Mischgeschichte die Probentemperatur verändert."
-  ,"Separate the unknown mixture": "Trenne das unbekannte Gemisch"
-  ,"Turn one colourless sample into distinct measured components.": "Trenne eine farblose Probe in eindeutig gemessene Bestandteile."
-  ,"Audit the abandoned workbench": "Prüfe den verlassenen Labortisch"
-  ,"Optional: identify dangerous combinations before anyone handles them.": "Optional: Erkenne gefährliche Kombinationen, bevor jemand damit arbeitet."
-  ,"inspect": "prüfen"
-  ,"continue": "fortsetzen"
-  ,"review": "ansehen"
-  ,"Case file is syncing…": "Fallakte wird synchronisiert…"
-  ,"measure and transform": "messen und verändern"
-  ,"on bench": "auf dem Tisch"
-  ,"select source": "Quelle wählen"
-  ,"mixer": "Mischer"
-  ,"combine two sources into a receiver": "zwei Quellen in einem Zielgefäß vereinen"
-  ,"select sources": "Quellen wählen"
-  ,"use from each source": "Anteil aus jeder Quelle"
-  ,"tap the first source vessel": "tippe auf das erste Quellgefäß"
-  ,"v{vessel} selected — tap the second source": "v{vessel} gewählt — tippe auf die zweite Quelle"
-  ,"v{first} + v{second} — tap an empty receiver": "v{first} + v{second} — tippe auf ein leeres Zielgefäß"
-  ,"Mix two water samples at meaningfully different temperatures and obtain an intermediate temperature.": "Mische zwei Wasserproben mit deutlich verschiedenen Temperaturen und erhalte eine dazwischenliegende Temperatur."
-  ,"Build the setup your way. The solver will verify the source temperatures and the adiabatic mixing result.": "Baue den Versuch auf deine Weise auf. Der Solver prüft die Ausgangstemperaturen und das adiabatische Mischergebnis."
-  ,"Prepare water in two separate vessels, make one warmer or cooler than the other, create an empty receiver, then use the mixer from the instrument wall.": "Bereite Wasser in zwei getrennten Gefäßen vor, erwärme oder kühle eines davon, stelle ein leeres Zielgefäß bereit und nutze dann den Mischer von der Gerätewand."
-  ,"Different-temperature samples mixed to a computed middle": "Proben verschiedener Temperatur zu einem berechneten Mittelwert gemischt"
-  ,"move solution through connected cells": "Lösung durch verbundene Zellen bewegen"
-  ,"reaction studio": "Reaktionsstudio"
-  ,"choose a verified reaction family": "eine geprüfte Reaktionsfamilie wählen"
-  ,"{tool} deployed": "{tool} aufgebaut"
-  ,"deployed at vessel v{vessel}": "bei Gefäß v{vessel} aufgebaut"
-  ,"Bunsen burner": "Bunsenbrenner"
-  ,"adjust the flame, then heat or test ignition": "Flamme einstellen, dann erhitzen oder Entzündung prüfen"
-  ,"flame power": "Flammenleistung"
-  ,"air collar": "Luftzufuhr"
-  ,"exposure": "Einwirkzeit"
-  ,"touch flame to contents": "Flamme an den Inhalt halten"
-  ,"workstation · vessel v{vessel}": "Arbeitsstation · Gefäß v{vessel}"
-  ,"{zone} work zone": "Arbeitsbereich {zone}"
-  ,"set up and measure": "aufbauen und abmessen"
-  ,"mix and transform": "mischen und umsetzen"
-  ,"measure and compare": "messen und vergleichen"
-  ,"move vessel v{vessel}": "Gefäß v{vessel} verschieben"
-  ,"move vessel v{vessel} to {zone}": "Gefäß v{vessel} nach {zone} verschieben"
-  ,"move vessel v{vessel} left": "Gefäß v{vessel} nach links verschieben"
-  ,"move vessel v{vessel} right": "Gefäß v{vessel} nach rechts verschieben"
-  ,"move vessel v{vessel} up": "Gefäß v{vessel} nach oben verschieben"
-  ,"move vessel v{vessel} down": "Gefäß v{vessel} nach unten verschieben"
-  ,"vessel v{vessel} moved to {zone}": "Gefäß v{vessel} nach {zone} verschoben"
-  ,"place vessel here": "Gefäß hier abstellen"
-  ,"move": "verschieben"
-  ,"selected target": "ausgewähltes Ziel"
-  ,"empty": "leer"
-  ,"hide workflow guides": "Arbeitsbereiche ausblenden"
-  ,"show workflow guides": "Arbeitsbereiche einblenden"
-  ,"remove empty vessel": "leeres Gefäß entfernen"
-  ,"remove empty vessel v{vessel}": "leeres Gefäß v{vessel} entfernen"
-  ,"mortar on the bench": "Mörser auf dem Labortisch"
-  ,"mortar and pestle": "Mörser und Pistill"
-  ,"change vessel": "Gefäß verändern"
-  ,"observe and measure": "Beobachten und messen"
-  ,"run {apparatus}": "{apparatus} starten"
-  ,"magnetic stirrer": "Magnetrührer"
-  ,"set rotation speed and mixing time": "Drehzahl und Mischzeit einstellen"
-  ,"rotation speed": "Drehzahl"
-  ,"duration": "Dauer"
-  ,"hotplate": "Heizplatte"
-  ,"mini centrifuge": "Mini-Zentrifuge"
-  ,"separate particles by spinning a balanced tube": "Teilchen in einem ausgewuchteten Röhrchen durch Drehen trennen"
-  ,"rotor radius": "Rotorradius"
-  ,"counterbalance": "Gegengewicht"
-  ,"rotor out of balance — adjust the counterbalance": "Rotor unausgewuchtet — Gegengewicht anpassen"
-  ,"balanced": "ausgewuchtet"
-  ,"mini centrifuge on the bench": "Mini-Zentrifuge auf dem Labortisch"
-  ,"{tool} workstation for vessel v{vessel}": "Arbeitsstation {tool} für Gefäß v{vessel}"
-  ,"works with vessel v{vessel}": "arbeitet mit Gefäß v{vessel}"
-  ,"{tool} moved on the bench": "{tool} auf dem Labortisch verschoben"
-  ,"drag or use arrow keys to move": "ziehen oder mit den Pfeiltasten verschieben"
-  ,"set heating power and time": "Heizleistung und Dauer einstellen"
-  ,"heating power": "Heizleistung"
-  ,"cooling bath": "Kühlbad"
-  ,"set cooling power and time": "Kühlleistung und Dauer einstellen"
-  ,"cooling power": "Kühlleistung"
-  ,"configure {apparatus}": "{apparatus} einstellen"
-  ,"set…": "einstellen…"
-  ,"{parameter} slider": "Regler für {parameter}"
-  ,"computed operating values": "berechnete Betriebswerte"
-  ,"stir-bar tip speed": "Umfangsgeschwindigkeit des Rührstabs"
-  ,"delivered energy": "zugeführte Energie"
-  ,"removed energy": "entzogene Energie"
-  ,"relative centrifugal force": "relative Zentrifugalkraft"
-  ,"{tool} installed: {state}": "{tool} aufgebaut: {state}"
-  ,"journal view": "Ansicht des Laborbuchs"
-  ,"observations": "Beobachtungen"
-  ,"full trace": "Vollständiges Protokoll"
-  ,"…{count} earlier entries not shown (the exports keep them)": "…{count} frühere Einträge ausgeblendet (sie bleiben im Export erhalten)"
-  ,"the chart {chart} could not be drawn: {error}": "Das Diagramm {chart} konnte nicht gezeichnet werden: {error}"
-  ,"vessel v{vessel} placement": "Platzierung von Gefäß v{vessel}"
-  ,"My Chemistry Lab": "Mein Chemielabor"
-  ,"open world map": "Weltkarte öffnen"
-  ,"close world map": "Weltkarte schließen"
-  ,"your laboratory": "dein Labor"
-  ,"laboratory name": "Laborname"
-  ,"rename laboratory": "Labor umbenennen"
-  ,"save": "speichern"
-  ,"current save": "aktueller Spielstand"
-  ,"Story": "Story"
-  ,"Story laboratory": "Story-Labor"
-  ,"Sandbox hangar": "Sandbox-Hangar"
-  ,"Kerotakis Research Campus": "Kerotakis-Forschungscampus"
-  ,"Where do you want to work today?": "Wo möchtest du heute arbeiten?"
-  ,"Explore guided investigations in Story, or enter a fully unlocked laboratory in Sandbox.": "Erkunde geführte Untersuchungen in der Story oder betrete ein vollständig freigeschaltetes Labor in der Sandbox."
-  ,"active now": "jetzt aktiv"
-  ,"separate save": "eigener Spielstand"
-  ,"The Discovery Wing": "Der Entdeckertrakt"
-  ,"Take missions, earn permanent instruments, and follow the chemistry story at your pace.": "Nimm Missionen an, verdiene dauerhafte Geräte und folge der Chemiegeschichte in deinem Tempo."
-  ,"{count} missions": "{count} Missionen"
-  ,"missions arriving…": "Missionen treffen ein…"
-  ,"guided progress": "geführter Fortschritt"
-  ,"enter Story": "Story betreten"
-  ,"switch to Story": "zur Story wechseln"
-  ,"Mission Board": "Missionstafel"
-  ,"choose an investigation": "eine Untersuchung wählen"
-  ,"Research Library": "Forschungsbibliothek"
-  ,"{count} computed experiments": "{count} berechnete Experimente"
-  ,"archive syncing…": "Archiv wird synchronisiert…"
-  ,"The Open Bench": "Das offene Labor"
-  ,"Every reagent and instrument is available. Build freely without changing Story progress.": "Alle Reagenzien und Geräte sind verfügbar. Baue frei, ohne den Story-Fortschritt zu verändern."
-  ,"everything unlocked": "alles freigeschaltet"
-  ,"free exploration": "freies Erkunden"
-  ,"enter Sandbox": "Sandbox betreten"
-  ,"switch to Sandbox": "zur Sandbox wechseln"
-  ,"Your saves stay separate.": "Deine Spielstände bleiben getrennt."
-  ,"Clearing or experimenting in Sandbox never changes your Story laboratory.": "Leeren oder Experimentieren in der Sandbox verändert niemals dein Story-Labor."
-  ,"red watercolor": "rote Wasserfarbe"
-  ,"yellow watercolor": "gelbe Wasserfarbe"
-  ,"blue watercolor": "blaue Wasserfarbe"
-  ,"0.02% w/w betanin aqueous wash; unbranded transparent optical teaching surrogate": "0,02 Gew.-% Betanin in Wasser; transparenter markenfreier Lehrmodell-Farbauftrag"
-  ,"0.02% w/w curcumin aqueous wash; unbranded transparent optical teaching surrogate": "0,02 Gew.-% Curcumin in Wasser; transparenter markenfreier Lehrmodell-Farbauftrag"
-  ,"0.02% w/w indigo_carmine aqueous wash; unbranded transparent optical teaching surrogate": "0,02 Gew.-% Indigocarmin in Wasser; transparenter markenfreier Lehrmodell-Farbauftrag"
-  ,"red acrylic paint": "rote Acrylfarbe"
-  ,"yellow acrylic paint": "gelbe Acrylfarbe"
-  ,"blue acrylic paint": "blaue Acrylfarbe"
-  ,"white acrylic paint": "weiße Acrylfarbe"
-  ,"black acrylic paint": "schwarze Acrylfarbe"
-  ,"waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved": "wasserbasierter, deckender Acrylfarben-Ersatz; wirksames Pigment und Bindemittel bleiben unaufgelöst"
-  ,"safety station": "Sicherheitsstation"
-  ,"open safety station": "Sicherheitsstation öffnen"
-  ,"tap for the real-lab rules": "Regeln fürs echte Labor"
-  ,"lab wall reference": "Nachschlagewerk an der Laborwand"
-  ,"The simulation can show hazardous chemistry safely, but the same actions in a real laboratory require supervision, protective equipment, and a risk assessment.": "Die Simulation kann gefährliche Chemie sicher zeigen. Dieselben Handlungen erfordern in einem echten Labor Aufsicht, Schutzausrüstung und eine Gefährdungsbeurteilung."
-  ,"eye protection": "Augenschutz"
-  ,"Wear splash goggles whenever materials are on the bench.": "Trage eine Schutzbrille, sobald Stoffe auf dem Labortisch stehen."
-  ,"heat and flame": "Hitze und Flamme"
-  ,"Keep flammables away from heat. Treat hot glass as hot until measured.": "Halte Entzündliches von Wärme fern. Behandle heißes Glas als heiß, bis du seine Temperatur gemessen hast."
-  ,"fumes and gases": "Dämpfe und Gase"
-  ,"Do not smell directly. Use wafting only when the lab explicitly offers it.": "Rieche nie direkt. Fächere Dämpfe nur zu, wenn das Labor diese Handlung ausdrücklich anbietet."
-  ,"unexpected result": "Unerwartetes Ergebnis"
-  ,"Stop the operation, leave the vessel where it is, and read the warning before continuing.": "Stoppe den Vorgang, lasse das Gefäß stehen und lies die Warnung, bevor du fortfährst."
-  ,"simulation boundary": "Grenze der Simulation"
-  ,"Kerotakis supports learning and planning. It does not replace real laboratory instruction or safety training.": "Kerotakis unterstützt Lernen und Planen. Es ersetzt weder die Anleitung im echten Labor noch eine Sicherheitsunterweisung."
-  ,"edit note": "Notiz bearbeiten"
-  ,"delete note": "Notiz löschen"
-  ,"mixing bleach with ammonia makes chloramine, a toxic gas": "Beim Mischen von Bleichmittel und Ammoniak entsteht das giftige Gas Chloramin"
-  ,"People are hospitalised every year from mixing these two household cleaners.": "Jedes Jahr müssen Menschen ins Krankenhaus, weil sie diese beiden Haushaltsreiniger mischen."
-  ,"mixing bleach with acid releases chlorine, a toxic gas": "Beim Mischen von Bleichmittel und Säure wird das giftige Gas Chlor freigesetzt"
-  ,"Chlorine gas was used as a chemical weapon; even small amounts damage lungs.": "Chlorgas wurde als chemische Waffe eingesetzt; schon kleine Mengen schädigen die Lunge."
-  ,"a strong oxidizer mixed with a flammable liquid can ignite or explode": "Ein starkes Oxidationsmittel kann sich mit einer entzündlichen Flüssigkeit entzünden oder explodieren"
-  ,"Potassium permanganate and glycerol ignite on contact; similar mixtures cause laboratory fires.": "Kaliumpermanganat und Glycerin entzünden sich bei Kontakt; ähnliche Gemische verursachen Laborbrände."
-  ,"a strong oxidizer in the presence of a flammable gas creates an explosion risk": "Ein starkes Oxidationsmittel erzeugt in Gegenwart eines entzündlichen Gases Explosionsgefahr"
-  ,"Hydrogen and chlorine mixtures can detonate when exposed to light or a spark.": "Gemische aus Wasserstoff und Chlor können bei Licht oder einem Funken detonieren."
-  ,"mixing a strong oxidizer with a reducing agent can cause a violent, potentially explosive reaction": "Das Mischen eines starken Oxidationsmittels mit einem Reduktionsmittel kann heftig und möglicherweise explosiv reagieren"
-  ,"Permanganate and sulfite solutions react vigorously; at scale, such mixtures can detonate.": "Permanganat- und Sulfitlösungen reagieren heftig; in größeren Mengen können solche Gemische detonieren."
-  ,"strong acid dissolves this metal, releasing hydrogen gas which is flammable": "Starke Säure löst dieses Metall und setzt entzündlichen Wasserstoff frei"
-  ,"Magnesium ribbon in hydrochloric acid produces enough hydrogen to pop with a lit splint — a familiar school demo, but the gas is genuinely flammable.": "Magnesiumband in Salzsäure erzeugt genug Wasserstoff für die Knallgasprobe — ein bekanntes Schulexperiment, doch das Gas ist tatsächlich entzündlich."
-  ,"strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter": "Starke Säure und Carbonat sprudeln heftig und setzen Kohlenstoffdioxid frei — das Gemisch kann spritzen"
-  ,"Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces.": "Säure auf Kreide oder Natron schäumt über, wenn das Gefäß zu klein ist. CO₂ verdrängt in geschlossenen Räumen die Luft."
-  ,"this water-reactive substance already reacted with water; combining with a strong base adds further heat": "Dieser wasserreaktive Stoff hat bereits mit Wasser reagiert; eine starke Base führt zusätzliche Wärme zu"
-  ,"Quicklime (CaO) generates enough heat on contact with water to cause burns; adding caustic soda on top is reckless.": "Branntkalk (CaO) erzeugt bei Wasserkontakt genug Wärme für Verbrennungen; zusätzlich Natronlauge zuzugeben ist leichtsinnig."
-  ,"this substance reacts violently with water, releasing a large amount of heat": "Dieser Stoff reagiert heftig mit Wasser und setzt viel Wärme frei"
-  ,"Quicklime (CaO) in water can reach 100 °C and cause severe burns. Always add the solid to the water slowly, never the reverse.": "Branntkalk (CaO) kann in Wasser 100 °C erreichen und schwere Verbrennungen verursachen. Gib den Feststoff immer langsam zum Wasser, niemals umgekehrt."
-  ,"sealed vessel over-pressurised and burst": "Das verschlossene Gefäß wurde durch Überdruck gesprengt"
-  ,"flying glass and a pressure wave — sealed systems on a heat source are how real labs get hurt; safe only because this lab is virtual": "Glassplitter und eine Druckwelle — verschlossene Systeme auf einer Wärmequelle verursachen in echten Laboren schwere Unfälle; nur hier sicher, weil das Labor virtuell ist"
-  ,"on a real bench this one is never smelled directly — fume hood, waft only, and some not even then": "Im echten Labor riecht man daran nie direkt — Abzug, höchstens vorsichtiges Zufächern, und manche Stoffe nicht einmal dann"
-  ,"radioactive source: ionising radiation": "Radioaktive Quelle: ionisierende Strahlung"
-  ,"on a real bench this needs shielding, dosimetry and a licence; safe only because this lab is virtual": "Im echten Labor sind Abschirmung, Dosimetrie und eine Genehmigung erforderlich; nur hier sicher, weil das Labor virtuell ist"
-};
+/**
+ * One flat lookup per language.
+ *
+ * `terms` first so `messages` wins where both carry a key: that is the
+ * order the two literal maps had, and six keys actually collide.
+ */
+const TABLES: Record<string, Record<string, string>> = Object.fromEntries(
+  Object.entries(BUNDLES).map(([code, b]) => [
+    code,
+    { ...(b.terms ?? {}), ...(b.messages ?? {}) },
+  ]),
+);
+
+/**
+ * The languages this build can render, English first, each with the name
+ * it calls itself.
+ *
+ * The endonym, deliberately: a reader who cannot read the current
+ * interface language still has to find their own in the list, and
+ * "Deutsch" is findable in a way that a translated "German" is not. It
+ * comes from the bundle, so a new language names itself without needing an
+ * entry in every other language's bundle first.
+ */
+export function availableLocales(): { code: Locale; name: string }[] {
+  return [
+    { code: "en", name: "English" },
+    ...Object.entries(BUNDLES)
+      .filter(([code]) => code !== "en")
+      .map(([code, b]) => ({ code, name: b["@@name"] || code }))
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  ];
+}
 
 function detectLocale(): Locale {
   if (typeof window !== "undefined") {
     try {
       const saved = window.localStorage.getItem("kerotakis.locale");
-      if (saved === "en" || saved === "de") return saved;
+      if (saved && (saved === "en" || saved in TABLES)) return saved;
     } catch {
       // Storage may be unavailable in privacy modes; browser language remains enough.
     }
   }
-  return typeof navigator !== "undefined" && navigator.language.toLowerCase().startsWith("de")
-    ? "de"
-    : "en";
+  // Match the browser's language against what is actually shipped, by
+  // primary subtag: de-AT is German. An unshipped language falls back to
+  // English rather than to a half-translated screen.
+  if (typeof navigator !== "undefined") {
+    const primary = navigator.language.toLowerCase().split("-")[0] ?? "";
+    if (primary in TABLES) return primary;
+  }
+  return "en";
 }
 
 class I18n {
@@ -855,8 +104,24 @@ class I18n {
     this.applyDocumentLanguage();
   }
 
+  /**
+   * Told when the language changes, so the ENGINE can follow.
+   *
+   * A subscription rather than a call in the switcher: the engine renders
+   * its own prose and has to be switched separately, and putting that in
+   * one caller means the next caller added forgets it. Here, every caller
+   * of setLocale updates the engine whether or not they know about it.
+   */
+  private readonly watchers = new Set<(locale: Locale) => void>();
+
+  onChange(fn: (locale: Locale) => void): () => void {
+    this.watchers.add(fn);
+    return () => this.watchers.delete(fn);
+  }
+
   setLocale(locale: Locale) {
     this.locale = locale;
+    for (const fn of this.watchers) fn(locale);
     if (typeof window !== "undefined") {
       try {
         window.localStorage.setItem("kerotakis.locale", locale);
@@ -868,7 +133,9 @@ class I18n {
   }
 
   t(message: string, vars: Vars = {}): string {
-    const template = this.locale === "de" ? (DE[message] ?? message) : message;
+    // English is the source text, so it is the key AND the fallback: a
+    // message no bundle carries renders as itself rather than as a key.
+    const template = TABLES[this.locale]?.[message] ?? message;
     return template.replace(/\{(\w+)\}/g, (_, key: string) => String(vars[key] ?? `{${key}}`));
   }
 
@@ -890,4 +157,57 @@ class I18n {
 
 export const i18n = new I18n();
 export const t = (message: string, vars?: Vars) => i18n.t(message, vars);
-export const hasGermanTranslation = (message: string): boolean => Object.hasOwn(DE, message);
+
+/**
+ * Does `locale` have a translation for this exact source string?
+ *
+ * For the coverage tests, which scan every `t("…")` call site and every
+ * registry name and assert nothing is missing. It answers about the
+ * DICTIONARY, not about the screen — a key present here can still be a
+ * key nobody renders, which is a distinction this codebase has learned
+ * the hard way. `tools/test-i18n-render.mjs` answers the other question.
+ *
+ * Recovered during a merge: main added this and the tests that use it
+ * while this branch was replacing the maps it read from, and resolving
+ * the conflict in favour of the new loader dropped it. The tests survived
+ * and failed loudly, which is the only reason it came back.
+ */
+export const hasTranslation = (message: string, locale: Locale = "de"): boolean =>
+  Object.hasOwn(TABLES[locale] ?? {}, message);
+
+/** @deprecated Use `hasTranslation(message, "de")`. Kept for the tests
+ * main wrote against the old two-language shape. */
+export const hasGermanTranslation = (message: string): boolean => hasTranslation(message, "de");
+
+/** Translate a codex identifier: `strong-bases` -> "starke Basen".
+ *
+ * The catalogue names concepts, models and apparatus as slugs; the
+ * dictionary is keyed by the words. Something has to bridge the two, and
+ * it belongs here rather than in each caller — ConceptMap inlined its own
+ * `.replace(/-/g, " ")` for node labels and every list beside those nodes
+ * forgot to, which is how German nodes ended up over English slugs.
+ */
+export const tSlug = (slug: string): string => t(slug.replace(/-/g, " "));
+
+
+/** Pick the localised variant of a field the *engine* supplied (I18N-3).
+ *
+ * Engine records carry their German in a sibling key — `purpose` beside
+ * `purpose_de` — rather than in a nested per-locale map. That shape
+ * degrades one field at a time: a string nobody has translated yet falls
+ * back to English on its own, without the record needing a complete
+ * German twin before any of it can ship. `t()` cannot do this job: these
+ * strings are not in the shell's dictionary and never will be, because
+ * they belong to the engine and travel with it.
+ */
+export function tEngine(record: object | undefined | null, field: string): string {
+  if (!record) return "";
+  // One cast here rather than one at every call site: the codex types are
+  // interfaces without index signatures, and widening them at each caller
+  // would discard the field-name checking that makes them worth having.
+  const r = record as Record<string, unknown>;
+  // The catalogue names its translations by locale suffix: `purpose_de`,
+  // and `purpose_fr` when there is one. English is the unsuffixed field.
+  const translated = i18n.locale === "en" ? undefined : r[`${field}_${i18n.locale}`];
+  return String(translated ?? r[field] ?? "");
+}

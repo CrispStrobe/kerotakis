@@ -35,6 +35,7 @@ pub mod fermentation;
 pub mod foam;
 pub mod gas_tests;
 pub mod hmix;
+pub mod i18n;
 pub mod indicator;
 pub mod instrument;
 pub mod intern;
@@ -83,6 +84,7 @@ pub use coverage::{coverage_manifest, CoverageReport, SolverCoverage};
 pub use curated::CuratedEquilibrator;
 pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
 pub use displacement::DisplacementEquilibrator;
+pub use i18n::Locale;
 pub use instrument::{
     Balance, ConductivityMeter, InstrumentContract, InstrumentMode, PhMeter, PressureGauge,
     Reading, Thermometer,
@@ -91,7 +93,10 @@ pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use orchestrator::Orchestrator;
 pub use pigment::{opaque_mixture_colour, PigmentAmount, PigmentMixError, PigmentOptics};
-pub use render::{render_event, render_events, render_vessel, Register};
+pub use render::{
+    render_event, render_event_in, render_events, render_events_in, render_vessel,
+    render_vessel_in, Register,
+};
 pub use scene::{scene, scene_of, scene_vessel, Scene, SceneVessel};
 pub use solve::{
     equilibrate_phase_coupled, Applicability, CapabilityReport, Equilibrator, HonestyEquilibrator,

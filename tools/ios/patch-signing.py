@@ -39,6 +39,9 @@ GEN = ROOT / "web" / "app" / "src-tauri" / "gen" / "apple"
 
 def main() -> int:
     team, profile = sys.argv[1], sys.argv[2]
+    # "Apple Distribution" for the store, "Apple Development" for a
+    # build that has to launch on a device you are holding.
+    identity = sys.argv[3] if len(sys.argv) > 3 else "Apple Distribution"
     projects = sorted(GEN.glob("*.xcodeproj"))
     if not projects:
         print(f"no .xcodeproj under {GEN} — run `tauri ios init` first", file=sys.stderr)
@@ -53,7 +56,7 @@ def main() -> int:
                   flags=re.MULTILINE)
 
     settings = (
-        f'\t\t\t\tCODE_SIGN_IDENTITY = "Apple Distribution";\n'
+        f'\t\t\t\tCODE_SIGN_IDENTITY = "{identity}";\n'
         f'\t\t\t\tCODE_SIGN_STYLE = Manual;\n'
         f'\t\t\t\tDEVELOPMENT_TEAM = {team};\n'
         f'\t\t\t\tPROVISIONING_PROFILE_SPECIFIER = "{profile}";\n'
@@ -67,7 +70,7 @@ def main() -> int:
 
     pbxproj.write_text(text)
     print(f"   {pbxproj.relative_to(ROOT)}: manual signing in {count} buildSettings blocks")
-    print(f"   team {team}, profile {profile!r}, identity \"Apple Distribution\"")
+    print(f"   team {team}, profile {profile!r}, identity {identity!r}")
     return 0
 
 
