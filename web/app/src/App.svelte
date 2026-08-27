@@ -698,6 +698,11 @@
         boundary={selectedVessel.boundary}
         busy={session.busy}
         onaction={(line) => void session.submit(line)}
+        onconfigure={(verb) => {
+          apparatusOut = verb;
+          apparatusPreview = {};
+          pane = "bench";
+        }}
         onpour={() => (transfer = { verb: "decant", fraction: 0.5, from: selectedVessel!.id })}
         ondetails={() => {
           void session.inspect(selectedVessel!.id);

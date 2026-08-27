@@ -66,6 +66,20 @@ export const APPARATUS: ApparatusSpec[] = [
     },
   },
   {
+    verb: "cool",
+    title: "cooling bath",
+    blurb: "set cooling power and time",
+    fields: [
+      { name: "watts", label: "cooling power", type: "number", unit: "W", default: 100, min: 1, max: 2000, step: 10 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 30, min: 1, max: 3600 },
+    ],
+    build: (v, f) => {
+      const watts = pos(f.watts);
+      const seconds = pos(f.seconds);
+      return watts === null || seconds === null ? null : `cool v${v + 1} ${watts * seconds}J`;
+    },
+  },
+  {
     verb: "centrifuge",
     title: "mini centrifuge",
     blurb: "separate particles by spinning a balanced tube",
