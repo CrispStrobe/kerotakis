@@ -608,6 +608,7 @@ const DE: Record<string, string> = {
   ,"pressure": "Druck"
   ,"headspace": "Kopfraum"
   ,"carrier-gas line": "Trägergasleitung"
+  ,"azeotrope": "Azeotrop"
   ,"purge the headspace with inert gas": "Kopfraum mit Inertgas spülen"
   ,"The bench is live: states nobody pre-computed are solved.": "Das Labor ist aktiv: Nicht vorberechnete Zustände werden gelöst."
   ,"The bench answers from shipped results only — the live aqueous engine is not attached.": "Das Labor antwortet nur mit mitgelieferten Ergebnissen — die aktive wässrige Engine ist nicht verbunden."

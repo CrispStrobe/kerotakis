@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, tick } from "svelte";
   import type { Effect } from "../magnitudes";
+  import { t } from "../i18n.svelte";
 
   let { effect }: { effect: Effect } = $props();
   let marker: HTMLSpanElement;
@@ -14,6 +15,11 @@
   const dominantResidue = $derived(
     effect.filterResidue?.reduce((dominant, solid) =>
       !dominant || solid.moles > dominant.moles ? solid : dominant, effect.filterResidue[0]),
+  );
+  const startC = $derived((effect.distillation?.startK ?? 273.15) - 273.15);
+  const endC = $derived((effect.distillation?.endK ?? effect.distillation?.startK ?? 273.15) - 273.15);
+  const stageMarks = $derived(
+    Array.from({ length: Math.min(8, Math.max(1, effect.distillation?.stages ?? 1)) }),
   );
 
   function position() {
@@ -77,9 +83,31 @@
           {/if}
         </g>
       {:else if effect.operation === "distil"}
-        <g class="condenser" transform={`translate(${midpoint.x - 24} ${midpoint.y - 9})`}>
-          <rect width="48" height="18" rx="8" />
-          <path d="M 8 4 L 15 14 M 21 4 L 28 14 M 34 4 L 41 14" />
+        <g
+          class="condenser"
+          class:azeotropic={effect.distillation?.azeotropic}
+          transform={`translate(${midpoint.x - 31} ${midpoint.y - 16})`}
+          style={`--condense-rate:${Math.max(.4, 1.3 - effect.magnitude * .75)}s`}
+        >
+          <path class="column" d="M 4 28 V 5 H 13 V 28" />
+          {#each stageMarks as _, i (i)}
+            <path class="stage" d={`M 5 ${8 + i * (17 / Math.max(1, stageMarks.length - 1))} H 12`} />
+          {/each}
+          <path class="thermometer" d="M 8 5 V 0 H 17" />
+          <circle class="thermometer-bulb" cx="8" cy="5" r="2" />
+          <rect class="jacket" x="13" y="8" width="48" height="18" rx="8" />
+          <path class="vapour-tube" d="M 13 13 H 57" />
+          <path class="coolant" d="M 18 11 L 25 23 M 30 11 L 37 23 M 42 11 L 49 23" />
+          <path class="coolant-port" d="M 18 8 V 3 M 56 26 V 31" />
+          <circle class="condensate-drop" cx="58" cy="14" r="1.7" />
+          <text class="temperature" x="31" y="4" text-anchor="middle">{startC.toFixed(1)}–{endC.toFixed(1)} °C</text>
+          <text class="stages" x="8" y="35" text-anchor="middle">×{effect.distillation?.stages ?? 1}</text>
+          {#if (effect.distillation?.energyKj ?? 0) > 0}
+            <text class="energy" x="39" y="35" text-anchor="middle">{effect.distillation!.energyKj.toFixed(1)} kJ</text>
+          {/if}
+          {#if effect.distillation?.azeotropic}
+            <text class="azeotrope" x="39" y="43" text-anchor="middle">{t("azeotrope")}</text>
+          {/if}
         </g>
       {/if}
       <path class="pour-glow" d={path} pathLength="1" style={`--duration:${duration};--stream:${2 + effect.magnitude * 5}px`} />
@@ -106,8 +134,15 @@
   .filter .residue-grain { fill: var(--residue); opacity: calc(.45 + var(--residue-load) * .45); }
   .filter-reading { fill: var(--ink); font: 700 5px system-ui, sans-serif; paint-order: stroke; stroke: var(--surface); stroke-width: 2px; }
   .filter.loaded .residue-grain { animation: settle-grain .55s ease-out both; animation-delay: var(--grain-delay); }
-  .condenser rect { fill: color-mix(in srgb, var(--cool) 15%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
-  .condenser path { fill: none; stroke: var(--cool); stroke-width: 1.5; }
+  .condenser .jacket { fill: color-mix(in srgb, var(--cool) 15%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
+  .condenser path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .condenser .column, .condenser .thermometer, .condenser .vapour-tube { stroke: var(--edge-strong); stroke-width: 1.6; }
+  .condenser .stage { stroke: color-mix(in srgb, var(--instrument) 75%, var(--edge-strong)); stroke-width: .8; }
+  .condenser .coolant, .condenser .coolant-port { stroke: var(--cool); stroke-width: 1.4; }
+  .condenser .thermometer-bulb { fill: var(--hot); stroke: var(--edge-strong); stroke-width: .5; }
+  .condenser text { fill: var(--ink); font: 700 5px system-ui, sans-serif; paint-order: stroke; stroke: var(--surface); stroke-width: 2px; }
+  .condenser .azeotrope { fill: var(--hot); }
+  .condensate-drop { fill: color-mix(in srgb, var(--cool) 35%, white); stroke: var(--cool); stroke-width: .5; animation: condenser-drop var(--condense-rate) ease-in infinite; }
   .cable { fill: none; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 10 5; animation: current 1s linear infinite; }
   .cable.positive { stroke: var(--danger); } .cable.negative { stroke: var(--primary); animation-direction: reverse; }
   .meter rect { fill: var(--surface); stroke: var(--instrument); stroke-width: 2; }
@@ -116,6 +151,7 @@
   @keyframes pour { 0% { stroke-dashoffset: 1; opacity: 0; } 12% { opacity: 0.85; } 58% { stroke-dashoffset: 0; } 82% { opacity: 0.75; } 100% { stroke-dashoffset: -1; opacity: 0; } }
   @keyframes land { 0%, 58% { opacity: 0; } 72% { opacity: 0.7; } 100% { opacity: 0; } }
   @keyframes current { to { stroke-dashoffset: -30; } }
+  @keyframes condenser-drop { from { opacity: 0; transform: translate(-4px, -2px); } 35% { opacity: 1; } to { opacity: 0; transform: translate(5px, 13px); } }
   @keyframes settle-grain { from { opacity: 0; transform: translateY(-4px); } }
   @media (prefers-reduced-motion: reduce) { .bench-effect { display: none; } }
 </style>
