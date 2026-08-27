@@ -680,6 +680,7 @@ const DE: Record<string, string> = {
   ,"Bunsen burner": "Bunsenbrenner"
   ,"adjust the flame, then heat or test ignition": "Flamme einstellen, dann erhitzen oder Entzündung prüfen"
   ,"flame power": "Flammenleistung"
+  ,"air collar": "Luftzufuhr"
   ,"exposure": "Einwirkzeit"
   ,"touch flame to contents": "Flamme an den Inhalt halten"
   ,"workstation · vessel v{vessel}": "Arbeitsstation · Gefäß v{vessel}"

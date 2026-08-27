@@ -884,6 +884,14 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   combustion gates—not the animation—decide whether anything burns. Continuous
   free-space pose, fuel/air collar chemistry and distance-dependent heat flux
   remain for the typed apparatus-state tranche.
+- **Air-collar checkpoint implemented:** the deployed burner now exposes a
+  0–100% air collar beside its 0–100% gas/flame control. Zero flame is visibly
+  extinguished and cannot heat or invoke ignition. Opening the collar moves a
+  declared near-field teaching efficiency from 55% to 100%, changes the
+  rendered low-air yellow flame to the open-air blue flame, and compiles the
+  resulting energy to the same replayable `heat` operator. This does not claim
+  fuel depletion, soot or CO; those remain dependent on typed burner fuel/air
+  chemistry rather than renderer colour.
 - **Liquid-fuel checkpoint 1 implemented:** touching the guided flame to an
   open vessel of ethanol now reaches CEA's separately parsed, feed-only liquid
   record, admits only the matching ethanol vapour plus named stable flame
