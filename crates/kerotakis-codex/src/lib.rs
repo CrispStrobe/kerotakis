@@ -109,6 +109,12 @@ pub struct Entry {
     /// measurement, a physical change. Never parsed, never checked.
     #[serde(default)]
     pub summary: Option<String>,
+    /// German. The catalogue translates field by field into `_de`
+    /// siblings so an untranslated string falls back to English on its
+    /// own, rather than an entry needing a complete German twin before
+    /// any of it can ship.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub summary_de: Option<String>,
     /// Concepts this reaction teaches; the difficulty ladder is built from
     /// these edges.
     #[serde(default)]
@@ -203,10 +209,21 @@ pub struct Expect {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Prediction {
     pub question: String,
+    /// German. The catalogue translates field by field into `_de`
+    /// siblings so an untranslated string falls back to English on its
+    /// own, rather than an entry needing a complete German twin before
+    /// any of it can ship.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub question_de: Option<String>,
     /// Plausible answers to choose between; exactly one is right, and the
     /// wrong ones should be the mistakes learners actually make, not
     /// strawmen.
     pub options: Vec<String>,
+    /// Positional twin of `options`. Same length or ignored: the answer
+    /// is an index into `options` and each diagnosis attaches by index,
+    /// so a shorter array would mark the wrong answer correct.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub options_de: Option<Vec<String>>,
     /// Index into `options`.
     pub answer: usize,
     /// Why the tempting wrong answer is tempting — the misconception this
@@ -214,6 +231,12 @@ pub struct Prediction {
     /// question; `diagnosis` is the finer-grained form.
     #[serde(default)]
     pub misconception: Option<String>,
+    /// German. The catalogue translates field by field into `_de`
+    /// siblings so an untranslated string falls back to English on its
+    /// own, rather than an entry needing a complete German twin before
+    /// any of it can ship.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub misconception_de: Option<String>,
     /// What each individual wrong answer reveals, and what to do about it.
     ///
     /// One blanket note per question is not enough to *teach* with. A
@@ -239,11 +262,23 @@ pub struct Diagnosis {
     pub option: usize,
     /// The idea that leads here, stated as the learner would hold it.
     pub reveals: String,
+    /// German. The catalogue translates field by field into `_de`
+    /// siblings so an untranslated string falls back to English on its
+    /// own, rather than an entry needing a complete German twin before
+    /// any of it can ship.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reveals_de: Option<String>,
     /// What to do next: the experiment, comparison or question that puts
     /// pressure on exactly this idea. A diagnosis without a next move is
     /// a label, not teaching.
     #[serde(default)]
     pub next: Option<String>,
+    /// German. The catalogue translates field by field into `_de`
+    /// siblings so an untranslated string falls back to English on its
+    /// own, rather than an entry needing a complete German twin before
+    /// any of it can ship.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub next_de: Option<String>,
     /// Where the misconception is documented, if it is. Left absent rather
     /// than invented.
     #[serde(default)]

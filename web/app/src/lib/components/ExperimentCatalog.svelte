@@ -237,7 +237,7 @@
 
       {#if tab === "theory"}
         {#if open.equation}<p class="equation">{open.equation}</p>{/if}
-        <p class="prose">{t(theory)}</p>
+        <p class="prose">{theory}</p>
         {#if session.register !== "lv1" && (open.concepts?.length ?? 0) > 0}
           <p class="meta">{t("concepts: {concepts}", { concepts: open.concepts!.map(tSlug).join(", ") })}</p>
         {/if}

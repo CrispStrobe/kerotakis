@@ -77,6 +77,7 @@ try {
   const nodes = await waitFor(page, `document.querySelectorAll('button.node').length > 0`,
                               { timeout: 30000 });
   check("the map draws its nodes", nodes === true);
+  if (!nodes) console.log("      (the concept checks below did not run)");
 
   if (nodes) {
     const labels = JSON.parse(await page.evaluate(
@@ -122,6 +123,57 @@ try {
     check("the relation says where it holds", validity.length > 20, JSON.stringify(validity.slice(0, 50)));
     check("the purpose is in German", /[äöüßÄÖÜ]|\b(die|der|das|wie|einer)\b/.test(purpose));
     check("the validity carries its label", /Wo sie gilt/.test(validity));
+  }
+
+  // ---- the experiment prose -------------------------------------------
+  // The part that was English while every counter read 100%. It travels a
+  // different road from the map's labels: not the shell dictionary, but
+  // the JSON the codex crate exports, through typed structs that dropped
+  // every `_de` field they were not told about.
+  await page.goto(`${origin}/app/`);
+  await waitFor(page, `document.querySelector('form.bar input')`, { timeout: 60000 });
+  check("the research library opens", (await clickByText("/Forschungsbibliothek/")) === true);
+
+  const grouped = await waitFor(page,
+    `document.querySelectorAll('button.entry').length > 0 ||
+     document.querySelectorAll('details').length > 0`, { timeout: 20000 });
+  // A section that quietly skips is a section that reports success without
+  // testing anything, which is how the catalogue stayed English through a
+  // green run of this very file. Not finding the list is a failure.
+  check("the catalogue renders its list", grouped === true);
+  if (grouped) {
+    await page.evaluate(`document.querySelectorAll('details').forEach((d) => (d.open = true))`);
+    const entries = await page.evaluate(`document.querySelectorAll('button.entry').length`);
+    check("the catalogue lists its experiments", entries > 50, `${entries} entries`);
+
+    await page.evaluate(`document.querySelectorAll('button.entry')[0]?.click()`);
+    await waitFor(page, `document.querySelector('.prose')`, { timeout: 20000 });
+
+    const title = await page.evaluate(`document.querySelector('h2')?.textContent?.trim() ?? ""`);
+    const prose = await page.evaluate(`document.querySelector('.prose')?.textContent?.trim() ?? ""`);
+    check("the entry has a German title", /[äöüßÄÖÜ]|^(Starke|Der|Die|Das|Ein|Eine)\b/.test(title),
+          JSON.stringify(title.slice(0, 40)));
+    check("the register prose is written", prose.length > 60, `${prose.length} chars`);
+    // Look for English function words rather than for German characters: a
+    // German sentence may happen to contain none, but an English one will
+    // almost always contain one of these.
+    check("the register prose is not English",
+          !/\b(the|and|with|that|which|water is|this liquid)\b/i.test(prose),
+          JSON.stringify(prose.slice(0, 60)));
+
+    // The predict tab: question and options come through the export's
+    // typed structs, which is where they were being dropped.
+    await clickByText("/vorhersagen|predict/i");
+    await waitFor(page, `document.querySelector('.question')`, { timeout: 20000 });
+    const question = await page.evaluate(`document.querySelector('.question')?.textContent?.trim() ?? ""`);
+    const options = JSON.parse(await page.evaluate(
+      `JSON.stringify([...document.querySelectorAll('button.option')].map((b) => b.textContent.trim()))`));
+    check("the prediction asks in German",
+          question.length > 20 && !/\b(the|what will|goes into)\b/i.test(question),
+          JSON.stringify(question.slice(0, 55)));
+    check("the answers are offered in German",
+          options.length > 1 && !options.some((o) => /\b(is not|so the|cannot|because)\b/i.test(o)),
+          JSON.stringify(options.slice(0, 2)));
   }
 } catch (err) {
   console.error(`i18n render: ${err.stack ?? err.message}`);
