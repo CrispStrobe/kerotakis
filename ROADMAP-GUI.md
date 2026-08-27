@@ -1165,9 +1165,22 @@ in a German classroom — which is the audience the curriculum mapping in
   misconception diagnosis that misstates the misconception is worse than an
   English one.
 
-- [ ] **I18N-2 — The concept map.** English-only today. Its nodes should use
-  the German labels that already exist in `codex/concepts.toml`, and the
-  edges/legend need locale keys like the rest of the shell.
+- [ ] **I18N-2 — The map screen's own vocabulary.** English-only today, and
+  the reason is structural: neither a concept nor an entry has a label field.
+  The component de-slugs an identifier and asks the dictionary —
+  `t("activation energy")` — so the German has to land in the dictionary,
+  keyed exactly as the component asks.
+
+  `codex/concepts.toml` does not help, despite carrying `label_de`: it is the
+  oeh curriculum spine, whose ids are German slugs
+  (`1-hauptgruppe-alkalimetalle`), and exactly **1 of the 155** concept slugs
+  the entries use appears in it. The two vocabularies were never the same one.
+
+  So: 153 concept labels and 103 experiment names, 256 keys. Concept labels
+  are terminology and want the established German term over a paraphrase;
+  experiment names are written as small provocations ("why the shelf is not
+  on fire") and want that voice carried rather than flattened into textbook
+  headings. Different jobs, done separately.
 
 - [ ] **I18N-3 — Engine vocabulary coverage.** `DE_TERMS` translates species,
   colours, hazards and lesson names. Add a gate that fails when the engine can

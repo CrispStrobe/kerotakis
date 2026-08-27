@@ -1311,9 +1311,9 @@ fn calc_usage() -> ! {
     eprint!("kero calc — evaluate a named physical relation\n\nusage: kero calc <relation> <arg>=<value>... [--json]\n\nrelations:\n");
     for r in kerotakis_core::relations::RELATIONS {
         eprintln!(
-                            "  {:<24} {}\n{:>28}{}\n{:>28}{}",
-                            r.name, r.equation, "", r.args, "", r.purpose
-                        );
+            "  {:<24} {}\n{:>28}{}\n{:>28}{}",
+            r.name, r.equation, "", r.args, "", r.purpose
+        );
     }
     eprintln!("\nexamples:\n  kero calc nernst e0=0.3419 n=2 a=0.01 T=298.15\n  kero calc arrhenius A=1e10 Ea=50000 T=298.15\n  kero calc henderson-hasselbalch pKa=4.76 cA=0.1 cB=0.01\n  kero calc debye-huckel z=2 I=0.01\n  kero calc ionic-strength 1:0.1 -1:0.1 2:0.05 -2:0.1\n  kero calc van-t-hoff dH=-57000 K1=1e14 T1=298.15 T2=373.15\n  kero calc eyring dG=65000 T=298.15");
     std::process::exit(2);

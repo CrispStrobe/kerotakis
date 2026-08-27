@@ -153,7 +153,18 @@ export interface EngineHost {
   /** The verb inventory with canonical examples (GUI-029). */
   grammar(): Promise<{ verb: string; example: string; options?: string[] }[]>;
   /** The named-relations catalogue (CAP-5). */
-  relations(): Promise<{ name: string; equation: string; args: string }[]>;
+  relations(): Promise<
+    {
+      name: string;
+      equation: string;
+      args: string;
+      /** What question it answers, and where it stops holding (GUI-087). */
+      purpose?: string;
+      purpose_de?: string;
+      validity?: string;
+      validity_de?: string;
+    }[]
+  >;
   /** Evaluate a named relation; the result explains itself per register. */
   calc(
     name: string,
