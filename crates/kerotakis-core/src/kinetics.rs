@@ -1083,6 +1083,20 @@ pub fn is_surface_catalyst(species: &SpeciesId) -> bool {
     })
 }
 
+/// Whether a shipped catalyst law treats this inventory as molecularly
+/// dispersed in the liquid rather than as a sedimenting solid surface.
+pub fn is_solution_catalyst(species: &SpeciesId) -> bool {
+    REGISTRY.iter().any(|reaction| {
+        reaction.catalysts.iter().any(|catalyst| {
+            catalyst.species == species.0
+                && matches!(
+                    catalyst.activity,
+                    CatalystActivity::Homogeneous { .. } | CatalystActivity::Enzyme { .. }
+                )
+        })
+    })
+}
+
 /// Which reactions have all their reactants present in this vessel.
 pub fn applicable(vessel: &Vessel) -> Vec<&'static KineticReaction<'static>> {
     REGISTRY

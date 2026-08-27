@@ -382,6 +382,43 @@ impl Equilibrator for MixingEquilibrator {
             });
         }
 
+        // A homogeneous catalyst cannot simultaneously be the concentration
+        // in a liquid rate law and a pile of sediment. Move declared
+        // solution-catalyst inventory into the aqueous phase as soon as a
+        // liquid medium exists. This is a phase bookkeeping statement, not a
+        // claim that the reduced core engine resolves its individual ions.
+        if vessel.liquid_volume().0 > 0.0 {
+            let dissolved = vessel
+                .contents
+                .iter()
+                .filter(|portion| {
+                    portion.phase == Phase::Solid
+                        && crate::kinetics::is_solution_catalyst(&portion.species)
+                })
+                .map(|portion| (portion.species.clone(), portion.moles))
+                .collect::<Vec<_>>();
+            for (species, moles) in dissolved {
+                vessel.withdraw(&species, moles);
+                vessel.deposit(species.clone(), moles, Phase::Aqueous);
+                for lot in vessel
+                    .lots
+                    .iter_mut()
+                    .filter(|lot| lot.species == species && lot.phase == Phase::Solid)
+                {
+                    lot.phase = Phase::Aqueous;
+                    lot.suspended_fraction = None;
+                }
+                events.push(Event::Dissolved {
+                    vessel: vessel.id,
+                    species,
+                    moles,
+                });
+            }
+            if !events.is_empty() {
+                vessel.resolved.invalidate();
+            }
+        }
+
         Ok(events)
     }
 
@@ -403,6 +440,22 @@ impl Equilibrator for MixingEquilibrator {
                     to: bath,
                 });
                 delta = delta.with_thermal(ThermalDelta::SetTemperature(bath));
+            }
+        }
+
+        if vessel.liquid_volume().0 > 0.0 {
+            for portion in vessel.contents.iter().filter(|portion| {
+                portion.phase == Phase::Solid
+                    && crate::kinetics::is_solution_catalyst(&portion.species)
+            }) {
+                delta = delta
+                    .with_moles(portion.species.clone(), Phase::Solid, -portion.moles.0)
+                    .with_moles(portion.species.clone(), Phase::Aqueous, portion.moles.0);
+                events.push(Event::Dissolved {
+                    vessel: vessel.id,
+                    species: portion.species.clone(),
+                    moles: portion.moles,
+                });
             }
         }
 

@@ -766,9 +766,17 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   Magnetic-stirrer tip speed supplies a bounded external mass-transfer gain.
   Thus dose, grinding and stirring now change oxygen production, foam growth,
   overflow and reaction heat through one kinetics path. Regression tests cover
-  twofold KI/enzyme dose response, twofold MnO₂ loading, tenfold area gain
-  from grinding, bounded mixing acceleration, catalyst retention, and the
-  complete household peroxide + soap + yeast/KI visual outcome. Remaining
+  twofold initial KI/enzyme dose response, fourfold household-dose ordering in
+  integrated oxygen and foam, twofold MnO₂ loading, tenfold area gain from
+  grinding, bounded mixing acceleration, catalyst retention, and the complete
+  household peroxide + soap + yeast/KI visual outcome. The guided
+  `elephant-toothpaste-catalyst-dose.lab` comparison gives two equal 3%
+  peroxide/soap vessels 0.25 g and 1 g KI on one shared ten-second clock so the
+  resulting foam/overflow difference is directly visible. The mixing pass now
+  transfers declared solution catalysts such as KI from solid inventory into
+  the aqueous phase, emits `Dissolved`, preserves their moles, and prevents a
+  dissolved catalyst from being rendered or gravity-settled as sediment.
+  Remaining
   boundaries are yeast-brand/hydration activity, enzyme denaturation and
   inhibition, catalyst pore/BET area, adsorption and pore-scale diffusion.
 

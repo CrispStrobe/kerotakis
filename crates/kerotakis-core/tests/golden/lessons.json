@@ -388,6 +388,87 @@
       }
     ]
   },
+  "elephant-toothpaste-catalyst-dose": {
+    "event_count": 19,
+    "events_sample": [
+      "v1: +101.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
+      "v1: +10.300 g dish_soap (1 known ingredients)",
+      "v1: +0.0015 mol potassium iodide",
+      "v1: 0.0015 mol potassium iodide dissolved",
+      "v2: new vessel",
+      "v2: +101.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
+      "v2: +10.300 g dish_soap (1 known ingredients)",
+      "v2: +0.0060 mol potassium iodide",
+      "v2: 0.0060 mol potassium iodide dissolved",
+      "v1: 0.002076 mol O2 produced (2.076e-4 mol/s)",
+      "v1: peroxide-decomposition released 203.91 J",
+      "v1: 25.0 °C → 25.5 °C",
+      "v1: 0.0021 mol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v1: foam 0.048 L, 1.7 cm high, overflow 0.000 L",
+      "v2: 0.007743 mol O2 produced (7.743e-4 mol/s)",
+      "v2: peroxide-decomposition released 760.35 J",
+      "v2: 25.0 °C → 26.7 °C",
+      "v2: 0.0077 mol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v2: foam 0.179 L, 6.4 cm high, overflow 0.038 L"
+    ],
+    "lesson": "elephant-toothpaste-catalyst-dose.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.08493856,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.001506,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.00207644,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 5.8997954,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.6012
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.07360572,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.00602399,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.00774286,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 5.91112824,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 299.8314
+      }
+    ]
+  },
   "fire": {
     "event_count": 8,
     "events_sample": [
