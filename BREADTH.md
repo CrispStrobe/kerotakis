@@ -750,6 +750,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   KI's distinct path, color stripes and renderer snapshots. The first guided
   `elephant-toothpaste.lab` lesson compares equal 3% peroxide/yeast charges with
   and without dish soap on one shared clock, then waits one foam half-life.
+- **Colored-foam checkpoint 1 implemented:** persistent foam now carries the
+  liquid mixture's engine-computed spectral sRGB and plain-language colour into
+  the additive scene contract. The web vessel lightens that physical tint into
+  bubble-film and overflow visuals, while older hosts still fall back to white;
+  arbitrary food-colour mixtures therefore change the foam without changing
+  oxygen yield or rate. Spatially preserved, user-placed stripes still require
+  a typed placement operator and are not inferred from a well-mixed vessel.
 
 ### BRD-075 — Transparent dye and opaque-pigment mixing
 

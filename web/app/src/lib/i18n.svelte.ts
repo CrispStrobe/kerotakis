@@ -426,6 +426,7 @@ const DE: Record<string, string> = {
   "show all 118 elements": "alle 118 Elemente zeigen",
   "{count} shelf examples": "{count} Beispiele im Regal",
   "modeled foam: {height} cm high": "modellierter Schaum: {height} cm hoch",
+  "modeled {colour} foam: {height} cm high": "modellierter {colour}er Schaum: {height} cm hoch",
   "period {period} · group {group} · {block}-block": "Periode {period} · Gruppe {group} · {block}-Block",
   "flame test: {flames}": "Flammenprobe: {flames}",
   "on the shelf, containing {symbol}:": "im Regal, enthält {symbol}:",

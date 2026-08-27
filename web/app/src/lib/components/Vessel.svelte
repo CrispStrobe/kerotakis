@@ -93,6 +93,7 @@
     return Math.max(0, combined - liquidH);
   });
   const foamOverflow = $derived(vessel.foam?.overflow_liters ?? 0);
+  const foamColour = $derived(vessel.foam?.srgb ?? [245, 245, 245] as [number, number, number]);
   // The layer stack in pixels, bottom-up: each layer's share of the
   // total height is its share of the total volume, so the drawn split
   // IS the computed split. Falls back to one layer for older scenes.
@@ -253,7 +254,7 @@
       <g
         class="foam-state"
         class:rising={active("foam", 3000)}
-        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px`}
+        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px;--foam-colour:${rgb(foamColour)}`}
       >
         <rect
           class="foam-fill"
@@ -262,7 +263,10 @@
           width={INNER_W}
           height={foamH}
         >
-          <title>{t("modeled foam: {height} cm high", { height: vessel.foam.height_cm.toFixed(1) })}</title>
+          <title>{t("modeled {colour} foam: {height} cm high", {
+            colour: t(vessel.foam.colour_word ?? "colourless"),
+            height: vessel.foam.height_cm.toFixed(1),
+          })}</title>
         </rect>
         {#each Array.from({ length: Math.max(5, Math.round(5 + Math.min(1, vessel.foam.volume_liters / FULL_AT_L) * 11)) }, (_, i) => i) as i (i)}
           <circle
@@ -307,7 +311,7 @@
 
     {#if vessel.foam && foamOverflow > 0}
       {@const spillScale = Math.min(1, foamOverflow / Math.max(0.01, FULL_AT_L))}
-      <g class="foam-overflow" aria-hidden="true" style={`--spill:${spillScale}`}>
+      <g class="foam-overflow" aria-hidden="true" style={`--spill:${spillScale};--foam-colour:${rgb(foamColour)}`}>
         <ellipse cx="50" cy="7" rx={12 + spillScale * 13} ry={3 + spillScale * 3} />
         <path d={`M ${38 - spillScale * 4} 8 Q ${28 - spillScale * 8} ${18 + spillScale * 8} ${30 - spillScale * 9} ${38 + spillScale * 30}`} />
         <path d={`M ${62 + spillScale * 4} 8 Q ${72 + spillScale * 8} ${18 + spillScale * 8} ${70 + spillScale * 9} ${38 + spillScale * 30}`} />
@@ -822,8 +826,8 @@
   .foam-fill,
   .foam-overflow ellipse,
   .foam-overflow path {
-    fill: color-mix(in srgb, white 88%, var(--instrument));
-    stroke: color-mix(in srgb, var(--instrument) 42%, var(--edge));
+    fill: color-mix(in srgb, white 62%, var(--foam-colour, var(--instrument)));
+    stroke: color-mix(in srgb, var(--foam-colour, var(--instrument)) 56%, var(--edge));
     stroke-width: 0.55;
   }
   .foam-state.rising {
@@ -831,7 +835,7 @@
   }
   .foam-cell {
     fill: color-mix(in srgb, white 30%, transparent);
-    stroke: color-mix(in srgb, var(--instrument) 48%, var(--edge));
+    stroke: color-mix(in srgb, var(--foam-colour, var(--instrument)) 48%, var(--edge));
     stroke-width: 0.45;
   }
   .foam-overflow path {
