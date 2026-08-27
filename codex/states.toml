@@ -32,6 +32,12 @@ stage = "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen"
 ages = { min = 14.0, max = 16.0 }
 source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, The particulate nature of matter — changes of state and dissolving"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
