@@ -1215,6 +1215,12 @@
   "selected target": "ausgewähltes Ziel",
   "empty": "leer",
   "{tool} moved on the bench": "{tool} auf dem Labortisch verschoben",
-  "drag or use arrow keys to move": "ziehen oder mit den Pfeiltasten verschieben"
+  "drag or use arrow keys to move": "ziehen oder mit den Pfeiltasten verschieben",
+  "computed operating values": "berechnete Betriebswerte",
+  "stir-bar tip speed": "Umfangsgeschwindigkeit des Rührstabs",
+  "delivered energy": "zugeführte Energie",
+  "removed energy": "entzogene Energie",
+  "relative centrifugal force": "relative Zentrifugalkraft",
+  "{tool} installed: {state}": "{tool} aufgebaut: {state}"
  }
 }

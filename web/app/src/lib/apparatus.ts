@@ -23,6 +23,13 @@ export interface ApparatusSpec {
   blurb: string;
   fields: FormField[];
   build: (vessel: number, values: Record<string, number | string>) => string | null;
+  /** Immediate physical consequences of the chosen controls. Chemistry stays engine-owned. */
+  readouts?: (values: Record<string, number | string>) => {
+    label: string;
+    value: number;
+    unit: string;
+    digits: number;
+  }[];
   warning?: (values: Record<string, number | string>) => string | null;
 }
 
@@ -34,6 +41,19 @@ const num = (v: number | string | undefined): number | null => {
 const pos = (v: number | string | undefined): number | null => {
   const n = num(v);
   return n !== null && n > 0 ? n : null;
+};
+
+const energyReadout = (watts: number | string | undefined, seconds: number | string | undefined) => {
+  const power = pos(watts);
+  const duration = pos(seconds);
+  if (power === null || duration === null) return [];
+  const joules = power * duration;
+  return [{
+    label: "delivered energy",
+    value: joules >= 1000 ? joules / 1000 : joules,
+    unit: joules >= 1000 ? "kJ" : "J",
+    digits: joules >= 1000 ? 2 : 0,
+  }];
 };
 
 export const APPARATUS: ApparatusSpec[] = [
@@ -50,6 +70,13 @@ export const APPARATUS: ApparatusSpec[] = [
       const seconds = pos(f.seconds);
       return rpm === null || seconds === null ? null : `stir v${v + 1} ${rpm}rpm ${seconds}s`;
     },
+    readouts: (f) => {
+      const rpm = pos(f.rpm);
+      if (rpm === null) return [];
+      // Same 25 mm stir-bar path used by the engine's computed Stirred event.
+      const tipSpeed = Math.PI * 0.025 * rpm / 60;
+      return [{ label: "stir-bar tip speed", value: tipSpeed, unit: "m/s", digits: 3 }];
+    },
   },
   {
     verb: "heat",
@@ -64,6 +91,7 @@ export const APPARATUS: ApparatusSpec[] = [
       const seconds = pos(f.seconds);
       return watts === null || seconds === null ? null : `heat v${v + 1} ${watts * seconds}J`;
     },
+    readouts: (f) => energyReadout(f.watts, f.seconds),
   },
   {
     verb: "cool",
@@ -78,6 +106,7 @@ export const APPARATUS: ApparatusSpec[] = [
       const seconds = pos(f.seconds);
       return watts === null || seconds === null ? null : `cool v${v + 1} ${watts * seconds}J`;
     },
+    readouts: (f) => energyReadout(f.watts, f.seconds).map((readout) => ({ ...readout, label: "removed energy" })),
   },
   {
     verb: "centrifuge",
@@ -104,6 +133,14 @@ export const APPARATUS: ApparatusSpec[] = [
       if (sample === null || counterbalance === null) return null;
       const imbalance = Math.abs(sample - counterbalance);
       return imbalance > 0.1 ? "rotor out of balance — adjust the counterbalance" : null;
+    },
+    readouts: (f) => {
+      const rpm = pos(f.rpm);
+      const radiusCm = pos(f.radius);
+      if (rpm === null || radiusCm === null) return [];
+      const angularSpeed = rpm * Math.PI * 2 / 60;
+      const rcf = angularSpeed ** 2 * (radiusCm / 100) / 9.80665;
+      return [{ label: "relative centrifugal force", value: rcf, unit: "× g", digits: 0 }];
     },
   },
   {
