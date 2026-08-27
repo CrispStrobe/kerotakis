@@ -730,8 +730,25 @@ export class Session {
       effect.operation &&
       ["pour", "filter", "drain"].includes(effect.operation)
     ) {
-      const srgb = this.scene?.vessels.find((vessel) => vessel.id === effect!.source)?.liquid?.srgb;
+      const source = this.scene?.vessels.find((vessel) => vessel.id === effect!.source);
+      const srgb = source?.liquid?.srgb;
       if (srgb) effect = { ...effect, fluidColour: `rgb(${srgb[0]} ${srgb[1]} ${srgb[2]})` };
+      if (effect.operation === "filter" && source) {
+        const filterResidue = source.solids.map((solid) => ({
+          species: solid.species,
+          name: solid.name,
+          moles: solid.moles,
+          colour: `rgb(${solid.srgb[0]} ${solid.srgb[1]} ${solid.srgb[2]})`,
+        }));
+        const retainedMoles = filterResidue.reduce((sum, solid) => sum + solid.moles, 0);
+        effect = {
+          ...effect,
+          filterResidue,
+          magnitude: retainedMoles > 0
+            ? Math.max(0.15, Math.min(1, retainedMoles / 0.1))
+            : effect.magnitude,
+        };
+      }
     }
     if (!effect) return;
     const vessel = vesselOf(event);

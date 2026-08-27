@@ -1250,6 +1250,13 @@ decorating it.
   tilts while its computed transfer path runs. Tilt magnitude follows the
   engine-emitted transfer fraction; reduced-motion keeps the state change and
   settled colour while skipping the gesture.
+  *Physical-filtration slice shipped 2026-08-27:* the transient separator now
+  reads the source vessel before the engine replaces the scene. Its filter
+  paper retains every engine-scene solid with its computed sRGB and amount,
+  shows the retained total in mmol, and scales residue loading from total
+  retained moles; only the computed liquid colour continues to the receiver.
+  A ring stand makes the funnel a bench apparatus rather than a decorative
+  glyph on a generic transfer line.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,

@@ -8,6 +8,13 @@
   let midpoint = $state({ x: 0, y: 0 });
   let visible = $state(true);
   let duration = $derived(`${1.45 - effect.magnitude * 0.65}s`);
+  const residueMoles = $derived(
+    effect.filterResidue?.reduce((sum, solid) => sum + solid.moles, 0) ?? 0,
+  );
+  const dominantResidue = $derived(
+    effect.filterResidue?.reduce((dominant, solid) =>
+      !dominant || solid.moles > dominant.moles ? solid : dominant, effect.filterResidue[0]),
+  );
 
   function position() {
     const bench = marker?.closest<HTMLElement>(".bench");
@@ -52,9 +59,22 @@
     {:else}
       <path class="rig-line" d={path} />
       {#if effect.operation === "filter"}
-        <g class="filter" transform={`translate(${midpoint.x - 13} ${midpoint.y - 12})`}>
+        <g
+          class="filter"
+          class:loaded={residueMoles > 0}
+          transform={`translate(${midpoint.x - 13} ${midpoint.y - 12})`}
+          style={`--residue:${dominantResidue?.colour ?? "var(--cloud)"};--residue-load:${Math.max(.12, effect.magnitude)}`}
+        >
+          <path class="stand" d="M 27 -8 V 30 M 23 30 H 31 M 18 2 H 27" />
           <path d="M 0 0 H 26 L 16 14 V 25 H 10 V 14 Z" />
           <path class="filter-paper" d="M 3 3 H 23 L 15 13 H 11 Z" />
+          {#if residueMoles > 0}
+            <path class="residue" d="M 4 4 H 22 L 19 7 Q 13 10 7 7 Z" />
+            {#each [[8, 5], [12, 6.5], [16, 5], [19, 6.5], [10, 8], [15, 8]] as dot, i (i)}
+              <circle class="residue-grain" cx={dot[0]} cy={dot[1]} r={0.45 + effect.magnitude * .35} style={`--grain-delay:${i * .08}s`} />
+            {/each}
+            <text class="filter-reading" x="13" y="-3" text-anchor="middle">{(residueMoles * 1000).toPrecision(2)} mmol</text>
+          {/if}
         </g>
       {:else if effect.operation === "distil"}
         <g class="condenser" transform={`translate(${midpoint.x - 24} ${midpoint.y - 9})`}>
@@ -80,7 +100,12 @@
   .landing { fill: none; stroke: var(--fluid); stroke-width: 2; opacity: 0; animation: land var(--duration) ease-out forwards; }
   .rig-line { fill: none; stroke: var(--edge-strong); stroke-width: 5; stroke-linecap: round; opacity: .75; }
   .filter path { fill: color-mix(in srgb, var(--surface) 86%, var(--cool)); stroke: var(--edge-strong); stroke-width: 1.5; }
+  .filter .stand { fill: none; stroke: var(--edge-strong); stroke-width: 1.8; stroke-linecap: round; }
   .filter .filter-paper { fill: var(--cloud); stroke-width: 1; }
+  .filter .residue { fill: var(--residue); fill-opacity: calc(.38 + var(--residue-load) * .55); stroke: color-mix(in srgb, var(--residue) 80%, var(--edge-strong)); stroke-width: .5; }
+  .filter .residue-grain { fill: var(--residue); opacity: calc(.45 + var(--residue-load) * .45); }
+  .filter-reading { fill: var(--ink); font: 700 5px system-ui, sans-serif; paint-order: stroke; stroke: var(--surface); stroke-width: 2px; }
+  .filter.loaded .residue-grain { animation: settle-grain .55s ease-out both; animation-delay: var(--grain-delay); }
   .condenser rect { fill: color-mix(in srgb, var(--cool) 15%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
   .condenser path { fill: none; stroke: var(--cool); stroke-width: 1.5; }
   .cable { fill: none; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 10 5; animation: current 1s linear infinite; }
@@ -91,5 +116,6 @@
   @keyframes pour { 0% { stroke-dashoffset: 1; opacity: 0; } 12% { opacity: 0.85; } 58% { stroke-dashoffset: 0; } 82% { opacity: 0.75; } 100% { stroke-dashoffset: -1; opacity: 0; } }
   @keyframes land { 0%, 58% { opacity: 0; } 72% { opacity: 0.7; } 100% { opacity: 0; } }
   @keyframes current { to { stroke-dashoffset: -30; } }
+  @keyframes settle-grain { from { opacity: 0; transform: translateY(-4px); } }
   @media (prefers-reduced-motion: reduce) { .bench-effect { display: none; } }
 </style>
