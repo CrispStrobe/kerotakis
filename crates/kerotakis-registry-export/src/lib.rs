@@ -31,6 +31,8 @@ const IRON_III_OXIDE_SOURCE: &str = "us-federal/nasa-cea-hematite";
 const IRON_III_OXIDE_CITATION: &str = "PubChem CID 14833 identity crosswalk; NASA CEA thermo.inp Fe2O3(cr) record cites Pankratz (1983) for hematite thermochemistry. Room-temperature density 5.24 g/mL and reddish-brown appearance are explicit teaching properties; retrieved 2026-08-27";
 const EPSOMITE_SOURCE: &str = "us-federal/usgs-epsomite";
 const EPSOMITE_CITATION: &str = "PubChem CID 24843 identity crosswalk for magnesium sulfate heptahydrate; USGS PHREEQC wateq4f.dat Epsomite phase supplies MgSO4:7H2O dissolution stoichiometry. Density 1.68 g/mL and 360 J/(mol.K) heat capacity are explicit room-temperature teaching approximations; dissolution enthalpy remains unclaimed; retrieved 2026-08-27";
+const SILICA_SOURCE: &str = "us-federal/pubchem-silica";
+const SILICA_CITATION: &str = "PubChem CID 24261 silica identity crosswalk. Quartz-like room-temperature teaching properties use molar mass 60.084 g/mol, density 2.65 g/mL and heat capacity 44.6 J/(mol.K); polymorph, grain coatings and natural-sand impurities remain separate material assumptions; retrieved 2026-08-27";
 
 // Bootstrap a new data-driven species exactly once. After the generated source
 // document is checked in, core's build script includes it in REGISTRY and the
@@ -124,6 +126,27 @@ const EPSOMITE_SEED: SpeciesData = SpeciesData {
     provenance: EPSOMITE_CITATION,
 };
 
+const SILICA_SEED: SpeciesData = SpeciesData {
+    key: "SiO2",
+    name: "silicon dioxide (quartz)",
+    formula: "SiO2",
+    inchikey: "VYPSYNLAJGMNEJ-UHFFFAOYSA-N",
+    molar_mass: 60.084,
+    heat_capacity: 44.6,
+    density: 2.65,
+    standard_phase: LegacyPhase::Solid,
+    appearance: Some("colourless to white grains"),
+    flame_colour: None,
+    colour: None,
+    spectrum: None,
+    dissolution_enthalpy_kj: None,
+    dissolves_without_speciation: false,
+    aqueous_solubility_g_per_100_ml: None,
+    forms_only_above_k: None,
+    magnetic: false,
+    provenance: SILICA_CITATION,
+};
+
 /// Export every current declaration without changing or replacing the runtime
 /// registry. All legacy sources remain build-oracle material pending explicit
 /// licence and provenance review.
@@ -143,6 +166,9 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     }
     if !REGISTRY.iter().any(|species| species.key == "epsomite") {
         export_species(&mut document, &EPSOMITE_SEED)?;
+    }
+    if !REGISTRY.iter().any(|species| species.key == "SiO2") {
+        export_species(&mut document, &SILICA_SEED)?;
     }
     export_material_recipes(&mut document);
     document.validate().map_err(|error| error.to_string())?;
@@ -1306,6 +1332,71 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             expansion_policy: MaterialExpansionPolicy::Fixed,
             evidence: evidence(),
         },
+        MaterialRecipe {
+            id: "school/iron-filings".to_string(),
+            version: 1,
+            canonical_key: "iron_filings".to_string(),
+            name: "iron filings".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec!["Eisenfeilspäne".to_string(), "Eisenspäne".to_string()],
+                ),
+                ("en".to_string(), vec!["iron powder".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("Fe", 1.0)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: Vec::new(),
+            preparation: Some("clean elemental-iron filings teaching surrogate".to_string()),
+            lot_assumptions: vec![
+                "surface oxide, cutting oil, particle-size distribution and alloying are omitted"
+                    .to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Curated,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/quartz-sand-surrogate".to_string(),
+            version: 1,
+            canonical_key: "quartz_sand".to_string(),
+            name: "quartz-rich sand surrogate".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec!["Sand".to_string(), "Quarzsand".to_string(), "Spielsand".to_string()],
+                ),
+                (
+                    "en".to_string(),
+                    vec!["play sand".to_string(), "quartz sand".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("SiO2", 0.95)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.05,
+                upper: 0.05,
+            }),
+            physical_form: MaterialPhysicalForm::Granules,
+            roles: Vec::new(),
+            preparation: Some(
+                "washed quartz-rich play-sand teaching surrogate with a conserved variable mineral fraction"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "natural and retail sands vary widely; clay, feldspar, shell, iron minerals, organics, moisture and coatings remain in the explicit 5% unresolved fraction".to_string(),
+                "grain-size distribution and colour are not yet resolved".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
         familiar_solid(
             "school/calcium-carbonate-chalk-stick",
             "chalk_stick",
@@ -1415,14 +1506,19 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
         "sucrose" => SUCROSE_SOURCE.to_string(),
         "Fe2O3" => IRON_III_OXIDE_SOURCE.to_string(),
         "epsomite" => EPSOMITE_SOURCE.to_string(),
+        "SiO2" => SILICA_SOURCE.to_string(),
         _ => format!("legacy/{}", species.key),
     };
     let curated_isopropanol = species.key == "isopropanol";
     let curated_sucrose = species.key == "sucrose";
     let curated_iron_iii_oxide = species.key == "Fe2O3";
     let curated_epsomite = species.key == "epsomite";
-    let runtime_source =
-        curated_isopropanol || curated_sucrose || curated_iron_iii_oxide || curated_epsomite;
+    let curated_silica = species.key == "SiO2";
+    let runtime_source = curated_isopropanol
+        || curated_sucrose
+        || curated_iron_iii_oxide
+        || curated_epsomite
+        || curated_silica;
     document.sources.push(SourceRecord {
         id: source_id.clone(),
         citation: species.provenance.to_string(),
@@ -1431,6 +1527,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "sucrose" => "AGPL-3.0-or-later",
             "Fe2O3" => "LicenseRef-US-Public-Domain",
             "epsomite" => "LicenseRef-US-Public-Domain",
+            "SiO2" => "LicenseRef-US-Public-Domain",
             _ => LEGACY_LICENCE,
         }
         .to_string(),
@@ -1444,6 +1541,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "sucrose" => "crates/kerotakis-registry-export/src/lib.rs".to_string(),
             "Fe2O3" => "vendor/nasa-cea/thermo.inp".to_string(),
             "epsomite" => "vendor/iphreeqc/database/wateq4f.dat".to_string(),
+            "SiO2" => "https://pubchem.ncbi.nlm.nih.gov/compound/24261".to_string(),
             _ => "crates/kerotakis-core/src/species.rs".to_string(),
         }),
         revision: match species.key {
@@ -1451,6 +1549,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "sucrose" => Some("v1".to_string()),
             "Fe2O3" => Some("NASA CEA Fe2O3(cr), PubChem CID 14833".to_string()),
             "epsomite" => Some("USGS WATEQ4F Epsomite, PubChem CID 24843".to_string()),
+            "SiO2" => Some("PubChem CID 24261".to_string()),
             _ => None,
         },
         retrieved: runtime_source.then(|| "2026-08-27".to_string()),

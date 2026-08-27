@@ -53,12 +53,12 @@ fn every_legacy_field_is_present_and_unchanged() {
             .filter(|species| {
                 !matches!(
                     species.key,
-                    "isopropanol" | "sucrose" | "Fe2O3" | "epsomite"
+                    "isopropanol" | "sucrose" | "Fe2O3" | "epsomite" | "SiO2"
                 )
             })
             .count()
     );
-    assert_eq!(document.material_recipes.len(), 41);
+    assert_eq!(document.material_recipes.len(), 43);
     assert_eq!(document.identities.len(), REGISTRY.len());
     assert_eq!(document.compositions.len(), REGISTRY.len());
     assert_eq!(
@@ -107,6 +107,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         "sucrose" => "kerotakis/sucrose-teaching-properties-v1".to_string(),
         "Fe2O3" => "us-federal/nasa-cea-hematite".to_string(),
         "epsomite" => "us-federal/usgs-epsomite".to_string(),
+        "SiO2" => "us-federal/pubchem-silica".to_string(),
         _ => format!("legacy/{}", species.key),
     };
     let source = document
@@ -143,6 +144,13 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         assert_eq!(
             source.origin.as_deref(),
             Some("vendor/iphreeqc/database/wateq4f.dat")
+        );
+    } else if species.key == "SiO2" {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("https://pubchem.ncbi.nlm.nih.gov/compound/24261")
         );
     } else {
         assert_eq!(source.lane, SourceLane::BuildOracle, "{} lane", species.key);

@@ -2365,5 +2365,24 @@
     "provenance": "PubChem CID 24843 identity crosswalk for magnesium sulfate heptahydrate; USGS PHREEQC wateq4f.dat Epsomite phase supplies MgSO4:7H2O dissolution stoichiometry. Density 1.68 g/mL and 360 J/(mol.K) heat capacity are explicit room-temperature teaching approximations; dissolution enthalpy remains unclaimed; retrieved 2026-08-27",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "colourless to white grains",
+    "colour": null,
+    "density": 2.65,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "SiO2",
+    "heat_capacity": 44.6,
+    "inchikey": "VYPSYNLAJGMNEJ-UHFFFAOYSA-N",
+    "key": "SiO2",
+    "magnetic": false,
+    "molar_mass": 60.084,
+    "name": "silicon dioxide (quartz)",
+    "provenance": "PubChem CID 24261 silica identity crosswalk. Quartz-like room-temperature teaching properties use molar mass 60.084 g/mol, density 2.65 g/mL and heat capacity 44.6 J/(mol.K); polymorph, grain coatings and natural-sand impurities remain separate material assumptions; retrieved 2026-08-27",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]
