@@ -157,6 +157,14 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
   switch (kind) {
     case "gas_evolved":
       return { kind: "vent", at: now, magnitude: gasMag(e) };
+    case "gas_produced":
+      return { kind: "vent", at: now, magnitude: gasMag(e) };
+    case "foam_changed":
+      return {
+        kind: "foam",
+        at: now,
+        magnitude: scale(Number(e.height_cm ?? 0), 0.5, 30),
+      };
     case "precipitated":
       return { kind: "precipitate", at: now, magnitude: precipMag(e) };
     case "evaporated":

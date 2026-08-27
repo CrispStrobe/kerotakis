@@ -40,6 +40,7 @@ export interface SceneVessel {
   layers?: SceneLayer[];
   solids: SceneSolid[];
   bubbling: boolean;
+  foam?: SceneFoam | null;
   /** Flattened Headspace tag: open | sealed | pressure_controlled | swept. */
   boundary: string;
   temperature_k: number;
@@ -48,6 +49,13 @@ export interface SceneVessel {
   /** The lv1 observation sentence — also the vessel's accessible name. */
   words: string;
   badges: SceneBadge[];
+}
+
+export interface SceneFoam {
+  trapped_gas_liters: number;
+  volume_liters: number;
+  height_cm: number;
+  overflow_liters: number;
 }
 
 /** One visible liquid layer, bottom first (GUI-058) — the engine's

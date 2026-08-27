@@ -57,6 +57,10 @@ pub struct SceneVessel {
     pub solids: Vec<SceneSolid>,
     /// Gas visibly rising through the liquid.
     pub bubbling: bool,
+    /// Persistent foam target derived from gas production and a declared
+    /// stabilizer role. Absent for the no-soap control.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub foam: Option<SceneFoam>,
     /// The gas boundary, serialized with its existing `boundary` tag:
     /// open, sealed, pressure_controlled, or swept.
     #[serde(flatten)]
@@ -71,6 +75,14 @@ pub struct SceneVessel {
     /// Numbers worth pinning to the vessel, each with the confidence class
     /// its visual encoding follows (GUI-023).
     pub badges: Vec<Badge>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneFoam {
+    pub trapped_gas_liters: f64,
+    pub volume_liters: f64,
+    pub height_cm: f64,
+    pub overflow_liters: f64,
 }
 
 /// One visible liquid layer (GUI-058).
@@ -253,6 +265,37 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             });
         }
     }
+    let foam = (v.foam.volume_liters > 1e-9).then(|| {
+        let (capacity_l, area_cm2) = match v.label.as_str() {
+            "tube" => (0.030, 3.0),
+            "cylinder" => (0.100, 8.0),
+            "flask" => (0.250, 20.0),
+            "crucible" => (0.050, 18.0),
+            _ => (0.250, 28.0),
+        };
+        SceneFoam {
+            trapped_gas_liters: v.foam.trapped_gas_liters,
+            volume_liters: v.foam.volume_liters,
+            height_cm: v.foam.volume_liters * 1000.0 / area_cm2,
+            overflow_liters: (v.liquid_volume().0 + v.foam.volume_liters - capacity_l).max(0.0),
+        }
+    });
+    if let Some(foam) = &foam {
+        badges.push(Badge {
+            key: "foam_height_cm".into(),
+            value: foam.height_cm,
+            confidence: Confidence::Modeled,
+        });
+    }
+
+    let mut words = seen.words;
+    if let Some(foam) = &foam {
+        if foam.overflow_liters > 0.0 {
+            words.push_str(" Foam is spilling over the rim.");
+        } else {
+            words.push_str(" Foam is standing above the liquid.");
+        }
+    }
 
     SceneVessel {
         id: v.id,
@@ -261,11 +304,12 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         layers,
         solids,
         bubbling: seen.bubbling,
+        foam,
         headspace: v.headspace,
         temperature_k: v.temperature.0,
         pressure_pa: v.pressure.0,
         elapsed_s: v.elapsed_seconds,
-        words: seen.words,
+        words,
         badges,
     }
 }
@@ -334,7 +378,22 @@ mod tests {
         assert!(v.liquid.is_none());
         assert!(v.solids.is_empty());
         assert!(!v.bubbling);
+        assert!(v.foam.is_none());
         assert!(v.words.contains("empty"), "{}", v.words);
+    }
+
+    #[test]
+    fn persistent_foam_is_part_of_the_scene_and_accessible_words() {
+        let mut v = vessel_with(&[("water", 5.55, Phase::Liquid)]);
+        v.foam.trapped_gas_liters = 0.20;
+        v.foam.volume_liters = 0.22;
+        v.foam.peak_volume_liters = 0.22;
+        let scene = scene_vessel(&v);
+        let foam = scene.foam.expect("foam render target");
+        assert!((foam.volume_liters - 0.22).abs() < 1e-12);
+        assert!(foam.height_cm > 0.0);
+        assert!(foam.overflow_liters > 0.0);
+        assert!(scene.words.contains("spilling over"));
     }
 
     #[test]

@@ -82,6 +82,17 @@
   const liquidH = $derived(
     vessel.liquid ? fillHeight(geom, vessel.liquid.volume_l) : 0,
   );
+  const foamH = $derived.by(() => {
+    if (!vessel.foam || vessel.foam.volume_liters <= 0) return 0;
+    const liquidVolume = vessel.liquid?.volume_l ?? 0;
+    const combined = fillHeight(
+      geom,
+      Math.min(FULL_AT_L, liquidVolume + vessel.foam.volume_liters),
+      0,
+    );
+    return Math.max(0, combined - liquidH);
+  });
+  const foamOverflow = $derived(vessel.foam?.overflow_liters ?? 0);
   // The layer stack in pixels, bottom-up: each layer's share of the
   // total height is its share of the total volume, so the drawn split
   // IS the computed split. Falls back to one layer for older scenes.
@@ -237,6 +248,33 @@
       />
     {/if}
 
+    {#if vessel.foam && foamH > 0}
+      {@const foamY = BOTTOM_Y - liquidH - foamH}
+      <g
+        class="foam-state"
+        class:rising={active("foam", 3000)}
+        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px`}
+      >
+        <rect
+          class="foam-fill"
+          x={INNER_X}
+          y={foamY}
+          width={INNER_W}
+          height={foamH}
+        >
+          <title>{t("modeled foam: {height} cm high", { height: vessel.foam.height_cm.toFixed(1) })}</title>
+        </rect>
+        {#each Array.from({ length: Math.max(5, Math.round(5 + Math.min(1, vessel.foam.volume_liters / FULL_AT_L) * 11)) }, (_, i) => i) as i (i)}
+          <circle
+            class="foam-cell"
+            cx={INNER_X + 4 + ((i * 17) % Math.max(6, INNER_W - 8))}
+            cy={foamY + 3 + ((i * 11) % Math.max(4, foamH - 4))}
+            r={1.2 + (i % 3) * 0.55}
+          />
+        {/each}
+      </g>
+    {/if}
+
     {#if solidH > 0}
       {#each shownSolids as solid, i (solid.species)}
         {@const layer = solidLayer(i, shownSolids.length, solidH, BOTTOM_Y)}
@@ -266,6 +304,15 @@
       <FluidOverlay {vessel} {effects} lookup={fluidLookup} />
     {/if}
     </g>
+
+    {#if vessel.foam && foamOverflow > 0}
+      {@const spillScale = Math.min(1, foamOverflow / Math.max(0.01, FULL_AT_L))}
+      <g class="foam-overflow" aria-hidden="true" style={`--spill:${spillScale}`}>
+        <ellipse cx="50" cy="7" rx={12 + spillScale * 13} ry={3 + spillScale * 3} />
+        <path d={`M ${38 - spillScale * 4} 8 Q ${28 - spillScale * 8} ${18 + spillScale * 8} ${30 - spillScale * 9} ${38 + spillScale * 30}`} />
+        <path d={`M ${62 + spillScale * 4} 8 Q ${72 + spillScale * 8} ${18 + spillScale * 8} ${70 + spillScale * 9} ${38 + spillScale * 30}`} />
+      </g>
+    {/if}
 
     {#if deployedTool}
       <DeployedApparatus tool={deployedTool} working={apparatusWorking} values={apparatusValues} surfaceY={BOTTOM_Y - Math.max(liquidH, 4)} />
@@ -772,6 +819,37 @@
     stroke-width: 0.8;
     animation: rise 2.2s linear infinite;
   }
+  .foam-fill,
+  .foam-overflow ellipse,
+  .foam-overflow path {
+    fill: color-mix(in srgb, white 88%, var(--instrument));
+    stroke: color-mix(in srgb, var(--instrument) 42%, var(--edge));
+    stroke-width: 0.55;
+  }
+  .foam-state.rising {
+    animation: foam-rise 900ms cubic-bezier(.2, .8, .25, 1) both;
+  }
+  .foam-cell {
+    fill: color-mix(in srgb, white 30%, transparent);
+    stroke: color-mix(in srgb, var(--instrument) 48%, var(--edge));
+    stroke-width: 0.45;
+  }
+  .foam-overflow path {
+    fill: none;
+    stroke-width: calc(2px + var(--spill) * 4px);
+    stroke-linecap: round;
+  }
+  .foam-overflow {
+    animation: foam-spill 1.4s ease-in-out infinite alternate;
+  }
+  @keyframes foam-rise {
+    from { transform: scaleY(0.05); opacity: 0.35; }
+    to { transform: scaleY(1); opacity: 1; }
+  }
+  @keyframes foam-spill {
+    from { transform: translateY(0); }
+    to { transform: translateY(2px); }
+  }
   @keyframes rise {
     from {
       transform: translateY(0);
@@ -958,6 +1036,8 @@
       transition: none;
     }
     .bubble,
+    .foam-state,
+    .foam-overflow,
     .flame .outer,
     .flame .inner,
     .steam,

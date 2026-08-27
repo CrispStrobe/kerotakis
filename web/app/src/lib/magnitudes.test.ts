@@ -20,6 +20,16 @@ describe("effectFromEvent", () => {
     expect(e!.magnitude).toBe(1);
   });
 
+  it("maps produced oxygen and computed foam height to visible effects", () => {
+    expect(
+      effectFromEvent({ event: "gas_produced", vessel: 0, species: "O2", moles: 0.05 })
+    ).toMatchObject({ kind: "vent" });
+    const low = effectFromEvent({ event: "foam_changed", vessel: 0, height_cm: 3 });
+    const high = effectFromEvent({ event: "foam_changed", vessel: 0, height_cm: 20 });
+    expect(low!.kind).toBe("foam");
+    expect(high!.magnitude).toBeGreaterThan(low!.magnitude);
+  });
+
   it("maps precipitated with moles → precipitate + magnitude from event.moles", () => {
     const e = effectFromEvent({ event: "precipitated", vessel: 0, species: "BaSO4", moles: 0.01 });
     expect(e!.kind).toBe("precipitate");
