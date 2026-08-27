@@ -1227,6 +1227,12 @@ decorating it.
   above the counter edge. It no longer enters document flow beneath the bench
   or becomes hidden by the persistent vessel action dock.
 
+- [x] **GUI-080 — Honest apparatus motion.** *Shipped 2026-08-27.* A
+  configured stirrer, hotplate, or cooling bath remains visibly installed but
+  stationary. Rotation, rising heat, and pulsing frost begin only while the
+  engine is running the operation or its computed effect is playing back;
+  configured rpm/power still sets the animation rate.
+
 Split: GUI-058 + 060 + 064 are architecture/engine-coupled (fable);
 GUI-061 + 063 are self-contained client work (kero-basic);
 GUI-059 + 062 are client work gated on no engine change (kero1, after
