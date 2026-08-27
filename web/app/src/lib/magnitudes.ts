@@ -141,6 +141,10 @@ export interface DilutionRun {
   waterMoles: number;
 }
 
+export interface SweepRun {
+  pressurePa: number;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -185,6 +189,7 @@ export interface Effect {
   waft?: WaftRun;
   pressureControl?: PressureControlRun;
   dilution?: DilutionRun;
+  sweep?: SweepRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -581,6 +586,16 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
           initialVolumeL: Number(e.initial_volume ?? 0),
           trappedGasMoles: Number(e.trapped_gas ?? 0),
         },
+      };
+    }
+    case "vessel_swept": {
+      const pressurePa = Number(e.pressure ?? 0);
+      return {
+        kind: "sweep",
+        at: now,
+        durationMs: 3800,
+        magnitude: scale(pressurePa, 50_000, 500_000),
+        sweep: { pressurePa },
       };
     }
     default:
