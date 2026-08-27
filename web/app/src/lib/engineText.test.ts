@@ -134,4 +134,16 @@ describe("engine text localization", () => {
       .toBe("Titration von v2 mit Natriumhydroxid (0.1 M)");
     expect(engineText("titrant added")).toBe("zugegebenes Titrationsmittel");
   });
+
+  it("localizes relation explanations, provenance, units, and errors", () => {
+    i18n.setLocale("de");
+    expect(engineText("Nernst equation: E = E° + x\n n = 2 electrons"))
+      .toBe("Nernst-Gleichung: E = E° + x\n n = 2 Elektronen");
+    expect(engineText("Debye–Hückel limiting law (P. Debye and E. Hückel, 1923); A = 0.5091 at 25 °C in water; valid only for I ≲ 0.01 mol/kg"))
+      .toBe("Debye-Hückel-Grenzgesetz (P. Debye and E. Hückel, 1923); A = 0.5091 bei 25 °C in Wasser; nur gültig für I ≲ 0.01 mol/kg");
+    expect(engineText("(rate constant units)"))
+      .toBe("(Einheiten der Geschwindigkeitskonstante)");
+    expect(engineText("missing argument: Ea")).toBe("Fehlendes Argument: Ea");
+    expect(engineText("concentrations must be positive")).toBe("Konzentrationen müssen positiv sein.");
+  });
 });

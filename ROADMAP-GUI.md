@@ -295,6 +295,11 @@ classrooms-as-a-service, and cloud saves are **non-goals** for this roadmap.
   an English-only sentence. German expansion is part of each feature's DoD,
   including mission text, equipment metadata, errors, ARIA labels, and export
   templates; screenshots are not accepted as evidence of coverage.
+- *Relation-toolbox audit shipped 2026-08-27:* canonical relation ids and
+  argument symbols remain language-neutral for computation, while relation
+  names, human-readable field labels, units, errors, register explanations,
+  and provenance now cross the German presentation boundary. Inputs name the
+  physical quantity prominently and retain the exact solver symbol beneath it.
 
 ### Immediate experience target: the laboratory as a place
 
