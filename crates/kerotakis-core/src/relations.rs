@@ -400,6 +400,14 @@ pub struct RelationInfo {
     pub name: &'static str,
     pub equation: &'static str,
     pub args: &'static str,
+    /// What question this relation answers, in one sentence (GUI-087).
+    pub purpose: &'static str,
+    pub purpose_de: &'static str,
+    /// Where it stops being true. A formula shipped without its validity
+    /// range teaches a learner to apply it outside that range, which is the
+    /// most common way these get misused.
+    pub validity: &'static str,
+    pub validity_de: &'static str,
 }
 
 pub const RELATIONS: &[RelationInfo] = &[
@@ -407,36 +415,64 @@ pub const RELATIONS: &[RelationInfo] = &[
         name: "nernst",
         equation: "E = E° + (RT ln 10)/(nF) · log₁₀(a)",
         args: "e0=<V> n=<electrons> a=<activity> T=<K>",
+        purpose: "How far a half-cell's potential shifts when the species are not at unit activity.",
+        purpose_de: "Wie weit sich das Potenzial einer Halbzelle verschiebt, wenn die Teilchen nicht in der Aktivität 1 vorliegen.",
+        validity: "Needs activities, not concentrations — using concentrations is the usual source of the textbook 59 mV that a real cell does not deliver. Assumes equilibrium at the electrode and no current drawn.",
+        validity_de: "Braucht Aktivitäten, nicht Konzentrationen — mit Konzentrationen entstehen die 59 mV aus dem Schulbuch, die eine reale Zelle nicht liefert. Setzt Gleichgewicht an der Elektrode und stromlose Messung voraus.",
     },
     RelationInfo {
         name: "arrhenius",
         equation: "k = A·T^b·exp(−Ea/RT)",
         args: "A=<prefactor> Ea=<J/mol> T=<K> [b=<exponent>]",
+        purpose: "How much faster a reaction runs when it is warmer.",
+        purpose_de: "Um wie viel schneller eine Reaktion abläuft, wenn es wärmer ist.",
+        validity: "Empirical: Ea and A are fitted to data, not derived. Valid over the temperature range they were fitted in; extrapolating far outside it, or across a change of mechanism, is not.",
+        validity_de: "Empirisch: Ea und A werden an Messdaten angepasst, nicht hergeleitet. Gültig im angepassten Temperaturbereich; weite Extrapolation oder ein Mechanismuswechsel machen sie ungültig.",
     },
     RelationInfo {
         name: "eyring",
         equation: "k = (kB·T/h)·exp(−ΔG‡/RT)",
         args: "dG=<J/mol> T=<K>",
+        purpose: "The same temperature dependence, derived from the transition state rather than fitted.",
+        purpose_de: "Dieselbe Temperaturabhängigkeit, hergeleitet über den Übergangszustand statt angepasst.",
+        validity: "Assumes thermal equilibrium between reactants and the activated complex, and a transmission coefficient of one. Where that fails, Arrhenius fitted to data is the more honest answer.",
+        validity_de: "Setzt ein thermisches Gleichgewicht zwischen Edukten und aktiviertem Komplex sowie einen Transmissionskoeffizienten von eins voraus. Wo das nicht gilt, ist der an Daten angepasste Arrhenius-Ansatz die ehrlichere Antwort.",
     },
     RelationInfo {
         name: "henderson-hasselbalch",
         equation: "pH = pKa + log₁₀([A⁻]/[HA])",
         args: "pKa=<value> cA=<mol/L> cB=<mol/L>",
+        purpose: "The pH of a buffer from the ratio of its two forms.",
+        purpose_de: "Der pH-Wert eines Puffers aus dem Verhältnis seiner beiden Formen.",
+        validity: "An approximation: it assumes the acid and base concentrations are the ones you weighed in, so it drifts near the ends of the buffer range, in dilute solution, and wherever water's own autoprotolysis matters. The bench solves the full charge balance instead.",
+        validity_de: "Eine Näherung: sie nimmt an, dass die Konzentrationen von Säure und Base den eingewogenen entsprechen. Deshalb weicht sie an den Rändern des Pufferbereichs, in verdünnter Lösung und dort ab, wo die Autoprotolyse des Wassers zählt. Die Bank löst stattdessen die vollständige Ladungsbilanz.",
     },
     RelationInfo {
         name: "ionic-strength",
         equation: "I = ½ Σ mᵢ zᵢ²",
         args: "<z>:<m> <z>:<m> ... (charge:molality pairs)",
+        purpose: "How crowded with charge a solution is — the quantity every activity correction starts from.",
+        purpose_de: "Wie stark eine Lösung mit Ladung besetzt ist — die Größe, bei der jede Aktivitätskorrektur beginnt.",
+        validity: "A definition, so it is always true; the caution belongs to what you do with it. Sum over every ion actually present, not only the ones you added.",
+        validity_de: "Eine Definition und damit immer gültig; die Einschränkung liegt darin, was man damit tut. Über alle tatsächlich vorhandenen Ionen summieren, nicht nur über die zugegebenen.",
     },
     RelationInfo {
         name: "debye-huckel",
         equation: "log₁₀(γ) = −A z² √I",
         args: "z=<charge> I=<mol/kg>",
+        purpose: "How far an ion's activity falls below its concentration, because of the other ions around it.",
+        purpose_de: "Wie weit die Aktivität eines Ions unter seiner Konzentration liegt, wegen der übrigen Ionen ringsum.",
+        validity: "The limiting law holds only in dilute solution, roughly below I = 0.01 mol/kg. Above that it overcorrects, and above about 0.5 mol/kg a specific-ion-interaction model such as Pitzer is required — which is why the bench routes concentrated solutions to a different database.",
+        validity_de: "Das Grenzgesetz gilt nur in verdünnter Lösung, etwa unterhalb I = 0,01 mol/kg. Darüber überkorrigiert es, und oberhalb von etwa 0,5 mol/kg braucht es ein ionenspezifisches Wechselwirkungsmodell wie Pitzer — deshalb leitet die Bank konzentrierte Lösungen an eine andere Datenbank weiter.",
     },
     RelationInfo {
         name: "van-t-hoff",
         equation: "K₂ = K₁·exp[−(ΔH°/R)(1/T₂ − 1/T₁)]",
         args: "dH=<J/mol> K1=<value> T1=<K> T2=<K>",
+        purpose: "Where an equilibrium moves when the temperature changes.",
+        purpose_de: "Wohin sich ein Gleichgewicht verschiebt, wenn sich die Temperatur ändert.",
+        validity: "Assumes the reaction enthalpy is constant over the interval. Across a wide temperature range, or a phase change, it is not, and the prediction drifts.",
+        validity_de: "Nimmt an, dass die Reaktionsenthalpie über das Intervall konstant ist. Über einen weiten Temperaturbereich oder einen Phasenwechsel hinweg gilt das nicht, und die Vorhersage weicht ab.",
     },
 ];
 

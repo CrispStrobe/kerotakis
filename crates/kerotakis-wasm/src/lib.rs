@@ -312,6 +312,10 @@ impl Lab {
                     "name": r.name,
                     "equation": r.equation,
                     "args": r.args,
+                    "purpose": r.purpose,
+                    "purpose_de": r.purpose_de,
+                    "validity": r.validity,
+                    "validity_de": r.validity_de,
                 })
             })
             .collect();
