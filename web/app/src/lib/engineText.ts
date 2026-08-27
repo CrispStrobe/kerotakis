@@ -50,6 +50,15 @@ export function engineText(text: string): string {
   if ((match = text.match(/^(v\d+): ([\d.]+) rpm for ([\d.]+) s — ([\d.]+) × g; ([\d.]+)% separation; balanced within ([\d.]+) g$/))) {
     return `${match[1]}: ${match[2]} U/min für ${match[3]} s — ${match[4]} × g; ${match[5]} % getrennt; auf ${match[6]} g austariert`;
   }
+  if ((match = text.match(/^The lamp shines on (v\d+)\. The light is applied, but photolysis is not connected yet\.$/))) {
+    return `Die Lampe bestrahlt ${match[1]}. Das Licht wirkt ein, aber die Photolyse ist noch nicht gekoppelt.`;
+  }
+  if ((match = text.match(/^(v\d+): lamp ([\d.]+) nm at ([\d.]+) W\/m² — photolysis (coupled|not yet coupled)$/))) {
+    return `${match[1]}: Lampe ${match[2]} nm bei ${match[3]} W/m² — Photolyse ${match[4] === "coupled" ? "gekoppelt" : "noch nicht gekoppelt"}`;
+  }
+  if ((match = text.match(/^(v\d+): irradiate λ=([\d.]+) nm, Ė\/A=([\d.]+) W\/m²; photolysis_coupled=(true|false)$/))) {
+    return `${match[1]}: Bestrahlung λ=${match[2]} nm, Ė/A=${match[3]} W/m²; Photolyse gekoppelt=${match[4] === "true" ? "ja" : "nein"}`;
+  }
   if ((match = text.match(/^While you wait, particles in (v\d+) sink toward the bottom\.$/))) {
     return `Während du wartest, sinken Teilchen in ${match[1]} zum Boden.`;
   }

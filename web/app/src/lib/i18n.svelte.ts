@@ -924,6 +924,9 @@ const DE: Record<string, string> = {
   ,"flying glass and a pressure wave — sealed systems on a heat source are how real labs get hurt; safe only because this lab is virtual": "Glassplitter und eine Druckwelle — verschlossene Systeme auf einer Wärmequelle verursachen in echten Laboren schwere Unfälle; nur hier sicher, weil das Labor virtuell ist"
   ,"on a real bench this one is never smelled directly — fume hood, waft only, and some not even then": "Im echten Labor riecht man daran nie direkt — Abzug, höchstens vorsichtiges Zufächern, und manche Stoffe nicht einmal dann"
   ,"radioactive source: ionising radiation": "Radioaktive Quelle: ionisierende Strahlung"
+  ,"light applied": "Licht eingestrahlt"
+  ,"photolysis coupled": "Photolyse gekoppelt"
+  ,"photolysis not yet coupled": "Photolyse nicht gekoppelt"
   ,"on a real bench this needs shielding, dosimetry and a licence; safe only because this lab is virtual": "Im echten Labor sind Abschirmung, Dosimetrie und eine Genehmigung erforderlich; nur hier sicher, weil das Labor virtuell ist"
 };
 

@@ -428,6 +428,21 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 }
             }
         }
+        Event::Irradiated {
+            vessel,
+            wavelength_nm,
+            irradiance_w_m2,
+            photolysis_coupled,
+        } => match register.level() {
+            1 => format!("The lamp shines on {vessel}. The light is applied, but photolysis is not connected yet."),
+            2 => format!(
+                "{vessel}: lamp {wavelength_nm:.0} nm at {irradiance_w_m2:.2} W/m² — photolysis {}",
+                if *photolysis_coupled { "coupled" } else { "not yet coupled" }
+            ),
+            _ => format!(
+                "{vessel}: irradiate λ={wavelength_nm:.3} nm, Ė/A={irradiance_w_m2:.6} W/m²; photolysis_coupled={photolysis_coupled}"
+            ),
+        },
         Event::GravitySettled {
             vessel,
             seconds,
