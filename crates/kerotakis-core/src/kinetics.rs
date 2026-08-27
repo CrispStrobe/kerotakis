@@ -480,6 +480,10 @@ pub enum CatalystActivity<'a> {
         substrate: &'a str,
         michaelis_molar: f64,
         reference_molar: f64,
+        /// Midpoint of the bounded high-temperature activity loss.
+        thermal_activity_midpoint_k: f64,
+        /// Width of the smooth activity envelope around the midpoint.
+        thermal_activity_width_k: f64,
     },
     Surface {
         default_diameter_um: f64,
@@ -649,8 +653,10 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                     substrate: "H2O2",
                     michaelis_molar: 1.34,
                     reference_molar: 4.0e-11,
+                    thermal_activity_midpoint_k: 323.15,
+                    thermal_activity_width_k: 3.0,
                 },
-                provenance: "Catalase, Ea ≈ 23 kJ/mol; Ogura & Yamazaki, J. Biochem. 1983 (PMID 6630165) measured Kₘ = 1.29–1.39 M and first-order behaviour below 0.1 M. Effective site concentration is normalized to the standard dry-yeast surrogate dose, whose biological activity varies by product; Kerotakis applies an explicitly editorial, bounded liquid-contact hydration ramp rather than claiming a universal yeast activity",
+                provenance: "Catalase, Ea ≈ 23 kJ/mol; Ogura & Yamazaki, J. Biochem. 1983 (PMID 6630165) measured Kₘ = 1.29–1.39 M and first-order behaviour below 0.1 M. Effective site concentration is normalized to the standard dry-yeast surrogate dose, whose biological activity varies by product; Kerotakis applies explicitly editorial, bounded hydration and high-temperature activity envelopes rather than claiming universal yeast activity or irreversible denaturation history",
             },
             Catalyst {
                 species: "KI",
@@ -1037,12 +1043,19 @@ impl Catalyst<'_> {
                 substrate,
                 michaelis_molar,
                 reference_molar,
+                thermal_activity_midpoint_k,
+                thermal_activity_width_k,
             } => {
                 let active_amount = hydrated_enzyme_amount(vessel, self.species, amount);
                 let enzyme_loading = (active_amount / litres) / reference_molar;
                 let substrate_molar = amount_of(substrate).max(0.0) / litres;
                 let saturation = michaelis_molar / (michaelis_molar + substrate_molar);
-                enzyme_loading * saturation
+                let thermal_retention = 1.0
+                    / (1.0
+                        + ((vessel.temperature.0 - thermal_activity_midpoint_k)
+                            / thermal_activity_width_k.max(0.1))
+                        .exp());
+                enzyme_loading * saturation * thermal_retention
             }
             CatalystActivity::Surface {
                 default_diameter_um,
@@ -1897,6 +1910,34 @@ mod tests {
         assert!(
             warm_active < amount,
             "the bounded ramp cannot create enzyme"
+        );
+    }
+
+    #[test]
+    fn catalase_warms_then_loses_activity_in_very_hot_water() {
+        let catalase_at = |celsius| {
+            let vessel = vessel_with(
+                &[
+                    ("water", 5.5343, Phase::Liquid),
+                    ("H2O2", 0.1, Phase::Liquid),
+                    ("catalase", 4e-12, Phase::Aqueous),
+                ],
+                celsius,
+            );
+            lookup("peroxide-decomposition")
+                .expect("peroxide reaction")
+                .rate_now(&vessel)
+        };
+        let room = catalase_at(25.0);
+        let warm = catalase_at(35.0);
+        let very_hot = catalase_at(70.0);
+        assert!(
+            warm > room,
+            "moderate warmth still follows Arrhenius kinetics"
+        );
+        assert!(
+            very_hot < warm * 0.1,
+            "the bounded enzyme envelope must defeat unlimited hot-water acceleration"
         );
     }
 
