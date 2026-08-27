@@ -16,7 +16,8 @@ import sys
 # Topic grouping for the picker — the curated order the console page's
 # example buttons had, which a flat alphabetical list lost.
 TOPICS = {
-    "start here": ["silver-and-salt", "first-warmth", "one-thing-at-a-time"],
+    "start here": ["silver-and-salt", "first-warmth", "one-thing-at-a-time",
+                   "pepper-and-soap"],
     "acids & bases": ["fizz", "neutral-moves", "three-protons", "buffer",
                       "titration", "titration-manual", "two-roads",
                       "there-and-back"],

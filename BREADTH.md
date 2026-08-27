@@ -426,6 +426,12 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   deliberately emits no sudden-spread event. This is the familiar classroom
   observable only—not a universal surface-tension coefficient, molecular
   surfactant model, Marangoni solver, or CFD particle trajectory.
+- **Checkpoint 11 implemented:** `pepper-and-soap.lab` exposes the surface
+  model as a child-facing, replayable experiment rather than a hidden command
+  combination. It compares pepper-first and soap-first vessels, explains why a
+  fresh surface is required, and is placed in the lesson picker's `start here`
+  sequence. The lesson uses only water, pepper and dish soap and keeps the
+  empirical-model boundary in its narration.
 
 ## Stage B2 — organic structure and curated reaction families
 

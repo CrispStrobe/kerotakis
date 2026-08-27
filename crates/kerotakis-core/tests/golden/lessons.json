@@ -997,6 +997,46 @@
       }
     ]
   },
+  "pepper-and-soap": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.080 g ground_black_pepper (0 known ingredients)",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +1.030 g dish_soap (1 known ingredients)",
+      "v2: +0.080 g ground_black_pepper (0 known ingredients)",
+      "v1: +1.030 g dish_soap (1 known ingredients)",
+      "v1: ground black pepper central clearing increased from 0% to 90%"
+    ],
+    "lesson": "pepper-and-soap.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 5.58001665,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.58001665,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "rates": {
     "event_count": 23,
     "events_sample": [
