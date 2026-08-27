@@ -1,0 +1,71 @@
+# EXP-37: spectrophotometric determination.
+# The Beer–Lambert machinery and permanganate calibration oracle
+# landed with CAP-22. The learner builds a calibration curve from
+# standards, then determines an unknown concentration from absorbance.
+id = "spectrophotometry"
+
+[title]
+lv1 = "The colour tells the concentration"
+lv2 = "Spectrophotometry: measuring concentration by colour"
+lv3 = "Beer–Lambert spectrophotometric determination: calibration curve and unknown concentration"
+
+[goal]
+lv1 = "Darker purple means more dissolved — but how much more? Measure the colour with the spectrophotometer and work it out."
+lv2 = "Build a calibration curve: prepare standards of known concentration, measure their absorbance at λmax, and fit the linear Beer–Lambert relationship. Then measure an unknown and read its concentration from the curve."
+lv3 = "Quantitative spectrophotometry via Beer–Lambert (A = εlc): prepare at least three standards spanning the working range, measure absorbance at the analyte's λmax with the spectrophotometer, verify linearity (A vs c), and determine an unknown concentration by interpolation. The tolerance on the value claim tests whether the learner's dilution and measurement produced an accurate result."
+
+[[nudges]]
+id = "added-analyte"
+when = "added"
+[nudges.say]
+lv1 = "The solution has colour — that colour is information. Use the spectrophotometer to measure it."
+lv2 = "Analyte in solution. The spectrophotometer measures absorbance — a number proportional to concentration for dilute solutions (Beer–Lambert law)."
+lv3 = "The chromophore absorbs at its characteristic λmax. Beer–Lambert gives A = εlc (absorbance = molar absorptivity × path length × concentration). At low concentrations (<~0.1 M for most analytes), the relationship is linear — this is the working range for quantitative analysis."
+
+[[nudges]]
+id = "measured-absorbance"
+when = "measured"
+[nudges.say]
+lv1 = "You got a number for how dark it is. Now try a different amount and measure again — you need several points to draw a line."
+lv2 = "Absorbance recorded. For a calibration curve, measure at least three different known concentrations. The slope gives ε × l."
+lv3 = "One calibration point acquired. A minimum of three points (plus the origin) defines the linear range and gives a regression slope ε·l. Measure the remaining standards before the unknown — the unknown's concentration is read from this line."
+
+[[nudges]]
+id = "diluted-standard"
+when = "diluted"
+[nudges.say]
+lv1 = "You made a weaker version — measure it too, and you are building a pattern."
+lv2 = "Diluted standard prepared. Measure its absorbance to add another calibration point."
+lv3 = "Serial dilution is the standard method for preparing a calibration series. Each dilution should be measured at the same λmax to ensure comparability."
+
+[[claims]]
+id = "first-measurement"
+matches = "measured"
+[claims.title]
+lv1 = "Measure the colour"
+lv2 = "Record absorbance of a standard"
+lv3 = "First calibration point — A at known c"
+
+[[claims]]
+id = "prepared-series"
+matches = "diluted"
+[claims.title]
+lv1 = "Make different strengths"
+lv2 = "Prepare a dilution series"
+lv3 = "Serial dilution — calibration standards spanning the working range"
+
+[[claims]]
+id = "second-measurement"
+matches = "measured"
+[claims.title]
+lv1 = "Measure another one"
+lv2 = "Record absorbance of a second standard"
+lv3 = "Additional calibration point — Beer–Lambert linearity check"
+
+[[claims]]
+id = "observed-result"
+matches = "observed"
+[claims.title]
+lv1 = "See what the colour told you"
+lv2 = "Determine the unknown concentration"
+lv3 = "Interpolation from the calibration curve — concentration from absorbance"

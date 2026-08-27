@@ -13,9 +13,11 @@ gave us the bain-marie; the airtight seal her apparatus needed is where
 "hermetically sealed" comes from; and von Soxhlet's 1879 modernisation of it is
 still in working labs today — and is itself an apparatus this lab will model.
 The name describes the architecture: a sealed vessel you put things into, and
-reactions happen. The product's voice — steampunk brass to necromantic glow —
-lives entirely in data (operation names, narration templates, codex copy), never
-in the solvers.
+reactions happen. The product's voice is a **bright scientific workshop**:
+optimistic, tactile, curious, and exact enough for professional use. Story tone,
+operation names, narration, and visual themes live outside the solvers; the
+fresh blue/cyan/orange/violet UI palette never recolors computed chemical
+appearances or changes scientific behavior.
 
 > Every licence, build flag and API claim in this document was verified against
 > upstream source, package metadata or primary legal text on **2026-08-18**.
@@ -53,6 +55,114 @@ open-sourced CEA under **Apache-2.0 in 2026, including its thermodynamic
 database** (`data/thermo.inp`) — so a small Gibbs-energy minimiser over NASA
 polynomials with pure condensed phases turns "heat it" and "ignite it" into
 computed chemistry, adiabatic flame temperature included.
+
+### The product form: one world, two ways to play
+
+Kerotakis is an open-world laboratory exploration game built on the bench, not
+a text adventure and not a menu of canned simulations. The player inhabits a
+persistent lab, handles visible equipment, accepts several missions at once,
+finds samples and clues, and earns access to broader apparatus and places by
+demonstrating scientific capability. The story supplies motives and
+consequences; the solver determines what actually happens.
+
+There are two first-class modes over the same engine and content:
+
+| Mode | Promise | Availability | Save behavior |
+|---|---|---|---|
+| **Story** | Directed but non-linear growth from a small community lab to independent research | Equipment, supplies, contacts, and places unlock through missions and discoveries | Persistent, versioned story world and progression |
+| **Sandbox** | Immediate unrestricted laboratory for play, teaching, authoring, and expert work | Every installed reagent, apparatus, operation, instrument, and study surface | Separate persistent world; cannot grant or consume Story progress |
+
+Story is the recommended first door, never a compulsory tutorial. Sandbox is
+always one top-level action away and is never hidden behind account status,
+completion, or payment.
+
+The core loop is:
+
+```text
+explore a place or problem
+  → choose or discover a mission
+  → collect a sample and assemble a kit
+  → experiment freely on the persistent bench
+  → observe, measure, and record evidence
+  → submit a computed result or engineered outcome
+  → unlock capability, knowledge, relationship, or place
+  → use it on old and new problems
+```
+
+The current playable campaign shell implements the first part of that loop as
+a non-linear research campus. Discovery Hall starts with the shipped beginner
+and safety missions; the first completion opens two simultaneous routes through
+Matter Gardens and the Energy Yard. Later districts preview their requirements,
+completion is stored by stable lesson id in the Story save, and Sandbox remains
+an independent full-access world. Contacts, material rewards, and transactional
+engine-evaluated mission outcomes remain roadmap work rather than decorative
+claims in the interface.
+
+While a mission is active, its field journal keeps the plain-language objective,
+the exact replayable operator, optional procedural help, and engine-rendered
+evidence together above the persistent bench. Completion produces a dismissible,
+non-blocking debrief and records the discovery without stopping further bench
+work. This is the UI bridge from the existing guided `.lab` corpus toward the
+future typed, multi-objective mission evaluator; the journal does not pretend
+that scripted step completion is already a fully open-ended outcome contract.
+
+The shared material and instrument catalog is progression-aware without becoming
+a game shop. Story begins with useful common stock and core handling tools,
+previews exact research requirements for later equipment, and loans every
+material required by an accepted mission so progression cannot deadlock an
+investigation. Permanent instruments arrive through visible capability
+milestones and can be placed immediately from the debrief. Sandbox ignores all
+of these access decorations and exposes the complete installed registry.
+Story's permanent bottles also carry finite dispense counts. A dispense becomes
+inventory only after the engine accepts the material-drawing command; replay,
+reload, and bench undo therefore cannot duplicate stock or consume it twice.
+Missions use their own supplied kits, and a first discovery replenishes the
+permanent stockroom. The notebook continues to show the real requested amount
+for every dispense—the inventory layer does not fabricate conversions among
+mass, volume, and amount of substance.
+
+The opening Story chapter is a case rather than a lesson list. A cloudy field
+sample branches into three concurrent evidence leads plus an optional safety
+audit; all four are the shipped engine-backed investigations and keep their
+stable progress ids. A persisted contact briefing introduces the problem once,
+then the campus board becomes the durable overview for active and secured
+evidence. This case presentation does not claim that the current procedural
+`.lab` checker is already the future open-ended, multi-solution outcome judge.
+The mineral-contamination lead is the first exception: it declares a typed
+outcome contract and completes only when the engine emits an observable amount
+of precipitated silver chloride. Sodium chloride and potassium chloride are
+both supplied valid routes; adding silver chloride directly cannot satisfy the
+contract because no precipitation event occurred. The remaining leads retain
+their procedural player until equivalent event/state contracts are authored.
+
+Product invariants:
+
+1. A mission states a problem and constraints, not the one approved procedure.
+2. Completion is evaluated from typed events and solved world state, not a
+   clicked answer key; materially different valid solutions are welcomed.
+3. Failure is recoverable and explanatory. Hazards, broken glass, spoiled
+   samples, and exhausted Story supplies create consequences without corrupting
+   saves or teaching arbitrary physics.
+4. Progression gates tools and contexts, never the register dial, equations,
+   underlying truth, accessibility features, or language.
+5. At useful campaign moments there are multiple active leads; the player is
+   never trapped in one corridor or forced to wait/grind.
+6. The complete chemistry and apparatus registry remains available in Sandbox.
+7. The first UX milestone is a tactile, readable laboratory; world breadth and
+   campaign volume follow only after placing, pouring, measuring, and inspecting
+   feel good with mouse, touch, and keyboard.
+8. Motion is a simulation readout. Pour width and speed follow transferred
+   fraction; stirring follows mixed fractions; heat shimmer and frost follow
+   temperature and ΔT; flame colour follows the computed emission result; and
+   glass explodes only after the engine emits its pressure-rated `Burst` event.
+   Reduced-motion users receive the computed endpoint without compulsory
+   movement.
+
+The delivery sequence and acceptance criteria live in
+[`ROADMAP-GUI.md`](ROADMAP-GUI.md); mission semantics in
+[`EXPERIMENTS.md`](EXPERIMENTS.md); save/orchestration contracts in
+[`ROADMAP-Webapp.md`](ROADMAP-Webapp.md); and cabinet metadata in
+[`APPARATUS.md`](APPARATUS.md).
 
 ### The build-time principle
 
@@ -785,8 +895,9 @@ as one dataset:
   level, and the L4′ enrichment block (ΔG, Fukui colouring, FMO pair + gap +
   phase-match verdict, path frames, IR spectrum).
 - **Flavour is data.** Operation names, narration templates, codex voice — the
-  steampunk-to-necromancer register lives in these files and survives any UI
-  decision untouched.
+  bright-workshop adventure voice and any optional story theme live in these
+  files and survive UI redesigns untouched. The default tone is warm and
+  curious, never babyish; lv3 may be concise without becoming a different app.
 - **Markup decided early.** The codex rendering convention (register copy,
   diagrams, concept pages) is chosen during authoring, not after hundreds of
   entries exist — the renderer can come late, the format cannot.
@@ -1342,7 +1453,11 @@ quietly fails.
 - **Extremes.** Plasmas, exotic organometallics, solid-state band structure,
   high pressure. (L2g's CEA data does extend T range honestly for gases and
   simple condensed phases; database validity ranges are surfaced, not hidden.)
-- **Biochemistry.** A different stack; a later module, not an extension.
+- **Unbounded biochemistry.** A different stack, not an accidental extension
+  of the aqueous or organic routes. `BREADTH.md` now scopes a deliberately
+  bounded `Biochemical` route (`BRD-050…052`) for familiar enzyme, digestion,
+  fermentation, respiration and photosynthesis experiments; it still does not
+  claim to model cells, medicine or complete metabolism.
 
 A general-purpose engine that computes any reaction from first principles is also
 a synthesis oracle for things we do not want it computing. Curated-first gives us
@@ -1404,6 +1519,38 @@ Explicitly **not** in v1.0: P2g (v1.1, with `ignite`), P3p (v1.1, with
 distillation), the QM/orbital layer, Hückel, lessons beyond the codex slice,
 and everything ML. Each later phase extends the same bench; nothing in v1.0 is
 scaffolding to be thrown away.
+
+## Breadth build order: from solver depth to familiar matter
+
+The original P0…P7 sequence establishes solver architecture. The companion
+**[BREADTH.md](BREADTH.md)** establishes the content/integration sequence that
+makes those solvers answer ordinary learner questions. Its `BRD-*` graph is
+subordinate to the same state, provenance, offline and honesty invariants here.
+
+The key architectural addition is `MaterialRecipe`: named matter such as
+vinegar, milk, soil, paper, steel or a battery expands into conserved,
+versioned components while retaining the name and assumptions the learner
+used. Pure identities continue to join by Standard InChIKey; material recipes
+never masquerade as molecules. Safety sees expanded components before solver
+routing, and unresolved fractions remain visible and conserved.
+
+The breadth sequence is:
+
+```text
+measure curiosity and typed gaps
+  → define material recipes and quarantined source adapters
+  → ship familiar pure-substance and household-material packs
+  → add bounded, condition-gated reaction families
+  → broaden feos/Cantera routes where cleared parameters exist
+  → add bounded biochemistry and crystal structures
+  → add tactile physics and scientific viewers over authoritative state
+  → graduate against the versioned curiosity corpus
+```
+
+This does not reorder P0…P7. A `BRD-*` task may start when its explicit
+dependencies and the corresponding P-stage substrate are merged. In
+particular, data adapters do not wait for optional engine FFIs, and UI work
+does not begin before its state/authority contract.
 
 ## Build order
 
@@ -2717,3 +2864,25 @@ Outstanding:
 - [ ] File classes 9 / 41 / 42 through an attorney nearer launch, once the
       goods-and-services wording is settled. What was done is a screen, not a
       clearance opinion.
+# Current product directive — core laboratory UX first (2026-08-27)
+
+Before adding or restructuring missions, examples, or progression, make the
+shared Sandbox/Story laboratory feel like a real, explorable, colourful place.
+The active sequence is tracked in `ROADMAP-GUI.md` GUI-070…GUI-084:
+
+1. localized cabinet search and arbitrary capacity-aware amount/unit entry;
+   Story uses the same persistent Mission set / Unlocked / All scope in both
+   cabinet tabs; case supplies are temporary loans, while Sandbox exposes all;
+2. continuous bench space with optional workflow guides and compact object
+   placement/removal controls;
+3. persistent learner notes in the laboratory journal;
+4. cupboards, racks, clickable/zoomable posters and periodic table, utilities,
+   and visually distinct room environments;
+5. placeable stands/clamps, magnetic stirrer/hotplate, mini centrifuge, probes,
+   burners, baths, cooling, filtration and connected rigs;
+6. motion and visible effects driven by computed power, temperature, RPM,
+   viscosity, fill, particle settling, reaction energy, gas/solid amount and
+   time—never generic animation.
+
+Existing experiment and mission content is deliberately not redesigned in this
+phase; it is fitted into the improved shared workflow.

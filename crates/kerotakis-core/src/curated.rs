@@ -142,6 +142,40 @@ pub const REACTIONS: &[CuratedReaction] = &[
         min_temp_k: None,
         catalyst: Some("amylase"),
     },
+    // ── EXP-5: hypochlorite bleaching of dyes ──────────────────────
+    CuratedReaction {
+        equation: "betanin + NaOCl → betanin(ox) + NaCl",
+        reactants: &[("betanin", 1.0), ("NaOCl", 1.0)],
+        products: &[
+            ("betanin_ox", 1.0, Phase::Aqueous),
+            ("NaCl", 1.0, Phase::Aqueous),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+    },
+    CuratedReaction {
+        equation: "curcumin + NaOCl → curcumin(ox) + NaCl",
+        reactants: &[("curcumin", 1.0), ("NaOCl", 1.0)],
+        products: &[
+            ("curcumin_ox", 1.0, Phase::Aqueous),
+            ("NaCl", 1.0, Phase::Aqueous),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+    },
+    CuratedReaction {
+        equation: "indigo carmine + NaOCl → isatin sulfonate + NaCl",
+        reactants: &[("indigo_carmine", 1.0), ("NaOCl", 1.0)],
+        products: &[
+            ("indigo_carmine_ox", 1.0, Phase::Aqueous),
+            ("NaCl", 1.0, Phase::Aqueous),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+    },
 ];
 
 /// A named organic transformation the `react` verb applies on command.
@@ -284,6 +318,10 @@ pub struct CuratedEquilibrator;
 impl Equilibrator for CuratedEquilibrator {
     fn name(&self) -> &'static str {
         "curated-reactions"
+    }
+
+    fn route_kind(&self) -> crate::solve::SolverRouteKind {
+        crate::solve::SolverRouteKind::Curated
     }
 
     fn applies(&self, vessel: &Vessel) -> bool {

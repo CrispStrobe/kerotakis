@@ -72,6 +72,7 @@ fn main() {
     eprintln!("  schema:      {}", document.schema);
     eprintln!("  sources:     {}", document.sources.len());
     eprintln!("  identities:  {}", document.identities.len());
+    eprintln!("  materials:   {}", document.material_recipes.len());
     eprintln!("  compositions:{}", document.compositions.len());
     eprintln!("  phase_thermo:{}", document.phase_thermodynamics.len());
     eprintln!("  optical:     {}", document.optical.len());

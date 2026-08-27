@@ -17,6 +17,12 @@ describe("apparatus forms compile to the grammar", () => {
   });
 
   it("the exact lines match the grammar's shapes", () => {
+    expect(spec("stir").build(0, { rpm: 600, seconds: 30 })).toBe("stir v1 600rpm 30s");
+    expect(spec("heat").build(0, { watts: 250, seconds: 30 })).toBe("heat v1 7500J");
+    expect(spec("cool").build(0, { watts: 100, seconds: 30 })).toBe("cool v1 3000J");
+    expect(spec("centrifuge").build(0, { rpm: 3000, seconds: 60, radius: 8, counterbalance: 100 })).toBe(
+      "centrifuge v1 3000rpm 60s 8cm 100g",
+    );
     expect(spec("dilute").build(1, { volume: 250 })).toBe("dilute v2 250mL");
     expect(spec("evaporate").build(0, { fraction: 0.5 })).toBe("evaporate v1 0.5");
     expect(spec("electrolyse").build(0, { amps: 0.5, minutes: 30 })).toBe(
@@ -39,5 +45,25 @@ describe("apparatus forms compile to the grammar", () => {
     expect(spec("evaporate").build(0, { fraction: 1.5 })).toBeNull();
     expect(spec("grind").build(0, { species: "  ", diameter: 50 })).toBeNull();
     expect(spec("electrolyse").build(0, { amps: NaN, minutes: 30 })).toBeNull();
+  });
+
+  it("blocks an unsafe centrifuge imbalance", () => {
+    expect(spec("centrifuge").warning?.({ sampleMass: 100, counterbalance: 99 })).toContain("out of balance");
+    expect(spec("centrifuge").warning?.({ sampleMass: 100, counterbalance: 99.95 })).toBeNull();
+  });
+
+  it("previews physical consequences from the same settings sent to the engine", () => {
+    expect(spec("stir").readouts?.({ rpm: 500, seconds: 10 })).toEqual([
+      { label: "stir-bar tip speed", value: Math.PI * 0.025 * 500 / 60, unit: "m/s", digits: 3 },
+    ]);
+    expect(spec("heat").readouts?.({ watts: 250, seconds: 30 })).toEqual([
+      { label: "delivered energy", value: 7.5, unit: "kJ", digits: 2 },
+    ]);
+    expect(spec("cool").readouts?.({ watts: 100, seconds: 30 })).toEqual([
+      { label: "removed energy", value: 3, unit: "kJ", digits: 2 },
+    ]);
+    const [centrifuge] = spec("centrifuge").readouts?.({ rpm: 3000, radius: 8 }) ?? [];
+    expect(centrifuge).toMatchObject({ label: "relative centrifugal force", unit: "× g", digits: 0 });
+    expect(centrifuge?.value).toBeCloseTo(805.136, 3);
   });
 });

@@ -11,6 +11,7 @@
 //!   kero species              list the registry
 
 mod chart_svg;
+mod coverage;
 mod diagram;
 mod mcp;
 mod provenance;
@@ -42,28 +43,24 @@ struct Session {
 /// Physics + aqueous chemistry + honesty. If the PHREEQC engine cannot be
 /// initialised the session still works, honestly degraded.
 fn build_stack() -> SolverStack {
-    let mut solvers: Vec<Box<dyn Equilibrator>> = vec![
-        Box::new(MixingEquilibrator),
-        Box::new(CuratedEquilibrator),
-        Box::new(kerotakis_core::nonaqueous::NonAqueousEquilibrator),
-        Box::new(kerotakis_core::hmix::MixingEnthalpyEquilibrator),
-        Box::new(kerotakis_cea::ThermalEquilibrator),
-    ];
-    match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
+    // The order is kerotakis-stack's, shared with the shell and the wasm
+    // bench — chemistry must not depend on which host ran it. Only the
+    // aqueous tail is this host's to choose.
+    let tail: Vec<Box<dyn Equilibrator>> = match kerotakis_phreeqc::PhreeqcEquilibrator::new() {
         // The metallic state rides on top of the aqueous solve: the series
         // moves electrons over the activities PHREEQC reports, and the
         // products go back through it.
-        Ok(aqueous) => solvers.push(Box::new(PhaseEquilibrator::wrapping(Box::new(
+        Ok(aqueous) => vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
             kerotakis_core::DisplacementEquilibrator::wrapping(Box::new(aqueous)),
-        )))),
+        )))],
         Err(e) => {
             eprintln!("kero: aqueous engine unavailable ({e}); running without it");
             // Pure-water phase changes still work in the honestly degraded
             // stack; only brine re-speciation is unavailable.
-            solvers.push(Box::new(StateEquilibrator));
+            vec![Box::new(StateEquilibrator)]
         }
-    }
-    solvers.push(Box::new(HonestyEquilibrator));
+    };
+    let solvers = kerotakis_stack::standard_solvers(tail);
     SolverStack::new(solvers)
 }
 
@@ -106,11 +103,66 @@ fn main() {
                 "lint" => codex_lint(&dir),
                 "concepts" => codex_concepts(&dir),
                 "gaps" => codex_gaps(&dir),
+                "export" => {
+                    let out_path = args.get(2).unwrap_or_else(|| {
+                        eprintln!("usage: kero codex export <out.json>");
+                        std::process::exit(2);
+                    });
+                    codex_export(&dir, out_path);
+                }
                 other => {
-                    eprintln!("kero codex: unknown subcommand '{other}' (lint, concepts, gaps)");
+                    eprintln!(
+                        "kero codex: unknown subcommand '{other}' (lint, concepts, gaps, export)"
+                    );
                     std::process::exit(2);
                 }
             }
+        }
+        Some("coverage") => coverage::command(&args[1..], build_stack),
+        Some("pack") => {
+            // DATA-010: compile a registry document into a .pack for
+            // independent delivery. Default source: the checked-in
+            // registry; --from for arbitrary documents (tests, future
+            // pack authors).
+            let sub = args.get(1).map(String::as_str).unwrap_or("");
+            if sub != "export" {
+                eprintln!("kero pack: usage: pack export [--from doc.json] OUT.pack");
+                std::process::exit(2);
+            }
+            let from = args
+                .iter()
+                .position(|a| a == "--from")
+                .and_then(|i| args.get(i + 1))
+                .cloned()
+                .unwrap_or_else(|| "data/registry/registry-source-v1.json".to_string());
+            let out = args
+                .iter()
+                .skip(2)
+                .find(|a| *a != "--from" && !from.ends_with(a.as_str()))
+                .cloned()
+                .unwrap_or_else(|| "registry.pack".to_string());
+            let text = std::fs::read_to_string(&from).unwrap_or_else(|e| {
+                eprintln!("kero pack export: reading {from}: {e}");
+                std::process::exit(2);
+            });
+            let doc: kerotakis_data::RegistryDocument =
+                serde_json::from_str(&text).unwrap_or_else(|e| {
+                    eprintln!("kero pack export: {from} is not a registry document: {e}");
+                    std::process::exit(2);
+                });
+            let pack = kerotakis_data::build_pack(&doc);
+            use sha2::{Digest, Sha256};
+            let hash = format!("{:x}", Sha256::digest(&pack));
+            std::fs::write(&out, &pack).unwrap_or_else(|e| {
+                eprintln!("kero pack export: writing {out}: {e}");
+                std::process::exit(2);
+            });
+            println!(
+                "pack: {} species + {} material recipes → {out} ({} bytes, sha256 {hash})",
+                doc.identities.len(),
+                doc.material_recipes.len(),
+                pack.len()
+            );
         }
         Some("provenance") => {
             let sub = args.get(1).map(String::as_str).unwrap_or("lint");
@@ -236,16 +288,18 @@ fn main() {
         }
         Some("species") => {
             for s in species::REGISTRY {
-                // ✓ marks a verified identity: this species has a curated
-                // SMILES whose recomputation by the official IUPAC InChI
-                // library (v1.07.5, vendored in inchi-sys) must reproduce
-                // the registry InChIKey — enforced in the gate.
                 let verified = kerotakis_org::inchi_validate::CURATED_STRUCTURES
                     .iter()
                     .any(|(id, _)| *id == s.key);
                 let mark = if verified { "✓" } else { " " };
+                let hazards = kerotakis_safety::hazard_labels(s.key);
+                let hz = if hazards.is_empty() {
+                    String::new()
+                } else {
+                    format!("  ⚠ {}", hazards.join(", "))
+                };
                 println!(
-                    "{:<10} {mark} {:<18} {:<8} M={:>8.3} g/mol   [{}]",
+                    "{:<10} {mark} {:<18} {:<8} M={:>8.3} g/mol   [{}]{hz}",
                     s.key, s.name, s.formula, s.molar_mass, s.provenance
                 );
             }
@@ -920,22 +974,16 @@ fn load_codex(dir: &str) -> kerotakis_codex::Codex {
         .filter(|p| p.extension().is_some_and(|x| x == "toml"))
         .collect();
     files.sort();
-    for file in files {
-        let text = std::fs::read_to_string(&file).unwrap_or_else(|e| {
-            eprintln!("kero codex: cannot read {}: {e}", file.display());
-            std::process::exit(1);
-        });
-        match kerotakis_codex::Codex::parse(&text) {
-            Ok(mut c) => {
-                all.reactions.append(&mut c.reactions);
-                all.models.append(&mut c.models);
-            }
-            Err(e) => {
-                eprintln!("kero codex: {}: {e}", file.display());
-                std::process::exit(1);
-            }
-        }
-    }
+    // load_dir finds codex/i18n/*.toml as well as the English source. A
+    // loader that walks the directory itself sees only English, and
+    // nothing would fail — the catalogue would simply stop being German.
+    let _ = files;
+    let loaded = kerotakis_codex::Codex::load_dir(std::path::Path::new(dir)).unwrap_or_else(|e| {
+        eprintln!("kero codex: {dir}: {e}");
+        std::process::exit(1);
+    });
+    all.reactions.extend(loaded.reactions);
+    all.models.extend(loaded.models);
     all
 }
 
@@ -1208,6 +1256,35 @@ fn codex_gaps(dir: &str) -> ! {
     std::process::exit(0);
 }
 
+fn codex_export(dir: &str, out_path: &str) -> ! {
+    let codex = load_codex(dir);
+    let vocabulary = load_vocabulary(dir);
+    let export = kerotakis_codex::CodexExport::build(&codex, &vocabulary);
+    let json = serde_json::to_string(&export).unwrap_or_else(|e| {
+        eprintln!("kero codex export: serialization failed: {e}");
+        std::process::exit(1);
+    });
+    if let Some(parent) = std::path::Path::new(out_path).parent() {
+        if !parent.as_os_str().is_empty() {
+            std::fs::create_dir_all(parent).unwrap_or_else(|e| {
+                eprintln!("kero codex export: cannot create {}: {e}", parent.display());
+                std::process::exit(1);
+            });
+        }
+    }
+    std::fs::write(out_path, &json).unwrap_or_else(|e| {
+        eprintln!("kero codex export: cannot write {out_path}: {e}");
+        std::process::exit(1);
+    });
+    eprintln!(
+        "codex: exported {} reactions, {} models, {} concepts → {out_path}",
+        export.reactions.len(),
+        export.models.len(),
+        export.concepts.len(),
+    );
+    std::process::exit(0);
+}
+
 fn codex_concepts(dir: &str) -> ! {
     let codex = load_codex(dir);
     for (concept, entries) in codex.concept_index() {
@@ -1228,7 +1305,10 @@ fn properties_usage() -> ! {
 fn calc_usage() -> ! {
     eprint!("kero calc — evaluate a named physical relation\n\nusage: kero calc <relation> <arg>=<value>... [--json]\n\nrelations:\n");
     for r in kerotakis_core::relations::RELATIONS {
-        eprintln!("  {:<24} {}\n{:>28}{}", r.name, r.equation, "", r.args);
+        eprintln!(
+            "  {:<24} {}\n{:>28}{}\n{:>28}{}",
+            r.name, r.equation, "", r.args, "", r.purpose
+        );
     }
     eprintln!("\nexamples:\n  kero calc nernst e0=0.3419 n=2 a=0.01 T=298.15\n  kero calc arrhenius A=1e10 Ea=50000 T=298.15\n  kero calc henderson-hasselbalch pKa=4.76 cA=0.1 cB=0.01\n  kero calc debye-huckel z=2 I=0.01\n  kero calc ionic-strength 1:0.1 -1:0.1 2:0.05 -2:0.1\n  kero calc van-t-hoff dH=-57000 K1=1e14 T1=298.15 T2=373.15\n  kero calc eyring dG=65000 T=298.15");
     std::process::exit(2);
@@ -1245,6 +1325,7 @@ fn usage() -> ! {
          \x20        --collect ph@v1[,…] [--csv]   run it varied over a parameter\n\
          \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
+         \x20 kero coverage curiosity [--smoke] [--json]\n\
          \x20 kero calc <relation> ...   evaluate a named physical relation\n\
          \x20 kero properties water     temperature-dependent property table\n\
          \x20 kero provenance lint       validate source/distribution policy\n\

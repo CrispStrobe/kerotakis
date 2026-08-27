@@ -109,6 +109,8 @@ fn repeated_equilibration_preserves_exchange_inventory_and_state() {
         &mut solver,
         Operator::Stir {
             vessel: VesselId(0),
+            rpm: 500.0,
+            seconds: 10.0,
         },
     )
     .expect("repeat equilibrium");

@@ -12,7 +12,9 @@ crate-type = ["cdylib", "rlib"]
 
 [dependencies]
 kerotakis-core = { path = "../kerotakis-core" }
+kerotakis-data = { path = "../kerotakis-data" }
 kerotakis-cea = { path = "../kerotakis-cea" }
+kerotakis-stack = { path = "../kerotakis-stack" }
 kerotakis-org = { path = "../kerotakis-org" }
 kerotakis-safety = { path = "../kerotakis-safety" }
 # Cache-only: a browser cannot link the C++ engine, so aqueous answers come

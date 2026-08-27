@@ -2,6 +2,15 @@
 # in-process. Deliberately outside the main workspace (root Cargo.toml
 # excludes it) so kerotakis builds never require the platform webview
 # toolchains; build this package on a machine with them.
+
+# Its own workspace root. The root manifest's `exclude` is relative to the
+# root, so it only covers a checkout laid out exactly as origin's — a git
+# worktree under `.claude/worktrees/` (the mandated isolation) lands at a
+# path the exclude does not match, and cargo then claims this package for
+# the parent workspace and refuses to build it. An empty table settles the
+# question from this side, wherever the checkout lives.
+[workspace]
+
 [package]
 name = "kerotakis-app"
 version = "0.0.1"
@@ -9,6 +18,14 @@ description = "Kerotakis virtual laboratory — desktop/mobile shell"
 edition = "2021"
 license = "AGPL-3.0-or-later"
 repository = "https://github.com/CrispStrobe/kerotakis"
+
+# The library target is where the shell actually lives, and it must be
+# called `app`: the generated Xcode project links `libapp.a` by that exact
+# name. `staticlib` is what iOS links, `cdylib` what Android loads, and
+# `rlib` what the desktop binary in main.rs depends on.
+[lib]
+name = "app"
+crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
@@ -18,6 +35,8 @@ tauri = { version = "2", features = [] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 kerotakis-core = { path = "../../../crates/kerotakis-core" }
+kerotakis-data = { path = "../../../crates/kerotakis-data" }
 kerotakis-phreeqc = { path = "../../../crates/kerotakis-phreeqc" }
 kerotakis-cea = { path = "../../../crates/kerotakis-cea" }
+kerotakis-stack = { path = "../../../crates/kerotakis-stack" }
 kerotakis-safety = { path = "../../../crates/kerotakis-safety" }

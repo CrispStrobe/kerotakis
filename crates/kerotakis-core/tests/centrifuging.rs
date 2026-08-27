@@ -1,0 +1,110 @@
+use kerotakis_core::script::parse_op;
+use kerotakis_core::*;
+
+#[test]
+fn centrifuge_command_computes_rcf_and_separation_from_vessel_state() {
+    let mut bench = Bench::new();
+    let vessel = &mut bench.vessels[0];
+    vessel.deposit_lot(
+        SpeciesId::new("water"),
+        Moles(5.5343),
+        Phase::Liquid,
+        Some("test medium".to_string()),
+        None,
+    );
+    vessel.deposit_lot(
+        SpeciesId::new("AgCl"),
+        Moles(0.007),
+        Phase::Solid,
+        Some("test suspension".to_string()),
+        Some(1.0),
+    );
+
+    let operator = parse_op("centrifuge v1 3000rpm 60s 8cm").unwrap().unwrap();
+    let events = bench.step(operator).unwrap();
+    let Event::Centrifuged {
+        rcf,
+        separations,
+        state_coupled,
+        ..
+    } = events
+        .iter()
+        .find(|event| matches!(event, Event::Centrifuged { .. }))
+        .unwrap()
+    else {
+        unreachable!()
+    };
+    assert!((*rcf - 805.1).abs() < 0.2);
+    assert_eq!(separations.len(), 1);
+    assert_eq!(separations[0].particle_diameter_um, 1.0);
+    assert!(separations[0].separated_fraction > 0.0);
+    assert!(state_coupled);
+    let suspended = bench.vessels[0]
+        .suspended_fraction_of(&SpeciesId::new("AgCl"))
+        .unwrap();
+    assert!(suspended < 1.0);
+
+    let scene_after_spin = scene(&bench);
+    let settled_after_spin = scene_after_spin.vessels[0].solids[0].settled_fraction;
+    assert!(settled_after_spin > 0.0);
+
+    bench
+        .step(parse_op("stir v1 600rpm 10s").unwrap().unwrap())
+        .unwrap();
+    let resuspended = bench.vessels[0]
+        .suspended_fraction_of(&SpeciesId::new("AgCl"))
+        .unwrap();
+    assert!(resuspended > suspended);
+    let settled_after_stir = scene(&bench).vessels[0].solids[0].settled_fraction;
+    assert!(settled_after_stir < 1e-9);
+    assert!(settled_after_stir < settled_after_spin);
+
+    let wait_events = bench
+        .step(parse_op("wait 3600s").unwrap().unwrap())
+        .unwrap();
+    assert!(wait_events
+        .iter()
+        .any(|event| matches!(event, Event::GravitySettled { .. })));
+    assert!(
+        bench.vessels[0]
+            .suspended_fraction_of(&SpeciesId::new("AgCl"))
+            .unwrap()
+            < resuspended
+    );
+}
+
+#[test]
+fn centrifuge_refuses_a_dry_solid() {
+    let mut bench = Bench::new();
+    bench.vessels[0].deposit_lot(
+        SpeciesId::new("AgCl"),
+        Moles(0.007),
+        Phase::Solid,
+        None,
+        Some(1.0),
+    );
+    let error = bench
+        .step(parse_op("centrifuge v1 3000rpm 60s 8cm").unwrap().unwrap())
+        .unwrap_err();
+    assert!(matches!(error, BenchError::CentrifugeUnavailable(_)));
+}
+
+#[test]
+fn centrifuge_refuses_an_unbalanced_counterweight() {
+    let mut bench = Bench::new();
+    bench.vessels[0].deposit_lot(
+        SpeciesId::new("water"),
+        Moles(5.5343),
+        Phase::Liquid,
+        None,
+        None,
+    );
+    let error = bench
+        .step(
+            parse_op("centrifuge v1 3000rpm 60s 8cm 1g")
+                .unwrap()
+                .unwrap(),
+        )
+        .unwrap_err();
+    assert!(matches!(error, BenchError::CentrifugeImbalance { .. }));
+}

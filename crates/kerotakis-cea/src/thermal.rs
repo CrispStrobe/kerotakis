@@ -253,6 +253,18 @@ impl Equilibrator for ThermalEquilibrator {
         })?;
         let t_final = eq.temperature;
 
+        // Put the products back at the ignition temperature and compare
+        // their enthalpy with the reactants'. The difference is the chemical
+        // energy the adiabatic solve converted into sensible heat. This uses
+        // the same NASA-9 records and exact equilibrium composition as the
+        // flame-temperature solve; it is not inferred from a UI animation.
+        let products_at_initial_t: f64 = eq
+            .composition
+            .iter()
+            .filter_map(|(name, moles)| db().get(name)?.h(t).map(|h| h * moles))
+            .sum();
+        let reaction_energy_j = (h_before - products_at_initial_t).max(0.0);
+
         // Map the result back: condensed species become vessel contents,
         // product gases leave, atmospheric gases return to the reservoir.
         let mut events = Vec::new();
@@ -349,6 +361,7 @@ impl Equilibrator for ThermalEquilibrator {
             events.push(Event::ThermalEquilibrium {
                 vessel: vessel.id,
                 temperature: Kelvin(t_final),
+                reaction_energy_j: (reaction_energy_j > 1.0).then_some(reaction_energy_j),
                 provenance: Provenance {
                     engine: "Gibbs minimisation (Kerotakis)".to_string(),
                     dataset: "NASA CEA thermo.inp".to_string(),

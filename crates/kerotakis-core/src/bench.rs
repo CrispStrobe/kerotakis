@@ -4,14 +4,19 @@
 use serde::{Deserialize, Serialize};
 
 use crate::instrument::InstrumentContract;
-use crate::ops::{ElutedPeak, Event, Instrument, LogEntry, Operator};
+use crate::material::{self, MaterialBasis, MaterialRecipe};
+use crate::ops::{
+    CentrifugeSeparation, ElutedPeak, Event, Instrument, LogEntry, MaterialComponentAdded, Operator,
+};
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
-use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
-use crate::vessel::{Headspace, ThermalMode, Vessel, VesselId};
+use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
+use crate::vessel::{
+    Headspace, MaterialLot, ThermalMode, UnresolvedMaterialPortion, Vessel, VesselId,
+};
 
 /// The temperature a match or spark brings its immediate surroundings to.
 pub const IGNITION_K: f64 = 1200.0;
@@ -22,12 +27,35 @@ pub enum BenchError {
     NoSuchVessel(VesselId),
     #[error("unknown species '{0}' — not in the registry")]
     UnknownSpecies(SpeciesId),
+    #[error("unknown material '{0}' — not in the recipe registry")]
+    UnknownMaterial(String),
+    #[error("material recipe identity does not match the pinned operator")]
+    MaterialRecipeMismatch,
     #[error("amount must be positive")]
     NonPositiveAmount,
     #[error("fraction must be within 0..=1")]
     BadFraction,
     #[error("source and target vessel are the same")]
     SelfTransfer,
+    #[error("vessel {0} is not empty — transfer or dispose of its contents first")]
+    VesselNotEmpty(VesselId),
+    #[error("the last vessel must stay on the bench")]
+    LastVessel,
+    #[error("vessel {vessel} contains no solid {species} to grind")]
+    SolidNotPresent {
+        vessel: VesselId,
+        species: SpeciesId,
+    },
+    #[error("centrifuge cannot run this vessel: {0}")]
+    CentrifugeUnavailable(String),
+    #[error(
+        "centrifuge rotor is {imbalance_g:.2} g out of balance (sample {sample_g:.2} g, counterbalance {counterbalance_g:.2} g); match within 0.10 g"
+    )]
+    CentrifugeImbalance {
+        sample_g: f64,
+        counterbalance_g: f64,
+        imbalance_g: f64,
+    },
     #[error(transparent)]
     Kinetics(#[from] crate::kinetics::IntegrationError),
     #[error(transparent)]
@@ -221,6 +249,24 @@ impl Bench {
                 Event::ReactionOccurred { .. } => true,
                 _ => false,
             });
+            // A chemistry solver may quantify the heat released using its
+            // own thermodynamic model. Carry that number on the ignition
+            // event itself so every host can scale the flame without
+            // reverse-engineering temperature or composition changes.
+            let reaction_energy_j = events.iter().find_map(|event| match event {
+                Event::ThermalEquilibrium {
+                    reaction_energy_j, ..
+                } => *reaction_energy_j,
+                _ => None,
+            });
+            if caught {
+                if let Some(Event::Ignited { energy_j, .. }) = events
+                    .iter_mut()
+                    .find(|event| matches!(event, Event::Ignited { .. }))
+                {
+                    *energy_j = reaction_energy_j;
+                }
+            }
             // Asked *before* the revert, while the vessel is still at flame
             // temperature: that is the state whose flammability was — or
             // was not — evaluated.
@@ -291,6 +337,16 @@ impl Bench {
                 self.vessels.push(Vessel::new(id, label));
                 events.push(Event::VesselCreated { vessel: id });
             }
+            Operator::RemoveVessel { vessel } => {
+                if self.vessels.len() <= 1 {
+                    return Err(BenchError::LastVessel);
+                }
+                if !self.vessel(*vessel)?.is_empty() {
+                    return Err(BenchError::VesselNotEmpty(*vessel));
+                }
+                self.vessels.retain(|candidate| candidate.id != *vessel);
+                events.push(Event::VesselRemoved { vessel: *vessel });
+            }
             Operator::Add {
                 vessel,
                 species: sid,
@@ -338,11 +394,130 @@ impl Bench {
                     }
                     v.temperature = t_new;
                 }
-                v.deposit(sid.clone(), *moles, data.standard_phase);
+                v.deposit_lot(
+                    sid.clone(),
+                    *moles,
+                    data.standard_phase,
+                    Some("reagent bottle".to_string()),
+                    None,
+                );
+                let total_after = v.moles_of(sid);
                 events.push(Event::Added {
                     vessel: *vessel,
                     species: sid.clone(),
                     moles: *moles,
+                    total_after: Some(total_after),
+                });
+            }
+            Operator::AddMaterial {
+                vessel,
+                material: material_name,
+                recipe_id,
+                recipe_version,
+                total_amount,
+                basis,
+                sample_seed,
+                at,
+            } => {
+                if !total_amount.is_finite() || *total_amount <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let recipe = material::lookup(material_name, None)
+                    .ok_or_else(|| BenchError::UnknownMaterial(material_name.clone()))?;
+                if recipe.id != *recipe_id
+                    || recipe.version != *recipe_version
+                    || recipe.basis != *basis
+                {
+                    return Err(BenchError::MaterialRecipeMismatch);
+                }
+                let expansion = recipe
+                    .expand(*total_amount, *sample_seed)
+                    .ok_or(BenchError::NonPositiveAmount)?;
+                let components = expansion
+                    .components
+                    .iter()
+                    .map(|component| {
+                        let sid = SpeciesId::new(&component.species_id);
+                        let data = species::lookup(&sid)
+                            .ok_or_else(|| BenchError::UnknownSpecies(sid.clone()))?;
+                        let moles = material_amount_to_moles(&recipe, component.amount, data);
+                        Ok((sid, data.standard_phase, component.amount, moles))
+                    })
+                    .collect::<Result<Vec<_>, BenchError>>()?;
+
+                // Assess the fully expanded prospective mixture once. This
+                // avoids allowing a hazardous combination merely because its
+                // ingredients happened to be deposited one at a time.
+                let mut probe = self.vessel(*vessel)?.clone();
+                for (sid, phase, _, moles) in &components {
+                    probe.deposit(sid.clone(), *moles, *phase);
+                }
+                match screen.assess(&probe) {
+                    SafetyVerdict::Allow => {}
+                    SafetyVerdict::Warn {
+                        severity,
+                        hazard,
+                        real_world,
+                    } => events.push(Event::HazardWarning {
+                        severity,
+                        hazard,
+                        real_world,
+                    }),
+                    SafetyVerdict::Veto { reason } => {
+                        events.push(Event::SafetyVeto { reason });
+                        return Ok(events);
+                    }
+                }
+
+                let t_in = at.unwrap_or(Kelvin::STANDARD);
+                let cp_in = components
+                    .iter()
+                    .filter_map(|(sid, _, _, moles)| {
+                        species::lookup(sid).map(|data| moles.0 * data.heat_capacity)
+                    })
+                    .sum();
+                let v = self.vessel_mut(*vessel)?;
+                if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
+                    let t_new =
+                        adiabatic_mix_temperature(v.temperature, v.heat_capacity(), t_in, cp_in);
+                    if (t_new.0 - v.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: v.id,
+                            from: v.temperature,
+                            to: t_new,
+                        });
+                    }
+                    v.temperature = t_new;
+                }
+                for (sid, phase, _, moles) in &components {
+                    v.deposit(sid.clone(), *moles, *phase);
+                }
+                if expansion.unresolved_amount > 0.0 {
+                    v.unresolved_materials.push(UnresolvedMaterialPortion {
+                        material: material_name.clone(),
+                        recipe_id: recipe_id.clone(),
+                        recipe_version: *recipe_version,
+                        basis: *basis,
+                        amount: expansion.unresolved_amount,
+                    });
+                }
+                events.push(Event::MaterialAdded {
+                    vessel: *vessel,
+                    material: material_name.clone(),
+                    recipe_id: recipe_id.clone(),
+                    recipe_version: *recipe_version,
+                    total_amount: *total_amount,
+                    basis: *basis,
+                    sample_seed: *sample_seed,
+                    components: components
+                        .into_iter()
+                        .map(|(species, _, basis_amount, moles)| MaterialComponentAdded {
+                            species,
+                            basis_amount,
+                            moles,
+                        })
+                        .collect(),
+                    unresolved_amount: expansion.unresolved_amount,
                 });
             }
             Operator::Heat { vessel, energy } | Operator::Cool { vessel, energy } => {
@@ -404,13 +579,70 @@ impl Bench {
                     });
                 }
             }
-            Operator::Stir { vessel } => {
+            Operator::Stir {
+                vessel,
+                rpm,
+                seconds,
+            } => {
+                if !rpm.is_finite() || !seconds.is_finite() || *rpm <= 0.0 || *seconds <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
                 let v = self.vessel(*vessel)?;
-                events.push(Event::NotYetModeled {
-                    vessel: v.id,
-                    what:
-                        "stirring changes nothing this lab models: rates depend on concentration, temperature and catalysts here, and mixing and surface area are not modelled at all"
-                            .to_string(),
+                // A 25 mm bar is the default bench-scale stir bar. The
+                // delivered linear speed is physical state, not an animation
+                // preset: clients and future transport models consume it.
+                let bar_length_m = 0.025;
+                let tip_speed_m_s = std::f64::consts::PI * bar_length_m * rpm / 60.0;
+                let resuspended_fraction =
+                    (1.0 - (-tip_speed_m_s * seconds / 0.3).exp()).clamp(0.0, 1.0);
+                let solid_portions = v
+                    .contents
+                    .iter()
+                    .filter(|portion| {
+                        portion.phase == Phase::Solid
+                            && !crate::displacement::is_elemental_metal(&portion.species.0)
+                    })
+                    .cloned()
+                    .collect::<Vec<_>>();
+                let elapsed_seconds = v.elapsed_seconds;
+                let has_liquid = v.liquid_volume().0 > 0.0;
+                let vessel_id = v.id;
+                let v = self.vessel_mut(*vessel)?;
+                if has_liquid {
+                    for portion in solid_portions {
+                        let mut found = false;
+                        for lot in &mut v.lots {
+                            if lot.species == portion.species && lot.phase == Phase::Solid {
+                                lot.suspended_fraction = Some(
+                                    lot.suspended_fraction
+                                        .unwrap_or(0.0)
+                                        .max(resuspended_fraction),
+                                );
+                                found = true;
+                            }
+                        }
+                        if !found {
+                            v.lots.push(MaterialLot {
+                                species: portion.species,
+                                moles: portion.moles,
+                                phase: Phase::Solid,
+                                added_at: elapsed_seconds,
+                                source: Some("legacy vessel state".to_string()),
+                                particle_size_um: None,
+                                suspended_fraction: Some(resuspended_fraction),
+                            });
+                        }
+                    }
+                    v.resolved.invalidate();
+                }
+                events.push(Event::Stirred {
+                    vessel: vessel_id,
+                    rpm: *rpm,
+                    seconds: *seconds,
+                    bar_length_m,
+                    tip_speed_m_s,
+                    resuspended_fraction,
+                    rate_coupled: false,
                 });
             }
             Operator::Seal {
@@ -705,6 +937,9 @@ impl Bench {
                     into: *into,
                     fraction_a: *fraction_a,
                     fraction_b: *fraction_b,
+                    temperature_a: t_a,
+                    temperature_b: t_b,
+                    temperature_into: dst.temperature,
                 });
             }
             Operator::Filter { from, to } => {
@@ -767,6 +1002,59 @@ impl Bench {
                     to: *to,
                 });
             }
+            Operator::Magnet { from, to } => {
+                if from == to {
+                    return Err(BenchError::SelfTransfer);
+                }
+                let (magnetic_solids, remained_ids) = {
+                    let src = self.vessel(*from)?;
+                    let mag: Vec<_> = src
+                        .contents
+                        .iter()
+                        .filter(|p| {
+                            p.phase == Phase::Solid
+                                && species::lookup(&p.species).is_some_and(|d| d.magnetic)
+                        })
+                        .map(|p| (p.species.clone(), p.moles, p.phase))
+                        .collect();
+                    let rem: Vec<_> = src
+                        .contents
+                        .iter()
+                        .filter(|p| {
+                            p.phase == Phase::Solid
+                                && !species::lookup(&p.species).is_some_and(|d| d.magnetic)
+                        })
+                        .map(|p| p.species.clone())
+                        .collect();
+                    (mag, rem)
+                };
+                if magnetic_solids.is_empty() {
+                    events.push(Event::MagnetSeparated {
+                        from: *from,
+                        to: *to,
+                        attracted: vec![],
+                        remained: remained_ids,
+                    });
+                } else {
+                    let src = self.vessel_mut(*from)?;
+                    src.contents.retain(|p| {
+                        !(p.phase == Phase::Solid
+                            && species::lookup(&p.species).is_some_and(|d| d.magnetic))
+                    });
+                    let dst = self.vessel_mut(*to)?;
+                    let attracted_ids: Vec<_> =
+                        magnetic_solids.iter().map(|(s, _, _)| s.clone()).collect();
+                    for (s, n, phase) in magnetic_solids {
+                        dst.deposit(s, n, phase);
+                    }
+                    events.push(Event::MagnetSeparated {
+                        from: *from,
+                        to: *to,
+                        attracted: attracted_ids,
+                        remained: remained_ids,
+                    });
+                }
+            }
             Operator::Ignite { vessel } => {
                 let v = self.vessel_mut(*vessel)?;
                 if v.is_empty() {
@@ -788,6 +1076,7 @@ impl Bench {
                     events.push(Event::Ignited {
                         vessel: *vessel,
                         flame,
+                        energy_j: None,
                     });
                 }
             }
@@ -1140,6 +1429,14 @@ impl Bench {
                 // round because equilibrium is the faster process.
                 let seconds = seconds.max(0.0);
                 for vessel in self.vessels.iter_mut() {
+                    let settled = settle_vessel_under_gravity(vessel, seconds);
+                    if !settled.is_empty() {
+                        events.push(Event::GravitySettled {
+                            vessel: vessel.id,
+                            seconds,
+                            separations: settled,
+                        });
+                    }
                     vessel.elapsed_seconds += seconds;
                     // EXP-49: decay is the slowest clock on the bench;
                     // it runs beside kinetics on the same shared time.
@@ -1154,7 +1451,48 @@ impl Bench {
                             equation: step.equation,
                         });
                     }
+                    let mut oxygen_moles = 0.0;
                     for (reaction, moles) in crate::kinetics::advance(vessel, seconds)? {
+                        if reaction.id == "peroxide-decomposition" {
+                            oxygen_moles += moles.0;
+                            // 2 H2O2(l) -> 2 H2O(l) + O2(g), approximately
+                            // -98.2 kJ per stoichiometric extent at 25 °C.
+                            // The curated kinetics extent uses exactly that
+                            // equation, so the heat source shares its ledger.
+                            let energy_j = 98_200.0 * moles.0;
+                            let from = vessel.temperature;
+                            if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+                                let heat_capacity = vessel.heat_capacity();
+                                if heat_capacity > 0.0 {
+                                    vessel.temperature = Kelvin(from.0 + energy_j / heat_capacity);
+                                }
+                            }
+                            if moles.0 >= crate::OBSERVABLE_MOLES {
+                                events.push(Event::GasProduced {
+                                    vessel: vessel.id,
+                                    reaction: reaction.id.to_string(),
+                                    species: SpeciesId::new("O2"),
+                                    moles,
+                                    rate_moles_per_second: if seconds > 0.0 {
+                                        moles.0 / seconds
+                                    } else {
+                                        0.0
+                                    },
+                                });
+                                events.push(Event::ReactionHeatReleased {
+                                    vessel: vessel.id,
+                                    reaction: reaction.id.to_string(),
+                                    energy_j,
+                                });
+                                if (vessel.temperature.0 - from.0).abs() > 1e-9 {
+                                    events.push(Event::TemperatureChanged {
+                                        vessel: vessel.id,
+                                        from,
+                                        to: vessel.temperature,
+                                    });
+                                }
+                            }
+                        }
                         if moles.0 < crate::OBSERVABLE_MOLES {
                             continue;
                         }
@@ -1172,6 +1510,18 @@ impl Bench {
                             }),
                             activation_energy: ea,
                         });
+                    }
+                    if let Some(foam) = crate::foam::advance(vessel, seconds, oxygen_moles) {
+                        if foam.volume_liters >= 1e-6 || vessel.foam.peak_volume_liters > 0.0 {
+                            events.push(Event::FoamChanged {
+                                vessel: vessel.id,
+                                trapped_gas_liters: foam.trapped_gas_liters,
+                                volume_liters: foam.volume_liters,
+                                height_cm: foam.height_cm,
+                                overflow_liters: foam.overflow_liters,
+                                half_life_seconds: foam.half_life_seconds,
+                            });
+                        }
                     }
                 }
             }
@@ -1491,14 +1841,185 @@ impl Bench {
                 species,
                 diameter_um,
             } => {
-                let _v = self.vessel(*vessel)?;
-                events.push(Event::NotYetModeled {
+                if *diameter_um <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let data = species::lookup(species)
+                    .ok_or_else(|| BenchError::UnknownSpecies(species.clone()))?;
+                let v = self.vessel_mut(*vessel)?;
+                let solid_moles = Moles(
+                    v.contents
+                        .iter()
+                        .filter(|portion| {
+                            portion.species == *species && portion.phase == Phase::Solid
+                        })
+                        .map(|portion| portion.moles.0)
+                        .sum(),
+                );
+                if solid_moles.0 <= 0.0 {
+                    return Err(BenchError::SolidNotPresent {
+                        vessel: *vessel,
+                        species: species.clone(),
+                    });
+                }
+
+                let mut found_lot = false;
+                for lot in &mut v.lots {
+                    if lot.species == *species && lot.phase == Phase::Solid {
+                        lot.particle_size_um = Some(*diameter_um);
+                        found_lot = true;
+                    }
+                }
+                // Saves created before lot tracking still gain real particle state.
+                if !found_lot {
+                    let has_liquid = v.liquid_volume().0 > 0.0;
+                    v.lots.push(MaterialLot {
+                        species: species.clone(),
+                        moles: solid_moles,
+                        phase: Phase::Solid,
+                        added_at: v.elapsed_seconds,
+                        source: Some("legacy vessel state".to_string()),
+                        particle_size_um: Some(*diameter_um),
+                        suspended_fraction: Some(if has_liquid { 1.0 } else { 0.0 }),
+                    });
+                }
+                v.resolved.invalidate();
+
+                let volume_m3 = solid_moles.0 * data.molar_mass / data.density * 1e-6;
+                let surface_area_m2 = 6.0 * volume_m3 / (*diameter_um * 1e-6);
+                events.push(Event::Ground {
                     vessel: *vessel,
-                    what: format!(
-                        "particle size set to {diameter_um} µm for {} — heterogeneous rate \
-                         scaling requires surface-area model integration",
-                        species.0
-                    ),
+                    species: species.clone(),
+                    diameter_um: *diameter_um,
+                    solid_moles,
+                    surface_area_m2,
+                    rate_coupled: false,
+                });
+            }
+            Operator::Centrifuge {
+                vessel,
+                rpm,
+                seconds,
+                rotor_radius_m,
+                counterbalance_g,
+            } => {
+                let v = self.vessel(*vessel)?;
+                if *rpm < 0.0 || *seconds < 0.0 || *rotor_radius_m <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let sample_mass_g = v.mass().0;
+                let counterbalance_g = counterbalance_g.unwrap_or(sample_mass_g);
+                let imbalance_g = (sample_mass_g - counterbalance_g).abs();
+                if imbalance_g > 0.10 {
+                    return Err(BenchError::CentrifugeImbalance {
+                        sample_g: sample_mass_g,
+                        counterbalance_g,
+                        imbalance_g,
+                    });
+                }
+                let liquid_volume_l = v.liquid_volume().0;
+                if liquid_volume_l <= 0.0 {
+                    return Err(BenchError::CentrifugeUnavailable(
+                        "a liquid medium is required".to_string(),
+                    ));
+                }
+                let liquid_mass_g: f64 = v
+                    .contents
+                    .iter()
+                    .filter(|portion| portion.phase == Phase::Liquid)
+                    .filter_map(|portion| {
+                        species::lookup(&portion.species)
+                            .map(|data| portion.moles.0 * data.molar_mass)
+                    })
+                    .sum();
+                let fluid_density_kg_m3 = liquid_mass_g / liquid_volume_l;
+                let viscosity_cp = crate::properties::water_viscosity_cp(v.temperature.0)
+                    .map_err(BenchError::CentrifugeUnavailable)?
+                    .value;
+                let dynamic_viscosity_pa_s = viscosity_cp / 1000.0;
+                let mut separations = Vec::new();
+                let mut rcf = 0.0;
+                for portion in v
+                    .contents
+                    .iter()
+                    .filter(|portion| portion.phase == Phase::Solid)
+                {
+                    let data = species::lookup(&portion.species)
+                        .ok_or_else(|| BenchError::UnknownSpecies(portion.species.clone()))?;
+                    let diameter = v
+                        .lots
+                        .iter()
+                        .rev()
+                        .find(|lot| lot.species == portion.species && lot.phase == Phase::Solid)
+                        .and_then(|lot| lot.particle_size_um);
+                    let particle_size_assumed = diameter.is_none();
+                    let particle_diameter_um = diameter.unwrap_or(100.0);
+                    let result = crate::centrifuge::run(crate::centrifuge::CentrifugeInput {
+                        rpm: *rpm,
+                        seconds: *seconds,
+                        rotor_radius_m: *rotor_radius_m,
+                        tube_path_m: 0.04,
+                        particle_diameter_m: particle_diameter_um * 1e-6,
+                        particle_density_kg_m3: data.density * 1000.0,
+                        fluid_density_kg_m3,
+                        dynamic_viscosity_pa_s,
+                    })
+                    .map_err(|error| BenchError::CentrifugeUnavailable(error.to_string()))?;
+                    rcf = result.rcf;
+                    separations.push(CentrifugeSeparation {
+                        species: portion.species.clone(),
+                        particle_diameter_um,
+                        particle_size_assumed,
+                        particle_density_kg_m3: data.density * 1000.0,
+                        terminal_speed_m_s: result.terminal_speed_m_s,
+                        distance_m: result.distance_m,
+                        separated_fraction: result.separated_fraction,
+                        direction: result.direction,
+                    });
+                }
+                if separations.is_empty() {
+                    return Err(BenchError::CentrifugeUnavailable(
+                        "no solid particles are present".to_string(),
+                    ));
+                }
+                let v = self.vessel_mut(*vessel)?;
+                for separation in &separations {
+                    let remaining = 1.0 - separation.separated_fraction;
+                    let mut found = false;
+                    for lot in &mut v.lots {
+                        if lot.species == separation.species && lot.phase == Phase::Solid {
+                            lot.suspended_fraction =
+                                Some(lot.suspended_fraction.unwrap_or(1.0) * remaining);
+                            found = true;
+                        }
+                    }
+                    if !found {
+                        let moles = v.moles_of(&separation.species);
+                        v.lots.push(MaterialLot {
+                            species: separation.species.clone(),
+                            moles,
+                            phase: Phase::Solid,
+                            added_at: v.elapsed_seconds,
+                            source: Some("solver-created solid".to_string()),
+                            particle_size_um: Some(separation.particle_diameter_um),
+                            suspended_fraction: Some(remaining),
+                        });
+                    }
+                }
+                v.resolved.invalidate();
+                events.push(Event::Centrifuged {
+                    vessel: *vessel,
+                    rpm: *rpm,
+                    seconds: *seconds,
+                    rotor_radius_m: *rotor_radius_m,
+                    rcf,
+                    sample_mass_g,
+                    counterbalance_g,
+                    imbalance_g,
+                    fluid_density_kg_m3,
+                    dynamic_viscosity_pa_s,
+                    separations,
+                    state_coupled: true,
                 });
             }
             Operator::Irradiate {
@@ -1537,6 +2058,10 @@ impl Bench {
                         .map(|o| (SpeciesId::new(o.species), o.description.to_string()))
                         .collect(),
                 });
+            }
+            Operator::TestGas { vessel, test } => {
+                let v = self.vessel_mut(*vessel)?;
+                events.extend(crate::gas_tests::dispatch(v, *vessel, *test));
             }
             Operator::SpikeNuclide {
                 vessel,
@@ -1921,14 +2446,82 @@ impl Bench {
     }
 }
 
+fn settle_vessel_under_gravity(vessel: &mut Vessel, seconds: f64) -> Vec<CentrifugeSeparation> {
+    if seconds <= 0.0 || vessel.liquid_volume().0 <= 0.0 {
+        return Vec::new();
+    }
+    let liquid_volume_l = vessel.liquid_volume().0;
+    let liquid_mass_g: f64 = vessel
+        .contents
+        .iter()
+        .filter(|portion| portion.phase == Phase::Liquid)
+        .filter_map(|portion| {
+            species::lookup(&portion.species).map(|data| portion.moles.0 * data.molar_mass)
+        })
+        .sum();
+    let fluid_density_kg_m3 = liquid_mass_g / liquid_volume_l;
+    let Ok(viscosity) = crate::properties::water_viscosity_cp(vessel.temperature.0) else {
+        return Vec::new();
+    };
+    let dynamic_viscosity_pa_s = viscosity.value / 1000.0;
+    let mut separations = Vec::new();
+
+    for lot in &mut vessel.lots {
+        if lot.phase != Phase::Solid || lot.suspended_fraction.unwrap_or(0.0) <= 0.0 {
+            continue;
+        }
+        let Some(data) = species::lookup(&lot.species) else {
+            continue;
+        };
+        let particle_density_kg_m3 = data.density * 1000.0;
+        if particle_density_kg_m3 <= fluid_density_kg_m3 {
+            // Creaming needs a top-layer state; do not paint it as sediment.
+            continue;
+        }
+        let particle_size_assumed = lot.particle_size_um.is_none();
+        let particle_diameter_um = lot.particle_size_um.unwrap_or(100.0);
+        let Ok(result) = crate::centrifuge::sediment(crate::centrifuge::SedimentationInput {
+            seconds,
+            path_m: 0.04,
+            acceleration_m_s2: 9.806_65,
+            particle_diameter_m: particle_diameter_um * 1e-6,
+            particle_density_kg_m3,
+            fluid_density_kg_m3,
+            dynamic_viscosity_pa_s,
+        }) else {
+            continue;
+        };
+        if result.separated_fraction <= 1e-12 {
+            continue;
+        }
+        lot.suspended_fraction =
+            Some(lot.suspended_fraction.unwrap_or(1.0) * (1.0 - result.separated_fraction));
+        separations.push(CentrifugeSeparation {
+            species: lot.species.clone(),
+            particle_diameter_um,
+            particle_size_assumed,
+            particle_density_kg_m3,
+            terminal_speed_m_s: result.terminal_speed_m_s,
+            distance_m: result.distance_m,
+            separated_fraction: result.separated_fraction,
+            direction: result.direction,
+        });
+    }
+    if !separations.is_empty() {
+        vessel.resolved.invalidate();
+    }
+    separations
+}
+
 /// Which vessels an operator touches (for re-equilibration).
 fn op_touches(op: &Operator) -> Vec<VesselId> {
     match op {
-        Operator::NewVessel { .. } => vec![],
+        Operator::NewVessel { .. } | Operator::RemoveVessel { .. } => vec![],
         Operator::Add { vessel, .. }
+        | Operator::AddMaterial { vessel, .. }
         | Operator::Heat { vessel, .. }
         | Operator::Cool { vessel, .. }
-        | Operator::Stir { vessel }
+        | Operator::Stir { vessel, .. }
         | Operator::Seal { vessel, .. }
         | Operator::Regulate { vessel, .. }
         | Operator::Sweep { vessel, .. }
@@ -1938,15 +2531,18 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         Operator::Electrolyse { vessel, .. } => vec![*vessel],
         Operator::Decant { from, to, .. }
         | Operator::Filter { from, to }
+        | Operator::Magnet { from, to }
         | Operator::Distil { from, to, .. }
         | Operator::Drain { from, to } => vec![*from, *to],
         Operator::Mix { a, b, into, .. } => vec![*a, *b, *into],
         Operator::Grind { vessel, .. }
+        | Operator::Centrifuge { vessel, .. }
         | Operator::Irradiate { vessel, .. }
         | Operator::Dilute { vessel, .. }
         | Operator::React { vessel, .. }
         | Operator::SpikeNuclide { vessel, .. }
         | Operator::Smell { vessel }
+        | Operator::TestGas { vessel, .. }
         | Operator::Titrate { vessel, .. } => vec![*vessel],
         Operator::Transport {
             chain, receiver, ..
@@ -1957,6 +2553,18 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         }
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         Operator::Wait { .. } => vec![],
+    }
+}
+
+fn material_amount_to_moles(
+    recipe: &MaterialRecipe,
+    amount: f64,
+    data: &species::SpeciesData,
+) -> Moles {
+    match recipe.basis {
+        MaterialBasis::MassFraction => data.moles_from_grams(Grams(amount)),
+        MaterialBasis::MoleFraction => Moles(amount),
+        MaterialBasis::VolumeFraction => data.moles_from_liters(Liters(amount / 1000.0)),
     }
 }
 

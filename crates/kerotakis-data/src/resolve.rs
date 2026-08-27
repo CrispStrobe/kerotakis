@@ -23,8 +23,10 @@ pub enum Rung {
     Derived = 2,
     /// Imported from an external database without independent verification.
     Imported = 3,
+    /// Curated for an experiment task from reviewed handbook values.
+    Curated = 4,
     /// Editorial estimate or textbook value without stated provenance.
-    Editorial = 4,
+    Editorial = 5,
 }
 
 impl Rung {
@@ -34,6 +36,7 @@ impl Rung {
             Method::Calculated(_) => Self::Calculated,
             Method::Derived(_) => Self::Derived,
             Method::Imported(_) => Self::Imported,
+            Method::Curated(_) => Self::Curated,
             Method::Editorial(_) => Self::Editorial,
         }
     }

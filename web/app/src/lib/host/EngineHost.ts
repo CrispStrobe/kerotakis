@@ -36,16 +36,37 @@ export interface SceneVessel {
   id: number;
   label: string;
   liquid: SceneLiquid | null;
+  /** Liquid layers, bottom first; absent/single for a mixed solution. */
+  layers?: SceneLayer[];
   solids: SceneSolid[];
   bubbling: boolean;
+  foam?: SceneFoam | null;
   /** Flattened Headspace tag: open | sealed | pressure_controlled | swept. */
   boundary: string;
   temperature_k: number;
   pressure_pa: number;
   elapsed_s: number;
+  mass_g: number;
   /** The lv1 observation sentence — also the vessel's accessible name. */
   words: string;
   badges: SceneBadge[];
+}
+
+export interface SceneFoam {
+  trapped_gas_liters: number;
+  volume_liters: number;
+  height_cm: number;
+  overflow_liters: number;
+}
+
+/** One visible liquid layer, bottom first (GUI-058) — the engine's
+ * computed phase split, e.g. hexane floating on water. */
+export interface SceneLayer {
+  species: string;
+  name: string;
+  volume_l: number;
+  srgb: [number, number, number];
+  colour_word: string;
 }
 
 export interface SceneLiquid {
@@ -63,6 +84,7 @@ export interface SceneSolid {
   srgb: [number, number, number];
   colour_word: string;
   metallic: boolean;
+  settled_fraction: number;
 }
 
 export interface SceneBadge {
@@ -124,6 +146,15 @@ export interface EngineHost {
     engine_version?: string;
     git_rev?: string | null;
     registers?: string[];
+    /** WEB-003 pack inventory; empty content_hash = built in, not yet
+     * independently deliverable. */
+    packs?: {
+      pack_id: string;
+      version: string;
+      content_hash: string;
+      licence: string;
+      required: boolean;
+    }[];
   }>;
   step(operatorJson: string): Promise<StepResult>;
   runScript(script: string): Promise<ScriptResult>;
@@ -132,7 +163,18 @@ export interface EngineHost {
   /** The verb inventory with canonical examples (GUI-029). */
   grammar(): Promise<{ verb: string; example: string; options?: string[] }[]>;
   /** The named-relations catalogue (CAP-5). */
-  relations(): Promise<{ name: string; equation: string; args: string }[]>;
+  relations(): Promise<
+    {
+      name: string;
+      equation: string;
+      args: string;
+      /** What question it answers, and where it stops holding (GUI-087). */
+      purpose?: string;
+      purpose_de?: string;
+      validity?: string;
+      validity_de?: string;
+    }[]
+  >;
   /** Evaluate a named relation; the result explains itself per register. */
   calc(
     name: string,
@@ -141,11 +183,24 @@ export interface EngineHost {
     | { ok: true; value: number; unit: string; provenance: string; lv1: string; lv2: string; lv3: string }
     | { ok: false; error: string }
   >;
+  /** DATA-010: load a species pack. Honest counts back; built-ins are
+   * never shadowed. */
+  loadPack(bytes: Uint8Array): Promise<{ added: number; skipped: number; loaded_total: number }>;
   /** The bench as an opaque restorable token (O(1) undo/scrub). */
   snapshot(): Promise<string>;
   /** Replace the bench with a `snapshot()` token; session state survives. */
   restore(snapshot: string): Promise<void>;
   setRegister(level: string): Promise<void>;
+  /** The language the ENGINE renders its own prose in (I18N-5).
+   *
+   * Separate from the interface's locale by necessity: the engine composes
+   * the vessel summary and the journal itself, out of fragments, so no
+   * amount of translating in the shell can reach them.
+   *
+   * Cannot fail. An unknown tag falls back to English inside the engine,
+   * so there is no error for a host to handle and no reason to make
+   * callers handle one. */
+  setLocale(code: string): Promise<void>;
   scene(): Promise<Scene>;
   state(): Promise<unknown>;
   species(): Promise<unknown[]>;

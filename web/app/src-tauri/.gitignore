@@ -1,2 +1,7 @@
 target/
 gen/
+
+# Placed by tools/build-macos-appstore.sh from the App Store Connect API
+# (or a CI secret) and embedded in the .app for Mac App Store submission.
+# It is a signing artifact tied to one certificate, never source.
+embedded.provisionprofile

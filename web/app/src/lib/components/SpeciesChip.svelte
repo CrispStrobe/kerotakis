@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { ShelfItem } from "../session.svelte";
+  import { t } from "../i18n.svelte";
 
   let { item }: { item: ShelfItem } = $props();
 
@@ -18,10 +19,16 @@
     violet: "#8a63b8", blue: "#5a83c9", "brick-red": "#b65a3a",
   };
   const flameFill = $derived(item.flame ? (FLAMES[item.flame] ?? "var(--hot)") : null);
+  // Hazards (CAP-11): a labelled species warns; an unassessed one says
+  // so in words — silence must never read as "safe".
+  const hazards = $derived(item.hazards ?? []);
+  const unassessed = $derived(item.hazard_assessed === false);
   const title = $derived(
     [
-      item.appearance ? `${item.appearance} ${phase}` : phase,
-      item.flame ? `burns ${item.flame}` : null,
+      item.appearance ? `${t(item.appearance)} ${t(phase)}` : t(phase),
+      item.flame ? t("burns {colour}", { colour: t(item.flame) }) : null,
+      hazards.length > 0 ? t("hazards: {hazards}", { hazards: hazards.map((h) => t(h)).join(", ") }) : null,
+      unassessed ? t("hazards unassessed") : null,
     ]
       .filter(Boolean)
       .join(" · "),
@@ -49,6 +56,13 @@
     {#if flameFill}
       <path d="M 16.5 2 Q 15 5 16 6.5 Q 16.5 7.4 17 6.5 Q 18 5 16.5 2 Z" fill={flameFill} />
     {/if}
+    {#if hazards.length > 0}
+      <g class="hazard" aria-hidden="true">
+        <path d="M 3.5 7.5 L 6.5 2.5 L 9.5 7.5 Z" />
+        <line x1="6.5" y1="4.2" x2="6.5" y2="5.9" />
+        <circle cx="6.5" cy="6.8" r="0.45" />
+      </g>
+    {/if}
   </svg>
 </span>
 
@@ -75,5 +89,17 @@
   .gasring {
     stroke-width: 1.4;
     stroke-dasharray: 3 2;
+  }
+  .hazard path {
+    fill: var(--warn, #d9a13b);
+    stroke: none;
+  }
+  .hazard line {
+    stroke: var(--bg, #1a1a1a);
+    stroke-width: 0.9;
+    stroke-linecap: round;
+  }
+  .hazard circle {
+    fill: var(--bg, #1a1a1a);
   }
 </style>

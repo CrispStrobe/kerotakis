@@ -15,14 +15,20 @@ export interface CodexRange {
 export interface CodexDiagnosis {
   option: number;
   reveals: string;
+  reveals_de?: string;
   next?: string;
+  next_de?: string;
 }
 
 export interface CodexPrediction {
   question: string;
+  question_de?: string;
   options: string[];
+  /** Positional twin of `options`; same length or ignored. */
+  options_de?: string[];
   answer: number;
   misconception?: string | null;
+  misconception_de?: string | null;
   diagnosis?: CodexDiagnosis[];
 }
 
@@ -38,6 +44,7 @@ export interface CodexEntry {
   id: string;
   equation?: string | null;
   summary?: string | null;
+  summary_de?: string | null;
   concepts?: string[];
   requires?: string[];
   apparatus?: string[];
@@ -57,10 +64,20 @@ export interface CodexPlacement {
   source: string;
 }
 
+export function scriptKit(script: string): string[] {
+  const kit = new Set<string>();
+  for (const line of script.split("\n")) {
+    const m = line.trim().match(/^(?:add|titrate|grind)\s+\S+\s+(\S+)/);
+    if (m) kit.add(m[1]!);
+  }
+  return [...kit];
+}
+
 export function parseCodexIndex(raw: unknown): CodexEntry[] {
-  const list = Array.isArray(raw)
-    ? raw
-    : ((raw as { entries?: unknown[] })?.entries ?? []);
+  // The export's document shape: `{ reactions, models, concepts }`
+  // (kero codex export); older spellings tolerated.
+  const doc = raw as { reactions?: unknown[]; entries?: unknown[] } | unknown[];
+  const list = Array.isArray(doc) ? doc : (doc?.reactions ?? doc?.entries ?? []);
   return (list as CodexEntry[]).filter(
     (e) => typeof e?.id === "string" && typeof e?.setup?.script === "string",
   );

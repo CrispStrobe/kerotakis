@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { i18n, t } from "../i18n.svelte";
   let {
     onsubmit,
     busy,
@@ -28,7 +29,7 @@
     }
     debounce = setTimeout(() => {
       void onvalidate(current).then((r) => {
-        if (line === current) problem = r.ok ? null : (r.error ?? "not a command");
+        if (line === current) problem = r.ok ? null : (r.error ?? t("not a command"));
       });
     }, 300);
   });
@@ -42,6 +43,52 @@
     onsubmit(trimmed);
     line = "";
     problem = null;
+  }
+
+  // Voice input (GUI-028): progressive enhancement over the same
+  // grammar. The transcript lands IN THE INPUT for the speaker to read,
+  // correct, and submit — never executed straight from the microphone;
+  // live parse validation judges it like anything typed. No support, no
+  // button.
+  type Recognition = {
+    lang: string;
+    interimResults: boolean;
+    maxAlternatives: number;
+    onresult: ((e: { results: { [i: number]: { [j: number]: { transcript: string } } } }) => void) | null;
+    onend: (() => void) | null;
+    onerror: ((e: { error?: string }) => void) | null;
+    start(): void;
+    stop(): void;
+  };
+  const RecognitionCtor =
+    typeof window !== "undefined"
+      ? ((window as { SpeechRecognition?: new () => Recognition; webkitSpeechRecognition?: new () => Recognition })
+          .SpeechRecognition ??
+        (window as { webkitSpeechRecognition?: new () => Recognition }).webkitSpeechRecognition ??
+        null)
+      : null;
+  let listening = $state(false);
+  let recognizer: Recognition | null = null;
+
+  function toggleVoice() {
+    if (listening) {
+      recognizer?.stop();
+      return;
+    }
+    if (!RecognitionCtor) return;
+    recognizer = new RecognitionCtor();
+    recognizer.lang = i18n.locale === "de" ? "de-DE" : "en-US";
+    recognizer.interimResults = false;
+    recognizer.maxAlternatives = 1;
+    recognizer.onresult = (e) => {
+      const heard = e.results[0]?.[0]?.transcript ?? "";
+      // Spoken chemistry arrives in prose case; the grammar is lowercase.
+      line = heard.trim().toLowerCase();
+    };
+    recognizer.onend = () => (listening = false);
+    recognizer.onerror = () => (listening = false);
+    listening = true;
+    recognizer.start();
   }
 
   function onkeydown(e: KeyboardEvent) {
@@ -79,20 +126,41 @@
       type="text"
       bind:value={line}
       {onkeydown}
-      placeholder="add v1 water 100mL"
-      aria-label="command"
+      placeholder={t("add v1 water 100mL")}
+      aria-label={t("command")}
       aria-invalid={problem !== null}
       autocomplete="off"
       autocapitalize="off"
       spellcheck="false"
       disabled={busy}
     />
+    {#if RecognitionCtor}
+      <button
+        type="button"
+        class="mic"
+        class:listening
+        onclick={toggleVoice}
+        title={t("speak a command — it lands here to read and correct before you run it")}
+        aria-label={listening ? t("stop listening") : t("speak a command")}
+        aria-pressed={listening}
+      >
+        <svg viewBox="0 0 18 18" aria-hidden="true">
+          <rect x="6.5" y="2" width="5" height="8" rx="2.5" />
+          <path d="M 4 9 Q 4 13 9 13 Q 14 13 14 9 M 9 13 V 16 M 6.5 16 H 11.5" />
+        </svg>
+      </button>
+    {/if}
   </form>
 </div>
 
 <style>
   .wrap {
-    background: var(--panel);
+    margin: 0 0.75rem 0.75rem;
+    border: 1px solid var(--edge);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 6px 22px var(--shadow);
+    overflow: hidden;
   }
   .problem {
     margin: 0;
@@ -103,23 +171,61 @@
   .bar {
     display: flex;
     align-items: center;
-    border-top: 1px solid var(--edge);
+    border-top: 0;
   }
   .bar.invalid {
     border-top-color: var(--warn);
   }
   .prompt {
-    color: var(--hot);
+    color: var(--action);
     padding: 0 0.4rem 0 1rem;
+    font: 700 0.78rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
   input {
     flex: 1;
     background: none;
     border: 0;
     color: var(--ink);
-    font: inherit;
+    font: 0.84rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     padding: 0.8rem 1rem 0.8rem 0;
     outline: none;
     min-height: 44px;
+  }
+  .mic {
+    background: none;
+    border: 0;
+    color: var(--dim);
+    cursor: pointer;
+    padding: 0 1rem;
+    min-height: 44px;
+  }
+  .mic svg {
+    width: 18px;
+    height: 18px;
+  }
+  .mic svg rect,
+  .mic svg path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.3;
+    stroke-linecap: round;
+  }
+  .mic:hover {
+    color: var(--ink);
+  }
+  .mic.listening {
+    color: var(--hot);
+    animation: mic-pulse 1.2s ease-in-out infinite;
+  }
+  @keyframes mic-pulse {
+    50% {
+      opacity: 0.45;
+    }
+  }
+  @media (max-width: 980px) {
+    .wrap {
+      margin-inline: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
   }
 </style>

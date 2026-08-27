@@ -848,6 +848,105 @@
       "retrieved": null
     },
     {
+      "id": "legacy/PE",
+      "citation": "Density: CRC Handbook, 97th ed., HDPE 0.94-0.97 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/PP",
+      "citation": "Density: CRC Handbook, 97th ed., isotactic PP 0.85-0.92 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/PET",
+      "citation": "Density: CRC Handbook, 97th ed., amorphous/semicrystalline PET 1.33-1.45 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/PS",
+      "citation": "Density: CRC Handbook, 97th ed., general-purpose PS 1.04-1.065 g/cm3; M per repeat unit from IUPAC/CIAAW 2021; Cp: Polymer Handbook (Brandrup), 4th ed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/betanin",
+      "citation": "ε: Stintzing & Carle, Trends in Food Science & Technology 15 (2004) 64-72; M from molecular formula; density estimated for organic solid",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/curcumin",
+      "citation": "ε: Tonnesen & Karlsen, Z Lebensm Unters Forsch 180 (1985) 132-134; M from molecular formula; density estimated for organic solid",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/indigo_carmine",
+      "citation": "ε: Bhasikuttan et al., J Phys Chem B 108 (2004) 3657-3662; M from molecular formula; density estimated for organic solid",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/betanin_ox",
+      "citation": "Bleaching product of betanin; simplified stoichiometry (one O addition from NaOCl)",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/curcumin_ox",
+      "citation": "Bleaching product of curcumin; simplified stoichiometry (one O addition from NaOCl)",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/indigo_carmine_ox",
+      "citation": "Bleaching product of indigo_carmine; simplified stoichiometry (one O addition from NaOCl)",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/Al",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 2.70 g/cm3",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "legacy/Fe(OH)3",
       "citation": "M from IUPAC/CIAAW 2021 atomic weights; density and Cp(s): CRC Handbook of Chemistry and Physics, 97th ed. (amorphous-precipitate density approximate, stated)",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
@@ -882,6 +981,15 @@
       "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
       "retrieved": null
+    },
+    {
+      "id": "kerotakis/material-recipes-v1",
+      "citation": "Kerotakis household-material assumptions v1: 3% hydrogen peroxide and 5% white vinegar are explicit unbranded teaching surrogates; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "crates/kerotakis-registry-export/src/lib.rs",
+      "revision": "1",
+      "retrieved": "2026-08-27"
     }
   ],
   "identities": [
@@ -2373,6 +2481,182 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/NaHSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "PE",
+      "canonical_key": "VGGSQFUCUMXWEO-UHFFFAOYSA-N",
+      "name": "polyethylene (HDPE)",
+      "identifiers": {
+        "inchikey": "VGGSQFUCUMXWEO-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/PE",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "PP",
+      "canonical_key": "QQONPFPTGQHPMA-UHFFFAOYSA-N",
+      "name": "polypropylene",
+      "identifiers": {
+        "inchikey": "QQONPFPTGQHPMA-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/PP",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "PET",
+      "canonical_key": "KKEYFWRCBNTPAC-UHFFFAOYSA-N",
+      "name": "polyethylene terephthalate",
+      "identifiers": {
+        "inchikey": "KKEYFWRCBNTPAC-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/PET",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "PS",
+      "canonical_key": "PPBRXRYQALVLMV-UHFFFAOYSA-N",
+      "name": "polystyrene",
+      "identifiers": {
+        "inchikey": "PPBRXRYQALVLMV-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/PS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "betanin",
+      "canonical_key": "HNBRRZORNIHJQL-UHFFFAOYSA-N",
+      "name": "betanin (beetroot red)",
+      "identifiers": {
+        "inchikey": "HNBRRZORNIHJQL-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/betanin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "curcumin",
+      "canonical_key": "VFLDPWHFBUODDF-UHFFFAOYSA-N",
+      "name": "curcumin (turmeric yellow)",
+      "identifiers": {
+        "inchikey": "VFLDPWHFBUODDF-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "indigo_carmine",
+      "canonical_key": "COHYTHOBJLSHDF-UHFFFAOYSA-L",
+      "name": "indigo carmine (E132)",
+      "identifiers": {
+        "inchikey": "COHYTHOBJLSHDF-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/indigo_carmine",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "betanin_ox",
+      "canonical_key": "HNBRRZORNIHJQL-UHFFFAOYSA-O",
+      "name": "oxidised betanin (colourless)",
+      "identifiers": {
+        "inchikey": "HNBRRZORNIHJQL-UHFFFAOYSA-O"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/betanin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "curcumin_ox",
+      "canonical_key": "VFLDPWHFBUODDF-UHFFFAOYSA-O",
+      "name": "oxidised curcumin (colourless)",
+      "identifiers": {
+        "inchikey": "VFLDPWHFBUODDF-UHFFFAOYSA-O"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "indigo_carmine_ox",
+      "canonical_key": "COHYTHOBJLSHDF-UHFFFAOYSA-O",
+      "name": "oxidised indigo carmine (colourless)",
+      "identifiers": {
+        "inchikey": "COHYTHOBJLSHDF-UHFFFAOYSA-O"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/indigo_carmine_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Al",
+      "canonical_key": "AZDRQVAHHNSJOQ-UHFFFAOYSA-N",
+      "name": "aluminium",
+      "identifiers": {
+        "inchikey": "AZDRQVAHHNSJOQ-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Al",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -11681,6 +11965,1396 @@
       },
       "evidence": {
         "source_id": "legacy/NaHSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/PE",
+      "species_id": "PE",
+      "formula": "C2H4",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PE",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PE",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PE",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/PE",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/PP",
+      "species_id": "PP",
+      "formula": "C3H6",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PP",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PP",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PP",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/PP",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/PET",
+      "species_id": "PET",
+      "formula": "C10H8O4",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 10.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PET",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PET",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PET",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PET",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/PET",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/PS",
+      "species_id": "PS",
+      "formula": "C8H8",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PS",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/PS",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PS",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/PS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/betanin",
+      "species_id": "betanin",
+      "formula": "C24H26N2O13",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 24.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 26.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 13.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/betanin",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/betanin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/curcumin",
+      "species_id": "curcumin",
+      "formula": "C21H20O6",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 21.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 20.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 6.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/indigo_carmine",
+      "species_id": "indigo_carmine",
+      "formula": "C16H8N2Na2O8S2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 16.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Na",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/indigo_carmine",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/indigo_carmine",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/betanin_ox",
+      "species_id": "betanin_ox",
+      "formula": "C24H26N2O14",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 24.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/betanin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 26.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/betanin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/betanin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 14.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/betanin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/betanin_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/betanin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/curcumin_ox",
+      "species_id": "curcumin_ox",
+      "formula": "C21H20O7",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 21.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/curcumin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 20.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/curcumin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 7.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/curcumin_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/indigo_carmine_ox",
+      "species_id": "indigo_carmine_ox",
+      "formula": "C16H8N2Na2O9S2",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 16.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "N",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Na",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 9.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/indigo_carmine_ox",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/indigo_carmine_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/indigo_carmine_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Al",
+      "species_id": "Al",
+      "formula": "Al",
+      "elements": [
+        {
+          "element": "Al",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Al",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Al",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Al",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -21046,6 +22720,996 @@
       }
     },
     {
+      "id": "molar-mass/PE",
+      "species_id": "PE",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 28.054,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PE",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/PE",
+      "species_id": "PE",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 51.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PE",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/PE",
+      "species_id": "PE",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.95,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PE",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/PP",
+      "species_id": "PP",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 42.081,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PP",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/PP",
+      "species_id": "PP",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 73.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PP",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/PP",
+      "species_id": "PP",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.9,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PP",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/PET",
+      "species_id": "PET",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 192.17,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PET",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/PET",
+      "species_id": "PET",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 200.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PET",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/PET",
+      "species_id": "PET",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.38,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PET",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/PS",
+      "species_id": "PS",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 104.15,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/PS",
+      "species_id": "PS",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 130.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/PS",
+      "species_id": "PS",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.05,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/betanin",
+      "species_id": "betanin",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 550.47,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/betanin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/betanin",
+      "species_id": "betanin",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 450.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/betanin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/betanin",
+      "species_id": "betanin",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.5,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/betanin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/curcumin",
+      "species_id": "curcumin",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 368.38,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/curcumin",
+      "species_id": "curcumin",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 300.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/curcumin",
+      "species_id": "curcumin",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.3,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/indigo_carmine",
+      "species_id": "indigo_carmine",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 466.35,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/indigo_carmine",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/indigo_carmine",
+      "species_id": "indigo_carmine",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 380.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/indigo_carmine",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/indigo_carmine",
+      "species_id": "indigo_carmine",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.6,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/indigo_carmine",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/betanin_ox",
+      "species_id": "betanin_ox",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 566.47,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/betanin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/betanin_ox",
+      "species_id": "betanin_ox",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 460.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/betanin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/betanin_ox",
+      "species_id": "betanin_ox",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.5,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/betanin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/curcumin_ox",
+      "species_id": "curcumin_ox",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 384.38,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/curcumin_ox",
+      "species_id": "curcumin_ox",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 310.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/curcumin_ox",
+      "species_id": "curcumin_ox",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.3,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/indigo_carmine_ox",
+      "species_id": "indigo_carmine_ox",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 482.35,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/indigo_carmine_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/indigo_carmine_ox",
+      "species_id": "indigo_carmine_ox",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 390.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/indigo_carmine_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/indigo_carmine_ox",
+      "species_id": "indigo_carmine_ox",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.6,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/indigo_carmine_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Al",
+      "species_id": "Al",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 26.982,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Al",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Al",
+      "species_id": "Al",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 24.2,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Al",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Al",
+      "species_id": "Al",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.7,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Al",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Fe(OH)3",
       "species_id": "Fe(OH)3",
       "phase": "solid",
@@ -24252,6 +26916,2585 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/NaHSO4",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/PE",
+      "species_id": "PE",
+      "phase": "solid",
+      "appearance": "translucent white plastic",
+      "flame_colour": null,
+      "reflective_srgb": "#F0EDE8",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/PE",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/PP",
+      "species_id": "PP",
+      "phase": "solid",
+      "appearance": "translucent white plastic",
+      "flame_colour": null,
+      "reflective_srgb": "#EDE8E0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/PP",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/PET",
+      "species_id": "PET",
+      "phase": "solid",
+      "appearance": "clear plastic",
+      "flame_colour": null,
+      "reflective_srgb": "#D8E8F0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/PET",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/PS",
+      "species_id": "PS",
+      "phase": "solid",
+      "appearance": "white opaque plastic",
+      "flame_colour": null,
+      "reflective_srgb": "#F5F5F5",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/PS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/betanin",
+      "species_id": "betanin",
+      "phase": "aqueous",
+      "appearance": "dark red powder",
+      "flame_colour": null,
+      "reflective_srgb": "#8B0A50",
+      "spectrum": [
+        {
+          "wavelength": {
+            "value": 405.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 65.6398752173243,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 425.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 465.6186906097491,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 445.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 2382.7727269695697,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 465.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 8796.793410379825,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 485.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 23429.106258858366,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 505.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 45017.006073337856,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 525.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 62400.35368355605,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 545.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 62400.35368355605,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 565.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 45017.006073337856,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 585.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 23429.106258858366,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 605.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 8796.793410379825,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 625.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 2382.7727269695697,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 645.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 465.6186906097491,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 665.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 65.6398752173243,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 685.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 6.675666700277601,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 705.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.48979133845089096,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/betanin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "source_id": "legacy/betanin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/curcumin",
+      "species_id": "curcumin",
+      "phase": "aqueous",
+      "appearance": "bright yellow powder",
+      "flame_colour": null,
+      "reflective_srgb": "#FFD54F",
+      "spectrum": [
+        {
+          "wavelength": {
+            "value": 405.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 44040.55716042445,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 425.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 55000.0,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 445.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 44040.55716042445,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 465.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 22611.17597789531,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 485.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 7443.440578013699,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 505.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1571.1025431502708,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 525.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 212.62560767100425,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 545.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 18.45044453463815,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 565.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1.0265458012436297,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 585.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.03662098808421523,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 605.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.0008376488859591947,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 625.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.000012284972899117373,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 645.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1.155225e-7,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 665.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 6.965291052001796e-10,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 685.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 2.6927258955223627e-12,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 705.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 6.6746001746918315e-15,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/curcumin",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/indigo_carmine",
+      "species_id": "indigo_carmine",
+      "phase": "aqueous",
+      "appearance": "dark blue powder",
+      "flame_colour": null,
+      "reflective_srgb": "#003399",
+      "spectrum": [
+        {
+          "wavelength": {
+            "value": 405.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.03958421119340269,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 425.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 0.4530173076645862,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 445.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 4.037699312018316,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 465.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 28.02718837770784,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 485.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 151.5135488851987,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 505.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 637.895867243142,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 525.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 2091.5800257800292,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 545.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 5341.036704526867,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 565.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 10621.919820706904,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 585.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 16451.551247973293,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 605.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 19844.35876520487,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 625.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 18642.049847190552,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 645.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 13638.815023806965,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 665.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 7771.162550247283,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 685.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 3448.4324778750565,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        },
+        {
+          "wavelength": {
+            "value": 705.0,
+            "unit": {
+              "symbol": "nm",
+              "dimension": "wavelength"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          },
+          "molar_absorptivity": {
+            "value": 1191.7463752397216,
+            "unit": {
+              "symbol": "L/(mol.cm)",
+              "dimension": "molar_absorptivity"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": "aqueous",
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "not_reported"
+            },
+            "source_id": "legacy/indigo_carmine",
+            "method": {
+              "kind": "imported",
+              "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+            }
+          }
+        }
+      ],
+      "evidence": {
+        "source_id": "legacy/indigo_carmine",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/betanin_ox",
+      "species_id": "betanin_ox",
+      "phase": "aqueous",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": "#F8F8F0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/betanin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/curcumin_ox",
+      "species_id": "curcumin_ox",
+      "phase": "aqueous",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": "#FFFFF0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/indigo_carmine_ox",
+      "species_id": "indigo_carmine_ox",
+      "phase": "aqueous",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": "#F0F0FF",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/indigo_carmine_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Al",
+      "species_id": "Al",
+      "phase": "solid",
+      "appearance": "silver",
+      "flame_colour": null,
+      "reflective_srgb": "#C0C0C0",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Al",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -28452,6 +33695,732 @@
       }
     },
     {
+      "id": "dissolves-without-speciation/PE",
+      "subject": {
+        "kind": "species",
+        "id": "PE"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PE",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PE",
+      "subject": {
+        "kind": "species",
+        "id": "PE"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PE",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/PP",
+      "subject": {
+        "kind": "species",
+        "id": "PP"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PP",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PP",
+      "subject": {
+        "kind": "species",
+        "id": "PP"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PP",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/PET",
+      "subject": {
+        "kind": "species",
+        "id": "PET"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PET",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PET",
+      "subject": {
+        "kind": "species",
+        "id": "PET"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PET",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/PS",
+      "subject": {
+        "kind": "species",
+        "id": "PS"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/PS",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/PS",
+      "subject": {
+        "kind": "species",
+        "id": "PS"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/PS",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/betanin",
+      "subject": {
+        "kind": "species",
+        "id": "betanin"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/betanin",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/betanin",
+      "subject": {
+        "kind": "species",
+        "id": "betanin"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 65000.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/betanin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/curcumin",
+      "subject": {
+        "kind": "species",
+        "id": "curcumin"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/curcumin",
+      "subject": {
+        "kind": "species",
+        "id": "curcumin"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 55000.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/curcumin",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/indigo_carmine",
+      "subject": {
+        "kind": "species",
+        "id": "indigo_carmine"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/indigo_carmine",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/indigo_carmine",
+      "subject": {
+        "kind": "species",
+        "id": "indigo_carmine"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 20000.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/indigo_carmine",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/betanin_ox",
+      "subject": {
+        "kind": "species",
+        "id": "betanin_ox"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/betanin_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/betanin_ox",
+      "subject": {
+        "kind": "species",
+        "id": "betanin_ox"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/betanin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/curcumin_ox",
+      "subject": {
+        "kind": "species",
+        "id": "curcumin_ox"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/curcumin_ox",
+      "subject": {
+        "kind": "species",
+        "id": "curcumin_ox"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/curcumin_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/indigo_carmine_ox",
+      "subject": {
+        "kind": "species",
+        "id": "indigo_carmine_ox"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/indigo_carmine_ox",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/indigo_carmine_ox",
+      "subject": {
+        "kind": "species",
+        "id": "indigo_carmine_ox"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/indigo_carmine_ox",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Al",
+      "subject": {
+        "kind": "species",
+        "id": "Al"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Al",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Al",
+      "subject": {
+        "kind": "species",
+        "id": "Al"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Al",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "dissolves-without-speciation/Fe(OH)3",
       "subject": {
         "kind": "species",
@@ -28712,6 +34681,337 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    }
+  ],
+  "material_recipes": [
+    {
+      "id": "household/hydrogen-peroxide-3-percent",
+      "version": 1,
+      "canonical_key": "hydrogen_peroxide_3_percent",
+      "name": "3% hydrogen peroxide",
+      "aliases": {
+        "de": [
+          "Wasserstoffperoxid 3%",
+          "Wasserstoffperoxid_3%"
+        ],
+        "en": [
+          "household peroxide 3%",
+          "peroxide_3%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.01,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "H2O2",
+          "fraction": {
+            "lower": 0.03,
+            "upper": 0.03
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.97,
+            "upper": 0.97
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "3% w/w aqueous solution at room temperature",
+      "lot_assumptions": [
+        "stabilisers and trace impurities are not resolved in v1"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/white-vinegar-5-percent",
+      "version": 1,
+      "canonical_key": "white_vinegar_5_percent",
+      "name": "5% white vinegar",
+      "aliases": {
+        "de": [
+          "Essig",
+          "Haushaltsessig 5%",
+          "Haushaltsessig_5%"
+        ],
+        "en": [
+          "household vinegar"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.006,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "CH3COOH",
+          "fraction": {
+            "lower": 0.05,
+            "upper": 0.05
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.95,
+            "upper": 0.95
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "5% w/w acetic-acid teaching surrogate",
+      "lot_assumptions": [
+        "flavour compounds and brand-specific residues are not represented"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/dish-soap-surrogate",
+      "version": 1,
+      "canonical_key": "dish_soap",
+      "name": "dish soap",
+      "aliases": {
+        "de": [
+          "Spülmittel",
+          "fluessige_Seife"
+        ],
+        "en": [
+          "washing-up_liquid"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.03,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.8,
+            "upper": 0.8
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.2,
+        "upper": 0.2
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "foam_stabilizer",
+          "trapping_efficiency": 0.85,
+          "gas_volume_fraction": 0.9,
+          "half_life_seconds": 180.0,
+          "saturation_amount": 0.4
+        }
+      ],
+      "preparation": "unbranded aqueous dish-soap teaching surrogate; surfactant blend unresolved",
+      "lot_assumptions": [
+        "brand-specific surfactants, salts, fragrance, dye and preservatives remain in the explicit unresolved fraction"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/dry-yeast-catalase-surrogate",
+      "version": 1,
+      "canonical_key": "dry_yeast",
+      "name": "dry yeast",
+      "aliases": {
+        "de": [
+          "Hefe",
+          "Trockenhefe"
+        ],
+        "en": [
+          "baker's_yeast"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "catalase",
+          "fraction": {
+            "lower": 1e-6,
+            "upper": 1e-6
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.999999,
+        "upper": 0.999999
+      },
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [],
+      "preparation": "dry baker's yeast represented as a catalase activity proxy; hydrate with warm water in the experiment",
+      "lot_assumptions": [
+        "enzyme activity varies strongly by brand, age and hydration; v1 models presence, not a universal activity per gram"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
         }
       }
     }

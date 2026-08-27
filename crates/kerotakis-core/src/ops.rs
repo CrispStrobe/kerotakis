@@ -4,6 +4,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::material::MaterialBasis;
 use crate::species::{Phase, SpeciesId};
 use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
 use crate::vessel::VesselId;
@@ -17,6 +18,12 @@ fn one_stage() -> u32 {
 }
 fn kelvin_zero() -> Kelvin {
     Kelvin(0.0)
+}
+fn default_stir_rpm() -> f64 {
+    500.0
+}
+fn default_stir_seconds() -> f64 {
+    10.0
 }
 
 /// A mutating or measuring action. One `Operator` in is one step of the bench
@@ -32,6 +39,9 @@ pub enum Operator {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         kind: Option<String>,
     },
+    /// Put an empty vessel back into storage. Matter is never silently
+    /// discarded through this operation, and the bench keeps one receiver.
+    RemoveVessel { vessel: VesselId },
     /// Add an amount of a species to a vessel, entering at `at` temperature
     /// (defaults to standard).
     Add {
@@ -41,14 +51,35 @@ pub enum Operator {
         #[serde(default, skip_serializing_if = "Option::is_none")]
         at: Option<Kelvin>,
     },
+    /// Dispense a versioned named mixture/object. The recipe identity, version,
+    /// basis amount and sample seed are pinned in the operator so replay never
+    /// depends on ambient randomness or whichever recipe version is newest.
+    AddMaterial {
+        vessel: VesselId,
+        material: String,
+        recipe_id: String,
+        recipe_version: u32,
+        total_amount: f64,
+        basis: MaterialBasis,
+        sample_seed: u64,
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        at: Option<Kelvin>,
+    },
     /// Put energy into a vessel (burner, heating mantle). Negative energy is
     /// expressed with `Cool`.
     Heat { vessel: VesselId, energy: Joules },
     /// Remove energy from a vessel (ice bath).
     Cool { vessel: VesselId, energy: Joules },
-    /// Stir. Currently affects nothing the solvers model; logged for the
-    /// record and honest about it.
-    Stir { vessel: VesselId },
+    /// Run a magnetic stirrer. The operation owns the mechanical conditions;
+    /// chemistry models may consume them when they support transport/rate
+    /// coupling, while clients can already render the computed tip speed.
+    Stir {
+        vessel: VesselId,
+        #[serde(default = "default_stir_rpm")]
+        rpm: f64,
+        #[serde(default = "default_stir_seconds")]
+        seconds: f64,
+    },
     /// Close a vessel over a finite gas volume, trapping the room air that
     /// occupied it at the current temperature.
     Seal {
@@ -138,6 +169,17 @@ pub enum Operator {
         species: SpeciesId,
         diameter_um: f64,
     },
+    /// Spin one balanced tube in a mini centrifuge.
+    Centrifuge {
+        vessel: VesselId,
+        rpm: f64,
+        seconds: f64,
+        rotor_radius_m: f64,
+        /// Opposing tube contents in grams. `None` preserves the historical
+        /// shorthand and means an exactly matched balance tube.
+        #[serde(default)]
+        counterbalance_g: Option<f64>,
+    },
     /// Turn a light source on or off for photolysis.
     Irradiate {
         vessel: VesselId,
@@ -160,6 +202,12 @@ pub enum Operator {
         /// Notation like "I-131"; must be in the curated teaching set.
         nuclide: String,
         moles: Moles,
+    },
+    /// Apply a classical bench gas test to the vessel's headspace:
+    /// pop (H₂), glowing splint (O₂), limewater (CO₂), damp litmus (NH₃).
+    TestGas {
+        vessel: VesselId,
+        test: crate::gas_tests::GasTest,
     },
     /// Apply a named curated organic transformation on command:
     /// `react v1 esterification`. Deliberate, not automatic — the
@@ -194,6 +242,9 @@ pub enum Operator {
         fraction_a: f64,
         fraction_b: f64,
     },
+    /// Hold a magnet over the vessel: ferromagnetic solids jump to the
+    /// magnet and are dropped into `to`; everything else stays behind.
+    Magnet { from: VesselId, to: VesselId },
     /// Push liquid through a 1-D chain of vessels: conservative upwind
     /// transport with an explicit Courant fraction. The inlet provides the
     /// feed composition (unchanged); the effluent collects in the receiver.
@@ -277,6 +328,19 @@ pub struct ElutedPeak {
     pub partition_k: f64,
 }
 
+/// One solid population's computed travel during a centrifuge run.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CentrifugeSeparation {
+    pub species: SpeciesId,
+    pub particle_diameter_um: f64,
+    pub particle_size_assumed: bool,
+    pub particle_density_kg_m3: f64,
+    pub terminal_speed_m_s: f64,
+    pub distance_m: f64,
+    pub separated_fraction: f64,
+    pub direction: crate::centrifuge::SeparationDirection,
+}
+
 /// What one step produced. Everything user-visible derives from this.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "event", rename_all = "snake_case")]
@@ -284,15 +348,84 @@ pub enum Event {
     VesselCreated {
         vessel: VesselId,
     },
+    VesselRemoved {
+        vessel: VesselId,
+    },
     Added {
         vessel: VesselId,
         species: SpeciesId,
         moles: Moles,
+        /// Inventory of this species in the vessel after the dose. Older
+        /// event logs did not carry it; clients must tolerate its absence.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        total_after: Option<Moles>,
+    },
+    /// A named material expanded into canonical species while retaining the
+    /// user-facing identity and any chemically unresolved balance.
+    MaterialAdded {
+        vessel: VesselId,
+        material: String,
+        recipe_id: String,
+        recipe_version: u32,
+        total_amount: f64,
+        basis: MaterialBasis,
+        sample_seed: u64,
+        components: Vec<MaterialComponentAdded>,
+        unresolved_amount: f64,
     },
     TemperatureChanged {
         vessel: VesselId,
         from: Kelvin,
         to: Kelvin,
+    },
+    /// Mechanical mixing conditions actually delivered by a magnetic
+    /// stirrer. Tip speed follows π·bar_length·rpm/60.
+    Stirred {
+        vessel: VesselId,
+        rpm: f64,
+        seconds: f64,
+        bar_length_m: f64,
+        tip_speed_m_s: f64,
+        /// Fraction of an available non-metal deposit lifted into suspension,
+        /// from accumulated bar travel over a 0.30 m mixing-length scale.
+        resuspended_fraction: f64,
+        /// False until kinetics/surface-area models consume this operation.
+        rate_coupled: bool,
+    },
+    /// A mortar changed the mean diameter of a solid powder. Surface area
+    /// assumes equal spherical particles: A = 6V/d, using registry density.
+    Ground {
+        vessel: VesselId,
+        species: SpeciesId,
+        diameter_um: f64,
+        solid_moles: Moles,
+        surface_area_m2: f64,
+        /// False until a heterogeneous kinetic law consumes this area.
+        rate_coupled: bool,
+    },
+    /// A balanced mini centrifuge run, with motion and separation computed
+    /// from rotor and material properties rather than a canned animation.
+    Centrifuged {
+        vessel: VesselId,
+        rpm: f64,
+        seconds: f64,
+        rotor_radius_m: f64,
+        rcf: f64,
+        sample_mass_g: f64,
+        counterbalance_g: f64,
+        imbalance_g: f64,
+        fluid_density_kg_m3: f64,
+        dynamic_viscosity_pa_s: f64,
+        separations: Vec<CentrifugeSeparation>,
+        /// False until vessel suspension/deposit state consumes the result.
+        state_coupled: bool,
+    },
+    /// Tracked particles settled under ordinary gravity while bench time
+    /// advanced, using the same Stokes model as the centrifuge at 1 g.
+    GravitySettled {
+        vessel: VesselId,
+        seconds: f64,
+        separations: Vec<CentrifugeSeparation>,
     },
     Transferred {
         from: VesselId,
@@ -442,6 +575,13 @@ pub enum Event {
         from: VesselId,
         to: VesselId,
     },
+    /// Magnetic solids jumped to the magnet; non-magnetic matter stayed.
+    MagnetSeparated {
+        from: VesselId,
+        to: VesselId,
+        attracted: Vec<SpeciesId>,
+        remained: Vec<SpeciesId>,
+    },
     /// Water left as vapour.
     Evaporated {
         vessel: VesselId,
@@ -484,6 +624,13 @@ pub enum Event {
     Smelled {
         vessel: VesselId,
         notes: Vec<(SpeciesId, String)>,
+    },
+    /// A classical gas test was applied to the vessel's headspace.
+    GasTested {
+        vessel: VesselId,
+        test: crate::gas_tests::GasTest,
+        positive: bool,
+        notes: String,
     },
     /// A sealed vessel exceeded what glass can hold. The headspace let
     /// go: the seal is gone, the gases vented, and the safety line is
@@ -627,6 +774,12 @@ pub enum Event {
         /// The flame's colour, where the burning substance has a
         /// characteristic one.
         flame: Option<String>,
+        /// Heat released by the computed reaction at the ignition
+        /// temperature, J. `None` means the engaged solver cannot quantify
+        /// it; clients must use a restrained fallback rather than inventing
+        /// a dramatic flame.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        energy_j: Option<f64>,
     },
     /// An ignition source was applied and nothing caught.
     DidNotIgnite {
@@ -642,6 +795,11 @@ pub enum Event {
     ThermalEquilibrium {
         vessel: VesselId,
         temperature: Kelvin,
+        /// Chemical enthalpy converted into sensible heat by this solve at
+        /// its starting temperature, J. Present for exothermic CEA solves;
+        /// absent where the solver cannot make that thermochemical claim.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        reaction_energy_j: Option<f64>,
         provenance: crate::vessel::Provenance,
     },
     /// The state is one no wired solver models yet. State is unchanged
@@ -683,6 +841,29 @@ pub enum Event {
         /// Activation energy actually used, J/mol.
         activation_energy: f64,
     },
+    /// Gas yield/rate from a kinetic interval, before any visual mapping.
+    GasProduced {
+        vessel: VesselId,
+        reaction: String,
+        species: SpeciesId,
+        moles: Moles,
+        rate_moles_per_second: f64,
+    },
+    /// Exothermic energy released by a curated kinetic reaction.
+    ReactionHeatReleased {
+        vessel: VesselId,
+        reaction: String,
+        energy_j: f64,
+    },
+    /// A surfactant recipe temporarily trapped produced gas as foam.
+    FoamChanged {
+        vessel: VesselId,
+        trapped_gas_liters: f64,
+        volume_liters: f64,
+        height_cm: f64,
+        overflow_liters: f64,
+        half_life_seconds: f64,
+    },
     /// A solver was asked and could not converge / answer. First-class,
     /// honest, never a crash.
     SolverFailed {
@@ -716,6 +897,12 @@ pub enum Event {
         into: VesselId,
         fraction_a: f64,
         fraction_b: f64,
+        /// Temperatures used by the adiabatic balance. Keeping these on the
+        /// event lets clients assess and explain the computed outcome without
+        /// reconstructing pre-step vessel state.
+        temperature_a: Kelvin,
+        temperature_b: Kelvin,
+        temperature_into: Kelvin,
     },
     /// Liquid flowed through a 1-D column of vessels. The effluent —
     /// what came out the far end — was deposited into the receiver.
@@ -726,6 +913,13 @@ pub enum Event {
         courant: f64,
         effluent_moles: Vec<(SpeciesId, Moles)>,
     },
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MaterialComponentAdded {
+    pub species: SpeciesId,
+    pub basis_amount: f64,
+    pub moles: Moles,
 }
 
 /// One entry of the bench log: the operator plus what it produced.

@@ -12,3 +12,6 @@ kerotakis-core = { path = "../kerotakis-core" }
 serde = { workspace = true }
 thiserror = { workspace = true }
 toml = "0.8"
+
+[dev-dependencies]
+serde_json = { workspace = true }

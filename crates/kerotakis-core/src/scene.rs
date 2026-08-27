@@ -46,10 +46,21 @@ pub struct SceneVessel {
     pub label: String,
     /// `None` when the vessel holds no liquid phase.
     pub liquid: Option<SceneLiquid>,
+    /// The liquid as VISIBLE layers, bottom first (GUI-058). One entry
+    /// for an ordinary mixed solution; two when computed liquid–liquid
+    /// equilibrium splits the phases (the organic floats by density).
+    /// The volumes sum to `liquid.volume_l`; a renderer that stacks
+    /// these draws exactly the engine's phase picture.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub layers: Vec<SceneLayer>,
     /// Solids present, aggregated per species, largest first.
     pub solids: Vec<SceneSolid>,
     /// Gas visibly rising through the liquid.
     pub bubbling: bool,
+    /// Persistent foam target derived from gas production and a declared
+    /// stabilizer role. Absent for the no-soap control.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub foam: Option<SceneFoam>,
     /// The gas boundary, serialized with its existing `boundary` tag:
     /// open, sealed, pressure_controlled, or swept.
     #[serde(flatten)]
@@ -58,12 +69,36 @@ pub struct SceneVessel {
     pub pressure_pa: f64,
     /// Bench time this vessel has experienced, seconds.
     pub elapsed_s: f64,
+    /// Current material mass in grams. Container/tube tare is excluded and
+    /// cancels when equal centrifuge tubes are used opposite each other.
+    #[serde(default)]
+    pub mass_g: f64,
     /// The plain-words observation from `appearance::observe` — the lv1
     /// sentence, and the accessibility text for the drawn vessel.
     pub words: String,
     /// Numbers worth pinning to the vessel, each with the confidence class
     /// its visual encoding follows (GUI-023).
     pub badges: Vec<Badge>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneFoam {
+    pub trapped_gas_liters: f64,
+    pub volume_liters: f64,
+    pub height_cm: f64,
+    pub overflow_liters: f64,
+}
+
+/// One visible liquid layer (GUI-058).
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneLayer {
+    /// Species key for the dominant phase, or "solution" for the mixed
+    /// aqueous layer.
+    pub species: String,
+    pub name: String,
+    pub volume_l: f64,
+    pub srgb: [u8; 3],
+    pub colour_word: String,
 }
 
 /// The liquid, ready to paint.
@@ -98,6 +133,14 @@ pub struct SceneSolid {
     /// and settles. Decides texture, and matches the turbidity physics in
     /// `appearance::observe`.
     pub metallic: bool,
+    /// Fraction currently in the settled deposit. Legacy state remains fully
+    /// visible at the bottom until an operation establishes suspension state.
+    #[serde(default = "fully_settled")]
+    pub settled_fraction: f64,
+}
+
+fn fully_settled() -> f64 {
+    1.0
 }
 
 /// A number pinned to the drawn vessel.
@@ -137,6 +180,55 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         path_length_cm: crate::vessel::path_cm_for(&v.label),
     });
 
+    // Layers (GUI-058): the engine's computed phase split, made drawable.
+    let layers = match (&liquid, crate::solve::layered_pair(v)) {
+        (Some(l), Some((upper_key, lower_key))) => {
+            let upper_data = species::lookup(&crate::SpeciesId::new(upper_key));
+            let upper_vol: f64 = v
+                .contents
+                .iter()
+                .filter(|p| p.phase == Phase::Liquid && p.species.0 == upper_key)
+                .filter_map(|p| upper_data.map(|d| d.liters_from_moles(p.moles).0))
+                .sum();
+            let upper_colour = upper_data.and_then(|d| d.colour).unwrap_or(Colour {
+                r: 235,
+                g: 238,
+                b: 240,
+                strength: 0.0,
+            });
+            vec![
+                // Bottom: the aqueous layer wears the solution's own
+                // observed colour; its volume is what the organic left.
+                SceneLayer {
+                    species: lower_key.to_string(),
+                    name: species::lookup(&crate::SpeciesId::new(lower_key))
+                        .map(|d| d.name.to_string())
+                        .unwrap_or_else(|| lower_key.to_string()),
+                    volume_l: (l.volume_l - upper_vol).max(0.0),
+                    srgb: l.srgb,
+                    colour_word: l.colour_word.clone(),
+                },
+                SceneLayer {
+                    species: upper_key.to_string(),
+                    name: upper_data
+                        .map(|d| d.name.to_string())
+                        .unwrap_or_else(|| upper_key.to_string()),
+                    volume_l: upper_vol,
+                    srgb: [upper_colour.r, upper_colour.g, upper_colour.b],
+                    colour_word: colour_word(&upper_colour, false).to_string(),
+                },
+            ]
+        }
+        (Some(l), None) => vec![SceneLayer {
+            species: "solution".to_string(),
+            name: "solution".to_string(),
+            volume_l: l.volume_l,
+            srgb: l.srgb,
+            colour_word: l.colour_word.clone(),
+        }],
+        (None, _) => Vec::new(),
+    };
+
     // Aggregate solids per species, keeping first-seen order, then sort by
     // amount so the biggest deposit paints first.
     let mut solids: Vec<SceneSolid> = Vec::new();
@@ -161,6 +253,10 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             srgb: [colour.r, colour.g, colour.b],
             colour_word: colour_word(&colour, true).to_string(),
             metallic: crate::displacement::is_elemental_metal(&p.species.0),
+            settled_fraction: v
+                .suspended_fraction_of(&p.species)
+                .map(|fraction| 1.0 - fraction)
+                .unwrap_or(1.0),
         });
     }
     solids.sort_by(|a, b| b.moles.total_cmp(&a.moles));
@@ -185,18 +281,52 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             });
         }
     }
+    let foam = (v.foam.volume_liters > 1e-9).then(|| {
+        let (capacity_l, area_cm2) = match v.label.as_str() {
+            "tube" => (0.030, 3.0),
+            "cylinder" => (0.100, 8.0),
+            "flask" => (0.250, 20.0),
+            "crucible" => (0.050, 18.0),
+            _ => (0.250, 28.0),
+        };
+        SceneFoam {
+            trapped_gas_liters: v.foam.trapped_gas_liters,
+            volume_liters: v.foam.volume_liters,
+            height_cm: v.foam.volume_liters * 1000.0 / area_cm2,
+            overflow_liters: (v.liquid_volume().0 + v.foam.volume_liters - capacity_l).max(0.0),
+        }
+    });
+    if let Some(foam) = &foam {
+        badges.push(Badge {
+            key: "foam_height_cm".into(),
+            value: foam.height_cm,
+            confidence: Confidence::Modeled,
+        });
+    }
+
+    let mut words = seen.words;
+    if let Some(foam) = &foam {
+        if foam.overflow_liters > 0.0 {
+            words.push_str(" Foam is spilling over the rim.");
+        } else {
+            words.push_str(" Foam is standing above the liquid.");
+        }
+    }
 
     SceneVessel {
         id: v.id,
         label: v.label.clone(),
         liquid,
+        layers,
         solids,
         bubbling: seen.bubbling,
+        foam,
         headspace: v.headspace,
         temperature_k: v.temperature.0,
         pressure_pa: v.pressure.0,
         elapsed_s: v.elapsed_seconds,
-        words: seen.words,
+        mass_g: v.mass().0,
+        words,
         badges,
     }
 }
@@ -215,6 +345,48 @@ mod tests {
     }
 
     #[test]
+    fn an_ordinary_solution_is_one_layer_matching_the_liquid() {
+        let v = vessel_with(&[("water", 5.55, Phase::Liquid)]);
+        let s = scene_vessel(&v);
+        let l = s.liquid.as_ref().expect("liquid");
+        assert_eq!(s.layers.len(), 1);
+        assert_eq!(s.layers[0].species, "solution");
+        assert!((s.layers[0].volume_l - l.volume_l).abs() < 1e-12);
+        assert_eq!(s.layers[0].srgb, l.srgb);
+    }
+
+    #[test]
+    fn hexane_on_water_renders_two_layers_water_at_the_bottom() {
+        // 5.55 mol water (~100 mL) + 0.5 mol hexane (~65 mL): the LLE
+        // splits them; the scene must say so, in the right order, with
+        // volumes that add up to the whole liquid.
+        let v = vessel_with(&[
+            ("water", 5.55, Phase::Liquid),
+            ("hexane", 0.5, Phase::Liquid),
+        ]);
+        let s = scene_vessel(&v);
+        assert_eq!(
+            s.layers.len(),
+            2,
+            "LLE must split the render: {:?}",
+            s.layers
+        );
+        assert_eq!(s.layers[0].species, "water", "bottom layer");
+        assert_eq!(s.layers[1].species, "hexane", "top layer floats");
+        let total: f64 = s.layers.iter().map(|l| l.volume_l).sum();
+        let liquid = s.liquid.as_ref().expect("liquid").volume_l;
+        assert!(
+            (total - liquid).abs() < 1e-9,
+            "layer volumes {total} must sum to the liquid {liquid}"
+        );
+        assert!(
+            s.layers[1].volume_l > 0.05 && s.layers[1].volume_l < 0.08,
+            "0.5 mol hexane is ~65 mL, got {}",
+            s.layers[1].volume_l
+        );
+    }
+
+    #[test]
     fn a_new_bench_is_one_empty_beaker() {
         let s = scene(&Bench::new());
         assert_eq!(s.scene, SCENE_VERSION);
@@ -223,7 +395,22 @@ mod tests {
         assert!(v.liquid.is_none());
         assert!(v.solids.is_empty());
         assert!(!v.bubbling);
+        assert!(v.foam.is_none());
         assert!(v.words.contains("empty"), "{}", v.words);
+    }
+
+    #[test]
+    fn persistent_foam_is_part_of_the_scene_and_accessible_words() {
+        let mut v = vessel_with(&[("water", 5.55, Phase::Liquid)]);
+        v.foam.trapped_gas_liters = 0.20;
+        v.foam.volume_liters = 0.22;
+        v.foam.peak_volume_liters = 0.22;
+        let scene = scene_vessel(&v);
+        let foam = scene.foam.expect("foam render target");
+        assert!((foam.volume_liters - 0.22).abs() < 1e-12);
+        assert!(foam.height_cm > 0.0);
+        assert!(foam.overflow_liters > 0.0);
+        assert!(scene.words.contains("spilling over"));
     }
 
     #[test]

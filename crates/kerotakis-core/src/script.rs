@@ -4,6 +4,7 @@
 //! the CLI, the wasm build, and anything later. A lesson is data, and its
 //! grammar is part of the engine rather than of one front end.
 
+use crate::material::{self, MaterialBasis, MaterialRecipe};
 use crate::ops::{Instrument, Operator};
 use crate::species::{self, SpeciesData, SpeciesId};
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
@@ -18,12 +19,13 @@ use crate::vessel::VesselId;
 /// Aliases share their canonical verb's row.
 pub const VERBS: &[(&str, &str)] = &[
     ("new", "new"),
+    ("remove", "remove v1"),
     ("add", "add v1 water 100mL"),
     ("heat", "heat v1 10kJ"),
     ("cool", "cool v1 10kJ"),
     ("wait", "wait 30s"),
     ("ignite", "ignite v1"),
-    ("stir", "stir v1"),
+    ("stir", "stir v1 500rpm 10s"),
     ("seal", "seal v1 500mL"),
     ("regulate", "regulate v1 1.5bar 500mL"),
     ("sweep", "sweep v1 1bar"),
@@ -38,14 +40,63 @@ pub const VERBS: &[(&str, &str)] = &[
     ("electrolyse", "electrolyse v1 0.5A 30min"),
     ("cell", "cell v1 v2"),
     ("grind", "grind v1 NaCl 50um"),
+    ("centrifuge", "centrifuge v1 3000rpm 60s 8cm 100g"),
     ("irradiate", "irradiate v1 254nm 10W/m2"),
     ("dilute", "dilute v1 100mL"),
     ("titrate", "titrate v1 NaOH 1M 1mL until ph 7"),
+    ("magnet", "magnet v1 v2"),
     ("transport", "transport v1 v2 v3 from v4 to v5 steps 3"),
     ("react", "react v1 esterification"),
+    ("test", "test v1 pop"),
 ];
 
+/// Stable parse failure classes for corpus coverage and clients. The legacy
+/// `parse_op` API remains source-compatible; new callers should prefer
+/// `parse_op_typed` when the reason is part of their data contract.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ParseErrorKind {
+    UnknownSpecies,
+    UnknownReaction,
+    InvalidSyntax,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, thiserror::Error)]
+#[error("{detail}")]
+pub struct ParseError {
+    pub kind: ParseErrorKind,
+    pub detail: String,
+}
+
+pub fn parse_op_typed(line: &str) -> Result<Option<Operator>, ParseError> {
+    let words = line.split_whitespace().collect::<Vec<_>>();
+    let kind = match words.as_slice() {
+        ["add", _, species, ..]
+            if species::lookup_key(species).is_none()
+                && crate::nuclide::lookup_notation(species).is_none()
+                && material::lookup(species, None).is_none() =>
+        {
+            ParseErrorKind::UnknownSpecies
+        }
+        ["react", _, reaction, ..]
+            if !crate::curated::ORG_REACTIONS
+                .iter()
+                .any(|candidate| candidate.name == *reaction) =>
+        {
+            ParseErrorKind::UnknownReaction
+        }
+        _ => ParseErrorKind::InvalidSyntax,
+    };
+    parse_op_untyped(line).map_err(|detail| ParseError { kind, detail })
+}
+
+/// Compatibility parser. Prefer [`parse_op_typed`] when callers must retain a
+/// machine-readable distinction between an unknown identity and bad grammar.
 pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
+    parse_op_typed(line).map_err(|error| error.detail)
+}
+
+fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
     let line = line.trim();
     if line.is_empty() || line.starts_with('#') {
         return Ok(None);
@@ -96,6 +147,14 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 }
             }
         },
+        "remove" => {
+            if words.len() != 2 {
+                return Err("usage: remove <vessel>".into());
+            }
+            Operator::RemoveVessel {
+                vessel: parse_vessel(words[1])?,
+            }
+        }
         "add" => {
             if words.len() < 4 {
                 return Err("usage: add <vessel> <species> <amount><mol|g|mL> [@ <T>C]".into());
@@ -120,13 +179,30 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                     moles: Moles(moles),
                 }));
             }
-            let data = species::lookup_key(words[2])
-                .ok_or_else(|| format!("unknown species '{}' (see 'species')", words[2]))?;
-            Operator::Add {
-                vessel,
-                species: SpeciesId::new(words[2]),
-                moles: parse_amount(words[3], data)?,
-                at: parse_at(&words[4..])?,
+            if let Some(data) = species::lookup_key(words[2]) {
+                Operator::Add {
+                    vessel,
+                    species: SpeciesId::new(words[2]),
+                    moles: parse_amount(words[3], data)?,
+                    at: parse_at(&words[4..])?,
+                }
+            } else if let Some(recipe) = material::lookup(words[2], None) {
+                let total_amount = parse_material_amount(words[3], &recipe)?;
+                Operator::AddMaterial {
+                    vessel,
+                    material: recipe.canonical_key.clone(),
+                    recipe_id: recipe.id,
+                    recipe_version: recipe.version,
+                    total_amount,
+                    basis: recipe.basis,
+                    sample_seed: 0,
+                    at: parse_at(&words[4..])?,
+                }
+            } else {
+                return Err(format!(
+                    "unknown species or material '{}' (see 'species')",
+                    words[2]
+                ));
             }
         }
         "heat" | "cool" => {
@@ -144,27 +220,37 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
         "wait" => {
             // `wait 30s` — the clock the rate experiments need.
             let raw = words.get(1).ok_or("usage: wait <n><s|min|h>")?;
-            let digits: String = raw
-                .chars()
-                .take_while(|c| c.is_ascii_digit() || *c == '.')
-                .collect();
-            let value: f64 = digits
-                .parse()
-                .map_err(|_| format!("bad duration '{raw}'"))?;
-            let seconds = match raw[digits.len()..].trim() {
-                "" | "s" | "sec" | "secs" | "seconds" => value,
-                "min" | "mins" | "minutes" => value * 60.0,
-                "h" | "hr" | "hours" => value * 3600.0,
-                other => return Err(format!("unknown time unit '{other}'")),
-            };
-            Operator::Wait { seconds }
+            Operator::Wait {
+                seconds: parse_duration_seconds(raw)?,
+            }
         }
         "ignite" => Operator::Ignite {
             vessel: parse_vessel(words.get(1).ok_or("usage: ignite <vessel>")?)?,
         },
-        "stir" => Operator::Stir {
-            vessel: parse_vessel(words.get(1).ok_or("usage: stir <vessel>")?)?,
-        },
+        "stir" => {
+            if words.len() > 4 {
+                return Err("usage: stir <vessel> [<rpm>rpm] [<duration><s|min>]".into());
+            }
+            let vessel = parse_vessel(
+                words
+                    .get(1)
+                    .ok_or("usage: stir <vessel> [<rpm>rpm] [<duration><s|min>]")?,
+            )?;
+            let rpm = words.get(2).map_or(Ok(500.0), |raw| {
+                raw.strip_suffix("rpm")
+                    .unwrap_or(raw)
+                    .parse::<f64>()
+                    .map_err(|_| format!("bad stir speed '{raw}'"))
+            })?;
+            let seconds = words
+                .get(3)
+                .map_or(Ok(10.0), |raw| parse_duration_seconds(raw))?;
+            Operator::Stir {
+                vessel,
+                rpm,
+                seconds,
+            }
+        }
         "seal" => {
             if words.len() != 3 {
                 return Err("usage: seal <vessel> <headspace-volume><mL|L>".into());
@@ -204,6 +290,15 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 return Err("usage: filter <from> <to>".into());
             }
             Operator::Filter {
+                from: parse_vessel(words[1])?,
+                to: parse_vessel(words[2])?,
+            }
+        }
+        "magnet" => {
+            if words.len() < 3 {
+                return Err("usage: magnet <from> <to>".into());
+            }
+            Operator::Magnet {
                 from: parse_vessel(words[1])?,
                 to: parse_vessel(words[2])?,
             }
@@ -308,6 +403,26 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
         "smell" | "waft" => Operator::Smell {
             vessel: parse_vessel(words.get(1).copied().unwrap_or("v1"))?,
         },
+        // `test v1 pop` — apply a classical gas test to the headspace.
+        "test" => {
+            let vessel = parse_vessel(words.get(1).copied().unwrap_or("v1"))?;
+            let test_name = words
+                .get(2)
+                .copied()
+                .ok_or("usage: test <vessel> pop|splint|limewater|litmus")?;
+            let test = match test_name {
+                "pop" => crate::gas_tests::GasTest::Pop,
+                "splint" => crate::gas_tests::GasTest::GlowingSplint,
+                "limewater" => crate::gas_tests::GasTest::Limewater,
+                "litmus" => crate::gas_tests::GasTest::DampLitmus,
+                _ => {
+                    return Err(format!(
+                        "unknown gas test '{test_name}' — options: pop, splint, limewater, litmus"
+                    ));
+                }
+            };
+            Operator::TestGas { vessel, test }
+        }
         // `chromatograph v1` — inject the solution onto the column and
         // read the peak table. Sugar for `measure v1 chromatograph`,
         // first-class because running a separation is a verb in any lab.
@@ -375,6 +490,25 @@ pub fn parse_op(line: &str) -> Result<Option<Operator>, String> {
                 vessel,
                 species: SpeciesId::new(species_key),
                 diameter_um: diameter,
+            }
+        }
+        "centrifuge" => {
+            if words.len() < 5 {
+                return Err("usage: centrifuge <vessel> <rpm>rpm <time>s <radius>cm".into());
+            }
+            Operator::Centrifuge {
+                vessel: parse_vessel(words[1])?,
+                rpm: parse_suffixed(words[2], &[("rpm", 1.0), ("", 1.0)], "rotation speed")?,
+                seconds: parse_duration_seconds(words[3])?,
+                rotor_radius_m: parse_suffixed(
+                    words[4],
+                    &[("mm", 0.001), ("cm", 0.01), ("m", 1.0), ("", 0.01)],
+                    "rotor radius",
+                )?,
+                counterbalance_g: words
+                    .get(5)
+                    .map(|value| parse_suffixed(value, &[("g", 1.0), ("", 1.0)], "counterbalance"))
+                    .transpose()?,
             }
         }
         "irradiate" => {
@@ -589,6 +723,60 @@ pub fn parse_amount(word: &str, data: &SpeciesData) -> Result<Moles, String> {
     }
 }
 
+/// Convert a user amount into a recipe's declared basis. Mass-fraction
+/// materials may accept volume only when the reviewed recipe supplies a bulk
+/// density; we never invent one at parse time.
+pub fn parse_material_amount(word: &str, recipe: &MaterialRecipe) -> Result<f64, String> {
+    let (value, unit) = split_unit(word)?;
+    if !value.is_finite() || value <= 0.0 {
+        return Err("material amount must be positive".into());
+    }
+    match recipe.basis {
+        MaterialBasis::MassFraction => match unit {
+            "g" => Ok(value),
+            "mL" | "ml" => recipe
+                .bulk_density
+                .as_ref()
+                .map(|density| value * density.value)
+                .ok_or_else(|| {
+                    format!(
+                        "material '{}' has no reviewed bulk density; add it by mass (g)",
+                        recipe.canonical_key
+                    )
+                }),
+            "L" | "l" => recipe
+                .bulk_density
+                .as_ref()
+                .map(|density| value * 1000.0 * density.value)
+                .ok_or_else(|| {
+                    format!(
+                        "material '{}' has no reviewed bulk density; add it by mass (g)",
+                        recipe.canonical_key
+                    )
+                }),
+            other => Err(format!(
+                "mass-fraction material '{}' accepts g, mL, or L (got '{other}')",
+                recipe.canonical_key
+            )),
+        },
+        MaterialBasis::MoleFraction => match unit {
+            "mol" => Ok(value),
+            other => Err(format!(
+                "mole-fraction material '{}' accepts mol (got '{other}')",
+                recipe.canonical_key
+            )),
+        },
+        MaterialBasis::VolumeFraction => match unit {
+            "mL" | "ml" => Ok(value),
+            "L" | "l" => Ok(value * 1000.0),
+            other => Err(format!(
+                "volume-fraction material '{}' accepts mL or L (got '{other}')",
+                recipe.canonical_key
+            )),
+        },
+    }
+}
+
 pub fn parse_energy(word: &str) -> Result<Joules, String> {
     let (value, unit) = split_unit(word)?;
     match unit {
@@ -640,6 +828,26 @@ pub fn parse_at(words: &[&str]) -> Result<Option<Kelvin>, String> {
         }
         _ => Err("temperature goes last: … @ 60C".into()),
     }
+}
+
+fn parse_duration_seconds(raw: &str) -> Result<f64, String> {
+    parse_suffixed(
+        raw,
+        &[
+            ("", 1.0),
+            ("s", 1.0),
+            ("sec", 1.0),
+            ("secs", 1.0),
+            ("seconds", 1.0),
+            ("min", 60.0),
+            ("mins", 60.0),
+            ("minutes", 60.0),
+            ("h", 3600.0),
+            ("hr", 3600.0),
+            ("hours", 3600.0),
+        ],
+        "duration",
+    )
 }
 
 fn split_unit(word: &str) -> Result<(f64, &str), String> {
@@ -721,5 +929,25 @@ mod grammar_inventory {
             "the inventory lost verbs: {}",
             VERBS.len()
         );
+    }
+
+    #[test]
+    fn typed_errors_distinguish_identity_reaction_and_grammar_gaps() {
+        assert_eq!(
+            parse_op_typed("add v1 dragon-slime 1g").unwrap_err().kind,
+            ParseErrorKind::UnknownSpecies
+        );
+        assert_eq!(
+            parse_op_typed("react v1 transmutation").unwrap_err().kind,
+            ParseErrorKind::UnknownReaction
+        );
+        assert_eq!(
+            parse_op_typed("heat v1 eventually").unwrap_err().kind,
+            ParseErrorKind::InvalidSyntax
+        );
+        assert!(matches!(
+            parse_op_typed("add v1 water 10mL"),
+            Ok(Some(Operator::Add { .. }))
+        ));
     }
 }

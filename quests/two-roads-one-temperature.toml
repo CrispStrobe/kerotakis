@@ -1,0 +1,65 @@
+# EXP-21: Hess's law — two paths to the same enthalpy.
+# The engine's thermochemistry is an exact invariant: the enthalpy
+# change is path-independent. The learner proves it with a thermometer.
+id = "two-roads-one-temperature"
+
+[title]
+lv1 = "Two roads, one answer"
+lv2 = "Hess's law: does the order matter?"
+lv3 = "Path-independence of enthalpy: ΔH is a state function"
+
+[goal]
+lv1 = "Add acid and base to water — but does the order matter? Try it both ways and compare the thermometer."
+lv2 = "Test Hess's law: dissolve NaOH then add HCl in one vessel, and do the reverse in another. Measure the temperature both times — the final reading should match."
+lv3 = "Demonstrate path-independence of ΔH by two neutralisation routes: (1) NaOH(s) → dissolution → add HCl; (2) HCl(aq) → add NaOH(s). The calorimeter readings should converge within measurement tolerance, because enthalpy is a state function."
+
+[[nudges]]
+id = "first-dissolution"
+when = "dissolved:NaOH"
+[nudges.say]
+lv1 = "It got warm when the base dissolved — that heat is part of the total."
+lv2 = "NaOH dissolution is exothermic (ΔH_diss ≈ −44 kJ/mol). Record the temperature — you will compare it with the other path."
+lv3 = "Dissolution enthalpy of NaOH is −44.5 kJ/mol (298 K). This is the first leg of path 1. The neutralisation step (OH⁻ + H⁺ → H₂O) adds ΔH_neut ≈ −57 kJ/mol. Path 2 (acid first, then NaOH) reaches the same total via a different decomposition."
+
+[[nudges]]
+id = "measured-temperature"
+when = "measured"
+[nudges.say]
+lv1 = "You took the temperature — good. Now try the other order and compare."
+lv2 = "Temperature recorded. For Hess's law, you need the same reagents added in the opposite order — then compare the final temperatures."
+lv3 = "The comparison requires identical starting conditions (same masses, same initial temperature, same vessel type) with only the addition order reversed. Calorimeter readings give ΔH directly."
+
+[[claims]]
+id = "path-a-temperature"
+matches = "measured"
+[claims.title]
+lv1 = "Measure the heat from path one"
+lv2 = "Record the temperature after one addition order"
+lv3 = "Calorimetric measurement of path A"
+
+[[claims]]
+id = "path-b-temperature"
+matches = "measured"
+[claims.title]
+lv1 = "Measure the heat from the other path"
+lv2 = "Record the temperature after the reversed addition order"
+lv3 = "Calorimetric measurement of path B — the comparison"
+
+[[claims]]
+id = "neutralisation-occurred"
+matches = "dissolved"
+[claims.title]
+lv1 = "Make the acid meet the base"
+lv2 = "Complete the neutralisation"
+lv3 = "Dissolution of both reagents — neutralisation happens in solution"
+
+[[claims]]
+id = "final-temperature"
+vessel = "v1"
+quantity = "temperature_c"
+target = 26.2
+tolerance = 1.5
+[claims.title]
+lv1 = "The thermometer shows the answer"
+lv2 = "Final temperature within range of the expected value"
+lv3 = "ΔT ≈ +1.2 K (0.01 mol NaOH + HCl in 200 mL) — path-independent"

@@ -45,7 +45,7 @@ fn the_tranche_only_grows_deliberately() {
         // hydroxides — Fe(OH)2, Fe(OH)3, Mg(OH)2, Zn(OH)2 — precipitate
         // now, so their registry identities need the native check.
         CURATED_STRUCTURES.len(),
-        80,
+        81,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );
