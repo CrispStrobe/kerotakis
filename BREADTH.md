@@ -373,6 +373,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   bounded foam-stabilisation parameters. Generic “Seife/soap” remains
   unclaimed because a solid soap bar and a liquid hand wash are not the same
   material.
+- **Checkpoint 4 implemented:** native and WebAssembly shelf catalogues now
+  append every built-in `MaterialRecipe` beside pure species, using its
+  canonical key so taps and drags compile to the same replayable `add`
+  operator as typed commands. Physical form selects household-friendly volume
+  or mass amounts; component formulas feed search/periodic-table coverage;
+  component hazards are combined and any unresolved fraction remains visibly
+  unassessed. Optical materials reuse their computed solution swatches.
 
 ## Stage B2 — organic structure and curated reaction families
 
