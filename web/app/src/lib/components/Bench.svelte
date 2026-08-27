@@ -19,6 +19,7 @@
 
   let {
     scene,
+    room = "discovery",
     register,
     selected,
     onselect,
@@ -41,9 +42,16 @@
     onopenperiodic,
     onopencabinet,
     onopensafety,
+    onopenutilities,
+    missionName = null,
+    missionDone = 0,
+    missionTotal = 0,
+    missionEvidence = false,
+    onopenmission,
     onremove,
   }: {
     scene: Scene | null;
+    room?: "discovery" | "research" | "orbital";
     register: string;
     selected: number;
     onselect: (id: number) => void;
@@ -66,6 +74,12 @@
     onopenperiodic?: () => void;
     onopencabinet?: () => void;
     onopensafety?: () => void;
+    onopenutilities?: () => void;
+    missionName?: string | null;
+    missionDone?: number;
+    missionTotal?: number;
+    missionEvidence?: boolean;
+    onopenmission?: () => void;
     onremove?: (vessel: number) => void;
   } = $props();
 
@@ -94,6 +108,9 @@
   const latestApparatusEffect = (vessel: number, kind: string) =>
     [...(effects[vessel] ?? [])].reverse().find((effect) => effect.kind === kind);
 
+  const apparatusName = (tool: string) =>
+    tool === "grind" ? "mortar" : tool === "centrifuge" ? "mini centrifuge" : "burette and stand";
+
   const placement = (vessel: number) =>
     dragPreview?.vessel === vessel ? dragPreview : positionFor(layout, vessel);
 
@@ -106,8 +123,8 @@
       zone: anchor.zone,
       x: anchor.x,
       y: anchor.y >= 0.5
-        ? Math.max(0.16, anchor.y - 0.4)
-        : Math.min(0.84, anchor.y + 0.4),
+        ? Math.max(0.12, anchor.y - 0.48)
+        : Math.min(0.88, anchor.y + 0.48),
     };
   }
 
@@ -177,7 +194,7 @@
     const next = positionApparatus(layout, tool, x, y);
     onmove?.(next);
     onselect(target);
-    moveMessage = t("{tool} moved on the bench", { tool: t(tool === "grind" ? "mortar" : "mini centrifuge") });
+    moveMessage = t("{tool} moved on the bench", { tool: t(apparatusName(tool)) });
     if (messageTimer) clearTimeout(messageTimer);
     messageTimer = setTimeout(() => (moveMessage = ""), 2200);
   }
@@ -233,7 +250,7 @@
   }
 </script>
 
-<section class="bench" aria-label={t("the bench")}>
+<section class="bench" class:mission-active={Boolean(missionName && onopenmission)} data-room={room} aria-label={t("the bench")}>
   <div class="lab-backdrop" aria-hidden="true"></div>
   {#if onopenperiodic}
     <button
@@ -273,6 +290,29 @@
     <button class="wall-safety" aria-label={t("open safety station")} onclick={onopensafety}>
       <span class="safety-mark" aria-hidden="true">✦</span>
       <span class="poster-copy"><strong>{t("safety station")}</strong><small>{t("tap for the real-lab rules")}</small></span>
+    </button>
+  {/if}
+  {#if onopenutilities}
+    <button class="wall-utilities" aria-label={t("open utility station")} title={t("utility station")} onclick={onopenutilities}>
+      <span aria-hidden="true">⌁</span><i aria-hidden="true"></i>
+    </button>
+  {/if}
+  {#if missionName && onopenmission}
+    <button
+      class="mission-briefing"
+      aria-label={t("open mission journal for {name}", { name: missionName })}
+      onclick={onopenmission}
+    >
+      <span class="briefing-mark" aria-hidden="true">◆</span>
+      <span class="briefing-copy">
+        <small>{t("mission briefing")}</small>
+        <strong>{missionName}</strong>
+      </span>
+      <span class="briefing-progress">
+        <b>{missionDone}/{missionTotal}</b>
+        <small>{t(missionEvidence ? "evidence" : "steps")}</small>
+      </span>
+      <span class="briefing-open" aria-hidden="true">▤</span>
     </button>
   {/if}
   {#if scene}
@@ -325,10 +365,10 @@
             {onselect}
             {ondropspecies}
             effects={effects[vessel.id] ?? []}
-            titrationPlayback={titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
+            titrationPlayback={deployedTool !== "burette" && titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
             onbadge={(b) => onbadge?.(vessel.id, b)}
             {fluidLookup}
-            deployedTool={vessel.id === deployedTarget && !["grind", "centrifuge"].includes(deployedTool ?? "") ? deployedTool : null}
+            deployedTool={vessel.id === deployedTarget && !["grind", "centrifuge", "burette"].includes(deployedTool ?? "") ? deployedTool : null}
             {apparatusWorking}
             {apparatusValues}
           />
@@ -346,7 +386,7 @@
           {/if}
         </section>
       {/each}
-      {#if deployedTarget !== null && deployedTool && (deployedTool === "grind" || deployedTool === "centrifuge")}
+      {#if deployedTarget !== null && deployedTool && ["grind", "centrifuge", "burette"].includes(deployedTool)}
         {@const machinePosition = machinePlacement(deployedTool, deployedTarget)}
         {@const targetPosition = placement(deployedTarget)}
         {@const apparatusEffect = latestApparatusEffect(deployedTarget, deployedTool)}
@@ -373,7 +413,7 @@
           role="button"
           tabindex="0"
           title={t("drag or use arrow keys to move")}
-          aria-label={`${t("{tool} workstation for vessel v{vessel}", { tool: t(deployedTool === "grind" ? "mortar" : "mini centrifuge"), vessel: deployedTarget + 1 })}. ${t("drag or use arrow keys to move")}`}
+          aria-label={`${t("{tool} workstation for vessel v{vessel}", { tool: t(apparatusName(deployedTool)), vessel: deployedTarget + 1 })}. ${t("drag or use arrow keys to move")}`}
           onpointerdown={(event) => startApparatusPointer(event, deployedTool, deployedTarget)}
           onpointermove={trackApparatusPointer}
           onpointerup={(event) => finishApparatusPointer(event, deployedTarget)}
@@ -385,10 +425,16 @@
             <StandaloneApparatus
               tool={deployedTool}
               target={deployedTarget}
-              working={apparatusWorking}
+              working={apparatusWorking || (deployedTool === "burette" && titrationPlayback !== null)}
               performedAt={apparatusEffect?.at}
               intensity={apparatusEffect?.magnitude ?? 0.5}
-              values={apparatusValues}
+              values={deployedTool === "burette"
+                ? {
+                    ...apparatusValues,
+                    delivered: titrationPlayback?.delivered ?? 0,
+                    total: titrationPlayback?.total ?? 0,
+                  }
+                : apparatusValues}
             />
           {/key}
         </div>
@@ -439,6 +485,7 @@
       );
     isolation: isolate;
   }
+  .bench.mission-active { padding-top: 6.8rem; }
   .bench::after {
     content: "";
     position: absolute;
@@ -449,6 +496,26 @@
     background:
       linear-gradient(90deg, transparent 8%, color-mix(in srgb, var(--edge-strong) 30%, transparent) 8.2% 8.45%, transparent 8.65% 91.3%, color-mix(in srgb, var(--edge-strong) 30%, transparent) 91.55% 91.8%, transparent 92%),
       linear-gradient(to bottom, rgb(255 255 255 / 13%), transparent 30%);
+  }
+  .bench[data-room="discovery"] {
+    background:
+      radial-gradient(circle at 12% 17%, color-mix(in srgb, var(--action) 16%, transparent), transparent 13rem),
+      radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--instrument) 17%, transparent), transparent 14rem),
+      linear-gradient(to bottom, color-mix(in srgb, #fff4bd 36%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #2c9ba2 calc(100% - 2.6rem), #2c9ba2 calc(100% - 2.2rem), #176775 calc(100% - 2.2rem));
+  }
+  .bench[data-room="research"] {
+    background:
+      radial-gradient(ellipse at 50% 22%, color-mix(in srgb, #9eb2bd 18%, transparent), transparent 48%),
+      linear-gradient(to bottom, color-mix(in srgb, #e9eef1 48%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #8297a3 calc(100% - 2.6rem), #8297a3 calc(100% - 2.2rem), #526570 calc(100% - 2.2rem));
+  }
+  .bench[data-room="orbital"] {
+    background:
+      radial-gradient(ellipse at 50% 5%, color-mix(in srgb, #25b9f1 20%, transparent), transparent 42%),
+      linear-gradient(115deg, transparent 19%, color-mix(in srgb, #22baf4 12%, transparent) 19.3% 21.5%, transparent 21.8% 78%, color-mix(in srgb, #22baf4 12%, transparent) 78.3% 80.5%, transparent 80.8%),
+      linear-gradient(to bottom, color-mix(in srgb, #e8f8ff 48%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #2aaee4 calc(100% - 2.6rem), #2aaee4 calc(100% - 2.2rem), #155d85 calc(100% - 2.2rem));
   }
   .lab-backdrop {
     position: absolute;
@@ -593,6 +660,56 @@
   }
   .wall-safety:hover, .wall-safety:focus-visible { border-color: var(--success); box-shadow: 0 7px 18px var(--shadow); transform: translateY(-1px); }
   .safety-mark { width: 29px; height: 25px; display: grid; place-items: center; flex: none; border-radius: 7px; color: white; background: var(--success); font-weight: 900; }
+  .wall-utilities { position: absolute; z-index: 9; top: .45rem; right: 10.3rem; width: 36px; height: 34px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--cool) 52%, var(--edge)); border-radius: 10px; color: var(--instrument); background: color-mix(in srgb, var(--cool) 11%, var(--surface)); box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow) 72%, transparent); cursor: pointer; font: inherit; font-size: 1.05rem; }
+  .wall-utilities i { position: absolute; right: 5px; bottom: 5px; width: 6px; height: 6px; border-radius: 50%; background: var(--action); box-shadow: 0 0 0 2px var(--surface); }
+  .wall-utilities:hover, .wall-utilities:focus-visible { border-color: var(--cool); transform: translateY(-1px); }
+  .mission-briefing {
+    position: absolute;
+    z-index: 8;
+    top: 3.05rem;
+    left: 50%;
+    translate: -50% 0;
+    width: min(23rem, 48%);
+    min-height: 52px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: .55rem;
+    padding: .42rem .55rem;
+    border: 1px solid color-mix(in srgb, var(--discovery) 52%, var(--edge));
+    border-radius: 13px;
+    color: var(--ink);
+    background:
+      linear-gradient(100deg, color-mix(in srgb, var(--discovery) 15%, var(--surface)), color-mix(in srgb, var(--action) 8%, var(--surface)));
+    box-shadow: 0 6px 17px color-mix(in srgb, var(--discovery) 18%, var(--shadow));
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+  }
+  .mission-briefing:hover,
+  .mission-briefing:focus-visible {
+    border-color: var(--discovery);
+    box-shadow: 0 9px 23px color-mix(in srgb, var(--discovery) 25%, var(--shadow));
+    transform: translateY(-1px);
+  }
+  .briefing-mark {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    color: white;
+    background: linear-gradient(145deg, var(--discovery), color-mix(in srgb, var(--discovery) 55%, var(--action)));
+    box-shadow: 0 5px 12px color-mix(in srgb, var(--discovery) 28%, transparent);
+  }
+  .briefing-copy { min-width: 0; display: grid; gap: .08rem; }
+  .briefing-copy small { color: var(--discovery); font-size: .5rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+  .briefing-copy strong { overflow: hidden; font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
+  .briefing-progress { display: grid; justify-items: end; line-height: 1; }
+  .briefing-progress b { color: var(--discovery); font-size: .7rem; }
+  .briefing-progress small { margin-top: .2rem; color: var(--dim); font-size: .48rem; text-transform: uppercase; }
+  .briefing-open { color: var(--discovery); font-size: 1rem; }
   .work-surface {
     position: relative;
     z-index: 2;
@@ -795,8 +912,12 @@
   .move-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   @media (max-width: 780px) {
     .bench { padding-top: 2.7rem; }
+    .bench.mission-active { padding-top: 6.6rem; }
     .poster-copy { display: none; }
     .wall-poster, .wall-cabinet, .wall-safety { max-width: none; padding-inline: 0.4rem; }
+    .wall-utilities { right: 3.75rem; }
+    .mission-briefing { width: min(20rem, 58%); }
+    .briefing-copy small, .briefing-progress small { display: none; }
   }
   .empty {
     color: var(--dim);
@@ -865,6 +986,7 @@
   }
   @media (max-height: 680px) {
     .bench { padding-top: 2.7rem; }
+    .bench.mission-active { padding-top: 6.3rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .apparatus-target-link.working line { animation: none; }

@@ -88,7 +88,7 @@
       </label>
     {/each}
     {#if readouts.length > 0}
-      <div class="readouts" aria-label={t("computed operating values")}>
+      <div class="readouts" class:multiple={readouts.length > 1} aria-label={t("computed operating values")}>
         {#each readouts as readout (readout.label)}
           <output>
             <small>{t(readout.label)}</small>
@@ -201,6 +201,12 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
+  }
+  .readouts.multiple { grid-column: span 2; }
+  .readouts.multiple output {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.08rem;
   }
   .readouts output {
     min-width: 0;

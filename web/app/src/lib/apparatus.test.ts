@@ -65,5 +65,12 @@ describe("apparatus forms compile to the grammar", () => {
     const [centrifuge] = spec("centrifuge").readouts?.({ rpm: 3000, radius: 8 }) ?? [];
     expect(centrifuge).toMatchObject({ label: "relative centrifugal force", unit: "× g", digits: 0 });
     expect(centrifuge?.value).toBeCloseTo(805.136, 3);
+    expect(spec("electrolyse").readouts?.({ amps: 0.5, minutes: 30 })).toEqual([
+      { label: "electrical charge", value: 900, unit: "C", digits: 0 },
+      { label: "electron amount", value: 900 / 96_485.332_12, unit: "mol e⁻", digits: 5 },
+    ]);
+    const [photon] = spec("irradiate").readouts?.({ wavelength: 254, irradiance: 10 }) ?? [];
+    expect(photon).toMatchObject({ label: "photon energy", unit: "eV", digits: 3 });
+    expect(photon?.value).toBeCloseTo(4.881, 3);
   });
 });

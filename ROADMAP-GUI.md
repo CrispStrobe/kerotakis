@@ -871,8 +871,18 @@ hide them completely.
   a shelf-connected periodic table, an instrument cabinet, and a colourful
   zoomable safety station with concise real-lab rules and an explicit
   simulation boundary. Workflow-zone guides remain a separate persisted
-  control. Cupboards, utilities, contextual scenario posters, room variants,
-  and true free spatial placement remain.*
+  control. *Interactive-wall slice shipped 2026-08-27:* an active Story
+  investigation now appears as a colourful in-world mission briefing with its
+  live step/evidence count; opening it reveals the same engine-backed mission
+  journal instead of a duplicate panel. *Room-identity slice shipped
+  2026-08-27:* Discovery Studio, Research Laboratory, and Orbital Laboratory
+  give the same live chemistry three colourful, persisted environments; the
+  choice is explicitly visual and never mutates vessels or evidence.
+  *Utility-station slice shipped 2026-08-27:* a compact wall supply point
+  opens a real utility panel for the selected vessel. Water routes to the
+  exact amount-aware water card, power routes to equipment, and the waste
+  station states why chemical contents are never discarded silently.
+  Cupboards and true free spatial placement remain.*
 
 - [ ] **GUI-083 — Physical apparatus and computed motion.** Promote apparatus
   from forms/tool verbs to placeable assemblies with visible controls and
@@ -895,6 +905,11 @@ hide them completely.
   mortar and pestle beside its target vessel, with work-state motion, rather
   than drawing a mortar inside the vessel. The general assembly/footprint
   system and computed grind state remain.*
+  *Retort-stand slice shipped 2026-08-27: deploying a burette now places a
+  freestanding, movable stand, boss, clamp, graduated column, stopcock, and
+  tip beside its target. A visible route identifies the receiving vessel;
+  during titration the column level follows delivered/total engine playback
+  and the drop moves only while the operation runs.*
   *Magnetic-stirrer slice in progress 2026-08-27: the equipment wall exposes
   RPM and duration, the public grammar carries both, and the engine computes
   25 mm stir-bar tip speed. The bench draws the plate, rotating bar, and
@@ -936,8 +951,9 @@ hide them completely.
   *Physical-readout slice in progress 2026-08-27: control changes immediately
   expose the quantities they imply before Start — delivered or removed energy
   from power × time, the 25 mm stir-bar tip speed, and centrifuge RCF from RPM
-  and rotor radius. These use the same formulae and constants as the engine;
-  chemical outcomes remain engine-owned.*
+  and rotor radius; current × time exposes charge and electron amount, while
+  lamp wavelength exposes single-photon energy. These use the same formulae
+  and constants as the engine; chemical outcomes remain engine-owned.*
   *Installed-state slice in progress 2026-08-27: vessel-mounted apparatus now
   keeps a compact named status lamp on its target card. Configured equipment
   reads as ready; the same computed-operation window that drives its physical

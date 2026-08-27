@@ -8,18 +8,18 @@
 
   let {
     name, next, outcome = null, busy, deviation = 0, kit = [], register = "lv2", target = 0,
-    cursor = 0, total = 0, evidence = [], onnext, onreturn, onexit, onadd,
+    cursor = 0, total = 0, evidence = [], journalOpen = $bindable(false), onnext, onreturn, onexit, onadd,
   }: {
     name: string; next: string | null;
     outcome?: { contract: OutcomeMissionContract; secured: string[] } | null;
     busy: boolean; deviation?: number;
     kit?: ShelfItem[]; register?: string; target?: number; cursor?: number; total?: number;
     evidence?: string[];
+    journalOpen?: boolean;
     onnext: () => void; onreturn?: () => void; onexit: () => void;
     onadd?: (line: string) => void;
   } = $props();
 
-  let journalOpen = $state(false);
   let hintOpen = $state(false);
   const secured = $derived(new Set(outcome?.secured ?? []));
   const activeHint = $derived(outcome?.contract.hint ?? (next ? missionHint(next) : ""));
