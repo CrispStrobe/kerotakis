@@ -665,6 +665,10 @@
       layout={benchLayout}
       showZones={workGuides}
       onopenperiodic={() => (tableOpen = true)}
+      onopencabinet={() => {
+        cabinetTab = "equipment";
+        pane = "shelf";
+      }}
       ontogglezones={() => {
         workGuides = !workGuides;
         try {

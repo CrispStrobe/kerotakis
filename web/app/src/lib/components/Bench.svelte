@@ -36,6 +36,7 @@
     showZones = true,
     ontogglezones,
     onopenperiodic,
+    onopencabinet,
     onremove,
   }: {
     scene: Scene | null;
@@ -59,6 +60,7 @@
     showZones?: boolean;
     ontogglezones?: () => void;
     onopenperiodic?: () => void;
+    onopencabinet?: () => void;
     onremove?: (vessel: number) => void;
   } = $props();
 
@@ -129,6 +131,17 @@
       <span class="poster-copy">
         <strong>{t("periodic table")}</strong>
         <small>{t("tap to explore")}</small>
+      </span>
+    </button>
+  {/if}
+  {#if onopencabinet}
+    <button class="wall-cabinet" aria-label={t("open instrument cabinet")} onclick={onopencabinet}>
+      <span class="cabinet-drawing" aria-hidden="true">
+        <span></span><span></span><span></span><span></span>
+      </span>
+      <span class="poster-copy">
+        <strong>{t("Instrument wall")}</strong>
+        <small>{t("choose a tool")}</small>
       </span>
     </button>
   {/if}
@@ -356,6 +369,41 @@
   .poster-copy { min-width: 0; display: flex; flex-direction: column; }
   .poster-copy strong { font-size: 0.67rem; line-height: 1.1; }
   .poster-copy small { color: var(--dim); font-size: 0.52rem; white-space: nowrap; }
+  .wall-cabinet {
+    position: absolute;
+    z-index: 8;
+    top: 0.45rem;
+    left: 50%;
+    translate: -50% 0;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    min-height: 34px;
+    padding: .3rem .55rem;
+    border: 1px solid color-mix(in srgb, var(--action) 40%, var(--edge));
+    border-radius: 10px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow) 72%, transparent);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+  }
+  .wall-cabinet:hover,
+  .wall-cabinet:focus-visible { border-color: var(--action); box-shadow: 0 7px 18px var(--shadow); transform: translateY(-1px); }
+  .cabinet-drawing {
+    width: 34px;
+    height: 25px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    padding: 3px;
+    border: 2px solid color-mix(in srgb, var(--action) 65%, var(--edge-strong));
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--action) 9%, var(--surface));
+  }
+  .cabinet-drawing span { border-radius: 2px; background: color-mix(in srgb, var(--action) 45%, var(--surface)); }
   .guide-toggle {
     position: absolute;
     z-index: 9;
@@ -532,7 +580,7 @@
     .work-zone { min-height: 12rem; border-bottom: 1px dashed color-mix(in srgb, var(--edge) 62%, transparent); }
     .bench { padding-top: 2.7rem; }
     .poster-copy { display: none; }
-    .wall-poster { max-width: none; padding-inline: 0.4rem; }
+    .wall-poster, .wall-cabinet { max-width: none; padding-inline: 0.4rem; }
   }
   .empty {
     color: var(--dim);

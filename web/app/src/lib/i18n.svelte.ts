@@ -422,6 +422,8 @@ const DE: Record<string, string> = {
   "periodic table": "Periodensystem",
   "open periodic table": "Periodensystem öffnen",
   "tap to explore": "antippen und erkunden",
+  "open instrument cabinet": "Instrumentenschrank öffnen",
+  "choose a tool": "Gerät auswählen",
   "selected vessel details": "Details zum ausgewählten Gefäß",
   "measure selected vessel": "Ausgewähltes Gefäß messen",
   "gas tests": "Gasnachweise",
