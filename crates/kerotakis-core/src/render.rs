@@ -60,10 +60,72 @@ impl std::fmt::Display for Register {
     }
 }
 
+/// Which language the engine speaks when it turns state into prose.
+///
+/// Beside `Register`, deliberately: the register says how much to say and
+/// this says in what language, and they are the same kind of decision
+/// about the same sentence. It lives in the engine rather than in each
+/// host because every host renders the same line — if the CLI, the web
+/// app and the Mac app each translated for themselves they would drift
+/// into three vocabularies, and PROTOCOL.md's rule that the UI must not be
+/// able to tell the transports apart covers the words as much as the
+/// numbers.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Locale {
+    #[default]
+    En,
+    De,
+}
+
+impl Locale {
+    /// Parse a BCP-47-ish tag. Unknown input falls back to English rather
+    /// than erroring: a locale nobody has translated to should show the
+    /// language we do have, not a refusal.
+    pub fn parse(text: &str) -> Locale {
+        let t = text.trim().to_ascii_lowercase();
+        if t == "de" || t.starts_with("de-") || t == "deutsch" || t == "german" {
+            Locale::De
+        } else {
+            Locale::En
+        }
+    }
+
+    pub fn is_de(self) -> bool {
+        matches!(self, Locale::De)
+    }
+
+    /// Pick between an English and a German rendering.
+    ///
+    /// Reads at the call site as the two alternatives side by side, which
+    /// keeps a translation from drifting away from the sentence it
+    /// translates the way a distant lookup table would.
+    pub fn say(self, en: &'static str, de: &'static str) -> &'static str {
+        match self {
+            Locale::En => en,
+            Locale::De => de,
+        }
+    }
+
+    /// German writes 1,5 where English writes 1.5. Applies to prose only:
+    /// formulas, ids and machine-readable fields keep the point.
+    pub fn number(self, text: String) -> String {
+        match self {
+            Locale::En => text,
+            Locale::De => text.replace('.', ","),
+        }
+    }
+}
+
 /// Render a vessel for a person. CLI, Wasm, and future clients share this
 /// instead of teaching each interface how to turn the state contract back
 /// into laboratory prose.
 pub fn render_vessel(v: &Vessel, register: Register) -> Vec<String> {
+    render_vessel_in(v, register, Locale::En)
+}
+
+/// `render_vessel`, in the reader's language.
+pub fn render_vessel_in(v: &Vessel, register: Register, locale: Locale) -> Vec<String> {
     let mut out = Vec::new();
     let solution = v
         .solution
@@ -73,35 +135,63 @@ pub fn render_vessel(v: &Vessel, register: Register) -> Vec<String> {
                 (Some(pe), Some(eh)) => format!(", pe {pe:.2} ({eh:+.3} V)"),
                 _ => String::new(),
             };
-            format!(", pH {:.2}{redox}, I = {:.4} m", s.ph, s.ionic_strength)
+            locale.number(format!(
+                ", {} {:.2}{redox}, I = {:.4} m",
+                locale.say("pH", "pH-Wert"),
+                s.ph,
+                s.ionic_strength
+            ))
         })
         .unwrap_or_default();
     let boundary = match v.headspace {
-        Headspace::Open => ", open to atmosphere".to_string(),
-        Headspace::Sealed { volume } => format!(
-            ", sealed {:.1} mL headspace at {:.3} bar",
+        Headspace::Open => locale
+            .say(", open to atmosphere", ", zur Atmosphäre offen")
+            .to_string(),
+        Headspace::Sealed { volume } => locale.number(format!(
+            "{}",
+            format_args!(
+                "{}{:.1}{}{:.3}{}",
+                locale.say(", sealed ", ", verschlossen, "),
+                volume.0 * 1000.0,
+                locale.say(" mL headspace at ", " mL Gasraum bei "),
+                v.pressure.0 / 100_000.0,
+                " bar"
+            )
+        )),
+        Headspace::PressureControlled { pressure, volume } => locale.number(format!(
+            "{}{:.1}{}{:.3}{}",
+            locale.say(", pressure-controlled ", ", druckgeregelt, "),
             volume.0 * 1000.0,
-            v.pressure.0 / 100_000.0
-        ),
-        Headspace::PressureControlled { pressure, volume } => format!(
-            ", pressure-controlled {:.1} mL headspace at {:.3} bar",
-            volume.0 * 1000.0,
-            pressure.0 / 100_000.0
-        ),
-        Headspace::Swept { pressure } => {
-            format!(", nitrogen-swept at {:.3} bar", pressure.0 / 100_000.0)
-        }
+            locale.say(" mL headspace at ", " mL Gasraum bei "),
+            pressure.0 / 100_000.0,
+            " bar"
+        )),
+        Headspace::Swept { pressure } => locale.number(format!(
+            "{}{:.3}{}",
+            locale.say(", nitrogen-swept at ", ", stickstoffgespült bei "),
+            pressure.0 / 100_000.0,
+            " bar"
+        )),
     };
+    // The id keeps its point (v1.2 is a name, not a number), so the comma
+    // swap is applied to the measured part only.
     out.push(format!(
-        "{} ({}) — {:.2} °C, {:.1} g, {:.1} mL liquid{boundary}{solution}",
+        "{} ({}) — {}",
         v.id,
-        v.label,
-        v.temperature.to_celsius(),
-        v.mass().0 + 0.0,
-        v.liquid_volume().0 * 1000.0 + 0.0
+        match locale {
+            Locale::De => vessel_label_de(&v.label).unwrap_or(v.label.as_str()),
+            Locale::En => v.label.as_str(),
+        },
+        locale.number(format!(
+            "{:.2} °C, {:.1} g, {:.1} mL {}{boundary}{solution}",
+            v.temperature.to_celsius(),
+            v.mass().0 + 0.0,
+            v.liquid_volume().0 * 1000.0 + 0.0,
+            locale.say("liquid", "Flüssigkeit")
+        ))
     ));
     if let Some(redox) = redox_words(v.solution.as_ref()) {
-        out.push(format!("    redox — {redox}"));
+        out.push(format!("    {} — {redox}", locale.say("redox", "Redox")));
     }
     for p in &v.contents {
         let name = species::lookup(&p.species)
@@ -114,9 +204,10 @@ pub fn render_vessel(v: &Vessel, register: Register) -> Vec<String> {
     }
     for solid_solution in &v.solid_solutions {
         out.push(format!(
-            "    {:>10.4} mol  {} mixed crystal",
+            "    {:>10.4} mol  {} {}",
             solid_solution.total_moles().0,
-            solid_solution.label
+            solid_solution.label,
+            locale.say("mixed crystal", "Mischkristall")
         ));
         if register >= Register::LV2 {
             for component in &solid_solution.components {
@@ -129,12 +220,19 @@ pub fn render_vessel(v: &Vessel, register: Register) -> Vec<String> {
         }
     }
     if v.is_empty() {
-        out.push("    (empty)".to_string());
+        out.push(locale.say("    (empty)", "    (leer)").to_string());
     }
     if register >= Register::LV3 {
         if let Some(info) = &v.solution {
             if !info.species.is_empty() {
-                out.push("    speciation (mol/kgw · activity · γ):".to_string());
+                out.push(
+                    locale
+                        .say(
+                            "    speciation (mol/kgw · activity · γ):",
+                            "    Speziation (mol/kgw · Aktivität · γ):",
+                        )
+                        .to_string(),
+                );
                 for sp in &info.species {
                     let gamma = if sp.molality > 0.0 {
                         sp.activity / sp.molality
@@ -150,6 +248,37 @@ pub fn render_vessel(v: &Vessel, register: Register) -> Vec<String> {
         }
     }
     out
+}
+
+/// The glassware names, in German.
+///
+/// A small closed table rather than a trip through the shell's dictionary:
+/// these are the engine's own words for its own apparatus, there are a
+/// dozen of them, and a vessel nobody has translated should come through
+/// under its English name rather than vanish — hence Option, and an
+/// `unwrap_or` at the one call site, instead of a sentinel.
+fn vessel_label_de(label: &str) -> Option<&'static str> {
+    Some(match label {
+        "beaker" => "Becherglas",
+        "flask" => "Kolben",
+        "conical flask" => "Erlenmeyerkolben",
+        "volumetric flask" => "Messkolben",
+        "round-bottom flask" => "Rundkolben",
+        "test tube" => "Reagenzglas",
+        "measuring cylinder" => "Messzylinder",
+        "burette" => "Bürette",
+        "pipette" => "Pipette",
+        "crucible" => "Tiegel",
+        "evaporating basin" => "Abdampfschale",
+        "calorimeter" => "Kalorimeter",
+        "gas syringe" => "Kolbenprober",
+        "watch glass" => "Uhrglas",
+        "funnel" => "Trichter",
+        "still" => "Destille",
+        "cuvette" => "Küvette",
+        "column" => "Säule",
+        _ => return None,
+    })
 }
 
 fn redox_words(solution: Option<&SolutionInfo>) -> Option<String> {

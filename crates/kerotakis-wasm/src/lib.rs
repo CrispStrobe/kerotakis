@@ -19,7 +19,8 @@
 pub mod worker;
 
 use kerotakis_core::{
-    render_events, render_vessel, Bench, Equilibrator, Event, Operator, Register, SolverStack,
+    render_events, render_vessel_in, Bench, Equilibrator, Event, Locale, Operator, Register,
+    SolverStack,
 };
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -31,6 +32,8 @@ pub struct Lab {
     stack: SolverStack,
     aqueous: kerotakis_phreeqc::PhreeqcEquilibrator,
     register: Register,
+    /// The language the engine renders its prose in (I18N-5).
+    locale: Locale,
 }
 
 #[wasm_bindgen]
@@ -48,6 +51,7 @@ impl Lab {
             stack: kerotakis_stack::standard_stack(vec![]),
             aqueous,
             register: Register::default(),
+            locale: Locale::default(),
         })
     }
 
@@ -144,6 +148,17 @@ impl Lab {
     /// and quantities), `lv3` (full numeric detail). More levels can be
     /// added without changing this call.
     #[wasm_bindgen(js_name = setRegister)]
+    /// Choose the language the engine renders in.
+    ///
+    /// Unlike `set_register` this cannot fail: an unknown tag falls back
+    /// to English. A learner who has set their system to a language nobody
+    /// has translated to should see the language we do have, not an error
+    /// where the bench used to be.
+    #[wasm_bindgen]
+    pub fn set_locale(&mut self, locale: &str) {
+        self.locale = Locale::parse(locale);
+    }
+
     pub fn set_register(&mut self, register: &str) -> Result<(), JsError> {
         self.register = Register::parse(register).ok_or_else(|| {
             JsError::new(&format!("unknown level '{register}' (try lv1, lv2, lv3)"))
@@ -265,7 +280,7 @@ impl Lab {
             .vessel(kerotakis_core::VesselId(vessel))
             .map_err(|e| JsError::new(&e.to_string()))?;
         Ok(serde_json::json!({
-            "rendered": render_vessel(v, self.register),
+            "rendered": render_vessel_in(v, self.register, self.locale),
             "vessel": v,
         })
         .to_string())
