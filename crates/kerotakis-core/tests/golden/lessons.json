@@ -305,6 +305,88 @@
       }
     ]
   },
+  "elephant-toothpaste": {
+    "event_count": 26,
+    "events_sample": [
+      "v1: +101.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
+      "v1: +10.300 g dish_soap (1 known ingredients)",
+      "v1 thermometer: 25.00 °C",
+      "v2: new vessel",
+      "v2: +101.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
+      "v2 thermometer: 25.00 °C",
+      "v1: 25.0 °C → 26.6 °C",
+      "v1: +1.1069 mol water — 7.0025 mol now in vessel",
+      "v1: +1.000 g dry_yeast (1 known ingredients)",
+      "v1: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s",
+      "v2: 25.0 °C → 26.7 °C",
+      "v2: +1.1069 mol water — 6.5451 mol now in vessel",
+      "v2: +1.000 g dry_yeast (1 known ingredients)",
+      "v2: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s",
+      "v1: 0.044546 mol O2 produced (4.455e-2 mol/s)",
+      "v1: peroxide-decomposition released 4374.39 J",
+      "v1: 26.6 °C → 34.7 °C",
+      "v1: 0.0445 mol reacted in 1 s, sped up by catalase  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v1: foam 1.029 L, 36.8 cm high, overflow 0.907 L",
+      "v2: 0.044546 mol O2 produced (4.455e-2 mol/s)"
+    ],
+    "lesson": "elephant-toothpaste.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.04454572,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.0,
+            "phase": "Aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 7.09158936,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 307.879
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.0,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.04454572,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.0,
+            "phase": "Aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 6.63419275,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 308.548
+      }
+    ]
+  },
   "fire": {
     "event_count": 8,
     "events_sample": [
