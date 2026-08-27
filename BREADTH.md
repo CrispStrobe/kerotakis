@@ -482,6 +482,17 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   coalescence half-life and see half the droplets return to the upper layer.
   The golden lesson contract pins all sixteen events and the conserved final
   vessel contents.
+- **Checkpoint 18 implemented:** localized whole milk/`Vollmilch` is now a
+  conserved household colloid rather than a fictional pure molecule. Its
+  approximately 87% water enters the installed liquid model; fat, protein,
+  lactose, minerals and natural variation remain one explicit unresolved milk
+  fraction. A bounded opaque-colloid role computes a warm-white, dilution-
+  dependent cloudiness that survives proportional pouring, while shared scene
+  bookkeeping now includes unresolved homogeneous-liquid mass and visible
+  volume without leaking them into aqueous concentrations. This checkpoint
+  deliberately stops before acid curdling, spoilage, fermentation and the
+  detergent-driven “magic milk” surface motion; those require distinct,
+  testable transitions rather than decorative animations.
 
 ## Stage B2 — organic structure and curated reaction families
 

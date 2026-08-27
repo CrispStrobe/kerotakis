@@ -95,7 +95,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
-        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, and demonstrates that detergent helps oil and water mix; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids".to_string(),
+        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, and demonstrates that detergent helps oil and water mix; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids".to_string(),
         licence: "AGPL-3.0-or-later".to_string(),
         lane: SourceLane::Runtime,
         origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
@@ -654,6 +654,46 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             ),
             lot_assumptions: vec![
                 "plant composition, grind distribution and brand-specific wetting remain unresolved; only the reviewed floating-grain observable is modeled".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/whole-milk-surrogate".to_string(),
+            version: 1,
+            canonical_key: "whole_milk".to_string(),
+            name: "whole milk surrogate".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["whole milk".to_string(), "cow's milk".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec!["Milch".to_string(), "Vollmilch".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.03)),
+            components: vec![component("water", 0.87)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.13,
+                upper: 0.13,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![MaterialRole::OpaqueLiquidColloid {
+                srgb: [248, 247, 240],
+                opacity_saturation_g_per_litre: 60.0,
+            }],
+            preparation: Some(
+                "generic unflavoured whole-cow's-milk teaching surrogate".to_string(),
+            ),
+            lot_assumptions: vec![
+                "USDA's approximately 87% water is resolved; milk fat, protein, lactose, minerals and natural variation remain together as conserved unresolved milk solids rather than fictional molecules".to_string(),
+                "1.03 g/mL and 60 g/L full-opacity are explicit room-temperature visual geometry parameters, not product specifications".to_string(),
+                "v1 supports opacity, dilution and pouring only; acid curdling, spoilage, fermentation and detergent-driven colour motion require separate state transitions".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

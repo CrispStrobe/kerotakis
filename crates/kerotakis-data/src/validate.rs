@@ -564,6 +564,34 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::OpaqueLiquidColloid {
+                        opacity_saturation_g_per_litre,
+                        ..
+                    } => {
+                        if !opacity_saturation_g_per_litre.is_finite()
+                            || *opacity_saturation_g_per_litre <= 0.0
+                        {
+                            self.issue(
+                                format!("{role_path}.opacity_saturation_g_per_litre"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if recipe.bulk_density.is_none() {
+                            self.issue(
+                                format!("{role_path}.bulk_density"),
+                                "an opaque liquid colloid role requires recipe bulk density",
+                            );
+                        }
+                        if !matches!(
+                            recipe.physical_form,
+                            MaterialPhysicalForm::HomogeneousLiquid
+                        ) {
+                            self.issue(
+                                format!("{role_path}.physical_form"),
+                                "an opaque liquid colloid role requires homogeneous_liquid form",
+                            );
+                        }
+                    }
                 }
             }
             let mut component_species = HashSet::new();

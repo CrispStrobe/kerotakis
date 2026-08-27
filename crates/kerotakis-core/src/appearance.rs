@@ -101,7 +101,7 @@ pub fn observe(vessel: &Vessel) -> Appearance {
     let pigment_colour = (!pigment_amounts.is_empty())
         .then(|| crate::pigment::opaque_mixture_colour(&pigment_amounts).ok())
         .flatten();
-    let liquid = pigment_colour
+    let mut liquid = pigment_colour
         .or_else(|| has_liquid.then(|| crate::spectrum::transmitted_colour(&absorbance)))
         .map(|rgb| Colour {
             r: rgb.r,
@@ -109,6 +109,16 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             b: rgb.b,
             strength: 0.0,
         });
+    let colloid = crate::material::colloid_observation(vessel);
+    if let (Some(colloid), Some(colour)) = (colloid, &mut liquid) {
+        let opacity = colloid.cloudiness;
+        colour.r =
+            ((colour.r as f64 * (1.0 - opacity) + colloid.srgb[0] as f64 * opacity).round()) as u8;
+        colour.g =
+            ((colour.g as f64 * (1.0 - opacity) + colloid.srgb[1] as f64 * opacity).round()) as u8;
+        colour.b =
+            ((colour.b as f64 * (1.0 - opacity) + colloid.srgb[2] as f64 * opacity).round()) as u8;
+    }
 
     // --- Cloudiness and deposit from suspended solid.
     let mut solid_moles = 0.0;
@@ -155,7 +165,10 @@ pub fn observe(vessel: &Vessel) -> Appearance {
     let emulsion_cloudiness = crate::emulsion::observe(vessel)
         .map(|emulsion| 0.78 * emulsion.dispersed_fraction)
         .unwrap_or(0.0);
-    let cloudiness = particle_cloudiness.max(emulsion_cloudiness);
+    let colloid_cloudiness = colloid.map(|colloid| colloid.cloudiness).unwrap_or(0.0);
+    let cloudiness = particle_cloudiness
+        .max(emulsion_cloudiness)
+        .max(colloid_cloudiness);
     let deposit = biggest.map(|(name, _, colour)| (name.to_string(), colour));
 
     // Gas in a vessel that also holds liquid is gas coming *out* of the
@@ -232,6 +245,18 @@ pub(crate) fn colour_word(c: &Colour, solid: bool) -> &'static str {
     }
 }
 
+/// A bright scattering liquid is visibly white rather than "colourless".
+/// Transmission-only liquids retain the ordinary colour vocabulary.
+pub(crate) fn liquid_colour_word(c: &Colour, cloudiness: f64) -> &'static str {
+    let max = c.r.max(c.g).max(c.b);
+    let min = c.r.min(c.g).min(c.b);
+    if cloudiness > 0.6 && max > 220 && max - min < 15 {
+        "white"
+    } else {
+        colour_word(c, false)
+    }
+}
+
 fn describe(
     liquid: &Option<Colour>,
     cloudiness: f64,
@@ -247,7 +272,7 @@ fn describe(
     if has_liquid {
         let word = liquid
             .as_ref()
-            .map(|c| colour_word(c, false))
+            .map(|c| liquid_colour_word(c, cloudiness))
             .unwrap_or("colourless");
         let clarity = if cloudiness > 0.6 {
             "and so cloudy you cannot see through it"
