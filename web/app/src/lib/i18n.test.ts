@@ -68,6 +68,18 @@ describe("i18n", () => {
     expect([...missing].sort()).toEqual([]);
   });
 
+  it("does not bypass translation for static accessible copy", () => {
+    const untranslated: string[] = [];
+    for (const path of sourceFiles(join(import.meta.dirname))) {
+      if (!path.endsWith(".svelte")) continue;
+      const source = readFileSync(path, "utf8");
+      for (const match of source.matchAll(/\b(aria-label|placeholder|title)="([^"]*[A-Za-zÄÖÜäöüß][^"]*)"/g)) {
+        untranslated.push(`${path}:${match[1]}=${match[2]}`);
+      }
+    }
+    expect(untranslated).toEqual([]);
+  });
+
   it("has German display names for every registry material", () => {
     const registry = JSON.parse(readFileSync(
       join(import.meta.dirname, "../../../../data/registry/registry-source-v1.json"),

@@ -126,7 +126,7 @@
       type="text"
       bind:value={line}
       {onkeydown}
-      placeholder="add v1 water 100mL"
+      placeholder={t("add v1 water 100mL")}
       aria-label={t("command")}
       aria-invalid={problem !== null}
       autocomplete="off"
