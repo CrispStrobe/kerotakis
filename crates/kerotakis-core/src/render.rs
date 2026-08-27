@@ -783,12 +783,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 1 => locale.fill(
                     "event.inert-in-solvent.lv1",
                     "The {name} just sits in the {solv} — nothing happens to it.",
-                    &[("name", &name.to_string()), ("solv", &solv.to_string())],
+                    &[("name", name), ("solv", solv)],
                 ),
                 2 => locale.fill(
                     "event.inert-in-solvent.lv2",
                     "{vessel}: {name} does not react with {solv} — computed no-reaction, not a gap",
-                    &[("vessel", &vessel.to_string()), ("name", &name.to_string()), ("solv", &solv.to_string())],
+                    &[("vessel", &vessel.to_string()), ("name", name), ("solv", solv)],
                 ),
                 _ => format!("{vessel}: {} inert in {}: {why}", species.0, solvent.0),
             }
@@ -829,7 +829,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         locale.fill(
                             "event.smelled.lv3",
                             "{name}: {d}",
-                            &[("name", &name.to_string()), ("d", &d.to_string())],
+                            &[("name", name), ("d", d)],
                         )
                     })
                     .collect();
@@ -1131,7 +1131,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 1 => locale.fill(
                     "event.dissolved.lv1",
                     "The {name} disappears into the water in {vessel}!",
-                    &[("name", &name.to_string()), ("vessel", &vessel.to_string())],
+                    &[("name", name), ("vessel", &vessel.to_string())],
                 ),
                 2 => format!("{vessel}: {:.4} mol {name} dissolved", moles.0),
                 _ => format!("{vessel}: {:.6} mol {name} dissolved", moles.0),
@@ -1188,7 +1188,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 2 => locale.fill(
                     "event.inert.lv2",
                     "{vessel}: {name} does not react — {why}",
-                    &[("vessel", &vessel.to_string()), ("name", &name.to_string()), ("why", &why.to_string())],
+                    &[("vessel", &vessel.to_string()), ("name", name), ("why", why)],
                 ),
                 _ => format!("{vessel}: {name} inert: {why}"),
             }
@@ -1210,7 +1210,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         locale.fill(
                             "event.consumed.lv1",
                             "The {name} in {vessel} is used up.",
-                            &[("name", &name.to_string()), ("vessel", &vessel.to_string())],
+                            &[("name", name), ("vessel", &vessel.to_string())],
                         )
                     }
                     Some(_) => format!("Some of the {name} in {vessel} is used up."),
@@ -1271,7 +1271,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     locale.fill(
                         "event.flame-test.lv2",
                         "{vessel}: flame test — {name} colours the flame {colour}",
-                        &[("vessel", &vessel.to_string()), ("name", &name.to_string()), ("colour", &colour.to_string())],
+                        &[("vessel", &vessel.to_string()), ("name", name), ("colour", colour)],
                     )
                 }
                 _ => format!(
@@ -1387,12 +1387,12 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 1 => locale.fill(
                     "event.measured.lv1",
                     "The {device} on {vessel} reads {value} {unit}.",
-                    &[("device", &device.to_string()), ("vessel", &vessel.to_string()), ("value", &locale.number(format!("{value:.0}"))), ("unit", &unit.to_string())],
+                    &[("device", device), ("vessel", &vessel.to_string()), ("value", &locale.number(format!("{value:.0}"))), ("unit", unit)],
                 ),
                 2 => locale.fill(
                     "event.measured.lv2",
                     "{vessel} {device}: {value} {unit}",
-                    &[("vessel", &vessel.to_string()), ("device", &device.to_string()), ("value", &locale.number(format!("{value:.2}"))), ("unit", &unit.to_string())],
+                    &[("vessel", &vessel.to_string()), ("device", device), ("value", &locale.number(format!("{value:.2}"))), ("unit", unit)],
                 ),
                 _ => format!("{vessel} {device}: {value:.4} {unit}"),
             }
@@ -1411,7 +1411,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 1 => locale.fill(
                     "event.electrolysed.lv1",
                     "{grams} g of {name} builds up on the electrode in {vessel}.",
-                    &[("grams", &locale.number(format!("{grams:.2}"))), ("name", &name.to_string()), ("vessel", &vessel.to_string())],
+                    &[("grams", &locale.number(format!("{grams:.2}"))), ("name", name), ("vessel", &vessel.to_string())],
                 ),
                 2 => format!(
                     "{vessel}: {coulombs:.0} C → {:.4} mol e⁻ → {:.4} mol {name} = {grams:.3} g",
@@ -1676,21 +1676,21 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         locale.fill(
                             "event.state-changed.lv1-turned-ice",
                             "The {name} in {vessel} turned to ice!",
-                            &[("name", &name.to_string()), ("vessel", &vessel.to_string())],
+                            &[("name", name), ("vessel", &vessel.to_string())],
                         )
                     }
                     (Phase::Solid, Phase::Liquid) => {
                         locale.fill(
                             "event.state-changed.lv1-ice-melted-back",
                             "The ice in {vessel} melted back into {name}.",
-                            &[("vessel", &vessel.to_string()), ("name", &name.to_string())],
+                            &[("vessel", &vessel.to_string()), ("name", name)],
                         )
                     }
                     (Phase::Liquid, Phase::Gas) => {
                         locale.fill(
                             "event.state-changed.lv1-boiling-look-steam",
                             "The {name} in {vessel} is boiling — look at the steam!",
-                            &[("name", &name.to_string()), ("vessel", &vessel.to_string())],
+                            &[("name", name), ("vessel", &vessel.to_string())],
                         )
                     }
                     _ => format!("The {name} in {vessel} {verb}."),
@@ -1700,7 +1700,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                         locale.fill(
                             "event.state-changed.lv1-x",
                             "{vessel}: {name} {verb} at {c} °C",
-                            &[("vessel", &vessel.to_string()), ("name", &name.to_string()), ("verb", &verb.to_string()), ("c", &locale.number(format!("{c:.1}")))],
+                            &[("vessel", &vessel.to_string()), ("name", name), ("verb", verb), ("c", &locale.number(format!("{c:.1}")))],
                         )
                     } else {
                         format!(
