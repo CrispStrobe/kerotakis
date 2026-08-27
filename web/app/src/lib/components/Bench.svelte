@@ -41,6 +41,11 @@
     onopenperiodic,
     onopencabinet,
     onopensafety,
+    missionName = null,
+    missionDone = 0,
+    missionTotal = 0,
+    missionEvidence = false,
+    onopenmission,
     onremove,
   }: {
     scene: Scene | null;
@@ -66,6 +71,11 @@
     onopenperiodic?: () => void;
     onopencabinet?: () => void;
     onopensafety?: () => void;
+    missionName?: string | null;
+    missionDone?: number;
+    missionTotal?: number;
+    missionEvidence?: boolean;
+    onopenmission?: () => void;
     onremove?: (vessel: number) => void;
   } = $props();
 
@@ -233,7 +243,7 @@
   }
 </script>
 
-<section class="bench" aria-label={t("the bench")}>
+<section class="bench" class:mission-active={Boolean(missionName && onopenmission)} aria-label={t("the bench")}>
   <div class="lab-backdrop" aria-hidden="true"></div>
   {#if onopenperiodic}
     <button
@@ -273,6 +283,24 @@
     <button class="wall-safety" aria-label={t("open safety station")} onclick={onopensafety}>
       <span class="safety-mark" aria-hidden="true">✦</span>
       <span class="poster-copy"><strong>{t("safety station")}</strong><small>{t("tap for the real-lab rules")}</small></span>
+    </button>
+  {/if}
+  {#if missionName && onopenmission}
+    <button
+      class="mission-briefing"
+      aria-label={t("open mission journal for {name}", { name: missionName })}
+      onclick={onopenmission}
+    >
+      <span class="briefing-mark" aria-hidden="true">◆</span>
+      <span class="briefing-copy">
+        <small>{t("mission briefing")}</small>
+        <strong>{missionName}</strong>
+      </span>
+      <span class="briefing-progress">
+        <b>{missionDone}/{missionTotal}</b>
+        <small>{t(missionEvidence ? "evidence" : "steps")}</small>
+      </span>
+      <span class="briefing-open" aria-hidden="true">▤</span>
     </button>
   {/if}
   {#if scene}
@@ -439,6 +467,7 @@
       );
     isolation: isolate;
   }
+  .bench.mission-active { padding-top: 6.8rem; }
   .bench::after {
     content: "";
     position: absolute;
@@ -593,6 +622,53 @@
   }
   .wall-safety:hover, .wall-safety:focus-visible { border-color: var(--success); box-shadow: 0 7px 18px var(--shadow); transform: translateY(-1px); }
   .safety-mark { width: 29px; height: 25px; display: grid; place-items: center; flex: none; border-radius: 7px; color: white; background: var(--success); font-weight: 900; }
+  .mission-briefing {
+    position: absolute;
+    z-index: 8;
+    top: 3.05rem;
+    left: 50%;
+    translate: -50% 0;
+    width: min(23rem, 48%);
+    min-height: 52px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: .55rem;
+    padding: .42rem .55rem;
+    border: 1px solid color-mix(in srgb, var(--discovery) 52%, var(--edge));
+    border-radius: 13px;
+    color: var(--ink);
+    background:
+      linear-gradient(100deg, color-mix(in srgb, var(--discovery) 15%, var(--surface)), color-mix(in srgb, var(--action) 8%, var(--surface)));
+    box-shadow: 0 6px 17px color-mix(in srgb, var(--discovery) 18%, var(--shadow));
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+  }
+  .mission-briefing:hover,
+  .mission-briefing:focus-visible {
+    border-color: var(--discovery);
+    box-shadow: 0 9px 23px color-mix(in srgb, var(--discovery) 25%, var(--shadow));
+    transform: translateY(-1px);
+  }
+  .briefing-mark {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    color: white;
+    background: linear-gradient(145deg, var(--discovery), color-mix(in srgb, var(--discovery) 55%, var(--action)));
+    box-shadow: 0 5px 12px color-mix(in srgb, var(--discovery) 28%, transparent);
+  }
+  .briefing-copy { min-width: 0; display: grid; gap: .08rem; }
+  .briefing-copy small { color: var(--discovery); font-size: .5rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+  .briefing-copy strong { overflow: hidden; font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
+  .briefing-progress { display: grid; justify-items: end; line-height: 1; }
+  .briefing-progress b { color: var(--discovery); font-size: .7rem; }
+  .briefing-progress small { margin-top: .2rem; color: var(--dim); font-size: .48rem; text-transform: uppercase; }
+  .briefing-open { color: var(--discovery); font-size: 1rem; }
   .work-surface {
     position: relative;
     z-index: 2;
@@ -795,8 +871,11 @@
   .move-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   @media (max-width: 780px) {
     .bench { padding-top: 2.7rem; }
+    .bench.mission-active { padding-top: 6.6rem; }
     .poster-copy { display: none; }
     .wall-poster, .wall-cabinet, .wall-safety { max-width: none; padding-inline: 0.4rem; }
+    .mission-briefing { width: min(20rem, 58%); }
+    .briefing-copy small, .briefing-progress small { display: none; }
   }
   .empty {
     color: var(--dim);
@@ -865,6 +944,7 @@
   }
   @media (max-height: 680px) {
     .bench { padding-top: 2.7rem; }
+    .bench.mission-active { padding-top: 6.3rem; }
   }
   @media (prefers-reduced-motion: reduce) {
     .apparatus-target-link.working line { animation: none; }
