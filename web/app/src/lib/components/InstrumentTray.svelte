@@ -17,6 +17,7 @@
       label: "essential readings",
       instruments: [
         { token: "eyes", label: "look closely", icon: "◉", description: "visual appearance and visible change" },
+        { token: "smell", label: "safe waft", icon: "≋", description: "waft headspace vapour — never smell directly" },
         { token: "thermometer", label: "thermometer", icon: "°", description: "sample temperature" },
         { token: "ph", label: "pH meter", icon: "pH", description: "acidity or alkalinity of an aqueous sample" },
         { token: "balance", label: "balance", icon: "⚖", description: "total material mass" },
@@ -53,7 +54,11 @@
             aria-label={t("Measure {quantity} in {vessel}", { quantity: t(inst.description), vessel: v })}
             onclick={() =>
               onmeasure(
-                inst.token === "chromatograph" ? `chromatograph ${v}` : `measure ${v} ${inst.token}`,
+                inst.token === "chromatograph"
+                  ? `chromatograph ${v}`
+                  : inst.token === "smell"
+                    ? `smell ${v}`
+                    : `measure ${v} ${inst.token}`,
               )}
           >
             <span class="instrument-icon" aria-hidden="true">{inst.icon}</span>

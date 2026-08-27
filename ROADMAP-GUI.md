@@ -1310,6 +1310,14 @@ decorating it.
   presentations come only from the engine boolean, retain its explanatory
   notes as accessible detail, and suppress repeated motion under the system
   reduced-motion preference.
+  *Safe-waft slice shipped 2026-08-27:* the previously command-only `smell`
+  verb now has an instrument-tray affordance explicitly named Safe waft. It
+  compiles to the public operator and renders a hand fanning headspace vapour
+  sideways, never a face or direct inhalation. `Smelled.notes` determines the
+  detected species list and visual strength; an empty list is shown as a real
+  negative observation. Curated prose remains in the notebook while the
+  compact physical result uses localized species names and repeats the
+  real-lab safety rule.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,
