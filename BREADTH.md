@@ -525,6 +525,14 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   is calibrated to the ACS “Colors on the Move” activity and explicitly does
   not claim CFD, a molecular milk composition, universal surface tension, or
   literal streak trajectories.
+- **Checkpoint 22 implemented:** `magic-milk.lab` exposes that surface state as
+  a discoverable, replayable child-facing fair test. One vessel receives three
+  localized colour drops followed by dish soap and therefore emits the
+  computed spread event; an equal control is stirred before soap, explicitly
+  homogenizing its dyes and preventing a false rainbow event. The lesson is in
+  the picker's curated `start here` sequence, warns about staining and tasting,
+  and invites changes to dye and detergent dose while repeating the empirical
+  model boundary.
 
 ## Stage B2 — organic structure and curated reaction families
 

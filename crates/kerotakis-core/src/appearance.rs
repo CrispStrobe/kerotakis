@@ -114,12 +114,19 @@ pub fn observe(vessel: &Vessel) -> Appearance {
     let colloid = crate::material::colloid_observation(vessel);
     if let (Some(colloid), Some(colour)) = (colloid, &mut liquid) {
         let opacity = colloid.cloudiness;
-        colour.r =
-            ((colour.r as f64 * (1.0 - opacity) + colloid.srgb[0] as f64 * opacity).round()) as u8;
-        colour.g =
-            ((colour.g as f64 * (1.0 - opacity) + colloid.srgb[1] as f64 * opacity).round()) as u8;
-        colour.b =
-            ((colour.b as f64 * (1.0 - opacity) + colloid.srgb[2] as f64 * opacity).round()) as u8;
+        // The computed dye spectrum still absorbs light in an opaque,
+        // scattering medium. Modulate the colloid's scattered-white base by
+        // that spectral result before applying opacity; painting the base
+        // over it at opacity=1 would make stirred food colouring disappear.
+        // Localized surface dye is excluded from `colour` above, so untouched
+        // milk remains warm white.
+        let tint = |transmitted: u8, base: u8| transmitted as f64 * base as f64 / 255.0;
+        colour.r = ((colour.r as f64 * (1.0 - opacity) + tint(colour.r, colloid.srgb[0]) * opacity)
+            .round()) as u8;
+        colour.g = ((colour.g as f64 * (1.0 - opacity) + tint(colour.g, colloid.srgb[1]) * opacity)
+            .round()) as u8;
+        colour.b = ((colour.b as f64 * (1.0 - opacity) + tint(colour.b, colloid.srgb[2]) * opacity)
+            .round()) as u8;
     }
 
     // --- Cloudiness and deposit from suspended solid.
