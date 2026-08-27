@@ -95,7 +95,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
-        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, and demonstrates that detergent helps oil and water mix; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids".to_string(),
+        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, and demonstrates that detergent helps oil and water mix; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey".to_string(),
         licence: "AGPL-3.0-or-later".to_string(),
         lane: SourceLane::Runtime,
         origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
@@ -683,17 +683,28 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 upper: 0.13,
             }),
             physical_form: MaterialPhysicalForm::HomogeneousLiquid,
-            roles: vec![MaterialRole::OpaqueLiquidColloid {
-                srgb: [248, 247, 240],
-                opacity_saturation_g_per_litre: 60.0,
-            }],
+            roles: vec![
+                MaterialRole::OpaqueLiquidColloid {
+                    srgb: [248, 247, 240],
+                    opacity_saturation_g_per_litre: 60.0,
+                },
+                MaterialRole::AcidCurdlingColloid {
+                    acid_species: "CH3COOH".to_string(),
+                    onset_moles_per_gram: 0.0001,
+                    full_moles_per_gram: 0.0005,
+                    max_curdled_fraction: 0.28,
+                    max_opacity_reduction: 0.85,
+                    curd_srgb: [250, 248, 230],
+                },
+            ],
             preparation: Some(
                 "generic unflavoured whole-cow's-milk teaching surrogate".to_string(),
             ),
             lot_assumptions: vec![
                 "USDA's approximately 87% water is resolved; milk fat, protein, lactose, minerals and natural variation remain together as conserved unresolved milk solids rather than fictional molecules".to_string(),
                 "1.03 g/mL and 60 g/L full-opacity are explicit room-temperature visual geometry parameters, not product specifications".to_string(),
-                "v1 supports opacity, dilution and pouring only; acid curdling, spoilage, fermentation and detergent-driven colour motion require separate state transitions".to_string(),
+                "acid curdling is a bounded dose response calibrated to the familiar milk-and-vinegar classroom ratio; its 28% aggregate-solids ceiling separates estimated curd solids from wet-curd yield and its opacity response is independent".to_string(),
+                "spoilage, fermentation and detergent-driven colour motion require separate state transitions".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

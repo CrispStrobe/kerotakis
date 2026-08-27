@@ -173,6 +173,12 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         magnitude: scale(Number(e.to_cleared_fraction ?? 0), 0.05, 0.9),
       };
+    case "curdling_changed":
+      return {
+        kind: "curdle",
+        at: now,
+        magnitude: scale(Number(e.separation_progress ?? 0), 0.01, 1),
+      };
     case "precipitated":
       return { kind: "precipitate", at: now, magnitude: precipMag(e) };
     case "evaporated":

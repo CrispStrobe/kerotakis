@@ -25,6 +25,7 @@ pub mod compartment;
 pub mod constants;
 pub mod coverage;
 pub mod curated;
+pub mod curdling;
 pub mod delta;
 pub mod displacement;
 pub mod electrochemistry;

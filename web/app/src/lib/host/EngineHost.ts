@@ -43,6 +43,7 @@ export interface SceneVessel {
   foam?: SceneFoam | null;
   surface_particles?: SceneSurfaceParticles | null;
   emulsion?: SceneEmulsion | null;
+  curds?: SceneCurds | null;
   /** Flattened Headspace tag: open | sealed | pressure_controlled | swept. */
   boundary: string;
   temperature_k: number;
@@ -75,6 +76,14 @@ export interface SceneEmulsion {
   dispersed_volume_l: number;
   dispersed_fraction: number;
   half_life_seconds: number;
+}
+
+export interface SceneCurds {
+  material: string;
+  formed_fraction: number;
+  separation_progress: number;
+  solids_mass_g: number;
+  srgb: [number, number, number];
 }
 
 /** One visible liquid layer, bottom first (GUI-058) — the engine's

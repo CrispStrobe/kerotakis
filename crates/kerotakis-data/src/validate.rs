@@ -592,6 +592,61 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::AcidCurdlingColloid {
+                        acid_species,
+                        onset_moles_per_gram,
+                        full_moles_per_gram,
+                        max_curdled_fraction,
+                        max_opacity_reduction,
+                        ..
+                    } => {
+                        self.species_ref(&format!("{role_path}.acid_species"), acid_species);
+                        if !onset_moles_per_gram.is_finite() || *onset_moles_per_gram < 0.0 {
+                            self.issue(
+                                format!("{role_path}.onset_moles_per_gram"),
+                                "must be finite and non-negative",
+                            );
+                        }
+                        if !full_moles_per_gram.is_finite()
+                            || *full_moles_per_gram <= *onset_moles_per_gram
+                        {
+                            self.issue(
+                                format!("{role_path}.full_moles_per_gram"),
+                                "must be finite and greater than the onset dose",
+                            );
+                        }
+                        if !(0.0..=1.0).contains(max_curdled_fraction) {
+                            self.issue(
+                                format!("{role_path}.max_curdled_fraction"),
+                                "must be within 0..=1",
+                            );
+                        }
+                        if !(0.0..=1.0).contains(max_opacity_reduction) {
+                            self.issue(
+                                format!("{role_path}.max_opacity_reduction"),
+                                "must be within 0..=1",
+                            );
+                        }
+                        if !recipe
+                            .roles
+                            .iter()
+                            .any(|role| matches!(role, MaterialRole::OpaqueLiquidColloid { .. }))
+                        {
+                            self.issue(
+                                role_path.clone(),
+                                "an acid-curdling role requires an opaque liquid colloid role",
+                            );
+                        }
+                        if !matches!(
+                            recipe.physical_form,
+                            MaterialPhysicalForm::HomogeneousLiquid
+                        ) {
+                            self.issue(
+                                format!("{role_path}.physical_form"),
+                                "an acid-curdling colloid role requires homogeneous_liquid form",
+                            );
+                        }
+                    }
                 }
             }
             let mut component_species = HashSet::new();

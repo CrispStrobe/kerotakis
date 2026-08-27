@@ -158,6 +158,7 @@ pub fn homogeneous_unresolved_liquid_volume_l(vessel: &crate::Vessel) -> f64 {
 /// not pretend to solve droplet-size distributions or multiple scattering.
 pub fn colloid_observation(vessel: &crate::Vessel) -> Option<ColloidObservation> {
     let visible_l = vessel.liquid_volume().0 + homogeneous_unresolved_liquid_volume_l(vessel);
+    let curdling = crate::curdling::observe(vessel);
     if visible_l <= 1e-12 {
         return None;
     }
@@ -182,7 +183,12 @@ pub fn colloid_observation(vessel: &crate::Vessel) -> Option<ColloidObservation>
                         .map(|density| portion.amount * density.value)
                         .unwrap_or(0.0),
                     MaterialBasis::MoleFraction => 0.0,
-                };
+                } * (1.0
+                    - curdling
+                        .as_ref()
+                        .filter(|curds| curds.recipe_id == recipe.id)
+                        .map(|curds| curds.opacity_reduction)
+                        .unwrap_or(0.0));
                 Some(ColloidObservation {
                     srgb: *srgb,
                     cloudiness: (mass_g / visible_l / opacity_saturation_g_per_litre)

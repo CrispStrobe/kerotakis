@@ -68,6 +68,9 @@ pub struct SceneVessel {
     /// Temporary oil-in-water dispersion produced by a computed stir action.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub emulsion: Option<SceneEmulsion>,
+    /// Recipe-level aggregate curds separated from a colloidal liquid.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub curds: Option<SceneCurds>,
     /// The gas boundary, serialized with its existing `boundary` tag:
     /// open, sealed, pressure_controlled, or swept.
     #[serde(flatten)]
@@ -116,6 +119,15 @@ pub struct SceneEmulsion {
     pub dispersed_volume_l: f64,
     pub dispersed_fraction: f64,
     pub half_life_seconds: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneCurds {
+    pub material: String,
+    pub formed_fraction: f64,
+    pub separation_progress: f64,
+    pub solids_mass_g: f64,
+    pub srgb: [u8; 3],
 }
 
 fn default_foam_srgb() -> [u8; 3] {
@@ -210,6 +222,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let seen = appearance::observe(v);
     let material_layers = crate::material::immiscible_liquid_layers(v);
     let emulsion_observation = crate::emulsion::observe(v);
+    let curdling_observation = crate::curdling::observe(v);
     let material_volume_l: f64 = material_layers.iter().map(|layer| layer.volume_l).sum();
     let homogeneous_material_volume_l = crate::material::homogeneous_unresolved_liquid_volume_l(v);
     let resolved_volume_l = v.liquid_volume().0;
@@ -414,6 +427,12 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             words.push_str(&format!(" The vessel contains {}.", layer.material));
         }
     }
+    if let Some(curds) = &curdling_observation {
+        words.push_str(&format!(
+            " Soft curds containing {:.2} g of modeled aggregate solids have separated from the {} into cloudy whey.",
+            curds.curd_solids_mass_g, curds.material
+        ));
+    }
     if let Some(foam) = &foam {
         if foam.overflow_liters > 0.0 {
             words.push_str(" Foam is spilling over the rim.");
@@ -443,6 +462,13 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             dispersed_volume_l: emulsion.dispersed_volume_l,
             dispersed_fraction: emulsion.dispersed_fraction,
             half_life_seconds: emulsion.half_life_seconds,
+        }),
+        curds: curdling_observation.map(|curds| SceneCurds {
+            material: curds.material,
+            formed_fraction: curds.formed_fraction,
+            separation_progress: curds.separation_progress,
+            solids_mass_g: curds.curd_solids_mass_g,
+            srgb: curds.curd_srgb,
         }),
         headspace: v.headspace,
         temperature_k: v.temperature.0,

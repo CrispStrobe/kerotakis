@@ -184,6 +184,16 @@ pub enum MaterialRole {
         /// Unresolved material concentration (g/L) at full opacity.
         opacity_saturation_g_per_litre: f64,
     },
+    /// Bounded acid-dose response for a named colloid that forms visible
+    /// curds. This is a recipe observable, not a protein speciation model.
+    AcidCurdlingColloid {
+        acid_species: String,
+        onset_moles_per_gram: f64,
+        full_moles_per_gram: f64,
+        max_curdled_fraction: f64,
+        max_opacity_reduction: f64,
+        curd_srgb: [u8; 3],
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
