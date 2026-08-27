@@ -535,6 +535,9 @@ pub enum Event {
     Electrolysed {
         vessel: VesselId,
         species: SpeciesId,
+        /// Applied operating point, retained for physical playback.
+        amps: f64,
+        seconds: f64,
         coulombs: f64,
         electrons: Moles,
         moles: Moles,

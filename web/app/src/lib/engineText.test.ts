@@ -34,4 +34,14 @@ describe("engine text localization", () => {
     expect(engineText("v1: irradiate λ=254.000 nm, Ė/A=12.500000 W/m²; photolysis_coupled=false"))
       .toBe("v1: Bestrahlung λ=254.000 nm, Ė/A=12.500000 W/m²; Photolyse gekoppelt=nein");
   });
+
+  it("translates the engine-computed electrolysis operating point and deposit", () => {
+    i18n.setLocale("de");
+    expect(engineText("0.32 g of copper builds up on the electrode in v1."))
+      .toBe("0.32 g Kupfer scheiden sich an der Elektrode in v1 ab.");
+    expect(engineText("v1: 0.500 A for 120 s = 60 C → 0.0006 mol e⁻ → 0.0003 mol copper = 0.019 g"))
+      .toBe("v1: 0.500 A für 120 s = 60 C → 0.0006 mol e⁻ → 0.0003 mol Kupfer = 0.019 g");
+    expect(engineText("v1: I = 0.500000 A; t = 120.000 s; Q = It = 60.0 C; n(e⁻) = Q/F = 0.000622 mol; n(copper) = n(e⁻)/2 = 0.000311 mol; m = 0.0198 g — only the 2 is chemistry. Inert anode assumed: the water is oxidised there, so the oxygen leaves and the acid stays"))
+      .toBe("v1: I = 0.500000 A; t = 120.000 s; Q = It = 60.0 C; n(e⁻) = Q/F = 0.000622 mol; n(Kupfer) = n(e⁻)/2 = 0.000311 mol; m = 0.0198 g — nur die 2 stammt aus der Chemie. Inerte Anode angenommen: Dort wird Wasser oxidiert; der Sauerstoff entweicht und die Säure bleibt zurück");
+  });
 });

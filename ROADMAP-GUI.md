@@ -1038,6 +1038,12 @@ hide them completely.
   event rather than merely echoing its form. A localized badge explicitly says
   that light was applied while photolysis remains uncoupled; no chemical change
   or reaction animation is implied until kinetics owns that state transition.
+  *Electrolysis-playback slice shipped 2026-08-27:* the deposition event now
+  retains the applied current and duration alongside charge, electron amount,
+  product amount, and mass. The physical supply remains energized for the
+  bounded playback, its charge pulses and gas bubbles scale from that event,
+  and an engine-scaled coating grows on the cathode with the computed deposited
+  mass shown on the supply. Requested controls no longer masquerade as results.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
