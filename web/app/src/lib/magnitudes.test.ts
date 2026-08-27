@@ -164,6 +164,18 @@ describe("effectFromEvent", () => {
     expect(effect!.magnitude).toBeGreaterThan(.2);
   });
 
+  it("retains the applied piston pressure, volume and trapped gas", () => {
+    const effect = effectFromEvent({
+      event: "vessel_pressure_controlled", vessel: 0,
+      pressure: 250_000, initial_volume: .35, trapped_gas: .014,
+    });
+    expect(effect).toMatchObject({
+      kind: "regulate", durationMs: 4500,
+      pressureControl: { pressurePa: 250_000, initialVolumeL: .35, trappedGasMoles: .014 },
+    });
+    expect(effect!.magnitude).toBeGreaterThan(.3);
+  });
+
   it("maps dissolved → dissolve with magnitude 1", () => {
     const e = effectFromEvent({ event: "dissolved", vessel: 0 });
     expect(e!.kind).toBe("dissolve");

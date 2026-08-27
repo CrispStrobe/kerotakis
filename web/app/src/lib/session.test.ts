@@ -634,6 +634,23 @@ describe("Session", () => {
     });
   });
 
+  it("surfaces the applied pressure-control state on the physical piston", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "vessel_pressure_controlled", vessel: 0,
+        pressure: 180_000, initial_volume: .5, trapped_gas: .021,
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("regulate v1 1.8bar 500mL");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "regulate",
+      pressureControl: { pressurePa: 180_000, initialVolumeL: .5, trappedGasMoles: .021 },
+    });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

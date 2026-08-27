@@ -630,6 +630,7 @@ const DE: Record<string, string> = {
   ,"safe waft at vessel v{vessel}: {result}": "Sicheres Zufächeln an Gefäß v{vessel}: {result}"
   ,"waft — never smell directly": "zufächeln — niemals direkt riechen"
   ,"no odour detected": "kein Geruch festgestellt"
+  ,"trapped gas": "eingeschlossenes Gas"
   ,"purge the headspace with inert gas": "Kopfraum mit Inertgas spülen"
   ,"The bench is live: states nobody pre-computed are solved.": "Das Labor ist aktiv: Nicht vorberechnete Zustände werden gelöst."
   ,"The bench answers from shipped results only — the live aqueous engine is not attached.": "Das Labor antwortet nur mit mitgelieferten Ergebnissen — die aktive wässrige Engine ist nicht verbunden."

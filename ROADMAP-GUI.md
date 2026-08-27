@@ -1318,6 +1318,13 @@ decorating it.
   negative observation. Curated prose remains in the notebook while the
   compact physical result uses localized species names and repeats the
   real-lab safety rule.
+  *Pressure-control slice shipped 2026-08-27:* the piston lid now retains the
+  applied `VesselPressureControlled` pressure, initial headspace volume and
+  trapped gas. The physical piston height follows returned volume, its gauge
+  needle and bar readout follow returned pressure, and the chamber labels the
+  trapped mmol. Before execution the same apparatus previews requested values;
+  after execution it replaces them with engine-owned state rather than
+  implying that the form itself is a measurement.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,

@@ -130,6 +130,12 @@ export interface WaftRun {
   notes: { species: string; description: string }[];
 }
 
+export interface PressureControlRun {
+  pressurePa: number;
+  initialVolumeL: number;
+  trappedGasMoles: number;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -172,6 +178,7 @@ export interface Effect {
   stir?: StirRun;
   gasTest?: GasTestRun;
   waft?: WaftRun;
+  pressureControl?: PressureControlRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -539,6 +546,20 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         durationMs: 4200,
         magnitude: Math.max(.2, Math.min(1, notes.length / 3)),
         waft: { notes },
+      };
+    }
+    case "vessel_pressure_controlled": {
+      const pressurePa = Number(e.pressure ?? 0);
+      return {
+        kind: "regulate",
+        at: now,
+        durationMs: 4500,
+        magnitude: scale(pressurePa, 100_000, 500_000),
+        pressureControl: {
+          pressurePa,
+          initialVolumeL: Number(e.initial_volume ?? 0),
+          trappedGasMoles: Number(e.trapped_gas ?? 0),
+        },
       };
     }
     default:
