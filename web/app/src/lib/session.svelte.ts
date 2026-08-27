@@ -729,6 +729,29 @@ export class Session {
         outsideMethod: Array.isArray(event.outside_method) ? event.outside_method.map(String) : [],
       };
     }
+    if (!effect && event?.event === "observed" && event.appearance && typeof event.appearance === "object") {
+      const appearance = event.appearance as Record<string, unknown>;
+      const colour = (value: unknown): [number, number, number] | undefined => {
+        if (!value || typeof value !== "object") return undefined;
+        const rgb = value as Record<string, unknown>;
+        return [Number(rgb.r ?? 255), Number(rgb.g ?? 255), Number(rgb.b ?? 255)];
+      };
+      const deposit = Array.isArray(appearance.deposit) ? appearance.deposit : null;
+      effect = {
+        kind: "inspect",
+        at: Date.now(),
+        durationMs: 4500,
+        magnitude: Math.max(0.3, Math.min(1, Number(appearance.cloudiness ?? 0) + (deposit ? 0.25 : 0))),
+        appearance: {
+          liquidRgb: colour(appearance.liquid),
+          cloudiness: Number(appearance.cloudiness ?? 0),
+          deposit: deposit && deposit.length >= 2 && colour(deposit[1])
+            ? { species: String(deposit[0]), rgb: colour(deposit[1])! }
+            : undefined,
+          bubbling: Boolean(appearance.bubbling),
+        },
+      };
+    }
     if (!effect) return;
     const vessel = vesselOf(event);
     const now = Date.now();
