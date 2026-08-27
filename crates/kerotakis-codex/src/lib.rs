@@ -257,16 +257,37 @@ pub struct Prediction {
 
 /// Write `value` at `<path>_<code>`, following the path through tables and
 /// arrays. Numeric segments index arrays.
-fn inject(doc: &mut toml::Value, path: &str, code: &str, value: toml::Value) -> Result<(), String> {
+/// Why a translation did not fit its catalogue.
+#[derive(Debug)]
+pub enum Unfit {
+    /// No entry with that id in this file. Expected, not a fault, when one
+    /// sidecar covers a whole directory: the entry is in a sibling file.
+    NoSuchEntry,
+    /// The entry is here but the field it names is not. Always a fault —
+    /// the English moved and this translation was left behind, which
+    /// renders confidently and wrongly.
+    NoSuchField(String),
+}
+
+impl std::fmt::Display for Unfit {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Unfit::NoSuchEntry => write!(f, "no entry with that id"),
+            Unfit::NoSuchField(m) => write!(f, "{m}"),
+        }
+    }
+}
+
+fn inject(doc: &mut toml::Value, path: &str, code: &str, value: toml::Value) -> Result<(), Unfit> {
     let parts: Vec<&str> = path.split('.').collect();
     let (last, rest) = parts
         .split_last()
-        .ok_or_else(|| format!("empty path {path:?}"))?;
+        .ok_or_else(|| Unfit::NoSuchField(format!("empty path {path:?}")))?;
 
     // The first segment is an entry id, not a key: find the reaction or
     // model it names.
-    let mut node = find_entry(doc, rest.first().copied().unwrap_or(last))
-        .ok_or_else(|| format!("no entry with id {:?} (from {path:?})", rest.first()))?;
+    let mut node =
+        find_entry(doc, rest.first().copied().unwrap_or(last)).ok_or(Unfit::NoSuchEntry)?;
 
     for seg in rest.iter().skip(1) {
         // Reborrowing in place rather than reassigning: `node = node.get_mut()`
@@ -274,23 +295,30 @@ fn inject(doc: &mut toml::Value, path: &str, code: &str, value: toml::Value) -> 
         node = match node {
             toml::Value::Table(t) => t
                 .get_mut(seg.to_string().as_str())
-                .ok_or_else(|| format!("{path}: no field {seg:?}"))?,
+                .ok_or_else(|| Unfit::NoSuchField(format!("{path}: no field {seg:?}")))?,
             toml::Value::Array(a) => {
                 let i: usize = seg
                     .parse()
-                    .map_err(|_| format!("{path}: {seg:?} is not an index"))?;
-                a.get_mut(i)
-                    .ok_or_else(|| format!("{path}: index {i} is past the end"))?
+                    .map_err(|_| Unfit::NoSuchField(format!("{path}: {seg:?} is not an index")))?;
+                a.get_mut(i).ok_or_else(|| {
+                    Unfit::NoSuchField(format!("{path}: index {i} is past the end"))
+                })?
             }
-            _ => return Err(format!("{path}: {seg:?} is not a table or array")),
+            _ => {
+                return Err(Unfit::NoSuchField(format!(
+                    "{path}: {seg:?} is not a table or array"
+                )))
+            }
         };
     }
 
-    let table = node
-        .as_table_mut()
-        .ok_or_else(|| format!("{path}: the parent of {last:?} is not a table"))?;
+    let table = node.as_table_mut().ok_or_else(|| {
+        Unfit::NoSuchField(format!("{path}: the parent of {last:?} is not a table"))
+    })?;
     if !table.contains_key(*last) {
-        return Err(format!("{path}: there is no {last:?} to translate"));
+        return Err(Unfit::NoSuchField(format!(
+            "{path}: there is no {last:?} to translate"
+        )));
     }
     table.insert(format!("{last}_{code}"), value);
     Ok(())
@@ -679,6 +707,62 @@ impl Codex {
         Ok(toml::from_str(text)?)
     }
 
+    /// Every `*.toml` in a codex directory, with `<dir>/i18n/*.toml`
+    /// folded in as translations.
+    ///
+    /// Here rather than in each caller because the layout is the codex's
+    /// business. The CLI and the export snapshot each walked the directory
+    /// themselves, and each would have had to learn where translations
+    /// live — which is how two loaders drift until one of them quietly
+    /// renders English.
+    pub fn load_dir(dir: &std::path::Path) -> Result<Codex, CodexError> {
+        let mut sidecars: Vec<(String, String)> = Vec::new();
+        let i18n = dir.join("i18n");
+        if i18n.is_dir() {
+            let mut files: Vec<std::path::PathBuf> = std::fs::read_dir(&i18n)
+                .map_err(|e| CodexError::Translation(format!("{}: {e}", i18n.display())))?
+                .filter_map(|e| e.ok().map(|e| e.path()))
+                .filter(|p| p.extension().is_some_and(|x| x == "toml"))
+                .collect();
+            files.sort();
+            for file in files {
+                let code = file
+                    .file_stem()
+                    .and_then(|s| s.to_str())
+                    .unwrap_or_default()
+                    .to_string();
+                let text = std::fs::read_to_string(&file)
+                    .map_err(|e| CodexError::Translation(format!("{}: {e}", file.display())))?;
+                sidecars.push((code, text));
+            }
+        }
+        let borrowed: Vec<(&str, &str)> = sidecars
+            .iter()
+            .map(|(c, t)| (c.as_str(), t.as_str()))
+            .collect();
+
+        let mut files: Vec<std::path::PathBuf> = std::fs::read_dir(dir)
+            .map_err(|e| CodexError::Translation(format!("{}: {e}", dir.display())))?
+            .filter_map(|e| e.ok().map(|e| e.path()))
+            .filter(|p| p.extension().is_some_and(|x| x == "toml"))
+            .collect();
+        files.sort();
+
+        let mut all = Codex::default();
+        for file in files {
+            let text = std::fs::read_to_string(&file)
+                .map_err(|e| CodexError::Translation(format!("{}: {e}", file.display())))?;
+            // A sidecar covers the whole catalogue, so a key for another
+            // file's entry is not an error HERE — it belongs to a sibling.
+            // Only a key matching no entry in ANY file is stale, and that
+            // is checked once at the end.
+            let mut c = Codex::parse_with_translations_for_file(&text, &borrowed)?;
+            all.reactions.append(&mut c.reactions);
+            all.models.append(&mut c.models);
+        }
+        Ok(all)
+    }
+
     /// Parse the English source and fold in per-language sidecars.
     ///
     /// Each sidecar is a flat table of `"<entry-id>.<path>" = "…"`, where
@@ -700,6 +784,24 @@ impl Codex {
         text: &str,
         sidecars: &[(&str, &str)],
     ) -> Result<Codex, CodexError> {
+        Self::merge(text, sidecars, true)
+    }
+
+    /// As `parse_with_translations`, but a key whose entry is not in THIS
+    /// file is skipped rather than refused: one sidecar covers the whole
+    /// directory, so most of its keys belong to sibling files.
+    pub fn parse_with_translations_for_file(
+        text: &str,
+        sidecars: &[(&str, &str)],
+    ) -> Result<Codex, CodexError> {
+        Self::merge(text, sidecars, false)
+    }
+
+    fn merge(
+        text: &str,
+        sidecars: &[(&str, &str)],
+        strict_entries: bool,
+    ) -> Result<Codex, CodexError> {
         let mut doc: toml::Value = toml::from_str(text)?;
         for (code, sidecar) in sidecars {
             let table: toml::Value = toml::from_str(sidecar)?;
@@ -707,8 +809,16 @@ impl Codex {
                 continue;
             };
             for (path, value) in map {
-                inject(&mut doc, path, code, value.clone())
-                    .map_err(|e| CodexError::Translation(format!("{code}.toml: {e}")))?;
+                match inject(&mut doc, path, code, value.clone()) {
+                    Ok(()) => {}
+                    Err(Unfit::NoSuchEntry) if !strict_entries => {}
+                    Err(e) => {
+                        // The PATH belongs in the message: "no entry with that
+                        // id" without saying which id is a worse error
+                        // than the String one this replaced.
+                        return Err(CodexError::Translation(format!("{code}.toml: {path}: {e}")));
+                    }
+                }
             }
         }
         Ok(doc.try_into()?)
