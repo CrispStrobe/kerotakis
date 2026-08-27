@@ -33613,8 +33613,7 @@
       "name": "dish soap",
       "aliases": {
         "de": [
-          "Spülmittel",
-          "fluessige_Seife"
+          "Spülmittel"
         ],
         "en": [
           "washing-up_liquid"
@@ -33902,6 +33901,96 @@
       "preparation": "dry purified-starch teaching surrogate",
       "lot_assumptions": [
         "botanical source, moisture, lipids and protein traces are omitted"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/liquid-hand-soap-surrogate",
+      "version": 1,
+      "canonical_key": "liquid_hand_soap",
+      "name": "liquid hand soap",
+      "aliases": {
+        "de": [
+          "Flüssigseife",
+          "Fluessigseife",
+          "flüssige Seife",
+          "Handseife"
+        ],
+        "en": [
+          "hand wash"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.03,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.75,
+            "upper": 0.75
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.25,
+        "upper": 0.25
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "foam_stabilizer",
+          "trapping_efficiency": 0.75,
+          "gas_volume_fraction": 0.88,
+          "half_life_seconds": 120.0,
+          "saturation_amount": 0.5
+        }
+      ],
+      "preparation": "unbranded aqueous liquid-hand-soap teaching surrogate; surfactant blend unresolved",
+      "lot_assumptions": [
+        "bar soap is a different material; brand-specific surfactants, moisturisers, salts, fragrance, dye and preservatives remain unresolved"
       ],
       "substitutions": [],
       "confidence": "surrogate",
