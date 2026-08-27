@@ -410,6 +410,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   bicarbonate-decomposition route and evolves stoichiometric CO2. Wet and
   double-acting activation remain explicitly unclaimed until the actual acid
   salts and their dissolution kinetics are installed.
+- **Checkpoint 9 implemented:** localized tap-water and 3.5% seawater
+  surrogates expand into installed major-ion species with explicit density and
+  regional/compositional assumptions. The aqueous engine computes hardness and
+  ionic-strength consequences; concentrating named seawater through the normal
+  evaporation operator precipitates computed sodium chloride. Minor seawater
+  ions, dissolved gases and organics remain conserved unresolved mass rather
+  than being silently discarded.
 
 ## Stage B2 — organic structure and curated reaction families
 

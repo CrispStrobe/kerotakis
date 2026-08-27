@@ -407,6 +407,81 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             evidence: evidence(),
         },
         MaterialRecipe {
+            id: "household/mineralised-tap-water-surrogate".to_string(),
+            version: 1,
+            canonical_key: "tap_water".to_string(),
+            name: "mineralised tap-water surrogate".to_string(),
+            aliases: BTreeMap::from([
+                ("en".to_string(), vec!["tap water".to_string()]),
+                ("de".to_string(), vec!["Leitungswasser".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.998)),
+            components: vec![
+                component("CaCl2", 0.0002),
+                component("MgSO4", 0.0001),
+                component("NaHCO3", 0.0004),
+                component("water", 0.9993),
+            ],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some(
+                "700 mg/kg mineralised hard-tap-water teaching surrogate".to_string(),
+            ),
+            lot_assumptions: vec![
+                "real tap-water composition varies strongly by location, season and treatment".to_string(),
+                "trace disinfectant, dissolved gases and organic matter are not represented".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/seawater-35-per-mille-surrogate".to_string(),
+            version: 1,
+            canonical_key: "seawater".to_string(),
+            name: "3.5% seawater surrogate".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["sea water".to_string(), "salt water".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec!["Meerwasser".to_string(), "Salzwasser".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.025)),
+            components: vec![
+                component("CaCl2", 0.0012),
+                component("KCl", 0.0007),
+                component("MgSO4", 0.0017),
+                component("NaCl", 0.027),
+                component("water", 0.965),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.0044,
+                upper: 0.0044,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some(
+                "3.5% w/w simplified seawater teaching surrogate with major installed salts"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "minor ions, alkalinity, dissolved gases and organic matter remain in the explicit unresolved fraction".to_string(),
+                "this is not a recipe for biological or analytical artificial seawater".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
             id: "household/hydrogen-peroxide-3-percent".to_string(),
             version: 1,
             canonical_key: "hydrogen_peroxide_3_percent".to_string(),
