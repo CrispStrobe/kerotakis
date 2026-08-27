@@ -30,7 +30,13 @@
       ...initialValues,
     })),
   );
-  const solids = $derived(shelf.filter((s) => s.phase.toLowerCase().includes("solid")));
+  // `phase` is a wire key from the engine and is always English, which is
+  // why this literal is safe. Localise `phase` at the source and this
+  // silently yields no solids at all — translate it for display only.
+  const solids = $derived(
+    // i18n-ok: `phase` is an engine wire key and always English.
+    shelf.filter((s) => s.phase.toLowerCase().includes("solid")),
+  );
   const line = $derived(spec.build(vessel, values));
   const warning = $derived(spec.warning?.(values) ?? null);
   const readouts = $derived(spec.readouts?.(values) ?? []);

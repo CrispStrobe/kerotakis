@@ -14,7 +14,7 @@
     type CodexEntry,
   } from "../codex";
   import type { Session } from "../session.svelte";
-  import { t, tSlug } from "../i18n.svelte";
+  import { i18n, t, tSlug } from "../i18n.svelte";
 
   let {
     entries,
@@ -58,9 +58,16 @@
 
   const teaching = $derived.by(() => {
     if (!picked) return [];
+    // i18n-ok: concept slugs are keys; `picked` is one, not typed text.
     const list = entries.filter((e) => e.concepts?.includes(picked!));
     return [...list].sort(
-      (a, b) => Number(entryReady(b, met)) - Number(entryReady(a, met)) || a.id.localeCompare(b.id),
+      // Order by the rendered label, not the hidden slug: sorting German
+      // entries by their English ids puts them in an order with no visible
+      // logic. The locale goes to the collator so umlauts sort as German
+      // readers expect rather than after z.
+      (a, b) =>
+        Number(entryReady(b, met)) - Number(entryReady(a, met)) ||
+        tSlug(a.id).localeCompare(tSlug(b.id), i18n.locale),
     );
   });
 
@@ -130,7 +137,7 @@
                   <span class="ready" class:ok={entryReady(e, met)}>
                     {entryReady(e, met) ? t("ready") : t("locked")}
                   </span>
-                  {t(e.id.replace(/-/g, " "))}
+                  {tSlug(e.id)}
                   {#if session.completedExperiments.has(e.id)}<span class="done">✓</span>{/if}
                 </button>
                 {#if !entryReady(e, met)}
