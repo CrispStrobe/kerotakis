@@ -539,6 +539,8 @@ const DE: Record<string, string> = {
   "pressure-controlled": "druckgeregelt",
   "swept with carrier gas": "mit Trägergas gespült",
   "pH probe": "pH-Sonde",
+  "temperature probe: {value} °C": "Temperatursonde: {value} °C",
+  "pH probe: {value}": "pH-Sonde: {value}",
   "computed": "berechnet",
   "open boundary": "offen",
   "sealed boundary": "verschlossen",
