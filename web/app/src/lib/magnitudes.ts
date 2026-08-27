@@ -54,6 +54,8 @@ export interface Effect {
   appearance?: InspectionAppearance;
   /** Physical setup connecting source and target vessels. */
   operation?: "pour" | "filter" | "drain" | "distil" | "cell";
+  /** Computed pre-transfer source-liquid colour, captured before scene replacement. */
+  fluidColour?: string;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
