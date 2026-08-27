@@ -51,4 +51,19 @@ describe("apparatus forms compile to the grammar", () => {
     expect(spec("centrifuge").warning?.({ sampleMass: 100, counterbalance: 99 })).toContain("out of balance");
     expect(spec("centrifuge").warning?.({ sampleMass: 100, counterbalance: 99.95 })).toBeNull();
   });
+
+  it("previews physical consequences from the same settings sent to the engine", () => {
+    expect(spec("stir").readouts?.({ rpm: 500, seconds: 10 })).toEqual([
+      { label: "stir-bar tip speed", value: Math.PI * 0.025 * 500 / 60, unit: "m/s", digits: 3 },
+    ]);
+    expect(spec("heat").readouts?.({ watts: 250, seconds: 30 })).toEqual([
+      { label: "delivered energy", value: 7.5, unit: "kJ", digits: 2 },
+    ]);
+    expect(spec("cool").readouts?.({ watts: 100, seconds: 30 })).toEqual([
+      { label: "removed energy", value: 3, unit: "kJ", digits: 2 },
+    ]);
+    const [centrifuge] = spec("centrifuge").readouts?.({ rpm: 3000, radius: 8 }) ?? [];
+    expect(centrifuge).toMatchObject({ label: "relative centrifugal force", unit: "× g", digits: 0 });
+    expect(centrifuge?.value).toBeCloseTo(805.136, 3);
+  });
 });
