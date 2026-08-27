@@ -65,6 +65,7 @@ ph = { min = 1.70, max = 1.80 }
 
 [reaction.expect.predict]
 question = "Two beakers, the same acid, the same ten seconds. One holds 0.05 mol/L thiosulfate, the other 0.10 mol/L. The first deposits 0.000223 mol of sulfur. What does the second deposit?"
+question_de = "Zwei Bechergläser, dieselbe Säure, dieselben zehn Sekunden. Das eine enthält 0,05 mol/L Thiosulfat, das andere 0,10 mol/L. Im ersten scheiden sich 0,000223 mol Schwefel ab. Was scheidet sich im zweiten ab?"
 options = [
   "0.000223 mol — the same, because it is the same reaction",
   "0.000446 mol — twice as much",
@@ -73,26 +74,36 @@ options = [
 ]
 answer = 1
 misconception = "The last option is the interesting wrong answer, and a lot of learners reach for it: they know depletion slows a reaction down and expect the stronger solution to be handicapped by it. It is not, and the reason is worth having — for a first-order reaction the *fraction* consumed in ten seconds is the same in both beakers, so the amounts stay in the ratio they started in at every instant. The squared option is order confused with coefficient: the equation has a 2 in front of H⁺ and none in front of thiosulfate, and neither number is the order."
+misconception_de = "Die letzte Option ist die interessante falsche Antwort, nach der viele Lernende greifen: Sie wissen, dass eine abnehmende Konzentration eine Reaktion verlangsamt, und erwarten deshalb, dass die stärkere Lösung dadurch benachteiligt wird. Das ist nicht der Fall, und der Grund lohnt sich: Bei einer Reaktion erster Ordnung ist der in zehn Sekunden umgesetzte *Anteil* in beiden Bechergläsern gleich, sodass die Mengen zu jedem Zeitpunkt im ursprünglichen Verhältnis zueinander bleiben. Die quadrierte Option verwechselt Reaktionsordnung mit Koeffizient: In der Gleichung steht eine 2 vor H⁺ und keine vor Thiosulfat, und keine der beiden Zahlen ist die Ordnung."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "A reaction has one speed, the way a substance has one melting point — concentration changes how much there is, not how fast it goes."
+reveals_de = "Eine Reaktion hat eine feste Geschwindigkeit, so wie ein Stoff einen festen Schmelzpunkt hat — die Konzentration ändert, wie viel vorhanden ist, nicht, wie schnell es abläuft."
 next = "Run the same pair with a `wait 5s` and then another `wait 5s`. If speed were a property of the reaction the two beakers would track each other; they separate on the first interval and stay separated."
+next_de = "Dasselbe Paar wird mit `wait 5s` und danach noch einmal `wait 5s` laufen gelassen. Wäre die Geschwindigkeit eine Eigenschaft der Reaktion, würden die beiden Bechergläser gleichauf bleiben; sie laufen aber schon im ersten Intervall auseinander und bleiben es."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The order is read off the equation: there is a 2 in front of H⁺, so something must be squared."
+reveals_de = "Die Ordnung wird an der Gleichung abgelesen: Vor H⁺ steht eine 2, also muss irgendetwas quadriert werden."
 next = "Open the same experiment on the acid instead (`the-acid-term-is-an-activity`): the species with the coefficient 2 is the one that turns out to be first order, which is hard to explain if orders came from coefficients."
+next_de = "Dasselbe Experiment wird stattdessen für die Säure geöffnet (`the-acid-term-is-an-activity`): Ausgerechnet die Spezies mit dem Koeffizienten 2 erweist sich als erster Ordnung — schwer zu erklären, wenn Ordnungen aus Koeffizienten stammen würden."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Depletion is imagined as a penalty the faster beaker pays, so the strong solution should fall behind its own head start."
+reveals_de = "Der Konzentrationsrückgang wird sich als Strafe vorgestellt, die das schnellere Becherglas zahlt, sodass die starke Lösung hinter ihren eigenen Vorsprung zurückfallen müsste."
 next = "Compare the sulfur in the two beakers at 24 s, 49 s and 113 s in `the-cross-disappears`: the ratio is exactly 2 at every reading, because both beakers lose the same fraction, not the same amount."
+next_de = "Der Schwefel in den beiden Bechergläsern wird bei 24 s, 49 s und 113 s in `the-cross-disappears` verglichen: Das Verhältnis ist bei jeder Messung exakt 2, weil beide Bechergläser denselben Anteil verlieren, nicht dieselbe Menge."
 
 [reaction.registers]
 lv1 = "Two beakers of the same clear liquid, one twice as strong as the other, and one clock for both. After ten seconds the strong one has made exactly twice as much yellow cloudiness as the weak one. Not a bit more — twice. Crowd the pieces together twice as tightly and they meet twice as often."
+lv1_de = "Zwei Bechergläser mit derselben klaren Flüssigkeit, das eine doppelt so stark wie das andere, und eine Uhr für beide. Nach zehn Sekunden hat das starke genau doppelt so viel gelbe Trübung erzeugt wie das schwache. Nicht ein bisschen mehr — doppelt so viel. Drängt man die Teilchen doppelt so eng zusammen, treffen sie doppelt so oft aufeinander."
 lv2 = "Rate = k·[S₂O₃²⁻]·[H⁺]. Both beakers hold the same acid (pH 1.7486), so the only difference is the thiosulfate: 0.05 mol/L against 0.10 mol/L. In ten seconds the bench reports 2.2275 × 10⁻⁴ mol of reaction in the first and 4.4551 × 10⁻⁴ mol in the second — a ratio of 2.000. First order in thiosulfate, measured rather than assumed."
+lv2_de = "Geschwindigkeit = k·[S₂O₃²⁻]·[H⁺]. Beide Bechergläser enthalten dieselbe Säure (pH 1,7486), der einzige Unterschied ist also das Thiosulfat: 0,05 mol/L gegen 0,10 mol/L. In zehn Sekunden meldet das Labor 2,2275 × 10⁻⁴ mol Umsatz im ersten und 4,4551 × 10⁻⁴ mol im zweiten — ein Verhältnis von 2,000. Erste Ordnung bezüglich Thiosulfat, gemessen statt angenommen."
 lv3 = "The exactness is worth pausing on, because it is a stronger statement than the practical usually makes. Initial rates are proportional to concentration for any first-order reaction by definition; here the *integrated* amounts are also in the ratio 2.000 after ten seconds, and that holds because the integrated first-order solution is c₀(1 − e^(−k′t)) with k′ = k[H⁺] identical in both vessels. So the c₀ factors straight out and the proportionality survives depletion. The order is curated data, not inferred: `kinetics.rs` keeps `orders` separate from `reactants` precisely so that the coefficient 2 on H⁺ cannot leak into the rate law, and neither order here matches a coefficient."
+lv3_de = "Die Exaktheit lohnt einen Moment Aufmerksamkeit, denn sie ist eine stärkere Aussage, als das Experiment normalerweise liefert. Anfangsgeschwindigkeiten sind bei jeder Reaktion erster Ordnung per Definition proportional zur Konzentration; hier stehen aber auch die *integrierten* Mengen nach zehn Sekunden im Verhältnis 2,000, und das gilt, weil die integrierte Lösung erster Ordnung c₀(1 − e^(−k′t)) lautet, mit k′ = k[H⁺] identisch in beiden Gefäßen. Der Faktor c₀ kürzt sich damit heraus, und die Proportionalität übersteht den Konzentrationsrückgang. Die Ordnung ist kuratierte Angabe, nicht Schlussfolgerung: `kinetics.rs` hält `orders` bewusst getrennt von `reactants`, damit der Koeffizient 2 vor H⁺ nicht ins Geschwindigkeitsgesetz durchsickern kann, und keine der beiden Ordnungen hier entspricht einem Koeffizienten."
 
 [reaction.provenance]
 source = "Orders (1,1) for the thiosulfate–acid clock reaction are the standard result of the disappearing-cross practical (school practical literature). Editorial judgement (Kerotakis): the choice to demonstrate the order by comparing integrated extents over a shared ten seconds, rather than by tangent-fitting an initial rate, is ours — it is what the bench can show honestly."
@@ -102,6 +113,7 @@ computed_by = "kerotakis-core kinetics (midpoint integration of the curated rate
 id = "the-acid-term-is-an-activity"
 spine = ["die-reaktionsgeschwindigkeit"]
 summary = "Double the hydrochloric acid and the rate rises by 1.94, not 2.00 — the rate law reads the activity the solver computed, not the amount you weighed"
+summary_de = "Verdoppelt man die Salzsäure, steigt die Geschwindigkeit um das 1,94-Fache statt um das 2,00-Fache — das Geschwindigkeitsgesetz liest die vom Solver berechnete Aktivität, nicht die eingewogene Menge"
 concepts = ["activity-in-a-rate-law"]
 requires = ["reaction-order", "activity", "ph"]
 calculations = ["rate-from-extent", "ph-from-concentration"]
@@ -143,6 +155,7 @@ ph = { min = 1.70, max = 1.80 }
 
 [reaction.expect.predict]
 question = "Three beakers, identical except for the acid: 0.001, 0.002 and 0.004 mol of HCl in 100 mL. The reaction is known to be first order in H⁺. Doubling the acid from 0.002 to 0.004 mol should multiply the rate by exactly two. The bench says 1.94. Who is wrong?"
+question_de = "Drei Bechergläser, identisch bis auf die Säure: 0,001, 0,002 und 0,004 mol HCl in 100 mL. Die Reaktion ist bekanntlich erster Ordnung bezüglich H⁺. Verdoppelst du die Säure von 0,002 auf 0,004 mol, sollte sich die Geschwindigkeit genau verdoppeln. Das Labor zeigt 1,94. Wer irrt sich?"
 options = [
   "The bench — a first-order term must double when you double the concentration",
   "Nobody. The rate law is first order in the *activity* of H⁺, and doubling the amount raises the activity by only 1.94",
@@ -151,26 +164,36 @@ options = [
 ]
 answer = 1
 misconception = "The third option is the trap that catches good students: a measured exponent slightly below one looks like evidence for a fractional order, and fractional orders are real. Here it is not one. The order in the model is exactly 1.000, and the shortfall comes from somewhere else entirely — the ionic strength doubled with the acid, the activity coefficient fell from 0.889 to 0.863, and the rate law reads activity. Mistaking a solution non-ideality for a mechanistic order is a live error in real kinetics work, not a schoolroom one."
+misconception_de = "Die dritte Option ist die Falle, in die gute Lernende tappen: Ein gemessener Exponent knapp unter eins wirkt wie ein Beleg für eine gebrochene Ordnung, und gebrochene Ordnungen gibt es tatsächlich. Hier ist es aber keine. Die Ordnung im Modell ist exakt 1,000, und die Abweichung kommt von ganz woanders her — die Ionenstärke hat sich mit der Säure verdoppelt, der Aktivitätskoeffizient ist von 0,889 auf 0,863 gefallen, und das Geschwindigkeitsgesetz liest die Aktivität. Eine Nichtidealität der Lösung mit einer mechanistischen Ordnung zu verwechseln ist ein realer Fehler in der praktischen Kinetik, kein Schulbuchfehler."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "First order means the printed concentration doubles the rate — the number on the bottle is the number in the equation."
+reveals_de = "Erste Ordnung bedeutet, dass die aufgedruckte Konzentration die Geschwindigkeit verdoppelt — die Zahl auf der Flasche ist die Zahl in der Gleichung."
 next = "Read the three ionic strengths (0.01003, 0.02006, 0.04012 mol/kgw) beside the three pH values. The pH steps are 0.2895 and 0.2878, not the 0.3010 that a factor of two in concentration would give."
+next_de = "Die drei Ionenstärken (0,01003, 0,02006, 0,04012 mol/kgw) werden neben den drei pH-Werten abgelesen. Die pH-Schritte betragen 0,2895 und 0,2878, nicht die 0,3010, die ein Konzentrationsfaktor von zwei ergeben würde."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "A measured exponent below one is evidence about the mechanism, so the order must really be about 0.95."
+reveals_de = "Ein gemessener Exponent unter eins gilt als Beleg über den Mechanismus, also müsse die wahre Ordnung etwa 0,95 betragen."
 next = "Repeat with the thiosulfate instead of the acid, where no ionic-strength change is involved: that ratio comes out at 2.000. An order that appears only when the ionic strength moves is not an order."
+next_de = "Dasselbe wird mit dem Thiosulfat statt der Säure wiederholt, wo keine Änderung der Ionenstärke im Spiel ist: Dort ergibt sich ein Verhältnis von exakt 2,000. Eine Ordnung, die nur auftritt, wenn sich die Ionenstärke ändert, ist keine Ordnung."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "A discrepancy in the third significant figure must be numerical noise rather than chemistry."
+reveals_de = "Eine Abweichung in der dritten signifikanten Stelle müsse numerisches Rauschen sein und keine Chemie."
 next = "Check the size: the integrator agrees with the closed-form first-order solution to better than 0.1%, and this discrepancy is 3%. Errors have magnitudes, and comparing them is the habit worth building."
+next_de = "Die Größenordnung wird geprüft: Der Integrator stimmt mit der geschlossenen Lösung erster Ordnung auf besser als 0,1 % überein, diese Abweichung beträgt aber 3 %. Fehler haben Größenordnungen, und sie zu vergleichen ist die Gewohnheit, die es sich anzueignen lohnt."
 
 [reaction.registers]
 lv1 = "Put in twice as much acid and the reaction does not quite get twice as fast — it gets 1.94 times as fast. The missing bit is not a mistake. Ions in a crowded solution get in each other's way, so twice as many of them do not push twice as hard."
+lv1_de = "Gibt man doppelt so viel Säure hinein, wird die Reaktion nicht ganz doppelt so schnell — sie wird 1,94-mal so schnell. Das fehlende Stückchen ist kein Fehler. In einer dicht gedrängten Lösung kommen sich die Ionen gegenseitig in die Quere, sodass doppelt so viele nicht doppelt so stark drücken."
 lv2 = "The bench computes pH 2.0381, 1.7486 and 1.4608 for 0.001, 0.002 and 0.004 mol of HCl in 100 mL, and the rate law uses 10^(−pH). In one second the three vessels react by 1.1686 × 10⁻⁵, 2.2735 × 10⁻⁵ and 4.4010 × 10⁻⁵ mol. Halving the acid gives ×0.514 and doubling it gives ×1.936 — first order, but in the activity rather than in the amount weighed out."
+lv2_de = "Das Labor berechnet pH 2,0381, 1,7486 und 1,4608 für 0,001, 0,002 und 0,004 mol HCl in 100 mL, und das Geschwindigkeitsgesetz verwendet 10^(−pH). In einer Sekunde setzen die drei Gefäße 1,1686 × 10⁻⁵, 2,2735 × 10⁻⁵ und 4,4010 × 10⁻⁵ mol um. Halbieren der Säure ergibt ×0,514, Verdoppeln ergibt ×1,936 — erste Ordnung, aber bezüglich der Aktivität, nicht der eingewogenen Menge."
 lv3 = "PHREEQC's pH is −log₁₀(a_H⁺), so `term_concentration` returning 10^(−pH) hands the rate law an activity, deliberately: adding HCl to water leaves chloride in the vessel inventory and puts the proton into the charge balance, where it has no inventory amount to read. The ionic strengths are 0.01003, 0.02006 and 0.04012 mol/kgw, giving activity coefficients 0.913, 0.889 and 0.863 under the WATEQ Debye–Hückel extension; 0.034609/0.017838 = 1.940 is the activity ratio, and the measured 1.936 falls just short of it because the faster vessel has already consumed slightly more thiosulfate within the second. This is the same γ that shows up in `ph-is-not-quite-minus-log-c`, met again where it changes a rate instead of a reading."
+lv3_de = "PHREEQCs pH ist −log₁₀(a_H⁺), sodass `term_concentration` mit der Rückgabe 10^(−pH) dem Geschwindigkeitsgesetz bewusst eine Aktivität übergibt: Gibt man HCl zu Wasser, bleibt Chlorid im Gefäßinventar, während das Proton in die Ladungsbilanz eingeht, wo es keinen Inventarwert zum Ablesen gibt. Die Ionenstärken betragen 0,01003, 0,02006 und 0,04012 mol/kgw, was unter der WATEQ-Debye-Hückel-Erweiterung Aktivitätskoeffizienten von 0,913, 0,889 und 0,863 ergibt; 0,034609/0,017838 = 1,940 ist das Aktivitätsverhältnis, und die gemessenen 1,936 bleiben knapp darunter, weil das schnellere Gefäß innerhalb der Sekunde bereits etwas mehr Thiosulfat verbraucht hat. Das ist dasselbe γ, das in `ph-is-not-quite-minus-log-c` auftaucht — hier verändert es eine Geschwindigkeit statt einer Messanzeige."
 
 [reaction.provenance]
 source = "Standard curriculum kinetics for the order in H⁺; activity coefficients from PHREEQC wateq4f.dat (USGS) under the WATEQ Debye–Hückel extension. Editorial judgement (Kerotakis): reading the acid term as an activity rather than a nominal concentration is an engine design decision, documented in `kinetics.rs`, and this entry exists to make that decision visible rather than to hide it behind a round number."
@@ -226,6 +249,7 @@ ph = { min = 1.70, max = 1.80 }
 
 [reaction.expect.predict]
 question = "Three beakers at 0.025, 0.05 and 0.10 mol/L thiosulfate. You time how long each takes to hide a pencil cross under the beaker. The 0.10 mol/L beaker takes 24 s. The reaction is first order. How long does the 0.025 mol/L beaker take?"
+question_de = "Drei Bechergläser mit 0,025, 0,05 und 0,10 mol/L Thiosulfat. Du stoppst, wie lange jedes braucht, um ein Bleistiftkreuz unter dem Becherglas zu verdecken. Das 0,10-mol/L-Becherglas braucht 24 s. Die Reaktion ist erster Ordnung. Wie lange braucht das 0,025-mol/L-Becherglas?"
 options = [
   "48 s — twice as long, twice as long again would be silly",
   "96 s — four times the time for a quarter of the concentration",
@@ -234,26 +258,36 @@ options = [
 ]
 answer = 2
 misconception = "Both of the first two options assume the time to a fixed observable is exactly inversely proportional to concentration. It nearly is, and the practical is built on that assumption — but only while the sulfur you are waiting for is a small fraction of what you started with. Hiding the cross costs 0.01 mol/L of sulfur: a tenth of the strong beaker and two fifths of the weak one, which is why the weak one falls further behind than the simple ratio predicts. The last option is worth taking seriously and rejecting on the arithmetic: 0.025 mol/L is enough, with room to spare."
+misconception_de = "Die ersten beiden Optionen gehen beide davon aus, dass die Zeit bis zu einem festen Beobachtungspunkt exakt umgekehrt proportional zur Konzentration ist. Das stimmt fast, und das Experiment beruht auf dieser Annahme — aber nur solange der abgewartete Schwefel ein kleiner Anteil der Ausgangsmenge ist. Das Verdecken des Kreuzes kostet 0,01 mol/L Schwefel: ein Zehntel beim starken Becherglas und zwei Fünftel beim schwachen, weshalb das schwache stärker zurückfällt, als das einfache Verhältnis vorhersagt. Die letzte Option verdient es, ernst genommen und mit der Rechnung widerlegt zu werden: 0,025 mol/L reicht, mit Reserve."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Quarter the concentration, double the time — the relationship between concentration and time is being applied once instead of twice."
+reveals_de = "Konzentration geviertelt, Zeit verdoppelt — der Zusammenhang zwischen Konzentration und Zeit wird einmal statt zweimal angewendet."
 next = "Lay the three times out as a table with the three concentrations. 24, 49, 113 against 0.10, 0.05, 0.025: each halving of concentration costs rather more than a doubling of time, and the table makes that visible without any algebra."
+next_de = "Die drei Zeiten werden als Tabelle neben die drei Konzentrationen gelegt. 24, 49, 113 gegen 0,10, 0,05, 0,025: Jede Halbierung der Konzentration kostet eher mehr als eine Verdopplung der Zeit, und die Tabelle macht das ohne jede Algebra sichtbar."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Time is exactly inversely proportional to concentration, always — 1/t *is* the rate rather than standing in for it."
+reveals_de = "Die Zeit sei immer exakt umgekehrt proportional zur Konzentration — 1/t *ist* die Geschwindigkeit, statt nur ein Ersatz dafür zu sein."
 next = "Ask how much of each beaker's thiosulfate has been used at the moment the cross vanishes: 10%, 20%, 40%. The method assumes the answer is 'hardly any', and in the weakest beaker it is not."
+next_de = "Es wird gefragt, wie viel Thiosulfat in jedem Becherglas verbraucht ist, wenn das Kreuz verschwindet: 10 %, 20 %, 40 %. Die Methode setzt voraus, dass die Antwort 'kaum etwas' lautet, und im schwächsten Becherglas stimmt das nicht mehr."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Sulfur has to be at 0.01 mol/L, so a 0.025 mol/L solution is nearly out of material and may never make it."
+reveals_de = "Der Schwefel müsse 0,01 mol/L erreichen, sodass einer 0,025-mol/L-Lösung fast das Material ausgeht und sie es vielleicht nie schafft."
 next = "Do the stoichiometry before the kinetics: 1 mol of thiosulfate gives 1 mol of sulfur, so 0.025 mol/L can reach 0.01 mol/L with 60% to spare. Checking whether a reaction *can* finish before asking how fast is a habit worth having."
+next_de = "Die Stöchiometrie wird vor der Kinetik geprüft: 1 mol Thiosulfat ergibt 1 mol Schwefel, sodass 0,025 mol/L die 0,01 mol/L mit 60 % Reserve erreichen kann. Zu prüfen, ob eine Reaktion überhaupt *fertig werden kann*, bevor man nach dem Wie-schnell fragt, ist eine Gewohnheit, die sich lohnt."
 
 [reaction.registers]
 lv1 = "Draw a cross on paper, stand the beaker on it, and start the clock when the acid goes in. The liquid slowly turns milky with sulfur until the cross vanishes. Strong solution: 24 seconds. Half as strong: 49. A quarter as strong: 113. Fainter mixture, longer wait — and the clock is the measuring instrument, which is the whole trick of the experiment."
+lv1_de = "Man zeichnet ein Kreuz auf Papier, stellt das Becherglas darauf und startet die Uhr, sobald die Säure hineinkommt. Die Flüssigkeit wird langsam milchig vom Schwefel, bis das Kreuz verschwindet. Starke Lösung: 24 Sekunden. Halb so stark: 49. Ein Viertel so stark: 113. Blassere Mischung, längeres Warten — und die Uhr ist das Messinstrument, das ist der ganze Trick des Experiments."
 lv2 = "Taking 0.01 mol/L of suspended sulfur as the point where the cross is hidden, the bench reaches it at 24 s (0.10 mol/L), 49 s (0.05 mol/L) and 113 s (0.025 mol/L). 1/t is the usual stand-in for the rate: 0.0417, 0.0204 and 0.0088 s⁻¹, close to halving each time but not exactly — the successive time ratios are 2.04 and 2.31, not 2.00 and 2.00. At the moment each beaker is read it has used 10%, 20% and 40% of its thiosulfate, and the most dilute one is no longer anywhere near its initial rate."
+lv2_de = "Nimmt man 0,01 mol/L suspendierten Schwefel als den Punkt, an dem das Kreuz verdeckt ist, erreicht das Labor diesen bei 24 s (0,10 mol/L), 49 s (0,05 mol/L) und 113 s (0,025 mol/L). 1/t ist der übliche Ersatz für die Geschwindigkeit: 0,0417, 0,0204 und 0,0088 s⁻¹, jeweils nahe an einer Halbierung, aber nicht genau — die aufeinanderfolgenden Zeitverhältnisse sind 2,04 und 2,31, nicht 2,00 und 2,00. Zum Zeitpunkt der jeweiligen Ablesung hat jedes Becherglas 10 %, 20 % beziehungsweise 40 % seines Thiosulfats verbraucht, und das am stärksten verdünnte ist längst nicht mehr in der Nähe seiner Anfangsgeschwindigkeit."
 lv3 = "The absolute times belong to us and the ratios belong to the chemistry — that distinction is the honest content of this entry. The pre-exponential A = 2.2 × 10⁸ in `kinetics.rs` is calibrated so that 0.05 mol/L at pH 1.7 and 25 °C hides the cross in about forty seconds, which is the range the practical is designed around; it is not a measured Arrhenius A, and the file says so. Everything derived from *comparing* vessels — the order, the temperature ratios, the catalyst factors — is independent of A and survives any recalibration. The exact integrated form is t = −ln(1 − 0.01/c₀)/(k[H⁺]), which with the engine's own k[H⁺] = 4.561 × 10⁻³ s⁻¹ puts the crossings at 23.1, 48.9 and 112.0 s and the ratios at 2.12 and 2.29; reading the beaker once a second rounds those to 24, 49 and 113 and distorts the first ratio to 2.04. Nearly a second of quantisation is worth noticing, because a real practical reads its stopwatch to about the same precision. The 0.01 mol/L threshold is also ours — it is the criterion the engine's own regression test uses — and it is not the same thing as the renderer's vocabulary: `appearance` calls a beaker 'cloudy' from a cloudiness of 0.15, which is 0.0075 mol/L of sulfur and arrives about thirteen seconds earlier in the 0.05 mol/L beaker. Each beaker is therefore already being described as 'cloudy' by the time it reaches the criterion, and the two thresholds should not be read as one."
+lv3_de = "Die absoluten Zeiten stammen von uns, die Verhältnisse von der Chemie — diese Unterscheidung ist der ehrliche Kern dieses Eintrags. Der präexponentielle Faktor A = 2,2 × 10⁸ in `kinetics.rs` ist so kalibriert, dass 0,05 mol/L bei pH 1,7 und 25 °C das Kreuz in rund vierzig Sekunden verdeckt, was dem Bereich entspricht, für den das Experiment ausgelegt ist; es ist kein gemessenes Arrhenius-A, und die Datei sagt das auch so. Alles, was aus dem *Vergleich* von Gefäßen abgeleitet wird — die Ordnung, die Temperaturverhältnisse, die Katalysatorfaktoren —, ist unabhängig von A und übersteht jede Neukalibrierung. Die exakte integrierte Form lautet t = −ln(1 − 0,01/c₀)/(k[H⁺]), was mit dem motoreigenen k[H⁺] = 4,561 × 10⁻³ s⁻¹ die Kreuzungszeitpunkte bei 23,1, 48,9 und 112,0 s ansetzt und die Verhältnisse bei 2,12 und 2,29; liest man das Becherglas nur einmal pro Sekunde ab, rundet das auf 24, 49 und 113 und verzerrt das erste Verhältnis auf 2,04. Fast eine Sekunde Quantisierung ist bemerkenswert, denn ein echtes Experiment liest die Stoppuhr mit ungefähr derselben Genauigkeit ab. Auch die Schwelle von 0,01 mol/L stammt von uns — sie ist das Kriterium, das der motoreigene Regressionstest verwendet — und sie ist nicht dasselbe wie das Vokabular des Renderers: `appearance` nennt ein Becherglas ab einer Trübung von 0,15 'trüb', was 0,0075 mol/L Schwefel entspricht und im 0,05-mol/L-Becherglas rund dreizehn Sekunden früher eintritt. Jedes Becherglas wird also bereits als 'trüb' beschrieben, bevor es das Kriterium erreicht, und die beiden Schwellen sollten nicht als ein und dieselbe gelesen werden."
 
 [reaction.provenance]
 source = "The disappearing-cross practical is standard school chemistry; Ea ≈ 51 kJ/mol and orders (1,1) are its usual reported results (commonly 45–60 kJ/mol). Editorial judgement (Kerotakis): the pre-exponential is fixed by matching the observable rather than measured, and '0.01 mol/L of sulfur hides the cross' is our operational definition of the endpoint, chosen to match the engine's own regression test rather than taken from a source."
@@ -265,6 +299,7 @@ computed_by = "kerotakis-core kinetics; appearance from kerotakis-core::appearan
 id = "the-ten-degree-rule-and-where-it-frays"
 spine = ["die-reaktionsgeschwindigkeit"]
 summary = "25 → 35 → 45 → 55 °C multiplies the ten-second yield by 1.90, then 1.80, then 1.69 — the rule of thumb is a rule about one activation energy at one temperature"
+summary_de = "25 → 35 → 45 → 55 °C vervielfacht die Zehn-Sekunden-Ausbeute um 1,90, dann 1,80, dann 1,69 — die Faustregel ist eine Regel über eine bestimmte Aktivierungsenergie bei einer bestimmten Temperatur"
 concepts = ["temperature-and-rate", "arrhenius-equation"]
 requires = ["reaction-rate"]
 calculations = ["rate-from-extent", "arrhenius-ratio"]
@@ -305,6 +340,7 @@ temperature_c = { min = 24.5, max = 25.5 }
 
 [reaction.expect.predict]
 question = "Four beakers of the same mixture at 25, 35, 45 and 55 °C. 'The rate doubles every ten degrees.' If the 25 °C beaker deposits 0.000223 mol of sulfur in ten seconds, what does the 55 °C beaker deposit?"
+question_de = "Vier Bechergläser mit derselben Mischung bei 25, 35, 45 und 55 °C. 'Die Geschwindigkeit verdoppelt sich alle zehn Grad.' Wenn das 25-°C-Becherglas in zehn Sekunden 0,000223 mol Schwefel abscheidet, wie viel scheidet das 55-°C-Becherglas ab?"
 options = [
   "0.00178 mol — eight times, three doublings",
   "0.00128 mol — a bit less than eight times, because each ten-degree step is worth slightly less than the last",
@@ -313,26 +349,36 @@ options = [
 ]
 answer = 1
 misconception = "The third option is the commonest arithmetic slip in this topic: doublings multiply, they do not add. The first is the right arithmetic applied to a rule that is only approximately true, and it is the more instructive error — it treats 'doubles every ten degrees' as a law. It is not a law; it is what an activation energy near 50 kJ/mol happens to give near room temperature, and the factor shrinks steadily as the beaker gets hotter because the Arrhenius exponent depends on 1/T, not on T."
+misconception_de = "Die dritte Option ist der häufigste Rechenfehler bei diesem Thema: Verdopplungen multiplizieren sich, sie addieren sich nicht. Die erste Option wendet die richtige Rechnung auf eine nur näherungsweise gültige Regel an, und das ist der lehrreichere Fehler — sie behandelt 'verdoppelt sich alle zehn Grad' als Naturgesetz. Das ist es nicht; es ist das, was eine Aktivierungsenergie nahe 50 kJ/mol nahe Raumtemperatur zufällig ergibt, und der Faktor schrumpft mit steigender Temperatur stetig weiter, weil der Arrhenius-Exponent von 1/T abhängt, nicht von T."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "'Doubles every ten degrees' is a law of nature, so three steps give exactly eight times."
+reveals_de = "'Verdoppelt sich alle zehn Grad' sei ein Naturgesetz, also ergäben drei Schritte genau das Achtfache."
 next = "Compute the three step factors from the bench's own numbers — 1.90, 1.80, 1.69 — and ask what would have to be true of Arrhenius for them all to be 2. The answer is that Ea would have to grow with temperature."
+next_de = "Die drei Schrittfaktoren werden aus den eigenen Zahlen des Labors berechnet — 1,90, 1,80, 1,69 — und es wird gefragt, was für Arrhenius gelten müsste, damit sie alle gleich 2 wären. Die Antwort: Ea müsste mit der Temperatur wachsen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Three ten-degree steps means three doublings added together, so three times faster."
+reveals_de = "Drei Zehn-Grad-Schritte bedeuten drei addierte Verdopplungen, also dreimal so schnell."
 next = "Do it on paper with a simpler case first: two doublings of £10 is £40, not £30. Then ask which operation 'per ten degrees' describes."
+next_de = "Zunächst wird ein einfacheres Beispiel auf Papier durchgerechnet: Zwei Verdopplungen von 10 € ergeben 40 €, nicht 30 €. Dann wird gefragt, welche Rechenoperation 'pro zehn Grad' eigentlich beschreibt."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Rate scales with temperature itself, so thirty degrees on top of twenty-five is roughly ten times as much heat and ten times the rate."
+reveals_de = "Die Geschwindigkeit skaliere mit der Temperatur selbst, sodass dreißig Grad zusätzlich zu fünfundzwanzig ungefähr zehnmal so viel Wärme und die zehnfache Geschwindigkeit bedeuten."
 next = "Try the same reasoning in kelvin: 298 K to 328 K is a 10% rise, which would predict almost no change. A rule that gives two different answers in two temperature scales is not describing a proportionality."
+next_de = "Dieselbe Überlegung wird in Kelvin durchgespielt: 298 K auf 328 K ist ein Anstieg von 10 %, was fast keine Veränderung vorhersagen würde. Eine Regel, die in zwei Temperaturskalen zwei verschiedene Antworten liefert, beschreibt keine Proportionalität."
 
 [reaction.registers]
 lv1 = "Same mixture, four temperatures, one clock. In ten seconds the cold beaker makes a faint haze and the hot one is properly cloudy — roughly twice as much sulfur for every ten degrees you go up. Roughly. Each ten degrees buys a little less than the last one did, so 'it doubles' is a handy rule rather than a promise."
+lv1_de = "Dieselbe Mischung, vier Temperaturen, eine Uhr. In zehn Sekunden bildet das kalte Becherglas einen leichten Schleier, das heiße wird richtig trüb — ungefähr doppelt so viel Schwefel für je zehn Grad mehr. Ungefähr. Jede weitere Zehn-Grad-Stufe bringt etwas weniger als die vorige, deshalb ist 'es verdoppelt sich' eine praktische Faustregel und kein Versprechen."
 lv2 = "In ten seconds the bench reports 2.2275 × 10⁻⁴, 4.2430 × 10⁻⁴, 7.6234 × 10⁻⁴ and 1.2847 × 10⁻³ mol of reaction at 25, 35, 45 and 55 °C. The step factors are 1.90, 1.80 and 1.69. Nobody applied a rule: k = A·e^(−Ea/RT) with Ea = 51 kJ/mol was evaluated at each temperature, and the near-doubling came out."
+lv2_de = "In zehn Sekunden meldet das Labor 2,2275 × 10⁻⁴, 4,2430 × 10⁻⁴, 7,6234 × 10⁻⁴ und 1,2847 × 10⁻³ mol Umsatz bei 25, 35, 45 und 55 °C. Die Schrittfaktoren betragen 1,90, 1,80 und 1,69. Niemand hat dabei eine Regel angewendet: k = A·e^(−Ea/RT) mit Ea = 51 kJ/mol wurde bei jeder Temperatur ausgewertet, und die Beinahe-Verdopplung ergab sich von selbst."
 lv3 = "Two separate reasons keep these below two, and they should not be confused. First, the Arrhenius ratio itself: k(308)/k(298) = e^(Ea/R · (1/298.15 − 1/308.15)) = 1.95 for Ea = 51 kJ/mol, and the same construction gives 1.87 and 1.80 for the higher steps, because the exponent goes as 1/T. Second, depletion: over ten seconds the hotter vessels have already eaten into their thiosulfate, which is why the measured 1.90/1.80/1.69 sit below those. Shortening the clock to one second, where almost nothing has been consumed, the bench gives 1.94/1.86/1.78 — within a percent of the pure rate-constant ratios. The 'rule' is therefore a statement about an activation energy near 50 kJ/mol at around 300 K, and the practical's real lesson is that it decays in a way you can predict."
+lv3_de = "Zwei getrennte Gründe halten diese Werte unter zwei, und sie sollten nicht verwechselt werden. Erstens das Arrhenius-Verhältnis selbst: k(308)/k(298) = e^(Ea/R · (1/298,15 − 1/308,15)) = 1,95 für Ea = 51 kJ/mol, und dieselbe Rechnung ergibt 1,87 und 1,80 für die höheren Schritte, weil der Exponent wie 1/T verläuft. Zweitens der Konzentrationsrückgang: In zehn Sekunden haben die heißeren Gefäße bereits an ihrem Thiosulfat gezehrt, weshalb die gemessenen 1,90/1,80/1,69 darunter liegen. Verkürzt man die Uhr auf eine Sekunde, in der fast nichts verbraucht wurde, liefert das Labor 1,94/1,86/1,78 — innerhalb eines Prozents der reinen Geschwindigkeitskonstanten-Verhältnisse. Die 'Regel' ist somit eine Aussage über eine Aktivierungsenergie nahe 50 kJ/mol bei rund 300 K, und die eigentliche Lehre des Experiments ist, dass sie auf vorhersagbare Weise nachlässt."
 
 [reaction.provenance]
 source = "Arrhenius, Zeitschrift für physikalische Chemie, 1889, for the temperature dependence; Ea ≈ 51 kJ/mol for the thiosulfate–acid clock reaction per school practical literature (commonly reported 45–60 kJ/mol). Editorial judgement (Kerotakis): the four-temperature ladder and the decision to report the fraying of the rule rather than the rule alone are ours."
@@ -380,6 +426,7 @@ temperature_c = { min = 24.5, max = 25.5 }
 
 [reaction.expect.predict]
 question = "The thiosulfate clock speeds up by 1.90 per ten degrees. Hydrogen peroxide decomposing on its own has a much steeper barrier — 75 kJ/mol against 51. Warm it by ten degrees. What happens to its rate?"
+question_de = "Die Thiosulfat-Uhr wird um das 1,90-Fache pro zehn Grad schneller. Wasserstoffperoxid, das von selbst zerfällt, hat eine viel höhere Barriere — 75 kJ/mol gegen 51. Du erwärmst es um zehn Grad. Was passiert mit seiner Geschwindigkeit?"
 options = [
   "It also roughly doubles — the ten-degree rule applies to reactions, not to barriers",
   "It rises by about 2.6 — a steeper barrier is more sensitive to temperature",
@@ -388,26 +435,36 @@ options = [
 ]
 answer = 1
 misconception = "The third option is the intuitive one and it has the physics backwards. A high barrier does not make a reaction sluggish to warm; it makes it *more* responsive, because the fraction of collisions clearing the barrier is an exponential in Ea/RT and a bigger Ea steepens that exponential. The first option is the rule of thumb mistaken for a law of nature. Both are cured by the same observation: the temperature sensitivity is a property of the barrier, and that is the only thing that changed between these two experiments."
+misconception_de = "Die dritte Option ist die intuitive, und sie hat die Physik genau falsch herum. Eine hohe Barriere macht eine Reaktion nicht träge gegenüber Erwärmung; sie macht sie *empfindlicher*, weil der Anteil der Zusammenstöße, die die Barriere überwinden, exponentiell in Ea/RT ist und ein größeres Ea diese Exponentialfunktion steiler macht. Die erste Option verwechselt die Faustregel mit einem Naturgesetz. Beide werden durch dieselbe Beobachtung geheilt: Die Temperaturempfindlichkeit ist eine Eigenschaft der Barriere, und das ist das Einzige, was sich zwischen diesen beiden Experimenten geändert hat."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The ten-degree rule is a property of temperature, so it applies to every reaction alike."
+reveals_de = "Die Zehn-Grad-Regel sei eine Eigenschaft der Temperatur, gelte also für jede Reaktion gleichermaßen."
 next = "Put the two experiments side by side: same integrator, same clock, same ten degrees, factors of 1.90 and 2.62. The only thing that differs between them is Ea, so Ea is what the factor depends on."
+next_de = "Die beiden Experimente werden nebeneinandergestellt: derselbe Integrator, dieselbe Uhr, dieselben zehn Grad, Faktoren von 1,90 und 2,62. Das Einzige, was sich zwischen ihnen unterscheidet, ist Ea — also hängt der Faktor von Ea ab."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "A high barrier means a stubborn reaction, and stubborn things respond less to being pushed."
+reveals_de = "Eine hohe Barriere bedeute eine störrische Reaktion, und Störrisches reagiere weniger auf einen Anstoß."
 next = "Look at where Ea sits in the equation — inside the exponent, divided by RT. Try Ea = 150 kJ/mol in the same arithmetic: the ten-degree factor is over 6. Sensitivity and speed are different questions, and this is the cleanest place to separate them."
+next_de = "Es wird betrachtet, wo Ea in der Gleichung steht — im Exponenten, geteilt durch RT. Setzt man Ea = 150 kJ/mol in dieselbe Rechnung ein, liegt der Zehn-Grad-Faktor über 6. Empfindlichkeit und Geschwindigkeit sind unterschiedliche Fragen, und hier lassen sie sich am saubersten trennen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "A barrier of 75 kJ/mol is a wall, so ten degrees of thermal energy cannot matter."
+reveals_de = "Eine Barriere von 75 kJ/mol sei eine Wand, sodass zehn Grad thermischer Energie nichts ausmachen könnten."
 next = "Compare 75 kJ/mol against RT at 298 K, which is 2.5 kJ/mol. The barrier is thirty times the average thermal energy and the reaction still runs — because it is the tail of the distribution that reacts, not the average."
+next_de = "75 kJ/mol werden mit RT bei 298 K verglichen, das sind 2,5 kJ/mol. Die Barriere ist das Dreißigfache der mittleren thermischen Energie, und die Reaktion läuft trotzdem — weil es der Ausläufer der Verteilung ist, der reagiert, nicht der Durchschnitt."
 
 [reaction.registers]
 lv1 = "The same ten degrees does not buy the same speed-up for every reaction. For the sulfur clock it was about double. For peroxide breaking down on its own it is about two and a half times — because peroxide's reaction is harder to start, and anything hard to start is more grateful for the extra warmth."
+lv1_de = "Dieselben zehn Grad bringen nicht bei jeder Reaktion denselben Geschwindigkeitsgewinn. Bei der Schwefel-Uhr waren es etwa das Doppelte. Beim Peroxid, das von selbst zerfällt, sind es etwa das Zweieinhalbfache — weil die Peroxid-Reaktion schwerer in Gang zu bringen ist, und alles, was schwer in Gang zu bringen ist, ist der zusätzlichen Wärme dankbarer."
 lv2 = "Three beakers of 0.1 mol of peroxide at 25, 35 and 45 °C, left for thirty minutes. The extents are 0.0007, 0.0019 and 0.0047 mol — factors of about 2.7 and 2.5 for each ten degrees, against 1.90 for the thiosulfate clock. The only thing that differs is the activation energy: 75 kJ/mol here against 51 there. Note also that thirty minutes is needed to see anything at all, where the clock reaction was over in under a minute — a steeper barrier means both a slower reaction and a more temperature-sensitive one, and those are separate consequences of the same number."
+lv2_de = "Drei Bechergläser mit 0,1 mol Peroxid bei 25, 35 und 45 °C, dreißig Minuten stehen gelassen. Die Umsätze betragen 0,0007, 0,0019 und 0,0047 mol — Faktoren von rund 2,7 und 2,5 pro zehn Grad, gegenüber 1,90 bei der Thiosulfat-Uhr. Das Einzige, was sich unterscheidet, ist die Aktivierungsenergie: hier 75 kJ/mol gegen dort 51. Bemerkenswert ist auch, dass dreißig Minuten nötig sind, um überhaupt etwas zu sehen, während die Uhr-Reaktion in weniger als einer Minute vorbei war — eine steilere Barriere bedeutet sowohl eine langsamere als auch eine temperaturempfindlichere Reaktion, und das sind zwei getrennte Folgen derselben Zahl."
 lv3 = "The ratio is exp[(Ea/R)(1/T₁ − 1/T₂)], so for Ea = 75 kJ/mol the pure Arrhenius factors across these steps are 2.67 and 2.51. The measured extents give 2.71 and 2.47: the first sits a hair high on rounding, the second a little low because the hottest beaker has begun to run out of peroxide and an extent over thirty minutes is no longer a clean proxy for an initial rate. That gap is the reason initial-rate methods exist, and it is visible here rather than described. The ten-degree rule corresponds to Ea ≈ 50 kJ/mol at room temperature, which is why the thiosulfate clock obeys it and this does not — the rule is a coincidence of one barrier height, not a law."
+lv3_de = "Das Verhältnis ist exp[(Ea/R)(1/T₁ − 1/T₂)], sodass für Ea = 75 kJ/mol die reinen Arrhenius-Faktoren über diese Schritte 2,67 und 2,51 betragen. Die gemessenen Umsätze ergeben 2,71 und 2,47: Der erste liegt durch Rundung ein Haar zu hoch, der zweite etwas zu niedrig, weil dem heißesten Becherglas bereits das Peroxid auszugehen beginnt und ein Umsatz über dreißig Minuten kein sauberer Ersatz für eine Anfangsgeschwindigkeit mehr ist. Diese Lücke ist der Grund, warum es Anfangsgeschwindigkeits-Methoden gibt, und sie ist hier sichtbar statt nur beschrieben. Die Zehn-Grad-Regel entspricht Ea ≈ 50 kJ/mol bei Raumtemperatur, weshalb die Thiosulfat-Uhr ihr gehorcht und dies nicht — die Regel ist der Zufall einer einzelnen Barrierenhöhe, kein Gesetz."
 
 [reaction.provenance]
 source = "Uncatalysed hydrogen peroxide decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); Arrhenius, 1889. Editorial judgement (Kerotakis): the side-by-side comparison of two curated activation energies as a way of showing the ten-degree rule's domain is ours; the pre-exponential for peroxide is calibrated rather than measured, so only the ratios here are load-bearing."
@@ -452,6 +509,7 @@ absent = ["solver_failed"]
 
 [reaction.expect.predict]
 question = "Three flasks of 1 mol/L hydrogen peroxide. One is left alone, one gets half a gram of manganese dioxide, one gets a milligram of catalase from liver. After one second, how much peroxide is left in each?"
+question_de = "Drei Kolben mit 1 mol/L Wasserstoffperoxid. Einer bleibt unangetastet, einer bekommt ein halbes Gramm Mangandioxid, einer bekommt ein Milligramm Katalase aus der Leber. Wie viel Peroxid ist nach einer Sekunde in jedem übrig?"
 options = [
   "Roughly the same in all three — one second is not long enough for anything",
   "99.8%, 11%, and none at all",
@@ -460,26 +518,36 @@ options = [
 ]
 answer = 1
 misconception = "The third option treats catalysts as things that come in ordinary sizes, a few times better than nothing. The whole point of the pairing is that they do not: the enzyme is not a bit better than the mineral, it is about a million times better, because the two differ by 35 kJ/mol in the exponent and the exponent is where speed lives. The last option is the older confusion — that a catalyst decides *whether* a reaction happens. It does not. All three flasks end up as water and oxygen; the catalyst only decides when."
+misconception_de = "Die dritte Option behandelt Katalysatoren, als kämen sie in gewöhnlichen Größenordnungen daher, ein paar Mal besser als nichts. Der ganze Sinn dieser Gegenüberstellung ist gerade, dass das nicht stimmt: Das Enzym ist nicht ein bisschen besser als das Mineral, es ist etwa eine Million Mal besser, weil sich die beiden um 35 kJ/mol im Exponenten unterscheiden — und im Exponenten steckt die Geschwindigkeit. Die letzte Option ist die ältere Verwechslung: dass ein Katalysator entscheidet, *ob* eine Reaktion abläuft. Das tut er nicht. Alle drei Kolben enden als Wasser und Sauerstoff; der Katalysator entscheidet nur, wann."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "One second is too short for chemistry — reactions happen on the timescale of a lesson."
+reveals_de = "Eine Sekunde sei zu kurz für Chemie — Reaktionen liefen auf der Zeitskala einer Unterrichtsstunde ab."
 next = "Ask what sets the timescale. The catalysed flask finishes inside ten milliseconds; nothing about a second is short or long until an activation energy says so."
+next_de = "Es wird gefragt, was die Zeitskala festlegt. Der katalysierte Kolben ist innerhalb von zehn Millisekunden fertig; eine Sekunde ist weder kurz noch lang, solange nicht eine Aktivierungsenergie das entscheidet."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Catalysts are graded like everything else in a school lab: better, much better, a few times better."
+reveals_de = "Katalysatoren würden abgestuft wie alles andere im Schullabor: besser, viel besser, ein paar Mal besser."
 next = "Put the barriers on a diagram: 75, 58, 23 kJ/mol, and the speed-up is exponential in the difference. Between the mineral and the enzyme lies a factor of a million, which is not a difference of degree that anyone's intuition delivers unaided."
+next_de = "Die Barrieren werden in einem Diagramm eingetragen: 75, 58, 23 kJ/mol, und der Geschwindigkeitsgewinn ist exponentiell in der Differenz. Zwischen Mineral und Enzym liegt ein Faktor von einer Million — ein Größenunterschied, den die Intuition allein niemandem liefert."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "A catalyst is what makes the reaction go; without one it would not happen at all."
+reveals_de = "Ein Katalysator sei das, was die Reaktion überhaupt in Gang bringt; ohne ihn passiere gar nichts."
 next = "Leave the plain flask alone for five days (`same-destination-different-journey`). It arrives at the same place, 0.0485 mol of oxygen and still climbing toward 0.0500. The catalyst decided when, not whether."
+next_de = "Der unbehandelte Kolben wird fünf Tage sich selbst überlassen (`same-destination-different-journey`). Er kommt am selben Ziel an, 0,0485 mol Sauerstoff und immer noch steigend Richtung 0,0500. Der Katalysator hat entschieden, wann, nicht ob."
 
 [reaction.registers]
 lv1 = "Three flasks of the same peroxide. Leave one alone and after a second it has barely changed. Drop in a spatula of black powder and nine tenths of it has already gone. Drop in a speck of liver enzyme — a thousandth of a gram — and it is over before you have put the bottle down. Same liquid, same room, same second."
+lv1_de = "Drei Kolben mit demselben Peroxid. Lässt man einen unangetastet, hat er sich nach einer Sekunde kaum verändert. Gibt man einen Spatel schwarzes Pulver hinein, ist schon neun Zehntel davon verschwunden. Gibt man ein Krümelchen Leberenzym hinein — ein Tausendstel Gramm —, ist alles vorbei, bevor du die Flasche abgestellt hast. Dieselbe Flüssigkeit, derselbe Raum, dieselbe Sekunde."
 lv2 = "Activation energies of 75, 58 and 23 kJ/mol for none, manganese dioxide and catalase. After one second the plain flask has done nothing the bench will even report — 4 × 10⁻⁷ mol of reaction, below the observable floor — while manganese dioxide has done 4 × 10⁻⁴ mol and catalase has finished, 5.0000 × 10⁻² mol, every molecule of peroxide gone. The peroxide left reads 0.1000, 0.0992 and 0.0000 mol. Same reaction, same temperature, same thermodynamics; three barriers."
+lv2_de = "Aktivierungsenergien von 75, 58 und 23 kJ/mol für keinen Katalysator, Mangandioxid und Katalase. Nach einer Sekunde hat der unbehandelte Kolben nichts getan, was das Labor überhaupt meldet — 4 × 10⁻⁷ mol Umsatz, unterhalb der Beobachtungsgrenze —, während Mangandioxid 4 × 10⁻⁴ mol erreicht hat und Katalase fertig ist: 5,0000 × 10⁻² mol, jedes Molekül Peroxid verschwunden. Das verbliebene Peroxid liest sich als 0,1000, 0,0992 und 0,0000 mol. Dieselbe Reaktion, dieselbe Temperatur, dieselbe Thermodynamik; drei Barrieren."
 lv3 = "The speed-ups are exponential in the difference between barriers and depend on nothing else, which is why they are the durable numbers here while the absolute times are not. exp[(75 − 58) kJ·mol⁻¹ / RT] = 951 at 298.15 K, and exp[(58 − 23)/RT] = 1.36 × 10⁶ — so the mineral is about a thousand times better than nothing and the enzyme about a million times better than the mineral. Read the rates rather than the extents to see it: once a catalysed vessel saturates within the interval, its extent is bounded by the peroxide and no longer reports a rate at all. The pre-exponential is calibrated rather than measured, so the seconds are indicative; the ratios are not, because A cancels."
+lv3_de = "Die Geschwindigkeitsgewinne sind exponentiell in der Differenz zwischen den Barrieren und hängen von sonst nichts ab — deshalb sind sie hier die belastbaren Zahlen, während es die absoluten Zeiten nicht sind. exp[(75 − 58) kJ·mol⁻¹ / RT] = 951 bei 298,15 K, und exp[(58 − 23)/RT] = 1,36 × 10⁶ — das Mineral ist also etwa tausendmal besser als nichts, und das Enzym etwa eine Million Mal besser als das Mineral. Um das zu sehen, liest man besser die Geschwindigkeiten als die Umsätze: Sobald ein katalysiertes Gefäß innerhalb des Intervalls sättigt, ist sein Umsatz durch das Peroxid begrenzt und meldet gar keine Geschwindigkeit mehr. Der präexponentielle Faktor ist kalibriert, nicht gemessen, sodass die Sekundenwerte nur richtungsweisend sind; die Verhältnisse dagegen nicht, weil sich A heraushebt."
 
 [reaction.provenance]
 source = "Ea ≈ 58 kJ/mol for manganese dioxide and ≈ 23 kJ/mol for catalase on hydrogen peroxide (standard physical chemistry texts); uncatalysed ≈ 75 kJ/mol. Editorial judgement (Kerotakis): modelling catalysis as a substituted activation energy rather than a rate multiplier is an engine decision recorded in `kinetics.rs`; the exponential speed-up factors quoted at lv3 are arithmetic performed on those curated barriers, not separately measured values."
@@ -489,6 +557,7 @@ computed_by = "kerotakis-core kinetics"
 id = "a-catalyst-comes-out-as-it-went-in"
 spine = ["katalyse"]
 summary = "0.001 g of catalase destroys three successive 0.1 mol charges of peroxide, each in one second, and is still 4.16666667 × 10⁻⁹ mol at the end"
+summary_de = "0,001 g Katalase zerstört drei aufeinanderfolgende 0,1-mol-Portionen Peroxid, jede innerhalb einer Sekunde, und liegt am Ende immer noch bei 4,16666667 × 10⁻⁹ mol"
 concepts = ["catalyst-not-consumed"]
 requires = ["catalysis", "conservation-of-mass"]
 calculations = ["moles-from-mass"]
@@ -525,6 +594,7 @@ absent = ["consumed:catalase", "solver_failed"]
 
 [reaction.expect.predict]
 question = "A milligram of catalase destroys 0.1 mol of hydrogen peroxide in one second. You add a second 0.1 mol charge to the same flask. What happens?"
+question_de = "Ein Milligramm Katalase zerstört 0,1 mol Wasserstoffperoxid in einer Sekunde. Du gibst eine zweite 0,1-mol-Portion in denselben Kolben. Was passiert?"
 options = [
   "Nothing — the catalase was used up destroying the first charge",
   "It goes just as fast — the catalase is untouched and the second charge takes the same one second",
@@ -533,26 +603,36 @@ options = [
 ]
 answer = 1
 misconception = "'Used up' is the default assumption about anything that takes part in a reaction, and it is reinforced by the fact that a catalyst has to be added at all. The first and third options are both versions of it. What makes the demonstration convincing is repetition: one charge proves nothing, three identical charges destroyed at identical speed by the same speck of enzyme is hard to explain any other way. The last option is a real effect in a real flask — this decomposition is exothermic — and the bench does not model it, which the entry says rather than letting the option quietly pass as wrong for the wrong reason."
+misconception_de = "'Verbraucht' ist die Standardannahme für alles, was an einer Reaktion teilnimmt, und sie wird dadurch verstärkt, dass ein Katalysator überhaupt erst zugegeben werden muss. Die erste und die dritte Option sind beide Spielarten davon. Was die Demonstration überzeugend macht, ist die Wiederholung: Eine einzelne Portion beweist nichts, drei identische, mit identischer Geschwindigkeit von demselben Enzymkrümelchen zerstörte Portionen lassen sich kaum anders erklären. Die letzte Option ist ein realer Effekt in einem realen Kolben — diese Zersetzung ist exotherm —, und das Labor modelliert ihn nicht, was der Eintrag auch so benennt, statt die Option stillschweigend aus dem falschen Grund als falsch durchgehen zu lassen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Anything you add to a reaction is a reagent, and reagents get used up."
+reveals_de = "Alles, was man einer Reaktion zugibt, sei ein Reagenz, und Reagenzien würden verbraucht."
 next = "Add the third charge and watch it go at the same speed. Then ask what the catalase would have to be doing to survive being 'used up' twice."
+next_de = "Die dritte Portion wird zugegeben und mit derselben Geschwindigkeit beobachtet. Dann wird gefragt, was die Katalase tun müsste, um zweimal 'verbraucht' zu überleben."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "A catalyst is partly consumed — spent in proportion to how much reaction it has driven, like a fuel."
+reveals_de = "Ein Katalysator werde teilweise verbraucht — proportional zu der Reaktion, die er angetrieben hat, wie ein Treibstoff."
 next = "Compare the numbers: 4.17 × 10⁻⁹ mol of catalase against 0.1 mol of peroxide per charge, twenty-four million peroxide molecules per enzyme molecule. Anything consumed in proportion would have run out in the first microsecond."
+next_de = "Die Zahlen werden verglichen: 4,17 × 10⁻⁹ mol Katalase gegen 0,1 mol Peroxid pro Portion, vierundzwanzig Millionen Peroxidmoleküle pro Enzymmolekül. Alles, was proportional verbraucht würde, wäre schon in der ersten Mikrosekunde aufgebraucht gewesen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "The flask is warming from an exothermic reaction, so the second charge should be faster."
+reveals_de = "Der Kolben erwärme sich durch die exotherme Reaktion, sodass die zweite Portion schneller ablaufen müsste."
 next = "Right physics, absent from this model. Check the thermometer: the bench holds the flask at 25.0 °C throughout, because no reaction enthalpy is wired into the rate engine. Worth knowing which of your correct predictions this lab cannot confirm."
+next_de = "Physikalisch richtig, aber in diesem Modell nicht vorhanden. Das Thermometer wird geprüft: Das Labor hält den Kolben durchgehend bei 25,0 °C, weil keine Reaktionsenthalpie in den Geschwindigkeitsmotor eingebaut ist. Es lohnt sich zu wissen, welche der eigenen richtigen Vorhersagen dieses Labor nicht bestätigen kann."
 
 [reaction.registers]
 lv1 = "A speck of liver enzyme, too small to see properly, and a flask of peroxide. One second and the peroxide is gone. Add more peroxide: gone again, just as fast. Add more: gone again. The speck is still there and still working. It is not an ingredient — it is a doorway that the reaction goes through and leaves behind."
+lv1_de = "Ein Krümelchen Leberenzym, eigentlich zu klein, um es richtig zu sehen, und ein Kolben mit Peroxid. Eine Sekunde, und das Peroxid ist verschwunden. Man gibt mehr Peroxid dazu: wieder verschwunden, genauso schnell. Noch mehr dazu: wieder verschwunden. Das Krümelchen ist immer noch da und arbeitet weiter. Es ist keine Zutat — es ist eine Tür, durch die die Reaktion hindurchgeht und die sie danach unverändert zurücklässt."
 lv2 = "0.001 g of catalase is 4.16666667 × 10⁻⁹ mol at M ≈ 240 kDa. Each of the three 0.1 mol charges is destroyed in one second, 5.0000 × 10⁻² mol of reaction apiece, and the bench's inventory reports the same 4.16666667 × 10⁻⁹ mol of catalase after the third as before the first — identical to every digit it prints. Oxygen accumulates to 0.15 mol, three times the yield of one charge, as it must."
+lv2_de = "0,001 g Katalase entsprechen bei M ≈ 240 kDa 4,16666667 × 10⁻⁹ mol. Jede der drei 0,1-mol-Portionen wird in einer Sekunde zerstört, je 5,0000 × 10⁻² mol Umsatz, und das Inventar des Labors meldet nach der dritten Portion dieselben 4,16666667 × 10⁻⁹ mol Katalase wie vor der ersten — bis auf die letzte Ziffer identisch. Der Sauerstoff sammelt sich auf 0,15 mol an, das Dreifache der Ausbeute einer einzelnen Portion, wie es sein muss."
 lv3 = "The mechanism of the claim is worth seeing, because it is structural rather than numerical. `KineticReaction` keeps `catalysts` outside `reactants` and `products`; the integrator withdraws and deposits only what those two lists name, so a catalyst is never a term in the mass update and cannot drift. What it does instead is chosen fresh at every substep by `effective_activation_energy`, which scans the vessel for the best catalyst present and substitutes its barrier. Two honest gaps sit beside this. The bench does not model the heat of the decomposition, so a real flask that grows warm and accelerates is not what you see here. And a real enzyme is not indestructible: catalase denatures with heat, is inhibited, and turns over at a finite maximum rate that no barrier substitution can express — a Michaelis–Menten saturation this engine has no term for."
+lv3_de = "Der Mechanismus hinter dieser Aussage lohnt einen Blick, denn er ist struktureller, nicht numerischer Natur. `KineticReaction` hält `catalysts` außerhalb von `reactants` und `products`; der Integrator entnimmt und liefert nur das, was diese beiden Listen benennen, sodass ein Katalysator niemals ein Term in der Massenbilanz ist und nicht abdriften kann. Was er stattdessen tut, wird bei jedem Teilschritt neu von `effective_activation_energy` bestimmt, die das Gefäß nach dem besten vorhandenen Katalysator durchsucht und dessen Barriere einsetzt. Zwei ehrliche Lücken stehen daneben. Das Labor modelliert die Wärme der Zersetzung nicht, sodass ein realer Kolben, der warm wird und dadurch schneller reagiert, hier nicht zu sehen ist. Und ein reales Enzym ist nicht unzerstörbar: Katalase denaturiert unter Hitze, kann gehemmt werden und arbeitet mit einer endlichen Maximalgeschwindigkeit um, die keine Barrieresubstitution ausdrücken kann — eine Michaelis-Menten-Sättigung, für die dieser Motor keinen Term besitzt."
 
 [reaction.provenance]
 source = "Standard curriculum treatment of catalysis; catalase molar mass ~240 kDa (bovine liver catalase, standard reference) via the Kerotakis species registry. Editorial judgement (Kerotakis): the three-charge protocol is our design, chosen because a single charge cannot distinguish an unconsumed catalyst from a generously supplied reagent. The absence of a reaction enthalpy and of enzyme saturation are stated gaps in the current engine, not claims about chemistry."
@@ -562,6 +642,7 @@ computed_by = "kerotakis-core kinetics (catalysts are excluded from the mass upd
 id = "more-catalyst-and-a-good-stir-change-nothing"
 spine = ["katalyse"]
 summary = "0.1 g of MnO₂, 1 g of MnO₂, and 0.1 g with a stir all give 3.849 × 10⁻⁴ mol of reaction in one second — identical to every digit. This engine has no surface-area or mixing model, and that is a real gap"
+summary_de = "0,1 g MnO₂, 1 g MnO₂ und 0,1 g mit Rühren ergeben alle 3,849 × 10⁻⁴ mol Umsatz in einer Sekunde — bis auf die letzte Ziffer identisch. Dieser Motor besitzt kein Oberflächen- oder Durchmischungsmodell, und das ist eine echte Lücke"
 concepts = ["unmodelled-variable"]
 requires = ["catalysis", "model-boundary"]
 calculations = ["rate-from-extent"]
@@ -597,6 +678,7 @@ absent = ["solver_failed"]
 
 [reaction.expect.predict]
 question = "Ten times as much manganese dioxide in the second flask, and the third gets a vigorous stir. After one second, how do the three compare?"
+question_de = "Der zweite Kolben enthält zehnmal so viel Mangandioxid, der dritte wird kräftig gerührt. Wie schneiden die drei nach einer Sekunde im Vergleich ab?"
 options = [
   "The flask with more catalyst is faster; stirring helps a little too",
   "All three are identical, because a catalyst is not consumed and therefore its amount cannot matter",
@@ -605,26 +687,36 @@ options = [
 ]
 answer = 2
 misconception = "The second option is the dangerous one, and it is dangerous precisely because it reasons correctly from a true premise to a false conclusion: a catalyst really is not consumed, and it really does not appear in the stoichiometry, so it is tempting to conclude its amount is irrelevant. It is not irrelevant. Heterogeneous catalysis happens on a surface, so ten times the powder is roughly ten times the surface and roughly ten times the rate, and grinding it finer does the same again. The first option is the chemistry a school course teaches and the right expectation for a real bench. Our engine gives neither — it gives the second answer for the second reason, and the point of this entry is that you should know that before you trust it."
+misconception_de = "Die zweite Option ist die gefährliche, und sie ist gefährlich, weil sie von einer wahren Prämisse korrekt auf eine falsche Schlussfolgerung schließt: Ein Katalysator wird tatsächlich nicht verbraucht, und er erscheint tatsächlich nicht in der Stöchiometrie, sodass es naheliegt zu schließen, seine Menge sei bedeutungslos. Das ist sie nicht. Heterogene Katalyse findet an einer Oberfläche statt, sodass zehnmal so viel Pulver ungefähr zehnmal so viel Oberfläche und ungefähr die zehnfache Geschwindigkeit bedeutet, und feineres Mahlen bewirkt dasselbe noch einmal. Die erste Option ist die Chemie, die ein Schulkurs lehrt, und die richtige Erwartung für ein echtes Labor. Unser Motor liefert keines von beidem — er liefert die zweite Antwort aus dem zweiten Grund, und der Sinn dieses Eintrags ist, das zu wissen, bevor man ihm vertraut."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The right chemistry for a real bench, offered as a prediction about this one."
+reveals_de = "Die richtige Chemie für ein echtes Labor, angeboten als Vorhersage über dieses hier."
 next = "Nothing to unlearn — check instead which of your correct expectations the engine can honour. Concentration and temperature it computes; surface area and mixing it does not represent at all, and `stir` says so out loud."
+next_de = "Hier ist nichts zu verlernen — stattdessen wird geprüft, welche der richtigen Erwartungen der Motor tatsächlich einlösen kann. Konzentration und Temperatur berechnet er; Oberfläche und Durchmischung bildet er überhaupt nicht ab, und `stir` sagt das auch deutlich."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "A catalyst is not consumed and does not appear in the stoichiometry, therefore how much of it there is cannot matter."
+reveals_de = "Ein Katalysator werde nicht verbraucht und erscheine nicht in der Stöchiometrie, daher könne seine Menge keine Rolle spielen."
 next = "Reason about where the reaction physically happens. On a solid catalyst it happens on the surface, so ten times the powder is ten times the surface; grinding it finer does the same again without adding any mass. 'Not consumed' and 'amount irrelevant' are different claims, and only the first is true."
+next_de = "Es wird überlegt, wo die Reaktion physisch stattfindet. Bei einem festen Katalysator geschieht das an der Oberfläche, sodass zehnmal so viel Pulver zehnmal so viel Oberfläche bedeutet; feineres Mahlen bewirkt dasselbe noch einmal, ohne zusätzliche Masse. 'Nicht verbraucht' und 'Menge spielt keine Rolle' sind unterschiedliche Aussagen, und nur die erste stimmt."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Stirring is a mechanical input, so it must change the energy of the flask."
+reveals_de = "Rühren sei ein mechanischer Eingriff, müsse also die Energie des Kolbens verändern."
 next = "Watch the thermometer through the stir: 25.0 °C before and after. Then separate the two ideas — stirring in a real flask helps by moving material to the surface, not by changing the temperature."
+next_de = "Das Thermometer wird während des Rührens beobachtet: 25,0 °C davor und danach. Dann werden die beiden Vorstellungen getrennt — Rühren hilft in einem echten Kolben, indem es Material zur Oberfläche transportiert, nicht indem es die Temperatur verändert."
 
 [reaction.registers]
 lv1 = "Two flasks, one with a pinch of black powder and one with ten pinches, and a third that you stir hard. In this lab all three fizz at exactly the same speed. On a real bench they would not: more powder means more surface for the peroxide to meet, and stirring keeps fresh liquid arriving at that surface. This lab does not know about surfaces, and it says so rather than letting you think you have proved something."
+lv1_de = "Zwei Kolben, der eine mit einer Prise schwarzem Pulver, der andere mit zehn Prisen, und ein dritter, den du kräftig rührst. In diesem Labor sprudeln alle drei mit exakt derselben Geschwindigkeit. In einem echten Labor wäre das nicht so: Mehr Pulver bedeutet mehr Oberfläche, auf die das Peroxid trifft, und Rühren sorgt dafür, dass ständig frische Flüssigkeit an diese Oberfläche gelangt. Dieses Labor weiß nichts von Oberflächen, und es sagt das offen, statt dich glauben zu lassen, du hättest etwas bewiesen."
 lv2 = "Rate = k·[H₂O₂] with k set by whichever catalyst is present, and *present* is the only thing the model asks. 0.1 g and 1 g of MnO₂ both give 3.849 × 10⁻⁴ mol of reaction in one second, digit for digit, and stirring changes nothing — `stir` returns a notice saying so rather than an effect. In a real flask ten times the catalyst is roughly ten times the surface and roughly ten times the rate, and grinding it finer raises it again."
+lv2_de = "Geschwindigkeit = k·[H₂O₂], wobei k von dem jeweils vorhandenen Katalysator bestimmt wird, und *vorhanden* ist alles, wonach das Modell fragt. 0,1 g und 1 g MnO₂ ergeben beide 3,849 × 10⁻⁴ mol Umsatz in einer Sekunde, Ziffer für Ziffer, und Rühren ändert nichts — `stir` liefert einen entsprechenden Hinweis statt eines Effekts. In einem echten Kolben bedeutet zehnmal so viel Katalysator ungefähr zehnmal so viel Oberfläche und ungefähr die zehnfache Geschwindigkeit, und feineres Mahlen steigert sie noch einmal."
 lv3 = "The gap has a definite shape, which is what makes it worth stating rather than apologising for. `effective_activation_energy` tests `moles_of(catalyst) > 0` and then substitutes a barrier — a boolean, not a quantity — so catalyst loading is structurally invisible; there is no particle-size, surface-area or mass-transport term anywhere in `kinetics.rs`. Modelling it properly means a Langmuir–Hinshelwood surface treatment with a site density and a diffusion coefficient, which is a different engine, not a coefficient. Until then the honest reading of these three flasks is that they demonstrate the *absence* of a model. One caution for anyone extending the script: keep the manganese dioxide below about 4 g in 100 mL. At 4 g the bench leaves it as a solid with 4.6 × 10⁻¹² mol of Mn²⁺ in solution, as an insoluble oxide should; at 5 g the aqueous solver dissolves the entire charge, reporting 5.75 × 10⁻² mol of Mn²⁺ and pH 13.55. That discontinuity is a solver artefact, not chemistry, and it is flagged here because the rate results happen to survive it — the catalyst check only asks whether any MnO₂ is left."
+lv3_de = "Die Lücke hat eine klar umrissene Form, weshalb es sich lohnt, sie zu benennen statt sich dafür zu entschuldigen. `effective_activation_energy` prüft `moles_of(catalyst) > 0` und setzt dann eine Barriere ein — ein Wahrheitswert, keine Größe —, sodass die Katalysatormenge strukturell unsichtbar bleibt; nirgendwo in `kinetics.rs` gibt es einen Term für Partikelgröße, Oberfläche oder Stofftransport. Das richtig zu modellieren würde eine Langmuir-Hinshelwood-Oberflächenbehandlung mit einer Platzdichte und einem Diffusionskoeffizienten bedeuten — ein anderer Motor, kein Koeffizient. Bis dahin ist die ehrliche Lesart dieser drei Kolben, dass sie das *Fehlen* eines Modells demonstrieren. Eine Warnung für alle, die das Skript erweitern: Das Mangandioxid sollte unter etwa 4 g in 100 mL bleiben. Bei 4 g belässt das Labor es als Feststoff mit 4,6 × 10⁻¹² mol Mn²⁺ in Lösung, wie es sich für ein unlösliches Oxid gehört; bei 5 g löst der wässrige Solver die gesamte Portion auf und meldet 5,75 × 10⁻² mol Mn²⁺ und pH 13,55. Dieser Sprung ist ein Artefakt des Solvers, keine Chemie, und wird hier vermerkt, weil die Geschwindigkeitsergebnisse ihn zufällig überstehen — die Katalysatorprüfung fragt nur, ob noch MnO₂ übrig ist."
 
 [reaction.provenance]
 source = "Editorial judgement (Kerotakis): this is a statement about our engine's boundary, not about chemistry. Real heterogeneous catalysis depends strongly on catalyst surface area and on mass transport, per any standard treatment of catalysis; nothing in the shipped rate model represents either, and `stir` is explicitly a no-op that reports itself as one."
@@ -671,6 +763,7 @@ absent = ["solver_failed"]
 
 [reaction.expect.predict]
 question = "0.1 mol of hydrogen peroxide over manganese dioxide at 25 °C. The first ninety seconds destroy 0.0501 mol — just over half. How much does the second ninety seconds destroy?"
+question_de = "0,1 mol Wasserstoffperoxid über Mangandioxid bei 25 °C. Die ersten neunzig Sekunden zerstören 0,0501 mol — knapp über die Hälfte. Wie viel zerstören die zweiten neunzig Sekunden?"
 options = [
   "0.0499 mol — the rest of it, at the same steady pace",
   "0.0250 mol — half of what is left, because the rate falls with the concentration",
@@ -679,26 +772,36 @@ options = [
 ]
 answer = 1
 misconception = "The first and third options are the same misconception in two costumes: that a reaction has a speed the way a car has a speed, so a fixed time destroys a fixed amount. That is what zero order looks like, and it is rare. First order means the rate is proportional to what is left, so each equal interval removes an equal *fraction* — which is why the half-life is a constant and why the reaction has a long, thin tail rather than an end."
+misconception_de = "Die erste und die dritte Option sind dasselbe Missverständnis in zwei Verkleidungen: dass eine Reaktion eine Geschwindigkeit hat wie ein Auto eine Geschwindigkeit hat, sodass eine feste Zeit eine feste Menge zerstört. So sieht nullte Ordnung aus, und die ist selten. Erste Ordnung bedeutet, dass die Geschwindigkeit proportional zur verbliebenen Menge ist, sodass jedes gleich lange Intervall einen gleichen *Anteil* entfernt — deshalb ist die Halbwertszeit konstant, und deshalb hat die Reaktion einen langen, dünnen Ausläufer statt eines Endes."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The reaction has a speed in mol per minute, so it finishes the job in the next interval."
+reveals_de = "Die Reaktion habe eine Geschwindigkeit in mol pro Minute, sodass sie im nächsten Intervall fertig werde."
 next = "Add a fourth interval and a fifth. A fixed amount per interval would have hit zero and stopped; the bench is still removing measurable peroxide an hour later."
+next_de = "Es wird ein viertes und ein fünftes Intervall hinzugefügt. Eine feste Menge pro Intervall wäre bei null angekommen und hätte aufgehört; das Labor entfernt eine Stunde später immer noch messbares Peroxid."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The rate is fixed until the reagent is exhausted, at which point it stops — the zero-order picture, applied by default."
+reveals_de = "Die Geschwindigkeit sei fest, bis das Reagenz erschöpft ist und die Reaktion dann stoppt — das Bild nullter Ordnung, standardmäßig angewendet."
 next = "Plot the three amounts consumed: 0.0502, 0.0250, 0.0125. Equal amounts would be a straight line down to zero; equal fractions are a curve with a tail, and the difference is visible in three points."
+next_de = "Die drei verbrauchten Mengen werden aufgetragen: 0,0502, 0,0250, 0,0125. Gleiche Mengen wären eine Gerade bis auf null; gleiche Anteile sind eine Kurve mit Ausläufer, und der Unterschied ist schon in drei Punkten sichtbar."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Just over half went in the first interval, so the reaction is essentially over."
+reveals_de = "Knapp über die Hälfte sei im ersten Intervall verschwunden, die Reaktion sei also im Wesentlichen vorbei."
 next = "Read the remaining amount rather than the amount consumed: 0.0498 mol is still there, half of what you started with. 'Most of the change happened' and 'most of the material is gone' are different statements."
+next_de = "Statt der verbrauchten Menge wird die verbliebene Menge abgelesen: 0,0498 mol sind noch da, die Hälfte der Ausgangsmenge. 'Der größte Teil der Veränderung ist geschehen' und 'der größte Teil des Materials ist weg' sind unterschiedliche Aussagen."
 
 [reaction.registers]
 lv1 = "Peroxide left alone slowly falls apart into water and oxygen. Five minutes takes away half of it. The next five minutes takes away half of what is left, not half of what you started with — so a quarter. Then an eighth. It never quite gets to nothing, which is why old peroxide is weak rather than empty."
+lv1_de = "Sich selbst überlassenes Peroxid zerfällt langsam in Wasser und Sauerstoff. Fünf Minuten nehmen die Hälfte davon weg. Die nächsten fünf Minuten nehmen die Hälfte von dem weg, was übrig ist, nicht die Hälfte der Ausgangsmenge — also ein Viertel. Dann ein Achtel. Es kommt nie ganz bei null an, weshalb altes Peroxid schwach ist statt leer."
 lv2 = "Successive ninety-second intervals consume 0.0501, 0.0250 and 0.0125 mol of peroxide, leaving 0.0499, 0.0249 and 0.0124 mol of the original 0.1 mol. Each interval leaves 49.9% of what it was given — the same fraction every time, which is what first order means. The half-life is therefore a constant, here about 90 s, and an hour later nothing measurable is left. The manganese dioxide is there to make the experiment finish inside a lesson: without it the half-life is about a day, which is the whole reason a catalyst is worth having."
+lv2_de = "Aufeinanderfolgende Neunzig-Sekunden-Intervalle verbrauchen 0,0501, 0,0250 und 0,0125 mol Peroxid und lassen 0,0499, 0,0249 und 0,0124 mol der ursprünglichen 0,1 mol übrig. Jedes Intervall lässt 49,9 % dessen übrig, was es bekommen hat — jedes Mal derselbe Anteil, das bedeutet erste Ordnung. Die Halbwertszeit ist deshalb konstant, hier etwa 90 s, und eine Stunde später ist nichts Messbares mehr übrig. Das Mangandioxid sorgt dafür, dass das Experiment innerhalb einer Unterrichtsstunde fertig wird: Ohne es liegt die Halbwertszeit bei etwa einem Tag — genau deshalb lohnt sich ein Katalysator."
 lv3 = "The constancy is the check, not the story. d[H₂O₂]/dt = −2k[H₂O₂] because the rate law is first order while the stoichiometric coefficient is 2, so [H₂O₂](t) = c₀·e^(−2kt) and t½ = ln2/(2k) — note the factor of two, which is exactly where order and coefficient are separate quantities and get conflated. Over manganese dioxide the barrier is 58 kJ/mol, giving k = 3.86 × 10⁻³ s⁻¹ at 298.15 K and t½ = 89.7 s, so a 90 s interval is a shade more than one half-life and leaves 49.9% rather than exactly 50% — recovered from the barrier rather than fitted to the observation. Note what the catalyst does *not* change: the fraction is still constant, because lowering the activation energy scales k without touching the order. This closed form is also the integrator's oracle — `kinetics.rs` checks its adaptive midpoint solver against e^(−2kt) rather than against another numerical method, which is how a 0.7% drift in the original explicit-Euler version was caught."
+lv3_de = "Die Konstanz ist die Prüfung, nicht die eigentliche Geschichte. d[H₂O₂]/dt = −2k[H₂O₂], weil das Geschwindigkeitsgesetz erster Ordnung ist, während der stöchiometrische Koeffizient 2 beträgt, also [H₂O₂](t) = c₀·e^(−2kt) und t½ = ln2/(2k) — man beachte den Faktor zwei, genau dort, wo Ordnung und Koeffizient getrennte Größen sind und leicht verwechselt werden. Über Mangandioxid beträgt die Barriere 58 kJ/mol, was k = 3,86 × 10⁻³ s⁻¹ bei 298,15 K und t½ = 89,7 s ergibt, sodass ein 90-s-Intervall etwas mehr als eine Halbwertszeit ist und 49,9 % statt genau 50 % übrig lässt — aus der Barriere gewonnen, nicht an die Beobachtung angepasst. Bemerkenswert ist, was der Katalysator *nicht* verändert: Der Anteil bleibt konstant, weil das Senken der Aktivierungsenergie k skaliert, ohne die Ordnung anzutasten. Diese geschlossene Form dient dem Integrator auch als Referenz — `kinetics.rs` prüft seinen adaptiven Mittelpunkt-Solver gegen e^(−2kt) statt gegen ein anderes numerisches Verfahren, wodurch eine 0,7-prozentige Drift in der ursprünglichen expliziten Euler-Version entdeckt wurde."
 
 [reaction.provenance]
 source = "First-order kinetics per any standard physical chemistry text; the closed-form half-life is arithmetic on the curated rate constant. Editorial judgement (Kerotakis): the absolute half-life follows from a calibrated pre-exponential and is not a measured property of real hydrogen peroxide over real manganese dioxide — the constancy of the fraction is the claim here, not the number of seconds. The catalyst is present so the experiment fits in a lesson, and its amount changes nothing in this engine because surface area is not modelled."
@@ -710,6 +813,7 @@ computed_by = "kerotakis-core kinetics (midpoint integration, checked against th
 id = "two-beakers-and-one-clock"
 spine = ["erkenntnisgewinnung"]
 summary = "Identical mixtures at 25 °C and 35 °C; one `wait 20s` advances both, and only the temperature differs — 4.3557 × 10⁻⁴ mol against 8.1256 × 10⁻⁴ mol"
+summary_de = "Identische Mischungen bei 25 °C und 35 °C; ein `wait 20s` lässt beide gleichzeitig fortschreiten, und nur die Temperatur unterscheidet sich — 4,3557 × 10⁻⁴ mol gegen 8,1256 × 10⁻⁴ mol"
 concepts = ["shared-clock"]
 requires = ["fair-test", "temperature-and-rate"]
 calculations = ["rate-from-extent"]
@@ -753,6 +857,7 @@ temperature_c = { min = 24.5, max = 25.5 }
 
 [reaction.expect.predict]
 question = "You want to know whether temperature changes the rate. You have one stopwatch. What is the flaw in timing the cold beaker first and then the hot one?"
+question_de = "Du willst wissen, ob die Temperatur die Geschwindigkeit verändert. Du hast eine Stoppuhr. Was ist der Fehler daran, erst das kalte und dann das heiße Becherglas zu stoppen?"
 options = [
   "No flaw — the stopwatch does not care which beaker it is timing",
   "The hot beaker cools while it waits its turn, so the two are not really at the temperatures you wrote down",
@@ -761,26 +866,36 @@ options = [
 ]
 answer = 1
 misconception = "The first and last options treat 'fair test' as a rule about *which variables you change* and stop there. It is also a rule about when things happen. A virtual bench makes the point unusually sharply, because it had to be built in: `wait` advances every vessel on the bench, so the two beakers cannot drift apart in time, cannot be started at different moments and cannot sit around waiting their turn. A real bench gives you none of that for free, which is exactly why the habit has to be taught."
+misconception_de = "Die erste und die letzte Option behandeln 'faires Experiment' als Regel darüber, *welche Variablen man ändert*, und hören dort auf. Es ist aber auch eine Regel darüber, wann Dinge geschehen. Ein virtuelles Labor macht diesen Punkt ungewöhnlich deutlich, weil er eigens eingebaut werden musste: `wait` lässt jedes Gefäß im Labor gleichzeitig fortschreiten, sodass die beiden Bechergläser zeitlich nicht auseinanderdriften können, nicht zu unterschiedlichen Zeitpunkten gestartet werden können und nicht auf ihre Reihe warten müssen. Ein echtes Labor schenkt einem davon nichts — genau deshalb muss diese Gewohnheit gelehrt werden."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "A fair test is a rule about which variables you change; once the variables are right, the procedure is free."
+reveals_de = "Ein faires Experiment sei eine Regel darüber, welche Variablen man ändert; sobald die Variablen stimmen, sei der Ablauf frei wählbar."
 next = "List everything that differs between 'timed first' and 'timed second' — the beaker's temperature, how long the acid has been in, the room. A controlled comparison controls the procedure as well as the ingredients."
+next_de = "Es wird aufgelistet, was sich zwischen 'zuerst gestoppt' und 'als zweites gestoppt' alles unterscheidet — die Temperatur des Becherglases, wie lange die Säure schon zugegeben ist, der Raum. Ein kontrollierter Vergleich kontrolliert den Ablauf ebenso wie die Zutaten."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The problem is the observer: one pair of eyes cannot watch two beakers."
+reveals_de = "Das Problem sei der Beobachter: Ein Augenpaar könne nicht zwei Bechergläser gleichzeitig beobachten."
 next = "A real constraint, and a soluble one — two crosses side by side, or a video. Ask instead what happens to the beaker that is not being watched, which is the part no amount of attention fixes."
+next_de = "Eine reale und lösbare Einschränkung — zwei Kreuze nebeneinander oder ein Video. Stattdessen wird gefragt, was mit dem Becherglas passiert, das gerade nicht beobachtet wird — das ist der Teil, den keine noch so große Aufmerksamkeit beheben kann."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Sequential timing is merely inefficient, not invalid."
+reveals_de = "Nacheinander zu stoppen sei lediglich ineffizient, nicht ungültig."
 next = "Estimate the size of the error. A beaker sitting for a minute between runs loses a degree or two, and this reaction changes rate by 1.9 per ten degrees — so a couple of degrees is several percent, comparable with the effect being measured."
+next_de = "Die Größe des Fehlers wird abgeschätzt. Ein Becherglas, das eine Minute lang zwischen den Durchläufen steht, verliert ein bis zwei Grad, und diese Reaktion ändert ihre Geschwindigkeit um das 1,9-Fache pro zehn Grad — ein paar Grad sind also mehrere Prozent, vergleichbar mit dem zu messenden Effekt."
 
 [reaction.registers]
 lv1 = "Two beakers, the same amounts of everything, one warm and one not. Start them together, watch them together, stop them together. After twenty seconds the cold one is faintly hazy and the warm one is properly cloudy — and because nothing else was different, the warmth is the only thing that can have caused it. Change two things at once and you have a nice-looking experiment that proves nothing."
+lv1_de = "Zwei Bechergläser, von allem dieselbe Menge, das eine warm und das andere nicht. Man startet sie gemeinsam, beobachtet sie gemeinsam, stoppt sie gemeinsam. Nach zwanzig Sekunden ist das kalte leicht trübe, das warme richtig trüb — und weil sonst nichts anders war, kann nur die Wärme das verursacht haben. Ändert man zwei Dinge gleichzeitig, hat man ein hübsch aussehendes Experiment, das nichts beweist."
 lv2 = "Same 0.05 mol/L thiosulfate, same 0.002 mol of HCl, same 100 mL, 25 °C against 35 °C. One `wait 20s` advances both vessels: 4.3557 × 10⁻⁴ mol of reaction in the cold beaker against 8.1256 × 10⁻⁴ in the warm one, a factor of 1.87. The second twenty seconds gives 3.9760 × 10⁻⁴ and 6.8042 × 10⁻⁴ — both beakers slowing as their thiosulfate runs down, the warm one faster because it has less left."
+lv2_de = "Dasselbe 0,05 mol/L Thiosulfat, dieselben 0,002 mol HCl, dieselben 100 mL, 25 °C gegen 35 °C. Ein `wait 20s` lässt beide Gefäße gleichzeitig fortschreiten: 4,3557 × 10⁻⁴ mol Umsatz im kalten Becherglas gegen 8,1256 × 10⁻⁴ im warmen, ein Faktor von 1,87. Die zweiten zwanzig Sekunden ergeben 3,9760 × 10⁻⁴ und 6,8042 × 10⁻⁴ — beide Bechergläser werden langsamer, während ihr Thiosulfat zur Neige geht, das warme schneller, weil ihm weniger übrig bleibt."
 lv3 = "Time is a state dimension on this bench, and it is shared rather than per-vessel: `Operator::Wait` iterates every vessel and advances each one's clock and chemistry by the same interval, and the bench then re-settles every vessel's fast equilibria around what is left. That ordering — kinetics first, then speciation — is operator splitting, and it is the right way round because equilibrium is the faster process. The design cost of the alternative is worth naming: had `wait` taken a vessel argument, every rate comparison in this file would have been a comparison of two separately-run experiments, and the fair test would have been a convention the user had to keep rather than a property the engine guarantees. What the simulation cannot supply is the difficulty: identical starting temperatures, zero heat loss and perfect timing are free here and are most of the work at a real bench."
+lv3_de = "Zeit ist auf diesem Labor eine Zustandsdimension, und sie wird geteilt statt pro Gefäß geführt: `Operator::Wait` durchläuft jedes Gefäß und lässt dessen Uhr und Chemie um dasselbe Intervall fortschreiten, und das Labor stellt danach die schnellen Gleichgewichte jedes Gefäßes neu um das ein, was übrig ist. Diese Reihenfolge — erst Kinetik, dann Speziation — ist Operatorsplitting, und sie ist richtig herum, weil das Gleichgewicht der schnellere Prozess ist. Die Entwurfskosten der Alternative sind es wert, genannt zu werden: Hätte `wait` ein Gefäßargument entgegengenommen, wäre jeder Geschwindigkeitsvergleich in dieser Datei ein Vergleich zweier getrennt durchgeführter Experimente gewesen, und das faire Experiment wäre eine Konvention gewesen, die der Nutzer selbst hätte einhalten müssen, statt eine Eigenschaft, die der Motor garantiert. Was die Simulation nicht liefern kann, ist die Schwierigkeit: identische Ausgangstemperaturen, kein Wärmeverlust und perfektes Timing gibt es hier gratis, und genau das macht bei einem echten Labor den größten Teil der Arbeit aus."
 
 [reaction.provenance]
 source = "Editorial judgement (Kerotakis): the shared-clock design and the argument that it is what makes a fair test structural rather than conventional are ours, recorded in PLAN.md (P3k) and `kinetics.rs`. The controlled-comparison principle itself is standard scientific method."
@@ -792,6 +907,7 @@ computed_by = "kerotakis-core kinetics; bench clock via Operator::Wait"
 id = "a-salt-with-no-database"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
 summary = "Sodium thiosulfate dissolves and reacts, and contributes exactly nothing to the pH: 1.74858175066 with it and 1.74858175066 without"
+summary_de = "Natriumthiosulfat löst sich auf und reagiert und trägt exakt nichts zum pH-Wert bei: 1,74858175066 mit ihm und 1,74858175066 ohne ihn"
 concepts = ["species-without-a-database"]
 requires = ["stated-ignorance", "ph"]
 calculations = ["ph-from-concentration"]
@@ -831,6 +947,7 @@ ph = { min = 1.70, max = 1.80 }
 
 [reaction.expect.predict]
 question = "Sodium thiosulfate is a salt of a weak acid, so a solution of it should be slightly alkaline. What does this bench report for 0.79 g of it in 100 mL of pure water?"
+question_de = "Natriumthiosulfat ist das Salz einer schwachen Säure, eine Lösung davon sollte also leicht alkalisch sein. Was meldet dieses Labor für 0,79 g davon in 100 mL reinem Wasser?"
 options = [
   "About pH 8.5, as the chemistry requires",
   "pH 7.00 — it treats the salt as neutral",
@@ -839,26 +956,36 @@ options = [
 ]
 answer = 2
 misconception = "The second option is what most software would do and is the failure this bench is built to avoid: a plausible number with nothing behind it. Thiosulfate is absent from every PHREEQC database we ship, so there is no equilibrium constant to compute a pH from. The bench therefore says so, and the salt sits in the vessel without a solution around it. The first option is the right chemistry — S₂O₃²⁻ is the conjugate base of a weak acid and a real solution is mildly alkaline — which makes the gap a real one rather than a technicality."
+misconception_de = "Die zweite Option ist das, was die meiste Software tun würde, und genau dieses Versagen soll dieses Labor vermeiden: eine plausible Zahl ohne jede Grundlage. Thiosulfat fehlt in jeder PHREEQC-Datenbank, die wir ausliefern, es gibt also keine Gleichgewichtskonstante, aus der sich ein pH-Wert berechnen ließe. Das Labor sagt das deshalb offen, und das Salz liegt im Gefäß, ohne dass eine Lösung um es herum charakterisiert wird. Die erste Option ist die richtige Chemie — S₂O₃²⁻ ist die konjugierte Base einer schwachen Säure, und eine echte Lösung ist leicht alkalisch —, was die Lücke real macht und nicht bloß zu einer Formsache."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The software knows the chemistry, so it will give the chemically correct answer."
+reveals_de = "Die Software kenne die Chemie und liefere deshalb die chemisch korrekte Antwort."
 next = "Ask where such an answer would come from. A pH needs an equilibrium constant, and no shipped database carries one for thiosulfate. Software knows what its data knows."
+next_de = "Es wird gefragt, woher eine solche Antwort überhaupt kommen sollte. Ein pH-Wert braucht eine Gleichgewichtskonstante, und keine ausgelieferte Datenbank führt eine für Thiosulfat. Software weiß nur, was ihre Daten wissen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Where a program has nothing to say it defaults to the neutral, unremarkable value."
+reveals_de = "Wo ein Programm nichts zu sagen habe, falle es auf den neutralen, unauffälligen Wert zurück."
 next = "This is the answer to watch for in any tool: a plausible number with nothing behind it, indistinguishable from a computed one. Compare with the same bench's `when-the-lab-says-it-does-not-know` — the design commitment is to say nothing rather than to say 7."
+next_de = "Genau davor sollte man sich bei jedem Werkzeug hüten: eine plausible Zahl ohne jede Grundlage, nicht zu unterscheiden von einer tatsächlich berechneten. Zum Vergleich der Eintrag `when-the-lab-says-it-does-not-know` desselben Labors — die Entwurfsentscheidung lautet, lieber nichts zu sagen als 7 zu sagen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "A model that cannot handle something should refuse to proceed."
+reveals_de = "Ein Modell, das etwas nicht abbilden kann, sollte die Ausführung verweigern."
 next = "Notice what would be lost: the salt would be unusable, and its rate chemistry — which the engine models perfectly well — would go with it. The useful move is to accept the substance and name precisely which downstream numbers it invalidates."
+next_de = "Es wird bemerkt, was dabei verloren ginge: Das Salz wäre unbrauchbar, und seine Kinetik — die der Motor durchaus gut modelliert — ginge mit verloren. Der nützlichere Weg ist, den Stoff zu akzeptieren und genau zu benennen, welche nachgelagerten Werte er ungültig macht."
 
 [reaction.registers]
 lv1 = "Some things this lab knows how to think about, and some it does not. It can hold this salt, dissolve it and let it react — but if you ask what it does to the acidity, it tells you plainly that it has no way to work that out. That is a better answer than a confident number nobody checked."
+lv1_de = "Manches weiß dieses Labor zu bedenken, manches nicht. Es kann dieses Salz aufnehmen, es auflösen und reagieren lassen — aber fragst du, was es mit der Säure macht, sagt es dir offen, dass es das nicht herausfinden kann. Das ist eine bessere Antwort als eine selbstsichere Zahl, die niemand überprüft hat."
 lv2 = "The acid beaker reads pH 1.74858175066. The beaker with thiosulfate *and* the same acid reads pH 1.74858175066 — identical to twelve figures, because the thiosulfate contributes nothing to the charge balance or the ionic strength (0.02006 mol/kgw in both). The third beaker, thiosulfate in pure water, has no characterised solution at all: the salt stays in the vessel as a solid and the pH meter reports that it has nothing to read."
+lv2_de = "Das Säure-Becherglas zeigt pH 1,74858175066. Das Becherglas mit Thiosulfat *und* derselben Säure zeigt pH 1,74858175066 — identisch bis zur zwölften Stelle, weil das Thiosulfat weder zur Ladungsbilanz noch zur Ionenstärke etwas beiträgt (0,02006 mol/kgw in beiden). Das dritte Becherglas, Thiosulfat in reinem Wasser, hat überhaupt keine charakterisierte Lösung: Das Salz bleibt als Feststoff im Gefäß, und das pH-Messgerät meldet, dass es nichts abzulesen gibt."
 lv3 = "The species registry marks sodium thiosulfate `dissolves_without_speciation`, and the bench raises `NotYetModeled` every time it is added, naming exactly what is affected: the pH and the ionic strength are for everything else in the beaker. This is not cosmetic — it was earned by two bugs that only a rate model could have exposed. Before the fix, one species without a derived role made `partition` return `None`, so adding thiosulfate silently withdrew the pH of the acid sitting beside it; and because the aqueous rebuild replaces a vessel's contents with the computed state, the unrecognised species was then destroyed rather than ignored. What remains is a vessel where two solvers coexist over the same liquid with different vocabularies, and the rate engine draws its acid term from the one that does know about protons. Worth naming the real chemistry that is missing: S₂O₃²⁻ has pKa₂ ≈ 1.6, so at pH 1.75 a real solution is roughly half protonated, and the reacting species is arguably HS₂O₃⁻ rather than the free anion."
+lv3_de = "Das Spezies-Register markiert Natriumthiosulfat als `dissolves_without_speciation`, und das Labor löst bei jeder Zugabe `NotYetModeled` aus und benennt dabei genau, was betroffen ist: pH-Wert und Ionenstärke gelten für alles andere im Becherglas. Das ist keine Kosmetik — es wurde durch zwei Fehler erkauft, die nur ein Kinetikmodell hätte aufdecken können. Vor der Behebung führte eine Spezies ohne abgeleitete Rolle dazu, dass `partition` `None` zurückgab, sodass die Zugabe von Thiosulfat stillschweigend den pH-Wert der danebenliegenden Säure entzog; und weil der wässrige Neuaufbau den Inhalt eines Gefäßes durch den berechneten Zustand ersetzt, wurde die nicht erkannte Spezies anschließend zerstört statt ignoriert. Was bleibt, ist ein Gefäß, in dem zwei Solver über derselben Flüssigkeit mit unterschiedlichem Vokabular koexistieren, und der Kinetikmotor bezieht seinen Säureterm von demjenigen, der etwas von Protonen versteht. Es lohnt sich, die fehlende reale Chemie zu benennen: S₂O₃²⁻ hat pKa₂ ≈ 1,6, sodass bei pH 1,75 eine echte Lösung ungefähr zur Hälfte protoniert wäre, und die reagierende Spezies wäre eher HS₂O₃⁻ als das freie Anion."
 
 [reaction.provenance]
 source = "Editorial judgement (Kerotakis): the decision to let an unspeciated salt dissolve while reporting what that costs, rather than refusing it or inventing a pH, is ours and is recorded in PLAN.md (P3k, 'Honest gaps'). The absence of thiosulfate from wateq4f.dat, minteq.v4.dat and pitzer.dat is a property of the shipped PHREEQC databases (USGS). The pKa₂ ≈ 1.6 quoted at lv3 is a standard reference value and is not computed by this engine."
@@ -868,6 +995,7 @@ computed_by = "PHREEQC via Kerotakis L2 for the two pH readings; the gap notice 
 id = "the-acid-is-never-used-up"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
 summary = "Ten minutes consumes 4.6727 × 10⁻³ mol of thiosulfate — which would need 9.35 mmol of protons — while the beaker holds 2 mmol and the pH never moves off 1.74858175066"
+summary_de = "Zehn Minuten verbrauchen 4,6727 × 10⁻³ mol Thiosulfat — wofür 9,35 mmol Protonen nötig wären — während das Becherglas 2 mmol enthält und der pH-Wert nie von 1,74858175066 abweicht"
 concepts = ["excess-reagent-approximation"]
 requires = ["reaction-order", "excess-reagent"]
 calculations = ["stoichiometric-ratio", "rate-from-extent"]
@@ -904,6 +1032,7 @@ ph = { min = 1.70, max = 1.80 }
 
 [reaction.expect.predict]
 question = "The equation is S₂O₃²⁻ + 2 H⁺ → S + SO₂ + H₂O. The beaker starts with 5.0 mmol of thiosulfate and 2.0 mmol of acid. After ten minutes, 4.67 mmol of thiosulfate has reacted. What has the pH done?"
+question_de = "Die Gleichung lautet S₂O₃²⁻ + 2 H⁺ → S + SO₂ + H₂O. Das Becherglas startet mit 5,0 mmol Thiosulfat und 2,0 mmol Säure. Nach zehn Minuten haben 4,67 mmol Thiosulfat reagiert. Was hat der pH-Wert getan?"
 options = [
   "Risen sharply — the protons were the limiting reagent and ran out after 1 mmol of thiosulfate",
   "Risen a little, as protons were consumed",
@@ -912,26 +1041,36 @@ options = [
 ]
 answer = 2
 misconception = "There is no misconception on offer here — all four options are chemically sensible, and the first is what a real beaker would do. The question exists to make a modelling decision visible. The rate law treats [H⁺] as an influence read from the solution rather than as a reactant with an inventory, because the practical is designed to run with acid in large excess and the vessel has no proton portion to draw down. Over the twenty to sixty seconds the practical actually uses, that is a good approximation. Over ten minutes with only 2 mmol of acid it is not, and the entry says so rather than letting the reader discover it as a surprise."
+misconception_de = "Hier wird kein Missverständnis angeboten — alle vier Optionen sind chemisch sinnvoll, und die erste ist das, was ein echtes Becherglas tun würde. Die Frage dient dazu, eine Modellierungsentscheidung sichtbar zu machen. Das Geschwindigkeitsgesetz behandelt [H⁺] als einen aus der Lösung abgelesenen Einfluss, nicht als Reaktanten mit eigenem Inventar, weil das Experiment für einen großen Säureüberschuss ausgelegt ist und das Gefäß keine Protonenmenge besitzt, die abgebaut werden könnte. Über die zwanzig bis sechzig Sekunden, die das Experiment tatsächlich nutzt, ist das eine gute Näherung. Über zehn Minuten mit nur 2 mmol Säure ist sie es nicht, und der Eintrag sagt das offen, statt es die Leserin oder den Leser als Überraschung entdecken zu lassen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The right chemistry for a real beaker, and the right stoichiometry — offered as a prediction about this model."
+reveals_de = "Die richtige Chemie für ein echtes Becherglas und die richtige Stöchiometrie — angeboten als Vorhersage über dieses Modell."
 next = "Nothing to unlearn. Note instead which prediction the engine cannot honour and why: there is no proton portion in the vessel to draw down, so the limiting-reagent argument has nothing to act on here even though it is correct."
+next_de = "Hier ist nichts zu verlernen. Stattdessen wird notiert, welche Vorhersage der Motor nicht einlösen kann und warum: Es gibt im Gefäß keine Protonenmenge, die sich abbauen ließe, sodass das Argument des limitierenden Reagenz hier korrekt, aber wirkungslos ist."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Protons are consumed, but a solution buffers itself, so the pH drifts rather than jumps."
+reveals_de = "Protonen würden verbraucht, aber eine Lösung puffere sich selbst, sodass der pH-Wert eher driftet als springt."
 next = "Check whether anything in this beaker could buffer: hydrochloric acid is fully dissociated and thiosulfate is invisible to the aqueous solver. Then read the pH — not drifted, not moved at all, twelve digits unchanged."
+next_de = "Es wird geprüft, ob irgendetwas in diesem Becherglas puffern könnte: Salzsäure ist vollständig dissoziiert, und Thiosulfat ist für den wässrigen Solver unsichtbar. Dann wird der pH-Wert abgelesen — nicht gedriftet, überhaupt nicht bewegt, zwölf Stellen unverändert."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Sulfur dioxide is an acid gas, so dissolving it should acidify the beaker further."
+reveals_de = "Schwefeldioxid sei ein saures Gas, sein Lösen müsse das Becherglas also weiter ansäuern."
 next = "Chemically reasonable and also not modelled: the SO₂ is deposited straight into the gas phase and never enters the aqueous solver, so it cannot form sulfurous acid here. Two separate absences produce the same flat line, and it is worth being able to name both."
+next_de = "Chemisch vernünftig und ebenfalls nicht modelliert: Das SO₂ wird direkt in die Gasphase abgelagert und gelangt nie in den wässrigen Solver, kann hier also keine schweflige Säure bilden. Zwei getrennte Lücken erzeugen dieselbe flache Linie, und es lohnt sich, beide benennen zu können."
 
 [reaction.registers]
 lv1 = "Left for ten minutes, the beaker turns thick and yellow: almost all the thiosulfate has become sulfur. The acid meter reads exactly what it read at the start. In a real beaker it would not — the acid is meant to be used up too, and here it never is. This is a corner the model was not built for, and it is better to know where those corners are than to find one by accident."
+lv1_de = "Zehn Minuten sich selbst überlassen, wird das Becherglas dickflüssig und gelb: Fast das gesamte Thiosulfat ist zu Schwefel geworden. Das Säuremessgerät zeigt genau denselben Wert wie am Anfang. In einem echten Becherglas wäre das nicht so — die Säure sollte eigentlich auch verbraucht werden, und hier geschieht das nie. Das ist eine Ecke, für die das Modell nicht gebaut wurde, und es ist besser, diese Ecken zu kennen, als zufällig darüber zu stolpern."
 lv2 = "In 600 s the bench reports 4.6727 × 10⁻³ mol of reaction, 93.5% of the 4.9965 × 10⁻³ mol of thiosulfate present, and pH 1.74858175066 before and after — the same twelve digits. By the stated equation that much reaction would need 9.345 × 10⁻³ mol of protons, and the beaker was charged with 2.0 × 10⁻³ mol. A real beaker would have run out of acid after about 1 mmol of thiosulfate and stalled."
+lv2_de = "Nach 600 s meldet das Labor 4,6727 × 10⁻³ mol Umsatz, 93,5 % der vorhandenen 4,9965 × 10⁻³ mol Thiosulfat, und pH 1,74858175066 davor wie danach — dieselben zwölf Stellen. Nach der angegebenen Gleichung würde ein solcher Umsatz 9,345 × 10⁻³ mol Protonen benötigen, und das Becherglas wurde mit 2,0 × 10⁻³ mol befüllt. Ein echtes Becherglas wäre nach etwa 1 mmol umgesetztem Thiosulfat die Säure ausgegangen, und die Reaktion wäre ins Stocken geraten."
 lv3 = "The approximation is deliberate and documented: `orders` carries `(PROTON, 1.0)` while `reactants` does not, so the proton enters the rate through `10^(−pH)` and is never withdrawn. The reason it cannot simply be fixed by adding H⁺ to `reactants` is structural — the proton is not a vessel portion at all; it lives in PHREEQC's charge balance, and there is nothing there for the integrator to decrement. Doing this properly means the rate engine handing a consumed proton amount back to the aqueous solver as an alkalinity change between substeps, which is a coupling neither solver currently has. Until then the honest guidance is that thiosulfate results are trustworthy while the acid is in genuine excess — for these amounts, up to roughly the first fifth of the thiosulfate, which comfortably covers the disappearing-cross timings and does not cover this ten-minute run."
+lv3_de = "Die Näherung ist bewusst gewählt und dokumentiert: `orders` enthält `(PROTON, 1.0)`, während `reactants` das nicht tut, sodass das Proton über `10^(−pH)` in die Geschwindigkeit eingeht und niemals entnommen wird. Der Grund, warum sich das nicht einfach durch Hinzufügen von H⁺ zu `reactants` beheben lässt, ist struktureller Natur — das Proton ist überhaupt keine Gefäßmenge; es lebt in PHREEQCs Ladungsbilanz, wo es für den Integrator nichts zu verringern gibt. Das richtig zu lösen würde bedeuten, dass der Kinetikmotor eine verbrauchte Protonenmenge zwischen den Teilschritten als Änderung der Alkalinität an den wässrigen Solver zurückgibt — eine Kopplung, die derzeit keiner der beiden Solver besitzt. Bis dahin gilt als ehrliche Richtschnur: Thiosulfat-Ergebnisse sind vertrauenswürdig, solange die Säure in echtem Überschuss vorliegt — für diese Mengen also bis zu ungefähr dem ersten Fünftel des Thiosulfats, was die Zeiten des verschwindenden Kreuzes bequem abdeckt, aber diesen Zehn-Minuten-Lauf nicht."
 
 [reaction.provenance]
 source = "Editorial judgement (Kerotakis): the excess-acid approximation and its boundary are ours, stated in `kinetics.rs` and stretched deliberately here so that the boundary can be seen. The stoichiometry S₂O₃²⁻ + 2 H⁺ → S + SO₂ + H₂O is standard."
@@ -941,6 +1080,7 @@ computed_by = "kerotakis-core kinetics; pH from PHREEQC via Kerotakis L2"
 id = "the-oxygen-is-counted-but-never-seen"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
 summary = "0.05 mol of oxygen — about 1.2 L — is in the flask; you can see it bubbling and you cannot measure it."
+summary_de = "0,05 mol Sauerstoff — etwa 1,2 L — befinden sich im Kolben; man sieht ihn aufsteigen und kann ihn nicht messen."
 concepts = ["unrendered-observable"]
 requires = ["catalysis", "model-boundary"]
 calculations = ["moles-from-mass"]
@@ -974,6 +1114,7 @@ absent = ["gas_evolved:O2", "solver_failed"]
 
 [reaction.expect.predict]
 question = "Catalase destroys 0.1 mol of peroxide, releasing 0.05 mol of oxygen — roughly 1.2 litres, the demonstration's whole point. The bench reports bubbles rising. What can you do with that gas?"
+question_de = "Katalase zerstört 0,1 mol Peroxid und setzt dabei 0,05 mol Sauerstoff frei — rund 1,2 Liter, der ganze Sinn der Demonstration. Das Labor meldet aufsteigende Bläschen. Was kannst du mit diesem Gas anfangen?"
 options = [
   "Read its volume off the gas syringe, which is how the rate is measured",
   "See it, and nothing else — no volume is measurable here, and no gas-evolution event fires",
@@ -982,26 +1123,36 @@ options = [
 ]
 answer = 1
 misconception = "This one is not about chemistry, and pretending otherwise would be the dishonest move. The engine's bookkeeping is right — 0.05 mol of O₂ is exactly half the peroxide, and it is there in the vessel and now visible as bubbles. What is still missing is downstream: there is no gas syringe, no volume reading, and the rate engine deposits products into a phase without raising the `gas_evolved` event the aqueous and thermal solvers raise. So the practical's actual measurement — millilitres against seconds — cannot be taken. A simulation has a model layer and a presentation layer and they fail independently, which is worth knowing about any simulation you are handed."
+misconception_de = "Hier geht es nicht um Chemie, und etwas anderes zu behaupten wäre der unehrliche Weg. Die Buchführung des Motors stimmt — 0,05 mol O₂ ist genau die Hälfte des Peroxids, es ist im Gefäß vorhanden und nun als Bläschen sichtbar. Was noch fehlt, liegt weiter unten in der Kette: Es gibt keine Gasspritze, keine Volumenanzeige, und der Kinetikmotor lagert Produkte in eine Phase ein, ohne das `gas_evolved`-Ereignis auszulösen, das die wässrigen und thermischen Solver auslösen. Die eigentliche Messung des Experiments — Milliliter gegen Sekunden — lässt sich deshalb nicht vornehmen. Eine Simulation besitzt eine Modellschicht und eine Darstellungsschicht, und diese können unabhängig voneinander versagen — das lohnt sich bei jeder Simulation zu wissen, die man in die Hand bekommt."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Whatever a real practical measures, the simulation must measure too — if the chemistry is right, the instruments must be there."
+reveals_de = "Was ein echtes Experiment misst, müsse auch die Simulation messen — sei die Chemie richtig, müssten auch die Instrumente vorhanden sein."
 next = "Separate the two. Read the vessel's inventory (0.05 mol of O₂, correct to the last digit), then ask what instrument would give you a number from it. Apparatus is a modelling decision, and this bench has not made it yet."
+next_de = "Die beiden Ebenen werden getrennt. Das Inventar des Gefäßes wird abgelesen (0,05 mol O₂, korrekt bis zur letzten Ziffer), dann wird gefragt, welches Instrument daraus eine Zahl liefern würde. Apparatur ist eine Modellierungsentscheidung, und dieses Labor hat sie noch nicht getroffen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "A picture is decoration, so anything you can only see is not really in the model."
+reveals_de = "Ein Bild sei bloß Dekoration, alles, was man nur sehen kann, sei also nicht wirklich im Modell enthalten."
 next = "The opposite of the first mistake, and just as wrong. Ask the vessel what it holds: the oxygen is there to the last digit, and the bubbles are drawn *from* that number rather than instead of it."
+next_de = "Das Gegenteil des ersten Fehlers, und ebenso falsch. Man fragt das Gefäß, was es enthält: Der Sauerstoff ist bis zur letzten Ziffer vorhanden, und die Bläschen werden *aus* dieser Zahl gezeichnet, nicht anstelle von ihr."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Any change in the flask should show up as a change in what you see, and oxygen is faintly blue in bulk."
+reveals_de = "Jede Veränderung im Kolben müsse sich in dem zeigen, was man sieht, und Sauerstoff sei in großer Menge schwach bläulich."
 next = "True of liquid oxygen at −183 °C and irrelevant here. The bench computes colour from curated absorption spectra, and oxygen gas at 1 atm has none worth the name — so this is the rare case where 'no colour change' is the right answer for the right reason."
+next_de = "Zutreffend für flüssigen Sauerstoff bei −183 °C, aber hier belanglos. Das Labor berechnet Farbe aus kuratierten Absorptionsspektren, und Sauerstoffgas bei 1 atm hat kein nennenswertes — dies ist also der seltene Fall, in dem 'keine Farbänderung' die richtige Antwort aus dem richtigen Grund ist."
 
 [reaction.registers]
 lv1 = "The flask is full of oxygen — enough to fill a large drinks bottle — and you can see it bubbling up through the liquid. What you cannot do is measure it. In a real lab you would push the gas into a syringe and read off how many millilitres arrive each ten seconds, and that reading *is* the experiment. This lab has not been given a gas syringe yet. Knowing which part of an answer is the calculation and which part is the equipment is a useful habit to have about any simulation."
+lv1_de = "Der Kolben ist voller Sauerstoff — genug, um eine große Getränkeflasche zu füllen —, und du siehst ihn durch die Flüssigkeit aufsteigen. Was du nicht kannst, ist ihn zu messen. In einem echten Labor würdest du das Gas in eine Spritze drücken und ablesen, wie viele Milliliter alle zehn Sekunden ankommen, und genau diese Ablesung *ist* das Experiment. Dieses Labor hat noch keine Gasspritze bekommen. Zu wissen, welcher Teil einer Antwort die Berechnung ist und welcher die Ausrüstung, ist eine nützliche Gewohnheit im Umgang mit jeder Simulation."
 lv2 = "The vessel holds 5.0000 × 10⁻² mol of O₂ in the gas phase after one second, which is 1.6 g and, as an ideal gas at 25 °C and 1 atm, about 1.22 L. `look` now reports bubbles rising through the liquid. What it cannot report is a volume: there is no gas-collection apparatus, and no `gas_evolved` event either, because the rate engine deposits its products into a phase while only the aqueous and thermal solvers raise gas-evolution events. The quantity is exact and the measurement is missing."
+lv2_de = "Das Gefäß enthält nach einer Sekunde 5,0000 × 10⁻² mol O₂ in der Gasphase, das sind 1,6 g und, als ideales Gas bei 25 °C und 1 atm, etwa 1,22 L. `look` meldet nun Bläschen, die durch die Flüssigkeit aufsteigen. Was es nicht melden kann, ist ein Volumen: Es gibt keine Gasauffangvorrichtung und auch kein `gas_evolved`-Ereignis, weil der Kinetikmotor seine Produkte in eine Phase einlagert, während nur die wässrigen und thermischen Solver Gasentwicklungsereignisse auslösen. Die Menge ist exakt, und die Messung fehlt."
 lv3 = "`appearance::observe` builds three things — a transmitted colour from Beer–Lambert over curated ε(λ), a cloudiness from suspended solid per litre, and a deposit — and then sets `bubbling: false` as a literal, with the struct field documented as 'whether anything is visibly not-liquid-not-settled'. So the field exists, the data to fill it exists in the vessel's gas-phase portions, and the connection between them has not been made. This is a renderer gap rather than a modelling one, which puts it in a different category from the rest of this file: it is cheap to close, it costs no chemistry, and it currently makes the single most visual practical in school kinetics invisible. Stated here so that nobody builds a lesson around watching a flask fizz until it is."
+lv3_de = "`appearance::observe` erzeugt drei Dinge — eine transmittierte Farbe nach Beer-Lambert über kuratierte ε(λ), eine Trübung aus suspendiertem Feststoff pro Liter und einen Bodensatz — und setzt dann `bubbling: false` als festen Wert, wobei das Struct-Feld dokumentiert ist als 'ob irgendetwas sichtbar nicht-flüssig-nicht-abgesetzt ist'. Das Feld existiert also, die Daten, um es zu füllen, existieren in den Gasphasen-Anteilen des Gefäßes, und die Verbindung zwischen beidem wurde noch nicht hergestellt. Das ist eine Lücke im Renderer, keine im Modell, was sie in eine andere Kategorie stellt als den Rest dieser Datei: Sie ist billig zu schließen, kostet keine Chemie, und macht derzeit das visuell eindrucksvollste Experiment der Schulkinetik unsichtbar. Hier festgehalten, damit niemand eine Unterrichtsstunde darauf aufbaut, einen sprudelnden Kolben zu beobachten, bevor das behoben ist."
 
 [reaction.provenance]
 source = "Editorial judgement (Kerotakis): this entry is a claim about the current renderer, not about chemistry. The molar volume used to convert 0.05 mol to 1.22 L is ideal-gas arithmetic at 298.15 K and 101325 Pa, performed here rather than by the engine."
@@ -1047,6 +1198,7 @@ absent = ["solver_failed"]
 
 [reaction.expect.predict]
 question = "Two flasks of peroxide, one with catalase. After one second the catalysed flask is finished and the other has lost 0.2%. Two hours later, what is in them?"
+question_de = "Zwei Kolben mit Peroxid, einer mit Katalase. Nach einer Sekunde ist der katalysierte Kolben fertig, der andere hat 0,2 % verloren. Was ist zwei Stunden später in ihnen enthalten?"
 options = [
   "The catalysed flask holds more oxygen — the catalyst made more reaction happen",
   "The same thing: 0.05 mol of oxygen in each. The catalyst changed when, not whether or how much",
@@ -1055,26 +1207,36 @@ options = [
 ]
 answer = 1
 misconception = "The first option is the most common thing learners believe about catalysts and it is a claim about *yield*, which is the one thing a catalyst cannot touch. A catalyst lowers the barrier equally in both directions, so it moves the system towards equilibrium faster and moves equilibrium not at all. The third option is the mirror error — treating a barrier as a prohibition. The barrier here is 75 kJ/mol, which is enough to make one second look like nothing happening and not nearly enough to survive five days."
+misconception_de = "Die erste Option ist das, was Lernende am häufigsten über Katalysatoren glauben, und sie ist eine Aussage über die *Ausbeute* — das Einzige, was ein Katalysator nicht anrühren kann. Ein Katalysator senkt die Barriere in beide Richtungen gleichermaßen, er bringt das System also schneller zum Gleichgewicht, verschiebt das Gleichgewicht aber überhaupt nicht. Die dritte Option ist der gespiegelte Fehler — eine Barriere als Verbot zu behandeln. Die Barriere beträgt hier 75 kJ/mol, genug, damit eine Sekunde wie nichts Geschehenes aussieht, aber bei Weitem nicht genug, um fünf Tage zu überstehen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "A catalyst increases the yield — more reaction happens because the catalyst helped it happen."
+reveals_de = "Ein Katalysator erhöhe die Ausbeute — mehr Reaktion finde statt, weil der Katalysator dabei geholfen habe."
 next = "Count the oxygen in both flasks at the end: 0.0500 mol in the catalysed one, 0.0485 mol in the plain one and still climbing toward the same figure. Then ask what a catalyst could possibly change about a mass balance."
+next_de = "Der Sauerstoff in beiden Kolben wird am Ende gezählt: 0,0500 mol im katalysierten, 0,0485 mol im unbehandelten und weiter auf denselben Wert zusteigend. Dann wird gefragt, was ein Katalysator überhaupt an einer Massenbilanz ändern könnte."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Without a catalyst the reaction does not occur — the barrier is a prohibition rather than a delay."
+reveals_de = "Ohne Katalysator finde die Reaktion nicht statt — die Barriere sei ein Verbot, keine Verzögerung."
 next = "Look at the plain flask at 1 s and at five days: 0.1000 mol left, then 0.0030 mol. The same barrier that makes one second look like nothing lets five days very nearly finish the job. \u201cToo slow to see\u201d and \u201cdoes not happen\u201d are different states, and only one of them is settled by thermodynamics."
+next_de = "Der unbehandelte Kolben wird bei 1 s und bei fünf Tagen betrachtet: 0,1000 mol übrig, dann 0,0030 mol. Dieselbe Barriere, die eine Sekunde wie nichts aussehen lässt, lässt fünf Tage die Sache fast vollständig zu Ende bringen. „Zu langsam, um es zu sehen“ und „passiert nicht“ sind unterschiedliche Zustände, und nur einer von beiden wird von der Thermodynamik entschieden."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "A catalyst drives a reaction, so with nothing left to drive it should push the other way."
+reveals_de = "Ein Katalysator treibe eine Reaktion an, sodass er, wenn nichts mehr anzutreiben sei, in die andere Richtung schieben müsste."
 next = "A catalyst lowers the barrier equally in both directions, so it accelerates the approach to equilibrium and cannot shift it. This decomposition's equilibrium lies essentially all the way over — there is nothing to come back to."
+next_de = "Ein Katalysator senkt die Barriere in beide Richtungen gleichermaßen, er beschleunigt also die Annäherung an das Gleichgewicht und kann es nicht verschieben. Das Gleichgewicht dieser Zersetzung liegt im Wesentlichen ganz auf der einen Seite — es gibt nichts, wohin man zurückkehren könnte."
 
 [reaction.registers]
 lv1 = "Two flasks, and only one has the enzyme. After a second the enzyme's flask is finished and the other looks untouched. Come back in five days and the slow one has very nearly caught up: both are turning into water and oxygen, and both end in the same place. The enzyme did not decide what would happen. It decided how long you would have to wait — one second against the better part of a week."
+lv1_de = "Zwei Kolben, und nur einer enthält das Enzym. Nach einer Sekunde ist der Kolben mit dem Enzym fertig, der andere sieht unberührt aus. Schaut man nach fünf Tagen wieder vorbei, hat der langsame fast aufgeholt: Beide werden zu Wasser und Sauerstoff, und beide enden am selben Ort. Das Enzym hat nicht entschieden, was passiert. Es hat entschieden, wie lange man warten muss — eine Sekunde gegen fast eine ganze Woche."
 lv2 = "After 1 s: 0.1000 mol of peroxide still in the plain flask — the reaction has run 4 × 10⁻⁷ mol, which the bench will not even report — against effectively zero in the catalysed one, which already holds its full 0.0500 mol of oxygen. Five days later the plain flask has reached 0.0485 mol of oxygen with 0.0030 mol of peroxide still to go. Same destination; one of them took a second and the other is still arriving."
+lv2_de = "Nach 1 s: 0,1000 mol Peroxid immer noch im unbehandelten Kolben — die Reaktion ist um 4 × 10⁻⁷ mol vorangeschritten, was das Labor nicht einmal meldet — gegenüber praktisch null im katalysierten, der schon seine vollen 0,0500 mol Sauerstoff enthält. Fünf Tage später hat der unbehandelte Kolben 0,0485 mol Sauerstoff erreicht, mit noch 0,0030 mol Peroxid übrig. Dasselbe Ziel; der eine brauchte eine Sekunde, der andere kommt immer noch an."
 lv3 = "This is the distinction `thermodynamische-vs-kinetische-kontrolle` is built on, met from the kinetics side rather than the equilibrium side, and the engine embodies both halves in different places. On the thermodynamic side it withholds tenorite below 340 K and stands the thermal solver down below 500 K — curated stand-ins for rates it could not compute. Here the rate is computed, so the same idea appears as an interval rather than as a threshold: nothing is suppressed, and 'it has not happened yet' is a state the vessel can be in and then leave. The pre-exponential is calibrated so that undisturbed peroxide has a half-life near a day: long enough that nothing happens while you watch, which is the point, and still far shorter than real stabilised 3% peroxide in a brown bottle, which keeps for months. So the *shape* of the argument is right and the shelf-life is not a measurement."
+lv3_de = "Das ist die Unterscheidung, auf der `thermodynamische-vs-kinetische-kontrolle` aufbaut, hier von der Seite der Kinetik statt der des Gleichgewichts betrachtet, und der Motor verkörpert beide Hälften an unterschiedlichen Stellen. Auf der thermodynamischen Seite hält er Tenorit unterhalb von 340 K zurück und stellt den thermischen Solver unterhalb von 500 K ab — kuratierte Platzhalter für Geschwindigkeiten, die er nicht berechnen konnte. Hier wird die Geschwindigkeit berechnet, sodass dieselbe Idee als Intervall statt als Schwelle erscheint: Nichts wird unterdrückt, und 'es ist noch nicht passiert' ist ein Zustand, in dem das Gefäß sein und den es dann verlassen kann. Der präexponentielle Faktor ist so kalibriert, dass ungestörtes Peroxid eine Halbwertszeit von rund einem Tag hat: lang genug, dass beim Zuschauen nichts passiert — das ist der Sinn —, und immer noch weit kürzer als echtes stabilisiertes 3-prozentiges Peroxid in einer braunen Flasche, das sich monatelang hält. Die *Form* des Arguments stimmt also, aber die Haltbarkeit ist keine Messung."
 
 [reaction.provenance]
 source = "Standard curriculum treatment of catalysis and of kinetic versus thermodynamic control. Editorial judgement (Kerotakis): the five-day comparison is our design, and so is the pre-exponential behind it — chosen so undisturbed peroxide has a half-life near a day, which reads as clearly-nothing on a lesson timescale. Real stabilised 3% peroxide keeps for months, so the shape of the argument is right and the shelf-life is not a measurement."
