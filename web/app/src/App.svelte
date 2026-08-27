@@ -17,6 +17,7 @@
   import ApparatusForm from "./lib/components/ApparatusForm.svelte";
   import { APPARATUS } from "./lib/apparatus";
   import { defaultAmount } from "./lib/amounts";
+  import { KINDS } from "./lib/glassware";
   import { notebookMarkdown } from "./lib/notebook";
   import HelpDialog from "./lib/components/HelpDialog.svelte";
   import PeriodicTable from "./lib/components/PeriodicTable.svelte";
@@ -36,6 +37,7 @@
   import { missionTitle } from "./lib/storyProgress";
   import { pwa } from "./lib/pwa.svelte";
   import { mixLine, twoVesselLine, type TwoVesselAction } from "./lib/directActions";
+  import { missionEquipment, type CatalogScope } from "./lib/catalogScope";
   import {
     BENCH_LAYOUT_KEY,
     EMPTY_BENCH_LAYOUT,
@@ -83,6 +85,11 @@
   type Theme = "light" | "dark" | "contrast";
   let theme = $state<Theme>("light");
   let benchLayout = $state<BenchLayout>(EMPTY_BENCH_LAYOUT);
+  const guideStorageKey = `kero.bench-guides.v1.${labMode}`;
+  let workGuides = $state(
+    appStorage?.getItem(guideStorageKey) === "shown" ||
+      (appStorage?.getItem(guideStorageKey) === null && labMode === "story"),
+  );
   let labProfile = $state<LabProfile>(loadLabProfile(appStorage));
   let homeOpen = $state(!hasSeenHome());
   let contaminatedSampleBriefed = $state(modeStorage?.getItem(CONTAMINATED_SAMPLE_BRIEFED_KEY) === "yes");
@@ -285,6 +292,18 @@
   let toolsOpen = $state(false);
   /** The supply room keeps chemicals and reusable equipment distinct. */
   let cabinetTab = $state<"reagents" | "equipment">("reagents");
+  let catalogScope = $state<CatalogScope>(labMode === "sandbox" ? "all" : "unlocked");
+  let scopedMission = $state<string | null>(null);
+  const missionEquipmentVerbs = $derived(missionEquipment(
+    session.lesson?.lesson.steps.flatMap((step) => step.kind === "command" ? [step.line] : []) ?? [],
+  ));
+  $effect(() => {
+    const mission = session.lesson?.lesson.name ?? null;
+    if (mission !== scopedMission) {
+      scopedMission = mission;
+      catalogScope = mission ? "mission" : "unlocked";
+    }
+  });
   const selectedVessel = $derived(
     session.scene?.vessels.find((v) => v.id === session.selected) ?? null,
   );
@@ -507,12 +526,21 @@
       <button role="tab" aria-selected={cabinetTab === "reagents"} class:active={cabinetTab === "reagents"} onclick={() => (cabinetTab = "reagents")}>{t("reagents")}</button>
       <button role="tab" aria-selected={cabinetTab === "equipment"} class:active={cabinetTab === "equipment"} onclick={() => (cabinetTab = "equipment")}>{t("equipment")}</button>
     </div>
+    {#if labMode === "story"}
+      <div class="catalog-scope" role="radiogroup" aria-label={t("cabinet contents")}>
+        <button role="radio" aria-checked={catalogScope === "mission"} class:active={catalogScope === "mission"} disabled={!session.lesson} onclick={() => (catalogScope = "mission")}>{t("mission set")}</button>
+        <button role="radio" aria-checked={catalogScope === "unlocked"} class:active={catalogScope === "unlocked"} onclick={() => (catalogScope = "unlocked")}>{t("unlocked")}</button>
+        <button role="radio" aria-checked={catalogScope === "all"} class:active={catalogScope === "all"} onclick={() => (catalogScope = "all")}>{t("catalog all")}</button>
+      </div>
+    {/if}
     {#if cabinetTab === "reagents"}
       <Shelf
         items={session.shelf}
         register={session.register}
         target={session.selected}
+        targetCapacityMl={KINDS[selectedVessel?.label ?? "beaker"]?.capacity_ml ?? 400}
         kit={session.lesson?.kit ?? null}
+        scope={catalogScope}
         mode={labMode}
         completed={session.completedMissions.size}
         stockUsed={session.storyStockUsed}
@@ -532,6 +560,8 @@
         reactAvailable={session.reactOptions.length > 0}
         mode={labMode}
         completed={session.completedMissions.size}
+        scope={catalogScope}
+        missionVerbs={missionEquipmentVerbs}
         onburette={() => {
           buretteOut = !buretteOut;
           pane = "bench";
@@ -623,6 +653,16 @@
       apparatusWorking={session.busy}
       apparatusValues={apparatusPreview}
       layout={benchLayout}
+      showZones={workGuides}
+      ontogglezones={() => {
+        workGuides = !workGuides;
+        try {
+          localStorage.setItem(guideStorageKey, workGuides ? "shown" : "hidden");
+        } catch {
+          // The visible choice still works when persistence is unavailable.
+        }
+      }}
+      onremove={(vessel) => void session.submit(`remove v${vessel + 1}`)}
       onmove={(next) => {
         benchLayout = next;
         try {
@@ -636,7 +676,7 @@
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
         )}
     />
-    {#if selectedVessel}
+    {#if selectedVessel && !apparatusOut && !buretteOut}
       <VesselActionDock
         vessel={selectedVessel.id}
         label={selectedVessel.label}
@@ -674,7 +714,7 @@
         onaction={(line) => void session.submit(line)}
       />
     {/if}
-    <Feed entries={session.feed} />
+    <Feed entries={session.feed} onaddnote={(text) => session.addUserNote(text)} />
   </aside>
 </main>
 
@@ -1294,6 +1334,29 @@
     color: var(--primary);
     background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised));
   }
+  .catalog-scope {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin: 0.55rem 0.65rem 0;
+    overflow: hidden;
+    border: 1px solid var(--edge);
+    border-radius: 999px;
+    background: var(--surface);
+  }
+  .catalog-scope button {
+    min-width: 0;
+    min-height: 34px;
+    padding: 0.3rem 0.2rem;
+    border: 0;
+    color: var(--dim);
+    background: transparent;
+    font: inherit;
+    font-size: 0.62rem;
+    font-weight: 750;
+    cursor: pointer;
+  }
+  .catalog-scope button.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 11%, var(--surface-raised)); }
+  .catalog-scope button:disabled { opacity: .38; cursor: not-allowed; }
   .equation {
     background: var(--surface);
   }
