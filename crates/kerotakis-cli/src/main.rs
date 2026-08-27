@@ -11,6 +11,7 @@
 //!   kero species              list the registry
 
 mod chart_svg;
+mod coverage;
 mod diagram;
 mod mcp;
 mod provenance;
@@ -116,6 +117,52 @@ fn main() {
                     std::process::exit(2);
                 }
             }
+        }
+        Some("coverage") => coverage::command(&args[1..], build_stack),
+        Some("pack") => {
+            // DATA-010: compile a registry document into a .pack for
+            // independent delivery. Default source: the checked-in
+            // registry; --from for arbitrary documents (tests, future
+            // pack authors).
+            let sub = args.get(1).map(String::as_str).unwrap_or("");
+            if sub != "export" {
+                eprintln!("kero pack: usage: pack export [--from doc.json] OUT.pack");
+                std::process::exit(2);
+            }
+            let from = args
+                .iter()
+                .position(|a| a == "--from")
+                .and_then(|i| args.get(i + 1))
+                .cloned()
+                .unwrap_or_else(|| "data/registry/registry-source-v1.json".to_string());
+            let out = args
+                .iter()
+                .skip(2)
+                .find(|a| *a != "--from" && !from.ends_with(a.as_str()))
+                .cloned()
+                .unwrap_or_else(|| "registry.pack".to_string());
+            let text = std::fs::read_to_string(&from).unwrap_or_else(|e| {
+                eprintln!("kero pack export: reading {from}: {e}");
+                std::process::exit(2);
+            });
+            let doc: kerotakis_data::RegistryDocument =
+                serde_json::from_str(&text).unwrap_or_else(|e| {
+                    eprintln!("kero pack export: {from} is not a registry document: {e}");
+                    std::process::exit(2);
+                });
+            let pack = kerotakis_data::build_pack(&doc);
+            use sha2::{Digest, Sha256};
+            let hash = format!("{:x}", Sha256::digest(&pack));
+            std::fs::write(&out, &pack).unwrap_or_else(|e| {
+                eprintln!("kero pack export: writing {out}: {e}");
+                std::process::exit(2);
+            });
+            println!(
+                "pack: {} species + {} material recipes → {out} ({} bytes, sha256 {hash})",
+                doc.identities.len(),
+                doc.material_recipes.len(),
+                pack.len()
+            );
         }
         Some("provenance") => {
             let sub = args.get(1).map(String::as_str).unwrap_or("lint");
@@ -927,22 +974,16 @@ fn load_codex(dir: &str) -> kerotakis_codex::Codex {
         .filter(|p| p.extension().is_some_and(|x| x == "toml"))
         .collect();
     files.sort();
-    for file in files {
-        let text = std::fs::read_to_string(&file).unwrap_or_else(|e| {
-            eprintln!("kero codex: cannot read {}: {e}", file.display());
-            std::process::exit(1);
-        });
-        match kerotakis_codex::Codex::parse(&text) {
-            Ok(mut c) => {
-                all.reactions.append(&mut c.reactions);
-                all.models.append(&mut c.models);
-            }
-            Err(e) => {
-                eprintln!("kero codex: {}: {e}", file.display());
-                std::process::exit(1);
-            }
-        }
-    }
+    // load_dir finds codex/i18n/*.toml as well as the English source. A
+    // loader that walks the directory itself sees only English, and
+    // nothing would fail — the catalogue would simply stop being German.
+    let _ = files;
+    let loaded = kerotakis_codex::Codex::load_dir(std::path::Path::new(dir)).unwrap_or_else(|e| {
+        eprintln!("kero codex: {dir}: {e}");
+        std::process::exit(1);
+    });
+    all.reactions.extend(loaded.reactions);
+    all.models.extend(loaded.models);
     all
 }
 
@@ -1264,7 +1305,10 @@ fn properties_usage() -> ! {
 fn calc_usage() -> ! {
     eprint!("kero calc — evaluate a named physical relation\n\nusage: kero calc <relation> <arg>=<value>... [--json]\n\nrelations:\n");
     for r in kerotakis_core::relations::RELATIONS {
-        eprintln!("  {:<24} {}\n{:>28}{}", r.name, r.equation, "", r.args);
+        eprintln!(
+            "  {:<24} {}\n{:>28}{}\n{:>28}{}",
+            r.name, r.equation, "", r.args, "", r.purpose
+        );
     }
     eprintln!("\nexamples:\n  kero calc nernst e0=0.3419 n=2 a=0.01 T=298.15\n  kero calc arrhenius A=1e10 Ea=50000 T=298.15\n  kero calc henderson-hasselbalch pKa=4.76 cA=0.1 cB=0.01\n  kero calc debye-huckel z=2 I=0.01\n  kero calc ionic-strength 1:0.1 -1:0.1 2:0.05 -2:0.1\n  kero calc van-t-hoff dH=-57000 K1=1e14 T1=298.15 T2=373.15\n  kero calc eyring dG=65000 T=298.15");
     std::process::exit(2);
@@ -1281,6 +1325,7 @@ fn usage() -> ! {
          \x20        --collect ph@v1[,…] [--csv]   run it varied over a parameter\n\
          \x20 kero serve --mcp           the bench as an MCP server (stdio)\n\
          \x20 kero species               list known species\n\
+         \x20 kero coverage curiosity [--smoke] [--json]\n\
          \x20 kero calc <relation> ...   evaluate a named physical relation\n\
          \x20 kero properties water     temperature-dependent property table\n\
          \x20 kero provenance lint       validate source/distribution policy\n\

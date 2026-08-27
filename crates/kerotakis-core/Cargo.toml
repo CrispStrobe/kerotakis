@@ -14,10 +14,13 @@ mimalloc = ["dep:mimalloc"]
 talc-alloc = ["dep:talc"]
 
 [dependencies]
+# The engine ships its own message catalogues (src/i18n.rs).
+toml = "0.8"
 bumpalo = { workspace = true }
 mimalloc = { version = "0.1", default-features = false, optional = true }
 talc = { version = "4", optional = true }
 diffsol = { workspace = true }
+kerotakis-data = { path = "../kerotakis-data" }
 kerotakis-thermo = { path = "../kerotakis-thermo" }
 lasso = { workspace = true }
 num-rational = { workspace = true }
@@ -26,6 +29,7 @@ rand_chacha = { workspace = true }
 rand_distr = { workspace = true }
 rayon = { workspace = true }
 serde = { workspace = true }
+serde_json = { workspace = true }
 serde_yaml_ng = { workspace = true }
 thiserror = { workspace = true }
 

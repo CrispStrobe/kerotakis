@@ -320,6 +320,10 @@ impl Equilibrator for CuratedEquilibrator {
         "curated-reactions"
     }
 
+    fn route_kind(&self) -> crate::solve::SolverRouteKind {
+        crate::solve::SolverRouteKind::Curated
+    }
+
     fn applies(&self, vessel: &Vessel) -> bool {
         let solvent = crate::nonaqueous::single_organic_solvent(vessel);
         REACTIONS.iter().any(|r| {

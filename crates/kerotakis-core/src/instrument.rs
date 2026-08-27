@@ -260,8 +260,7 @@ impl Spectrophotometer {
                 continue;
             }
             if let Some(data) = species::lookup(&portion.species) {
-                if let Some(spectrum_fn) = data.spectrum {
-                    let spectrum = spectrum_fn();
+                if let Some(spectrum) = data.spectrum {
                     let molality = portion.moles.0 / water_kg;
                     for (i, band) in total.iter_mut().enumerate() {
                         *band += spectrum[i] * molality * self.path_cm;

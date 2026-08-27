@@ -1,0 +1,1525 @@
+[[prompt]]
+id = "aq-001"
+question = "What happens when table salt is stirred into room-temperature water?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["dissolution"]
+script = ["add v1 water 100mL", "add v1 NaCl 5g", "stir v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-002"
+question = "Does a larger spoonful of salt leave crystals at the bottom of the same amount of water?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["solubility"]
+script = ["add v1 water 100mL", "add v1 NaCl 50g", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-003"
+question = "Will potassium chloride dissolve in water and cool the beaker?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-17"
+tags = ["enthalpy-of-solution"]
+script = ["add v1 water 100mL", "add v1 KCl 10g", "measure v1 thermometer"]
+smoke = true
+
+[[prompt]]
+id = "aq-004"
+question = "Why does calcium chloride make water warm when it dissolves?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "deicing-salt"
+expected = "computed"
+owning_task = "EXP-17"
+tags = ["enthalpy-of-solution"]
+script = ["add v1 water 100mL", "add v1 CaCl2 10g", "measure v1 thermometer"]
+smoke = false
+
+[[prompt]]
+id = "aq-005"
+question = "How much Epsom salt dissolves in a small glass of water?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "bath-salt"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["solubility"]
+script = ["add v1 water 100mL", "add v1 MgSO4 20g", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-006"
+question = "Will copper sulfate crystals turn water into a blue solution?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "laboratory-salt"
+expected = "computed"
+owning_task = "EXP-21"
+tags = ["solution-colour"]
+script = ["add v1 water 100mL", "add v1 CuSO4 2g", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-007"
+question = "What happens when chalk powder is added to water?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "chalk-water"
+expected = "computed"
+owning_task = "EXP-3"
+tags = ["sparingly-soluble-solid"]
+script = ["add v1 water 100mL", "add v1 CaCO3 5g", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-008"
+question = "Does gypsum dissolve completely in water?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "mineral-water"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["mineral-solubility"]
+script = ["add v1 water 250mL", "add v1 gypsum 2g", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-009"
+question = "What pH does baking soda make when it dissolves in water?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "baking-soda-solution"
+expected = "computed"
+owning_task = "EXP-2"
+tags = ["ph"]
+script = ["add v1 water 100mL", "add v1 NaHCO3 5g", "measure v1 ph"]
+smoke = true
+
+[[prompt]]
+id = "aq-010"
+question = "Is washing soda more alkaline than baking soda in equal-mole solutions?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "carbonate-cleaners"
+expected = "computed"
+owning_task = "EXP-2"
+tags = ["carbonate-equilibrium"]
+script = ["add v1 water 100mL", "add v1 Na2CO3 0.05mol", "measure v1 ph"]
+smoke = false
+
+[[prompt]]
+id = "aq-011"
+question = "Will silver nitrate dissolve in water?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "laboratory-salt"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["dissolution"]
+script = ["add v1 water 100mL", "add v1 AgNO3 1g", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-012"
+question = "What forms when clear silver nitrate solution meets salt water?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "precipitation-mixture"
+expected = "computed"
+owning_task = "EXP-21"
+tags = ["precipitation"]
+script = ["add v1 water 100mL", "add v1 NaCl 0.01mol", "add v1 AgNO3 0.01mol", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-013"
+question = "Does lead nitrate make a solid when sulfate ions are added?"
+age_band = "age16_to18"
+action = "mix_and_dissolve"
+material_class = "precipitation-mixture"
+expected = "computed"
+owning_task = "EXP-21"
+tags = ["precipitation"]
+script = ["add v1 water 100mL", "add v1 Pb(NO3)2 0.01mol", "add v1 NaHSO4 0.02mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-014"
+question = "Can quicklime react with water and make the mixture hot?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "lime-water"
+expected = "computed"
+owning_task = "EXP-3"
+tags = ["hydration"]
+script = ["add v1 water 100mL", "add v1 CaO 5g", "measure v1 thermometer"]
+smoke = false
+
+[[prompt]]
+id = "aq-015"
+question = "Does magnesium oxide make water alkaline?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "basic-oxide"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["ph"]
+script = ["add v1 water 100mL", "add v1 MgO 2g", "measure v1 ph"]
+smoke = false
+
+[[prompt]]
+id = "aq-016"
+question = "Will sulfur dissolve in water if I stir it for a minute?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "insoluble-solid"
+expected = "missing"
+owning_task = "BRD-012"
+tags = ["reaction-gap"]
+script = ["add v1 water 100mL", "add v1 S 1g", "stir v1", "wait 1min"]
+smoke = false
+
+[[prompt]]
+id = "aq-017"
+question = "What happens to powdered aluminium in plain water?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "metal-water"
+expected = "missing"
+owning_task = "BRD-023"
+tags = ["reaction-gap"]
+script = ["add v1 water 100mL", "add v1 Al 1g", "wait 1min"]
+smoke = false
+
+[[prompt]]
+id = "aq-018"
+question = "Can a spoonful of sugar disappear into water?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "sugar-water"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-012"
+tags = ["substance-gap"]
+script = ["add v1 water 100mL", "add v1 sucrose 10g", "stir v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-019"
+question = "Will flour dissolve or make cloudy lumps in cold water?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "flour-water"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["material-recipe-gap"]
+script = ["add v1 water 100mL", "add v1 flour 10g", "stir v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-020"
+question = "Why does cocoa powder float and clump before it mixes into milk or water?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "food-powder"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["wetting-gap"]
+script = ["add v1 water 100mL", "add v1 cocoa_powder 5g", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-021"
+question = "Does sand dissolve in water overnight?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "sand-water"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["material-recipe-gap"]
+script = ["add v1 water 100mL", "add v1 sand 10g", "wait 1h"]
+smoke = false
+
+[[prompt]]
+id = "aq-022"
+question = "What happens when powdered dishwasher detergent meets water?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "dishwasher-detergent"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["material-recipe-gap"]
+script = ["add v1 water 100mL", "add v1 dishwasher_detergent 5g", "stir v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-023"
+question = "Can powdered laundry detergent soften hard water?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "laundry-detergent"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["material-recipe-gap"]
+script = ["add v1 water 100mL", "add v1 CaCl2 0.01mol", "add v1 laundry_detergent 5g"]
+smoke = false
+
+[[prompt]]
+id = "aq-024"
+question = "Will powdered gelatin swell before it dissolves in warm water?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "gelatin-water"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["gelation-gap"]
+script = ["add v1 water 100mL @ 50C", "add v1 gelatin 5g", "wait 1min"]
+smoke = false
+
+[[prompt]]
+id = "aq-025"
+question = "What should the simulator do if I ask it to dissolve a dragon scale in water?"
+age_band = "all"
+action = "mix_and_dissolve"
+material_class = "fictional-material"
+expected = "boundary"
+owning_task = "BRD-001"
+tags = ["nonsensical-input"]
+script = []
+boundary = "fictional-material"
+smoke = true
+
+[[prompt]]
+id = "aq-026"
+question = "How acidic is hydrochloric acid after it is diluted with water?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "acid-solution"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["ph"]
+script = ["add v1 water 100mL", "add v1 HCl 0.01mol", "measure v1 ph"]
+smoke = true
+
+[[prompt]]
+id = "aq-027"
+question = "How alkaline is sodium hydroxide dissolved in water?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "alkali-solution"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["ph"]
+script = ["add v1 water 100mL", "add v1 NaOH 0.01mol", "measure v1 ph"]
+smoke = true
+
+[[prompt]]
+id = "aq-028"
+question = "Does phosphoric acid lose all three protons equally easily in water?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "polyprotic-acid"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["acid-speciation"]
+script = ["add v1 water 100mL", "add v1 H3PO4 0.01mol", "measure v1 ph", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-029"
+question = "What pH does weak acetic acid make compared with the same amount of hydrochloric acid?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "weak-acid-solution"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["weak-acid"]
+script = ["add v1 water 100mL", "add v1 CH3COOH 0.01mol", "measure v1 ph"]
+smoke = false
+
+[[prompt]]
+id = "aq-030"
+question = "What happens to pH when acetic acid solution is diluted tenfold?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "weak-acid-solution"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["dilution"]
+script = ["add v1 water 100mL", "add v1 CH3COOH 0.01mol", "dilute v1 900mL", "measure v1 ph"]
+smoke = false
+
+[[prompt]]
+id = "aq-031"
+question = "Does ammonia make water basic?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "ammonia-solution"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["weak-base"]
+script = ["add v1 water 100mL", "add v1 NH3 0.01mol", "measure v1 ph"]
+smoke = false
+
+[[prompt]]
+id = "aq-032"
+question = "Can carbon dioxide make plain water acidic?"
+age_band = "age9_to12"
+action = "acids_bases_and_gases"
+material_class = "carbonated-water"
+expected = "computed"
+owning_task = "EXP-25"
+tags = ["gas-dissolution"]
+script = ["add v1 water 100mL", "seal v1 500mL", "add v1 CO2 0.01mol", "measure v1 ph"]
+smoke = true
+
+[[prompt]]
+id = "aq-033"
+question = "Does sealing carbonated water keep more carbon dioxide inside?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "carbonated-water"
+expected = "computed"
+owning_task = "EXP-25"
+tags = ["headspace-equilibrium"]
+script = ["add v1 water 100mL", "seal v1 250mL", "add v1 CO2 0.02mol", "measure v1 pressure"]
+smoke = false
+
+[[prompt]]
+id = "aq-034"
+question = "What gas bubbles out when chalk meets hydrochloric acid?"
+age_band = "age9_to12"
+action = "acids_bases_and_gases"
+material_class = "acid-carbonate"
+expected = "computed"
+owning_task = "EXP-3"
+tags = ["gas-evolution"]
+script = ["add v1 water 100mL", "add v1 CaCO3 2g", "add v1 HCl 0.05mol", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-035"
+question = "Will limewater turn cloudy when carbon dioxide passes through it?"
+age_band = "age9_to12"
+action = "acids_bases_and_gases"
+material_class = "limewater"
+expected = "curated"
+owning_task = "EXP-25"
+tags = ["gas-test"]
+script = ["add v1 CO2 0.01mol", "test v1 limewater"]
+smoke = true
+
+[[prompt]]
+id = "aq-036"
+question = "Can damp litmus identify ammonia gas?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "ammonia-gas"
+expected = "curated"
+owning_task = "EXP-25"
+tags = ["gas-test"]
+script = ["add v1 NH3 0.01mol", "test v1 litmus"]
+smoke = false
+
+[[prompt]]
+id = "aq-037"
+question = "Does hydrogen make a squeaky pop with a flame?"
+age_band = "age9_to12"
+action = "acids_bases_and_gases"
+material_class = "hydrogen-gas"
+expected = "curated"
+owning_task = "EXP-25"
+tags = ["gas-test"]
+script = ["add v1 H2 0.01mol", "test v1 pop"]
+smoke = false
+
+[[prompt]]
+id = "aq-038"
+question = "Will oxygen relight a glowing splint?"
+age_band = "age9_to12"
+action = "acids_bases_and_gases"
+material_class = "oxygen-gas"
+expected = "curated"
+owning_task = "EXP-25"
+tags = ["gas-test"]
+script = ["add v1 O2 0.01mol", "test v1 splint"]
+smoke = false
+
+[[prompt]]
+id = "aq-039"
+question = "What happens when equal amounts of hydrochloric acid and sodium hydroxide meet?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "neutralisation"
+expected = "computed"
+owning_task = "EXP-9"
+tags = ["neutralisation"]
+script = ["add v1 water 100mL", "add v1 HCl 0.01mol", "add v1 NaOH 0.01mol", "measure v1 ph"]
+smoke = true
+
+[[prompt]]
+id = "aq-040"
+question = "Does neutralising a strong acid with a strong base warm the solution?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "neutralisation"
+expected = "computed"
+owning_task = "EXP-9"
+tags = ["neutralisation-enthalpy"]
+script = ["add v1 water 100mL", "add v1 HCl 0.02mol", "add v1 NaOH 0.02mol", "measure v1 thermometer"]
+smoke = false
+
+[[prompt]]
+id = "aq-041"
+question = "Where is the equivalence point when hydrochloric acid is titrated with sodium hydroxide?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "acid-base-titration"
+expected = "computed"
+owning_task = "EXP-9"
+tags = ["titration"]
+script = ["add v1 water 100mL", "add v1 HCl 0.01mol", "titrate v1 NaOH 1M 1mL until ph 7 max 20"]
+smoke = true
+
+[[prompt]]
+id = "aq-042"
+question = "What shape does the pH curve have when acetic acid is titrated with sodium hydroxide?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "weak-acid-titration"
+expected = "computed"
+owning_task = "EXP-9"
+tags = ["titration"]
+script = ["add v1 water 100mL", "add v1 CH3COOH 0.01mol", "titrate v1 NaOH 1M 1mL until ph 9 max 20"]
+smoke = false
+
+[[prompt]]
+id = "aq-043"
+question = "Can bromothymol blue show whether water is acidic or basic?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "ph-indicator"
+expected = "computed"
+owning_task = "EXP-9"
+tags = ["indicator"]
+script = ["add v1 water 100mL", "add v1 HCl 0.001mol", "add v1 bromothymol_blue 0.00001mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-044"
+question = "Why is phenolphthalein colourless in acid but pink in alkali?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "ph-indicator"
+expected = "computed"
+owning_task = "EXP-9"
+tags = ["indicator"]
+script = ["add v1 water 100mL", "add v1 NaOH 0.001mol", "add v1 phenolphthalein 0.00001mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-045"
+question = "What colour is methyl orange in a hydrochloric acid solution?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "ph-indicator"
+expected = "computed"
+owning_task = "EXP-9"
+tags = ["indicator"]
+script = ["add v1 water 100mL", "add v1 HCl 0.001mol", "add v1 methyl_orange 0.00001mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-046"
+question = "Can red cabbage juice estimate the pH of household liquids?"
+age_band = "age9_to12"
+action = "acids_bases_and_gases"
+material_class = "natural-indicator"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["indicator-gap"]
+script = ["add v1 water 100mL", "add v1 red_cabbage_juice 10mL", "add v1 CH3COOH 0.001mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-047"
+question = "How well does a phosphate mixture resist a small addition of acid?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "buffer-solution"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["buffer"]
+script = ["add v1 water 100mL", "add v1 H3PO4 0.01mol", "add v1 NaOH 0.01mol", "add v1 HCl 0.001mol", "measure v1 ph"]
+smoke = false
+
+[[prompt]]
+id = "aq-048"
+question = "Does adding sodium acetate reduce the pH change of acetic acid?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "buffer-solution"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["buffer"]
+script = ["add v1 water 100mL", "add v1 CH3COOH 0.01mol", "add v1 NaOAc 0.01mol", "measure v1 ph"]
+smoke = false
+
+[[prompt]]
+id = "aq-049"
+question = "What dissolved ions are present in a sodium chloride solution?"
+age_band = "age16_to18"
+action = "handle_and_inspect"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["speciation"]
+script = ["add v1 water 100mL", "add v1 NaCl 0.01mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-050"
+question = "Can the simulator tell me the pH of an imaginary acid with no formula or amount?"
+age_band = "all"
+action = "acids_bases_and_gases"
+material_class = "undefined-acid"
+expected = "boundary"
+owning_task = "BRD-001"
+tags = ["underspecified-question"]
+script = []
+boundary = "undefined-substance-and-quantity"
+smoke = false
+
+[[prompt]]
+id = "aq-051"
+question = "What dangerous gas can form if household bleach is mixed with hydrochloric acid?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "bleach-acid"
+expected = "curated"
+owning_task = "CAP-11"
+tags = ["hazardous-cleaner-mixture"]
+script = ["add v1 water 100mL", "add v1 NaOCl 0.01mol", "add v1 HCl 0.02mol", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-052"
+question = "What happens if bleach is mixed with ammonia cleaner?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "bleach-ammonia"
+expected = "curated"
+owning_task = "CAP-11"
+tags = ["hazardous-cleaner-mixture"]
+script = ["add v1 water 100mL", "add v1 NaOCl 0.01mol", "add v1 NH3 0.01mol", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-053"
+question = "Does diluted bleach remain alkaline?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "bleach-solution"
+expected = "computed"
+owning_task = "CAP-11"
+tags = ["cleaner-ph"]
+script = ["add v1 water 500mL", "add v1 NaOCl 0.005mol", "measure v1 ph"]
+smoke = false
+
+[[prompt]]
+id = "aq-054"
+question = "Can hydrogen peroxide decompose into water and oxygen with manganese dioxide present?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "peroxide-cleaner"
+expected = "computed"
+owning_task = "EXP-4"
+tags = ["catalysis"]
+script = ["add v1 water 100mL", "add v1 H2O2 0.05mol", "add v1 MnO2 0.5g", "wait 1min"]
+smoke = true
+
+[[prompt]]
+id = "aq-055"
+question = "Does catalase make hydrogen peroxide bubble faster than manganese dioxide?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "peroxide-cleaner"
+expected = "computed"
+owning_task = "EXP-4"
+tags = ["enzyme-catalysis"]
+script = ["add v1 water 100mL", "add v1 H2O2 0.05mol", "add v1 catalase 0.001mol", "wait 30s"]
+smoke = false
+
+[[prompt]]
+id = "aq-056"
+question = "Will bleach remove the colour of beet pigment in water?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "bleaching-mixture"
+expected = "curated"
+owning_task = "EXP-5"
+tags = ["bleaching"]
+script = ["add v1 water 100mL", "add v1 betanin 0.001mol", "add v1 NaOCl 0.002mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-057"
+question = "Will bleach destroy the yellow colour of turmeric pigment?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "bleaching-mixture"
+expected = "curated"
+owning_task = "EXP-5"
+tags = ["bleaching"]
+script = ["add v1 water 100mL", "add v1 curcumin 0.001mol", "add v1 NaOCl 0.002mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-058"
+question = "Can bleach decolourise indigo carmine dye?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "bleaching-mixture"
+expected = "curated"
+owning_task = "EXP-5"
+tags = ["bleaching"]
+script = ["add v1 water 100mL", "add v1 indigo_carmine 0.001mol", "add v1 NaOCl 0.002mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-059"
+question = "What happens if vinegar is poured into a baking-soda solution?"
+age_band = "age9_to12"
+action = "acids_bases_and_gases"
+material_class = "vinegar-baking-soda"
+expected = "computed"
+owning_task = "EXP-2"
+tags = ["acid-carbonate"]
+script = ["add v1 water 100mL", "add v1 CH3COOH 0.05mol", "add v1 NaHCO3 0.05mol", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-060"
+question = "How much carbon dioxide can vinegar and washing soda make from equal mole amounts?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "vinegar-washing-soda"
+expected = "computed"
+owning_task = "EXP-2"
+tags = ["reaction-stoichiometry"]
+script = ["add v1 water 100mL", "add v1 CH3COOH 0.05mol", "add v1 Na2CO3 0.05mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-061"
+question = "Will a sealed vinegar-and-baking-soda bottle build pressure?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "sealed-acid-carbonate"
+expected = "computed"
+owning_task = "CAP-25"
+tags = ["pressure-hazard"]
+script = ["add v1 water 100mL", "seal v1 100mL", "add v1 NaHCO3 0.05mol", "add v1 CH3COOH 0.05mol", "measure v1 pressure"]
+smoke = true
+
+[[prompt]]
+id = "aq-062"
+question = "Can a sealed vessel burst if too much gas is generated inside?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "sealed-reaction-vessel"
+expected = "computed"
+owning_task = "CAP-25"
+tags = ["pressure-hazard"]
+script = ["add v1 water 50mL", "seal v1 10mL", "add v1 NaHCO3 0.1mol", "add v1 HCl 0.1mol"]
+smoke = false
+
+[[prompt]]
+id = "aq-063"
+question = "What happens to the pressure when a carbonated vessel is opened?"
+age_band = "age13_to15"
+action = "acids_bases_and_gases"
+material_class = "carbonated-water"
+expected = "computed"
+owning_task = "EXP-25"
+tags = ["headspace-equilibrium"]
+script = ["add v1 water 100mL", "seal v1 100mL", "add v1 CO2 0.02mol", "open v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-064"
+question = "Can nitrogen sweeping remove dissolved carbon dioxide from water?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "gas-stripping"
+expected = "computed"
+owning_task = "EXP-25"
+tags = ["gas-stripping"]
+script = ["add v1 water 100mL", "add v1 CO2 0.01mol", "sweep v1 1bar"]
+smoke = false
+
+[[prompt]]
+id = "aq-065"
+question = "Does raising pressure keep more carbon dioxide dissolved in water?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "pressurised-water"
+expected = "computed"
+owning_task = "EXP-25"
+tags = ["henry-law"]
+script = ["add v1 water 100mL", "regulate v1 2bar 500mL", "add v1 CO2 0.01mol"]
+smoke = false
+
+[[prompt]]
+id = "aq-066"
+question = "What does a pH meter read in ordinary cola?"
+age_band = "age9_to12"
+action = "acids_bases_and_gases"
+material_class = "soft-drink"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["material-recipe-gap"]
+script = ["add v1 cola 100mL", "measure v1 ph"]
+smoke = true
+
+[[prompt]]
+id = "aq-067"
+question = "Does lemon juice neutralise a sodium bicarbonate solution?"
+age_band = "age9_to12"
+action = "acids_bases_and_gases"
+material_class = "citrus-juice"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["material-recipe-gap"]
+script = ["add v1 lemon_juice 50mL", "add v1 NaHCO3 5g"]
+smoke = false
+
+[[prompt]]
+id = "aq-068"
+question = "How alkaline is a solution made from a bar of hand soap?"
+age_band = "age9_to12"
+action = "acids_bases_and_gases"
+material_class = "soap-solution"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["material-recipe-gap"]
+script = ["add v1 water 100mL", "add v1 hand_soap 5g", "measure v1 ph"]
+smoke = false
+
+[[prompt]]
+id = "aq-069"
+question = "What chemicals form if toilet cleaner is mixed with an unknown drain cleaner?"
+age_band = "all"
+action = "acids_bases_and_gases"
+material_class = "unknown-cleaner-mixture"
+expected = "boundary"
+owning_task = "CAP-11"
+tags = ["unsafe-underspecified-mixture"]
+script = []
+boundary = "unknown-cleaner-composition"
+smoke = true
+
+[[prompt]]
+id = "aq-070"
+question = "Can the simulator give a real-world recipe for making concentrated chlorine gas?"
+age_band = "age16_to18"
+action = "acids_bases_and_gases"
+material_class = "chlorine-generation"
+expected = "boundary"
+owning_task = "CAP-11"
+tags = ["product-safety-boundary"]
+script = []
+boundary = "dangerous-synthesis-instructions"
+smoke = false
+
+[[prompt]]
+id = "aq-071"
+question = "Can filter paper separate chalk from water?"
+age_band = "age9_to12"
+action = "separate"
+material_class = "solid-liquid-mixture"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["filtration"]
+script = ["new", "add v1 water 100mL", "add v1 CaCO3 5g", "filter v1 v2"]
+smoke = true
+
+[[prompt]]
+id = "aq-072"
+question = "Will filtration remove dissolved table salt from water?"
+age_band = "age9_to12"
+action = "separate"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["filtration"]
+script = ["new", "add v1 water 100mL", "add v1 NaCl 5g", "filter v1 v2"]
+smoke = false
+
+[[prompt]]
+id = "aq-073"
+question = "Can a filter collect silver chloride precipitate from its solution?"
+age_band = "age13_to15"
+action = "separate"
+material_class = "precipitation-mixture"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["filtration"]
+script = ["new", "add v1 water 100mL", "add v1 NaCl 0.01mol", "add v1 AgNO3 0.01mol", "filter v1 v2"]
+smoke = false
+
+[[prompt]]
+id = "aq-074"
+question = "What remains after half the water in salt water is evaporated?"
+age_band = "age9_to12"
+action = "separate"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["evaporation"]
+script = ["add v1 water 100mL", "add v1 NaCl 5g", "evaporate v1 0.5", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-075"
+question = "Can evaporating most of a saturated salt solution grow crystals?"
+age_band = "age13_to15"
+action = "separate"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["crystallisation"]
+script = ["add v1 water 100mL", "add v1 NaCl 30g", "evaporate v1 0.8", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-076"
+question = "Can distillation make fresh water from salty water?"
+age_band = "age9_to12"
+action = "separate"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["distillation"]
+script = ["new", "add v1 water 100mL", "add v1 NaCl 5g", "distil v1 v2 0.5"]
+smoke = true
+
+[[prompt]]
+id = "aq-077"
+question = "Does sodium chloride stay in the boiling flask during water distillation?"
+age_band = "age13_to15"
+action = "separate"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["distillation"]
+script = ["new", "add v1 water 100mL", "add v1 NaCl 0.1mol", "distil v1 v2 20kJ", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-078"
+question = "Can simple distillation enrich ethanol from an ethanol-water mixture?"
+age_band = "age16_to18"
+action = "separate"
+material_class = "ethanol-water"
+expected = "computed"
+owning_task = "CAP-22"
+tags = ["vapour-liquid-equilibrium"]
+script = ["new", "add v1 water 5mol", "add v1 ethanol 2mol", "distil v1 v2 0.3"]
+smoke = true
+
+[[prompt]]
+id = "aq-079"
+question = "Do extra ideal stages improve ethanol enrichment before the azeotrope?"
+age_band = "age16_to18"
+action = "separate"
+material_class = "ethanol-water"
+expected = "computed"
+owning_task = "CAP-22"
+tags = ["fractional-distillation"]
+script = ["new", "add v1 water 5mol", "add v1 ethanol 2mol", "distil v1 v2 0.3 stages 4"]
+smoke = false
+
+[[prompt]]
+id = "aq-080"
+question = "Why can ordinary distillation not produce perfectly pure ethanol from water?"
+age_band = "age16_to18"
+action = "separate"
+material_class = "ethanol-water"
+expected = "computed"
+owning_task = "CAP-22"
+tags = ["azeotrope"]
+script = ["new", "add v1 water 1mol", "add v1 ethanol 10mol", "distil v1 v2 0.5 stages 8"]
+smoke = false
+
+[[prompt]]
+id = "aq-081"
+question = "Do water and hexane form two liquid layers?"
+age_band = "age9_to12"
+action = "mix_and_dissolve"
+material_class = "immiscible-liquids"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["liquid-liquid-equilibrium"]
+script = ["add v1 water 1mol", "add v1 hexane 1mol", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-082"
+question = "Which layer is lower in a water-and-hexane separating funnel?"
+age_band = "age13_to15"
+action = "separate"
+material_class = "immiscible-liquids"
+expected = "computed"
+owning_task = "CAP-23"
+tags = ["liquid-density"]
+script = ["add v1 water 1mol", "add v1 hexane 1mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-083"
+question = "Can the lower water layer be drained away from hexane?"
+age_band = "age13_to15"
+action = "separate"
+material_class = "immiscible-liquids"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["separating-funnel"]
+script = ["new", "add v1 water 1mol", "add v1 hexane 1mol", "drain v1 v2"]
+smoke = false
+
+[[prompt]]
+id = "aq-084"
+question = "Will iodine prefer hexane or water when both layers are present?"
+age_band = "age16_to18"
+action = "separate"
+material_class = "solvent-extraction"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["partitioning"]
+script = ["add v1 water 1mol", "add v1 hexane 1mol", "add v1 I2 0.001mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-085"
+question = "Can repeated small hexane extractions remove more iodine than one tiny extraction?"
+age_band = "age16_to18"
+action = "separate"
+material_class = "solvent-extraction"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["partitioning"]
+script = ["new", "add v1 water 2mol", "add v1 hexane 0.5mol", "add v1 I2 0.001mol", "drain v1 v2"]
+smoke = false
+
+[[prompt]]
+id = "aq-086"
+question = "Can chromatography separate ethanol and propanone dissolved in water?"
+age_band = "age16_to18"
+action = "separate"
+material_class = "chromatography-mixture"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["chromatography"]
+script = ["add v1 water 1mol", "add v1 ethanol 0.01mol", "add v1 propanone 0.01mol", "chromatograph v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-087"
+question = "Will dissolved salt appear in this neutral-solute chromatography method?"
+age_band = "age16_to18"
+action = "separate"
+material_class = "chromatography-mixture"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["method-boundary"]
+script = ["add v1 water 1mol", "add v1 NaCl 0.01mol", "chromatograph v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-088"
+question = "Can a magnet pull iron filings out of salty water?"
+age_band = "age9_to12"
+action = "separate"
+material_class = "magnetic-mixture"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["magnetic-separation"]
+script = ["new", "add v1 water 100mL", "add v1 NaCl 2g", "add v1 Fe 2g", "magnet v1 v2"]
+smoke = true
+
+[[prompt]]
+id = "aq-089"
+question = "Will a magnet remove copper powder from water?"
+age_band = "age9_to12"
+action = "separate"
+material_class = "nonmagnetic-mixture"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["magnetic-separation"]
+script = ["new", "add v1 water 100mL", "add v1 Cu 2g", "magnet v1 v2"]
+smoke = false
+
+[[prompt]]
+id = "aq-090"
+question = "Can decanting move half the liquid while leaving settled chalk behind?"
+age_band = "age9_to12"
+action = "separate"
+material_class = "solid-liquid-mixture"
+expected = "computed"
+owning_task = "EXP-18"
+tags = ["decanting"]
+script = ["new", "add v1 water 100mL", "add v1 CaCO3 5g", "decant v1 v2 0.5"]
+smoke = false
+
+[[prompt]]
+id = "aq-091"
+question = "Can a kitchen strainer separate dissolved sugar from tea?"
+age_band = "age9_to12"
+action = "separate"
+material_class = "sweetened-tea"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["material-recipe-gap"]
+script = ["new", "add v1 sweetened_tea 100mL", "filter v1 v2"]
+smoke = false
+
+[[prompt]]
+id = "aq-092"
+question = "Can muddy water be separated into clear water, clay, and dissolved salts?"
+age_band = "age13_to15"
+action = "separate"
+material_class = "muddy-water"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["material-recipe-gap"]
+script = ["new", "add v1 muddy_water 100mL", "filter v1 v2"]
+smoke = true
+
+[[prompt]]
+id = "aq-093"
+question = "Can coffee-paper chromatography separate the dyes in black marker ink?"
+age_band = "age9_to12"
+action = "separate"
+material_class = "marker-ink"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["material-recipe-gap"]
+script = ["add v1 marker_ink 1mL", "chromatograph v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-094"
+question = "Can a home experiment safely distil an unknown cleaning fluid?"
+age_band = "all"
+action = "separate"
+material_class = "unknown-cleaning-fluid"
+expected = "boundary"
+owning_task = "CAP-11"
+tags = ["unsafe-unknown-material"]
+script = []
+boundary = "unknown-volatile-mixture"
+smoke = false
+
+[[prompt]]
+id = "aq-095"
+question = "What fraction should I pour if I ask to decant more than all the liquid?"
+age_band = "all"
+action = "separate"
+material_class = "invalid-operation"
+expected = "boundary"
+owning_task = "BRD-001"
+tags = ["invalid-quantity"]
+script = []
+boundary = "fraction-outside-unit-interval"
+smoke = false
+
+[[prompt]]
+id = "aq-096"
+question = "How much does the temperature of water rise after adding a fixed amount of heat?"
+age_band = "age13_to15"
+action = "heat_and_cool"
+material_class = "heated-water"
+expected = "computed"
+owning_task = "CAP-3"
+tags = ["heat-capacity"]
+script = ["add v1 water 100mL", "heat v1 4.184kJ", "measure v1 thermometer"]
+smoke = true
+
+[[prompt]]
+id = "aq-097"
+question = "Does cooling pure water far enough make ice?"
+age_band = "age9_to12"
+action = "heat_and_cool"
+material_class = "ice-water"
+expected = "computed"
+owning_task = "EXP-7"
+tags = ["freezing"]
+script = ["add v1 water 100mL", "cool v1 50kJ", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-098"
+question = "Does dissolved salt lower the freezing point of water?"
+age_band = "age13_to15"
+action = "heat_and_cool"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-7"
+tags = ["freezing-point-depression"]
+script = ["add v1 water 100mL", "add v1 NaCl 0.1mol", "cool v1 50kJ", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-099"
+question = "When salty water partly freezes, does the remaining liquid become saltier?"
+age_band = "age16_to18"
+action = "heat_and_cool"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-7"
+tags = ["partial-freezing"]
+script = ["add v1 water 100mL", "add v1 NaCl 0.05mol", "cool v1 40kJ", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-100"
+question = "Can the dilute salt-water model predict every eutectic crystal below minus 30 degrees Celsius?"
+age_band = "age16_to18"
+action = "heat_and_cool"
+material_class = "concentrated-brine"
+expected = "boundary"
+owning_task = "BRD-032"
+tags = ["phase-model-boundary"]
+script = []
+boundary = "brine-eutectic-outside-model"
+smoke = true
+
+[[prompt]]
+id = "aq-101"
+question = "Does dissolved salt raise the boiling point of water?"
+age_band = "age13_to15"
+action = "heat_and_cool"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-7"
+tags = ["boiling-point-elevation"]
+script = ["add v1 water 100mL", "add v1 NaCl 0.1mol", "heat v1 40kJ", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-102"
+question = "Does water stay at its boiling point while it changes into steam?"
+age_band = "age13_to15"
+action = "heat_and_cool"
+material_class = "boiling-water"
+expected = "missing"
+owning_task = "BRD-032"
+tags = ["latent-heat-gap"]
+script = ["add v1 water 100mL", "heat v1 40kJ", "wait 1min"]
+smoke = false
+
+[[prompt]]
+id = "aq-103"
+question = "What happens when hot water and cold water are poured together?"
+age_band = "age9_to12"
+action = "heat_and_cool"
+material_class = "mixed-temperature-water"
+expected = "computed"
+owning_task = "CAP-3"
+tags = ["thermal-mixing"]
+script = ["new", "new", "add v1 water 100mL @ 80C", "add v2 water 100mL @ 20C", "mix v1 0.5 v2 0.5 into v3"]
+smoke = false
+
+[[prompt]]
+id = "aq-104"
+question = "Does dissolving ammonium nitrate make an instant cold pack cold?"
+age_band = "age13_to15"
+action = "heat_and_cool"
+material_class = "instant-cold-pack"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-012"
+tags = ["substance-gap"]
+script = ["add v1 water 100mL", "add v1 ammonium_nitrate 20g", "measure v1 thermometer"]
+smoke = true
+
+[[prompt]]
+id = "aq-105"
+question = "Does dissolving calcium chloride explain how a reusable heat pack warms up?"
+age_band = "age13_to15"
+action = "heat_and_cool"
+material_class = "instant-hot-pack"
+expected = "computed"
+owning_task = "EXP-17"
+tags = ["enthalpy-of-solution"]
+script = ["add v1 water 100mL", "add v1 CaCl2 20g", "measure v1 thermometer"]
+smoke = false
+
+[[prompt]]
+id = "aq-106"
+question = "Will baking soda release carbon dioxide when heated?"
+age_band = "age9_to12"
+action = "heat_and_cool"
+material_class = "heated-baking-soda"
+expected = "curated"
+owning_task = "EXP-2"
+tags = ["thermal-decomposition"]
+script = ["add v1 NaHCO3 10g", "heat v1 10kJ", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-107"
+question = "Does warm water dissolve more potassium chloride than cold water?"
+age_band = "age13_to15"
+action = "heat_and_cool"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-17"
+tags = ["temperature-solubility"]
+script = ["add v1 water 100mL @ 60C", "add v1 KCl 50g", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-108"
+question = "Can cooling a hot saturated potassium chloride solution produce crystals?"
+age_band = "age16_to18"
+action = "heat_and_cool"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-17"
+tags = ["recrystallisation"]
+script = ["add v1 water 100mL @ 80C", "add v1 KCl 50g", "cool v1 20kJ", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-109"
+question = "What happens if I ask to cool water below absolute zero?"
+age_band = "all"
+action = "heat_and_cool"
+material_class = "invalid-temperature"
+expected = "boundary"
+owning_task = "BRD-001"
+tags = ["impossible-state"]
+script = []
+boundary = "temperature-below-absolute-zero"
+smoke = false
+
+[[prompt]]
+id = "aq-110"
+question = "Can the simulator predict every chemical in an unlabelled frozen cleaning product?"
+age_band = "all"
+action = "heat_and_cool"
+material_class = "unknown-cleaning-fluid"
+expected = "boundary"
+owning_task = "BRD-014"
+tags = ["unknown-material-composition"]
+script = []
+boundary = "unlabelled-mixture"
+smoke = false
+
+[[prompt]]
+id = "aq-111"
+question = "What colour and clarity does a dilute copper sulfate solution have?"
+age_band = "age9_to12"
+action = "handle_and_inspect"
+material_class = "laboratory-salt"
+expected = "computed"
+owning_task = "EXP-21"
+tags = ["visual-observation"]
+script = ["add v1 water 100mL", "add v1 CuSO4 1g", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-112"
+question = "Can I see the difference between dissolved ions and undissolved crystals in the particle view?"
+age_band = "age13_to15"
+action = "handle_and_inspect"
+material_class = "saturated-salt-water"
+expected = "computed"
+owning_task = "CAP-14"
+tags = ["particle-view"]
+script = ["add v1 water 100mL", "add v1 NaCl 50g", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-113"
+question = "How much does a beaker weigh after salt is added to water?"
+age_band = "age9_to12"
+action = "handle_and_inspect"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "CAP-3"
+tags = ["mass-conservation"]
+script = ["add v1 water 100mL", "add v1 NaCl 10g", "measure v1 balance"]
+smoke = false
+
+[[prompt]]
+id = "aq-114"
+question = "Does a conductivity meter distinguish pure water from salt water?"
+age_band = "age13_to15"
+action = "handle_and_inspect"
+material_class = "salt-water"
+expected = "computed"
+owning_task = "EXP-21"
+tags = ["conductivity"]
+script = ["add v1 water 100mL", "add v1 NaCl 0.01mol", "measure v1 conductivity"]
+smoke = true
+
+[[prompt]]
+id = "aq-115"
+question = "Can a UV-visible measurement detect permanganate colour in water?"
+age_band = "age16_to18"
+action = "handle_and_inspect"
+material_class = "permanganate-solution"
+expected = "computed"
+owning_task = "EXP-21"
+tags = ["spectrophotometry"]
+script = ["add v1 water 100mL", "add v1 KMnO4 0.0001mol", "measure v1 uvvis"]
+smoke = false
+
+[[prompt]]
+id = "aq-116"
+question = "What smell is reported when dilute acetic acid is wafted carefully?"
+age_band = "age13_to15"
+action = "handle_and_inspect"
+material_class = "weak-acid-solution"
+expected = "qualitative"
+owning_task = "CAP-25"
+tags = ["odour"]
+script = ["add v1 water 100mL", "add v1 CH3COOH 0.01mol", "smell v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-117"
+question = "Does ammonia have a noticeable odour in the simulator's wafting model?"
+age_band = "age13_to15"
+action = "handle_and_inspect"
+material_class = "ammonia-solution"
+expected = "qualitative"
+owning_task = "CAP-25"
+tags = ["odour"]
+script = ["add v1 water 100mL", "add v1 NH3 0.001mol", "smell v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-118"
+question = "Why is smelling an unknown cleaner directly not a safe identification method?"
+age_band = "all"
+action = "handle_and_inspect"
+material_class = "unknown-cleaner"
+expected = "boundary"
+owning_task = "CAP-11"
+tags = ["unsafe-sensory-test"]
+script = []
+boundary = "direct-smelling-unknown"
+smoke = true
+
+[[prompt]]
+id = "aq-119"
+question = "Can the model predict foam height when dish soap is shaken in water?"
+age_band = "age9_to12"
+action = "handle_and_inspect"
+material_class = "dish-soap-solution"
+expected = "qualitative"
+owning_task = "BRD-014"
+tags = ["foam-observation"]
+script = ["add v1 water 100mL", "add v1 dish_soap 5mL", "stir v1", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-120"
+question = "Can the model show an oil droplet emulsion breaking after soap is added?"
+age_band = "age13_to15"
+action = "mix_and_dissolve"
+material_class = "soap-oil-emulsion"
+expected = "missing"
+parse_boundary = "unknown_species"
+owning_task = "BRD-014"
+tags = ["emulsion-model-gap"]
+script = ["add v1 water 100mL", "add v1 cooking_oil 10mL", "add v1 dish_soap 2mL", "stir v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-121"
+question = "Does hard water leave calcium carbonate scale when conditions change?"
+age_band = "age13_to15"
+action = "materials"
+material_class = "hard-water-scale"
+expected = "computed"
+owning_task = "EXP-3"
+tags = ["mineral-scale"]
+script = ["add v1 water 100mL", "add v1 CaCl2 0.01mol", "add v1 NaHCO3 0.02mol", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-122"
+question = "Can acidic water dissolve calcium carbonate limescale?"
+age_band = "age13_to15"
+action = "materials"
+material_class = "limescale-cleaning"
+expected = "computed"
+owning_task = "EXP-3"
+tags = ["acid-cleaning"]
+script = ["add v1 water 100mL", "add v1 CaCO3 5g", "add v1 CH3COOH 0.05mol", "look v1"]
+smoke = false
+
+[[prompt]]
+id = "aq-123"
+question = "Will an iron nail displace copper from copper sulfate solution?"
+age_band = "age13_to15"
+action = "materials"
+material_class = "metal-salt-solution"
+expected = "computed"
+owning_task = "EXP-11"
+tags = ["metal-displacement"]
+script = ["add v1 water 100mL", "add v1 CuSO4 0.01mol", "add v1 Fe 1g", "look v1"]
+smoke = true
+
+[[prompt]]
+id = "aq-124"
+question = "Will copper metal react with dilute hydrochloric acid?"
+age_band = "age16_to18"
+action = "materials"
+material_class = "metal-acid"
+expected = "computed"
+owning_task = "EXP-11"
+tags = ["computed-inertness"]
+script = ["add v1 water 100mL", "add v1 HCl 0.02mol", "add v1 Cu 1g", "wait 1min"]
+smoke = false
+
+[[prompt]]
+id = "aq-125"
+question = "Can the current model predict rust layers on an iron nail in salty aerated water over several days?"
+age_band = "age16_to18"
+action = "materials"
+material_class = "iron-corrosion"
+expected = "missing"
+owning_task = "BRD-041"
+tags = ["corrosion-kinetics-gap"]
+script = ["add v1 water 100mL", "add v1 NaCl 2g", "add v1 Fe 1g", "wait 72h", "look v1"]
+smoke = true

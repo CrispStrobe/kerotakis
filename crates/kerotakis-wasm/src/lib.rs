@@ -19,7 +19,8 @@
 pub mod worker;
 
 use kerotakis_core::{
-    render_events, render_vessel, Bench, Equilibrator, Event, Operator, Register, SolverStack,
+    render_events_in, render_vessel_in, Bench, Equilibrator, Event, Locale, Operator, Register,
+    SolverStack,
 };
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -31,6 +32,8 @@ pub struct Lab {
     stack: SolverStack,
     aqueous: kerotakis_phreeqc::PhreeqcEquilibrator,
     register: Register,
+    /// The language the engine renders its prose in (I18N-5).
+    locale: Locale,
 }
 
 #[wasm_bindgen]
@@ -48,6 +51,7 @@ impl Lab {
             stack: kerotakis_stack::standard_stack(vec![]),
             aqueous,
             register: Register::default(),
+            locale: Locale::default(),
         })
     }
 
@@ -119,6 +123,11 @@ impl Lab {
             "engine_version": env!("CARGO_PKG_VERSION"),
             "git_rev": option_env!("KEROTAKIS_GIT_REV"),
             "registers": ["lv1", "lv2", "lv3"],
+            // WEB-003: the model-pack inventory. content_hash is empty
+            // until the pack build pipeline stamps it — an HONEST
+            // "declared, not yet independently deliverable" state; a
+            // client must treat empty-hash packs as built in.
+            "packs": kerotakis_core::packs_manifest::core_packs(),
         })
         .to_string()
     }
@@ -146,6 +155,17 @@ impl Lab {
         Ok(())
     }
 
+    /// Choose the language the engine renders its own prose in.
+    ///
+    /// Unlike `setRegister` this cannot fail: an unknown tag falls back to
+    /// English inside the engine. Someone whose system is set to a
+    /// language nobody has translated should see the language we do have,
+    /// not an error where the bench used to be.
+    #[wasm_bindgen(js_name = setLocale)]
+    pub fn set_locale(&mut self, locale: &str) {
+        self.locale = Locale::parse(locale);
+    }
+
     /// Apply one operator, given as the same JSON the CLI's `--json` mode
     /// emits. Returns `{ events, rendered, scene, bench }` — `scene` is the
     /// render model (PROTOCOL.md, GUI-003), so one round trip repaints a
@@ -154,7 +174,7 @@ impl Lab {
         let op: Operator =
             serde_json::from_str(operator_json).map_err(|e| JsError::new(&e.to_string()))?;
         let events = self.run(op)?;
-        let rendered = render_events(&events, self.register);
+        let rendered = render_events_in(&events, self.register, self.locale);
         let charts = kerotakis_core::chart::charts_for_events(&events);
         let doc = serde_json::json!({
             "events": events,
@@ -184,7 +204,7 @@ impl Lab {
                 Ok(None) => {}
                 Ok(Some(op)) => {
                     let events = self.run(op.clone())?;
-                    let rendered = render_events(&events, self.register);
+                    let rendered = render_events_in(&events, self.register, self.locale);
                     let charts = kerotakis_core::chart::charts_for_events(&events);
                     steps.push(serde_json::json!({
                         "operator": op,
@@ -260,7 +280,7 @@ impl Lab {
             .vessel(kerotakis_core::VesselId(vessel))
             .map_err(|e| JsError::new(&e.to_string()))?;
         Ok(serde_json::json!({
-            "rendered": render_vessel(v, self.register),
+            "rendered": render_vessel_in(v, self.register, self.locale),
             "vessel": v,
         })
         .to_string())
@@ -308,6 +328,10 @@ impl Lab {
                     "name": r.name,
                     "equation": r.equation,
                     "args": r.args,
+                    "purpose": r.purpose,
+                    "purpose_de": r.purpose_de,
+                    "validity": r.validity,
+                    "validity_de": r.validity_de,
                 })
             })
             .collect();
@@ -334,6 +358,31 @@ impl Lab {
         }
     }
 
+    /// DATA-010: load a species pack (.pack bytes — magic, version,
+    /// sha256-verified payload). New species join the shelf and every
+    /// lookup; built-ins are never shadowed. Returns the honest count:
+    /// { added, skipped, loaded_total }.
+    #[wasm_bindgen(js_name = loadPack)]
+    pub fn load_pack(&mut self, bytes: &[u8]) -> Result<String, JsError> {
+        let doc = kerotakis_data::load_pack(bytes).map_err(|e| JsError::new(&e.to_string()))?;
+        let recipes = doc.material_recipes.clone();
+        let value = serde_json::to_value(&doc).map_err(|e| JsError::new(&e.to_string()))?;
+        let species =
+            kerotakis_core::species_loader::parse_document(&value).map_err(|e| JsError::new(&e))?;
+        let (added, skipped) = kerotakis_core::species::register_loaded(species);
+        let (materials_added, materials_skipped) =
+            kerotakis_core::material::register_loaded(recipes);
+        Ok(serde_json::json!({
+            "added": added,
+            "skipped": skipped,
+            "loaded_total": kerotakis_core::species::loaded_count(),
+            "materials_added": materials_added,
+            "materials_skipped": materials_skipped,
+            "materials_loaded_total": kerotakis_core::material::all().len(),
+        })
+        .to_string())
+    }
+
     /// The whole bench as a restorable snapshot (serde round-trip of
     /// `Bench`). The GUI keeps one per log position so undo/scrub is a
     /// restore instead of a reset-and-replay — same determinism, O(1).
@@ -358,8 +407,8 @@ impl Lab {
 
     /// Every species the lab knows, as JSON — what a UI offers on a shelf.
     pub fn species(&self) -> String {
-        let list: Vec<serde_json::Value> = kerotakis_core::species::REGISTRY
-            .iter()
+        let list: Vec<serde_json::Value> = kerotakis_core::species::all_species()
+            .into_iter()
             .map(|s| {
                 let (hazards, assessed) = kerotakis_safety::hazard_assessment(s.key);
                 let (srgb, solution_srgb) = kerotakis_core::species::shelf_swatch(s);
@@ -372,6 +421,7 @@ impl Lab {
                     "srgb": srgb,
                     "solution_srgb": solution_srgb,
                     "flame": s.flame_colour,
+                        "density": s.density,
                     "provenance": s.provenance,
                     "hazards": hazards,
                     "hazard_assessed": assessed,

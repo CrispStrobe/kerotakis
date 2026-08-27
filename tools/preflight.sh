@@ -31,16 +31,27 @@ if [ -d /mnt/volume1 ]; then
 fi
 
 LIGHT=false
+# Clippy is on by default: a preflight that checks less than CI is how the
+# "green locally, red on CI" problem this script exists to prevent comes
+# back. CI passes --no-clippy because its own `Test (native)` matrix
+# already runs the identical command on both platforms, so preflight's
+# run is a third pass that buys nothing.
+CLIPPY=true
 for arg in "$@"; do
   case "$arg" in
     --light) LIGHT=true ;;
+    --no-clippy) CLIPPY=false ;;
   esac
 done
 
 step() { printf '\n\033[1m== %s\033[0m\n' "$1"; }
 
 step "fmt";           cargo fmt --check
-step "clippy";        cargo clippy --workspace --all-targets -- -D warnings
+if $CLIPPY; then
+  step "clippy";      cargo clippy --workspace --all-targets -- -D warnings
+else
+  step "clippy";      echo "skipped (--no-clippy; the Test matrix runs it on both platforms)"
+fi
 step "no-engine";     cargo check -p kerotakis-phreeqc --no-default-features
 
 if $LIGHT; then
@@ -50,6 +61,14 @@ fi
 
 step "tests";         cargo test --workspace
 step "wasm32";        cargo build -p kerotakis-wasm --target wasm32-unknown-unknown
+# The three i18n gates. Seconds each, and each one caught something real
+# while this was being built: a key shared by two different sentences (which
+# renders the WRONG sentence, not a missing one), a placeholder nothing
+# fills (which renders as literal `{name}` on screen), and a catalogue
+# drifting behind the source it translates.
+step "i18n catalogue"; python3 tools/codex-locale-lint.py --check
+step "i18n engine";    python3 tools/engine-locale-lint.py --check
+step "i18n holes";     python3 tools/i18n-holes-lint.py --check
 step "codex lint";    cargo run --release -p kerotakis-cli -- codex lint
 step "provenance";    cargo run --release -p kerotakis-cli -- provenance lint
 step "sweep";         cargo run --release -p kerotakis-cli -- sweep
@@ -68,6 +87,22 @@ fi
 # Provenance checksums (vendored files)
 if [ -f tools/provenance-lint.sh ]; then
   step "provenance checksums"; bash tools/provenance-lint.sh
+fi
+
+# The committed icons must still match the mark they were drawn from —
+# every store, browser tab and home screen reads these, and a hand-edited
+# PNG that no longer matches its source is invisible until an upload is
+# rejected.
+#
+# Local only, deliberately. It needs librsvg, which CI does not install,
+# and pinning committed bytes against a differently-versioned rasteriser on
+# another platform would fail for reasons that have nothing to do with the
+# artwork. Whoever regenerates the icons has librsvg by definition, and
+# this is the gate on them.
+if command -v rsvg-convert >/dev/null 2>&1; then
+  step "icons"; python3 tools/gen-icons.py --check
+else
+  echo "   (icons: rsvg-convert absent, skipping the icon check)"
 fi
 
 printf '\n\033[1;32mpreflight clean\033[0m\n'

@@ -1,0 +1,71 @@
+# EXP-45: the law of conservation of mass in sealed reactions.
+# The ledger IS the engine's thesis — this quest states its soul to a
+# learner. Three reaction types, all weighed before and after in a
+# sealed vessel. The balance reads the same both times.
+id = "conservation"
+
+[title]
+lv1 = "Nothing disappears"
+lv2 = "Conservation of mass: weigh before, react, weigh after"
+lv3 = "Mass conservation across precipitation, gas-evolving, and neutralisation reactions in sealed vessels"
+
+[goal]
+lv1 = "Some reactions make new stuff appear — powder, gas, heat. Does the total weight change? Seal the vessel, weigh it, react, weigh again."
+lv2 = "Demonstrate conservation of mass in at least two different reaction types: seal the vessel, weigh it, run the reaction, weigh again. The balance should agree."
+lv3 = "Mass is conserved across chemical transformations — the ledger's fundamental invariant. Verify by gravimetric comparison (pre- vs post-reaction mass in a sealed system) for at least two of: precipitation, gas evolution, neutralisation. The sealed vessel traps gaseous products that would otherwise appear to lose mass."
+
+[[nudges]]
+id = "first-weighing"
+when = "measured"
+[nudges.say]
+lv1 = "You weighed it — remember that number. Now make something happen inside the sealed vessel."
+lv2 = "Initial mass recorded. Run a reaction in the sealed vessel, then weigh again — the comparison is the experiment."
+lv3 = "Pre-reaction mass established. The seal is essential: open-vessel gas evolution would show apparent mass loss (CO₂ escaping), which is real transport, not a violation."
+
+[[nudges]]
+id = "precipitated"
+when = "precipitated"
+[nudges.say]
+lv1 = "New stuff appeared at the bottom — but did the total weight change?"
+lv2 = "A precipitate formed — solid that was not there before. Weigh the vessel again to check if mass was created."
+lv3 = "Precipitation redistributes mass between phases (dissolved → solid) without creating or destroying it. The balance confirms: Σm(products) = Σm(reactants)."
+
+[[nudges]]
+id = "gas-in-sealed"
+when = "gas_evolved"
+[nudges.say]
+lv1 = "Bubbles! But the lid is on, so the gas cannot escape. Does it still weigh the same?"
+lv2 = "Gas evolved inside the sealed vessel — it is still there, just in a different form. The balance tells the story."
+lv3 = "Gaseous products remain in the headspace. Without the seal, the apparent mass would decrease by the mass of escaped gas — a real transport phenomenon, not a violation of conservation."
+
+[[claims]]
+id = "sealed-a-vessel"
+matches = "vessel_sealed"
+[claims.title]
+lv1 = "Put the lid on"
+lv2 = "Seal a vessel before the reaction"
+lv3 = "Seal the vessel to close the material boundary"
+
+[[claims]]
+id = "weighed-before"
+matches = "measured"
+[claims.title]
+lv1 = "Weigh it before"
+lv2 = "Record the mass before the reaction"
+lv3 = "Pre-reaction gravimetric measurement"
+
+[[claims]]
+id = "ran-a-reaction"
+matches = "precipitated"
+[claims.title]
+lv1 = "Make something happen inside"
+lv2 = "Run a reaction in the sealed vessel"
+lv3 = "At least one chemical transformation in the sealed system"
+
+[[claims]]
+id = "weighed-after"
+matches = "measured"
+[claims.title]
+lv1 = "Weigh it after"
+lv2 = "Record the mass after the reaction"
+lv3 = "Post-reaction gravimetric measurement — compare with pre-reaction"

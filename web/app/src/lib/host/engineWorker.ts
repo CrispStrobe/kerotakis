@@ -27,6 +27,7 @@ type Lab = {
   relations(): string;
   calc(name: string, argsJson: string): string;
   setRegister(level: string): void;
+  setLocale(code: string): void;
   setSolver(hook: (dbTag: string, input: string) => string): void;
   scene(): string;
   state(): string;
@@ -36,6 +37,7 @@ type Lab = {
   reset(): void;
   canSolve(): boolean;
   loadResults(bytes: Uint8Array): number;
+  loadPack(bytes: Uint8Array): string;
 };
 
 let lab: Lab | null = null;
@@ -167,6 +169,9 @@ onmessage = async (ev: MessageEvent) => {
       case "relations":
         done(id, lab.relations());
         break;
+      case "load_pack":
+        done(id, lab.loadPack(new Uint8Array(msg.bytes as ArrayBuffer)));
+        break;
       case "snapshot":
         done(id, JSON.stringify({ snapshot: lab.snapshot() }));
         break;
@@ -179,6 +184,10 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "set_register":
         lab.setRegister(String(msg.level));
+        done(id, "{}");
+        break;
+      case "set_locale":
+        lab.setLocale(String(msg.code));
         done(id, "{}");
         break;
       case "scene":

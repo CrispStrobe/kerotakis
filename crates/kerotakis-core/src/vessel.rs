@@ -2,6 +2,7 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::material::MaterialBasis;
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
 
@@ -13,6 +14,30 @@ impl std::fmt::Display for VesselId {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "v{}", self.0 + 1)
     }
+}
+
+/// The explicitly unresolved balance of a named material addition.
+///
+/// This is matter the recipe admits it cannot yet map to canonical species.
+/// Keeping it in vessel state prevents later UI and persistence layers from
+/// silently pretending that the named material was completely characterized.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct UnresolvedMaterialPortion {
+    pub material: String,
+    pub recipe_id: String,
+    pub recipe_version: u32,
+    pub basis: MaterialBasis,
+    pub amount: f64,
+}
+
+/// Persistent visual state for gas trapped by a declared foam stabilizer.
+/// Chemistry still owns every gas mole; this only describes a temporary
+/// bubble structure while it drains and coalesces.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct FoamState {
+    pub trapped_gas_liters: f64,
+    pub volume_liters: f64,
+    pub peak_volume_liters: f64,
 }
 
 /// How the vessel exchanges heat with the surroundings between operators.
@@ -560,6 +585,10 @@ pub struct MaterialLot {
     /// Particle-size metadata for solids, if relevant (mean diameter in µm).
     #[serde(default)]
     pub particle_size_um: Option<f64>,
+    /// Fraction of this solid lot currently suspended in its liquid medium.
+    /// `None` preserves legacy state whose suspension was never tracked.
+    #[serde(default)]
+    pub suspended_fraction: Option<f64>,
 }
 
 // ── ARCH-005: ResolvedState ───────────────────────────────────────
@@ -611,6 +640,10 @@ pub struct Vessel {
     pub id: VesselId,
     pub label: String,
     pub contents: Vec<Portion>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub unresolved_materials: Vec<UnresolvedMaterialPortion>,
+    #[serde(default)]
+    pub foam: FoamState,
     pub temperature: Kelvin,
     pub pressure: Pascal,
     pub thermal_mode: ThermalMode,
@@ -663,6 +696,8 @@ impl Vessel {
             id,
             label: label.into(),
             contents: Vec::new(),
+            unresolved_materials: Vec::new(),
+            foam: FoamState::default(),
             temperature: Kelvin::STANDARD,
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,
@@ -679,6 +714,7 @@ impl Vessel {
 
     pub fn is_empty(&self) -> bool {
         self.contents.is_empty()
+            && self.unresolved_materials.is_empty()
             && self.surfaces.is_empty()
             && self.exchanges.is_empty()
             && self.solid_solutions.is_empty()
@@ -724,6 +760,14 @@ impl Vessel {
         source: Option<String>,
         particle_size_um: Option<f64>,
     ) {
+        let suspended_fraction = (phase == Phase::Solid).then(|| {
+            if self.liquid_volume().0 > 0.0 && !crate::displacement::is_elemental_metal(&species.0)
+            {
+                1.0
+            } else {
+                0.0
+            }
+        });
         self.deposit(species.clone(), moles, phase);
         self.lots.push(MaterialLot {
             species,
@@ -732,8 +776,28 @@ impl Vessel {
             added_at: self.elapsed_seconds,
             source,
             particle_size_um,
+            suspended_fraction,
         });
         self.resolved.invalidate();
+    }
+
+    /// Mole-weighted suspended fraction for explicitly tracked solid lots.
+    /// `None` means this is legacy/solver-created solid state with no split.
+    pub fn suspended_fraction_of(&self, species: &SpeciesId) -> Option<f64> {
+        let mut tracked_moles = 0.0;
+        let mut suspended_moles = 0.0;
+        for lot in self
+            .lots
+            .iter()
+            .filter(|lot| lot.species == *species && lot.phase == Phase::Solid)
+        {
+            let Some(fraction) = lot.suspended_fraction else {
+                continue;
+            };
+            tracked_moles += lot.moles.0;
+            suspended_moles += lot.moles.0 * fraction.clamp(0.0, 1.0);
+        }
+        (tracked_moles > 0.0).then_some((suspended_moles / tracked_moles).clamp(0.0, 1.0))
     }
 
     /// Remove up to `moles` of a species across its portions (any phase).

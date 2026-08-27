@@ -42,7 +42,9 @@ fn registry_inchikeys_are_recomputed_and_match() {
 fn the_tranche_only_grows_deliberately() {
     assert_eq!(
         CURATED_STRUCTURES.len(),
-        77,
+        // 77 → 85 (EXP-50): bromide/HBr/NaBr plus five selectivity
+        // substrates and products now have curated native identities.
+        85,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );

@@ -1,13 +1,17 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import {
     checkExpect,
     conceptIndex,
     curriculumIndex,
     relatedConcepts,
+    scriptKit,
     type CheckResult,
     type CodexEntry,
   } from "../codex";
   import type { Session } from "../session.svelte";
+  import KitStrip from "./KitStrip.svelte";
+  import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
 
   let {
     entries,
@@ -22,7 +26,7 @@
     initial?: CodexEntry | null;
   } = $props();
 
-  let open = $state<CodexEntry | null>(initial);
+  let open = $state<CodexEntry | null>(untrack(() => initial));
   let tab = $state<"theory" | "procedure" | "run">("theory");
   let predicted = $state<number | null>(null);
   let result = $state<CheckResult | null>(null);
@@ -65,10 +69,40 @@
     if (!open) return "";
     const r = open.registers ?? {};
     const lv = session.register;
+    // German lives INSIDE the key here — `lv2_de` — because registers are
+    // a map keyed by level, not a record of named fields. Every fallback
+    // below keeps its German twin ahead of it, so a level translated but
+    // not its neighbour still reads German at the level you asked for.
+    const de = i18n.locale === "de";
+    const pick = (k: string) => (de ? r[`${k}_de`] : undefined) ?? r[k];
     return (
-      r[lv] ?? r[lv.replace("lv", "")] ?? r["lv2"] ?? r["2"] ?? Object.values(r)[0] ?? ""
+      pick(lv) ??
+      pick(lv.replace("lv", "")) ??
+      pick("lv2") ??
+      pick("2") ??
+      Object.values(r)[0] ??
+      ""
     );
   });
+  /** One option in the reader's language.
+   *
+   * `options` is an array of plain strings, so it has no `_de` sibling to
+   * read the way a named field does; the German is a parallel
+   * `options_de` array. Positional, therefore, and the two must stay the
+   * same length — a mismatch silently answers a different question than
+   * the one the learner was shown, so a short array is treated as absent
+   * rather than indexed into.
+   */
+  function optionText(
+    p: { options?: string[]; options_de?: string[] } | null,
+    i: number,
+  ): string | undefined {
+    if (!p || i18n.locale !== "de") return undefined;
+    const de = p.options_de;
+    if (!de || de.length !== (p.options?.length ?? -1)) return undefined;
+    return de[i];
+  }
+
   const prediction = $derived(open?.expect?.predict ?? null);
   const mustPredict = $derived(prediction !== null && predicted === null);
 
@@ -85,6 +119,14 @@
       running = false;
     }
   }
+  const kitItems = $derived.by(() => {
+    if (!open) return [];
+    const keys = scriptKit(open.setup.script);
+    return keys
+      .map((k) => session.shelf.find((s) => s.key === k))
+      .filter((s): s is NonNullable<typeof s> => s != null);
+  });
+
   const diagnosisForPick = $derived.by(() => {
     if (!prediction || predicted === null || predicted === prediction.answer) return null;
     return prediction.diagnosis?.find((d) => d.option === predicted) ?? null;
@@ -92,46 +134,46 @@
 </script>
 
 <div class="scrim" role="presentation" onclick={onclose} onkeydown={(e) => e.key === "Escape" && onclose()}>
-  <section class="panel" role="dialog" aria-modal="true" aria-label="experiments" onclick={(e) => e.stopPropagation()}>
+  <dialog open class="panel" aria-modal="true" aria-label={t("experiments")} onclick={(e) => e.stopPropagation()}>
     {#if !open}
       <header>
-        <h2>experiments</h2>
-        <span class="hint">{entries.length} from the codex — each one computed, checked, and yours to break</span>
-        <button class="close" onclick={onclose}>close</button>
+        <h2>{t("experiments")}</h2>
+        <span class="hint">{t("{count} from the codex — each one computed, checked, and yours to break", { count: entries.length })}</span>
+        <button class="close" onclick={onclose}>{t("close")}</button>
       </header>
       <nav class="tabs">
         {#each [["all", "all"], ["concepts", "by concept"], ["curriculum", "by curriculum"]] as [key, label] (key)}
-          <button class:on={view === key} onclick={() => (view = key as typeof view)}>{label}</button>
+          <button class:on={view === key} onclick={() => (view = key as typeof view)}>{t(label)}</button>
         {/each}
         <input
           class="filter"
           type="search"
-          placeholder="filter…"
+          placeholder={t("filter…")}
           bind:value={filter}
-          aria-label="filter experiments"
+          aria-label={t("filter experiments")}
         />
       </nav>
 
       {#if view === "concepts"}
-        <div class="chips" role="group" aria-label="concepts">
+        <div class="chips" role="group" aria-label={t("concepts")}>
           {#each concepts as c (c.concept)}
             <button
               class="chip"
               class:on={concept === c.concept}
               onclick={() => (concept = concept === c.concept ? null : c.concept)}
             >
-              {c.concept.replace(/-/g, " ")} <small>{c.count}</small>
+              {t(c.concept.replace(/-/g, " "))} <small>{c.count}</small>
             </button>
           {/each}
           {#if concepts.length === 0}
-            <p class="empty">these entries name no concepts yet</p>
+            <p class="empty">{t("these entries name no concepts yet")}</p>
           {/if}
         </div>
         {#if concept && related.length > 0}
           <p class="meta">
-            taught alongside:
+            {t("taught alongside:")}
             {#each related as r, i (r)}
-              <button class="link" onclick={() => (concept = r)}>{r.replace(/-/g, " ")}</button
+              <button class="link" onclick={() => (concept = r)}>{t(r.replace(/-/g, " "))}</button
               >{i < related.length - 1 ? ", " : ""}
             {/each}
           </p>
@@ -140,11 +182,11 @@
 
       {#if view === "curriculum"}
         {#if curricula.length === 0}
-          <p class="empty">no curriculum placements in this export yet</p>
+          <p class="empty">{t("no curriculum placements in this export yet")}</p>
         {/if}
         {#each curricula as sys (sys.system)}
           <section class="system">
-            <h3>{sys.system.replace(/-/g, " ")}</h3>
+            <h3>{t(sys.system.replace(/-/g, " "))}</h3>
             {#each sys.stages as st (st.stage)}
               <details>
                 <summary>
@@ -154,14 +196,14 @@
                   {#each st.entries as e (e.id)}
                     <li>
                       <button class="entry" onclick={() => openEntry(e)}>
-                        <strong>{e.id.replace(/-/g, " ")}</strong>
-                        <span class="eq">{e.equation ?? e.summary ?? ""}</span>
+                        <strong>{t(e.id.replace(/-/g, " "))}</strong>
+                        <span class="eq">{e.equation ?? tEngine(e, "summary")}</span>
                       </button>
                     </li>
                   {/each}
                 </ul>
                 {#if st.sources.length > 0}
-                  <p class="meta">placed per: {st.sources.join("; ")}</p>
+                  <p class="meta">{t("placed per: {sources}", { sources: st.sources.join("; ") })}</p>
                 {/if}
               </details>
             {/each}
@@ -172,25 +214,25 @@
           {#each shown as e (e.id)}
             <li>
               <button class="entry" onclick={() => openEntry(e)}>
-                <strong>{e.id.replace(/-/g, " ")}</strong>
-                <span class="eq">{e.equation ?? e.summary ?? ""}</span>
+                <strong>{t(e.id.replace(/-/g, " "))}</strong>
+                <span class="eq">{e.equation ?? tEngine(e, "summary")}</span>
               </button>
             </li>
           {/each}
           {#if shown.length === 0}
-            <li><p class="empty">nothing matches that filter</p></li>
+            <li><p class="empty">{t("nothing matches that filter")}</p></li>
           {/if}
         </ul>
       {/if}
     {:else}
       <header>
         <button class="back" onclick={() => (open = null)}>←</button>
-        <h2>{open.id.replace(/-/g, " ")}</h2>
-        <button class="close" onclick={onclose}>close</button>
+        <h2>{t(open.id.replace(/-/g, " "))}</h2>
+        <button class="close" onclick={onclose}>{t("close")}</button>
       </header>
       <nav class="tabs">
         {#each [["theory", "theory"], ["procedure", "procedure"], ["run", "predict & run"]] as [key, label] (key)}
-          <button class:on={tab === key} onclick={() => (tab = key as typeof tab)}>{label}</button>
+          <button class:on={tab === key} onclick={() => (tab = key as typeof tab)}>{t(label)}</button>
         {/each}
       </nav>
 
@@ -198,20 +240,31 @@
         {#if open.equation}<p class="equation">{open.equation}</p>{/if}
         <p class="prose">{theory}</p>
         {#if session.register !== "lv1" && (open.concepts?.length ?? 0) > 0}
-          <p class="meta">concepts: {open.concepts!.join(", ")}</p>
+          <p class="meta">{t("concepts: {concepts}", { concepts: open.concepts!.map(tSlug).join(", ") })}</p>
         {/if}
         {#if session.register === "lv3" && (open.models?.length ?? 0) > 0}
-          <p class="meta">models: {open.models!.join(", ")}</p>
+          <p class="meta">{t("models: {models}", { models: open.models!.map(tSlug).join(", ") })}</p>
         {/if}
       {:else if tab === "procedure"}
         {#if (open.apparatus?.length ?? 0) > 0}
-          <p class="meta">you will need: {open.apparatus!.join(", ")}</p>
+          <p class="meta">{t("you will need: {apparatus}", { apparatus: open.apparatus!.map(tSlug).join(", ") })}</p>
+        {/if}
+        {#if kitItems.length > 0}
+          <KitStrip
+            items={kitItems}
+            register={session.register}
+            target={session.selected}
+            onadd={(line) => {
+              void session.submit(line);
+              onclose();
+            }}
+          />
         {/if}
         <pre class="script">{open.setup.script}</pre>
       {:else}
         {#if prediction}
           <div class="predict">
-            <p class="question">{prediction.question}</p>
+            <p class="question">{tEngine(prediction, "question")}</p>
             {#each prediction.options as opt, i (i)}
               <button
                 class="option"
@@ -221,51 +274,51 @@
                 disabled={result !== null}
                 onclick={() => (predicted = i)}
               >
-                {opt}
+                {optionText(prediction, i) ?? t(opt)}
               </button>
             {/each}
             {#if mustPredict}
-              <p class="meta">commit a prediction first — the reveal only teaches if you have.</p>
+              <p class="meta">{t("commit a prediction first — the reveal only teaches if you have.")}</p>
             {/if}
           </div>
         {/if}
         <button class="go" disabled={running || session.busy || mustPredict} onclick={() => void runIt()}>
-          {running ? "running…" : "run it on the bench"}
+          {running ? t("running…") : t("run it on the bench")}
         </button>
         {#if result}
           <div class="verdict" class:ok={result.allOk}>
-            <strong>{result.allOk ? "the chemistry agrees" : "not everything checked out"}</strong>
+            <strong>{result.allOk ? t("the chemistry agrees") : t("not everything checked out")}</strong>
             <ul>
               {#each result.events as e (e.want)}
                 <li class:ok={e.seen}>{e.seen ? "✓" : "✗"} {e.want.replace(/_/g, " ")}</li>
               {/each}
               {#each result.forbidden as f (f.want)}
-                <li class:ok={!f.violated}>{f.violated ? "✗ occurred" : "✓ absent"}: {f.want.replace(/_/g, " ")}</li>
+                <li class:ok={!f.violated}>{f.violated ? `✗ ${t("occurred")}` : `✓ ${t("absent")}`}: {t(f.want.replace(/_/g, " "))}</li>
               {/each}
               {#if result.ph}
                 <li class:ok={result.ph.ok}>
                   {result.ph.ok ? "✓" : "✗"} pH {result.ph.value?.toFixed(2) ?? "—"}
-                  (expected {result.ph.range.min ?? "…"}–{result.ph.range.max ?? "…"})
+                  ({t("expected {range}", { range: `${result.ph.range.min ?? "…"}–${result.ph.range.max ?? "…"}` })})
                 </li>
               {/if}
               {#if result.temperature_c}
                 <li class:ok={result.temperature_c.ok}>
                   {result.temperature_c.ok ? "✓" : "✗"} {result.temperature_c.value?.toFixed(1) ?? "—"} °C
-                  (expected {result.temperature_c.range.min ?? "…"}–{result.temperature_c.range.max ?? "…"})
+                  ({t("expected {range}", { range: `${result.temperature_c.range.min ?? "…"}–${result.temperature_c.range.max ?? "…"}` })})
                 </li>
               {/if}
             </ul>
             {#if prediction && predicted !== null}
               {#if predicted === prediction.answer}
-                <p class="meta">your prediction held.</p>
+                <p class="meta">{t("your prediction held.")}</p>
               {:else}
                 <p class="meta">
-                  the bench answered "{prediction.options[prediction.answer]}".
+                  {t("the bench answered {answer}.", { answer: `“${optionText(prediction, prediction.answer) ?? t(prediction.options[prediction.answer] ?? "")}”` })}
                   {#if diagnosisForPick}
-                    {diagnosisForPick.reveals}
-                    {#if diagnosisForPick.next}Try: {diagnosisForPick.next}{/if}
+                    {tEngine(diagnosisForPick, "reveals")}
+                    {#if diagnosisForPick.next}{t("Try: {next}", { next: tEngine(diagnosisForPick, "next") })}{/if}
                   {:else if prediction.misconception}
-                    {prediction.misconception}
+                    {tEngine(prediction, "misconception")}
                   {/if}
                 </p>
               {/if}
@@ -274,7 +327,7 @@
         {/if}
       {/if}
     {/if}
-  </section>
+  </dialog>
 </div>
 
 <style>
@@ -288,6 +341,9 @@
     padding: 1rem;
   }
   .panel {
+    position: static;
+    margin: 0;
+    color: var(--ink);
     background: var(--bg);
     border: 1px solid var(--edge);
     border-radius: 12px;

@@ -42,6 +42,19 @@ pub fn serialize_pack_payload(doc: &RegistryDocument) -> Vec<u8> {
     serde_json::to_vec(doc).expect("JSON serialization should not fail")
 }
 
+/// Assemble a complete `.pack`: magic, version, sha256 of the payload,
+/// payload. The inverse of `load_pack`, which verifies all three.
+pub fn build_pack(doc: &RegistryDocument) -> Vec<u8> {
+    use sha2::{Digest, Sha256};
+    let payload = serialize_pack_payload(doc);
+    let mut pack = Vec::with_capacity(HEADER_LEN + payload.len());
+    pack.extend_from_slice(PACK_MAGIC);
+    pack.extend_from_slice(&PACK_VERSION.to_le_bytes());
+    pack.extend_from_slice(&Sha256::digest(&payload));
+    pack.extend_from_slice(&payload);
+    pack
+}
+
 /// Load a registry document from a compiled `.pack` byte slice.
 ///
 /// Verifies the magic, version, and content hash before deserializing.

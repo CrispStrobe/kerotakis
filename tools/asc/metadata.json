@@ -1,0 +1,45 @@
+{
+  "_comment": [
+    "Canonical App Store / TestFlight copy for Kerotakis. Every string App",
+    "Store Connect will hold lives here so it is reviewable in a diff",
+    "instead of typed into a web form once and forgotten. tools/asc/",
+    "push-metadata.py and tools/asc/testflight.py read it; nothing else does.",
+    "Apple's length limits are noted where they bite."
+  ],
+  "bundleId": "com.crispstrobe.kerotakis",
+  "_appIdComment": "The numeric app id altool wants, NOT the bundle id. Uploading with the wrong one silently lands the build in a different app, so the scripts resolve it from the API by bundle id and treat this as a cross-check.",
+  "appId": "6805214816",
+  "teamId": "N9XSJ4M3GT",
+  "sku": "KEROTAKIS-001",
+  "primaryLocale": "en-US",
+  "app": {
+    "name": "Kerotakis",
+    "subtitle": "Chemistry that computes",
+    "primaryCategory": "EDUCATION",
+    "secondaryCategory": "REFERENCE",
+    "privacyPolicyUrl": "https://crispstrobe.github.io/kerotakis/privacy.html",
+    "supportUrl": "https://github.com/CrispStrobe/kerotakis",
+    "marketingUrl": "https://crispstrobe.github.io/kerotakis/app/",
+    "copyright": "2026 Christian Ströbele",
+    "keywords": "chemistry,lab,titration,pH,solubility,equilibrium,redox,simulation,science,school,PHREEQC",
+    "description": "Kerotakis is a virtual chemistry laboratory that computes real chemistry.\n\nDrag reagents onto drawn glassware and a real aqueous-equilibrium solver answers. Nothing in it is a lookup table: every number comes out of a thermodynamic database at run time, which means the bench can do something a textbook cannot — show you a model working, and then show you the same model failing.\n\nWHAT IT COMPUTES\n\n• Dissolution and precipitation against actual solubility limits. Eight moles of salt in a litre of water leaves about 1.9 undissolved, because that is what the equilibrium says.\n• Acids and bases from charge balance — strong, weak, polyprotic through every pKa, and buffers that resist acid where plain water crashes.\n• Titration curves walked with a burette, to the equivalence point and past it.\n• Gas boundaries you choose: vent to the room, seal the vessel, regulate the pressure, or sweep with nitrogen. Pressure, volume, energy and the mass balance all answer to the constraint.\n• Heats of reaction that move the thermometer, so calcium chloride is a hot pack and potassium chloride a cold one.\n• The activity series decided by Nernst over computed potentials — including the refusals, like copper shrugging off acid.\n• Separations: filter a precipitate off, evaporate a brine to crystals, distil a mixture.\n\nTHREE LEVELS, ONE SIMULATION\n\nA register dial re-tells any result at the depth you want. Level one is what you would see: it went cloudy, a white solid settled. Level two adds the measurements. Level three shows every species, activity and coefficient behind the answer — the same numbers, never a different simulation.\n\nEvery result carries where it came from, and the app says \"unassessed\" rather than implying safe when nobody has checked.\n\nOFFLINE, ALWAYS\n\nThe solver, the thermodynamic databases and the whole lesson library are inside the app. It makes no network requests, has no account, and collects nothing whatsoever. It works with the network switched off.\n\nBuilt on IPhreeqc from the U.S. Geological Survey. Kerotakis is free software; the source is at github.com/CrispStrobe/kerotakis.",
+    "promotionalText": "A chemistry bench where the numbers are computed, not scripted — and where you can turn the dial from what you see all the way down to every species behind it."
+  },
+  "review": {
+    "firstName": "Christian",
+    "lastName": "Ströbele",
+    "email": "cstr+apple@mailbox.org",
+    "phone": "+4917664646627",
+    "demoAccountRequired": false,
+    "notes": "No account, no sign-in and no network access of any kind — the solver and every database ship inside the app, so it can be reviewed in aeroplane mode.\n\nThe macOS build declares com.apple.security.network.client. That is not for the app's own use; it makes no requests. Inside the App Sandbox, macOS routes everything a WKWebView loads through WebKit's networking process, including the custom scheme that serves the app's own frontend out of the binary, and without that entitlement the window renders blank.\n\nA one-minute tour: tap a lesson from the picker (\"silver and salt\" is the shortest) and step through it; or drag water and then sodium chloride from the shelf onto the beaker and watch the feed. The dial in the header switches the same result between plain description, measurements, and full speciation."
+  },
+  "beta": {
+    "description": "Kerotakis is a virtual chemistry bench that computes real chemistry — a real aqueous-equilibrium solver, offline, with a dial that re-tells any result from \"it went cloudy\" down to every species and activity coefficient behind it.\n\nThis is the first public build. The engine is well tested; the app around it is new, and that is what the beta is for.",
+    "feedbackEmail": "cstr+apple@mailbox.org",
+    "whatToTest": "First public build, so anything at all is worth reporting.\n\nWorth a look in particular:\n• The lesson picker — do the lessons step through cleanly?\n• The register dial (lv1 / lv2 / lv3) on a result you care about.\n• Dragging reagents from the shelf onto glassware, and the two-vessel tools (filter, decant, still).\n• Saving a .lab session or a notebook, and opening a .lab back up.\n• Rotating the device, and the layout on a small screen.\n\nKnown: the app makes no network requests, so nothing here needs a connection. If a solve ever hangs or a number looks wrong, the exact command sequence is the useful thing to send."
+  },
+  "groups": {
+    "internal": "Internal Testers",
+    "external": "Public Beta"
+  }
+}

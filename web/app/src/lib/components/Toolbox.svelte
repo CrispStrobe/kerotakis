@@ -9,10 +9,20 @@
    */
   import type { Session } from "../session.svelte";
   import { buildArgs, parseArgSpec, type RelationField } from "../relationArgs";
+  import { tEngine } from "../i18n.svelte";
+  import { t } from "../i18n.svelte";
 
   let { session, onclose }: { session: Session; onclose: () => void } = $props();
 
-  type Relation = { name: string; equation: string; args: string };
+  type Relation = {
+    name: string;
+    equation: string;
+    args: string;
+    purpose?: string;
+    purpose_de?: string;
+    validity?: string;
+    validity_de?: string;
+  };
   type CalcResult =
     | { ok: true; value: number; unit: string; provenance: string; lv1: string; lv2: string; lv3: string }
     | { ok: false; error: string };
@@ -79,20 +89,19 @@
   onclick={onclose}
   onkeydown={(e) => e.key === "Escape" && onclose()}
 >
-  <section
+  <dialog open
     class="toolbox"
-    role="dialog"
     aria-modal="true"
-    aria-label="relation calculator"
+    aria-label={t("relation calculator")}
     onclick={(e) => e.stopPropagation()}
   >
     <header>
-      <h2>Toolbox</h2>
-      <p class="sub">named relations, computed by the engine — with sources</p>
-      <button class="close" onclick={onclose} aria-label="close the toolbox">×</button>
+      <h2>{t("Toolbox")}</h2>
+      <p class="sub">{t("named relations, computed by the engine — with sources")}</p>
+      <button class="close" onclick={onclose} aria-label={t("close the toolbox")}>×</button>
     </header>
     <div class="body">
-      <nav aria-label="relations">
+      <nav aria-label={t("relations")}>
         {#each relations as r (r.name)}
           <button class:on={picked?.name === r.name} onclick={() => pick(r)}>
             <span class="rname">{r.name}</span>
@@ -100,7 +109,7 @@
           </button>
         {/each}
         {#if relations.length === 0}
-          <p class="empty">the engine has not answered with its relations yet</p>
+          <p class="empty">{t("the engine has not answered with its relations yet")}</p>
         {/if}
       </nav>
       {#if picked}
@@ -110,10 +119,19 @@
             void compute();
           }}
         >
+          {#if tEngine(picked, "purpose")}
+            <p class="purpose">{tEngine(picked, "purpose")}</p>
+          {/if}
           <p class="equation">{picked.equation}</p>
+          {#if tEngine(picked, "validity")}
+            <p class="validity">
+              <span class="validity-label">{t("where it holds")}</span>
+              {tEngine(picked, "validity")}
+            </p>
+          {/if}
           {#if freeform}
             <label>
-              <span>arguments <small>{picked.args}</small></span>
+              <span>{t("arguments")} <small>{picked.args}</small></span>
               <input
                 bind:value={freeText}
                 placeholder={picked.args}
@@ -126,7 +144,7 @@
               <label>
                 <span>
                   {f.name}
-                  <small>{f.hint}{f.optional ? " · optional" : ""}</small>
+                  <small>{t(f.hint)}{f.optional ? ` · ${t("optional")}` : ""}</small>
                 </span>
                 <input
                   bind:value={values[f.name]}
@@ -138,7 +156,7 @@
             {/each}
           {/if}
           <button class="go" type="submit" disabled={!ready || computing}>
-            {computing ? "computing…" : "compute"}
+            {computing ? t("computing…") : t("compute")}
           </button>
           {#if result}
             {#if result.ok}
@@ -155,7 +173,7 @@
         </form>
       {/if}
     </div>
-  </section>
+  </dialog>
 </div>
 
 <style>
@@ -168,6 +186,9 @@
     z-index: 10;
   }
   .toolbox {
+    position: static;
+    margin: 0;
+    color: var(--ink);
     background: var(--panel);
     border: 1px solid var(--edge);
     border-radius: 10px;
@@ -260,6 +281,32 @@
     flex-direction: column;
     gap: 0.6rem;
   }
+  .purpose {
+    margin: 0 0 0.5rem;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  /* Deliberately quieter than the equation but not hidden: a validity
+     range that reads as fine print is one a learner skips, and skipping
+     it is the whole failure mode this is here to prevent. */
+  .validity {
+    margin: 0.5rem 0 0;
+    padding-left: 0.6rem;
+    border-left: 2px solid var(--rule, rgba(128, 128, 128, 0.35));
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--ink-dim, var(--ink));
+  }
+
+  .validity-label {
+    display: block;
+    font-variant: small-caps;
+    letter-spacing: 0.04em;
+    opacity: 0.75;
+  }
+
   .equation {
     margin: 0;
     font-size: 0.95rem;

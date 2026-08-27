@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { checkExpect, parseCodexIndex } from "./codex";
+import { checkExpect, parseCodexIndex, scriptKit } from "./codex";
 
 describe("the codex checker compares, never computes", () => {
   it("events must occur, forbidden ones must not", () => {
@@ -46,6 +46,33 @@ describe("the codex checker compares, never computes", () => {
     expect(parseCodexIndex(entries)).toHaveLength(1);
     expect(parseCodexIndex({ entries })).toHaveLength(1);
     expect(parseCodexIndex(null)).toEqual([]);
+  });
+});
+
+describe("scriptKit extracts species keys from command scripts (GUI-063)", () => {
+  it("extracts species from add, titrate, and grind commands", () => {
+    const script = [
+      "new",
+      "add v1 water 100mL",
+      "add v1 NaCl 1g",
+      "titrate v1 HCl 0.1mol",
+      "grind v1 CaCO3",
+      "heat v1 100C",
+    ].join("\n");
+    expect(scriptKit(script)).toEqual(["water", "NaCl", "HCl", "CaCO3"]);
+  });
+
+  it("deduplicates species", () => {
+    const script = "add v1 water 100mL\nadd v2 water 50mL";
+    expect(scriptKit(script)).toEqual(["water"]);
+  });
+
+  it("returns empty for scripts with no reagent commands", () => {
+    expect(scriptKit("new\nheat v1 100C\nreact v1")).toEqual([]);
+  });
+
+  it("handles leading whitespace", () => {
+    expect(scriptKit("  add v1 NaCl 1g")).toEqual(["NaCl"]);
   });
 });
 

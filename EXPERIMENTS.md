@@ -1,5 +1,11 @@
 # The sixteen classroom experiments — audit and plan (CAP-24)
 
+The cross-corpus breadth dependencies are now executable `BRD-*` tasks in
+**[BREADTH.md](BREADTH.md)**. This file continues to own experiment/quest
+semantics; it must not duplicate library-integration scope. New EXP tasks name
+their required BRD task when identity, material, reaction-family, biochemical,
+crystal, physical-interaction or scientific-view infrastructure is required.
+
 Audited 2026-08-24 against the tree at that day's main. Sixteen
 primary-school experiment titles (user-supplied, German) mapped to
 what the engine, codex, and GUI can actually do. Verdicts are the
@@ -68,6 +74,148 @@ on what the learner actually does. Design:
   the shelf stays fully open during quests, and hazards stay live —
   the safety screen is part of the open world, not suspended for the
   tour.
+
+### Campaign decision (2026-08-26): quests become world missions
+
+The landed quest engine is the evaluator under a larger story system; it is not
+the final player-facing structure. A mission connects an engine-evaluated
+scientific problem to a place, a person or organization, a persistent world
+change, and a meaningful capability reward. The bench stays free throughout.
+
+```text
+story arc
+  ├── mission: a substantial problem with persistent consequences
+  │     ├── objective claims: engine-evaluated outcomes/evidence
+  │     ├── optional discoveries: events or state the player may notice
+  │     └── nudges: contextual, finite, non-blocking
+  └── opportunity: small ambient request, sample, anomaly, or challenge
+```
+
+Terminology in code may remain `quest` during migration. New content uses
+"mission" in user-facing English and "Mission" or the context-appropriate
+German translation in locale data; stable ids are never localized.
+
+#### Mission contract
+
+Every mission file must contain:
+
+| Field | Meaning |
+|---|---|
+| `id`, `version`, `locale_key` | Stable identity, migration version, and localized copy root |
+| `arc`, `chapter`, `location`, `giver` | Narrative/world placement; all optional for standalone Sandbox scenarios |
+| `premise` | The problem and why it matters, rendered at all three registers |
+| `start` | Samples, world facts, aliases/unknowns, allowed starting bench setup |
+| `objectives` | Typed claims over events, measurements, final state, notebook evidence, or submitted sample |
+| `constraints` | Safety, time, available quantity, contamination, cost, apparatus, or waste limits |
+| `nudges` | One-shot contextual hints with cooldown and register-localized text |
+| `discoveries` | Optional computed observations that can open leads or codex concepts |
+| `outcomes` | Success, partial success, recoverable failure, and honest unsupported branches |
+| `rewards` | Access, apparatus, supply source, location, relationship, research node, or story fact |
+| `next` | Zero or more newly visible missions; never an enforced single successor |
+
+Mission copy describes intent and stakes. It must not prescribe exact clicks
+unless the mission explicitly teaches safe operation of unfamiliar apparatus.
+Even then, the instruction is an optional demonstration that can be dismissed
+and replayed.
+
+#### Objective vocabulary
+
+Objective evaluation remains inside the engine/protocol boundary. The initial
+complete vocabulary is:
+
+- **Observe:** produce or rule out a typed event such as gas evolution,
+  precipitate, phase split, flame color, endpoint, or hazard.
+- **Measure:** record a property with a named instrument and any required
+  calibration/uncertainty.
+- **Identify:** submit the identity or class of a sealed unknown and cite one or
+  more observations from the notebook.
+- **Produce:** create a target species, phase, concentration, pH, temperature,
+  purity, volume, or yield within explicit tolerances.
+- **Separate:** deliver named output containers meeting recovery and purity
+  thresholds; multiple processes can qualify.
+- **Compare:** create evidence across two or more controlled trials, not merely
+  click a prediction.
+- **Design:** satisfy a performance envelope such as buffer capacity, heat
+  output, corrosion protection, or minimum waste.
+- **Avoid/contain:** complete an outcome without forbidden hazard events,
+  releases, contamination, or apparatus-limit breaches.
+- **Explain:** choose or compose a claim whose referenced observations and
+  quantities agree with the computed run. Explanations never replace the run.
+
+Claims may be `required`, `one_of`, `at_least(n)`, or `optional`. The evaluator
+returns structured unmet reasons so the UI can say what evidence is missing
+without leaking a procedure.
+
+#### Progression without grind
+
+Story progression has four legible resources:
+
+1. **Access** — rooms, field locations, suppliers, people, and sample sources.
+2. **Equipment** — permanent apparatus/instrument families and lab upgrades.
+3. **Supplies** — replenishable Story quantities used to make constraints
+   meaningful; common educational reagents never require repetitive grinding.
+4. **Research** — concepts demonstrated by evidence, opening advanced studies
+   and mission leads; this is not a spendable point currency.
+
+There are no XP bars, randomized drops, daily streaks, energy timers, loot
+boxes, or premium currency. Funding, if later introduced, represents explicit
+mission budgets and replacement costs and may always be disabled in classroom
+settings. Sandbox ignores all progression and quantity restrictions.
+
+#### Story spine, with lateral freedom
+
+The initial arc is a small laboratory becoming a trusted regional research
+station. Chapters describe growing capability, not locked grade levels:
+
+1. **The First Bench** — observation, safe handling, mixtures, mass, notebook;
+   earn basic glassware, balance, thermometer, and local sample access.
+2. **Water Stories** — pH, dissolved material, filtration, contamination,
+   gases; open the water desk, probes, filters, and field sampling.
+3. **Heat and Time** — heating/cooling, rates, energy, gas handling; open the
+   thermal bay, hotplate, calorimeter, and controlled vessels.
+4. **Signals in Matter** — qualitative tests, unknowns, spectra, electricity;
+   open the analysis room and higher-precision instruments.
+5. **Separation Works** — extraction, distillation, chromatography, recovery,
+   waste; open process equipment and multi-stage assemblies.
+6. **Independent Research** — player-proposed targets, studies, optimization,
+   and bounded advanced packs; the authored story becomes a source of problems,
+   not a finish screen.
+
+Each chapter launches with at least three visible leads serving different
+styles: investigation/identification, making/design, and community/environment.
+Main-arc missions may depend on a demonstrated capability but not on completing
+every preceding mission. Optional discoveries can reveal shortcuts or new
+branches, never mandatory hidden-object hunts.
+
+#### First playable vertical slice: The contaminated sample
+
+GUI-080 and the mission workline share one acceptance slice:
+
+- A community garden reports residue and a cloudy water sample. The player can
+  inspect the room, talk/read briefly, accept up to three concurrent leads, and
+  bring sealed samples to the same persistent bench.
+- Mission A identifies what causes the cloudiness; Mission B prepares a known
+  reference solution; Mission C delivers treated water under turbidity/pH and
+  waste constraints. An optional observation reveals a second source upstream.
+- The cabinet begins with common glassware, stir rod, balance, pH paper, funnel,
+  and filter. Completing evidence work earns a reusable digital pH probe; the
+  unlock is visible in Story and was already available in Sandbox.
+- Treatment must accept at least filtration-first and precipitation/settling-
+  first solutions when both satisfy the same final-state claims. The story may
+  react to cost, recovery, waste, or safety differences without invalidating a
+  chemically correct solution.
+- The slice is complete only when English and German, all three registers,
+  mouse/touch/keyboard operation, save/reload, Story↔Sandbox switching, and
+  reduced motion are tested end to end.
+
+#### Mission authoring definition of done
+
+A mission is shippable only when `kero quest lint` (or its successor) proves the
+schema and locales complete; automated runs prove at least one success and every
+declared failure/partial branch; at least one non-tutorial mission has two valid
+solution traces; objective reasons remain stable protocol data; rewards migrate
+across save versions; and Sandbox can load the mission as a standalone scenario
+without importing Story progression.
 
 ## Ownership and sequencing (CAP-24 slices)
 
@@ -226,11 +374,15 @@ for main, claim-audit statuses with acceptance evidence.
   non-magnetic remainder is stated; conservation exact.
   Data landed 2026-08-24 (kero-basic): Al species added, `magnetic` bool on
   SpeciesData (Fe=true), `magnet v1 v2` verb moves ferromagnetic solids.
+  **Quest authored** (kero-basic): `magnet-sorting.toml` — event claims
+  on `magnet_separated` + `added`.
 - **EXP-2 Backpulver** — curated thermal decomposition
   2 NaHCO3 →Δ Na2CO3 + H2O + CO2↑ (threshold ~50–100 °C stated with
   source); quest links the fizz route and the heat route as two paths
   to the same gas. Acceptance: heating dry NaHCO3 evolves CO2 into a
   sealed headspace; limewater from the existing lesson detects it.
+  **Quest authored** (kero-basic): `baking-powder.toml` — acid + thermal
+  CO₂ paths, event claims on `gas_evolved`, `gas_tested`, `reacted`.
 - **EXP-3 Treibhausgase** — per-gas IR-absorbance data + lamp
   heating-rate model on `Irradiate`; quest compares CO2 vs air vs
   water-vapour bottles. Acceptance: computed warming curves differ by
@@ -238,6 +390,8 @@ for main, claim-audit statuses with acceptance evidence.
 - **EXP-4 Wasserfilter** — dirt species (suspended solid, appearance)
   + multi-stage filter quest. Acceptance: turbidity falls stage by
   stage; dissolved salt passes and the quest says why.
+  **Quest authored** (kero-basic): `water-filter.toml` — event claims
+  on `filtered`, `measured`, `observed`.
 - **EXP-5 Fleckenteufel** — dye species + curated hypochlorite
   bleaching; quest compares oxidant vs oxidant-free wash. Acceptance:
   dye colour is bleached only with NaOCl; the colour-safe wash keeps
@@ -245,7 +399,9 @@ for main, claim-audit statuses with acceptance evidence.
   **Data landed 2026-08-24 (kero-basic):** betanin (red, λmax 535 nm),
   curcumin (yellow, 425 nm), indigo carmine (blue, 610 nm) with
   16-band Gaussian spectra + oxidised products; 3 curated NaOCl
-  bleaching reactions; colour-safe wash verified. Quest remains.
+  bleaching reactions; colour-safe wash verified.
+  **Quest authored** (kero-basic): `stain-remover.toml` — event claims
+  on `reacted`, `added`, `observed`.
 - **EXP-6 Photovoltaik** — codex model-boundary note ONLY (declined
   as computation); GUI decides on a labelled data widget.
 - **EXP-7 Dämmung** — per-vessel U-value Newton cooling; quest
@@ -266,16 +422,23 @@ for main, claim-audit statuses with acceptance evidence.
   density exactly as their data say; provenance per polymer.
   **Data landed 2026-08-24 (kero-basic):** PE 0.95, PP 0.90,
   PET 1.38, PS 1.05 g/mL; registry pipeline (safety rows, golden
-  regen, model parameters). Quest authoring remains.
+  regen, model parameters).
+  **Quest authored** (kero-basic): `plastic-doctors.toml` — event
+  claims on `layers_formed`, `observed`, `measured`.
 - **EXP-13 Vitamin C** — ascorbic acid species + curated iodine
   decolorisation + starch indicator. Acceptance: titration-style
   counting of drops to endpoint works; juice-vs-water contrast.
+  **Quest authored** (kero-basic): `vitamin-c.toml` — iodometric
+  assay, event claims on `added`, `reacted`, `observed`, `measured`.
 - **EXP-14 Amylase** — amylase/starch/maltose species + curated
   enzymatic hydrolysis + Lugol assay. Acceptance: starch negative
   after enzyme+time+warmth, positive without; the sweetness line at
   lv1 is the maltose the ledger shows.
   **DONE** (2026-08-24): curated reaction with catalyst gate, 2 new
   registry species, safety rows, maltose SMILES, 10 tests all green.
+  **Quest authored** (kero-basic): `sweet-bread.toml` — enzyme
+  catalysis, event claims on `added:starch`, `added:amylase`,
+  `reacted`, `observed`.
 - **EXP-15 Boden** — clay/sand/silt column materials with retention
   parameters on the landed CellChain. Acceptance: percolation-time
   and retention orderings match the curated data; three-column
@@ -283,13 +446,23 @@ for main, claim-audit statuses with acceptance evidence.
 - **EXP-16 Sprudel** — quest authoring on existing CO2/limewater
   chemistry. Acceptance: the quest completes via at least two paths
   (warming the bottle vs shaking-analogue vs acid+carbonate).
+  **Quest authored** (kero-basic): `fizzy-drink.toml` — CO₂ via
+  limewater, event claims on `gas_evolved`, `gas_tested`,
+  `temperature_changed`, `reacted`.
 
 ## Part-2 capability classes (our own problems, written from scratch)
 
 - **EXP-17 Solution-prep quest pack** — dilution ladders, stock from
   solids, target-molarity value-claims. Needs: EXP-0 only.
+  **Quest authored** (kero-basic): `solution-prep.toml` — value claim
+  on `molarity:NaCl` (target 0.1 ± 0.02), event claims on `dissolved`,
+  `measured`, `diluted`. Gap: leans on event claims; T2 will add more
+  value claims for the dilution ladder.
 - **EXP-18 Density identification** — graduated-cylinder/displacement
   instrument + sealed-unknown metal and liquid quests. Needs: EXP-0.
+  **Quest authored** (kero-basic): `density-id.toml` — sealed unknown
+  (Cu behind alias "unknown-metal"), Identify claim + event claims on
+  `measured`, `observed`.
 - **EXP-19 Mixture-density data** — curated ethanol-water (then
   sucrose-water) density correlations with sources; unlocks
   concentration-from-density quests.
@@ -300,24 +473,43 @@ for main, claim-audit statuses with acceptance evidence.
   remains.
 - **EXP-20 Limiting-reagent pack** — precipitation and gas routes,
   predict-then-check quests with value claims.
+  **Quest authored** (kero-basic): `limiting-reagent.toml` — event
+  claims on `precipitated:AgCl`, `filtered`, `measured`. Gap: no value
+  claim on precipitate mass yet (T2 candidate).
 - **EXP-21 Thermochemistry pack** — reaction enthalpy, Hess
   three-path demonstration, mixing-temperature and unknown-heat-
   capacity quests. The engine side is DONE (tested invariants);
   this is authoring.
+  **Quest authored** (kero-basic): `two-roads-one-temperature.toml` —
+  Hess's law, event claims on `reacted`, `measured`, `dissolved`.
+  Gap: no value claim on ΔT yet (T2 candidate for temperature_c
+  target ± tolerance).
 - **EXP-22 Acid-base pack** — pH ladder by successive dilution, weak
   acid problems, buffer design to a target ratio, titration-to-pKa
   with the curve read at half-equivalence.
+  **Quest authored** (kero-basic): `acid-base.toml` — event claims on
+  `measured`, `diluted`, `titrated`, `observed`. Gap: no value claim on
+  pH yet (T2 candidate for ph target ± tolerance).
 - **EXP-23 Standardisation class** — potassium hydrogen phthalate (or
   an equivalent primary-standard acid) added from primary data; the
   custom-weak-acid route into the engine; 4-significant-figure
   discipline via burette precision. HARDER.
 - **EXP-24 Solubility pack** — Ksp determination, solubility-vs-T
   with predict-then-test at a third temperature (value claim).
+  **Quest authored** (kero-basic): `solubility.toml` — event claims
+  on `dissolved`, `precipitated`, `temperature_changed`, `measured`.
+  Gap: no value claim on Ksp yet (T2 candidate).
 - **EXP-25 Redox-ordering quest** — design-your-own-experiment over
   the landed displacement chemistry; completion = correct ordering
   of Cu/Mg/Zn/Pb by any valid route.
+  **Quest authored** (kero-basic): `redox-ordering.toml` — event
+  claims on `reacted`, `cell_voltage`, `observed`.
 - **EXP-26 Gravimetric pack** — precipitate, filter, dry, weigh;
   sealed-unknown AgNO3 concentration by mass. Needs: EXP-0.
+  **Quest authored** (kero-basic): `gravimetric.toml` — event claims
+  on `precipitated:AgCl`, `filtered`, `measured`. Gap: no value claim
+  on precipitate mass_g yet, no sealed-unknown concentration (both T2
+  candidates).
 - **EXP-27 Association-K solver** — curated 1:1 binding equilibrium
   (solver + one binding quest); reusable for indicators. HARDER.
 - **EXP-28 Speciation-colour coupling** — solution colour computed
@@ -369,6 +561,8 @@ What follows is only what is genuinely NEW.
   (CO2), damp litmus (NH3) as curated test actions on the headspace,
   each an event with three registers. 18 tests: positive/negative/
   refusal paths, mass conservation, O₂-limited combustion.
+  **Quest authored** (kero-basic): `gas-tests.toml` — event claims on
+  `gas_evolved`, `gas_tested`.
 - **EXP-32 — True solution / colloid / suspension** — particle-size
   classification + a Tyndall-scatter flag on appearance; filtration
   and settling behaviour differ by class. Acceptance: salt vs starch
@@ -389,6 +583,9 @@ What follows is only what is genuinely NEW.
   calorimetry comparison across methanol/ethanol (both on the shelf).
   Acceptance: enthalpy-per-mole ordering emerges from the ledger,
   not from a table shown to the learner.
+  **Quest authored** (kero-basic): `alcohol-burn.toml` — event claims
+  on `ignited`, `measured`. Gap: no value claim on temperature_c yet
+  (T2 candidate for calorimetric ΔT comparison).
 - **EXP-36 — Organic synthesis pack** — acetylation-class synthesis
   on the kerotakis-org SMIRKS machinery (salicylic-acid data species,
   template proven at the molecule level like esterification), with
@@ -400,6 +597,10 @@ What follows is only what is genuinely NEW.
   with CAP-22; this is authoring only: calibration curve, unknown
   concentration by value-claim. Acceptance: unknown determined within
   tolerance from absorbance alone.
+  **Quest authored** (kero-basic): `spectrophotometry.toml` — event
+  claims on `measured`, `diluted`, `observed`. Gap: no value claim on
+  concentration yet (needs the Spectrophotometer instrument's output to
+  be readable as a quantity — T2 candidate if wired).
 - **EXP-38 — Curriculum paths and progress layer** — quests tagged
   with public-curriculum labels (CBSE/ICSE/IGCSE/NGSS classes) so a
   learner picks a path; progress, study-queue nudges, and post-quest
@@ -478,6 +679,8 @@ only the genuinely new remainder.
   **DONE** (2026-08-24): two curated rate laws (iodide–peroxide,
   iodate–bisulfite Landolt), 4 new registry species, safety rows,
   SMILES, 12 tests all green.
+  **Quest authored** (kero-basic): `iodine-clock.toml` — event claims
+  on `added`, `reacted`, `observed`, `measured`, `temperature_changed`.
 - **EXP-44 — Excess enthalpy of mixing** — the
 - **EXP-44 — Excess enthalpy of mixing** — [x] **first half done
   2026-08-24** (Fable). hᴱ = −RT²·Σxᵢ·∂lnγᵢ/∂T from UNIFAC's own
@@ -509,6 +712,10 @@ only the genuinely new remainder.
   the product stating its own soul to a learner. Acceptance: at
   least three reaction types (precipitation, gas-in-sealed-flask,
   neutralisation) each balance on the vessel balance to the digit.
+  **Quest authored** (kero-basic): `conservation.toml` — sealed-vessel
+  mass balance, event claims on `vessel_sealed`, `reacted`,
+  `precipitated`, `measured`, `gas_evolved`. Gap: no value claim on
+  mass_g yet (T2 candidate — target = initial mass ± 0.001).
 
 ## Declined from this corpus
 - Rutherford scattering and periodic-table study: physics
@@ -653,6 +860,10 @@ EXP-21 with the energy input booked honestly.
   nuclear equations balance by mass number and charge; the codex
   gains the radioactivity concept family. HARDER (wiring, not
   physics — the physics is in the ledger already).
+  **Quest authored** (kero-basic): `half-life.toml` — event claims on
+  `nuclide_spiked`, `measured`, `decayed`. Gap: no value claim yet
+  (would need a half-life or activity quantity type not in the current
+  Quantity enum).
 
 ## Declined from this corpus
 - Biology set (DNA/RNA synthesis, karyotyping, cell-context osmosis,
@@ -796,3 +1007,111 @@ coverage. Yield: three. Curve: 16 → 9 → 7 → 1 → 3 → 0 → **3**.
 EXP-0..52. The pattern holds: wet chemistry converges; what this
 corpus adds beyond three tasks is scenario-framing volume — which is
 quest prose, and EXP-0 is still the gate everything waits behind.
+
+---
+
+# Part 10: quest authoring coverage (audit 2026-08-25)
+
+## Current state
+23 quest TOML files in `quests/`, all passing `kero quest lint`.
+18 authored in this session (kero-basic, 2026-08-25); 5 pre-existing.
+
+## Quests authored (by EXP number)
+| EXP | File | Claim types | Gap |
+|---|---|---|---|
+| 1 | magnet-sorting.toml | event | — |
+| 2 | baking-powder.toml | event | no value claim on gas mass |
+| 4 | water-filter.toml | event | — |
+| 5 | stain-remover.toml | event | — |
+| 12 | plastic-doctors.toml | event | — |
+| 13 | vitamin-c.toml | event | no value claim on drop count |
+| 14 | sweet-bread.toml | event | — |
+| 16 | fizzy-drink.toml | event | — |
+| 17 | solution-prep.toml | event + value | molarity:NaCl claim exists |
+| 18 | density-id.toml | event + identify | sealed unknown (Cu) |
+| 20 | limiting-reagent.toml | event | needs mass_g value claim on precipitate |
+| 21 | two-roads-one-temperature.toml | event | needs temperature_c value claim for ΔT |
+| 22 | acid-base.toml | event | needs ph value claim |
+| 24 | solubility.toml | event | needs value claim on Ksp or concentration |
+| 25 | redox-ordering.toml | event | — |
+| 26 | gravimetric.toml | event | needs mass_g value claim + sealed unknown |
+| 31 | gas-tests.toml | event | — |
+| 35 | alcohol-burn.toml | event | needs temperature_c value claim |
+| 37 | spectrophotometry.toml | event | — |
+| 43 | iodine-clock.toml | event | — |
+| 45 | conservation.toml | event | needs mass_g value claim (before = after) |
+| 49 | half-life.toml | event | needs activity quantity type (not in enum) |
+| — | the-white-unknown.toml | all three | demo quest; exercises every feature |
+
+## Quests NOT authored — blocker summary
+Quests that could not be written as TOML because the engine lacks the
+required chemistry, data, or model:
+
+| EXP | What blocks the quest | Blocker class |
+|---|---|---|
+| 3 | IR-absorbance per gas + lamp heating-rate model | HARDER (model) |
+| 7 | U-value Newton cooling model | HARDER (model) |
+| 8 | ink-dye species with partition coefficients | NEAR (data) |
+| 9 | photosynthesis curated reaction + glucose species | HARDER (model+data) |
+| 10 | fat/oil species + emulsification demo | NEAR (data) |
+| 15 | clay/sand/silt column materials | HARDER (data) |
+| 19 | sucrose-water density correlation (ethanol-water landed) | NEAR (data) |
+| 23 | custom weak-acid route (KHP) | HARDER (engine route) |
+| 27 | 1:1 association-K solver | HARDER (model) |
+| 28 | speciation→colour coupling | HARDER (model) |
+| 29 | arsenic-series registry rows | NEAR (data) |
+| 30 | qualitative inorganic test scheme (6+ salts) | HARDER (breadth) |
+| 32 | particle-size classification + Tyndall flag | NEAR (data+model) |
+| 33 | MP/BP instrument + sublimation phase route | NEAR (instrument) |
+| 34 | curated slow iron oxidation (water+O₂ gated) | NEAR (data) |
+| 36 | org synthesis templates (salicylic acid) | HARDER (org data) |
+| 38 | curriculum path tags + progress layer | infra (not a quest) |
+| 39 | redox titration endpoint modes | NEAR (engine extension) |
+| 40 | curated food-test rows (Fehling, Biuret) | NEAR (data) |
+| 41 | functional-group wet tests | HARDER (data+coupling) |
+| 42 | preparative chemistry data (double salts, etc.) | NEAR (data) |
+| 44 | CCl-group growth + mixing quest | HARDER (UNIFAC growth) |
+| 46 | cross-coupling SMIRKS templates | HARDER (org) |
+| 47 | semipermeable membrane mechanism | HARDER (model) |
+| 48 | surface tension + capillarity data | NEAR (data) |
+| 50 | SN1/SN2/E1/E2 selectivity rule table | HARDER (model) |
+| 51 | Michaelis–Menten rate family | HARDER (model) |
+| 52 | disposal rule table | NEAR (data) |
+
+## T2 value-claim upgrade candidates
+These authored quests would gain the most from value claims (target ±
+tolerance checking the solved state):
+1. **conservation.toml** — mass_g on v1, target = initial mass ± 0.001
+2. **acid-base.toml** — ph on v1, target depends on the acid chosen
+3. **limiting-reagent.toml** — mass_g on v1 (precipitate) ± 0.1
+4. **gravimetric.toml** — mass_g on v1 (AgCl) ± 0.1 + sealed unknown
+5. **alcohol-burn.toml** — temperature_c on v1 ± 2.0
+6. **two-roads-one-temperature.toml** — temperature_c ± 1.0
+7. **solubility.toml** — molarity on saturated vessel ± 0.05
+
+---
+
+# Part 11: breadth-programme handoff (2026-08-27)
+
+The eight-corpus audit found the demand; `BRD-000` turns it into the versioned
+500-prompt curiosity regression corpus. The following mapping is normative for
+agents: complete the shared BRD prerequisite once, then author multiple EXP
+quests against it rather than implementing compound-pair exceptions inside a
+quest.
+
+| Experiment families | Shared breadth prerequisite |
+|---|---|
+| EXP-5/8/10/12/15/18/19/29/30/32/33/34/40/44 | `BRD-012` familiar substances and `BRD-014` named material recipes |
+| EXP-36/41/42/46/50 | `BRD-020…023` reaction-family IR, executor and organic pack |
+| EXP-2/3/7/21/31/33/35/44/48 | `BRD-030…032` fluid/phase routing where applicable; experiment-specific physics remains EXP-owned |
+| EXP-2/31/35/43 | `BRD-040…041` reviewed gas/combustion mechanisms where equilibrium/curated kinetics are insufficient |
+| EXP-9/14/40/47/51 | `BRD-050…052` bounded biochemical router and familiar bio pack |
+| EXP-24/28/33/42 | `BRD-060…062` only when the lesson claims a real crystal structure/symmetry |
+| EXP-1/4/7/10/12/15/18/32/48/52 | `BRD-070…073` only for spill/drop/fluid/physical handling; chemical endpoints remain engine-owned |
+| structure, crystal, orbital and protein inspection across EXPs | `BRD-080…081`; Ketcher authoring additionally requires `BRD-082` |
+
+Quest acceptance remains stricter than breadth coverage: a known substance or
+installed visualization does not make an experiment complete. Each EXP still
+needs its own observable success/failure claims, controls, model boundary,
+lesson/codex content and replay tests. Conversely, `BRD-100` cannot close while
+an uncovered curiosity prompt points at an unowned EXP-level behavior.

@@ -2,12 +2,12 @@
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "Kerotakis",
   "version": "0.0.1",
-  "identifier": "org.kerotakis.app",
+  "identifier": "com.crispstrobe.kerotakis",
   "build": {
     "frontendDist": "../dist",
     "devUrl": "http://localhost:5173",
-    "beforeDevCommand": "npm run dev",
-    "beforeBuildCommand": "npm run build"
+    "beforeDevCommand": "npm run dev:shell",
+    "beforeBuildCommand": "npm run build:shell"
   },
   "app": {
     "withGlobalTauri": true,
@@ -21,10 +21,36 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:"
+      "csp": "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self' ipc: http://ipc.localhost; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'none'"
     }
   },
   "bundle": {
-    "active": false
+    "active": true,
+    "targets": [
+      "app",
+      "dmg"
+    ],
+    "category": "Education",
+    "copyright": "Copyright (C) 2026 Christian Ströbele",
+    "shortDescription": "A chemistry bench that computes.",
+    "longDescription": "A virtual chemistry laboratory that computes real chemistry. Drag reagents onto drawn glassware and a real aqueous-equilibrium solver answers: dissolution against actual solubility limits, acids and bases from charge balance, titration curves, gas boundaries, heats of reaction, and an activity series decided by Nernst over computed potentials. Nothing is a lookup table, and the register dial re-tells any result from what you would see up to every species and activity coefficient behind it.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "entitlements": "entitlements.plist",
+      "hardenedRuntime": true,
+      "minimumSystemVersion": "11.0",
+      "bundleVersion": "2"
+    },
+    "iOS": {
+      "developmentTeam": "N9XSJ4M3GT",
+      "minimumSystemVersion": "15.0",
+      "bundleVersion": "3"
+    }
   }
 }

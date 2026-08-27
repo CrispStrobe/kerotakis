@@ -88,6 +88,24 @@ calculations = ["concentration"]
 models = ["particle-model"]
 apparatus = ["beaker", "measuring-cylinder", "balance"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 9, Quantitative Betrachtung chemischer Reaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF6 Salze und Ionen"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 5.3 Quantitative chemistry"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464) — calculating concentrations of solutions is required content"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -139,6 +157,18 @@ requires = ["concentration", "ph"]
 calculations = ["dilution", "ph-from-concentration"]
 models = ["particle-model"]
 apparatus = ["beaker", "pipette", "ph-meter"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF7 Säuren und Basen"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
 
 [reaction.setup]
 script = """
@@ -263,6 +293,24 @@ calculations = ["moles-from-mass", "limiting-reagent"]
 models = ["particle-model", "ionic-bonding"]
 apparatus = ["beaker", "balance", "stirring-rod"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 9, Quantitative Betrachtung chemischer Reaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Erste Stufe (Jg. 7/8), IF3 Verbrennung — quantitative Betrachtung"
+ages = { min = 12.0, max = 14.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 5.3 Quantitative chemistry"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464) — calculating masses of reactants and products, excess and limiting reagents (Higher tier)"
+
 [reaction.setup]
 script = """
 add v1 water 500mL
@@ -375,6 +423,18 @@ calculations = ["moles-from-mass", "limiting-reagent"]
 models = ["conservation-of-atoms"]
 apparatus = ["beaker", "balance", "gas-syringe"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen — Gesetz von der Erhaltung der Masse"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Erste Stufe (Jg. 7/8), IF3 Verbrennung — quantitative Betrachtung"
+ages = { min = 12.0, max = 14.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
 [reaction.setup]
 script = """
 add v1 water 250mL
@@ -486,6 +546,18 @@ requires = ["concentration", "acids"]
 calculations = ["ph-from-concentration"]
 models = ["ionic-bonding", "activity-model"]
 apparatus = ["beaker", "ph-meter", "pipette"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen"
+ages = { min = 15.0, max = 16.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF7 Säuren und Basen"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
 
 [reaction.setup]
 script = """
@@ -667,6 +739,18 @@ calculations = ["moles-from-mass", "enthalpy-change", "temperature-rise"]
 models = ["energy-conservation"]
 apparatus = ["polystyrene-cup", "thermometer", "balance"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 9, LB Energie bei chemischen Reaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.5 Energy changes"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -716,6 +800,18 @@ requires = ["calorimetry"]
 calculations = ["temperature-rise"]
 models = ["energy-conservation"]
 apparatus = ["polystyrene-cup", "thermometer", "measuring-cylinder"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 9, LB Energie bei chemischen Reaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.5 Energy changes"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
 
 [reaction.setup]
 script = """
@@ -769,6 +865,18 @@ concepts = ["hess-law", "state-functions"]
 requires = ["exothermic-dissolution"]
 apparatus = ["beaker", "thermometer", "ph-meter"]
 calculations = ["enthalpy-change"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Enthalpie und Satz von Hess"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Enthalpie"
+ages = { min = 17.0, max = 19.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
 
 [reaction.setup]
 script = """
@@ -826,6 +934,24 @@ requires = ["thermal-decomposition"]
 calculations = ["temperature-rise", "enthalpy-change"]
 models = ["equilibrium", "particle-model"]
 apparatus = ["crucible", "thermometer", "balance", "bunsen"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Zweite Stufe (Jg. 9/10), IF Chemische Reaktion — Zersetzung"
+ages = { min = 14.0, max = 16.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.1.2 The Periodic Table — Group 2"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Combined Science: Trilogy specification (8464) — thermal decomposition of carbonates"
 
 [reaction.setup]
 script = """
@@ -1004,6 +1130,18 @@ calculations = ["moles-from-mass", "mass-from-moles", "conservation-of-mass"]
 models = ["conservation-of-atoms"]
 apparatus = ["crucible", "balance", "tongs", "bunsen"]
 
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Erste Stufe (Jg. 7/8), IF3 Verbrennung"
+ages = { min = 12.0, max = 14.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen — Gesetz von der Erhaltung der Masse"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
 [reaction.setup]
 script = """
 add v1 C 1.2g
@@ -1056,6 +1194,18 @@ requires = ["combustion", "calorimetry"]
 calculations = ["enthalpy-change", "temperature-rise"]
 models = ["energy-conservation", "gibbs-minimisation"]
 apparatus = ["crucible", "thermometer", "bunsen", "furnace"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Enthalpie und Satz von Hess"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Enthalpie"
+ages = { min = 17.0, max = 19.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
 
 [reaction.setup]
 script = """
@@ -1181,6 +1331,18 @@ calculations = ["conservation-of-mass"]
 models = ["atomic-emission"]
 apparatus = ["nichrome-wire", "bunsen", "balance", "cobalt-glass"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB Atombau und gekürztes PSE"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.8 Chemical analysis — flame tests"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
+
 [reaction.setup]
 script = """
 add v1 KCl 5g
@@ -1298,6 +1460,18 @@ requires = ["crystallisation", "mass-gain-on-oxidation"]
 apparatus = ["beaker", "crucible", "balance"]
 calculations = ["mass-bookkeeping"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Erste Stufe (Jg. 7/8), IF2 Stoffe — physikalische und chemische Vorgänge"
+ages = { min = 12.0, max = 14.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -1350,6 +1524,18 @@ requires = ["precipitation", "concentration"]
 calculations = ["moles-from-mass", "concentration", "solubility-product"]
 models = ["equilibrium", "measurement-model"]
 apparatus = ["beaker", "analytical-balance", "volumetric-flask"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 9, Quantitative Betrachtung chemischer Reaktionen"
+ages = { min = 14.0, max = 15.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.8 Chemical analysis"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
 
 [reaction.setup]
 script = """
@@ -1404,6 +1590,18 @@ requires = ["dissolving", "solutions"]
 calculations = ["conservation-of-mass"]
 models = ["model-boundaries"]
 apparatus = ["beaker", "balance", "stirring-rod"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium NTG Jgst. 8, LB Chemische Reaktionen"
+ages = { min = 13.0, max = 14.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek I, Erste Stufe (Jg. 7/8), IF2 Stoffe — Modelle und ihre Grenzen"
+ages = { min = 12.0, max = 14.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
 
 [reaction.setup]
 script = """

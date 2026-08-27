@@ -1,7 +1,14 @@
 <script lang="ts">
-  import { ELEMENTS, elementsInFormula, type ElementInfo } from "../elements";
+  import { onMount } from "svelte";
+  import {
+    ELEMENTS,
+    LAB_ELEMENTS,
+    shelfItemsContainingElement,
+    type ElementInfo,
+  } from "../elements";
   import type { ShelfItem } from "../session.svelte";
   import SpeciesChip from "./SpeciesChip.svelte";
+  import { t } from "../i18n.svelte";
 
   let {
     shelf,
@@ -16,6 +23,28 @@
   } = $props();
 
   let picked = $state<ElementInfo | null>(null);
+  let fullTable = $state(false);
+  const visibleElements = $derived(fullTable ? ELEMENTS : LAB_ELEMENTS);
+
+  onMount(() => {
+    try {
+      fullTable = localStorage.getItem("kerotakis-periodic-table") === "full";
+    } catch {
+      // Storage is optional; the approachable table remains the default.
+    }
+  });
+
+  function setFullTable(value: boolean) {
+    fullTable = value;
+    if (!value && picked && !LAB_ELEMENTS.some((element) => element.z === picked!.z)) {
+      picked = null;
+    }
+    try {
+      localStorage.setItem("kerotakis-periodic-table", value ? "full" : "lab");
+    } catch {
+      // A privacy-restricted host may reject storage; the view still works.
+    }
+  }
 
   // Grid placement: main body rows 1-7 by period/group; the f-block sits
   // below with a gap row.
@@ -32,7 +61,7 @@
   /** The lab connection: shelf species containing the picked element. */
   const inLab = $derived(
     picked
-      ? shelf.filter((s) => elementsInFormula(s.formula).includes(picked!.symbol))
+      ? shelfItemsContainingElement(picked.symbol, shelf)
       : [],
   );
   const flames = $derived(
@@ -54,57 +83,66 @@
 </script>
 
 <div class="scrim" role="presentation" onclick={onclose} onkeydown={(e) => e.key === "Escape" && onclose()}>
-  <section
+  <dialog open
     class="table-panel"
-    role="dialog"
     aria-modal="true"
-    aria-label="periodic table"
+    aria-label={t("periodic table")}
     onclick={(e) => e.stopPropagation()}
   >
     <header>
-      <h2>the elements</h2>
-      <span class="hint">tap one to see what the lab has of it</span>
-      <button class="close" onclick={onclose}>close</button>
+      <h2>{t("the elements")}</h2>
+      <span class="hint">{t("tap one to see what the lab has of it")}</span>
+      <button
+        class="mode"
+        aria-pressed={fullTable}
+        onclick={() => setFullTable(!fullTable)}
+      >
+        {fullTable ? t("show lab table") : t("show all 118 elements")}
+      </button>
+      <button class="close" onclick={onclose}>{t("close")}</button>
     </header>
 
-    <div class="grid" role="listbox" aria-label="elements">
-      {#each ELEMENTS as e (e.z)}
+    <div class="grid" role="listbox" aria-label={t("elements")}>
+      {#each visibleElements as e (e.z)}
         {@const p = place(e)}
+        {@const count = shelfItemsContainingElement(e.symbol, shelf).length}
         <button
           class={`el cat-${e.category}`}
           class:picked={picked?.z === e.z}
+          class:unsupported={count === 0}
           style={`grid-column:${p.col};grid-row:${p.row}`}
           role="option"
           aria-selected={picked?.z === e.z}
-          title={`${e.name} (${e.z})`}
+          title={`${t(e.name)} (${e.z}) · ${t("{count} shelf examples", { count })}`}
           onclick={() => (picked = e)}
         >
           <span class="z">{e.z}</span>
           <span class="sym">{e.symbol}</span>
+          <span class="coverage" aria-hidden="true">{count}</span>
         </button>
       {/each}
     </div>
 
     {#if picked}
       <aside class="detail">
-        <h3>{picked.name} <small>{picked.symbol} · {picked.z}</small></h3>
-        <p class="cat">{CATEGORY_WORDS[picked.category] ?? picked.category}</p>
+        <h3>{t(picked.name)} <small>{picked.symbol} · {picked.z}</small></h3>
+        <p class="cat">{t(CATEGORY_WORDS[picked.category] ?? picked.category)}</p>
         {#if register !== "lv1"}
           <p class="facts">
-            period {picked.period} · group {picked.group} · {picked.block}-block
+            {t("period {period} · group {group} · {block}-block", { period: picked.period, group: picked.group, block: picked.block })}
           </p>
         {/if}
         {#if flames.length > 0}
-          <p class="facts">flame test: {flames.join(", ")}</p>
+          <p class="facts">{t("flame test: {flames}", { flames: flames.map((f) => t(f)).join(", ") })}</p>
         {/if}
         {#if inLab.length > 0}
-          <p class="facts">on the shelf, containing {picked.symbol}:</p>
+          <p class="facts">{t("on the shelf, containing {symbol}:", { symbol: picked.symbol })}</p>
           <ul class="species">
             {#each inLab as item (item.key)}
               <li>
                 <button class="add" onclick={() => onadd(item)}>
                   <SpeciesChip {item} />
-                  <span>{item.name}</span>
+                  <span>{t(item.name)}</span>
                   <span class="formula">{item.formula}</span>
                 </button>
               </li>
@@ -112,13 +150,12 @@
           </ul>
         {:else}
           <p class="facts none">
-            nothing on the shelf contains {picked.symbol} yet — the registry
-            grows by provenance-carrying tranches, not by wishful entries.
+            {t("nothing on the shelf contains {symbol} yet — the registry grows by provenance-carrying tranches, not by wishful entries.", { symbol: picked.symbol })}
           </p>
         {/if}
       </aside>
     {/if}
-  </section>
+  </dialog>
 </div>
 
 <style>
@@ -132,6 +169,9 @@
     padding: 1rem;
   }
   .table-panel {
+    position: static;
+    margin: 0;
+    color: var(--ink);
     background: var(--bg);
     border: 1px solid var(--edge);
     border-radius: 12px;
@@ -165,6 +205,20 @@
     padding: 0.25rem 0.7rem;
     cursor: pointer;
   }
+  .mode {
+    margin-left: auto;
+    background: var(--panel-raised);
+    border: 1px solid var(--edge);
+    border-radius: 999px;
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.72rem;
+    padding: 0.25rem 0.65rem;
+    cursor: pointer;
+  }
+  .mode + .close {
+    margin-left: 0;
+  }
   .grid {
     display: grid;
     grid-template-columns: repeat(18, minmax(30px, 1fr));
@@ -184,6 +238,10 @@
     justify-content: center;
     padding: 1px;
     min-width: 0;
+    position: relative;
+  }
+  .el.unsupported {
+    opacity: 0.58;
   }
   .el:hover,
   .el.picked {
@@ -199,6 +257,14 @@
     font-size: clamp(0.6rem, 1.6vw, 0.85rem);
     font-weight: 600;
     line-height: 1.1;
+  }
+  .coverage {
+    position: absolute;
+    right: 2px;
+    bottom: 1px;
+    color: var(--dim);
+    font-size: 0.45rem;
+    line-height: 1;
   }
   /* Category tints on the border-left, plus a subtle wash — category is
      also written in words in the detail, never colour alone. */

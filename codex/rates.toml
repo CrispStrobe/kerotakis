@@ -108,6 +108,18 @@ calculations = ["rate-from-extent", "ph-from-concentration"]
 models = ["collision-theory"]
 apparatus = ["beaker", "pipette", "ph-meter", "stopwatch"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Reaktionskinetik"
+ages = { min = 17.0, max = 19.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -336,6 +348,18 @@ calculations = ["arrhenius-ratio"]
 models = ["activation-energy", "collision-theory"]
 apparatus = ["conical-flask", "water-bath", "thermometer", "stopwatch"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.6 The rate and extent of chemical change"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
+
 [reaction.setup]
 script = """
 add v1 water 100mL @ 25C
@@ -471,6 +495,18 @@ calculations = ["moles-from-mass"]
 models = ["activation-energy"]
 apparatus = ["conical-flask", "balance", "spatula"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.6 The rate and extent of chemical change"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -525,12 +561,18 @@ computed_by = "kerotakis-core kinetics (catalysts are excluded from the mass upd
 [[reaction]]
 id = "more-catalyst-and-a-good-stir-change-nothing"
 spine = ["katalyse"]
-summary = "0.1 g of MnO₂, 1 g of MnO₂, and 0.1 g with a stir all give 3.849 × 10⁻⁴ mol of reaction in one second — identical to every digit. This engine has no surface-area or mixing model, and that is a real gap"
+summary = "0.1 g of MnO₂, 1 g of MnO₂, and 0.1 g with a computed stir all give 3.849 × 10⁻⁴ mol of reaction in one second — the stirrer moves the suspension, but rate coupling remains an explicit model gap"
 concepts = ["unmodelled-variable"]
 requires = ["catalysis", "model-boundary"]
 calculations = ["rate-from-extent"]
 models = ["collision-theory", "model-boundaries"]
 apparatus = ["conical-flask", "spatula", "stirring-rod", "balance"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
 
 [reaction.setup]
 script = """
@@ -550,7 +592,7 @@ wait 1s
 """
 
 [reaction.expect]
-events = ["reacted:peroxide-decomposition", "not_yet_modelled"]
+events = ["reacted:peroxide-decomposition", "stirred"]
 absent = ["solver_failed"]
 
 [reaction.expect.predict]
@@ -567,7 +609,7 @@ misconception = "The second option is the dangerous one, and it is dangerous pre
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The right chemistry for a real bench, offered as a prediction about this one."
-next = "Nothing to unlearn — check instead which of your correct expectations the engine can honour. Concentration and temperature it computes; surface area and mixing it does not represent at all, and `stir` says so out loud."
+next = "Nothing to unlearn — check instead which expectations the engine can honour. The stirrer computes bar speed and resuspension; the kinetic solver still has no surface-area or mass-transfer coupling, and the stir event says that explicitly."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
@@ -581,12 +623,12 @@ next = "Watch the thermometer through the stir: 25.0 °C before and after. Then 
 
 [reaction.registers]
 lv1 = "Two flasks, one with a pinch of black powder and one with ten pinches, and a third that you stir hard. In this lab all three fizz at exactly the same speed. On a real bench they would not: more powder means more surface for the peroxide to meet, and stirring keeps fresh liquid arriving at that surface. This lab does not know about surfaces, and it says so rather than letting you think you have proved something."
-lv2 = "Rate = k·[H₂O₂] with k set by whichever catalyst is present, and *present* is the only thing the model asks. 0.1 g and 1 g of MnO₂ both give 3.849 × 10⁻⁴ mol of reaction in one second, digit for digit, and stirring changes nothing — `stir` returns a notice saying so rather than an effect. In a real flask ten times the catalyst is roughly ten times the surface and roughly ten times the rate, and grinding it finer raises it again."
+lv2 = "Rate = k·[H₂O₂] with k set by whichever catalyst is present, and *present* is the only thing the kinetic model asks. 0.1 g and 1 g of MnO₂ both give 3.849 × 10⁻⁴ mol of reaction in one second, digit for digit. `stir` now computes 500 rpm, bar-tip speed and resuspension, but reports rate coupling as inactive. In a real flask ten times the catalyst is roughly ten times the surface and roughly ten times the rate, and grinding it finer raises it again."
 lv3 = "The gap has a definite shape, which is what makes it worth stating rather than apologising for. `effective_activation_energy` tests `moles_of(catalyst) > 0` and then substitutes a barrier — a boolean, not a quantity — so catalyst loading is structurally invisible; there is no particle-size, surface-area or mass-transport term anywhere in `kinetics.rs`. Modelling it properly means a Langmuir–Hinshelwood surface treatment with a site density and a diffusion coefficient, which is a different engine, not a coefficient. Until then the honest reading of these three flasks is that they demonstrate the *absence* of a model. One caution for anyone extending the script: keep the manganese dioxide below about 4 g in 100 mL. At 4 g the bench leaves it as a solid with 4.6 × 10⁻¹² mol of Mn²⁺ in solution, as an insoluble oxide should; at 5 g the aqueous solver dissolves the entire charge, reporting 5.75 × 10⁻² mol of Mn²⁺ and pH 13.55. That discontinuity is a solver artefact, not chemistry, and it is flagged here because the rate results happen to survive it — the catalyst check only asks whether any MnO₂ is left."
 
 [reaction.provenance]
-source = "Editorial judgement (Kerotakis): this is a statement about our engine's boundary, not about chemistry. Real heterogeneous catalysis depends strongly on catalyst surface area and on mass transport, per any standard treatment of catalysis; nothing in the shipped rate model represents either, and `stir` is explicitly a no-op that reports itself as one."
-computed_by = "kerotakis-core kinetics; the `stir` notice comes from the bench's honesty pass"
+source = "Editorial judgement (Kerotakis): this is a statement about our engine's boundary, not about chemistry. Real heterogeneous catalysis depends strongly on catalyst surface area and mass transport. The shipped stirrer computes mechanical mixing and suspension state, while the rate model does not yet consume those quantities."
+computed_by = "kerotakis-core kinetics and the computed magnetic-stirrer model; the Stirred event carries rate_coupled=false"
 
 # ==================================================== the shape of a rate law
 
@@ -599,6 +641,18 @@ requires = ["reaction-order"]
 calculations = ["half-life", "rate-from-extent"]
 models = ["activation-energy"]
 apparatus = ["conical-flask", "gas-syringe", "stopwatch"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Reaktionskinetik"
+ages = { min = 17.0, max = 19.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
 
 [reaction.setup]
 script = """
@@ -661,6 +715,18 @@ requires = ["fair-test", "temperature-and-rate"]
 calculations = ["rate-from-extent"]
 models = ["collision-theory"]
 apparatus = ["beaker", "thermometer", "stopwatch", "water-bath"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.6 The rate and extent of chemical change"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
 
 [reaction.setup]
 script = """
@@ -732,6 +798,18 @@ calculations = ["ph-from-concentration"]
 models = ["model-boundaries"]
 apparatus = ["beaker", "ph-meter", "spatula"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Reaktionskinetik"
+ages = { min = 17.0, max = 19.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -796,6 +874,18 @@ calculations = ["stoichiometric-ratio", "rate-from-extent"]
 models = ["model-boundaries", "collision-theory"]
 apparatus = ["beaker", "ph-meter", "stopwatch"]
 
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[[reaction.curriculum]]
+system = "nrw-kernlehrplan-g9"
+stage = "Sek II Q-Phase, IF3 Gleichgewichtsreaktionen — Reaktionskinetik"
+ages = { min = 17.0, max = 19.0 }
+source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -856,6 +946,18 @@ requires = ["catalysis", "model-boundary"]
 calculations = ["moles-from-mass"]
 models = ["model-boundaries"]
 apparatus = ["conical-flask", "gas-syringe"]
+
+[[reaction.curriculum]]
+system = "bayern-lehrplanplus"
+stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
+ages = { min = 16.0, max = 18.0 }
+source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[[reaction.curriculum]]
+system = "england-gcse-combined-science"
+stage = "4.6 The rate and extent of chemical change"
+ages = { min = 14.0, max = 16.0 }
+source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
 
 [reaction.setup]
 script = """

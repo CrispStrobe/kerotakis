@@ -1,6 +1,7 @@
 <script lang="ts">
   import { buildTransportLine } from "../titration";
   import type { SceneVessel } from "../host/EngineHost";
+  import { t } from "../i18n.svelte";
 
   let {
     vessels,
@@ -29,12 +30,12 @@
   }
 </script>
 
-<section class="train" aria-label="column train">
-  <strong>column train</strong>
-  <span class="hint">cells in flow order, then where solution enters and collects</span>
+<section class="train" aria-label={t("column train")}>
+  <strong>{t("column train")}</strong>
+  <span class="hint">{t("cells in flow order, then where solution enters and collects")}</span>
   <div class="roles">
     <fieldset>
-      <legend>cells</legend>
+      <legend>{t("cells")}</legend>
       {#each vessels as v (v.id)}
         <label>
           <input type="checkbox" checked={cells.includes(v.id)} onchange={() => toggleCell(v.id)} />
@@ -43,27 +44,27 @@
       {/each}
     </fieldset>
     <label>
-      inlet
+      {t("inlet")}
       <select bind:value={inlet}>
-        <option value={-1}>choose…</option>
+        <option value={-1}>{t("choose…")}</option>
         {#each vessels as v (v.id)}<option value={v.id}>v{v.id + 1}</option>{/each}
       </select>
     </label>
     <label>
-      receiver
+      {t("receiver")}
       <select bind:value={receiver}>
-        <option value={-1}>choose…</option>
+        <option value={-1}>{t("choose…")}</option>
         {#each vessels as v (v.id)}<option value={v.id}>v{v.id + 1}</option>{/each}
       </select>
     </label>
     <label>
-      steps
+      {t("steps")}
       <input type="number" min="1" max="50" bind:value={steps} />
     </label>
     <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
-      run the column
+      {t("run the column")}
     </button>
-    <button class="close" onclick={onclose}>put away</button>
+    <button class="close" onclick={onclose}>{t("put away")}</button>
   </div>
   {#if line}<code>{line}</code>{/if}
 </section>
