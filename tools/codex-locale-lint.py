@@ -41,7 +41,10 @@ FORBIDDEN = {
     "Arbeitsplatte": "Labor",
     "Glas": None,          # too vague where Becherglas is meant; advisory only
 }
-GLOSSARY_HARD = {"Werkbank": "Labor", "Arbeitsplatte": "Labor"}
+# "Werkbank" is a carpenter's bench. The simulated bench is "Labor";
+# a physical chemistry bench, where the prose contrasts the two, is a
+# "Labortisch". Either is a fix; "Werkbank" is not.
+GLOSSARY_HARD = {"Werkbank": "Labor or Labortisch", "Arbeitsplatte": "Labor"}
 
 
 def leaves(node, prefix=""):

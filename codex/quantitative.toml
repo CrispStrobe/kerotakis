@@ -20,6 +20,7 @@
 id = "moles-from-mass"
 spine = ["die-stoffmenge-und-das-mol"]
 summary = "n = m / M   ·   5.844 g NaCl ÷ 58.443 g/mol = 0.1000 mol"
+summary_de = "n = m / M   ·   5,844 g NaCl ÷ 58,443 g/mol = 0,1000 mol"
 concepts = ["amount-of-substance", "molar-mass"]
 requires = ["dissolving"]
 calculations = ["moles-from-mass"]
@@ -45,6 +46,7 @@ ph = { min = 6.8, max = 7.2 }
 
 [reaction.expect.predict]
 question = "You weigh out 5.844 g of table salt. The bench asks how many moles that is. Sodium chloride's molar mass is 58.443 g/mol. What does the engine report going in?"
+question_de = "Du wiegst 5,844 g Kochsalz ab. Das Labor fragt, wie viele Mol das sind. Die molare Masse von Natriumchlorid beträgt 58,443 g/mol. Was meldet das Labor als Stoffmenge beim Einwiegen?"
 options = [
   "5.844 mol — the number you weighed",
   "0.1000 mol",
@@ -53,26 +55,36 @@ options = [
 ]
 answer = 1
 misconception = "The last option is the common one: learners expect the amount of substance to change when the solution is diluted. It does not — n is a property of the sample you weighed, and only concentration depends on the volume. The first is the rawer error of using grams as if they were moles."
+misconception_de = "Die letzte Option ist die häufigste: Lernende erwarten, dass sich die Stoffmenge ändert, wenn die Lösung verdünnt wird. Das tut sie nicht — n ist eine Eigenschaft der eingewogenen Probe, und nur die Konzentration hängt vom Volumen ab. Die erste Option ist der noch grundlegendere Fehler, Gramm wie Mol zu behandeln."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Grams and moles are two names for one 'amount', converting by relabelling — the balance said 5.844, so 5.844 it is, in whatever unit the question wants."
+reveals_de = "Gramm und Mol werden als zwei Namen für dieselbe 'Menge' behandelt, die sich durch bloßes Umbenennen umrechnen lassen — die Waage zeigte 5,844, also sind es 5,844, in welcher Einheit auch immer gefragt ist."
 next = "Weigh out 58.443 g instead and ask again: one mole, exactly. A mole is a count, priced in grams by the molar mass — the balance reads the price, never the count."
+next_de = "Wiege stattdessen 58,443 g ab und frage erneut: genau ein Mol. Ein Mol ist eine Anzahl, die über die molare Masse in Gramm bepreist wird — die Waage liest den Preis ab, niemals die Anzahl."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The molar mass is read as the answer: the biggest, most official-looking number on the page must be the quantity asked for, and the division's direction is lost."
+reveals_de = "Die molare Masse wird als Antwort gelesen: Die größte, offiziell wirkende Zahl auf der Seite muss die gesuchte Größe sein, und die Richtung der Division geht dabei verloren."
 next = "Sanity-check by size before dividing either way: 58 mol of salt would be three and a half kilograms, and the balance is holding six grams. When a formula's direction is uncertain, the absurd magnitude is the tell."
+next_de = "Prüfe die Größenordnung, bevor du in irgendeine Richtung dividierst: 58 mol Salz wären dreieinhalb Kilogramm, und die Waage hält sechs Gramm. Wenn die Richtung einer Formel unklar ist, verrät die absurde Größenordnung den Fehler."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Amount and concentration are welded: dilute it and there is 'less salt', so n must shrink with the water it sits in."
+reveals_de = "Stoffmenge und Konzentration werden verschweißt: Verdünnt man, gibt es 'weniger Salz', also muss n mit dem Wasser schrumpfen, in dem es sitzt."
 next = "Run `concentration-is-a-ratio`: the same 5.844 g into 100 mL and into 200 mL, and both vessels `inspect` to 0.1000 mol. Only the mol-per-litre moved — the count you weighed is not negotiable by water."
+next_de = "Führe `concentration-is-a-ratio` aus: dieselben 5,844 g in 100 mL und in 200 mL, und beide Gefäße zeigen bei `inspect` 0,1000 mol. Nur der Wert in Mol pro Liter hat sich verändert — die abgewogene Anzahl lässt sich nicht durch Wasser verhandeln."
 
 [reaction.registers]
 lv1 = "Weighing tells you how heavy something is. Counting tells you how many pieces there are. Chemistry needs the count, because reactions pair pieces up — and the balance is how you get to the count, since every substance has a fixed weight per piece."
+lv1_de = "Wiegen sagt dir, wie schwer etwas ist. Zählen sagt dir, wie viele Teilchen es sind. Die Chemie braucht die Anzahl, weil Reaktionen Teilchen einander zuordnen — und die Waage ist der Weg zur Anzahl, denn jeder Stoff hat ein festes Gewicht pro Teilchen."
 lv2 = "n = m / M. 5.844 g ÷ 58.443 g/mol = 0.1000 mol, and the bench confirms 0.1000 mol going in. In 1.000 L that is a 0.1 mol/L solution; the total mass on the balance, 1002.84 g, is the litre of water plus the salt, because nothing left."
+lv2_de = "n = m / M. 5,844 g ÷ 58,443 g/mol = 0,1000 mol, und das Labor bestätigt 0,1000 mol beim Einwiegen. In 1,000 L ergibt das eine Lösung mit 0,1 mol/L; die Gesamtmasse auf der Waage, 1002,84 g, ist der Liter Wasser plus das Salz, denn nichts ist verlorengegangen."
 lv3 = "The registry carries M = 58.443 g/mol from the IUPAC/CIAAW 2021 atomic weights, so the conversion is exact to the data's own precision rather than to a rounded 58.5. The 0.1000 mol then enters PHREEQC as a total-element constraint, and the pH of 6.98 rather than 7.00 is the ionic-strength correction on the water's own autoprotolysis, not an artefact."
+lv3_de = "Die Registry führt M = 58,443 g/mol aus den IUPAC/CIAAW-Atomgewichten von 2021, sodass die Umrechnung exakt bis zur Genauigkeit der Daten selbst ist und nicht bis zu einem gerundeten 58,5. Die 0,1000 mol gehen anschließend als Gesamtelement-Randbedingung in PHREEQC ein, und der pH-Wert von 6,98 statt 7,00 ist die Ionenstärke-Korrektur der Eigenprotolyse des Wassers, kein Artefakt."
 
 [reaction.provenance]
 source = "Standard curriculum stoichiometry; molar mass from IUPAC/CIAAW 2021 atomic weights via the Kerotakis species registry. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -82,6 +94,7 @@ computed_by = "Kerotakis bench; speciation via PHREEQC L2"
 id = "concentration-is-a-ratio"
 spine = ["konzentrationsberechnungen"]
 summary = "c = n / V   ·   0.1000 mol in 0.100 L = 1.00 mol/L; the same 0.1000 mol in 0.200 L = 0.50 mol/L"
+summary_de = "c = n / V   ·   0,1000 mol in 0,100 L = 1,00 mol/L; dieselben 0,1000 mol in 0,200 L = 0,50 mol/L"
 concepts = ["concentration", "ionic-strength"]
 requires = ["amount-of-substance"]
 calculations = ["concentration"]
@@ -121,6 +134,7 @@ ph = { min = 6.7, max = 7.1 }
 
 [reaction.expect.predict]
 question = "The same 5.844 g of salt goes into 100 mL in one beaker and 200 mL in another. Which beaker holds more sodium chloride?"
+question_de = "Dieselben 5,844 g Salz kommen in ein Becherglas mit 100 mL und in ein anderes mit 200 mL. Welches Becherglas enthält mehr Natriumchlorid?"
 options = [
   "The 100 mL beaker — it is more concentrated",
   "The 200 mL beaker — there is more liquid",
@@ -128,21 +142,29 @@ options = [
 ]
 answer = 2
 misconception = "Concentration and amount get welded together. A strong cup of tea does not contain more tea than a weak bucket of it. The engine separates the two explicitly: both vessels report 0.1000 mol of chloride, and the ionic strengths differ by exactly a factor of two."
+misconception_de = "Konzentration und Stoffmenge werden miteinander verschweißt. Eine starke Tasse Tee enthält nicht mehr Tee als ein schwacher Eimer davon. Das Labor trennt die beiden explizit: Beide Gefäße melden 0,1000 mol Chlorid, und die Ionenstärken unterscheiden sich um genau den Faktor zwei."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "'More concentrated' is read as 'containing more' — intensity mistaken for quantity, the strong cup of tea holding more tea than the weak bucket."
+reveals_de = "'Konzentrierter' wird als 'mehr enthaltend' gelesen — Intensität wird mit Menge verwechselt, die starke Tasse Tee scheint mehr Tee zu enthalten als der schwache Eimer."
 next = "Evaporate both to dryness: identical crystals, 5.84 g each, back on the same balance. Two solutions that differ in everything the tongue would notice return the same salt, because the salt never differed."
+next_de = "Dampfe beide zur Trockne ein: identische Kristalle, je 5,84 g, wieder auf derselben Waage. Zwei Lösungen, die sich in allem unterscheiden, was die Zunge bemerken würde, liefern dasselbe Salz zurück — weil sich das Salz nie unterschieden hat."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Solute scales with solution: more liquid must hold more stuff, as if the water manufactured salt to fill itself."
+reveals_de = "Der gelöste Stoff skaliert mit der Lösung: mehr Flüssigkeit muss mehr Stoff enthalten, als würde das Wasser Salz herstellen, um sich selbst zu füllen."
 next = "Follow the salt's paper trail: it entered once, on the balance, before any water was chosen. `measure` both vessels — they differ by exactly the extra water's mass, and by nothing else."
+next_de = "Verfolge die Papierspur des Salzes: Es kam genau einmal hinzu, auf der Waage, bevor überhaupt Wasser gewählt wurde. `measure` beide Gefäße — sie unterscheiden sich um genau die Masse des zusätzlichen Wassers, und um nichts sonst."
 
 [reaction.registers]
 lv1 = "Two beakers, the same spoonful of salt, different amounts of water. The small one tastes saltier — but there is not more salt in it. 'How much' and 'how strong' are two different questions, and mixing them up is one of the easiest mistakes to make."
+lv1_de = "Zwei Bechergläser, derselbe Löffel Salz, unterschiedliche Mengen Wasser. Das kleinere schmeckt salziger — aber es enthält nicht mehr Salz. 'Wie viel' und 'wie stark' sind zwei verschiedene Fragen, und sie zu verwechseln ist einer der leichtesten Fehler überhaupt."
 lv2 = "c = n / V. 0.1000 mol in 0.100 L is 1.00 mol/L; in 0.200 L it is 0.50 mol/L. The bench reports the ionic strength of the two solutions as 1.0030 m and 0.5015 m — exactly the halving, because for a 1:1 salt like NaCl the ionic strength equals the molality."
+lv2_de = "c = n / V. 0,1000 mol in 0,100 L ergibt 1,00 mol/L; in 0,200 L ergibt es 0,50 mol/L. Das Labor meldet die Ionenstärke der beiden Lösungen mit 1,0030 m und 0,5015 m — genau die Halbierung, denn bei einem 1:1-Salz wie NaCl entspricht die Ionenstärke der Molalität."
 lv3 = "Ionic strength I = ½ Σ cᵢ zᵢ², which for a 1:1 electrolyte collapses to the concentration itself; that identity is why the two numbers look like the concentrations. The small excess over 1.0000 (1.0030 m) is molality against molarity: the litre of solution is not a litre of water, and PHREEQC works in mol per kg of water throughout."
+lv3_de = "Ionenstärke I = ½ Σ cᵢ zᵢ², was sich bei einem 1:1-Elektrolyten auf die Konzentration selbst reduziert; diese Identität ist der Grund, warum die beiden Zahlen wie die Konzentrationen aussehen. Der kleine Überschuss über 1,0000 (1,0030 m) ist Molalität gegen Molarität: Der Liter Lösung ist kein Liter Wasser, und PHREEQC rechnet durchgehend in Mol pro Kilogramm Wasser."
 
 [reaction.provenance]
 source = "Standard curriculum concentration calculations; ionic strength from PHREEQC (USGS) speciation. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -152,6 +174,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "dilution-moves-ph-by-one"
 spine = ["konzentrationsberechnungen"]
 summary = "c₁V₁ = c₂V₂   ·   0.001 mol in 0.100 L → pH 2.04; the same acid in 1.000 L → pH 3.01"
+summary_de = "c₁V₁ = c₂V₂   ·   0,001 mol in 0,100 L → pH-Wert 2,04; dieselbe Säure in 1,000 L → pH-Wert 3,01"
 concepts = ["dilution"]
 requires = ["concentration", "ph"]
 calculations = ["dilution", "ph-from-concentration"]
@@ -184,6 +207,7 @@ ph = { min = 2.85, max = 3.15 }
 
 [reaction.expect.predict]
 question = "An acid reads pH 2.04. You add nine times as much water again, so the volume is ten times what it was. What does the meter read now?"
+question_de = "Eine Säure zeigt pH-Wert 2,04. Du gibst noch einmal die neunfache Menge Wasser dazu, sodass das Volumen jetzt zehnmal so groß ist. Was zeigt das Messgerät jetzt an?"
 options = [
   "pH 3.0 — a tenfold dilution costs one pH unit",
   "pH 7.0 — water is neutral, so diluting makes it neutral",
@@ -192,26 +216,36 @@ options = [
 ]
 answer = 0
 misconception = "Two errors are common and both are about the logarithm. 'Ten times the volume, ten times the pH' treats pH as if it were the concentration; and 'dilution neutralises' forgets that no amount of water reaches pH 7 — you approach it and never arrive, because the acid is still all there."
+misconception_de = "Zwei Fehler sind verbreitet, und beide betreffen den Logarithmus. 'Zehnmal das Volumen, zehnmal der pH-Wert' behandelt den pH-Wert, als wäre er die Konzentration; und 'Verdünnen neutralisiert' vergisst, dass keine Menge Wasser den pH-Wert 7 erreicht — man nähert sich ihm an und kommt nie dort an, weil die Säure noch vollständig vorhanden ist."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Mixing averages the labels: water 'is pH 7', so enough of it drags the mixture to 7 the way white paint lightens red — neutrality as an ingredient rather than an absence."
+reveals_de = "Mischen mittelt die Etiketten: Wasser 'ist pH 7', also zieht genug davon die Mischung Richtung 7, so wie weiße Farbe Rot aufhellt — Neutralität als Zutat statt als Abwesenheit."
 next = "Keep diluting, tenfold at a time, and read the meter each round: 3, then 4, then 5 — one unit per decade, creeping toward 7 and never arriving, because every proton that came in is still in there."
+next_de = "Verdünne immer weiter, jeweils um den Faktor zehn, und lies das Messgerät bei jeder Runde ab: 3, dann 4, dann 5 — eine Einheit pro Zehnerschritt, langsam Richtung 7 kriechend und nie ankommend, weil jedes Proton, das hineinkam, immer noch dort ist."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "pH is proportional to 'how much': the logarithm is absent, so ten times the volume multiplies the reading by ten."
+reveals_de = "Der pH-Wert wird als proportional zu 'wie viel' behandelt: Der Logarithmus fehlt, also multipliziert das Zehnfache des Volumens den Messwert mit zehn."
 next = "Notice what 20.4 would even mean: the scale counts powers of ten of hydrogen-ion activity, which is why water's whole world fits between about 0 and 14. A tenfold change moves it by exactly one — to 3.0, as the meter shows."
+next_de = "Überlege, was 20,4 überhaupt bedeuten würde: Die Skala zählt Zehnerpotenzen der Wasserstoffionen-Aktivität, weshalb die ganze Welt des Wassers zwischen etwa 0 und 14 liegt. Eine Verzehnfachung verschiebt sie um genau eine Einheit — auf 3,0, wie das Messgerät zeigt."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "pH travels with the acid like a colour: as long as the acid exists, its label persists — crowding plays no role in the reading."
+reveals_de = "Der pH-Wert reist mit der Säure mit wie eine Farbe: Solange die Säure existiert, bleibt ihr Etikett bestehen — Gedränge spielt beim Messwert keine Rolle."
 next = "Run it and hold both facts at once: `inspect` shows the same moles of acid, and the meter moves anyway. pH belongs to the solution, not to the substance — it prices how crowded the protons are, not whether they exist."
+next_de = "Führe es aus und halte beide Tatsachen zugleich fest: `inspect` zeigt dieselbe Stoffmenge Säure, und trotzdem bewegt sich das Messgerät. Der pH-Wert gehört zur Lösung, nicht zum Stoff — er bewertet, wie gedrängt die Protonen sind, nicht ob sie existieren."
 
 [reaction.registers]
 lv1 = "Add water to an acid and it gets weaker — but it never turns into water. The acid you put in is still there; it just has more room. On the meter the number climbs, and it climbs by one step for every tenfold splash of water, not by ten."
+lv1_de = "Gibst du Wasser zu einer Säure, wird sie schwächer — aber sie wird nie zu Wasser. Die Säure, die du hineingegeben hast, ist immer noch da; sie hat nur mehr Platz. Auf dem Messgerät steigt die Zahl, und sie steigt um einen Schritt pro zehnfachem Schwall Wasser, nicht um zehn."
 lv2 = "c₁V₁ = c₂V₂. 0.001 mol in 100 mL is 0.01 mol/L; the meter reads pH 2.04. Take the volume to 1.000 L and the concentration is 0.001 mol/L — the meter reads pH 3.01. One pH unit per factor of ten, because pH is a logarithm."
+lv2_de = "c₁V₁ = c₂V₂. 0,001 mol in 100 mL ergibt 0,01 mol/L; das Messgerät zeigt pH-Wert 2,04. Bringt man das Volumen auf 1,000 L, beträgt die Konzentration 0,001 mol/L — das Messgerät zeigt pH-Wert 3,01. Eine pH-Einheit pro Faktor zehn, weil der pH-Wert ein Logarithmus ist."
 lv3 = "The moles of H⁺ are conserved exactly across the dilution; what changes is the activity, and with it the measured pH. Note the reading is 2.04 rather than 2.00 and 3.01 rather than 3.00: at I ≈ 0.01 m the activity coefficient is ≈0.90, and PHREEQC reports pH as −log a(H⁺), not −log c(H⁺). Textbooks assume γ = 1 and quietly lose that hundredth."
+lv3_de = "Die Stoffmenge an H⁺ bleibt über die Verdünnung hinweg exakt erhalten; was sich ändert, ist die Aktivität, und mit ihr der gemessene pH-Wert. Beachte, dass der Messwert 2,04 statt 2,00 und 3,01 statt 3,00 lautet: Bei I ≈ 0,01 m liegt der Aktivitätskoeffizient bei ≈0,90, und PHREEQC gibt den pH-Wert als −log a(H⁺) an, nicht als −log c(H⁺). Lehrbücher nehmen γ = 1 an und verlieren dabei stillschweigend diese Hundertstel."
 
 [reaction.provenance]
 source = "Standard curriculum dilution calculations; activity model from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -249,6 +283,7 @@ temperature_c = { min = 2600.0, max = 2900.0 }
 
 [reaction.expect.predict]
 question = "Burn 2.40 g of magnesium ribbon completely. The balanced equation is 2 Mg + O₂ → 2 MgO. M(Mg) = 24.305, M(MgO) = 40.304 g/mol. What mass of white powder is left?"
+question_de = "Verbrenne 2,40 g Magnesiumband vollständig. Die ausgeglichene Reaktionsgleichung lautet 2 Mg + O₂ → 2 MgO. M(Mg) = 24,305, M(MgO) = 40,304 g/mol. Welche Masse weißes Pulver bleibt zurück?"
 options = [
   "2.40 g — mass is conserved",
   "3.98 g",
@@ -257,26 +292,36 @@ options = [
 ]
 answer = 1
 misconception = "The first option is conservation of mass misapplied: mass is conserved in the universe, not in an open crucible that is drawing oxygen out of the room. The last comes from reading '2 Mg + O₂' as though each magnesium takes a whole O₂ rather than half of one."
+misconception_de = "Die erste Option ist die falsch angewendete Massenerhaltung: Masse bleibt im Universum erhalten, nicht in einem offenen Tiegel, der Sauerstoff aus dem Raum zieht. Die letzte entsteht dadurch, dass '2 Mg + O₂' so gelesen wird, als würde jedes Magnesium ein ganzes O₂ aufnehmen statt eines halben."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Conservation applied to the crucible instead of the system: what the balance saw at the start is all there is, and the invisible reactant drawn from the room has no line in the ledger."
+reveals_de = "Die Erhaltung wird auf den Tiegel angewendet statt auf das System: Was die Waage zu Beginn sah, ist alles, was es gibt, und das unsichtbare Edukt, das aus dem Raum gezogen wird, hat keine Zeile im Buch."
 next = "`burning-makes-it-heavier` is this confrontation staged on a balance: the ash outweighs the ribbon by precisely the oxygen's mass. Conservation holds — over ribbon plus air, not over the crucible alone."
+next_de = "`burning-makes-it-heavier` inszeniert genau diese Konfrontation auf einer Waage: Die Asche wiegt mehr als das Band, um genau die Masse des Sauerstoffs. Die Erhaltung gilt — für Band plus Luft, nicht für den Tiegel allein."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Burning is loss: fire consumes, so less remains — the campfire's log-to-ash prototype applied to a metal."
+reveals_de = "Verbrennen ist Verlust: Feuer verzehrt, also bleibt weniger übrig — der Lagerfeuer-Prototyp 'Holzscheit wird zu Asche' wird auf ein Metall übertragen."
 next = "Weigh it: 3.98 g from 2.40. The campfire was not lying — its loss left as gas. Magnesium's product is a solid, so the oxygen it took stays on the balance (`burning-makes-it-lighter` runs the prototype itself, for contrast)."
+next_de = "Wiege es: 3,98 g aus 2,40. Das Lagerfeuer hat nicht gelogen — sein Verlust verließ es als Gas. Magnesiums Produkt ist ein Feststoff, also bleibt der aufgenommene Sauerstoff auf der Waage (`burning-makes-it-lighter` führt den Prototyp selbst vor, zum Vergleich)."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "The coefficients read pairwise: '2 Mg + O₂' as each magnesium taking a whole O₂, the 2:1 ratio collapsed into 1:1."
+reveals_de = "Die Koeffizienten werden paarweise gelesen: '2 Mg + O₂', als nähme jedes Magnesium ein ganzes O₂ auf, das Verhältnis 2:1 wird zu 1:1 zusammengefasst."
 next = "Count atoms through the equation: two magnesiums share one O₂ — one oxygen atom each, 16 g per mole of metal, not 32. The molar masses in the question already contain the answer: 2.40 g × 40.304/24.305 = 3.98 g."
+next_de = "Zähle die Atome anhand der Gleichung: zwei Magnesiumatome teilen sich ein O₂ — je ein Sauerstoffatom, 16 g pro Mol Metall, nicht 32. Die molaren Massen in der Aufgabe enthalten die Antwort bereits: 2,40 g × 40,304/24,305 = 3,98 g."
 
 [reaction.registers]
 lv1 = "Weigh the ribbon: 2.40 g. Burn it. Weigh the ash: 3.98 g. Do it again with twice as much ribbon and you get twice as much ash — the relationship between what you start with and what you end with is fixed, and once you know it for one piece you know it for every piece."
+lv1_de = "Wiege das Band: 2,40 g. Verbrenne es. Wiege die Asche: 3,98 g. Wiederhole es mit doppelt so viel Band, und du bekommst doppelt so viel Asche — die Beziehung zwischen dem, womit du beginnst, und dem, womit du endest, ist fest, und kennst du sie für ein Stück, kennst du sie für jedes."
 lv2 = "0.0987 mol of Mg (2.40 g ÷ 24.305 g/mol) gives 0.0987 mol of MgO by the 2:2 ratio in the equation, which is 3.98 g (× 40.304 g/mol). The bench reports exactly 0.0987 mol of MgO and a balance reading of 3.98 g. The equation is not decoration — it is the conversion factor."
+lv2_de = "0,0987 mol Mg (2,40 g ÷ 24,305 g/mol) ergeben nach dem Verhältnis 2:2 in der Gleichung 0,0987 mol MgO, das sind 3,98 g (× 40,304 g/mol). Das Labor meldet exakt 0,0987 mol MgO und einen Waagenwert von 3,98 g. Die Reaktionsgleichung ist keine Dekoration — sie ist der Umrechnungsfaktor."
 lv3 = "The 1:1 mole ratio survives because the Gibbs minimiser conserves the magnesium element budget exactly; oxygen is drawn from the atmospheric reservoir rather than the vessel's inventory, which is what makes the mass ratio 40.304/24.305 = 1.658 appear on the balance. At the 3042 K the solve settles to, gaseous Mg and MgO are thermodynamically accessible; they do not appear in the products because the condensed oxide dominates at 1 bar."
+lv3_de = "Das Molverhältnis 1:1 bleibt erhalten, weil der Gibbs-Minimierer das Elementbudget des Magnesiums exakt einhält; Sauerstoff wird aus dem atmosphärischen Reservoir gezogen statt aus dem Inventar des Gefäßes, wodurch das Massenverhältnis 40,304/24,305 = 1,658 auf der Waage erscheint. Bei den 3042 K, auf die sich die Lösung einpendelt, sind gasförmiges Mg und MgO thermodynamisch zugänglich; sie erscheinen nicht in den Produkten, weil das kondensierte Oxid bei 1 bar dominiert."
 
 [reaction.provenance]
 source = "Standard curriculum combustion stoichiometry; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -327,6 +372,7 @@ events = ["precipitated:AgCl", "dissolved:AgNO3"]
 
 [reaction.expect.predict]
 question = "Beaker 1: 0.0100 mol of chloride and 0.0200 mol of silver. Beaker 2: 0.0200 mol of chloride and 0.0100 mol of silver. Which makes more silver chloride?"
+question_de = "Becherglas 1: 0,0100 mol Chlorid und 0,0200 mol Silber. Becherglas 2: 0,0200 mol Chlorid und 0,0100 mol Silber. Welches bildet mehr Silberchlorid?"
 options = [
   "Beaker 1 — it has more silver, and silver is the heavy part",
   "Beaker 2 — it has more chloride",
@@ -334,21 +380,29 @@ options = [
 ]
 answer = 2
 misconception = "Learners reliably add the reagents up rather than pairing them off. The reaction is one silver to one chloride: the partner in short supply decides the answer and the surplus simply sits there. Both beakers hold 0.0300 mol of reactant in total and both give exactly 0.0100 mol of precipitate."
+misconception_de = "Lernende addieren die Edukte zuverlässig, statt sie einander zuzuordnen. Die Reaktion verläuft im Verhältnis eins zu eins zwischen Silber und Chlorid: Der Partner, der knapper ist, entscheidet die Antwort, und der Überschuss sitzt einfach untätig herum. Beide Bechergläser enthalten insgesamt 0,0300 mol Edukt, und beide liefern genau 0,0100 mol Niederschlag."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The yield follows the 'important' reagent: silver is the heavy, expensive, name-giving part, so more silver means more silver chloride — pairing-off is not in the picture."
+reveals_de = "Die Ausbeute folgt dem 'wichtigen' Edukt: Silber ist der schwere, teure, namensgebende Teil, also bedeutet mehr Silber mehr Silberchlorid — die Zuordnung zueinander kommt im Bild nicht vor."
 next = "Run both and filter: two identical 0.0100 mol cakes. Then `inspect` what remains dissolved — beaker 1 still holds its extra silver, doing nothing. Importance is not a stoichiometric quantity."
+next_de = "Führe beide aus und filtriere: zwei identische Filterkuchen mit je 0,0100 mol. Prüfe dann mit `inspect`, was gelöst bleibt — Becherglas 1 enthält immer noch sein überschüssiges Silber, das nichts tut. Wichtigkeit ist keine stöchiometrische Größe."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "The mirror of the same error: more of either ingredient means more product — amounts add, rather than pair."
+reveals_de = "Das Spiegelbild desselben Fehlers: mehr von einer der beiden Zutaten bedeutet mehr Produkt — Mengen addieren sich, statt sich zuzuordnen."
 next = "Pair them off like dance partners: each AgCl needs exactly one of each ion, so the shorter queue ends the dance — at 0.0100 mol in both rooms. The totals being equal (0.0300 mol each) is the trap the question sets."
+next_de = "Ordne sie wie Tanzpartner einander zu: Jedes AgCl braucht genau ein Ion von jeder Sorte, also beendet die kürzere Schlange den Tanz — bei 0,0100 mol in beiden Räumen. Dass die Summen gleich sind (je 0,0300 mol), ist die Falle, die die Aufgabe stellt."
 
 [reaction.registers]
 lv1 = "Two beakers get the same total amount of chemical, just split differently — one has extra silver, the other extra salt. Both go cloudy, and both produce exactly the same amount of white solid. Whatever runs out first is what stops the reaction; the leftovers do nothing but stay dissolved."
+lv1_de = "Zwei Bechergläser erhalten dieselbe Gesamtmenge Chemikalie, nur unterschiedlich aufgeteilt — das eine hat überschüssiges Silber, das andere überschüssiges Salz. Beide trüben sich ein, und beide bilden genau dieselbe Menge weißen Feststoff. Was zuerst ausgeht, stoppt die Reaktion; die Reste tun nichts weiter, als gelöst zu bleiben."
 lv2 = "Ag⁺ + Cl⁻ → AgCl↓ is a 1:1 reaction. Beaker 1: 0.0100 mol Cl⁻ is limiting against 0.0200 mol Ag⁺. Beaker 2: 0.0100 mol Ag⁺ is limiting against 0.0200 mol Cl⁻. The bench reports 0.0100 mol of AgCl in both. Work out the moles of each, take the smaller, and you have predicted the answer before running it."
+lv2_de = "Ag⁺ + Cl⁻ → AgCl↓ ist eine 1:1-Reaktion. Becherglas 1: 0,0100 mol Cl⁻ ist limitierend gegenüber 0,0200 mol Ag⁺. Becherglas 2: 0,0100 mol Ag⁺ ist limitierend gegenüber 0,0200 mol Cl⁻. Das Labor meldet in beiden Fällen 0,0100 mol AgCl. Berechne die Stoffmenge jedes Edukts, nimm die kleinere, und du hast die Antwort vorhergesagt, bevor du sie ausführst."
 lv3 = "The solver does not apply a limiting-reagent rule — it minimises free energy subject to element balances, and the 1:1 stoichiometry falls out of the mass-action constraint on Ksp(AgCl) ≈ 1.8 × 10⁻¹⁰. The two beakers differ in what remains dissolved: excess Ag⁺ suppresses residual chloride and vice versa, the common-ion effect, and the final pH differs slightly (6.90 against 7.07) because nitrate and chloride do not affect the proton balance identically."
+lv3_de = "Der Löser wendet keine Regel für das limitierende Edukt an — er minimiert die freie Energie unter Einhaltung der Elementbilanzen, und die 1:1-Stöchiometrie ergibt sich aus der Massenwirkungs-Randbedingung für Ksp(AgCl) ≈ 1,8 × 10⁻¹⁰. Die beiden Bechergläser unterscheiden sich darin, was gelöst bleibt: überschüssiges Ag⁺ unterdrückt restliches Chlorid und umgekehrt, der gemeinsame-Ionen-Effekt, und der End-pH-Wert unterscheidet sich leicht (6,90 gegenüber 7,07), weil Nitrat und Chlorid die Protonenbilanz nicht identisch beeinflussen."
 
 [reaction.provenance]
 source = "Standard curriculum limiting-reagent problem; Ksp and speciation from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -358,6 +412,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "theoretical-yield-and-what-a-real-lab-loses"
 spine = ["quantitative-analyseverfahren"]
 summary = "0.0100 mol AgCl × 143.32 g/mol = 1.43 g theoretical; the filter recovers 1.43 g"
+summary_de = "0,0100 mol AgCl × 143,32 g/mol = 1,43 g theoretisch; der Filter gewinnt 1,43 g zurück"
 concepts = ["theoretical-yield", "percentage-yield"]
 requires = ["limiting-reagent"]
 calculations = ["limiting-reagent", "mass-from-moles", "percentage-yield"]
@@ -386,6 +441,7 @@ events = ["precipitated:AgCl", "filtered"]
 
 [reaction.expect.predict]
 question = "0.0100 mol of each reagent, filtered and dried. The theoretical yield is 1.43 g. A class of thirty does this and reports yields between 71% and 96%. Where did the missing silver chloride go?"
+question_de = "0,0100 mol jedes Edukts, filtriert und getrocknet. Die theoretische Ausbeute beträgt 1,43 g. Eine Klasse von dreißig führt dies durch und meldet Ausbeuten zwischen 71 % und 96 %. Wo ist das fehlende Silberchlorid geblieben?"
 options = [
   "The reaction did not finish — some silver stayed as Ag⁺",
   "Mostly onto the filter paper, the beaker wall and the wash water",
@@ -393,21 +449,29 @@ options = [
 ]
 answer = 1
 misconception = "A yield under 100% gets read as a statement about the chemistry, so learners go looking for an incomplete reaction. Here it is almost entirely mechanical loss. The engine makes that visible by reporting 1.43 g — the full theoretical yield — because it models the chemistry and nothing else: no filter paper, no splashes, no scraping. The residual dissolved silver is real but tiny, around 10⁻⁶ mol."
+misconception_de = "Eine Ausbeute unter 100 % wird als Aussage über die Chemie gelesen, also suchen Lernende nach einer unvollständigen Reaktion. Hier handelt es sich fast ausschließlich um mechanischen Verlust. Das Labor macht das sichtbar, indem es 1,43 g meldet — die volle theoretische Ausbeute —, denn es modelliert nur die Chemie und sonst nichts: kein Filterpapier, keine Spritzer, kein Abkratzen. Das gelöst verbliebene Silber ist real, aber winzig, etwa 10⁻⁶ mol."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Every shortfall is chemistry's fault: a yield under 100% means the reaction stopped early, because the apparatus is invisible in the account."
+reveals_de = "Jedes Defizit wird der Chemie angelastet: Eine Ausbeute unter 100 % bedeutet, dass die Reaktion vorzeitig endete, weil die Apparatur in der Rechnung unsichtbar ist."
 next = "Compare the two worlds: this bench models chemistry with no filter paper, no beaker walls, no splashes — and reports the full 1.43 g, with the genuinely-unreacted silver near 10⁻⁶ mol, a thousandth of what the class lost. The missing grams are on the equipment, which is why careful gravimetric work weighs the filter paper too."
+next_de = "Vergleiche die beiden Welten: Dieses Labor modelliert Chemie ohne Filterpapier, ohne Becherglaswände, ohne Spritzer — und meldet die vollen 1,43 g, wobei das tatsächlich unreagierte Silber bei etwa 10⁻⁶ mol liegt, einem Tausendstel dessen, was die Klasse verlor. Die fehlenden Gramm stecken in der Ausrüstung, weshalb bei sorgfältiger gravimetrischer Arbeit auch das Filterpapier gewogen wird."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "A reaction is invented to cover a bookkeeping gap: mass is missing, so a plausible-sounding process nobody observed — decomposition on drying — gets the blame."
+reveals_de = "Eine Reaktion wird erfunden, um eine Lücke in der Buchführung zu füllen: Masse fehlt, also wird ein plausibel klingender, von niemandem beobachteter Vorgang — Zersetzung beim Trocknen — dafür verantwortlich gemacht."
 next = "Look at the loss pattern before blaming chemistry: thirty students scattered from 71% to 96%. A decomposition at a shared drying temperature would take a similar bite from everyone; handling losses scatter exactly like this. The spread is the fingerprint."
+next_de = "Sieh dir das Verlustmuster an, bevor du der Chemie die Schuld gibst: dreißig Schüler streuen zwischen 71 % und 96 %. Eine Zersetzung bei gemeinsamer Trocknungstemperatur würde bei allen einen ähnlichen Anteil kosten; Handhabungsverluste streuen genau so. Die Streuung ist der Fingerabdruck."
 
 [reaction.registers]
 lv1 = "Filter the cloudy mixture and a white paste stays on the paper. Dry it and weigh it. The number you get is almost never the number you calculated — and in a real lab, that gap is mostly stuff stuck to the glass, not chemistry going wrong."
+lv1_de = "Filtriere die trübe Mischung, und eine weiße Paste bleibt auf dem Papier. Trockne sie und wiege sie. Die Zahl, die du bekommst, ist fast nie die berechnete Zahl — und in einem echten Labor liegt diese Lücke meist an Resten, die am Glas kleben, nicht an fehlgeschlagener Chemie."
 lv2 = "The limiting reagent gives 0.0100 mol of AgCl, which at 143.32 g/mol is a theoretical yield of 1.43 g. The bench filters and weighs 1.43 g in v1, and the filtrate v2 weighs 499.35 g. Percentage yield = actual ÷ theoretical × 100; here it is essentially 100%, so any shortfall in a real experiment is loss, not incomplete reaction."
+lv2_de = "Das limitierende Edukt ergibt 0,0100 mol AgCl, was bei 143,32 g/mol einer theoretischen Ausbeute von 1,43 g entspricht. Das Labor filtriert und wiegt 1,43 g in v1, und das Filtrat v2 wiegt 499,35 g. Prozentuale Ausbeute = tatsächlich ÷ theoretisch × 100; hier liegt sie im Wesentlichen bei 100 %, sodass jedes Defizit in einem echten Experiment Verlust ist, nicht unvollständige Reaktion."
 lv3 = "The filtrate still holds silver and chloride at the level Ksp demands — the inspect view shows both at the fourth-decimal floor — so the 'complete' precipitation is complete only to within the solubility product, about 1.3 × 10⁻⁵ mol/L each in pure water. That residue is a real, calculable loss and is the reason gravimetric analysis washes with dilute nitric acid rather than water. What the engine cannot model is the paper, and it does not pretend to."
+lv3_de = "Das Filtrat enthält weiterhin Silber und Chlorid in der Höhe, die das Löslichkeitsprodukt vorschreibt — die inspect-Ansicht zeigt beide an der vierten Dezimalstelle —, sodass die 'vollständige' Fällung nur im Rahmen des Löslichkeitsprodukts vollständig ist, etwa 1,3 × 10⁻⁵ mol/L von jedem in reinem Wasser. Dieser Rest ist ein realer, berechenbarer Verlust und der Grund, warum die gravimetrische Analyse mit verdünnter Salpetersäure statt mit Wasser gewaschen wird. Was das Labor nicht modellieren kann, ist das Papier, und es gibt auch nicht vor, es zu können."
 
 [reaction.provenance]
 source = "Standard gravimetric determination of chloride; Ksp and speciation from PHREEQC wateq4f.dat (USGS). The interpretation of where real-lab losses come from is Editorial judgement (Kerotakis).. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -448,6 +512,7 @@ ph = { min = 3.9, max = 4.4 }
 
 [reaction.expect.predict]
 question = "4.2 g of baking soda (0.0500 mol) is fizzed with a big excess of vinegar — four times more acid than needed. How much CO₂ comes off?"
+question_de = "4,2 g Natron (0,0500 mol) werden mit einem großen Überschuss Essig zur Reaktion gebracht — vier Mal mehr Säure als nötig. Wie viel CO₂ entsteht?"
 options = [
   "More than with the exact amount, because more acid means more reaction",
   "0.0500 mol — every carbon atom in the gas came from the bicarbonate",
@@ -455,21 +520,29 @@ options = [
 ]
 answer = 1
 misconception = "Pouring in more acid feels like it should give more fizz, and it does look more violent. But the carbon in the carbon dioxide can only have come from the carbonate, and there are 0.0500 mol of carbon atoms in the beaker. Excess acid changes the rate and the final pH; it cannot change the element budget."
+misconception_de = "Mehr Säure hineinzugießen fühlt sich an, als müsse es mehr Aufschäumen geben, und es sieht auch heftiger aus. Aber der Kohlenstoff im Kohlenstoffdioxid kann nur aus dem Carbonat stammen, und es befinden sich 0,0500 mol Kohlenstoffatome im Becherglas. Überschüssige Säure verändert die Geschwindigkeit und den End-pH-Wert; sie kann das Elementbudget nicht verändern."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Reagents are a throttle: more in, more out — and the extra violence of the excess-acid fizz is read as extra yield rather than extra speed."
+reveals_de = "Edukte werden als Drosselklappe behandelt: mehr rein, mehr raus — und die zusätzliche Heftigkeit des Aufschäumens bei Säureüberschuss wird als zusätzliche Ausbeute gelesen statt als zusätzliche Geschwindigkeit."
 next = "Watch the balance instead of the froth: double the acid, then quadruple it — the mass lost as gas is the same every time, because the carbon count never changed. Violence is a rate; yield is a budget."
+next_de = "Beobachte die Waage statt des Schaums: Verdopple die Säure, dann vervierfache sie — die als Gas verlorene Masse bleibt jedes Mal gleich, weil sich die Kohlenstoffanzahl nie verändert hat. Heftigkeit ist eine Geschwindigkeit; Ausbeute ist ein Budget."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The gas is credited to the acid: carbon dioxide as something the vinegar makes, one per molecule, rather than something released from the carbonate."
+reveals_de = "Das Gas wird der Säure gutgeschrieben: Kohlenstoffdioxid als etwas, das der Essig herstellt, eins pro Molekül, statt als etwas, das aus dem Carbonat freigesetzt wird."
 next = "Trace the atoms: vinegar's own carbons stay in the beaker as acetate — `inspect` shows them still dissolved after the fizz — and the CO₂ count matches the bicarbonate's 0.0500 mol exactly. The gas carries the carbonate's carbon, and only that."
+next_de = "Verfolge die Atome: Die eigenen Kohlenstoffatome des Essigs bleiben als Acetat im Becherglas — `inspect` zeigt sie nach dem Aufschäumen weiterhin gelöst —, und die CO₂-Menge stimmt exakt mit den 0,0500 mol des Hydrogencarbonats überein. Das Gas trägt den Kohlenstoff des Carbonats, und nur diesen."
 
 [reaction.registers]
 lv1 = "Baking soda plus vinegar fizzes. Use four times as much vinegar and it fizzes harder and faster — but exactly the same amount of gas comes out in the end. Every bubble is made of atoms that were sitting in the powder; when they have all left, there is nothing more to give."
+lv1_de = "Natron plus Essig schäumt auf. Verwendest du die vierfache Menge Essig, schäumt es stärker und schneller — aber am Ende entsteht genau dieselbe Menge Gas. Jede Blase besteht aus Atomen, die im Pulver saßen; sind sie alle weg, gibt es nichts mehr zu geben."
 lv2 = "0.0500 mol NaHCO₃ carries 0.0500 mol of carbon. The bench releases 0.0183 mol on dissolving alone (the solution outgasses towards atmospheric pCO₂) and a further 0.0317 mol on acidification — 0.0500 mol exactly. Run it with 0.0599 mol of acid instead of 0.1998 and you get the same 0.0500 mol; only the final pH differs, 5.30 against 4.13."
+lv2_de = "0,0500 mol NaHCO₃ tragen 0,0500 mol Kohlenstoff. Das Labor setzt beim bloßen Lösen 0,0183 mol frei (die Lösung entgast Richtung des atmosphärischen pCO₂) und beim Ansäuern weitere 0,0317 mol — genau 0,0500 mol. Führst du es mit 0,0599 mol Säure statt mit 0,1998 durch, erhältst du dieselben 0,0500 mol; nur der End-pH-Wert unterscheidet sich, 5,30 gegenüber 4,13."
 lv3 = "Total dissolved inorganic carbon is fixed by the addition; what the acid does is shift the carbonate speciation until the solution supersaturates against log p(CO₂) = −3.408 and the excess exsolves. The split between the two steps is therefore not a stoichiometric fact but a Henry's-law one, and it moves if the atmosphere does. The sum does not move: element budgets are the hardest constraint in the solve."
+lv3_de = "Der gesamte gelöste anorganische Kohlenstoff ist durch die Zugabe festgelegt; was die Säure bewirkt, ist die Carbonat-Speziation so zu verschieben, bis die Lösung gegenüber log p(CO₂) = −3,408 übersättigt ist und der Überschuss entweicht. Die Aufteilung zwischen den beiden Schritten ist also keine stöchiometrische Tatsache, sondern eine des Henry-Gesetzes, und sie verschiebt sich, wenn sich die Atmosphäre verschiebt. Die Summe bewegt sich nicht: Elementbudgets sind die härteste Randbedingung in der Lösung."
 
 [reaction.provenance]
 source = "Standard curriculum acid–carbonate stoichiometry; carbonate speciation from PHREEQC (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -479,6 +552,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "mass-in-an-open-vessel"
 spine = ["massenerhaltung"]
 summary = "252.66 g + 3.60 g of acid = 256.26 g expected; the balance reads 254.84 g. The 1.4 g is 0.0317 mol of CO₂."
+summary_de = "252,66 g + 3,60 g Säure = 256,26 g erwartet; die Waage zeigt 254,84 g. Die 1,4 g entsprechen 0,0317 mol CO₂."
 equation = "CH₃COOH + NaHCO₃ → CH₃COONa + H₂O + CO₂↑"
 concepts = ["open-system", "mass-accounting"]
 requires = ["conservation-of-mass", "gas-evolution"]
@@ -507,6 +581,7 @@ ph = { min = 5.0, max = 5.6 }
 
 [reaction.expect.predict]
 question = "The beaker reads 252.66 g. You add 3.60 g of vinegar and it fizzes. What does the balance read when the fizzing stops?"
+question_de = "Das Becherglas zeigt 252,66 g. Du gibst 3,60 g Essig dazu, und es schäumt auf. Was zeigt die Waage, wenn das Aufschäumen aufhört?"
 options = [
   "256.26 g — mass is always conserved",
   "254.84 g — about 1.4 g lighter than expected",
@@ -514,21 +589,29 @@ options = [
 ]
 answer = 1
 misconception = "'Mass is conserved' is taught as a law and then applied to a container rather than to a system. It is the atoms that are conserved; they are simply not all in the beaker any more. Stopper the flask and the reading does become 256.26 g — which is why the closed-vessel version of this experiment is the one Lavoisier needed."
+misconception_de = "'Masse bleibt erhalten' wird als Gesetz gelehrt und dann auf ein Gefäß angewendet statt auf ein System. Erhalten bleiben die Atome; sie befinden sich nur nicht mehr alle im Becherglas. Verschließt man den Kolben, wird der Messwert tatsächlich zu 256,26 g — weshalb die geschlossene Version dieses Experiments diejenige war, die Lavoisier brauchte."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The beaker is the universe: the law says conserved, the balance holds the beaker, so the reading must add up — the possibility of mass leaving through the open top is not in the account."
+reveals_de = "Das Becherglas ist das Universum: Das Gesetz sagt erhalten, die Waage hält das Becherglas, also muss der Messwert aufgehen — die Möglichkeit, dass Masse durch die offene Öffnung entweicht, kommt in der Rechnung nicht vor."
 next = "Stopper it: the closed flask reads 256.26 g exactly, and the law is vindicated the moment the boundary is drawn honestly. Lavoisier's sealed vessels existed for precisely this reason — the law was only ever provable with the lid on."
+next_de = "Verschließe es: Der geschlossene Kolben zeigt exakt 256,26 g, und das Gesetz wird bestätigt, sobald die Grenze ehrlich gezogen wird. Lavoisiers verschlossene Gefäße existierten genau aus diesem Grund — das Gesetz war nur mit Deckel überhaupt beweisbar."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "'Consumed' means 'gone': used-up reactants vanish, so the added vinegar should leave no trace on the balance at all."
+reveals_de = "'Verbraucht' bedeutet 'weg': Aufgebrauchte Edukte verschwinden, also sollte der zugegebene Essig überhaupt keine Spur auf der Waage hinterlassen."
 next = "Audit the vinegar's atoms: the acetate and the water it became are still in the beaker, weighing what they weigh; only the CO₂'s 1.4 g left. Adding 3.60 g and reading +2.18 g is a subtraction with a story — not a disappearance."
+next_de = "Verfolge die Atome des Essigs: Das Acetat und das Wasser, zu denen er wurde, befinden sich noch im Becherglas und wiegen, was sie wiegen; nur die 1,4 g des CO₂ sind verschwunden. Dass man 3,60 g zugibt und +2,18 g abliest, ist eine Subtraktion mit einer Geschichte — kein Verschwinden."
 
 [reaction.registers]
 lv1 = "Put the beaker on the scales and write the number down. Add the vinegar. Watch the number fall as it fizzes. Nothing was destroyed — the bubbles left the beaker and took their weight with them, and if you had put a lid on, the number would not have moved at all."
+lv1_de = "Stelle das Becherglas auf die Waage und schreibe die Zahl auf. Gib den Essig dazu. Beobachte, wie die Zahl fällt, während es aufschäumt. Nichts wurde zerstört — die Blasen haben das Becherglas verlassen und ihr Gewicht mitgenommen, und hättest du einen Deckel aufgesetzt, hätte sich die Zahl gar nicht bewegt."
 lv2 = "252.66 g + 3.60 g = 256.26 g if nothing leaves. The balance reads 254.84 g, so 1.42 g went missing. The bench reports 0.0317 mol of CO₂ evolved; 0.0317 × 44.009 g/mol = 1.40 g. The missing mass is the gas, to within the accounting."
+lv2_de = "252,66 g + 3,60 g = 256,26 g, wenn nichts entweicht. Die Waage zeigt 254,84 g, also fehlen 1,42 g. Das Labor meldet 0,0317 mol freigesetztes CO₂; 0,0317 × 44,009 g/mol = 1,40 g. Die fehlende Masse ist das Gas, im Rahmen der Buchführungsgenauigkeit."
 lv3 = "The engine's element bookkeeping is exact; the vessel's mass is not conserved because the gas phase is modelled as escaping to the reservoir, exactly as an open beaker does. The small residual between 1.42 g measured and 1.40 g of CO₂ is water leaving with it and the rounding on the reported moles — worth stating rather than smoothing, because in a real experiment the same discrepancy is real and has the same cause."
+lv3_de = "Die Elementbuchführung des Labors ist exakt; die Masse des Gefäßes bleibt nicht erhalten, weil die Gasphase so modelliert wird, dass sie ins Reservoir entweicht, genau wie ein offenes Becherglas es tut. Der kleine Restunterschied zwischen den gemessenen 1,42 g und den 1,40 g CO₂ ist Wasser, das mit entweicht, und die Rundung der gemeldeten Stoffmenge — es lohnt sich, das zu benennen statt zu glätten, denn in einem echten Experiment ist dieselbe Abweichung real und hat dieselbe Ursache."
 
 [reaction.provenance]
 source = "Standard curriculum conservation-of-mass demonstration; carbonate speciation from PHREEQC (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -540,6 +623,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "ph-is-not-quite-minus-log-c"
 spine = ["ph-wert-berechnungen"]
 summary = "0.100 mol/L HCl: −log c = 1.00, and the meter reads 1.08"
+summary_de = "0,100 mol/L HCl: −log c = 1,00, und das Messgerät zeigt 1,08"
 equation = "HCl → H⁺ + Cl⁻"
 concepts = ["ph-calculation", "activity"]
 requires = ["concentration", "acids"]
@@ -571,6 +655,7 @@ ph = { min = 1.0, max = 1.2 }
 
 [reaction.expect.predict]
 question = "0.100 mol of hydrochloric acid in a litre of water. The textbook formula pH = −log[H⁺] gives 1.00. What does the meter read?"
+question_de = "0,100 mol Salzsäure in einem Liter Wasser. Die Lehrbuchformel pH = −log[H⁺] ergibt 1,00. Was zeigt das Messgerät?"
 options = [
   "Exactly 1.00",
   "1.08 — a little above, because the meter responds to activity, not concentration",
@@ -578,21 +663,29 @@ options = [
 ]
 answer = 1
 misconception = "pH = −log c is taught as a definition when it is an approximation that holds when ions are far apart. At 0.1 mol/L they are not: each proton is surrounded by a cloud of counter-ions that shields it, and the electrode feels the shielded version. The gap is small here and grows with concentration — which is exactly why lv3 exists."
+misconception_de = "pH = −log c wird als Definition gelehrt, obwohl es eine Näherung ist, die gilt, wenn Ionen weit voneinander entfernt sind. Bei 0,1 mol/L sind sie das nicht: Jedes Proton ist von einer Wolke aus Gegenionen umgeben, die es abschirmt, und die Elektrode spürt die abgeschirmte Version. Der Unterschied ist hier klein und wächst mit der Konzentration — genau deshalb gibt es lv3."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The formula is the definition, so the meter must obey it — a disagreeing meter is broken, and 'activity' has no slot in the picture."
+reveals_de = "Die Formel gilt als Definition, also muss das Messgerät ihr gehorchen — ein abweichendes Messgerät ist defekt, und 'Aktivität' hat keinen Platz im Bild."
 next = "Dilute and watch the gap close: at 0.001 mol/L (`strong-acid`) formula and meter agree to the second decimal; at 0.1 they part by 0.08. A definition's error does not shrink with dilution — an approximation's does, and that behaviour is the diagnosis."
+next_de = "Verdünne und beobachte, wie sich der Unterschied schließt: Bei 0,001 mol/L (`strong-acid`) stimmen Formel und Messgerät bis zur zweiten Nachkommastelle überein; bei 0,1 weichen sie um 0,08 voneinander ab. Der Fehler einer Definition schrumpft nicht mit der Verdünnung — der einer Näherung schon, und dieses Verhalten ist die Diagnose."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "A correction is expected but its direction is guessed — the crowding is imagined to concentrate the acid's punch rather than damp it, so corrections land by coin-flip."
+reveals_de = "Eine Korrektur wird erwartet, aber ihre Richtung wird geraten — das Gedränge wird sich so vorgestellt, dass es die Wirkung der Säure verstärkt statt dämpft, sodass Korrekturen per Münzwurf landen."
 next = "Let the physics fix the sign: every proton drags a cloud of counter-ions that screens it, so the electrode always feels *less* than the count in solutions like this — the reading lands above the naive number, never below. A correction whose sign you can derive is chemistry; one you guess is decoration."
+next_de = "Lass die Physik das Vorzeichen festlegen: Jedes Proton schleppt eine Wolke aus Gegenionen mit sich, die es abschirmt, sodass die Elektrode in Lösungen wie dieser immer *weniger* spürt als die reine Anzahl — der Messwert liegt über der naiven Zahl, nie darunter. Eine Korrektur, deren Vorzeichen du herleiten kannst, ist Chemie; eine, die du rätst, ist Dekoration."
 
 [reaction.registers]
 lv1 = "A pH meter does not count acid particles. It responds to how strongly the acid is pushing, and in a crowded solution the particles get in each other's way, so the push is slightly weaker than the count suggests. The meter tells you what the solution does, which is the number that matters."
+lv1_de = "Ein pH-Messgerät zählt keine Säureteilchen. Es reagiert darauf, wie stark die Säure drückt, und in einer gedrängten Lösung kommen sich die Teilchen gegenseitig in die Quere, sodass der Druck etwas schwächer ist, als die Anzahl vermuten lässt. Das Messgerät sagt dir, was die Lösung tut, und das ist die Zahl, auf die es ankommt."
 lv2 = "0.100 mol in 1.000 L is 0.100 mol/L. Complete dissociation gives [H⁺] = 0.100, so −log[H⁺] = 1.00. The meter reads 1.08. The formula is right about the count and slightly wrong about the reading, and the difference is not experimental error — it is reproducible."
+lv2_de = "0,100 mol in 1,000 L ergibt 0,100 mol/L. Vollständige Dissoziation liefert [H⁺] = 0,100, also −log[H⁺] = 1,00. Das Messgerät zeigt 1,08. Die Formel hat recht mit der Anzahl und liegt beim Messwert leicht daneben, und der Unterschied ist kein Messfehler — er ist reproduzierbar."
 lv3 = "pH is defined as −log a(H⁺), and a = γc. At I = 0.1 m the WATEQ Debye–Hückel extension gives γ(H⁺) ≈ 0.83, so pH = −log(0.83 × 0.100) = 1.08 — which is what PHREEQC computes and reports. Compare the same acid at 0.001 mol/L, where γ ≈ 0.96 and the correction is a hundredth: the approximation is not wrong, it has a validity range, and this is a place where the learner can watch it expire."
+lv3_de = "Der pH-Wert ist definiert als −log a(H⁺), und a = γc. Bei I = 0,1 m liefert die WATEQ-Debye-Hückel-Erweiterung γ(H⁺) ≈ 0,83, also pH = −log(0,83 × 0,100) = 1,08 — genau das, was PHREEQC berechnet und meldet. Vergleiche dieselbe Säure bei 0,001 mol/L, wo γ ≈ 0,96 und die Korrektur nur eine Hundertstel beträgt: Die Näherung ist nicht falsch, sie hat einen Gültigkeitsbereich, und hier kann der Lernende beobachten, wie er endet."
 
 [reaction.provenance]
 source = "Standard curriculum pH calculation; activity coefficients from PHREEQC wateq4f.dat (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -602,6 +695,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "a-weak-acid-breaks-the-naive-sum"
 spine = ["ph-wert-berechnungen"]
 summary = "0.100 mol/L: HCl → pH 1.08; CH₃COOH → pH 2.88"
+summary_de = "0,100 mol/L: HCl → pH-Wert 1,08; CH₃COOH → pH-Wert 2,88"
 equation = "CH₃COOH ⇌ H⁺ + CH₃COO⁻"
 concepts = ["degree-of-dissociation"]
 requires = ["ph-calculation", "weak-acids"]
@@ -631,6 +725,7 @@ ph = { min = 2.7, max = 3.05 }
 
 [reaction.expect.predict]
 question = "Both beakers get 0.100 mol of acid in a litre. One is hydrochloric acid, one is vinegar's acetic acid. The hydrochloric reads pH 1.08. What does the acetic acid read?"
+question_de = "Beide Bechergläser erhalten 0,100 mol Säure in einem Liter. Das eine ist Salzsäure, das andere die Essigsäure des Essigs. Die Salzsäure zeigt pH-Wert 1,08. Was zeigt die Essigsäure?"
 options = [
   "1.08 as well — same concentration, same pH",
   "2.88 — about 60 times fewer free protons",
@@ -639,26 +734,36 @@ options = [
 ]
 answer = 1
 misconception = "The pH = −log c habit, freshly learned, is applied to the acetic acid and produces 1.00 — the first option. It fails because the formula silently assumed the acid was fully dissociated. Choosing the pKa is the next mistake along: pH equals pKa only in a buffer, where acid and conjugate base are equal, and this beaker has almost no acetate in it."
+misconception_de = "Die frisch gelernte Gewohnheit pH = −log c wird auf die Essigsäure angewendet und ergibt 1,00 — die erste Option. Sie scheitert, weil die Formel stillschweigend annahm, die Säure sei vollständig dissoziiert. Die Wahl des pKa-Werts ist der nächste Fehler auf diesem Weg: Der pH-Wert entspricht dem pKa-Wert nur in einem Puffer, in dem Säure und korrespondierende Base gleich groß sind, und dieses Becherglas enthält fast kein Acetat."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "pH = −log c with c the label concentration: the formula's hidden assumption — that every molecule has dissociated — has never surfaced, so all acids of one concentration read alike."
+reveals_de = "pH = −log c mit c als Etikettkonzentration: Die versteckte Annahme der Formel — dass jedes Molekül dissoziiert ist — ist nie ans Licht gekommen, sodass alle Säuren derselben Konzentration gleich erscheinen sollen."
 next = "`inspect` the acetic beaker at lv3: nearly all of the 0.100 mol is still intact CH₃COOH, holding its proton. The meter prices only the free protons, and there are about sixty times fewer of them than the label promised."
+next_de = "Sieh dir das Essigsäure-Becherglas mit `inspect` auf lv3 an: Fast die gesamten 0,100 mol sind noch intaktes CH₃COOH und halten ihr Proton fest. Das Messgerät bewertet nur die freien Protonen, und davon gibt es etwa sechzigmal weniger, als das Etikett versprach."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The pKa is the acid's pH — the one number remembered about vinegar, deployed wherever vinegar appears, with the buffer condition that came attached to it lost in transit."
+reveals_de = "Der pKa-Wert gilt als der pH-Wert der Säure — die eine Zahl, die man sich über Essig merkt, eingesetzt, wo immer Essig auftaucht, wobei die Pufferbedingung, die eigentlich daran hing, unterwegs verloren ging."
 next = "Make the condition true and the number becomes right: `half-neutralised-vinegar` neutralises half, [HA] equals [A⁻], and the meter reads the pKa on the nose. This beaker has almost no acetate, so the equality it needs fails by miles."
+next_de = "Erfülle die Bedingung, und die Zahl wird richtig: `half-neutralised-vinegar` neutralisiert die Hälfte, [HA] entspricht [A⁻], und das Messgerät zeigt den pKa-Wert exakt an. Dieses Becherglas enthält fast kein Acetat, sodass die dafür nötige Gleichheit himmelweit verfehlt wird."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Edible means mild means pH 7: the category 'food' is answering a chemistry question, with safety and neutrality fused into one scale."
+reveals_de = "Essbar bedeutet mild bedeutet pH-Wert 7: Die Kategorie 'Lebensmittel' beantwortet eine chemische Frage, wobei Sicherheit und Neutralität zu einer einzigen Skala verschmelzen."
 next = "Measure what you already eat: this very beaker is vinegar at 2.88, and you sprinkle it on chips. Edibility is a fact about dose and biology; the meter is measuring something else entirely, and the two scales only look alike until one of them is read."
+next_de = "Miss, was du bereits isst: Genau dieses Becherglas ist Essig bei 2,88, und du beträufelst damit Pommes. Essbarkeit ist eine Tatsache über Dosis und Biologie; das Messgerät misst etwas völlig anderes, und die beiden Skalen sehen nur so lange gleich aus, bis man eine von ihnen abliest."
 
 [reaction.registers]
 lv1 = "Same amount of acid, same amount of water, two very different meter readings. The strong one gives all its acidity up at once; the weak one holds most of it back and only lets a little go. That is why vinegar is safe to eat and hydrochloric acid at the same strength is not."
+lv1_de = "Dieselbe Menge Säure, dieselbe Menge Wasser, zwei sehr unterschiedliche Messwerte. Die starke Säure gibt ihre gesamte Acidität auf einmal ab; die schwache hält das meiste zurück und lässt nur wenig los. Deshalb ist Essig zum Verzehr sicher und Salzsäure derselben Stärke nicht."
 lv2 = "The naive calculation, pH = −log(0.100) = 1.00, is right for HCl (to within the activity correction — 1.08) and badly wrong for acetic acid, where the meter reads 2.88. Acetic acid only partly dissociates: pH ≈ ½(pKa − log c) = ½(4.76 + 1.00) = 2.88. You must know the Ka before you can calculate the pH, and that is the whole difference between a strong acid and a weak one."
+lv2_de = "Die naive Berechnung, pH = −log(0,100) = 1,00, stimmt für HCl (bis auf die Aktivitätskorrektur — 1,08) und liegt bei Essigsäure deutlich daneben, wo das Messgerät 2,88 zeigt. Essigsäure dissoziiert nur teilweise: pH ≈ ½(pKa − log c) = ½(4,76 + 1,00) = 2,88. Man muss den Ka-Wert kennen, bevor man den pH-Wert berechnen kann, und das ist der ganze Unterschied zwischen einer starken und einer schwachen Säure."
 lv3 = "PHREEQC does not apply the weak-acid formula either; it solves the mass-action equation H⁺ + CH₃COO⁻ ⇌ CH₃COOH (pKa ≈ 4.76 from minteq.v4.dat) simultaneously with charge and mass balance, and the pH falls out. The agreement with the ½(pKa − log c) shortcut at 2.88 is a check on the shortcut's assumptions — that dissociation is small and water's own protons are negligible — both of which hold here and both of which fail at 10⁻⁵ mol/L."
+lv3_de = "Auch PHREEQC wendet die Formel für schwache Säuren nicht an; es löst die Massenwirkungsgleichung H⁺ + CH₃COO⁻ ⇌ CH₃COOH (pKa ≈ 4,76 aus minteq.v4.dat) gleichzeitig mit Ladungs- und Massenbilanz, und der pH-Wert ergibt sich daraus. Die Übereinstimmung mit der Abkürzung ½(pKa − log c) bei 2,88 ist eine Prüfung der Annahmen dieser Abkürzung — dass die Dissoziation gering ist und die eigenen Protonen des Wassers vernachlässigbar sind —, die beide hier gelten und beide bei 10⁻⁵ mol/L versagen."
 
 [reaction.provenance]
 source = "Standard curriculum strong-versus-weak acid comparison; pKa from PHREEQC minteq.v4.dat. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -670,6 +775,7 @@ computed_by = "PHREEQC via Kerotakis L2"
 id = "hot-pack-arithmetic"
 spine = ["kalorimetrie"]
 summary = "ΔT = q / (n·Cp)   ·   8.28 kJ ÷ (5.5343 mol × 75.3 J·mol⁻¹·K⁻¹) = 19.9 K"
+summary_de = "ΔT = q / (n·Cp)   ·   8,28 kJ ÷ (5,5343 mol × 75,3 J·mol⁻¹·K⁻¹) = 19,9 K"
 equation = "CaCl₂ → Ca²⁺ + 2 Cl⁻"
 concepts = ["calorimetry", "heat-capacity"]
 requires = ["exothermic", "amount-of-substance"]
@@ -696,6 +802,7 @@ temperature_c = { min = 43.0, max = 47.0 }
 
 [reaction.expect.predict]
 question = "0.1000 mol of calcium chloride (ΔH_dis = −82.8 kJ/mol) dissolves in 100 mL of water. Water's molar heat capacity is 75.3 J·mol⁻¹·K⁻¹ and 100 mL is 5.53 mol. How warm does it get, starting from 25.0 °C?"
+question_de = "0,1000 mol Calciumchlorid (ΔH_Lös = −82,8 kJ/mol) löst sich in 100 mL Wasser. Die molare Wärmekapazität von Wasser beträgt 75,3 J·mol⁻¹·K⁻¹, und 100 mL entsprechen 5,53 mol. Wie warm wird es, ausgehend von 25,0 °C?"
 options = [
   "About 27 °C — a couple of degrees",
   "About 45 °C",
@@ -704,26 +811,36 @@ options = [
 ]
 answer = 1
 misconception = "The last option is the deep one: dissolving gets filed under 'physical change' and physical changes are assumed not to involve energy. Breaking an ionic lattice and hydrating the ions are both large energy terms, and their difference is what the thermometer reads. The 108 °C answer comes from dividing by the mass in grams while using a molar heat capacity."
+misconception_de = "Die letzte Option ist die tiefgreifende: Lösen wird unter 'physikalische Veränderung' eingeordnet, und von physikalischen Veränderungen wird angenommen, dass sie keine Energie betreffen. Das Aufbrechen eines Ionengitters und die Hydratisierung der Ionen sind beides große Energiebeiträge, und ihre Differenz ist es, was das Thermometer zeigt. Die Antwort 108 °C entsteht dadurch, dass durch die Masse in Gramm geteilt wird, während eine molare Wärmekapazität verwendet wird."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The energy is conceded but sized by feel: kilojoules sound small, so degrees must be few — the division that would settle it is never actually done."
+reveals_de = "Die Energie wird zwar zugestanden, aber nach Gefühl bemessen: Kilojoule klingen klein, also müssen es wenige Grad sein — die Division, die das klären würde, wird nie tatsächlich durchgeführt."
 next = "Do the division the question hands you: 8.28 kJ into 5.53 mol × 75.3 J·mol⁻¹·K⁻¹ is 416 J/K, so +19.9 K. Committing to the arithmetic before the thermometer settles it is the entire exercise."
+next_de = "Führe die Division durch, die die Aufgabe vorgibt: 8,28 kJ auf 5,53 mol × 75,3 J·mol⁻¹·K⁻¹ ergibt 416 J/K, also +19,9 K. Sich auf die Rechnung festzulegen, bevor das Thermometer entscheidet, ist die ganze Übung."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Units crossed mid-formula: grams sat under a molar heat capacity, and the resulting large number felt like chemistry happening rather than like an error."
+reveals_de = "Einheiten wurden mitten in der Formel vertauscht: Gramm standen unter einer molaren Wärmekapazität, und die daraus resultierende große Zahl fühlte sich an wie geschehende Chemie, nicht wie ein Fehler."
 next = "Carry the units through: J ÷ (mol × J·mol⁻¹·K⁻¹) leaves kelvin; grams under a molar capacity leaves nonsense wearing a temperature's clothes. Units are not decoration — they are the check that catches this before the water conspicuously fails to boil."
+next_de = "Führe die Einheiten konsequent mit: J ÷ (mol × J·mol⁻¹·K⁻¹) ergibt Kelvin; Gramm unter einer molaren Kapazität ergibt Unsinn im Gewand einer Temperatur. Einheiten sind keine Dekoration — sie sind die Kontrolle, die das auffängt, bevor das Wasser auffällig nicht kocht."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Taxonomy doing physics: 'physical change' is a no-energy category, so classifying the event answers the thermometer's question."
+reveals_de = "Taxonomie betreibt Physik: 'Physikalische Veränderung' gilt als energiefreie Kategorie, also beantwortet das Einordnen des Vorgangs die Frage des Thermometers."
 next = "The categories do not hold the energy — the lattice and the hydration shells do. Run `cold-from-baking-soda` beside this: the same 'physical change' with the opposite sign. A taxonomy that predicts zero cannot predict both +20 K and −4 K; an energy balance predicts both."
+next_de = "Die Kategorien enthalten nicht die Energie — das Gitter und die Hydrathüllen tun das. Führe `cold-from-baking-soda` neben diesem hier aus: dieselbe 'physikalische Veränderung' mit umgekehrtem Vorzeichen. Eine Taxonomie, die null vorhersagt, kann nicht sowohl +20 K als auch −4 K vorhersagen; eine Energiebilanz sagt beides vorher."
 
 [reaction.registers]
 lv1 = "The cup gets genuinely hot — too hot to hold comfortably — and nothing was burned and nothing was plugged in. Pulling a crystal apart and wrapping water round the pieces releases more energy than it costs, and the surplus has nowhere to go except into the water."
+lv1_de = "Der Becher wird wirklich heiß — zu heiß, um ihn bequem zu halten —, und dabei wurde nichts verbrannt und nichts eingesteckt. Einen Kristall auseinanderzureißen und Wasser um die Bruchstücke zu legen setzt mehr Energie frei, als es kostet, und der Überschuss kann nirgendwohin außer ins Wasser."
 lv2 = "q = n × ΔH_dis = 0.1000 mol × 82.8 kJ/mol = 8.28 kJ released. The water is 100 mL, 5.5343 mol, at 75.3 J·mol⁻¹·K⁻¹, so ΔT = 8280 J ÷ 416.7 J/K = 19.9 K. From 25.0 °C that predicts 44.9 °C, and the thermometer reads 44.87 °C. The calculation is not an exercise — it is the reading."
+lv2_de = "q = n × ΔH_Lös = 0,1000 mol × 82,8 kJ/mol = 8,28 kJ freigesetzt. Das Wasser entspricht 100 mL, 5,5343 mol, bei 75,3 J·mol⁻¹·K⁻¹, also ΔT = 8280 J ÷ 416,7 J/K = 19,9 K. Ausgehend von 25,0 °C sagt das 44,9 °C voraus, und das Thermometer zeigt 44,87 °C. Die Berechnung ist keine Übung — sie ist der Messwert."
 lv3 = "The heat goes into the water alone: the dissolved Ca²⁺ and Cl⁻ carry no modelled heat capacity, since partial molar heat capacities of aqueous ions are small and often negative and are not curated at this stage. That is an approximation with a known sign, and it is why the computed 44.87 °C sits marginally above a full calorimetric treatment. The vessel is adiabatic, so nothing is lost to a cup or to the room — the real experiment always reads lower, and the gap is the calorimeter constant."
+lv3_de = "Die Wärme geht allein ins Wasser: Das gelöste Ca²⁺ und Cl⁻ tragen keine modellierte Wärmekapazität, da partielle molare Wärmekapazitäten wässriger Ionen klein und oft negativ sind und in diesem Stadium nicht kuratiert werden. Das ist eine Näherung mit bekanntem Vorzeichen, und deshalb liegt das berechnete 44,87 °C geringfügig über einer vollständigen kalorimetrischen Behandlung. Das Gefäß ist adiabatisch, sodass nichts an einen Becher oder an den Raum verloren geht — das reale Experiment zeigt immer weniger an, und die Lücke ist die Kalorimeterkonstante."
 
 [reaction.provenance]
 source = "Enthalpy of solution of anhydrous CaCl₂, standard reference value; heat capacity of water CODATA. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -764,6 +881,7 @@ temperature_c = { min = 19.5, max = 22.5 }
 
 [reaction.expect.predict]
 question = "0.1000 mol of baking soda goes into 100 mL of water at 25.0 °C. ΔH_dis = +16.7 kJ/mol. What does the thermometer say?"
+question_de = "0,1000 mol Natron kommen in 100 mL Wasser bei 25,0 °C. ΔH_Lös = +16,7 kJ/mol. Was zeigt das Thermometer?"
 options = [
   "Warmer — dissolving always releases energy",
   "21.0 °C — about four degrees colder",
@@ -771,21 +889,29 @@ options = [
 ]
 answer = 1
 misconception = "Having just watched calcium chloride heat a cup, learners generalise: dissolving warms things. The sign of ΔH_dis is a property of the substance, not of dissolving. Baking soda, potassium chloride and ammonium nitrate all go the other way, and an instant cold pack is exactly this experiment."
+misconception_de = "Nachdem Lernende gerade gesehen haben, wie Calciumchlorid einen Becher erwärmt, verallgemeinern sie: Lösen erwärmt Dinge. Das Vorzeichen von ΔH_Lös ist eine Eigenschaft des Stoffes, nicht des Lösens. Natron, Kaliumchlorid und Ammoniumnitrat gehen alle den anderen Weg, und eine Sofort-Kühlpackung ist genau dieses Experiment."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Last experiment's result, promoted to a law: dissolving warms things, because the memorable one did."
+reveals_de = "Das Ergebnis des letzten Experiments wird zum Gesetz erhoben: Lösen erwärmt Dinge, weil das einprägsame Beispiel es tat."
 next = "Run `hot-pack-arithmetic` and this beaker back to back: the sign travels with the substance, not with the operation. ΔH_dis here is +16.7 kJ/mol, and the thermometer obeys the sign, not the habit."
+next_de = "Führe `hot-pack-arithmetic` und dieses Becherglas nacheinander aus: Das Vorzeichen reist mit dem Stoff, nicht mit dem Vorgang. ΔH_Lös beträgt hier +16,7 kJ/mol, und das Thermometer gehorcht dem Vorzeichen, nicht der Gewohnheit."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Water as a thermal anchor: a big steady liquid that a spoonful of powder cannot move — heat capacity mistaken for immunity."
+reveals_de = "Wasser als thermischer Anker: eine große, stetige Flüssigkeit, die ein Löffel Pulver nicht bewegen kann — Wärmekapazität wird mit Unempfindlichkeit verwechselt."
 next = "Heat capacity is a price, not a veto: withdrawing 1.67 kJ from 416 J/K of water costs 4.0 K, and the thermometer pays it. A large capacity makes moves smaller — `two-vessels-one-variable` prices exactly that — but never zero."
+next_de = "Wärmekapazität ist ein Preis, kein Veto: 1,67 kJ aus 416 J/K Wasser zu entziehen kostet 4,0 K, und das Thermometer bezahlt sie. Eine große Kapazität macht Änderungen kleiner — `two-vessels-one-variable` bepreist genau das —, aber niemals null."
 
 [reaction.registers]
 lv1 = "Same cup, same water, different powder — and this one goes cold instead of hot. That is not a trick or a different kind of stirring; some substances have to borrow energy from the water to come apart, and the water is left colder for lending it."
+lv1_de = "Derselbe Becher, dasselbe Wasser, ein anderes Pulver — und dieses wird kalt statt heiß. Das ist kein Trick und kein anderes Rühren; manche Stoffe müssen sich Energie vom Wasser leihen, um sich aufzulösen, und das Wasser bleibt kälter zurück, weil es sie verliehen hat."
 lv2 = "q = 0.1000 mol × (+16.7 kJ/mol) = +1.67 kJ absorbed. ΔT = −1670 J ÷ 416.7 J/K = −4.0 K, so 25.0 °C → 21.0 °C, and the thermometer reads 21.02 °C. Potassium chloride at +17.2 kJ/mol gives 20.87 °C in the same cup — nearly the same, because the enthalpies are nearly the same."
+lv2_de = "q = 0,1000 mol × (+16,7 kJ/mol) = +1,67 kJ aufgenommen. ΔT = −1670 J ÷ 416,7 J/K = −4,0 K, also 25,0 °C → 21,0 °C, und das Thermometer zeigt 21,02 °C. Kaliumchlorid mit +17,2 kJ/mol ergibt 20,87 °C im selben Becher — fast dasselbe, weil die Enthalpien fast gleich sind."
 lv3 = "Endothermic dissolution means the lattice enthalpy exceeds the sum of the hydration enthalpies; the deficit comes out of the solution's sensible heat in an adiabatic vessel. Note the bench also reports 0.0424 mol of CO₂ leaving: a bicarbonate solution at pH 10.07 is supersaturated against atmospheric pCO₂ and outgasses. That carbonate chemistry is real and independent of the thermal effect, which is why both events appear."
+lv3_de = "Endotherme Lösung bedeutet, dass die Gitterenthalpie die Summe der Hydratationsenthalpien übersteigt; das Defizit wird der fühlbaren Wärme der Lösung in einem adiabatischen Gefäß entnommen. Beachte, dass das Labor außerdem meldet, dass 0,0424 mol CO₂ entweichen: Eine Hydrogencarbonat-Lösung bei pH-Wert 10,07 ist gegenüber dem atmosphärischen pCO₂ übersättigt und entgast. Diese Carbonat-Chemie ist real und unabhängig vom thermischen Effekt, weshalb beide Ereignisse auftreten."
 
 [reaction.provenance]
 source = "Enthalpy of solution of NaHCO₃, standard reference value; carbonate speciation from PHREEQC (USGS). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -795,6 +921,7 @@ computed_by = "Kerotakis energy balance over curated ΔH_dis; speciation via PHR
 id = "two-vessels-one-variable"
 spine = ["erkenntnisgewinnung"]
 summary = "Same 0.1000 mol CaCl₂; 100 mL → 44.87 °C, 200 mL → 34.93 °C"
+summary_de = "Dieselben 0,1000 mol CaCl₂; 100 mL → 44,87 °C, 200 mL → 34,93 °C"
 concepts = ["controlled-comparison", "fair-test"]
 requires = ["calorimetry"]
 calculations = ["temperature-rise"]
@@ -830,6 +957,7 @@ temperature_c = { min = 43.0, max = 47.0 }
 
 [reaction.expect.predict]
 question = "The same 0.1000 mol of calcium chloride goes into 100 mL in one cup and 200 mL in another. The first reaches 44.87 °C. What does the second reach?"
+question_de = "Dieselben 0,1000 mol Calciumchlorid kommen in einen Becher mit 100 mL und in einen anderen mit 200 mL. Der erste erreicht 44,87 °C. Was erreicht der zweite?"
 options = [
   "44.87 °C — the same energy was released",
   "34.93 °C — the same energy, spread through twice as much water",
@@ -837,21 +965,29 @@ options = [
 ]
 answer = 1
 misconception = "The first option confuses energy with temperature — they are not the same quantity, and this pair of cups is the cheapest way to feel the difference. Exactly the same 8.28 kJ is released in both; the thermometer reads the energy per unit of stuff it has to warm, so doubling the water halves the rise."
+misconception_de = "Die erste Option verwechselt Energie mit Temperatur — sie sind nicht dieselbe Größe, und dieses Becherpaar ist der billigste Weg, den Unterschied zu spüren. In beiden wird exakt dieselbe Menge, 8,28 kJ, freigesetzt; das Thermometer zeigt die Energie pro Menge des zu erwärmenden Stoffes an, also halbiert die Verdoppelung des Wassers den Anstieg."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Energy and temperature are one quantity: 'the heat' is what the thermometer reads, so the same salt must give the same reading anywhere."
+reveals_de = "Energie und Temperatur werden als eine Größe behandelt: 'Die Wärme' ist das, was das Thermometer zeigt, also muss dasselbe Salz überall denselben Messwert ergeben."
 next = "Hold both numbers at once: 8.28 kJ released in each cup — identical — and +19.9 K in one against +9.9 K in the other. The thermometer reads energy per amount of stuff to warm; this pair of cups is the cheapest instrument that can tell those two quantities apart."
+next_de = "Halte beide Zahlen zugleich fest: 8,28 kJ freigesetzt in jedem Becher — identisch — und +19,9 K im einen gegenüber +9,9 K im anderen. Das Thermometer zeigt Energie pro zu erwärmender Stoffmenge an; dieses Becherpaar ist das billigste Instrument, das diese beiden Größen auseinanderhalten kann."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "More water is read as more reaction: the solvent is promoted to a reagent, so doubling it should double the heat."
+reveals_de = "Mehr Wasser wird als mehr Reaktion gelesen: Das Lösungsmittel wird zum Edukt befördert, also sollte eine Verdoppelung die Wärme verdoppeln."
 next = "`inspect` both cups: identical 0.1000 mol dissolved, identical energy released. The water only divides the heat — if it fed the reaction, the salt would somehow have to know how much water was watching it dissolve."
+next_de = "Sieh dir beide Becher mit `inspect` an: identische 0,1000 mol gelöst, identische freigesetzte Energie. Das Wasser teilt die Wärme nur auf — würde es die Reaktion speisen, müsste das Salz irgendwie wissen, wie viel Wasser ihm beim Lösen zusah."
 
 [reaction.registers]
 lv1 = "Change one thing and nothing else. Two cups, the same powder, the same starting temperature — only the amount of water is different. Then whatever the thermometers do differently, you know what caused it. Change two things at once and you have learned nothing, however carefully you measured."
+lv1_de = "Ändere eine Sache und sonst nichts. Zwei Becher, dasselbe Pulver, dieselbe Starttemperatur — nur die Menge Wasser unterscheidet sich. Was auch immer die Thermometer dann unterschiedlich anzeigen, du weißt, was es verursacht hat. Änderst du zwei Dinge gleichzeitig, hast du nichts gelernt, egal wie sorgfältig du gemessen hast."
 lv2 = "Identical q = 8.28 kJ in both cups. ΔT = q/(n·Cp): 8280 ÷ 416.7 = 19.9 K in 100 mL, and 8280 ÷ 833.5 = 9.9 K in 200 mL. The bench gives 44.87 °C and 34.93 °C from 25.0 °C — 19.87 K and 9.93 K. The halving is exact because the only thing that changed was the denominator."
+lv2_de = "Identisches q = 8,28 kJ in beiden Bechern. ΔT = q/(n·Cp): 8280 ÷ 416,7 = 19,9 K in 100 mL, und 8280 ÷ 833,5 = 9,9 K in 200 mL. Das Labor liefert ausgehend von 25,0 °C 44,87 °C und 34,93 °C — 19,87 K und 9,93 K. Die Halbierung ist exakt, weil sich nur der Nenner geändert hat."
 lv3 = "This is the controlled comparison in its cleanest form, and it is worth noticing what the engine holds constant for free that a real bench does not: identical starting temperature, identical heat loss (none), identical purity, identical stirring. A simulated fair test is trivially fair, which is precisely why the *habit* has to be taught here and the *difficulty* has to be met at a real bench. The virtual lab can teach the logic of control; it cannot teach the discipline of it."
+lv3_de = "Das ist der kontrollierte Vergleich in seiner reinsten Form, und es lohnt sich zu bemerken, was das Labor kostenlos konstant hält, was ein echter Labortisch nicht tut: identische Starttemperatur, identischer Wärmeverlust (keiner), identische Reinheit, identisches Rühren. Ein simulierter fairer Test ist trivial fair, und genau deshalb muss die *Gewohnheit* hier gelehrt werden, während die *Schwierigkeit* an einem echten Labortisch begegnet werden muss. Das virtuelle Labor kann die Logik der Kontrolle lehren; die Disziplin dafür kann es nicht lehren."
 
 [reaction.provenance]
 source = "Editorial judgement (Kerotakis): the controlled-comparison design is ours, built on the standard reference enthalpy of solution of CaCl₂. The limits of a simulated fair test are also our judgement, not a cited claim.. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -896,6 +1032,7 @@ temperature_c = { min = 48.5, max = 50.0 }
 
 [reaction.expect.predict]
 question = "Sodium hydroxide pellets can go straight into the acid — one violent step — or dissolve in water first and then meet the acid, two milder ones. Which route ends up hotter?"
+question_de = "Natriumhydroxid-Plätzchen können direkt in die Säure gegeben werden — ein heftiger Schritt — oder sich zunächst in Wasser lösen und erst dann auf die Säure treffen, zwei mildere Schritte. Welcher Weg endet heißer?"
 options = [
   "The one-step route — doing everything at once releases the energy together",
   "The two-step route — two separate heats add up to more",
@@ -903,21 +1040,29 @@ options = [
 ]
 answer = 2
 misconception = "Enthalpy is a state function: the heat released between the same start and the same finish does not depend on the route taken between them. That is Hess's law, and both wrong answers imagine the route mattering — in opposite directions. The drama differs (one jump against two climbs); the destination cannot."
+misconception_de = "Enthalpie ist eine Zustandsfunktion: Die zwischen demselben Start und demselben Ziel freigesetzte Wärme hängt nicht vom eingeschlagenen Weg ab. Das ist der Satz von Hess, und beide falschen Antworten stellen sich vor, dass der Weg eine Rolle spielt — in entgegengesetzte Richtungen. Die Dramatik unterscheidet sich (ein Sprung gegenüber zwei Anstiegen); das Ziel kann es nicht."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Intensity mistaken for total: one dramatic step 'releases more' than two mild ones, as if energy rewarded doing everything at once."
+reveals_de = "Intensität wird mit Gesamtmenge verwechselt: ein dramatischer Schritt 'setzt mehr frei' als zwei milde, als würde Energie dafür belohnen, alles auf einmal zu tun."
 next = "Watch both thermometers: 49.20 °C and 49.20 °C. The journeys differ — one beaker jumps in a single violent step, the other climbs twice, pausing at 35.7 °C as pH 13.51 lye water — but the destination is fixed by the two endpoints, not by the path drawn between them."
+next_de = "Beobachte beide Thermometer: 49,20 °C und 49,20 °C. Die Wege unterscheiden sich — das eine Becherglas springt in einem einzigen heftigen Schritt, das andere steigt zweimal, mit einer Pause bei 35,7 °C als Natronlauge mit pH-Wert 13,51 — aber das Ziel ist durch die beiden Endpunkte festgelegt, nicht durch den zwischen ihnen gezeichneten Weg."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Heats counted per event rather than per change of state: two warmings must surely sum to more than one."
+reveals_de = "Wärmemengen werden pro Ereignis gezählt statt pro Zustandsänderung: zwei Erwärmungen müssen sich sicher zu mehr summieren als eine."
 next = "Add the second route's two heats up: the dissolution's warmth plus the mixing's, and the sum is the one-step release exactly. Energy is bookkept between states, and both routes connect the same two states — that the parts sum to the whole is the entire content of the law."
+next_de = "Addiere die beiden Wärmemengen des zweiten Wegs: die Wärme der Lösung plus die des Mischens, und die Summe entspricht exakt der Freisetzung des einstufigen Wegs. Energie wird zwischen Zuständen verbucht, und beide Wege verbinden dieselben zwei Zustände — dass die Teile sich zum Ganzen summieren, ist der gesamte Inhalt des Gesetzes."
 
 [reaction.registers]
 lv1 = "Straight into the acid, or dissolve first and mix after — take either road. The thermometer ends on the same mark both ways. The heat doesn't care which road you took; only where you started and where you stopped."
+lv1_de = "Direkt in die Säure oder erst lösen und danach mischen — nimm einen der beiden Wege. Das Thermometer endet in beiden Fällen auf derselben Marke. Der Wärme ist es egal, welchen Weg du genommen hast; nur wo du gestartet und wo du aufgehört hast, zählt."
 lv2 = "Hess's law: enthalpy is a state function, so the same reagents reaching the same final beaker release the same total heat, in any number of steps. Both routes read 49.20 °C — the dissolution's −44.5 kJ/mol and the neutralisation's ≈−56 kJ/mol are both paid, in different orders, into the same total — and the bench's energy balance conserves enthalpy through every intermediate state, so the agreement is exact rather than approximate."
+lv2_de = "Der Satz von Hess: Enthalpie ist eine Zustandsfunktion, also setzen dieselben Edukte, die dasselbe Endbecherglas erreichen, dieselbe Gesamtwärme frei, in beliebig vielen Schritten. Beide Wege zeigen 49,20 °C — die −44,5 kJ/mol der Lösung und die ≈−56 kJ/mol der Neutralisation werden beide, in unterschiedlicher Reihenfolge, in dieselbe Summe eingezahlt —, und die Energiebilanz des Labors erhält die Enthalpie über jeden Zwischenzustand hinweg, sodass die Übereinstimmung exakt ist und nicht nur angenähert."
 lv3 = "Both the law and the magnitude are computed, and the neutralisation enthalpy is read rather than curated: H⁺ + OH⁻ → H₂O is the reverse of the reaction that defines OH⁻ in every shipped database, so its ΔH comes from the data files themselves — wateq4f says −55.91 kJ/mol, minteq.v4 −55.81, pitzer −56.36, a half-kJ disagreement between datasets of exactly the kind `explain` exists to show. (The −57.3 kJ/mol that school tables quote is the strong–strong calorimetric figure with dilution effects included — a different measurement.) Two boundaries, stated: this counts only the water-forming step, so a weak acid's neutralisation would read about 2 kJ/mol too exothermic here, its dissociation enthalpy being folded into a real calorimeter's number but not into this one; and the final pH of 8.91 is the 8 × 10⁻⁶ mol excess of base (four grams of NaOH is 0.100008 mol) read at the 49.2 °C the beaker actually reached — K_w has moved with the temperature, which is `neutral-is-a-moving-target` arriving uninvited. The exactness of the path-agreement was expensive: enthalpy stopped being a state function three separate ways in this engine before it held (PLAN.md carries the chronicle), and this entry only became writable when the last of them was fixed."
+lv3_de = "Sowohl das Gesetz als auch die Größenordnung sind berechnet, und die Neutralisationsenthalpie wird abgelesen statt kuratiert: H⁺ + OH⁻ → H₂O ist die Umkehrung der Reaktion, die OH⁻ in jeder mitgelieferten Datenbank definiert, also stammt ihr ΔH aus den Datendateien selbst — wateq4f nennt −55,91 kJ/mol, minteq.v4 −55,81, pitzer −56,36, eine Abweichung von einem halben Kilojoule zwischen Datensätzen, genau von der Art, die `explain` zeigen soll. (Die −57,3 kJ/mol, die Schultabellen nennen, sind der stark-stark-kalorimetrische Wert mit eingeschlossenen Verdünnungseffekten — eine andere Messung.) Zwei Grenzen, ausdrücklich benannt: Dies zählt nur den wasserbildenden Schritt, sodass die Neutralisation einer schwachen Säure hier um etwa 2 kJ/mol zu exotherm ausfiele, da ihre Dissoziationsenthalpie in die Zahl eines echten Kalorimeters einfließt, aber nicht in diese; und der End-pH-Wert von 8,91 ist der Überschuss von 8 × 10⁻⁶ mol Base (vier Gramm NaOH sind 0,100008 mol), abgelesen bei den 49,2 °C, die das Becherglas tatsächlich erreichte — K_w hat sich mit der Temperatur verschoben, was `neutral-is-a-moving-target` unangekündigt hereinbringt. Die Exaktheit der Weg-Übereinstimmung war teuer erkauft: Die Enthalpie hörte in diesem Labor auf drei verschiedene Arten auf, eine Zustandsfunktion zu sein, bevor sie es blieb (PLAN.md führt die Chronik), und dieser Eintrag wurde erst schreibbar, als der letzte dieser Fehler behoben war."
 
 [reaction.provenance]
 source = "Standard curriculum thermochemistry (Hess's law); NaOH dissolution enthalpy −44.5 kJ/mol curated (standard reference value); neutralisation enthalpy computed from the shipped databases' own OH⁻ formation reactions (−55.8 to −56.4 kJ/mol across datasets; literature −55.8 for the ionic reaction, −57.3 for the strong–strong calorimetric figure). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -929,6 +1074,7 @@ computed_by = "Kerotakis energy balance (enthalpy-conserving) over curated ΔH_d
 id = "chalk-below-the-kiln"
 spine = ["der-energiebegriff"]
 summary = "CaCO₃(s) + heat → CaCO₃(s)   ·   147 °C is hot, and nothing happens"
+summary_de = "CaCO₃(s) + Wärme → CaCO₃(s)   ·   147 °C sind heiß, und es passiert nichts"
 concepts = ["decomposition-threshold"]
 requires = ["thermal-decomposition"]
 calculations = ["temperature-rise", "enthalpy-change"]
@@ -969,6 +1115,7 @@ temperature_c = { min = 140.0, max = 155.0 }
 
 [reaction.expect.predict]
 question = "10 g of chalk in a crucible. Put 1 kJ of heat in — enough to take it to 147 °C, hotter than boiling water. What comes out?"
+question_de = "10 g Kreide in einem Tiegel. Füge 1 kJ Wärme zu — genug, um sie auf 147 °C zu bringen, heißer als kochendes Wasser. Was kommt heraus?"
 options = [
   "Quicklime and carbon dioxide — it decomposed",
   "Hot chalk. Nothing else. The balance still reads 10.00 g",
@@ -976,21 +1123,29 @@ options = [
 ]
 answer = 1
 misconception = "'Heating causes decomposition' becomes a rule with no threshold attached, so any heating is expected to do something. Decomposition has a temperature, and below it the reaction does not go slowly — it does not go. This entry exists to be the null result that gives the next one its meaning."
+misconception_de = "'Erhitzen verursacht Zersetzung' wird zu einer Regel ohne angehängte Schwelle, sodass von jedem Erhitzen erwartet wird, dass etwas geschieht. Zersetzung hat eine Temperatur, und unterhalb davon läuft die Reaktion nicht langsam ab — sie läuft gar nicht ab. Dieser Eintrag existiert als das Nullergebnis, das dem nächsten seine Bedeutung gibt."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Heating causes decomposition, threshold-free: 147 °C is impressively hot by kitchen standards, so chemistry must be happening."
+reveals_de = "Erhitzen verursacht Zersetzung, ohne Schwelle: 147 °C sind nach Küchenmaßstäben beeindruckend heiß, also muss Chemie im Gange sein."
 next = "Push it in stages and weigh between each: hotter, hotter, still 10.00 g — then past the threshold in `chalk-in-the-kiln`, where everything happens at once. The pair of entries is the lesson: thresholds are not gradual approaches to drama."
+next_de = "Treibe es in Stufen voran und wiege zwischen jeder Stufe: heißer, heißer, immer noch 10,00 g — dann über die Schwelle hinaus in `chalk-in-the-kiln`, wo alles auf einmal geschieht. Das Paar der Einträge ist die Lehre: Schwellen sind keine allmählichen Annäherungen an das Drama."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Reactions as dimmer switches: every temperature buys some fraction of the effect, so partial heat should give partial decomposition."
+reveals_de = "Reaktionen als Dimmer-Schalter: Jede Temperatur kauft einen Bruchteil des Effekts, also sollte teilweise Wärme teilweise Zersetzung ergeben."
 next = "Read the balance to its last digit: 10.00 g, not 9.9-something. Below the temperature where CO₂'s pressure over the carbonate reaches the room's, the gas cannot leave at all — the equilibrium is a door, and this side of the threshold it is shut, not ajar."
+next_de = "Lies die Waage bis zur letzten Ziffer ab: 10,00 g, nicht 9,9-irgendwas. Unterhalb der Temperatur, bei der der CO₂-Druck über dem Carbonat den des Raumes erreicht, kann das Gas überhaupt nicht entweichen — das Gleichgewicht ist eine Tür, und auf dieser Seite der Schwelle ist sie verschlossen, nicht angelehnt."
 
 [reaction.registers]
 lv1 = "Chalk in a crucible over a flame, hot enough to burn you badly, and when it cools down it is still chalk. Same white powder, same weight on the balance. Heating is not a magic ingredient: it has to be enough heat, and 'enough' is a specific number for every substance."
+lv1_de = "Kreide in einem Tiegel über einer Flamme, heiß genug, um dich schwer zu verbrennen, und wenn sie abkühlt, ist sie immer noch Kreide. Dasselbe weiße Pulver, dasselbe Gewicht auf der Waage. Erhitzen ist keine Zauberzutat: Es muss genug Wärme sein, und 'genug' ist für jeden Stoff eine bestimmte Zahl."
 lv2 = "1 kJ into 0.0999 mol of CaCO₃ at 81.9 J·mol⁻¹·K⁻¹ raises it by 122 K: 25 °C → 147.2 °C, and the bench confirms 147.21 °C. No CO₂ is evolved, no CaO appears, and the balance still reads 10.00 g. Calcium carbonate needs roughly 900 °C before the decomposition runs."
+lv2_de = "1 kJ auf 0,0999 mol CaCO₃ bei 81,9 J·mol⁻¹·K⁻¹ erhöht die Temperatur um 122 K: 25 °C → 147,2 °C, und das Labor bestätigt 147,21 °C. Es entsteht kein CO₂, es erscheint kein CaO, und die Waage zeigt weiterhin 10,00 g. Calciumcarbonat braucht etwa 900 °C, bevor die Zersetzung abläuft."
 lv3 = "The equilibrium partial pressure of CO₂ over calcite at 420 K is around 10⁻¹⁵ bar — vastly below the ambient 10⁻³·⁴ bar — so the thermodynamic driving force points the other way and the carbonate is the stable phase. The Gibbs minimiser is not switched off here; it is run and returns 'unchanged', which is a computed result and not an assumption. A learner can move the heat up and find the crossing themselves."
+lv3_de = "Der Gleichgewichts-Partialdruck von CO₂ über Calcit bei 420 K liegt bei etwa 10⁻¹⁵ bar — weit unter den atmosphärischen 10⁻³,⁴ bar —, sodass die thermodynamische Triebkraft in die andere Richtung zeigt und das Carbonat die stabile Phase ist. Der Gibbs-Minimierer ist hier nicht abgeschaltet; er wird ausgeführt und liefert 'unverändert', was ein berechnetes Ergebnis ist und keine Annahme. Ein Lernender kann die Wärme steigern und den Übergang selbst finden."
 
 [reaction.provenance]
 source = "Standard curriculum thermal decomposition; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1026,6 +1181,7 @@ events = ["gas_evolved:CO2", "precipitated:CaO", "consumed:CaCO3"]
 
 [reaction.expect.predict]
 question = "Same 10 g of chalk, but eight times the heat — past 1000 °C. The crucible gets lighter. Where is the temperature at which chalk decomposes written down in this program?"
+question_de = "Dieselben 10 g Kreide, aber die achtfache Wärmemenge — über 1000 °C hinaus. Der Tiegel wird leichter. Wo steht die Temperatur, bei der sich Kreide zersetzt, in diesem Programm geschrieben?"
 options = [
   "In a table of decomposition temperatures the engine looks up",
   "Nowhere — it is computed, from the point where the CO₂ pressure over the carbonate reaches the pressure in the room",
@@ -1033,21 +1189,29 @@ options = [
 ]
 answer = 1
 misconception = "A simulator is assumed to be a lookup table with animation on top, so any number it produces is assumed to have been typed in by someone. This one was not: the same solve that says 147 °C changes nothing says 1000 °C changes everything, and neither answer was written down in advance. That is the difference between a model and a recording."
+misconception_de = "Ein Simulator wird als Nachschlagetabelle mit Animation obendrauf angenommen, sodass jede Zahl, die er liefert, vermutlich von jemandem eingetippt wurde. Diese wurde es nicht: Dieselbe Lösung, die sagt, 147 °C ändere nichts, sagt, 1000 °C ändere alles, und keine der beiden Antworten wurde im Voraus aufgeschrieben. Das ist der Unterschied zwischen einem Modell und einer Aufzeichnung."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Simulation as recording: numbers come from tables someone typed, so somewhere in this program a decomposition-temperatures table is being consulted."
+reveals_de = "Simulation als Aufzeichnung: Zahlen stammen aus Tabellen, die jemand eingetippt hat, also wird irgendwo in diesem Programm eine Tabelle mit Zersetzungstemperaturen konsultiert."
 next = "`explain` the vessel: the provenance names NASA thermodynamic polynomials and a Gibbs minimisation — no decomposition table exists to consult. The same solve that refused at 147 °C calcines at 1000 °C, having looked nothing up in between."
+next_de = "`explain` das Gefäß: Die Herkunftsangabe nennt NASA-Thermodynamikpolynome und eine Gibbs-Minimierung — es existiert keine Zersetzungstabelle zum Nachschlagen. Dieselbe Lösung, die bei 147 °C verweigerte, brennt bei 1000 °C, ohne dazwischen irgendetwas nachgeschlagen zu haben."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The sharper form of the same idea: a specific constant, hard-coded — someone wrote 900 in the source the way textbooks print it."
+reveals_de = "Die schärfere Form derselben Idee: eine bestimmte Konstante, fest einprogrammiert — jemand habe 900 in den Quellcode geschrieben, so wie Lehrbücher es abdrucken."
 next = "Ask what the threshold depends on and a hard-coded number falls apart: it is the temperature where CO₂'s equilibrium pressure over the solid crosses the pressure of the room, which is why the answer belongs to the *conditions* and not to chalk alone. `explain` shows the data it fell out of; the source has no 900 to find."
+next_de = "Frage, wovon die Schwelle abhängt, und eine fest einprogrammierte Zahl zerfällt: Es ist die Temperatur, bei der der Gleichgewichtsdruck des CO₂ über dem Feststoff den Druck des Raumes kreuzt, weshalb die Antwort zu den *Bedingungen* gehört und nicht allein zur Kreide. `explain` zeigt die Daten, aus denen sie sich ergab; im Quellcode gibt es keine 900 zu finden."
 
 [reaction.registers]
 lv1 = "Now the chalk really does change. It glows, then goes dull, and what is left is a different white powder that weighs much less — and if you drop water on it, it hisses and gets hot. This is how lime for mortar has been made for four thousand years, and the only thing you needed was a hot enough fire."
+lv1_de = "Jetzt verändert sich die Kreide tatsächlich. Sie glüht, wird dann matt, und was übrig bleibt, ist ein anderes weißes Pulver, das viel weniger wiegt — und tropfst du Wasser darauf, zischt es und wird heiß. So wird seit viertausend Jahren Mörtelkalk hergestellt, und das Einzige, was du dafür brauchtest, war ein ausreichend heißes Feuer."
 lv2 = "8 kJ takes 0.0999 mol of chalk to about 1000 °C, above the decomposition point. CaCO₃ → CaO + CO₂: the carbon dioxide escapes and the balance falls from 10.00 g towards the mass of the quicklime alone. Every mole of chalk that decomposes gives up 44.009 g of gas and keeps 56.077 g of oxide — a loss of 44%."
+lv2_de = "8 kJ bringen 0,0999 mol Kreide auf etwa 1000 °C, über den Zersetzungspunkt hinaus. CaCO₃ → CaO + CO₂: Das Kohlenstoffdioxid entweicht, und die Waage fällt von 10,00 g auf die Masse des reinen Branntkalks. Jedes Mol Kreide, das sich zersetzt, gibt 44,009 g Gas ab und behält 56,077 g Oxid — ein Verlust von 44 %."
 lv3 = "The threshold is not tabulated. The minimiser is handed the element budget of the vessel plus its share of the atmosphere and asked for the composition with the lowest Gibbs energy at the temperature the enthalpy balance settles at; calcite wins below the crossing and lime-plus-gas above it. Element balance is a hard constraint here rather than an aspiration: the solver refuses to return a composition whose atoms do not add up to the ones that went in, to within a part in a billion, and it will report a failure to converge rather than a composition that creates matter. That check is the reason this entry can quote amounts at all — an earlier version of the minimiser tested convergence on the size of its own correction step instead of on the residual, and quietly returned twice the carbon dioxide it started with."
+lv3_de = "Die Schwelle ist nicht tabelliert. Dem Minimierer werden das Elementbudget des Gefäßes sowie sein Anteil an der Atmosphäre übergeben, und er wird nach der Zusammensetzung mit der niedrigsten Gibbs-Energie bei der Temperatur gefragt, auf die sich die Enthalpiebilanz einpendelt; unterhalb des Übergangs gewinnt Calcit, oberhalb Kalk-plus-Gas. Die Elementbilanz ist hier eine harte Randbedingung und kein Anspruch: Der Löser verweigert die Rückgabe einer Zusammensetzung, deren Atome nicht bis auf ein Milliardstel mit den eingesetzten übereinstimmen, und meldet lieber ein Nicht-Konvergieren als eine Zusammensetzung, die Materie erschafft. Diese Kontrolle ist der Grund, warum dieser Eintrag überhaupt Mengen nennen kann — eine frühere Version des Minimierers prüfte die Konvergenz anhand der Größe ihres eigenen Korrekturschritts statt anhand des Residuums und lieferte still und leise die doppelte Menge des Kohlenstoffdioxids, mit dem sie begonnen hatte."
 
 [reaction.provenance]
 source = "Standard curriculum calcination; thermochemistry from NASA CEA thermo.inp. The statement about condensed-phase balance drift is Editorial judgement (Kerotakis), from comparing solver output against the element budget.. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1086,6 +1250,7 @@ temperature_c = { min = 2600.0, max = 2900.0 }
 
 [reaction.expect.predict]
 question = "Weigh a magnesium ribbon: 1.20 g. Burn it completely and weigh the white ash. Commit to a number before you look."
+question_de = "Wiege ein Magnesiumband: 1,20 g. Verbrenne es vollständig und wiege die weiße Asche. Lege dich auf eine Zahl fest, bevor du nachsiehst."
 options = [
   "Less than 1.20 g — burning uses things up",
   "Exactly 1.20 g — mass is conserved",
@@ -1094,26 +1259,36 @@ options = [
 ]
 answer = 2
 misconception = "This is the classic, and most people get it wrong. Every fire anyone has watched leaves less than it started with — a log becomes a handful of ash — so 'burning destroys matter' is learned from the world before it is unlearned in a classroom. The ash is lighter because the carbon left as gas. Magnesium's oxide is a solid and stays in the crucible, so the oxygen it took from the air is on the balance too. Burning is combination, not destruction; the log is the misleading case."
+misconception_de = "Das ist der Klassiker, und die meisten liegen falsch. Jedes Feuer, das je jemand beobachtet hat, hinterlässt weniger, als es begann — ein Holzscheit wird zu einer Handvoll Asche —, sodass 'Verbrennen zerstört Materie' aus der Welt gelernt wird, bevor es im Klassenzimmer wieder verlernt wird. Die Asche ist leichter, weil der Kohlenstoff als Gas entwich. Magnesiums Oxid ist ein Feststoff und bleibt im Tiegel, sodass auch der aus der Luft aufgenommene Sauerstoff auf der Waage liegt. Verbrennen ist Verbindung, nicht Zerstörung; der Holzscheit ist der irreführende Fall."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Fire consumes — learned at every campfire before any classroom: burning spends matter, and ash is the leftover."
+reveals_de = "Feuer verzehrt — gelernt an jedem Lagerfeuer, bevor es ein Klassenzimmer gab: Verbrennen gibt Materie aus, und Asche ist der Rest."
 next = "Burn it here and weigh: 1.99 g from 1.20. The campfire was not lying — its lost mass left as gas. This fire's product is a solid, so the oxygen it took stays to be weighed; `burning-makes-it-lighter` runs the campfire's own case for the comparison."
+next_de = "Verbrenne es hier und wiege: 1,99 g aus 1,20. Das Lagerfeuer hat nicht gelogen — seine verlorene Masse verließ es als Gas. Das Produkt dieses Feuers ist ein Feststoff, sodass der aufgenommene Sauerstoff zum Wiegen bleibt; `burning-makes-it-lighter` führt zum Vergleich den Fall des Lagerfeuers selbst vor."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Conservation applied to the ribbon alone: the air has no line in the books, so what was weighed must be what remains."
+reveals_de = "Erhaltung wird nur auf das Band angewendet: Die Luft hat keine Zeile in den Büchern, also muss das, was gewogen wurde, auch das sein, was übrig bleibt."
 next = "Redraw the boundary around ribbon *plus air* and the books balance perfectly: the extra 0.79 g is oxygen that crossed it. The law was never in danger — it was applied one boundary too small."
+next_de = "Zeichne die Grenze neu um Band *plus Luft*, und die Bücher gehen exakt auf: Die zusätzlichen 0,79 g sind Sauerstoff, der die Grenze überquert hat. Das Gesetz war nie in Gefahr — es wurde nur an einer um eine Größe zu kleinen Grenze angewendet."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "The strongest form of the campfire lesson: burning is annihilation, and 'up in smoke' means matter genuinely ending."
+reveals_de = "Die stärkste Form der Lagerfeuer-Lehre: Verbrennen ist Vernichtung, und 'in Rauch aufgehen' bedeutet, dass Materie tatsächlich endet."
 next = "Put a balance under every fire in this codex: something always remains or leaves *as something* — a gas with mass, an ash with mass. `mass-in-an-open-vessel` catches the leaving mass mid-flight; no ledger in this lab ever books to zero."
+next_de = "Stelle unter jedes Feuer in diesem Kodex eine Waage: Etwas bleibt immer übrig oder verlässt *als etwas* — ein Gas mit Masse, eine Asche mit Masse. `mass-in-an-open-vessel` fängt die entweichende Masse mitten im Flug ein; kein Konto in diesem Labor bucht je auf null."
 
 [reaction.registers]
 lv1 = "It burns with a white light so fierce it hurts to look at, and leaves a powder that is whiter than the ribbon was. Put it back on the scales: it is heavier. Something came out of the air and joined it — the air is not nothing, and this is one of the few experiments where you can weigh that fact."
+lv1_de = "Es brennt mit einem weißen Licht, so grell, dass es beim Hinsehen schmerzt, und hinterlässt ein Pulver, das weißer ist als das Band war. Leg es zurück auf die Waage: Es ist schwerer. Etwas aus der Luft ist hinzugekommen — die Luft ist nicht nichts, und das ist eines der wenigen Experimente, bei denen du diese Tatsache wiegen kannst."
 lv2 = "0.0494 mol of Mg (1.20 g ÷ 24.305) becomes 0.0494 mol of MgO, which is 1.99 g. The gain of 0.79 g is 0.0247 mol of O₂ at 31.998 g/mol, taken from the atmosphere. Mass is conserved across the whole system; the crucible is not the whole system, and the missing accounting is the air."
+lv2_de = "0,0494 mol Mg (1,20 g ÷ 24,305) werden zu 0,0494 mol MgO, das sind 1,99 g. Der Zuwachs von 0,79 g entspricht 0,0247 mol O₂ bei 31,998 g/mol, aus der Atmosphäre entnommen. Masse bleibt über das gesamte System erhalten; der Tiegel ist nicht das gesamte System, und die fehlende Buchung ist die Luft."
 lv3 = "The oxygen is drawn from a reservoir rather than the vessel inventory, which is why the vessel's mass rises — a deliberate modelling choice matching an open crucible. The adiabatic solve settles at 3042 K with the condensed oxide dominant; at that temperature MgO(g) and atomic Mg are thermodynamically present in the NASA data but negligible at 1 bar, so essentially all of the metal is recovered as weighable solid."
+lv3_de = "Der Sauerstoff wird aus einem Reservoir gezogen statt aus dem Inventar des Gefäßes, weshalb die Masse des Gefäßes steigt — eine bewusste Modellierungsentscheidung, die einem offenen Tiegel entspricht. Die adiabatische Lösung pendelt sich bei 3042 K mit dominierendem kondensiertem Oxid ein; bei dieser Temperatur sind MgO(g) und atomares Mg in den NASA-Daten thermodynamisch vorhanden, aber bei 1 bar vernachlässigbar, sodass im Wesentlichen das gesamte Metall als wägbarer Feststoff zurückgewonnen wird."
 
 [reaction.provenance]
 source = "Standard curriculum combustion demonstration; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1157,6 +1332,7 @@ temperature_c = { min = 2100.0, max = 2300.0 }
 
 [reaction.expect.predict]
 question = "1.20 g of charcoal, burned completely in the same crucible that made magnesium heavier. What is on the balance afterwards?"
+question_de = "1,20 g Holzkohle, vollständig verbrannt in demselben Tiegel, in dem Magnesium schwerer wurde. Was zeigt die Waage danach?"
 options = [
   "1.20 g — mass is conserved",
   "More than 1.20 g, as with the magnesium",
@@ -1164,21 +1340,29 @@ options = [
 ]
 answer = 2
 misconception = "Having just been taught that burning adds mass, learners over-correct and expect every fire to gain. Both fires gain oxygen; the difference is entirely whether the oxide is a solid or a gas. Magnesium oxide stays; carbon dioxide leaves. Nothing about conservation changed between the two experiments — only the phase of the product."
+misconception_de = "Nachdem gerade gelehrt wurde, dass Verbrennen Masse hinzufügt, überkorrigieren Lernende und erwarten, dass jedes Feuer zunimmt. Beide Feuer nehmen Sauerstoff auf; der Unterschied liegt ganz darin, ob das Oxid ein Feststoff oder ein Gas ist. Magnesiumoxid bleibt; Kohlenstoffdioxid entweicht. An der Erhaltung hat sich zwischen den beiden Experimenten nichts geändert — nur die Phase des Produkts."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Conservation clamped to the crucible, from the other side this time: gases do not count as mass leaving, so the reading should hold."
+reveals_de = "Die Erhaltung wird wieder auf den Tiegel festgeklammert, diesmal von der anderen Seite: Gase zählen nicht als entweichende Masse, also sollte der Messwert bestehen bleiben."
 next = "Seal it and burn — Lavoisier's move: closed, the reading holds exactly; open, the CO₂ carries its mass out of the top. Same law both times, boundary drawn honestly once."
+next_de = "Verschließe es und verbrenne — Lavoisiers Schachzug: geschlossen bleibt der Messwert exakt bestehen; offen trägt das CO₂ seine Masse nach oben davon. Dasselbe Gesetz beide Male, die Grenze einmal ehrlich gezogen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "The previous lesson over-corrected into a new rule: burning adds oxygen, oxygen has mass, so every ash must be heavier — the product's phase has no place in the rule yet."
+reveals_de = "Die vorherige Lehre überkorrigierte zu einer neuen Regel: Verbrennen fügt Sauerstoff hinzu, Sauerstoff hat Masse, also muss jede Asche schwerer sein — die Phase des Produkts hat in der Regel noch keinen Platz."
 next = "Grant the premise, then ask where the oxide *is*: MgO sits in the crucible; CO₂ is in the room. Both fires gained oxygen — weigh the leaving gas instead (`mass-in-an-open-vessel`) and carbon's gain reappears, airborne."
+next_de = "Gewähre die Prämisse und frage dann, wo das Oxid *ist*: MgO sitzt im Tiegel; CO₂ ist im Raum. Beide Feuer haben Sauerstoff aufgenommen — wiege stattdessen das entweichende Gas (`mass-in-an-open-vessel`), und der Zuwachs des Kohlenstoffs erscheint wieder, in der Luft."
 
 [reaction.registers]
 lv1 = "The charcoal glows orange and then there is nothing left to weigh. It did the same thing the magnesium did — it joined with the air — but what it made was invisible and floated off. That is why bonfires look like destruction and why people believed for centuries that burning destroyed things."
+lv1_de = "Die Holzkohle glüht orange, und dann bleibt nichts mehr zu wiegen übrig. Sie tat dasselbe wie das Magnesium — sie verband sich mit der Luft —, aber was dabei entstand, war unsichtbar und schwebte davon. Deshalb sehen Lagerfeuer wie Zerstörung aus, und deshalb glaubten Menschen jahrhundertelang, dass Verbrennen Dinge zerstört."
 lv2 = "0.0999 mol of C (1.20 g ÷ 12.011) becomes 0.0999 mol of CO₂ — 4.40 g of gas, all of it gone from the crucible, which reads 0.00 g. The system gained 3.20 g of oxygen and the vessel lost 1.20 g of carbon; the two experiments differ in the phase of the product and in nothing else."
+lv2_de = "0,0999 mol C (1,20 g ÷ 12,011) werden zu 0,0999 mol CO₂ — 4,40 g Gas, vollständig aus dem Tiegel verschwunden, der 0,00 g zeigt. Das System nahm 3,20 g Sauerstoff auf, und das Gefäß verlor 1,20 g Kohlenstoff; die beiden Experimente unterscheiden sich in der Phase des Produkts und in nichts sonst."
 lv3 = "The adiabatic flame settles at 2216 °C against magnesium's 2769 °C, and the gap is not about which reaction is 'stronger' — carbon's ΔH per mole of O₂ is comparable — but about where the energy goes: the product here is a gas that carries it away in translational and vibrational modes, while magnesia is a condensed phase with far less to absorb. Flame temperature is an enthalpy balance, not a ranking of fuels."
+lv3_de = "Die adiabatische Flamme pendelt sich bei 2216 °C ein, gegenüber 2769 °C bei Magnesium, und der Unterschied liegt nicht daran, welche Reaktion 'stärker' ist — Kohlenstoffs ΔH pro Mol O₂ ist vergleichbar —, sondern daran, wohin die Energie geht: Das Produkt hier ist ein Gas, das sie in Translations- und Schwingungsmoden mit sich forträgt, während Magnesiumoxid eine kondensierte Phase mit weit weniger Aufnahmefähigkeit ist. Flammtemperatur ist eine Enthalpiebilanz, keine Rangliste von Brennstoffen."
 
 [reaction.provenance]
 source = "Standard curriculum combustion; thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1189,6 +1373,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 id = "flame-temperature-is-a-balance-not-a-property"
 spine = ["entropie-und-enthalpie"]
 summary = "2 Mg + O₂ → 2 MgO from 228 °C → 2177 °C; the same reaction from 927 °C → 2769 °C"
+summary_de = "2 Mg + O₂ → 2 MgO von 228 °C → 2177 °C; dieselbe Reaktion von 927 °C → 2769 °C"
 concepts = ["adiabatic-flame-temperature", "enthalpy-balance"]
 requires = ["combustion", "calorimetry"]
 calculations = ["enthalpy-change", "temperature-rise"]
@@ -1224,6 +1409,7 @@ temperature_c = { min = 2100.0, max = 2250.0 }
 
 [reaction.expect.predict]
 question = "Two identical 1.2 g magnesium ribbons burn in identical air. One is barely warm when it catches (228 °C); the other is already glowing (927 °C). Do the two flames reach the same temperature?"
+question_de = "Zwei identische 1,2-g-Magnesiumbänder brennen in identischer Luft. Das eine ist kaum warm, wenn es sich entzündet (228 °C); das andere glüht bereits (927 °C). Erreichen die beiden Flammen dieselbe Temperatur?"
 options = [
   "Yes — the flame temperature is a property of magnesium",
   "No: 2177 °C and 2769 °C. The heat you put in first is still in the products",
@@ -1231,21 +1417,29 @@ options = [
 ]
 answer = 1
 misconception = "'Adiabatic flame temperature of magnesium' gets memorised as a constant, like a melting point. It is not a property of the fuel; it is the answer to an enthalpy balance, and the enthalpy of the reactants is one of the inputs. Preheat the reactants and you get a hotter flame, which is exactly why industrial furnaces preheat their air."
+misconception_de = "'Adiabatische Flammtemperatur von Magnesium' wird als Konstante auswendig gelernt, wie ein Schmelzpunkt. Sie ist keine Eigenschaft des Brennstoffs; sie ist die Antwort auf eine Enthalpiebilanz, und die Enthalpie der Edukte ist eine der Eingangsgrößen. Erwärmt man die Edukte vor, erhält man eine heißere Flamme, und genau deshalb erwärmen Industrieöfen ihre Luft vor."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Flame temperature as a substance constant, filed beside the melting point: one fuel, one number, whatever state it started in."
+reveals_de = "Flammtemperatur als Stoffkonstante, eingeordnet neben dem Schmelzpunkt: ein Brennstoff, eine Zahl, unabhängig davon, in welchem Zustand er startete."
 next = "Change only the starting enthalpy and read the answer: 700 degrees more preheat, roughly 600 degrees more flame. A constant cannot respond to how you began; a balance must — and furnaces preheat their air because engineers bill by that balance."
+next_de = "Ändere nur die Startenthalpie und lies die Antwort ab: 700 Grad mehr Vorwärmung, rund 600 Grad mehr Flamme. Eine Konstante kann nicht darauf reagieren, wie du begonnen hast; eine Bilanz muss es — und Öfen erwärmen ihre Luft vor, weil Ingenieure nach dieser Bilanz rechnen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Speed spends the heat: the hotter start burns faster, and faster somehow means the energy is used up sooner and ends cooler — rate entangled with the energy budget."
+reveals_de = "Geschwindigkeit verbraucht die Wärme: der heißere Start brennt schneller, und schneller bedeutet irgendwie, dass die Energie früher aufgebraucht ist und kühler endet — Geschwindigkeit wird mit dem Energiebudget vermengt."
 next = "Adiabatic means the ledger keeps everything regardless of pace: same fuel, same oxygen, more starting enthalpy — more ending enthalpy, full stop. Rate decides how soon the products arrive at their temperature, never what that temperature is."
+next_de = "Adiabatisch bedeutet, dass das Konto alles behält, egal wie schnell es geht: derselbe Brennstoff, derselbe Sauerstoff, mehr Startenthalpie — mehr Endenthalpie, Punkt. Die Geschwindigkeit entscheidet, wie schnell die Produkte ihre Temperatur erreichen, niemals, welche Temperatur das ist."
 
 [reaction.registers]
 lv1 = "Two identical ribbons, both burned, both blindingly bright — and one flame is six hundred degrees hotter than the other. The only difference was how warm the metal was when it caught. Heat you put in beforehand does not disappear when the fire starts; it is still there, added on top."
+lv1_de = "Zwei identische Bänder, beide verbrannt, beide blendend hell — und die eine Flamme ist sechshundert Grad heißer als die andere. Der einzige Unterschied war, wie warm das Metall war, als es sich entzündete. Wärme, die du vorher hineingegeben hast, verschwindet nicht, wenn das Feuer beginnt; sie ist immer noch da, obendrauf addiert."
 lv2 = "Adiabatic means no heat leaves, so the products' enthalpy equals the reactants'. Starting at 228 °C the solve lands at 2176.97 °C; starting at 926.9 °C — the ignition temperature the bench uses — it lands at 2768.67 °C. Same ΔH of reaction, −601 kJ/mol; different starting enthalpy, different answer."
+lv2_de = "Adiabatisch bedeutet, dass keine Wärme entweicht, sodass die Enthalpie der Produkte der der Edukte entspricht. Beginnt man bei 228 °C, landet die Lösung bei 2176,97 °C; beginnt man bei 926,9 °C — der Zündtemperatur, die das Labor verwendet — landet sie bei 2768,67 °C. Dieselbe Reaktionsenthalpie ΔH, −601 kJ/mol; andere Startenthalpie, andere Antwort."
 lv3 = "The solver bisects on temperature until the products' enthalpy matches the reactants', evaluating both from the NASA-9 polynomials rather than assuming a constant heat capacity — which matters, because Cp rises substantially over two thousand kelvin. The vessel's share of the atmosphere is in the balance too, and it is the dominant heat sink: a gram of magnesium heats the air around it far more than it heats the speck of oxide it leaves."
+lv3_de = "Der Löser halbiert das Intervall über der Temperatur, bis die Enthalpie der Produkte der der Edukte entspricht, wobei beide anhand der NASA-9-Polynome ausgewertet werden statt eine konstante Wärmekapazität anzunehmen — was wichtig ist, denn Cp steigt über zweitausend Kelvin hinweg erheblich an. Der Luftanteil des Gefäßes steckt ebenfalls in der Bilanz, und er ist die dominierende Wärmesenke: Ein Gramm Magnesium erwärmt die Luft um sich herum weit mehr, als es das winzige Oxidkorn erwärmt, das es hinterlässt."
 
 [reaction.provenance]
 source = "Standard adiabatic-flame-temperature treatment (Gordon & McBride, NASA RP-1311); thermochemistry from NASA CEA thermo.inp. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1256,6 +1450,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser"
 id = "why-the-shelf-is-not-on-fire"
 spine = ["kinetik"]
 summary = "Mg + ½O₂ → MgO is favourable at every temperature; at 224 °C the ribbon just sits there"
+summary_de = "Mg + ½O₂ → MgO ist bei jeder Temperatur begünstigt; bei 224 °C liegt das Band einfach nur da"
 concepts = ["kinetic-barrier", "thermodynamic-versus-kinetic"]
 requires = ["adiabatic-flame-temperature"]
 calculations = ["temperature-rise"]
@@ -1287,6 +1482,7 @@ temperature_c = { min = 220.0, max = 227.0 }
 
 [reaction.expect.predict]
 question = "Magnesium and oxygen release 601 kJ per mole — thermodynamics says the metal should not exist in air at all. Two ribbons are heated: one to 224.3 °C, one to 228.4 °C. What happens?"
+question_de = "Magnesium und Sauerstoff setzen 601 kJ pro Mol frei — die Thermodynamik sagt, das Metall dürfte in Luft gar nicht existieren. Zwei Bänder werden erhitzt: eines auf 224,3 °C, eines auf 228,4 °C. Was geschieht?"
 options = [
   "Both burn — the reaction is favourable at both temperatures",
   "Neither burns — 228 °C is nowhere near hot enough",
@@ -1295,26 +1491,36 @@ options = [
 ]
 answer = 2
 misconception = "'The reaction releases energy, so it happens' is the single most common conflation in chemistry, and the last option is its softer form — the belief that an unfavourable rate means a slow reaction rather than no reaction. Equilibrium says where a system would end up; it says nothing about whether it can get there. A magnesium ribbon in a drawer is thermodynamically desperate to become oxide and will sit there for a century, because an oxide skin stands in the way."
+misconception_de = "'Die Reaktion setzt Energie frei, also läuft sie ab' ist die mit Abstand häufigste Vermischung in der Chemie, und die letzte Option ist ihre mildere Form — der Glaube, eine ungünstige Geschwindigkeit bedeute eine langsame Reaktion statt keine Reaktion. Das Gleichgewicht sagt, wo ein System enden würde; es sagt nichts darüber, ob es dorthin gelangen kann. Ein Magnesiumband in einer Schublade ist thermodynamisch verzweifelt darauf aus, zu Oxid zu werden, und wird trotzdem ein Jahrhundert lang dort liegen bleiben, weil eine Oxidhaut im Weg steht."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Thermodynamics as sufficiency: released energy means it happens — the barrier between here and the favourable end state has no place in the picture."
+reveals_de = "Thermodynamik als hinreichende Bedingung: freigesetzte Energie bedeutet, es geschieht — die Barriere zwischen hier und dem begünstigten Endzustand hat im Bild keinen Platz."
 next = "The four-degree experiment is the barrier made visible: 224.3 °C, nothing; 228.4 °C, everything. Favourability did not change by so much as a joule between those two readings — access did."
+next_de = "Das Vier-Grad-Experiment macht die Barriere sichtbar: 224,3 °C, nichts; 228,4 °C, alles. Die Begünstigung hat sich zwischen diesen beiden Messwerten nicht um so viel wie ein Joule verändert — der Zugang schon."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Ignition as extremity by definition: a couple of hundred degrees feels too tame for a metal to catch, so the threshold is imagined somewhere far away and dramatic."
+reveals_de = "Zündung als Extremzustand per Definition: ein paar hundert Grad fühlen sich zu zahm an, als dass ein Metall sich entzünden würde, also wird die Schwelle irgendwo weit entfernt und dramatisch vermutet."
 next = "Run it: 228 °C is past this ribbon's threshold, and from there it climbs to over 2000. Thresholds sit where the balance puts them, not where drama suggests — which is why this entry asks you to commit to a number first."
+next_de = "Führe es aus: 228 °C liegt über der Schwelle dieses Bandes, und von dort steigt es auf über 2000. Schwellen liegen dort, wo die Bilanz sie hinlegt, nicht dort, wo Dramatik es nahelegt — weshalb dieser Eintrag dich bittet, dich zuerst auf eine Zahl festzulegen."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Rate as a dial that never reads zero: everything happens at some speed, so 'unfavourable' can only mean slow — 'does not go' is not an available answer."
+reveals_de = "Geschwindigkeit als Regler, der nie null anzeigt: alles geschieht mit irgendeiner Geschwindigkeit, also kann 'ungünstig' nur langsam bedeuten — 'läuft nicht ab' ist keine verfügbare Antwort."
 next = "Watch the cooler ribbon for as long as you like: no smoulder, no creeping mass gain on the balance — nothing. The ribbon in a drawer for a century is the long version of the same run; the oxide skin is not slowing the reaction down, it is standing in its way."
+next_de = "Beobachte das kühlere Band, so lange du willst: kein Schwelen, kein schleichender Massezuwachs auf der Waage — nichts. Das Band, das ein Jahrhundert in einer Schublade liegt, ist die lange Version desselben Vorgangs; die Oxidhaut verlangsamt die Reaktion nicht, sie steht ihr im Weg."
 
 [reaction.registers]
 lv1 = "Two identical ribbons. Heat one to 224 °C and it is just a hot ribbon. Heat the other four degrees further and it erupts into a two-thousand-degree fire. Nothing about the metal or the air changed — there is a line, and everything depends on which side of it you are."
+lv1_de = "Zwei identische Bänder. Erhitze das eine auf 224 °C, und es ist nur ein heißes Band. Erhitze das andere vier Grad weiter, und es bricht in ein zweitausend Grad heißes Feuer aus. Weder am Metall noch an der Luft hat sich etwas verändert — es gibt eine Linie, und alles hängt davon ab, auf welcher Seite davon du dich befindest."
 lv2 = "Equilibrium says magnesium in air should be magnesium oxide at every temperature: ΔH = −601 kJ/mol and ΔG is negative throughout. It is not, because a coherent oxide layer stops oxygen reaching the metal. The bench encodes that with an explicit threshold at 500 K (226.85 °C): below it the thermal solver stands down and leaves solids alone, and 224.29 °C leaves 1.20 g of metal while 228.4 °C gives 1.99 g of oxide."
+lv2_de = "Das Gleichgewicht sagt, Magnesium in Luft sollte bei jeder Temperatur Magnesiumoxid sein: ΔH = −601 kJ/mol, und ΔG ist durchgehend negativ. Ist es nicht, weil eine geschlossene Oxidschicht den Sauerstoff daran hindert, das Metall zu erreichen. Das Labor kodiert das mit einer expliziten Schwelle bei 500 K (226,85 °C): darunter zieht sich der thermische Löser zurück und lässt Feststoffe unangetastet, und 224,29 °C hinterlassen 1,20 g Metall, während 228,4 °C 1,99 g Oxid ergeben."
 lv3 = "This threshold is an admitted stand-in, not a kinetic model. The engine computes equilibrium and equilibrium would oxidise every metal on the bench instantly; a real treatment needs activation energies, an Arrhenius rate and a diffusion model for the passivating layer, which is an L5 concern and not wired. The honest move is to make the boundary a named constant a learner can read — KINETIC_THRESHOLD_K — rather than to let equilibrium quietly lie about the world. Do not read 226.85 °C as magnesium's ignition temperature; read it as the engine saying 'kinetics lives here and I do not model it'."
+lv3_de = "Diese Schwelle ist ein eingestandener Behelf, kein kinetisches Modell. Das Labor berechnet das Gleichgewicht, und das Gleichgewicht würde jedes Metall im Labor augenblicklich oxidieren; eine echte Behandlung bräuchte Aktivierungsenergien, eine Arrhenius-Geschwindigkeit und ein Diffusionsmodell für die passivierende Schicht, was ein Anliegen von L5 ist und nicht verdrahtet ist. Der ehrliche Schritt ist, die Grenze zu einer benannten Konstante zu machen, die ein Lernender lesen kann — KINETIC_THRESHOLD_K —, statt das Gleichgewicht still über die Welt lügen zu lassen. Lies 226,85 °C nicht als Zündtemperatur von Magnesium; lies es als die Aussage des Labors 'hier lebt Kinetik, und ich modelliere sie nicht'."
 
 [reaction.provenance]
 source = "Standard treatment of thermodynamic versus kinetic control; the passivating-oxide explanation is textbook corrosion chemistry. That the engine's 500 K threshold is a placeholder for kinetics rather than a measured ignition temperature is Editorial judgement (Kerotakis), read from the solver's own documented constant.. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1325,6 +1531,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser, gated by KINETIC_THRESHOLD_K"
 id = "a-spark-that-changes-nothing"
 spine = ["spektroskopieverfahren"]
 summary = "KCl + spark → KCl (lilac flame, 5.00 g in, 5.00 g out)"
+summary_de = "KCl + Funke → KCl (lila Flamme, 5,00 g hinein, 5,00 g heraus)"
 concepts = ["negative-result", "flame-test-identification"]
 requires = ["flame-tests"]
 calculations = ["conservation-of-mass"]
@@ -1358,6 +1565,7 @@ absent = ["ignited", "consumed:KCl", "gas_evolved:Cl2", "gas_evolved:CO2"]
 
 [reaction.expect.predict]
 question = "Hold a flame to 5.00 g of potassium chloride. The flame turns lilac. What does the balance read afterwards, and what is the temperature of the salt?"
+question_de = "Halte 5,00 g Kaliumchlorid in eine Flamme. Die Flamme färbt sich lila. Was zeigt die Waage danach, und welche Temperatur hat das Salz?"
 options = [
   "Lighter, and hot — some of it burned off to make the colour",
   "5.00 g and 25 °C. Nothing burned; the colour is light, not fire",
@@ -1365,21 +1573,29 @@ options = [
 ]
 answer = 1
 misconception = "A coloured flame looks like combustion, so the salt is assumed to be the fuel. It is not: the flame excites the potassium's outer electron and the colour is what that electron emits falling back. Nothing is consumed, and a flame test on a milligram will keep going as long as you hold it there. This is also the entry that shows what a negative result looks like — three things that did not happen, each of which is checked."
+misconception_de = "Eine farbige Flamme sieht aus wie Verbrennung, also wird angenommen, das Salz sei der Brennstoff. Das ist es nicht: Die Flamme regt das äußere Elektron des Kaliums an, und die Farbe ist das, was dieses Elektron beim Zurückfallen aussendet. Nichts wird verbraucht, und ein Flammentest an einem Milligramm läuft weiter, solange du es hineinhältst. Dies ist auch der Eintrag, der zeigt, wie ein Nullergebnis aussieht — drei Dinge, die nicht geschehen sind, jedes davon überprüft."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Colour is combustion's receipt: if it glows, something is being spent — light without fuel is not in the picture."
+reveals_de = "Farbe gilt als Quittung der Verbrennung: Wenn es leuchtet, wird etwas verbraucht — Licht ohne Brennstoff kommt im Bild nicht vor."
 next = "Weigh and take the temperature afterwards: 5.00 g, 25 °C — a negative result with every negative checked. The lilac is an electron falling back to its shelf, not matter leaving; a milligram would colour the flame for as long as you cared to hold it there."
+next_de = "Wiege es danach und miss die Temperatur: 5,00 g, 25 °C — ein Nullergebnis, bei dem jede Negation geprüft wurde. Das Lila ist ein Elektron, das in sein Regal zurückfällt, keine entweichende Materie; ein Milligramm würde die Flamme so lange färben, wie du es hineinhalten würdest."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "The magnesium template, pattern-matched onto any solid in a flame: metal-ish thing plus fire equals oxide plus mass gain."
+reveals_de = "Die Magnesium-Vorlage, auf jeden Feststoff in einer Flamme angewendet: metallartiges Ding plus Feuer ergibt Oxid plus Massezuwachs."
 next = "Ask what would have to change for the template to apply: potassium chloride's ions are already in their stable states, with nothing to offer oxygen. The flame test works *because* nothing reacts — which is what lets it identify an element without destroying the sample."
+next_de = "Frage, was sich ändern müsste, damit die Vorlage passt: Die Ionen des Kaliumchlorids befinden sich bereits in ihren stabilen Zuständen und haben dem Sauerstoff nichts zu bieten. Der Flammentest funktioniert *weil* nichts reagiert — genau das erlaubt es ihm, ein Element zu identifizieren, ohne die Probe zu zerstören."
 
 [reaction.registers]
 lv1 = "Hold the salt in a flame and the flame turns lilac — a completely different colour from the same burner a moment earlier. Weigh the salt: unchanged. Touch it once it is out of the flame: cold. You have identified the metal without using any of it up, which is why this test is nearly two hundred years old and still in use."
+lv1_de = "Halte das Salz in eine Flamme, und die Flamme färbt sich lila — eine völlig andere Farbe als bei demselben Brenner einen Moment zuvor. Wiege das Salz: unverändert. Fasse es an, sobald es aus der Flamme ist: kalt. Du hast das Metall identifiziert, ohne davon auch nur etwas zu verbrauchen, weshalb dieser Test fast zweihundert Jahre alt ist und immer noch verwendet wird."
 lv2 = "The bench reports a flame test and nothing else: no ignition, no consumption, no gas. 5.00 g in, 5.00 g out, 25.00 °C before and after. Potassium gives lilac, sodium gives yellow, calcium orange-red — the colour identifies the cation, and the anion is invisible to the test."
+lv2_de = "Das Labor meldet einen Flammentest und sonst nichts: keine Zündung, kein Verbrauch, kein Gas. 5,00 g hinein, 5,00 g heraus, 25,00 °C vorher und nachher. Kalium ergibt Lila, Natrium Gelb, Calcium Orangerot — die Farbe identifiziert das Kation, und das Anion bleibt für den Test unsichtbar."
 lv3 = "Two separate things are being asserted, and they come from different places. That nothing burns is computed: the Gibbs minimiser finds no exothermic path and the bench restores the vessel exactly. That the flame is lilac is curated spectroscopy — potassium's 766.5/769.9 nm doublet plus the violet lines — because the thermodynamic databases hold no electronic-transition data and the lab does not invent any. Worth noticing too: the equilibrium composition contains traces of Cl₂ at the nanomole level, and the bench refuses to announce them, because a trace is not an observation."
+lv3_de = "Hier werden zwei getrennte Dinge behauptet, und sie stammen aus unterschiedlichen Quellen. Dass nichts verbrennt, ist berechnet: Der Gibbs-Minimierer findet keinen exothermen Pfad, und das Labor stellt das Gefäß exakt wieder her. Dass die Flamme lila ist, ist kuratierte Spektroskopie — das Dublett des Kaliums bei 766,5/769,9 nm plus die violetten Linien —, weil die thermodynamischen Datenbanken keine Daten zu elektronischen Übergängen enthalten und das Labor keine erfindet. Bemerkenswert auch: Die Gleichgewichtszusammensetzung enthält Spuren von Cl₂ auf Nanomol-Niveau, und das Labor weigert sich, sie anzukündigen, weil eine Spur keine Beobachtung ist."
 
 [reaction.provenance]
 source = "Curated: potassium flame emission, standard spectroscopic knowledge. The absence of combustion is computed by the Gibbs minimiser.. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1392,6 +1608,7 @@ computed_by = "Kerotakis L2g Gibbs minimiser (the null result); emission colours
 id = "weigh-before-and-after"
 spine = ["eindampfen"]
 summary = "5.844 g NaCl + 100 mL water = 105.54 g; evaporate the water and 5.84 g remains"
+summary_de = "5,844 g NaCl + 100 mL Wasser = 105,54 g; verdampft das Wasser, bleiben 5,84 g übrig"
 concepts = ["recovery", "before-and-after-measurement"]
 requires = ["dissolving", "mass-accounting"]
 calculations = ["moles-from-mass", "conservation-of-mass", "percentage-yield"]
@@ -1418,6 +1635,7 @@ events = ["dissolved:NaCl", "evaporated"]
 
 [reaction.expect.predict]
 question = "Dissolve 5.844 g of salt in 100 mL of water — the basin reads 105.54 g. Boil the water away. What does the basin read now?"
+question_de = "Löse 5,844 g Salz in 100 mL Wasser — die Schale zeigt 105,54 g. Koche das Wasser weg. Was zeigt die Schale jetzt?"
 options = [
   "0 g — it all evaporated",
   "5.84 g — the salt is left behind",
@@ -1426,26 +1644,36 @@ options = [
 ]
 answer = 1
 misconception = "Young learners often think dissolving destroys the salt, so nothing should remain; older ones, having learned conservation, apply it to the basin and expect the whole 105.54 g. The measurement that settles it is the pair — before and after, on the same balance — which is why you write the first number down before you start rather than after you see the second."
+misconception_de = "Jüngere Lernende denken oft, Lösen zerstöre das Salz, sodass nichts übrig bleiben sollte; ältere, die die Erhaltung gelernt haben, wenden sie auf die Schale an und erwarten die gesamten 105,54 g. Die Messung, die es klärt, ist das Paar — vorher und nachher, auf derselben Waage —, weshalb man die erste Zahl aufschreibt, bevor man beginnt, statt erst nachdem man die zweite gesehen hat."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Dissolving destroyed the salt, so boiling merely finishes the disappearance — what vanished from sight vanished from existence."
+reveals_de = "Lösen habe das Salz zerstört, also vollende das Kochen nur das Verschwinden — was aus dem Blick verschwand, sei aus der Existenz verschwunden."
 next = "Boil it and look in the basin: 5.84 g of crystals, the mass that went in, back on the same balance. `particles` shows where the salt was the whole time — out of sight was never out of the ledger."
+next_de = "Koche es und sieh in die Schale: 5,84 g Kristalle, die Masse, die hineinkam, wieder auf derselben Waage. `particles` zeigt, wo das Salz die ganze Zeit war — aus dem Blick war nie aus dem Konto."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Conservation pinned to the basin: the reading is the system, so the whole 105.54 g must survive the boiling."
+reveals_de = "Die Erhaltung wird an die Schale geheftet: Der Messwert ist das System, also müssen die vollen 105,54 g das Kochen überstehen."
 next = "Weigh what left: 99.7 g of water is now vapour in the room, carrying its mass with it. The before/after pair on one balance is precisely the instrument for catching a boundary drawn wrong — which is why the first number is written down first."
+next_de = "Wiege, was entwich: 99,7 g Wasser sind jetzt Dampf im Raum und tragen ihre Masse mit sich. Das Vorher-Nachher-Paar auf einer Waage ist genau das Instrument, um eine falsch gezogene Grenze zu erwischen — weshalb die erste Zahl zuerst aufgeschrieben wird."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "Evaporation as a general carrier: whatever is in the liquid rides out with the vapour, brine and all."
+reveals_de = "Verdampfen als allgemeiner Träger: Was auch immer in der Flüssigkeit ist, reist mit dem Dampf hinaus, Sole und alles."
 next = "Check what the vapour can hold: at these temperatures the salt's ions have no route into the gas, which is why evaporating seawater is how salt is *made* — and why kettle scale stays stubbornly behind rather than steaming away."
+next_de = "Prüfe, was der Dampf tragen kann: Bei diesen Temperaturen haben die Ionen des Salzes keinen Weg ins Gas, weshalb das Verdampfen von Meerwasser genau die Art ist, wie Salz *hergestellt* wird — und weshalb sich Kesselstein hartnäckig hält, statt wegzudampfen."
 
 [reaction.registers]
 lv1 = "The salt vanished into the water and you cannot see it any more. Boil the water off and there it is again, the same amount as you started with. It was never gone — and the way you know, rather than believe, is that you wrote down the weight beforehand and can compare."
+lv1_de = "Das Salz verschwand im Wasser, und du kannst es nicht mehr sehen. Koche das Wasser weg, und da ist es wieder, dieselbe Menge, mit der du begonnen hast. Es war nie weg — und der Weg, wie du es weißt statt nur glaubst, besteht darin, dass du das Gewicht vorher aufgeschrieben hast und vergleichen kannst."
 lv2 = "105.54 g before, 5.84 g after: 99.70 g left as water vapour, which is the 100 mL of water at 0.997 g/mL. The salt recovered, 5.84 g, is the 5.844 g put in — a recovery of 99.9%. Amount of substance is conserved through the dissolving and the evaporating; only the water went anywhere."
+lv2_de = "105,54 g vorher, 5,84 g nachher: 99,70 g verließen es als Wasserdampf, was den 100 mL Wasser bei 0,997 g/mL entspricht. Das zurückgewonnene Salz, 5,84 g, entspricht den eingesetzten 5,844 g — eine Wiedergewinnung von 99,9 %. Die Stoffmenge bleibt über das Lösen und das Verdampfen hinweg erhalten; nur das Wasser ist irgendwohin gegangen."
 lv3 = "Nothing about this is trivial in the engine: the aqueous solver held 0.1000 mol of Na⁺ and 0.1000 mol of Cl⁻ in solution, and evaporation to dryness has to hand them back as solid NaCl without losing a mole. A useful boundary to try afterwards: evaporate in two steps rather than one and the bench emits 'not yet modelled' — solid salt in contact with the last film of liquid is a regime no wired solver owns. The single-step path is clean; the two-step path is honest about not being."
+lv3_de = "Nichts davon ist trivial im Labor: Der wässrige Löser hielt 0,1000 mol Na⁺ und 0,1000 mol Cl⁻ in Lösung, und die Verdampfung zur Trockne muss sie als festes NaCl zurückgeben, ohne ein Mol zu verlieren. Eine sinnvolle Grenze zum Ausprobieren danach: Verdampfe in zwei Schritten statt in einem, und das Labor meldet 'noch nicht modelliert' — festes Salz in Kontakt mit dem letzten Flüssigkeitsfilm ist ein Regime, das kein verdrahteter Löser besitzt. Der einstufige Weg ist sauber; der zweistufige ist ehrlich darüber, es nicht zu sein."
 
 [reaction.provenance]
 source = "Standard curriculum separation technique (evaporation to dryness). Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1455,6 +1683,7 @@ computed_by = "PHREEQC via Kerotakis L2; mass bookkeeping by the Kerotakis bench
 id = "the-salt-comes-back-the-ribbon-does-not"
 spine = ["die-chemische-reaktion", "stoffvernichtung-und-stoffneubildung"]
 summary = "Dissolving reverses when the water leaves; burning does not reverse at any temperature — the difference is whether a new substance formed"
+summary_de = "Lösen kehrt sich um, wenn das Wasser entweicht; Verbrennen kehrt sich bei keiner Temperatur um — der Unterschied ist, ob ein neuer Stoff entstanden ist"
 concepts = ["physical-vs-chemical-change", "reversibility"]
 requires = ["crystallisation", "mass-gain-on-oxidation"]
 apparatus = ["beaker", "crucible", "balance"]
@@ -1488,6 +1717,7 @@ ph = { min = 6.0, max = 6.5 }
 
 [reaction.expect.predict]
 question = "Two things vanished on this bench: salt disappeared into water, and a magnesium ribbon disappeared into flame. Which of the two can you undo?"
+question_de = "Zwei Dinge verschwanden auf diesem Labor: Salz verschwand in Wasser, und ein Magnesiumband verschwand in Flammen. Welches der beiden kannst du rückgängig machen?"
 options = [
   "Both — chemistry can always be run backwards if you are clever enough",
   "Neither — once a substance is gone, it is gone",
@@ -1495,21 +1725,29 @@ options = [
 ]
 answer = 2
 misconception = "The two disappearances are the same event to the eye and opposite events underneath. The salt is still sodium chloride, hiding as ions — remove the water and it must come back. The ribbon's atoms are all still there too, but in new company: magnesium oxide is a new substance, and temperature cannot dissolve a chemical bond that heat itself favours. Telling these two vanishings apart is the definition of a chemical reaction."
+misconception_de = "Die beiden Verschwindensvorgänge sind für das Auge dasselbe Ereignis und darunter entgegengesetzte Ereignisse. Das Salz ist immer noch Natriumchlorid, versteckt als Ionen — entfernt man das Wasser, muss es zurückkommen. Auch die Atome des Bandes sind alle noch vorhanden, aber in neuer Gesellschaft: Magnesiumoxid ist ein neuer Stoff, und Temperatur kann keine chemische Bindung auflösen, die Wärme selbst begünstigt. Diese beiden Verschwindensvorgänge auseinanderzuhalten ist die Definition einer chemischen Reaktion."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Reversibility as cleverness rather than as a property of what happened — dissolving and reacting filed as the same kind of vanishing, undone by the same kind of trick."
+reveals_de = "Umkehrbarkeit als Cleverness statt als Eigenschaft dessen, was geschah — Lösen und Reagieren werden als dieselbe Art von Verschwinden eingeordnet, rückgängig zu machen mit demselben Trick."
 next = "Try both on this bench: evaporate the brine and the crystals return, mass ledger intact. Heat the ash, cool it, wait at it — magnesium oxide it stays. Undoing it takes a new chemical partner and a great deal of energy (industry does it by electrolysis of the molten salt), not a cleverer application of heat."
+next_de = "Probiere beides auf diesem Labor aus: Dampfe die Sole ein, und die Kristalle kehren zurück, das Massekonto bleibt intakt. Erhitze die Asche, kühle sie ab, warte an ihr — Magnesiumoxid bleibt sie. Sie rückgängig zu machen braucht einen neuen chemischen Partner und sehr viel Energie (die Industrie macht es durch Elektrolyse des geschmolzenen Salzes), keine klügere Anwendung von Wärme."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "Dissolution as destruction — the young learner's default: the salt is gone the way the ribbon is gone, and gone is gone."
+reveals_de = "Auflösung als Zerstörung — der Standardgedanke jüngerer Lernender: Das Salz sei genauso weg wie das Band, und weg sei weg."
 next = "The balance never agreed: the brine weighs the salt the whole time (`weigh-before-and-after`), and evaporation hands it back as crystals you can count in grams. The two vanishings differ in what remains — the same substance hiding, or a new substance formed — and that difference is the whole content of the words 'chemical reaction'."
+next_de = "Die Waage war nie einverstanden: Die Sole wiegt das Salz die ganze Zeit mit (`weigh-before-and-after`), und das Verdampfen gibt es als Kristalle zurück, die du in Gramm zählen kannst. Die beiden Verschwindensvorgänge unterscheiden sich darin, was übrig bleibt — derselbe Stoff, versteckt, oder ein neuer Stoff, entstanden — und dieser Unterschied ist der ganze Inhalt der Worte 'chemische Reaktion'."
 
 [reaction.registers]
 lv1 = "The salt hid in the water — boil the water away and there it is again, white and sharp-cornered. The ribbon did not hide: it *became* something new, and no amount of un-heating brings it back. That is the difference between mixing something and really changing it."
+lv1_de = "Das Salz versteckte sich im Wasser — koche das Wasser weg, und da ist es wieder, weiß und scharfkantig. Das Band versteckte sich nicht: Es *wurde* etwas Neues, und kein noch so großes Entwärmen bringt es zurück. Das ist der Unterschied zwischen etwas mischen und es wirklich verändern."
 lv2 = "Dissolving is a physical change: NaCl(s) → Na⁺(aq) + Cl⁻(aq), reversed by removing the solvent — evaporate 95% of the water and 0.069 mol of crystals return, the rest still dissolved in the last 5 mL. Burning is a chemical change: 2 Mg + O₂ → 2 MgO, a new substance with new properties, and no temperature reverses it."
+lv2_de = "Lösen ist eine physikalische Veränderung: NaCl(s) → Na⁺(aq) + Cl⁻(aq), umkehrbar durch Entfernen des Lösungsmittels — verdampfe 95 % des Wassers, und 0,069 mol Kristalle kehren zurück, der Rest bleibt in den letzten 5 mL gelöst. Verbrennen ist eine chemische Veränderung: 2 Mg + O₂ → 2 MgO, ein neuer Stoff mit neuen Eigenschaften, und keine Temperatur kehrt sie um."
 lv3 = "Both halves are computed, and both carry their fine print. The brine at 95% evaporated holds 0.0692 mol of solid salt beside 0.031 mol still in solution — solubility stays a ratio to the remaining water down to the last millilitre, which is `crystallising-salt-from-brine`'s subtraction taken nearly to its end. The ash side: the thermal solver answers 'magnesium oxide' at every temperature this bench can reach, because the oxide is downhill from the metal everywhere — reversing it is not a temperature question but an electron question, which is why industry electrolyses the molten chloride instead of heating the oxide. One boundary named: evaporating to *total* dryness currently leaves the final trace of ions labelled aqueous with no water to be aqueous in — a state the registry has no story for yet — which is why this entry stops at 95%."
+lv3_de = "Beide Hälften sind berechnet, und beide tragen ihr Kleingedrucktes. Die zu 95 % verdampfte Sole enthält 0,0692 mol festes Salz neben 0,031 mol, das noch in Lösung ist — die Löslichkeit bleibt bis zum letzten Milliliter ein Verhältnis zum verbleibenden Wasser, was die Subtraktion von `crystallising-salt-from-brine` fast bis an ihr Ende getrieben ist. Die Asche-Seite: Der thermische Löser antwortet bei jeder Temperatur, die dieses Labor erreichen kann, mit 'Magnesiumoxid', weil das Oxid überall energetisch unterhalb des Metalls liegt — es umzukehren ist keine Temperaturfrage, sondern eine Elektronenfrage, weshalb die Industrie das geschmolzene Chlorid elektrolysiert, statt das Oxid zu erhitzen. Eine Grenze ausdrücklich benannt: Das Verdampfen bis zur *vollständigen* Trockne lässt derzeit die letzte Spur Ionen als wässrig markiert zurück, ohne Wasser, in dem sie wässrig sein könnten — ein Zustand, für den die Registry noch keine Geschichte hat —, weshalb dieser Eintrag bei 95 % stehen bleibt."
 
 [reaction.provenance]
 source = "Standard curriculum introduction to chemical change (physical vs chemical); solubility and crystallisation from PHREEQC wateq4f.dat (USGS); combustion from NASA CEA thermodynamic data. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1519,6 +1757,7 @@ computed_by = "PHREEQC via Kerotakis L2 (brine); Gibbs minimisation over NASA-9 
 id = "a-nanomole-is-not-a-cloud"
 spine = ["quantitative-analyseverfahren"]
 summary = "1.5 µmol Ag⁺ + 1.5 µmol Cl⁻ in 100 mL: silver chloride forms, and no precipitation is reported"
+summary_de = "1,5 µmol Ag⁺ + 1,5 µmol Cl⁻ in 100 mL: Silberchlorid entsteht, und es wird keine Fällung gemeldet"
 concepts = ["detection-limit", "instrument-floor"]
 requires = ["precipitation", "concentration"]
 calculations = ["moles-from-mass", "concentration", "solubility-product"]
@@ -1554,6 +1793,7 @@ ph = { min = 6.9, max = 7.1 }
 
 [reaction.expect.predict]
 question = "Two beakers, both above the solubility product, so silver chloride forms in both. In the first the amount formed is 0.16 µmol; in the second it is 1.7 µmol. What does the bench report?"
+question_de = "Zwei Bechergläser, beide über dem Löslichkeitsprodukt, sodass sich in beiden Silberchlorid bildet. Im ersten beträgt die gebildete Menge 0,16 µmol; im zweiten 1,7 µmol. Was meldet das Labor?"
 options = [
   "A precipitate in both — the chemistry is the same",
   "A precipitate in neither — both are far too dilute to see",
@@ -1561,21 +1801,29 @@ options = [
 ]
 answer = 2
 misconception = "The unstated assumption is that whatever the chemistry does, the experiment shows. Every instrument has a floor, and below it a real change produces no signal — which is not the instrument lying, it is the instrument having a specification. Confusing 'I did not detect it' with 'it did not happen' is how a negative result gets over-read, and the fix is knowing your detection limit before you run."
+misconception_de = "Die unausgesprochene Annahme ist, dass das Experiment zeigt, was auch immer die Chemie tut. Jedes Instrument hat eine Untergrenze, und darunter erzeugt eine reale Veränderung kein Signal — das ist nicht das Instrument, das lügt, sondern das Instrument, das eine Spezifikation hat. 'Ich habe es nicht erkannt' mit 'es ist nicht geschehen' zu verwechseln ist, wie ein Nullergebnis überinterpretiert wird, und die Lösung ist, die Nachweisgrenze zu kennen, bevor man misst."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "The experiment shows whatever the chemistry does — instruments as transparent windows, with no floor of their own."
+reveals_de = "Das Experiment zeigt, was auch immer die Chemie tut — Instrumente als durchsichtige Fenster, ohne eigene Untergrenze."
 next = "Read the specification this bench publishes about itself: the observation floor is one micromole. The first beaker's 0.16 µmol is real, in the ledger, and below the floor — 'not shown' and 'not there' are different sentences, and an honest instrument says which one it means."
+next_de = "Lies die Spezifikation, die dieses Labor über sich selbst veröffentlicht: Die Beobachtungsgrenze liegt bei einem Mikromol. Die 0,16 µmol des ersten Becherglases sind real, im Konto, und unterhalb der Grenze — 'nicht gezeigt' und 'nicht vorhanden' sind unterschiedliche Aussagen, und ein ehrliches Instrument sagt, welche davon es meint."
 
 [[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "The right instinct, uncalibrated: detection limits exist, but they sit wherever caution imagines them — and both amounts 'feel' invisible."
+reveals_de = "Der richtige Instinkt, aber unkalibriert: Nachweisgrenzen existieren, aber sie liegen dort, wo die Vorsicht sie sich vorstellt — und beide Mengen 'fühlen sich' unsichtbar an."
 next = "The floor is a number, not a mood: 1 µmol here. 1.7 sits above it and is reported; 0.16 sits below and is named rather than shown. Knowing the limit *before* the run is what turns 'nothing seen' into information instead of a shrug."
+next_de = "Die Grenze ist eine Zahl, keine Stimmung: hier 1 µmol. 1,7 liegt darüber und wird gemeldet; 0,16 liegt darunter und wird benannt statt gezeigt. Die Grenze *vor* dem Lauf zu kennen ist es, was aus 'nichts gesehen' Information macht statt eines Achselzuckens."
 
 [reaction.registers]
 lv1 = "Two beakers with almost unmeasurably small pinches of chemical. Something really does happen in both. Only one of them shows you anything. Every measuring device has a smallest thing it can notice, and below that it says nothing at all — which is not the same as there being nothing."
+lv1_de = "Zwei Bechergläser mit fast unmessbar kleinen Prisen Chemikalie. In beiden geschieht wirklich etwas. Nur eines der beiden zeigt dir etwas. Jedes Messgerät hat eine kleinste Sache, die es bemerken kann, und darunter sagt es überhaupt nichts — was nicht dasselbe ist, wie wenn nichts da wäre."
 lv2 = "Both mixtures exceed Ksp(AgCl) ≈ 1.8 × 10⁻¹⁰, so solid forms in both. In v1 only about 0.16 µmol can form, below the bench's 1 µmol observation floor, and no precipitation event is emitted; in v2 about 1.7 µmol forms and the event fires. Inspecting v1 still shows silver chloride in its inventory — the bookkeeping is exact and only the reporting is floored."
+lv2_de = "Beide Mischungen überschreiten Ksp(AgCl) ≈ 1,8 × 10⁻¹⁰, sodass sich in beiden Feststoff bildet. In v1 können sich nur etwa 0,16 µmol bilden, unterhalb der Beobachtungsgrenze des Labors von 1 µmol, und es wird kein Fällungs-Ereignis ausgelöst; in v2 bilden sich etwa 1,7 µmol, und das Ereignis feuert. Ein `inspect` von v1 zeigt Silberchlorid weiterhin in seinem Inventar — die Buchführung ist exakt, und nur die Meldung ist begrenzt."
 lv3 = "The floor is OBSERVABLE_MOLES = 10⁻⁶ mol, applied uniformly to precipitation, dissolution and gas evolution. It is a deliberate stand-in for an instrument specification: a real turbidimeter, a real nose and a real balance all have limits, and a simulation that announces every nanomole trains a learner to expect a sensitivity no bench possesses. The number is a modelling choice, not a measured constant, and it is worth saying out loud that a nephelometer would see AgCl well below it while an eye would not see it well above."
+lv3_de = "Die Grenze ist OBSERVABLE_MOLES = 10⁻⁶ mol, einheitlich angewendet auf Fällung, Auflösung und Gasentwicklung. Sie ist ein bewusster Ersatz für eine Gerätespezifikation: Ein echter Trübungsmesser, eine echte Nase und eine echte Waage haben alle Grenzen, und eine Simulation, die jedes Nanomol ankündigt, trainiert einen Lernenden darauf, eine Empfindlichkeit zu erwarten, die kein Labor besitzt. Die Zahl ist eine Modellierungsentscheidung, keine gemessene Konstante, und es lohnt sich, ausdrücklich zu sagen, dass ein Nephelometer AgCl weit darunter sehen würde, während ein Auge es weit darüber nicht sehen würde."
 
 [reaction.provenance]
 source = "Ksp and speciation from PHREEQC wateq4f.dat (USGS). That a uniform 10⁻⁶ mol reporting floor is the right stand-in for an instrument's detection limit is Editorial judgement (Kerotakis), and the engine's own documented rationale.. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20)"
@@ -1585,6 +1833,7 @@ computed_by = "PHREEQC via Kerotakis L2; reporting floor applied by the Kerotaki
 id = "when-the-lab-says-it-does-not-know"
 spine = ["natur-der-naturwissenschaft-nature-of-science"]
 summary = "gypsum(s) + propanone(l) → not modelled"
+summary_de = "Gips(s) + Propanon(l) → nicht modelliert"
 concepts = ["model-boundary", "stated-ignorance"]
 requires = ["dissolving", "solutions"]
 calculations = ["conservation-of-mass"]
@@ -1616,6 +1865,7 @@ absent = ["dissolved:gypsum", "solver_failed"]
 
 [reaction.expect.predict]
 question = "Gypsum is stirred into acetone instead of water. What should a chemistry program do?"
+question_de = "Gips wird statt in Wasser in Aceton eingerührt. Was sollte ein Chemieprogramm tun?"
 options = [
   "Dissolve it — it dissolved in water, so it dissolves",
   "Say 'not yet modelled': no wired solver covers this salt in a non-aqueous solvent",
@@ -1624,26 +1874,36 @@ options = [
 ]
 answer = 1
 misconception = "Software is expected to answer. The tempting failure is the last option — quietly doing nothing and letting silence be read as a result, which is indistinguishable from 'it is insoluble' and happens to be roughly right here, for entirely the wrong reason. A model that cannot tell you where it stops has told you nothing you can trust anywhere."
+misconception_de = "Von Software wird erwartet, dass sie antwortet. Der verlockende Fehlschlag ist die letzte Option — still nichts zu tun und Schweigen als Ergebnis lesen zu lassen, was von 'es ist unlöslich' nicht zu unterscheiden ist und hier zufällig ungefähr richtig ist, aus völlig falschem Grund. Ein Modell, das dir nicht sagen kann, wo es aufhört, hat dir nirgendwo etwas gesagt, dem du vertrauen kannst."
 
 [[reaction.expect.predict.diagnosis]]
 option = 0
 reveals = "Solubility belongs to the salt alone: it dissolves, full stop — the solvent is interchangeable scenery rather than half of every dissolution."
+reveals_de = "Löslichkeit gehört allein dem Salz: Es löst sich, Punkt — das Lösungsmittel ist austauschbare Kulisse statt der halbe Beitrag zu jeder Auflösung."
 next = "Name what the solver actually knows: water's behaviour, from a thermodynamic database about water. Gypsum in acetone is in fact essentially insoluble — but the bench refuses to claim even that without a curated row that knows it, which is the difference between being right and being lucky."
+next_de = "Benenne, was der Löser tatsächlich weiß: das Verhalten von Wasser, aus einer thermodynamischen Datenbank über Wasser. Gips ist in Aceton tatsächlich im Wesentlichen unlöslich — aber das Labor verweigert selbst diese Aussage ohne eine kuratierte Zeile, die es weiß, und das ist der Unterschied zwischen Rechthaben und Glückhaben."
 
 [[reaction.expect.predict.diagnosis]]
 option = 2
 reveals = "Software has exactly two states, answer or error: a stated 'I don't know' is not in the vocabulary, so the only alternative to answering is breaking."
+reveals_de = "Software habe genau zwei Zustände, Antwort oder Fehler: Ein ausdrückliches 'Ich weiß es nicht' gehört nicht zum Vokabular, also sei die einzige Alternative zum Antworten das Abstürzen."
 next = "Run it: `not_yet_modelled` arrives as a first-class result, with provenance, and the CI fails any lesson that goes silent instead of saying it. The third state is this program's entire premise — a model that can name its own edge."
+next_de = "Führe es aus: `not_yet_modelled` erscheint als vollwertiges Ergebnis, mit Herkunftsangabe, und die CI lässt jede Lektion fehlschlagen, die schweigt, statt es zu sagen. Der dritte Zustand ist die gesamte Prämisse dieses Programms — ein Modell, das seinen eigenen Rand benennen kann."
 
 [[reaction.expect.predict.diagnosis]]
 option = 3
 reveals = "The subtlest one: silence read as an answer. A program that does nothing has 'said' the salt is insoluble — and being roughly right hides that nothing was computed at all."
+reveals_de = "Die subtilste: Schweigen wird als Antwort gelesen. Ein Programm, das nichts tut, hat 'gesagt', das Salz sei unlöslich — und ungefähr richtig zu liegen verdeckt, dass überhaupt nichts berechnet wurde."
 next = "This exact defect sits in the project's own history: 'nothing ignited' once meant 'no solver engaged', reported as if it were a fact about ethanol. The rule it forced — wherever the engine declines to model something, it says so — is in PLAN.md, and this entry is that rule in teaching form."
+next_de = "Genau dieser Fehler steckt in der eigenen Geschichte des Projekts: 'nichts entzündet' bedeutete einst 'kein Löser beteiligt', gemeldet, als wäre es eine Tatsache über Ethanol. Die Regel, die das erzwang — wo auch immer das Labor ablehnt, etwas zu modellieren, sagt es das — steht in PLAN.md, und dieser Eintrag ist diese Regel in Lehrform."
 
 [reaction.registers]
 lv1 = "Ask the lab something it does not know and it tells you it does not know. It does not guess, and it does not pretend the silence was an answer. Knowing the edge of what you know is part of knowing anything at all — and a person who can say 'I have not got a method for that' is more useful than one who always has a number."
+lv1_de = "Frage das Labor etwas, das es nicht weiß, und es sagt dir, dass es das nicht weiß. Es rät nicht, und es tut nicht so, als wäre das Schweigen eine Antwort gewesen. Den Rand dessen zu kennen, was man weiß, gehört dazu, überhaupt etwas zu wissen — und eine Person, die sagen kann 'Dafür habe ich keine Methode', ist nützlicher als eine, die immer eine Zahl parat hat."
 lv2 = "The aqueous engine's databases are parameterised for water: activity models, solubility products and speciation are all built on aqueous standard states. Acetone is a liquid the bench can hold and pour, and for some solutes in some organic solvents a curated handbook row now answers (NaCl's near-insolubility in ethanol, CaCl2's high solubility in acetone, for two) — but for this salt in this solvent no row exists yet, so the honesty pass emits 'not yet modelled' rather than a number. The balance still works — the acetone plus the salt — because mass bookkeeping is not the thing in doubt."
+lv2_de = "Die Datenbanken des wässrigen Labors sind für Wasser parametrisiert: Aktivitätsmodelle, Löslichkeitsprodukte und Speziation beruhen alle auf wässrigen Standardzuständen. Aceton ist eine Flüssigkeit, die das Labor halten und eingießen kann, und für manche gelösten Stoffe in manchen organischen Lösungsmitteln antwortet inzwischen eine kuratierte Handbuchzeile (die nahezu-Unlöslichkeit von NaCl in Ethanol, die hohe Löslichkeit von CaCl2 in Aceton, zum Beispiel) — aber für dieses Salz in diesem Lösungsmittel existiert noch keine Zeile, also gibt der Ehrlichkeitsdurchlauf 'noch nicht modelliert' aus statt einer Zahl. Die Waage funktioniert weiterhin — das Aceton plus das Salz —, denn die Massenbuchführung steht nicht in Zweifel."
 lv3 = "The event is `NotYetModeled`, raised by the honesty pass when a solid coexists with a liquid and no solver — and no curated verdict — covers the pair. It is structurally different from `SolverFailed`, which means a wired solver tried and did not converge. This entry originally demonstrated the gap with NaCl in ethanol, then moved to CuSO4 in ethanol — both of which the curated organic-solubility rung (CAP-23) now covers with handbook data. As coverage grows, the demonstration moves to the next uncovered pair; model boundaries move, and an honest bench moves its examples with them. This paragraph is the record that it happened."
+lv3_de = "Das Ereignis ist `NotYetModeled`, ausgelöst vom Ehrlichkeitsdurchlauf, wenn ein Feststoff mit einer Flüssigkeit koexistiert und kein Löser — und kein kuratiertes Urteil — das Paar abdeckt. Es unterscheidet sich strukturell von `SolverFailed`, was bedeutet, dass ein verdrahteter Löser es versucht hat und nicht konvergiert ist. Dieser Eintrag demonstrierte die Lücke ursprünglich mit NaCl in Ethanol, wechselte dann zu CuSO4 in Ethanol — beide werden inzwischen von der kuratierten Stufe organischer Löslichkeit (CAP-23) mit Handbuchdaten abgedeckt. Wächst die Abdeckung, wandert die Demonstration zum nächsten unabgedeckten Paar; Modellgrenzen verschieben sich, und ein ehrliches Labor verschiebt seine Beispiele mit ihnen. Dieser Absatz ist die Aufzeichnung, dass das geschehen ist."
 
 [reaction.provenance]
 source = "Editorial judgement (Kerotakis): the design decision to emit a stated gap rather than a guess, and the argument for teaching model boundaries as content, is ours. Diagnoses: Editorial judgement (Kerotakis), drafted with model assistance (Claude, 2026-08-20, updated 2026-08-24)"
