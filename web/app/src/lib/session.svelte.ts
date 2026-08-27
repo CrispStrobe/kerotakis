@@ -647,8 +647,22 @@ export class Session {
     if (!effect && event?.event === "measured") {
       const inst = String(event.instrument ?? "");
       const kind =
-        inst === "thermometer" ? "thermometer" : inst === "ph_meter" ? "ph_probe" : null;
-      if (kind) effect = { kind, at: Date.now(), magnitude: 0.6 };
+        inst === "thermometer"
+          ? "thermometer"
+          : inst === "ph_meter"
+            ? "ph_probe"
+            : inst === "balance"
+              ? "balance"
+              : null;
+      if (kind) {
+        effect = {
+          kind,
+          at: Date.now(),
+          magnitude: 0.6,
+          reading: Number(event.value),
+          unit: String(event.unit ?? ""),
+        };
+      }
     }
     if (!effect) return;
     const vessel = vesselOf(event);

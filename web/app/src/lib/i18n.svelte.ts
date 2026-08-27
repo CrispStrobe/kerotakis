@@ -741,6 +741,7 @@ const DE: Record<string, string> = {
   ,"That space is occupied. Move the other vessel or instrument first.": "Dieser Platz ist belegt. Verschiebe zuerst das andere Gefäß oder Instrument."
   ,"space occupied": "Platz belegt"
   ,"place instrument here": "Instrument hier abstellen"
+  ,"balance reading: {value} g": "Waagenmessung: {value} g"
   ,"mortar on the bench": "Mörser auf dem Labortisch"
   ,"mortar and pestle": "Mörser und Pistill"
   ,"change vessel": "Gefäß verändern"

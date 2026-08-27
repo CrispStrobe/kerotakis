@@ -925,6 +925,10 @@ hide them completely.
   lower distinct physical probes into the selected sample and show the
   engine-backed reading on a localized digital meter. The probes remain
   transient measurement tools rather than permanent decorations.*
+  *Physical-balance slice shipped 2026-08-27: a balance measurement now slides
+  a scale beneath the selected vessel, settles once, and shows the exact mass
+  emitted by the engine. Temperature and pH meters likewise read their scalar
+  measurement events directly rather than reconstructing the displayed value.*
   *Magnetic-stirrer slice in progress 2026-08-27: the equipment wall exposes
   RPM and duration, the public grammar carries both, and the engine computes
   25 mm stir-bar tip speed. The bench draws the plate, rotating bar, and
