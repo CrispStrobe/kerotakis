@@ -37,6 +37,24 @@ pub struct CuratedReaction {
 
 /// Hand-verified seed set. Grows into the codex (P4).
 pub const REACTIONS: &[CuratedReaction] = &[
+    // Keep calcium acetate as the installed aqueous ions rather than
+    // inventing a molecular pseudo-species. A later aqueous solver can then
+    // speciate the same conserved inventory without replaying this reaction.
+    // The route claims limiting-reagent matter and gas, not an instantaneous
+    // rate or reaction heat; particle area and an audited enthalpy remain open.
+    CuratedReaction {
+        equation: "CaCO₃ + 2 CH₃COOH → Ca²⁺ + 2 CH₃COO⁻ + H₂O + CO₂↑",
+        reactants: &[("CaCO3", 1.0), ("CH3COOH", 2.0)],
+        products: &[
+            ("Ca+2", 1.0, Phase::Aqueous),
+            ("CH3COO-", 2.0, Phase::Aqueous),
+            ("water", 1.0, Phase::Liquid),
+            ("CO2", 1.0, Phase::Gas),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+    },
     // ── familiar carbonate fizz (BRD-014) ─────────────────────────
     // Molecular bookkeeping for the observable household reaction. Sodium
     // acetate remains dissolved while carbon dioxide crosses the open vessel
