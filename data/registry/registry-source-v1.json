@@ -947,6 +947,15 @@
       "retrieved": null
     },
     {
+      "id": "us-federal/isopropanol-chris",
+      "citation": "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://pubchem.ncbi.nlm.nih.gov/compound/3776",
+      "revision": "CID 3776",
+      "retrieved": "2026-08-27"
+    },
+    {
       "id": "kerotakis/material-recipes-v1",
       "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity",
       "licence": "AGPL-3.0-or-later",
@@ -2621,6 +2630,22 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/Al",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "isopropanol",
+      "canonical_key": "KFZMGEQAYNKOFK-UHFFFAOYSA-N",
+      "name": "isopropanol",
+      "identifiers": {
+        "inchikey": "KFZMGEQAYNKOFK-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/isopropanol-chris",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -13260,6 +13285,125 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "composition/isopropanol",
+      "species_id": "isopropanol",
+      "formula": "C3H8O",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 3,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/isopropanol-chris",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/isopropanol-chris",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/isopropanol-chris",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "phase_thermodynamics": [
@@ -23132,6 +23276,96 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "molar-mass/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 60.096,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 152.2,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.785,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
     }
   ],
   "transport": [],
@@ -27501,7 +27735,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 1.155225e-7,
+            "value": 1.155225E-7,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27551,7 +27785,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 6.965291052001796e-10,
+            "value": 6.965291052001796E-10,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27601,7 +27835,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 2.6927258955223627e-12,
+            "value": 2.6927258955223627E-12,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -27651,7 +27885,7 @@
             }
           },
           "molar_absorptivity": {
-            "value": 6.6746001746918315e-15,
+            "value": 6.6746001746918315E-15,
             "unit": {
               "symbol": "L/(mol.cm)",
               "dimension": "molar_absorptivity"
@@ -28559,6 +28793,22 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/Al",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/isopropanol-chris",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -33419,9 +33669,114 @@
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
+    },
+    {
+      "id": "dissolves-without-speciation/isopropanol",
+      "subject": {
+        "kind": "species",
+        "id": "isopropanol"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
     }
   ],
   "material_recipes": [
+    {
+      "id": "household/isopropanol-70-percent-vv",
+      "version": 1,
+      "canonical_key": "isopropanol_70_percent",
+      "name": "70% isopropanol",
+      "aliases": {
+        "de": [
+          "Isopropanol 70%",
+          "Isopropylalkohol 70%",
+          "Isopropanol_70%"
+        ],
+        "en": [
+          "rubbing alcohol 70%",
+          "isopropyl alcohol 70%",
+          "rubbing_alcohol_70%"
+        ]
+      },
+      "basis": "volume_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "isopropanol",
+          "fraction": {
+            "lower": 0.7,
+            "upper": 0.7
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.3,
+            "upper": 0.3
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "70% v/v isopropanol in water at room temperature",
+      "lot_assumptions": [
+        "component volumes use the explicit runtime additive-volume teaching approximation; real mixing contracts slightly",
+        "denaturants, fragrance and brand-specific additives are not represented"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
     {
       "id": "household/hydrogen-peroxide-3-percent",
       "version": 1,
@@ -33713,8 +34068,8 @@
         {
           "species_id": "catalase",
           "fraction": {
-            "lower": 1e-6,
-            "upper": 1e-6
+            "lower": 0.000001,
+            "upper": 0.000001
           },
           "evidence": {
             "source_id": "kerotakis/material-recipes-v1",
@@ -34771,8 +35126,8 @@
             0.000855073675272,
             0.000124619078076,
             0.0000149066126883,
-            1.46348015158e-6,
-            1.17925612747e-7
+            0.00000146348015158,
+            1.17925612747E-7
           ],
           "scattering": [
             1.0,

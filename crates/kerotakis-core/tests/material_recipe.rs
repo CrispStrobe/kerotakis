@@ -140,3 +140,27 @@ fn hand_soap_and_dish_soap_are_distinct_localized_materials() {
     assert!((expansion.unresolved_amount - 5.0).abs() < 1e-12);
     assert_eq!(hand.roles.len(), 1, "hand soap retains gas as foam");
 }
+
+#[test]
+fn rubbing_alcohol_keeps_its_labelled_volume_basis() {
+    let recipe = kerotakis_core::material::lookup("Isopropanol 70%", Some("de"))
+        .expect("localized rubbing-alcohol recipe");
+    assert_eq!(recipe.basis, MaterialBasis::VolumeFraction);
+    let expansion = recipe.expand(100.0, 0).expect("fixed expansion");
+    assert_eq!(expansion.components.len(), 2);
+    assert!((expansion.components[0].amount - 70.0).abs() < 1e-12);
+    assert!((expansion.components[1].amount - 30.0).abs() < 1e-12);
+
+    let op = parse_op("add v1 Isopropanol_70% 100mL")
+        .expect("valid material command")
+        .expect("operator");
+    let mut bench = Bench::new();
+    let events = bench.step(op).expect("add rubbing alcohol");
+    assert!(events.iter().any(|event| matches!(event,
+        Event::MaterialAdded { basis: MaterialBasis::VolumeFraction, total_amount, components, .. }
+            if (*total_amount - 100.0).abs() < 1e-12 && components.len() == 2
+    )));
+    let vessel = &bench.vessels[0];
+    assert!(vessel.moles_of(&SpeciesId::new("isopropanol")).0 > 0.9);
+    assert!(vessel.moles_of(&SpeciesId::new("water")).0 > 1.6);
+}

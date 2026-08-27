@@ -2283,5 +2283,24 @@
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s): CRC Handbook, 97th ed.; density: CRC Handbook, 97th ed., 2.70 g/cm3",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "colourless",
+    "colour": null,
+    "density": 0.785,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "C3H8O",
+    "heat_capacity": 152.2,
+    "inchikey": "KFZMGEQAYNKOFK-UHFFFAOYSA-N",
+    "key": "isopropanol",
+    "magnetic": false,
+    "molar_mass": 60.096,
+    "name": "isopropanol",
+    "provenance": "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27",
+    "spectrum_bands": null,
+    "standard_phase": "liquid"
   }
 ]
