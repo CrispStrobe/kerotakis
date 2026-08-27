@@ -929,6 +929,11 @@ const DE: Record<string, string> = {
   ,"photolysis not yet coupled": "Photolyse nicht gekoppelt"
   ,"instant energy model": "sofortiges Energiemodell"
   ,"move to selected v{vessel}": "zu ausgewähltem v{vessel} verschieben"
+  ,"titrant added": "zugegebenes Titrationsmittel"
+  ,"each point: one aqueous-solver equilibration after one burette increment (titrate); nothing interpolated": "Jeder Punkt: eine Gleichgewichtseinstellung des wässrigen Lösers nach einem Bürettenschritt (Titrieren); nichts interpoliert"
+  ,"line": "Linie"
+  ,"scatter": "Streudiagramm"
+  ,"chart": "Diagramm"
   ,"on a real bench this needs shielding, dosimetry and a licence; safe only because this lab is virtual": "Im echten Labor sind Abschirmung, Dosimetrie und eine Genehmigung erforderlich; nur hier sicher, weil das Labor virtuell ist"
 };
 

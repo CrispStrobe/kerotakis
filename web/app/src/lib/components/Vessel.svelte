@@ -7,6 +7,7 @@
   import { i18n, t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
   import { APPARATUS } from "../apparatus";
+  import { engineText } from "../engineText";
 
   let {
     vessel,
@@ -505,7 +506,7 @@
           <circle cx="61" cy="92" r="3" />
           <text x="66" y="94">{t(gasTest.positive ? "positive" : "negative")}</text>
         </g>
-        <title>{gasTest.notes}</title>
+        <title>{engineText(gasTest.notes)}</title>
       </g>
     {/if}
     {#if waftEffect?.waft}

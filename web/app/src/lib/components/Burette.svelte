@@ -56,7 +56,7 @@
       {t("titrant")}
       <select bind:value={titrant}>
         {#each shelf as s (s.key)}
-          <option value={s.key}>{s.name}</option>
+          <option value={s.key}>{t(s.name)}</option>
         {/each}
       </select>
     </label>

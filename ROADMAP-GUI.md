@@ -1064,6 +1064,11 @@ hide them completely.
   Removing the target vessel safely removes its orphaned hardware as well. The
   dock now also exposes a compact localized move-to-selection control whenever
   selection and installation differ, without requiring a cabinet round-trip.
+  *Apparatus-i18n audit shipped 2026-08-27:* titrant and curated-reaction
+  selectors now render localized display names while preserving canonical
+  command values. Computed chart titles, axes, series kinds, provenance, SVG
+  accessibility titles, and gas-test tooltips all pass through the same German
+  presentation boundary; numeric evidence and chemical formulae remain intact.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model

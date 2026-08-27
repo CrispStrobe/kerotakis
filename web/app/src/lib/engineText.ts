@@ -79,6 +79,33 @@ export function engineText(text: string): string {
   if ((match = text.match(/^(v\d+): thermal energy requested=([\d.]+) J, delivered=([\d.]+) J, heating=(true|false), time_coupled=(true|false)$/))) {
     return `${match[1]}: Wärmeenergie angefordert=${match[2]} J, übertragen=${match[3]} J, Erwärmung=${match[4] === "true" ? "ja" : "nein"}, Zeitmodell gekoppelt=${match[5] === "true" ? "ja" : "nein"}`;
   }
+  if ((match = text.match(/^(titration of v\d+) with (.+) \(([^)]+) M\)$/))) {
+    return `Titration von ${match[1]!.slice("titration of ".length)} mit ${t(match[2]!)} (${match[3]} M)`;
+  }
+  if ((match = text.match(new RegExp(`^no pop — H₂ mole fraction ${decimal}% is below the ${decimal}% ignition limit$`)))) {
+    return `kein Knall — H₂-Molenbruch ${match[1]} % liegt unter der Zündgrenze von ${match[2]} %`;
+  }
+  if ((match = text.match(new RegExp(`^squeaky pop — ${decimal} mol H₂ ignited with ${decimal} mol O₂, producing ${decimal} mol H₂O; 2 H₂ \\+ O₂ → 2 H₂O$`)))) {
+    return `quietschender Knall — ${match[1]} mol H₂ entzündeten sich mit ${match[2]} mol O₂ und erzeugten ${match[3]} mol H₂O; 2 H₂ + O₂ → 2 H₂O`;
+  }
+  if ((match = text.match(new RegExp(`^the glowing splint relights — O₂ mole fraction ${decimal}% \\(above the ${decimal}% enrichment threshold\\)$`)))) {
+    return `der glimmende Span flammt auf — O₂-Molenbruch ${match[1]} % (über der Anreicherungsschwelle von ${match[2]} %)`;
+  }
+  if ((match = text.match(new RegExp(`^the splint does not relight — O₂ mole fraction ${decimal}% is below the ${decimal}% enrichment threshold$`)))) {
+    return `der Span flammt nicht auf — O₂-Molenbruch ${match[1]} % liegt unter der Anreicherungsschwelle von ${match[2]} %`;
+  }
+  if ((match = text.match(new RegExp(`^limewater stays clear — CO₂ mole fraction ${decimal}% is below the ${decimal}% detection floor$`)))) {
+    return `Kalkwasser bleibt klar — CO₂-Molenbruch ${match[1]} % liegt unter der Nachweisgrenze von ${match[2]} %`;
+  }
+  if ((match = text.match(new RegExp(`^limewater turns milky — CO₂ detected \\(mole fraction ${decimal}%\\); ${decimal} mol CO₂ consumed; CO₂ \\+ Ca\\(OH\\)₂ → CaCO₃↓ \\+ H₂O \\(curated stoichiometry, limewater not modelled as a vessel\\)$`)))) {
+    return `Kalkwasser wird milchig — CO₂ nachgewiesen (Molenbruch ${match[1]} %); ${match[2]} mol CO₂ verbraucht; CO₂ + Ca(OH)₂ → CaCO₃↓ + H₂O (kuratierte Stöchiometrie; Kalkwasser nicht als Gefäß modelliert)`;
+  }
+  if ((match = text.match(new RegExp(`^damp red litmus turns blue — NH₃ detected \\(mole fraction ${decimal}%\\)$`)))) {
+    return `feuchtes rotes Lackmuspapier wird blau — NH₃ nachgewiesen (Molenbruch ${match[1]} %)`;
+  }
+  if ((match = text.match(new RegExp(`^litmus stays red — NH₃ mole fraction ${decimal}% is below the ${decimal}% detection floor$`)))) {
+    return `Lackmuspapier bleibt rot — NH₃-Molenbruch ${match[1]} % liegt unter der Nachweisgrenze von ${match[2]} %`;
+  }
   if ((match = text.match(/^While you wait, particles in (v\d+) sink toward the bottom\.$/))) {
     return `Während du wartest, sinken Teilchen in ${match[1]} zum Boden.`;
   }
