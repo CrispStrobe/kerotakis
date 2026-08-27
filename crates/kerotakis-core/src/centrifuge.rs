@@ -29,7 +29,7 @@ pub struct CentrifugeInput {
     pub dynamic_viscosity_pa_s: f64,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct CentrifugeResult {
     pub angular_speed_rad_s: f64,
     pub rcf: f64,
