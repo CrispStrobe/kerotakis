@@ -41,13 +41,33 @@ describe("engine text localization", () => {
     );
   });
 
-  it("translates the lines the engine catalogue has not reached", () => {
+  it("translates the one line the engine catalogue has not reached", () => {
+    // The settling and centrifuge lines used to be here. render.rs now
+    // renders them from its own catalogue, so those patterns could never
+    // fire again and were deleted; their contract moved to
+    // crates/kerotakis-core/tests/render_locale.rs and to the browser
+    // test. What is left comes from bench.rs, which has no catalogue yet.
     i18n.setLocale("de");
-    expect(engineText("While you wait, particles in v1 sink toward the bottom.")).toBe(
-      "Während du wartest, sinken Teilchen in v1 zum Boden.",
+    expect(engineText("ethanol vapour is hazardous to inhale")).toBe(
+      "Ethanoldampf ist beim Einatmen gefährlich",
     );
-    expect(engineText("v1: 63% of the suspended particles settle in 120 s")).toBe(
-      "v1: 63 % der schwebenden Teilchen setzen sich in 120 s ab",
+  });
+
+  it("compounds onto whatever the dictionary gives, right or not", () => {
+    // The sharp edge in this pattern, pinned rather than hidden: it builds
+    // a German compound by appending "dampf" to a translated species name.
+    // That works when the dictionary has the name AND its German is the
+    // right stem — ethanol -> Ethanol -> Ethanoldampf.
+    //
+    // "ammonia" is not a key (the dictionary has "ammonia solution"), so
+    // it falls through untranslated and the compound comes out
+    // "ammoniadampf": lowercase, and the wrong stem for Ammoniakdampf.
+    // Compounding is not something a regex can do correctly across
+    // languages, which is the argument for this line moving into the
+    // engine catalogue with bench.rs rather than being patched here.
+    i18n.setLocale("de");
+    expect(engineText("ammonia vapour is hazardous to inhale")).toBe(
+      "ammoniadampf ist beim Einatmen gefährlich",
     );
   });
 
