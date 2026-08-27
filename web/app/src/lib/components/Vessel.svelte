@@ -79,6 +79,10 @@
   const geigerEffect = $derived(latestEffect("geiger_counter", 3500));
   const flameTestEffect = $derived(latestEffect("flame_test", 3000));
   const settlingEffect = $derived(latestEffect("settle", 8000));
+  const stirEffect = $derived.by(() => {
+    const effect = latestEffect("swirl", 8000);
+    return effect?.stir ? effect : undefined;
+  });
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => (e.kind === "ignite" || e.kind === "flame_test") && n - e.at < 3000 && e.flameColour);
@@ -383,7 +387,7 @@
     {/if}
 
     {#if deployedTool}
-      <DeployedApparatus tool={deployedTool} working={apparatusOperating} values={apparatusValues} surfaceY={BOTTOM_Y - Math.max(liquidH, 4)} />
+      <DeployedApparatus tool={deployedTool} working={apparatusOperating} values={apparatusValues} effect={deployedTool === "stir" ? stirEffect : undefined} surfaceY={BOTTOM_Y - Math.max(liquidH, 4)} />
     {/if}
 
     <!-- State-driven effects: every one traces to a computed number. -->
@@ -551,6 +555,34 @@
       <g class="stirrer" aria-hidden="true" style={`transform-origin:50px ${BOTTOM_Y - 6}px`}>
         <rect x="42" y={BOTTOM_Y - 8} width="16" height="4" rx="2" />
       </g>
+      {#if stirEffect?.stir}
+        <g
+          class="stir-result"
+          aria-label={t("stirring resuspended {percent}% at {speed} meters per second", {
+            percent: Math.round(stirEffect.stir.resuspendedFraction * 100),
+            speed: stirEffect.stir.tipSpeedMS.toFixed(3),
+          })}
+        >
+          <rect x={INNER_X + 2} y={BOTTOM_Y - liquidH + 2} width="43" height="13" rx="3" />
+          <text x={INNER_X + 23.5} y={BOTTOM_Y - liquidH + 8} text-anchor="middle">↻ {Math.round(stirEffect.stir.resuspendedFraction * 100)}% · {stirEffect.stir.tipSpeedMS.toFixed(3)} m/s</text>
+          <text class="rate-boundary" x={INNER_X + 23.5} y={BOTTOM_Y - liquidH + 13} text-anchor="middle">
+            {t(stirEffect.stir.rateCoupled ? "reaction rates coupled" : "mixing only — rates unchanged")}
+          </text>
+          {#each stirEffect.stir.solids.slice(0, 3) as solid, solidIndex (solid.species)}
+            {@const particleCount = Math.max(1, Math.round(1 + stirEffect.stir.resuspendedFraction * 4))}
+            {#each Array.from({ length: particleCount }, (_, i) => i) as particle (particle)}
+              <circle
+                class="resuspended-particle"
+                cx={INNER_X + 6 + ((solidIndex * 17 + particle * 11) % Math.max(7, INNER_W - 12))}
+                cy={BOTTOM_Y - 5}
+                r={.8 + Math.min(1.4, solid.moles * 12)}
+                fill={solid.colour}
+                style={`--resuspend-rise:${Math.max(5, (liquidH - 12) * stirEffect.stir.resuspendedFraction)}px;--resuspend-delay:${solidIndex * .13 + particle * .1}s;--resuspend-duration:${Math.max(.45, 1.35 - stirEffect.magnitude * .7)}s`}
+              />
+            {/each}
+          {/each}
+        </g>
+      {/if}
     {/if}
     {#if active("burst", 1800)}
       {@const burstMag = mag("burst", 1800)}
@@ -1230,6 +1262,11 @@
   .settling-readout { fill: color-mix(in srgb, var(--surface) 82%, transparent); stroke: var(--edge); stroke-width: .5; }
   .settling-grain { stroke: color-mix(in srgb, var(--edge-strong) 65%, transparent); stroke-width: .4; animation: gravity-settle var(--settle-duration) cubic-bezier(.25,.65,.45,1) both; animation-delay: var(--settle-delay); }
   @keyframes gravity-settle { from { opacity: .9; transform: translateY(0); } to { opacity: .35; transform: translateY(var(--settle-distance)); } }
+  .stir-result rect { fill: color-mix(in srgb, var(--surface) 84%, transparent); stroke: var(--instrument); stroke-width: .5; }
+  .stir-result text { fill: var(--ink); font: 700 4.5px system-ui, sans-serif; }
+  .stir-result .rate-boundary { fill: var(--dim); font-size: 3.7px; }
+  .resuspended-particle { stroke: var(--edge-strong); stroke-width: .35; animation: resuspend var(--resuspend-duration) ease-in-out infinite alternate; animation-delay: var(--resuspend-delay); }
+  @keyframes resuspend { to { transform: translateY(calc(-1 * var(--resuspend-rise))) translateX(3px); opacity: .45; } }
   @keyframes fall {
     from {
       transform: translateY(0);
@@ -1478,6 +1515,7 @@
     .steam,
     .falling,
     .settling-grain,
+    .resuspended-particle,
     .dissolving,
     .shimmer,
     .stirrer,

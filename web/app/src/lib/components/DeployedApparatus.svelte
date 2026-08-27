@@ -1,16 +1,19 @@
 <script lang="ts">
   import { t } from "../i18n.svelte";
+  import type { Effect } from "../magnitudes";
 
   let {
     tool,
     working = false,
     values = {},
     surfaceY = 118,
+    effect,
   }: {
     tool: string;
     working?: boolean;
     values?: Record<string, number | string>;
     surfaceY?: number;
+    effect?: Effect;
   } = $props();
 
   const toolNames: Record<string, string> = {
@@ -40,7 +43,7 @@
   const amps = $derived(Math.max(0.001, Number(values.amps ?? 0.5)));
   const pulseDuration = $derived(`${Math.max(0.25, 1.2 - Math.min(1, amps / 2) * 0.8)}s`);
   const pressure = $derived(Math.max(0.1, Number(values.pressure ?? 1)));
-  const stirRpm = $derived(Math.max(0, Number(values.rpm ?? 500)));
+  const stirRpm = $derived(Math.max(0, effect?.stir?.rpm ?? Number(values.rpm ?? 500)));
   const powerWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
 </script>
 
@@ -51,6 +54,9 @@
       <rect class="base" x="22" y="123" width="56" height="11" rx="3" />
       <circle class="dial" cx="69" cy="129" r="2" />
       <text x="50" y="133" text-anchor="middle">{tool === "stir" ? `${stirRpm.toFixed(0)} rpm` : `${powerWatts.toFixed(0)} W`}</text>
+      {#if tool === "stir" && effect?.stir}
+        <text class="tip-speed" x="50" y="140" text-anchor="middle">{effect.stir.tipSpeedMS.toFixed(3)} m/s</text>
+      {/if}
       {#if tool === "heat"}
         {#each [39, 50, 61] as x, i (x)}
           <path class="heat" d={`M ${x} 117 q -4 -7 0 -14 q 4 -7 0 -14`} style={`--heat-delay:${i * .16}s;--heat-rate:${Math.max(.45, 1.5 - Math.min(1, powerWatts / 1000))}s`} />

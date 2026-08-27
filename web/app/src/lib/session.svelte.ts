@@ -789,6 +789,18 @@ export class Session {
         },
       };
     }
+    if (effect?.kind === "swirl" && effect.stir) {
+      const vessel = this.scene?.vessels.find((candidate) => candidate.id === Number(event.vessel ?? 0));
+      const solids = (vessel?.solids ?? [])
+        .filter((solid) => !solid.metallic)
+        .map((solid) => ({
+          species: solid.species,
+          name: solid.name,
+          moles: solid.moles,
+          colour: `rgb(${solid.srgb[0]} ${solid.srgb[1]} ${solid.srgb[2]})`,
+        }));
+      effect = { ...effect, stir: { ...effect.stir, solids } };
+    }
     if (
       effect?.source !== undefined &&
       effect.operation &&

@@ -583,6 +583,30 @@ describe("Session", () => {
     });
   });
 
+  it("shows computed stirring resuspension using the pre-stir non-metal solids", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "stirred", vessel: 0, rpm: 700, seconds: 8, bar_length_m: .025,
+        tip_speed_m_s: .916, resuspended_fraction: .72, rate_coupled: false,
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = { scene: 1, vessels: [{
+      id: 0, liquid: null,
+      solids: [
+        { species: "SiO2", name: "silica", moles: .02, srgb: [220, 210, 185], colour_word: "sand", metallic: false, settled_fraction: .8 },
+        { species: "Fe", name: "iron", moles: .01, srgb: [80, 84, 88], colour_word: "grey", metallic: true, settled_fraction: .9 },
+      ],
+    } as Scene["vessels"][number]] };
+    await s.submit("stir v1 700rpm 8s");
+    expect(s.vesselEffects[0]?.[0]?.stir).toMatchObject({
+      rpm: 700, tipSpeedMS: .916, resuspendedFraction: .72, rateCoupled: false,
+      solids: [{ species: "SiO2", name: "silica", colour: "rgb(220 210 185)" }],
+    });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

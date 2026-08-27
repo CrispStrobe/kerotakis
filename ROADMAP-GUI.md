@@ -1289,6 +1289,14 @@ decorating it.
   unchanged vessel state instead of presenting predicted separation as an
   applied ledger mutation; requested settings still preview their calculated
   RCF before a run.
+  *Computed-stirring slice shipped 2026-08-27:* the magnetic stirrer retains
+  returned RPM, duration, bar length, tip speed, resuspended fraction and
+  rate-coupling status. Non-metal Scene solids visibly rise from the deposit
+  in their computed colours and in proportion to the engine's resuspension;
+  elemental metal excluded by the engine rule is not animated. The vessel and
+  hotplate show tip speed and resuspension, while the boundary label says
+  plainly when mixing changed suspension state but did not change kinetic
+  rates.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,
