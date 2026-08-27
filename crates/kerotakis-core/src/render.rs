@@ -300,6 +300,20 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 "{vessel}: foam {volume_liters:.3} L, {height_cm:.1} cm high, overflow {overflow_liters:.3} L"
             ),
         },
+        Event::SurfaceSpread {
+            vessel,
+            material,
+            from_cleared_fraction,
+            to_cleared_fraction,
+            ..
+        } => match register.level() {
+            1 => format!("The {material} darts away from the soap in {vessel}!"),
+            _ => format!(
+                "{vessel}: {material} central clearing increased from {:.0}% to {:.0}%",
+                100.0 * from_cleared_fraction,
+                100.0 * to_cleared_fraction
+            ),
+        },
         Event::TemperatureChanged { vessel, from, to } => {
             let d = to.0 - from.0;
             match register.level() {

@@ -865,6 +865,15 @@ pub enum Event {
         overflow_liters: f64,
         half_life_seconds: f64,
     },
+    /// A recipe-declared surfactant dose pushed an existing floating powder
+    /// layer away from the centre of a quiet liquid surface.
+    SurfaceSpread {
+        vessel: VesselId,
+        material: String,
+        from_cleared_fraction: f64,
+        to_cleared_fraction: f64,
+        coverage_fraction: f64,
+    },
     /// A solver was asked and could not converge / answer. First-class,
     /// honest, never a crash.
     SolverFailed {

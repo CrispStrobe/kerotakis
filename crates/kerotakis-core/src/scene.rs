@@ -61,6 +61,10 @@ pub struct SceneVessel {
     /// stabilizer role. Absent for the no-soap control.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub foam: Option<SceneFoam>,
+    /// Unresolved floating grains at the liquid surface, including the
+    /// computed central clearing made by a recipe-declared surfactant.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub surface_particles: Option<SceneSurfaceParticles>,
     /// The gas boundary, serialized with its existing `boundary` tag:
     /// open, sealed, pressure_controlled, or swept.
     #[serde(flatten)]
@@ -94,6 +98,13 @@ pub struct SceneFoam {
     pub srgb: [u8; 3],
     #[serde(default = "default_foam_colour_word")]
     pub colour_word: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneSurfaceParticles {
+    pub material: String,
+    pub coverage_fraction: f64,
+    pub cleared_fraction: f64,
 }
 
 fn default_foam_srgb() -> [u8; 3] {
@@ -344,6 +355,14 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         solids,
         bubbling: seen.bubbling,
         foam,
+        surface_particles: v
+            .surface_particles
+            .as_ref()
+            .map(|particles| SceneSurfaceParticles {
+                material: particles.material.clone(),
+                coverage_fraction: particles.coverage_fraction,
+                cleared_fraction: particles.cleared_fraction,
+            }),
         headspace: v.headspace,
         temperature_k: v.temperature.0,
         pressure_pa: v.pressure.0,

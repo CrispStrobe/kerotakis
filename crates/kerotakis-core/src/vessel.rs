@@ -40,6 +40,16 @@ pub struct FoamState {
     pub peak_volume_liters: f64,
 }
 
+/// Persistent view of unresolved grains floating at a liquid surface. The
+/// values are recipe-declared classroom observables; no grain-scale flow field
+/// or molecular surface tension is implied.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct SurfaceParticleState {
+    pub material: String,
+    pub coverage_fraction: f64,
+    pub cleared_fraction: f64,
+}
+
 /// How the vessel exchanges heat with the surroundings between operators.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -650,6 +660,8 @@ pub struct Vessel {
     pub unresolved_materials: Vec<UnresolvedMaterialPortion>,
     #[serde(default)]
     pub foam: FoamState,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub surface_particles: Option<SurfaceParticleState>,
     pub temperature: Kelvin,
     pub pressure: Pascal,
     pub thermal_mode: ThermalMode,
@@ -704,6 +716,7 @@ impl Vessel {
             contents: Vec::new(),
             unresolved_materials: Vec::new(),
             foam: FoamState::default(),
+            surface_particles: None,
             temperature: Kelvin::STANDARD,
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,

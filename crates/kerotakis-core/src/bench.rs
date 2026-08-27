@@ -526,6 +526,20 @@ impl Bench {
                         .collect(),
                     unresolved_amount: expansion.unresolved_amount,
                 });
+                if let Some(spread) = crate::surface_spread::after_material_added(v, &recipe) {
+                    let material = v
+                        .surface_particles
+                        .as_ref()
+                        .map(|particles| particles.material.clone())
+                        .unwrap_or_else(|| "floating particles".to_string());
+                    events.push(Event::SurfaceSpread {
+                        vessel: *vessel,
+                        material,
+                        from_cleared_fraction: spread.from_cleared_fraction,
+                        to_cleared_fraction: spread.to_cleared_fraction,
+                        coverage_fraction: spread.coverage_fraction,
+                    });
+                }
             }
             Operator::Heat { vessel, energy } | Operator::Cool { vessel, energy } => {
                 if energy.0 < 0.0 {

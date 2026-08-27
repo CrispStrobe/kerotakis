@@ -68,7 +68,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
-        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity".to_string(),
+        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity; ACS/J. Chem. Educ. DOI 10.1021/ed400316a documents detergent-lowered surface tension and the pepper-on-water classroom demonstration".to_string(),
         licence: "AGPL-3.0-or-later".to_string(),
         lane: SourceLane::Runtime,
         origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
@@ -373,7 +373,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             aliases: BTreeMap::from([
                 (
                     "en".to_string(),
-                    vec!["cola".to_string(), "fizzy cola".to_string()],
+                    vec!["fizzy cola".to_string()],
                 ),
                 (
                     "de".to_string(),
@@ -568,18 +568,59 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 upper: 0.20,
             }),
             physical_form: MaterialPhysicalForm::HomogeneousLiquid,
-            roles: vec![MaterialRole::FoamStabilizer {
-                trapping_efficiency: 0.85,
-                gas_volume_fraction: 0.90,
-                half_life_seconds: 180.0,
-                saturation_amount: 0.4,
-            }],
+            roles: vec![
+                MaterialRole::FoamStabilizer {
+                    trapping_efficiency: 0.85,
+                    gas_volume_fraction: 0.90,
+                    half_life_seconds: 180.0,
+                    saturation_amount: 0.4,
+                },
+                MaterialRole::SurfaceTensionReducer {
+                    saturation_amount: 0.10,
+                    max_cleared_fraction: 0.90,
+                },
+            ],
             preparation: Some(
                 "unbranded aqueous dish-soap teaching surrogate; surfactant blend unresolved"
                     .to_string(),
             ),
             lot_assumptions: vec![
                 "brand-specific surfactants, salts, fragrance, dye and preservatives remain in the explicit unresolved fraction".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/ground-black-pepper-surrogate".to_string(),
+            version: 1,
+            canonical_key: "ground_black_pepper".to_string(),
+            name: "ground black pepper".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec!["Pfeffer".to_string(), "schwarzer Pfeffer".to_string()],
+                ),
+                ("en".to_string(), vec!["ground pepper".to_string()]),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange {
+                lower: 1.0,
+                upper: 1.0,
+            }),
+            physical_form: MaterialPhysicalForm::Powder,
+            roles: vec![MaterialRole::SurfaceFloater {
+                saturation_amount: 0.08,
+            }],
+            preparation: Some(
+                "dry ground black-pepper teaching surrogate for the quiet-water surface demonstration"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "plant composition, grind distribution and brand-specific wetting remain unresolved; only the reviewed floating-grain observable is modeled".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,
@@ -657,7 +698,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             aliases: BTreeMap::from([
                 (
                     "en".to_string(),
-                    vec!["baking powder".to_string(), "baking_powder".to_string()],
+                    vec!["baking powder".to_string()],
                 ),
                 (
                     "de".to_string(),

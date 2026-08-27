@@ -142,6 +142,23 @@ pub enum MaterialRole {
         absorption: Vec<f64>,
         scattering: Vec<f64>,
     },
+    /// A named unresolved powder whose grains remain visibly afloat on a
+    /// quiet water surface. This is a bounded classroom-observable role, not
+    /// a molecular composition claim.
+    SurfaceFloater {
+        /// Recipe-basis amount at which the visible surface is treated as
+        /// fully covered.
+        saturation_amount: f64,
+    },
+    /// Empirical bridge from a surfactant-containing recipe to the familiar
+    /// pepper-and-soap spreading demonstration. It describes only the
+    /// reviewed dose response, not a universal surface-tension coefficient.
+    SurfaceTensionReducer {
+        /// Amount of unresolved functional blend, in the recipe basis, at
+        /// which the bounded clearing effect reaches full strength.
+        saturation_amount: f64,
+        max_cleared_fraction: f64,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
