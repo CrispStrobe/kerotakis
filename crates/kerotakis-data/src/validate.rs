@@ -522,6 +522,7 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::SurfaceColourant { .. } => {}
                     MaterialRole::AqueousImmiscibleLiquid { colour_word, .. } => {
                         if recipe.bulk_density.is_none() {
                             self.issue(

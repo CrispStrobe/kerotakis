@@ -42,6 +42,7 @@ export interface SceneVessel {
   bubbling: boolean;
   foam?: SceneFoam | null;
   surface_particles?: SceneSurfaceParticles | null;
+  surface_colours?: SceneSurfaceColour[];
   emulsion?: SceneEmulsion | null;
   curds?: SceneCurds | null;
   /** Flattened Headspace tag: open | sealed | pressure_controlled | swept. */
@@ -69,6 +70,13 @@ export interface SceneSurfaceParticles {
   material: string;
   coverage_fraction: number;
   cleared_fraction: number;
+}
+
+export interface SceneSurfaceColour {
+  material: string;
+  srgb: [number, number, number];
+  spread_fraction: number;
+  relative_amount: number;
 }
 
 export interface SceneEmulsion {

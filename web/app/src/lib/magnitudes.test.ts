@@ -42,6 +42,15 @@ describe("effectFromEvent", () => {
     expect(e?.magnitude).toBe(1);
   });
 
+  it("maps computed milk colour motion to a magic-milk effect", () => {
+    const e = effectFromEvent({
+      event: "surface_colour_spread",
+      to_spread_fraction: 0.9,
+    });
+    expect(e?.kind).toBe("magic-milk");
+    expect(e?.magnitude).toBe(1);
+  });
+
   it("maps computed curd formation to a bounded clumping effect", () => {
     const e = effectFromEvent({
       event: "curdling_changed",

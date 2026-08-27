@@ -194,6 +194,10 @@ pub enum MaterialRole {
         max_opacity_reduction: f64,
         curd_srgb: [u8; 3],
     },
+    /// A dilute, resolved colourant that can remain as a visible surface
+    /// drop on an opaque colloid until detergent spreads it or mechanical
+    /// mixing releases it into the bulk optical model.
+    SurfaceColourant { srgb: [u8; 3] },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

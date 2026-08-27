@@ -65,6 +65,7 @@ pub mod spectrum;
 pub mod states;
 pub mod statistics;
 pub mod stoich;
+pub mod surface_colour;
 pub mod surface_spread;
 pub mod transport;
 pub mod units;

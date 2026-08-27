@@ -958,6 +958,8 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::ReactionHeatReleased { .. } => ("reaction_heat_released", None),
         E::FoamChanged { .. } => ("foam_changed", None),
         E::SurfaceSpread { .. } => ("surface_spread", None),
+        E::SurfaceColourSpread { .. } => ("surface_colour_spread", None),
+        E::SurfaceColourMixed { .. } => ("surface_colour_mixed", None),
         E::FlameTest { species, .. } => ("flame_test", Some(species.0.as_str())),
         E::Ignited { .. } => ("ignited", None),
         E::DidNotIgnite { .. } => ("did_not_ignite", None),

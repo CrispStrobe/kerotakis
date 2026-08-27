@@ -553,11 +553,11 @@ impl Bench {
                     basis: *basis,
                     sample_seed: *sample_seed,
                     components: components
-                        .into_iter()
+                        .iter()
                         .map(|(species, _, basis_amount, moles)| MaterialComponentAdded {
-                            species,
-                            basis_amount,
-                            moles,
+                            species: species.clone(),
+                            basis_amount: *basis_amount,
+                            moles: *moles,
                         })
                         .collect(),
                     unresolved_amount: expansion.unresolved_amount,
@@ -574,6 +574,20 @@ impl Bench {
                         from_cleared_fraction: spread.from_cleared_fraction,
                         to_cleared_fraction: spread.to_cleared_fraction,
                         coverage_fraction: spread.coverage_fraction,
+                    });
+                }
+                let colour_components = components
+                    .iter()
+                    .map(|(species, _, _, moles)| (species.clone(), *moles))
+                    .collect::<Vec<_>>();
+                if let Some(spread) =
+                    crate::surface_colour::after_material_added(v, &recipe, &colour_components)
+                {
+                    events.push(Event::SurfaceColourSpread {
+                        vessel: *vessel,
+                        from_spread_fraction: spread.from_spread_fraction,
+                        to_spread_fraction: spread.to_spread_fraction,
+                        spot_count: spread.spot_count,
                     });
                 }
             }
@@ -668,6 +682,7 @@ impl Bench {
                 let has_liquid = v.liquid_volume().0 > 0.0;
                 let vessel_id = v.id;
                 let v = self.vessel_mut(*vessel)?;
+                let mixed_surface_colours = crate::surface_colour::homogenize(v);
                 if has_liquid {
                     for portion in solid_portions {
                         let mut found = false;
@@ -705,6 +720,12 @@ impl Bench {
                     resuspended_fraction,
                     rate_coupled,
                 });
+                if mixed_surface_colours > 0 {
+                    events.push(Event::SurfaceColourMixed {
+                        vessel: vessel_id,
+                        spot_count: mixed_surface_colours,
+                    });
+                }
                 // Stirring is a timed bench operation, not a decorative
                 // gesture. Let the selected vessel's slow chemistry run for
                 // the delivered duration after the solid has been lifted

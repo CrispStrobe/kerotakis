@@ -904,6 +904,20 @@ pub enum Event {
         to_cleared_fraction: f64,
         coverage_fraction: f64,
     },
+    /// Detergent spread resolved colourant drops across an opaque colloid's
+    /// surface. The fractions are bounded visual geometry, not a CFD field.
+    SurfaceColourSpread {
+        vessel: VesselId,
+        from_spread_fraction: f64,
+        to_spread_fraction: f64,
+        spot_count: usize,
+    },
+    /// Mechanical stirring released localized surface dye into the normal
+    /// homogeneous Beer–Lambert colour calculation.
+    SurfaceColourMixed {
+        vessel: VesselId,
+        spot_count: usize,
+    },
     /// A solver was asked and could not converge / answer. First-class,
     /// honest, never a crash.
     SolverFailed {

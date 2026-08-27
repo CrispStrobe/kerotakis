@@ -72,7 +72,9 @@ pub fn observe(vessel: &Vessel) -> Appearance {
                 None => continue,
             },
         };
-        let concentration = p.moles.0 / litres;
+        let visible_moles =
+            (p.moles.0 - crate::surface_colour::sequestered_moles(vessel, &p.species)).max(0.0);
+        let concentration = visible_moles / litres;
         for (band, e) in absorbance.iter_mut().zip(eps.iter()) {
             *band += e * concentration * crate::vessel::path_cm_for(&vessel.label);
         }
