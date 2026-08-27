@@ -40,6 +40,7 @@ describe("effectFromEvent", () => {
     const e = effectFromEvent({ event: "evaporated", vessel: 0, moles: 0.2 });
     expect(e!.kind).toBe("evaporate");
     expect(e!.magnitude).toBeGreaterThan(0.3);
+    expect(e).toMatchObject({ reading: .2, unit: "mol" });
   });
 
   it("maps distilled → evaporate", () => {

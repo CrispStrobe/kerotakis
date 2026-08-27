@@ -322,7 +322,13 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
     case "precipitated":
       return { kind: "precipitate", at: now, magnitude: precipMag(e) };
     case "evaporated":
-      return { kind: "evaporate", at: now, magnitude: steamMag(e) };
+      return {
+        kind: "evaporate",
+        at: now,
+        magnitude: steamMag(e),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+      };
     case "distilled":
       return {
         kind: "evaporate",
