@@ -1,0 +1,23 @@
+# Milk, vinegar, curds and whey: how much acid is enough?
+#
+# A child-friendly comparison using ordinary milk and 5% household vinegar.
+# Do not taste anything from a lab vessel; clean the vessels after the
+# activity, and ask an adult before using food for an experiment.
+register lv1
+
+# Begin with a deliberately tiny vinegar dose. The milk stays a dispersed
+# white colloid because the installed acid dose has not reached its declared
+# curdling onset.
+add v1 whole_milk 100mL
+add v1 white_vinegar_5_percent 1mL
+inspect v1
+
+# Make a fair second vessel with the same milk volume and ten times the
+# vinegar. The actual acetic-acid inventory now reaches the bounded response:
+# milk solids join visible soft clumps while the surrounding whey becomes less
+# opaque. This is an educational aggregate model, not a recipe, food-safety
+# check, cheese-yield prediction or claim about every kind of milk.
+new beaker
+add v2 whole_milk 100mL
+add v2 white_vinegar_5_percent 10mL
+inspect v2
