@@ -167,3 +167,12 @@ catalase = "Katalase"
 "not-yet-modeled.lv1" = "Hmm — in {vessel} passiert nichts Sichtbares (dieser Teil des Labors ist noch nicht wach)."
 "not-yet-modeled.lv2" = "{vessel}: noch nicht modelliert — {what}"
 "diluted.lv1" = "Du gibst Wasser in {vessel} — die Lösung wird schwächer."
+
+# Cases that English handled by appending a letter or swapping a word.
+# German needs whole sentences, so each case is its own key.
+"magnet-separated.lv1-one" = "Du hältst einen Magneten über {from} — das {what} springt daran. Du lässt es in {to} fallen."
+"magnet-separated.lv1-many" = "Du hältst einen Magneten über {from} — {what} springen daran. Du lässt sie in {to} fallen."
+"magnet-separated.lv1-stays-one" = " Das {what} bleibt zurück."
+"magnet-separated.lv1-stays-many" = " {what} bleiben zurück."
+"heat-of-mixing.lv2-released" = "{vessel}: Mischungswärme {joules} J abgegeben"
+"heat-of-mixing.lv2-absorbed" = "{vessel}: Mischungswärme {joules} J aufgenommen"

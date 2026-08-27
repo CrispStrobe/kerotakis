@@ -662,18 +662,49 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 let rem: Vec<String> = remained.iter().map(name).collect();
                 match register.level() {
                     1 => {
+                        // Singular and plural are separate KEYS, not one
+                        // sentence with a letter appended. English adds an
+                        // "s" to the verb; German changes the word
+                        // (springt/springen), and other languages do other
+                        // things again. A skeleton that fits English cannot
+                        // be made to fit them by substitution.
                         let rem_part = if rem.is_empty() {
                             String::new()
+                        } else if rem.len() == 1 {
+                            locale.fill(
+                                "event.magnet-separated.lv1-stays-one",
+                                " The {what} stays behind.",
+                                &[("what", &rem.join(", "))],
+                            )
                         } else {
-                            format!(" The {} stay{} behind.", rem.join(", "),
-                                if rem.len() == 1 { "s" } else { "" })
+                            locale.fill(
+                                "event.magnet-separated.lv1-stays-many",
+                                " The {what} stay behind.",
+                                &[("what", &rem.join(", "))],
+                            )
                         };
-                        format!(
-                            "You hold a magnet over {from} — the {} jump{} to it. You drop {} into {to}.{rem_part}",
-                            att.join(", "),
-                            if att.len() == 1 { "s" } else { "" },
-                            if att.len() == 1 { "it" } else { "them" },
-                        )
+                        let main = if att.len() == 1 {
+                            locale.fill(
+                                "event.magnet-separated.lv1-one",
+                                "You hold a magnet over {from} — the {what} jumps to it. You drop it into {to}.",
+                                &[
+                                    ("from", &from.to_string()),
+                                    ("what", &att.join(", ")),
+                                    ("to", &to.to_string()),
+                                ],
+                            )
+                        } else {
+                            locale.fill(
+                                "event.magnet-separated.lv1-many",
+                                "You hold a magnet over {from} — the {what} jump to it. You drop them into {to}.",
+                                &[
+                                    ("from", &from.to_string()),
+                                    ("what", &att.join(", ")),
+                                    ("to", &to.to_string()),
+                                ],
+                            )
+                        };
+                        format!("{main}{rem_part}")
                     }
                     _ => format!(
                         "{from} → {to}: magnetic {} attracted; non-magnetic {} remained",
@@ -859,11 +890,29 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     )
                 }
             }
-            2 => format!(
-                "{vessel}: heat of mixing {} {:.1} J",
-                if *joules > 0.0 { "released" } else { "absorbed" },
-                joules.abs()
-            ),
+            2 => {
+                // "released" and "absorbed" were English words chosen
+                // by a condition and dropped into an English sentence.
+                // Two keys instead, so German writes both in full.
+                let key = if *joules > 0.0 {
+                    "event.heat-of-mixing.lv2-released"
+                } else {
+                    "event.heat-of-mixing.lv2-absorbed"
+                };
+                let en = if *joules > 0.0 {
+                    "{vessel}: heat of mixing released {joules} J"
+                } else {
+                    "{vessel}: heat of mixing absorbed {joules} J"
+                };
+                locale.fill(
+                    key,
+                    en,
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("joules", &locale.number(format!("{:.1}", joules.abs()))),
+                    ],
+                )
+            }
             _ => format!(
                 "{vessel}: q_mix = {joules:+.3} J from ΔHᴱ (UNIFAC Gibbs–Helmholtz, verified-pair allowlist; state-function bookkeeping, so the pour path cannot change the answer). Boundary: VLE-fitted parameters make hᴱ magnitude-class, and unverified pairs are withheld, not guessed"
             ),
