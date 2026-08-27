@@ -131,12 +131,32 @@
 
   /**
    * A shelf click or drop represents a physical pour, not zero-duration state
-   * editing. Give the newly contacted mixture five explicit seconds to react so
-   * kinetic effects start visibly; keeping the wait as a normal command makes
-   * the elapsed time replayable and visible in the notebook.
+   * editing. Advance one explicit second, then keep ticking only while the
+   * computed scene is bubbling or its foam is growing. Every tick remains a
+   * normal command, so elapsed time is replayable and visible in the notebook.
    */
   async function dispense(line: string) {
-    if (await session.submit(line)) await session.submit("wait 5s");
+    if (!(await session.submit(line))) return;
+    let previousFoam = (session.scene?.vessels ?? []).reduce(
+      (total, vessel) => total + (vessel.foam?.volume_liters ?? 0),
+      0,
+    );
+    for (let second = 0; second < 10; second += 1) {
+      if (!(await session.submit("wait 1s"))) break;
+      await tick();
+      const vessels = session.scene?.vessels ?? [];
+      const nextFoam = vessels.reduce(
+        (total, vessel) => total + (vessel.foam?.volume_liters ?? 0),
+        0,
+      );
+      const visiblyReacting =
+        nextFoam > previousFoam + 1e-9 || vessels.some((vessel) => vessel.bubbling);
+      if (!visiblyReacting) break;
+      previousFoam = nextFoam;
+      // Pace computed state changes so a child sees a rise rather than a
+      // teleport. This does not enter engine time or alter reduced-motion state.
+      await new Promise((resolve) => setTimeout(resolve, 90));
+    }
   }
 
   let lessons = $state<{ file: string; name: string; blurb?: string; topic?: string }[]>([]);
