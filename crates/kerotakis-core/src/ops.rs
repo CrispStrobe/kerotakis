@@ -389,7 +389,8 @@ pub enum Event {
         /// Fraction of an available non-metal deposit lifted into suspension,
         /// from accumulated bar travel over a 0.30 m mixing-length scale.
         resuspended_fraction: f64,
-        /// False until kinetics/surface-area models consume this operation.
+        /// Whether rpm/tip speed alter a kinetic rate through mass transfer.
+        /// Timed stirring advances the vessel clock independently of this.
         rate_coupled: bool,
     },
     /// A mortar changed the mean diameter of a solid powder. Surface area
