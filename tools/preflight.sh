@@ -31,16 +31,27 @@ if [ -d /mnt/volume1 ]; then
 fi
 
 LIGHT=false
+# Clippy is on by default: a preflight that checks less than CI is how the
+# "green locally, red on CI" problem this script exists to prevent comes
+# back. CI passes --no-clippy because its own `Test (native)` matrix
+# already runs the identical command on both platforms, so preflight's
+# run is a third pass that buys nothing.
+CLIPPY=true
 for arg in "$@"; do
   case "$arg" in
     --light) LIGHT=true ;;
+    --no-clippy) CLIPPY=false ;;
   esac
 done
 
 step() { printf '\n\033[1m== %s\033[0m\n' "$1"; }
 
 step "fmt";           cargo fmt --check
-step "clippy";        cargo clippy --workspace --all-targets -- -D warnings
+if $CLIPPY; then
+  step "clippy";      cargo clippy --workspace --all-targets -- -D warnings
+else
+  step "clippy";      echo "skipped (--no-clippy; the Test matrix runs it on both platforms)"
+fi
 step "no-engine";     cargo check -p kerotakis-phreeqc --no-default-features
 
 if $LIGHT; then

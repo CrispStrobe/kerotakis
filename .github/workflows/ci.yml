@@ -25,7 +25,10 @@ jobs:
       - name: Install cargo-deny
         run: cargo install cargo-deny --locked
       - name: Run tools/preflight.sh
-        run: bash tools/preflight.sh
+        # --no-clippy: the `Test (native)` matrix above already runs the
+        # identical clippy command on ubuntu and macOS, so this would be
+        # a third full workspace lint for no extra coverage.
+        run: bash tools/preflight.sh --no-clippy
 
   test:
     name: Test (native)
