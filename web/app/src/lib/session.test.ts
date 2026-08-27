@@ -451,6 +451,40 @@ describe("Session", () => {
     expect(s.vesselEffects[1]?.[3]).toMatchObject({ reading: -2.81, unit: "kJ" });
   });
 
+  it("keeps computed chromatography peaks for physical playback", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{
+        operator: {},
+        events: [{
+          event: "chromatographed",
+          vessel: 0,
+          plates: 1600,
+          void_time_s: 42,
+          peaks: [
+            { species: "acetone", retention_time_s: 61, width_s: 6.1, relative_area: 0.4, partition_k: 0.2 },
+            { species: "ethanol", retention_time_s: 118, width_s: 11.8, relative_area: 1, partition_k: 1.8 },
+          ],
+          outside_method: ["Na+"],
+        }],
+        rendered: [],
+      }],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("chromatograph v1");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "chromatograph",
+      voidTimeS: 42,
+      plates: 1600,
+      outsideMethod: ["Na+"],
+      bands: [
+        { species: "acetone", retentionTimeS: 61, widthS: 6.1, relativeArea: 0.4, partitionK: 0.2 },
+        { species: "ethanol", retentionTimeS: 118, widthS: 11.8, relativeArea: 1, partitionK: 1.8 },
+      ],
+    });
+  });
+
   it("a titrated event starts the paced playback (GUI-064)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

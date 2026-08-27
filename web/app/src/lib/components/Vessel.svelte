@@ -74,6 +74,7 @@
   const conductivityEffect = $derived(latestEffect("conductivity_meter", 2500));
   const uvvisEffect = $derived(latestEffect("uvvis", 2500));
   const calorimeterEffect = $derived(latestEffect("calorimeter", 2500));
+  const chromatographEffect = $derived(latestEffect("chromatograph", 5200));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => e.kind === "ignite" && n - e.at < 3000 && e.flameColour);
@@ -650,6 +651,35 @@
         <rect class="uvvis-screen" x="8" y="71" width="27" height="9" rx="2" />
         <text class="uvvis-value" x="21.5" y="76" text-anchor="middle">A {reading}</text>
         <text class="uvvis-wavelength" x="21.5" y="83" text-anchor="middle">{wavelengthText} nm</text>
+      </g>
+    {/if}
+    {#if chromatographEffect && chromatographEffect.bands?.length}
+      {@const maxRetention = Math.max(chromatographEffect.voidTimeS ?? 0, ...chromatographEffect.bands.map((band) => band.retentionTimeS), 1)}
+      {@const count = chromatographEffect.bands.length}
+      <g class="instrument chromatograph-inst" aria-label={t("chromatography column: {count} computed retention bands", { count })}>
+        <path class="chromatograph-tube" d="M18 29 C28 29 28 38 34 43" />
+        <rect class="chromatograph-body" x="2" y="9" width="18" height="84" rx="7" />
+        <rect class="chromatograph-column" x="7" y="18" width="8" height="58" rx="4" />
+        <rect class="chromatograph-solvent" x="8" y="12" width="6" height="8" rx="2" />
+        <path class="chromatograph-flow" d="M11 21 V72" />
+        {#each chromatographEffect.bands as band, i (`${band.species}-${band.retentionTimeS}`)}
+          {@const position = 23 + (band.retentionTimeS / maxRetention) * 47}
+          {@const thickness = Math.max(1.6, Math.min(5.5, 1.6 + (band.widthS / maxRetention) * 24))}
+          <rect
+            class="chromatograph-band band-{i % 5}"
+            x="7.6"
+            y={position}
+            width="6.8"
+            height={thickness}
+            rx={Math.min(2, thickness / 2)}
+            style={`--band-travel:${position - 22}px;--band-delay:${i * 0.16}s;--band-opacity:${0.38 + Math.min(1, band.relativeArea) * 0.62}`}
+          >
+            <title>{t("{species}: retention {time} s, relative area {area}%", { species: t(band.species), time: formatReading(band.retentionTimeS, 1), area: formatReading(band.relativeArea * 100, 0) })}</title>
+          </rect>
+        {/each}
+        <rect class="chromatograph-screen" x="1" y="80" width="20" height="13" rx="2.5" />
+        <text class="chromatograph-count" x="11" y="86" text-anchor="middle">{count} {t(count === 1 ? "band" : "bands")}</text>
+        <text class="chromatograph-plates" x="11" y="91" text-anchor="middle">N {chromatographEffect.plates ?? "—"}</text>
       </g>
     {/if}
 
@@ -1267,6 +1297,23 @@
   .uvvis-beam { stroke: var(--beam); stroke-width: 2; stroke-linecap: round; }
   .uvvis-beam.output { opacity: var(--transmittance); }
   .uvvis-wavelength { fill: var(--ink); font-size: 3px; font-weight: 800; }
+  .chromatograph-inst { transform-origin: 11px 51px; }
+  .chromatograph-body { fill: color-mix(in srgb, var(--discovery) 14%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1; filter: drop-shadow(0 1px 1px var(--shadow)); }
+  .chromatograph-column { fill: color-mix(in srgb, var(--glass) 72%, transparent); stroke: var(--instrument); stroke-width: .8; }
+  .chromatograph-solvent { fill: color-mix(in srgb, var(--cool) 28%, var(--surface)); stroke: var(--edge-strong); stroke-width: .6; }
+  .chromatograph-tube, .chromatograph-flow { fill: none; stroke: var(--instrument); stroke-width: 1.1; stroke-linecap: round; }
+  .chromatograph-flow { stroke-dasharray: 2 2; opacity: .55; animation: column-flow .6s linear infinite; }
+  .chromatograph-band { opacity: var(--band-opacity); transform-origin: center; animation: band-elute 2.8s cubic-bezier(.22,.7,.25,1) var(--band-delay) both; }
+  .chromatograph-band.band-0 { fill: var(--action); }
+  .chromatograph-band.band-1 { fill: var(--hot); }
+  .chromatograph-band.band-2 { fill: var(--cool); }
+  .chromatograph-band.band-3 { fill: var(--success); }
+  .chromatograph-band.band-4 { fill: var(--discovery); }
+  .chromatograph-screen { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); stroke: var(--edge-strong); stroke-width: .45; }
+  .chromatograph-count { fill: var(--surface); font-size: 3.2px; font-weight: 850; }
+  .chromatograph-plates { fill: var(--surface); font-size: 2.7px; font-weight: 700; opacity: .82; }
+  @keyframes column-flow { to { stroke-dashoffset: -4; } }
+  @keyframes band-elute { from { transform: translateY(calc(-1 * var(--band-travel))); opacity: .16; } to { transform: translateY(0); opacity: var(--band-opacity); } }
   @media (prefers-reduced-motion: reduce) {
     .instrument {
       animation: none;
@@ -1275,6 +1322,7 @@
     .balance-inst { animation: none; }
     .gauge-needle { transition: none; }
     .syringe-gas, .syringe-piston, .syringe-rod { transition: none; }
+    .chromatograph-flow, .chromatograph-band { animation: none; }
     .burette-fill {
       transition: none;
     }
