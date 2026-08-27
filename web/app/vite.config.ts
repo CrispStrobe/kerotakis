@@ -22,10 +22,19 @@ function payloadRootTags(): Plugin {
     // iOS reads this, not the manifest, for Add to Home Screen; without it
     // the home screen gets a screenshot of the page.
     { tag: "link", attrs: { rel: "apple-touch-icon", href: "../apple-touch-icon.png" }, injectTo: "head" },
-    { tag: "link", attrs: { id: "app-manifest", rel: "manifest", href: "../manifest.webmanifest" }, injectTo: "head" },
+    // The manifest link is created HERE, by this script, rather than
+    // injected as static markup that a later script rewrites. Chrome
+    // resolves the manifest while parsing the head and keeps what it
+    // first saw, so rewriting the href afterwards moved the DOM and
+    // nothing else — a German reader installed the bench and got the
+    // English name and icons on their home screen.
+    //
+    // Appending from script means only one href ever exists. The catch
+    // still appends the English link: the wrong language is recoverable,
+    // no manifest at all makes the bench uninstallable.
     {
       tag: "script",
-      children: '{ let choice; try { choice = localStorage.getItem("kerotakis.locale"); } catch {} if ((choice || navigator.language).toLowerCase().startsWith("de")) document.getElementById("app-manifest").href = "../manifest.de.webmanifest"; }',
+      children: '{ var href = "../manifest.webmanifest"; try { var choice = localStorage.getItem("kerotakis.locale"); if ((choice || navigator.language).toLowerCase().startsWith("de")) href = "../manifest.de.webmanifest"; } catch {} var l = document.createElement("link"); l.id = "app-manifest"; l.rel = "manifest"; l.href = href; document.head.appendChild(l); }',
       injectTo: "head",
     },
   ];
