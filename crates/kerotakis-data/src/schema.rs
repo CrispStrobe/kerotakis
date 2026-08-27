@@ -57,6 +57,11 @@ pub struct MaterialRecipe {
     #[serde(default)]
     pub aliases: BTreeMap<String, Vec<String>>,
     pub basis: MaterialBasis,
+    /// Bulk density for converting a dispensed volume into the recipe basis.
+    /// Required when a mass-fraction recipe accepts mL input; absent means the
+    /// caller must use the native basis rather than guessing a density.
+    #[serde(default)]
+    pub bulk_density: Option<NumericRecord>,
     pub components: Vec<MaterialComponent>,
     #[serde(default)]
     pub unresolved_fraction: Option<FractionRange>,

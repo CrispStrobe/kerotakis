@@ -227,6 +227,32 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 }
             }
         }
+        Event::MaterialAdded {
+            vessel,
+            material,
+            total_amount,
+            basis,
+            components,
+            unresolved_amount,
+            ..
+        } => {
+            let unit = match basis {
+                crate::material::MaterialBasis::MassFraction => "g",
+                crate::material::MaterialBasis::MoleFraction => "mol",
+                crate::material::MaterialBasis::VolumeFraction => "mL",
+            };
+            match register.level() {
+                1 => format!("You add {material} to {vessel}."),
+                2 => format!(
+                    "{vessel}: +{total_amount:.3} {unit} {material} ({} known ingredients)",
+                    components.len()
+                ),
+                _ => format!(
+                    "{vessel}: +{total_amount:.6} {unit} {material}; {} canonical components, {unresolved_amount:.6} {unit} unresolved",
+                    components.len()
+                ),
+            }
+        }
         Event::TemperatureChanged { vessel, from, to } => {
             let d = to.0 - from.0;
             match register.level() {

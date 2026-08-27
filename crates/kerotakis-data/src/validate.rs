@@ -419,6 +419,16 @@ impl<'a> Validator<'a> {
                     "recipe has no resolved components",
                 );
             }
+            if let Some(density) = &recipe.bulk_density {
+                self.numeric(
+                    &format!("{path}.bulk_density"),
+                    density,
+                    Some(Dimension::MassDensity),
+                );
+                if density.value <= 0.0 {
+                    self.issue(format!("{path}.bulk_density.value"), "must be positive");
+                }
+            }
             let mut component_species = HashSet::new();
             let mut lower_sum = 0.0;
             let mut upper_sum = 0.0;

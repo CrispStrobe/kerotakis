@@ -47,6 +47,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "inert_in_solvent",
     "layers_formed",
     "magnet_separated",
+    "material_added",
     "measured",
     "mixed",
     "no_cell",

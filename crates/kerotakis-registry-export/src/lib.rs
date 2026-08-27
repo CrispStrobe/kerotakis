@@ -64,6 +64,17 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             "unbranded household teaching surrogate with an explicit concentration".to_string(),
         ),
     };
+    let density = |value: f64| NumericRecord {
+        value,
+        unit: Unit {
+            symbol: "g/mL".to_string(),
+            dimension: Dimension::MassDensity,
+        },
+        conditions: Applicability::default(),
+        uncertainty: Uncertainty::NotReported,
+        source_id: SOURCE.to_string(),
+        method: Method::Editorial("room-temperature teaching-surrogate density".to_string()),
+    };
     document.material_recipes.extend([
         MaterialRecipe {
             id: "household/hydrogen-peroxide-3-percent".to_string(),
@@ -71,10 +82,23 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             canonical_key: "hydrogen_peroxide_3_percent".to_string(),
             name: "3% hydrogen peroxide".to_string(),
             aliases: BTreeMap::from([
-                ("en".to_string(), vec!["household peroxide 3%".to_string()]),
-                ("de".to_string(), vec!["Wasserstoffperoxid 3%".to_string()]),
+                (
+                    "en".to_string(),
+                    vec![
+                        "household peroxide 3%".to_string(),
+                        "peroxide_3%".to_string(),
+                    ],
+                ),
+                (
+                    "de".to_string(),
+                    vec![
+                        "Wasserstoffperoxid 3%".to_string(),
+                        "Wasserstoffperoxid_3%".to_string(),
+                    ],
+                ),
             ]),
             basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.01)),
             components: vec![component("H2O2", 0.03), component("water", 0.97)],
             unresolved_fraction: None,
             physical_form: MaterialPhysicalForm::HomogeneousLiquid,
@@ -96,10 +120,15 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 ("en".to_string(), vec!["household vinegar".to_string()]),
                 (
                     "de".to_string(),
-                    vec!["Essig".to_string(), "Haushaltsessig 5%".to_string()],
+                    vec![
+                        "Essig".to_string(),
+                        "Haushaltsessig 5%".to_string(),
+                        "Haushaltsessig_5%".to_string(),
+                    ],
                 ),
             ]),
             basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.006)),
             components: vec![component("CH3COOH", 0.05), component("water", 0.95)],
             unresolved_fraction: None,
             physical_form: MaterialPhysicalForm::HomogeneousLiquid,

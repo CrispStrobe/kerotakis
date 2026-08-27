@@ -4,14 +4,15 @@
 use serde::{Deserialize, Serialize};
 
 use crate::instrument::InstrumentContract;
-use crate::ops::{ElutedPeak, Event, Instrument, LogEntry, Operator};
+use crate::material::{self, MaterialBasis, MaterialRecipe};
+use crate::ops::{ElutedPeak, Event, Instrument, LogEntry, MaterialComponentAdded, Operator};
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
 };
 use crate::species::{self, Phase, SpeciesId};
-use crate::units::{Joules, Kelvin, Liters, Moles, Pascal};
-use crate::vessel::{Headspace, ThermalMode, Vessel, VesselId};
+use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
+use crate::vessel::{Headspace, ThermalMode, UnresolvedMaterialPortion, Vessel, VesselId};
 
 /// The temperature a match or spark brings its immediate surroundings to.
 pub const IGNITION_K: f64 = 1200.0;
@@ -22,6 +23,10 @@ pub enum BenchError {
     NoSuchVessel(VesselId),
     #[error("unknown species '{0}' — not in the registry")]
     UnknownSpecies(SpeciesId),
+    #[error("unknown material '{0}' — not in the recipe registry")]
+    UnknownMaterial(String),
+    #[error("material recipe identity does not match the pinned operator")]
+    MaterialRecipeMismatch,
     #[error("amount must be positive")]
     NonPositiveAmount,
     #[error("fraction must be within 0..=1")]
@@ -361,6 +366,117 @@ impl Bench {
                     vessel: *vessel,
                     species: sid.clone(),
                     moles: *moles,
+                });
+            }
+            Operator::AddMaterial {
+                vessel,
+                material: material_name,
+                recipe_id,
+                recipe_version,
+                total_amount,
+                basis,
+                sample_seed,
+                at,
+            } => {
+                if !total_amount.is_finite() || *total_amount <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let recipe = material::lookup(material_name, None)
+                    .ok_or_else(|| BenchError::UnknownMaterial(material_name.clone()))?;
+                if recipe.id != *recipe_id
+                    || recipe.version != *recipe_version
+                    || recipe.basis != *basis
+                {
+                    return Err(BenchError::MaterialRecipeMismatch);
+                }
+                let expansion = recipe
+                    .expand(*total_amount, *sample_seed)
+                    .ok_or(BenchError::NonPositiveAmount)?;
+                let components = expansion
+                    .components
+                    .iter()
+                    .map(|component| {
+                        let sid = SpeciesId::new(&component.species_id);
+                        let data = species::lookup(&sid)
+                            .ok_or_else(|| BenchError::UnknownSpecies(sid.clone()))?;
+                        let moles = material_amount_to_moles(&recipe, component.amount, data);
+                        Ok((sid, data.standard_phase, component.amount, moles))
+                    })
+                    .collect::<Result<Vec<_>, BenchError>>()?;
+
+                // Assess the fully expanded prospective mixture once. This
+                // avoids allowing a hazardous combination merely because its
+                // ingredients happened to be deposited one at a time.
+                let mut probe = self.vessel(*vessel)?.clone();
+                for (sid, phase, _, moles) in &components {
+                    probe.deposit(sid.clone(), *moles, *phase);
+                }
+                match screen.assess(&probe) {
+                    SafetyVerdict::Allow => {}
+                    SafetyVerdict::Warn {
+                        severity,
+                        hazard,
+                        real_world,
+                    } => events.push(Event::HazardWarning {
+                        severity,
+                        hazard,
+                        real_world,
+                    }),
+                    SafetyVerdict::Veto { reason } => {
+                        events.push(Event::SafetyVeto { reason });
+                        return Ok(events);
+                    }
+                }
+
+                let t_in = at.unwrap_or(Kelvin::STANDARD);
+                let cp_in = components
+                    .iter()
+                    .filter_map(|(sid, _, _, moles)| {
+                        species::lookup(sid).map(|data| moles.0 * data.heat_capacity)
+                    })
+                    .sum();
+                let v = self.vessel_mut(*vessel)?;
+                if matches!(v.thermal_mode, ThermalMode::Adiabatic) {
+                    let t_new =
+                        adiabatic_mix_temperature(v.temperature, v.heat_capacity(), t_in, cp_in);
+                    if (t_new.0 - v.temperature.0).abs() > 1e-9 {
+                        events.push(Event::TemperatureChanged {
+                            vessel: v.id,
+                            from: v.temperature,
+                            to: t_new,
+                        });
+                    }
+                    v.temperature = t_new;
+                }
+                for (sid, phase, _, moles) in &components {
+                    v.deposit(sid.clone(), *moles, *phase);
+                }
+                if expansion.unresolved_amount > 0.0 {
+                    v.unresolved_materials.push(UnresolvedMaterialPortion {
+                        material: material_name.clone(),
+                        recipe_id: recipe_id.clone(),
+                        recipe_version: *recipe_version,
+                        basis: *basis,
+                        amount: expansion.unresolved_amount,
+                    });
+                }
+                events.push(Event::MaterialAdded {
+                    vessel: *vessel,
+                    material: material_name.clone(),
+                    recipe_id: recipe_id.clone(),
+                    recipe_version: *recipe_version,
+                    total_amount: *total_amount,
+                    basis: *basis,
+                    sample_seed: *sample_seed,
+                    components: components
+                        .into_iter()
+                        .map(|(species, _, basis_amount, moles)| MaterialComponentAdded {
+                            species,
+                            basis_amount,
+                            moles,
+                        })
+                        .collect(),
+                    unresolved_amount: expansion.unresolved_amount,
                 });
             }
             Operator::Heat { vessel, energy } | Operator::Cool { vessel, energy } => {
@@ -2005,6 +2121,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
     match op {
         Operator::NewVessel { .. } => vec![],
         Operator::Add { vessel, .. }
+        | Operator::AddMaterial { vessel, .. }
         | Operator::Heat { vessel, .. }
         | Operator::Cool { vessel, .. }
         | Operator::Stir { vessel }
@@ -2038,6 +2155,18 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         }
         Operator::Measure { .. } | Operator::Cell { .. } => vec![],
         Operator::Wait { .. } => vec![],
+    }
+}
+
+fn material_amount_to_moles(
+    recipe: &MaterialRecipe,
+    amount: f64,
+    data: &species::SpeciesData,
+) -> Moles {
+    match recipe.basis {
+        MaterialBasis::MassFraction => data.moles_from_grams(Grams(amount)),
+        MaterialBasis::MoleFraction => Moles(amount),
+        MaterialBasis::VolumeFraction => data.moles_from_liters(Liters(amount / 1000.0)),
     }
 }
 

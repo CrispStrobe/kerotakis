@@ -345,14 +345,20 @@ impl Lab {
     #[wasm_bindgen(js_name = loadPack)]
     pub fn load_pack(&mut self, bytes: &[u8]) -> Result<String, JsError> {
         let doc = kerotakis_data::load_pack(bytes).map_err(|e| JsError::new(&e.to_string()))?;
+        let recipes = doc.material_recipes.clone();
         let value = serde_json::to_value(&doc).map_err(|e| JsError::new(&e.to_string()))?;
         let species =
             kerotakis_core::species_loader::parse_document(&value).map_err(|e| JsError::new(&e))?;
         let (added, skipped) = kerotakis_core::species::register_loaded(species);
+        let (materials_added, materials_skipped) =
+            kerotakis_core::material::register_loaded(recipes);
         Ok(serde_json::json!({
             "added": added,
             "skipped": skipped,
             "loaded_total": kerotakis_core::species::loaded_count(),
+            "materials_added": materials_added,
+            "materials_skipped": materials_skipped,
+            "materials_loaded_total": kerotakis_core::material::all().len(),
         })
         .to_string())
     }
