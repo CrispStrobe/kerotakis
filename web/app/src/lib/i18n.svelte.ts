@@ -723,6 +723,7 @@ const DE: Record<string, string> = {
   ,"delivered energy": "zugeführte Energie"
   ,"removed energy": "entzogene Energie"
   ,"relative centrifugal force": "relative Zentrifugalkraft"
+  ,"{tool} installed: {state}": "{tool} aufgebaut: {state}"
   ,"journal view": "Ansicht des Laborbuchs"
   ,"observations": "Beobachtungen"
   ,"full trace": "Vollständiges Protokoll"
