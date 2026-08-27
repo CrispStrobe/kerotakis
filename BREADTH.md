@@ -396,6 +396,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   brand additives are guessed. Mixing the named cleaners now reaches the same
   danger warning, limiting-reagent consumption and chloramine-gas evolution as
   the pure reagents, with the warning emitted before the computed chemistry.
+- **Checkpoint 7 implemented:** localized sparkling water and a bounded cola
+  surrogate now expand into water plus finite CO2 doses, so the installed
+  gas-liquid/headspace model—not an animation constant—computes dissolved
+  carbonate, acidity, escaping fizz and sealed pressure. Cola additionally
+  resolves a small phosphoric-acid fraction while keeping sweetener, caramel
+  colour, caffeine and flavours as conserved unresolved mass; it makes no brand
+  or nutritional claim.
 
 ## Stage B2 — organic structure and curated reaction families
 

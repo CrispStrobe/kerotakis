@@ -33966,6 +33966,210 @@
       }
     },
     {
+      "id": "household/sparkling-water-surrogate",
+      "version": 1,
+      "canonical_key": "sparkling_water",
+      "name": "sparkling water",
+      "aliases": {
+        "de": [
+          "Sprudel",
+          "Mineralwasser mit Kohlensäure",
+          "Sprudelwasser"
+        ],
+        "en": [
+          "carbonated water",
+          "fizzy water"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "CO2",
+          "fraction": {
+            "lower": 0.006,
+            "upper": 0.006
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.994,
+            "upper": 0.994
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "0.6% w/w CO2-in-water carbonation teaching surrogate",
+      "lot_assumptions": [
+        "dissolved minerals and brand-specific carbonation are not represented",
+        "dispensing into an open vessel lets the installed gas-liquid model decide how much CO2 escapes"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/cola-drink-surrogate",
+      "version": 1,
+      "canonical_key": "cola_drink",
+      "name": "cola drink surrogate",
+      "aliases": {
+        "de": [
+          "Cola",
+          "Colagetränk"
+        ],
+        "en": [
+          "cola",
+          "fizzy cola"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.04,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "CO2",
+          "fraction": {
+            "lower": 0.006,
+            "upper": 0.006
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "H3PO4",
+          "fraction": {
+            "lower": 0.0005,
+            "upper": 0.0005
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.885,
+            "upper": 0.885
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.1085,
+        "upper": 0.1085
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "carbonated phosphoric-acid cola teaching surrogate; 10.85% unresolved solids and flavour blend",
+      "lot_assumptions": [
+        "sugar or sweetener identity, caramel colour, caffeine and flavour compounds remain unresolved",
+        "this is not a nutritional or brand-specific formulation"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
       "id": "household/hydrogen-peroxide-3-percent",
       "version": 1,
       "canonical_key": "hydrogen_peroxide_3_percent",

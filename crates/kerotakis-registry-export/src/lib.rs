@@ -331,6 +331,82 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             evidence: evidence(),
         },
         MaterialRecipe {
+            id: "household/sparkling-water-surrogate".to_string(),
+            version: 1,
+            canonical_key: "sparkling_water".to_string(),
+            name: "sparkling water".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["carbonated water".to_string(), "fizzy water".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec![
+                        "Sprudel".to_string(),
+                        "Mineralwasser mit Kohlensäure".to_string(),
+                        "Sprudelwasser".to_string(),
+                    ],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.0)),
+            components: vec![component("CO2", 0.006), component("water", 0.994)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some("0.6% w/w CO2-in-water carbonation teaching surrogate".to_string()),
+            lot_assumptions: vec![
+                "dissolved minerals and brand-specific carbonation are not represented".to_string(),
+                "dispensing into an open vessel lets the installed gas-liquid model decide how much CO2 escapes".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/cola-drink-surrogate".to_string(),
+            version: 1,
+            canonical_key: "cola_drink".to_string(),
+            name: "cola drink surrogate".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["cola".to_string(), "fizzy cola".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec!["Cola".to_string(), "Colagetränk".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.04)),
+            components: vec![
+                component("CO2", 0.006),
+                component("H3PO4", 0.0005),
+                component("water", 0.885),
+            ],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.1085,
+                upper: 0.1085,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: Vec::new(),
+            preparation: Some(
+                "carbonated phosphoric-acid cola teaching surrogate; 10.85% unresolved solids and flavour blend"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "sugar or sweetener identity, caramel colour, caffeine and flavour compounds remain unresolved".to_string(),
+                "this is not a nutritional or brand-specific formulation".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
             id: "household/hydrogen-peroxide-3-percent".to_string(),
             version: 1,
             canonical_key: "hydrogen_peroxide_3_percent".to_string(),

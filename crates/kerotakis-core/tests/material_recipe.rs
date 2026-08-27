@@ -164,3 +164,21 @@ fn rubbing_alcohol_keeps_its_labelled_volume_basis() {
     assert!(vessel.moles_of(&SpeciesId::new("isopropanol")).0 > 0.9);
     assert!(vessel.moles_of(&SpeciesId::new("water")).0 > 1.6);
 }
+
+#[test]
+fn cola_keeps_unknown_ingredients_explicit() {
+    let cola =
+        kerotakis_core::material::lookup("Cola", Some("de")).expect("localized cola surrogate");
+    let expansion = cola.expand(104.0, 0).expect("fixed expansion");
+    let resolved: f64 = expansion.components.iter().map(|part| part.amount).sum();
+    assert!((resolved + expansion.unresolved_amount - 104.0).abs() < 1e-12);
+    assert!((expansion.unresolved_amount - 11.284).abs() < 1e-12);
+    assert!(expansion
+        .components
+        .iter()
+        .any(|part| part.species_id == "CO2"));
+    assert!(expansion
+        .components
+        .iter()
+        .any(|part| part.species_id == "H3PO4"));
+}
