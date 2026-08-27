@@ -34,6 +34,7 @@
         {/each}
       </dl>
     {/if}
+    {#if result.boundary}<p class="boundary">{t(result.boundary)}</p>{/if}
     <small class="provenance">{t("from this operation's computed events")}</small>
   </div>
 </details>
@@ -52,6 +53,7 @@
   p { margin: .55rem 0 0; }
   .equation { overflow-x: auto; font-family: ui-monospace, SFMono-Regular, monospace; font-size: .78rem; font-weight: 700; white-space: nowrap; }
   .observation { color: var(--dim); font-size: .78rem; line-height: 1.35; }
+  .boundary { margin: 0; padding: .3rem .4rem; border-left: 3px solid var(--warning); color: var(--dim); background: color-mix(in srgb, var(--warning) 7%, transparent); font-size: .67rem; line-height: 1.3; }
   dl { display: flex; flex-wrap: wrap; gap: .35rem; margin: 0; }
   dl div { padding: .25rem .4rem; border: 1px solid var(--edge); border-radius: 8px; background: var(--surface); }
   dt { color: var(--dim); font-size: .58rem; font-weight: 750; text-transform: uppercase; }

@@ -35,4 +35,19 @@ describe("computed result summary", () => {
       { event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.25 },
     ], ["added", "bubbles form"], null, null)?.kind).toBe("gas evolution");
   });
+
+  it("reports physical stirring without claiming rate coupling", () => {
+    expect(summarizeResult([{
+      event: "stirred", vessel: 0, rpm: 800, seconds: 20,
+      resuspended_fraction: 0.75, rate_coupled: false,
+    }], ["the solid is lifted"], scene(298.15), scene(298.15))).toMatchObject({
+      kind: "mixing",
+      boundary: "suspension changed; reaction rates are not yet coupled",
+      quantities: [
+        { label: "speed", value: 800, unit: "rpm" },
+        { label: "duration", value: 20, unit: "s" },
+        { label: "resuspended", value: 75, unit: "%" },
+      ],
+    });
+  });
 });

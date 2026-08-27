@@ -983,6 +983,13 @@ hide them completely.
   size/density and medium viscosity. Reduced-motion changes presentation, not
   elapsed process or results. No canned loop may imply an effect the solver did
   not produce.
+  *Assembly-graph slice in progress 2026-08-28:* every parameterized
+  workstation now exposes a compact physical setup alongside its controls:
+  drive/plate/bath to sample, balanced tube–rotor–tube, supply–lead–electrode,
+  lamp, sealed piston, and complete carrier-gas routes. The shared typed graph
+  marks missing solid samples and unsafe counterbalances without inventing a
+  chemical result. Direct manipulation of individual clamps, hoses and ports
+  remains.*
   *Initial placement correction 2026-08-27: grinding renders a standalone
   mortar and pestle beside its target vessel, with work-state motion, rather
   than drawing a mortar inside the vessel. The general assembly/footprint
@@ -1174,6 +1181,12 @@ hide them completely.
   multi-species deposits divide that height in proportion to each population's
   settled computed volume rather than equal decorative bands. Rate coupling
   remains open.*
+  *Mixing/transport evidence slice shipped 2026-08-28:* the pinned result now
+  exposes engine-emitted RPM, duration and resuspended fraction for stirring,
+  both source fractions for mixing, and the delivered fraction for transfer.
+  It explicitly separates the physical suspension change from the still-open
+  reaction-rate coupling, so visible motion is useful without claiming kinetic
+  chemistry that has not landed.*
 - [ ] **GUI-075 — Observe five users before adding campaign breadth.** Test with
   at least two children/novices, one teacher, and two experienced science users;
   use tasks, not preference questions. Record time-to-first-result, wrong turns,
