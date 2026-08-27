@@ -62,6 +62,13 @@
     const recent = effects.filter((e) => e.kind === kind && effectAlive(e, withinMs, n));
     return recent.length > 0 ? (recent[recent.length - 1]!.magnitude ?? 1) : 0;
   };
+  const latestEffect = (kind: string, withinMs: number) => {
+    const recent = effects.filter((effect) => effect.kind === kind && effectAlive(effect, withinMs, effectClock));
+    return recent.length > 0 ? recent[recent.length - 1] : undefined;
+  };
+  const thermometerEffect = $derived(latestEffect("thermometer", 2500));
+  const phProbeEffect = $derived(latestEffect("ph_probe", 2500));
+  const balanceEffect = $derived(latestEffect("balance", 2500));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => e.kind === "ignite" && n - e.at < 3000 && e.flameColour);
@@ -512,9 +519,9 @@
         {/if}
       </g>
     {/if}
-    {#if active("thermometer", 2500)}
+    {#if thermometerEffect}
       {@const tipY = BOTTOM_Y - Math.max(liquidH * 0.5, 10)}
-      {@const reading = formatReading(tempC, 1)}
+      {@const reading = formatReading(thermometerEffect.reading ?? tempC, 1)}
       <g class="instrument thermometer-inst" aria-label={t("temperature probe: {value} °C", { value: reading })}>
         <rect class="meter-body thermometer-meter" x="14" y="2" width="25" height="19" rx="4" />
         <rect class="meter-screen" x="17" y="6" width="19" height="8" rx="1.5" />
@@ -525,9 +532,10 @@
         <rect class="therm-mercury" x="32.3" y={Math.max(tipY - 18, 10)} width="1.4" height={Math.min(18, tipY - 10)} rx="0.5" />
       </g>
     {/if}
-    {#if active("ph_probe", 2500)}
+    {#if phProbeEffect}
       {@const tipY = BOTTOM_Y - Math.max(liquidH * 0.5, 10)}
-      {@const reading = phReading === undefined ? "—" : formatReading(phReading, 2)}
+      {@const measuredPh = phProbeEffect.reading ?? phReading}
+      {@const reading = measuredPh === undefined ? "—" : formatReading(measuredPh, 2)}
       <g class="instrument ph-inst" aria-label={t("pH probe: {value}", { value: reading })}>
         <rect class="meter-body ph-meter" x="68" y="2" width="28" height="19" rx="4" />
         <rect class="meter-screen" x="71" y="6" width="22" height="8" rx="1.5" />
@@ -536,6 +544,18 @@
         <rect class="probe-stem" x="64" y="4" width="2" height={tipY - 4} rx="0.8" />
         <ellipse class="probe-tip" cx="65" cy={tipY} rx="2.2" ry="3.6" />
         <path class="probe-wire" d="M65 4 C65 -1 72 -1 75 3" />
+      </g>
+    {/if}
+    {#if balanceEffect}
+      {@const reading = formatReading(balanceEffect.reading ?? vessel.mass_g, 2)}
+      <g class="instrument balance-inst" aria-label={t("balance reading: {value} g", { value: reading })}>
+        <rect class="balance-pan" x="19" y="120" width="62" height="5" rx="2.5" />
+        <path class="balance-neck" d="M28 125 H72 L78 132 H22 Z" />
+        <rect class="balance-body" x="16" y="131" width="68" height="8" rx="3" />
+        <rect class="balance-screen" x="57" y="132.5" width="20" height="5" rx="1" />
+        <text class="balance-value" x="67" y="136.4" text-anchor="middle">{reading} g</text>
+        <circle class="balance-key" cx="22" cy="135" r="1.5" />
+        <circle class="balance-key" cx="27" cy="135" r="1.5" />
       </g>
     {/if}
 
@@ -1110,11 +1130,20 @@
   }
   .meter-value { font-size: 4.5px; }
   .meter-unit { fill: var(--ink); font-size: 3.5px; }
+  .balance-inst { opacity: 1; transform-origin: 50px 132px; animation: balance-settle .38s ease-out forwards; }
+  .balance-pan { fill: color-mix(in srgb, var(--surface) 72%, var(--edge)); stroke: var(--edge-strong); stroke-width: .7; }
+  .balance-neck { fill: color-mix(in srgb, var(--instrument) 16%, var(--surface)); stroke: var(--edge-strong); stroke-width: .7; }
+  .balance-body { fill: color-mix(in srgb, var(--instrument) 28%, var(--surface)); stroke: var(--edge-strong); stroke-width: .8; }
+  .balance-screen { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); stroke: var(--edge-strong); stroke-width: .4; }
+  .balance-value { fill: var(--surface); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 3.1px; font-weight: 850; }
+  .balance-key { fill: var(--primary); }
+  @keyframes balance-settle { 0% { transform: translateY(3px) scaleY(.96); } 55% { transform: translateY(-1px) scaleY(1.01); } 100% { transform: none; } }
   @media (prefers-reduced-motion: reduce) {
     .instrument {
       animation: none;
       opacity: 1;
     }
+    .balance-inst { animation: none; }
     .burette-fill {
       transition: none;
     }
