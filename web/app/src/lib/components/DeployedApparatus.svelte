@@ -30,7 +30,9 @@
     sweep: "carrier-gas line",
   };
 
-  const wavelength = $derived(Number(values.wavelength ?? 500));
+  const wavelength = $derived(effect?.irradiation?.wavelengthNm ?? Number(values.wavelength ?? 500));
+  const irradiance = $derived(effect?.irradiation?.irradianceWM2 ?? Number(values.irradiance ?? 10));
+  const lightOpacity = $derived(.12 + (effect?.magnitude ?? .2) * .28);
   const lampColour = $derived.by(() => {
     if (wavelength < 380) return "#8b5cf6";
     if (wavelength < 450) return "#526dff";
@@ -129,11 +131,19 @@
       <path class="pestle" d="M 58 75 L 82 108" />
     </g>
   {:else if tool === "irradiate"}
-    <g class="lamp" style={`--lamp:${lampColour}`}>
+    <g class="lamp" style={`--lamp:${lampColour};--light-opacity:${lightOpacity}`}>
       <path class="lamp-arm" d="M 8 122 V 34 Q 8 22 20 22 H 27" />
       <path class="lamp-head" d="M 26 14 h 24 l 6 17 H 20 Z" />
       <path class="light-cone" d={`M 29 31 L 43 ${surfaceY} H 74 L 48 31 Z`} />
       <text x="8" y="133">{wavelength.toFixed(0)} nm</text>
+      <text x="8" y="140">{irradiance.toFixed(2)} W/m²</text>
+      {#if effect?.irradiation}
+        <g class="model-boundary">
+          <rect x="28" y="3" width="67" height="14" rx="4" />
+          <text x="61.5" y="9" text-anchor="middle">{t("light applied")}</text>
+          <text x="61.5" y="14" text-anchor="middle">{t(effect.irradiation.photolysisCoupled ? "photolysis coupled" : "photolysis not yet coupled")}</text>
+        </g>
+      {/if}
     </g>
   {:else if tool === "regulate"}
     <g class="regulator">
@@ -196,8 +206,10 @@
   .pestle { fill: none; stroke: var(--edge-strong); stroke-width: 7; stroke-linecap: round; transform-origin: 76px 108px; }
   .working .pestle { animation: grind .5s ease-in-out infinite alternate; }
   .lamp-head { fill: var(--edge-strong); }
-  .light-cone { fill: var(--lamp); opacity: .16; filter: blur(1px); }
+  .light-cone { fill: var(--lamp); opacity: var(--light-opacity, .16); filter: blur(1px); }
   .working .light-cone { animation: lamp-pulse .8s ease-in-out infinite alternate; }
+  .model-boundary rect { fill: color-mix(in srgb, var(--surface) 92%, var(--lamp)); stroke: var(--lamp); stroke-width: .6; }
+  .lamp .model-boundary text { fill: var(--ink); font-size: 4px; font-weight: 750; }
   .lid-plate { fill: var(--edge-strong); }
   .gauge { fill: var(--surface); stroke: var(--instrument); stroke-width: 1.5; }
   .gauge-tick { fill: none; stroke: var(--dim); stroke-width: .7; }
@@ -214,7 +226,7 @@
   @keyframes rise { 0% { opacity: 0; transform: translateY(4px); } 35% { opacity: .75; } 100% { opacity: 0; transform: translateY(-8px); } }
   @keyframes bubble { to { opacity: 0; transform: translateY(-34px) scale(1.8); } }
   @keyframes grind { to { transform: rotate(-18deg) translateY(-2px); } }
-  @keyframes lamp-pulse { to { opacity: .3; } }
+  @keyframes lamp-pulse { to { opacity: min(.55, calc(var(--light-opacity, .16) + .16)); } }
   @keyframes gas-flow { to { transform: translateX(88px); opacity: 0; } }
   @keyframes gas-out { to { transform: translateX(27px); opacity: 0; } }
   @keyframes frost-pulse { to { opacity: 1; transform: translateY(-3px) scale(1.18); } }
