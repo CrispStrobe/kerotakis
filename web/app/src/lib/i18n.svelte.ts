@@ -676,6 +676,9 @@ const DE: Record<string, string> = {
   ,"switch to Sandbox": "zur Sandbox wechseln"
   ,"Your saves stay separate.": "Deine Spielstände bleiben getrennt."
   ,"Clearing or experimenting in Sandbox never changes your Story laboratory.": "Leeren oder Experimentieren in der Sandbox verändert niemals dein Story-Labor."
+  // The block below is comma-trailing while the lines above are comma-leading;
+  // this comma is the seam between the two styles.
+  ,
 
   // I18N-2 — the map's concept nodes.
   // The map has no label field: ConceptMap.svelte de-slugs the concept id
