@@ -612,6 +612,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   and preserves mass. The existing shelf, receiver-vessel and `magnet`
   interaction expose the sequence; field strength and individual grain
   trajectories remain explicit future physics.
+- **Checkpoint 32 implemented:** dilute 1% Lugol iodine solution/
+  `Lugol-Lösung 1%` expands to water, retained KI and iodine. Iodide now
+  supports a bounded aqueous iodine inventory instead of leaving a fictional
+  crystal sediment, and cornstarch/`Speisestärke` produces a computed
+  blue-black optical response from the broad 620 nm amylose-polyiodide band.
+  A no-starch control remains brown; inventory bounds, phase transfer and the
+  visible positive/negative result are regression-tested. Individual
+  polyiodide speciation, exact binding stoichiometry, botanical amylose
+  fraction and temperature-dependent helix changes remain explicit limits.
 
 ## Stage B2 — organic structure and curated reaction families
 

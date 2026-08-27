@@ -63,6 +63,7 @@ pub mod solve;
 pub mod species;
 pub mod species_loader;
 pub mod spectrum;
+mod starch_iodine;
 pub mod states;
 pub mod statistics;
 pub mod stoich;

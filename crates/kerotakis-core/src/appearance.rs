@@ -79,6 +79,12 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             *band += e * concentration * crate::vessel::path_cm_for(&vessel.label);
         }
     }
+    let starch_iodine_complex_moles = crate::starch_iodine::add_absorbance(
+        vessel,
+        litres,
+        crate::vessel::path_cm_for(&vessel.label),
+        &mut absorbance,
+    );
     let has_liquid = vessel
         .contents
         .iter()
@@ -152,12 +158,21 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             solid_moles += p.moles.0 * tracked_suspension.unwrap_or(1.0);
         }
         let data = species::lookup(&p.species);
-        let colour = data.and_then(|d| d.colour).unwrap_or(Colour {
-            r: 220,
-            g: 220,
-            b: 220,
-            strength: 0.0,
-        });
+        let colour = if p.species.0 == "starch" && starch_iodine_complex_moles > 0.0 {
+            Colour {
+                r: 15,
+                g: 20,
+                b: 48,
+                strength: 0.0,
+            }
+        } else {
+            data.and_then(|d| d.colour).unwrap_or(Colour {
+                r: 220,
+                g: 220,
+                b: 220,
+                strength: 0.0,
+            })
+        };
         let name = data.map(|d| d.name).unwrap_or(p.species.0.as_str());
         let settled_moles = p.moles.0 * tracked_suspension.map(|f| 1.0 - f).unwrap_or(1.0);
         if settled_moles > 1e-12 && biggest.as_ref().is_none_or(|(_, m, _)| settled_moles > *m) {
@@ -279,10 +294,16 @@ fn describe(
     }
     let mut parts: Vec<String> = Vec::new();
     if has_liquid {
-        let word = liquid
-            .as_ref()
-            .map(|c| liquid_colour_word(c, cloudiness))
-            .unwrap_or("colourless");
+        let word = if crate::starch_iodine::complex_moles(vessel) > 0.0 {
+            "blue-black"
+        } else if crate::starch_iodine::has_aqueous_lugol_colour(vessel) {
+            "brown"
+        } else {
+            liquid
+                .as_ref()
+                .map(|c| liquid_colour_word(c, cloudiness))
+                .unwrap_or("colourless")
+        };
         let clarity = if cloudiness > 0.6 {
             "and so cloudy you cannot see through it"
         } else if cloudiness > 0.15 {

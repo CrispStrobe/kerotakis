@@ -432,6 +432,20 @@ impl Equilibrator for MixingEquilibrator {
             }
         }
 
+        let iodine = crate::starch_iodine::iodine_to_dissolve(vessel);
+        if iodine.0 > 0.0 {
+            let species = SpeciesId::new("I2");
+            vessel.withdraw(&species, iodine);
+            vessel.deposit(species.clone(), iodine, Phase::Aqueous);
+            rephase_lots(vessel, &species, iodine);
+            events.push(Event::Dissolved {
+                vessel: vessel.id,
+                species,
+                moles: iodine,
+            });
+            vessel.resolved.invalidate();
+        }
+
         // Neutral molecular solids with an explicit reviewed room-temperature
         // limit dissolve only up to that finite capacity. This changes phase
         // bookkeeping but makes no pH, ionic-strength, or activity claim.
@@ -485,6 +499,18 @@ impl Equilibrator for MixingEquilibrator {
                     moles: portion.moles,
                 });
             }
+        }
+        let iodine = crate::starch_iodine::iodine_to_dissolve(vessel);
+        if iodine.0 > 0.0 {
+            let species = SpeciesId::new("I2");
+            delta = delta
+                .with_moles(species.clone(), Phase::Solid, -iodine.0)
+                .with_moles(species.clone(), Phase::Aqueous, iodine.0);
+            events.push(Event::Dissolved {
+                vessel: vessel.id,
+                species,
+                moles: iodine,
+            });
         }
         for (solute, moles) in finite_aqueous_dissolutions(vessel) {
             delta = delta
@@ -1006,6 +1032,9 @@ impl Equilibrator for HonestyEquilibrator {
                 if curated_solid_product(&p.species) {
                     continue;
                 }
+                if crate::starch_iodine::covers_solid(vessel, &p.species) {
+                    continue;
+                }
                 // A declared kinetic catalyst is already wired even when
                 // this equilibrium rung cannot speciate the salt. The slow
                 // clock consumes its catalytic effect and deliberately leaves
@@ -1070,6 +1099,9 @@ impl Equilibrator for HonestyEquilibrator {
                     }
                 }
                 if curated_solid_product(&p.species) {
+                    continue;
+                }
+                if crate::starch_iodine::covers_solid(vessel, &p.species) {
                     continue;
                 }
                 if crate::kinetics::applicable(vessel).iter().any(|reaction| {

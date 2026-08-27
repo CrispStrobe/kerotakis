@@ -58,7 +58,13 @@ fn every_legacy_field_is_present_and_unchanged() {
             })
             .count()
     );
-    assert_eq!(document.material_recipes.len(), 43);
+    assert_eq!(document.material_recipes.len(), 44);
+    let lugol = document
+        .material_recipe("Lugol-Lösung_1%", Some("de"))
+        .expect("localized dilute Lugol recipe");
+    assert_eq!(lugol.canonical_key, "lugol_solution_1_percent");
+    assert_eq!(lugol.components.len(), 3);
+    assert!(lugol.unresolved_fraction.is_none());
     assert_eq!(document.identities.len(), REGISTRY.len());
     assert_eq!(document.compositions.len(), REGISTRY.len());
     assert_eq!(

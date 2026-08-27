@@ -36554,6 +36554,116 @@
       }
     },
     {
+      "id": "school/lugol-solution-1-percent",
+      "version": 1,
+      "canonical_key": "lugol_solution_1_percent",
+      "name": "1% Lugol iodine solution",
+      "aliases": {
+        "de": [
+          "Lugolsche Lösung 1%",
+          "Lugol-Lösung 1%",
+          "Lugol-Lösung_1%",
+          "Iod-Kaliumiodid-Lösung 1%"
+        ],
+        "en": [
+          "dilute Lugol solution",
+          "Lugol 1%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.02,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "I2",
+          "fraction": {
+            "lower": 0.01,
+            "upper": 0.01
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "KI",
+          "fraction": {
+            "lower": 0.02,
+            "upper": 0.02
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.97,
+            "upper": 0.97
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "dilute school-test surrogate: 1% w/w iodine and 2% w/w potassium iodide in water",
+      "lot_assumptions": [
+        "iodide-assisted iodine solubilisation is represented with retained KI and aqueous I2 bookkeeping; individual I3-/polyiodide equilibria are not resolved",
+        "the starch-complex optical response is calibrated to the broad literature band near 600-650 nm; starch source, amylose fraction, chain length and temperature shift its colour and intensity",
+        "this is a laboratory test reagent model, not a food or medical product"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
       "id": "household/liquid-hand-soap-surrogate",
       "version": 1,
       "canonical_key": "liquid_hand_soap",
