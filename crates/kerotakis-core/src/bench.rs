@@ -12,7 +12,9 @@ use crate::solve::{
 };
 use crate::species::{self, Phase, SpeciesId};
 use crate::units::{Grams, Joules, Kelvin, Liters, Moles, Pascal};
-use crate::vessel::{Headspace, ThermalMode, UnresolvedMaterialPortion, Vessel, VesselId};
+use crate::vessel::{
+    Headspace, MaterialLot, ThermalMode, UnresolvedMaterialPortion, Vessel, VesselId,
+};
 
 /// The temperature a match or spark brings its immediate surroundings to.
 pub const IGNITION_K: f64 = 1200.0;
@@ -37,6 +39,11 @@ pub enum BenchError {
     VesselNotEmpty(VesselId),
     #[error("the last vessel must stay on the bench")]
     LastVessel,
+    #[error("vessel {vessel} contains no solid {species} to grind")]
+    SolidNotPresent {
+        vessel: VesselId,
+        species: SpeciesId,
+    },
     #[error(transparent)]
     Kinetics(#[from] crate::kinetics::IntegrationError),
     #[error(transparent)]
@@ -375,7 +382,13 @@ impl Bench {
                     }
                     v.temperature = t_new;
                 }
-                v.deposit(sid.clone(), *moles, data.standard_phase);
+                v.deposit_lot(
+                    sid.clone(),
+                    *moles,
+                    data.standard_phase,
+                    Some("reagent bottle".to_string()),
+                    None,
+                );
                 let total_after = v.moles_of(sid);
                 events.push(Event::Added {
                     vessel: *vessel,
@@ -1765,14 +1778,57 @@ impl Bench {
                 species,
                 diameter_um,
             } => {
-                let _v = self.vessel(*vessel)?;
-                events.push(Event::NotYetModeled {
+                if *diameter_um <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let data = species::lookup(species)
+                    .ok_or_else(|| BenchError::UnknownSpecies(species.clone()))?;
+                let v = self.vessel_mut(*vessel)?;
+                let solid_moles = Moles(
+                    v.contents
+                        .iter()
+                        .filter(|portion| {
+                            portion.species == *species && portion.phase == Phase::Solid
+                        })
+                        .map(|portion| portion.moles.0)
+                        .sum(),
+                );
+                if solid_moles.0 <= 0.0 {
+                    return Err(BenchError::SolidNotPresent {
+                        vessel: *vessel,
+                        species: species.clone(),
+                    });
+                }
+
+                let mut found_lot = false;
+                for lot in &mut v.lots {
+                    if lot.species == *species && lot.phase == Phase::Solid {
+                        lot.particle_size_um = Some(*diameter_um);
+                        found_lot = true;
+                    }
+                }
+                // Saves created before lot tracking still gain real particle state.
+                if !found_lot {
+                    v.lots.push(MaterialLot {
+                        species: species.clone(),
+                        moles: solid_moles,
+                        phase: Phase::Solid,
+                        added_at: v.elapsed_seconds,
+                        source: Some("legacy vessel state".to_string()),
+                        particle_size_um: Some(*diameter_um),
+                    });
+                }
+                v.resolved.invalidate();
+
+                let volume_m3 = solid_moles.0 * data.molar_mass / data.density * 1e-6;
+                let surface_area_m2 = 6.0 * volume_m3 / (*diameter_um * 1e-6);
+                events.push(Event::Ground {
                     vessel: *vessel,
-                    what: format!(
-                        "particle size set to {diameter_um} µm for {} — heterogeneous rate \
-                         scaling requires surface-area model integration",
-                        species.0
-                    ),
+                    species: species.clone(),
+                    diameter_um: *diameter_um,
+                    solid_moles,
+                    surface_area_m2,
+                    rate_coupled: false,
                 });
             }
             Operator::Irradiate {

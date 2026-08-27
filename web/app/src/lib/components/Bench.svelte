@@ -78,6 +78,8 @@
   );
 
   const vesselsIn = (zone: BenchZone) => scene?.vessels.filter((v) => zoneFor(layout, v.id) === zone) ?? [];
+  const latestGrind = (vessel: number) =>
+    [...(effects[vessel] ?? [])].reverse().find((effect) => effect.kind === "grind");
 
   function move(vessel: number, zone: BenchZone) {
     onmove?.(placeVessel(layout, vessel, zone));
@@ -169,7 +171,16 @@
                   {apparatusValues}
                 />
                 {#if vessel.id === deployedTarget && deployedTool === "grind"}
-                  <StandaloneApparatus tool="grind" working={apparatusWorking} values={apparatusValues} />
+                  {@const ground = latestGrind(vessel.id)}
+                  {#key ground?.at}
+                    <StandaloneApparatus
+                      tool="grind"
+                      working={apparatusWorking}
+                      performedAt={ground?.at}
+                      intensity={ground?.magnitude ?? 0.5}
+                      values={apparatusValues}
+                    />
+                  {/key}
                 {/if}
                 <span class="connection-port port-out" data-port="out" aria-hidden="true"></span>
                 {#if vessel.id === selected}

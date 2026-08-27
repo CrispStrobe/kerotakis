@@ -881,6 +881,12 @@ hide them completely.
   engine's delivered energy; engine-computed temperature then controls the
   persistent vessel heat presentation. Closed-loop target-temperature control
   and persistent start/stop state remain.*
+  *Computed-mortar slice in progress 2026-08-27: reagent additions now retain
+  material-lot provenance; grinding persists the requested mean particle
+  diameter and emits spherical-particle surface area from actual solid moles,
+  molar mass, and registry density. Mortar motion scales from that emitted
+  area. Heterogeneous kinetic rate coupling remains explicitly false until a
+  rate law consumes the surface-area state.*
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model

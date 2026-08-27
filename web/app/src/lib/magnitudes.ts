@@ -114,6 +114,13 @@ function stirMag(e: EngineEvent): number {
   return scale(Number(e.tip_speed_m_s ?? 0), 0.065, 2.62);
 }
 
+// event.surface_area_m2 — useful powder areas span orders of magnitude.
+// 0.001 m² is a few coarse grains; 10 m² is a fine powder.
+function grindMag(e: EngineEvent): number {
+  const area = Math.max(0.001, Number(e.surface_area_m2 ?? 0.001));
+  return scale(Math.log10(area), -3, 1);
+}
+
 // event.volume (Liters) — Diluted: 0.01 L is a squirt, 0.5 L is a flood.
 function diluteMag(e: EngineEvent): number {
   return scale(Number(e.volume ?? 0), 0.01, 0.5);
@@ -167,6 +174,8 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
       };
     case "stirred":
       return { kind: "swirl", at: now, magnitude: stirMag(e) };
+    case "ground":
+      return { kind: "grind", at: now, magnitude: grindMag(e) };
     case "transferred":
       return {
         kind: "pour",

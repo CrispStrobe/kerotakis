@@ -171,6 +171,13 @@ describe("effectFromEvent", () => {
     expect(slow?.kind).toBe("swirl");
     expect(fast!.magnitude).toBeGreaterThan(slow!.magnitude);
   });
+
+  it("scales mortar motion from computed powder surface area", () => {
+    const coarse = effectFromEvent({ event: "ground", vessel: 0, surface_area_m2: 0.01 });
+    const fine = effectFromEvent({ event: "ground", vessel: 0, surface_area_m2: 1 });
+    expect(coarse?.kind).toBe("grind");
+    expect(fine!.magnitude).toBeGreaterThan(coarse!.magnitude);
+  });
 });
 
 describe("vesselOf", () => {

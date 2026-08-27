@@ -343,6 +343,31 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 if *rate_coupled { "active" } else { "not yet modelled" }
             ),
         },
+        Event::Ground {
+            vessel,
+            species: sid,
+            diameter_um,
+            solid_moles,
+            surface_area_m2,
+            rate_coupled,
+        } => {
+            let name = species::lookup(sid)
+                .map(|data| data.name)
+                .unwrap_or(sid.0.as_str());
+            match register.level() {
+                1 => format!("You grind the {name} in {vessel} into a finer powder."),
+                2 => format!(
+                    "{vessel}: {name} ground to {diameter_um:.1} µm — about {surface_area_m2:.3} m² surface area"
+                ),
+                _ => format!(
+                    "{vessel}: grind {name}; {:.6} mol solid; mean diameter {:.3} µm; spherical-particle area {:.6} m²; rate coupling {}",
+                    solid_moles.0,
+                    diameter_um,
+                    surface_area_m2,
+                    if *rate_coupled { "active" } else { "not yet modelled" }
+                ),
+            }
+        }
         Event::Filtered { from, to } => match register.level() {
             1 => format!(
                 "You pour {from} through the filter paper — the liquid runs into {to}, and the solid stays behind on the paper."

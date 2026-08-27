@@ -365,6 +365,17 @@ pub enum Event {
         /// False until kinetics/surface-area models consume this operation.
         rate_coupled: bool,
     },
+    /// A mortar changed the mean diameter of a solid powder. Surface area
+    /// assumes equal spherical particles: A = 6V/d, using registry density.
+    Ground {
+        vessel: VesselId,
+        species: SpeciesId,
+        diameter_um: f64,
+        solid_moles: Moles,
+        surface_area_m2: f64,
+        /// False until a heterogeneous kinetic law consumes this area.
+        rate_coupled: bool,
+    },
     Transferred {
         from: VesselId,
         to: VesselId,
