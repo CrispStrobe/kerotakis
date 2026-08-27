@@ -53,6 +53,12 @@ options = [
   "58.443 mol — the molar mass",
   "It depends how much water you put it in",
 ]
+options_de = [
+    "5,844 mol — die Zahl, die du abgewogen hast",
+    "0,1000 mol",
+    "58,443 mol — die molare Masse",
+    "Das hängt davon ab, in wie viel Wasser du es gibst",
+]
 answer = 1
 misconception = "The last option is the common one: learners expect the amount of substance to change when the solution is diluted. It does not — n is a property of the sample you weighed, and only concentration depends on the volume. The first is the rawer error of using grams as if they were moles."
 misconception_de = "Die letzte Option ist die häufigste: Lernende erwarten, dass sich die Stoffmenge ändert, wenn die Lösung verdünnt wird. Das tut sie nicht — n ist eine Eigenschaft der eingewogenen Probe, und nur die Konzentration hängt vom Volumen ab. Die erste Option ist der noch grundlegendere Fehler, Gramm wie Mol zu behandeln."
@@ -140,6 +146,11 @@ options = [
   "The 200 mL beaker — there is more liquid",
   "Neither: both hold 0.1000 mol; only the concentration differs",
 ]
+options_de = [
+    "Das 100-mL-Becherglas — es ist konzentrierter",
+    "Das 200-mL-Becherglas — dort ist mehr Flüssigkeit",
+    "Keins von beiden: Beide enthalten 0,1000 mol; nur die Konzentration unterscheidet sich",
+]
 answer = 2
 misconception = "Concentration and amount get welded together. A strong cup of tea does not contain more tea than a weak bucket of it. The engine separates the two explicitly: both vessels report 0.1000 mol of chloride, and the ionic strengths differ by exactly a factor of two."
 misconception_de = "Konzentration und Stoffmenge werden miteinander verschweißt. Eine starke Tasse Tee enthält nicht mehr Tee als ein schwacher Eimer davon. Das Labor trennt die beiden explizit: Beide Gefäße melden 0,1000 mol Chlorid, und die Ionenstärken unterscheiden sich um genau den Faktor zwei."
@@ -213,6 +224,12 @@ options = [
   "pH 7.0 — water is neutral, so diluting makes it neutral",
   "pH 20.4 — ten times the pH",
   "pH 2.04 — the acid is still in there",
+]
+options_de = [
+    "pH 3,0 — eine zehnfache Verdünnung kostet eine pH-Einheit",
+    "pH 7,0 — Wasser ist neutral, also macht Verdünnen es neutral",
+    "pH 20,4 — der zehnfache pH-Wert",
+    "pH 2,04 — die Säure ist ja immer noch drin",
 ]
 answer = 0
 misconception = "Two errors are common and both are about the logarithm. 'Ten times the volume, ten times the pH' treats pH as if it were the concentration; and 'dilution neutralises' forgets that no amount of water reaches pH 7 — you approach it and never arrive, because the acid is still all there."
@@ -289,6 +306,12 @@ options = [
   "3.98 g",
   "1.44 g — some burns away",
   "4.80 g — one oxygen per magnesium doubles it",
+]
+options_de = [
+    "2,40 g — die Masse bleibt erhalten",
+    "3,98 g",
+    "1,44 g — etwas verbrennt weg",
+    "4,80 g — ein Sauerstoff pro Magnesium verdoppelt es",
 ]
 answer = 1
 misconception = "The first option is conservation of mass misapplied: mass is conserved in the universe, not in an open crucible that is drawing oxygen out of the room. The last comes from reading '2 Mg + O₂' as though each magnesium takes a whole O₂ rather than half of one."
@@ -378,6 +401,11 @@ options = [
   "Beaker 2 — it has more chloride",
   "Neither: both make 0.0100 mol, set by whichever ion runs out first",
 ]
+options_de = [
+    "Becherglas 1 — es enthält mehr Silber, und Silber ist der schwere Teil",
+    "Becherglas 2 — es enthält mehr Chlorid",
+    "Keins von beiden: Beide bilden 0,0100 mol, festgelegt durch das Ion, das zuerst ausgeht",
+]
 answer = 2
 misconception = "Learners reliably add the reagents up rather than pairing them off. The reaction is one silver to one chloride: the partner in short supply decides the answer and the surplus simply sits there. Both beakers hold 0.0300 mol of reactant in total and both give exactly 0.0100 mol of precipitate."
 misconception_de = "Lernende addieren die Edukte zuverlässig, statt sie einander zuzuordnen. Die Reaktion verläuft im Verhältnis eins zu eins zwischen Silber und Chlorid: Der Partner, der knapper ist, entscheidet die Antwort, und der Überschuss sitzt einfach untätig herum. Beide Bechergläser enthalten insgesamt 0,0300 mol Edukt, und beide liefern genau 0,0100 mol Niederschlag."
@@ -446,6 +474,11 @@ options = [
   "The reaction did not finish — some silver stayed as Ag⁺",
   "Mostly onto the filter paper, the beaker wall and the wash water",
   "It decomposed while drying",
+]
+options_de = [
+    "Die Reaktion ist nicht vollständig abgelaufen — etwas Silber blieb als Ag⁺ zurück",
+    "Größtenteils auf dem Filterpapier, an der Becherglaswand und im Waschwasser",
+    "Es hat sich beim Trocknen zersetzt",
 ]
 answer = 1
 misconception = "A yield under 100% gets read as a statement about the chemistry, so learners go looking for an incomplete reaction. Here it is almost entirely mechanical loss. The engine makes that visible by reporting 1.43 g — the full theoretical yield — because it models the chemistry and nothing else: no filter paper, no splashes, no scraping. The residual dissolved silver is real but tiny, around 10⁻⁶ mol."
@@ -518,6 +551,11 @@ options = [
   "0.0500 mol — every carbon atom in the gas came from the bicarbonate",
   "0.2000 mol — one per molecule of acid",
 ]
+options_de = [
+    "Mehr als mit der genauen Menge, denn mehr Säure bedeutet mehr Reaktion",
+    "0,0500 mol — jedes Kohlenstoffatom im Gas stammt aus dem Hydrogencarbonat",
+    "0,2000 mol — eins pro Säuremolekül",
+]
 answer = 1
 misconception = "Pouring in more acid feels like it should give more fizz, and it does look more violent. But the carbon in the carbon dioxide can only have come from the carbonate, and there are 0.0500 mol of carbon atoms in the beaker. Excess acid changes the rate and the final pH; it cannot change the element budget."
 misconception_de = "Mehr Säure hineinzugießen fühlt sich an, als müsse es mehr Aufschäumen geben, und es sieht auch heftiger aus. Aber der Kohlenstoff im Kohlenstoffdioxid kann nur aus dem Carbonat stammen, und es befinden sich 0,0500 mol Kohlenstoffatome im Becherglas. Überschüssige Säure verändert die Geschwindigkeit und den End-pH-Wert; sie kann das Elementbudget nicht verändern."
@@ -586,6 +624,11 @@ options = [
   "256.26 g — mass is always conserved",
   "254.84 g — about 1.4 g lighter than expected",
   "252.66 g — the acid is consumed",
+]
+options_de = [
+    "256,26 g — die Masse bleibt immer erhalten",
+    "254,84 g — etwa 1,4 g leichter als erwartet",
+    "252,66 g — die Säure ist verbraucht",
 ]
 answer = 1
 misconception = "'Mass is conserved' is taught as a law and then applied to a container rather than to a system. It is the atoms that are conserved; they are simply not all in the beaker any more. Stopper the flask and the reading does become 256.26 g — which is why the closed-vessel version of this experiment is the one Lavoisier needed."
@@ -661,6 +704,11 @@ options = [
   "1.08 — a little above, because the meter responds to activity, not concentration",
   "0.92 — a little below",
 ]
+options_de = [
+    "Genau 1,00",
+    "1,08 — ein wenig darüber, weil das Messgerät auf Aktivität reagiert, nicht auf Konzentration",
+    "0,92 — ein wenig darunter",
+]
 answer = 1
 misconception = "pH = −log c is taught as a definition when it is an approximation that holds when ions are far apart. At 0.1 mol/L they are not: each proton is surrounded by a cloud of counter-ions that shields it, and the electrode feels the shielded version. The gap is small here and grows with concentration — which is exactly why lv3 exists."
 misconception_de = "pH = −log c wird als Definition gelehrt, obwohl es eine Näherung ist, die gilt, wenn Ionen weit voneinander entfernt sind. Bei 0,1 mol/L sind sie das nicht: Jedes Proton ist von einer Wolke aus Gegenionen umgeben, die es abschirmt, und die Elektrode spürt die abgeschirmte Version. Der Unterschied ist hier klein und wächst mit der Konzentration — genau deshalb gibt es lv3."
@@ -731,6 +779,12 @@ options = [
   "2.88 — about 60 times fewer free protons",
   "4.76 — the pKa",
   "7.00 — vinegar is food, so it must be neutral",
+]
+options_de = [
+    "Ebenfalls 1,08 — gleiche Konzentration, gleicher pH-Wert",
+    "2,88 — etwa 60-mal weniger freie Protonen",
+    "4,76 — der pKa-Wert",
+    "7,00 — Essig ist ein Lebensmittel, also muss er neutral sein",
 ]
 answer = 1
 misconception = "The pH = −log c habit, freshly learned, is applied to the acetic acid and produces 1.00 — the first option. It fails because the formula silently assumed the acid was fully dissociated. Choosing the pKa is the next mistake along: pH equals pKa only in a buffer, where acid and conjugate base are equal, and this beaker has almost no acetate in it."
@@ -808,6 +862,12 @@ options = [
   "About 45 °C",
   "About 108 °C — it would boil",
   "It stays at 25 °C; dissolving is a physical change, not a chemical one",
+]
+options_de = [
+    "Etwa 27 °C — ein paar Grad",
+    "Etwa 45 °C",
+    "Etwa 108 °C — es würde kochen",
+    "Es bleibt bei 25 °C; Lösen ist eine physikalische Veränderung, keine chemische",
 ]
 answer = 1
 misconception = "The last option is the deep one: dissolving gets filed under 'physical change' and physical changes are assumed not to involve energy. Breaking an ionic lattice and hydrating the ions are both large energy terms, and their difference is what the thermometer reads. The 108 °C answer comes from dividing by the mass in grams while using a molar heat capacity."
@@ -887,6 +947,11 @@ options = [
   "21.0 °C — about four degrees colder",
   "Unchanged — the water is what holds the temperature",
 ]
+options_de = [
+    "Wärmer — Lösen setzt immer Energie frei",
+    "21,0 °C — etwa vier Grad kälter",
+    "Unverändert — das Wasser ist es, was die Temperatur hält",
+]
 answer = 1
 misconception = "Having just watched calcium chloride heat a cup, learners generalise: dissolving warms things. The sign of ΔH_dis is a property of the substance, not of dissolving. Baking soda, potassium chloride and ammonium nitrate all go the other way, and an instant cold pack is exactly this experiment."
 misconception_de = "Nachdem Lernende gerade gesehen haben, wie Calciumchlorid einen Becher erwärmt, verallgemeinern sie: Lösen erwärmt Dinge. Das Vorzeichen von ΔH_Lös ist eine Eigenschaft des Stoffes, nicht des Lösens. Natron, Kaliumchlorid und Ammoniumnitrat gehen alle den anderen Weg, und eine Sofort-Kühlpackung ist genau dieses Experiment."
@@ -963,6 +1028,11 @@ options = [
   "34.93 °C — the same energy, spread through twice as much water",
   "89.7 °C — twice the water, twice the heating",
 ]
+options_de = [
+    "44,87 °C — es wurde dieselbe Energie freigesetzt",
+    "34,93 °C — dieselbe Energie, verteilt auf die doppelte Menge Wasser",
+    "89,7 °C — doppelt so viel Wasser, doppelte Erwärmung",
+]
 answer = 1
 misconception = "The first option confuses energy with temperature — they are not the same quantity, and this pair of cups is the cheapest way to feel the difference. Exactly the same 8.28 kJ is released in both; the thermometer reads the energy per unit of stuff it has to warm, so doubling the water halves the rise."
 misconception_de = "Die erste Option verwechselt Energie mit Temperatur — sie sind nicht dieselbe Größe, und dieses Becherpaar ist der billigste Weg, den Unterschied zu spüren. In beiden wird exakt dieselbe Menge, 8,28 kJ, freigesetzt; das Thermometer zeigt die Energie pro Menge des zu erwärmenden Stoffes an, also halbiert die Verdoppelung des Wassers den Anstieg."
@@ -1037,6 +1107,11 @@ options = [
   "The one-step route — doing everything at once releases the energy together",
   "The two-step route — two separate heats add up to more",
   "Neither: both beakers end at exactly the same temperature",
+]
+options_de = [
+    "Der einstufige Weg — alles auf einmal zu tun setzt die Energie gemeinsam frei",
+    "Der zweistufige Weg — zwei getrennte Wärmemengen addieren sich zu mehr",
+    "Keins von beiden: Beide Bechergläser landen bei genau derselben Temperatur",
 ]
 answer = 2
 misconception = "Enthalpy is a state function: the heat released between the same start and the same finish does not depend on the route taken between them. That is Hess's law, and both wrong answers imagine the route mattering — in opposite directions. The drama differs (one jump against two climbs); the destination cannot."
@@ -1121,6 +1196,11 @@ options = [
   "Hot chalk. Nothing else. The balance still reads 10.00 g",
   "Some of it decomposes; the rest does not",
 ]
+options_de = [
+    "Branntkalk und Kohlendioxid — sie hat sich zersetzt",
+    "Heiße Kreide. Sonst nichts. Die Waage zeigt immer noch 10,00 g",
+    "Ein Teil zersetzt sich; der Rest nicht",
+]
 answer = 1
 misconception = "'Heating causes decomposition' becomes a rule with no threshold attached, so any heating is expected to do something. Decomposition has a temperature, and below it the reaction does not go slowly — it does not go. This entry exists to be the null result that gives the next one its meaning."
 misconception_de = "'Erhitzen verursacht Zersetzung' wird zu einer Regel ohne angehängte Schwelle, sodass von jedem Erhitzen erwartet wird, dass etwas geschieht. Zersetzung hat eine Temperatur, und unterhalb davon läuft die Reaktion nicht langsam ab — sie läuft gar nicht ab. Dieser Eintrag existiert als das Nullergebnis, das dem nächsten seine Bedeutung gibt."
@@ -1186,6 +1266,11 @@ options = [
   "In a table of decomposition temperatures the engine looks up",
   "Nowhere — it is computed, from the point where the CO₂ pressure over the carbonate reaches the pressure in the room",
   "It is hard-coded as 900 °C",
+]
+options_de = [
+    "In einer Tabelle mit Zersetzungstemperaturen, die die Engine nachschlägt",
+    "Nirgendwo — sie wird berechnet, ab dem Punkt, an dem der CO₂-Druck über dem Carbonat den Druck im Raum erreicht",
+    "Sie ist fest als 900 °C einprogrammiert",
 ]
 answer = 1
 misconception = "A simulator is assumed to be a lookup table with animation on top, so any number it produces is assumed to have been typed in by someone. This one was not: the same solve that says 147 °C changes nothing says 1000 °C changes everything, and neither answer was written down in advance. That is the difference between a model and a recording."
@@ -1256,6 +1341,12 @@ options = [
   "Exactly 1.20 g — mass is conserved",
   "1.99 g — more than you started with",
   "Nothing left to weigh — it all went up in smoke",
+]
+options_de = [
+    "Weniger als 1,20 g — Verbrennen verbraucht Dinge",
+    "Genau 1,20 g — die Masse bleibt erhalten",
+    "1,99 g — mehr, als du am Anfang hattest",
+    "Nichts mehr zu wiegen — es ist alles in Rauch aufgegangen",
 ]
 answer = 2
 misconception = "This is the classic, and most people get it wrong. Every fire anyone has watched leaves less than it started with — a log becomes a handful of ash — so 'burning destroys matter' is learned from the world before it is unlearned in a classroom. The ash is lighter because the carbon left as gas. Magnesium's oxide is a solid and stays in the crucible, so the oxygen it took from the air is on the balance too. Burning is combination, not destruction; the log is the misleading case."
@@ -1338,6 +1429,11 @@ options = [
   "More than 1.20 g, as with the magnesium",
   "Essentially nothing — the crucible is empty",
 ]
+options_de = [
+    "1,20 g — die Masse bleibt erhalten",
+    "Mehr als 1,20 g, wie beim Magnesium",
+    "Praktisch nichts — der Tiegel ist leer",
+]
 answer = 2
 misconception = "Having just been taught that burning adds mass, learners over-correct and expect every fire to gain. Both fires gain oxygen; the difference is entirely whether the oxide is a solid or a gas. Magnesium oxide stays; carbon dioxide leaves. Nothing about conservation changed between the two experiments — only the phase of the product."
 misconception_de = "Nachdem gerade gelehrt wurde, dass Verbrennen Masse hinzufügt, überkorrigieren Lernende und erwarten, dass jedes Feuer zunimmt. Beide Feuer nehmen Sauerstoff auf; der Unterschied liegt ganz darin, ob das Oxid ein Feststoff oder ein Gas ist. Magnesiumoxid bleibt; Kohlenstoffdioxid entweicht. An der Erhaltung hat sich zwischen den beiden Experimenten nichts geändert — nur die Phase des Produkts."
@@ -1415,6 +1511,11 @@ options = [
   "No: 2177 °C and 2769 °C. The heat you put in first is still in the products",
   "No — the hotter one burns faster and so ends up cooler",
 ]
+options_de = [
+    "Ja — die Flammentemperatur ist eine Eigenschaft von Magnesium",
+    "Nein: 2177 °C und 2769 °C. Die zuerst hineingesteckte Wärme steckt noch in den Produkten",
+    "Nein — das heißere brennt schneller und landet deshalb kühler",
+]
 answer = 1
 misconception = "'Adiabatic flame temperature of magnesium' gets memorised as a constant, like a melting point. It is not a property of the fuel; it is the answer to an enthalpy balance, and the enthalpy of the reactants is one of the inputs. Preheat the reactants and you get a hotter flame, which is exactly why industrial furnaces preheat their air."
 misconception_de = "'Adiabatische Flammtemperatur von Magnesium' wird als Konstante auswendig gelernt, wie ein Schmelzpunkt. Sie ist keine Eigenschaft des Brennstoffs; sie ist die Antwort auf eine Enthalpiebilanz, und die Enthalpie der Edukte ist eine der Eingangsgrößen. Erwärmt man die Edukte vor, erhält man eine heißere Flamme, und genau deshalb erwärmen Industrieöfen ihre Luft vor."
@@ -1488,6 +1589,12 @@ options = [
   "Neither burns — 228 °C is nowhere near hot enough",
   "Only the second burns. Four degrees is the difference between nothing and everything",
   "The first burns slowly, the second quickly",
+]
+options_de = [
+    "Beide brennen — die Reaktion ist bei beiden Temperaturen begünstigt",
+    "Keines brennt — 228 °C sind bei Weitem nicht heiß genug",
+    "Nur das zweite brennt. Vier Grad sind der Unterschied zwischen nichts und allem",
+    "Das erste brennt langsam, das zweite schnell",
 ]
 answer = 2
 misconception = "'The reaction releases energy, so it happens' is the single most common conflation in chemistry, and the last option is its softer form — the belief that an unfavourable rate means a slow reaction rather than no reaction. Equilibrium says where a system would end up; it says nothing about whether it can get there. A magnesium ribbon in a drawer is thermodynamically desperate to become oxide and will sit there for a century, because an oxide skin stands in the way."
@@ -1571,6 +1678,11 @@ options = [
   "5.00 g and 25 °C. Nothing burned; the colour is light, not fire",
   "Heavier — it combined with oxygen like the magnesium did",
 ]
+options_de = [
+    "Leichter, und heiß — ein Teil ist verbrannt, um die Farbe zu erzeugen",
+    "5,00 g und 25 °C. Nichts ist verbrannt; die Farbe ist Licht, kein Feuer",
+    "Schwerer — es hat sich mit Sauerstoff verbunden, so wie das Magnesium",
+]
 answer = 1
 misconception = "A coloured flame looks like combustion, so the salt is assumed to be the fuel. It is not: the flame excites the potassium's outer electron and the colour is what that electron emits falling back. Nothing is consumed, and a flame test on a milligram will keep going as long as you hold it there. This is also the entry that shows what a negative result looks like — three things that did not happen, each of which is checked."
 misconception_de = "Eine farbige Flamme sieht aus wie Verbrennung, also wird angenommen, das Salz sei der Brennstoff. Das ist es nicht: Die Flamme regt das äußere Elektron des Kaliums an, und die Farbe ist das, was dieses Elektron beim Zurückfallen aussendet. Nichts wird verbraucht, und ein Flammentest an einem Milligramm läuft weiter, solange du es hineinhältst. Dies ist auch der Eintrag, der zeigt, wie ein Nullergebnis aussieht — drei Dinge, die nicht geschehen sind, jedes davon überprüft."
@@ -1641,6 +1753,12 @@ options = [
   "5.84 g — the salt is left behind",
   "105.54 g — mass is conserved",
   "Less than 5.84 g — some salt goes with the steam",
+]
+options_de = [
+    "0 g — alles ist verdampft",
+    "5,84 g — das Salz bleibt zurück",
+    "105,54 g — die Masse bleibt erhalten",
+    "Weniger als 5,84 g — etwas Salz entweicht mit dem Dampf",
 ]
 answer = 1
 misconception = "Young learners often think dissolving destroys the salt, so nothing should remain; older ones, having learned conservation, apply it to the basin and expect the whole 105.54 g. The measurement that settles it is the pair — before and after, on the same balance — which is why you write the first number down before you start rather than after you see the second."
@@ -1723,6 +1841,11 @@ options = [
   "Neither — once a substance is gone, it is gone",
   "Only the salt: boil the water away and the crystals return; no amount of heating or cooling un-burns the ribbon",
 ]
+options_de = [
+    "Beides — Chemie kann immer rückgängig gemacht werden, wenn man clever genug ist",
+    "Keins von beiden — einmal verschwunden, bleibt ein Stoff verschwunden",
+    "Nur das Salz: Kochst du das Wasser weg, kehren die Kristalle zurück; kein noch so großes Erhitzen oder Abkühlen macht das Verbrennen des Bandes rückgängig",
+]
 answer = 2
 misconception = "The two disappearances are the same event to the eye and opposite events underneath. The salt is still sodium chloride, hiding as ions — remove the water and it must come back. The ribbon's atoms are all still there too, but in new company: magnesium oxide is a new substance, and temperature cannot dissolve a chemical bond that heat itself favours. Telling these two vanishings apart is the definition of a chemical reaction."
 misconception_de = "Die beiden Verschwindensvorgänge sind für das Auge dasselbe Ereignis und darunter entgegengesetzte Ereignisse. Das Salz ist immer noch Natriumchlorid, versteckt als Ionen — entfernt man das Wasser, muss es zurückkommen. Auch die Atome des Bandes sind alle noch vorhanden, aber in neuer Gesellschaft: Magnesiumoxid ist ein neuer Stoff, und Temperatur kann keine chemische Bindung auflösen, die Wärme selbst begünstigt. Diese beiden Verschwindensvorgänge auseinanderzuhalten ist die Definition einer chemischen Reaktion."
@@ -1799,6 +1922,11 @@ options = [
   "A precipitate in neither — both are far too dilute to see",
   "A precipitate in the second only: the first is below the observation floor of 1 µmol",
 ]
+options_de = [
+    "Ein Niederschlag in beiden — die Chemie ist dieselbe",
+    "Ein Niederschlag in keinem — beide sind viel zu verdünnt, um sichtbar zu sein",
+    "Ein Niederschlag nur im zweiten: Das erste liegt unter der Beobachtungsgrenze von 1 µmol",
+]
 answer = 2
 misconception = "The unstated assumption is that whatever the chemistry does, the experiment shows. Every instrument has a floor, and below it a real change produces no signal — which is not the instrument lying, it is the instrument having a specification. Confusing 'I did not detect it' with 'it did not happen' is how a negative result gets over-read, and the fix is knowing your detection limit before you run."
 misconception_de = "Die unausgesprochene Annahme ist, dass das Experiment zeigt, was auch immer die Chemie tut. Jedes Instrument hat eine Untergrenze, und darunter erzeugt eine reale Veränderung kein Signal — das ist nicht das Instrument, das lügt, sondern das Instrument, das eine Spezifikation hat. 'Ich habe es nicht erkannt' mit 'es ist nicht geschehen' zu verwechseln ist, wie ein Nullergebnis überinterpretiert wird, und die Lösung ist, die Nachweisgrenze zu kennen, bevor man misst."
@@ -1871,6 +1999,12 @@ options = [
   "Say 'not yet modelled': no wired solver covers this salt in a non-aqueous solvent",
   "Crash with an error",
   "Silently leave the salt at the bottom, as if that were the computed answer",
+]
+options_de = [
+    "Es auflösen — es hat sich in Wasser gelöst, also löst es sich",
+    "'Noch nicht modelliert' melden: Kein eingebundener Solver deckt dieses Salz in einem nicht-wässrigen Lösungsmittel ab",
+    "Mit einem Fehler abstürzen",
+    "Das Salz stillschweigend am Boden liegen lassen, als wäre das die berechnete Antwort",
 ]
 answer = 1
 misconception = "Software is expected to answer. The tempting failure is the last option — quietly doing nothing and letting silence be read as a result, which is indistinguishable from 'it is insoluble' and happens to be roughly right here, for entirely the wrong reason. A model that cannot tell you where it stops has told you nothing you can trust anywhere."

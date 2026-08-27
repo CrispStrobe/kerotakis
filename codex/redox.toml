@@ -47,6 +47,11 @@ options = [
   "0.0025 mol — each permanganate takes exactly five",
   "All 0.005 mol — permanganate is the strongest oxidiser in the school cupboard",
 ]
+options_de = [
+    "0,0005 mol — ein Permanganat oxidiert ein Eisen",
+    "0,0025 mol — jedes Permanganat nimmt sich genau fünf",
+    "Alle 0,005 mol — Permanganat ist das stärkste Oxidationsmittel im Chemieschrank",
+]
 answer = 1
 misconception = "Two miscounts, same root: reactions imagined particle-to-particle. The exchange rate is set by electrons, not by formula units — each manganese falls from +7 to +2 and accepts five, each iron climbs one step and gives one. And strength is not appetite: how far an oxidiser can pull electrons says nothing about how many it can hold."
 misconception_de = "Zwei Fehlzählungen mit derselben Wurzel: Man stellt sich die Reaktion Teilchen-zu-Teilchen vor. Der Umtauschkurs wird aber von Elektronen bestimmt, nicht von Formeleinheiten — jedes Mangan fällt von +7 auf +2 und nimmt fünf Elektronen auf, jedes Eisen steigt eine Stufe und gibt eines ab. Und Stärke ist kein Appetit: Wie weit ein Oxidationsmittel Elektronen an sich ziehen kann, sagt nichts darüber aus, wie viele es aufnehmen kann."
@@ -112,6 +117,11 @@ options = [
   "About +0.67 V — noticeably below the table",
   "+1.51 V — permanganate's own E°, since permanganate did the oxidising",
 ]
+options_de = [
+    "+0,77 V — das tabellierte E° von Fe³⁺/Fe²⁺",
+    "Etwa +0,67 V — deutlich unter dem Tabellenwert",
+    "+1,51 V — das eigene E° von Permanganat, da Permanganat die Oxidation durchgeführt hat",
+]
 answer = 1
 misconception = "The tabulated 0.771 V describes bare aquo-ions at unit activity, and this beaker holds neither: sulfate binds Fe(III) far more strongly than Fe(II), pulling the free-Fe(III) activity down and the potential with it. What the meter reads is the formal potential in this medium — the number analysts actually use. And 1.51 V confuses the agent with the state: the permanganate is spent, and a couple with one member missing has no potential to impose."
 misconception_de = "Der tabellierte Wert von 0,771 V beschreibt nackte Aquo-Ionen bei Aktivität eins, und beides hat dieses Becherglas nicht: Sulfat bindet Fe(III) weit stärker als Fe(II) und zieht damit die Aktivität des freien Fe(III) und mit ihr das Potenzial nach unten. Was das Messgerät zeigt, ist das Formalpotenzial in diesem Medium — die Zahl, mit der Analytiker tatsächlich arbeiten. Und 1,51 V verwechselt den Akteur mit dem Zustand: Das Permanganat ist verbraucht, und ein Redoxpaar mit nur einem verbliebenen Partner hat kein Potenzial, das es aufzwingen könnte."
@@ -175,6 +185,11 @@ options = [
   "Some of everything — reactions reach equilibrium, so both sides always remain",
   "Purple: an oxidiser this strong always ends up in excess",
   "Iron(III) and manganese(II), complete to the limits of arithmetic — and less acid than before",
+]
+options_de = [
+    "Von allem etwas — Reaktionen erreichen ein Gleichgewicht, also bleiben immer beide Seiten übrig",
+    "Violett: Ein so starkes Oxidationsmittel bleibt immer im Überschuss",
+    "Eisen(III) und Mangan(II), vollständig bis an die Grenzen der Arithmetik — und weniger Säure als zuvor",
 ]
 answer = 2
 misconception = "'Equilibrium means leftovers' is the weak-acid lesson over-applied: when the couples sit this far apart, the equilibrium residue is real but lands nine orders of magnitude below the starting amounts — equilibrium and completion are the same statement here. The quieter surprise is the acid: eight protons per permanganate went into the water product, 0.008 of the 0.010 mol in the beaker, and the pH climbed from 1.4 to 2.1 to prove it."
@@ -247,6 +262,11 @@ options = [
   "Nothing — a metal and a dissolved salt have no business with each other without an acid",
   "Copper metal grows on the zinc, the blue fades, and the beaker gets noticeably hot",
   "The zinc dissolves, but the copper stays dissolved too — they just swap places on paper",
+]
+options_de = [
+    "Nichts — ein Metall und ein gelöstes Salz haben ohne eine Säure nichts miteinander zu schaffen",
+    "Kupfermetall wächst auf dem Zink, das Blau verblasst, und das Becherglas wird deutlich warm",
+    "Das Zink löst sich, aber das Kupfer bleibt auch gelöst — sie tauschen nur auf dem Papier die Plätze",
 ]
 answer = 1
 misconception = "The first answer reserves reactivity for acids; the third concedes the equation but not the matter. Displacement is electrons changing owner for real: zinc sits below copper in the series, so it hands its electrons over, dissolves as Zn²⁺, and the copper ions take the electrons and come out of solution as actual metal on the zinc's surface — with 218.7 kJ/mol to show for it."
@@ -321,6 +341,11 @@ options = [
   "Neither fizzes — solid metal is too tough for a liquid",
   "Only the magnesium fizzes; the copper sits in acid indefinitely, untouched",
 ]
+options_de = [
+    "Beide sprudeln — Säure greift Metall an, das ist es, was Säure tut",
+    "Keines sprudelt — festes Metall ist zu widerstandsfähig für eine Flüssigkeit",
+    "Nur das Magnesium sprudelt; das Kupfer liegt unbegrenzt unverändert in der Säure",
+]
 answer = 2
 misconception = "Both wrong answers treat 'metal' as one substance with one behaviour towards acid. The series is the correction: hydrogen has its own rung (E° = 0 by definition), and only metals below it can push electrons onto protons. Magnesium is far below and fizzes hydrogen; copper is above, so in this acid it has nothing to gain and does exactly nothing — which the bench states as a result, not an absence."
 misconception_de = "Beide falschen Antworten behandeln 'Metall' als einen einzigen Stoff mit einem einzigen Verhalten gegenüber Säure. Die Spannungsreihe korrigiert das: Wasserstoff hat seine eigene Sprosse (E° = 0 per Definition), und nur Metalle darunter können Elektronen auf Protonen übertragen. Magnesium liegt weit darunter und sprudelt Wasserstoff; Kupfer liegt darüber, hat in dieser Säure also nichts zu gewinnen und tut genau nichts — was das Labor als Ergebnis meldet, nicht als Fehlanzeige."
@@ -389,6 +414,11 @@ options = [
   "Nothing — silver is a noble metal, and noble metals do not react",
   "Silver crystals grow on the wire while the solution turns blue",
   "The wire dissolves completely and both metals end up in solution",
+]
+options_de = [
+    "Nichts — Silber ist ein Edelmetall, und Edelmetalle reagieren nicht",
+    "Silberkristalle wachsen auf dem Draht, während sich die Lösung blau färbt",
+    "Der Draht löst sich vollständig auf, und beide Metalle landen in Lösung",
 ]
 answer = 1
 misconception = "'Noble' describes the metal, not the ion — metallic silver resists attack, but a silver ion is silver that has already lost its electron and wants one back, and copper below it in the series is willing to pay. Two silvers plate per copper dissolved (one electron each against copper's two), and the arriving Cu²⁺ brings the blue: the colour change is the electron transfer made visible."
@@ -459,6 +489,11 @@ options = [
   "Nothing at all, ever: the trade only runs downhill",
   "It works, but slower, because silver is heavier",
 ]
+options_de = [
+    "Das Spiegelbild — Kupfer scheidet sich auf dem Silber ab",
+    "Überhaupt nichts, niemals: Der Tausch läuft nur bergab",
+    "Es funktioniert, aber langsamer, weil Silber schwerer ist",
+]
 answer = 1
 misconception = "If A displaces B, learners often expect B to displace A in the right mood — reactions as reversible courtesies. The series is an order, not a mood: electrons run from the lower metal to the higher ion and never back up under these conditions. Silver sits above copper, so silver metal facing Cu²⁺ has nothing to gain, and the bench reports the nothing as a verdict with a reason, not as an empty transcript."
 misconception_de = "Verdrängt A das B, erwarten Lernende oft, dass B unter passenden Umständen auch A verdrängt — Reaktionen als umkehrbare Gefälligkeiten. Die Spannungsreihe ist eine Ordnung, keine Stimmung: Elektronen fließen vom niedrigeren Metall zum höheren Ion und laufen unter diesen Bedingungen nie zurück. Silber steht über Kupfer, also hat Silbermetall gegenüber Cu²⁺ nichts zu gewinnen, und das Labor meldet dieses Nichts als begründetes Urteil, nicht als leeres Protokoll."
@@ -527,6 +562,11 @@ options = [
   "Nothing; zinc and iron are too similar to bother each other",
   "Iron metal plates out while the zinc dissolves — zinc gives its electrons first, which is exactly the sacrifice the hull block makes",
   "The zinc rusts instead of the iron, because rust prefers the more reactive metal",
+]
+options_de = [
+    "Nichts; Zink und Eisen sind sich zu ähnlich, um sich gegenseitig zu stören",
+    "Eisenmetall scheidet sich ab, während sich das Zink löst — Zink gibt seine Elektronen zuerst her, genau das Opfer, das der Rumpfblock bringt",
+    "Das Zink rostet anstelle des Eisens, weil Rost das reaktivere Metall bevorzugt",
 ]
 answer = 1
 misconception = "The third answer has the right instinct dressed in the wrong mechanism: nothing 'prefers' — zinc simply sits below iron in the series, so wherever electrons are demanded, zinc pays before iron does. In this beaker that means dissolved iron is pushed back to metal at zinc's expense; on a hull it means the corrosion current drains the replaceable block instead of the irreplaceable plate. Same ordering, same sacrifice."
@@ -599,6 +639,11 @@ options = [
   "0 V — the metals never touch, so no chemistry connects them",
   "About 1.1 V — the distance between the two metals' rungs on the series",
   "About 0.4 V — the average of the two electrode potentials",
+]
+options_de = [
+    "0 V — die Metalle berühren sich nie, also verbindet sie keine Chemie",
+    "Etwa 1,1 V — der Abstand zwischen den Positionen der beiden Metalle in der Spannungsreihe",
+    "Etwa 0,4 V — der Mittelwert der beiden Elektrodenpotentiale",
 ]
 answer = 1
 misconception = "A voltage is a *difference*, not an average and not a contact: each metal sits at its own electrode potential against its own ions, and the meter reads the gap — E°(Cu²⁺/Cu) − E°(Zn²⁺/Zn) = 0.34 − (−0.76) ≈ 1.10 V. The displacement reaction and the battery are the same chemistry: put the metals in one beaker and the electrons jump directly as heat; separate the half-cells and the same electrons must take the wire, where they can be made to work."
@@ -674,6 +719,11 @@ options = [
   "18.2 mV — noticeably less, because the free copper activity fell by a factor nearer 4 than 10",
   "Nothing — dilution changes how much copper there is, not what copper is",
 ]
+options_de = [
+    "Genau 29,6 mV — die Nernst-Gleichung ist eine Gleichung",
+    "18,2 mV — deutlich weniger, weil die freie Kupfer-Aktivität um einen Faktor gefallen ist, der näher bei 4 als bei 10 liegt",
+    "Nichts — Verdünnung ändert, wie viel Kupfer da ist, nicht was Kupfer ist",
+]
 answer = 1
 misconception = "The Nernst equation IS exact — over activities. The slide-rule version quietly substitutes concentrations, which assumes the activity corrections cancel between the two solutions. They do not: in the stronger solution much of the copper is paired with sulfate, so tenfold less total copper is only about fourfold less *free* Cu²⁺, and the logarithm sees the four. The second witness clinches it: a copper–silver cell reads 0.445 V at 0.01 mol but 0.483 V at 0.1 — the deviation changes sign with concentration, so no 'always a bit less' patch-rule survives."
 misconception_de = "Die Nernst-Gleichung IST exakt — über Aktivitäten. Die Rechenschieber-Version setzt still Konzentrationen ein, was voraussetzt, dass sich die Aktivitätskorrekturen zwischen beiden Lösungen aufheben. Das tun sie nicht: In der stärkeren Lösung ist ein großer Teil des Kupfers mit Sulfat gepaart, sodass zehnfach weniger Gesamtkupfer nur etwa vierfach weniger *freies* Cu²⁺ bedeutet, und der Logarithmus sieht die Vier. Der zweite Zeuge macht es endgültig: Eine Kupfer-Silber-Zelle zeigt 0,445 V bei 0,01 mol, aber 0,483 V bei 0,1 — die Abweichung wechselt mit der Konzentration das Vorzeichen, sodass keine 'immer ein bisschen weniger'-Faustregel überlebt."
@@ -742,6 +792,11 @@ options = [
   "0 V — identical electrodes cannot disagree about anything",
   "About 18 mV, with the dilute side as the negative pole",
   "About 1.1 V — two beakers and a bridge make a Daniell cell whatever is in them",
+]
+options_de = [
+    "0 V — identische Elektroden können sich über nichts uneinig sein",
+    "Etwa 18 mV, wobei die verdünnte Seite den Minuspol bildet",
+    "Etwa 1,1 V — zwei Bechergläser und eine Brücke ergeben eine Daniell-Zelle, egal was drin ist",
 ]
 answer = 1
 misconception = "The standard potentials cancel identically — E° = 0.000, and the bench prints it — yet a real voltage remains, because the Nernst term reads the imbalance itself: the dilute side dissolves copper to gain ions and the strong side plates copper to shed them, the cell literally running on the urge to even out. A battery needs a difference, and a difference in concentration is a difference."
@@ -816,6 +871,11 @@ options = [
   "0.0050 mol — every copper ion demands two electrons",
   "No saying without the voltage — volts are what drive electroplating",
 ]
+options_de = [
+    "0,0100 mol — ein Mol Elektronen scheidet ein Mol Metall ab",
+    "0,0050 mol — jedes Kupfer-Ion verlangt zwei Elektronen",
+    "Ohne die Spannung lässt sich das nicht sagen — Volt sind es, die die Galvanisierung antreiben",
+]
 answer = 1
 misconception = "The chain is Q = It, n(e⁻) = Q/F, n(metal) = n(e⁻)/z, m = nM — and three of those four steps are pure arithmetic. The divisor z is the single piece of chemistry in it: Cu²⁺ takes two electrons, so a hundredth of a faraday buys half a hundredth of copper. Voltage decides whether the deposition runs at all; the charge decides how much, to four figures."
 misconception_de = "Die Kette lautet Q = It, n(e⁻) = Q/F, n(Metall) = n(e⁻)/z, m = nM — und drei dieser vier Schritte sind reine Arithmetik. Der Divisor z ist das einzige Stück Chemie darin: Cu²⁺ nimmt zwei Elektronen auf, also erkauft ein Hundertstel Faraday ein halbes Hundertstel Kupfer. Die Spannung entscheidet, ob die Abscheidung überhaupt läuft; die Ladung entscheidet, wie viel — auf vier Stellen genau."
@@ -886,6 +946,11 @@ options = [
   "Nothing — plating moves metal, and metal is not acid",
   "It crashes, from 4.3 to 1.8: every Cu²⁺ removed left its charge behind, and the anode pays the bill in protons",
   "It rises — taking the metal out 'frees up' the solution",
+]
+options_de = [
+    "Nichts — Galvanisieren bewegt Metall, und Metall ist keine Säure",
+    "Er bricht ein, von 4,3 auf 1,8: Jedes entfernte Cu²⁺ hat seine Ladung zurückgelassen, und die Anode begleicht die Rechnung mit Protonen",
+    "Er steigt — das Entfernen des Metalls 'befreit' die Lösung",
 ]
 answer = 1
 misconception = "Charge conservation runs the show: every Cu²⁺ that leaves the solution as metal takes two positive charges out of the water, and the solution cannot simply go negative. At the inert anode the books are balanced by oxidising water itself — 2 H₂O → O₂ + 4 H⁺ + 4 e⁻ — so oxygen bubbles away and acid accumulates, one proton per electron. Nobody expects electroplating to acidify the bath, and it falls straight out of the ledger."
@@ -960,6 +1025,11 @@ options = [
   "Using an outside current to run the cell's own reaction backwards, rebuilding the metal that discharging consumed",
   "Replacing the used-up chemicals with fresh ones",
 ]
+options_de = [
+    "Es mit Elektrizität wiederauffüllen, die es speichert wie ein Tank Treibstoff",
+    "Mit einem äußeren Strom die eigene Reaktion der Zelle rückwärts laufen lassen, wodurch das beim Entladen verbrauchte Metall wieder aufgebaut wird",
+    "Die verbrauchten Chemikalien durch frische ersetzen",
+]
 answer = 1
 misconception = "A battery stores no electricity — it stores a chemical reaction held ready to run. Discharging lets the reaction run downhill through the wire; charging is an outside supply forcing the same reaction uphill, re-depositing the anode metal electron by electron (193 C here rebuilds 0.0010 mol of zinc, by the same Faraday arithmetic as any electrolysis). The tank picture fails at exactly the point that matters: what is stored is a chemical arrangement, not a substance called electricity."
 misconception_de = "Eine Batterie speichert keine Elektrizität — sie speichert eine chemische Reaktion, startbereit gehalten. Beim Entladen läuft die Reaktion bergab durch den Draht; Laden ist eine äußere Quelle, die dieselbe Reaktion bergauf zwingt und das Anodenmetall Elektron für Elektron wieder aufbaut (193 C bauen hier 0,0010 mol Zink wieder auf, nach derselben Faraday-Arithmetik wie jede Elektrolyse). Das Tank-Bild versagt genau an dem Punkt, der zählt: Gespeichert wird eine chemische Anordnung, kein Stoff namens Elektrizität."
@@ -1026,6 +1096,11 @@ options = [
   "The series is simply wrong about lead",
   "Kinetics: hydrogen formation on lead costs about 0.88 V of overpotential, far more than the +0.13 V the acid offers — blocked, not absent",
   "The plates get a protective factory coating that keeps the acid off",
+]
+options_de = [
+    "Die Spannungsreihe irrt sich einfach bei Blei",
+    "Kinetik: Die Wasserstoffbildung an Blei kostet etwa 0,88 V Überspannung, weit mehr als die +0,13 V, die die Säure bietet — blockiert, nicht ausgeblieben",
+    "Die Platten erhalten eine schützende Werksbeschichtung, die die Säure fernhält",
 ]
 answer = 1
 misconception = "When an observation contradicts a rule, the tempting moves are to discard the rule or to invent a protector. Neither is needed: the series is an equilibrium statement and it is right — lead in acid is downhill. It is also barely downhill (+0.13 V), and the reaction's necessary first product, hydrogen gas on a lead surface, carries an activation toll of ~0.88 V. The bill exceeds the budget, so the reaction is blocked on any human timescale. The battery exists inside that gap."

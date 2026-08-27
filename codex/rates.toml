@@ -72,6 +72,12 @@ options = [
   "0.000891 mol — four times as much, because rate goes with concentration squared",
   "Somewhere between, because the stronger one runs out sooner",
 ]
+options_de = [
+    "0,000223 mol — dasselbe, weil es dieselbe Reaktion ist",
+    "0,000446 mol — doppelt so viel",
+    "0,000891 mol — viermal so viel, weil die Geschwindigkeit mit dem Quadrat der Konzentration geht",
+    "Irgendwo dazwischen, weil das stärkere früher ausgeht",
+]
 answer = 1
 misconception = "The last option is the interesting wrong answer, and a lot of learners reach for it: they know depletion slows a reaction down and expect the stronger solution to be handicapped by it. It is not, and the reason is worth having — for a first-order reaction the *fraction* consumed in ten seconds is the same in both beakers, so the amounts stay in the ratio they started in at every instant. The squared option is order confused with coefficient: the equation has a 2 in front of H⁺ and none in front of thiosulfate, and neither number is the order."
 misconception_de = "Die letzte Option ist die interessante falsche Antwort, nach der viele Lernende greifen: Sie wissen, dass eine abnehmende Konzentration eine Reaktion verlangsamt, und erwarten deshalb, dass die stärkere Lösung dadurch benachteiligt wird. Das ist nicht der Fall, und der Grund lohnt sich: Bei einer Reaktion erster Ordnung ist der in zehn Sekunden umgesetzte *Anteil* in beiden Bechergläsern gleich, sodass die Mengen zu jedem Zeitpunkt im ursprünglichen Verhältnis zueinander bleiben. Die quadrierte Option verwechselt Reaktionsordnung mit Koeffizient: In der Gleichung steht eine 2 vor H⁺ und keine vor Thiosulfat, und keine der beiden Zahlen ist die Ordnung."
@@ -161,6 +167,12 @@ options = [
   "Nobody. The rate law is first order in the *activity* of H⁺, and doubling the amount raises the activity by only 1.94",
   "The chemistry — the order in H⁺ must really be a bit less than one",
   "It is rounding error in the integrator",
+]
+options_de = [
+    "Das Labor — ein Term erster Ordnung muss sich verdoppeln, wenn man die Konzentration verdoppelt",
+    "Niemand. Das Geschwindigkeitsgesetz ist erster Ordnung bezüglich der *Aktivität* von H⁺, und eine Verdopplung der Menge erhöht die Aktivität nur um das 1,94-Fache",
+    "Die Chemie — die Ordnung bezüglich H⁺ muss in Wirklichkeit etwas kleiner als eins sein",
+    "Das ist ein Rundungsfehler im Integrator",
 ]
 answer = 1
 misconception = "The third option is the trap that catches good students: a measured exponent slightly below one looks like evidence for a fractional order, and fractional orders are real. Here it is not one. The order in the model is exactly 1.000, and the shortfall comes from somewhere else entirely — the ionic strength doubled with the acid, the activity coefficient fell from 0.889 to 0.863, and the rate law reads activity. Mistaking a solution non-ideality for a mechanistic order is a live error in real kinetics work, not a schoolroom one."
@@ -256,6 +268,12 @@ options = [
   "113 s — longer than four times, because a fixed amount of sulfur is a much bigger bite out of a weak solution",
   "It never gets there — there is not enough thiosulfate",
 ]
+options_de = [
+    "48 s — doppelt so lange, noch einmal doppelt so lange wäre albern",
+    "96 s — die vierfache Zeit für ein Viertel der Konzentration",
+    "113 s — länger als das Vierfache, weil eine feste Schwefelmenge einer schwachen Lösung einen viel größeren Brocken abverlangt",
+    "Es kommt nie so weit — es ist nicht genug Thiosulfat vorhanden",
+]
 answer = 2
 misconception = "Both of the first two options assume the time to a fixed observable is exactly inversely proportional to concentration. It nearly is, and the practical is built on that assumption — but only while the sulfur you are waiting for is a small fraction of what you started with. Hiding the cross costs 0.01 mol/L of sulfur: a tenth of the strong beaker and two fifths of the weak one, which is why the weak one falls further behind than the simple ratio predicts. The last option is worth taking seriously and rejecting on the arithmetic: 0.025 mol/L is enough, with room to spare."
 misconception_de = "Die ersten beiden Optionen gehen beide davon aus, dass die Zeit bis zu einem festen Beobachtungspunkt exakt umgekehrt proportional zur Konzentration ist. Das stimmt fast, und das Experiment beruht auf dieser Annahme — aber nur solange der abgewartete Schwefel ein kleiner Anteil der Ausgangsmenge ist. Das Verdecken des Kreuzes kostet 0,01 mol/L Schwefel: ein Zehntel beim starken Becherglas und zwei Fünftel beim schwachen, weshalb das schwache stärker zurückfällt, als das einfache Verhältnis vorhersagt. Die letzte Option verdient es, ernst genommen und mit der Rechnung widerlegt zu werden: 0,025 mol/L reicht, mit Reserve."
@@ -347,6 +365,12 @@ options = [
   "0.000669 mol — three times, one doubling per ten degrees added up",
   "0.00223 mol — ten times, because the temperature went up by thirty degrees",
 ]
+options_de = [
+    "0,00178 mol — achtmal so viel, drei Verdopplungen",
+    "0,00128 mol — etwas weniger als das Achtfache, weil jeder Zehn-Grad-Schritt etwas weniger bringt als der vorherige",
+    "0,000669 mol — dreimal so viel, eine Verdopplung pro zehn Grad addiert",
+    "0,00223 mol — zehnmal so viel, weil die Temperatur um dreißig Grad gestiegen ist",
+]
 answer = 1
 misconception = "The third option is the commonest arithmetic slip in this topic: doublings multiply, they do not add. The first is the right arithmetic applied to a rule that is only approximately true, and it is the more instructive error — it treats 'doubles every ten degrees' as a law. It is not a law; it is what an activation energy near 50 kJ/mol happens to give near room temperature, and the factor shrinks steadily as the beaker gets hotter because the Arrhenius exponent depends on 1/T, not on T."
 misconception_de = "Die dritte Option ist der häufigste Rechenfehler bei diesem Thema: Verdopplungen multiplizieren sich, sie addieren sich nicht. Die erste Option wendet die richtige Rechnung auf eine nur näherungsweise gültige Regel an, und das ist der lehrreichere Fehler — sie behandelt 'verdoppelt sich alle zehn Grad' als Naturgesetz. Das ist es nicht; es ist das, was eine Aktivierungsenergie nahe 50 kJ/mol nahe Raumtemperatur zufällig ergibt, und der Faktor schrumpft mit steigender Temperatur stetig weiter, weil der Arrhenius-Exponent von 1/T abhängt, nicht von T."
@@ -433,6 +457,12 @@ options = [
   "It rises by less than two — a harder reaction is harder to speed up",
   "Nothing measurable — the barrier is too high for ten degrees to matter",
 ]
+options_de = [
+    "Sie verdoppelt sich ebenfalls ungefähr — die Zehn-Grad-Regel gilt für Reaktionen, nicht für Barrieren",
+    "Sie steigt um etwa das 2,6-Fache — eine steilere Barriere ist empfindlicher gegenüber Temperatur",
+    "Sie steigt um weniger als das Doppelte — eine schwerere Reaktion lässt sich schwerer beschleunigen",
+    "Nichts Messbares — die Barriere ist zu hoch, als dass zehn Grad etwas ausmachten",
+]
 answer = 1
 misconception = "The third option is the intuitive one and it has the physics backwards. A high barrier does not make a reaction sluggish to warm; it makes it *more* responsive, because the fraction of collisions clearing the barrier is an exponential in Ea/RT and a bigger Ea steepens that exponential. The first option is the rule of thumb mistaken for a law of nature. Both are cured by the same observation: the temperature sensitivity is a property of the barrier, and that is the only thing that changed between these two experiments."
 misconception_de = "Die dritte Option ist die intuitive, und sie hat die Physik genau falsch herum. Eine hohe Barriere macht eine Reaktion nicht träge gegenüber Erwärmung; sie macht sie *empfindlicher*, weil der Anteil der Zusammenstöße, die die Barriere überwinden, exponentiell in Ea/RT ist und ein größeres Ea diese Exponentialfunktion steiler macht. Die erste Option verwechselt die Faustregel mit einem Naturgesetz. Beide werden durch dieselbe Beobachtung geheilt: Die Temperaturempfindlichkeit ist eine Eigenschaft der Barriere, und das ist das Einzige, was sich zwischen diesen beiden Experimenten geändert hat."
@@ -515,6 +545,12 @@ options = [
   "99.8%, 11%, and none at all",
   "99.8%, 50%, and 25% — each catalyst roughly halves what is left",
   "None in any of them — a catalyst makes the reaction happen, and it was going to happen anyway",
+]
+options_de = [
+    "In allen drei etwa gleich viel — eine Sekunde reicht für nichts",
+    "99,8 %, 11 % und gar nichts",
+    "99,8 %, 50 % und 25 % — jeder Katalysator halbiert etwa das Verbliebene",
+    "In keinem von ihnen — ein Katalysator lässt die Reaktion ablaufen, und sie wäre ohnehin abgelaufen",
 ]
 answer = 1
 misconception = "The third option treats catalysts as things that come in ordinary sizes, a few times better than nothing. The whole point of the pairing is that they do not: the enzyme is not a bit better than the mineral, it is about a million times better, because the two differ by 35 kJ/mol in the exponent and the exponent is where speed lives. The last option is the older confusion — that a catalyst decides *whether* a reaction happens. It does not. All three flasks end up as water and oxygen; the catalyst only decides when."
@@ -601,6 +637,12 @@ options = [
   "It goes half as fast — half the catalase has been spent",
   "It goes faster — the flask is now warmed up",
 ]
+options_de = [
+    "Nichts — die Katalase wurde beim Zerstören der ersten Portion verbraucht",
+    "Es geht genauso schnell — die Katalase ist unverändert, und die zweite Portion braucht dieselbe eine Sekunde",
+    "Es geht halb so schnell — die Hälfte der Katalase ist verbraucht",
+    "Es geht schneller — der Kolben ist jetzt erwärmt",
+]
 answer = 1
 misconception = "'Used up' is the default assumption about anything that takes part in a reaction, and it is reinforced by the fact that a catalyst has to be added at all. The first and third options are both versions of it. What makes the demonstration convincing is repetition: one charge proves nothing, three identical charges destroyed at identical speed by the same speck of enzyme is hard to explain any other way. The last option is a real effect in a real flask — this decomposition is exothermic — and the bench does not model it, which the entry says rather than letting the option quietly pass as wrong for the wrong reason."
 misconception_de = "'Verbraucht' ist die Standardannahme für alles, was an einer Reaktion teilnimmt, und sie wird dadurch verstärkt, dass ein Katalysator überhaupt erst zugegeben werden muss. Die erste und die dritte Option sind beide Spielarten davon. Was die Demonstration überzeugend macht, ist die Wiederholung: Eine einzelne Portion beweist nichts, drei identische, mit identischer Geschwindigkeit von demselben Enzymkrümelchen zerstörte Portionen lassen sich kaum anders erklären. Die letzte Option ist ein realer Effekt in einem realen Kolben — diese Zersetzung ist exotherm —, und das Labor modelliert ihn nicht, was der Eintrag auch so benennt, statt die Option stillschweigend aus dem falschen Grund als falsch durchgehen zu lassen."
@@ -684,6 +726,12 @@ options = [
   "All three are identical, because a catalyst is not consumed and therefore its amount cannot matter",
   "All three are identical in this engine — and in a real flask they would not be, because surface area and mixing are real variables this model does not contain",
   "The stirred flask is slower, because stirring cools it",
+]
+options_de = [
+    "Der Kolben mit mehr Katalysator ist schneller; Rühren hilft auch ein wenig",
+    "Alle drei sind identisch, weil ein Katalysator nicht verbraucht wird und seine Menge deshalb keine Rolle spielen kann",
+    "In dieser Engine sind alle drei identisch — in einem echten Kolben wären sie es nicht, weil Oberfläche und Durchmischung reale Variablen sind, die dieses Modell nicht enthält",
+    "Der gerührte Kolben ist langsamer, weil Rühren ihn abkühlt",
 ]
 answer = 2
 misconception = "The second option is the dangerous one, and it is dangerous precisely because it reasons correctly from a true premise to a false conclusion: a catalyst really is not consumed, and it really does not appear in the stoichiometry, so it is tempting to conclude its amount is irrelevant. It is not irrelevant. Heterogeneous catalysis happens on a surface, so ten times the powder is roughly ten times the surface and roughly ten times the rate, and grinding it finer does the same again. The first option is the chemistry a school course teaches and the right expectation for a real bench. Our engine gives neither — it gives the second answer for the second reason, and the point of this entry is that you should know that before you trust it."
@@ -769,6 +817,12 @@ options = [
   "0.0250 mol — half of what is left, because the rate falls with the concentration",
   "0.0501 mol again — the reaction has a fixed speed until it runs out",
   "Nothing — it is finished",
+]
+options_de = [
+    "0,0499 mol — der Rest, im selben gleichmäßigen Tempo",
+    "0,0250 mol — die Hälfte des Verbliebenen, weil die Geschwindigkeit mit der Konzentration sinkt",
+    "Wieder 0,0501 mol — die Reaktion hat eine feste Geschwindigkeit, bis sie ausgeht",
+    "Nichts — sie ist beendet",
 ]
 answer = 1
 misconception = "The first and third options are the same misconception in two costumes: that a reaction has a speed the way a car has a speed, so a fixed time destroys a fixed amount. That is what zero order looks like, and it is rare. First order means the rate is proportional to what is left, so each equal interval removes an equal *fraction* — which is why the half-life is a constant and why the reaction has a long, thin tail rather than an end."
@@ -864,6 +918,12 @@ options = [
   "You cannot see both crosses vanish at once",
   "There is no flaw, but it is slower to do it that way",
 ]
+options_de = [
+    "Kein Fehler — der Stoppuhr ist es egal, welches Becherglas sie stoppt",
+    "Das heiße Becherglas kühlt ab, während es auf seine Reihe wartet, sodass die beiden nicht wirklich bei den notierten Temperaturen sind",
+    "Man kann nicht beide Kreuze gleichzeitig verschwinden sehen",
+    "Es gibt keinen Fehler, aber es dauert so länger",
+]
 answer = 1
 misconception = "The first and last options treat 'fair test' as a rule about *which variables you change* and stop there. It is also a rule about when things happen. A virtual bench makes the point unusually sharply, because it had to be built in: `wait` advances every vessel on the bench, so the two beakers cannot drift apart in time, cannot be started at different moments and cannot sit around waiting their turn. A real bench gives you none of that for free, which is exactly why the habit has to be taught."
 misconception_de = "Die erste und die letzte Option behandeln 'faires Experiment' als Regel darüber, *welche Variablen man ändert*, und hören dort auf. Es ist aber auch eine Regel darüber, wann Dinge geschehen. Ein virtuelles Labor macht diesen Punkt ungewöhnlich deutlich, weil er eigens eingebaut werden musste: `wait` lässt jedes Gefäß im Labor gleichzeitig fortschreiten, sodass die beiden Bechergläser zeitlich nicht auseinanderdriften können, nicht zu unterschiedlichen Zeitpunkten gestartet werden können und nicht auf ihre Reihe warten müssen. Ein echtes Labor schenkt einem davon nichts — genau deshalb muss diese Gewohnheit gelehrt werden."
@@ -954,6 +1014,12 @@ options = [
   "Nothing at all: no solver can speciate thiosulfate, so no solution is characterised and the pH meter reads nothing",
   "It refuses to add the salt",
 ]
+options_de = [
+    "Etwa pH 8,5, wie es die Chemie verlangt",
+    "pH 7,00 — es behandelt das Salz als neutral",
+    "Überhaupt nichts: Kein Solver kann Thiosulfat speziieren, also wird keine Lösung charakterisiert, und das pH-Meter zeigt nichts an",
+    "Es weigert sich, das Salz zuzugeben",
+]
 answer = 2
 misconception = "The second option is what most software would do and is the failure this bench is built to avoid: a plausible number with nothing behind it. Thiosulfate is absent from every PHREEQC database we ship, so there is no equilibrium constant to compute a pH from. The bench therefore says so, and the salt sits in the vessel without a solution around it. The first option is the right chemistry — S₂O₃²⁻ is the conjugate base of a weak acid and a real solution is mildly alkaline — which makes the gap a real one rather than a technicality."
 misconception_de = "Die zweite Option ist das, was die meiste Software tun würde, und genau dieses Versagen soll dieses Labor vermeiden: eine plausible Zahl ohne jede Grundlage. Thiosulfat fehlt in jeder PHREEQC-Datenbank, die wir ausliefern, es gibt also keine Gleichgewichtskonstante, aus der sich ein pH-Wert berechnen ließe. Das Labor sagt das deshalb offen, und das Salz liegt im Gefäß, ohne dass eine Lösung um es herum charakterisiert wird. Die erste Option ist die richtige Chemie — S₂O₃²⁻ ist die konjugierte Base einer schwachen Säure, und eine echte Lösung ist leicht alkalisch —, was die Lücke real macht und nicht bloß zu einer Formsache."
@@ -1039,6 +1105,12 @@ options = [
   "Not moved at all — this rate law reads the acid from the pH and never consumes it, which is a stated approximation and here it is being stretched past where it holds",
   "Fallen, because sulfur dioxide dissolves to make an acid",
 ]
+options_de = [
+    "Stark gestiegen — die Protonen waren das begrenzende Edukt und gingen nach 1 mmol Thiosulfat aus",
+    "Ein wenig gestiegen, da Protonen verbraucht wurden",
+    "Überhaupt nicht bewegt — dieses Geschwindigkeitsgesetz liest die Säure aus dem pH-Wert ab und verbraucht sie nie, was eine erklärte Näherung ist, die hier über ihre Gültigkeitsgrenze hinaus strapaziert wird",
+    "Gefallen, weil sich Schwefeldioxid unter Bildung einer Säure löst",
+]
 answer = 2
 misconception = "There is no misconception on offer here — all four options are chemically sensible, and the first is what a real beaker would do. The question exists to make a modelling decision visible. The rate law treats [H⁺] as an influence read from the solution rather than as a reactant with an inventory, because the practical is designed to run with acid in large excess and the vessel has no proton portion to draw down. Over the twenty to sixty seconds the practical actually uses, that is a good approximation. Over ten minutes with only 2 mmol of acid it is not, and the entry says so rather than letting the reader discover it as a surprise."
 misconception_de = "Hier wird kein Missverständnis angeboten — alle vier Optionen sind chemisch sinnvoll, und die erste ist das, was ein echtes Becherglas tun würde. Die Frage dient dazu, eine Modellierungsentscheidung sichtbar zu machen. Das Geschwindigkeitsgesetz behandelt [H⁺] als einen aus der Lösung abgelesenen Einfluss, nicht als Reaktanten mit eigenem Inventar, weil das Experiment für einen großen Säureüberschuss ausgelegt ist und das Gefäß keine Protonenmenge besitzt, die abgebaut werden könnte. Über die zwanzig bis sechzig Sekunden, die das Experiment tatsächlich nutzt, ist das eine gute Näherung. Über zehn Minuten mit nur 2 mmol Säure ist sie es nicht, und der Eintrag sagt das offen, statt es die Leserin oder den Leser als Überraschung entdecken zu lassen."
@@ -1120,6 +1192,12 @@ options = [
   "See it, and nothing else — no volume is measurable here, and no gas-evolution event fires",
   "Nothing: bubbles are only a picture, so the oxygen is not really counted",
   "Collect and weigh it, since the balance tracks everything in the vessel",
+]
+options_de = [
+    "Sein Volumen an der Gasspritze ablesen, so wird die Geschwindigkeit gemessen",
+    "Es sehen, und sonst nichts — hier ist kein Volumen messbar, und kein Gasentwicklungs-Ereignis wird ausgelöst",
+    "Nichts: Bläschen sind nur ein Bild, der Sauerstoff wird also nicht wirklich gezählt",
+    "Es sammeln und wiegen, da die Waage alles im Gefäß erfasst",
 ]
 answer = 1
 misconception = "This one is not about chemistry, and pretending otherwise would be the dishonest move. The engine's bookkeeping is right — 0.05 mol of O₂ is exactly half the peroxide, and it is there in the vessel and now visible as bubbles. What is still missing is downstream: there is no gas syringe, no volume reading, and the rate engine deposits products into a phase without raising the `gas_evolved` event the aqueous and thermal solvers raise. So the practical's actual measurement — millilitres against seconds — cannot be taken. A simulation has a model layer and a presentation layer and they fail independently, which is worth knowing about any simulation you are handed."
@@ -1204,6 +1282,12 @@ options = [
   "The same thing: 0.05 mol of oxygen in each. The catalyst changed when, not whether or how much",
   "The plain flask still holds most of its peroxide — without a catalyst the reaction does not go",
   "The catalysed flask has started to reverse, since the catalyst works both ways",
+]
+options_de = [
+    "Der katalysierte Kolben enthält mehr Sauerstoff — der Katalysator hat mehr Reaktion bewirkt",
+    "Dasselbe: 0,05 mol Sauerstoff in jedem. Der Katalysator hat verändert, wann, nicht ob oder wie viel",
+    "Der unbehandelte Kolben enthält noch die meiste Menge seines Peroxids — ohne Katalysator läuft die Reaktion nicht",
+    "Der katalysierte Kolben hat begonnen, sich umzukehren, da der Katalysator in beide Richtungen wirkt",
 ]
 answer = 1
 misconception = "The first option is the most common thing learners believe about catalysts and it is a claim about *yield*, which is the one thing a catalyst cannot touch. A catalyst lowers the barrier equally in both directions, so it moves the system towards equilibrium faster and moves equilibrium not at all. The third option is the mirror error — treating a barrier as a prohibition. The barrier here is 75 kJ/mol, which is enough to make one second look like nothing happening and not nearly enough to survive five days."

@@ -48,6 +48,11 @@ ph = { min = 10.8, max = 11.2 }
 question = "One thousandth of a mole of sodium hydroxide goes into one litre of water. What will the pH meter read?"
 question_de = "Ein Tausendstel Mol Natriumhydroxid kommt in einen Liter Wasser. Was wird das pH-Meter anzeigen?"
 options = ["3", "7 — hydroxide is not an acid, so the pH cannot move", "11"]
+options_de = [
+    "3",
+    "7 — Hydroxid ist keine Säure, der pH-Wert kann sich also nicht bewegen",
+    "11",
+]
 answer = 2
 misconception = "Answering 3 is the mirror-image slip: the exponent is right but the direction is not. A base raises pH as far above 7 as the matching acid lowers it below. Answering 7 treats pH as an acid-only scale, when it is a scale of hydrogen-ion activity that hydroxide moves by consuming H⁺."
 misconception_de = "Die Antwort 3 ist der Spiegelfehler: Der Exponent stimmt, die Richtung nicht. Eine Base hebt den pH-Wert genauso weit über 7 an, wie die entsprechende Säure ihn darunter senkt. Die Antwort 7 behandelt den pH-Wert als eine reine Säureskala, dabei ist er eine Skala der Wasserstoffionen-Aktivität, die Hydroxid verschiebt, indem es H⁺ verbraucht."
@@ -111,6 +116,11 @@ options = [
   "It rises by about 10 °C",
   "Nothing — dissolving is not a chemical reaction, so no heat is involved",
   "It falls, because the solid has to be pulled apart",
+]
+options_de = [
+    "Es steigt um etwa 10 °C",
+    "Nichts — Lösen ist keine chemische Reaktion, also ist keine Wärme im Spiel",
+    "Es sinkt, weil der Feststoff auseinandergerissen werden muss",
 ]
 answer = 0
 misconception = "Both wrong answers come from the same picture: dissolving as pure disassembly. Breaking the lattice does cost energy — but hydrating the ions pays more back, and for NaOH it pays back 44.5 kJ per mole. Whether a solution warms or cools is the balance of those two, which is why potassium chloride goes cold and this goes hot."
@@ -179,6 +189,11 @@ options = [
   "Salt water: sodium and chloride ions in water, at pH 7",
   "A weaker acid, around pH 5",
 ]
+options_de = [
+    "Nichts — die Säure und die Base haben sich gegenseitig zerstört",
+    "Salzwasser: Natrium- und Chlorid-Ionen in Wasser, bei pH 7",
+    "Eine schwächere Säure, bei etwa pH 5",
+]
 answer = 1
 misconception = "\"They cancel out\" is the commonest neutralisation mistake, and it quietly breaks conservation. Nothing is destroyed: H⁺ and OH⁻ combine into water, and the sodium and chloride ions are still there, untouched, as spectators. Put the beaker on a balance — it is heavier than before, not empty."
 misconception_de = "\"Sie heben sich auf\" ist der häufigste Neutralisationsfehler, und er verletzt stillschweigend die Erhaltung der Materie. Nichts wird zerstört: H⁺ und OH⁻ verbinden sich zu Wasser, und die Natrium- und Chloridionen sind unverändert als Zuschauerionen weiterhin vorhanden. Stelle das Becherglas auf eine Waage — es ist schwerer als vorher, nicht leer."
@@ -244,6 +259,11 @@ options = [
   "It jumps to about 11",
   "It cannot go above 7, because the acid has already been used up",
 ]
+options_de = [
+    "Er kriecht auf etwa 7,5",
+    "Er springt auf etwa 11",
+    "Er kann nicht über 7 steigen, weil die Säure bereits verbraucht ist",
+]
 answer = 1
 misconception = "Expecting a gentle creep treats the pH scale as linear when it is logarithmic. Near the equivalence point there is almost nothing left to absorb the added hydroxide, so a 10% overshoot moves the pH by nearly four units — which is exactly why an indicator can mark an endpoint at all, and why one drop too many ruins a titration."
 misconception_de = "Ein sanftes Ansteigen zu erwarten behandelt die pH-Skala als linear, dabei ist sie logarithmisch. In der Nähe des Äquivalenzpunkts ist fast nichts mehr übrig, das das zugegebene Hydroxid abpuffern könnte, sodass eine Überdosierung von 10 % den pH-Wert um fast vier Einheiten verschiebt — genau deshalb kann ein Indikator überhaupt einen Endpunkt markieren, und genau deshalb ruiniert ein einziger Tropfen zu viel eine Titration."
@@ -308,6 +328,11 @@ options = [
   "0.3 mol/L of a strong acid — pH about 0.5, since all three come off",
   "0.1 mol/L of a weak acid — pH about 1.6, because essentially only the first proton comes off",
   "0.1 mol/L of a strong acid — pH 1.0 exactly",
+]
+options_de = [
+    "0,3 mol/L einer starken Säure — pH etwa 0,5, da alle drei abgegeben werden",
+    "0,1 mol/L einer schwachen Säure — pH etwa 1,6, weil im Wesentlichen nur das erste Proton abgegeben wird",
+    "0,1 mol/L einer starken Säure — pH genau 1,0",
 ]
 answer = 1
 misconception = "Counting protons on the formula and multiplying is the classic polyprotic error. The three ionisations are separated by about five powers of ten each; releasing the second proton means pulling a positive charge off an already-negative ion, which is far harder. At pH 1.6 the second stage has barely begun — the engine finds HPO₄²⁻ at 3 × 10⁻⁴ mol/kgw against H₂PO₄⁻ at 10⁻¹."
@@ -375,6 +400,11 @@ options = [
   "The two phosphate species carry different charges, so ionic-strength effects do not cancel and the measured pH sits below the tabulated pKa",
   "The base was added too fast",
 ]
+options_de = [
+    "Die Engine irrt sich — die Henderson-Hasselbalch-Gleichung ist exakt",
+    "Die beiden Phosphat-Spezies tragen unterschiedliche Ladungen, sodass sich Ionenstärke-Effekte nicht aufheben und der gemessene pH-Wert unter dem tabellierten pKa-Wert liegt",
+    "Die Base wurde zu schnell zugegeben",
+]
 answer = 1
 misconception = "Henderson–Hasselbalch is treated as a law rather than as an approximation that assumes activity equals concentration. Here the ratio is between a 1− and a 2− ion whose activity coefficients are 0.76 and 0.32 — they do not cancel, and the half-neutralisation pH falls about half a unit below pKa₂. This is why real buffer recipes are checked with a meter, not calculated and trusted."
 misconception_de = "Henderson-Hasselbalch wird als Gesetz behandelt statt als Näherung, die Aktivität mit Konzentration gleichsetzt. Hier steht das Verhältnis zwischen einem 1−- und einem 2−-Ion, deren Aktivitätskoeffizienten 0,76 und 0,32 betragen — sie heben sich nicht auf, und der pH-Wert bei Halbneutralisation fällt etwa eine halbe Einheit unter pKa₂. Deshalb werden echte Pufferrezepte mit einem Messgerät geprüft und nicht einfach berechnet und geglaubt."
@@ -439,6 +469,11 @@ options = [
   "The pKa of the acid, because acid and conjugate base are now present in equal amounts",
   "Nothing useful; only the endpoint carries information",
 ]
+options_de = [
+    "Die Hälfte des Anfangs-pH-Werts — etwa 1,4",
+    "Den pKa-Wert der Säure, weil Säure und korrespondierende Base jetzt in gleichen Mengen vorliegen",
+    "Nichts Brauchbares; nur der Endpunkt liefert Information",
+]
 answer = 1
 misconception = "Halving the pH treats a logarithm as a linear quantity. The half-equivalence point is the single most information-rich place on a weak-acid curve: with [HA] = [A⁻] the log-ratio term vanishes and the meter reads the acid's own pKa directly. It is how pKa values were measured before computers."
 misconception_de = "Den pH-Wert zu halbieren behandelt einen Logarithmus wie eine lineare Größe. Der Halbäquivalenzpunkt ist die informationsreichste Stelle auf der Kurve einer schwachen Säure überhaupt: Bei [HA] = [A⁻] verschwindet der Logarithmus-Term des Verhältnisses, und das Messgerät zeigt direkt den eigenen pKa-Wert der Säure an. So wurden pKa-Werte gemessen, bevor es Computer gab."
@@ -502,6 +537,11 @@ options = [
   "7 — that is what neutral means",
   "About 8.8 — the solution is alkaline",
   "About 5 — some acid always survives",
+]
+options_de = [
+    "7 — das bedeutet neutral",
+    "Etwa 8,8 — die Lösung ist alkalisch",
+    "Etwa 5 — etwas Säure bleibt immer übrig",
 ]
 answer = 1
 misconception = "\"Neutralised means pH 7\" is true only when both partners are strong. Here the acid is weak, so its conjugate base is strong enough to matter: acetate takes protons back off water and leaves hydroxide behind. This is exactly why phenolphthalein (colour change ≈ 8.2–10) is the right indicator for this titration and methyl orange is the wrong one — a choice that looks arbitrary until you know the endpoint is not at 7."
@@ -570,6 +610,11 @@ options = [
   "It slips a little, to about 3.5",
   "It collapses to about 1.4 — once the reserve is spent the buffer is just salt water",
 ]
+options_de = [
+    "Er hält bei etwa 4,6; genau das tut ein Puffer",
+    "Er rutscht ein wenig, auf etwa 3,5",
+    "Er bricht auf etwa 1,4 ein — sobald die Reserve aufgebraucht ist, ist der Puffer nur noch Salzwasser",
+]
 answer = 2
 misconception = "Treating buffering as a property of the liquid rather than a stock that gets spent. The reserve here is 0.1 mol of acetate; 0.15 mol of protons consumes all of it and 0.05 mol is left over as free strong acid. A buffer does not resist pH change — it *pays* for resisting it, out of a finite account."
 misconception_de = "Puffern wird als Eigenschaft der Flüssigkeit behandelt statt als Vorrat, der aufgebraucht werden kann. Die Reserve hier beträgt 0,1 mol Acetat; 0,15 mol Protonen verbrauchen sie vollständig, und 0,05 mol bleiben als freie starke Säure übrig. Ein Puffer widersteht der pH-Änderung nicht einfach — er *bezahlt* für diesen Widerstand, aus einem endlichen Konto."
@@ -632,6 +677,11 @@ ph = { min = 2.9, max = 3.1 }
 question = "An acid at pH 2 is diluted with nine times its own volume of water. What is the new pH?"
 question_de = "Eine Säure mit pH 2 wird mit dem neunfachen ihres eigenen Volumens an Wasser verdünnt. Wie hoch ist der neue pH-Wert?"
 options = ["4", "1", "3"]
+options_de = [
+    "4",
+    "1",
+    "3",
+]
 answer = 2
 misconception = "Answering 4 comes from thinking \"ten times weaker\" means \"multiply the pH by ten\" or \"add ten's worth\"; answering 1 confuses dilution with concentration. Because pH is −log₁₀ of hydrogen-ion activity, dividing the concentration by ten adds exactly one to the pH. Ninety-nine times the volume would add two."
 misconception_de = "Die Antwort 4 entsteht aus dem Gedanken, \"zehnmal schwächer\" bedeute \"den pH-Wert mit zehn multiplizieren\" oder \"zehn dazuzählen\"; die Antwort 1 verwechselt Verdünnung mit Konzentration. Da der pH-Wert −log₁₀ der Wasserstoffionen-Aktivität ist, addiert eine Verdünnung der Konzentration um den Faktor zehn genau eine Einheit zum pH-Wert. Das 99-fache Volumen würde zwei Einheiten addieren."
@@ -697,6 +747,11 @@ options = [
   "7 — salts are neutral, that is what \"neutral salt\" means",
   "About 11 — strongly alkaline",
   "About 3 — it is a soda, and sodas are acidic",
+]
+options_de = [
+    "7 — Salze sind neutral, das bedeutet ja \"neutrales Salz\"",
+    "Etwa 11 — stark alkalisch",
+    "Etwa 3 — es ist eine Soda, und Soda ist sauer",
 ]
 answer = 1
 misconception = "\"Salt solutions are neutral\" is a rule learned from sodium chloride and then over-applied. It holds only when both parent ions are indifferent to water. Carbonate is the conjugate base of a very weak acid, so it takes protons off water and leaves hydroxide behind — which is precisely why washing soda cuts grease, and why it burns skin."
@@ -766,6 +821,11 @@ options = [
   "Nothing but dissolving; you need an acid to get any gas",
   "It dissolves and slowly gives off carbon dioxide anyway, ending up around pH 9.7",
   "It dissolves and the solution ends at pH 8.3, the textbook value for bicarbonate",
+]
+options_de = [
+    "Nichts außer Auflösen; du brauchst eine Säure, um überhaupt Gas zu bekommen",
+    "Es löst sich und gibt trotzdem langsam Kohlendioxid ab, am Ende bei etwa pH 9,7",
+    "Es löst sich, und die Lösung landet bei pH 8,3, dem Lehrbuchwert für Hydrogencarbonat",
 ]
 answer = 1
 misconception = "Two ideas get corrected at once. First, gas evolution is not the exclusive privilege of acids — bicarbonate disproportionates on its own, and an open beaker keeps pulling the product away. Second, the familiar \"bicarbonate is pH 8.3\" is a *closed-system* number; a beaker on a bench is open, it vents until it matches the atmosphere's own CO₂ pressure, and it lands well above 8.3."
@@ -870,6 +930,11 @@ options = [
   "About 4.5 — the solution is distinctly acidic",
   "About 9 — metal ions are basic",
 ]
+options_de = [
+    "7 — es ist das Salz einer starken Säure und eines Metalls, also neutral",
+    "Etwa 4,5 — die Lösung ist deutlich sauer",
+    "Etwa 9 — Metall-Ionen sind basisch",
+]
 answer = 1
 misconception = "The tempting answer treats \"metal\" as automatically basic and \"salt\" as automatically neutral. A small, doubly charged cation pulls hard enough on the water molecules bound to it to loosen their protons: [Cu(H₂O)₆]²⁺ ⇌ [Cu(H₂O)₅OH]⁺ + H⁺. Copper(II) sulfate solution is acidic enough to taste sharp, and this is a general property of small highly charged cations, not a quirk of copper."
 misconception_de = "Die verlockende Antwort behandelt \"Metall\" als automatisch basisch und \"Salz\" als automatisch neutral. Ein kleines, zweifach geladenes Kation zieht so stark an den daran gebundenen Wassermolekülen, dass es deren Protonen lockert: [Cu(H₂O)₆]²⁺ ⇌ [Cu(H₂O)₅OH]⁺ + H⁺. Kupfer(II)-sulfat-Lösung ist sauer genug, um scharf zu schmecken, und das ist eine allgemeine Eigenschaft kleiner, hoch geladener Kationen, keine Eigenart des Kupfers."
@@ -942,6 +1007,11 @@ options = [
   "It fizzes away completely; the acid destroys the carbonate and the gas escapes",
   "It dissolves slowly but the solid stays; acid cannot dissolve a solid",
 ]
+options_de = [
+    "Nichts — unlöslich ist unlöslich",
+    "Sie löst sich vollständig unter Sprudeln auf; die Säure zerstört das Carbonat, und das Gas entweicht",
+    "Sie löst sich langsam, aber der Feststoff bleibt; Säure kann keinen Feststoff auflösen",
+]
 answer = 1
 misconception = "\"Insoluble\" reads as an absolute property of a substance, when it is a statement about one particular equilibrium. Chalk is insoluble *in water*. Acid does not dissolve it — acid removes one of its ions from the equilibrium by turning carbonate into escaping carbon dioxide, and the solid follows. Le Chatelier, applied to a solid, is how limescale removers and how caves work."
 misconception_de = "\"Unlöslich\" liest sich wie eine absolute Eigenschaft eines Stoffes, dabei ist es eine Aussage über ein bestimmtes Gleichgewicht. Kreide ist unlöslich *in Wasser*. Säure löst sie nicht auf — Säure entzieht dem Gleichgewicht eines ihrer Ionen, indem sie Carbonat in entweichendes Kohlendioxid umwandelt, und der Feststoff folgt. Le Chatelier, angewendet auf einen Feststoff, ist genau das, wie Entkalker und wie Höhlen funktionieren."
@@ -1007,6 +1077,11 @@ options = [
   "None at all — chalk is insoluble",
   "About a quarter of a percent of it — a tiny but real amount, and it makes the water alkaline",
   "All of it, given long enough",
+]
+options_de = [
+    "Überhaupt nichts — Kreide ist unlöslich",
+    "Etwa ein Viertelprozent davon — eine winzige, aber reale Menge, und sie macht das Wasser alkalisch",
+    "Alles davon, wenn man nur lange genug wartet",
 ]
 answer = 1
 misconception = "\"Insoluble\" is taught as zero and is never zero. The engine dissolves 0.24% of the chalk here — 2.4 × 10⁻⁵ mol — and that trace is enough to lift the pH to almost 10, because carbonate is a base. Every \"insoluble\" salt has a solubility product, and treating it as zero makes the whole of qualitative analysis look like magic instead of arithmetic."
@@ -1118,6 +1193,11 @@ options = [
   "Less — the chloride already present pushes the equilibrium back toward the solid",
   "The same — the solubility of a substance is a fixed number",
 ]
+options_de = [
+    "Mehr — es ist schon etwas gelöst, also 'löst das Wasser besser'",
+    "Weniger — das bereits vorhandene Chlorid drängt das Gleichgewicht zurück in Richtung Feststoff",
+    "Gleich viel — die Löslichkeit eines Stoffes ist eine feste Zahl",
+]
 answer = 1
 misconception = "The third option is the deeper error: solubility is treated as a property of the solid alone, like its melting point. It is a property of the *system*. Here the added chloride is one of the products, so by Le Chatelier the dissolution is pushed back — the engine finds no measurable dissolution at all, where pure water dissolved 1.4 × 10⁻⁵ mol. This is why gravimetric analysis washes a precipitate with dilute salt solution rather than with pure water."
 misconception_de = "Die dritte Option ist der tiefer liegende Fehler: Löslichkeit wird als Eigenschaft allein des Feststoffs behandelt, wie sein Schmelzpunkt. Sie ist eine Eigenschaft des *Systems*. Hier ist das zugegebene Chlorid eines der Produkte, sodass das Lösen nach Le Chatelier zurückgedrängt wird — die Engine findet überhaupt keine messbare Lösung, wo reines Wasser 1,4 × 10⁻⁵ mol gelöst hatte. Deshalb wäscht die gravimetrische Analyse einen Niederschlag mit verdünnter Salzlösung statt mit reinem Wasser."
@@ -1181,6 +1261,11 @@ options = [
   "A hundred times less than in salt water, essentially nothing",
   "About ten times MORE than in pure water",
   "Exactly the same as in 0.01 mol/L salt water",
+]
+options_de = [
+    "Hundertmal weniger als in Salzwasser, praktisch nichts",
+    "Etwa zehnmal MEHR als in reinem Wasser",
+    "Genau gleich viel wie in 0,01-mol/L-Salzwasser",
 ]
 answer = 1
 misconception = "This is the entry where a correct rule is caught failing, and that is the point. Le Chatelier applied to AgCl ⇌ Ag⁺ + Cl⁻ predicts suppression, and it is right at low chloride. But that equation is not the whole chemistry: at high chloride a second reaction opens, AgCl(s) + Cl⁻ → AgCl₂⁻, and it consumes the solid. The engine dissolves 1.5 × 10⁻⁴ mol here against 1.4 × 10⁻⁵ mol in pure water. A rule without its domain of validity is a trap, and this is the trap."
@@ -1247,6 +1332,11 @@ options = [
   "Dissolving always makes liquid, so any solid would do this",
   "It is a rounding error in the simulation",
 ]
+options_de = [
+    "Die Kristalle hielten Wasser in sich, und dieses geht beim Lösen in die Lösung über",
+    "Lösen erzeugt immer Flüssigkeit, das würde jeder Feststoff tun",
+    "Das ist ein Rundungsfehler in der Simulation",
+]
 answer = 0
 misconception = "Formula water reads like decoration in the formula — a dot and some water molecules that surely do not count. They count: 172 g of gypsum is 36 g of water, 21% by mass. That water is inside the crystal lattice in fixed proportion, and it is released on dissolution. Plaster of Paris is exactly this water driven off and then let back in, which is why plaster sets."
 misconception_de = "Kristallwasser liest sich wie Dekoration in der Formel — ein Punkt und ein paar Wassermoleküle, die sicher nicht zählen. Sie zählen: 172 g Gips sind 36 g Wasser, 21 % der Masse. Dieses Wasser sitzt in festem Verhältnis im Kristallgitter und wird beim Lösen freigesetzt. Gips für Verbände ist genau dieses Wasser, das ausgetrieben und dann wieder hineingelassen wird — deshalb erhärtet Gips."
@@ -1311,6 +1401,11 @@ options = [
   "It disappears entirely; hot water dissolves far more of everything",
   "It shrinks slightly — about 0.1 mol more dissolves",
   "It grows; heating drives solids out of solution",
+]
+options_de = [
+    "Er verschwindet vollständig; heißes Wasser löst von allem weit mehr",
+    "Er schrumpft leicht — etwa 0,1 mol mehr löst sich",
+    "Er wächst; Erwärmen treibt Feststoffe aus der Lösung",
 ]
 answer = 1
 misconception = "Sugar and potassium nitrate teach that heating dissolves dramatically more, and the lesson gets generalised. Salt is the counter-example every kitchen contains: its solubility rises by only a few percent from cold water to boiling. Whether heat helps depends on the sign of the enthalpy of solution, and for NaCl that enthalpy is nearly zero (+3.9 kJ/mol) — so temperature has almost nothing to push on."
@@ -1379,6 +1474,11 @@ options = [
   "The same white precipitate, in the same amount",
   "A different precipitate — potassium chloride is a different compound",
 ]
+options_de = [
+    "Nichts — die Reaktion fand speziell zwischen Silbernitrat und Natriumchlorid statt",
+    "Derselbe weiße Niederschlag, in derselben Menge",
+    "Ein anderer Niederschlag — Kaliumchlorid ist eine andere Verbindung",
+]
 answer = 1
 misconception = "Reactions get memorised as compound-plus-compound, so swapping the cation looks like changing the reaction. In solution there are no compounds — there are ions. The only thing that happens is Ag⁺ + Cl⁻ → AgCl↓; potassium and nitrate never take part and could be replaced again without changing anything. This is what a net ionic equation *means*, and it is why the silver test detects chloride rather than detecting sodium chloride."
 misconception_de = "Reaktionen werden als Verbindung-plus-Verbindung auswendig gelernt, sodass das Austauschen des Kations wie eine andere Reaktion wirkt. In Lösung gibt es keine Verbindungen — es gibt Ionen. Das Einzige, was passiert, ist Ag⁺ + Cl⁻ → AgCl↓; Kalium und Nitrat nehmen nie teil und könnten erneut ausgetauscht werden, ohne dass sich etwas ändert. Das ist es, was eine Netto-Ionengleichung *bedeutet*, und deshalb weist der Silbertest Chlorid nach, nicht Natriumchlorid."
@@ -1445,6 +1545,11 @@ options = [
   "Nothing visible — it stays clear, because every possible product is soluble",
   "Fizzing, because acetate comes from an acid",
 ]
+options_de = [
+    "Ein weißer Niederschlag; das Mischen zweier Salzlösungen ergibt einen neuen Feststoff",
+    "Nichts Sichtbares — sie bleibt klar, weil jedes mögliche Produkt löslich ist",
+    "Sprudeln, weil Acetat von einer Säure stammt",
+]
 answer = 1
 misconception = "After a few precipitation demonstrations, 'mix two salt solutions and something falls out' becomes the expected rule. Most mixtures do nothing at all. A precipitate appears only if some cation–anion pairing happens to be insoluble; here calcium acetate and sodium chloride are both freely soluble, so all four ions simply carry on. Learning when nothing happens is what makes the solubility rules predictive rather than decorative."
 misconception_de = "Nach ein paar Fällungsvorführungen wird 'zwei Salzlösungen mischen und etwas fällt aus' zur erwarteten Regel. Die meisten Mischungen tun überhaupt nichts. Ein Niederschlag erscheint nur, wenn zufällig eine Kation-Anion-Paarung unlöslich ist; hier sind Calciumacetat und Natriumchlorid beide frei löslich, sodass alle vier Ionen einfach weiterbestehen. Zu lernen, wann nichts passiert, ist das, was die Löslichkeitsregeln vorhersagend statt dekorativ macht."
@@ -1510,6 +1615,11 @@ options = [
   "It is destroyed by the soda",
   "It falls out of the water as solid chalk, which can be filtered or left behind in the machine",
   "It stays dissolved but is somehow 'deactivated'",
+]
+options_de = [
+    "Es wird von der Soda zerstört",
+    "Es fällt als feste Kreide aus dem Wasser aus, die abfiltriert werden kann oder in der Maschine zurückbleibt",
+    "Es bleibt gelöst, wird aber irgendwie 'deaktiviert'",
 ]
 answer = 1
 misconception = "Softening sounds like removing a property, so learners imagine the calcium being neutralised in place. Nothing is destroyed and nothing is deactivated: the calcium is moved from the solution to a solid. 99.8% of it here. That solid is the grey sludge in the washing machine — softening trades dissolved hardness for a precipitate you can separate."
@@ -1625,6 +1735,11 @@ options = [
   "Everything in the flask — filter paper only stops big lumps, and dissolved things are small",
   "Solid in the funnel; pure water in the flask, since the filter removes the chemicals",
 ]
+options_de = [
+    "Festes Silberchlorid im Trichter; eine klare Lösung aus Natrium- und Nitrat-Ionen im Kolben",
+    "Alles im Kolben — Filterpapier hält nur große Klumpen zurück, und Gelöstes ist klein",
+    "Feststoff im Trichter; reines Wasser im Kolben, da der Filter die Chemikalien entfernt",
+]
 answer = 0
 misconception = "The third option is the common one: filtration is imagined as purification. Filter paper separates by phase, not by cleanliness — anything dissolved goes straight through. The filtrate here is not water; it is a sodium nitrate solution, and it still contains 8 × 10⁻⁴ mol/kgw of dissolved silver. If you want the dissolved part back you must evaporate, not filter."
 misconception_de = "Die dritte Option ist die häufige: Filtration wird sich als Reinigung vorgestellt. Filterpapier trennt nach Phase, nicht nach Sauberkeit — alles Gelöste geht direkt hindurch. Das Filtrat hier ist kein Wasser; es ist eine Natriumnitrat-Lösung, und sie enthält immer noch 8 × 10⁻⁴ mol/kgw gelöstes Silber. Willst du den gelösten Teil zurückgewinnen, musst du eindampfen, nicht filtrieren."
@@ -1690,6 +1805,11 @@ options = [
   "Nothing but very salty water; it all dissolved once, so it stays dissolved",
   "All 117 g back as crystals, since the water has mostly gone",
   "About 46 g of crystals, with the rest still dissolved in the remaining water",
+]
+options_de = [
+    "Nichts als sehr salziges Wasser; es hat sich einmal gelöst, also bleibt es gelöst",
+    "Alle 117 g wieder als Kristalle, da das Wasser größtenteils weg ist",
+    "Etwa 46 g Kristalle, der Rest bleibt im verbliebenen Wasser gelöst",
 ]
 answer = 2
 misconception = "The first answer forgets that solubility is per unit of *solvent*, not a one-way door: take the water away and the salt has nowhere to stay. The second overshoots — 200 mL of water can still hold 1.22 mol of salt, so only the excess crystallises. Working out which fraction comes back is the whole of salt-pan chemistry, and it is a subtraction: what you put in, minus what the remaining water can still hold."
@@ -1757,6 +1877,11 @@ options = [
   "Water that is clearly, obviously purple",
   "A faint purple only if you look through the whole length of the beaker",
 ]
+options_de = [
+    "Klares Wasser; sechzehn Milligramm auf einen Liter sind viel zu wenig, um es zu sehen",
+    "Wasser, das eindeutig und offensichtlich violett ist",
+    "Ein schwaches Violett, nur wenn du durch die ganze Länge des Becherglases schaust",
+]
 answer = 1
 misconception = "Amount and visibility get run together, so 'a tiny mass' is expected to mean 'a faint colour'. Visibility is set by molar absorptivity, and permanganate's is enormous — about 2400 L mol⁻¹ cm⁻¹. At 10⁻⁴ mol/L the solution is frankly purple. Copper sulfate at the same concentration would be invisible. The same reasoning is why a drop of food colouring tints a bath and a spoon of sugar does not."
 misconception_de = "Menge und Sichtbarkeit werden hier vermengt, sodass 'eine winzige Masse' 'eine schwache Farbe' bedeuten soll. Sichtbarkeit wird durch den molaren Extinktionskoeffizienten bestimmt, und der von Permanganat ist gewaltig — etwa 2400 L mol⁻¹ cm⁻¹. Bei 10⁻⁴ mol/L ist die Lösung unverkennbar violett. Kupfersulfat bei derselben Konzentration wäre unsichtbar. Dieselbe Logik erklärt, warum ein Tropfen Lebensmittelfarbe ein ganzes Badewasser färbt und ein Löffel Zucker nicht."
@@ -1822,6 +1947,11 @@ options = [
   "A little under 150 mL, because the two kinds of molecule pack together more tightly than either does alone",
   "Two layers, like oil and water",
 ]
+options_de = [
+    "150 mL — Volumina addieren sich",
+    "Etwas weniger als 150 mL, weil sich die beiden Molekülsorten enger zusammenlagern, als es jede für sich allein tut",
+    "Zwei Schichten, wie Öl und Wasser",
+]
 answer = 1
 misconception = "Volume is treated as a conserved quantity like mass. It is not: mass adds exactly, volume does not, because volume is a statement about packing. Ethanol's small hydrophobic tail slots into the gaps in water's hydrogen-bonded network, and the real mixture comes out around 145 mL. Kerotakis reports 150.0 mL — the engine assumes additive volumes, and this is a stated limitation, not a claim about the world."
 misconception_de = "Volumen wird als Erhaltungsgröße wie Masse behandelt. Das ist es nicht: Masse addiert sich exakt, Volumen nicht, weil Volumen eine Aussage über die Packung ist. Ethanols kleiner hydrophober Schwanz schlüpft in die Lücken im wasserstoffbrückengebundenen Netzwerk des Wassers, und die reale Mischung ergibt etwa 145 mL. Kerotakis berichtet 150,0 mL — die Engine geht von additiven Volumina aus, und das ist eine erklärte Einschränkung, keine Behauptung über die reale Welt."
@@ -1886,6 +2016,11 @@ options = [
   "Nothing much — both are cleaners, so they help each other",
   "Chlorine gas is released, in quantities that send people to hospital every year",
   "They neutralise each other and stop working",
+]
+options_de = [
+    "Nicht viel — beide sind Reinigungsmittel, also unterstützen sie sich gegenseitig",
+    "Chlorgas wird freigesetzt, in Mengen, die jedes Jahr Menschen ins Krankenhaus bringen",
+    "Sie neutralisieren sich gegenseitig und wirken nicht mehr",
 ]
 answer = 1
 misconception = "\"Both are cleaning products\" is read as \"both are on the same side\", and the third option shows the near-miss version: something does get neutralised, but the product is a poison gas rather than a harmless dud. Household bleach is hypochlorite in alkali; descalers are acids. The acid protonates hypochlorite and drives out Cl₂ — the gas used as a weapon in 1915."
@@ -1953,6 +2088,11 @@ options = [
   "Nothing can have happened — pure water is neutral, and neutral is 7",
   "The water is still exactly neutral; the neutral point itself moved",
   "The heat made the water slightly acidic",
+]
+options_de = [
+    "Es kann nichts passiert sein — reines Wasser ist neutral, und neutral bedeutet 7",
+    "Das Wasser ist immer noch genau neutral; der Neutralpunkt selbst hat sich verschoben",
+    "Die Wärme hat das Wasser leicht sauer gemacht",
 ]
 answer = 1
 misconception = "Both wrong answers hold 'pH 7 = neutral' as a definition when it is the 25 °C value of a temperature-dependent equilibrium. Water splits itself — H₂O ⇌ H⁺ + OH⁻ — and heating pushes the split further, so [H⁺] and [OH⁻] rise together. Neutral means they are equal, and at 50 °C they are equal at pH 6.63. Acidic would need an excess of H⁺ over OH⁻, and nothing donated one."
@@ -2023,6 +2163,11 @@ options = [
   "Nothing at all — soda answers acids, and lye is not an acid",
   "No gas this time: the bicarbonate hands over its own proton and becomes carbonate",
 ]
+options_de = [
+    "Es sprudelt wieder — Sprudeln ist das, was Natron tut",
+    "Überhaupt nichts — Natron reagiert auf Säuren, und Lauge ist keine Säure",
+    "Diesmal kein Gas: Das Hydrogencarbonat gibt sein eigenes Proton ab und wird zu Carbonat",
+]
 answer = 2
 misconception = "Both wrong answers treat acid and base as badges a substance wears rather than roles in a transaction. Bicarbonate is amphiprotic: against an acid it accepts a proton (and the resulting carbonic acid leaves as CO₂ — the fizz); against a base it donates its own proton and becomes carbonate, silently. Brønsted's whole move is that acid and base name the two ends of one proton handover — and this beaker is that idea as an experiment."
 misconception_de = "Beide falschen Antworten behandeln Säure und Base als Abzeichen, die ein Stoff trägt, statt als Rollen in einer Transaktion. Hydrogencarbonat ist amphiprotisch: gegenüber einer Säure nimmt es ein Proton auf (und die entstehende Kohlensäure entweicht als CO₂ — das Sprudeln); gegenüber einer Base gibt es sein eigenes Proton ab und wird still zu Carbonat. Brønsteds ganzer Kniff ist, dass Säure und Base die zwei Enden einer einzigen Protonenübergabe benennen — und dieses Becherglas ist genau diese Idee als Experiment."
@@ -2092,6 +2237,11 @@ options = [
   "Still about 1 — a kitchen powder cannot touch a strong acid",
   "About 9, with a burp of carbon dioxide on the way",
   "14 — soda is a base, and a base sends the scale to the top",
+]
+options_de = [
+    "Immer noch etwa 1 — ein Küchenpulver kann einer starken Säure nichts anhaben",
+    "Etwa 9, mit einem Rülpser Kohlendioxid unterwegs",
+    "14 — Natron ist eine Base, und eine Base treibt die Skala nach oben",
 ]
 answer = 1
 misconception = "Both wrong answers confuse what a substance IS with how much of it there is. 'Strong' describes how completely an acid gives up its protons, not how many it has: 0.01 mol of protons meets 0.012 mol of proton-acceptors and simply runs out. And a base does not teleport the scale to 14 — the leftover bicarbonate is a weak, gentle base that settles near 9, which is precisely why tablets are carbonates and not lye."
@@ -2165,6 +2315,11 @@ options = [
   "Phenolphthalein: its turn sits on the endpoint. Methyl orange fires long before, deep in the buffer region",
   "Methyl orange — orange is easier to see against white than pale pink",
 ]
+options_de = [
+    "Beide — ein Indikator ist ein Farbsignal, und jedes Farbsignal tut es",
+    "Phenolphthalein: sein Umschlag liegt genau auf dem Endpunkt. Methylorange schlägt viel zu früh um, mitten im Pufferbereich",
+    "Methylorange — Orange ist vor Weiß leichter zu erkennen als Blassrosa",
+]
 answer = 1
 misconception = "An indicator is not a bell that rings at 'done' — it is a weak acid that changes form at its own pKa, wherever that is. The choice is an alignment problem: the indicator's transition window must sit on the titration's pH jump. Phenolphthalein's window straddles this endpoint's 8.6; methyl orange's window was crossed back near pH 4, in the slow buffer climb, where its colour change marks nothing of analytical interest at all."
 misconception_de = "Ein Indikator ist keine Glocke, die bei 'fertig' läutet — er ist eine schwache Säure, die bei ihrem eigenen pKa-Wert die Form wechselt, wo immer der liegt. Die Wahl ist ein Ausrichtungsproblem: Das Umschlagfenster des Indikators muss auf dem pH-Sprung der Titration liegen. Das Fenster von Phenolphthalein überspannt die 8,6 dieses Endpunkts; das Fenster von Methylorange wurde schon bei pH 4 durchlaufen, im langsamen Pufferanstieg, wo sein Farbwechsel überhaupt nichts von analytischem Interesse markiert."
@@ -2230,6 +2385,11 @@ options = [
   "Yellow or blue, whichever it has flipped to — an indicator is a switch",
   "Green — both forms are present at once, and their colours mix",
   "Colourless — halfway between, the two colours cancel out",
+]
+options_de = [
+    "Gelb oder blau, je nachdem, worauf es umgeschlagen ist — ein Indikator ist ein Schalter",
+    "Grün — beide Formen sind gleichzeitig vorhanden, und ihre Farben mischen sich",
+    "Farblos — genau in der Mitte heben sich die beiden Farben gegenseitig auf",
 ]
 answer = 1
 misconception = "An indicator is not a switch but an equilibrium: at pH near its pKa, roughly half the molecules are in each form, simultaneously. Half the dye absorbing like the yellow form plus half absorbing like the blue form transmits green — the same way mixing paints does, because absorbances add. Cancellation is how opposing *lights* behave; absorbing dyes only ever subtract more."

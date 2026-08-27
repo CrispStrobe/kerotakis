@@ -55,6 +55,11 @@ options = [
   "The salty one first — salty water is thicker, and thicker is closer to solid",
   "The pure one starts at 0 °C; the brine starts near −4 °C and therefore makes less ice from the same cooling",
 ]
+options_de = [
+    "Beide, bei 0 °C — bei null zu gefrieren ist das, was Wasser tut",
+    "Das salzige zuerst — Salzwasser ist dickflüssiger, und dickflüssiger ist näher am Festen",
+    "Das reine beginnt bei 0 °C; die Sole beginnt bei etwa −4 °C und bildet deshalb bei derselben Abkühlung weniger Eis",
+]
 answer = 2
 misconception = "The first answer makes the freezing point a fixed property of the solvent, with the dissolved salt as cargo that changes nothing. It is a property of the solution: the ions get in the way of water ordering itself into an ice lattice, so the brine must be colder before freezing pays. The same removed energy consequently makes less ice in the brine. The 'thicker' answer runs viscosity and solidity together — how a liquid flows and whether its molecules can lock into a crystal are different questions with opposite answers here."
 misconception_de = "Die erste Antwort macht den Gefrierpunkt zu einer festen Eigenschaft des Lösungsmittels, wobei das gelöste Salz nur als Ladung mitfährt, die nichts verändert. Tatsächlich ist der Gefrierpunkt eine Eigenschaft der Lösung: Die Ionen behindern die Wassermoleküle dabei, sich zu einem Eiskristallgitter zu ordnen, sodass die Sole kälter werden muss, bevor sich das Gefrieren lohnt. Dieselbe entzogene Energiemenge bildet in der Sole folglich weniger Eis. Die Antwort 'dickflüssiger' vermengt Viskosität und Festigkeit: Wie flüssig ein Stoff fließt und ob sich seine Moleküle zu einem Kristall verbinden können, sind unterschiedliche Fragen — die hier sogar entgegengesetzte Antworten haben."
