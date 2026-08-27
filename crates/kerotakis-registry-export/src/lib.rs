@@ -95,7 +95,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
-        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity; ACS/J. Chem. Educ. DOI 10.1021/ed400316a documents detergent-lowered surface tension and the pepper-on-water classroom demonstration; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids".to_string(),
+        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, and teaches that vegetable oil is less dense than water and does not dissolve in it; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids".to_string(),
         licence: "AGPL-3.0-or-later".to_string(),
         lane: SourceLane::Runtime,
         origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
@@ -756,6 +756,46 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Curated,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/vegetable-oil-surrogate".to_string(),
+            version: 1,
+            canonical_key: "vegetable_oil".to_string(),
+            name: "vegetable oil".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "en".to_string(),
+                    vec!["cooking oil".to_string(), "plant oil".to_string()],
+                ),
+                (
+                    "de".to_string(),
+                    vec!["Pflanzenöl".to_string(), "Speiseöl".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(0.92)),
+            components: Vec::new(),
+            unresolved_fraction: Some(FractionRange {
+                lower: 1.0,
+                upper: 1.0,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![MaterialRole::AqueousImmiscibleLiquid {
+                srgb: [238, 218, 112],
+                colour_word: "pale yellow".to_string(),
+            }],
+            preparation: Some(
+                "generic room-temperature vegetable-oil teaching surrogate".to_string(),
+            ),
+            lot_assumptions: vec![
+                "the oil remains a conserved unresolved triglyceride mixture; crop, refining, age, additives and brand are not guessed".to_string(),
+                "0.92 g/mL is an explicit representative geometry parameter, not a product specification".to_string(),
+                "the bounded role supports an upper oil layer on water; emulsions, oxidation, hydrolysis and combustion remain unmodelled".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
             expansion_policy: MaterialExpansionPolicy::Fixed,
             evidence: evidence(),
         },

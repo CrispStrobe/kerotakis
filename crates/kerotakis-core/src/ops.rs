@@ -718,6 +718,14 @@ pub enum Event {
         upper: SpeciesId,
         lower: SpeciesId,
     },
+    /// A reviewed household mixture forms a visible upper layer on water.
+    /// Unlike `LayersFormed`, this does not claim molecular identity or a
+    /// computed full-composition liquid-liquid equilibrium.
+    MaterialLayersFormed {
+        vessel: VesselId,
+        upper_material: String,
+        lower: SpeciesId,
+    },
     /// A gas formed and left through a reservoir or swept boundary. The
     /// balance notices.
     GasEvolved {

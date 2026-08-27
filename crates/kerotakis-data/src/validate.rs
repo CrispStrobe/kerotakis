@@ -522,6 +522,24 @@ impl<'a> Validator<'a> {
                             );
                         }
                     }
+                    MaterialRole::AqueousImmiscibleLiquid { colour_word, .. } => {
+                        if recipe.bulk_density.is_none() {
+                            self.issue(
+                                format!("{role_path}.bulk_density"),
+                                "an immiscible liquid role requires recipe bulk density",
+                            );
+                        }
+                        self.nonempty(&format!("{role_path}.colour_word"), colour_word);
+                        if !matches!(
+                            recipe.physical_form,
+                            MaterialPhysicalForm::HomogeneousLiquid
+                        ) {
+                            self.issue(
+                                format!("{role_path}.physical_form"),
+                                "an immiscible liquid role requires homogeneous_liquid form",
+                            );
+                        }
+                    }
                 }
             }
             let mut component_species = HashSet::new();

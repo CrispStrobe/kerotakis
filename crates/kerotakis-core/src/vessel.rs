@@ -926,7 +926,8 @@ impl Vessel {
             .iter()
             .map(|solid_solution| solid_solution.mass().0)
             .sum();
-        Grams(contents + interfaces + exchangers + solid_solutions)
+        let unresolved_liquids = crate::material::unresolved_liquid_mass_g(self);
+        Grams(contents + interfaces + exchangers + solid_solutions + unresolved_liquids)
     }
 
     /// Approximate liquid volume, additive-volume assumption (surfaced as an

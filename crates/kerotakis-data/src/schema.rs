@@ -159,6 +159,15 @@ pub enum MaterialRole {
         saturation_amount: f64,
         max_cleared_fraction: f64,
     },
+    /// A recipe-level liquid mixture that remains separate from an aqueous
+    /// phase and forms the upper layer. This is deliberately a visible,
+    /// bounded material property: it does not invent one molecular species
+    /// for a variable household mixture or claim a full LLE model.
+    AqueousImmiscibleLiquid {
+        /// Display colour for the unresolved bulk layer.
+        srgb: [u8; 3],
+        colour_word: String,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

@@ -54,6 +54,104 @@ pub fn all() -> Vec<MaterialRecipe> {
     recipes
 }
 
+/// Recover the exact recipe pinned by an unresolved material portion.
+pub fn lookup_versioned(id: &str, version: u32) -> Option<MaterialRecipe> {
+    all()
+        .into_iter()
+        .find(|recipe| recipe.id == id && recipe.version == version)
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct ImmiscibleLiquidLayer {
+    pub material: String,
+    pub key: String,
+    pub recipe_id: String,
+    pub volume_l: f64,
+    pub srgb: [u8; 3],
+    pub colour_word: String,
+}
+
+/// Visible unresolved liquids, aggregated by pinned recipe. Chemical solvent
+/// volume intentionally remains `Vessel::liquid_volume`; this volume is for
+/// geometry and rendering and must not leak into aqueous concentrations.
+pub fn immiscible_liquid_layers(vessel: &crate::Vessel) -> Vec<ImmiscibleLiquidLayer> {
+    let mut layers: Vec<ImmiscibleLiquidLayer> = Vec::new();
+    for portion in &vessel.unresolved_materials {
+        let Some(recipe) = lookup_versioned(&portion.recipe_id, portion.recipe_version) else {
+            continue;
+        };
+        let Some((srgb, colour_word)) = recipe.roles.iter().find_map(|role| match role {
+            MaterialRole::AqueousImmiscibleLiquid { srgb, colour_word } => {
+                Some((*srgb, colour_word.clone()))
+            }
+            _ => None,
+        }) else {
+            continue;
+        };
+        let volume_l = match portion.basis {
+            MaterialBasis::MassFraction => recipe
+                .bulk_density
+                .as_ref()
+                .map(|density| portion.amount / density.value / 1000.0)
+                .unwrap_or(0.0),
+            MaterialBasis::VolumeFraction => portion.amount / 1000.0,
+            MaterialBasis::MoleFraction => 0.0,
+        };
+        if volume_l <= 0.0 {
+            continue;
+        }
+        if let Some(existing) = layers.iter_mut().find(|layer| layer.recipe_id == recipe.id) {
+            existing.volume_l += volume_l;
+        } else {
+            layers.push(ImmiscibleLiquidLayer {
+                material: recipe.name,
+                key: recipe.canonical_key,
+                recipe_id: recipe.id,
+                volume_l,
+                srgb,
+                colour_word,
+            });
+        }
+    }
+    layers
+}
+
+/// Whether this pinned unresolved portion follows a liquid pour/mix.
+pub fn unresolved_portion_is_liquid(portion: &crate::vessel::UnresolvedMaterialPortion) -> bool {
+    lookup_versioned(&portion.recipe_id, portion.recipe_version).is_some_and(|recipe| {
+        matches!(
+            recipe.physical_form,
+            kerotakis_data::MaterialPhysicalForm::HomogeneousLiquid
+        )
+    })
+}
+
+/// Mass represented by reviewed unresolved liquid roles. Other unresolved
+/// materials retain their existing mass boundary until their basis-to-mass
+/// conversion is explicitly modelled.
+pub fn unresolved_liquid_mass_g(vessel: &crate::Vessel) -> f64 {
+    vessel
+        .unresolved_materials
+        .iter()
+        .filter_map(|portion| {
+            let recipe = lookup_versioned(&portion.recipe_id, portion.recipe_version)?;
+            recipe
+                .roles
+                .iter()
+                .any(|role| matches!(role, MaterialRole::AqueousImmiscibleLiquid { .. }))
+                .then(|| match portion.basis {
+                    MaterialBasis::MassFraction => portion.amount,
+                    MaterialBasis::VolumeFraction => recipe
+                        .bulk_density
+                        .as_ref()
+                        .map(|density| portion.amount * density.value)
+                        .unwrap_or(0.0),
+                    MaterialBasis::MoleFraction => 0.0,
+                })
+        })
+        .sum()
+}
+
 /// Translate a reviewed recipe-level opaque-pigment role into the core's
 /// fixed visible-band representation. Invalid optional-pack data yields no
 /// optics; source documents are rejected earlier by the data validator.

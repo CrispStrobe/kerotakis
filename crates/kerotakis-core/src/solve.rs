@@ -381,6 +381,19 @@ impl Equilibrator for MixingEquilibrator {
                 lower: SpeciesId::new(lower),
             });
         }
+        if vessel
+            .contents
+            .iter()
+            .any(|portion| portion.species.0 == "water" && portion.phase == Phase::Liquid)
+        {
+            for layer in crate::material::immiscible_liquid_layers(vessel) {
+                events.push(Event::MaterialLayersFormed {
+                    vessel: vessel.id,
+                    upper_material: layer.material,
+                    lower: SpeciesId::new("water"),
+                });
+            }
+        }
 
         // A homogeneous catalyst cannot simultaneously be the concentration
         // in a liquid rate law and a pile of sediment. Move declared
