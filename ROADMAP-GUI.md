@@ -1233,6 +1233,12 @@ decorating it.
   engine is running the operation or its computed effect is playing back;
   configured rpm/power still sets the animation rate.
 
+- [x] **GUI-081 — Freely positioned instrument stations.** *Shipped
+  2026-08-27.* Freestanding mortar and mini-centrifuge stations can be dragged
+  with mouse, pen, or touch and nudged with arrow keys. Explicit positions are
+  stored per lab mode beside vessel coordinates; untouched tools continue to
+  follow a safe, target-aligned default lane.
+
 Split: GUI-058 + 060 + 064 are architecture/engine-coupled (fable);
 GUI-061 + 063 are self-contained client work (kero-basic);
 GUI-059 + 062 are client work gated on no engine change (kero1, after

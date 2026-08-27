@@ -708,6 +708,7 @@ const DE: Record<string, string> = {
   ,"mini centrifuge on the bench": "Mini-Zentrifuge auf dem Labortisch"
   ,"{tool} workstation for vessel v{vessel}": "Arbeitsstation {tool} für Gefäß v{vessel}"
   ,"works with vessel v{vessel}": "arbeitet mit Gefäß v{vessel}"
+  ,"{tool} moved on the bench": "{tool} auf dem Labortisch verschoben"
   ,"set heating power and time": "Heizleistung und Dauer einstellen"
   ,"heating power": "Heizleistung"
   ,"cooling bath": "Kühlbad"
