@@ -114,6 +114,9 @@
   const spatialLayoutKey = $derived(
     JSON.stringify({ placements: layout.placements, preview: dragPreview }),
   );
+  const standaloneWorking = $derived(
+    apparatusWorking || (deployedTool === "burette" && titrationPlayback !== null),
+  );
 
   const latestApparatusEffect = (vessel: number, kind: string) =>
     [...(effects[vessel] ?? [])].reverse().find((effect) =>
@@ -473,7 +476,7 @@
           role="button"
           tabindex="0"
           title={t("drag or use arrow keys to move")}
-          aria-label={`${t("{tool} workstation for vessel v{vessel}", { tool: t(apparatusName(deployedTool)), vessel: deployedTarget + 1 })}. ${t("drag or use arrow keys to move")}`}
+          aria-label={`${t("{tool} workstation for vessel v{vessel}", { tool: t(apparatusName(deployedTool)), vessel: deployedTarget + 1 })}. ${t(standaloneWorking ? "running…" : "ready")}. ${t("drag or use arrow keys to move")}`}
           onpointerdown={(event) => startApparatusPointer(event, deployedTool, deployedTarget)}
           onpointermove={trackApparatusPointer}
           onpointerup={(event) => finishApparatusPointer(event, deployedTarget)}
@@ -485,7 +488,7 @@
             <StandaloneApparatus
               tool={deployedTool}
               target={deployedTarget}
-              working={apparatusWorking || (deployedTool === "burette" && titrationPlayback !== null)}
+              working={standaloneWorking}
               performedAt={apparatusEffect?.at}
               intensity={apparatusEffect?.magnitude ?? 0.5}
               effect={apparatusEffect}

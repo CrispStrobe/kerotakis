@@ -259,5 +259,13 @@
   @keyframes wash-flow { 0% { opacity: 0; stroke-dashoffset: 8; } 20%, 80% { opacity: .85; } 100% { opacity: 0; stroke-dashoffset: -8; } }
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes drip { from { transform: translateY(-5px); opacity: 1; } to { transform: translateY(5px); opacity: 0; } }
-  @media (prefers-reduced-motion: reduce) { .working .pestle, .working .rotor, .performed .rotor, .burette-drop, .evaporation-steam, .wash-jet { animation: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .working .pestle, .working .rotor, .performed .rotor, .burette-drop,
+    .evaporation-steam, .wash-jet { animation: none; }
+    .working .evaporation-steam, .performed .evaporation-steam {
+      opacity: calc(.35 + var(--evaporation-intensity) * .55);
+    }
+    .working .wash-jet, .performed .wash-jet { opacity: .85; stroke-dashoffset: 0; }
+    .working .burette-drop { opacity: .85; }
+  }
 </style>
