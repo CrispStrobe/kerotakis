@@ -1216,6 +1216,17 @@ decorating it.
   action. This makes cross-vessel mistakes legible before heating, stirring,
   pouring, or measuring.
 
+- [x] **GUI-078 — Phase-colour cabinet.** *Shipped 2026-08-27.* Aqueous,
+  liquid, gas, and solid filters and reagent cards use consistent blue, teal,
+  violet, and orange accents. Icons and text remain the primary encoding, so
+  the livelier cabinet adds rapid scientific scanning without relying on
+  colour alone or weakening the professional/contrast themes.
+
+- [x] **GUI-079 — Clear first-run callout.** *Shipped 2026-08-27.* The
+  empty-session guidance is anchored inside the lower-right work surface,
+  above the counter edge. It no longer enters document flow beneath the bench
+  or becomes hidden by the persistent vessel action dock.
+
 Split: GUI-058 + 060 + 064 are architecture/engine-coupled (fable);
 GUI-061 + 063 are self-contained client work (kero-basic);
 GUI-059 + 062 are client work gated on no engine change (kero1, after

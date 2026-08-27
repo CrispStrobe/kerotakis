@@ -695,16 +695,22 @@
     color: var(--dim);
   }
   .hint {
+    position: absolute;
+    z-index: 7;
+    right: 1rem;
+    bottom: 3.4rem;
     color: var(--ink);
-    align-self: center;
     max-width: 18rem;
-    margin-bottom: 4rem;
+    margin: 0;
     padding: 0.75rem 0.9rem;
     border: 1px solid var(--edge);
     border-radius: 14px;
     background: color-mix(in srgb, var(--surface) 86%, transparent);
     box-shadow: 0 8px 24px var(--shadow);
     font-size: 0.82rem;
+  }
+  @media (max-width: 640px) {
+    .hint { right: 0.65rem; bottom: 3rem; max-width: min(17rem, calc(100% - 5rem)); font-size: 0.72rem; }
   }
   @media (max-height: 680px) {
     .bench { padding-top: 2.7rem; }
