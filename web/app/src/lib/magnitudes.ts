@@ -10,6 +10,15 @@
 /** The shape of an engine event, loosely typed (serde JSON). */
 export type EngineEvent = Record<string, unknown>;
 
+/** One engine-computed chromatography peak, retained for physical playback. */
+export interface ChromatographyBand {
+  species: string;
+  retentionTimeS: number;
+  widthS: number;
+  relativeArea: number;
+  partitionK: number;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -29,6 +38,11 @@ export interface Effect {
   reading?: number;
   /** Unit emitted with the measurement. */
   unit?: string;
+  /** Engine-owned chromatography result; presentation only normalises its axes. */
+  bands?: ChromatographyBand[];
+  voidTimeS?: number;
+  plates?: number;
+  outsideMethod?: string[];
   /** Physical setup connecting source and target vessels. */
   operation?: "pour" | "filter" | "drain" | "distil" | "cell";
 }

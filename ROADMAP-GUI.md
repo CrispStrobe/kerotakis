@@ -622,6 +622,12 @@ rather than an aspiration:
   + supply (cell, wire, electrolyze), and an instrument tray for the eight
   measure targets. Vessel context ring for per-vessel actions; everything
   emits the same command lines.
+  *Physical chromatography slice shipped 2026-08-27:* the column now
+  appears at the vessel after a run and animates the engine's typed peaks
+  from injection to positions normalised from computed retention times;
+  band thickness and opacity follow computed peak width and relative area.
+  The palette is deliberately categorical (not a claim about molecular
+  colour), while the chromatogram remains the quantitative record.
 
 ### The codex is the content engine (apply it, then expand it)
 
