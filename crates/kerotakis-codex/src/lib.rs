@@ -947,6 +947,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::CellVoltage { .. } => ("cell_voltage", None),
         E::NoCell { .. } => ("no_cell", None),
         E::Added { species, .. } => ("added", Some(species.0.as_str())),
+        E::MaterialAdded { .. } => ("material_added", None),
         E::FlameTest { species, .. } => ("flame_test", Some(species.0.as_str())),
         E::Ignited { .. } => ("ignited", None),
         E::DidNotIgnite { .. } => ("did_not_ignite", None),
