@@ -536,6 +536,7 @@ const DE: Record<string, string> = {
   "named relations, computed by the engine — with sources": "benannte Beziehungen, von der Engine berechnet — mit Quellen",
   "close the toolbox": "Werkzeugkasten schließen",
   "relations": "Beziehungen",
+  "register": "Detailstufe",
   "the engine has not answered with its relations yet": "Die Engine hat ihre Beziehungen noch nicht geliefert.",
   "arguments": "Argumente",
   "optional": "optional",
@@ -967,6 +968,7 @@ const DE: Record<string, string> = {
   ,"instant energy model": "sofortiges Energiemodell"
   ,"move to selected v{vessel}": "zu ausgewähltem v{vessel} verschieben"
   ,"titrant added": "zugegebenes Titrationsmittel"
+  ,"titration chart from engine-computed pH values": "Titrationsdiagramm aus engineberechneten pH-Werten"
   ,"each point: one aqueous-solver equilibration after one burette increment (titrate); nothing interpolated": "Jeder Punkt: eine Gleichgewichtseinstellung des wässrigen Lösers nach einem Bürettenschritt (Titrieren); nichts interpoliert"
   ,"line": "Linie"
   ,"scatter": "Streudiagramm"
