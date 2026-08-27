@@ -380,7 +380,7 @@
               <button aria-label={t("move vessel v{vessel} down", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0, 0.06)}>↓</button>
               <button aria-label={t("move vessel v{vessel} right", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0.05, 0)}>→</button>
               {#if onremove}
-                <button class="remove" aria-label={t("remove empty vessel v{vessel}", { vessel: vessel.id + 1 })} title={t("remove empty vessel")} onclick={() => onremove(vessel.id)}>×</button>
+                <button class="remove" aria-label={t("manage or remove vessel v{vessel}", { vessel: vessel.id + 1 })} title={t("manage or remove vessel")} onclick={() => onremove(vessel.id)}>×</button>
               {/if}
             </div>
           {/if}

@@ -840,7 +840,11 @@ hide them completely.
   controls and an engine-owned `remove vN` operator removes only empty vessels,
   never the last vessel, and participates in undo/replay. Apparatus deployment
   now replaces the generic vessel-action dock so unrelated vessel actions do
-  not visually compete with the apparatus controls.*
+  not visually compete with the apparatus controls. *Safe-removal slice shipped
+  2026-08-27:* the compact × opens an explicit vessel decision instead of
+  blindly issuing a command. Empty removal is confirmed and undoable; occupied
+  vessels offer a 100% liquid transfer or the waste station, and no material is
+  silently deleted. The final workspace vessel remains protected.*
 
 - [ ] **GUI-081 — Learner-authored laboratory journal.** Keep engine output,
   mission evidence, and learner notes visibly distinct. Users can add, edit,
