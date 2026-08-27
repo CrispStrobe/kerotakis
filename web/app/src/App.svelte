@@ -823,6 +823,7 @@
     {/if}
     <Feed
       entries={session.feed}
+      selectedVessel={session.selected}
       onaddnote={(text) => session.addUserNote(text)}
       oneditnote={(createdAt, text) => session.editUserNote(createdAt, text)}
       onremovenote={(createdAt) => session.removeUserNote(createdAt)}
