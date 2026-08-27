@@ -11,6 +11,7 @@
     positionFor,
     positionApparatus,
     positionVessel,
+    placementsOverlap,
     zoneAt,
     zoneFor,
     type BenchLayout,
@@ -94,6 +95,7 @@
   let moveMessage = $state("");
   let messageTimer: ReturnType<typeof setTimeout> | undefined;
   const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
+  const FREESTANDING_TOOLS = ["grind", "centrifuge", "burette"];
   const zoneHints: Record<BenchZone, string> = {
     prepare: "set up and measure",
     react: "mix and transform",
@@ -135,6 +137,34 @@
     return apparatusPositionFor(layout, tool, apparatusPlacement(target));
   }
 
+  function vesselPlacementBlocked(vessel: number, candidate: { x: number; y: number }): boolean {
+    const byVessel = scene?.vessels.some(
+      (other) => other.id !== vessel && placementsOverlap(candidate, positionFor(layout, other.id)),
+    ) ?? false;
+    if (byVessel) return true;
+    if (deployedTarget === null || !deployedTool || !FREESTANDING_TOOLS.includes(deployedTool)) return false;
+    return placementsOverlap(candidate, machinePlacement(deployedTool, deployedTarget), 0.15, 0.22);
+  }
+
+  function apparatusPlacementBlocked(candidate: { x: number; y: number }): boolean {
+    return scene?.vessels.some(
+      (vessel) => placementsOverlap(candidate, positionFor(layout, vessel.id), 0.15, 0.22),
+    ) ?? false;
+  }
+
+  const vesselDropInvalid = $derived(
+    dragPreview ? vesselPlacementBlocked(dragPreview.vessel, dragPreview) : false,
+  );
+  const apparatusDropInvalid = $derived(
+    apparatusPreview ? apparatusPlacementBlocked(apparatusPreview) : false,
+  );
+
+  function announceMove(message: string) {
+    moveMessage = message;
+    if (messageTimer) clearTimeout(messageTimer);
+    messageTimer = setTimeout(() => (moveMessage = ""), 2600);
+  }
+
   function surfacePosition(clientX: number, clientY: number) {
     if (!workSurface) return null;
     const rect = workSurface.getBoundingClientRect();
@@ -144,14 +174,18 @@
 
   function placeAt(vessel: number, x: number, y: number) {
     const next = positionVessel(layout, vessel, x, y);
+    const candidate = positionFor(next, vessel);
+    if (vesselPlacementBlocked(vessel, candidate)) {
+      onselect(vessel);
+      announceMove(t("That space is occupied. Move the other vessel or instrument first."));
+      return;
+    }
     onmove?.(next);
     onselect(vessel);
-    moveMessage = t("vessel v{vessel} moved to {zone}", {
+    announceMove(t("vessel v{vessel} moved to {zone}", {
       vessel: vessel + 1,
       zone: t(zoneFor(next, vessel)),
-    });
-    if (messageTimer) clearTimeout(messageTimer);
-    messageTimer = setTimeout(() => (moveMessage = ""), 2200);
+    }));
   }
 
   function nudge(vessel: number, dx: number, dy: number) {
@@ -174,7 +208,8 @@
     if (!p) return;
     event.preventDefault();
     dragged = pointerDrag.vessel;
-    dragPreview = { vessel: pointerDrag.vessel, ...p };
+    const previewLayout = positionVessel(layout, pointerDrag.vessel, p.x, p.y);
+    dragPreview = { vessel: pointerDrag.vessel, ...positionFor(previewLayout, pointerDrag.vessel) };
     dropZone = p.x < 1 / 3 ? "prepare" : p.x > 2 / 3 ? "analyse" : "react";
   }
 
@@ -192,11 +227,15 @@
 
   function placeApparatusAt(tool: string, target: number, x: number, y: number) {
     const next = positionApparatus(layout, tool, x, y);
+    const candidate = apparatusPositionFor(next, tool, { zone: zoneAt(x), x, y });
+    if (apparatusPlacementBlocked(candidate)) {
+      onselect(target);
+      announceMove(t("That space is occupied. Move the other vessel or instrument first."));
+      return;
+    }
     onmove?.(next);
     onselect(target);
-    moveMessage = t("{tool} moved on the bench", { tool: t(apparatusName(tool)) });
-    if (messageTimer) clearTimeout(messageTimer);
-    messageTimer = setTimeout(() => (moveMessage = ""), 2200);
+    announceMove(t("{tool} moved on the bench", { tool: t(apparatusName(tool)) }));
   }
 
   function startApparatusPointer(event: PointerEvent, tool: string, target: number) {
@@ -332,6 +371,7 @@
             <section
               class="work-zone"
               class:drop-target={dropZone === zone}
+              class:drop-invalid={dropZone === zone && vesselDropInvalid}
               data-zone={zone}
               aria-label={t("{zone} work zone", { zone: t(zone) })}
             >
@@ -349,6 +389,7 @@
         <section
           class="vessel-position"
           class:moving={dragged === vessel.id}
+          class:invalid-drop={dragged === vessel.id && vesselDropInvalid}
           style={`left:${p.x * 100}%;top:${p.y * 100}%`}
           aria-label={t("vessel v{vessel} placement", { vessel: vessel.id + 1 })}
           onpointerdown={(event) => startPointer(event, vessel.id)}
@@ -409,6 +450,7 @@
         <div
           class="apparatus-position"
           class:moving={apparatusPointer?.tool === deployedTool}
+          class:invalid-drop={apparatusPointer?.tool === deployedTool && apparatusDropInvalid}
           style={`left:${machinePosition.x * 100}%;top:${machinePosition.y * 100}%`}
           role="button"
           tabindex="0"
@@ -451,7 +493,8 @@
           {/if}
         </div>
       {/if}
-      {#if dragged !== null}<div class="drop-callout">{t("place vessel here")}</div>{/if}
+      {#if dragged !== null}<div class="drop-callout" class:invalid={vesselDropInvalid}>{t(vesselDropInvalid ? "space occupied" : "place vessel here")}</div>{/if}
+      {#if apparatusPointer}<div class="drop-callout" class:invalid={apparatusDropInvalid}>{t(apparatusDropInvalid ? "space occupied" : "place instrument here")}</div>{/if}
     </div>
     {#if pristine}
       <p class="hint">
@@ -780,6 +823,7 @@
     background: color-mix(in srgb, var(--success) 7%, transparent);
     box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--success) 15%, transparent);
   }
+  .work-zone.drop-target.drop-invalid { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 7%, transparent); box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--bad) 15%, transparent); }
   .drop-callout {
     position: absolute;
     left: 50%;
@@ -794,6 +838,7 @@
     font-weight: 800;
     white-space: nowrap;
   }
+  .drop-callout.invalid { background: var(--bad); }
   .vessel-position {
     position: absolute;
     z-index: 3;
@@ -806,6 +851,7 @@
   .vessel-position:has(:global(.vessel.selected)) { z-index: 6; }
   .vessel-position:active { cursor: grabbing; }
   .vessel-position.moving { opacity: 0.42; transform: scale(0.96); }
+  .vessel-position.invalid-drop { opacity: .68; filter: drop-shadow(0 0 7px color-mix(in srgb, var(--bad) 72%, transparent)); }
   .apparatus-position {
     position: absolute;
     z-index: 5;
@@ -822,6 +868,7 @@
   }
   .apparatus-position:active { cursor: grabbing; }
   .apparatus-position.moving { opacity: 0.62; }
+  .apparatus-position.invalid-drop { opacity: .72; filter: drop-shadow(0 0 7px color-mix(in srgb, var(--bad) 72%, transparent)); }
   .apparatus-grip {
     position: absolute;
     z-index: 2;

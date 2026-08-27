@@ -87,6 +87,21 @@ export function positionApparatus(layout: BenchLayout, tool: string, x: number, 
   return { ...layout, apparatus: { ...layout.apparatus, [tool]: next } };
 }
 
+/** Screen-space footprint check for draggable bench objects. The caller owns
+ * each object's footprint; chemistry and connectivity never depend on this
+ * presentation constraint. Touching edges are valid, overlapping interiors
+ * are not. */
+export function placementsOverlap(
+  a: Pick<BenchPlacement, "x" | "y">,
+  b: Pick<BenchPlacement, "x" | "y">,
+  separationX = 0.14,
+  separationY = 0.2,
+): boolean {
+  const epsilon = 1e-9;
+  return Math.abs(a.x - b.x) < separationX - epsilon
+    && Math.abs(a.y - b.y) < separationY - epsilon;
+}
+
 /** Zone moves remain useful for keyboard users, but preserve vertical placement. */
 export function placeVessel(layout: BenchLayout, vessel: number, zone: BenchZone): BenchLayout {
   const current = positionFor(layout, vessel);
