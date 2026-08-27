@@ -324,7 +324,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                     .to_string(),
             ),
             lot_assumptions: vec![
-                "enzyme activity varies strongly by brand, age and hydration; v1 models presence, not a universal activity per gram".to_string(),
+                "enzyme activity varies strongly by brand and age; the bounded hydration ramp is a teaching surrogate, not a universal activity per gram".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

@@ -564,6 +564,8 @@ impl SolutionInfo {
 
 // ── ARCH-004: MaterialLot ──────────────────────────────────────────
 
+pub const DRY_YEAST_RECIPE_SOURCE: &str = "material recipe household/dry-yeast-catalase-surrogate";
+
 /// A batch of material with its addition provenance (ARCH-004).
 ///
 /// Lots track what was added, when, and from where, independently of
@@ -579,6 +581,10 @@ pub struct MaterialLot {
     pub phase: Phase,
     /// When this lot was added (elapsed seconds at time of addition).
     pub added_at: f64,
+    /// First contact with a liquid phase, when known. Enzyme-bearing dry
+    /// materials use this to distinguish dry storage from hydration time.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub hydrated_at: Option<f64>,
     /// Where this came from (e.g. "reagent bottle", "transfer from v2").
     #[serde(default)]
     pub source: Option<String>,
@@ -774,11 +780,26 @@ impl Vessel {
             moles,
             phase,
             added_at: self.elapsed_seconds,
+            hydrated_at: None,
             source,
             particle_size_um,
             suspended_fraction,
         });
+        self.mark_liquid_contact();
         self.resolved.invalidate();
+    }
+
+    /// Record first liquid contact without erasing provenance or resetting a
+    /// material that was already hydrated before later transfers.
+    pub fn mark_liquid_contact(&mut self) {
+        if self.liquid_volume().0 <= 0.0 {
+            return;
+        }
+        for lot in &mut self.lots {
+            if lot.source.as_deref() == Some(DRY_YEAST_RECIPE_SOURCE) && lot.hydrated_at.is_none() {
+                lot.hydrated_at = Some(self.elapsed_seconds);
+            }
+        }
     }
 
     /// Mole-weighted suspended fraction for explicitly tracked solid lots.

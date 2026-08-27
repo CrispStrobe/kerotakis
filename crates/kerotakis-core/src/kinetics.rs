@@ -480,6 +480,10 @@ pub enum CatalystActivity<'a> {
         substrate: &'a str,
         michaelis_molar: f64,
         reference_molar: f64,
+        /// Midpoint of the bounded high-temperature activity loss.
+        thermal_activity_midpoint_k: f64,
+        /// Width of the smooth activity envelope around the midpoint.
+        thermal_activity_width_k: f64,
     },
     Surface {
         default_diameter_um: f64,
@@ -649,8 +653,10 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                     substrate: "H2O2",
                     michaelis_molar: 1.34,
                     reference_molar: 4.0e-11,
+                    thermal_activity_midpoint_k: 318.15,
+                    thermal_activity_width_k: 2.0,
                 },
-                provenance: "Catalase, Ea ≈ 23 kJ/mol; Ogura & Yamazaki, J. Biochem. 1983 (PMID 6630165) measured Kₘ = 1.29–1.39 M and first-order behaviour below 0.1 M. Effective site concentration is normalized to the standard dry-yeast surrogate dose, whose biological activity varies by product and hydration",
+                provenance: "Catalase, Ea ≈ 23 kJ/mol; Ogura & Yamazaki, J. Biochem. 1983 (PMID 6630165) measured Kₘ = 1.29–1.39 M and first-order behaviour below 0.1 M. Effective site concentration is normalized to the standard dry-yeast surrogate dose, whose biological activity varies by product; Kerotakis applies explicitly editorial, bounded hydration and high-temperature activity envelopes rather than claiming universal yeast activity or irreversible denaturation history",
             },
             Catalyst {
                 species: "KI",
@@ -989,6 +995,30 @@ fn term_concentration(vessel: &Vessel, term: &OrderTerm<'_>, litres: f64) -> Opt
     Some(moles / litres)
 }
 
+/// Effective catalase inventory after hydration of the explicit dry-yeast
+/// surrogate. Purified/untracked catalase remains immediately available; only
+/// lots carrying the reviewed yeast recipe provenance receive this bounded
+/// teaching ramp. The temperature correlation is deliberately modest and is
+/// not a claim about a universal yeast brand.
+fn hydrated_enzyme_amount(vessel: &Vessel, species: &str, total_amount: f64) -> f64 {
+    let hydration_tau_seconds =
+        (6.0 * 2_f64.powf((298.15 - vessel.temperature.0) / 10.0)).clamp(2.0, 30.0);
+    let mut tracked = 0.0;
+    let mut active = 0.0;
+    for lot in vessel.lots.iter().filter(|lot| {
+        lot.species.0 == species
+            && lot.source.as_deref() == Some(crate::vessel::DRY_YEAST_RECIPE_SOURCE)
+    }) {
+        tracked += lot.moles.0;
+        let hydrated_seconds = lot
+            .hydrated_at
+            .map_or(0.0, |started| (vessel.elapsed_seconds - started).max(0.0));
+        let fraction = 1.0 - (-hydrated_seconds / hydration_tau_seconds).exp();
+        active += lot.moles.0 * fraction.clamp(0.0, 1.0);
+    }
+    (total_amount - tracked).max(0.0) + active
+}
+
 impl Catalyst<'_> {
     fn activity_multiplier(
         &self,
@@ -1013,11 +1043,19 @@ impl Catalyst<'_> {
                 substrate,
                 michaelis_molar,
                 reference_molar,
+                thermal_activity_midpoint_k,
+                thermal_activity_width_k,
             } => {
-                let enzyme_loading = (amount / litres) / reference_molar;
+                let active_amount = hydrated_enzyme_amount(vessel, self.species, amount);
+                let enzyme_loading = (active_amount / litres) / reference_molar;
                 let substrate_molar = amount_of(substrate).max(0.0) / litres;
                 let saturation = michaelis_molar / (michaelis_molar + substrate_molar);
-                enzyme_loading * saturation
+                let thermal_retention = 1.0
+                    / (1.0
+                        + ((vessel.temperature.0 - thermal_activity_midpoint_k)
+                            / thermal_activity_width_k.max(0.1))
+                        .exp());
+                enzyme_loading * saturation * thermal_retention
             }
             CatalystActivity::Surface {
                 default_diameter_um,
@@ -1824,6 +1862,83 @@ mod tests {
         let reaction = lookup("peroxide-decomposition").unwrap();
         let ratio = reaction.rate_now(&high) / reaction.rate_now(&low);
         assert!((ratio - 2.0).abs() < 1e-9, "measured enzyme ratio {ratio}");
+    }
+
+    fn yeast_catalase(celsius: f64, hydrated_seconds: f64) -> Vessel {
+        let mut vessel = vessel_with(
+            &[
+                ("water", 5.5343, Phase::Liquid),
+                ("H2O2", 0.1, Phase::Liquid),
+                ("catalase", 4e-12, Phase::Aqueous),
+            ],
+            celsius,
+        );
+        vessel.elapsed_seconds = hydrated_seconds;
+        vessel.lots.push(crate::vessel::MaterialLot {
+            species: SpeciesId::new("catalase"),
+            moles: Moles(4e-12),
+            phase: Phase::Aqueous,
+            added_at: 0.0,
+            hydrated_at: Some(0.0),
+            source: Some(crate::vessel::DRY_YEAST_RECIPE_SOURCE.to_string()),
+            particle_size_um: None,
+            suspended_fraction: None,
+        });
+        vessel
+    }
+
+    #[test]
+    fn dry_yeast_activity_ramps_with_liquid_contact_and_warmth() {
+        let fresh = yeast_catalase(25.0, 0.0);
+        let hydrated = yeast_catalase(25.0, 12.0);
+        let cold = yeast_catalase(15.0, 3.0);
+        let warm = yeast_catalase(35.0, 3.0);
+        let amount = 4e-12;
+        let fresh_active = hydrated_enzyme_amount(&fresh, "catalase", amount);
+        let hydrated_active = hydrated_enzyme_amount(&hydrated, "catalase", amount);
+        let cold_active = hydrated_enzyme_amount(&cold, "catalase", amount);
+        let warm_active = hydrated_enzyme_amount(&warm, "catalase", amount);
+        assert!(fresh_active <= 1e-30, "dry yeast starts inactive");
+        assert!(
+            hydrated_active > amount * 0.8,
+            "hydration approaches full activity"
+        );
+        assert!(
+            warm_active > cold_active,
+            "warm water hydrates the surrogate faster"
+        );
+        assert!(
+            warm_active < amount,
+            "the bounded ramp cannot create enzyme"
+        );
+    }
+
+    #[test]
+    fn catalase_warms_then_loses_activity_in_very_hot_water() {
+        let catalase_at = |celsius| {
+            let vessel = vessel_with(
+                &[
+                    ("water", 5.5343, Phase::Liquid),
+                    ("H2O2", 0.1, Phase::Liquid),
+                    ("catalase", 4e-12, Phase::Aqueous),
+                ],
+                celsius,
+            );
+            lookup("peroxide-decomposition")
+                .expect("peroxide reaction")
+                .rate_now(&vessel)
+        };
+        let room = catalase_at(25.0);
+        let warm = catalase_at(35.0);
+        let very_hot = catalase_at(70.0);
+        assert!(
+            warm > room,
+            "moderate warmth still follows Arrhenius kinetics"
+        );
+        assert!(
+            very_hot < warm * 0.1,
+            "the bounded enzyme envelope must defeat unlimited hot-water acceleration"
+        );
     }
 
     #[test]

@@ -77,6 +77,39 @@ fn material_identity_is_not_reported_as_unknown_species() {
 }
 
 #[test]
+fn dry_yeast_lot_records_when_water_first_hydrates_it() {
+    let mut bench = Bench::new();
+    let yeast = parse_op("add v1 Hefe 1g")
+        .expect("valid yeast material")
+        .expect("yeast operator");
+    bench.step(yeast).expect("add dry yeast");
+    let catalase = bench.vessels[0]
+        .lots
+        .iter()
+        .find(|lot| lot.species == SpeciesId::new("catalase"))
+        .expect("recipe component has lot provenance");
+    assert_eq!(
+        catalase.source.as_deref(),
+        Some("material recipe household/dry-yeast-catalase-surrogate")
+    );
+    assert_eq!(
+        catalase.hydrated_at, None,
+        "an empty vessel is not hydration"
+    );
+
+    let water = parse_op("add v1 water 10mL")
+        .expect("valid water addition")
+        .expect("water operator");
+    bench.step(water).expect("hydrate yeast");
+    let catalase = bench.vessels[0]
+        .lots
+        .iter()
+        .find(|lot| lot.species == SpeciesId::new("catalase"))
+        .expect("catalase lot survives hydration");
+    assert_eq!(catalase.hydrated_at, Some(0.0));
+}
+
+#[test]
 fn familiar_powders_expand_to_the_existing_solver_species() {
     for (name, language, expected) in [
         ("Natron", Some("de"), "NaHCO3"),
