@@ -42,6 +42,15 @@ class FakeHost implements EngineHost {
   }
   /** Set to true to model an engine predating snapshots. */
   noSnapshots = false;
+  async questStart(): Promise<void> {
+    this.calls.push("quest_start");
+  }
+  async questStop(): Promise<void> {
+    this.calls.push("quest_stop");
+  }
+  async questAnswer(): Promise<import("./host/EngineHost").QuestOutput[]> {
+    return [];
+  }
   async loadPack() {
     return { added: 0, skipped: 0, loaded_total: 0 };
   }
