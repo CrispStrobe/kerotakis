@@ -117,6 +117,54 @@ impl Locale {
             .unwrap_or(en)
     }
 
+    /// A message with named placeholders filled in.
+    ///
+    /// ```ignore
+    /// locale.fill(
+    ///     "event.added.lv1",
+    ///     "You add {what} to {vessel}.",
+    ///     &[("what", name), ("vessel", vessel)],
+    /// )
+    /// ```
+    ///
+    /// Named, not positional, and this is the whole reason the method
+    /// exists rather than a `format!` at each call site. `format!("You add
+    /// {name} to {vessel}")` hardcodes ENGLISH WORD ORDER into the code: a
+    /// language that puts the vessel first, or that needs the verb last,
+    /// cannot be expressed by any translation of the fragments, only by
+    /// rewriting the call. With named holes the translator writes the
+    /// whole sentence in their own order and the code does not care.
+    ///
+    /// A placeholder with no value is left as it is written rather than
+    /// blanked, so a typo in a catalogue shows up as `{vesel}` on screen —
+    /// visible, reportable, and obviously a bug — instead of a hole the
+    /// reader silently mis-reads as intended.
+    pub fn fill(self, key: &str, en: &'static str, vars: &[(&str, &str)]) -> String {
+        let template = self.t(key, en);
+        if vars.is_empty() || !template.contains('{') {
+            return template.to_string();
+        }
+        let mut out = String::with_capacity(template.len() + 16);
+        let mut rest = template;
+        while let Some(open) = rest.find('{') {
+            let Some(close) = rest[open..].find('}').map(|i| open + i) else {
+                break;
+            };
+            let name = &rest[open + 1..close];
+            match vars.iter().find(|(k, _)| *k == name) {
+                Some((_, value)) => {
+                    out.push_str(&rest[..open]);
+                    out.push_str(value);
+                }
+                // Unknown name: keep the braces, so it reads as a fault.
+                None => out.push_str(&rest[..=close]),
+            }
+            rest = &rest[close + 1..];
+        }
+        out.push_str(rest);
+        out
+    }
+
     /// What to say for `key` when there is no English source line to fall
     /// back to — a lookup keyed by a value rather than by a place, such as
     /// a vessel's own label.
@@ -250,6 +298,49 @@ mod tests {
         // English never looks anything up: its words are already at the
         // call site.
         assert_eq!(Locale::EN.lookup("glassware.beaker"), None);
+    }
+
+    #[test]
+    fn fill_substitutes_named_holes() {
+        let en = Locale::EN;
+        assert_eq!(
+            en.fill("x", "You add {what} to {vessel}.", &[("what", "salt"), ("vessel", "v1")]),
+            "You add salt to v1."
+        );
+    }
+
+    #[test]
+    fn a_translation_may_reorder_the_holes() {
+        // The point of named placeholders. A positional format string
+        // fixes English word order in the CODE; here the translated
+        // sentence puts the vessel first and nothing else has to change.
+        let en = Locale::EN;
+        let reordered = en.fill(
+            "x",
+            "{vessel} gets {what}.",
+            &[("what", "salt"), ("vessel", "v1")],
+        );
+        assert_eq!(reordered, "v1 gets salt.");
+    }
+
+    #[test]
+    fn an_unknown_hole_stays_visible() {
+        // A typo in a catalogue should read as a fault on screen, not as a
+        // gap the reader silently takes for intentional.
+        let en = Locale::EN;
+        assert_eq!(
+            en.fill("x", "in {vesel}", &[("vessel", "v1")]),
+            "in {vesel}"
+        );
+    }
+
+    #[test]
+    fn a_repeated_hole_is_filled_every_time() {
+        let en = Locale::EN;
+        assert_eq!(
+            en.fill("x", "{v} into {v}", &[("v", "v1")]),
+            "v1 into v1"
+        );
     }
 
     #[test]

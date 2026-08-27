@@ -148,22 +148,22 @@ impl Lab {
     /// and quantities), `lv3` (full numeric detail). More levels can be
     /// added without changing this call.
     #[wasm_bindgen(js_name = setRegister)]
-    /// Choose the language the engine renders in.
-    ///
-    /// Unlike `set_register` this cannot fail: an unknown tag falls back
-    /// to English. A learner who has set their system to a language nobody
-    /// has translated to should see the language we do have, not an error
-    /// where the bench used to be.
-    #[wasm_bindgen]
-    pub fn set_locale(&mut self, locale: &str) {
-        self.locale = Locale::parse(locale);
-    }
-
     pub fn set_register(&mut self, register: &str) -> Result<(), JsError> {
         self.register = Register::parse(register).ok_or_else(|| {
             JsError::new(&format!("unknown level '{register}' (try lv1, lv2, lv3)"))
         })?;
         Ok(())
+    }
+
+    /// Choose the language the engine renders its own prose in.
+    ///
+    /// Unlike `setRegister` this cannot fail: an unknown tag falls back to
+    /// English inside the engine. Someone whose system is set to a
+    /// language nobody has translated should see the language we do have,
+    /// not an error where the bench used to be.
+    #[wasm_bindgen(js_name = setLocale)]
+    pub fn set_locale(&mut self, locale: &str) {
+        self.locale = Locale::parse(locale);
     }
 
     /// Apply one operator, given as the same JSON the CLI's `--json` mode
