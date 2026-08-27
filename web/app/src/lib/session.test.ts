@@ -471,6 +471,38 @@ describe("Session", () => {
     });
   });
 
+  it("drains the engine-selected lower layer with its own computed colour", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{ event: "drained", from: 0, to: 1, solvent: "water", moles: .2 }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = {
+      scene: 1,
+      vessels: [{
+        id: 0,
+        liquid: { volume_l: .1, srgb: [120, 100, 140], colour_word: "mixed", cloudiness: 0, path_length_cm: 2 },
+        layers: [
+          { species: "water", name: "water", volume_l: .06, srgb: [50, 110, 220], colour_word: "blue" },
+          { species: "hexane", name: "hexane", volume_l: .04, srgb: [240, 210, 60], colour_word: "yellow" },
+        ],
+        solids: [],
+      } as Scene["vessels"][number]],
+    };
+    await s.submit("drain v1 into v2");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      operation: "drain",
+      fluidColour: "rgb(50 110 220)",
+      drain: {
+        solvent: "water",
+        moles: .2,
+        lowerColour: "rgb(50 110 220)",
+        upperColour: "rgb(240 210 60)",
+      },
+    });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

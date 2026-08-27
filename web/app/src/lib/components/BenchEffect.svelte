@@ -109,6 +109,21 @@
             <text class="azeotrope" x="39" y="43" text-anchor="middle">{t("azeotrope")}</text>
           {/if}
         </g>
+      {:else if effect.operation === "drain"}
+        <g
+          class="separator"
+          transform={`translate(${midpoint.x - 15} ${midpoint.y - 15})`}
+          style={`--lower:${effect.drain?.lowerColour ?? effect.fluidColour ?? "var(--cool)"};--upper:${effect.drain?.upperColour ?? "color-mix(in srgb, var(--cool) 20%, white)"};--drain-rate:${Math.max(.42, 1.25 - effect.magnitude * .7)}s`}
+        >
+          <path class="separator-stand" d="M 29 -7 V 38 M 24 38 H 34 M 20 4 H 29" />
+          <path class="separator-glass" d="M 7 0 H 19 L 21 5 Q 26 16 13 28 Q 0 16 5 5 Z M 13 28 V 34" />
+          <path class="upper-layer" d="M 4.5 8 Q 13 10 21.5 8 Q 23 16 18 21 H 8 Q 3 16 4.5 8 Z" />
+          <path class="lower-layer" d="M 8 21 H 18 Q 16 25 13 28 Q 10 25 8 21 Z" />
+          <path class="stopcock" d="M 8 32 H 18 M 13 30 V 35" />
+          <path class="drain-jet" d="M 13 35 V 44" />
+          <text x="13" y="-4" text-anchor="middle">{t(effect.drain?.solvent ?? "")}</text>
+          <text x="13" y="50" text-anchor="middle">{((effect.drain?.moles ?? 0) * 1000).toPrecision(2)} mmol</text>
+        </g>
       {/if}
       <path class="pour-glow" d={path} pathLength="1" style={`--duration:${duration};--stream:${2 + effect.magnitude * 5}px`} />
       <path class="pour-stream" d={path} pathLength="1" style={`--duration:${duration};--stream:${1 + effect.magnitude * 2.5}px`} />
@@ -143,6 +158,14 @@
   .condenser text { fill: var(--ink); font: 700 5px system-ui, sans-serif; paint-order: stroke; stroke: var(--surface); stroke-width: 2px; }
   .condenser .azeotrope { fill: var(--hot); }
   .condensate-drop { fill: color-mix(in srgb, var(--cool) 35%, white); stroke: var(--cool); stroke-width: .5; animation: condenser-drop var(--condense-rate) ease-in infinite; }
+  .separator-stand, .separator-glass, .separator .stopcock { fill: none; stroke: var(--edge-strong); stroke-linecap: round; stroke-linejoin: round; }
+  .separator-stand { stroke-width: 1.8; }
+  .separator-glass { stroke-width: 1.5; }
+  .separator .stopcock { stroke-width: 1.7; transform-origin: 13px 32px; animation: stopcock-open .55s ease-out both; }
+  .separator .upper-layer { fill: var(--upper); fill-opacity: .72; stroke: none; }
+  .separator .lower-layer { fill: var(--lower); fill-opacity: .85; stroke: none; }
+  .separator .drain-jet { fill: none; stroke: var(--lower); stroke-width: calc(1px + var(--stream, 1px)); stroke-linecap: round; stroke-dasharray: 4 2; animation: drain-jet var(--drain-rate) linear infinite; }
+  .separator text { fill: var(--ink); font: 700 5px system-ui, sans-serif; paint-order: stroke; stroke: var(--surface); stroke-width: 2px; }
   .cable { fill: none; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 10 5; animation: current 1s linear infinite; }
   .cable.positive { stroke: var(--danger); } .cable.negative { stroke: var(--primary); animation-direction: reverse; }
   .meter rect { fill: var(--surface); stroke: var(--instrument); stroke-width: 2; }
@@ -152,6 +175,8 @@
   @keyframes land { 0%, 58% { opacity: 0; } 72% { opacity: 0.7; } 100% { opacity: 0; } }
   @keyframes current { to { stroke-dashoffset: -30; } }
   @keyframes condenser-drop { from { opacity: 0; transform: translate(-4px, -2px); } 35% { opacity: 1; } to { opacity: 0; transform: translate(5px, 13px); } }
+  @keyframes stopcock-open { from { transform: rotate(90deg); } }
+  @keyframes drain-jet { to { stroke-dashoffset: -12; } }
   @keyframes settle-grain { from { opacity: 0; transform: translateY(-4px); } }
   @media (prefers-reduced-motion: reduce) { .bench-effect { display: none; } }
 </style>

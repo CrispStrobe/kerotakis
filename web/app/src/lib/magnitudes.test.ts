@@ -179,6 +179,18 @@ describe("effectFromEvent", () => {
     expect(vesselOf({ event: "cell_voltage", anode: 2, cathode: 4 })).toBe(2);
   });
 
+  it("keeps the engine-selected lower-layer cut for a separatory funnel", () => {
+    const e = effectFromEvent({ event: "drained", from: 0, to: 2, solvent: "water", moles: .35 });
+    expect(e).toMatchObject({
+      kind: "pour",
+      source: 0,
+      target: 2,
+      operation: "drain",
+      drain: { solvent: "water", moles: .35 },
+    });
+    expect(e!.magnitude).toBeGreaterThan(.1);
+  });
+
   it("returns null for unknown events", () => {
     expect(effectFromEvent({ event: "thermal_equilibrium", vessel: 0 })).toBeNull();
   });
