@@ -61,6 +61,14 @@ fi
 
 step "tests";         cargo test --workspace
 step "wasm32";        cargo build -p kerotakis-wasm --target wasm32-unknown-unknown
+# The three i18n gates. Seconds each, and each one caught something real
+# while this was being built: a key shared by two different sentences (which
+# renders the WRONG sentence, not a missing one), a placeholder nothing
+# fills (which renders as literal `{name}` on screen), and a catalogue
+# drifting behind the source it translates.
+step "i18n catalogue"; python3 tools/codex-locale-lint.py --check
+step "i18n engine";    python3 tools/engine-locale-lint.py --check
+step "i18n holes";     python3 tools/i18n-holes-lint.py --check
 step "codex lint";    cargo run --release -p kerotakis-cli -- codex lint
 step "provenance";    cargo run --release -p kerotakis-cli -- provenance lint
 step "sweep";         cargo run --release -p kerotakis-cli -- sweep
