@@ -810,6 +810,82 @@
       }
     ]
   },
+  "magic-milk": {
+    "event_count": 14,
+    "events_sample": [
+      "v1: +103.000 g whole_milk (1 known ingredients)",
+      "v1: +0.200 g food_colour_red (2 known ingredients)",
+      "v1: +0.200 g food_colour_yellow (2 known ingredients)",
+      "v1: +0.200 g food_colour_blue (2 known ingredients)",
+      "v1: +0.515 g dish_soap (1 known ingredients)",
+      "v1: 3 surface colour spot(s) spread from 0% to 90%",
+      "v2: new vessel",
+      "v2: +103.000 g whole_milk (1 known ingredients)",
+      "v2: +0.200 g food_colour_red (2 known ingredients)",
+      "v2: +0.200 g food_colour_yellow (2 known ingredients)",
+      "v2: +0.200 g food_colour_blue (2 known ingredients)",
+      "v2: magnetic stirrer 300 rpm for 2 s — bar tip 0.393 m/s; 93% resuspension",
+      "v2: homogenized 3 surface colour spot(s)",
+      "v2: +0.515 g dish_soap (1 known ingredients)"
+    ],
+    "lesson": "magic-milk.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 3.6e-7,
+            "phase": "Aqueous",
+            "species": "betanin"
+          },
+          {
+            "moles": 5.4e-7,
+            "phase": "Aqueous",
+            "species": "curcumin"
+          },
+          {
+            "moles": 4.3e-7,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 5.03033028,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 3.6e-7,
+            "phase": "Aqueous",
+            "species": "betanin"
+          },
+          {
+            "moles": 5.4e-7,
+            "phase": "Aqueous",
+            "species": "curcumin"
+          },
+          {
+            "moles": 4.3e-7,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 5.03033028,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "milk-curds": {
     "event_count": 6,
     "events_sample": [
