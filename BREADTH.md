@@ -567,10 +567,10 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   six immediately inherit real dissolution, carbonate-acid or electrochemical
   routes where applicable; geometry remains explicit metadata rather than an
   invented kinetic multiplier. Aluminium foil deliberately retains the
-  engine's passivation/model boundary. Steel wool and Epsom salt remain open:
-  ordinary steel needs alloy/surface oxidation and dry Epsom crystals need an
-  honest magnesium-sulfate-heptahydrate phase instead of liquid water hidden in
-  a fake dry recipe. Bare `salt`/`Salz` remains unclaimed as a chemical class.
+  engine's passivation/model boundary. Epsom salt remains open: dry crystals
+  need an honest magnesium-sulfate-heptahydrate phase instead of liquid water
+  hidden in a fake dry recipe. Bare `salt`/`Salz` remains unclaimed as a
+  chemical class.
 - **Checkpoint 27 implemented:** named 5% white vinegar plus the named
   calcium-carbonate chalk object now reaches a balanced portable reaction,
   `CaCO3 + 2 CH3COOH -> Ca2+ + 2 CH3COO- + H2O + CO2`, rather than depending
@@ -580,6 +580,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   discoverable `chalk-vinegar.lab` compares water and vinegar controls so the
   browser's existing chemistry-driven bubbles visualize only the reacting
   vessel; it does not claim a kinetic bubble-size distribution.
+- **Checkpoint 28 implemented:** localized steel wool/`Stahlwolle` is a
+  conserved surrogate with 98% resolved iron and a visible 2% unresolved
+  alloy/coating remainder. Naming hematite (`Fe2O3`) in the runtime registry
+  unlocks the existing NASA-CEA open-air Gibbs route: ignition consumes the
+  iron, draws finite oxygen from the explicit atmospheric reservoir, produces
+  reddish-brown iron(III) oxide, computes released energy and drives the real
+  ignition visual. The fibrous form explains the familiar demonstration but
+  does not yet claim a measured surface-area rate; a nail and steel wool still
+  share the explicit ignition-zone threshold until surface kinetics land.
 
 ## Stage B2 — organic structure and curated reaction families
 
