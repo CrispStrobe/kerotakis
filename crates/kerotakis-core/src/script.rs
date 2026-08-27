@@ -19,6 +19,7 @@ use crate::vessel::VesselId;
 /// Aliases share their canonical verb's row.
 pub const VERBS: &[(&str, &str)] = &[
     ("new", "new"),
+    ("remove", "remove v1"),
     ("add", "add v1 water 100mL"),
     ("heat", "heat v1 10kJ"),
     ("cool", "cool v1 10kJ"),
@@ -145,6 +146,14 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 }
             }
         },
+        "remove" => {
+            if words.len() != 2 {
+                return Err("usage: remove <vessel>".into());
+            }
+            Operator::RemoveVessel {
+                vessel: parse_vessel(words[1])?,
+            }
+        }
         "add" => {
             if words.len() < 4 {
                 return Err("usage: add <vessel> <species> <amount><mol|g|mL> [@ <T>C]".into());

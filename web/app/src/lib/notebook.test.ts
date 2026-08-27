@@ -8,6 +8,7 @@ describe("notebook export", () => {
       { kind: "command", text: "add v1 water 100mL" },
       { kind: "line", text: "You add water to v1." },
       { kind: "note", text: "speaking at lv2" },
+      { kind: "user-note", text: "The precipitate settled slowly.", createdAt: "2026-08-27T08:00:00.000Z" },
       { kind: "hazard", severity: "danger", text: "chloramine — do not mix at home" },
       { kind: "error", text: "no such species" },
       {
@@ -37,6 +38,8 @@ describe("notebook export", () => {
     expect(md).toContain("kero> add v1 water 100mL");
     expect(md).toContain("You add water to v1.");
     expect(md).toContain("*speaking at lv2*");
+    expect(md).toContain("**my note · 2026-08-27T08:00:00.000Z**");
+    expect(md).toContain("The precipitate settled slowly.");
     expect(md).toContain("> **danger** — chloramine");
     expect(md).toContain("> no such species");
     expect(md).toContain("### titration");
