@@ -85,7 +85,10 @@ pub use instrument::{
 pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use orchestrator::Orchestrator;
-pub use render::{render_event, render_events, render_vessel, render_vessel_in, Register};
+pub use render::{
+    render_event, render_event_in, render_events, render_events_in, render_vessel,
+    render_vessel_in, Register,
+};
 pub use scene::{scene, scene_of, scene_vessel, Scene, SceneVessel};
 pub use solve::{
     equilibrate_phase_coupled, Applicability, CapabilityReport, Equilibrator, HonestyEquilibrator,

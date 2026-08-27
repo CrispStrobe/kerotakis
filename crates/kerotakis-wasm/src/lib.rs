@@ -19,7 +19,7 @@
 pub mod worker;
 
 use kerotakis_core::{
-    render_events, render_vessel_in, Bench, Equilibrator, Event, Locale, Operator, Register,
+    render_events_in, render_vessel_in, Bench, Equilibrator, Event, Locale, Operator, Register,
     SolverStack,
 };
 use wasm_bindgen::prelude::*;
@@ -174,7 +174,7 @@ impl Lab {
         let op: Operator =
             serde_json::from_str(operator_json).map_err(|e| JsError::new(&e.to_string()))?;
         let events = self.run(op)?;
-        let rendered = render_events(&events, self.register);
+        let rendered = render_events_in(&events, self.register, self.locale);
         let charts = kerotakis_core::chart::charts_for_events(&events);
         let doc = serde_json::json!({
             "events": events,
@@ -204,7 +204,7 @@ impl Lab {
                 Ok(None) => {}
                 Ok(Some(op)) => {
                     let events = self.run(op.clone())?;
-                    let rendered = render_events(&events, self.register);
+                    let rendered = render_events_in(&events, self.register, self.locale);
                     let charts = kerotakis_core::chart::charts_for_events(&events);
                     steps.push(serde_json::json!({
                         "operator": op,

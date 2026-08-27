@@ -265,9 +265,14 @@ fn redox_words(solution: Option<&SolutionInfo>) -> Option<String> {
 /// cannot use the distinction between them anyway. lv2 and above keep
 /// every line, because there the notes render distinctly.
 pub fn render_events(events: &[Event], register: Register) -> Vec<String> {
+    render_events_in(events, register, Locale::EN)
+}
+
+/// `render_events`, in the reader's language.
+pub fn render_events_in(events: &[Event], register: Register, locale: Locale) -> Vec<String> {
     let mut out: Vec<String> = Vec::new();
     for event in events.iter().filter(|e| e.is_observable()) {
-        let line = render_event(event, register);
+        let line = render_event_in(event, register, locale);
         if register.level() == 1 && out.contains(&line) {
             continue;
         }
@@ -277,14 +282,39 @@ pub fn render_events(events: &[Event], register: Register) -> Vec<String> {
 }
 
 pub fn render_event(event: &Event, register: Register) -> String {
+    render_event_in(event, register, Locale::EN)
+}
+
+/// `render_event`, in the reader's language.
+///
+/// The old signature keeps meaning English so the eight existing callers —
+/// mostly tests asserting on English prose — need no change, the same
+/// reasoning as `render_vessel_in`.
+pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> String {
     match event {
         Event::VesselCreated { vessel } => match register.level() {
-            1 => format!("A fresh beaker appears on the bench: {vessel}."),
-            _ => format!("{vessel}: new vessel"),
+            1 => locale.fill(
+                "event.vessel-created.lv1",
+                "A fresh beaker appears on the bench: {vessel}.",
+                &[("vessel", &vessel.to_string())],
+            ),
+            _ => locale.fill(
+                "event.vessel-created.lv2",
+                "{vessel}: new vessel",
+                &[("vessel", &vessel.to_string())],
+            ),
         },
         Event::VesselRemoved { vessel } => match register.level() {
-            1 => format!("The empty {vessel} goes back into storage."),
-            _ => format!("{vessel}: empty vessel removed"),
+            1 => locale.fill(
+                "event.vessel-removed.lv1",
+                "The empty {vessel} goes back into storage.",
+                &[("vessel", &vessel.to_string())],
+            ),
+            _ => locale.fill(
+                "event.vessel-removed.lv2",
+                "{vessel}: empty vessel removed",
+                &[("vessel", &vessel.to_string())],
+            ),
         },
         Event::Added {
             vessel,
@@ -293,14 +323,33 @@ pub fn render_event(event: &Event, register: Register) -> String {
             total_after,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            let named = locale.lookup(&format!("species.{name}")).unwrap_or(name);
             match register.level() {
-                1 => format!("You add {name} to {vessel}."),
+                1 => locale.fill(
+                    "event.added.lv1",
+                    "You add {what} to {vessel}.",
+                    &[("what", named), ("vessel", &vessel.to_string())],
+                ),
                 2 => match total_after {
-                    Some(total) if (total.0 - moles.0).abs() > 1e-12 => format!(
-                        "{vessel}: +{:.4} mol {name} — {:.4} mol now in vessel",
-                        moles.0, total.0
+                    Some(total) if (total.0 - moles.0).abs() > 1e-12 => locale.fill(
+                        "event.added.lv2-total",
+                        "{vessel}: +{amount} mol {what} — {total} mol now in vessel",
+                        &[
+                            ("vessel", &vessel.to_string()),
+                            ("amount", &locale.number(format!("{:.4}", moles.0))),
+                            ("what", named),
+                            ("total", &locale.number(format!("{:.4}", total.0))),
+                        ],
                     ),
-                    _ => format!("{vessel}: +{:.4} mol {name}", moles.0),
+                    _ => locale.fill(
+                        "event.added.lv2",
+                        "{vessel}: +{amount} mol {what}",
+                        &[
+                            ("vessel", &vessel.to_string()),
+                            ("amount", &locale.number(format!("{:.4}", moles.0))),
+                            ("what", named),
+                        ],
+                    ),
                 },
                 _ => {
                     let extra = species::lookup(sid)

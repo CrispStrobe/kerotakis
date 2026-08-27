@@ -79,3 +79,17 @@ ethanol = "Ethanol"
 sulfur = "Schwefel"
 catalase = "Katalase"
 "manganese dioxide" = "Mangandioxid"
+
+# The journal — what the learner reads while working.
+#
+# lv1 and lv2 are different sentences, not different wordings of one, so
+# they carry separate keys. Placeholders are named, so a translation may
+# put them in any order German wants.
+[event]
+"vessel-created.lv1" = "Ein frisches Becherglas erscheint auf dem Labortisch: {vessel}."
+"vessel-created.lv2" = "{vessel}: neues Gefäß"
+"vessel-removed.lv1" = "Das leere Gefäß {vessel} kommt zurück in den Schrank."
+"vessel-removed.lv2" = "{vessel}: leeres Gefäß entfernt"
+"added.lv1" = "Du gibst {what} in {vessel}."
+"added.lv2" = "{vessel}: +{amount} mol {what}"
+"added.lv2-total" = "{vessel}: +{amount} mol {what} — jetzt {total} mol im Gefäß"

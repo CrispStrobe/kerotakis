@@ -142,3 +142,46 @@ fn english_contents_rows_are_unchanged() {
     assert!(row.contains("water"), "{row}");
     assert!(row.contains("Liquid"), "{row}");
 }
+
+/// One "you added water" event, for the journal tests.
+fn water_added() -> kerotakis_core::ops::Event {
+    use kerotakis_core::ops::Event;
+    use kerotakis_core::species::SpeciesId;
+    use kerotakis_core::Moles;
+
+    Event::Added {
+        vessel: VesselId(0),
+        species: SpeciesId("water".into()),
+        moles: Moles(11.0686),
+        total_after: None,
+    }
+}
+
+#[test]
+fn the_journal_speaks_german_and_counts_in_german() {
+    use kerotakis_core::render::render_event_in;
+
+    let de = Locale::parse("de");
+    let event = water_added();
+
+    let lv1 = render_event_in(&event, Register::LV1, de);
+    assert!(lv1.contains("Du gibst"), "{lv1}");
+    assert!(lv1.contains("Wasser"), "{lv1}");
+    assert!(!lv1.contains("You add"), "{lv1}");
+
+    // The decimal comma is what the shell's regex layer cannot do: by the
+    // time a line reaches engineText.ts the number is already formatted.
+    // So a comma here is proof the sentence came from the catalogue.
+    let lv2 = render_event_in(&event, Register::LV2, de);
+    assert!(lv2.contains("11,0686"), "wanted a comma: {lv2}");
+    assert!(!lv2.contains("11.0686"), "the point survived: {lv2}");
+}
+
+#[test]
+fn the_english_journal_is_untouched() {
+    use kerotakis_core::render::render_event;
+
+    let event = water_added();
+    assert_eq!(render_event(&event, Register::LV1), "You add water to v1.");
+    assert!(render_event(&event, Register::LV2).contains("11.0686"));
+}
