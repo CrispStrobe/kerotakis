@@ -14,6 +14,7 @@
     type CodexEntry,
   } from "../codex";
   import type { Session } from "../session.svelte";
+  import { t, tSlug } from "../i18n.svelte";
 
   let {
     entries,
@@ -80,25 +81,24 @@
   onclick={onclose}
   onkeydown={(e) => e.key === "Escape" && onclose()}
 >
-  <section
+  <dialog open
     class="map"
-    role="dialog"
     aria-modal="true"
-    aria-label="concept map"
+    aria-label={t("concept map")}
     onclick={(e) => e.stopPropagation()}
   >
     <header>
-      <h2>concept map</h2>
+      <h2>{t("concept map")}</h2>
       <span class="hint">
-        {met.size} of {graph.nodes.length} concepts met — filled means run to a green check here
+        {t("{met} of {total} concepts met — filled means run to a green check here", { met: met.size, total: graph.nodes.length })}
       </span>
-      <button class="close" onclick={onclose}>close</button>
+      <button class="close" onclick={onclose}>{t("close")}</button>
     </header>
     {#if graph.nodes.length === 0}
-      <p class="empty">the codex export has not arrived yet — the map draws itself from it</p>
+      <p class="empty">{t("the codex export has not arrived yet — the map draws itself from it")}</p>
     {:else}
       <div class="scroll">
-        <svg width={layout.width} height={layout.height} role="img" aria-label="concept graph">
+        <svg width={layout.width} height={layout.height} role="img" aria-label={t("concept graph")}>
           {#each shownEdges as e (e.from + "→" + e.to)}
             <path class="edge" d={edgePath(e)} />
           {/each}
@@ -112,7 +112,7 @@
                   class:on={picked === n.concept}
                   onclick={() => (picked = picked === n.concept ? null : n.concept)}
                 >
-                  {n.concept.replace(/-/g, " ")}
+                  {t(n.concept.replace(/-/g, " "))}
                   <small>{n.count}</small>
                 </button>
               </foreignObject>
@@ -122,20 +122,20 @@
       </div>
       {#if picked}
         <div class="teach">
-          <h3>{picked.replace(/-/g, " ")}</h3>
+          <h3>{t(picked.replace(/-/g, " "))}</h3>
           <ul>
             {#each teaching as e (e.id)}
               <li>
                 <button class="entry" onclick={() => onopenentry(e)}>
                   <span class="ready" class:ok={entryReady(e, met)}>
-                    {entryReady(e, met) ? "ready" : "locked"}
+                    {entryReady(e, met) ? t("ready") : t("locked")}
                   </span>
-                  {e.id.replace(/-/g, " ")}
+                  {t(e.id.replace(/-/g, " "))}
                   {#if session.completedExperiments.has(e.id)}<span class="done">✓</span>{/if}
                 </button>
                 {#if !entryReady(e, met)}
                   <span class="needs">
-                    needs: {(e.requires ?? []).filter((r) => !met.has(r)).join(", ")}
+                    {t("needs: {concepts}", { concepts: (e.requires ?? []).filter((r) => !met.has(r)).map(tSlug).join(", ") })}
                   </span>
                 {/if}
               </li>
@@ -144,7 +144,7 @@
         </div>
       {/if}
     {/if}
-  </section>
+  </dialog>
 </div>
 
 <style>
@@ -158,6 +158,9 @@
     padding: 1rem;
   }
   .map {
+    position: static;
+    margin: 0;
+    color: var(--ink);
     background: var(--bg);
     border: 1px solid var(--edge);
     border-radius: 12px;

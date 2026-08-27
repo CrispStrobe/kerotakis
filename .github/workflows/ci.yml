@@ -25,7 +25,10 @@ jobs:
       - name: Install cargo-deny
         run: cargo install cargo-deny --locked
       - name: Run tools/preflight.sh
-        run: bash tools/preflight.sh
+        # --no-clippy: the `Test (native)` matrix above already runs the
+        # identical clippy command on ubuntu and macOS, so this would be
+        # a third full workspace lint for no extra coverage.
+        run: bash tools/preflight.sh --no-clippy
 
   test:
     name: Test (native)
@@ -242,6 +245,18 @@ jobs:
       # ArrayBuffer, which Node does not reproduce at all.
       - name: Run the page headlessly
         run: node tools/test-web-demo.mjs "$RUNNER_TEMP/site"
+      # Served from a SUBPATH, because that is how Pages serves it and a
+      # root-served manifest hides every relative-URL bug in it. Checks the
+      # facts only a browser knows: the worker's scope, where start_url
+      # actually resolves, and whether /app/ boots with the network cut.
+      - name: The bench is an installable, offline-first PWA
+        run: node tools/test-pwa.mjs "$RUNNER_TEMP/site"
+      # A coverage count cannot see this. Both t() and tEngine() fall back
+      # to English per string, by design, so a key the component asks for
+      # under a name nobody translated renders English while every lint
+      # reports 100%. Only a browser knows which names it actually asks for.
+      - name: The German build renders German
+        run: node tools/test-i18n-render.mjs "$RUNNER_TEMP/site"
       - name: Package the site
         uses: actions/upload-pages-artifact@v3
         with:

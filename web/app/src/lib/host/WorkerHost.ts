@@ -105,6 +105,11 @@ export class WorkerHost implements EngineHost {
     return JSON.parse(await this.channel.request("calc", { name, args }));
   }
 
+  async loadPack(bytes: Uint8Array) {
+    // The buffer crosses by structured clone; the worker re-wraps it.
+    return JSON.parse(await this.channel.request("load_pack", { bytes: bytes.buffer }));
+  }
+
   async snapshot(): Promise<string> {
     const doc = JSON.parse(await this.channel.request("snapshot")) as { snapshot: string };
     return doc.snapshot;
@@ -112,6 +117,10 @@ export class WorkerHost implements EngineHost {
 
   async restore(snapshot: string): Promise<void> {
     await this.channel.request("restore", { snapshot });
+  }
+
+  async setLocale(code: string): Promise<void> {
+    await this.channel.request("set_locale", { code });
   }
 
   async setRegister(level: string): Promise<void> {

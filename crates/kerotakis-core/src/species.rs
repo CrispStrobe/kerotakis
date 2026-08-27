@@ -57,8 +57,7 @@ pub enum Phase {
 /// into a reagent bottle, computed rather than painted.
 pub fn shelf_swatch(s: &SpeciesData) -> (Option<[u8; 3]>, Option<[u8; 3]>) {
     let reflective = s.colour.map(|c| [c.r, c.g, c.b]);
-    let solution = s.spectrum.map(|f| {
-        let eps = f();
+    let solution = s.spectrum.map(|eps| {
         let mut a = [0.0f64; crate::spectrum::BANDS];
         for (band, e) in a.iter_mut().zip(eps.iter()) {
             *band = e * 0.1 * 1.0;
@@ -102,7 +101,7 @@ pub struct SpeciesData {
     /// rather than tinted — so mixtures compose, concentration changes
     /// hue, and path length matters.
     #[serde(skip, default)]
-    pub spectrum: Option<fn() -> crate::spectrum::Spectrum>,
+    pub spectrum: Option<&'static crate::spectrum::Spectrum>,
     /// Enthalpy of dissolution in water, kJ/mol, positive = endothermic.
     /// Feeds the vessel energy balance: dissolving NaOH warms the beaker,
     /// dissolving ammonium nitrate would cool it. `None` = not curated yet
@@ -189,10 +188,62 @@ fn lookup_index() -> &'static std::collections::HashMap<&'static str, &'static S
     INDEX.get_or_init(|| registry().iter().map(|s| (s.key, s)).collect())
 }
 
+// ── DATA-010: the loaded-species overlay ────────────────────────────
+// Pack-loaded species live beside the compiled REGISTRY: the static
+// table stays zero-cost, and loaded entries are leaked once per pack
+// per session. Built-ins always win a key collision — a pack cannot
+// silently redefine the chemistry the tests pinned.
+
+fn loaded_index(
+) -> &'static std::sync::RwLock<std::collections::HashMap<String, &'static SpeciesData>> {
+    use std::sync::OnceLock;
+    static LOADED: OnceLock<
+        std::sync::RwLock<std::collections::HashMap<String, &'static SpeciesData>>,
+    > = OnceLock::new();
+    LOADED.get_or_init(|| std::sync::RwLock::new(std::collections::HashMap::new()))
+}
+
+/// Register pack-loaded species. Returns (added, skipped): built-ins
+/// and already-loaded keys are skipped, never replaced.
+pub fn register_loaded(list: Vec<SpeciesData>) -> (usize, usize) {
+    let mut added = 0;
+    let mut skipped = 0;
+    let mut map = loaded_index().write().expect("loaded-species lock");
+    for s in list {
+        if lookup_index().contains_key(s.key) || map.contains_key(s.key) {
+            skipped += 1;
+            continue;
+        }
+        let leaked: &'static SpeciesData = Box::leak(Box::new(s));
+        map.insert(leaked.key.to_string(), leaked);
+        added += 1;
+    }
+    (added, skipped)
+}
+
+/// Every species the lab knows: the compiled registry plus everything
+/// loaded from packs — the shelf's honest inventory.
+pub fn all_species() -> Vec<&'static SpeciesData> {
+    let map = loaded_index().read().expect("loaded-species lock");
+    registry().iter().chain(map.values().copied()).collect()
+}
+
+/// How many pack-loaded species are active.
+pub fn loaded_count() -> usize {
+    loaded_index().read().expect("loaded-species lock").len()
+}
+
 pub fn lookup(id: &SpeciesId) -> Option<&'static SpeciesData> {
-    lookup_index().get(id.0.as_str()).copied()
+    lookup_key(id.0.as_str())
 }
 
 pub fn lookup_key(key: &str) -> Option<&'static SpeciesData> {
-    lookup_index().get(key).copied()
+    if let Some(s) = lookup_index().get(key).copied() {
+        return Some(s);
+    }
+    loaded_index()
+        .read()
+        .expect("loaded-species lock")
+        .get(key)
+        .copied()
 }

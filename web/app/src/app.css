@@ -1,44 +1,94 @@
-/* Design tokens. Dark is the house look (the legacy console's palette);
-   light is derived, and the OS preference decides. Colour never carries
-   meaning alone anywhere in the app. */
+/* Bright scientific workshop. The semantic aliases at the bottom keep every
+   existing component on the same system while the shell migrates to the more
+   descriptive token names. Engine-computed material colours are deliberately
+   outside this palette. */
 :root {
-  --bg: #14120f;
-  --panel: #1c1a16;
-  --panel-raised: #26231d;
-  --edge: #322e27;
-  --edge-strong: #6b6456;
-  --ink: #e8e2d6;
-  --dim: #948c7d;
-  --hot: #d98a4a;
-  --cool: #6fa8c7;
-  --good: #86b06a;
-  --warn: #c9a227;
-  --bad: #d2694f;
-  --cloud: #f2efe8;
-  --bench-top: #4a4337;
-  --bench-front: #3a352c;
-  --shadow: rgb(0 0 0 / 35%);
+  color-scheme: light;
+  --lab-bg: #f4faff;
+  --surface: #ffffff;
+  --surface-raised: #eaf4fb;
+  --bench: #d8e9f2;
+  --ink: #17324d;
+  --ink-muted: #5d7488;
+  --edge: #b7cedd;
+  --edge-strong: #6f91a8;
+  --primary: #2f70e8;
+  --instrument: #0e7180;
+  --action: #a94f00;
+  --discovery: #7656d6;
+  --success: #247a50;
+  --warning: #a65a00;
+  --danger: #c63f4a;
+  --glass: #ffffff;
+  --bench-front-color: #b9d4e2;
+  --shadow: rgb(23 50 77 / 16%);
+  --shadow-strong: rgb(23 50 77 / 24%);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --focus: #2f70e8;
+
+  /* Compatibility names used by the existing component set. */
+  --bg: var(--lab-bg);
+  --panel: var(--surface);
+  --panel-raised: var(--surface-raised);
+  --dim: var(--ink-muted);
+  --hot: var(--action);
+  --cool: var(--instrument);
+  --good: var(--success);
+  --warn: var(--warning);
+  --bad: var(--danger);
+  --cloud: var(--glass);
+  --bench-top: var(--bench);
+  --bench-front: var(--bench-front-color);
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg: #f6f3ec;
-    --panel: #efeae0;
-    --panel-raised: #e5dfd2;
-    --edge: #d4ccbc;
-    --edge-strong: #8a8172;
-    --ink: #262319;
-    --dim: #6f6758;
-    --hot: #b05f1f;
-    --cool: #2f6f94;
-    --good: #4f7a33;
-    --warn: #8a6d10;
-    --bad: #a83c22;
-    --cloud: #ffffff;
-    --bench-top: #c9bda6;
-    --bench-front: #b3a68e;
-    --shadow: rgb(60 50 30 / 25%);
-  }
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --lab-bg: #101d2b;
+    --surface: #17283a;
+    --surface-raised: #20364b;
+    --bench: #29475a;
+    --ink: #eaf5fc;
+    --ink-muted: #a9bece;
+    --edge: #45647a;
+    --edge-strong: #7593a8;
+    --primary: #78aaff;
+    --instrument: #55d0d8;
+    --action: #ffb35c;
+    --discovery: #a98cff;
+    --success: #57ce91;
+    --warning: #ffc15a;
+    --danger: #ff7b84;
+    --glass: #f6fbff;
+    --bench-front-color: #20394b;
+    --shadow: rgb(0 0 0 / 28%);
+    --shadow-strong: rgb(0 0 0 / 42%);
+    --focus: #78aaff;
+}
+
+:root[data-theme="contrast"] {
+  color-scheme: light;
+  --lab-bg: #ffffff;
+  --surface: #ffffff;
+  --surface-raised: #edf4f8;
+  --bench: #d8e9f2;
+  --ink: #081c2c;
+  --ink-muted: #2d4659;
+  --edge: #36566d;
+  --edge-strong: #17324d;
+  --primary: #004fd7;
+  --instrument: #00606e;
+  --action: #8d3e00;
+  --discovery: #5732bd;
+  --success: #006a3e;
+  --warning: #784000;
+  --danger: #a51f32;
+  --glass: #ffffff;
+  --bench-front-color: #afcad9;
+  --shadow: rgb(8 28 44 / 20%);
+  --shadow-strong: rgb(8 28 44 / 34%);
+  --focus: #004fd7;
 }
 
 * {
@@ -52,14 +102,39 @@ body {
 
 body {
   margin: 0;
-  background: var(--bg);
+  background:
+    radial-gradient(circle at 15% -10%, color-mix(in srgb, var(--primary) 13%, transparent), transparent 32rem),
+    var(--lab-bg);
   color: var(--ink);
-  font:
-    15px/1.55 ui-monospace,
-    SFMono-Regular,
-    Menlo,
-    Consolas,
-    monospace;
+  font: 15px/1.45 Inter, ui-rounded, "SF Pro Rounded", "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button,
+select,
+input {
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--focus) 68%, transparent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--primary) 26%, transparent);
 }
 
 #app {
@@ -67,6 +142,28 @@ body {
   flex-direction: column;
   height: 100vh;
   height: 100dvh;
+  /* Installed as a PWA, the bench draws under the status bar and the home
+     indicator — that is what `viewport-fit=cover` plus a translucent
+     status bar buy. Spend the insets once here so every pane inherits a
+     safe box.
+     In a browser tab they are all zero. They are also all zero in the
+     Tauri iOS shell — measured, not assumed: the webview there reports
+     `env(safe-area-inset-*)` as 0px on every side because it is not laid
+     out edge-to-edge in the first place (see PACKAGING.md). So this is
+     inert in the packaged app and load-bearing only on the web. */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 /* GUI-023: the one visual encoding of the engine's confidence vocabulary,
@@ -101,7 +198,10 @@ body {
   .shelf-pane,
   .bench-pane,
   .transfer-banner,
-  .lesson {
+  .update-banner,
+  .lesson,
+  .utility-drawer,
+  .pane-heading {
     display: none !important;
   }
   main,

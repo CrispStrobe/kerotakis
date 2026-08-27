@@ -13,7 +13,9 @@ mod schema;
 mod validate;
 
 pub use model_pack::{ModelPackManifest, PackContents, PackLane, PackRejectReason};
-pub use pack::{load_pack, serialize_pack_payload, PackError, PACK_MAGIC, PACK_VERSION};
+pub use pack::{
+    build_pack, load_pack, serialize_pack_payload, PackError, PACK_MAGIC, PACK_VERSION,
+};
 pub use resolve::{resolve_phase_property, Conditions, Resolution, ResolvedValue, Rung};
 pub use schema::*;
 pub use validate::{ValidationError, ValidationIssue};

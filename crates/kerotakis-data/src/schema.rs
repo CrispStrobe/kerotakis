@@ -33,6 +33,246 @@ pub struct RegistryDocument {
     pub microstates: Vec<MicrostateRecord>,
     #[serde(default)]
     pub model_parameters: Vec<ModelParameterRecord>,
+    /// Familiar named mixtures and objects. Recipes remain distinct from
+    /// canonical species identities and expand into those identities only
+    /// when material is dispensed.
+    #[serde(default)]
+    pub material_recipes: Vec<MaterialRecipe>,
+}
+
+/// A versioned, reviewable description of a familiar mixture or object.
+///
+/// Fractions all use the recipe's common basis. A ranged recipe samples one
+/// deterministic position through every component interval; this preserves
+/// correlations and never invents ambient randomness. Any balance that is not
+/// chemically resolved remains explicit in `unresolved_fraction`.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MaterialRecipe {
+    pub id: String,
+    pub version: u32,
+    pub canonical_key: String,
+    pub name: String,
+    /// BCP-47 language tag to aliases in that language (for example `en` and
+    /// `de`). The canonical key is always accepted independently.
+    #[serde(default)]
+    pub aliases: BTreeMap<String, Vec<String>>,
+    pub basis: MaterialBasis,
+    /// Bulk density for converting a dispensed volume into the recipe basis.
+    /// Required when a mass-fraction recipe accepts mL input; absent means the
+    /// caller must use the native basis rather than guessing a density.
+    #[serde(default)]
+    pub bulk_density: Option<NumericRecord>,
+    pub components: Vec<MaterialComponent>,
+    #[serde(default)]
+    pub unresolved_fraction: Option<FractionRange>,
+    pub physical_form: MaterialPhysicalForm,
+    /// Bounded functional behavior supplied by the named material rather than
+    /// by any one resolved molecule (for example a proprietary detergent's
+    /// ability to stabilize foam).
+    #[serde(default)]
+    pub roles: Vec<MaterialRole>,
+    #[serde(default)]
+    pub preparation: Option<String>,
+    #[serde(default)]
+    pub lot_assumptions: Vec<String>,
+    #[serde(default)]
+    pub substitutions: Vec<MaterialSubstitution>,
+    pub confidence: MaterialConfidence,
+    pub expansion_policy: MaterialExpansionPolicy,
+    pub evidence: Evidence,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum MaterialBasis {
+    MassFraction,
+    MoleFraction,
+    VolumeFraction,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MaterialComponent {
+    pub species_id: String,
+    pub fraction: FractionRange,
+    pub evidence: Evidence,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct FractionRange {
+    pub lower: f64,
+    pub upper: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "snake_case")]
+pub enum MaterialPhysicalForm {
+    HomogeneousLiquid,
+    Suspension,
+    Powder,
+    Granules,
+    BulkSolid,
+    GasMixture,
+    CompositeObject {
+        #[serde(default)]
+        geometry: Option<MaterialGeometry>,
+    },
+    Other {
+        description: String,
+    },
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "snake_case")]
+pub enum MaterialRole {
+    /// Empirical bridge from gas made by chemistry to a foam visual. Values
+    /// are recipe-level teaching surrogates, not claims about a hidden exact
+    /// surfactant formulation.
+    FoamStabilizer {
+        trapping_efficiency: f64,
+        gas_volume_fraction: f64,
+        half_life_seconds: f64,
+        /// Amount of unresolved functional blend, in the recipe basis, at
+        /// which the bounded foam effect reaches full strength.
+        saturation_amount: f64,
+    },
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MaterialGeometry {
+    #[serde(default)]
+    pub shape: Option<String>,
+    #[serde(default)]
+    pub surface_area_m2: Option<f64>,
+    #[serde(default)]
+    pub characteristic_length_m: Option<f64>,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MaterialSubstitution {
+    pub component_species_id: String,
+    pub substitute_species_id: String,
+    /// Amount of substitute in the recipe basis per unit of the component.
+    pub ratio: f64,
+    pub evidence: Evidence,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum MaterialConfidence {
+    Measured,
+    Curated,
+    Estimated,
+    Surrogate,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(tag = "kind", rename_all = "snake_case")]
+pub enum MaterialExpansionPolicy {
+    /// Every component interval must be a single exact value.
+    Fixed,
+    /// The caller supplies a sample seed. Equal recipe/version/seed triples
+    /// always select the same point through every declared interval.
+    Seeded { salt: String },
+}
+
+/// One deterministic expansion in the recipe's declared basis.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct MaterialExpansion {
+    pub recipe_id: String,
+    pub recipe_version: u32,
+    pub basis: MaterialBasis,
+    pub total_amount: f64,
+    pub components: Vec<ExpandedMaterialComponent>,
+    pub unresolved_amount: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct ExpandedMaterialComponent {
+    pub species_id: String,
+    pub fraction: f64,
+    pub amount: f64,
+}
+
+impl MaterialRecipe {
+    /// Match a canonical key, display name, or localized alias. Matching is
+    /// Unicode-lowercased and whitespace-normalized; language limits which
+    /// alias list participates but canonical identity remains universal.
+    pub fn matches(&self, query: &str, language: Option<&str>) -> bool {
+        let query = normalize_material_name(query);
+        if normalize_material_name(&self.canonical_key) == query
+            || normalize_material_name(&self.name) == query
+        {
+            return true;
+        }
+        self.aliases
+            .iter()
+            .filter(|(tag, _)| language.is_none_or(|wanted| tag.eq_ignore_ascii_case(wanted)))
+            .flat_map(|(_, aliases)| aliases)
+            .any(|alias| normalize_material_name(alias) == query)
+    }
+
+    /// Expand a positive amount without discarding the unresolved balance.
+    pub fn expand(&self, total_amount: f64, sample_seed: u64) -> Option<MaterialExpansion> {
+        if !total_amount.is_finite() || total_amount <= 0.0 {
+            return None;
+        }
+        let position = match &self.expansion_policy {
+            MaterialExpansionPolicy::Fixed => 0.0,
+            MaterialExpansionPolicy::Seeded { salt } => deterministic_unit_interval(&format!(
+                "{}\0{}\0{}\0{sample_seed}",
+                self.id, self.version, salt
+            )),
+        };
+        let components = self
+            .components
+            .iter()
+            .map(|component| {
+                let fraction = component.fraction.lower
+                    + (component.fraction.upper - component.fraction.lower) * position;
+                ExpandedMaterialComponent {
+                    species_id: component.species_id.clone(),
+                    fraction,
+                    amount: total_amount * fraction,
+                }
+            })
+            .collect::<Vec<_>>();
+        let resolved: f64 = components.iter().map(|component| component.fraction).sum();
+        Some(MaterialExpansion {
+            recipe_id: self.id.clone(),
+            recipe_version: self.version,
+            basis: self.basis,
+            total_amount,
+            components,
+            unresolved_amount: total_amount * (1.0 - resolved).max(0.0),
+        })
+    }
+}
+
+impl RegistryDocument {
+    pub fn material_recipe(&self, query: &str, language: Option<&str>) -> Option<&MaterialRecipe> {
+        self.material_recipes
+            .iter()
+            .find(|recipe| recipe.matches(query, language))
+    }
+}
+
+fn normalize_material_name(value: &str) -> String {
+    value
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
+        .to_lowercase()
+}
+
+fn deterministic_unit_interval(value: &str) -> f64 {
+    // FNV-1a is deliberately small and specified here; this is stable sample
+    // selection, not security or statistical random-number generation.
+    let mut hash = 0xcbf29ce484222325_u64;
+    for byte in value.as_bytes() {
+        hash ^= u64::from(*byte);
+        hash = hash.wrapping_mul(0x100000001b3);
+    }
+    (hash as f64) / (u64::MAX as f64)
 }
 
 impl RegistryDocument {

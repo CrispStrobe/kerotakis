@@ -1,26 +1,12 @@
 use kerotakis_codex::{Codex, CodexExport, Vocabulary};
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 fn load_codex(dir: &Path) -> Codex {
-    let mut all = Codex::default();
-    let mut files: Vec<PathBuf> = fs::read_dir(dir)
-        .unwrap()
-        .filter_map(|e| e.ok().map(|e| e.path()))
-        .filter(|p| p.extension().is_some_and(|x| x == "toml"))
-        .collect();
-    files.sort();
-    for file in files {
-        let text = fs::read_to_string(&file).unwrap();
-        match Codex::parse(&text) {
-            Ok(mut c) => {
-                all.reactions.append(&mut c.reactions);
-                all.models.append(&mut c.models);
-            }
-            Err(e) => panic!("{}: {e}", file.display()),
-        }
-    }
-    all
+    // load_dir, not a walk of its own: it finds codex/i18n/*.toml, and a
+    // loader that does not would export the catalogue in English while
+    // every test still passed.
+    Codex::load_dir(dir).unwrap_or_else(|e| panic!("{}: {e}", dir.display()))
 }
 
 fn load_vocabulary(dir: &Path) -> Vocabulary {

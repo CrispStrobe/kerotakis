@@ -55,6 +55,8 @@ pub enum PackLane {
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 pub struct PackContents {
     pub species_count: usize,
+    #[serde(default)]
+    pub material_recipe_count: usize,
     pub phase_thermo_records: usize,
     pub mechanisms: usize,
     pub model_parameters: usize,
@@ -113,6 +115,7 @@ mod tests {
             lane: PackLane::Core,
             contents: PackContents {
                 species_count: 75,
+                material_recipe_count: 2,
                 phase_thermo_records: 238,
                 mechanisms: 0,
                 model_parameters: 103,
@@ -124,6 +127,7 @@ mod tests {
         assert_eq!(loaded.id, "core-aqueous-v1");
         assert_eq!(loaded.lane, PackLane::Core);
         assert_eq!(loaded.contents.species_count, 75);
+        assert_eq!(loaded.contents.material_recipe_count, 2);
     }
 
     #[test]

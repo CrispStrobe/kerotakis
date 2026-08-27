@@ -1,0 +1,20 @@
+schema_version = 1
+id = "curiosity-v1"
+description = "Five hundred questions spanning the ordinary chemistry and material curiosity of children and teenagers."
+target_prompts = 500
+smoke_prompts = [
+  "aq-018", "aq-003",
+  "aq-046", "aq-051",
+  "aq-091", "mat-002",
+  "aq-100", "th-001",
+  "aq-118", "mat-012",
+  "bio-001", "bio-009",
+  "mat-014", "mat-046",
+  "mat-100", "th-117",
+]
+shards = [
+  "aqueous-household.toml",
+  "thermal-fire.toml",
+  "materials-handling.toml",
+  "food-organic-bio.toml",
+]

@@ -4,10 +4,12 @@
 > web-frontend roadmap. It is a roadmap for the complete simulation backend,
 > its scientific coverage, its data system, and the clients that deliver it.
 
-Status: 2026-08-20. This document complements `PLAN.md`: the plan records the
+Status: 2026-08-27. This document complements `PLAN.md`: the plan records the
 project's history and detailed decisions; this roadmap asks what architectural
 and scientific work creates the most *multiplicative* increase in chemistry
-coverage from the system that exists now.
+coverage from the system that exists now. `BREADTH.md` turns the data/library
+growth layer into dependency-ordered `BRD-*` tasks and is subordinate to the
+state, routing and distribution rules here.
 
 ## Executive decision
 
@@ -30,9 +32,34 @@ stack.” It is:
 6. expand coverage through data and reusable reaction families rather than
    compound-pair special cases.
 
+The concrete sequence for item 6 is `BRD-000…BRD-100`: measure a curiosity
+corpus; define `MaterialRecipe` and quarantined source adapters; ship familiar
+substance/material packs; add condition-gated reaction families; broaden
+feos/Cantera only with cleared parameters; add bounded biochemical and crystal
+routes; then put tactile physics and scientific views over authoritative state.
+
 That substrate lets the existing engines do much more, makes additional engines
 composable, and turns every curated property or reaction template into coverage
 across many experiments.
+
+### Product sequencing constraint (2026-08-27)
+
+The immediate priority is the shared laboratory UX, not new mission/example
+content. Existing experiments remain valid consumers of the same command and
+event contracts. Backend work should therefore unblock direct manipulation:
+stable apparatus identities, capacity-aware dosing, removable/cleanable
+vessels, connection graphs, powered devices, and time-bearing transport state.
+Prepare/React/Analyse are optional client guidance and must not enter the
+scientific state model.
+
+The first apparatus-state increment is a magnetic stirrer/hotplate and mini
+centrifuge. Required inputs include power/target temperature, RPM, duration,
+rotor radius, balance, particle size/density, fluid density/viscosity, and
+vessel fill/capacity. Required outputs include temperature/rate history,
+mixing/homogeneity, suspension or settling state, imbalance refusal/hazard, and
+typed magnitudes suitable for animation. Retort stands, clamps, hoses, cables,
+probes and holders form an explicit assembly graph; they are not ornamental
+sprites. The client animates those outputs but never invents chemistry.
 
 ## Distribution and licensing invariant
 
@@ -308,6 +335,69 @@ recomputed without losing the ledger or the material history.
 This separation fixes the current awkwardness around protons, unknown aqueous
 species, metastable products, and phase relabelling. It also permits two models
 to offer different resolved states over the same conserved ledger.
+
+### Story, Sandbox, and missions are orchestration—not chemistry
+
+The 2026-08-26 product direction adds a persistent exploration game with
+story-driven progression and a full-unlock Sandbox. These layers wrap `World`;
+they never fork solvers, species, events, or physical rules.
+
+```text
+AppSave
+├── profile          locale, accessibility, register, theme
+├── story
+│   ├── world        versioned World snapshot + operator log
+│   ├── progress     arcs, missions, discoveries, relationships
+│   └── inventory    access policy, owned apparatus, Story supplies
+└── sandbox
+    ├── world        independent World snapshot + operator log
+    └── settings     replenishment, hazards, optional scenario
+```
+
+The active mode is host/session state, not a field passed into a solver. Story
+inventory policy may refuse an operation before dispatch because equipment or
+material is unavailable; once dispatched, the operator is identical to the
+Sandbox operator and must produce an identical result from an identical World.
+
+Persistence rules:
+
+- Story and Sandbox snapshots, logs, undo cursors, and inventories are separate
+  keys under one versioned app-save envelope. Shared settings are explicit and
+  contain no progress.
+- Writes are transactional: save the new envelope beside the last-known-good,
+  validate/migrate, then promote. A corrupt mission or inventory record must not
+  destroy the chemistry log.
+- Sandbox availability is derived from the installed registry and apparatus
+  manifest at load time. It does not serialize thousands of `unlocked = true`
+  flags that can go stale when packs change.
+- Story progress stores stable content ids and versions, never localized names.
+  Removed content migrates to an archived completion record; missing optional
+  packs produce an honest unavailable mission, not a broken save.
+- Story-to-Sandbox cloning is allowed as an explicit "experiment with a copy"
+  action. Sandbox-to-Story state or rewards never merge back.
+
+The mission evaluator consumes typed operator events, measurements, and final
+World predicates. It returns structured claim status and unmet reasons; it does
+not own narration and never asks the client to assert success. A mission may
+provide aliases for sealed unknowns, starting lots, constraints, and rewards,
+but identities remain known to the engine. See `EXPERIMENTS.md` for the authoring
+contract.
+
+Additive protocol surface:
+
+| Command | Result |
+|---|---|
+| `mode_get`, `mode_switch` | Active save namespace and safe-switch outcome |
+| `save_status`, `world_clone_to_sandbox` | Version, health, and explicit one-way copy |
+| `catalog` | Shared item metadata plus mode-specific availability/reason |
+| `mission_list`, `mission_start` | Visible/active missions and initialized world contribution |
+| `mission_status` | Typed objective/evidence/unmet-reason state |
+| `mission_submit` | Engine evaluation and proposed outcome/reward transaction |
+| `progress` | Story arcs, discoveries, access, and completed stable ids |
+
+All results use stable ids plus interpolation parameters so English and German
+clients render the same state. English prose is not part of the protocol except
+as a backwards-compatible legacy event rendering.
 
 ### First-class physical structure
 
@@ -1487,6 +1577,41 @@ PHREEQC database is a separate `LIC` task, not part of feature implementation.
   provenance lint, dependency policy, notices, SBOM, source offer, pack
   signatures, and unpacked-payload reconciliation all pass.
 
+### Phase 11 — Persistent world and mission orchestration
+
+The original chemistry roadmap is complete; this phase supports the new product
+form without contaminating the core with game rules.
+
+- [ ] **WORLD-001 — Versioned `AppSave` envelope.** Implement independent Story
+  and Sandbox namespaces, shared settings, atomic last-known-good writes, and
+  fixture migrations. Preserve current snapshot-token and `.lab` restore as
+  imported legacy saves.
+- [ ] **WORLD-002 — Mode isolation conformance.** Prove Story and Sandbox can
+  run divergent logs, undo, reset, close/reopen, and switch repeatedly without
+  cross-mutation. Prove equal World + equal operator yields equal chemistry in
+  both modes.
+- [ ] **WORLD-003 — Runtime catalog contract.** Join apparatus/item metadata,
+  registry contents, installed packs, Story inventory/access, and compatibility
+  into one protocol response. Sandbox availability is always derived as full.
+- [ ] **WORLD-004 — Mission schema v2 and migration.** Extend the landed quest
+  TOML with world placement, objective combinators, constraints, discoveries,
+  outcomes, and rewards while accepting every v1 quest unchanged.
+- [ ] **WORLD-005 — Objective evaluator.** Evaluate observe/measure/identify/
+  produce/separate/compare/design/avoid/explain claims from typed evidence and
+  World state. Return stable unmet-reason ids and parameters; unit-test threshold
+  boundaries and alternative valid solutions.
+- [ ] **WORLD-006 — Transactional mission outcomes.** Commit mission state,
+  rewards, inventory, and world changes together only after engine evaluation;
+  retry safely after interruption and reject double claims.
+- [ ] **WORLD-007 — Localized content contract.** Lint every mission, catalog
+  item, outcome, error, and ARIA template for English and German coverage and
+  interpolation parity. Protocol conformance rejects user-facing raw strings in
+  new response fields.
+- [ ] **WORLD-008 — Vertical-slice fixtures.** Encode The contaminated sample
+  from `EXPERIMENTS.md`, including three concurrent missions, a sealed unknown,
+  two valid treatment traces, one permanent unlock, Story/Sandbox isolation,
+  and deterministic save migration goldens.
+
 ## What not to optimize for
 
 - **Raw species count.** Ten thousand names without compatible properties do
@@ -1547,7 +1672,8 @@ arbitrary synthesis oracle.
 
 ## Implementation status (2026-08-23)
 
-**119 of 119 roadmap items complete (100%).**
+**The original 119-item science roadmap is complete (119/119). Phase 11 is the
+open product-orchestration workline introduced 2026-08-26.**
 
 All executable task list items are checked off. The chemistry engine,
 solver architecture, data pipeline, thermodynamics, kinetics,

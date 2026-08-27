@@ -23,6 +23,14 @@ export interface ApparatusSpec {
   blurb: string;
   fields: FormField[];
   build: (vessel: number, values: Record<string, number | string>) => string | null;
+  /** Immediate physical consequences of the chosen controls. Chemistry stays engine-owned. */
+  readouts?: (values: Record<string, number | string>) => {
+    label: string;
+    value: number;
+    unit: string;
+    digits: number;
+  }[];
+  warning?: (values: Record<string, number | string>) => string | null;
 }
 
 const num = (v: number | string | undefined): number | null => {
@@ -35,7 +43,106 @@ const pos = (v: number | string | undefined): number | null => {
   return n !== null && n > 0 ? n : null;
 };
 
+const energyReadout = (watts: number | string | undefined, seconds: number | string | undefined) => {
+  const power = pos(watts);
+  const duration = pos(seconds);
+  if (power === null || duration === null) return [];
+  const joules = power * duration;
+  return [{
+    label: "delivered energy",
+    value: joules >= 1000 ? joules / 1000 : joules,
+    unit: joules >= 1000 ? "kJ" : "J",
+    digits: joules >= 1000 ? 2 : 0,
+  }];
+};
+
 export const APPARATUS: ApparatusSpec[] = [
+  {
+    verb: "stir",
+    title: "magnetic stirrer",
+    blurb: "set rotation speed and mixing time",
+    fields: [
+      { name: "rpm", label: "rotation speed", type: "number", unit: "rpm", default: 500, min: 50, max: 2000, step: 50 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 10, min: 1, max: 3600 },
+    ],
+    build: (v, f) => {
+      const rpm = pos(f.rpm);
+      const seconds = pos(f.seconds);
+      return rpm === null || seconds === null ? null : `stir v${v + 1} ${rpm}rpm ${seconds}s`;
+    },
+    readouts: (f) => {
+      const rpm = pos(f.rpm);
+      if (rpm === null) return [];
+      // Same 25 mm stir-bar path used by the engine's computed Stirred event.
+      const tipSpeed = Math.PI * 0.025 * rpm / 60;
+      return [{ label: "stir-bar tip speed", value: tipSpeed, unit: "m/s", digits: 3 }];
+    },
+  },
+  {
+    verb: "heat",
+    title: "hotplate",
+    blurb: "set heating power and time",
+    fields: [
+      { name: "watts", label: "heating power", type: "number", unit: "W", default: 250, min: 1, max: 2000, step: 10 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 30, min: 1, max: 3600 },
+    ],
+    build: (v, f) => {
+      const watts = pos(f.watts);
+      const seconds = pos(f.seconds);
+      return watts === null || seconds === null ? null : `heat v${v + 1} ${watts * seconds}J`;
+    },
+    readouts: (f) => energyReadout(f.watts, f.seconds),
+  },
+  {
+    verb: "cool",
+    title: "cooling bath",
+    blurb: "set cooling power and time",
+    fields: [
+      { name: "watts", label: "cooling power", type: "number", unit: "W", default: 100, min: 1, max: 2000, step: 10 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 30, min: 1, max: 3600 },
+    ],
+    build: (v, f) => {
+      const watts = pos(f.watts);
+      const seconds = pos(f.seconds);
+      return watts === null || seconds === null ? null : `cool v${v + 1} ${watts * seconds}J`;
+    },
+    readouts: (f) => energyReadout(f.watts, f.seconds).map((readout) => ({ ...readout, label: "removed energy" })),
+  },
+  {
+    verb: "centrifuge",
+    title: "mini centrifuge",
+    blurb: "separate particles by spinning a balanced tube",
+    fields: [
+      { name: "rpm", label: "rotation speed", type: "number", unit: "rpm", default: 3000, min: 100, max: 15000, step: 100 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 60, min: 1, max: 3600 },
+      { name: "radius", label: "rotor radius", type: "number", unit: "cm", default: 8, min: 3, max: 15, step: 0.5 },
+      { name: "counterbalance", label: "counterbalance", type: "number", unit: "g", default: 0, min: 0, step: 0.01 },
+    ],
+    build: (v, f) => {
+      const rpm = pos(f.rpm);
+      const seconds = pos(f.seconds);
+      const radius = pos(f.radius);
+      const counterbalance = num(f.counterbalance);
+      return rpm === null || seconds === null || radius === null || counterbalance === null || counterbalance < 0
+        ? null
+        : `centrifuge v${v + 1} ${rpm}rpm ${seconds}s ${radius}cm ${counterbalance}g`;
+    },
+    warning: (f) => {
+      const sample = num(f.sampleMass);
+      const counterbalance = num(f.counterbalance);
+      if (sample === null || counterbalance === null) return null;
+      const imbalance = Math.abs(sample - counterbalance);
+      return imbalance > 0.1 ? "rotor out of balance — adjust the counterbalance" : null;
+    },
+    readouts: (f) => {
+      const rpm = pos(f.rpm);
+      const radiusCm = pos(f.radius);
+      if (rpm === null || radiusCm === null) return [];
+      const angularSpeed = rpm * Math.PI * 2 / 60;
+      const rcf = angularSpeed ** 2 * (radiusCm / 100) / 9.80665;
+      return [{ label: "relative centrifugal force", value: rcf, unit: "× g", digits: 0 }];
+    },
+  },
   {
     verb: "dilute",
     title: "wash bottle",

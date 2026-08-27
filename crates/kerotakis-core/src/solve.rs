@@ -64,9 +64,21 @@ pub enum SolveError {
     NotConverged { solver: String, detail: String },
 }
 
+/// Scientific authority of a solver route, independent of its display name.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SolverRouteKind {
+    Computed,
+    Curated,
+    Qualitative,
+}
+
 /// Re-equilibrates one vessel after an operator touched it.
 pub trait Equilibrator {
     fn name(&self) -> &'static str;
+    fn route_kind(&self) -> SolverRouteKind {
+        SolverRouteKind::Computed
+    }
     /// Whether this solver has anything to say about this vessel's state.
     fn applies(&self, _vessel: &Vessel) -> bool {
         true
@@ -137,13 +149,36 @@ pub trait Equilibrator {
 /// Runs every applicable solver in order, concatenating their events. The
 /// order is the routing: physics first, chemistry engines next, the honesty
 /// pass last.
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum SolverRouteOutcome {
+    NotApplicable,
+    Succeeded { event_count: usize },
+    Failed,
+}
+
+/// Machine-readable evidence for the most recent stack equilibrium pass.
+/// This deliberately sits beside the stack rather than in rendered events:
+/// observing routing must not alter a simulation's event stream.
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
+pub struct SolverRoute {
+    pub solver: String,
+    pub kind: SolverRouteKind,
+    pub chemistry: bool,
+    pub outcome: SolverRouteOutcome,
+}
+
 pub struct SolverStack {
     pub solvers: Vec<Box<dyn Equilibrator>>,
+    pub last_routes: Vec<SolverRoute>,
 }
 
 impl SolverStack {
     pub fn new(solvers: Vec<Box<dyn Equilibrator>>) -> Self {
-        SolverStack { solvers }
+        SolverStack {
+            solvers,
+            last_routes: Vec::new(),
+        }
     }
 }
 
@@ -157,13 +192,33 @@ impl Equilibrator for SolverStack {
     }
 
     fn equilibrate(&mut self, vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+        self.last_routes.clear();
         let mut events = Vec::new();
         for solver in &mut self.solvers {
+            let solver_name = solver.name().to_string();
+            let kind = solver.route_kind();
+            let chemistry = solver.chemistry_applies(vessel);
             if !solver.applies(vessel) {
+                self.last_routes.push(SolverRoute {
+                    solver: solver_name,
+                    kind,
+                    chemistry,
+                    outcome: SolverRouteOutcome::NotApplicable,
+                });
                 continue;
             }
             match solver.equilibrate(vessel) {
-                Ok(mut more) => events.append(&mut more),
+                Ok(mut more) => {
+                    self.last_routes.push(SolverRoute {
+                        solver: solver_name,
+                        kind,
+                        chemistry,
+                        outcome: SolverRouteOutcome::Succeeded {
+                            event_count: more.len(),
+                        },
+                    });
+                    events.append(&mut more);
+                }
                 // One solver failing must not silence the rest. The stack is
                 // a sequence of independent questions — what dissolves, what
                 // burns, what state the solvent is in — and an aqueous
@@ -171,11 +226,19 @@ impl Equilibrator for SolverStack {
                 // about the third. Aborting here left water liquid at
                 // −24 °C, because the freezing pass never ran once PHREEQC
                 // had declined the solution.
-                Err(e) => events.push(Event::SolverFailed {
-                    vessel: vessel.id,
-                    solver: solver.name().to_string(),
-                    detail: e.to_string(),
-                }),
+                Err(e) => {
+                    self.last_routes.push(SolverRoute {
+                        solver: solver_name.clone(),
+                        kind,
+                        chemistry,
+                        outcome: SolverRouteOutcome::Failed,
+                    });
+                    events.push(Event::SolverFailed {
+                        vessel: vessel.id,
+                        solver: solver_name,
+                        detail: e.to_string(),
+                    });
+                }
             }
         }
         Ok(events)
@@ -733,6 +796,10 @@ impl Equilibrator for HonestyEquilibrator {
         "honesty"
     }
 
+    fn route_kind(&self) -> SolverRouteKind {
+        SolverRouteKind::Qualitative
+    }
+
     fn chemistry_applies(&self, _vessel: &Vessel) -> bool {
         false
     }
@@ -864,4 +931,61 @@ pub fn adiabatic_mix_temperature(
         return t_in;
     }
     Kelvin((cp_vessel * t_vessel.0 + cp_in * t_in.0) / total)
+}
+
+#[cfg(test)]
+mod route_trace_tests {
+    use super::*;
+
+    struct TestRoute {
+        name: &'static str,
+        applies: bool,
+        kind: SolverRouteKind,
+    }
+
+    impl Equilibrator for TestRoute {
+        fn name(&self) -> &'static str {
+            self.name
+        }
+
+        fn route_kind(&self) -> SolverRouteKind {
+            self.kind
+        }
+
+        fn applies(&self, _vessel: &Vessel) -> bool {
+            self.applies
+        }
+
+        fn equilibrate(&mut self, _vessel: &mut Vessel) -> Result<Vec<Event>, SolveError> {
+            Ok(Vec::new())
+        }
+    }
+
+    #[test]
+    fn stack_records_typed_routes_without_changing_events() {
+        let mut stack = SolverStack::new(vec![
+            Box::new(TestRoute {
+                name: "computed-test",
+                applies: false,
+                kind: SolverRouteKind::Computed,
+            }),
+            Box::new(TestRoute {
+                name: "curated-test",
+                applies: true,
+                kind: SolverRouteKind::Curated,
+            }),
+        ]);
+        let events = stack.equilibrate(&mut Vessel::new(crate::vessel::VesselId(0), "beaker"));
+        assert!(events.expect("stack succeeds").is_empty());
+        assert_eq!(stack.last_routes.len(), 2);
+        assert_eq!(
+            stack.last_routes[0].outcome,
+            SolverRouteOutcome::NotApplicable
+        );
+        assert_eq!(stack.last_routes[1].kind, SolverRouteKind::Curated);
+        assert_eq!(
+            stack.last_routes[1].outcome,
+            SolverRouteOutcome::Succeeded { event_count: 0 }
+        );
+    }
 }

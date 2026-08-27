@@ -1,0 +1,48 @@
+{
+  "id": "./",
+  "name": "Kerotakis — ein Chemielabor, das rechnet",
+  "short_name": "Kerotakis",
+  "description": "Ein virtuelles Chemielabor, das echte Chemie berechnet — PHREEQC im Browser, offline.",
+  "start_url": "./app/",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#F4FAFF",
+  "theme_color": "#F4FAFF",
+  "categories": ["education", "science", "utilities"],
+  "lang": "de",
+  "dir": "ltr",
+  "launch_handler": { "client_mode": "navigate-existing" },
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-wide.png",
+      "sizes": "1280x800",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Labor, Regal und Laborbuch nebeneinander, während sich Silberchlorid absetzt."
+    },
+    {
+      "src": "screenshot-narrow.png",
+      "sizes": "860x1864",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Dasselbe Experiment auf einem Smartphone, jeweils ein Bereich."
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Die Konsole",
+      "short_name": "Konsole",
+      "description": "Dieselbe Engine als Terminal — Befehle eingeben und das Protokoll lesen.",
+      "url": "./",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

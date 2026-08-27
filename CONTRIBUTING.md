@@ -111,3 +111,12 @@ For data imports specifically:
   as predictions, and the stage of the L4 cascade that produced an answer is
   shown to the user. Contributions that hardcode "expected" results defeat the
   project's premise.
+
+## 5. Picking up breadth tasks
+
+The agent-sized breadth roadmap is [BREADTH.md](BREADTH.md). Before claiming a
+`BRD-*` task, verify that every listed prerequisite is merged, read the owning
+CAP/EXP/apparatus/GUI document, and keep the PR within that task's scope. A
+decision-gate task produces evidence and a go/no-go record; it must not quietly
+add the candidate dependency. Completion requires the task's acceptance tests,
+an updated status, and—once BRD-001 exists—an updated curiosity-corpus baseline.

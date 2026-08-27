@@ -1,88 +1,143 @@
 <script lang="ts">
+  import { untrack } from "svelte";
   import type { ApparatusSpec } from "../apparatus";
   import type { ShelfItem } from "../session.svelte";
+  import { i18n, t } from "../i18n.svelte";
 
   let {
     spec,
     vessel,
     shelf,
     busy,
+    initialValues = {},
     onrun,
+    onpreview,
     onclose,
   }: {
     spec: ApparatusSpec;
     vessel: number;
     shelf: ShelfItem[];
     busy: boolean;
+    initialValues?: Record<string, number | string>;
     onrun: (line: string) => void;
+    onpreview?: (values: Record<string, number | string>) => void;
     onclose: () => void;
   } = $props();
 
   let values = $state<Record<string, number | string>>(
-    Object.fromEntries(spec.fields.map((f) => [f.name, f.default])),
+    untrack(() => ({
+      ...Object.fromEntries(spec.fields.map((f) => [f.name, f.default])),
+      ...initialValues,
+    })),
   );
   const solids = $derived(shelf.filter((s) => s.phase.toLowerCase().includes("solid")));
   const line = $derived(spec.build(vessel, values));
+  const warning = $derived(spec.warning?.(values) ?? null);
+  const readouts = $derived(spec.readouts?.(values) ?? []);
+  const formatReadout = (readout: (typeof readouts)[number]) =>
+    `${new Intl.NumberFormat(i18n.locale, {
+      minimumFractionDigits: readout.digits,
+      maximumFractionDigits: readout.digits,
+    }).format(readout.value)} ${readout.unit}`;
+  $effect(() => onpreview?.({ ...values }));
 </script>
 
-<section class="apparatus" aria-label={`${spec.title} over v${vessel + 1}`}>
+<section class="apparatus" aria-label={t("{apparatus} over v{vessel}", { apparatus: t(spec.title), vessel: vessel + 1 })}>
   <div class="head">
-    <strong>{spec.title}</strong>
-    <span class="blurb">{spec.blurb} · v{vessel + 1}</span>
+    <span class="live-mark" aria-hidden="true"></span>
+    <span class="title"><small>{t("workstation · vessel v{vessel}", { vessel: vessel + 1 })}</small><strong>{t(spec.title)}</strong></span>
+    <button class="icon-close" aria-label={t("put away")} title={t("put away")} onclick={onclose}>×</button>
   </div>
+  <p class="blurb">{t(spec.blurb)}</p>
   <div class="fields">
     {#each spec.fields as f (f.name)}
       <label>
-        {f.label}
+        {t(f.label)}
         {#if f.type === "species"}
           <select bind:value={values[f.name]}>
-            <option value="">choose…</option>
+            <option value="">{t("choose…")}</option>
             {#each solids.length > 0 ? solids : shelf as s (s.key)}
-              <option value={s.key}>{s.name}</option>
+              <option value={s.key}>{t(s.name)}</option>
             {/each}
           </select>
         {:else}
-          <span>
-            <input
-              type="number"
-              bind:value={values[f.name]}
-              min={f.min}
-              max={f.max}
-              step={f.step ?? 1}
-            />
-            {#if f.unit}{f.unit}{/if}
+          <span class="parameter-control">
+            {#if f.min !== undefined && f.max !== undefined}
+              <input
+                class="dial"
+                type="range"
+                aria-label={t("{parameter} slider", { parameter: t(f.label) })}
+                bind:value={values[f.name]}
+                min={f.min}
+                max={f.max}
+                step={f.step ?? 1}
+              />
+            {/if}
+            <span class="exact-value">
+              <input
+                type="number"
+                bind:value={values[f.name]}
+                min={f.min}
+                max={f.max}
+                step={f.step ?? 1}
+              />
+              {#if f.unit}<small>{f.unit}</small>{/if}
+            </span>
           </span>
         {/if}
       </label>
     {/each}
-    <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
-      go
+    {#if readouts.length > 0}
+      <div class="readouts" aria-label={t("computed operating values")}>
+        {#each readouts as readout (readout.label)}
+          <output>
+            <small>{t(readout.label)}</small>
+            <strong>{formatReadout(readout)}</strong>
+          </output>
+        {/each}
+      </div>
+    {/if}
+    {#if warning}<p class="warning" role="alert">⚠ {t(warning)}</p>{/if}
+    <button class="run" disabled={busy || line === null || warning !== null} onclick={() => line && !warning && onrun(line)}>
+      {busy ? t("running…") : t("run {apparatus}", { apparatus: t(spec.title) })}
     </button>
-    <button class="close" onclick={onclose}>put away</button>
   </div>
-  {#if line}<code>{line}</code>{/if}
 </section>
 
 <style>
   .apparatus {
-    padding: 0.5rem 1rem;
-    border-bottom: 1px solid var(--edge);
-    background: var(--panel);
+    position: absolute;
+    z-index: 12;
+    top: 0.7rem;
+    right: 0.7rem;
+    width: min(23rem, calc(100% - 1.4rem));
+    max-height: calc(100% - 5.8rem);
+    overflow: auto;
+    margin: 0;
+    padding: 0.7rem;
+    border: 1px solid color-mix(in srgb, var(--instrument) 35%, var(--edge));
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--surface) 92%, var(--instrument) 8%);
+    box-shadow: 0 8px 24px var(--shadow);
   }
   .head {
     display: flex;
     gap: 0.6rem;
-    align-items: baseline;
-    margin-bottom: 0.35rem;
+    align-items: center;
   }
+  .title { min-width: 0; display: flex; flex: 1; flex-direction: column; }
+  .head small { color: var(--instrument); font-size: .56rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+  .live-mark { width: 10px; height: 10px; flex: none; border: 2px solid var(--surface); border-radius: 50%; background: var(--instrument); box-shadow: 0 0 0 2px var(--instrument); }
   .blurb {
+    margin: 0.28rem 0 0.55rem 1.6rem;
     color: var(--dim);
-    font-size: 0.78rem;
+    font-size: 0.69rem;
+    line-height: 1.3;
   }
   .fields {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
     align-items: flex-end;
     font-size: 0.82rem;
   }
@@ -92,6 +147,7 @@
     gap: 0.15rem;
     color: var(--dim);
   }
+  label:has(select) { grid-column: 1 / -1; }
   select,
   input {
     background: var(--panel-raised);
@@ -106,7 +162,20 @@
   input[type="number"] {
     width: 5rem;
   }
+  .parameter-control { display: flex; align-items: center; gap: .45rem; }
+  .exact-value { display: flex; align-items: center; gap: .25rem; color: var(--ink); }
+  .exact-value small { min-width: 1.5rem; color: var(--dim); font-size: .66rem; }
+  .dial {
+    width: clamp(5rem, 9vw, 8rem);
+    min-height: 34px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    accent-color: var(--instrument);
+    cursor: ew-resize;
+  }
   .run {
+    grid-column: 1 / -1;
     background: var(--panel-raised);
     border: 1px solid var(--hot);
     border-radius: 6px;
@@ -117,21 +186,51 @@
     cursor: pointer;
     min-height: 36px;
   }
-  .close {
-    background: none;
-    border: 1px solid var(--edge);
-    border-radius: 6px;
-    color: var(--dim);
-    font: inherit;
-    font-size: 0.82rem;
-    padding: 0.3rem 0.7rem;
-    cursor: pointer;
-    min-height: 36px;
+  .readouts {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
   }
-  code {
-    display: block;
-    margin-top: 0.3rem;
+  .readouts output {
+    min-width: 8.5rem;
+    display: flex;
+    flex: 1;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.6rem;
+    padding: 0.42rem 0.55rem;
+    border: 1px solid color-mix(in srgb, var(--instrument) 28%, var(--edge));
+    border-radius: 9px;
+    color: var(--instrument);
+    background: color-mix(in srgb, var(--instrument) 7%, var(--surface));
+  }
+  .readouts small { color: var(--dim); font-size: 0.63rem; }
+  .readouts strong { color: var(--ink); font-size: 0.76rem; white-space: nowrap; }
+  .warning { margin: 0; max-width: 15rem; color: var(--danger); font-size: .75rem; font-weight: 750; }
+  .icon-close {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    flex: none;
+    padding: 0;
+    border: 1px solid var(--edge);
+    border-radius: 9px;
     color: var(--dim);
-    font-size: 0.72rem;
+    background: var(--surface);
+    font: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .icon-close:hover { color: var(--danger); border-color: var(--danger); }
+  @media (max-width: 700px) {
+    .apparatus {
+      position: fixed;
+      inset: auto 0.55rem calc(4rem + env(safe-area-inset-bottom)) 0.55rem;
+      width: auto;
+      max-height: min(62vh, 30rem);
+      border-radius: 18px;
+    }
   }
 </style>

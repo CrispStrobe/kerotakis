@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Merged into BOTH the macOS and the iOS bundle (Tauri picks this
+         file up by name, and Info.ios.plist beside it carries the
+         iOS-only half). Keys shared by both platforms belong here. -->
+
+    <!-- Kerotakis uses no encryption at all: it makes no network requests.
+         Declaring it here answers the export-compliance question at build
+         time; left unanswered, a macOS upload parks at
+         MISSING_EXPORT_COMPLIANCE and an iOS build cannot be assigned to
+         any TestFlight group, internal ones included. -->
+    <key>ITSAppUsesNonExemptEncryption</key>
+    <false/>
+</dict>
+</plist>

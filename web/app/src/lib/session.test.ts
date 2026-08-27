@@ -42,6 +42,9 @@ class FakeHost implements EngineHost {
   }
   /** Set to true to model an engine predating snapshots. */
   noSnapshots = false;
+  async loadPack() {
+    return { added: 0, skipped: 0, loaded_total: 0 };
+  }
   async snapshot(): Promise<string> {
     if (this.noSnapshots) throw new Error("no snapshot support");
     this.calls.push("snapshot");
@@ -73,6 +76,12 @@ class FakeHost implements EngineHost {
   async setRegister(level: string) {
     this.calls.push(`register:${level}`);
   }
+  async setLocale(code: string) {
+    // Recorded, so a test can assert the session tells the ENGINE which
+    // language to render in — separately from the interface's own locale,
+    // because the engine composes prose the shell never sees.
+    this.calls.push(`locale:${code}`);
+  }
   async scene() {
     this.calls.push("scene");
     return this.nextScene();
@@ -99,6 +108,36 @@ class FakeHost implements EngineHost {
 }
 
 describe("Session", () => {
+  it("persists learner-authored journal notes independently of chemistry commands", async () => {
+    const storage = new FakeStorage();
+    const first = new Session(new FakeHost(), storage);
+    first.addUserNote("  A slow white precipitate.  ");
+
+    const second = new Session(new FakeHost(), storage);
+    await second.connect();
+    expect(second.feed).toEqual(expect.arrayContaining([
+      expect.objectContaining({ kind: "user-note", text: "A slow white precipitate." }),
+    ]));
+  });
+
+  it("edits and removes learner notes without touching chemistry history", async () => {
+    const storage = new FakeStorage();
+    const session = new Session(new FakeHost(), storage);
+    session.addUserNote("first wording");
+    const createdAt = session.feed.find((entry) => entry.kind === "user-note")?.createdAt;
+    expect(createdAt).toBeTruthy();
+
+    session.editUserNote(createdAt!, "better wording");
+    expect(session.feed).toContainEqual(expect.objectContaining({ kind: "user-note", text: "better wording", createdAt }));
+    expect(session.commandLog).toEqual([]);
+
+    session.removeUserNote(createdAt!);
+    expect(session.feed.some((entry) => entry.kind === "user-note")).toBe(false);
+    const restored = new Session(new FakeHost(), storage);
+    await restored.connect();
+    expect(restored.feed.some((entry) => entry.kind === "user-note")).toBe(false);
+  });
+
   it("connects, loads the shelf, and reports the honesty state", async () => {
     const host = new FakeHost();
     const s = new Session(host);
@@ -118,6 +157,54 @@ describe("Session", () => {
     expect(s.commandLog).toEqual(["add v1 water 100mL", "add v1 NaCl 1g"]);
     expect(s.register).toBe("lv3");
     expect(s.exportLab()).toBe("add v1 water 100mL\nadd v1 NaCl 1g\n");
+  });
+
+  it("consumes finite Story stock transactionally while mission supplies prevent deadlocks", async () => {
+    const host = new FakeHost();
+    const storage = new FakeStorage();
+    const s = new Session(host, storage, "story");
+    await s.connect();
+    for (let i = 0; i < 10; i += 1) expect(await s.submit("add v1 NaCl 1g")).toBe(true);
+    expect(s.storyStockUsed.NaCl).toBe(10);
+    expect(await s.submit("add v1 NaCl 1g")).toBe(false);
+    expect(s.feed.at(-1)?.kind).toBe("refusal");
+
+    // Bench undo is not a magical bottle refill, but an accepted mission
+    // supplies its own kit and a first discovery replenishes the cabinet.
+    await s.undo();
+    expect(await s.submit("add v1 NaCl 1g")).toBe(false);
+    s.startLesson("resupply", "add v1 NaCl 1g\nmeasure v1 balance");
+    await s.lessonNext();
+    expect(s.storyStockUsed.NaCl).toBe(10);
+    await s.lessonNext();
+    expect(s.completedMissions.has("resupply")).toBe(true);
+    expect(s.storyStockUsed).toEqual({});
+    expect(await s.submit("add v1 NaCl 1g")).toBe(true);
+
+    const restored = new Session(new FakeHost(), storage, "story");
+    expect(restored.storyStockUsed).toEqual({ NaCl: 1 });
+  });
+
+  it("does not consume Story stock when the engine rejects a dispense", async () => {
+    const host = new FakeHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    host.runScript = async () => { throw new Error("rejected by model"); };
+    expect(await s.submit("add v1 NaCl 1g")).toBe(false);
+    expect(s.storyStockUsed).toEqual({});
+  });
+
+  it("does not let typed commands bypass Story access gates", async () => {
+    const host = new FakeHost();
+    host.species = async () => [{ key: "HCl", name: "hydrochloric acid", formula: "HCl", phase: "liquid", hazards: ["corrosive"], hazard_assessed: true }];
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    expect(await s.submit("add v1 HCl 10mL")).toBe(false);
+    expect(host.calls).not.toContain("run:add v1 HCl 10mL");
+    s.startLesson("acid-kit", "add v1 HCl 10mL\nmeasure v1 ph");
+    await s.lessonNext();
+    expect(s.commandLog).toContain("add v1 HCl 10mL");
+    expect(s.storyStockUsed).toEqual({});
   });
 
   it("undo/redo/scrub restore snapshots in O(1), with replay as fallback", async () => {
@@ -200,6 +287,92 @@ describe("Session", () => {
     // Lesson exhausted: closed, with a finishing note.
     expect(s.lesson).toBeNull();
     expect(s.feed.at(-1)!.text).toContain("lesson finished");
+    expect(s.completedMissions.has("salt")).toBe(true);
+    expect(s.missionDebrief).toMatchObject({ id: "salt", firstCompletion: true, completedTotal: 1 });
+    expect(s.missionDebrief?.evidence).toContain("did: add v1 NaCl 1g");
+  });
+
+  it("completes the chloride lead from typed solver evidence rather than its script", async () => {
+    const host = new FakeHost();
+    host.runScript = async (line) => ({
+      steps: [{
+        operator: {},
+        events: line.includes("AgNO3")
+          ? [{ event: "precipitated", vessel: 0, species: "AgCl", moles: 0.0099 }]
+          : line.includes("AgCl")
+            ? [{ event: "added", vessel: 0, species: "AgCl", moles: 0.01 }]
+            : [],
+        rendered: [`did: ${line}`],
+      }],
+      scene: { scene: 1, vessels: [] },
+    });
+    const s = new Session(host, new FakeStorage(), "story");
+    s.startLesson("silver-and-salt", "# Find chloride\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\nadd v1 AgNO3 0.01mol\n");
+
+    expect(s.lessonNextCommand).toBeNull();
+    expect(s.lesson?.kit).toEqual(expect.arrayContaining(["water", "NaCl", "AgNO3", "KCl"]));
+    await s.submit("add v1 AgCl 0.01mol");
+    expect(s.completedMissions.has("silver-and-salt")).toBe(false);
+    await s.submit("add v1 KCl 0.01mol");
+    expect(s.completedMissions.has("silver-and-salt")).toBe(false);
+    await s.submit("add v1 AgNO3 0.01mol");
+
+    expect(s.completedMissions.has("silver-and-salt")).toBe(true);
+    expect(s.lesson).toBeNull();
+    expect(s.missionOutcome).toBeNull();
+    expect(s.missionDebrief).toMatchObject({ id: "silver-and-salt", firstCompletion: true });
+  });
+
+  it("persists mission completion but does not complete an exited lesson", async () => {
+    const values = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => values.set(key, value),
+      removeItem: (key: string) => values.delete(key),
+    };
+    const first = new Session(new FakeHost(), storage);
+    first.startLesson("left-early", "add v1 water 1mL");
+    first.exitLesson();
+    expect(first.completedMissions.size).toBe(0);
+
+    first.startLesson("finished", "add v1 water 1mL");
+    await first.lessonNext();
+    const restored = new Session(new FakeHost(), storage);
+    restored.restoreProgress();
+    expect(restored.completedMissions.has("finished")).toBe(true);
+    expect(restored.completedMissions.has("left-early")).toBe(false);
+  });
+
+  it("does not advance or award a mission when the engine rejects its step", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => { throw new Error("rejected by model"); };
+    const s = new Session(host);
+    s.startLesson("must-work", "add v1 water 1mL");
+    await s.lessonNext();
+    expect(s.lessonNextCommand).toBe("add v1 water 1mL");
+    expect(s.completedMissions.has("must-work")).toBe(false);
+    expect(s.missionDebrief).toBeNull();
+  });
+
+  it("keeps only engine-backed mission evidence and dismisses the debrief independently", async () => {
+    const s = new Session(new FakeHost());
+    s.startLesson("evidence", "# narration\nadd v1 water 1mL\n");
+    expect(s.lessonEvidence).toEqual([]);
+    await s.lessonNext();
+    expect(s.missionDebrief?.evidence).toEqual(["did: add v1 water 1mL"]);
+    s.closeMissionDebrief();
+    expect(s.missionDebrief).toBeNull();
+    expect(s.commandLog).toEqual(["add v1 water 1mL"]);
+  });
+
+  it("restores mission progress even when the codex progress blob is corrupt", () => {
+    const storage = new FakeStorage();
+    storage.setItem("kero.codex.done.v1", "not-json");
+    storage.setItem("kero.missions.done.v1", '["silver-and-salt"]');
+    const s = new Session(new FakeHost(), storage);
+    s.restoreProgress();
+    expect(s.completedExperiments.size).toBe(0);
+    expect(s.completedMissions.has("silver-and-salt")).toBe(true);
   });
 
   it("lesson deviation counts free commands; return rewinds them", async () => {
@@ -233,7 +406,8 @@ describe("Session", () => {
             { event: "precipitated", vessel: 0, species: "AgCl", moles: 0.01 },
             { event: "electrolysed", vessel: 1, species: "Cu", coulombs: 900 },
             { event: "gas_evolved", vessel: 0, species: "CO2", moles: 0.002 },
-            { event: "titrated", vessel: 1, added_ml: 12.4 },
+            // titrated no longer maps to an instant effect — the GUI-064
+            // playback paces its drips (see its own test).
             { event: "mixed", vessel: 1 },
             { event: "solution_characterized", vessel: 0, ph: 7 },
           ],
@@ -245,7 +419,64 @@ describe("Session", () => {
     const s = new Session(host);
     await s.submit("add v1 AgNO3 1.7g");
     expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["precipitate", "vent"]);
-    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse", "drip", "swirl"]);
+    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse", "swirl"]);
+  });
+
+  it("measured events surface as instrument effects (GUI-062)", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [
+            { event: "measured", vessel: 0, instrument: "thermometer", value: 25.0, unit: "°C" },
+            { event: "measured", vessel: 1, instrument: "ph_meter", value: 4.2, unit: "pH" },
+            { event: "measured", vessel: 0, instrument: "balance", value: 12.3, unit: "g" },
+          ],
+          rendered: [],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("measure v1 thermometer");
+    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["thermometer"]);
+    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["ph_probe"]);
+  });
+
+  it("a titrated event starts the paced playback (GUI-064)", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [
+        {
+          operator: {},
+          events: [
+            {
+              event: "titrated",
+              vessel: 0,
+              titrant: "NaOH",
+              concentration: 0.1,
+              steps: 3,
+              total_volume: 0.003,
+              final_ph: 7.1,
+              curve: [
+                [0, 2.9],
+                [1, 3.4],
+                [2, 5.0],
+                [3, 7.1],
+              ],
+            },
+          ],
+          rendered: [],
+        },
+      ],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("titrate v1 NaOH 0.1M 1mL until ph 7");
+    expect(s.titrationPlayback).not.toBeNull();
+    expect(s.titrationPlayback!.total).toBe(3);
+    expect(s.titrationPlayback!.vessel).toBe(0);
   });
 
   it("the latest rendered equation is pinned for the strip", async () => {
@@ -347,10 +578,46 @@ describe("Session", () => {
     expect(s2.commandLog).toEqual(["add v1 water 100mL", "add v1 NaCl 1g"]);
     expect(s2.position).toBe(1);
     expect(s2.register).toBe("lv2");
-    // Restored by replaying exactly the applied prefix.
+    // v2 saves carry the engine snapshot: restored in ONE call, no replay.
     expect(host2.calls).toContain("register:lv2");
-    expect(host2.calls).toContain("run:add v1 water 100mL");
-    expect(s2.feed.some((f) => f.text.includes("restored"))).toBe(true);
+    expect(host2.calls.some((c) => c.startsWith("restore:snap@"))).toBe(true);
+    expect(host2.calls.some((c) => c.startsWith("run:"))).toBe(false);
+    expect(s2.feed.some((f) => f.text.includes("instantly"))).toBe(true);
+  });
+
+  it("a v1 save (no snapshot) still restores, by replay", async () => {
+    const storage = new FakeStorage();
+    storage.setItem(
+      "kero.session.v1",
+      JSON.stringify({ log: ["add v1 water 100mL"], position: 1, register: "lv1" }),
+    );
+    const host = new FakeHost();
+    const s = new Session(host, storage);
+    await s.connect();
+    expect(host.calls).toContain("run:add v1 water 100mL");
+    expect(s.position).toBe(1);
+  });
+
+  it("a stale snapshot token falls back to replay, not a broken bench", async () => {
+    const storage = new FakeStorage();
+    storage.setItem(
+      "kero.session.v1",
+      JSON.stringify({
+        log: ["add v1 water 100mL"],
+        position: 1,
+        register: "lv1",
+        snapshot: "snap@from-an-older-engine",
+      }),
+    );
+    const host = new FakeHost();
+    host.restore = async () => {
+      throw new Error("the snapshot did not parse");
+    };
+    const s = new Session(host, storage);
+    await s.connect();
+    expect(host.calls).toContain("run:add v1 water 100mL");
+    expect(s.position).toBe(1);
+    expect(s.feed.some((f) => f.text.includes("replayed"))).toBe(true);
   });
 
   it("a corrupt save is dropped, never wedging the bench", async () => {

@@ -1,0 +1,135 @@
+# Desktop builds for a GitHub Release.
+#
+# The engine is native here — IPhreeqc's C++ is compiled and linked into the
+# binary on every platform — so this is a real cross-platform build, not a
+# packaging step. Each runner needs a C++ toolchain and CMake, which they
+# all have, plus the platform webview development headers on Linux.
+#
+# `workflow_dispatch` builds and uploads artifacts without ever creating a
+# release, so the whole pipeline can be exercised safely. A `v*` tag is what
+# publishes.
+#
+# No job here is `continue-on-error`. A red job that reports green is how a
+# broken build survives for a month (appstore.md learned this the hard way);
+# if a platform breaks, this goes red and says which one.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Build and upload artifacts, but do not publish a release"
+        type: boolean
+        default: true
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  desktop:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            name: macOS (universal)
+            target: universal-apple-darwin
+            bundles: app,dmg
+          - os: ubuntu-22.04
+            name: Linux (x86_64)
+            target: x86_64-unknown-linux-gnu
+            bundles: deb,appimage
+          - os: windows-latest
+            name: Windows (x86_64)
+            target: x86_64-pc-windows-msvc
+            bundles: msi,nsis
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # Tauri's webview and tray dependencies. The webkit2gtk version is not
+      # interchangeable: Tauri 2 wants 4.1, and 4.0 fails at link time with
+      # missing symbols rather than at configure time.
+      - name: Linux system dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev \
+            libxdo-dev libssl-dev patchelf cmake ninja-build
+
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target == 'universal-apple-darwin' && 'aarch64-apple-darwin,x86_64-apple-darwin' || matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: web/app/src-tauri
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: web/app/package-lock.json
+
+      - name: Install the app's dependencies
+        working-directory: web/app
+        run: npm ci --no-audit --no-fund
+
+      # The lessons and the codex are fetched by the UI from the payload
+      # root, which inside a packaged app is `engine/` in the bundle. The
+      # Tauri build runs this itself through beforeBuildCommand; it is listed
+      # here only so a failure names itself instead of surfacing as an app
+      # with an empty lesson picker.
+      - name: Stage the shell payload
+        run: bash tools/build-shell-payload.sh
+
+      - name: Build
+        working-directory: web/app
+        run: npx tauri build --target ${{ matrix.target }} --bundles ${{ matrix.bundles }}
+
+      - name: Collect what was built
+        shell: bash
+        run: |
+          mkdir -p dist-release
+          TARGET_DIR="$(cargo metadata --format-version 1 --no-deps \
+            --manifest-path web/app/src-tauri/Cargo.toml \
+            | python3 -c 'import sys,json; print(json.load(sys.stdin)["target_directory"])')"
+          find "$TARGET_DIR/${{ matrix.target }}/release/bundle" \
+            \( -name '*.dmg' -o -name '*.deb' -o -name '*.AppImage' \
+               -o -name '*.msi' -o -name '*.exe' \) \
+            -exec cp {} dist-release/ \;
+          ls -lh dist-release
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: kerotakis-${{ matrix.target }}
+          path: dist-release/*
+          if-no-files-found: error
+
+  publish:
+    name: Publish the release
+    needs: desktop
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: One directory of everything
+        run: |
+          mkdir -p release
+          find artifacts -type f -exec cp {} release/ \;
+          ls -lh release
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: release/*
+          generate_release_notes: true
+          # A tag is not a promise to ship: the release is created as a draft
+          # so the artifacts can be checked before anyone can download them.
+          draft: true

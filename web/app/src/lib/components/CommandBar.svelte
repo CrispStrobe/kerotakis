@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { i18n, t } from "../i18n.svelte";
   let {
     onsubmit,
     busy,
@@ -28,7 +29,7 @@
     }
     debounce = setTimeout(() => {
       void onvalidate(current).then((r) => {
-        if (line === current) problem = r.ok ? null : (r.error ?? "not a command");
+        if (line === current) problem = r.ok ? null : (r.error ?? t("not a command"));
       });
     }, 300);
   });
@@ -76,7 +77,7 @@
     }
     if (!RecognitionCtor) return;
     recognizer = new RecognitionCtor();
-    recognizer.lang = navigator.language || "en-US";
+    recognizer.lang = i18n.locale === "de" ? "de-DE" : "en-US";
     recognizer.interimResults = false;
     recognizer.maxAlternatives = 1;
     recognizer.onresult = (e) => {
@@ -125,8 +126,8 @@
       type="text"
       bind:value={line}
       {onkeydown}
-      placeholder="add v1 water 100mL"
-      aria-label="command"
+      placeholder={t("add v1 water 100mL")}
+      aria-label={t("command")}
       aria-invalid={problem !== null}
       autocomplete="off"
       autocapitalize="off"
@@ -139,8 +140,8 @@
         class="mic"
         class:listening
         onclick={toggleVoice}
-        title="speak a command — it lands here to read and correct before you run it"
-        aria-label={listening ? "stop listening" : "speak a command"}
+        title={t("speak a command — it lands here to read and correct before you run it")}
+        aria-label={listening ? t("stop listening") : t("speak a command")}
         aria-pressed={listening}
       >
         <svg viewBox="0 0 18 18" aria-hidden="true">
@@ -154,7 +155,12 @@
 
 <style>
   .wrap {
-    background: var(--panel);
+    margin: 0 0.75rem 0.75rem;
+    border: 1px solid var(--edge);
+    border-radius: 14px;
+    background: var(--surface);
+    box-shadow: 0 6px 22px var(--shadow);
+    overflow: hidden;
   }
   .problem {
     margin: 0;
@@ -165,21 +171,22 @@
   .bar {
     display: flex;
     align-items: center;
-    border-top: 1px solid var(--edge);
+    border-top: 0;
   }
   .bar.invalid {
     border-top-color: var(--warn);
   }
   .prompt {
-    color: var(--hot);
+    color: var(--action);
     padding: 0 0.4rem 0 1rem;
+    font: 700 0.78rem/1 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   }
   input {
     flex: 1;
     background: none;
     border: 0;
     color: var(--ink);
-    font: inherit;
+    font: 0.84rem/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
     padding: 0.8rem 1rem 0.8rem 0;
     outline: none;
     min-height: 44px;
@@ -213,6 +220,12 @@
   @keyframes mic-pulse {
     50% {
       opacity: 0.45;
+    }
+  }
+  @media (max-width: 980px) {
+    .wrap {
+      margin-inline: 0.5rem;
+      margin-bottom: 0.5rem;
     }
   }
 </style>

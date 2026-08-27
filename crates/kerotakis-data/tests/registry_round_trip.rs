@@ -28,6 +28,8 @@ fn source_registry_loads_and_validates() {
         !doc.identities.is_empty(),
         "registry must have identity records"
     );
+    doc.validate().expect("checked-in registry must validate");
+    assert_eq!(doc.material_recipes.len(), 4);
 }
 
 #[test]
@@ -43,6 +45,13 @@ fn pack_round_trip_is_deterministic() {
     // Deserialize and re-serialize — must be identical (deterministic)
     let doc2: kerotakis_data::RegistryDocument =
         serde_json::from_slice(&payload1).expect("round-trip deserialize");
+    assert_eq!(doc2.material_recipes, doc.material_recipes);
+    let peroxide = doc2
+        .material_recipe("Wasserstoffperoxid 3%", Some("de"))
+        .expect("localized household recipe survives the pack");
+    let expansion = peroxide.expand(100.0, 0).expect("fixed expansion");
+    assert_eq!(expansion.components[0].amount, 3.0);
+    assert_eq!(expansion.unresolved_amount, 0.0);
     let payload2 = kerotakis_data::serialize_pack_payload(&doc2);
 
     assert_eq!(
