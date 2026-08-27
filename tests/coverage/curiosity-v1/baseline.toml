@@ -107,8 +107,8 @@ reason_code = "not-yet-modeled"
 [[observation]]
 id = "aq-018"
 owning_task = "BRD-012"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "computed-route"
 
 [[observation]]
 id = "aq-019"
@@ -803,8 +803,8 @@ reason_code = "unknown-species"
 [[observation]]
 id = "bio-009"
 owning_task = "BRD-023"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "computed"
+reason_code = "typed-engine-event"
 
 [[observation]]
 id = "bio-010"
