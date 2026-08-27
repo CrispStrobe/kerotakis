@@ -56,6 +56,9 @@ export interface SceneFoam {
   volume_liters: number;
   height_cm: number;
   overflow_liters: number;
+  /** Additive scene-v1 fields; absent when talking to an older host. */
+  srgb?: [number, number, number];
+  colour_word?: string;
 }
 
 /** One visible liquid layer, bottom first (GUI-058) — the engine's

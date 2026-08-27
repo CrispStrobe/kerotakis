@@ -83,6 +83,21 @@ pub struct SceneFoam {
     pub volume_liters: f64,
     pub height_cm: f64,
     pub overflow_liters: f64,
+    /// Tint carried into the bubble films by the computed liquid mixture.
+    /// Foam remains mostly gas, so renderers should lighten this colour
+    /// rather than paint it as an opaque block.
+    #[serde(default = "default_foam_srgb")]
+    pub srgb: [u8; 3],
+    #[serde(default = "default_foam_colour_word")]
+    pub colour_word: String,
+}
+
+fn default_foam_srgb() -> [u8; 3] {
+    [245, 245, 245]
+}
+
+fn default_foam_colour_word() -> String {
+    "colourless".to_string()
 }
 
 /// One visible liquid layer (GUI-058).
@@ -278,6 +293,14 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             volume_liters: v.foam.volume_liters,
             height_cm: v.foam.volume_liters * 1000.0 / area_cm2,
             overflow_liters: (v.liquid_volume().0 + v.foam.volume_liters - capacity_l).max(0.0),
+            srgb: liquid
+                .as_ref()
+                .map(|liquid| liquid.srgb)
+                .unwrap_or_else(default_foam_srgb),
+            colour_word: liquid
+                .as_ref()
+                .map(|liquid| liquid.colour_word.clone())
+                .unwrap_or_else(default_foam_colour_word),
         }
     });
     if let Some(foam) = &foam {
@@ -394,6 +417,24 @@ mod tests {
         assert!(foam.height_cm > 0.0);
         assert!(foam.overflow_liters > 0.0);
         assert!(scene.words.contains("spilling over"));
+    }
+
+    #[test]
+    fn foam_carries_the_computed_liquid_colour() {
+        let mut v = vessel_with(&[
+            ("water", 5.55, Phase::Liquid),
+            ("betanin", 0.000_001, Phase::Aqueous),
+        ]);
+        v.foam.trapped_gas_liters = 0.10;
+        v.foam.volume_liters = 0.12;
+        v.foam.peak_volume_liters = 0.12;
+
+        let scene = scene_vessel(&v);
+        let liquid = scene.liquid.expect("coloured liquid");
+        let foam = scene.foam.expect("foam render target");
+        assert_eq!(foam.srgb, liquid.srgb);
+        assert_eq!(foam.colour_word, liquid.colour_word);
+        assert_ne!(foam.colour_word, "colourless");
     }
 
     #[test]
