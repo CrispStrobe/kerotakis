@@ -610,30 +610,6 @@
         onclose={() => (apparatusOut = null)}
       />
     {/if}
-    {#if apparatusSpec}
-      {#key `${apparatusSpec.verb}:${session.selected}`}
-        <ApparatusForm
-          spec={apparatusSpec}
-          vessel={session.selected}
-          shelf={session.shelf}
-          busy={session.busy}
-          initialValues={apparatusInitialValues}
-          onrun={(line) => void session.submit(line)}
-          onpreview={(values) => (apparatusPreview = values)}
-          onclose={() => (apparatusOut = null)}
-        />
-      {/key}
-    {/if}
-    {#if buretteOut}
-      <Burette
-        vessel={session.selected}
-        shelf={session.shelf}
-        busy={session.busy}
-        running={titrating}
-        onstart={(line) => void startTitration(line)}
-        onclose={() => (buretteOut = false)}
-      />
-    {/if}
     {#if session.register !== "lv1" && session.lastEquation}
       <p class="equation" aria-label={t("latest reaction equation")}>
         {session.lastEquation}
@@ -691,6 +667,30 @@
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
         )}
     />
+    {#if apparatusSpec}
+      {#key `${apparatusSpec.verb}:${session.selected}`}
+        <ApparatusForm
+          spec={apparatusSpec}
+          vessel={session.selected}
+          shelf={session.shelf}
+          busy={session.busy}
+          initialValues={apparatusInitialValues}
+          onrun={(line) => void session.submit(line)}
+          onpreview={(values) => (apparatusPreview = values)}
+          onclose={() => (apparatusOut = null)}
+        />
+      {/key}
+    {/if}
+    {#if buretteOut}
+      <Burette
+        vessel={session.selected}
+        shelf={session.shelf}
+        busy={session.busy}
+        running={titrating}
+        onstart={(line) => void startTitration(line)}
+        onclose={() => (buretteOut = false)}
+      />
+    {/if}
     {#if selectedVessel && !apparatusOut && !buretteOut}
       <VesselActionDock
         vessel={selectedVessel.id}

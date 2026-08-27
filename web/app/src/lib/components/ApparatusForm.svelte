@@ -73,7 +73,6 @@
     </button>
     <button class="close" onclick={onclose}>{t("put away")}</button>
   </div>
-  {#if line}<code>{line}</code>{/if}
 </section>
 
 <style>
@@ -149,11 +148,5 @@
     padding: 0.3rem 0.7rem;
     cursor: pointer;
     min-height: 36px;
-  }
-  code {
-    display: block;
-    margin-top: 0.3rem;
-    color: var(--dim);
-    font-size: 0.72rem;
   }
 </style>
