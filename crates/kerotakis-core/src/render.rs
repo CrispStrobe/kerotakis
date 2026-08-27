@@ -323,6 +323,105 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 ),
             }
         }
+        Event::Stirred {
+            vessel,
+            rpm,
+            seconds,
+            bar_length_m,
+            tip_speed_m_s,
+            rate_coupled,
+        } => match register.level() {
+            1 => format!("The magnetic stirrer spins {vessel} for {seconds:.0} seconds."),
+            2 => format!(
+                "{vessel}: magnetic stirrer {rpm:.0} rpm for {seconds:.0} s — bar tip {:.3} m/s",
+                tip_speed_m_s
+            ),
+            _ => format!(
+                "{vessel}: stir {rpm:.1} rpm × {seconds:.1} s; bar {:.1} mm; tip {:.5} m/s; rate coupling {}",
+                bar_length_m * 1000.0,
+                tip_speed_m_s,
+                if *rate_coupled { "active" } else { "not yet modelled" }
+            ),
+        },
+        Event::Ground {
+            vessel,
+            species: sid,
+            diameter_um,
+            solid_moles,
+            surface_area_m2,
+            rate_coupled,
+        } => {
+            let name = species::lookup(sid)
+                .map(|data| data.name)
+                .unwrap_or(sid.0.as_str());
+            match register.level() {
+                1 => format!("You grind the {name} in {vessel} into a finer powder."),
+                2 => format!(
+                    "{vessel}: {name} ground to {diameter_um:.1} µm — about {surface_area_m2:.3} m² surface area"
+                ),
+                _ => format!(
+                    "{vessel}: grind {name}; {:.6} mol solid; mean diameter {:.3} µm; spherical-particle area {:.6} m²; rate coupling {}",
+                    solid_moles.0,
+                    diameter_um,
+                    surface_area_m2,
+                    if *rate_coupled { "active" } else { "not yet modelled" }
+                ),
+            }
+        }
+        Event::Centrifuged {
+            vessel,
+            rpm,
+            seconds,
+            rotor_radius_m,
+            rcf,
+            fluid_density_kg_m3,
+            dynamic_viscosity_pa_s,
+            separations,
+            state_coupled,
+        } => {
+            let strongest = separations
+                .iter()
+                .map(|separation| separation.separated_fraction)
+                .fold(0.0_f64, f64::max);
+            match register.level() {
+                1 => format!(
+                    "The mini centrifuge spins {vessel}; the particles travel {:.0}% of the tube path.",
+                    strongest * 100.0
+                ),
+                2 => format!(
+                    "{vessel}: {rpm:.0} rpm for {seconds:.0} s — {rcf:.0} × g; {:.0}% separation",
+                    strongest * 100.0
+                ),
+                _ => {
+                    let detail = separations
+                        .iter()
+                        .map(|separation| {
+                            let assumption = if separation.particle_size_assumed {
+                                " (diameter assumed)"
+                            } else {
+                                ""
+                            };
+                            format!(
+                                "{}: {:.1} µm{}, v={:.6} m/s, x={:.5} m, {:.1}% {:?}",
+                                separation.species,
+                                separation.particle_diameter_um,
+                                assumption,
+                                separation.terminal_speed_m_s,
+                                separation.distance_m,
+                                separation.separated_fraction * 100.0,
+                                separation.direction,
+                            )
+                        })
+                        .collect::<Vec<_>>()
+                        .join("; ");
+                    format!(
+                        "{vessel}: centrifuge {rpm:.1} rpm × {seconds:.1} s, r={:.3} m, RCF={rcf:.2}; ρfluid={fluid_density_kg_m3:.1} kg/m³, μ={dynamic_viscosity_pa_s:.6} Pa·s; {detail}; state coupling {}",
+                        rotor_radius_m,
+                        if *state_coupled { "active" } else { "not yet modelled" }
+                    )
+                }
+            }
+        }
         Event::Filtered { from, to } => match register.level() {
             1 => format!(
                 "You pour {from} through the filter paper — the liquid runs into {to}, and the solid stays behind on the paper."

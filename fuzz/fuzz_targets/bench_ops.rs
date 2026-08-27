@@ -73,7 +73,11 @@ fuzz_target!(|ops: Vec<FuzzOp>| {
                 vessel: vid(vessel),
                 energy: Joules(energy),
             },
-            FuzzOp::Stir { vessel } => Operator::Stir { vessel: vid(vessel) },
+            FuzzOp::Stir { vessel } => Operator::Stir {
+                vessel: vid(vessel),
+                rpm: 500.0,
+                seconds: 10.0,
+            },
             FuzzOp::Wait { seconds } => Operator::Wait { seconds },
             FuzzOp::Ignite { vessel } => Operator::Ignite { vessel: vid(vessel) },
             FuzzOp::Filter { from, to } => Operator::Filter {

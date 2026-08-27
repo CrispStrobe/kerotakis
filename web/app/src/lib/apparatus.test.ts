@@ -17,6 +17,11 @@ describe("apparatus forms compile to the grammar", () => {
   });
 
   it("the exact lines match the grammar's shapes", () => {
+    expect(spec("stir").build(0, { rpm: 600, seconds: 30 })).toBe("stir v1 600rpm 30s");
+    expect(spec("heat").build(0, { watts: 250, seconds: 30 })).toBe("heat v1 7500J");
+    expect(spec("centrifuge").build(0, { rpm: 3000, seconds: 60, radius: 8 })).toBe(
+      "centrifuge v1 3000rpm 60s 8cm",
+    );
     expect(spec("dilute").build(1, { volume: 250 })).toBe("dilute v2 250mL");
     expect(spec("evaporate").build(0, { fraction: 0.5 })).toBe("evaporate v1 0.5");
     expect(spec("electrolyse").build(0, { amps: 0.5, minutes: 30 })).toBe(
