@@ -128,6 +128,42 @@ export function engineText(text: string): string {
     return `${t(match[1]!)}dampf ist beim Einatmen gefährlich`;
   }
 
+  if ((match = text.match(/^missing argument: (.+)$/))) {
+    return `Fehlendes Argument: ${match[1]}`;
+  }
+  if ((match = text.match(/^unknown relation '(.+)'$/))) {
+    return `Unbekannte Beziehung „${match[1]}“`;
+  }
+
+  const relationText = /Nernst equation|Arrhenius equation|Eyring equation|Henderson[–-]Hasselbalch|Ionic strength|Lewis and Randall|Debye–Hückel|Van 't Hoff|WARNING: I >/.test(text);
+  if (relationText) {
+    return text
+      .replaceAll("Nernst equation", "Nernst-Gleichung")
+      .replaceAll("Arrhenius equation", "Arrhenius-Gleichung")
+      .replaceAll("Eyring equation", "Eyring-Gleichung")
+      .replaceAll("transition state theory", "Übergangszustandstheorie")
+      .replaceAll("Henderson–Hasselbalch equation", "Henderson-Hasselbalch-Gleichung")
+      .replaceAll("Ionic strength", "Ionenstärke")
+      .replaceAll("Debye–Hückel limiting law", "Debye-Hückel-Grenzgesetz")
+      .replaceAll("Van 't Hoff equation", "Van-'t-Hoff-Gleichung")
+      .replaceAll("modified form", "modifizierte Form")
+      .replaceAll("constants:", "Konstanten:")
+      .replaceAll(" electrons", " Elektronen")
+      .replaceAll(" ion(s):", " Ion(en):")
+      .replace(/\bion (\d+):/g, "Ion $1:")
+      .replaceAll("base fraction", "Basenanteil")
+      .replaceAll("ratio K₂/K₁", "Verhältnis K₂/K₁")
+      .replaceAll("endothermic", "endotherm")
+      .replaceAll("exothermic", "exotherm")
+      .replaceAll(" at T₁", " bei T₁")
+      .replaceAll(" at 25 °C in water", " bei 25 °C in Wasser")
+      .replaceAll("valid only for", "nur gültig für")
+      .replaceAll("above that, use an extended or Pitzer model", "darüber ist ein erweitertes oder ein Pitzer-Modell nötig")
+      .replaceAll("(and PHREEQC's activity coefficients are the real ones)", "(maßgeblich sind die Aktivitätskoeffizienten von PHREEQC)")
+      .replaceAll("WARNING: I > 0.01 mol/kg — the limiting law is outside its validity domain", "WARNUNG: I > 0.01 mol/kg — das Grenzgesetz liegt außerhalb seines Gültigkeitsbereichs")
+      .replaceAll("Outside validity domain (I > 0.01 mol/kg). The extended Debye–Hückel, Davies or Pitzer model would give a different (better) answer, and PHREEQC uses one of those.", "Außerhalb des Gültigkeitsbereichs (I > 0.01 mol/kg). Das erweiterte Debye-Hückel-, Davies- oder Pitzer-Modell liefert ein anderes (besseres) Ergebnis; PHREEQC verwendet eines davon.");
+  }
+
   // Numeric state lines need only their stable vocabulary translated.
   if (/^v\d+ \([^)]+\) — /.test(text)) {
     return text
