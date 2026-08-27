@@ -6,6 +6,7 @@
   import type { Effect } from "../magnitudes";
   import { t } from "../i18n.svelte";
   import DeployedApparatus from "./DeployedApparatus.svelte";
+  import { APPARATUS } from "../apparatus";
 
   let {
     vessel,
@@ -41,18 +42,28 @@
 
   // Transient effects: young enough that their animation is still running.
   const now = () => Date.now();
+  // `Date.now()` is not reactive. While effects exist, advance one lightweight
+  // clock so finite visual windows really end even if no other bench state
+  // changes at that instant. This also keeps textual apparatus state honest.
+  let effectClock = $state(Date.now());
+  $effect(() => {
+    if (effects.length === 0) return;
+    effectClock = Date.now();
+    const timer = setInterval(() => (effectClock = Date.now()), 100);
+    return () => clearInterval(timer);
+  });
   const effectAlive = (effect: Effect, fallbackMs: number, at = now()) =>
     at - effect.at < (effect.durationMs ?? fallbackMs);
   const active = (kind: string, withinMs: number) =>
-    effects.some((e) => e.kind === kind && effectAlive(e, withinMs));
+    effects.some((e) => e.kind === kind && effectAlive(e, withinMs, effectClock));
   // GUI-059: magnitude of the most recent active effect of a given kind.
   const mag = (kind: string, withinMs: number) => {
-    const n = now();
+    const n = effectClock;
     const recent = effects.filter((e) => e.kind === kind && effectAlive(e, withinMs, n));
     return recent.length > 0 ? (recent[recent.length - 1]!.magnitude ?? 1) : 0;
   };
   const latestFlameColour = $derived.by(() => {
-    const n = now();
+    const n = effectClock;
     const recent = effects.filter((e) => e.kind === "ignite" && n - e.at < 3000 && e.flameColour);
     return recent.length > 0 ? recent[recent.length - 1]!.flameColour : undefined;
   });
@@ -153,6 +164,19 @@
   const cold = $derived(Math.min(1, Math.max(0, (273.15 - vessel.temperature_k) / 60)));
   const motionMag = $derived(Math.max(mag("swirl", 2200), mag("burst", 1800), mag("heat", 2200), mag("cool", 2200)));
   const frostIntensity = $derived(Math.max(cold, mag("cool", 2200), mag("freeze", 2200)));
+  const apparatusOperating = $derived(
+    apparatusWorking ||
+      (deployedTool === "stir" && active("swirl", 2200)) ||
+      (deployedTool === "heat" && active("heat", 2200)) ||
+      (deployedTool === "cool" && active("cool", 2200)),
+  );
+  const apparatusTitle = $derived(
+    deployedTool
+      ? deployedTool === "burette"
+        ? "burette"
+        : APPARATUS.find((spec) => spec.verb === deployedTool)?.title ?? deployedTool
+      : null,
+  );
   const reducedMotion =
     typeof matchMedia !== "undefined" &&
     matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -167,13 +191,14 @@
   class:drop-ready={dropReady}
   class:transfer-target={transferTarget}
   class:whirling={active("swirl", 2200)}
+  class:apparatus-working={apparatusOperating}
   class:bursting={active("burst", 1800)}
   data-vessel-id={vessel.id}
   style={`--swirl-duration:${2.2 - motionMag * 1.25}s;--stir-duration:${1.15 - motionMag * 0.65}s;--heat-duration:${1.8 - Math.max(hot, mag("heat", 2200)) * 0.8}s;--heat-opacity:${0.25 + Math.max(hot, mag("heat", 2200)) * 0.65}`}
 >
   <button
     class="glassbtn"
-    aria-label={`${t(vessel.label)} v${vessel.id + 1}: ${t(vessel.words)}${transferTarget ? ` · ${t("transfer target")}` : ""}`}
+    aria-label={`${t(vessel.label)} v${vessel.id + 1}: ${t(vessel.words)}${transferTarget ? ` · ${t("transfer target")}` : ""}${apparatusTitle ? ` · ${t("{tool} installed: {state}", { tool: t(apparatusTitle), state: t(apparatusOperating ? "running…" : "ready") })}` : ""}`}
     aria-pressed={selected}
     onclick={() => onselect?.(vessel.id)}
     ondragover={(e) => {
@@ -321,7 +346,7 @@
     {/if}
 
     {#if deployedTool}
-      <DeployedApparatus tool={deployedTool} working={apparatusWorking} values={apparatusValues} surfaceY={BOTTOM_Y - Math.max(liquidH, 4)} />
+      <DeployedApparatus tool={deployedTool} working={apparatusOperating} values={apparatusValues} surfaceY={BOTTOM_Y - Math.max(liquidH, 4)} />
     {/if}
 
     <!-- State-driven effects: every one traces to a computed number. -->
@@ -561,6 +586,17 @@
 
   <figcaption class="caption">
     <span class="label">{t(vessel.label)} v{vessel.id + 1}</span>
+    {#if apparatusTitle}
+      <span
+        class="apparatus-status"
+        class:running={apparatusOperating}
+        title={t("{tool} installed: {state}", { tool: t(apparatusTitle), state: t(apparatusOperating ? "running…" : "ready") })}
+      >
+        <span class="status-light" aria-hidden="true"></span>
+        <strong>{t(apparatusTitle)}</strong>
+        <small>{t(apparatusOperating ? "running…" : "ready")}</small>
+      </span>
+    {/if}
     {#if register !== "lv1"}
       <button
         class="badge"
@@ -732,8 +768,9 @@
     animation: swirl-turn var(--swirl-duration, 2s) linear forwards;
   }
   .stirrer {
-    animation: stir-tool var(--stir-duration, 1s) linear infinite;
+    transform-origin: center;
   }
+  .apparatus-working .stirrer { animation: stir-tool var(--stir-duration, 1s) linear infinite; }
   .stirrer rect { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
   .stir-plate ellipse { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
   .stir-plate rect { fill: color-mix(in srgb, var(--instrument) 28%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1; }
@@ -1071,6 +1108,40 @@
   .label {
     color: var(--dim);
   }
+  .apparatus-status {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.28rem;
+    padding: 0.18rem 0.42rem;
+    border: 1px solid color-mix(in srgb, var(--instrument) 35%, var(--edge));
+    border-radius: 999px;
+    color: var(--instrument);
+    background: color-mix(in srgb, var(--instrument) 8%, var(--surface));
+    font-size: 0.57rem;
+    line-height: 1;
+    white-space: nowrap;
+  }
+  .apparatus-status small { color: var(--dim); font-size: 0.52rem; }
+  .status-light {
+    width: 0.42rem;
+    height: 0.42rem;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    background: var(--surface);
+  }
+  .apparatus-status.running {
+    color: var(--success);
+    border-color: color-mix(in srgb, var(--success) 45%, var(--edge));
+    background: color-mix(in srgb, var(--success) 9%, var(--surface));
+  }
+  .apparatus-status.running .status-light {
+    background: var(--success);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--success) 16%, transparent);
+    animation: status-pulse 0.8s ease-in-out infinite alternate;
+  }
+  @keyframes status-pulse { to { box-shadow: 0 0 0 6px transparent; } }
   .badge {
     border: 1px solid var(--edge);
     border-radius: 999px;

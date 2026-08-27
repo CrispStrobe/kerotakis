@@ -7,8 +7,11 @@
   import { t } from "../i18n.svelte";
   import {
     BENCH_ZONES,
+    apparatusPositionFor,
     positionFor,
+    positionApparatus,
     positionVessel,
+    zoneAt,
     zoneFor,
     type BenchLayout,
     type BenchZone,
@@ -72,6 +75,8 @@
   let dropZone = $state<BenchZone | null>(null);
   let dragPreview = $state<{ vessel: number; x: number; y: number } | null>(null);
   let pointerDrag: { vessel: number; pointer: number; startX: number; startY: number; moved: boolean } | null = null;
+  let apparatusPreview = $state<{ tool: string; x: number; y: number } | null>(null);
+  let apparatusPointer = $state<{ tool: string; pointer: number; startX: number; startY: number; moved: boolean } | null>(null);
   let moveMessage = $state("");
   let messageTimer: ReturnType<typeof setTimeout> | undefined;
   const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
@@ -98,11 +103,19 @@
   function apparatusPlacement(target: number) {
     const anchor = placement(target);
     return {
+      zone: anchor.zone,
       x: anchor.x,
       y: anchor.y >= 0.5
         ? Math.max(0.16, anchor.y - 0.4)
         : Math.min(0.84, anchor.y + 0.4),
     };
+  }
+
+  function machinePlacement(tool: string, target: number) {
+    if (apparatusPreview?.tool === tool) {
+      return { zone: zoneAt(apparatusPreview.x), x: apparatusPreview.x, y: apparatusPreview.y };
+    }
+    return apparatusPositionFor(layout, tool, apparatusPlacement(target));
   }
 
   function surfacePosition(clientX: number, clientY: number) {
@@ -158,6 +171,65 @@
     dragPreview = null;
     dragged = null;
     dropZone = null;
+  }
+
+  function placeApparatusAt(tool: string, target: number, x: number, y: number) {
+    const next = positionApparatus(layout, tool, x, y);
+    onmove?.(next);
+    onselect(target);
+    moveMessage = t("{tool} moved on the bench", { tool: t(tool === "grind" ? "mortar" : "mini centrifuge") });
+    if (messageTimer) clearTimeout(messageTimer);
+    messageTimer = setTimeout(() => (moveMessage = ""), 2200);
+  }
+
+  function startApparatusPointer(event: PointerEvent, tool: string, target: number) {
+    if (event.button !== 0) return;
+    event.stopPropagation();
+    apparatusPointer = { tool, pointer: event.pointerId, startX: event.clientX, startY: event.clientY, moved: false };
+    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    onselect(target);
+  }
+
+  function trackApparatusPointer(event: PointerEvent) {
+    if (!apparatusPointer || apparatusPointer.pointer !== event.pointerId) return;
+    if (!apparatusPointer.moved && Math.hypot(event.clientX - apparatusPointer.startX, event.clientY - apparatusPointer.startY) < 6) return;
+    apparatusPointer.moved = true;
+    const p = surfacePosition(event.clientX, event.clientY);
+    if (!p) return;
+    event.preventDefault();
+    const previewLayout = positionApparatus(layout, apparatusPointer.tool, p.x, p.y);
+    const placed = previewLayout.apparatus[apparatusPointer.tool]!;
+    apparatusPreview = { tool: apparatusPointer.tool, x: placed.x, y: placed.y };
+  }
+
+  function finishApparatusPointer(event: PointerEvent, target: number) {
+    if (!apparatusPointer || apparatusPointer.pointer !== event.pointerId) return;
+    if (apparatusPointer.moved && apparatusPreview) {
+      event.preventDefault();
+      placeApparatusAt(apparatusPointer.tool, target, apparatusPreview.x, apparatusPreview.y);
+    }
+    apparatusPointer = null;
+    apparatusPreview = null;
+  }
+
+  function nudgeApparatus(tool: string, target: number, dx: number, dy: number) {
+    const current = machinePlacement(tool, target);
+    placeApparatusAt(tool, target, current.x + dx, current.y + dy);
+  }
+
+  function apparatusKeydown(event: KeyboardEvent, tool: string, target: number) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onselect(target);
+      return;
+    }
+    const movement: Record<string, [number, number]> = {
+      ArrowLeft: [-0.04, 0], ArrowRight: [0.04, 0], ArrowUp: [0, -0.05], ArrowDown: [0, 0.05],
+    };
+    const delta = movement[event.key];
+    if (!delta) return;
+    event.preventDefault();
+    nudgeApparatus(tool, target, delta[0], delta[1]);
   }
 </script>
 
@@ -275,13 +347,40 @@
         </section>
       {/each}
       {#if deployedTarget !== null && deployedTool && (deployedTool === "grind" || deployedTool === "centrifuge")}
-        {@const machinePosition = apparatusPlacement(deployedTarget)}
+        {@const machinePosition = machinePlacement(deployedTool, deployedTarget)}
+        {@const targetPosition = placement(deployedTarget)}
         {@const apparatusEffect = latestApparatusEffect(deployedTarget, deployedTool)}
-        <section
-          class="apparatus-position"
-          style={`left:${machinePosition.x * 100}%;top:${machinePosition.y * 100}%`}
-          aria-label={t("{tool} workstation for vessel v{vessel}", { tool: t(deployedTool === "grind" ? "mortar" : "mini centrifuge"), vessel: deployedTarget + 1 })}
+        <svg
+          class="apparatus-target-link"
+          class:working={apparatusWorking}
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          aria-hidden="true"
         >
+          <line
+            x1={machinePosition.x * 100}
+            y1={machinePosition.y * 100}
+            x2={targetPosition.x * 100}
+            y2={targetPosition.y * 100}
+          />
+          <circle cx={machinePosition.x * 100} cy={machinePosition.y * 100} r="0.65" />
+          <circle cx={targetPosition.x * 100} cy={targetPosition.y * 100} r="0.65" />
+        </svg>
+        <div
+          class="apparatus-position"
+          class:moving={apparatusPointer?.tool === deployedTool}
+          style={`left:${machinePosition.x * 100}%;top:${machinePosition.y * 100}%`}
+          role="button"
+          tabindex="0"
+          title={t("drag or use arrow keys to move")}
+          aria-label={`${t("{tool} workstation for vessel v{vessel}", { tool: t(deployedTool === "grind" ? "mortar" : "mini centrifuge"), vessel: deployedTarget + 1 })}. ${t("drag or use arrow keys to move")}`}
+          onpointerdown={(event) => startApparatusPointer(event, deployedTool, deployedTarget)}
+          onpointermove={trackApparatusPointer}
+          onpointerup={(event) => finishApparatusPointer(event, deployedTarget)}
+          onpointercancel={(event) => finishApparatusPointer(event, deployedTarget)}
+          onkeydown={(event) => apparatusKeydown(event, deployedTool, deployedTarget)}
+        >
+          <span class="apparatus-grip" aria-hidden="true">⠿</span>
           {#key apparatusEffect?.at}
             <StandaloneApparatus
               tool={deployedTool}
@@ -292,7 +391,7 @@
               values={apparatusValues}
             />
           {/key}
-        </section>
+        </div>
       {/if}
       {#if onnewvessel}
         <div class="add-vessel">
@@ -595,8 +694,59 @@
     z-index: 5;
     width: 112px;
     translate: -50% -50%;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+  }
+  .apparatus-position:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--primary) 72%, white);
+    outline-offset: 4px;
+    border-radius: 16px;
+  }
+  .apparatus-position:active { cursor: grabbing; }
+  .apparatus-position.moving { opacity: 0.62; }
+  .apparatus-grip {
+    position: absolute;
+    z-index: 2;
+    top: 0.34rem;
+    right: 0.38rem;
+    display: grid;
+    width: 1.25rem;
+    height: 1.25rem;
+    place-items: center;
+    border: 1px solid color-mix(in srgb, var(--instrument) 36%, var(--edge));
+    border-radius: 7px;
+    color: var(--instrument);
+    background: color-mix(in srgb, var(--surface) 88%, var(--instrument));
+    box-shadow: 0 2px 5px var(--shadow);
+    font-size: 0.85rem;
+    line-height: 1;
+  }
+  .apparatus-target-link {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
     pointer-events: none;
   }
+  .apparatus-target-link line {
+    fill: none;
+    stroke: color-mix(in srgb, var(--instrument) 68%, var(--edge-strong));
+    stroke-width: 2.2;
+    stroke-dasharray: 3 7;
+    stroke-linecap: round;
+    opacity: 0.62;
+    vector-effect: non-scaling-stroke;
+  }
+  .apparatus-target-link circle {
+    fill: var(--surface);
+    stroke: var(--instrument);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+  .apparatus-target-link.working line { animation: route-pulse 0.75s linear infinite; }
   .connection-port {
     position: absolute;
     top: 52%;
@@ -639,6 +789,7 @@
     font-size: 0.7rem;
     line-height: 1;
   }
+  @keyframes route-pulse { to { stroke-dashoffset: -10; } }
   .placement-controls button:disabled { opacity: 0.25; cursor: default; }
   .placement-controls .remove { color: var(--bad); background: color-mix(in srgb, var(--bad) 10%, var(--surface)); }
   .move-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
@@ -695,10 +846,13 @@
     color: var(--dim);
   }
   .hint {
+    position: absolute;
+    z-index: 7;
+    right: 1rem;
+    bottom: 3.4rem;
     color: var(--ink);
-    align-self: center;
     max-width: 18rem;
-    margin-bottom: 4rem;
+    margin: 0;
     padding: 0.75rem 0.9rem;
     border: 1px solid var(--edge);
     border-radius: 14px;
@@ -706,7 +860,13 @@
     box-shadow: 0 8px 24px var(--shadow);
     font-size: 0.82rem;
   }
+  @media (max-width: 640px) {
+    .hint { right: 0.65rem; bottom: 3rem; max-width: min(17rem, calc(100% - 5rem)); font-size: 0.72rem; }
+  }
   @media (max-height: 680px) {
     .bench { padding-top: 2.7rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .apparatus-target-link.working line { animation: none; }
   }
 </style>

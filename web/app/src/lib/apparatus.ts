@@ -29,6 +29,13 @@ export interface ApparatusSpec {
     label: string;
     build: (vessel: number, values: Record<string, number | string>) => string | null;
   };
+  /** Immediate physical consequences of the chosen controls. Chemistry stays engine-owned. */
+  readouts?: (values: Record<string, number | string>) => {
+    label: string;
+    value: number;
+    unit: string;
+    digits: number;
+  }[];
   warning?: (values: Record<string, number | string>) => string | null;
 }
 
@@ -40,6 +47,30 @@ const num = (v: number | string | undefined): number | null => {
 const pos = (v: number | string | undefined): number | null => {
   const n = num(v);
   return n !== null && n > 0 ? n : null;
+};
+
+const energyReadout = (watts: number | string | undefined, seconds: number | string | undefined) => {
+  const power = pos(watts);
+  const duration = pos(seconds);
+  if (power === null || duration === null) return [];
+  const joules = power * duration;
+  return [{
+    label: "delivered energy",
+    value: joules >= 1000 ? joules / 1000 : joules,
+    unit: joules >= 1000 ? "kJ" : "J",
+    digits: joules >= 1000 ? 2 : 0,
+  }];
+};
+
+const bunsenEnergyKj = (values: Record<string, number | string>): number | null => {
+  const flame = num(values.flame);
+  const air = num(values.air ?? 100);
+  const seconds = pos(values.seconds);
+  if (flame === null || flame <= 0 || flame > 100 || air === null || air < 0 || air > 100 || seconds === null || seconds > 300) {
+    return null;
+  }
+  const collarEfficiency = 0.55 + 0.45 * air / 100;
+  return Number((0.005 * flame * seconds * collarEfficiency).toFixed(3));
 };
 
 export const APPARATUS: ApparatusSpec[] = [
@@ -54,19 +85,18 @@ export const APPARATUS: ApparatusSpec[] = [
       { name: "seconds", label: "exposure", type: "number", unit: "s", default: 30, min: 1, max: 300 },
     ],
     build: (v, f) => {
-      const flame = num(f.flame);
-      const air = num(f.air ?? 100);
-      const seconds = pos(f.seconds);
-      if (flame === null || flame <= 0 || flame > 100 || air === null || air < 0 || air > 100 || seconds === null || seconds > 300) {
-        return null;
-      }
       // Bounded first near-field model: up to 500 W reaches the selected
       // vessel. Opening the collar raises the teaching heat-transfer
       // efficiency from 55% to 100%; the engine still owns temperature and
       // resulting chemistry. This is not a soot/CO combustion model.
-      const collarEfficiency = 0.55 + 0.45 * air / 100;
-      const energyKj = Number((0.005 * flame * seconds * collarEfficiency).toFixed(3));
-      return `heat v${v + 1} ${energyKj}kJ`;
+      const energyKj = bunsenEnergyKj(f);
+      return energyKj === null ? null : `heat v${v + 1} ${energyKj}kJ`;
+    },
+    readouts: (f) => {
+      const energyKj = bunsenEnergyKj(f);
+      return energyKj === null
+        ? []
+        : [{ label: "delivered energy", value: energyKj, unit: "kJ", digits: 3 }];
     },
     secondary: {
       label: "touch flame to contents",
@@ -89,6 +119,13 @@ export const APPARATUS: ApparatusSpec[] = [
       const seconds = pos(f.seconds);
       return rpm === null || seconds === null ? null : `stir v${v + 1} ${rpm}rpm ${seconds}s`;
     },
+    readouts: (f) => {
+      const rpm = pos(f.rpm);
+      if (rpm === null) return [];
+      // Same 25 mm stir-bar path used by the engine's computed Stirred event.
+      const tipSpeed = Math.PI * 0.025 * rpm / 60;
+      return [{ label: "stir-bar tip speed", value: tipSpeed, unit: "m/s", digits: 3 }];
+    },
   },
   {
     verb: "heat",
@@ -103,6 +140,7 @@ export const APPARATUS: ApparatusSpec[] = [
       const seconds = pos(f.seconds);
       return watts === null || seconds === null ? null : `heat v${v + 1} ${watts * seconds}J`;
     },
+    readouts: (f) => energyReadout(f.watts, f.seconds),
   },
   {
     verb: "cool",
@@ -117,6 +155,7 @@ export const APPARATUS: ApparatusSpec[] = [
       const seconds = pos(f.seconds);
       return watts === null || seconds === null ? null : `cool v${v + 1} ${watts * seconds}J`;
     },
+    readouts: (f) => energyReadout(f.watts, f.seconds).map((readout) => ({ ...readout, label: "removed energy" })),
   },
   {
     verb: "centrifuge",
@@ -143,6 +182,14 @@ export const APPARATUS: ApparatusSpec[] = [
       if (sample === null || counterbalance === null) return null;
       const imbalance = Math.abs(sample - counterbalance);
       return imbalance > 0.1 ? "rotor out of balance — adjust the counterbalance" : null;
+    },
+    readouts: (f) => {
+      const rpm = pos(f.rpm);
+      const radiusCm = pos(f.radius);
+      if (rpm === null || radiusCm === null) return [];
+      const angularSpeed = rpm * Math.PI * 2 / 60;
+      const rcf = angularSpeed ** 2 * (radiusCm / 100) / 9.80665;
+      return [{ label: "relative centrifugal force", value: rcf, unit: "× g", digits: 0 }];
     },
   },
   {

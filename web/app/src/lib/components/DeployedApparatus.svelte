@@ -168,9 +168,11 @@
   .dish, .bowl { fill: color-mix(in srgb, var(--surface) 84%, var(--cool)); stroke: var(--edge-strong); stroke-width: 1.2; }
   .base, .power { fill: color-mix(in srgb, var(--instrument) 28%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1; }
   .dial { fill: var(--hot); }
-  .heat { fill: none; stroke: var(--hot); stroke-width: 1.5; opacity: 0; animation: rise 1.15s ease-out infinite; }
+  .heat { fill: none; stroke: var(--hot); stroke-width: 1.5; opacity: 0; }
+  .working .heat { animation: rise 1.15s ease-out infinite; }
   .magnetic-plate .heat { animation-duration: var(--heat-rate, 1.15s); animation-delay: var(--heat-delay, 0s); }
-  .frost { color: var(--cool); opacity: .35; animation: frost-pulse var(--frost-rate, 1.2s) ease-in-out infinite alternate; animation-delay: var(--frost-delay, 0s); }
+  .frost { color: var(--cool); opacity: .35; }
+  .working .frost { animation: frost-pulse var(--frost-rate, 1.2s) ease-in-out infinite alternate; animation-delay: var(--frost-delay, 0s); }
   .frost path { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; }
   .positive { stroke: var(--danger); } .negative { stroke: var(--primary); }
   .electrode { fill: var(--edge-strong); }

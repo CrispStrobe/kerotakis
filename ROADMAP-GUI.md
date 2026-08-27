@@ -932,6 +932,18 @@ hide them completely.
   animations use the requested or emitted duration and stop reactively rather
   than leaving an infinite decorative loop behind. Apparatus controls dock
   with the bench and replace unrelated vessel actions while deployed.*
+  *Physical-readout slice in progress 2026-08-27: control changes immediately
+  expose the quantities they imply before Start — delivered or removed energy
+  from power × time, the 25 mm stir-bar tip speed, and centrifuge RCF from RPM
+  and rotor radius. These use the same formulae and constants as the engine;
+  chemical outcomes remain engine-owned.*
+  *Installed-state slice in progress 2026-08-27: vessel-mounted apparatus now
+  keeps a compact named status lamp on its target card. Configured equipment
+  reads as ready; the same computed-operation window that drives its physical
+  motion changes the label and lamp to running. The accessible vessel name
+  carries the identical tool and state. A short-lived reactive clock now ends
+  every transient vessel window at its declared duration even when no unrelated
+  UI state happens to change at that instant.*
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
@@ -1217,6 +1229,35 @@ decorating it.
   current volume, temperature, and first material names visible beside every
   action. This makes cross-vessel mistakes legible before heating, stirring,
   pouring, or measuring.
+
+- [x] **GUI-078 — Phase-colour cabinet.** *Shipped 2026-08-27.* Aqueous,
+  liquid, gas, and solid filters and reagent cards use consistent blue, teal,
+  violet, and orange accents. Icons and text remain the primary encoding, so
+  the livelier cabinet adds rapid scientific scanning without relying on
+  colour alone or weakening the professional/contrast themes.
+
+- [x] **GUI-079 — Clear first-run callout.** *Shipped 2026-08-27.* The
+  empty-session guidance is anchored inside the lower-right work surface,
+  above the counter edge. It no longer enters document flow beneath the bench
+  or becomes hidden by the persistent vessel action dock.
+
+- [x] **GUI-080 — Honest apparatus motion.** *Shipped 2026-08-27.* A
+  configured stirrer, hotplate, or cooling bath remains visibly installed but
+  stationary. Rotation, rising heat, and pulsing frost begin only while the
+  engine is running the operation or its computed effect is playing back;
+  configured rpm/power still sets the animation rate.
+
+- [x] **GUI-081 — Freely positioned instrument stations.** *Shipped
+  2026-08-27.* Freestanding mortar and mini-centrifuge stations can be dragged
+  with mouse, pen, or touch and nudged with arrow keys. Explicit positions are
+  stored per lab mode beside vessel coordinates; untouched tools continue to
+  follow a safe, target-aligned default lane.
+
+- [x] **GUI-082 — Legible apparatus targets.** *Shipped 2026-08-27.* A
+  freestanding instrument has a visible drag grip, focus treatment, and a
+  subtle dotted sample route to the vessel it operates on. The route follows
+  both ends while either is moved and pulses only while that operation runs;
+  reduced-motion users get the same relationship without motion.
 
 Split: GUI-058 + 060 + 064 are architecture/engine-coupled (fable);
 GUI-061 + 063 are self-contained client work (kero-basic);
