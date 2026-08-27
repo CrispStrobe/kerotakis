@@ -10,7 +10,7 @@
   } from "../codex";
   import type { Session } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
-  import { t } from "../i18n.svelte";
+  import { t, tSlug } from "../i18n.svelte";
 
   let {
     entries,
@@ -209,14 +209,14 @@
         {#if open.equation}<p class="equation">{open.equation}</p>{/if}
         <p class="prose">{t(theory)}</p>
         {#if session.register !== "lv1" && (open.concepts?.length ?? 0) > 0}
-          <p class="meta">{t("concepts: {concepts}", { concepts: open.concepts!.map(t).join(", ") })}</p>
+          <p class="meta">{t("concepts: {concepts}", { concepts: open.concepts!.map(tSlug).join(", ") })}</p>
         {/if}
         {#if session.register === "lv3" && (open.models?.length ?? 0) > 0}
-          <p class="meta">{t("models: {models}", { models: open.models!.map(t).join(", ") })}</p>
+          <p class="meta">{t("models: {models}", { models: open.models!.map(tSlug).join(", ") })}</p>
         {/if}
       {:else if tab === "procedure"}
         {#if (open.apparatus?.length ?? 0) > 0}
-          <p class="meta">{t("you will need: {apparatus}", { apparatus: open.apparatus!.map(t).join(", ") })}</p>
+          <p class="meta">{t("you will need: {apparatus}", { apparatus: open.apparatus!.map(tSlug).join(", ") })}</p>
         {/if}
         {#if kitItems.length > 0}
           <KitStrip

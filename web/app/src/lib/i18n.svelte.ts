@@ -680,6 +680,48 @@ const DE: Record<string, string> = {
   // this comma is the seam between the two styles.
   ,
 
+  // I18N-2 — the models and apparatus the Research Library lists.
+  // Same mechanism as the concept nodes: a slug, de-slugged, looked up
+  // here. Missed on the first pass because only the map was in view.
+  "activity model": "Aktivitätsmodell",
+  "broensted lowry": "Brønsted-Lowry",
+  "collision theory": "Stoßtheorie",
+  "conservation of atoms": "Atomerhaltung",
+  "energy conservation": "Energieerhaltung",
+  "gibbs minimisation": "Gibbs-Minimierung",
+  "intermolecular forces": "Zwischenmolekulare Kräfte",
+  "ionic bonding": "Ionenbindung",
+  "measurement model": "Messmodell",
+  "particle model": "Teilchenmodell",
+  "analytical balance": "Analysenwaage",
+  "bunsen": "Bunsenbrenner",
+  "cobalt glass": "Kobaltglas",
+  "conical flask": "Erlenmeyerkolben",
+  "drying oven": "Trockenschrank",
+  "evaporating basin": "Abdampfschale",
+  "eye protection": "Schutzbrille",
+  "filter funnel": "Filtertrichter",
+  "filter paper": "Filterpapier",
+  "fume cupboard": "Abzug",
+  "furnace": "Ofen",
+  "gas syringe": "Kolbenprober",
+  "lid": "Deckel",
+  "measuring cylinder": "Messzylinder",
+  "nichrome wire": "Nichromdraht",
+  "paper cross": "Papierkreuz",
+  "ph meter": "pH-Meter",
+  "pipette": "Pipette",
+  "polystyrene cup": "Styroporbecher",
+  "power supply": "Netzgerät",
+  "spatula": "Spatel",
+  "stirring rod": "Rührstab",
+  "stopper": "Stopfen",
+  "stopwatch": "Stoppuhr",
+  "tongs": "Tiegelzange",
+  "tripod": "Dreifuß",
+  "volumetric flask": "Messkolben",
+  "water bath": "Wasserbad",
+
   // I18N-2 — the map's concept nodes.
   // The map has no label field: ConceptMap.svelte de-slugs the concept id
   // and asks for it by its English words, so this is where the German has
@@ -1008,6 +1050,17 @@ class I18n {
 
 export const i18n = new I18n();
 export const t = (message: string, vars?: Vars) => i18n.t(message, vars);
+
+/** Translate a codex identifier: `strong-bases` -> "starke Basen".
+ *
+ * The catalogue names concepts, models and apparatus as slugs; the
+ * dictionary is keyed by the words. Something has to bridge the two, and
+ * it belongs here rather than in each caller — ConceptMap inlined its own
+ * `.replace(/-/g, " ")` for node labels and every list beside those nodes
+ * forgot to, which is how German nodes ended up over English slugs.
+ */
+export const tSlug = (slug: string): string => t(slug.replace(/-/g, " "));
+
 
 /** Pick the localised variant of a field the *engine* supplied (I18N-3).
  *
