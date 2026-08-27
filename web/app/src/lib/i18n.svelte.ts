@@ -765,6 +765,8 @@ const DE: Record<string, string> = {
   ,"absorbance spectrum": "Absorptionsspektrum"
   ,"separate and compare components": "Bestandteile trennen und vergleichen"
   ,"Measure {quantity} in {vessel}": "{quantity} in {vessel} messen"
+  ,"calorimeter reading: {value} kJ relative to 25 °C": "Kalorimetermessung: {value} kJ relativ zu 25 °C"
+  ,"UV-Vis peak absorbance: {value} AU at {wavelength} nm": "UV-Vis-Absorptionsmaximum: {value} AU bei {wavelength} nm"
   ,"mortar on the bench": "Mörser auf dem Labortisch"
   ,"mortar and pestle": "Mörser und Pistill"
   ,"change vessel": "Gefäß verändern"
