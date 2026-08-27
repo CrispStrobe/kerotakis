@@ -1264,6 +1264,13 @@ decorating it.
   condenser with moving coolant and condensate, temperature range and energy;
   animation intensity derives from the total computed distillate instead of a
   missing generic `moles` field.
+  *Separatory-funnel slice shipped 2026-08-27:* drain operations now assemble
+  a stopcock funnel and stand between the real source and receiver. The funnel
+  reads the source's bottom-first engine layers before scene replacement,
+  renders both computed layer colours, labels the engine-selected solvent and
+  transferred mmol, and sends the lower layer's colour through the outlet.
+  The former aggregate-liquid colour could visibly drain the wrong phase and
+  is no longer used when layer data exists.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,

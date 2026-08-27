@@ -46,6 +46,14 @@ export interface DistillationRun {
   azeotropic: boolean;
 }
 
+/** Lower-layer cut emitted by the separatory-funnel operator. */
+export interface DrainRun {
+  solvent: string;
+  moles: number;
+  lowerColour?: string;
+  upperColour?: string;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -79,6 +87,8 @@ export interface Effect {
   filterResidue?: FilterResidue[];
   /** Boiling range, column and energy bill emitted by the VLE solver. */
   distillation?: DistillationRun;
+  /** Engine-selected lower layer and its pre-drain scene colours. */
+  drain?: DrainRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -295,6 +305,10 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         source: Number(e.from ?? 0),
         target: Number(e.to ?? 0),
         operation: "drain",
+        drain: {
+          solvent: String(e.solvent ?? ""),
+          moles: Number(e.moles ?? 0),
+        },
       };
     case "cell_voltage":
       return {

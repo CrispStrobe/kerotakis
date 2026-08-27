@@ -731,8 +731,24 @@ export class Session {
       ["pour", "filter", "drain"].includes(effect.operation)
     ) {
       const source = this.scene?.vessels.find((vessel) => vessel.id === effect!.source);
-      const srgb = source?.liquid?.srgb;
+      const lowerLayer = effect.operation === "drain" ? source?.layers?.[0] : undefined;
+      const upperLayer = effect.operation === "drain" && (source?.layers?.length ?? 0) > 1
+        ? source?.layers?.at(-1)
+        : undefined;
+      const srgb = lowerLayer?.srgb ?? source?.liquid?.srgb;
       if (srgb) effect = { ...effect, fluidColour: `rgb(${srgb[0]} ${srgb[1]} ${srgb[2]})` };
+      if (effect.operation === "drain" && effect.drain) {
+        effect = {
+          ...effect,
+          drain: {
+            ...effect.drain,
+            lowerColour: srgb ? `rgb(${srgb[0]} ${srgb[1]} ${srgb[2]})` : undefined,
+            upperColour: upperLayer
+              ? `rgb(${upperLayer.srgb[0]} ${upperLayer.srgb[1]} ${upperLayer.srgb[2]})`
+              : undefined,
+          },
+        };
+      }
       if (effect.operation === "filter" && source) {
         const filterResidue = source.solids.map((solid) => ({
           species: solid.species,
