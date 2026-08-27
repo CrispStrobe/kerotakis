@@ -38,7 +38,9 @@
       ? t("empty")
       : `${contentNames.slice(0, 2).join(", ")}${contentNames.length > 2 ? ` +${contentNames.length - 2}` : ""}`,
   );
+  // i18n-ok: action ids are wire keys matched against literals below.
   const changeActions = $derived(actions.filter((action) => ["stir", "heat", "cool", "seal", "open"].includes(action.id)));
+  // i18n-ok: action ids are wire keys matched against literals below.
   const observeActions = $derived(actions.filter((action) => ["look", "temperature", "ph"].includes(action.id)));
 </script>
 
