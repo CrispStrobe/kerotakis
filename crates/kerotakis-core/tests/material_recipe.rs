@@ -92,3 +92,18 @@ fn familiar_powders_expand_to_the_existing_solver_species() {
         assert!(expansion.unresolved_amount.abs() < 1e-12);
     }
 }
+
+#[test]
+fn hand_soap_and_dish_soap_are_distinct_localized_materials() {
+    let hand = kerotakis_core::material::lookup("Flüssigseife", Some("de"))
+        .expect("liquid hand-soap alias");
+    let dish = kerotakis_core::material::lookup("Spülmittel", Some("de")).expect("dish-soap alias");
+    assert_eq!(hand.canonical_key, "liquid_hand_soap");
+    assert_eq!(dish.canonical_key, "dish_soap");
+    assert_ne!(hand.id, dish.id);
+
+    let expansion = hand.expand(20.0, 0).expect("fixed expansion");
+    assert!((expansion.components[0].amount - 15.0).abs() < 1e-12);
+    assert!((expansion.unresolved_amount - 5.0).abs() < 1e-12);
+    assert_eq!(hand.roles.len(), 1, "hand soap retains gas as foam");
+}

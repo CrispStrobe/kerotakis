@@ -152,7 +152,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 ("en".to_string(), vec!["washing-up_liquid".to_string()]),
                 (
                     "de".to_string(),
-                    vec!["Spülmittel".to_string(), "fluessige_Seife".to_string()],
+                    vec!["Spülmittel".to_string()],
                 ),
             ]),
             basis: MaterialBasis::MassFraction,
@@ -292,6 +292,49 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             preparation: Some("dry purified-starch teaching surrogate".to_string()),
             lot_assumptions: vec![
                 "botanical source, moisture, lipids and protein traces are omitted".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Surrogate,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
+        MaterialRecipe {
+            id: "household/liquid-hand-soap-surrogate".to_string(),
+            version: 1,
+            canonical_key: "liquid_hand_soap".to_string(),
+            name: "liquid hand soap".to_string(),
+            aliases: BTreeMap::from([
+                ("en".to_string(), vec!["hand wash".to_string()]),
+                (
+                    "de".to_string(),
+                    vec![
+                        "Flüssigseife".to_string(),
+                        "Fluessigseife".to_string(),
+                        "flüssige Seife".to_string(),
+                        "Handseife".to_string(),
+                    ],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: Some(density(1.03)),
+            components: vec![component("water", 0.75)],
+            unresolved_fraction: Some(FractionRange {
+                lower: 0.25,
+                upper: 0.25,
+            }),
+            physical_form: MaterialPhysicalForm::HomogeneousLiquid,
+            roles: vec![MaterialRole::FoamStabilizer {
+                trapping_efficiency: 0.75,
+                gas_volume_fraction: 0.88,
+                half_life_seconds: 120.0,
+                saturation_amount: 0.5,
+            }],
+            preparation: Some(
+                "unbranded aqueous liquid-hand-soap teaching surrogate; surfactant blend unresolved"
+                    .to_string(),
+            ),
+            lot_assumptions: vec![
+                "bar soap is a different material; brand-specific surfactants, moisturisers, salts, fragrance, dye and preservatives remain unresolved".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

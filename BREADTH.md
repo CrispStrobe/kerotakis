@@ -368,6 +368,11 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   sodium acetate, and CO2 that visibly evolves from an open vessel or remains
   in a sealed headspace. Reaction heat remains explicitly unclaimed pending an
   audited enthalpy record.
+- **Checkpoint 3 implemented:** liquid hand soap/Flüssigseife is distinct from
+  dish detergent/Spülmittel, with its own versioned unresolved formulation and
+  bounded foam-stabilisation parameters. Generic “Seife/soap” remains
+  unclaimed because a solid soap bar and a liquid hand wash are not the same
+  material.
 
 ## Stage B2 — organic structure and curated reaction families
 
