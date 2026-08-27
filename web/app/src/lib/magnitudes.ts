@@ -27,6 +27,14 @@ export interface InspectionAppearance {
   bubbling: boolean;
 }
 
+/** A solid physically retained by filter paper, captured from the engine scene. */
+export interface FilterResidue {
+  species: string;
+  name: string;
+  moles: number;
+  colour: string;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -56,6 +64,8 @@ export interface Effect {
   operation?: "pour" | "filter" | "drain" | "distil" | "cell";
   /** Computed pre-transfer source-liquid colour, captured before scene replacement. */
   fluidColour?: string;
+  /** Engine-scene solids left on the paper during a filtration. */
+  filterResidue?: FilterResidue[];
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -248,7 +258,9 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
       return {
         kind: "pour",
         at: now,
-        magnitude: 0.65,
+        // The session replaces this fallback with a scale derived from the
+        // source vessel's actual retained-solid inventory when available.
+        magnitude: 0.45,
         source: Number(e.from ?? 0),
         target: Number(e.to ?? 0),
         operation: "filter",

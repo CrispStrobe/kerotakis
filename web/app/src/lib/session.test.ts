@@ -441,6 +441,30 @@ describe("Session", () => {
     });
   });
 
+  it("retains the engine-scene solids and their colours on filter paper", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{ event: "filtered", from: 0, to: 1 }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = {
+      scene: 1,
+      vessels: [{
+        id: 0,
+        liquid: { volume_l: 0.08, srgb: [210, 232, 248], colour_word: "pale blue", cloudiness: .3, path_length_cm: 2 },
+        solids: [{ species: "CuO", name: "copper(II) oxide", moles: .025, srgb: [35, 31, 28], colour_word: "black", metallic: false, settled_fraction: .8 }],
+      } as Scene["vessels"][number]],
+    };
+    await s.submit("filter v1 into v2");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      operation: "filter",
+      fluidColour: "rgb(210 232 248)",
+      magnitude: .25,
+      filterResidue: [{ species: "CuO", name: "copper(II) oxide", moles: .025, colour: "rgb(35 31 28)" }],
+    });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({
