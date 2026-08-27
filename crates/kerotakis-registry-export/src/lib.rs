@@ -313,7 +313,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         MaterialRecipe {
             id: "household/cornstarch".to_string(),
             version: 1,
-            canonical_key: "cornstarch".to_string(),
+            canonical_key: "corn_starch".to_string(),
             name: "cornstarch".to_string(),
             aliases: BTreeMap::from([
                 ("en".to_string(), vec!["corn starch".to_string()]),
