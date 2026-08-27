@@ -7,8 +7,9 @@
 //! the identifiers, and the fallback, which must leave an untranslated
 //! word in English rather than dropping it.
 
-use kerotakis_core::render::{render_vessel, render_vessel_in, Locale, Register};
+use kerotakis_core::render::{render_vessel, render_vessel_in, Register};
 use kerotakis_core::vessel::VesselId;
+use kerotakis_core::Locale;
 use kerotakis_core::Vessel;
 
 fn beaker() -> Vessel {
@@ -25,7 +26,7 @@ fn the_english_rendering_is_unchanged() {
     let v = beaker();
     assert_eq!(
         render_vessel(&v, Register::LV2),
-        render_vessel_in(&v, Register::LV2, Locale::En)
+        render_vessel_in(&v, Register::LV2, Locale::EN)
     );
     let line = &render_vessel(&v, Register::LV2)[0];
     assert!(line.contains("beaker"), "{line}");
@@ -35,7 +36,7 @@ fn the_english_rendering_is_unchanged() {
 
 #[test]
 fn german_names_the_glassware_and_the_boundary() {
-    let line = render_vessel_in(&beaker(), Register::LV2, Locale::De)
+    let line = render_vessel_in(&beaker(), Register::LV2, Locale::parse("de"))
         .into_iter()
         .next()
         .unwrap();
@@ -48,7 +49,7 @@ fn german_names_the_glassware_and_the_boundary() {
 
 #[test]
 fn german_writes_the_decimal_comma_but_keeps_the_vessel_id() {
-    let line = render_vessel_in(&beaker(), Register::LV2, Locale::De)
+    let line = render_vessel_in(&beaker(), Register::LV2, Locale::parse("de"))
         .into_iter()
         .next()
         .unwrap();
@@ -63,7 +64,7 @@ fn german_writes_the_decimal_comma_but_keeps_the_vessel_id() {
 
 #[test]
 fn an_empty_vessel_says_so_in_german() {
-    let lines = render_vessel_in(&beaker(), Register::LV2, Locale::De);
+    let lines = render_vessel_in(&beaker(), Register::LV2, Locale::parse("de"));
     assert!(
         lines.iter().any(|l| l.contains("(leer)")),
         "no German empty marker in {lines:?}"
@@ -79,7 +80,7 @@ fn an_untranslated_vessel_keeps_its_english_name() {
     // Better a word we have than a word we do not: a vessel missing from
     // the table must come through readable, not blank.
     let v = Vessel::new(VesselId(0), "spectrophotometer cell");
-    let line = render_vessel_in(&v, Register::LV2, Locale::De)
+    let line = render_vessel_in(&v, Register::LV2, Locale::parse("de"))
         .into_iter()
         .next()
         .unwrap();
@@ -90,12 +91,12 @@ fn an_untranslated_vessel_keeps_its_english_name() {
 
 #[test]
 fn locale_parsing_falls_back_to_english_rather_than_failing() {
-    assert_eq!(Locale::parse("de"), Locale::De);
-    assert_eq!(Locale::parse("de-DE"), Locale::De);
-    assert_eq!(Locale::parse("DE-at"), Locale::De);
-    assert_eq!(Locale::parse("en"), Locale::En);
+    assert_eq!(Locale::parse("de"), Locale::parse("de"));
+    assert_eq!(Locale::parse("de-DE"), Locale::parse("de"));
+    assert_eq!(Locale::parse("DE-at"), Locale::parse("de"));
+    assert_eq!(Locale::parse("en"), Locale::EN);
     // A language nobody has translated to should show the language we do
     // have, not an error and not an empty screen.
-    assert_eq!(Locale::parse("fr"), Locale::En);
-    assert_eq!(Locale::parse(""), Locale::En);
+    assert_eq!(Locale::parse("fr"), Locale::EN);
+    assert_eq!(Locale::parse(""), Locale::EN);
 }

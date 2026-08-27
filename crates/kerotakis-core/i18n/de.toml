@@ -1,0 +1,48 @@
+# The engine's own words, in German.
+#
+# One file per language. Adding French means adding `fr.toml` beside this
+# one and a single line in the registry in src/i18n.rs — no existing
+# translation is touched, so two translators never edit the same file.
+#
+# Keys are dotted paths naming WHERE the phrase is said, not what it says,
+# so a reworded English source does not orphan its translations.
+#
+# The English original stays at the call site in Rust: it is the source
+# text, it keeps the line readable without opening this file, and it is
+# what shows when a language has no entry for a key. A missing key here is
+# therefore a fallback, never a blank.
+
+[vessel]
+open = ", zur Atmosphäre offen"
+sealed-before = ", verschlossen, "
+sealed-after = " mL Gasraum bei "
+pressure-controlled-before = ", druckgeregelt, "
+swept-before = ", stickstoffgespült bei "
+liquid = "Flüssigkeit"
+empty = "    (leer)"
+redox = "Redox"
+speciation = "    Speziation (mol/kgw · Aktivität · γ):"
+mixed-crystal = "Mischkristall"
+ph = "pH-Wert"
+
+# The glassware. A vessel absent from here keeps its English name rather
+# than vanishing — better a word we have than a word we do not.
+[glassware]
+beaker = "Becherglas"
+flask = "Kolben"
+"conical flask" = "Erlenmeyerkolben"
+"volumetric flask" = "Messkolben"
+"round-bottom flask" = "Rundkolben"
+"test tube" = "Reagenzglas"
+"measuring cylinder" = "Messzylinder"
+burette = "Bürette"
+pipette = "Pipette"
+crucible = "Tiegel"
+"evaporating basin" = "Abdampfschale"
+calorimeter = "Kalorimeter"
+"gas syringe" = "Kolbenprober"
+"watch glass" = "Uhrglas"
+funnel = "Trichter"
+still = "Destille"
+cuvette = "Küvette"
+column = "Säule"
