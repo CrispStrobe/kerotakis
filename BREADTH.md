@@ -475,6 +475,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   emits events as the oil layer returns. A no-detergent stirred control remains
   separated. This is explicitly not a CMC, droplet-size, viscosity, brand,
   transient hand-shake, or CFD model.
+- **Checkpoint 17 implemented:** the existing `oil-water-colour.lab` now
+  continues into the newly installed emulsion model instead of ending with a
+  stale “not modelled” boundary. Learners add dish soap, deliver a replayable
+  500 rpm ten-second stir, inspect the cloudy 92%-dispersed state, then wait one
+  coalescence half-life and see half the droplets return to the upper layer.
+  The golden lesson contract pins all sixteen events and the conserved final
+  vessel contents.
 
 ## Stage B2 — organic structure and curated reaction families
 
