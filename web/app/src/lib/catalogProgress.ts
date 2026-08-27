@@ -8,6 +8,7 @@ export type CatalogAccess = {
 };
 
 const EQUIPMENT_MILESTONES: Record<string, number> = {
+  heat: 1,
   burette: 0,
   dilute: 0,
   grind: 0,

@@ -23,6 +23,10 @@ export interface ApparatusSpec {
   blurb: string;
   fields: FormField[];
   build: (vessel: number, values: Record<string, number | string>) => string | null;
+  secondary?: {
+    label: string;
+    build: (vessel: number, values: Record<string, number | string>) => string | null;
+  };
 }
 
 const num = (v: number | string | undefined): number | null => {
@@ -36,6 +40,30 @@ const pos = (v: number | string | undefined): number | null => {
 };
 
 export const APPARATUS: ApparatusSpec[] = [
+  {
+    verb: "heat",
+    title: "Bunsen burner",
+    blurb: "adjust the flame, then heat or test ignition",
+    fields: [
+      { name: "flame", label: "flame power", type: "number", unit: "%", default: 50, min: 5, max: 100, step: 5 },
+      { name: "seconds", label: "exposure", type: "number", unit: "s", default: 30, min: 1, max: 300 },
+    ],
+    build: (v, f) => {
+      const flame = num(f.flame);
+      const seconds = pos(f.seconds);
+      if (flame === null || flame < 5 || flame > 100 || seconds === null || seconds > 300) {
+        return null;
+      }
+      // Bounded first near-field model: up to 500 W reaches the selected
+      // vessel. The engine owns temperature and resulting chemistry.
+      const energyKj = Number((0.005 * flame * seconds).toFixed(3));
+      return `heat v${v + 1} ${energyKj}kJ`;
+    },
+    secondary: {
+      label: "touch flame to contents",
+      build: (v) => `ignite v${v + 1}`,
+    },
+  },
   {
     verb: "dilute",
     title: "wash bottle",

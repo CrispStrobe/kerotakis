@@ -810,6 +810,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   flame away stops heat transfer. Native/web parity and safety veto tests.
 - **Out of scope:** using renderer pixels as collision/temperature truth, full
   turbulent flame CFD, or implying that unmodelled materials are nonflammable.
+- **Guided-control checkpoint 1 implemented:** a Bunsen burner can be deployed
+  at the selected vessel/work zone, moved by selecting another zone, and given
+  a 5–100% flame setting plus bounded exposure time. The first reviewed
+  near-field bridge delivers at most 500 W to the vessel and compiles the
+  exposure to the authoritative replayable `heat` operator; a separate “touch
+  flame to contents” control compiles to `ignite`, so the engine's installed
+  combustion gates—not the animation—decide whether anything burns. Continuous
+  free-space pose, fuel/air collar chemistry and distance-dependent heat flux
+  remain for the typed apparatus-state tranche.
 
 ### BRD-077 — Element coverage score and progressive periodic table
 
