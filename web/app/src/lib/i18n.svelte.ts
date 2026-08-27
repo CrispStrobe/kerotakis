@@ -694,7 +694,6 @@ const DE: Record<string, string> = {
   ,"set…": "einstellen…"
   ,"…{count} earlier entries not shown (the exports keep them)": "…{count} frühere Einträge ausgeblendet (sie bleiben im Export erhalten)"
   ,"the chart {chart} could not be drawn: {error}": "Das Diagramm {chart} konnte nicht gezeichnet werden: {error}"
-  ,"hazard": "Gefahr"
   ,"vessel v{vessel} placement": "Platzierung von Gefäß v{vessel}"
   ,"My Chemistry Lab": "Mein Chemielabor"
   ,"open world map": "Weltkarte öffnen"
