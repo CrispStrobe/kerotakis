@@ -653,6 +653,8 @@ export class Session {
             ? "ph_probe"
             : inst === "balance"
               ? "balance"
+              : inst === "pressure_gauge"
+                ? "pressure_gauge"
               : null;
       if (kind) {
         effect = {

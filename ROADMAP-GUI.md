@@ -929,6 +929,10 @@ hide them completely.
   a scale beneath the selected vessel, settles once, and shows the exact mass
   emitted by the engine. Temperature and pH meters likewise read their scalar
   measurement events directly rather than reconstructing the displayed value.*
+  *Pressure-gauge slice shipped 2026-08-27: measuring headspace pressure now
+  connects a dial to the selected vessel. Its localized digital value and
+  needle angle come from the engine-emitted kPa reading, with a distinct upper
+  warning arc and a reduced-motion-stable endpoint.*
   *Magnetic-stirrer slice in progress 2026-08-27: the equipment wall exposes
   RPM and duration, the public grammar carries both, and the engine computes
   25 mm stir-bar tip speed. The bench draws the plate, rotating bar, and
