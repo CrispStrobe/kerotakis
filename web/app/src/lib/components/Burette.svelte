@@ -5,19 +5,23 @@
 
   let {
     vessel,
+    selectedVessel = vessel,
     shelf,
     busy,
     running,
     onstart,
+    onretarget,
     onclose,
   }: {
     /** 0-based id of the vessel the burette is clamped over. */
     vessel: number;
+    selectedVessel?: number;
     shelf: ShelfItem[];
     busy: boolean;
     /** A titration this burette started is still stepping. */
     running: boolean;
     onstart: (line: string) => void;
+    onretarget?: () => void;
     onclose: () => void;
   } = $props();
 
@@ -45,6 +49,9 @@
 
   <div class="form">
     <strong>{t("burette")} · v{vessel + 1}</strong>
+    {#if selectedVessel !== vessel && onretarget}
+      <button class="retarget" disabled={busy || running} onclick={onretarget}>{t("move to selected v{vessel}", { vessel: selectedVessel + 1 })}</button>
+    {/if}
     <label>
       {t("titrant")}
       <select bind:value={titrant}>
@@ -131,6 +138,7 @@
     align-items: center;
     font-size: 0.82rem;
   }
+  .retarget { min-height: 34px; border: 1px solid var(--instrument); border-radius: 8px; background: color-mix(in srgb, var(--surface) 82%, var(--instrument)); color: var(--ink); padding: .3rem .55rem; font: inherit; font-weight: 750; }
   label {
     display: flex;
     flex-direction: column;
