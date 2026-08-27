@@ -70,6 +70,15 @@ export function engineText(text: string): string {
   )))) {
     return `${match[1]}: I = ${match[2]} A; t = ${match[3]} s; Q = It = ${match[4]} C; n(e⁻) = Q/F = ${match[5]} mol; n(${t(match[6]!)}) = n(e⁻)/${match[7]} = ${match[8]} mol; m = ${match[9]} g — nur die ${match[10]} stammt aus der Chemie. Inerte Anode angenommen: Dort wird Wasser oxidiert; der Sauerstoff entweicht und die Säure bleibt zurück`;
   }
+  if ((match = text.match(/^(v\d+) (receives|releases) ([\d.]+) kJ of heat\. This energy step has no elapsed-time model yet\.$/))) {
+    return `${match[1]} ${match[2] === "receives" ? "nimmt" : "gibt"} ${match[3]} kJ Wärme ${match[2] === "receives" ? "auf" : "ab"}. Dieser Energieschritt hat noch kein Zeitmodell.`;
+  }
+  if ((match = text.match(/^(v\d+): ([\d.]+) kJ requested; ([\d.]+) kJ (delivered|removed) — time model (coupled|not yet coupled)$/))) {
+    return `${match[1]}: ${match[2]} kJ angefordert; ${match[3]} kJ ${match[4] === "delivered" ? "zugeführt" : "entzogen"} — Zeitmodell ${match[5] === "coupled" ? "gekoppelt" : "noch nicht gekoppelt"}`;
+  }
+  if ((match = text.match(/^(v\d+): thermal energy requested=([\d.]+) J, delivered=([\d.]+) J, heating=(true|false), time_coupled=(true|false)$/))) {
+    return `${match[1]}: Wärmeenergie angefordert=${match[2]} J, übertragen=${match[3]} J, Erwärmung=${match[4] === "true" ? "ja" : "nein"}, Zeitmodell gekoppelt=${match[5] === "true" ? "ja" : "nein"}`;
+  }
   if ((match = text.match(/^While you wait, particles in (v\d+) sink toward the bottom\.$/))) {
     return `Während du wartest, sinken Teilchen in ${match[1]} zum Boden.`;
   }

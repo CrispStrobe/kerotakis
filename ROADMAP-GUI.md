@@ -1044,6 +1044,12 @@ hide them completely.
   bounded playback, its charge pulses and gas bubbles scale from that event,
   and an engine-scaled coating grows on the cathode with the computed deposited
   mass shown on the supply. Requested controls no longer masquerade as results.
+  *Thermal-delivery slice shipped 2026-08-27:* heat and cooling steps now emit
+  requested versus physically delivered energy. Hotplate and bath readouts and
+  effect strength use the delivered value, including cooling clamped by the
+  vessel's available heat. Both the apparatus and localized journal explicitly
+  identify the current instantaneous-energy boundary instead of pretending the
+  form's power and duration are an engine-coupled time simulation.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model

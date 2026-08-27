@@ -56,6 +56,7 @@
   const sweepRate = $derived(`${Math.max(.35, 1.3 - Math.min(1, sweepPressureBar / 5) * .8)}s`);
   const stirRpm = $derived(Math.max(0, effect?.stir?.rpm ?? Number(values.rpm ?? 500)));
   const powerWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
+  const deliveredKj = $derived((effect?.thermal?.deliveredJ ?? 0) / 1000);
 </script>
 
 <g class="apparatus" class:working aria-label={t("{tool} deployed", { tool: t(toolNames[tool] ?? tool) })}>
@@ -64,7 +65,7 @@
       <ellipse class="plate" cx="50" cy="121" rx="27" ry="5" />
       <rect class="base" x="22" y="123" width="56" height="11" rx="3" />
       <circle class="dial" cx="69" cy="129" r="2" />
-      <text x="50" y="133" text-anchor="middle">{tool === "stir" ? `${stirRpm.toFixed(0)} rpm` : `${powerWatts.toFixed(0)} W`}</text>
+      <text x="50" y="133" text-anchor="middle">{tool === "stir" ? `${stirRpm.toFixed(0)} rpm` : effect?.thermal ? `${deliveredKj.toFixed(2)} kJ` : `${powerWatts.toFixed(0)} W`}</text>
       {#if tool === "stir" && effect?.stir}
         <text class="tip-speed" x="50" y="140" text-anchor="middle">{effect.stir.tipSpeedMS.toFixed(3)} m/s</text>
       {/if}
@@ -72,6 +73,9 @@
         {#each [39, 50, 61] as x, i (x)}
           <path class="heat" d={`M ${x} 117 q -4 -7 0 -14 q 4 -7 0 -14`} style={`--heat-delay:${i * .16}s;--heat-rate:${Math.max(.45, 1.5 - Math.min(1, powerWatts / 1000))}s`} />
         {/each}
+        {#if effect?.thermal && !effect.thermal.timeCoupled}
+          <text class="time-boundary" x="50" y="140" text-anchor="middle">{t("instant energy model")}</text>
+        {/if}
       {/if}
     </g>
   {:else if tool === "cool"}
@@ -88,7 +92,10 @@
         </g>
       {/each}
       <rect class="bath-display" x="37" y="126" width="26" height="8" rx="2" />
-      <text x="50" y="132" text-anchor="middle">−{powerWatts.toFixed(0)} W</text>
+      <text x="50" y="132" text-anchor="middle">−{effect?.thermal ? `${deliveredKj.toFixed(2)} kJ` : `${powerWatts.toFixed(0)} W`}</text>
+      {#if effect?.thermal && !effect.thermal.timeCoupled}
+        <text class="time-boundary" x="50" y="140" text-anchor="middle">{t("instant energy model")}</text>
+      {/if}
     </g>
   {:else if tool === "burette"}
     <g class="burette">
@@ -223,6 +230,7 @@
   .electrolysis-readout rect { fill: color-mix(in srgb, var(--surface) 92%, var(--instrument)); stroke: var(--instrument); stroke-width: .6; }
   .electrodes .electrolysis-readout text { fill: var(--ink); font-size: 4px; font-weight: 750; }
   .electrodes text, .lamp text, .regulator text, .magnetic-plate text { fill: var(--ink); font-size: 6px; font-weight: 700; }
+  .magnetic-plate .time-boundary, .cooling-bath .time-boundary { fill: var(--ink); font-size: 4px; font-weight: 750; }
   .plate { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
   .charge { fill: none; stroke: var(--instrument); animation: bubble var(--pulse) ease-out infinite; }
   .pestle { fill: none; stroke: var(--edge-strong); stroke-width: 7; stroke-linecap: round; transform-origin: 76px 108px; }
