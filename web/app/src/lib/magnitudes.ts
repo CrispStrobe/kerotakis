@@ -19,6 +19,14 @@ export interface ChromatographyBand {
   partitionK: number;
 }
 
+/** The typed result of looking closely, as computed by the appearance model. */
+export interface InspectionAppearance {
+  liquidRgb?: [number, number, number];
+  cloudiness: number;
+  deposit?: { species: string; rgb: [number, number, number] };
+  bubbling: boolean;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -43,6 +51,7 @@ export interface Effect {
   voidTimeS?: number;
   plates?: number;
   outsideMethod?: string[];
+  appearance?: InspectionAppearance;
   /** Physical setup connecting source and target vessels. */
   operation?: "pour" | "filter" | "drain" | "distil" | "cell";
 }
