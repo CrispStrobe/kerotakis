@@ -998,7 +998,7 @@
     ]
   },
   "oil-water-colour": {
-    "event_count": 8,
+    "event_count": 16,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +1.000 g food_colour_blue (2 known ingredients)",
@@ -1007,6 +1007,14 @@
       "v2: new vessel",
       "v2: +46.000 g vegetable_oil (0 known ingredients)",
       "v2: +1.000 g food_colour_red (2 known ingredients)",
+      "v2: vegetable oil forms the upper layer; water is denser and remains below",
+      "v1: +1.030 g dish_soap (1 known ingredients)",
+      "v1: vegetable oil forms the upper layer; water is denser and remains below",
+      "v1: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
+      "v1: vegetable oil dispersed 0% → 92% (46.0 mL; 300 s coalescence half-life)",
+      "v1: vegetable oil forms the upper layer; water is denser and remains below",
+      "v1: vegetable oil dispersed 92% → 46% (23.0 mL; 300 s coalescence half-life)",
+      "v1: vegetable oil forms the upper layer; water is denser and remains below",
       "v2: vegetable oil forms the upper layer; water is denser and remains below"
     ],
     "lesson": "oil-water-colour.lab",
@@ -1019,7 +1027,7 @@
             "species": "indigo_carmine"
           },
           {
-            "moles": 5.58973078,
+            "moles": 5.63547044,
             "phase": "Liquid",
             "species": "water"
           }
