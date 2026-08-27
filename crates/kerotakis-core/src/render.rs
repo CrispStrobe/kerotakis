@@ -566,13 +566,25 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 .map(|separation| separation.separated_fraction)
                 .fold(0.0_f64, f64::max);
             match register.level() {
-                1 => format!(
-                    "The mini centrifuge spins {vessel}; the particles travel {:.0}% of the tube path.",
-                    strongest * 100.0
+                1 => locale.fill(
+                    "event.centrifuged.lv1",
+                    "The mini centrifuge spins {vessel}; the particles travel {travelled}% of the tube path.",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("travelled", &locale.number(format!("{:.0}", strongest * 100.0))),
+                    ],
                 ),
-                2 => format!(
-                    "{vessel}: {rpm:.0} rpm for {seconds:.0} s — {rcf:.0} × g; {:.0}% separation; balanced within {imbalance_g:.2} g",
-                    strongest * 100.0
+                2 => locale.fill(
+                    "event.centrifuged.lv2",
+                    "{vessel}: {rpm} rpm for {seconds} s — {rcf} × g; {separation}% separation; balanced within {imbalance} g",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("rpm", &locale.number(format!("{rpm:.0}"))),
+                        ("seconds", &locale.number(format!("{seconds:.0}"))),
+                        ("rcf", &locale.number(format!("{rcf:.0}"))),
+                        ("separation", &locale.number(format!("{:.0}", strongest * 100.0))),
+                        ("imbalance", &locale.number(format!("{imbalance_g:.2}"))),
+                    ],
                 ),
                 _ => {
                     let detail = separations
@@ -619,9 +631,14 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "While you wait, particles in {vessel} sink toward the bottom.",
                     &[("vessel", &vessel.to_string())],
                 ),
-                2 => format!(
-                    "{vessel}: {:.0}% of the suspended particles settle in {seconds:.0} s",
-                    strongest * 100.0
+                2 => locale.fill(
+                    "event.gravity-settled.lv2",
+                    "{vessel}: {settled}% of the suspended particles settle in {seconds} s",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("settled", &locale.number(format!("{:.0}", strongest * 100.0))),
+                        ("seconds", &locale.number(format!("{seconds:.0}"))),
+                    ],
                 ),
                 _ => {
                     let detail = separations
