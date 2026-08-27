@@ -211,15 +211,16 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let material_layers = crate::material::immiscible_liquid_layers(v);
     let emulsion_observation = crate::emulsion::observe(v);
     let material_volume_l: f64 = material_layers.iter().map(|layer| layer.volume_l).sum();
+    let homogeneous_material_volume_l = crate::material::homogeneous_unresolved_liquid_volume_l(v);
     let resolved_volume_l = v.liquid_volume().0;
 
     let mut liquid = seen
         .liquid
         .as_ref()
         .map(|c| SceneLiquid {
-            volume_l: resolved_volume_l + material_volume_l,
+            volume_l: resolved_volume_l + homogeneous_material_volume_l + material_volume_l,
             srgb: [c.r, c.g, c.b],
-            colour_word: colour_word(c, false).to_string(),
+            colour_word: appearance::liquid_colour_word(c, seen.cloudiness).to_string(),
             cloudiness: seen.cloudiness,
             path_length_cm: crate::vessel::path_cm_for(&v.label),
         })
@@ -278,7 +279,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         (Some(l), None) if resolved_volume_l > 0.0 => vec![SceneLayer {
             species: "solution".to_string(),
             name: "solution".to_string(),
-            volume_l: resolved_volume_l,
+            volume_l: resolved_volume_l + homogeneous_material_volume_l,
             srgb: l.srgb,
             colour_word: l.colour_word.clone(),
         }],

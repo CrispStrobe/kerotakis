@@ -176,6 +176,14 @@ pub enum MaterialRole {
         max_dispersed_fraction: f64,
         half_life_seconds: f64,
     },
+    /// A stable, opaque household colloid such as milk. The unresolved
+    /// fraction stays conserved as a named material while this role exposes
+    /// only the bounded visual consequence of its dispersed solids/fat.
+    OpaqueLiquidColloid {
+        srgb: [u8; 3],
+        /// Unresolved material concentration (g/L) at full opacity.
+        opacity_saturation_g_per_litre: f64,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

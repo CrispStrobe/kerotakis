@@ -71,6 +71,27 @@ pub struct ImmiscibleLiquidLayer {
     pub colour_word: String,
 }
 
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ColloidObservation {
+    pub srgb: [u8; 3],
+    pub cloudiness: f64,
+}
+
+fn portion_volume_l(
+    portion: &crate::vessel::UnresolvedMaterialPortion,
+    recipe: &MaterialRecipe,
+) -> f64 {
+    match portion.basis {
+        MaterialBasis::MassFraction => recipe
+            .bulk_density
+            .as_ref()
+            .map(|density| portion.amount / density.value / 1000.0)
+            .unwrap_or(0.0),
+        MaterialBasis::VolumeFraction => portion.amount / 1000.0,
+        MaterialBasis::MoleFraction => 0.0,
+    }
+}
+
 /// Visible unresolved liquids, aggregated by pinned recipe. Chemical solvent
 /// volume intentionally remains `Vessel::liquid_volume`; this volume is for
 /// geometry and rendering and must not leak into aqueous concentrations.
@@ -88,15 +109,7 @@ pub fn immiscible_liquid_layers(vessel: &crate::Vessel) -> Vec<ImmiscibleLiquidL
         }) else {
             continue;
         };
-        let volume_l = match portion.basis {
-            MaterialBasis::MassFraction => recipe
-                .bulk_density
-                .as_ref()
-                .map(|density| portion.amount / density.value / 1000.0)
-                .unwrap_or(0.0),
-            MaterialBasis::VolumeFraction => portion.amount / 1000.0,
-            MaterialBasis::MoleFraction => 0.0,
-        };
+        let volume_l = portion_volume_l(portion, &recipe);
         if volume_l <= 0.0 {
             continue;
         }
@@ -116,6 +129,70 @@ pub fn immiscible_liquid_layers(vessel: &crate::Vessel) -> Vec<ImmiscibleLiquidL
     layers
 }
 
+/// Unresolved volume that belongs to the ordinary mixed liquid rather than a
+/// separate material layer. It is render/geometry state only and deliberately
+/// does not enter aqueous concentrations.
+pub fn homogeneous_unresolved_liquid_volume_l(vessel: &crate::Vessel) -> f64 {
+    vessel
+        .unresolved_materials
+        .iter()
+        .filter_map(|portion| {
+            let recipe = lookup_versioned(&portion.recipe_id, portion.recipe_version)?;
+            if !matches!(
+                recipe.physical_form,
+                kerotakis_data::MaterialPhysicalForm::HomogeneousLiquid
+            ) || recipe
+                .roles
+                .iter()
+                .any(|role| matches!(role, MaterialRole::AqueousImmiscibleLiquid { .. }))
+            {
+                return None;
+            }
+            Some(portion_volume_l(portion, &recipe))
+        })
+        .sum()
+}
+
+/// Visible opacity contributed by conserved named colloids. Multiple colloids
+/// combine by taking the strongest bounded contribution; v1 deliberately does
+/// not pretend to solve droplet-size distributions or multiple scattering.
+pub fn colloid_observation(vessel: &crate::Vessel) -> Option<ColloidObservation> {
+    let visible_l = vessel.liquid_volume().0 + homogeneous_unresolved_liquid_volume_l(vessel);
+    if visible_l <= 1e-12 {
+        return None;
+    }
+    vessel
+        .unresolved_materials
+        .iter()
+        .filter_map(|portion| {
+            let recipe = lookup_versioned(&portion.recipe_id, portion.recipe_version)?;
+            recipe.roles.iter().find_map(|role| {
+                let MaterialRole::OpaqueLiquidColloid {
+                    srgb,
+                    opacity_saturation_g_per_litre,
+                } = role
+                else {
+                    return None;
+                };
+                let mass_g = match portion.basis {
+                    MaterialBasis::MassFraction => portion.amount,
+                    MaterialBasis::VolumeFraction => recipe
+                        .bulk_density
+                        .as_ref()
+                        .map(|density| portion.amount * density.value)
+                        .unwrap_or(0.0),
+                    MaterialBasis::MoleFraction => 0.0,
+                };
+                Some(ColloidObservation {
+                    srgb: *srgb,
+                    cloudiness: (mass_g / visible_l / opacity_saturation_g_per_litre)
+                        .clamp(0.0, 1.0),
+                })
+            })
+        })
+        .max_by(|a, b| a.cloudiness.total_cmp(&b.cloudiness))
+}
+
 /// Whether this pinned unresolved portion follows a liquid pour/mix.
 pub fn unresolved_portion_is_liquid(portion: &crate::vessel::UnresolvedMaterialPortion) -> bool {
     lookup_versioned(&portion.recipe_id, portion.recipe_version).is_some_and(|recipe| {
@@ -126,28 +203,31 @@ pub fn unresolved_portion_is_liquid(portion: &crate::vessel::UnresolvedMaterialP
     })
 }
 
-/// Mass represented by reviewed unresolved liquid roles. Other unresolved
-/// materials retain their existing mass boundary until their basis-to-mass
-/// conversion is explicitly modelled.
-pub fn unresolved_liquid_mass_g(vessel: &crate::Vessel) -> f64 {
+/// Mass represented by conserved unresolved homogeneous-liquid portions
+/// whenever their recipe basis defines an honest conversion. Other physical
+/// forms retain their existing accounting boundary; a mole-fraction aggregate
+/// still has no molecular mass.
+pub fn unresolved_material_mass_g(vessel: &crate::Vessel) -> f64 {
     vessel
         .unresolved_materials
         .iter()
         .filter_map(|portion| {
             let recipe = lookup_versioned(&portion.recipe_id, portion.recipe_version)?;
-            recipe
-                .roles
-                .iter()
-                .any(|role| matches!(role, MaterialRole::AqueousImmiscibleLiquid { .. }))
-                .then(|| match portion.basis {
-                    MaterialBasis::MassFraction => portion.amount,
-                    MaterialBasis::VolumeFraction => recipe
-                        .bulk_density
-                        .as_ref()
-                        .map(|density| portion.amount * density.value)
-                        .unwrap_or(0.0),
-                    MaterialBasis::MoleFraction => 0.0,
-                })
+            if !matches!(
+                recipe.physical_form,
+                kerotakis_data::MaterialPhysicalForm::HomogeneousLiquid
+            ) {
+                return None;
+            }
+            Some(match portion.basis {
+                MaterialBasis::MassFraction => portion.amount,
+                MaterialBasis::VolumeFraction => recipe
+                    .bulk_density
+                    .as_ref()
+                    .map(|density| portion.amount * density.value)
+                    .unwrap_or(0.0),
+                MaterialBasis::MoleFraction => 0.0,
+            })
         })
         .sum()
 }
