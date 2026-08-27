@@ -1585,6 +1585,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
         Event::Electrolysed {
             vessel,
             species,
+            amps,
+            seconds,
             coulombs,
             electrons,
             moles,
@@ -1598,16 +1600,36 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     "{grams} g of {name} builds up on the electrode in {vessel}.",
                     &[("grams", &locale.number(format!("{grams:.2}"))), ("name", name), ("vessel", &vessel.to_string())],
                 ),
-                2 => format!(
-                    "{vessel}: {coulombs:.0} C → {:.4} mol e⁻ → {:.4} mol {name} = {grams:.3} g",
-                    electrons.0, moles.0
+                2 => locale.fill(
+                    "event.electrolysed.lv2",
+                    "{vessel}: {amps} A for {seconds} s = {coulombs} C → {electrons} mol e⁻ → {moles} mol {name} = {grams} g",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("amps", &locale.number(format!("{amps:.3}"))),
+                        ("seconds", &locale.number(format!("{seconds:.0}"))),
+                        ("coulombs", &locale.number(format!("{coulombs:.0}"))),
+                        ("electrons", &locale.number(format!("{:.4}", electrons.0))),
+                        ("moles", &locale.number(format!("{:.4}", moles.0))),
+                        ("name", name),
+                        ("grams", &locale.number(format!("{grams:.3}"))),
+                    ],
                 ),
                 // The chain, with the one step that is chemistry rather
                 // than arithmetic marked: everything else is division.
                 _ => locale.fill(
                     "event.electrolysed.lv3",
-                    "{vessel}: Q = {coulombs} C; n(e⁻) = Q/F = {electrons} mol; n({name}) = n(e⁻)/{per_ion} = {moles} mol; m = {grams} g — only the {per_ion} is chemistry. Inert anode assumed: the water is oxidised there, so the oxygen leaves and the acid stays",
-                    &[("vessel", &vessel.to_string()), ("coulombs", &locale.number(format!("{coulombs:.1}"))), ("electrons", &locale.number(format!("{:.6}", electrons.0))), ("name", name), ("per_ion", &locale.number(format!("{per_ion:.0}"))), ("moles", &locale.number(format!("{:.6}", moles.0))), ("grams", &locale.number(format!("{grams:.4}")))],
+                    "{vessel}: I = {amps} A; t = {seconds} s; Q = It = {coulombs} C; n(e⁻) = Q/F = {electrons} mol; n({name}) = n(e⁻)/{per_ion} = {moles} mol; m = {grams} g — only the {per_ion} is chemistry. Inert anode assumed: the water is oxidised there, so the oxygen leaves and the acid stays",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("amps", &locale.number(format!("{amps:.6}"))),
+                        ("seconds", &locale.number(format!("{seconds:.3}"))),
+                        ("coulombs", &locale.number(format!("{coulombs:.1}"))),
+                        ("electrons", &locale.number(format!("{:.6}", electrons.0))),
+                        ("name", name),
+                        ("per_ion", &locale.number(format!("{per_ion:.0}"))),
+                        ("moles", &locale.number(format!("{:.6}", moles.0))),
+                        ("grams", &locale.number(format!("{grams:.4}"))),
+                    ],
                 ),
             }
         }

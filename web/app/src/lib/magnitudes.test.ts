@@ -76,10 +76,22 @@ describe("effectFromEvent", () => {
       vessel: 0,
       species: "Cu",
       moles: 0.005,
+      amps: 0.75,
+      seconds: 120,
       coulombs: 964.85,
+      electrons: 0.01,
+      grams: 0.318,
+      per_ion: 2,
     });
     expect(e!.kind).toBe("electrolyse");
     expect(e!.magnitude).toBeGreaterThan(0.3);
+    expect(e).toMatchObject({
+      durationMs: 8000,
+      electrolysis: {
+        species: "Cu", amps: .75, seconds: 120, coulombs: 964.85,
+        electronMoles: .01, productMoles: .005, grams: .318, electronsPerIon: 2,
+      },
+    });
   });
 
   it("maps mixed → swirl + magnitude from fractions", () => {

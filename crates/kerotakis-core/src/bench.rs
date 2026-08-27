@@ -1745,6 +1745,8 @@ impl Bench {
                             events.push(Event::Electrolysed {
                                 vessel: *vessel,
                                 species,
+                                amps: *amps,
+                                seconds: *seconds,
                                 coulombs: run.coulombs,
                                 electrons: Moles(run.electrons),
                                 moles,
