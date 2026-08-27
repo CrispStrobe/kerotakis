@@ -34081,7 +34081,7 @@
         "kind": "homogeneous_liquid"
       },
       "roles": [],
-      "preparation": "0.1% w/w betanin aqueous dropper solution; unbranded optical teaching surrogate",
+      "preparation": "0.1% w/w betanin aqueous dropper solution; unbranded transparent optical teaching surrogate",
       "lot_assumptions": [
         "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
       ],
@@ -34174,7 +34174,7 @@
         "kind": "homogeneous_liquid"
       },
       "roles": [],
-      "preparation": "0.1% w/w curcumin aqueous dropper solution; unbranded optical teaching surrogate",
+      "preparation": "0.1% w/w curcumin aqueous dropper solution; unbranded transparent optical teaching surrogate",
       "lot_assumptions": [
         "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
       ],
@@ -34267,7 +34267,289 @@
         "kind": "homogeneous_liquid"
       },
       "roles": [],
-      "preparation": "0.1% w/w indigo_carmine aqueous dropper solution; unbranded optical teaching surrogate",
+      "preparation": "0.1% w/w indigo_carmine aqueous dropper solution; unbranded transparent optical teaching surrogate",
+      "lot_assumptions": [
+        "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/watercolor-red-betanin",
+      "version": 1,
+      "canonical_key": "watercolour_red",
+      "name": "red watercolor",
+      "aliases": {
+        "de": [
+          "rote Wasserfarbe",
+          "Wasserfarbe_rot"
+        ],
+        "en": [
+          "red watercolour",
+          "watercolor_red",
+          "red_watercolor",
+          "red_watercolour"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "betanin",
+          "fraction": {
+            "lower": 0.0002,
+            "upper": 0.0002
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.9998,
+            "upper": 0.9998
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "0.02% w/w betanin aqueous wash; unbranded transparent optical teaching surrogate",
+      "lot_assumptions": [
+        "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/watercolor-yellow-curcumin",
+      "version": 1,
+      "canonical_key": "watercolour_yellow",
+      "name": "yellow watercolor",
+      "aliases": {
+        "de": [
+          "gelbe Wasserfarbe",
+          "Wasserfarbe_gelb"
+        ],
+        "en": [
+          "yellow watercolour",
+          "watercolor_yellow",
+          "yellow_watercolor",
+          "yellow_watercolour"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "curcumin",
+          "fraction": {
+            "lower": 0.0002,
+            "upper": 0.0002
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.9998,
+            "upper": 0.9998
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "0.02% w/w curcumin aqueous wash; unbranded transparent optical teaching surrogate",
+      "lot_assumptions": [
+        "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/watercolor-blue-indigo-carmine",
+      "version": 1,
+      "canonical_key": "watercolour_blue",
+      "name": "blue watercolor",
+      "aliases": {
+        "de": [
+          "blaue Wasserfarbe",
+          "Wasserfarbe_blau"
+        ],
+        "en": [
+          "blue watercolour",
+          "watercolor_blue",
+          "blue_watercolor",
+          "blue_watercolour"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "indigo_carmine",
+          "fraction": {
+            "lower": 0.0002,
+            "upper": 0.0002
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.9998,
+            "upper": 0.9998
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "0.02% w/w indigo_carmine aqueous wash; unbranded transparent optical teaching surrogate",
       "lot_assumptions": [
         "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
       ],

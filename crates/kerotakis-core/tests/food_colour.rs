@@ -67,3 +67,28 @@ fn generic_food_colour_is_not_silently_guessed() {
         );
     }
 }
+
+#[test]
+fn transparent_watercolor_is_weaker_than_the_food_colour_dropper() {
+    let wash = coloured_water(&[("watercolor_blue", 1.0)]);
+    let dropper = coloured_water(&[("blue_food_color", 1.0)]);
+    assert!(
+        brightness(wash) > brightness(dropper),
+        "the 0.02% wash should be paler than the 0.1% dropper: {wash:?} vs {dropper:?}"
+    );
+    assert!(wash[2] > wash[0], "blue wash should remain blue: {wash:?}");
+}
+
+#[test]
+fn named_watercolors_mix_but_the_generic_name_stays_ambiguous() {
+    let red_then_blue = coloured_water(&[("watercolor_red", 1.0), ("watercolor_blue", 1.0)]);
+    let blue_then_red = coloured_water(&[("watercolor_blue", 1.0), ("watercolor_red", 1.0)]);
+    assert_eq!(red_then_blue, blue_then_red);
+    assert!(kerotakis_core::material::lookup("Wasserfarbe", Some("de")).is_none());
+    assert_eq!(
+        kerotakis_core::material::lookup("Wasserfarbe_gelb", Some("de"))
+            .expect("named yellow watercolor")
+            .canonical_key,
+        "watercolour_yellow"
+    );
+}

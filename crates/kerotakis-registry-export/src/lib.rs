@@ -75,12 +75,14 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         source_id: SOURCE.to_string(),
         method: Method::Editorial("room-temperature teaching-surrogate density".to_string()),
     };
-    let food_colour = |id: &str,
-                       canonical_key: &str,
-                       name: &str,
-                       dye: &str,
-                       de_aliases: &[&str],
-                       en_aliases: &[&str]| {
+    let transparent_colour = |id: &str,
+                              canonical_key: &str,
+                              name: &str,
+                              dye: &str,
+                              concentration: f64,
+                              medium: &str,
+                              de_aliases: &[&str],
+                              en_aliases: &[&str]| {
         MaterialRecipe {
         id: id.to_string(),
         version: 1,
@@ -98,12 +100,13 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         ]),
         basis: MaterialBasis::MassFraction,
         bulk_density: Some(density(1.0)),
-        components: vec![component(dye, 0.001), component("water", 0.999)],
+        components: vec![component(dye, concentration), component("water", 1.0 - concentration)],
         unresolved_fraction: None,
         physical_form: MaterialPhysicalForm::HomogeneousLiquid,
         roles: Vec::new(),
         preparation: Some(format!(
-            "0.1% w/w {dye} aqueous dropper solution; unbranded optical teaching surrogate"
+            "{}% w/w {dye} aqueous {medium}; unbranded transparent optical teaching surrogate",
+            concentration * 100.0
         )),
         lot_assumptions: vec![
             "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients".to_string(),
@@ -380,29 +383,65 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             expansion_policy: MaterialExpansionPolicy::Fixed,
             evidence: evidence(),
         },
-        food_colour(
+        transparent_colour(
             "household/food-colour-red-betanin",
             "food_colour_red",
             "red food colouring",
             "betanin",
+            0.001,
+            "dropper solution",
             &["rote Lebensmittelfarbe", "Lebensmittelfarbe_rot"],
             &["red food color", "red_food_colouring", "red_food_color"],
         ),
-        food_colour(
+        transparent_colour(
             "household/food-colour-yellow-curcumin",
             "food_colour_yellow",
             "yellow food colouring",
             "curcumin",
+            0.001,
+            "dropper solution",
             &["gelbe Lebensmittelfarbe", "Lebensmittelfarbe_gelb"],
             &["yellow food color", "yellow_food_colouring", "yellow_food_color"],
         ),
-        food_colour(
+        transparent_colour(
             "household/food-colour-blue-indigo-carmine",
             "food_colour_blue",
             "blue food colouring",
             "indigo_carmine",
+            0.001,
+            "dropper solution",
             &["blaue Lebensmittelfarbe", "Lebensmittelfarbe_blau"],
             &["blue food color", "blue_food_colouring", "blue_food_color"],
+        ),
+        transparent_colour(
+            "school/watercolor-red-betanin",
+            "watercolour_red",
+            "red watercolor",
+            "betanin",
+            0.0002,
+            "wash",
+            &["rote Wasserfarbe", "Wasserfarbe_rot"],
+            &["red watercolour", "watercolor_red", "red_watercolor", "red_watercolour"],
+        ),
+        transparent_colour(
+            "school/watercolor-yellow-curcumin",
+            "watercolour_yellow",
+            "yellow watercolor",
+            "curcumin",
+            0.0002,
+            "wash",
+            &["gelbe Wasserfarbe", "Wasserfarbe_gelb"],
+            &["yellow watercolour", "watercolor_yellow", "yellow_watercolor", "yellow_watercolour"],
+        ),
+        transparent_colour(
+            "school/watercolor-blue-indigo-carmine",
+            "watercolour_blue",
+            "blue watercolor",
+            "indigo_carmine",
+            0.0002,
+            "wash",
+            &["blaue Wasserfarbe", "Wasserfarbe_blau"],
+            &["blue watercolour", "watercolor_blue", "blue_watercolor", "blue_watercolour"],
         ),
     ]);
 }
