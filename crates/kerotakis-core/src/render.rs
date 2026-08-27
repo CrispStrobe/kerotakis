@@ -484,23 +484,65 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             requested_j,
             delivered_j,
             time_coupled,
-        } => match register.level() {
-            1 => format!(
-                "{vessel} {} {:.2} kJ of heat. This energy step has no elapsed-time model yet.",
-                if *heating { "receives" } else { "releases" },
-                delivered_j / 1000.0,
-            ),
-            2 => format!(
-                "{vessel}: {:.2} kJ requested; {:.2} kJ {} — time model {}",
-                requested_j / 1000.0,
-                delivered_j / 1000.0,
-                if *heating { "delivered" } else { "removed" },
-                if *time_coupled { "coupled" } else { "not yet coupled" },
-            ),
-            _ => format!(
-                "{vessel}: thermal energy requested={requested_j:.6} J, delivered={delivered_j:.6} J, heating={heating}, time_coupled={time_coupled}"
-            ),
-        },
+        } => {
+            let vessel = vessel.to_string();
+            let delivered_kj = locale.number(format!("{:.2}", delivered_j / 1000.0));
+            let requested_kj = locale.number(format!("{:.2}", requested_j / 1000.0));
+            let transfer = if *heating {
+                locale.t("event.energy-transferred.delivered", "delivered")
+            } else {
+                locale.t("event.energy-transferred.removed", "removed")
+            };
+            let coupling = if *time_coupled {
+                locale.t("event.energy-transferred.coupled", "coupled")
+            } else {
+                locale.t("event.energy-transferred.not-yet-coupled", "not yet coupled")
+            };
+            let heating_value = if *heating {
+                locale.t("event.value.true", "true")
+            } else {
+                locale.t("event.value.false", "false")
+            };
+            let time_coupled_value = if *time_coupled {
+                locale.t("event.value.true", "true")
+            } else {
+                locale.t("event.value.false", "false")
+            };
+            match register.level() {
+                1 if *heating => locale.fill(
+                    "event.energy-transferred.lv1-heating",
+                    "{vessel} receives {delivered} kJ of heat. This energy step has no elapsed-time model yet.",
+                    &[("vessel", &vessel), ("delivered", &delivered_kj)],
+                ),
+                1 => locale.fill(
+                    "event.energy-transferred.lv1-cooling",
+                    "{vessel} releases {delivered} kJ of heat. This energy step has no elapsed-time model yet.",
+                    &[("vessel", &vessel), ("delivered", &delivered_kj)],
+                ),
+                2 => locale.fill(
+                    "event.energy-transferred.lv2",
+                    "{vessel}: {requested} kJ requested; {delivered} kJ {transfer} — time model {coupling}",
+                    &[
+                        ("vessel", &vessel),
+                        ("requested", &requested_kj),
+                        ("delivered", &delivered_kj),
+                        ("transfer", transfer),
+                        ("coupling", coupling),
+                    ],
+                ),
+                _ => locale.fill(
+                    "event.energy-transferred.lv3",
+                    "{vessel}: thermal energy requested={requested} J, delivered={delivered} J, heating={heating}, time_coupled={time_coupled}",
+                    &[
+                        ("vessel", &vessel),
+                        ("requested", &locale.number(format!("{requested_j:.6}"))),
+                        ("delivered", &locale.number(format!("{delivered_j:.6}"))),
+                        ("heating", heating_value),
+                        ("time_coupled", time_coupled_value),
+                    ],
+                ),
+            }
+        }
         Event::Stirred {
             vessel,
             rpm,
@@ -660,16 +702,46 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             wavelength_nm,
             irradiance_w_m2,
             photolysis_coupled,
-        } => match register.level() {
-            1 => format!("The lamp shines on {vessel}. The light is applied, but photolysis is not connected yet."),
-            2 => format!(
-                "{vessel}: lamp {wavelength_nm:.0} nm at {irradiance_w_m2:.2} W/m² — photolysis {}",
-                if *photolysis_coupled { "coupled" } else { "not yet coupled" }
-            ),
-            _ => format!(
-                "{vessel}: irradiate λ={wavelength_nm:.3} nm, Ė/A={irradiance_w_m2:.6} W/m²; photolysis_coupled={photolysis_coupled}"
-            ),
-        },
+        } => {
+            let vessel = vessel.to_string();
+            let coupling = if *photolysis_coupled {
+                locale.t("event.irradiated.coupled", "coupled")
+            } else {
+                locale.t("event.irradiated.not-yet-coupled", "not yet coupled")
+            };
+            let coupled_value = if *photolysis_coupled {
+                locale.t("event.value.true", "true")
+            } else {
+                locale.t("event.value.false", "false")
+            };
+            match register.level() {
+                1 => locale.fill(
+                    "event.irradiated.lv1",
+                    "The lamp shines on {vessel}. The light is applied, but photolysis is not connected yet.",
+                    &[("vessel", &vessel)],
+                ),
+                2 => locale.fill(
+                    "event.irradiated.lv2",
+                    "{vessel}: lamp {wavelength} nm at {irradiance} W/m² — photolysis {coupling}",
+                    &[
+                        ("vessel", &vessel),
+                        ("wavelength", &locale.number(format!("{wavelength_nm:.0}"))),
+                        ("irradiance", &locale.number(format!("{irradiance_w_m2:.2}"))),
+                        ("coupling", coupling),
+                    ],
+                ),
+                _ => locale.fill(
+                    "event.irradiated.lv3",
+                    "{vessel}: irradiate λ={wavelength} nm, Ė/A={irradiance} W/m²; photolysis_coupled={coupled}",
+                    &[
+                        ("vessel", &vessel),
+                        ("wavelength", &locale.number(format!("{wavelength_nm:.3}"))),
+                        ("irradiance", &locale.number(format!("{irradiance_w_m2:.6}"))),
+                        ("coupled", coupled_value),
+                    ],
+                ),
+            }
+        }
         Event::GravitySettled {
             vessel,
             seconds,

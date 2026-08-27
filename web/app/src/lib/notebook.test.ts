@@ -52,19 +52,19 @@ describe("notebook export", () => {
     expect(md).not.toMatch(/\n{3,}/);
   });
 
-  it("uses the German presentation boundary for exported engine evidence", () => {
+  it("preserves engine-localized German evidence in exports", () => {
     i18n.setLocale("de");
     const md = notebookMarkdown([
-      { kind: "line", text: "You add water to v1." },
+      { kind: "line", text: "Du gibst Wasser in v1." },
       {
         kind: "chart",
         text: "titration",
         chart: {
-          title: "titration of v1 with sodium hydroxide (0.1 M)",
-          x: { label: "titrant added", unit: "mL" },
+          title: "Titration von v1 mit Natriumhydroxid (0.1 M)",
+          x: { label: "zugegebenes Titrationsmittel", unit: "mL" },
           y: { label: "pH" },
           series: [{ kind: "line", name: "pH", points: [[0, 1]] }],
-          provenance: "titration chart from engine-computed pH values",
+          provenance: "Titrationsdiagramm aus engineberechneten pH-Werten",
         },
       },
     ], { register: "lv2" });

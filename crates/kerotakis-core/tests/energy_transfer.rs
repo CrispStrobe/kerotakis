@@ -45,3 +45,21 @@ fn impossible_cooling_reports_less_delivered_than_requested() {
         } if *delivered_j < *requested_j
     )));
 }
+
+#[test]
+fn delivered_energy_is_rendered_by_the_engine_in_german() {
+    use kerotakis_core::render::{render_event_in, Register};
+
+    let event = Event::EnergyTransferred {
+        vessel: VesselId(0),
+        heating: false,
+        requested_j: 5000.0,
+        delivered_j: 2500.0,
+        time_coupled: false,
+    };
+    let line = render_event_in(&event, Register::LV2, Locale::parse("de"));
+    assert!(line.contains("5,00 kJ angefordert"), "{line}");
+    assert!(line.contains("2,50 kJ entzogen"), "{line}");
+    assert!(line.contains("noch nicht gekoppelt"), "{line}");
+    assert!(!line.contains("requested"), "{line}");
+}
