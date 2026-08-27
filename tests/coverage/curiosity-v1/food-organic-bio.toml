@@ -59,7 +59,6 @@ expected = "missing"
 owning_task = "BRD-014"
 tags = ["baking_powder", "heating"]
 script = ["add v1 baking_powder 5g", "add v1 water 50mL", "heat v1 10kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -98,7 +97,6 @@ expected = "missing"
 owning_task = "BRD-023"
 tags = ["caramelisation", "sugar"]
 script = ["add v1 sucrose 10g", "heat v1 20kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = true
 
 [[prompt]]
@@ -111,7 +109,6 @@ expected = "missing"
 owning_task = "BRD-023"
 tags = ["caramelisation", "protein"]
 script = ["add v1 sucrose 10g", "heat v1 20kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -438,7 +435,6 @@ expected = "missing"
 owning_task = "BRD-012"
 tags = ["solubility", "sucrose"]
 script = ["add v1 water 100mL", "add v1 sucrose 10g", "stir v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = true
 
 [[prompt]]
@@ -451,7 +447,6 @@ expected = "missing"
 owning_task = "BRD-012"
 tags = ["solubility", "temperature"]
 script = ["add v1 water 100mL @ 80C", "add v1 sucrose 50g", "stir v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -541,7 +536,6 @@ expected = "missing"
 owning_task = "BRD-023"
 tags = ["hydrolysis", "sucrose"]
 script = ["add v1 sucrose 0.1mol", "add v1 water 100mL", "add v1 HCl 0.001mol", "heat v1 10kJ", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -761,7 +755,6 @@ expected = "missing"
 owning_task = "BRD-023"
 tags = ["antioxidant", "lipid_oxidation"]
 script = ["add v1 vegetable_oil 20mL", "add v1 ascorbic_acid 0.001mol", "add v1 O2 0.1mol", "wait 24h", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -1370,7 +1363,6 @@ expected = "missing"
 owning_task = "BRD-023"
 tags = ["saponification", "soap"]
 script = ["add v1 vegetable_oil 20mL", "add v1 NaOH 0.1mol", "react v1 saponification", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

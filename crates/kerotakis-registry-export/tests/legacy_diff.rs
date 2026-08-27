@@ -286,6 +286,9 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
     compare_model_parameters(document, species, phase, &source_id);
 }
 
+// Each argument names one column of the exported property record; bundling
+// them would make the table-like call sites less explicit.
+#[allow(clippy::too_many_arguments)]
 fn assert_property(
     document: &RegistryDocument,
     species: &SpeciesData,

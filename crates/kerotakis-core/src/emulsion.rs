@@ -88,7 +88,6 @@ pub fn advance(vessel: &mut Vessel, seconds: f64) {
         state.dispersed_volume_l *= decay;
         if state.dispersed_volume_l <= 1e-9 {
             vessel.emulsion = None;
-            return;
         }
     }
 }
