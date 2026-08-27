@@ -852,6 +852,10 @@ hide them completely.
   blindly issuing a command. Empty removal is confirmed and undoable; occupied
   vessels offer a 100% liquid transfer or the waste station, and no material is
   silently deleted. The final workspace vessel remains protected.*
+  *Destination-label slice shipped 2026-08-27: the selected-vessel dock no
+  longer ends in ambiguous Details / More tools buttons. Explicit Measurement
+  tools and Equipment cabinet routes, with distinct icons and localized
+  tooltips, now name the panels they actually open.*
 
 - [ ] **GUI-081 — Learner-authored laboratory journal.** Keep engine output,
   mission evidence, and learner notes visibly distinct. Users can add, edit,
