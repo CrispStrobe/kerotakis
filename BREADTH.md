@@ -817,6 +817,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Out of scope:** inventing a compound per element, implying every element is
   safe to handle, or using visual completeness as a substitute for model
   coverage.
+- **First UI slice (2026-08-27):** the existing 118-element structural table is
+  retained behind a remembered full-table toggle. The default curated lab table
+  keeps high-value Mn/Fe/Cu/Zn and excludes Po/At/Fr/Ra/synthetic elements;
+  cells show a count generated from the live shelf's parsed formulas and empty
+  cells remain honest. Remaining work: include expanded material recipes,
+  generate route/lesson capability levels, replace the curated symbol set with
+  a reviewed data artifact, and add component/mobile accessibility snapshots.
 
 ### BRD-080 — Molecular viewer selection spike
 
