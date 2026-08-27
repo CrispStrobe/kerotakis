@@ -129,6 +129,16 @@
     }
   }
 
+  /**
+   * A shelf click or drop represents a physical pour, not zero-duration state
+   * editing. Give the newly contacted mixture five explicit seconds to react so
+   * kinetic effects start visibly; keeping the wait as a normal command makes
+   * the elapsed time replayable and visible in the notebook.
+   */
+  async function dispense(line: string) {
+    if (await session.submit(line)) await session.submit("wait 5s");
+  }
+
   let lessons = $state<{ file: string; name: string; blurb?: string; topic?: string }[]>([]);
 
   // CI self-test hook (?selftest=...): report readiness to the harness once
@@ -154,13 +164,14 @@
           "register lv1",
           "add v1 Wasserstoffperoxid_3% 100mL",
           "add v1 Spülmittel 10mL",
-          "add v1 KI 0.25g",
           "new beaker",
           "add v2 Wasserstoffperoxid_3% 100mL",
           "add v2 Spülmittel 10mL",
-          "add v2 KI 1g",
-          "wait 10s",
         ].join("\n"));
+        // Exercise the actual shelf/drop path: the dispense itself advances a
+        // visible contact interval, so no hidden/manual wait follows it.
+        await dispense("add v1 KI 0.25g");
+        await dispense("add v2 KI 1g");
         await tick();
         const vessels = session.scene?.vessels ?? [];
         foamVessels = vessels.filter(
@@ -637,7 +648,7 @@
         completed={session.completedMissions.size}
         stockUsed={session.storyStockUsed}
         onadd={(line) => {
-          void session.submit(line);
+          void dispense(line);
           pane = "bench";
         }}
       />
@@ -748,7 +759,7 @@
         }
       }}
       ondropspecies={(id, p) =>
-        void session.submit(
+        void dispense(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
         )}
     />
@@ -977,7 +988,7 @@
     register={session.register}
     onadd={(item) => {
       tableOpen = false;
-      void session.submit(
+      void dispense(
         `add v${session.selected + 1} ${item.key} ${defaultAmount(session.register, item.phase)}`,
       );
     }}

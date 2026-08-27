@@ -781,6 +781,11 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   out-of-glass overflow, dose ordering, and the absence of the former
   unsupported-contact warning. This closes the core-to-Wasm-to-DOM path rather
   than accepting a scene value that the child cannot see.
+  Shelf clicks, periodic-table additions and reagent drops now model the
+  physical dispense as an explicit, replayable five-second contact interval.
+  Kinetic reactions therefore begin bubbling or foaming immediately after the
+  gesture instead of requiring a child to discover the textual `wait` command;
+  authored lessons and command-line scripts retain complete control of time.
   Remaining
   boundaries are yeast-brand/hydration activity, enzyme denaturation and
   inhibition, catalyst pore/BET area, adsorption and pore-scale diffusion.
