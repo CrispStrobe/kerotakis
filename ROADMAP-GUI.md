@@ -936,8 +936,9 @@ hide them completely.
   *Physical-readout slice in progress 2026-08-27: control changes immediately
   expose the quantities they imply before Start — delivered or removed energy
   from power × time, the 25 mm stir-bar tip speed, and centrifuge RCF from RPM
-  and rotor radius. These use the same formulae and constants as the engine;
-  chemical outcomes remain engine-owned.*
+  and rotor radius; current × time exposes charge and electron amount, while
+  lamp wavelength exposes single-photon energy. These use the same formulae
+  and constants as the engine; chemical outcomes remain engine-owned.*
   *Installed-state slice in progress 2026-08-27: vessel-mounted apparatus now
   keeps a compact named status lamp on its target card. Configured equipment
   reads as ready; the same computed-operation window that drives its physical

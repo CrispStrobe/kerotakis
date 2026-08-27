@@ -180,6 +180,18 @@ export const APPARATUS: ApparatusSpec[] = [
         ? null
         : `electrolyse v${v + 1} ${amps}A ${minutes}min`;
     },
+    readouts: (f) => {
+      const amps = pos(f.amps);
+      const minutes = pos(f.minutes);
+      if (amps === null || minutes === null) return [];
+      const coulombs = amps * minutes * 60;
+      // The engine's Faraday constant (C/mol e−), used by displacement::electrolyse.
+      const electronMoles = coulombs / 96_485.332_12;
+      return [
+        { label: "electrical charge", value: coulombs, unit: "C", digits: coulombs < 100 ? 1 : 0 },
+        { label: "electron amount", value: electronMoles, unit: "mol e⁻", digits: 5 },
+      ];
+    },
   },
   {
     verb: "grind",
@@ -211,6 +223,14 @@ export const APPARATUS: ApparatusSpec[] = [
       return wavelength === null || irradiance === null
         ? null
         : `irradiate v${v + 1} ${wavelength}nm ${irradiance}W/m2`;
+    },
+    readouts: (f) => {
+      const wavelengthNm = pos(f.wavelength);
+      if (wavelengthNm === null) return [];
+      // Same E = hc/λ constants as photochem::LightSource; eV is a display conversion.
+      const joules = 6.626e-34 * 2.998e8 / (wavelengthNm * 1e-9);
+      const electronVolts = joules / 1.602_176_634e-19;
+      return [{ label: "photon energy", value: electronVolts, unit: "eV", digits: 3 }];
     },
   },
   {
