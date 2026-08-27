@@ -533,6 +533,14 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   the picker's curated `start here` sequence, warns about staining and tasting,
   and invites changes to dye and detergent dose while repeating the empirical
   model boundary.
+- **Checkpoint 23 implemented:** pouring, multi-stream mixing and filtration
+  now explicitly homogenize any localized food-colour surface state before
+  moving resolved liquid. A proportional decant therefore splits the real dye
+  inventory exactly between source and target without leaving impossible
+  surface spots behind; receiving pours also disturb pre-existing spots. Each
+  actual transition emits `SurfaceColourMixed`, while a zero-fraction decant
+  remains a no-op. This closes the interaction lifecycle without inventing
+  droplet trajectories during a pour.
 
 ## Stage B2 — organic structure and curated reaction families
 

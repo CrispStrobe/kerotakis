@@ -69,3 +69,52 @@ fn food_colour_in_plain_water_uses_normal_homogeneous_optics() {
     let rgb = rendered.liquid.unwrap().srgb;
     assert!(rgb[0] > rgb[1] && rgb[0] > rgb[2]);
 }
+
+#[test]
+fn a_real_pour_homogenizes_surface_dye_before_proportional_transfer() {
+    let mut bench = Bench::new();
+    run(&mut bench, "add v1 whole_milk 100mL");
+    run(&mut bench, "add v1 food_colour_red 1mL");
+    run(&mut bench, "new beaker");
+
+    let zero = run(&mut bench, "decant v1 v2 0.0");
+    assert!(!zero
+        .iter()
+        .any(|event| matches!(event, Event::SurfaceColourMixed { .. })));
+    assert_eq!(bench.vessels[0].surface_colours.len(), 1);
+
+    let before = bench.vessels[0]
+        .contents
+        .iter()
+        .find(|portion| portion.species.0 == "betanin")
+        .unwrap()
+        .moles
+        .0;
+    let events = run(&mut bench, "decant v1 v2 0.5");
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::SurfaceColourMixed {
+            vessel,
+            spot_count: 1,
+        } if vessel.0 == 0
+    )));
+    assert!(bench.vessels[0].surface_colours.is_empty());
+    assert!(bench.vessels[1].surface_colours.is_empty());
+    let remaining = bench.vessels[0]
+        .contents
+        .iter()
+        .find(|portion| portion.species.0 == "betanin")
+        .unwrap()
+        .moles
+        .0;
+    let moved = bench.vessels[1]
+        .contents
+        .iter()
+        .find(|portion| portion.species.0 == "betanin")
+        .unwrap()
+        .moles
+        .0;
+    assert!((remaining - before * 0.5).abs() < 1e-15);
+    assert!((moved - before * 0.5).abs() < 1e-15);
+    assert!((remaining + moved - before).abs() < 1e-15);
+}

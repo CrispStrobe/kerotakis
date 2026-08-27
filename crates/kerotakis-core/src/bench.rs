@@ -893,6 +893,22 @@ impl Bench {
                     }
                 }
 
+                // Pouring disturbs both free surfaces. Release any localized
+                // dye into the ordinary conserved liquid inventory before
+                // proportional withdrawal; a zero-fraction rehearsal changes
+                // no physical state.
+                if *fraction > 0.0 {
+                    for id in [*from, *to] {
+                        let count = crate::surface_colour::homogenize(self.vessel_mut(id)?);
+                        if count > 0 {
+                            events.push(Event::SurfaceColourMixed {
+                                vessel: id,
+                                spot_count: count,
+                            });
+                        }
+                    }
+                }
+
                 // Apply: take the liquid fraction out of `from`…
                 let portions = {
                     let src = self.vessel_mut(*from)?;
@@ -1031,6 +1047,25 @@ impl Bench {
                     }
                 }
 
+                // Combining streams is itself mechanical mixing. Only a
+                // source that contributes liquid is disturbed; the receiving
+                // surface is disturbed when either stream contributes.
+                for (id, active) in [
+                    (*a, *fraction_a > 0.0),
+                    (*b, *fraction_b > 0.0),
+                    (*into, *fraction_a > 0.0 || *fraction_b > 0.0),
+                ] {
+                    if active {
+                        let count = crate::surface_colour::homogenize(self.vessel_mut(id)?);
+                        if count > 0 {
+                            events.push(Event::SurfaceColourMixed {
+                                vessel: id,
+                                spot_count: count,
+                            });
+                        }
+                    }
+                }
+
                 // Withdraw fractions from sources.
                 {
                     let src_a = self.vessel_mut(*a)?;
@@ -1146,6 +1181,19 @@ impl Bench {
                     SafetyVerdict::Veto { reason } => {
                         events.push(Event::SafetyVeto { reason });
                         return Ok(events);
+                    }
+                }
+
+                // A full filtration pour also destroys localized surface-drop
+                // geometry on both sides; dye conservation remains in the
+                // resolved portions transferred below.
+                for id in [*from, *to] {
+                    let count = crate::surface_colour::homogenize(self.vessel_mut(id)?);
+                    if count > 0 {
+                        events.push(Event::SurfaceColourMixed {
+                            vessel: id,
+                            spot_count: count,
+                        });
                     }
                 }
 
