@@ -99,6 +99,9 @@ export class Session {
   scene = $state<Scene | null>(null);
   feed = $state<FeedEntry[]>([]);
   busy = $state(false);
+  /** Exact command currently waiting on the engine. Presentation may use it
+   * to energize only the matching apparatus; `busy` is deliberately broader. */
+  activeCommand = $state<string | null>(null);
   engineReady = $state(false);
   canSolve = $state(false);
   /** Engine identity from hello (GUI-001): "0.0.1 @ abc1234" or null. */
@@ -490,6 +493,7 @@ export class Session {
     const trimmed = line.trim();
     if (!trimmed || this.busy) return false;
     this.busy = true;
+    this.activeCommand = trimmed;
     this.feed.push({ kind: "command", text: trimmed });
     try {
       if (trimmed.startsWith("register ")) {
@@ -641,6 +645,7 @@ export class Session {
       });
       return false;
     } finally {
+      this.activeCommand = null;
       this.busy = false;
     }
   }
