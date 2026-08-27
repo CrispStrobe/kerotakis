@@ -65,7 +65,11 @@
     <p class="note">{t("…{count} earlier entries not shown (the exports keep them)", { count: trimmed })}</p>
   {/if}
   {#each shown as entry, i (i)}
-    {#if entry.kind === "hazard"}
+    {#if entry.kind === "nudge"}
+      <p class="nudge">💡 {entry.text}</p>
+    {:else if entry.kind === "claim"}
+      <p class="claim">🏅 {entry.text}</p>
+    {:else if entry.kind === "hazard"}
       <div class="hazard" role="alert">
         <span class="chip">{t(entry.severity || "hazard")}</span>
         {#if entry.hazardText && entry.realWorld}
@@ -191,5 +195,16 @@
     padding: 0 0.5rem;
     margin-right: 0.5rem;
     text-transform: lowercase;
+  }
+  .nudge {
+    border-left: 3px solid var(--cool);
+    padding-left: 0.5rem;
+    color: var(--ink);
+    font-style: italic;
+  }
+  .claim {
+    border-left: 3px solid var(--good);
+    padding-left: 0.5rem;
+    color: var(--good);
   }
 </style>
