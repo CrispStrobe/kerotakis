@@ -796,9 +796,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   conserved, and old saves without lot provenance retain their prior result.
   The correlation is explicitly editorial and does not claim universal
   activity for a yeast brand, age or batch.
+  Catalase now also has a smooth high-temperature activity envelope: moderate
+  warmth still accelerates the curated pathway, while very hot water suppresses
+  it instead of allowing Arrhenius extrapolation to grow without limit. This is
+  an instantaneous teaching envelope, not yet irreversible denaturation memory;
+  the latter requires explicit exposure history and remains a boundary.
   Remaining
-  boundaries are yeast-brand/age calibration, enzyme denaturation and
-  inhibition, catalyst pore/BET area, adsorption and pore-scale diffusion.
+  boundaries are yeast-brand/age calibration, irreversible denaturation
+  history and inhibition, catalyst pore/BET area, adsorption and pore-scale
+  diffusion.
 
 ### BRD-075 — Transparent dye and opaque-pigment mixing
 

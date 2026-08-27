@@ -15,9 +15,10 @@ new beaker
 add v2 Wasserstoffperoxid_3% 100mL
 measure v2 thermometer
 
-# Dry yeast is a catalase-activity surrogate in this first model. Warm water
-# normally hydrates it in the real demonstration; brand, age and hydration
-# change activity, so Kerotakis does not claim one universal yeast rate.
+# Dry yeast is a catalase-activity surrogate. The ten-second stir after warm
+# water now advances its bounded hydration ramp before the final shared wait.
+# Very hot water suppresses the enzyme envelope; brand and age still vary, so
+# Kerotakis does not claim one universal yeast rate.
 add v1 water 20mL @ 35C
 add v1 Hefe 1g
 stir v1
