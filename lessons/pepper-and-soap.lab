@@ -1,0 +1,29 @@
+# Pepper runs from soap: order matters at the water surface
+#
+# A safe observation activity with water, ground pepper and a tiny amount of
+# dish soap. Do not taste lab materials, and wash the dishes afterwards.
+register lv1
+
+# First make the familiar pepper-covered water surface.
+add v1 water 100mL
+add v1 Pfeffer 0.08g
+inspect v1
+
+# Set up a control with the same materials in the opposite order. Once soap is
+# already spread across the water there is no new local gradient when pepper
+# arrives, so the model must not invent the sudden darting event.
+new beaker
+add v2 water 100mL
+add v2 Spülmittel 1mL
+add v2 Pfeffer 0.08g
+
+# Now touch the pepper-first surface with dish soap. The recipe-declared dose
+# computes the central clearing; the resulting SurfaceSpread event, retained
+# scene state and animation all come from that one engine transition.
+add v1 Spülmittel 1mL
+inspect v1
+inspect v2
+
+# Try less soap in a fresh vessel and predict how wide the clearing will be.
+# This is a bounded classroom model, not a molecular surface-tension or CFD
+# calculation, and repeating the effect needs fresh water and pepper.
