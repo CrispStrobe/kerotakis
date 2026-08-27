@@ -3,32 +3,34 @@
   import type { Effect } from "../magnitudes";
   import { t } from "../i18n.svelte";
 
-  let { effect }: { effect: Effect } = $props();
+  let { effect: benchEffect, layoutKey = "" }: { effect: Effect; layoutKey?: string } = $props();
   let marker: HTMLSpanElement;
   let path = $state("");
   let midpoint = $state({ x: 0, y: 0 });
   let visible = $state(true);
-  let duration = $derived(`${1.45 - effect.magnitude * 0.65}s`);
+  let duration = $derived(
+    `${Math.max(0.45, (benchEffect.durationMs ?? (1450 - benchEffect.magnitude * 650)) / 1000)}s`,
+  );
   const residueMoles = $derived(
-    effect.filterResidue?.reduce((sum, solid) => sum + solid.moles, 0) ?? 0,
+    benchEffect.filterResidue?.reduce((sum, solid) => sum + solid.moles, 0) ?? 0,
   );
   const dominantResidue = $derived(
-    effect.filterResidue?.reduce((dominant, solid) =>
-      !dominant || solid.moles > dominant.moles ? solid : dominant, effect.filterResidue[0]),
+    benchEffect.filterResidue?.reduce((dominant, solid) =>
+      !dominant || solid.moles > dominant.moles ? solid : dominant, benchEffect.filterResidue[0]),
   );
-  const startC = $derived((effect.distillation?.startK ?? 273.15) - 273.15);
-  const endC = $derived((effect.distillation?.endK ?? effect.distillation?.startK ?? 273.15) - 273.15);
+  const startC = $derived((benchEffect.distillation?.startK ?? 273.15) - 273.15);
+  const endC = $derived((benchEffect.distillation?.endK ?? benchEffect.distillation?.startK ?? 273.15) - 273.15);
   const stageMarks = $derived(
-    Array.from({ length: Math.min(8, Math.max(1, effect.distillation?.stages ?? 1)) }),
+    Array.from({ length: Math.min(8, Math.max(1, benchEffect.distillation?.stages ?? 1)) }),
   );
   const magneticMoles = $derived(
-    effect.magnetic?.attracted.reduce((sum, solid) => sum + solid.moles, 0) ?? 0,
+    benchEffect.magnetic?.attracted.reduce((sum, solid) => sum + solid.moles, 0) ?? 0,
   );
 
   function position() {
     const bench = marker?.closest<HTMLElement>(".bench");
-    const sourceVessel = bench?.querySelector<HTMLElement>(`[data-vessel-id="${effect.source}"]`);
-    const targetVessel = bench?.querySelector<HTMLElement>(`[data-vessel-id="${effect.target}"]`);
+    const sourceVessel = bench?.querySelector<HTMLElement>(`[data-vessel-id="${benchEffect.source}"]`);
+    const targetVessel = bench?.querySelector<HTMLElement>(`[data-vessel-id="${benchEffect.target}"]`);
     const source = sourceVessel?.closest<HTMLElement>(".vessel-position")?.querySelector<HTMLElement>('[data-port="out"]') ?? sourceVessel;
     const target = targetVessel?.closest<HTMLElement>(".vessel-position")?.querySelector<HTMLElement>('[data-port="in"]') ?? targetVessel;
     if (!bench || !source || !target) return;
@@ -44,12 +46,25 @@
     path = `M ${x1} ${y1} Q ${midpoint.x} ${midpoint.y} ${x2} ${y2}`;
   }
 
+  $effect(() => {
+    // Reading this key makes the SVG reconnect whenever either vessel moves.
+    layoutKey;
+    void tick().then(position);
+  });
+
   onMount(() => {
     void tick().then(position);
     window.addEventListener("resize", position);
-    const expiry = window.setTimeout(() => (visible = false), 3500);
+    const bench = marker?.closest<HTMLElement>(".bench");
+    const observer = bench && typeof ResizeObserver !== "undefined"
+      ? new ResizeObserver(position)
+      : null;
+    if (bench) observer?.observe(bench);
+    const remaining = Math.max(0, (benchEffect.durationMs ?? 4000) - (Date.now() - benchEffect.at));
+    const expiry = window.setTimeout(() => (visible = false), remaining);
     return () => {
       window.removeEventListener("resize", position);
+      observer?.disconnect();
       window.clearTimeout(expiry);
     };
   });
@@ -57,8 +72,8 @@
 
 <span class="marker" bind:this={marker}></span>
 {#if path && visible}
-  <svg class="bench-effect" aria-hidden="true" style={`--fluid:${effect.fluidColour ?? "var(--cool)"}`}>
-    {#if effect.operation === "cell"}
+  <svg class="bench-effect" aria-hidden="true" style={`--fluid:${benchEffect.fluidColour ?? "var(--cool)"}`}>
+    {#if benchEffect.operation === "cell"}
       <path class="cable positive" d={path} />
       <path class="cable negative" d={path} transform="translate(0 8)" />
       <g class="meter" transform={`translate(${midpoint.x - 22} ${midpoint.y - 12})`}>
@@ -67,7 +82,7 @@
       </g>
     {:else}
       <path class="rig-line" d={path} />
-      {#if effect.operation === "magnet"}
+      {#if benchEffect.operation === "magnet"}
         <g class="magnet-tool" transform={`translate(${midpoint.x - 16} ${midpoint.y - 18})`}>
           <path class="magnet-body" d="M 3 0 V 13 A 13 13 0 0 0 29 13 V 0 H 20 V 13 A 4 4 0 0 1 12 13 V 0 Z" />
           <path class="magnet-pole north" d="M 3 0 H 12 V 6 H 3 Z" />
@@ -80,24 +95,24 @@
             <text class="magnetic-reading empty" x="16" y="32" text-anchor="middle">{t("no magnetic solid")}</text>
           {/if}
         </g>
-        {#each effect.magnetic?.attracted ?? [] as solid, speciesIndex (solid.species)}
+        {#each benchEffect.magnetic?.attracted ?? [] as solid, speciesIndex (solid.species)}
           {#each [0, 1, 2] as grain (grain)}
             <circle
               class="magnetic-grain"
-              r={1.2 + effect.magnitude * 1.4}
+              r={1.2 + benchEffect.magnitude * 1.4}
               fill={solid.colour}
               style={`--magnet-delay:${speciesIndex * .12 + grain * .09}s`}
             >
-              <animateMotion dur={`${1.25 - effect.magnitude * .45}s`} begin={`${speciesIndex * .12 + grain * .09}s`} path={path} fill="freeze" />
+              <animateMotion dur={`${1.25 - benchEffect.magnitude * .45}s`} begin={`${speciesIndex * .12 + grain * .09}s`} path={path} fill="freeze" />
             </circle>
           {/each}
         {/each}
-      {:else if effect.operation === "filter"}
+      {:else if benchEffect.operation === "filter"}
         <g
           class="filter"
           class:loaded={residueMoles > 0}
           transform={`translate(${midpoint.x - 13} ${midpoint.y - 12})`}
-          style={`--residue:${dominantResidue?.colour ?? "var(--cloud)"};--residue-load:${Math.max(.12, effect.magnitude)}`}
+          style={`--residue:${dominantResidue?.colour ?? "var(--cloud)"};--residue-load:${Math.max(.12, benchEffect.magnitude)}`}
         >
           <path class="stand" d="M 27 -8 V 30 M 23 30 H 31 M 18 2 H 27" />
           <path d="M 0 0 H 26 L 16 14 V 25 H 10 V 14 Z" />
@@ -105,17 +120,17 @@
           {#if residueMoles > 0}
             <path class="residue" d="M 4 4 H 22 L 19 7 Q 13 10 7 7 Z" />
             {#each [[8, 5], [12, 6.5], [16, 5], [19, 6.5], [10, 8], [15, 8]] as dot, i (i)}
-              <circle class="residue-grain" cx={dot[0]} cy={dot[1]} r={0.45 + effect.magnitude * .35} style={`--grain-delay:${i * .08}s`} />
+              <circle class="residue-grain" cx={dot[0]} cy={dot[1]} r={0.45 + benchEffect.magnitude * .35} style={`--grain-delay:${i * .08}s`} />
             {/each}
             <text class="filter-reading" x="13" y="-3" text-anchor="middle">{(residueMoles * 1000).toPrecision(2)} mmol</text>
           {/if}
         </g>
-      {:else if effect.operation === "distil"}
+      {:else if benchEffect.operation === "distil"}
         <g
           class="condenser"
-          class:azeotropic={effect.distillation?.azeotropic}
+          class:azeotropic={benchEffect.distillation?.azeotropic}
           transform={`translate(${midpoint.x - 31} ${midpoint.y - 16})`}
-          style={`--condense-rate:${Math.max(.4, 1.3 - effect.magnitude * .75)}s`}
+          style={`--condense-rate:${Math.max(.4, 1.3 - benchEffect.magnitude * .75)}s`}
         >
           <path class="column" d="M 4 28 V 5 H 13 V 28" />
           {#each stageMarks as _, i (i)}
@@ -129,19 +144,19 @@
           <path class="coolant-port" d="M 18 8 V 3 M 56 26 V 31" />
           <circle class="condensate-drop" cx="58" cy="14" r="1.7" />
           <text class="temperature" x="31" y="4" text-anchor="middle">{startC.toFixed(1)}–{endC.toFixed(1)} °C</text>
-          <text class="stages" x="8" y="35" text-anchor="middle">×{effect.distillation?.stages ?? 1}</text>
-          {#if (effect.distillation?.energyKj ?? 0) > 0}
-            <text class="energy" x="39" y="35" text-anchor="middle">{effect.distillation!.energyKj.toFixed(1)} kJ</text>
+          <text class="stages" x="8" y="35" text-anchor="middle">×{benchEffect.distillation?.stages ?? 1}</text>
+          {#if (benchEffect.distillation?.energyKj ?? 0) > 0}
+            <text class="energy" x="39" y="35" text-anchor="middle">{benchEffect.distillation!.energyKj.toFixed(1)} kJ</text>
           {/if}
-          {#if effect.distillation?.azeotropic}
+          {#if benchEffect.distillation?.azeotropic}
             <text class="azeotrope" x="39" y="43" text-anchor="middle">{t("azeotrope")}</text>
           {/if}
         </g>
-      {:else if effect.operation === "drain"}
+      {:else if benchEffect.operation === "drain"}
         <g
           class="separator"
           transform={`translate(${midpoint.x - 15} ${midpoint.y - 15})`}
-          style={`--lower:${effect.drain?.lowerColour ?? effect.fluidColour ?? "var(--cool)"};--upper:${effect.drain?.upperColour ?? "color-mix(in srgb, var(--cool) 20%, white)"};--drain-rate:${Math.max(.42, 1.25 - effect.magnitude * .7)}s`}
+          style={`--lower:${benchEffect.drain?.lowerColour ?? benchEffect.fluidColour ?? "var(--cool)"};--upper:${benchEffect.drain?.upperColour ?? "color-mix(in srgb, var(--cool) 20%, white)"};--drain-rate:${Math.max(.42, 1.25 - benchEffect.magnitude * .7)}s`}
         >
           <path class="separator-stand" d="M 29 -7 V 38 M 24 38 H 34 M 20 4 H 29" />
           <path class="separator-glass" d="M 7 0 H 19 L 21 5 Q 26 16 13 28 Q 0 16 5 5 Z M 13 28 V 34" />
@@ -149,14 +164,14 @@
           <path class="lower-layer" d="M 8 21 H 18 Q 16 25 13 28 Q 10 25 8 21 Z" />
           <path class="stopcock" d="M 8 32 H 18 M 13 30 V 35" />
           <path class="drain-jet" d="M 13 35 V 44" />
-          <text x="13" y="-4" text-anchor="middle">{t(effect.drain?.solvent ?? "")}</text>
-          <text x="13" y="50" text-anchor="middle">{((effect.drain?.moles ?? 0) * 1000).toPrecision(2)} mmol</text>
+          <text x="13" y="-4" text-anchor="middle">{t(benchEffect.drain?.solvent ?? "")}</text>
+          <text x="13" y="50" text-anchor="middle">{((benchEffect.drain?.moles ?? 0) * 1000).toPrecision(2)} mmol</text>
         </g>
       {/if}
-      {#if effect.operation !== "magnet"}
-        <path class="pour-glow" d={path} pathLength="1" style={`--duration:${duration};--stream:${2 + effect.magnitude * 5}px`} />
-        <path class="pour-stream" d={path} pathLength="1" style={`--duration:${duration};--stream:${1 + effect.magnitude * 2.5}px`} />
-        <circle class="landing" r={6 + effect.magnitude * 8}>
+      {#if benchEffect.operation !== "magnet"}
+        <path class="pour-glow" d={path} pathLength="1" style={`--duration:${duration};--stream:${2 + benchEffect.magnitude * 5}px`} />
+        <path class="pour-stream" d={path} pathLength="1" style={`--duration:${duration};--stream:${1 + benchEffect.magnitude * 2.5}px`} />
+        <circle class="landing" r={6 + benchEffect.magnitude * 8}>
           <animateMotion dur={duration} path={path} fill="freeze" />
         </circle>
       {/if}

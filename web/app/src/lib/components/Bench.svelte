@@ -104,7 +104,15 @@
   const spatialEffects = $derived(
     Object.values(effects)
       .flat()
-      .filter((effect) => effect.operation && effect.source !== undefined && effect.target !== undefined && Date.now() - effect.at < 3500),
+      .filter((effect) =>
+        effect.operation
+        && effect.source !== undefined
+        && effect.target !== undefined
+        && Date.now() - effect.at < (effect.durationMs ?? 4000)
+      ),
+  );
+  const spatialLayoutKey = $derived(
+    JSON.stringify({ placements: layout.placements, preview: dragPreview }),
   );
 
   const latestApparatusEffect = (vessel: number, kind: string) =>
@@ -366,7 +374,7 @@
   {/if}
   {#if scene}
     {#each spatialEffects as effect (effect.at + ":" + effect.source + ":" + effect.target + ":" + effect.operation)}
-      <BenchEffect {effect} />
+      <BenchEffect {effect} layoutKey={spatialLayoutKey} />
     {/each}
     <div
       class="work-surface"
