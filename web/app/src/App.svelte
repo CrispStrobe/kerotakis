@@ -806,11 +806,16 @@
         <ApparatusForm
           spec={apparatusSpec}
           vessel={apparatusTarget ?? session.selected}
+          selectedVessel={session.selected}
           shelf={session.shelf}
           busy={session.busy}
           initialValues={apparatusInitialValues}
           onrun={(line) => void session.submit(line)}
           onpreview={(values) => (apparatusPreview = values)}
+          onretarget={() => {
+            apparatusTarget = session.selected;
+            apparatusPreview = {};
+          }}
           onclose={closeApparatus}
         />
       {/key}
@@ -818,10 +823,12 @@
     {#if buretteOut}
       <Burette
         vessel={buretteTarget ?? session.selected}
+        selectedVessel={session.selected}
         shelf={session.shelf}
         busy={session.busy}
         running={titrating}
         onstart={(line) => void startTitration(line)}
+        onretarget={() => (buretteTarget = session.selected)}
         onclose={() => {
           buretteOut = false;
           buretteTarget = null;

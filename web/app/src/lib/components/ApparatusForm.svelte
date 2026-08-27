@@ -7,20 +7,24 @@
   let {
     spec,
     vessel,
+    selectedVessel = vessel,
     shelf,
     busy,
     initialValues = {},
     onrun,
     onpreview,
+    onretarget,
     onclose,
   }: {
     spec: ApparatusSpec;
     vessel: number;
+    selectedVessel?: number;
     shelf: ShelfItem[];
     busy: boolean;
     initialValues?: Record<string, number | string>;
     onrun: (line: string) => void;
     onpreview?: (values: Record<string, number | string>) => void;
+    onretarget?: () => void;
     onclose: () => void;
   } = $props();
 
@@ -46,6 +50,9 @@
   <div class="head">
     <span class="live-mark" aria-hidden="true"></span>
     <span class="title"><small>{t("workstation · vessel v{vessel}", { vessel: vessel + 1 })}</small><strong>{t(spec.title)}</strong></span>
+    {#if selectedVessel !== vessel && onretarget}
+      <button class="retarget" disabled={busy} onclick={onretarget}>{t("move to selected v{vessel}", { vessel: selectedVessel + 1 })}</button>
+    {/if}
     <button class="icon-close" aria-label={t("put away")} title={t("put away")} onclick={onclose}>×</button>
   </div>
   <p class="blurb">{t(spec.blurb)}</p>
@@ -131,6 +138,7 @@
   .title { min-width: 0; display: flex; flex: 1; flex-direction: column; }
   .head small { color: var(--instrument); font-size: .56rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
   .live-mark { width: 10px; height: 10px; flex: none; border: 2px solid var(--surface); border-radius: 50%; background: var(--instrument); box-shadow: 0 0 0 2px var(--instrument); }
+  .retarget { flex: none; min-height: 30px; padding: .25rem .48rem; border: 1px solid var(--instrument); border-radius: 8px; background: color-mix(in srgb, var(--surface) 82%, var(--instrument)); color: var(--ink); font-size: .62rem; font-weight: 750; }
   .blurb {
     margin: 0.28rem 0 0 1.6rem;
     color: var(--dim);
