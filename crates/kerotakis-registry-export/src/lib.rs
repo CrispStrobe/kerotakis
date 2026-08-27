@@ -95,7 +95,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
-        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, and demonstrates that detergent helps oil and water mix; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey".to_string(),
+        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey".to_string(),
         licence: "AGPL-3.0-or-later".to_string(),
         lane: SourceLane::Runtime,
         origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
@@ -158,7 +158,18 @@ fn export_material_recipes(document: &mut RegistryDocument) {
         components: vec![component(dye, concentration), component("water", 1.0 - concentration)],
         unresolved_fraction: None,
         physical_form: MaterialPhysicalForm::HomogeneousLiquid,
-        roles: Vec::new(),
+        roles: if canonical_key.starts_with("food_colour_") {
+            vec![MaterialRole::SurfaceColourant {
+                srgb: match canonical_key {
+                    "food_colour_red" => [210, 35, 55],
+                    "food_colour_yellow" => [245, 190, 25],
+                    "food_colour_blue" => [35, 90, 210],
+                    _ => [128, 128, 128],
+                },
+            }]
+        } else {
+            Vec::new()
+        },
         preparation: Some(format!(
             "{}% w/w {dye} aqueous {medium}; unbranded transparent optical teaching surrogate",
             concentration * 100.0
@@ -704,7 +715,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 "USDA's approximately 87% water is resolved; milk fat, protein, lactose, minerals and natural variation remain together as conserved unresolved milk solids rather than fictional molecules".to_string(),
                 "1.03 g/mL and 60 g/L full-opacity are explicit room-temperature visual geometry parameters, not product specifications".to_string(),
                 "acid curdling is a bounded dose response calibrated to the familiar milk-and-vinegar classroom ratio; its 28% aggregate-solids ceiling separates estimated curd solids from wet-curd yield and its opacity response is independent".to_string(),
-                "spoilage, fermentation and detergent-driven colour motion require separate state transitions".to_string(),
+                "detergent-driven colour motion is a bounded surface-state response; spoilage and fermentation require separate state transitions".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,

@@ -512,6 +512,19 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   teaching model from a recipe, food-safety check or cheese-yield prediction.
   The full lesson replay also advances the intentional shared wording change
   from “colourless” to “white” for bright, fully opaque suspensions.
+- **Checkpoint 21 implemented:** red, yellow and blue food-colour additions to
+  the whole-milk surrogate now retain their resolved dye moles as localized
+  surface spots instead of instantly tinting the whole vessel. A subsequent
+  recipe-declared dish-soap dose computes a bounded spread transition and
+  emits `SurfaceColourSpread`; scene JSON carries each spot's colour, relative
+  amount and computed extent, and the web vessel draws event-driven coloured
+  streaks with a reduced-motion fallback. Real stirring emits
+  `SurfaceColourMixed`, releases the exactly conserved dye inventory into the
+  existing Beer–Lambert bulk-colour path, and removes the surface geometry.
+  Plain-water dye controls retain normal homogeneous optics. This observable
+  is calibrated to the ACS “Colors on the Move” activity and explicitly does
+  not claim CFD, a molecular milk composition, universal surface tension, or
+  literal streak trajectories.
 
 ## Stage B2 — organic structure and curated reaction families
 

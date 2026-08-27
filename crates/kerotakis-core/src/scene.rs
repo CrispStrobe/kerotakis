@@ -65,6 +65,10 @@ pub struct SceneVessel {
     /// computed central clearing made by a recipe-declared surfactant.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub surface_particles: Option<SceneSurfaceParticles>,
+    /// Resolved food-colour drops whose geometry is still localized at an
+    /// opaque liquid surface rather than mixed through the bulk.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub surface_colours: Vec<SceneSurfaceColour>,
     /// Temporary oil-in-water dispersion produced by a computed stir action.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub emulsion: Option<SceneEmulsion>,
@@ -111,6 +115,14 @@ pub struct SceneSurfaceParticles {
     pub material: String,
     pub coverage_fraction: f64,
     pub cleared_fraction: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneSurfaceColour {
+    pub material: String,
+    pub srgb: [u8; 3],
+    pub spread_fraction: f64,
+    pub relative_amount: f64,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -409,8 +421,19 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             confidence: Confidence::Modeled,
         });
     }
-
     let mut words = seen.words;
+    if !v.surface_colours.is_empty() {
+        let spread = v
+            .surface_colours
+            .iter()
+            .map(|spot| spot.spread_fraction)
+            .fold(0.0, f64::max);
+        if spread > 0.01 {
+            words.push_str(" Food-colour streaks have spread across the milk surface.");
+        } else {
+            words.push_str(" Food-colour drops are resting on the milk surface.");
+        }
+    }
     if let Some(emulsion) = &emulsion_observation {
         words.push_str(&format!(
             " Stirring has dispersed {:.0}% of the {} as cloudy droplets; the rest remains above the water.",
@@ -457,6 +480,23 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 coverage_fraction: particles.coverage_fraction,
                 cleared_fraction: particles.cleared_fraction,
             }),
+        surface_colours: {
+            let max_moles = v
+                .surface_colours
+                .iter()
+                .map(|spot| spot.moles.0)
+                .fold(0.0, f64::max)
+                .max(1e-30);
+            v.surface_colours
+                .iter()
+                .map(|spot| SceneSurfaceColour {
+                    material: spot.material.clone(),
+                    srgb: spot.srgb,
+                    spread_fraction: spot.spread_fraction,
+                    relative_amount: (spot.moles.0 / max_moles).clamp(0.0, 1.0),
+                })
+                .collect()
+        },
         emulsion: emulsion_observation.map(|emulsion| SceneEmulsion {
             material: emulsion.material,
             dispersed_volume_l: emulsion.dispersed_volume_l,

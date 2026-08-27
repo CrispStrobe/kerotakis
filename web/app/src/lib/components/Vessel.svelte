@@ -79,6 +79,12 @@
     return right ? INNER_X + INNER_W - offset : INNER_X + offset;
   }
 
+  function surfaceColourX(index: number, count: number, spread: number): number {
+    const centreOffset = (index - (count - 1) / 2) * 3.2;
+    const direction = index % 2 === 0 ? -1 : 1;
+    return 50 + centreOffset + direction * Math.max(0, Math.min(1, spread)) * (22 + (index % 3) * 4);
+  }
+
   let dropReady = $state(false);
   /** A just-landed drop ripples once — pouring is an action, not a teleport. */
   let splashedAt = $state(0);
@@ -353,6 +359,35 @@
             cx={surfaceParticleX(i, particleCount, vessel.surface_particles.cleared_fraction)}
             cy={BOTTOM_Y - liquidH - 0.8 - (i % 3) * 0.55}
             r={0.65 + (i % 2) * 0.25}
+          />
+        {/each}
+      </g>
+    {/if}
+
+    {#if vessel.surface_colours && vessel.surface_colours.length > 0 && vessel.liquid && liquidH > 0}
+      <g
+        class="surface-colours"
+        class:spreading={active("magic-milk", 3000)}
+        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px`}
+      >
+        <title>{t("modeled food-colour drops and streaks on the milk surface")}</title>
+        {#each vessel.surface_colours as spot, i (`${spot.material}-${i}`)}
+          {@const spotX = surfaceColourX(i, vessel.surface_colours.length, spot.spread_fraction)}
+          {@const surfaceY = BOTTOM_Y - liquidH - 1.2 + (i % 2) * 0.7}
+          {@const streak = 3 + spot.spread_fraction * (18 + (i % 3) * 3)}
+          <path
+            class="surface-colour-streak"
+            style={`--spot-colour:${rgb(spot.srgb)}`}
+            d={`M 50 ${surfaceY} Q ${50 + (i % 2 === 0 ? -5 : 5)} ${surfaceY + 2.5}, ${spotX} ${surfaceY + (i % 3 - 1) * 1.8}`}
+            pathLength={Math.max(1, streak)}
+          />
+          <ellipse
+            class="surface-colour-drop"
+            style={`--spot-colour:${rgb(spot.srgb)};--spot-x:${spotX}px`}
+            cx={spotX}
+            cy={surfaceY}
+            rx={1.8 + spot.relative_amount * 1.5 + spot.spread_fraction * 2.2}
+            ry={1.1 + spot.relative_amount * 0.8}
           />
         {/each}
       </g>
@@ -937,6 +972,25 @@
   .surface-particles.spreading {
     animation: surface-spread 780ms cubic-bezier(.16, .82, .2, 1) both;
   }
+  .surface-colour-streak {
+    fill: none;
+    stroke: var(--spot-colour);
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    opacity: 0.82;
+  }
+  .surface-colour-drop {
+    fill: var(--spot-colour);
+    stroke: color-mix(in srgb, var(--spot-colour) 72%, var(--edge));
+    stroke-width: 0.35;
+    opacity: 0.92;
+  }
+  .surface-colours.spreading .surface-colour-streak {
+    animation: milk-colour-streak 1050ms cubic-bezier(.12, .78, .18, 1) both;
+  }
+  .surface-colours.spreading .surface-colour-drop {
+    animation: milk-colour-drop 1050ms cubic-bezier(.12, .78, .18, 1) both;
+  }
   .milk-curds ellipse {
     transform-box: fill-box;
     transform-origin: center;
@@ -972,6 +1026,14 @@
   @keyframes surface-spread {
     from { transform: scaleX(0.16); opacity: 0.72; }
     to { transform: scaleX(1); opacity: 1; }
+  }
+  @keyframes milk-colour-streak {
+    from { stroke-dasharray: 0 100; opacity: 0.55; }
+    to { stroke-dasharray: 100 0; opacity: 0.82; }
+  }
+  @keyframes milk-colour-drop {
+    from { transform: translateX(calc(50px - var(--spot-x, 50px))) scale(.65); }
+    to { transform: translateX(0) scale(1); }
   }
   @keyframes rise {
     from {
@@ -1162,6 +1224,8 @@
     .foam-state,
     .foam-overflow,
     .milk-curds.forming ellipse,
+    .surface-colours.spreading .surface-colour-streak,
+    .surface-colours.spreading .surface-colour-drop,
     .flame .outer,
     .flame .inner,
     .steam,

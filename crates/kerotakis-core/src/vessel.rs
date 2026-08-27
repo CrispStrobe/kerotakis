@@ -50,6 +50,19 @@ pub struct SurfaceParticleState {
     pub cleared_fraction: f64,
 }
 
+/// Resolved dye temporarily localized at an opaque liquid surface. The dye
+/// moles remain in `contents`; this state records only their geometry and is
+/// therefore also the exact inventory excluded from the homogeneous optical
+/// calculation until the surface is disturbed.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SurfaceColourSpot {
+    pub material: String,
+    pub species: SpeciesId,
+    pub moles: Moles,
+    pub srgb: [u8; 3],
+    pub spread_fraction: f64,
+}
+
 /// Persistent amount of an unresolved oil layer dispersed as droplets in an
 /// aqueous phase. The bulk oil remains in `unresolved_materials`; this state
 /// only records its temporary geometry.
@@ -672,6 +685,8 @@ pub struct Vessel {
     pub foam: FoamState,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub surface_particles: Option<SurfaceParticleState>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub surface_colours: Vec<SurfaceColourSpot>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub emulsion: Option<EmulsionState>,
     pub temperature: Kelvin,
@@ -729,6 +744,7 @@ impl Vessel {
             unresolved_materials: Vec::new(),
             foam: FoamState::default(),
             surface_particles: None,
+            surface_colours: Vec::new(),
             emulsion: None,
             temperature: Kelvin::STANDARD,
             pressure: Pascal::ATMOSPHERIC,

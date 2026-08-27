@@ -314,6 +314,23 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 100.0 * to_cleared_fraction
             ),
         },
+        Event::SurfaceColourSpread {
+            vessel,
+            from_spread_fraction,
+            to_spread_fraction,
+            spot_count,
+        } => match register.level() {
+            1 => format!("The colours race and swirl across the milk in {vessel}!"),
+            _ => format!(
+                "{vessel}: {spot_count} surface colour spot(s) spread from {:.0}% to {:.0}%",
+                100.0 * from_spread_fraction,
+                100.0 * to_spread_fraction
+            ),
+        },
+        Event::SurfaceColourMixed { vessel, spot_count } => match register.level() {
+            1 => format!("Stirring blends the surface colours through {vessel}."),
+            _ => format!("{vessel}: homogenized {spot_count} surface colour spot(s)"),
+        },
         Event::TemperatureChanged { vessel, from, to } => {
             let d = to.0 - from.0;
             match register.level() {
