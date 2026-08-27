@@ -32,6 +32,7 @@
   import StoryMap from "./lib/components/StoryMap.svelte";
   import WorldHome from "./lib/components/WorldHome.svelte";
   import MissionDebrief from "./lib/components/MissionDebrief.svelte";
+  import QuestBar from "./lib/components/QuestBar.svelte";
   import { t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { commandCount, completedCommandCount } from "./lib/lesson";
@@ -160,6 +161,8 @@
   }
 
   let lessons = $state<{ file: string; name: string; blurb?: string; topic?: string }[]>([]);
+  /** Engine-evaluated free-form quests, shipped beside the lesson index. */
+  let quests = $state<Record<string, unknown>[]>([]);
 
   // CI self-test hook (?selftest=...): report readiness to the harness once
   // the scene has arrived — a worker-driven app cannot be probed by
@@ -266,6 +269,10 @@
     void fetch(new URL("codex/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : null))
       .then((raw) => (codexEntries = parseCodexIndex(raw)))
+      .catch(() => {});
+    void fetch(new URL("quests/index.json", resolvePayloadBase()).href)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((raw) => (quests = ((raw as { quests?: Record<string, unknown>[] })?.quests) ?? []))
       .catch(() => {});
     void fetch(new URL("lessons/index.json", resolvePayloadBase()).href)
       .then((r) => (r.ok ? r.json() : []))
@@ -554,6 +561,26 @@
         <button class="tool" onclick={() => (catalogOpen = true)}>{t("experiments")}</button>
         <button class="tool" onclick={() => (mapOpen = true)}>{t("map")}</button>
       {/if}
+      {#if quests.length > 0 && !session.quest}
+        <label class="quest-picker">
+          <span>{t("quests")}</span>
+          <select
+            aria-label={t("start a quest")}
+            onchange={(event) => {
+              const quest = quests.find((item) => item.id === event.currentTarget.value);
+              event.currentTarget.value = "";
+              if (quest) void session.startQuest(quest as Parameters<typeof session.startQuest>[0]);
+            }}
+          >
+            <option value="">{t("choose a quest…")}</option>
+            {#each quests as quest (quest.id)}
+              <option value={quest.id as string}>
+                {(quest.title as Record<string, string>)?.[session.register] ?? quest.id}
+              </option>
+            {/each}
+          </select>
+        </label>
+      {/if}
       <button class="tool mission-tool" onclick={() => { toolsOpen = false; missionOpen = true; }}>{t("Mission Control")}</button>
       {#if pwa.installable}<button class="tool" onclick={() => void pwa.install()}>{t("install")}</button>{/if}
       {#if !isTauri()}<a class="console-link" href="../">{t("console")}</a>{/if}
@@ -631,6 +658,8 @@
     onadd={(line) => void session.submit(line)}
   />
 {/if}
+
+<QuestBar {session} />
 
 <main data-pane={pane}>
   <nav class="shelf-pane" class:collapsed={cabinetCollapsed}>

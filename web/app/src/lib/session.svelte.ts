@@ -19,6 +19,7 @@ import { isChartSpec, type ChartSpec } from "./chart";
 import { type Lesson, parseLesson } from "./lesson";
 import { scriptKit } from "./codex";
 import { schedule, type Playback } from "./replay";
+import type { QuestOutput } from "./host/EngineHost";
 import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
 import { i18n, t } from "./i18n.svelte";
 import { missionTitle } from "./storyProgress";
@@ -33,7 +34,7 @@ import {
 } from "./outcomeMission";
 
 export type FeedEntry = {
-  kind: "command" | "line" | "error" | "refusal" | "note" | "user-note" | "hazard" | "chart";
+  kind: "command" | "line" | "error" | "refusal" | "note" | "user-note" | "hazard" | "chart" | "nudge" | "claim";
   text: string;
   /** ISO timestamp for learner-authored journal notes. */
   createdAt?: string;
@@ -111,6 +112,78 @@ export class Session {
   completedMissions = $state<ReadonlySet<string>>(new Set());
   /** Result card held after the lesson overlay closes. Chemistry keeps running. */
   missionDebrief = $state<MissionDebrief | null>(null);
+
+  /** GUI-066: the running quest, engine-evaluated. Claims progress for
+   * the panel; nudges arrive as feed cards. */
+  quest = $state<{
+    id: string;
+    title: Record<string, string>;
+    goal: Record<string, string>;
+    claims: { id: string; title: Record<string, string>; satisfied: boolean }[];
+    unknowns: string[];
+    complete: boolean;
+  } | null>(null);
+
+  /** Begin a quest from its exported spec (the panel fetched it). */
+  async startQuest(spec: {
+    id: string;
+    title: Record<string, string>;
+    goal: Record<string, string>;
+    claims: { id: string; title: Record<string, string> }[];
+    unknowns?: Record<string, string>;
+  }): Promise<void> {
+    await this.host.questStart(JSON.stringify(spec));
+    this.quest = {
+      id: spec.id,
+      title: spec.title,
+      goal: spec.goal,
+      claims: spec.claims.map((c) => ({ ...c, satisfied: false })),
+      unknowns: Object.keys(spec.unknowns ?? {}),
+      complete: false,
+    };
+    this.feed.push({
+      kind: "note",
+      text: t("quest started: {title}", { title: spec.title[this.register] ?? spec.id }),
+    });
+  }
+
+  async stopQuest(): Promise<void> {
+    await this.host.questStop();
+    this.quest = null;
+  }
+
+  /** Name a sealed unknown; the engine answers, never blocks. */
+  async answerUnknown(alias: string, guess: string): Promise<void> {
+    try {
+      const outputs = await this.host.questAnswer(alias, guess);
+      this.applyQuestOutputs(outputs);
+      if (outputs.length === 0) {
+        this.feed.push({ kind: "note", text: t('"{guess}" — not it yet; look again.', { guess }) });
+      }
+    } catch (e) {
+      this.feed.push({ kind: "error", text: e instanceof Error ? e.message : String(e) });
+    }
+  }
+
+  private applyQuestOutputs(outputs: QuestOutput[]): void {
+    for (const o of outputs) {
+      const text = (o.say ?? o.title)?.[this.register as "lv1" | "lv2" | "lv3"] ?? "";
+      if (o.kind === "nudge") {
+        this.feed.push({ kind: "nudge", text });
+      } else if (o.kind === "claim_satisfied") {
+        this.feed.push({ kind: "claim", text });
+        if (this.quest) {
+          const c = this.quest.claims.find(
+            (cl) => cl.title.lv1 === o.title?.lv1 || cl.title.lv2 === o.title?.lv2,
+          );
+          if (c) c.satisfied = true;
+        }
+      } else if (o.kind === "completed") {
+        this.feed.push({ kind: "claim", text: t("quest complete: {title}", { title: text }) });
+        if (this.quest) this.quest.complete = true;
+      }
+    }
+  }
 
   /** GUI-064: a titration being replayed at bench pace — the engine
    * already finished; this is the reveal. `delivered` climbs per curve
@@ -577,6 +650,10 @@ export class Session {
               text: String(event.reason ?? t("the bench refused this operation")),
             });
           }
+        }
+        const questOutputs = (step as { quest?: QuestOutput[] }).quest;
+        if (questOutputs && questOutputs.length > 0) {
+          this.applyQuestOutputs(questOutputs);
         }
         if (this.missionOutcome) {
           const secured = secureOutcomeEvidence(
