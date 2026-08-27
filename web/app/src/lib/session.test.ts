@@ -676,6 +676,21 @@ describe("Session", () => {
     });
   });
 
+  it("surfaces the applied carrier-gas pressure while vent effects remain separate", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [
+        { event: "vessel_swept", vessel: 0, pressure: 120_000 },
+        { event: "gas_evolved", vessel: 0, species: "CO2", moles: .02 },
+      ], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("sweep v1 1.2bar");
+    expect(s.vesselEffects[0]?.map((effect) => effect.kind)).toEqual(["sweep", "vent"]);
+    expect(s.vesselEffects[0]?.[0]?.sweep).toEqual({ pressurePa: 120_000 });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({

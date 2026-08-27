@@ -1334,6 +1334,13 @@ decorating it.
   the target vessel independently keeps the engine-derived swirl and final
   state. Requested volume remains a control; the station readout is the
   confirmed operation result.
+  *Computed-gas-sweep slice shipped 2026-08-27:* the carrier-gas line now
+  retains applied `VesselSwept.pressure` rather than stopping when form
+  submission returns. Its inlet and outlet pulses remain active for the typed
+  effect window, cadence scales with applied pressure, and the physical
+  readout reports returned bar. Gas displaced from the vessel remains a
+  separate `GasEvolved.moles` effect, so line pressure never pretends to be a
+  measured purge amount.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,

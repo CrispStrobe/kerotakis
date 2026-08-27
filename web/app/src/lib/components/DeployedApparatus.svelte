@@ -46,6 +46,8 @@
   const regulatorVolumeL = $derived(Math.max(.01, effect?.pressureControl?.initialVolumeL ?? Number(values.volume ?? 500) / 1000));
   const pistonY = $derived(18 + (1 - Math.min(1, regulatorVolumeL)) * 12);
   const gaugeAngle = $derived(-120 + Math.min(1, pressure / 5) * 240);
+  const sweepPressureBar = $derived(effect?.sweep?.pressurePa ? effect.sweep.pressurePa / 100_000 : Number(values.pressure ?? 1));
+  const sweepRate = $derived(`${Math.max(.35, 1.3 - Math.min(1, sweepPressureBar / 5) * .8)}s`);
   const stirRpm = $derived(Math.max(0, effect?.stir?.rpm ?? Number(values.rpm ?? 500)));
   const powerWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
 </script>
@@ -150,10 +152,15 @@
       {/if}
     </g>
   {:else if tool === "sweep"}
-    <g class="gas-line">
+    <g class="gas-line" style={`--gas-rate:${sweepRate}`}>
       <path class="hose" d="M 2 45 H 29 V 18 M 98 36 H 71 V 18" />
       <path class="arrow" d="M 14 41 l 8 4 l -8 4 Z M 86 32 l 8 4 l -8 4 Z" />
-      {#if working}<circle class="gas-pulse" cx="5" cy="45" r="3" />{/if}
+      {#if working}
+        <circle class="gas-pulse inlet" cx="5" cy="45" r="3" />
+        <circle class="gas-pulse outlet" cx="71" cy="36" r="3" />
+      {/if}
+      <rect class="sweep-display" x="36" y="3" width="28" height="9" rx="2" />
+      <text x="50" y="9.5" text-anchor="middle">{sweepPressureBar.toFixed(2)} bar</text>
     </g>
   {/if}
 </g>
@@ -198,7 +205,10 @@
   .regulator .volume-readout, .regulator .trapped-readout { fill: var(--ink); font-size: 5px; font-weight: 800; paint-order: stroke; stroke: var(--surface); stroke-width: 1.5px; }
   .regulator .trapped-readout { font-size: 4px; fill: var(--instrument); }
   .arrow { fill: var(--instrument); }
-  .gas-pulse { fill: var(--instrument); animation: gas-flow 1.1s linear infinite; }
+  .gas-pulse { fill: var(--instrument); animation: gas-flow var(--gas-rate, 1.1s) linear infinite; }
+  .gas-pulse.outlet { animation-name: gas-out; }
+  .sweep-display { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); stroke: var(--edge-strong); stroke-width: .5; }
+  .gas-line text { fill: var(--surface); font-size: 5px; font-weight: 850; }
   @keyframes flow { to { stroke-dashoffset: -8; } }
   @keyframes drop { from { opacity: 0; transform: translateY(-8px); } 30% { opacity: 1; } to { opacity: 0; transform: translateY(22px); } }
   @keyframes rise { 0% { opacity: 0; transform: translateY(4px); } 35% { opacity: .75; } 100% { opacity: 0; transform: translateY(-8px); } }
@@ -206,6 +216,7 @@
   @keyframes grind { to { transform: rotate(-18deg) translateY(-2px); } }
   @keyframes lamp-pulse { to { opacity: .3; } }
   @keyframes gas-flow { to { transform: translateX(88px); opacity: 0; } }
+  @keyframes gas-out { to { transform: translateX(27px); opacity: 0; } }
   @keyframes frost-pulse { to { opacity: 1; transform: translateY(-3px) scale(1.18); } }
   @keyframes ice-bob { to { transform: translateY(-2px); } }
   @media (prefers-reduced-motion: reduce) { .apparatus * { animation: none !important; } }
