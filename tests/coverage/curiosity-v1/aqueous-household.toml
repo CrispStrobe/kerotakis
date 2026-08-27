@@ -1445,10 +1445,9 @@ question = "Can the model predict foam height when dish soap is shaken in water?
 age_band = "age9_to12"
 action = "handle_and_inspect"
 material_class = "dish-soap-solution"
-expected = "missing"
-parse_boundary = "unknown_species"
+expected = "qualitative"
 owning_task = "BRD-014"
-tags = ["foam-model-gap"]
+tags = ["foam-observation"]
 script = ["add v1 water 100mL", "add v1 dish_soap 5mL", "stir v1", "look v1"]
 smoke = true
 
