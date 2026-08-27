@@ -503,6 +503,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   Vinegar without milk and trace doses remain unchanged controls. Parameters
   are calibrated only to the familiar classroom milk-and-vinegar ratio: this
   is not a casein speciation, cheese-yield, food-safety or spoilage model.
+- **Checkpoint 20 implemented:** `milk-curds.lab` makes the curdling model a
+  discoverable, replayable fair test. Equal 100 mL milk portions receive 1 mL
+  and 10 mL of localized 5% household vinegar: the trace-dose control remains
+  dispersed while the second vessel emits the computed curdling event and
+  shows curds over whey. The child-facing notes prohibit tasting lab material,
+  ask for adult permission before using food, and distinguish the aggregate
+  teaching model from a recipe, food-safety check or cheese-yield prediction.
+  The full lesson replay also advances the intentional shared wording change
+  from “colourless” to “white” for bright, fully opaque suspensions.
 
 ## Stage B2 — organic structure and curated reaction families
 
