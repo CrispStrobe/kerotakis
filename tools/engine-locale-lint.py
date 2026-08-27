@@ -50,6 +50,16 @@ LITERAL = re.compile(r'"((?:[^"\\\n]|\\.){6,})"')
 # being wrong about a legitimate pattern, and a lint that cries wolf on a
 # legitimate pattern is one people learn to ignore.
 DYNAMIC = re.compile(r'locale\s*\.\s*lookup\s*\(\s*&?\s*format!\s*\(\s*"([\w.-]+)\.\{')
+
+# A dotted key named anywhere in the file, which covers the case where the
+# key is chosen by a match arm rather than passed literally:
+#
+#   locale.t(match p.phase { Phase::Gas => "phase.gas", … }, …)
+#
+# Weaker than "named at a call site", deliberately. The match is the
+# clearest way to write a four-way choice, and a lint that is wrong about
+# correct code is a lint people stop reading.
+MENTIONED = re.compile(r'"([a-z][\w-]*(?:\.[\w -]+)+)"')
 PROSE = re.compile(r"[A-Za-z]{3,}\s+[A-Za-z]{2,}")
 
 
@@ -70,6 +80,7 @@ def main() -> int:
     src = RENDER.read_text()
     used = {m.group(1): m.group(2) for m in CALL.finditer(src)}
     dynamic = {m.group(1) for m in DYNAMIC.finditer(src)}
+    mentioned = {m.group(1) for m in MENTIONED.finditer(src)}
 
     # Everything that looks like prose, minus what already goes through a
     # call. Rough by design: it over-reports rather than under-reports,
@@ -100,13 +111,20 @@ def main() -> int:
         hit = sum(1 for k in used if k in cat)
         pct = 100 * hit / len(used) if used else 100.0
         dyn = sum(1 for k in cat if k.split(".")[0] in dynamic)
-        extra = f"   (+{dyn} looked up by value)" if dyn else ""
+        arm = sum(1 for k in cat if k not in used and k.split(".")[0] not in dynamic
+                  and k in mentioned)
+        parts = []
+        if dyn:
+            parts.append(f"+{dyn} looked up by value")
+        if arm:
+            parts.append(f"+{arm} chosen by a match arm")
+        extra = f"   ({', '.join(parts)})" if parts else ""
         print(f"{code:<12} {hit:>10} {'/':>4} {len(used):>10}   {pct:5.1f}%{extra}")
 
         # A key in the catalogue that no call site asks for is dead weight,
         # and usually a rename nobody finished.
         for k in sorted(set(cat) - set(used)):
-            if k.split(".")[0] in dynamic:
+            if k.split(".")[0] in dynamic or k in mentioned:
                 continue
             print(f"   ORPHAN: {code}.toml has '{k}', which render.rs never asks for")
             problems += 1

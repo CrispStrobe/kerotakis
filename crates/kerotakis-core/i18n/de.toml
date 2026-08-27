@@ -46,3 +46,36 @@ funnel = "Trichter"
 still = "Destille"
 cuvette = "Küvette"
 column = "Säule"
+
+# The four phases. `{:?}` printed "Liquid" in every language.
+[phase]
+aqueous = "gelöst"
+liquid = "flüssig"
+solid = "fest"
+gas = "gasförmig"
+
+# Species the engine names. Only what is actually written here is
+# translated; anything absent reads in English inside a German line, which
+# is better than a formula nobody asked for.
+[species]
+water = "Wasser"
+ethanol = "Ethanol"
+"sodium chloride" = "Natriumchlorid"
+"silver nitrate" = "Silbernitrat"
+"silver chloride" = "Silberchlorid"
+"hydrogen peroxide" = "Wasserstoffperoxid"
+"sodium hydroxide" = "Natriumhydroxid"
+"hydrochloric acid" = "Salzsäure"
+"sulfuric acid" = "Schwefelsäure"
+"acetic acid" = "Essigsäure"
+"sodium acetate" = "Natriumacetat"
+"carbon dioxide" = "Kohlenstoffdioxid"
+"calcium carbonate" = "Calciumcarbonat"
+"calcium hydroxide" = "Calciumhydroxid"
+"copper(II) sulfate" = "Kupfer(II)-sulfat"
+"sodium carbonate" = "Natriumcarbonat"
+"sodium bicarbonate" = "Natriumhydrogencarbonat"
+"potassium permanganate" = "Kaliumpermanganat"
+sulfur = "Schwefel"
+catalase = "Katalase"
+"manganese dioxide" = "Mangandioxid"

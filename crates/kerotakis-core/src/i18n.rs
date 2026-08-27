@@ -304,7 +304,11 @@ mod tests {
     fn fill_substitutes_named_holes() {
         let en = Locale::EN;
         assert_eq!(
-            en.fill("x", "You add {what} to {vessel}.", &[("what", "salt"), ("vessel", "v1")]),
+            en.fill(
+                "x",
+                "You add {what} to {vessel}.",
+                &[("what", "salt"), ("vessel", "v1")]
+            ),
             "You add salt to v1."
         );
     }
@@ -337,10 +341,7 @@ mod tests {
     #[test]
     fn a_repeated_hole_is_filled_every_time() {
         let en = Locale::EN;
-        assert_eq!(
-            en.fill("x", "{v} into {v}", &[("v", "v1")]),
-            "v1 into v1"
-        );
+        assert_eq!(en.fill("x", "{v} into {v}", &[("v", "v1")]), "v1 into v1");
     }
 
     #[test]

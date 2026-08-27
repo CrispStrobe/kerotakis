@@ -100,3 +100,45 @@ fn locale_parsing_falls_back_to_english_rather_than_failing() {
     assert_eq!(Locale::parse("fr"), Locale::EN);
     assert_eq!(Locale::parse(""), Locale::EN);
 }
+
+/// A beaker holding one portion, for the contents-row tests.
+fn beaker_with_water() -> Vessel {
+    use kerotakis_core::species::{Phase, SpeciesId};
+    use kerotakis_core::vessel::Portion;
+    use kerotakis_core::Moles;
+
+    let mut v = Vessel::new(VesselId(0), "beaker");
+    v.contents.push(Portion {
+        // The registry is keyed by the species NAME, not its formula:
+        // SpeciesId("H2O") misses and falls back to printing the id.
+        species: SpeciesId("water".into()),
+        moles: Moles(11.0686),
+        phase: Phase::Liquid,
+    });
+    v
+}
+
+#[test]
+fn contents_rows_are_german_too_including_their_decimals() {
+    let lines = render_vessel_in(&beaker_with_water(), Register::LV2, Locale::parse("de"));
+    let row = lines
+        .iter()
+        .find(|l| l.contains("mol"))
+        .expect("a contents row");
+    assert!(row.contains("11,0686"), "decimal comma missing: {row}");
+    assert!(!row.contains("11.0686"), "the point survived: {row}");
+    assert!(row.contains("Wasser"), "species not translated: {row}");
+    assert!(row.contains("flüssig"), "phase not translated: {row}");
+    assert!(!row.contains("Liquid"), "the Debug phase leaked: {row}");
+}
+
+#[test]
+fn english_contents_rows_are_unchanged() {
+    let row = render_vessel(&beaker_with_water(), Register::LV2)
+        .into_iter()
+        .find(|l| l.contains("mol"))
+        .expect("a contents row");
+    assert!(row.contains("11.0686"), "{row}");
+    assert!(row.contains("water"), "{row}");
+    assert!(row.contains("Liquid"), "{row}");
+}

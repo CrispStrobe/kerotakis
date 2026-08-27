@@ -143,13 +143,38 @@ pub fn render_vessel_in(v: &Vessel, register: Register, locale: Locale) -> Vec<S
         ));
     }
     for p in &v.contents {
-        let name = species::lookup(&p.species)
+        let english = species::lookup(&p.species)
             .map(|d| d.name)
             .unwrap_or(p.species.0.as_str());
-        out.push(format!(
-            "    {:>10.4} mol  {:<18} {:?}",
-            p.moles.0, name, p.phase
-        ));
+        // The species catalogue is the engine's, so its German belongs to
+        // the engine too — but only where a language has actually named a
+        // species. An unnamed one reads in English inside a German line
+        // rather than falling back to its formula, which nobody asked for.
+        let name = locale
+            .lookup(&format!("species.{english}"))
+            .unwrap_or(english);
+        // `{:?}` on the phase printed "Liquid" in every language. It is a
+        // closed set of four words, so it is worth naming properly.
+        let phase = locale.t(
+            match p.phase {
+                Phase::Aqueous => "phase.aqueous",
+                Phase::Liquid => "phase.liquid",
+                Phase::Solid => "phase.solid",
+                Phase::Gas => "phase.gas",
+            },
+            match p.phase {
+                Phase::Aqueous => "Aqueous",
+                Phase::Liquid => "Liquid",
+                Phase::Solid => "Solid",
+                Phase::Gas => "Gas",
+            },
+        );
+        // The comma goes here as well: a header reading 25,00 above rows
+        // reading 11.0686 is worse than either convention used throughout.
+        out.push(
+            locale.number(format!("    {:>10.4} mol  ", p.moles.0))
+                + &format!("{name:<18} {phase}"),
+        );
     }
     for solid_solution in &v.solid_solutions {
         out.push(format!(
