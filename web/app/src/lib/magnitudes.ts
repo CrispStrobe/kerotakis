@@ -136,6 +136,11 @@ export interface PressureControlRun {
   trappedGasMoles: number;
 }
 
+export interface DilutionRun {
+  volumeL: number;
+  waterMoles: number;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -179,6 +184,7 @@ export interface Effect {
   gasTest?: GasTestRun;
   waft?: WaftRun;
   pressureControl?: PressureControlRun;
+  dilution?: DilutionRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -488,7 +494,16 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         operation: "cell",
       };
     case "diluted":
-      return { kind: "swirl", at: now, magnitude: diluteMag(e) };
+      return {
+        kind: "swirl",
+        at: now,
+        magnitude: diluteMag(e),
+        durationMs: 2800,
+        dilution: {
+          volumeL: Number(e.volume ?? 0),
+          waterMoles: Number(e.moles ?? 0),
+        },
+      };
     case "dissolved":
       return { kind: "dissolve", at: now, magnitude: 1 };
     case "plated":
