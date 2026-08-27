@@ -29,6 +29,8 @@ const SUCROSE_SOURCE: &str = "kerotakis/sucrose-teaching-properties-v1";
 const SUCROSE_CITATION: &str = "PubChem CID 5988 identity crosswalk; Kerotakis room-temperature teaching approximations: crystal density 1.59 g/mL, conservative aqueous solubility 200 g/100 mL water, and 484 J/(mol.K) solid heat capacity estimated by Kopp's rule. These are explicit editorial parameters, not redistributed NIST SRD data; retrieved 2026-08-27";
 const IRON_III_OXIDE_SOURCE: &str = "us-federal/nasa-cea-hematite";
 const IRON_III_OXIDE_CITATION: &str = "PubChem CID 14833 identity crosswalk; NASA CEA thermo.inp Fe2O3(cr) record cites Pankratz (1983) for hematite thermochemistry. Room-temperature density 5.24 g/mL and reddish-brown appearance are explicit teaching properties; retrieved 2026-08-27";
+const EPSOMITE_SOURCE: &str = "us-federal/usgs-epsomite";
+const EPSOMITE_CITATION: &str = "PubChem CID 24843 identity crosswalk for magnesium sulfate heptahydrate; USGS PHREEQC wateq4f.dat Epsomite phase supplies MgSO4:7H2O dissolution stoichiometry. Density 1.68 g/mL and 360 J/(mol.K) heat capacity are explicit room-temperature teaching approximations; dissolution enthalpy remains unclaimed; retrieved 2026-08-27";
 
 // Bootstrap a new data-driven species exactly once. After the generated source
 // document is checked in, core's build script includes it in REGISTRY and the
@@ -101,6 +103,27 @@ const IRON_III_OXIDE_SEED: SpeciesData = SpeciesData {
     provenance: IRON_III_OXIDE_CITATION,
 };
 
+const EPSOMITE_SEED: SpeciesData = SpeciesData {
+    key: "epsomite",
+    name: "magnesium sulfate heptahydrate (epsomite)",
+    formula: "MgSO4·7H2O",
+    inchikey: "WRUGWIBCXHJTDG-UHFFFAOYSA-L",
+    molar_mass: 246.471,
+    heat_capacity: 360.0,
+    density: 1.68,
+    standard_phase: LegacyPhase::Solid,
+    appearance: Some("colourless to white crystals"),
+    flame_colour: None,
+    colour: None,
+    spectrum: None,
+    dissolution_enthalpy_kj: None,
+    dissolves_without_speciation: false,
+    aqueous_solubility_g_per_100_ml: None,
+    forms_only_above_k: None,
+    magnetic: false,
+    provenance: EPSOMITE_CITATION,
+};
+
 /// Export every current declaration without changing or replacing the runtime
 /// registry. All legacy sources remain build-oracle material pending explicit
 /// licence and provenance review.
@@ -117,6 +140,9 @@ pub fn export_current_registry() -> Result<RegistryDocument, String> {
     }
     if !REGISTRY.iter().any(|species| species.key == "Fe2O3") {
         export_species(&mut document, &IRON_III_OXIDE_SEED)?;
+    }
+    if !REGISTRY.iter().any(|species| species.key == "epsomite") {
+        export_species(&mut document, &EPSOMITE_SEED)?;
     }
     export_material_recipes(&mut document);
     document.validate().map_err(|error| error.to_string())?;
@@ -1243,6 +1269,43 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             &["cooking salt"],
             &["moisture, iodine additives and anti-caking agents are omitted; the bare words salt and Salz remain unclaimed because they name a chemical class"],
         ),
+        MaterialRecipe {
+            id: "household/epsom-salt-heptahydrate".to_string(),
+            version: 1,
+            canonical_key: "epsom_salt".to_string(),
+            name: "Epsom salt".to_string(),
+            aliases: BTreeMap::from([
+                (
+                    "de".to_string(),
+                    vec![
+                        "Bittersalz".to_string(),
+                        "Epsomsalz".to_string(),
+                        "Magnesiumsulfat-Heptahydrat".to_string(),
+                    ],
+                ),
+                (
+                    "en".to_string(),
+                    vec!["magnesium sulfate heptahydrate".to_string()],
+                ),
+            ]),
+            basis: MaterialBasis::MassFraction,
+            bulk_density: None,
+            components: vec![component("epsomite", 1.0)],
+            unresolved_fraction: None,
+            physical_form: MaterialPhysicalForm::Granules,
+            roles: Vec::new(),
+            preparation: Some(
+                "pure magnesium-sulfate-heptahydrate crystal teaching surrogate".to_string(),
+            ),
+            lot_assumptions: vec![
+                "moisture, dehydration, grain size and retail additives are omitted; anhydrous magnesium sulfate is a distinct material".to_string(),
+                "the seven waters remain bound in the dry crystal inventory until a phase model dissolves or transforms it".to_string(),
+            ],
+            substitutions: Vec::new(),
+            confidence: MaterialConfidence::Curated,
+            expansion_policy: MaterialExpansionPolicy::Fixed,
+            evidence: evidence(),
+        },
         familiar_solid(
             "school/calcium-carbonate-chalk-stick",
             "chalk_stick",
@@ -1351,12 +1414,15 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
         "isopropanol" => ISOPROPANOL_SOURCE.to_string(),
         "sucrose" => SUCROSE_SOURCE.to_string(),
         "Fe2O3" => IRON_III_OXIDE_SOURCE.to_string(),
+        "epsomite" => EPSOMITE_SOURCE.to_string(),
         _ => format!("legacy/{}", species.key),
     };
     let curated_isopropanol = species.key == "isopropanol";
     let curated_sucrose = species.key == "sucrose";
     let curated_iron_iii_oxide = species.key == "Fe2O3";
-    let runtime_source = curated_isopropanol || curated_sucrose || curated_iron_iii_oxide;
+    let curated_epsomite = species.key == "epsomite";
+    let runtime_source =
+        curated_isopropanol || curated_sucrose || curated_iron_iii_oxide || curated_epsomite;
     document.sources.push(SourceRecord {
         id: source_id.clone(),
         citation: species.provenance.to_string(),
@@ -1364,6 +1430,7 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "isopropanol" => "LicenseRef-US-Public-Domain",
             "sucrose" => "AGPL-3.0-or-later",
             "Fe2O3" => "LicenseRef-US-Public-Domain",
+            "epsomite" => "LicenseRef-US-Public-Domain",
             _ => LEGACY_LICENCE,
         }
         .to_string(),
@@ -1376,12 +1443,14 @@ fn export_species(document: &mut RegistryDocument, species: &SpeciesData) -> Res
             "isopropanol" => "https://pubchem.ncbi.nlm.nih.gov/compound/3776".to_string(),
             "sucrose" => "crates/kerotakis-registry-export/src/lib.rs".to_string(),
             "Fe2O3" => "vendor/nasa-cea/thermo.inp".to_string(),
+            "epsomite" => "vendor/iphreeqc/database/wateq4f.dat".to_string(),
             _ => "crates/kerotakis-core/src/species.rs".to_string(),
         }),
         revision: match species.key {
             "isopropanol" => Some("CID 3776".to_string()),
             "sucrose" => Some("v1".to_string()),
             "Fe2O3" => Some("NASA CEA Fe2O3(cr), PubChem CID 14833".to_string()),
+            "epsomite" => Some("USGS WATEQ4F Epsomite, PubChem CID 24843".to_string()),
             _ => None,
         },
         retrieved: runtime_source.then(|| "2026-08-27".to_string()),

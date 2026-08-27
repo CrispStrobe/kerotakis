@@ -50,10 +50,15 @@ fn every_legacy_field_is_present_and_unchanged() {
             .count(),
         REGISTRY
             .iter()
-            .filter(|species| !matches!(species.key, "isopropanol" | "sucrose" | "Fe2O3"))
+            .filter(|species| {
+                !matches!(
+                    species.key,
+                    "isopropanol" | "sucrose" | "Fe2O3" | "epsomite"
+                )
+            })
             .count()
     );
-    assert_eq!(document.material_recipes.len(), 40);
+    assert_eq!(document.material_recipes.len(), 41);
     assert_eq!(document.identities.len(), REGISTRY.len());
     assert_eq!(document.compositions.len(), REGISTRY.len());
     assert_eq!(
@@ -101,6 +106,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         "isopropanol" => "us-federal/isopropanol-chris".to_string(),
         "sucrose" => "kerotakis/sucrose-teaching-properties-v1".to_string(),
         "Fe2O3" => "us-federal/nasa-cea-hematite".to_string(),
+        "epsomite" => "us-federal/usgs-epsomite".to_string(),
         _ => format!("legacy/{}", species.key),
     };
     let source = document
@@ -131,6 +137,13 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         assert_eq!(source.lane, SourceLane::Runtime);
         assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
         assert_eq!(source.origin.as_deref(), Some("vendor/nasa-cea/thermo.inp"));
+    } else if species.key == "epsomite" {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("vendor/iphreeqc/database/wateq4f.dat")
+        );
     } else {
         assert_eq!(source.lane, SourceLane::BuildOracle, "{} lane", species.key);
         assert_eq!(

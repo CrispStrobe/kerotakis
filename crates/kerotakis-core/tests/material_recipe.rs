@@ -201,6 +201,24 @@ fn steel_wool_keeps_its_alloy_remainder_explicit() {
 }
 
 #[test]
+fn epsom_salt_is_one_dry_hydrate_species_not_premixed_liquid_water() {
+    let recipe = kerotakis_core::material::lookup("Bittersalz", Some("de"))
+        .expect("localized Epsom-salt recipe");
+    let expansion = recipe.expand(24.6471, 0).expect("fixed expansion");
+    assert_eq!(expansion.components.len(), 1);
+    assert_eq!(expansion.components[0].species_id, "epsomite");
+    assert!((expansion.components[0].amount - 24.6471).abs() < 1e-12);
+    assert!(expansion.unresolved_amount.abs() < 1e-12);
+    assert!(
+        expansion
+            .components
+            .iter()
+            .all(|component| component.species_id != "water"),
+        "crystal water must remain in the hydrate formula until dissolution"
+    );
+}
+
+#[test]
 fn ambiguous_bare_salt_is_not_claimed_by_the_table_salt_recipe() {
     let table_salt =
         kerotakis_core::material::lookup("Tafelsalz", Some("de")).expect("localized table salt");

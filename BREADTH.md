@@ -567,9 +567,8 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   six immediately inherit real dissolution, carbonate-acid or electrochemical
   routes where applicable; geometry remains explicit metadata rather than an
   invented kinetic multiplier. Aluminium foil deliberately retains the
-  engine's passivation/model boundary. Epsom salt remains open: dry crystals
-  need an honest magnesium-sulfate-heptahydrate phase instead of liquid water
-  hidden in a fake dry recipe. Bare `salt`/`Salz` remains unclaimed as a
+  engine's passivation/model boundary. Epsom salt's hydrate prerequisite is
+  completed in checkpoint 29. Bare `salt`/`Salz` remains unclaimed as a
   chemical class.
 - **Checkpoint 27 implemented:** named 5% white vinegar plus the named
   calcium-carbonate chalk object now reaches a balanced portable reaction,
@@ -589,6 +588,14 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   ignition visual. The fibrous form explains the familiar demonstration but
   does not yet claim a measured surface-area rate; a nail and steel wool still
   share the explicit ignition-zone threshold until surface kinetics land.
+- **Checkpoint 29 implemented:** Epsom salt/`Bittersalz` is now the real dry
+  hydrate epsomite, `MgSO4·7H2O`, rather than anhydrous magnesium sulfate plus
+  fictional liquid water. Its PubChem identity and the shipped USGS WATEQ4F
+  `Epsomite` phase are runtime data. A dispensed crystal remains one solid
+  species; when the aqueous engine dissolves it, the magnesium and sulfate are
+  speciated and exactly seven moles of crystal water per mole of epsomite enter
+  the liquid ledger. Retail additives, dehydration, dissolution heat and grain
+  size remain explicit boundaries.
 
 ## Stage B2 — organic structure and curated reaction families
 

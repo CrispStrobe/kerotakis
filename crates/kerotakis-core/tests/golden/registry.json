@@ -2346,5 +2346,24 @@
     "provenance": "PubChem CID 14833 identity crosswalk; NASA CEA thermo.inp Fe2O3(cr) record cites Pankratz (1983) for hematite thermochemistry. Room-temperature density 5.24 g/mL and reddish-brown appearance are explicit teaching properties; retrieved 2026-08-27",
     "spectrum_bands": null,
     "standard_phase": "solid"
+  },
+  {
+    "appearance": "colourless to white crystals",
+    "colour": null,
+    "density": 1.68,
+    "dissolution_enthalpy_kj": null,
+    "dissolves_without_speciation": false,
+    "flame_colour": null,
+    "forms_only_above_k": null,
+    "formula": "MgSO4·7H2O",
+    "heat_capacity": 360.0,
+    "inchikey": "WRUGWIBCXHJTDG-UHFFFAOYSA-L",
+    "key": "epsomite",
+    "magnetic": false,
+    "molar_mass": 246.471,
+    "name": "magnesium sulfate heptahydrate (epsomite)",
+    "provenance": "PubChem CID 24843 identity crosswalk for magnesium sulfate heptahydrate; USGS PHREEQC wateq4f.dat Epsomite phase supplies MgSO4:7H2O dissolution stoichiometry. Density 1.68 g/mL and 360 J/(mol.K) heat capacity are explicit room-temperature teaching approximations; dissolution enthalpy remains unclaimed; retrieved 2026-08-27",
+    "spectrum_bands": null,
+    "standard_phase": "solid"
   }
 ]
