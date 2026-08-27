@@ -1069,6 +1069,11 @@ hide them completely.
   command values. Computed chart titles, axes, series kinds, provenance, SVG
   accessibility titles, and gas-test tooltips all pass through the same German
   presentation boundary; numeric evidence and chemical formulae remain intact.
+  *Live spatial-effects correction shipped 2026-08-27:* transfers and
+  between-vessel rigs now reconnect their SVG path whenever either vessel is
+  dragged, and also respond to bench resizing. Their visibility and motion use
+  the engine event's declared duration instead of an unrelated 3.5-second UI
+  timeout, so a long computed operation neither detaches nor disappears early.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
