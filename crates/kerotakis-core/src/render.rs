@@ -453,11 +453,24 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             resuspended_fraction,
             rate_coupled,
         } => match register.level() {
-            1 => format!("The magnetic stirrer spins {vessel} for {seconds:.0} seconds."),
-            2 => format!(
-                "{vessel}: magnetic stirrer {rpm:.0} rpm for {seconds:.0} s — bar tip {:.3} m/s; {:.0}% resuspension",
-                tip_speed_m_s,
-                resuspended_fraction * 100.0,
+            1 => locale.fill(
+                "event.stirred.lv1",
+                "The magnetic stirrer spins {vessel} for {seconds} seconds.",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("seconds", &locale.number(format!("{seconds:.0}"))),
+                ],
+            ),
+            2 => locale.fill(
+                "event.stirred.lv2",
+                "{vessel}: magnetic stirrer {rpm} rpm for {seconds} s — bar tip {tip} m/s; {resuspended}% resuspension",
+                &[
+                    ("vessel", &vessel.to_string()),
+                    ("rpm", &locale.number(format!("{rpm:.0}"))),
+                    ("seconds", &locale.number(format!("{seconds:.0}"))),
+                    ("tip", &locale.number(format!("{tip_speed_m_s:.3}"))),
+                    ("resuspended", &locale.number(format!("{:.0}", resuspended_fraction * 100.0))),
+                ],
             ),
             _ => format!(
                 "{vessel}: stir {rpm:.1} rpm × {seconds:.1} s; bar {:.1} mm; tip {:.5} m/s; resuspended {:.2}%; rate coupling {}",
@@ -479,9 +492,23 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 .map(|data| data.name)
                 .unwrap_or(sid.0.as_str());
             match register.level() {
-                1 => format!("You grind the {name} in {vessel} into a finer powder."),
-                2 => format!(
-                    "{vessel}: {name} ground to {diameter_um:.1} µm — about {surface_area_m2:.3} m² surface area"
+                1 => locale.fill(
+                    "event.ground.lv1",
+                    "You grind the {what} in {vessel} into a finer powder.",
+                    &[
+                        ("what", locale.lookup(&format!("species.{name}")).unwrap_or(name)),
+                        ("vessel", &vessel.to_string()),
+                    ],
+                ),
+                2 => locale.fill(
+                    "event.ground.lv2",
+                    "{vessel}: {what} ground to {diameter} µm — about {area} m² surface area",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("what", locale.lookup(&format!("species.{name}")).unwrap_or(name)),
+                        ("diameter", &locale.number(format!("{diameter_um:.1}"))),
+                        ("area", &locale.number(format!("{surface_area_m2:.3}"))),
+                    ],
                 ),
                 _ => format!(
                     "{vessel}: grind {name}; {:.6} mol solid; mean diameter {:.3} µm; spherical-particle area {:.6} m²; rate coupling {}",
