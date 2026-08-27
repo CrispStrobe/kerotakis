@@ -39,6 +39,8 @@ export type FeedEntry = {
   createdAt?: string;
   /** Hazard entries: the engine's severity, for the card's chip. */
   severity?: string;
+  hazardText?: string;
+  realWorld?: string;
   /** Chart entries: the Chart JSON v1 spec to render. */
   chart?: ChartSpec;
 };
@@ -525,10 +527,14 @@ export class Session {
             );
           }
           if (event?.event === "hazard_warning") {
+            const hazardText = String(event.hazard ?? "");
+            const realWorld = String(event.real_world ?? "");
             this.feed.push({
               kind: "hazard",
               severity: String(event.severity ?? ""),
-              text: `${event.hazard} — ${event.real_world}`,
+              text: `${hazardText} — ${realWorld}`,
+              hazardText,
+              realWorld,
             });
           } else if (event?.event === "safety_veto") {
             this.feed.push({

@@ -68,6 +68,9 @@ export function engineText(text: string): string {
   if ((match = text.match(/^A little of the (.+) dissolves in the (.+); the rest sits on the bottom\.$/))) {
     return `Ein wenig ${t(match[1]!)} löst sich in ${t(match[2]!)}; der Rest bleibt am Boden.`;
   }
+  if ((match = text.match(/^(.+) vapour is hazardous to inhale$/))) {
+    return `${t(match[1]!)}dampf ist beim Einatmen gefährlich`;
+  }
 
   // Numeric state lines need only their stable vocabulary translated.
   if (/^v\d+ \([^)]+\) — /.test(text)) {

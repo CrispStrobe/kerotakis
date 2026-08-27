@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { t } from "../i18n.svelte";
+  import { i18n, t } from "../i18n.svelte";
   import type { FeedEntry } from "../session.svelte";
   import Chart from "./Chart.svelte";
   import { engineText } from "../engineText";
@@ -68,7 +68,11 @@
     {#if entry.kind === "hazard"}
       <div class="hazard" role="alert">
         <span class="chip">{t(entry.severity || "hazard")}</span>
-        {engineText(entry.text)}
+        {#if entry.hazardText && entry.realWorld}
+          {engineText(entry.hazardText)} — {engineText(entry.realWorld)}
+        {:else}
+          {engineText(entry.text)}
+        {/if}
       </div>
     {:else if entry.kind === "chart" && entry.chart}
       <svelte:boundary>
@@ -81,7 +85,7 @@
       <article class="user-note">
         <header>
           <strong>{t("my note")}</strong>
-          {#if entry.createdAt}<time datetime={entry.createdAt}>{new Date(entry.createdAt).toLocaleString()}</time>{/if}
+          {#if entry.createdAt}<time datetime={entry.createdAt}>{new Date(entry.createdAt).toLocaleString(i18n.locale === "de" ? "de-DE" : "en-GB")}</time>{/if}
           {#if entry.createdAt && oneditnote}
             <button aria-label={t("edit note")} onclick={() => { editing = entry.createdAt!; editText = entry.text; }}>✎</button>
           {/if}
