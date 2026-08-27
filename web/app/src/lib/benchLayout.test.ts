@@ -3,6 +3,8 @@ import {
   EMPTY_BENCH_LAYOUT,
   adjacentZone,
   apparatusPositionFor,
+  benchLayoutFromLab,
+  labWithBenchLayout,
   parseBenchLayout,
   placeNewVessel,
   placeVessel,
@@ -77,5 +79,25 @@ describe("bench layout", () => {
 
     const withMachine = placeNewVessel(EMPTY_BENCH_LAYOUT, 0, [0], [{ x: 0.2, y: 0.58 }]);
     expect(positionFor(withMachine, 0)).toEqual({ zone: "prepare", x: 0.12, y: 0.31 });
+  });
+});
+
+describe(".lab arrangement metadata", () => {
+  it("round-trips vessel and apparatus positions in an ignorable comment", () => {
+    const layout = positionApparatus(
+      positionVessel(EMPTY_BENCH_LAYOUT, 2, 0.72, 0.64),
+      "centrifuge",
+      0.18,
+      0.22,
+    );
+    const lab = labWithBenchLayout("new tube\nadd v1 water 10mL\n", layout);
+    expect(lab).toContain("# kerotakis-bench-layout-v2 ");
+    expect(lab).toContain("\nnew tube\nadd v1 water 10mL\n");
+    expect(benchLayoutFromLab(lab)).toEqual(layout);
+  });
+
+  it("leaves legacy and malformed files without an imported arrangement", () => {
+    expect(benchLayoutFromLab("add v1 water 10mL\n")).toBeNull();
+    expect(benchLayoutFromLab("# kerotakis-bench-layout-v2 nope\nnew\n")).toBeNull();
   });
 });

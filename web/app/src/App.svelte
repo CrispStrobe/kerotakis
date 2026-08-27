@@ -47,6 +47,8 @@
   import {
     BENCH_LAYOUT_KEY,
     EMPTY_BENCH_LAYOUT,
+    benchLayoutFromLab,
+    labWithBenchLayout,
     parseBenchLayout,
     placeNewVessel,
     type BenchLayout,
@@ -440,14 +442,17 @@
     URL.revokeObjectURL(a.href);
   }
 
-  const saveLab = () => download("session.lab", session.exportLab());
+  const saveLab = () => download("session.lab", labWithBenchLayout(session.exportLab(), benchLayout));
   let labFileInput: HTMLInputElement | undefined = $state();
   async function openLabFile(e: Event) {
     const input = e.currentTarget as HTMLInputElement;
     const file = input.files?.[0];
     input.value = "";
     if (!file) return;
-    await session.importLab(file.name, await file.text());
+    const text = await file.text();
+    const importedLayout = benchLayoutFromLab(text);
+    await session.importLab(file.name, text);
+    if (importedLayout) saveBenchLayout(importedLayout);
   }
   const saveNotes = () =>
     download(
