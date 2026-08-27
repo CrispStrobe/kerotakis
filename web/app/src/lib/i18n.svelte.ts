@@ -683,6 +683,8 @@ const DE: Record<string, string> = {
   ,"vessel v{vessel} moved to {zone}": "Gefäß v{vessel} nach {zone} verschoben"
   ,"place vessel here": "Gefäß hier abstellen"
   ,"move": "verschieben"
+  ,"selected target": "ausgewähltes Ziel"
+  ,"empty": "leer"
   ,"hide workflow guides": "Arbeitsbereiche ausblenden"
   ,"show workflow guides": "Arbeitsbereiche einblenden"
   ,"remove empty vessel": "leeres Gefäß entfernen"

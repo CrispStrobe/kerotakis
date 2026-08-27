@@ -1204,6 +1204,18 @@ decorating it.
   Sandbox. The existing three-pane tab bar remains the touch-first navigation
   on narrow screens.
 
+- [x] **GUI-075 — Unobstructed vessel controls.** *Shipped 2026-08-27.*
+  Free-placement nudge and removal controls sit as one compact, readable row
+  on the selected card's upper corner. They no longer cover the vessel name,
+  liquid, or action dock; direct pointer/touch dragging remains the primary
+  spatial interaction.
+
+- [x] **GUI-077 — Explicit action target.** *Shipped 2026-08-27.* The action
+  dock identifies its target by glassware and vessel id, and keeps the target's
+  current volume, temperature, and first material names visible beside every
+  action. This makes cross-vessel mistakes legible before heating, stirring,
+  pouring, or measuring.
+
 Split: GUI-058 + 060 + 064 are architecture/engine-coupled (fable);
 GUI-061 + 063 are self-contained client work (kero-basic);
 GUI-059 + 062 are client work gated on no engine change (kero1, after

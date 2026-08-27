@@ -729,6 +729,12 @@
         vessel={selectedVessel.id}
         label={selectedVessel.label}
         boundary={selectedVessel.boundary}
+        contents={[
+          ...(selectedVessel.layers?.map((layer) => layer.name) ?? []),
+          ...selectedVessel.solids.map((solid) => solid.name),
+        ]}
+        volumeMl={(selectedVessel.liquid?.volume_l ?? 0) * 1000}
+        temperatureC={selectedVessel.temperature_k - 273.15}
         busy={session.busy}
         onaction={(line) => void session.submit(line)}
         onconfigure={(verb) => {
