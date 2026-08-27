@@ -86,9 +86,9 @@ describe("effectFromEvent", () => {
     expect(e!.magnitude).toBeGreaterThan(0.3);
   });
 
-  it("maps flame_test → ignite with colour from event.colour", () => {
+  it("keeps flame tests distinct from combustion and carries their colour", () => {
     const e = effectFromEvent({ event: "flame_test", vessel: 0, species: "Na+", colour: "yellow" });
-    expect(e!.kind).toBe("ignite");
+    expect(e!.kind).toBe("flame_test");
     expect(e!.flameColour).toBe("#ffd700");
     expect(e!.magnitude).toBeLessThan(0.4);
   });

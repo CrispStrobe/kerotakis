@@ -444,6 +444,7 @@ const DE: Record<string, string> = {
   "Geiger counter": "Geigerzähler",
   "radioactive decay activity": "Aktivität radioaktiver Zerfälle",
   "Geiger counter reading: {value} Bq": "Geigerzähler-Messwert: {value} Bq",
+  "Bunsen burner flame test": "Flammenprobe am Bunsenbrenner",
   "chromatography column: {count} computed retention bands": "Chromatographiesäule: {count} berechnete Retentionsbanden",
   "{species}: retention {time} s, relative area {area}%": "{species}: Retention {time} s, relative Fläche {area}%",
   "band": "Bande",

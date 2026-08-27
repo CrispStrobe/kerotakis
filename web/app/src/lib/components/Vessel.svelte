@@ -77,9 +77,10 @@
   const chromatographEffect = $derived(latestEffect("chromatograph", 5200));
   const inspectionEffect = $derived(latestEffect("inspect", 4500));
   const geigerEffect = $derived(latestEffect("geiger_counter", 3500));
+  const flameTestEffect = $derived(latestEffect("flame_test", 3000));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
-    const recent = effects.filter((e) => e.kind === "ignite" && n - e.at < 3000 && e.flameColour);
+    const recent = effects.filter((e) => (e.kind === "ignite" || e.kind === "flame_test") && n - e.at < 3000 && e.flameColour);
     return recent.length > 0 ? recent[recent.length - 1]!.flameColour : undefined;
   });
 
@@ -403,6 +404,21 @@
         <path class="outer" d="M 50 -2 Q 42 12 47 20 Q 50 25 53 20 Q 58 12 50 -2 Z"
           style={latestFlameColour ? `fill:${latestFlameColour};stroke:var(--edge-strong);stroke-width:.55;filter:drop-shadow(0 0 3px ${latestFlameColour})` : ""} />
         <path class="inner" d="M 50 6 Q 46 13 49 18 Q 50 20 51 18 Q 54 13 50 6 Z" />
+      </g>
+    {/if}
+    {#if flameTestEffect}
+      {@const testMagnitude = flameTestEffect.magnitude}
+      {@const testColour = flameTestEffect.flameColour ?? "var(--hot)"}
+      <g class="flame-test-rig" aria-label={t("Bunsen burner flame test")}>
+        <ellipse class="burner-foot" cx="18" cy="132" rx="13" ry="3" />
+        <path class="burner-base" d="M8 130 Q18 123 28 130 Z" />
+        <rect class="burner-barrel" x="14" y="101" width="8" height="27" rx="2" />
+        <rect class="burner-collar" x="12" y="113" width="12" height="5" rx="2" />
+        <path class="burner-hose" d="M9 128 C2 128 3 117 -2 117" />
+        <path class="test-flame" d="M18 99 Q9 89 18 72 Q27 89 18 99 Z" style={`fill:${testColour};filter:drop-shadow(0 0 ${2 + testMagnitude * 4}px ${testColour});--test-flame-rate:${0.52 - testMagnitude * 0.22}s`} />
+        <path class="test-flame-core" d="M18 97 Q14 91 18 82 Q22 91 18 97 Z" />
+        <path class="wire-handle" d="M96 63 H62 Q50 63 42 73 L25 86" />
+        <circle class="wire-loop" cx="21" cy="89" r="5" />
       </g>
     {/if}
     {#if steaming}
@@ -1392,6 +1408,13 @@
   .geiger-pulse { fill: none; stroke: var(--danger); stroke-width: .8; transform-origin: 45px 76px; animation: geiger-count var(--count-cadence) ease-out infinite; }
   @keyframes geiger-flash { 0%, 18% { opacity: 1; } 19%, 100% { opacity: .18; } }
   @keyframes geiger-count { from { opacity: .75; transform: scale(.35); } to { opacity: 0; transform: scale(1.3); } }
+  .burner-foot { fill: var(--shadow); opacity: .38; }
+  .burner-base, .burner-barrel, .burner-collar { fill: color-mix(in srgb, var(--instrument) 34%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: .8; }
+  .burner-hose, .wire-handle, .wire-loop { fill: none; stroke: var(--edge-strong); stroke-width: 1.5; stroke-linecap: round; }
+  .wire-loop { stroke-width: 1; }
+  .test-flame { stroke: var(--edge-strong); stroke-width: .45; transform-origin: 18px 99px; animation: test-flame var(--test-flame-rate) ease-in-out infinite alternate; }
+  .test-flame-core { fill: color-mix(in srgb, var(--surface) 72%, var(--cool)); opacity: .78; }
+  @keyframes test-flame { to { transform: scaleX(.82) scaleY(1.08) rotate(1.5deg); } }
   @media (prefers-reduced-motion: reduce) {
     .instrument {
       animation: none;
@@ -1403,6 +1426,7 @@
     .chromatograph-flow, .chromatograph-band { animation: none; }
     .inspection-inst, .inspection-bubble { animation: none; }
     .geiger-led, .geiger-pulse { animation: none; }
+    .test-flame { animation: none; }
     .burette-fill {
       transition: none;
     }

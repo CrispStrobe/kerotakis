@@ -308,7 +308,7 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
     case "ignited":
     case "flame_test": {
       const [mag, colour] = flameMag(e);
-      return { kind: "ignite", at: now, magnitude: mag, flameColour: colour };
+      return { kind: kind === "flame_test" ? "flame_test" : "ignite", at: now, magnitude: mag, flameColour: colour };
     }
     default:
       return null;
