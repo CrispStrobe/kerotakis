@@ -807,6 +807,14 @@ hide them completely.
   reclaim work area; Sandbox defaults to one continuous surface and users can
   persistently show or hide the guides in either mode. Next, replace zone-only
   movement with fine placement and make real services/stands explicit objects.*
+  *Free-placement slice in progress 2026-08-27: the continuous surface now owns
+  normalized x/y coordinates rather than three hidden flex columns. Mouse,
+  pen, and touch use one Pointer Events drag path; compact four-way controls
+  provide the keyboard-equivalent move; coordinates persist separately per
+  mode. Version-1 zone-only saves migrate to their former zone centre, and the
+  optional Prepare/React/Analyse overlay derives its counts from x without
+  constraining placement. Collision/footprint rules and exported `.lab`
+  arrangement replay remain.*
 - [ ] **GUI-074 — Direct manipulation pass.** Implement contextual object
   selection and the highest-frequency physical gestures: place/remove, pour,
   dose, stir, heat/cool, seal/open, connect, insert/read probe, and start/stop.
@@ -1175,8 +1183,11 @@ decorating it.
   pressure gauge position; running state drives tool motion. Filter, still,
   drain, and cell events connect the actual source/receiver pair across the
   bench through visible vessel ports. Vessel work-zone arrangement persists
-  across reload. Remaining: bench-scale analytical instruments beyond
-  thermometer/pH and fine-grained apparatus placement.*
+  across reload. The mortar and mini-centrifuge are now freestanding,
+  target-labelled workstation cards placed in the clearest nearby bench space;
+  they no longer render as contents inside the selected vessel. Remaining:
+  user-positionable instrument stations and bench-scale analytical instruments
+  beyond thermometer/pH.*
 - [x] **GUI-063 — In-experiment visual shelves.** *Shipped 2026-08-25 (kero-basic, PR #36).* Lessons and codex
   experiments present their kit as a RENDERED shelf strip (SpeciesChip
   visuals, tap-to-add) directly in the LessonBar / experiment page —
@@ -1187,6 +1198,13 @@ decorating it.
   increment, the still's receiver fills, electrode gas accumulates.
   Driven by the per-step data the engine already returns (titration
   curve points, transported fractions).
+
+- [x] **GUI-074 — Bench focus controls.** *Shipped 2026-08-27.* On wide
+  screens, the material cabinet and laboratory journal collapse independently
+  to narrow edge rails; opening tools, details, or a target panel expands the
+  relevant rail automatically. Choices persist separately in Story and
+  Sandbox. The existing three-pane tab bar remains the touch-first navigation
+  on narrow screens.
 
 Split: GUI-058 + 060 + 064 are architecture/engine-coupled (fable);
 GUI-061 + 063 are self-contained client work (kero-basic);

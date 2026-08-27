@@ -260,6 +260,7 @@ const DE: Record<string, string> = {
   "details": "Details",
   "more tools": "weitere Geräte",
   "bench work zones": "Arbeitsbereiche des Labortischs",
+  "free-positioned laboratory bench": "Labortisch mit frei platzierbaren Gefäßen",
   "prepare": "Vorbereiten",
   "react": "Reagieren",
   "analyse": "Analysieren",
@@ -439,6 +440,10 @@ const DE: Record<string, string> = {
   "open periodic table": "Periodensystem öffnen",
   "tap to explore": "antippen und erkunden",
   "open instrument cabinet": "Instrumentenschrank öffnen",
+  "open supply cabinet": "Materialschrank öffnen",
+  "collapse supply cabinet": "Materialschrank einklappen",
+  "open lab journal": "Laborbuch öffnen",
+  "collapse lab journal": "Laborbuch einklappen",
   "choose a tool": "Gerät auswählen",
   "selected vessel details": "Details zum ausgewählten Gefäß",
   "measure selected vessel": "Ausgewähltes Gefäß messen",
@@ -677,12 +682,17 @@ const DE: Record<string, string> = {
   ,"flame power": "Flammenleistung"
   ,"exposure": "Einwirkzeit"
   ,"touch flame to contents": "Flamme an den Inhalt halten"
+  ,"workstation · vessel v{vessel}": "Arbeitsstation · Gefäß v{vessel}"
   ,"{zone} work zone": "Arbeitsbereich {zone}"
   ,"set up and measure": "aufbauen und abmessen"
   ,"mix and transform": "mischen und umsetzen"
   ,"measure and compare": "messen und vergleichen"
   ,"move vessel v{vessel}": "Gefäß v{vessel} verschieben"
   ,"move vessel v{vessel} to {zone}": "Gefäß v{vessel} nach {zone} verschieben"
+  ,"move vessel v{vessel} left": "Gefäß v{vessel} nach links verschieben"
+  ,"move vessel v{vessel} right": "Gefäß v{vessel} nach rechts verschieben"
+  ,"move vessel v{vessel} up": "Gefäß v{vessel} nach oben verschieben"
+  ,"move vessel v{vessel} down": "Gefäß v{vessel} nach unten verschieben"
   ,"vessel v{vessel} moved to {zone}": "Gefäß v{vessel} nach {zone} verschoben"
   ,"place vessel here": "Gefäß hier abstellen"
   ,"move": "verschieben"
@@ -707,6 +717,8 @@ const DE: Record<string, string> = {
   ,"rotor out of balance — adjust the counterbalance": "Rotor unausgewuchtet — Gegengewicht anpassen"
   ,"balanced": "ausgewuchtet"
   ,"mini centrifuge on the bench": "Mini-Zentrifuge auf dem Labortisch"
+  ,"{tool} workstation for vessel v{vessel}": "Arbeitsstation {tool} für Gefäß v{vessel}"
+  ,"works with vessel v{vessel}": "arbeitet mit Gefäß v{vessel}"
   ,"set heating power and time": "Heizleistung und Dauer einstellen"
   ,"heating power": "Heizleistung"
   ,"cooling bath": "Kühlbad"
