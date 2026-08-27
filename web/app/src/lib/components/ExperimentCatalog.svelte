@@ -12,6 +12,7 @@
   import type { Session } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
   import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
+  import { experimentMatches } from "../catalogSearch";
 
   let {
     entries,
@@ -44,16 +45,7 @@
     if (view === "concepts" && concept) {
       list = list.filter((e) => e.concepts?.includes(concept!));
     }
-    const q = filter.trim().toLowerCase();
-    if (q) {
-      list = list.filter(
-        (e) =>
-          e.id.includes(q) ||
-          (e.equation ?? "").toLowerCase().includes(q) ||
-          (e.summary ?? "").toLowerCase().includes(q) ||
-          e.concepts?.some((c) => c.includes(q)),
-      );
-    }
+    if (filter.trim()) list = list.filter((entry) => experimentMatches(entry, filter, t));
     return list;
   });
 
@@ -190,7 +182,7 @@
             {#each sys.stages as st (st.stage)}
               <details>
                 <summary>
-                  {st.stage} <small>{st.entries.length}</small>
+                  {t(st.stage)} <small>{st.entries.length}</small>
                 </summary>
                 <ul class="list">
                   {#each st.entries as e (e.id)}
@@ -290,7 +282,7 @@
             <strong>{result.allOk ? t("the chemistry agrees") : t("not everything checked out")}</strong>
             <ul>
               {#each result.events as e (e.want)}
-                <li class:ok={e.seen}>{e.seen ? "✓" : "✗"} {e.want.replace(/_/g, " ")}</li>
+                <li class:ok={e.seen}>{e.seen ? "✓" : "✗"} {t(e.want.replace(/_/g, " "))}</li>
               {/each}
               {#each result.forbidden as f (f.want)}
                 <li class:ok={!f.violated}>{f.violated ? `✗ ${t("occurred")}` : `✓ ${t("absent")}`}: {t(f.want.replace(/_/g, " "))}</li>
