@@ -72,6 +72,8 @@
   const pressureEffect = $derived(latestEffect("pressure_gauge", 2500));
   const volumeEffect = $derived(latestEffect("volume_meter", 2500));
   const conductivityEffect = $derived(latestEffect("conductivity_meter", 2500));
+  const uvvisEffect = $derived(latestEffect("uvvis", 2500));
+  const calorimeterEffect = $derived(latestEffect("calorimeter", 2500));
   const latestFlameColour = $derived.by(() => {
     const n = effectClock;
     const recent = effects.filter((e) => e.kind === "ignite" && n - e.at < 3000 && e.flameColour);
@@ -173,6 +175,15 @@
       minimumFractionDigits: digits,
       maximumFractionDigits: digits,
     });
+  const wavelengthFromUnit = (unit?: string) => {
+    const value = unit?.match(/([\d.]+)\s*nm/i)?.[1];
+    return value ? Number(value) : null;
+  };
+  const wavelengthColour = (wavelength: number | null) => {
+    if (wavelength === null) return "var(--instrument)";
+    const clamped = Math.min(740, Math.max(380, wavelength));
+    return `hsl(${270 - ((clamped - 380) / 360) * 270} 88% 54%)`;
+  };
   const sealed = $derived(vessel.boundary !== "open");
   // State-driven effects, straight from the computed temperature.
   const burning = $derived(vessel.temperature_k > 600 || active("ignite", 3000));
@@ -611,6 +622,34 @@
         <rect class="conductivity-probe" x="61" y="31" width="6" height={Math.max(8, tipY - 31)} rx="2.5" />
         <line class="conductivity-electrode" x1="62.5" y1={tipY - 5} x2="62.5" y2={tipY} />
         <line class="conductivity-electrode" x1="65.5" y1={tipY - 5} x2="65.5" y2={tipY} />
+      </g>
+    {/if}
+    {#if calorimeterEffect}
+      {@const energy = calorimeterEffect.reading ?? 0}
+      {@const reading = formatReading(energy, 2)}
+      <g class="instrument calorimeter-inst" aria-label={t("calorimeter reading: {value} kJ relative to 25 °C", { value: reading })}>
+        <path class="calorimeter-jacket" d={`M${Math.max(10, INNER_X - 5)} 66 L${Math.max(10, INNER_X - 5)} 128 Q50 138 ${Math.min(90, INNER_X + INNER_W + 5)} 128 L${Math.min(90, INNER_X + INNER_W + 5)} 66`} />
+        <path class="calorimeter-lid" d={`M${Math.max(9, INNER_X - 6)} 66 H${Math.min(91, INNER_X + INNER_W + 6)}`} />
+        <rect class="calorimeter-screen" x="34" y="121" width="32" height="9" rx="2" />
+        <text class="calorimeter-value" x="50" y="127" text-anchor="middle">{energy >= 0 ? "+" : ""}{reading} kJ</text>
+      </g>
+    {/if}
+    {#if uvvisEffect}
+      {@const absorbance = Math.max(0, uvvisEffect.reading ?? 0)}
+      {@const reading = formatReading(absorbance, 3)}
+      {@const wavelength = wavelengthFromUnit(uvvisEffect.unit)}
+      {@const wavelengthText = wavelength === null ? "—" : formatReading(wavelength, 0)}
+      {@const beam = wavelengthColour(wavelength)}
+      {@const transmittance = Math.pow(10, -absorbance)}
+      <g class="instrument uvvis-inst" style={`--beam:${beam};--transmittance:${0.12 + transmittance * 0.88}`} aria-label={t("UV-Vis peak absorbance: {value} AU at {wavelength} nm", { value: reading, wavelength: wavelengthText })}>
+        <rect class="uvvis-body" x="2" y="43" width="39" height="42" rx="7" />
+        <path class="uvvis-lid" d="M5 54 Q21.5 43 38 54" />
+        <rect class="uvvis-cuvette" x="18" y="50" width="8" height="18" rx="1" />
+        <line class="uvvis-beam input" x1="6" y1="59" x2="18" y2="59" />
+        <line class="uvvis-beam output" x1="26" y1="59" x2="37" y2="59" />
+        <rect class="uvvis-screen" x="8" y="71" width="27" height="9" rx="2" />
+        <text class="uvvis-value" x="21.5" y="76" text-anchor="middle">A {reading}</text>
+        <text class="uvvis-wavelength" x="21.5" y="83" text-anchor="middle">{wavelengthText} nm</text>
       </g>
     {/if}
 
@@ -1218,6 +1257,16 @@
   .conductivity-wire { fill: none; stroke: var(--dim); stroke-width: 1; }
   .conductivity-probe { fill: var(--cool); fill-opacity: var(--conductivity-opacity); stroke: var(--edge-strong); stroke-width: .7; }
   .conductivity-electrode { stroke: var(--action); stroke-width: 1; opacity: calc(.35 + var(--conductivity) * .65); }
+  .calorimeter-jacket { fill: color-mix(in srgb, var(--cool) 12%, var(--surface)); fill-opacity: .88; stroke: var(--instrument); stroke-width: 2.2; }
+  .calorimeter-lid { fill: none; stroke: var(--instrument); stroke-width: 2.2; stroke-linecap: round; }
+  .calorimeter-screen, .uvvis-screen { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); stroke: var(--edge-strong); stroke-width: .45; }
+  .calorimeter-value, .uvvis-value { fill: var(--surface); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 3.7px; font-weight: 850; }
+  .uvvis-body { fill: color-mix(in srgb, var(--discovery) 20%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1; filter: drop-shadow(0 1px 1px var(--shadow)); }
+  .uvvis-lid { fill: color-mix(in srgb, var(--discovery) 12%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1; }
+  .uvvis-cuvette { fill: color-mix(in srgb, var(--glass) 72%, transparent); stroke: var(--edge-strong); stroke-width: .7; }
+  .uvvis-beam { stroke: var(--beam); stroke-width: 2; stroke-linecap: round; }
+  .uvvis-beam.output { opacity: var(--transmittance); }
+  .uvvis-wavelength { fill: var(--ink); font-size: 3px; font-weight: 800; }
   @media (prefers-reduced-motion: reduce) {
     .instrument {
       animation: none;

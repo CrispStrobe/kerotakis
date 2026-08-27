@@ -435,6 +435,8 @@ describe("Session", () => {
             { event: "measured", vessel: 1, instrument: "pressure_gauge", value: 152.4, unit: "kPa" },
             { event: "measured", vessel: 0, instrument: "volume_meter", value: 480, unit: "mL" },
             { event: "measured", vessel: 1, instrument: "conductivity_meter", value: 12840, unit: "µS/cm" },
+            { event: "measured", vessel: 0, instrument: "spectrophotometer", value: 0.742, unit: "absorbance at 525 nm" },
+            { event: "measured", vessel: 1, instrument: "calorimeter", value: -2.81, unit: "kJ" },
           ],
           rendered: [],
         },
@@ -443,14 +445,16 @@ describe("Session", () => {
     });
     const s = new Session(host);
     await s.submit("measure v1 thermometer");
-    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["thermometer", "balance", "volume_meter"]);
+    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["thermometer", "balance", "volume_meter", "uvvis"]);
     expect(s.vesselEffects[0]?.[0]).toMatchObject({ reading: 25, unit: "°C" });
     expect(s.vesselEffects[0]?.[1]).toMatchObject({ reading: 12.3, unit: "g" });
     expect(s.vesselEffects[0]?.[2]).toMatchObject({ reading: 480, unit: "mL" });
-    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["ph_probe", "pressure_gauge", "conductivity_meter"]);
+    expect(s.vesselEffects[0]?.[3]).toMatchObject({ reading: 0.742, unit: "absorbance at 525 nm" });
+    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["ph_probe", "pressure_gauge", "conductivity_meter", "calorimeter"]);
     expect(s.vesselEffects[1]?.[0]).toMatchObject({ reading: 4.2, unit: "pH" });
     expect(s.vesselEffects[1]?.[1]).toMatchObject({ reading: 152.4, unit: "kPa" });
     expect(s.vesselEffects[1]?.[2]).toMatchObject({ reading: 12840, unit: "µS/cm" });
+    expect(s.vesselEffects[1]?.[3]).toMatchObject({ reading: -2.81, unit: "kJ" });
   });
 
   it("a titrated event starts the paced playback (GUI-064)", async () => {

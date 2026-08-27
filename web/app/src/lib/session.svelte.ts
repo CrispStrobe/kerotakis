@@ -691,6 +691,10 @@ export class Session {
                   ? "volume_meter"
                   : inst === "conductivity_meter"
                     ? "conductivity_meter"
+                    : inst === "spectrophotometer"
+                      ? "uvvis"
+                      : inst === "calorimeter"
+                        ? "calorimeter"
               : null;
       if (kind) {
         effect = {

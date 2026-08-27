@@ -947,6 +947,11 @@ hide them completely.
   µS/cm value as the engine's current ionic-strength estimate; signal styling
   scales logarithmically without overstating the model as a full Kohlrausch
   calculation.*
+  *Calorimeter-and-UV-Vis slice shipped 2026-08-27: calorimetry surrounds the
+  sample with an insulated jacket and displays signed engine enthalpy relative
+  to 25 °C. UV-Vis places a cuvette in a benchtop spectrophotometer, derives
+  peak wavelength from the engine observable, and attenuates the output beam
+  with T = 10^-A from the emitted Beer-Lambert absorbance.*
   *Magnetic-stirrer slice in progress 2026-08-27: the equipment wall exposes
   RPM and duration, the public grammar carries both, and the engine computes
   25 mm stir-bar tip speed. The bench draws the plate, rotating bar, and
