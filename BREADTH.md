@@ -849,6 +849,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   combustion gates—not the animation—decide whether anything burns. Continuous
   free-space pose, fuel/air collar chemistry and distance-dependent heat flux
   remain for the typed apparatus-state tranche.
+- **Liquid-fuel checkpoint 1 implemented:** touching the guided flame to an
+  open vessel of ethanol now reaches CEA's separately parsed, feed-only liquid
+  record, admits only the matching ethanol vapour plus named stable flame
+  gases, and computes fuel depletion, CO2/water-vapour products and reaction
+  energy from the bundled Apache-licensed NASA-9 data. HP remains preferred;
+  when its liquid-feed bracket fails, a declared TP fallback uses the explicit
+  ignition-zone temperature and says so in provenance. This does not yet claim
+  sustained pool-fire geometry, sealed/oxygen-starved combustion, soot/CO, or
+  isopropanol identity and volatility data.
 
 ### BRD-077 — Element coverage score and progressive periodic table
 
