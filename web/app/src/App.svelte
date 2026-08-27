@@ -32,6 +32,7 @@
   import StoryMap from "./lib/components/StoryMap.svelte";
   import WorldHome from "./lib/components/WorldHome.svelte";
   import MissionDebrief from "./lib/components/MissionDebrief.svelte";
+  import RoomPicker, { type RoomStyle } from "./lib/components/RoomPicker.svelte";
   import { t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
   import { commandCount, completedCommandCount } from "./lib/lesson";
@@ -98,6 +99,7 @@
   let theme = $state<Theme>("light");
   let benchLayout = $state<BenchLayout>(EMPTY_BENCH_LAYOUT);
   const guideStorageKey = `kero.bench-guides.v1.${labMode}`;
+  const roomStorageKey = `kero.room.v1.${labMode}`;
   let workGuides = $state(
     appStorage?.getItem(guideStorageKey) === "shown" ||
       (appStorage?.getItem(guideStorageKey) === null && labMode === "story"),
@@ -105,6 +107,11 @@
   let labProfile = $state<LabProfile>(loadLabProfile(appStorage));
   let homeOpen = $state(!hasSeenHome());
   let missionJournalOpen = $state(false);
+  let roomOpen = $state(false);
+  let roomStyle = $state<RoomStyle>((() => {
+    const saved = appStorage?.getItem(roomStorageKey);
+    return saved === "research" || saved === "orbital" ? saved : "discovery";
+  })());
   let contaminatedSampleBriefed = $state(modeStorage?.getItem(CONTAMINATED_SAMPLE_BRIEFED_KEY) === "yes");
   const modeLayoutKey = `${BENCH_LAYOUT_KEY}.${labMode}`;
   $effect(() => {
@@ -117,6 +124,15 @@
       localStorage.setItem("kerotakis.theme", next);
     } catch {
       // The selected theme still works when persistence is unavailable.
+    }
+  }
+
+  function setRoom(next: RoomStyle) {
+    roomStyle = next;
+    try {
+      appStorage?.setItem(roomStorageKey, next);
+    } catch {
+      // The room still changes for this visit when storage is unavailable.
     }
   }
 
@@ -386,6 +402,7 @@
       else if (homeOpen && hasSeenHome()) homeOpen = false;
       else if (missionOpen) missionOpen = false;
       else if (mapOpen) mapOpen = false;
+      else if (roomOpen) roomOpen = false;
       else if (safetyOpen) safetyOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
@@ -468,6 +485,7 @@
       <strong>{t("explore and study")}</strong>
       <button class="tool" onclick={() => (tableOpen = true)}>{t("elements")}</button>
       <button class="tool" onclick={() => (toolboxOpen = true)}>{t("toolbox")}</button>
+      <button class="tool" onclick={() => { toolsOpen = false; roomOpen = true; }}>{t("lab rooms")}</button>
       {#if codexEntries.length > 0}
         <button class="tool" onclick={() => (catalogOpen = true)}>{t("experiments")}</button>
         <button class="tool" onclick={() => (mapOpen = true)}>{t("map")}</button>
@@ -653,6 +671,7 @@
     {/if}
     <Bench
       scene={session.scene}
+      room={roomStyle}
       register={session.register}
       selected={session.selected}
       onselect={(id) => vesselTapped(id)}
@@ -949,6 +968,10 @@
 
 {#if safetyOpen}
   <SafetyBoard onclose={() => (safetyOpen = false)} />
+{/if}
+
+{#if roomOpen}
+  <RoomPicker value={roomStyle} onchange={setRoom} onclose={() => (roomOpen = false)} />
 {/if}
 
 <style>

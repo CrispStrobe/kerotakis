@@ -19,6 +19,7 @@
 
   let {
     scene,
+    room = "discovery",
     register,
     selected,
     onselect,
@@ -49,6 +50,7 @@
     onremove,
   }: {
     scene: Scene | null;
+    room?: "discovery" | "research" | "orbital";
     register: string;
     selected: number;
     onselect: (id: number) => void;
@@ -243,7 +245,7 @@
   }
 </script>
 
-<section class="bench" class:mission-active={Boolean(missionName && onopenmission)} aria-label={t("the bench")}>
+<section class="bench" class:mission-active={Boolean(missionName && onopenmission)} data-room={room} aria-label={t("the bench")}>
   <div class="lab-backdrop" aria-hidden="true"></div>
   {#if onopenperiodic}
     <button
@@ -478,6 +480,26 @@
     background:
       linear-gradient(90deg, transparent 8%, color-mix(in srgb, var(--edge-strong) 30%, transparent) 8.2% 8.45%, transparent 8.65% 91.3%, color-mix(in srgb, var(--edge-strong) 30%, transparent) 91.55% 91.8%, transparent 92%),
       linear-gradient(to bottom, rgb(255 255 255 / 13%), transparent 30%);
+  }
+  .bench[data-room="discovery"] {
+    background:
+      radial-gradient(circle at 12% 17%, color-mix(in srgb, var(--action) 16%, transparent), transparent 13rem),
+      radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--instrument) 17%, transparent), transparent 14rem),
+      linear-gradient(to bottom, color-mix(in srgb, #fff4bd 36%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #2c9ba2 calc(100% - 2.6rem), #2c9ba2 calc(100% - 2.2rem), #176775 calc(100% - 2.2rem));
+  }
+  .bench[data-room="research"] {
+    background:
+      radial-gradient(ellipse at 50% 22%, color-mix(in srgb, #9eb2bd 18%, transparent), transparent 48%),
+      linear-gradient(to bottom, color-mix(in srgb, #e9eef1 48%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #8297a3 calc(100% - 2.6rem), #8297a3 calc(100% - 2.2rem), #526570 calc(100% - 2.2rem));
+  }
+  .bench[data-room="orbital"] {
+    background:
+      radial-gradient(ellipse at 50% 5%, color-mix(in srgb, #25b9f1 20%, transparent), transparent 42%),
+      linear-gradient(115deg, transparent 19%, color-mix(in srgb, #22baf4 12%, transparent) 19.3% 21.5%, transparent 21.8% 78%, color-mix(in srgb, #22baf4 12%, transparent) 78.3% 80.5%, transparent 80.8%),
+      linear-gradient(to bottom, color-mix(in srgb, #e8f8ff 48%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #2aaee4 calc(100% - 2.6rem), #2aaee4 calc(100% - 2.2rem), #155d85 calc(100% - 2.2rem));
   }
   .lab-backdrop {
     position: absolute;
