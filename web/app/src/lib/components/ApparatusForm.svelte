@@ -50,7 +50,7 @@
           <select bind:value={values[f.name]}>
             <option value="">{t("choose…")}</option>
             {#each solids.length > 0 ? solids : shelf as s (s.key)}
-              <option value={s.key}>{s.name}</option>
+              <option value={s.key}>{t(s.name)}</option>
             {/each}
           </select>
         {:else}

@@ -37,19 +37,19 @@
     </form>
   {/if}
   {#if trimmed > 0}
-    <p class="note">…{trimmed} earlier entries not shown (the exports keep them)</p>
+    <p class="note">{t("…{count} earlier entries not shown (the exports keep them)", { count: trimmed })}</p>
   {/if}
   {#each shown as entry, i (i)}
     {#if entry.kind === "hazard"}
       <div class="hazard" role="alert">
-        <span class="chip">{entry.severity || "hazard"}</span>
+        <span class="chip">{t(entry.severity || "hazard")}</span>
         {entry.text}
       </div>
     {:else if entry.kind === "chart" && entry.chart}
       <svelte:boundary>
         <Chart spec={entry.chart} />
         {#snippet failed(error)}
-          <p class="error">the chart "{entry.text}" could not be drawn: {String(error)}</p>
+          <p class="error">{t("the chart {chart} could not be drawn: {error}", { chart: entry.text, error: String(error) })}</p>
         {/snippet}
       </svelte:boundary>
     {:else if entry.kind === "user-note"}
