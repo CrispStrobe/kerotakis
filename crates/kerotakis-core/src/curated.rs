@@ -37,6 +37,23 @@ pub struct CuratedReaction {
 
 /// Hand-verified seed set. Grows into the codex (P4).
 pub const REACTIONS: &[CuratedReaction] = &[
+    // ── familiar carbonate fizz (BRD-014) ─────────────────────────
+    // Molecular bookkeeping for the observable household reaction. Sodium
+    // acetate remains dissolved while carbon dioxide crosses the open vessel
+    // boundary (or enters a sealed headspace). No heat effect is claimed
+    // until a reviewed reaction enthalpy is installed.
+    CuratedReaction {
+        equation: "NaHCO₃ + CH₃COOH → CH₃COONa + H₂O + CO₂↑",
+        reactants: &[("NaHCO3", 1.0), ("CH3COOH", 1.0)],
+        products: &[
+            ("NaOAc", 1.0, Phase::Aqueous),
+            ("water", 1.0, Phase::Liquid),
+            ("CO2", 1.0, Phase::Gas),
+        ],
+        solvent: None,
+        min_temp_k: None,
+        catalyst: None,
+    },
     CuratedReaction {
         equation: "NH3 + NaOCl → NH2Cl↑ + NaOH",
         reactants: &[("NH3", 1.0), ("NaOCl", 1.0)],

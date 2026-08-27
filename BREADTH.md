@@ -363,6 +363,11 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   isopropanol waits for its pure-species, volatility, safety and combustion
   routes; dyes and paints wait for BRD-075 optical material roles. These are
   prerequisite boundaries, not generic inert substitutes.
+- **Checkpoint 2 implemented:** the familiar vinegar + baking-soda reaction is
+  a balanced curated route with limiting-reagent stoichiometry, dissolved
+  sodium acetate, and CO2 that visibly evolves from an open vessel or remains
+  in a sealed headspace. Reaction heat remains explicitly unclaimed pending an
+  audited enthalpy record.
 
 ## Stage B2 — organic structure and curated reaction families
 
