@@ -85,6 +85,12 @@ class FakeHost implements EngineHost {
   async setRegister(level: string) {
     this.calls.push(`register:${level}`);
   }
+  async setLocale(code: string) {
+    // Recorded, so a test can assert the session tells the ENGINE which
+    // language to render in — separately from the interface's own locale,
+    // because the engine composes prose the shell never sees.
+    this.calls.push(`locale:${code}`);
+  }
   async scene() {
     this.calls.push("scene");
     return this.nextScene();
@@ -111,6 +117,36 @@ class FakeHost implements EngineHost {
 }
 
 describe("Session", () => {
+  it("persists learner-authored journal notes independently of chemistry commands", async () => {
+    const storage = new FakeStorage();
+    const first = new Session(new FakeHost(), storage);
+    first.addUserNote("  A slow white precipitate.  ");
+
+    const second = new Session(new FakeHost(), storage);
+    await second.connect();
+    expect(second.feed).toEqual(expect.arrayContaining([
+      expect.objectContaining({ kind: "user-note", text: "A slow white precipitate." }),
+    ]));
+  });
+
+  it("edits and removes learner notes without touching chemistry history", async () => {
+    const storage = new FakeStorage();
+    const session = new Session(new FakeHost(), storage);
+    session.addUserNote("first wording");
+    const createdAt = session.feed.find((entry) => entry.kind === "user-note")?.createdAt;
+    expect(createdAt).toBeTruthy();
+
+    session.editUserNote(createdAt!, "better wording");
+    expect(session.feed).toContainEqual(expect.objectContaining({ kind: "user-note", text: "better wording", createdAt }));
+    expect(session.commandLog).toEqual([]);
+
+    session.removeUserNote(createdAt!);
+    expect(session.feed.some((entry) => entry.kind === "user-note")).toBe(false);
+    const restored = new Session(new FakeHost(), storage);
+    await restored.connect();
+    expect(restored.feed.some((entry) => entry.kind === "user-note")).toBe(false);
+  });
+
   it("connects, loads the shelf, and reports the honesty state", async () => {
     const host = new FakeHost();
     const s = new Session(host);
@@ -130,6 +166,54 @@ describe("Session", () => {
     expect(s.commandLog).toEqual(["add v1 water 100mL", "add v1 NaCl 1g"]);
     expect(s.register).toBe("lv3");
     expect(s.exportLab()).toBe("add v1 water 100mL\nadd v1 NaCl 1g\n");
+  });
+
+  it("consumes finite Story stock transactionally while mission supplies prevent deadlocks", async () => {
+    const host = new FakeHost();
+    const storage = new FakeStorage();
+    const s = new Session(host, storage, "story");
+    await s.connect();
+    for (let i = 0; i < 10; i += 1) expect(await s.submit("add v1 NaCl 1g")).toBe(true);
+    expect(s.storyStockUsed.NaCl).toBe(10);
+    expect(await s.submit("add v1 NaCl 1g")).toBe(false);
+    expect(s.feed.at(-1)?.kind).toBe("refusal");
+
+    // Bench undo is not a magical bottle refill, but an accepted mission
+    // supplies its own kit and a first discovery replenishes the cabinet.
+    await s.undo();
+    expect(await s.submit("add v1 NaCl 1g")).toBe(false);
+    s.startLesson("resupply", "add v1 NaCl 1g\nmeasure v1 balance");
+    await s.lessonNext();
+    expect(s.storyStockUsed.NaCl).toBe(10);
+    await s.lessonNext();
+    expect(s.completedMissions.has("resupply")).toBe(true);
+    expect(s.storyStockUsed).toEqual({});
+    expect(await s.submit("add v1 NaCl 1g")).toBe(true);
+
+    const restored = new Session(new FakeHost(), storage, "story");
+    expect(restored.storyStockUsed).toEqual({ NaCl: 1 });
+  });
+
+  it("does not consume Story stock when the engine rejects a dispense", async () => {
+    const host = new FakeHost();
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    host.runScript = async () => { throw new Error("rejected by model"); };
+    expect(await s.submit("add v1 NaCl 1g")).toBe(false);
+    expect(s.storyStockUsed).toEqual({});
+  });
+
+  it("does not let typed commands bypass Story access gates", async () => {
+    const host = new FakeHost();
+    host.species = async () => [{ key: "HCl", name: "hydrochloric acid", formula: "HCl", phase: "liquid", hazards: ["corrosive"], hazard_assessed: true }];
+    const s = new Session(host, new FakeStorage(), "story");
+    await s.connect();
+    expect(await s.submit("add v1 HCl 10mL")).toBe(false);
+    expect(host.calls).not.toContain("run:add v1 HCl 10mL");
+    s.startLesson("acid-kit", "add v1 HCl 10mL\nmeasure v1 ph");
+    await s.lessonNext();
+    expect(s.commandLog).toContain("add v1 HCl 10mL");
+    expect(s.storyStockUsed).toEqual({});
   });
 
   it("undo/redo/scrub restore snapshots in O(1), with replay as fallback", async () => {
@@ -212,6 +296,92 @@ describe("Session", () => {
     // Lesson exhausted: closed, with a finishing note.
     expect(s.lesson).toBeNull();
     expect(s.feed.at(-1)!.text).toContain("lesson finished");
+    expect(s.completedMissions.has("salt")).toBe(true);
+    expect(s.missionDebrief).toMatchObject({ id: "salt", firstCompletion: true, completedTotal: 1 });
+    expect(s.missionDebrief?.evidence).toContain("did: add v1 NaCl 1g");
+  });
+
+  it("completes the chloride lead from typed solver evidence rather than its script", async () => {
+    const host = new FakeHost();
+    host.runScript = async (line) => ({
+      steps: [{
+        operator: {},
+        events: line.includes("AgNO3")
+          ? [{ event: "precipitated", vessel: 0, species: "AgCl", moles: 0.0099 }]
+          : line.includes("AgCl")
+            ? [{ event: "added", vessel: 0, species: "AgCl", moles: 0.01 }]
+            : [],
+        rendered: [`did: ${line}`],
+      }],
+      scene: { scene: 1, vessels: [] },
+    });
+    const s = new Session(host, new FakeStorage(), "story");
+    s.startLesson("silver-and-salt", "# Find chloride\nadd v1 water 100mL\nadd v1 NaCl 0.01mol\nadd v1 AgNO3 0.01mol\n");
+
+    expect(s.lessonNextCommand).toBeNull();
+    expect(s.lesson?.kit).toEqual(expect.arrayContaining(["water", "NaCl", "AgNO3", "KCl"]));
+    await s.submit("add v1 AgCl 0.01mol");
+    expect(s.completedMissions.has("silver-and-salt")).toBe(false);
+    await s.submit("add v1 KCl 0.01mol");
+    expect(s.completedMissions.has("silver-and-salt")).toBe(false);
+    await s.submit("add v1 AgNO3 0.01mol");
+
+    expect(s.completedMissions.has("silver-and-salt")).toBe(true);
+    expect(s.lesson).toBeNull();
+    expect(s.missionOutcome).toBeNull();
+    expect(s.missionDebrief).toMatchObject({ id: "silver-and-salt", firstCompletion: true });
+  });
+
+  it("persists mission completion but does not complete an exited lesson", async () => {
+    const values = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => values.set(key, value),
+      removeItem: (key: string) => values.delete(key),
+    };
+    const first = new Session(new FakeHost(), storage);
+    first.startLesson("left-early", "add v1 water 1mL");
+    first.exitLesson();
+    expect(first.completedMissions.size).toBe(0);
+
+    first.startLesson("finished", "add v1 water 1mL");
+    await first.lessonNext();
+    const restored = new Session(new FakeHost(), storage);
+    restored.restoreProgress();
+    expect(restored.completedMissions.has("finished")).toBe(true);
+    expect(restored.completedMissions.has("left-early")).toBe(false);
+  });
+
+  it("does not advance or award a mission when the engine rejects its step", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => { throw new Error("rejected by model"); };
+    const s = new Session(host);
+    s.startLesson("must-work", "add v1 water 1mL");
+    await s.lessonNext();
+    expect(s.lessonNextCommand).toBe("add v1 water 1mL");
+    expect(s.completedMissions.has("must-work")).toBe(false);
+    expect(s.missionDebrief).toBeNull();
+  });
+
+  it("keeps only engine-backed mission evidence and dismisses the debrief independently", async () => {
+    const s = new Session(new FakeHost());
+    s.startLesson("evidence", "# narration\nadd v1 water 1mL\n");
+    expect(s.lessonEvidence).toEqual([]);
+    await s.lessonNext();
+    expect(s.missionDebrief?.evidence).toEqual(["did: add v1 water 1mL"]);
+    s.closeMissionDebrief();
+    expect(s.missionDebrief).toBeNull();
+    expect(s.commandLog).toEqual(["add v1 water 1mL"]);
+  });
+
+  it("restores mission progress even when the codex progress blob is corrupt", () => {
+    const storage = new FakeStorage();
+    storage.setItem("kero.codex.done.v1", "not-json");
+    storage.setItem("kero.missions.done.v1", '["silver-and-salt"]');
+    const s = new Session(new FakeHost(), storage);
+    s.restoreProgress();
+    expect(s.completedExperiments.size).toBe(0);
+    expect(s.completedMissions.has("silver-and-salt")).toBe(true);
   });
 
   it("lesson deviation counts free commands; return rewinds them", async () => {

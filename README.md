@@ -26,7 +26,28 @@ engine solving in a worker. The
 [console](https://crispstrobe.github.io/kerotakis/) is the same engine as a
 terminal. Both are offline-capable after the first visit.
 
+It is also an installable app. Your browser will offer to install the bench;
+it then runs from its own window with the engine, the thermodynamic
+databases and the whole lesson library cached locally, and works with the
+network switched off. On iOS, *Share → Add to Home Screen*.
+
+The same bench is packaged for macOS and iOS as a native app, where the
+solver is linked in-process rather than run in a worker — same UI, same
+answers, no network at all. See [PACKAGING.md](PACKAGING.md) for how the
+three are built and how they stay identical.
+
 ## What works today
+
+Breadth is measured against a checked-in 500-question child/teen curiosity
+corpus. Run its 16-case cross-family gate or emit the full typed report:
+
+```console
+$ kero coverage curiosity --smoke --check
+$ kero coverage curiosity --check --json
+```
+
+The report keeps computed, curated, qualitative, deliberate boundary, missing,
+and solver-failure outcomes distinct; it never classifies rendered prose.
 
 ```console
 $ kero run lessons/silver-and-salt.lab
@@ -234,8 +255,11 @@ that breaks a lesson is caught the same day.
 | `kerotakis-cli` | `kero`: REPL, batch runner, JSON interface, cache pre-warmer, codex lint |
 | `kerotakis-wasm` | The same bench in a browser |
 
-See [PLAN.md](PLAN.md) for the architecture, the verified engine and licence
-audit, and the build order.
+See [PLAN.md](PLAN.md) for the architecture, verified engine and licence audit,
+[CAPABILITIES.md](CAPABILITIES.md) for solver capability tasks, and
+[BREADTH.md](BREADTH.md) for the dependency-ordered programme that grows
+familiar substances, materials, reaction families, biochemistry, crystals and
+tactile/scientific views.
 
 ## Licence
 

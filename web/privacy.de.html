@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14120f">
+<meta name="description" content="Kerotakis-Datenschutzerklärung: Die App erhebt und sendet nichts und funktioniert ohne Netzwerk.">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="alternate" hreflang="en" href="privacy.html">
+<title>Kerotakis — Datenschutz</title>
+<style>
+  :root { --bg:#14120f; --panel:#1c1a16; --edge:#322e27; --ink:#e8e2d6; --dim:#948c7d; --hot:#d98a4a; --cool:#6fa8c7; }
+  @media (prefers-color-scheme: light) { :root { --bg:#f6f3ec; --panel:#efeae0; --edge:#d4ccbc; --ink:#262319; --dim:#6f6758; --hot:#b05f1f; --cool:#2f6f94; } }
+  * { box-sizing: border-box; }
+  body { margin:0 auto;max-width:42rem;padding:2rem 1.25rem 4rem;background:var(--bg);color:var(--ink);font:15px/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  h1 { font-size:1.15rem;letter-spacing:.02em; } h1 small { display:block;color:var(--dim);font-weight:400;font-size:.8rem;margin-top:.3rem; }
+  h2 { font-size:.85rem;color:var(--hot);margin:2rem 0 .5rem;letter-spacing:.04em;text-transform:uppercase; }
+  a { color:var(--cool); } ul { padding-left:1.2rem; } li { margin:.35rem 0; }
+  .lede { border-left:2px solid var(--hot);padding-left:.9rem;color:var(--ink); }
+  footer { margin-top:3rem;padding-top:1rem;border-top:1px solid var(--edge);color:var(--dim);font-size:.8rem; }
+</style>
+</head>
+<body>
+<nav aria-label="Sprache"><a href="privacy.html" lang="en">English</a> · <strong>Deutsch</strong></nav>
+<h1>Kerotakis — Datenschutzerklärung
+  <small>Zuletzt aktualisiert am 25. August 2026 · gilt für die Web-, macOS- und iOS-App</small>
+</h1>
+<p class="lede">Kerotakis erhebt nichts, überträgt nichts und betreibt keine Server. Die Chemie wird auf deinem eigenen Gerät berechnet. Im Flugmodus steht weiterhin der volle Funktionsumfang zur Verfügung.</p>
+<h2>Welche Daten erhoben werden</h2>
+<p>Keine. Es gibt weder Konto noch Anmeldung, Analyse, Telemetrie, Absturzberichte, Werbung oder Tracking. Es werden keine Kennungen erzeugt, gelesen oder geteilt. Nichts über dich oder dein Gerät verlässt das Gerät.</p>
+<h2>Wo deine Arbeit gespeichert wird</h2>
+<ul>
+  <li>Dein Labor — Gefäße, Befehlsverlauf und gewählte Detailstufe — liegt im Arbeitsspeicher der laufenden App und im Web zusätzlich im lokalen Browserspeicher.</li>
+  <li>Gespeicherte Dateien (<code>.lab</code>-Skripte, Laborbücher und Diagramme) landen ausschließlich dort, wo du sie im Speicherdialog ablegst.</li>
+  <li>Geöffnete Dateien werden in die App eingelesen und nirgendwohin kopiert.</li>
+  <li>Nichts davon wird hochgeladen. Das Löschen der Websitedaten oder der App entfernt diese Daten.</li>
+</ul>
+<h2>Netzwerknutzung</h2>
+<p>Die macOS- und iOS-Apps stellen keine Netzwerkanfragen: Solver, thermodynamische Datenbanken und Lektionen sind in die App eingebaut. Die macOS-App besitzt nicht einmal eine Netzwerkberechtigung.</p>
+<p>Die Webversion lädt App und Engine von der bereitstellenden Website und speichert sie für spätere Offline-Nutzung zwischen. Der Hoster (derzeit GitHub Pages) kann übliche Webserver-Protokolle führen; dies liegt außerhalb unserer Kontrolle.</p>
+<h2>Kinder</h2>
+<p>Kerotakis eignet sich für den Unterricht. Da überhaupt keine Daten erhoben werden, werden auch keine Daten von Kindern erhoben.</p>
+<h2>Dritte</h2>
+<p>Es gibt keine. Keine SDKs, Werbenetzwerke oder Analysedienste. Die App enthält Open-Source-Komponenten — vor allem <a href="https://www.usgs.gov/software/phreeqc-version-3">IPhreeqc</a> vom U.S. Geological Survey — als lokale Bibliotheken, nicht als angesprochene Dienste.</p>
+<h2>Änderungen</h2>
+<p>Ändert sich diese Erklärung, erscheint hier die neue Fassung mit neuem Datum. Eine Änderung würde bedeuten, dass die App etwas tut, das sie heute nicht tut; das würde hier klar benannt.</p>
+<h2>Kontakt</h2>
+<p>Fragen oder Hinweise auf Fehler: <a href="mailto:cstr+apple@mailbox.org">cstr+apple@mailbox.org</a> oder ein Issue unter <a href="https://github.com/CrispStrobe/kerotakis">github.com/CrispStrobe/kerotakis</a>.</p>
+<footer><a href="./">Konsole</a> · <a href="./app/">Labor</a> · Kerotakis ist freie Software unter der AGPL-3.0-or-later.</footer>
+</body>
+</html>

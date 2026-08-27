@@ -19,6 +19,7 @@ pub mod appearance;
 pub mod bench;
 pub mod butler_volmer;
 pub mod cache_key;
+pub mod centrifuge;
 pub mod chart;
 pub mod compartment;
 pub mod constants;
@@ -28,13 +29,16 @@ pub mod delta;
 pub mod displacement;
 pub mod electrochemistry;
 pub mod exact_stoich;
+pub mod foam;
 pub mod gas_tests;
 pub mod hmix;
+pub mod i18n;
 pub mod indicator;
 pub mod instrument;
 pub mod intern;
 pub mod kinetics;
 pub mod ledger;
+pub mod material;
 pub mod molecule;
 pub mod nonaqueous;
 pub mod nuclide;
@@ -73,6 +77,7 @@ pub use coverage::{coverage_manifest, CoverageReport, SolverCoverage};
 pub use curated::CuratedEquilibrator;
 pub use delta::{DeltaError, MoleDelta, StateDelta, ThermalDelta};
 pub use displacement::DisplacementEquilibrator;
+pub use i18n::Locale;
 pub use instrument::{
     Balance, ConductivityMeter, InstrumentContract, InstrumentMode, PhMeter, PressureGauge,
     Reading, Thermometer,
@@ -80,13 +85,16 @@ pub use instrument::{
 pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use orchestrator::Orchestrator;
-pub use render::{render_event, render_events, render_vessel, Register};
+pub use render::{
+    render_event, render_event_in, render_events, render_events_in, render_vessel,
+    render_vessel_in, Register,
+};
 pub use scene::{scene, scene_of, scene_vessel, Scene, SceneVessel};
 pub use solve::{
     equilibrate_phase_coupled, Applicability, CapabilityReport, Equilibrator, HonestyEquilibrator,
     MixingEquilibrator, PermissiveScreen, PhaseEquilibrator, SafetyScreen, SafetyVerdict, Severity,
-    SolveError, SolverStack, StateEquilibrator, ValidityBounds,
-    PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
+    SolveError, SolverRoute, SolverRouteKind, SolverRouteOutcome, SolverStack, StateEquilibrator,
+    ValidityBounds, PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
 };
 pub use species::{Colour, Phase, SpeciesId};
 pub use spectrum::{Rgb, Spectrum};

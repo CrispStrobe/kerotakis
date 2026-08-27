@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14120f">
+<meta name="description" content="Kerotakis privacy policy: the app collects nothing, sends nothing, and works with the network switched off.">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="alternate" hreflang="de" href="privacy.de.html">
+<title>Kerotakis — privacy</title>
+<style>
+  :root { --bg:#14120f; --panel:#1c1a16; --edge:#322e27; --ink:#e8e2d6; --dim:#948c7d; --hot:#d98a4a; --cool:#6fa8c7; }
+  @media (prefers-color-scheme: light) {
+    :root { --bg:#f6f3ec; --panel:#efeae0; --edge:#d4ccbc; --ink:#262319; --dim:#6f6758; --hot:#b05f1f; --cool:#2f6f94; }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; max-width: 42rem; padding: 2rem 1.25rem 4rem;
+    background: var(--bg); color: var(--ink);
+    font: 15px/1.65 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  h1 { font-size: 1.15rem; letter-spacing: .02em; }
+  h1 small { display: block; color: var(--dim); font-weight: 400; font-size: .8rem; margin-top: .3rem; }
+  h2 { font-size: .85rem; color: var(--hot); margin: 2rem 0 .5rem; letter-spacing: .04em; text-transform: uppercase; }
+  a { color: var(--cool); }
+  ul { padding-left: 1.2rem; }
+  li { margin: .35rem 0; }
+  .lede { border-left: 2px solid var(--hot); padding-left: .9rem; color: var(--ink); }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--edge); color: var(--dim); font-size: .8rem; }
+</style>
+</head>
+<body>
+
+<nav aria-label="Language"><strong>English</strong> · <a href="privacy.de.html" lang="de">Deutsch</a></nav>
+
+<h1>Kerotakis — privacy policy
+  <small>Last updated 25 August 2026 · applies to the web app, the macOS app and the iOS app</small>
+</h1>
+
+<p class="lede">
+  Kerotakis collects nothing, transmits nothing, and has no servers. The
+  chemistry is computed on your own device. You can put the device in
+  aeroplane mode and lose no functionality at all.
+</p>
+
+<h2>What is collected</h2>
+<p>
+  Nothing. There is no account, no sign-in, no analytics, no telemetry, no
+  crash reporting, no advertising and no tracking of any kind. No identifier
+  is generated, read or shared. Nothing about you or your device leaves it.
+</p>
+
+<h2>Where your work is kept</h2>
+<ul>
+  <li>
+    Your bench — the vessels, the command history, the register you chose —
+    lives in the running app's memory, and in your browser's local storage on
+    the web.
+  </li>
+  <li>
+    Files you save (<code>.lab</code> scripts, notebooks, charts) go where you
+    tell the system save panel to put them, and nowhere else.
+  </li>
+  <li>
+    Files you open are read into the app and not copied anywhere.
+  </li>
+  <li>
+    None of it is ever uploaded. Clearing site data, or deleting the app,
+    removes it.
+  </li>
+</ul>
+
+<h2>Network use</h2>
+<p>
+  The macOS and iOS apps make no network requests. The solver, the
+  thermodynamic databases and every lesson are compiled into the app, and
+  there is no code in them that contacts anything.
+</p>
+<p>
+  One point of honesty, because you can check it: the macOS build does
+  declare the <code>com.apple.security.network.client</code> entitlement.
+  That is not for the app's own use. macOS routes everything the embedded
+  web view loads — including the app's own files, served from inside the
+  binary — through WebKit's networking process, and inside the App Sandbox
+  that process cannot load anything without it. Without the entitlement the
+  app displays a blank window. Nothing is sent anywhere either way.
+</p>
+<p>
+  The web version downloads the app and its engine from the site that serves
+  it, then caches them so later visits work offline. Those are ordinary
+  requests for the page's own files; whoever hosts the site (currently GitHub
+  Pages) may keep standard web-server logs, which is outside our control and
+  the only reason this section is not also empty.
+</p>
+
+<h2>Children</h2>
+<p>
+  Kerotakis is suitable for classroom use. Because it collects no data at all,
+  it collects no data from children either.
+</p>
+
+<h2>Third parties</h2>
+<p>
+  There are none. No SDKs, no ad networks, no analytics vendors. The app
+  bundles open-source components — chiefly
+  <a href="https://www.usgs.gov/software/phreeqc-version-3">IPhreeqc</a> from
+  the U.S. Geological Survey — but these are libraries linked into the binary,
+  not services it talks to.
+</p>
+
+<h2>Changes</h2>
+<p>
+  If this policy ever changes, the updated version appears at this address with
+  a new date above. Since the honest version of this document is "nothing
+  happens", a change would mean the app started doing something it does not do
+  today, and that would be said plainly here.
+</p>
+
+<h2>Contact</h2>
+<p>
+  Questions, or a report that something here is inaccurate:
+  <a href="mailto:cstr+apple@mailbox.org">cstr+apple@mailbox.org</a>, or an
+  issue at
+  <a href="https://github.com/CrispStrobe/kerotakis">github.com/CrispStrobe/kerotakis</a>.
+</p>
+
+<footer>
+  <a href="./">the console</a> · <a href="./app/">the bench</a> ·
+  Kerotakis is free software under the AGPL-3.0-or-later.
+</footer>
+
+</body>
+</html>

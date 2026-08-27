@@ -30,6 +30,7 @@ type Lab = {
   relations(): string;
   calc(name: string, argsJson: string): string;
   setRegister(level: string): void;
+  setLocale(code: string): void;
   setSolver(hook: (dbTag: string, input: string) => string): void;
   scene(): string;
   state(): string;
@@ -197,6 +198,10 @@ onmessage = async (ev: MessageEvent) => {
         break;
       case "set_register":
         lab.setRegister(String(msg.level));
+        done(id, "{}");
+        break;
+      case "set_locale":
+        lab.setLocale(String(msg.code));
         done(id, "{}");
         break;
       case "scene":

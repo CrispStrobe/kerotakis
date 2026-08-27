@@ -131,6 +131,10 @@ export class WorkerHost implements EngineHost {
     await this.channel.request("restore", { snapshot });
   }
 
+  async setLocale(code: string): Promise<void> {
+    await this.channel.request("set_locale", { code });
+  }
+
   async setRegister(level: string): Promise<void> {
     await this.channel.request("set_register", { level });
   }

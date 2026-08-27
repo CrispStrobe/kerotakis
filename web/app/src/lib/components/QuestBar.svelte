@@ -7,6 +7,7 @@
    * own — this bar is the scoreboard, not the voice.
    */
   import type { Session } from "../session.svelte";
+  import { t } from "../i18n.svelte";
 
   let { session }: { session: Session } = $props();
 
@@ -25,15 +26,15 @@
 </script>
 
 {#if quest}
-  <div class="quest" class:complete={quest.complete} role="region" aria-label={`quest ${quest.id}`}>
+  <div class="quest" class:complete={quest.complete} role="region" aria-label={t("quest {id}", { id: quest.id })}>
     <div class="head">
       <strong>{quest.title[lv] ?? quest.id}</strong>
       <span class="goal">{quest.goal[lv] ?? ""}</span>
       <button class="leave" onclick={() => void session.stopQuest()}>
-        {quest.complete ? "done — close" : "abandon"}
+        {quest.complete ? t("done — close") : t("abandon")}
       </button>
     </div>
-    <ul class="claims" aria-label="what the bench must show">
+    <ul class="claims" aria-label={t("what the bench must show")}>
       {#each quest.claims as c (c.id)}
         <li class:ok={c.satisfied}>
           {c.satisfied ? "✓" : "○"}
@@ -44,7 +45,7 @@
     {#if quest.unknowns.length > 0 && !quest.complete}
       <form class="identify" onsubmit={submitGuess}>
         {#if quest.unknowns.length > 1}
-          <select bind:value={alias} aria-label="which sealed reagent">
+          <select bind:value={alias} aria-label={t("which sealed reagent")}>
             {#each quest.unknowns as u (u)}
               <option value={u}>{u}</option>
             {/each}
@@ -54,11 +55,11 @@
         {/if}
         <input
           bind:value={guess}
-          placeholder="I think it is…"
-          aria-label="name the sealed reagent"
+          placeholder={t("I think it is…")}
+          aria-label={t("name the sealed reagent")}
           autocomplete="off"
         />
-        <button type="submit" disabled={!guess.trim()}>name it</button>
+        <button type="submit" disabled={!guess.trim()}>{t("name it")}</button>
       </form>
     {/if}
   </div>

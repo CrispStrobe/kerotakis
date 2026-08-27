@@ -1,0 +1,3003 @@
+schema_version = 1
+corpus = "curiosity-v1"
+engine_profile = "kerotakis-native-v1"
+
+[[observation]]
+id = "aq-001"
+owning_task = "CAP-23"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-002"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-003"
+owning_task = "EXP-17"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-004"
+owning_task = "EXP-17"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-005"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-006"
+owning_task = "EXP-21"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-007"
+owning_task = "EXP-3"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-008"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-009"
+owning_task = "EXP-2"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-010"
+owning_task = "EXP-2"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-011"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-012"
+owning_task = "EXP-21"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-013"
+owning_task = "EXP-21"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-014"
+owning_task = "EXP-3"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-015"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-016"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-017"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-018"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-019"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-020"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-021"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-022"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-023"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-024"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-025"
+owning_task = "BRD-001"
+outcome = "boundary"
+reason_code = "fictional-material"
+
+[[observation]]
+id = "aq-026"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-027"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-028"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-029"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-030"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-031"
+owning_task = "CAP-23"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-032"
+owning_task = "EXP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-033"
+owning_task = "EXP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-034"
+owning_task = "EXP-3"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-035"
+owning_task = "EXP-25"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-036"
+owning_task = "EXP-25"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-037"
+owning_task = "EXP-25"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-038"
+owning_task = "EXP-25"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-039"
+owning_task = "EXP-9"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-040"
+owning_task = "EXP-9"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-041"
+owning_task = "EXP-9"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-042"
+owning_task = "EXP-9"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-043"
+owning_task = "EXP-9"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-044"
+owning_task = "EXP-9"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-045"
+owning_task = "EXP-9"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-046"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-047"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-048"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-049"
+owning_task = "CAP-23"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "aq-050"
+owning_task = "BRD-001"
+outcome = "boundary"
+reason_code = "undefined-substance-and-quantity"
+
+[[observation]]
+id = "aq-051"
+owning_task = "CAP-11"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "aq-052"
+owning_task = "CAP-11"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "aq-053"
+owning_task = "CAP-11"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-054"
+owning_task = "EXP-4"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "aq-055"
+owning_task = "EXP-4"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "aq-056"
+owning_task = "EXP-5"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "aq-057"
+owning_task = "EXP-5"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "aq-058"
+owning_task = "EXP-5"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "aq-059"
+owning_task = "EXP-2"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-060"
+owning_task = "EXP-2"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-061"
+owning_task = "CAP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-062"
+owning_task = "CAP-25"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-063"
+owning_task = "EXP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-064"
+owning_task = "EXP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-065"
+owning_task = "EXP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-066"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-067"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-068"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-069"
+owning_task = "CAP-11"
+outcome = "boundary"
+reason_code = "unknown-cleaner-composition"
+
+[[observation]]
+id = "aq-070"
+owning_task = "CAP-11"
+outcome = "boundary"
+reason_code = "dangerous-synthesis-instructions"
+
+[[observation]]
+id = "aq-071"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-072"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-073"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-074"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-075"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-076"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-077"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-078"
+owning_task = "CAP-22"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "aq-079"
+owning_task = "CAP-22"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "aq-080"
+owning_task = "CAP-22"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "aq-081"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-082"
+owning_task = "CAP-23"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-083"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-084"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-085"
+owning_task = "EXP-18"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-086"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "aq-087"
+owning_task = "EXP-18"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-088"
+owning_task = "EXP-18"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-089"
+owning_task = "EXP-18"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-090"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-091"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-092"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-093"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-094"
+owning_task = "CAP-11"
+outcome = "boundary"
+reason_code = "unknown-volatile-mixture"
+
+[[observation]]
+id = "aq-095"
+owning_task = "BRD-001"
+outcome = "boundary"
+reason_code = "fraction-outside-unit-interval"
+
+[[observation]]
+id = "aq-096"
+owning_task = "CAP-3"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "aq-097"
+owning_task = "EXP-7"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-098"
+owning_task = "EXP-7"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-099"
+owning_task = "EXP-7"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-100"
+owning_task = "BRD-032"
+outcome = "boundary"
+reason_code = "brine-eutectic-outside-model"
+
+[[observation]]
+id = "aq-101"
+owning_task = "EXP-7"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-102"
+owning_task = "BRD-032"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "aq-103"
+owning_task = "CAP-3"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-104"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-105"
+owning_task = "EXP-17"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-106"
+owning_task = "EXP-2"
+outcome = "solver_failure"
+reason_code = "solver-failed-cea-thermal"
+
+[[observation]]
+id = "aq-107"
+owning_task = "EXP-17"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-108"
+owning_task = "EXP-17"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-109"
+owning_task = "BRD-001"
+outcome = "boundary"
+reason_code = "temperature-below-absolute-zero"
+
+[[observation]]
+id = "aq-110"
+owning_task = "BRD-014"
+outcome = "boundary"
+reason_code = "unlabelled-mixture"
+
+[[observation]]
+id = "aq-111"
+owning_task = "EXP-21"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "aq-112"
+owning_task = "CAP-14"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "aq-113"
+owning_task = "CAP-3"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "aq-114"
+owning_task = "EXP-21"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "aq-115"
+owning_task = "EXP-21"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "aq-116"
+owning_task = "CAP-25"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "aq-117"
+owning_task = "CAP-25"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "aq-118"
+owning_task = "CAP-11"
+outcome = "boundary"
+reason_code = "direct-smelling-unknown"
+
+[[observation]]
+id = "aq-119"
+owning_task = "BRD-014"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "aq-120"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "aq-121"
+owning_task = "EXP-3"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-122"
+owning_task = "EXP-3"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-123"
+owning_task = "EXP-11"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "aq-124"
+owning_task = "EXP-11"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "aq-125"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-001"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-002"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-003"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-004"
+owning_task = "BRD-014"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-005"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-006"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-007"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-008"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-009"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-010"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-011"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-012"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-013"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-014"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-015"
+owning_task = "BRD-073"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-016"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-017"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-018"
+owning_task = "BRD-014"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-019"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-020"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-021"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-022"
+owning_task = "BRD-073"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-023"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-024"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-025"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-026"
+owning_task = "EXP-9"
+outcome = "qualitative"
+reason_code = "qualitative-route"
+
+[[observation]]
+id = "bio-027"
+owning_task = "BRD-052"
+outcome = "qualitative"
+reason_code = "qualitative-route"
+
+[[observation]]
+id = "bio-028"
+owning_task = "EXP-9"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "bio-029"
+owning_task = "EXP-9"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "bio-030"
+owning_task = "BRD-050"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "bio-031"
+owning_task = "BRD-050"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "bio-032"
+owning_task = "EXP-9"
+outcome = "qualitative"
+reason_code = "qualitative-route"
+
+[[observation]]
+id = "bio-033"
+owning_task = "EXP-9"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "bio-034"
+owning_task = "BRD-012"
+outcome = "qualitative"
+reason_code = "qualitative-route"
+
+[[observation]]
+id = "bio-035"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-036"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-037"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-038"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-039"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-040"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-041"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-042"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-043"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-044"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-045"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-046"
+owning_task = "BRD-050"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-047"
+owning_task = "BRD-050"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-048"
+owning_task = "BRD-050"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-049"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-050"
+owning_task = "BRD-050"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-051"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-052"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-053"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-054"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-055"
+owning_task = "BRD-050"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-056"
+owning_task = "BRD-014"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-057"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-058"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-059"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-060"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-061"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-062"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "bio-063"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-064"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-reaction"
+
+[[observation]]
+id = "bio-065"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-066"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-067"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-068"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-069"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-070"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-071"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-072"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-073"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-074"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-075"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-076"
+owning_task = "EXP-14"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "bio-077"
+owning_task = "BRD-050"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "bio-078"
+owning_task = "EXP-14"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "bio-079"
+owning_task = "EXP-14"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "bio-080"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-081"
+owning_task = "EXP-40"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-082"
+owning_task = "BRD-050"
+outcome = "boundary"
+reason_code = "whole-organism-out-of-scope"
+
+[[observation]]
+id = "bio-083"
+owning_task = "BRD-014"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-084"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-085"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-086"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-087"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-088"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-089"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-090"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-091"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-092"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-093"
+owning_task = "EXP-41"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-094"
+owning_task = "EXP-41"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "bio-095"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-096"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-097"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-098"
+owning_task = "BRD-073"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-099"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-100"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-101"
+owning_task = "BRD-032"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-102"
+owning_task = "BRD-023"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "bio-103"
+owning_task = "BRD-032"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-104"
+owning_task = "EXP-36"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "bio-105"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-106"
+owning_task = "BRD-023"
+outcome = "qualitative"
+reason_code = "qualitative-route"
+
+[[observation]]
+id = "bio-107"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-108"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-109"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-110"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-111"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-112"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-113"
+owning_task = "BRD-023"
+outcome = "qualitative"
+reason_code = "qualitative-route"
+
+[[observation]]
+id = "bio-114"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "bio-115"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "bio-116"
+owning_task = "BRD-050"
+outcome = "boundary"
+reason_code = "harmful-biological-preparation"
+
+[[observation]]
+id = "bio-117"
+owning_task = "BRD-050"
+outcome = "boundary"
+reason_code = "pathogen-cultivation"
+
+[[observation]]
+id = "bio-118"
+owning_task = "BRD-050"
+outcome = "boundary"
+reason_code = "harmful-biological-design"
+
+[[observation]]
+id = "bio-119"
+owning_task = "BRD-023"
+outcome = "boundary"
+reason_code = "drug-synthesis"
+
+[[observation]]
+id = "bio-120"
+owning_task = "BRD-050"
+outcome = "boundary"
+reason_code = "medical-advice"
+
+[[observation]]
+id = "bio-121"
+owning_task = "BRD-050"
+outcome = "boundary"
+reason_code = "medical-advice"
+
+[[observation]]
+id = "bio-122"
+owning_task = "BRD-050"
+outcome = "boundary"
+reason_code = "harmful-food-tampering"
+
+[[observation]]
+id = "bio-123"
+owning_task = "BRD-050"
+outcome = "boundary"
+reason_code = "unsafe-identification-advice"
+
+[[observation]]
+id = "bio-124"
+owning_task = "BRD-050"
+outcome = "boundary"
+reason_code = "unsafe-consumption-advice"
+
+[[observation]]
+id = "bio-125"
+owning_task = "BRD-050"
+outcome = "boundary"
+reason_code = "pathogen-enhancement"
+
+[[observation]]
+id = "mat-001"
+owning_task = "BRD-014"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-002"
+owning_task = "EXP-11"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-003"
+owning_task = "CAP-16"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-004"
+owning_task = "EXP-10"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-005"
+owning_task = "BRD-041"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-006"
+owning_task = "EXP-13"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-007"
+owning_task = "CAP-8"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-008"
+owning_task = "CAP-8"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-009"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-010"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-011"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-012"
+owning_task = "EXP-16"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-013"
+owning_task = "BRD-014"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-014"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-015"
+owning_task = "EXP-11"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-016"
+owning_task = "BRD-070"
+outcome = "boundary"
+reason_code = "unsupported-geometry-mechanics"
+
+[[observation]]
+id = "mat-017"
+owning_task = "BRD-073"
+outcome = "boundary"
+reason_code = "unsafe-violent-contact"
+
+[[observation]]
+id = "mat-018"
+owning_task = "BRD-014"
+outcome = "boundary"
+reason_code = "unsafe-toxic-material"
+
+[[observation]]
+id = "mat-019"
+owning_task = "BRD-071"
+outcome = "boundary"
+reason_code = "unsupported-fracture-mechanics"
+
+[[observation]]
+id = "mat-020"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-021"
+owning_task = "EXP-12"
+outcome = "qualitative"
+reason_code = "qualitative-route"
+
+[[observation]]
+id = "mat-022"
+owning_task = "EXP-12"
+outcome = "qualitative"
+reason_code = "qualitative-route"
+
+[[observation]]
+id = "mat-023"
+owning_task = "EXP-12"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-024"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-025"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-026"
+owning_task = "BRD-041"
+outcome = "boundary"
+reason_code = "unsafe-toxic-combustion"
+
+[[observation]]
+id = "mat-027"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-028"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-029"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-030"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-031"
+owning_task = "BRD-052"
+outcome = "boundary"
+reason_code = "timescale-outside-simulation"
+
+[[observation]]
+id = "mat-032"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-033"
+owning_task = "BRD-070"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-034"
+owning_task = "CAP-16"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-035"
+owning_task = "BRD-070"
+outcome = "boundary"
+reason_code = "unsupported-surface-forces"
+
+[[observation]]
+id = "mat-036"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-037"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-038"
+owning_task = "BRD-071"
+outcome = "boundary"
+reason_code = "unsupported-polymer-mechanics"
+
+[[observation]]
+id = "mat-039"
+owning_task = "BRD-073"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-040"
+owning_task = "EXP-12"
+outcome = "qualitative"
+reason_code = "qualitative-route"
+
+[[observation]]
+id = "mat-041"
+owning_task = "BRD-081"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-042"
+owning_task = "BRD-073"
+outcome = "boundary"
+reason_code = "unsafe-thermal-shock"
+
+[[observation]]
+id = "mat-043"
+owning_task = "BRD-071"
+outcome = "boundary"
+reason_code = "unsupported-fracture-mechanics"
+
+[[observation]]
+id = "mat-044"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-045"
+owning_task = "BRD-023"
+outcome = "boundary"
+reason_code = "unsafe-high-hazard-reagent"
+
+[[observation]]
+id = "mat-046"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-047"
+owning_task = "BRD-060"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-048"
+owning_task = "BRD-071"
+outcome = "boundary"
+reason_code = "unsupported-fracture-mechanics"
+
+[[observation]]
+id = "mat-049"
+owning_task = "BRD-060"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-050"
+owning_task = "BRD-070"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-051"
+owning_task = "BRD-071"
+outcome = "boundary"
+reason_code = "unsupported-hardness-test"
+
+[[observation]]
+id = "mat-052"
+owning_task = "EXP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-053"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-054"
+owning_task = "BRD-060"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-055"
+owning_task = "BRD-081"
+outcome = "boundary"
+reason_code = "unsupported-microscopy-scale"
+
+[[observation]]
+id = "mat-056"
+owning_task = "EXP-17"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-057"
+owning_task = "EXP-17"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-058"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-059"
+owning_task = "BRD-073"
+outcome = "boundary"
+reason_code = "unsafe-battery-damage"
+
+[[observation]]
+id = "mat-060"
+owning_task = "BRD-041"
+outcome = "boundary"
+reason_code = "unsafe-thermal-runaway"
+
+[[observation]]
+id = "mat-061"
+owning_task = "BRD-014"
+outcome = "boundary"
+reason_code = "unsafe-nonrechargeable-cell"
+
+[[observation]]
+id = "mat-062"
+owning_task = "EXP-7"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-063"
+owning_task = "EXP-15"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-064"
+owning_task = "EXP-15"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-065"
+owning_task = "BRD-060"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-066"
+owning_task = "BRD-060"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-067"
+owning_task = "BRD-073"
+outcome = "boundary"
+reason_code = "unsafe-energized-electronics"
+
+[[observation]]
+id = "mat-068"
+owning_task = "BRD-014"
+outcome = "boundary"
+reason_code = "unsafe-e-waste-processing"
+
+[[observation]]
+id = "mat-069"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-070"
+owning_task = "BRD-071"
+outcome = "boundary"
+reason_code = "unsupported-electrical-circuit"
+
+[[observation]]
+id = "mat-071"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-072"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-073"
+owning_task = "EXP-17"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-074"
+owning_task = "BRD-014"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-075"
+owning_task = "BRD-071"
+outcome = "boundary"
+reason_code = "non-chemical-question"
+
+[[observation]]
+id = "mat-076"
+owning_task = "EXP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-077"
+owning_task = "BRD-060"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-078"
+owning_task = "BRD-060"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-079"
+owning_task = "EXP-6"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-080"
+owning_task = "BRD-060"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-081"
+owning_task = "BRD-061"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-082"
+owning_task = "BRD-071"
+outcome = "boundary"
+reason_code = "unsupported-cleavage-mechanics"
+
+[[observation]]
+id = "mat-083"
+owning_task = "BRD-060"
+outcome = "boundary"
+reason_code = "unsupported-streak-test"
+
+[[observation]]
+id = "mat-084"
+owning_task = "BRD-070"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-085"
+owning_task = "BRD-060"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-086"
+owning_task = "EXP-4"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-087"
+owning_task = "BRD-060"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-088"
+owning_task = "EXP-11"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-089"
+owning_task = "BRD-060"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-090"
+owning_task = "BRD-071"
+outcome = "boundary"
+reason_code = "unsupported-hardness-test"
+
+[[observation]]
+id = "mat-091"
+owning_task = "BRD-060"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-092"
+owning_task = "BRD-060"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-093"
+owning_task = "BRD-062"
+outcome = "boundary"
+reason_code = "unsupported-gravity-regime"
+
+[[observation]]
+id = "mat-094"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-095"
+owning_task = "BRD-062"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-096"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-097"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-098"
+owning_task = "BRD-023"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-099"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-100"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-101"
+owning_task = "BRD-023"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-102"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-103"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-104"
+owning_task = "BRD-070"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "mat-105"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-106"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-107"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-108"
+owning_task = "CAP-16"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-109"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-110"
+owning_task = "BRD-023"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-111"
+owning_task = "CAP-16"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-112"
+owning_task = "CAP-16"
+outcome = "missing"
+reason_code = "not-yet-modeled"
+
+[[observation]]
+id = "mat-113"
+owning_task = "CAP-5"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-114"
+owning_task = "EXP-2"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-115"
+owning_task = "EXP-2"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-116"
+owning_task = "CAP-12"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-117"
+owning_task = "CAP-6"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-118"
+owning_task = "BRD-073"
+outcome = "boundary"
+reason_code = "unsupported-atomistic-fracture"
+
+[[observation]]
+id = "mat-119"
+owning_task = "BRD-070"
+outcome = "boundary"
+reason_code = "violates-matter-conservation"
+
+[[observation]]
+id = "mat-120"
+owning_task = "EXP-11"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-121"
+owning_task = "CAP-2"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "mat-122"
+owning_task = "CAP-2"
+outcome = "boundary"
+reason_code = "below-absolute-zero"
+
+[[observation]]
+id = "mat-123"
+owning_task = "EXP-2"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "mat-124"
+owning_task = "CAP-1"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "mat-125"
+owning_task = "CAP-12"
+outcome = "boundary"
+reason_code = "unsafe-oxidizer-metal-powder"
+
+[[observation]]
+id = "th-001"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-002"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-003"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-004"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-005"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-006"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-007"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-008"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-009"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-010"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-011"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-012"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-013"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-014"
+owning_task = "BRD-073"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-015"
+owning_task = "BRD-032"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-016"
+owning_task = "BRD-032"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-017"
+owning_task = "CAP-3"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-018"
+owning_task = "CAP-3"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-019"
+owning_task = "BRD-032"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-020"
+owning_task = "BRD-032"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-021"
+owning_task = "CAP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-022"
+owning_task = "CAP-25"
+outcome = "solver_failure"
+reason_code = "solver-failed-phreeqc-aqueous"
+
+[[observation]]
+id = "th-023"
+owning_task = "CAP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-024"
+owning_task = "CAP-25"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-025"
+owning_task = "CAP-25"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "th-026"
+owning_task = "BRD-032"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-027"
+owning_task = "BRD-032"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-028"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-029"
+owning_task = "BRD-032"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-030"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-031"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-032"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-033"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-034"
+owning_task = "BRD-041"
+outcome = "solver_failure"
+reason_code = "solver-failed-cea-thermal"
+
+[[observation]]
+id = "th-035"
+owning_task = "BRD-041"
+outcome = "solver_failure"
+reason_code = "solver-failed-cea-thermal"
+
+[[observation]]
+id = "th-036"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-037"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-038"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-039"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-040"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-041"
+owning_task = "BRD-073"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "th-042"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-043"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-044"
+owning_task = "BRD-041"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-045"
+owning_task = "BRD-041"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-046"
+owning_task = "BRD-041"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-047"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-048"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-049"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-050"
+owning_task = "BRD-073"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-051"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-052"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-053"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-054"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-055"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-056"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-057"
+owning_task = "BRD-023"
+outcome = "solver_failure"
+reason_code = "solver-failed-phreeqc-aqueous"
+
+[[observation]]
+id = "th-058"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-059"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-060"
+owning_task = "BRD-014"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-061"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-062"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-063"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-064"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-065"
+owning_task = "BRD-073"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "th-066"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-067"
+owning_task = "BRD-014"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-068"
+owning_task = "BRD-014"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-069"
+owning_task = "BRD-014"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-070"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-071"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-072"
+owning_task = "BRD-052"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-073"
+owning_task = "EXP-14"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-074"
+owning_task = "EXP-14"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-075"
+owning_task = "EXP-14"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-076"
+owning_task = "EXP-14"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-077"
+owning_task = "EXP-41"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "th-078"
+owning_task = "EXP-41"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-079"
+owning_task = "EXP-41"
+outcome = "curated"
+reason_code = "curated-route"
+
+[[observation]]
+id = "th-080"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-081"
+owning_task = "EXP-18"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "th-082"
+owning_task = "EXP-18"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-083"
+owning_task = "BRD-023"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-084"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-085"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-086"
+owning_task = "CAP-25"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "th-087"
+owning_task = "CAP-25"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "th-088"
+owning_task = "CAP-25"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "th-089"
+owning_task = "CAP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-090"
+owning_task = "CAP-25"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "th-091"
+owning_task = "BRD-073"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "th-092"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-093"
+owning_task = "CAP-1"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-094"
+owning_task = "CAP-25"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "th-095"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-096"
+owning_task = "CAP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-097"
+owning_task = "BRD-032"
+outcome = "solver_failure"
+reason_code = "solver-failed-cea-thermal"
+
+[[observation]]
+id = "th-098"
+owning_task = "CAP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-099"
+owning_task = "CAP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-100"
+owning_task = "CAP-25"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-101"
+owning_task = "BRD-073"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-102"
+owning_task = "BRD-032"
+outcome = "solver_failure"
+reason_code = "solver-failed-cea-thermal"
+
+[[observation]]
+id = "th-103"
+owning_task = "BRD-073"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-104"
+owning_task = "BRD-073"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-105"
+owning_task = "EXP-46"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-106"
+owning_task = "CAP-25"
+outcome = "boundary"
+reason_code = "weaponization"
+
+[[observation]]
+id = "th-107"
+owning_task = "BRD-041"
+outcome = "boundary"
+reason_code = "weaponization"
+
+[[observation]]
+id = "th-108"
+owning_task = "BRD-023"
+outcome = "boundary"
+reason_code = "weaponization"
+
+[[observation]]
+id = "th-109"
+owning_task = "BRD-041"
+outcome = "boundary"
+reason_code = "weaponization"
+
+[[observation]]
+id = "th-110"
+owning_task = "BRD-023"
+outcome = "boundary"
+reason_code = "energetic-synthesis"
+
+[[observation]]
+id = "th-111"
+owning_task = "BRD-041"
+outcome = "boundary"
+reason_code = "weaponization"
+
+[[observation]]
+id = "th-112"
+owning_task = "BRD-041"
+outcome = "boundary"
+reason_code = "weaponization"
+
+[[observation]]
+id = "th-113"
+owning_task = "BRD-032"
+outcome = "boundary"
+reason_code = "impossible-state"
+
+[[observation]]
+id = "th-114"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-115"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-116"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-117"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-118"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-119"
+owning_task = "BRD-041"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-120"
+owning_task = "CAP-1"
+outcome = "qualitative"
+reason_code = "typed-observation"
+
+[[observation]]
+id = "th-121"
+owning_task = "BRD-073"
+outcome = "computed"
+reason_code = "typed-engine-event"
+
+[[observation]]
+id = "th-122"
+owning_task = "BRD-012"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-123"
+owning_task = "BRD-032"
+outcome = "missing"
+reason_code = "unknown-species"
+
+[[observation]]
+id = "th-124"
+owning_task = "BRD-073"
+outcome = "computed"
+reason_code = "computed-route"
+
+[[observation]]
+id = "th-125"
+owning_task = "BRD-041"
+outcome = "boundary"
+reason_code = "out-of-scope-scale"

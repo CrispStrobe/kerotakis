@@ -247,6 +247,20 @@ fn igniting_magnesium_gains_mass_from_the_air() {
             .any(|e| matches!(e, Event::Ignited { flame: Some(f), .. } if f.contains("white"))),
         "it burns with a blinding white light: {events:?}"
     );
+    let released = events
+        .iter()
+        .find_map(|event| match event {
+            Event::Ignited {
+                energy_j: Some(joules),
+                ..
+            } => Some(*joules),
+            _ => None,
+        })
+        .expect("the computed reaction energy travels on the ignition event");
+    assert!(
+        released > 10_000.0,
+        "burning 0.0494 mol Mg should release a visibly large amount of heat: {released:.1} J"
+    );
     let after = bench.vessel(v).unwrap().mass().0;
     assert!(
         after > before * 1.5,

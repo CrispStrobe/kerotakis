@@ -42,7 +42,15 @@ fn every_legacy_field_is_present_and_unchanged() {
     let document = export_current_registry().expect("export current registry");
     document.validate().expect("export validates");
 
-    assert_eq!(document.sources.len(), REGISTRY.len());
+    assert_eq!(
+        document
+            .sources
+            .iter()
+            .filter(|source| source.id.starts_with("legacy/"))
+            .count(),
+        REGISTRY.len()
+    );
+    assert_eq!(document.material_recipes.len(), 4);
     assert_eq!(document.identities.len(), REGISTRY.len());
     assert_eq!(document.compositions.len(), REGISTRY.len());
     assert_eq!(
@@ -269,8 +277,8 @@ fn compare_optical(
         source_id,
     );
     match species.spectrum {
-        Some(make) => {
-            let values = make();
+        Some(bands) => {
+            let values = *bands;
             assert_eq!(record.spectrum.len(), BAND_NM.len());
             for ((sample, wavelength), value) in record.spectrum.iter().zip(BAND_NM).zip(values) {
                 assert_imported_quantity(

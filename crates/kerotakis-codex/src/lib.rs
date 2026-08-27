@@ -14,6 +14,7 @@
 //! entry that stops being true fails the build. Nothing else in this
 //! project would catch a curation error; this does.
 
+pub mod curiosity;
 pub mod prose;
 pub mod quest;
 
@@ -35,10 +36,12 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "evaporated",
     "filtered",
     "flame_test",
+    "foam_changed",
     "gas_absorbed",
     "gas_tested",
     "gas_contained",
     "gas_evolved",
+    "gas_produced",
     "hazard_warning",
     "headspace_equilibrated",
     "ignited",
@@ -46,6 +49,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "inert_in_solvent",
     "layers_formed",
     "magnet_separated",
+    "material_added",
     "measured",
     "mixed",
     "no_cell",
@@ -57,6 +61,7 @@ pub const KNOWN_EVENT_KINDS: &[&str] = &[
     "precipitated",
     "reacted",
     "reaction",
+    "reaction_heat_released",
     "safety_veto",
     "solution",
     "solver_failed",
@@ -104,6 +109,12 @@ pub struct Entry {
     /// measurement, a physical change. Never parsed, never checked.
     #[serde(default)]
     pub summary: Option<String>,
+    /// German. The catalogue translates field by field into `_de`
+    /// siblings so an untranslated string falls back to English on its
+    /// own, rather than an entry needing a complete German twin before
+    /// any of it can ship.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub summary_de: Option<String>,
     /// Concepts this reaction teaches; the difficulty ladder is built from
     /// these edges.
     #[serde(default)]
@@ -198,10 +209,21 @@ pub struct Expect {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Prediction {
     pub question: String,
+    /// German. The catalogue translates field by field into `_de`
+    /// siblings so an untranslated string falls back to English on its
+    /// own, rather than an entry needing a complete German twin before
+    /// any of it can ship.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub question_de: Option<String>,
     /// Plausible answers to choose between; exactly one is right, and the
     /// wrong ones should be the mistakes learners actually make, not
     /// strawmen.
     pub options: Vec<String>,
+    /// Positional twin of `options`. Same length or ignored: the answer
+    /// is an index into `options` and each diagnosis attaches by index,
+    /// so a shorter array would mark the wrong answer correct.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub options_de: Option<Vec<String>>,
     /// Index into `options`.
     pub answer: usize,
     /// Why the tempting wrong answer is tempting — the misconception this
@@ -209,6 +231,12 @@ pub struct Prediction {
     /// question; `diagnosis` is the finer-grained form.
     #[serde(default)]
     pub misconception: Option<String>,
+    /// German. The catalogue translates field by field into `_de`
+    /// siblings so an untranslated string falls back to English on its
+    /// own, rather than an entry needing a complete German twin before
+    /// any of it can ship.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub misconception_de: Option<String>,
     /// What each individual wrong answer reveals, and what to do about it.
     ///
     /// One blanket note per question is not enough to *teach* with. A
@@ -227,6 +255,95 @@ pub struct Prediction {
     pub diagnosis: Vec<Diagnosis>,
 }
 
+/// Write `value` at `<path>_<code>`, following the path through tables and
+/// arrays. Numeric segments index arrays.
+/// Why a translation did not fit its catalogue.
+#[derive(Debug)]
+pub enum Unfit {
+    /// No entry with that id in this file. Expected, not a fault, when one
+    /// sidecar covers a whole directory: the entry is in a sibling file.
+    NoSuchEntry,
+    /// The entry is here but the field it names is not. Always a fault —
+    /// the English moved and this translation was left behind, which
+    /// renders confidently and wrongly.
+    NoSuchField(String),
+}
+
+impl std::fmt::Display for Unfit {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Unfit::NoSuchEntry => write!(f, "no entry with that id"),
+            Unfit::NoSuchField(m) => write!(f, "{m}"),
+        }
+    }
+}
+
+fn inject(doc: &mut toml::Value, path: &str, code: &str, value: toml::Value) -> Result<(), Unfit> {
+    let parts: Vec<&str> = path.split('.').collect();
+    let (last, rest) = parts
+        .split_last()
+        .ok_or_else(|| Unfit::NoSuchField(format!("empty path {path:?}")))?;
+
+    // The first segment is an entry id, not a key: find the reaction or
+    // model it names.
+    let mut node =
+        find_entry(doc, rest.first().copied().unwrap_or(last)).ok_or(Unfit::NoSuchEntry)?;
+
+    for seg in rest.iter().skip(1) {
+        // Reborrowing in place rather than reassigning: `node = node.get_mut()`
+        // keeps the previous borrow alive for the whole loop.
+        node = match node {
+            toml::Value::Table(t) => t
+                .get_mut(seg.to_string().as_str())
+                .ok_or_else(|| Unfit::NoSuchField(format!("{path}: no field {seg:?}")))?,
+            toml::Value::Array(a) => {
+                let i: usize = seg
+                    .parse()
+                    .map_err(|_| Unfit::NoSuchField(format!("{path}: {seg:?} is not an index")))?;
+                a.get_mut(i).ok_or_else(|| {
+                    Unfit::NoSuchField(format!("{path}: index {i} is past the end"))
+                })?
+            }
+            _ => {
+                return Err(Unfit::NoSuchField(format!(
+                    "{path}: {seg:?} is not a table or array"
+                )))
+            }
+        };
+    }
+
+    let table = node.as_table_mut().ok_or_else(|| {
+        Unfit::NoSuchField(format!("{path}: the parent of {last:?} is not a table"))
+    })?;
+    if !table.contains_key(*last) {
+        return Err(Unfit::NoSuchField(format!(
+            "{path}: there is no {last:?} to translate"
+        )));
+    }
+    table.insert(format!("{last}_{code}"), value);
+    Ok(())
+}
+
+/// The reaction or model with this id.
+fn find_entry<'a>(doc: &'a mut toml::Value, id: &str) -> Option<&'a mut toml::Value> {
+    let table = doc.as_table_mut()?;
+    // Which section holds it is decided by an IMMUTABLE pass first, so the
+    // mutable borrow below is taken exactly once. Looping with `get_mut`
+    // keeps every iteration's borrow alive, because the value returned
+    // from inside the loop escapes it.
+    let section = ["reaction", "model"].into_iter().find(|s| {
+        table.get(*s).and_then(|v| v.as_array()).is_some_and(|a| {
+            a.iter()
+                .any(|e| e.get("id").and_then(|v| v.as_str()) == Some(id))
+        })
+    })?;
+    table
+        .get_mut(section)?
+        .as_array_mut()?
+        .iter_mut()
+        .find(|e| e.get("id").and_then(|v| v.as_str()) == Some(id))
+}
+
 /// What one particular wrong answer tells you about the learner.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Diagnosis {
@@ -234,11 +351,23 @@ pub struct Diagnosis {
     pub option: usize,
     /// The idea that leads here, stated as the learner would hold it.
     pub reveals: String,
+    /// German. The catalogue translates field by field into `_de`
+    /// siblings so an untranslated string falls back to English on its
+    /// own, rather than an entry needing a complete German twin before
+    /// any of it can ship.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reveals_de: Option<String>,
     /// What to do next: the experiment, comparison or question that puts
     /// pressure on exactly this idea. A diagnosis without a next move is
     /// a label, not teaching.
     #[serde(default)]
     pub next: Option<String>,
+    /// German. The catalogue translates field by field into `_de`
+    /// siblings so an untranslated string falls back to English on its
+    /// own, rather than an entry needing a complete German twin before
+    /// any of it can ship.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub next_de: Option<String>,
     /// Where the misconception is documented, if it is. Left absent rather
     /// than invented.
     #[serde(default)]
@@ -405,6 +534,36 @@ impl Registers {
         self.0.get(&format!("lv{level}")).map(String::as_str)
     }
 
+    /// Split a register key into its level and optional locale:
+    /// `lv2` -> (`lv2`, None), `lv2_de` -> (`lv2`, Some("de")).
+    ///
+    /// German prose sits beside the English in the same map, following the
+    /// `_de` sibling convention the rest of the catalogue uses, because it
+    /// degrades one string at a time: a level nobody has translated yet
+    /// falls back to English on its own, rather than the entry needing a
+    /// complete German twin before any of it can ship.
+    pub fn split_locale(key: &str) -> (&str, Option<&str>) {
+        match key.rsplit_once('_') {
+            Some((base, loc))
+                if !base.is_empty()
+                    && !loc.is_empty()
+                    && loc.chars().all(|c| c.is_ascii_lowercase()) =>
+            {
+                (base, Some(loc))
+            }
+            _ => (key, None),
+        }
+    }
+
+    /// The prose for a level in the reader's language, falling back to the
+    /// English when that level has no translation yet.
+    pub fn get_in(&self, level: u8, locale: &str) -> Option<&str> {
+        self.0
+            .get(&format!("lv{level}_{locale}"))
+            .or_else(|| self.0.get(&format!("lv{level}")))
+            .map(String::as_str)
+    }
+
     /// Levels present, ascending.
     pub fn levels(&self) -> Vec<u8> {
         let mut out: Vec<u8> = self
@@ -536,11 +695,133 @@ pub struct Codex {
 pub enum CodexError {
     #[error("could not parse the codex: {0}")]
     Parse(#[from] toml::de::Error),
+    /// A sidecar key names a path the catalogue does not have. Its own
+    /// error, not a parse error: the file is valid TOML and the problem is
+    /// that the English it translates has moved or gone.
+    #[error("translation does not fit the catalogue: {0}")]
+    Translation(String),
 }
 
 impl Codex {
     pub fn parse(text: &str) -> Result<Codex, CodexError> {
         Ok(toml::from_str(text)?)
+    }
+
+    /// Every `*.toml` in a codex directory, with `<dir>/i18n/*.toml`
+    /// folded in as translations.
+    ///
+    /// Here rather than in each caller because the layout is the codex's
+    /// business. The CLI and the export snapshot each walked the directory
+    /// themselves, and each would have had to learn where translations
+    /// live — which is how two loaders drift until one of them quietly
+    /// renders English.
+    pub fn load_dir(dir: &std::path::Path) -> Result<Codex, CodexError> {
+        let mut sidecars: Vec<(String, String)> = Vec::new();
+        let i18n = dir.join("i18n");
+        if i18n.is_dir() {
+            let mut files: Vec<std::path::PathBuf> = std::fs::read_dir(&i18n)
+                .map_err(|e| CodexError::Translation(format!("{}: {e}", i18n.display())))?
+                .filter_map(|e| e.ok().map(|e| e.path()))
+                .filter(|p| p.extension().is_some_and(|x| x == "toml"))
+                .collect();
+            files.sort();
+            for file in files {
+                let code = file
+                    .file_stem()
+                    .and_then(|s| s.to_str())
+                    .unwrap_or_default()
+                    .to_string();
+                let text = std::fs::read_to_string(&file)
+                    .map_err(|e| CodexError::Translation(format!("{}: {e}", file.display())))?;
+                sidecars.push((code, text));
+            }
+        }
+        let borrowed: Vec<(&str, &str)> = sidecars
+            .iter()
+            .map(|(c, t)| (c.as_str(), t.as_str()))
+            .collect();
+
+        let mut files: Vec<std::path::PathBuf> = std::fs::read_dir(dir)
+            .map_err(|e| CodexError::Translation(format!("{}: {e}", dir.display())))?
+            .filter_map(|e| e.ok().map(|e| e.path()))
+            .filter(|p| p.extension().is_some_and(|x| x == "toml"))
+            .collect();
+        files.sort();
+
+        let mut all = Codex::default();
+        for file in files {
+            let text = std::fs::read_to_string(&file)
+                .map_err(|e| CodexError::Translation(format!("{}: {e}", file.display())))?;
+            // A sidecar covers the whole catalogue, so a key for another
+            // file's entry is not an error HERE — it belongs to a sibling.
+            // Only a key matching no entry in ANY file is stale, and that
+            // is checked once at the end.
+            let mut c = Codex::parse_with_translations_for_file(&text, &borrowed)?;
+            all.reactions.append(&mut c.reactions);
+            all.models.append(&mut c.models);
+        }
+        Ok(all)
+    }
+
+    /// Parse the English source and fold in per-language sidecars.
+    ///
+    /// Each sidecar is a flat table of `"<entry-id>.<path>" = "…"`, where
+    /// the path names the ENGLISH field being translated. The value is
+    /// written back as that field's `_<code>` sibling, which is the shape
+    /// the structs and the export already use — so nothing downstream
+    /// needs to know translations arrived from a different file.
+    ///
+    /// One file per language is the point. It is what lets a French
+    /// translation and a Japanese one be worked on at the same time
+    /// without their authors colliding, and it keeps the English source
+    /// from growing a full copy per language.
+    ///
+    /// A key naming a path that does not exist is an error. That means the
+    /// English moved and the translation is describing something that is
+    /// no longer there — worse than a missing translation, because it
+    /// renders confidently.
+    pub fn parse_with_translations(
+        text: &str,
+        sidecars: &[(&str, &str)],
+    ) -> Result<Codex, CodexError> {
+        Self::merge(text, sidecars, true)
+    }
+
+    /// As `parse_with_translations`, but a key whose entry is not in THIS
+    /// file is skipped rather than refused: one sidecar covers the whole
+    /// directory, so most of its keys belong to sibling files.
+    pub fn parse_with_translations_for_file(
+        text: &str,
+        sidecars: &[(&str, &str)],
+    ) -> Result<Codex, CodexError> {
+        Self::merge(text, sidecars, false)
+    }
+
+    fn merge(
+        text: &str,
+        sidecars: &[(&str, &str)],
+        strict_entries: bool,
+    ) -> Result<Codex, CodexError> {
+        let mut doc: toml::Value = toml::from_str(text)?;
+        for (code, sidecar) in sidecars {
+            let table: toml::Value = toml::from_str(sidecar)?;
+            let Some(map) = table.as_table() else {
+                continue;
+            };
+            for (path, value) in map {
+                match inject(&mut doc, path, code, value.clone()) {
+                    Ok(()) => {}
+                    Err(Unfit::NoSuchEntry) if !strict_entries => {}
+                    Err(e) => {
+                        // The PATH belongs in the message: "no entry with that
+                        // id" without saying which id is a worse error
+                        // than the String one this replaced.
+                        return Err(CodexError::Translation(format!("{code}.toml: {path}: {e}")));
+                    }
+                }
+            }
+        }
+        Ok(doc.try_into()?)
     }
 
     /// Structural problems that need no solver: duplicate ids, empty
@@ -658,9 +939,17 @@ impl Codex {
                 }
             }
             for key in r.registers.0.keys() {
-                if Register::parse(key).is_none() {
+                let (base, locale) = Registers::split_locale(key);
+                if Register::parse(base).is_none() {
                     problems.push(format!(
-                        "{}: register key '{key}' is not a level (use lv1, lv2, …)",
+                        "{}: register key '{key}' is not a level (use lv1, lv2, … or lv1_de)",
+                        r.id
+                    ));
+                } else if locale.is_some() && !r.registers.0.contains_key(base) {
+                    // A translation of a level that does not exist would
+                    // fall back to English forever, silently.
+                    problems.push(format!(
+                        "{}: register key '{key}' translates '{base}', which is not written",
                         r.id
                     ));
                 }
@@ -731,9 +1020,17 @@ impl Codex {
                 }
             }
             for key in m.registers.0.keys() {
-                if Register::parse(key).is_none() {
+                let (base, locale) = Registers::split_locale(key);
+                if Register::parse(base).is_none() {
                     problems.push(format!(
-                        "{}: register key '{key}' is not a level (use lv1, lv2, …)",
+                        "{}: register key '{key}' is not a level (use lv1, lv2, … or lv1_de)",
+                        m.id
+                    ));
+                } else if locale.is_some() && !m.registers.0.contains_key(base) {
+                    // A translation of a level that does not exist would
+                    // fall back to English forever, silently.
+                    problems.push(format!(
+                        "{}: register key '{key}' translates '{base}', which is not written",
                         m.id
                     ));
                 }
@@ -945,6 +1242,10 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::CellVoltage { .. } => ("cell_voltage", None),
         E::NoCell { .. } => ("no_cell", None),
         E::Added { species, .. } => ("added", Some(species.0.as_str())),
+        E::MaterialAdded { .. } => ("material_added", None),
+        E::GasProduced { species, .. } => ("gas_produced", Some(species.0.as_str())),
+        E::ReactionHeatReleased { .. } => ("reaction_heat_released", None),
+        E::FoamChanged { .. } => ("foam_changed", None),
         E::FlameTest { species, .. } => ("flame_test", Some(species.0.as_str())),
         E::Ignited { .. } => ("ignited", None),
         E::DidNotIgnite { .. } => ("did_not_ignite", None),
@@ -954,6 +1255,10 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::SolutionCharacterized { .. } => ("solution", None),
         E::ThermalEquilibrium { .. } => ("thermal_equilibrium", None),
         E::TemperatureChanged { .. } => ("temperature_changed", None),
+        E::Stirred { .. } => ("stirred", None),
+        E::Ground { species, .. } => ("ground", Some(species.0.as_str())),
+        E::Centrifuged { .. } => ("centrifuged", None),
+        E::GravitySettled { .. } => ("gravity_settled", None),
         E::Evaporated { .. } => ("evaporated", None),
         E::Distilled { .. } => ("distilled", None),
         E::LayersFormed { .. } => ("layers_formed", None),
@@ -975,6 +1280,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Measured { .. } => ("measured", None),
         E::Observed { .. } => ("observed", None),
         E::VesselCreated { .. } => ("vessel_created", None),
+        E::VesselRemoved { .. } => ("vessel_removed", None),
         E::NotYetModeled { .. } => ("not_yet_modelled", None),
         E::SolverFailed { .. } => ("solver_failed", None),
         // Keyed by reaction id, so an entry asserts `reacted:thiosulfate-acid`

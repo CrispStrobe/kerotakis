@@ -8,6 +8,7 @@
     seriesPoints,
     type ChartSpec,
   } from "../chart";
+  import { t } from "../i18n.svelte";
 
   let { spec }: { spec: ChartSpec } = $props();
 
@@ -159,15 +160,9 @@
     {/each}
   </svg>
 
-  <figcaption>
-    <button class="export" onclick={exportSvg}>save SVG</button>
-    <button class="export" onclick={exportPng}>save PNG</button>
-    <span class="prov">{spec.provenance}</span>
-  </figcaption>
-
   <!-- The same data as a table, for screen readers and for checking. -->
   <details class="data">
-    <summary>data</summary>
+    <summary>{t("data")}</summary>
     {#each spec.series as s (s.name)}
       <table>
         <caption>{s.name} ({s.kind})</caption>
@@ -182,6 +177,12 @@
       </table>
     {/each}
   </details>
+
+  <figcaption>
+    <button class="export" onclick={exportSvg}>{t("save SVG")}</button>
+    <button class="export" onclick={exportPng}>{t("save PNG")}</button>
+    <span class="prov">{spec.provenance}</span>
+  </figcaption>
 </figure>
 
 <style>
