@@ -311,6 +311,12 @@ classrooms-as-a-service, and cloud saves are **non-goals** for this roadmap.
   substring matching. German queries can discover German-labelled experiments
   without sacrificing formula or stable-id search; curriculum stages and
   observed-event verdicts are localized as well.
+- [ ] **Codex content localization.** The current golden export contains 103
+  investigations whose long-form registers, prediction questions, diagnoses,
+  and provenance are predominantly authored in English. Routing through
+  `t()` and localized search is infrastructure, not German coverage. Add an
+  explicit locale sidecar/schema plus an export-time English/German completeness
+  gate; do not claim full-app i18n until that gate passes the production codex.
 
 ### Immediate experience target: the laboratory as a place
 
@@ -853,6 +859,11 @@ hide them completely.
   selects itself and occupies the first stable open footprint, accounting for
   persisted instrument stations. Manually occupied legacy defaults no longer
   cause newly created vessels to appear inside existing objects.*
+  *Arrangement-replay slice shipped 2026-08-27:* saved `.lab` files carry the
+  normalized vessel and freestanding-instrument layout in a versioned comment
+  that older CLI/core readers safely ignore. The web app validates and restores
+  it after replay; legacy or malformed files continue with normal stable
+  placement rather than disturbing chemistry import.
 - [ ] **GUI-074 — Direct manipulation pass.** Implement contextual object
   selection and the highest-frequency physical gestures: place/remove, pour,
   dose, stir, heat/cool, seal/open, connect, insert/read probe, and start/stop.
