@@ -437,7 +437,7 @@
     ]
   },
   "grit": {
-    "event_count": 12,
+    "event_count": 14,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.1000 mol sodium chloride",
@@ -445,8 +445,10 @@
       "v2: new vessel",
       "v2: +5.5343 mol water",
       "v1: 25.0 °C → -10.6 °C",
+      "v1: 15.00 kJ requested; 15.00 kJ removed — time model not yet coupled",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: 25.0 °C → -11.0 °C",
+      "v2: 15.00 kJ requested; 15.00 kJ removed — time model not yet coupled",
       "v1 thermometer: -10.56 °C",
       "v2 thermometer: -10.99 °C",
       "v1: The liquid is colourless and so cloudy you cannot see through it.",
@@ -648,17 +650,19 @@
     ]
   },
   "neutral-moves": {
-    "event_count": 12,
+    "event_count": 14,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.0010 mol sodium chloride",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: 25.0 °C → 50.1 °C",
+      "v1: 10.45 kJ requested; 10.45 kJ delivered — time model not yet coupled",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 thermometer: 50.07 °C",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: 50.1 °C → 3.3 °C",
+      "v1: 19.50 kJ requested; 19.50 kJ removed — time model not yet coupled",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 thermometer: 3.29 °C",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
@@ -835,7 +839,7 @@
     ]
   },
   "rates": {
-    "event_count": 23,
+    "event_count": 24,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.0050 mol sodium thiosulfate",
@@ -849,14 +853,14 @@
       "v2: +0.0020 mol hydrochloric acid",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: 25.0 °C → 44.2 °C",
+      "v2: 8.00 kJ requested; 8.00 kJ delivered — time model not yet coupled",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: 100% of the suspended particles settle in 20 s",
       "v2: 100% of the suspended particles settle in 20 s",
       "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom.",
-      "v2: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom.",
-      "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+      "v2: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom."
     ],
     "lesson": "rates.lab",
     "vessels": [
