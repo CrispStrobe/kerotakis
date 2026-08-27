@@ -769,6 +769,14 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   and identical numeric outcomes headless/native/web.
 - **Out of scope:** branded paint matching, fluorescence, drying/polymerization
   in v1, or learned image-based color prediction.
+- **Transparent-dye checkpoint 1 implemented:** explicit 0.1% w/w dropper
+  surrogates use the already curated 16-band spectra for betanin red, curcumin
+  yellow and indigo-carmine blue. Their absorbances add in the existing
+  Beer–Lambert/CIE pipeline, so arbitrary ratios, dilution, vessel path length,
+  intensity and order-independent subtractive mixing are computed rather than
+  RGB-averaged. Generic “Lebensmittelfarbe/food colouring” stays ambiguous;
+  watercolor and acrylic remain blocked on the distinct scattering/pigment
+  model.
 
 ### BRD-076 — Movable Bunsen burner and guided heat interactions
 
