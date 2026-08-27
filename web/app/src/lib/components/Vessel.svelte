@@ -284,10 +284,12 @@
       </g>
     {/if}
     {#if burning}
-      {@const flameScale = 0.5 + mag("ignite", 3000) * 0.5}
-      <g class="flame" aria-hidden="true" style={`transform-origin:50px 20px;transform:scale(${flameScale})`}>
+      {@const flameMagnitude = mag("ignite", 3000)}
+      {@const flameScale = 0.42 + flameMagnitude * 0.88}
+      {@const flameDuration = 0.48 - flameMagnitude * 0.25}
+      <g class="flame" aria-hidden="true" style={`--flame-duration:${flameDuration}s;transform-origin:50px 20px;transform:scale(${flameScale})`}>
         <path class="outer" d="M 50 -2 Q 42 12 47 20 Q 50 25 53 20 Q 58 12 50 -2 Z"
-          style={latestFlameColour ? `fill:${latestFlameColour}` : ""} />
+          style={latestFlameColour ? `fill:${latestFlameColour};stroke:var(--edge-strong);stroke-width:.55;filter:drop-shadow(0 0 3px ${latestFlameColour})` : ""} />
         <path class="inner" d="M 50 6 Q 46 13 49 18 Q 50 20 51 18 Q 54 13 50 6 Z" />
       </g>
     {/if}
@@ -780,12 +782,12 @@
   }
   .flame .outer {
     fill: var(--hot);
-    animation: flicker 0.35s ease-in-out infinite alternate;
+    animation: flicker var(--flame-duration, 0.4s) ease-in-out infinite alternate;
     transform-origin: 50px 20px;
   }
   .flame .inner {
     fill: var(--warn);
-    animation: flicker 0.28s ease-in-out infinite alternate-reverse;
+    animation: flicker calc(var(--flame-duration, 0.4s) * 0.82) ease-in-out infinite alternate-reverse;
     transform-origin: 50px 18px;
   }
   @keyframes flicker {

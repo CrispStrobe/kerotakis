@@ -650,6 +650,12 @@ pub enum Event {
         /// The flame's colour, where the burning substance has a
         /// characteristic one.
         flame: Option<String>,
+        /// Heat released by the computed reaction at the ignition
+        /// temperature, J. `None` means the engaged solver cannot quantify
+        /// it; clients must use a restrained fallback rather than inventing
+        /// a dramatic flame.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        energy_j: Option<f64>,
     },
     /// An ignition source was applied and nothing caught.
     DidNotIgnite {
@@ -665,6 +671,11 @@ pub enum Event {
     ThermalEquilibrium {
         vessel: VesselId,
         temperature: Kelvin,
+        /// Chemical enthalpy converted into sensible heat by this solve at
+        /// its starting temperature, J. Present for exothermic CEA solves;
+        /// absent where the solver cannot make that thermochemical claim.
+        #[serde(default, skip_serializing_if = "Option::is_none")]
+        reaction_energy_j: Option<f64>,
         provenance: crate::vessel::Provenance,
     },
     /// The state is one no wired solver models yet. State is unchanged

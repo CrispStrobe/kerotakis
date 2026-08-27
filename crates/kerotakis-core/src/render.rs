@@ -659,18 +659,34 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 _ => format!("{vessel}: −{:.6} mol {name}", moles.0),
             }
         }
-        Event::Ignited { vessel, flame } => match register.level() {
+        Event::Ignited {
+            vessel,
+            flame,
+            energy_j,
+        } => match register.level() {
             1 => match flame {
                 Some(colour) => {
                     format!("It catches fire in {vessel} — burning with {colour} light!")
                 }
                 None => format!("It catches fire in {vessel}!"),
             },
-            2 => match flame {
-                Some(colour) => format!("{vessel}: ignited — {colour} flame"),
-                None => format!("{vessel}: ignited"),
+            2 => {
+                let colour = flame
+                    .as_ref()
+                    .map(|colour| format!(" — {colour} flame"))
+                    .unwrap_or_default();
+                let energy = energy_j
+                    .map(|joules| format!(" · {:.2} kJ released", joules / 1000.0))
+                    .unwrap_or_default();
+                format!("{vessel}: ignited{colour}{energy}")
+            }
+            _ => match energy_j {
+                Some(joules) => format!(
+                    "{vessel}: ignition source applied; computed reaction energy = {:.3} J",
+                    joules
+                ),
+                None => format!("{vessel}: ignition source applied; reaction energy unavailable"),
             },
-            _ => format!("{vessel}: ignition source applied"),
         },
         Event::FlameTest {
             vessel,
@@ -699,6 +715,7 @@ pub fn render_event(event: &Event, register: Register) -> String {
         Event::ThermalEquilibrium {
             vessel,
             temperature,
+            reaction_energy_j: _,
             provenance,
         } => match register.level() {
             1 => format!("Everything in {vessel} settles into what it wants to be at this heat."),
