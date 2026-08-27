@@ -390,6 +390,12 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   library supplies a range-checked NIST Antoine correlation around its normal
   boiling point. Combustion remains explicitly unmodelled until compatible feed
   thermochemistry is installed.
+- **Checkpoint 6 implemented:** localized 5% household bleach and 5% ammonia
+  cleaner surrogates expand into the already modelled NaOCl/NH3 aqueous
+  components. Their density and concentration assumptions remain visible; no
+  brand additives are guessed. Mixing the named cleaners now reaches the same
+  danger warning, limiting-reagent consumption and chloramine-gas evolution as
+  the pure reagents, with the warning emitted before the computed chemistry.
 
 ## Stage B2 — organic structure and curated reaction families
 
