@@ -792,6 +792,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   order independence and explicit missing-pigment-data refusal are tested.
   Installed pigment coefficient records, thin watercolor washes, UI
   droppers/brushes and substrate/coverage controls remain separate checkpoints.
+- **Transparent-watercolor checkpoint 1 implemented:** red/betanin,
+  yellow/curcumin and blue/indigo-carmine watercolor washes are versioned
+  school-material surrogates at 0.02% w/w. They expand to water plus the same
+  reviewed chromophores as the food-color droppers, so concentration, dilution,
+  path length and arbitrary-ratio mixing remain Beer–Lambert/CIE calculations.
+  Generic “Wasserfarbe/watercolor” stays unclaimed, and these transparent
+  washes are not presented as opaque commercial pigment pans.
 
 ### BRD-076 — Movable Bunsen burner and guided heat interactions
 
