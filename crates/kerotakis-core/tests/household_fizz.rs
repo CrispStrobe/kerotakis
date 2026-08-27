@@ -77,6 +77,10 @@ fn sealed_fizz_keeps_the_carbon_dioxide_in_the_headspace() {
             &PermissiveScreen,
         )
         .expect("seal");
+    // Sealing traps room air, including its small background CO2 fraction.
+    // Measure the reaction's addition rather than pretending the headspace
+    // started as a vacuum.
+    let co2_before = moles(&bench, "CO2");
     add(&mut bench, &mut solvers, "NaHCO3", 0.010);
     let events = add(&mut bench, &mut solvers, "CH3COOH", 0.010);
 
@@ -85,5 +89,9 @@ fn sealed_fizz_keeps_the_carbon_dioxide_in_the_headspace() {
         Event::GasContained { species, moles, .. }
             if species.0 == "CO2" && (moles.0 - 0.010).abs() < 1e-12
     )));
-    assert!((moles(&bench, "CO2") - 0.010).abs() < 1e-12);
+    assert!(!events.iter().any(|event| matches!(
+        event,
+        Event::GasEvolved { species, .. } if species.0 == "CO2"
+    )));
+    assert!((moles(&bench, "CO2") - co2_before - 0.010).abs() < 1e-12);
 }
