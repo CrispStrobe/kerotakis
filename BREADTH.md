@@ -721,8 +721,9 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   trapped gas, foam volume/height, half-life and overflow using deterministic
   vessel geometry. With no declared surfactant, the same chemistry bubbles but
   produces no persistent foam. Remaining work: hydration/activity dependence,
-  KI's distinct path, color stripes, renderer animation/reduced-motion snapshots
-  and the authored guided experiment.
+  KI's distinct path, color stripes and renderer snapshots. The first guided
+  `elephant-toothpaste.lab` lesson compares equal 3% peroxide/yeast charges with
+  and without dish soap on one shared clock, then waits one foam half-life.
 
 ### BRD-075 — Transparent dye and opaque-pigment mixing
 
