@@ -127,7 +127,9 @@ fn lessons_produce_stable_output() {
 
     if snapshot_path.exists() {
         let expected = fs::read_to_string(&snapshot_path).unwrap();
-        if current != expected {
+        // Snapshot behavior is JSON content; an editor-added terminal newline
+        // is not a chemistry change and must not fail ARCH-001.
+        if current.trim_end() != expected.trim_end() {
             // Write the actual for diffing
             let actual_path = golden.join("lessons.actual.json");
             fs::write(&actual_path, &current).unwrap();
