@@ -20,7 +20,7 @@ import { type Lesson, parseLesson } from "./lesson";
 import { scriptKit } from "./codex";
 import { schedule, type Playback } from "./replay";
 import { effectFromEvent, vesselOf, type Effect } from "./magnitudes";
-import { t } from "./i18n.svelte";
+import { i18n, t } from "./i18n.svelte";
 import { missionTitle } from "./storyProgress";
 import { reagentAccess } from "./catalogProgress";
 import { persistStockUsed, restoreStockUsed, stockRemaining, suppliedSpecies } from "./storyStock";
@@ -248,6 +248,9 @@ export class Session {
    * ledger owns only what remains on the physical supply shelf. */
   storyStockUsed = $state<Record<string, number>>({});
 
+  /** Drops the language subscription if the session is reconnected. */
+  private stopWatchingLocale: (() => void) | null = null;
+
   constructor(
     private host: EngineHost,
     private storage: StorageLike | null = defaultStorage(),
@@ -260,6 +263,13 @@ export class Session {
     try {
       const hello = await this.host.hello();
       this.engineReady = true;
+      // Match the engine to the interface immediately, and follow it
+      // afterwards. Done here rather than in the constructor because it
+      // needs a live host; done before the first prose is rendered so the
+      // opening lines are not English in a German session.
+      void this.applyEngineLocale(i18n.locale);
+      this.stopWatchingLocale?.();
+      this.stopWatchingLocale = i18n.onChange((code) => void this.applyEngineLocale(code));
       this.canSolve = hello.can_solve ?? false;
       if (hello.engine_version) {
         this.engineIdentity = hello.git_rev
@@ -667,6 +677,28 @@ export class Session {
       await this.applyRegister(level);
     } finally {
       this.busy = false;
+    }
+  }
+
+  /**
+   * Keep the ENGINE speaking the interface's language.
+   *
+   * The engine composes the vessel summary and the journal itself, out of
+   * fragments, so translating in the shell cannot reach them — it has to
+   * be told. Subscribed rather than called from the switcher, so a future
+   * caller of setLocale does not have to know to do this.
+   *
+   * Failures are swallowed on purpose: a host that cannot switch language
+   * should keep rendering English, not break the bench. The worst case is
+   * prose in the wrong language, which the learner can see and report; a
+   * thrown error here would take the session down.
+   */
+  private async applyEngineLocale(code: string): Promise<void> {
+    try {
+      await this.host.setLocale(code);
+      if (this.inspector) await this.inspect(this.inspector.vessel);
+    } catch {
+      // English is a working fallback; a dead session is not.
     }
   }
 

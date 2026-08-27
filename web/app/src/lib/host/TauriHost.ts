@@ -72,6 +72,10 @@ export class TauriHost implements EngineHost {
   async restore(snapshot: string): Promise<void> {
     await this.req("restore", { snapshot });
   }
+  async setLocale(code: string): Promise<void> {
+    await this.req("set_locale", { code });
+  }
+
   async setRegister(level: string): Promise<void> {
     await this.req("set_register", { level });
   }

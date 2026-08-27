@@ -14,6 +14,8 @@ type Vars = Record<string, string | number>;
 /** A translation bundle: one JSON file per language, in `src/locales`. */
 type Bundle = {
   "@@locale": string;
+  /** What this language calls itself — "Deutsch", not "German". */
+  "@@name"?: string;
   /** The engine's vocabulary — species, colours, hazards. */
   terms?: Record<string, string>;
   /** The interface's own strings, plus the names the codex refers to by slug. */
@@ -56,9 +58,24 @@ const TABLES: Record<string, Record<string, string>> = Object.fromEntries(
   ]),
 );
 
-/** The languages this build can render, English first. */
-export function availableLocales(): Locale[] {
-  return ["en", ...Object.keys(TABLES).filter((c) => c !== "en").sort()];
+/**
+ * The languages this build can render, English first, each with the name
+ * it calls itself.
+ *
+ * The endonym, deliberately: a reader who cannot read the current
+ * interface language still has to find their own in the list, and
+ * "Deutsch" is findable in a way that a translated "German" is not. It
+ * comes from the bundle, so a new language names itself without needing an
+ * entry in every other language's bundle first.
+ */
+export function availableLocales(): { code: Locale; name: string }[] {
+  return [
+    { code: "en", name: "English" },
+    ...Object.entries(BUNDLES)
+      .filter(([code]) => code !== "en")
+      .map(([code, b]) => ({ code, name: b["@@name"] || code }))
+      .sort((a, b) => a.name.localeCompare(b.name)),
+  ];
 }
 
 function detectLocale(): Locale {
@@ -87,8 +104,24 @@ class I18n {
     this.applyDocumentLanguage();
   }
 
+  /**
+   * Told when the language changes, so the ENGINE can follow.
+   *
+   * A subscription rather than a call in the switcher: the engine renders
+   * its own prose and has to be switched separately, and putting that in
+   * one caller means the next caller added forgets it. Here, every caller
+   * of setLocale updates the engine whether or not they know about it.
+   */
+  private readonly watchers = new Set<(locale: Locale) => void>();
+
+  onChange(fn: (locale: Locale) => void): () => void {
+    this.watchers.add(fn);
+    return () => this.watchers.delete(fn);
+  }
+
   setLocale(locale: Locale) {
     this.locale = locale;
+    for (const fn of this.watchers) fn(locale);
     if (typeof window !== "undefined") {
       try {
         window.localStorage.setItem("kerotakis.locale", locale);
@@ -124,6 +157,27 @@ class I18n {
 
 export const i18n = new I18n();
 export const t = (message: string, vars?: Vars) => i18n.t(message, vars);
+
+/**
+ * Does `locale` have a translation for this exact source string?
+ *
+ * For the coverage tests, which scan every `t("…")` call site and every
+ * registry name and assert nothing is missing. It answers about the
+ * DICTIONARY, not about the screen — a key present here can still be a
+ * key nobody renders, which is a distinction this codebase has learned
+ * the hard way. `tools/test-i18n-render.mjs` answers the other question.
+ *
+ * Recovered during a merge: main added this and the tests that use it
+ * while this branch was replacing the maps it read from, and resolving
+ * the conflict in favour of the new loader dropped it. The tests survived
+ * and failed loudly, which is the only reason it came back.
+ */
+export const hasTranslation = (message: string, locale: Locale = "de"): boolean =>
+  Object.hasOwn(TABLES[locale] ?? {}, message);
+
+/** @deprecated Use `hasTranslation(message, "de")`. Kept for the tests
+ * main wrote against the old two-language shape. */
+export const hasGermanTranslation = (message: string): boolean => hasTranslation(message, "de");
 
 /** Translate a codex identifier: `strong-bases` -> "starke Basen".
  *

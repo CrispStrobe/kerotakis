@@ -1,5 +1,6 @@
 {
  "@@locale": "xx",
+ "@@name": "",
  "@@note": "Copy to <code>.json, set @@locale, translate the VALUES only. Keys are English source text and must not change.",
  "terms": {
   "A salt pulse through a water column": "",
