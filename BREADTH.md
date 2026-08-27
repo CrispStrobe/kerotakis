@@ -403,6 +403,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   resolves a small phosphoric-acid fraction while keeping sweetener, caramel
   colour, caffeine and flavours as conserved unresolved mass; it makes no brand
   or nutritional claim.
+- **Checkpoint 8 implemented:** `Backpulver`/baking powder is available as a
+  versioned heat-activated surrogate with resolved sodium bicarbonate and
+  starch plus a conserved unresolved acid-salt fraction. At room temperature
+  it remains still; sufficient computed heating reaches the installed balanced
+  bicarbonate-decomposition route and evolves stoichiometric CO2. Wet and
+  double-acting activation remain explicitly unclaimed until the actual acid
+  salts and their dissolution kinetics are installed.
 
 ## Stage B2 — organic structure and curated reaction families
 

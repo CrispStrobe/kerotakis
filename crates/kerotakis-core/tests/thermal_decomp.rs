@@ -136,6 +136,37 @@ fn co2_evolves_as_gas() {
 }
 
 #[test]
+fn named_baking_powder_surrogate_reaches_computed_heat_activation() {
+    let mut bench = Bench::new();
+    let mut s = stack();
+    let op = kerotakis_core::script::parse_op("add v1 Backpulver 10g")
+        .expect("valid localized baking-powder command")
+        .expect("operator");
+    let added = bench
+        .step_with(op, &mut s, &PermissiveScreen)
+        .expect("add baking powder");
+    assert!(added.iter().any(|event| matches!(event,
+        Event::MaterialAdded { unresolved_amount, .. }
+            if (*unresolved_amount - 4.5).abs() < 1e-12
+    )));
+    assert!(!added
+        .iter()
+        .any(|event| matches!(event, Event::ReactionOccurred { .. })));
+
+    let events = heat(&mut bench, &mut s, 10_000.0);
+    assert!(
+        events.iter().any(|event| matches!(event,
+            Event::GasEvolved { species, moles, .. }
+                if species.0 == "CO2" && moles.0 > 0.01
+        )),
+        "heating the resolved bicarbonate must generate computed CO2: {events:?}"
+    );
+    assert!(events.iter().any(|event| matches!(event,
+        Event::ReactionOccurred { equation, .. } if equation.contains("NaHCO")
+    )));
+}
+
+#[test]
 fn co2_contained_in_sealed_headspace() {
     let mut bench = Bench::new();
     let mut s = stack();
