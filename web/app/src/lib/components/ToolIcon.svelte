@@ -10,6 +10,7 @@
   // 18×18 viewBox, stroke-only line art.
   const PATHS: Record<string, string> = {
     burette: "M 9 1 V 12 M 7 1 H 11 M 9 12 L 7.5 14 H 10.5 L 9 12 M 9 14 V 17 M 6 8 H 12",
+    heat: "M 5 16 H 13 M 7 16 V 9 H 11 V 16 M 6 9 H 12 M 9 8 Q 5 5 9 1 Q 13 5 9 8 Z",
     filter: "M 2 3 H 16 L 10.5 9 V 15 L 7.5 16.5 V 9 Z",
     decant: "M 3 4 L 10 2.5 L 11.5 8.5 L 5.5 10.5 Z M 12 9 Q 14 11 13.5 14 M 12.5 16 H 16",
     mix: "M 2 3 H 6 L 7 8 M 16 3 H 12 L 11 8 M 7 8 Q 9 10 11 8 M 6 9 L 4 15 H 14 L 12 9",

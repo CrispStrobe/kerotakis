@@ -17,6 +17,8 @@ describe("apparatus forms compile to the grammar", () => {
   });
 
   it("the exact lines match the grammar's shapes", () => {
+    expect(spec("heat").build(0, { flame: 50, seconds: 30 })).toBe("heat v1 7.5kJ");
+    expect(spec("heat").secondary!.build(1, { flame: 50, seconds: 30 })).toBe("ignite v2");
     expect(spec("dilute").build(1, { volume: 250 })).toBe("dilute v2 250mL");
     expect(spec("evaporate").build(0, { fraction: 0.5 })).toBe("evaporate v1 0.5");
     expect(spec("electrolyse").build(0, { amps: 0.5, minutes: 30 })).toBe(
@@ -39,5 +41,7 @@ describe("apparatus forms compile to the grammar", () => {
     expect(spec("evaporate").build(0, { fraction: 1.5 })).toBeNull();
     expect(spec("grind").build(0, { species: "  ", diameter: 50 })).toBeNull();
     expect(spec("electrolyse").build(0, { amps: NaN, minutes: 30 })).toBeNull();
+    expect(spec("heat").build(0, { flame: 101, seconds: 30 })).toBeNull();
+    expect(spec("heat").build(0, { flame: 50, seconds: 0 })).toBeNull();
   });
 });
