@@ -642,8 +642,17 @@ impl Bench {
                     bar_length_m,
                     tip_speed_m_s,
                     resuspended_fraction,
+                    // The operation's duration now advances kinetics, but
+                    // rpm/tip speed are not yet a mass-transfer multiplier.
                     rate_coupled: false,
                 });
+                // Stirring is a timed bench operation, not a decorative
+                // gesture. Let the selected vessel's slow chemistry run for
+                // the delivered duration after the solid has been lifted
+                // into suspension. Gravity settling is deliberately disabled
+                // while the bar is turning.
+                let vessel = self.vessel_mut(*vessel)?;
+                advance_vessel_time(vessel, *seconds, false, &mut events)?;
             }
             Operator::Seal {
                 vessel,
@@ -1429,100 +1438,7 @@ impl Bench {
                 // round because equilibrium is the faster process.
                 let seconds = seconds.max(0.0);
                 for vessel in self.vessels.iter_mut() {
-                    let settled = settle_vessel_under_gravity(vessel, seconds);
-                    if !settled.is_empty() {
-                        events.push(Event::GravitySettled {
-                            vessel: vessel.id,
-                            seconds,
-                            separations: settled,
-                        });
-                    }
-                    vessel.elapsed_seconds += seconds;
-                    // EXP-49: decay is the slowest clock on the bench;
-                    // it runs beside kinetics on the same shared time.
-                    for step in crate::nuclide::advance(&mut vessel.nuclides, seconds) {
-                        events.push(Event::Decayed {
-                            vessel: vessel.id,
-                            parent: step.parent.to_string(),
-                            daughter: step.daughter.to_string(),
-                            mode: format!("{:?}", step.mode),
-                            moles: Moles(step.moles),
-                            half_life_s: step.half_life_s,
-                            equation: step.equation,
-                        });
-                    }
-                    let mut oxygen_moles = 0.0;
-                    for (reaction, moles) in crate::kinetics::advance(vessel, seconds)? {
-                        if reaction.id == "peroxide-decomposition" {
-                            oxygen_moles += moles.0;
-                            // 2 H2O2(l) -> 2 H2O(l) + O2(g), approximately
-                            // -98.2 kJ per stoichiometric extent at 25 °C.
-                            // The curated kinetics extent uses exactly that
-                            // equation, so the heat source shares its ledger.
-                            let energy_j = 98_200.0 * moles.0;
-                            let from = vessel.temperature;
-                            if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
-                                let heat_capacity = vessel.heat_capacity();
-                                if heat_capacity > 0.0 {
-                                    vessel.temperature = Kelvin(from.0 + energy_j / heat_capacity);
-                                }
-                            }
-                            if moles.0 >= crate::OBSERVABLE_MOLES {
-                                events.push(Event::GasProduced {
-                                    vessel: vessel.id,
-                                    reaction: reaction.id.to_string(),
-                                    species: SpeciesId::new("O2"),
-                                    moles,
-                                    rate_moles_per_second: if seconds > 0.0 {
-                                        moles.0 / seconds
-                                    } else {
-                                        0.0
-                                    },
-                                });
-                                events.push(Event::ReactionHeatReleased {
-                                    vessel: vessel.id,
-                                    reaction: reaction.id.to_string(),
-                                    energy_j,
-                                });
-                                if (vessel.temperature.0 - from.0).abs() > 1e-9 {
-                                    events.push(Event::TemperatureChanged {
-                                        vessel: vessel.id,
-                                        from,
-                                        to: vessel.temperature,
-                                    });
-                                }
-                            }
-                        }
-                        if moles.0 < crate::OBSERVABLE_MOLES {
-                            continue;
-                        }
-                        let (ea, catalyst) = reaction.effective_activation_energy(vessel);
-                        events.push(Event::Reacted {
-                            vessel: vessel.id,
-                            reaction: reaction.id.to_string(),
-                            equation: reaction.equation.to_string(),
-                            moles,
-                            seconds,
-                            catalyst: catalyst.map(|c| {
-                                species::lookup_key(c.species)
-                                    .map(|d| d.name.to_string())
-                                    .unwrap_or_else(|| c.species.to_string())
-                            }),
-                            activation_energy: ea,
-                        });
-                    }
-                    if let Some(foam) = crate::foam::advance(vessel, seconds, oxygen_moles) {
-                        if foam.volume_liters >= 1e-6 || vessel.foam.peak_volume_liters > 0.0 {
-                            events.push(Event::FoamChanged {
-                                vessel: vessel.id,
-                                trapped_gas_liters: foam.trapped_gas_liters,
-                                volume_liters: foam.volume_liters,
-                                height_cm: foam.height_cm,
-                                overflow_liters: foam.overflow_liters,
-                                half_life_seconds: foam.half_life_seconds,
-                            });
-                        }
-                    }
+                    advance_vessel_time(vessel, seconds, true, &mut events)?;
                 }
             }
             Operator::Measure { vessel, instrument } => {
@@ -2511,6 +2427,115 @@ fn settle_vessel_under_gravity(vessel: &mut Vessel, seconds: f64) -> Vec<Centrif
         vessel.resolved.invalidate();
     }
     separations
+}
+
+/// Advance the slow clocks for one vessel. `WAIT` calls this for the whole
+/// bench; timed apparatus calls it only for the vessel being operated.
+fn advance_vessel_time(
+    vessel: &mut Vessel,
+    seconds: f64,
+    settle_under_gravity: bool,
+    events: &mut Vec<Event>,
+) -> Result<(), BenchError> {
+    let seconds = seconds.max(0.0);
+    if settle_under_gravity {
+        let settled = settle_vessel_under_gravity(vessel, seconds);
+        if !settled.is_empty() {
+            events.push(Event::GravitySettled {
+                vessel: vessel.id,
+                seconds,
+                separations: settled,
+            });
+        }
+    }
+    vessel.elapsed_seconds += seconds;
+
+    // EXP-49: decay is the slowest clock on the bench; it runs beside
+    // kinetics on the same shared time.
+    for step in crate::nuclide::advance(&mut vessel.nuclides, seconds) {
+        events.push(Event::Decayed {
+            vessel: vessel.id,
+            parent: step.parent.to_string(),
+            daughter: step.daughter.to_string(),
+            mode: format!("{:?}", step.mode),
+            moles: Moles(step.moles),
+            half_life_s: step.half_life_s,
+            equation: step.equation,
+        });
+    }
+
+    let mut oxygen_moles = 0.0;
+    for (reaction, moles) in crate::kinetics::advance(vessel, seconds)? {
+        if reaction.id == "peroxide-decomposition" {
+            oxygen_moles += moles.0;
+            // 2 H2O2(l) -> 2 H2O(l) + O2(g), approximately -98.2 kJ
+            // per stoichiometric extent at 25 °C.
+            let energy_j = 98_200.0 * moles.0;
+            let from = vessel.temperature;
+            if matches!(vessel.thermal_mode, ThermalMode::Adiabatic) {
+                let heat_capacity = vessel.heat_capacity();
+                if heat_capacity > 0.0 {
+                    vessel.temperature = Kelvin(from.0 + energy_j / heat_capacity);
+                }
+            }
+            if moles.0 >= crate::OBSERVABLE_MOLES {
+                events.push(Event::GasProduced {
+                    vessel: vessel.id,
+                    reaction: reaction.id.to_string(),
+                    species: SpeciesId::new("O2"),
+                    moles,
+                    rate_moles_per_second: if seconds > 0.0 {
+                        moles.0 / seconds
+                    } else {
+                        0.0
+                    },
+                });
+                events.push(Event::ReactionHeatReleased {
+                    vessel: vessel.id,
+                    reaction: reaction.id.to_string(),
+                    energy_j,
+                });
+                if (vessel.temperature.0 - from.0).abs() > 1e-9 {
+                    events.push(Event::TemperatureChanged {
+                        vessel: vessel.id,
+                        from,
+                        to: vessel.temperature,
+                    });
+                }
+            }
+        }
+        if moles.0 < crate::OBSERVABLE_MOLES {
+            continue;
+        }
+        let (ea, catalyst) = reaction.effective_activation_energy(vessel);
+        events.push(Event::Reacted {
+            vessel: vessel.id,
+            reaction: reaction.id.to_string(),
+            equation: reaction.equation.to_string(),
+            moles,
+            seconds,
+            catalyst: catalyst.map(|c| {
+                species::lookup_key(c.species)
+                    .map(|data| data.name.to_string())
+                    .unwrap_or_else(|| c.species.to_string())
+            }),
+            activation_energy: ea,
+        });
+    }
+
+    if let Some(foam) = crate::foam::advance(vessel, seconds, oxygen_moles) {
+        if foam.volume_liters >= 1e-6 || vessel.foam.peak_volume_liters > 0.0 {
+            events.push(Event::FoamChanged {
+                vessel: vessel.id,
+                trapped_gas_liters: foam.trapped_gas_liters,
+                volume_liters: foam.volume_liters,
+                height_cm: foam.height_cm,
+                overflow_liters: foam.overflow_liters,
+                half_life_seconds: foam.half_life_seconds,
+            });
+        }
+    }
+    Ok(())
 }
 
 /// Which vessels an operator touches (for re-equilibration).

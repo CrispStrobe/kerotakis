@@ -561,7 +561,7 @@ computed_by = "kerotakis-core kinetics (catalysts are excluded from the mass upd
 [[reaction]]
 id = "more-catalyst-and-a-good-stir-change-nothing"
 spine = ["katalyse"]
-summary = "0.1 g of MnO₂, 1 g of MnO₂, and 0.1 g with a computed stir all give 3.849 × 10⁻⁴ mol of reaction in one second — the stirrer moves the suspension, but rate coupling remains an explicit model gap"
+summary = "0.1 g of MnO₂, 1 g of MnO₂, and a ten-times-faster stir all give the same reaction extent in one second — elapsed stir time is real, but rpm-dependent rate coupling remains an explicit model gap"
 concepts = ["unmodelled-variable"]
 requires = ["catalysis", "model-boundary"]
 calculations = ["rate-from-extent"]
@@ -587,8 +587,9 @@ new
 add v3 water 100mL
 add v3 H2O2 0.1mol
 add v3 MnO2 0.1g
-stir v3
-wait 1s
+stir v1 500rpm 1s
+stir v2 500rpm 1s
+stir v3 5000rpm 1s
 """
 
 [reaction.expect]
@@ -596,7 +597,7 @@ events = ["reacted:peroxide-decomposition", "stirred"]
 absent = ["solver_failed"]
 
 [reaction.expect.predict]
-question = "Ten times as much manganese dioxide in the second flask, and the third gets a vigorous stir. After one second, how do the three compare?"
+question = "Ten times as much manganese dioxide in the second flask, while the third stirs ten times faster. After the same one second, how do the three compare?"
 options = [
   "The flask with more catalyst is faster; stirring helps a little too",
   "All three are identical, because a catalyst is not consumed and therefore its amount cannot matter",
@@ -622,7 +623,7 @@ reveals = "Stirring is a mechanical input, so it must change the energy of the f
 next = "Watch the thermometer through the stir: 25.0 °C before and after. Then separate the two ideas — stirring in a real flask helps by moving material to the surface, not by changing the temperature."
 
 [reaction.registers]
-lv1 = "Two flasks, one with a pinch of black powder and one with ten pinches, and a third that you stir hard. In this lab all three fizz at exactly the same speed. On a real bench they would not: more powder means more surface for the peroxide to meet, and stirring keeps fresh liquid arriving at that surface. This lab does not know about surfaces, and it says so rather than letting you think you have proved something."
+lv1 = "Three flasks stir for the same one second: one with a pinch of black powder, one with ten pinches, and one spinning ten times faster. In this lab all three fizz at exactly the same speed. On a real bench they would not: more powder means more surface for the peroxide to meet, and stirring keeps fresh liquid arriving at that surface. This lab does not know about those rate effects, and it says so rather than letting you think you have proved something."
 lv2 = "Rate = k·[H₂O₂] with k set by whichever catalyst is present, and *present* is the only thing the kinetic model asks. 0.1 g and 1 g of MnO₂ both give 3.849 × 10⁻⁴ mol of reaction in one second, digit for digit. `stir` now computes 500 rpm, bar-tip speed and resuspension, but reports rate coupling as inactive. In a real flask ten times the catalyst is roughly ten times the surface and roughly ten times the rate, and grinding it finer raises it again."
 lv3 = "The gap has a definite shape, which is what makes it worth stating rather than apologising for. `effective_activation_energy` tests `moles_of(catalyst) > 0` and then substitutes a barrier — a boolean, not a quantity — so catalyst loading is structurally invisible; there is no particle-size, surface-area or mass-transport term anywhere in `kinetics.rs`. Modelling it properly means a Langmuir–Hinshelwood surface treatment with a site density and a diffusion coefficient, which is a different engine, not a coefficient. Until then the honest reading of these three flasks is that they demonstrate the *absence* of a model. One caution for anyone extending the script: keep the manganese dioxide below about 4 g in 100 mL. At 4 g the bench leaves it as a solid with 4.6 × 10⁻¹² mol of Mn²⁺ in solution, as an insoluble oxide should; at 5 g the aqueous solver dissolves the entire charge, reporting 5.75 × 10⁻² mol of Mn²⁺ and pH 13.55. That discontinuity is a solver artefact, not chemistry, and it is flagged here because the rate results happen to survive it — the catalyst check only asks whether any MnO₂ is left."
 

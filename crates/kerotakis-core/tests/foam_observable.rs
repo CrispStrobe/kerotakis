@@ -29,7 +29,7 @@ fn declared_dish_soap_role_maps_gas_to_bounded_foam_and_decay() {
 }
 
 #[test]
-fn peroxide_yeast_and_soap_emit_chemistry_heat_and_visual_events() {
+fn peroxide_yeast_and_soap_react_during_stirring_and_overflow() {
     let mut bench = Bench::new();
     for command in [
         "add v1 Wasserstoffperoxid_3% 100mL",
@@ -43,8 +43,8 @@ fn peroxide_yeast_and_soap_emit_chemistry_heat_and_visual_events() {
     }
     let before = bench.vessels[0].temperature;
     let events = bench
-        .step(parse_op("wait 1s").unwrap().unwrap())
-        .expect("kinetic interval");
+        .step(parse_op("stir v1 500rpm 1s").unwrap().unwrap())
+        .expect("timed stirring");
     assert!(events.iter().any(|event| matches!(
         event,
         Event::GasProduced { species, moles, .. }
@@ -53,8 +53,58 @@ fn peroxide_yeast_and_soap_emit_chemistry_heat_and_visual_events() {
     assert!(events.iter().any(
         |event| matches!(event, Event::ReactionHeatReleased { energy_j, .. } if *energy_j > 0.0)
     ));
-    assert!(events.iter().any(
-        |event| matches!(event, Event::FoamChanged { volume_liters, .. } if *volume_liters > 0.0)
-    ));
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::FoamChanged {
+            volume_liters,
+            overflow_liters,
+            ..
+        } if *volume_liters > 0.0 && *overflow_liters > 0.0
+    )));
     assert!(bench.vessels[0].temperature.0 > before.0);
+}
+
+#[test]
+fn potassium_iodide_is_a_retained_catalyst_that_makes_visible_foam() {
+    let mut bench = Bench::new();
+    for command in [
+        "add v1 Wasserstoffperoxid_3% 100mL",
+        "add v1 Spülmittel 10mL",
+        "add v1 KI 1g",
+    ] {
+        let events = bench
+            .step(parse_op(command).unwrap().unwrap())
+            .unwrap_or_else(|error| panic!("{command}: {error}"));
+        assert!(!events.iter().any(|event| matches!(
+            event,
+            Event::NotYetModeled { what, .. } if what.contains("potassium iodide")
+        )));
+    }
+    let iodide_before = bench.vessels[0]
+        .moles_of(&kerotakis_core::SpeciesId::new("KI"))
+        .0;
+    let events = bench
+        .step(parse_op("stir v1 500rpm 10s").unwrap().unwrap())
+        .expect("iodide-catalysed stirring interval");
+
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::Reacted {
+            reaction,
+            catalyst: Some(catalyst),
+            ..
+        } if reaction == "peroxide-decomposition" && catalyst == "potassium iodide"
+    )));
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::FoamChanged {
+            height_cm,
+            overflow_liters,
+            ..
+        } if *height_cm > 0.0 && *overflow_liters > 0.0
+    )));
+    let iodide_after = bench.vessels[0]
+        .moles_of(&kerotakis_core::SpeciesId::new("KI"))
+        .0;
+    assert!((iodide_after - iodide_before).abs() < 1e-12);
 }

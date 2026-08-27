@@ -620,6 +620,11 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
                 activation_energy: 23_000.0,
                 provenance: "Catalase, Ea ≈ 23 kJ/mol — the enzyme is dramatically better than the mineral, which is the point of putting them side by side",
             },
+            Catalyst {
+                species: "KI",
+                activation_energy: 56_000.0,
+                provenance: "Iodide-catalysed hydrogen-peroxide decomposition, Ea = 56 ± 3 kJ/mol (Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g); KI remains catalyst inventory rather than being consumed by the net equation",
+            },
         ],
         sites: &[],
         electrons: 0.0,
@@ -633,7 +638,7 @@ pub const REGISTRY: &[KineticReaction<'static>] = &[
             note: "absolute rates are indicative; catalyst surface area is not represented",
         },
         source_ids: &["kerotakis:kinetics:peroxide-decomposition"],
-        provenance: "Uncatalysed decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); catalysed barriers cited per catalyst. Editorial judgement (Kerotakis): the pre-exponential is chosen so the uncatalysed half-life is about a day and the catalysed reaction is watchable, not measured. Absolute rates are therefore indicative — the amount and surface area of a solid catalyst are not modelled at all, so it is the comparison between catalysts that carries meaning, not the seconds",
+        provenance: "Uncatalysed decomposition Ea ≈ 75 kJ/mol (standard physical chemistry texts); catalysed barriers cited per catalyst, including iodide Ea = 56 ± 3 kJ/mol from Sweeney et al., J. Chem. Educ. 2014, DOI 10.1021/ed500116g. Editorial judgement (Kerotakis): the pre-exponential is chosen so the uncatalysed half-life is about a day and the catalysed reaction is watchable, not measured. Absolute rates are therefore indicative — catalyst concentration and solid surface area are not yet explicit in this reduced law, so comparisons and qualitative time scales carry more meaning than exact seconds",
     },
     // ── EXP-43: iodine-clock reactions ──────────────────────────────────
     KineticReaction {

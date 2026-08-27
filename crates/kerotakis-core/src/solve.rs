@@ -837,6 +837,19 @@ impl Equilibrator for HonestyEquilibrator {
                 if curated_solid_product(&p.species) {
                     continue;
                 }
+                // A declared kinetic catalyst is already wired even when
+                // this equilibrium rung cannot speciate the salt. The slow
+                // clock consumes its catalytic effect and deliberately leaves
+                // its inventory unchanged, so an "unmodelled reaction"
+                // apology here would contradict the computed result.
+                if crate::kinetics::applicable(vessel).iter().any(|reaction| {
+                    reaction
+                        .catalysts
+                        .iter()
+                        .any(|catalyst| catalyst.species == p.species.0)
+                }) {
+                    continue;
+                }
                 let name = species::lookup(&p.species)
                     .map(|d| d.name)
                     .unwrap_or(p.species.0.as_str());
@@ -888,6 +901,14 @@ impl Equilibrator for HonestyEquilibrator {
                     }
                 }
                 if curated_solid_product(&p.species) {
+                    continue;
+                }
+                if crate::kinetics::applicable(vessel).iter().any(|reaction| {
+                    reaction
+                        .catalysts
+                        .iter()
+                        .any(|catalyst| catalyst.species == p.species.0)
+                }) {
                     continue;
                 }
                 let name = species::lookup(&p.species)

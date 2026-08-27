@@ -29,7 +29,8 @@ fn stir_command_carries_physical_conditions_and_tip_speed() {
         .expect("stirred event");
     assert!((event.0 - std::f64::consts::PI * 0.025 * 10.0).abs() < 1e-12);
     assert!(event.1 > 0.99);
-    assert!(!event.2, "rate coupling must remain explicitly bounded");
+    assert!(!event.2, "rpm-dependent mass transfer remains bounded");
+    assert_eq!(bench.vessels[0].elapsed_seconds, 30.0);
     assert!(render_events(&events, Register::LV2)[0].contains("600 rpm"));
 }
 
