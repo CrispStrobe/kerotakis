@@ -104,6 +104,7 @@
   );
   let labProfile = $state<LabProfile>(loadLabProfile(appStorage));
   let homeOpen = $state(!hasSeenHome());
+  let missionJournalOpen = $state(false);
   let contaminatedSampleBriefed = $state(modeStorage?.getItem(CONTAMINATED_SAMPLE_BRIEFED_KEY) === "yes");
   const modeLayoutKey = `${BENCH_LAYOUT_KEY}.${labMode}`;
   $effect(() => {
@@ -542,9 +543,13 @@
     cursor={session.missionOutcome?.secured.length ?? completedCommandCount(session.lesson.lesson, session.lesson.cursor)}
     total={session.missionOutcome?.contract.criteria.length ?? commandCount(session.lesson.lesson)}
     evidence={session.lessonEvidence}
+    bind:journalOpen={missionJournalOpen}
     onnext={() => void session.lessonNext()}
     onreturn={() => void session.lessonReturn()}
-    onexit={() => session.exitLesson()}
+    onexit={() => {
+      missionJournalOpen = false;
+      session.exitLesson();
+    }}
     onadd={(line) => void session.submit(line)}
   />
 {/if}
@@ -673,6 +678,15 @@
       showZones={workGuides}
       onopenperiodic={() => (tableOpen = true)}
       onopensafety={() => (safetyOpen = true)}
+      missionName={session.lesson ? t(missionTitle(session.lesson.lesson.name)) : null}
+      missionDone={session.lesson
+        ? (session.missionOutcome?.secured.length ?? completedCommandCount(session.lesson.lesson, session.lesson.cursor))
+        : 0}
+      missionTotal={session.lesson
+        ? (session.missionOutcome?.contract.criteria.length ?? commandCount(session.lesson.lesson))
+        : 0}
+      missionEvidence={Boolean(session.missionOutcome)}
+      onopenmission={session.lesson ? () => (missionJournalOpen = true) : undefined}
       onopencabinet={() => {
         setPanelCollapsed("cabinet", false);
         cabinetTab = "equipment";

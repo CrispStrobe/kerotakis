@@ -871,7 +871,10 @@ hide them completely.
   a shelf-connected periodic table, an instrument cabinet, and a colourful
   zoomable safety station with concise real-lab rules and an explicit
   simulation boundary. Workflow-zone guides remain a separate persisted
-  control. Cupboards, utilities, contextual scenario posters, room variants,
+  control. *Interactive-wall slice shipped 2026-08-27:* an active Story
+  investigation now appears as a colourful in-world mission briefing with its
+  live step/evidence count; opening it reveals the same engine-backed mission
+  journal instead of a duplicate panel. Cupboards, utilities, room variants,
   and true free spatial placement remain.*
 
 - [ ] **GUI-083 — Physical apparatus and computed motion.** Promote apparatus
