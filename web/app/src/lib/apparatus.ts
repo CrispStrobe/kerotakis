@@ -65,6 +65,24 @@ export const APPARATUS: ApparatusSpec[] = [
     },
   },
   {
+    verb: "centrifuge",
+    title: "mini centrifuge",
+    blurb: "separate particles by spinning a balanced tube",
+    fields: [
+      { name: "rpm", label: "rotation speed", type: "number", unit: "rpm", default: 3000, min: 100, max: 15000, step: 100 },
+      { name: "seconds", label: "duration", type: "number", unit: "s", default: 60, min: 1, max: 3600 },
+      { name: "radius", label: "rotor radius", type: "number", unit: "cm", default: 8, min: 3, max: 15, step: 0.5 },
+    ],
+    build: (v, f) => {
+      const rpm = pos(f.rpm);
+      const seconds = pos(f.seconds);
+      const radius = pos(f.radius);
+      return rpm === null || seconds === null || radius === null
+        ? null
+        : `centrifuge v${v + 1} ${rpm}rpm ${seconds}s ${radius}cm`;
+    },
+  },
+  {
     verb: "dilute",
     title: "wash bottle",
     blurb: "add water up to a volume",

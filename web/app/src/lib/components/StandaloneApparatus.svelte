@@ -10,6 +10,7 @@
   } = $props();
 
   const grindDuration = $derived(`${Math.max(0.18, 0.55 - intensity * 0.3)}s`);
+  const rotorDuration = $derived(`${Math.max(0.08, 0.65 - intensity * 0.5)}s`);
 </script>
 
 {#if tool === "grind"}
@@ -28,6 +29,31 @@
     <figcaption>
       <strong>{t("mortar")}</strong>
       {#if values.species}<small>{t(String(values.species))} · {values.diameter ?? 50} µm</small>{/if}
+    </figcaption>
+  </figure>
+{:else if tool === "centrifuge"}
+  <figure
+    class="standalone centrifuge"
+    class:working
+    class:performed={performedAt !== undefined}
+    style:--rotor-duration={rotorDuration}
+    aria-label={t("mini centrifuge on the bench")}
+  >
+    <svg viewBox="0 0 110 88" role="img" aria-label={t("mini centrifuge") }>
+      <path class="centrifuge-base" d="M12 33 Q12 20 26 18 H84 Q98 20 98 33 L103 73 Q101 82 91 82 H19 Q9 82 7 73Z" />
+      <ellipse class="lid" cx="55" cy="32" rx="39" ry="22" />
+      <g class="rotor">
+        <circle class="hub" cx="55" cy="32" r="6" />
+        <path class="rotor-arm" d="M24 32 H86 M55 10 V54" />
+        <g class="tube tube-a" transform="translate(25 27) rotate(-90 5 5)"><path d="M1 1 H9 V15 Q5 20 1 15Z" /></g>
+        <g class="tube tube-b" transform="translate(75 27) rotate(90 5 5)"><path d="M1 1 H9 V15 Q5 20 1 15Z" /></g>
+      </g>
+      <rect class="display" x="34" y="62" width="42" height="12" rx="3" />
+      <text x="55" y="71" text-anchor="middle">{Number(values.rpm ?? 3000).toFixed(0)} rpm</text>
+    </svg>
+    <figcaption>
+      <strong>{t("mini centrifuge")}</strong>
+      <small>{values.radius ?? 8} cm · {values.seconds ?? 60} s</small>
     </figcaption>
   </figure>
 {/if}
@@ -49,8 +75,20 @@
   .pestle { fill: none; stroke: var(--edge-strong); stroke-width: 9; stroke-linecap: round; transform-origin: 59px 49px; }
   .working .pestle { animation: grind var(--grind-duration) ease-in-out infinite alternate; }
   .performed:not(.working) .pestle { animation: grind var(--grind-duration) ease-in-out 8 alternate; }
+  .centrifuge { width: 96px; right: -3.1rem; }
+  .centrifuge-base { fill: color-mix(in srgb, var(--primary) 22%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
+  .lid { fill: color-mix(in srgb, var(--cool) 18%, var(--surface)); stroke: var(--edge-strong); stroke-width: 2; }
+  .rotor { transform-origin: 55px 32px; }
+  .rotor-arm { fill: none; stroke: var(--edge-strong); stroke-width: 5; stroke-linecap: round; }
+  .hub { fill: var(--hot); stroke: var(--edge-strong); stroke-width: 2; }
+  .tube path { fill: color-mix(in srgb, var(--cool) 35%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1.5; }
+  .display { fill: var(--edge-strong); }
+  .centrifuge text { fill: var(--surface); font-size: 7px; font-weight: 800; }
+  .working .rotor { animation: spin var(--rotor-duration) linear infinite; }
+  .performed:not(.working) .rotor { animation: spin var(--rotor-duration) linear 12; }
   figcaption { display: grid; justify-items: center; margin-top: -0.2rem; color: var(--ink); font-size: 0.55rem; line-height: 1.15; }
   figcaption small { color: var(--dim); }
   @keyframes grind { to { transform: rotate(-18deg) translateY(-2px); } }
-  @media (prefers-reduced-motion: reduce) { .working .pestle { animation: none; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .working .pestle, .working .rotor, .performed .rotor { animation: none; } }
 </style>

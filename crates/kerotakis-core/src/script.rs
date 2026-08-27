@@ -40,6 +40,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("electrolyse", "electrolyse v1 0.5A 30min"),
     ("cell", "cell v1 v2"),
     ("grind", "grind v1 NaCl 50um"),
+    ("centrifuge", "centrifuge v1 3000rpm 60s 8cm"),
     ("irradiate", "irradiate v1 254nm 10W/m2"),
     ("dilute", "dilute v1 100mL"),
     ("titrate", "titrate v1 NaOH 1M 1mL until ph 7"),
@@ -489,6 +490,21 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
                 vessel,
                 species: SpeciesId::new(species_key),
                 diameter_um: diameter,
+            }
+        }
+        "centrifuge" => {
+            if words.len() < 5 {
+                return Err("usage: centrifuge <vessel> <rpm>rpm <time>s <radius>cm".into());
+            }
+            Operator::Centrifuge {
+                vessel: parse_vessel(words[1])?,
+                rpm: parse_suffixed(words[2], &[("rpm", 1.0), ("", 1.0)], "rotation speed")?,
+                seconds: parse_duration_seconds(words[3])?,
+                rotor_radius_m: parse_suffixed(
+                    words[4],
+                    &[("mm", 0.001), ("cm", 0.01), ("m", 1.0), ("", 0.01)],
+                    "rotor radius",
+                )?,
             }
         }
         "irradiate" => {

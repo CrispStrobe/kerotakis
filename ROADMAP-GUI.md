@@ -887,6 +887,14 @@ hide them completely.
   molar mass, and registry density. Mortar motion scales from that emitted
   area. Heterogeneous kinetic rate coupling remains explicitly false until a
   rate law consumes the surface-area state.*
+  *Computed-centrifuge slice in progress 2026-08-27: the equipment wall now
+  exposes RPM, duration, and rotor radius; the core derives angular speed and
+  RCF, then applies Stokes settling per solid from particle size, registry
+  density, computed liquid density, temperature-dependent water viscosity,
+  and tube path length. The standalone rotor's speed follows emitted RCF.
+  Suspension/deposit mutation and interactive counterweight imbalance remain;
+  the event marks state coupling false rather than pretending separation has
+  already changed the vessel.*
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model

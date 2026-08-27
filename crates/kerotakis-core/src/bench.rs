@@ -5,7 +5,10 @@ use serde::{Deserialize, Serialize};
 
 use crate::instrument::InstrumentContract;
 use crate::material::{self, MaterialBasis, MaterialRecipe};
-use crate::ops::{ElutedPeak, Event, Instrument, LogEntry, MaterialComponentAdded, Operator};
+use crate::ops::{
+    CentrifugeSeparation, ElutedPeak, Event, Instrument, LogEntry, MaterialComponentAdded,
+    Operator,
+};
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
     PermissiveScreen, SafetyScreen, SafetyVerdict, SolverStack,
@@ -44,6 +47,8 @@ pub enum BenchError {
         vessel: VesselId,
         species: SpeciesId,
     },
+    #[error("centrifuge cannot run this vessel: {0}")]
+    CentrifugeUnavailable(String),
     #[error(transparent)]
     Kinetics(#[from] crate::kinetics::IntegrationError),
     #[error(transparent)]
@@ -1831,6 +1836,93 @@ impl Bench {
                     rate_coupled: false,
                 });
             }
+            Operator::Centrifuge {
+                vessel,
+                rpm,
+                seconds,
+                rotor_radius_m,
+            } => {
+                let v = self.vessel(*vessel)?;
+                if *rpm < 0.0 || *seconds < 0.0 || *rotor_radius_m <= 0.0 {
+                    return Err(BenchError::NonPositiveAmount);
+                }
+                let liquid_volume_l = v.liquid_volume().0;
+                if liquid_volume_l <= 0.0 {
+                    return Err(BenchError::CentrifugeUnavailable(
+                        "a liquid medium is required".to_string(),
+                    ));
+                }
+                let liquid_mass_g: f64 = v
+                    .contents
+                    .iter()
+                    .filter(|portion| portion.phase == Phase::Liquid)
+                    .filter_map(|portion| {
+                        species::lookup(&portion.species)
+                            .map(|data| portion.moles.0 * data.molar_mass)
+                    })
+                    .sum();
+                let fluid_density_kg_m3 = liquid_mass_g / liquid_volume_l;
+                let viscosity_cp = crate::properties::water_viscosity_cp(v.temperature.0)
+                    .map_err(BenchError::CentrifugeUnavailable)?
+                    .value;
+                let dynamic_viscosity_pa_s = viscosity_cp / 1000.0;
+                let mut separations = Vec::new();
+                let mut rcf = 0.0;
+                for portion in v
+                    .contents
+                    .iter()
+                    .filter(|portion| portion.phase == Phase::Solid)
+                {
+                    let data = species::lookup(&portion.species)
+                        .ok_or_else(|| BenchError::UnknownSpecies(portion.species.clone()))?;
+                    let diameter = v
+                        .lots
+                        .iter()
+                        .rev()
+                        .find(|lot| lot.species == portion.species && lot.phase == Phase::Solid)
+                        .and_then(|lot| lot.particle_size_um);
+                    let particle_size_assumed = diameter.is_none();
+                    let particle_diameter_um = diameter.unwrap_or(100.0);
+                    let result = crate::centrifuge::run(crate::centrifuge::CentrifugeInput {
+                        rpm: *rpm,
+                        seconds: *seconds,
+                        rotor_radius_m: *rotor_radius_m,
+                        tube_path_m: 0.04,
+                        particle_diameter_m: particle_diameter_um * 1e-6,
+                        particle_density_kg_m3: data.density * 1000.0,
+                        fluid_density_kg_m3,
+                        dynamic_viscosity_pa_s,
+                    })
+                    .map_err(|error| BenchError::CentrifugeUnavailable(error.to_string()))?;
+                    rcf = result.rcf;
+                    separations.push(CentrifugeSeparation {
+                        species: portion.species.clone(),
+                        particle_diameter_um,
+                        particle_size_assumed,
+                        particle_density_kg_m3: data.density * 1000.0,
+                        terminal_speed_m_s: result.terminal_speed_m_s,
+                        distance_m: result.distance_m,
+                        separated_fraction: result.separated_fraction,
+                        direction: result.direction,
+                    });
+                }
+                if separations.is_empty() {
+                    return Err(BenchError::CentrifugeUnavailable(
+                        "no solid particles are present".to_string(),
+                    ));
+                }
+                events.push(Event::Centrifuged {
+                    vessel: *vessel,
+                    rpm: *rpm,
+                    seconds: *seconds,
+                    rotor_radius_m: *rotor_radius_m,
+                    rcf,
+                    fluid_density_kg_m3,
+                    dynamic_viscosity_pa_s,
+                    separations,
+                    state_coupled: false,
+                });
+            }
             Operator::Irradiate {
                 vessel,
                 wavelength_nm,
@@ -2278,6 +2370,7 @@ fn op_touches(op: &Operator) -> Vec<VesselId> {
         | Operator::Drain { from, to } => vec![*from, *to],
         Operator::Mix { a, b, into, .. } => vec![*a, *b, *into],
         Operator::Grind { vessel, .. }
+        | Operator::Centrifuge { vessel, .. }
         | Operator::Irradiate { vessel, .. }
         | Operator::Dilute { vessel, .. }
         | Operator::React { vessel, .. }

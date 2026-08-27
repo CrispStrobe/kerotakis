@@ -178,6 +178,13 @@ describe("effectFromEvent", () => {
     expect(coarse?.kind).toBe("grind");
     expect(fine!.magnitude).toBeGreaterThan(coarse!.magnitude);
   });
+
+  it("scales centrifuge rotor motion from computed relative force", () => {
+    const slow = effectFromEvent({ event: "centrifuged", vessel: 0, rcf: 20 });
+    const fast = effectFromEvent({ event: "centrifuged", vessel: 0, rcf: 8000 });
+    expect(slow?.kind).toBe("centrifuge");
+    expect(fast!.magnitude).toBeGreaterThan(slow!.magnitude);
+  });
 });
 
 describe("vesselOf", () => {

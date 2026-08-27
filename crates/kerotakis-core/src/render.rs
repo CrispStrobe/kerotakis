@@ -368,6 +368,60 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 ),
             }
         }
+        Event::Centrifuged {
+            vessel,
+            rpm,
+            seconds,
+            rotor_radius_m,
+            rcf,
+            fluid_density_kg_m3,
+            dynamic_viscosity_pa_s,
+            separations,
+            state_coupled,
+        } => {
+            let strongest = separations
+                .iter()
+                .map(|separation| separation.separated_fraction)
+                .fold(0.0_f64, f64::max);
+            match register.level() {
+                1 => format!(
+                    "The mini centrifuge spins {vessel}; the particles travel {:.0}% of the tube path.",
+                    strongest * 100.0
+                ),
+                2 => format!(
+                    "{vessel}: {rpm:.0} rpm for {seconds:.0} s — {rcf:.0} × g; {:.0}% separation",
+                    strongest * 100.0
+                ),
+                _ => {
+                    let detail = separations
+                        .iter()
+                        .map(|separation| {
+                            let assumption = if separation.particle_size_assumed {
+                                " (diameter assumed)"
+                            } else {
+                                ""
+                            };
+                            format!(
+                                "{}: {:.1} µm{}, v={:.6} m/s, x={:.5} m, {:.1}% {:?}",
+                                separation.species,
+                                separation.particle_diameter_um,
+                                assumption,
+                                separation.terminal_speed_m_s,
+                                separation.distance_m,
+                                separation.separated_fraction * 100.0,
+                                separation.direction,
+                            )
+                        })
+                        .collect::<Vec<_>>()
+                        .join("; ");
+                    format!(
+                        "{vessel}: centrifuge {rpm:.1} rpm × {seconds:.1} s, r={:.3} m, RCF={rcf:.2}; ρfluid={fluid_density_kg_m3:.1} kg/m³, μ={dynamic_viscosity_pa_s:.6} Pa·s; {detail}; state coupling {}",
+                        rotor_radius_m,
+                        if *state_coupled { "active" } else { "not yet modelled" }
+                    )
+                }
+            }
+        }
         Event::Filtered { from, to } => match register.level() {
             1 => format!(
                 "You pour {from} through the filter paper — the liquid runs into {to}, and the solid stays behind on the paper."

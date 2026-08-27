@@ -169,6 +169,13 @@ pub enum Operator {
         species: SpeciesId,
         diameter_um: f64,
     },
+    /// Spin one balanced tube in a mini centrifuge.
+    Centrifuge {
+        vessel: VesselId,
+        rpm: f64,
+        seconds: f64,
+        rotor_radius_m: f64,
+    },
     /// Turn a light source on or off for photolysis.
     Irradiate {
         vessel: VesselId,
@@ -317,6 +324,19 @@ pub struct ElutedPeak {
     pub partition_k: f64,
 }
 
+/// One solid population's computed travel during a centrifuge run.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct CentrifugeSeparation {
+    pub species: SpeciesId,
+    pub particle_diameter_um: f64,
+    pub particle_size_assumed: bool,
+    pub particle_density_kg_m3: f64,
+    pub terminal_speed_m_s: f64,
+    pub distance_m: f64,
+    pub separated_fraction: f64,
+    pub direction: crate::centrifuge::SeparationDirection,
+}
+
 /// What one step produced. Everything user-visible derives from this.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "event", rename_all = "snake_case")]
@@ -375,6 +395,20 @@ pub enum Event {
         surface_area_m2: f64,
         /// False until a heterogeneous kinetic law consumes this area.
         rate_coupled: bool,
+    },
+    /// A balanced mini centrifuge run, with motion and separation computed
+    /// from rotor and material properties rather than a canned animation.
+    Centrifuged {
+        vessel: VesselId,
+        rpm: f64,
+        seconds: f64,
+        rotor_radius_m: f64,
+        rcf: f64,
+        fluid_density_kg_m3: f64,
+        dynamic_viscosity_pa_s: f64,
+        separations: Vec<CentrifugeSeparation>,
+        /// False until vessel suspension/deposit state consumes the result.
+        state_coupled: bool,
     },
     Transferred {
         from: VesselId,

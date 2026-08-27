@@ -121,6 +121,14 @@ function grindMag(e: EngineEvent): number {
   return scale(Math.log10(area), -3, 1);
 }
 
+// event.rcf — rotor blur follows computed centrifugal acceleration. A small
+// classroom spinner starts near 10×g; the configured mini-centrifuge tops out
+// around 20,000×g depending on radius.
+function centrifugeMag(e: EngineEvent): number {
+  const rcf = Math.max(10, Number(e.rcf ?? 10));
+  return scale(Math.log10(rcf), 1, 4.3);
+}
+
 // event.volume (Liters) — Diluted: 0.01 L is a squirt, 0.5 L is a flood.
 function diluteMag(e: EngineEvent): number {
   return scale(Number(e.volume ?? 0), 0.01, 0.5);
@@ -176,6 +184,8 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
       return { kind: "swirl", at: now, magnitude: stirMag(e) };
     case "ground":
       return { kind: "grind", at: now, magnitude: grindMag(e) };
+    case "centrifuged":
+      return { kind: "centrifuge", at: now, magnitude: centrifugeMag(e) };
     case "transferred":
       return {
         kind: "pour",

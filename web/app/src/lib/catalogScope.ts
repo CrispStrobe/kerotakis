@@ -2,7 +2,7 @@ export type CatalogScope = "mission" | "unlocked" | "all";
 
 const CABINET_VERBS = new Set([
   "filter", "decant", "drain", "cell", "distil", "mix", "transport", "react",
-  "dilute", "evaporate", "electrolyse", "grind", "heat", "irradiate", "regulate", "stir", "sweep",
+  "centrifuge", "dilute", "evaporate", "electrolyse", "grind", "heat", "irradiate", "regulate", "stir", "sweep",
 ]);
 
 /** Instruments a mission script asks the learner to take from the cabinet. */
