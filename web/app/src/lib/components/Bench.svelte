@@ -7,8 +7,11 @@
   import { t } from "../i18n.svelte";
   import {
     BENCH_ZONES,
+    apparatusPositionFor,
     positionFor,
+    positionApparatus,
     positionVessel,
+    zoneAt,
     zoneFor,
     type BenchLayout,
     type BenchZone,
@@ -72,6 +75,8 @@
   let dropZone = $state<BenchZone | null>(null);
   let dragPreview = $state<{ vessel: number; x: number; y: number } | null>(null);
   let pointerDrag: { vessel: number; pointer: number; startX: number; startY: number; moved: boolean } | null = null;
+  let apparatusPreview = $state<{ tool: string; x: number; y: number } | null>(null);
+  let apparatusPointer = $state<{ tool: string; pointer: number; startX: number; startY: number; moved: boolean } | null>(null);
   let moveMessage = $state("");
   let messageTimer: ReturnType<typeof setTimeout> | undefined;
   const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
@@ -98,11 +103,19 @@
   function apparatusPlacement(target: number) {
     const anchor = placement(target);
     return {
+      zone: anchor.zone,
       x: anchor.x,
       y: anchor.y >= 0.5
         ? Math.max(0.16, anchor.y - 0.4)
         : Math.min(0.84, anchor.y + 0.4),
     };
+  }
+
+  function machinePlacement(tool: string, target: number) {
+    if (apparatusPreview?.tool === tool) {
+      return { zone: zoneAt(apparatusPreview.x), x: apparatusPreview.x, y: apparatusPreview.y };
+    }
+    return apparatusPositionFor(layout, tool, apparatusPlacement(target));
   }
 
   function surfacePosition(clientX: number, clientY: number) {
@@ -158,6 +171,65 @@
     dragPreview = null;
     dragged = null;
     dropZone = null;
+  }
+
+  function placeApparatusAt(tool: string, target: number, x: number, y: number) {
+    const next = positionApparatus(layout, tool, x, y);
+    onmove?.(next);
+    onselect(target);
+    moveMessage = t("{tool} moved on the bench", { tool: t(tool === "grind" ? "mortar" : "mini centrifuge") });
+    if (messageTimer) clearTimeout(messageTimer);
+    messageTimer = setTimeout(() => (moveMessage = ""), 2200);
+  }
+
+  function startApparatusPointer(event: PointerEvent, tool: string, target: number) {
+    if (event.button !== 0) return;
+    event.stopPropagation();
+    apparatusPointer = { tool, pointer: event.pointerId, startX: event.clientX, startY: event.clientY, moved: false };
+    (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
+    onselect(target);
+  }
+
+  function trackApparatusPointer(event: PointerEvent) {
+    if (!apparatusPointer || apparatusPointer.pointer !== event.pointerId) return;
+    if (!apparatusPointer.moved && Math.hypot(event.clientX - apparatusPointer.startX, event.clientY - apparatusPointer.startY) < 6) return;
+    apparatusPointer.moved = true;
+    const p = surfacePosition(event.clientX, event.clientY);
+    if (!p) return;
+    event.preventDefault();
+    const previewLayout = positionApparatus(layout, apparatusPointer.tool, p.x, p.y);
+    const placed = previewLayout.apparatus[apparatusPointer.tool]!;
+    apparatusPreview = { tool: apparatusPointer.tool, x: placed.x, y: placed.y };
+  }
+
+  function finishApparatusPointer(event: PointerEvent, target: number) {
+    if (!apparatusPointer || apparatusPointer.pointer !== event.pointerId) return;
+    if (apparatusPointer.moved && apparatusPreview) {
+      event.preventDefault();
+      placeApparatusAt(apparatusPointer.tool, target, apparatusPreview.x, apparatusPreview.y);
+    }
+    apparatusPointer = null;
+    apparatusPreview = null;
+  }
+
+  function nudgeApparatus(tool: string, target: number, dx: number, dy: number) {
+    const current = machinePlacement(tool, target);
+    placeApparatusAt(tool, target, current.x + dx, current.y + dy);
+  }
+
+  function apparatusKeydown(event: KeyboardEvent, tool: string, target: number) {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onselect(target);
+      return;
+    }
+    const movement: Record<string, [number, number]> = {
+      ArrowLeft: [-0.04, 0], ArrowRight: [0.04, 0], ArrowUp: [0, -0.05], ArrowDown: [0, 0.05],
+    };
+    const delta = movement[event.key];
+    if (!delta) return;
+    event.preventDefault();
+    nudgeApparatus(tool, target, delta[0], delta[1]);
   }
 </script>
 
@@ -275,12 +347,20 @@
         </section>
       {/each}
       {#if deployedTarget !== null && deployedTool && (deployedTool === "grind" || deployedTool === "centrifuge")}
-        {@const machinePosition = apparatusPlacement(deployedTarget)}
+        {@const machinePosition = machinePlacement(deployedTool, deployedTarget)}
         {@const apparatusEffect = latestApparatusEffect(deployedTarget, deployedTool)}
-        <section
+        <div
           class="apparatus-position"
+          class:moving={apparatusPointer?.tool === deployedTool}
           style={`left:${machinePosition.x * 100}%;top:${machinePosition.y * 100}%`}
+          role="button"
+          tabindex="0"
           aria-label={t("{tool} workstation for vessel v{vessel}", { tool: t(deployedTool === "grind" ? "mortar" : "mini centrifuge"), vessel: deployedTarget + 1 })}
+          onpointerdown={(event) => startApparatusPointer(event, deployedTool, deployedTarget)}
+          onpointermove={trackApparatusPointer}
+          onpointerup={(event) => finishApparatusPointer(event, deployedTarget)}
+          onpointercancel={(event) => finishApparatusPointer(event, deployedTarget)}
+          onkeydown={(event) => apparatusKeydown(event, deployedTool, deployedTarget)}
         >
           {#key apparatusEffect?.at}
             <StandaloneApparatus
@@ -292,7 +372,7 @@
               values={apparatusValues}
             />
           {/key}
-        </section>
+        </div>
       {/if}
       {#if onnewvessel}
         <div class="add-vessel">
@@ -595,8 +675,12 @@
     z-index: 5;
     width: 112px;
     translate: -50% -50%;
-    pointer-events: none;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
   }
+  .apparatus-position:active { cursor: grabbing; }
+  .apparatus-position.moving { opacity: 0.62; }
   .connection-port {
     position: absolute;
     top: 52%;
