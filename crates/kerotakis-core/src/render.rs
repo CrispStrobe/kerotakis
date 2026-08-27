@@ -210,15 +210,26 @@ pub fn render_event(event: &Event, register: Register) -> String {
             1 => format!("A fresh beaker appears on the bench: {vessel}."),
             _ => format!("{vessel}: new vessel"),
         },
+        Event::VesselRemoved { vessel } => match register.level() {
+            1 => format!("The empty {vessel} goes back into storage."),
+            _ => format!("{vessel}: empty vessel removed"),
+        },
         Event::Added {
             vessel,
             species: sid,
             moles,
+            total_after,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
             match register.level() {
                 1 => format!("You add {name} to {vessel}."),
-                2 => format!("{vessel}: +{:.4} mol {name}", moles.0),
+                2 => match total_after {
+                    Some(total) if (total.0 - moles.0).abs() > 1e-12 => format!(
+                        "{vessel}: +{:.4} mol {name} — {:.4} mol now in vessel",
+                        moles.0, total.0
+                    ),
+                    _ => format!("{vessel}: +{:.4} mol {name}", moles.0),
+                },
                 _ => {
                     let extra = species::lookup(sid)
                         .map(|d| format!(" ({}, M = {:.3} g/mol)", d.formula, d.molar_mass))

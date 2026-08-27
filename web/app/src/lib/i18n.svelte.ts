@@ -77,7 +77,7 @@ const DE_TERMS: Record<string, string> = {
   "Rates: two beakers, one variable, one clock.": "Reaktionsgeschwindigkeit: zwei Bechergläser, eine Variable, eine Uhr.",
   "Salt from brine: the oldest chemistry in the world": "Salz aus Sole: die älteste Chemie der Welt",
   "Gas laws in a sealed vessel": "Gasgesetze in einem geschlossenen Gefäß",
-  "The marquee: silver nitrate + table salt": "Das Vorzeigeexperiment: Silbernitrat + Kochsalz",
+  "Case file: identify chloride with silver nitrate": "Fallakte: Chlorid mit Silbernitrat nachweisen",
   "Die Spannungsreihe: who takes the electrons, and what a battery is worth": "Die Spannungsreihe: Wer nimmt die Elektronen und was leistet eine Batterie?",
   "The spirit still — and the wall at 96 percent": "Die Spiritusbrennerei — und die Grenze bei 96 Prozent",
   "There and back again: an ester is made, then unmade.": "Hin und zurück: Ein Ester entsteht und wird wieder zerlegt.",
@@ -442,10 +442,22 @@ const DE: Record<string, string> = {
   "Model": "Modellieren",
   "reagent shelf": "Reagenzienregal",
   "shelf contents": "Regalinhalt",
+  "cabinet contents": "Schrankinhalt",
+  "mission set": "Missionsset",
+  "unlocked": "Freigeschaltet",
+  "catalog all": "Alles",
   "the kit ({count})": "das Set ({count})",
   "everything": "alles",
   "find a substance…": "Stoff suchen…",
   "find a substance": "Stoff suchen",
+  "amount": "Menge",
+  "unit": "Einheit",
+  "add": "zugeben",
+  "selected vessel capacity: {capacity} mL": "Fassungsvermögen des gewählten Gefäßes: {capacity} mL",
+  "write your own observation…": "Eigene Beobachtung notieren…",
+  "new journal note": "Neue Laborbuchnotiz",
+  "add note": "Notiz hinzufügen",
+  "my note": "Meine Notiz",
   "phase filter": "Phasenfilter",
   "custom amount": "eigene Menge",
   "nothing on the shelf matches": "Nichts im Regal passt.",
@@ -563,6 +575,7 @@ const DE: Record<string, string> = {
   ,"after one mission": "nach einer Mission"
   ,"after {count} missions": "nach {count} Missionen"
   ,"mission kit": "Missionsset"
+  ,"This mission needs no additional cabinet equipment.": "Für diese Mission brauchst du keine zusätzlichen Geräte aus dem Schrank."
   ,"Permanent stock unlocks after one completed mission. Mission kits loan required materials.": "Der dauerhafte Vorrat wird nach einer abgeschlossenen Mission freigeschaltet. Missionssets leihen benötigte Stoffe aus."
   ,"Permanent stock unlocks after {count} completed missions. Mission kits loan required materials.": "Der dauerhafte Vorrat wird nach {count} abgeschlossenen Missionen freigeschaltet. Missionssets leihen benötigte Stoffe aus."
   ,"new permanent equipment": "neues dauerhaftes Gerät"
@@ -642,6 +655,15 @@ const DE: Record<string, string> = {
   ,"vessel v{vessel} moved to {zone}": "Gefäß v{vessel} nach {zone} verschoben"
   ,"place vessel here": "Gefäß hier abstellen"
   ,"move": "verschieben"
+  ,"hide workflow guides": "Arbeitsbereiche ausblenden"
+  ,"show workflow guides": "Arbeitsbereiche einblenden"
+  ,"remove empty vessel": "leeres Gefäß entfernen"
+  ,"remove empty vessel v{vessel}": "leeres Gefäß v{vessel} entfernen"
+  ,"mortar on the bench": "Mörser auf dem Labortisch"
+  ,"mortar and pestle": "Mörser und Pistill"
+  ,"change vessel": "Gefäß verändern"
+  ,"observe and measure": "Beobachten und messen"
+  ,"run {apparatus}": "{apparatus} starten"
   ,"vessel v{vessel} placement": "Platzierung von Gefäß v{vessel}"
   ,"My Chemistry Lab": "Mein Chemielabor"
   ,"open world map": "Weltkarte öffnen"

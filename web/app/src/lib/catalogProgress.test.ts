@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { equipmentAvailable, equipmentRewardAt, reagentAccess, reagentRequirement } from "./catalogProgress";
+import { equipmentAccess, equipmentAvailable, equipmentRewardAt, reagentAccess, reagentRequirement } from "./catalogProgress";
 
 describe("progression-aware catalog", () => {
   it("keeps Sandbox fully unlocked and gives Story understandable milestones", () => {
@@ -24,5 +24,11 @@ describe("progression-aware catalog", () => {
     expect(equipmentRewardAt(1)?.verb).toBe("evaporate");
     expect(equipmentRewardAt(3)?.verb).toBe("electrolyse");
     expect(equipmentRewardAt(5)).toBeNull();
+  });
+
+  it("loans mission equipment without turning it into a permanent unlock", () => {
+    expect(equipmentAccess("story", 0, "distil", false)).toMatchObject({ available: false, loaned: false });
+    expect(equipmentAccess("story", 0, "distil", true)).toMatchObject({ available: true, loaned: true });
+    expect(equipmentAccess("story", 4, "distil", false)).toMatchObject({ available: true, loaned: false });
   });
 });

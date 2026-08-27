@@ -102,6 +102,18 @@ class FakeHost implements EngineHost {
 }
 
 describe("Session", () => {
+  it("persists learner-authored journal notes independently of chemistry commands", async () => {
+    const storage = new FakeStorage();
+    const first = new Session(new FakeHost(), storage);
+    first.addUserNote("  A slow white precipitate.  ");
+
+    const second = new Session(new FakeHost(), storage);
+    await second.connect();
+    expect(second.feed).toEqual(expect.arrayContaining([
+      expect.objectContaining({ kind: "user-note", text: "A slow white precipitate." }),
+    ]));
+  });
+
   it("connects, loads the shelf, and reports the honesty state", async () => {
     const host = new FakeHost();
     const s = new Session(host);

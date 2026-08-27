@@ -713,8 +713,8 @@ reason_code = "direct-smelling-unknown"
 [[observation]]
 id = "aq-119"
 owning_task = "BRD-014"
-outcome = "missing"
-reason_code = "unknown-species"
+outcome = "qualitative"
+reason_code = "typed-observation"
 
 [[observation]]
 id = "aq-120"
@@ -3001,4 +3001,3 @@ id = "th-125"
 owning_task = "BRD-041"
 outcome = "boundary"
 reason_code = "out-of-scope-scale"
-
