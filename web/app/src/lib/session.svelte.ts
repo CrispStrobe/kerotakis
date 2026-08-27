@@ -706,6 +706,29 @@ export class Session {
         };
       }
     }
+    if (!effect && event?.event === "chromatographed" && Array.isArray(event.peaks)) {
+      const bands = event.peaks.flatMap((peak) => {
+        if (!peak || typeof peak !== "object") return [];
+        const value = peak as Record<string, unknown>;
+        return [{
+          species: String(value.species ?? "?"),
+          retentionTimeS: Number(value.retention_time_s ?? 0),
+          widthS: Number(value.width_s ?? 0),
+          relativeArea: Number(value.relative_area ?? 0),
+          partitionK: Number(value.partition_k ?? 0),
+        }];
+      });
+      effect = {
+        kind: "chromatograph",
+        at: Date.now(),
+        durationMs: 5200,
+        magnitude: Math.min(1, 0.35 + bands.length * 0.13),
+        bands,
+        voidTimeS: Number(event.void_time_s ?? 0),
+        plates: Number(event.plates ?? 0),
+        outsideMethod: Array.isArray(event.outside_method) ? event.outside_method.map(String) : [],
+      };
+    }
     if (!effect) return;
     const vessel = vesselOf(event);
     const now = Date.now();
