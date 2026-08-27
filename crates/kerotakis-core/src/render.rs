@@ -277,6 +277,22 @@ pub fn render_event(event: &Event, register: Register) -> String {
                 moles.0
             ),
         },
+        Event::Fermented {
+            vessel,
+            sucrose_moles,
+            ethanol_moles,
+            carbon_dioxide_moles,
+            active_yeast_grams,
+            seconds,
+        } => match register.level() {
+            1 => format!("Yeast feeds on sugar in {vessel}, making alcohol and carbon-dioxide bubbles."),
+            _ => format!(
+                "{vessel}: yeast fermented {:.6} mol sucrose in {seconds:.0} s → {:.6} mol ethanol + {:.6} mol CO2 ({active_yeast_grams:.3} g effective yeast)",
+                sucrose_moles.0,
+                ethanol_moles.0,
+                carbon_dioxide_moles.0,
+            ),
+        },
         Event::ReactionHeatReleased {
             vessel,
             reaction,

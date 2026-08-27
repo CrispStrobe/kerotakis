@@ -955,6 +955,7 @@ pub fn event_matches(event: &kerotakis_core::Event, claim: &str) -> bool {
         E::Added { species, .. } => ("added", Some(species.0.as_str())),
         E::MaterialAdded { .. } => ("material_added", None),
         E::GasProduced { species, .. } => ("gas_produced", Some(species.0.as_str())),
+        E::Fermented { .. } => ("fermented", None),
         E::ReactionHeatReleased { .. } => ("reaction_heat_released", None),
         E::FoamChanged { .. } => ("foam_changed", None),
         E::SurfaceSpread { .. } => ("surface_spread", None),

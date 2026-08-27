@@ -880,6 +880,16 @@ pub enum Event {
         moles: Moles,
         rate_moles_per_second: f64,
     },
+    /// Baker's yeast converted finite dissolved sucrose into ethanol and CO2
+    /// during one timed interval using a bounded recipe-level rate response.
+    Fermented {
+        vessel: VesselId,
+        sucrose_moles: Moles,
+        ethanol_moles: Moles,
+        carbon_dioxide_moles: Moles,
+        active_yeast_grams: f64,
+        seconds: f64,
+    },
     /// Exothermic energy released by a curated kinetic reaction.
     ReactionHeatReleased {
         vessel: VesselId,

@@ -2766,6 +2766,26 @@ fn advance_vessel_time(
         });
     }
 
+    if let Some(step) = crate::fermentation::advance(vessel, seconds) {
+        if step.sucrose_moles >= crate::OBSERVABLE_MOLES {
+            events.push(Event::GasProduced {
+                vessel: vessel.id,
+                reaction: "yeast-sucrose-fermentation".to_string(),
+                species: SpeciesId::new("CO2"),
+                moles: Moles(step.carbon_dioxide_moles),
+                rate_moles_per_second: step.carbon_dioxide_moles / seconds.max(f64::EPSILON),
+            });
+            events.push(Event::Fermented {
+                vessel: vessel.id,
+                sucrose_moles: Moles(step.sucrose_moles),
+                ethanol_moles: Moles(step.ethanol_moles),
+                carbon_dioxide_moles: Moles(step.carbon_dioxide_moles),
+                active_yeast_grams: step.active_yeast_grams,
+                seconds,
+            });
+        }
+    }
+
     if let Some(foam) = crate::foam::advance(vessel, seconds, oxygen_moles) {
         if foam.volume_liters >= 1e-6 || vessel.foam.peak_volume_liters > 0.0 {
             events.push(Event::FoamChanged {

@@ -48,7 +48,8 @@ pub fn advance(vessel: &mut Vessel, seconds: f64, oxygen_moles: f64) -> Option<F
                 | MaterialRole::AqueousEmulsifier { .. }
                 | MaterialRole::OpaqueLiquidColloid { .. }
                 | MaterialRole::AcidCurdlingColloid { .. }
-                | MaterialRole::SurfaceColourant { .. } => None,
+                | MaterialRole::SurfaceColourant { .. }
+                | MaterialRole::FermentationCulture { .. } => None,
             })
         })
         .max_by(|a, b| a.0.total_cmp(&b.0));

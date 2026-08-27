@@ -95,7 +95,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
     const SOURCE: &str = "kerotakis/material-recipes-v1";
     document.sources.push(SourceRecord {
         id: SOURCE.to_string(),
-        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey".to_string(),
+        citation: "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey".to_string(),
         licence: "AGPL-3.0-or-later".to_string(),
         lane: SourceLane::Runtime,
         origin: Some("crates/kerotakis-registry-export/src/lib.rs".to_string()),
@@ -742,13 +742,19 @@ fn export_material_recipes(document: &mut RegistryDocument) {
                 upper: 0.999_999,
             }),
             physical_form: MaterialPhysicalForm::Granules,
-            roles: Vec::new(),
+            roles: vec![MaterialRole::FermentationCulture {
+                reference_rate_per_second_per_gram: 0.0002,
+                optimum_temperature_k: 308.15,
+                temperature_width_k: 18.0,
+                requires_hydration: true,
+            }],
             preparation: Some(
                 "dry baker's yeast represented as a catalase activity proxy; hydrate with warm water in the experiment"
                     .to_string(),
             ),
             lot_assumptions: vec![
                 "enzyme activity varies strongly by brand and age; the bounded hydration ramp is a teaching surrogate, not a universal activity per gram".to_string(),
+                "the sucrose-fermentation rate is an editorial classroom timescale; strain growth, oxygen switching, inhibition and secondary metabolites remain unresolved".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,
@@ -780,7 +786,12 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             physical_form: MaterialPhysicalForm::Other {
                 description: "moist compressed block".to_string(),
             },
-            roles: Vec::new(),
+            roles: vec![MaterialRole::FermentationCulture {
+                reference_rate_per_second_per_gram: 0.0002,
+                optimum_temperature_k: 308.15,
+                temperature_width_k: 18.0,
+                requires_hydration: false,
+            }],
             preparation: Some(
                 "fresh compressed baker's-yeast surrogate; already hydrated and scaled to 30% solids"
                     .to_string(),
@@ -788,6 +799,7 @@ fn export_material_recipes(document: &mut RegistryDocument) {
             lot_assumptions: vec![
                 "70% water and 30% solids follow compressed-yeast technical guidance".to_string(),
                 "catalase activity is scaled from the dry-yeast teaching surrogate by dry solids; strain, age, storage and brand variation remain unresolved".to_string(),
+                "the sucrose-fermentation rate is an editorial classroom timescale shared by equal dry solids; strain growth, oxygen switching, inhibition and secondary metabolites remain unresolved".to_string(),
             ],
             substitutions: Vec::new(),
             confidence: MaterialConfidence::Surrogate,
