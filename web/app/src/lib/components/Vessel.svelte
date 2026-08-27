@@ -229,10 +229,11 @@
   class:apparatus-working={apparatusOperating}
   class:bursting={active("burst", 1800)}
   data-vessel-id={vessel.id}
-  style={`--swirl-duration:${2.2 - motionMag * 1.25}s;--stir-duration:${1.15 - motionMag * 0.65}s;--heat-duration:${1.8 - Math.max(hot, mag("heat", 2200)) * 0.8}s;--heat-opacity:${0.25 + Math.max(hot, mag("heat", 2200)) * 0.65}`}
+  style={`--swirl-duration:${2.2 - motionMag * 1.25}s;--stir-duration:${1.15 - motionMag * 0.65}s;--heat-duration:${1.8 - Math.max(hot, mag("heat", 2200)) * 0.8}s;--heat-opacity:${0.25 + Math.max(hot, mag("heat", 2200)) * 0.65};--pour-angle:${9 + mag("pour", 2200) * 23}deg`}
 >
   <button
     class="glassbtn"
+    class:pouring={active("pour", 2200)}
     aria-label={`${t(vessel.label)} v${vessel.id + 1}: ${t(vessel.words)}${transferTarget ? ` · ${t("transfer target")}` : ""}${apparatusTitle ? ` · ${t("{tool} installed: {state}", { tool: t(apparatusTitle), state: t(apparatusOperating ? "running…" : "ready") })}` : ""}`}
     aria-pressed={selected}
     onclick={() => onselect?.(vessel.id)}
@@ -879,6 +880,12 @@
     cursor: pointer;
     display: block;
     border-radius: 12px;
+    transform-origin: 52% 78%;
+  }
+  .glassbtn.pouring { animation: vessel-pour 1.5s cubic-bezier(.3,.05,.3,1) both; }
+  @keyframes vessel-pour {
+    0%, 100% { transform: rotate(0deg) translateY(0); }
+    25%, 70% { transform: rotate(var(--pour-angle)) translateY(-3px); }
   }
   .vessel:hover {
     border-color: var(--edge);
@@ -1427,6 +1434,7 @@
     .inspection-inst, .inspection-bubble { animation: none; }
     .geiger-led, .geiger-pulse { animation: none; }
     .test-flame { animation: none; }
+    .glassbtn.pouring { animation: none; }
     .burette-fill {
       transition: none;
     }
