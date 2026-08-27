@@ -1050,6 +1050,12 @@ hide them completely.
   vessel's available heat. Both the apparatus and localized journal explicitly
   identify the current instantaneous-energy boundary instead of pretending the
   form's power and duration are an engine-coupled time simulation.
+  *Operating-ownership correction shipped 2026-08-27:* deployed hardware no
+  longer consumes the session-wide busy flag. The in-flight command must match
+  both the apparatus verb and its exact target vessel before that machine can
+  enter its running state; typed result events then own the bounded playback.
+  Adding a reagent, measuring, or operating the same tool on another vessel can
+  no longer animate an unrelated lamp, rotor, stirrer, mortar, bath, or supply.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model

@@ -42,6 +42,7 @@
   import { pwa } from "./lib/pwa.svelte";
   import { mixLine, twoVesselLine, type TwoVesselAction } from "./lib/directActions";
   import { missionEquipment, type CatalogScope } from "./lib/catalogScope";
+  import { apparatusRunsCommand } from "./lib/apparatusRun";
   import {
     BENCH_LAYOUT_KEY,
     EMPTY_BENCH_LAYOUT,
@@ -728,7 +729,11 @@
       transferFrom={transfer?.from ?? null}
       deployedTool={buretteOut ? "burette" : apparatusSpec?.verb ?? null}
       deployedTarget={buretteOut || apparatusSpec ? session.selected : null}
-      apparatusWorking={session.busy}
+      apparatusWorking={apparatusRunsCommand(
+        session.activeCommand,
+        buretteOut ? "burette" : apparatusSpec?.verb,
+        buretteOut || apparatusSpec ? session.selected : null,
+      )}
       apparatusValues={apparatusPreview}
       layout={benchLayout}
       showZones={workGuides}
