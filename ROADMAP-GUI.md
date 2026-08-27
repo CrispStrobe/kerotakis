@@ -470,9 +470,13 @@ every new dependency before its first import.
   job) — one shape, drift fails before a client sees it. Open for the
   checkbox: the same suite against TauriHost once the shell builds
   (GUI-030), and hello's remaining fields.*
-- [ ] **GUI-002 — Events as structured JSON.** Expose the typed `Event`
+- [x] **GUI-002 — Events as structured JSON.** Expose the typed `Event`
   enum over the boundary with stable ids + params; decide engine-side vs
   client-side register rendering and the locale-pack shape.
+  *Shipped:* Rust's tagged `Event` enum crosses every host as structured JSON;
+  effects, mission outcomes, apparatus playback and measurements consume its
+  typed fields. Register prose is rendered in the engine through per-language
+  sidecars, while the web shell owns only interface copy.
 - [ ] **GUI-003 — Scene JSON v1.** Per-vessel render model derived from
   existing state + appearance; golden-file tests over replayed lessons.
   *Status 2026-08-24: implemented — `kerotakis-core/src/scene.rs` (liquid
@@ -484,8 +488,10 @@ every new dependency before its first import.
 - [ ] **GUI-004 — One-worker web engine.** Land OPT-11 (lab + IPhreeQC in a
   single module worker) behind `WorkerHost`; the current PWA runs on it
   unchanged. Measure; OPT-9 only if numbers demand.
-- [ ] **GUI-005 — Parse-only endpoint.** Validate a command without
+- [x] **GUI-005 — Parse-only endpoint.** Validate a command without
   executing (for live input validation and drag-legality preview).
+  *Shipped:* `parse` is implemented by the core/wasm protocol and both client
+  hosts; `CommandBar` validates asynchronously without changing bench state.
 
 ### Phase G1 — The bench, on the web
 
@@ -498,9 +504,12 @@ every new dependency before its first import.
   CommandBar, RegisterDial; npm licence lint (73 packages allowlisted);
   production build 19 KB gzip. Open for the checkbox: PWA/service-worker
   carry-over, build-web.sh integration, and the console view.*
-- [ ] **GUI-011 — Bench canvas v1.** SVG vessels with computed color,
+- [x] **GUI-011 — Bench canvas v1.** SVG vessels with computed color,
   precipitate layers, headspace, temperature badges; scene-JSON-driven;
   register dial wired end to end.
+  *Shipped:* the SVG bench consumes Scene JSON for geometry, true-volume
+  liquid/layer fills, computed solids, headspace, temperature, pressure and
+  register-dependent accessible presentation.
 - [ ] **GUI-012 — Shelf v1.** Registry-driven, searchable, drag/tap-to-add,
   register-aware amount picker (pinch/cup ↔ g/mol/mL).
   *Status 2026-08-24 (2nd pass): tap-to-add and drag-to-vessel landed —
@@ -595,9 +604,11 @@ every new dependency before its first import.
 - [ ] **GUI-024 — Challenges v1.** Equation balancing, endpoint, buffer
   hold; engine-marked.
 
-- [ ] **GUI-025 — The equation strip.** Reactions as balanced equations
+- [x] **GUI-025 — The equation strip.** Reactions as balanced equations
   pinned beside the bench at lv2+, live as they happen. We already
   compute them; today they are buried in the feed.
+  *Shipped:* the session retains the latest engine-rendered balanced equation
+  and pins it above the live bench in Measure and Model registers.
 - [x] **GUI-026 — Pour and stir.** *Shipped 2026-08-24 (SVG, not
   Canvas2D — the vessels' own layer was enough):* drop-to-add splashes a
   ripple at the surface; `gas_evolved` vents wisps from an open mouth
@@ -629,13 +640,15 @@ already exposes ~25 verbs and the full registry; the gap is graphical
 affordance, and it is checkable, so it becomes an invariant with a test
 rather than an aspiration:
 
-- [ ] **GUI-029 — The affordance manifest.** A `grammar` protocol command
+- [x] **GUI-029 — The affordance manifest.** A `grammar` protocol command
   (engine-side: the verb list with argument shapes, from the one parser)
   plus a client-side manifest mapping every verb to the component that
   invokes it; a conformance test fails when a verb lacks an affordance or
   an affordance invents a verb. Registry coverage is already structural
   (the shelf lists the registry); this makes verb coverage structural too.
-- [ ] **GUI-033 — Apparatus palette and instrument panel.** Graphical form
+  *Shipped:* `affordances.json` maps every public grammar verb to a graphical
+  surface, and protocol conformance rejects both missing and invented verbs.
+- [x] **GUI-033 — Apparatus palette and instrument panel.** Graphical form
   for the rest of the verb set, driven by the codex's own apparatus
   vocabulary: hotplate/bunsen (heat, ignite), fridge coil (cool), clock
   (wait), lids (seal/regulate/sweep/open), funnel+paper (filter),
@@ -644,6 +657,9 @@ rather than an aspiration:
   + supply (cell, wire, electrolyze), and an instrument tray for the eight
   measure targets. Vessel context ring for per-vessel actions; everything
   emits the same command lines.
+  *Shipped:* every manifest verb has a cabinet, vessel action, instrument tray
+  or two-vessel interaction; parameterised machines compile through the shared
+  apparatus specification rather than component-private command strings.
   *Physical chromatography slice shipped 2026-08-27:* the column now
   appears at the vessel after a run and animates the engine's typed peaks
   from injection to positions normalised from computed retention times;
@@ -1481,7 +1497,7 @@ decorating it.
   additions raise the level by exactly what was added. DoD: 50 mL into a
   100 mL beaker reads half; the same 50 mL in the flask reads correctly
   non-linear; cylinder graduations line up with real volumes.
-- [ ] **GUI-062 — Instruments on the bench.** The burette clamps OVER the
+- [x] **GUI-062 — Instruments on the bench.** The burette clamps OVER the
   vessel on the bench (drawn, with stopcock and falling drops during
   titration), thermometer and pH probe render in-vessel when measuring,
   the still connects two vessels visibly. Portraits (ToolIcon) grow into
@@ -1498,6 +1514,11 @@ decorating it.
   they no longer render as contents inside the selected vessel. Remaining:
   user-positionable instrument stations and bench-scale analytical instruments
   beyond thermometer/pH.*
+  *Closed 2026-08-28:* freestanding stations are now user-positionable and
+  collision checked. Balance, pressure, gas-volume, conductivity, calorimetry,
+  UV-Vis, chromatography, Geiger, magnified observation and gas-test setups all
+  render at bench scale from typed engine evidence; further instruments are
+  catalog growth, not a missing interaction foundation.
 - [x] **GUI-063 — In-experiment visual shelves.** *Shipped 2026-08-25 (kero-basic, PR #36).* Lessons and codex
   experiments present their kit as a RENDERED shelf strip (SpeciesChip
   visuals, tap-to-add) directly in the LessonBar / experiment page —
@@ -1545,13 +1566,13 @@ decorating it.
   engine is running the operation or its computed effect is playing back;
   configured rpm/power still sets the animation rate.
 
-- [x] **GUI-081 — Freely positioned instrument stations.** *Shipped
+- [x] **GUI-083a — Freely positioned instrument stations.** *Shipped
   2026-08-27.* Freestanding mortar and mini-centrifuge stations can be dragged
   with mouse, pen, or touch and nudged with arrow keys. Explicit positions are
   stored per lab mode beside vessel coordinates; untouched tools continue to
   follow a safe, target-aligned default lane.
 
-- [x] **GUI-082 — Legible apparatus targets.** *Shipped 2026-08-27.* A
+- [x] **GUI-083b — Legible apparatus targets.** *Shipped 2026-08-27.* A
   freestanding instrument has a visible drag grip, focus treatment, and a
   subtle dotted sample route to the vessel it operates on. The route follows
   both ends while either is moved and pulses only while that operation runs;
@@ -1578,7 +1599,7 @@ parallel.
   drift-pinned runtime join; packs/ shipped with hashed manifest.
 - WEB-003 inventory in hello; PROTOCOL load_pack row done.
 
-## Making a computed result legible (GUI-081 … GUI-087)
+## Making a computed result legible (GUI-090 … GUI-097)
 
 The engine already produces every number and classification these tasks
 display. Not one of them needs solver work; they are about a result being
@@ -1589,7 +1610,7 @@ enthalpy is a clause in a sentence. A bench that computes real chemistry and
 then buries it reads as less capable than one that fakes forty reactions
 and presents them well.
 
-- [ ] **GUI-081 — The result card.** The newest result gets a card above the
+- [ ] **GUI-090 — The result card.** The newest result gets a card above the
   feed rather than another line in it. Collapsed: the reaction-class badge,
   the equation, one sentence of observation, and an affordance to expand.
   Expanded: equation, ionic equation, reactant chips, observation,
@@ -1600,7 +1621,7 @@ and presents them well.
   degrades to the current feed when JavaScript is off or the register is at
   lv3 machine view.
 
-- [ ] **GUI-082 — Say what kind of reaction it was, and what the heat did.**
+- [ ] **GUI-091 — Say what kind of reaction it was, and what the heat did.**
   Two labels the engine can already justify. A **class badge** — displacement,
   neutralisation, precipitation, combustion, decomposition — derived from the
   event stream, never authored per reaction, and absent rather than guessed
@@ -1609,7 +1630,7 @@ and presents them well.
   the most teachable number we produce and it currently reads as punctuation.
   Both carry the GUI-023 confidence encoding.
 
-- [ ] **GUI-083 — The ionic equation, derived.** Beside the molecular
+- [ ] **GUI-092 — The ionic equation, derived.** Beside the molecular
   equation, the ionic one — built from the solved speciation rather than
   stored. This is a thing only a computing bench can do honestly: the
   spectator ions are the ones the solver actually left in solution, at the
@@ -1617,7 +1638,7 @@ and presents them well.
   equation omits (AgCl(aq) beside Ag⁺ and Cl⁻) appear because they are
   present. Where speciation is unavailable, show nothing.
 
-- [ ] **GUI-084 — Shelf by chemical role.** Acid, base, salt, metal, oxide,
+- [ ] **GUI-093 — Shelf by chemical role.** Acid, base, salt, metal, oxide,
   indicator, gas. We filter by phase — aqueous/liquid/gas/solid — which is a
   physics axis while the learner is thinking on a chemistry one. Phase stays
   as a secondary filter. The role comes from the registry, not a hand list,
@@ -1627,14 +1648,14 @@ and presents them well.
   including the honest "unassessed" state, which must remain visually
   distinct from "safe".
 
-- [ ] **GUI-085 — The vessel deserves the room.** One vessel, large, central,
+- [ ] **GUI-094 — The vessel deserves the room.** One vessel, large, central,
   when only one is on the bench; the wide empty expanse around a small beaker
   is the strongest signal we send that nothing much is happening. With it,
   quick-action chips within reach of the vessel for the two or three things
   every experiment needs — water, heat, and the reagent last used — so the
   common path does not cross the whole screen.
 
-- [ ] **GUI-086 — Balancing as a generated exercise.** We balance by the null
+- [ ] **GUI-095 — Balancing as a generated exercise.** We balance by the null
   space of the element-count matrix including charge, so we can *generate*
   practice rather than author it: take any equation the codex or a session
   produced, strip the coefficients, and mark the learner's answer against the
@@ -1642,7 +1663,7 @@ and presents them well.
   not the simplest whole-number ratio, which is the actual lesson. Unlimited,
   never wrong, and free of a hand-maintained question bank.
 
-- [ ] **GUI-087 — The toolbox tools say what they are for.** The seven named
+- [ ] **GUI-096 — The toolbox tools say what they are for.** The seven named
   relations (Nernst, Arrhenius, Eyring, Henderson–Hasselbalch, ionic strength,
   Debye–Hückel, van 't Hoff) currently show a name, a formula and an argument
   spec. Each needs one sentence of *what question it answers*, one of *when it
@@ -1651,7 +1672,7 @@ and presents them well.
   from a component. A formula with no stated validity range teaches a learner
   to apply it outside it.
 
-- [ ] **GUI-088 — One shareable card per result.** The expanded report as a
+- [ ] **GUI-097 — One shareable card per result.** The expanded report as a
   single image a learner can hand in or send: equation, observation, the
   numbers, the provenance line. We have notebook export and print, which are
   documents; this is one result, self-contained. Uses the existing chart
