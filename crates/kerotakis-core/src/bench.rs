@@ -6,8 +6,7 @@ use serde::{Deserialize, Serialize};
 use crate::instrument::InstrumentContract;
 use crate::material::{self, MaterialBasis, MaterialRecipe};
 use crate::ops::{
-    CentrifugeSeparation, ElutedPeak, Event, Instrument, LogEntry, MaterialComponentAdded,
-    Operator,
+    CentrifugeSeparation, ElutedPeak, Event, Instrument, LogEntry, MaterialComponentAdded, Operator,
 };
 use crate::solve::{
     adiabatic_mix_temperature, Equilibrator, HonestyEquilibrator, MixingEquilibrator,
