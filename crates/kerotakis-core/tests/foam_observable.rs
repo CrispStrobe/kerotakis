@@ -220,10 +220,12 @@ fn more_yeast_makes_more_oxygen_and_foam_on_the_same_clock() {
         high.1 > low.1 * 2.0,
         "foam must inherit the chemistry ordering: low={low:?}, high={high:?}"
     );
-    assert!(
-        high.2 > low.2,
-        "overflow must be dose-responsive: low={low:?}, high={high:?}"
-    );
+    // This initial interval intentionally ends before either vessel reaches
+    // the rim. Overflow is therefore zero for both doses; the one-second
+    // integration test above separately proves that the resulting foam really
+    // does overflow the beaker.
+    assert_eq!(low.2, 0.0, "low dose must still be below the rim: {low:?}");
+    assert_eq!(high.2, 0.0, "high dose must still be below the rim: {high:?}");
 }
 
 #[test]

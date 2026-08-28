@@ -483,7 +483,12 @@ add v1 Zn 0.01mol
 
 [reaction.expect]
 events = ["dissolved:FeSO4", "plated:Fe", "consumed:Zn"]
-ph = { min = 4.0, max = 4.4 }
+# Re-pinned 4.0–4.4 → around 5.6 (2026-08-25, EXP-30): the old value
+# came from a phantom trace of iron(III) — the engine let an uncoupled
+# ferrous solution oxidise against pe and its hydrolysis acidified the
+# beaker. Fresh iron(II) now keeps its state (see FAST_REDOX), and a
+# fresh FeSO4/ZnSO4 solution is only mildly acidic.
+ph = { min = 5.4, max = 5.8 }
 
 [reaction.expect.predict]
 question = "A lump of zinc sits in iron(II) sulfate solution. What happens — and why do steel ship hulls carry bolted-on zinc blocks?"

@@ -9815,8 +9815,8 @@
           ]
         },
         "ph": {
-          "min": 4.0,
-          "max": 4.4
+          "min": 5.4,
+          "max": 5.8
         },
         "temperature_c": null
       },

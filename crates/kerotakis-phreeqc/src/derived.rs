@@ -44,6 +44,10 @@ pub struct DerivedPhase {
     pub waters: f64,
     /// Elements the dissolution reaction exchanges with solution.
     pub elements: Vec<(String, f64)>,
+    /// log K of the dissolution reaction, from the database that defines
+    /// this phase. Carried so a reviewed phase can be posed outside its
+    /// home database (see `foreign_phase_definition`).
+    pub log_k: Option<f64>,
 }
 
 /// Gas phases an open vessel exchanges, with registry identity and log10
@@ -112,6 +116,15 @@ pub struct Derived {
     pub pitzer: DbIndex,
     roles: BTreeMap<&'static str, DerivedRole>,
     phases: Vec<DerivedPhase>,
+    /// Every matched polymorph across every database, resolvable by
+    /// name — readback must recognise Fe(OH)3(a) even though the
+    /// deduped candidate list carries Ferrihydrite.
+    all_phases: Vec<DerivedPhase>,
+    /// (species, db_tag) → the stablest polymorph name IN that
+    /// database. The dedupe above is database-blind by design (one
+    /// candidate per solid); this map is how an input written for a
+    /// specific database poses that database's own polymorph.
+    db_best: BTreeMap<(String, &'static str), String>,
     bookings: BTreeMap<String, &'static str>,
 }
 
@@ -130,7 +143,80 @@ pub fn candidate_phases() -> &'static [DerivedPhase] {
 }
 
 pub fn phase_by_name(name: &str) -> Option<&'static DerivedPhase> {
-    derived().phases.iter().find(|p| p.name == name)
+    let d = derived();
+    d.phases
+        .iter()
+        .find(|p| p.name == name)
+        .or_else(|| d.all_phases.iter().find(|p| p.name == name))
+}
+
+/// The phase name to pose in `db_tag` for whatever solid `name` names:
+/// the name itself if that database defines it, else the database's own
+/// stablest polymorph of the same registry solid, else None — and a
+/// None is exactly the case where the honesty pass's supersaturation
+/// note is the right answer.
+pub fn phase_in_db(name: &str, db_tag: &str) -> Option<&'static str> {
+    let d = derived();
+    let tag: &'static str = DB_TAGS.iter().find(|t| **t == db_tag).copied()?;
+    if index_for(tag).has_phase(name) {
+        return d
+            .all_phases
+            .iter()
+            .find(|p| p.name == name)
+            .map(|p| p.name.as_str());
+    }
+    let species = phase_by_name(name)?.species;
+    d.db_best
+        .get(&(species.to_string(), tag))
+        .map(String::as_str)
+}
+
+/// Phases a routed database may pose even though it does not define them,
+/// reviewed one by one. An injected definition carries the home database's
+/// log K and no enthalpy — a phase whose home entry has a real delta_h
+/// would silently lose its temperature dependence, so membership requires
+/// checking the source entry. Fe(OH)2 (minteq.v4, `delta_h -0 kJ`) loses
+/// nothing, and without it ferrous iron plus lye stays silent on the
+/// default route: wateq4f spells no ferrous hydroxide at all.
+const FOREIGN_POSABLE: &[&str] = &["Fe(OH)2"];
+
+/// A `PHASES` input block defining `name` for a database that lacks it —
+/// `None` unless the phase is reviewed foreign-posable, absent from the
+/// routed database under every polymorph name, and of the shape the
+/// synthesis covers: an anhydrous single-metal hydroxide M(OH)n, whose
+/// dissolution `M(OH)n + n H+ = M^n+ + n H2O` can be written in the routed
+/// database's own master-species spelling.
+pub fn foreign_phase_definition(name: &str, db_tag: &str) -> Option<String> {
+    if !FOREIGN_POSABLE.contains(&name) {
+        return None;
+    }
+    let tag: &'static str = DB_TAGS.iter().find(|t| **t == db_tag).copied()?;
+    let idx = index_for(tag);
+    if idx.has_phase(name) {
+        return None; // native — nothing to inject
+    }
+    let d = derived();
+    let p = d.all_phases.iter().find(|p| p.name == name)?;
+    if d.db_best.contains_key(&(p.species.to_string(), tag)) {
+        return None; // the database has its own polymorph — pose that
+    }
+    if p.waters != 0.0 || p.elements.len() != 1 {
+        return None;
+    }
+    let (el_key, count) = &p.elements[0];
+    if *count != 1.0 {
+        return None;
+    }
+    let (base, rest) = el_key.split_once('(')?;
+    let state: i32 = rest.trim_end_matches(')').parse().ok()?;
+    if state <= 0 {
+        return None;
+    }
+    let master = &idx.masters.get(el_key)?.species;
+    let log_k = p.log_k?;
+    Some(format!(
+        "PHASES\n    {name}\n        {base}(OH){state} + {state} H+ = {master} + {state} H2O\n        log_k {log_k}\n"
+    ))
 }
 
 /// Registry key an element total is booked as. `None` means the element has
@@ -253,12 +339,38 @@ impl Derived {
                         species: reg,
                         waters: info.waters,
                         elements,
+                        log_k: info.log_k,
                     },
                     info.log_k.unwrap_or(f64::MAX),
                 ));
             }
         }
         // Dedupe polymorphs: keep the stablest phase per solid species.
+        // Per-database stablest polymorph, and the full resolvable set:
+        // collected BEFORE the global dedupe so readback can name any
+        // database's polymorph and input-building can pose the routed
+        // database's own.
+        let mut db_best: BTreeMap<(String, &'static str), String> = BTreeMap::new();
+        let mut all_phases: Vec<DerivedPhase> = Vec::new();
+        for (tag, idx) in DB_TAGS.iter().zip(indexes.iter()) {
+            let mut per_db: Vec<(&DerivedPhase, f64)> = phases
+                .iter()
+                .filter(|(p, _)| idx.has_phase(&p.name))
+                .map(|(p, k)| (p, *k))
+                .collect();
+            per_db.sort_by(|a, b| a.1.total_cmp(&b.1));
+            for (p, _) in per_db {
+                db_best
+                    .entry((p.species.to_string(), *tag))
+                    .or_insert_with(|| p.name.clone());
+            }
+        }
+        for (p, _) in &phases {
+            if !all_phases.iter().any(|q| q.name == p.name) {
+                all_phases.push(p.clone());
+            }
+        }
+
         phases.sort_by(|a, b| a.1.total_cmp(&b.1));
         let mut seen: Vec<&str> = Vec::new();
         let phases: Vec<DerivedPhase> = phases
@@ -358,6 +470,8 @@ impl Derived {
             pitzer,
             roles,
             phases,
+            all_phases,
+            db_best,
             bookings,
         }
     }
@@ -436,6 +550,20 @@ fn contribution_from_counts(
     // charge-balance domain, and PHREEQC's `pH charge` recovers them.
     let h = counts.remove("H").unwrap_or(0.0);
     let o = counts.remove("O").unwrap_or(0.0);
+    // A pure hydroxide (equal O and H, one residue cation) fixes the
+    // metal's oxidation state by its own stoichiometry: n·q = h. Booking
+    // charge is the right tag for a simple salt, but Fe(OH)3 is iron(III)
+    // no matter that this lab books bare iron as iron(II) — tagging it
+    // Fe(2) posed a ferric solid against ferrous totals, and PHREEQC
+    // obligingly ran the redox conversion the engine had stood down.
+    let hydroxide_state: Option<i32> = if o > 0.0 && o == h && counts.len() == 1 {
+        counts.iter().next().and_then(|(_, n)| {
+            let implied = h / n;
+            (implied.fract() == 0.0 && implied > 0.0).then_some(implied as i32)
+        })
+    } else {
+        None
+    };
     if o > h {
         // Oxide oxygen may be dropped as water only when doing so conserves
         // electrons. Treating O as −2 and each O–H pair as hydroxide, the
@@ -492,11 +620,27 @@ fn contribution_from_counts(
         // "when we say iron, we mean iron(II)". A compound that contained
         // the element in another state would need its own entry.
         let redox_active = indexes.iter().any(|idx| idx.redox_elements.contains(&el));
-        let tagged = redox_active
-            .then(|| cation_charge(&el, indexes))
-            .flatten()
-            .filter(|q| *q > 0.0)
-            .map(|q| format!("{el}({})", q as i32));
+        let tagged = if redox_active {
+            match hydroxide_state {
+                Some(state) => {
+                    let key = format!("{el}({state})");
+                    if indexes.iter().any(|idx| idx.has_element(&key)) {
+                        Some(key)
+                    } else {
+                        // The state the stoichiometry demands has no
+                        // aqueous master species anywhere — dissolving this
+                        // would be a redox step we do not model. Refused,
+                        // like MnO2 above.
+                        return None;
+                    }
+                }
+                None => cation_charge(&el, indexes)
+                    .filter(|q| *q > 0.0)
+                    .map(|q| format!("{el}({})", q as i32)),
+            }
+        } else {
+            None
+        };
         contrib.push((tagged.unwrap_or(el), n));
     }
     if contrib.is_empty() {
@@ -605,8 +749,12 @@ mod tests {
         let epsomite = phase_by_name("Epsomite").expect("Epsomite derived");
         assert_eq!(epsomite.species, "epsomite");
         assert_eq!(epsomite.waters, 7.0);
-        // Aragonite lost the polymorph dedupe to calcite.
-        assert!(phase_by_name("Aragonite").is_none());
+        // Aragonite lost the polymorph dedupe to calcite, so it is not a
+        // *candidate* — but it stays resolvable by name, because readback
+        // must be able to name whatever polymorph a routed database posed.
+        assert!(!candidate_phases().iter().any(|p| p.name == "Aragonite"));
+        let aragonite = phase_by_name("Aragonite").expect("polymorphs stay resolvable");
+        assert_eq!(aragonite.species, "CaCO3");
         assert!(phase_by_name("Calcite").is_some());
     }
 

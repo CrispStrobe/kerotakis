@@ -947,49 +947,40 @@
       "retrieved": null
     },
     {
-      "id": "us-federal/isopropanol-chris",
-      "citation": "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27",
-      "licence": "LicenseRef-US-Public-Domain",
-      "lane": "runtime",
-      "origin": "https://pubchem.ncbi.nlm.nih.gov/compound/3776",
-      "revision": "CID 3776",
-      "retrieved": "2026-08-27"
+      "id": "legacy/Fe(OH)3",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; density and Cp(s): CRC Handbook of Chemistry and Physics, 97th ed. (amorphous-precipitate density approximate, stated)",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
     },
     {
-      "id": "kerotakis/sucrose-teaching-properties-v1",
-      "citation": "PubChem CID 5988 identity crosswalk; Kerotakis room-temperature teaching approximations: crystal density 1.59 g/mL, conservative aqueous solubility 200 g/100 mL water, and 484 J/(mol.K) solid heat capacity estimated by Kopp's rule. These are explicit editorial parameters, not redistributed NIST SRD data; retrieved 2026-08-27",
-      "licence": "AGPL-3.0-or-later",
-      "lane": "runtime",
-      "origin": "crates/kerotakis-registry-export/src/lib.rs",
-      "revision": "v1",
-      "retrieved": "2026-08-27"
+      "id": "legacy/Fe(OH)2",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; density and Cp(s): CRC Handbook of Chemistry and Physics, 97th ed. (amorphous-precipitate density approximate, stated)",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
     },
     {
-      "id": "us-federal/nasa-cea-hematite",
-      "citation": "PubChem CID 14833 identity crosswalk; NASA CEA thermo.inp Fe2O3(cr) record cites Pankratz (1983) for hematite thermochemistry. Room-temperature density 5.24 g/mL and reddish-brown appearance are explicit teaching properties; retrieved 2026-08-27",
-      "licence": "LicenseRef-US-Public-Domain",
-      "lane": "runtime",
-      "origin": "vendor/nasa-cea/thermo.inp",
-      "revision": "NASA CEA Fe2O3(cr), PubChem CID 14833",
-      "retrieved": "2026-08-27"
+      "id": "legacy/Mg(OH)2",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; density and Cp(s): CRC Handbook of Chemistry and Physics, 97th ed. (amorphous-precipitate density approximate, stated)",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
     },
     {
-      "id": "us-federal/usgs-epsomite",
-      "citation": "PubChem CID 24843 identity crosswalk for magnesium sulfate heptahydrate; USGS PHREEQC wateq4f.dat Epsomite phase supplies MgSO4:7H2O dissolution stoichiometry. Density 1.68 g/mL and 360 J/(mol.K) heat capacity are explicit room-temperature teaching approximations; dissolution enthalpy remains unclaimed; retrieved 2026-08-27",
-      "licence": "LicenseRef-US-Public-Domain",
-      "lane": "runtime",
-      "origin": "vendor/iphreeqc/database/wateq4f.dat",
-      "revision": "USGS WATEQ4F Epsomite, PubChem CID 24843",
-      "retrieved": "2026-08-27"
-    },
-    {
-      "id": "us-federal/pubchem-silica",
-      "citation": "PubChem CID 24261 silica identity crosswalk. Quartz-like room-temperature teaching properties use molar mass 60.084 g/mol, density 2.65 g/mL and heat capacity 44.6 J/(mol.K); polymorph, grain coatings and natural-sand impurities remain separate material assumptions; retrieved 2026-08-27",
-      "licence": "LicenseRef-US-Public-Domain",
-      "lane": "runtime",
-      "origin": "https://pubchem.ncbi.nlm.nih.gov/compound/24261",
-      "revision": "PubChem CID 24261",
-      "retrieved": "2026-08-27"
+      "id": "legacy/Zn(OH)2",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; density and Cp(s): CRC Handbook of Chemistry and Physics, 97th ed. (amorphous-precipitate density approximate, stated)",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
     },
     {
       "id": "legacy/Br-",
@@ -1062,6 +1053,51 @@
       "origin": "crates/kerotakis-core/src/species.rs",
       "revision": null,
       "retrieved": null
+    },
+    {
+      "id": "us-federal/isopropanol-chris",
+      "citation": "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://pubchem.ncbi.nlm.nih.gov/compound/3776",
+      "revision": "CID 3776",
+      "retrieved": "2026-08-27"
+    },
+    {
+      "id": "kerotakis/sucrose-teaching-properties-v1",
+      "citation": "PubChem CID 5988 identity crosswalk; Kerotakis room-temperature teaching approximations: crystal density 1.59 g/mL, conservative aqueous solubility 200 g/100 mL water, and 484 J/(mol.K) solid heat capacity estimated by Kopp's rule. These are explicit editorial parameters, not redistributed NIST SRD data; retrieved 2026-08-27",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "crates/kerotakis-registry-export/src/lib.rs",
+      "revision": "v1",
+      "retrieved": "2026-08-27"
+    },
+    {
+      "id": "us-federal/nasa-cea-hematite",
+      "citation": "PubChem CID 14833 identity crosswalk; NASA CEA thermo.inp Fe2O3(cr) record cites Pankratz (1983) for hematite thermochemistry. Room-temperature density 5.24 g/mL and reddish-brown appearance are explicit teaching properties; retrieved 2026-08-27",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "vendor/nasa-cea/thermo.inp",
+      "revision": "NASA CEA Fe2O3(cr), PubChem CID 14833",
+      "retrieved": "2026-08-27"
+    },
+    {
+      "id": "us-federal/usgs-epsomite",
+      "citation": "PubChem CID 24843 identity crosswalk for magnesium sulfate heptahydrate; USGS PHREEQC wateq4f.dat Epsomite phase supplies MgSO4:7H2O dissolution stoichiometry. Density 1.68 g/mL and 360 J/(mol.K) heat capacity are explicit room-temperature teaching approximations; dissolution enthalpy remains unclaimed; retrieved 2026-08-27",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "vendor/iphreeqc/database/wateq4f.dat",
+      "revision": "USGS WATEQ4F Epsomite, PubChem CID 24843",
+      "retrieved": "2026-08-27"
+    },
+    {
+      "id": "us-federal/pubchem-silica",
+      "citation": "PubChem CID 24261 silica identity crosswalk. Quartz-like room-temperature teaching properties use molar mass 60.084 g/mol, density 2.65 g/mL and heat capacity 44.6 J/(mol.K); polymorph, grain coatings and natural-sand impurities remain separate material assumptions; retrieved 2026-08-27",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://pubchem.ncbi.nlm.nih.gov/compound/24261",
+      "revision": "PubChem CID 24261",
+      "retrieved": "2026-08-27"
     },
     {
       "id": "kerotakis/material-recipes-v1",
@@ -2743,15 +2779,15 @@
       }
     },
     {
-      "id": "isopropanol",
-      "canonical_key": "KFZMGEQAYNKOFK-UHFFFAOYSA-N",
-      "name": "isopropanol",
+      "id": "Fe(OH)3",
+      "canonical_key": "MSNWSDPPULHLDL-UHFFFAOYSA-K",
+      "name": "iron(III) hydroxide",
       "identifiers": {
-        "inchikey": "KFZMGEQAYNKOFK-UHFFFAOYSA-N"
+        "inchikey": "MSNWSDPPULHLDL-UHFFFAOYSA-K"
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "us-federal/isopropanol-chris",
+        "source_id": "legacy/Fe(OH)3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -2759,15 +2795,15 @@
       }
     },
     {
-      "id": "sucrose",
-      "canonical_key": "CZMRCDWAGMRECN-SFOFJGFUSA-N",
-      "name": "sucrose",
+      "id": "Fe(OH)2",
+      "canonical_key": "NCNCGGDMXMBVIA-UHFFFAOYSA-L",
+      "name": "iron(II) hydroxide",
       "identifiers": {
-        "inchikey": "CZMRCDWAGMRECN-SFOFJGFUSA-N"
+        "inchikey": "NCNCGGDMXMBVIA-UHFFFAOYSA-L"
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "source_id": "legacy/Fe(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -2775,15 +2811,15 @@
       }
     },
     {
-      "id": "Fe2O3",
-      "canonical_key": "JEIPFZHSYJVQDO-UHFFFAOYSA-N",
-      "name": "iron(III) oxide (hematite)",
+      "id": "Mg(OH)2",
+      "canonical_key": "VTHJTEIRLNZDEV-UHFFFAOYSA-L",
+      "name": "magnesium hydroxide",
       "identifiers": {
-        "inchikey": "JEIPFZHSYJVQDO-UHFFFAOYSA-N"
+        "inchikey": "VTHJTEIRLNZDEV-UHFFFAOYSA-L"
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "us-federal/nasa-cea-hematite",
+        "source_id": "legacy/Mg(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -2791,31 +2827,15 @@
       }
     },
     {
-      "id": "epsomite",
-      "canonical_key": "WRUGWIBCXHJTDG-UHFFFAOYSA-L",
-      "name": "magnesium sulfate heptahydrate (epsomite)",
+      "id": "Zn(OH)2",
+      "canonical_key": "UGZADUVQMDAIAO-UHFFFAOYSA-L",
+      "name": "zinc hydroxide",
       "identifiers": {
-        "inchikey": "WRUGWIBCXHJTDG-UHFFFAOYSA-L"
+        "inchikey": "UGZADUVQMDAIAO-UHFFFAOYSA-L"
       },
       "synonyms": [],
       "evidence": {
-        "source_id": "us-federal/usgs-epsomite",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "SiO2",
-      "canonical_key": "VYPSYNLAJGMNEJ-UHFFFAOYSA-N",
-      "name": "silicon dioxide (quartz)",
-      "identifiers": {
-        "inchikey": "VYPSYNLAJGMNEJ-UHFFFAOYSA-N"
-      },
-      "synonyms": [],
-      "evidence": {
-        "source_id": "us-federal/pubchem-silica",
+        "source_id": "legacy/Zn(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -2944,6 +2964,86 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "isopropanol",
+      "canonical_key": "KFZMGEQAYNKOFK-UHFFFAOYSA-N",
+      "name": "isopropanol",
+      "identifiers": {
+        "inchikey": "KFZMGEQAYNKOFK-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "sucrose",
+      "canonical_key": "CZMRCDWAGMRECN-SFOFJGFUSA-N",
+      "name": "sucrose",
+      "identifiers": {
+        "inchikey": "CZMRCDWAGMRECN-SFOFJGFUSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Fe2O3",
+      "canonical_key": "JEIPFZHSYJVQDO-UHFFFAOYSA-N",
+      "name": "iron(III) oxide (hematite)",
+      "identifiers": {
+        "inchikey": "JEIPFZHSYJVQDO-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "epsomite",
+      "canonical_key": "WRUGWIBCXHJTDG-UHFFFAOYSA-L",
+      "name": "magnesium sulfate heptahydrate (epsomite)",
+      "identifiers": {
+        "inchikey": "WRUGWIBCXHJTDG-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "SiO2",
+      "canonical_key": "VYPSYNLAJGMNEJ-UHFFFAOYSA-N",
+      "name": "silicon dioxide (quartz)",
+      "identifiers": {
+        "inchikey": "VYPSYNLAJGMNEJ-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/pubchem-silica",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -13585,66 +13685,12 @@
       }
     },
     {
-      "id": "composition/isopropanol",
-      "species_id": "isopropanol",
-      "formula": "C3H8O",
+      "id": "composition/Fe(OH)3",
+      "species_id": "Fe(OH)3",
+      "formula": "FeH3O3",
       "elements": [
         {
-          "element": "C",
-          "count": {
-            "value": 3.0,
-            "unit": {
-              "symbol": "1",
-              "dimension": "dimensionless"
-            },
-            "conditions": {
-              "temperature": null,
-              "pressure": null,
-              "ph": null,
-              "ionic_strength": null,
-              "medium": null,
-              "phase": null,
-              "notes": null
-            },
-            "uncertainty": {
-              "kind": "exact"
-            },
-            "source_id": "us-federal/isopropanol-chris",
-            "method": {
-              "kind": "derived",
-              "detail": "parsed from the verbatim legacy declaration"
-            }
-          }
-        },
-        {
-          "element": "H",
-          "count": {
-            "value": 8.0,
-            "unit": {
-              "symbol": "1",
-              "dimension": "dimensionless"
-            },
-            "conditions": {
-              "temperature": null,
-              "pressure": null,
-              "ph": null,
-              "ionic_strength": null,
-              "medium": null,
-              "phase": null,
-              "notes": null
-            },
-            "uncertainty": {
-              "kind": "exact"
-            },
-            "source_id": "us-federal/isopropanol-chris",
-            "method": {
-              "kind": "derived",
-              "detail": "parsed from the verbatim legacy declaration"
-            }
-          }
-        },
-        {
-          "element": "O",
+          "element": "Fe",
           "count": {
             "value": 1.0,
             "unit": {
@@ -13663,72 +13709,7 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "us-federal/isopropanol-chris",
-            "method": {
-              "kind": "derived",
-              "detail": "parsed from the verbatim legacy declaration"
-            }
-          }
-        }
-      ],
-      "net_charge": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "1",
-          "dimension": "dimensionless"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": null,
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "exact"
-        },
-        "source_id": "us-federal/isopropanol-chris",
-        "method": {
-          "kind": "derived",
-          "detail": "parsed from the verbatim legacy declaration"
-        }
-      },
-      "evidence": {
-        "source_id": "us-federal/isopropanol-chris",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "composition/sucrose",
-      "species_id": "sucrose",
-      "formula": "C12H22O11",
-      "elements": [
-        {
-          "element": "C",
-          "count": {
-            "value": 12.0,
-            "unit": {
-              "symbol": "1",
-              "dimension": "dimensionless"
-            },
-            "conditions": {
-              "temperature": null,
-              "pressure": null,
-              "ph": null,
-              "ionic_strength": null,
-              "medium": null,
-              "phase": null,
-              "notes": null
-            },
-            "uncertainty": {
-              "kind": "exact"
-            },
-            "source_id": "kerotakis/sucrose-teaching-properties-v1",
+            "source_id": "legacy/Fe(OH)3",
             "method": {
               "kind": "derived",
               "detail": "parsed from the verbatim legacy declaration"
@@ -13738,7 +13719,7 @@
         {
           "element": "H",
           "count": {
-            "value": 22.0,
+            "value": 3.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13755,99 +13736,7 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "kerotakis/sucrose-teaching-properties-v1",
-            "method": {
-              "kind": "derived",
-              "detail": "parsed from the verbatim legacy declaration"
-            }
-          }
-        },
-        {
-          "element": "O",
-          "count": {
-            "value": 11.0,
-            "unit": {
-              "symbol": "1",
-              "dimension": "dimensionless"
-            },
-            "conditions": {
-              "temperature": null,
-              "pressure": null,
-              "ph": null,
-              "ionic_strength": null,
-              "medium": null,
-              "phase": null,
-              "notes": null
-            },
-            "uncertainty": {
-              "kind": "exact"
-            },
-            "source_id": "kerotakis/sucrose-teaching-properties-v1",
-            "method": {
-              "kind": "derived",
-              "detail": "parsed from the verbatim legacy declaration"
-            }
-          }
-        }
-      ],
-      "net_charge": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "1",
-          "dimension": "dimensionless"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": null,
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "exact"
-        },
-        "source_id": "kerotakis/sucrose-teaching-properties-v1",
-        "method": {
-          "kind": "derived",
-          "detail": "parsed from the verbatim legacy declaration"
-        }
-      },
-      "evidence": {
-        "source_id": "kerotakis/sucrose-teaching-properties-v1",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "composition/Fe2O3",
-      "species_id": "Fe2O3",
-      "formula": "Fe2O3",
-      "elements": [
-        {
-          "element": "Fe",
-          "count": {
-            "value": 2.0,
-            "unit": {
-              "symbol": "1",
-              "dimension": "dimensionless"
-            },
-            "conditions": {
-              "temperature": null,
-              "pressure": null,
-              "ph": null,
-              "ionic_strength": null,
-              "medium": null,
-              "phase": null,
-              "notes": null
-            },
-            "uncertainty": {
-              "kind": "exact"
-            },
-            "source_id": "us-federal/nasa-cea-hematite",
+            "source_id": "legacy/Fe(OH)3",
             "method": {
               "kind": "derived",
               "detail": "parsed from the verbatim legacy declaration"
@@ -13874,7 +13763,7 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "us-federal/nasa-cea-hematite",
+            "source_id": "legacy/Fe(OH)3",
             "method": {
               "kind": "derived",
               "detail": "parsed from the verbatim legacy declaration"
@@ -13900,14 +13789,14 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "us-federal/nasa-cea-hematite",
+        "source_id": "legacy/Fe(OH)3",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "us-federal/nasa-cea-hematite",
+        "source_id": "legacy/Fe(OH)3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -13915,14 +13804,14 @@
       }
     },
     {
-      "id": "composition/epsomite",
-      "species_id": "epsomite",
-      "formula": "MgSO4·7H2O",
+      "id": "composition/Fe(OH)2",
+      "species_id": "Fe(OH)2",
+      "formula": "FeH2O2",
       "elements": [
         {
-          "element": "H",
+          "element": "Fe",
           "count": {
-            "value": 14.0,
+            "value": 1.0,
             "unit": {
               "symbol": "1",
               "dimension": "dimensionless"
@@ -13939,7 +13828,126 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "us-federal/usgs-epsomite",
+            "source_id": "legacy/Fe(OH)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Fe(OH)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Fe(OH)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Fe(OH)2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Fe(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Mg(OH)2",
+      "species_id": "Mg(OH)2",
+      "formula": "MgH2O2",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Mg(OH)2",
             "method": {
               "kind": "derived",
               "detail": "parsed from the verbatim legacy declaration"
@@ -13966,105 +13974,13 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "us-federal/usgs-epsomite",
+            "source_id": "legacy/Mg(OH)2",
             "method": {
               "kind": "derived",
               "detail": "parsed from the verbatim legacy declaration"
             }
           }
         },
-        {
-          "element": "O",
-          "count": {
-            "value": 11.0,
-            "unit": {
-              "symbol": "1",
-              "dimension": "dimensionless"
-            },
-            "conditions": {
-              "temperature": null,
-              "pressure": null,
-              "ph": null,
-              "ionic_strength": null,
-              "medium": null,
-              "phase": null,
-              "notes": null
-            },
-            "uncertainty": {
-              "kind": "exact"
-            },
-            "source_id": "us-federal/usgs-epsomite",
-            "method": {
-              "kind": "derived",
-              "detail": "parsed from the verbatim legacy declaration"
-            }
-          }
-        },
-        {
-          "element": "S",
-          "count": {
-            "value": 1.0,
-            "unit": {
-              "symbol": "1",
-              "dimension": "dimensionless"
-            },
-            "conditions": {
-              "temperature": null,
-              "pressure": null,
-              "ph": null,
-              "ionic_strength": null,
-              "medium": null,
-              "phase": null,
-              "notes": null
-            },
-            "uncertainty": {
-              "kind": "exact"
-            },
-            "source_id": "us-federal/usgs-epsomite",
-            "method": {
-              "kind": "derived",
-              "detail": "parsed from the verbatim legacy declaration"
-            }
-          }
-        }
-      ],
-      "net_charge": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "1",
-          "dimension": "dimensionless"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": null,
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "exact"
-        },
-        "source_id": "us-federal/usgs-epsomite",
-        "method": {
-          "kind": "derived",
-          "detail": "parsed from the verbatim legacy declaration"
-        }
-      },
-      "evidence": {
-        "source_id": "us-federal/usgs-epsomite",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "composition/SiO2",
-      "species_id": "SiO2",
-      "formula": "SiO2",
-      "elements": [
         {
           "element": "O",
           "count": {
@@ -14085,34 +14001,7 @@
             "uncertainty": {
               "kind": "exact"
             },
-            "source_id": "us-federal/pubchem-silica",
-            "method": {
-              "kind": "derived",
-              "detail": "parsed from the verbatim legacy declaration"
-            }
-          }
-        },
-        {
-          "element": "Si",
-          "count": {
-            "value": 1.0,
-            "unit": {
-              "symbol": "1",
-              "dimension": "dimensionless"
-            },
-            "conditions": {
-              "temperature": null,
-              "pressure": null,
-              "ph": null,
-              "ionic_strength": null,
-              "medium": null,
-              "phase": null,
-              "notes": null
-            },
-            "uncertainty": {
-              "kind": "exact"
-            },
-            "source_id": "us-federal/pubchem-silica",
+            "source_id": "legacy/Mg(OH)2",
             "method": {
               "kind": "derived",
               "detail": "parsed from the verbatim legacy declaration"
@@ -14138,14 +14027,133 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "us-federal/pubchem-silica",
+        "source_id": "legacy/Mg(OH)2",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
         }
       },
       "evidence": {
-        "source_id": "us-federal/pubchem-silica",
+        "source_id": "legacy/Mg(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Zn(OH)2",
+      "species_id": "Zn(OH)2",
+      "formula": "ZnH2O2",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Zn(OH)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Zn(OH)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Zn",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Zn(OH)2",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Zn(OH)2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Zn(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -14936,6 +14944,574 @@
       },
       "evidence": {
         "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/isopropanol",
+      "species_id": "isopropanol",
+      "formula": "C3H8O",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/isopropanol-chris",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/isopropanol-chris",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/isopropanol-chris",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/sucrose",
+      "species_id": "sucrose",
+      "formula": "C12H22O11",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 12.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/sucrose-teaching-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 22.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/sucrose-teaching-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 11.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/sucrose-teaching-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Fe2O3",
+      "species_id": "Fe2O3",
+      "formula": "Fe2O3",
+      "elements": [
+        {
+          "element": "Fe",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/nasa-cea-hematite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/nasa-cea-hematite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/epsomite",
+      "species_id": "epsomite",
+      "formula": "MgSO4·7H2O",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 14.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Mg",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 11.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/SiO2",
+      "species_id": "SiO2",
+      "formula": "SiO2",
+      "elements": [
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/pubchem-silica",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Si",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/pubchem-silica",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/pubchem-silica",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/pubchem-silica",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -24815,102 +25391,12 @@
       }
     },
     {
-      "id": "molar-mass/isopropanol",
-      "species_id": "isopropanol",
-      "phase": "liquid",
-      "property": "molar_mass",
-      "quantity": {
-        "value": 60.096,
-        "unit": {
-          "symbol": "g/mol",
-          "dimension": "molar_mass"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "liquid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "us-federal/isopropanol-chris",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "heat-capacity/isopropanol",
-      "species_id": "isopropanol",
-      "phase": "liquid",
-      "property": "molar_heat_capacity",
-      "quantity": {
-        "value": 152.2,
-        "unit": {
-          "symbol": "J/(mol.K)",
-          "dimension": "molar_heat_capacity"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "liquid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "us-federal/isopropanol-chris",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "density/isopropanol",
-      "species_id": "isopropanol",
-      "phase": "liquid",
-      "property": "mass_density",
-      "quantity": {
-        "value": 0.785,
-        "unit": {
-          "symbol": "g/mL",
-          "dimension": "mass_density"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "liquid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "us-federal/isopropanol-chris",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "molar-mass/sucrose",
-      "species_id": "sucrose",
+      "id": "molar-mass/Fe(OH)3",
+      "species_id": "Fe(OH)3",
       "phase": "solid",
       "property": "molar_mass",
       "quantity": {
-        "value": 342.2965,
+        "value": 106.87,
         "unit": {
           "symbol": "g/mol",
           "dimension": "molar_mass"
@@ -24927,7 +25413,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "source_id": "legacy/Fe(OH)3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -24935,12 +25421,12 @@
       }
     },
     {
-      "id": "heat-capacity/sucrose",
-      "species_id": "sucrose",
+      "id": "heat-capacity/Fe(OH)3",
+      "species_id": "Fe(OH)3",
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 484.0,
+        "value": 101.7,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -24957,7 +25443,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "source_id": "legacy/Fe(OH)3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -24965,12 +25451,12 @@
       }
     },
     {
-      "id": "density/sucrose",
-      "species_id": "sucrose",
+      "id": "density/Fe(OH)3",
+      "species_id": "Fe(OH)3",
       "phase": "solid",
       "property": "mass_density",
       "quantity": {
-        "value": 1.59,
+        "value": 3.4,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -24987,7 +25473,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "source_id": "legacy/Fe(OH)3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -24995,12 +25481,12 @@
       }
     },
     {
-      "id": "molar-mass/Fe2O3",
-      "species_id": "Fe2O3",
+      "id": "molar-mass/Fe(OH)2",
+      "species_id": "Fe(OH)2",
       "phase": "solid",
       "property": "molar_mass",
       "quantity": {
-        "value": 159.687,
+        "value": 89.86,
         "unit": {
           "symbol": "g/mol",
           "dimension": "molar_mass"
@@ -25017,7 +25503,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "us-federal/nasa-cea-hematite",
+        "source_id": "legacy/Fe(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -25025,12 +25511,12 @@
       }
     },
     {
-      "id": "heat-capacity/Fe2O3",
-      "species_id": "Fe2O3",
+      "id": "heat-capacity/Fe(OH)2",
+      "species_id": "Fe(OH)2",
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 103.9,
+        "value": 97.0,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -25047,7 +25533,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "us-federal/nasa-cea-hematite",
+        "source_id": "legacy/Fe(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -25055,12 +25541,12 @@
       }
     },
     {
-      "id": "density/Fe2O3",
-      "species_id": "Fe2O3",
+      "id": "density/Fe(OH)2",
+      "species_id": "Fe(OH)2",
       "phase": "solid",
       "property": "mass_density",
       "quantity": {
-        "value": 5.24,
+        "value": 3.4,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -25077,7 +25563,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "us-federal/nasa-cea-hematite",
+        "source_id": "legacy/Fe(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -25085,12 +25571,12 @@
       }
     },
     {
-      "id": "molar-mass/epsomite",
-      "species_id": "epsomite",
+      "id": "molar-mass/Mg(OH)2",
+      "species_id": "Mg(OH)2",
       "phase": "solid",
       "property": "molar_mass",
       "quantity": {
-        "value": 246.471,
+        "value": 58.32,
         "unit": {
           "symbol": "g/mol",
           "dimension": "molar_mass"
@@ -25107,7 +25593,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "us-federal/usgs-epsomite",
+        "source_id": "legacy/Mg(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -25115,12 +25601,12 @@
       }
     },
     {
-      "id": "heat-capacity/epsomite",
-      "species_id": "epsomite",
+      "id": "heat-capacity/Mg(OH)2",
+      "species_id": "Mg(OH)2",
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 360.0,
+        "value": 77.03,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -25137,7 +25623,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "us-federal/usgs-epsomite",
+        "source_id": "legacy/Mg(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -25145,12 +25631,12 @@
       }
     },
     {
-      "id": "density/epsomite",
-      "species_id": "epsomite",
+      "id": "density/Mg(OH)2",
+      "species_id": "Mg(OH)2",
       "phase": "solid",
       "property": "mass_density",
       "quantity": {
-        "value": 1.68,
+        "value": 2.34,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -25167,7 +25653,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "us-federal/usgs-epsomite",
+        "source_id": "legacy/Mg(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -25175,12 +25661,12 @@
       }
     },
     {
-      "id": "molar-mass/SiO2",
-      "species_id": "SiO2",
+      "id": "molar-mass/Zn(OH)2",
+      "species_id": "Zn(OH)2",
       "phase": "solid",
       "property": "molar_mass",
       "quantity": {
-        "value": 60.084,
+        "value": 99.42,
         "unit": {
           "symbol": "g/mol",
           "dimension": "molar_mass"
@@ -25197,7 +25683,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "us-federal/pubchem-silica",
+        "source_id": "legacy/Zn(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -25205,12 +25691,12 @@
       }
     },
     {
-      "id": "heat-capacity/SiO2",
-      "species_id": "SiO2",
+      "id": "heat-capacity/Zn(OH)2",
+      "species_id": "Zn(OH)2",
       "phase": "solid",
       "property": "molar_heat_capacity",
       "quantity": {
-        "value": 44.6,
+        "value": 72.4,
         "unit": {
           "symbol": "J/(mol.K)",
           "dimension": "molar_heat_capacity"
@@ -25227,7 +25713,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "us-federal/pubchem-silica",
+        "source_id": "legacy/Zn(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -25235,12 +25721,12 @@
       }
     },
     {
-      "id": "density/SiO2",
-      "species_id": "SiO2",
+      "id": "density/Zn(OH)2",
+      "species_id": "Zn(OH)2",
       "phase": "solid",
       "property": "mass_density",
       "quantity": {
-        "value": 2.65,
+        "value": 3.05,
         "unit": {
           "symbol": "g/mL",
           "dimension": "mass_density"
@@ -25257,7 +25743,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "us-federal/pubchem-silica",
+        "source_id": "legacy/Zn(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -25978,6 +26464,456 @@
           "kind": "not_reported"
         },
         "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 60.096,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 152.2,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.785,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 342.2965,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 484.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.59,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Fe2O3",
+      "species_id": "Fe2O3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 159.687,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Fe2O3",
+      "species_id": "Fe2O3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 103.9,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Fe2O3",
+      "species_id": "Fe2O3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 5.24,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 246.471,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 360.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.68,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/SiO2",
+      "species_id": "SiO2",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 60.084,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/pubchem-silica",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/SiO2",
+      "species_id": "SiO2",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 44.6,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/pubchem-silica",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/SiO2",
+      "species_id": "SiO2",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.65,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/pubchem-silica",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -31417,15 +32353,15 @@
       }
     },
     {
-      "id": "optical/isopropanol",
-      "species_id": "isopropanol",
-      "phase": "liquid",
-      "appearance": "colourless",
+      "id": "optical/Fe(OH)3",
+      "species_id": "Fe(OH)3",
+      "phase": "solid",
+      "appearance": "red-brown",
       "flame_colour": null,
-      "reflective_srgb": null,
+      "reflective_srgb": "#A0522D",
       "spectrum": [],
       "evidence": {
-        "source_id": "us-federal/isopropanol-chris",
+        "source_id": "legacy/Fe(OH)3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -31433,15 +32369,31 @@
       }
     },
     {
-      "id": "optical/sucrose",
-      "species_id": "sucrose",
+      "id": "optical/Fe(OH)2",
+      "species_id": "Fe(OH)2",
+      "phase": "solid",
+      "appearance": "pale green",
+      "flame_colour": null,
+      "reflective_srgb": "#9CB99A",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/Fe(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Mg(OH)2",
+      "species_id": "Mg(OH)2",
       "phase": "solid",
       "appearance": "white",
       "flame_colour": null,
-      "reflective_srgb": null,
+      "reflective_srgb": "#F5F5F5",
       "spectrum": [],
       "evidence": {
-        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "source_id": "legacy/Mg(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -31449,47 +32401,15 @@
       }
     },
     {
-      "id": "optical/Fe2O3",
-      "species_id": "Fe2O3",
+      "id": "optical/Zn(OH)2",
+      "species_id": "Zn(OH)2",
       "phase": "solid",
-      "appearance": "reddish brown",
+      "appearance": "white",
       "flame_colour": null,
-      "reflective_srgb": "#914236",
+      "reflective_srgb": "#F5F5F5",
       "spectrum": [],
       "evidence": {
-        "source_id": "us-federal/nasa-cea-hematite",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "optical/epsomite",
-      "species_id": "epsomite",
-      "phase": "solid",
-      "appearance": "colourless to white crystals",
-      "flame_colour": null,
-      "reflective_srgb": null,
-      "spectrum": [],
-      "evidence": {
-        "source_id": "us-federal/usgs-epsomite",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "optical/SiO2",
-      "species_id": "SiO2",
-      "phase": "solid",
-      "appearance": "colourless to white grains",
-      "flame_colour": null,
-      "reflective_srgb": null,
-      "spectrum": [],
-      "evidence": {
-        "source_id": "us-federal/pubchem-silica",
+        "source_id": "legacy/Zn(OH)2",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -31602,6 +32522,86 @@
       "spectrum": [],
       "evidence": {
         "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Fe2O3",
+      "species_id": "Fe2O3",
+      "phase": "solid",
+      "appearance": "reddish brown",
+      "flame_colour": null,
+      "reflective_srgb": "#914236",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "appearance": "colourless to white crystals",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/SiO2",
+      "species_id": "SiO2",
+      "phase": "solid",
+      "appearance": "colourless to white grains",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/pubchem-silica",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -36464,10 +37464,10 @@
       }
     },
     {
-      "id": "dissolves-without-speciation/isopropanol",
+      "id": "dissolves-without-speciation/Fe(OH)3",
       "subject": {
         "kind": "species",
-        "id": "isopropanol"
+        "id": "Fe(OH)3"
       },
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
@@ -36489,7 +37489,7 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "us-federal/isopropanol-chris",
+        "source_id": "legacy/Fe(OH)3",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
@@ -36497,109 +37497,10 @@
       }
     },
     {
-      "id": "dissolves-without-speciation/sucrose",
+      "id": "legacy-tint-strength/Fe(OH)3",
       "subject": {
         "kind": "species",
-        "id": "sucrose"
-      },
-      "model": "legacy-runtime",
-      "parameter": "dissolves-without-speciation",
-      "quantity": {
-        "value": 1.0,
-        "unit": {
-          "symbol": "1",
-          "dimension": "dimensionless"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": null,
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "exact"
-        },
-        "source_id": "kerotakis/sucrose-teaching-properties-v1",
-        "method": {
-          "kind": "derived",
-          "detail": "parsed from the verbatim legacy declaration"
-        }
-      }
-    },
-    {
-      "id": "aqueous-solubility/sucrose",
-      "subject": {
-        "kind": "species",
-        "id": "sucrose"
-      },
-      "model": "bounded-room-temperature-dissolution",
-      "parameter": "aqueous-solubility-g-per-100-ml",
-      "quantity": {
-        "value": 200.0,
-        "unit": {
-          "symbol": "g/100mL",
-          "dimension": "mass_concentration"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": "solid",
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "not_reported"
-        },
-        "source_id": "kerotakis/sucrose-teaching-properties-v1",
-        "method": {
-          "kind": "imported",
-          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
-        }
-      }
-    },
-    {
-      "id": "dissolves-without-speciation/Fe2O3",
-      "subject": {
-        "kind": "species",
-        "id": "Fe2O3"
-      },
-      "model": "legacy-runtime",
-      "parameter": "dissolves-without-speciation",
-      "quantity": {
-        "value": 0.0,
-        "unit": {
-          "symbol": "1",
-          "dimension": "dimensionless"
-        },
-        "conditions": {
-          "temperature": null,
-          "pressure": null,
-          "ph": null,
-          "ionic_strength": null,
-          "medium": null,
-          "phase": null,
-          "notes": null
-        },
-        "uncertainty": {
-          "kind": "exact"
-        },
-        "source_id": "us-federal/nasa-cea-hematite",
-        "method": {
-          "kind": "derived",
-          "detail": "parsed from the verbatim legacy declaration"
-        }
-      }
-    },
-    {
-      "id": "legacy-tint-strength/Fe2O3",
-      "subject": {
-        "kind": "species",
-        "id": "Fe2O3"
+        "id": "Fe(OH)3"
       },
       "model": "legacy-tint",
       "parameter": "strength",
@@ -36621,7 +37522,7 @@
         "uncertainty": {
           "kind": "not_reported"
         },
-        "source_id": "us-federal/nasa-cea-hematite",
+        "source_id": "legacy/Fe(OH)3",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -36629,10 +37530,10 @@
       }
     },
     {
-      "id": "dissolves-without-speciation/epsomite",
+      "id": "dissolves-without-speciation/Fe(OH)2",
       "subject": {
         "kind": "species",
-        "id": "epsomite"
+        "id": "Fe(OH)2"
       },
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
@@ -36654,7 +37555,7 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "us-federal/usgs-epsomite",
+        "source_id": "legacy/Fe(OH)2",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
@@ -36662,10 +37563,43 @@
       }
     },
     {
-      "id": "dissolves-without-speciation/SiO2",
+      "id": "legacy-tint-strength/Fe(OH)2",
       "subject": {
         "kind": "species",
-        "id": "SiO2"
+        "id": "Fe(OH)2"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Fe(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Mg(OH)2",
+      "subject": {
+        "kind": "species",
+        "id": "Mg(OH)2"
       },
       "model": "legacy-runtime",
       "parameter": "dissolves-without-speciation",
@@ -36687,10 +37621,109 @@
         "uncertainty": {
           "kind": "exact"
         },
-        "source_id": "us-federal/pubchem-silica",
+        "source_id": "legacy/Mg(OH)2",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Mg(OH)2",
+      "subject": {
+        "kind": "species",
+        "id": "Mg(OH)2"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Mg(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Zn(OH)2",
+      "subject": {
+        "kind": "species",
+        "id": "Zn(OH)2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Zn(OH)2",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Zn(OH)2",
+      "subject": {
+        "kind": "species",
+        "id": "Zn(OH)2"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Zn(OH)2",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
         }
       }
     },
@@ -36952,6 +37985,237 @@
           "kind": "exact"
         },
         "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/isopropanol",
+      "subject": {
+        "kind": "species",
+        "id": "isopropanol"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/sucrose",
+      "subject": {
+        "kind": "species",
+        "id": "sucrose"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/sucrose",
+      "subject": {
+        "kind": "species",
+        "id": "sucrose"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 200.0,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Fe2O3",
+      "subject": {
+        "kind": "species",
+        "id": "Fe2O3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Fe2O3",
+      "subject": {
+        "kind": "species",
+        "id": "Fe2O3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/epsomite",
+      "subject": {
+        "kind": "species",
+        "id": "epsomite"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/SiO2",
+      "subject": {
+        "kind": "species",
+        "id": "SiO2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/pubchem-silica",
         "method": {
           "kind": "derived",
           "detail": "parsed from the verbatim legacy declaration"
