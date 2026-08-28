@@ -2249,6 +2249,56 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
     }
 }
 
+/// Translate the prose a host renders directly off a serialised event.
+///
+/// Most engine text reaches the reader through `render_event_in`, which
+/// takes a locale. `HazardWarning` does not: the shell reads `hazard` and
+/// `real_world` off the event itself, so a German session showed a German
+/// frame around English safety prose. These strings are built in
+/// `bench.rs` and the safety screen, neither of which knows the locale —
+/// it lives in the wasm wrapper — so the translation happens here, on the
+/// way out.
+///
+/// Untranslated strings pass through unchanged. English is a working
+/// fallback for a hazard note; a missing one is not.
+pub fn localize_event(event: &Event, locale: Locale) -> Event {
+    if locale.is_english() {
+        return event.clone();
+    }
+    match event {
+        Event::HazardWarning {
+            severity,
+            hazard,
+            real_world,
+        } => Event::HazardWarning {
+            severity: *severity,
+            hazard: localize_hazard(hazard, locale),
+            real_world: locale
+                .lookup(&format!("real_world.{real_world}"))
+                .map(str::to_string)
+                .unwrap_or_else(|| real_world.clone()),
+        },
+        other => other.clone(),
+    }
+}
+
+/// As `localize_event`, over a slice.
+pub fn localize_events(events: &[Event], locale: Locale) -> Vec<Event> {
+    events.iter().map(|e| localize_event(e, locale)).collect()
+}
+
+fn localize_hazard(hazard: &str, locale: Locale) -> String {
+    // Two tables, tried in turn: the fixed hazards the safety screen and
+    // bench raise, then the per-substance vapour sentences. Both are keyed
+    // by the exact English, so an untranslated one renders in English
+    // rather than vanishing.
+    locale
+        .lookup(&format!("hazard.{hazard}"))
+        .or_else(|| locale.lookup(&format!("hazard_vapour.{hazard}")))
+        .map(str::to_string)
+        .unwrap_or_else(|| hazard.to_string())
+}
+
 #[cfg(test)]
 mod dedupe_tests {
     use super::*;

@@ -389,7 +389,10 @@
       {#if showZones}
         <div class="zone-guides" aria-label={t("bench work zones")}>
           {#each BENCH_ZONES as zone (zone)}
-            {@const zoneCount = scene.vessels.filter((v) => zoneFor(layout, v.id) === zone).length}
+            {@const zoneCount = scene.vessels.filter(
+              // i18n-ok: `v.id` is a vessel handle (v1, v2), never shown as prose.
+              (v) => zoneFor(layout, v.id) === zone,
+            ).length}
             <section
               class="work-zone"
               class:drop-target={dropZone === zone}

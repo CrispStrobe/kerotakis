@@ -4,6 +4,7 @@
     checkExpect,
     conceptIndex,
     curriculumIndex,
+    experimentMatches,
     relatedConcepts,
     scriptKit,
     type CheckResult,
@@ -43,9 +44,15 @@
   const shown = $derived.by(() => {
     let list = entries;
     if (view === "concepts" && concept) {
+      // i18n-ok: concept slugs are keys; `concept` comes from a chip, not a box.
       list = list.filter((e) => e.concepts?.includes(concept!));
     }
-    if (filter.trim()) list = list.filter((entry) => experimentMatches(entry, filter, t));
+    const q = filter.trim();
+    if (q) {
+      // Match canonical and visible localized text. `t()` reads the reactive
+      // locale, so changing languages also refilters the catalog.
+      list = list.filter((entry) => experimentMatches(entry, q, t));
+    }
     return list;
   });
 

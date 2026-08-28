@@ -153,6 +153,18 @@ pub struct Entry {
     pub expect: Expect,
     pub registers: Registers,
     pub provenance: Provenance,
+    /// Translations into languages no field here names.
+    ///
+    /// `summary_de` is a field; `summary_fr` is not, and without somewhere
+    /// to land it would be parsed and then silently discarded. Adding a
+    /// language is meant to be a data change — one sidecar file — so the
+    /// types must not have to learn its name first.
+    #[serde(
+        flatten,
+        default,
+        skip_serializing_if = "std::collections::BTreeMap::is_empty"
+    )]
+    pub other_locales: std::collections::BTreeMap<String, toml::Value>,
 }
 
 /// One curriculum's placement of an entry.
@@ -253,6 +265,18 @@ pub struct Prediction {
     /// engine actually computes rather than what a textbook rounds to.
     #[serde(default)]
     pub diagnosis: Vec<Diagnosis>,
+    /// Translations into languages no field here names.
+    ///
+    /// `summary_de` is a field; `summary_fr` is not, and without somewhere
+    /// to land it would be parsed and then silently discarded. Adding a
+    /// language is meant to be a data change — one sidecar file — so the
+    /// types must not have to learn its name first.
+    #[serde(
+        flatten,
+        default,
+        skip_serializing_if = "std::collections::BTreeMap::is_empty"
+    )]
+    pub other_locales: std::collections::BTreeMap<String, toml::Value>,
 }
 
 /// Write `value` at `<path>_<code>`, following the path through tables and
@@ -372,6 +396,18 @@ pub struct Diagnosis {
     /// than invented.
     #[serde(default)]
     pub source: Option<String>,
+    /// Translations into languages no field here names.
+    ///
+    /// `summary_de` is a field; `summary_fr` is not, and without somewhere
+    /// to land it would be parsed and then silently discarded. Adding a
+    /// language is meant to be a data change — one sidecar file — so the
+    /// types must not have to learn its name first.
+    #[serde(
+        flatten,
+        default,
+        skip_serializing_if = "std::collections::BTreeMap::is_empty"
+    )]
+    pub other_locales: std::collections::BTreeMap<String, toml::Value>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -611,6 +647,18 @@ pub struct Concept {
     /// The concept's id in the source vocabulary.
     pub oeh: String,
     pub source: String,
+    /// Translations into languages no field here names.
+    ///
+    /// `summary_de` is a field; `summary_fr` is not, and without somewhere
+    /// to land it would be parsed and then silently discarded. Adding a
+    /// language is meant to be a data change — one sidecar file — so the
+    /// types must not have to learn its name first.
+    #[serde(
+        flatten,
+        default,
+        skip_serializing_if = "std::collections::BTreeMap::is_empty"
+    )]
+    pub other_locales: std::collections::BTreeMap<String, toml::Value>,
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]

@@ -3,7 +3,7 @@
   import { amountUnits, suggestedAmount, type AmountUnit } from "../amounts";
   import { reagentMatches } from "../catalogSearch";
   import SpeciesChip from "./SpeciesChip.svelte";
-  import { t } from "../i18n.svelte";
+  import { i18n, t } from "../i18n.svelte";
   import { reagentAccess, reagentRequirement } from "../catalogProgress";
   import { stockRemaining } from "../storyStock";
   import type { LabMode } from "../worldState";
@@ -48,7 +48,13 @@
 
   /** One tap narrows to a phase; the chips only exist when useful. */
   let phase = $state<string | null>(null);
-  const phases = $derived([...new Set(visible.map((s) => s.phase))].sort());
+  // The chips are sorted as they are shown. `phase` itself stays the
+  // English wire value — it is a key, and `filtered` compares it below.
+  const phases = $derived(
+    [...new Set(visible.map((s) => s.phase))].sort((a, b) =>
+      t(a).localeCompare(t(b), i18n.locale),
+    ),
+  );
   $effect(() => {
     if (phase && !phases.includes(phase)) phase = null;
   });
