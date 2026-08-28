@@ -1113,6 +1113,8 @@
   "{step} of {total} steps": "",
   "{tool} deployed": "",
   "{tool}: pick the source vessel, then the target": "",
-  "{zone} work zone": ""
+  "{zone} work zone": "",
+  "nothing to draw yet — dissolve or add something first": "",
+  "everything here is too dilute to draw even one shape": ""
  }
 }

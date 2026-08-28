@@ -1235,6 +1235,8 @@
   "name it": "benennen",
   "quest started: {title}": "Aufgabe gestartet: {title}",
   "\"{guess}\" — not it yet; look again.": "„{guess}“ — noch nicht; schau noch einmal hin.",
-  "quest complete: {title}": "Aufgabe abgeschlossen: {title}"
+  "quest complete: {title}": "Aufgabe abgeschlossen: {title}",
+  "nothing to draw yet — dissolve or add something first": "noch nichts zu zeichnen — löse oder gib zuerst etwas hinzu",
+  "everything here is too dilute to draw even one shape": "alles hier ist zu verdünnt, um auch nur ein Teilchen zu zeichnen"
  }
 }
