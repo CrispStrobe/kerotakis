@@ -4,6 +4,7 @@
   import { reagentMatches } from "../catalogSearch";
   import SpeciesChip from "./SpeciesChip.svelte";
   import { i18n, t } from "../i18n.svelte";
+  import { stepAmount } from "../stepAmount";
   import { reagentAccess, reagentRequirement } from "../catalogProgress";
   import { stockRemaining } from "../storyStock";
   import type { LabMode } from "../worldState";
@@ -151,7 +152,21 @@
             >
               <label>
                 <span>{t("amount")}</span>
-                <input type="number" min="0.000001" step="any" required bind:value={amountValue} />
+                <div class="stepper">
+                  <button
+                    type="button"
+                    class="step"
+                    aria-label={t("less")}
+                    onclick={() => (amountValue = stepAmount(amountValue, -1))}
+                  >−</button>
+                  <input type="number" min="0.000001" step="any" required bind:value={amountValue} />
+                  <button
+                    type="button"
+                    class="step"
+                    aria-label={t("more")}
+                    onclick={() => (amountValue = stepAmount(amountValue, 1))}
+                  >+</button>
+                </div>
               </label>
               <label>
                 <span>{t("unit")}</span>
@@ -299,10 +314,51 @@
   }
   .amounts {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 5rem auto;
+    /* Two rows, not one. Widening the amount column for the steppers
+       pushed the add button out of the panel entirely — the shelf is
+       ~370px and steppers + number + unit + button do not fit across it.
+       The button spanning its own row is also the easier target. */
+    /* One control per row. Measured: the shelf gives this form 207px, and
+       steppers (88) + number + unit (80) across it left the number 33px
+       wide — too narrow to read the value in, let alone edit it. */
+    grid-template-columns: 1fr;
     gap: 0.35rem;
     padding: 0.5rem 0.2rem;
     align-items: end;
+  }
+  .amounts label,
+  .add-amount,
+  .amounts small {
+    grid-column: 1 / -1;
+  }
+  .stepper {
+    display: grid;
+    grid-template-columns: 2.75rem minmax(0, 1fr) 2.75rem;
+  }
+  .stepper input {
+    border-radius: 0;
+    text-align: center;
+  }
+  .step {
+    /* 44px is the smallest target a finger hits reliably; the measured
+       height here was 38. */
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+    background: var(--panel-raised);
+    border: 1px solid var(--edge);
+    color: var(--ink);
+    font-size: 1.05rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .step:first-child {
+    border-radius: 9px 0 0 9px;
+  }
+  .step:last-child {
+    border-radius: 0 9px 9px 0;
+  }
+  .step:hover {
+    background: var(--panel);
   }
   .amounts label { display: grid; gap: 0.15rem; color: var(--dim); font-size: 0.62rem; }
   .amounts input,
@@ -316,7 +372,10 @@
     font-size: 0.8rem;
     padding: 0.38rem 0.45rem;
     min-width: 0;
-    min-height: 38px;
+    /* 44px, not the 38px this used to say: measured on the bench at iPad
+       size, 38 is under the touch minimum and this whole row is meant to
+       be tapped. */
+    min-height: 2.75rem;
   }
   .add-amount { color: white; background: var(--action); border-color: var(--action); cursor: pointer; font-weight: 750; }
   .amounts small { grid-column: 1 / -1; color: var(--dim); font-size: 0.6rem; }

@@ -121,3 +121,30 @@ fn other_events_are_not_disturbed() {
     let (hazard, _) = parts(&out[0]);
     assert!(hazard.contains("Strahlung"), "{hazard}");
 }
+
+/// Every flame-test colour in the registry has German.
+///
+/// The colour IS the result of a flame test. Left in English inside a
+/// German sentence it loses the only word the reader needed — and the
+/// fallback is silent, so walking the registry is the only thing that
+/// keeps this true as colours are added. The hazard version of this test
+/// found NH2Cl the first time it ran.
+#[test]
+fn flame_colours_are_translated() {
+    let de = Locale::parse("de");
+    let mut missing: Vec<&str> = Vec::new();
+    for entry in kerotakis_core::species::all_species() {
+        let Some(colour) = entry.flame_colour else {
+            continue;
+        };
+        if de.lookup(&format!("flame.{colour}")).is_none() {
+            missing.push(colour);
+        }
+    }
+    missing.sort_unstable();
+    missing.dedup();
+    assert!(
+        missing.is_empty(),
+        "no German for flame colours: {missing:?}"
+    );
+}

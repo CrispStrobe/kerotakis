@@ -223,7 +223,12 @@
   "Uranium": "Uran",
   "Plutonium": "Plutonium",
   "Californium": "Californium",
-  "Roentgenium": "Röntgenium"
+  "Roentgenium": "Röntgenium",
+  "electrons": "Elektronen",
+  "prefactor": "Vorfaktor",
+  "exponent": "Exponent",
+  "value": "Wert",
+  "charge": "Ladung"
  },
  "messages": {
   "English": "Englisch",
@@ -1257,6 +1262,7 @@
   "Curated data": "Kuratierte Daten",
   "Reactivity screening": "Reaktivitätsprüfung",
   "Optional, per-platform": "Optional, je nach Plattform",
-  "Build-time only (not distributed with binaries)": "Nur zur Bauzeit (nicht mit den Binärdateien verteilt)"
+  "Build-time only (not distributed with binaries)": "Nur zur Bauzeit (nicht mit den Binärdateien verteilt)",
+  "less": "weniger"
  }
 }

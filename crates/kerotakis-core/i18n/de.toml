@@ -480,3 +480,17 @@ boiled = "siedete"
 "NO2 vapour is hazardous to inhale" = "NO2-Gas ist beim Einatmen gefährlich"
 "methanol vapour is hazardous to inhale" = "Methanoldampf ist beim Einatmen gefährlich"
 "NH2Cl vapour is hazardous to inhale" = "NH2Cl-Gas ist beim Einatmen gefährlich"
+
+# Flame-test colours, by their English. The colour IS the result of a
+# flame test — leaving it in English under a German sentence loses the
+# only word that mattered. `flame_colours_are_translated` walks the
+# registry so a new one cannot be added without German.
+[flame]
+"a blinding white" = "blendend weiß"
+"blue-green" = "blaugrün"
+"brick red" = "ziegelrot"
+"bright yellow" = "leuchtend gelb"
+"crimson red" = "karminrot"
+"lilac" = "lila"
+"orange-red" = "orangerot"
+"violet" = "violett"
