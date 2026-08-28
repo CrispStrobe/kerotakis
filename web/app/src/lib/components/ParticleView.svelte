@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { ParticleCensus } from "../host/EngineHost";
   import { t } from "../i18n.svelte";
+  import { censusView } from "../particleCensus";
 
   let { census }: { census: ParticleCensus } = $props();
 
@@ -16,6 +17,7 @@
   };
   const norm = (kind: string) => kind.toLowerCase().replace(/_/g, "");
   const describe = (kind: string) => t(KINDS[norm(kind)]?.describe ?? kind);
+  const view = $derived(censusView(census));
   const populationSummary = $derived(
     census.populations
       .map((population) => t("{drawn} of {label}", {
@@ -55,6 +57,20 @@
       </span>
     </div>
   {/each}
+  {#if view !== "particles"}
+    <!-- An empty census renders an empty box, which reads as a dead
+         button: the reader pressed "particles" and the app did nothing.
+         There are two ways to have nothing to draw and they mean opposite
+         things — an empty vessel, and a vessel whose contents are all
+         below one glyph — so they are not collapsed into one message.
+         Water alone lands here too: H2O is filtered out of the census, so
+         a beaker of water has no populations. -->
+    <p class="empty">
+      {view === "too-dilute"
+        ? t("everything here is too dilute to draw even one shape")
+        : t("nothing to draw yet — dissolve or add something first")}
+    </p>
+  {/if}
   {#if census.too_rare.length > 0}
     <p class="note">
       {t("also present, too dilute to draw at this scale:")}
@@ -70,6 +86,12 @@
 </section>
 
 <style>
+  .empty {
+    margin: 0.35rem 0;
+    color: var(--muted, #667);
+    font-style: italic;
+  }
+
   .particles {
     padding: 0.6rem 1rem;
     border-top: 1px solid var(--edge);

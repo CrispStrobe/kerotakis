@@ -1,6 +1,50 @@
 import { defineConfig, type Plugin, type HtmlTagDescriptor } from "vite";
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 
+import { execSync } from "node:child_process";
+
+/** The commit this was built from: CI's stamp, else git, else unknown. */
+function buildCommit(): string {
+  const fromCi = process.env.GITHUB_SHA;
+  if (fromCi) return fromCi.slice(0, 7);
+  try {
+    return (
+      execSync("git rev-parse --short=7 HEAD", { stdio: ["ignore", "pipe", "ignore"] })
+        .toString()
+        .trim() || "unknown"
+    );
+  } catch {
+    // A tarball with no .git is a legitimate way to build this.
+    return "unknown";
+  }
+}
+
+/** The tag or branch, when there is one. Never invented. */
+function buildRef(): string {
+  const fromCi = process.env.GITHUB_REF_NAME;
+  if (fromCi) return fromCi;
+  try {
+    const tag = execSync("git describe --tags --exact-match", {
+      stdio: ["ignore", "pipe", "ignore"],
+    })
+      .toString()
+      .trim();
+    if (tag) return tag;
+  } catch {
+    /* not on a tag, which is the normal case */
+  }
+  try {
+    return (
+      execSync("git rev-parse --abbrev-ref HEAD", { stdio: ["ignore", "pipe", "ignore"] })
+        .toString()
+        .trim() || ""
+    );
+  } catch {
+    return "";
+  }
+}
+
+
 /**
  * The payload-root tags: the manifest, the icons, and the iOS chrome hints.
  *
@@ -41,6 +85,14 @@ function payloadRootTags(): Plugin {
 // The app builds to static files that tools/build-web.sh copies beside the
 // wasm-bindgen output — same serving model as the legacy console page.
 export default defineConfig({
+  // Stamped in rather than read at runtime: the running app has no way to
+  // ask what it was built from, and "which build?" is the first question
+  // of every bug report.
+  define: {
+    __KERO_COMMIT__: JSON.stringify(buildCommit()),
+    __KERO_REF__: JSON.stringify(buildRef()),
+    __KERO_BUILT_AT__: JSON.stringify(new Date().toISOString()),
+  },
   plugins: [svelte(), payloadRootTags()],
   base: "./",
   build: {
