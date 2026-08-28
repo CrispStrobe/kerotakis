@@ -1412,11 +1412,16 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             colour,
         } => {
             let name = species::lookup(sid).map(|d| d.name).unwrap_or(sid.0.as_str());
+            // The colour is the result. A German frame around an English
+            // colour loses the one word the reader needed.
+            let colour = locale
+                .lookup(&format!("flame.{colour}"))
+                .unwrap_or(colour.as_str());
             match register.level() {
                 1 => locale.fill(
                     "event.flame-test.lv1",
                     "It does not catch fire — but look: it turns the flame {colour}! Every metal has its own colour, which is how you can tell them apart.",
-                    &[("colour", &colour.to_string())],
+                    &[("colour", colour)],
                 ),
                 2 => {
                     locale.fill(
@@ -1428,7 +1433,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 _ => locale.fill(
                     "event.flame-test.lv3",
                     "{vessel}: no combustion; characteristic emission of {name} ({colour})",
-                    &[("vessel", &vessel.to_string()), ("name", name), ("colour", &colour.to_string())],
+                    &[("vessel", &vessel.to_string()), ("name", name), ("colour", colour)],
                 ),
             }
         }

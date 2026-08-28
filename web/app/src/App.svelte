@@ -243,6 +243,17 @@
       return;
     }
     writeLabMode(appStorage, next);
+    // Arriving in the story on a bare bench is the thing being fixed, and
+    // the reload means the choice has to survive it. Consumed on read, so
+    // it guides on entry rather than nagging on every load.
+    if (next === "story") {
+      try {
+        appStorage?.setItem(STORY_ENTRY_KEY, "yes");
+      } catch {
+        // The bench still works; the reader just arrives unguided, which
+        // is exactly what it was before.
+      }
+    }
     location.reload();
   }
 
@@ -253,7 +264,20 @@
 
   let helpOpen = $state(false);
   let aboutOpen = $state(false);
-  let missionOpen = $state(false);
+  /** Set when the reader chose the story; read once, on arrival. */
+  const STORY_ENTRY_KEY = "kerotakis.story.just-entered.v1";
+  let missionOpen = $state(
+    (() => {
+      if (labMode !== "story") return false;
+      try {
+        if (appStorage?.getItem(STORY_ENTRY_KEY) !== "yes") return false;
+        appStorage.removeItem(STORY_ENTRY_KEY);
+        return true;
+      } catch {
+        return false;
+      }
+    })(),
+  );
   let tableOpen = $state(false);
   let safetyOpen = $state(false);
   let toolboxOpen = $state(false);
@@ -1476,14 +1500,18 @@
   }
   .catalog-scope button {
     min-width: 0;
-    min-height: 34px;
+    /* 34px and 0.62rem (~10px) put three German words across a 370px
+       panel and the report could not read them. 44px is the touch
+       minimum; the larger type is what makes the words legible. */
+    min-height: 2.75rem;
     padding: 0.3rem 0.2rem;
     border: 0;
     color: var(--dim);
     background: transparent;
     font: inherit;
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     font-weight: 750;
+    line-height: 1.15;
     cursor: pointer;
   }
   .catalog-scope button.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 11%, var(--surface-raised)); }
@@ -1496,11 +1524,11 @@
     .shelf-pane,
     aside { transition: width 180ms ease, box-shadow 180ms ease; }
     .shelf-pane.collapsed,
-    aside.collapsed { width: 3.35rem; box-shadow: 0 5px 16px var(--shadow); }
+    aside.collapsed { width: 2.75rem; box-shadow: 0 5px 16px var(--shadow); }
     .shelf-pane.collapsed > :not(.pane-heading),
     aside.collapsed > :not(.pane-heading) { display: none; }
     .shelf-pane.collapsed .pane-heading,
-    aside.collapsed .pane-heading { min-height: 100%; justify-content: center; padding: 0.45rem; border-bottom: 0; }
+    aside.collapsed .pane-heading { min-height: 0; justify-content: flex-start; padding: 0.45rem; border-bottom: 0; }
     .shelf-pane.collapsed .pane-heading > :not(.panel-collapse),
     aside.collapsed .pane-heading > :not(.panel-collapse) { display: none; }
   }
