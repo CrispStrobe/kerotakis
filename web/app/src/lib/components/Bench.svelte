@@ -573,9 +573,9 @@
       linear-gradient(
         to bottom,
         transparent calc(100% - 2.6rem),
-        var(--bench-top, #4a4337) calc(100% - 2.6rem),
-        var(--bench-top, #4a4337) calc(100% - 2.2rem),
-        var(--bench-front, #3a352c) calc(100% - 2.2rem)
+        var(--bench-top) calc(100% - 2.6rem),
+        var(--bench-top) calc(100% - 2.2rem),
+        var(--bench-front) calc(100% - 2.2rem)
       );
     isolation: isolate;
   }
@@ -595,21 +595,21 @@
     background:
       radial-gradient(circle at 12% 17%, color-mix(in srgb, var(--action) 16%, transparent), transparent 13rem),
       radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--instrument) 17%, transparent), transparent 14rem),
-      linear-gradient(to bottom, color-mix(in srgb, #fff4bd 36%, var(--surface-raised)) 0 58%, transparent 58%),
-      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #2c9ba2 calc(100% - 2.6rem), #2c9ba2 calc(100% - 2.2rem), #176775 calc(100% - 2.2rem));
+      linear-gradient(to bottom, color-mix(in srgb, var(--room-discovery-wall) 36%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), var(--room-discovery-trim) calc(100% - 2.6rem), var(--room-discovery-trim) calc(100% - 2.2rem), var(--room-discovery-front) calc(100% - 2.2rem));
   }
   .bench[data-room="research"] {
     background:
-      radial-gradient(ellipse at 50% 22%, color-mix(in srgb, #9eb2bd 18%, transparent), transparent 48%),
-      linear-gradient(to bottom, color-mix(in srgb, #e9eef1 48%, var(--surface-raised)) 0 58%, transparent 58%),
-      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #8297a3 calc(100% - 2.6rem), #8297a3 calc(100% - 2.2rem), #526570 calc(100% - 2.2rem));
+      radial-gradient(ellipse at 50% 22%, color-mix(in srgb, var(--room-research-glow) 18%, transparent), transparent 48%),
+      linear-gradient(to bottom, color-mix(in srgb, var(--room-research-wall) 48%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), var(--room-research-trim) calc(100% - 2.6rem), var(--room-research-trim) calc(100% - 2.2rem), var(--room-research-front) calc(100% - 2.2rem));
   }
   .bench[data-room="orbital"] {
     background:
-      radial-gradient(ellipse at 50% 5%, color-mix(in srgb, #25b9f1 20%, transparent), transparent 42%),
-      linear-gradient(115deg, transparent 19%, color-mix(in srgb, #22baf4 12%, transparent) 19.3% 21.5%, transparent 21.8% 78%, color-mix(in srgb, #22baf4 12%, transparent) 78.3% 80.5%, transparent 80.8%),
-      linear-gradient(to bottom, color-mix(in srgb, #e8f8ff 48%, var(--surface-raised)) 0 58%, transparent 58%),
-      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #2aaee4 calc(100% - 2.6rem), #2aaee4 calc(100% - 2.2rem), #155d85 calc(100% - 2.2rem));
+      radial-gradient(ellipse at 50% 5%, color-mix(in srgb, var(--room-orbital-glow) 20%, transparent), transparent 42%),
+      linear-gradient(115deg, transparent 19%, color-mix(in srgb, var(--room-orbital-beam) 12%, transparent) 19.3% 21.5%, transparent 21.8% 78%, color-mix(in srgb, var(--room-orbital-beam) 12%, transparent) 78.3% 80.5%, transparent 80.8%),
+      linear-gradient(to bottom, color-mix(in srgb, var(--room-orbital-wall) 48%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), var(--room-orbital-trim) calc(100% - 2.6rem), var(--room-orbital-trim) calc(100% - 2.2rem), var(--room-orbital-front) calc(100% - 2.2rem));
   }
   .lab-backdrop {
     position: absolute;

@@ -88,12 +88,26 @@ for (const name of requiredThemes) {
 }
 
 const componentRoot = path.join(root, "web/app/src/lib/components");
+const physicalColourRenderers = new Set([
+  "Bench.svelte",
+  "CaseBoard.svelte",
+  "DeployedApparatus.svelte",
+  "FluidOverlay.svelte",
+  "SpeciesChip.svelte",
+  "Vessel.svelte",
+]);
 for (const entry of fs.readdirSync(componentRoot, { recursive: true, withFileTypes: true })) {
   if (!entry.isFile() || !entry.name.endsWith(".svelte")) continue;
   const file = path.join(entry.parentPath, entry.name);
   const source = fs.readFileSync(file, "utf8");
   if (/color\s*:\s*(?:white|#fff(?:fff)?)(?:\s*;)/i.test(source)) {
     failures.push(`${path.relative(root, file)} bypasses --on-accent with fixed white text`);
+  }
+  if (!physicalColourRenderers.has(entry.name) && /#[0-9a-f]{3,8}\b|\brgba?\s*\(/i.test(source)) {
+    failures.push(
+      `${path.relative(root, file)} hard-codes a UI colour outside the theme; ` +
+        "only computed/physical scene renderers are exempt",
+    );
   }
 }
 

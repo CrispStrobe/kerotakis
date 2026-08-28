@@ -268,16 +268,16 @@
   }
   /* Category tints on the border-left, plus a subtle wash — category is
      also written in words in the detail, never colour alone. */
-  .cat-alkali { border-left: 3px solid #d98a4a; }
-  .cat-alkaline { border-left: 3px solid #c9a227; }
-  .cat-transition { border-left: 3px solid #6fa8c7; }
-  .cat-post { border-left: 3px solid #8ba8a0; }
-  .cat-metalloid { border-left: 3px solid #a487c9; }
-  .cat-nonmetal { border-left: 3px solid #86b06a; }
-  .cat-halogen { border-left: 3px solid #5ea5a5; }
-  .cat-noble { border-left: 3px solid #b06a86; }
-  .cat-lanthanide { border-left: 3px solid #b65a3a; }
-  .cat-actinide { border-left: 3px solid #7d6a5a; }
+  .cat-alkali { border-left: 3px solid var(--element-alkali); }
+  .cat-alkaline { border-left: 3px solid var(--element-alkaline); }
+  .cat-transition { border-left: 3px solid var(--element-transition); }
+  .cat-post { border-left: 3px solid var(--element-post); }
+  .cat-metalloid { border-left: 3px solid var(--element-metalloid); }
+  .cat-nonmetal { border-left: 3px solid var(--element-nonmetal); }
+  .cat-halogen { border-left: 3px solid var(--element-halogen); }
+  .cat-noble { border-left: 3px solid var(--element-noble); }
+  .cat-lanthanide { border-left: 3px solid var(--element-lanthanide); }
+  .cat-actinide { border-left: 3px solid var(--element-actinide); }
   .cat-unknown { border-left: 3px dashed var(--edge-strong); }
   .detail {
     margin-top: 0.8rem;

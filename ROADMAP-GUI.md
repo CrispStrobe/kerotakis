@@ -828,8 +828,10 @@ hide them completely.
   *Contrast gate landed 2026-08-28:* every normal and muted text token is now
   checked against every workspace surface, every semantic accent has a
   theme-specific foreground, and light, dark/pro, and high-contrast palettes
-  must all meet WCAG AA in a fast CI job. Screenshot and color-blind diffs
-  remain.*
+  must all meet WCAG AA in a fast CI job. Dialog overlays, room environments,
+  and periodic-table category colours now also belong to the shared theme; the
+  gate rejects new component-local UI colours except in named physical scene
+  renderers. Screenshot and color-blind diffs remain.*
 - [ ] **GUI-072 — Equipment cabinet v1.** Replace the flat apparatus palette
   and reagent shelf with one searchable, categorized supply room. Cards and
   detail sheets render catalog metadata; drag/tap places a real scene object;
