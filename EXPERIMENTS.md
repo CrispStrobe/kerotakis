@@ -979,6 +979,13 @@ coverage. Yield: three. Curve: 16 → 9 → 7 → 1 → 3 → 0 → **3**.
   loud. Acceptance: the classic condition matrix reproduces textbook
   outcomes; changing one condition flips the product and the lv3
   line says which rule fired. HARDER.
+  - Status (2026-08-24): branch `kero1/exp50-mechanistic-selectivity`
+    landed. 6 selectivity rules (March ch.10), 5 product entries, 2
+    substrates (bromoethane, tert-butyl bromide), 2 nucleophiles
+    (NaOH strong, water weak), temperature threshold 80°C. 15 tests
+    including 3 condition-flip tests and 2 mass-conservation checks.
+    8 new species (including Br- for PHREEQC booking). Verb: `react
+    v1 haloalkane`. Preflight --light clean; full workspace green.
 - **EXP-51 — Enzyme kinetics** — Michaelis–Menten as a curated rate
   family with Km/Vmax and competitive vs non-competitive inhibition,
   riding the existing kinetics integrator and the catalase

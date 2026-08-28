@@ -391,10 +391,11 @@ impl Lab {
             .iter()
             .map(|(verb, example)| {
                 if *verb == "react" {
-                    let names: Vec<&str> = kerotakis_core::curated::ORG_REACTIONS
+                    let mut names: Vec<&str> = kerotakis_core::curated::ORG_REACTIONS
                         .iter()
                         .map(|r| r.name)
                         .collect();
+                    names.push(kerotakis_core::selectivity::VERB_NAME);
                     serde_json::json!({ "verb": verb, "example": example, "options": names })
                 } else {
                     serde_json::json!({ "verb": verb, "example": example })

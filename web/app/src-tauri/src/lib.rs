@@ -214,10 +214,11 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                 .iter()
                 .map(|(verb, example)| {
                     if *verb == "react" {
-                        let names: Vec<&str> = kerotakis_core::curated::ORG_REACTIONS
+                        let mut names: Vec<&str> = kerotakis_core::curated::ORG_REACTIONS
                             .iter()
                             .map(|r| r.name)
                             .collect();
+                        names.push(kerotakis_core::selectivity::VERB_NAME);
                         json!({ "verb": verb, "example": example, "options": names })
                     } else {
                         json!({ "verb": verb, "example": example })

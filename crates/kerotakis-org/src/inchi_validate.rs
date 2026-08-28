@@ -41,6 +41,7 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     // --- monatomic ions ---
     ("Na+", "[Na+]"),
     ("K+", "[K+]"),
+    ("Br-", "[Br-]"),
     ("Cl-", "[Cl-]"),
     ("Ca+2", "[Ca+2]"),
     ("Mg+2", "[Mg+2]"),
@@ -97,6 +98,14 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("HI", "I"),
     // --- EXP-14: amylase/starch hydrolysis ---
     ("maltose", "OCC1OC(OC2C(O)C(O)C(O)OC2CO)C(O)C(O)C1O"),
+    // --- EXP-50: mechanistic selectivity (SN1/SN2/E1/E2) ---
+    ("bromoethane", "CCBr"),
+    ("tert_butyl_bromide", "CC(C)(C)Br"),
+    ("NaBr", "[Na+].[Br-]"),
+    ("ethene", "C=C"),
+    ("tert_butanol", "CC(C)(C)O"),
+    ("isobutylene", "CC(C)=C"),
+    ("HBr", "Br"),
     // --- EXP-43: iodine-clock kinetics ---
     ("KI", "[K+].[I-]"),
     ("KIO3", "[K+].[O-][I](=O)=O"),

@@ -947,6 +947,78 @@
       "retrieved": null
     },
     {
+      "id": "legacy/Br-",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/HBr",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g) NIST-JANAF; density at STP, CRC Handbook 97th ed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/NaBr",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: CRC Handbook 97th ed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/bromoethane",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) CRC Handbook 97th ed.; density at 20 °C, Merck Index 15th ed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/ethene",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g) NIST-JANAF; density at STP, CRC Handbook 97th ed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/isobutylene",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(g) NIST-JANAF; density at STP, CRC Handbook 97th ed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/tert_butanol",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l), density at 25 °C: CRC Handbook 97th ed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
+      "id": "legacy/tert_butyl_bromide",
+      "citation": "M from IUPAC/CIAAW 2021 atomic weights; Cp(l) estimated from group-contribution (Joback); density at 20 °C, CRC Handbook 97th ed.",
+      "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+      "lane": "build_oracle",
+      "origin": "crates/kerotakis-core/src/species.rs",
+      "revision": null,
+      "retrieved": null
+    },
+    {
       "id": "us-federal/isopropanol-chris",
       "citation": "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27",
       "licence": "LicenseRef-US-Public-Domain",
@@ -2666,6 +2738,134 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/Al",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Br-",
+      "canonical_key": "CPELXLSAUQHCOX-UHFFFAOYSA-M",
+      "name": "bromide ion",
+      "identifiers": {
+        "inchikey": "CPELXLSAUQHCOX-UHFFFAOYSA-M"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/Br-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "HBr",
+      "canonical_key": "EWELGHETHAHVET-BMEIEXGBFW-N",
+      "name": "hydrogen bromide",
+      "identifiers": {
+        "inchikey": "EWELGHETHAHVET-BMEIEXGBFW-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/HBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "NaBr",
+      "canonical_key": "DRFSGPHKIVGUGE-CNBKBRGDGS-N",
+      "name": "sodium bromide",
+      "identifiers": {
+        "inchikey": "DRFSGPHKIVGUGE-CNBKBRGDGS-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/NaBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "bromoethane",
+      "canonical_key": "GDDIEXJLEHAAHH-BMFKEBJOHW-N",
+      "name": "bromoethane",
+      "identifiers": {
+        "inchikey": "GDDIEXJLEHAAHH-BMFKEBJOHW-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/bromoethane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "ethene",
+      "canonical_key": "BDFCEUGACZHWAE-FMBKIKDIDD-N",
+      "name": "ethene",
+      "identifiers": {
+        "inchikey": "BDFCEUGACZHWAE-FMBKIKDIDD-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/ethene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "isobutylene",
+      "canonical_key": "HTEHJQFQBTIKAZ-BCCLHJFZGT-N",
+      "name": "2-methylpropene",
+      "identifiers": {
+        "inchikey": "HTEHJQFQBTIKAZ-BCCLHJFZGT-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/isobutylene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "tert_butanol",
+      "canonical_key": "AKJCJDAUBHIMHA-JUEDGFENEN-N",
+      "name": "2-methylpropan-2-ol",
+      "identifiers": {
+        "inchikey": "AKJCJDAUBHIMHA-JUEDGFENEN-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/tert_butanol",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "tert_butyl_bromide",
+      "canonical_key": "FPATEEJREPGXBW-FDHKAZIUBM-N",
+      "name": "2-bromo-2-methylpropane",
+      "identifiers": {
+        "inchikey": "FPATEEJREPGXBW-FDHKAZIUBM-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "legacy/tert_butyl_bromide",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -13387,6 +13587,796 @@
       }
     },
     {
+      "id": "composition/Br-",
+      "species_id": "Br-",
+      "formula": "Br-",
+      "elements": [
+        {
+          "element": "Br",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/Br-",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": -1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Br-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/Br-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/HBr",
+      "species_id": "HBr",
+      "formula": "HBr",
+      "elements": [
+        {
+          "element": "Br",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HBr",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/HBr",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/HBr",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/HBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/NaBr",
+      "species_id": "NaBr",
+      "formula": "BrNa",
+      "elements": [
+        {
+          "element": "Br",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NaBr",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Na",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/NaBr",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/NaBr",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/NaBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/bromoethane",
+      "species_id": "bromoethane",
+      "formula": "C2H5Br",
+      "elements": [
+        {
+          "element": "Br",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/bromoethane",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "C",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/bromoethane",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 5.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/bromoethane",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/bromoethane",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/bromoethane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/ethene",
+      "species_id": "ethene",
+      "formula": "C2H4",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ethene",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/ethene",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/ethene",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/ethene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/isobutylene",
+      "species_id": "isobutylene",
+      "formula": "C4H8",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/isobutylene",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/isobutylene",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/isobutylene",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/isobutylene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/tert_butanol",
+      "species_id": "tert_butanol",
+      "formula": "C4H10O",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/tert_butanol",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 10.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/tert_butanol",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/tert_butanol",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/tert_butanol",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/tert_butanol",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/tert_butyl_bromide",
+      "species_id": "tert_butyl_bromide",
+      "formula": "C4H9Br",
+      "elements": [
+        {
+          "element": "Br",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/tert_butyl_bromide",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "C",
+          "count": {
+            "value": 4.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/tert_butyl_bromide",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 9.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "legacy/tert_butyl_bromide",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "composition/isopropanol",
       "species_id": "isopropanol",
       "formula": "C3H8O",
@@ -23827,6 +24817,726 @@
       }
     },
     {
+      "id": "molar-mass/Br-",
+      "species_id": "Br-",
+      "phase": "aqueous",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 79.904,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Br-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Br-",
+      "species_id": "Br-",
+      "phase": "aqueous",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Br-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Br-",
+      "species_id": "Br-",
+      "phase": "aqueous",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "aqueous",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/Br-",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/HBr",
+      "species_id": "HBr",
+      "phase": "gas",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 80.912,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/HBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/HBr",
+      "species_id": "HBr",
+      "phase": "gas",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 29.1,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/HBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/HBr",
+      "species_id": "HBr",
+      "phase": "gas",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.00362,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/HBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/NaBr",
+      "species_id": "NaBr",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 102.894,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/NaBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/NaBr",
+      "species_id": "NaBr",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 51.38,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/NaBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/NaBr",
+      "species_id": "NaBr",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 3.21,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/NaBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/bromoethane",
+      "species_id": "bromoethane",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 108.966,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/bromoethane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/bromoethane",
+      "species_id": "bromoethane",
+      "phase": "liquid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 100.8,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/bromoethane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/bromoethane",
+      "species_id": "bromoethane",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.46,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/bromoethane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/ethene",
+      "species_id": "ethene",
+      "phase": "gas",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 28.054,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/ethene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/ethene",
+      "species_id": "ethene",
+      "phase": "gas",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 42.9,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/ethene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/ethene",
+      "species_id": "ethene",
+      "phase": "gas",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.00125,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/ethene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/isobutylene",
+      "species_id": "isobutylene",
+      "phase": "gas",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 56.108,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/isobutylene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/isobutylene",
+      "species_id": "isobutylene",
+      "phase": "gas",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 89.2,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/isobutylene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/isobutylene",
+      "species_id": "isobutylene",
+      "phase": "gas",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.00251,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "gas",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/isobutylene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/tert_butanol",
+      "species_id": "tert_butanol",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 74.123,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/tert_butanol",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/tert_butanol",
+      "species_id": "tert_butanol",
+      "phase": "liquid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 218.6,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/tert_butanol",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/tert_butanol",
+      "species_id": "tert_butanol",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.7887,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/tert_butanol",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/tert_butyl_bromide",
+      "species_id": "tert_butyl_bromide",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 137.02,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/tert_butyl_bromide",
+      "species_id": "tert_butyl_bromide",
+      "phase": "liquid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 130.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/tert_butyl_bromide",
+      "species_id": "tert_butyl_bromide",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.221,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "molar-mass/isopropanol",
       "species_id": "isopropanol",
       "phase": "liquid",
@@ -29709,6 +31419,118 @@
       }
     },
     {
+      "id": "optical/HBr",
+      "species_id": "HBr",
+      "phase": "gas",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/HBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/NaBr",
+      "species_id": "NaBr",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/NaBr",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/bromoethane",
+      "species_id": "bromoethane",
+      "phase": "liquid",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/bromoethane",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/ethene",
+      "species_id": "ethene",
+      "phase": "gas",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/ethene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/isobutylene",
+      "species_id": "isobutylene",
+      "phase": "gas",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/isobutylene",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/tert_butanol",
+      "species_id": "tert_butanol",
+      "phase": "liquid",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/tert_butanol",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/tert_butyl_bromide",
+      "species_id": "tert_butyl_bromide",
+      "phase": "liquid",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "optical/isopropanol",
       "species_id": "isopropanol",
       "phase": "liquid",
@@ -34640,6 +36462,270 @@
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Br-",
+      "subject": {
+        "kind": "species",
+        "id": "Br-"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Br-",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/HBr",
+      "subject": {
+        "kind": "species",
+        "id": "HBr"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/HBr",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/NaBr",
+      "subject": {
+        "kind": "species",
+        "id": "NaBr"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/NaBr",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/bromoethane",
+      "subject": {
+        "kind": "species",
+        "id": "bromoethane"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/bromoethane",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/ethene",
+      "subject": {
+        "kind": "species",
+        "id": "ethene"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/ethene",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/isobutylene",
+      "subject": {
+        "kind": "species",
+        "id": "isobutylene"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/isobutylene",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/tert_butanol",
+      "subject": {
+        "kind": "species",
+        "id": "tert_butanol"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/tert_butanol",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/tert_butyl_bromide",
+      "subject": {
+        "kind": "species",
+        "id": "tert_butyl_bromide"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/tert_butyl_bromide",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
         }
       }
     },
