@@ -1367,7 +1367,11 @@
   .topbar {
     min-height: 68px;
     display: flex;
-    flex-wrap: nowrap;
+    /* At 200% text size the rail may need a second line. Keeping this rigid
+       forced the utility controls beyond the viewport even though the bench
+       below already knows how to shrink. At ordinary sizes it still fits on
+       one line; wrapping is only the pressure-release path. */
+    flex-wrap: wrap;
     align-items: center;
     gap: 1rem;
     padding: 0.65rem 1rem;
@@ -1491,6 +1495,7 @@
   .top-controls {
     margin-left: auto;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: flex-end;
     gap: 0.65rem;
