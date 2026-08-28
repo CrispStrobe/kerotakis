@@ -21,6 +21,7 @@
     mode = "sandbox",
     completed = 0,
     stockUsed = {},
+    focusRequest = null,
   }: {
     items: ShelfItem[];
     register: string;
@@ -33,6 +34,7 @@
     mode?: LabMode;
     completed?: number;
     stockUsed?: Readonly<Record<string, number>>;
+    focusRequest?: { key: string; nonce: number } | null;
   } = $props();
 
   let query = $state("");
@@ -79,6 +81,20 @@
     amountValue = suggested.value;
     amountUnit = suggested.unit;
   }
+
+  let handledFocus = -1;
+  $effect(() => {
+    if (!focusRequest || focusRequest.nonce === handledFocus) return;
+    const item = items.find((candidate) => candidate.key === focusRequest.key);
+    if (!item) return;
+    handledFocus = focusRequest.nonce;
+    query = t(item.name);
+    phase = null;
+    open = item.key;
+    const suggested = suggestedAmount(item.phase, targetCapacityMl);
+    amountValue = suggested.value;
+    amountUnit = suggested.unit;
+  });
 
   function add(item: ShelfItem, amount: string) {
     const a = amount.trim();
@@ -383,6 +399,6 @@
        be tapped. */
     min-height: 2.75rem;
   }
-  .add-amount { color: white; background: var(--action); border-color: var(--action); cursor: pointer; font-weight: 750; }
+  .add-amount { color: var(--on-accent); background: var(--action); border-color: var(--action); cursor: pointer; font-weight: 750; }
   .amounts small { grid-column: 1 / -1; color: var(--dim); font-size: 0.6rem; }
 </style>

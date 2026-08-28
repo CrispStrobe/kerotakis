@@ -1,0 +1,41 @@
+# Elephant toothpaste: the soap catches oxygen; it does not make it
+#
+# Simulation activity. For a real child-facing activity, use only household
+# 3% hydrogen peroxide with an adult, fitted goggles and gloves. Stronger
+# peroxide is for virtual exploration here, not a home instruction.
+register lv1
+
+# Two equal peroxide portions make this a fair test. The first gets dish soap;
+# the second is the no-soap control.
+add v1 Wasserstoffperoxid_3% 100mL
+add v1 Spülmittel 10mL
+measure v1 thermometer
+
+new beaker
+add v2 Wasserstoffperoxid_3% 100mL
+measure v2 thermometer
+
+# Dry yeast is a catalase-activity surrogate. The ten-second stir after warm
+# water now advances its bounded hydration ramp before the final shared wait.
+# Very hot water suppresses the enzyme envelope; brand and age still vary, so
+# Kerotakis does not claim one universal yeast rate.
+add v1 water 20mL @ 35C
+add v1 Hefe 1g
+stir v1
+add v2 water 20mL @ 35C
+add v2 Hefe 1g
+stir v2
+
+# One clock advances both beakers. Oxygen yield and reaction heat come from the
+# same peroxide rate law. Only v1 has a declared foam stabilizer.
+wait 1s
+inspect v1
+inspect v2
+measure v1 thermometer
+measure v2 thermometer
+
+# Prediction to discuss: both vessels should make the same amount of oxygen
+# from equal peroxide. v1 holds much of it temporarily as foam; v2 bubbles but
+# cannot build persistent foam. Wait again to watch the modeled foam drain.
+wait 180s
+inspect v1

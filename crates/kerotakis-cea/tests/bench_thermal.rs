@@ -52,8 +52,146 @@ fn species_map_into_the_nasa_data_by_formula() {
     assert_eq!(kerotakis_cea::cea_name("CaCO3"), Some("CaCO3(cr)"));
     assert_eq!(kerotakis_cea::cea_name("CaO"), Some("CaO(cr)"));
     assert_eq!(kerotakis_cea::cea_name("MgO"), Some("MgO(cr)"));
+    assert_eq!(kerotakis_cea::cea_name("Fe2O3"), Some("Fe2O3(cr)"));
     assert_eq!(kerotakis_cea::cea_name("O2"), Some("O2"));
     assert_eq!(kerotakis_cea::cea_name("CO2"), Some("CO2"));
+    assert_eq!(
+        kerotakis_cea::cea_name("ethanol"),
+        Some("C2H5OH(L)"),
+        "liquid fuel uses CEA's separate feed-only thermochemistry"
+    );
+    assert_eq!(
+        kerotakis_cea::cea_name("isopropanol"),
+        None,
+        "an isopropanol identity must not borrow another C3H8O isomer's thermochemistry"
+    );
+}
+
+#[test]
+fn steel_wool_ignites_to_named_iron_oxide_in_open_air() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    let wool = script::parse_op("add v1 Stahlwolle 1g")
+        .expect("localized steel-wool command")
+        .expect("operator");
+    bench
+        .step_with(wool, &mut stack, &PermissiveScreen)
+        .expect("add steel wool");
+
+    let events = bench
+        .step_with(
+            Operator::Ignite { vessel: v },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("ignite steel wool");
+    let vessel = bench.vessel(v).expect("vessel");
+
+    assert!(
+        vessel.moles_of(&SpeciesId::new("Fe")).0 < 1e-6,
+        "the resolved iron fibres should be consumed: {events:?}"
+    );
+    assert!(
+        vessel.moles_of(&SpeciesId::new("Fe2O3")).0 > 0.008,
+        "air oxygen should become conserved named hematite: {:?}",
+        vessel.contents
+    );
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::Ignited { energy_j: Some(energy), .. } if *energy > 1_000.0
+    )));
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::Precipitated { species, .. } if species.0 == "Fe2O3"
+    )));
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::ReactionOccurred { equation, .. } if equation.contains("Fe₂O₃")
+    )));
+}
+
+#[test]
+fn a_flame_really_burns_liquid_ethanol() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "ethanol", 0.010);
+
+    let events = bench
+        .step_with(
+            Operator::Ignite { vessel: v },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("ignite ethanol");
+
+    assert!(
+        bench
+            .vessel(v)
+            .unwrap()
+            .moles_of(&SpeciesId::new("ethanol"))
+            .0
+            < 1e-6,
+        "the fuel is consumed: {events:?}"
+    );
+    assert!(events.iter().any(
+        |event| matches!(event, Event::GasEvolved { species, moles, .. }
+            if species.0 == "CO2" && moles.0 > 0.015)
+    ));
+    assert!(events.iter().any(
+        |event| matches!(event, Event::GasEvolved { species, moles, .. }
+            if species.0 == "water" && moles.0 > 0.020)
+    ));
+    assert!(events.iter().any(
+        |event| matches!(event, Event::Ignited { energy_j: Some(energy), .. }
+            if *energy > 1_000.0)
+    ));
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::ThermalEquilibrium { provenance, .. }
+            if provenance.dataset.contains("CEA")
+                && provenance.dataset_sources.iter().any(|source| source.contains("C2H5OH(L)"))
+    )));
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::ReactionOccurred { equation, .. } if equation.contains("C₂H₅OH")
+    )));
+}
+
+#[test]
+fn aqueous_rubbing_alcohol_keeps_an_explicit_combustion_boundary() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let add = kerotakis_core::script::parse_op("add v1 Isopropanol_70% 10mL")
+        .expect("valid rubbing-alcohol command")
+        .expect("operator");
+    bench
+        .step_with(add, &mut stack, &PermissiveScreen)
+        .expect("add rubbing alcohol");
+    let before = bench.vessels[0].moles_of(&SpeciesId::new("isopropanol"));
+
+    let events = bench
+        .step_with(
+            Operator::Ignite {
+                vessel: VesselId(0),
+            },
+            &mut stack,
+            &PermissiveScreen,
+        )
+        .expect("evaluate ignition boundary");
+
+    assert_eq!(
+        bench.vessels[0].moles_of(&SpeciesId::new("isopropanol")),
+        before,
+        "an unmodelled flame must not consume fuel"
+    );
+    assert!(events.iter().any(|event| matches!(event,
+        Event::NotYetModeled { what, .. } if what.contains("combustion")
+    )));
+    assert!(!events
+        .iter()
+        .any(|event| matches!(event, Event::Ignited { .. } | Event::DidNotIgnite { .. })));
 }
 
 #[test]

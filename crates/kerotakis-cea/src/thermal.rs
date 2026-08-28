@@ -54,7 +54,7 @@ fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
             let want_gas = reg.standard_phase == Phase::Gas;
             // Prefer the phase the registry says the substance is in, and
             // among equals the most stable form (lowest G at 298 K).
-            let best = db()
+            let products = db()
                 .species
                 .values()
                 .filter(|s| s.is_gas() == want_gas && s.composition == want)
@@ -63,6 +63,21 @@ fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
                     let gb = b.g(298.15).unwrap_or(f64::MAX);
                     ga.total_cmp(&gb)
                 });
+            // CEA deliberately separates feed-only thermochemistry after
+            // `END PRODUCTS`. Liquid ethanol lives there: it may enter an
+            // energy balance, but must never be invented as an equilibrium
+            // product. Prefer the ordinary product set and consult that
+            // separate feed set only when the requested room phase is absent.
+            let reactants = db()
+                .reactants
+                .values()
+                .filter(|s| s.is_gas() == want_gas && s.composition == want)
+                .min_by(|a, b| {
+                    let ga = a.g(298.15).unwrap_or(f64::MAX);
+                    let gb = b.g(298.15).unwrap_or(f64::MAX);
+                    ga.total_cmp(&gb)
+                });
+            let best = products.or(reactants);
             if let Some(s) = best {
                 map.insert(reg.key, s.name.as_str());
             }
@@ -74,6 +89,42 @@ fn mapping() -> &'static BTreeMap<&'static str, &'static str> {
 /// The CEA species a registry key resolves to, if any.
 pub fn cea_name(registry_key: &str) -> Option<&'static str> {
     mapping().get(registry_key).copied()
+}
+
+fn cea_species(registry_key: &str) -> Option<&'static Species> {
+    let name = cea_name(registry_key)?;
+    db().get(name).or_else(|| db().get_reactant(name))
+}
+
+fn enthalpy_within_record(species: &Species, temperature: f64) -> Option<f64> {
+    if db().get_reactant(&species.name).is_none() {
+        return species.h(temperature);
+    }
+    if species
+        .t_range()
+        .is_some_and(|(_, high)| temperature > high)
+    {
+        // `ignite` represents a small vapour zone brought to flame
+        // temperature. Once a feed-only liquid record ends at its boiling
+        // range, continue with the matching product-side gas polynomial;
+        // evaluating a liquid polynomial hundreds of kelvin beyond its
+        // validity would be worse than either phase model.
+        if let Some(gas) = db().species.values().find(|candidate| {
+            candidate.is_gas()
+                && cea_identity_stem(&candidate.name) == cea_identity_stem(&species.name)
+        }) {
+            return gas.h(temperature);
+        }
+    }
+    let t = species
+        .t_range()
+        .map(|(low, high)| temperature.clamp(low, high))
+        .unwrap_or(temperature);
+    species.h(t)
+}
+
+fn cea_identity_stem(name: &str) -> &str {
+    name.split(['(', ',']).next().unwrap_or(name)
 }
 
 /// Element counts of a registry formula, ignoring charge and hydrate
@@ -152,6 +203,9 @@ struct Charge {
     from_air: BTreeMap<String, f64>,
     /// Registry species that mapped, with their amounts.
     mapped: Vec<(SpeciesId, f64)>,
+    /// At least one input came from CEA's feed-only section rather than its
+    /// admissible equilibrium products (for example liquid ethanol).
+    used_feed_thermo: bool,
 }
 
 fn charge(vessel: &Vessel) -> Option<Charge> {
@@ -167,11 +221,13 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
     let mut budget: BTreeMap<String, f64> = BTreeMap::new();
     let mut mapped = Vec::new();
     let mut condensed_moles = 0.0;
+    let mut used_feed_thermo = false;
     for p in &vessel.contents {
         let Some(cea) = cea_name(&p.species.0) else {
             return None; // something here is outside the NASA data: decline
         };
-        let s = db().get(cea)?;
+        used_feed_thermo |= db().get(cea).is_none() && db().get_reactant(cea).is_some();
+        let s = cea_species(&p.species.0)?;
         for (el, count) in &s.composition {
             *budget.entry(el.clone()).or_insert(0.0) += count * p.moles.0;
         }
@@ -185,7 +241,15 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
     }
 
     // The atmosphere the vessel stands in.
-    let air_moles = (condensed_moles.max(0.01)) * AIR_RATIO;
+    // Keep the historical atmosphere floor for hot solids, but give an
+    // organic fuel enough open-room oxygen to reach a fuel-lean flame. The
+    // elemental oxygen demand for C/H/O matter is C + H/4 - O/2 mol O2;
+    // a 20% margin avoids making the arbitrary teaching control volume the
+    // limiting reagent.
+    let stoich_o2 = budget.get("C").copied().unwrap_or(0.0)
+        + budget.get("H").copied().unwrap_or(0.0) / 4.0
+        - budget.get("O").copied().unwrap_or(0.0) / 2.0;
+    let air_moles = ((condensed_moles.max(0.01)) * AIR_RATIO).max(stoich_o2.max(0.0) * 1.20 / 0.21);
     let mut from_air: BTreeMap<String, f64> = BTreeMap::new();
     for (name, fraction) in AIR {
         let Some(s) = db().get(name) else { continue };
@@ -199,6 +263,7 @@ fn charge(vessel: &Vessel) -> Option<Charge> {
         budget,
         from_air,
         mapped,
+        used_feed_thermo,
     })
 }
 
@@ -221,7 +286,45 @@ impl Equilibrator for ThermalEquilibrator {
             return Ok(Vec::new());
         };
         let elements: Vec<String> = charge.budget.keys().cloned().collect();
-        let pool = pool_for(&elements);
+        let mut pool = pool_for(&elements);
+        if charge.used_feed_thermo {
+            let feed_stems = charge
+                .mapped
+                .iter()
+                .filter_map(|(id, _)| {
+                    let name = cea_name(&id.0)?;
+                    db().get_reactant(name)
+                        .is_some()
+                        .then(|| cea_identity_stem(name))
+                })
+                .collect::<Vec<_>>();
+            pool.extend(
+                ["CO2", "H2O", "H2", "O2", "N2"]
+                    .into_iter()
+                    .filter_map(|name| db().get(name)),
+            );
+            pool.extend(db().species.values().filter(|candidate| {
+                candidate.is_gas()
+                    && feed_stems
+                        .iter()
+                        .any(|stem| *stem == cea_identity_stem(&candidate.name))
+            }));
+            pool.sort_by(|a, b| a.name.cmp(&b.name));
+            pool.dedup_by(|a, b| a.name == b.name);
+            // A flame calculation needs the feed's vapour plus the small,
+            // stable C/H/O/N gas set. The general dry-solid pool also
+            // contains every named hydrocarbon with those elements; offering
+            // unrelated isomers makes the minimisation ill-conditioned and
+            // would let burning ethanol turn into hexane merely because both
+            // names exist in the shelf registry.
+            pool.retain(|species| {
+                species.is_gas()
+                    && (matches!(species.name.as_str(), "CO2" | "H2O" | "H2" | "O2" | "N2")
+                        || feed_stems
+                            .iter()
+                            .any(|stem| *stem == cea_identity_stem(&species.name)))
+            });
+        }
         let t = vessel.temperature.0.clamp(200.0, 6000.0);
 
         // Enthalpy the vessel and its share of the atmosphere carry into
@@ -230,8 +333,8 @@ impl Equilibrator for ThermalEquilibrator {
             .mapped
             .iter()
             .filter_map(|(sid, moles)| {
-                let s = db().get(cea_name(&sid.0)?)?;
-                Some(s.h(t)? * moles)
+                let s = cea_species(&sid.0)?;
+                Some(enthalpy_within_record(s, t)? * moles)
             })
             .sum::<f64>()
             + air_enthalpy(&charge, t);
@@ -242,15 +345,42 @@ impl Equilibrator for ThermalEquilibrator {
         // magnitude here: a gram of burning magnesium heats the air around
         // it, not just the speck of oxide it leaves behind.
         let adiabatic = matches!(vessel.thermal_mode, ThermalMode::Adiabatic);
-        let eq = if adiabatic {
-            crate::gibbs::equilibrate_hp(&charge.budget, &pool, h_before, 1.0)
+        let (eq, feed_tp_fallback) = if adiabatic {
+            match crate::gibbs::equilibrate_hp(&charge.budget, &pool, h_before, 1.0) {
+                Ok(eq) => (eq, false),
+                // HP is the preferred flame calculation. The first liquid-
+                // fuel slice retains a deterministic TP fallback at the
+                // explicit ignition-zone temperature because CEA's
+                // feed-only condensed record can leave the HP iteration
+                // without a feasible initial temperature bracket. The event
+                // provenance says which route was used.
+                Err(_) if charge.used_feed_thermo => (
+                    equilibrate_tp(&charge.budget, &pool, t, 1.0).map_err(|e| {
+                        SolveError::NotConverged {
+                            solver: "cea-thermal".to_string(),
+                            detail: e.to_string(),
+                        }
+                    })?,
+                    true,
+                ),
+                Err(e) => {
+                    return Err(SolveError::NotConverged {
+                        solver: "cea-thermal".to_string(),
+                        detail: e.to_string(),
+                    })
+                }
+            }
         } else {
-            equilibrate_tp(&charge.budget, &pool, t, 1.0)
-        }
-        .map_err(|e| SolveError::NotConverged {
-            solver: "cea-thermal".to_string(),
-            detail: e.to_string(),
-        })?;
+            (
+                equilibrate_tp(&charge.budget, &pool, t, 1.0).map_err(|e| {
+                    SolveError::NotConverged {
+                        solver: "cea-thermal".to_string(),
+                        detail: e.to_string(),
+                    }
+                })?,
+                false,
+            )
+        };
         let t_final = eq.temperature;
 
         // Put the products back at the ignition temperature and compare
@@ -264,6 +394,14 @@ impl Equilibrator for ThermalEquilibrator {
             .filter_map(|(name, moles)| db().get(name)?.h(t).map(|h| h * moles))
             .sum();
         let reaction_energy_j = (h_before - products_at_initial_t).max(0.0);
+        let mut dataset_sources = eq.sources.clone();
+        dataset_sources.extend(charge.mapped.iter().filter_map(|(id, _)| {
+            let name = cea_name(&id.0)?;
+            let feed = db().get_reactant(name)?;
+            Some(format!("{}: {}", feed.name, feed.reference))
+        }));
+        dataset_sources.sort();
+        dataset_sources.dedup();
 
         // Map the result back: condensed species become vessel contents,
         // product gases leave, atmospheric gases return to the reservoir.
@@ -271,10 +409,10 @@ impl Equilibrator for ThermalEquilibrator {
         let mut contents: Vec<Portion> = Vec::new();
         for (name, moles) in &eq.composition {
             let Some(s) = db().get(name) else { continue };
-            let Some(reg) = species::REGISTRY
-                .iter()
-                .find(|r| cea_name(r.key) == Some(name.as_str()))
-            else {
+            let Some(reg) = species::REGISTRY.iter().find(|r| {
+                cea_name(r.key)
+                    .is_some_and(|mapped| cea_identity_stem(mapped) == cea_identity_stem(name))
+            }) else {
                 // The pool is built from nameable species, so this cannot
                 // normally happen — but if it ever does, refuse rather than
                 // quietly lose matter.
@@ -310,7 +448,7 @@ impl Equilibrator for ThermalEquilibrator {
                 contents.push(Portion {
                     species: SpeciesId::new(reg.key),
                     moles: Moles(*moles),
-                    phase: Phase::Solid,
+                    phase: reg.standard_phase,
                 });
             }
         }
@@ -343,6 +481,32 @@ impl Equilibrator for ThermalEquilibrator {
             }
         }
 
+        if !events.is_empty()
+            && charge
+                .mapped
+                .iter()
+                .any(|(species, _)| species.0 == "ethanol")
+        {
+            events.push(Event::ReactionOccurred {
+                vessel: vessel.id,
+                equation: "C₂H₅OH(l) + 3 O₂(g) → 2 CO₂(g) + 3 H₂O(g)".to_string(),
+            });
+        }
+        if !events.is_empty()
+            && charge
+                .mapped
+                .iter()
+                .any(|(species, amount)| species.0 == "Fe" && *amount > 1e-12)
+            && contents
+                .iter()
+                .any(|portion| portion.species.0 == "Fe2O3" && portion.moles.0 > 1e-12)
+        {
+            events.push(Event::ReactionOccurred {
+                vessel: vessel.id,
+                equation: "4 Fe(s) + 3 O₂(g) → 2 Fe₂O₃(s)".to_string(),
+            });
+        }
+
         let changed = !events.is_empty();
         vessel.contents = contents;
 
@@ -365,9 +529,17 @@ impl Equilibrator for ThermalEquilibrator {
                 provenance: Provenance {
                     engine: "Gibbs minimisation (Kerotakis)".to_string(),
                     dataset: "NASA CEA thermo.inp".to_string(),
-                    model: "NASA-9 polynomials, ideal gas + pure condensed phases".to_string(),
-                    dataset_sources: eq.sources.clone(),
-                    routing: "chosen because this vessel is dry solids and gases, which the aqueous engine does not model".to_string(),
+                    model: if feed_tp_fallback {
+                        "NASA-9 polynomials, ideal gas + pure condensed phases; TP liquid-feed fallback at the explicit ignition-zone temperature".to_string()
+                    } else {
+                        "NASA-9 polynomials, ideal gas + pure condensed phases".to_string()
+                    },
+                    dataset_sources,
+                    routing: if feed_tp_fallback {
+                        "liquid fuel used CEA's separate feed thermochemistry; HP did not bracket, so composition was solved at the explicit ignition-zone temperature and the reaction energy remains reported separately".to_string()
+                    } else {
+                        "chosen because this vessel is dry solids and gases, which the aqueous engine does not model".to_string()
+                    },
                 },
             });
         }

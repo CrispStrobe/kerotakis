@@ -18,6 +18,8 @@ export const BUILD = {
 } as const;
 
 export const REPO = "https://github.com/CrispStrobe/kerotakis";
+export const COPYRIGHT = "Copyright © 2026 Christian Ströbele and contributors";
+export const THIRD_PARTY_LICENSES = `${import.meta.env.BASE_URL}legal/third-party-licenses.html`;
 
 /** A link to the exact source this build came from, when it knows. */
 export function commitUrl(): string | null {

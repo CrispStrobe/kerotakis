@@ -8,6 +8,7 @@ export type CatalogAccess = {
 };
 
 const EQUIPMENT_MILESTONES: Record<string, number> = {
+  bunsen: 1,
   burette: 0,
   stir: 0,
   heat: 0,
@@ -19,6 +20,7 @@ const EQUIPMENT_MILESTONES: Record<string, number> = {
   mix: 0,
   evaporate: 1,
   drain: 1,
+  magnet: 1,
   react: 1,
   regulate: 2,
   irradiate: 2,
@@ -27,6 +29,18 @@ const EQUIPMENT_MILESTONES: Record<string, number> = {
   distil: 4,
   transport: 4,
   sweep: 4,
+  "measure:eyes": 0,
+  "measure:thermometer": 0,
+  "measure:ph": 0,
+  "measure:balance": 0,
+  "measure:smell": 1,
+  "measure:volume": 1,
+  "measure:conductivity": 1,
+  "measure:pressure": 2,
+  "measure:calorimeter": 2,
+  "measure:uvvis": 3,
+  "measure:chromatograph": 3,
+  "measure:geiger": 4,
 };
 
 const STARTER_STOCK = new Set([

@@ -295,6 +295,28 @@ classrooms-as-a-service, and cloud saves are **non-goals** for this roadmap.
   an English-only sentence. German expansion is part of each feature's DoD,
   including mission text, equipment metadata, errors, ARIA labels, and export
   templates; screenshots are not accepted as evidence of coverage.
+- *Relation-toolbox audit shipped 2026-08-27:* canonical relation ids and
+  argument symbols remain language-neutral for computation, while relation
+  names, human-readable field labels, units, errors, register explanations,
+  and provenance now cross the German presentation boundary. Inputs name the
+  physical quantity prominently and retain the exact solver symbol beneath it.
+- *Notebook-export audit shipped 2026-08-27:* Markdown exports now use the same
+  locale boundary as the live journal for engine observations, hazards,
+  refusals, chart titles, axes, units, and provenance. User-entered commands
+  and notes remain verbatim. Rare particle populations now localize their
+  species names instead of leaking canonical English labels.
+- *Localized-discovery audit shipped 2026-08-27:* experiment search now indexes
+  both canonical codex data and the current locale's visible title, summary,
+  concepts, apparatus, models, and register prose with case/accent-insensitive
+  substring matching. German queries can discover German-labelled experiments
+  without sacrificing formula or stable-id search; curriculum stages and
+  observed-event verdicts are localized as well.
+- [ ] **Codex content localization.** The current golden export contains 103
+  investigations whose long-form registers, prediction questions, diagnoses,
+  and provenance are predominantly authored in English. Routing through
+  `t()` and localized search is infrastructure, not German coverage. Add an
+  explicit locale sidecar/schema plus an export-time English/German completeness
+  gate; do not claim full-app i18n until that gate passes the production codex.
 
 ### Immediate experience target: the laboratory as a place
 
@@ -448,9 +470,13 @@ every new dependency before its first import.
   job) — one shape, drift fails before a client sees it. Open for the
   checkbox: the same suite against TauriHost once the shell builds
   (GUI-030), and hello's remaining fields.*
-- [ ] **GUI-002 — Events as structured JSON.** Expose the typed `Event`
+- [x] **GUI-002 — Events as structured JSON.** Expose the typed `Event`
   enum over the boundary with stable ids + params; decide engine-side vs
   client-side register rendering and the locale-pack shape.
+  *Shipped:* Rust's tagged `Event` enum crosses every host as structured JSON;
+  effects, mission outcomes, apparatus playback and measurements consume its
+  typed fields. Register prose is rendered in the engine through per-language
+  sidecars, while the web shell owns only interface copy.
 - [ ] **GUI-003 — Scene JSON v1.** Per-vessel render model derived from
   existing state + appearance; golden-file tests over replayed lessons.
   *Status 2026-08-24: implemented — `kerotakis-core/src/scene.rs` (liquid
@@ -462,8 +488,10 @@ every new dependency before its first import.
 - [ ] **GUI-004 — One-worker web engine.** Land OPT-11 (lab + IPhreeQC in a
   single module worker) behind `WorkerHost`; the current PWA runs on it
   unchanged. Measure; OPT-9 only if numbers demand.
-- [ ] **GUI-005 — Parse-only endpoint.** Validate a command without
+- [x] **GUI-005 — Parse-only endpoint.** Validate a command without
   executing (for live input validation and drag-legality preview).
+  *Shipped:* `parse` is implemented by the core/wasm protocol and both client
+  hosts; `CommandBar` validates asynchronously without changing bench state.
 
 ### Phase G1 — The bench, on the web
 
@@ -476,9 +504,12 @@ every new dependency before its first import.
   CommandBar, RegisterDial; npm licence lint (73 packages allowlisted);
   production build 19 KB gzip. Open for the checkbox: PWA/service-worker
   carry-over, build-web.sh integration, and the console view.*
-- [ ] **GUI-011 — Bench canvas v1.** SVG vessels with computed color,
+- [x] **GUI-011 — Bench canvas v1.** SVG vessels with computed color,
   precipitate layers, headspace, temperature badges; scene-JSON-driven;
   register dial wired end to end.
+  *Shipped:* the SVG bench consumes Scene JSON for geometry, true-volume
+  liquid/layer fills, computed solids, headspace, temperature, pressure and
+  register-dependent accessible presentation.
 - [ ] **GUI-012 — Shelf v1.** Registry-driven, searchable, drag/tap-to-add,
   register-aware amount picker (pinch/cup ↔ g/mol/mL).
   *Status 2026-08-24 (2nd pass): tap-to-add and drag-to-vessel landed —
@@ -573,9 +604,11 @@ every new dependency before its first import.
 - [ ] **GUI-024 — Challenges v1.** Equation balancing, endpoint, buffer
   hold; engine-marked.
 
-- [ ] **GUI-025 — The equation strip.** Reactions as balanced equations
+- [x] **GUI-025 — The equation strip.** Reactions as balanced equations
   pinned beside the bench at lv2+, live as they happen. We already
   compute them; today they are buried in the feed.
+  *Shipped:* the session retains the latest engine-rendered balanced equation
+  and pins it above the live bench in Measure and Model registers.
 - [x] **GUI-026 — Pour and stir.** *Shipped 2026-08-24 (SVG, not
   Canvas2D — the vessels' own layer was enough):* drop-to-add splashes a
   ripple at the surface; `gas_evolved` vents wisps from an open mouth
@@ -607,13 +640,15 @@ already exposes ~25 verbs and the full registry; the gap is graphical
 affordance, and it is checkable, so it becomes an invariant with a test
 rather than an aspiration:
 
-- [ ] **GUI-029 — The affordance manifest.** A `grammar` protocol command
+- [x] **GUI-029 — The affordance manifest.** A `grammar` protocol command
   (engine-side: the verb list with argument shapes, from the one parser)
   plus a client-side manifest mapping every verb to the component that
   invokes it; a conformance test fails when a verb lacks an affordance or
   an affordance invents a verb. Registry coverage is already structural
   (the shelf lists the registry); this makes verb coverage structural too.
-- [ ] **GUI-033 — Apparatus palette and instrument panel.** Graphical form
+  *Shipped:* `affordances.json` maps every public grammar verb to a graphical
+  surface, and protocol conformance rejects both missing and invented verbs.
+- [x] **GUI-033 — Apparatus palette and instrument panel.** Graphical form
   for the rest of the verb set, driven by the codex's own apparatus
   vocabulary: hotplate/bunsen (heat, ignite), fridge coil (cool), clock
   (wait), lids (seal/regulate/sweep/open), funnel+paper (filter),
@@ -622,6 +657,24 @@ rather than an aspiration:
   + supply (cell, wire, electrolyze), and an instrument tray for the eight
   measure targets. Vessel context ring for per-vessel actions; everything
   emits the same command lines.
+  *Shipped:* every manifest verb has a cabinet, vessel action, instrument tray
+  or two-vessel interaction; parameterised machines compile through the shared
+  apparatus specification rather than component-private command strings.
+  *Physical chromatography slice shipped 2026-08-27:* the column now
+  appears at the vessel after a run and animates the engine's typed peaks
+  from injection to positions normalised from computed retention times;
+  band thickness and opacity follow computed peak width and relative area.
+  The palette is deliberately categorical (not a claim about molecular
+  colour), while the chromatogram remains the quantitative record.
+  *Physical inspection slice shipped 2026-08-27:* “look closely” now
+  raises a magnifying lens over the vessel. Its enlarged liquid colour,
+  turbidity, deposit and bubbles come directly from the typed `Observed`
+  appearance event, rather than replaying the prose description.
+  *Geiger counter slice shipped 2026-08-27:* the engine's existing
+  radioactivity measurement is now reachable from the graphical cabinet.
+  A counter and probe appear at the sample; its visual count cadence scales
+  logarithmically from the emitted Bq value so eight useful orders of
+  magnitude remain legible.
 
 ### The codex is the content engine (apply it, then expand it)
 
@@ -767,6 +820,18 @@ hide them completely.
   dark/pro and high-contrast themes, system typography, focus treatment,
   reduced-motion clamp, and refreshed shell/bench/cabinet/journal/command styles
   landed. Automated contrast and visual-regression gates remain.*
+  *Responsive-quality gate in progress 2026-08-28:* the real built PWA now
+  runs in desktop, German desktop and phone viewports in CI. It fails on
+  page-level overflow, overlapping desktop panes, unnamed controls, duplicate
+  ids, undersized primary vessel actions or phone tabs, and live bench motion
+  under `prefers-reduced-motion`.
+  *Contrast gate landed 2026-08-28:* every normal and muted text token is now
+  checked against every workspace surface, every semantic accent has a
+  theme-specific foreground, and light, dark/pro, and high-contrast palettes
+  must all meet WCAG AA in a fast CI job. Dialog overlays, room environments,
+  and periodic-table category colours now also belong to the shared theme; the
+  gate rejects new component-local UI colours except in named physical scene
+  renderers. Screenshot and color-blind diffs remain.*
 - [ ] **GUI-072 — Equipment cabinet v1.** Replace the flat apparatus palette
   and reagent shelf with one searchable, categorized supply room. Cards and
   detail sheets render catalog metadata; drag/tap places a real scene object;
@@ -790,6 +855,17 @@ hide them completely.
   temporary case-supplied stock, Unlocked means permanently earned stock, and
   All previews the complete catalog without bypassing locks. Sandbox omits the
   selector because its catalog is already wholly available.*
+  *Instrument-search slice shipped 2026-08-28:* the equipment wall now has
+  the same case/diacritic-insensitive substring search as the reagent cabinet.
+  It searches localized card names and descriptions as well as canonical
+  apparatus verbs and English source vocabulary, keeps Story availability
+  scope intact, and gives an explicit empty result instead of a blank wall.*
+  *Measurement-catalog slice shipped 2026-08-28:* all twelve released
+  measurement instruments now live in the same searchable wall instead of
+  being discoverable only through vessel details. Each card names its purpose,
+  targets the active vessel, compiles to the existing public operator, and
+  participates in Mission set / Unlocked / All access. The compact inspector
+  tray consumes the same registry, preventing the two surfaces from drifting.*
 - [ ] **GUI-073 — Spatial bench and assembly grammar.** Give work zones,
   apparatus footprints, ports, sockets, layering, collision rules, and
   keyboard-equivalent placement to the scene. Valid destinations preview before
@@ -814,7 +890,19 @@ hide them completely.
   mode. Version-1 zone-only saves migrate to their former zone centre, and the
   optional Prepare/React/Analyse overlay derives its counts from x without
   constraining placement. Collision/footprint rules and exported `.lab`
-  arrangement replay remain.*
+  arrangement replay remain. *Footprint slice shipped 2026-08-27:* vessel and
+  freestanding-instrument destinations are checked before commit. Occupied
+  destinations preview in red, explain the conflict through the live region,
+  and preserve the previous arrangement for pointer, touch, and keyboard moves.*
+  *Free-slot slice shipped 2026-08-27: engine-confirmed new glassware now
+  selects itself and occupies the first stable open footprint, accounting for
+  persisted instrument stations. Manually occupied legacy defaults no longer
+  cause newly created vessels to appear inside existing objects.*
+  *Arrangement-replay slice shipped 2026-08-27:* saved `.lab` files carry the
+  normalized vessel and freestanding-instrument layout in a versioned comment
+  that older CLI/core readers safely ignore. The web app validates and restores
+  it after replay; legacy or malformed files continue with normal stable
+  placement rather than disturbing chemistry import.
 - [ ] **GUI-074 — Direct manipulation pass.** Implement contextual object
   selection and the highest-frequency physical gestures: place/remove, pour,
   dose, stir, heat/cool, seal/open, connect, insert/read probe, and start/stop.
@@ -840,7 +928,15 @@ hide them completely.
   controls and an engine-owned `remove vN` operator removes only empty vessels,
   never the last vessel, and participates in undo/replay. Apparatus deployment
   now replaces the generic vessel-action dock so unrelated vessel actions do
-  not visually compete with the apparatus controls.*
+  not visually compete with the apparatus controls. *Safe-removal slice shipped
+  2026-08-27:* the compact × opens an explicit vessel decision instead of
+  blindly issuing a command. Empty removal is confirmed and undoable; occupied
+  vessels offer a 100% liquid transfer or the waste station, and no material is
+  silently deleted. The final workspace vessel remains protected.*
+  *Destination-label slice shipped 2026-08-27: the selected-vessel dock no
+  longer ends in ambiguous Details / More tools buttons. Explicit Measurement
+  tools and Equipment cabinet routes, with distinct icons and localized
+  tooltips, now name the panels they actually open.*
 
 - [ ] **GUI-081 — Learner-authored laboratory journal.** Keep engine output,
   mission evidence, and learner notes visibly distinct. Users can add, edit,
@@ -857,6 +953,10 @@ hide them completely.
   centrifuging, settling, and vessel-state prose is localized at the UI
   boundary and changes live with the locale; complete structured localization
   of the remaining long-tail engine events is still required.*
+  *Vessel-context slice shipped 2026-08-27: engine lines carry a compact vessel
+  chip instead of burying their target in prose. A persistent Whole lab /
+  selected vessel scope lets users follow one sample without hiding global
+  safety notices, charts, or their own notes.*
 
 - [ ] **GUI-082 — Explorable laboratory room.** Build a colourful 2.5-D room
   around the continuous bench: cupboards and drawers are storage homes; racks,
@@ -871,8 +971,18 @@ hide them completely.
   a shelf-connected periodic table, an instrument cabinet, and a colourful
   zoomable safety station with concise real-lab rules and an explicit
   simulation boundary. Workflow-zone guides remain a separate persisted
-  control. Cupboards, utilities, contextual scenario posters, room variants,
-  and true free spatial placement remain.*
+  control. *Interactive-wall slice shipped 2026-08-27:* an active Story
+  investigation now appears as a colourful in-world mission briefing with its
+  live step/evidence count; opening it reveals the same engine-backed mission
+  journal instead of a duplicate panel. *Room-identity slice shipped
+  2026-08-27:* Discovery Studio, Research Laboratory, and Orbital Laboratory
+  give the same live chemistry three colourful, persisted environments; the
+  choice is explicitly visual and never mutates vessels or evidence.
+  *Utility-station slice shipped 2026-08-27:* a compact wall supply point
+  opens a real utility panel for the selected vessel. Water routes to the
+  exact amount-aware water card, power routes to equipment, and the waste
+  station states why chemical contents are never discarded silently.
+  Cupboards and true free spatial placement remain.*
 
 - [ ] **GUI-083 — Physical apparatus and computed motion.** Promote apparatus
   from forms/tool verbs to placeable assemblies with visible controls and
@@ -891,10 +1001,45 @@ hide them completely.
   size/density and medium viscosity. Reduced-motion changes presentation, not
   elapsed process or results. No canned loop may imply an effect the solver did
   not produce.
+  *Assembly-graph slice in progress 2026-08-28:* every parameterized
+  workstation now exposes a compact physical setup alongside its controls:
+  drive/plate/bath to sample, balanced tube–rotor–tube, supply–lead–electrode,
+  lamp, sealed piston, and complete carrier-gas routes. The shared typed graph
+  marks missing solid samples and unsafe counterbalances without inventing a
+  chemical result. Direct manipulation of individual clamps, hoses and ports
+  remains.*
   *Initial placement correction 2026-08-27: grinding renders a standalone
   mortar and pestle beside its target vessel, with work-state motion, rather
   than drawing a mortar inside the vessel. The general assembly/footprint
   system and computed grind state remain.*
+  *Retort-stand slice shipped 2026-08-27: deploying a burette now places a
+  freestanding, movable stand, boss, clamp, graduated column, stopcock, and
+  tip beside its target. A visible route identifies the receiving vessel;
+  during titration the column level follows delivered/total engine playback
+  and the drop moves only while the operation runs.*
+  *Measurement-probe slice shipped 2026-08-27: temperature and pH actions now
+  lower distinct physical probes into the selected sample and show the
+  engine-backed reading on a localized digital meter. The probes remain
+  transient measurement tools rather than permanent decorations.*
+  *Physical-balance slice shipped 2026-08-27: a balance measurement now slides
+  a scale beneath the selected vessel, settles once, and shows the exact mass
+  emitted by the engine. Temperature and pH meters likewise read their scalar
+  measurement events directly rather than reconstructing the displayed value.*
+  *Pressure-gauge slice shipped 2026-08-27: measuring headspace pressure now
+  connects a dial to the selected vessel. Its localized digital value and
+  needle angle come from the engine-emitted kPa reading, with a distinct upper
+  warning arc and a reduced-motion-stable endpoint.*
+  *Volume-and-conductivity slice shipped 2026-08-27: gas-volume measurement
+  connects a graduated syringe whose piston follows the engine-emitted mL
+  reading. Conductivity lowers a two-electrode probe and labels the displayed
+  µS/cm value as the engine's current ionic-strength estimate; signal styling
+  scales logarithmically without overstating the model as a full Kohlrausch
+  calculation.*
+  *Calorimeter-and-UV-Vis slice shipped 2026-08-27: calorimetry surrounds the
+  sample with an insulated jacket and displays signed engine enthalpy relative
+  to 25 °C. UV-Vis places a cuvette in a benchtop spectrophotometer, derives
+  peak wavelength from the engine observable, and attenuates the output beam
+  with T = 10^-A from the emitted Beer-Lambert absorbance.*
   *Magnetic-stirrer slice in progress 2026-08-27: the equipment wall exposes
   RPM and duration, the public grammar carries both, and the engine computes
   25 mm stir-bar tip speed. The bench draws the plate, rotating bar, and
@@ -907,8 +1052,10 @@ hide them completely.
   material-lot provenance; grinding persists the requested mean particle
   diameter and emits spherical-particle surface area from actual solid moles,
   molar mass, and registry density. Mortar motion scales from that emitted
-  area. Heterogeneous kinetic rate coupling remains explicitly false until a
-  rate law consumes the surface-area state.*
+  area. The peroxide/MnO₂ law now consumes this area together with suspension
+  state and a bounded stir-tip-speed correction; catalyst `Ground` and
+  `Stirred` events therefore expose active rate coupling. Pore/BET area,
+  adsorption and diffusion remain outside the reduced model.*
   *Computed-centrifuge slice in progress 2026-08-27: the equipment wall now
   exposes RPM, duration, and rotor radius; the core derives angular speed and
   RCF, then applies Stokes settling per solid from particle size, registry
@@ -929,12 +1076,16 @@ hide them completely.
   cooling exposes bath temperature; stirring accepts RPM and time. Their bench
   animations use the requested or emitted duration and stop reactively rather
   than leaving an infinite decorative loop behind. Apparatus controls dock
-  with the bench and replace unrelated vessel actions while deployed.*
+  with the bench and replace unrelated vessel actions while deployed. The
+  desktop workstation is now a non-overlapping bottom dock, so it cannot cover
+  the periodic table, instrument wall, safety station, vessels, or notebook;
+  its fields reflow horizontally while narrow screens retain a touch sheet.*
   *Physical-readout slice in progress 2026-08-27: control changes immediately
   expose the quantities they imply before Start — delivered or removed energy
   from power × time, the 25 mm stir-bar tip speed, and centrifuge RCF from RPM
-  and rotor radius. These use the same formulae and constants as the engine;
-  chemical outcomes remain engine-owned.*
+  and rotor radius; current × time exposes charge and electron amount, while
+  lamp wavelength exposes single-photon energy. These use the same formulae
+  and constants as the engine; chemical outcomes remain engine-owned.*
   *Installed-state slice in progress 2026-08-27: vessel-mounted apparatus now
   keeps a compact named status lamp on its target card. Configured equipment
   reads as ready; the same computed-operation window that drives its physical
@@ -942,6 +1093,90 @@ hide them completely.
   carries the identical tool and state. A short-lived reactive clock now ends
   every transient vessel window at its declared duration even when no unrelated
   UI state happens to change at that instant.*
+  *Installation-lifecycle correction shipped 2026-08-28:* the installed tool,
+  its stable target and its physical control values now persist per Story or
+  Sandbox lab. Reloading no longer puts configured hardware away or resets its
+  RPM, duration or power. Explicit Put away and removal of an orphaned target
+  clear the installation; only a matching live command/event can still mark it
+  running.*
+  *Cooling-bath correction shipped 2026-08-27:* cooling no longer borrows
+  the magnetic-hotplate silhouette. A separate coolant bath surrounds the
+  vessel, shows configured heat-removal power, and only animates ice/frost
+  during the bounded operation; the vessel's computed temperature remains
+  the authority for persistent cold and phase visuals.
+  *Flame-test correction shipped 2026-08-27:* `FlameTest` no longer makes
+  the whole sample vessel appear to combust. It deploys a Bunsen burner and
+  wire loop, and colours that burner flame from the engine event; genuine
+  `Ignited` events retain the energy-scaled vessel flame.
+  *Irradiation-honesty slice shipped 2026-08-27:* operating the lamp now emits
+  a typed physical event carrying the applied wavelength and irradiance. The
+  lamp colour, brightness, readouts, and bounded operating window consume that
+  event rather than merely echoing its form. A localized badge explicitly says
+  that light was applied while photolysis remains uncoupled; no chemical change
+  or reaction animation is implied until kinetics owns that state transition.
+  *Electrolysis-playback slice shipped 2026-08-27:* the deposition event now
+  retains the applied current and duration alongside charge, electron amount,
+  product amount, and mass. The physical supply remains energized for the
+  bounded playback, its charge pulses and gas bubbles scale from that event,
+  and an engine-scaled coating grows on the cathode with the computed deposited
+  mass shown on the supply. Requested controls no longer masquerade as results.
+  *Thermal-delivery slice shipped 2026-08-27:* heat and cooling steps now emit
+  requested versus physically delivered energy. Hotplate and bath readouts and
+  effect strength use the delivered value, including cooling clamped by the
+  vessel's available heat. Both the apparatus and localized journal explicitly
+  identify the current instantaneous-energy boundary instead of pretending the
+  form's power and duration are an engine-coupled time simulation.
+  *Operating-ownership correction shipped 2026-08-27:* deployed hardware no
+  longer consumes the session-wide busy flag. The in-flight command must match
+  both the apparatus verb and its exact target vessel before that machine can
+  enter its running state; typed result events then own the bounded playback.
+  Adding a reagent, measuring, or operating the same tool on another vessel can
+  no longer animate an unrelated lamp, rotor, stirrer, mortar, bath, or supply.
+  *Stable-installation correction shipped 2026-08-27:* selecting another vessel
+  no longer teleports deployed equipment or silently rewrites its command form.
+  Apparatus and burettes retain the vessel they were installed for; choosing
+  the same equipment card while another vessel is selected explicitly moves
+  the installation, while choosing it again on its current target puts it away.
+  Removing the target vessel safely removes its orphaned hardware as well. The
+  dock now also exposes a compact localized move-to-selection control whenever
+  selection and installation differ, without requiring a cabinet round-trip.
+  *Apparatus-i18n audit shipped 2026-08-27:* titrant and curated-reaction
+  selectors now render localized display names while preserving canonical
+  command values. Computed chart titles, axes, series kinds, provenance, SVG
+  accessibility titles, and gas-test tooltips all pass through the same German
+  presentation boundary; numeric evidence and chemical formulae remain intact.
+  *Live spatial-effects correction shipped 2026-08-27:* transfers and
+  between-vessel rigs now reconnect their SVG path whenever either vessel is
+  dragged, and also respond to bench resizing. Their visibility and motion use
+  the engine event's declared duration instead of an unrelated 3.5-second UI
+  timeout, so a long computed operation neither detaches nor disappears early.
+  *Reduced-motion correction shipped 2026-08-27:* the accessibility preference
+  now freezes moving streams, particles, droplets, cables, and valves while
+  retaining the static filter, condenser, separator, magnet, meter, and
+  source-to-target route. Reduced motion no longer erases the apparatus or its
+  spatial meaning.
+  *Workstation-routing correction shipped 2026-08-27:* a freestanding machine
+  no longer points through the centres of itself and its sample with an
+  arbitrary straight UI line. Edge-anchored lifted routes avoid the object
+  silhouettes, carry a stable `vN` target badge, distinguish a physical
+  burette connection from a sample/workstation association, and follow both
+  objects through free placement. The route animates only when that exact
+  workstation is operating.
+  *Target-state correction shipped 2026-08-27:* freestanding workstations now
+  mark their sample vessel with the same named ready/running status as mounted
+  apparatus, without drawing the machine inside the glassware. Apparatus-active
+  styling is scoped at the Bench/Vessel boundary to the exact target, so a
+  running centrifuge or mortar cannot make every vessel appear active.
+  *Bounded-motion correction shipped 2026-08-27:* a retained result no longer
+  restarts or freezes an operation after its declared playback window. Mortar
+  motion, rotor spin, evaporation steam, and wash-bottle flow exist only while
+  the exact computed event is active; settled pellets and numeric result
+  readouts remain afterward. Reduced motion follows the same time boundary.
+  *Static operating-state correction shipped 2026-08-27:* reduced-motion users
+  now retain a visible steady heat plume, frost, light cone, wash jet, steam,
+  charge/gas markers, and burette drop while the corresponding computed
+  operation is active. Freestanding workstations also announce localized
+  ready/running state in addition to their tool and target vessel.
 
 - [ ] **GUI-084 — Mixing and transport state.** Replace bare `stir vN` with a
   parameterized, time-bearing operation and authoritative mixing state. Model
@@ -957,6 +1192,21 @@ hide them completely.
   post-dose total. Stirring now carries RPM/duration and exposes explicitly
   uncoupled rate physics; scaling visible solid volume and coupling mixing to
   transport/rates remain part of this item.*
+  *Solid-volume slice shipped 2026-08-27:* the scene now derives each solid
+  population's additive pure volume from engine-owned moles, molar mass, and
+  registry density. Vessel deposits scale monotonically from that volume and
+  settled fraction, with a capacity-aware perceptual magnifier for sub-pixel
+  traces and the exact mL value attached to the rendered layer. Repeated solid
+  doses therefore grow the deposit without an arbitrary moles-to-pixels rule;
+  multi-species deposits divide that height in proportion to each population's
+  settled computed volume rather than equal decorative bands. Rate coupling
+  remains open.*
+  *Mixing/transport evidence slice shipped 2026-08-28:* the pinned result now
+  exposes engine-emitted RPM, duration and resuspended fraction for stirring,
+  both source fractions for mixing, and the delivered fraction for transfer.
+  It explicitly separates the physical suspension change from the still-open
+  reaction-rate coupling, so visible motion is useful without claiming kinetic
+  chemistry that has not landed.*
 - [ ] **GUI-075 — Observe five users before adding campaign breadth.** Test with
   at least two children/novices, one teacher, and two experienced science users;
   use tasks, not preference questions. Record time-to-first-result, wrong turns,
@@ -1151,6 +1401,111 @@ decorating it.
   events and linearly controls flame size and flicker speed; an unquantified
   ignition uses a restrained fallback rather than maximum drama. Remaining
   DoD: screenshot regression cases.*
+  *Computed transfer-colour slice shipped 2026-08-27:* pour, filter and
+  drain paths capture the source vessel's engine-computed pre-transfer sRGB
+  before the returned scene replaces it. Stream, glow and landing ripple now
+  carry that colour; distillation stays separate because vapour colour cannot
+  honestly be inferred from the bulk source liquid.
+  *Direct-pour motion shipped 2026-08-27:* a source vessel now lifts and
+  tilts while its computed transfer path runs. Tilt magnitude follows the
+  engine-emitted transfer fraction; reduced-motion keeps the state change and
+  settled colour while skipping the gesture.
+  *Physical-filtration slice shipped 2026-08-27:* the transient separator now
+  reads the source vessel before the engine replaces the scene. Its filter
+  paper retains every engine-scene solid with its computed sRGB and amount,
+  shows the retained total in mmol, and scales residue loading from total
+  retained moles; only the computed liquid colour continues to the receiver.
+  A ring stand makes the funnel a bench apparatus rather than a decorative
+  glyph on a generic transfer line.
+  *Computed-still slice shipped 2026-08-27:* distillation retains the VLE
+  solver's water/ethanol cut, starting and ending boiling temperatures,
+  theoretical-stage count, latent-energy bill, and azeotrope limit in the
+  visual effect. The bench rig renders a thermometer, staged column, jacketed
+  condenser with moving coolant and condensate, temperature range and energy;
+  animation intensity derives from the total computed distillate instead of a
+  missing generic `moles` field.
+  *Separatory-funnel slice shipped 2026-08-27:* drain operations now assemble
+  a stopcock funnel and stand between the real source and receiver. The funnel
+  reads the source's bottom-first engine layers before scene replacement,
+  renders both computed layer colours, labels the engine-selected solvent and
+  transferred mmol, and sends the lower layer's colour through the outlet.
+  The former aggregate-liquid colour could visibly drain the wrong phase and
+  is no longer used when layer data exists.
+  *Magnetic-separation slice shipped 2026-08-27:* the instrument wall now
+  exposes the existing `magnet from to` grammar as a two-vessel interaction.
+  An engine-confirmed separation places a horseshoe magnet over the transfer
+  path and moves only species named in `MagnetSeparated.attracted`; particle
+  colour and visual loading come from those solids' pre-transfer Scene sRGB
+  and moles. The receiver is never shown receiving solids classified by the
+  engine as remaining, and a negative result visibly reports an empty pickup.
+  *Gravity-settling slice shipped 2026-08-27:* `GravitySettled` events retain
+  each Stokes-law population's particle diameter, terminal speed, travel
+  distance, separated fraction, direction, and elapsed time. The vessel now
+  animates those populations toward the deposit using the computed travel and
+  fraction, colours them from the matching pre-wait Scene solid, and displays
+  the strongest computed percentage beside elapsed seconds. Reduced-motion
+  keeps the final engine state while suppressing particle travel.
+  *Centrifuge-result slice shipped 2026-08-27:* the moving mini centrifuge now
+  replaces requested form values with the returned run: RPM, radius, elapsed
+  time, relative centrifugal force, measured imbalance, fluid density and
+  viscosity, and every species' Stokes separation. Coloured pellets derive
+  from pre-run Scene solids and scale with computed separated fraction. The
+  machine explicitly labels `state_coupled: false` as a visual forecast with
+  unchanged vessel state instead of presenting predicted separation as an
+  applied ledger mutation; requested settings still preview their calculated
+  RCF before a run.
+  *Computed-stirring slice shipped 2026-08-27:* the magnetic stirrer retains
+  returned RPM, duration, bar length, tip speed, resuspended fraction and
+  rate-coupling status. Non-metal Scene solids visibly rise from the deposit
+  in their computed colours and in proportion to the engine's resuspension;
+  elemental metal excluded by the engine rule is not animated. The vessel and
+  hotplate show tip speed and resuspension, while the boundary label says
+  plainly when mixing changed suspension state but did not change kinetic
+  rates.
+  *Physical gas-test slice shipped 2026-08-27:* the four inspector headspace
+  tests no longer end as notebook prose. Typed `GasTested` results deploy the
+  appropriate setup at the vessel: lit splint and pressure ring for hydrogen,
+  glowing/relit splint for oxygen, delivery tube and clear/milky limewater for
+  carbon dioxide, or damp red/blue litmus for ammonia. Positive and negative
+  presentations come only from the engine boolean, retain its explanatory
+  notes as accessible detail, and suppress repeated motion under the system
+  reduced-motion preference.
+  *Safe-waft slice shipped 2026-08-27:* the previously command-only `smell`
+  verb now has an instrument-tray affordance explicitly named Safe waft. It
+  compiles to the public operator and renders a hand fanning headspace vapour
+  sideways, never a face or direct inhalation. `Smelled.notes` determines the
+  detected species list and visual strength; an empty list is shown as a real
+  negative observation. Curated prose remains in the notebook while the
+  compact physical result uses localized species names and repeats the
+  real-lab safety rule.
+  *Pressure-control slice shipped 2026-08-27:* the piston lid now retains the
+  applied `VesselPressureControlled` pressure, initial headspace volume and
+  trapped gas. The physical piston height follows returned volume, its gauge
+  needle and bar readout follow returned pressure, and the chamber labels the
+  trapped mmol. Before execution the same apparatus previews requested values;
+  after execution it replaces them with engine-owned state rather than
+  implying that the form itself is a measurement.
+  *Freestanding-evaporation slice shipped 2026-08-27:* the evaporating dish is
+  no longer painted inside the selected glassware. It occupies a draggable,
+  collision-checked station with porcelain dish, heater, target-vessel link
+  and reduced-motion behavior. The dish fill captures the pre-operation Scene
+  liquid colour, steam density follows `Evaporated.moles`, and its display
+  reports the actual removed mmol. This retains one engine vessel ledger while
+  making the physical transfer into the working dish explicit on the bench.
+  *Freestanding-dilution slice shipped 2026-08-27:* the wash bottle no longer
+  occupies the selected vessel's SVG. It is a draggable, collision-aware bench
+  object with bottle, water inventory, nozzle and transient jet linked to its
+  target. The returned `Diluted.volume` and water moles drive its display while
+  the target vessel independently keeps the engine-derived swirl and final
+  state. Requested volume remains a control; the station readout is the
+  confirmed operation result.
+  *Computed-gas-sweep slice shipped 2026-08-27:* the carrier-gas line now
+  retains applied `VesselSwept.pressure` rather than stopping when form
+  submission returns. Its inlet and outlet pulses remain active for the typed
+  effect window, cadence scales with applied pressure, and the physical
+  readout reports returned bar. Gas displaced from the vessel remains a
+  separate `GasEvolved.moles` effect, so line pressure never pretends to be a
+  measured purge amount.
 - [x] **GUI-065 — Fluid dynamics as the transport layer (supersedes
   GUI-060's scripted plume).** Owner question answered 2026-08-25:
   SPH-Lagrangian, VOF-Eulerian, or both → BOTH, split by phenomenon,
@@ -1181,7 +1536,7 @@ decorating it.
   additions raise the level by exactly what was added. DoD: 50 mL into a
   100 mL beaker reads half; the same 50 mL in the flask reads correctly
   non-linear; cylinder graduations line up with real volumes.
-- [ ] **GUI-062 — Instruments on the bench.** The burette clamps OVER the
+- [x] **GUI-062 — Instruments on the bench.** The burette clamps OVER the
   vessel on the bench (drawn, with stopcock and falling drops during
   titration), thermometer and pH probe render in-vessel when measuring,
   the still connects two vessels visibly. Portraits (ToolIcon) grow into
@@ -1198,6 +1553,11 @@ decorating it.
   they no longer render as contents inside the selected vessel. Remaining:
   user-positionable instrument stations and bench-scale analytical instruments
   beyond thermometer/pH.*
+  *Closed 2026-08-28:* freestanding stations are now user-positionable and
+  collision checked. Balance, pressure, gas-volume, conductivity, calorimetry,
+  UV-Vis, chromatography, Geiger, magnified observation and gas-test setups all
+  render at bench scale from typed engine evidence; further instruments are
+  catalog growth, not a missing interaction foundation.
 - [x] **GUI-063 — In-experiment visual shelves.** *Shipped 2026-08-25 (kero-basic, PR #36).* Lessons and codex
   experiments present their kit as a RENDERED shelf strip (SpeciesChip
   visuals, tap-to-add) directly in the LessonBar / experiment page —
@@ -1245,13 +1605,13 @@ decorating it.
   engine is running the operation or its computed effect is playing back;
   configured rpm/power still sets the animation rate.
 
-- [x] **GUI-081 — Freely positioned instrument stations.** *Shipped
+- [x] **GUI-083a — Freely positioned instrument stations.** *Shipped
   2026-08-27.* Freestanding mortar and mini-centrifuge stations can be dragged
   with mouse, pen, or touch and nudged with arrow keys. Explicit positions are
   stored per lab mode beside vessel coordinates; untouched tools continue to
   follow a safe, target-aligned default lane.
 
-- [x] **GUI-082 — Legible apparatus targets.** *Shipped 2026-08-27.* A
+- [x] **GUI-083b — Legible apparatus targets.** *Shipped 2026-08-27.* A
   freestanding instrument has a visible drag grip, focus treatment, and a
   subtle dotted sample route to the vessel it operates on. The route follows
   both ends while either is moved and pulses only while that operation runs;
@@ -1278,7 +1638,7 @@ parallel.
   drift-pinned runtime join; packs/ shipped with hashed manifest.
 - WEB-003 inventory in hello; PROTOCOL load_pack row done.
 
-## Making a computed result legible (GUI-081 … GUI-087)
+## Making a computed result legible (GUI-090 … GUI-097)
 
 The engine already produces every number and classification these tasks
 display. Not one of them needs solver work; they are about a result being
@@ -1289,7 +1649,7 @@ enthalpy is a clause in a sentence. A bench that computes real chemistry and
 then buries it reads as less capable than one that fakes forty reactions
 and presents them well.
 
-- [ ] **GUI-081 — The result card.** The newest result gets a card above the
+- [ ] **GUI-090 — The result card.** The newest result gets a card above the
   feed rather than another line in it. Collapsed: the reaction-class badge,
   the equation, one sentence of observation, and an affordance to expand.
   Expanded: equation, ionic equation, reactant chips, observation,
@@ -1299,8 +1659,14 @@ and presents them well.
   new engine call, and the card is a `<details>`-shaped disclosure that
   degrades to the current feed when JavaScript is off or the register is at
   lv3 machine view.
+  *Structured-card slice in progress 2026-08-28:* the journal now pins a
+  compact `<details>` result above its transcript. Its badge, equation,
+  observation, quantities and temperature delta are projected from the
+  accepted command's typed events and before/after scenes without another
+  engine call. The richer reactant, ionic-equation and concept/safety detail
+  remains.
 
-- [ ] **GUI-082 — Say what kind of reaction it was, and what the heat did.**
+- [ ] **GUI-091 — Say what kind of reaction it was, and what the heat did.**
   Two labels the engine can already justify. A **class badge** — displacement,
   neutralisation, precipitation, combustion, decomposition — derived from the
   event stream, never authored per reaction, and absent rather than guessed
@@ -1308,8 +1674,13 @@ and presents them well.
   a delta chip**: `25 °C → 90 °C` with `+65 K`, because a computed ΔH·n/ΣCp is
   the most teachable number we produce and it currently reads as punctuation.
   Both carry the GUI-023 confidence encoding.
+  *Strict-classification slice in progress 2026-08-28:* exact event tags now
+  supply conservative result labels (for example precipitation, gas evolution
+  and electrolysis); unknown tags are not promoted to named reaction classes.
+  A computed scene delta is shown when the target vessel's temperature really
+  changed. Before/after temperature and confidence presentation remain.*
 
-- [ ] **GUI-083 — The ionic equation, derived.** Beside the molecular
+- [ ] **GUI-092 — The ionic equation, derived.** Beside the molecular
   equation, the ionic one — built from the solved speciation rather than
   stored. This is a thing only a computing bench can do honestly: the
   spectator ions are the ones the solver actually left in solution, at the
@@ -1317,7 +1688,7 @@ and presents them well.
   equation omits (AgCl(aq) beside Ag⁺ and Cl⁻) appear because they are
   present. Where speciation is unavailable, show nothing.
 
-- [ ] **GUI-084 — Shelf by chemical role.** Acid, base, salt, metal, oxide,
+- [ ] **GUI-093 — Shelf by chemical role.** Acid, base, salt, metal, oxide,
   indicator, gas. We filter by phase — aqueous/liquid/gas/solid — which is a
   physics axis while the learner is thinking on a chemistry one. Phase stays
   as a secondary filter. The role comes from the registry, not a hand list,
@@ -1327,14 +1698,14 @@ and presents them well.
   including the honest "unassessed" state, which must remain visually
   distinct from "safe".
 
-- [ ] **GUI-085 — The vessel deserves the room.** One vessel, large, central,
+- [ ] **GUI-094 — The vessel deserves the room.** One vessel, large, central,
   when only one is on the bench; the wide empty expanse around a small beaker
   is the strongest signal we send that nothing much is happening. With it,
   quick-action chips within reach of the vessel for the two or three things
   every experiment needs — water, heat, and the reagent last used — so the
   common path does not cross the whole screen.
 
-- [ ] **GUI-086 — Balancing as a generated exercise.** We balance by the null
+- [ ] **GUI-095 — Balancing as a generated exercise.** We balance by the null
   space of the element-count matrix including charge, so we can *generate*
   practice rather than author it: take any equation the codex or a session
   produced, strip the coefficients, and mark the learner's answer against the
@@ -1342,7 +1713,7 @@ and presents them well.
   not the simplest whole-number ratio, which is the actual lesson. Unlimited,
   never wrong, and free of a hand-maintained question bank.
 
-- [ ] **GUI-087 — The toolbox tools say what they are for.** The seven named
+- [ ] **GUI-096 — The toolbox tools say what they are for.** The seven named
   relations (Nernst, Arrhenius, Eyring, Henderson–Hasselbalch, ionic strength,
   Debye–Hückel, van 't Hoff) currently show a name, a formula and an argument
   spec. Each needs one sentence of *what question it answers*, one of *when it
@@ -1351,7 +1722,7 @@ and presents them well.
   from a component. A formula with no stated validity range teaches a learner
   to apply it outside it.
 
-- [ ] **GUI-088 — One shareable card per result.** The expanded report as a
+- [ ] **GUI-097 — One shareable card per result.** The expanded report as a
   single image a learner can hand in or send: equation, observation, the
   numbers, the provenance line. We have notebook export and print, which are
   documents; this is one result, self-contained. Uses the existing chart

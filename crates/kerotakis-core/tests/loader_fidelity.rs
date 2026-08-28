@@ -41,6 +41,7 @@ fn assert_species_eq(key: &str, built: &SpeciesData, loaded: &SpeciesData) {
     eq!(flame_colour);
     eq!(dissolution_enthalpy_kj);
     eq!(dissolves_without_speciation);
+    eq!(aqueous_solubility_g_per_100_ml);
     eq!(forms_only_above_k);
     eq!(magnetic);
     eq!(provenance);

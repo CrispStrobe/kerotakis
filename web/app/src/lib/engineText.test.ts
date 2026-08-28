@@ -64,4 +64,5 @@ describe("engine text localization", () => {
     const unknown = "something no catalogue anywhere has a translation for";
     expect(engineText(unknown)).toBe(unknown);
   });
+
 });

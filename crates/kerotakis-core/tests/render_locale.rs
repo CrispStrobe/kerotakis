@@ -223,3 +223,27 @@ fn an_untranslated_refusal_keeps_its_english() {
     );
     assert!(line.contains("nothing here can be electrolysed"), "{line}");
 }
+
+#[test]
+fn electrolysis_operating_point_is_german_and_keeps_numeric_evidence() {
+    use kerotakis_core::ops::Event;
+    use kerotakis_core::render::render_event_in;
+    use kerotakis_core::species::SpeciesId;
+    use kerotakis_core::Moles;
+
+    let event = Event::Electrolysed {
+        vessel: VesselId(0),
+        species: SpeciesId("copper".into()),
+        amps: 0.5,
+        seconds: 120.0,
+        coulombs: 60.0,
+        electrons: Moles(0.000622),
+        moles: Moles(0.000311),
+        grams: 0.0198,
+        per_ion: 2.0,
+    };
+    let line = render_event_in(&event, Register::LV2, Locale::parse("de"));
+    assert!(line.contains("0,500 A für 120 s"), "{line}");
+    assert!(line.contains("Kupfer"), "{line}");
+    assert!(!line.contains(" A for "), "{line}");
+}

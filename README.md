@@ -256,7 +256,7 @@ browser** (`kerotakis-wasm`), with thermal chemistry live and aqueous answers
 from pre-warmed results — a state nobody pre-computed is reported as a stated
 miss rather than guessed at.
 
-The codex holds **103 reaction entries, 28 models and 155 concepts**, anchored
+The codex holds **103 reaction entries, 28 models and 157 concepts**, anchored
 to a 189-topic CC0 curriculum spine (48 covered; `kero codex gaps` prints the
 rest). Every numeric claim in it is replayed through the real solvers by
 `kero codex lint` in CI, so a curation error cannot merge and a solver change
@@ -284,9 +284,10 @@ Code: AGPL-3.0-or-later, with an App Store / Google Play additional permission
 for binaries published by the copyright holders. See [LICENSE](LICENSE) and
 [NOTICE](NOTICE).
 
-Curated data is licensed separately and openly (CC BY-SA 4.0), and every
-dataset we use is named with its own terms — including where an upstream's
-licence claim looks wrong to us, in which case we honour the original.
+Kerotakis-authored curated data is licensed separately under CC BY 4.0.
+Imported CC0 material remains CC0, and every third-party dataset keeps its
+own named terms — including where an upstream licence claim looks wrong to
+us, in which case we honour the original.
 
 Contributions are welcome under AGPL-3.0-or-later **plus** the store
 permission — see [CONTRIBUTING.md](CONTRIBUTING.md) before your first PR.

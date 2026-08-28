@@ -2,6 +2,7 @@
 
 #![cfg(feature = "engine")]
 
+use kerotakis_core::script::parse_op;
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 
@@ -13,6 +14,12 @@ fn stack() -> SolverStack {
         ))),
         Box::new(HonestyEquilibrator),
     ])
+}
+
+fn production_stack() -> SolverStack {
+    kerotakis_stack::standard_stack(vec![Box::new(PhaseEquilibrator::wrapping(Box::new(
+        PhreeqcEquilibrator::new().expect("engine"),
+    )))])
 }
 
 fn step(bench: &mut Bench, stack: &mut SolverStack, operator: Operator) -> Vec<Event> {
@@ -146,4 +153,47 @@ fn cooling_salt_water_removes_pure_ice_and_resolves_the_residual_brine() {
         .any(|event| matches!(event, Event::StateChanged { .. })));
     assert!((water_moles(settled, Phase::Liquid) - liquid_before).abs() < 2e-8);
     assert!((settled.temperature.0 - temperature_before).abs() < 1e-8);
+}
+
+#[test]
+fn cooling_reactive_lime_solutions_reports_the_settled_temperature() {
+    // Regression for the two TemperatureIsReal sweep failures.  The
+    // phase/aqueous fixed point can emit a trailing provisional temperature
+    // event that becomes a no-op after the vessel settles.  Removing that
+    // no-op must expose a reconciled earlier event, not its stale endpoint.
+    for reagent in ["HCl 0.02mol", "AgNO3 0.005mol"] {
+        let mut bench = Bench::new();
+        let mut solvers = production_stack();
+        for command in [
+            "add v1 water 100mL",
+            "add v1 CaO 1g",
+            &format!("add v1 {reagent}"),
+        ] {
+            let operator = parse_op(command).unwrap().unwrap();
+            bench
+                .step_with(
+                    operator,
+                    &mut solvers,
+                    &kerotakis_safety::ReactiveGroupScreen,
+                )
+                .unwrap();
+        }
+        let events = bench
+            .step_with(
+                parse_op("cool v1 20kJ").unwrap().unwrap(),
+                &mut solvers,
+                &kerotakis_safety::ReactiveGroupScreen,
+            )
+            .unwrap();
+        let actual = bench.vessel(VesselId(0)).unwrap().temperature.0;
+        let announced = events.iter().rev().find_map(|event| match event {
+            Event::TemperatureChanged { to, .. } => Some(to.0),
+            _ => None,
+        });
+        assert_eq!(
+            announced,
+            Some(actual),
+            "{reagent}: final announcement must match the settled vessel; {events:?}"
+        );
+    }
 }

@@ -28,53 +28,44 @@ Third parties redistributing this software remain bound by the AGPL-3.0.
 
 Third-party components
 ----------------------
-Kerotakis links or embeds the following. All are permissively licensed or
-public-domain and compatible with AGPL-3.0 distribution; their notices are
-preserved per their respective terms.
+Kerotakis links or embeds the following in its released web and native apps.
+Summaries here do not replace the licence texts. The app includes the complete
+dependency inventory and every available licence/notice file from those
+packages under About -> Open-source licences. That bundled document is the
+package-level record; this NOTICE highlights the principal components.
 
 Currently shipped
 - IPhreeqc / PHREEQC — USGS User Rights Notice (public-domain-like, U.S.
-  Geological Survey). Aqueous speciation, mineral saturation, gas partitioning
-  and redox. Built from the vendored source and embedded together with its
-  thermodynamic databases (phreeqc.dat, wateq4f.dat, minteq.v4.dat,
-  pitzer.dat), distributed under the same terms. Those databases carry their
-  own literature citations in their comments; Kerotakis surfaces them rather
-  than stripping them, so an answer can name the work its numbers rest on.
-- Rust crates — serde, thiserror, postcard and their dependencies, all MIT
-  and/or Apache-2.0. The full dependency set and its licences are reproduced
-  in-app under About -> Open-source licenses, generated from cargo-about.
-
+  Geological Survey). IPhreeqc is by S.R. Charlton and D.L. Parkhurst;
+  PHREEQC is by D.L. Parkhurst and C.A.J. Appelo. Aqueous speciation, mineral
+  saturation, gas partitioning and redox are built from the pinned vendored
+  source and its thermodynamic databases (phreeqc.dat, wateq4f.dat,
+  minteq.v4.dat and pitzer.dat). Kerotakis modifies the build integration and
+  BASIC runtime; it is not an unmodified USGS distribution.
 - MY-BASIC — MIT, Copyright (c) 2011–2026 Tony Wang. Pinned language core
   for PHREEQC BASIC programs (rate expressions, user punch/print, calculated
   values). Default in all Kerotakis builds.
-
-Planned, not yet shipped (recorded here so the intent is public)
-- MY-BASIC — MIT, Copyright (c) 2011–2026 Tony Wang. Pinned, in-progress
-  replacement language core for PHREEQC BASIC programs; currently available
-  only through the development-only `my-basic-preview` build feature.
-- Indigo — Apache-2.0, Copyright (c) EPAM Systems. Structure handling, reaction
-  product enumeration, and canonical identity via its bundled IUPAC InChI
-  plugin (InChI v1.07+, MIT, Copyright (c) the InChI Project).
-- feos, vle-thermo, seuif97 — MIT and/or Apache-2.0. Phase equilibria (SAFT
-  family, cubic equations of state, flash) and IAPWS-IF97 water/steam.
+- NASA CEA thermodynamic data and code — Apache-2.0, Copyright (c) 2025,
+  United States Government as represented by the Administrator of the
+  National Aeronautics and Space Administration. The embedded `thermo.inp`
+  supplies NASA-9 gas and condensed-phase thermochemistry.
 - diffsol — MIT, Copyright (c) Martin Robinson. Stiff ODE/DAE integration for
   reaction kinetics.
-- NASA CEA thermodynamic data — Apache-2.0 (github.com/nasa/cea). Gas and
-  condensed-phase thermochemistry (NASA polynomials).
-- PubChem (NCBI/NLM) and Wikidata (CC0) — species properties and hazard
-  classifications, with per-record source attribution reproduced in-app.
-- Harmonised hazard classifications from CLP Annex VI via EUR-Lex, reused with
-  acknowledgment per EU legislation reuse policy.
-- Reaction-QM (CC BY 4.0, Kang et al., Sci Data 2026) — precomputed reaction
-  energetics, cited per record where used.
+- chematic — MIT OR Apache-2.0, authored by kent-tokyo. Structure parsing,
+  reaction templates and the wasm-compatible molecular identity path.
+- Svelte — MIT, Copyright (c) 2016–2025 Svelte Contributors. User interface.
+- Rust crates and native-shell dependencies — licences include MIT,
+  Apache-2.0, BSD-2-Clause, BSD-3-Clause, ISC, Zlib, Unicode, Unlicense and
+  other expressions named in the bundled inventory. The in-app open-source
+  licence document names every package, version, declared licence, authors and
+  repository and reproduces each licence/notice file present in its package.
 
 Curated data
-- Curated chemistry data shipped in official binaries (the codex: reactions,
-  observations, register copy, colour and property curation) is licensed
-  CC BY 4.0 or CC0 1.0, separately from the AGPL-3.0 code. Only CC BY or
-  CC0 data enters the app payload; CC BY-SA material is published separately
-  (on Hugging Face or a companion GitHub repository) and is not bundled in
-  store builds.
+- Kerotakis-authored chemistry data shipped in official binaries (the codex:
+  reactions, observations, register copy, colour and property curation) is
+  licensed CC BY 4.0, separately from the AGPL-3.0 code. Imported CC0 records,
+  including the oehTopics curriculum vocabulary, remain CC0 1.0 and name
+  their source per record. No CC BY-SA data is bundled in official apps.
 - Where curated data incorporates or is checked against third-party datasets,
   those are named with their own terms per record — and where an upstream's
   licence claim appears inconsistent with its own sources, Kerotakis honours
@@ -87,13 +78,11 @@ Reactivity screening
   Safety. It does not contain or reproduce the CAMEO Chemicals database or any
   of its contributed proprietary fields.
 
-Optional, per-platform
-- CoolProp — MIT, Copyright (c) Ian Bell et al. Pure-component thermophysical
-  properties; used only in builds/targets where its binaries are available (not
-  part of the core stack).
-
-Build-time only (not distributed with binaries)
-- xtb / CREST — LGPL-3.0, Copyright (c) Grimme group. Used offline to compute
-  reaction energetics and vibrational spectra that are baked into the curated
-  library as data. Neither binary nor library is shipped, so no LGPL-3.0
-  relinking obligation attaches to distributed builds.
+Development and build-time tools (not distributed with app binaries)
+- SUNDIALS/CVODE — BSD-3-Clause-style LLNL licence; Regents of the University
+  of California / Lawrence Livermore National Laboratory. Used only as a
+  native differential test oracle through the `kerotakis-sundials` workspace
+  crate, not linked into the released app.
+- The official IUPAC InChI library — MIT, Copyright (c) 2024 IUPAC and InChI
+  Trust. Used behind the `native-inchi` validation feature; released apps use
+  chematic's pure-Rust path and do not link the vendored C library.

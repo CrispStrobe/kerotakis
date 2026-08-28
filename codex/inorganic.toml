@@ -4,7 +4,8 @@
 # the setup script runs, and the claimed observations must actually occur.
 # An entry that stops being true fails the build.
 #
-# Licence: the codex is CC BY-SA 4.0, separately from the AGPL code.
+# Licence: Kerotakis-authored codex text is CC BY 4.0, separately from the
+# AGPL code. Third-party facts and data retain the terms named per entry.
 
 # ---------------------------------------------------------------- dissolving
 

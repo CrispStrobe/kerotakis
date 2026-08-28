@@ -74,7 +74,7 @@
   {#if census.too_rare.length > 0}
     <p class="note">
       {t("also present, too dilute to draw at this scale:")}
-      {census.too_rare.map(([name]) => name).join(", ")}
+      {census.too_rare.map(([name]) => t(name)).join(", ")}
     </p>
   {/if}
   <p class="note">
@@ -88,7 +88,7 @@
 <style>
   .empty {
     margin: 0.35rem 0;
-    color: var(--muted, #667);
+    color: var(--dim);
     font-style: italic;
   }
 

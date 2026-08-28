@@ -544,7 +544,23 @@ What follows is only what is genuinely NEW.
 ## New tasks (EXP numbers continue; same laws apply)
 
 - **EXP-30 — Qualitative inorganic analysis** (the crown of the
-  school analytical canon; "salt analysis"). The INST-008
+  school analytical canon; "salt analysis"). FIRST SLICE LANDED
+  (2026-08-25): the hydroxide precipitation matrix computes — Cu²⁺,
+  Fe³⁺, Fe²⁺, Mg²⁺, Zn²⁺, Ca²⁺ with NaOH; AgCl from chloride;
+  CO₂ effervescence from carbonate; the dilute-PbCl₂ non-verdict —
+  pinned in `kerotakis-phreeqc/tests/qualitative.rs`. Getting Fe²⁺
+  to give the *green* hydroxide (and not the ferric one) forced four
+  engine repairs: per-database polymorph translation (Ferrihydrite ↔
+  Fe(OH)3(a)), a reviewed foreign-phase injection (wateq4f has no
+  ferrous hydroxide at all), state-reachability admission for
+  uncoupled redox elements, and in-solve oxidation-state pinning so
+  phantom redistribution stops leaking water (order-independence
+  guarded by the displacement metamorphic test). STILL OPEN: NH3/SO2
+  gas test observables (EXP-31 overlap), flame tests wiring,
+  sealed-unknown salt quests, BaCl2 sulfate row, MIX-path parity
+  (the MIX input builder still filters phases to native names, so
+  polymorph translation and foreign injection do not apply when two
+  solutions are combined by fraction). The INST-008
   `QualitativeTest`/`QualitativeResult` types exist unwired. Scope:
   the classic scheme as computed chemistry — cation tests (NaOH/NH3
   precipitation with excess behaviour), anion tests (AgNO3 halide
@@ -979,6 +995,13 @@ coverage. Yield: three. Curve: 16 → 9 → 7 → 1 → 3 → 0 → **3**.
   loud. Acceptance: the classic condition matrix reproduces textbook
   outcomes; changing one condition flips the product and the lv3
   line says which rule fired. HARDER.
+  - Status (2026-08-24): branch `kero1/exp50-mechanistic-selectivity`
+    landed. 6 selectivity rules (March ch.10), 5 product entries, 2
+    substrates (bromoethane, tert-butyl bromide), 2 nucleophiles
+    (NaOH strong, water weak), temperature threshold 80°C. 15 tests
+    including 3 condition-flip tests and 2 mass-conservation checks.
+    8 new species (including Br- for PHREEQC booking). Verb: `react
+    v1 haloalkane`. Preflight --light clean; full workspace green.
 - **EXP-51 — Enzyme kinetics** — Michaelis–Menten as a curated rate
   family with Km/Vmax and competitive vs non-competitive inhibition,
   riding the existing kinetics integrator and the catalase

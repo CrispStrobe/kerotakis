@@ -408,6 +408,22 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 moles.0
             ),
         },
+        Event::Fermented {
+            vessel,
+            sucrose_moles,
+            ethanol_moles,
+            carbon_dioxide_moles,
+            active_yeast_grams,
+            seconds,
+        } => match register.level() {
+            1 => format!("Yeast feeds on sugar in {vessel}, making alcohol and carbon-dioxide bubbles."),
+            _ => format!(
+                "{vessel}: yeast fermented {:.6} mol sucrose in {seconds:.0} s → {:.6} mol ethanol + {:.6} mol CO2 ({active_yeast_grams:.3} g effective yeast)",
+                sucrose_moles.0,
+                ethanol_moles.0,
+                carbon_dioxide_moles.0,
+            ),
+        },
         Event::ReactionHeatReleased {
             vessel,
             reaction,
@@ -443,6 +459,37 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "{vessel}: foam {volume_liters:.3} L, {height_cm:.1} cm high, overflow {overflow_liters:.3} L"
             ),
         },
+        Event::SurfaceSpread {
+            vessel,
+            material,
+            from_cleared_fraction,
+            to_cleared_fraction,
+            ..
+        } => match register.level() {
+            1 => format!("The {material} darts away from the soap in {vessel}!"),
+            _ => format!(
+                "{vessel}: {material} central clearing increased from {:.0}% to {:.0}%",
+                100.0 * from_cleared_fraction,
+                100.0 * to_cleared_fraction
+            ),
+        },
+        Event::SurfaceColourSpread {
+            vessel,
+            from_spread_fraction,
+            to_spread_fraction,
+            spot_count,
+        } => match register.level() {
+            1 => format!("The colours race and swirl across the milk in {vessel}!"),
+            _ => format!(
+                "{vessel}: {spot_count} surface colour spot(s) spread from {:.0}% to {:.0}%",
+                100.0 * from_spread_fraction,
+                100.0 * to_spread_fraction
+            ),
+        },
+        Event::SurfaceColourMixed { vessel, spot_count } => match register.level() {
+            1 => format!("Stirring blends the surface colours through {vessel}."),
+            _ => format!("{vessel}: homogenized {spot_count} surface colour spot(s)"),
+        },
         Event::TemperatureChanged { vessel, from, to } => {
             let d = to.0 - from.0;
             match register.level() {
@@ -475,6 +522,71 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 _ => format!(
                     "{vessel}: T {:.3} K → {:.3} K (ΔT = {d:+.3} K)",
                     from.0, to.0
+                ),
+            }
+        }
+        Event::EnergyTransferred {
+            vessel,
+            heating,
+            requested_j,
+            delivered_j,
+            time_coupled,
+        } => {
+            let vessel = vessel.to_string();
+            let delivered_kj = locale.number(format!("{:.2}", delivered_j / 1000.0));
+            let requested_kj = locale.number(format!("{:.2}", requested_j / 1000.0));
+            let transfer = if *heating {
+                locale.t("event.energy-transferred.delivered", "delivered")
+            } else {
+                locale.t("event.energy-transferred.removed", "removed")
+            };
+            let coupling = if *time_coupled {
+                locale.t("event.energy-transferred.coupled", "coupled")
+            } else {
+                locale.t("event.energy-transferred.not-yet-coupled", "not yet coupled")
+            };
+            let heating_value = if *heating {
+                locale.t("event.value.true", "true")
+            } else {
+                locale.t("event.value.false", "false")
+            };
+            let time_coupled_value = if *time_coupled {
+                locale.t("event.value.true", "true")
+            } else {
+                locale.t("event.value.false", "false")
+            };
+            match register.level() {
+                1 if *heating => locale.fill(
+                    "event.energy-transferred.lv1-heating",
+                    "{vessel} receives {delivered} kJ of heat. This energy step has no elapsed-time model yet.",
+                    &[("vessel", &vessel), ("delivered", &delivered_kj)],
+                ),
+                1 => locale.fill(
+                    "event.energy-transferred.lv1-cooling",
+                    "{vessel} releases {delivered} kJ of heat. This energy step has no elapsed-time model yet.",
+                    &[("vessel", &vessel), ("delivered", &delivered_kj)],
+                ),
+                2 => locale.fill(
+                    "event.energy-transferred.lv2",
+                    "{vessel}: {requested} kJ requested; {delivered} kJ {transfer} — time model {coupling}",
+                    &[
+                        ("vessel", &vessel),
+                        ("requested", &requested_kj),
+                        ("delivered", &delivered_kj),
+                        ("transfer", transfer),
+                        ("coupling", coupling),
+                    ],
+                ),
+                _ => locale.fill(
+                    "event.energy-transferred.lv3",
+                    "{vessel}: thermal energy requested={requested} J, delivered={delivered} J, heating={heating}, time_coupled={time_coupled}",
+                    &[
+                        ("vessel", &vessel),
+                        ("requested", &locale.number(format!("{requested_j:.6}"))),
+                        ("delivered", &locale.number(format!("{delivered_j:.6}"))),
+                        ("heating", heating_value),
+                        ("time_coupled", time_coupled_value),
+                    ],
                 ),
             }
         }
@@ -513,6 +625,63 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     if *rate_coupled { "model.coupling-active" } else { "model.coupling-absent" },
                     if *rate_coupled { "active" } else { "not yet modelled" },
                 ))],
+            ),
+        },
+        Event::EmulsionChanged {
+            vessel,
+            material,
+            from_dispersed_fraction,
+            to_dispersed_fraction,
+            dispersed_volume_l,
+            half_life_seconds,
+        } => match register.level() {
+            1 if to_dispersed_fraction > from_dispersed_fraction => format!(
+                "Tiny {material} droplets spread through the water in {vessel}, making it cloudy."
+            ),
+            1 => format!(
+                "The droplets in {vessel} join back together, and the {material} layer starts returning."
+            ),
+            2 => format!(
+                "{vessel}: {material} dispersed {:.0}% → {:.0}% ({:.1} mL; {:.0} s coalescence half-life)",
+                from_dispersed_fraction * 100.0,
+                to_dispersed_fraction * 100.0,
+                dispersed_volume_l * 1000.0,
+                half_life_seconds,
+            ),
+            _ => format!(
+                "{vessel}: bounded recipe-level emulsion {:.6} → {:.6}; dispersed {:.9} L; half-life {:.3} s — no CMC, droplet distribution or CFD claim",
+                from_dispersed_fraction,
+                to_dispersed_fraction,
+                dispersed_volume_l,
+                half_life_seconds,
+            ),
+        },
+        Event::CurdlingChanged {
+            vessel,
+            material,
+            from_formed_fraction,
+            to_formed_fraction,
+            separation_progress,
+            curd_solids_mass_g,
+            acid_species,
+            acid_moles,
+        } => match register.level() {
+            1 => format!(
+                "The {material} in {vessel} separates into soft white curds and cloudy whey."
+            ),
+            2 => format!(
+                "{vessel}: {material} curd solids {:.0}% → {:.0}% ({curd_solids_mass_g:.2} g aggregate solids in visible curds)",
+                from_formed_fraction * 100.0,
+                to_formed_fraction * 100.0,
+            ),
+            _ => format!(
+                "{vessel}: bounded acid-curdling response {:.6} → {:.6}; separation progress {:.6}; curd solids {:.6} g from {:.9} mol {}; conserved aggregate, no casein-speciation or wet-yield claim",
+                from_formed_fraction,
+                to_formed_fraction,
+                separation_progress,
+                curd_solids_mass_g,
+                acid_moles.0,
+                acid_species.0,
             ),
         },
         Event::Ground {
@@ -630,6 +799,51 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 ))],
                     )
                 }
+            }
+        }
+        Event::Irradiated {
+            vessel,
+            wavelength_nm,
+            irradiance_w_m2,
+            photolysis_coupled,
+        } => {
+            let vessel = vessel.to_string();
+            let coupling = if *photolysis_coupled {
+                locale.t("event.irradiated.coupled", "coupled")
+            } else {
+                locale.t("event.irradiated.not-yet-coupled", "not yet coupled")
+            };
+            let coupled_value = if *photolysis_coupled {
+                locale.t("event.value.true", "true")
+            } else {
+                locale.t("event.value.false", "false")
+            };
+            match register.level() {
+                1 => locale.fill(
+                    "event.irradiated.lv1",
+                    "The lamp shines on {vessel}. The light is applied, but photolysis is not connected yet.",
+                    &[("vessel", &vessel)],
+                ),
+                2 => locale.fill(
+                    "event.irradiated.lv2",
+                    "{vessel}: lamp {wavelength} nm at {irradiance} W/m² — photolysis {coupling}",
+                    &[
+                        ("vessel", &vessel),
+                        ("wavelength", &locale.number(format!("{wavelength_nm:.0}"))),
+                        ("irradiance", &locale.number(format!("{irradiance_w_m2:.2}"))),
+                        ("coupling", coupling),
+                    ],
+                ),
+                _ => locale.fill(
+                    "event.irradiated.lv3",
+                    "{vessel}: irradiate λ={wavelength} nm, Ė/A={irradiance} W/m²; photolysis_coupled={coupled}",
+                    &[
+                        ("vessel", &vessel),
+                        ("wavelength", &locale.number(format!("{wavelength_nm:.3}"))),
+                        ("irradiance", &locale.number(format!("{irradiance_w_m2:.6}"))),
+                        ("coupled", coupled_value),
+                    ],
+                ),
             }
         }
         Event::GravitySettled {
@@ -1145,6 +1359,21 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 &[("vessel", &vessel.to_string())],
             ),
         },
+        Event::MaterialLayersFormed {
+            vessel,
+            upper_material,
+            lower,
+        } => match register.level() {
+            1 => format!("The {upper_material} floats in a separate layer above the water in {vessel}."),
+            2 => format!(
+                "{vessel}: {upper_material} forms the upper layer; {} is denser and remains below",
+                species::lookup(lower).map(|d| d.name).unwrap_or(lower.0.as_str()),
+            ),
+            _ => format!(
+                "{vessel}: reviewed material-layer role — unresolved {upper_material} is immiscible with the aqueous phase and lies above {}; this is not a molecular LLE calculation",
+                lower.0,
+            ),
+        },
         Event::Evaporated { vessel, moles } => match register.level() {
             1 => locale.fill(
                 "event.evaporated.lv1",
@@ -1575,6 +1804,8 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
         Event::Electrolysed {
             vessel,
             species,
+            amps,
+            seconds,
             coulombs,
             electrons,
             moles,
@@ -1582,22 +1813,43 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             per_ion,
         } => {
             let name = species::lookup(species).map(|d| d.name).unwrap_or(&species.0);
+            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
             match register.level() {
                 1 => locale.fill(
                     "event.electrolysed.lv1",
                     "{grams} g of {name} builds up on the electrode in {vessel}.",
                     &[("grams", &locale.number(format!("{grams:.2}"))), ("name", name), ("vessel", &vessel.to_string())],
                 ),
-                2 => format!(
-                    "{vessel}: {coulombs:.0} C → {:.4} mol e⁻ → {:.4} mol {name} = {grams:.3} g",
-                    electrons.0, moles.0
+                2 => locale.fill(
+                    "event.electrolysed.lv2",
+                    "{vessel}: {amps} A for {seconds} s = {coulombs} C → {electrons} mol e⁻ → {moles} mol {name} = {grams} g",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("amps", &locale.number(format!("{amps:.3}"))),
+                        ("seconds", &locale.number(format!("{seconds:.0}"))),
+                        ("coulombs", &locale.number(format!("{coulombs:.0}"))),
+                        ("electrons", &locale.number(format!("{:.4}", electrons.0))),
+                        ("moles", &locale.number(format!("{:.4}", moles.0))),
+                        ("name", name),
+                        ("grams", &locale.number(format!("{grams:.3}"))),
+                    ],
                 ),
                 // The chain, with the one step that is chemistry rather
                 // than arithmetic marked: everything else is division.
                 _ => locale.fill(
                     "event.electrolysed.lv3",
-                    "{vessel}: Q = {coulombs} C; n(e⁻) = Q/F = {electrons} mol; n({name}) = n(e⁻)/{per_ion} = {moles} mol; m = {grams} g — only the {per_ion} is chemistry. Inert anode assumed: the water is oxidised there, so the oxygen leaves and the acid stays",
-                    &[("vessel", &vessel.to_string()), ("coulombs", &locale.number(format!("{coulombs:.1}"))), ("electrons", &locale.number(format!("{:.6}", electrons.0))), ("name", name), ("per_ion", &locale.number(format!("{per_ion:.0}"))), ("moles", &locale.number(format!("{:.6}", moles.0))), ("grams", &locale.number(format!("{grams:.4}")))],
+                    "{vessel}: I = {amps} A; t = {seconds} s; Q = It = {coulombs} C; n(e⁻) = Q/F = {electrons} mol; n({name}) = n(e⁻)/{per_ion} = {moles} mol; m = {grams} g — only the {per_ion} is chemistry. Inert anode assumed: the water is oxidised there, so the oxygen leaves and the acid stays",
+                    &[
+                        ("vessel", &vessel.to_string()),
+                        ("amps", &locale.number(format!("{amps:.6}"))),
+                        ("seconds", &locale.number(format!("{seconds:.3}"))),
+                        ("coulombs", &locale.number(format!("{coulombs:.1}"))),
+                        ("electrons", &locale.number(format!("{:.6}", electrons.0))),
+                        ("name", name),
+                        ("per_ion", &locale.number(format!("{per_ion:.0}"))),
+                        ("moles", &locale.number(format!("{:.6}", moles.0))),
+                        ("grams", &locale.number(format!("{grams:.4}"))),
+                    ],
                 ),
             }
         }
@@ -1642,7 +1894,13 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             severity,
             hazard,
             real_world,
-        } => match register.level() {
+        } => {
+            let severity_en = format!("{severity:?}");
+            let severity_text = locale
+                .lookup(&format!("severity.{severity_en}"))
+                .map(str::to_string)
+                .unwrap_or(severity_en);
+            match register.level() {
             1 => locale.fill(
                 "event.hazard-warning.lv1",
                 "⚠️  STOP AND READ: {hazard}. {real_world} NEVER try this outside the virtual lab — here, we can watch what happens safely.",
@@ -1651,10 +1909,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             2 => locale.fill(
                 "event.hazard-warning.lv2",
                 "⚠ HAZARD ({severity}): {hazard} — {real_world} Safe only because this lab is virtual.",
-                &[("severity", &locale.number(format!("{severity:?}"))), ("hazard", &hazard.to_string()), ("real_world", &real_world.to_string())],
+                &[("severity", &severity_text), ("hazard", &hazard.to_string()), ("real_world", &real_world.to_string())],
             ),
             _ => format!("HAZARD [{severity:?}] (L0): {hazard}; {real_world}"),
-        },
+            }
+        }
         Event::SafetyVeto { reason } => match register.level() {
             1 => locale.fill(
                 "event.safety-veto.lv1",
@@ -2151,8 +2410,41 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
                 .map(str::to_string)
                 .unwrap_or_else(|| real_world.clone()),
         },
+        Event::NotYetModeled { vessel, what } => Event::NotYetModeled {
+            vessel: *vessel,
+            what: localize_refusal(what, locale),
+        },
         other => other.clone(),
     }
+}
+
+fn localize_refusal(what: &str, locale: Locale) -> String {
+    if let Some(translated) = locale.lookup(&format!("refusal.{what}")) {
+        return translated.to_string();
+    }
+
+    const CONTACT: &str =
+        " in contact with liquid: no wired solver models this dissolution/reaction";
+    if let Some(name) = what.strip_suffix(CONTACT) {
+        let translated_name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+        return locale.fill(
+            "refusal.solid-in-liquid",
+            "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            &[("name", translated_name)],
+        );
+    }
+
+    const UNSPECIATED: &str = " dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker";
+    if let Some(name) = what.strip_suffix(UNSPECIATED) {
+        let translated_name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+        return locale.fill(
+            "refusal.dissolves-without-speciation",
+            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+            &[("name", translated_name)],
+        );
+    }
+
+    what.to_string()
 }
 
 /// As `localize_event`, over a slice.

@@ -9,6 +9,17 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  theme-contrast:
+    name: Theme contrast tokens
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Enforce WCAG AA theme pairs
+        run: node tools/test-theme-contrast.mjs
+
   preflight-gate:
     name: Full preflight gate
     runs-on: ubuntu-latest
@@ -257,6 +268,8 @@ jobs:
       # reports 100%. Only a browser knows which names it actually asks for.
       - name: The German build renders German
         run: node tools/test-i18n-render.mjs "$RUNNER_TEMP/site"
+      - name: The responsive bench meets UX invariants
+        run: node tools/test-ux-quality.mjs "$RUNNER_TEMP/site"
       - name: Package the site
         uses: actions/upload-pages-artifact@v3
         with:

@@ -1,20 +1,28 @@
 <script lang="ts">
   import { t } from "../i18n.svelte";
+  import type { Effect } from "../magnitudes";
 
   let {
     tool,
     working = false,
     values = {},
     surfaceY = 118,
+    effect,
+    depositColour,
+    depositName,
   }: {
     tool: string;
     working?: boolean;
     values?: Record<string, number | string>;
     surfaceY?: number;
+    effect?: Effect;
+    depositColour?: string;
+    depositName?: string;
   } = $props();
 
   const toolNames: Record<string, string> = {
     burette: "burette",
+    bunsen: "Bunsen burner",
     dilute: "wash bottle",
     evaporate: "evaporating dish",
     electrolyse: "electrodes and supply",
@@ -27,7 +35,9 @@
     sweep: "carrier-gas line",
   };
 
-  const wavelength = $derived(Number(values.wavelength ?? 500));
+  const wavelength = $derived(effect?.irradiation?.wavelengthNm ?? Number(values.wavelength ?? 500));
+  const irradiance = $derived(effect?.irradiation?.irradianceWM2 ?? Number(values.irradiance ?? 10));
+  const lightOpacity = $derived(.12 + (effect?.magnitude ?? .2) * .28);
   const lampColour = $derived.by(() => {
     if (wavelength < 380) return "#8b5cf6";
     if (wavelength < 450) return "#526dff";
@@ -37,31 +47,60 @@
     if (wavelength < 620) return "#ff8a34";
     return "#ff506d";
   });
-  const amps = $derived(Math.max(0.001, Number(values.amps ?? 0.5)));
+  const amps = $derived(Math.max(0.001, effect?.electrolysis?.amps ?? Number(values.amps ?? 0.5)));
   const pulseDuration = $derived(`${Math.max(0.25, 1.2 - Math.min(1, amps / 2) * 0.8)}s`);
-  const pressure = $derived(Math.max(0.1, Number(values.pressure ?? 1)));
-  const stirRpm = $derived(Math.max(0, Number(values.rpm ?? 500)));
-  const heatWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
+  const pressure = $derived(Math.max(0.1, effect?.pressureControl?.pressurePa ? effect.pressureControl.pressurePa / 100_000 : Number(values.pressure ?? 1)));
+  const regulatorVolumeL = $derived(Math.max(.01, effect?.pressureControl?.initialVolumeL ?? Number(values.volume ?? 500) / 1000));
+  const pistonY = $derived(18 + (1 - Math.min(1, regulatorVolumeL)) * 12);
+  const gaugeAngle = $derived(-120 + Math.min(1, pressure / 5) * 240);
+  const sweepPressureBar = $derived(effect?.sweep?.pressurePa ? effect.sweep.pressurePa / 100_000 : Number(values.pressure ?? 1));
+  const sweepRate = $derived(`${Math.max(.35, 1.3 - Math.min(1, sweepPressureBar / 5) * .8)}s`);
+  const stirRpm = $derived(Math.max(0, effect?.stir?.rpm ?? Number(values.rpm ?? 500)));
+  const powerWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
+  const deliveredKj = $derived((effect?.thermal?.deliveredJ ?? 0) / 1000);
+  const flamePower = $derived(Math.max(0, Math.min(100, Number(values.flame ?? 50))));
+  const airOpen = $derived(Math.max(0, Math.min(100, Number(values.air ?? 70))));
+  const flameHeight = $derived(8 + flamePower * 0.22);
+  const flameOuter = $derived(airOpen < 35 ? "#ffb321" : "#248cff");
+  const flameInner = $derived(airOpen < 35 ? "#fff0a8" : "#bdeaff");
 </script>
 
 <g class="apparatus" class:working aria-label={t("{tool} deployed", { tool: t(toolNames[tool] ?? tool) })}>
-  {#if tool === "stir" || tool === "heat" || tool === "cool"}
+  {#if tool === "stir" || tool === "heat"}
     <g class="magnetic-plate">
       <ellipse class="plate" cx="50" cy="121" rx="27" ry="5" />
       <rect class="base" x="22" y="123" width="56" height="11" rx="3" />
       <circle class="dial" cx="69" cy="129" r="2" />
-      <text x="50" y="133" text-anchor="middle">{tool === "stir" ? `${stirRpm.toFixed(0)} rpm` : `${heatWatts.toFixed(0)} W`}</text>
+      <text x="50" y="133" text-anchor="middle">{tool === "stir" ? `${stirRpm.toFixed(0)} rpm` : effect?.thermal ? `${deliveredKj.toFixed(2)} kJ` : `${powerWatts.toFixed(0)} W`}</text>
+      {#if tool === "stir" && effect?.stir}
+        <text class="tip-speed" x="50" y="140" text-anchor="middle">{effect.stir.tipSpeedMS.toFixed(3)} m/s</text>
+      {/if}
       {#if tool === "heat"}
         {#each [39, 50, 61] as x, i (x)}
-          <path class="heat" d={`M ${x} 117 q -4 -7 0 -14 q 4 -7 0 -14`} style={`--heat-delay:${i * .16}s;--heat-rate:${Math.max(.45, 1.5 - Math.min(1, heatWatts / 1000))}s`} />
+          <path class="heat" d={`M ${x} 117 q -4 -7 0 -14 q 4 -7 0 -14`} style={`--heat-delay:${i * .16}s;--heat-rate:${Math.max(.45, 1.5 - Math.min(1, powerWatts / 1000))}s`} />
         {/each}
+        {#if effect?.thermal && !effect.thermal.timeCoupled}
+          <text class="time-boundary" x="50" y="140" text-anchor="middle">{t("instant energy model")}</text>
+        {/if}
       {/if}
-      {#if tool === "cool"}
-        {#each [38, 50, 62] as x, i (x)}
-          <g class="frost" style={`--frost-delay:${i * .2}s;--frost-rate:${Math.max(.55, 1.7 - Math.min(1, heatWatts / 800))}s`}>
-            <path d={`M ${x - 3} 113 H ${x + 3} M ${x} 110 V 116 M ${x - 2} 111 L ${x + 2} 115 M ${x + 2} 111 L ${x - 2} 115`} />
-          </g>
-        {/each}
+    </g>
+  {:else if tool === "cool"}
+    <g class="cooling-bath">
+      <path class="bath-shell" d="M14 84 V122 Q15 134 28 136 H72 Q85 134 86 122 V84" />
+      <path class="bath-coolant" d="M17 99 Q50 94 83 99 V122 Q82 130 72 132 H28 Q18 130 17 122Z" />
+      <path class="bath-rim" d="M14 84 Q50 91 86 84" />
+      {#each [[23, 103, -8], [34, 115, 7], [67, 105, 9], [74, 119, -5]] as [x, y, rotate], i (i)}
+        <rect class="ice" x={x} y={y} width="10" height="7" rx="2" transform={`rotate(${rotate} ${x + 5} ${y + 3.5})`} style={`--ice-delay:${i * .17}s`} />
+      {/each}
+      {#each [27, 50, 73] as x, i (x)}
+        <g class="frost" style={`--frost-delay:${i * .2}s;--frost-rate:${Math.max(.55, 1.7 - Math.min(1, powerWatts / 800))}s`}>
+          <path d={`M ${x - 3} 91 H ${x + 3} M ${x} 88 V 94 M ${x - 2} 89 L ${x + 2} 93 M ${x + 2} 89 L ${x - 2} 93`} />
+        </g>
+      {/each}
+      <rect class="bath-display" x="37" y="126" width="26" height="8" rx="2" />
+      <text x="50" y="132" text-anchor="middle">−{effect?.thermal ? `${deliveredKj.toFixed(2)} kJ` : `${powerWatts.toFixed(0)} W`}</text>
+      {#if effect?.thermal && !effect.thermal.timeCoupled}
+        <text class="time-boundary" x="50" y="140" text-anchor="middle">{t("instant energy model")}</text>
       {/if}
     </g>
   {:else if tool === "burette"}
@@ -71,6 +110,20 @@
       <rect class="fluid" x="83" y="13" width="3" height="37" rx=".5" />
       <path class="metal" d="M 80 74 H 89 M 84.5 74 V 83 L 50 93" />
       {#if working}<circle class="drop" cx="50" cy="91" r="1.8" />{/if}
+    </g>
+  {:else if tool === "bunsen"}
+    <g class="burner" style={`--flame-power:${flamePower / 100};--flame-outer:${flameOuter};--flame-inner:${flameInner}`}>
+      <path class="burner-base" d="M 32 133 H 68 L 61 126 H 39 Z" />
+      <rect class="burner-tube" x="43" y="91" width="14" height="37" rx="3" />
+      <rect class="burner-collar" x="40" y="105" width="20" height="7" rx="3" />
+      <circle class="air-hole" cx="47" cy="108.5" r={0.4 + airOpen * 0.018} />
+      <circle class="air-hole" cx="53" cy="108.5" r={0.4 + airOpen * 0.018} />
+      {#if flamePower > 0}
+        <path class="flame-outer" d={`M 50 92 C 36 78 44 ${92 - flameHeight * 0.55} 50 ${92 - flameHeight} C 56 ${92 - flameHeight * 0.55} 64 78 50 92 Z`} />
+        <path class="flame-inner" d={`M 50 91 C 44 84 48 ${91 - flameHeight * 0.45} 50 ${91 - flameHeight * 0.62} C 52 ${91 - flameHeight * 0.45} 56 84 50 91 Z`} />
+      {/if}
+      <text x="61" y="103">{flamePower > 0 ? `${flamePower.toFixed(0)}%` : "off"}</text>
+      <text x="61" y="110">air {airOpen.toFixed(0)}%</text>
     </g>
   {:else if tool === "dilute"}
     <g class="wash-bottle">
@@ -92,13 +145,28 @@
       {/if}
     </g>
   {:else if tool === "electrolyse"}
-    <g class="electrodes" style={`--pulse:${pulseDuration}`}>
+    <g class="electrodes" style={`--pulse:${pulseDuration};--deposit-colour:${depositColour ?? "var(--instrument)"}`}>
       <path class="wire positive" d="M 30 10 H 18 V 32" />
       <path class="wire negative" d="M 70 10 H 82 V 32" />
       <rect class="power" x="34" y="2" width="32" height="16" rx="4" />
       <text x="50" y="13" text-anchor="middle">{amps.toFixed(2)} A</text>
       <rect class="electrode" x="28" y="26" width="4" height={Math.max(20, surfaceY - 34)} rx="1" />
       <rect class="electrode" x="68" y="26" width="4" height={Math.max(20, surfaceY - 34)} rx="1" />
+      {#if effect?.electrolysis}
+        <rect
+          class="plated-layer"
+          x={67.2 - effect.magnitude * 1.4}
+          y={surfaceY - 9 - effect.magnitude * 20}
+          width={5.6 + effect.magnitude * 2.8}
+          height={10 + effect.magnitude * 20}
+          rx="1"
+        />
+        <g class="electrolysis-readout">
+          <rect x="19" y="18" width="62" height="14" rx="4" />
+          <text x="50" y="24" text-anchor="middle">{effect.electrolysis.coulombs.toFixed(0)} C · {effect.electrolysis.seconds.toFixed(0)} s</text>
+          <text x="50" y="29" text-anchor="middle">{effect.electrolysis.grams.toPrecision(3)} g {t(depositName ?? effect.electrolysis.species)}</text>
+        </g>
+      {/if}
       {#if working}
         {#each [30, 70] as x (x)}<circle class="charge" cx={x} cy={surfaceY - 10} r="2" />{/each}
       {/if}
@@ -109,25 +177,46 @@
       <path class="pestle" d="M 58 75 L 82 108" />
     </g>
   {:else if tool === "irradiate"}
-    <g class="lamp" style={`--lamp:${lampColour}`}>
+    <g class="lamp" style={`--lamp:${lampColour};--light-opacity:${lightOpacity}`}>
       <path class="lamp-arm" d="M 8 122 V 34 Q 8 22 20 22 H 27" />
       <path class="lamp-head" d="M 26 14 h 24 l 6 17 H 20 Z" />
       <path class="light-cone" d={`M 29 31 L 43 ${surfaceY} H 74 L 48 31 Z`} />
       <text x="8" y="133">{wavelength.toFixed(0)} nm</text>
+      <text x="8" y="140">{irradiance.toFixed(2)} W/m²</text>
+      {#if effect?.irradiation}
+        <g class="model-boundary">
+          <rect x="28" y="3" width="67" height="14" rx="4" />
+          <text x="61.5" y="9" text-anchor="middle">{t("light applied")}</text>
+          <text x="61.5" y="14" text-anchor="middle">{t(effect.irradiation.photolysisCoupled ? "photolysis coupled" : "photolysis not yet coupled")}</text>
+        </g>
+      {/if}
     </g>
   {:else if tool === "regulate"}
     <g class="regulator">
-      <rect class="lid-plate" x="19" y="18" width="62" height="6" rx="2" />
-      <path class="piston" d="M 50 18 V 5 M 41 5 H 59" />
+      <rect class="lid-plate" x="19" y={pistonY} width="62" height="6" rx="2" />
+      <path class="piston" d={`M 50 ${pistonY} V 5 M 41 5 H 59`} />
+      <path class="pressure-volume" d={`M 22 ${pistonY + 7} H 78 V ${Math.min(surfaceY, pistonY + 30)} H 22 Z`} />
       <circle class="gauge" cx="82" cy="8" r="9" />
-      <path class="needle" d={`M 82 8 l ${Math.min(7, 2 + pressure * 1.5)} -3`} />
+      {#each [-120, -60, 0, 60, 120] as angle (angle)}
+        <path class="gauge-tick" d="M 82 1 V 3" transform={`rotate(${angle} 82 8)`} />
+      {/each}
+      <path class="needle" d="M 82 8 V 2" transform={`rotate(${gaugeAngle} 82 8)`} />
       <text x="82" y="-4" text-anchor="middle">{pressure.toFixed(1)} bar</text>
+      <text class="volume-readout" x="50" y={pistonY + 12} text-anchor="middle">{(regulatorVolumeL * 1000).toFixed(0)} mL</text>
+      {#if effect?.pressureControl}
+        <text class="trapped-readout" x="50" y={pistonY + 18} text-anchor="middle">{(effect.pressureControl.trappedGasMoles * 1000).toPrecision(2)} mmol {t("trapped gas")}</text>
+      {/if}
     </g>
   {:else if tool === "sweep"}
-    <g class="gas-line">
+    <g class="gas-line" style={`--gas-rate:${sweepRate}`}>
       <path class="hose" d="M 2 45 H 29 V 18 M 98 36 H 71 V 18" />
       <path class="arrow" d="M 14 41 l 8 4 l -8 4 Z M 86 32 l 8 4 l -8 4 Z" />
-      {#if working}<circle class="gas-pulse" cx="5" cy="45" r="3" />{/if}
+      {#if working}
+        <circle class="gas-pulse inlet" cx="5" cy="45" r="3" />
+        <circle class="gas-pulse outlet" cx="71" cy="36" r="3" />
+      {/if}
+      <rect class="sweep-display" x="36" y="3" width="28" height="9" rx="2" />
+      <text x="50" y="9.5" text-anchor="middle">{sweepPressureBar.toFixed(2)} bar</text>
     </g>
   {/if}
 </g>
@@ -135,6 +224,12 @@
 <style>
   .apparatus { color: var(--instrument); pointer-events: none; }
   .stand, .metal, .tube, .wire, .lamp-arm, .hose, .piston, .needle { fill: none; stroke: var(--edge-strong); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .burner-base, .burner-tube, .burner-collar { fill: color-mix(in srgb, var(--instrument) 35%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1; }
+  .air-hole { fill: var(--surface); }
+  .flame-outer { fill: var(--flame-outer, #248cff); opacity: calc(.45 + var(--flame-power) * .5); }
+  .flame-inner { fill: var(--flame-inner, #bdeaff); opacity: calc(.5 + var(--flame-power) * .45); }
+  .burner text { fill: var(--ink); font-size: 6px; font-weight: 700; }
+  .working .flame-outer { animation: burner-flicker .35s ease-in-out infinite alternate; }
   .glass-part, .bottle { fill: color-mix(in srgb, var(--cool) 12%, transparent); stroke: var(--edge-strong); stroke-width: 1.2; }
   .fluid, .water-stream, .drop { fill: var(--cool); stroke: var(--cool); }
   .water-stream { fill: none; stroke-width: 2; stroke-dasharray: 5 3; animation: flow .65s linear infinite; }
@@ -145,30 +240,59 @@
   .heat { fill: none; stroke: var(--hot); stroke-width: 1.5; opacity: 0; }
   .working .heat { animation: rise 1.15s ease-out infinite; }
   .magnetic-plate .heat { animation-duration: var(--heat-rate, 1.15s); animation-delay: var(--heat-delay, 0s); }
+  .bath-shell { fill: color-mix(in srgb, var(--cool) 18%, var(--surface)); stroke: var(--edge-strong); stroke-width: 1.7; }
+  .bath-coolant { fill: color-mix(in srgb, var(--cool) 58%, var(--surface)); opacity: .74; }
+  .bath-rim { fill: none; stroke: var(--edge-strong); stroke-width: 1.7; }
+  .ice { fill: color-mix(in srgb, var(--surface) 82%, var(--cool)); stroke: color-mix(in srgb, var(--cool) 72%, var(--edge-strong)); stroke-width: .8; }
+  .bath-display { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); stroke: var(--edge-strong); stroke-width: .5; }
+  .cooling-bath text { fill: var(--surface); font-size: 5px; font-weight: 800; }
+  .working .ice { animation: ice-bob 1.1s ease-in-out infinite alternate; animation-delay: var(--ice-delay); }
   .frost { color: var(--cool); opacity: .35; }
   .working .frost { animation: frost-pulse var(--frost-rate, 1.2s) ease-in-out infinite alternate; animation-delay: var(--frost-delay, 0s); }
   .frost path { fill: none; stroke: currentColor; stroke-width: 1; stroke-linecap: round; }
   .positive { stroke: var(--danger); } .negative { stroke: var(--primary); }
   .electrode { fill: var(--edge-strong); }
+  .plated-layer { fill: var(--deposit-colour); stroke: var(--ink); stroke-width: .5; }
+  .electrolysis-readout rect { fill: color-mix(in srgb, var(--surface) 92%, var(--instrument)); stroke: var(--instrument); stroke-width: .6; }
+  .electrodes .electrolysis-readout text { fill: var(--ink); font-size: 4px; font-weight: 750; }
   .electrodes text, .lamp text, .regulator text, .magnetic-plate text { fill: var(--ink); font-size: 6px; font-weight: 700; }
+  .magnetic-plate .time-boundary, .cooling-bath .time-boundary { fill: var(--ink); font-size: 4px; font-weight: 750; }
   .plate { fill: var(--surface); stroke: var(--edge-strong); stroke-width: 1.2; }
   .charge { fill: none; stroke: var(--instrument); animation: bubble var(--pulse) ease-out infinite; }
   .pestle { fill: none; stroke: var(--edge-strong); stroke-width: 7; stroke-linecap: round; transform-origin: 76px 108px; }
   .working .pestle { animation: grind .5s ease-in-out infinite alternate; }
   .lamp-head { fill: var(--edge-strong); }
-  .light-cone { fill: var(--lamp); opacity: .16; filter: blur(1px); }
+  .light-cone { fill: var(--lamp); opacity: var(--light-opacity, .16); filter: blur(1px); }
   .working .light-cone { animation: lamp-pulse .8s ease-in-out infinite alternate; }
+  .model-boundary rect { fill: color-mix(in srgb, var(--surface) 92%, var(--lamp)); stroke: var(--lamp); stroke-width: .6; }
+  .lamp .model-boundary text { fill: var(--ink); font-size: 4px; font-weight: 750; }
   .lid-plate { fill: var(--edge-strong); }
   .gauge { fill: var(--surface); stroke: var(--instrument); stroke-width: 1.5; }
+  .gauge-tick { fill: none; stroke: var(--dim); stroke-width: .7; }
+  .pressure-volume { fill: color-mix(in srgb, var(--cool) 13%, transparent); stroke: none; }
+  .regulator .volume-readout, .regulator .trapped-readout { fill: var(--ink); font-size: 5px; font-weight: 800; paint-order: stroke; stroke: var(--surface); stroke-width: 1.5px; }
+  .regulator .trapped-readout { font-size: 4px; fill: var(--instrument); }
   .arrow { fill: var(--instrument); }
-  .gas-pulse { fill: var(--instrument); animation: gas-flow 1.1s linear infinite; }
+  .gas-pulse { fill: var(--instrument); animation: gas-flow var(--gas-rate, 1.1s) linear infinite; }
+  .gas-pulse.outlet { animation-name: gas-out; }
+  .sweep-display { fill: color-mix(in srgb, var(--success) 18%, var(--ink)); stroke: var(--edge-strong); stroke-width: .5; }
+  .gas-line text { fill: var(--surface); font-size: 5px; font-weight: 850; }
   @keyframes flow { to { stroke-dashoffset: -8; } }
   @keyframes drop { from { opacity: 0; transform: translateY(-8px); } 30% { opacity: 1; } to { opacity: 0; transform: translateY(22px); } }
   @keyframes rise { 0% { opacity: 0; transform: translateY(4px); } 35% { opacity: .75; } 100% { opacity: 0; transform: translateY(-8px); } }
   @keyframes bubble { to { opacity: 0; transform: translateY(-34px) scale(1.8); } }
   @keyframes grind { to { transform: rotate(-18deg) translateY(-2px); } }
-  @keyframes lamp-pulse { to { opacity: .3; } }
+  @keyframes lamp-pulse { to { opacity: min(.55, calc(var(--light-opacity, .16) + .16)); } }
   @keyframes gas-flow { to { transform: translateX(88px); opacity: 0; } }
+  @keyframes gas-out { to { transform: translateX(27px); opacity: 0; } }
+  @keyframes burner-flicker { to { transform: scaleX(.9) translateX(5px); } }
   @keyframes frost-pulse { to { opacity: 1; transform: translateY(-3px) scale(1.18); } }
-  @media (prefers-reduced-motion: reduce) { .apparatus * { animation: none !important; } }
+  @keyframes ice-bob { to { transform: translateY(-2px); } }
+  @media (prefers-reduced-motion: reduce) {
+    .apparatus * { animation: none !important; }
+    .working .heat { opacity: .72; }
+    .working .frost { opacity: 1; }
+    .working .light-cone { opacity: var(--light-opacity, .28); }
+    .working .water-stream, .working .drop, .working .charge, .working .gas-pulse { opacity: .78; }
+  }
 </style>

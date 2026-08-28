@@ -16,9 +16,18 @@ export interface BenchLayout {
   apparatus: Record<string, BenchPlacement>;
 }
 
+export interface ApparatusRoute {
+  from: Pick<BenchPlacement, "x" | "y">;
+  to: Pick<BenchPlacement, "x" | "y">;
+  control1: Pick<BenchPlacement, "x" | "y">;
+  control2: Pick<BenchPlacement, "x" | "y">;
+  midpoint: Pick<BenchPlacement, "x" | "y">;
+}
+
 export const EMPTY_BENCH_LAYOUT: BenchLayout = { version: 2, placements: {}, apparatus: {} };
 // Keep the storage key: parseBenchLayout migrates the version-1 value in place.
 export const BENCH_LAYOUT_KEY = "kerotakis.bench.layout.v1";
+export const LAB_LAYOUT_PREFIX = "# kerotakis-bench-layout-v2 ";
 
 const X_MIN = 0.08;
 const X_MAX = 0.92;
@@ -87,6 +96,68 @@ export function positionApparatus(layout: BenchLayout, tool: string, x: number, 
   return { ...layout, apparatus: { ...layout.apparatus, [tool]: next } };
 }
 
+/** Screen-space footprint check for draggable bench objects. The caller owns
+ * each object's footprint; chemistry and connectivity never depend on this
+ * presentation constraint. Touching edges are valid, overlapping interiors
+ * are not. */
+export function placementsOverlap(
+  a: Pick<BenchPlacement, "x" | "y">,
+  b: Pick<BenchPlacement, "x" | "y">,
+  separationX = 0.14,
+  separationY = 0.2,
+): boolean {
+  const epsilon = 1e-9;
+  return Math.abs(a.x - b.x) < separationX - epsilon
+    && Math.abs(a.y - b.y) < separationY - epsilon;
+}
+
+/** Route a visible workstation/sample relationship from object edges rather
+ * than drawing through both objects' centres. The lifted cubic keeps the
+ * association readable around glassware and gives the UI a stable badge
+ * position; it remains presentation-only and never implies chemistry. */
+export function apparatusRoute(
+  machine: Pick<BenchPlacement, "x" | "y">,
+  vessel: Pick<BenchPlacement, "x" | "y">,
+): ApparatusRoute {
+  const horizontal = vessel.x >= machine.x ? 1 : -1;
+  const from = { x: machine.x + horizontal * 0.055, y: machine.y };
+  const to = { x: vessel.x - horizontal * 0.045, y: vessel.y };
+  const lift = clamp(Math.min(from.y, to.y) - 0.09, 0.08, 0.82);
+  const control1 = { x: from.x + horizontal * 0.055, y: lift };
+  const control2 = { x: to.x - horizontal * 0.055, y: lift };
+  const midpoint = {
+    x: (from.x + 3 * control1.x + 3 * control2.x + to.x) / 8,
+    y: (from.y + 3 * control1.y + 3 * control2.y + to.y) / 8,
+  };
+  return { from, to, control1, control2, midpoint };
+}
+
+/** Place newly created glassware in the first stable free slot. This runs only
+ * after the engine confirms creation; it arranges the view without inventing
+ * or mutating chemistry. */
+export function placeNewVessel(
+  layout: BenchLayout,
+  vessel: number,
+  occupiedVessels: readonly number[],
+  obstacles: ReadonlyArray<Pick<BenchPlacement, "x" | "y">> = [],
+): BenchLayout {
+  const occupied = [
+    ...occupiedVessels.filter((id) => id !== vessel).map((id) => positionFor(layout, id)),
+    ...obstacles,
+  ];
+  const preferred = defaultPosition(vessel);
+  const slots = [
+    preferred,
+    ...[0.31, 0.53, 0.75].flatMap((y) =>
+      [0.12, 0.31, 0.5, 0.69, 0.88].map((x) => ({ zone: zoneAt(x), x, y })),
+    ),
+  ];
+  const open = slots.find((candidate) =>
+    occupied.every((position) => !placementsOverlap(candidate, position)),
+  );
+  return open ? positionVessel(layout, vessel, open.x, open.y) : layout;
+}
+
 /** Zone moves remain useful for keyboard users, but preserve vertical placement. */
 export function placeVessel(layout: BenchLayout, vessel: number, zone: BenchZone): BenchLayout {
   const current = positionFor(layout, vessel);
@@ -134,6 +205,27 @@ export function parseBenchLayout(raw: string | null): BenchLayout {
   } catch {
     return EMPTY_BENCH_LAYOUT;
   }
+}
+
+/** Embed presentation-only placement in a comment old .lab readers ignore. */
+export function labWithBenchLayout(script: string, layout: BenchLayout): string {
+  const body = script.endsWith("\n") ? script : `${script}\n`;
+  return `${LAB_LAYOUT_PREFIX}${JSON.stringify(layout)}\n${body}`;
+}
+
+/** Recover an optional shared arrangement without changing chemistry commands. */
+export function benchLayoutFromLab(text: string): BenchLayout | null {
+  const line = text.split(/\r?\n/).find((candidate) => candidate.startsWith(LAB_LAYOUT_PREFIX));
+  if (!line) return null;
+  const raw = line.slice(LAB_LAYOUT_PREFIX.length).trim();
+  if (!raw) return null;
+  try {
+    const decoded = JSON.parse(raw) as { version?: unknown; placements?: unknown };
+    if (decoded.version !== 2 || !decoded.placements || typeof decoded.placements !== "object") return null;
+  } catch {
+    return null;
+  }
+  return parseBenchLayout(raw);
 }
 
 export function adjacentZone(zone: BenchZone, direction: -1 | 1): BenchZone {
