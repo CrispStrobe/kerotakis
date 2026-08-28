@@ -193,7 +193,7 @@
   }
   .legal-notice {
     padding-left: 0.7rem;
-    border-left: 0.2rem solid var(--accent, #2d70d6);
+    border-left: 0.2rem solid var(--primary);
   }
   .legal-link {
     display: grid;
@@ -201,7 +201,7 @@
     min-height: 2.75rem;
     margin-top: 0.75rem;
     padding: 0 1rem;
-    border: 1px solid var(--line, #ccd);
+    border: 1px solid var(--edge);
     border-radius: 0.6rem;
     font-weight: 700;
   }
