@@ -24,7 +24,7 @@
 <body>
 <nav aria-label="Sprache"><a href="privacy.html" lang="en">English</a> · <strong>Deutsch</strong></nav>
 <h1>Kerotakis — Datenschutzerklärung
-  <small>Zuletzt aktualisiert am 25. August 2026 · gilt für die Web-, macOS- und iOS-App</small>
+  <small>Zuletzt aktualisiert am 28. August 2026 · gilt für die Web-, macOS- und iOS-App</small>
 </h1>
 <p class="lede">Kerotakis erhebt nichts, überträgt nichts und betreibt keine Server. Die Chemie wird auf deinem eigenen Gerät berechnet. Im Flugmodus steht weiterhin der volle Funktionsumfang zur Verfügung.</p>
 <h2>Welche Daten erhoben werden</h2>
@@ -37,7 +37,8 @@
   <li>Nichts davon wird hochgeladen. Das Löschen der Websitedaten oder der App entfernt diese Daten.</li>
 </ul>
 <h2>Netzwerknutzung</h2>
-<p>Die macOS- und iOS-Apps stellen keine Netzwerkanfragen: Solver, thermodynamische Datenbanken und Lektionen sind in die App eingebaut. Die macOS-App besitzt nicht einmal eine Netzwerkberechtigung.</p>
+<p>Die macOS- und iOS-Apps stellen keine von der App veranlassten Netzwerkanfragen: Solver, thermodynamische Datenbanken und Lektionen sind in die App eingebaut.</p>
+<p>Ein Punkt der Transparenz, weil er überprüfbar ist: Der macOS-Build deklariert die Berechtigung <code>com.apple.security.network.client</code>. Sie dient nicht der eigenen Netzwerknutzung der App. macOS leitet alles, was die eingebettete Webansicht lädt — auch die appinternen Dateien — durch den WebKit-Netzwerkprozess. In der App-Sandbox kann dieser Prozess ohne die Berechtigung nichts laden; die App zeigt dann nur ein leeres Fenster. Es wird in beiden Fällen nichts versendet.</p>
 <p>Die Webversion lädt App und Engine von der bereitstellenden Website und speichert sie für spätere Offline-Nutzung zwischen. Der Hoster (derzeit GitHub Pages) kann übliche Webserver-Protokolle führen; dies liegt außerhalb unserer Kontrolle.</p>
 <h2>Kinder</h2>
 <p>Kerotakis eignet sich für den Unterricht. Da überhaupt keine Daten erhoben werden, werden auch keine Daten von Kindern erhoben.</p>

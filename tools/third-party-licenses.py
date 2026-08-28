@@ -216,19 +216,49 @@ def manual_block(
     licence: str,
     files: list[Path],
     catalogue: dict[str, tuple[str, str]],
+    *,
+    attribution: str = "",
+    upstreams: list[tuple[str, str]] | None = None,
+    role: str = "",
 ) -> str:
     missing = [str(path) for path in files if not path.is_file()]
     if missing:
         raise SystemExit("required notice file is missing: " + ", ".join(missing))
     notices = notice_references(files, catalogue)
+    metadata = [f"Distribution lane / Verteilungsweg: {lane}"]
+    if role:
+        metadata.append(f"Role in Kerotakis / Aufgabe in Kerotakis: {role}")
+    if attribution:
+        metadata.append(f"Authors/copyright / Urheber: {attribution}")
+    metadata_html = "<br>".join(esc(line) for line in metadata)
+    if upstreams:
+        links = "; ".join(
+            f'<a href="{esc(url)}">{esc(label)}</a>' for label, url in upstreams
+        )
+        metadata_html += f"<br>Upstream / Quelle: {links}"
     return (
         f'<details data-component="{esc(title)}"><summary>{esc(title)} — {esc(licence)}</summary>'
-        f"<p>Distribution lane / Verteilungsweg: {esc(lane)}</p>{notices}</details>"
+        f"<p>{metadata_html}</p>{notices}</details>"
     )
 
 
 def generate(registry_root: Path, node_modules: Path, iphreeqc_notice: Path) -> str:
     catalogue: dict[str, tuple[str, str]] = {}
+    project = manual_block(
+        "Kerotakis",
+        "application",
+        "AGPL-3.0-or-later with the section 7 app-store permission",
+        [ROOT / "LICENSE", ROOT / "NOTICE"],
+        catalogue,
+        attribution="Copyright © 2026 Christian Ströbele and contributors",
+        upstreams=[
+            (
+                "source repository / Quellrepository",
+                "https://github.com/CrispStrobe/kerotakis",
+            )
+        ],
+        role="the application and its project-authored source code",
+    )
     shipped = [
         manual_block(
             "IPhreeqc / PHREEQC",
@@ -236,9 +266,36 @@ def generate(registry_root: Path, node_modules: Path, iphreeqc_notice: Path) -> 
             "USGS User Rights Notice",
             [iphreeqc_notice],
             catalogue,
+            attribution=(
+                "IPhreeqc by S.R. Charlton and D.L. Parkhurst; PHREEQC by "
+                "D.L. Parkhurst and C.A.J. Appelo; U.S. Geological Survey"
+            ),
+            upstreams=[
+                (
+                    "original USGS distribution / USGS-Original",
+                    "https://www.usgs.gov/software/phreeqc-version-3",
+                ),
+                (
+                    "Kerotakis modification fork / Kerotakis-Änderungsfork",
+                    "https://github.com/CrispStrobe/iphreeqc",
+                ),
+            ],
+            role="aqueous equilibrium, speciation, minerals, gases and redox",
         ),
         manual_block(
-            "MY-BASIC", "runtime", "MIT", [ROOT / "vendor/my-basic/LICENSE"], catalogue
+            "MY-BASIC",
+            "runtime",
+            "MIT",
+            [ROOT / "vendor/my-basic/LICENSE"],
+            catalogue,
+            attribution="Copyright © 2011–2026 Tony Wang",
+            upstreams=[
+                (
+                    "MY-BASIC source / MY-BASIC-Quelle",
+                    "https://github.com/paladin-t/my_basic",
+                )
+            ],
+            role="PHREEQC BASIC programs and calculated values",
         ),
         manual_block(
             "NASA CEA",
@@ -246,10 +303,33 @@ def generate(registry_root: Path, node_modules: Path, iphreeqc_notice: Path) -> 
             "Apache-2.0",
             [ROOT / "vendor/nasa-cea/NOTICE.txt", ROOT / "vendor/nasa-cea/LICENSE.txt"],
             catalogue,
+            attribution=(
+                "Copyright © 2025 United States Government as represented by the "
+                "Administrator of the National Aeronautics and Space Administration"
+            ),
+            upstreams=[
+                (
+                    "NASA CEA source / NASA-CEA-Quelle",
+                    "https://github.com/nasa/cea",
+                )
+            ],
+            role="NASA-9 gas and condensed-phase thermochemistry",
         ),
     ]
     rust = cargo_packages(registry_root, catalogue)
     npm = npm_packages(node_modules, catalogue)
+    manual_inputs = {
+        "project-license": ROOT / "LICENSE",
+        "project-notice": ROOT / "NOTICE",
+        "iphreeqc-notice": iphreeqc_notice,
+        "my-basic-license": ROOT / "vendor/my-basic/LICENSE",
+        "nasa-cea-notice": ROOT / "vendor/nasa-cea/NOTICE.txt",
+        "nasa-cea-license": ROOT / "vendor/nasa-cea/LICENSE.txt",
+    }
+    manual_hashes = "\n".join(
+        f'<meta name="kerotakis-{name}-sha256" content="{sha256(path)}">'
+        for name, path in manual_inputs.items()
+    )
     notice_texts = "".join(
         f'<section id="notice-{digest}"><h3>{esc(name)} — SHA-256 {digest}</h3>'
         f"<pre>{esc(body)}</pre></section>"
@@ -261,6 +341,7 @@ def generate(registry_root: Path, node_modules: Path, iphreeqc_notice: Path) -> 
 <meta name="kerotakis-rust-inventory-sha256" content="{sha256(ROOT / 'data/inventory.json')}">
 <meta name="kerotakis-tauri-lock-sha256" content="{sha256(cargo_lock)}">
 <meta name="kerotakis-npm-lock-sha256" content="{sha256(ROOT / 'web/app/package-lock.json')}">
+{manual_hashes}
 <title>Kerotakis open-source licences / Open-Source-Lizenzen</title>
 <style>
 :root{{color-scheme:light dark;font-family:system-ui,sans-serif}}body{{max-width:76rem;margin:auto;padding:1.25rem;line-height:1.45}}
@@ -271,6 +352,7 @@ summary{{cursor:pointer;font-weight:700}}pre{{white-space:pre-wrap;overflow-wrap
 <h1>Kerotakis open-source licences / Open-Source-Lizenzen</h1>
 <p lang="en">This document is bundled with the app. It records the package versions used by the audited source tree and reproduces every available licence or notice file from those packages. A manifest declaration is shown explicitly where an upstream package contains no separate licence file.</p>
 <p lang="de">Dieses Dokument ist in der App enthalten. Es nennt die im geprüften Quellbaum verwendeten Paketversionen und gibt jede dort verfügbare Lizenz- oder Hinweisedatei wieder. Wenn ein Upstream-Paket keine separate Lizenzdatei enthält, wird die Angabe aus seinem Manifest ausdrücklich angezeigt.</p>
+<section id="kerotakis-license"><h2>Kerotakis licence and notice / Kerotakis-Lizenz und Hinweise</h2>{project}</section>
 <h2>Vendored runtime components / Eingebundene Laufzeitkomponenten</h2>{''.join(shipped)}
 <h2>Rust dependency inventory / Rust-Abhängigkeiten ({len(rust)})</h2>{''.join(rust)}
 <h2>Web runtime dependency inventory / Web-Laufzeitabhängigkeiten ({len(npm)})</h2>{''.join(npm)}
