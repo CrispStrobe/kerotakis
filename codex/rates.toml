@@ -620,11 +620,6 @@ answer = 0
 misconception = "A catalyst is retained, but that does not make its amount irrelevant. For a solid catalyst, more exposed area supplies more simultaneous reaction sites. Stirring keeps particles suspended and renews liquid at their surfaces. Kerotakis now consumes all four state variables, while deliberately bounding the mixing correction because this is a teaching correlation rather than a pore-scale transport simulation."
 
 [[reaction.expect.predict.diagnosis]]
-option = 0
-reveals = "The learner connects catalyst loading and mixing to the number and accessibility of active surface sites."
-next = "Now grind equal catalyst masses to different particle diameters: the smaller nominal spheres expose more area without adding catalyst mass."
-
-[[reaction.expect.predict.diagnosis]]
 option = 1
 reveals = "A catalyst is not consumed and does not appear in the stoichiometry, therefore how much of it there is cannot matter."
 next = "Reason about where the reaction physically happens. On a solid catalyst it happens on the surface, so ten times the powder is ten times the surface; grinding it finer does the same again without adding any mass. 'Not consumed' and 'amount irrelevant' are different claims, and only the first is true."
