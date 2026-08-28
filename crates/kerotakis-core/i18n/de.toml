@@ -435,3 +435,48 @@ boiled = "siedete"
 "radioactive source: ionising radiation" = "radioaktive Quelle: ionisierende Strahlung"
 "a liquid medium is required" = "ein flüssiges Medium ist erforderlich"
 "no solid particles are present" = "es sind keine festen Teilchen vorhanden"
+
+# What went wrong, looked up by its English. The shell reads `event.hazard`
+# straight off the serialised event, so these must be translated where the
+# locale is known rather than at the render site.
+[hazard]
+"mixing bleach with ammonia makes chloramine, a toxic gas" = "Bleichmittel mit Ammoniak zu mischen erzeugt Chloramin, ein giftiges Gas"
+"mixing bleach with acid releases chlorine, a toxic gas" = "Bleichmittel mit Säure zu mischen setzt Chlor frei, ein giftiges Gas"
+"a strong oxidizer mixed with a flammable liquid can ignite or explode" = "ein starkes Oxidationsmittel mit einer brennbaren Flüssigkeit kann sich entzünden oder explodieren"
+"a strong oxidizer in the presence of a flammable gas creates an explosion risk" = "ein starkes Oxidationsmittel in Gegenwart eines brennbaren Gases erzeugt Explosionsgefahr"
+"mixing a strong oxidizer with a reducing agent can cause a violent, potentially explosive reaction" = "ein starkes Oxidationsmittel mit einem Reduktionsmittel zu mischen kann eine heftige, möglicherweise explosive Reaktion auslösen"
+"strong acid dissolves this metal, releasing hydrogen gas which is flammable" = "starke Säure löst dieses Metall und setzt dabei Wasserstoff frei, der brennbar ist"
+"strong acid and carbonate fizz vigorously, releasing carbon dioxide — the mixture can spatter" = "starke Säure und Carbonat schäumen heftig und setzen Kohlendioxid frei — das Gemisch kann spritzen"
+"this water-reactive substance already reacted with water; combining with a strong base adds further heat" = "dieser wasserreaktive Stoff hat bereits mit Wasser reagiert; eine starke Base fügt weitere Wärme hinzu"
+"this substance reacts violently with water, releasing a large amount of heat" = "dieser Stoff reagiert heftig mit Wasser und setzt dabei sehr viel Wärme frei"
+"sealed vessel over-pressurised and burst" = "verschlossenes Gefäß überdruckt und geborsten"
+"radioactive source: ionising radiation" = "radioaktive Quelle: ionisierende Strahlung"
+
+# Why it matters outside the simulation. The most important prose in the app
+# to not leave in English: it is the sentence explaining the danger.
+[real_world]
+"People are hospitalised every year from mixing these two household cleaners." = "Jedes Jahr kommen Menschen ins Krankenhaus, weil sie diese beiden Haushaltsreiniger gemischt haben."
+"Chlorine gas was used as a chemical weapon; even small amounts damage lungs." = "Chlorgas wurde als chemische Waffe eingesetzt; schon kleine Mengen schädigen die Lunge."
+"Potassium permanganate and glycerol ignite on contact; similar mixtures cause laboratory fires." = "Kaliumpermanganat und Glycerin entzünden sich bei Kontakt; ähnliche Gemische verursachen Laborbrände."
+"Hydrogen and chlorine mixtures can detonate when exposed to light or a spark." = "Gemische aus Wasserstoff und Chlor können bei Licht oder einem Funken detonieren."
+"Permanganate and sulfite solutions react vigorously; at scale, such mixtures can detonate." = "Permanganat- und Sulfitlösungen reagieren heftig; in größerem Maßstab können solche Gemische detonieren."
+"Magnesium ribbon in hydrochloric acid produces enough hydrogen to pop with a lit splint — a familiar school demo, but the gas is genuinely flammable." = "Magnesiumband in Salzsäure erzeugt genug Wasserstoff für die Knallgasprobe mit dem brennenden Span — ein bekannter Schulversuch, aber das Gas ist wirklich brennbar."
+"Adding acid to chalk or baking soda foams over if the vessel is too small. CO₂ displaces air in enclosed spaces." = "Säure auf Kalk oder Natron schäumt über, wenn das Gefäß zu klein ist. CO₂ verdrängt in geschlossenen Räumen die Luft."
+"Quicklime (CaO) generates enough heat on contact with water to cause burns; adding caustic soda on top is reckless." = "Branntkalk (CaO) entwickelt bei Kontakt mit Wasser genug Wärme für Verbrennungen; zusätzlich Natronlauge zuzugeben ist leichtsinnig."
+"Quicklime (CaO) in water can reach 100 °C and cause severe burns. Always add the solid to the water slowly, never the reverse." = "Branntkalk (CaO) in Wasser kann 100 °C erreichen und schwere Verbrennungen verursachen. Gib den Feststoff immer langsam ins Wasser, niemals umgekehrt."
+"flying glass and a pressure wave — sealed systems on a heat source are how real labs get hurt; safe only because this lab is virtual" = "Glassplitter und eine Druckwelle — verschlossene Systeme auf einer Wärmequelle sind der Grund, warum in echten Laboren Menschen verletzt werden; ungefährlich nur, weil dieses Labor virtuell ist"
+"on a real bench this one is never smelled directly — fume hood, waft only, and some not even then" = "an einer echten Laborbank riecht man daran nie direkt — Abzug, nur zufächeln, und an manchem nicht einmal das"
+"on a real bench this needs shielding, dosimetry and a licence; safe only because this lab is virtual" = "an einer echten Laborbank braucht das Abschirmung, Dosimetrie und eine Genehmigung; ungefährlich nur, weil dieses Labor virtuell ist"
+
+# Each hazardous vapour by name. Not a template: German hyphenates a
+# formula onto the noun (NH3-Dampf, never NH3dampf), and Cl2, SO2 and
+# NO2 are gases rather than vapours, which no pattern over the English
+# could know. `hazardous_vapours_are_all_translated` fails if a new one
+# is added to senses::ODORS without German.
+[hazard_vapour]
+"NH3 vapour is hazardous to inhale" = "NH3-Dampf ist beim Einatmen gefährlich"
+"Cl2 vapour is hazardous to inhale" = "Cl2-Gas ist beim Einatmen gefährlich"
+"SO2 vapour is hazardous to inhale" = "SO2-Gas ist beim Einatmen gefährlich"
+"NO2 vapour is hazardous to inhale" = "NO2-Gas ist beim Einatmen gefährlich"
+"methanol vapour is hazardous to inhale" = "Methanoldampf ist beim Einatmen gefährlich"
+"NH2Cl vapour is hazardous to inhale" = "NH2Cl-Gas ist beim Einatmen gefährlich"
