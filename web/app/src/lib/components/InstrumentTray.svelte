@@ -15,6 +15,7 @@
    * measurements, not abbreviations of them.
    */
   import { t } from "../i18n.svelte";
+  import { INSTRUMENTS, instrumentCommand } from "../instruments";
   let {
     vessel,
     busy,
@@ -26,21 +27,6 @@
   } = $props();
 
   const v = $derived(`v${vessel + 1}`);
-  // Every instrument the grammar's measure arm accepts, by its token.
-  const INSTRUMENTS: { token: string; label: string; glyph: string }[] = [
-    { token: "smell", label: "safe waft", glyph: "≋" },
-    { token: "thermometer", label: "thermometer", glyph: "🌡" },
-    { token: "ph", label: "pH meter", glyph: "pH" },
-    { token: "balance", label: "balance", glyph: "⚖" },
-    { token: "volume", label: "volume", glyph: "mL" },
-    { token: "conductivity", label: "conductivity", glyph: "⚡" },
-    { token: "pressure", label: "pressure gauge", glyph: "bar" },
-    { token: "calorimeter", label: "calorimeter", glyph: "kJ" },
-    { token: "uvvis", label: "UV-Vis", glyph: "λ" },
-    { token: "eyes", label: "look closely", glyph: "🔍" },
-    { token: "chromatograph", label: "chromatograph", glyph: "Rf" },
-    { token: "geiger", label: "Geiger counter", glyph: "Bq" },
-  ];
 </script>
 
 <div class="tray" role="group" aria-label={t("instruments for {vessel}", { vessel: v })}>
@@ -48,14 +34,7 @@
     <button
       disabled={busy}
       title={t(inst.label)}
-      onclick={() =>
-        onmeasure(
-          inst.token === "chromatograph"
-            ? `chromatograph ${v}`
-            : inst.token === "smell"
-              ? `smell ${v}`
-              : `measure ${v} ${inst.token}`,
-        )}
+      onclick={() => onmeasure(instrumentCommand(vessel, inst.token))}
     >
       <span class="glyph" class:word={inst.glyph.length > 1} aria-hidden="true">{inst.glyph}</span>
       <span class="name">{t(inst.label)}</span>

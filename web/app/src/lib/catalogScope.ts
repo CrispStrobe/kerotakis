@@ -8,8 +8,12 @@ const CABINET_VERBS = new Set([
 /** Instruments a mission script asks the learner to take from the cabinet. */
 export function missionEquipment(lines: string[]): string[] {
   const verbs = lines.flatMap((line) => {
-    const command = line.trim().split(/\s+/, 1)[0]?.toLowerCase();
+    const words = line.trim().split(/\s+/);
+    const command = words[0]?.toLowerCase();
     if (command === "titrate") return ["burette"];
+    if (command === "measure" && words[2]) return [`measure:${words[2].toLowerCase()}`];
+    if (command === "smell") return ["measure:smell"];
+    if (command === "chromatograph") return ["measure:chromatograph"];
     return command && CABINET_VERBS.has(command) ? [command] : [];
   });
   return [...new Set(verbs)];
