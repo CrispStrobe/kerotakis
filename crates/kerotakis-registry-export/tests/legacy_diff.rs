@@ -1,6 +1,7 @@
 use std::collections::BTreeMap;
 
 use kerotakis_core::{
+    material,
     species::{Colour, Phase as LegacyPhase, SpeciesData, REGISTRY},
     spectrum::BAND_NM,
     stoich::parse_formula,
@@ -58,7 +59,7 @@ fn every_legacy_field_is_present_and_unchanged() {
             })
             .count()
     );
-    assert_eq!(document.material_recipes.len(), 44);
+    assert_eq!(document.material_recipes.len(), material::all().len());
     let lugol = document
         .material_recipe("Lugol-Lösung_1%", Some("de"))
         .expect("localized dilute Lugol recipe");
