@@ -261,17 +261,24 @@ impl Bench {
             let Ok(actual) = self.vessel(id).map(|v| v.temperature) else {
                 continue;
             };
-            let last = events.iter().rposition(
+            // A coupled solver can leave a trailing provisional event whose
+            // `from` already equals the settled temperature.  Correcting
+            // that event turns it into a no-op; after removing it, the
+            // preceding temperature event becomes the final announcement
+            // and must be reconciled too.  Continue until the last surviving
+            // announcement describes a real move to the exposed state.
+            while let Some(i) = events.iter().rposition(
                 |e| matches!(e, Event::TemperatureChanged { vessel, .. } if *vessel == id),
-            );
-            if let Some(i) = last {
+            ) {
                 if let Event::TemperatureChanged { from, to, .. } = &mut events[i] {
                     *to = actual;
                     let stale = (from.0 - to.0).abs() < 0.01;
                     if stale {
                         events.remove(i);
+                        continue;
                     }
                 }
+                break;
             }
         }
 
