@@ -88,7 +88,7 @@
 <style>
   .empty {
     margin: 0.35rem 0;
-    color: var(--muted, #667);
+    color: var(--dim);
     font-style: italic;
   }
 

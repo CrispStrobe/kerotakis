@@ -101,7 +101,7 @@
   .mission-identity > span:last-child { display: flex; flex-direction: column; line-height: 1.15; }
   .mission-identity small, .objective small, .journal small { color: var(--discovery); font-size: 0.57rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
   .mission-identity strong { max-width: 14rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.78rem; }
-  .mission-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px; color: white; background: var(--discovery); box-shadow: 0 5px 13px color-mix(in srgb, var(--discovery) 27%, transparent); }
+  .mission-mark { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 11px; color: var(--on-accent); background: var(--discovery); box-shadow: 0 5px 13px color-mix(in srgb, var(--discovery) 27%, transparent); }
   .mission-progress { display: flex; flex-direction: column; gap: 0.25rem; }
   .progress-copy { color: var(--dim); font-size: 0.65rem; }
   .track { height: 5px; overflow: hidden; border-radius: 999px; background: color-mix(in srgb, var(--edge) 55%, transparent); }
@@ -114,7 +114,7 @@
   .solver-badge i { width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 0 3px color-mix(in srgb, var(--success) 14%, transparent); }
   code { color: var(--ink); font-size: 0.72rem; overflow-wrap: anywhere; }
   button { min-height: 34px; padding: 0.25rem 0.7rem; border: 1px solid var(--edge); border-radius: 10px; color: var(--ink); background: var(--panel-raised); cursor: pointer; font: inherit; font-size: 0.72rem; }
-  .next { min-width: 5.5rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; color: white; border-color: var(--discovery); background: var(--discovery); font-weight: 750; }
+  .next { min-width: 5.5rem; display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; color: var(--on-accent); border-color: var(--discovery); background: var(--discovery); font-weight: 750; }
   .deviation { color: var(--dim); font-size: 0.7rem; }
   .leave { color: var(--dim); }
   .journal-button { color: var(--primary); border-color: color-mix(in srgb, var(--primary) 35%, var(--edge)); }

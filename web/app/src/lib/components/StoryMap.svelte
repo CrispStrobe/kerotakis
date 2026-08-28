@@ -145,8 +145,8 @@
 </div>
 
 <style>
-  .scrim { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 1rem; background: rgb(5 25 45 / 66%); backdrop-filter: blur(14px) saturate(1.15); }
-  .story-map { width: min(76rem, 100%); height: min(49rem, calc(100dvh - 2rem)); display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; padding: 0; border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--edge)); border-radius: 28px; color: var(--ink); background: var(--surface); box-shadow: 0 34px 100px rgb(2 18 34 / 52%); }
+  .scrim { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 1rem; background: var(--scrim); backdrop-filter: blur(14px) saturate(1.15); }
+  .story-map { width: min(76rem, 100%); height: min(49rem, calc(100dvh - 2rem)); display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; padding: 0; border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--edge)); border-radius: 28px; color: var(--ink); background: var(--surface); box-shadow: 0 34px 100px var(--overlay-shadow); }
   header { position: relative; display: flex; align-items: center; gap: 1.5rem; padding: 1.35rem 4.8rem 1.25rem 1.6rem; border-bottom: 1px solid var(--edge); background: linear-gradient(110deg, color-mix(in srgb, var(--instrument) 13%, var(--surface)), color-mix(in srgb, var(--discovery) 11%, var(--surface))); }
   h1 { margin: .2rem 0 .35rem; font-size: clamp(1.65rem, 3vw, 2.65rem); line-height: 1; letter-spacing: -.045em; }
   header p, .district-title p { max-width: 44rem; margin: 0; color: var(--dim); font-size: .88rem; }
@@ -162,12 +162,12 @@
   .district:hover, .district.selected { transform: translateX(5px); border-color: var(--primary); box-shadow: 0 10px 24px var(--shadow); }
   .district.selected { background: color-mix(in srgb, var(--primary) 8%, var(--surface)); }
   .district.locked { opacity: .68; filter: saturate(.65); }
-  .district-icon { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 15px; color: white; background: linear-gradient(145deg, var(--primary), var(--instrument)); font-size: 1.3rem; box-shadow: 0 5px 13px color-mix(in srgb, var(--primary) 24%, transparent); }
+  .district-icon { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 15px; color: var(--on-accent); background: linear-gradient(145deg, var(--primary), var(--instrument)); font-size: 1.3rem; box-shadow: 0 5px 13px color-mix(in srgb, var(--primary) 24%, transparent); }
   .locked .district-icon { color: var(--dim); background: var(--surface-raised); box-shadow: none; }
   .district-copy { min-width: 0; display: grid; gap: .15rem; }
   .district-copy strong { font-size: .9rem; }
   .district-copy small { color: var(--dim); font-size: .68rem; }
-  .district-done { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; color: white; background: var(--success); font-weight: 900; }
+  .district-done { width: 24px; height: 24px; display: grid; place-items: center; border-radius: 50%; color: var(--on-accent); background: var(--success); font-weight: 900; }
   .mission-board { min-width: 0; overflow: auto; padding: 1.35rem; background: radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--discovery) 11%, transparent), transparent 22rem), var(--surface); }
   .district-title { display: flex; gap: .9rem; padding-bottom: 1rem; }
   .large-icon { flex: 0 0 54px; height: 54px; display: grid; place-items: center; border-radius: 18px; color: var(--action); background: color-mix(in srgb, var(--action) 12%, var(--surface)); font-size: 1.45rem; }
@@ -178,10 +178,10 @@
   article.done { border-color: color-mix(in srgb, var(--success) 44%, var(--edge)); }
   article.running { border-color: var(--discovery); box-shadow: inset 4px 0 var(--discovery); }
   .mission-status { width: 36px; height: 36px; display: grid; place-items: center; border-radius: 12px; color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface)); font-size: .72rem; font-weight: 900; }
-  .done .mission-status { color: white; background: var(--success); }
+  .done .mission-status { color: var(--on-accent); background: var(--success); }
   article h3 { margin: .15rem 0; font-size: .9rem; }
   article p { max-width: 38rem; margin: 0; color: var(--dim); font-size: .7rem; }
-  article button, footer button { min-height: 38px; border: 0; border-radius: 11px; color: white; background: var(--primary); cursor: pointer; font-weight: 800; }
+  article button, footer button { min-height: 38px; border: 0; border-radius: 11px; color: var(--on-accent); background: var(--primary); cursor: pointer; font-weight: 800; }
   article button { display: flex; align-items: center; gap: 1rem; padding: 0 .75rem; }
   .lock-panel { min-height: 15rem; display: grid; place-items: center; align-content: center; padding: 2rem; border: 1px dashed var(--edge); border-radius: 20px; color: var(--dim); text-align: center; }
   .lock-panel span { color: var(--primary); font-size: 2.2rem; }
@@ -190,7 +190,7 @@
   footer { display: flex; align-items: center; gap: .55rem; padding: .75rem 1.25rem; border-top: 1px solid var(--edge); background: var(--surface-raised); }
   footer > span { margin-right: auto; color: var(--dim); }
   footer button { padding: 0 .8rem; color: var(--primary); border: 1px solid color-mix(in srgb, var(--primary) 25%, var(--edge)); background: var(--surface); }
-  footer .sandbox { color: white; background: var(--instrument); }
+  footer .sandbox { color: var(--on-accent); background: var(--instrument); }
   @media (max-width: 760px) {
     .scrim { padding: 0; }
     .story-map { width: 100%; height: 100dvh; border: 0; border-radius: 0; }

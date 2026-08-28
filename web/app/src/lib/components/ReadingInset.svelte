@@ -47,7 +47,7 @@
     color: var(--ink);
     font: inherit;
     cursor: pointer;
-    box-shadow: 0 6px 24px var(--shadow, rgb(0 0 0 / 35%));
+    box-shadow: 0 6px 24px var(--shadow);
   }
   .what {
     font-size: 0.78rem;

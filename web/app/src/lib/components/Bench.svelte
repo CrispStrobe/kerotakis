@@ -573,9 +573,9 @@
       linear-gradient(
         to bottom,
         transparent calc(100% - 2.6rem),
-        var(--bench-top, #4a4337) calc(100% - 2.6rem),
-        var(--bench-top, #4a4337) calc(100% - 2.2rem),
-        var(--bench-front, #3a352c) calc(100% - 2.2rem)
+        var(--bench-top) calc(100% - 2.6rem),
+        var(--bench-top) calc(100% - 2.2rem),
+        var(--bench-front) calc(100% - 2.2rem)
       );
     isolation: isolate;
   }
@@ -595,21 +595,21 @@
     background:
       radial-gradient(circle at 12% 17%, color-mix(in srgb, var(--action) 16%, transparent), transparent 13rem),
       radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--instrument) 17%, transparent), transparent 14rem),
-      linear-gradient(to bottom, color-mix(in srgb, #fff4bd 36%, var(--surface-raised)) 0 58%, transparent 58%),
-      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #2c9ba2 calc(100% - 2.6rem), #2c9ba2 calc(100% - 2.2rem), #176775 calc(100% - 2.2rem));
+      linear-gradient(to bottom, color-mix(in srgb, var(--room-discovery-wall) 36%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), var(--room-discovery-trim) calc(100% - 2.6rem), var(--room-discovery-trim) calc(100% - 2.2rem), var(--room-discovery-front) calc(100% - 2.2rem));
   }
   .bench[data-room="research"] {
     background:
-      radial-gradient(ellipse at 50% 22%, color-mix(in srgb, #9eb2bd 18%, transparent), transparent 48%),
-      linear-gradient(to bottom, color-mix(in srgb, #e9eef1 48%, var(--surface-raised)) 0 58%, transparent 58%),
-      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #8297a3 calc(100% - 2.6rem), #8297a3 calc(100% - 2.2rem), #526570 calc(100% - 2.2rem));
+      radial-gradient(ellipse at 50% 22%, color-mix(in srgb, var(--room-research-glow) 18%, transparent), transparent 48%),
+      linear-gradient(to bottom, color-mix(in srgb, var(--room-research-wall) 48%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), var(--room-research-trim) calc(100% - 2.6rem), var(--room-research-trim) calc(100% - 2.2rem), var(--room-research-front) calc(100% - 2.2rem));
   }
   .bench[data-room="orbital"] {
     background:
-      radial-gradient(ellipse at 50% 5%, color-mix(in srgb, #25b9f1 20%, transparent), transparent 42%),
-      linear-gradient(115deg, transparent 19%, color-mix(in srgb, #22baf4 12%, transparent) 19.3% 21.5%, transparent 21.8% 78%, color-mix(in srgb, #22baf4 12%, transparent) 78.3% 80.5%, transparent 80.8%),
-      linear-gradient(to bottom, color-mix(in srgb, #e8f8ff 48%, var(--surface-raised)) 0 58%, transparent 58%),
-      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #2aaee4 calc(100% - 2.6rem), #2aaee4 calc(100% - 2.2rem), #155d85 calc(100% - 2.2rem));
+      radial-gradient(ellipse at 50% 5%, color-mix(in srgb, var(--room-orbital-glow) 20%, transparent), transparent 42%),
+      linear-gradient(115deg, transparent 19%, color-mix(in srgb, var(--room-orbital-beam) 12%, transparent) 19.3% 21.5%, transparent 21.8% 78%, color-mix(in srgb, var(--room-orbital-beam) 12%, transparent) 78.3% 80.5%, transparent 80.8%),
+      linear-gradient(to bottom, color-mix(in srgb, var(--room-orbital-wall) 48%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), var(--room-orbital-trim) calc(100% - 2.6rem), var(--room-orbital-trim) calc(100% - 2.2rem), var(--room-orbital-front) calc(100% - 2.2rem));
   }
   .lab-backdrop {
     position: absolute;
@@ -753,7 +753,7 @@
     transition: transform 140ms ease, box-shadow 140ms ease, border-color 140ms ease;
   }
   .wall-safety:hover, .wall-safety:focus-visible { border-color: var(--success); box-shadow: 0 7px 18px var(--shadow); transform: translateY(-1px); }
-  .safety-mark { width: 29px; height: 25px; display: grid; place-items: center; flex: none; border-radius: 7px; color: white; background: var(--success); font-weight: 900; }
+  .safety-mark { width: 29px; height: 25px; display: grid; place-items: center; flex: none; border-radius: 7px; color: var(--on-accent); background: var(--success); font-weight: 900; }
   .wall-utilities { position: absolute; z-index: 9; top: .45rem; right: 10.3rem; width: 36px; height: 34px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--cool) 52%, var(--edge)); border-radius: 10px; color: var(--instrument); background: color-mix(in srgb, var(--cool) 11%, var(--surface)); box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow) 72%, transparent); cursor: pointer; font: inherit; font-size: 1.05rem; }
   .wall-utilities i { position: absolute; right: 5px; bottom: 5px; width: 6px; height: 6px; border-radius: 50%; background: var(--action); box-shadow: 0 0 0 2px var(--surface); }
   .wall-utilities:hover, .wall-utilities:focus-visible { border-color: var(--cool); transform: translateY(-1px); }
@@ -793,7 +793,7 @@
     display: grid;
     place-items: center;
     border-radius: 11px;
-    color: white;
+    color: var(--on-accent);
     background: linear-gradient(145deg, var(--discovery), color-mix(in srgb, var(--discovery) 55%, var(--action)));
     box-shadow: 0 5px 12px color-mix(in srgb, var(--discovery) 28%, transparent);
   }
@@ -883,7 +883,7 @@
     translate: -50% 0;
     padding: 0.2rem 0.55rem;
     border-radius: 999px;
-    color: white;
+    color: var(--on-accent);
     background: var(--success);
     font-size: 0.62rem;
     font-weight: 800;
@@ -1032,7 +1032,7 @@
     height: 22px;
     border: 0;
     border-radius: 50%;
-    color: white;
+    color: var(--on-accent);
     background: var(--primary);
     cursor: pointer;
     font-size: 0.7rem;

@@ -44,7 +44,7 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgb(0 0 0 / 45%);
+    background: var(--scrim);
     display: grid;
     place-items: center;
     /* Above the topbar (20) and the tools panel (40): at 10 this

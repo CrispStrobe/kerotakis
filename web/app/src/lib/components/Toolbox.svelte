@@ -213,7 +213,7 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgb(0 0 0 / 45%);
+    background: var(--scrim);
     display: grid;
     place-items: center;
     z-index: 10;
@@ -327,7 +327,7 @@
   .validity {
     margin: 0.5rem 0 0;
     padding-left: 0.6rem;
-    border-left: 2px solid var(--rule, rgba(128, 128, 128, 0.35));
+    border-left: 2px solid var(--rule, var(--edge));
     font-size: 0.85rem;
     line-height: 1.5;
     color: var(--ink-dim, var(--ink));

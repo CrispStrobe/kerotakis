@@ -9,6 +9,17 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  theme-contrast:
+    name: Theme contrast tokens
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Enforce WCAG AA theme pairs
+        run: node tools/test-theme-contrast.mjs
+
   preflight-gate:
     name: Full preflight gate
     runs-on: ubuntu-latest

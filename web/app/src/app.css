@@ -9,7 +9,8 @@
   --surface-raised: #eaf4fb;
   --bench: #d8e9f2;
   --ink: #17324d;
-  --ink-muted: #5d7488;
+  --ink-muted: #526a7e;
+  --on-accent: #ffffff;
   --edge: #b7cedd;
   --edge-strong: #6f91a8;
   --primary: #2f70e8;
@@ -23,6 +24,34 @@
   --bench-front-color: #b9d4e2;
   --shadow: rgb(23 50 77 / 16%);
   --shadow-strong: rgb(23 50 77 / 24%);
+  --scrim: rgb(5 25 45 / 64%);
+  --overlay-shadow: rgb(2 18 34 / 48%);
+  --room-discovery-wall: #fff4bd;
+  --room-discovery-trim: #2c9ba2;
+  --room-discovery-front: #176775;
+  --room-research-glow: #9eb2bd;
+  --room-research-wall: #e9eef1;
+  --room-research-trim: #8297a3;
+  --room-research-front: #526570;
+  --room-orbital-glow: #25b9f1;
+  --room-orbital-beam: #22baf4;
+  --room-orbital-wall: #e8f8ff;
+  --room-orbital-trim: #2aaee4;
+  --room-orbital-front: #155d85;
+  --room-window: rgb(255 255 255 / 45%);
+  --room-window-edge: rgb(255 255 255 / 75%);
+  --room-fixture: rgb(25 68 91 / 42%);
+  --room-glass-edge: rgb(20 70 95 / 72%);
+  --element-alkali: #d98a4a;
+  --element-alkaline: #c9a227;
+  --element-transition: #6fa8c7;
+  --element-post: #8ba8a0;
+  --element-metalloid: #a487c9;
+  --element-nonmetal: #86b06a;
+  --element-halogen: #5ea5a5;
+  --element-noble: #b06a86;
+  --element-lanthanide: #b65a3a;
+  --element-actinide: #7d6a5a;
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 22px;
@@ -51,6 +80,7 @@
     --bench: #29475a;
     --ink: #eaf5fc;
     --ink-muted: #a9bece;
+    --on-accent: #17283a;
     --edge: #45647a;
     --edge-strong: #7593a8;
     --primary: #78aaff;
@@ -64,6 +94,28 @@
     --bench-front-color: #20394b;
     --shadow: rgb(0 0 0 / 28%);
     --shadow-strong: rgb(0 0 0 / 42%);
+    --scrim: rgb(0 8 18 / 74%);
+    --overlay-shadow: rgb(0 0 0 / 60%);
+    --room-discovery-wall: #746b35;
+    --room-discovery-trim: #39b7bb;
+    --room-discovery-front: #176775;
+    --room-research-glow: #8ca4b1;
+    --room-research-wall: #526574;
+    --room-research-trim: #718a99;
+    --room-research-front: #293e4d;
+    --room-orbital-wall: #436a7e;
+    --room-window: rgb(225 245 255 / 24%);
+    --room-window-edge: rgb(225 245 255 / 58%);
+    --element-alkali: #ffae6b;
+    --element-alkaline: #e7c84c;
+    --element-transition: #8bc9eb;
+    --element-post: #a9c7be;
+    --element-metalloid: #c6a8e9;
+    --element-nonmetal: #a6d883;
+    --element-halogen: #7fcaca;
+    --element-noble: #db8eac;
+    --element-lanthanide: #df7957;
+    --element-actinide: #ae9580;
     --focus: #78aaff;
 }
 
@@ -75,6 +127,7 @@
   --bench: #d8e9f2;
   --ink: #081c2c;
   --ink-muted: #2d4659;
+  --on-accent: #ffffff;
   --edge: #36566d;
   --edge-strong: #17324d;
   --primary: #004fd7;
@@ -88,6 +141,8 @@
   --bench-front-color: #afcad9;
   --shadow: rgb(8 28 44 / 20%);
   --shadow-strong: rgb(8 28 44 / 34%);
+  --scrim: rgb(0 0 0 / 78%);
+  --overlay-shadow: rgb(0 0 0 / 58%);
   --focus: #004fd7;
 }
 

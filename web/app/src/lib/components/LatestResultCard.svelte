@@ -43,7 +43,7 @@
   .result-card { flex: none; margin: .6rem .65rem 0; border: 1px solid color-mix(in srgb, var(--success) 45%, var(--edge)); border-radius: 14px; color: var(--ink); background: color-mix(in srgb, var(--success) 6%, var(--surface-raised)); overflow: hidden; }
   summary { min-height: 3.25rem; display: grid; grid-template-columns: 32px minmax(0, 1fr) auto; align-items: center; gap: .55rem; padding: .55rem .65rem; cursor: pointer; list-style: none; }
   summary::-webkit-details-marker { display: none; }
-  .result-mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 10px; color: white; background: var(--success); font-weight: 900; }
+  .result-mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 10px; color: var(--on-accent); background: var(--success); font-weight: 900; }
   summary span:nth-child(2) { min-width: 0; display: flex; flex-direction: column; }
   summary small { overflow: hidden; color: var(--dim); font-size: .65rem; font-weight: 750; letter-spacing: .08em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
   summary strong { overflow: hidden; font-size: .9rem; text-overflow: ellipsis; white-space: nowrap; }
