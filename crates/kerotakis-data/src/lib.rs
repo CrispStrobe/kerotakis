@@ -6,12 +6,14 @@
 //! DATA-003 compiles it into a deterministic binary pack; DATA-004 loads that
 //! pack behind the runtime registry API.
 
+mod adapter;
 pub mod model_pack;
 mod pack;
 mod resolve;
 mod schema;
 mod validate;
 
+pub use adapter::*;
 pub use model_pack::{ModelPackManifest, PackContents, PackLane, PackRejectReason};
 pub use pack::{
     build_pack, load_pack, serialize_pack_payload, PackError, PACK_MAGIC, PACK_VERSION,

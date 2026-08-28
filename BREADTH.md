@@ -230,6 +230,13 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   merge/conflict report; rebuilding from a pinned snapshot is byte-identical;
   parser fuzz target and provenance lint pass.
 - **Out of scope:** a generic data lake or unattended periodic imports.
+- **Foundation checkpoint (2026-08-28):** `kerotakis-data` now exposes the
+  shared offline quarantine contract: versioned SHA-256 snapshot manifests,
+  deterministic candidate serialization, exact per-field provenance/licence,
+  explicit field-and-licence review policies, and same-identity conflict
+  reports. Review returns eligible/rejected fields and cannot mutate the
+  runtime registry. Remaining work is the adapter CLI, refresh-diff format,
+  pinned fixture directories and parser fuzz target used by BRD-010/011/013/060.
 
 ## Stage B1 — the everyday shelf
 
