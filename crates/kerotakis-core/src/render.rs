@@ -1808,6 +1808,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             per_ion,
         } => {
             let name = species::lookup(species).map(|d| d.name).unwrap_or(&species.0);
+            let name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
             match register.level() {
                 1 => locale.fill(
                     "event.electrolysed.lv1",
