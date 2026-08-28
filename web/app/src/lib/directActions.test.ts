@@ -12,6 +12,7 @@ describe("direct vessel actions", () => {
   it("compiles direct pours and transfer tools to public grammar", () => {
     expect(twoVesselLine("decant", 0, 2, 0.75)).toBe("decant v1 v3 0.75");
     expect(twoVesselLine("filter", 1, 0)).toBe("filter v2 v1");
+    expect(twoVesselLine("magnet", 1, 3)).toBe("magnet v2 v4");
     expect(twoVesselLine("distil", 3, 1, 1)).toBe("distil v4 v2 1");
   });
 

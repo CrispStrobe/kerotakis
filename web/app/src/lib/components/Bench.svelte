@@ -10,7 +10,9 @@
     apparatusPositionFor,
     positionFor,
     positionApparatus,
+    apparatusRoute,
     positionVessel,
+    placementsOverlap,
     zoneAt,
     zoneFor,
     type BenchLayout,
@@ -19,6 +21,7 @@
 
   let {
     scene,
+    room = "discovery",
     register,
     selected,
     onselect,
@@ -41,9 +44,16 @@
     onopenperiodic,
     onopencabinet,
     onopensafety,
+    onopenutilities,
+    missionName = null,
+    missionDone = 0,
+    missionTotal = 0,
+    missionEvidence = false,
+    onopenmission,
     onremove,
   }: {
     scene: Scene | null;
+    room?: "discovery" | "research" | "orbital";
     register: string;
     selected: number;
     onselect: (id: number) => void;
@@ -66,6 +76,12 @@
     onopenperiodic?: () => void;
     onopencabinet?: () => void;
     onopensafety?: () => void;
+    onopenutilities?: () => void;
+    missionName?: string | null;
+    missionDone?: number;
+    missionTotal?: number;
+    missionEvidence?: boolean;
+    onopenmission?: () => void;
     onremove?: (vessel: number) => void;
   } = $props();
 
@@ -80,6 +96,7 @@
   let moveMessage = $state("");
   let messageTimer: ReturnType<typeof setTimeout> | undefined;
   const VESSEL_KINDS = ["beaker", "flask", "tube", "cylinder", "crucible"];
+  const FREESTANDING_TOOLS = ["grind", "centrifuge", "burette", "evaporate", "dilute"];
   const zoneHints: Record<BenchZone, string> = {
     prepare: "set up and measure",
     react: "mix and transform",
@@ -88,11 +105,35 @@
   const spatialEffects = $derived(
     Object.values(effects)
       .flat()
-      .filter((effect) => effect.operation && effect.source !== undefined && effect.target !== undefined && Date.now() - effect.at < 3500),
+      .filter((effect) =>
+        effect.operation
+        && effect.source !== undefined
+        && effect.target !== undefined
+        && Date.now() - effect.at < (effect.durationMs ?? 4000)
+      ),
+  );
+  const spatialLayoutKey = $derived(
+    JSON.stringify({ placements: layout.placements, preview: dragPreview }),
+  );
+  const standaloneWorking = $derived(
+    apparatusWorking || (deployedTool === "burette" && titrationPlayback !== null),
   );
 
   const latestApparatusEffect = (vessel: number, kind: string) =>
-    [...(effects[vessel] ?? [])].reverse().find((effect) => effect.kind === kind);
+    [...(effects[vessel] ?? [])].reverse().find((effect) =>
+      kind === "dilute" ? effect.kind === "swirl" && effect.dilution !== undefined : effect.kind === kind,
+    );
+
+  const apparatusName = (tool: string) =>
+    tool === "grind"
+      ? "mortar"
+      : tool === "centrifuge"
+        ? "mini centrifuge"
+        : tool === "evaporate"
+          ? "evaporating dish"
+          : tool === "dilute"
+            ? "wash bottle"
+          : "burette and stand";
 
   const placement = (vessel: number) =>
     dragPreview?.vessel === vessel ? dragPreview : positionFor(layout, vessel);
@@ -106,8 +147,8 @@
       zone: anchor.zone,
       x: anchor.x,
       y: anchor.y >= 0.5
-        ? Math.max(0.16, anchor.y - 0.4)
-        : Math.min(0.84, anchor.y + 0.4),
+        ? Math.max(0.12, anchor.y - 0.48)
+        : Math.min(0.88, anchor.y + 0.48),
     };
   }
 
@@ -116,6 +157,34 @@
       return { zone: zoneAt(apparatusPreview.x), x: apparatusPreview.x, y: apparatusPreview.y };
     }
     return apparatusPositionFor(layout, tool, apparatusPlacement(target));
+  }
+
+  function vesselPlacementBlocked(vessel: number, candidate: { x: number; y: number }): boolean {
+    const byVessel = scene?.vessels.some(
+      (other) => other.id !== vessel && placementsOverlap(candidate, positionFor(layout, other.id)),
+    ) ?? false;
+    if (byVessel) return true;
+    if (deployedTarget === null || !deployedTool || !FREESTANDING_TOOLS.includes(deployedTool)) return false;
+    return placementsOverlap(candidate, machinePlacement(deployedTool, deployedTarget), 0.15, 0.22);
+  }
+
+  function apparatusPlacementBlocked(candidate: { x: number; y: number }): boolean {
+    return scene?.vessels.some(
+      (vessel) => placementsOverlap(candidate, positionFor(layout, vessel.id), 0.15, 0.22),
+    ) ?? false;
+  }
+
+  const vesselDropInvalid = $derived(
+    dragPreview ? vesselPlacementBlocked(dragPreview.vessel, dragPreview) : false,
+  );
+  const apparatusDropInvalid = $derived(
+    apparatusPreview ? apparatusPlacementBlocked(apparatusPreview) : false,
+  );
+
+  function announceMove(message: string) {
+    moveMessage = message;
+    if (messageTimer) clearTimeout(messageTimer);
+    messageTimer = setTimeout(() => (moveMessage = ""), 2600);
   }
 
   function surfacePosition(clientX: number, clientY: number) {
@@ -127,14 +196,18 @@
 
   function placeAt(vessel: number, x: number, y: number) {
     const next = positionVessel(layout, vessel, x, y);
+    const candidate = positionFor(next, vessel);
+    if (vesselPlacementBlocked(vessel, candidate)) {
+      onselect(vessel);
+      announceMove(t("That space is occupied. Move the other vessel or instrument first."));
+      return;
+    }
     onmove?.(next);
     onselect(vessel);
-    moveMessage = t("vessel v{vessel} moved to {zone}", {
+    announceMove(t("vessel v{vessel} moved to {zone}", {
       vessel: vessel + 1,
       zone: t(zoneFor(next, vessel)),
-    });
-    if (messageTimer) clearTimeout(messageTimer);
-    messageTimer = setTimeout(() => (moveMessage = ""), 2200);
+    }));
   }
 
   /** Which vessel has its move controls open, if any. */
@@ -163,7 +236,8 @@
     if (!p) return;
     event.preventDefault();
     dragged = pointerDrag.vessel;
-    dragPreview = { vessel: pointerDrag.vessel, ...p };
+    const previewLayout = positionVessel(layout, pointerDrag.vessel, p.x, p.y);
+    dragPreview = { vessel: pointerDrag.vessel, ...positionFor(previewLayout, pointerDrag.vessel) };
     dropZone = p.x < 1 / 3 ? "prepare" : p.x > 2 / 3 ? "analyse" : "react";
   }
 
@@ -181,11 +255,15 @@
 
   function placeApparatusAt(tool: string, target: number, x: number, y: number) {
     const next = positionApparatus(layout, tool, x, y);
+    const candidate = apparatusPositionFor(next, tool, { zone: zoneAt(x), x, y });
+    if (apparatusPlacementBlocked(candidate)) {
+      onselect(target);
+      announceMove(t("That space is occupied. Move the other vessel or instrument first."));
+      return;
+    }
     onmove?.(next);
     onselect(target);
-    moveMessage = t("{tool} moved on the bench", { tool: t(tool === "grind" ? "mortar" : "mini centrifuge") });
-    if (messageTimer) clearTimeout(messageTimer);
-    messageTimer = setTimeout(() => (moveMessage = ""), 2200);
+    announceMove(t("{tool} moved on the bench", { tool: t(apparatusName(tool)) }));
   }
 
   function startApparatusPointer(event: PointerEvent, tool: string, target: number) {
@@ -239,7 +317,7 @@
   }
 </script>
 
-<section class="bench" aria-label={t("the bench")}>
+<section class="bench" class:mission-active={Boolean(missionName && onopenmission)} data-room={room} aria-label={t("the bench")}>
   <div class="lab-backdrop" aria-hidden="true"></div>
   {#if onopenperiodic}
     <button
@@ -281,9 +359,32 @@
       <span class="poster-copy"><strong>{t("safety station")}</strong><small>{t("tap for the real-lab rules")}</small></span>
     </button>
   {/if}
+  {#if onopenutilities}
+    <button class="wall-utilities" aria-label={t("open utility station")} title={t("utility station")} onclick={onopenutilities}>
+      <span aria-hidden="true">⌁</span><i aria-hidden="true"></i>
+    </button>
+  {/if}
+  {#if missionName && onopenmission}
+    <button
+      class="mission-briefing"
+      aria-label={t("open mission journal for {name}", { name: missionName })}
+      onclick={onopenmission}
+    >
+      <span class="briefing-mark" aria-hidden="true">◆</span>
+      <span class="briefing-copy">
+        <small>{t("mission briefing")}</small>
+        <strong>{missionName}</strong>
+      </span>
+      <span class="briefing-progress">
+        <b>{missionDone}/{missionTotal}</b>
+        <small>{t(missionEvidence ? "evidence" : "steps")}</small>
+      </span>
+      <span class="briefing-open" aria-hidden="true">▤</span>
+    </button>
+  {/if}
   {#if scene}
     {#each spatialEffects as effect (effect.at + ":" + effect.source + ":" + effect.target + ":" + effect.operation)}
-      <BenchEffect {effect} />
+      <BenchEffect {effect} layoutKey={spatialLayoutKey} />
     {/each}
     <div
       class="work-surface"
@@ -301,6 +402,7 @@
             <section
               class="work-zone"
               class:drop-target={dropZone === zone}
+              class:drop-invalid={dropZone === zone && vesselDropInvalid}
               data-zone={zone}
               aria-label={t("{zone} work zone", { zone: t(zone) })}
             >
@@ -318,6 +420,7 @@
         <section
           class="vessel-position"
           class:moving={dragged === vessel.id}
+          class:invalid-drop={dragged === vessel.id && vesselDropInvalid}
           style={`left:${p.x * 100}%;top:${p.y * 100}%`}
           aria-label={t("vessel v{vessel} placement", { vessel: vessel.id + 1 })}
           onpointerdown={(event) => startPointer(event, vessel.id)}
@@ -334,11 +437,12 @@
             {onselect}
             {ondropspecies}
             effects={effects[vessel.id] ?? []}
-            titrationPlayback={titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
+            titrationPlayback={deployedTool !== "burette" && titrationPlayback?.vessel === vessel.id ? titrationPlayback : null}
             onbadge={(b) => onbadge?.(vessel.id, b)}
             {fluidLookup}
-            deployedTool={vessel.id === deployedTarget && !["grind", "centrifuge"].includes(deployedTool ?? "") ? deployedTool : null}
-            {apparatusWorking}
+            deployedTool={vessel.id === deployedTarget && !FREESTANDING_TOOLS.includes(deployedTool ?? "") ? deployedTool : null}
+            linkedTool={vessel.id === deployedTarget && FREESTANDING_TOOLS.includes(deployedTool ?? "") ? deployedTool : null}
+            apparatusWorking={vessel.id === deployedTarget && apparatusWorking}
             {apparatusValues}
           />
           <span class="connection-port port-out" data-port="out" aria-hidden="true"></span>
@@ -358,41 +462,51 @@
               <button aria-label={t("move vessel v{vessel} down", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0, 0.06)}>↓</button>
               <button aria-label={t("move vessel v{vessel} right", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0.05, 0)}>→</button>
               {#if onremove}
-                <button class="remove" aria-label={t("remove empty vessel v{vessel}", { vessel: vessel.id + 1 })} title={t("remove empty vessel")} onclick={() => onremove(vessel.id)}>×</button>
+                <button class="remove" aria-label={t("manage or remove vessel v{vessel}", { vessel: vessel.id + 1 })} title={t("manage or remove vessel")} onclick={() => onremove(vessel.id)}>×</button>
               {/if}
               {/if}
             </div>
           {/if}
         </section>
       {/each}
-      {#if deployedTarget !== null && deployedTool && (deployedTool === "grind" || deployedTool === "centrifuge")}
+      {#if deployedTarget !== null && deployedTool && FREESTANDING_TOOLS.includes(deployedTool)}
         {@const machinePosition = machinePlacement(deployedTool, deployedTarget)}
         {@const targetPosition = placement(deployedTarget)}
+        {@const route = apparatusRoute(machinePosition, targetPosition)}
         {@const apparatusEffect = latestApparatusEffect(deployedTarget, deployedTool)}
         <svg
           class="apparatus-target-link"
-          class:working={apparatusWorking}
+          class:working={standaloneWorking}
+          class:physical={deployedTool === "burette"}
           viewBox="0 0 100 100"
           preserveAspectRatio="none"
           aria-hidden="true"
         >
-          <line
-            x1={machinePosition.x * 100}
-            y1={machinePosition.y * 100}
-            x2={targetPosition.x * 100}
-            y2={targetPosition.y * 100}
+          <path
+            class="route-shadow"
+            d={`M ${route.from.x * 100} ${route.from.y * 100} C ${route.control1.x * 100} ${route.control1.y * 100}, ${route.control2.x * 100} ${route.control2.y * 100}, ${route.to.x * 100} ${route.to.y * 100}`}
           />
-          <circle cx={machinePosition.x * 100} cy={machinePosition.y * 100} r="0.65" />
-          <circle cx={targetPosition.x * 100} cy={targetPosition.y * 100} r="0.65" />
+          <path
+            class="route-line"
+            d={`M ${route.from.x * 100} ${route.from.y * 100} C ${route.control1.x * 100} ${route.control1.y * 100}, ${route.control2.x * 100} ${route.control2.y * 100}, ${route.to.x * 100} ${route.to.y * 100}`}
+          />
+          <circle cx={route.from.x * 100} cy={route.from.y * 100} r="0.65" />
+          <circle cx={route.to.x * 100} cy={route.to.y * 100} r="0.65" />
         </svg>
+        <span
+          class="apparatus-target-badge"
+          style={`left:${route.midpoint.x * 100}%;top:${route.midpoint.y * 100}%`}
+          aria-hidden="true"
+        >v{deployedTarget + 1}</span>
         <div
           class="apparatus-position"
           class:moving={apparatusPointer?.tool === deployedTool}
+          class:invalid-drop={apparatusPointer?.tool === deployedTool && apparatusDropInvalid}
           style={`left:${machinePosition.x * 100}%;top:${machinePosition.y * 100}%`}
           role="button"
           tabindex="0"
           title={t("drag or use arrow keys to move")}
-          aria-label={`${t("{tool} workstation for vessel v{vessel}", { tool: t(deployedTool === "grind" ? "mortar" : "mini centrifuge"), vessel: deployedTarget + 1 })}. ${t("drag or use arrow keys to move")}`}
+          aria-label={`${t("{tool} workstation for vessel v{vessel}", { tool: t(apparatusName(deployedTool)), vessel: deployedTarget + 1 })}. ${t(standaloneWorking ? "running…" : "ready")}. ${t("drag or use arrow keys to move")}`}
           onpointerdown={(event) => startApparatusPointer(event, deployedTool, deployedTarget)}
           onpointermove={trackApparatusPointer}
           onpointerup={(event) => finishApparatusPointer(event, deployedTarget)}
@@ -404,10 +518,16 @@
             <StandaloneApparatus
               tool={deployedTool}
               target={deployedTarget}
-              working={apparatusWorking}
-              performedAt={apparatusEffect?.at}
+              working={standaloneWorking}
               intensity={apparatusEffect?.magnitude ?? 0.5}
-              values={apparatusValues}
+              effect={apparatusEffect}
+              values={deployedTool === "burette"
+                ? {
+                    ...apparatusValues,
+                    delivered: titrationPlayback?.delivered ?? 0,
+                    total: titrationPlayback?.total ?? 0,
+                  }
+                : apparatusValues}
             />
           {/key}
         </div>
@@ -424,7 +544,8 @@
           {/if}
         </div>
       {/if}
-      {#if dragged !== null}<div class="drop-callout">{t("place vessel here")}</div>{/if}
+      {#if dragged !== null}<div class="drop-callout" class:invalid={vesselDropInvalid}>{t(vesselDropInvalid ? "space occupied" : "place vessel here")}</div>{/if}
+      {#if apparatusPointer}<div class="drop-callout" class:invalid={apparatusDropInvalid}>{t(apparatusDropInvalid ? "space occupied" : "place instrument here")}</div>{/if}
     </div>
     {#if pristine}
       <p class="hint">
@@ -458,6 +579,7 @@
       );
     isolation: isolate;
   }
+  .bench.mission-active { padding-top: 6.8rem; }
   .bench::after {
     content: "";
     position: absolute;
@@ -468,6 +590,26 @@
     background:
       linear-gradient(90deg, transparent 8%, color-mix(in srgb, var(--edge-strong) 30%, transparent) 8.2% 8.45%, transparent 8.65% 91.3%, color-mix(in srgb, var(--edge-strong) 30%, transparent) 91.55% 91.8%, transparent 92%),
       linear-gradient(to bottom, rgb(255 255 255 / 13%), transparent 30%);
+  }
+  .bench[data-room="discovery"] {
+    background:
+      radial-gradient(circle at 12% 17%, color-mix(in srgb, var(--action) 16%, transparent), transparent 13rem),
+      radial-gradient(circle at 88% 12%, color-mix(in srgb, var(--instrument) 17%, transparent), transparent 14rem),
+      linear-gradient(to bottom, color-mix(in srgb, #fff4bd 36%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #2c9ba2 calc(100% - 2.6rem), #2c9ba2 calc(100% - 2.2rem), #176775 calc(100% - 2.2rem));
+  }
+  .bench[data-room="research"] {
+    background:
+      radial-gradient(ellipse at 50% 22%, color-mix(in srgb, #9eb2bd 18%, transparent), transparent 48%),
+      linear-gradient(to bottom, color-mix(in srgb, #e9eef1 48%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #8297a3 calc(100% - 2.6rem), #8297a3 calc(100% - 2.2rem), #526570 calc(100% - 2.2rem));
+  }
+  .bench[data-room="orbital"] {
+    background:
+      radial-gradient(ellipse at 50% 5%, color-mix(in srgb, #25b9f1 20%, transparent), transparent 42%),
+      linear-gradient(115deg, transparent 19%, color-mix(in srgb, #22baf4 12%, transparent) 19.3% 21.5%, transparent 21.8% 78%, color-mix(in srgb, #22baf4 12%, transparent) 78.3% 80.5%, transparent 80.8%),
+      linear-gradient(to bottom, color-mix(in srgb, #e8f8ff 48%, var(--surface-raised)) 0 58%, transparent 58%),
+      linear-gradient(to bottom, transparent calc(100% - 2.6rem), #2aaee4 calc(100% - 2.6rem), #2aaee4 calc(100% - 2.2rem), #155d85 calc(100% - 2.2rem));
   }
   .lab-backdrop {
     position: absolute;
@@ -612,6 +754,56 @@
   }
   .wall-safety:hover, .wall-safety:focus-visible { border-color: var(--success); box-shadow: 0 7px 18px var(--shadow); transform: translateY(-1px); }
   .safety-mark { width: 29px; height: 25px; display: grid; place-items: center; flex: none; border-radius: 7px; color: white; background: var(--success); font-weight: 900; }
+  .wall-utilities { position: absolute; z-index: 9; top: .45rem; right: 10.3rem; width: 36px; height: 34px; display: grid; place-items: center; border: 1px solid color-mix(in srgb, var(--cool) 52%, var(--edge)); border-radius: 10px; color: var(--instrument); background: color-mix(in srgb, var(--cool) 11%, var(--surface)); box-shadow: 0 4px 12px color-mix(in srgb, var(--shadow) 72%, transparent); cursor: pointer; font: inherit; font-size: 1.05rem; }
+  .wall-utilities i { position: absolute; right: 5px; bottom: 5px; width: 6px; height: 6px; border-radius: 50%; background: var(--action); box-shadow: 0 0 0 2px var(--surface); }
+  .wall-utilities:hover, .wall-utilities:focus-visible { border-color: var(--cool); transform: translateY(-1px); }
+  .mission-briefing {
+    position: absolute;
+    z-index: 8;
+    top: 3.05rem;
+    left: 50%;
+    translate: -50% 0;
+    width: min(23rem, 48%);
+    min-height: 52px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    align-items: center;
+    gap: .55rem;
+    padding: .42rem .55rem;
+    border: 1px solid color-mix(in srgb, var(--discovery) 52%, var(--edge));
+    border-radius: 13px;
+    color: var(--ink);
+    background:
+      linear-gradient(100deg, color-mix(in srgb, var(--discovery) 15%, var(--surface)), color-mix(in srgb, var(--action) 8%, var(--surface)));
+    box-shadow: 0 6px 17px color-mix(in srgb, var(--discovery) 18%, var(--shadow));
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+  }
+  .mission-briefing:hover,
+  .mission-briefing:focus-visible {
+    border-color: var(--discovery);
+    box-shadow: 0 9px 23px color-mix(in srgb, var(--discovery) 25%, var(--shadow));
+    transform: translateY(-1px);
+  }
+  .briefing-mark {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    color: white;
+    background: linear-gradient(145deg, var(--discovery), color-mix(in srgb, var(--discovery) 55%, var(--action)));
+    box-shadow: 0 5px 12px color-mix(in srgb, var(--discovery) 28%, transparent);
+  }
+  .briefing-copy { min-width: 0; display: grid; gap: .08rem; }
+  .briefing-copy small { color: var(--discovery); font-size: .5rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
+  .briefing-copy strong { overflow: hidden; font-size: .68rem; text-overflow: ellipsis; white-space: nowrap; }
+  .briefing-progress { display: grid; justify-items: end; line-height: 1; }
+  .briefing-progress b { color: var(--discovery); font-size: .7rem; }
+  .briefing-progress small { margin-top: .2rem; color: var(--dim); font-size: .48rem; text-transform: uppercase; }
+  .briefing-open { color: var(--discovery); font-size: 1rem; }
   .work-surface {
     position: relative;
     z-index: 2;
@@ -682,6 +874,7 @@
     background: color-mix(in srgb, var(--success) 7%, transparent);
     box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--success) 15%, transparent);
   }
+  .work-zone.drop-target.drop-invalid { border-color: var(--bad); background: color-mix(in srgb, var(--bad) 7%, transparent); box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--bad) 15%, transparent); }
   .drop-callout {
     position: absolute;
     left: 50%;
@@ -696,6 +889,7 @@
     font-weight: 800;
     white-space: nowrap;
   }
+  .drop-callout.invalid { background: var(--bad); }
   .vessel-position {
     position: absolute;
     z-index: 3;
@@ -708,6 +902,7 @@
   .vessel-position:has(:global(.vessel.selected)) { z-index: 6; }
   .vessel-position:active { cursor: grabbing; }
   .vessel-position.moving { opacity: 0.42; transform: scale(0.96); }
+  .vessel-position.invalid-drop { opacity: .68; filter: drop-shadow(0 0 7px color-mix(in srgb, var(--bad) 72%, transparent)); }
   .apparatus-position {
     position: absolute;
     z-index: 5;
@@ -724,6 +919,7 @@
   }
   .apparatus-position:active { cursor: grabbing; }
   .apparatus-position.moving { opacity: 0.62; }
+  .apparatus-position.invalid-drop { opacity: .72; filter: drop-shadow(0 0 7px color-mix(in srgb, var(--bad) 72%, transparent)); }
   .apparatus-grip {
     position: absolute;
     z-index: 2;
@@ -750,14 +946,25 @@
     overflow: visible;
     pointer-events: none;
   }
-  .apparatus-target-link line {
+  .apparatus-target-link path {
     fill: none;
-    stroke: color-mix(in srgb, var(--instrument) 68%, var(--edge-strong));
+    stroke-linecap: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .apparatus-target-link .route-shadow {
+    stroke: color-mix(in srgb, var(--surface) 88%, transparent);
+    stroke-width: 6;
+    opacity: .9;
+  }
+  .apparatus-target-link .route-line {
+    stroke: color-mix(in srgb, var(--instrument) 72%, var(--edge-strong));
     stroke-width: 2.2;
     stroke-dasharray: 3 7;
-    stroke-linecap: round;
-    opacity: 0.62;
-    vector-effect: non-scaling-stroke;
+    opacity: 0.72;
+  }
+  .apparatus-target-link.physical .route-line {
+    stroke-dasharray: none;
+    stroke-width: 3;
   }
   .apparatus-target-link circle {
     fill: var(--surface);
@@ -765,7 +972,24 @@
     stroke-width: 2;
     vector-effect: non-scaling-stroke;
   }
-  .apparatus-target-link.working line { animation: route-pulse 0.75s linear infinite; }
+  .apparatus-target-link.working .route-line { animation: route-pulse 0.75s linear infinite; }
+  .apparatus-target-badge {
+    position: absolute;
+    z-index: 4;
+    translate: -50% -50%;
+    display: grid;
+    min-width: 1.7rem;
+    height: 1.25rem;
+    padding: 0 .34rem;
+    place-items: center;
+    border: 2px solid var(--surface);
+    border-radius: 999px;
+    color: var(--surface);
+    background: var(--instrument);
+    box-shadow: 0 2px 6px var(--shadow);
+    font: 850 .61rem/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+    pointer-events: none;
+  }
   .connection-port {
     position: absolute;
     top: 52%;
@@ -820,8 +1044,12 @@
   .move-status { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
   @media (max-width: 780px) {
     .bench { padding-top: 2.7rem; }
+    .bench.mission-active { padding-top: 6.6rem; }
     .poster-copy { display: none; }
     .wall-poster, .wall-cabinet, .wall-safety { max-width: none; padding-inline: 0.4rem; }
+    .wall-utilities { right: 3.75rem; }
+    .mission-briefing { width: min(20rem, 58%); }
+    .briefing-copy small, .briefing-progress small { display: none; }
   }
   .empty {
     color: var(--dim);
@@ -890,8 +1118,9 @@
   }
   @media (max-height: 680px) {
     .bench { padding-top: 2.7rem; }
+    .bench.mission-active { padding-top: 6.3rem; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .apparatus-target-link.working line { animation: none; }
+    .apparatus-target-link.working .route-line { animation: none; }
   }
 </style>

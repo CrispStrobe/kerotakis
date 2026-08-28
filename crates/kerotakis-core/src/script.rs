@@ -48,6 +48,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("transport", "transport v1 v2 v3 from v4 to v5 steps 3"),
     ("react", "react v1 esterification"),
     ("test", "test v1 pop"),
+    ("smell", "smell v1"),
 ];
 
 /// Stable parse failure classes for corpus coverage and clients. The legacy
@@ -114,11 +115,14 @@ fn parse_op_untyped(line: &str) -> Result<Option<Operator>, String> {
             }
             let vessel = parse_vessel(words[1])?;
             let name = words[2];
-            if !crate::curated::ORG_REACTIONS.iter().any(|r| r.name == name) {
-                let known: Vec<&str> = crate::curated::ORG_REACTIONS
+            if !crate::curated::ORG_REACTIONS.iter().any(|r| r.name == name)
+                && !crate::selectivity::is_selectivity_verb(name)
+            {
+                let mut known: Vec<&str> = crate::curated::ORG_REACTIONS
                     .iter()
                     .map(|r| r.name)
                     .collect();
+                known.push(crate::selectivity::VERB_NAME);
                 return Err(format!(
                     "unknown reaction '{name}' — curated: {}",
                     known.join(", ")

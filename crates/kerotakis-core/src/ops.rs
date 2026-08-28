@@ -378,6 +378,16 @@ pub enum Event {
         from: Kelvin,
         to: Kelvin,
     },
+    /// Sensible heat actually accepted by or removed from a vessel. The core
+    /// currently applies energy instantaneously; no power or elapsed-time
+    /// claim is made here.
+    EnergyTransferred {
+        vessel: VesselId,
+        heating: bool,
+        requested_j: f64,
+        delivered_j: f64,
+        time_coupled: bool,
+    },
     /// Mechanical mixing conditions actually delivered by a magnetic
     /// stirrer. Tip speed follows π·bar_length·rpm/60.
     Stirred {
@@ -389,8 +399,31 @@ pub enum Event {
         /// Fraction of an available non-metal deposit lifted into suspension,
         /// from accumulated bar travel over a 0.30 m mixing-length scale.
         resuspended_fraction: f64,
-        /// False until kinetics/surface-area models consume this operation.
+        /// Whether rpm/tip speed alter a kinetic rate through mass transfer.
+        /// Timed stirring advances the vessel clock independently of this.
         rate_coupled: bool,
+    },
+    /// A stirred, recipe-declared surfactant changed how much unresolved oil
+    /// is temporarily dispersed through the aqueous phase.
+    EmulsionChanged {
+        vessel: VesselId,
+        material: String,
+        from_dispersed_fraction: f64,
+        to_dispersed_fraction: f64,
+        dispersed_volume_l: f64,
+        half_life_seconds: f64,
+    },
+    /// Acetic-acid dose caused a recipe-declared milk colloid to separate
+    /// into visible curds and whey. The aggregate mass remains conserved.
+    CurdlingChanged {
+        vessel: VesselId,
+        material: String,
+        from_formed_fraction: f64,
+        to_formed_fraction: f64,
+        separation_progress: f64,
+        curd_solids_mass_g: f64,
+        acid_species: SpeciesId,
+        acid_moles: Moles,
     },
     /// A mortar changed the mean diameter of a solid powder. Surface area
     /// assumes equal spherical particles: A = 6V/d, using registry density.
@@ -419,6 +452,15 @@ pub enum Event {
         separations: Vec<CentrifugeSeparation>,
         /// False until vessel suspension/deposit state consumes the result.
         state_coupled: bool,
+    },
+    /// Light physically delivered by the lamp. `photolysis_coupled` is an
+    /// explicit model boundary: the lamp may run without claiming that the
+    /// chemical state changed.
+    Irradiated {
+        vessel: VesselId,
+        wavelength_nm: f64,
+        irradiance_w_m2: f64,
+        photolysis_coupled: bool,
     },
     /// Tracked particles settled under ordinary gravity while bench time
     /// advanced, using the same Stokes model as the centrifuge at 1 g.
@@ -526,6 +568,9 @@ pub enum Event {
     Electrolysed {
         vessel: VesselId,
         species: SpeciesId,
+        /// Applied operating point, retained for physical playback.
+        amps: f64,
+        seconds: f64,
         coulombs: f64,
         electrons: Moles,
         moles: Moles,
@@ -717,6 +762,14 @@ pub enum Event {
         upper: SpeciesId,
         lower: SpeciesId,
     },
+    /// A reviewed household mixture forms a visible upper layer on water.
+    /// Unlike `LayersFormed`, this does not claim molecular identity or a
+    /// computed full-composition liquid-liquid equilibrium.
+    MaterialLayersFormed {
+        vessel: VesselId,
+        upper_material: String,
+        lower: SpeciesId,
+    },
     /// A gas formed and left through a reservoir or swept boundary. The
     /// balance notices.
     GasEvolved {
@@ -849,6 +902,16 @@ pub enum Event {
         moles: Moles,
         rate_moles_per_second: f64,
     },
+    /// Baker's yeast converted finite dissolved sucrose into ethanol and CO2
+    /// during one timed interval using a bounded recipe-level rate response.
+    Fermented {
+        vessel: VesselId,
+        sucrose_moles: Moles,
+        ethanol_moles: Moles,
+        carbon_dioxide_moles: Moles,
+        active_yeast_grams: f64,
+        seconds: f64,
+    },
     /// Exothermic energy released by a curated kinetic reaction.
     ReactionHeatReleased {
         vessel: VesselId,
@@ -863,6 +926,29 @@ pub enum Event {
         height_cm: f64,
         overflow_liters: f64,
         half_life_seconds: f64,
+    },
+    /// A recipe-declared surfactant dose pushed an existing floating powder
+    /// layer away from the centre of a quiet liquid surface.
+    SurfaceSpread {
+        vessel: VesselId,
+        material: String,
+        from_cleared_fraction: f64,
+        to_cleared_fraction: f64,
+        coverage_fraction: f64,
+    },
+    /// Detergent spread resolved colourant drops across an opaque colloid's
+    /// surface. The fractions are bounded visual geometry, not a CFD field.
+    SurfaceColourSpread {
+        vessel: VesselId,
+        from_spread_fraction: f64,
+        to_spread_fraction: f64,
+        spot_count: usize,
+    },
+    /// Mechanical stirring released localized surface dye into the normal
+    /// homogeneous Beer–Lambert colour calculation.
+    SurfaceColourMixed {
+        vessel: VesselId,
+        spot_count: usize,
     },
     /// A solver was asked and could not converge / answer. First-class,
     /// honest, never a crash.

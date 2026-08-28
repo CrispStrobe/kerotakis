@@ -252,10 +252,15 @@ fn phase_coupling_respeciates_the_residual_brine_until_both_states_agree() {
         .sum();
     let liquidus = kerotakis_core::states::transitions(particle_molality).freezing_k;
     assert!(
-        (vessel.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K,
+        (vessel.temperature.0 - liquidus).abs() < 1e-12,
         "phase state {} K and re-solved liquidus {liquidus} K disagree",
         vessel.temperature.0
     );
+    let final_reported_liquidus = events.iter().rev().find_map(|event| match event {
+        Event::StateChanged { at, .. } => Some(at.0),
+        _ => None,
+    });
+    assert_eq!(final_reported_liquidus, Some(liquidus));
 
     let settled = vessel.clone();
     let second = coupled.equilibrate(&mut vessel).unwrap();

@@ -3,24 +3,29 @@
   import type { ApparatusSpec } from "../apparatus";
   import type { ShelfItem } from "../session.svelte";
   import { i18n, t } from "../i18n.svelte";
+  import ApparatusAssembly from "./ApparatusAssembly.svelte";
 
   let {
     spec,
     vessel,
+    selectedVessel = vessel,
     shelf,
     busy,
     initialValues = {},
     onrun,
     onpreview,
+    onretarget,
     onclose,
   }: {
     spec: ApparatusSpec;
     vessel: number;
+    selectedVessel?: number;
     shelf: ShelfItem[];
     busy: boolean;
     initialValues?: Record<string, number | string>;
     onrun: (line: string) => void;
     onpreview?: (values: Record<string, number | string>) => void;
+    onretarget?: () => void;
     onclose: () => void;
   } = $props();
 
@@ -38,6 +43,7 @@
     shelf.filter((s) => s.phase.toLowerCase().includes("solid")),
   );
   const line = $derived(spec.build(vessel, values));
+  const secondaryLine = $derived(spec.secondary?.build(vessel, values) ?? null);
   const warning = $derived(spec.warning?.(values) ?? null);
   const readouts = $derived(spec.readouts?.(values) ?? []);
   const formatReadout = (readout: (typeof readouts)[number]) =>
@@ -52,9 +58,13 @@
   <div class="head">
     <span class="live-mark" aria-hidden="true"></span>
     <span class="title"><small>{t("workstation · vessel v{vessel}", { vessel: vessel + 1 })}</small><strong>{t(spec.title)}</strong></span>
+    {#if selectedVessel !== vessel && onretarget}
+      <button class="retarget" disabled={busy} onclick={onretarget}>{t("move to selected v{vessel}", { vessel: selectedVessel + 1 })}</button>
+    {/if}
     <button class="icon-close" aria-label={t("put away")} title={t("put away")} onclick={onclose}>×</button>
   </div>
   <p class="blurb">{t(spec.blurb)}</p>
+  <ApparatusAssembly tool={spec.verb} {values} />
   <div class="fields">
     {#each spec.fields as f (f.name)}
       <label>
@@ -94,7 +104,7 @@
       </label>
     {/each}
     {#if readouts.length > 0}
-      <div class="readouts" aria-label={t("computed operating values")}>
+      <div class="readouts" class:multiple={readouts.length > 1} aria-label={t("computed operating values")}>
         {#each readouts as readout (readout.label)}
           <output>
             <small>{t(readout.label)}</small>
@@ -107,19 +117,27 @@
     <button class="run" disabled={busy || line === null || warning !== null} onclick={() => line && !warning && onrun(line)}>
       {busy ? t("running…") : t("run {apparatus}", { apparatus: t(spec.title) })}
     </button>
+    {#if spec.secondary}
+      <button class="secondary" disabled={busy || secondaryLine === null} onclick={() => secondaryLine && onrun(secondaryLine)}>
+        {t(spec.secondary.label)}
+      </button>
+    {/if}
   </div>
 </section>
 
 <style>
   .apparatus {
-    position: absolute;
+    position: relative;
     z-index: 12;
-    top: 0.7rem;
-    right: 0.7rem;
-    width: min(23rem, calc(100% - 1.4rem));
-    max-height: calc(100% - 5.8rem);
+    width: auto;
+    max-height: min(17rem, 42%);
     overflow: auto;
-    margin: 0;
+    flex: none;
+    display: grid;
+    grid-template-columns: minmax(10.5rem, 0.7fr) minmax(12rem, 1fr) minmax(0, 2.3fr);
+    grid-template-rows: auto 1fr;
+    column-gap: 0.9rem;
+    margin: 0.55rem 0.65rem 0.65rem;
     padding: 0.7rem;
     border: 1px solid color-mix(in srgb, var(--instrument) 35%, var(--edge));
     border-radius: 16px;
@@ -134,15 +152,18 @@
   .title { min-width: 0; display: flex; flex: 1; flex-direction: column; }
   .head small { color: var(--instrument); font-size: .56rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
   .live-mark { width: 10px; height: 10px; flex: none; border: 2px solid var(--surface); border-radius: 50%; background: var(--instrument); box-shadow: 0 0 0 2px var(--instrument); }
+  .retarget { flex: none; min-height: 30px; padding: .25rem .48rem; border: 1px solid var(--instrument); border-radius: 8px; background: color-mix(in srgb, var(--surface) 82%, var(--instrument)); color: var(--ink); font-size: .62rem; font-weight: 750; }
   .blurb {
-    margin: 0.28rem 0 0.55rem 1.6rem;
+    margin: 0.28rem 0 0 1.6rem;
     color: var(--dim);
     font-size: 0.69rem;
     line-height: 1.3;
   }
   .fields {
+    grid-column: 3;
+    grid-row: 1 / span 2;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
     gap: 0.55rem;
     align-items: flex-end;
     font-size: 0.82rem;
@@ -153,7 +174,7 @@
     gap: 0.15rem;
     color: var(--dim);
   }
-  label:has(select) { grid-column: 1 / -1; }
+  label:has(select) { grid-column: span 2; }
   select,
   input {
     background: var(--panel-raised);
@@ -166,13 +187,20 @@
     min-height: 34px;
   }
   input[type="number"] {
-    width: 5rem;
+    width: 4rem;
   }
-  .parameter-control { display: flex; align-items: center; gap: .45rem; }
+  .parameter-control {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(3.5rem, 1fr) auto;
+    align-items: center;
+    gap: .35rem;
+  }
   .exact-value { display: flex; align-items: center; gap: .25rem; color: var(--ink); }
   .exact-value small { min-width: 1.5rem; color: var(--dim); font-size: .66rem; }
   .dial {
-    width: clamp(5rem, 9vw, 8rem);
+    width: 100%;
+    min-width: 0;
     min-height: 34px;
     padding: 0;
     border: 0;
@@ -181,7 +209,6 @@
     cursor: ew-resize;
   }
   .run {
-    grid-column: 1 / -1;
     background: var(--panel-raised);
     border: 1px solid var(--hot);
     border-radius: 6px;
@@ -192,14 +219,30 @@
     cursor: pointer;
     min-height: 36px;
   }
+  .secondary {
+    min-height: 36px;
+    padding: 0.3rem 0.9rem;
+    border: 1px solid var(--danger);
+    border-radius: 6px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--danger) 10%, var(--panel-raised));
+    font: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
+  }
   .readouts {
-    grid-column: 1 / -1;
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
   }
+  .readouts.multiple { grid-column: span 2; }
+  .readouts.multiple output {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.08rem;
+  }
   .readouts output {
-    min-width: 8.5rem;
+    min-width: 0;
     display: flex;
     flex: 1;
     align-items: baseline;
@@ -233,10 +276,16 @@
   @media (max-width: 700px) {
     .apparatus {
       position: fixed;
-      inset: auto 0.55rem calc(4rem + env(safe-area-inset-bottom)) 0.55rem;
+      display: block;
+      /* The phone shell keeps both the command bar and its three-pane tabs
+         below the bench. Clear both, not only the final tab row. */
+      inset: auto 0.55rem calc(7.25rem + env(safe-area-inset-bottom)) 0.55rem;
       width: auto;
       max-height: min(62vh, 30rem);
       border-radius: 18px;
     }
+    .blurb { margin-bottom: 0.55rem; }
+    .fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    label:has(select), .readouts, .run { grid-column: 1 / -1; }
   }
 </style>

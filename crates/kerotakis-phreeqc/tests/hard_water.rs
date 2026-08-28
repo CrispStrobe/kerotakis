@@ -54,6 +54,48 @@ fn chalk_barely_dissolves_in_water() {
 }
 
 #[test]
+fn named_epsom_salt_dissolves_and_releases_seven_crystal_waters() {
+    let mut eq = PhreeqcEquilibrator::new().expect("engine");
+    let mut bench = Bench::new();
+    let v = VesselId(0);
+    add(&mut bench, &mut eq, v, "water", 5.55);
+    let water_before = bench
+        .vessel(v)
+        .unwrap()
+        .moles_of(&SpeciesId::new("water"))
+        .0;
+    let epsom = script::parse_op("add v1 Bittersalz 2.46471g")
+        .expect("localized Epsom-salt command")
+        .expect("operator");
+    let events = bench
+        .step_with(epsom, &mut eq, &PermissiveScreen)
+        .expect("dissolve Epsom salt");
+    let vessel = bench.vessel(v).unwrap();
+
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::MaterialAdded { recipe_id, .. }
+            if recipe_id == "household/epsom-salt-heptahydrate"
+    )));
+    assert!(
+        events.iter().any(|event| matches!(
+            event,
+            Event::Dissolved { species, moles, .. }
+                if species.0 == "epsomite" && moles.0 > 0.0099
+        )),
+        "the USGS Epsomite phase should dissolve: {events:?}"
+    );
+    assert!(vessel.moles_of(&SpeciesId::new("epsomite")).0 < 1e-8);
+    assert!(vessel.moles_of(&SpeciesId::new("Mg+2")).0 > 0.0099);
+
+    let released_water = vessel.moles_of(&SpeciesId::new("water")).0 - water_before;
+    assert!(
+        (released_water - 0.07).abs() < 2e-4,
+        "0.01 mol MgSO4·7H2O should release 0.07 mol crystal water, got {released_water}"
+    );
+}
+
+#[test]
 fn chalk_dissolves_and_fizzes_in_acid() {
     // The statue in acid rain, sped up: acid consumes the carbonate, CO2
     // escapes, the chalk is gone.

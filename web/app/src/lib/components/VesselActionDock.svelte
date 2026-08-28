@@ -100,8 +100,12 @@
       onclick={() => (expanded = !expanded)}
       title={expanded ? t("show one row") : t("show every action")}
     >{expanded ? t("fewer") : t("show all")}</button>
-    <button onclick={ondetails}>{t("details")}</button>
-    <button class="more" onclick={onmore}>{t("more tools")}</button>
+    <button onclick={ondetails} title={t("Open measurement tools for {vessel}", { vessel: v })}>
+      <span aria-hidden="true">⌁</span>{t("measurement tools")}
+    </button>
+    <button class="more" onclick={onmore} title={t("Open the equipment cabinet")}>
+      <span aria-hidden="true">▦</span>{t("equipment cabinet")}
+    </button>
   </div>
 </section>
 
@@ -235,6 +239,8 @@
     font-size: 0.66rem;
     white-space: nowrap;
   }
+  .more-actions button { display: flex; align-items: center; gap: .35rem; }
+  .more-actions button > span { color: var(--instrument); font-size: .82rem; font-weight: 850; }
   .more-actions button:hover {
     color: var(--primary);
     border-color: var(--primary);

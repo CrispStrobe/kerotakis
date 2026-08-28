@@ -431,6 +431,275 @@ describe("Session", () => {
     expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["electrolyse", "swirl"]);
   });
 
+  it("colours a transfer from the computed pre-transfer source liquid", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{
+        operator: {},
+        events: [{ event: "transferred", from: 0, to: 1, fraction: 0.5 }],
+        rendered: [],
+      }],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = {
+      scene: 1,
+      vessels: [{
+        id: 0,
+        liquid: { volume_l: 0.1, srgb: [93, 42, 181], colour_word: "violet", cloudiness: 0, path_length_cm: 2 },
+      } as Scene["vessels"][number]],
+    };
+    await s.submit("pour v1 into v2 50%");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "pour",
+      fluidColour: "rgb(93 42 181)",
+    });
+  });
+
+  it("retains the engine-scene solids and their colours on filter paper", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{ event: "filtered", from: 0, to: 1 }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = {
+      scene: 1,
+      vessels: [{
+        id: 0,
+        liquid: { volume_l: 0.08, srgb: [210, 232, 248], colour_word: "pale blue", cloudiness: .3, path_length_cm: 2 },
+        solids: [{ species: "CuO", name: "copper(II) oxide", moles: .025, srgb: [35, 31, 28], colour_word: "black", metallic: false, settled_fraction: .8 }],
+      } as Scene["vessels"][number]],
+    };
+    await s.submit("filter v1 into v2");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      operation: "filter",
+      fluidColour: "rgb(210 232 248)",
+      magnitude: .25,
+      filterResidue: [{ species: "CuO", name: "copper(II) oxide", moles: .025, colour: "rgb(35 31 28)" }],
+    });
+  });
+
+  it("drains the engine-selected lower layer with its own computed colour", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{ event: "drained", from: 0, to: 1, solvent: "water", moles: .2 }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = {
+      scene: 1,
+      vessels: [{
+        id: 0,
+        liquid: { volume_l: .1, srgb: [120, 100, 140], colour_word: "mixed", cloudiness: 0, path_length_cm: 2 },
+        layers: [
+          { species: "water", name: "water", volume_l: .06, srgb: [50, 110, 220], colour_word: "blue" },
+          { species: "hexane", name: "hexane", volume_l: .04, srgb: [240, 210, 60], colour_word: "yellow" },
+        ],
+        solids: [],
+      } as Scene["vessels"][number]],
+    };
+    await s.submit("drain v1 into v2");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      operation: "drain",
+      fluidColour: "rgb(50 110 220)",
+      drain: {
+        solvent: "water",
+        moles: .2,
+        lowerColour: "rgb(50 110 220)",
+        upperColour: "rgb(240 210 60)",
+      },
+    });
+  });
+
+  it("animates only engine-classified magnetic solids with scene amounts and colours", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{ event: "magnet_separated", from: 0, to: 1, attracted: ["Fe"], remained: ["S"] }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = {
+      scene: 1,
+      vessels: [{
+        id: 0,
+        liquid: null,
+        solids: [
+          { species: "Fe", name: "iron", moles: .04, srgb: [82, 86, 91], colour_word: "grey", metallic: true, settled_fraction: 1 },
+          { species: "S", name: "sulfur", moles: .08, srgb: [240, 205, 40], colour_word: "yellow", metallic: false, settled_fraction: 1 },
+        ],
+      } as Scene["vessels"][number]],
+    };
+    await s.submit("magnet v1 v2");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      operation: "magnet",
+      magnetic: {
+        attractedSpecies: ["Fe"],
+        remainedSpecies: ["S"],
+        attracted: [{ species: "Fe", name: "iron", moles: .04, colour: "rgb(82 86 91)" }],
+      },
+    });
+    expect(s.vesselEffects[0]?.[0]?.magnitude).toBeCloseTo(.4);
+  });
+
+  it("colours computed gravity-settling populations from the pre-wait scene", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "gravity_settled",
+        vessel: 0,
+        seconds: 5,
+        separations: [{ species: "SiO2", particle_diameter_um: 70, terminal_speed_m_s: .004, distance_m: .02, separated_fraction: .5, direction: "settles" }],
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = {
+      scene: 1,
+      vessels: [{
+        id: 0,
+        liquid: { volume_l: .1, srgb: [245, 245, 245], colour_word: "colourless", cloudiness: .5, path_length_cm: 2 },
+        solids: [{ species: "SiO2", name: "silica", moles: .03, srgb: [226, 219, 194], colour_word: "sand", metallic: false, settled_fraction: .1 }],
+      } as Scene["vessels"][number]],
+    };
+    await s.submit("wait 5s");
+    expect(s.vesselEffects[0]?.[0]?.settling?.populations[0]).toMatchObject({
+      species: "SiO2",
+      colour: "rgb(226 219 194)",
+      separatedFraction: .5,
+    });
+  });
+
+  it("colours centrifuge separation results from the pre-run solid inventory", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "centrifuged", vessel: 0, rpm: 3000, seconds: 10, rotor_radius_m: .08,
+        rcf: 805, sample_mass_g: 2, counterbalance_g: 2, imbalance_g: 0,
+        fluid_density_kg_m3: 998, dynamic_viscosity_pa_s: .001, state_coupled: false,
+        separations: [{ species: "CuO", particle_diameter_um: 40, particle_size_assumed: false, particle_density_kg_m3: 6310, terminal_speed_m_s: .01, distance_m: .03, separated_fraction: .75, direction: "outward" }],
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = { scene: 1, vessels: [{
+      id: 0, liquid: null,
+      solids: [{ species: "CuO", name: "copper(II) oxide", moles: .02, srgb: [38, 32, 28], colour_word: "black", metallic: false, settled_fraction: .1 }],
+    } as Scene["vessels"][number]] };
+    await s.submit("centrifuge v1 3000rpm 10s 8cm 2g");
+    expect(s.vesselEffects[0]?.[0]?.centrifuge?.populations[0]).toMatchObject({
+      species: "CuO", colour: "rgb(38 32 28)", separatedFraction: .75,
+    });
+  });
+
+  it("shows computed stirring resuspension using the pre-stir non-metal solids", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "stirred", vessel: 0, rpm: 700, seconds: 8, bar_length_m: .025,
+        tip_speed_m_s: .916, resuspended_fraction: .72, rate_coupled: false,
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = { scene: 1, vessels: [{
+      id: 0, liquid: null,
+      solids: [
+        { species: "SiO2", name: "silica", moles: .02, srgb: [220, 210, 185], colour_word: "sand", metallic: false, settled_fraction: .8 },
+        { species: "Fe", name: "iron", moles: .01, srgb: [80, 84, 88], colour_word: "grey", metallic: true, settled_fraction: .9 },
+      ],
+    } as Scene["vessels"][number]] };
+    await s.submit("stir v1 700rpm 8s");
+    expect(s.vesselEffects[0]?.[0]?.stir).toMatchObject({
+      rpm: 700, tipSpeedMS: .916, resuspendedFraction: .72, rateCoupled: false,
+      solids: [{ species: "SiO2", name: "silica", colour: "rgb(220 210 185)" }],
+    });
+  });
+
+  it("surfaces an engine-confirmed gas test as a physical vessel effect", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "gas_tested", vessel: 0, test: "damp_litmus", positive: true,
+        notes: "red litmus turns blue",
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("test v1 litmus");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "gas_test",
+      gasTest: { test: "damp_litmus", positive: true, notes: "red litmus turns blue" },
+    });
+  });
+
+  it("surfaces a safe waft result without presenting raw prose as the interaction", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "smelled", vessel: 0, notes: [["NH3", "sharp, pungent"]],
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("smell v1");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "waft",
+      waft: { notes: [{ species: "NH3", description: "sharp, pungent" }] },
+    });
+  });
+
+  it("surfaces the applied pressure-control state on the physical piston", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{
+        event: "vessel_pressure_controlled", vessel: 0,
+        pressure: 180_000, initial_volume: .5, trapped_gas: .021,
+      }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("regulate v1 1.8bar 500mL");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "regulate",
+      pressureControl: { pressurePa: 180_000, initialVolumeL: .5, trappedGasMoles: .021 },
+    });
+  });
+
+  it("colours the freestanding evaporation dish from the pre-run liquid", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [{ event: "evaporated", vessel: 0, moles: .2 }], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    s.scene = { scene: 1, vessels: [{
+      id: 0,
+      liquid: { volume_l: .1, srgb: [90, 130, 210], colour_word: "blue", cloudiness: .1, path_length_cm: 2 },
+      solids: [],
+    } as Scene["vessels"][number]] };
+    await s.submit("evaporate v1 .5");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "evaporate",
+      fluidColour: "rgb(90 130 210)",
+    });
+  });
+
+  it("surfaces the applied carrier-gas pressure while vent effects remain separate", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{ operator: {}, events: [
+        { event: "vessel_swept", vessel: 0, pressure: 120_000 },
+        { event: "gas_evolved", vessel: 0, species: "CO2", moles: .02 },
+      ], rendered: [] }],
+      scene: { scene: 2, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("sweep v1 1.2bar");
+    expect(s.vesselEffects[0]?.map((effect) => effect.kind)).toEqual(["sweep", "vent"]);
+    expect(s.vesselEffects[0]?.[0]?.sweep).toEqual({ pressurePa: 120_000 });
+  });
+
   it("measured events surface as instrument effects (GUI-062)", async () => {
     const host = new FakeHost();
     host.runScript = async () => ({
@@ -441,6 +710,12 @@ describe("Session", () => {
             { event: "measured", vessel: 0, instrument: "thermometer", value: 25.0, unit: "°C" },
             { event: "measured", vessel: 1, instrument: "ph_meter", value: 4.2, unit: "pH" },
             { event: "measured", vessel: 0, instrument: "balance", value: 12.3, unit: "g" },
+            { event: "measured", vessel: 1, instrument: "pressure_gauge", value: 152.4, unit: "kPa" },
+            { event: "measured", vessel: 0, instrument: "volume_meter", value: 480, unit: "mL" },
+            { event: "measured", vessel: 1, instrument: "conductivity_meter", value: 12840, unit: "µS/cm" },
+            { event: "measured", vessel: 0, instrument: "spectrophotometer", value: 0.742, unit: "absorbance at 525 nm" },
+            { event: "measured", vessel: 1, instrument: "calorimeter", value: -2.81, unit: "kJ" },
+            { event: "measured", vessel: 0, instrument: "geiger_counter", value: 250000, unit: "Bq" },
           ],
           rendered: [],
         },
@@ -449,8 +724,85 @@ describe("Session", () => {
     });
     const s = new Session(host);
     await s.submit("measure v1 thermometer");
-    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["thermometer"]);
-    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["ph_probe"]);
+    expect(s.vesselEffects[0]?.map((e) => e.kind)).toEqual(["thermometer", "balance", "volume_meter", "uvvis", "geiger_counter"]);
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({ reading: 25, unit: "°C" });
+    expect(s.vesselEffects[0]?.[1]).toMatchObject({ reading: 12.3, unit: "g" });
+    expect(s.vesselEffects[0]?.[2]).toMatchObject({ reading: 480, unit: "mL" });
+    expect(s.vesselEffects[0]?.[3]).toMatchObject({ reading: 0.742, unit: "absorbance at 525 nm" });
+    expect(s.vesselEffects[0]?.[4]).toMatchObject({ reading: 250000, unit: "Bq" });
+    expect(s.vesselEffects[0]?.[4]?.magnitude).toBeCloseTo(Math.log10(250000) / 8);
+    expect(s.vesselEffects[1]?.map((e) => e.kind)).toEqual(["ph_probe", "pressure_gauge", "conductivity_meter", "calorimeter"]);
+    expect(s.vesselEffects[1]?.[0]).toMatchObject({ reading: 4.2, unit: "pH" });
+    expect(s.vesselEffects[1]?.[1]).toMatchObject({ reading: 152.4, unit: "kPa" });
+    expect(s.vesselEffects[1]?.[2]).toMatchObject({ reading: 12840, unit: "µS/cm" });
+    expect(s.vesselEffects[1]?.[3]).toMatchObject({ reading: -2.81, unit: "kJ" });
+  });
+
+  it("keeps computed chromatography peaks for physical playback", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{
+        operator: {},
+        events: [{
+          event: "chromatographed",
+          vessel: 0,
+          plates: 1600,
+          void_time_s: 42,
+          peaks: [
+            { species: "acetone", retention_time_s: 61, width_s: 6.1, relative_area: 0.4, partition_k: 0.2 },
+            { species: "ethanol", retention_time_s: 118, width_s: 11.8, relative_area: 1, partition_k: 1.8 },
+          ],
+          outside_method: ["Na+"],
+        }],
+        rendered: [],
+      }],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("chromatograph v1");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "chromatograph",
+      voidTimeS: 42,
+      plates: 1600,
+      outsideMethod: ["Na+"],
+      bands: [
+        { species: "acetone", retentionTimeS: 61, widthS: 6.1, relativeArea: 0.4, partitionK: 0.2 },
+        { species: "ethanol", retentionTimeS: 118, widthS: 11.8, relativeArea: 1, partitionK: 1.8 },
+      ],
+    });
+  });
+
+  it("keeps the computed appearance for magnified inspection", async () => {
+    const host = new FakeHost();
+    host.runScript = async () => ({
+      steps: [{
+        operator: {},
+        events: [{
+          event: "observed",
+          vessel: 0,
+          appearance: {
+            liquid: { r: 122, g: 188, b: 241, strength: 0 },
+            cloudiness: 0.42,
+            deposit: ["AgCl", { r: 244, g: 244, b: 238, strength: 1 }],
+            bubbling: true,
+            words: "a cloudy blue liquid",
+          },
+        }],
+        rendered: [],
+      }],
+      scene: { scene: 1, vessels: [] } as Scene,
+    });
+    const s = new Session(host);
+    await s.submit("measure v1 eyes");
+    expect(s.vesselEffects[0]?.[0]).toMatchObject({
+      kind: "inspect",
+      appearance: {
+        liquidRgb: [122, 188, 241],
+        cloudiness: 0.42,
+        deposit: { species: "AgCl", rgb: [244, 244, 238] },
+        bubbling: true,
+      },
+    });
   });
 
   it("a titrated event starts the paced playback (GUI-064)", async () => {

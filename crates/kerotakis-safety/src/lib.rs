@@ -84,7 +84,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
     use ReactiveGroup::*;
     match species_key {
         // ── strong acids ──────────────────────────────────────────
-        "HCl" | "HI" => &[AcidStrong],
+        "HCl" | "HI" | "HBr" => &[AcidStrong],
         "H2SO4" | "NaHSO4" => &[AcidStrong],
 
         // ── strong bases ──────────────────────────────────────────
@@ -116,14 +116,17 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         "Pb" => &[ActiveMetal],
 
         // ── flammable liquids ─────────────────────────────────────
-        "ethanol" => &[FlammableLiquid],
+        "ethanol" | "isopropanol" => &[FlammableLiquid],
         "methanol" => &[FlammableLiquid],
         "hexane" => &[FlammableLiquid],
         "propanone" => &[FlammableLiquid],
         "ethyl_acetate" => &[FlammableLiquid],
+        "bromoethane" | "tert_butyl_bromide" => &[FlammableLiquid],
+        "tert_butanol" => &[FlammableLiquid],
 
         // ── flammable gas ─────────────────────────────────────────
         "H2" => &[FlammableGas],
+        "ethene" | "isobutylene" => &[FlammableGas],
 
         // ── water-reactive ────────────────────────────────────────
         "CaO" => &[WaterReactive],
@@ -146,8 +149,14 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "S"
         | "SO2"
         | "Cu(OH)2"
+        | "Fe(OH)2"
+        | "Fe(OH)3"
+        | "Fe2O3"
+        | "Mg(OH)2"
+        | "Zn(OH)2"
         | "CuO"
         | "Na+"
+        | "Br-"
         | "Cl-"
         | "Ag+"
         | "NO3-"
@@ -162,6 +171,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "KCl"
         | "CaCl2"
         | "MgSO4"
+        | "epsomite"
         | "gypsum"
         | "K+"
         | "Ca+2"
@@ -204,8 +214,11 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "KNO3"
         | "dehydroascorbic_acid"
         | "starch"
+        | "sucrose"
         | "amylase"
-        | "maltose" => &[],
+        | "maltose"
+        | "SiO2"
+        | "NaBr" => &[],
 
         _ => &[],
     }
@@ -222,6 +235,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "betanin",
     "betanin_ox",
     "AgNO3",
+    "Br-",
     "C",
     "CO2",
     "Ca(OH)2",
@@ -244,6 +258,9 @@ pub const COVERED_KEYS: &[&str] = &[
     "Fe",
     "Fe+2",
     "Fe+3",
+    "Fe(OH)2",
+    "Fe(OH)3",
+    "Fe2O3",
     "FeSO4",
     "H2",
     "H2O2",
@@ -251,6 +268,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "H2SO4",
     "H3PO4",
     "HCl",
+    "HBr",
     "HCO3-",
     "HI",
     "I2",
@@ -262,6 +280,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "KNO3",
     "Mg",
     "Mg+2",
+    "Mg(OH)2",
     "MgO",
     "MgSO4",
     "Mn+2",
@@ -274,6 +293,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "NH3",
     "NO3-",
     "Na+",
+    "NaBr",
     "Na2CO3",
     "Na2S2O3",
     "Na2SO3",
@@ -296,29 +316,39 @@ pub const COVERED_KEYS: &[&str] = &[
     "PP",
     "PS",
     "S",
+    "SiO2",
     "SO2",
     "SO4-2",
     "Sr+2",
     "Zn",
+    "Zn(OH)2",
     "Zn+2",
     "ZnSO4",
     "amylase",
     "ascorbic_acid",
+    "bromoethane",
     "bromothymol_blue",
     "catalase",
     "dehydroascorbic_acid",
     "ethanol",
+    "ethene",
     "ethyl_acetate",
+    "epsomite",
     "gypsum",
     "hexane",
     "indigo_carmine",
     "indigo_carmine_ox",
+    "isobutylene",
+    "isopropanol",
     "maltose",
     "methanol",
     "methyl_orange",
     "phenolphthalein",
     "propanone",
     "starch",
+    "sucrose",
+    "tert_butanol",
+    "tert_butyl_bromide",
     "water",
 ];
 
@@ -520,6 +550,20 @@ mod tests {
             } => {
                 assert_eq!(severity, Severity::Danger);
                 assert!(hazard.contains("oxidizer"));
+            }
+            other => panic!("expected Danger, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn peroxide_and_isopropanol_warns() {
+        let v = vessel_with(&["H2O2", "isopropanol"]);
+        match ReactiveGroupScreen.assess(&v) {
+            SafetyVerdict::Warn {
+                severity, hazard, ..
+            } => {
+                assert_eq!(severity, Severity::Danger);
+                assert!(hazard.contains("flammable"));
             }
             other => panic!("expected Danger, got {other:?}"),
         }

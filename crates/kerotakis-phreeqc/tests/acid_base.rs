@@ -188,6 +188,43 @@ fn bleach_and_ammonia_warns_then_shows_the_chloramine() {
 }
 
 #[test]
+fn household_cleaner_recipes_reach_the_same_warning_and_reaction() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    for command in [
+        "add v1 Chlorreiniger_5% 10mL",
+        "add v1 Ammoniakreiniger_5% 10mL",
+    ] {
+        let op = kerotakis_core::script::parse_op(command)
+            .expect("valid localized cleaner command")
+            .expect("operator");
+        let events = bench
+            .step_with(op, &mut stack, &ReactiveGroupScreen)
+            .expect("add household cleaner");
+        if command.contains("Ammoniak") {
+            let warn = events
+                .iter()
+                .position(|event| {
+                    matches!(event,
+                        Event::HazardWarning { hazard, .. } if hazard.contains("chloramine")
+                    )
+                })
+                .expect("bleach plus ammonia warning");
+            let gas = events
+                .iter()
+                .position(|event| {
+                    matches!(event,
+                        Event::GasEvolved { species, moles, .. }
+                            if species.0 == "NH2Cl" && moles.0 > 0.006
+                    )
+                })
+                .expect("the resolved recipe components make chloramine");
+            assert!(warn < gas, "warning precedes computed chemistry");
+        }
+    }
+}
+
+#[test]
 fn decanting_bleach_into_ammonia_warns_first() {
     let mut bench = Bench::new();
     let mut stack = stack();

@@ -132,6 +132,30 @@ pub fn saponification() -> ReactionTemplate {
     }
 }
 
+// ── EXP-50: Mechanistic selectivity templates ────────────────────
+
+/// SN2: back-side attack on primary haloalkane by nucleophile.
+pub fn sn2_alkyl_halide() -> ReactionTemplate {
+    ReactionTemplate {
+        name: "sn2-alkyl-halide".into(),
+        family: "nucleophilic-substitution".into(),
+        smirks: "[C:1][Br:2].[OH-:3]>>[C:1][OH:3].[Br-:2]".into(),
+        source: "SN2 nucleophilic substitution, March's Advanced Organic Chemistry ch. 10".into(),
+        validated: true,
+    }
+}
+
+/// E2: anti-periplanar elimination from haloalkane by strong base.
+pub fn e2_alkyl_halide() -> ReactionTemplate {
+    ReactionTemplate {
+        name: "e2-alkyl-halide".into(),
+        family: "elimination".into(),
+        smirks: "[CH2:1][CH2:2][Br:3].[OH-:4]>>[CH:1]=[CH2:2].[Br-:3].[OH2:4]".into(),
+        source: "E2 elimination, March's Advanced Organic Chemistry ch. 10".into(),
+        validated: true,
+    }
+}
+
 // ── ORG-011: Oracle enrichment pipeline ───────────────────────────
 
 /// An oracle-enriched property for a molecule.

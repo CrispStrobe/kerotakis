@@ -9,14 +9,17 @@
     onaddnote,
     oneditnote,
     onremovenote,
+    selectedVessel = 0,
   }: {
     entries: FeedEntry[];
     onaddnote?: (text: string) => void;
     oneditnote?: (createdAt: string, text: string) => void;
     onremovenote?: (createdAt: string) => void;
+    selectedVessel?: number;
   } = $props();
   let note = $state("");
   let showTrace = $state(false);
+  let scope = $state<"all" | "selected">("all");
   let editing = $state<string | null>(null);
   let editText = $state("");
 
@@ -24,7 +27,21 @@
   // entry, the DOM does not have to (low-end budget). 400 entries is far
   // beyond what a screen shows and well within what a Chromebook lays out.
   const WINDOW = 400;
-  const visibleEntries = $derived(showTrace ? entries : entries.filter((entry) => entry.kind !== "command"));
+  function entryVessel(entry: FeedEntry): number | null {
+    if (!["command", "line", "error", "refusal"].includes(entry.kind)) return null;
+    const match = entry.text.match(entry.kind === "command" ? /\bv(\d+)\b/i : /^\s*v(\d+)\s*:/i);
+    return match ? Number(match[1]) - 1 : null;
+  }
+  function displayText(entry: FeedEntry): string {
+    return entry.kind === "line" ? entry.text.replace(/^\s*v\d+\s*:\s*/i, "") : entry.text;
+  }
+  const visibleEntries = $derived(
+    entries.filter((entry) => {
+      if (!showTrace && entry.kind === "command") return false;
+      const vessel = entryVessel(entry);
+      return scope === "all" || vessel === null || vessel === selectedVessel;
+    }),
+  );
   const shown = $derived(visibleEntries.length > WINDOW ? visibleEntries.slice(-WINDOW) : visibleEntries);
   const trimmed = $derived(visibleEntries.length - shown.length);
   const hiddenCommands = $derived(entries.filter((entry) => entry.kind === "command").length);
@@ -47,6 +64,13 @@
     <button aria-pressed={showTrace} class:active={showTrace} onclick={() => (showTrace = true)}>
       {t("full trace")}
       {#if hiddenCommands > 0}<span>{hiddenCommands}</span>{/if}
+    </button>
+  </div>
+  <div class="journal-scope" role="group" aria-label={t("journal scope") }>
+    <span>{t("show entries for")}</span>
+    <button aria-pressed={scope === "all"} class:active={scope === "all"} onclick={() => (scope = "all")}>{t("whole lab")}</button>
+    <button aria-pressed={scope === "selected"} class:active={scope === "selected"} onclick={() => (scope = "selected")}>
+      {t("selected v{vessel}", { vessel: selectedVessel + 1 })}
     </button>
   </div>
   {#if onaddnote}
@@ -112,9 +136,11 @@
         {/if}
       </article>
     {:else}
+      {@const vesselId = entryVessel(entry)}
       <p class={entry.kind}>
         {#if entry.kind === "command"}<span class="prompt">kero&gt;</span>{/if}
-        {engineText(entry.text)}
+        {#if vesselId !== null}<span class="vessel-chip">v{vesselId + 1}</span>{/if}
+        {engineText(displayText(entry))}
       </p>
     {/if}
   {/each}
@@ -133,6 +159,10 @@
   .journal-view button { min-height: 30px; display: flex; align-items: center; justify-content: center; gap: .35rem; border: 0; border-radius: 7px; color: var(--dim); background: transparent; font: inherit; font-size: .66rem; font-weight: 750; cursor: pointer; }
   .journal-view button.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 10%, var(--surface-raised)); }
   .journal-view span { min-width: 1.2rem; padding: .08rem .25rem; border-radius: 999px; color: var(--dim); background: var(--surface); font-size: .52rem; }
+  .journal-scope { display: grid; grid-template-columns: 1fr auto auto; align-items: center; gap: .25rem; padding: .28rem .35rem; color: var(--dim); font-size: .58rem; }
+  .journal-scope > span { padding-left: .2rem; font-weight: 700; }
+  .journal-scope button { min-height: 27px; padding: .2rem .45rem; border: 1px solid transparent; border-radius: 999px; color: var(--dim); background: transparent; font: inherit; font-weight: 750; cursor: pointer; }
+  .journal-scope button.active { color: var(--instrument); border-color: color-mix(in srgb, var(--instrument) 35%, var(--edge)); background: color-mix(in srgb, var(--instrument) 8%, var(--surface)); }
   .note-composer { display: grid; grid-template-columns: 1fr auto; gap: 0.4rem; margin-bottom: 0.5rem; }
   .note-composer textarea { resize: vertical; min-width: 0; padding: 0.5rem; border: 1px solid var(--edge); border-radius: 9px; color: var(--ink); background: var(--panel-raised); font: inherit; }
   .note-composer button { align-self: stretch; padding: 0.35rem 0.55rem; border: 0; border-radius: 9px; color: white; background: var(--primary); font: inherit; font-size: 0.72rem; font-weight: 750; cursor: pointer; }
@@ -155,6 +185,7 @@
     white-space: pre-wrap;
     word-break: break-word;
   }
+  .vessel-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 1.65rem; margin-right: .35rem; padding: .06rem .3rem; border: 1px solid color-mix(in srgb, var(--instrument) 34%, var(--edge)); border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 8%, var(--surface)); font-size: .62rem; font-weight: 850; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
   .prompt {
     color: var(--hot);
     margin-right: 0.4rem;

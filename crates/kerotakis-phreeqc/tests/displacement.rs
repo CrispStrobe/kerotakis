@@ -112,6 +112,36 @@ fn magnesium_displaces_copper_from_its_sulfate() {
     );
 }
 
+/// Familiar-object recipes are not decorative shelf aliases: expansion feeds
+/// the same metallic inventory and therefore the same computed activity-series
+/// route as a direct canonical-species addition.
+#[test]
+fn localized_zinc_strip_reaches_the_displacement_solver() {
+    let mut solvers = stack();
+    let mut bench = Bench::new();
+    add(&mut bench, &mut solvers, "water", 5.55);
+    add(&mut bench, &mut solvers, "CuSO4", 0.01);
+    let strip = script::parse_op("add v1 Zinkstreifen 0.6538g")
+        .expect("localized material command")
+        .expect("operator");
+    let events = bench
+        .step_with(strip, &mut solvers, &PermissiveScreen)
+        .expect("computed strip addition");
+
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::MaterialAdded { recipe_id, .. } if recipe_id == "school/zinc-strip"
+    )));
+    assert!(
+        events.iter().any(|event| matches!(
+            event,
+            Event::Plated { species, onto, moles, .. }
+                if species.0 == "Cu" && onto.0 == "Zn" && (moles.0 - 0.01).abs() < 1e-8
+        )),
+        "the recipe-expanded zinc should plate the copper: {events:?}"
+    );
+}
+
 /// Equilibrium has no memory: metal first or salt first, same final state.
 ///
 /// This is the metamorphic test the handover asked for before trusting

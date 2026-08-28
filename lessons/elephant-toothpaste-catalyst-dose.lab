@@ -1,0 +1,27 @@
+# Elephant toothpaste: catalyst dose changes how fast the foam arrives
+#
+# Simulation activity. A real child-facing activity uses only household 3%
+# hydrogen peroxide, adult supervision, fitted goggles and gloves. Potassium
+# iodide demonstrations belong on a supervised school bench; stronger peroxide
+# is virtual exploration here, not a home instruction.
+register lv1
+
+# A fair comparison: equal peroxide, soap, vessels and elapsed time. Only the
+# potassium iodide dose changes. The catalyst is retained in both vessels.
+add v1 Wasserstoffperoxid_3% 100mL
+add v1 Spülmittel 10mL
+add v1 KI 0.25g
+
+new beaker
+add v2 Wasserstoffperoxid_3% 100mL
+add v2 Spülmittel 10mL
+add v2 KI 1g
+
+# One shared clock lets the first-order iodide dependence reach the visible
+# gas/foam model without giving either vessel extra reaction time.
+wait 10s
+inspect v1
+inspect v2
+
+# Prediction: v2 should make more oxygen, build a taller foam column and spill
+# farther in the same ten seconds. Neither vessel consumes its KI inventory.

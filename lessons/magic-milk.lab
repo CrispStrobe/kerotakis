@@ -1,0 +1,40 @@
+# Magic milk: soap sends the colours racing
+#
+# A child-friendly surface-motion activity with whole milk, food colouring and
+# a small amount of dish soap. Food colouring can stain: wear goggles, protect
+# clothes and the table, ask an adult before using food, and never taste
+# anything from a lab vessel.
+register lv1
+
+# Place three small colour drops on still milk. Their resolved dye inventory is
+# conserved, but it stays localized at the surface instead of instantly
+# tinting the whole beaker.
+add v1 whole_milk 100mL
+add v1 food_colour_red 0.2mL
+add v1 food_colour_yellow 0.2mL
+add v1 food_colour_blue 0.2mL
+inspect v1
+
+# Now add dish soap without stirring. The recipe-declared surfactant dose
+# computes the outward spread, emits SurfaceColourSpread and drives the
+# coloured streak animation. The paths are an educational surface observable,
+# not a CFD prediction of one exact real-life pattern.
+add v1 dish_soap 0.5mL
+inspect v1
+
+# Make a fair control with equal milk and equal colour doses, but stir the dye
+# into the bulk before adding soap. Stirring emits SurfaceColourMixed and hands
+# the same conserved chromophores to the normal Beer-Lambert mixture model.
+# With no localized drops left, later soap must not invent a rainbow event.
+new beaker
+add v2 whole_milk 100mL
+add v2 food_colour_red 0.2mL
+add v2 food_colour_yellow 0.2mL
+add v2 food_colour_blue 0.2mL
+stir v2 300rpm 2s
+add v2 dish_soap 0.5mL
+inspect v2
+
+# Try changing one dye amount or the detergent dose in a fresh vessel. The
+# model conserves colour intensity and order, but does not claim molecular milk
+# composition, universal surface tension or literal streak trajectories.

@@ -7,7 +7,8 @@
  * silence, and silence is what the other gates were reading as success.
  */
 import { describe, expect, it } from "vitest";
-import { experimentMatches, type CodexEntry } from "./codex";
+import type { CodexEntry } from "./codex";
+import { experimentMatches } from "./catalogSearch";
 
 /** A stub standing in for the shell dictionary. */
 const DE: Record<string, string> = {

@@ -10,6 +10,165 @@
 /** The shape of an engine event, loosely typed (serde JSON). */
 export type EngineEvent = Record<string, unknown>;
 
+/** One engine-computed chromatography peak, retained for physical playback. */
+export interface ChromatographyBand {
+  species: string;
+  retentionTimeS: number;
+  widthS: number;
+  relativeArea: number;
+  partitionK: number;
+}
+
+/** The typed result of looking closely, as computed by the appearance model. */
+export interface InspectionAppearance {
+  liquidRgb?: [number, number, number];
+  cloudiness: number;
+  deposit?: { species: string; rgb: [number, number, number] };
+  bubbling: boolean;
+}
+
+/** A solid physically retained by filter paper, captured from the engine scene. */
+export interface FilterResidue {
+  species: string;
+  name: string;
+  moles: number;
+  colour: string;
+}
+
+/** Engine-computed still cut used to configure the physical rig. */
+export interface DistillationRun {
+  waterMoles: number;
+  ethanolMoles: number;
+  startK: number;
+  endK: number;
+  stages: number;
+  energyKj: number;
+  azeotropic: boolean;
+}
+
+/** Lower-layer cut emitted by the separatory-funnel operator. */
+export interface DrainRun {
+  solvent: string;
+  moles: number;
+  lowerColour?: string;
+  upperColour?: string;
+}
+
+export interface MagneticSolid {
+  species: string;
+  name: string;
+  moles: number;
+  colour: string;
+}
+
+/** Engine classification plus pre-transfer physical inventory. */
+export interface MagneticRun {
+  attractedSpecies: string[];
+  remainedSpecies: string[];
+  attracted: MagneticSolid[];
+}
+
+export interface SettlingPopulation {
+  species: string;
+  particleDiameterUm: number;
+  terminalSpeedMS: number;
+  distanceM: number;
+  separatedFraction: number;
+  direction: string;
+  colour?: string;
+}
+
+/** Stokes-law gravity settling emitted while bench time advances. */
+export interface SettlingRun {
+  seconds: number;
+  populations: SettlingPopulation[];
+}
+
+export interface CentrifugePopulation extends SettlingPopulation {
+  particleSizeAssumed: boolean;
+  particleDensityKgM3: number;
+}
+
+export interface CentrifugeRun {
+  rpm: number;
+  seconds: number;
+  rotorRadiusM: number;
+  rcf: number;
+  sampleMassG: number;
+  counterbalanceG: number;
+  imbalanceG: number;
+  fluidDensityKgM3: number;
+  dynamicViscosityPaS: number;
+  populations: CentrifugePopulation[];
+  stateCoupled: boolean;
+}
+
+export interface StirredSolid {
+  species: string;
+  name: string;
+  moles: number;
+  colour: string;
+}
+
+export interface StirRun {
+  rpm: number;
+  seconds: number;
+  barLengthM: number;
+  tipSpeedMS: number;
+  resuspendedFraction: number;
+  rateCoupled: boolean;
+  solids: StirredSolid[];
+}
+
+export interface GasTestRun {
+  test: "pop" | "glowing_splint" | "limewater" | "damp_litmus" | string;
+  positive: boolean;
+  notes: string;
+}
+
+export interface WaftRun {
+  notes: { species: string; description: string }[];
+}
+
+export interface PressureControlRun {
+  pressurePa: number;
+  initialVolumeL: number;
+  trappedGasMoles: number;
+}
+
+export interface DilutionRun {
+  volumeL: number;
+  waterMoles: number;
+}
+
+export interface SweepRun {
+  pressurePa: number;
+}
+
+export interface IrradiationRun {
+  wavelengthNm: number;
+  irradianceWM2: number;
+  photolysisCoupled: boolean;
+}
+
+export interface ElectrolysisRun {
+  species: string;
+  amps: number;
+  seconds: number;
+  coulombs: number;
+  electronMoles: number;
+  productMoles: number;
+  grams: number;
+  electronsPerIon: number;
+}
+
+export interface ThermalRun {
+  heating: boolean;
+  requestedJ: number;
+  deliveredJ: number;
+  timeCoupled: boolean;
+}
+
 /** A visual effect with magnitude, produced by {@link effectFromEvent}. */
 export interface Effect {
   kind: string;
@@ -25,8 +184,39 @@ export interface Effect {
   target?: number;
   /** Computed endpoint, used by thermal presentation without duplicating state. */
   temperatureK?: number;
+  /** Scalar emitted by an engine-owned measurement event. */
+  reading?: number;
+  /** Unit emitted with the measurement. */
+  unit?: string;
+  /** Engine-owned chromatography result; presentation only normalises its axes. */
+  bands?: ChromatographyBand[];
+  voidTimeS?: number;
+  plates?: number;
+  outsideMethod?: string[];
+  appearance?: InspectionAppearance;
   /** Physical setup connecting source and target vessels. */
-  operation?: "pour" | "filter" | "drain" | "distil" | "cell";
+  operation?: "pour" | "filter" | "drain" | "magnet" | "distil" | "cell";
+  /** Computed pre-transfer source-liquid colour, captured before scene replacement. */
+  fluidColour?: string;
+  /** Engine-scene solids left on the paper during a filtration. */
+  filterResidue?: FilterResidue[];
+  /** Boiling range, column and energy bill emitted by the VLE solver. */
+  distillation?: DistillationRun;
+  /** Engine-selected lower layer and its pre-drain scene colours. */
+  drain?: DrainRun;
+  /** Solids selected by the engine's magnetic-property data. */
+  magnetic?: MagneticRun;
+  settling?: SettlingRun;
+  centrifuge?: CentrifugeRun;
+  stir?: StirRun;
+  gasTest?: GasTestRun;
+  waft?: WaftRun;
+  pressureControl?: PressureControlRun;
+  dilution?: DilutionRun;
+  sweep?: SweepRun;
+  irradiation?: IrradiationRun;
+  electrolysis?: ElectrolysisRun;
+  thermal?: ThermalRun;
 }
 
 /** Clamp `x` into [0, 1], scaling linearly from 0 at `lo` to 1 at `hi`. */
@@ -167,10 +357,34 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         magnitude: scale(Number(e.height_cm ?? 0), 0.5, 30),
       };
+    case "surface_spread":
+      return {
+        kind: "surface-spread",
+        at: now,
+        magnitude: scale(Number(e.to_cleared_fraction ?? 0), 0.05, 0.9),
+      };
+    case "surface_colour_spread":
+      return {
+        kind: "magic-milk",
+        at: now,
+        magnitude: scale(Number(e.to_spread_fraction ?? 0), 0.05, 0.9),
+      };
+    case "curdling_changed":
+      return {
+        kind: "curdle",
+        at: now,
+        magnitude: scale(Number(e.separation_progress ?? 0), 0.01, 1),
+      };
     case "precipitated":
       return { kind: "precipitate", at: now, magnitude: precipMag(e) };
     case "evaporated":
-      return { kind: "evaporate", at: now, magnitude: steamMag(e) };
+      return {
+        kind: "evaporate",
+        at: now,
+        magnitude: steamMag(e),
+        reading: Number(e.moles ?? 0),
+        unit: "mol",
+      };
     case "distilled":
       return {
         kind: "evaporate",
@@ -179,9 +393,33 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         source: Number(e.from ?? 0),
         target: Number(e.to ?? 0),
         operation: "distil",
+        distillation: {
+          waterMoles: Number(e.water ?? 0),
+          ethanolMoles: Number(e.ethanol ?? 0),
+          startK: Number(e.at ?? 0),
+          endK: Number(e.ended ?? e.at ?? 0),
+          stages: Math.max(1, Number(e.stages ?? 1)),
+          energyKj: Math.max(0, Number(e.energy_kj ?? 0)),
+          azeotropic: Boolean(e.azeotropic),
+        },
       };
     case "electrolysed":
-      return { kind: "electrolyse", at: now, magnitude: electroMag(e) };
+      return {
+        kind: "electrolyse",
+        at: now,
+        magnitude: electroMag(e),
+        durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+        electrolysis: {
+          species: String(e.species ?? ""),
+          amps: Number(e.amps ?? 0),
+          seconds: Number(e.seconds ?? 0),
+          coulombs: Number(e.coulombs ?? 0),
+          electronMoles: Number(e.electrons ?? 0),
+          productMoles: Number(e.moles ?? 0),
+          grams: Number(e.grams ?? 0),
+          electronsPerIon: Number(e.per_ion ?? 0),
+        },
+      };
     case "mixed":
       return {
         kind: "swirl",
@@ -196,6 +434,15 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         magnitude: stirMag(e),
         durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+        stir: {
+          rpm: Number(e.rpm ?? 0),
+          seconds: Number(e.seconds ?? 0),
+          barLengthM: Number(e.bar_length_m ?? 0),
+          tipSpeedMS: Number(e.tip_speed_m_s ?? 0),
+          resuspendedFraction: Math.max(0, Math.min(1, Number(e.resuspended_fraction ?? 0))),
+          rateCoupled: Boolean(e.rate_coupled),
+          solids: [],
+        },
       };
     case "ground":
       return { kind: "grind", at: now, magnitude: grindMag(e) };
@@ -205,7 +452,53 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         magnitude: centrifugeMag(e),
         durationMs: Math.min(8000, Math.max(1200, Number(e.seconds ?? 2.2) * 1000)),
+        centrifuge: {
+          rpm: Number(e.rpm ?? 0),
+          seconds: Number(e.seconds ?? 0),
+          rotorRadiusM: Number(e.rotor_radius_m ?? 0),
+          rcf: Number(e.rcf ?? 0),
+          sampleMassG: Number(e.sample_mass_g ?? 0),
+          counterbalanceG: Number(e.counterbalance_g ?? 0),
+          imbalanceG: Number(e.imbalance_g ?? 0),
+          fluidDensityKgM3: Number(e.fluid_density_kg_m3 ?? 0),
+          dynamicViscosityPaS: Number(e.dynamic_viscosity_pa_s ?? 0),
+          populations: (Array.isArray(e.separations) ? e.separations : []).map((value) => {
+            const separation = value && typeof value === "object" ? value as Record<string, unknown> : {};
+            return {
+              species: String(separation.species ?? ""),
+              particleDiameterUm: Number(separation.particle_diameter_um ?? 0),
+              particleSizeAssumed: Boolean(separation.particle_size_assumed),
+              particleDensityKgM3: Number(separation.particle_density_kg_m3 ?? 0),
+              terminalSpeedMS: Number(separation.terminal_speed_m_s ?? 0),
+              distanceM: Number(separation.distance_m ?? 0),
+              separatedFraction: Math.max(0, Math.min(1, Number(separation.separated_fraction ?? 0))),
+              direction: String(separation.direction ?? ""),
+            };
+          }),
+          stateCoupled: Boolean(e.state_coupled),
+        },
       };
+    case "gravity_settled": {
+      const populations = (Array.isArray(e.separations) ? e.separations : []).map((value) => {
+        const separation = value && typeof value === "object" ? value as Record<string, unknown> : {};
+        return {
+          species: String(separation.species ?? ""),
+          particleDiameterUm: Number(separation.particle_diameter_um ?? 0),
+          terminalSpeedMS: Number(separation.terminal_speed_m_s ?? 0),
+          distanceM: Number(separation.distance_m ?? 0),
+          separatedFraction: Math.max(0, Math.min(1, Number(separation.separated_fraction ?? 0))),
+          direction: String(separation.direction ?? ""),
+        };
+      });
+      const seconds = Math.max(0, Number(e.seconds ?? 0));
+      return {
+        kind: "settle",
+        at: now,
+        durationMs: Math.min(8000, Math.max(1200, seconds * 1000)),
+        magnitude: populations.reduce((strongest, population) => Math.max(strongest, population.separatedFraction), 0),
+        settling: { seconds, populations },
+      };
+    }
     case "transferred":
       return {
         kind: "pour",
@@ -219,11 +512,30 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
       return {
         kind: "pour",
         at: now,
-        magnitude: 0.65,
+        // The session replaces this fallback with a scale derived from the
+        // source vessel's actual retained-solid inventory when available.
+        magnitude: 0.45,
         source: Number(e.from ?? 0),
         target: Number(e.to ?? 0),
         operation: "filter",
       };
+    case "magnet_separated": {
+      const attractedSpecies = Array.isArray(e.attracted) ? e.attracted.map(String) : [];
+      return {
+        kind: "magnet",
+        at: now,
+        durationMs: 3000,
+        magnitude: scale(attractedSpecies.length, 0, 4),
+        source: Number(e.from ?? 0),
+        target: Number(e.to ?? 0),
+        operation: "magnet",
+        magnetic: {
+          attractedSpecies,
+          remainedSpecies: Array.isArray(e.remained) ? e.remained.map(String) : [],
+          attracted: [],
+        },
+      };
+    }
     case "drained":
       return {
         kind: "pour",
@@ -232,6 +544,10 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         source: Number(e.from ?? 0),
         target: Number(e.to ?? 0),
         operation: "drain",
+        drain: {
+          solvent: String(e.solvent ?? ""),
+          moles: Number(e.moles ?? 0),
+        },
       };
     case "cell_voltage":
       return {
@@ -243,7 +559,16 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         operation: "cell",
       };
     case "diluted":
-      return { kind: "swirl", at: now, magnitude: diluteMag(e) };
+      return {
+        kind: "swirl",
+        at: now,
+        magnitude: diluteMag(e),
+        durationMs: 2800,
+        dilution: {
+          volumeL: Number(e.volume ?? 0),
+          waterMoles: Number(e.moles ?? 0),
+        },
+      };
     case "dissolved":
       return { kind: "dissolve", at: now, magnitude: 1 };
     case "plated":
@@ -255,6 +580,24 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         magnitude: thermalMag(e),
         temperatureK: to,
+      };
+    }
+    case "energy_transferred": {
+      const deliveredJ = Math.max(0, Number(e.delivered_j ?? 0));
+      const heating = Boolean(e.heating);
+      return {
+        kind: heating ? "heat" : "cool",
+        at: now,
+        durationMs: 2600,
+        magnitude: scale(deliveredJ, 100, 50_000),
+        reading: deliveredJ,
+        unit: "J",
+        thermal: {
+          heating,
+          requestedJ: Math.max(0, Number(e.requested_j ?? 0)),
+          deliveredJ,
+          timeCoupled: Boolean(e.time_coupled),
+        },
       };
     }
     case "heat_of_mixing": {
@@ -281,7 +624,71 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
     case "ignited":
     case "flame_test": {
       const [mag, colour] = flameMag(e);
-      return { kind: "ignite", at: now, magnitude: mag, flameColour: colour };
+      return { kind: kind === "flame_test" ? "flame_test" : "ignite", at: now, magnitude: mag, flameColour: colour };
+    }
+    case "gas_tested":
+      return {
+        kind: "gas_test",
+        at: now,
+        durationMs: 4500,
+        magnitude: Boolean(e.positive) ? .85 : .25,
+        gasTest: {
+          test: String(e.test ?? ""),
+          positive: Boolean(e.positive),
+          notes: String(e.notes ?? ""),
+        },
+      };
+    case "smelled": {
+      const notes = (Array.isArray(e.notes) ? e.notes : []).flatMap((entry) =>
+        Array.isArray(entry) && entry.length >= 2
+          ? [{ species: String(entry[0]), description: String(entry[1]) }]
+          : [],
+      );
+      return {
+        kind: "waft",
+        at: now,
+        durationMs: 4200,
+        magnitude: Math.max(.2, Math.min(1, notes.length / 3)),
+        waft: { notes },
+      };
+    }
+    case "vessel_pressure_controlled": {
+      const pressurePa = Number(e.pressure ?? 0);
+      return {
+        kind: "regulate",
+        at: now,
+        durationMs: 4500,
+        magnitude: scale(pressurePa, 100_000, 500_000),
+        pressureControl: {
+          pressurePa,
+          initialVolumeL: Number(e.initial_volume ?? 0),
+          trappedGasMoles: Number(e.trapped_gas ?? 0),
+        },
+      };
+    }
+    case "vessel_swept": {
+      const pressurePa = Number(e.pressure ?? 0);
+      return {
+        kind: "sweep",
+        at: now,
+        durationMs: 3800,
+        magnitude: scale(pressurePa, 50_000, 500_000),
+        sweep: { pressurePa },
+      };
+    }
+    case "irradiated": {
+      const irradianceWM2 = Math.max(0, Number(e.irradiance_w_m2 ?? 0));
+      return {
+        kind: "irradiate",
+        at: now,
+        durationMs: 4200,
+        magnitude: scale(irradianceWM2, 0.1, 100),
+        irradiation: {
+          wavelengthNm: Number(e.wavelength_nm ?? 0),
+          irradianceWM2,
+          photolysisCoupled: Boolean(e.photolysis_coupled),
+        },
+      };
     }
     default:
       return null;

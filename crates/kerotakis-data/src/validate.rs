@@ -413,10 +413,10 @@ impl<'a> Validator<'a> {
                 }
             }
 
-            if recipe.components.is_empty() {
+            if recipe.components.is_empty() && recipe.roles.is_empty() {
                 self.issue(
                     format!("{path}.components"),
-                    "recipe has no resolved components",
+                    "recipe has neither resolved components nor a modeled material role",
                 );
             }
             if let Some(density) = &recipe.bulk_density {
@@ -460,6 +460,218 @@ impl<'a> Validator<'a> {
                             self.issue(
                                 format!("{role_path}.saturation_amount"),
                                 "must be finite and positive",
+                            );
+                        }
+                    }
+                    MaterialRole::OpaquePigment {
+                        absorption,
+                        scattering,
+                    } => {
+                        const EXPECTED_BANDS: usize = 16;
+                        if absorption.len() != EXPECTED_BANDS {
+                            self.issue(
+                                format!("{role_path}.absorption"),
+                                format!("must contain exactly {EXPECTED_BANDS} visible bands"),
+                            );
+                        }
+                        if scattering.len() != EXPECTED_BANDS {
+                            self.issue(
+                                format!("{role_path}.scattering"),
+                                format!("must contain exactly {EXPECTED_BANDS} visible bands"),
+                            );
+                        }
+                        for (band, value) in absorption.iter().enumerate() {
+                            if !value.is_finite() || *value < 0.0 {
+                                self.issue(
+                                    format!("{role_path}.absorption[{band}]"),
+                                    "must be finite and non-negative",
+                                );
+                            }
+                        }
+                        for (band, value) in scattering.iter().enumerate() {
+                            if !value.is_finite() || *value <= 0.0 {
+                                self.issue(
+                                    format!("{role_path}.scattering[{band}]"),
+                                    "must be finite and positive",
+                                );
+                            }
+                        }
+                    }
+                    MaterialRole::SurfaceFloater { saturation_amount } => {
+                        if !saturation_amount.is_finite() || *saturation_amount <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.saturation_amount"),
+                                "must be finite and positive",
+                            );
+                        }
+                    }
+                    MaterialRole::SurfaceTensionReducer {
+                        saturation_amount,
+                        max_cleared_fraction,
+                    } => {
+                        if !saturation_amount.is_finite() || *saturation_amount <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.saturation_amount"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !(0.0..=1.0).contains(max_cleared_fraction) {
+                            self.issue(
+                                format!("{role_path}.max_cleared_fraction"),
+                                "must be within 0..=1",
+                            );
+                        }
+                    }
+                    MaterialRole::SurfaceColourant { .. } => {}
+                    MaterialRole::FermentationCulture {
+                        reference_rate_per_second_per_gram,
+                        optimum_temperature_k,
+                        temperature_width_k,
+                        ..
+                    } => {
+                        if !reference_rate_per_second_per_gram.is_finite()
+                            || *reference_rate_per_second_per_gram <= 0.0
+                        {
+                            self.issue(
+                                format!("{role_path}.reference_rate_per_second_per_gram"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !optimum_temperature_k.is_finite() || *optimum_temperature_k <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.optimum_temperature_k"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !temperature_width_k.is_finite() || *temperature_width_k <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.temperature_width_k"),
+                                "must be finite and positive",
+                            );
+                        }
+                    }
+                    MaterialRole::AqueousImmiscibleLiquid { colour_word, .. } => {
+                        if recipe.bulk_density.is_none() {
+                            self.issue(
+                                format!("{role_path}.bulk_density"),
+                                "an immiscible liquid role requires recipe bulk density",
+                            );
+                        }
+                        self.nonempty(&format!("{role_path}.colour_word"), colour_word);
+                        if !matches!(
+                            recipe.physical_form,
+                            MaterialPhysicalForm::HomogeneousLiquid
+                        ) {
+                            self.issue(
+                                format!("{role_path}.physical_form"),
+                                "an immiscible liquid role requires homogeneous_liquid form",
+                            );
+                        }
+                    }
+                    MaterialRole::AqueousEmulsifier {
+                        saturation_amount,
+                        max_dispersed_fraction,
+                        half_life_seconds,
+                    } => {
+                        if !saturation_amount.is_finite() || *saturation_amount <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.saturation_amount"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if !(0.0..=1.0).contains(max_dispersed_fraction) {
+                            self.issue(
+                                format!("{role_path}.max_dispersed_fraction"),
+                                "must be within 0..=1",
+                            );
+                        }
+                        if !half_life_seconds.is_finite() || *half_life_seconds <= 0.0 {
+                            self.issue(
+                                format!("{role_path}.half_life_seconds"),
+                                "must be finite and positive",
+                            );
+                        }
+                    }
+                    MaterialRole::OpaqueLiquidColloid {
+                        opacity_saturation_g_per_litre,
+                        ..
+                    } => {
+                        if !opacity_saturation_g_per_litre.is_finite()
+                            || *opacity_saturation_g_per_litre <= 0.0
+                        {
+                            self.issue(
+                                format!("{role_path}.opacity_saturation_g_per_litre"),
+                                "must be finite and positive",
+                            );
+                        }
+                        if recipe.bulk_density.is_none() {
+                            self.issue(
+                                format!("{role_path}.bulk_density"),
+                                "an opaque liquid colloid role requires recipe bulk density",
+                            );
+                        }
+                        if !matches!(
+                            recipe.physical_form,
+                            MaterialPhysicalForm::HomogeneousLiquid
+                        ) {
+                            self.issue(
+                                format!("{role_path}.physical_form"),
+                                "an opaque liquid colloid role requires homogeneous_liquid form",
+                            );
+                        }
+                    }
+                    MaterialRole::AcidCurdlingColloid {
+                        acid_species,
+                        onset_moles_per_gram,
+                        full_moles_per_gram,
+                        max_curdled_fraction,
+                        max_opacity_reduction,
+                        ..
+                    } => {
+                        self.species_ref(&format!("{role_path}.acid_species"), acid_species);
+                        if !onset_moles_per_gram.is_finite() || *onset_moles_per_gram < 0.0 {
+                            self.issue(
+                                format!("{role_path}.onset_moles_per_gram"),
+                                "must be finite and non-negative",
+                            );
+                        }
+                        if !full_moles_per_gram.is_finite()
+                            || *full_moles_per_gram <= *onset_moles_per_gram
+                        {
+                            self.issue(
+                                format!("{role_path}.full_moles_per_gram"),
+                                "must be finite and greater than the onset dose",
+                            );
+                        }
+                        if !(0.0..=1.0).contains(max_curdled_fraction) {
+                            self.issue(
+                                format!("{role_path}.max_curdled_fraction"),
+                                "must be within 0..=1",
+                            );
+                        }
+                        if !(0.0..=1.0).contains(max_opacity_reduction) {
+                            self.issue(
+                                format!("{role_path}.max_opacity_reduction"),
+                                "must be within 0..=1",
+                            );
+                        }
+                        if !recipe
+                            .roles
+                            .iter()
+                            .any(|role| matches!(role, MaterialRole::OpaqueLiquidColloid { .. }))
+                        {
+                            self.issue(
+                                role_path.clone(),
+                                "an acid-curdling role requires an opaque liquid colloid role",
+                            );
+                        }
+                        if !matches!(
+                            recipe.physical_form,
+                            MaterialPhysicalForm::HomogeneousLiquid
+                        ) {
+                            self.issue(
+                                format!("{role_path}.physical_form"),
+                                "an acid-curdling colloid role requires homogeneous_liquid form",
                             );
                         }
                     }

@@ -4,7 +4,6 @@
     checkExpect,
     conceptIndex,
     curriculumIndex,
-    experimentMatches,
     relatedConcepts,
     scriptKit,
     type CheckResult,
@@ -13,6 +12,7 @@
   import type { Session } from "../session.svelte";
   import KitStrip from "./KitStrip.svelte";
   import { t, tSlug, tEngine, i18n } from "../i18n.svelte";
+  import { experimentMatches } from "../catalogSearch";
 
   let {
     entries,
@@ -46,12 +46,11 @@
       // i18n-ok: concept slugs are keys; `concept` comes from a chip, not a box.
       list = list.filter((e) => e.concepts?.includes(concept!));
     }
-    const q = filter.trim().toLowerCase();
+    const q = filter.trim();
     if (q) {
-      // Match what the reader can SEE, in either language. `t()` reads the
-      // reactive locale itself, so this $derived resubscribes and the list
-      // refilters when the language changes.
-      list = list.filter((e) => experimentMatches(e, q, t));
+      // Match canonical and visible localized text. `t()` reads the reactive
+      // locale, so changing languages also refilters the catalog.
+      list = list.filter((entry) => experimentMatches(entry, q, t));
     }
     return list;
   });
@@ -189,7 +188,7 @@
             {#each sys.stages as st (st.stage)}
               <details>
                 <summary>
-                  {st.stage} <small>{st.entries.length}</small>
+                  {t(st.stage)} <small>{st.entries.length}</small>
                 </summary>
                 <ul class="list">
                   {#each st.entries as e (e.id)}
@@ -289,7 +288,7 @@
             <strong>{result.allOk ? t("the chemistry agrees") : t("not everything checked out")}</strong>
             <ul>
               {#each result.events as e (e.want)}
-                <li class:ok={e.seen}>{e.seen ? "✓" : "✗"} {e.want.replace(/_/g, " ")}</li>
+                <li class:ok={e.seen}>{e.seen ? "✓" : "✗"} {t(e.want.replace(/_/g, " "))}</li>
               {/each}
               {#each result.forbidden as f (f.want)}
                 <li class:ok={!f.violated}>{f.violated ? `✗ ${t("occurred")}` : `✓ ${t("absent")}`}: {t(f.want.replace(/_/g, " "))}</li>
