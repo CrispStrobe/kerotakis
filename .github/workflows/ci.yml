@@ -257,6 +257,8 @@ jobs:
       # reports 100%. Only a browser knows which names it actually asks for.
       - name: The German build renders German
         run: node tools/test-i18n-render.mjs "$RUNNER_TEMP/site"
+      - name: The responsive bench meets UX invariants
+        run: node tools/test-ux-quality.mjs "$RUNNER_TEMP/site"
       - name: Package the site
         uses: actions/upload-pages-artifact@v3
         with:
