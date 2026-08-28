@@ -32,13 +32,12 @@ as your assent to the above and to the
 
 Code and data have different rules here.
 
-**Curated data shipped in official binaries is CC BY 4.0 or CC0 1.0**, separately
-from the AGPL-3.0 code. Only CC BY or CC0 data enters the app store payload.
-CC BY-SA material (including anything derived from BY-SA sources such as the
-Open Reaction Database) is published separately on Hugging Face or a companion
-GitHub repository and is not bundled in store builds. This separation keeps the
-educational chemistry commons open while ensuring store-distribution
-compatibility.
+**Kerotakis-authored curated data shipped in official binaries is CC BY 4.0**,
+separately from the AGPL-3.0 code. Imported CC0 material remains CC0 1.0.
+Third-party data is never relicensed by Kerotakis: it may enter a distributed
+payload only when its original terms are compatible with that distribution and
+its source and licence are recorded. No CC BY-SA material is currently bundled
+in official apps.
 
 **Every dataset, parameter table, or constant must carry a provenance record**:
 source, licence, retrieval date — and, where the source itself cites

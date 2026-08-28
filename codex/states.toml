@@ -9,7 +9,8 @@
 # liquidus agree. The model stops explicitly before salt crystallisation
 # would require a solute-specific phase diagram.
 #
-# Licence: the codex is CC BY-SA 4.0, separately from the AGPL code.
+# Licence: Kerotakis-authored codex text is CC BY 4.0, separately from the
+# AGPL code. Third-party facts and data retain the terms named per entry.
 
 [[reaction]]
 id = "salt-holds-the-water-liquid"

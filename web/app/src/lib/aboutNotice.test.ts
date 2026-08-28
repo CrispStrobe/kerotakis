@@ -11,10 +11,11 @@
  */
 import { describe, expect, it } from "vitest";
 import { execFileSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { NOTICE_SECTIONS } from "./about";
+import { COPYRIGHT, NOTICE_SECTIONS, THIRD_PARTY_LICENSES } from "./about";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "../../../..");
 
@@ -43,6 +44,66 @@ describe("the About dialog's third-party list", () => {
     // unusual one — a USGS notice rather than an SPDX identifier.
     expect(all).toContain("IPhreeqc");
     expect(all).toContain("USGS User Rights Notice");
+    for (const name of ["MY-BASIC", "NASA CEA", "diffsol", "chematic", "Svelte"]) {
+      expect(all).toContain(name);
+    }
+    expect(all).not.toContain("CoolProp");
+    expect(all).not.toContain("xtb / CREST");
+  });
+
+  it("identifies the copyright holder and bundled licence document", () => {
+    expect(COPYRIGHT).toContain("Christian Ströbele");
+    expect(THIRD_PARTY_LICENSES).toContain("legal/third-party-licenses.html");
+  });
+
+  it("bundles every locked runtime dependency and principal vendored notice", () => {
+    const bundled = readFileSync(
+      join(ROOT, "web/app/public/legal/third-party-licenses.html"),
+      "utf8",
+    );
+    const packageKeys = new Set(
+      [...bundled.matchAll(/data-package="([^"]+)" data-version="([^"]+)"/g)].map(
+        ([, name, version]) => `${name}@${version}`,
+      ),
+    );
+    const inventory = JSON.parse(readFileSync(join(ROOT, "data/inventory.json"), "utf8"));
+    for (const item of inventory.external_dependencies) {
+      expect(packageKeys.has(`${item.name}@${item.version}`)).toBe(true);
+    }
+
+    const npmLock = JSON.parse(readFileSync(join(ROOT, "web/app/package-lock.json"), "utf8"));
+    for (const [path, item] of Object.entries<any>(npmLock.packages)) {
+      if (!path.startsWith("node_modules/") || item.dev === true) continue;
+      const name = path.replace(/^node_modules\//, "");
+      expect(packageKeys.has(`${name}@${item.version}`)).toBe(true);
+    }
+
+    const tauriLock = readFileSync(join(ROOT, "web/app/src-tauri/Cargo.lock"), "utf8");
+    for (const block of tauriLock.split("[[package]]").slice(1)) {
+      if (!/^\s*source = "registry\+/m.test(block)) continue;
+      const name = block.match(/^name = "([^"]+)"/m)?.[1];
+      const version = block.match(/^version = "([^"]+)"/m)?.[1];
+      expect(name && version && packageKeys.has(`${name}@${version}`)).toBe(true);
+    }
+
+    for (const component of ["IPhreeqc / PHREEQC", "MY-BASIC", "NASA CEA"]) {
+      expect(bundled).toContain(`data-component="${component}"`);
+    }
+  });
+
+  it("records the exact dependency inputs used to generate the bundle", () => {
+    const bundled = readFileSync(
+      join(ROOT, "web/app/public/legal/third-party-licenses.html"),
+      "utf8",
+    );
+    for (const [marker, path] of [
+      ["rust-inventory", "data/inventory.json"],
+      ["tauri-lock", "web/app/src-tauri/Cargo.lock"],
+      ["npm-lock", "web/app/package-lock.json"],
+    ]) {
+      const hash = createHash("sha256").update(readFileSync(join(ROOT, path))).digest("hex");
+      expect(bundled).toContain(`name="kerotakis-${marker}-sha256" content="${hash}"`);
+    }
   });
 
   it("does not invent licences the file never claims", () => {
