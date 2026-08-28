@@ -29,7 +29,7 @@ describe("i18n", () => {
     expect(t("mission kit")).toBe("Missionsset");
     expect(t("place on bench")).toBe("auf den Labortisch stellen");
     expect(t("stockroom replenished")).toBe("Materiallager aufgefüllt");
-    expect(t("one use left")).toBe("eine Entnahme übrig");
+    expect(t("one use left")).toBe("noch 1");
     expect(t("The contaminated sample")).toBe("Die verunreinigte Probe");
     expect(t("open the case file")).toBe("Fallakte öffnen");
     expect(t("investigate")).toBe("untersuchen");
@@ -48,7 +48,9 @@ describe("i18n", () => {
       "Gefäß v2 nach Analysieren verschoben",
     );
     expect(t("after {count} missions", { count: 3 })).toBe("nach 3 Missionen");
-    expect(t("{count} uses left", { count: 7 })).toBe("7 Entnahmen übrig");
+    // Shortened from "7 Entnahmen übrig": 18 characters did not fit the
+    // 4.2rem stock column and rendered as "7 Entnahmen ü…" on a tablet.
+    expect(t("{count} uses left", { count: 7 })).toBe("noch 7");
     expect(t("{done} of {total} evidence checks", { done: 1, total: 2 })).toBe("1 von 2 Nachweisprüfungen");
   });
 
