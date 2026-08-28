@@ -97,6 +97,7 @@ fn every_legacy_field_is_present_and_unchanged() {
                 .iter()
                 .filter(|species| species.aqueous_solubility_g_per_100_ml.is_some())
                 .count()
+            + REGISTRY.iter().filter(|species| species.magnetic).count()
     );
     assert!(document.transport.is_empty());
     assert!(document.safety.is_empty());
@@ -384,28 +385,70 @@ fn compare_model_parameters(
     assert_eq!(dissolves.quantity.uncertainty, Uncertainty::Exact);
     assert_eq!(dissolves.quantity.source_id, source_id);
 
-    if let Some(colour) = species.colour {
-        let tint = parameter(document, &format!("legacy-tint-strength/{}", species.key));
-        assert_imported_quantity(
-            &tint.quantity,
-            colour.strength,
-            "L/(mol.cm)",
-            Dimension::MolarAbsorptivity,
-            phase,
-            source_id,
-        );
+    match species.aqueous_solubility_g_per_100_ml {
+        Some(value) => {
+            let solubility = parameter(document, &format!("aqueous-solubility/{}", species.key));
+            assert_imported_quantity(
+                &solubility.quantity,
+                value,
+                "g/100mL",
+                Dimension::MassConcentration,
+                phase,
+                source_id,
+            );
+        }
+        None => assert_missing_parameter(document, &format!("aqueous-solubility/{}", species.key)),
     }
-    if let Some(temperature) = species.forms_only_above_k {
-        let threshold = parameter(document, &format!("forms-only-above/{}", species.key));
-        assert_imported_quantity(
-            &threshold.quantity,
-            temperature,
-            "K",
-            Dimension::Temperature,
-            phase,
-            source_id,
-        );
+    match species.colour {
+        Some(colour) => {
+            let tint = parameter(document, &format!("legacy-tint-strength/{}", species.key));
+            assert_imported_quantity(
+                &tint.quantity,
+                colour.strength,
+                "L/(mol.cm)",
+                Dimension::MolarAbsorptivity,
+                phase,
+                source_id,
+            );
+        }
+        None => {
+            assert_missing_parameter(document, &format!("legacy-tint-strength/{}", species.key))
+        }
     }
+    match species.forms_only_above_k {
+        Some(temperature) => {
+            let threshold = parameter(document, &format!("forms-only-above/{}", species.key));
+            assert_imported_quantity(
+                &threshold.quantity,
+                temperature,
+                "K",
+                Dimension::Temperature,
+                phase,
+                source_id,
+            );
+        }
+        None => assert_missing_parameter(document, &format!("forms-only-above/{}", species.key)),
+    }
+    if species.magnetic {
+        let magnetic = parameter(document, &format!("magnetic/{}", species.key));
+        assert_eq!(magnetic.quantity.value, 1.0);
+        assert_eq!(magnetic.quantity.unit.symbol, "1");
+        assert_eq!(magnetic.quantity.unit.dimension, Dimension::Dimensionless);
+        assert_eq!(magnetic.quantity.uncertainty, Uncertainty::Exact);
+        assert_eq!(magnetic.quantity.source_id, source_id);
+    } else {
+        assert_missing_parameter(document, &format!("magnetic/{}", species.key));
+    }
+}
+
+fn assert_missing_parameter(document: &RegistryDocument, id: &str) {
+    assert!(
+        document
+            .model_parameters
+            .iter()
+            .all(|record| record.id != id),
+        "unexpected model parameter {id}"
+    );
 }
 
 fn parameter<'a>(

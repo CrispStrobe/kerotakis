@@ -34890,6 +34890,39 @@
       }
     },
     {
+      "id": "magnetic/Fe",
+      "subject": {
+        "kind": "species",
+        "id": "Fe"
+      },
+      "model": "legacy-runtime",
+      "parameter": "magnetic",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "legacy/Fe",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
       "id": "dissolves-without-speciation/MgO",
       "subject": {
         "kind": "species",

@@ -1798,6 +1798,15 @@ fn export_model_parameters(
             ),
         });
     }
+    if species.magnetic {
+        document.model_parameters.push(ModelParameterRecord {
+            id: format!("magnetic/{}", species.key),
+            subject: ModelSubject::Species(species.key.to_string()),
+            model: "legacy-runtime".to_string(),
+            parameter: "magnetic".to_string(),
+            quantity: exact_number(1.0, "1", Dimension::Dimensionless, source_id),
+        });
+    }
 }
 
 fn imported_number(

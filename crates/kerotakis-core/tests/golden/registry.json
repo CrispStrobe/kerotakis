@@ -1046,7 +1046,7 @@
     "heat_capacity": 25.1,
     "inchikey": "XEEYBQQBJWHFJM-UHFFFAOYSA-N",
     "key": "Fe",
-    "magnetic": false,
+    "magnetic": true,
     "molar_mass": 55.845,
     "name": "iron",
     "provenance": "M from IUPAC/CIAAW 2021 atomic weights; Cp(s), density: standard reference values",
