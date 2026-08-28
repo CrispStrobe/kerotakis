@@ -97,7 +97,7 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
+    background: var(--scrim);
     display: grid;
     place-items: center;
     z-index: 60;
@@ -108,11 +108,11 @@
     max-height: min(86vh, 44rem);
     max-width: min(92vw, 40rem);
     overflow-y: auto;
-    border: 1px solid var(--line, #ccd);
+    border: 1px solid var(--edge);
     border-radius: 0.75rem;
     padding: 1.1rem 1.25rem 1.25rem;
-    background: var(--panel, #fff);
-    color: var(--ink, #223);
+    background: var(--panel);
+    color: var(--ink);
   }
   h2 {
     margin: 0;
@@ -120,7 +120,7 @@
   }
   .tagline {
     margin: 0.15rem 0 0.9rem;
-    color: var(--muted, #667);
+    color: var(--dim);
   }
   h3 {
     margin: 1.4rem 0 0.2rem;
@@ -129,7 +129,7 @@
   h4 {
     margin: 0.9rem 0 0.3rem;
     font-size: 0.9rem;
-    color: var(--muted, #667);
+    color: var(--dim);
   }
   .build {
     display: grid;
@@ -138,7 +138,7 @@
     margin: 0 0 1rem;
   }
   .build dt {
-    color: var(--muted, #667);
+    color: var(--dim);
   }
   .build dd {
     margin: 0;
@@ -154,7 +154,7 @@
   }
   .note {
     margin: 0.35rem 0 0;
-    color: var(--muted, #667);
+    color: var(--dim);
     font-size: 0.85rem;
   }
   ul {

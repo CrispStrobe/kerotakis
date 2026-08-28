@@ -145,8 +145,8 @@
 </div>
 
 <style>
-  .scrim { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 1rem; background: rgb(5 25 45 / 66%); backdrop-filter: blur(14px) saturate(1.15); }
-  .story-map { width: min(76rem, 100%); height: min(49rem, calc(100dvh - 2rem)); display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; padding: 0; border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--edge)); border-radius: 28px; color: var(--ink); background: var(--surface); box-shadow: 0 34px 100px rgb(2 18 34 / 52%); }
+  .scrim { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 1rem; background: var(--scrim); backdrop-filter: blur(14px) saturate(1.15); }
+  .story-map { width: min(76rem, 100%); height: min(49rem, calc(100dvh - 2rem)); display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; padding: 0; border: 1px solid color-mix(in srgb, var(--primary) 35%, var(--edge)); border-radius: 28px; color: var(--ink); background: var(--surface); box-shadow: 0 34px 100px var(--overlay-shadow); }
   header { position: relative; display: flex; align-items: center; gap: 1.5rem; padding: 1.35rem 4.8rem 1.25rem 1.6rem; border-bottom: 1px solid var(--edge); background: linear-gradient(110deg, color-mix(in srgb, var(--instrument) 13%, var(--surface)), color-mix(in srgb, var(--discovery) 11%, var(--surface))); }
   h1 { margin: .2rem 0 .35rem; font-size: clamp(1.65rem, 3vw, 2.65rem); line-height: 1; letter-spacing: -.045em; }
   header p, .district-title p { max-width: 44rem; margin: 0; color: var(--dim); font-size: .88rem; }

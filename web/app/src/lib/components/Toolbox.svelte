@@ -213,7 +213,7 @@
   .scrim {
     position: fixed;
     inset: 0;
-    background: rgb(0 0 0 / 45%);
+    background: var(--scrim);
     display: grid;
     place-items: center;
     z-index: 10;

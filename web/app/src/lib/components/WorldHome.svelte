@@ -120,8 +120,8 @@
 </div>
 
 <style>
-  .world-scrim { position: fixed; inset: 0; z-index: 95; display: grid; place-items: center; padding: 1rem; background: rgb(8 28 45 / 68%); backdrop-filter: blur(14px) saturate(1.1); }
-  .world { width: min(74rem, 100%); max-height: calc(100dvh - 2rem); overflow: auto; border: 1px solid color-mix(in srgb, var(--primary) 40%, var(--edge)); border-radius: 30px; color: var(--ink); background: radial-gradient(circle at 50% -20%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 31rem), var(--surface); box-shadow: 0 35px 110px rgb(2 17 31 / 55%); }
+  .world-scrim { position: fixed; inset: 0; z-index: 95; display: grid; place-items: center; padding: 1rem; background: var(--scrim); backdrop-filter: blur(14px) saturate(1.1); }
+  .world { width: min(74rem, 100%); max-height: calc(100dvh - 2rem); overflow: auto; border: 1px solid color-mix(in srgb, var(--primary) 40%, var(--edge)); border-radius: 30px; color: var(--ink); background: radial-gradient(circle at 50% -20%, color-mix(in srgb, var(--primary) 20%, transparent), transparent 31rem), var(--surface); box-shadow: 0 35px 110px var(--overlay-shadow); }
   header { position: sticky; top: 0; z-index: 5; min-height: 5rem; display: flex; align-items: center; gap: .8rem; padding: .85rem clamp(1rem, 3vw, 2rem); border-bottom: 1px solid var(--edge); background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(14px); }
   .identity-mark { width: 48px; height: 48px; display: grid; place-items: center; flex: none; border-radius: 15px; color: var(--on-accent); background: linear-gradient(145deg, var(--primary), var(--instrument)); box-shadow: 0 8px 20px color-mix(in srgb, var(--primary) 25%, transparent); font-size: 1.45rem; }
   .identity { min-width: 0; }
@@ -151,7 +151,7 @@
   .sandbox-destination.current { border-color: var(--instrument); box-shadow: 0 0 0 3px color-mix(in srgb, var(--instrument) 13%, transparent), 0 18px 34px var(--shadow); }
   .current-flag { align-self: end; color: var(--discovery); }
   .sandbox-destination .current-flag { color: var(--instrument); }
-  .building { height: 7.5rem; display: grid; place-items: center; margin: .55rem 0 1rem; border-radius: 18px; color: var(--on-accent); background: linear-gradient(145deg, color-mix(in srgb, var(--discovery) 88%, white), color-mix(in srgb, var(--primary) 75%, black)); box-shadow: inset 0 -18px 28px rgb(0 0 0 / 10%); font-size: 3rem; }
+  .building { height: 7.5rem; display: grid; place-items: center; margin: .55rem 0 1rem; border-radius: 18px; color: var(--on-accent); background: linear-gradient(145deg, color-mix(in srgb, var(--discovery) 88%, var(--surface)), color-mix(in srgb, var(--primary) 75%, var(--ink))); box-shadow: inset 0 -18px 28px var(--shadow); font-size: 3rem; }
   .sandbox-building { background: linear-gradient(145deg, color-mix(in srgb, var(--instrument) 88%, white), color-mix(in srgb, var(--primary) 65%, black)); }
   .kicker { color: var(--discovery); }
   .sandbox-destination .kicker { color: var(--instrument); }

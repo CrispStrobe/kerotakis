@@ -89,8 +89,8 @@
 </div>
 
 <style>
-  .scrim { position: fixed; inset: 0; z-index: 86; display: grid; place-items: center; padding: 1rem; background: rgb(5 25 45 / 64%); backdrop-filter: blur(10px) saturate(1.12); }
-  dialog { position: static; width: min(34rem, 94vw); margin: 0; padding: 0; overflow: hidden; border: 1px solid color-mix(in srgb, var(--warning) 45%, var(--edge)); border-radius: 23px; color: var(--ink); background: var(--surface); box-shadow: 0 28px 80px rgb(2 18 34 / 44%); }
+  .scrim { position: fixed; inset: 0; z-index: 86; display: grid; place-items: center; padding: 1rem; background: var(--scrim); backdrop-filter: blur(10px) saturate(1.12); }
+  dialog { position: static; width: min(34rem, 94vw); margin: 0; padding: 0; overflow: hidden; border: 1px solid color-mix(in srgb, var(--warning) 45%, var(--edge)); border-radius: 23px; color: var(--ink); background: var(--surface); box-shadow: 0 28px 80px var(--overlay-shadow); }
   header { display: flex; align-items: center; gap: .75rem; padding: 1rem 1.1rem; background: linear-gradient(110deg, color-mix(in srgb, var(--warning) 14%, var(--surface)), color-mix(in srgb, var(--hot) 8%, var(--surface))); }
   header > span:nth-child(2) { display: grid; gap: .05rem; }
   header small { color: var(--warning); font-size: .58rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }

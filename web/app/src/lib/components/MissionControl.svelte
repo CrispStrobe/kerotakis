@@ -126,7 +126,7 @@
     display: grid;
     place-items: center;
     padding: 1rem;
-    background: rgb(7 24 42 / 58%);
+    background: var(--scrim);
     backdrop-filter: blur(12px) saturate(1.1);
   }
   .mission-control {
@@ -140,7 +140,7 @@
       radial-gradient(circle at 88% 4%, color-mix(in srgb, var(--discovery) 18%, transparent), transparent 21rem),
       radial-gradient(circle at 12% 0%, color-mix(in srgb, var(--instrument) 14%, transparent), transparent 19rem),
       var(--surface);
-    box-shadow: 0 30px 90px rgb(4 19 34 / 42%);
+    box-shadow: 0 30px 90px var(--overlay-shadow);
   }
   header {
     position: relative;

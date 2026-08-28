@@ -24,6 +24,8 @@
   --bench-front-color: #b9d4e2;
   --shadow: rgb(23 50 77 / 16%);
   --shadow-strong: rgb(23 50 77 / 24%);
+  --scrim: rgb(5 25 45 / 64%);
+  --overlay-shadow: rgb(2 18 34 / 48%);
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 22px;
@@ -66,6 +68,8 @@
     --bench-front-color: #20394b;
     --shadow: rgb(0 0 0 / 28%);
     --shadow-strong: rgb(0 0 0 / 42%);
+    --scrim: rgb(0 8 18 / 74%);
+    --overlay-shadow: rgb(0 0 0 / 60%);
     --focus: #78aaff;
 }
 
@@ -91,6 +95,8 @@
   --bench-front-color: #afcad9;
   --shadow: rgb(8 28 44 / 20%);
   --shadow-strong: rgb(8 28 44 / 34%);
+  --scrim: rgb(0 0 0 / 78%);
+  --overlay-shadow: rgb(0 0 0 / 58%);
   --focus: #004fd7;
 }
 

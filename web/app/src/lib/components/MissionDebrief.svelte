@@ -64,7 +64,7 @@
 
 <style>
   .debrief-anchor { position: fixed; inset: 0; z-index: 70; pointer-events: none; display: grid; align-items: end; justify-items: center; padding: 1rem; }
-  .debrief { pointer-events: auto; position: relative; width: min(36rem, calc(100vw - 2rem)); display: grid; grid-template-columns: 54px 1fr; gap: .9rem; padding: 1rem; border: 1px solid color-mix(in srgb, var(--success) 55%, var(--edge)); border-radius: 22px; color: var(--ink); background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(16px); box-shadow: 0 22px 65px rgb(3 24 39 / 38%); animation: debrief-in 420ms cubic-bezier(.2,.8,.2,1) both; }
+  .debrief { pointer-events: auto; position: relative; width: min(36rem, calc(100vw - 2rem)); display: grid; grid-template-columns: 54px 1fr; gap: .9rem; padding: 1rem; border: 1px solid color-mix(in srgb, var(--success) 55%, var(--edge)); border-radius: 22px; color: var(--ink); background: color-mix(in srgb, var(--surface) 94%, transparent); backdrop-filter: blur(16px); box-shadow: 0 22px 65px var(--overlay-shadow); animation: debrief-in 420ms cubic-bezier(.2,.8,.2,1) both; }
   @keyframes debrief-in { from { opacity: 0; transform: translateY(30px) scale(.97); } }
   .success-mark { width: 54px; height: 54px; display: grid; place-items: center; border-radius: 18px; color: var(--on-accent); background: linear-gradient(145deg, var(--success), var(--instrument)); font-size: 1.55rem; font-weight: 900; box-shadow: 0 8px 22px color-mix(in srgb, var(--success) 30%, transparent); }
   .title span { color: var(--success); font-size: .64rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
