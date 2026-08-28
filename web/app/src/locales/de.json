@@ -483,7 +483,7 @@
   "ready": "bereit",
   "locked": "gesperrt",
   "needs: {concepts}": "benötigt: {concepts}",
-  "{count} from the codex — each one computed, checked, and yours to break": "{count} aus dem Kodex — jedes berechnet, geprüft und bereit für deine Tests",
+  "{count} from the codex — each one computed, checked, and yours to break": "{count} — jedes berechnet, geprüft und bereit für deine Tests",
   "all": "alle",
   "by concept": "nach Begriff",
   "by curriculum": "nach Lehrplan",

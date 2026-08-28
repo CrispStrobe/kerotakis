@@ -335,7 +335,9 @@
     background: rgb(0 0 0 / 50%);
     display: grid;
     place-items: center;
-    z-index: 10;
+    /* Above the topbar (20) and the tools panel (40): at 10 this
+       modal opened underneath the chrome and lost its heading. */
+    z-index: 50;
     padding: 1rem;
   }
   .panel {
