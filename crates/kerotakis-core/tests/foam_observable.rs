@@ -225,7 +225,10 @@ fn more_yeast_makes_more_oxygen_and_foam_on_the_same_clock() {
     // integration test above separately proves that the resulting foam really
     // does overflow the beaker.
     assert_eq!(low.2, 0.0, "low dose must still be below the rim: {low:?}");
-    assert_eq!(high.2, 0.0, "high dose must still be below the rim: {high:?}");
+    assert_eq!(
+        high.2, 0.0,
+        "high dose must still be below the rim: {high:?}"
+    );
 }
 
 #[test]
