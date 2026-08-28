@@ -1,0 +1,50 @@
+{
+ "sections": [
+  {
+   "title": "Currently shipped",
+   "entries": [
+    "IPhreeqc / PHREEQC — USGS User Rights Notice (public-domain-like, U.S. Geological Survey). Aqueous speciation, mineral saturation, gas partitioning and redox. Built from the vendored source and embedded together with its thermodynamic databases (phreeqc.dat, wateq4f.dat, minteq.v4.dat, pitzer.dat), distributed under the same terms. Those databases carry their own literature citations in their comments; Kerotakis surfaces them rather than stripping them, so an answer can name the work its numbers rest on.",
+    "Rust crates — serde, thiserror, postcard and their dependencies, all MIT and/or Apache-2.0. The full dependency set and its licences are reproduced in-app under About -> Open-source licenses, generated from cargo-about.",
+    "MY-BASIC — MIT, Copyright (c) 2011–2026 Tony Wang. Pinned language core for PHREEQC BASIC programs (rate expressions, user punch/print, calculated values). Default in all Kerotakis builds."
+   ]
+  },
+  {
+   "title": "Planned, not yet shipped (recorded here so the intent is public)",
+   "entries": [
+    "MY-BASIC — MIT, Copyright (c) 2011–2026 Tony Wang. Pinned, in-progress replacement language core for PHREEQC BASIC programs; currently available only through the development-only `my-basic-preview` build feature.",
+    "Indigo — Apache-2.0, Copyright (c) EPAM Systems. Structure handling, reaction product enumeration, and canonical identity via its bundled IUPAC InChI plugin (InChI v1.07+, MIT, Copyright (c) the InChI Project).",
+    "feos, vle-thermo, seuif97 — MIT and/or Apache-2.0. Phase equilibria (SAFT family, cubic equations of state, flash) and IAPWS-IF97 water/steam.",
+    "diffsol — MIT, Copyright (c) Martin Robinson. Stiff ODE/DAE integration for reaction kinetics.",
+    "NASA CEA thermodynamic data — Apache-2.0 (github.com/nasa/cea). Gas and condensed-phase thermochemistry (NASA polynomials).",
+    "PubChem (NCBI/NLM) and Wikidata (CC0) — species properties and hazard classifications, with per-record source attribution reproduced in-app.",
+    "Harmonised hazard classifications from CLP Annex VI via EUR-Lex, reused with acknowledgment per EU legislation reuse policy.",
+    "Reaction-QM (CC BY 4.0, Kang et al., Sci Data 2026) — precomputed reaction energetics, cited per record where used."
+   ]
+  },
+  {
+   "title": "Curated data",
+   "entries": [
+    "Curated chemistry data shipped in official binaries (the codex: reactions, observations, register copy, colour and property curation) is licensed CC BY 4.0 or CC0 1.0, separately from the AGPL-3.0 code. Only CC BY or CC0 data enters the app payload; CC BY-SA material is published separately (on Hugging Face or a companion GitHub repository) and is not bundled in store builds.",
+    "Where curated data incorporates or is checked against third-party datasets, those are named with their own terms per record — and where an upstream's licence claim appears inconsistent with its own sources, Kerotakis honours the original source's terms."
+   ]
+  },
+  {
+   "title": "Reactivity screening",
+   "entries": [
+    "The reactive-group compatibility screen is Kerotakis' own implementation of the methodology published in open-access literature by NOAA's Office of Response and Restoration with the EPA and the Center for Chemical Process Safety. It does not contain or reproduce the CAMEO Chemicals database or any of its contributed proprietary fields."
+   ]
+  },
+  {
+   "title": "Optional, per-platform",
+   "entries": [
+    "CoolProp — MIT, Copyright (c) Ian Bell et al. Pure-component thermophysical properties; used only in builds/targets where its binaries are available (not part of the core stack)."
+   ]
+  },
+  {
+   "title": "Build-time only (not distributed with binaries)",
+   "entries": [
+    "xtb / CREST — LGPL-3.0, Copyright (c) Grimme group. Used offline to compute reaction energetics and vibrational spectra that are baked into the curated library as data. Neither binary nor library is shipped, so no LGPL-3.0 relinking obligation attaches to distributed builds."
+   ]
+  }
+ ]
+}

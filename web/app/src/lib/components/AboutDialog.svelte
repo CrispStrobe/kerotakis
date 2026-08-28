@@ -1,0 +1,174 @@
+<script lang="ts">
+  import { i18n, t } from "../i18n.svelte";
+  import { BUILD, NOTICE_SECTIONS, REPO, builtAt, commitUrl, hardReload } from "../about";
+
+  let { onclose }: { onclose: () => void } = $props();
+
+  let reloading = $state(false);
+  const when = $derived(builtAt(i18n.locale));
+  const commit = commitUrl();
+
+  async function refresh() {
+    // No confirmation: nothing is lost. Notes and preferences are in
+    // localStorage, which this deliberately does not touch.
+    reloading = true;
+    await hardReload();
+  }
+</script>
+
+<div
+  class="scrim"
+  role="presentation"
+  onclick={onclose}
+  onkeydown={(e) => e.key === "Escape" && onclose()}
+>
+  <dialog open
+    class="about"
+    aria-modal="true"
+    aria-label={t("about Kerotakis")}
+    onclick={(e) => e.stopPropagation()}
+  >
+    <h2>Kerotakis</h2>
+    <p class="tagline">{t("a virtual chemistry laboratory that computes real chemistry")}</p>
+
+    <dl class="build">
+      <dt>{t("build")}</dt>
+      <dd class="mono">
+        {#if commit}
+          <a href={commit} target="_blank" rel="noreferrer noopener">{BUILD.commit}</a>
+        {:else}
+          <!-- "unknown" is a real answer: a source tarball has no .git.
+               Saying so beats inventing a version that would send someone
+               reading the wrong code. -->
+          {t("unknown — this build carries no commit stamp")}
+        {/if}
+      </dd>
+      {#if BUILD.ref}
+        <dt>{t("tag")}</dt>
+        <dd class="mono">{BUILD.ref}</dd>
+      {/if}
+      {#if when}
+        <dt>{t("built")}</dt>
+        <dd>{when}</dd>
+      {/if}
+      <dt>{t("licence")}</dt>
+      <dd>
+        <a href={`${REPO}/blob/main/LICENSE`} target="_blank" rel="noreferrer noopener">
+          AGPL-3.0-or-later
+        </a>
+      </dd>
+      <dt>{t("source")}</dt>
+      <dd><a href={REPO} target="_blank" rel="noreferrer noopener">{t("on GitHub")}</a></dd>
+    </dl>
+
+    <button class="refresh" onclick={refresh} disabled={reloading}>
+      {reloading ? t("reloading…") : t("reload, discarding cached files")}
+    </button>
+    <p class="note">
+      {t("Clears the cached app so a new version is fetched. Your notes and settings are kept.")}
+    </p>
+
+    <h3>{t("What this app is built from")}</h3>
+    <p class="note">
+      {t("Reproduced from NOTICE, which is the authoritative list.")}
+      <a href={`${REPO}/blob/main/NOTICE`} target="_blank" rel="noreferrer noopener"
+        >{t("read it in full")}</a
+      >
+    </p>
+    {#each NOTICE_SECTIONS as section (section.title)}
+      <section class="group">
+        <h4>{t(section.title)}</h4>
+        <ul>
+          {#each section.entries as entry (entry)}
+            <!-- Verbatim, and deliberately not translated: these are
+                 licence statements, and a translated licence claim is a
+                 different claim. -->
+            <li>{entry}</li>
+          {/each}
+        </ul>
+      </section>
+    {/each}
+
+    <button class="close" onclick={onclose}>{t("close")}</button>
+  </dialog>
+</div>
+
+<style>
+  .scrim {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: grid;
+    place-items: center;
+    z-index: 60;
+  }
+  .about {
+    /* Tablets: never taller than the viewport, and scroll inside rather
+       than pushing the close button off-screen. */
+    max-height: min(86vh, 44rem);
+    max-width: min(92vw, 40rem);
+    overflow-y: auto;
+    border: 1px solid var(--line, #ccd);
+    border-radius: 0.75rem;
+    padding: 1.1rem 1.25rem 1.25rem;
+    background: var(--panel, #fff);
+    color: var(--ink, #223);
+  }
+  h2 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+  .tagline {
+    margin: 0.15rem 0 0.9rem;
+    color: var(--muted, #667);
+  }
+  h3 {
+    margin: 1.4rem 0 0.2rem;
+    font-size: 1rem;
+  }
+  h4 {
+    margin: 0.9rem 0 0.3rem;
+    font-size: 0.9rem;
+    color: var(--muted, #667);
+  }
+  .build {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.28rem 0.9rem;
+    margin: 0 0 1rem;
+  }
+  .build dt {
+    color: var(--muted, #667);
+  }
+  .build dd {
+    margin: 0;
+  }
+  .mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  .refresh {
+    /* A tablet target, not a mouse one. */
+    min-height: 2.75rem;
+    padding: 0 1rem;
+    width: 100%;
+  }
+  .note {
+    margin: 0.35rem 0 0;
+    color: var(--muted, #667);
+    font-size: 0.85rem;
+  }
+  ul {
+    margin: 0;
+    padding-left: 1.1rem;
+  }
+  li {
+    margin: 0.3rem 0;
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+  .close {
+    margin-top: 1.2rem;
+    min-height: 2.75rem;
+    width: 100%;
+  }
+</style>

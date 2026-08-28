@@ -20,6 +20,7 @@
   import { KINDS } from "./lib/glassware";
   import { notebookMarkdown } from "./lib/notebook";
   import HelpDialog from "./lib/components/HelpDialog.svelte";
+  import AboutDialog from "./lib/components/AboutDialog.svelte";
   import PeriodicTable from "./lib/components/PeriodicTable.svelte";
   import ExperimentCatalog from "./lib/components/ExperimentCatalog.svelte";
   import ReadingInset from "./lib/components/ReadingInset.svelte";
@@ -251,6 +252,7 @@
   }
 
   let helpOpen = $state(false);
+  let aboutOpen = $state(false);
   let missionOpen = $state(false);
   let tableOpen = $state(false);
   let safetyOpen = $state(false);
@@ -394,6 +396,7 @@
       else if (mapOpen) mapOpen = false;
       else if (safetyOpen) safetyOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
+      else if (aboutOpen) aboutOpen = false;
       else if (helpOpen) helpOpen = false;
       else if (toolsOpen) toolsOpen = false;
       else session.closeInspector();
@@ -501,6 +504,7 @@
       <button class="tool mission-tool" onclick={() => { toolsOpen = false; missionOpen = true; }}>{t("Mission Control")}</button>
       {#if pwa.installable}<button class="tool" onclick={() => void pwa.install()}>{t("install")}</button>{/if}
       {#if !isTauri()}<a class="console-link" href="../">{t("console")}</a>{/if}
+      <button class="tool" onclick={() => (aboutOpen = true)}>{t("about")}</button>
       <div class="utility-locale"><span>{t("Language")}</span><LocaleSwitcher /></div>
       <div class="theme-choice" role="radiogroup" aria-label={t("appearance")}>
         <span>{t("appearance")}</span>
@@ -917,6 +921,10 @@
 
 {#if helpOpen}
   <HelpDialog onclose={() => (helpOpen = false)} />
+{/if}
+
+{#if aboutOpen}
+  <AboutDialog onclose={() => (aboutOpen = false)} />
 {/if}
 
 {#if toolboxOpen}
