@@ -1421,7 +1421,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 1 => locale.fill(
                     "event.flame-test.lv1",
                     "It does not catch fire — but look: it turns the flame {colour}! Every metal has its own colour, which is how you can tell them apart.",
-                    &[("colour", &colour.to_string())],
+                    &[("colour", colour)],
                 ),
                 2 => {
                     locale.fill(
@@ -1433,7 +1433,7 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 _ => locale.fill(
                     "event.flame-test.lv3",
                     "{vessel}: no combustion; characteristic emission of {name} ({colour})",
-                    &[("vessel", &vessel.to_string()), ("name", name), ("colour", &colour.to_string())],
+                    &[("vessel", &vessel.to_string()), ("name", name), ("colour", colour)],
                 ),
             }
         }
