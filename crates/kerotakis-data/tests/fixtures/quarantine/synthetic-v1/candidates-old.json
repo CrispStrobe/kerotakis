@@ -1,0 +1,15 @@
+[
+  {
+    "adapter_id": "synthetic-v1",
+    "source_record_id": "snapshot/water",
+    "external_record_id": "water",
+    "identity_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+    "fields": {
+      "canonical_name": {
+        "value": "water",
+        "source_field": "records[0].name",
+        "licence": "CC0-1.0"
+      }
+    }
+  }
+]

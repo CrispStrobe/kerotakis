@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "adapter_id": "synthetic-v1",
+  "source_id": "synthetic",
+  "source_revision": "fixture-1",
+  "retrieved": "2026-08-28",
+  "raw_artifact": "raw/snapshot.json",
+  "record_count": 1,
+  "sha256": "905b6cb178af3a2f1d6557838b9f551760c67192759dd9d7603de28090aaad9a"
+}
