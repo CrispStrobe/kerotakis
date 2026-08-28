@@ -229,6 +229,23 @@ operators; `register lv1|lv2|lv3` sets how much detail; `explain` traces an answ
 `--json` on a script emits one JSON object per step (that stream is the API
 contract the future UI consumes).
 
+To build and look at the browser bench:
+
+```bash
+tools/build-web.sh /tmp/site            # the whole payload, not just web/app/dist
+node tools/test-pwa.mjs /tmp/site       # installable, offline-first
+node tools/shot.mjs /tmp/site shots --locale de --clicks "Sandbox betreten"
+```
+
+`tools/shot.mjs` drives the built site in headless Chrome at a tablet
+viewport and writes a PNG per click; `tools/measure.mjs` reports element
+geometry. Build with `build-web.sh` rather than copying `web/app/dist` —
+the script also places the wasm modules, IPhreeqc, the codex and the
+lessons, and a hand-copied `dist` loads but cannot start its engine.
+
+The app speaks German as well as English; `I18N.md` describes the four
+surfaces and how to add a third language.
+
 ## Status
 
 The feasibility gate is passed: PHREEQC cross-compiles and runs identically
