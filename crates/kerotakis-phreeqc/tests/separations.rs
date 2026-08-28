@@ -133,12 +133,17 @@ fn concentrating_named_epsom_salt_grows_hydrated_crystals() {
         "0.5 mol epsomite should first dissolve in one kilogram of water"
     );
 
+    // Leave about 0.1 kg of solvent: 0.5 mol MgSO4 is then roughly
+    // 5 mol/kg, concentrated enough to precipitate epsomite but still
+    // inside the reviewed Pitzer range. At 95% evaporation the nominal
+    // 10 mol/kg starting solution fails speciation before PHREEQC can
+    // apply the equilibrium phase, so it cannot demonstrate crystal growth.
     let events = step(
         &mut bench,
         &mut stack,
         Operator::Evaporate {
             vessel: v,
-            fraction: 0.95,
+            fraction: 0.9,
         },
     );
     let crystallised = events
@@ -147,7 +152,12 @@ fn concentrating_named_epsom_salt_grows_hydrated_crystals() {
             Event::Precipitated { species, moles, .. } if species.0 == "epsomite" => Some(moles.0),
             _ => None,
         })
-        .expect("concentrated solution should grow named epsomite crystals");
+        .unwrap_or_else(|| {
+            panic!(
+                "concentrated solution should grow named epsomite crystals; events: {events:#?}; vessel: {:#?}",
+                bench.vessel(v).unwrap()
+            )
+        });
     assert!(
         crystallised > 0.1 && crystallised <= 0.5,
         "a substantial bounded fraction should crystallise, got {crystallised} mol"
