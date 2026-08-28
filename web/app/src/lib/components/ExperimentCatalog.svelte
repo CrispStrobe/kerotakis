@@ -4,7 +4,6 @@
     checkExpect,
     conceptIndex,
     curriculumIndex,
-    experimentMatches,
     relatedConcepts,
     scriptKit,
     type CheckResult,
