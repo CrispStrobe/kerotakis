@@ -272,6 +272,12 @@
     --phase-color: var(--primary);
     width: 100%;
     display: flex;
+    /* German names are long enough that chip + name + formula + the stock
+       count do not fit one line: "Natriumchlorid" left the count showing
+       as "no". Wrapping puts the count on its own line when it has to,
+       and leaves it inline when it fits — rather than truncating a
+       chemical name, which the reader actually needs to read. */
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 0.32rem;
@@ -303,18 +309,11 @@
   .species.locked:hover .name { color: var(--ink); }
   .lock { color: var(--dim); font-weight: 900; }
   .loan { padding: .12rem .28rem; border-radius: 6px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 11%, var(--surface)); font-size: .48rem; font-weight: 850; text-transform: uppercase; }
-  .stock { width: 4.2rem; flex: none; color: var(--dim); font-size: .54rem; font-weight: 800; line-height: 1.15; text-align: right; }
+  .stock { margin-left: auto; flex: none; color: var(--dim); font-size: .54rem; font-weight: 800; line-height: 1.15; text-align: right; }
   .stock-lock { margin: 0 .2rem .5rem; padding: .5rem; border-left: 3px solid var(--instrument); border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--instrument) 7%, transparent); font-size: .68rem; line-height: 1.35; }
   .depleted-note { border-left-color: var(--warning); background: color-mix(in srgb, var(--warning) 7%, transparent); }
   .name {
     flex: 1;
-    /* Without this a flex item will not shrink below its content, so
-       "Natron (Natriumhydrogencarbonat)" pushed the stock count out of
-       the row and it rendered as "10 Entnal". English never hits it —
-       "baking soda" is short — which is why it survived until the shelf
-       was looked at in German. */
-    min-width: 0;
-    overflow-wrap: anywhere;
   }
   .formula {
     color: var(--dim);
