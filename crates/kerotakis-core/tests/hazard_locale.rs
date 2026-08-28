@@ -122,6 +122,45 @@ fn other_events_are_not_disturbed() {
     assert!(hazard.contains("Strahlung"), "{hazard}");
 }
 
+#[test]
+fn dynamic_refusals_translate_the_species_and_the_reason() {
+    let event = Event::NotYetModeled {
+        vessel: kerotakis_core::vessel::VesselId(0),
+        what: "sodium chloride in contact with liquid: no wired solver models this dissolution/reaction".to_string(),
+    };
+    let localized = localize_event(&event, Locale::parse("de"));
+    let Event::NotYetModeled { what, .. } = localized else {
+        panic!("expected a refusal");
+    };
+    assert!(
+        what.contains("Natriumchlorid"),
+        "species stayed English: {what}"
+    );
+    assert!(
+        !what.contains("wired solver"),
+        "reason stayed English: {what}"
+    );
+}
+
+#[test]
+fn meter_refusals_are_translated_as_whole_sentences() {
+    let event = Event::NotYetModeled {
+        vessel: kerotakis_core::vessel::VesselId(0),
+        what:
+            "the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
+                .to_string(),
+    };
+    let localized = localize_event(&event, Locale::parse("de"));
+    let Event::NotYetModeled { what, .. } = localized else {
+        panic!("expected a refusal");
+    };
+    assert!(what.contains("pH-Meter"), "meter stayed English: {what}");
+    assert!(
+        !what.contains("reads nothing"),
+        "reason stayed English: {what}"
+    );
+}
+
 /// Every flame-test colour in the registry has German.
 ///
 /// The colour IS the result of a flame test. Left in English inside a

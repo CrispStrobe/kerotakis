@@ -451,6 +451,14 @@ boiled = "siedete"
 "radioactive source: ionising radiation" = "radioaktive Quelle: ionisierende Strahlung"
 "a liquid medium is required" = "ein flüssiges Medium ist erforderlich"
 "no solid particles are present" = "es sind keine festen Teilchen vorhanden"
+"the pH meter reads nothing — no aqueous solution has been characterised in this vessel" = "das pH-Meter zeigt nichts an — in diesem Gefäß wurde keine wässrige Lösung charakterisiert"
+"the conductivity meter reads nothing — no aqueous solution has been characterised" = "das Leitfähigkeitsmessgerät zeigt nichts an — es wurde keine wässrige Lösung charakterisiert"
+solid-in-liquid = "{name} ist mit einer Flüssigkeit in Kontakt; kein angebundener Löser modelliert diese Auflösung oder Reaktion"
+dissolves-without-speciation = "{name} löst sich, aber kein angebundener Löser berechnet die Speziesverteilung: Der Stoff trägt hier weder zum pH-Wert noch zur Ionenstärke bei; diese Werte gelten nur für die übrigen Stoffe im Becherglas"
+
+[severity]
+Caution = "Vorsicht"
+Danger = "Gefahr"
 
 # What went wrong, looked up by its English. The shell reads `event.hazard`
 # straight off the serialised event, so these must be translated where the

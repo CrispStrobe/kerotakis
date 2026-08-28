@@ -1894,7 +1894,13 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             severity,
             hazard,
             real_world,
-        } => match register.level() {
+        } => {
+            let severity_en = format!("{severity:?}");
+            let severity_text = locale
+                .lookup(&format!("severity.{severity_en}"))
+                .map(str::to_string)
+                .unwrap_or(severity_en);
+            match register.level() {
             1 => locale.fill(
                 "event.hazard-warning.lv1",
                 "⚠️  STOP AND READ: {hazard}. {real_world} NEVER try this outside the virtual lab — here, we can watch what happens safely.",
@@ -1903,10 +1909,11 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             2 => locale.fill(
                 "event.hazard-warning.lv2",
                 "⚠ HAZARD ({severity}): {hazard} — {real_world} Safe only because this lab is virtual.",
-                &[("severity", &locale.number(format!("{severity:?}"))), ("hazard", &hazard.to_string()), ("real_world", &real_world.to_string())],
+                &[("severity", &severity_text), ("hazard", &hazard.to_string()), ("real_world", &real_world.to_string())],
             ),
             _ => format!("HAZARD [{severity:?}] (L0): {hazard}; {real_world}"),
-        },
+            }
+        }
         Event::SafetyVeto { reason } => match register.level() {
             1 => locale.fill(
                 "event.safety-veto.lv1",
@@ -2403,8 +2410,41 @@ pub fn localize_event(event: &Event, locale: Locale) -> Event {
                 .map(str::to_string)
                 .unwrap_or_else(|| real_world.clone()),
         },
+        Event::NotYetModeled { vessel, what } => Event::NotYetModeled {
+            vessel: *vessel,
+            what: localize_refusal(what, locale),
+        },
         other => other.clone(),
     }
+}
+
+fn localize_refusal(what: &str, locale: Locale) -> String {
+    if let Some(translated) = locale.lookup(&format!("refusal.{what}")) {
+        return translated.to_string();
+    }
+
+    const CONTACT: &str =
+        " in contact with liquid: no wired solver models this dissolution/reaction";
+    if let Some(name) = what.strip_suffix(CONTACT) {
+        let translated_name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+        return locale.fill(
+            "refusal.solid-in-liquid",
+            "{name} in contact with liquid: no wired solver models this dissolution/reaction",
+            &[("name", translated_name)],
+        );
+    }
+
+    const UNSPECIATED: &str = " dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker";
+    if let Some(name) = what.strip_suffix(UNSPECIATED) {
+        let translated_name = locale.lookup(&format!("species.{name}")).unwrap_or(name);
+        return locale.fill(
+            "refusal.dissolves-without-speciation",
+            "{name} dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
+            &[("name", translated_name)],
+        );
+    }
+
+    what.to_string()
 }
 
 /// As `localize_event`, over a slice.

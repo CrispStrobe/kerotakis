@@ -696,6 +696,8 @@
   "lesson left: {name}": "Lektion verlassen: {name}",
   "Kerotakis lab notebook": "Kerotakis-Laborbuch",
   "hazard": "Gefahr",
+  "caution": "Vorsicht",
+  "danger": "Gefahr",
   "the bench answered {answer}.": "Das Labor antwortete {answer}.",
   "Try: {next}": "Versuche: {next}",
   "separate solids from liquid": "Feststoffe von Flüssigkeit trennen",
