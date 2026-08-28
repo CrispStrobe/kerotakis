@@ -200,6 +200,12 @@ stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — displacement reactions demonstrating the reactivity series are required content"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — displacement reactions"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -260,6 +266,12 @@ system = "england-gcse-combined-science"
 stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — reactions of metals with dilute acids are required content"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — reactions of acids with metals"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
@@ -325,6 +337,12 @@ stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — displacement reactions of metals with metal-salt solutions"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — displacement reactions"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -383,6 +401,12 @@ system = "england-gcse-combined-science"
 stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — predicting no reaction from the reactivity series is required content"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — displacement reactions"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
@@ -443,6 +467,12 @@ system = "england-gcse-combined-science"
 stage = "GCSE Combined Science: Trilogy (AQA 8464), 4.4.1 Reactivity of metals"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — sacrificial protection is named content under rusting and prevention"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — displacement reactions"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """

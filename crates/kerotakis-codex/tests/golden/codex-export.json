@@ -23,6 +23,15 @@
             "max": 16.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB); the placement of alkaline-solution preparation inside LB4 is the same reading used for `strong-acid` in inorganic.toml"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — the pH scale for measuring acidity/alkalinity",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -122,6 +131,15 @@
             "max": 16.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — dissolution of bases is part of acid-base chemistry"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — exothermic and endothermic chemical reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -224,6 +242,15 @@
             "max": 16.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — neutralisation is named content of LB4"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — neutralisation reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -1012,6 +1039,15 @@
             "max": 16.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB) — alkaline salt solutions from hydrolysis"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — the pH scale for measuring acidity/alkalinity",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -1398,6 +1434,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — reactions of acids with metal carbonates"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — reactions of acids with metal carbonates",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -1497,6 +1542,15 @@
             "max": 14.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — solubility as a substance property"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Pure and impure substances — dissolving and solubility",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -2430,6 +2484,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Combined Science: Trilogy specification (8464) — separation techniques including filtration"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Pure and impure substances — filtration as a separation technique",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -2529,6 +2592,15 @@
             "max": 14.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB) — evaporative crystallisation as a separation technique"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Pure and impure substances — evaporation and crystallisation",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -3131,6 +3203,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.2 — neutralisation reactions are required content"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — neutralisation reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -3418,6 +3499,15 @@
             "max": 14.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Pure and impure substances — dissolving",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [],
@@ -3483,6 +3573,15 @@
             "max": 14.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Pure and impure substances — solubility and saturation",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [],
@@ -3590,6 +3689,15 @@
             "max": 16.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB; Lehrplantexte nicht urheberrechtlich geschützt)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — the pH scale for measuring acidity/alkalinity",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [],
@@ -3646,6 +3754,15 @@
             "max": 16.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — the pH scale for measuring acidity/alkalinity",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [],
@@ -3774,6 +3891,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — reactions of acids with metal carbonates",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [],
@@ -3837,6 +3963,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — exothermic and endothermic chemical reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [],
@@ -3903,6 +4038,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — exothermic and endothermic chemical reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [],
@@ -3967,6 +4111,15 @@
             "max": 15.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 9 (ISB)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Pure and impure substances — hard water and calcium carbonate",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [],
@@ -4028,6 +4181,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — thermal decomposition",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [],
@@ -4084,6 +4246,15 @@
             "max": 14.0
           },
           "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — combustion as an oxidation reaction",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [],
@@ -4149,6 +4320,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, The Periodic Table — flame tests and atomic emission",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [],
@@ -4443,6 +4623,15 @@
             "max": 16.0
           },
           "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — the pH scale for measuring acidity/alkalinity",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -4896,6 +5085,15 @@
             "max": 14.0
           },
           "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — reactions of acids with metal carbonates",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -4999,6 +5197,15 @@
             "max": 14.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Atoms, elements and compounds — conservation of mass in chemical reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -5322,6 +5529,15 @@
             "max": 15.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium (ISB)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — exothermic and endothermic chemical reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -5444,6 +5660,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — exothermic and endothermic chemical reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -5556,6 +5781,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — exothermic and endothermic chemical reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -5782,6 +6016,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Combined Science: Trilogy specification (8464) — thermal decomposition of carbonates"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — thermal decomposition",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -5886,6 +6129,15 @@
             "max": 16.0
           },
           "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — thermal decomposition",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -5988,6 +6240,15 @@
             "max": 14.0
           },
           "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — combustion as an oxidation reaction",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -6112,6 +6373,15 @@
             "max": 14.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — combustion as an oxidation reaction",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -6455,6 +6725,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, The Periodic Table — flame tests and atomic emission",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -6559,6 +6838,15 @@
             "max": 14.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Pure and impure substances — evaporation and crystallisation",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -6681,6 +6969,15 @@
             "max": 14.0
           },
           "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — chemical reactions as the rearrangement of atoms",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -7606,6 +7903,15 @@
             "max": 18.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — what catalysts do",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -7726,6 +8032,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Chemistry (8462) specification, examined from 2018"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — what catalysts do",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -8560,6 +8875,15 @@
             "max": 18.0
           },
           "source": "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — what catalysts do",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -8974,6 +9298,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — displacement reactions demonstrating the reactivity series are required content"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — displacement reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -9085,6 +9418,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — reactions of metals with dilute acids are required content"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — reactions of acids with metals",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -9192,6 +9534,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — displacement reactions of metals with metal-salt solutions"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — displacement reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -9298,6 +9649,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — predicting no reaction from the reactivity series is required content"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — displacement reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -9401,6 +9761,15 @@
             "max": 16.0
           },
           "source": "AQA GCSE Combined Science: Trilogy specification (8464), Section 4.4.1 — sacrificial protection is named content under rusting and prevention"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, Chemical reactions — displacement reactions",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [
@@ -10216,6 +10585,15 @@
             "max": 16.0
           },
           "source": "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+        },
+        {
+          "system": "england-national-curriculum",
+          "stage": "KS3 Chemistry, The particulate nature of matter — changes of state and dissolving",
+          "ages": {
+            "min": 11.0,
+            "max": 14.0
+          },
+          "source": "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
         }
       ],
       "apparatus": [

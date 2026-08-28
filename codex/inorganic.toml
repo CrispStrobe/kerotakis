@@ -20,6 +20,12 @@ stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
 ages = { min = 13.0, max = 14.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Pure and impure substances — dissolving"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -56,6 +62,12 @@ system = "bayern-lehrplanplus"
 stage = "Gymnasium NTG Jgst. 8, LB2 Stoffe und ihre Eigenschaften (23 Std.)"
 ages = { min = 13.0, max = 14.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium NTG Jgst. 8 (ISB)"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Pure and impure substances — solubility and saturation"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
@@ -123,6 +135,12 @@ stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 
 ages = { min = 15.0, max = 16.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB; Lehrplantexte nicht urheberrechtlich geschützt)"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — the pH scale for measuring acidity/alkalinity"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -153,6 +171,12 @@ system = "bayern-lehrplanplus"
 stage = "Gymnasium Jgst. 10, LB4 Protonenübergänge/Säure-Base-Reaktionen (18 Std.)"
 ages = { min = 15.0, max = 16.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 10 (ISB)"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — the pH scale for measuring acidity/alkalinity"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
@@ -231,6 +255,12 @@ stage = "4.4 Chemical changes"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — reactions of acids with metal carbonates"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 250mL
@@ -271,6 +301,12 @@ stage = "4.5 Energy changes"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — exothermic and endothermic chemical reactions"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -308,6 +344,12 @@ system = "england-gcse-combined-science"
 stage = "4.5 Energy changes"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — exothermic and endothermic chemical reactions"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
@@ -348,6 +390,12 @@ stage = "Gymnasium Jgst. 9, LB1 Molekülstruktur und Stoffeigenschaften"
 ages = { min = 14.0, max = 15.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Jgst. 9 (ISB)"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Pure and impure substances — hard water and calcium carbonate"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 1000mL
@@ -387,6 +435,12 @@ stage = "4.4 Chemical changes — thermal decomposition"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — thermal decomposition"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 CaCO3 10g
@@ -418,6 +472,12 @@ system = "nrw-kernlehrplan-g9"
 stage = "Sek I, Erste Stufe (Jg. 7/8), IF3 Verbrennung"
 ages = { min = 12.0, max = 14.0 }
 source = "Kernlehrplan Chemie Gymnasium G9 NRW, Heft 3415 (RdErl. 23.06.2019)"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — combustion as an oxidation reaction"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
@@ -455,6 +515,12 @@ system = "england-gcse-combined-science"
 stage = "4.8 Chemical analysis — flame tests"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, The Periodic Table — flame tests and atomic emission"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """

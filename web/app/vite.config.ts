@@ -22,10 +22,13 @@ function payloadRootTags(): Plugin {
     // iOS reads this, not the manifest, for Add to Home Screen; without it
     // the home screen gets a screenshot of the page.
     { tag: "link", attrs: { rel: "apple-touch-icon", href: "../apple-touch-icon.png" }, injectTo: "head" },
-    { tag: "link", attrs: { id: "app-manifest", rel: "manifest", href: "../manifest.webmanifest" }, injectTo: "head" },
     {
       tag: "script",
-      children: '{ let choice; try { choice = localStorage.getItem("kerotakis.locale"); } catch {} if ((choice || navigator.language).toLowerCase().startsWith("de")) document.getElementById("app-manifest").href = "../manifest.de.webmanifest"; }',
+      // Create the manifest link only after choosing its locale. Browsers may
+      // consume a rel=manifest link as soon as the parser sees it, so mutating
+      // an already-present English link can leave Chrome installing the
+      // English manifest even though the DOM later shows the German href.
+      children: '{ let choice; try { choice = localStorage.getItem("kerotakis.locale"); } catch {} const manifest = document.createElement("link"); manifest.id = "app-manifest"; manifest.rel = "manifest"; manifest.href = (choice || navigator.language).toLowerCase().startsWith("de") ? "../manifest.de.webmanifest" : "../manifest.webmanifest"; document.head.append(manifest); }',
       injectTo: "head",
     },
   ];

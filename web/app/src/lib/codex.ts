@@ -277,3 +277,33 @@ export function metConcepts(entries: CodexEntry[], done: ReadonlySet<string>): S
 export function entryReady(e: CodexEntry, met: ReadonlySet<string>): boolean {
   return (e.requires ?? []).every((r) => met.has(r));
 }
+
+/** Does this entry answer what the reader typed?
+ *
+ * Kept out of the component so it can be tested without a browser, which
+ * is why the bug it fixes lived so long: the catalogue rendered German and
+ * filtered English, so "Säure" returned "nothing matches" with the German
+ * word visible in the list. An empty result set reads as an answer rather
+ * than a fault, so no gate and no reviewer saw anything wrong.
+ *
+ * `tr` translates one string the way the list renders it: the component
+ * hands in its own resolver, a test hands in a stub. Both languages match
+ * — a learner may type either, and reagents are often learned in English.
+ */
+export function experimentMatches(
+  entry: CodexEntry,
+  query: string,
+  tr: (text: string) => string,
+): boolean {
+  const q = query.trim().toLowerCase();
+  if (!q) return true;
+  const hit = (s: string | undefined | null) => (s ?? "").toLowerCase().includes(q);
+  const slug = (s: string) => hit(s) || hit(tr(s.replace(/-/g, " ")));
+  return (
+    slug(entry.id) ||
+    hit(entry.equation) ||
+    hit(entry.summary) ||
+    hit(tr(entry.summary ?? "")) ||
+    (entry.concepts ?? []).some(slug)
+  );
+}

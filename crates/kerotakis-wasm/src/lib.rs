@@ -19,8 +19,8 @@
 pub mod worker;
 
 use kerotakis_core::{
-    render_events_in, render_vessel_in, Bench, Equilibrator, Event, Locale, Operator, Register,
-    SolverStack,
+    localize_events, render_events_in, render_vessel_in, Bench, Equilibrator, Event, Locale,
+    Operator, Register, SolverStack,
 };
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
@@ -247,7 +247,12 @@ impl Lab {
     pub fn step(&mut self, operator_json: &str) -> Result<String, JsError> {
         let op: Operator =
             serde_json::from_str(operator_json).map_err(|e| JsError::new(&e.to_string()))?;
-        let events = self.run(op)?;
+        // Localised before serialising: the shell reads `hazard` and
+        // `real_world` straight off the event rather than through
+        // `rendered`, so a German session showed a German frame around
+        // English safety prose. This is the first point that knows the
+        // language — `bench.rs` and the safety screen do not.
+        let events = localize_events(&self.run(op)?, self.locale);
         let rendered = render_events_in(&events, self.register, self.locale);
         let charts = kerotakis_core::chart::charts_for_events(&events);
         let quest = self.quest_observe(&events);
@@ -279,7 +284,10 @@ impl Lab {
             match kerotakis_core::script::parse_op(line) {
                 Ok(None) => {}
                 Ok(Some(op)) => {
-                    let events = self.run(op.clone())?;
+                    // Localised here too — see `run_operator`. Two call
+                    // sites, and a hazard note that reached the reader
+                    // through only one of them would be worse than neither.
+                    let events = localize_events(&self.run(op.clone())?, self.locale);
                     let rendered = render_events_in(&events, self.register, self.locale);
                     let charts = kerotakis_core::chart::charts_for_events(&events);
                     let quest = self.quest_observe(&events);

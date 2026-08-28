@@ -431,6 +431,12 @@ stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
 ages = { min = 16.0, max = 18.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
 
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — what catalysts do"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
+
 [reaction.setup]
 script = """
 add v1 water 100mL
@@ -506,6 +512,12 @@ system = "england-gcse-combined-science"
 stage = "4.6 The rate and extent of chemical change"
 ages = { min = 14.0, max = 16.0 }
 source = "AQA GCSE Chemistry (8462) specification, examined from 2018"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — what catalysts do"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """
@@ -1024,6 +1036,12 @@ system = "bayern-lehrplanplus"
 stage = "Gymnasium Jgst. 11/12, Reaktionsgeschwindigkeit und Katalyse"
 ages = { min = 16.0, max = 18.0 }
 source = "LehrplanPLUS Bayern, Fachlehrplan Chemie Gymnasium Oberstufe (ISB)"
+
+[[reaction.curriculum]]
+system = "england-national-curriculum"
+stage = "KS3 Chemistry, Chemical reactions — what catalysts do"
+ages = { min = 11.0, max = 14.0 }
+source = "Department for Education, National curriculum in England: science programmes of study, KS3 Chemistry (DfE-00182-2013, updated 2014)"
 
 [reaction.setup]
 script = """

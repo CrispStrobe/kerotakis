@@ -69,6 +69,7 @@ step "wasm32";        cargo build -p kerotakis-wasm --target wasm32-unknown-unkn
 step "i18n catalogue"; python3 tools/codex-locale-lint.py --check
 step "i18n engine";    python3 tools/engine-locale-lint.py --check
 step "i18n holes";     python3 tools/i18n-holes-lint.py --check
+step "i18n surfaces";  python3 tools/i18n-surface-lint.py --check
 step "codex lint";    cargo run --release -p kerotakis-cli -- codex lint
 step "provenance";    cargo run --release -p kerotakis-cli -- provenance lint
 step "sweep";         cargo run --release -p kerotakis-cli -- sweep
