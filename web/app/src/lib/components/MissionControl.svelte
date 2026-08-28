@@ -213,7 +213,7 @@
   .mission-card button {
     border: 0;
     border-radius: 11px;
-    color: white;
+    color: var(--on-accent);
     background: var(--primary);
     cursor: pointer;
     font-weight: 750;

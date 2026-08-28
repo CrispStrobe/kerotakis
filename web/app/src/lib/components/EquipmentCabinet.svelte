@@ -227,7 +227,7 @@
   .equipment-copy { min-width: 0; display: flex; flex-direction: column; gap: 0.15rem; }
   .equipment-copy strong { font-size: 0.72rem; line-height: 1.15; }
   .equipment-copy small { color: var(--dim); font-size: 0.61rem; line-height: 1.25; }
-  .deployed-label { position: absolute; top: 0.35rem; right: 0.35rem; padding: 0.14rem 0.32rem; border-radius: 999px; color: white; background: var(--action); font-size: 0.48rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+  .deployed-label { position: absolute; top: 0.35rem; right: 0.35rem; padding: 0.14rem 0.32rem; border-radius: 999px; color: var(--on-accent); background: var(--action); font-size: 0.48rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
   .locked-label { margin-top: auto; padding: .2rem .36rem; border-radius: 7px; color: var(--dim); background: color-mix(in srgb, var(--surface-raised) 90%, transparent); font-size: .55rem; font-weight: 800; line-height: 1.2; }
   .loaned-label { margin-top: auto; padding: .2rem .36rem; border-radius: 999px; color: var(--instrument); background: color-mix(in srgb, var(--instrument) 10%, var(--surface)); font-size: .5rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
   .empty-scope { margin: 1rem .2rem; color: var(--dim); font-size: .72rem; line-height: 1.4; }

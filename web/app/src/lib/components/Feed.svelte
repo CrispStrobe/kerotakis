@@ -165,7 +165,7 @@
   .journal-scope button.active { color: var(--instrument); border-color: color-mix(in srgb, var(--instrument) 35%, var(--edge)); background: color-mix(in srgb, var(--instrument) 8%, var(--surface)); }
   .note-composer { display: grid; grid-template-columns: 1fr auto; gap: 0.4rem; margin-bottom: 0.5rem; }
   .note-composer textarea { resize: vertical; min-width: 0; padding: 0.5rem; border: 1px solid var(--edge); border-radius: 9px; color: var(--ink); background: var(--panel-raised); font: inherit; }
-  .note-composer button { align-self: stretch; padding: 0.35rem 0.55rem; border: 0; border-radius: 9px; color: white; background: var(--primary); font: inherit; font-size: 0.72rem; font-weight: 750; cursor: pointer; }
+  .note-composer button { align-self: stretch; padding: 0.35rem 0.55rem; border: 0; border-radius: 9px; color: var(--on-accent); background: var(--primary); font: inherit; font-size: 0.72rem; font-weight: 750; cursor: pointer; }
   .note-composer button:disabled { opacity: 0.4; cursor: default; }
   .user-note { padding: 0.55rem; border-left: 3px solid var(--discovery); border-radius: 8px; background: color-mix(in srgb, var(--discovery) 7%, var(--surface)); }
   .user-note header { display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.25rem; color: var(--discovery); font-size: 0.62rem; }
@@ -178,7 +178,7 @@
   .note-editor textarea { width: 100%; box-sizing: border-box; resize: vertical; padding: .45rem; border: 1px solid var(--edge); border-radius: 8px; color: var(--ink); background: var(--surface); font: inherit; }
   .note-editor span { display: flex; gap: .35rem; justify-content: flex-end; }
   .note-editor button { padding: .25rem .5rem; border: 1px solid var(--edge); border-radius: 7px; color: var(--ink); background: var(--surface); font: inherit; font-size: .65rem; cursor: pointer; }
-  .note-editor button[type="submit"] { color: white; border-color: var(--primary); background: var(--primary); }
+  .note-editor button[type="submit"] { color: var(--on-accent); border-color: var(--primary); background: var(--primary); }
   .note-editor button:disabled { opacity: .4; cursor: default; }
   p {
     margin: 0;

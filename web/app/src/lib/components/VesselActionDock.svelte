@@ -199,11 +199,11 @@
   }
   .actions button small { color: var(--dim); font-size: .48rem; font-weight: 650; }
   .pour {
-    color: white;
+    color: var(--on-accent);
     border-color: var(--action);
     background: linear-gradient(145deg, var(--action), color-mix(in srgb, var(--action) 72%, var(--primary)));
   }
-  .pour .icon { color: white; }
+  .pour .icon { color: var(--on-accent); }
   .actions button:hover:not(:disabled) {
     border-color: currentColor;
     transform: translateY(-2px);

@@ -45,7 +45,7 @@
   dialog { position: static; width: min(92vw, 700px); max-height: 90vh; margin: 0; padding: 0; overflow: auto; border: 1px solid color-mix(in srgb, var(--success) 50%, var(--edge)); border-radius: 22px; color: var(--ink); background: var(--surface); box-shadow: 0 24px 70px rgb(0 0 0 / 28%); }
   header { display: flex; align-items: center; gap: .8rem; padding: 1rem 1.1rem; background: linear-gradient(120deg, color-mix(in srgb, var(--success) 17%, var(--surface)), color-mix(in srgb, var(--discovery) 13%, var(--surface))); }
   header > span:nth-child(2) { display: flex; flex-direction: column; }
-  .mark { width: 42px; height: 42px; display: grid; place-items: center; flex: none; border-radius: 13px; color: white; background: var(--success); font-size: 1.3rem; transform: rotate(-4deg); }
+  .mark { width: 42px; height: 42px; display: grid; place-items: center; flex: none; border-radius: 13px; color: var(--on-accent); background: var(--success); font-size: 1.3rem; transform: rotate(-4deg); }
   header small { color: var(--success); font-size: .58rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
   h2 { margin: .08rem 0 0; font-size: 1.15rem; }
   .close { margin-left: auto; padding: .38rem .7rem; border: 1px solid var(--edge); border-radius: 9px; color: var(--ink); background: var(--surface); font: inherit; cursor: pointer; }

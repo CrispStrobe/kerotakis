@@ -49,7 +49,7 @@
   header > span:nth-child(2) { display: grid; gap: .05rem; }
   header small { color: var(--instrument); font-size: .58rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
   h2 { margin: 0; font-size: 1.18rem; }
-  .mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; color: white; background: linear-gradient(145deg, var(--cool), var(--instrument)); font-size: 1.35rem; }
+  .mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; color: var(--on-accent); background: linear-gradient(145deg, var(--cool), var(--instrument)); font-size: 1.35rem; }
   .close { width: 38px; height: 38px; margin-left: auto; border: 1px solid var(--edge); border-radius: 50%; color: var(--ink); background: var(--surface); cursor: pointer; font: inherit; font-size: 1.2rem; }
   .lead { margin: 0; padding: 1rem 1.1rem .25rem; color: var(--dim); font-size: .8rem; }
   .stations { display: grid; gap: .65rem; padding: .8rem 1.1rem 1.15rem; }
@@ -60,7 +60,7 @@
   .station strong { font-size: .78rem; }
   .station small { color: var(--dim); font-size: .67rem; line-height: 1.4; }
   .station b { color: var(--primary); }
-  .station-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; color: white; background: var(--instrument); font-size: 1.15rem; }
+  .station-icon { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; color: var(--on-accent); background: var(--instrument); font-size: 1.15rem; }
   .water .station-icon { background: var(--cool); }
   .power .station-icon { color: var(--ink); background: var(--action); }
   .waste { background: color-mix(in srgb, var(--warning) 6%, var(--surface-raised)); }

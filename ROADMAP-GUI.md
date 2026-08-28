@@ -824,8 +824,12 @@ hide them completely.
   runs in desktop, German desktop and phone viewports in CI. It fails on
   page-level overflow, overlapping desktop panes, unnamed controls, duplicate
   ids, undersized primary vessel actions or phone tabs, and live bench motion
-  under `prefers-reduced-motion`. Automated token contrast and screenshot
-  diffs remain.*
+  under `prefers-reduced-motion`.
+  *Contrast gate landed 2026-08-28:* every normal and muted text token is now
+  checked against every workspace surface, every semantic accent has a
+  theme-specific foreground, and light, dark/pro, and high-contrast palettes
+  must all meet WCAG AA in a fast CI job. Screenshot and color-blind diffs
+  remain.*
 - [ ] **GUI-072 — Equipment cabinet v1.** Replace the flat apparatus palette
   and reagent shelf with one searchable, categorized supply room. Cards and
   detail sheets render catalog metadata; drag/tap places a real scene object;

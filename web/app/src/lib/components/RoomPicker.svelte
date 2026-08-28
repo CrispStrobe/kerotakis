@@ -61,7 +61,7 @@
   header > span:nth-child(2) { display: grid; gap: .05rem; }
   header small { color: var(--instrument); font-size: .58rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
   h2 { margin: 0; font-size: 1.18rem; }
-  .mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; color: white; background: linear-gradient(145deg, var(--instrument), var(--primary)); font-size: 1.25rem; }
+  .mark { width: 42px; height: 42px; display: grid; place-items: center; border-radius: 13px; color: var(--on-accent); background: linear-gradient(145deg, var(--instrument), var(--primary)); font-size: 1.25rem; }
   .close { width: 38px; height: 38px; margin-left: auto; border: 1px solid var(--edge); border-radius: 50%; color: var(--ink); background: var(--surface); cursor: pointer; font: inherit; font-size: 1.2rem; }
   .lead { margin: 0; padding: 1rem 1.1rem .3rem; color: var(--dim); font-size: .8rem; }
   .rooms { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; padding: .8rem 1.1rem 1.2rem; }

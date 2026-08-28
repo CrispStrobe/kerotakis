@@ -399,6 +399,6 @@
        be tapped. */
     min-height: 2.75rem;
   }
-  .add-amount { color: white; background: var(--action); border-color: var(--action); cursor: pointer; font-weight: 750; }
+  .add-amount { color: var(--on-accent); background: var(--action); border-color: var(--action); cursor: pointer; font-weight: 750; }
   .amounts small { grid-column: 1 / -1; color: var(--dim); font-size: 0.6rem; }
 </style>

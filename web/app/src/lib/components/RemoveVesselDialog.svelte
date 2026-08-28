@@ -95,7 +95,7 @@
   header > span:nth-child(2) { display: grid; gap: .05rem; }
   header small { color: var(--warning); font-size: .58rem; font-weight: 850; letter-spacing: .11em; text-transform: uppercase; }
   h2 { margin: 0; font-size: 1.18rem; }
-  .mark { width: 42px; height: 42px; display: grid; place-items: center; flex: none; border-radius: 13px; color: white; background: linear-gradient(145deg, var(--warning), var(--hot)); font-size: 1.45rem; font-weight: 850; }
+  .mark { width: 42px; height: 42px; display: grid; place-items: center; flex: none; border-radius: 13px; color: var(--on-accent); background: linear-gradient(145deg, var(--warning), var(--hot)); font-size: 1.45rem; font-weight: 850; }
   .close { width: 38px; height: 38px; margin-left: auto; border: 1px solid var(--edge); border-radius: 50%; color: var(--ink); background: var(--surface); cursor: pointer; font: inherit; font-size: 1.2rem; }
   section { display: grid; grid-template-columns: 48px 1fr; align-items: center; gap: .8rem; margin: 1rem 1.1rem .7rem; padding: .85rem; border: 1px solid var(--edge); border-radius: 15px; background: var(--surface-raised); }
   section.ready { border-color: color-mix(in srgb, var(--success) 45%, var(--edge)); background: color-mix(in srgb, var(--success) 7%, var(--surface-raised)); }
@@ -108,9 +108,9 @@
   .decision strong { font-size: .76rem; }
   footer { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .45rem; padding: .85rem 1.1rem 1.1rem; }
   footer button { min-height: 40px; padding: .45rem .75rem; border: 1px solid var(--edge); border-radius: 11px; color: var(--ink); background: var(--surface-raised); font: inherit; font-size: .72rem; font-weight: 750; cursor: pointer; }
-  footer .transfer { color: white; border-color: var(--primary); background: var(--primary); }
+  footer .transfer { color: var(--on-accent); border-color: var(--primary); background: var(--primary); }
   footer .waste { color: var(--warning); border-color: color-mix(in srgb, var(--warning) 55%, var(--edge)); background: color-mix(in srgb, var(--warning) 8%, var(--surface)); }
-  footer .remove { color: white; border-color: var(--bad); background: var(--bad); }
+  footer .remove { color: var(--on-accent); border-color: var(--bad); background: var(--bad); }
   @media (max-width: 430px) {
     footer { display: grid; grid-template-columns: 1fr; }
     footer button { width: 100%; }
