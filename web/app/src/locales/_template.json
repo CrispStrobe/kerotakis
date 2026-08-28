@@ -223,7 +223,12 @@
   "yellow": "",
   "zinc": "",
   "zinc ion": "",
-  "zinc sulfate": ""
+  "zinc sulfate": "",
+  "electrons": "",
+  "prefactor": "",
+  "exponent": "",
+  "value": "",
+  "charge": ""
  },
  "messages": {
   "A cloudy water sample arrived without a trustworthy label. Build an evidence trail before the campus reopens its supply line.": "",
@@ -1136,6 +1141,7 @@
   "Reactivity screening": "",
   "Optional, per-platform": "",
   "Build-time only (not distributed with binaries)": "",
+  "less": "",
   "nothing to draw yet — dissolve or add something first": "",
   "everything here is too dilute to draw even one shape": ""
  }
