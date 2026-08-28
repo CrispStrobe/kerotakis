@@ -1,6 +1,15 @@
 <script lang="ts">
   import { i18n, t } from "../i18n.svelte";
-  import { BUILD, NOTICE_SECTIONS, REPO, builtAt, commitUrl, hardReload } from "../about";
+  import {
+    BUILD,
+    COPYRIGHT,
+    NOTICE_SECTIONS,
+    REPO,
+    THIRD_PARTY_LICENSES,
+    builtAt,
+    commitUrl,
+    hardReload,
+  } from "../about";
 
   let { onclose }: { onclose: () => void } = $props();
 
@@ -51,10 +60,16 @@
         <dt>{t("built")}</dt>
         <dd>{when}</dd>
       {/if}
+      <dt>{t("copyright")}</dt>
+      <dd>{COPYRIGHT}</dd>
       <dt>{t("licence")}</dt>
       <dd>
-        <a href={`${REPO}/blob/main/LICENSE`} target="_blank" rel="noreferrer noopener">
-          AGPL-3.0-or-later
+        <a
+          href={`${THIRD_PARTY_LICENSES}#kerotakis-license`}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          AGPL-3.0-or-later + {t("section 7 app-store permission")}
         </a>
       </dd>
       <dt>{t("source")}</dt>
@@ -67,8 +82,27 @@
     <p class="note">
       {t("Clears the cached app so a new version is fetched. Your notes and settings are kept.")}
     </p>
+    <a
+      class="legal-link"
+      href={`${THIRD_PARTY_LICENSES}?lang=${encodeURIComponent(i18n.locale)}`}
+      target="_blank"
+      rel="noreferrer noopener"
+    >{t("open complete open-source licences")}</a>
+    <p class="note">
+      {t("The complete dependency licences are bundled with this app and work offline.")}
+    </p>
 
-    <h3>{t("What this app is built from")}</h3>
+    <h3>{t("Your freedoms and warranty")}</h3>
+    <p class="note legal-notice">
+      {t("Kerotakis comes with no warranty, to the extent permitted by law. You may use, share and modify it under AGPL-3.0-or-later. Open the licence above for the exact terms and the corresponding source.")}
+    </p>
+
+    <h3>{t("Privacy")}</h3>
+    <p class="note">
+      {t("Kerotakis has no account, analytics, telemetry, advertising or tracking. Native builds make no app-originated network requests; the web host may record ordinary requests used to download the app. Your lab work remains on this device.")}
+    </p>
+
+    <h3>{t("Components, authors and acknowledgements")}</h3>
     <p class="note">
       {t("Reproduced from NOTICE, which is the authoritative list.")}
       <a href={`${REPO}/blob/main/NOTICE`} target="_blank" rel="noreferrer noopener"
@@ -156,6 +190,20 @@
     margin: 0.35rem 0 0;
     color: var(--muted, #667);
     font-size: 0.85rem;
+  }
+  .legal-notice {
+    padding-left: 0.7rem;
+    border-left: 0.2rem solid var(--accent, #2d70d6);
+  }
+  .legal-link {
+    display: grid;
+    place-items: center;
+    min-height: 2.75rem;
+    margin-top: 0.75rem;
+    padding: 0 1rem;
+    border: 1px solid var(--line, #ccd);
+    border-radius: 0.6rem;
+    font-weight: 700;
   }
   ul {
     margin: 0;

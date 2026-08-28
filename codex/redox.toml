@@ -11,7 +11,8 @@
 # claim); and sulfuric acid's dilution heat is not curated, so no entry
 # uses it as a warming demonstration.
 #
-# Licence: the codex is CC BY-SA 4.0, separately from the AGPL code.
+# Licence: Kerotakis-authored codex text is CC BY 4.0, separately from the
+# AGPL code. Third-party facts and data retain the terms named per entry.
 
 [[reaction]]
 id = "permanganate-counts-in-fives"

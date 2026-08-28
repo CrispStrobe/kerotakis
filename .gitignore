@@ -1,6 +1,7 @@
 /target
 **/*.rs.bk
 Cargo.lock
+!web/app/src-tauri/Cargo.lock
 .DS_Store
 .env
 /dist
