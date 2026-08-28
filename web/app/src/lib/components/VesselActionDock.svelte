@@ -38,6 +38,9 @@
       ? t("empty")
       : `${contentNames.slice(0, 2).join(", ")}${contentNames.length > 2 ? ` +${contentNames.length - 2}` : ""}`,
   );
+  /** Collapsed, the row scrolls; expanded, it wraps and shows everything. */
+  let expanded = $state(false);
+
   // i18n-ok: action ids are wire keys matched against literals below.
   const changeActions = $derived(actions.filter((action) => ["stir", "heat", "cool", "seal", "open"].includes(action.id)));
   // i18n-ok: action ids are wire keys matched against literals below.
@@ -54,7 +57,7 @@
       <span class="contents" title={contentLabel}>{contentLabel}</span>
     </span>
   </div>
-  <div class="actions">
+  <div class="actions" class:expanded>
     <div class="action-group">
       <small>{t("change vessel")}</small>
       <div>
@@ -91,6 +94,12 @@
     </div>
   </div>
   <div class="more-actions">
+    <button
+      class="expand"
+      aria-expanded={expanded}
+      onclick={() => (expanded = !expanded)}
+      title={expanded ? t("show one row") : t("show every action")}
+    >{expanded ? t("fewer") : t("show all")}</button>
     <button onclick={ondetails} title={t("Open measurement tools for {vessel}", { vessel: v })}>
       <span aria-hidden="true">⌁</span>{t("measurement tools")}
     </button>
@@ -160,6 +169,15 @@
     scrollbar-width: thin;
   }
   .action-group { display: grid; gap: 0.15rem; flex: none; }
+  /* Expanded: wrap instead of scroll, so the last button is not sliced
+     mid-word with nothing to say more exists. */
+  .actions.expanded {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+  .actions.expanded .action-group { flex: 1 1 auto; }
+  .actions.expanded .action-group > div { flex-wrap: wrap; }
+  .expand { white-space: nowrap; }
   .action-group > small { padding-left: 0.25rem; color: var(--dim); font-size: 0.53rem; font-weight: 750; letter-spacing: 0.06em; text-transform: uppercase; }
   .action-group > div { display: flex; gap: 0.35rem; }
   .actions button {

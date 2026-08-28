@@ -210,6 +210,12 @@
     }));
   }
 
+  /** Which vessel has its move controls open, if any. */
+  let placementOpen = $state<number | null>(null);
+  $effect(() => {
+    if (placementOpen !== null && placementOpen !== selected) placementOpen = null;
+  });
+
   function nudge(vessel: number, dx: number, dy: number) {
     const current = positionFor(layout, vessel);
     placeAt(vessel, current.x + dx, current.y + dy);
@@ -442,12 +448,22 @@
           <span class="connection-port port-out" data-port="out" aria-hidden="true"></span>
           {#if vessel.id === selected}
             <div class="placement-controls" role="group" aria-label={t("move vessel v{vessel}", { vessel: vessel.id + 1 })}>
+              <button
+                class="placement-toggle"
+                aria-expanded={placementOpen === vessel.id}
+                aria-label={t("placement options for v{vessel}", { vessel: vessel.id + 1 })}
+                title={t("move or remove this vessel")}
+                onclick={() =>
+                  (placementOpen = placementOpen === vessel.id ? null : vessel.id)}
+              >⋯</button>
+              {#if placementOpen === vessel.id}
               <button aria-label={t("move vessel v{vessel} left", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, -0.05, 0)}>←</button>
               <button aria-label={t("move vessel v{vessel} up", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0, -0.06)}>↑</button>
               <button aria-label={t("move vessel v{vessel} down", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0, 0.06)}>↓</button>
               <button aria-label={t("move vessel v{vessel} right", { vessel: vessel.id + 1 })} onclick={() => nudge(vessel.id, 0.05, 0)}>→</button>
               {#if onremove}
                 <button class="remove" aria-label={t("manage or remove vessel v{vessel}", { vessel: vessel.id + 1 })} title={t("manage or remove vessel")} onclick={() => onremove(vessel.id)}>×</button>
+              {/if}
               {/if}
             </div>
           {/if}
@@ -1004,6 +1020,12 @@
     border-radius: 999px;
     background: var(--surface);
     box-shadow: 0 5px 14px var(--shadow);
+  }
+  .placement-toggle {
+    /* The whole point: one target instead of five across the glass. */
+    min-width: 2rem;
+    font-size: 1rem;
+    line-height: 1;
   }
   .placement-controls button {
     width: 22px;

@@ -1102,7 +1102,6 @@
   "your prediction held.": "",
   "zinc guards iron": "",
   "{apparatus} over v{vessel}": "",
-  "{count} Codex experiments": "",
   "{count} computed experiments": "",
   "{count} from the codex — each one computed, checked, and yours to break": "",
   "{count} missions": "",
@@ -1142,6 +1141,13 @@
   "Optional, per-platform": "",
   "Build-time only (not distributed with binaries)": "",
   "less": "",
+  "{count} experiments": "",
+  "placement options for v{vessel}": "",
+  "move or remove this vessel": "",
+  "show all": "",
+  "fewer": "",
+  "show every action": "",
+  "show one row": "",
   "nothing to draw yet — dissolve or add something first": "",
   "everything here is too dilute to draw even one shape": ""
  }
