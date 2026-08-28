@@ -210,8 +210,21 @@ try {
     check("the journal counts with a decimal comma", /,\d/.test(journal) && !/\.\d/.test(journal),
           JSON.stringify(journal.slice(0, 50)));
 
-    // The vessel summary lives behind the dock's details button.
-    await clickByText("/^(details|Details|genauer)/i");
+    // The vessel summary lives behind the dock's measurement-tools button.
+    // Use its accessible contract: the visible label changed when Details
+    // became a real instrument drawer, while the title still identifies the
+    // action and selected vessel unambiguously.
+    const openedMeasurements = await page.evaluate(`(() => {
+      const b = [...document.querySelectorAll('button')].find((el) =>
+        /Messgeräte|Messwerkzeuge|measurement tools/i.test(
+          [el.textContent, el.getAttribute('title'), el.getAttribute('aria-label')]
+            .filter(Boolean).join(' '),
+        ));
+      if (!b) return false;
+      b.click();
+      return true;
+    })()`);
+    check("the selected vessel opens its measurement tools", openedMeasurements === true);
     await waitFor(page, `(() => {
       const t = [...document.querySelectorAll('*')].filter((n) => !n.children.length)
         .map((n) => (n.textContent || "").trim());

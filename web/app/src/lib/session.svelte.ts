@@ -32,6 +32,7 @@ import {
   secureOutcomeEvidence,
   type OutcomeMissionContract,
 } from "./outcomeMission";
+import { summarizeResult, type ResultSummary } from "./resultSummary";
 
 export type FeedEntry = {
   kind: "command" | "line" | "error" | "refusal" | "note" | "user-note" | "hazard" | "chart" | "nudge" | "claim";
@@ -65,6 +66,8 @@ export type ShelfItem = {
   hazard_assessed?: boolean;
   /** Density in g/mL (engine registry) — the fluid overlay's buoyancy. */
   density?: number;
+  /** A versioned named mixture/object rather than a pure species. */
+  material?: boolean;
 };
 
 export type MissionDebrief = {
@@ -100,6 +103,9 @@ export class Session {
   scene = $state<Scene | null>(null);
   feed = $state<FeedEntry[]>([]);
   busy = $state(false);
+  /** Exact command currently waiting on the engine. Presentation may use it
+   * to energize only the matching apparatus; `busy` is deliberately broader. */
+  activeCommand = $state<string | null>(null);
   engineReady = $state(false);
   canSolve = $state(false);
   /** Engine identity from hello (GUI-001): "0.0.1 @ abc1234" or null. */
@@ -310,6 +316,8 @@ export class Session {
   /** The most recent balanced equation the engine rendered (GUI-025) —
    * the strip pins it beside the bench at lv2+. */
   lastEquation = $state<string | null>(null);
+  /** Compact evidence digest for the latest accepted operation. */
+  latestResult = $state<ResultSummary | null>(null);
   /**
    * Transient visual effects per vessel (GUI-026), derived STRICTLY from
    * typed events — an effect never fires without a computed event behind
@@ -410,6 +418,7 @@ export class Session {
         hazards: s.hazards ?? [],
         hazard_assessed: s.hazard_assessed,
         density: s.density,
+        material: s.material === true,
       }));
       try {
         const grammar = (await this.host.grammar()) as {
@@ -546,6 +555,7 @@ export class Session {
       this.storage?.removeItem(SAVE_KEY);
       this.scene = await this.host.scene();
       this.inspector = null;
+      this.latestResult = null;
       this.feed.push({ kind: "note", text: t("the bench is empty again") });
     } catch (e) {
       this.feed.push({
@@ -563,6 +573,7 @@ export class Session {
     const trimmed = line.trim();
     if (!trimmed || this.busy) return false;
     this.busy = true;
+    this.activeCommand = trimmed;
     this.feed.push({ kind: "command", text: trimmed });
     try {
       if (trimmed.startsWith("register ")) {
@@ -582,6 +593,7 @@ export class Session {
           return false;
         }
       }
+      const beforeScene = this.scene;
       const result = await this.host.runScript(trimmed);
       for (const step of result.steps) {
         // Hazard events become cards, from the typed event itself — the
@@ -686,6 +698,9 @@ export class Session {
           this.inspector = null;
         }
       }
+      const resultEvents = result.steps.flatMap((step) => step.events);
+      const resultLines = result.steps.flatMap((step) => step.rendered);
+      this.latestResult = summarizeResult(resultEvents, resultLines, beforeScene, result.scene ?? this.scene);
       // Register lines are session state, not chemistry; everything else
       // that the engine accepted becomes part of the replayable script.
       // A command issued mid-history truncates the undone future first.
@@ -718,6 +733,7 @@ export class Session {
       });
       return false;
     } finally {
+      this.activeCommand = null;
       this.busy = false;
     }
   }
@@ -756,8 +772,191 @@ export class Session {
     if (!effect && event?.event === "measured") {
       const inst = String(event.instrument ?? "");
       const kind =
-        inst === "thermometer" ? "thermometer" : inst === "ph_meter" ? "ph_probe" : null;
-      if (kind) effect = { kind, at: Date.now(), magnitude: 0.6 };
+        inst === "thermometer"
+          ? "thermometer"
+          : inst === "ph_meter"
+            ? "ph_probe"
+            : inst === "balance"
+              ? "balance"
+              : inst === "pressure_gauge"
+                ? "pressure_gauge"
+                : inst === "volume_meter"
+                  ? "volume_meter"
+                  : inst === "conductivity_meter"
+                    ? "conductivity_meter"
+                    : inst === "spectrophotometer"
+                      ? "uvvis"
+                    : inst === "calorimeter"
+                        ? "calorimeter"
+                        : inst === "geiger_counter"
+                          ? "geiger_counter"
+              : null;
+      if (kind) {
+        const reading = Number(event.value);
+        effect = {
+          kind,
+          at: Date.now(),
+          magnitude: kind === "geiger_counter"
+            ? Math.min(1, Math.max(0, Math.log10(Math.max(1, reading)) / 8))
+            : 0.6,
+          reading,
+          unit: String(event.unit ?? ""),
+        };
+      }
+    }
+    if (!effect && event?.event === "chromatographed" && Array.isArray(event.peaks)) {
+      const bands = event.peaks.flatMap((peak) => {
+        if (!peak || typeof peak !== "object") return [];
+        const value = peak as Record<string, unknown>;
+        return [{
+          species: String(value.species ?? "?"),
+          retentionTimeS: Number(value.retention_time_s ?? 0),
+          widthS: Number(value.width_s ?? 0),
+          relativeArea: Number(value.relative_area ?? 0),
+          partitionK: Number(value.partition_k ?? 0),
+        }];
+      });
+      effect = {
+        kind: "chromatograph",
+        at: Date.now(),
+        durationMs: 5200,
+        magnitude: Math.min(1, 0.35 + bands.length * 0.13),
+        bands,
+        voidTimeS: Number(event.void_time_s ?? 0),
+        plates: Number(event.plates ?? 0),
+        outsideMethod: Array.isArray(event.outside_method) ? event.outside_method.map(String) : [],
+      };
+    }
+    if (!effect && event?.event === "observed" && event.appearance && typeof event.appearance === "object") {
+      const appearance = event.appearance as Record<string, unknown>;
+      const colour = (value: unknown): [number, number, number] | undefined => {
+        if (!value || typeof value !== "object") return undefined;
+        const rgb = value as Record<string, unknown>;
+        return [Number(rgb.r ?? 255), Number(rgb.g ?? 255), Number(rgb.b ?? 255)];
+      };
+      const deposit = Array.isArray(appearance.deposit) ? appearance.deposit : null;
+      effect = {
+        kind: "inspect",
+        at: Date.now(),
+        durationMs: 4500,
+        magnitude: Math.max(0.3, Math.min(1, Number(appearance.cloudiness ?? 0) + (deposit ? 0.25 : 0))),
+        appearance: {
+          liquidRgb: colour(appearance.liquid),
+          cloudiness: Number(appearance.cloudiness ?? 0),
+          deposit: deposit && deposit.length >= 2 && colour(deposit[1])
+            ? { species: String(deposit[0]), rgb: colour(deposit[1])! }
+            : undefined,
+          bubbling: Boolean(appearance.bubbling),
+        },
+      };
+    }
+    if (effect?.kind === "settle" && effect.settling) {
+      const vessel = this.scene?.vessels.find((candidate) => candidate.id === Number(event.vessel ?? 0));
+      effect = {
+        ...effect,
+        settling: {
+          ...effect.settling,
+          populations: effect.settling.populations.map((population) => {
+            const solid = vessel?.solids.find((candidate) => candidate.species === population.species);
+            return {
+              ...population,
+              colour: solid ? `rgb(${solid.srgb[0]} ${solid.srgb[1]} ${solid.srgb[2]})` : undefined,
+            };
+          }),
+        },
+      };
+    }
+    if (effect?.kind === "centrifuge" && effect.centrifuge) {
+      const vessel = this.scene?.vessels.find((candidate) => candidate.id === Number(event.vessel ?? 0));
+      effect = {
+        ...effect,
+        centrifuge: {
+          ...effect.centrifuge,
+          populations: effect.centrifuge.populations.map((population) => {
+            const solid = vessel?.solids.find((candidate) => candidate.species === population.species);
+            return {
+              ...population,
+              colour: solid ? `rgb(${solid.srgb[0]} ${solid.srgb[1]} ${solid.srgb[2]})` : undefined,
+            };
+          }),
+        },
+      };
+    }
+    if (effect?.kind === "swirl" && effect.stir) {
+      const vessel = this.scene?.vessels.find((candidate) => candidate.id === Number(event.vessel ?? 0));
+      const solids = (vessel?.solids ?? [])
+        .filter((solid) => !solid.metallic)
+        .map((solid) => ({
+          species: solid.species,
+          name: solid.name,
+          moles: solid.moles,
+          colour: `rgb(${solid.srgb[0]} ${solid.srgb[1]} ${solid.srgb[2]})`,
+        }));
+      effect = { ...effect, stir: { ...effect.stir, solids } };
+    }
+    if (effect?.kind === "evaporate" && event?.event === "evaporated") {
+      const srgb = this.scene?.vessels.find((candidate) => candidate.id === Number(event.vessel ?? 0))?.liquid?.srgb;
+      if (srgb) effect = { ...effect, fluidColour: `rgb(${srgb[0]} ${srgb[1]} ${srgb[2]})` };
+    }
+    if (
+      effect?.source !== undefined &&
+      effect.operation &&
+      ["pour", "filter", "drain", "magnet"].includes(effect.operation)
+    ) {
+      const source = this.scene?.vessels.find((vessel) => vessel.id === effect!.source);
+      const lowerLayer = effect.operation === "drain" ? source?.layers?.[0] : undefined;
+      const upperLayer = effect.operation === "drain" && (source?.layers?.length ?? 0) > 1
+        ? source?.layers?.at(-1)
+        : undefined;
+      const srgb = lowerLayer?.srgb ?? source?.liquid?.srgb;
+      if (srgb && effect.operation !== "magnet") effect = { ...effect, fluidColour: `rgb(${srgb[0]} ${srgb[1]} ${srgb[2]})` };
+      if (effect.operation === "magnet" && effect.magnetic && source) {
+        const attractedKeys = new Set(effect.magnetic.attractedSpecies);
+        const attracted = source.solids
+          .filter((solid) => attractedKeys.has(solid.species))
+          .map((solid) => ({
+            species: solid.species,
+            name: solid.name,
+            moles: solid.moles,
+            colour: `rgb(${solid.srgb[0]} ${solid.srgb[1]} ${solid.srgb[2]})`,
+          }));
+        const attractedMoles = attracted.reduce((sum, solid) => sum + solid.moles, 0);
+        effect = {
+          ...effect,
+          magnitude: attractedMoles > 0
+            ? Math.max(.15, Math.min(1, attractedMoles / .1))
+            : effect.magnitude,
+          magnetic: { ...effect.magnetic, attracted },
+        };
+      }
+      if (effect.operation === "drain" && effect.drain) {
+        effect = {
+          ...effect,
+          drain: {
+            ...effect.drain,
+            lowerColour: srgb ? `rgb(${srgb[0]} ${srgb[1]} ${srgb[2]})` : undefined,
+            upperColour: upperLayer
+              ? `rgb(${upperLayer.srgb[0]} ${upperLayer.srgb[1]} ${upperLayer.srgb[2]})`
+              : undefined,
+          },
+        };
+      }
+      if (effect.operation === "filter" && source) {
+        const filterResidue = source.solids.map((solid) => ({
+          species: solid.species,
+          name: solid.name,
+          moles: solid.moles,
+          colour: `rgb(${solid.srgb[0]} ${solid.srgb[1]} ${solid.srgb[2]})`,
+        }));
+        const retainedMoles = filterResidue.reduce((sum, solid) => sum + solid.moles, 0);
+        effect = {
+          ...effect,
+          filterResidue,
+          magnitude: retainedMoles > 0
+            ? Math.max(0.15, Math.min(1, retainedMoles / 0.1))
+            : effect.magnitude,
+        };
+      }
     }
     if (!effect) return;
     const vessel = vesselOf(event);
@@ -849,6 +1048,7 @@ export class Session {
       }
       const was = this.position;
       this.position = target;
+      this.latestResult = null;
       this.persist();
       this.feed.push({
         kind: "note",

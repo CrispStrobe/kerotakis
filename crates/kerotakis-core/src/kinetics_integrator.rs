@@ -11,8 +11,8 @@ use std::ops::{Index, IndexMut};
 use diffsol::{NalgebraLU, NalgebraMat, OdeBuilder, OdeSolverMethod, OdeSolverStopReason};
 
 use super::{
-    apply_coupled_extents, phase_moles, reaction_volume_litres, KineticReaction, Moles, Phase,
-    RateExpression, ReactionNetwork, Vessel, DEPLETED, PROTON,
+    apply_coupled_extents, phase_moles, reaction_volume_litres, KineticContext, KineticReaction,
+    Moles, Phase, RateExpression, ReactionNetwork, Vessel, DEPLETED, PROTON,
 };
 
 const DEPLETION_EVENT: f64 = DEPLETED * 10.0;
@@ -73,6 +73,7 @@ pub enum IntegrationError {
 struct ExtentSystem<'a> {
     vessel: &'a Vessel,
     reactions: &'a [KineticReaction<'a>],
+    context: KineticContext,
 }
 
 impl<'a> ExtentSystem<'a> {
@@ -154,15 +155,16 @@ impl<'a> ExtentSystem<'a> {
         if litres <= 0.0 {
             return 0.0;
         }
-        let catalyst_ea = reaction
-            .catalysts
-            .iter()
-            .filter(|catalyst| self.total_amount(extents, catalyst.species) > 0.0)
-            .map(|catalyst| catalyst.activation_energy)
-            .reduce(f64::min);
-        let activation_energy = catalyst_ea
-            .map(|candidate| candidate.min(expression.arrhenius.activation_energy))
-            .unwrap_or(expression.arrhenius.activation_energy);
+        let selected =
+            reaction.effective_catalyst_with(self.vessel, litres, self.context, |species| {
+                self.total_amount(extents, species)
+            });
+        let activation_energy =
+            selected.map_or(expression.arrhenius.activation_energy, |(catalyst, _)| {
+                catalyst
+                    .activation_energy
+                    .min(expression.arrhenius.activation_energy)
+            });
         let law = super::RateLaw {
             pre_exponential: expression.arrhenius.pre_exponential,
             temperature_exponent: expression.arrhenius.temperature_exponent,
@@ -227,6 +229,9 @@ impl<'a> ExtentSystem<'a> {
                 return 0.0;
             }
             rate *= concentration.powf(term.order);
+        }
+        if let Some((_, activity)) = selected {
+            rate *= activity;
         }
         if rate.is_finite() {
             rate
@@ -333,6 +338,23 @@ pub fn advance_network_with_options<'a>(
     network: &'a ReactionNetwork<'a>,
     options: IntegrationOptions,
 ) -> Result<IntegrationReport<'a>, IntegrationError> {
+    advance_network_with_context_and_options(
+        vessel,
+        seconds,
+        network,
+        options,
+        KineticContext::default(),
+    )
+}
+
+/// Advance a network with explicit mechanical conditions for the interval.
+pub fn advance_network_with_context_and_options<'a>(
+    vessel: &mut Vessel,
+    seconds: f64,
+    network: &'a ReactionNetwork<'a>,
+    options: IntegrationOptions,
+    context: KineticContext,
+) -> Result<IntegrationReport<'a>, IntegrationError> {
     if !seconds.is_finite() || seconds < 0.0 {
         return Err(IntegrationError::InvalidDuration(seconds));
     }
@@ -367,6 +389,7 @@ pub fn advance_network_with_options<'a>(
         let system = ExtentSystem {
             vessel,
             reactions: network.reactions,
+            context,
         };
         if system
             .rhs_values(&zero)
@@ -520,6 +543,7 @@ pub fn extent_rhs(
     let system = ExtentSystem {
         vessel,
         reactions: network.reactions,
+        context: KineticContext::default(),
     };
     let ext_vec: Vec<f64> = extents.to_vec();
     let mut out_vec = output.to_vec();
@@ -537,6 +561,7 @@ pub fn consumable_keys<'a>(
     let system = ExtentSystem {
         vessel,
         reactions: network.reactions,
+        context: KineticContext::default(),
     };
     consumed_keys(&system)
 }
@@ -553,6 +578,7 @@ pub fn amount_at_extents(
     let system = ExtentSystem {
         vessel,
         reactions: network.reactions,
+        context: KineticContext::default(),
     };
     let ext_vec: Vec<f64> = extents.to_vec();
     system.amount(&ext_vec, species, phase)

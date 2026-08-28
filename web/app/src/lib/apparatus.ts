@@ -18,11 +18,17 @@ export interface FormField {
 }
 
 export interface ApparatusSpec {
+  /** Stable equipment identity; it need not equal the engine command verb. */
   verb: string;
+  commandVerb?: string;
   title: string;
   blurb: string;
   fields: FormField[];
   build: (vessel: number, values: Record<string, number | string>) => string | null;
+  secondary?: {
+    label: string;
+    build: (vessel: number, values: Record<string, number | string>) => string | null;
+  };
   /** Immediate physical consequences of the chosen controls. Chemistry stays engine-owned. */
   readouts?: (values: Record<string, number | string>) => {
     label: string;
@@ -56,7 +62,50 @@ const energyReadout = (watts: number | string | undefined, seconds: number | str
   }];
 };
 
+const bunsenEnergyKj = (values: Record<string, number | string>): number | null => {
+  const flame = num(values.flame);
+  const air = num(values.air ?? 100);
+  const seconds = pos(values.seconds);
+  if (flame === null || flame <= 0 || flame > 100 || air === null || air < 0 || air > 100 || seconds === null || seconds > 300) {
+    return null;
+  }
+  const collarEfficiency = 0.55 + 0.45 * air / 100;
+  return Number((0.005 * flame * seconds * collarEfficiency).toFixed(3));
+};
+
 export const APPARATUS: ApparatusSpec[] = [
+  {
+    verb: "bunsen",
+    commandVerb: "heat",
+    title: "Bunsen burner",
+    blurb: "adjust the flame, then heat or test ignition",
+    fields: [
+      { name: "flame", label: "flame power", type: "number", unit: "%", default: 50, min: 0, max: 100, step: 5 },
+      { name: "air", label: "air collar", type: "number", unit: "%", default: 70, min: 0, max: 100, step: 5 },
+      { name: "seconds", label: "exposure", type: "number", unit: "s", default: 30, min: 1, max: 300 },
+    ],
+    build: (v, f) => {
+      // Bounded first near-field model: up to 500 W reaches the selected
+      // vessel. Opening the collar raises the teaching heat-transfer
+      // efficiency from 55% to 100%; the engine still owns temperature and
+      // resulting chemistry. This is not a soot/CO combustion model.
+      const energyKj = bunsenEnergyKj(f);
+      return energyKj === null ? null : `heat v${v + 1} ${energyKj}kJ`;
+    },
+    readouts: (f) => {
+      const energyKj = bunsenEnergyKj(f);
+      return energyKj === null
+        ? []
+        : [{ label: "delivered energy", value: energyKj, unit: "kJ", digits: 3 }];
+    },
+    secondary: {
+      label: "touch flame to contents",
+      build: (v, f) => {
+        const flame = num(f.flame);
+        return flame !== null && flame > 0 && flame <= 100 ? `ignite v${v + 1}` : null;
+      },
+    },
+  },
   {
     verb: "stir",
     title: "magnetic stirrer",
@@ -180,6 +229,18 @@ export const APPARATUS: ApparatusSpec[] = [
         ? null
         : `electrolyse v${v + 1} ${amps}A ${minutes}min`;
     },
+    readouts: (f) => {
+      const amps = pos(f.amps);
+      const minutes = pos(f.minutes);
+      if (amps === null || minutes === null) return [];
+      const coulombs = amps * minutes * 60;
+      // The engine's Faraday constant (C/mol e−), used by displacement::electrolyse.
+      const electronMoles = coulombs / 96_485.332_12;
+      return [
+        { label: "electrical charge", value: coulombs, unit: "C", digits: coulombs < 100 ? 1 : 0 },
+        { label: "electron amount", value: electronMoles, unit: "mol e⁻", digits: 5 },
+      ];
+    },
   },
   {
     verb: "grind",
@@ -211,6 +272,14 @@ export const APPARATUS: ApparatusSpec[] = [
       return wavelength === null || irradiance === null
         ? null
         : `irradiate v${v + 1} ${wavelength}nm ${irradiance}W/m2`;
+    },
+    readouts: (f) => {
+      const wavelengthNm = pos(f.wavelength);
+      if (wavelengthNm === null) return [];
+      // Same E = hc/λ constants as photochem::LightSource; eV is a display conversion.
+      const joules = 6.626e-34 * 2.998e8 / (wavelengthNm * 1e-9);
+      const electronVolts = joules / 1.602_176_634e-19;
+      return [{ label: "photon energy", value: electronVolts, unit: "eV", digits: 3 }];
     },
   },
   {

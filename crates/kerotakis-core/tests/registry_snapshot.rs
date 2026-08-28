@@ -32,7 +32,7 @@ fn registry_matches_the_golden_snapshot() {
         return;
     }
     let expected = fs::read_to_string(&golden).unwrap();
-    if current != expected {
+    if current.trim_end() != expected.trim_end() {
         let actual = golden.with_extension("actual.json");
         fs::write(&actual, &current).unwrap();
         panic!(

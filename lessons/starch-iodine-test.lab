@@ -1,0 +1,28 @@
+# Which cup contains starch? The Lugol colour test
+#
+# Compare the same dilute iodine/iodide test solution with and without ordinary
+# cornstarch. In a real activity ask an adult first, protect clothes and the
+# table from iodine stains, wear eye protection, and do not taste lab mixtures.
+register lv1
+
+# Control: dilute Lugol solution is brown in water. This vessel has the same
+# water and indicator dose as the test vessel but no starch.
+add v1 water 100mL
+add v1 Lugol-Lösung_1% 2mL
+inspect v1
+
+# Test: first make an identical brown control, then change just one thing by
+# adding cornstarch. Iodide keeps iodine in the aqueous inventory; sufficiently
+# long starch helices contribute the computed broad absorption band, so the
+# visible state becomes blue-black without consuming the starch or KI.
+new beaker
+add v2 water 100mL
+add v2 Lugol-Lösung_1% 2mL
+inspect v2
+add v2 Speisestärke 1g
+inspect v2
+
+# Try flour, potato or a sugar control only after their named material recipes
+# exist. Different starch sources and heating can alter the real colour; this
+# lesson deliberately models the reviewed cornstarch surrogate at room
+# temperature rather than treating every white powder as starch.

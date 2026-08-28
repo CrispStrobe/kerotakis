@@ -169,6 +169,7 @@ pub fn parse_document(doc: &serde_json::Value) -> Result<Vec<SpeciesData>, Strin
             dissolves_without_speciation: param_for(key, "dissolves-without-speciation")
                 .unwrap_or(0.0)
                 != 0.0,
+            aqueous_solubility_g_per_100_ml: param_for(key, "aqueous-solubility-g-per-100-ml"),
             forms_only_above_k: param_for(key, "forms-only-above"),
             magnetic: param_for(key, "magnetic").unwrap_or(0.0) != 0.0,
             provenance: leak(find_source(

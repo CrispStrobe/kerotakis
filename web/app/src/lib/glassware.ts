@@ -129,6 +129,16 @@ export function fillHeight(g: Glassware, volume_l: number, minPx = 6): number {
   return Math.max(minPx, hFrac * g.fh);
 }
 
+/** Display height for a settled solid volume. Trace layers would be sub-pixel
+ * at bench scale, so sqrt scaling supplies a perceptual magnifier while
+ * remaining zero-safe, monotone, capacity-aware, and capped below the liquid
+ * body. The exact engine volume stays attached to each rendered layer. */
+export function depositDisplayHeight(g: Glassware, volume_l: number): number {
+  if (volume_l <= 0) return 0;
+  const fraction = Math.min(1, volume_l / g.fullAtL);
+  return Math.min(g.fh * 0.28, Math.max(1.25, Math.sqrt(fraction) * g.fh * 0.42));
+}
+
 /**
  * Cylinder graduation ticks: returns {y, label} for each graduation line.
  * Ticks are spaced at equal volume intervals and placed using the kind's
@@ -160,17 +170,22 @@ export function innerFloor(inner: string): number {
   return floor;
 }
 
-/**
- * One settled deposit layer of a stack of `n`, counting from the top (i = 0).
- * The layers tile the band [by − solidH, by] exactly: equal thicknesses, no
- * gap at the floor and nothing hanging below it.
- */
-export function solidLayer(
-  i: number,
-  n: number,
+/** Proportional settled layers, top-to-bottom. The supplied engine volumes
+ * determine each share while the returned rectangles tile [by-solidH, by]
+ * exactly, including the last floating-point remainder. */
+export function solidLayers(
+  volumes: readonly number[],
   solidH: number,
   by: number,
-): { y: number; h: number } {
-  const h = solidH / n;
-  return { y: by - h * (n - i), h };
+): { y: number; h: number }[] {
+  const weights = volumes.map((volume) => Math.max(0, volume));
+  const total = weights.reduce((sum, volume) => sum + volume, 0);
+  if (weights.length === 0 || total <= 0 || solidH <= 0) return [];
+  let y = by - solidH;
+  return weights.map((volume, index) => {
+    const h = index === weights.length - 1 ? by - y : solidH * volume / total;
+    const layer = { y, h };
+    y += h;
+    return layer;
+  });
 }

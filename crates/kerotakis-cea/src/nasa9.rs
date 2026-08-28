@@ -131,7 +131,13 @@ impl Species {
 
 #[derive(Debug, Default)]
 pub struct ThermoDb {
+    /// Species CEA permits as equilibrium products.
     pub species: BTreeMap<String, Species>,
+    /// Separate feed-only records after `END PRODUCTS`. Keeping these out of
+    /// `species` prevents a liquid fuel from being invented as an equilibrium
+    /// product while still letting its measured reactant enthalpy enter an
+    /// energy balance.
+    pub reactants: BTreeMap<String, Species>,
 }
 
 static DB: OnceLock<ThermoDb> = OnceLock::new();
@@ -160,9 +166,16 @@ impl ThermoDb {
             i += 1;
         }
         i += 2; // skip the `thermo` keyword line and its T-range line
+        let mut in_reactants = false;
         while i < lines.len() {
             let line = lines[i];
-            if line.trim_start().to_ascii_uppercase().starts_with("END") {
+            let marker = line.trim_start().to_ascii_uppercase();
+            if marker.starts_with("END PRODUCTS") {
+                in_reactants = true;
+                i += 1;
+                continue;
+            }
+            if marker.starts_with("END REACTANTS") {
                 break;
             }
             if line.starts_with('!') || line.trim().is_empty() {
@@ -248,7 +261,12 @@ impl ThermoDb {
             if n_intervals == 0 {
                 cursor = i + 2;
             }
-            db.species.entry(name.clone()).or_insert(Species {
+            let target = if in_reactants {
+                &mut db.reactants
+            } else {
+                &mut db.species
+            };
+            target.entry(name.clone()).or_insert(Species {
                 name,
                 reference,
                 composition,
@@ -265,6 +283,10 @@ impl ThermoDb {
     pub fn get(&self, name: &str) -> Option<&Species> {
         self.species.get(name)
     }
+
+    pub fn get_reactant(&self, name: &str) -> Option<&Species> {
+        self.reactants.get(name)
+    }
 }
 
 #[cfg(test)]
@@ -279,6 +301,11 @@ mod tests {
             "expected the full CEA species set, got {}",
             db.species.len()
         );
+        assert!(
+            db.reactants.contains_key("C2H5OH(L)"),
+            "feed-only liquid ethanol is parsed separately from products"
+        );
+        assert!(!db.species.contains_key("C2H5OH(L)"));
         for name in ["CO2", "H2O", "O2", "N2", "CH4"] {
             assert!(db.get(name).is_some(), "{name} missing");
         }

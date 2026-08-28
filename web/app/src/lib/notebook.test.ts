@@ -1,6 +1,9 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import { notebookMarkdown } from "./notebook";
 import type { FeedEntry } from "./session.svelte";
+import { i18n } from "./i18n.svelte";
+
+afterEach(() => i18n.setLocale("en"));
 
 describe("notebook export", () => {
   it("renders each entry kind in its Markdown form", () => {
@@ -47,5 +50,28 @@ describe("notebook export", () => {
     expect(md).toContain("| 25 | 7 |");
     expect(md).toContain("*PHREEQC*");
     expect(md).not.toMatch(/\n{3,}/);
+  });
+
+  it("preserves engine-localized German evidence in exports", () => {
+    i18n.setLocale("de");
+    const md = notebookMarkdown([
+      { kind: "line", text: "Du gibst Wasser in v1." },
+      {
+        kind: "chart",
+        text: "titration",
+        chart: {
+          title: "Titration von v1 mit Natriumhydroxid (0.1 M)",
+          x: { label: "zugegebenes Titrationsmittel", unit: "mL" },
+          y: { label: "pH" },
+          series: [{ kind: "line", name: "pH", points: [[0, 1]] }],
+          provenance: "Titrationsdiagramm aus engineberechneten pH-Werten",
+        },
+      },
+    ], { register: "lv2" });
+    expect(md).toContain("Detailstufe lv2");
+    expect(md).toContain("Du gibst Wasser in v1.");
+    expect(md).toContain("### Titration von v1 mit Natriumhydroxid (0.1 M)");
+    expect(md).toContain("| zugegebenes Titrationsmittel (mL) | pH |");
+    expect(md).toContain("*Titrationsdiagramm aus engineberechneten pH-Werten*");
   });
 });

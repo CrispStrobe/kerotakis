@@ -1,0 +1,25 @@
+# Does chalk fizz in vinegar? A two-vessel acid control
+#
+# Use only ordinary 5% food vinegar and calcium-carbonate classroom chalk in a
+# real activity. Wear goggles, protect the table, ask an adult first, and never
+# taste anything that has been placed in lab glassware.
+register lv1
+
+# Control: a chalk stick in the same volume of plain water barely dissolves and
+# has no finite acid source with which to make a visible burst of carbon dioxide.
+add v1 water 50mL
+add v1 chalk_stick 2g
+inspect v1
+
+# Test: change water to the named 5% vinegar recipe and keep the chalk dose the
+# same. The balanced reaction consumes finite CaCO3 and acetic acid. Its real
+# CO2 inventory drives the normal bubble effect and leaves through this open
+# beaker; it is not a canned animation.
+new beaker
+add v2 white_vinegar_5_percent 50mL
+add v2 chalk_stick 2g
+inspect v2
+
+# Try a smaller chalk dose or less vinegar in a fresh vessel. The limiting
+# reagent changes the gas amount. Powdering would change the real-world rate,
+# but particle-area kinetics for this reaction remain an explicit future model.

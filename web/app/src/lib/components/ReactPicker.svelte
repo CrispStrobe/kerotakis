@@ -24,7 +24,7 @@
   <div class="row">
     <select bind:value={chosen}>
       <option value="">{t("choose…")}</option>
-      {#each options as name (name)}<option value={name}>{name}</option>{/each}
+      {#each options as name (name)}<option value={name}>{t(name)}</option>{/each}
     </select>
     <button class="run" disabled={busy || line === null} onclick={() => line && onrun(line)}>
       {t("run")}

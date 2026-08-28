@@ -947,6 +947,51 @@
       "retrieved": null
     },
     {
+      "id": "us-federal/isopropanol-chris",
+      "citation": "PubChem CID 3776 identity crosswalk plus U.S. Coast Guard CHRIS isopropanol liquid density (0.785 at 68 F) and liquid heat capacity (0.605 BTU/lb-F at 70 F); molar heat capacity converted to SI; retrieved 2026-08-27",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://pubchem.ncbi.nlm.nih.gov/compound/3776",
+      "revision": "CID 3776",
+      "retrieved": "2026-08-27"
+    },
+    {
+      "id": "kerotakis/sucrose-teaching-properties-v1",
+      "citation": "PubChem CID 5988 identity crosswalk; Kerotakis room-temperature teaching approximations: crystal density 1.59 g/mL, conservative aqueous solubility 200 g/100 mL water, and 484 J/(mol.K) solid heat capacity estimated by Kopp's rule. These are explicit editorial parameters, not redistributed NIST SRD data; retrieved 2026-08-27",
+      "licence": "AGPL-3.0-or-later",
+      "lane": "runtime",
+      "origin": "crates/kerotakis-registry-export/src/lib.rs",
+      "revision": "v1",
+      "retrieved": "2026-08-27"
+    },
+    {
+      "id": "us-federal/nasa-cea-hematite",
+      "citation": "PubChem CID 14833 identity crosswalk; NASA CEA thermo.inp Fe2O3(cr) record cites Pankratz (1983) for hematite thermochemistry. Room-temperature density 5.24 g/mL and reddish-brown appearance are explicit teaching properties; retrieved 2026-08-27",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "vendor/nasa-cea/thermo.inp",
+      "revision": "NASA CEA Fe2O3(cr), PubChem CID 14833",
+      "retrieved": "2026-08-27"
+    },
+    {
+      "id": "us-federal/usgs-epsomite",
+      "citation": "PubChem CID 24843 identity crosswalk for magnesium sulfate heptahydrate; USGS PHREEQC wateq4f.dat Epsomite phase supplies MgSO4:7H2O dissolution stoichiometry. Density 1.68 g/mL and 360 J/(mol.K) heat capacity are explicit room-temperature teaching approximations; dissolution enthalpy remains unclaimed; retrieved 2026-08-27",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "vendor/iphreeqc/database/wateq4f.dat",
+      "revision": "USGS WATEQ4F Epsomite, PubChem CID 24843",
+      "retrieved": "2026-08-27"
+    },
+    {
+      "id": "us-federal/pubchem-silica",
+      "citation": "PubChem CID 24261 silica identity crosswalk. Quartz-like room-temperature teaching properties use molar mass 60.084 g/mol, density 2.65 g/mL and heat capacity 44.6 J/(mol.K); polymorph, grain coatings and natural-sand impurities remain separate material assumptions; retrieved 2026-08-27",
+      "licence": "LicenseRef-US-Public-Domain",
+      "lane": "runtime",
+      "origin": "https://pubchem.ncbi.nlm.nih.gov/compound/24261",
+      "revision": "PubChem CID 24261",
+      "retrieved": "2026-08-27"
+    },
+    {
       "id": "legacy/Br-",
       "citation": "M from IUPAC/CIAAW 2021 atomic weights; ion Cp not modelled (see module docs)",
       "licence": "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
@@ -1020,7 +1065,7 @@
     },
     {
       "id": "kerotakis/material-recipes-v1",
-      "citation": "Kerotakis household-material assumptions v1: 3% hydrogen peroxide and 5% white vinegar are explicit unbranded teaching surrogates; ACS middle-school chemistry uses 3% peroxide for the yeast-catalysis activity",
+      "citation": "Kerotakis household-material assumptions v1: explicit unbranded teaching surrogates for common household substances; ACS middle-school chemistry uses 3% peroxide for yeast catalysis, documents detergent-lowered surface tension, teaches that vegetable oil is less dense than water and does not dissolve in it, demonstrates that detergent helps oil and water mix, and its Colors on the Move activity records detergent driving food colouring rapidly across whole milk; a Journal of Chemical Education baker's-yeast gasometer study measures CO2 evolution, induction, steady production and nutrient depletion, while FAO fermentation material gives the balanced hexose-to-ethanol-and-CO2 pathway; American Society of Baking compressed-yeast technical guidance reports 70% moisture and 30% solids; USDA ERS reports cow's milk as approximately 87% water with the balance milk fat and skim solids; ACS Making Glue and Mississippi State Extension describe vinegar separating milk casein into heavy white curds and liquid whey",
       "licence": "AGPL-3.0-or-later",
       "lane": "runtime",
       "origin": "crates/kerotakis-registry-export/src/lib.rs",
@@ -2525,11 +2570,9 @@
     },
     {
       "id": "PE",
-      "canonical_key": "VGGSQFUCUMXWEO-UHFFFAOYSA-N",
+      "canonical_key": "legacy:species/PE",
       "name": "polyethylene (HDPE)",
-      "identifiers": {
-        "inchikey": "VGGSQFUCUMXWEO-UHFFFAOYSA-N"
-      },
+      "identifiers": {},
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/PE",
@@ -2693,6 +2736,86 @@
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/Al",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "isopropanol",
+      "canonical_key": "KFZMGEQAYNKOFK-UHFFFAOYSA-N",
+      "name": "isopropanol",
+      "identifiers": {
+        "inchikey": "KFZMGEQAYNKOFK-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "sucrose",
+      "canonical_key": "CZMRCDWAGMRECN-SFOFJGFUSA-N",
+      "name": "sucrose",
+      "identifiers": {
+        "inchikey": "CZMRCDWAGMRECN-SFOFJGFUSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "Fe2O3",
+      "canonical_key": "JEIPFZHSYJVQDO-UHFFFAOYSA-N",
+      "name": "iron(III) oxide (hematite)",
+      "identifiers": {
+        "inchikey": "JEIPFZHSYJVQDO-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "epsomite",
+      "canonical_key": "WRUGWIBCXHJTDG-UHFFFAOYSA-L",
+      "name": "magnesium sulfate heptahydrate (epsomite)",
+      "identifiers": {
+        "inchikey": "WRUGWIBCXHJTDG-UHFFFAOYSA-L"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "SiO2",
+      "canonical_key": "VYPSYNLAJGMNEJ-UHFFFAOYSA-N",
+      "name": "silicon dioxide (quartz)",
+      "identifiers": {
+        "inchikey": "VYPSYNLAJGMNEJ-UHFFFAOYSA-N"
+      },
+      "synonyms": [],
+      "evidence": {
+        "source_id": "us-federal/pubchem-silica",
         "method": {
           "kind": "imported",
           "detail": "verbatim export from kerotakis_core::species::REGISTRY"
@@ -13462,6 +13585,574 @@
       }
     },
     {
+      "id": "composition/isopropanol",
+      "species_id": "isopropanol",
+      "formula": "C3H8O",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/isopropanol-chris",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 8.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/isopropanol-chris",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/isopropanol-chris",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/sucrose",
+      "species_id": "sucrose",
+      "formula": "C12H22O11",
+      "elements": [
+        {
+          "element": "C",
+          "count": {
+            "value": 12.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/sucrose-teaching-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "H",
+          "count": {
+            "value": 22.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/sucrose-teaching-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 11.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "kerotakis/sucrose-teaching-properties-v1",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/Fe2O3",
+      "species_id": "Fe2O3",
+      "formula": "Fe2O3",
+      "elements": [
+        {
+          "element": "Fe",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/nasa-cea-hematite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 3.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/nasa-cea-hematite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/epsomite",
+      "species_id": "epsomite",
+      "formula": "MgSO4·7H2O",
+      "elements": [
+        {
+          "element": "H",
+          "count": {
+            "value": 14.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Mg",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "O",
+          "count": {
+            "value": 11.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "S",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/usgs-epsomite",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "composition/SiO2",
+      "species_id": "SiO2",
+      "formula": "SiO2",
+      "elements": [
+        {
+          "element": "O",
+          "count": {
+            "value": 2.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/pubchem-silica",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        },
+        {
+          "element": "Si",
+          "count": {
+            "value": 1.0,
+            "unit": {
+              "symbol": "1",
+              "dimension": "dimensionless"
+            },
+            "conditions": {
+              "temperature": null,
+              "pressure": null,
+              "ph": null,
+              "ionic_strength": null,
+              "medium": null,
+              "phase": null,
+              "notes": null
+            },
+            "uncertainty": {
+              "kind": "exact"
+            },
+            "source_id": "us-federal/pubchem-silica",
+            "method": {
+              "kind": "derived",
+              "detail": "parsed from the verbatim legacy declaration"
+            }
+          }
+        }
+      ],
+      "net_charge": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/pubchem-silica",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      },
+      "evidence": {
+        "source_id": "us-federal/pubchem-silica",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "composition/Br-",
       "species_id": "Br-",
       "formula": "Br-",
@@ -24124,6 +24815,456 @@
       }
     },
     {
+      "id": "molar-mass/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 60.096,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 152.2,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 0.785,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "liquid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 342.2965,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 484.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.59,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/Fe2O3",
+      "species_id": "Fe2O3",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 159.687,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/Fe2O3",
+      "species_id": "Fe2O3",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 103.9,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/Fe2O3",
+      "species_id": "Fe2O3",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 5.24,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 246.471,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 360.0,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 1.68,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "molar-mass/SiO2",
+      "species_id": "SiO2",
+      "phase": "solid",
+      "property": "molar_mass",
+      "quantity": {
+        "value": 60.084,
+        "unit": {
+          "symbol": "g/mol",
+          "dimension": "molar_mass"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/pubchem-silica",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "heat-capacity/SiO2",
+      "species_id": "SiO2",
+      "phase": "solid",
+      "property": "molar_heat_capacity",
+      "quantity": {
+        "value": 44.6,
+        "unit": {
+          "symbol": "J/(mol.K)",
+          "dimension": "molar_heat_capacity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/pubchem-silica",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "density/SiO2",
+      "species_id": "SiO2",
+      "phase": "solid",
+      "property": "mass_density",
+      "quantity": {
+        "value": 2.65,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/pubchem-silica",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "molar-mass/Br-",
       "species_id": "Br-",
       "phase": "aqueous",
@@ -30276,6 +31417,86 @@
       }
     },
     {
+      "id": "optical/isopropanol",
+      "species_id": "isopropanol",
+      "phase": "liquid",
+      "appearance": "colourless",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/sucrose",
+      "species_id": "sucrose",
+      "phase": "solid",
+      "appearance": "white",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/Fe2O3",
+      "species_id": "Fe2O3",
+      "phase": "solid",
+      "appearance": "reddish brown",
+      "flame_colour": null,
+      "reflective_srgb": "#914236",
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/epsomite",
+      "species_id": "epsomite",
+      "phase": "solid",
+      "appearance": "colourless to white crystals",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "optical/SiO2",
+      "species_id": "SiO2",
+      "phase": "solid",
+      "appearance": "colourless to white grains",
+      "flame_colour": null,
+      "reflective_srgb": null,
+      "spectrum": [],
+      "evidence": {
+        "source_id": "us-federal/pubchem-silica",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
       "id": "optical/HBr",
       "species_id": "HBr",
       "phase": "gas",
@@ -35243,6 +36464,237 @@
       }
     },
     {
+      "id": "dissolves-without-speciation/isopropanol",
+      "subject": {
+        "kind": "species",
+        "id": "isopropanol"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/isopropanol-chris",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/sucrose",
+      "subject": {
+        "kind": "species",
+        "id": "sucrose"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "aqueous-solubility/sucrose",
+      "subject": {
+        "kind": "species",
+        "id": "sucrose"
+      },
+      "model": "bounded-room-temperature-dissolution",
+      "parameter": "aqueous-solubility-g-per-100-ml",
+      "quantity": {
+        "value": 200.0,
+        "unit": {
+          "symbol": "g/100mL",
+          "dimension": "mass_concentration"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/sucrose-teaching-properties-v1",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/Fe2O3",
+      "subject": {
+        "kind": "species",
+        "id": "Fe2O3"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "legacy-tint-strength/Fe2O3",
+      "subject": {
+        "kind": "species",
+        "id": "Fe2O3"
+      },
+      "model": "legacy-tint",
+      "parameter": "strength",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "L/(mol.cm)",
+          "dimension": "molar_absorptivity"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": "solid",
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "us-federal/nasa-cea-hematite",
+        "method": {
+          "kind": "imported",
+          "detail": "verbatim export from kerotakis_core::species::REGISTRY"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/epsomite",
+      "subject": {
+        "kind": "species",
+        "id": "epsomite"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/usgs-epsomite",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
+      "id": "dissolves-without-speciation/SiO2",
+      "subject": {
+        "kind": "species",
+        "id": "SiO2"
+      },
+      "model": "legacy-runtime",
+      "parameter": "dissolves-without-speciation",
+      "quantity": {
+        "value": 0.0,
+        "unit": {
+          "symbol": "1",
+          "dimension": "dimensionless"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "exact"
+        },
+        "source_id": "us-federal/pubchem-silica",
+        "method": {
+          "kind": "derived",
+          "detail": "parsed from the verbatim legacy declaration"
+        }
+      }
+    },
+    {
       "id": "dissolves-without-speciation/Br-",
       "subject": {
         "kind": "species",
@@ -35509,6 +36961,726 @@
   ],
   "material_recipes": [
     {
+      "id": "household/isopropanol-70-percent-vv",
+      "version": 1,
+      "canonical_key": "isopropanol_70_percent",
+      "name": "70% isopropanol",
+      "aliases": {
+        "de": [
+          "Isopropanol 70%",
+          "Isopropylalkohol 70%",
+          "Isopropanol_70%"
+        ],
+        "en": [
+          "rubbing alcohol 70%",
+          "isopropyl alcohol 70%",
+          "rubbing_alcohol_70%"
+        ]
+      },
+      "basis": "volume_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "isopropanol",
+          "fraction": {
+            "lower": 0.7,
+            "upper": 0.7
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.3,
+            "upper": 0.3
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "70% v/v isopropanol in water at room temperature",
+      "lot_assumptions": [
+        "component volumes use the explicit runtime additive-volume teaching approximation; real mixing contracts slightly",
+        "denaturants, fragrance and brand-specific additives are not represented"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/chlorine-bleach-5-percent",
+      "version": 1,
+      "canonical_key": "chlorine_bleach_5_percent",
+      "name": "5% chlorine bleach",
+      "aliases": {
+        "de": [
+          "Chlorreiniger 5%",
+          "Chlorbleiche 5%",
+          "Chlorreiniger_5%"
+        ],
+        "en": [
+          "household bleach",
+          "bleach_5%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.08,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "NaOCl",
+          "fraction": {
+            "lower": 0.05,
+            "upper": 0.05
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.95,
+            "upper": 0.95
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "5% w/w sodium-hypochlorite teaching solution",
+      "lot_assumptions": [
+        "stabilisers, sodium chloride and brand-specific additives are not resolved in v1",
+        "never mix real bleach with acids or ammonia cleaners"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/ammonia-cleaner-5-percent",
+      "version": 1,
+      "canonical_key": "ammonia_cleaner_5_percent",
+      "name": "5% ammonia cleaner",
+      "aliases": {
+        "de": [
+          "Ammoniakreiniger 5%",
+          "Salmiakgeist 5%",
+          "Ammoniakreiniger_5%"
+        ],
+        "en": [
+          "household ammonia",
+          "ammonia_cleaner_5%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.98,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "NH3",
+          "fraction": {
+            "lower": 0.05,
+            "upper": 0.05
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.95,
+            "upper": 0.95
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "5% w/w aqueous-ammonia teaching solution",
+      "lot_assumptions": [
+        "surfactants, fragrance and brand-specific additives are not resolved in v1",
+        "never mix real ammonia cleaner with bleach"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/sparkling-water-surrogate",
+      "version": 1,
+      "canonical_key": "sparkling_water",
+      "name": "sparkling water",
+      "aliases": {
+        "de": [
+          "Sprudel",
+          "Mineralwasser mit Kohlensäure",
+          "Sprudelwasser"
+        ],
+        "en": [
+          "carbonated water",
+          "fizzy water"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "CO2",
+          "fraction": {
+            "lower": 0.006,
+            "upper": 0.006
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.994,
+            "upper": 0.994
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "0.6% w/w CO2-in-water carbonation teaching surrogate",
+      "lot_assumptions": [
+        "dissolved minerals and brand-specific carbonation are not represented",
+        "dispensing into an open vessel lets the installed gas-liquid model decide how much CO2 escapes"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/cola-drink-surrogate",
+      "version": 1,
+      "canonical_key": "cola_drink",
+      "name": "cola drink surrogate",
+      "aliases": {
+        "de": [
+          "Cola",
+          "Colagetränk"
+        ],
+        "en": [
+          "fizzy cola"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.04,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "CO2",
+          "fraction": {
+            "lower": 0.006,
+            "upper": 0.006
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "H3PO4",
+          "fraction": {
+            "lower": 0.0005,
+            "upper": 0.0005
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.885,
+            "upper": 0.885
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.1085,
+        "upper": 0.1085
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "carbonated phosphoric-acid cola teaching surrogate; 10.85% unresolved solids and flavour blend",
+      "lot_assumptions": [
+        "sugar or sweetener identity, caramel colour, caffeine and flavour compounds remain unresolved",
+        "this is not a nutritional or brand-specific formulation"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/mineralised-tap-water-surrogate",
+      "version": 1,
+      "canonical_key": "tap_water",
+      "name": "mineralised tap-water surrogate",
+      "aliases": {
+        "de": [
+          "Leitungswasser"
+        ],
+        "en": [
+          "tap water"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.998,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "CaCl2",
+          "fraction": {
+            "lower": 0.0002,
+            "upper": 0.0002
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "MgSO4",
+          "fraction": {
+            "lower": 0.0001,
+            "upper": 0.0001
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "NaHCO3",
+          "fraction": {
+            "lower": 0.0004,
+            "upper": 0.0004
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.9993,
+            "upper": 0.9993
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "700 mg/kg mineralised hard-tap-water teaching surrogate",
+      "lot_assumptions": [
+        "real tap-water composition varies strongly by location, season and treatment",
+        "trace disinfectant, dissolved gases and organic matter are not represented"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/seawater-35-per-mille-surrogate",
+      "version": 1,
+      "canonical_key": "seawater",
+      "name": "3.5% seawater surrogate",
+      "aliases": {
+        "de": [
+          "Meerwasser",
+          "Salzwasser"
+        ],
+        "en": [
+          "sea water",
+          "salt water"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.025,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "CaCl2",
+          "fraction": {
+            "lower": 0.0012,
+            "upper": 0.0012
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "KCl",
+          "fraction": {
+            "lower": 0.0007,
+            "upper": 0.0007
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "MgSO4",
+          "fraction": {
+            "lower": 0.0017,
+            "upper": 0.0017
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "NaCl",
+          "fraction": {
+            "lower": 0.027,
+            "upper": 0.027
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.965,
+            "upper": 0.965
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.0044,
+        "upper": 0.0044
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "3.5% w/w simplified seawater teaching surrogate with major installed salts",
+      "lot_assumptions": [
+        "minor ions, alkalinity, dissolved gases and organic matter remain in the explicit unresolved fraction",
+        "this is not a recipe for biological or analytical artificial seawater"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
       "id": "household/hydrogen-peroxide-3-percent",
       "version": 1,
       "canonical_key": "hydrogen_peroxide_3_percent",
@@ -35699,8 +37871,7 @@
       "name": "dish soap",
       "aliases": {
         "de": [
-          "Spülmittel",
-          "fluessige_Seife"
+          "Spülmittel"
         ],
         "en": [
           "washing-up_liquid"
@@ -35761,11 +37932,177 @@
           "gas_volume_fraction": 0.9,
           "half_life_seconds": 180.0,
           "saturation_amount": 0.4
+        },
+        {
+          "kind": "surface_tension_reducer",
+          "saturation_amount": 0.1,
+          "max_cleared_fraction": 0.9
+        },
+        {
+          "kind": "aqueous_emulsifier",
+          "saturation_amount": 0.1,
+          "max_dispersed_fraction": 0.92,
+          "half_life_seconds": 300.0
         }
       ],
       "preparation": "unbranded aqueous dish-soap teaching surrogate; surfactant blend unresolved",
       "lot_assumptions": [
-        "brand-specific surfactants, salts, fragrance, dye and preservatives remain in the explicit unresolved fraction"
+        "brand-specific surfactants, salts, fragrance, dye and preservatives remain in the explicit unresolved fraction",
+        "emulsification parameters are a bounded stirred classroom observable, not a universal detergent specification"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/ground-black-pepper-surrogate",
+      "version": 1,
+      "canonical_key": "ground_black_pepper",
+      "name": "ground black pepper",
+      "aliases": {
+        "de": [
+          "Pfeffer",
+          "schwarzer Pfeffer"
+        ],
+        "en": [
+          "ground pepper"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [
+        {
+          "kind": "surface_floater",
+          "saturation_amount": 0.08
+        }
+      ],
+      "preparation": "dry ground black-pepper teaching surrogate for the quiet-water surface demonstration",
+      "lot_assumptions": [
+        "plant composition, grind distribution and brand-specific wetting remain unresolved; only the reviewed floating-grain observable is modeled"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/whole-milk-surrogate",
+      "version": 1,
+      "canonical_key": "whole_milk",
+      "name": "whole milk surrogate",
+      "aliases": {
+        "de": [
+          "Milch",
+          "Vollmilch"
+        ],
+        "en": [
+          "whole milk",
+          "cow's milk"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.03,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.87,
+            "upper": 0.87
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.13,
+        "upper": 0.13
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "opaque_liquid_colloid",
+          "srgb": [
+            248,
+            247,
+            240
+          ],
+          "opacity_saturation_g_per_litre": 60.0
+        },
+        {
+          "kind": "acid_curdling_colloid",
+          "acid_species": "CH3COOH",
+          "onset_moles_per_gram": 0.0001,
+          "full_moles_per_gram": 0.0005,
+          "max_curdled_fraction": 0.28,
+          "max_opacity_reduction": 0.85,
+          "curd_srgb": [
+            250,
+            248,
+            230
+          ]
+        }
+      ],
+      "preparation": "generic unflavoured whole-cow's-milk teaching surrogate",
+      "lot_assumptions": [
+        "USDA's approximately 87% water is resolved; milk fat, protein, lactose, minerals and natural variation remain together as conserved unresolved milk solids rather than fictional molecules",
+        "1.03 g/mL and 60 g/L full-opacity are explicit room-temperature visual geometry parameters, not product specifications",
+        "acid curdling is a bounded dose response calibrated to the familiar milk-and-vinegar classroom ratio; its 28% aggregate-solids ceiling separates estimated curd solids from wet-curd yield and its opacity response is independent",
+        "detergent-driven colour motion is a bounded surface-state response; spoilage and fermentation require separate state transitions"
       ],
       "substitutions": [],
       "confidence": "surrogate",
@@ -35819,13 +38156,2527 @@
       "physical_form": {
         "kind": "granules"
       },
-      "roles": [],
+      "roles": [
+        {
+          "kind": "fermentation_culture",
+          "reference_rate_per_second_per_gram": 0.0002,
+          "optimum_temperature_k": 308.15,
+          "temperature_width_k": 18.0,
+          "requires_hydration": true
+        }
+      ],
       "preparation": "dry baker's yeast represented as a catalase activity proxy; hydrate with warm water in the experiment",
       "lot_assumptions": [
-        "enzyme activity varies strongly by brand, age and hydration; v1 models presence, not a universal activity per gram"
+        "enzyme activity varies strongly by brand and age; the bounded hydration ramp is a teaching surrogate, not a universal activity per gram",
+        "the sucrose-fermentation rate is an editorial classroom timescale; strain growth, oxygen switching, inhibition and secondary metabolites remain unresolved"
       ],
       "substitutions": [],
       "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/fresh-compressed-yeast-surrogate",
+      "version": 1,
+      "canonical_key": "fresh_yeast",
+      "name": "fresh compressed yeast",
+      "aliases": {
+        "de": [
+          "Frischhefe",
+          "Presshefe"
+        ],
+        "en": [
+          "fresh yeast",
+          "compressed yeast"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.7,
+            "upper": 0.7
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "catalase",
+          "fraction": {
+            "lower": 3e-7,
+            "upper": 3e-7
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.2999997,
+        "upper": 0.2999997
+      },
+      "physical_form": {
+        "kind": "other",
+        "description": "moist compressed block"
+      },
+      "roles": [
+        {
+          "kind": "fermentation_culture",
+          "reference_rate_per_second_per_gram": 0.0002,
+          "optimum_temperature_k": 308.15,
+          "temperature_width_k": 18.0,
+          "requires_hydration": false
+        }
+      ],
+      "preparation": "fresh compressed baker's-yeast surrogate; already hydrated and scaled to 30% solids",
+      "lot_assumptions": [
+        "70% water and 30% solids follow compressed-yeast technical guidance",
+        "catalase activity is scaled from the dry-yeast teaching surrogate by dry solids; strain, age, storage and brand variation remain unresolved",
+        "the sucrose-fermentation rate is an editorial classroom timescale shared by equal dry solids; strain growth, oxygen switching, inhibition and secondary metabolites remain unresolved"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/granulated-table-sugar",
+      "version": 1,
+      "canonical_key": "table_sugar",
+      "name": "granulated table sugar",
+      "aliases": {
+        "de": [
+          "Haushaltszucker",
+          "Kristallzucker"
+        ],
+        "en": [
+          "table sugar",
+          "granulated sugar"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "sucrose",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [],
+      "preparation": "pure crystalline sucrose teaching surrogate",
+      "lot_assumptions": [
+        "moisture, invert sugar, anti-caking agents and source-crop residues are omitted",
+        "bare sugar/Zucker remains unclaimed because glucose, fructose and mixed sugars are distinct materials"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/vegetable-oil-surrogate",
+      "version": 1,
+      "canonical_key": "vegetable_oil",
+      "name": "vegetable oil",
+      "aliases": {
+        "de": [
+          "Pflanzenöl",
+          "Speiseöl"
+        ],
+        "en": [
+          "cooking oil",
+          "plant oil"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 0.92,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [],
+      "unresolved_fraction": {
+        "lower": 1.0,
+        "upper": 1.0
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "aqueous_immiscible_liquid",
+          "srgb": [
+            238,
+            218,
+            112
+          ],
+          "colour_word": "pale yellow"
+        }
+      ],
+      "preparation": "generic room-temperature vegetable-oil teaching surrogate",
+      "lot_assumptions": [
+        "the oil remains a conserved unresolved triglyceride mixture; crop, refining, age, additives and brand are not guessed",
+        "0.92 g/mL is an explicit representative geometry parameter, not a product specification",
+        "the bounded role supports an upper oil layer on water; emulsions, oxidation, hydrolysis and combustion remain unmodelled"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/baking-soda",
+      "version": 1,
+      "canonical_key": "baking_soda",
+      "name": "baking soda",
+      "aliases": {
+        "de": [
+          "Natron",
+          "Speisesoda",
+          "Backnatron"
+        ],
+        "en": [
+          "bicarbonate of soda",
+          "sodium bicarbonate"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "NaHCO3",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [],
+      "preparation": "pure sodium-bicarbonate teaching surrogate",
+      "lot_assumptions": [
+        "anti-caking agents and moisture in retail products are omitted"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/heat-activated-baking-powder-surrogate",
+      "version": 1,
+      "canonical_key": "baking_powder",
+      "name": "heat-activated baking powder surrogate",
+      "aliases": {
+        "de": [
+          "Backpulver"
+        ],
+        "en": [
+          "baking powder"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "NaHCO3",
+          "fraction": {
+            "lower": 0.3,
+            "upper": 0.3
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "starch",
+          "fraction": {
+            "lower": 0.25,
+            "upper": 0.25
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.45,
+        "upper": 0.45
+      },
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [],
+      "preparation": "heat-activated baking-powder teaching surrogate with 30% sodium bicarbonate, 25% starch and 45% unresolved acid-salt blend",
+      "lot_assumptions": [
+        "heating uses the installed bicarbonate decomposition route and does not require the unresolved acid salts",
+        "wet or double-acting activation is not claimed until the acid salts and their dissolution kinetics are installed",
+        "this is not a formulation or substitution recommendation for food"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/washing-soda",
+      "version": 1,
+      "canonical_key": "washing_soda",
+      "name": "washing soda",
+      "aliases": {
+        "de": [
+          "Waschsoda",
+          "Reine Soda"
+        ],
+        "en": [
+          "soda ash"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Na2CO3",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [],
+      "preparation": "anhydrous sodium-carbonate teaching surrogate",
+      "lot_assumptions": [
+        "hydrated crystal soda and brand-specific additives are not represented"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/cornstarch",
+      "version": 1,
+      "canonical_key": "corn_starch",
+      "name": "cornstarch",
+      "aliases": {
+        "de": [
+          "Speisestärke",
+          "Maisstärke",
+          "Staerke"
+        ],
+        "en": [
+          "corn starch"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "starch",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [],
+      "preparation": "dry purified-starch teaching surrogate",
+      "lot_assumptions": [
+        "botanical source, moisture, lipids and protein traces are omitted"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/lugol-solution-1-percent",
+      "version": 1,
+      "canonical_key": "lugol_solution_1_percent",
+      "name": "1% Lugol iodine solution",
+      "aliases": {
+        "de": [
+          "Lugolsche Lösung 1%",
+          "Lugol-Lösung 1%",
+          "Lugol-Lösung_1%",
+          "Iod-Kaliumiodid-Lösung 1%"
+        ],
+        "en": [
+          "dilute Lugol solution",
+          "Lugol 1%"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.02,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "I2",
+          "fraction": {
+            "lower": 0.01,
+            "upper": 0.01
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "KI",
+          "fraction": {
+            "lower": 0.02,
+            "upper": 0.02
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.97,
+            "upper": 0.97
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "dilute school-test surrogate: 1% w/w iodine and 2% w/w potassium iodide in water",
+      "lot_assumptions": [
+        "iodide-assisted iodine solubilisation is represented with retained KI and aqueous I2 bookkeeping; individual I3-/polyiodide equilibria are not resolved",
+        "the starch-complex optical response is calibrated to the broad literature band near 600-650 nm; starch source, amylose fraction, chain length and temperature shift its colour and intensity",
+        "this is a laboratory test reagent model, not a food or medical product"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/liquid-hand-soap-surrogate",
+      "version": 1,
+      "canonical_key": "liquid_hand_soap",
+      "name": "liquid hand soap",
+      "aliases": {
+        "de": [
+          "Flüssigseife",
+          "Fluessigseife",
+          "flüssige Seife",
+          "Handseife"
+        ],
+        "en": [
+          "hand wash"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.03,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.75,
+            "upper": 0.75
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.25,
+        "upper": 0.25
+      },
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "foam_stabilizer",
+          "trapping_efficiency": 0.75,
+          "gas_volume_fraction": 0.88,
+          "half_life_seconds": 120.0,
+          "saturation_amount": 0.5
+        }
+      ],
+      "preparation": "unbranded aqueous liquid-hand-soap teaching surrogate; surfactant blend unresolved",
+      "lot_assumptions": [
+        "bar soap is a different material; brand-specific surfactants, moisturisers, salts, fragrance, dye and preservatives remain unresolved"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/food-colour-red-betanin",
+      "version": 1,
+      "canonical_key": "food_colour_red",
+      "name": "red food colouring",
+      "aliases": {
+        "de": [
+          "rote Lebensmittelfarbe",
+          "Lebensmittelfarbe_rot"
+        ],
+        "en": [
+          "red food color",
+          "red_food_colouring",
+          "red_food_color"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "betanin",
+          "fraction": {
+            "lower": 0.001,
+            "upper": 0.001
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.999,
+            "upper": 0.999
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "surface_colourant",
+          "srgb": [
+            210,
+            35,
+            55
+          ]
+        }
+      ],
+      "preparation": "0.1% w/w betanin aqueous dropper solution; unbranded transparent optical teaching surrogate",
+      "lot_assumptions": [
+        "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/food-colour-yellow-curcumin",
+      "version": 1,
+      "canonical_key": "food_colour_yellow",
+      "name": "yellow food colouring",
+      "aliases": {
+        "de": [
+          "gelbe Lebensmittelfarbe",
+          "Lebensmittelfarbe_gelb"
+        ],
+        "en": [
+          "yellow food color",
+          "yellow_food_colouring",
+          "yellow_food_color"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "curcumin",
+          "fraction": {
+            "lower": 0.001,
+            "upper": 0.001
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.999,
+            "upper": 0.999
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "surface_colourant",
+          "srgb": [
+            245,
+            190,
+            25
+          ]
+        }
+      ],
+      "preparation": "0.1% w/w curcumin aqueous dropper solution; unbranded transparent optical teaching surrogate",
+      "lot_assumptions": [
+        "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/food-colour-blue-indigo-carmine",
+      "version": 1,
+      "canonical_key": "food_colour_blue",
+      "name": "blue food colouring",
+      "aliases": {
+        "de": [
+          "blaue Lebensmittelfarbe",
+          "Lebensmittelfarbe_blau"
+        ],
+        "en": [
+          "blue food color",
+          "blue_food_colouring",
+          "blue_food_color"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "indigo_carmine",
+          "fraction": {
+            "lower": 0.001,
+            "upper": 0.001
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.999,
+            "upper": 0.999
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [
+        {
+          "kind": "surface_colourant",
+          "srgb": [
+            35,
+            90,
+            210
+          ]
+        }
+      ],
+      "preparation": "0.1% w/w indigo_carmine aqueous dropper solution; unbranded transparent optical teaching surrogate",
+      "lot_assumptions": [
+        "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/watercolor-red-betanin",
+      "version": 1,
+      "canonical_key": "watercolour_red",
+      "name": "red watercolor",
+      "aliases": {
+        "de": [
+          "rote Wasserfarbe",
+          "Wasserfarbe_rot"
+        ],
+        "en": [
+          "red watercolour",
+          "watercolor_red",
+          "red_watercolor",
+          "red_watercolour"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "betanin",
+          "fraction": {
+            "lower": 0.0002,
+            "upper": 0.0002
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.9998,
+            "upper": 0.9998
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "0.02% w/w betanin aqueous wash; unbranded transparent optical teaching surrogate",
+      "lot_assumptions": [
+        "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/watercolor-yellow-curcumin",
+      "version": 1,
+      "canonical_key": "watercolour_yellow",
+      "name": "yellow watercolor",
+      "aliases": {
+        "de": [
+          "gelbe Wasserfarbe",
+          "Wasserfarbe_gelb"
+        ],
+        "en": [
+          "yellow watercolour",
+          "watercolor_yellow",
+          "yellow_watercolor",
+          "yellow_watercolour"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "curcumin",
+          "fraction": {
+            "lower": 0.0002,
+            "upper": 0.0002
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.9998,
+            "upper": 0.9998
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "0.02% w/w curcumin aqueous wash; unbranded transparent optical teaching surrogate",
+      "lot_assumptions": [
+        "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/watercolor-blue-indigo-carmine",
+      "version": 1,
+      "canonical_key": "watercolour_blue",
+      "name": "blue watercolor",
+      "aliases": {
+        "de": [
+          "blaue Wasserfarbe",
+          "Wasserfarbe_blau"
+        ],
+        "en": [
+          "blue watercolour",
+          "watercolor_blue",
+          "blue_watercolor",
+          "blue_watercolour"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.0,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "indigo_carmine",
+          "fraction": {
+            "lower": 0.0002,
+            "upper": 0.0002
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        },
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.9998,
+            "upper": 0.9998
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "homogeneous_liquid"
+      },
+      "roles": [],
+      "preparation": "0.02% w/w indigo_carmine aqueous wash; unbranded transparent optical teaching surrogate",
+      "lot_assumptions": [
+        "the named chromophore and concentration define this surrogate; it is not a claim about a retail product's ingredients"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/acrylic-red-surrogate",
+      "version": 1,
+      "canonical_key": "acrylic_red",
+      "name": "red acrylic paint",
+      "aliases": {
+        "de": [
+          "rote Acrylfarbe",
+          "Acrylfarbe_rot"
+        ],
+        "en": [
+          "red acrylic",
+          "red_acrylic",
+          "acrylic_paint_red"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.55,
+        "upper": 0.55
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [
+        {
+          "kind": "opaque_pigment",
+          "absorption": [
+            2.13867922846,
+            2.81130615541,
+            3.41978230481,
+            3.90150876628,
+            4.23025914033,
+            4.37494451122,
+            4.2586951006,
+            3.79873294056,
+            3.01478671323,
+            2.0790200063,
+            1.227154298,
+            0.615685967066,
+            0.26265683149,
+            0.0960124894529,
+            0.0305551282443,
+            0.0086748300049
+          ],
+          "scattering": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ],
+      "preparation": "waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved",
+      "lot_assumptions": [
+        "effective K/S coefficients describe this teaching color only; they do not match a brand, named artist pigment, gloss or drying film",
+        "the layer is treated as optically thick, so the substrate does not affect the computed swatch"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/acrylic-yellow-surrogate",
+      "version": 1,
+      "canonical_key": "acrylic_yellow",
+      "name": "yellow acrylic paint",
+      "aliases": {
+        "de": [
+          "gelbe Acrylfarbe",
+          "Acrylfarbe_gelb"
+        ],
+        "en": [
+          "yellow acrylic",
+          "yellow_acrylic",
+          "acrylic_paint_yellow"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.55,
+        "upper": 0.55
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [
+        {
+          "kind": "opaque_pigment",
+          "absorption": [
+            2.95596518512,
+            3.78383787563,
+            3.97538469331,
+            3.42798756574,
+            2.42612263885,
+            1.40928781998,
+            0.67189294703,
+            0.262914114466,
+            0.0844386258147,
+            0.0222577801112,
+            0.00481543997931,
+            0.000855073675272,
+            0.000124619078076,
+            0.0000149066126883,
+            1.46348015158e-6,
+            1.17925612747e-7
+          ],
+          "scattering": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ],
+      "preparation": "waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved",
+      "lot_assumptions": [
+        "effective K/S coefficients describe this teaching color only; they do not match a brand, named artist pigment, gloss or drying film",
+        "the layer is treated as optically thick, so the substrate does not affect the computed swatch"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/acrylic-blue-surrogate",
+      "version": 1,
+      "canonical_key": "acrylic_blue",
+      "name": "blue acrylic paint",
+      "aliases": {
+        "de": [
+          "blaue Acrylfarbe",
+          "Acrylfarbe_blau"
+        ],
+        "en": [
+          "blue acrylic",
+          "blue_acrylic",
+          "acrylic_paint_blue"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.55,
+        "upper": 0.55
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [
+        {
+          "kind": "opaque_pigment",
+          "absorption": [
+            0.00328872300234,
+            0.0100034034466,
+            0.0276790790543,
+            0.0696688834129,
+            0.159517901172,
+            0.332248758064,
+            0.629507151527,
+            1.08497900146,
+            1.7010824357,
+            2.42612263885,
+            3.14762874725,
+            3.71481866008,
+            3.98818316961,
+            3.89489663922,
+            3.46019154346,
+            2.79632539244
+          ],
+          "scattering": [
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0,
+            1.0
+          ]
+        }
+      ],
+      "preparation": "waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved",
+      "lot_assumptions": [
+        "effective K/S coefficients describe this teaching color only; they do not match a brand, named artist pigment, gloss or drying film",
+        "the layer is treated as optically thick, so the substrate does not affect the computed swatch"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/acrylic-white-surrogate",
+      "version": 1,
+      "canonical_key": "acrylic_white",
+      "name": "white acrylic paint",
+      "aliases": {
+        "de": [
+          "weiße Acrylfarbe",
+          "weisse Acrylfarbe",
+          "Acrylfarbe_weiss"
+        ],
+        "en": [
+          "white acrylic",
+          "white_acrylic",
+          "acrylic_paint_white"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.55,
+        "upper": 0.55
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [
+        {
+          "kind": "opaque_pigment",
+          "absorption": [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "scattering": [
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0,
+            4.0
+          ]
+        }
+      ],
+      "preparation": "waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved",
+      "lot_assumptions": [
+        "effective K/S coefficients describe this teaching color only; they do not match a brand, named artist pigment, gloss or drying film",
+        "the layer is treated as optically thick, so the substrate does not affect the computed swatch"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/acrylic-black-surrogate",
+      "version": 1,
+      "canonical_key": "acrylic_black",
+      "name": "black acrylic paint",
+      "aliases": {
+        "de": [
+          "schwarze Acrylfarbe",
+          "Acrylfarbe_schwarz"
+        ],
+        "en": [
+          "black acrylic",
+          "black_acrylic",
+          "acrylic_paint_black"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": {
+        "value": 1.1,
+        "unit": {
+          "symbol": "g/mL",
+          "dimension": "mass_density"
+        },
+        "conditions": {
+          "temperature": null,
+          "pressure": null,
+          "ph": null,
+          "ionic_strength": null,
+          "medium": null,
+          "phase": null,
+          "notes": null
+        },
+        "uncertainty": {
+          "kind": "not_reported"
+        },
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "room-temperature teaching-surrogate density"
+        }
+      },
+      "components": [
+        {
+          "species_id": "water",
+          "fraction": {
+            "lower": 0.45,
+            "upper": 0.45
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.55,
+        "upper": 0.55
+      },
+      "physical_form": {
+        "kind": "suspension"
+      },
+      "roles": [
+        {
+          "kind": "opaque_pigment",
+          "absorption": [
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0,
+            8.0
+          ],
+          "scattering": [
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2,
+            0.2
+          ]
+        }
+      ],
+      "preparation": "waterborne opaque acrylic-paint optical surrogate; effective pigment and binder remain unresolved",
+      "lot_assumptions": [
+        "effective K/S coefficients describe this teaching color only; they do not match a brand, named artist pigment, gloss or drying film",
+        "the layer is treated as optically thick, so the substrate does not affect the computed swatch"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/table-salt",
+      "version": 1,
+      "canonical_key": "table_salt",
+      "name": "table salt",
+      "aliases": {
+        "de": [
+          "Speisesalz",
+          "Tafelsalz",
+          "Kochsalz"
+        ],
+        "en": [
+          "cooking salt"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "NaCl",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "granular crystals",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised table salt represented by the installed NaCl species",
+      "lot_assumptions": [
+        "moisture, iodine additives and anti-caking agents are omitted; the bare words salt and Salz remain unclaimed because they name a chemical class"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/epsom-salt-heptahydrate",
+      "version": 1,
+      "canonical_key": "epsom_salt",
+      "name": "Epsom salt",
+      "aliases": {
+        "de": [
+          "Bittersalz",
+          "Epsomsalz",
+          "Magnesiumsulfat-Heptahydrat"
+        ],
+        "en": [
+          "magnesium sulfate heptahydrate"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "epsomite",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [],
+      "preparation": "pure magnesium-sulfate-heptahydrate crystal teaching surrogate",
+      "lot_assumptions": [
+        "moisture, dehydration, grain size and retail additives are omitted; anhydrous magnesium sulfate is a distinct material",
+        "the seven waters remain bound in the dry crystal inventory until a phase model dissolves or transforms it"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/iron-filings",
+      "version": 1,
+      "canonical_key": "iron_filings",
+      "name": "iron filings",
+      "aliases": {
+        "de": [
+          "Eisenfeilspäne",
+          "Eisenspäne"
+        ],
+        "en": [
+          "iron powder"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Fe",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "powder"
+      },
+      "roles": [],
+      "preparation": "clean elemental-iron filings teaching surrogate",
+      "lot_assumptions": [
+        "surface oxide, cutting oil, particle-size distribution and alloying are omitted"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/quartz-sand-surrogate",
+      "version": 1,
+      "canonical_key": "quartz_sand",
+      "name": "quartz-rich sand surrogate",
+      "aliases": {
+        "de": [
+          "Sand",
+          "Quarzsand",
+          "Spielsand"
+        ],
+        "en": [
+          "play sand",
+          "quartz sand"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "SiO2",
+          "fraction": {
+            "lower": 0.95,
+            "upper": 0.95
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.05,
+        "upper": 0.05
+      },
+      "physical_form": {
+        "kind": "granules"
+      },
+      "roles": [],
+      "preparation": "washed quartz-rich play-sand teaching surrogate with a conserved variable mineral fraction",
+      "lot_assumptions": [
+        "natural and retail sands vary widely; clay, feldspar, shell, iron minerals, organics, moisture and coatings remain in the explicit 5% unresolved fraction",
+        "grain-size distribution and colour are not yet resolved"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/calcium-carbonate-chalk-stick",
+      "version": 1,
+      "canonical_key": "chalk_stick",
+      "name": "calcium-carbonate chalk stick",
+      "aliases": {
+        "de": [
+          "Kreidestück",
+          "Tafelkreide",
+          "Calciumcarbonat-Kreide"
+        ],
+        "en": [
+          "chalk stick",
+          "calcium carbonate chalk"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "CaCO3",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "cylindrical stick",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised calcium-carbonate chalk stick represented by the installed CaCO3 species",
+      "lot_assumptions": [
+        "represented as pure calcium carbonate; gypsum chalk and product binders are different materials and are not implied"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/magnesium-ribbon",
+      "version": 1,
+      "canonical_key": "magnesium_ribbon",
+      "name": "magnesium ribbon",
+      "aliases": {
+        "de": [
+          "Magnesiumband"
+        ],
+        "en": [
+          "magnesium strip"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Mg",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "thin ribbon",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised magnesium ribbon represented by the installed Mg species",
+      "lot_assumptions": [
+        "represented as clean elemental magnesium; surface oxide and reaction-rate effects wait for the surface-state model"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/zinc-strip",
+      "version": 1,
+      "canonical_key": "zinc_strip",
+      "name": "zinc strip",
+      "aliases": {
+        "de": [
+          "Zinkstreifen",
+          "Zinkblech"
+        ],
+        "en": [
+          "zinc sheet"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Zn",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "metal strip",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised zinc strip represented by the installed Zn species",
+      "lot_assumptions": [
+        "represented as clean elemental zinc; galvanised coatings and alloying are not implied"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/iron-nail-surrogate",
+      "version": 1,
+      "canonical_key": "iron_nail",
+      "name": "iron nail surrogate",
+      "aliases": {
+        "de": [
+          "Eisennagel"
+        ],
+        "en": [
+          "iron nail"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Fe",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "nail",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised iron nail surrogate represented by the installed Fe species",
+      "lot_assumptions": [
+        "represented as elemental iron; ordinary steel nails, coatings and corrosion products require alloy and surface-state recipes"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/steel-wool-iron-surrogate",
+      "version": 1,
+      "canonical_key": "steel_wool",
+      "name": "steel wool surrogate",
+      "aliases": {
+        "de": [
+          "Stahlwolle",
+          "Eisenwolle"
+        ],
+        "en": [
+          "steel wool"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Fe",
+          "fraction": {
+            "lower": 0.98,
+            "upper": 0.98
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": {
+        "lower": 0.02,
+        "upper": 0.02
+      },
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "porous bundle of fine metal fibres",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "fine low-carbon steel fibres represented by 98% resolved iron and 2% conserved unresolved alloy/coating fraction",
+      "lot_assumptions": [
+        "grade, carbon, alloying elements, oil, soap and coatings vary; the 98% iron fraction is a bounded teaching surrogate, not a product specification",
+        "fibre geometry explains why steel wool can ignite more readily than a nail, but the current ignition operator applies an explicit hot-zone threshold rather than claiming a measured area-dependent rate"
+      ],
+      "substitutions": [],
+      "confidence": "surrogate",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "school/copper-wire",
+      "version": 1,
+      "canonical_key": "copper_wire",
+      "name": "copper wire",
+      "aliases": {
+        "de": [
+          "Kupferdraht"
+        ],
+        "en": [
+          "bare copper wire"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Cu",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "wire",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised copper wire represented by the installed Cu species",
+      "lot_assumptions": [
+        "represented as bare elemental copper; insulation, lacquer and alloying are omitted"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
+      "expansion_policy": {
+        "kind": "fixed"
+      },
+      "evidence": {
+        "source_id": "kerotakis/material-recipes-v1",
+        "method": {
+          "kind": "editorial",
+          "detail": "unbranded household teaching surrogate with an explicit concentration"
+        }
+      }
+    },
+    {
+      "id": "household/aluminium-foil",
+      "version": 1,
+      "canonical_key": "aluminium_foil",
+      "name": "aluminium foil",
+      "aliases": {
+        "de": [
+          "Alufolie",
+          "Aluminiumfolie"
+        ],
+        "en": [
+          "aluminum foil",
+          "tin foil"
+        ]
+      },
+      "basis": "mass_fraction",
+      "bulk_density": null,
+      "components": [
+        {
+          "species_id": "Al",
+          "fraction": {
+            "lower": 1.0,
+            "upper": 1.0
+          },
+          "evidence": {
+            "source_id": "kerotakis/material-recipes-v1",
+            "method": {
+              "kind": "curated",
+              "detail": "fixed teaching-surrogate composition"
+            }
+          }
+        }
+      ],
+      "unresolved_fraction": null,
+      "physical_form": {
+        "kind": "composite_object",
+        "geometry": {
+          "shape": "thin foil",
+          "surface_area_m2": null,
+          "characteristic_length_m": null
+        }
+      },
+      "roles": [],
+      "preparation": "idealised aluminium foil represented by the installed Al species",
+      "lot_assumptions": [
+        "represented as elemental aluminium inventory; the native oxide layer and passivation kinetics are not yet modeled, so the engine must retain its explicit reaction boundary"
+      ],
+      "substitutions": [],
+      "confidence": "curated",
       "expansion_policy": {
         "kind": "fixed"
       },

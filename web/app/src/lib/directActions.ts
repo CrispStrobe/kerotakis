@@ -25,7 +25,7 @@ export function vesselQuickActions(vessel: number, boundary: string): QuickActio
   ];
 }
 
-export type TwoVesselAction = "filter" | "decant" | "drain" | "cell" | "distil";
+export type TwoVesselAction = "filter" | "decant" | "drain" | "magnet" | "cell" | "distil";
 
 /** Three taps become the engine's real thermodynamic MIX operation. */
 export function mixLine(

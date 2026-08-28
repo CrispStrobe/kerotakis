@@ -9,6 +9,7 @@
     type ChartSpec,
   } from "../chart";
   import { t } from "../i18n.svelte";
+  import { engineText } from "../engineText";
 
   let { spec }: { spec: ChartSpec } = $props();
 
@@ -26,7 +27,7 @@
       ? v.toExponential(1)
       : String(Number(v.toPrecision(4)));
   const axisLabel = (a: { label: string; unit?: string }) =>
-    a.unit ? `${a.label} (${a.unit})` : a.label;
+    a.unit ? `${engineText(a.label)} (${a.unit})` : engineText(a.label);
 
   let svgEl: SVGSVGElement | undefined = $state();
 
@@ -71,7 +72,7 @@
     return clone;
   }
 
-  const stem = () => spec.title.replace(/\s+/g, "-") || "chart";
+  const stem = () => engineText(spec.title).replace(/\s+/g, "-") || t("chart");
 
   function save(href: string, name: string) {
     const a = document.createElement("a");
@@ -111,8 +112,8 @@
 
 <figure class="chart">
   <svg bind:this={svgEl} viewBox={`0 0 ${W} ${H}`} role="img" xmlns="http://www.w3.org/2000/svg">
-    <title>{spec.title}</title>
-    <text class="title" x={W / 2} y="15">{spec.title}</text>
+    <title>{engineText(spec.title)}</title>
+    <text class="title" x={W / 2} y="15">{engineText(spec.title)}</text>
 
     {#each yTicks as t (t)}
       <line class="grid" x1={M.left} x2={W - M.right} y1={sy(t)} y2={sy(t)} />
@@ -140,7 +141,7 @@
     {#each spec.series as s (s.name)}
       {#if s.kind === "band"}
         <path class="band" d={bandPath(s.lower, s.upper, sx, sy)}>
-          <title>{s.name}</title>
+          <title>{engineText(s.name)}</title>
         </path>
       {:else if s.kind === "scatter"}
         {#each s.points as [px, py], i (i)}
@@ -154,7 +155,7 @@
         {/each}
       {:else}
         <path class="series" pathLength="1" d={linePath(s.points, sx, sy)}>
-          <title>{s.name}</title>
+          <title>{engineText(s.name)}</title>
         </path>
       {/if}
     {/each}
@@ -165,7 +166,7 @@
     <summary>{t("data")}</summary>
     {#each spec.series as s (s.name)}
       <table>
-        <caption>{s.name} ({s.kind})</caption>
+        <caption>{engineText(s.name)} ({t(s.kind)})</caption>
         <thead>
           <tr><th>{axisLabel(spec.x)}</th><th>{axisLabel(spec.y)}</th></tr>
         </thead>
@@ -181,7 +182,7 @@
   <figcaption>
     <button class="export" onclick={exportSvg}>{t("save SVG")}</button>
     <button class="export" onclick={exportPng}>{t("save PNG")}</button>
-    <span class="prov">{spec.provenance}</span>
+    <span class="prov">{engineText(spec.provenance)}</span>
   </figcaption>
 </figure>
 

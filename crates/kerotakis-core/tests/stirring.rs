@@ -14,6 +14,9 @@ fn stir_command_carries_physical_conditions_and_tip_speed() {
     );
 
     let mut bench = Bench::new();
+    bench
+        .step(parse_op("add v1 MnO2 0.1g").unwrap().unwrap())
+        .unwrap();
     let events = bench.step(op).unwrap();
     let event = events
         .iter()
@@ -29,8 +32,27 @@ fn stir_command_carries_physical_conditions_and_tip_speed() {
         .expect("stirred event");
     assert!((event.0 - std::f64::consts::PI * 0.025 * 10.0).abs() < 1e-12);
     assert!(event.1 > 0.99);
-    assert!(!event.2, "rate coupling must remain explicitly bounded");
+    assert!(
+        event.2,
+        "tip speed now feeds the bounded mass-transfer term"
+    );
+    assert_eq!(bench.vessels[0].elapsed_seconds, 30.0);
     assert!(render_events(&events, Register::LV2)[0].contains("600 rpm"));
+}
+
+#[test]
+fn stirring_without_a_surface_catalyst_does_not_claim_rate_coupling() {
+    let mut bench = Bench::new();
+    let events = bench
+        .step(parse_op("stir v1 600rpm 1s").unwrap().unwrap())
+        .unwrap();
+    assert!(events.iter().any(|event| matches!(
+        event,
+        Event::Stirred {
+            rate_coupled: false,
+            ..
+        }
+    )));
 }
 
 #[test]

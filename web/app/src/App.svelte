@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import { Session } from "./lib/session.svelte";
   import { WorkerHost, resolvePayloadBase } from "./lib/host/WorkerHost";
   import { TauriHost, isTauri } from "./lib/host/TauriHost";
@@ -9,6 +9,7 @@
   import RegisterDial from "./lib/components/RegisterDial.svelte";
   import Shelf from "./lib/components/Shelf.svelte";
   import Inspector from "./lib/components/Inspector.svelte";
+  import LatestResultCard from "./lib/components/LatestResultCard.svelte";
   import Timeline from "./lib/components/Timeline.svelte";
   import LessonBar from "./lib/components/LessonBar.svelte";
   import Burette from "./lib/components/Burette.svelte";
@@ -32,6 +33,9 @@
   import StoryMap from "./lib/components/StoryMap.svelte";
   import WorldHome from "./lib/components/WorldHome.svelte";
   import MissionDebrief from "./lib/components/MissionDebrief.svelte";
+  import RoomPicker, { type RoomStyle } from "./lib/components/RoomPicker.svelte";
+  import UtilityStation from "./lib/components/UtilityStation.svelte";
+  import RemoveVesselDialog from "./lib/components/RemoveVesselDialog.svelte";
   import QuestBar from "./lib/components/QuestBar.svelte";
   import { t } from "./lib/i18n.svelte";
   import { parseCodexIndex, type CodexEntry } from "./lib/codex";
@@ -40,10 +44,16 @@
   import { pwa } from "./lib/pwa.svelte";
   import { mixLine, twoVesselLine, type TwoVesselAction } from "./lib/directActions";
   import { missionEquipment, type CatalogScope } from "./lib/catalogScope";
+  import { apparatusRunsCommand } from "./lib/apparatusRun";
+  import { buretteTargetAfterChoice, deploymentAfterChoice } from "./lib/apparatusTarget";
+  import { loadApparatusInstallation, saveApparatusInstallation } from "./lib/apparatusInstallation";
   import {
     BENCH_LAYOUT_KEY,
     EMPTY_BENCH_LAYOUT,
+    benchLayoutFromLab,
+    labWithBenchLayout,
     parseBenchLayout,
+    placeNewVessel,
     type BenchLayout,
   } from "./lib/benchLayout";
   import {
@@ -99,14 +109,44 @@
   let theme = $state<Theme>("light");
   let benchLayout = $state<BenchLayout>(EMPTY_BENCH_LAYOUT);
   const guideStorageKey = `kero.bench-guides.v1.${labMode}`;
+  const roomStorageKey = `kero.room.v1.${labMode}`;
   let workGuides = $state(
     appStorage?.getItem(guideStorageKey) === "shown" ||
       (appStorage?.getItem(guideStorageKey) === null && labMode === "story"),
   );
   let labProfile = $state<LabProfile>(loadLabProfile(appStorage));
   let homeOpen = $state(!hasSeenHome());
+  let missionJournalOpen = $state(false);
+  let roomOpen = $state(false);
+  let roomStyle = $state<RoomStyle>((() => {
+    const saved = appStorage?.getItem(roomStorageKey);
+    return saved === "research" || saved === "orbital" ? saved : "discovery";
+  })());
   let contaminatedSampleBriefed = $state(modeStorage?.getItem(CONTAMINATED_SAMPLE_BRIEFED_KEY) === "yes");
   const modeLayoutKey = `${BENCH_LAYOUT_KEY}.${labMode}`;
+  function saveBenchLayout(next: BenchLayout) {
+    benchLayout = next;
+    try {
+      localStorage.setItem(modeLayoutKey, JSON.stringify(next));
+    } catch {
+      // Placement still works for this visit when storage is unavailable.
+    }
+  }
+
+  async function addVessel(kind: string) {
+    const before = session.scene?.vessels.map((vessel) => vessel.id) ?? [];
+    const accepted = await session.submit(kind === "beaker" ? "new" : `new ${kind}`);
+    if (!accepted) return;
+    const created = session.scene?.vessels.find((vessel) => !before.includes(vessel.id));
+    if (!created) return;
+    saveBenchLayout(placeNewVessel(
+      benchLayout,
+      created.id,
+      session.scene?.vessels.map((vessel) => vessel.id) ?? [created.id],
+      Object.values(benchLayout.apparatus),
+    ));
+    session.selected = created.id;
+  }
   $effect(() => {
     if (typeof document !== "undefined") document.documentElement.dataset.theme = theme;
   });
@@ -120,6 +160,15 @@
     }
   }
 
+  function setRoom(next: RoomStyle) {
+    roomStyle = next;
+    try {
+      appStorage?.setItem(roomStorageKey, next);
+    } catch {
+      // The room still changes for this visit when storage is unavailable.
+    }
+  }
+
   function setPanelCollapsed(panel: "cabinet" | "journal", collapsed: boolean) {
     if (panel === "cabinet") cabinetCollapsed = collapsed;
     else journalCollapsed = collapsed;
@@ -130,23 +179,91 @@
     }
   }
 
+  /**
+   * A shelf click or drop represents a physical pour, not zero-duration state
+   * editing. Advance one explicit second, then keep ticking only while the
+   * computed scene is bubbling or its foam is growing. Every tick remains a
+   * normal command, so elapsed time is replayable and visible in the notebook.
+   */
+  async function dispense(line: string) {
+    if (!(await session.submit(line))) return;
+    let previousFoam = (session.scene?.vessels ?? []).reduce(
+      (total, vessel) => total + (vessel.foam?.volume_liters ?? 0),
+      0,
+    );
+    for (let second = 0; second < 10; second += 1) {
+      if (!(await session.submit("wait 1s"))) break;
+      await tick();
+      const vessels = session.scene?.vessels ?? [];
+      const nextFoam = vessels.reduce(
+        (total, vessel) => total + (vessel.foam?.volume_liters ?? 0),
+        0,
+      );
+      const visiblyReacting =
+        nextFoam > previousFoam + 1e-9 || vessels.some((vessel) => vessel.bubbling);
+      if (!visiblyReacting) break;
+      previousFoam = nextFoam;
+      // Pace computed state changes so a child sees a rise rather than a
+      // teleport. This does not enter engine time or alter reduced-motion state.
+      await new Promise((resolve) => setTimeout(resolve, 90));
+    }
+  }
+
   let lessons = $state<{ file: string; name: string; blurb?: string; topic?: string }[]>([]);
   /** Engine-evaluated free-form quests, shipped beside the lesson index. */
   let quests = $state<Record<string, unknown>[]>([]);
 
-  // CI self-test hook (?selftest=1): report readiness to the harness once
+  // CI self-test hook (?selftest=...): report readiness to the harness once
   // the scene has arrived — a worker-driven app cannot be probed by
   // dumping the DOM at a fixed instant, so it phones home instead.
-  const selftest =
-    typeof location !== "undefined" &&
-    new URLSearchParams(location.search).has("selftest");
+  const selftestMode =
+    typeof location !== "undefined"
+      ? new URLSearchParams(location.search).get("selftest")
+      : null;
+  const selftest = selftestMode !== null;
   let selftestReported = false;
-  $effect(() => {
-    if (!selftest || selftestReported) return;
-    const ready = session.engineReady && session.scene !== null;
-    const failed = session.feed.find((f) => f.kind === "error");
-    if (!ready && !failed) return;
-    selftestReported = true;
+  async function reportSelftest(ready: boolean, failed?: { text: string }) {
+    let foamVessels = 0;
+    let overflowVessels = 0;
+    let renderedFoam = 0;
+    let renderedOverflow = 0;
+    let doseOrdered = false;
+    let unsupportedKiWarning = false;
+    let scenarioError: string | null = null;
+    if (ready && selftestMode === "foam") {
+      try {
+        await session.runExperiment([
+          "register lv1",
+          "add v1 Wasserstoffperoxid_3% 100mL",
+          "add v1 Spülmittel 10mL",
+          "new beaker",
+          "add v2 Wasserstoffperoxid_3% 100mL",
+          "add v2 Spülmittel 10mL",
+        ].join("\n"));
+        // Exercise the actual shelf/drop path: the dispense itself advances a
+        // visible contact interval, so no hidden/manual wait follows it.
+        await dispense("add v1 KI 0.25g");
+        await dispense("add v2 KI 1g");
+        await tick();
+        const vessels = session.scene?.vessels ?? [];
+        foamVessels = vessels.filter(
+          (vessel) => (vessel.foam?.volume_liters ?? 0) > 0,
+        ).length;
+        overflowVessels = vessels.filter(
+          (vessel) => (vessel.foam?.overflow_liters ?? 0) > 0,
+        ).length;
+        doseOrdered =
+          (vessels[1]?.foam?.volume_liters ?? 0) >
+          (vessels[0]?.foam?.volume_liters ?? 0);
+        renderedFoam = document.querySelectorAll(".foam-state").length;
+        renderedOverflow = document.querySelectorAll(".foam-overflow").length;
+        unsupportedKiWarning = session.feed.some((entry) =>
+          /potassium iodide.*no wired solv|no wired solv.*potassium iodide/i.test(entry.text),
+        );
+      } catch (error) {
+        scenarioError = error instanceof Error ? error.message : String(error);
+      }
+    }
     void fetch("/selftest", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -155,8 +272,23 @@
         can_solve: session.canSolve,
         vessels: session.scene?.vessels.length ?? 0,
         error: failed?.text ?? null,
+        foam_vessels: foamVessels,
+        overflow_vessels: overflowVessels,
+        rendered_foam: renderedFoam,
+        rendered_overflow: renderedOverflow,
+        dose_ordered: doseOrdered,
+        unsupported_ki_warning: unsupportedKiWarning,
+        scenario_error: scenarioError,
       }),
     });
+  }
+  $effect(() => {
+    if (!selftest || selftestReported) return;
+    const ready = session.engineReady && session.scene !== null;
+    const failed = session.feed.find((f) => f.kind === "error");
+    if (!ready && !failed) return;
+    selftestReported = true;
+    void reportSelftest(ready, failed);
   });
 
   onMount(() => {
@@ -254,6 +386,13 @@
   let missionOpen = $state(false);
   let tableOpen = $state(false);
   let safetyOpen = $state(false);
+  let utilityStationOpen = $state(false);
+  let removeRequest = $state<number | null>(null);
+  const removeVessel = $derived(
+    removeRequest === null
+      ? null
+      : session.scene?.vessels.find((vessel) => vessel.id === removeRequest) ?? null,
+  );
   let toolboxOpen = $state(false);
   let mapOpen = $state(false);
   /** An entry handed from the map straight to the experiment page. */
@@ -264,19 +403,72 @@
   let codexEntries = $state<CodexEntry[]>([]);
   /** The burette: clamped over the selected vessel when out (GUI-033). */
   let buretteOut = $state(false);
+  let buretteTarget = $state<number | null>(null);
   /** Which parameter-form apparatus is out, by verb (GUI-033). */
-  let apparatusOut = $state<string | null>(null);
-  let apparatusPreview = $state<Record<string, number | string>>({});
+  const apparatusInstallationKey = `kero.apparatus-installation.v1.${labMode}`;
+  const restoredApparatus = loadApparatusInstallation(appStorage, apparatusInstallationKey);
+  let apparatusOut = $state<string | null>(restoredApparatus?.tool ?? null);
+  /** Physical installation target. Selection may change without teleporting it. */
+  let apparatusTarget = $state<number | null>(restoredApparatus?.target ?? null);
+  let apparatusPreview = $state<Record<string, number | string>>(restoredApparatus?.values ?? {});
   const apparatusSpec = $derived(APPARATUS.find((s) => s.verb === apparatusOut) ?? null);
   const selectedSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === session.selected));
+  const apparatusSceneVessel = $derived(session.scene?.vessels.find((v) => v.id === apparatusTarget));
   const apparatusInitialValues = $derived(
     apparatusSpec?.verb === "centrifuge"
       ? {
-          counterbalance: Number((selectedSceneVessel?.mass_g ?? 0).toFixed(2)),
-          sampleMass: selectedSceneVessel?.mass_g ?? 0,
+          counterbalance: Number((apparatusSceneVessel?.mass_g ?? 0).toFixed(2)),
+          sampleMass: apparatusSceneVessel?.mass_g ?? 0,
+          ...apparatusPreview,
         }
-      : {},
+      : apparatusPreview,
   );
+  function closeApparatus() {
+    apparatusOut = null;
+    apparatusTarget = null;
+    apparatusPreview = {};
+  }
+  function deployApparatus(verb: string) {
+    const changedTool = apparatusOut !== verb;
+    apparatusOut = verb;
+    apparatusTarget = session.selected;
+    if (changedTool) apparatusPreview = {};
+    pane = "bench";
+  }
+  function toggleApparatus(verb: string) {
+    const next = deploymentAfterChoice(apparatusOut, apparatusTarget, verb, session.selected);
+    if (!next.tool) closeApparatus();
+    else deployApparatus(next.tool);
+  }
+  function toggleBurette() {
+    const nextTarget = buretteTargetAfterChoice(buretteTarget, session.selected);
+    if (nextTarget === null) {
+      buretteOut = false;
+      buretteTarget = null;
+    } else {
+      buretteOut = true;
+      buretteTarget = nextTarget;
+    }
+    pane = "bench";
+  }
+  $effect(() => {
+    saveApparatusInstallation(
+      appStorage,
+      apparatusInstallationKey,
+      apparatusOut !== null && apparatusTarget !== null
+        ? { tool: apparatusOut, target: apparatusTarget, values: apparatusPreview }
+        : null,
+    );
+  });
+  $effect(() => {
+    if (!session.scene) return;
+    const ids = new Set(session.scene?.vessels.map((vessel) => vessel.id) ?? []);
+    if (apparatusTarget !== null && !ids.has(apparatusTarget)) closeApparatus();
+    if (buretteTarget !== null && !ids.has(buretteTarget)) {
+      buretteOut = false;
+      buretteTarget = null;
+    }
+  });
   /** The transfer tool: filter/decant/drain share click-source-then-
    * target; decant carries its fraction. */
   let transfer = $state<{ verb: TwoVesselAction; fraction: number; from: number | null } | null>(null);
@@ -332,6 +524,7 @@
   /** The supply room keeps chemicals and reusable equipment distinct. */
   let cabinetTab = $state<"reagents" | "equipment">("reagents");
   let catalogScope = $state<CatalogScope>(labMode === "sandbox" ? "all" : "unlocked");
+  let shelfFocusRequest = $state<{ key: string; nonce: number } | null>(null);
   let scopedMission = $state<string | null>(null);
   const missionEquipmentVerbs = $derived(missionEquipment(
     session.lesson?.lesson.steps.flatMap((step) => step.kind === "command" ? [step.line] : []) ?? [],
@@ -356,14 +549,17 @@
     URL.revokeObjectURL(a.href);
   }
 
-  const saveLab = () => download("session.lab", session.exportLab());
+  const saveLab = () => download("session.lab", labWithBenchLayout(session.exportLab(), benchLayout));
   let labFileInput: HTMLInputElement | undefined = $state();
   async function openLabFile(e: Event) {
     const input = e.currentTarget as HTMLInputElement;
     const file = input.files?.[0];
     input.value = "";
     if (!file) return;
-    await session.importLab(file.name, await file.text());
+    const text = await file.text();
+    const importedLayout = benchLayoutFromLab(text);
+    await session.importLab(file.name, text);
+    if (importedLayout) saveBenchLayout(importedLayout);
   }
   const saveNotes = () =>
     download(
@@ -389,9 +585,12 @@
       helpOpen = true;
     } else if (e.key === "Escape") {
       if (inset) inset = null;
+      else if (removeRequest !== null) removeRequest = null;
       else if (homeOpen && hasSeenHome()) homeOpen = false;
       else if (missionOpen) missionOpen = false;
       else if (mapOpen) mapOpen = false;
+      else if (roomOpen) roomOpen = false;
+      else if (utilityStationOpen) utilityStationOpen = false;
       else if (safetyOpen) safetyOpen = false;
       else if (toolboxOpen) toolboxOpen = false;
       else if (helpOpen) helpOpen = false;
@@ -474,6 +673,7 @@
       <strong>{t("explore and study")}</strong>
       <button class="tool" onclick={() => (tableOpen = true)}>{t("elements")}</button>
       <button class="tool" onclick={() => (toolboxOpen = true)}>{t("toolbox")}</button>
+      <button class="tool" onclick={() => { toolsOpen = false; roomOpen = true; }}>{t("lab rooms")}</button>
       {#if codexEntries.length > 0}
         <button class="tool" onclick={() => (catalogOpen = true)}>{t("experiments")}</button>
         <button class="tool" onclick={() => (mapOpen = true)}>{t("map")}</button>
@@ -569,9 +769,13 @@
     cursor={session.missionOutcome?.secured.length ?? completedCommandCount(session.lesson.lesson, session.lesson.cursor)}
     total={session.missionOutcome?.contract.criteria.length ?? commandCount(session.lesson.lesson)}
     evidence={session.lessonEvidence}
+    bind:journalOpen={missionJournalOpen}
     onnext={() => void session.lessonNext()}
     onreturn={() => void session.lessonReturn()}
-    onexit={() => session.exitLesson()}
+    onexit={() => {
+      missionJournalOpen = false;
+      session.exitLesson();
+    }}
     onadd={(line) => void session.submit(line)}
   />
 {/if}
@@ -613,8 +817,9 @@
         mode={labMode}
         completed={session.completedMissions.size}
         stockUsed={session.storyStockUsed}
+        focusRequest={shelfFocusRequest}
         onadd={(line) => {
-          void session.submit(line);
+          void dispense(line);
           pane = "bench";
         }}
       />
@@ -631,15 +836,8 @@
         completed={session.completedMissions.size}
         scope={catalogScope}
         missionVerbs={missionEquipmentVerbs}
-        onburette={() => {
-          buretteOut = !buretteOut;
-          pane = "bench";
-        }}
-        onapparatus={(verb) => {
-          apparatusOut = apparatusOut === verb ? null : verb;
-          apparatusPreview = {};
-          pane = "bench";
-        }}
+        onburette={toggleBurette}
+        onapparatus={toggleApparatus}
         ontransfer={(verb) => {
           transfer = transfer?.verb === verb ? null : { verb, fraction: 0.5, from: null };
           mix = null;
@@ -648,6 +846,11 @@
         onmix={() => {
           mix = mix ? null : { fraction: 0.5, a: null, b: null };
           transfer = null;
+          pane = "bench";
+        }}
+        busy={session.busy}
+        onmeasure={(line) => {
+          void session.submit(line);
           pane = "bench";
         }}
       />
@@ -660,14 +863,14 @@
         options={session.reactOptions}
         busy={session.busy}
         onrun={(line) => void session.submit(line)}
-        onclose={() => (apparatusOut = null)}
+        onclose={closeApparatus}
       />
     {:else if apparatusOut === "transport"}
       <TransportBuilder
         vessels={session.scene?.vessels ?? []}
         busy={session.busy}
         onrun={(line) => void session.submit(line)}
-        onclose={() => (apparatusOut = null)}
+        onclose={closeApparatus}
       />
     {/if}
     {#if session.register !== "lv1" && session.lastEquation}
@@ -677,13 +880,14 @@
     {/if}
     <Bench
       scene={session.scene}
+      room={roomStyle}
       register={session.register}
       selected={session.selected}
       onselect={(id) => vesselTapped(id)}
-      pristine={session.commandLog.length === 0 && !session.lesson}
+      pristine={session.commandLog.length === 0 && !session.lesson && !apparatusOut && !buretteOut}
       effects={session.vesselEffects}
       titrationPlayback={session.titrationPlayback}
-      onnewvessel={(kind) => void session.submit(kind === "beaker" ? "new" : `new ${kind}`)}
+      onnewvessel={(kind) => void addVessel(kind)}
       onbadge={(vessel, reading) => (inset = { vessel, reading })}
       fluidLookup={(key) => {
         const item = session.shelf.find((s) => s.key === key);
@@ -695,13 +899,27 @@
       }}
       transferFrom={transfer?.from ?? null}
       deployedTool={buretteOut ? "burette" : apparatusSpec?.verb ?? null}
-      deployedTarget={buretteOut || apparatusSpec ? session.selected : null}
-      apparatusWorking={session.busy}
+      deployedTarget={buretteOut ? buretteTarget : apparatusSpec ? apparatusTarget : null}
+      apparatusWorking={apparatusRunsCommand(
+        session.activeCommand,
+        buretteOut ? "burette" : apparatusSpec?.verb,
+        buretteOut ? buretteTarget : apparatusSpec ? apparatusTarget : null,
+      )}
       apparatusValues={apparatusPreview}
       layout={benchLayout}
       showZones={workGuides}
       onopenperiodic={() => (tableOpen = true)}
       onopensafety={() => (safetyOpen = true)}
+      onopenutilities={() => (utilityStationOpen = true)}
+      missionName={session.lesson ? t(missionTitle(session.lesson.lesson.name)) : null}
+      missionDone={session.lesson
+        ? (session.missionOutcome?.secured.length ?? completedCommandCount(session.lesson.lesson, session.lesson.cursor))
+        : 0}
+      missionTotal={session.lesson
+        ? (session.missionOutcome?.contract.criteria.length ?? commandCount(session.lesson.lesson))
+        : 0}
+      missionEvidence={Boolean(session.missionOutcome)}
+      onopenmission={session.lesson ? () => (missionJournalOpen = true) : undefined}
       onopencabinet={() => {
         setPanelCollapsed("cabinet", false);
         cabinetTab = "equipment";
@@ -715,42 +933,44 @@
           // The visible choice still works when persistence is unavailable.
         }
       }}
-      onremove={(vessel) => void session.submit(`remove v${vessel + 1}`)}
-      onmove={(next) => {
-        benchLayout = next;
-        try {
-          localStorage.setItem(modeLayoutKey, JSON.stringify(next));
-        } catch {
-          // Placement still works for this visit when storage is unavailable.
-        }
-      }}
+      onremove={(vessel) => (removeRequest = vessel)}
+      onmove={saveBenchLayout}
       ondropspecies={(id, p) =>
-        void session.submit(
+        void dispense(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
         )}
     />
     {#if apparatusSpec}
-      {#key `${apparatusSpec.verb}:${session.selected}`}
+      {#key `${apparatusSpec.verb}:${apparatusTarget}`}
         <ApparatusForm
           spec={apparatusSpec}
-          vessel={session.selected}
+          vessel={apparatusTarget ?? session.selected}
+          selectedVessel={session.selected}
           shelf={session.shelf}
           busy={session.busy}
           initialValues={apparatusInitialValues}
           onrun={(line) => void session.submit(line)}
           onpreview={(values) => (apparatusPreview = values)}
-          onclose={() => (apparatusOut = null)}
+          onretarget={() => {
+            apparatusTarget = session.selected;
+          }}
+          onclose={closeApparatus}
         />
       {/key}
     {/if}
     {#if buretteOut}
       <Burette
-        vessel={session.selected}
+        vessel={buretteTarget ?? session.selected}
+        selectedVessel={session.selected}
         shelf={session.shelf}
         busy={session.busy}
         running={titrating}
         onstart={(line) => void startTitration(line)}
-        onclose={() => (buretteOut = false)}
+        onretarget={() => (buretteTarget = session.selected)}
+        onclose={() => {
+          buretteOut = false;
+          buretteTarget = null;
+        }}
       />
     {/if}
     {#if selectedVessel && !apparatusOut && !buretteOut}
@@ -767,9 +987,7 @@
         busy={session.busy}
         onaction={(line) => void session.submit(line)}
         onconfigure={(verb) => {
-          apparatusOut = verb;
-          apparatusPreview = {};
-          pane = "bench";
+          deployApparatus(verb);
         }}
         onpour={() => (transfer = { verb: "decant", fraction: 0.5, from: selectedVessel!.id })}
         ondetails={() => {
@@ -811,8 +1029,12 @@
         onaction={(line) => void session.submit(line)}
       />
     {/if}
+    {#if session.latestResult}
+      <LatestResultCard result={session.latestResult} />
+    {/if}
     <Feed
       entries={session.feed}
+      selectedVessel={session.selected}
       onaddnote={(text) => session.addUserNote(text)}
       oneditnote={(createdAt, text) => session.editUserNote(createdAt, text)}
       onremovenote={(createdAt) => session.removeUserNote(createdAt)}
@@ -904,8 +1126,7 @@
       pane = "bench";
       if (verb === "distil") transfer = { verb: "distil", fraction: 0.5, from: null };
       else {
-        apparatusOut = verb;
-        apparatusPreview = {};
+        deployApparatus(verb);
       }
     }}
     onmap={() => {
@@ -954,7 +1175,7 @@
     register={session.register}
     onadd={(item) => {
       tableOpen = false;
-      void session.submit(
+      void dispense(
         `add v${session.selected + 1} ${item.key} ${defaultAmount(session.register, item.phase)}`,
       );
     }}
@@ -964,6 +1185,55 @@
 
 {#if safetyOpen}
   <SafetyBoard onclose={() => (safetyOpen = false)} />
+{/if}
+
+{#if roomOpen}
+  <RoomPicker value={roomStyle} onchange={setRoom} onclose={() => (roomOpen = false)} />
+{/if}
+
+{#if utilityStationOpen}
+  <UtilityStation
+    vessel={session.selected}
+    onwater={() => {
+      const water = session.shelf.find((item) => item.formula === "H2O" && item.phase === "liquid");
+      utilityStationOpen = false;
+      setPanelCollapsed("cabinet", false);
+      cabinetTab = "reagents";
+      catalogScope = labMode === "story" ? "unlocked" : "all";
+      if (water) shelfFocusRequest = { key: water.key, nonce: Date.now() };
+      pane = "shelf";
+    }}
+    onequipment={() => {
+      utilityStationOpen = false;
+      setPanelCollapsed("cabinet", false);
+      cabinetTab = "equipment";
+      pane = "shelf";
+    }}
+    onclose={() => (utilityStationOpen = false)}
+  />
+{/if}
+
+{#if removeVessel}
+  {@const vessel = removeVessel}
+  <RemoveVesselDialog
+    {vessel}
+    vesselCount={session.scene.vessels.length}
+    onconfirm={() => {
+      removeRequest = null;
+      void session.submit(`remove v${vessel.id + 1}`);
+    }}
+    ontransfer={session.scene.vessels.length > 1 && vessel.liquid
+      ? () => {
+          removeRequest = null;
+          transfer = { verb: "decant", fraction: 1, from: vessel.id };
+        }
+      : undefined}
+    onopenwaste={() => {
+      removeRequest = null;
+      utilityStationOpen = true;
+    }}
+    onclose={() => (removeRequest = null)}
+  />
 {/if}
 
 <style>

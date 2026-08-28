@@ -27,9 +27,9 @@
 //! What stays curated is ε(λ) itself, and it must: the interesting ions
 //! absorb through d–d and charge-transfer bands that no data we can ship
 //! delivers honestly, and TD-DFT is least reliable for exactly those
-//! transitions. Reflective colour (a white powder, a black lump) is a
-//! different physics again — that is scattering, not transmission, and
-//! stays as a plain sRGB value.
+//! transitions. Reflective colour (a white powder, a black lump) is different
+//! physics again — scattering rather than transmission — and opaque pigment
+//! mixtures use the separate Kubelka–Munk path in [`crate::pigment`].
 
 use serde::{Deserialize, Serialize};
 
@@ -85,6 +85,22 @@ fn cie_xyz_bar(nm: f64) -> (f64, f64, f64) {
 /// `absorbance` is the total A(λ) per band — the sum over every solute of
 /// ε(λ)·c·l, which is where mixtures compose correctly.
 pub fn transmitted_colour(absorbance: &Spectrum) -> Rgb {
+    let mut transmittance = [0.0; BANDS];
+    for i in 0..BANDS {
+        transmittance[i] = (-absorbance[i] * std::f64::consts::LN_10).exp();
+    }
+    spectral_colour(&transmittance)
+}
+
+/// Convert a sampled reflectance spectrum into display sRGB.
+///
+/// This shares the observer and white adaptation used for transmitted light,
+/// but its samples come from a scattering model rather than Beer–Lambert.
+pub fn reflected_colour(reflectance: &Spectrum) -> Rgb {
+    spectral_colour(reflectance)
+}
+
+fn spectral_colour(fraction: &Spectrum) -> Rgb {
     // Illuminant: equal-energy, the neutral choice for a teaching lab.
     // sRGB's primaries are referenced to D65, though, so the sample is
     // adapted to the D65 white point afterwards — otherwise clear water
@@ -94,10 +110,10 @@ pub fn transmitted_colour(absorbance: &Spectrum) -> Rgb {
     let mut white = [0.0f64; 3];
     for (i, &nm) in BAND_NM.iter().enumerate() {
         let (xb, yb, zb) = cie_xyz_bar(nm);
-        let transmittance = (-absorbance[i] * std::f64::consts::LN_10).exp();
-        xyz[0] += transmittance * xb;
-        xyz[1] += transmittance * yb;
-        xyz[2] += transmittance * zb;
+        let sample = fraction[i].clamp(0.0, 1.0);
+        xyz[0] += sample * xb;
+        xyz[1] += sample * yb;
+        xyz[2] += sample * zb;
         white[0] += xb;
         white[1] += yb;
         white[2] += zb;

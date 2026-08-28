@@ -8,6 +8,7 @@
 import { seriesPoints } from "./chart";
 import type { FeedEntry } from "./session.svelte";
 import { t } from "./i18n.svelte";
+import { engineText } from "./engineText";
 
 export function notebookMarkdown(
   entries: FeedEntry[],
@@ -17,7 +18,7 @@ export function notebookMarkdown(
   out.push(`# ${meta.title ?? t("Kerotakis lab notebook")}`);
   const line2: string[] = [];
   if (meta.date) line2.push(meta.date);
-  if (meta.register) line2.push(`register ${meta.register}`);
+  if (meta.register) line2.push(`${t("register")} ${meta.register}`);
   if (line2.length > 0) out.push("", line2.join(" · "));
   out.push("");
 
@@ -27,27 +28,32 @@ export function notebookMarkdown(
         out.push("```", `kero> ${entry.text}`, "```");
         break;
       case "line":
-        out.push(entry.text, "");
+        out.push(engineText(entry.text), "");
         break;
       case "note":
-        out.push(`*${entry.text}*`, "");
+        out.push(`*${engineText(entry.text)}*`, "");
         break;
       case "user-note":
         out.push(`> **${t("my note")}${entry.createdAt ? ` · ${entry.createdAt}` : ""}**`, `> ${entry.text}`, "");
         break;
       case "hazard":
-        out.push(`> **${entry.severity || t("hazard")}** — ${entry.text}`, "");
+        out.push(
+          `> **${t(entry.severity || "hazard")}** — ${entry.hazardText && entry.realWorld
+            ? `${engineText(entry.hazardText)} — ${engineText(entry.realWorld)}`
+            : engineText(entry.text)}`,
+          "",
+        );
         break;
       case "refusal":
       case "error":
-        out.push(`> ${entry.text}`, "");
+        out.push(`> ${engineText(entry.text)}`, "");
         break;
       case "chart": {
         if (!entry.chart) break;
         const c = entry.chart;
-        out.push(`### ${c.title}`, "");
+        out.push(`### ${engineText(c.title)}`, "");
         const axis = (a: { label: string; unit?: string }) =>
-          a.unit ? `${a.label} (${a.unit})` : a.label;
+          a.unit ? `${engineText(a.label)} (${engineText(a.unit)})` : engineText(a.label);
         for (const s of c.series) {
           out.push(
             `| ${axis(c.x)} | ${axis(c.y)} |`,
@@ -56,7 +62,7 @@ export function notebookMarkdown(
             "",
           );
         }
-        if (c.provenance) out.push(`*${c.provenance}*`, "");
+        if (c.provenance) out.push(`*${engineText(c.provenance)}*`, "");
         break;
       }
     }

@@ -110,6 +110,60 @@
       }
     ]
   },
+  "chalk-vinegar": {
+    "event_count": 7,
+    "events_sample": [
+      "v1: +2.7671 mol water",
+      "v1: +2.000 g chalk_stick (1 known ingredients)",
+      "v1: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction",
+      "v2: new vessel",
+      "v2: +50.300 g white_vinegar_5_percent (2 known ingredients)",
+      "v2: +2.000 g chalk_stick (1 known ingredients)",
+      "v2: not yet modelled — chalk (calcium carbonate) in contact with liquid: no wired solver models this dissolution/reaction"
+    ],
+    "lesson": "chalk-vinegar.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.01998262,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 2.7671385,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.04188037,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 0.01998262,
+            "phase": "Solid",
+            "species": "CaCO3"
+          },
+          {
+            "moles": 2.6525118,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "conductivity": {
     "event_count": 11,
     "events_sample": [
@@ -226,7 +280,7 @@
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
-      "v1: The liquid is colourless and so cloudy you cannot see through it, there is blue-green zinc at the bottom.",
+      "v1: The liquid is white and so cloudy you cannot see through it, there is blue-green zinc at the bottom.",
       "v1: 100% of the suspended particles settle in 60 s",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — zinc in contact with liquid: no wired solver models this dissolution/reaction",
@@ -273,11 +327,11 @@
       "v1: +0.0313 mol copper sulfate",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 balance: 204.40 g",
-      "v1: The liquid is colourless and so cloudy you cannot see through it.",
+      "v1: The liquid is white and so cloudy you cannot see through it.",
       "v1: not yet modelled — nothing here can be electrolysed: v1 holds neither a metal of the series nor a dissolved metal ion, so there is nothing to be an electrode",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 balance: 204.40 g",
-      "v1: The liquid is colourless and so cloudy you cannot see through it."
+      "v1: The liquid is white and so cloudy you cannot see through it."
     ],
     "lesson": "electrolysis.lab",
     "vessels": [
@@ -303,6 +357,169 @@
         "headspace": "Open",
         "label": "beaker",
         "temperature_k": 298.15
+      }
+    ]
+  },
+  "elephant-toothpaste": {
+    "event_count": 27,
+    "events_sample": [
+      "v1: +101.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
+      "v1: +10.300 g dish_soap (1 known ingredients)",
+      "v1 thermometer: 25.00 °C",
+      "v2: new vessel",
+      "v2: +101.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
+      "v2 thermometer: 25.00 °C",
+      "v1: 25.0 °C → 26.6 °C",
+      "v1: +1.1069 mol water — 7.0025 mol now in vessel",
+      "v1: +1.000 g dry_yeast (1 known ingredients)",
+      "v1: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
+      "v1: 0.044546 mol O2 produced (4.455e-3 mol/s)",
+      "v1: peroxide-decomposition released 4374.39 J",
+      "v1: 26.6 °C → 34.7 °C",
+      "v1: 0.0445 mol reacted in 10 s, sped up by catalase  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v1: foam 1.029 L, 36.8 cm high, overflow 0.907 L",
+      "v2: 25.0 °C → 26.7 °C",
+      "v2: +1.1069 mol water — 6.5451 mol now in vessel",
+      "v2: +1.000 g dry_yeast (1 known ingredients)",
+      "v2: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
+      "v2: 0.044546 mol O2 produced (4.455e-3 mol/s)"
+    ],
+    "lesson": "elephant-toothpaste.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.0,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.04454572,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.0,
+            "phase": "Aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 7.09158936,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 307.879
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.0,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.04454572,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 0.0,
+            "phase": "Aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 6.63419275,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 308.548
+      }
+    ]
+  },
+  "elephant-toothpaste-catalyst-dose": {
+    "event_count": 19,
+    "events_sample": [
+      "v1: +101.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
+      "v1: +10.300 g dish_soap (1 known ingredients)",
+      "v1: +0.0015 mol potassium iodide",
+      "v1: 0.0015 mol potassium iodide dissolved",
+      "v2: new vessel",
+      "v2: +101.000 g hydrogen_peroxide_3_percent (2 known ingredients)",
+      "v2: +10.300 g dish_soap (1 known ingredients)",
+      "v2: +0.0060 mol potassium iodide",
+      "v2: 0.0060 mol potassium iodide dissolved",
+      "v1: 0.002076 mol O2 produced (2.076e-4 mol/s)",
+      "v1: peroxide-decomposition released 203.91 J",
+      "v1: 25.0 °C → 25.5 °C",
+      "v1: 0.0021 mol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v1: foam 0.048 L, 1.7 cm high, overflow 0.000 L",
+      "v2: 0.007743 mol O2 produced (7.743e-4 mol/s)",
+      "v2: peroxide-decomposition released 760.35 J",
+      "v2: 25.0 °C → 26.7 °C",
+      "v2: 0.0077 mol reacted in 10 s, sped up by potassium iodide  —  2 H₂O₂ → 2 H₂O + O₂↑",
+      "v2: foam 0.179 L, 6.4 cm high, overflow 0.038 L"
+    ],
+    "lesson": "elephant-toothpaste-catalyst-dose.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.08493856,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.001506,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.00207644,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 5.8997954,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.6012
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.07360572,
+            "phase": "Liquid",
+            "species": "H2O2"
+          },
+          {
+            "moles": 0.00602399,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.00774286,
+            "phase": "Gas",
+            "species": "O2"
+          },
+          {
+            "moles": 5.91112824,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 299.8314
       }
     ]
   },
@@ -437,7 +654,7 @@
     ]
   },
   "grit": {
-    "event_count": 12,
+    "event_count": 14,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.1000 mol sodium chloride",
@@ -445,11 +662,13 @@
       "v2: new vessel",
       "v2: +5.5343 mol water",
       "v1: 25.0 °C → -10.6 °C",
+      "v1: 15.00 kJ requested; 15.00 kJ removed — time model not yet coupled",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v2: 25.0 °C → -11.0 °C",
+      "v2: 15.00 kJ requested; 15.00 kJ removed — time model not yet coupled",
       "v1 thermometer: -10.56 °C",
       "v2 thermometer: -10.99 °C",
-      "v1: The liquid is colourless and so cloudy you cannot see through it.",
+      "v1: The liquid is white and so cloudy you cannot see through it.",
       "v2: The liquid is colourless and clear."
     ],
     "lesson": "grit.lab",
@@ -647,18 +866,144 @@
       }
     ]
   },
+  "magic-milk": {
+    "event_count": 14,
+    "events_sample": [
+      "v1: +103.000 g whole_milk (1 known ingredients)",
+      "v1: +0.200 g food_colour_red (2 known ingredients)",
+      "v1: +0.200 g food_colour_yellow (2 known ingredients)",
+      "v1: +0.200 g food_colour_blue (2 known ingredients)",
+      "v1: +0.515 g dish_soap (1 known ingredients)",
+      "v1: 3 surface colour spot(s) spread from 0% to 90%",
+      "v2: new vessel",
+      "v2: +103.000 g whole_milk (1 known ingredients)",
+      "v2: +0.200 g food_colour_red (2 known ingredients)",
+      "v2: +0.200 g food_colour_yellow (2 known ingredients)",
+      "v2: +0.200 g food_colour_blue (2 known ingredients)",
+      "v2: magnetic stirrer 300 rpm for 2 s — bar tip 0.393 m/s; 93% resuspension",
+      "v2: homogenized 3 surface colour spot(s)",
+      "v2: +0.515 g dish_soap (1 known ingredients)"
+    ],
+    "lesson": "magic-milk.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 3.6e-7,
+            "phase": "Aqueous",
+            "species": "betanin"
+          },
+          {
+            "moles": 5.4e-7,
+            "phase": "Aqueous",
+            "species": "curcumin"
+          },
+          {
+            "moles": 4.3e-7,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 5.03033028,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 3.6e-7,
+            "phase": "Aqueous",
+            "species": "betanin"
+          },
+          {
+            "moles": 5.4e-7,
+            "phase": "Aqueous",
+            "species": "curcumin"
+          },
+          {
+            "moles": 4.3e-7,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 5.03033028,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "milk-curds": {
+    "event_count": 6,
+    "events_sample": [
+      "v1: +103.000 g whole_milk (1 known ingredients)",
+      "v1: +1.006 g white_vinegar_5_percent (2 known ingredients)",
+      "v2: new vessel",
+      "v2: +103.000 g whole_milk (1 known ingredients)",
+      "v2: +10.060 g white_vinegar_5_percent (2 known ingredients)",
+      "v2: whole milk surrogate curd solids 0% → 28% (3.75 g aggregate solids in visible curds)"
+    ],
+    "lesson": "milk-curds.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00083761,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 5.02723841,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00837607,
+            "phase": "Liquid",
+            "species": "CH3COOH"
+          },
+          {
+            "moles": 5.50469054,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "neutral-moves": {
-    "event_count": 12,
+    "event_count": 14,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.0010 mol sodium chloride",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: 25.0 °C → 50.1 °C",
+      "v1: 10.45 kJ requested; 10.45 kJ delivered — time model not yet coupled",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 thermometer: 50.07 °C",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel",
       "v1: 50.1 °C → 3.3 °C",
+      "v1: 19.50 kJ requested; 19.50 kJ removed — time model not yet coupled",
       "v1: not yet modelled — sodium chloride in contact with liquid: no wired solver models this dissolution/reaction",
       "v1 thermometer: 3.29 °C",
       "v1: not yet modelled — the pH meter reads nothing — no aqueous solution has been characterised in this vessel"
@@ -793,6 +1138,64 @@
       }
     ]
   },
+  "oil-water-colour": {
+    "event_count": 16,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +1.000 g food_colour_blue (2 known ingredients)",
+      "v1: +46.000 g vegetable_oil (0 known ingredients)",
+      "v1: vegetable oil forms the upper layer; water is denser and remains below",
+      "v2: new vessel",
+      "v2: +46.000 g vegetable_oil (0 known ingredients)",
+      "v2: +1.000 g food_colour_red (2 known ingredients)",
+      "v2: vegetable oil forms the upper layer; water is denser and remains below",
+      "v1: +1.030 g dish_soap (1 known ingredients)",
+      "v1: vegetable oil forms the upper layer; water is denser and remains below",
+      "v1: magnetic stirrer 500 rpm for 10 s — bar tip 0.654 m/s; 100% resuspension",
+      "v1: vegetable oil dispersed 0% → 92% (46.0 mL; 300 s coalescence half-life)",
+      "v1: vegetable oil forms the upper layer; water is denser and remains below",
+      "v1: vegetable oil dispersed 92% → 46% (23.0 mL; 300 s coalescence half-life)",
+      "v1: vegetable oil forms the upper layer; water is denser and remains below",
+      "v2: vegetable oil forms the upper layer; water is denser and remains below"
+    ],
+    "lesson": "oil-water-colour.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 2.14e-6,
+            "phase": "Aqueous",
+            "species": "indigo_carmine"
+          },
+          {
+            "moles": 5.63547044,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 1.82e-6,
+            "phase": "Aqueous",
+            "species": "betanin"
+          },
+          {
+            "moles": 0.05545379,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "cylinder",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "one-thing-at-a-time": {
     "event_count": 6,
     "events_sample": [
@@ -834,8 +1237,48 @@
       }
     ]
   },
+  "pepper-and-soap": {
+    "event_count": 8,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +0.080 g ground_black_pepper (0 known ingredients)",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +1.030 g dish_soap (1 known ingredients)",
+      "v2: +0.080 g ground_black_pepper (0 known ingredients)",
+      "v1: +1.030 g dish_soap (1 known ingredients)",
+      "v1: ground black pepper central clearing increased from 0% to 90%"
+    ],
+    "lesson": "pepper-and-soap.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 5.58001665,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 5.58001665,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
   "rates": {
-    "event_count": 23,
+    "event_count": 24,
     "events_sample": [
       "v1: +5.5343 mol water",
       "v1: +0.0050 mol sodium thiosulfate",
@@ -849,14 +1292,14 @@
       "v2: +0.0020 mol hydrochloric acid",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: 25.0 °C → 44.2 °C",
+      "v2: 8.00 kJ requested; 8.00 kJ delivered — time model not yet coupled",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: 100% of the suspended particles settle in 20 s",
       "v2: 100% of the suspended particles settle in 20 s",
       "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v2: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker",
       "v1: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom.",
-      "v2: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom.",
-      "v1: not yet modelled — sodium thiosulfate dissolves, but no wired engine speciates it: it contributes nothing to the pH or the ionic strength here, and those numbers are for everything else in the beaker"
+      "v2: The liquid is colourless and clear, there is white sodium thiosulfate at the bottom."
     ],
     "lesson": "rates.lab",
     "vessels": [
@@ -1057,7 +1500,7 @@
       "v1: +0.0206 mol magnesium",
       "v1: not yet modelled — copper sulfate in contact with liquid: no wired solver models this dissolution/reaction",
       "v1: not yet modelled — magnesium in contact with liquid: no wired solver models this dissolution/reaction",
-      "v1: The liquid is colourless and so cloudy you cannot see through it, there is white magnesium at the bottom.",
+      "v1: The liquid is white and so cloudy you cannot see through it, there is white magnesium at the bottom.",
       "v1 thermometer: 25.00 °C",
       "v2: new vessel",
       "v2: +5.5343 mol water",
@@ -1287,6 +1730,73 @@
           },
           {
             "moles": 0.01692313,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "starch-iodine-test": {
+    "event_count": 10,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +2.040 g lugol_solution_1_percent (3 known ingredients)",
+      "v1: 0.0002 mol potassium iodide dissolved",
+      "v1: 0.0001 mol iodine dissolved",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +2.040 g lugol_solution_1_percent (3 known ingredients)",
+      "v2: 0.0002 mol potassium iodide dissolved",
+      "v2: 0.0001 mol iodine dissolved",
+      "v2: +1.000 g corn_starch (1 known ingredients)"
+    ],
+    "lesson": "starch-iodine-test.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.00008038,
+            "phase": "Aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 0.00024578,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 5.64411879,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00008038,
+            "phase": "Aqueous",
+            "species": "I2"
+          },
+          {
+            "moles": 0.00024578,
+            "phase": "Aqueous",
+            "species": "KI"
+          },
+          {
+            "moles": 0.00616751,
+            "phase": "Solid",
+            "species": "starch"
+          },
+          {
+            "moles": 5.64411879,
             "phase": "Liquid",
             "species": "water"
           }
@@ -1603,6 +2113,93 @@
           },
           {
             "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      }
+    ]
+  },
+  "yeast-fermentation": {
+    "event_count": 13,
+    "events_sample": [
+      "v1: +5.5343 mol water",
+      "v1: +10.000 g table_sugar (1 known ingredients)",
+      "v1: 0.0292 mol sucrose dissolved",
+      "v2: new vessel",
+      "v2: +5.5343 mol water",
+      "v2: +1.000 g dry_yeast (1 known ingredients)",
+      "v3: new vessel",
+      "v3: +5.5343 mol water",
+      "v3: +10.000 g table_sugar (1 known ingredients)",
+      "v3: 0.0292 mol sucrose dissolved",
+      "v3: +1.000 g dry_yeast (1 known ingredients)",
+      "v3: 0.009858 mol CO2 produced (1.643e-5 mol/s)",
+      "v3: yeast fermented 0.002465 mol sucrose in 600 s → 0.009858 mol ethanol + 0.009858 mol CO2 (0.734 g effective yeast)"
+    ],
+    "lesson": "yeast-fermentation.lab",
+    "vessels": [
+      {
+        "contents": [
+          {
+            "moles": 0.02921444,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.0,
+            "phase": "Aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 5.53427699,
+            "phase": "Liquid",
+            "species": "water"
+          }
+        ],
+        "headspace": "Open",
+        "label": "beaker",
+        "temperature_k": 298.15
+      },
+      {
+        "contents": [
+          {
+            "moles": 0.00985824,
+            "phase": "Gas",
+            "species": "CO2"
+          },
+          {
+            "moles": 0.0,
+            "phase": "Aqueous",
+            "species": "catalase"
+          },
+          {
+            "moles": 0.00985824,
+            "phase": "Aqueous",
+            "species": "ethanol"
+          },
+          {
+            "moles": 0.02674988,
+            "phase": "Aqueous",
+            "species": "sucrose"
+          },
+          {
+            "moles": 5.53181243,
             "phase": "Liquid",
             "species": "water"
           }

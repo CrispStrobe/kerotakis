@@ -79,6 +79,30 @@ fn event_gas_moles(events: &[Event], absorbed: bool) -> f64 {
 }
 
 #[test]
+fn sparkling_water_recipe_fizzes_into_an_open_vessel() {
+    let mut bench = Bench::new();
+    let mut solver = PhreeqcEquilibrator::new().expect("engine");
+    let op = kerotakis_core::script::parse_op("add v1 Sprudel 100mL")
+        .expect("valid localized sparkling-water command")
+        .expect("operator");
+    let events = step(&mut bench, &mut solver, op);
+
+    assert!(
+        events.iter().any(|event| matches!(event,
+            Event::GasEvolved { species, moles, .. }
+                if species.0 == "CO2" && moles.0 > 0.001
+        )),
+        "open sparkling water must visibly lose computed CO2: {events:?}"
+    );
+    let solution = bench.vessels[0].solution.as_ref().expect("aqueous state");
+    assert!(
+        solution.ph < 6.0,
+        "dissolved CO2 makes the water acidic: {}",
+        solution.ph
+    );
+}
+
+#[test]
 fn closed_bicarbonate_keeps_carbon_and_differs_from_an_open_beaker() {
     let vessel = VesselId(0);
 
