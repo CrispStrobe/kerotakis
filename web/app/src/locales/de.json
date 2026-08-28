@@ -1269,6 +1269,8 @@
   "show all": "alle zeigen",
   "fewer": "weniger",
   "show every action": "alle Aktionen zeigen",
-  "show one row": "in einer Zeile zeigen"
+  "show one row": "in einer Zeile zeigen",
+  "nothing to draw yet — dissolve or add something first": "noch nichts zu zeichnen — löse oder gib zuerst etwas hinzu",
+  "everything here is too dilute to draw even one shape": "alles hier ist zu verdünnt, um auch nur ein Teilchen zu zeichnen"
  }
 }
