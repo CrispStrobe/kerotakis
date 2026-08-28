@@ -51,6 +51,24 @@ const layoutAudit = () => page.evaluate(`(() => {
   });
 })()`);
 
+const mobileTabs = () => page.evaluate(`JSON.stringify(
+  [...document.querySelectorAll('.tabs button')].filter((button) => button.offsetParent)
+    .map((button) => ({
+      name: button.textContent.trim(),
+      width: button.getBoundingClientRect().width,
+      height: button.getBoundingClientRect().height,
+    }))
+)`);
+
+const chooseMobilePane = async (index) => {
+  await page.evaluate(`(() => {
+    const buttons = [...document.querySelectorAll('.tabs button')].filter((button) => button.offsetParent);
+    buttons[${index}]?.click();
+  })()`);
+  await new Promise((resolve) => setTimeout(resolve, 50));
+  return JSON.parse(await layoutAudit());
+};
+
 try {
   await viewport(1440, 900);
   await page.goto(`${origin}/app/`);
@@ -83,12 +101,44 @@ try {
   await openSandbox();
   const mobile = JSON.parse(await layoutAudit());
   check("phone layout has no page-level horizontal overflow", mobile.bodyOverflow <= 1, `${mobile.bodyOverflow}px`);
-  const tabs = JSON.parse(await page.evaluate(`JSON.stringify(
-    [...document.querySelectorAll('.tabs button')].filter((button) => button.offsetParent)
-      .map((button) => ({ width: button.getBoundingClientRect().width, height: button.getBoundingClientRect().height }))
-  )`));
+  const tabs = JSON.parse(await mobileTabs());
   check("phone navigation exposes three tabs", tabs.length === 3, `${tabs.length} tabs`);
   check("phone tabs meet the 44 px touch minimum", tabs.every((tab) => tab.width >= 44 && tab.height >= 44));
+
+  // 320 CSS pixels remains a real supported width: compact phones, split
+  // views and a 640px browser at 200% zoom all reach it. Audit every pane,
+  // because the inactive drawers are deliberately absent from layout.
+  await viewport(320, 700);
+  await page.goto(`${origin}/app/`);
+  await openSandbox();
+  const narrowTabs = JSON.parse(await mobileTabs());
+  check("320 px navigation exposes all three destinations", narrowTabs.length === 3,
+    narrowTabs.map((tab) => tab.name).join(", "));
+  check("320 px tabs retain 44 px touch targets", narrowTabs.every((tab) => tab.width >= 44 && tab.height >= 44));
+  const narrowBench = await chooseMobilePane(0);
+  const narrowShelf = await chooseMobilePane(1);
+  const narrowJournal = await chooseMobilePane(2);
+  check("320 px workspace stays inside the page", narrowBench.bodyOverflow <= 1 && Boolean(narrowBench.bench), `${narrowBench.bodyOverflow}px`);
+  check("320 px cabinet stays inside the page", narrowShelf.bodyOverflow <= 1 && Boolean(narrowShelf.cabinet), `${narrowShelf.bodyOverflow}px`);
+  check("320 px journal stays inside the page", narrowJournal.bodyOverflow <= 1 && Boolean(narrowJournal.journal), `${narrowJournal.bodyOverflow}px`);
+
+  // Text-only zoom is more demanding than page zoom: the viewport does not
+  // shrink, but inherited type and rem-sized controls double. This catches
+  // rigid chrome that a narrow-viewport test alone cannot see.
+  await viewport(1440, 900);
+  await page.goto(`${origin}/app/`);
+  await openSandbox();
+  await page.evaluate(`(() => {
+    const style = document.createElement("style");
+    style.id = "ux-text-zoom";
+    style.textContent = "html { font-size: 200% !important; } body { font-size: 200% !important; }";
+    document.head.append(style);
+  })()`);
+  const zoomed = JSON.parse(await layoutAudit());
+  check("200% text zoom has no page-level horizontal overflow", zoomed.bodyOverflow <= 1, `${zoomed.bodyOverflow}px`);
+  check("200% text zoom keeps the three surfaces separate", Boolean(zoomed.cabinet && zoomed.bench && zoomed.journal)
+    && zoomed.cabinet.right <= zoomed.bench.left + 1 && zoomed.bench.right <= zoomed.journal.left + 1);
+  check("200% text zoom keeps controls named", zoomed.unnamed === 0, `${zoomed.unnamed} unnamed`);
 
   await page.cdp.send("Emulation.setEmulatedMedia", {
     media: "screen", features: [{ name: "prefers-reduced-motion", value: "reduce" }],
