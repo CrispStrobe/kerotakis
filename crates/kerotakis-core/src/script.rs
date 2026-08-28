@@ -48,6 +48,7 @@ pub const VERBS: &[(&str, &str)] = &[
     ("transport", "transport v1 v2 v3 from v4 to v5 steps 3"),
     ("react", "react v1 esterification"),
     ("test", "test v1 pop"),
+    ("smell", "smell v1"),
 ];
 
 /// Stable parse failure classes for corpus coverage and clients. The legacy
