@@ -626,8 +626,10 @@ const SOLVENT: &str = "water";
 /// PHREEQC's own temperature/enthalpy fixed point settles to 0.05 K. Once
 /// liquid and ice coexist, asking the outer phase loop for a tighter common
 /// temperature creates a two-point oscillation that additional passes cannot
-/// resolve. This tolerance is only a coupled-solver stop; an initially
-/// supercooled single liquid phase still undergoes its physical transfer.
+/// resolve. A converged state is projected onto the computed liquidus before
+/// it is exposed, so callers still receive a phase-consistent temperature.
+/// This tolerance is only a coupled-solver stop; an initially supercooled
+/// single liquid phase still undergoes its physical transfer.
 pub const PHASE_COUPLED_TEMPERATURE_TOLERANCE_K: f64 = 0.05;
 
 fn dissolved_particle_molality(vessel: &Vessel) -> f64 {
@@ -876,6 +878,37 @@ pub fn equilibrate_phase_coupled(
             let liquidus =
                 crate::states::transitions(dissolved_particle_molality(vessel)).freezing_k;
             if (vessel.temperature.0 - liquidus).abs() <= PHASE_COUPLED_TEMPERATURE_TOLERANCE_K {
+                // The chemistry/enthalpy fixed point is only resolvable to
+                // the tolerance above.  Do not leak that numerical residue
+                // as physically impossible supercooled liquid beside ice:
+                // coexistence defines the final temperature exactly.
+                vessel.temperature = Kelvin(liquidus);
+                // Earlier passes report the provisional liquidus that
+                // triggered their water transfer.  Once the coupled solve
+                // settles, make the last phase event describe the final
+                // coexistence boundary rather than leaking an obsolete
+                // intermediate value to renderers and invariant checks.
+                if let Some(Event::StateChanged { at, shifted_by, .. }) =
+                    events.iter_mut().rev().find(|event| {
+                        matches!(
+                            event,
+                            Event::StateChanged {
+                                species,
+                                from: Phase::Liquid,
+                                to: Phase::Solid,
+                                ..
+                            } | Event::StateChanged {
+                                species,
+                                from: Phase::Solid,
+                                to: Phase::Liquid,
+                                ..
+                            } if species.0 == SOLVENT
+                        )
+                    })
+                {
+                    *at = Kelvin(liquidus);
+                    *shifted_by = liquidus - crate::states::WATER_FREEZING_K;
+                }
                 return Ok(events);
             }
         }
