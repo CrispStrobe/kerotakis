@@ -175,3 +175,78 @@ fn quarantine_serialization_is_input_order_independent() {
         canonical_quarantine_bytes(vec![b, a]).unwrap()
     );
 }
+
+#[test]
+fn refresh_diff_is_stable_and_field_granular() {
+    let removed = candidate("record-a", "water");
+    let mut changed = candidate("record-b", "oxidane");
+    let unchanged = candidate("record-c", "water");
+    let mut refreshed = changed.clone();
+    refreshed.identity_key = Some("REFRESHED-IDENTITY".into());
+    refreshed.fields.remove("patent_count");
+    refreshed.fields.insert(
+        "formula".into(),
+        field(json!("H2O"), "record.formula", "CC0-1.0"),
+    );
+    refreshed.fields.insert(
+        "canonical_name".into(),
+        field(json!("water"), "record.name", "CC0-1.0"),
+    );
+    changed.fields.insert(
+        "formula".into(),
+        field(json!("OH2"), "record.formula", "CC0-1.0"),
+    );
+    let added = candidate("record-d", "heavy water");
+
+    let first = diff_quarantine(
+        &[removed.clone(), changed.clone(), unchanged.clone()],
+        &[unchanged.clone(), refreshed.clone(), added.clone()],
+    )
+    .unwrap();
+    let reordered = diff_quarantine(
+        &[unchanged, changed, removed],
+        &[added, refreshed, candidate("record-c", "water")],
+    )
+    .unwrap();
+
+    assert_eq!(first, reordered);
+    assert_eq!(first.added_records[0].external_record_id, "record-d");
+    assert_eq!(first.removed_records[0].external_record_id, "record-a");
+    assert_eq!(first.changed_records.len(), 1);
+    assert!(first.changed_records[0].identity_key.is_some());
+    assert_eq!(first.changed_records[0].fields.len(), 3);
+}
+
+#[test]
+fn duplicate_adapter_record_ids_are_refused() {
+    let duplicate = candidate("record-a", "water");
+    assert!(matches!(
+        diff_quarantine(&[duplicate.clone(), duplicate], &[]),
+        Err(AdapterError::DuplicateRecord { .. })
+    ));
+}
+
+#[test]
+fn batch_review_order_is_deterministic_and_keeps_identity_conflicts() {
+    let policy = PromotionPolicy {
+        fields: BTreeMap::from([(
+            "canonical_name".into(),
+            RuntimeFieldPolicy {
+                target_field: "name".into(),
+                allowed_licences: BTreeSet::from(["CC0-1.0".into()]),
+            },
+        )]),
+    };
+    let report = review_candidates(
+        vec![
+            candidate("record-b", "oxidane"),
+            candidate("record-a", "water"),
+        ],
+        &policy,
+    );
+
+    assert_eq!(report.schema, ADAPTER_SCHEMA_VERSION);
+    assert_eq!(report.reviews[0].external_record_id, "record-a");
+    assert_eq!(report.reviews[1].external_record_id, "record-b");
+    assert_eq!(report.identity_conflicts.len(), 1);
+}
