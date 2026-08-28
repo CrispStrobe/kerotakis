@@ -243,6 +243,17 @@
       return;
     }
     writeLabMode(appStorage, next);
+    // Arriving in the story on a bare bench is the thing being fixed, and
+    // the reload means the choice has to survive it. Consumed on read, so
+    // it guides on entry rather than nagging on every load.
+    if (next === "story") {
+      try {
+        appStorage?.setItem(STORY_ENTRY_KEY, "yes");
+      } catch {
+        // The bench still works; the reader just arrives unguided, which
+        // is exactly what it was before.
+      }
+    }
     location.reload();
   }
 
@@ -253,7 +264,20 @@
 
   let helpOpen = $state(false);
   let aboutOpen = $state(false);
-  let missionOpen = $state(false);
+  /** Set when the reader chose the story; read once, on arrival. */
+  const STORY_ENTRY_KEY = "kerotakis.story.just-entered.v1";
+  let missionOpen = $state(
+    (() => {
+      if (labMode !== "story") return false;
+      try {
+        if (appStorage?.getItem(STORY_ENTRY_KEY) !== "yes") return false;
+        appStorage.removeItem(STORY_ENTRY_KEY);
+        return true;
+      } catch {
+        return false;
+      }
+    })(),
+  );
   let tableOpen = $state(false);
   let safetyOpen = $state(false);
   let toolboxOpen = $state(false);
