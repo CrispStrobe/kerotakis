@@ -101,6 +101,13 @@ export class Session {
   feed = $state<FeedEntry[]>([]);
   busy = $state(false);
   engineReady = $state(false);
+  /** The engine would not take a language, so its prose is English.
+   *
+   * Observable rather than merely logged: the native app refused
+   * `set_locale` for months and the only evidence was that the journal
+   * read English while the buttons around it read German. A test can
+   * assert on this; nobody was ever going to notice the absence. */
+  localeRefused = $state(false);
   canSolve = $state(false);
   /** Engine identity from hello (GUI-001): "0.0.1 @ abc1234" or null. */
   engineIdentity = $state<string | null>(null);
@@ -345,8 +352,14 @@ export class Session {
       // moves ahead of the one call everything does wait for.
       try {
         await this.host.setLocale(i18n.locale);
-      } catch {
-        // English is a working fallback; a dead session is not.
+      } catch (e) {
+        // English is a working fallback; a dead session is not — so this
+        // still does not throw. But it must not be silent either: this
+        // exact catch hid the native app refusing `set_locale` for as long
+        // as the engine has had a catalogue, and the iPad rendered English
+        // prose under German buttons with nothing anywhere reporting it.
+        console.error("the engine refused the locale; rendering English", e);
+        this.localeRefused = true;
       }
       const hello = await this.host.hello();
       this.engineReady = true;
