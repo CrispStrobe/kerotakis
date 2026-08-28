@@ -14,8 +14,8 @@
 use std::sync::{mpsc, Mutex};
 
 use kerotakis_core::{
-    render_events, render_vessel, Bench, Equilibrator, Operator, PhaseEquilibrator, Register,
-    SolverStack, StateEquilibrator, VesselId,
+    localize_events, render_events_in, render_vessel_in, Bench, Equilibrator, Locale, Operator,
+    PhaseEquilibrator, Register, SolverStack, StateEquilibrator, VesselId,
 };
 use serde_json::{json, Value};
 
@@ -23,6 +23,9 @@ struct NativeLab {
     bench: Bench,
     stack: SolverStack,
     register: Register,
+    /// The language to render in. English until the shell says otherwise,
+    /// which is also what a host that never sets one gets.
+    locale: Locale,
     can_solve: bool,
     quest: Option<kerotakis_codex::quest::QuestSpec>,
     quest_states: std::collections::BTreeMap<String, kerotakis_codex::quest::QuestState>,
@@ -54,6 +57,7 @@ impl NativeLab {
             bench: Bench::new(),
             stack,
             register: Register::default(),
+            locale: Locale::EN,
             can_solve,
             quest: None,
             quest_states: std::collections::BTreeMap::new(),
@@ -165,11 +169,11 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
         "step" => {
             let op: Operator =
                 serde_json::from_str(field("operator_json")?).map_err(|e| e.to_string())?;
-            let events = lab.run(op)?;
+            let events = localize_events(&lab.run(op)?, lab.locale);
             let quest = lab.quest_observe(&events);
             Ok(json!({
                 "events": events,
-                "rendered": render_events(&events, lab.register),
+                "rendered": render_events_in(&events, lab.register, lab.locale),
                 "charts": kerotakis_core::chart::charts_for_events(&events),
                 "quest": quest,
                 "scene": kerotakis_core::scene(&lab.bench),
@@ -189,12 +193,12 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                 match kerotakis_core::script::parse_op(line) {
                     Ok(None) => {}
                     Ok(Some(op)) => {
-                        let events = lab.run(op.clone())?;
+                        let events = localize_events(&lab.run(op.clone())?, lab.locale);
                         let quest = lab.quest_observe(&events);
                         steps.push(json!({
                             "operator": op,
                             "events": events,
-                            "rendered": render_events(&events, lab.register),
+                            "rendered": render_events_in(&events, lab.register, lab.locale),
                             "charts": kerotakis_core::chart::charts_for_events(&events),
                             "quest": quest,
                         }));
@@ -232,6 +236,14 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
             Ok(Some(op)) => json!({ "ok": true, "operator": op }).to_string(),
             Err(e) => json!({ "ok": false, "error": e }).to_string(),
         }),
+        // The shell has sent this since the engine learned German. The
+        // dispatch refused it by name, correctly, and `Session.connect`
+        // swallowed the refusal — so the native app rendered English while
+        // its own buttons were German.
+        "set_locale" => {
+            lab.locale = Locale::parse(field("code")?);
+            Ok(json!({"locale": lab.locale}).to_string())
+        }
         "set_register" => {
             let level = field("level")?;
             lab.register =
@@ -325,7 +337,7 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
             let index = req.get("vessel").and_then(Value::as_u64).unwrap_or(0) as usize;
             let v = lab.vessel(index)?;
             Ok(json!({
-                "rendered": render_vessel(v, lab.register),
+                "rendered": render_vessel_in(v, lab.register, lab.locale),
                 "vessel": v,
             })
             .to_string())
@@ -640,6 +652,56 @@ mod protocol_conformance {
             }
         }
         assert_eq!(base64_decode(&enc).unwrap(), blob, "binary blob");
+    }
+
+    /// The native app must answer every command the shell can send.
+    ///
+    /// It did not, for as long as the engine has had a German catalogue:
+    /// `TauriHost` sent `set_locale`, this dispatch refused it by name, and
+    /// `Session.connect` swallowed the refusal. So the iPad and the Mac
+    /// rendered English prose under German buttons and nothing anywhere
+    /// said why — the browser was fine, which is what made it look done.
+    ///
+    /// Reading the TypeScript is deliberate. A hand-kept list here would
+    /// have to be remembered at exactly the moment someone adds a command,
+    /// which is the moment it would be forgotten.
+    #[test]
+    fn every_command_the_shell_sends_is_answered() {
+        let host = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../src/lib/host/TauriHost.ts");
+        let src = std::fs::read_to_string(&host)
+            .unwrap_or_else(|e| panic!("{}: {e}", host.display()));
+
+        let mut sent: Vec<String> = Vec::new();
+        for (_, rest) in src.match_indices("this.req(\"").map(|(i, m)| (i, &src[i + m.len()..])) {
+            if let Some(end) = rest.find('"') {
+                let name = rest[..end].to_string();
+                if !sent.contains(&name) {
+                    sent.push(name);
+                }
+            }
+        }
+        assert!(
+            sent.len() > 10,
+            "found only {} commands — the scrape is broken, not the dispatch",
+            sent.len()
+        );
+
+        let mut unanswered = Vec::new();
+        for name in &sent {
+            let mut lab = NativeLab::new();
+            // Arguments are not supplied, so a recognised command may well
+            // fail. Only being refused BY NAME counts as unanswered.
+            if let Err(e) = dispatch(&mut lab, &json!({"cmd": name})) {
+                if e.contains(&format!("unknown command '{name}'")) {
+                    unanswered.push(name.clone());
+                }
+            }
+        }
+        assert!(
+            unanswered.is_empty(),
+            "the shell sends these and the native app refuses them: {unanswered:?}"
+        );
     }
 
     #[test]
