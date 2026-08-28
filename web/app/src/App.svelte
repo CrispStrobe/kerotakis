@@ -1476,14 +1476,18 @@
   }
   .catalog-scope button {
     min-width: 0;
-    min-height: 34px;
+    /* 34px and 0.62rem (~10px) put three German words across a 370px
+       panel and the report could not read them. 44px is the touch
+       minimum; the larger type is what makes the words legible. */
+    min-height: 2.75rem;
     padding: 0.3rem 0.2rem;
     border: 0;
     color: var(--dim);
     background: transparent;
     font: inherit;
-    font-size: 0.62rem;
+    font-size: 0.72rem;
     font-weight: 750;
+    line-height: 1.15;
     cursor: pointer;
   }
   .catalog-scope button.active { color: var(--primary); background: color-mix(in srgb, var(--primary) 11%, var(--surface-raised)); }
