@@ -228,7 +228,15 @@
   "prefactor": "",
   "exponent": "",
   "value": "",
-  "charge": ""
+  "charge": "",
+  "hydrogen bromide": "",
+  "bromide ion": "",
+  "sodium bromide": "",
+  "bromoethane": "",
+  "ethene": "",
+  "2-methylpropene": "",
+  "2-methylpropan-2-ol": "",
+  "2-bromo-2-methylpropane": ""
  },
  "messages": {
   "A cloudy water sample arrived without a trustworthy label. Build an evidence trail before the campus reopens its supply line.": "",
