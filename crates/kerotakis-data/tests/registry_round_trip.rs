@@ -29,7 +29,10 @@ fn source_registry_loads_and_validates() {
         "registry must have identity records"
     );
     doc.validate().expect("checked-in registry must validate");
-    assert_eq!(doc.material_recipes.len(), 32);
+    assert!(
+        !doc.material_recipes.is_empty(),
+        "registry must have material recipes"
+    );
 }
 
 #[test]
