@@ -17,3 +17,6 @@ sha2 = "0.10"
 
 [[bin]]
 name = "compile-registry"
+
+[[bin]]
+name = "quarantine-review"

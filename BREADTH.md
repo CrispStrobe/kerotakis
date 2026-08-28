@@ -235,8 +235,15 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   deterministic candidate serialization, exact per-field provenance/licence,
   explicit field-and-licence review policies, and same-identity conflict
   reports. Review returns eligible/rejected fields and cannot mutate the
-  runtime registry. Remaining work is the adapter CLI, refresh-diff format,
-  pinned fixture directories and parser fuzz target used by BRD-010/011/013/060.
+  runtime registry.
+- **Review-tooling checkpoint (2026-08-28):** the offline
+  `quarantine-review` binary verifies snapshot manifests against raw bytes,
+  canonicalizes candidate fixtures, applies review policies, and emits a
+  deterministic record/identity/field-level refresh diff. A checked-in
+  synthetic fixture pins the required directory and manifest shape. These
+  commands only print review artifacts; none can write a runtime pack.
+  Remaining BRD-003 work is units normalization, the parser fuzz target and a
+  provenance lint consumable by BRD-010/011/013/060.
 
 ## Stage B1 — the everyday shelf
 
