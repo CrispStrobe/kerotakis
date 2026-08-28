@@ -45,15 +45,15 @@
       <h3>{t("measure")}</h3>
       <InstrumentTray {vessel} {busy} onmeasure={onaction} />
     </section>
-    <section class="detail-section gas-section" aria-label={t("gas tests on {vessel}", { vessel: v })}>
-      <h3>{t("gas tests")}</h3>
+    <details class="detail-section gas-section">
+      <summary aria-label={t("gas tests on {vessel}", { vessel: v })}>{t("gas tests")}</summary>
       <p>{t("Apply a test to the headspace of the selected vessel.")}</p>
       <div class="actions" role="group">
         {#each GAS_TESTS as test (test)}
           <button disabled={busy} onclick={() => onaction(`test ${v} ${test}`)}>{t(test)}</button>
         {/each}
       </div>
-    </section>
+    </details>
   {/if}
   <section class="computed-state" aria-label={t("computed state") }>
     <h3>{t("computed state")}</h3>
@@ -105,6 +105,20 @@
   .detail-section { padding-top: .55rem; border-bottom: 1px solid color-mix(in srgb, var(--edge) 65%, transparent); }
   h3 { margin: 0; padding: 0 1rem .25rem; color: var(--dim); font-size: .58rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
   .gas-section { padding-bottom: .55rem; }
+  /* The summary carries the h3's weight, since it replaced one. 44px so
+     it is a real target on a tablet. */
+  .gas-section > summary {
+    min-height: 2.75rem;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    font-size: 0.72rem;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--dim);
+    cursor: pointer;
+  }
   .gas-section p { margin: 0; padding: 0 1rem .25rem; color: var(--dim); font-size: .66rem; line-height: 1.35; }
   button {
     background: var(--panel-raised);
