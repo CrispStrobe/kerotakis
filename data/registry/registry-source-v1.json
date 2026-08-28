@@ -2606,11 +2606,9 @@
     },
     {
       "id": "PE",
-      "canonical_key": "VGGSQFUCUMXWEO-UHFFFAOYSA-N",
+      "canonical_key": "legacy:species/PE",
       "name": "polyethylene (HDPE)",
-      "identifiers": {
-        "inchikey": "VGGSQFUCUMXWEO-UHFFFAOYSA-N"
-      },
+      "identifiers": {},
       "synonyms": [],
       "evidence": {
         "source_id": "legacy/PE",
