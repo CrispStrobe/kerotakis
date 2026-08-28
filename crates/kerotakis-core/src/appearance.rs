@@ -72,24 +72,68 @@ pub fn observe(vessel: &Vessel) -> Appearance {
                 None => continue,
             },
         };
-        let concentration = p.moles.0 / litres;
+        let visible_moles =
+            (p.moles.0 - crate::surface_colour::sequestered_moles(vessel, &p.species)).max(0.0);
+        let concentration = visible_moles / litres;
         for (band, e) in absorbance.iter_mut().zip(eps.iter()) {
             *band += e * concentration * crate::vessel::path_cm_for(&vessel.label);
         }
     }
+    let starch_iodine_complex_moles = crate::starch_iodine::add_absorbance(
+        vessel,
+        litres,
+        crate::vessel::path_cm_for(&vessel.label),
+        &mut absorbance,
+    );
     let has_liquid = vessel
         .contents
         .iter()
         .any(|p| matches!(p.phase, Phase::Liquid | Phase::Aqueous));
-    let liquid = has_liquid.then(|| {
-        let rgb = crate::spectrum::transmitted_colour(&absorbance);
-        Colour {
+    let pigment_layers = vessel
+        .unresolved_materials
+        .iter()
+        .filter_map(|portion| {
+            let recipe = crate::material::lookup(&portion.material, None)?;
+            let optics = crate::material::pigment_optics(&recipe)?;
+            Some((optics, portion.amount))
+        })
+        .collect::<Vec<_>>();
+    let pigment_amounts = pigment_layers
+        .iter()
+        .map(|(optics, amount)| crate::pigment::PigmentAmount {
+            key: &optics.key,
+            amount: *amount,
+            optics: Some(optics),
+        })
+        .collect::<Vec<_>>();
+    let pigment_colour = (!pigment_amounts.is_empty())
+        .then(|| crate::pigment::opaque_mixture_colour(&pigment_amounts).ok())
+        .flatten();
+    let mut liquid = pigment_colour
+        .or_else(|| has_liquid.then(|| crate::spectrum::transmitted_colour(&absorbance)))
+        .map(|rgb| Colour {
             r: rgb.r,
             g: rgb.g,
             b: rgb.b,
             strength: 0.0,
-        }
-    });
+        });
+    let colloid = crate::material::colloid_observation(vessel);
+    if let (Some(colloid), Some(colour)) = (colloid, &mut liquid) {
+        let opacity = colloid.cloudiness;
+        // The computed dye spectrum still absorbs light in an opaque,
+        // scattering medium. Modulate the colloid's scattered-white base by
+        // that spectral result before applying opacity; painting the base
+        // over it at opacity=1 would make stirred food colouring disappear.
+        // Localized surface dye is excluded from `colour` above, so untouched
+        // milk remains warm white.
+        let tint = |transmitted: u8, base: u8| transmitted as f64 * base as f64 / 255.0;
+        colour.r = ((colour.r as f64 * (1.0 - opacity) + tint(colour.r, colloid.srgb[0]) * opacity)
+            .round()) as u8;
+        colour.g = ((colour.g as f64 * (1.0 - opacity) + tint(colour.g, colloid.srgb[1]) * opacity)
+            .round()) as u8;
+        colour.b = ((colour.b as f64 * (1.0 - opacity) + tint(colour.b, colloid.srgb[2]) * opacity)
+            .round()) as u8;
+    }
 
     // --- Cloudiness and deposit from suspended solid.
     let mut solid_moles = 0.0;
@@ -114,23 +158,41 @@ pub fn observe(vessel: &Vessel) -> Appearance {
             solid_moles += p.moles.0 * tracked_suspension.unwrap_or(1.0);
         }
         let data = species::lookup(&p.species);
-        let colour = data.and_then(|d| d.colour).unwrap_or(Colour {
-            r: 220,
-            g: 220,
-            b: 220,
-            strength: 0.0,
-        });
+        let colour = if p.species.0 == "starch" && starch_iodine_complex_moles > 0.0 {
+            Colour {
+                r: 15,
+                g: 20,
+                b: 48,
+                strength: 0.0,
+            }
+        } else {
+            data.and_then(|d| d.colour).unwrap_or(Colour {
+                r: 220,
+                g: 220,
+                b: 220,
+                strength: 0.0,
+            })
+        };
         let name = data.map(|d| d.name).unwrap_or(p.species.0.as_str());
         let settled_moles = p.moles.0 * tracked_suspension.map(|f| 1.0 - f).unwrap_or(1.0);
         if settled_moles > 1e-12 && biggest.as_ref().is_none_or(|(_, m, _)| settled_moles > *m) {
             biggest = Some((name, settled_moles, colour));
         }
     }
-    let cloudiness = if has_liquid {
+    let particle_cloudiness = if pigment_colour.is_some() {
+        1.0
+    } else if has_liquid {
         (solid_moles / litres / OPAQUE_AT).clamp(0.0, 1.0)
     } else {
         0.0
     };
+    let emulsion_cloudiness = crate::emulsion::observe(vessel)
+        .map(|emulsion| 0.78 * emulsion.dispersed_fraction)
+        .unwrap_or(0.0);
+    let colloid_cloudiness = colloid.map(|colloid| colloid.cloudiness).unwrap_or(0.0);
+    let cloudiness = particle_cloudiness
+        .max(emulsion_cloudiness)
+        .max(colloid_cloudiness);
     let deposit = biggest.map(|(name, _, colour)| (name.to_string(), colour));
 
     // Gas in a vessel that also holds liquid is gas coming *out* of the
@@ -207,6 +269,18 @@ pub(crate) fn colour_word(c: &Colour, solid: bool) -> &'static str {
     }
 }
 
+/// A bright scattering liquid is visibly white rather than "colourless".
+/// Transmission-only liquids retain the ordinary colour vocabulary.
+pub(crate) fn liquid_colour_word(c: &Colour, cloudiness: f64) -> &'static str {
+    let max = c.r.max(c.g).max(c.b);
+    let min = c.r.min(c.g).min(c.b);
+    if cloudiness > 0.6 && max > 220 && max - min < 15 {
+        "white"
+    } else {
+        colour_word(c, false)
+    }
+}
+
 fn describe(
     liquid: &Option<Colour>,
     cloudiness: f64,
@@ -220,10 +294,16 @@ fn describe(
     }
     let mut parts: Vec<String> = Vec::new();
     if has_liquid {
-        let word = liquid
-            .as_ref()
-            .map(|c| colour_word(c, false))
-            .unwrap_or("colourless");
+        let word = if crate::starch_iodine::complex_moles(vessel) > 0.0 {
+            "blue-black"
+        } else if crate::starch_iodine::has_aqueous_lugol_colour(vessel) {
+            "brown"
+        } else {
+            liquid
+                .as_ref()
+                .map(|c| liquid_colour_word(c, cloudiness))
+                .unwrap_or("colourless")
+        };
         let clarity = if cloudiness > 0.6 {
             "and so cloudy you cannot see through it"
         } else if cloudiness > 0.15 {

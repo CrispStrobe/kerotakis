@@ -22,6 +22,7 @@
 
   const toolNames: Record<string, string> = {
     burette: "burette",
+    bunsen: "Bunsen burner",
     dilute: "wash bottle",
     evaporate: "evaporating dish",
     electrolyse: "electrodes and supply",
@@ -57,6 +58,11 @@
   const stirRpm = $derived(Math.max(0, effect?.stir?.rpm ?? Number(values.rpm ?? 500)));
   const powerWatts = $derived(Math.max(0, Number(values.watts ?? 250)));
   const deliveredKj = $derived((effect?.thermal?.deliveredJ ?? 0) / 1000);
+  const flamePower = $derived(Math.max(0, Math.min(100, Number(values.flame ?? 50))));
+  const airOpen = $derived(Math.max(0, Math.min(100, Number(values.air ?? 70))));
+  const flameHeight = $derived(8 + flamePower * 0.22);
+  const flameOuter = $derived(airOpen < 35 ? "#ffb321" : "#248cff");
+  const flameInner = $derived(airOpen < 35 ? "#fff0a8" : "#bdeaff");
 </script>
 
 <g class="apparatus" class:working aria-label={t("{tool} deployed", { tool: t(toolNames[tool] ?? tool) })}>
@@ -104,6 +110,20 @@
       <rect class="fluid" x="83" y="13" width="3" height="37" rx=".5" />
       <path class="metal" d="M 80 74 H 89 M 84.5 74 V 83 L 50 93" />
       {#if working}<circle class="drop" cx="50" cy="91" r="1.8" />{/if}
+    </g>
+  {:else if tool === "bunsen"}
+    <g class="burner" style={`--flame-power:${flamePower / 100};--flame-outer:${flameOuter};--flame-inner:${flameInner}`}>
+      <path class="burner-base" d="M 32 133 H 68 L 61 126 H 39 Z" />
+      <rect class="burner-tube" x="43" y="91" width="14" height="37" rx="3" />
+      <rect class="burner-collar" x="40" y="105" width="20" height="7" rx="3" />
+      <circle class="air-hole" cx="47" cy="108.5" r={0.4 + airOpen * 0.018} />
+      <circle class="air-hole" cx="53" cy="108.5" r={0.4 + airOpen * 0.018} />
+      {#if flamePower > 0}
+        <path class="flame-outer" d={`M 50 92 C 36 78 44 ${92 - flameHeight * 0.55} 50 ${92 - flameHeight} C 56 ${92 - flameHeight * 0.55} 64 78 50 92 Z`} />
+        <path class="flame-inner" d={`M 50 91 C 44 84 48 ${91 - flameHeight * 0.45} 50 ${91 - flameHeight * 0.62} C 52 ${91 - flameHeight * 0.45} 56 84 50 91 Z`} />
+      {/if}
+      <text x="61" y="103">{flamePower > 0 ? `${flamePower.toFixed(0)}%` : "off"}</text>
+      <text x="61" y="110">air {airOpen.toFixed(0)}%</text>
     </g>
   {:else if tool === "dilute"}
     <g class="wash-bottle">
@@ -204,6 +224,12 @@
 <style>
   .apparatus { color: var(--instrument); pointer-events: none; }
   .stand, .metal, .tube, .wire, .lamp-arm, .hose, .piston, .needle { fill: none; stroke: var(--edge-strong); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .burner-base, .burner-tube, .burner-collar { fill: color-mix(in srgb, var(--instrument) 35%, var(--edge-strong)); stroke: var(--edge-strong); stroke-width: 1; }
+  .air-hole { fill: var(--surface); }
+  .flame-outer { fill: var(--flame-outer, #248cff); opacity: calc(.45 + var(--flame-power) * .5); }
+  .flame-inner { fill: var(--flame-inner, #bdeaff); opacity: calc(.5 + var(--flame-power) * .45); }
+  .burner text { fill: var(--ink); font-size: 6px; font-weight: 700; }
+  .working .flame-outer { animation: burner-flicker .35s ease-in-out infinite alternate; }
   .glass-part, .bottle { fill: color-mix(in srgb, var(--cool) 12%, transparent); stroke: var(--edge-strong); stroke-width: 1.2; }
   .fluid, .water-stream, .drop { fill: var(--cool); stroke: var(--cool); }
   .water-stream { fill: none; stroke-width: 2; stroke-dasharray: 5 3; animation: flow .65s linear infinite; }
@@ -259,6 +285,7 @@
   @keyframes lamp-pulse { to { opacity: min(.55, calc(var(--light-opacity, .16) + .16)); } }
   @keyframes gas-flow { to { transform: translateX(88px); opacity: 0; } }
   @keyframes gas-out { to { transform: translateX(27px); opacity: 0; } }
+  @keyframes burner-flicker { to { transform: scaleX(.9) translateX(5px); } }
   @keyframes frost-pulse { to { opacity: 1; transform: translateY(-3px) scale(1.18); } }
   @keyframes ice-bob { to { transform: translateY(-2px); } }
   @media (prefers-reduced-motion: reduce) {

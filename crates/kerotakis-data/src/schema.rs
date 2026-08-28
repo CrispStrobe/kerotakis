@@ -135,6 +135,78 @@ pub enum MaterialRole {
         /// which the bounded foam effect reaches full strength.
         saturation_amount: f64,
     },
+    /// Effective Kubelka–Munk coefficients for an opaque pigment/binder
+    /// surrogate. Samples align with the runtime visible bands (405–705 nm in
+    /// 20 nm steps). They are K and S model coefficients, never display RGB.
+    OpaquePigment {
+        absorption: Vec<f64>,
+        scattering: Vec<f64>,
+    },
+    /// A named unresolved powder whose grains remain visibly afloat on a
+    /// quiet water surface. This is a bounded classroom-observable role, not
+    /// a molecular composition claim.
+    SurfaceFloater {
+        /// Recipe-basis amount at which the visible surface is treated as
+        /// fully covered.
+        saturation_amount: f64,
+    },
+    /// Empirical bridge from a surfactant-containing recipe to the familiar
+    /// pepper-and-soap spreading demonstration. It describes only the
+    /// reviewed dose response, not a universal surface-tension coefficient.
+    SurfaceTensionReducer {
+        /// Amount of unresolved functional blend, in the recipe basis, at
+        /// which the bounded clearing effect reaches full strength.
+        saturation_amount: f64,
+        max_cleared_fraction: f64,
+    },
+    /// A recipe-level liquid mixture that remains separate from an aqueous
+    /// phase and forms the upper layer. This is deliberately a visible,
+    /// bounded material property: it does not invent one molecular species
+    /// for a variable household mixture or claim a full LLE model.
+    AqueousImmiscibleLiquid {
+        /// Display colour for the unresolved bulk layer.
+        srgb: [u8; 3],
+        colour_word: String,
+    },
+    /// Bounded recipe-level surfactant behavior under mechanical stirring.
+    /// The parameters describe a teaching observable, not a molecular CMC,
+    /// droplet-size distribution, or universal detergent formulation.
+    AqueousEmulsifier {
+        saturation_amount: f64,
+        max_dispersed_fraction: f64,
+        half_life_seconds: f64,
+    },
+    /// A stable, opaque household colloid such as milk. The unresolved
+    /// fraction stays conserved as a named material while this role exposes
+    /// only the bounded visual consequence of its dispersed solids/fat.
+    OpaqueLiquidColloid {
+        srgb: [u8; 3],
+        /// Unresolved material concentration (g/L) at full opacity.
+        opacity_saturation_g_per_litre: f64,
+    },
+    /// Bounded acid-dose response for a named colloid that forms visible
+    /// curds. This is a recipe observable, not a protein speciation model.
+    AcidCurdlingColloid {
+        acid_species: String,
+        onset_moles_per_gram: f64,
+        full_moles_per_gram: f64,
+        max_curdled_fraction: f64,
+        max_opacity_reduction: f64,
+        curd_srgb: [u8; 3],
+    },
+    /// A dilute, resolved colourant that can remain as a visible surface
+    /// drop on an opaque colloid until detergent spreads it or mechanical
+    /// mixing releases it into the bulk optical model.
+    SurfaceColourant { srgb: [u8; 3] },
+    /// A conserved unresolved baker's-yeast fraction with a bounded sucrose
+    /// fermentation response. Parameters describe a classroom gas-evolution
+    /// timescale, not strain growth or a universal product specification.
+    FermentationCulture {
+        reference_rate_per_second_per_gram: f64,
+        optimum_temperature_k: f64,
+        temperature_width_k: f64,
+        requires_hydration: bool,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

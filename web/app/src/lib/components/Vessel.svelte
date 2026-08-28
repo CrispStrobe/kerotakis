@@ -108,6 +108,23 @@
     return recent.length > 0 ? recent[recent.length - 1]!.flameColour : undefined;
   });
 
+  function surfaceParticleX(index: number, count: number, cleared: number): number {
+    const gap = Math.max(0, Math.min(0.94, cleared));
+    if (gap < 0.001) return INNER_X + ((index + 0.5) / count) * INNER_W;
+    const right = index % 2 === 1;
+    const rank = Math.floor(index / 2);
+    const perSide = Math.ceil(count / 2);
+    const bandWidth = INNER_W * (1 - gap) / 2;
+    const offset = ((rank + 0.5) / perSide) * bandWidth;
+    return right ? INNER_X + INNER_W - offset : INNER_X + offset;
+  }
+
+  function surfaceColourX(index: number, count: number, spread: number): number {
+    const centreOffset = (index - (count - 1) / 2) * 3.2;
+    const direction = index % 2 === 0 ? -1 : 1;
+    return 50 + centreOffset + direction * Math.max(0, Math.min(1, spread)) * (22 + (index % 3) * 4);
+  }
+
   let dropReady = $state(false);
   /** A just-landed drop ripples once — pouring is an action, not a teleport. */
   let splashedAt = $state(0);
@@ -146,6 +163,7 @@
     return Math.max(0, combined - liquidH);
   });
   const foamOverflow = $derived(vessel.foam?.overflow_liters ?? 0);
+  const foamColour = $derived(vessel.foam?.srgb ?? [245, 245, 245] as [number, number, number]);
   // The layer stack in pixels, bottom-up: each layer's share of the
   // total height is its share of the total volume, so the drawn split
   // IS the computed split. Falls back to one layer for older scenes.
@@ -355,12 +373,31 @@
       />
     {/if}
 
+    {#if vessel.curds && vessel.liquid && liquidH > 0}
+      {@const curdCount = Math.max(4, Math.round(4 + vessel.curds.separation_progress * 16))}
+      <g class="milk-curds" class:forming={active("curdle", 2600)}>
+        <title>{t("soft curds with {mass} g modeled aggregate solids separated from {material}", {
+          mass: vessel.curds.solids_mass_g.toFixed(2),
+          material: t(vessel.curds.material),
+        })}</title>
+        {#each Array.from({ length: curdCount }, (_, i) => i) as i (i)}
+          <ellipse
+            cx={INNER_X + 4 + ((i * 13) % Math.max(8, INNER_W - 8))}
+            cy={BOTTOM_Y - 3 - ((i * 7) % Math.max(5, liquidH * 0.62))}
+            rx={1.8 + (i % 3) * 0.65}
+            ry={1.0 + (i % 2) * 0.5}
+            fill={rgb(vessel.curds.srgb)}
+          />
+        {/each}
+      </g>
+    {/if}
+
     {#if vessel.foam && foamH > 0}
       {@const foamY = BOTTOM_Y - liquidH - foamH}
       <g
         class="foam-state"
         class:rising={active("foam", 3000)}
-        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px`}
+        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px;--foam-colour:${rgb(foamColour)}`}
       >
         <rect
           class="foam-fill"
@@ -369,7 +406,10 @@
           width={INNER_W}
           height={foamH}
         >
-          <title>{t("modeled foam: {height} cm high", { height: vessel.foam.height_cm.toFixed(1) })}</title>
+          <title>{t("modeled {colour} foam: {height} cm high", {
+            colour: t(vessel.foam.colour_word ?? "colourless"),
+            height: vessel.foam.height_cm.toFixed(1),
+          })}</title>
         </rect>
         {#each Array.from({ length: Math.max(5, Math.round(5 + Math.min(1, vessel.foam.volume_liters / FULL_AT_L) * 11)) }, (_, i) => i) as i (i)}
           <circle
@@ -377,6 +417,57 @@
             cx={INNER_X + 4 + ((i * 17) % Math.max(6, INNER_W - 8))}
             cy={foamY + 3 + ((i * 11) % Math.max(4, foamH - 4))}
             r={1.2 + (i % 3) * 0.55}
+          />
+        {/each}
+      </g>
+    {/if}
+
+    {#if vessel.surface_particles && vessel.liquid && liquidH > 0}
+      {@const particleCount = Math.max(5, Math.round(5 + vessel.surface_particles.coverage_fraction * 20))}
+      <g
+        class="surface-particles"
+        class:spreading={active("surface-spread", 2600)}
+        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px`}
+      >
+        <title>{t("modeled floating {material}; central clearing {percent}%", {
+          material: t(vessel.surface_particles.material),
+          percent: Math.round(vessel.surface_particles.cleared_fraction * 100),
+        })}</title>
+        {#each Array.from({ length: particleCount }, (_, i) => i) as i (i)}
+          <circle
+            class="surface-particle"
+            cx={surfaceParticleX(i, particleCount, vessel.surface_particles.cleared_fraction)}
+            cy={BOTTOM_Y - liquidH - 0.8 - (i % 3) * 0.55}
+            r={0.65 + (i % 2) * 0.25}
+          />
+        {/each}
+      </g>
+    {/if}
+
+    {#if vessel.surface_colours && vessel.surface_colours.length > 0 && vessel.liquid && liquidH > 0}
+      <g
+        class="surface-colours"
+        class:spreading={active("magic-milk", 3000)}
+        style={`transform-origin:50px ${BOTTOM_Y - liquidH}px`}
+      >
+        <title>{t("modeled food-colour drops and streaks on the milk surface")}</title>
+        {#each vessel.surface_colours as spot, i (`${spot.material}-${i}`)}
+          {@const spotX = surfaceColourX(i, vessel.surface_colours.length, spot.spread_fraction)}
+          {@const surfaceY = BOTTOM_Y - liquidH - 1.2 + (i % 2) * 0.7}
+          {@const streak = 3 + spot.spread_fraction * (18 + (i % 3) * 3)}
+          <path
+            class="surface-colour-streak"
+            style={`--spot-colour:${rgb(spot.srgb)}`}
+            d={`M 50 ${surfaceY} Q ${50 + (i % 2 === 0 ? -5 : 5)} ${surfaceY + 2.5}, ${spotX} ${surfaceY + (i % 3 - 1) * 1.8}`}
+            pathLength={Math.max(1, streak)}
+          />
+          <ellipse
+            class="surface-colour-drop"
+            style={`--spot-colour:${rgb(spot.srgb)};--spot-x:${spotX}px`}
+            cx={spotX}
+            cy={surfaceY}
+            rx={1.8 + spot.relative_amount * 1.5 + spot.spread_fraction * 2.2}
+            ry={1.1 + spot.relative_amount * 0.8}
           />
         {/each}
       </g>
@@ -414,7 +505,7 @@
 
     {#if vessel.foam && foamOverflow > 0}
       {@const spillScale = Math.min(1, foamOverflow / Math.max(0.01, FULL_AT_L))}
-      <g class="foam-overflow" aria-hidden="true" style={`--spill:${spillScale}`}>
+      <g class="foam-overflow" aria-hidden="true" style={`--spill:${spillScale};--foam-colour:${rgb(foamColour)}`}>
         <ellipse cx="50" cy="7" rx={12 + spillScale * 13} ry={3 + spillScale * 3} />
         <path d={`M ${38 - spillScale * 4} 8 Q ${28 - spillScale * 8} ${18 + spillScale * 8} ${30 - spillScale * 9} ${38 + spillScale * 30}`} />
         <path d={`M ${62 + spillScale * 4} 8 Q ${72 + spillScale * 8} ${18 + spillScale * 8} ${70 + spillScale * 9} ${38 + spillScale * 30}`} />
@@ -1297,8 +1388,8 @@
   .foam-fill,
   .foam-overflow ellipse,
   .foam-overflow path {
-    fill: color-mix(in srgb, white 88%, var(--instrument));
-    stroke: color-mix(in srgb, var(--instrument) 42%, var(--edge));
+    fill: color-mix(in srgb, white 62%, var(--foam-colour, var(--instrument)));
+    stroke: color-mix(in srgb, var(--foam-colour, var(--instrument)) 56%, var(--edge));
     stroke-width: 0.55;
   }
   .foam-state.rising {
@@ -1306,9 +1397,48 @@
   }
   .foam-cell {
     fill: color-mix(in srgb, white 30%, transparent);
-    stroke: color-mix(in srgb, var(--instrument) 48%, var(--edge));
+    stroke: color-mix(in srgb, var(--foam-colour, var(--instrument)) 48%, var(--edge));
     stroke-width: 0.45;
   }
+  .surface-particle {
+    fill: #31261f;
+    stroke: #0f0d0b;
+    stroke-width: 0.25;
+  }
+  .surface-particles.spreading {
+    animation: surface-spread 780ms cubic-bezier(.16, .82, .2, 1) both;
+  }
+  .surface-colour-streak {
+    fill: none;
+    stroke: var(--spot-colour);
+    stroke-width: 2.1;
+    stroke-linecap: round;
+    opacity: 0.82;
+  }
+  .surface-colour-drop {
+    fill: var(--spot-colour);
+    stroke: color-mix(in srgb, var(--spot-colour) 72%, var(--edge));
+    stroke-width: 0.35;
+    opacity: 0.92;
+  }
+  .surface-colours.spreading .surface-colour-streak {
+    animation: milk-colour-streak 1050ms cubic-bezier(.12, .78, .18, 1) both;
+  }
+  .surface-colours.spreading .surface-colour-drop {
+    animation: milk-colour-drop 1050ms cubic-bezier(.12, .78, .18, 1) both;
+  }
+  .milk-curds ellipse {
+    transform-box: fill-box;
+    transform-origin: center;
+    stroke: color-mix(in srgb, var(--edge) 38%, transparent);
+    stroke-width: 0.3;
+    filter: drop-shadow(0 0.5px 0.5px color-mix(in srgb, var(--edge) 30%, transparent));
+  }
+  .milk-curds.forming ellipse {
+    animation: curds-form 900ms cubic-bezier(.18, .78, .22, 1) both;
+  }
+  .milk-curds.forming ellipse:nth-child(3n) { animation-delay: 90ms; }
+  .milk-curds.forming ellipse:nth-child(3n + 1) { animation-delay: 180ms; }
   .foam-overflow path {
     fill: none;
     stroke-width: calc(2px + var(--spill) * 4px);
@@ -1324,6 +1454,22 @@
   @keyframes foam-spill {
     from { transform: translateY(0); }
     to { transform: translateY(2px); }
+  }
+  @keyframes curds-form {
+    from { transform: translateY(-10px) scale(0.25); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+  @keyframes surface-spread {
+    from { transform: scaleX(0.16); opacity: 0.72; }
+    to { transform: scaleX(1); opacity: 1; }
+  }
+  @keyframes milk-colour-streak {
+    from { stroke-dasharray: 0 100; opacity: 0.55; }
+    to { stroke-dasharray: 100 0; opacity: 0.82; }
+  }
+  @keyframes milk-colour-drop {
+    from { transform: translateX(calc(50px - var(--spot-x, 50px))) scale(.65); }
+    to { transform: translateX(0) scale(1); }
   }
   @keyframes rise {
     from {
@@ -1671,6 +1817,9 @@
     .bubble,
     .foam-state,
     .foam-overflow,
+    .milk-curds.forming ellipse,
+    .surface-colours.spreading .surface-colour-streak,
+    .surface-colours.spreading .surface-colour-drop,
     .flame .outer,
     .flame .inner,
     .steam,

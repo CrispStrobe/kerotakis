@@ -1,0 +1,39 @@
+# What wakes yeast up? A sugar-and-yeast fair test
+#
+# Compare three ordinary mixtures on one shared clock. Use comfortably warm,
+# not hot, water in a real experiment; ask an adult before using food, do not
+# taste lab mixtures, and never tightly seal an active fermentation vessel.
+register lv1
+
+# Control 1 has water and sugar but no living culture.
+add v1 water 100mL
+add v1 table_sugar 10g
+
+# Control 2 has water and yeast but no sugar food.
+new beaker
+add v2 water 100mL
+add v2 dry_yeast 1g
+
+# Test 3 changes only the missing ingredient: it has the same water, sugar and
+# yeast doses. The sugar dissolves before the shared clock starts.
+new beaker
+add v3 water 100mL
+add v3 table_sugar 10g
+add v3 dry_yeast 1g
+inspect v1
+inspect v2
+inspect v3
+
+# Ten minutes pass for every vessel at once. Only v3 has dissolved sugar and a
+# hydrated yeast culture, so only it may emit the computed GasProduced and
+# Fermented events. The CO2 bubbles are matter made by the installed balanced
+# pathway, not an animation timer.
+wait 600s
+inspect v1
+inspect v2
+inspect v3
+
+# Try equal dry-solids fresh yeast, a different temperature or a smaller sugar
+# dose. This is a bounded classroom model, not proof that a real mixture is
+# safe to drink, bake, bottle or seal; growth, oxygen switching, inhibition,
+# flavour compounds and flexible balloons remain explicit future work.

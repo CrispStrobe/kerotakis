@@ -25,10 +25,13 @@ pub mod compartment;
 pub mod constants;
 pub mod coverage;
 pub mod curated;
+pub mod curdling;
 pub mod delta;
 pub mod displacement;
 pub mod electrochemistry;
+pub mod emulsion;
 pub mod exact_stoich;
+pub mod fermentation;
 pub mod foam;
 pub mod gas_tests;
 pub mod hmix;
@@ -49,6 +52,7 @@ pub mod packs_manifest;
 pub mod parallel;
 pub mod particles;
 pub mod photochem;
+pub mod pigment;
 pub mod polymer;
 pub mod properties;
 pub mod relations;
@@ -60,9 +64,12 @@ pub mod solve;
 pub mod species;
 pub mod species_loader;
 pub mod spectrum;
+mod starch_iodine;
 pub mod states;
 pub mod statistics;
 pub mod stoich;
+pub mod surface_colour;
+pub mod surface_spread;
 pub mod transport;
 pub mod units;
 pub mod vessel;
@@ -85,6 +92,7 @@ pub use instrument::{
 pub use ledger::{audit_conservation, ConservedLedger};
 pub use ops::{Event, Instrument, LogEntry, Operator};
 pub use orchestrator::Orchestrator;
+pub use pigment::{opaque_mixture_colour, PigmentAmount, PigmentMixError, PigmentOptics};
 pub use render::{
     localize_event, localize_events, render_event, render_event_in, render_events,
     render_events_in, render_vessel, render_vessel_in, Register,

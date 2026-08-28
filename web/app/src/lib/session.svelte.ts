@@ -66,6 +66,8 @@ export type ShelfItem = {
   hazard_assessed?: boolean;
   /** Density in g/mL (engine registry) — the fluid overlay's buoyancy. */
   density?: number;
+  /** A versioned named mixture/object rather than a pure species. */
+  material?: boolean;
 };
 
 export type MissionDebrief = {
@@ -416,6 +418,7 @@ export class Session {
         hazards: s.hazards ?? [],
         hazard_assessed: s.hazard_assessed,
         density: s.density,
+        material: s.material === true,
       }));
       try {
         const grammar = (await this.host.grammar()) as {

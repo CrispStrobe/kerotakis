@@ -48,9 +48,23 @@ fn every_legacy_field_is_present_and_unchanged() {
             .iter()
             .filter(|source| source.id.starts_with("legacy/"))
             .count(),
-        REGISTRY.len()
+        REGISTRY
+            .iter()
+            .filter(|species| {
+                !matches!(
+                    species.key,
+                    "isopropanol" | "sucrose" | "Fe2O3" | "epsomite" | "SiO2"
+                )
+            })
+            .count()
     );
-    assert_eq!(document.material_recipes.len(), 4);
+    assert_eq!(document.material_recipes.len(), 44);
+    let lugol = document
+        .material_recipe("Lugol-Lösung_1%", Some("de"))
+        .expect("localized dilute Lugol recipe");
+    assert_eq!(lugol.canonical_key, "lugol_solution_1_percent");
+    assert_eq!(lugol.components.len(), 3);
+    assert!(lugol.unresolved_fraction.is_none());
     assert_eq!(document.identities.len(), REGISTRY.len());
     assert_eq!(document.compositions.len(), REGISTRY.len());
     assert_eq!(
@@ -79,6 +93,10 @@ fn every_legacy_field_is_present_and_unchanged() {
                 .iter()
                 .filter(|species| species.forms_only_above_k.is_some())
                 .count()
+            + REGISTRY
+                .iter()
+                .filter(|species| species.aqueous_solubility_g_per_100_ml.is_some())
+                .count()
     );
     assert!(document.transport.is_empty());
     assert!(document.safety.is_empty());
@@ -90,7 +108,14 @@ fn every_legacy_field_is_present_and_unchanged() {
 }
 
 fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
-    let source_id = format!("legacy/{}", species.key);
+    let source_id = match species.key {
+        "isopropanol" => "us-federal/isopropanol-chris".to_string(),
+        "sucrose" => "kerotakis/sucrose-teaching-properties-v1".to_string(),
+        "Fe2O3" => "us-federal/nasa-cea-hematite".to_string(),
+        "epsomite" => "us-federal/usgs-epsomite".to_string(),
+        "SiO2" => "us-federal/pubchem-silica".to_string(),
+        _ => format!("legacy/{}", species.key),
+    };
     let source = document
         .sources
         .iter()
@@ -101,18 +126,52 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         "{} provenance",
         species.key
     );
-    assert_eq!(source.lane, SourceLane::BuildOracle, "{} lane", species.key);
-    assert_eq!(
-        source.licence, "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
-        "{} licence boundary",
-        species.key
-    );
-    assert_eq!(
-        source.origin.as_deref(),
-        Some("crates/kerotakis-core/src/species.rs")
-    );
-    assert_eq!(source.revision, None);
-    assert_eq!(source.retrieved, None);
+    if species.key == "isopropanol" {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("https://pubchem.ncbi.nlm.nih.gov/compound/3776")
+        );
+    } else if species.key == "sucrose" {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "AGPL-3.0-or-later");
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("crates/kerotakis-registry-export/src/lib.rs")
+        );
+    } else if species.key == "Fe2O3" {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
+        assert_eq!(source.origin.as_deref(), Some("vendor/nasa-cea/thermo.inp"));
+    } else if species.key == "epsomite" {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("vendor/iphreeqc/database/wateq4f.dat")
+        );
+    } else if species.key == "SiO2" {
+        assert_eq!(source.lane, SourceLane::Runtime);
+        assert_eq!(source.licence, "LicenseRef-US-Public-Domain");
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("https://pubchem.ncbi.nlm.nih.gov/compound/24261")
+        );
+    } else {
+        assert_eq!(source.lane, SourceLane::BuildOracle, "{} lane", species.key);
+        assert_eq!(
+            source.licence, "LicenseRef-Kerotakis-Legacy-Provenance-Review-Required",
+            "{} licence boundary",
+            species.key
+        );
+        assert_eq!(
+            source.origin.as_deref(),
+            Some("crates/kerotakis-core/src/species.rs")
+        );
+        assert_eq!(source.revision, None);
+        assert_eq!(source.retrieved, None);
+    }
 
     let identity = document
         .identities
@@ -184,6 +243,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         "g/mol",
         Dimension::MolarMass,
         phase,
+        &source_id,
     );
     assert_property(
         document,
@@ -193,6 +253,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         "J/(mol.K)",
         Dimension::MolarHeatCapacity,
         phase,
+        &source_id,
     );
     assert_property(
         document,
@@ -202,6 +263,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
         "g/mL",
         Dimension::MassDensity,
         phase,
+        &source_id,
     );
     match species.dissolution_enthalpy_kj {
         Some(value) => assert_property(
@@ -212,6 +274,7 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
             "kJ/mol",
             Dimension::MolarEnergy,
             phase,
+            &source_id,
         ),
         None => assert!(document.phase_thermodynamics.iter().all(|record| {
             record.species_id != species.key
@@ -223,6 +286,9 @@ fn compare_species(document: &RegistryDocument, species: &SpeciesData) {
     compare_model_parameters(document, species, phase, &source_id);
 }
 
+// Each argument names one column of the exported property record; bundling
+// them would make the table-like call sites less explicit.
+#[allow(clippy::too_many_arguments)]
 fn assert_property(
     document: &RegistryDocument,
     species: &SpeciesData,
@@ -231,6 +297,7 @@ fn assert_property(
     symbol: &str,
     dimension: Dimension,
     phase: Phase,
+    source_id: &str,
 ) {
     let record = document
         .phase_thermodynamics
@@ -238,14 +305,7 @@ fn assert_property(
         .find(|record| record.species_id == species.key && record.property == property)
         .unwrap_or_else(|| panic!("missing {property:?} for {}", species.key));
     assert_eq!(record.phase, phase, "{} {property:?} phase", species.key);
-    assert_imported_quantity(
-        &record.quantity,
-        value,
-        symbol,
-        dimension,
-        phase,
-        &format!("legacy/{}", species.key),
-    );
+    assert_imported_quantity(&record.quantity, value, symbol, dimension, phase, source_id);
 }
 
 fn compare_optical(

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import { Session } from "./lib/session.svelte";
   import { WorkerHost, resolvePayloadBase } from "./lib/host/WorkerHost";
   import { TauriHost, isTauri } from "./lib/host/TauriHost";
@@ -179,23 +179,91 @@
     }
   }
 
+  /**
+   * A shelf click or drop represents a physical pour, not zero-duration state
+   * editing. Advance one explicit second, then keep ticking only while the
+   * computed scene is bubbling or its foam is growing. Every tick remains a
+   * normal command, so elapsed time is replayable and visible in the notebook.
+   */
+  async function dispense(line: string) {
+    if (!(await session.submit(line))) return;
+    let previousFoam = (session.scene?.vessels ?? []).reduce(
+      (total, vessel) => total + (vessel.foam?.volume_liters ?? 0),
+      0,
+    );
+    for (let second = 0; second < 10; second += 1) {
+      if (!(await session.submit("wait 1s"))) break;
+      await tick();
+      const vessels = session.scene?.vessels ?? [];
+      const nextFoam = vessels.reduce(
+        (total, vessel) => total + (vessel.foam?.volume_liters ?? 0),
+        0,
+      );
+      const visiblyReacting =
+        nextFoam > previousFoam + 1e-9 || vessels.some((vessel) => vessel.bubbling);
+      if (!visiblyReacting) break;
+      previousFoam = nextFoam;
+      // Pace computed state changes so a child sees a rise rather than a
+      // teleport. This does not enter engine time or alter reduced-motion state.
+      await new Promise((resolve) => setTimeout(resolve, 90));
+    }
+  }
+
   let lessons = $state<{ file: string; name: string; blurb?: string; topic?: string }[]>([]);
   /** Engine-evaluated free-form quests, shipped beside the lesson index. */
   let quests = $state<Record<string, unknown>[]>([]);
 
-  // CI self-test hook (?selftest=1): report readiness to the harness once
+  // CI self-test hook (?selftest=...): report readiness to the harness once
   // the scene has arrived — a worker-driven app cannot be probed by
   // dumping the DOM at a fixed instant, so it phones home instead.
-  const selftest =
-    typeof location !== "undefined" &&
-    new URLSearchParams(location.search).has("selftest");
+  const selftestMode =
+    typeof location !== "undefined"
+      ? new URLSearchParams(location.search).get("selftest")
+      : null;
+  const selftest = selftestMode !== null;
   let selftestReported = false;
-  $effect(() => {
-    if (!selftest || selftestReported) return;
-    const ready = session.engineReady && session.scene !== null;
-    const failed = session.feed.find((f) => f.kind === "error");
-    if (!ready && !failed) return;
-    selftestReported = true;
+  async function reportSelftest(ready: boolean, failed?: { text: string }) {
+    let foamVessels = 0;
+    let overflowVessels = 0;
+    let renderedFoam = 0;
+    let renderedOverflow = 0;
+    let doseOrdered = false;
+    let unsupportedKiWarning = false;
+    let scenarioError: string | null = null;
+    if (ready && selftestMode === "foam") {
+      try {
+        await session.runExperiment([
+          "register lv1",
+          "add v1 Wasserstoffperoxid_3% 100mL",
+          "add v1 Spülmittel 10mL",
+          "new beaker",
+          "add v2 Wasserstoffperoxid_3% 100mL",
+          "add v2 Spülmittel 10mL",
+        ].join("\n"));
+        // Exercise the actual shelf/drop path: the dispense itself advances a
+        // visible contact interval, so no hidden/manual wait follows it.
+        await dispense("add v1 KI 0.25g");
+        await dispense("add v2 KI 1g");
+        await tick();
+        const vessels = session.scene?.vessels ?? [];
+        foamVessels = vessels.filter(
+          (vessel) => (vessel.foam?.volume_liters ?? 0) > 0,
+        ).length;
+        overflowVessels = vessels.filter(
+          (vessel) => (vessel.foam?.overflow_liters ?? 0) > 0,
+        ).length;
+        doseOrdered =
+          (vessels[1]?.foam?.volume_liters ?? 0) >
+          (vessels[0]?.foam?.volume_liters ?? 0);
+        renderedFoam = document.querySelectorAll(".foam-state").length;
+        renderedOverflow = document.querySelectorAll(".foam-overflow").length;
+        unsupportedKiWarning = session.feed.some((entry) =>
+          /potassium iodide.*no wired solv|no wired solv.*potassium iodide/i.test(entry.text),
+        );
+      } catch (error) {
+        scenarioError = error instanceof Error ? error.message : String(error);
+      }
+    }
     void fetch("/selftest", {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -204,8 +272,23 @@
         can_solve: session.canSolve,
         vessels: session.scene?.vessels.length ?? 0,
         error: failed?.text ?? null,
+        foam_vessels: foamVessels,
+        overflow_vessels: overflowVessels,
+        rendered_foam: renderedFoam,
+        rendered_overflow: renderedOverflow,
+        dose_ordered: doseOrdered,
+        unsupported_ki_warning: unsupportedKiWarning,
+        scenario_error: scenarioError,
       }),
     });
+  }
+  $effect(() => {
+    if (!selftest || selftestReported) return;
+    const ready = session.engineReady && session.scene !== null;
+    const failed = session.feed.find((f) => f.kind === "error");
+    if (!ready && !failed) return;
+    selftestReported = true;
+    void reportSelftest(ready, failed);
   });
 
   onMount(() => {
@@ -736,7 +819,7 @@
         stockUsed={session.storyStockUsed}
         focusRequest={shelfFocusRequest}
         onadd={(line) => {
-          void session.submit(line);
+          void dispense(line);
           pane = "bench";
         }}
       />
@@ -853,7 +936,7 @@
       onremove={(vessel) => (removeRequest = vessel)}
       onmove={saveBenchLayout}
       ondropspecies={(id, p) =>
-        void session.submit(
+        void dispense(
           `add v${id + 1} ${p.key} ${defaultAmount(session.register, p.phase)}`,
         )}
     />
@@ -1092,7 +1175,7 @@
     register={session.register}
     onadd={(item) => {
       tableOpen = false;
-      void session.submit(
+      void dispense(
         `add v${session.selected + 1} ${item.key} ${defaultAmount(session.register, item.phase)}`,
       );
     }}

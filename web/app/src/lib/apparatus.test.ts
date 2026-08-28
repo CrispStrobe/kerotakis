@@ -12,11 +12,15 @@ describe("apparatus forms compile to the grammar", () => {
       if (s.verb === "grind") values.species = "NaCl"; // species has no default
       const line = s.build(0, values);
       expect(line, s.verb).not.toBeNull();
-      expect(line!.startsWith(`${s.verb} v1 `), line!).toBe(true);
+      expect(line!.startsWith(`${s.commandVerb ?? s.verb} v1 `), line!).toBe(true);
     }
   });
 
   it("the exact lines match the grammar's shapes", () => {
+    expect(spec("bunsen").build(0, { flame: 50, seconds: 30 })).toBe("heat v1 7.5kJ");
+    expect(spec("bunsen").build(0, { flame: 50, air: 0, seconds: 30 })).toBe("heat v1 4.125kJ");
+    expect(spec("bunsen").build(0, { flame: 50, air: 100, seconds: 30 })).toBe("heat v1 7.5kJ");
+    expect(spec("bunsen").secondary!.build(1, { flame: 50, seconds: 30 })).toBe("ignite v2");
     expect(spec("stir").build(0, { rpm: 600, seconds: 30 })).toBe("stir v1 600rpm 30s");
     expect(spec("heat").build(0, { watts: 250, seconds: 30 })).toBe("heat v1 7500J");
     expect(spec("cool").build(0, { watts: 100, seconds: 30 })).toBe("cool v1 3000J");
@@ -45,6 +49,11 @@ describe("apparatus forms compile to the grammar", () => {
     expect(spec("evaporate").build(0, { fraction: 1.5 })).toBeNull();
     expect(spec("grind").build(0, { species: "  ", diameter: 50 })).toBeNull();
     expect(spec("electrolyse").build(0, { amps: NaN, minutes: 30 })).toBeNull();
+    expect(spec("bunsen").build(0, { flame: 101, seconds: 30 })).toBeNull();
+    expect(spec("bunsen").build(0, { flame: 0, air: 70, seconds: 30 })).toBeNull();
+    expect(spec("bunsen").build(0, { flame: 50, air: 101, seconds: 30 })).toBeNull();
+    expect(spec("bunsen").secondary!.build(0, { flame: 0, air: 70 })).toBeNull();
+    expect(spec("bunsen").build(0, { flame: 50, seconds: 0 })).toBeNull();
   });
 
   it("blocks an unsafe centrifuge imbalance", () => {
@@ -61,6 +70,9 @@ describe("apparatus forms compile to the grammar", () => {
     ]);
     expect(spec("cool").readouts?.({ watts: 100, seconds: 30 })).toEqual([
       { label: "removed energy", value: 3, unit: "kJ", digits: 2 },
+    ]);
+    expect(spec("bunsen").readouts?.({ flame: 50, air: 0, seconds: 30 })).toEqual([
+      { label: "delivered energy", value: 4.125, unit: "kJ", digits: 3 },
     ]);
     const [centrifuge] = spec("centrifuge").readouts?.({ rpm: 3000, radius: 8 }) ?? [];
     expect(centrifuge).toMatchObject({ label: "relative centrifugal force", unit: "× g", digits: 0 });

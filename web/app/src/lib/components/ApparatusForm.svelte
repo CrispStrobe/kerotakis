@@ -43,6 +43,7 @@
     shelf.filter((s) => s.phase.toLowerCase().includes("solid")),
   );
   const line = $derived(spec.build(vessel, values));
+  const secondaryLine = $derived(spec.secondary?.build(vessel, values) ?? null);
   const warning = $derived(spec.warning?.(values) ?? null);
   const readouts = $derived(spec.readouts?.(values) ?? []);
   const formatReadout = (readout: (typeof readouts)[number]) =>
@@ -116,6 +117,11 @@
     <button class="run" disabled={busy || line === null || warning !== null} onclick={() => line && !warning && onrun(line)}>
       {busy ? t("running…") : t("run {apparatus}", { apparatus: t(spec.title) })}
     </button>
+    {#if spec.secondary}
+      <button class="secondary" disabled={busy || secondaryLine === null} onclick={() => secondaryLine && onrun(secondaryLine)}>
+        {t(spec.secondary.label)}
+      </button>
+    {/if}
   </div>
 </section>
 
@@ -212,6 +218,17 @@
     padding: 0.3rem 0.9rem;
     cursor: pointer;
     min-height: 36px;
+  }
+  .secondary {
+    min-height: 36px;
+    padding: 0.3rem 0.9rem;
+    border: 1px solid var(--danger);
+    border-radius: 6px;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--danger) 10%, var(--panel-raised));
+    font: inherit;
+    font-size: 0.82rem;
+    cursor: pointer;
   }
   .readouts {
     display: flex;

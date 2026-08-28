@@ -61,6 +61,20 @@ pub struct SceneVessel {
     /// stabilizer role. Absent for the no-soap control.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub foam: Option<SceneFoam>,
+    /// Unresolved floating grains at the liquid surface, including the
+    /// computed central clearing made by a recipe-declared surfactant.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub surface_particles: Option<SceneSurfaceParticles>,
+    /// Resolved food-colour drops whose geometry is still localized at an
+    /// opaque liquid surface rather than mixed through the bulk.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub surface_colours: Vec<SceneSurfaceColour>,
+    /// Temporary oil-in-water dispersion produced by a computed stir action.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub emulsion: Option<SceneEmulsion>,
+    /// Recipe-level aggregate curds separated from a colloidal liquid.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub curds: Option<SceneCurds>,
     /// The gas boundary, serialized with its existing `boundary` tag:
     /// open, sealed, pressure_controlled, or swept.
     #[serde(flatten)]
@@ -87,6 +101,53 @@ pub struct SceneFoam {
     pub volume_liters: f64,
     pub height_cm: f64,
     pub overflow_liters: f64,
+    /// Tint carried into the bubble films by the computed liquid mixture.
+    /// Foam remains mostly gas, so renderers should lighten this colour
+    /// rather than paint it as an opaque block.
+    #[serde(default = "default_foam_srgb")]
+    pub srgb: [u8; 3],
+    #[serde(default = "default_foam_colour_word")]
+    pub colour_word: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneSurfaceParticles {
+    pub material: String,
+    pub coverage_fraction: f64,
+    pub cleared_fraction: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneSurfaceColour {
+    pub material: String,
+    pub srgb: [u8; 3],
+    pub spread_fraction: f64,
+    pub relative_amount: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneEmulsion {
+    pub material: String,
+    pub dispersed_volume_l: f64,
+    pub dispersed_fraction: f64,
+    pub half_life_seconds: f64,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SceneCurds {
+    pub material: String,
+    pub formed_fraction: f64,
+    pub separation_progress: f64,
+    pub solids_mass_g: f64,
+    pub srgb: [u8; 3],
+}
+
+fn default_foam_srgb() -> [u8; 3] {
+    [245, 245, 245]
+}
+
+fn default_foam_colour_word() -> String {
+    "colourless".to_string()
 }
 
 /// One visible liquid layer (GUI-058).
@@ -177,17 +238,38 @@ pub fn scene_of(vessels: &[Vessel]) -> Scene {
 /// One vessel's render model.
 pub fn scene_vessel(v: &Vessel) -> SceneVessel {
     let seen = appearance::observe(v);
+    let material_layers = crate::material::immiscible_liquid_layers(v);
+    let emulsion_observation = crate::emulsion::observe(v);
+    let curdling_observation = crate::curdling::observe(v);
+    let material_volume_l: f64 = material_layers.iter().map(|layer| layer.volume_l).sum();
+    let homogeneous_material_volume_l = crate::material::homogeneous_unresolved_liquid_volume_l(v);
+    let resolved_volume_l = v.liquid_volume().0;
 
-    let liquid = seen.liquid.as_ref().map(|c| SceneLiquid {
-        volume_l: v.liquid_volume().0,
-        srgb: [c.r, c.g, c.b],
-        colour_word: colour_word(c, false).to_string(),
-        cloudiness: seen.cloudiness,
-        path_length_cm: crate::vessel::path_cm_for(&v.label),
-    });
+    let mut liquid = seen
+        .liquid
+        .as_ref()
+        .map(|c| SceneLiquid {
+            volume_l: resolved_volume_l + homogeneous_material_volume_l + material_volume_l,
+            srgb: [c.r, c.g, c.b],
+            colour_word: appearance::liquid_colour_word(c, seen.cloudiness).to_string(),
+            cloudiness: seen.cloudiness,
+            path_length_cm: crate::vessel::path_cm_for(&v.label),
+        })
+        .or_else(|| {
+            material_layers.first().map(|layer| SceneLiquid {
+                volume_l: material_volume_l,
+                srgb: layer.srgb,
+                colour_word: layer.colour_word.clone(),
+                cloudiness: 0.0,
+                path_length_cm: crate::vessel::path_cm_for(&v.label),
+            })
+        });
+    if let (Some(liquid), Some(emulsion)) = (&mut liquid, &emulsion_observation) {
+        liquid.cloudiness = liquid.cloudiness.max(0.78 * emulsion.dispersed_fraction);
+    }
 
     // Layers (GUI-058): the engine's computed phase split, made drawable.
-    let layers = match (&liquid, crate::solve::layered_pair(v)) {
+    let mut layers = match (&liquid, crate::solve::layered_pair(v)) {
         (Some(l), Some((upper_key, lower_key))) => {
             let upper_data = species::lookup(&crate::SpeciesId::new(upper_key));
             let upper_vol: f64 = v
@@ -210,7 +292,7 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                     name: species::lookup(&crate::SpeciesId::new(lower_key))
                         .map(|d| d.name.to_string())
                         .unwrap_or_else(|| lower_key.to_string()),
-                    volume_l: (l.volume_l - upper_vol).max(0.0),
+                    volume_l: resolved_volume_l - upper_vol,
                     srgb: l.srgb,
                     colour_word: l.colour_word.clone(),
                 },
@@ -225,15 +307,43 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
                 },
             ]
         }
-        (Some(l), None) => vec![SceneLayer {
+        (Some(l), None) if resolved_volume_l > 0.0 => vec![SceneLayer {
             species: "solution".to_string(),
             name: "solution".to_string(),
-            volume_l: l.volume_l,
+            volume_l: resolved_volume_l + homogeneous_material_volume_l,
             srgb: l.srgb,
             colour_word: l.colour_word.clone(),
         }],
-        (None, _) => Vec::new(),
+        _ => Vec::new(),
     };
+    layers.extend(material_layers.iter().map(|layer| SceneLayer {
+        species: layer.key.clone(),
+        name: layer.material.clone(),
+        volume_l: layer.volume_l,
+        srgb: layer.srgb,
+        colour_word: layer.colour_word.clone(),
+    }));
+    if let Some(emulsion) = &emulsion_observation {
+        if let Some(oil_layer) = layers.iter_mut().find(|layer| {
+            layer.species
+                == material_layers
+                    .iter()
+                    .find(|material| material.recipe_id == emulsion.oil_recipe_id)
+                    .map(|material| material.key.as_str())
+                    .unwrap_or("")
+        }) {
+            oil_layer.volume_l = (oil_layer.volume_l - emulsion.dispersed_volume_l).max(0.0);
+        }
+        if let Some(aqueous_layer) = layers.first_mut() {
+            if !material_layers
+                .iter()
+                .any(|material| material.key == aqueous_layer.species)
+            {
+                aqueous_layer.volume_l += emulsion.dispersed_volume_l;
+            }
+        }
+        layers.retain(|layer| layer.volume_l > 1e-9);
+    }
 
     // Aggregate solids per species, keeping first-seen order, then sort by
     // amount so the biggest deposit paints first.
@@ -306,6 +416,14 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             volume_liters: v.foam.volume_liters,
             height_cm: v.foam.volume_liters * 1000.0 / area_cm2,
             overflow_liters: (v.liquid_volume().0 + v.foam.volume_liters - capacity_l).max(0.0),
+            srgb: liquid
+                .as_ref()
+                .map(|liquid| liquid.srgb)
+                .unwrap_or_else(default_foam_srgb),
+            colour_word: liquid
+                .as_ref()
+                .map(|liquid| liquid.colour_word.clone())
+                .unwrap_or_else(default_foam_colour_word),
         }
     });
     if let Some(foam) = &foam {
@@ -315,8 +433,41 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
             confidence: Confidence::Modeled,
         });
     }
-
     let mut words = seen.words;
+    if !v.surface_colours.is_empty() {
+        let spread = v
+            .surface_colours
+            .iter()
+            .map(|spot| spot.spread_fraction)
+            .fold(0.0, f64::max);
+        if spread > 0.01 {
+            words.push_str(" Food-colour streaks have spread across the milk surface.");
+        } else {
+            words.push_str(" Food-colour drops are resting on the milk surface.");
+        }
+    }
+    if let Some(emulsion) = &emulsion_observation {
+        words.push_str(&format!(
+            " Stirring has dispersed {:.0}% of the {} as cloudy droplets; the rest remains above the water.",
+            emulsion.dispersed_fraction * 100.0,
+            emulsion.material,
+        ));
+    } else if let Some(layer) = material_layers.first() {
+        if resolved_volume_l > 0.0 {
+            words.push_str(&format!(
+                " {} forms a separate {} layer above the water.",
+                layer.material, layer.colour_word
+            ));
+        } else {
+            words.push_str(&format!(" The vessel contains {}.", layer.material));
+        }
+    }
+    if let Some(curds) = &curdling_observation {
+        words.push_str(&format!(
+            " Soft curds containing {:.2} g of modeled aggregate solids have separated from the {} into cloudy whey.",
+            curds.curd_solids_mass_g, curds.material
+        ));
+    }
     if let Some(foam) = &foam {
         if foam.overflow_liters > 0.0 {
             words.push_str(" Foam is spilling over the rim.");
@@ -333,6 +484,44 @@ pub fn scene_vessel(v: &Vessel) -> SceneVessel {
         solids,
         bubbling: seen.bubbling,
         foam,
+        surface_particles: v
+            .surface_particles
+            .as_ref()
+            .map(|particles| SceneSurfaceParticles {
+                material: particles.material.clone(),
+                coverage_fraction: particles.coverage_fraction,
+                cleared_fraction: particles.cleared_fraction,
+            }),
+        surface_colours: {
+            let max_moles = v
+                .surface_colours
+                .iter()
+                .map(|spot| spot.moles.0)
+                .fold(0.0, f64::max)
+                .max(1e-30);
+            v.surface_colours
+                .iter()
+                .map(|spot| SceneSurfaceColour {
+                    material: spot.material.clone(),
+                    srgb: spot.srgb,
+                    spread_fraction: spot.spread_fraction,
+                    relative_amount: (spot.moles.0 / max_moles).clamp(0.0, 1.0),
+                })
+                .collect()
+        },
+        emulsion: emulsion_observation.map(|emulsion| SceneEmulsion {
+            material: emulsion.material,
+            dispersed_volume_l: emulsion.dispersed_volume_l,
+            dispersed_fraction: emulsion.dispersed_fraction,
+            half_life_seconds: emulsion.half_life_seconds,
+        }),
+        curds: curdling_observation.map(|curds| SceneCurds {
+            material: curds.material,
+            formed_fraction: curds.formed_fraction,
+            separation_progress: curds.separation_progress,
+            solids_mass_g: curds.curd_solids_mass_g,
+            srgb: curds.curd_srgb,
+        }),
         headspace: v.headspace,
         temperature_k: v.temperature.0,
         pressure_pa: v.pressure.0,
@@ -423,6 +612,24 @@ mod tests {
         assert!(foam.height_cm > 0.0);
         assert!(foam.overflow_liters > 0.0);
         assert!(scene.words.contains("spilling over"));
+    }
+
+    #[test]
+    fn foam_carries_the_computed_liquid_colour() {
+        let mut v = vessel_with(&[
+            ("water", 5.55, Phase::Liquid),
+            ("betanin", 0.000_001, Phase::Aqueous),
+        ]);
+        v.foam.trapped_gas_liters = 0.10;
+        v.foam.volume_liters = 0.12;
+        v.foam.peak_volume_liters = 0.12;
+
+        let scene = scene_vessel(&v);
+        let liquid = scene.liquid.expect("coloured liquid");
+        let foam = scene.foam.expect("foam render target");
+        assert_eq!(foam.srgb, liquid.srgb);
+        assert_eq!(foam.colour_word, liquid.colour_word);
+        assert_ne!(foam.colour_word, "colourless");
     }
 
     #[test]

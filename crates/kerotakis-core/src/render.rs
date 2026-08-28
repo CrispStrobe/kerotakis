@@ -408,6 +408,22 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 moles.0
             ),
         },
+        Event::Fermented {
+            vessel,
+            sucrose_moles,
+            ethanol_moles,
+            carbon_dioxide_moles,
+            active_yeast_grams,
+            seconds,
+        } => match register.level() {
+            1 => format!("Yeast feeds on sugar in {vessel}, making alcohol and carbon-dioxide bubbles."),
+            _ => format!(
+                "{vessel}: yeast fermented {:.6} mol sucrose in {seconds:.0} s → {:.6} mol ethanol + {:.6} mol CO2 ({active_yeast_grams:.3} g effective yeast)",
+                sucrose_moles.0,
+                ethanol_moles.0,
+                carbon_dioxide_moles.0,
+            ),
+        },
         Event::ReactionHeatReleased {
             vessel,
             reaction,
@@ -442,6 +458,37 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
             _ => format!(
                 "{vessel}: foam {volume_liters:.3} L, {height_cm:.1} cm high, overflow {overflow_liters:.3} L"
             ),
+        },
+        Event::SurfaceSpread {
+            vessel,
+            material,
+            from_cleared_fraction,
+            to_cleared_fraction,
+            ..
+        } => match register.level() {
+            1 => format!("The {material} darts away from the soap in {vessel}!"),
+            _ => format!(
+                "{vessel}: {material} central clearing increased from {:.0}% to {:.0}%",
+                100.0 * from_cleared_fraction,
+                100.0 * to_cleared_fraction
+            ),
+        },
+        Event::SurfaceColourSpread {
+            vessel,
+            from_spread_fraction,
+            to_spread_fraction,
+            spot_count,
+        } => match register.level() {
+            1 => format!("The colours race and swirl across the milk in {vessel}!"),
+            _ => format!(
+                "{vessel}: {spot_count} surface colour spot(s) spread from {:.0}% to {:.0}%",
+                100.0 * from_spread_fraction,
+                100.0 * to_spread_fraction
+            ),
+        },
+        Event::SurfaceColourMixed { vessel, spot_count } => match register.level() {
+            1 => format!("Stirring blends the surface colours through {vessel}."),
+            _ => format!("{vessel}: homogenized {spot_count} surface colour spot(s)"),
         },
         Event::TemperatureChanged { vessel, from, to } => {
             let d = to.0 - from.0;
@@ -578,6 +625,63 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                     if *rate_coupled { "model.coupling-active" } else { "model.coupling-absent" },
                     if *rate_coupled { "active" } else { "not yet modelled" },
                 ))],
+            ),
+        },
+        Event::EmulsionChanged {
+            vessel,
+            material,
+            from_dispersed_fraction,
+            to_dispersed_fraction,
+            dispersed_volume_l,
+            half_life_seconds,
+        } => match register.level() {
+            1 if to_dispersed_fraction > from_dispersed_fraction => format!(
+                "Tiny {material} droplets spread through the water in {vessel}, making it cloudy."
+            ),
+            1 => format!(
+                "The droplets in {vessel} join back together, and the {material} layer starts returning."
+            ),
+            2 => format!(
+                "{vessel}: {material} dispersed {:.0}% → {:.0}% ({:.1} mL; {:.0} s coalescence half-life)",
+                from_dispersed_fraction * 100.0,
+                to_dispersed_fraction * 100.0,
+                dispersed_volume_l * 1000.0,
+                half_life_seconds,
+            ),
+            _ => format!(
+                "{vessel}: bounded recipe-level emulsion {:.6} → {:.6}; dispersed {:.9} L; half-life {:.3} s — no CMC, droplet distribution or CFD claim",
+                from_dispersed_fraction,
+                to_dispersed_fraction,
+                dispersed_volume_l,
+                half_life_seconds,
+            ),
+        },
+        Event::CurdlingChanged {
+            vessel,
+            material,
+            from_formed_fraction,
+            to_formed_fraction,
+            separation_progress,
+            curd_solids_mass_g,
+            acid_species,
+            acid_moles,
+        } => match register.level() {
+            1 => format!(
+                "The {material} in {vessel} separates into soft white curds and cloudy whey."
+            ),
+            2 => format!(
+                "{vessel}: {material} curd solids {:.0}% → {:.0}% ({curd_solids_mass_g:.2} g aggregate solids in visible curds)",
+                from_formed_fraction * 100.0,
+                to_formed_fraction * 100.0,
+            ),
+            _ => format!(
+                "{vessel}: bounded acid-curdling response {:.6} → {:.6}; separation progress {:.6}; curd solids {:.6} g from {:.9} mol {}; conserved aggregate, no casein-speciation or wet-yield claim",
+                from_formed_fraction,
+                to_formed_fraction,
+                separation_progress,
+                curd_solids_mass_g,
+                acid_moles.0,
+                acid_species.0,
             ),
         },
         Event::Ground {
@@ -1253,6 +1357,21 @@ pub fn render_event_in(event: &Event, register: Register, locale: Locale) -> Str
                 "event.layers-formed.lv3",
                 "{vessel}: liquid–liquid split (UNIFAC LLE, common-tangent construction). The split and the layer order are robust; the trace mutual solubilities are upper bounds — VLE-fitted UNIFAC parameters underestimate alkane–water γ∞ — and are deliberately not reported",
                 &[("vessel", &vessel.to_string())],
+            ),
+        },
+        Event::MaterialLayersFormed {
+            vessel,
+            upper_material,
+            lower,
+        } => match register.level() {
+            1 => format!("The {upper_material} floats in a separate layer above the water in {vessel}."),
+            2 => format!(
+                "{vessel}: {upper_material} forms the upper layer; {} is denser and remains below",
+                species::lookup(lower).map(|d| d.name).unwrap_or(lower.0.as_str()),
+            ),
+            _ => format!(
+                "{vessel}: reviewed material-layer role — unresolved {upper_material} is immiscible with the aqueous phase and lies above {}; this is not a molecular LLE calculation",
+                lower.0,
             ),
         },
         Event::Evaporated { vessel, moles } => match register.level() {

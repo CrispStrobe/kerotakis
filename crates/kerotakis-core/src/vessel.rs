@@ -40,6 +40,39 @@ pub struct FoamState {
     pub peak_volume_liters: f64,
 }
 
+/// Persistent view of unresolved grains floating at a liquid surface. The
+/// values are recipe-declared classroom observables; no grain-scale flow field
+/// or molecular surface tension is implied.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct SurfaceParticleState {
+    pub material: String,
+    pub coverage_fraction: f64,
+    pub cleared_fraction: f64,
+}
+
+/// Resolved dye temporarily localized at an opaque liquid surface. The dye
+/// moles remain in `contents`; this state records only their geometry and is
+/// therefore also the exact inventory excluded from the homogeneous optical
+/// calculation until the surface is disturbed.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SurfaceColourSpot {
+    pub material: String,
+    pub species: SpeciesId,
+    pub moles: Moles,
+    pub srgb: [u8; 3],
+    pub spread_fraction: f64,
+}
+
+/// Persistent amount of an unresolved oil layer dispersed as droplets in an
+/// aqueous phase. The bulk oil remains in `unresolved_materials`; this state
+/// only records its temporary geometry.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, Default)]
+pub struct EmulsionState {
+    pub oil_recipe_id: String,
+    pub dispersed_volume_l: f64,
+    pub half_life_seconds: f64,
+}
+
 /// How the vessel exchanges heat with the surroundings between operators.
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -564,6 +597,8 @@ impl SolutionInfo {
 
 // ── ARCH-004: MaterialLot ──────────────────────────────────────────
 
+pub const DRY_YEAST_RECIPE_SOURCE: &str = "material recipe household/dry-yeast-catalase-surrogate";
+
 /// A batch of material with its addition provenance (ARCH-004).
 ///
 /// Lots track what was added, when, and from where, independently of
@@ -579,6 +614,10 @@ pub struct MaterialLot {
     pub phase: Phase,
     /// When this lot was added (elapsed seconds at time of addition).
     pub added_at: f64,
+    /// First contact with a liquid phase, when known. Enzyme-bearing dry
+    /// materials use this to distinguish dry storage from hydration time.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub hydrated_at: Option<f64>,
     /// Where this came from (e.g. "reagent bottle", "transfer from v2").
     #[serde(default)]
     pub source: Option<String>,
@@ -644,6 +683,12 @@ pub struct Vessel {
     pub unresolved_materials: Vec<UnresolvedMaterialPortion>,
     #[serde(default)]
     pub foam: FoamState,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub surface_particles: Option<SurfaceParticleState>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub surface_colours: Vec<SurfaceColourSpot>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub emulsion: Option<EmulsionState>,
     pub temperature: Kelvin,
     pub pressure: Pascal,
     pub thermal_mode: ThermalMode,
@@ -698,6 +743,9 @@ impl Vessel {
             contents: Vec::new(),
             unresolved_materials: Vec::new(),
             foam: FoamState::default(),
+            surface_particles: None,
+            surface_colours: Vec::new(),
+            emulsion: None,
             temperature: Kelvin::STANDARD,
             pressure: Pascal::ATMOSPHERIC,
             thermal_mode: ThermalMode::Adiabatic,
@@ -774,11 +822,26 @@ impl Vessel {
             moles,
             phase,
             added_at: self.elapsed_seconds,
+            hydrated_at: None,
             source,
             particle_size_um,
             suspended_fraction,
         });
+        self.mark_liquid_contact();
         self.resolved.invalidate();
+    }
+
+    /// Record first liquid contact without erasing provenance or resetting a
+    /// material that was already hydrated before later transfers.
+    pub fn mark_liquid_contact(&mut self) {
+        if self.liquid_volume().0 <= 0.0 {
+            return;
+        }
+        for lot in &mut self.lots {
+            if lot.source.as_deref() == Some(DRY_YEAST_RECIPE_SOURCE) && lot.hydrated_at.is_none() {
+                lot.hydrated_at = Some(self.elapsed_seconds);
+            }
+        }
     }
 
     /// Mole-weighted suspended fraction for explicitly tracked solid lots.
@@ -892,7 +955,8 @@ impl Vessel {
             .iter()
             .map(|solid_solution| solid_solution.mass().0)
             .sum();
-        Grams(contents + interfaces + exchangers + solid_solutions)
+        let unresolved_materials = crate::material::unresolved_material_mass_g(self);
+        Grams(contents + interfaces + exchangers + solid_solutions + unresolved_materials)
     }
 
     /// Approximate liquid volume, additive-volume assumption (surfaced as an

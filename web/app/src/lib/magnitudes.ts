@@ -357,6 +357,24 @@ export function effectFromEvent(e: EngineEvent): Effect | null {
         at: now,
         magnitude: scale(Number(e.height_cm ?? 0), 0.5, 30),
       };
+    case "surface_spread":
+      return {
+        kind: "surface-spread",
+        at: now,
+        magnitude: scale(Number(e.to_cleared_fraction ?? 0), 0.05, 0.9),
+      };
+    case "surface_colour_spread":
+      return {
+        kind: "magic-milk",
+        at: now,
+        magnitude: scale(Number(e.to_spread_fraction ?? 0), 0.05, 0.9),
+      };
+    case "curdling_changed":
+      return {
+        kind: "curdle",
+        at: now,
+        magnitude: scale(Number(e.separation_progress ?? 0), 0.01, 1),
+      };
     case "precipitated":
       return { kind: "precipitate", at: now, magnitude: precipMag(e) };
     case "evaporated":

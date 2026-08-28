@@ -30,6 +30,39 @@ describe("effectFromEvent", () => {
     expect(high!.magnitude).toBeGreaterThan(low!.magnitude);
   });
 
+  it("maps computed pepper clearing to a surface-spread effect", () => {
+    const e = effectFromEvent({
+      event: "surface_spread",
+      vessel: 0,
+      from_cleared_fraction: 0,
+      to_cleared_fraction: 0.9,
+      coverage_fraction: 1,
+    });
+    expect(e?.kind).toBe("surface-spread");
+    expect(e?.magnitude).toBe(1);
+  });
+
+  it("maps computed milk colour motion to a magic-milk effect", () => {
+    const e = effectFromEvent({
+      event: "surface_colour_spread",
+      to_spread_fraction: 0.9,
+    });
+    expect(e?.kind).toBe("magic-milk");
+    expect(e?.magnitude).toBe(1);
+  });
+
+  it("maps computed curd formation to a bounded clumping effect", () => {
+    const e = effectFromEvent({
+      event: "curdling_changed",
+      vessel: 0,
+      to_formed_fraction: 0.28,
+      separation_progress: 1,
+      curd_solids_mass_g: 3.75,
+    });
+    expect(e?.kind).toBe("curdle");
+    expect(e?.magnitude).toBe(1);
+  });
+
   it("maps precipitated with moles → precipitate + magnitude from event.moles", () => {
     const e = effectFromEvent({ event: "precipitated", vessel: 0, species: "BaSO4", moles: 0.01 });
     expect(e!.kind).toBe("precipitate");

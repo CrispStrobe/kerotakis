@@ -593,7 +593,6 @@ expected = "missing"
 owning_task = "BRD-014"
 tags = ["cooking_oil", "fire"]
 script = ["add v1 vegetable_oil 10mL", "heat v1 50kJ", "ignite v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]
@@ -703,7 +702,6 @@ expected = "missing"
 owning_task = "BRD-012"
 tags = ["combustion", "sugar"]
 script = ["add v1 sucrose 5g", "add v1 O2 0.5mol", "heat v1 10kJ", "ignite v1", "look v1"]
-parse_boundary = "unknown_species"
 smoke = false
 
 [[prompt]]

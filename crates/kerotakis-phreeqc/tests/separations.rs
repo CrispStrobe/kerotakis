@@ -114,6 +114,90 @@ fn evaporating_brine_crystallises_salt() {
 }
 
 #[test]
+fn concentrating_named_epsom_salt_grows_hydrated_crystals() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let v = VesselId(0);
+    add(&mut bench, &mut stack, v, "water", 55.51);
+    let epsom = script::parse_op("add v1 Bittersalz 123.2355g")
+        .expect("localized Epsom-salt command")
+        .expect("operator");
+    step(&mut bench, &mut stack, epsom);
+    assert!(
+        bench
+            .vessel(v)
+            .unwrap()
+            .moles_of(&SpeciesId::new("epsomite"))
+            .0
+            < 1e-8,
+        "0.5 mol epsomite should first dissolve in one kilogram of water"
+    );
+
+    let events = step(
+        &mut bench,
+        &mut stack,
+        Operator::Evaporate {
+            vessel: v,
+            fraction: 0.95,
+        },
+    );
+    let crystallised = events
+        .iter()
+        .find_map(|event| match event {
+            Event::Precipitated { species, moles, .. } if species.0 == "epsomite" => Some(moles.0),
+            _ => None,
+        })
+        .expect("concentrated solution should grow named epsomite crystals");
+    assert!(
+        crystallised > 0.1 && crystallised <= 0.5,
+        "a substantial bounded fraction should crystallise, got {crystallised} mol"
+    );
+
+    let vessel = bench.vessel(v).unwrap();
+    let magnesium =
+        vessel.moles_of(&SpeciesId::new("Mg+2")).0 + vessel.moles_of(&SpeciesId::new("epsomite")).0;
+    assert!(
+        (magnesium - 0.5).abs() < 1e-6,
+        "dissolved plus crystalline magnesium must remain 0.5 mol, got {magnesium}"
+    );
+}
+
+#[test]
+fn named_seawater_has_computed_salinity_and_leaves_salt() {
+    let mut bench = Bench::new();
+    let mut stack = stack();
+    let op = kerotakis_core::script::parse_op("add v1 Meerwasser 100mL")
+        .expect("valid localized seawater command")
+        .expect("operator");
+    step(&mut bench, &mut stack, op);
+    let solution = bench.vessels[0]
+        .solution
+        .as_ref()
+        .expect("computed seawater solution");
+    assert!(
+        solution.ionic_strength > 0.4,
+        "installed major salts must produce seawater-scale ionic strength: {}",
+        solution.ionic_strength
+    );
+
+    let events = step(
+        &mut bench,
+        &mut stack,
+        Operator::Evaporate {
+            vessel: VesselId(0),
+            fraction: 0.95,
+        },
+    );
+    assert!(
+        events.iter().any(|event| matches!(event,
+            Event::Precipitated { species, moles, .. }
+                if species.0 == "NaCl" && moles.0 > 0.01
+        )),
+        "concentrating named seawater must recover computed salt: {events:?}"
+    );
+}
+
+#[test]
 fn evaporating_a_mixture_flags_the_missing_vle() {
     let mut bench = Bench::new();
     let mut stack = stack();

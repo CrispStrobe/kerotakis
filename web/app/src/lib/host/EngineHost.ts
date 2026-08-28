@@ -41,6 +41,10 @@ export interface SceneVessel {
   solids: SceneSolid[];
   bubbling: boolean;
   foam?: SceneFoam | null;
+  surface_particles?: SceneSurfaceParticles | null;
+  surface_colours?: SceneSurfaceColour[];
+  emulsion?: SceneEmulsion | null;
+  curds?: SceneCurds | null;
   /** Flattened Headspace tag: open | sealed | pressure_controlled | swept. */
   boundary: string;
   temperature_k: number;
@@ -57,6 +61,37 @@ export interface SceneFoam {
   volume_liters: number;
   height_cm: number;
   overflow_liters: number;
+  /** Additive scene-v1 fields; absent when talking to an older host. */
+  srgb?: [number, number, number];
+  colour_word?: string;
+}
+
+export interface SceneSurfaceParticles {
+  material: string;
+  coverage_fraction: number;
+  cleared_fraction: number;
+}
+
+export interface SceneSurfaceColour {
+  material: string;
+  srgb: [number, number, number];
+  spread_fraction: number;
+  relative_amount: number;
+}
+
+export interface SceneEmulsion {
+  material: string;
+  dispersed_volume_l: number;
+  dispersed_fraction: number;
+  half_life_seconds: number;
+}
+
+export interface SceneCurds {
+  material: string;
+  formed_fraction: number;
+  separation_progress: number;
+  solids_mass_g: number;
+  srgb: [number, number, number];
 }
 
 /** One visible liquid layer, bottom first (GUI-058) — the engine's

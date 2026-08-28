@@ -299,6 +299,33 @@ fn invalid_recipe_ranges_and_unresolved_remainders_are_rejected() {
 }
 
 #[test]
+fn opaque_pigment_roles_require_complete_physical_coefficients() {
+    let mut document = document();
+    document.material_recipes[0].roles = vec![MaterialRole::OpaquePigment {
+        absorption: vec![1.0; 15],
+        scattering: vec![1.0; 16],
+    }];
+    let text = document
+        .validate()
+        .expect_err("a missing visible band must be rejected")
+        .to_string();
+    assert!(
+        text.contains("must contain exactly 16 visible bands"),
+        "{text}"
+    );
+
+    document.material_recipes[0].roles = vec![MaterialRole::OpaquePigment {
+        absorption: vec![1.0; 16],
+        scattering: vec![0.0; 16],
+    }];
+    let text = document
+        .validate()
+        .expect_err("zero scattering cannot define an opaque layer")
+        .to_string();
+    assert!(text.contains("must be finite and positive"), "{text}");
+}
+
+#[test]
 fn only_reviewed_runtime_sources_may_enter_a_distributed_pack() {
     assert!(SourceLane::Runtime.may_enter_runtime_pack());
     assert!(!SourceLane::BuildOracle.may_enter_runtime_pack());

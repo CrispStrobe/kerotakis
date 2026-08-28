@@ -1,0 +1,35 @@
+# Oil, water and colour: which liquid gets the dye?
+#
+# A safe density-and-mixing activity with water, vegetable oil and food
+# colouring. Do not taste lab materials; protect clothes and surfaces because
+# food colouring stains, and work with an adult.
+register lv1
+
+# Colour the water first, then add oil. Predict whether the yellow oil will
+# change colour or form its own layer.
+add v1 water 100mL
+add v1 food_colour_blue 1mL
+add v1 vegetable_oil 50mL
+inspect v1
+
+# Now reverse the order in a narrow cylinder. Food colouring is an aqueous
+# dropper solution: it does not dye the oil, and its tiny coloured water phase
+# settles below the oil instead.
+new cylinder
+add v2 vegetable_oil 50mL
+add v2 food_colour_red 1mL
+inspect v2
+
+# Return to the first vessel. Dish soap alone does not erase the layer: use the
+# stirrer to supply mechanical mixing and watch tiny oil droplets make the
+# water cloudy while a little undispersed oil remains above it.
+add v1 dish_soap 1mL
+stir v1 500rpm 10s
+inspect v1
+
+# Let the vessel rest for one declared coalescence half-life. About half of the
+# dispersed oil joins the upper layer again. This model conserves the generic
+# unresolved oil; it does not yet model falling drops, hand-shaking, individual
+# droplet sizes, viscosity or a lava-lamp tablet.
+wait 300s
+inspect v1

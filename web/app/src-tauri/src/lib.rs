@@ -246,7 +246,7 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
         })
         .to_string()),
         "species" => {
-            let list: Vec<Value> = kerotakis_core::species::all_species()
+            let mut list: Vec<Value> = kerotakis_core::species::all_species()
                 .into_iter()
                 .map(|s| {
                     let (hazards, assessed) = kerotakis_safety::hazard_assessment(s.key);
@@ -267,6 +267,57 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                     })
                 })
                 .collect();
+            list.extend(kerotakis_core::material::all().into_iter().map(|recipe| {
+                let pigment_swatch = kerotakis_core::material::pigment_swatch(&recipe)
+                    .map(|rgb| [rgb.r, rgb.g, rgb.b]);
+                let phase = match recipe.physical_form {
+                    kerotakis_data::MaterialPhysicalForm::HomogeneousLiquid
+                    | kerotakis_data::MaterialPhysicalForm::Suspension => "liquid",
+                    kerotakis_data::MaterialPhysicalForm::GasMixture => "gas",
+                    _ => "solid",
+                };
+                let component_species = recipe
+                    .components
+                    .iter()
+                    .filter_map(|component| {
+                        kerotakis_core::species::lookup(&kerotakis_core::SpeciesId::new(
+                            &component.species_id,
+                        ))
+                    })
+                    .collect::<Vec<_>>();
+                let formula = component_species
+                    .iter()
+                    .map(|species| species.formula)
+                    .collect::<Vec<_>>()
+                    .join(" + ");
+                let swatch = component_species.iter().find_map(|species| {
+                    let (reflective, solution) = kerotakis_core::species::shelf_swatch(species);
+                    solution.or(reflective)
+                });
+                let mut hazards = std::collections::BTreeSet::new();
+                let mut assessed = recipe.unresolved_fraction.is_none();
+                for species in &component_species {
+                    let (component_hazards, component_assessed) =
+                        kerotakis_safety::hazard_assessment(species.key);
+                    hazards.extend(component_hazards.into_iter().map(str::to_string));
+                    assessed &= component_assessed;
+                }
+                json!({
+                    "key": recipe.canonical_key,
+                    "name": recipe.name,
+                    "formula": formula,
+                    "phase": phase,
+                    "appearance": recipe.preparation,
+                    "srgb": pigment_swatch,
+                    "solution_srgb": if pigment_swatch.is_none() { swatch } else { None },
+                    "flame": Value::Null,
+                    "density": recipe.bulk_density.map(|record| record.value),
+                    "provenance": recipe.evidence.source_id,
+                    "hazards": hazards,
+                    "hazard_assessed": assessed,
+                    "material": true,
+                })
+            }));
             Ok(Value::Array(list).to_string())
         }
         "inspect" => {

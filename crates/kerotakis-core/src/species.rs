@@ -119,6 +119,11 @@ pub struct SpeciesData {
     /// contribution to pH or ionic strength, and the lab says so.
     #[serde(default)]
     pub dissolves_without_speciation: bool,
+    /// Conservative room-temperature aqueous solubility limit in grams of
+    /// solute per 100 mL liquid water. `None` means no finite dissolution
+    /// model is installed; this is deliberately separate from speciation.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub aqueous_solubility_g_per_100_ml: Option<f64>,
     /// Some solids are the *stable* phase and still do not appear on a
     /// bench, because the metastable one nucleates first and then sits
     /// there — Ostwald's rule of stages. Copper(II) hydroxide is the
