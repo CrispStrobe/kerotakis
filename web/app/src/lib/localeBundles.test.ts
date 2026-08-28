@@ -41,6 +41,25 @@ describe("locale bundles", () => {
     expect(bundle["@@name"] ?? "").not.toBe("");
   });
 
+  it("the template offers every key a translator has to fill", () => {
+    // The template is what someone copies to start a language. It carried
+    // 919 messages against de.json's 1041, so 122 strings were not merely
+    // untranslated — they were invisible: a French translator would never
+    // have seen them to know they existed.
+    //
+    // Compared against German rather than against the scan of `t()` call
+    // sites, because German is the language that is actually complete and
+    // is therefore the honest floor for what a new one needs.
+    const template = JSON.parse(readFileSync(join(DIR, "_template.json"), "utf8"));
+    const german = JSON.parse(readFileSync(join(DIR, "de.json"), "utf8"));
+    for (const section of ["terms", "messages"]) {
+      const missing = Object.keys(german[section]).filter(
+        (key) => !Object.hasOwn(template[section], key),
+      );
+      expect({ section, missing }).toEqual({ section, missing: [] });
+    }
+  });
+
   it("the template is excluded, and would fail these checks if it were not", () => {
     const template = JSON.parse(readFileSync(join(DIR, "_template.json"), "utf8"));
     expect(files).not.toContain("_template.json");
