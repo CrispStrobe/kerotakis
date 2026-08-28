@@ -1496,11 +1496,11 @@
     .shelf-pane,
     aside { transition: width 180ms ease, box-shadow 180ms ease; }
     .shelf-pane.collapsed,
-    aside.collapsed { width: 3.35rem; box-shadow: 0 5px 16px var(--shadow); }
+    aside.collapsed { width: 2.75rem; box-shadow: 0 5px 16px var(--shadow); }
     .shelf-pane.collapsed > :not(.pane-heading),
     aside.collapsed > :not(.pane-heading) { display: none; }
     .shelf-pane.collapsed .pane-heading,
-    aside.collapsed .pane-heading { min-height: 100%; justify-content: center; padding: 0.45rem; border-bottom: 0; }
+    aside.collapsed .pane-heading { min-height: 0; justify-content: flex-start; padding: 0.45rem; border-bottom: 0; }
     .shelf-pane.collapsed .pane-heading > :not(.panel-collapse),
     aside.collapsed .pane-heading > :not(.panel-collapse) { display: none; }
   }

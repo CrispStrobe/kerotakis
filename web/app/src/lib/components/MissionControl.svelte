@@ -66,7 +66,7 @@
         <div class="card-icon" aria-hidden="true">⌬</div>
         <div>
           <span class="card-kicker">{t("Experiment library")}</span>
-          <h2>{t("{count} Codex experiments", { count: experiments.length })}</h2>
+          <h2>{t("{count} experiments", { count: experiments.length })}</h2>
           <p>{t("Predict first, run real chemistry, then compare the evidence.")}</p>
         </div>
         <div class="library-actions">
