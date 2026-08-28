@@ -308,6 +308,13 @@
   .depleted-note { border-left-color: var(--warning); background: color-mix(in srgb, var(--warning) 7%, transparent); }
   .name {
     flex: 1;
+    /* Without this a flex item will not shrink below its content, so
+       "Natron (Natriumhydrogencarbonat)" pushed the stock count out of
+       the row and it rendered as "10 Entnal". English never hits it —
+       "baking soda" is short — which is why it survived until the shelf
+       was looked at in German. */
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .formula {
     color: var(--dim);
