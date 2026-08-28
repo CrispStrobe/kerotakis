@@ -20,6 +20,38 @@ those adapters may write promoted records directly. Their output remains in a
 quarantine/build-oracle lane until per-field licence, identity, provenance and
 scientific review explicitly promotes it.
 
+The shared `kerotakis_data` adapter contract now enforces the first promotion
+boundary: a raw snapshot has a revision and SHA-256 manifest; quarantine JSON
+is deterministic; every candidate field retains its exact source path and
+licence; a reviewed field/licence allowlist produces a report rather than a
+registry mutation; and multiple records sharing one identity key produce an
+explicit conflict report. Source-specific adapters must use this contract and
+commit reviewable fixtures. Fetching remains outside builds and runtime.
+
+Pinned adapter fixtures use this layout (the synthetic contract fixture lives
+under `crates/kerotakis-data/tests/fixtures/quarantine/synthetic-v1`):
+
+```text
+<adapter-id>/
+├── manifest.json
+├── raw/<snapshot artifact>
+├── candidates-old.json
+├── candidates-new.json
+└── policy.json
+```
+
+Review them offline with:
+
+```sh
+cargo run -p kerotakis-data --bin quarantine-review -- verify manifest.json raw/snapshot.json
+cargo run -p kerotakis-data --bin quarantine-review -- canonicalize candidates-new.json
+cargo run -p kerotakis-data --bin quarantine-review -- review candidates-new.json policy.json
+cargo run -p kerotakis-data --bin quarantine-review -- diff candidates-old.json candidates-new.json
+```
+
+All output goes to stdout for explicit inspection/check-in. The tool has no
+promotion or registry-write command.
+
 This document is not an app data pack. Every source is deliberately assigned to
 the `build_oracle` lane and carries
 `LicenseRef-Kerotakis-Legacy-Provenance-Review-Required`. DATA-003 must exclude

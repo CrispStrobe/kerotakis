@@ -1,0 +1,12 @@
+{
+  "fields": {
+    "canonical_name": {
+      "target_field": "name",
+      "allowed_licences": ["CC0-1.0"]
+    },
+    "formula": {
+      "target_field": "formula",
+      "allowed_licences": ["CC0-1.0"]
+    }
+  }
+}
