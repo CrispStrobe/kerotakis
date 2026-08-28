@@ -151,6 +151,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "Cu(OH)2"
         | "Fe(OH)2"
         | "Fe(OH)3"
+        | "Fe2O3"
         | "Mg(OH)2"
         | "Zn(OH)2"
         | "CuO"
@@ -170,6 +171,7 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "KCl"
         | "CaCl2"
         | "MgSO4"
+        | "epsomite"
         | "gypsum"
         | "K+"
         | "Ca+2"
@@ -212,8 +214,10 @@ pub fn groups(species_key: &str) -> &'static [ReactiveGroup] {
         | "KNO3"
         | "dehydroascorbic_acid"
         | "starch"
+        | "sucrose"
         | "amylase"
         | "maltose"
+        | "SiO2"
         | "NaBr" => &[],
 
         _ => &[],
@@ -256,6 +260,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "Fe+3",
     "Fe(OH)2",
     "Fe(OH)3",
+    "Fe2O3",
     "FeSO4",
     "H2",
     "H2O2",
@@ -311,6 +316,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "PP",
     "PS",
     "S",
+    "SiO2",
     "SO2",
     "SO4-2",
     "Sr+2",
@@ -327,6 +333,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "ethanol",
     "ethene",
     "ethyl_acetate",
+    "epsomite",
     "gypsum",
     "hexane",
     "indigo_carmine",
@@ -339,6 +346,7 @@ pub const COVERED_KEYS: &[&str] = &[
     "phenolphthalein",
     "propanone",
     "starch",
+    "sucrose",
     "tert_butanol",
     "tert_butyl_bromide",
     "water",
