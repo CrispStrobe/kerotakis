@@ -2,6 +2,7 @@
 
 #![cfg(feature = "engine")]
 
+use kerotakis_core::script::parse_op;
 use kerotakis_core::*;
 use kerotakis_phreeqc::PhreeqcEquilibrator;
 
