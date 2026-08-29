@@ -1,0 +1,86 @@
+# EXP-30 (sealed-unknown salt analysis): the salt that is an acid.
+# A neutral-looking crystal that makes a solution near pH 2 without any
+# acid being added — ferric hydrolysis, computed rather than curated
+# (Fe3+ + H2O <=> FeOH2+ + H+). The pH meter is a cation test in its own
+# right here, and the red-brown hydroxide confirms it.
+id = "the-rust-maker"
+
+[title]
+lv1 = "The rust maker"
+lv2 = "The rust maker: a salt whose solution is an acid"
+lv3 = "Sealed-salt analysis V — cation hydrolysis read on the meter, confirmed by the red-brown hydroxide"
+
+[goal]
+lv1 = "unknown-rust is a salt. Dissolve 0.01 mol of it in 100 mL of water in v1 and put the pH meter in — you may be surprised. Then add sodium hydroxide and watch the colour of what falls out, and test another portion with silver nitrate."
+lv2 = "Identify unknown-rust. Dissolve 0.01 mol in 100 mL of water in v1 and measure the pH: no acid has been added, so anything far from neutral is the cation hydrolysing. Add sodium hydroxide to precipitate the hydroxide (its colour names the metal and its oxidation state), and use silver nitrate on a fresh portion for the halide."
+lv3 = "unknown-rust is a sealed registry salt. Three independent pieces of evidence: (1) the pH of a 0.1 mol/kgw solution, well below neutral because the highly charged cation hydrolyses water — this is why such reagent bottles are kept acidified; (2) NaOH precipitates the hydroxide, red-brown for Fe(III) as against pale green for Fe(II), pale blue for Cu(II), white for Mg(II); (3) AgNO3 gives the curdy white halide precipitate, and BaCl2 would give nothing because there is no sulfate. Candidates: FeCl3, FeSO4, CuSO4, MgSO4, NaCl, Na2CO3. Claims complete in any order."
+
+[unknowns]
+unknown-rust = "FeCl3"
+
+[[nudges]]
+id = "in-the-water"
+when = "added:FeCl3"
+[nudges.say]
+lv1 = "It is in the water. Before you add any reagent, put the pH meter in — the salt on its own has already done something to the water."
+lv2 = "Dissolved. Measure the pH before adding anything: a salt whose solution is far from neutral is telling you about its cation, not about any acid you added."
+lv3 = "In solution. A salt of a strong acid and a weak base gives an acidic solution; a small, highly charged cation polarises its hydration shell hard enough to release a proton. Read the meter before disturbing the system."
+
+[[nudges]]
+id = "the-reading"
+when = "measured"
+[nudges.say]
+lv1 = "That is much more sour than plain water, and you never added any acid. The salt itself did that."
+lv2 = "Reading taken. You added no acid, so the protons came from the cation hydrolysing its own water of hydration — only a highly charged cation does that strongly."
+lv3 = "The measured pH against neutrality is the hydrolysis evidence. A doubly charged cation of this concentration would sit near pH 5 or above; a value near 2 needs the tripositive one. The hydroxide colour is the confirming test."
+
+[[nudges]]
+id = "the-hydroxide"
+when = "precipitated:Fe(OH)3"
+[nudges.say]
+lv1 = "Red-brown, like rust. Only one metal on this shelf makes a hydroxide that colour."
+lv2 = "A red-brown hydroxide: the higher oxidation state of iron. The pale-green hydroxide of the lower state would have looked completely different, and the meter reading already pointed here."
+lv3 = "Fe(OH)3 precipitated once the solution was made alkaline enough to exceed its solubility product. Colour and pH agree: tripositive iron. Note that in the unbuffered acidic solution the amorphous hydroxide is undersaturated — the precipitate needs the alkali."
+
+[[nudges]]
+id = "the-halide"
+when = "precipitated:AgCl"
+[nudges.say]
+lv1 = "A white curdy solid with silver nitrate — that is the chloride answer."
+lv2 = "Silver chloride: the anion is chloride. With the cation from the hydroxide colour and the meter, the whole formula follows."
+lv3 = "AgCl precipitated (curdy white). Barium chloride on the same solution would have given nothing, since there is no sulfate — the pair of tests, one positive and one negative, is what makes the anion assignment sound."
+
+[[claims]]
+id = "hydrolysis-ph"
+vessel = "v1"
+quantity = "ph"
+target = 1.92
+tolerance = 0.5
+[claims.title]
+lv1 = "Show the water went sour all by itself"
+lv2 = "Reach the pH a 0.1 mol/L solution of this salt actually gives (1.92 ± 0.5)"
+lv3 = "Value claim: pH of v1 within 1.92 ± 0.5 — 0.01 mol in 100 mL, no acid added. A neutral salt at this concentration reads near 7 and a dipositive hydrolysing cation stays above 5; the band excludes both"
+
+[[claims]]
+id = "ferric-hydroxide"
+matches = "precipitated:Fe(OH)3"
+[claims.title]
+lv1 = "Make the rust-coloured solid fall out"
+lv2 = "Precipitate the hydroxide of the higher oxidation state"
+lv3 = "Precipitated:Fe(OH)3 — the ferric verdict"
+
+[[claims]]
+id = "halide-test"
+matches = "precipitated:AgCl"
+[claims.title]
+lv1 = "Get the white curdy solid with silver nitrate"
+lv2 = "Confirm the anion with the silver nitrate test"
+lv3 = "Precipitated:AgCl — the chloride confirmation"
+
+[[claims]]
+id = "named-it"
+alias = "unknown-rust"
+[claims.title]
+lv1 = "Say what the rust maker really is"
+lv2 = "Identify unknown-rust by name"
+lv3 = "Identify claim on unknown-rust; a wrong name is answered with the evidence, not punished"
