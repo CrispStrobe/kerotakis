@@ -202,3 +202,15 @@ sha256 = "cf684c72e75af952311e3516646805724993db154602f30ea2026f01cf1999a9"
 [[source.checksum]]
 path = "vendor/inchi/INCHI_BASE/src/ichi_bns.c"
 sha256 = "5a7aa817de95a5997063a8e656865c773155972abd1e4bb806ef79597f2e31b5"
+
+# ---------------------------------------------------------------------------
+# BRD-040 — Cantera mechanism and API audit (2026-08-29).
+#
+# These records document a REFUSAL, not an approval. No file named below is in
+# the tree; each was inspected outside the repository and rejected for the
+# runtime-data lane because its own provenance carries no redistribution grant.
+# The full reasoning is in provenance/brd-040-cantera-audit.md. Every entry
+# remains usable as an oracle: running a mechanism outside the repository to
+# check a Kerotakis answer distributes nothing.
+# ---------------------------------------------------------------------------
+

@@ -153,6 +153,8 @@ pub enum MechanismError {
     UnknownPhaseSpecies { phase: String, species: String },
     #[error("species '{species}' is not assigned to exactly one phase")]
     UnassignedSpecies { species: String },
+    #[error("species '{species}' is claimed by more than one phase")]
+    DuplicatePhaseAssignment { species: String },
     #[error("species '{species}' has invalid element count for '{element}': {count}")]
     InvalidComposition {
         species: String,
@@ -181,7 +183,67 @@ pub enum MechanismError {
         field: &'static str,
         value: f64,
     },
+    /// A Cantera YAML key the portable subset does not model.
+    ///
+    /// Every such key is refused rather than skipped: silently dropping a field
+    /// that changes a rate law, a reaction order, or a unit scale would answer
+    /// a different question than the file asks.
+    #[error("{owner}: unsupported Cantera field '{field}' (BRD-040: not modelled by the portable subset)")]
+    UnsupportedField { owner: String, field: String },
+    /// A named top-level document section the portable subset cannot attribute
+    /// to a phase, so it cannot know whether its contents are in play.
+    #[error("unsupported Cantera document section '{section}' (BRD-040: only description/units/phases/species/reactions and ck2yaml provenance keys are modelled)")]
+    UnsupportedSection { section: String },
+    /// A supported key carrying a value outside the portable subset.
+    #[error("{owner}: unsupported value '{value}' for Cantera field '{field}' (BRD-040)")]
+    UnsupportedFieldValue {
+        owner: String,
+        field: &'static str,
+        value: String,
+    },
 }
+
+/// YAML keys the portable subset may ignore without changing any answer.
+///
+/// Everything outside these lists is refused by [`reject_unknown_fields`]. The
+/// asymmetry is deliberate: an allowlist of provenance/annotation keys is
+/// auditable, whereas serde's default of dropping unknown keys silently would
+/// let a future Cantera rate modifier change a mechanism's meaning unnoticed.
+const IGNORABLE_DOCUMENT_KEYS: &[&str] = &[
+    "generator",
+    "input-files",
+    "cantera-version",
+    "date",
+    "note",
+    "references",
+    "elements",
+];
+const IGNORABLE_PHASE_KEYS: &[&str] = &[
+    "elements",
+    "note",
+    "state",
+    "transport",
+    "adjacent-phases",
+    "skip-undeclared-elements",
+    "skip-undeclared-third-bodies",
+    "explicit-third-body-duplicates",
+];
+/// Species keys that cannot reach an ideal-gas rate. Transport data is never
+/// read by the kinetics path. `equation-of-state` carries real-gas parameters
+/// (Redlich-Kwong coefficients in Cantera's own `h2o2.yaml` and
+/// `nDodecane_Reitz.yaml`) that Cantera itself ignores for an `ideal-gas`
+/// phase, and only `ideal-gas` phases are accepted here.
+const IGNORABLE_SPECIES_KEYS: &[&str] = &[
+    "note",
+    "transport",
+    "critical-parameters",
+    "equation-of-state",
+];
+const IGNORABLE_THERMO_KEYS: &[&str] = &["note"];
+/// `duplicate` is an assertion, not a rate modifier: Cantera keeps duplicate
+/// reactions separate and sums their rates, which is exactly what compiling
+/// each entry independently already does.
+const IGNORABLE_REACTION_KEYS: &[&str] = &["note", "id", "duplicate"];
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -196,6 +258,8 @@ struct RawMechanism {
     species: Vec<RawSpecies>,
     #[serde(default)]
     reactions: Vec<RawReaction>,
+    #[serde(flatten)]
+    extra: BTreeMap<String, serde_yaml_ng::Value>,
 }
 
 #[derive(Debug, Default, Deserialize)]
@@ -204,15 +268,29 @@ struct RawUnits {
     length: Option<String>,
     time: Option<String>,
     quantity: Option<String>,
+    energy: Option<String>,
     activation_energy: Option<String>,
     pressure: Option<String>,
+    temperature: Option<String>,
+    #[serde(flatten)]
+    extra: BTreeMap<String, serde_yaml_ng::Value>,
 }
 
 #[derive(Debug, Deserialize)]
 struct RawPhase {
     name: String,
     thermo: String,
-    species: Vec<String>,
+    /// Cantera accepts a species list, the string `all` (also the default when
+    /// the key is absent), or cross-file section references. The reference
+    /// forms are refused by name rather than through a serde type error.
+    #[serde(default)]
+    species: Option<serde_yaml_ng::Value>,
+    #[serde(default)]
+    kinetics: Option<String>,
+    #[serde(default)]
+    reactions: Option<serde_yaml_ng::Value>,
+    #[serde(flatten)]
+    extra: BTreeMap<String, serde_yaml_ng::Value>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -221,6 +299,8 @@ struct RawSpecies {
     composition: BTreeMap<String, f64>,
     #[serde(default)]
     thermo: Option<RawThermo>,
+    #[serde(flatten)]
+    extra: BTreeMap<String, serde_yaml_ng::Value>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -231,6 +311,8 @@ struct RawThermo {
     data: Vec<Vec<f64>>,
     #[serde(default)]
     reference_pressure: Option<Scalar>,
+    #[serde(flatten)]
+    extra: BTreeMap<String, serde_yaml_ng::Value>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -253,6 +335,57 @@ struct RawReaction {
     default_efficiency: f64,
     #[serde(default, rename = "Troe")]
     troe: Option<RawTroe>,
+    #[serde(flatten)]
+    extra: BTreeMap<String, serde_yaml_ng::Value>,
+}
+
+/// Resolve a phase's `species` selector into concrete names.
+///
+/// Cantera's default (key absent) and the explicit string `all` both mean every
+/// species declared in the document. Cross-file and per-section selectors are
+/// refused by name.
+fn phase_species(
+    owner: &str,
+    selector: Option<&serde_yaml_ng::Value>,
+    declared: &BTreeSet<String>,
+) -> Result<Vec<String>, MechanismError> {
+    let unsupported = |value: &serde_yaml_ng::Value| MechanismError::UnsupportedFieldValue {
+        owner: owner.to_string(),
+        field: "species",
+        value: render_yaml_value(value),
+    };
+    match selector {
+        None => Ok(declared.iter().cloned().collect()),
+        Some(value) if value.as_str() == Some("all") => Ok(declared.iter().cloned().collect()),
+        Some(value) => {
+            let items = value.as_sequence().ok_or_else(|| unsupported(value))?;
+            items
+                .iter()
+                .map(|item| {
+                    item.as_str()
+                        .map(ToString::to_string)
+                        .ok_or_else(|| unsupported(item))
+                })
+                .collect()
+        }
+    }
+}
+
+/// Refuse any key outside the modelled set, naming the offending field.
+fn reject_unknown_fields(
+    owner: &str,
+    extra: &BTreeMap<String, serde_yaml_ng::Value>,
+    ignorable: &[&str],
+) -> Result<(), MechanismError> {
+    for field in extra.keys() {
+        if !ignorable.contains(&field.as_str()) {
+            return Err(MechanismError::UnsupportedField {
+                owner: owner.to_string(),
+                field: field.clone(),
+            });
+        }
+    }
+    Ok(())
 }
 
 fn elementary() -> String {
@@ -265,8 +398,11 @@ const fn unit_efficiency() -> f64 {
 
 #[derive(Debug, Deserialize)]
 struct RawRate {
+    /// Cantera also accepts a unit-bearing string here (`A: 1.0e12 cm^3/mol/s`).
+    /// Accepting the scalar form and typing the string form keeps the failure
+    /// legible instead of surfacing serde's "invalid type: string".
     #[serde(rename = "A")]
-    pre_exponential: f64,
+    pre_exponential: Scalar,
     #[serde(default)]
     b: f64,
     #[serde(rename = "Ea")]
@@ -311,6 +447,13 @@ enum Scalar {
 /// Parse and validate the KIN-006 portable mechanism subset.
 pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
     let raw: RawMechanism = serde_yaml_ng::from_str(text)?;
+    for section in raw.extra.keys() {
+        if !IGNORABLE_DOCUMENT_KEYS.contains(&section.as_str()) {
+            return Err(MechanismError::UnsupportedSection {
+                section: section.clone(),
+            });
+        }
+    }
     if raw.phases.is_empty() {
         return Err(MechanismError::MissingPhases);
     }
@@ -324,6 +467,18 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
     let units = ResolvedUnits::new(&raw.units)?;
     let mut names = BTreeSet::new();
     for species in &raw.species {
+        reject_unknown_fields(
+            &format!("species '{}'", species.name),
+            &species.extra,
+            IGNORABLE_SPECIES_KEYS,
+        )?;
+        if let Some(thermo) = &species.thermo {
+            reject_unknown_fields(
+                &format!("species '{}' thermo", species.name),
+                &thermo.extra,
+                IGNORABLE_THERMO_KEYS,
+            )?;
+        }
         if !names.insert(species.name.clone()) {
             return Err(MechanismError::DuplicateName {
                 kind: "species",
@@ -343,23 +498,50 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
 
     let mut assignments = BTreeMap::new();
     for phase in &raw.phases {
+        let owner = format!("phase '{}'", phase.name);
+        // The phase model is checked first so that a surface or edge phase is
+        // named as such, rather than tripping over whichever of its own keys
+        // (`site-density`, `adjacent-phases`) happens to be inspected first.
         if phase.thermo != "ideal-gas" {
             return Err(MechanismError::UnsupportedPhase {
                 phase: phase.name.clone(),
                 thermo: phase.thermo.clone(),
             });
         }
-        for species in &phase.species {
-            if !names.contains(species) {
+        reject_unknown_fields(&owner, &phase.extra, IGNORABLE_PHASE_KEYS)?;
+        // A phase may restrict which reaction sections apply to it. Only the
+        // Cantera default (`all`) can be honoured without modelling section
+        // selection, so `none`, `declared-species` and section lists are
+        // refused rather than quietly compiling every reaction in the file.
+        if let Some(selector) = &phase.reactions {
+            let all = selector.as_str().is_some_and(|value| value == "all");
+            if !all {
+                return Err(MechanismError::UnsupportedFieldValue {
+                    owner: owner.clone(),
+                    field: "reactions",
+                    value: render_yaml_value(selector),
+                });
+            }
+        }
+        if let Some(kinetics) = phase.kinetics.as_deref() {
+            if kinetics != "gas" && kinetics != "bulk" {
+                return Err(MechanismError::UnsupportedFieldValue {
+                    owner: owner.clone(),
+                    field: "kinetics",
+                    value: kinetics.to_string(),
+                });
+            }
+        }
+        let members = phase_species(&owner, phase.species.as_ref(), &names)?;
+        for species in members {
+            if !names.contains(&species) {
                 return Err(MechanismError::UnknownPhaseSpecies {
                     phase: phase.name.clone(),
                     species: species.clone(),
                 });
             }
             if assignments.insert(species.clone(), Phase::Gas).is_some() {
-                return Err(MechanismError::UnassignedSpecies {
-                    species: species.clone(),
-                });
+                return Err(MechanismError::DuplicatePhaseAssignment { species });
             }
         }
     }
@@ -394,6 +576,11 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
     let mut reactions = Vec::with_capacity(raw.reactions.len());
     for (offset, reaction) in raw.reactions.into_iter().enumerate() {
         let number = offset + 1;
+        reject_unknown_fields(
+            &format!("reaction {number}"),
+            &reaction.extra,
+            IGNORABLE_REACTION_KEYS,
+        )?;
         let kind = match reaction.r#type.as_str() {
             "elementary" => ReactionKind::Elementary,
             "three-body" => ReactionKind::ThirdBody,
@@ -429,7 +616,12 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
             }
             _ => {}
         }
-        let mut stoichiometry = BTreeMap::<String, f64>::new();
+        // Mass-action orders follow the coefficients written on each SIDE of the
+        // equation, not the net stoichiometry. `H + 2 O2 <=> HO2 + O2` is second
+        // order in O2 even though O2's net coefficient is -1; deriving orders
+        // from the net vector silently produced a second-order rate law with a
+        // third-order pre-exponential, mis-scaling A by one concentration unit.
+        let mut reactant_totals = BTreeMap::<String, f64>::new();
         for (name, coefficient) in equation.reactants {
             if !species_by_name.contains_key(name.as_str()) {
                 return Err(MechanismError::UnknownReactionSpecies {
@@ -437,8 +629,9 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
                     species: name,
                 });
             }
-            *stoichiometry.entry(name).or_default() -= coefficient;
+            *reactant_totals.entry(name).or_default() += coefficient;
         }
+        let mut product_totals = BTreeMap::<String, f64>::new();
         for (name, coefficient) in equation.products {
             if !species_by_name.contains_key(name.as_str()) {
                 return Err(MechanismError::UnknownReactionSpecies {
@@ -446,7 +639,14 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
                     species: name,
                 });
             }
-            *stoichiometry.entry(name).or_default() += coefficient;
+            *product_totals.entry(name).or_default() += coefficient;
+        }
+        let mut stoichiometry = BTreeMap::<String, f64>::new();
+        for (name, coefficient) in &reactant_totals {
+            *stoichiometry.entry(name.clone()).or_default() -= *coefficient;
+        }
+        for (name, coefficient) in &product_totals {
+            *stoichiometry.entry(name.clone()).or_default() += *coefficient;
         }
         stoichiometry.retain(|_, coefficient| coefficient.abs() > 1e-14);
         if stoichiometry.is_empty() {
@@ -457,26 +657,18 @@ pub fn parse_yaml(text: &str) -> Result<ParsedMechanism, MechanismError> {
         }
         validate_balance(number, &stoichiometry, &species_by_name)?;
 
-        let orders: Vec<_> = stoichiometry
-            .iter()
-            .filter(|(_, coefficient)| **coefficient < 0.0)
-            .map(|(name, coefficient)| OwnedOrder {
-                species: name.clone(),
-                phase: species_by_name[name.as_str()].phase,
-                order: -*coefficient,
-            })
-            .collect();
-        let reverse_orders = reversible.then(|| {
-            stoichiometry
+        let side_orders = |totals: &BTreeMap<String, f64>| {
+            totals
                 .iter()
-                .filter(|(_, coefficient)| **coefficient > 0.0)
                 .map(|(name, coefficient)| OwnedOrder {
                     species: name.clone(),
                     phase: species_by_name[name.as_str()].phase,
                     order: *coefficient,
                 })
                 .collect::<Vec<_>>()
-        });
+        };
+        let orders = side_orders(&reactant_totals);
+        let reverse_orders = reversible.then(|| side_orders(&product_totals));
         let (equilibrium, validity_temperature_k) = if reversible {
             let mut min_temperature_k: f64 = 0.0;
             let mut max_temperature_k = f64::INFINITY;
@@ -853,6 +1045,14 @@ fn compile_collider<'a>(collider: &OwnedThirdBody, arena: &'a MechanismArena) ->
 
 impl ResolvedUnits {
     fn new(raw: &RawUnits) -> Result<Self, MechanismError> {
+        reject_unknown_fields("units", &raw.extra, &["mass", "current"])?;
+        // Cantera accepts a `temperature` default but rejects any scale with a
+        // non-unity conversion from kelvin, so anything but K is refused here.
+        if let Some(temperature) = raw.temperature.as_deref() {
+            if temperature.trim() != "K" {
+                return Err(unsupported("temperature", temperature));
+            }
+        }
         let volume_litres: f64 = match raw.length.as_deref().unwrap_or("m") {
             "m" => 1_000.0,
             "cm" => 1.0e-3,
@@ -870,8 +1070,22 @@ impl ResolvedUnits {
             "min" => 60.0,
             unit => return Err(unsupported("time", unit)),
         };
-        let activation_j_per_mol =
-            activation_unit(raw.activation_energy.as_deref().unwrap_or("J/kmol"))?;
+        // Cantera: "Setting default units for `energy` and `quantity` will
+        // determine the default units of `activation-energy`, which can be
+        // overridden by explicitly giving the desired units". Defaulting to a
+        // fixed J/kmol instead misread `units: {quantity: mol}` — a very common
+        // ck2yaml output shape — by a factor of one thousand.
+        let energy_joules = match raw.energy.as_deref().unwrap_or("J") {
+            "J" => 1.0,
+            "kJ" => 1_000.0,
+            "cal" => 4.184,
+            "kcal" => 4_184.0,
+            unit => return Err(unsupported("energy", unit)),
+        };
+        let activation_j_per_mol = match raw.activation_energy.as_deref() {
+            Some(unit) => activation_unit(unit)?,
+            None => energy_joules / quantity_moles,
+        };
         let pressure_pa = pressure_unit(raw.pressure.as_deref().unwrap_or("Pa"))?;
         Ok(Self {
             concentration_mol_per_litre: quantity_moles / volume_litres,
@@ -880,6 +1094,19 @@ impl ResolvedUnits {
             pressure_pa,
         })
     }
+}
+
+/// Render a rejected YAML value compactly so the error names what was refused.
+fn render_yaml_value(value: &serde_yaml_ng::Value) -> String {
+    value.as_str().map_or_else(
+        || {
+            serde_yaml_ng::to_string(value)
+                .unwrap_or_else(|_| "<unprintable>".to_string())
+                .trim()
+                .replace('\n', " ")
+        },
+        ToString::to_string,
+    )
 }
 
 fn unsupported(kind: &'static str, unit: &str) -> MechanismError {
@@ -1080,7 +1307,16 @@ fn normalize_rate(
     units: ResolvedUnits,
     reaction: usize,
 ) -> Result<RateLaw, MechanismError> {
-    let pre_exponential = raw.pre_exponential
+    let declared = match &raw.pre_exponential {
+        Scalar::Number(value) => *value,
+        Scalar::Text(text) => {
+            // Cantera allows `A: 1.0e12 cm^3/mol/s`. Per-value rate units are
+            // not modelled, so refuse them by name instead of leaving serde to
+            // report an opaque type mismatch.
+            return Err(unsupported("pre-exponential", text));
+        }
+    };
+    let pre_exponential = declared
         * units
             .concentration_mol_per_litre
             .powf(1.0 - dimensional_order)
