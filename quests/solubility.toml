@@ -70,3 +70,14 @@ matches = "measured"
 lv1 = "Measure what dissolved"
 lv2 = "Measure the solution at saturation"
 lv3 = "Quantitative determination — solubility or Ksp from the equilibrium state"
+
+[[claims]]
+id = "saturation-concentration"
+vessel = "v1"
+quantity = "molarity:Na+"
+target = 6.1
+tolerance = 0.05
+[claims.title]
+lv1 = "Push past the limit: the water holds the same amount however much you tip in"
+lv2 = "Saturate v1 with NaCl at bench temperature — the dissolved sodium settles at 6.10 mol/L (± 0.05) whatever the excess, before you start heating it"
+lv3 = "Value claim: [Na⁺] in v1 within 6.10 ± 0.05 mol/L over the computed liquid volume, at bench temperature. Once solid remains the concentration is pinned by the solubility product: independent of the excess and of how much water was used (50 g and 80 g in 100 mL and 120 g in 250 mL all land inside the band), which is why it can be a fixed target at all. Warming it moves the band — that is the next claim, not this one"
