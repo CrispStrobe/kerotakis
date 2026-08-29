@@ -245,10 +245,12 @@ for (const file of lessons) {
     console.log("load_pack: novel species to shelf + chemistry; corruption refused");
 }
 
-// --- relations / calc (GUI-027) -----------------------------------------
-// The catalogue rows must be form-buildable, and an evaluation must come
-// back with value, unit, provenance, and all three registers — or an
-// honest refusal.
+// --- relations / calc (GUI-027, GUI-087, GUI-096) ------------------------
+// The catalogue rows must be form-buildable AND self-explaining: what the
+// relation answers, where it stops holding, and who published it — in every
+// language the engine ships, because the drawer shows all three before
+// anything is computed. An evaluation must come back with value, unit,
+// provenance, and all three registers — or an honest refusal.
 {
     const lab = new Lab();
     const relations = JSON.parse(lab.relations());
@@ -256,10 +258,39 @@ for (const file of lessons) {
     if (!Array.isArray(relations) || relations.length === 0) {
         fail("relations", "catalogue empty or not an array");
     }
+    // The prose fields carry one `_<locale>` sibling per shipped language,
+    // the unsuffixed field being English. Derived from the row rather than
+    // listed here, so adding a language extends the check by itself.
+    //
+    // Completeness is demanded per locale, unlike the .toml catalogues where
+    // a half-finished translation is the intended shipping state: these are
+    // required struct fields on `RelationInfo`, so "translated for purpose
+    // but not for source" is not a translation in progress, it is a row
+    // somebody forgot to finish.
+    const shippedLocales = [...new Set(
+        relations.flatMap((r) => Object.keys(r))
+                 .map((k) => /^purpose_(.+)$/.exec(k)?.[1])
+                 .filter(Boolean),
+    )];
+    checks++;
+    if (shippedLocales.length === 0) {
+        fail("relations", "no translated catalogue at all — expected at least purpose_de");
+    }
     for (const r of relations) {
         checks++;
         if (typeof r.name !== "string" || typeof r.equation !== "string" || typeof r.args !== "string") {
             fail("relations", `malformed row: ${JSON.stringify(r)}`);
+        }
+        // A formula with no stated validity range teaches a learner to apply
+        // it outside that range, so an empty string is a failure here rather
+        // than a cosmetic gap.
+        for (const field of ["purpose", "validity", "source"]) {
+            for (const key of [field, ...shippedLocales.map((l) => `${field}_${l}`)]) {
+                checks++;
+                if (typeof r[key] !== "string" || r[key].trim() === "") {
+                    fail("relations", `${r.name}: ${key} missing or empty`);
+                }
+            }
         }
     }
     const good = JSON.parse(lab.calc("henderson-hasselbalch", JSON.stringify(["pKa=4.76", "cA=0.1", "cB=0.1"])));
@@ -273,12 +304,22 @@ for (const file of lessons) {
     if (good.ok === true && Math.abs(good.value - 4.76) > 1e-9) {
         fail("calc", `equimolar buffer should sit at its pKa; got ${good.value}`);
     }
+    // GUI-096: the catalogue's citation and the computed result's provenance
+    // are one string, not two — a drawer that credits Henderson while the
+    // answer credits somebody else is worse than one that credits nobody.
+    checks++;
+    const hh = relations.find((r) => r.name === "henderson-hasselbalch");
+    if (good.ok === true && hh && !good.provenance.includes(hh.source)) {
+        fail("relations", `catalogue cites ${JSON.stringify(hh.source)}, `
+            + `the result cites ${JSON.stringify(good.provenance)}`);
+    }
     const bad = JSON.parse(lab.calc("no-such-relation", JSON.stringify([])));
     checks++;
     if (bad.ok !== false || typeof bad.error !== "string") {
         fail("calc", `unknown relation must refuse with an error: ${JSON.stringify(bad)}`);
     }
-    console.log(`relations: ${relations.length} in the catalogue, evaluation + refusal conform`);
+    console.log(`relations: ${relations.length} in the catalogue, documented in `
+        + `${["en", ...shippedLocales].join("/")}, evaluation + refusal conform`);
 }
 
 // --- The chart contract on the wire (GUI-021/CAP-12) ---------------------

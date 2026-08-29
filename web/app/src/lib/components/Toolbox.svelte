@@ -23,6 +23,8 @@
     purpose_de?: string;
     validity?: string;
     validity_de?: string;
+    source?: string;
+    source_de?: string;
   };
   type CalcResult =
     | { ok: true; value: number; unit: string; provenance: string; lv1: string; lv2: string; lv3: string }
@@ -158,8 +160,14 @@
           <p class="equation">{picked.equation}</p>
           {#if tEngine(picked, "validity")}
             <p class="validity">
-              <span class="validity-label">{t("where it holds")}</span>
+              <span class="note-label">{t("where it holds")}</span>
               {tEngine(picked, "validity")}
+            </p>
+          {/if}
+          {#if tEngine(picked, "source")}
+            <p class="source">
+              <span class="note-label">{t("where it comes from")}</span>
+              {tEngine(picked, "source")}
             </p>
           {/if}
           {#if freeform}
@@ -333,7 +341,20 @@
     color: var(--ink-dim, var(--ink));
   }
 
-  .validity-label {
+  /* Same treatment as the validity note, one step quieter still: a
+     citation is the thing a learner goes and checks, so it stays legible
+     and stays next to the claim it supports rather than under the
+     answer, where it would only appear after a computation. */
+  .source {
+    margin: 0.4rem 0 0;
+    padding-left: 0.6rem;
+    border-left: 2px solid var(--rule, var(--edge));
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--dim, var(--ink));
+  }
+
+  .note-label {
     display: block;
     font-variant: small-caps;
     letter-spacing: 0.04em;
