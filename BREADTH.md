@@ -216,7 +216,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-003 — Source adapter, quarantine, and promotion framework
 
-- [ ] **Status:** open. **Size:** large. **Depends on:** BRD-002 and the existing
+- [x] **Status:** done. **Size:** large. **Depends on:** BRD-002 and the existing
   `kerotakis-data` pack compiler.
 - **Outcome:** all external breadth sources use one auditable path:
   fetch/build-time snapshot → raw quarantine → field allowlist → normalized
@@ -244,6 +244,34 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   commands only print review artifacts; none can write a runtime pack.
   Remaining BRD-003 work is units normalization, the parser fuzz target and a
   provenance lint consumable by BRD-010/011/013/060.
+- **Gate checkpoint (2026-08-29):** the remainder lands and the task closes.
+  Units normalization converges 201 reviewed upstream spellings — `g·cm⁻³`,
+  `g/cc`, `℃`, `deg C`, `°F`, `kcal/mol`, `J mol-1 K-1`, `mg/L`, `wt%`, `ppm`,
+  `Da`, `Å`, `M⁻¹cm⁻¹` — onto the `Dimension`/`Unit` vocabulary DATA-001
+  already defines, with affine temperature scales rather than bare factors. A
+  spelling fixes the physical quantity, never the semantic field: `g/L` and
+  `J/(mol.K)` each serve two dimensions, so the target field's declared
+  dimension picks the reading and a mismatch is refused. Everything outside
+  the table — bare mass, bare energy, wavenumbers, `Mg`, `ppt` — is a typed
+  rejection carrying the original string; nothing falls back to
+  `Dimension::Other`. A 71-case checked-in fixture pins each spelling, and
+  round-trip and idempotence hold over the whole table.
+  A quarantined field now carries the source's unit spelling verbatim and a
+  runtime field policy may declare its dimension, so review is where an
+  external spelling becomes a `Unit` and records both.
+  The `quarantine` fuzz target covers the external-bytes surface — snapshot
+  manifests, candidate fixtures, promotion policies, unit spellings — and
+  asserts both invariants the framework rests on: canonical quarantine bytes
+  are stable across a re-parse, and an unpinned snapshot is always refused.
+  The promotion lint is one function (`lint_promotion`) and one command
+  (`quarantine-review lint`), so BRD-010/011/013/060 call the same gate from
+  either side. It refuses missing per-field source or licence, a licence
+  outside the runtime data lane (in a candidate *or* in the policy that would
+  admit it), raw bytes that no longer hash to the pinned manifest, candidates
+  claiming a snapshot they did not come from, and eligible-field lists naming
+  fields the record does not carry. `tools/provenance-lint.sh` now runs that
+  gate over the checked-in fixture in both directions: the clean flow passes,
+  the tainted one is refused.
 
 ## Stage B1 — the everyday shelf
 

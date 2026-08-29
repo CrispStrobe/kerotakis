@@ -1,14 +1,10 @@
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeMap;
 
 use kerotakis_data::*;
 use serde_json::json;
 
 fn field(value: serde_json::Value, source_field: &str, licence: &str) -> CandidateField {
-    CandidateField {
-        value,
-        source_field: source_field.into(),
-        licence: licence.into(),
-    }
+    CandidateField::new(value, source_field, licence)
 }
 
 fn candidate(record: &str, name: &str) -> QuarantinedCandidate {
@@ -60,17 +56,11 @@ fn tainted_and_unallowlisted_fields_cannot_cross_review() {
         fields: BTreeMap::from([
             (
                 "canonical_name".into(),
-                RuntimeFieldPolicy {
-                    target_field: "name".into(),
-                    allowed_licences: BTreeSet::from(["CC0-1.0".into()]),
-                },
+                RuntimeFieldPolicy::new("name", ["CC0-1.0"]),
             ),
             (
                 "hazard_text".into(),
-                RuntimeFieldPolicy {
-                    target_field: "safety_note".into(),
-                    allowed_licences: BTreeSet::from(["CC-BY-4.0".into()]),
-                },
+                RuntimeFieldPolicy::new("safety_note", ["CC-BY-4.0"]),
             ),
         ]),
     };
@@ -112,17 +102,11 @@ fn missing_provenance_and_target_collisions_reject_every_affected_field() {
         fields: BTreeMap::from([
             (
                 "canonical_name".into(),
-                RuntimeFieldPolicy {
-                    target_field: "name".into(),
-                    allowed_licences: BTreeSet::from(["CC0-1.0".into()]),
-                },
+                RuntimeFieldPolicy::new("name", ["CC0-1.0"]),
             ),
             (
                 "common_name".into(),
-                RuntimeFieldPolicy {
-                    target_field: "name".into(),
-                    allowed_licences: BTreeSet::from(["CC0-1.0".into()]),
-                },
+                RuntimeFieldPolicy::new("name", ["CC0-1.0"]),
             ),
         ]),
     };
@@ -231,10 +215,7 @@ fn batch_review_order_is_deterministic_and_keeps_identity_conflicts() {
     let policy = PromotionPolicy {
         fields: BTreeMap::from([(
             "canonical_name".into(),
-            RuntimeFieldPolicy {
-                target_field: "name".into(),
-                allowed_licences: BTreeSet::from(["CC0-1.0".into()]),
-            },
+            RuntimeFieldPolicy::new("name", ["CC0-1.0"]),
         )]),
     };
     let report = review_candidates(

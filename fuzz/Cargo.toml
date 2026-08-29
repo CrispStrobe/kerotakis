@@ -7,11 +7,23 @@ edition = "2021"
 [package.metadata]
 cargo-fuzz = true
 
+[features]
+# On by default so the four engine targets still build with a bare
+# `cargo +nightly fuzz run <target>`. The `quarantine` target touches
+# neither engine crate, so `--no-default-features` builds it without
+# their numeric dependency tree: minutes rather than an hour, and it
+# fits in memory on a loaded machine.
+default = ["engine"]
+engine = ["dep:kerotakis-core", "dep:kerotakis-phreeqc"]
+
 [dependencies]
 libfuzzer-sys = "0.4"
 arbitrary = { version = "1", features = ["derive"] }
-kerotakis-core = { path = "../crates/kerotakis-core" }
-kerotakis-phreeqc = { path = "../crates/kerotakis-phreeqc", default-features = false }
+kerotakis-core = { path = "../crates/kerotakis-core", optional = true }
+kerotakis-phreeqc = { path = "../crates/kerotakis-phreeqc", default-features = false, optional = true }
+kerotakis-data = { path = "../crates/kerotakis-data" }
+# Already the workspace serializer; the quarantine surface is JSON on disk.
+serde_json = "1"
 
 [[bin]]
 name = "lab_grammar"
@@ -37,6 +49,13 @@ bench = false
 [[bin]]
 name = "bench_ops"
 path = "fuzz_targets/bench_ops.rs"
+test = false
+doc = false
+bench = false
+
+[[bin]]
+name = "quarantine"
+path = "fuzz_targets/quarantine.rs"
 test = false
 doc = false
 bench = false

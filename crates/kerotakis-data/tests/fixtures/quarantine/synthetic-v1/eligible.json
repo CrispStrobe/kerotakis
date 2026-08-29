@@ -1,0 +1,10 @@
+[
+  {
+    "adapter_id": "synthetic-v1",
+    "external_record_id": "water",
+    "fields": [
+      "canonical_name",
+      "formula"
+    ]
+  }
+]
