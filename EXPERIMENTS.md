@@ -555,9 +555,14 @@ What follows is only what is genuinely NEW.
   ferrous hydroxide at all), state-reachability admission for
   uncoupled redox elements, and in-solve oxidation-state pinning so
   phantom redistribution stops leaking water (order-independence
-  guarded by the displacement metamorphic test). STILL OPEN: NH3/SO2
+  guarded by the displacement metamorphic test). SECOND SLICE
+  (BRD-012.S02): the **sulfate row** — barium chloride into a sulfate
+  solution precipitates barite, computed from the shipped USGS
+  database's own Barite phase rather than curated, with barium and
+  sulfur conserved across the solve
+  (`kerotakis-phreeqc/tests/school_salts.rs`). STILL OPEN: NH3/SO2
   gas test observables (EXP-31 overlap), flame tests wiring,
-  sealed-unknown salt quests, BaCl2 sulfate row, MIX-path parity
+  sealed-unknown salt quests, MIX-path parity
   (the MIX input builder still filters phases to native names, so
   polymorph translation and foreign injection do not apply when two
   solutions are combined by fraction). The INST-008

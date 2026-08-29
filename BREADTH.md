@@ -286,8 +286,19 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-012 — Familiar pure-substance pack v1
 
-- [ ] **Status:** open. **Size:** large/data-heavy. **Depends on:** BRD-010 and
-  BRD-011.
+- [ ] **Status:** open; slices in flight. **Size:** large/data-heavy.
+  **Depends on:** BRD-010 and BRD-011.
+  - `BRD-012.S02` — P0 school essentials plus the gated barium pair.
+    Ammonium chloride, iron(III) chloride and sodium sulfate land as the
+    three P0 salts named in the triage list below; barium chloride and
+    barium hydroxide land as the P2 toxic virtual-only pair, gated behind
+    a `ToxicSoluble` safety row and never entered as a household material
+    recipe. Three supporting records ride with them because the engine
+    needs them to speak at all: `NH4+` and `Ba+2` are the database master
+    species dissolved ammonium and barium book back as, and `BaSO4` is the
+    registry solid the Barite phase precipitates into — which is EXP-30's
+    open "BaCl2 sulfate row". The litmus/indicator material of item 1 is
+    NOT in this slice: it needs colour-state machinery.
 - **Outcome:** at least 300 reviewed identities that a school-age user is likely
   to name, including common gases, acids/bases, salts, metals, minerals, fuels,
   solvents, sugars, fats, monomers, polymers-as-populations, pigments, and
