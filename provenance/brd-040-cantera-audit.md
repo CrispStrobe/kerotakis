@@ -442,3 +442,13 @@ and neither is anything else BRD-041 needs.
   as a three-body reaction, the undocumented `type` aliases, unbounded Troe `A`,
   legal negative element counts — that came from a live Cantera 3.2.0 install
   outside the repository, and is marked as such above.
+
+
+## Why `provenance/sources.toml` carries no records from this audit
+
+The manifest inventories external inputs the tree or the build actually
+uses, and its lint refuses ambiguous licences and unpinned sources by
+design (LIC-005). Nothing from this audit was ingested — that is the
+audit's finding — so the verdicts live here, referenced from BREADTH.md
+(BRD-040/041/042), rather than as manifest records that would have to
+carry the very NOASSERTION the lint exists to refuse.
