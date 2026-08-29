@@ -23,6 +23,14 @@ cd "$(dirname "$0")/.."
 # every session (and only this machine — CI runners have no
 # /mnt/volume1 and skip it) queues here instead of thrashing swap.
 if [ -d /mnt/volume1 ]; then
+    # The lock fd is inherited by every child, and a compile daemon that
+    # outlives this script then holds the gate forever — observed
+    # 2026-08-29, when a preflight-spawned sccache server kept the flock
+    # and every later session queued behind a script that had long since
+    # exited. Two defences: start the daemon FIRST so no child of ours
+    # ever becomes it, and close the fd for each step's children via the
+    # step() wrapper below.
+    command -v sccache >/dev/null && sccache --start-server >/dev/null 2>&1 || true
     exec 9>/mnt/volume1/.kero-build-lock
     if ! flock -n 9; then
         echo "preflight: another session holds the build gate — waiting…"
@@ -45,22 +53,25 @@ for arg in "$@"; do
 done
 
 step() { printf '\n\033[1m== %s\033[0m\n' "$1"; }
+# Run a gate step with the lock fd closed for its children, so nothing a
+# step spawns can inherit — and outlive us holding — the build gate.
+gated() { "$@" 9>&-; }
 
-step "fmt";           cargo fmt --check
+step "fmt";           gated cargo fmt --check
 if $CLIPPY; then
-  step "clippy";      cargo clippy --workspace --all-targets -- -D warnings
+  step "clippy";      gated cargo clippy --workspace --all-targets -- -D warnings
 else
   step "clippy";      echo "skipped (--no-clippy; the Test matrix runs it on both platforms)"
 fi
-step "no-engine";     cargo check -p kerotakis-phreeqc --no-default-features
+step "no-engine";     gated cargo check -p kerotakis-phreeqc --no-default-features
 
 if $LIGHT; then
   printf '\n\033[1;32mpreflight --light clean\033[0m\n'
   exit 0
 fi
 
-step "tests";         cargo test --workspace
-step "wasm32";        cargo build -p kerotakis-wasm --target wasm32-unknown-unknown
+step "tests";         gated cargo test --workspace
+step "wasm32";        gated cargo build -p kerotakis-wasm --target wasm32-unknown-unknown
 # The three i18n gates. Seconds each, and each one caught something real
 # while this was being built: a key shared by two different sentences (which
 # renders the WRONG sentence, not a missing one), a placeholder nothing
