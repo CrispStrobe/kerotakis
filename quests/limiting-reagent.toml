@@ -52,3 +52,14 @@ matches = "measured"
 lv1 = "Weigh what you got"
 lv2 = "Measure the precipitate mass"
 lv3 = "Gravimetric comparison of actual vs theoretical yield"
+
+[[claims]]
+id = "yield-matches-the-limiting-reagent"
+vessel = "v1"
+quantity = "mass_g"
+target = 1.147
+tolerance = 0.05
+[claims.title]
+lv1 = "Get the weight the smaller amount predicts"
+lv2 = "Mix 0.008 mol NaCl with 0.015 mol AgNO₃ in 200 mL, filter, and weigh the residue: 1.15 g (± 0.05) — set by the salt, not by the silver"
+lv3 = "Value claim: mass of v1 within 1.147 ± 0.05 g after filtration. m(AgCl) = min(n(Ag⁺), n(Cl⁻)) × 143.32 = 0.008 × 143.32 = 1.1466 g. Doubling the silver does not move it; halving the chloride halves it — that is the whole lesson, stated as a number"

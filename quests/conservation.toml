@@ -69,3 +69,14 @@ matches = "measured"
 lv1 = "Weigh it after"
 lv2 = "Record the mass after the reaction"
 lv3 = "Post-reaction gravimetric measurement — compare with pre-reaction"
+
+[[claims]]
+id = "ledger-balances"
+vessel = "v1"
+quantity = "mass_g"
+target = 206.06
+tolerance = 0.01
+[claims.title]
+lv1 = "The balance says the same number before and after"
+lv2 = "Build the sealed system the goal describes — 200 mL water + 1 g NaCl + 2 g AgNO₃ + 4.2 g NaHCO₃, all of it in before you fit the lid over 250 mL — and the balance reads 206.06 g (± 0.01) both before and after you heat it"
+lv3 = "Value claim: mass of v1 within 206.06 ± 0.01 g. Everything enters before the seal (199.4 g water + 1.0 + 2.0 + 4.2 g solids + 0.30 g of trapped room air, minus 0.85 g of CO₂ that fizzes off while the vessel is still open — the bicarbonate meets the silver solution before the lid does), in any order — the four addition orders spread by 1.1×10⁻³ g. Driving the carbonate with heat inside the closed boundary moves the total by 1.0×10⁻⁴ g; opening the vessel afterwards costs 0.52 g of escaped gas, which is transport, not creation"

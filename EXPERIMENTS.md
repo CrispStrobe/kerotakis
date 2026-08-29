@@ -1029,8 +1029,9 @@ quest prose, and EXP-0 is still the gate everything waits behind.
 # Part 10: quest authoring coverage (audit 2026-08-25)
 
 ## Current state
-23 quest TOML files in `quests/`, all passing `kero quest lint`.
-18 authored in this session (kero-basic, 2026-08-25); 5 pre-existing.
+25 quest TOML files in `quests/`, all passing `kero quest lint`.
+18 authored 2026-08-25 (kero-basic); 5 pre-existing; 2 sealed-unknown
+variants added 2026-08-29 with the T2 value-claim upgrades below.
 
 ## Quests authored (by EXP number)
 | EXP | File | Claim types | Gap |
@@ -1045,17 +1046,19 @@ quest prose, and EXP-0 is still the gate everything waits behind.
 | 16 | fizzy-drink.toml | event | — |
 | 17 | solution-prep.toml | event + value | molarity:NaCl claim exists |
 | 18 | density-id.toml | event + identify | sealed unknown (Cu) |
-| 20 | limiting-reagent.toml | event | needs mass_g value claim on precipitate |
-| 21 | two-roads-one-temperature.toml | event | needs temperature_c value claim for ΔT |
-| 22 | acid-base.toml | event | needs ph value claim |
-| 24 | solubility.toml | event | needs value claim on Ksp or concentration |
+| 18 | the-grey-ingot.toml | event + value + identify | sealed unknown (Fe); mass_g on a counted 0.1 mol addition |
+| 20 | limiting-reagent.toml | event + value | mass_g on the filtered AgCl (1.147 ± 0.05 g) |
+| 21 | two-roads-one-temperature.toml | event + value | temperature_c claim landed |
+| 22 | acid-base.toml | event + value | buffer ph claim landed |
+| 22 | the-sour-unknown.toml | event + value + identify | sealed acid (CH3COOH) told from a strong one by pH 2.88 ± 0.4 |
+| 24 | solubility.toml | event + value | molarity:Na+ at saturation (6.10 ± 0.05 mol/L) |
 | 25 | redox-ordering.toml | event | — |
-| 26 | gravimetric.toml | event | needs mass_g value claim + sealed unknown |
+| 26 | gravimetric.toml | event + value + identify | mass_g claim and sealed unknown landed |
 | 31 | gas-tests.toml | event | — |
-| 35 | alcohol-burn.toml | event | needs temperature_c value claim |
+| 35 | alcohol-burn.toml | event + value | temperature_c on the ethanol flame (2496.3 ± 2.0 °C); methanol does not ignite — no CEA mapping |
 | 37 | spectrophotometry.toml | event | — |
 | 43 | iodine-clock.toml | event | — |
-| 45 | conservation.toml | event | needs mass_g value claim (before = after) |
+| 45 | conservation.toml | event + value | mass_g on the sealed vessel (206.06 ± 0.01 g), unmoved by the reaction |
 | 49 | half-life.toml | event | needs activity quantity type (not in enum) |
 | — | the-white-unknown.toml | all three | demo quest; exercises every feature |
 
@@ -1094,16 +1097,38 @@ required chemistry, data, or model:
 | 51 | Michaelis–Menten rate family | HARDER (model) |
 | 52 | disposal rule table | NEAR (data) |
 
-## T2 value-claim upgrade candidates
-These authored quests would gain the most from value claims (target ±
-tolerance checking the solved state):
-1. **conservation.toml** — mass_g on v1, target = initial mass ± 0.001
-2. **acid-base.toml** — ph on v1, target depends on the acid chosen
-3. **limiting-reagent.toml** — mass_g on v1 (precipitate) ± 0.1
-4. **gravimetric.toml** — mass_g on v1 (AgCl) ± 0.1 + sealed unknown
-5. **alcohol-burn.toml** — temperature_c on v1 ± 2.0
-6. **two-roads-one-temperature.toml** — temperature_c ± 1.0
-7. **solubility.toml** — molarity on saturated vessel ± 0.05
+## T2 value-claim upgrades — [x] **done 2026-08-29**
+All seven candidates now carry value claims, every target read off the
+solved state and every band verified by a hit and a miss run in the
+REPL:
+1. **conservation.toml** — mass_g on v1, 206.06 ± 0.01 g (the balance's
+   own readability; the four pre-seal addition orders spread by
+   1.1×10⁻³ g and the reaction moves it by 1.0×10⁻⁴ g, so the doc's
+   original ± 0.001 would have been a corridor)
+2. **acid-base.toml** — ph on v1, 4.76 ± 0.5 (landed earlier)
+3. **limiting-reagent.toml** — mass_g on v1, 1.147 ± 0.05 g
+4. **gravimetric.toml** — mass_g on v1, 1.433 ± 0.15 g + sealed unknown
+   (landed earlier)
+5. **alcohol-burn.toml** — temperature_c on v1, 2496.3 ± 2.0 °C. The
+   engine's ethanol flame temperature is intensive (0.01 mol, 0.05 mol
+   and 1 g all settle there) while the energy is extensive, so the
+   claim reads the flame, not a calorimetric ΔT into water: combustion
+   under liquid water is declined by design, and **methanol has no CEA
+   mapping at all** (`ignite` answers "no wired solver models
+   combustion for them"), so the quest's methanol-vs-ethanol framing
+   is not yet reachable
+6. **two-roads-one-temperature.toml** — temperature_c 26.2 ± 1.5
+   (landed earlier)
+7. **solubility.toml** — molarity:Na⁺ on the saturated vessel,
+   6.10 ± 0.05 mol/L at bench temperature (pinned by Ksp: 50 g and
+   80 g in 100 mL, 120 g in 250 mL and the evaporation route all land
+   inside the band; warming to 66 °C moves it to 6.39)
+
+Two sealed-unknown variants were authored alongside:
+**the-sour-unknown.toml** (a weak acid told from a strong one by the
+pH of a 0.1 mol/L solution) and **the-grey-ingot.toml** (a grey metal
+named from the mass of a counted 0.1 mol addition — the balance as a
+molar-mass instrument, since the engine has no density quantity).
 
 ---
 

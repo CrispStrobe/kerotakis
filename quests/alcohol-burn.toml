@@ -60,3 +60,14 @@ matches = "measured"
 lv1 = "Measure the heat from the second"
 lv2 = "Record the second calorimeter reading"
 lv3 = "Calorimetric measurement of ΔcH for alcohol B — compare with A"
+
+[[claims]]
+id = "flame-temperature"
+vessel = "v1"
+quantity = "temperature_c"
+target = 2496.3
+tolerance = 2.0
+[claims.title]
+lv1 = "The thermometer in the flame reads the same however much you burn"
+lv2 = "Burn ethanol in v1 and read the thermometer: 2496 °C (± 2), and burning twice as much does not change it"
+lv3 = "Value claim: temperature of v1 within 2496.3 ± 2.0 °C after igniting ethanol. The engine's flame temperature is intensive — 0.01 mol, 0.05 mol and 1 g all settle at 2496.3 °C — while the released energy (12.15 kJ per 0.01 mol) is extensive. Distinguishing the two is the point: a hotter flame and a bigger flame are different claims"

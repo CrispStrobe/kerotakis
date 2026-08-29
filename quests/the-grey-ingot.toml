@@ -1,0 +1,72 @@
+# EXP-18 (sealed-unknown variant): a second metal behind the mask.
+# density-id.toml seals Cu, which the bench renders orange and which a
+# learner can very nearly name on sight. This one seals a grey metal —
+# the bench shows the same grey for three registry species, so looking
+# is not enough. The balance settles it: weigh a *counted* amount and
+# the reading is the molar mass, which is the other half of ρ = m/V in
+# the form this bench can measure directly.
+id = "the-grey-ingot"
+
+[title]
+lv1 = "The grey ingot"
+lv2 = "The grey ingot: naming a metal from the balance"
+lv3 = "Sealed-metal identification: molar mass recovered by weighing a counted amount"
+
+[goal]
+lv1 = "A dull grey lump labelled unknown-ingot is on the shelf. It is not the orange one. Look at it, weigh it, and work out what it is."
+lv2 = "Identify unknown-ingot. Put 0.1 mol of it into v1 and read the balance: for a counted amount the mass IS the molar mass divided by ten. Look at it too — and if you have a magnet, try that."
+lv3 = "unknown-ingot is a sealed registry species; the ledger computes its true chemistry throughout. Intensive-property identification without a volume measurement: n is set by the operator, so m = n·M makes the balance a molar-mass instrument. Grey alone does not identify — three registry metals render grey — so combine the number with the qualitative evidence. Claims complete in any order."
+
+[unknowns]
+unknown-ingot = "Fe"
+
+[[nudges]]
+id = "weighed"
+when = "measured"
+[nudges.say]
+lv1 = "The balance has spoken. If you know how many you put in, that number tells you which metal this is."
+lv2 = "Mass recorded. You chose the amount, so m/n is the molar mass — compare it against the metals you know."
+lv3 = "M = m/n. A counted addition makes the balance a molar-mass instrument, which is why this route needs no displacement volume at all. The neighbouring registry metals differ by whole grams per 0.1 mol — far outside the balance's 0.01 g precision."
+
+[[nudges]]
+id = "observed"
+when = "observed"
+[nudges.say]
+lv1 = "Grey. That rules out the orange one, but several metals are grey — you still need the weight. A magnet is worth a try too."
+lv2 = "Appearance narrows the field rather than closing it: the bench renders several metals grey. Hold a magnet to a separate sample if you want a second, independent piece of evidence."
+lv3 = "Colour is a weak discriminator here — grey covers more than one candidate — so it is corroboration, not proof. `magnet <from> <to>` moves ferromagnetic solids and is an independent test; run it on a second sample, since it empties the vessel it acts on."
+
+[[claims]]
+id = "weighed-sample"
+matches = "measured"
+[claims.title]
+lv1 = "Weigh the mystery"
+lv2 = "Measure the mass of the unknown"
+lv3 = "Mass determination on the balance"
+
+[[claims]]
+id = "looked"
+matches = "observed"
+[claims.title]
+lv1 = "Look at it"
+lv2 = "Observe the unknown sample"
+lv3 = "Qualitative observation — appearance, colour, lustre"
+
+[[claims]]
+id = "counted-mass"
+vessel = "v1"
+quantity = "mass_g"
+target = 5.584
+tolerance = 0.05
+[claims.title]
+lv1 = "Put a counted amount on the balance and hit the right weight"
+lv2 = "0.1 mol of the unknown in v1 weighs 5.58 g (± 0.05)"
+lv3 = "Value claim: mass of v1 within 5.584 ± 0.05 g for a 0.1 mol addition — M = 55.845 g/mol. The band is far narrower than the gap to every other registry metal (the nearest is 6.35 g)."
+
+[[claims]]
+id = "named-ingot"
+alias = "unknown-ingot"
+[claims.title]
+lv1 = "Name the mystery metal"
+lv2 = "Identify the unknown from your measurements"
+lv3 = "Identify claim on unknown-ingot; a wrong answer is answered, not punished"

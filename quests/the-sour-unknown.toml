@@ -1,0 +1,79 @@
+# EXP-22 (sealed-unknown variant): one acid, no label.
+# The acid-base pack's discriminator, turned into a hunt. Two acids of
+# the same nominal concentration read very different pH: a fully
+# dissociated one lands near −log c, a partly dissociated one sits far
+# above it. The bench computes the true equilibrium either way — the
+# meter is the only witness, and the reading IS the identification.
+id = "the-sour-unknown"
+
+[title]
+lv1 = "The sour unknown"
+lv2 = "The sour unknown: which acid is in the bottle?"
+lv3 = "Sealed-acid identification from the measured pH of a known-concentration solution"
+
+[goal]
+lv1 = "A bottle labelled unknown-acid is on the shelf. Two different acids could be inside, and the label would look the same for either — but the pH meter can tell them apart. Never taste anything: make up a solution and read the meter instead."
+lv2 = "Identify unknown-acid by pH. Dissolve 0.01 mol of it in 100 mL of water in v1 and measure — a strong acid at 0.1 mol/L reads near pH 1; a weak one reads far higher. Dilute and remeasure if you want the second piece of evidence."
+lv3 = "unknown-acid is a sealed registry species; the aqueous solve is truthful throughout. Prepare 0.1 mol/L in v1 (0.01 mol in 100 mL), read the pH, and compare with what full dissociation would predict. The gap between −log c and the reading is the pKa evidence. A dilution ladder is the confirming route: a strong acid shifts one pH unit per decade, a partly dissociated one shifts less. Claims complete in any order."
+
+[unknowns]
+unknown-acid = "CH3COOH"
+
+[[nudges]]
+id = "it-went-in"
+when = "added:CH3COOH"
+[nudges.say]
+lv1 = "It went into the water without a fuss. Now put the meter in."
+lv2 = "The acid is in solution. Read the pH — then ask yourself what pH a fully dissociated acid at this concentration would have shown."
+lv3 = "The formal concentration is now known because you chose it. For a strong acid, [H⁺] ≈ c, so pH ≈ −log c. Any reading well above that means most of the acid is still undissociated — the equilibrium, not the label, sets the proton activity."
+
+[[nudges]]
+id = "took-a-reading"
+when = "measured"
+[nudges.say]
+lv1 = "That number is your answer, if you know what to compare it with."
+lv2 = "Reading taken. Compare it against −log(0.1) = 1.0, the strong-acid prediction at this concentration. A much higher reading rules the strong acid out."
+lv3 = "The measured pH against the strong-acid limit gives the degree of dissociation directly: α ≈ 10^(−pH)/c. From α and c, Ka ≈ α²c/(1−α) — enough to place the acid without ever opening the bottle's label."
+
+[[nudges]]
+id = "diluted-it"
+when = "diluted"
+[nudges.say]
+lv1 = "You watered it down. Read it again — did the number move as much as you expected?"
+lv2 = "Dilution done. A strong acid moves one full pH unit per 10× dilution; a weak one moves less, because the undissociated reservoir keeps topping the protons up."
+lv3 = "The per-decade shift is the confirming discriminator. Strong acid: ΔpH = 1 per decade (log-linear). Weak acid: ΔpH ≈ 0.5 per decade in the region where α ≪ 1, because [H⁺] ≈ √(Ka·c) rather than c."
+
+[[claims]]
+id = "took-a-reading"
+matches = "measured"
+[claims.title]
+lv1 = "Put a measuring tool into your solution"
+lv2 = "Take at least one instrumental reading"
+lv3 = "At least one Measured event from any instrument"
+
+[[claims]]
+id = "weak-acid-band"
+vessel = "v1"
+quantity = "ph"
+target = 2.88
+tolerance = 0.4
+[claims.title]
+lv1 = "Show the meter lands well above the sourest it could be"
+lv2 = "Reach the reading a 0.1 mol/L solution of this acid actually gives (pH 2.88 ± 0.4)"
+lv3 = "Value claim: pH of v1 within 2.88 ± 0.4 — 0.01 mol in 100 mL. A fully dissociated acid at this concentration reads 1.08 and a ten-fold weaker solution of this one reads 3.39; the band excludes both, so landing in it is the evidence."
+
+[[claims]]
+id = "second-evidence"
+matches = "diluted"
+[claims.title]
+lv1 = "Water some of it down and look again"
+lv2 = "Dilute and take the confirming reading"
+lv3 = "Dilution event — the per-decade pH shift is the second, independent discriminator"
+
+[[claims]]
+id = "named-it"
+alias = "unknown-acid"
+[claims.title]
+lv1 = "Say which acid was in the bottle"
+lv2 = "Identify unknown-acid by name"
+lv3 = "Identify claim on unknown-acid; wrong answers are answered, not punished"
