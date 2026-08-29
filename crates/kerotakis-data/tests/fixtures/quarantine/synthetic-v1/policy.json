@@ -2,11 +2,22 @@
   "fields": {
     "canonical_name": {
       "target_field": "name",
-      "allowed_licences": ["CC0-1.0"]
+      "allowed_licences": [
+        "CC0-1.0"
+      ]
     },
     "formula": {
       "target_field": "formula",
-      "allowed_licences": ["CC0-1.0"]
+      "allowed_licences": [
+        "CC0-1.0"
+      ]
+    },
+    "density": {
+      "target_field": "mass_density",
+      "allowed_licences": [
+        "CC0-1.0"
+      ],
+      "target_dimension": "mass_density"
     }
   }
 }

@@ -90,6 +90,18 @@ For data imports specifically:
       rejected with an explicit reason (see DATA-007 pattern).
 - [ ] **Per-record provenance** — every `NumericRecord` carries its own
       `source_id` and `method`.
+- [ ] **The promotion gate passes** — `quarantine-review lint <manifest>
+      <raw-snapshot> <candidates> <policy> [<eligible-fields>]`, or
+      `kerotakis_data::lint_promotion` from the importer itself. It refuses a
+      field with no source or licence, a licence outside the runtime data lane,
+      raw bytes that no longer hash to the pinned manifest, an eligible-field
+      list naming fields the record does not carry, and a quantity whose unit
+      does not converge on the reviewed vocabulary.
+- [ ] **Units normalized, not guessed** — upstream spellings go through
+      `kerotakis_data::normalize_quantity_for` against the target field's
+      dimension. An unreviewed spelling is a typed rejection carrying the
+      original string; add a row to `crates/kerotakis-data/src/units.rs` and
+      its fixture rather than coercing it at the call site.
 
 ## 4. Ordinary courtesy
 

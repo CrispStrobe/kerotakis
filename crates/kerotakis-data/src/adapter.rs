@@ -9,6 +9,9 @@ use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 
+use crate::schema::{Dimension, Unit};
+use crate::units::{normalize_quantity, normalize_quantity_for};
+
 pub const ADAPTER_SCHEMA_VERSION: u32 = 1;
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -69,6 +72,30 @@ pub struct CandidateField {
     pub source_field: String,
     /// SPDX expression or reviewed project-local `LicenseRef-*`.
     pub licence: String,
+    /// The unit spelling exactly as the source emitted it, when the field is
+    /// a quantity. Review normalizes it; it is never rewritten in place.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub unit: Option<String>,
+}
+
+impl CandidateField {
+    /// A non-quantity field. Provenance is required at construction so an
+    /// adapter cannot forget it and discover the omission at review time.
+    pub fn new(value: Value, source_field: impl Into<String>, licence: impl Into<String>) -> Self {
+        Self {
+            value,
+            source_field: source_field.into(),
+            licence: licence.into(),
+            unit: None,
+        }
+    }
+
+    /// Attach the unit spelling the source emitted, verbatim.
+    #[must_use]
+    pub fn with_unit(mut self, unit: impl Into<String>) -> Self {
+        self.unit = Some(unit.into());
+        self
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -86,6 +113,31 @@ pub struct QuarantinedCandidate {
 pub struct RuntimeFieldPolicy {
     pub target_field: String,
     pub allowed_licences: BTreeSet<String>,
+    /// The dimension the runtime field carries. Declaring it makes the field
+    /// a quantity: the candidate must supply a unit, and that unit must
+    /// normalize onto this dimension rather than a merely similar one.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub target_dimension: Option<Dimension>,
+}
+
+impl RuntimeFieldPolicy {
+    pub fn new(
+        target_field: impl Into<String>,
+        allowed_licences: impl IntoIterator<Item = impl Into<String>>,
+    ) -> Self {
+        Self {
+            target_field: target_field.into(),
+            allowed_licences: allowed_licences.into_iter().map(Into::into).collect(),
+            target_dimension: None,
+        }
+    }
+
+    /// Declare the runtime field a quantity in this dimension.
+    #[must_use]
+    pub fn with_dimension(mut self, dimension: Dimension) -> Self {
+        self.target_dimension = Some(dimension);
+        self
+    }
 }
 
 #[derive(Debug, Clone, Default, PartialEq, Eq, Serialize, Deserialize)]
@@ -100,15 +152,39 @@ pub struct ReviewedField {
     pub source_record_id: String,
     pub source_field: String,
     pub licence: String,
+    /// The canonical unit the value was normalized into, and the spelling the
+    /// source used, kept together so a reviewer can retrace the conversion.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub unit: Option<Unit>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub source_unit: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "reason", rename_all = "snake_case")]
 pub enum FieldRejectionReason {
     UnallowlistedField,
-    LicenceNotAllowed { licence: String },
+    LicenceNotAllowed {
+        licence: String,
+    },
     MissingProvenance,
-    TargetCollision { target_field: String },
+    TargetCollision {
+        target_field: String,
+    },
+    /// The policy declares a dimension but the candidate carries no unit.
+    MissingUnit {
+        target_dimension: Dimension,
+    },
+    /// The candidate carries a unit but its value is not a number.
+    NonNumericQuantity {
+        unit: String,
+    },
+    /// The unit spelling does not converge on the reviewed vocabulary. The
+    /// original spelling is preserved rather than guessed at.
+    UnitNotNormalized {
+        unit: String,
+        detail: String,
+    },
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -202,13 +278,29 @@ pub fn review_candidate(
             });
             continue;
         }
+        let quantity = match normalize_candidate_quantity(field, rule) {
+            Ok(quantity) => quantity,
+            Err(reason) => {
+                rejected.push(FieldRejection {
+                    field: field_name.clone(),
+                    reason,
+                });
+                continue;
+            }
+        };
+        let (value, unit, source_unit) = match quantity {
+            Some((value, unit)) => (value, Some(unit), field.unit.clone()),
+            None => (field.value.clone(), None, None),
+        };
         accepted.insert(
             rule.target_field.clone(),
             ReviewedField {
-                value: field.value.clone(),
+                value,
                 source_record_id: candidate.source_record_id.clone(),
                 source_field: field.source_field.clone(),
                 licence: field.licence.clone(),
+                unit,
+                source_unit,
             },
         );
     }
@@ -219,6 +311,47 @@ pub fn review_candidate(
         accepted,
         rejected,
     }
+}
+
+/// Convert a quantity-bearing candidate field into the canonical unit its
+/// runtime target declares. `Ok(None)` means the field is not a quantity and
+/// passes through untouched.
+///
+/// This is the single point where an external unit spelling becomes a
+/// `kerotakis-data` [`Unit`]: an unrecognised spelling is a typed rejection
+/// carrying the original string, never a guess and never a silent drop.
+pub fn normalize_candidate_quantity(
+    field: &CandidateField,
+    rule: &RuntimeFieldPolicy,
+) -> Result<Option<(Value, Unit)>, FieldRejectionReason> {
+    let Some(spelling) = field.unit.as_deref() else {
+        return match &rule.target_dimension {
+            Some(dimension) => Err(FieldRejectionReason::MissingUnit {
+                target_dimension: dimension.clone(),
+            }),
+            None => Ok(None),
+        };
+    };
+    let Some(raw) = field.value.as_f64() else {
+        return Err(FieldRejectionReason::NonNumericQuantity {
+            unit: spelling.to_owned(),
+        });
+    };
+    let normalized = match &rule.target_dimension {
+        Some(dimension) => normalize_quantity_for(raw, spelling, dimension),
+        None => normalize_quantity(raw, spelling),
+    }
+    .map_err(|error| FieldRejectionReason::UnitNotNormalized {
+        unit: spelling.to_owned(),
+        detail: error.to_string(),
+    })?;
+    let value = serde_json::Number::from_f64(normalized.value)
+        .map(Value::Number)
+        .ok_or_else(|| FieldRejectionReason::UnitNotNormalized {
+            unit: spelling.to_owned(),
+            detail: format!("normalized value {} is not representable", normalized.value),
+        })?;
+    Ok(Some((value, normalized.unit)))
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

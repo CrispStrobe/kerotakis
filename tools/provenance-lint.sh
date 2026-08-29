@@ -100,6 +100,32 @@ for dir in "$ROOT/vendor/iphreeqc" "$ROOT/vendor/my-basic" "$ROOT/vendor/nasa-ce
     fi
 done
 
+# 6. BRD-003: the quarantine→promotion gate still refuses what it must.
+# This script audits the repository (vendored files, checksums, lanes); the
+# gate audits an import flow (snapshot, candidates, policy, eligible fields).
+# Running both here keeps one command answering "may this data ship?".
+echo "--- Quarantine promotion gate ---"
+FIXTURE="$ROOT/crates/kerotakis-data/tests/fixtures/quarantine/synthetic-v1"
+gate() { cargo run --quiet -p kerotakis-data --bin quarantine-review -- lint \
+    "$FIXTURE/manifest.json" "$FIXTURE/raw/snapshot.json" "$1" \
+    "$FIXTURE/policy.json" "$2" >/dev/null 2>&1; }
+if [ "${KEROTAKIS_SKIP_CARGO_LINT:-0}" = "1" ]; then
+    ok "promotion gate skipped (KEROTAKIS_SKIP_CARGO_LINT=1)"
+elif ! command -v cargo >/dev/null 2>&1; then
+    ok "promotion gate skipped (no cargo on PATH)"
+else
+    if gate "$FIXTURE/candidates-new.json" "$FIXTURE/eligible.json"; then
+        ok "pinned quarantine fixture passes the promotion gate"
+    else
+        err "pinned quarantine fixture no longer passes the promotion gate"
+    fi
+    if gate "$FIXTURE/candidates-tainted.json" "$FIXTURE/eligible-invalid.json"; then
+        err "the tainted quarantine fixture was promoted instead of refused"
+    else
+        ok "tainted quarantine fixture is refused"
+    fi
+fi
+
 echo ""
 if [ $ERRORS -gt 0 ]; then
     echo "FAILED: $ERRORS error(s)"
