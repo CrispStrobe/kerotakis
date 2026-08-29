@@ -1,0 +1,982 @@
+[
+  {
+    "adapter_id": "chebi-v1",
+    "source_record_id": "253:CHEBI:15366",
+    "external_record_id": "CHEBI:15366",
+    "identity_key": "QTBSBXVTEAMEQO-UHFFFAOYSA-N",
+    "fields": {
+      "attribution": {
+        "value": "Chemical Entities of Biological Interest (ChEBI), EMBL-EBI; release 253; https://www.ebi.ac.uk/chebi; licensed CC BY 4.0",
+        "source_field": "entities[CHEBI:15366].attribution",
+        "licence": "CC-BY-4.0"
+      },
+      "average_mass": {
+        "value": 60.052,
+        "source_field": "entities[CHEBI:15366].mass",
+        "licence": "CC-BY-4.0",
+        "unit": "Da"
+      },
+      "canonical_name": {
+        "value": "acetic acid",
+        "source_field": "entities[CHEBI:15366].name",
+        "licence": "CC-BY-4.0"
+      },
+      "charge": {
+        "value": 0,
+        "source_field": "entities[CHEBI:15366].charge",
+        "licence": "CC-BY-4.0"
+      },
+      "chebi_id": {
+        "value": "CHEBI:15366",
+        "source_field": "entities[CHEBI:15366].chebi_accession",
+        "licence": "CC-BY-4.0"
+      },
+      "definition": {
+        "value": "A simple monocarboxylic acid containing two carbons.",
+        "source_field": "entities[CHEBI:15366].definition",
+        "licence": "CC-BY-4.0"
+      },
+      "formula": {
+        "value": "C2H4O2",
+        "source_field": "entities[CHEBI:15366].formula",
+        "licence": "CC-BY-4.0"
+      },
+      "search_tags_from_parents": {
+        "value": [
+          {
+            "chebi_id": "CHEBI:25384",
+            "label": "monocarboxylic acid"
+          }
+        ],
+        "source_field": "entities[CHEBI:15366].relations[is_a]",
+        "licence": "CC-BY-4.0"
+      },
+      "search_tags_from_roles": {
+        "value": [
+          {
+            "chebi_id": "CHEBI:48356",
+            "label": "protic solvent"
+          },
+          {
+            "chebi_id": "CHEBI:64049",
+            "label": "food acidity regulator"
+          },
+          {
+            "chebi_id": "CHEBI:65256",
+            "label": "antimicrobial food preservative"
+          },
+          {
+            "chebi_id": "CHEBI:83056",
+            "label": "Daphnia magna metabolite"
+          }
+        ],
+        "source_field": "entities[CHEBI:15366].relations[has_role]",
+        "licence": "CC-BY-4.0"
+      },
+      "standard_inchi": {
+        "value": "InChI=1S/C2H4O2/c1-2(3)4/h1H3,(H,3,4)",
+        "source_field": "entities[CHEBI:15366].standard_inchi",
+        "licence": "CC-BY-4.0"
+      },
+      "standard_inchi_key": {
+        "value": "QTBSBXVTEAMEQO-UHFFFAOYSA-N",
+        "source_field": "entities[CHEBI:15366].standard_inchi_key",
+        "licence": "CC-BY-4.0"
+      },
+      "synonyms": {
+        "value": [
+          {
+            "language": "en",
+            "name": "acetic acid",
+            "name_type": "IUPAC NAME"
+          },
+          {
+            "language": "en",
+            "name": "ACETIC ACID",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "AcOH",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "Acetic acid",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "CH3CO2H",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "CH3-COOH",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "E 260",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "E-260",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "E260",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "de",
+            "name": "Essigsäure",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "Ethanoic acid",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "Ethylic acid",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "HOAc",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "INS No. 260",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "MeCO2H",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "MeCOOH",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "Methanecarboxylic acid",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "fr",
+            "name": "acide acétique",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "ethoic acid",
+            "name_type": "SYNONYM"
+          }
+        ],
+        "source_field": "entities[CHEBI:15366].synonyms",
+        "licence": "CC-BY-4.0"
+      }
+    }
+  },
+  {
+    "adapter_id": "chebi-v1",
+    "source_record_id": "253:CHEBI:15377",
+    "external_record_id": "CHEBI:15377",
+    "identity_key": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+    "fields": {
+      "attribution": {
+        "value": "Chemical Entities of Biological Interest (ChEBI), EMBL-EBI; release 253; https://www.ebi.ac.uk/chebi; licensed CC BY 4.0",
+        "source_field": "entities[CHEBI:15377].attribution",
+        "licence": "CC-BY-4.0"
+      },
+      "average_mass": {
+        "value": 18.015,
+        "source_field": "entities[CHEBI:15377].mass",
+        "licence": "CC-BY-4.0",
+        "unit": "Da"
+      },
+      "canonical_name": {
+        "value": "water",
+        "source_field": "entities[CHEBI:15377].name",
+        "licence": "CC-BY-4.0"
+      },
+      "charge": {
+        "value": 0,
+        "source_field": "entities[CHEBI:15377].charge",
+        "licence": "CC-BY-4.0"
+      },
+      "chebi_id": {
+        "value": "CHEBI:15377",
+        "source_field": "entities[CHEBI:15377].chebi_accession",
+        "licence": "CC-BY-4.0"
+      },
+      "definition": {
+        "value": "An oxygen hydride consisting of an oxygen atom that is covalently bonded to two hydrogen atoms",
+        "source_field": "entities[CHEBI:15377].definition",
+        "licence": "CC-BY-4.0"
+      },
+      "formula": {
+        "value": "H2O",
+        "source_field": "entities[CHEBI:15377].formula",
+        "licence": "CC-BY-4.0"
+      },
+      "search_tags_from_parents": {
+        "value": [
+          {
+            "chebi_id": "CHEBI:33693",
+            "label": "oxygen hydride"
+          },
+          {
+            "chebi_id": "CHEBI:37176",
+            "label": "mononuclear parent hydride"
+          },
+          {
+            "chebi_id": "CHEBI:52625",
+            "label": "inorganic hydroxy compound"
+          }
+        ],
+        "source_field": "entities[CHEBI:15377].relations[is_a]",
+        "licence": "CC-BY-4.0"
+      },
+      "search_tags_from_roles": {
+        "value": [
+          {
+            "chebi_id": "CHEBI:48360",
+            "label": "amphiprotic solvent"
+          },
+          {
+            "chebi_id": "CHEBI:75771",
+            "label": "mouse metabolite"
+          },
+          {
+            "chebi_id": "CHEBI:75772",
+            "label": "Saccharomyces cerevisiae metabolite"
+          },
+          {
+            "chebi_id": "CHEBI:76413",
+            "label": "greenhouse gas"
+          },
+          {
+            "chebi_id": "CHEBI:76971",
+            "label": "Escherichia coli metabolite"
+          },
+          {
+            "chebi_id": "CHEBI:77746",
+            "label": "human metabolite"
+          }
+        ],
+        "source_field": "entities[CHEBI:15377].relations[has_role]",
+        "licence": "CC-BY-4.0"
+      },
+      "standard_inchi": {
+        "value": "InChI=1S/H2O/h1H2",
+        "source_field": "entities[CHEBI:15377].standard_inchi",
+        "licence": "CC-BY-4.0"
+      },
+      "standard_inchi_key": {
+        "value": "XLYOFNOQVPJJNP-UHFFFAOYSA-N",
+        "source_field": "entities[CHEBI:15377].standard_inchi_key",
+        "licence": "CC-BY-4.0"
+      },
+      "synonyms": {
+        "value": [
+          {
+            "language": "en",
+            "name": "oxidane",
+            "name_type": "IUPAC NAME"
+          },
+          {
+            "language": "en",
+            "name": "water",
+            "name_type": "IUPAC NAME"
+          },
+          {
+            "language": "en",
+            "name": "BOUND WATER",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "H2O",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "HOH",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "WATER",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "de",
+            "name": "Wasser",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "Water",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "[OH2]",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "acqua",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "es",
+            "name": "agua",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "la",
+            "name": "aqua",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "dihydridooxygen",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "dihydrogen oxide",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "fr",
+            "name": "eau",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "hydrogen hydroxide",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "H2O",
+            "name_type": "UNIPROT NAME"
+          }
+        ],
+        "source_field": "entities[CHEBI:15377].synonyms",
+        "licence": "CC-BY-4.0"
+      }
+    }
+  },
+  {
+    "adapter_id": "chebi-v1",
+    "source_record_id": "253:CHEBI:17634",
+    "external_record_id": "CHEBI:17634",
+    "identity_key": null,
+    "fields": {
+      "attribution": {
+        "value": "Chemical Entities of Biological Interest (ChEBI), EMBL-EBI; release 253; https://www.ebi.ac.uk/chebi; licensed CC BY 4.0",
+        "source_field": "entities[CHEBI:17634].attribution",
+        "licence": "CC-BY-4.0"
+      },
+      "average_mass": {
+        "value": 180.156,
+        "source_field": "entities[CHEBI:17634].mass",
+        "licence": "CC-BY-4.0",
+        "unit": "Da"
+      },
+      "canonical_name": {
+        "value": "D-glucose",
+        "source_field": "entities[CHEBI:17634].name",
+        "licence": "CC-BY-4.0"
+      },
+      "charge": {
+        "value": 0,
+        "source_field": "entities[CHEBI:17634].charge",
+        "licence": "CC-BY-4.0"
+      },
+      "chebi_id": {
+        "value": "CHEBI:17634",
+        "source_field": "entities[CHEBI:17634].chebi_accession",
+        "licence": "CC-BY-4.0"
+      },
+      "definition": {
+        "value": "A glucose with D-configuration.",
+        "source_field": "entities[CHEBI:17634].definition",
+        "licence": "CC-BY-4.0"
+      },
+      "formula": {
+        "value": "C6H12O6",
+        "source_field": "entities[CHEBI:17634].formula",
+        "licence": "CC-BY-4.0"
+      },
+      "search_tags_from_parents": {
+        "value": [
+          {
+            "chebi_id": "CHEBI:17234",
+            "label": "glucose"
+          },
+          {
+            "chebi_id": "CHEBI:17608",
+            "label": "D-aldohexose"
+          }
+        ],
+        "source_field": "entities[CHEBI:17634].relations[is_a]",
+        "licence": "CC-BY-4.0"
+      },
+      "synonyms": {
+        "value": [
+          {
+            "language": "en",
+            "name": "D-gluco-hexose",
+            "name_type": "IUPAC NAME"
+          },
+          {
+            "language": "en",
+            "name": "D-glucose",
+            "name_type": "IUPAC NAME"
+          },
+          {
+            "language": "en",
+            "name": "D(+)-glucose",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "D-(+)-glucose",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "de",
+            "name": "Traubenzucker",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "dextrose",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "grape sugar",
+            "name_type": "SYNONYM"
+          }
+        ],
+        "source_field": "entities[CHEBI:17634].synonyms",
+        "licence": "CC-BY-4.0"
+      }
+    }
+  },
+  {
+    "adapter_id": "chebi-v1",
+    "source_record_id": "253:CHEBI:18246",
+    "external_record_id": "CHEBI:18246",
+    "identity_key": "WQZGKKKJIJFFOK-VFUOTHLCSA-N",
+    "fields": {
+      "attribution": {
+        "value": "Chemical Entities of Biological Interest (ChEBI), EMBL-EBI; release 253; https://www.ebi.ac.uk/chebi; licensed CC BY 4.0",
+        "source_field": "entities[CHEBI:18246].attribution",
+        "licence": "CC-BY-4.0"
+      },
+      "average_mass": {
+        "value": 180.156,
+        "source_field": "entities[CHEBI:18246].mass",
+        "licence": "CC-BY-4.0",
+        "unit": "Da"
+      },
+      "canonical_name": {
+        "value": "(1→4)-β-D-glucan",
+        "source_field": "entities[CHEBI:18246].name",
+        "licence": "CC-BY-4.0"
+      },
+      "charge": {
+        "value": 0,
+        "source_field": "entities[CHEBI:18246].charge",
+        "licence": "CC-BY-4.0"
+      },
+      "chebi_id": {
+        "value": "CHEBI:18246",
+        "source_field": "entities[CHEBI:18246].chebi_accession",
+        "licence": "CC-BY-4.0"
+      },
+      "definition": {
+        "value": "A β-D-glucan in which the glucose units are connected by (1→4) linkages.",
+        "source_field": "entities[CHEBI:18246].definition",
+        "licence": "CC-BY-4.0"
+      },
+      "formula": {
+        "value": "(C6H10O5)n.H2O",
+        "source_field": "entities[CHEBI:18246].formula",
+        "licence": "CC-BY-4.0"
+      },
+      "search_tags_from_parents": {
+        "value": [
+          {
+            "chebi_id": "CHEBI:28793",
+            "label": "β-D-glucan"
+          }
+        ],
+        "source_field": "entities[CHEBI:18246].relations[is_a]",
+        "licence": "CC-BY-4.0"
+      },
+      "standard_inchi": {
+        "value": "InChI=1S/C6H12O6/c7-1-2-3(8)4(9)5(10)6(11)12-2/h2-11H,1H2/t2-,3-,4+,5-,6-/m1/s1",
+        "source_field": "entities[CHEBI:18246].standard_inchi",
+        "licence": "CC-BY-4.0"
+      },
+      "standard_inchi_key": {
+        "value": "WQZGKKKJIJFFOK-VFUOTHLCSA-N",
+        "source_field": "entities[CHEBI:18246].standard_inchi_key",
+        "licence": "CC-BY-4.0"
+      },
+      "synonyms": {
+        "value": [
+          {
+            "language": "en",
+            "name": "(1→4)-β-D-glucopyranan",
+            "name_type": "IUPAC NAME"
+          },
+          {
+            "language": "en",
+            "name": "(1,4-beta-D-Glucosyl)n",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "(1,4-beta-D-Glucosyl)n+1",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "(1,4-beta-D-Glucosyl)n-1",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "(1,4-β-D-glucosyl)n",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "1,4-beta-D-Glucan",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "Cellulose",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "(1,4-β-D-glucosyl)n",
+            "name_type": "UNIPROT NAME"
+          }
+        ],
+        "source_field": "entities[CHEBI:18246].synonyms",
+        "licence": "CC-BY-4.0"
+      }
+    }
+  },
+  {
+    "adapter_id": "chebi-v1",
+    "source_record_id": "253:CHEBI:27732",
+    "external_record_id": "CHEBI:27732",
+    "identity_key": "RYYVLZVUVIJVGH-UHFFFAOYSA-N",
+    "fields": {
+      "attribution": {
+        "value": "Chemical Entities of Biological Interest (ChEBI), EMBL-EBI; release 253; https://www.ebi.ac.uk/chebi; licensed CC BY 4.0",
+        "source_field": "entities[CHEBI:27732].attribution",
+        "licence": "CC-BY-4.0"
+      },
+      "average_mass": {
+        "value": 194.194,
+        "source_field": "entities[CHEBI:27732].mass",
+        "licence": "CC-BY-4.0",
+        "unit": "Da"
+      },
+      "canonical_name": {
+        "value": "caffeine",
+        "source_field": "entities[CHEBI:27732].name",
+        "licence": "CC-BY-4.0"
+      },
+      "charge": {
+        "value": 0,
+        "source_field": "entities[CHEBI:27732].charge",
+        "licence": "CC-BY-4.0"
+      },
+      "chebi_id": {
+        "value": "CHEBI:27732",
+        "source_field": "entities[CHEBI:27732].chebi_accession",
+        "licence": "CC-BY-4.0"
+      },
+      "definition": {
+        "value": "A trimethylxanthine in which the three methyl groups are located at positions 1, 3, and 7. A purine alkaloid that occurs naturally in tea and coffee.",
+        "source_field": "entities[CHEBI:27732].definition",
+        "licence": "CC-BY-4.0"
+      },
+      "formula": {
+        "value": "C8H10N4O2",
+        "source_field": "entities[CHEBI:27732].formula",
+        "licence": "CC-BY-4.0"
+      },
+      "search_tags_from_parents": {
+        "value": [
+          {
+            "chebi_id": "CHEBI:26385",
+            "label": "purine alkaloid"
+          },
+          {
+            "chebi_id": "CHEBI:27134",
+            "label": "trimethylxanthine"
+          }
+        ],
+        "source_field": "entities[CHEBI:27732].relations[is_a]",
+        "licence": "CC-BY-4.0"
+      },
+      "search_tags_from_roles": {
+        "value": [
+          {
+            "chebi_id": "CHEBI:25435",
+            "label": "mutagen"
+          },
+          {
+            "chebi_id": "CHEBI:35337",
+            "label": "central nervous system stimulant"
+          },
+          {
+            "chebi_id": "CHEBI:35471",
+            "label": "psychotropic drug"
+          },
+          {
+            "chebi_id": "CHEBI:35498",
+            "label": "diuretic"
+          },
+          {
+            "chebi_id": "CHEBI:35703",
+            "label": "xenobiotic"
+          },
+          {
+            "chebi_id": "CHEBI:50218",
+            "label": "EC 3.1.4.* (phosphoric diester hydrolase) inhibitor"
+          },
+          {
+            "chebi_id": "CHEBI:50925",
+            "label": "EC 2.7.11.1 (non-specific serine/threonine protein kinase) inhibitor"
+          },
+          {
+            "chebi_id": "CHEBI:53121",
+            "label": "adenosine A2A receptor antagonist"
+          },
+          {
+            "chebi_id": "CHEBI:60809",
+            "label": "adjuvant"
+          },
+          {
+            "chebi_id": "CHEBI:64047",
+            "label": "food additive"
+          },
+          {
+            "chebi_id": "CHEBI:67114",
+            "label": "ryanodine receptor agonist"
+          },
+          {
+            "chebi_id": "CHEBI:71232",
+            "label": "adenosine receptor antagonist"
+          },
+          {
+            "chebi_id": "CHEBI:75771",
+            "label": "mouse metabolite"
+          },
+          {
+            "chebi_id": "CHEBI:76924",
+            "label": "plant metabolite"
+          },
+          {
+            "chebi_id": "CHEBI:76946",
+            "label": "fungal metabolite"
+          },
+          {
+            "chebi_id": "CHEBI:78298",
+            "label": "environmental contaminant"
+          },
+          {
+            "chebi_id": "CHEBI:85234",
+            "label": "human blood serum metabolite"
+          },
+          {
+            "chebi_id": "CHEBI:176497",
+            "label": "geroprotector"
+          }
+        ],
+        "source_field": "entities[CHEBI:27732].relations[has_role]",
+        "licence": "CC-BY-4.0"
+      },
+      "standard_inchi": {
+        "value": "InChI=1S/C8H10N4O2/c1-10-4-9-6-5(10)7(13)12(3)8(14)11(6)2/h4H,1-3H3",
+        "source_field": "entities[CHEBI:27732].standard_inchi",
+        "licence": "CC-BY-4.0"
+      },
+      "standard_inchi_key": {
+        "value": "RYYVLZVUVIJVGH-UHFFFAOYSA-N",
+        "source_field": "entities[CHEBI:27732].standard_inchi_key",
+        "licence": "CC-BY-4.0"
+      },
+      "synonyms": {
+        "value": [
+          {
+            "language": "en",
+            "name": "1,3,7-trimethyl-3,7-dihydro-1H-purine-2,6-dione",
+            "name_type": "IUPAC NAME"
+          },
+          {
+            "language": "en",
+            "name": "1,3,7-Trimethylxanthine",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "1,3,7-trimethyl-2,6-dioxopurine",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "1,3,7-trimethylpurine-2,6-dione",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "1,3,7-trimethylxanthine",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "1-methyltheobromine",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "de",
+            "name": "3,7-Dihydro-1,3,7-trimethyl-1H-purin-2,6-dion",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "7-methyltheophylline",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "CAFFEINE",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "Caffeine",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "de",
+            "name": "Coffein",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "de",
+            "name": "Koffein",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "de",
+            "name": "Thein",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "anhydrous caffeine",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "es",
+            "name": "cafeína",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "fr",
+            "name": "caféine",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "guaranine",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "es",
+            "name": "mateína",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "methyltheobromine",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "es",
+            "name": "teína",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "theine",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "caffeine",
+            "name_type": "UNIPROT NAME"
+          }
+        ],
+        "source_field": "entities[CHEBI:27732].synonyms",
+        "licence": "CC-BY-4.0"
+      }
+    }
+  },
+  {
+    "adapter_id": "chebi-v1",
+    "source_record_id": "253:CHEBI:30089",
+    "external_record_id": "CHEBI:30089",
+    "identity_key": "QTBSBXVTEAMEQO-UHFFFAOYSA-M",
+    "fields": {
+      "attribution": {
+        "value": "Chemical Entities of Biological Interest (ChEBI), EMBL-EBI; release 253; https://www.ebi.ac.uk/chebi; licensed CC BY 4.0",
+        "source_field": "entities[CHEBI:30089].attribution",
+        "licence": "CC-BY-4.0"
+      },
+      "average_mass": {
+        "value": 59.044,
+        "source_field": "entities[CHEBI:30089].mass",
+        "licence": "CC-BY-4.0",
+        "unit": "Da"
+      },
+      "canonical_name": {
+        "value": "acetate",
+        "source_field": "entities[CHEBI:30089].name",
+        "licence": "CC-BY-4.0"
+      },
+      "charge": {
+        "value": -1,
+        "source_field": "entities[CHEBI:30089].charge",
+        "licence": "CC-BY-4.0"
+      },
+      "chebi_id": {
+        "value": "CHEBI:30089",
+        "source_field": "entities[CHEBI:30089].chebi_accession",
+        "licence": "CC-BY-4.0"
+      },
+      "definition": {
+        "value": "A monocarboxylic acid anion resulting from the removal of a proton from the carboxy group of acetic acid.",
+        "source_field": "entities[CHEBI:30089].definition",
+        "licence": "CC-BY-4.0"
+      },
+      "formula": {
+        "value": "C2H3O2",
+        "source_field": "entities[CHEBI:30089].formula",
+        "licence": "CC-BY-4.0"
+      },
+      "search_tags_from_parents": {
+        "value": [
+          {
+            "chebi_id": "CHEBI:35757",
+            "label": "monocarboxylic acid anion"
+          }
+        ],
+        "source_field": "entities[CHEBI:30089].relations[is_a]",
+        "licence": "CC-BY-4.0"
+      },
+      "search_tags_from_roles": {
+        "value": [
+          {
+            "chebi_id": "CHEBI:75772",
+            "label": "Saccharomyces cerevisiae metabolite"
+          },
+          {
+            "chebi_id": "CHEBI:77746",
+            "label": "human metabolite"
+          }
+        ],
+        "source_field": "entities[CHEBI:30089].relations[has_role]",
+        "licence": "CC-BY-4.0"
+      },
+      "standard_inchi": {
+        "value": "InChI=1S/C2H4O2/c1-2(3)4/h1H3,(H,3,4)/p-1",
+        "source_field": "entities[CHEBI:30089].standard_inchi",
+        "licence": "CC-BY-4.0"
+      },
+      "standard_inchi_key": {
+        "value": "QTBSBXVTEAMEQO-UHFFFAOYSA-M",
+        "source_field": "entities[CHEBI:30089].standard_inchi_key",
+        "licence": "CC-BY-4.0"
+      },
+      "synonyms": {
+        "value": [
+          {
+            "language": "en",
+            "name": "acetate",
+            "name_type": "IUPAC NAME"
+          },
+          {
+            "language": "en",
+            "name": "ACETATE ION",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "de",
+            "name": "Azetat",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "CH3-COO-",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "Ethanoat",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "MeCO2 anion",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "acetic acid, ion(1-)",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "ethanoate",
+            "name_type": "SYNONYM"
+          },
+          {
+            "language": "en",
+            "name": "acetate",
+            "name_type": "UNIPROT NAME"
+          }
+        ],
+        "source_field": "entities[CHEBI:30089].synonyms",
+        "licence": "CC-BY-4.0"
+      }
+    }
+  }
+]

@@ -297,7 +297,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-011 — ChEBI identity and ontology adapter
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-003.
+- [x] **Status:** done. **Size:** medium. **Depends on:** BRD-003.
 - **Source/licence:** ChEBI CC BY 4.0, monthly/nightly versioned dumps. Primary
   docs: <https://www.ebi.ac.uk/chebi/about> and
   <https://www.ebi.ac.uk/chebi/downloads>.
@@ -311,6 +311,54 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 - **Acceptance:** pinned-release reproducibility; tautomer/protonation conflicts
   are reported rather than merged; attribution survives pack compilation; no
   biological role is converted into a reaction rule.
+- **Adapter checkpoint (2026-08-29):** `kerotakis-data::chebi` reads ChEBI
+  release 253 (2026-07-07) from the immutable per-release archive, not the
+  rolling `current/` directory, so the pin is a pin. The committed snapshot is
+  87 curated reviewed three-star entities — common sugars, organic acids and
+  their conjugate bases, amino-acid and nucleotide exemplars, salts, gases,
+  polymers and familiar alkaloids — drawn from `compounds`, `names`,
+  `chemical_data`, `structures` and `relation`, checksummed whole and pinned by
+  the BRD-003 snapshot manifest. Ingestion is reviewed-only twice over: three
+  stars *and* a curated status on the entity, and independently on every
+  ontology relation, so ChEBI's `SUBMITTED` third-party deposits never become
+  candidates.
+  **Protonation and tautomer families are reported, never merged.** The join
+  key is the full Standard InChIKey, so acetic acid and acetate stay two
+  records with two keys and `identity_conflicts` finds nothing to merge across
+  the whole snapshot. The relationship itself is published separately, from two
+  independent signals: ChEBI's own `is_conjugate_acid_of` /
+  `is_conjugate_base_of` / `is_tautomer_of` assertions, and shared InChIKey
+  family membership. Where they disagree the report says which — 10 pairs
+  corroborated both ways, 4 structural-only (citric acid to citrate(3−), which
+  ChEBI links through the intermediate protonation states), 1 ontology-only
+  (citrate(2−), an ontology class with no single defined structure). Family
+  membership needs the skeleton *and* stereo blocks: maltose/lactose and
+  cellulose/amylose share a skeleton block while being diastereomers, and a
+  skeleton-only heuristic would have merged them.
+  Identity is recomputed rather than believed. Mass is recalculated from
+  ChEBI's own formula against a local IUPAC-2021 weight table — tolerance
+  0.05 Da, ~7x the 0.007 Da atomic-weight-revision noise floor — and charge is
+  cross-checked against the Standard InChI's `/q` and `/p` layers. Every
+  disagreement, every polymer whose `(C6H10O5)n` formula admits no finite mass,
+  and every entity with no InChIKey to join on, lands in the conflict report
+  instead of being repaired or quietly promoted.
+  **Roles are search tags and nothing else.** The firewall is default-deny in
+  both directions: an ontology-derived field may only reach a tag target, no
+  ChEBI field of any kind may reach a target whose name carries a
+  safety/hazard/reactivity marker, and no non-ontology field may reach the tag
+  lane. Planted violations — roles aimed at `safety_flags`, nine reserved
+  target spellings, formula aimed at `reactivity_class` — are all refused, and
+  the refusal stops the whole promotion.
+  Per-record CC BY attribution travels as an ordinary promotable field, so it
+  survives review into a compiled pack manifest with its source path intact
+  rather than being reattached by hand. 31 tests; nothing enters the runtime
+  registry.
+  **Licence finding, flagged for review:** ChEBI's flat-file `README` names the
+  terms "CC Attribution-ShareAlike 4.0" and points at a `LICENSE` file that is
+  verbatim CC BY 4.0 with no ShareAlike condition. The licence text is taken as
+  operative; `provenance/sources.toml` records the discrepancy, because reading
+  the README's prose literally would exclude ChEBI from store builds under the
+  2026-08-23 CC BY-SA decision.
 
 ### BRD-012 — Familiar pure-substance pack v1
 
