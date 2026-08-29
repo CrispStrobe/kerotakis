@@ -37,8 +37,8 @@ fn run(args: Vec<String>) -> Result<(), String> {
         [command] if command == "policy" => write_json(&pubchem_promotion_policy()),
         [command, snapshot] if command == "candidates" => {
             let import = load(snapshot)?;
-            let bytes = canonical_quarantine_bytes(import.candidates)
-                .map_err(|error| error.to_string())?;
+            let bytes =
+                canonical_quarantine_bytes(import.candidates).map_err(|error| error.to_string())?;
             print!(
                 "{}",
                 String::from_utf8(bytes).expect("JSON serialization is UTF-8")

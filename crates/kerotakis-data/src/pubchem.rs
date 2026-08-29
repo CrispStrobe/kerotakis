@@ -266,7 +266,9 @@ pub fn smiles_components(smiles: &str) -> Result<Vec<SmilesComponent>, String> {
                 // `[Cu+2]` and the older `[Cu++]` both occur upstream.
                 let mut magnitude = 0i64;
                 while let Some(digit) = characters.peek().and_then(|c| c.to_digit(10)) {
-                    magnitude = magnitude.saturating_mul(10).saturating_add(i64::from(digit));
+                    magnitude = magnitude
+                        .saturating_mul(10)
+                        .saturating_add(i64::from(digit));
                     current.push(characters.next().expect("peeked"));
                 }
                 if magnitude == 0 {
@@ -465,7 +467,11 @@ fn registry_scheme(text: &str) -> Option<String> {
         .iter()
         .find(|prefix| upper.starts_with(**prefix))
     {
-        return Some(prefix.trim_end_matches([':', ' ', '-']).to_ascii_lowercase());
+        return Some(
+            prefix
+                .trim_end_matches([':', ' ', '-'])
+                .to_ascii_lowercase(),
+        );
     }
     // A bare EC number, `231-598-3`.
     let segments: Vec<&str> = text.split('-').collect();
@@ -533,7 +539,11 @@ pub enum PubchemFinding {
         resolved_from: Vec<String>,
     },
     /// The record is a bare ion or an unbalanced fragment set.
-    IonRecord { cid: u64, title: String, charge: i64 },
+    IonRecord {
+        cid: u64,
+        title: String,
+        charge: i64,
+    },
     /// The SMILES did not lex. No structure claim is made about the record.
     StructureNotParsed {
         cid: u64,
@@ -598,6 +608,7 @@ pub struct PubchemRecordSummary {
     pub title: String,
     pub structure: StructureClass,
     pub resolved_from: Vec<String>,
+    pub inchi: Option<String>,
     pub inchikey: Option<String>,
     pub isomeric_smiles: Option<String>,
     pub depositor_synonyms_kept: usize,
@@ -890,7 +901,9 @@ pub fn pubchem_import(snapshot: &PubchemSnapshot) -> PubchemImport {
                     detail: detail.clone(),
                 });
             }
-            StructureClass::Single | StructureClass::Salt { .. } | StructureClass::Hydrate { .. } => {}
+            StructureClass::Single
+            | StructureClass::Salt { .. }
+            | StructureClass::Hydrate { .. } => {}
         }
         if let (Some(declared), Ok(components)) = (declared_charge, smiles_components(&isomeric)) {
             let summed: i64 = components.iter().map(|component| component.charge).sum();
@@ -1045,6 +1058,7 @@ pub fn pubchem_import(snapshot: &PubchemSnapshot) -> PubchemImport {
             title: title.clone(),
             structure,
             resolved_from: names,
+            inchi: string_field(row, "InChI"),
             inchikey: string_field(row, "InChIKey"),
             isomeric_smiles: string_field(row, "SMILES"),
             depositor_synonyms_kept: depositor_count,
@@ -1321,14 +1335,47 @@ pub enum IdentityOutcome {
     NoSnapshotIdentity,
 }
 
-/// One record's identity check.
+/// One record's identity check, along both independent routes.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub struct IdentityCrossCheck {
     pub external_record_id: String,
     pub cid: u64,
     pub smiles: String,
+    pub snapshot_inchi: String,
     pub snapshot_inchikey: String,
-    pub outcome: IdentityOutcome,
+    /// The official library's key for PubChem's **own** published InChI
+    /// string. A conflict here is a claim about the upstream record: its
+    /// published key does not hash from its published structure.
+    pub from_published_inchi: IdentityOutcome,
+    /// The official library's key for the record's structure, taken the long
+    /// way round: SMILES → molfile → InChI → key. A conflict here can equally
+    /// be a limitation of that bridge, so it is reported separately and never
+    /// conflated with the check above.
+    pub from_structure: IdentityOutcome,
+}
+
+/// How one route scored across the fixture.
+#[derive(Debug, Clone, Copy, Default, PartialEq, Eq, Serialize, Deserialize)]
+pub struct IdentityCheckSummary {
+    pub agreements: usize,
+    pub conflicts: usize,
+    pub not_recomputed: usize,
+    pub no_snapshot_identity: usize,
+}
+
+impl IdentityCheckSummary {
+    fn tally(outcomes: impl Iterator<Item = IdentityOutcome>) -> Self {
+        let mut summary = Self::default();
+        for outcome in outcomes {
+            match outcome {
+                IdentityOutcome::Agrees => summary.agreements += 1,
+                IdentityOutcome::Conflicts { .. } => summary.conflicts += 1,
+                IdentityOutcome::NotRecomputed { .. } => summary.not_recomputed += 1,
+                IdentityOutcome::NoSnapshotIdentity => summary.no_snapshot_identity += 1,
+            }
+        }
+        summary
+    }
 }
 
 /// The whole fixture's identity check, in a shape that can be checked in and
@@ -1337,45 +1384,96 @@ pub struct IdentityCrossCheck {
 pub struct IdentityCrossCheckReport {
     pub adapter_id: String,
     pub checked: usize,
-    pub agreements: usize,
-    pub conflicts: usize,
-    pub not_recomputed: usize,
+    /// The record's own published InChI, re-keyed. This is the check that
+    /// speaks about PubChem.
+    pub from_published_inchi: IdentityCheckSummary,
+    /// The record's structure, round-tripped. This check also exercises our
+    /// own SMILES bridge, so a conflict is not by itself an upstream fault.
+    pub from_structure: IdentityCheckSummary,
     pub records: Vec<IdentityCrossCheck>,
 }
 
 impl IdentityCrossCheckReport {
-    /// The conflicts, as BRD-003 [`IdentityConflict`](crate::IdentityConflict)
+    /// Every disagreement, as BRD-003 [`IdentityConflict`](crate::IdentityConflict)
     /// rows, so they land in the same review report as every other identity
     /// disagreement instead of in a PubChem-shaped side channel.
+    ///
+    /// Both routes are reported. `differing_fields` names which one spoke, so
+    /// a reviewer can tell "PubChem's record disagrees with itself" from "our
+    /// structure bridge did not reproduce it" without reading the code.
     pub fn identity_conflicts(&self) -> Vec<crate::IdentityConflict> {
+        let mut conflicts = Vec::new();
+        for record in &self.records {
+            for (route, outcome) in [
+                (
+                    "standard_inchikey/from_published_inchi",
+                    &record.from_published_inchi,
+                ),
+                ("standard_inchikey/from_structure", &record.from_structure),
+            ] {
+                if let IdentityOutcome::Conflicts { recomputed } = outcome {
+                    conflicts.push(crate::IdentityConflict {
+                        identity_key: record.snapshot_inchikey.clone(),
+                        records: vec![
+                            record.external_record_id.clone(),
+                            format!("official-inchi:{recomputed}"),
+                        ],
+                        differing_fields: vec![route.to_owned()],
+                    });
+                }
+            }
+        }
+        conflicts
+    }
+
+    /// Conflicts where the recomputed key shares the record's skeleton block —
+    /// the same connectivity, a different stereo/isotope layer. Triage only:
+    /// it explains a conflict, it never excuses one.
+    pub fn skeleton_preserving_conflicts(&self) -> usize {
         self.records
             .iter()
-            .filter_map(|record| match &record.outcome {
-                IdentityOutcome::Conflicts { recomputed } => Some(crate::IdentityConflict {
-                    identity_key: record.snapshot_inchikey.clone(),
-                    records: vec![
-                        record.external_record_id.clone(),
-                        format!("official-inchi:{recomputed}"),
-                    ],
-                    differing_fields: vec!["standard_inchikey".to_owned()],
-                }),
-                _ => None,
+            .filter(|record| match &record.from_structure {
+                IdentityOutcome::Conflicts { recomputed } => {
+                    skeleton(recomputed) == skeleton(&record.snapshot_inchikey)
+                }
+                _ => false,
             })
-            .collect()
+            .count()
     }
 }
 
-/// Recompute every record's Standard InChIKey and report agreement per record.
+/// The first block of an InChIKey: the connectivity hash.
+fn skeleton(key: &str) -> &str {
+    key.split('-').next().unwrap_or(key)
+}
+
+/// Recompute every record's Standard InChIKey along both routes and report
+/// agreement per record.
 ///
-/// `recompute` is supplied by the caller because the official IUPAC library
-/// is a C dependency that `kerotakis-data` deliberately does not take;
-/// `kerotakis-org`'s `native-inchi` feature provides the real one. A
-/// recomputation that fails is [`IdentityOutcome::NotRecomputed`], never an
-/// assumed agreement.
+/// The two recomputations are supplied by the caller because the official
+/// IUPAC library is a C dependency that `kerotakis-data` deliberately does not
+/// take; `kerotakis-org`'s `native-inchi` feature provides the real ones.
+///
+/// * `rekey_published_inchi` hashes the record's own published Standard InChI
+///   string. Nothing of ours stands between the record and the answer, so a
+///   conflict here is a statement about the upstream record.
+/// * `recompute_from_structure` goes SMILES → molfile → InChI → key. It is the
+///   stronger check and also the more fragile one, because it exercises our
+///   own bridge.
+///
+/// A recomputation that fails is [`IdentityOutcome::NotRecomputed`], never an
+/// assumed agreement. Nothing is ever resolved here.
 pub fn cross_check_identity(
     import: &PubchemImport,
-    mut recompute: impl FnMut(&str) -> Result<String, String>,
+    mut recompute_from_structure: impl FnMut(&str) -> Result<String, String>,
+    mut rekey_published_inchi: impl FnMut(&str) -> Result<String, String>,
 ) -> IdentityCrossCheckReport {
+    let verdict = |result: Result<String, String>, published: &str| match result {
+        Ok(recomputed) if recomputed == published => IdentityOutcome::Agrees,
+        Ok(recomputed) => IdentityOutcome::Conflicts { recomputed },
+        Err(detail) => IdentityOutcome::NotRecomputed { detail },
+    };
+
     let mut records = Vec::new();
     for summary in &import.records {
         let (Some(key), Some(smiles)) = (&summary.inchikey, &summary.isomeric_smiles) else {
@@ -1383,42 +1481,37 @@ pub fn cross_check_identity(
                 external_record_id: format!("CID{}", summary.cid),
                 cid: summary.cid,
                 smiles: summary.isomeric_smiles.clone().unwrap_or_default(),
+                snapshot_inchi: summary.inchi.clone().unwrap_or_default(),
                 snapshot_inchikey: summary.inchikey.clone().unwrap_or_default(),
-                outcome: IdentityOutcome::NoSnapshotIdentity,
+                from_published_inchi: IdentityOutcome::NoSnapshotIdentity,
+                from_structure: IdentityOutcome::NoSnapshotIdentity,
             });
             continue;
         };
-        let outcome = match recompute(smiles) {
-            Ok(recomputed) if &recomputed == key => IdentityOutcome::Agrees,
-            Ok(recomputed) => IdentityOutcome::Conflicts { recomputed },
-            Err(detail) => IdentityOutcome::NotRecomputed { detail },
+        let from_published_inchi = match &summary.inchi {
+            Some(inchi) if !inchi.is_empty() => verdict(rekey_published_inchi(inchi), key),
+            _ => IdentityOutcome::NoSnapshotIdentity,
         };
         records.push(IdentityCrossCheck {
             external_record_id: format!("CID{}", summary.cid),
             cid: summary.cid,
             smiles: smiles.clone(),
+            snapshot_inchi: summary.inchi.clone().unwrap_or_default(),
             snapshot_inchikey: key.clone(),
-            outcome,
+            from_published_inchi,
+            from_structure: verdict(recompute_from_structure(smiles), key),
         });
     }
-    let agreements = records
-        .iter()
-        .filter(|record| record.outcome == IdentityOutcome::Agrees)
-        .count();
-    let conflicts = records
-        .iter()
-        .filter(|record| matches!(record.outcome, IdentityOutcome::Conflicts { .. }))
-        .count();
-    let not_recomputed = records
-        .iter()
-        .filter(|record| matches!(record.outcome, IdentityOutcome::NotRecomputed { .. }))
-        .count();
+
     IdentityCrossCheckReport {
         adapter_id: import.adapter_id.clone(),
         checked: records.len(),
-        agreements,
-        conflicts,
-        not_recomputed,
+        from_published_inchi: IdentityCheckSummary::tally(
+            records.iter().map(|r| r.from_published_inchi.clone()),
+        ),
+        from_structure: IdentityCheckSummary::tally(
+            records.iter().map(|r| r.from_structure.clone()),
+        ),
         records,
     }
 }

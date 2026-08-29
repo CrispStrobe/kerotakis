@@ -311,13 +311,7 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   Registry Numbers (separated out of the depositor synonym list and validated
   by check digit so the refusal is exact), the depositor synonym list itself,
   other registry identifiers, `ExactMass` and the database descriptors, and
-  **every** depositor annotation. That last one is a finding, not an omission:
-  in this snapshot every annotation source that states a runtime-lane licence
-  supplies its boiling point as prose, and the only source supplying a
-  structured quantity licences it CC BY-NC 4.0 — so no experimental physical
-  property from PubChem is promotable today, and the import report says so per
-  source, carrying each source's own licence note. Prose is carried verbatim
-  and never parsed into a number.
+  **every** depositor annotation — see the finding below.
   The official IUPAC InChI library recomputes each record's Standard InChIKey
   from its SMILES in `kerotakis-org`'s `native-inchi` gate; the per-record
   verdict is pinned beside the fixture so the dependency-free crate can read it
@@ -329,6 +323,27 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   `LicenseRef-PubChem-Public-Domain` is deliberately still absent from
   `default_runtime_data_licences()`, so shipping any of this remains a separate
   licence review.
+- **Finding — PubChem supplies identity, not properties (2026-08-29).** This
+  is load-bearing for BRD-012 and for anyone planning to source a physical
+  property here, so it is recorded as a result rather than left implied.
+  **No experimental physical property from PubChem is promotable.** Across the
+  pinned snapshot's 84 depositor annotations from 9 upstream sources, every
+  source that states a licence in the runtime data lane — ILO-WHO ICSC, whose
+  licence note is exactly "Creative Commons CC BY 4.0" — supplies its boiling
+  point as **prose** (`"78.29 °C @760 [mm Hg]"`, `"173 °F"`), and the **only**
+  source that supplies a structured `Number` + `Unit` is DrugBank, which
+  licences it **CC BY-NC 4.0** and therefore cannot enter a shipped pack at
+  all. The two conditions never coincide on a single value. The adapter
+  carries prose verbatim and refuses to parse it into a number: turning
+  `"78.29 °C @760 [mm Hg]"` into a quantity is a guess about units, pressure
+  reference and significant figures, and BRD-003's whole contract is that an
+  importer never guesses. The consequence for BRD-012: the "available phases"
+  and add-by-mass parts of its behavior matrix must come from a source with
+  structured, runtime-licensed quantities, not from PubChem. PubChem's
+  contribution to the everyday shelf is **identity** — CID, both SMILES
+  flavours, Standard InChI/InChIKey, formula, formal charge, the masses,
+  the IUPAC name and the record title — and that is what the promotion policy
+  allowlists.
 
 ### BRD-011 — ChEBI identity and ontology adapter
 

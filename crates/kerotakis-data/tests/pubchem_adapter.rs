@@ -433,7 +433,10 @@ fn a_cleared_structured_annotation_would_be_accepted() {
     assert!(review.rejected.is_empty(), "{review:?}");
     let accepted = &review.accepted["boiling_point"];
     assert_eq!(accepted.source_unit.as_deref(), Some("°C"));
-    assert_eq!(accepted.unit.as_ref().map(|unit| unit.symbol.as_str()), Some("K"));
+    assert_eq!(
+        accepted.unit.as_ref().map(|unit| unit.symbol.as_str()),
+        Some("K")
+    );
     let kelvin = accepted.value.as_f64().unwrap();
     assert!((kelvin - 351.39).abs() < 1e-6, "{kelvin}");
 }
@@ -501,7 +504,11 @@ fn planted_injuries() -> Vec<QuarantinedCandidate> {
     let mut collision = BTreeMap::new();
     collision.insert(
         "iupac_name".to_owned(),
-        CandidateField::new(json!("oxidane"), "PropertyTable.IUPACName", PUBCHEM_CORE_LICENCE),
+        CandidateField::new(
+            json!("oxidane"),
+            "PropertyTable.IUPACName",
+            PUBCHEM_CORE_LICENCE,
+        ),
     );
     // A second source field aimed at the same runtime target.
     collision.insert(
@@ -515,7 +522,11 @@ fn planted_injuries() -> Vec<QuarantinedCandidate> {
     );
     missing_provenance.insert(
         "standard_inchikey".to_owned(),
-        CandidateField::new(json!("XLYOFNOQVPJJNP-UHFFFAOYSA-N"), "", PUBCHEM_CORE_LICENCE),
+        CandidateField::new(
+            json!("XLYOFNOQVPJJNP-UHFFFAOYSA-N"),
+            "",
+            PUBCHEM_CORE_LICENCE,
+        ),
     );
 
     vec![
@@ -536,7 +547,11 @@ fn planted_injuries() -> Vec<QuarantinedCandidate> {
             "PLANTED-missing-unit",
             one(
                 "molar_mass",
-                CandidateField::new(json!(18.015), "PropertyTable.MolecularWeight", PUBCHEM_CORE_LICENCE),
+                CandidateField::new(
+                    json!(18.015),
+                    "PropertyTable.MolecularWeight",
+                    PUBCHEM_CORE_LICENCE,
+                ),
             ),
         ),
         base(
@@ -555,8 +570,12 @@ fn planted_injuries() -> Vec<QuarantinedCandidate> {
             "PLANTED-unit",
             one(
                 "molar_mass",
-                CandidateField::new(json!(18.015), "PropertyTable.MolecularWeight", PUBCHEM_CORE_LICENCE)
-                    .with_unit("smoots per fortnight"),
+                CandidateField::new(
+                    json!(18.015),
+                    "PropertyTable.MolecularWeight",
+                    PUBCHEM_CORE_LICENCE,
+                )
+                .with_unit("smoots per fortnight"),
             ),
         ),
     ]
@@ -696,8 +715,8 @@ fn the_runtime_licence_lane_is_not_widened_by_this_task() {
 
 #[test]
 fn nothing_from_this_adapter_reached_the_runtime_registry() {
-    let registry = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../../data/registry/registry-source-v1.json");
+    let registry =
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../data/registry/registry-source-v1.json");
     let text = std::fs::read_to_string(registry).expect("runtime registry");
     assert!(
         !text.contains(PUBCHEM_ADAPTER_ID),
@@ -718,11 +737,19 @@ fn the_identity_cross_check_is_pinned_and_self_consistent() {
 
     let import = import();
     assert_eq!(pinned.checked, import.records.len());
-    assert_eq!(
-        pinned.agreements + pinned.conflicts + pinned.not_recomputed,
-        pinned.checked,
-        "every record must land in exactly one outcome"
-    );
+    for route in [&pinned.from_published_inchi, &pinned.from_structure] {
+        assert_eq!(
+            route.agreements + route.conflicts + route.not_recomputed + route.no_snapshot_identity,
+            pinned.checked,
+            "every record must land in exactly one outcome per route"
+        );
+    }
+
+    // The route with nothing of ours in it must be clean: every record's
+    // published key hashes from its own published InChI. A conflict here would
+    // be an upstream identity fault, not a toolchain limitation.
+    assert_eq!(pinned.from_published_inchi.conflicts, 0);
+    assert_eq!(pinned.from_published_inchi.agreements, pinned.checked);
 
     // Replay the report through the same function using the pinned answers as
     // the oracle: the bookkeeping, not the chemistry, is what this asserts.
@@ -734,57 +761,128 @@ fn the_identity_cross_check_is_pinned_and_self_consistent() {
         .collect();
     assert_eq!(distinct.len(), pinned.records.len());
 
-    let answers: BTreeMap<String, IdentityOutcome> = pinned
+    let by_smiles: BTreeMap<&str, &IdentityCrossCheck> = pinned
         .records
         .iter()
-        .map(|record| (record.smiles.clone(), record.outcome.clone()))
+        .map(|record| (record.smiles.as_str(), record))
         .collect();
-    let replayed = cross_check_identity(&import, |smiles| match answers.get(smiles) {
-        Some(IdentityOutcome::Agrees) => Ok(pinned
-            .records
-            .iter()
-            .find(|record| record.smiles == smiles)
-            .map(|record| record.snapshot_inchikey.clone())
-            .unwrap()),
-        Some(IdentityOutcome::Conflicts { recomputed }) => Ok(recomputed.clone()),
-        Some(IdentityOutcome::NotRecomputed { detail }) => Err(detail.clone()),
-        _ => Err("no pinned answer".to_owned()),
-    });
+    let by_inchi: BTreeMap<&str, &IdentityCrossCheck> = pinned
+        .records
+        .iter()
+        .map(|record| (record.snapshot_inchi.as_str(), record))
+        .collect();
+    let replay = |record: Option<&&IdentityCrossCheck>,
+                  outcome: fn(&IdentityCrossCheck) -> &IdentityOutcome| {
+        let Some(record) = record else {
+            return Err("no pinned answer".to_owned());
+        };
+        match outcome(record) {
+            IdentityOutcome::Agrees => Ok(record.snapshot_inchikey.clone()),
+            IdentityOutcome::Conflicts { recomputed } => Ok(recomputed.clone()),
+            IdentityOutcome::NotRecomputed { detail } => Err(detail.clone()),
+            IdentityOutcome::NoSnapshotIdentity => Err("no snapshot identity".to_owned()),
+        }
+    };
+    let replayed = cross_check_identity(
+        &import,
+        |smiles| replay(by_smiles.get(smiles), |record| &record.from_structure),
+        |inchi| replay(by_inchi.get(inchi), |record| &record.from_published_inchi),
+    );
     assert_eq!(replayed, pinned, "the pinned report is not reproducible");
 
     // Conflicts travel into BRD-003's own conflict shape rather than being
-    // resolved here.
-    assert_eq!(pinned.identity_conflicts().len(), pinned.conflicts);
+    // resolved here. Both routes are represented.
+    assert_eq!(
+        pinned.identity_conflicts().len(),
+        pinned.from_published_inchi.conflicts + pinned.from_structure.conflicts
+    );
 
     // The check has to actually have run on a real slice of the fixture.
     assert!(
-        pinned.agreements >= 50,
-        "the official library agreed on too few records to be a check: {pinned:?}"
+        pinned.from_structure.agreements >= 50,
+        "the official library agreed on too few records to be a check: {:?}",
+        pinned.from_structure
     );
+}
+
+/// The structure round-trip's conflicts are triaged, not hand-waved: the
+/// fixture pins how many of them keep the record's connectivity block, which
+/// is the signature of a lost stereo/isotope layer rather than a different
+/// molecule. If that number moves, the bridge's behaviour moved.
+#[test]
+fn structure_conflicts_are_triaged_by_skeleton() {
+    let pinned: IdentityCrossCheckReport = serde_json::from_slice(
+        &std::fs::read(fixture().join("identity-crosscheck.json")).expect("identity crosscheck"),
+    )
+    .expect("identity crosscheck parses");
+
+    let skeleton_preserving = pinned.skeleton_preserving_conflicts();
+    assert!(
+        skeleton_preserving <= pinned.from_structure.conflicts,
+        "triage cannot exceed the conflicts it explains"
+    );
+    // Every skeleton-preserving conflict must really be stereo/isotope: the
+    // recomputed key's second block is the "no stereo, no isotope" hash.
+    for record in &pinned.records {
+        if let IdentityOutcome::Conflicts { recomputed } = &record.from_structure {
+            let same_skeleton =
+                recomputed.split('-').next() == record.snapshot_inchikey.split('-').next();
+            if same_skeleton {
+                assert!(
+                    recomputed.contains("-UHFFFAOYSA-"),
+                    "{} keeps its skeleton but differs for some reason other than \
+                     a dropped stereo/isotope layer: {} -> {}",
+                    record.external_record_id,
+                    record.snapshot_inchikey,
+                    recomputed
+                );
+            }
+        }
+    }
 }
 
 #[test]
 fn a_recomputation_failure_is_not_an_agreement() {
     let import = import();
-    let report = cross_check_identity(&import, |_| Err("toolchain declined".to_owned()));
-    assert_eq!(report.agreements, 0);
-    assert_eq!(report.conflicts, 0);
-    assert_eq!(report.not_recomputed, report.checked);
+    let report = cross_check_identity(
+        &import,
+        |_| Err("toolchain declined".to_owned()),
+        |_| Err("toolchain declined".to_owned()),
+    );
+    for route in [report.from_structure, report.from_published_inchi] {
+        assert_eq!(route.agreements, 0);
+        assert_eq!(route.conflicts, 0);
+        assert_eq!(route.not_recomputed, report.checked);
+    }
     assert!(report.identity_conflicts().is_empty());
 }
 
 #[test]
 fn a_disagreeing_recomputation_is_a_conflict_not_a_correction() {
     let import = import();
-    let report = cross_check_identity(&import, |_| Ok("AAAAAAAAAAAAAA-BBBBBBBBBB-C".to_owned()));
-    assert_eq!(report.agreements, 0);
-    assert_eq!(report.conflicts, report.checked);
+    let report = cross_check_identity(
+        &import,
+        |_| Ok("AAAAAAAAAAAAAA-BBBBBBBBBB-C".to_owned()),
+        |_| Ok("AAAAAAAAAAAAAA-BBBBBBBBBB-C".to_owned()),
+    );
+    assert_eq!(report.from_structure.agreements, 0);
+    assert_eq!(report.from_structure.conflicts, report.checked);
+    // Both routes disagree, so every record contributes two conflict rows.
     let conflicts = report.identity_conflicts();
-    assert_eq!(conflicts.len(), report.checked);
+    assert_eq!(conflicts.len(), report.checked * 2);
     assert_eq!(
         conflicts[0].differing_fields,
-        vec!["standard_inchikey".to_owned()]
+        vec!["standard_inchikey/from_published_inchi".to_owned()]
     );
+    assert_eq!(
+        conflicts[1].differing_fields,
+        vec!["standard_inchikey/from_structure".to_owned()]
+    );
+    // None of them is silently applied to the candidate.
+    assert!(report
+        .records
+        .iter()
+        .all(|record| record.snapshot_inchikey != "AAAAAAAAAAAAAA-BBBBBBBBBB-C"));
 }
 
 // ---------------------------------------------------------------------------

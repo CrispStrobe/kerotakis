@@ -165,6 +165,20 @@ pub enum MatchStatus {
     BothFailed,
 }
 
+/// Standard InChIKey hashed by the official IUPAC library directly from an
+/// InChI string, with no structure round-trip in between.
+///
+/// BRD-010 uses this to separate two very different questions about an
+/// imported record: "is the upstream record internally consistent — does its
+/// own published key hash from its own published InChI?" (this function) and
+/// "does re-deriving the key from the structure reproduce it?"
+/// ([`native_inchikey_from_smiles`]). Only the first is a claim about the
+/// source.
+#[cfg(feature = "native-inchi")]
+pub fn native_inchikey_from_inchi(inchi: &str) -> Result<String, crate::OrgError> {
+    inchi::inchikey(inchi).map_err(|e| crate::OrgError::InchiFailed(format!("InChIKey: {e}")))
+}
+
 /// Standard InChIKey from the official IUPAC library. This is the
 /// identity authority; chematic's own key is a canonical key of a
 /// different algorithm and is expected to differ (adopting the official

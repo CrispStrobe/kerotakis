@@ -279,21 +279,26 @@ sha256 = "7e1becca2156a893cc9c956d6a2b5e978e72acb6b8dfbc4992bd15b26b895221"
 id = "pubchem-pug-rest-brd010"
 name = "PubChem PUG REST compound snapshot (BRD-010 quarantine fixture)"
 kind = "data"
-lane = "candidate-data"
-decision = "quarantined"
+lane = "quarantine"
+decision = "review-required"
 licence = "LicenseRef-PubChem-Public-Domain"
 origin = "https://pubchem.ncbi.nlm.nih.gov/rest/pug"
 terms = "https://pubchem.ncbi.nlm.nih.gov/docs/downloads#section=Data-Usage-Policies"
 copyright = "National Center for Biotechnology Information, U.S. National Library of Medicine, and the identified depositors"
 retrieved = "2026-08-29"
-revision = "pug-rest-retrieved-2026-08-29"
 attribution = "PubChem, National Center for Biotechnology Information, NLM/NIH. Depositor-supplied synonyms and annotations retain their depositors' own terms and are not covered by this record."
 paths = ["crates/kerotakis-data/tests/fixtures/quarantine/pubchem-v1"]
 allowed_outputs = ["quarantine-candidates", "build-time-review-report"]
 targets = []
 reviewer = "BRD-010 adapter review, pending per-field promotion review"
 notes = """
-Not a runtime lane. BRD-010 produces reviewable candidates only; nothing from \
+The `quarantine` lane is non-distributed by construction, so this record makes \
+no claim that anything here may ship. The retrieval is pinned by the two \
+checksums below rather than by an upstream revision id: PUG REST has no \
+release identifier to cite, and the snapshot's own manifest carries the \
+SHA-256 the adapter verifies at build time.
+
+BRD-010 produces reviewable candidates only; nothing from \
 this snapshot is in registry-source-v1.json and `LicenseRef-PubChem-Public-Domain` \
 is deliberately absent from `default_runtime_data_licences()`. Moving any field \
 into a shipped pack needs a separate per-field licence review that clears that \
