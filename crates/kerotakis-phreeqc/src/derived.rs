@@ -59,6 +59,12 @@ pub const ATMOSPHERIC: &[(&str, &str, f64)] = &[("CO2(g)", "CO2", -3.408)];
 /// (Element-count signatures; order matters — longest/most specific first.)
 fn oxyanion_groups() -> &'static [(&'static str, &'static str)] {
     &[
+        // Ammonium is a valence-carrying unit exactly as an oxyanion is:
+        // the nitrogen in NH4Cl is N(-III), and entering it as bare "N"
+        // would both hand PHREEQC the nitrate master species and leave the
+        // element coupled to pe — an open beaker's air would then oxidise
+        // a school salt to nitrate before anything was added to it.
+        ("NH4", "N(-3)"),
         ("C2H3O2", "Acetate"), // CH3COO
         ("HCO3", "C"),
         ("CO3", "C"),
@@ -90,6 +96,10 @@ const RESIDUE_OK: &[&str] = &[
 const CATION_RESIDUE: &[&str] = &[
     "Na", "K", "Ca", "Mg", "Ag", "Li", "Sr", "Ba", "Cu", "Mn", "Fe", "Zn", "Pb",
 ];
+
+/// The subset of `RESIDUE_OK` that carries exactly one negative charge in
+/// solution, so a metal halide's stoichiometry fixes the metal's state.
+const HALIDE_RESIDUE: &[&str] = &["Cl", "Br", "F"];
 
 /// How dissolved element totals are booked back into the vessel inventory:
 /// the database's master species, unless overridden by the documented
@@ -564,6 +574,32 @@ fn contribution_from_counts(
     } else {
         None
     };
+    // A simple halide says the same thing by the same arithmetic: in MXₙ
+    // the halide count per metal atom IS the metal's oxidation state.
+    // Without this, iron(III) chloride entered as the lab's default
+    // iron(II) — three chlorides balanced against a divalent cation, with
+    // PHREEQC's `pH charge` quietly inventing the acid that made up the
+    // difference. The salt's own stoichiometry is the evidence; nothing is
+    // curated per compound.
+    let halide_state: Option<i32> = if h == 0.0 && o == 0.0 && counts.len() == 2 {
+        let cation = counts
+            .iter()
+            .find(|(el, _)| CATION_RESIDUE.contains(&el.as_str()))
+            .map(|(_, n)| *n);
+        let halide = counts
+            .iter()
+            .find(|(el, _)| HALIDE_RESIDUE.contains(&el.as_str()))
+            .map(|(_, n)| *n);
+        match (cation, halide) {
+            (Some(metal), Some(halide)) if metal > 0.0 => {
+                let implied = halide / metal;
+                (implied.fract() == 0.0 && implied > 0.0).then_some(implied as i32)
+            }
+            _ => None,
+        }
+    } else {
+        None
+    };
     if o > h {
         // Oxide oxygen may be dropped as water only when doing so conserves
         // electrons. Treating O as −2 and each O–H pair as hydroxide, the
@@ -621,7 +657,7 @@ fn contribution_from_counts(
         // the element in another state would need its own entry.
         let redox_active = indexes.iter().any(|idx| idx.redox_elements.contains(&el));
         let tagged = if redox_active {
-            match hydroxide_state {
+            match hydroxide_state.or(halide_state) {
                 Some(state) => {
                     let key = format!("{el}({state})");
                     if indexes.iter().any(|idx| idx.has_element(&key)) {
@@ -704,6 +740,34 @@ mod tests {
         assert_eq!(dissolves("SO4-2"), vec![("S(6)".into(), 1.0)]);
         assert_eq!(dissolves("HCO3-"), vec![("C".into(), 1.0)]);
 
+        // BRD-012.S02. Ammonium is a valence-carrying group like an
+        // oxyanion: the nitrogen goes in reduced, not as the nitrate
+        // master species an untagged "N" would select.
+        assert_eq!(
+            dissolves("NH4Cl"),
+            vec![("N(-3)".into(), 1.0), ("Cl".into(), 1.0)]
+        );
+        assert_eq!(dissolves("NH4+"), vec![("N(-3)".into(), 1.0)]);
+        // A metal halide's stoichiometry fixes the metal's oxidation
+        // state — three chlorides mean iron(III), whatever this lab's
+        // default for bare iron is.
+        assert_eq!(
+            dissolves("FeCl3"),
+            vec![("Cl".into(), 3.0), ("Fe(3)".into(), 1.0)]
+        );
+        // …and only where the halide says so: the sulfate is still the
+        // lab's iron(II).
+        assert_eq!(
+            dissolves("FeSO4"),
+            vec![("S(6)".into(), 1.0), ("Fe(2)".into(), 1.0)]
+        );
+        // Barium is not redox-active in these databases, so no tag.
+        assert_eq!(
+            dissolves("BaCl2"),
+            vec![("Ba".into(), 1.0), ("Cl".into(), 2.0)]
+        );
+        assert_eq!(dissolves("Ba(OH)2"), vec![("Ba".into(), 1.0)]);
+
         // Honestly unmappable: hypochlorite (O without H), ammonia (bare N),
         // organics (residual C), gases.
         assert!(role("NaOCl").is_none());
@@ -749,6 +813,12 @@ mod tests {
         let epsomite = phase_by_name("Epsomite").expect("Epsomite derived");
         assert_eq!(epsomite.species, "epsomite");
         assert_eq!(epsomite.waters, 7.0);
+        // BRD-012.S02: the sulfate test's solid is the database's own
+        // Barite phase, paired to the registry by formula alone.
+        let barite = phase_by_name("Barite").expect("Barite derived from wateq4f");
+        assert_eq!(barite.species, "BaSO4");
+        assert_eq!(barite.waters, 0.0);
+        assert!(candidate_phases().iter().any(|p| p.name == "Barite"));
         // Aragonite lost the polymorph dedupe to calcite, so it is not a
         // *candidate* — but it stays resolvable by name, because readback
         // must be able to name whatever polymorph a routed database posed.

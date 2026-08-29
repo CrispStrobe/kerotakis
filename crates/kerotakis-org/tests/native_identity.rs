@@ -43,8 +43,11 @@ fn the_tranche_only_grows_deliberately() {
     assert_eq!(
         CURATED_STRUCTURES.len(),
         // EXP-50 adds bromide/HBr/NaBr plus five selectivity substrates and
-        // products; EXP-30 adds the four qualitative-analysis hydroxides.
-        89,
+        // products; EXP-30 adds the four qualitative-analysis hydroxides;
+        // BRD-012.S02 adds the three P0 school salts (NH4Cl, FeCl3,
+        // Na2SO4) with the ammonium ion the databases book them against,
+        // and the gated barium tranche (BaCl2, Ba(OH)2, Ba+2, BaSO4).
+        97,
         "structures were added or removed — update this pin and say why \
          in the same commit"
     );

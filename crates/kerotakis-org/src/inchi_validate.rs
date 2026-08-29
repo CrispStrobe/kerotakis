@@ -115,6 +115,15 @@ pub const CURATED_STRUCTURES: &[(&str, &str)] = &[
     ("KIO3", "[K+].[O-][I](=O)=O"),
     ("NaHSO3", "[Na+].OS([O-])=O"),
     ("NaHSO4", "[Na+].OS(=O)(=O)[O-]"),
+    // --- BRD-012.S02: school-essential salts and the barium pair ---
+    ("NH4Cl", "[NH4+].[Cl-]"),
+    ("NH4+", "[NH4+]"),
+    ("FeCl3", "[Fe+3].[Cl-].[Cl-].[Cl-]"),
+    ("Na2SO4", "[Na+].[Na+].[O-]S(=O)(=O)[O-]"),
+    ("BaCl2", "[Ba+2].[Cl-].[Cl-]"),
+    ("Ba(OH)2", "O[Ba]O"),
+    ("Ba+2", "[Ba+2]"),
+    ("BaSO4", "[Ba+2].[O-]S(=O)(=O)[O-]"),
 ];
 
 /// Result of cross-validating one species' InChIKey.

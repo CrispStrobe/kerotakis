@@ -236,7 +236,16 @@
   "prefactor": "Vorfaktor",
   "exponent": "Exponent",
   "value": "Wert",
-  "charge": "Ladung"
+  "charge": "Ladung",
+  "ammonium chloride": "Ammoniumchlorid",
+  "ammonium ion": "Ammonium-Ion",
+  "iron(III) chloride": "Eisen(III)-chlorid",
+  "sodium sulfate": "Natriumsulfat",
+  "barium chloride": "Bariumchlorid",
+  "barium hydroxide": "Bariumhydroxid",
+  "barium ion": "Barium-Ion",
+  "barium sulfate": "Bariumsulfat",
+  "apple green": "apfelgrün"
  },
  "messages": {
   "English": "Englisch",
