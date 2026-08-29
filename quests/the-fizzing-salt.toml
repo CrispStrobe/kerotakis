@@ -1,0 +1,86 @@
+# EXP-30 (sealed-unknown salt analysis): the first branch of the scheme.
+# Dilute acid goes on the sample before anything else, because a
+# carbonate answers immediately and destroys the sample doing it. Here
+# the acid test is chained into EXP-31's limewater gas test, so the
+# effervescence is not merely seen but identified.
+id = "the-fizzing-salt"
+
+[title]
+lv1 = "The fizzing salt"
+lv2 = "The fizzing salt: the acid test, and what the bubbles are"
+lv3 = "Sealed-salt analysis IV — carbonate by effervescence, the gas confirmed by limewater"
+
+[goal]
+lv1 = "unknown-fizz is a white powder. Put 0.01 mol in 100 mL of water in v1 and check the pH — it is soapy, and you added no soap. Then seal the jar and add acid: if it bubbles, catch the gas and test it with limewater. Check whether sodium hydroxide makes anything fall out too, and name the salt."
+lv2 = "Identify unknown-fizz. Dissolve 0.01 mol in 100 mL of water in v1 and read the pH before you add anything — a salt that makes water alkaline all by itself has already told you about its anion. Then start where the scheme starts: dilute acid. Seal the vessel first so the gas is caught, add the acid, then test the headspace with limewater. Run the hydroxide test on a fresh portion too — what does NOT happen is part of the answer."
+lv3 = "unknown-fizz is a sealed registry salt. Dissolve 0.01 mol in 100 mL of water in v1 and read the pH first: the solution is strongly alkaline with no alkali added, because the anion hydrolyses. Then the scheme's first branch, dilute acid, because a carbonate answers at once: CO3^2- + 2H+ → H2O + CO2. Seal the vessel over a headspace so the gas is contained rather than vented, add HCl, then apply the limewater test (CO2 + Ca(OH)2 → CaCO3, the milky verdict); the pop test on the same headspace comes back negative, which is data. A separate portion with NaOH gives no precipitate at all, which excludes every cation with an insoluble hydroxide. Candidates: Na2CO3, NaHCO3, NaCl, Na2SO4, MgSO4, CuSO4. Claims complete in any order."
+
+[unknowns]
+unknown-fizz = "Na2CO3"
+
+[[nudges]]
+id = "in-the-water"
+when = "added:Na2CO3"
+[nudges.say]
+lv1 = "In the water and clear. Seal the jar before you add the acid, or the gas will just get away from you."
+lv2 = "Dissolved. If you want to identify the gas as well as see it, seal the vessel over a headspace before the acid goes in — an open beaker vents the evidence to the room."
+lv3 = "In solution. The carbonate test destroys the sample, so it is run on a portion and run first. Sealing the vessel over a finite headspace is what makes the evolved gas testable rather than merely visible."
+
+[[nudges]]
+id = "the-gas"
+when = "gas_contained:CO2"
+[nudges.say]
+lv1 = "It fizzed! Now find out what the bubbles actually are — do not just assume."
+lv2 = "Gas evolved on acidification. Effervescence with dilute acid is the carbonate signature, but the confirmation is the gas test: limewater goes milky for carbon dioxide and for nothing else on this bench."
+lv3 = "CO2 caught in the headspace. Effervescence alone is suggestive but does not separate a carbonate from a hydrogencarbonate; the identification requires the gas test, and the pH of the untouched solution separates those two. Limewater is the specific test — the pop test, the glowing splint and damp litmus all come back negative on this headspace, and those three negatives are informative too."
+
+[[nudges]]
+id = "tested-it"
+when = "gas_tested"
+[nudges.say]
+lv1 = "The test gave a verdict. Now try the sodium hydroxide on a fresh portion — what it does NOT do also tells you something."
+lv2 = "Gas test done. Complete the scheme on a fresh portion: sodium hydroxide gives no precipitate here, which excludes every metal whose hydroxide is insoluble and points at the alkali metals."
+lv3 = "Diagnostic recorded. The complementary evidence is the hydroxide test's negative: no precipitate with NaOH means the cation's hydroxide is soluble, which on this shelf means a group-1 metal. Carbonate anion plus a soluble-hydroxide cation determines the salt."
+
+[[claims]]
+id = "effervescence"
+matches = "gas_contained:CO2"
+[claims.title]
+lv1 = "Seal the jar, add acid, and catch the gas"
+lv2 = "Evolve the gas with dilute acid into a sealed headspace — the carbonate test"
+lv3 = "Gas_contained:CO2 — the carbonate verdict computed from the solve, caught rather than vented (an open vessel gives the same chemistry but sends the evidence to the room)"
+
+[[claims]]
+id = "alkaline-solution"
+vessel = "v1"
+quantity = "ph"
+target = 11.26
+tolerance = 0.6
+[claims.title]
+lv1 = "Show the plain solution is soapy, before you add anything to it"
+lv2 = "Reach the pH this salt alone gives in water (11.26 ± 0.6) — 0.01 mol in 100 mL"
+lv3 = "Value claim: pH of v1 within 11.26 ± 0.6 with no alkali added. The anion is hydrolysing water; at this concentration a neutral salt of a strong acid reads near 7 and the hydrogencarbonate of the same metal reads 9.71, so the band separates the carbonate from BOTH — it is the test that effervescence alone cannot do, since the bicarbonate fizzes just as readily"
+
+[[claims]]
+id = "gas-identified"
+matches = "gas_tested"
+[claims.title]
+lv1 = "Find out what the bubbles are"
+lv2 = "Identify the gas with a classical gas test"
+lv3 = "Gas_tested — the limewater confirmation (a negative test is a result too)"
+
+[[claims]]
+id = "looked-at-it"
+matches = "observed"
+[claims.title]
+lv1 = "Look at the solution"
+lv2 = "Observe the dissolved unknown"
+lv3 = "Observed event — appearance before and after the reagents"
+
+[[claims]]
+id = "named-it"
+alias = "unknown-fizz"
+[claims.title]
+lv1 = "Say what the fizzing salt really is"
+lv2 = "Identify unknown-fizz by name"
+lv3 = "Identify claim on unknown-fizz; a wrong name is answered with the evidence, not punished"
