@@ -124,6 +124,23 @@ else
     else
         ok "tainted quarantine fixture is refused"
     fi
+
+    # BRD-010: the PubChem adapter's own dry run. It derives its candidates
+    # from the pinned snapshot rather than reading a checked-in list, so this
+    # also catches a snapshot that no longer hashes to its manifest.
+    PUBCHEM="$ROOT/crates/kerotakis-data/tests/fixtures/quarantine/pubchem-v1"
+    if cargo run --quiet -p kerotakis-data --bin pubchem-import -- lint \
+        "$PUBCHEM/manifest.json" "$PUBCHEM/raw/snapshot.json" >/dev/null 2>&1; then
+        ok "pinned PubChem fixture passes its promotion dry run"
+    else
+        err "the pinned PubChem fixture no longer passes its promotion dry run"
+    fi
+    # Nothing from the adapter may appear in the shipped registry.
+    if grep -q "pubchem-v1" "$ROOT/data/registry/registry-source-v1.json" 2>/dev/null; then
+        err "BRD-010 candidates leaked into data/registry/registry-source-v1.json"
+    else
+        ok "no PubChem candidate reached the runtime registry"
+    fi
 fi
 
 echo ""

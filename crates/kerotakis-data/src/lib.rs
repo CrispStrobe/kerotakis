@@ -11,6 +11,7 @@ pub mod chebi;
 pub mod model_pack;
 mod pack;
 mod provenance;
+mod pubchem;
 mod resolve;
 mod schema;
 mod units;
@@ -23,6 +24,7 @@ pub use pack::{
     build_pack, load_pack, serialize_pack_payload, PackError, PACK_MAGIC, PACK_VERSION,
 };
 pub use provenance::*;
+pub use pubchem::*;
 pub use resolve::{resolve_phase_property, Conditions, Resolution, ResolvedValue, Rung};
 pub use schema::*;
 pub use units::*;

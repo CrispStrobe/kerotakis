@@ -98,6 +98,10 @@ step "sweep";         cargo run --release -p kerotakis-cli -- sweep
 # IUPAC library must reproduce the registry key. The C build is cached,
 # so the steady-state cost is seconds.
 step "inchi identity"; cargo test -q -p kerotakis-org --features native-inchi --test native_identity
+# BRD-010: the same library re-derives the pinned PubChem fixture's identities.
+# `cargo test -p kerotakis-data` reads the checked-in verdict; this is what
+# proves the verdict came from the reference implementation.
+step "pubchem identity"; cargo test -q -p kerotakis-org --features native-inchi --test pubchem_identity
 # EXP-0: a quest that could lie, block, or corridor fails the gate.
 step "quest lint";     cargo run --release -p kerotakis-cli -- quest lint
 

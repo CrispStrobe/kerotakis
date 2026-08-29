@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "adapter_id": "pubchem-v1",
+  "source_id": "pubchem-pug-rest",
+  "source_revision": "pug-rest-retrieved-2026-08-29",
+  "retrieved": "2026-08-29",
+  "raw_artifact": "raw/snapshot.json",
+  "record_count": 100,
+  "sha256": "0180c615bb0797791762f6694b6d884bb1ffa9d22989da21f66476d76eee5251"
+}

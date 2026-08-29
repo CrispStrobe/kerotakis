@@ -20,3 +20,6 @@ name = "compile-registry"
 
 [[bin]]
 name = "quarantine-review"
+
+[[bin]]
+name = "pubchem-import"

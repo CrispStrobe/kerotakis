@@ -20,3 +20,9 @@ inchi = { version = "0.1", optional = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 thiserror = { workspace = true }
+
+[dev-dependencies]
+# BRD-010: the PubChem fixture's identity cross-check is recomputed here,
+# because the official IUPAC library lives behind this crate's `native-inchi`
+# feature. `kerotakis-data` stays free of the C dependency.
+kerotakis-data = { path = "../kerotakis-data" }

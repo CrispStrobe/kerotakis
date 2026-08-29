@@ -294,6 +294,41 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
   stereochemistry, mixtures incorrectly returned for names, and conflicting
   synonyms; no CAS-only or non-allowlisted annotation crosses the promotion
   boundary.
+- **Adapter checkpoint (2026-08-29):** the adapter lands and the acceptance is
+  met. `tools/fetch-pubchem-snapshot.py` pins one PUG REST/PUG View retrieval —
+  101 seed names resolved to 100 distinct CIDs, 121 response bodies, SHA-256 in
+  a BRD-003 `SnapshotManifest` — and `kerotakis-data`'s `pubchem` module turns
+  those bytes into quarantine candidates and nothing else. The fixture is
+  100 records: 70 single molecules, 20 salts, 8 hydrates and 2 mixtures, with
+  6 isotopically labelled records, 6 stereochemistry pairs sharing an InChIKey
+  skeleton, and 12 synonyms claimed by more than one record — `(+)-glucose` by
+  three, `d(-)-tartaric acid` by the D-, L- *and* meso- records, `soda (van)`
+  by both sodium carbonate and sodium bicarbonate. `brass` and `aqua regia`
+  are reported as `MixtureRecord`, not taken as substances; `vinegar` and
+  `acetic acid` landing on one CID is reported as `SharedNameResolution`.
+  The promotion policy allowlists PubChem's own computed/curated core only.
+  Everything else is refused by name through BRD-003's own review: CAS
+  Registry Numbers (separated out of the depositor synonym list and validated
+  by check digit so the refusal is exact), the depositor synonym list itself,
+  other registry identifiers, `ExactMass` and the database descriptors, and
+  **every** depositor annotation. That last one is a finding, not an omission:
+  in this snapshot every annotation source that states a runtime-lane licence
+  supplies its boiling point as prose, and the only source supplying a
+  structured quantity licences it CC BY-NC 4.0 — so no experimental physical
+  property from PubChem is promotable today, and the import report says so per
+  source, carrying each source's own licence note. Prose is carried verbatim
+  and never parsed into a number.
+  The official IUPAC InChI library recomputes each record's Standard InChIKey
+  from its SMILES in `kerotakis-org`'s `native-inchi` gate; the per-record
+  verdict is pinned beside the fixture so the dependency-free crate can read it
+  in every build, and disagreements surface as BRD-003 `IdentityConflict` rows
+  rather than being resolved. The full dry run — snapshot → quarantine →
+  allowlist → normalized candidates → `lint_promotion` — passes over 100
+  records and 1297 policy-covered fields, and refuses each planted violation.
+  Nothing was promoted: `registry-source-v1.json` is untouched, and
+  `LicenseRef-PubChem-Public-Domain` is deliberately still absent from
+  `default_runtime_data_licences()`, so shipping any of this remains a separate
+  licence review.
 
 ### BRD-011 — ChEBI identity and ontology adapter
 
