@@ -785,10 +785,44 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-040 — Cantera mechanism and API audit
 
-- [ ] **Status:** open. **Size:** medium. **Depends on:** BRD-012 and current
-  Cantera-YAML/kinetics support.
-- **Candidate/licence:** Cantera BSD-3-Clause. Mechanism files and their original
-  provenance/licences require separate review. Primary project and licence:
+- [x] **Status:** complete on `brd040/cantera-audit` (2026-08-29). **Size:**
+  medium. **Depends on:** BRD-012 and current Cantera-YAML/kinetics support.
+- **Checkpoint 2026-08-29:** full report in
+  `provenance/brd-040-cantera-audit.md`; machine-readable licence verdicts in
+  `provenance/sources.toml`; rejection matrix executed by
+  `crates/kerotakis-core/tests/mechanism_cantera_audit.rs`. No runtime FFI and
+  no mechanism file shipped, per the acceptance criterion. Four findings:
+  1. **Parser bugs fixed.** Reaction orders were derived from *net*
+     stoichiometry rather than each side of the equation, giving a wrong rate
+     order and a mis-scaled pre-exponential wherever a species appears on both
+     sides (6 of 29 reactions in Cantera's `h2o2.yaml`, 18 of 325 in
+     `gri30.yaml`). The default activation-energy unit ignored the `energy` and
+     `quantity` directives, misreading `units: {quantity: mol}` by 10³. Phase
+     reaction selectors and named reaction sections were ignored. Unknown keys
+     — including `orders`, `SRI`, `Tsang`, `negative-A` and nested `units` —
+     were silently dropped; all six raw structures now refuse anything outside
+     a documented allowlist.
+  2. **Smallest additional subset for BRD-041 is three rate-law items** —
+     reversible three-body reactions, reversible falloff (Troe and Lindemann),
+     and negative activation energies — **plus one piece of document handling**:
+     select a phase rather than validating every phase in the file, since real
+     mechanism files pair an ideal-gas phase with a real-gas variant of the same
+     species. With those, H₂/O₂, N₂/NOₓ and CH₄ + CO teaching mechanisms are
+     fully expressible. PLOG is already supported and unused by them; Chebyshev,
+     NASA9, explicit orders and plasma rates are not needed.
+  3. **Licence verdict: every audited mechanism is oracle-only.** None of
+     GRI-Mech 3.0, Ó Conaire, Boivin, the syngas sets, FFCM-1 or San Diego
+     carries a redistribution grant, and Cantera states it "is not claiming to
+     grant a license to" the mechanisms it ships. PLAN.md's claim that those
+     files are BSD-3 redistributable is **wrong** and is corrected in this
+     change. BRD-041 must author its own reduced mechanisms from primary
+     literature, find a genuinely CC-licensed one, or obtain written permission.
+  4. **C-API verdict: no gap; BRD-042 stays parked.** Nothing BRD-041 needs
+     requires Cantera's C API, and linking it would not touch the licensing
+     problem that actually blocks the mechanism packs.
+- **Candidate/licence:** Cantera BSD-3-Clause **for its code only**; the shipped
+  mechanism files carry no grant (audited 2026-08-29). Mechanism files and their
+  original provenance/licences require separate review. Primary project and licence:
   <https://github.com/Cantera/cantera> and
   <https://github.com/Cantera/cantera/blob/main/License.txt>.
 - **Scope:** inventory the current parser against Cantera YAML rate-law,
@@ -802,7 +836,18 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-041 — Familiar gas/combustion mechanism packs
 
-- [ ] **Status:** open. **Size:** large/data-heavy. **Depends on:** BRD-040.
+- [ ] **Status:** open, and now blocked on a sourcing decision rather than on
+  engineering. **Size:** large/data-heavy. **Depends on:** BRD-040 (complete).
+- **BRD-040 finding (2026-08-29):** *no* audited mechanism may ship as
+  runtime-data — not GRI-Mech 3.0, Ó Conaire, Boivin, the syngas sets, FFCM-1 or
+  San Diego. None carries a redistribution grant, and Cantera states it "is not
+  claiming to grant a license to" the mechanisms it ships. Three routes remain,
+  in order of preference: author project-original reduced networks from
+  primary-literature rate constants with per-reaction source records (the
+  pattern KIN-001…003 already uses); find a mechanism under a real open licence;
+  or obtain written permission recorded as a `LicenseRef-` grant. The parser
+  work is small by comparison — three rate-law items and phase selection. Full
+  reasoning and the ordered candidate list: `provenance/brd-040-cantera-audit.md`.
 - **Scope:** add reviewed reduced mechanisms for hydrogen/oxygen, methane,
   carbon monoxide, selected light hydrocarbon/alcohol fuel exemplars, and
   nitrogen chemistry only where the mechanism licence and educational need are
@@ -818,8 +863,18 @@ dependencies complete may proceed concurrently. `BRD-042`, `BRD-082`, and
 
 ### BRD-042 — Full Cantera C-API shipping gate
 
-- [ ] **Status:** optional/parked until BRD-040 proves need. **Size:** extra
-  large. **Depends on:** BRD-040 and a stable upstream C API on all targets.
+- [ ] **Status:** parked — BRD-040 recorded a **no-go** on 2026-08-29. **Size:**
+  extra large. **Depends on:** BRD-040 (complete) and a stable upstream C API on
+  all targets.
+- **BRD-040 finding:** no BRD-041 need requires the C API. The portable parser,
+  diffsol, the CEA equilibrium path and the existing apparatus models cover
+  every item in BRD-041's acceptance criteria; the only capability the portable
+  path lacks is mixture transport, which BRD-041 does not ask for and which is a
+  self-contained kinetic-theory calculation rather than a reason to link a C++
+  engine. Linking Cantera would also not touch what actually blocks BRD-041,
+  which is that no candidate mechanism carries a redistribution grant. Re-open
+  this task only on a required capability that is genuinely infeasible in Rust.
+  Reasoning in `provenance/brd-040-cantera-audit.md` § 6.
 - **Scope:** compile a minimal handle-based API for desktop, wasm and mobile;
   compare binary size, startup, determinism, resource limits and answers with
   the portable Kerotakis mechanism path. Keep one engine instance per worker.
