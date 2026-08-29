@@ -1713,14 +1713,27 @@ and presents them well.
   not the simplest whole-number ratio, which is the actual lesson. Unlimited,
   never wrong, and free of a hand-maintained question bank.
 
-- [ ] **GUI-096 — The toolbox tools say what they are for.** The seven named
-  relations (Nernst, Arrhenius, Eyring, Henderson–Hasselbalch, ionic strength,
-  Debye–Hückel, van 't Hoff) currently show a name, a formula and an argument
-  spec. Each needs one sentence of *what question it answers*, one of *when it
-  applies and when it stops applying*, and its source — in English and German,
-  carried on `RelationInfo` so every host gets them from the engine rather than
-  from a component. A formula with no stated validity range teaches a learner
-  to apply it outside it.
+- [x] **GUI-096 — The toolbox tools say what they are for.** *Done
+  2026-08-29:* all seven relations carry `purpose`, `validity` and `source`
+  on `RelationInfo`, English and German, served by BOTH bindings (wasm and
+  the native one the App Store builds run) so no host has to write the
+  prose itself. GUI-087 landed purpose and validity; this closes it with
+  the citation, which is the half a learner can actually go and check.
+  `source` is the leading clause of the same provenance line `calc`
+  returns, not a second citation written beside it —
+  `sources_are_the_provenance_they_came_from` evaluates every catalogue
+  entry and asserts the containment, so the drawer cannot credit Henderson
+  while the answer credits somebody else. The drawer shows all three before
+  anything is computed, since a validity range that only appears after the
+  number has already let the mistake happen. Pinned at every layer it
+  crosses: two Rust tests, the native binding's catalogue test, the wasm
+  conformance suite (every field, every shipped locale, derived from the
+  row so a new language extends the check by itself), vitest for the
+  localization selection, and the browser i18n gate for the rendered
+  German. Three validity sentences also gained the window they were
+  missing: the Nernst slope is 59 mV/decade at 25 °C only, Arrhenius holds
+  Ea and A constant across the fitted range, and Debye–Hückel's
+  A = 0.5091 is water at 25 °C.
 
 - [ ] **GUI-097 — One shareable card per result.** The expanded report as a
   single image a learner can hand in or send: equation, observation, the

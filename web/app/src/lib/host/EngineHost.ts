@@ -215,11 +215,16 @@ export interface EngineHost {
       name: string;
       equation: string;
       args: string;
-      /** What question it answers, and where it stops holding (GUI-087). */
+      /** What question it answers, and where it stops holding (GUI-087),
+       *  and who published it (GUI-096). Optional here because a host from
+       *  an older engine build answers without them; the drawer omits the
+       *  paragraph rather than rendering an empty one. */
       purpose?: string;
       purpose_de?: string;
       validity?: string;
       validity_de?: string;
+      source?: string;
+      source_de?: string;
     }[]
   >;
   /** Evaluate a named relation; the result explains itself per register. */

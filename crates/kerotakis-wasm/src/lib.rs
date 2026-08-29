@@ -405,7 +405,9 @@ impl Lab {
         serde_json::Value::Array(list).to_string()
     }
 
-    /// The named-relations catalogue (CAP-5): name, equation, arg spec.
+    /// The named-relations catalogue (CAP-5): name, equation, arg spec,
+    /// and (GUI-087/GUI-096) what each one answers, where it holds and
+    /// where it came from, in every language the engine ships.
     pub fn relations(&self) -> String {
         let list: Vec<serde_json::Value> = kerotakis_core::relations::RELATIONS
             .iter()
@@ -418,6 +420,8 @@ impl Lab {
                     "purpose_de": r.purpose_de,
                     "validity": r.validity,
                     "validity_de": r.validity_de,
+                    "source": r.source,
+                    "source_de": r.source_de,
                 })
             })
             .collect();

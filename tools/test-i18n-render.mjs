@@ -118,11 +118,17 @@ try {
 
     const purpose = await page.evaluate(`document.querySelector('.purpose')?.textContent?.trim() ?? ""`);
     const validity = await page.evaluate(`document.querySelector('.validity')?.textContent?.trim() ?? ""`);
+    const source = await page.evaluate(`document.querySelector('.source')?.textContent?.trim() ?? ""`);
 
     check("the relation says what it is for", purpose.length > 20, JSON.stringify(purpose.slice(0, 50)));
     check("the relation says where it holds", validity.length > 20, JSON.stringify(validity.slice(0, 50)));
     check("the purpose is in German", /[äöüßÄÖÜ]|\b(die|der|das|wie|einer)\b/.test(purpose));
     check("the validity carries its label", /Wo sie gilt/.test(validity));
+    // GUI-096: the citation is shown before anything is computed, so a
+    // learner can check the claim rather than take it. A year is the part
+    // that makes it checkable.
+    check("the relation names its source", /\b1[89]\d\d\b/.test(source), JSON.stringify(source.slice(0, 60)));
+    check("the source carries its label", /Woher sie stammt/.test(source));
   }
 
   // ---- the experiment prose -------------------------------------------

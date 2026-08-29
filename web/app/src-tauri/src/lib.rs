@@ -417,6 +417,7 @@ pub(crate) fn dispatch(lab: &mut NativeLab, req: &Value) -> Result<String, Strin
                         "name": r.name, "equation": r.equation, "args": r.args,
                         "purpose": r.purpose, "purpose_de": r.purpose_de,
                         "validity": r.validity, "validity_de": r.validity_de,
+                        "source": r.source, "source_de": r.source_de,
                     })
                 })
                 .collect();
@@ -567,6 +568,29 @@ mod protocol_conformance {
             list.as_array().map(Vec::len),
             Some(kerotakis_core::relations::RELATIONS.len())
         );
+        // GUI-096: the native host is what every App Store build runs, and
+        // the engine's German has reached the browser and nothing else
+        // before (I18N.md, "two hosts, and only one of them used to speak
+        // German"). So every row, every field, both languages — checked
+        // here rather than assumed to match the wasm side.
+        for row in list.as_array().unwrap() {
+            for key in [
+                "name",
+                "equation",
+                "args",
+                "purpose",
+                "purpose_de",
+                "validity",
+                "validity_de",
+                "source",
+                "source_de",
+            ] {
+                assert!(
+                    row[key].as_str().is_some_and(|s| !s.trim().is_empty()),
+                    "relations row missing {key}: {row}"
+                );
+            }
+        }
         let doc = ask(
             &mut lab,
             json!({"cmd": "calc", "name": "henderson-hasselbalch",

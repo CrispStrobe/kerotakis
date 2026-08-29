@@ -408,6 +408,13 @@ pub struct RelationInfo {
     /// most common way these get misused.
     pub validity: &'static str,
     pub validity_de: &'static str,
+    /// Who published it, and when (GUI-096). Deliberately the leading
+    /// clause of this relation's `*_PROVENANCE` constant rather than a
+    /// second citation written beside it: `sources_are_the_provenance_they_came_from`
+    /// asserts the containment, so the catalogue cannot cite one paper
+    /// while the computed result cites another.
+    pub source: &'static str,
+    pub source_de: &'static str,
 }
 
 pub const RELATIONS: &[RelationInfo] = &[
@@ -417,8 +424,10 @@ pub const RELATIONS: &[RelationInfo] = &[
         args: "e0=<V> n=<electrons> a=<activity> T=<K>",
         purpose: "How far a half-cell's potential shifts when the species are not at unit activity.",
         purpose_de: "Wie weit sich das Potenzial einer Halbzelle verschiebt, wenn die Teilchen nicht in der Aktivität 1 vorliegen.",
-        validity: "Needs activities, not concentrations — using concentrations is the usual source of the textbook 59 mV that a real cell does not deliver. Assumes equilibrium at the electrode and no current drawn.",
-        validity_de: "Braucht Aktivitäten, nicht Konzentrationen — mit Konzentrationen entstehen die 59 mV aus dem Schulbuch, die eine reale Zelle nicht liefert. Setzt Gleichgewicht an der Elektrode und stromlose Messung voraus.",
+        validity: "Needs activities, not concentrations — using concentrations is the usual source of the textbook 59 mV that a real cell does not deliver. Assumes equilibrium at the electrode and no current drawn, and that 59 mV per decade is the slope at 25 °C alone: RT ln 10 / F moves with temperature.",
+        validity_de: "Braucht Aktivitäten, nicht Konzentrationen — mit Konzentrationen entstehen die 59 mV aus dem Schulbuch, die eine reale Zelle nicht liefert. Setzt Gleichgewicht an der Elektrode und stromlose Messung voraus; die 59 mV pro Dekade gelten nur bei 25 °C, denn RT ln 10 / F ändert sich mit der Temperatur.",
+        source: "Nernst equation (W. Nernst, 1889)",
+        source_de: "Nernst-Gleichung (W. Nernst, 1889)",
     },
     RelationInfo {
         name: "arrhenius",
@@ -426,8 +435,10 @@ pub const RELATIONS: &[RelationInfo] = &[
         args: "A=<prefactor> Ea=<J/mol> T=<K> [b=<exponent>]",
         purpose: "How much faster a reaction runs when it is warmer.",
         purpose_de: "Um wie viel schneller eine Reaktion abläuft, wenn es wärmer ist.",
-        validity: "Empirical: Ea and A are fitted to data, not derived. Valid over the temperature range they were fitted in; extrapolating far outside it, or across a change of mechanism, is not.",
-        validity_de: "Empirisch: Ea und A werden an Messdaten angepasst, nicht hergeleitet. Gültig im angepassten Temperaturbereich; weite Extrapolation oder ein Mechanismuswechsel machen sie ungültig.",
+        validity: "Empirical: Ea and A are fitted to data, not derived, and both are treated as constant over the fitted range. Valid over that range; extrapolating far outside it, or across a change of mechanism, is not.",
+        validity_de: "Empirisch: Ea und A werden an Messdaten angepasst, nicht hergeleitet, und beide gelten im angepassten Bereich als temperaturunabhängig. Gültig in diesem Bereich; weite Extrapolation oder ein Mechanismuswechsel machen sie ungültig.",
+        source: "Arrhenius equation (S. Arrhenius, 1889)",
+        source_de: "Arrhenius-Gleichung (S. Arrhenius, 1889)",
     },
     RelationInfo {
         name: "eyring",
@@ -437,6 +448,8 @@ pub const RELATIONS: &[RelationInfo] = &[
         purpose_de: "Dieselbe Temperaturabhängigkeit, hergeleitet über den Übergangszustand statt angepasst.",
         validity: "Assumes thermal equilibrium between reactants and the activated complex, and a transmission coefficient of one. Where that fails, Arrhenius fitted to data is the more honest answer.",
         validity_de: "Setzt ein thermisches Gleichgewicht zwischen Edukten und aktiviertem Komplex sowie einen Transmissionskoeffizienten von eins voraus. Wo das nicht gilt, ist der an Daten angepasste Arrhenius-Ansatz die ehrlichere Antwort.",
+        source: "Eyring equation (H. Eyring, 1935); transition state theory",
+        source_de: "Eyring-Gleichung (H. Eyring, 1935); Theorie des Übergangszustands",
     },
     RelationInfo {
         name: "henderson-hasselbalch",
@@ -446,6 +459,8 @@ pub const RELATIONS: &[RelationInfo] = &[
         purpose_de: "Der pH-Wert eines Puffers aus dem Verhältnis seiner beiden Formen.",
         validity: "An approximation: it assumes the acid and base concentrations are the ones you weighed in, so it drifts near the ends of the buffer range, in dilute solution, and wherever water's own autoprotolysis matters. The bench solves the full charge balance instead.",
         validity_de: "Eine Näherung: sie nimmt an, dass die Konzentrationen von Säure und Base den eingewogenen entsprechen. Deshalb weicht sie an den Rändern des Pufferbereichs, in verdünnter Lösung und dort ab, wo die Autoprotolyse des Wassers zählt. Die Bank löst stattdessen die vollständige Ladungsbilanz.",
+        source: "Henderson–Hasselbalch equation (L.J. Henderson, 1908; K.A. Hasselbalch, 1917)",
+        source_de: "Henderson–Hasselbalch-Gleichung (L.J. Henderson, 1908; K.A. Hasselbalch, 1917)",
     },
     RelationInfo {
         name: "ionic-strength",
@@ -455,6 +470,8 @@ pub const RELATIONS: &[RelationInfo] = &[
         purpose_de: "Wie stark eine Lösung mit Ladung besetzt ist — die Größe, bei der jede Aktivitätskorrektur beginnt.",
         validity: "A definition, so it is always true; the caution belongs to what you do with it. Sum over every ion actually present, not only the ones you added.",
         validity_de: "Eine Definition und damit immer gültig; die Einschränkung liegt darin, was man damit tut. Über alle tatsächlich vorhandenen Ionen summieren, nicht nur über die zugegebenen.",
+        source: "Lewis and Randall (1921)",
+        source_de: "Lewis und Randall (1921)",
     },
     RelationInfo {
         name: "debye-huckel",
@@ -462,8 +479,10 @@ pub const RELATIONS: &[RelationInfo] = &[
         args: "z=<charge> I=<mol/kg>",
         purpose: "How far an ion's activity falls below its concentration, because of the other ions around it.",
         purpose_de: "Wie weit die Aktivität eines Ions unter seiner Konzentration liegt, wegen der übrigen Ionen ringsum.",
-        validity: "The limiting law holds only in dilute solution, roughly below I = 0.01 mol/kg. Above that it overcorrects, and above about 0.5 mol/kg a specific-ion-interaction model such as Pitzer is required — which is why the bench routes concentrated solutions to a different database.",
-        validity_de: "Das Grenzgesetz gilt nur in verdünnter Lösung, etwa unterhalb I = 0,01 mol/kg. Darüber überkorrigiert es, und oberhalb von etwa 0,5 mol/kg braucht es ein ionenspezifisches Wechselwirkungsmodell wie Pitzer — deshalb leitet die Bank konzentrierte Lösungen an eine andere Datenbank weiter.",
+        validity: "The limiting law holds only in dilute solution, roughly below I = 0.01 mol/kg. Above that it overcorrects, and above about 0.5 mol/kg a specific-ion-interaction model such as Pitzer is required — which is why the bench routes concentrated solutions to a different database. A = 0.5091 is the value for water at 25 °C; it depends on the solvent's permittivity and density, so it moves with both.",
+        validity_de: "Das Grenzgesetz gilt nur in verdünnter Lösung, etwa unterhalb I = 0,01 mol/kg. Darüber überkorrigiert es, und oberhalb von etwa 0,5 mol/kg braucht es ein ionenspezifisches Wechselwirkungsmodell wie Pitzer — deshalb leitet die Bank konzentrierte Lösungen an eine andere Datenbank weiter. A = 0,5091 gilt für Wasser bei 25 °C; der Wert hängt von Permittivität und Dichte des Lösungsmittels ab und ändert sich mit beiden.",
+        source: "Debye–Hückel limiting law (P. Debye and E. Hückel, 1923)",
+        source_de: "Debye–Hückel-Grenzgesetz (P. Debye und E. Hückel, 1923)",
     },
     RelationInfo {
         name: "van-t-hoff",
@@ -473,6 +492,8 @@ pub const RELATIONS: &[RelationInfo] = &[
         purpose_de: "Wohin sich ein Gleichgewicht verschiebt, wenn sich die Temperatur ändert.",
         validity: "Assumes the reaction enthalpy is constant over the interval. Across a wide temperature range, or a phase change, it is not, and the prediction drifts.",
         validity_de: "Nimmt an, dass die Reaktionsenthalpie über das Intervall konstant ist. Über einen weiten Temperaturbereich oder einen Phasenwechsel hinweg gilt das nicht, und die Vorhersage weicht ab.",
+        source: "Van 't Hoff equation (J.H. van 't Hoff, 1884)",
+        source_de: "Van-'t-Hoff-Gleichung (J.H. van 't Hoff, 1884)",
     },
 ];
 
@@ -710,5 +731,90 @@ mod tests {
     fn evaluate_rejects_unknown() {
         let r = evaluate("made-up", &[]);
         assert!(r.is_err());
+    }
+
+    /// One worked example per catalogue entry, so the two tests below can
+    /// evaluate every relation the toolbox offers rather than one of them.
+    /// A relation added without a line here fails `every_relation_has_a_worked_example`.
+    const SAMPLES: &[(&str, &[&str])] = &[
+        ("nernst", &["e0=0.3419", "n=2", "a=0.01", "T=298.15"]),
+        ("arrhenius", &["A=1e10", "Ea=50000", "T=298.15"]),
+        ("eyring", &["dG=65000", "T=298.15"]),
+        ("henderson-hasselbalch", &["pKa=4.76", "cA=0.1", "cB=0.1"]),
+        ("ionic-strength", &["1:0.1", "-1:0.1"]),
+        ("debye-huckel", &["z=2", "I=0.005"]),
+        (
+            "van-t-hoff",
+            &["dH=-57000", "K1=1e14", "T1=298.15", "T2=373.15"],
+        ),
+    ];
+
+    #[test]
+    fn every_relation_has_a_worked_example() {
+        assert_eq!(
+            SAMPLES.len(),
+            RELATIONS.len(),
+            "every catalogue entry needs a sample argument list"
+        );
+        for r in RELATIONS {
+            assert!(
+                SAMPLES.iter().any(|(name, _)| *name == r.name),
+                "no worked example for '{}'",
+                r.name
+            );
+        }
+    }
+
+    /// GUI-096: the toolbox shows what a relation is for, where it holds
+    /// and where it came from, BEFORE anything is computed — so every one
+    /// of those sentences has to exist in every language the engine ships,
+    /// not only in the one the fields are named after.
+    #[test]
+    fn every_relation_says_what_it_is_for_in_both_languages() {
+        for r in RELATIONS {
+            for (label, en, de) in [
+                ("purpose", r.purpose, r.purpose_de),
+                ("validity", r.validity, r.validity_de),
+                ("source", r.source, r.source_de),
+            ] {
+                assert!(
+                    !en.trim().is_empty(),
+                    "{}: {label} is empty in English",
+                    r.name
+                );
+                assert!(
+                    !de.trim().is_empty(),
+                    "{}: {label} is empty in German",
+                    r.name
+                );
+                // An English sentence copied into a `_de` field renders as
+                // a German page with an English paragraph in it, which no
+                // emptiness check would catch.
+                assert_ne!(en, de, "{}: {label}_de is still the English", r.name);
+            }
+        }
+    }
+
+    /// The catalogue must not cite one paper while the computed result
+    /// cites another. Each `source` is the leading clause of the relation's
+    /// own provenance line, so this is the check that keeps them one string
+    /// rather than two that drift.
+    #[test]
+    fn sources_are_the_provenance_they_came_from() {
+        for (name, args) in SAMPLES {
+            let info = RELATIONS
+                .iter()
+                .find(|r| r.name == *name)
+                .unwrap_or_else(|| panic!("no catalogue entry for '{name}'"));
+            let owned: Vec<String> = args.iter().map(|a| (*a).to_string()).collect();
+            let result = evaluate(name, &owned)
+                .unwrap_or_else(|e| panic!("'{name}' failed to evaluate: {e}"));
+            assert!(
+                result.provenance.contains(info.source),
+                "'{name}': catalogue cites {:?}, the result cites {:?}",
+                info.source,
+                result.provenance
+            );
+        }
     }
 }
